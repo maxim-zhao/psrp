@@ -38,9 +38,9 @@
 	JR NZ,Path2
 
 Path1:				; Cutscene handler
-	LD DE,$7c48		; Old code
+	LD DE,$7c42		; Old code
 	LD BC,$0000
-	LD A,$03		; Set internal wrapping limit
+	LD A,$06		; Set internal wrapping limit
 	LD (VLIMIT),A
 
 	XOR A
@@ -48,7 +48,7 @@ Path1:				; Cutscene handler
 	JR Restore
 
 Path2:				; In-game scripter
-	LD A,$02		; Set internal wrapping limit
+	LD A,$03		; Set internal wrapping limit
 	LD (VLIMIT),A
 
 	LD A,($c2d3)		; Old code

@@ -3,7 +3,7 @@
 ; Special code legend:
 ;
 ; <internal hint *> = immediately follows a <number> flag.
-;                     couple with <use suffix> to append a 's'. meseta(s).
+;                     couple with <use suffix> to append a ‘s’. meseta(s).
 
 ; *************************************
 ; *** Camineet Residential District ***
@@ -27,7 +27,7 @@ My name is Nekise.<wait more>
 I just found out that the hero Tairon is staying in the town of Shion.<wait more>
 
 [00C]
-Oh, and, your brother entrusted me with this jar -- it’s called a ‘Laconian Pot.’<wait more>
+Oh, and, your brother entrusted me with this jar -- it’s called a Laconian Pot. <wait more>
 
 [00E]
 Here, you should take it with you. It may come in handy later on.<wait>
@@ -40,19 +40,19 @@ Forgive me, but there is nothing more I can do. May your journey be safe.<wait>
 The Camineet residential district is under martial law.<wait>
 
 [014]
-You need a ‘Dungeon Key’ to open locked doors.<wait>
+You need a Dungeon Key to open locked doors.<wait>
 
 [016]
-You will not be able to advance through certain dungeons if you don't have a light.<wait>
+You will not be able to advance through certain dungeons if you don’t have a light.<wait>
 
 [018]
-West of Camineet? That's the Spaceport.<wait>
+West of Camineet? That’s the Spaceport.<wait>
 
 [01A]
 They say that all sorts of business goes on in the port town.<wait>
 
 [01C]
-Stay inside the residential area if you know what's good for you.<wait>
+Stay inside the residential area if you know what’s good for you.<wait>
 
 [01E]
 Want to stay alive? Then stay here!<wait>
@@ -61,7 +61,7 @@ Want to stay alive? Then stay here!<wait>
 I can’t just let you pass through here!<wait>
 
 [022]
-Nobody gets through here without a ‘roadpass’.<wait>
+Nobody gets through here without a roadpass.<wait>
 
 [024]
 Okay, you may pass.<wait>
@@ -75,13 +75,13 @@ Okay, you may pass.<wait>
 This is Parolit residential district.<wait>
 
 [028]
-When you're in the forest, you need to be especially cautious.<wait>
+When you’re in the forest, you need to be especially cautious.<wait>
 
 [02A]
 I hear that the monster Medusa has returned to the cave South of the city.<wait more>
 
 [02C]
-They say if you look at it, you'll turn to stone!<wait>
+They say if you look at it, you’ll turn to stone!<wait>
 
 [02E]
 If you travel East, you will reach the port town of Shion.<wait>
@@ -101,7 +101,7 @@ I hear you can get to the Gothic Forest -- which is West of Parolit -- through a
 Tairon? He went to slay Medusa!<wait more>
 
 [036]
-That guy, he was with a talking animal! And the animal -- it had a bottle of medicine around it's neck.<wait more>
+That guy, he was with a talking animal! And the animal -- it had a bottle of medicine around its neck.<wait more>
 
 [038]
 I wonder if it has any special purpose?<wait>
@@ -125,7 +125,7 @@ On the peninsula South of Shion, you will find Iala Cave.<wait>
 This is the port town of Shion. This place used to be busy with trade.<wait>
 
 [046]
-The Eppi Wods are confusing. You need a ‘Compass’ just to pass through them.<wait>
+The Eppi Woods are confusing. You need a compass just to pass through them.<wait>
 
 [048]
 Magically-sealed doors can be opened only with magic.<wait>
@@ -148,16 +148,16 @@ I wonder if Motabia’s Governor-General might aid you in your quest.<wait>
 On Motabia live the great ‘Espers’.<wait>
 
 [052]
-A doctor named ‘Luveno’ used to have a laboratory in Gothic Forest.<wait>
+A doctor named Luveno used to have a laboratory in Gothic Forest.<wait>
 
 [054]
 Welcome to Eppi Village!<wait>
 
 [056]
-Are you by any chance searching for the ‘Dungeon Key’?<end>
+Are you by any chance searching for the Dungeon Key?<end>
 
 [058]
-I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on the outskirts of Camineet residential area.<wait>
+I hid the Dungeon Key in a secret place, inside the warehouse located on the outskirts of Camineet residential area.<wait>
 
 [05A]
 ; <end>
@@ -167,7 +167,7 @@ I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on t
 Do you know what the hardest, strongest material in the world is?<end>
 
 [05E]
-It’s ‘Laconia’! Laconian weapons are the strongest in the solar system.<wait>
+It’s Laconia! Laconian weapons are the strongest in the solar system.<wait>
 
 
 [060]
@@ -205,7 +205,7 @@ I hear they used to build spaceships at the lab in Gothic.<wait>
 Do you have a passport?<end>
 
 [072]
-You can apply for a ‘passport’ here. Would you like to apply?<end>
+You can apply for a passport here. Would you like to apply?<end>
 
 [074]
 Have you ever done anything bad?<end>
@@ -223,7 +223,7 @@ Alright, we will issue you a passport. Please take it.<wait>
 I see. Well then, take care.<wait>
 
 [07E]
-I'm sorry, but that's not acceptable. Please come back some other time.<wait>
+I’m sorry, but that’s not acceptable. Please come back some other time.<wait>
 
 
 ; ***********************
@@ -234,7 +234,7 @@ I'm sorry, but that's not acceptable. Please come back some other time.<wait>
 This is Paseo Spaceport on Motabia.<wait>
 
 [082]
-Rumor has it that there are ant-lions raging in the desert.<wait>
+Rumour has it that there are ant-lions raging in the desert.<wait>
 
 [084]
 ; パルマセイノ<line>
@@ -264,7 +264,7 @@ Maharu Cave is located in the mountains north of Paseo.<wait>
 This is Paseo, capital of Motabia.<wait>
 
 [090]
-Those antlions are impossible to pass over on FOOT, but...<wait>
+Those ant-lions are impossible to pass over on FOOT, but...<wait>
 
 [092]
 I gotta real rare animal here. You can have it fuh <number> billion<internal hint 02> meseta<use suffix>. Wuddayuhsay?<end>
@@ -273,19 +273,19 @@ I gotta real rare animal here. You can have it fuh <number> billion<internal hin
 Yeah, right. You gotta be kiddin’ me!<wait>
 
 [096]
-Say... That’s a real unusual pot you got there... is 'dat a ‘Laconian Pot’?<wait more>
+Say... That’s a real unusual pot you got there... is ‘dat a Laconian Pot?<wait more>
 
 [098]
 How ‘bout I give you da animal, you give me da pot? Whuddayuhsay?<end>
 
 [09A]
-Alri---ght, there yuh go. Take good care uv‘im.<wait>
+Alriiight, there yuh go. Take good care uv‘im.<wait>
 
 [09C]
 Did you bring a present for the Governor-General?<end>
 
 [09E]
-Well then, I’ll look after this ‘Shortcake’.<wait>
+Well then, I’ll look after this shortcake.<wait>
 
 [0A0]
 That is NOT a suitable gift.<wait>
@@ -320,7 +320,7 @@ IF THE GOVERNOR ORDERS NOAH TO DO SOMETHING, HE WILL LIKELY OBEY<wait>
 Who are you?<wait more>
 
 [0B0]
-I'm in the middle of training right now. Please don’t interrupt.<wait>
+I’m in the middle of training right now. Please don’t interrupt.<wait>
 
 [0B2]
 ; ヤッホ-.<wait>
@@ -333,7 +333,7 @@ zzz... zzz...<wait>
 You must be tired from your long journey. You should relax here for a while.<wait>
 
 [0B8]
-Please return safely somehow. I'll be praying for you.<wait>
+Please return safely somehow. I’ll be praying for you.<wait>
 
 
 ; ********************
@@ -341,10 +341,10 @@ Please return safely somehow. I'll be praying for you.<wait>
 ; ********************
 
 [0BA]
-Hey, you mind if I bum a ‘Perolimate’?<end>
+Hey, you mind if I bum a Perolimate?<end>
 
 [0BC]
-Thanks. This place used to be the lab of a scientist named ‘Luveno’.<wait more>
+Thanks. This place used to be the lab of a scientist named Luveno.<wait more>
 
 [0BE]
 But he turned crazy, see, and got locked up in Toriada, the prison to the South of this village.<wait>
@@ -357,10 +357,10 @@ But he turned crazy, see, and got locked up in Toriada, the prison to the South 
 I ain’t talking to you, then. Get the hell away from me.<wait>
 
 [0C4]
-In the heart of the mountains, there's a tower that can be reached by one of the roads leading out of Gothic.<wait more>
+In the heart of the mountains, there’s a tower that can be reached by one of the roads leading out of Gothic.<wait more>
 
 [0C6]
-Inside the tower, they say, there's a freaky monster that, if you just LOOK at it, will turn yuh tuh stone!<wait>
+Inside the tower, they say, there’s a freaky monster that, if you just LOOK at it, will turn yuh tuh stone!<wait>
 
 [0C8]
 ; <end>
@@ -368,11 +368,11 @@ Inside the tower, they say, there's a freaky monster that, if you just LOOK at i
 
 
 ; *******************************
-; *** Dr. Luveno's Laboratory ***
+; *** Dr. Luveno’s Laboratory ***
 ; *******************************
 
 [0CA]
-Ahh, you’re late! Quickly! Do me a favor and bring my assistant back here.<wait more>
+Aah, you’re late! Quickly! Do me a favour and bring my assistant back here.<wait more>
 
 [0CC]
 He’s probably hiding in that underground tunnel. It really irritates me how shy a person he is.<wait>
@@ -393,7 +393,7 @@ Well, if you won’t promise, then I’m afraid I can’t help you.<wait>
 But you won’t be able to pilot the spaceship yourself.<wait>
 
 [0D8]
-How’s the ‘Luveno’ holding up? Please be careful with it.<wait>
+How’s the Luveno holding up? Please be careful with it.<wait>
 
 
 [0DA]
@@ -430,19 +430,19 @@ You are very brave. Please allow me to kill you...<wait>
 Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.<wait>
 
 [0EC]
-Do you know of a robot called ‘Hapsby’?<end>
+Do you know of a robot called Hapsby?<end>
 
 [0EE]
-I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.<wait>
+I hear that on the other side of the mountains there’s a whole bunch of lava because of the volcanic eruptions.<wait>
 
 [0F0]
-The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’<wait>
+The tower nestled in the Gothic Mountains is called Medusa’s Tower. <wait>
 
 [0F2]
 Whassup? I haven’t seen any people in a long time! Let’s talk!<end>
 
 [0F4]
-There’s this chemical called ‘Polymeteral’ that they say will dissolve any material except laconia.<wait>
+There’s this chemical called Polymeteral that they say will dissolve any material except Laconia.<wait>
 
 
 [0F6]
@@ -485,7 +485,7 @@ HOW BRAVE BUT BE CAREFUL OF TRAPS<wait>
 Bartevo is my territory. Don’t be screwin’ around!<wait>
 
 [104]
-I came looking for a robot called ‘Hapsby’, you see. 'Habspy'... now THAT robot could proabably pilot a spaceship.<wait>
+I came looking for a robot called Hapsby, you see. Habspy... now THAT robot could probably pilot a spaceship.<wait>
 
 [106]
 I heard that a high-performance robot got dumped inside one of these scrap piles.<wait more>
@@ -505,16 +505,16 @@ The drug store in Abion sells Polymeteral, I hear.<wait>
 This is the Village of Lore. Thanks to LaShiec, it’s become a wasteland.<wait>
 
 [10E]
-Do you know of a jewel called the ‘Carbunkle Eye’?<wait more>
+Do you know of a jewel called the Carbunkle Eye?<wait more>
 
 [110]
-Rumor has it that it’s being held by the Casba Dragon.<wait>
+Rumour has it that it’s being held by the Casba Dragon.<wait>
 
 [112]
 On the West end of this island, there is a village called Abion.<wait>
 
 [114]
-Do you know about the ‘Laerma Tree?’<end>
+Do you know about the Laerma Tree? <end>
 
 [116]
 I hear the Altiplano Plateau on Dezoris is totally covered by them.<wait>
@@ -523,7 +523,7 @@ I hear the Altiplano Plateau on Dezoris is totally covered by them.<wait>
 Huh? You’re going to defeat LaShiec? Awesome!<wait>
 
 [11A]
-Now this is just a rumor, but supposedly there are crystals that protect against evil magic.<wait>
+Now this is just a rumour, but supposedly there are crystals that protect against evil magic.<wait>
 
 
 ; *************
@@ -543,20 +543,20 @@ Some weird freak just moved to this village, and he was carrying a jar or someth
 It seems he’s been doing experiments on animals. I gotta bad feeling about that guy.<wait>
 
 [124]
-It’s a robot made out of laconia! But it seems to have been dumped into a scrap heap!<wait>
+It’s a robot made out of Laconia! But it seems to have been dumped into a scrap heap!<wait>
 
 [126]
 I want to try and travel the stars.<wait>
 
 [128]
-They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly!<wait more>
+They say if an animal called a Musk Cat eats a certain type of berry, it’ll grow large, and become able to fly!<wait more>
 
 [12A]
-Wierd, huh?<wait>
+Weird, huh?<wait>
 
 [12C]
 I am Hapsby. Thanks for getting me out of that scrap heap.<line>
-Let me pilot the ‘Luveno’ for you, okay?<wait>
+Let me pilot the Luveno for you, okay?<wait>
 
 
 ; ***********
@@ -567,22 +567,22 @@ Let me pilot the ‘Luveno’ for you, okay?<wait>
 This is Uzo Village, on the planet Motavia.<wait>
 
 [130]
-You can pass over antlions if you have a ‘LandMaster.’<wait>
+You can pass over ant-lions if you have a LandMaster. <wait>
 
 [132]
 To the South of Uzo, there is a village called Casba.<wait>
 
 [134]
-It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in it’s head!<wait>
+It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in its head!<wait>
 
 [136]
-Have you heard of the ‘Frad Cloak?'<wait more>
+Have you heard of the Frad Cloak? <wait more>
 
 [138]
 They say it’s light in weight, but has superb defensive power.<wait>
 
 [13A]
-Do you know about the ‘Soothe Flute?’<end>
+Do you know about the Soothe Flute? <end>
 
 [13C]
 Really? What a bore!<wait>
@@ -601,8 +601,8 @@ Who the hell told you that? You’d better just forget about it if you know what
 Give it up, willya? Now get outta here!<wait>
 
 [146]
-You just don't quit, do you? I give up.<line>
-If you're gonna keep bugging me, then just take it. But don't tell anybody.<wait>
+You just don’t quit, do you? I give up.<line>
+If you’re gonna keep bugging me, then just take it. But don’t tell anybody.<wait>
 
 
 ; *************************
@@ -616,7 +616,7 @@ I am the World’s Greatest Fortune Teller, Damoa!<wait more>
 Do you believe in my amazing powers?<end>
 
 [14C]
-Y’know, I’ve got a friend in Bartevo. But those lava pools must be making things real tough right now, I guess. If you see my friend, could you tell him I said ‘hi?’<wait>
+Y’know, I’ve got a friend in Bartevo. But those lava pools must be making things real tough right now, I guess. If you see my friend, could you tell him I said ‘hi’?<wait>
 
 [14E]
 Good. Good.<wait>
@@ -684,10 +684,10 @@ The people in the village surrounded by gas tell a tale of a legendary shield.<w
 They say that a long time ago, a man named Perseus used that shield to confront a monster.<wait>
 
 [170]
-One time I traveled north of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!<wait>
+One time I travelled north of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!<wait>
 
 [172]
-Do you know about the ‘FlowMover’?<end>
+Do you know about the FlowMover?<end>
 
 [174]
 Well, I bought one on Palma, in the town of Shion, but it turned out to be broken, so I ditched it in Bartevo.<wait more>
@@ -696,7 +696,7 @@ Well, I bought one on Palma, in the town of Shion, but it turned out to be broke
 What a waste!<wait>
 
 [178]
-You found the ‘FlowMover’!<wait more>
+You found the FlowMover!<wait more>
 
 [17A]
 Hapsby fixed the areas that were damaged, so you can use it now!<wait>
@@ -720,19 +720,19 @@ Amazing!<wait more>
 You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!<wait>
 
 [184]
-I hear that there's an enchanted sword in Abion Tower.<wait>
+I hear that there’s an enchanted sword in Abion Tower.<wait>
 
 [186]
 I once saw a huge floating rock in the sky!<wait>
 
 [188]
-I'm 'Chouko One-san'.<wait more>
+I’m Chouko One-san.<wait more>
 
 [18A]
 Good luck on your journey.<wait>
 
 [18C]
-I heard that a store in this city sells ‘GasClears’, apparatuses that protect the body against poison gas.<wait more>
+I heard that a store in this city sells GasClears, apparatuses that protect the body against poison gas.<wait more>
 
 [18E]
 The only thing is, I can’t find the damn store! Sheesh!<wait>
@@ -747,7 +747,7 @@ Haah haah! Sorry, I’m just kidding! Please forgive me.<wait>
 You must be pretty shocked to see a store in a place like THIS, huh?<wait more>
 
 [196]
-‘GasClears’ are <number><internal hint 02> meseta<use suffix>. Pretty cheap, no? You wanna buy one?<end>
+GasClears are <number><internal hint 02> meseta<use suffix>. Pretty cheap, no? You wanna buy one?<end>
 
 [198]
 Thank you. Please come again.<wait>
@@ -775,23 +775,23 @@ WE ARE CONFISCATING YOUR PASSPORT<wait>
 ; *************
 
 [1A2]
-This is Skray, on the planet Dezoris. Cold out there, ain't it?<wait>
+This is Skray, on the planet Dezoris. Cold out there, ain’t it?<wait>
 
 [1A4]
 Nearly all of the Palman immigrants live in this town.<wait>
 
 [1A6]
-I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the the northern mountains.<wait>
+I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the northern mountains.<wait>
 
 [1A8]
 ; <end>
 ; Continues 1A6
 
 [1AA]
-What? ‘Overthrow LaShiec?’<wait more>
+What? ‘Overthrow LaShiec’?<wait more>
 
 [1AC]
-If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor.<wait more>
+If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armour.<wait more>
 
 [1AE]
 These weapons are more powerful than any others.<wait more>
@@ -800,7 +800,7 @@ These weapons are more powerful than any others.<wait more>
 I’ll be praying for your safety.<wait>
 
 [1B2]
-Weapons made from laconia conceal holy powers, y’know.<wait more>
+Weapons made from Laconia conceal holy powers, y’know.<wait more>
 
 [1B4]
 I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.<wait>
@@ -822,7 +822,7 @@ The area around the Altiplano Plateau is encircled by mountains of ice.<wait>
 This planet has a solar eclipse once every hundred years.<wait more>
 
 [1C0]
-There is a flame lit at this time called an ‘Eclipse Torch’.<wait more>
+There is a flame lit at this time called an Eclipse Torch.<wait more>
 
 [1C2]
 It is regarded by the Dezorians as sacred.<wait>
@@ -851,16 +851,16 @@ To the West of Corona Tower is Dezoris Cave, eh.<wait more>
 Please send my regards to our comrades there, eh.<wait>
 
 [1D0]
-Laerma trees make berries called ‘Laerma Berries’, eh.<wait more>
+Laerma trees make berries called Laerma Berries, eh.<wait more>
 
 [1D2]
 Those berries are real tasty, eh.<wait more>
 
 [1D4]
-We wanna use them for food, eh, but if we don’t put them into a ‘Laconian Pot’, they just get all shriveled up, eh.<wait>
+We wanna use them for food, eh, but if we don’t put them into a Laconian Pot, they just get all shrivelled up, eh.<wait>
 
 [1D6]
-Do you know about the ‘Aeroprism’?<end>
+Do you know about the Aeroprism?<end>
 
 [1D8]
 I hear you can use it to look at other worlds, eh.<wait>
@@ -873,13 +873,13 @@ All the people in this village hate those Palmans, eh.<wait>
 
 
 [1DE]
-There's a ‘Life Spring’ in Corona Tower, y’know.<wait>
+There’s a Life Spring in Corona Tower, y’know.<wait>
 
 [1E0]
-There's a warp on the 10th underground floor of Dezoris cave, y’know.<wait>
+There’s a warp on the 10th underground floor of Dezoris cave, y’know.<wait>
 
 [1E2]
-Laerma Berries are colored blue. We use them as a dye, y’know.<wait>
+Laerma Berries are coloured blue. We use them as a dye, y’know.<wait>
 
 [1E4]
 If you use a crystal in front of the Laerma Tree, berries will grow, y’know.<wait>
@@ -888,7 +888,7 @@ If you use a crystal in front of the Laerma Tree, berries will grow, y’know.<w
 This village welcomes Palmans.<wait>
 
 [1E7]
-The neighboring villagers are all liars. Be careful.<wait>
+The neighbouring villagers are all liars. Be careful.<wait>
 
 
 ; *************
@@ -924,7 +924,7 @@ According to local legend, the shield that Perseus used when he defeated Medusa 
 ; Continues 1F6
 
 [1FA]
-I'm Gamer Miki-chan! Do you own a Master System?<end>
+I’m Gamer Miki-chan! Do you own a Master System?<end>
 
 [1FC]
 Wow! I guess we game the same! After all, the FM sound system is way cool, huh?<wait>
@@ -954,7 +954,7 @@ Thanks. Please come again.<wait>
 Cheapskate!<wait>
 
 [20E]
-Don’t f--- with me!<wait>
+Don’t fuck with me!<wait>
 
 [210]
 .........<wait>
@@ -971,7 +971,7 @@ I see. Then indeed, you are the daughter of the King of Algol, and our new Queen
 Oh! So you’re locked up in here as well? How tragic.<wait more>
 
 [216]
-There IS a way to get outside, but I'D rather stay here where it's nice and cozy.<wait>
+There IS a way to get outside, but I’D rather stay here where it’s nice and cosy.<wait>
 
 [218]
 You better not go any further, ‘cuz there’s a guard station up there.<wait>
@@ -986,11 +986,11 @@ Do you have a roadpass?<end>
 Let me see here... Hm? This is a fake!<wait more>
 
 [220]
-Don't think you can fool me just because I'm a robot!<line>
+Don’t think you can fool me just because I’m a robot!<line>
 Let me show you to your cell.<wait>
 
 [222]
-Could you get me out of here? Bah, what's the use?<wait>
+Could you get me out of here? Bah, what’s the use?<wait>
 
 [224]
 Defeat LaShiec?! That’s nonsense!<wait>
@@ -999,7 +999,7 @@ Defeat LaShiec?! That’s nonsense!<wait>
 We will all be sacrificed at the hands of LaShiec! Ooooh...<wait>
 
 [228]
-The armor in the Guaran Morgue -- did you get it?<end>
+The armour in the Guaran Morgue -- did you get it?<end>
 
 [22A]
 It’s on the opposite side of a trap!<wait>
@@ -1008,7 +1008,7 @@ It’s on the opposite side of a trap!<wait>
 YOU -- are the coolest!<wait>
 
 [22E]
-I hear that LaShiec steals the souls of all who come accross him.<wait>
+I hear that LaShiec steals the souls of all who come across him.<wait>
 
 [230]
 I see. You must do as you wish. You are welcome to return at anytime.<wait>
@@ -1032,7 +1032,7 @@ I’ve got a baad feeling about this...<wait>
 You gotta be real careful from here on in. Turn left at the fork.<wait>
 
 [23A]
-Don’t let this get out, but there's a fortuneteller named Damoa who is in posession of a crystal that LaShiec hates.<wait more>
+Don’t let this get out, but there’s a fortune-teller named Damoa who is in possession of a crystal that LaShiec hates.<wait more>
 
 [23C]
 There must be something secret about that crystal.<wait>
@@ -1047,7 +1047,7 @@ If you give me a dragon’s jewel, however, I’ll share the flame with you.<wai
 Do we have an agreement?<end>
 
 [244]
-Well then, please accept this ‘Eclipse Torch’.<wait>
+Well then, please accept this Eclipse Torch.<wait>
 
 [246]
 You don’t want it?! Then, ah, for what did you come here?<wait>
@@ -1061,7 +1061,7 @@ I’m sorry for having a store in a place like this. Shortcakes are <number><int
 
 
 ; ********************
-; *** Tajim's Cave ***
+; *** Tajim’s Cave ***
 ; ********************
 
 [24C]
@@ -1104,7 +1104,7 @@ I see. In that case, I guess it is pointless for us to talk.<wait>
 ; **********************************
 
 [262]
-I forsee all your actions.<wait more>
+I foresee all your actions.<wait more>
 
 [264]
 Come to me!<wait>
@@ -1116,7 +1116,7 @@ Who am I? I am LaShiec’s shadow warrior.<wait more>
 Even though you have defeated me, you have gained NOTHING! Hee hee hee!<wait>
 
 [26A]
-Don’t disobey King Lashiec.<wait>
+Don’t disobey King LaShiec.<wait>
 
 [26C]
 And so you finally arrive. How fortunate you are. Do you really wish to destroy me?<end>
@@ -1153,7 +1153,7 @@ Now that the demon’s fortress has been destroyed, and LaShiec is no more, will
 ; (World)
 ; RAISE THE AEROPRISM TOWARDS THE HEAVENS. YOU SHOULD THEN BE ABLE TO SEE THE DARK CASTLE<wait>
 
-I'm 'Otegami Chie-chan'! Thanks for all your letters.<line>
+I’m Otegami Chie-chan! Thanks for all your letters.<line>
 Please tell us how you feel about this game. We’ll be waiting.<wait>
 
 [27C]
@@ -1179,13 +1179,13 @@ Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.<wait>
 
 [286]
 Motabians live on Motabia, and Dezorians live on Dezoris.<line>
-I'd really like to try talking to one of them sometime.<wait>
+I’d really like to try talking to one of them sometime.<wait>
 
 [288]
 I hear that intelligent monsters have monster languages.<wait>
 
 [28A]
-That laconian pot was worth a fortune! Thanks a bundle!<wait>
+That Laconian pot was worth a fortune! Thanks a bundle!<wait>
 
 [28C]
 Okay, it looks like my staff is assembled.<wait more>
@@ -1207,7 +1207,7 @@ Go outside the village and take a look. It’s a brilliant piece of work.<wait>
 
 
 [296]
-Hey, cat! C'mere!<end>
+Hey, cat! C’mere!<end>
 
 [298]
 Hee hee hee! You guys wanna die too?<wait>
@@ -1238,7 +1238,7 @@ What a frightening dream!<wait>
 This is Alisa’s house. Nobody is here.<wait>
 
 [2A6]
-Hey. That’s wierd... Where’d the Governor-General go?<wait>
+Hey. That’s weird... Where’d the Governor-General go?<wait>
 
 [2A8]
 ; オヤ.シンデオルノカ.ナサケナイ.<line>
@@ -1247,4 +1247,4 @@ Hey. That’s wierd... Where’d the Governor-General go?<wait>
 YOU HAVE GOTTEN YOURSELF KILLED COME LETS TRY ONE MORE TIME<wait>
 
 [2AA]
-LaShiec has fallen. Alisa’s wish has come true. Surely even Nero, now in heaven, will be rejoicing. Now let's hurry back to Paseo and see the Governor-General!<wait>
+LaShiec has fallen. Alisa’s wish has come true. Surely even Nero, now in heaven, will be rejoicing. Now let’s hurry back to Paseo and see the Governor-General!<wait>

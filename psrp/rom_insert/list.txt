@@ -245,3 +245,12 @@ eec9 hex_ff.bin			; - scripting code
 3036 hex_80df.bin
 3ad0 hex_00dd.bin		; #18 - Save slots
 3b08 hex_00dd.bin
+
+
+; Text window densification
+34c9 hex_40.bin ; cutscene tect display: increment VRAM pointer by $0040 (not $0080) for newlines
+
+000f TX1.OBJ        ; patched code for newlines in 2->3-line dialogues
+3397 hex_c30f00.bin ; jp $000f - patch code to jump to replacement routine
+354C hex_000000.bin ; nop out 2nd line scroll
+
