@@ -1,0 +1,1 @@
+"Release/psg_decoder.exe" psg.gg 0x3c800 0x8c title_d.bin

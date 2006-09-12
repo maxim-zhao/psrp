@@ -1,0 +1,145 @@
+Phantasy Star
+- Sega Master System + YM-2413 FM
+
+Original Game © 1987
+- Sega Japan
+
+Unofficial Translation © 2005
+- SMS Power!
+
+Phantasy Star Original Dialogue Version
+ Japanese to English Retranslation © 2001-2002
+- Paul Jensen
+
+__________________________________________________________
+
+Table of contents:
+
+. History
+. What is Phantasy Star?
+. The story so far...
+. Contents
+. Instructions
+. Credits
+. Possible future plans
+. Authors' notes
+. Disclaimer
+
+__________________________________________________________
+
+. History
+
+*** 2005   Version 'WIP' Released
+
+__________________________________________________________
+
+. What is Phantasy Star
+
+???
+
+__________________________________________________________
+
+. Contents
+
+The following changes are made:
+
+* Translation of text to English
+* 2-line naming terminology
+* Narrative formatting
+* Window expansion
+* Replaced 8x8 font
+* Use of adapting indefinite articles
+
+__________________________________________________________
+
+. Instructions
+
+This IPS patch requires that you download a program that can
+apply it to a properly dumped ROM-image of the game. A copier
+is suggested to obtain your legal backup. The size should be
+"512 KB (524,288 bytes)".
+
+Always make sure to have an original backup of your game. And
+only apply the patch to a clean, unmodified ROM.
+
+Changes made between version numbers may adversely affect
+emulator save states. In such event, please use the in-game
+save feature to gain any new features.
+
+__________________________________________________________
+
+. Credits
+
+Maxim		  - Project manager, lead programmer
+Paul Jensen       - Script translater, editer
+
+
+Special thanks to:
+
+Sega Japan        - Original publisher, developer, creative content
+                  - Phantasy Star Gaiden, Phantasy Star 1-4
+Team Sonic        - Shining Force Gaiden: Final Conflict
+
+
+<Attn others: Please insert any additional credits here>
+
+
+Charles MacDonald - Open-source SMS/GG emulator
+Forgotten         - Functional Z80 disassembler from his GB/GBA emulator
+Gregory Montoir   - Open-source SDL port of first-mentioned program
+KingMike      	  - Concise DTE tutorial
+SnowBro           - Versatile tile editer
+
+__________________________________________________________
+
+. Possible future plans
+
+- Check for errors in text insertion/translation
+
+Currently no other known outstanding issues.
+
+__________________________________________________________
+
+. Authors' notes
+
+<Attn others: Please insert any text here>
+
+----------------------------------------------------------
+
+Paul Jensen had posted a translated script with a good majority of
+the lists in 2001-2002. I wasn't aware of its existence until someone
+mentioned a retranslation project that didn't make fully it to completion yet.
+
+The game proved to be an interesting task -- lack of useful padding space.
+Narrative and items fitting into a mere 15.67 KB. Need patience with this one.
+
+So this project was designed to keep the FM music intact while squeezing
+in more full item descriptions and textual script content.
+
+Not enough thanks can be directed to Mr. Jensen for his care in posting
+his retranslation publicly online and keeping it freely accessible for
+all this time.
+
+This author releases copyright ownership in the patch and produces it
+under the banner of the original team of Maxim and Paul Jensen: SMS Power!.
+
+- Z80 coder
+
+__________________________________________________________
+
+. Disclaimer
+
+This translation is unofficial and not supported by Sega Japan.
+
+It is provided "as-is" with no warranty.
+
+Any enclosed files are offered at no charge and must be distributed together in
+original condition.
+
+These files -may not- be released for commercial sales without explicit
+authorisation from all parties who own copyright ownership.
+
+Sega Japan, Phantasy Star and Shining Force are registered trademarks of
+their respective companies.
+
+No breach of copyright is intended with the release of this translation.

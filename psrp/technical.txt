@@ -1,0 +1,92 @@
+Phantasy Star
+- Sega Master System + YM-2413 FM
+
+Original Game © 1987
+- Sega Japan
+
+Unofficial Translation © 2005
+- SMS Power!
+
+Phantasy Star Original Dialogue Version
+ Japanese to English Retranslation © 2001-2002
+- Paul Jensen
+
+__________________________________________________________
+
+
+*** 2005   Version 'WIP' Released
+
+
+These files are the technical notes left for others' perusal.
+
+They will document important routines changed in the Zilog Z80 ASM and
+their updated modifications.
+
+It's a slow textual progression of the improvements made. The files
+may not be in exact order timewise as different parts come online.
+
+Tools and their source code are made publicly available as well for
+anyone to have a basis for their own translation.
+
+Be sure to ask for permission though first.
+
+__________________________________________________________
+
+
+Overview:
+
+0. Modifying the font table
+  0a. Extra decoder for the title screen
+  0b. Shuffling around the tiles
+  0c. Background bitmap recompression
+  0d. Nametable output
+  0e. Landscape bitmaps
+
+1. Deciphering the script storage
+  1a. Exploring some pointers
+  1b. Taking apart the BCD script renderer
+  1c. Other dynamic names
+  1d. Normal auto-newline handling
+
+2. Taking apart the menu strings
+  2a. Processing item names (inventory)
+  2b. Spell windows
+  2c. Shop names
+  2d. Enemy names
+  2e. Equipment structure
+  2f. Intro context
+  2g. Window overlap debris
+
+3. Enemy structures (narrative)
+  3a. Narrative items
+
+4. Creating more room - script pointers
+  4a. Adding high-level text compression
+  4b. A better method of graphics encoding
+  4c. Inserting longer list items
+  4d. Using SRAM as a backup alternative
+  4z. Summary of space changes
+
+5. Extra script strings
+
+6. Project overview
+  6a. Detailed checklist
+
+__________________________________________________________
+
+
+. Disclaimer
+
+This package is unofficial and not supported by Sega Japan.
+
+It is provided "as-is" with no warranty.
+
+Any enclosed files are offered at no charge and must be distributed together in
+original condition.
+
+These files -may not- be released for commercial sales without explicit
+authorisation from all parties who own copyright ownership.
+
+Sega Japan and Phantasy Star are registered trademarks of their respective companies.
+
+No breach of copyright is intended with the release of this translation.

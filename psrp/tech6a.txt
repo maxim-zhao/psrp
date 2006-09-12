@@ -1,0 +1,133 @@
+6a. Checklist to compile
+
+
+1. Translate the script files in 'word_count\script*.txt'.
+   Execute 'word_count\run.bat'.
+
+   This will record the most common strings to 'word_count\stats.txt' and 'word_count\words.txt'.
+
+   These files will be automatically copied:
+   - script1.txt ==> 'script_insterter'
+   - script2.txt ==> 'script_insterter'
+   - words.txt ==> 'substring_formatter'
+
+
+2. Execute 'substring_formatter\run.bat'.
+
+   This will create static dictionary codes for the compressor.
+
+   These files will be automatically copied:
+   - words_final.txt ==> 'script_inserter'
+   - dict.txt ==> 'list_creater'
+
+
+3. Now translate 'list_creater\lists.txt'.
+   Please take note of the legend in the file.
+
+   Execute 'list_creater\run.bat'.
+
+   This will create static dictionary codes for the compressor.
+
+   These files will be automatically copied:
+   - lists.bin ==> 'rom_insert'
+   - words.bin ==> 'rom_insert'
+
+   Open 'list_creater\log2.txt'. Make sure the length fits within $400 bytes (see tech4z).
+
+   Open 'list_creater\log.txt'. Make sure the final table offset fits within $a84 bytes (see tech4z).
+
+
+4. Open 'asm\vars.asm'.
+
+======================================================
+
+('list_creater\log.txt')    ('asm\vars.asm')
+
+Table 01: Start $0000       #define ITEMS $aba6+$0000 ($0000 --> $0000)
+Table 02: Start $0389       #define NAMES $aba6+$0388 ($0388 --> $0389)
+Table 03: Start $03A0       #define ENEMY #aba6+$039f ($039f --> $03a0)
+
+======================================================
+
+   Download 'TASM 3.0.1'. Copy 'tasm.exe' and 'tasm80.tab' to 'asm'.
+
+   Execute: 
+   - 'asm\t1c.bat'
+   - 'asm\t1c_1.bat'
+   - 'asm\t1c_2.bat'
+   - 'asm\t1c_3.bat'
+
+   This will rewire the dictionary table entry points.
+
+   These files will be automatically copied:
+   - t1c.bin ==> 'rom_insert'
+   - t1c_1.bin ==> 'rom_insert'
+   - t1c_2.bin ==> 'rom_insert'
+   - t1c_3.bin ==> 'rom_insert'
+
+
+5. Execute:
+   - 'bitmap_decode\bg.bat'
+   - 'bitmap_decode\title.bat'
+   - 'bitmap_decode\world.bat'
+
+   This will decode the bitmap graphics.
+
+   These files will be automatically copied:
+   - *.bin ==> 'psg_encoder'
+
+
+6. Edit the 'psg_encoder\font1.bin' and 'psg_encoder\font2.bin' files if needed.
+
+   You must modify each *.tbl in all of the folders if tiles are rearranged.
+   And the 'rom_insert\font-nt.bin' which is the 2-byte NT values.
+
+
+7. Execute:
+   - 'psg_encoder\font.bat'
+   - 'psg_encoder\title.bat'
+   - 'psg_encoder\bg.bat'
+   - 'psg_encoder\world.bat'
+
+   This will re-encode the graphics with a stronger compression.
+
+   These files will be automatically copied:
+   - *_e.bin ==> 'rom_insert'
+
+
+8. Translate 'menu_creater\menus.txt' and 'menu_creater\opening.txt'.
+   The format is very precise and takes time to learn.
+   Some menu changes will require some manual edits to 'rom_insert\list.txt'.
+
+   Execute 'menu_creater\run.bat'.
+
+   This will create the nametable data for the menus.
+
+   These files will be automatically copied:
+   - opening.bin ==> 'rom_insert'
+   - menus.bin ==> 'rom_insert'
+   - menu_list.txt ==> 'rom_insert'
+
+   Open the 'menu_creater\log.txt' and make sure that the last start fits within $B949.
+
+
+9. Execute 'script_inserter\run.bat'.
+
+   This will create the script text and Huffman trees.
+
+   These files will be automatically copied:
+   - script1.bin ==> 'rom_insert'
+   - script2.bin ==> 'rom_insert'
+   - tree_vector.bin ==> 'rom_insert'
+   - script_trees.bin ==> 'rom_insert'
+   - script_list.txt ==> 'rom_insert'
+
+
+10. Copy your Japanese Phantasy Star rom to 'rom_insert\psjapa.sms'.
+    Make another copy to 'rom_insert\copy of psjapa.sms'.
+
+    Execute 'rom_insert\run.bat'.
+
+    This will compile the image.
+
+    Now test 'rom_insert\psjapa.sms'.

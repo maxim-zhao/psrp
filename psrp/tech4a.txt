@@ -1,0 +1,114 @@
+4a. Adding more script volume
+
+
+The data is uncompressed from:
+
+1. $80B2-835B (table)
+   $835C-AAD8 (data)
+
+2. $AAD9-BD93 (misc)
+3. $BD94-BF9B (items)
+
+The narrative script is considerably larger than 15.7 KB (~30 KB+).
+
+We need to encode the text to squeeze it back in.
+
+A semi-adaptive Huffman algorithm is used (see Shining Force Gaiden: Final Conflict).
+
+~$80 in decoder size. Trees add ~3 KB overhead. Tree pointer table adds 0.5 KB.
+
+; ------------------------------------------------------------
+
+Page 2 ($8000-BFFF) will hold the decoder and Huffman trees.
+
+The cutscene scripter is specialised but doesn't have any variable-width text
+codes.
+
+A decoder init CALL can be inserted around $34AA which maps in the right bank
+for 'page 1'.
+
+$34B4 will hold the decoder CALL, with a 'CP $57' to set the flags upon exit.
+
+The $57 and $58 checks are reversed to combine the role with the other one.
+
+The tricky part is that we need to map in the old 'page 1' _before_ leaving
+the narrative engine. So $34AA = SELECT, $34AC = CALL, $34AF = RET.
+
+Update: The game uses a different code path which does not hit the above
+        sequence upon loading several contiguous strings.
+
+; ____________________________________________________________
+
+Static dictionary compression is layered on top to push beyond the 50% barrier.
+
+The amount of codes needed is largely experimental.
+
+Add more room for the substring entries.
+
+; ------------------------------------------------------------
+
+DTE is optionally used to smash down the lists and cache it to (S)RAM.
+
+; ____________________________________________________________
+
+We come closer to the 15.7 KB limit. A backup plan is needed for safety.
+
+If the decoder is moved to 'page 2', then it temporarily frees 'page 1' while
+it's being executed. A few different banks can be paged in -- the cutscene
+text for instance.
+
+; -------------------------------------------------------------
+
+A notable problem encountered is during V-INT 'RST 38H'. Since the game
+assumes that pages 0/1 are always loaded to $0000-7FFF, we may get bumped
+during a script decoding session.
+
+The OAM update will go berserk when the wrong page is loaded. A simple
+solution is to either disable interrupts (DI/EI) or just cache the current
+page 1 and restore it upon exit.
+
+
+[000038] 0038 F5          PUSH AF          AF=0E08 BC=0008 DE=C98C HL=0C64 SP=CAFA IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000039] 0039 DB BF       IN A,(BFh)       AF=0E08 BC=0008 DE=C98C HL=0C64 SP=CAF8 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00003B] 003b B7          OR A             AF=C008 BC=0008 DE=C98C HL=0C64 SP=CAF8 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00003C] 003c F2 41 03    JP P,0341h       AF=C084 BC=0008 DE=C98C HL=0C64 SP=CAF8 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00003F] 003f C3 27 01    JP 0127h         AF=C084 BC=0008 DE=C98C HL=0C64 SP=CAF8 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+
+[000127] 0127 C5          PUSH BC          AF=C084 BC=0008 DE=C98C HL=0C64 SP=CAF8 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000128] 0128 D5          PUSH DE          AF=C084 BC=0008 DE=C98C HL=0C64 SP=CAF6 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000129] 0129 E5          PUSH HL          AF=C084 BC=0008 DE=C98C HL=0C64 SP=CAF4 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00012A] 012a DD E5       PUSH IX          AF=C084 BC=0008 DE=C98C HL=0C64 SP=CAF2 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00012C] 012c FD E5       PUSH IY          AF=C084 BC=0008 DE=C98C HL=0C64 SP=CAF0 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00012E] 012e 3A FC FF    LD A,(FFFCh)     AF=C084 BC=0008 DE=C98C HL=0C64 SP=CAEE IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000131] 0131 F5          PUSH AF          AF=8084 BC=0008 DE=C98C HL=0C64 SP=CAEE IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000132] 0132 3A FF FF    LD A,(FFFFh)     AF=8084 BC=0008 DE=C98C HL=0C64 SP=CAEC IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000135] 0135 F5          PUSH AF          AF=0384 BC=0008 DE=C98C HL=0C64 SP=CAEC IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000136] 0136 3E 80       LD A,80h         AF=0384 BC=0008 DE=C98C HL=0C64 SP=CAEA IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000138] 0138 32 FC FF    LD (FFFCh),A     AF=8084 BC=0008 DE=C98C HL=0C64 SP=CAEA IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00013B] 013b DB DD       IN A,(DDh)       AF=8084 BC=0008 DE=C98C HL=0C64 SP=CAEA IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+
+...
+
+[00016F] 016f AF          XOR A            AF=0444 BC=0002 DE=0020 HL=B7E4 SP=CAEA IX=C14E IY=C800 V    P0=00000 P1=04000 P2=30000 [ROM]
+[000170] 0170 32 08 C2    LD (C208h),A     AF=0044 BC=0002 DE=0020 HL=B7E4 SP=CAEA IX=C14E IY=C800 V    P0=00000 P1=04000 P2=30000 [ROM]
+
+[000173] 0173 F1          POP AF           AF=0044 BC=0002 DE=0020 HL=B7E4 SP=CAEA IX=C14E IY=C800 V    P0=00000 P1=04000 P2=30000 [ROM]
+[000174] 0174 32 FF FF    LD (FFFFh),A     AF=0384 BC=0002 DE=0020 HL=B7E4 SP=CAEC IX=C14E IY=C800 V    P0=00000 P1=04000 P2=30000 [ROM]
+[000177] 0177 F1          POP AF           AF=0384 BC=0002 DE=0020 HL=B7E4 SP=CAEC IX=C14E IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000178] 0178 32 FC FF    LD (FFFCh),A     AF=8084 BC=0002 DE=0020 HL=B7E4 SP=CAEE IX=C14E IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+
+[00017B] 017b FD E1       POP IY           AF=8084 BC=0002 DE=0020 HL=B7E4 SP=CAEE IX=C14E IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00017D] 017d DD E1       POP IX           AF=8084 BC=0002 DE=0020 HL=B7E4 SP=CAF0 IX=C14E IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[00017F] 017f E1          POP HL           AF=8084 BC=0002 DE=0020 HL=B7E4 SP=CAF2 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000180] 0180 D1          POP DE           AF=8084 BC=0002 DE=0020 HL=0C64 SP=CAF4 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000181] 0181 C1          POP BC           AF=8084 BC=0002 DE=C98C HL=0C64 SP=CAF6 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+
+[000182] 0182 F1          POP AF           AF=8084 BC=0008 DE=C98C HL=0C64 SP=CAF8 IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000183] 0183 FB          EI               AF=0E08 BC=0008 DE=C98C HL=0C64 SP=CAFA IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+[000184] 0184 C9          RET              AF=0E08 BC=0008 DE=C98C HL=0C64 SP=CAFA IX=C880 IY=C800 V    P0=00000 P1=04000 P2=0C000 [ROM]
+
+...
+
+[000341] 0341 F1          POP AF           AF=0044 BC=00BF DE=0800 HL=2009 SP=CAF6 IX=FFFF IY=FFFF VB   P0=00000 P1=04000 P2=30000 [ROM]
+[000342] 0342 FB          EI               AF=1600 BC=00BF DE=0800 HL=2009 SP=CAF8 IX=FFFF IY=FFFF VB   P0=00000 P1=04000 P2=30000 [ROM]
+[000343] 0343 C9          RET              AF=1600 BC=00BF DE=0800 HL=2009 SP=CAF8 IX=FFFF IY=FFFF VB   P0=00000 P1=04000 P2=30000 [ROM]

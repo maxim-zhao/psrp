@@ -1,0 +1,17 @@
+4b. A stronger form of graphics compression
+
+
+A small comparison of algorithms on the title screen:
+
+Raw:         $2000
+PS encoder:  $1742 (*)
+FC encoder:  $1617
+PSG encoder: $14CE ($274 saved)
+
+The Phantasy Star Gaiden decoder works like the PS one by combining the
+color planes. But it builds the whole 4-bpp tile before batch writing to
+VRAM.
+
+Speed hit for complexity seems minor if any.
+
+The algorithm is changed to store the # tiles with the bitmap data.

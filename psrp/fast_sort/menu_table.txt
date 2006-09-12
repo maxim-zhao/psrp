@@ -1,0 +1,196 @@
+380d 00		; overworld menu
+3807 00
+3801 01
+3813 01
+381f 01
+
+38cd 02		; choice
+38c7 03
+38e7 03
+
+3359 04		; narrative start
+3353 05
+358d 05
+
+3238 06		; battle
+323e 06
+3232 07
+3244 07
+3250 07
+
+7fee 0c		; enemy name, dimensions only
+325c 0d
+3321 0d
+
+7fee 0e		; enemy HP, dimensions only
+3268 0f
+
+329b 10		; top border - 6+2 chars
+32a1 11
+
+32c1 12		; bottom border - 6+2 chars
+309c 12
+30f3 12
+37d0 12
+32c4 13
+309f 13
+30f6 13
+37d3 13
+
+7fee 14		; all player boxes, dimensions only
+3048 15
+3226 15
+3103 15
+
+304e 16		; Alisa box
+30a5 16
+310a 16
+3084 17
+30db 17
+
+305b 18		; Myau box
+30b2 18
+3118 18
+3084 19
+30db 19
+
+3068 1a		; Tairon box
+30bf 1a
+3126 1a
+3084 1b
+30db 1b
+
+3075 1c		; Lutz box
+30cc 1c
+3134 1c
+3084 1d
+30db 1d
+
+37ca 1e		; Choose player (magic)
+378e 1f
+37e4 1f
+37f5 1f
+37ab 1f
+
+38a1 20		; Tool shop
+389b 21
+38bb 21
+
+3883 22		; Select item
+387d 23
+388f 23
+
+302b 24		; Active player: Alisa
+301b 25
+303c 25
+
+7fee 26		; Active player: Myau
+7fee 27
+
+7fee 28		; Active player: Tairon
+7fee 29
+
+7fee 2a		; Active player: Lutz
+7fee 2b
+
+35b0 2c		; Spell player: Alisa stats
+359b 2d
+35ea 2d
+
+7fee 2e		; Spell player: Myau stats
+7fee 2f
+
+7fee 30		; Spell player: Lutz stats
+7fee 31
+
+7fee 32		; Spell player: Alisa
+7fee 33
+
+7fee 34		; Spell player: Myau
+7fee 35
+
+7fee 36		; Spell player: Lutz
+7fee 37
+
+356c 38		; Narrative bottom border
+356f 39
+
+7fee 3a		; Narrative blank scroll, dimensions only
+355a 3b
+3566 3b
+
+3908 3c		; Top border (11+2 chars)
+390b 3d
+
+3926 3e		; Side border (11+2 chars)
+3938 3e
+394a 3e
+395c 3e
+396e 3e
+3929 3f
+393b 3f
+394d 3f
+395f 3f
+3971 3f
+
+397a 40		; Bottom border (11+2 chars)
+397d 41
+
+7fee 42		; Stats dimensions
+39e5 43
+3902 43
+
+7fee 44		; Equipment dimensions
+382c 45
+3871 45
+
+7fee 46		; Inventory dimensions
+3642 47
+377b 47
+
+3648 48		; Top border (10+2 chars)
+3b23 48
+326e 48
+3832 48
+364e 49
+3b29 49
+3274 49
+3838 49
+
+3681 4a		; Bottom border (10+2 chars)
+3b32 4a
+328c 4a
+3860 4a
+3684 4b
+3b35 4b
+328f 4b
+3863 4b
+
+365c 4c		; Inventory (next page)
+365f 4d
+
+7fee 4e		; Store MST (dimensions)
+3b1b 4f
+3b44 4f
+
+7fee 50		; Shop inventory (dimensions)
+39f1 51
+3aca 51
+
+39f7 52		; Top border (16+2 tiles)
+39fd 53
+
+3a37 54		; Bottom border (16+2 tiles)
+3a3a 55
+
+7fee 56		; Hapsby travel (dimensions)
+3b52 57
+3b79 57
+
+3b5d 58		; Hapsby travel
+7fee 59
+
+35cf 5a		; Spell blank window
+7fee 5b
+
+-1 -1		; data stored as: ptr, index
