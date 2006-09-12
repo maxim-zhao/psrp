@@ -210,13 +210,13 @@ Tairon
 0c 12 02
 Heal~~~
 ~~~~~~~
-Bye~~~~
+Rakusta
 ~~~~~~~
-Chat~~~
+Peya-~~
+~raku~~
+Flaeli~
 ~~~~~~~
-Fire~~~
-~~~~~~~
-Rope~~~
+Bindwa~
 ~~~~~~~
 
 ; -----------------------------------------------
@@ -225,13 +225,13 @@ Rope~~~
 
 #
 0c 12 02
-Cure~~~
+Super~~
+~heal~~
+Terror~
 ~~~~~~~
-Terr~~~
+Walla~~
 ~~~~~~~
-Wall~~~
-~~~~~~~
-Help~~~
+Powma~~
 ~~~~~~~
 ~~~~~~~
 ~~~~~~~
@@ -242,14 +242,14 @@ Help~~~
 
 #
 0c 12 02
-Fire~~~
+Tandle~
 ~~~~~~~
-Tele~~~
+Tele-~~
+~pathy~
+Hewn~~~
 ~~~~~~~
-Wind~~~
-~~~~~~~
-Protect
-~~~~~~~
+Mu-~~~~
+~walla~
 Thunder
 ~~~~~~~
 
@@ -261,7 +261,7 @@ Thunder
 0c 12 02
 Heal~~~
 ~~~~~~~
-Fly~~~~
+Troopa~
 ~~~~~~~
 ~~~~~~~
 ~~~~~~~
@@ -276,11 +276,11 @@ Fly~~~~
 
 #
 0c 12 02
-Cure~~~
+Super~~
+~heal~~
+Rapt~~~
 ~~~~~~~
-Trap~~~
-~~~~~~~
-Exit~~~
+Suruto~
 ~~~~~~~
 ~~~~~~~
 ~~~~~~~
@@ -293,15 +293,17 @@ Exit~~~
 
 #
 0c 12 02
-Cure~~~
-~~~~~~~
+Super~~
+~heal~~
 Exit~~~
 ~~~~~~~
+Flutran
+slatent
 Tele~~~
 ~~~~~~~
-Open~~~
+Mu-oode
 ~~~~~~~
-Rise~~~
+Rebirth
 ~~~~~~~
 
 ; -----------------------------------------------
