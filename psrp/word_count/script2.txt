@@ -285,7 +285,7 @@ The illusionary Aerocastle materialised in the vast open sky.<wait>
 ;オナカガ スイテナカッタノデ<line>
 ;モトニ モドシタ.<wait>
 
-You’re not hungry, so you put it back.<wait>
+You’re not hungry, so you put them back.<wait>
 
 [066]
 ;ハプスビ-ハ イヤイヤヲシタ.<wait>
@@ -387,7 +387,7 @@ Which item do you wish to drop?<wait>
 
 [08C]
 ;<item>ヲ ステテ<wait>
-<use article 02><item> has been dropped.<wait>
+<use article 02><item> was dropped.<wait>
 
 [08E]
 ;<item>ヲ テニイレタ.<wait>
@@ -505,7 +505,7 @@ Thank you. Anything else?<end>
 This is a hospital. Would you like to undergo medical treatment?<end>
 
 [0CA]
-Examination and treatment will cost <number><internal hint 02> meseta<use suffix>?<line>
+Examination and treatment will cost <number><internal hint 02> meseta<use suffix>.<line>
 Is that alright?<end>
 
 [0CC]
@@ -542,10 +542,10 @@ Then, I shall pray for you.<wait>
 Good. I shall now recite an incantation:<delay>
 
 [0DC]
-Artemuhamuramu...artemuhamuramu...storatopon!<delay>
+Artemuhamuramu... artemuhamuramu... storatopon!<delay>
 
 [0DE]
-Is there anyone else?<end>
+And whose soul shall it be?<end>
 
 [0E0]
 ;ホカノカタハ イカガデスカ.<end>
@@ -567,7 +567,7 @@ May your future have God’s blessing.<wait>
 [0EA]
 ;<player>ハ イキテイマスヨ.<end>
 
-<player> is still alive.<end>
+<player> is still alive.<wait>
 
 [0EC]
 ;セ-ブヲ オコナイマス.<line>
@@ -789,7 +789,7 @@ This is for Palma. Will you get on?<end>
 ;ゲ-ムノ ツヅキヲ ヤリマス.<line>
 ;バンゴウヲ エランデクダサイ.<end>
 
-Continue a game - please choose a slot.<end>
+Continue a game - please choose a slot.<line><end>
 
 [13A]
 ;デハ <number>バンノゲ-ムヲ ハジメマス.<delay>
@@ -810,7 +810,8 @@ Please try again.<wait>
 ;ゲ-ムヲ ケス.------ イイエ<end>
 Continue game: Yes<line>
 <line>
-Delete game:   No<end>
+Delete game:   No<line>
+<end>
 
 [140]
 ;セ-ブシタ ゲ-ムヲ ケシマス.<line>
@@ -821,7 +822,7 @@ Are you sure you want to delete a saved game?<end>
 [142]
 ;ナンバンノ ゲ-ムヲ ケシマスカ.<end>
 
-Deleting a game - please choose a slot.<end>
+Deleting a game - please choose a slot.<line><end>
 
 [144]
 ;<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
@@ -885,25 +886,26 @@ It’s a calming, beautiful sound.<wait>
 ; ********************
 
 [156]
-You little bastard -- poking your nose into LaShiec’s business like that!<line>
+You little bastard -- poking your nose into LaShiec’s business like that!<line><line>
 Maybe from now on you’ll try to mind your manners!<wait more>
 
-Nero! What happened?! Hang on!<wait>
+Nero! What happened?!<line><line>
+Hang on!<wait>
 
 [158]
-...Alisa... listen...<line>
-...LaShiec has brought an enormous calamity upon our world...<line>
-...The world is facing ruin...<line>
-...I tried to find out what LaShiec is planning...<line>
-...But by myself, I wasn’t able to do anything...<line>
-...I heard rumours of a mighty warrior named Tairon during my journey...<line>
-...If you combine forces, you might be able to defeat LaShiec... and restore peace...<line>
-...Alisa...<line>
-...It’s too late for me...<line>
+...Alisa... listen...<line><line>
+...LaShiec has brought an enormous calamity upon our world...<wait more>
+...The world is facing ruin...<line><line>
+...I tried to find out what LaShiec is planning...<wait more>
+...But by myself, I wasn’t able to do anything...<line><line>
+...I heard rumours of a mighty warrior named Tairon during my journey...<wait more>
+...If you combine forces, you might be able to defeat LaShiec... and restore peace...<wait more>
+...Alisa...<line><line>
+...It’s too late for me...<line><line>
 ...Please forgive me... for leaving you alone...<wait>
 
 [15A]
-I will go and fight to ensure that my brother did not die in vain!<line>
+I will go and fight to ensure that my brother did not die in vain!<line><line>
 I know he will be watching over me...<wait>
 
 
@@ -912,7 +914,7 @@ I know he will be watching over me...<wait>
 ; ******************************
 
 [15C]
-I guess we’re gonna be travelling together from now on, huh?<line>
+I guess we’re gonna be travelling together from now on, huh?<line><line>
 I’m Alisa. What’s your name?<wait>
 
 [15E]
@@ -956,13 +958,13 @@ But anyway... I hid a compass at a dead end in this cave. We should go get it!<w
 ; ******************************
 
 [170]
-We came to deliver this letter from the Governor-General.<line>
+We came to deliver this letter from the Governor-General.<line><line>
 Won’t you read it please?<wait>
 
 [172]
-I understand...<line>
+I understand...<line><line>
 Together, we must protect the Algol system from the hand of evil.<wait more>
-To do that, we must first meet with Dr. Luveno in the Gothic Woods.<line>
+To do that, we must first meet with Dr. Luveno in the Gothic Woods.<line><line>
 If I recall correctly, there is a manhole that leads to the village.<wait>
 
 
@@ -974,7 +976,7 @@ If I recall correctly, there is a manhole that leads to the village.<wait>
 As soon as Myau had taken a bite, a warm, sparkling sash of light engulfed his body.<wait>
 
 [176]
-And then, in a twinkle, he transformed into a beautiful beast with enormous wings.<line>
+And then, in a twinkle, he transformed into a beautiful beast with enormous wings.<line><line>
 He gave the wings a triumphant flap.<wait>
 
 

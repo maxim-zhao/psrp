@@ -574,7 +574,7 @@ Let me pilot the Luveno for you, okay?<wait>
 This is Uzo Village, on the planet Motabia.<wait>
 
 [130]
-You can pass over ant-lions if you have a LandMaster. <wait>
+You can pass over ant-lions if you have a LandMaster.<wait>
 
 [132]
 To the South of Uzo, there is a village called Casba.<wait>
@@ -773,12 +773,12 @@ What the hell?! I'm not selling you ANYTHING now!<wait>
 Hey, what the hell?! I'm not selling you ANYTHING!<wait>
 
 [19E]
-Spaceports now closed.<wait>
+The spaceport is now closed.<wait>
 
 [1A0]
 ; パスポ-トヲ ボッシュウスルゾ.<wait>
 
-WE ARE CONFISCATING YOUR PASSPORT<wait>
+We are confiscating your passport.<wait>
 
 
 ; *************

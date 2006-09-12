@@ -3,7 +3,7 @@
 #
 
 # The emulator for testing
-EMU = "m:\my documents\sms\meka\mekaw.exe"
+EMU = "M:\My Documents\SMS\meka\mekaw.exe"
 
 # Assembler (TASM)
 ASM = tasm.exe -80 -b
@@ -82,6 +82,9 @@ psg_encoder\font1.bin: new_graphics\font1.png
 psg_encoder\font2.bin: new_graphics\font2.png
 	new_graphics\bmp2tile.exe $? -4bit -noremovedupes -savetilesbin $@ -exit
 
+psg_encoder\font3.bin: new_graphics\font3.png
+	new_graphics\bmp2tile.exe $? -4bit -noremovedupes -savetilesbin $@ -exit
+
 psg_encoder\title.bin rom_insert\title-nt.bin rom_insert\title-pal.bin: new_graphics\titlescreen.png
 	new_graphics\bmp2tile.exe $? -4bit -savetilesbin psg_encoder\title.bin -savetilemappscompr rom_insert\title-nt.bin -palsms -savepalettebin rom_insert\title-pal.bin -exit
 
@@ -106,6 +109,7 @@ rom_insert\world1_e.bin: psg_encoder\world1.bin;$(PSG_ENCODE) $? $@
 rom_insert\world2_e.bin: psg_encoder\world2.bin;$(PSG_ENCODE) $? $@
 rom_insert\font1_e.bin : psg_encoder\font1.bin ;$(PSG_ENCODE) $? $@
 rom_insert\font2_e.bin : psg_encoder\font2.bin ;$(PSG_ENCODE) $? $@
+rom_insert\font3_e.bin : psg_encoder\font3.bin ;$(PSG_ENCODE) $? $@
 
 # menu_creater
 rom_insert\opening.bin : menu_creater\opening.txt menu_creater\tech1_table.tbl
@@ -142,7 +146,7 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\bg13_e.bin rom_insert\bg14_e.bin rom_insert\bg16_e.bin rom_insert\bg29_e.bin \
        rom_insert\bg30_e.bin rom_insert\bg31_e.bin \
        rom_insert\world1_e.bin rom_insert\world2_e.bin \
-       rom_insert\font1_e.bin rom_insert\font2_e.bin rom_insert\font-nt.bin \
+       rom_insert\font1_e.bin rom_insert\font2_e.bin rom_insert\font3_e.bin rom_insert\font-nt.bin \
        rom_insert\title_e.bin rom_insert\title-nt.bin rom_insert\title-pal.bin \
        rom_insert\bg_table1.bin rom_insert\bg_table8.bin \
        rom_insert\bg_vector.bin \

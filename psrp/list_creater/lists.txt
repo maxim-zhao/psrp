@@ -61,15 +61,15 @@
 
 ; vehicles
 
-~LandMaster
-~FlowMover
-#IceDecker
+^LandMaster
+^FlowMover
+^IceDecker
 
 ; items
 
 ~Ruoginin
 ~Perolimate
-~Soothe@ Flute
+^Soothe@ Flute
 ~Search%@+light
 #Escape@ Cloth
 ~TranCarpet
@@ -78,9 +78,9 @@
 ~Polymeteral
 ~Dungeon@ Key
 ~Telepathy@ Ball
-#Eclipse@ Torch
-#Aeroprism
-&Laerma@ Berries
+^Eclipse@ Torch
+^Aeroprism
+^Laerma@ Berries
 Hapsby
 ~Road Pass
 ~Passport
@@ -88,13 +88,13 @@ Hapsby
 ~Shortcake
 ^Governor[-General]'s@ Letter
 ~Laconian@ Pot
-~Light@ Pendant
-~Carbunckle@ Eye
+^Light@ Pendant
+^Carbunckle@ Eye
 ~GasClear
 Damoa's@ Crystal
 ~Master@ System
-~Miracle@ Key
-~Zillion
+^Miracle@ Key
+Zillion
 ~Secret@ Thing
 #
 
@@ -138,7 +138,7 @@ foo
 ^Leech
 ^Tarantula
 ^Manticore
-^Mad Stalker
+^Skeleton
 ^Ant-lion
 ^Marshes
 ^Dezorian
@@ -156,7 +156,7 @@ foo
 ^Leviathan
 ^Dorouge
 ^Octopus
-^Mad Stalker
+^Mad@ Stalker
 ^Dezorian@ Head
 ^Zombie
 ^Butte
@@ -180,7 +180,7 @@ Shadow@ Warrior
 ^Mammoth
 ^King Sabre
 ^Dark@ Marauder
-^Column
+^Golem
 Medusa
 ^Frost@ Dragon
 Dragon@ Wise
