@@ -184,11 +184,11 @@ ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\me
 CLEANFILES = asm\*.lst asm\*.obj \
 	     list_creater\log*.txt list_creater\dict.txt \
 	     menu_creater\log.txt \
-	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin\
+	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin psg_encoder\font3.bin\
 	     rom_insert\*_e.bin rom_insert\lists.bin rom_insert\log.txt rom_insert\menu_list.txt \
 	     rom_insert\menus.bin rom_insert\opening.bin rom_insert\script1.bin \
 	     rom_insert\script_list.txt rom_insert\script_trees.bin rom_insert\*.obj rom_insert\tree_vector.bin \
-	     rom_insert\words.bin \
+	     rom_insert\words.bin rom_insert\title-nt.bin rom_insert\title-pal.bin\
 	     script_inserter\log.txt script_inserter\script*.txt script_inserter\table_temp.tbl script_inserter\words_final.txt \
 	     substring_formatter\dict.txt substring_formatter\log.txt substring_formatter\words.txt substring_formatter\words_final.txt \
 	     word_count\stats.txt word_count\words.txt
