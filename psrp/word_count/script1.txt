@@ -4,6 +4,13 @@
 ;
 ; <internal hint *> = immediately follows a <number> flag.
 ;                     couple with <use suffix> to append a 's'. meseta(s).
+;
+; All text must be terminated by one of these:
+; <wait more> = wait for button press, then continue showing text
+; <wait> = wait for button press, then exit
+; <end> = no wait, just carry on (danger of text scrolling off quickly)
+; <line> = newline
+;
 
 ; *************************************
 ; *** Camineet Residential District ***
@@ -27,7 +34,7 @@ My name is Nekise.<wait more>
 I just found out that the hero Tairon is staying in the town of Shion.<wait more>
 
 [00C]
-Oh, and, your brother entrusted me with this jar -- it's called a Laconian Pot. <wait more>
+Oh, and, your brother entrusted me with this jar - it's called a Laconian Pot. <wait more>
 
 [00E]
 Here, you should take it with you. It may come in handy later on.<wait>
@@ -90,7 +97,7 @@ If you travel East, you will reach the port town of Shion.<wait>
 You can travel to Paseo, on the planet Motabia, from the spaceport.<wait>
 
 [032]
-I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.<wait>
+I hear you can get to the Gothic Forest - which is West of Parolit - through an underground passageway.<wait>
 
 
 ; **********************************
@@ -101,7 +108,7 @@ I hear you can get to the Gothic Forest -- which is West of Parolit -- through a
 Tairon? He went to slay Medusa!<wait more>
 
 [036]
-That guy, he was with a talking animal! And the animal -- it had a bottle of medicine around its neck.<wait more>
+That guy, he was with a talking animal! And the animal - it had a bottle of medicine around its neck.<wait more>
 
 [038]
 I wonder if it has any special purpose?<wait>
@@ -414,7 +421,7 @@ I'm Luveno. You came here to rescue me? That's not really necessary. You should 
 What? Did you say 'build a spaceship?' Do you think I want to be responsible for something like that?<wait>
 
 [0E2]
-Hmmm... Didn't I tell you to-- Aah, I give up! You must promise to do whatever I ask. Agreed?<end>
+Hmmm... Didn't I tell you to- Aah, I give up! You must promise to do whatever I ask. Agreed?<end>
 
 [0E4]
 Good. Well then, I'm going to go to Gothic Village and make the proper arrangements. Meet me there later. Oh, don't worry. I can make it there myself.<wait>
@@ -1010,13 +1017,13 @@ Defeat LaShiec?! That's nonsense!<wait>
 We will all be sacrificed at the hands of LaShiec! Ooooh...<wait>
 
 [228]
-The armour in the Guaran Morgue -- did you get it?<end>
+The armour in the Guaran Morgue - did you get it?<end>
 
 [22A]
 It's on the opposite side of a trap!<wait>
 
 [22C]
-YOU -- are the coolest!<wait>
+YOU - are the coolest!<wait>
 
 [22E]
 I hear that LaShiec steals the souls of all who come across him.<wait>
@@ -1170,17 +1177,17 @@ Please tell us how you feel about this game. We'll be waiting.<wait>
 [27C]
 ; コ
 
-; Do not touch -- will affect [282]
+; Do not touch - will affect [282]
 
 [27E]
 ; コ
 
-; Do not touch -- will affect [282]
+; Do not touch - will affect [282]
 
 [280]
 ; カ
 
-; Do not touch -- will affect [282]
+; Do not touch - will affect [282]
 
 [282]
 The area beyond here is my territory, so stay the hell out!<wait>
