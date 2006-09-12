@@ -72,6 +72,8 @@ cfd hex_7085.bin		; - Source
 10e3 hex_cda945.bin		; - CALL $45a9
 10e6 hex_1812.bin		; - JR $7e0
 
+697d hex_b745.bin ; call $b5b7 (halfway through new loader, for just the second font group)
+
 34f2 t0d.obj			; NT output renderer
 8000 font-nt.bin		; - tile attributes
 
@@ -247,10 +249,79 @@ eec9 hex_ff.bin			; - scripting code
 3b08 hex_00dd.bin
 
 
-; Text window densification
-34c9 hex_40.bin ; cutscene tect display: increment VRAM pointer by $0040 (not $0080) for newlines
+; Text densification
+34c9 hex_40.bin ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
 
 000f TX1.OBJ        ; patched code for newlines in 2->3-line dialogues
 3397 hex_c30f00.bin ; jp $000f - patch code to jump to replacement routine
 354C hex_000000.bin ; nop out 2nd line scroll
 
+
+; Cheat: all characters start at LV 20
+1854 hex_14.bin
+; Cheat: collect any money to get 65535
+2adb hex_0000.bin
+; cheat: HP rolls over 0->255 (nop out overflow handler setting it to 0)
+1723 hex_00.bin
+; cheat: free magic
+1cf8 hex_00.bin
+
+
+; Savegame name entry screen hacking ---------------------------------------------
+; compressed tile data (low byte only) for name entry screen
+4406 save_tiles.bin
+
+; "Enter your name" text at the top of the screen
+43e6 save_text.bin  ; name entry screen title text - now it's full raw tilemap data
+41cb hex_2001.bin   ; bc parameter = bytes per line, number of lines
+41d2 hex_5078.bin   ; de parameter = where to draw (8,1)
+41d6 hex_28.bin     ; change function call to full raw tilemap drawer
+
+41e4 hex_3e44.bin   ; subvert call to output TileMapData to the screen
+; code and data for drawing extended chars there
+443e tx4.obj
+
+4221 hex_18600ad30b.bin ; init data for cursor in name entry screen: x=$18, y=$60, [xy=$d30a], value=$0b='A'
+
+4130 hex_18.bin ; min sprite x
+40eb hex_e0.bin ; max sprite x
+4102 hex_60.bin ; min sprite y
+4119 hex_90.bin ; max sprite y
+
+4344 hex_1a.bin ; width of lookup table
+4342 hex_04.bin ; height of lookup table - width*height<=126
+434e hex_4c.bin ; width complement; (434e)+(4344)*2=$80
+448c save_lookup.bin ; lookup table
+
+; Cursor snapping for
+4161 hex_48.bin ; x coordinate of sprite for Next
+4163 hex_96d4.bin ; lookup position for Next
+416c hex_18.bin ; x coordinate of sprite for Prev
+416a hex_8a.bin ; lookup position for Prev (same high byte as for Next)
+4170 hex_c8.bin ; x coordinate of sprite for Save
+4172 hex_b6.bin ; lookup position for Save (same high byte as for Next)
+
+; 4-sprite cursor hack
+; 1. Extra y coordinates
+4243 hex_cd2b0000.bin ; call $002b; nop
+2b hex_1c121c121c12c9 ; inc e; ld (de),a; inc e; ld (de),a; inc e; ld (de),a; ret
+; 2. Extra x coords and tile indices
+4251 hex_04.bin
+; 3. Cursor extends right, not left, relative to the "snapped" positions
+425c hex_c6.bin ; sub nn -> add a,nn
+
+; Text drawing as you enter your name
+; Drawing to RAM as you enter:
+429b tx2.obj
+; Drawing to screen as you enter:
+42b5 tx3.obj
+
+
+
+; New title screen ------------------------
+3BC68 title-nt.bin ; tilemap
+0925 title-pal.bin ; palette
+2fdb hex_dc.bin    ; cursor tile index
+
+; Changed credits -------------------------
+53dbc credits.bin

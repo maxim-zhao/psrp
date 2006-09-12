@@ -59,6 +59,7 @@ Substring:
 Start_Art:
 	LD A,(BC)		; Grab index
 	SUB $54			; Remap index range
+	JR C,Art_Done ; if there is a letter there, it'll be 0..$40ish. So do nothing.
 	ADD A,A			; Multiply by two
 	ADD A,E			; Add offset
 	LD E,A			; (note: be careful we don't byte-wrap)
@@ -86,12 +87,12 @@ Art_Done:
 	LD (STR),BC		; store new text pointer
 	XOR A
 	LD (ARTICLE),A		; lower flag
-		
+
 Art_Exit:
 	POP DE			; now proceed normally
 	LD BC,(STR)		; Grab raw text location (again)
 	JR Initial_Codes
-	
+
 
 ; Articles in 'reverse' order
 
@@ -102,9 +103,9 @@ ART_13		.db $00,$29,$2c,$38,EOS		; 'the '
 ART_14		.db $00,$29,$31,$33,$37,EOS	; 'some '
 
 TAB2		.dw ART_21, ART_22, ART_23
-ART_21		.db $00,$0b,$ff			; 'A '
-ART_22		.db $00,$28,$0b,$ff		; 'An '
-ART_23		.db $00,$29,$2c,$1e,$ff		; 'The '
+ART_21		.db $00,$0b,EOS			; 'A '
+ART_22		.db $00,$28,$0b,EOS		; 'An '
+ART_23		.db $00,$29,$2c,$1e,EOS		; 'The '
 ART_24		.db $00,$29,$31,$33,$1d,EOS	; 'Some '
 
 ; TAB3
