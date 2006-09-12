@@ -3,7 +3,7 @@
 #
 
 # The emulator for testing
-EMU = dega.exe
+EMU = "m:\my documents\sms\meka\mekaw.exe"
 
 # Assembler (TASM)
 ASM = tasm.exe -80 -b
@@ -44,7 +44,10 @@ rom_insert\lists.bin rom_insert\words.bin : list_creater\lists.txt list_creater\
 	copy pass1.bin "..\rom_insert\words.bin"
 	del pass1.bin
 	cd ..
+
 # asm
+asm\t*.asm: asm\vars.asm
+
 {asm}.asm{rom_insert}.obj:
 	cd asm
 	$(ASM) $(?F)
@@ -67,12 +70,20 @@ psg_encoder\bg16.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 5eb6f $@
 psg_encoder\bg29.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 27b24 $@
 psg_encoder\bg30.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 524ea $@
 psg_encoder\bg31.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 4c010 $@
-psg_encoder\title.bin : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 7e8bd $@
+#psg_encoder\title.bin : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 7e8bd $@
 psg_encoder\world1.bin: $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 747b8 $@
 psg_encoder\world2.bin: $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 58570 $@
 
 
-# fonts conversion from PNG - not done yet
+# tile conversion from PNG
+psg_encoder\font1.bin: new_graphics\font1.png
+	new_graphics\bmp2tile.exe $? -4bit -noremovedupes -savetilesbin $@ -exit
+
+psg_encoder\font2.bin: new_graphics\font2.png
+	new_graphics\bmp2tile.exe $? -4bit -noremovedupes -savetilesbin $@ -exit
+
+psg_encoder\title.bin rom_insert\title-nt.bin rom_insert\title-pal.bin: new_graphics\titlescreen.png
+	new_graphics\bmp2tile.exe $? -4bit -savetilesbin psg_encoder\title.bin -savetilemappscompr rom_insert\title-nt.bin -palsms -savepalettebin rom_insert\title-pal.bin -exit
 
 # psg_encoder
 PSG_ENCODE = psg_encoder\Release\psg_encoder.exe
@@ -120,6 +131,10 @@ rom_insert\script1.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin ro
 	move script_list.txt "..\rom_insert"
 	del pass1.bin
 	cd ..
+	
+# credits
+rom_insert\credits.bin: credits\credits.txt
+	credits\credits_encode.exe credits\credits.txt rom_insert\credits.bin
 
 # All files needed for the final ROM
 BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_insert\bg5_e.bin \
@@ -128,7 +143,7 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\bg30_e.bin rom_insert\bg31_e.bin \
        rom_insert\world1_e.bin rom_insert\world2_e.bin \
        rom_insert\font1_e.bin rom_insert\font2_e.bin rom_insert\font-nt.bin \
-       rom_insert\title_e.bin \
+       rom_insert\title_e.bin rom_insert\title-nt.bin rom_insert\title-pal.bin \
        rom_insert\bg_table1.bin rom_insert\bg_table8.bin \
        rom_insert\bg_vector.bin \
        rom_insert\script_trees.bin \
@@ -147,15 +162,17 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\t4a.obj rom_insert\t4a_1.obj rom_insert\t4a_1.obj rom_insert\t4a_2.obj rom_insert\t4a_3.obj rom_insert\t4a_4.obj \
        rom_insert\t4b.obj rom_insert\t4b_1.obj \
        rom_insert\t5.obj \
-       rom_insert\tx1.obj \
+       rom_insert\tx1.obj rom_insert\tx2.obj rom_insert\tx3.obj rom_insert\tx4.obj \
+       rom_insert\save_tiles.bin rom_insert\save_text.bin rom_insert\save_lookup.bin \
+       rom_insert\credits.bin \
 
 # rom_insert
 ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.txt $(BINS)
 	copy $(PSJ) rom_insert\ps1jert.sms
 	cd rom_insert
-	Release\rom_insert.exe ps1jert.sms list.txt > log.txt
-	Release\rom_insert.exe ps1jert.sms script_list.txt > log.txt
-	Release\rom_insert.exe ps1jert.sms menu_list.txt > log.txt
+	Release\rom_insert.exe ps1jert.sms list.txt
+	Release\rom_insert.exe ps1jert.sms script_list.txt
+	Release\rom_insert.exe ps1jert.sms menu_list.txt
 	move ps1jert.sms ..
 	cd ..
 	@echo Successful: translated file is ps1jert.sms
@@ -163,7 +180,7 @@ ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\me
 CLEANFILES = asm\*.lst asm\*.obj \
 	     list_creater\log*.txt list_creater\dict.txt \
 	     menu_creater\log.txt \
-	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin \
+	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin\
 	     rom_insert\*_e.bin rom_insert\lists.bin rom_insert\log.txt rom_insert\menu_list.txt \
 	     rom_insert\menus.bin rom_insert\opening.bin rom_insert\script1.bin \
 	     rom_insert\script_list.txt rom_insert\script_trees.bin rom_insert\*.obj rom_insert\tree_vector.bin \

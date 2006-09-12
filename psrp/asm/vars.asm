@@ -10,8 +10,8 @@
 #define CACHE     $7ed0		; substring lookup
 
 #define ITEMS	  $aba6+$0000	; table entry points
-#define NAMES	  $aba6+$0388
-#define ENEMY	  $aba6+$039f
+#define NAMES	  $aba6+$038b
+#define ENEMY	  $aba6+$03a2
 
 #define WORDS	  $bc00
 

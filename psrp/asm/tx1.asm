@@ -9,7 +9,7 @@
 .org $000f			; $000f-$0027
 
 newline:
-    ld b,$12 ; reset x counter                              ; 06 02
+    ld b,$12 ; reset x counter                              ; 06 xx
     inc hl   ; move pointer to next byte                    ; 23
     ld a,c   ; get line counter                             ; 79
     or a     ; test for c==0                                ; b7

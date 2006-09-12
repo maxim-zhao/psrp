@@ -113,82 +113,81 @@ Lutz
 ; Monsters
 ; #0 = <blank name>
 
-
-foo
-^Monster@ Fly
-^Green@ Slime
-^Wing Eye
-^Maneater
-^Scorpius
-^Raajaago
-^Blue@ Slime
-^Motavian@ Farmer
-^Devil Bat
-^Killer@ Plant
-^Fighter@ Fly
-^Motavian@ Teaser
-^Helix
-^Sandworm
-^Motavian@ Maniac
-^Gold Lens
-^Red Slime
-^Batman
-^Horseshoe@ Crab
-^Shark King
-^Leech
-^Tarantula
-^Manticore
-^Mad Stalker
-^Ant-lion
-^Marshes
-^Dezorian
-^Desert@ Leech
-^Kuraion
-^Big Nose
-^Ghoul
-^Ammonite
-^Executor
-^Wight
-^Skull@ Soldier
-^Snail
-^Manticore
-^Serpent
-^Leviathan
-^Dorouge
-^Octopus
-^Mad Stalker
-^Dezorian@ Head
-^Zombie
-^Butte
-^Robot@ Police
-^Cyborg@ Mage
-^Flame@ Lizard
-Tajim
-^Gaia
-^Machine@ Guard
-^Tentacle
-^Talos
-^Snake@ Lord
-^Death@ Bearer
-^Chaos@ Sorcerer
-^Centaur
-^Ice Man
-^Vulcan
-^Red@ Dragon
-^Green@ Dragon
+ 
+Swarm
+Green@ Slime
+Wing Eye
+Maneater
+Scorpion
+Great@ Scorpion
+Blue@ Slime
+N Farmer
+Owl Bear
+Dead Tree
+Scorpius
+E Farmer
+Giant Fly
+Crawler
+Barbarian
+Gold Lens
+Red Slime
+Were Bat
+Big Club
+Fishman
+Evil Dead
+Tarantula
+Manticore
+Skeleton
+Ant-lion
+Merman
+Dezorian
+Leech
+Vampire
+Elephant
+Ghoul
+Shellfish
+Executor
+Wight
+Skull-En
+Ammonite
+Sphinx
+Serpent
+Sandworm
+Leech
+Octopus
+Stalker
+Evil Head
+Zombie
+Batalion
+Robot Cop
+Sorcerer
+Nessie
+Tarzimal
+Golem
+Android@ Cop
+Tentacle
+Giant
+Wyvern
+Reaper
+Magician
+Horseman
+Frostman
+Amundsen
+Red@ Dragon
+Casba@ Dragon
 Shadow@ Warrior
-^Mammoth
-^King Sabre
-^Dark@ Marauder
-^Column
+Mammoth
+Centaur
+Marauder
+Titan
 Medusa
-^Frost@ Dragon
-Dragon@ Wise
+Frost@ Dragon
+Blue@ Dragon
 Gold Drake
-Mad Doctor
+Dr. Mad
 LaShiec
 Dark Force
-Nightmare
+Succubus
 #
 
 ; ----------------------------------------------------
