@@ -48,7 +48,7 @@ Path1:				; Cutscene handler
 	JR Restore
 
 Path2:				; In-game scripter
-	LD A,$03		; Set internal wrapping limit
+	LD A,$04		; Set internal wrapping limit
 	LD (VLIMIT),A
 
 	LD A,($c2d3)		; Old code

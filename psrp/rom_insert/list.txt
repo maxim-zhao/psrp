@@ -239,14 +239,16 @@ eec9 hex_ff.bin			; - scripting code
 3889 hex_60d9.bin
 3826 hex_f0de.bin		; #9  - Current equipment
 386b hex_f0de.bin
-38fc hex_50dc.bin 		; #10 - Individual stats
-39df hex_50dc.bin 
+38fc hex_50dc.bin 	; #10 - Individual stats
+39df hex_50dc.bin
 3256 hex_20df.bin		; #12 - Enemy name
 331b hex_20df.bin
 3015 hex_80df.bin		; #14 - Active player
 3036 hex_80df.bin
 3ad0 hex_00dd.bin		; #18 - Save slots
 3b08 hex_00dd.bin
+38c1 hex_f0de.bin   ; Yes/no - clashes with #5
+38e1 hex_f0de.bin
 
 
 ; Text densification
@@ -303,8 +305,8 @@ eec9 hex_ff.bin			; - scripting code
 
 ; 4-sprite cursor hack
 ; 1. Extra y coordinates
-4243 hex_cd2b0000.bin ; call $002b; nop
-2b hex_1c121c121c12c9 ; inc e; ld (de),a; inc e; ld (de),a; inc e; ld (de),a; ret
+;4243 hex_cd2b0000.bin ; call $002b; nop
+;2b hex_1c121c121c12c9 ; inc e; ld (de),a; inc e; ld (de),a; inc e; ld (de),a; ret
 ; 2. Extra x coords and tile indices
 4251 hex_04.bin
 ; 3. Cursor extends right, not left, relative to the "snapped" positions
@@ -325,3 +327,7 @@ eec9 hex_ff.bin			; - scripting code
 
 ; Changed credits -------------------------
 53dbc credits.bin
+4892 hex_cd8604.bin		; - CALL [PSG decoder] (credits font)
+3fdee font3_e.bin
+488d hex_2058.bin		; - VRAM
+4890 hex_eebd.bin		; - Source

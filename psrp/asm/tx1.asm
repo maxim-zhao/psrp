@@ -18,7 +18,7 @@ newline:
     ld de,$7d0e                                             ; xx xx xx
 inc_and_finish:
     inc c                                                   ; xx
-    jp $3365                                                 ; xx xx xx
+    jp $3365                                                ; xx xx xx
 not_zero:
     dec a    ; test for c==1                                ; 3d
     jr nz,not_one                                           ; xx xx
@@ -27,9 +27,16 @@ draw_3rd_line:
     ld de,$7d4e                                             ; xx xx xx
     jr inc_and_finish                                       ; xx xx
 not_one:
-    ; two: scroll, draw on 3rd line
+    dec a    ; test for c==2                                ; 3d
+    jr nz,not_two                                           ; xx xx
+    ; two: draw on 4th
+draw_4th_line:
+    ld de,$7d8e                                             ; xx xx xx
+    jr inc_and_finish                                       ; xx xx
+not_two:
+    ; three: scroll, draw on 4th line
     call $3546 ; scroll                                     ; xx xx xx
     dec c      ; cancel increment                           ; xx
-    jr draw_3rd_line                                        ; xx xx
+    jr draw_4th_line                                        ; xx xx
 
 .end				; tasm-only

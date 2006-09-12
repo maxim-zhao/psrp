@@ -10,6 +10,13 @@
 
 .org $7ed0			; $7fed0-7ffaf ($e0)
 
+; substring inserter
+; b = space left on line
+; (STR)w = pointer to string
+; (LEN)b = length
+; returns tile index to be drawn in a,
+; or a newline if a new line is needed for this insertion
+
 Check_Autowait:
 	; LD A,(FLAG)		; Scan flag
 	; OR A			; See if auto-wait occurred
@@ -41,6 +48,7 @@ Substring:
 	LD HL,LEN		; Grab address of length
 
 ; ------------------------------------------------------
+; Article (The, An, A, Some) handler
 
 	PUSH DE			; init
 
@@ -116,21 +124,22 @@ ART_24		.db $00,$29,$31,$33,$1d,EOS	; 'Some '
 
 Initial_Codes:
 	LD A,(BC)		; Grab character
-	; CP EOS		; Check for abort code
-	; JR Z,Abort_Initial
+;	CP EOS			; Check for abort code
+;	JR Z,Abort_Initial
 	CP $4F			; Skip initial codes
 	JR C,Begin_Scan		; Look for first real font tile
 
+; Initial code skipper:
 	INC BC			; Bump pointer
 	LD (STR),BC		; Save pointer
 	DEC (HL)		; Shrink length
 	JR NZ,Initial_Codes	; Loop if still alive
 
-Abort_Initial:
-	LD A,EOS		; Return abort #
-	POP BC			; Restore stack registers
-	POP HL
-	JR Abort		; No text
+;Abort_Initial:
+;	LD A,EOS		; Return abort #
+;	POP BC			; Restore stack registers
+;	POP HL
+;	JR Abort		; No text
 
 Begin_Scan:
 	PUSH HL			; Save new current length
@@ -140,7 +149,7 @@ Begin_Scan:
 	LD L,$00		; Current length is zero
 
 ;	CALL Scan_String	; Check for wrapping condition
-	CALL One_Font
+	CALL One_Font		; get length up to next whitespace in l
 
 	LD A,(HLIMIT)		; Remaining width
 	SUB L			; Remove characters used
@@ -216,14 +225,11 @@ Scan_String:
 	JR Z,Stop		; Length exhausted == 0
 
 	LD A,(BC)		; Grab character
-	OR A			; Check for abort
-	JR Z,Stop		; If char == 0, stop
+	OR A			; Check for whitespace
+	JR Z,Break		; If char == 0, stop
 
 	CP $4F			; Control codes
 	JR NC,Scan_String	; Ignore special script values
-
-	CP $00			; Whitespace
-	JR Z,Break		; Break out of scan
 
 One_Font:
 	INC L			; One font drawn
@@ -232,7 +238,7 @@ One_Font:
 Stop:
 	LD BC,POST_LEN		; Load post-hint address
 	LD A,(BC)		; Load post-hint value
-	ADD A,L			; Tack on length
+	ADD A,L			; Tack on length BUG?: two-word substitutions get the extra added to the first word
 	LD L,A			; Store for return
 
 	XOR A
