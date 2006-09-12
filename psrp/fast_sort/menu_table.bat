@@ -1,0 +1,1 @@
+"Release/fast_sort" menu_table.txt MAIN > log.txt

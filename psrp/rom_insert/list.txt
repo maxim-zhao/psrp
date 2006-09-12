@@ -1,0 +1,247 @@
+; PSG bitmap decoder
+
+4be84 t4b.obj			; New bitmap decoder
+486 t4b_1.obj			; - remap code
+
+7e8bd title_e.bin		; - smaller title screen
+8f9 hex_0040.bin		;  - VRAM
+8fc hex_bda8.bin		;  - Source
+
+				; Landscapes
+cef hex_cd8604.bin		; - CALL [PSG decoder] (world)
+747b8 world1_e.bin
+cea hex_0040.bin		; - VRAM
+ced hex_b887.bin		; - Source
+
+cff hex_cd8604.bin		; - CALL [PSG decoder] (towns)
+58570 world2_e.bin
+cfa hex_0040.bin		; - VRAM
+cfd hex_7085.bin		; - Source
+
+				; Backgrounds
+3eca bg_vector.bin		; - vector table
+
+40000 bg_table1.bin		; - accompanying data
+40050 bg1_e.bin			; - merged
+40ba7 bg2_e.bin
+41799 bg3_e.bin
+
+43406 bg5_e.bin			; - merged w/ font
+
+44640 bg_table8.bin		; - accompanying data
+44680 bg8_e.bin			; - merged
+45338 bg9_e.bin
+45cb0 bg10_e.bin
+46524 bg11_e.bin
+
+5ac8d bg13_e.bin		; - no merge
+2c010 bg14_e.bin
+5eb6f bg16_e.bin
+27b24 bg29_e.bin
+524ea bg30_e.bin
+4c010 bg31_e.bin
+
+3eb5 hex_cd8604.bin		; - decoder CALL
+3eb0 hex_565f.bin		; - LD D,(HL) / LE E,A
+3eb2 hex_21.bin			; - LD HL,$4000
+
+
+; Font
+
+43871 font1_e.bin		; Two font tables
+43a87 font2_e.bin
+
+				; Intro font decoding
+45a4 hex_cda945.bin		; - CALL $45a9
+45a7 hex_181b.bin		; - JR $45c4
+45a9 t0b.obj			; - #1/#2 table decoder calls
+
+				; In-game font decoding
+3dde hex_cda945.bin		; - CALL $45a9
+3de1 hex_1812.bin		; - JR $3df5
+
+				; Cutscene font decoding
+48da hex_cda945.bin		; - CALL $45a9
+48dd hex_1812.bin		; - JR $48f1
+
+				; Load game font decoding
+7c9 hex_cda945.bin		; - CALL $45a9
+7cc hex_1812.bin		; - JR $7e0
+
+				; Dungeon font decoding
+10e3 hex_cda945.bin		; - CALL $45a9
+10e6 hex_1812.bin		; - JR $7e0
+
+34f2 t0d.obj			; NT output renderer
+8000 font-nt.bin		; - tile attributes
+
+
+; Semi-adaptive Huffman script decoder
+
+80b0 tree_vector.bin		; Tree vectors
+82b0 script_trees.bin		; - actual Huffman trees
+
+bf50 t4a_1.obj			; Decoder init
+7fd8d t1c.obj			; - Dictionary lookup
+bed0 t4a.obj			; - SFG decoder
+7fe00 t4a_2.obj			; - Additional scripting codes
+7fed0 t4a_3.obj			; - Substring formatter
+
+				; Cutscene narrative init
+34aa hex_3e00.bin		; - LD A,$00   = method selection
+34ac hex_cd50bf.bin		; - CALL $bf50 = decoder init
+34af hex_c9.bin			; - RET
+
+				; Cutscene text decoder
+34b4 hex_cd007e.bin		; - CALL $7e00
+34b7 hex_282f.bin		; - JR Z,$34e8 = order flip
+34b9 hex_fe57.bin		; - CP $57     = order flip
+34bb hex_2830.bin		; - JR Z,$34ed = order flip
+
+34e6 hex_77bf.bin 		; Cutscene $55 clear code
+
+				; In-game narrative init
+333f hex_3d.bin			; - DEC A    = method selection ($01)
+3340 hex_c350bf.bin		; - JP $bf50 = decoder init
+
+				; In-game text decoder
+3365 hex_cd007e.bin		; - CALL $7e00
+
+				; Narrative scripting
+33da t1c_1.obj			; Item lookup
+33aa t1c_2.obj			; Player lookup
+33c8 t1c_3.obj			; Enemy lookup
+33fe t1b.obj			; Number lookup
+33f6 hex_2806.bin		; - JR Z,[Number lookup]
+33f8 hex_cdf234.bin		; - CALL [Draw tile]
+33fb hex_c36533.bin		; - JP $3365 [Next script]
+
+40 hex_9404.bin			; INT fix
+494 t4a_4.obj			; - Page saving
+182 hex_c9.bin			; - RET
+
+
+; Lists
+
+76ba6 lists.bin			; Enemy, name, item lists
+43c00 words.bin			; Static dictionary
+
+
+; English script
+
+bf50 t4a_1.obj			; Decoder init
+59ba hex_c33a33.bin		; Index table remap
+				; see 'script-list.txt' for auto-generated
+
+
+; Menus
+
+46c81 menus.bin			; hard-coded window data
+3b82 hex_11.bin			; menu bank
+3bab hex_11.bin
+
+3259 hex_1878.bin		; Enemy name VRAM
+3271 hex_1878.bin
+331e hex_1878.bin
+
+3211 hex_d210.bin		; H
+3213 hex_da10.bin		; P
+
+3219 hex_d710.bin		; M
+321b hex_da10.bin		; P
+
+37c8 hex_10.bin			; Choose player: width*2
+
+3de4 t2b.obj			; Active player - menu offset finder
+3023 hex_67.bin			; - LD H,A
+3024 hex_2e30.bin		; - LD L,[MENU_SIZE] = (8*2)*3
+3026 hex_00.bin			; - NOP
+3027 hex_cde43d.bin		; - CALL $3de4
+
+35a2 t2b_1.obj			; Spell selection finder
+35bf hex_12.bin			; - (7+2)*2 width
+1ee1 hex_4c7a.bin		; - VRAM cursor
+1b6a hex_4c7a.bin		; - VRAM cursor
+
+35c5 t2b_2.obj			; Spell blank line
+3494 t2b_3.obj			; - addition
+35d4 hex_0c.bin			; - height
+
+3516 stats_1.bin		; Stats menu ('LV', 'MST')
+3911 hex_1635.bin		; - LV source
+36e7 hex_2835.bin		; - MST source
+
+3982 stats_2.bin		; - 'EXP' -> 'Max MP' strings
+391a hex_8239.bin		; - EXP source
+31a3 hex_0e.bin			; - width * 2
+36dd hex_0e.bin
+
+392f hex_9439.bin		; - Attack source
+3941 hex_a639.bin		; - Defense source
+3953 hex_b839.bin		; - Max HP source
+3965 hex_ca39.bin		; - Max MP source
+3145 hex_12.bin			; - width * 2
+
+363f hex_a878.bin		; Inventory VRAM (2 tiles left)
+3778 hex_a878.bin
+364b hex_a878.bin
+36e5 hex_0c.bin			; - width * 2
+3617 hex_2879.bin		; - VRAM cursor
+
+3b18 hex_cc7b.bin		; Store MST VRAM
+3b41 hex_cc7b.bin
+3b26 hex_cc7b.bin
+
+3a40 hex_4c78.bin		; Shop inventory VRAM
+
+3b58 hex_11.bin			; Hapsby travel (bank)
+3b63 hex_2a7b.bin		; - VRAM cursor
+3b4f hex_ea7a.bin		; - move window down 1 tile
+3b76 hex_ea7a.bin
+
+3835 hex_887a.bin		; Equipment VRAM
+3829 hex_887a.bin
+386e hex_887a.bin
+
+5aadc opening.bin		; Opening cinema
+45d9 hex_dcaa.bin		; - source
+45d7 hex_16.bin			; - source bank
+45df hex_2e07.bin		; - width*2, height
+
+				; see 'menu-list.txt' for auto-generated
+
+
+; Menu items
+
+2fe3e t2a.obj			; scripting code
+3671 t2a_1.obj			; - inventory setup code
+3a1f t2a_2.obj			; - shop setup code
+3279 t2a_3.obj			; - enemy setup code
+3850 t2a_4.obj			; - equipment setup code
+
+
+; Extra scripting
+
+59bd t5.obj			; Dezorian string
+eec9 hex_ff.bin			; - scripting code
+49b0 hex_bd59.bin		; - JP NC,$59bd
+
+
+; Window RAM cache
+
+3788 hex_60de.bin		; #5  - Choose player
+37de hex_60de.bin
+37a5 hex_d0dd.bin		; #7  - Magic - Depth 3 (choose player)
+37ef hex_d0dd.bin
+3877 hex_60d9.bin		; #8  - Item selected
+3889 hex_60d9.bin
+3826 hex_f0de.bin		; #9  - Current equipment
+386b hex_f0de.bin
+38fc hex_50dc.bin 		; #10 - Individual stats
+39df hex_50dc.bin 
+3256 hex_20df.bin		; #12 - Enemy name
+331b hex_20df.bin
+3015 hex_80df.bin		; #14 - Active player
+3036 hex_80df.bin
+3ad0 hex_00dd.bin		; #18 - Save slots
+3b08 hex_00dd.bin

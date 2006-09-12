@@ -1,0 +1,14 @@
+4d. SRAM backup option
+
+
+Save slots:
+(1) $400-7FF
+(2) $800-BFF
+..
+(5) $1400-17FF
+
+$1800-1FFF = Free space, assuming 8 KB SRAM chip
+
+
+This isn't needed yet. But we can do some quick page swapping
+if we need some contiguous space. Mainly for ROM defragging.

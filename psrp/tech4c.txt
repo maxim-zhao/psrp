@@ -1,0 +1,10 @@
+4c. Variety of lists
+
+
+The substring dictionary will use at most $400 bytes.
+
+Enemy names and items take up closer to $800 bytes.
+Because the extra layer of static encoding is used, we
+can bump the limit to $A00 to be safe.
+
+The two lists will be seperated and copied on-demand to RAM.

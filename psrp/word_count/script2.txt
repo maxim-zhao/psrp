@@ -1,0 +1,781 @@
+﻿<width 12></center><wrap><height 02>
+
+[000]
+<monster>ハ <player>ノ<line>
+コウゲキヲ カワシタ.<delay>
+
+[002]
+<player>ハ <monster>ノ<line>
+コウゲキヲ カワシタ.<delay>
+
+[004]
+<player>ハ ハナシカケタ.<end>
+
+[006]
+<monster>ハ コタエタ.<delay>
+
+[008]
+ツウジナカッタ.<delay>
+
+[00A]
+<monster>ハ ニゲミチニ<line>
+タチフサガッタ.<delay>
+
+[00C]
+<player>ノ マジックハ<line>
+コウカガ ナカッタ.<delay>
+
+[00E]
+<monster>ノ マジックハ<line>
+コウカガ ナカッタ.<delay>
+
+[010]
+メノマエニ ミエナイ マホウノ<line>
+カベガ デキタ.<delay>
+
+[012]
+<monster>ノ コウゲキハ<line>
+マホウノ カベニ ハネカエサレタ.<delay>
+
+[014]
+<monster>ノ マジックハ<line>
+マホウノ カベニ ハネカエサレタ.<delay>
+
+[016]
+ミエナイ カベノ コウカガ<line>
+ナクナッタ.<delay>
+
+[018]
+<player>ノ タイリョクガ<line>
+カイフクシタ.<delay>
+
+[01A]
+<monster>ノ タイリョクガ<line>
+カイフクシタ.<delay>
+
+[01C]
+<monster>ヲ<line>
+カナシバリニシタ.<delay>
+
+[01E]
+<player>ハ カナシバリニ アッタ.<delay>
+
+[020]
+<player>ハ ウゴケナイ.<delay>
+
+[022]
+<monster>ハ ウゴケナイ.<delay>
+
+[024]
+<player>ハ カナシバリガ トケタ.<delay>
+
+[026]
+<monster>ハ<line>
+カナシバリガ トケタ.<delay>
+
+[028]
+<player>ハ カラダニ チカラガ<line>
+ミナギルノヲ カンジタ.<delay>
+
+[02A]
+<monster>ハ コワクナッテ<line>
+シリゴミシタ.<delay>
+
+[02C]
+<monster>ハ ニゲアシノ<line>
+ハヤサニ オドロイタ.<delay>
+
+[02E]
+ワナジャナカッタ.<wait>
+
+[030]
+アブナイ トコロダッタ.<player>ハ<line>
+ワナヲ ミヤブッテ ハズシタ.<wait>
+
+[032]
+<player>ハ <item>ヲ<line>
+ツカッタ.<delay>
+
+[034]
+<player>ハ <item>ヲ<line>
+ソウビシタ.<end>
+
+[036]
+<player>ハ <item>ヲ<line>
+ステテシマッタ.<wait>
+
+[038]
+シカシ コウカハ ナカッタ.<delay>
+
+[03A]
+シカシ ココデ <item>ハ<line>
+ヤクニ タタナイ.<wait>
+
+[03C]
+ココデ オリルワケニハ イカナイ.<wait>
+
+[03E]
+<item>ニ ノリコンダ.<delay>
+
+[040]
+<item>カラ トビオリタ.<delay>
+
+[042]
+シカシ ナニモ オキナカッタ.<delay>
+
+[044]
+<monster>ハ フエノネヲ<line>
+キイテ オトナシクナッタ.<delay>
+
+[046]
+<monster>ハ メガ ウツロダ.<delay>
+
+[048]
+シカシ イマハ ソンナコトヲ<line>
+シテイルバアイジャ ナイヨウダ.<delay>
+
+[04A]
+<player>ハ <item>ヲ<line>
+トリダシタ.<delay>
+
+[04C]
+ベツニ コワレテナイヨウダ.<wait>
+
+[04E]
+マックラデ ススムコトガ デキナイ.<wait>
+
+[050]
+ソシテ ビンノ フタヲ アケテ<line>
+シズカニ タラシタ.<delay>
+
+[052]
+シカシ ミャウハ ビンノ フタヲ<line>
+アケルコトガ デキナカッタ.<wait>
+
+[054]
+イツ カイデミテモ イヤナ<line>
+ニオイガ スル.<wait>
+
+[056]
+<player>ハ トテモ<line>
+イヤナ ヨカンガシタ.<wait>
+
+[058]
+<player>ハ ナニモ カンジナカッタ.<wait>
+
+[05A]
+<monster>ハ アカイ ホナオヲ<line>
+ミテ オジケズイタ.<delay>
+
+[05C]
+; <player>ハ <item>ヲ<line>
+; テンニ カザシタ.<delay>
+
+<player> raises the <item> towards the sky.<delay>
+
+[05E]
+<player>ハ ラエルマベリ-ヲ トッテ<line>
+ラコニアンポットニ イレタ.<wait>
+
+[060]
+ラエルマベリ-ヲ トッテミタガ<line>
+シバラクスルト ヒカラビテシマッタ.<wait>
+
+[062]
+The illusionary ‘Aerocastle’ materialized in the vast open sky.<wait>
+
+[064]
+オナカガ スイテナカッタノデ<line>
+モトニ モドシタ.<wait>
+
+[066]
+ハプスビ-ハ イヤイヤヲシタ.<wait>
+
+[068]
+ハプスビ-ノ アタマハ カタイ.<wait>
+
+[06A]
+ソレハ ツカワナクテモ<line>
+キキメガ アル.<wait>
+
+[06C]
+トクニ カワッタトコロハ<line>
+ナイヨウダ.<wait>
+
+[06E]
+<item>ヲ ミツケタ.<wait>
+
+[070]
+ナンダカ カラダガ カルクナッタ.<delay>
+
+[072]
+<player>ノ タマシイハ<line>
+ヨミガエッタ.<wait>
+
+[074]
+;タイロンハ マジックヲ ツカエナイ.<delay>
+
+Tairon cannot use magic.<delay>
+
+[076]
+;<player>ハ マダ マジックヲ<line>
+;オボエテイナイ.<delay>
+
+<player> has not learned magic yet.<delay>
+
+[078]
+;<player>ハ <item>ヲ<line>
+;ソウビ デキナイ.<wait>
+
+<player> cannot equip the <item>.<wait>
+
+[07A]
+;ソレハ ソウビシナクテモイイ.<wait>
+
+You do not need to equip this item.<wait>
+
+[07C]
+;ケイケンチガ <number>ポイント<line>
+;アガッタ.<wait>
+
+Gained <number> experience<internal hint 02> point<use suffix>.<wait>
+
+[07E]
+;<player>ハ レベルアップシタ.<wait>
+
+<player> advanced a level.<wait>
+
+[080]
+;<player>ハ マジックヲ<line>
+;ヒトツ ミニツケタ.<wait>
+
+<player> learned a new spell.<wait>
+
+[082]
+;<number>メセタ ハイッテイタ.<wait>
+Found <number><internal hint 01> meseta<use suffix> inside.<wait>
+
+[084]
+;アケテミルカ.<end>
+Do you want to open it?<end>
+
+[086]
+;カラッポダッタ.<wait>
+It's empty.<wait>
+
+[088]
+;コレイジョウ モノヲ モテナイ<line>
+;ナニカヲ ステルカ.<end>
+Would you like to pick up this item?<end>
+
+[08A]
+;ドレヲ ステルカ.<end>
+What item do you wish to drop?<end>
+
+[08C]
+;<item>ヲ ステテ<wait>
+The <item> has been dropped.<wait>
+
+[08E]
+;<item>ヲ テニイレタ.<wait>
+<use article 02><item> is picked up.<wait>
+
+[090]
+;<item>ハ イラナイノカ.<end>
+Do you want to drop this <item>?<end>
+
+[092]
+;<item>ヲ アキラメタ.<wait>
+The <item> is abandoned.<wait>
+
+[094]
+;<item>ヲ<line>
+;ステルワケニハ イカナイ.<wait>
+This <item> cannot be thrown away.<wait>
+
+[096]
+;マジックポイントガ タリナイ.<delay>
+Not enough magic points to cast the spell.<delay>
+
+[098]
+;<player>ハ マダ イキテイル.<delay>
+<player> is still alive.<delay>
+
+[09A]
+;<monster>ヲ ヤッツケタ.<wait>
+<monster> is killed.<wait>
+
+[09C]
+;<player>ハ シンデシマッタ.<delay>
+<player> died.<delay>
+
+[09E]
+;<player>ハ モウ シンデイル.<delay>
+<player> is already dead.<delay>
+
+[0A0]
+Myau bit into a ‘Laerma Berry’.<wait>
+
+
+; **************
+; *** Hapsby ***
+; **************
+
+[0A2]
+Where would you like to go?<end>
+
+[0A4]
+Destination: Skray, on Dezoris. Confirm?<end>
+
+[0A6]
+Destination: Uzo, on Motabia. Confirm?<end>
+
+[0A8]
+Destination: Gothic, on Palma. Confirm?<end>
+
+[0AA]
+This is Skray.<end>
+
+[0AC]
+This is Uzo.<end>
+
+[0AE]
+This is Gothic.<end>
+
+[0B0]
+Now departing.<delay>
+
+[0B2]
+The road is totally obscured by the thick forest.<wait>
+
+
+; *************
+; *** Shops ***
+; *************
+
+[0B4]
+This is an armor shop. Would you like to buy anything?<end>
+
+[0B6]
+Please come back later.<wait>
+
+[0B8]
+Which item would you like?<end>
+
+[0BA]
+Thank you. Anything else?<end>
+
+[0BC]
+All right. Please come again.<wait>
+
+[0BE]
+This is a drug store. Would you like to buy anything?<end>
+
+[0C0]
+This is a tool shop. What would you like to do?<end>
+
+[0C2]
+Which item would you like to sell?<end>
+
+[0C4]
+Ah, <use article 01><item>. Is <number><internal hint 01> meseta<use suffix> alright?<end>
+
+[0C6]
+Thank you. Anything else?<end>
+
+
+; ****************
+; *** Hospital ***
+; ****************
+
+[0C8]
+This is a hospital. Would you like to undergo medical treatment?<end>
+
+[0CA]
+Examination and treatment will cost <number><internal hint 02> meseta<use suffix>?<line>
+Is that alright?<end>
+
+[0CC]
+Is there anyone else who would like to undergo treatment?<end>
+
+[0CE]
+Who will receive treatment?<end>
+
+[0D0]
+Thank you for your patience.<line>
+There you go. Take care now.<wait>
+
+[0D2]
+I see. I'm sorry that we cannot help you.<line>
+Take care now.<wait>
+
+[0D4]
+It appears that <player> is not injured.<wait>
+
+
+; **************
+; *** Church ***
+; **************
+
+[0D6]
+This is a church. Would you like to call back someone's soul?<end>
+
+[0D8]
+デハ アナタノタメニ<line>
+オイノリヲ ササゲマス.<wait>
+; I shall pray for you.<wait>
+
+[0DA]
+Good. I shall now recite an incantation:<delay>
+
+[0DC]
+Artemuhamuramu...artemuhamuramu...storatopon!<delay>
+
+[0DE]
+Is there anyone else?<end>
+
+[0E0]
+ホカノカタハ イカガデスカ.<end>
+
+[0E2]
+I will need <number><internal hint 02> meseta<use suffix>. Is that alright?<end>
+
+[0E4]
+In order to level up,<wait>
+
+[0E6]
+<player> needs <number><internal hint 02> point<use suffix>.<wait>
+
+[0E8]
+May your future have God's blessing.<wait>
+
+
+[0EA]
+<player>ハ イキテイマスヨ.<end>
+
+[0EC]
+セ-ブヲ オコナイマス.<line>
+バンゴウヲ エランデクダサイ.<end>
+
+[0EE]
+<number>バンデ イイデスカ.<end>
+
+[0F0]
+デハ <number>バンニ セ-ブシマス.<delay>
+
+[0F2]
+オワリマシタ.<wait>
+
+[0F4]
+ワタシタチハ パルマノ ヒトタチト<line>
+ナカヨク シタイ.<wait>
+
+[0F6]
+ラエルマベリ-ガ タベタイナア.<wait>
+
+[0F8]
+ラシ-クサマニハ<line>
+サカラワナイホウガ イイヨ.<wait>
+
+[0FA]
+オッ.ワタシタチノ コトバガ<line>
+ワカルンダネ.<wait>
+
+[0FC]
+ヤッホ-.<wait>
+
+[0FE]
+ダンジョンデハ オトシアナニ<line>
+キヲツケナヨ.<wait>
+
+[100]
+タカラバコハ ムヤミニ<line>
+アケルト ケガヲスルヨ.<wait>
+
+[102]
+コノ オイハギヤロウ.<wait>
+
+[104]
+ワタシタチハ ドウセ<line>
+ニクマレモノダヨ.<wait>
+
+[106]
+ス-ズフル-トノ ネイロハ<line>
+イイナア.<wait>
+
+[108]
+アイスデッカ- トイウ ノリモノハ<line>
+コオリモ ケズレルンダッテ.<wait>
+
+[10A]
+ラシ-クサマハ ソラノウエニ<line>
+イラッシャルンダ.<wait>
+
+[10C]
+アビオンノ マッドドクタ-ガ<line>
+ラスコニアンポットヲ モッテタゼ.<wait>
+
+[10E]
+ソラノ ウエニハ ウチュウセンデモ<line>
+イケナイトコロガアルゼ.<wait>
+
+[110]
+ラエルマベリ-ヲ ミノラセルタメニハアルモノガ ヒツヨウダ.<wait>
+
+[112]
+ダンジョンノ メイロニハ<line>
+カクシトビラガ アルンダゼ.<wait>
+
+[114]
+ミラクルキ-ハ マホウノドアデモ<line>
+アケルコトガ デキルゾ.<wait>
+
+[116]
+デゾリアンニハ ウソツキモ イルカラキヲツケナヨ.<wait>
+
+[118]
+ワタシニ ハナシカケルトハ<line>
+ユウキガ アルネエ. ガンバレヨ.<wait>
+
+[11A]
+<monster>ハ カラダニ<line>
+チカラガ ミナギルノヲカンジタ.<delay>
+
+[11C]
+<monster>ハ タカラバコヲ<line>
+モッテイタ.<end>
+
+[11E]
+イマ ヒガシヲムイテイル.<wait>
+
+[120]
+イマ ニシヲ ムイテイル.<wait>
+
+[122]
+イマ キタヲ ムイテイル.<wait>
+
+[124]
+イマ ミナミヲ ムイテイル.<wait>
+
+[126]
+アリサタチハ ゼンメツシタ.<wait>
+
+[128]
+アリサノ ネガイハ ラシ-クノ<line>
+ヤボウノ マエニ<wait more>
+ムナシク キエサッタ.<line>
+ココデ ボウケンハ オワリデス.<wait>
+
+[12A]
+It looks like you don't have enough money.<line>
+Please come back later.<wait>
+
+[12C]
+ソレハ アトデ ヤクニタチマスヨ.<wait>
+
+[12E]
+タカラバコヲ ミツケタ.<end>
+
+[130]
+アルテムハムラム ア ウッ.<line>
+ゴホッ.ゴホッ.<wait more>
+ゴメンナサイ.<line>
+ドウヤラ シッパイシタヨウデス.<wait>
+
+[132]
+モタビア ユキデス.ノリマスカ.<end>
+
+[134]
+パルマ ユキデス.ノリマスカ.<end>
+
+[136]
+<player>ハ モウ<line>
+チカライッパイデス.<wait>
+
+[138]
+ゲ-ムノ ツヅキヲ ヤリマス.<line>
+バンゴウヲ エランデクダサイ.<end>
+
+[13A]
+デハ <number>バンノゲ-ムヲ ハジメマス.<delay>
+
+[13C]
+パスワ-ドガ チガイマス.<line>
+モウイチド タシカメテクダサイ.<wait>
+
+[13E]
+ゲ-ムノツヅキヲ ヤル.-- ハイ<line>
+ゲ-ムヲ ケス.------ イイエ<end>
+
+[140]
+セ-ブシタ ゲ-ムヲ ケシマス.<line>
+イイデスカ.<end>
+
+[142]
+ナンバンノ ゲ-ムヲ ケシマスカ.<end>
+
+[144]
+<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
+
+[146]
+<player>ハ イシニ ナッテシマッタ.<wait>
+
+[148]
+<item>ハ イマ ダレカガ<line>
+ツカッテシマッタ.<wait>
+
+
+[14A]
+The sky gradually became bright, and the people regained their peace.<end>
+
+[14C]
+A refreshing breeze covers Baya Mahrey...<end>
+
+[14E]
+...but the breeze -- does it know of their long and painful journey?<end>
+
+
+[150]
+ミャウニ ノッテイタ アリサタチハ<line>
+ソラニ ホウリダサレテシマッタ.<wait>
+
+[152]
+ソノトキ アリサノ タマシイハ<line>
+ネロノコエヲ キイタ.<wait more>
+オマエハ フタタビ イキテ<line>
+ヘイワノタメニ ツクスガイイ.<wait more>
+アリサノ タマシイハ ヨミガエッタ.<wait>
+
+
+[154]
+ココロガ ナゴムヨウナ<line>
+ウツクシイ ネイロダ.<wait>
+
+; ___________________________________________________________
+
+; *****************
+; *** Cutscenes ***
+; *****************
+
+<width 16></center><wrap><height 03>
+
+; ********************
+; *** Introduction ***
+; ********************
+
+[156]
+You little bastard -- poking your nose into LaShiec's business like that!<line>
+Maybe from now on you'll try to mind your manners!<wait more>
+
+Nero! What happened?! Hang on!<wait>
+
+[158]
+...Alisa... listen...<line>
+...LaShiec has brought an enormous calamity upon our world...<line>
+...The world is facing ruin...<line>
+...I tried to find out what LaShiec is planning...<line>
+...But by myself, I wasn't able to do anything...<line>
+...I heard rumors of a mighty warrior named ‘Tairon’ during my journey...<line>
+...If you combine forces, you might be able to defeat LaShiec... and restore peace...<line>
+...Alisa...<line>
+...It’s too late for me...<line>
+...Please forgive me... for leaving you alone...<wait>
+
+[15A]
+I will go and fight to ensure that my brother did not die in vain!<line>
+I know he will be watching over me...<wait>
+
+
+; ******************************
+; *** Character Intro - Myau ***
+; ******************************
+
+[15C]
+I guess we’re gonna be traveling together from now on, huh?<line>
+I’m Alisa. What’s your name?<wait>
+
+[15E]
+Myau.<wait>
+
+[160]
+Well, Myau, tell me what happened to Tairon.<wait>
+
+[162]
+Someone turned him into stone. I can heal him with this medicine, but I can’t open the lid, so...<wait>
+
+[164]
+I see. Let’s go help him!<wait>
+
+
+; ********************************
+; *** Character Intro - Tairon ***
+; ********************************
+
+[166]
+Thanks for rescuing me. I don’t know if it’ll do any good though.<wait more>
+If I got taken down by Medusa, I don’t think I can even stand a chance against LaShiec.<wait>
+
+[168]
+My brother ended up dead when he tried to overthrow LaShiec.<wait more>
+Just before he died, he gave me your name.<wait>
+
+[16A]
+I see... All right then, for the sake of your brother, let’s join together and destroy LaShiec!<wait>
+
+[16C]
+Tell me something first -- why did you try to kill Medusa?<wait>
+
+[16E]
+See, Medusa has this magical axe, and I wanted to get it, but she got away from me. Damn...<wait more>
+But anyway... I hid a ‘Compass’ at a dead end in this cave. We should go get it!<wait>
+
+
+; ******************************
+; *** Character Intro - Lutz ***
+; ******************************
+
+[170]
+We came to deliver this letter from the Governor-General.<line>
+Won’t you read it please?<wait>
+
+[172]
+I understand...<line>
+Together, we must protect the Algol system from the hand of evil.<wait more>
+To do that, we must first meet with Dr. Luveno in the Gothic Woods.<line>
+If I recall correctly, there is a manhole that leads to the village.<wait>
+
+
+; *****************************
+; *** Myau's Transformation ***
+; *****************************
+
+[174]
+As soon as Myau had taken a bite, a warm, sparkling sash of light engulfed his body.<wait>
+
+[176]
+And then, in a twinkle, he transformed into a beautiful beast with enormous wings.<line>
+He gave the wings a triumphant flap.<wait>
+
+
+; ********************
+; *** Ending Scene ***
+; ********************
+
+[178]
+<line>
+        Alisa,<delay>
+
+[17A]
+<line>
+        Tairon,<delay>
+
+[17C]
+<line>
+         Lutz,<delay>
+
+[17E]
+<line>
+       and Myau.<delay>
+
+[180]
+Though the memories of darkness will fade away, the names of the heroes will continue to remain in the hearts of the people.<delay>
