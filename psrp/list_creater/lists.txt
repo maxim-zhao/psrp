@@ -75,7 +75,7 @@
 ~TranCarpet
 ~Magic Hat
 #Alsuline
-~Polymeteral
+~Poly%@+meteral
 ~Dungeon@ Key
 ~Telepathy@ Ball
 ^Eclipse@ Torch
