@@ -1,0 +1,9 @@
+bg_vector.bin	; - vector table
+bg_table1.bin	; - accompanying data
+bg_table8.bin	; - accompanying data
+font-nt.bin	; tile data lookup for alphabet
+save_tiles.bin	; compressed tile data (low byte only) for name entry screen
+save_text.bin	; "Enter your name" text at the top of the screen (full raw tilemap data)
+save_lookup.bin	; lookup table for text
+stats_1.bin	; Stats menu ('LV', 'MST')
+stats_2.bin	; - 'EXP' -> 'Max MP' strings

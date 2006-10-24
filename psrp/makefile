@@ -17,7 +17,7 @@ PLAY: ps1jert.sms
 	$(EMU) ps1jert.sms
 
 # word_count
-script_interpreter\script1.txt script_interpreter\script2.txt substring_formatter\words.txt : word_count\script1.txt word_count\script2.txt
+script_inserter\script1.txt script_inserter\script2.txt substring_formatter\words.txt : word_count\script1.txt word_count\script2.txt
 	cd word_count
 	copy script1.txt + script2.txt script.txt
 	"Release\word_count" < script.txt > stats.txt
@@ -135,10 +135,21 @@ rom_insert\script1.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin ro
 	move script_list.txt "..\rom_insert"
 	del pass1.bin
 	cd ..
-	
+
 # credits
 rom_insert\credits.bin: credits\credits.txt
 	credits\credits_encode.exe credits\credits.txt rom_insert\credits.bin
+
+# hand-made bins
+rom_insert\font-nt.bin     : handmade_bins\font-nt.bin     ;copy $? $@
+rom_insert\bg_table1.bin   : handmade_bins\bg_table1.bin   ;copy $? $@
+rom_insert\bg_table8.bin   : handmade_bins\bg_table8.bin   ;copy $? $@
+rom_insert\bg_vector.bin   : handmade_bins\bg_vector.bin   ;copy $? $@
+rom_insert\stats_1.bin     : handmade_bins\stats_1.bin     ;copy $? $@
+rom_insert\stats_2.bin     : handmade_bins\stats_2.bin     ;copy $? $@
+rom_insert\save_tiles.bin  : handmade_bins\save_tiles.bin  ;copy $? $@
+rom_insert\save_text.bin   : handmade_bins\save_text.bin   ;copy $? $@
+rom_insert\save_lookup.bin : handmade_bins\save_lookup.bin ;copy $? $@
 
 # All files needed for the final ROM
 BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_insert\bg5_e.bin \
@@ -195,3 +206,4 @@ CLEANFILES = asm\*.lst asm\*.obj \
 
 clean:
 	del $(CLEANFILES)
+	del $(BINS)
