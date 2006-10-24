@@ -6,7 +6,7 @@
 
 #include "vars.asm"
 
-.org $000f			; $000f-$0027
+.org $000f			; $000f-$0032
 
 newline:
     ld b,$12 ; reset x counter                              ; 06 xx
