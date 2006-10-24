@@ -304,13 +304,14 @@ eec9 hex_ff.bin			; - scripting code
 4172 hex_b6.bin ; lookup position for Save (same high byte as for Next)
 
 ; 4-sprite cursor hack
+; TODO: need to find somewhere else to put (1), $2b-$32 are used, leaves 5 bytes free, need 7
 ; 1. Extra y coordinates
-4243 hex_cd2b0000.bin ; call $002b; nop
-2b hex_1c121c121c12c9 ; inc e; ld (de),a; inc e; ld (de),a; inc e; ld (de),a; ret
+;4243 hex_cd2b0000.bin ; call $002b; nop
+;2b hex_1c121c121c12c9 ; inc e; ld (de),a; inc e; ld (de),a; inc e; ld (de),a; ret
 ; 2. Extra x coords and tile indices
-4251 hex_04.bin
+;4251 hex_04.bin
 ; 3. Cursor extends right, not left, relative to the "snapped" positions
-425c hex_c6.bin ; sub nn -> add a,nn
+;425c hex_c6.bin ; sub nn -> add a,nn
 
 ; Text drawing as you enter your name
 ; Drawing to RAM as you enter:
