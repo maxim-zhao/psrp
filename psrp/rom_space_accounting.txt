@@ -1,4 +1,7 @@
-     Removed                                      Added                                        Difference
-t0b  $045a9-045c3: tile loading for intro         $045a9-045c3: tile loading for intro         0
-t0d  $034f2-03545?: draw one character to tilemap $03f42-03f66: draw one tile to tilemap       83-36=47 free?
-t1b  $033fe-03493?: draw number inline with text  $033fe-?:
+      Removed                                      Added                                        Difference
+t0b   $045a9-045c3: tile loading for intro         $045a9-045c3: tile loading for intro         0
+t0d   $034f2-03545?: draw one character to tilemap $03f42-03f66: draw one tile to tilemap       83-36=47 free?
+t1b   $033fe-03457?: draw number inline with text  $033fe-03467: render number to RAM and       121-105=16 free
+
+t4b   $4be84-4bfff: blank data                     $4be84-4bf73: PS Gaiden RLE decoder          380-239 = 147 free
+t4b_1 $00486-004b3: no-di decompressor             $00486-00494: redirector to above            45-14 = 31 free
