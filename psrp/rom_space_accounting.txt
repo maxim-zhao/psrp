@@ -1,0 +1,4 @@
+     Removed                                      Added                                        Difference
+t0b  $045a9-045c3: tile loading for intro         $045a9-045c3: tile loading for intro         0
+t0d  $034f2-03545?: draw one character to tilemap $03f42-03f66: draw one tile to tilemap       83-36=47 free?
+t1b  $033fe-03493?: draw number inline with text  $033fe-?:
