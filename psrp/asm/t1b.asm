@@ -6,90 +6,108 @@
 
 #include "vars.asm"
 
+; in-line number display
+; Old: inline looping (costs space), simple, direct output
+; New: renders string to a temp buffer for wrapping,
+;      stores a flag to tell if it was singular or plural,
+;      pulls digit calculation out to save space
+;      105 bytes
+.org $33fe      ; $33fe-3493 ($96)
 
-.org $33FE			; $33FE-3493 ($96)
+  push hl      ; Save string ptr
+  push bc      ; Width, temp
+  push ix      ; Temp
 
-	PUSH HL			; Save string ptr
-	PUSH BC			; Width, temp
-	; PUSH DE		; Save VRAM ptr
-	PUSH IX			; Temp
+    ld hl,($c2c5)    ; Load 16-bit parameter
+    ld ix,TEMP_STR   ; Decode to buffer
 
-	LD HL,($C2C5)		; Load 16-bit parameter
-	LD IX,TEMP_STR		; Decode to buffer
+    ld bc,10000    ; # 10000's
+    call BCD_Digit
+    ld (ix+$00),A
 
-	LD BC,$2710		; # 10000's
-	CALL BCD_Digit
-	LD (IX+$00),A
+    ld bc,1000     ; # 1000's
+    call BCD_Digit
+    ld (ix+$01),A
 
-	LD BC,$03E8		; # 1000's
-	CALL BCD_Digit
-	LD (IX+$01),A
+    ld bc,100      ; # 100's
+    call BCD_Digit
+    ld (ix+$02),A
 
-	LD BC,$0064		; # 100's
-	CALL BCD_Digit
-	LD (IX+$02),A
+    ld bc,10       ; # 10's
+    call BCD_Digit
+    ld (ix+$03),A
 
-	LD BC,$000A		; # 10's
-	CALL BCD_Digit
-	LD (IX+$03),A
+    ld a,l      ; # 1's (BCD_Digit has made it only possible to be in the range 0..9)
+    add a,$01   ; add 1 because result = digit+1
+    ld (ix+$04),a
 
-	LD A,L			; # 1's
-	ADD A,$01
-	LD (IX+$04),A
 
-	LD B,$04		; look at 4 digits max
-	LD HL,TEMP_STR		; scan value
+    ; scan the resultant string to see where the first non-zero digit is
+    ; but we want to show the last digit even if it is zero
+    ld b,$04    ; look at 4 digits max
+    ld hl,TEMP_STR    ; scan value
 
 Scan:
-	LD A,(HL)		; load digit
-	CP $01			; check for '0'
-	JR NZ,Done
-	INC HL			; bump pointer
-	DJNZ Scan
+    ld a,(hl)    ; load digit
+    cp $01      ; check for '0'
+    jr nz,Done
+    inc hl      ; bump pointer
+    djnz Scan
 
 Done:
-	LD A,B
-	INC A			; 1 <= length <= 5
-	LD (STR),HL		; save ptr
-	LD (LEN),A		; save length
+    ld a,b
+    inc a         ; 1 <= length <= 5
+    ld (STR),hl   ; save ptr to number string
+    ld (LEN),a    ; save length
+
+; ------------------------------------------------------------
+    ; length != 1 -> must be plural
+    cp $01
+    jr nz,Plural  ; length must be 1
+
+    ; else check for '1'
+    ld a,(hl)
+    cp $02      ; last digit = '1'
+    jr nz,Plural
+
+Singluar:
+    xor a      ; Clear flag
+
+Plural:
+    ; a is non-zero on jumps to this point
+    ; and zero for the singular case
+    ld (SUFFIX),a    ; 'x' mesata(s)
 
 ; ------------------------------------------------------------
 
-	CP $01
-	JR NZ,Store_Suffix	; length must be 1
+  pop ix      ; Restore stack
+  pop bc
+  pop hl
 
-	LD A,(HL)
-	CP $02			; last digit = '1'
-	JR NZ,Store_Suffix
-
-No_Suffix:
-	XOR A			; Clear flag
-
-Store_Suffix:
-	LD (SUFFIX),A		; 'x' mesata(s)
-
-; ------------------------------------------------------------
-
-	POP IX			; Restore stack
-	POP BC
-	POP HL
-
-	INC HL			; Process next script
-	JP $3365
+  inc hl      ; Process next script
+  jp $3365
 
 ; ____________________________________________________________
 
 BCD_Digit:
-	LD A,$00		; Init digit value
-				; Note: $01 = '0', auto-bump
-	OR A			; Clear carry flag
+  ld a,$00     ; Init digit value
+               ; Note: $01 = '0', auto-bump
+  or a         ; Clear carry flag
 
+; subtract bc from hl until it overflows, then add it on again
+; return a = number of subtractions done until overflow occurred,
+;        hl = hl % bc
+; so a = hl / bc + 1 (integer division + 1)
+; eg. hl =  9999, bc = 10000, a = 1
+; eg. hl = 10000, bc = 10000, a = 2
 BCD_Loop:
-	SBC HL,BC		; Divide by subtraction
-	INC A			; Bump place marker
-	JR NC,BCD_Loop		; No underflow
+  sbc hl,bc    ; Divide by subtraction
+  inc a        ; Bump place marker
+  jr nc,BCD_Loop ; No underflow
 
-	ADD HL,BC		; Restore value
-	RET
+  add hl,bc    ; Restore value from underflowed subtraction
+  ret
 
-	.end			; TASM-only
+  .end      ; TASM-only
+
+; Replaces:
