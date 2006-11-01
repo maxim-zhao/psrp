@@ -322,9 +322,9 @@ MusicGameOver    db ; 93
 .dw Tilemap\3
 .endm
 
-.macro PortraitGraphicsData
-.db :PortraitGraphics\1
-.dw PortraitGraphics\1,PortraitTilemap\1
+.macro NarrativeGraphicsData
+.db :NarrativeGraphics\1
+.dw NarrativeGraphics\1,NarrativeTilemap\1
 .endm
 
 .macro ldbc
@@ -3341,7 +3341,7 @@ _DrawALetters:         ; $3494
     ret                ; return
 
 
-ShowPortraitText:      ; $34a5
+ShowNarrativeText:      ; $34a5
     ld a,:DialogueText
     ld (Frame2Paging),a ; can't use SetPage because I have to preserve hl
 
@@ -3379,7 +3379,7 @@ _BlankTextAfterButton: ; $34d0
         call FillVRAMWithHL
         ei
     pop hl
-    jp ShowPortraitText ; repeat
+    jp ShowNarrativeText ; repeat
 
 _ExitAfterButton:      ; $34e8
     call MenuWaitForButton
@@ -3940,17 +3940,17 @@ IntroSequence:
     call FadeToPictureFrame
 
     ld a,$00
-    call FadeToPortraitA
+    call FadeToNarrativePicture
 
     ld hl,TextIntro1      ; You little bastard - poking your nose into LaShiec's business like that!
-    call ShowPortraitText ; Maybe from now on you'll try to mind your manners!
+    call ShowNarrativeText ; Maybe from now on you'll try to mind your manners!
                           ; Nero! What happened?! Hang on!
 
     ld a,$01
-    call FadeToPortraitA
+    call FadeToNarrativePicture
 
     ld hl,TextIntro2      ; ...Alisa... listen...
-    call ShowPortraitText ; ...LaShiec has brought an enormous calamity upon our world...
+    call ShowNarrativeText ; ...LaShiec has brought an enormous calamity upon our world...
                           ; ...The world is facing ruin...
                           ; ...I tried to find out what LaShiec is planning...
                           ; ...But by myself, I wasn't able to do anything...
@@ -3961,10 +3961,10 @@ IntroSequence:
                           ; ...Please forgive me... for leaving you alone...
 
     ld a,$02
-    call FadeToPortraitA
+    call FadeToNarrativePicture
 
     ld hl,TextIntro3      ; I will go and fight to ensure that my brother did not die in vain!
-    call ShowPortraitText ; I know he will be watching over me...
+    call ShowNarrativeText ; I know he will be watching over me...
 
     ld a,MusicStop
     ld (NewMusic),a
@@ -4045,9 +4045,9 @@ FadeToPictureFrame:      ; $48d7
 .ends
 ; followed by
 .orga $492c
-.section "Fade to portrait A" overwrite
-; parameter: a = which portrait to load and fade in
-FadeToPortraitA: ; $492c
+.section "Fade to narrative picture" overwrite
+; parameter: a = which picture to load and fade in
+FadeToNarrativePivcture: ; $492c
     push af
         call FadeOutTilePalette
     pop af
@@ -4058,9 +4058,9 @@ FadeToPortraitA: ; $492c
     add a,l
     ld l,a
     ld h,$00
-    ld de,_PortraitGraphicsLookup
+    ld de,_NarrativeGraphicsLookup
     add hl,de
-    ld a,(hl)          ; look up (a*5)th value in _PortraitGraphicsLookup
+    ld a,(hl)          ; look up (a*5)th value in _NarrativeGraphicsLookup
 
     ld (Frame2Paging),a ; +0: page
     inc hl
@@ -4076,7 +4076,7 @@ FadeToPortraitA: ; $492c
         TileAddressDE $100
         call LoadTiles4BitRLE ; and tiles after it
 
-        SetPage PortraitTilemaps ; while we've got hl free
+        SetPage NarrativeTilemaps ; while we've got hl free
     pop hl
     ld a,(hl)          ; +3-4: Tilemap offset
     inc hl
@@ -4095,16 +4095,16 @@ FadeToPortraitA: ; $492c
     ei
     jp FadeInTilePalette ; and ret
 
-_PortraitGraphicsLookup: ; page, palette+tiles offset, raw tiles offset
- PortraitGraphicsData IntroNero1
- PortraitGraphicsData IntroNero2
- PortraitGraphicsData IntroAlis
- PortraitGraphicsData Alis
- PortraitGraphicsData Myau
- PortraitGraphicsData Odin
- PortraitGraphicsData Noah
- PortraitGraphicsData MyauWings1
- PortraitGraphicsData MyauWings2
+_NarrativeGraphicsLookup: ; page, palette+tiles offset, raw tiles offset
+ NarrativeGraphicsData IntroNero1
+ NarrativeGraphicsData IntroNero2
+ NarrativeGraphicsData IntroAlis
+ NarrativeGraphicsData Alis
+ NarrativeGraphicsData Myau
+ NarrativeGraphicsData Odin
+ NarrativeGraphicsData Noah
+ NarrativeGraphicsData MyauWings1
+ NarrativeGraphicsData MyauWings2
 .ends
 .orga $49a6
 
@@ -9226,7 +9226,7 @@ VehicleSprites:
 .incbin "Tiles\4af91compr.dat"
 .incbin "Tiles\4b177compr.dat"
 .incbin "Tiles\4b244compr.dat"
-PortraitGraphicsNoah:
+NarrativeGraphicsNoah:
 .db $00,$00,$3F,$38,$3C,$03,$01,$0F,$2B,$0B,$06,$31,$3E,$2F,$36,$20 ; palette
 .incbin "Tiles\4b398compr.dat"
 .ends
@@ -9459,7 +9459,7 @@ MarkIIILogo1bppEnd:
 .ends
 ; followed by
 .orga $a890 ; $62890
-.section "Portrait tilemaps" overwrite
+.section "Narrative tilemaps" overwrite
 .include "Tilemaps\Portrait tilemaps (raw).inc"
 .ends
 ; .org $63970 more tilemaps?
@@ -9589,7 +9589,7 @@ TilemapBottomPlanet:   ; $73e88
 .section "Tile data 20" overwrite
 TilesOutside:
 .incbin "Tiles\747b8compr.dat"
-PortraitGraphicsOdin:
+NarrativeGraphicsOdin:
 .db $00,$00,$3F,$01,$02,$03,$0B,$0F,$30,$2F,$06,$0A,$2A,$25,$38,$20 ; palette
 .incbin "Tiles\7763acompr.dat"
 .ends
@@ -9602,19 +9602,19 @@ PortraitGraphicsOdin:
 .bank 30 slot 2
 .org 0
 .section "Tile data 21" overwrite
-PortraitGraphicsIntroNero2:
+NarrativeGraphicsIntroNero2:
 .db $00,$00,$3F,$34,$38,$03,$0B,$01,$2B,$2F,$06,$2A,$25,$3E,$20,$36 ; palette
 .incbin "Tiles\78010compr.dat" ; 132 Intro
-PortraitGraphicsIntroAlis:
+NarrativeGraphicsIntroAlis:
 .db $00,$00,$3F,$30,$3C,$03,$01,$0F,$2B,$0B,$06,$2A,$25,$2F,$37,$30 ; palette
 .incbin "Tiles\78f72compr.dat" ; 109 Alisa in intro
-PortraitGraphicsAlis:
+NarrativeGraphicsAlis:
 .db $00,$00,$3F,$30,$3C,$03,$01,$0F,$2B,$0B,$06,$2A,$25,$2F,$37,$2C ; palette
 .incbin "Tiles\79c3bcompr.dat" ; 124 Alisa portrait
-PortraitGraphicsMyauWings1:
+NarrativeGraphicsMyauWings1:
 .db $00,$00,$3F,$2F,$0F,$0B,$2B,$06,$3F,$3E,$1E,$1D,$2C,$3C,$3E,$00 ; palette
 .incbin "Tiles\7aa5ecompr.dat" ; 91 Myau
-PortraitGraphicsMyauWings2:
+NarrativeGraphicsMyauWings2:
 .db $00,$00,$3F,$2F,$0F,$0B,$2B,$06,$3C,$3A,$04,$3E,$38,$00,$00,$38 ; palette
 .incbin "Tiles\7b31ccompr.dat" ; 122 Myau with wings
 .ends
@@ -9627,10 +9627,10 @@ PortraitGraphicsMyauWings2:
 .bank 31 slot 2
 .org 0
 .section "Tile data 22" overwrite
-PortraitGraphicsIntroNero1:
+NarrativeGraphicsIntroNero1:
 .db $00,$00,$3F,$34,$38,$03,$0B,$01,$2B,$2F,$06,$2A,$25,$3E,$20,$36 ; palette
 .incbin "Tiles\7c010compr.dat" ; 100 intro
-PortraitGraphicsMyau:
+NarrativeGraphicsMyau:
 .db $00,$00,$3F,$2F,$0F,$0B,$2B,$06,$08,$0C,$2C,$3E,$38,$20,$34,$28 ; palette
 .incbin "Tiles\7CAEBcompr.dat" ; 118 Myau
 .db $30,$00,$3F,$38,$3E,$27,$01,$0F,$2B,$0B,$06,$2A,$25,$2F,$3B,$3C ; palette
