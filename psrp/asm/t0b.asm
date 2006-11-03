@@ -13,8 +13,15 @@
 #define DECODER $486		; New PSG bitmap decoder
 
 
-.org $45a9			; $45a9-45c3
+.org $45a4
 
+; replace an in-line font decoding setup with a new one that's reusable,
+; because it has a ret after it
+
+  call DECODE_FONT
+  jr AFTER
+
+DECODE_FONT:    ; reusable elsewhere now: $45a9
 	ld hl,$FFFF		; Load font bank
 	ld (hl),$10
 
@@ -25,10 +32,13 @@
 	ld de,FONT2		; Decode table 2
 	ld hl,VRAM2
 	call DECODER
+	ret
 
-	ret           ; TODO: COMMENT: not sure what this is in aid of?
+AFTER:
 
 ; was:
+; ld hl,$ffff        SetPage TilesFont
+; ld (hl),$10
 ; ld hl,$bad8        ld hl,TilesFont
 ; ld de,$5800        TileAddressDE $c0
 ; call $04b3         call LoadTiles4BitRLE

@@ -3,9 +3,9 @@
 4be84 t4b.obj			; New bitmap decoder
 486 t4b_1.obj			; - remap code
 
-7e8bd title_e.bin		; - smaller title screen
-8f9 hex_0040.bin		;  - VRAM
-8fc hex_bda8.bin		;  - Source
+7e8bd title_e.bin		; - recompressed (edited) title screen
+8f9 hex_0040.bin		;  - ld hl, $4000 (dest)
+8fc hex_bda8.bin		;  - ld de, $a8bd (dest)
 
 				; Landscapes
 cef hex_cd8604.bin		; - CALL [PSG decoder] (world)
@@ -52,9 +52,7 @@ cfd hex_7085.bin		; - Source
 43a87 font2_e.bin
 
 				; Intro font decoding
-45a4 hex_cda945.bin		; - CALL $45a9
-45a7 hex_181b.bin		; - JR $45c4
-45a9 t0b.obj			; - #1/#2 table decoder calls
+45a4 t0b.obj			; - #1/#2 table decoder calls
 
 				; In-game font decoding
 3dde hex_cda945.bin		; - CALL $45a9
@@ -113,10 +111,8 @@ bed0 t4a.obj			; - SFG decoder
 33da t1c_1.obj			; Item lookup
 33aa t1c_2.obj			; Player lookup
 33c8 t1c_3.obj			; Enemy lookup
-33fe t1b.obj			; Number lookup
-33f6 hex_2806.bin		; - JR Z,[Number lookup]
-33f8 hex_cdf234.bin		; - CALL [Draw tile]
-33fb hex_c36533.bin		; - JP $3365 [Next script]
+
+33f6 t1b.obj			; Number lookup
 
 40 hex_9404.bin			; INT fix
 494 t4a_4.obj			; - Page saving
