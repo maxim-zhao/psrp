@@ -12,8 +12,13 @@
 ;      stores a flag to tell if it was singular or plural,
 ;      pulls digit calculation out to save space
 ;      105 bytes
-.org $33fe      ; $33fe-3493 ($96)
+.org $33f6      ; $33f6-3493 ($96)
 
+  jr z,DRAW_NUMBER ; draw number if z
+  call $34f2       ; else draw a regular letter
+  jp $3365         ; and loop
+
+DRAW_NUMBER:
   push hl      ; Save string ptr
   push bc      ; Width, temp
   push ix      ; Temp
@@ -70,7 +75,7 @@ Done:
     cp $02      ; last digit = '1'
     jr nz,Plural
 
-Singluar:
+Singular:
     xor a      ; Clear flag
 
 Plural:
