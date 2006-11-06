@@ -1,13 +1,18 @@
 File                Removed                                           Freed Added                                             Used
 t4b_1               $00486-004b3: no-di graphics decompressor            45 $00486-00494: redirector to PS Gaiden RLE decoder   14    31 free
+t4b_4                                                                       $00494-004a6: bank 1 restoration on INT             19
+                                                                            $004a7-004b3: free? (13)
 
 t0d                 $034f2-03545: draw one character to tilemap          83 $034f2-03515: draw one tile to tilemap              36
 stats_1.bin		                                                              $03516-03537: stats menu tiles ('LV', 'MST')        34
                                                                             $03538-03545: free?
 
-t1b                 $033fe-03456: draw number inline with text          121 $033fe-03467: render number to RAM and             105    16 free
+t1b                 $033fe-03493: draw number inline with text          121 $033fe-03467: render number to RAM, plural flag    105    ???
+
+t2b_3.obj			                                                              $03494-0349d; Spell blank line - addition           10
 
 t0b                 $045a4-045c3: tile loading for intro                 29 $045a4-045c3: tile loading for intro, now with
+                                                                                          re-usable font loader at $45a9
 
 t4b                 $4be84-4bfff: blank data                            300 $4be84-4bf73: PS Gaiden RLE decoder                239   147 free
 
@@ -28,191 +33,126 @@ t4a_2.obj			                                                              $7fe00
 t4a_3.obj			                                                              $7fed0-?????: Huffman decoder init - substr fmter  206
 
 
+
+
+40 hex_9404.bin			; INT fix
+182 hex_c9.bin			; INT fix; - RET
+494 t4a_4.obj			; INT fix; - Page saving
+7c9 hex_cda9451812.bin		; Load game font decoding ; - CALL $45a9; JR $7e0
 8f9 hex_0040.bin		; PSG bitmap decoder;  - ld hl, $4000 (dest)
 8fc hex_bda8.bin		; PSG bitmap decoder;  - ld de, $a8bd (dest)
-
 cea hex_0040.bin		; PSG bitmap decoder ; Landscapes ; - VRAM
 ced hex_b887.bin		; PSG bitmap decoder ; Landscapes ; - Source
 cef hex_cd8604.bin		; PSG bitmap decoder ; Landscapes ; - CALL [PSG decoder] (world)
-
 cfa hex_0040.bin		; PSG bitmap decoder ; Landscapes ; - VRAM
 cfd hex_7085.bin		; PSG bitmap decoder ; Landscapes ; - Source
 cff hex_cd8604.bin		; PSG bitmap decoder ; Landscapes ; - CALL [PSG decoder] (towns)
-
+10e3 hex_cda9451812.bin		; Dungeon font decoding ; - CALL $45a9; JR $7e0
+3259 hex_1878.bin		; Enemy name VRAM
+3271 hex_1878.bin   ; Enemy name VRAM
+331e hex_1878.bin   ; Enemy name VRAM
+333f hex_3dc350bf.bin			; Semi-adaptive Huffman script decoder; In-game narrative init; - DEC A    = method selection ($01); JP $bf50 = decoder init
+3365 hex_cd007e.bin		; In-game text decoder ; - CALL $7e00
+33da t1c_1.obj			; Narrative scripting; Item lookup
+33aa t1c_2.obj			; Narrative scripting; Player lookup
+33c8 t1c_3.obj			; Narrative scripting; Enemy lookup
+33f6 t1b.obj			; Narrative scripting; Number lookup
+34aa hex_3e00cd50bfc9.bin		; Semi-adaptive Huffman script decoder; Cutscene narrative init ; - LD A,$00   = method selection; CALL $bf50 = decoder init; RET
+34b4 hex_cd007e282ffe572830.bin		; Semi-adaptive Huffman script decoder; Cutscene text decoder ; - CALL $7e00; JR Z,$34e8 = order flip; - CP $57 = order flip; - JR Z,$34ed = order flip
+34e6 hex_77bf.bin 		; Semi-adaptive Huffman script decoder; Cutscene $55 clear code
+34f2 t0d.obj			; NT output renderer
+3b82 hex_11.bin			; Menus ; menu bank
+3bab hex_11.bin     ; Menus ; menu bank
+3dde hex_cda9451812.bin		; In-game font decoding ; - CALL $45a9; JR $3df5
+3eb5 hex_cd8604.bin		; PSG bitmap decoder ; Backgrounds ; - decoder CALL
+3eb0 hex_565f.bin		; PSG bitmap decoder ; Backgrounds ; - LD D,(HL) / LE E,A
+3eb2 hex_21.bin			; PSG bitmap decoder ; Backgrounds ; - LD HL,$4000
 3eca bg_vector.bin		; PSG bitmap decoder ; Backgrounds ; - vector table
-
+45a4 t0b.obj			; ; Intro font decoding - #1/#2 table decoder calls
+48da hex_cda9451812.bin		; Cutscene font decoding ; - CALL $45a9; JR $48f1
+59ba hex_c33a33.bin		; English script ; Index table remap
+697d hex_b745.bin ; Dungeon font decoding ; call $b5b7 (halfway through new loader, for just the second font group)
+8000 font-nt.bin		; NT output renderer - tile attributes
+80b0 tree_vector.bin		; Semi-adaptive Huffman script decoder; Tree vectors
+82b0 script_trees.bin		; Semi-adaptive Huffman script decoder; Tree vectors - actual Huffman trees
+bed0 t4a.obj			; Semi-adaptive Huffman script decoder; Decoder init - SFG decoder
+bf50 t4a_1.obj			; Semi-adaptive Huffman script decoder; Decoder init
+27b24 bg29_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
+2c010 bg14_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
 40000 bg_table1.bin		; PSG bitmap decoder ; Backgrounds ; - accompanying data
 40050 bg1_e.bin			; PSG bitmap decoder ; Backgrounds ; - merged
 40ba7 bg2_e.bin     ; PSG bitmap decoder ; Backgrounds ; - merged
 41799 bg3_e.bin     ; PSG bitmap decoder ; Backgrounds ; - merged
-
 43406 bg5_e.bin			; PSG bitmap decoder ; Backgrounds ; - merged w/ font
-
+43871 font1_e.bin		; font table
+43a87 font2_e.bin   ; font table
+43c00 words.bin			; Lists ; Static dictionary
 44640 bg_table8.bin		; PSG bitmap decoder ; Backgrounds ; - accompanying data
 44680 bg8_e.bin			; PSG bitmap decoder ; Backgrounds ; - merged
 45338 bg9_e.bin     ; PSG bitmap decoder ; Backgrounds ; - merged
 45cb0 bg10_e.bin    ; PSG bitmap decoder ; Backgrounds ; - merged
 46524 bg11_e.bin    ; PSG bitmap decoder ; Backgrounds ; - merged
-
-2c010 bg14_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
-5eb6f bg16_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
-27b24 bg29_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
-524ea bg30_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
+46c81 menus.bin			; Menus ; hard-coded window data
 4c010 bg31_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
-
-3eb5 hex_cd8604.bin		; PSG bitmap decoder ; Backgrounds ; - decoder CALL
-3eb0 hex_565f.bin		; PSG bitmap decoder ; Backgrounds ; - LD D,(HL) / LE E,A
-3eb2 hex_21.bin			; PSG bitmap decoder ; Backgrounds ; - LD HL,$4000
-
-43871 font1_e.bin		; font table
-43a87 font2_e.bin   ; font table
-
-45a4 t0b.obj			; ; Intro font decoding - #1/#2 table decoder calls
-
-3dde hex_cda9451812.bin		; In-game font decoding ; - CALL $45a9; JR $3df5
-48da hex_cda9451812.bin		; Cutscene font decoding ; - CALL $45a9; JR $48f1
-7c9 hex_cda9451812.bin		; Load game font decoding ; - CALL $45a9; JR $7e0
-10e3 hex_cda9451812.bin		; Dungeon font decoding ; - CALL $45a9; JR $7e0
-697d hex_b745.bin ; Dungeon font decoding ; call $b5b7 (halfway through new loader, for just the second font group)
-
-34f2 t0d.obj			; NT output renderer
-8000 font-nt.bin		; NT output renderer - tile attributes
-
-
-80b0 tree_vector.bin		; Semi-adaptive Huffman script decoder; Tree vectors
-82b0 script_trees.bin		; Semi-adaptive Huffman script decoder; Tree vectors - actual Huffman trees
-
-bf50 t4a_1.obj			; Semi-adaptive Huffman script decoder; Decoder init
-bed0 t4a.obj			; Semi-adaptive Huffman script decoder; Decoder init - SFG decoder
-
-34aa hex_3e00cd50bfc9.bin		; Semi-adaptive Huffman script decoder; Cutscene narrative init ; - LD A,$00   = method selection; CALL $bf50 = decoder init; RET
-
-34b4 hex_cd007e282ffe572830.bin		; Semi-adaptive Huffman script decoder; Cutscene text decoder ; - CALL $7e00; JR Z,$34e8 = order flip; - CP $57 = order flip; - JR Z,$34ed = order flip
-
-34e6 hex_77bf.bin 		; Semi-adaptive Huffman script decoder; Cutscene $55 clear code
-
-333f hex_3dc350bf.bin			; Semi-adaptive Huffman script decoder; In-game narrative init; - DEC A    = method selection ($01); JP $bf50 = decoder init
-
-3365 hex_cd007e.bin		; In-game text decoder ; - CALL $7e00
-
-
-33da t1c_1.obj			; Narrative scripting; Item lookup
-33aa t1c_2.obj			; Narrative scripting; Player lookup
-33c8 t1c_3.obj			; Narrative scripting; Enemy lookup
-
-33f6 t1b.obj			; Narrative scripting; Number lookup
-
-40 hex_9404.bin			; INT fix
-494 t4a_4.obj			; INT fix; - Page saving
-182 hex_c9.bin			; INT fix; - RET
-
-
-; Lists
-
-43c00 words.bin			; Static dictionary
-
-
-; English script
-
-bf50 t4a_1.obj			; Decoder init
-59ba hex_c33a33.bin		; Index table remap
-				; see 'script-list.txt' for auto-generated
-
-
-; Menus
-
-46c81 menus.bin			; hard-coded window data
-3b82 hex_11.bin			; menu bank
-3bab hex_11.bin
-
-3259 hex_1878.bin		; Enemy name VRAM
-3271 hex_1878.bin
-331e hex_1878.bin
+524ea bg30_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
+5eb6f bg16_e.bin    ; PSG bitmap decoder ; Backgrounds ; - no merge
 
 3211 hex_d210.bin		; H
 3213 hex_da10.bin		; P
-
 3219 hex_d710.bin		; M
 321b hex_da10.bin		; P
-
 37c8 hex_10.bin			; Choose player: width*2
-
 3de4 t2b.obj			; Active player - menu offset finder
 3023 hex_67.bin			; - LD H,A
 3024 hex_2e30.bin		; - LD L,[MENU_SIZE] = (8*2)*3
 3026 hex_00.bin			; - NOP
 3027 hex_cde43d.bin		; - CALL $3de4
-
 35a2 t2b_1.obj			; Spell selection finder
 35bf hex_12.bin			; - (7+2)*2 width
 1ee1 hex_4c7a.bin		; - VRAM cursor
 1b6a hex_4c7a.bin		; - VRAM cursor
-
 35c5 t2b_2.obj			; Spell blank line
 3494 t2b_3.obj			; - addition
 35d4 hex_0c.bin			; - height
-
 3516 stats_1.bin		; Stats menu ('LV', 'MST')
 3911 hex_1635.bin		; - LV source
 36e7 hex_2835.bin		; - MST source
-
 3982 stats_2.bin		; - 'EXP' -> 'Max MP' strings
 391a hex_8239.bin		; - EXP source
 31a3 hex_0e.bin			; - width * 2
 36dd hex_0e.bin
-
 392f hex_9439.bin		; - Attack source
 3941 hex_a639.bin		; - Defense source
 3953 hex_b839.bin		; - Max HP source
 3965 hex_ca39.bin		; - Max MP source
 3145 hex_12.bin			; - width * 2
-
 363f hex_a878.bin		; Inventory VRAM (2 tiles left)
 3778 hex_a878.bin
 364b hex_a878.bin
 36e5 hex_0c.bin			; - width * 2
 3617 hex_2879.bin		; - VRAM cursor
-
 3b18 hex_cc7b.bin		; Store MST VRAM
 3b41 hex_cc7b.bin
 3b26 hex_cc7b.bin
-
 3a40 hex_4c78.bin		; Shop inventory VRAM
-
 3b58 hex_11.bin			; Hapsby travel (bank)
 3b63 hex_2a7b.bin		; - VRAM cursor
 3b4f hex_ea7a.bin		; - move window down 1 tile
 3b76 hex_ea7a.bin
-
 3835 hex_887a.bin		; Equipment VRAM
 3829 hex_887a.bin
 386e hex_887a.bin
-
 45d9 hex_dcaa.bin		; - source
 45d7 hex_16.bin			; - source bank
 45df hex_2e07.bin		; - width*2, height
-
-				; see 'menu-list.txt' for auto-generated
-
-
-; Menu items
-
 2fe3e t2a.obj			; scripting code
 3671 t2a_1.obj			; - inventory setup code
 3a1f t2a_2.obj			; - shop setup code
 3279 t2a_3.obj			; - enemy setup code
 3850 t2a_4.obj			; - equipment setup code
-
-
-; Extra scripting
-
 59bd t5.obj			; Dezorian string
 eec9 hex_ff.bin			; - scripting code
 49b0 hex_bd59.bin		; - JP NC,$59bd
-
-
-; Window RAM cache
-
 3788 hex_60de.bin		; #5  - Choose player
 37de hex_60de.bin
 37a5 hex_d0dd.bin		; #7  - Magic - Depth 3 (choose player)
@@ -231,15 +171,10 @@ eec9 hex_ff.bin			; - scripting code
 3b08 hex_00dd.bin
 38c1 hex_f0de.bin   ; Yes/no - clashes with #5
 38e1 hex_f0de.bin
-
-
-; Text densification
 34c9 hex_40.bin ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
-
 000f TX1.OBJ        ; patched code for newlines in 2->3-line dialogues
 3397 hex_c30f00.bin ; jp $000f - patch code to jump to replacement routine
 354C hex_000000.bin ; nop out 2nd line scroll
-
 
 ; Cheat: all characters start at LV 20
 1854 hex_14.bin
