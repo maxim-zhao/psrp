@@ -1,4 +1,4 @@
-﻿<width 12></center><wrap><height 03>
+﻿<width 12></centber><wrap><height 03>
 
 [000]
 ;<monster>ハ <player>ノ<line>
@@ -16,17 +16,17 @@
 [004]
 ;<player>ハ ハナシカケタ.<end>
 
-<player> started a conversation.<end>
+<player> spoke to <use article 01><monster>.<end>
 
 [006]
 ;<monster>ハ コタエタ.<delay>
 
-<use article 02><monster> responded:<delay>
+<use article 02><monster> replied,<delay>
 
 [008]
 ;ツウジナカッタ.<delay>
 
-They didn’t understand.<delay>
+The <use article 01><monster> didn’t understand.<delay>
 
 [00A]
 ;<monster>ハ ニゲミチニ<line>
@@ -38,37 +38,37 @@ They didn’t understand.<delay>
 ;<player>ノ マジックハ<line>
 ;コウカガ ナカッタ.<delay>
 
-<player>’s magic had no effect.<delay>
+<player>’s spell had no effect.<delay>
 
 [00E]
 ;<monster>ノ マジックハ<line>
 ;コウカガ ナカッタ.<delay>
 
-<use article 02><monster>’s magic had no effect.<delay>
+<use article 02><monster>’s spell had no effect.<delay>
 
 [010]
 ;メノマエニ ミエナイ マホウノ<line>
 ;カベガ デキタ.<delay>
 
-An invisible magic wall was made in front of you.<delay>
+An invisible magic wall was built before your eyes.<delay>
 
 [012]
 ;<monster>ノ コウゲキハ<line>
 ;マホウノ カベニ ハネカエサレタ.<delay>
 
-<use article 02><monster>’s attack bounced off the magic wall.<delay>
+<use article 02><monster>’s attack was deflected by the magic wall.<delay>
 
 [014]
 ;<monster>ノ マジックハ<line>
 ;マホウノ カベニ ハネカエサレタ.<delay>
 
-<use article 02><monster>’s magic bounced off the magic wall.<delay>
+<use article 02><monster>’s spell spell was deflected by the magic wall.<delay>
 
 [016]
 ;ミエナイ カベノ コウカガ<line>
 ;ナクナッタ.<delay>
 
-The magic wall’s effect wore off.<delay>
+The invisible wall became ineffective.<delay>
 
 [018]
 ;<player>ノ タイリョクガ<line>
@@ -86,62 +86,62 @@ The magic wall’s effect wore off.<delay>
 ;<monster>ヲ<line>
 ;カナシバリニシタ.<delay>
 
-Paralysed <use article 01><monster>.<delay>
+<use article 02><monster> is all bound up.<delay>
 
 [01E]
 ;<player>ハ カナシバリニ アッタ.<delay>
 
-<player> was paralysed.<delay>
+<player> is all bound up.<delay>
 
 [020]
 ;<player>ハ ウゴケナイ.<delay>
 
-<player> cannot move.<delay>
+<player> can't move.<delay>
 
 [022]
 ;<monster>ハ ウゴケナイ.<delay>
 
-<use article 02><monster> cannot move.<delay>
+<use article 02><monster> can't move.<delay>
 
 [024]
 ;<player>ハ カナシバリガ トケタ.<delay>
 
-<player>’s paralysis wore off.<delay>
+<player>’s bindings came apart.<delay>
 
 [026]
 ;<monster>ハ<line>
 ;カナシバリガ トケタ.<delay>
 
-<use article 02><monster>’s paralysis wore off.<delay>
+<use article 02><monster>’s bindings came apart.<delay>
 
 [028]
 ;<player>ハ カラダニ チカラガ<line>
 ;ミナギルノヲ カンジタ.<delay>
 
-<player> felt power welling up inside.<delay>
+<player> felt a great swelling of energy.<delay>
 
 [02A]
 ;<monster>ハ コワクナッテ<line>
 ;シリゴミシタ.<delay>
 
-<use article 02><monster> got scared and held back.<delay>
+<use article 02><monster> got scared and backed away.<delay>
 
 [02C]
 ;<monster>ハ ニゲアシノ<line>
 ;ハヤサニ オドロイタ.<delay>
 
-<use article 02><monster> was surprised by the speed of your escape.<delay>
+<use article 02><monster> was surprised by the speed of the your escape.<delay>
 
 [02E]
 ;ワナジャナカッタ.<wait>
 
-It wasn’t a trap.<wait>
+There was no trap.<wait>
 
 [030]
 ;アブナイ トコロダッタ.<player>ハ<line>
 ;ワナヲ ミヤブッテ ハズシタ.<wait>
 
-That was close. <player> discovered the trap and disarmed it.<wait>
+That was close! <player> detected and removed the trap.<wait>
 
 [032]
 ;<player>ハ <item>ヲ<line>
@@ -159,7 +159,7 @@ That was close. <player> discovered the trap and disarmed it.<wait>
 ;<player>ハ <item>ヲ<line>
 ;ステテシマッタ.<wait>
 
-<player> threw away <use article 01><item>.<end>
+<player> discarded <use article 01><item>.<end>
 
 [038]
 ;シカシ コウカハ ナカッタ.<delay>
@@ -175,17 +175,17 @@ But <use article 01><item> is of no use here.<wait>
 [03C]
 ;ココデ オリルワケニハ イカナイ.<wait>
 
-You can’t get off here.<wait>
+The group can’t get off here.<wait>
 
 [03E]
 ;<item>ニ ノリコンダ.<delay>
 
-Boarded <use article 01><item>.<delay>
+The group boarded <use article 01><item>.<delay>
 
 [040]
 ;<item>カラ トビオリタ.<delay>
 
-Jumped off <use article 01><item>.<delay>
+The group got out of <use article 01><item>.<delay>
 
 [042]
 ;シカシ ナニモ オキナカッタ.<delay>
@@ -196,18 +196,18 @@ But nothing happened.<delay>
 ;<monster>ハ フエノネヲ<line>
 ;キイテ オトナシクナッタ.<delay>
 
-<use article 02><monster> listened to the sound of the flute and calmed down.<delay>
+<use article 02><monster> heard the sound of the flute and calmed down.<delay>
 
 [046]
 ;<monster>ハ メガ ウツロダ.<delay>
 
-<use article 02><monster> has a vacant expression.<delay>
+<use article 02><monster>'s eyes are blank.<delay>
 
 [048]
 ;シカシ イマハ ソンナコトヲ<line>
 ;シテイルバアイジャ ナイヨウダ.<delay>
 
-But it looks like now’s not the time for that.<delay>
+But now doesn’t seem to be the time to do that.<delay>
 
 [04A]
 ;<player>ハ <item>ヲ<line>
@@ -218,36 +218,38 @@ But it looks like now’s not the time for that.<delay>
 [04C]
 ;ベツニ コワレテナイヨウダ.<wait>
 
-It doesn’t appear to be particularly broken.<wait>
+There's no real need for it right now.<wait>
+;Note: this was originally 'It doesn't look particularly broken.'
+;This translation takes the verb KOWARERU to mean 'to be begged'
 
 [04E]
 ;マックラデ ススムコトガ デキナイ.<wait>
 
-It’s pitch black, so you can’t go any further.<wait>
+It’s pitch black. You can't move forward.<wait>
 
 [050]
 ;ソシテ ビンノ フタヲ アケテ<line>
 ;シズカニ タラシタ.<delay>
 
-Then Alisa opened the bottle and carefully emptied its contents.<delay>
+Alisa opened the lid to the bottle and poured out its contents.<delay>
 
 [052]
 ;シカシ ミャウハ ビンノ フタヲ<line>
 ;アケルコトガ デキナカッタ.<wait>
 
-But Myau couldn’t open the bottle.<wait>
+But Myau couldn’t open the lid to the bottle.<wait>
 
 [054]
 ;イツ カイデミテモ イヤナ<line>
 ;ニオイガ スル.<wait>
 
-It smells terrible whenever you smell it.<wait>
+No matter when you sniff it, it stinks.<wait>
 
 [056]
 ;<player>ハ トテモ<line>
 ;イヤナ ヨカンガシタ.<wait>
 
-<player> had a very bad premonition.<wait>
+<player> got a very bad feeling.<wait>
 
 [058]
 ;<player>ハ ナニモ カンジナカッタ.<wait>
@@ -258,105 +260,105 @@ It smells terrible whenever you smell it.<wait>
 ;<monster>ハ アカイ ホナオヲ<line>
 ;ミテ オジケズイタ.<delay>
 
-<use article 02><monster> looked at the red flame and got scared.<delay>
+<use article 02><monster> saw the red flame and seized up in fear.<delay>
 
 [05C]
 ; <player>ハ <item>ヲ<line>
 ; テンニ カザシタ.<delay>
 
-<player> raised <use article 01><item> towards the sky.<delay>
+<player> held <use article 01><item> up towards the sky.<delay>
 
 [05E]
 ;<player>ハ ラエルマベリ-ヲ トッテ<line>
 ;ラコニアンポットニ イレタ.<wait>
 
-<player> picked the Laerma Berry and put it in the Laconian Pot.<wait>
+<player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
 
 [060]
 ;ラエルマベリ-ヲ トッテミタガ<line>
 ;シバラクスルト ヒカラビテシマッタ.<wait>
 
-After picking the Laerma Berry, it soon withered up completely.<wait>
+The Laerma Berries shriveled up soon after being picked.<wait>
 
 [062]
-The illusionary Aerocastle materialised in the vast open sky.<wait>
+In the sky above, the phantom Aerocastle revealed its form.<wait>
 
 [064]
 ;オナカガ スイテナカッタノデ<line>
 ;モトニ モドシタ.<wait>
 
-You’re not hungry, so you put them back.<wait>
+He’s not hungry right now, so the berries were put back.<wait>
 
 [066]
 ;ハプスビ-ハ イヤイヤヲシタ.<wait>
 
-Hapsby was reluctant.<wait>
+Hapsby shook his head.<wait>
 
 [068]
 ;ハプスビ-ノ アタマハ カタイ.<wait>
 
-Hapsby is stubborn.<wait>
+Hapbsy’s head is hard.<wait>
 
 [06A]
 ;ソレハ ツカワナクテモ<line>
 ;キキメガ アル.<wait>
 
-That item works without being used.<wait>
+This item is always active. You don't need to use it.<wait>
 
 [06C]
 ;トクニ カワッタトコロハ<line>
 ;ナイヨウダ.<wait>
 
-There doesn’t appear to be anything out of the ordinary.<wait>
+There doesn’t seem to be anything particularly unusual here.<wait>
 
 [06E]
 ;<item>ヲ ミツケタ.<wait>
 
-Found <use article 01><item>.<wait>
+You found <use article 01><item>.<wait>
 
 [070]
 ;ナンダカ カラダガ カルクナッタ.<delay>
 
-Somehow your body became lighter.<delay>
+Your body became unusually light.<delay>
 
 [072]
 ;<player>ノ タマシイハ<line>
 ;ヨミガエッタ.<wait>
 
-<player>’s soul was brought back.<wait>
+<player> revived.<wait>
 
 [074]
 ;タイロンハ マジックヲ ツカエナイ.<delay>
 
-Tairon cannot use magic.<delay>
+Tylon can't use magic.<delay>
 
 [076]
 ;<player>ハ マダ マジックヲ<line>
 ;オボエテイナイ.<delay>
 
-<player> has not learned magic yet.<delay>
+<player> doesn't know any spells yet.<delay>
 
 [078]
 ;<player>ハ <item>ヲ<line>
 ;ソウビ デキナイ.<wait>
 
-<player> cannot equip <use article 01><item>.<wait>
+<player> can't equip <use article 01><item>.<wait>
 
 [07A]
 ;ソレハ ソウビシナクテモイイ.<wait>
 
-You do not need to equip this item.<wait>
+You don't need to equip this item.<wait>
 
 [07C]
 ;ケイケンチガ <number>ポイント<line>
 ;アガッタ.<wait>
 
-Gained <number> experience<internal hint 02> point<use suffix>.<wait>
+You gained <number> experience<internal hint 02> point<use suffix>.<wait>
 
 [07E]
 ;<player>ハ レベルアップシタ.<wait>
 
-<player> advanced a level.<wait>
+<player> leveled up.<wait>
 
 [080]
 ;<player>ハ マジックヲ<line>
@@ -366,7 +368,7 @@ Gained <number> experience<internal hint 02> point<use suffix>.<wait>
 
 [082]
 ;<number>メセタ ハイッテイタ.<wait>
-Found <number><internal hint 01> meseta<use suffix> inside.<wait>
+You found <number><internal hint 01> meseta<use suffix> inside.<wait>
 
 [084]
 ;アケテミルカ.<end>
@@ -379,36 +381,36 @@ It’s empty.<wait>
 [088]
 ;コレイジョウ モノヲ モテナイ<line>
 ;ナニカヲ ステルカ.<end>
-Would you like to pick up this item?<end>
+You can't carry any more. Do you want to drop something?<end>
 
 [08A]
 ;ドレヲ ステルカ.<end>
-Which item do you wish to drop?<wait>
+Which item do you want to drop?<wait>
 
 [08C]
 ;<item>ヲ ステテ<wait>
-<use article 02><item> was dropped.<wait>
+You dropped <use article 01><item>, and<wait>
 
 [08E]
 ;<item>ヲ テニイレタ.<wait>
-<use article 02><item> was picked up.<wait>
+You got <use article 01><item>.<wait>
 
 [090]
 ;<item>ハ イラナイノカ.<end>
-Do you want to drop <use article 01><item>?<end>
+Do you want to abandon <use article 01><item>?<end>
 
 [092]
 ;<item>ヲ アキラメタ.<wait>
-<use article 02><item> was abandoned.<wait>
+You abandoned <use article 01><item>.<wait>
 
 [094]
 ;<item>ヲ<line>
 ;ステルワケニハ イカナイ.<wait>
-<use article 02><item> cannot be thrown away.<wait>
+You can't drop <use article 01><item>!<wait>
 
 [096]
 ;マジックポイントガ タリナイ.<delay>
-Not enough magic points to cast the spell.<delay>
+You don't have enough magic points.<delay>
 
 [098]
 ;<player>ハ マダ イキテイル.<delay>
@@ -416,7 +418,7 @@ Not enough magic points to cast the spell.<delay>
 
 [09A]
 ;<monster>ヲ ヤッツケタ.<wait>
-<use article 02><monster> was killed.<wait>
+You've beaten <use article 01><monster>.<wait>
 
 [09C]
 ;<player>ハ シンデシマッタ.<delay>
@@ -427,7 +429,7 @@ Not enough magic points to cast the spell.<delay>
 <player> is already dead.<delay>
 
 [0A0]
-Myau bit into a Laerma Berry.<wait>
+Myau chewed the Laerma Berries.<wait>
 
 
 ; **************
@@ -438,28 +440,28 @@ Myau bit into a Laerma Berry.<wait>
 Where would you like to go?<end>
 
 [0A4]
-Destination: Skray, on Dezoris. Confirm?<end>
+Would you like to go to Skray, on Dezolis?<end>
 
 [0A6]
-Destination: Uzo, on Motabia. Confirm?<end>
+Would you like to go to Uzo, on Motavia?<end>
 
 [0A8]
-Destination: Gothic, on Palma. Confirm?<end>
+Would you like to go to Gothic, on Palma?<end>
 
 [0AA]
-This is Skray.<end>
+This IS Skray.<end>
 
 [0AC]
-This is Uzo.<end>
+This IS Uzo.<end>
 
 [0AE]
-This is Gothic.<end>
+This IS Gothic.<end>
 
 [0B0]
-Now departing.<delay>
+Here we go--!<delay>
 
 [0B2]
-The road is totally obscured by the thick forest.<wait>
+You got lost in the woods.<wait>
 
 
 ; *************
@@ -467,34 +469,34 @@ The road is totally obscured by the thick forest.<wait>
 ; *************
 
 [0B4]
-This is an armour shop. Would you like to buy anything?<end>
+Welcome to the armour shop. Can I help you?<end>
 
 [0B6]
-Please come back later.<wait>
+Take care, come back and see us soon.<wait>
 
 [0B8]
-Which item would you like?<end>
+What can I get for you today?<end>
 
 [0BA]
-Thank you. Anything else?<end>
+Enjoy. Can I get you anything else?<end>
 
 [0BC]
-All right. Please come again.<wait>
+All right. Have a good day.<wait>
 
 [0BE]
-This is a pharmacy. Would you like to buy anything?<end>
+This is a drugstore. Can I help you with something?<end>
 
 [0C0]
-This is a tool shop. What would you like to do?<end>
+Welcome to the tool shop. May I help you?<end>
 
 [0C2]
-Which item would you like to sell?<end>
+What do you have?<end>
 
 [0C4]
-Ah, <use article 01><item>. Is <number><internal hint 01> meseta<use suffix> alright?<end>
+Hm, <use article 01><item>? How does <number><internal hint 01> meseta<use suffix> sound?<end>
 
 [0C6]
-Thank you. Anything else?<end>
+Wonderful! Have anything else for me?<end>
 
 
 ; ****************
@@ -502,28 +504,27 @@ Thank you. Anything else?<end>
 ; ****************
 
 [0C8]
-This is a hospital. Would you like to undergo medical treatment?<end>
+This is a hospital. Do you require medical care?<end>
 
 [0CA]
-Examination and treatment will cost <number><internal hint 02> meseta<use suffix>.<line>
-Is that alright?<end>
+Hm. I can get you good as new for <number><internal hint 02> meseta<use suffix>.<wait more>
+Shall I proceed?<end>
 
 [0CC]
-Is there anyone else who would like to undergo treatment?<end>
+Does anyone else need treatment?<end>
 
 [0CE]
-Who will receive treatment?<end>
+Who requires our attention?<end>
 
 [0D0]
-Thank you for your patience.<line>
-There you go. Take care now.<wait>
+Thanks for waiting.<line>
+Take care, now.<wait>
 
 [0D2]
-I see. I’m sorry that we cannot help you.<line>
-Take care now.<wait>
+Be safe out there.<wait>
 
 [0D4]
-It appears that <player> is not injured.<wait>
+You seem perfectly healthy to me...<wait>
 
 
 ; **************
@@ -531,179 +532,186 @@ It appears that <player> is not injured.<wait>
 ; **************
 
 [0D6]
-This is a church. Would you like to call back someone’s soul?<end>
+This is a church. Do you need to revive a departed soul?<end>
 
 [0D8]
 ;デハ アナタノタメニ<line>
 ;オイノリヲ ササゲマス.<wait>
-Then, I shall pray for you.<wait>
+Then I shall offer up a prayer for you.<wait>
 
 [0DA]
-Good. I shall now recite an incantation:<delay>
+Concentrate on the departed as I recite an incantation.<delay>
 
 [0DC]
-Artemuhamuramu... artemuhamuramu... storatopon!<delay>
+ArtemuhamuRAmu! ArtemuhamuHAmu! STRATOPON!<delay>
 
 [0DE]
-And whose soul shall it be?<end>
+Who shall be returned?<end>
 
 [0E0]
 ;ホカノカタハ イカガデスカ.<end>
 Is there anyone else?<end>
 
 [0E2]
-I will need <number><internal hint 02> meseta<use suffix>. Is that alright?<end>
+Our suggested donation is <number><internal hint 02> meseta<use suffix>.<end>
 
 [0E4]
-In order to level up,<wait>
+To level up,<wait>
 
 [0E6]
 <player> needs <number><internal hint 02> point<use suffix>.<wait>
 
 [0E8]
-May your future have God’s blessing.<wait>
+May your future hold blessings from God.<wait>
 
 
 [0EA]
 ;<player>ハ イキテイマスヨ.<end>
 
-<player> is still alive.<wait>
+<player>? You don't look dead to me.<wait more>
+If you need medical care, I advise finding the nearest hospital.<end>
 
 [0EC]
 ;セ-ブヲ オコナイマス.<line>
 ;バンゴウヲ エランデクダサイ.<end>
 
-Save game - please choose a slot.<end>
+Saving the game?<line>
+Please choose a slot.<end>
 
 [0EE]
 ;<number>バンデ イイデスカ.<end>
 
-Select slot <number>?<end>
+Save in slot <number>?<end>
 
 [0F0]
 ;デハ <number>バンニ セ-ブシマス.<delay>
 
-Saving game to slot <number>.<delay>
+OK. Now saving in slot <number>...<delay>
 
 [0F2]
 ;オワリマシタ.<wait>
 
-Done.<wait>
+...done.<wait>
+
+
+; ************************
+; *** Monster Dialogue ***
+; ************************
 
 [0F4]
 ;ワタシタチハ パルマノ ヒトタチト<line>
 ;ナカヨク シタイ.<wait>
 
-I’d like to make friends with the people of Palma.<wait>
+'We want to become friends with the Palmans.'<wait>
 
 [0F6]
 ;ラエルマベリ-ガ タベタイナア.<wait>
 
-I’d like to eat a Laerma Berry.<wait>
+'I could really go for some Laerma Berries right now!'<wait>
 
 [0F8]
 ;ラシ-クサマニハ<line>
 ;サカラワナイホウガ イイヨ.<wait>
 
-You’d best not rebel against LaShiec.<wait>
+'You should not go against Lord LaShiec.'<wait>
 
 [0FA]
 ;オッ.ワタシタチノ コトバガ<line>
 ;ワカルンダネ.<wait>
 
-Oh! You understand our language!<wait>
+'Oh! So you understand our language, do you?'<wait>
 
 [0FC]
 ;ヤッホ-.<wait>
 
-Hey!<wait>
+'Yahoo!'<wait>
 
 [0FE]
 ;ダンジョンデハ オトシアナニ<line>
 ;キヲツケナヨ.<wait>
 
-Be careful of trap holes in the dungeon.<wait>
+'When you’re in the dungeons, beware of pitfalls.'<wait>
 
 [100]
 ;タカラバコハ ムヤミニ<line>
 ;アケルト ケガヲスルヨ.<wait>
 
-You’ll get injured if you open treasure chests recklessly.<wait>
+'You’ll get injured if you open treasure boxes carelessly.'<wait>
 
 [102]
 ;コノ オイハギヤロウ.<wait>
 
-You little thief!<wait>
+'You damn thieves!'<wait>
 
 [104]
 ;ワタシタチハ ドウセ<line>
 ;ニクマレモノダヨ.<wait>
 
-Hmph, everyone hates me anyway.<wait>
+'People hate us no matter what we do.'<wait>
 
 [106]
 ;ス-ズフル-トノ ネイロハ<line>
 ;イイナア.<wait>
 
-The sound of the Soothe Flute is beautiful.<wait>
+'The Soothe Flute sounds so nice!'<wait>
 
 [108]
 ;アイスデッカ- トイウ ノリモノハ<line>
 ;コオリモ ケズレルンダッテ.<wait>
 
-The Ice Decker vehicle can cut through ice.<wait>
+'IceDeckers can cut through ice!'<wait>
 
 [10A]
 ;ラシ-クサマハ ソラノウエニ<line>
 ;イラッシャルンダ.<wait>
 
-LaShiec is above the sky.<wait>
+'Lord LaShiec lives up in the sky.'<wait>
 
 [10C]
 ;アビオンノ マッドドクタ-ガ<line>
 ;ラスコニアンポットヲ モッテタゼ.<wait>
 
-The Mad Doctor in Abion has the Laconian Pot.<wait>
+'The Mad Doctor in Avion has a Laconian Pot.'<wait>
 
 [10E]
 ;ソラノ ウエニハ ウチュウセンデモ<line>
 ;イケナイトコロガアルゼ.<wait>
 
-There are places even spaceships can’t go above the sky.<wait>
+'There are places in the sky that even a spaceship can’t reach.'<wait>
 
 [110]
 ;ラエルマベリ-ヲ ミノラセルタメニハアルモノガ ヒツヨウダ.<wait>
 
-There’s an item you need to grow Laerma Berries.<wait>
+'You need to have a certain item in order to make Laerma Berries grow.'<wait>
 
 [112]
 ;ダンジョンノ メイロニハ<line>
 ;カクシトビラガ アルンダゼ.<wait>
 
-There are hidden doors in the dungeon’s labyrinth.<wait>
+'Some dungeon labyrinths contain hidden doors.'<wait>
 
 [114]
 ;ミラクルキ-ハ マホウノドアデモ<line>
 ;アケルコトガ デキルゾ.<wait>
 
-The Miracle Key can even open magic doors.<wait>
+'The Miracle Key can open magic doors!'<wait>
 
 [116]
 ;デゾリアンニハ ウソツキモ イルカラキヲツケナヨ.<wait>
 
-Be careful, there are some liars in Dezoris.<wait>
+'Some Dezorians are liars, so be careful.'<wait>
 
 [118]
 ;ワタシニ ハナシカケルトハ<line>
 ;ユウキガ アルネエ. ガンバレヨ.<wait>
 
-You must be brave to talk to me. Keep it up.<wait>
+'My, you’re very brave to talk to me. Hang in there.'<wait>
 
 [11A]
 ;<monster>ハ カラダニ<line>
 ;チカラガ ミナギルノヲカンジタ.<delay>
 
-<use article 02><monster> felt power welling up inside.<delay>
+<use article 02><monster> felt its body swell with strength.<delay>
 
 [11C]
 ;<monster>ハ タカラバコヲ<line>
@@ -734,15 +742,15 @@ You are now facing south.<wait>
 [126]
 ;アリサタチハ ゼンメツシタ.<wait>
 
-Alisa’s party was annihilated.<wait>
+Alisa and her companions have been annihilated.<wait>
 
 [128]
 ;アリサノ ネガイハ ラシ-クノ<line>
 ;ヤボウノ マエニ<wait more>
 ;ムナシク キエサッタ.<line>
 ;ココデ ボウケンハ オワリデス.<wait>
-Alisa’s wish faded hopelessly before LaShiec’s lust for power.<wait more>
-The adventure ends here.<wait>
+Alisa’s hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
+The journey ends here.<wait>
 
 [12A]
 It looks like you don’t have enough money.<line>
@@ -751,12 +759,12 @@ Please come back later.<wait>
 [12C]
 ;ソレハ アトデ ヤクニタチマスヨ.<wait>
 
-That’ll be useful later.<wait>
+That'll come in handy later.<wait>
 
 [12E]
 ;タカラバコヲ ミツケタ.<end>
 
-Found a treasure chest.<end>
+You found a treasure chest.<end>
 
 [130]
 ;アルテムハムラム ア ウッ.<line>
@@ -764,43 +772,44 @@ Found a treasure chest.<end>
 ;ゴメンナサイ.<line>
 ;ドウヤラ シッパイシタヨウデス.<wait>
 
-Arutemuhamuramu... ah, urgh.<line>
-Cough, cough.<wait more>
-Sorry.<line>
-It looks like it didn’t work.<wait>
+ArutemuhamuRAmu A--ugh!.<line>
+Cough! Cough!<wait more>
+My apologies.<line>
+For SOME reason I've failed.<wait>
 
 [132]
 ;モタビア ユキデス.ノリマスカ.<end>
 
-This is for Motabia. Will you get on?<end>
+This is a nonstop flight to Motabia. Getting on?<end>
 
 [134]
 ;パルマ ユキデス.ノリマスカ.<end>
 
-This is for Palma. Will you get on?<end>
+This shuttle is heading for Palma. Getting on?<end>
 
 [136]
 ;<player>ハ モウ<line>
 ;チカライッパイデス.<wait>
 
-<player> is already in perfect condition.<wait>
+<player> is already at full health.<wait>
 
 [138]
 ;ゲ-ムノ ツヅキヲ ヤリマス.<line>
 ;バンゴウヲ エランデクダサイ.<end>
 
-Continue a game - please choose a slot.<line><end>
+Continue a game.<line>
+Please choose a slot.<line><end>
 
 [13A]
 ;デハ <number>バンノゲ-ムヲ ハジメマス.<delay>
 
-Continuing from slot <number>.<delay>
+OK. Continuing from slot <number>.<delay>
 
 [13C]
 ;パスワ-ドガ チガイマス.<line>
 ;モウイチド タシカメテクダサイ.<wait>
 
-The password is incorrect.<line>
+That password is incorrect.<line>
 Please try again.<wait>
 
 ; unused?!?
@@ -808,55 +817,56 @@ Please try again.<wait>
 [13E]
 ;ゲ-ムノツヅキヲ ヤル.-- ハイ<line>
 ;ゲ-ムヲ ケス.------ イイエ<end>
-Continue game: Yes<line>
-<line>
-Delete game:   No<line>
+Continue a game: Yes<line>
+Delete a game:   No<line>
 <end>
 
 [140]
 ;セ-ブシタ ゲ-ムヲ ケシマス.<line>
 ;イイデスカ.<end>
 
-Are you sure you want to delete a saved game?<end>
+Delete a game.<line>
+OK?<end>
 
 [142]
 ;ナンバンノ ゲ-ムヲ ケシマスカ.<end>
 
-Deleting a game - please choose a slot.<line><end>
+Delete a game.<line>
+Please choose a slot.<line><end>
 
 [144]
 ;<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
 
-Deleting slot <number>.<end>
+Deleting game from slot <number>.<end>
 
 ; <end> is nicer than <wait> here - Maxim
 
 [146]
 ;<player>ハ イシニ ナッテシマッタ.<wait>
 
-<player> was petrified.<wait>
+<player> turned to stone.<wait>
 
 [148]
 ;<item>ハ イマ ダレカガ<line>
 ;ツカッテシマッタ.<wait>
 
-Someone is using <use article 01><item> right now.<wait>
+Someone has used <use article 01><item> up.<wait>
 
 [14A]
-The sky gradually became bright, and the people regained their peace.<end>
+In time, the sky grew brighter. The creatures subsided.<end>
 
 [14C]
-A refreshing breeze covers Baya Mahrey...<end>
+The only thing above Baya Marlay now is a cool, gentle breeze.<end>
 
 [14E]
-...but the breeze -- does it know of their long and painful journey?<end>
+Algol's thankful people picked up the pieces and started anew.<end>
 
 
 [150]
 ;ミャウニ ノッテイタ アリサタチハ<line>
 ;ソラニ ホウリダサレテシマッタ.<wait>
 
-Alisa’s party, who were riding on Myau, were flung into the sky.<wait>
+Alisa and the others were knocked off of Myau, into the sky.<wait>
 
 [152]
 ;ソノトキ アリサノ タマシイハ<line>
@@ -864,14 +874,14 @@ Alisa’s party, who were riding on Myau, were flung into the sky.<wait>
 ;オマエハ フタタビ イキテ<line>
 ;ヘイワノタメニ ツクスガイイ.<wait more>
 ;アリサノ タマシイハ ヨミガエッタ.<wait>
-Then Alisa’s soul heard Nero’s voice...<wait more>
-‘You must live again and strive for peace.’<wait more>
-Alisa’s soul was brought back.<wait>
+Then Alisa heard Nero’s voice, from somewhere far away.<wait more>
+‘Don't give up, Alisa. You've come so far.’<wait more>
+Her spirit revived.<wait>
 
 [154]
 ;ココロガ ナゴムヨウナ<line>
 ;ウツクシイ ネイロダ.<wait>
-It’s a calming, beautiful sound.<wait>
+The sounds melt your heart.<wait>
 
 ; ___________________________________________________________
 
@@ -886,27 +896,35 @@ It’s a calming, beautiful sound.<wait>
 ; ********************
 
 [156]
-You little bastard -- poking your nose into LaShiec’s business like that!<line><line>
-Maybe from now on you’ll try to mind your manners!<wait more>
+Citizens of Camineet, this boy's corpse is a reminder for all of you.<line><line>
+Defiance of Lord LaShiec will not be tolerated!<wait more>
 
-Nero! What happened?!<line><line>
-Hang on!<wait>
+Nero? NERO!<line><line>
+What happened?!<wait>
 
 [158]
-...Alisa... listen...<line><line>
-...LaShiec has brought an enormous calamity upon our world...<wait more>
-...The world is facing ruin...<line><line>
-...I tried to find out what LaShiec is planning...<wait more>
-...But by myself, I wasn’t able to do anything...<line><line>
-...I heard rumours of a mighty warrior named Tairon during my journey...<wait more>
-...If you combine forces, you might be able to defeat LaShiec... and restore peace...<wait more>
-...Alisa...<line><line>
-...It’s too late for me...<line><line>
-...Please forgive me... for leaving you alone...<wait>
+Alisa. My sister.<line><line>
+Listen closely, I don't have long.<wait more>
+LaShiec is a threat to all of Algol, he can not remain in power.<line><line>
+I don't know what's happened to him, but I do know this.<wait more>
+Lord LaShiec must die.<line><line>
+For the sake of everyone, Alisa, you have to kill him.<wait more>
+My mistake was trying to take him on alone.<line><line>
+These are dangerous people, you're going to need help.<wait more>
+I've heard tales of a warrior, a man named Tylon, who shares my cause.<line><line>
+I wanted to enlist his help, but he's gone missing.<wait more>
+You have to find him, Alisa. Find Tylon, and kill LaShiec, before it's too late.<wait more>
+Alisa...such a terrible burden. I'm so sorry.<line><line>
+Please forgive me, for asking this of you...<wait more>
+...and for leaving you all...<line><line>
+...alone...<wait>
 
 [15A]
-I will go and fight to ensure that my brother did not die in vain!<line><line>
-I know he will be watching over me...<wait>
+Nero...<wait more>
+I know that you wouldn't ask this of me if there was any other way.<wait more>
+Your death will not be meaningless, I swear it.<line><line>
+Watch over and protect me, big brother.<wait more>
+I'm off to kill the most powerful man in the world.<wait>
 
 
 ; ******************************
@@ -914,20 +932,24 @@ I know he will be watching over me...<wait>
 ; ******************************
 
 [15C]
-I guess we’re gonna be travelling together from now on, huh?<line><line>
+I guess we’re companions now, huh?<line><line>
 I’m Alisa. What’s your name?<wait>
 
 [15E]
 Myau.<wait>
 
 [160]
-Well, Myau, tell me what happened to Tairon.<wait>
+Hello, Myau. I'm looking for a man named Tylon.<wait more>
+Rumor has it he was travelling with a talking animal.<line><line>
+I don't suppose that was you?<wait>
 
 [162]
-Someone turned him into stone. I can heal him with this medicine, but I can’t open the lid, so...<wait>
+Tylon got turned to stone trying to slay Medusa!<line><line>
+We can heal him with this medicine, but I can’t open the lid.<wait more>
+He should still be in Scion, do you know how to get there?<wait>
 
 [164]
-I see. Let’s go help him!<wait>
+I think I can manage. Come on, let's go help him.<wait>
 
 
 ; ********************************
@@ -935,22 +957,27 @@ I see. Let’s go help him!<wait>
 ; ********************************
 
 [166]
-Thanks for rescuing me. I don’t know if it’ll do any good though.<wait more>
-If I got taken down by Medusa, I don’t think I can even stand a chance against LaShiec.<wait>
+Ah, Myau, you found help. Thank you.<wait more>
+Medusa was stronger than I thought, I don't stand a chance of defeating LaShiec.<line><line>
+Who's your new friend?<wait>
 
 [168]
-My brother ended up dead when he tried to overthrow LaShiec.<wait more>
-Just before he died, he gave me your name.<wait>
+My name is Alisa. My brother Nero was killed trying to overthrow LaShiec.<line><line>
+I'm going to assassinate him.<wait more>
+Nero gave me your name just before he died. He said that you'd help.<wait>
 
 [16A]
-I see... All right then, for the sake of your brother, let’s join together and destroy LaShiec!<wait>
+I see.<wait more>
+Well, I can't let a girl like you go alone, now can I?<wait>
 
 [16C]
-Tell me something first -- why did you try to kill Medusa?<wait>
+I appreciate your concern, but I can hold my own, thank you.<line><line>
+Why did you go after Medusa?<wait>
 
 [16E]
-See, Medusa has this magical axe, and I wanted to get it, but she got away from me. Damn...<wait more>
-But anyway... I hid a compass at a dead end in this cave. We should go get it!<wait>
+Medusa has a legendary axe, I was hoping to see LaShiec's blood on it.<wait more>
+I hid a Compass at a dead end inside this cave.<line><line>
+We're going to need it. Let's go.<wait>
 
 
 ; ******************************
@@ -958,14 +985,19 @@ But anyway... I hid a compass at a dead end in this cave. We should go get it!<w
 ; ******************************
 
 [170]
-We came to deliver this letter from the Governor-General.<line><line>
-Won’t you read it please?<wait>
+You must be Lutz.<line><line>
+I have a letter for you from the Governor-general.<wait more>
+Would you mind reading it?<wait>
 
 [172]
-I understand...<line><line>
-Together, we must protect the Algol system from the hand of evil.<wait more>
-To do that, we must first meet with Dr. Luveno in the Gothic Woods.<line><line>
-If I recall correctly, there is a manhole that leads to the village.<wait>
+Let me see that.<wait more>
+...Ah. I see. So it's come to this.<line><line>
+I apologize for my earlier hostility.<wait more>
+LaShiec is a dangerous man. For the sake of Algol, he must be stopped.<line><line>
+I think I can help.<wait more>
+We have to alert Dr. Luveno, in the Gothic woods.<line><line>
+If I recall, we can get there through a manhole at Camineet Space Station.<wait more>
+Let's go. Quickly.<wait>
 
 
 ; *****************************
@@ -973,11 +1005,11 @@ If I recall correctly, there is a manhole that leads to the village.<wait>
 ; *****************************
 
 [174]
-As soon as Myau had taken a bite, a warm, sparkling sash of light engulfed his body.<wait>
+When Myau chewed the Laerma Berries, a fever swept over him, and a dazzling light engulfed his body.<wait>
 
 [176]
-And then, in a twinkle, he transformed into a beautiful beast with enormous wings.<line><line>
-He gave the wings a triumphant flap.<wait>
+And then, in an instant, he transformed into a beautiful beast with enormous wings.<line><line>
+Myau flapped his wings proudly for all to see.<wait>
 
 
 ; ********************
@@ -990,7 +1022,7 @@ He gave the wings a triumphant flap.<wait>
 
 [17A]
 <line>
-        Tairon,<delay>
+        Tylon,<delay>
 
 [17C]
 <line>
@@ -1001,4 +1033,4 @@ He gave the wings a triumphant flap.<wait>
        and Myau.<delay>
 
 [180]
-Though the memories of darkness will fade away, the names of the heroes will continue to remain in the hearts of the people.<delay>
+Though memories of this dark time will fade, these four names will remain in the hearts of Algol's people forever.<delay>
