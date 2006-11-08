@@ -10,74 +10,101 @@
 ; *************************************
 
 [002]
+; ワタシハ スエロ.アリサノ キモチハヨクワカルワ.モウダレモ アナタヲ<wait more>
 ; Woman
 You're doing what?<wait more>
 
 [004]
+; トメルコトハ デキナイ. デモ モシタタカイデ キズツイタトキハ<wait>
 Alisa...taking on LaShiec is crazy, but I know how stubborn you are, so I'll do what I can to help.<wait more>
 If you get hurt, come back here and your old pal Suelo will fix you up.<wait>
 
 [006]
+; ココデ ユックリ ヤスンデ オユキ.<wait more>
+; ムリヲ シナイヨウニネ.<line>
+; マタ イツデモ イラッシャイ.<wait>
 Please get some rest.<wait more>
 Don’t overdo it, okay? You will always be welcome here.<wait>
 
 
 [008]
+; ボクハ ネキセ.<line>
+; キクトコロニ ヨルト<wait more>
 ; Man
-
 My name is Nekiseh. I'm sorry to hear about your brother.<wait more>
 
 [00A]
+; ユウシャ タイロンハ シオントイウ<line>
+; マチニ イルラシイ.<wait more>
 Last we heard, Tylon was staying in a town called Shion.<wait more>
 
 [00C]
+; アッ.ソレト ネロカラ<line>
+; ラコニアンポット トイウ ツボヲ<wait more>
 Nero asked me to hold on to this Laconian Pot.<wait more>
 
 [00E]
+; アズカッテタンダ.アトデ ヤクニ<line>
+; タツダロウカラ モッテイクトイイヨ.<wait>
 He would have wanted you to have this. Here, take it.<wait>
 
 [010]
+; チカラニナレナクテ ゴメン.<line>
+; ブジヲ イノッテルヨ.<wait>
 I'm sorry, I can't risk helping you any more. Good luck.<wait>
 
 
 [012]
+; コノ カミニ-ト キョジュウクハ<line>
+; カイゲンレイガ シカレテイルンダ.<wait>
 ; Man
 How long are they going to hold us under martial law like this?<wait>
 
 [014]
+; カギノ カカッタ ドアヲ アケルニハダンジョンキ-ガ ヒツヨウデス.<wait>
 ; Man
 You'll need a Dungeon Key if you want to open locked doors.<wait>
 
 [016]
+; アカリガナイト ススメナイ<line>
+; ダンジョンモ アルヨ.<wait>
 ; Man
 Some dungeons are pitch black, you'll need a light.<wait>
 
 [018]
+; カミニ-トノ ニシハ スペ-スポ-トデス.<wait>
 ; Man
 I can't believe the spaceport requires a Roadpass now.<wait more>
 How am I supposed to get home?<wait>
 
 [01A]
+; ミナトマチデハ イロイロナ トリヒキガ デキル トイウ ハナシダ.<wait>
 ; Man
 I've heard that illegal goods are traded in port towns.<wait>
 
 [01C]
+; キョジュウクノ ソトニハ デナイホウガ ミノタメダ.<wait>
 ; Police
 Citizens are advised to remain inside the residential area.<wait>
 
 [01E]
+; シニタクナカッタラ ココニイルンダ.<wait>
 ; Police
 Unless you have a death wish, you should remain inside.<wait>
 
 [020]
+; ココヲ トオスワケニハ イカナイ.<wait>
 ; Police
 Sorry, we're on high security alert. Access denied.<wait>
 
 [022]
+; ロ-ドパスノ ナイモノハ ココヲ<line>
+; トオレナイ.<wait>
 ; Police
 A signed Roadpass is required to access the spaceport.<wait>
 
 [024]
+; トオッテ ヨシ.<wait>
 ; Police
 Access granted. Go on through.<wait>
 
@@ -87,30 +114,41 @@ Access granted. Go on through.<wait>
 ; ************************************
 
 [026]
+; ココハ パロリト キョジュウクヨ.<wait>
 ; Woman
 Welcome to Parolit residential district.<wait>
 
 [028]
+; モリノナカハ トクニ<line>
+; キヲツケタホウガイイヨ.<wait>
 ; Man
 It's easy to get lost in the forest, be careful.<wait>
 
 [02A]
+; キョジュウクノ ミナミノ ドウクツニメデュ-サ トイウ マモノガ<wait more>
 ; Man
 I've heard that a monster called Medusa was awakened in the cave south of here.<wait more>
 
 [02C]
+; ヨミガエッタトイウ.スガタヲ<line>
+; ミタモノハ イシニ サレルソウダ.<wait>
 Rumor has it she turns all who look at her into stone!<wait>
 
 [02E]
+; ヒガシヘ イクト シオン トイウ<line>
+; ミナトマチガ アルラシイ.<wait>
 ; Man
 If you go east, you’ll come to a port town called Shion.<wait>
 
 [030]
+; スペ-スポ-トカラ モタビアセイノ<line>
+; パセオ マデ イケルヨ.<wait>
 ; Man
 You can get to Paseo on planet Motavia from the spaceport.<wait more>
 But due to heightened security, you'll need a Roadpass.<wait>
 
 [032]
+; パロリトノ ニシニアル ガシコノモリヘハ チカツウロガ アルラシイ.<wait>
 ; Man
 Did you know there's an abandoned catacomb leading west, to the Gothic Woods?<wait more>
 Supposedly it's somewhere nearby, but I can't find it.<wait>
@@ -121,46 +159,70 @@ Supposedly it's somewhere nearby, but I can't find it.<wait>
 ; ***********************
 
 [034]
+; タイロンナラ メデュ-サヲ タオシニイッタヨ. ヤツハ コトバヲ ハナス<wait more>
 ; Man
 Yeah, Tylon was here. He said something about going south, to slay Medusa.<wait more>
 
 [036]
+; ドウブツヲ ツレテ イタナア.<line>
+; ソノ ドウブツハ クビニ<wait more>
 He had a strange, talking animal with him! It had a bottle of medicine around its neck.<wait more>
 
 [038]
+; クスリビンヲ ブラサゲテイタガ<line>
+; ナニカノ ヤクニ タツノカネエ.<wait>
 I wonder what it was?<wait>
 
 [03A]
+; ラシ-ク ヲ タオシニイクンダッテ<line>
+; ナ. ガンバレヨ.<wait>
 It's about time someone took on LaShiec. God be with you.<wait>
 
 [03C]
+; コノマエ メデュ-サノ ドウクツデ<line>
+; シャベル ドウブツヲ ヒロッタンダ.<wait more>
 This is going to sound crazy, but I found a talking animal wandering Medusa's dungeon.<wait more>
 
 [03E]
+; パセオノ ショウニンニ タカク ウリツケテヤッタヨ.ヘッヘッヘ.<wait>
 I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
 
 [040]
+; サイキンハ フケイキダネ.ドコカニ<line>
+; イイ モウケバナシハ ナイモノカネ.<wait>
 The economy's plummeted since LaShiec came into power.<wait more>
 I'm so broke, I don't know what to do...<wait>
 
 [042]
+; シオンノ ミナミノ ハントウニハ<line>
+; イアラト ヨバレル ドウクツガアル.<wait>
 Iala Cave lies on the peninsula south of town.<wait>
 
 [044]
+; ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
 Welcome to Shion.<wait more>
 We had a bustling trade economy here, until LaShiec's embargo.<wait more>
 Now most of us are desperate for work.<wait>
 
 [046]
+; エピトイウ マヨイノモリハ<line>
+; コンパスガナイト トオレナイヨ.<wait>
 You'd have to be some kind of idiot to go into Eppi Forest without a Compass.<wait>
 
 [048]
+; マホウノ カカッタドアハ マジックヲツカワナイト ヒラキマセン.<wait>
 The only way to open a door sealed with magic is to cast a spell of your own.<wait>
 
 [04A]
+; コノマチカラ キタヘイクト バヤ<line>
+; マ-レ トイウ オカガ アリマス.<wait more>
+; デモワレワレハ ソノオカヘ<line>
+; チカヅクコトガ デキマセン.<wait>
 If you head north, you'll find a knoll called Baya Marlay, but you won’t be able to get to it.<wait>
 
 [04C]
+; バヤマ-レノ キタノ カイガンニ<line>
+; ナウラトイウ ドウクツガ アリマス.<wait>
 I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
 But with all these monsters suddenly appearing, I wouldn't even try to get there now.<wait>
 
@@ -170,55 +232,74 @@ But with all these monsters suddenly appearing, I wouldn't even try to get there
 ; ************
 
 [04E]
+; モタビアノ ソウトクハ モシカシタラミカタニ ナッテクレルカモシレナイ.<wait>
 It wouldn't surprise me if the Governor-general of Motavia approved of what you're doing.<wait>
 
 [050]
+; モタビアニハ スゴイ エスパ-ガ<line>
+; イルラシイヨ.<wait>
 All the great Espers live on Motavia.<wait>
 
 [052]
+; ガシコノモリニハ ソノムカシ ルベノハカセノ ケンキュウジョガ アッタ.<wait>
 Long ago, a professor named Luveno had a research laboratory in the Gothic Woods.<wait more>
 I wonder if it's still there?<wait>
 
 [054]
+; エピノムラヘ ヨウコソ.<wait>
 Welcome to Eppi Village!<wait more>
 We don't get many visitors lately, now that the forest is crawling with monsters.<wait>
 
 [056]
+; ソナタハ ダンジョンキ-ノ アリカヲサガシテ イルノカナ.<end>
 Taking on ol' LaShiec, are you?<wait more>
 You're either a fool, or you're tougher than you look.<wait more>
 Either way, I admire your bravery. Are you in need of a Dungeon Key?<end>
 
 [058]
+; ダンジョンキ-ハ カミニ-ト<line>
+; キョジュウクノ ハズレニアル<wait more>
 I hid one inside the warehouse on the outskirts of Camineet's residential district.<wait more>
 It's all yours. Good luck.<wait>
 
 [05A]
+; ソウコノナカニ ワシガ コッソリ<line>
+; カクシテオイタゾヨ.<wait>
 ; <end>
 ; Continues 058
 
 [05C]
+; セカイデ イチバン カタクテ ツヨイブッシツヲ シッテイルカ.<end>
 Do you know what the hardest, strongest material in the world is?<end>
 
 [05E]
+; ソレハ ラコニア ジャ. ソレデ<line>
+; デキタ ブキハ サイキョウナンジャ.<wait>
 It's Laconia! Laconian weapons are the strongest around!<wait>
 
 
 [060]
+; ナラバ ヨイ.<wait>
 Oh. Okay.<wait>
 
 [062]
+; アルゴル タイヨウケイノ ワクセイヲシッテイルカナ.<end>
 Do you know about the planets of Algol?<end>
 
 [064]
+; パルマ モタビア デゾリス ノ <number>ツノ ワクセイガアル.<wait more>
 There are <number><internal hint 02> planet<use suffix>: Palma, Motabia, and Dezoris.<wait more>
 
 [066]
+; パルマハ ミドリノホシ.モタビアハ<line>
+; スナノホシ.デゾリスハ コオリノ<wait more>
 The three planets have a distinct geology.<wait more>
 Palma is a planet of greenery.<line>
 Motabia is a planet of sand.<line>
 Dezoris is a planet of ice.<wait more>
 
 [068]
+; ホシジャ.アルゴル タイヨウケイニハキキガ セマッテイルノジャ.<wait>
 To tell you the truth, I fear for the future of our planets.<wait>
 
 
@@ -227,39 +308,54 @@ To tell you the truth, I fear for the future of our planets.<wait>
 ; **************************
 
 [06A]
+; ココハ パルマノ スペ-スポ-トダ.モタビアセイノ パセオマデ イケル.<wait>
 Welcome to Palma's Spaceport. You can travel to Paseo on Motavia from here.<wait>
 
 [06C]
+; パセオニハ ソウトクガ イル.モタビアセイ ゼンブヲ オサメテイルンダ.<wait>
 These ships are headed toward Paseo, the capital of Motavia. The Governor-general lives there.<wait>
 
 [06E]
+; ガシコノ ケンキュウジョデハ ムカシスペ-スシップヲ ツクッテタソウダ.<wait>
 Before space travel was commercialized, spaceships were built at a research laboratory in Gothic.<wait>
 
 [070]
+; パスポ-トヲ モッテイルカ.<end>
 Do you have a passport?<end>
 
 [072]
+; ココデ パスポ-トノ シンセイガ<line>
+; デキマス.シンセイヲシマスカ.<end>
 Are you here to apply for a Passport?<end>
 
 [074]
+; イママデニ ワルイコトヲ シタコトガアリマスカ.<end>
 I'm required by law to ask you a series of questions.<wait more>
 Have you ever been convicted of a crime?<end>
 
 [076]
+; イマ アナタハ ナニカ ワルイ<line>
+; ビョウキニ カカッテイマスカ.<end>
 Do you suffer from an illness that may be irritated by travel?<end>
 
 [078]
+; テスウリョウ <number>メセタデス.<line>
+; ヨロシイデスカ.<end>
 There is a handling fee of <number><internal hint 02> meseta<use suffix>. Can you pay?<end>
 
 [07A]
+; デハ パスポ-トヲ ハッコウシマス.オウケトリクダサイ.<wait>
 Okay then, I'll issue you a passport.<line>
 Here you are.<wait more>
 Next in line!<wait>
 
 [07C]
+; ソウデスカ.デハ オキヲツケテ.<wait>
 Very well. Next in line, please?<wait>
 
 [07E]
+; ソレハ ヨクナイデスネ.<line>
+; マタ オコシクダサイ.<wait>
 I'm sorry, you don't qualify. Next?<wait>
 
 
@@ -268,9 +364,13 @@ I'm sorry, you don't qualify. Next?<wait>
 ; ***********************
 
 [080]
+; ココハ モタビアノ<line>
+; パセオ スペ-スポ-ト ダヨ.<wait>
 This is Paseo, the only spaceport on Motavia.<wait>
 
 [082]
+; サバクノ ナカデハ アリジゴクガ<line>
+; アバレテ イルトイウ ウワサダヨ.<wait>
 It's ant-lion breeding season, be careful out there.<wait>
 
 [084]
@@ -286,21 +386,31 @@ I wonder if it gets any business, in a cave like that?<wait>
 ; *************
 
 [086]
+; モタビアノ ソウトクハ ジツハ<line>
+; ラシ-クト ナカガ ワルイラシイヨ.<wait>
 Even the Governor-general is on bad terms with LaShiec.<wait>
 
 [088]
+; ソウトクニ アウニハ オクリモノガ<line>
+; イルソウヨ.<wait>
 To meet with the Governor-General, you need to present a gift.<wait>
 
 [08A]
+; ソウトクハ アマイモノガ ダイスキ.<wait>
 The Governor-General loves sweets.<wait>
 
 [08C]
+; マハル トイウ ドウクツガ パセオノキタノ ヤマノ ナカニ アリマス.<wait>
 The cave Mahal is located in the mountains north of Paseo.<wait>
 
 [08E]
+; ココハ モタビアノ シュト<line>
+; パセオ デス.<wait>
 This is Paseo, Motavia’s capital city.<wait>
 
 [090]
+; アリジゴクハ ヒトノ アシデハ<line>
+; トテモ トオレナイダロウ.<wait>
 You can't cross over ant-lions on foot.<wait>
 
 [092]
