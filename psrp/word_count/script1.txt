@@ -1766,12 +1766,11 @@ Will you succeed your father and become Algol’s queen?<end>
 ; イツモ オタヨリ アリガトウ.<wait more>
 ; (World)
 ; RAISE THE AEROPRISM TOWARDS THE HEAVENS. YOU SHOULD THEN BE ABLE TO SEE THE DARK CASTLE<wait>
-;I’m O-tegami Chie-chan! Thanks for all your letters.<line>
-;Please tell us what you think of this game. We’ll be waiting.<wait>
+I’m Otegami Chie-chan! Thanks for all your letters.<line>
+Please tell us what you think of this game. We’ll be waiting.<wait>
 ;Um, what the fuck? -Frank
-
-Raise the Aeroprism toward the sky, from the highest peak.<wait more>
-It should reveal the dark castle above.<wait>
+;Raise the Aeroprism toward the sky, from the highest peak.<wait more>
+;It should reveal the dark castle above.<wait>
 
 [27C]
 ; コ
