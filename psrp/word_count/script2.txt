@@ -1,4 +1,4 @@
-﻿<width 12></centber><wrap><height 03>
+﻿<width 12></center><wrap><height 03>
 
 [000]
 ;<monster>ハ <player>ノ<line>
@@ -26,7 +26,7 @@
 [008]
 ;ツウジナカッタ.<delay>
 
-The <use article 01><monster> didn’t understand.<delay>
+<use article 02><monster> didn’t understand.<delay>
 
 [00A]
 ;<monster>ハ ニゲミチニ<line>
@@ -62,7 +62,7 @@ An invisible magic wall was built before your eyes.<delay>
 ;<monster>ノ マジックハ<line>
 ;マホウノ カベニ ハネカエサレタ.<delay>
 
-<use article 02><monster>’s spell spell was deflected by the magic wall.<delay>
+<use article 02><monster>’s spell was deflected by the magic wall.<delay>
 
 [016]
 ;ミエナイ カベノ コウカガ<line>
