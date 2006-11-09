@@ -68,7 +68,7 @@
 ; items
 
 ~Ruoginin
-~Perolimate
+~Calorie%@+Mate
 ^Soothe@ Flute
 ~Search%@+light
 #Escape@ Cloth
@@ -104,7 +104,7 @@ Zillion
 
 Alisa
 Myau
-Tairon
+Tylon
 Lutz
 #
 
