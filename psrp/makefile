@@ -126,10 +126,10 @@ rom_insert\menus.bin rom_insert\menu_list.txt : menu_creater\menus.txt menu_crea
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl script_inserter\words_final.txt
 	copy script_inserter\tech1_table.tbl + script_inserter\words_final.txt script_inserter\table_temp.tbl
 
-rom_insert\script1.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin rom_insert\script_list.txt : script_inserter\table_temp.tbl
+rom_insert\script?.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin rom_insert\script_list.txt : script_inserter\table_temp.tbl
 	cd script_inserter
 	Release\script_inserter.exe script table_temp.tbl > log.txt
-	move script1.bin "..\rom_insert"
+	for %f in (script?.bin) do @move "%f" "..\rom_insert"
 	move tree_vector.bin "..\rom_insert"
 	move script_trees.bin "..\rom_insert"
 	move script_list.txt "..\rom_insert"

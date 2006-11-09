@@ -414,62 +414,59 @@ This is Paseo, Motavia’s capital city.<wait>
 You can't cross over ant-lions on foot.<wait>
 
 [092]
-メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
+; メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
 Ever seen a talking cat before?<wait more>
 Rare. Real rare. One of a kind if I'm not mistaken.<wait more>
 <number> million<internal hint 02> meseta<use suffix>, and it's yours. How 'bout it?<end>
 
 [094]
-アンタ ウソツキダネ.<wait>
+; アンタ ウソツキダネ.<wait>
 Whoa, seriously?<wait more>
 Hey, where are you going?<wait>
 
 [096]
-オヤ アンタ メズラシイ ツボヲ<line>
-モッテイルネ.<wait more>
+; オヤ アンタ メズラシイ ツボヲ<line>
+; モッテイルネ.<wait more>
 That's too bad.<wait more>
 ...hold on, now. Is that a Laconion Pot?<wait more>
 
 [098]
-ソノ ラコニアンポット トナラ<line>
-コウカンシテモ イイヨ. ドウカネ.<end>
+; ソノ ラコニアンポット トナラ<line>
+; コウカンシテモ イイヨ. ドウカネ.<end>
 How 'bout a trade, the pot for the kitty?<end>
 
 [09A]
-ソレジャ ツレテイキナ.<line>
-カワイガッテ ヤッテクレ.<wait>
+; ソレジャ ツレテイキナ.<line>
+; カワイガッテ ヤッテクレ.<wait>
 I hate to see the little guy go, but I can't pass up a trade like this.<wait more>
 Take good care of 'im.<wait>
 
 [09C]
-ソウトクヘノ オクリモノヲ<line>
+; ソウトクヘノ オクリモノヲ<line>
 Halt! Did you bring a gift for the Governor- general?<end>
 
 [09E]
-デハ ソノ ショ-トケ-キヲ<line>
-アズカッテ オコウ.<wait>
+; デハ ソノ ショ-トケ-キヲ<line>
+; アズカッテ オコウ.<wait>
 Ah, Shortcake. He'll be pleased. I'll hold on to this for you.<wait more>
 Proceed.<wait>
 
 [0A0]
-オクリモノニ ナルヨウナ モノヲ<line>
+; オクリモノニ ナルヨウナ モノヲ<line>
 These are not suitable gifts!<wait>
 
 [0A2]
-サッサト カエレ.<wait>
+; サッサト カエレ.<wait>
 I can't grant you access without a gift!<wait>
 
 [0A4]
-ワタシガ コノホシノ ソウトクダ.<line>
-ラシ-クヲ タオシニ イクソウダナ.<wait more>
+; ワタシガ コノホシノ ソウトクダ.<line>
+; ラシ-クヲ タオシニ イクソウダナ.<wait more>
 Welcome. You have travelled far. Please, sit.<wait more>
 I know why you are here. You've certainly made no secret of it.<wait more>
 
 [0A6]
-ソノ ユウキヲ ホメテヤル.マハルノドウクツニ ルツ トイウ エスパ-ガ<wait more>
-
-
-
+; ソノ ユウキヲ ホメテヤル.マハルノドウクツニ ルツ トイウ エスパ-ガ<wait more>
 You plan to overthrow LaShiec? This is very serious.<wait more>
 It's foolish, but I admire your bravery.<wait more>
 I won't try to stop you.<line>
@@ -477,13 +474,13 @@ In fact, I will offer you assistance.<wait more>
 
 
 [0A8]
-イル. ワタシノ テガミヲ モッテ<line>
-アイニ ユクガヨイ.<wait more>
+; イル. ワタシノ テガミヲ モッテ<line>
+; アイニ ユクガヨイ.<wait more>
 A powerful Esper named Lutz lives in Mahal cave, north of here.<line>
 Take this letter to him. He will understand.<wait more>
 
 [0AA]
-ラシ-クヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
+; ラシ-クヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
 Return here when you have defeated LaShiec. I have faith in you.<wait>
 
 [0AA-2]
