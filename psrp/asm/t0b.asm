@@ -33,6 +33,10 @@ DECODE_FONT:    ; reusable elsewhere now: $45a9
 	ld hl,VRAM2
 	call DECODER
 	ret
+	
+	nop ; this version is actually 3 bytes smaller now... need to nop out old code
+	nop ; to continue correctly
+	nop
 
 AFTER:
 
