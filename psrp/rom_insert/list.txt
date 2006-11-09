@@ -329,3 +329,8 @@ eec9 hex_ff.bin			; - scripting code
 3fdee font3_e.bin
 488d hex_2058.bin		; - VRAM
 4890 hex_eebd.bin		; - Source
+
+
+; HALT on idle polling loop
+;59 hex_763a02c2b720f9c9.bin
+; doesn't work? :(

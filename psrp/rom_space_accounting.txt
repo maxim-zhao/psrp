@@ -12,7 +12,7 @@ t1b                 $033fe-03493?: draw number inline with text         121 $033
 
 t2b_3.obj			                                                              $03494-0349d; Spell blank line - addition           10
 
-t0b                 $045a4-045c3: tile loading for intro                 29 $045a4-045c3: tile loading for intro, now with
+t0b                 $045a4-045c6: tile loading for intro                 29 $045a4-045c6: tile loading for intro, now with
                                                                                           re-usable font loader at $45a9
 
 t4b                 $4be84-4bfff: blank data                            300 $4be84-4bf73: PS Gaiden RLE decoder                239   147 free
