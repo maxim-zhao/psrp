@@ -572,7 +572,7 @@ Please choose a slot.<end>
 
 [0EE]
 ;<number>バンデ イイデスカ.<end>
-Save in slot <number>?<end>
+Slot <number>, are you sure?<end>
 
 [0F0]
 ;デハ <number>バンニ セ-ブシマス.<delay>
