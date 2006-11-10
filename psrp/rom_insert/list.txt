@@ -308,8 +308,6 @@ eec9 hex_ff.bin			; - scripting code
 ; 3. Cursor extends right, not left, relative to the "snapped" positions
 425c hex_c6.bin ; sub nn -> add a,nn
 
-; TODO: use some free space to handle pressing R on Save
-
 ; Text drawing as you enter your name
 ; Drawing to RAM as you enter:
 429b tx2.obj
