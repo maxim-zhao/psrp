@@ -329,6 +329,16 @@ eec9 hex_ff.bin			; - scripting code
 4890 hex_eebd.bin		; - Source
 
 
-; HALT on idle polling loop
+; HALT on idle polling loop ---------------
 ;59 hex_763a02c2b720f9c9.bin
 ; doesn't work? :(
+
+
+; Hold 1 on startup to force PSG mode -----
+cf hex_3835.bin ; redirect call to FMDetection@$03a4 to go to $3538 instead
+3538 hex_dbbfe610c2a403c3c303.bin
+; in a,($dc)     ; db bf    read joypad
+; and %00010000  ; e6 10    mask to button 1 only
+; jp nz,$03a4    ; c2 a4 03 if not pressed, go to FM detection code
+; jp $03c3       ; c3 c3 03 else, jump into detection at the "it is PSG" point
+; 10 bytes
