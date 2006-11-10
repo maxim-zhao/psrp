@@ -5,13 +5,14 @@ t4a_4                                                                       $004
 
 t0d                 $034f2-03545: draw one character to tilemap          83 $034f2-03515: draw one tile to tilemap              36
 stats_1.bin		                                                              $03516-03537: stats menu tiles ('LV', 'MST')        34
-                                                                            $03538-03541: hack: 1 on startup for PSG
-                                                                            $03542-03545: free (4)
+                                                                            $03538-03545: free (14)
 
 t1b                 $033fe-03493?: draw number inline with text         121 $033fe-03467: render number to RAM, plural flag    105    ???
 
 
-t2b_3.obj			                                                              $03494-0349d; Spell blank line - addition           10
+t2b_3.obj                                                                   $03494-0349d; Spell blank line - addition           10
+
+TODO: figure out space used by password routines
 
 t0b                 $045a4-045c6: tile loading for intro                 29 $045a4-045c6: tile loading for intro, now with
                                                                                           re-usable font loader at $45a9

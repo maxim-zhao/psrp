@@ -299,6 +299,11 @@ eec9 hex_ff.bin			; - scripting code
 4170 hex_c8.bin ; x coordinate of sprite for Save
 4172 hex_b6.bin ; lookup position for Save (same high byte as for Next)
 
+; make $50+ count as Save - change jr z,<addr> to jr nc,<addr>
+; because I'm using a $51 in the lookup data to stop a cursor bug
+402a hex_30.bin
+
+
 ; 4-sprite cursor hack
 ; 1. Extra y coordinates
 4243 hex_cda70400.bin ; call $04a7; nop
@@ -335,10 +340,27 @@ eec9 hex_ff.bin			; - scripting code
 
 
 ; Hold 1 on startup to force PSG mode -----
-cf hex_3835.bin ; redirect call to FMDetection@$03a4 to go to $3538 instead
-3538 hex_dbbfe610c2a403c3c303.bin
-; in a,($dc)     ; db bf    read joypad
-; and %00010000  ; e6 10    mask to button 1 only
+;cf hex_3835.bin ; redirect call to FMDetection@$03a4 to go to $3538 instead
+;3538 hex_dbdce610c2a403c3c303.bin
+; in a,($dc)     ; db dc    read joypad
+; and %00010000  ; e6 10    look for button 1 pressed
 ; jp nz,$03a4    ; c2 a4 03 if not pressed, go to FM detection code
 ; jp $03c3       ; c3 c3 03 else, jump into detection at the "it is PSG" point
 ; 10 bytes
+
+; Press Pause on the title screen to toggle PSG/FM
+66 hex_f53a02c2cd5c44.bin
+; push af        ; f5
+;   ld a,($c202) ; 3a 02 c2
+;   call $445c   ; cd 38 35
+445c hex_fe03c03a00c0ee013200c03e813204c0c9.bin
+;   cp 03        ; fe 03
+;   ret nz       ; c0
+;   ld a,($c000) ; 3a 00 c0
+;   xor 1        ; ee 01
+;   ld ($c000),a ; 32 00 c0
+;   ld a,$81     ; 3e 81
+;   ld ($c004),a ; 32 04 c0
+;   ret          ; c9
+; I'm not 100% sure this area is free, I need to finish re-disassembling the
+; name entry screen code. But it is much nicer then holding 1 at startup.
