@@ -3,7 +3,7 @@
 #
 
 # The emulator for testing
-EMU = "M:\My Documents\SMS\meka\mekaw.exe"
+EMU = "M:\My Documents\SMS\meka beta\mekaw.exe"
 
 # Assembler (TASM)
 ASM = tasm.exe -80 -b
@@ -36,13 +36,16 @@ script_inserter\words_final.txt list_creater\dict.txt : substring_formatter\word
 	cd ..
 
 # list_creater
-rom_insert\lists.bin rom_insert\words.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl
+rom_insert\lists.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl
 	cd list_creater
 	"Release\list_creater" lists.txt tech1_table.tbl > log.txt
-	copy pass1.bin "..\rom_insert\lists.bin"
+	move pass1.bin "..\rom_insert\lists.bin"
+	cd ..
+
+rom_insert\words.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl
+	cd list_creater
 	"Release\list_creater" dict.txt tech1_table.tbl > log2.txt
-	copy pass1.bin "..\rom_insert\words.bin"
-	del pass1.bin
+	move pass1.bin "..\rom_insert\words.bin"
 	cd ..
 
 # asm
