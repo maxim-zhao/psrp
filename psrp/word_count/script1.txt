@@ -525,7 +525,7 @@ Good luck out there. You're going to need it.<wait>
 
 [0BA]
 ; アンタ オレニ ペロリ-メイトヲ<line>
-I could really use a Perolimate. Can you spare one?<end>
+I could really use a Peloriemate. Can you spare one?<end>
 
 [0BC]
 ; アリガトウ.ココハ ムカシ ルベノ<line>
@@ -1815,7 +1815,7 @@ I'll have you know I've been building these since you were in diapers!<wait more
 [28E]
 ; セイサクヒガ <number>メセタ<line>
 ; カカルンジャガ ワシニ クレンカ.<end>
-Now then, buying a spaceship isn't like buying some Perolimate.<wait more>
+Now then, buying a spaceship isn't like buying some Peloriemate.<wait more>
 This is a serious investment, and it will cost you serious money.<wait more>
 I require <number><internal hint 02> meseta<use suffix> upfront. Can you cover that?<end>
 
