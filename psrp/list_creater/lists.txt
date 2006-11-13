@@ -67,8 +67,8 @@
 
 ; items
 
-~Ruoginin
 ~Pelorie%@+Mate
+~Ruoginin
 ^Soothe@ Flute
 ~Search%@+light
 #Escape@ Cloth
