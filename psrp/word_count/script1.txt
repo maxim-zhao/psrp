@@ -1375,8 +1375,8 @@ I am the head of this village.<wait more>
 
 [1EC]
 ; マチヤ ムラカラ トザサレタ ソピアハ トテモ マズシイノデス.<wait more>
-We in Sopia are very poor.<wait more>
-We're outcasts. The mist shuts us off from other towns.<wait more>
+We in Sopia are very poor. We're outcasts. <wait more>
+The mist shuts us off from other towns.<wait more>
 
 [1EE]
 ; ドウカ <number>メセタ キフシテ<line>

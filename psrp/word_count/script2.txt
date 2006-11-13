@@ -355,7 +355,7 @@ You don’t have enough magic points.<delay>
 
 [09A]
 ;<monster>ヲ ヤッツケタ.<wait>
-You’ve beaten <use article 01><monster>.<wait>
+You’ve beaten <use article 01><monster>.<end>
 
 [09C]
 ;<player>ハ シンデシマッタ.<delay>

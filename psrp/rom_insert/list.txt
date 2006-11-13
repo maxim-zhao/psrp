@@ -364,3 +364,7 @@ eec9 hex_ff.bin			; - scripting code
 ;   ret          ; c9
 ; I'm not 100% sure this area is free, I need to finish re-disassembling the
 ; name entry screen code. But it is much nicer then holding 1 at startup.
+
+
+; Remove waits for button press --------------------
+1808 hex_000000.bin
