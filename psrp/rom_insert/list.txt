@@ -367,4 +367,4 @@ eec9 hex_ff.bin			; - scripting code
 
 
 ; Remove waits for button press --------------------
-1808 hex_000000.bin
+1808 hex_000000.bin ; found treasure chest/display/wait/do you eant to open it?

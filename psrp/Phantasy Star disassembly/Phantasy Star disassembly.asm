@@ -38,7 +38,7 @@ BANKS 30
 ;=======================================================================================================
 ; Load original as base
 ;=======================================================================================================
-.background "Phantasy Star (jp).sms"
+.background "PS1-J.sms"
 ;.background "blank.dat"
 
 ;=======================================================================================================
@@ -166,7 +166,7 @@ BANKS 30
 .define xc311                     $c311     ; w ??? Related to VLocation
 .define xc313                     $c313     ; w ??? Related to HLocation
 .define xc315                     $c315     ; b ???
-.define xc316                     $c316     ; b ???
+.define xc316                     $c316     ; b Backup of FunctionLookupIndex?
 
 .define CharacterStats            $c400     ; 192 (12 x 16) bytes -> $c4c0 Character attributes:
                                             ; +0: b alive 00/01
@@ -196,6 +196,16 @@ BANKS 30
 .define xc600                     $c600     ; ?
 
 .define xc604                     $c604     ; ?
+
+.define NameEntryMode             $c780     ; b 0 = name entry, 1 = password entry (not used)
+.define NameEntryData             $c781     ; nn bytes: block used for name entry
+.define NameEntryCharIndex        $c781     ; b current char is $c7nn
+
+.define NameEntryCursorX          $c784     ; b sprite X coordinate for char selection cursor
+.define NameEntryCursorY          $c785     ; b sprite Y coordinate for char selection cursor
+.define NameEntryCursorTileMapDataAddress $c786 ; w address of TileMapData byte corresponding to the current cursor position
+.define NameEntryCurrentlyPointed $c788     ; b value currently being pointed at by the cursor
+.define NameEntryKeyRepeatCounter $c789     ; b counter for key repeat - delay before faster repeat
 
 .define CharacterSpriteAttributes $c800     ; 256 (8 x 32) bytes -> $c8ff Character sprite attributes:
                                             ; +0: character number? Affects +1
@@ -327,8 +337,8 @@ MusicGameOver    db ; 93
 .dw NarrativeGraphics\1,NarrativeTilemap\1
 .endm
 
-.macro ldbc
-ld bc,(\1*256)+\2
+.macro ldbc args bval,cval
+  ld bc,((bval << 8) & $ff00) | ( cval & $ff )
 .endm
 
 ;=======================================================================================================
@@ -458,7 +468,7 @@ cl333 db
 .orga $0008
 .section "SetVRAMAddressToDE() @ vector $0008" overwrite
 ; Outputs de to VRAM address port
-; rst $08
+; rst $08 / rst 08h
     ld a,e
     out (VDPAddress),a
     ld a,d
@@ -595,8 +605,8 @@ FunctionLookupTable:
 .dw $3cc0                     ; d *
 .dw $1033                     ; e
 .dw $0fe7                     ; f
-.dw $4183                     ; 10
-.dw $3fdd                     ; 11
+.dw LoadNameEntryScreen       ; 10 $4183
+.dw HandleNameEntry           ; 11 $3fdd
 .dw FadeToPictureFrame        ; 12
 .dw FadeToPictureFrame        ; 13
 
@@ -1396,7 +1406,7 @@ fn5b7:                 ; $5b7
 ; used once
     xor a              ; zero a
     add hl,hl          ; hl <<= 1 (shift into carry)
-.rept 15
+.rept 16
     adc a,a            ; double a and add carry bit (shift out of hl)
     jr c,+             ; if a overflowed
     cp e               ; compare to e
@@ -1450,7 +1460,7 @@ GetRandomNumber:       ; $066a
         ld hl,$733c    ; if last xor resulted in zero then re-seed random number generator
       +:ld a,r         ; r = refresh register = semi-random number
         xor l          ; xor with l which is fairly random
-        ld (RandomNumberGeneratorWord),hl 
+        ld (RandomNumberGeneratorWord),hl
     pop hl
     ret                ; return random number in a
 .ends
@@ -1461,7 +1471,7 @@ FadeInMarkIIILogoAndPause: ; $0689
     ld a,$02           ; VBlankFunction_MarkIIIFadeIn
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and P11+P12        ; Button 1 or 2
+    and P11 | P12      ; Button 1 or 2
     jr nz,_f           ; If button pressed then skip to function 2 = StartTitleScreen
     ld a,(MarkIIILogoDelay)
     or a
@@ -1658,7 +1668,7 @@ _ContinueOrDeleteMenu: ; $7e3
     call TextBox20x6
   -:push bc            
       call GetSavegameSelection
-    pop bc             
+    pop bc
     call IsSlotUsed
     jr z,-
     ld hl,TextContinuingGameX
@@ -1683,7 +1693,7 @@ _ContinueOrDeleteMenu: ; $7e3
     ret nz             ; if == 11
     ld hl,FunctionLookupIndex
     ld (hl),$0a        ; ???
-    ret                
+    ret
 
 _Delete:               ; $82f
     ld hl,TextConfirmDelete
@@ -1764,30 +1774,30 @@ StartTitleScreen:      ; $08b7
       call TurnOffDisplay
       call SoundInit
       call ClearTileMap
-  
+
       ld hl,FunctionLookupIndex
       inc (hl)           ; TitleScreen
-  
+
       ld hl,600
       ld (MarkIIILogoDelay),hl ; ??? ##############
-  
+
       ld hl,_TitleScreenPalette
       ld de,TargetPalette
       ld bc,32
       ldir               ; load palette
-  
+
       ld hl,$c260
       ld de,$c260+1
       ld bc,$9f
       ld (hl),$00
       ldir               ; zero $c260-$c2ff
-  
+
       ld hl,$c800
       ld de,$c801
       ld bc,$00ff
       ld (hl),$00
       ldir               ; zero $c800-$c8ff
-  
+
       SetPage TilesTitleScreen
       ld hl,TilesTitleScreen
       TileAddressDE 0    ; tile number 0
@@ -1977,7 +1987,7 @@ fn9cb: ; Interplanetary flight?
     ld a,($c205)       ; 000AAC 3A 05 C2
     and $30             ; 000AAF E6 30
     jr nz,+
-    call _fn0af4           ; 000AB3 CD F4 0A
+    call _fnaf4           ; 000AB3 CD F4 0A
     ld hl,($c2f2)      ; 000AB6 2A F2 C2
     ld de,$0008        ; 000AB9 11 08 00
     or a               ; 000ABC B7
@@ -2227,7 +2237,7 @@ fn0c64: ; $0c64
     ld a,$ff           ; else set all bits in a             |
     jp ++              ; and skip onwards ------------------|-+
   +:ld a,(ControlsNew) ; Check controls  <------------------+ |
-    and P11|P12        ; Is a button pressed?                 |
+    and P11 | P12      ; Is a button pressed?                 |
     ret z              ; exit if not                          |
     ld a,(PaletteRotateEnabled) ;                             |
     or a               ;                                      |
@@ -2669,22 +2679,22 @@ MenuWaitForButton:     ; $2e81
     ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and P11+P12
+    and P11 | P12
     jp z,MenuWaitForButton
     ret
 .ends
 ; followed by
 .orga $2e8f
-.section "Wait 0.5s unless butotn pressed" overwrite
+.section "Wait 0.5s unless button pressed" overwrite
 MenuWaitHalfSecond:    ; $2e8f
     ld b,30            ; 30 frames
   -:ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and P11+P12
+    and P11 | P12
     ret nz             ; return if button pressed
     djnz -
-    ret 
+    ret
 .ends
 ; followed by
 .orga $2e9f
@@ -2694,7 +2704,7 @@ Pause3Seconds:         ; $2e9f  Could make it handle PAL speed?
   -:ld a,8             ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and P11+P12
+    and P11 | P12
     ret nz             ; stop if button pressed
     djnz -
     ret
@@ -2723,7 +2733,7 @@ WaitForMenuSelection:
   -:ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and P1U+P1D        ; if U or D not pressed
+    and P1U | P1D      ; if U or D not pressed
     jp z,++            ; then skip this bit
 
     ld c,a             ; -> c
@@ -2743,7 +2753,7 @@ WaitForMenuSelection:
     xor a              ; then zero it
   +:ld (CursorPos),a   ; save in CursorPos
  ++:ld a,(Controls)
-    and P11+P12        ; button 1 or 2
+    and P11 | P12      ; button 1 or 2
     jp z,-             ; repeat until button is pressed
 
     ld c,a             ; remember button pressed in c
@@ -2814,17 +2824,17 @@ FlashCursor:           ; $2fca
 ;                    A r e a   n o t   y e t   p r o c e s s e d
 ; ---------------------------------------------------------------------------------------
 
-.orga $3149
+.orga $3140
 .section "Output chars plus number plus right |" overwrite
-; outputs 8/10 bytes = 4/5 chars at (hl), then 3-digit number in a, then right | to VRAM address de
+; outputs 8/16 bytes = 4/5 chars at (hl), then 3-digit number in a, then write | to VRAM address de
 ; Then does VBlankFunction_Enemy in VBlank to keep tile animations going
-Output4CharsPlusStat:  ; $3149
+Output4CharsPlusStatWide:  ; $3140
     di                           ; 003140 F3
     push de                      ; 003141 D5
-        push af                      ; 003142 F5
-            rst 08h                      ; 003143 CF
-            ld b,$10                     ; 003144 06 10
-            jp $314f                     ; 003146 C3 4F 31
+        push af                  ; 003142 F5
+            SetVRAMAddressToDE   ; 003143 CF
+            ld b,16              ; 003144 06 10
+            jp _f                ; 003146 C3 4F 31
 
 Output4CharsPlusStat:  ; $3149
     di
@@ -2832,10 +2842,12 @@ Output4CharsPlusStat:  ; $3149
         push af
             SetVRAMAddressToDE
             ld b,$08   ; counter
-          -:ld a,(hl)
+            
+
+         __:ld a,(hl)
             out (VDPData),a ; output 8 bytes from hl to de
             inc hl
-            djnz -
+            djnz _b
         pop af
 
         ld bc,$c010    ; tile c0 for leading blanks
@@ -3608,7 +3620,7 @@ OutputTilemapBoxWipe:      ; $3b8f
 ; with 1 frame delay between rows
  --:push bc
         di
-        SetVRAMAddressTODE
+        SetVRAMAddressToDE
         ld b,c
         ld c,VDPData
       -:outi           ; output c bytes
@@ -3638,7 +3650,7 @@ OutputTilemapRect:     ; $3baa
     ld (Frame2Paging),a
     di
  --:push bc
-        SetVRAMAddressTODE
+        SetVRAMAddressToDE
         ld b,c
         ld c,VDPData
       -:outi           ; output
@@ -3777,12 +3789,12 @@ _LoadSceneData:        ; $3e88
 _SceneData:            ; $3ec2+8 = $3eca
 ;                Palette            Tiles               Tilemap
  SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaOpen         ; 01 Palma enemy (open)
- SceneDataStruct PalmaForest       ,PalmaForest        ,PalmaForest       ; 02 Palma enemy (forest
- SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaSea          ; 03 Palma emeny (sea)
- SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaCoast        ; 04 Palma emeny (coast)
- SceneDataStruct MotabiaOpen       ,MotabiaOpen        ,MotabiaOpen       ; 05 Motabia emeny
- SceneDataStruct DezorisOpen       ,PalmaAndDezorisOpen,DezorisOpen       ; 06 Dezoris emeny
- SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaLavapit      ; 07 Palma emeny (lava pit)
+ SceneDataStruct PalmaForest       ,PalmaForest        ,PalmaForest       ; 02 Palma enemy (forest)
+ SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaSea          ; 03 Palma enemy (sea)
+ SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaCoast        ; 04 Palma enemy (coast)
+ SceneDataStruct MotabiaOpen       ,MotabiaOpen        ,MotabiaOpen       ; 05 Motabia enemy
+ SceneDataStruct DezorisOpen       ,PalmaAndDezorisOpen,DezorisOpen       ; 06 Dezoris enemy
+ SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaLavapit      ; 07 Palma enemy (lava pit)
  SceneDataStruct PalmaTown         ,PalmaTown          ,PalmaTown         ; 08 Palma town
  SceneDataStruct PalmaVillage      ,PalmaVillage       ,PalmaVillage      ; 09 Palma village
  SceneDataStruct Spaceport         ,Spaceport          ,Spaceport         ; 0a Spaceport
@@ -3825,6 +3837,638 @@ PaletteAirCastleFull:  ; $3fc2
 ; ---------------------------------------------------------------------------------------
 ;                    A r e a   n o t   y e t   p r o c e s s e d
 ; ---------------------------------------------------------------------------------------
+
+.orga $3fdd
+.section "Name entry screens (FunctionLookupTable $10, $11)" overwrite
+HandleNameEntry: ; 3fdd
+    ld a,(PauseFlag)             ; 003FDD 3A 12 C2
+    or a                         ; 003FE0 B7
+    call nz,DoPause              ; 003FE1 C4 1D 01
+
+    ld ix,NameEntryCursorX       ; 003FE4 DD 21 84 C7
+    ld a,$08                     ; 003FE8 3E 08         ; VBlankFunction_Menu
+    call ExecuteFunctionIndexAInNextVBlank ; 003FEA CD 56 00
+    call _DrawCursorSprites      ; 003FED CD 26 42
+    ld a,(Controls)              ; 003FF0 3A 05 C2
+
+    and P11 | P12                ; 003FF3 E6 30
+    jp z,_NameEntryDPadPressed   ; 003FF5 CA C8 40      ; not a button
+
+    and P11                      ; 003FF8 E6 10         ; which button?
+    jp nz,_Button1Pressed        ; 003FFA C2 3E 40
+
+_Button2Pressed:
+    ld a,(NameEntryCurrentlyPointed);3FFD 3A 88 C7      ; what is pointed?
+    cp $4e                       ; 004000 FE 4E         ; = Next
+    jr z,_MoveToNextChar         ; 004002 28 12
+    jr nc,_ControlChar           ; 004004 30 22         ; some other control char
+
+    ld de,(NameEntryCharIndex)   ; 004006 ED 5B 81 C7   ; else, it's a char. Get the address to write to (this opcode could have been ld e,(NameEntryCharIndex))
+    ld d,$c7                     ; 00400A 16 C7
+    ld (de),a                    ; 00400C 12
+    call _GetTileMapDataAddressForCharAInHL ; 00400D CD 78 42
+    ld a,(de)                    ; 004010 1A            ; retrieve value since the function killed it
+    di                           ; 004011 F3
+    call _WriteCharAToTileMapAndTileMapDataAtHL ; 004012 CD B5 42
+    ei                           ; 004015 FB
+
+_MoveToNextChar:
++:  ld a,(NameEntryMode)         ; 004016 3A 80 C7
+    ld c,$37                     ; 004019 0E 37         ; max = $37 for password
+    rra                          ; 00401B 1F
+    jr c,+                       ; 00401C 38 02
+    ld c,$25                     ; 00401E 0E 25         ; max = $25 nor name entry
++:  ld hl,NameEntryCharIndex     ; 004020 21 81 C7
+    ld a,(hl)                    ; 004023 7E
+    cp c                         ; 004024 B9
+    ret z                        ; 004025 C8
+    inc (hl)                     ; 004026 34            ; increment index if < max
+    ret                          ; 004027 C9
+
+_ControlChar: ; 4028
+    cp $50                       ; 004028 FE 50         ; = OK
+    jr z,_OKSelected             ; 00402A 28 27
+
+_PrevSelected:
+    ld a,(NameEntryMode)         ; 00402C 3A 80 C7      ; name entry or password?
+    ld c,$00                     ; 00402F 0E 00         ; min = $00 for password
+    rra                          ; 004031 1F
+    jr c,+                       ; 004032 38 02
+    ld c,$21                     ; 004034 0E 21         ; min = $21 for name entry
++:  ld hl,NameEntryCharIndex     ; 004036 21 81 C7      ; decrement NameEntryCharIndex if > min
+    ld a,(hl)                    ; 004039 7E
+    cp c                         ; 00403A B9
+    ret z                        ; 00403B C8
+    dec (hl)                     ; 00403C 35
+    ret                          ; 00403D C9
+
+_Button1Pressed: ; 403e
+; delete current char and move cursor back
+    ld de,(NameEntryCharIndex)   ; 00403E ED 5B 81 C7   ; get pointed char
+    ld d,$c7                     ; 004042 16 C7
+    ld a,$00                     ; 004044 3E 00
+    ld (de),a                    ; 004046 12            ; zero it
+    call _GetTileMapDataAddressForCharAInHL ; 004047 CD 78 42
+    ld a,(de)                    ; 00404A 1A
+    di                           ; 00404B F3
+    call _WriteCharAToTileMapAndTileMapDataAtHL ; 00404C CD B5 42
+    ei                           ; 00404F FB
+    jp _PrevSelected             ; 004050 C3 2C 40
+
+_OKSelected:
+    ld a,(NameEntryMode)         ; 004053 3A 80 C7
+    rra                          ; 004056 1F
+    jr nc,_OKSelected_NameEntry  ; 004057 30 22
+
+_OKSelected_Password:            ; ####################### this section is unused
+    ld de,_PasswordLookupData    ; 004059 11 96 43   ; data
+    exx                          ; 00405C D9
+    ld b,$38                     ; 00405D 06 38
+    ld hl,$c700                  ; 00405F 21 00 C7
+    ld de,$c740                  ; 004062 11 40 C7
+-:  ld a,(hl)                    ; 004065 7E         ; read byte
+    or a                         ; 004066 B7
+    jr z,+                       ; 004067 28 07
+
+    exx                          ; 004069 D9         ; if non-zero, look up corresponding byte in the table
+    ld l,a                       ; 00406A 6F
+    ld h,$00                     ; 00406B 26 00
+    add hl,de                    ; 00406D 19
+    ld a,(hl)                    ; 00406E 7E
+    exx                          ; 00406F D9
+
++:  ld (de),a                    ; 004070 12         ; write byte to de
+    inc hl                       ; 004071 23
+    inc de                       ; 004072 13
+    djnz -                       ; 004073 10 F0      ; repeat for $38 bytes
+
+    ld hl,FunctionLookupIndex    ; 004075 21 02 C2
+    ld (hl),$0c                  ; 004078 36 0C      ; $3d76
+    ret                          ; 00407A C9
+
+_OKSelected_NameEntry:
+    ld hl,$c721                  ; 00407B 21 21 C7   ; copy entered name
+    ld de,$c778                  ; 00407E 11 78 C7   ; (why???)
+    ld bc,$0005                  ; 004081 01 05 00
+    ldir                         ; 004084 ED B0
+
+    ld hl,(NumberToShowInText)   ; 004086 2A C5 C2   ; still contains the slot number (1-5)
+    add hl,hl                    ; 004089 29
+    ld de,_SaveSlotNameTileAddresses-2 ; 00408A 11 BC 40   ; because it's a 1-based index
+    add hl,de                    ; 00408D 19
+    ld e,(hl)                    ; 00408E 5E
+    inc hl                       ; 00408F 23
+    ld d,(hl)                    ; 004090 56         ; de = slot address
+
+    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapAddress location of (13,6) (top row of name)
+    ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
+
+    ld a,SRAMPagingOn            ; 004097 3E 08
+    ld (SRAMPaging),a            ; 004099 32 FC FF   ; page in SRAM
+    ldir                         ; 00409C ED B0      ; copy tiles to SRAM name section
+
+    ld c,$08                     ; 00409E 0E 08      ; move dest 8 bytes on
+    ex de,hl                     ; 0040A0 EB
+    add hl,bc                    ; 0040A1 09
+    ex de,hl                     ; 0040A2 EB
+    ld c,$36                     ; 0040A3 0E 36      ; move src 54 bytes on (bottom row of name)
+    add hl,bc                    ; 0040A5 09
+    ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
+    ldir                         ; 0040A8 ED B0
+
+    ld a,SRAMPagingOff           ; 0040AA 3E 80      ; page out SRAM
+    ld (SRAMPaging),a            ; 0040AC 32 FC FF
+
+    ld a,(xc316)                 ; 0040AF 3A 16 C3   ; ???
+    cp $0b                       ; 0040B2 FE 0B
+    ld a,$0a                     ; 0040B4 3E 0A      ; $10d9
+    jr z,+                       ; 0040B6 28 02
+    ld a,$0c                     ; 0040B8 3E 0C      ; $3d76
++:  ld (FunctionLookupIndex),a   ; 0040BA 32 02 C2   ; continue on to there
+    ret                          ; 0040BD C9
+
+_SaveSlotNameTileAddresses: ; $40be
+.dw $8118 $813c $8160 $8184 $81a8
+
+_NameEntryDPadPressed: ; 40c8
+    ld a,(Controls)              ; 0040C8 3A 05 C2
+    rra                          ; 0040CB 1F
+    jr c,_UpHeld                 ; 0040CC 38 3E
+    rra                          ; 0040CE 1F
+    jr c,_DownHeld               ; 0040CF 38 52
+    rra                          ; 0040D1 1F
+    jr c,_LeftHeld               ; 0040D2 38 66
+    rra                          ; 0040D4 1F
+    jr c,_RightHeld              ; 0040D5 38 1E
+    ld a,(ControlsNew)           ; 0040D7 3A 04 C2
+    rra                          ; 0040DA 1F
+    jr c,_UpNew                  ; 0040DB 38 1F
+    rra                          ; 0040DD 1F
+    jr c,_DownNew                ; 0040DE 38 33
+    rra                          ; 0040E0 1F
+    jr c,_LeftNew                ; 0040E1 38 47
+    rra                          ; 0040E3 1F
+    ret nc                       ; 0040E4 D0
+
+_RightNew:
+    call _DecrementKeyRepeatCounter ;40E5 CD 7B 41
+    ret nz                       ; 0040E8 C0
+-:  ldbc $c8,+8                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
+    ld de,+2                     ; 0040EC 11 02 00      ; delta for tilemap address
+    ld iy,NameEntryCursorX       ; 0040EF FD 21 84 C7   ; which cursor sprite coordinate to change
+    jr _NameEntryDPadPressed_DoneWithInput
+_RightHeld:
+    ld a,24                      ; 0040F5 3E 18
+    ld (NameEntryKeyRepeatCounter),a
+    jr -                         ; 0040FA 18 ED
+
+_UpNew:
+    call _DecrementKeyRepeatCounter ;40FC CD 7B 41
+    ret nz                       ; 0040FF C0
+-:  ldbc $68,-16                 ; 004100 01 F0 68
+    ld de,-$80                   ; 004103 11 80 FF
+    ld iy,NameEntryCursorY       ; 004106 FD 21 85 C7
+    jr _NameEntryDPadPressed_DoneWithInput
+_UpHeld:
+    ld a,24
+    ld (NameEntryKeyRepeatCounter),a
+    jr -                         ; 004111 18 ED
+
+_DownNew:
+    call _DecrementKeyRepeatCounter ;4113 CD 7B 41
+    ret nz                       ; 004116 C0
+-:  ldbc $b8,+16                 ; 004117 01 10 B8
+    ld de,+$80                   ; 00411A 11 80 00
+    ld iy,NameEntryCursorY       ; 00411D FD 21 85 C7
+    jr _NameEntryDPadPressed_DoneWithInput
+_DownHeld:
+    ld a,24
+    ld (NameEntryKeyRepeatCounter),a
+    jr -                         ; 004128 18 ED
+
+_LeftNew:
+    call _DecrementKeyRepeatCounter ;412A CD 7B 41
+    ret nz                       ; 00412D C0
+-:  ldbc $28,-8                  ; 00412E 01 F8 28
+    ld de,-2                     ; 004131 11 FE FF
+    ld iy,NameEntryCursorX       ; 004134 FD 21 84 C7
+    jr _NameEntryDPadPressed_DoneWithInput
+_LeftHeld:
+    ld a,24
+    ld (NameEntryKeyRepeatCounter),a
+    jr -                         ; 00413F 18 ED
+
+
+    ; b = "stop" value
+    ; c = delta
+    ; de = delta VRAM address
+    ; iy = address of sprite coordinate to modify
+_NameEntryDPadPressed_DoneWithInput:
+    ld a,(iy+$00)                ; 004141 FD 7E 00
+    cp b                         ; 004144 B8         ; compare coordinate to "stop" value
+    ret z                        ; 004145 C8         ; do nothing if equal
+    add a,c                      ; 004146 81
+    ld (iy+$00),a                ; 004147 FD 77 00   ; else add c
+
+    ld hl,(NameEntryCursorTileMapDataAddress)        ; add delta to value array pointer
+    add hl,de                    ; 00414D 19
+    ld (NameEntryCursorTileMapDataAddress),hl
+
+    ld a,(hl)                    ; 004151 7E
+    or a                         ; 004152 B7
+    jr z,_NameEntryDPadPressed_DoneWithInput         ; repeat if a zero was pointed to -> cursor will snap to next valid position
+
+    cp (ix+$04)                  ; 004155 DD BE 04   ; or if it's equal to the existing value -> cursor will skip past control code selections
+    jr z,_NameEntryDPadPressed_DoneWithInput
+
+    ld (NameEntryCurrentlyPointed),a;415A 32 88 C7   ; save value pointed
+
+    cp $4e                       ; 00415D FE 4E      ; check if it was a control char, in which case snap to its left char
+    ret c                        ; 00415F D8
+
+
+    ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
+    ld hl,$d5a2                  ; 004162 21 A2 D5
+    jr z,+                       ; 004165 28 0C
+    cp $4f                       ; 004167 FE 4F
+    ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
+    ld c,$a8                     ; 00416B 0E A8
+    jr z,+                       ; 00416D 28 04
+    ld c,$c8                     ; 00416F 0E C8      ; default: jump to Save
+    ld l,$b2                     ; 004171 2E B2
+
++:  ld (NameEntryCursorTileMapDataAddress),hl
+    ld a,c                       ; 004176 79
+    ld (NameEntryCursorX),a      ; 004177 32 84 C7
+    ret                          ; 00417A C9
+
+
+; decrement keypress repeat counter, set to 5 if zero
+_DecrementKeyRepeatCounter: ; 417b
+    ld hl,$c789                  ; 00417B 21 89 C7
+    dec (hl)                     ; 00417E 35
+    ret nz                       ; 00417F C0
+    ld (hl),$05                  ; 004180 36 05
+    ret                          ; 004182 C9
+
+LoadNameEntryScreen: ; $4183
+    call FadeOutFullPalette      ; 004183 CD A8 7D   ; go to name entry screen
+
+    TileMapAddressDE 0,0         ; 004186 11 00 78   ; clear name table
+    ld bc,$0300                  ; 004189 01 00 03
+    ld hl,$0000                  ; 00418C 21 00 00
+    di                           ; 00418F F3
+      call FillVRAMWithHL        ; 004190 CD FB 03
+    ei                           ; 004193 FB
+
+    ld hl,FunctionLookupIndex    ; 004194 21 02 C2   ; increment FunctionLookupIndex do it'll do the right thing after this function finishes
+    inc (hl)                     ; 004197 34
+
+    ld hl,NameEntryData          ; 004198 21 81 C7   ; blank NameEntryData block
+    ld (hl),$00                  ; 00419B 36 00
+    ld de,NameEntryData+1        ; 00419D 11 82 C7
+    ld bc,$007e                  ; 0041A0 01 7E 00
+    ldir                         ; 0041A3 ED B0
+
+    ld hl,TileMapData            ; 0041A5 21 00 D0   ; blank TileMapData
+    ld de,TileMapData+1          ; 0041A8 11 01 D0
+    ld bc,$0600                  ; 0041AB 01 00 06
+    ld (hl),$00                  ; 0041AE 36 00
+    ldir                         ; 0041B0 ED B0
+
+    call DecompressNameEntryTilemapData ; 0041B2 CD CC 42
+
+    ld hl,$c700                  ; 0041B5 21 00 C7   ; blank $c700-$c738
+    ld de,$c701                  ; 0041B8 11 01 C7
+    ld bc,$0037                  ; 0041BB 01 37 00
+    ld (hl),$00                  ; 0041BE 36 00
+    ldir                         ; 0041C0 ED B0
+
+    ld a,$21                     ; 0041C2 3E 21      ; starting point for name entry (see after next opcode)
+
+    ld hl,EnterYourNameRawTilemapData ; 041C4 21 E6 43   ; tilemap data
+
+    ld (NameEntryCharIndex),a    ; 0041C7 32 81 C7
+
+    ldbc 2,16                    ; 0041CA 01 10 02   ; ld bc,$0210
+    xor a                        ; 0041CD AF
+    ld (TileMapHighByte),a       ; 0041CE 32 10 C2   ; TileMapHighByte = 0
+    TileMapAddressDE 8,0         ; 0041D1 11 10 78   ; ld de,$7810
+    di                           ; 0041D4 F3
+      call OutputTilemapRawBxC   ; 0041D5 CD 0F 04
+    ei                           ; 0041D8 FB
+
+    TileMapAddressDE 0,3         ; 0041D9 11 C0 78   ; ld de,$78c0
+    ld hl,$d0c0                  ; 0041DC 21 C0 D0   ; offset in TileMapData for (0,3)
+    ld bc,$0540                  ; 0041DF 01 40 05   ; amount of data to copy
+    di                           ; 0041E2 F3
+      call OutputToVRAM          ; 0041E3 CD DE 03
+    ei                           ; 0041E6 FB
+
+    call _LoadTileMapDataWithCharValues ; 0041E7 CD 3B 43
+
+    ld hl,_NameEntryPalette      ; 0041EA 21 56 43   ; load wanted palette
+    ld de,TargetPalette          ; 0041ED 11 40 C2
+    ld bc,32                     ; 0041F0 01 20 00
+    ldir                         ; 0041F3 ED B0
+
+    TileAddressDE $100           ; 0041F5 11 00 60   ; ld de,$6000
+    ld hl,_NameEntryCursorSprite ; 0041F8 21 76 43
+    ld bc,32                     ; 0041FB 01 20 00   ; load cursor sprite
+    di                           ; 0041FE F3
+      call OutputToVRAM          ; 0041FF CD DE 03
+    ei                           ; 004202 FB
+
+    ld de,NameEntryCursorX       ; 004203 11 84 C7
+    ld hl,_NameEntryCursorInitialValues ; 004206 21 21 42
+    ld bc,_NameEntryCursorInitialValuesEnd-_NameEntryCursorInitialValues ; load cursor initial values
+    ldir                         ; 00420C ED B0
+
+    xor a                        ; 00420E AF         ; zero some stuff
+    ld (VScroll),a               ; 00420F 32 04 C3
+    ld (HScroll),a               ; 004212 32 00 C3
+    ld (TextBox20x6Open),a       ; 004215 32 D3 C2
+
+    ld de,$8006                  ; 004218 11 06 80
+    di                           ; 00421B F3
+    SetVRAMAddressToDE           ; 00421C CF
+    ei                           ; 00421D FB
+    jp ClearSpriteTableAndFadeInWholePalette         ; and ret
+
+
+
+_NameEntryCursorInitialValues: ; 4221
+.db $28 ; selected char cursor sprite X
+.db $68 ; selected char cursor sprite Y
+.dw $D30A ; selected char TileMapData address (5, 12)
+.db $01 ; currently pointed char
+_NameEntryCursorInitialValuesEnd:
+
+
+_DrawCursorSprites: ; 4226
+; sets sprites for cursors
+    call _GetTileMapDataAddressForCharAInHL          ; get address of editing char tile for "current tile" indicator
+    ld de,$3040                  ; 004229 11 40 30   ; $3000 means it'll wipe out the $D000 prefix, $40 is because we want a constant offset of 1 row (the cursor is exactly below the relevant tile)
+    add hl,de                    ; 00422C 19         ; add them on and multiply by 4 to get h = row number + 1, l = pixel x coordinate
+    add hl,hl                    ; 00422D 29
+    add hl,hl                    ; 00422E 29
+    ld de,SpriteTable            ; 00422F 11 00 C9
+    ld a,h                       ; 004232 7C         ; now a = row number in tilemap, but for a sprite it's a pixel count -> multiply by 8
+    add a,a                      ; 004233 87
+    add a,a                      ; 004234 87
+    add a,a                      ; 004235 87
+    ld (de),a                    ; 004236 12         ; set y coordinate of first sprite to that
+
+    ld a,(NameEntryCurrentlyPointed);4237 3A 88 C7
+    cp $4e                       ; 00423A FE 4E      ; is it a control char?
+
+    ld a,(NameEntryCursorY)      ; 00423C 3A 85 C7
+    inc de                       ; 00423F 13
+    ld (de),a                    ; 004240 12         ; set y coordinate for selection cursor
+    jr c,+                       ; 004241 38 04      ; and another 2 if it's a control code since they're 3 chars wide
+    inc e                        ; 004243 1C
+    ld (de),a                    ; 004244 12
+    inc e                        ; 004245 1C
+    ld (de),a                    ; 004246 12
++:  inc e                        ; 004247 1C
+    ld a,208                     ; 004248 3E D0      ; terminate sprites
+    ld (de),a                    ; 00424A 12
+
+    ld e,$80                     ; 00424B 1E 80      ; move to x coordinates
+    ex de,hl                     ; 00424D EB
+    ld a,e                       ; 00424E 7B         ; current char x coordinate
+    ld bc,$0300                  ; 00424F 01 00 03   ; b = maximum width of cursor (3), c = sprite number for cursor (0)
+    ld (hl),a                    ; 004252 77         ; set current char sprite x
+    inc l                        ; 004253 2C
+    ld (hl),c                    ; 004254 71         ; set sprite tile
+    ld a,(NameEntryCursorX)      ; 004255 3A 84 C7   ; load cursor x
+-:  inc l                        ; 004258 2C
+    ld (hl),a                    ; 004259 77         ; set sprite x,
+    inc l                        ; 00425A 2C
+    ld (hl),c                    ; 00425B 71         ; tile number
+    sub $08                      ; 00425C D6 08
+    djnz -                                           ; repeat for full-width cursor
+    ret                          ; 004260 C9
+
+
+_DrawEntirePassword: ; $4261
+; Orphaned code to draw the 56-char password on-screen ###############
+    ld hl,NameEntryCharIndex     ; 004261 21 81 C7
+    ld (hl),$38                  ; 004264 36 38      ; past end of password
+    ld d,$c7                     ; 004266 16 C7
+-:  dec (hl)                     ; 004268 35         ; so now it's the end of the password
+    ret m                        ; 004269 F8         ; quit when we get to offset -1
+    ld e,(hl)                    ; 00426A 5E         ; de = current char in TileMapData
+    push hl                      ; 00426B E5
+      call _GetTileMapDataAddressForCharAInHL ; 00426C CD 78 42
+      ld a,(de)                  ; 00426F 1A
+      push de                    ; 004270 D5
+        call _WriteCharAToTileMapDataAtHL ; 004271 CD 9B 42
+      pop de                     ; 004274 D1
+    pop hl                       ; 004275 E1
+    jr -                         ; 004276 18 F0
+
+
+
+_GetTileMapDataAddressForCharAInHL: ; 4278
+    ld a,(NameEntryCharIndex)    ; 004278 3A 81 C7   ; current editing char
+    ld hl,$d146                  ; 00427B 21 46 D1   ; a < 24 -> hl = $d146 = (3,5)
+    sub $18                      ; 00427E D6 18
+    jr c,+                       ; 004280 38 0B
+    ld l,$c6                     ; 004282 2E C6      ; 25 < a < 48 -> hl = $d1c6 = (3,7)
+    sub $18                      ; 004284 D6 18
+    jr c,+                       ; 004286 38 05
+    ld hl,$d246                  ; 004288 21 46 D2   ; a > 49 -> hl = $d246 = (3,9)
+    sub $18                      ; 00428B D6 18
++:  add a,$18                    ; 00428D C6 18      ; a = x position in this row
+    ld c,a                       ; 00428F 4F
+    add a,a                      ; 004290 87
+    add a,l                      ; 004291 85
+    ld l,a                       ; 004292 6F         ; hl += a*2, now points to TileMapData address for currently editing char
+
+    ld a,c                       ; 004293 79
+    rra                          ; 004294 1F
+    rra                          ; 004295 1F         ; a /= 4
+    and $06                      ; 004296 E6 06      ; now it'll be 0, 2 or 4 for each of the 3 sections of the row
+    add a,l                      ; 004298 85         ; add that on -> 1 char gap every 8 chars
+    ld l,a                       ; 004299 6F
+    ret                          ; 00429A C9
+
+_WriteCharAToTileMapDataAtHL: ; 429b
+    push hl                      ; 00429B E5
+      ex de,hl                   ; 00429C EB         ; save hl
+      ld hl,Frame2Paging         ; 00429D 21 FF FF   ; map in bank 2
+      ld (hl),2                  ; 0042A0 36 02
+      ld hl,TileNumberLookup     ; 0042A2 21 00 80   ; look up tilemap data for char a
+      ld c,a                     ; 0042A5 4F
+      ld b,$00                   ; 0042A6 06 00
+      add hl,bc                  ; 0042A8 09
+      add hl,bc                  ; 0042A9 09
+      ld c,(hl)                  ; 0042AA 4E
+      inc hl                     ; 0042AB 23
+      ld a,(hl)                  ; 0042AC 7E
+      ld (de),a                  ; 0042AD 12         ; write lower char to de
+      ld hl,-$40                 ; 0042AE 21 C0 FF
+      add hl,de                  ; 0042B1 19         ; write upper char 1 row above
+      ld (hl),c                  ; 0042B2 71
+    pop hl                       ; 0042B3 E1
+    ret                          ; 0042B4 C9
+
+_WriteCharAToTileMapAndTileMapDataAtHL: ; 42b5
+    call _WriteCharAToTileMapDataAtHL ; 0042B5 CD 9B 42
+    ld b,a                       ; 0042B8 47
+    ld a,h                       ; 0042B9 7C         ; convert hl to the corresponding tilemap address
+    sub $58                      ; 0042BA D6 58
+    ld h,a                       ; 0042BC 67
+    ex de,hl                     ; 0042BD EB
+    SetVRAMAddressToDE           ; 0042BE CF
+    ld a,b                       ; 0042BF 78
+    out (VDPData),a              ; 0042C0 D3 BE      ; write lower part
+    ld hl,-$40                   ; 0042C2 21 C0 FF
+    add hl,de                    ; 0042C5 19
+    ex de,hl                     ; 0042C6 EB
+    SetVRAMAddressToDE           ; 0042C7 CF
+    ld a,c                       ; 0042C8 79
+    out (VDPData),a              ; 0042C9 D3 BE      ; write upper part
+    ret                          ; 0042CB C9
+
+; Decompress data from NameEntryTilemapData to TileMapData(0,6)
+DecompressNameEntryTilemapData: ; $42cc
+    ld hl,NameEntryTilemapData   ; 0042CC 21 06 44
+    ld de,TileMapData+32*6       ; 0042CF 11 C0 D0   ; location 0,6
+
+--: ld a,(hl)                    ; 0042D2 7E         ; read byte n
+    inc hl                       ; 0042D3 23
+    or a                         ; 0042D4 B7
+    jr z,+++                     ; 0042D5 28 2B      ; zero = end
+    jp p,++                      ; 0042D7 F2 F8 42   ; bit 7 unset = RLE
+    bit 6,a                      ; 0042DA CB 77
+    jr nz,+                      ; 0042DC 20 0D      ; bit 6 set = raw data
+
+    and $3f                      ; 0042DE E6 3F      ; else RLE incrementing series
+    ld b,a                       ; 0042E0 47
+    ld a,(hl)                    ; 0042E1 7E         ; write (next byte) up to (next byte + n&$3f)
+-:  ld (de),a                    ; 0042E2 12
+    inc de                       ; 0042E3 13         ; skip 1 byte
+    inc de                       ; 0042E4 13
+    inc a                        ; 0042E5 3C         ; increment value
+    djnz -                       ; 0042E6 10 FA      ; repeat
+    inc hl                       ; 0042E8 23
+    jr --                        ; 0042E9 18 E7
+
++:  and $3f                      ; 0042EB E6 3F      ; raw
+    ld c,a                       ; 0042ED 4F         ; n&$3f = count
+    ld b,$00                     ; 0042EE 06 00
+-:  ldi                          ; 0042F0 ED A0      ; write data
+    inc de                       ; 0042F2 13
+    jp pe,-                      ; 0042F3 EA F0 42   ; repeat until bc == -1
+    jr --                        ; 0042F6 18 DA
+
+++: ld b,a                       ; 0042F8 47
+    ld a,(hl)                    ; 0042F9 7E         ; write (next byte) n times
+-:  ld (de),a                    ; 0042FA 12
+    inc de                       ; 0042FB 13
+    inc de                       ; 0042FC 13
+    djnz -                       ; 0042FD 10 FB
+    inc hl                       ; 0042FF 23
+    jr --                        ; 004300 18 D0
+
++++:ld hl,$d102                  ; 004302 21 02 D1   ; where to write to (1,4)
+    ld de,$f301                  ; 004305 11 01 F3   ; tile data to write (vertical bar, left)
+    call _DrawVerticalLine       ; 004308 CD 28 43
+
+    inc hl                       ; 00430B 23
+    ldbc $1d,5                   ; 00430C 01 05 1D   ; flip bottom edge vertically
+    call _SetLineFlip            ; 00430F CD 35 43
+
+    ld (hl),$07                  ; 004312 36 07      ; flip bottom-right corner
+    ld hl,$d0fd                  ; 004314 21 FD D0   ; (30,3)
+    ld (hl),$03                  ; 004317 36 03      ; flip top-right corner
+    ld hl,$d0c3                  ; 004319 21 C3 D0   ; (1,3)
+    ldbc $1d,1                   ; 00431C 01 01 1D   ; no flip on top edge, but it's still the high tileset
+    call _SetLineFlip            ; 00431F CD 35 43
+    ld hl,$d13c                  ; 004322 21 3C D1   ; (1,7)
+    ld de,$f303                  ; 004325 11 03 F3   ; vertical bar, right
+    ; fall through
+
+_DrawVerticalLine: ; 4328
+; draws data de to address hl every 32 words, for a rows
+    ld a,$13                     ; 004328 3E 13
+    ld bc,$003f                  ; 00432A 01 3F 00   ; amount to jump in between (draw every 32nd tile)
+-:  ld (hl),d                    ; 00432D 72
+    inc l                        ; 00432E 2C
+    ld (hl),e                    ; 00432F 73
+    add hl,bc                    ; 004330 09
+    dec a                        ; 004331 3D
+    jr nz,-                      ; 004332 20 F9
+    ret                          ; 004334 C9
+
+_SetLineFlip: ; 4335
+; draws tile flipping data c to hl for b tiles (skipping tile numbers in-between)
+    ld (hl),c                    ; 004335 71
+    inc l                        ; 004336 2C
+    inc l                        ; 004337 2C
+    djnz _SetLineFlip            ; 004338 10 FB
+    ret                          ; 00433A C9
+
+_LoadTileMapDataWithCharValues: ; 433b
+    ld hl,NameEntryCharValues    ; 00433B 21 8C 44   ; data
+    ld de,$d30a                  ; 00433E 11 0A D3   ; location in RAM tilemap copy (5,12)
+    ld a,$06                     ; 004341 3E 06      ; number of rows
+--: ld bc,21                     ; 004343 01 15 00   ; write out 21 bytes
+-:  ldi                          ; 004346 ED A0      ; output
+    inc de                       ; 004348 13         ; skip 1
+    jp pe,-                      ; 004349 EA 46 43   ; repeat
+    ex de,hl                     ; 00434C EB
+    ld bc,$0056                  ; 00434D 01 56 00   ; skip on by 86 bytes so we're at the start of the next row
+    add hl,bc                    ; 004350 09
+    ex de,hl                     ; 004351 EB
+    dec a                        ; 004352 3D
+    jr nz,--                     ; 004353 20 EE      ; repeat for all rows
+    ret                          ; 004355 C9
+
+_NameEntryPalette: ; 4356
+.db $00 $00 $3F $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+.db $00 $3C $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+
+_NameEntryCursorSprite: ; 4376
+.db $FF $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+
+_PasswordLookupData: ; 4396
+; unused, does nothing? ##################
+.db $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A $0B $0C $0D $0E $0F $10
+.db $11 $12 $13 $14 $15 $16 $17 $18 $19 $1A $1B $1C $1D $1E $1F $20
+.db $21 $22 $23 $24 $25 $26 $27 $28 $29 $2A $2B $2C $2D $2E $2F $30
+.db $31 $32 $33 $34 $35 $36 $37 $38 $39 $3A $3B $3C $3D $3E $3F $40
+.db $41 $42 $43 $44 $45 $46 $47 $48 $49 $4A $4B $4C $4D $4E $4F $50
+
+EnterYourNameRawTilemapData: ; $43e6
+; text at top of screen "Enter your name"
+.db $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $FD $C0 $C0 $C0
+.db $DF $E9 $CE $F7 $C0 $DE $CD $F5 $D2 $D6 $DD $D2 $DA $D5 $CC $FE
+
+NameEntryTilemapData: ; $4406
+; draw letter selection tilemap
+; missing vertical box lines to save a few bytes by drawing them in code
+; no tile flipping data, that's fixed up in code
+.db $c2 $c0 $f1 $1c $f2 $01 $f1 $61 $c0 $75 $c0 $20 $c0 $05 $fd $0b $c0 $85 $cb $03 $c0 $85 $e9 $03 $c0 $85 $d0 $1b $c0 $05 $fd $0b
+.db $c0 $85 $d0 $03 $c0 $c5 $ee $c0 $ef $c0 $f0 $03 $c0 $85 $d5 $1b $c0 $05 $fd $0b $c0 $85 $d5 $03 $c0 $85 $f1 $03 $c0 $85 $da $1b
+.db $c0 $05 $fd $0b $c0 $85 $da $03 $c0 $c5 $f6 $c0 $f7 $c0 $f8 $03 $c0 $85 $e4 $1b $c0 $05 $fe $0b $c0 $85 $df $03 $c0 $c5 $fa $fb
+.db $fc $f9 $ff $03 $c0 $85 $e4 $1a $c0 $01 $fd $10 $c0 $85 $e4 $05 $c0 $cb $d7 $d7 $eb $c0 $ed $de $f3 $c0 $cf $f6 $f3 $07 $c0 $01
+.db $f1 $1c $f2 $01 $f1 $00
+
+NameEntryCharValues: ; 448c
+; character codes corresponding to the tiles being shown
+; but only 21 per row
+; also note prev/next/save text at bottom right
+.db $01 $02 $03 $04 $05 $00 $00 $00 $1F $20 $21 $22 $23 $00 $00 $00 $33 $34 $35 $36 $37
+.db $06 $07 $08 $09 $0A $00 $00 $00 $24 $00 $25 $00 $26 $00 $00 $00 $38 $39 $3A $3B $3C
+.db $0B $0C $0D $0E $0F $00 $00 $00 $27 $28 $29 $2A $2B $00 $00 $00 $3D $3E $3F $40 $41
+.db $10 $11 $12 $13 $14 $00 $00 $00 $2C $00 $2D $00 $2E $00 $00 $00 $42 $43 $44 $45 $46
+.db $15 $16 $17 $18 $19 $00 $00 $00 $30 $31 $32 $2F $4D $00 $00 $00 $47 $48 $49 $4A $4B
+.db $1A $1B $1C $1D $1E $00 $00 $00 $4E $4E $4E $4E $4E $00 $4F $4F $4F $4F $50 $50 $50
+
+.ends
 
 .orga $450a
 .section "Intro sequence" overwrite
@@ -3886,7 +4530,7 @@ IntroSequence:
     call ExecuteFunctionIndexAInNextVBlank
 
     ld a,(Controls)
-    and P11+P12
+    and P11 | P12
     jr nz,+            ; if button pressed then skip next bit
 
     call IntroScrollDown
@@ -4047,7 +4691,7 @@ FadeToPictureFrame:      ; $48d7
 .orga $492c
 .section "Fade to narrative picture" overwrite
 ; parameter: a = which picture to load and fade in
-FadeToNarrativePivcture: ; $492c
+FadeToNarrativePicture: ; $492c
     push af
         call FadeOutTilePalette
     pop af
@@ -5353,7 +5997,7 @@ _Horizontal:
     ld h,$d0           ; hl = TileMapData + (low HLocation+ c)/4
     ld bc,$1cbe        ; counter = $1c = 28 rows; c = VDPData
   -:push bc
-        SetVRAMAddesstoDE
+        SetVRAMAddressToDE
         nop            ; delay
         nop
         nop
@@ -7550,7 +8194,7 @@ Sound8110:
     inc hl                       ; 030121 23
     ld a,(hl)                    ; 030122 7E
     cp $e0                       ; 030123 FE E0
-    jr nz,$012c                  ; 030125 20 05
+    jr nz,+                      ; 030125 20 05
     ld hl,$c06e                  ; 030127 21 6E C0
     set 2,(hl)                   ; 03012A CB D6
 
@@ -7739,13 +8383,13 @@ ZeroYM2413Channel: ; $8272
       ld b,$12                   ; 030293 06 12
       ld hl,$8312                ; 030295 21 12 83
       ld c,$f1                   ; 030298 0E F1
-      dec c                      ; 03029A 0D
+    -:dec c                      ; 03029A 0D
       outi                       ; 03029B ED A3
       inc c                      ; 03029D 0C
       call $8b34                 ; 03029E CD 34 8B
       outi                       ; 0302A1 ED A3
       call $8b34                 ; 0302A3 CD 34 8B
-      jr nz,$029a                ; 0302A6 20 F2
+      jr nz,-                    ; 0302A6 20 F2
     pop bc                       ; 0302A8 C1
     ret                          ; 0302A9 C9
     ld a,($c002)                 ; 0302AA 3A 02 C0
@@ -7762,14 +8406,14 @@ ZeroYM2413Channel: ; $8272
     ld hl,$c1ae                  ; 0302C7 21 AE C1
     call $8307                   ; 0302CA CD 07 83
     ex af,af'                    ; 0302CD 08
-    jr nz,$02dd                  ; 0302CE 20 0D
+    jr nz,+                      ; 0302CE 20 0D
     ex af,af'                    ; 0302D0 08
     ld hl,$804a                  ; 0302D1 21 4A 80
     ld c,$7f                     ; 0302D4 0E 7F
     ld b,$08                     ; 0302D6 06 08
     otir                         ; 0302D8 ED B3
     jp $85f9                     ; 0302DA C3 F9 85
-    ex af,af'                    ; 0302DD 08
++:  ex af,af'                    ; 0302DD 08
     ld a,$25                     ; 0302DE 3E 25
     call ZeroYM2413Channel       ; 0302E0 CD 72 82
     call $8b34                   ; 0302E3 CD 34 8B
@@ -7787,12 +8431,12 @@ ZeroYM2413Channel: ; $8272
     jp $85f9                     ; 030304 C3 F9 85
     ld de,$0020                  ; 030307 11 20 00
     ld b,$03                     ; 03030A 06 03
-    res 2,(hl)                   ; 03030C CB 96
+-:  res 2,(hl)                   ; 03030C CB 96
     add hl,de                    ; 03030E 19
-    djnz $030c                   ; 03030F 10 FB
+    djnz -                       ; 03030F 10 FB
     ret                          ; 030311 C9
 .ends
-.orga $30312-$30000
+.org $30312-$30000
 
 ;;;;
 
@@ -7802,7 +8446,7 @@ ZeroYM2413Channel: ; $8272
     bit 7,a                      ; 030469 CB 7F
     jp z,$8000                   ; 03046B CA 00 80
     cp $a0                       ; 03046E FE A0
-    jr c,$04ad                   ; 030470 38 3B
+    jr c,++                      ; 030470 38 3B
     cp $d0                       ; 030472 FE D0
     jp c,$8524                   ; 030474 DA 24 85
     cp $d5                       ; 030477 FE D5
@@ -7823,9 +8467,9 @@ ZeroYM2413Channel: ; $8272
     ld hl,$8452                  ; 030490 21 52 84
     sub $d0                      ; 030493 D6 D0
     ex af,af'                    ; 030495 08
-    jr nz,$049b                  ; 030496 20 03
+    jr nz,+                      ; 030496 20 03
     ld hl,$83c0                  ; 030498 21 C0 83
-    ex af,af'                    ; 03049B 08
++:  ex af,af'                    ; 03049B 08
     call $85ff                   ; 03049C CD FF 85
     ld de,$c12e                  ; 03049F 11 2E C1
     ld a,$ff                     ; 0304A2 3E FF
@@ -7833,7 +8477,7 @@ ZeroYM2413Channel: ; $8272
     ld a,$df                     ; 0304A6 3E DF
     out ($7f),a                  ; 0304A8 D3 7F
     jp $85c6                     ; 0304AA C3 C6 85
-    cp $95                       ; 0304AD FE 95
+++: cp $95                       ; 0304AD FE 95
     jp nc,$85f9                  ; 0304AF D2 F9 85
     sub $81                      ; 0304B2 D6 81
     ret m                        ; 0304B4 F8
@@ -7855,15 +8499,15 @@ ZeroYM2413Channel: ; $8272
     ld ix,$c00e                  ; 0304D4 DD 21 0E C0
     ld de,$0020                  ; 0304D8 11 20 00
     ld b,$06                     ; 0304DB 06 06
-    ld a,(ix+$17)                ; 0304DD DD 7E 17
+-:  ld a,(ix+$17)                ; 0304DD DD 7E 17
     ld (ix+$08),a                ; 0304E0 DD 77 08
     add ix,de                    ; 0304E3 DD 19
-    djnz $04dd                   ; 0304E5 10 F6
+    djnz -                       ; 0304E5 10 F6
     call $803c                   ; 0304E7 CD 3C 80
     call $801f                   ; 0304EA CD 1F 80
     pop af                       ; 0304ED F1
     ex af,af'                    ; 0304EE 08
-    jr nz,$0504                  ; 0304EF 20 13
+    jr nz,+                      ; 0304EF 20 13
     ex af,af'                    ; 0304F1 08
     ld de,$c14e                  ; 0304F2 11 4E C1
     or a                         ; 0304F5 B7
@@ -7871,26 +8515,26 @@ ZeroYM2413Channel: ; $8272
     call $8000                   ; 0304F9 CD 00 80
     ld de,$c06e                  ; 0304FC 11 6E C0
     ld hl,$8338                  ; 0304FF 21 38 83
-    jr $051d                     ; 030502 18 19
-    ex af,af'                    ; 030504 08
+    jr ++                        ; 030502 18 19
++:  ex af,af'                    ; 030504 08
     call $8292                   ; 030505 CD 92 82
     ld de,$c14e                  ; 030508 11 4E C1
     or a                         ; 03050B B7
     jp m,$8517                   ; 03050C FA 17 85
     ld de,$c00e                  ; 03050F 11 0E C0
     call $8000                   ; 030512 CD 00 80
-    jr $051a                     ; 030515 18 03
+    jr +                         ; 030515 18 03
     call $802c                   ; 030517 CD 2C 80
-    ld hl,$83ca                  ; 03051A 21 CA 83
-    pop af                       ; 03051D F1
++:  ld hl,$83ca                  ; 03051A 21 CA 83
+++: pop af                       ; 03051D F1
     call $85ff                   ; 03051E CD FF 85
     jp $85c6                     ; 030521 C3 C6 85
     sub $a0                      ; 030524 D6 A0
     ld hl,$8360                  ; 030526 21 60 83
     ex af,af'                    ; 030529 08
-    jr z,$052f                   ; 03052A 28 03
+    jr z,+                       ; 03052A 28 03
     ld hl,$83f2                  ; 03052C 21 F2 83
-    ex af,af'                    ; 03052F 08
++:  ex af,af'                    ; 03052F 08
     call $85ff                   ; 030530 CD FF 85
     ld h,b                       ; 030533 60
     ld l,c                       ; 030534 69
@@ -7898,51 +8542,54 @@ ZeroYM2413Channel: ; $8272
     inc hl                       ; 030536 23
     ld a,(hl)                    ; 030537 7E
     ex af,af'                    ; 030538 08
-    jr z,$0567                   ; 030539 28 2C
+    jr z,+++                     ; 030539 28 2C
     ex af,af'                    ; 03053B 08
     cp $10                       ; 03053C FE 10
-    jr z,$054b                   ; 03053E 28 0B
+    jr z,+                       ; 03053E 28 0B
     cp $14                       ; 030540 FE 14
-    jr z,$0553                   ; 030542 28 0F
+    jr z,++                      ; 030542 28 0F
     ld de,$c10e                  ; 030544 11 0E C1
     ld a,$25                     ; 030547 3E 25
-    jr $055d                     ; 030549 18 12
-    call $8000                   ; 03054B CD 00 80
+    jr ++++                      ; 030549 18 12
++:  call $8000                   ; 03054B CD 00 80
     ld de,$c00e                  ; 03054E 11 0E C0
-    jr $05c6                     ; 030551 18 73
-    ld de,$c0ee                  ; 030553 11 EE C0
+    jr _05c6                     ; 030551 18 73
+++: ld de,$c0ee                  ; 030553 11 EE C0
     ld a,$24                     ; 030556 3E 24
     ld hl,$c08e                  ; 030558 21 8E C0
     set 2,(hl)                   ; 03055B CB D6
+++++:
     ld hl,$c0ae                  ; 03055D 21 AE C0
     set 2,(hl)                   ; 030560 CB D6
     call ZeroYM2413Channel       ; 030562 CD 72 82
-    jr $05c6                     ; 030565 18 5F
-    ex af,af'                    ; 030567 08
+    jr _05c6                     ; 030565 18 5F
+
++++:ex af,af'                    ; 030567 08
     cp $c0                       ; 030568 FE C0
-    jr z,$058b                   ; 03056A 28 1F
+    jr z,+                       ; 03056A 28 1F
     cp $e0                       ; 03056C FE E0
-    jr z,$057e                   ; 03056E 28 0E
+    jr z,++                      ; 03056E 28 0E
     cp $a0                       ; 030570 FE A0
-    jr z,$0590                   ; 030572 28 1C
+    jr z,+++                     ; 030572 28 1C
     push bc                      ; 030574 C5
     call $8000                   ; 030575 CD 00 80
     pop bc                       ; 030578 C1
     ld de,$c06e                  ; 030579 11 6E C0
-    jr $05c6                     ; 03057C 18 48
-    ld a,$df                     ; 03057E 3E DF
+    jr _05c6                     ; 03057C 18 48
+
+++: ld a,$df                     ; 03057E 3E DF
     out ($7f),a                  ; 030580 D3 7F
     ld hl,$c0ce                  ; 030582 21 CE C0
     set 2,(hl)                   ; 030585 CB D6
     ld a,$e7                     ; 030587 3E E7
     out ($7f),a                  ; 030589 D3 7F
-    ld de,$c10e                  ; 03058B 11 0E C1
-    jr $05b8                     ; 03058E 18 28
-    ld de,$0009                  ; 030590 11 09 00
++:  ld de,$c10e                  ; 03058B 11 0E C1
+    jr +                         ; 03058E 18 28
++++:ld de,$0009                  ; 030590 11 09 00
     add hl,de                    ; 030593 19
     ld a,(hl)                    ; 030594 7E
     cp $e0                       ; 030595 FE E0
-    jr nz,$05ab                  ; 030597 20 12
+    jr nz,++                     ; 030597 20 12
     ld a,$e7                     ; 030599 3E E7
     out ($7f),a                  ; 03059B D3 7F
     ld hl,$c0ce                  ; 03059D 21 CE C0
@@ -7951,22 +8598,23 @@ ZeroYM2413Channel: ; $8272
     set 2,(hl)                   ; 0305A5 CB D6
     ld a,$df                     ; 0305A7 3E DF
     out ($7f),a                  ; 0305A9 D3 7F
-    ld de,$c0ee                  ; 0305AB 11 EE C0
+++: ld de,$c0ee                  ; 0305AB 11 EE C0
     ld hl,$c08e                  ; 0305AE 21 8E C0
     set 2,(hl)                   ; 0305B1 CB D6
     ld hl,$c18e                  ; 0305B3 21 8E C1
     set 2,(hl)                   ; 0305B6 CB D6
-    ld a,$ff                     ; 0305B8 3E FF
++:  ld a,$ff                     ; 0305B8 3E FF
     out ($7f),a                  ; 0305BA D3 7F
     ld hl,$c0ae                  ; 0305BC 21 AE C0
     set 2,(hl)                   ; 0305BF CB D6
     ld hl,$c1ae                  ; 0305C1 21 AE C1
     set 2,(hl)                   ; 0305C4 CB D6
+_05c6:
     ld h,b                       ; 0305C6 60
     ld l,c                       ; 0305C7 69
     ld b,(hl)                    ; 0305C8 46
     inc hl                       ; 0305C9 23
-    push bc                      ; 0305CA C5
+-:  push bc                      ; 0305CA C5
     push hl                      ; 0305CB E5
     pop ix                       ; 0305CC DD E1
     ld bc,$0009                  ; 0305CE 01 09 00
@@ -7995,7 +8643,7 @@ ZeroYM2413Channel: ; $8272
     jp nz,$8748                  ; 0305F0 C2 48 87
     jp $8cce                     ; 0305F3 C3 CE 8C
     pop bc                       ; 0305F6 C1
-    djnz $05ca                   ; 0305F7 10 D1
+    djnz -                       ; 0305F7 10 D1
     ld a,$80                     ; 0305F9 3E 80
     ld ($c004),a                 ; 0305FB 32 04 C0
     ret                          ; 0305FE C9
@@ -8010,7 +8658,7 @@ ZeroYM2413Channel: ; $8272
     inc (ix+$0b)                 ; 030608 DD 34 0B
     ld a,(ix+$0a)                ; 03060B DD 7E 0A
     sub (ix+$0b)                 ; 03060E DD 96 0B
-    jr nz,$0627                  ; 030611 20 14
+    jr nz,+                      ; 030611 20 14
     call $8636                   ; 030613 CD 36 86
     bit 2,(ix+$00)               ; 030616 DD CB 00 56
     ret nz                       ; 03061A C0
@@ -8020,7 +8668,8 @@ ZeroYM2413Channel: ; $8272
     or $20                       ; 030622 F6 20
     out ($f1),a                  ; 030624 D3 F1
     ret                          ; 030626 C9
-    cp $02                       ; 030627 FE 02
+
++:  cp $02                       ; 030627 FE 02
     ret nz                       ; 030629 C0
     ld a,$0e                     ; 03062A 3E 0E
     out ($f0),a                  ; 03062C D3 F0
@@ -8037,12 +8686,12 @@ ZeroYM2413Channel: ; $8272
     cp $7f                       ; 030643 FE 7F
     jp c,$880b                   ; 030645 DA 0B 88
     bit 5,a                      ; 030648 CB 6F
-    jr z,$064e                   ; 03064A 28 02
+    jr z,+                       ; 03064A 28 02
     or $01                       ; 03064C F6 01
-    bit 2,a                      ; 03064E CB 57
-    jr z,$0654                   ; 030650 28 02
++:  bit 2,a                      ; 03064E CB 57
+    jr z,+                       ; 030650 28 02
     or $10                       ; 030652 F6 10
-    ld (ix+$10),a                ; 030654 DD 77 10
++:  ld (ix+$10),a                ; 030654 DD 77 10
     jp $87fd                     ; 030657 C3 FD 87
     ld hl,$8660                  ; 03065A 21 60 86
     jp $88ae                     ; 03065D C3 AE 88
@@ -8064,29 +8713,29 @@ ZeroYM2413Channel: ; $8272
     jp nz,$86ad                  ; 030687 C2 AD 86
     ld a,(ix+$11)                ; 03068A DD 7E 11
     bit 7,a                      ; 03068D CB 7F
-    jr z,$069f                   ; 03068F 28 0E
+    jr z,+                       ; 03068F 28 0E
     add a,(ix+$0e)               ; 030691 DD 86 0E
-    jr c,$06ca                   ; 030694 38 34
+    jr c,++                      ; 030694 38 34
     dec (ix+$0f)                 ; 030696 DD 35 0F
     dec (ix+$0f)                 ; 030699 DD 35 0F
     jp $86c6                     ; 03069C C3 C6 86
-    add a,(ix+$0e)               ; 03069F DD 86 0E
-    jr nc,$06ca                  ; 0306A2 30 26
++:  add a,(ix+$0e)               ; 03069F DD 86 0E
+    jr nc,++                     ; 0306A2 30 26
     inc (ix+$0f)                 ; 0306A4 DD 34 0F
     inc (ix+$0f)                 ; 0306A7 DD 34 0F
     jp $86c6                     ; 0306AA C3 C6 86
     ld a,(ix+$11)                ; 0306AD DD 7E 11
     bit 7,a                      ; 0306B0 CB 7F
-    jr z,$06be                   ; 0306B2 28 0A
+    jr z,+                       ; 0306B2 28 0A
     add a,(ix+$0e)               ; 0306B4 DD 86 0E
-    jr c,$06ca                   ; 0306B7 38 11
+    jr c,++                      ; 0306B7 38 11
     dec (ix+$0f)                 ; 0306B9 DD 35 0F
-    jr $06c6                     ; 0306BC 18 08
-    add a,(ix+$0e)               ; 0306BE DD 86 0E
-    jr nc,$06ca                  ; 0306C1 30 07
+    jr +++                       ; 0306BC 18 08
++:  add a,(ix+$0e)               ; 0306BE DD 86 0E
+    jr nc,++                     ; 0306C1 30 07
     inc (ix+$0f)                 ; 0306C3 DD 34 0F
-    set 1,(ix+$07)               ; 0306C6 DD CB 07 CE
-    ld (ix+$0e),a                ; 0306CA DD 77 0E
++++:set 1,(ix+$07)               ; 0306C6 DD CB 07 CE
+++: ld (ix+$0e),a                ; 0306CA DD 77 0E
     bit 2,(ix+$00)               ; 0306CD DD CB 00 56
     ret nz                       ; 0306D1 C0
     ld a,(ix+$13)                ; 0306D2 DD 7E 13
@@ -8094,10 +8743,10 @@ ZeroYM2413Channel: ; $8272
     ret z                        ; 0306D7 C8
     ld a,($c00c)                 ; 0306D8 3A 0C C0
     bit 0,(ix+$07)               ; 0306DB DD CB 07 46
-    jr nz,$06e6                  ; 0306DF 20 05
+    jr nz,+                      ; 0306DF 20 05
     cp $02                       ; 0306E1 FE 02
     jp c,$875e                   ; 0306E3 DA 5E 87
-    or a                         ; 0306E6 B7
++:  or a                         ; 0306E6 B7
     jp m,$86f7                   ; 0306E7 FA F7 86
     bit 7,(ix+$14)               ; 0306EA DD CB 14 7E
     ret nz                       ; 0306EE C0
@@ -8127,17 +8776,18 @@ ZeroYM2413Channel: ; $8272
     bit 7,(hl)                   ; 030727 CB 7E
     exx                          ; 030729 D9
     out ($f0),a                  ; 03072A D3 F0
-    jr nz,$073d                  ; 03072C 20 0F
+    jr nz,+                      ; 03072C 20 0F
     bit 0,(ix+$07)               ; 03072E DD CB 07 46
-    jr z,$073d                   ; 030732 28 09
+    jr z,+                       ; 030732 28 09
     bit 1,(ix+$07)               ; 030734 DD CB 07 4E
     ret z                        ; 030738 C8
     res 1,(ix+$07)               ; 030739 DD CB 07 8E
-    bit 2,(ix+$07)               ; 03073D DD CB 07 56
-    jr z,$0745                   ; 030741 28 02
++:  bit 2,(ix+$07)               ; 03073D DD CB 07 56
+    jr z,+                       ; 030741 28 02
     set 5,h                      ; 030743 CB EC
-    out (c),h                    ; 030745 ED 61
++:  out (c),h                    ; 030745 ED 61
     ret                          ; 030747 C9
+
     ld a,(ix+$01)                ; 030748 DD 7E 01
     add a,$20                    ; 03074B C6 20
     out ($f0),a                  ; 03074D D3 F0
@@ -8163,7 +8813,8 @@ ZeroYM2413Channel: ; $8272
     ld h,(hl)                    ; 030772 66
     ld l,a                       ; 030773 6F
     ret                          ; 030774 C9
-    ld (ix+$0d),a                ; 030775 DD 77 0D
+
+-:  ld (ix+$0d),a                ; 030775 DD 77 0D
     push hl                      ; 030778 E5
     ld c,(ix+$0d)                ; 030779 DD 4E 0D
     ld b,$00                     ; 03077C 06 00
@@ -8175,30 +8826,31 @@ ZeroYM2413Channel: ; $8272
     bit 7,a                      ; 030783 CB 7F
     jp z,$879e                   ; 030785 CA 9E 87
     cp $83                       ; 030788 FE 83
-    jr z,$0797                   ; 03078A 28 0B
+    jr z,+                       ; 03078A 28 0B
     cp $80                       ; 03078C FE 80
-    jr z,$079b                   ; 03078E 28 0B
+    jr z,++                      ; 03078E 28 0B
     ld a,$ff                     ; 030790 3E FF
     ld (ix+$14),a                ; 030792 DD 77 14
     pop hl                       ; 030795 E1
     ret                          ; 030796 C9
-    inc bc                       ; 030797 03
+
++:  inc bc                       ; 030797 03
     ld a,(bc)                    ; 030798 0A
-    jr $0775                     ; 030799 18 DA
-    xor a                        ; 03079B AF
-    jr $0775                     ; 03079C 18 D7
+    jr -                         ; 030799 18 DA
+++: xor a                        ; 03079B AF
+    jr -                         ; 03079C 18 D7
     inc (ix+$0d)                 ; 03079E DD 34 0D
     ld l,a                       ; 0307A1 6F
     ld h,$00                     ; 0307A2 26 00
     add hl,de                    ; 0307A4 19
     ld a,($c000)                 ; 0307A5 3A 00 C0
     or a                         ; 0307A8 B7
-    jr z,$07b5                   ; 0307A9 28 0A
+    jr z,+                       ; 0307A9 28 0A
     ld a,h                       ; 0307AB 7C
     cp (ix+$10)                  ; 0307AC DD BE 10
-    jr z,$07b5                   ; 0307AF 28 04
+    jr z,+                       ; 0307AF 28 04
     set 1,(ix+$07)               ; 0307B1 DD CB 07 CE
-    ld (ix+$10),a                ; 0307B5 DD 77 10
++:  ld (ix+$10),a                ; 0307B5 DD 77 10
     ret                          ; 0307B8 C9
     ld e,(ix+$03)                ; 0307B9 DD 5E 03
     ld d,(ix+$04)                ; 0307BC DD 56 04
@@ -8210,8 +8862,8 @@ ZeroYM2413Channel: ; $8272
     jp nz,$8834                  ; 0307CA C2 34 88
     cp $80                       ; 0307CD FE 80
     jp c,$880b                   ; 0307CF DA 0B 88
-    jr nz,$07d4                  ; 0307D2 20 00
-    call $8894                   ; 0307D4 CD 94 88
+    jr nz,+                      ; 0307D2 20 00        ; does nothing
++:  call $8894                   ; 0307D4 CD 94 88
     ld a,(hl)                    ; 0307D7 7E
     ld (ix+$0e),a                ; 0307D8 DD 77 0E
     inc hl                       ; 0307DB 23
@@ -8225,27 +8877,27 @@ ZeroYM2413Channel: ; $8272
     ld (ix+$11),a                ; 0307EC DD 77 11
     bit 3,(ix+$00)               ; 0307EF DD CB 00 5E
     ld a,(de)                    ; 0307F3 1A
-    jr nz,$080a                  ; 0307F4 20 14
+    jr nz,+                      ; 0307F4 20 14
     ld (ix+$11),a                ; 0307F6 DD 77 11
     inc de                       ; 0307F9 13
     ld a,(de)                    ; 0307FA 1A
-    jr $080a                     ; 0307FB 18 0D
+    jr +                         ; 0307FB 18 0D
     ld a,(de)                    ; 0307FD 1A
     or a                         ; 0307FE B7
     jp p,$880a                   ; 0307FF F2 0A 88
     ld a,(ix+$15)                ; 030802 DD 7E 15
     ld (ix+$0a),a                ; 030805 DD 77 0A
-    jr $081b                     ; 030808 18 11
-    inc de                       ; 03080A 13
+    jr ++                        ; 030808 18 11
++:  inc de                       ; 03080A 13
     ld b,(ix+$02)                ; 03080B DD 46 02
     dec b                        ; 03080E 05
-    jr z,$0815                   ; 03080F 28 04
+    jr z,+                       ; 03080F 28 04
     ld c,a                       ; 030811 4F
-    add a,c                      ; 030812 81
-    djnz $0812                   ; 030813 10 FD
-    ld (ix+$0a),a                ; 030815 DD 77 0A
+-:  add a,c                      ; 030812 81
+    djnz -                       ; 030813 10 FD
++:  ld (ix+$0a),a                ; 030815 DD 77 0A
     ld (ix+$15),a                ; 030818 DD 77 15
-    xor a                        ; 03081B AF
+++: xor a                        ; 03081B AF
     ld (ix+$0c),a                ; 03081C DD 77 0C
     ld (ix+$0d),a                ; 03081F DD 77 0D
     ld (ix+$0b),a                ; 030822 DD 77 0B
@@ -8261,65 +8913,66 @@ ZeroYM2413Channel: ; $8272
     ld l,a                       ; 030837 6F
     ld a,(ix+$05)                ; 030838 DD 7E 05
     or a                         ; 03083B B7
-    jr z,$084c                   ; 03083C 28 0E
+    jr z,+                       ; 03083C 28 0E
     jp p,$8847                   ; 03083E F2 47 88
     add a,l                      ; 030841 85
-    jr c,$084b                   ; 030842 38 07
+    jr c,++                      ; 030842 38 07
     dec h                        ; 030844 25
-    jr $084b                     ; 030845 18 04
+    jr ++                        ; 030845 18 04
     add a,l                      ; 030847 85
-    jr nc,$084b                  ; 030848 30 01
+    jr nc,++                     ; 030848 30 01
     inc h                        ; 03084A 24
-    ld l,a                       ; 03084B 6F
-    ld (ix+$0e),l                ; 03084C DD 75 0E
+++: ld l,a                       ; 03084B 6F
++:  ld (ix+$0e),l                ; 03084C DD 75 0E
     ld (ix+$0f),h                ; 03084F DD 74 0F
     jp $87e0                     ; 030852 C3 E0 87
     push de                      ; 030855 D5
+_0856:
     ld a,h                       ; 030856 7C
     or a                         ; 030857 B7
-    jr z,$0868                   ; 030858 28 0E
+    jr z,+                       ; 030858 28 0E
     cp $02                       ; 03085A FE 02
     ld a,$12                     ; 03085C 3E 12
-    jr c,$0881                   ; 03085E 38 21
+    jr c,++                      ; 03085E 38 21
     srl h                        ; 030860 CB 3C
     rr l                         ; 030862 CB 1D
     ld a,$10                     ; 030864 3E 10
-    jr $0881                     ; 030866 18 19
-    ld a,l                       ; 030868 7D
+    jr ++                        ; 030866 18 19
++:  ld a,l                       ; 030868 7D
     or a                         ; 030869 B7
     jp z,$8892                   ; 03086A CA 92 88
     ld bc,$0400                  ; 03086D 01 00 04
-    rlca                         ; 030870 07
+-:  rlca                         ; 030870 07
     inc c                        ; 030871 0C
-    jr c,$0876                   ; 030872 38 02
-    djnz $0870                   ; 030874 10 FA
-    ld b,c                       ; 030876 41
+    jr c,+                       ; 030872 38 02
+    djnz -                       ; 030874 10 FA
++:  ld b,c                       ; 030876 41
     ld a,$12                     ; 030877 3E 12
-    inc a                        ; 030879 3C
+-:  inc a                        ; 030879 3C
     inc a                        ; 03087A 3C
     sla l                        ; 03087B CB 25
     rl h                         ; 03087D CB 14
-    djnz $0879                   ; 03087F 10 F8
-    ld de,$0757                  ; 030881 11 57 07
+    djnz -                       ; 03087F 10 F8
+++: ld de,$0757                  ; 030881 11 57 07
     ex de,hl                     ; 030884 EB
     or a                         ; 030885 B7
     sbc hl,de                    ; 030886 ED 52
     bit 1,h                      ; 030888 CB 4C
-    jr z,$088e                   ; 03088A 28 02
+    jr z,+                       ; 03088A 28 02
     set 0,h                      ; 03088C CB C4
-    ld d,a                       ; 03088E 57
++:  ld d,a                       ; 03088E 57
     ld e,$00                     ; 03088F 1E 00
     add hl,de                    ; 030891 19
     pop de                       ; 030892 D1
     ret                          ; 030893 C9
     sub $80                      ; 030894 D6 80
-    jr z,$089b                   ; 030896 28 03
+    jr z,+                       ; 030896 28 03
     add a,(ix+$05)               ; 030898 DD 86 05
-    ld hl,$8cdb                  ; 03089B 21 DB 8C
++:  ld hl,$8cdb                  ; 03089B 21 DB 8C
     ex af,af'                    ; 03089E 08
-    jr z,$08a4                   ; 03089F 28 03
+    jr z,+                       ; 03089F 28 03
     ld hl,$8d6d                  ; 0308A1 21 6D 8D
-    ex af,af'                    ; 0308A4 08
++:  ex af,af'                    ; 0308A4 08
     ld c,a                       ; 0308A5 4F
     ld b,$00                     ; 0308A6 06 00
     add hl,bc                    ; 0308A8 09
@@ -8345,7 +8998,7 @@ ZeroYM2413Channel: ; $8272
     ld hl,$3989                  ; 0308C4 21 89 39
     adc a,c                      ; 0308C7 89
     and $88                      ; 0308C8 E6 88
-    jr c,$0856                   ; 0308CA 38 8A
+    jr c,_0856                   ; 0308CA 38 8A
     ld (hl),a                    ; 0308CC 77
     adc a,c                      ; 0308CD 89
     xor c                        ; 0308CE A9
@@ -8387,11 +9040,11 @@ ZeroYM2413Channel: ; $8272
     ld l,e                       ; 030909 6B
     ld b,$08                     ; 03090A 06 08
     ld c,$f1                     ; 03090C 0E F1
-    out ($f0),a                  ; 03090E D3 F0
+-:  out ($f0),a                  ; 03090E D3 F0
     inc a                        ; 030910 3C
     call $8b34                   ; 030911 CD 34 8B
     outi                         ; 030914 ED A3
-    jr nz,$090e                  ; 030916 20 F6
+    jr nz,-                      ; 030916 20 F6
     ld d,h                       ; 030918 54
     ld e,l                       ; 030919 5D
     dec de                       ; 03091A 1B
@@ -8412,22 +9065,23 @@ ZeroYM2413Channel: ; $8272
     ret                          ; 030938 C9
     ld a,(de)                    ; 030939 1A
     cp $01                       ; 03093A FE 01
-    jr z,$0947                   ; 03093C 28 09
+    jr z,+                       ; 03093C 28 09
     res 0,(ix+$07)               ; 03093E DD CB 07 86
     res 1,(ix+$07)               ; 030942 DD CB 07 8E
     ret                          ; 030946 C9
-    set 0,(ix+$07)               ; 030947 DD CB 07 C6
+
++:  set 0,(ix+$07)               ; 030947 DD CB 07 C6
     set 1,(ix+$07)               ; 03094B DD CB 07 CE
     ret                          ; 03094F C9
     ex af,af'                    ; 030950 08
-    jr nz,$0958                  ; 030951 20 05
+    jr nz,+                      ; 030951 20 05
     ex af,af'                    ; 030953 08
     ld a,(de)                    ; 030954 1A
     inc de                       ; 030955 13
-    jr $095a                     ; 030956 18 02
-    inc de                       ; 030958 13
+    jr ++                        ; 030956 18 02
++:  inc de                       ; 030958 13
     ld a,(de)                    ; 030959 1A
-    add a,(ix+$05)               ; 03095A DD 86 05
+++: add a,(ix+$05)               ; 03095A DD 86 05
     ld (ix+$05),a                ; 03095D DD 77 05
     ret                          ; 030960 C9
     ld a,(de)                    ; 030961 1A
@@ -8446,13 +9100,15 @@ ZeroYM2413Channel: ; $8272
     out ($7f),a                  ; 03097A D3 7F
     or $fc                       ; 03097C F6 FC
     inc a                        ; 03097E 3C
-    jr nz,$0986                  ; 03097F 20 05
+    jr nz,+                      ; 03097F 20 05
     res 6,(ix+$00)               ; 030981 DD CB 00 B6
     ret                          ; 030985 C9
-    set 6,(ix+$00)               ; 030986 DD CB 00 F6
+
++:  set 6,(ix+$00)               ; 030986 DD CB 00 F6
     ret                          ; 03098A C9
+
     ex af,af'                    ; 03098B 08
-    jr nz,$0998                  ; 03098C 20 0A
+    jr nz,+                      ; 03098C 20 0A
     ex af,af'                    ; 03098E 08
     ld a,(de)                    ; 03098F 1A
     inc de                       ; 030990 13
@@ -8460,7 +9116,8 @@ ZeroYM2413Channel: ; $8272
     ret z                        ; 030993 C8
     ld (ix+$07),a                ; 030994 DD 77 07
     ret                          ; 030997 C9
-    ex af,af'                    ; 030998 08
+
++:  ex af,af'                    ; 030998 08
     inc de                       ; 030999 13
     ld a,(de)                    ; 03099A 1A
     cp $04                       ; 03099B FE 04
@@ -8480,19 +9137,21 @@ ZeroYM2413Channel: ; $8272
     add hl,bc                    ; 0309B5 09
     ld a,(hl)                    ; 0309B6 7E
     or a                         ; 0309B7 B7
-    jr nz,$09c0                  ; 0309B8 20 06
+    jr nz,+                      ; 0309B8 20 06
     ld a,(de)                    ; 0309BA 1A
     dec a                        ; 0309BB 3D
     ld (hl),a                    ; 0309BC 77
     inc de                       ; 0309BD 13
     inc de                       ; 0309BE 13
     ret                          ; 0309BF C9
-    inc de                       ; 0309C0 13
+
++:  inc de                       ; 0309C0 13
     dec (hl)                     ; 0309C1 35
-    jr z,$09c6                   ; 0309C2 28 02
+    jr z,+                       ; 0309C2 28 02
     inc de                       ; 0309C4 13
     ret                          ; 0309C5 C9
-    ex de,hl                     ; 0309C6 EB
+
++:  ex de,hl                     ; 0309C6 EB
     ld e,(hl)                    ; 0309C7 5E
     inc hl                       ; 0309C8 23
     ld d,(hl)                    ; 0309C9 56
@@ -8500,11 +9159,11 @@ ZeroYM2413Channel: ; $8272
     ret                          ; 0309CB C9
     ld a,(de)                    ; 0309CC 1A
     cp $01                       ; 0309CD FE 01
-    jr nz,$09ff                  ; 0309CF 20 2E
+    jr nz,++                     ; 0309CF 20 2E
     set 5,(ix+$00)               ; 0309D1 DD CB 00 EE
     ld a,(ix+$01)                ; 0309D5 DD 7E 01
     ex af,af'                    ; 0309D8 08
-    jr nz,$09e8                  ; 0309D9 20 0D
+    jr nz,+                      ; 0309D9 20 0D
     ex af,af'                    ; 0309DB 08
     ld a,(ix+$08)                ; 0309DC DD 7E 08
     or a                         ; 0309DF B7
@@ -8512,7 +9171,8 @@ ZeroYM2413Channel: ; $8272
     dec (ix+$08)                 ; 0309E1 DD 35 08
     dec (ix+$08)                 ; 0309E4 DD 35 08
     ret                          ; 0309E7 C9
-    ex af,af'                    ; 0309E8 08
+
++:  ex af,af'                    ; 0309E8 08
     cp $13                       ; 0309E9 FE 13
     ret nc                       ; 0309EB D0
     dec (ix+$08)                 ; 0309EC DD 35 08
@@ -8521,10 +9181,12 @@ ZeroYM2413Channel: ; $8272
     ld (ix+$16),a                ; 0309F5 DD 77 16
     ld (ix+$07),$53              ; 0309F8 DD 36 07 53
     jp $8748                     ; 0309FC C3 48 87
+
+++:
     res 5,(ix+$00)               ; 0309FF DD CB 00 AE
     ld a,(ix+$01)                ; 030A03 DD 7E 01
     ex af,af'                    ; 030A06 08
-    jr nz,$0a16                  ; 030A07 20 0D
+    jr nz,+                      ; 030A07 20 0D
     ex af,af'                    ; 030A09 08
     ld a,(ix+$08)                ; 030A0A DD 7E 08
     or a                         ; 030A0D B7
@@ -8532,6 +9194,8 @@ ZeroYM2413Channel: ; $8272
     inc (ix+$08)                 ; 030A0F DD 34 08
     inc (ix+$08)                 ; 030A12 DD 34 08
     ret                          ; 030A15 C9
+
++:
     ex af,af'                    ; 030A16 08
     cp $13                       ; 030A17 FE 13
     ret nc                       ; 030A19 D0
@@ -8542,10 +9206,11 @@ ZeroYM2413Channel: ; $8272
     jp $8748                     ; 030A26 C3 48 87
     ld a,(de)                    ; 030A29 1A
     cp $01                       ; 030A2A FE 01
-    jr nz,$0a33                  ; 030A2C 20 05
+    jr nz,+                      ; 030A2C 20 05
     set 3,(ix+$00)               ; 030A2E DD CB 00 DE
     ret                          ; 030A32 C9
-    res 3,(ix+$00)               ; 030A33 DD CB 00 9E
+
++:  res 3,(ix+$00)               ; 030A33 DD CB 00 9E
     ret                          ; 030A37 C9
     ld hl,$c12e                  ; 030A38 21 2E C1
     res 2,(hl)                   ; 030A3B CB 96
@@ -8562,7 +9227,7 @@ ZeroYM2413Channel: ; $8272
     out ($7f),a                  ; 030A52 D3 7F
     ld a,($c08e)                 ; 030A54 3A 8E C0
     and $80                      ; 030A57 E6 80
-    jr z,$0a6d                   ; 030A59 28 12
+    jr z,+                       ; 030A59 28 12
     ld hl,$c09c                  ; 030A5B 21 9C C0
     ld a,(hl)                    ; 030A5E 7E
     inc hl                       ; 030A5F 23
@@ -8572,7 +9237,8 @@ ZeroYM2413Channel: ; $8272
     call $8c79                   ; 030A65 CD 79 8C
     ld hl,$c08e                  ; 030A68 21 8E C0
     res 2,(hl)                   ; 030A6B CB 96
-    ld hl,$c18e                  ; 030A6D 21 8E C1
+    
++:  ld hl,$c18e                  ; 030A6D 21 8E C1
     res 2,(hl)                   ; 030A70 CB 96
     ld hl,$c1ce                  ; 030A72 21 CE C1
     res 2,(hl)                   ; 030A75 CB 96
@@ -8580,7 +9246,7 @@ ZeroYM2413Channel: ; $8272
     res 2,(hl)                   ; 030A7A CB 96
     ld a,($c0ae)                 ; 030A7C 3A AE C0
     and $80                      ; 030A7F E6 80
-    jr z,$0a95                   ; 030A81 28 12
+    jr z,+                       ; 030A81 28 12
     ld hl,$c0bc                  ; 030A83 21 BC C0
     ld a,(hl)                    ; 030A86 7E
     inc hl                       ; 030A87 23
@@ -8590,7 +9256,7 @@ ZeroYM2413Channel: ; $8272
     call $8c79                   ; 030A8D CD 79 8C
     ld hl,$c0ae                  ; 030A90 21 AE C0
     res 2,(hl)                   ; 030A93 CB 96
-    ld hl,$c1ae                  ; 030A95 21 AE C1
++:  ld hl,$c1ae                  ; 030A95 21 AE C1
     res 2,(hl)                   ; 030A98 CB 96
     pop hl                       ; 030A9A E1
     pop hl                       ; 030A9B E1
@@ -8605,7 +9271,7 @@ ZeroYM2413Channel: ; $8272
     out ($f1),a                  ; 030AAA D3 F1
     pop af                       ; 030AAC F1
     cp $15                       ; 030AAD FE 15
-    jr z,$0ac6                   ; 030AAF 28 15
+    jr z,+                       ; 030AAF 28 15
     call $8b34                   ; 030AB1 CD 34 8B
     ld hl,$c08e                  ; 030AB4 21 8E C0
     res 2,(hl)                   ; 030AB7 CB 96
@@ -8614,7 +9280,7 @@ ZeroYM2413Channel: ; $8272
     ld hl,$c095                  ; 030ABD 21 95 C0
     call $8ae2                   ; 030AC0 CD E2 8A
     jp $8a9a                     ; 030AC3 C3 9A 8A
-    ld hl,$c0ae                  ; 030AC6 21 AE C0
++:  ld hl,$c0ae                  ; 030AC6 21 AE C0
     res 2,(hl)                   ; 030AC9 CB 96
     ld a,($c12e)                 ; 030ACB 3A 2E C1
     or a                         ; 030ACE B7
@@ -8674,10 +9340,10 @@ ZeroYM2413Channel: ; $8272
     add hl,bc                    ; 030B26 09
     ld a,(hl)                    ; 030B27 7E
     or a                         ; 030B28 B7
-    jr nz,$0b2d                  ; 030B29 20 02
+    jr nz,+                      ; 030B29 20 02
     ld a,(de)                    ; 030B2B 1A
     ld (hl),a                    ; 030B2C 77
-    inc de                       ; 030B2D 13
++:  inc de                       ; 030B2D 13
     dec (hl)                     ; 030B2E 35
     jp nz,$89c6                  ; 030B2F C2 C6 89
     inc de                       ; 030B32 13
@@ -8734,42 +9400,47 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
     inc de                       ; 030B90 13
     jp $8b66                     ; 030B91 C3 66 8B
     bit 3,a                      ; 030B94 CB 5F
-    jr nz,$0bb1                  ; 030B96 20 19
+    jr nz,+                      ; 030B96 20 19
     bit 5,a                      ; 030B98 CB 6F
-    jr nz,$0bb8                  ; 030B9A 20 1C
+    jr nz,++                     ; 030B9A 20 1C
     bit 1,a                      ; 030B9C CB 4F
-    jr nz,$0bb8                  ; 030B9E 20 18
+    jr nz,++                     ; 030B9E 20 18
     bit 0,a                      ; 030BA0 CB 47
-    jr nz,$0bc6                  ; 030BA2 20 22
+    jr nz,+++                    ; 030BA2 20 22
     bit 2,a                      ; 030BA4 CB 57
-    jr nz,$0bc6                  ; 030BA6 20 1E
+    jr nz,+++                    ; 030BA6 20 1E
     ld (ix+$07),$00              ; 030BA8 DD 36 07 00
     ld a,$ff                     ; 030BAC 3E FF
     out ($7f),a                  ; 030BAE D3 7F
     ret                          ; 030BB0 C9
-    ex af,af'                    ; 030BB1 08
+
++:  ex af,af'                    ; 030BB1 08
     ld a,$02                     ; 030BB2 3E 02
     ld b,$04                     ; 030BB4 06 04
-    jr $0bcb                     ; 030BB6 18 13
-    ld c,$04                     ; 030BB8 0E 04
+    jr +                         ; 030BB6 18 13
+
+++: ld c,$04                     ; 030BB8 0E 04
     bit 0,a                      ; 030BBA CB 47
-    jr nz,$0bc0                  ; 030BBC 20 02
+    jr nz,++                     ; 030BBC 20 02
     ld c,$03                     ; 030BBE 0E 03
-    ex af,af'                    ; 030BC0 08
+++: ex af,af'                    ; 030BC0 08
     ld a,c                       ; 030BC1 79
     ld b,$05                     ; 030BC2 06 05
-    jr $0bcb                     ; 030BC4 18 05
-    ex af,af'                    ; 030BC6 08
+    jr +                         ; 030BC4 18 05
+
++++:ex af,af'                    ; 030BC6 08
     ld a,$01                     ; 030BC7 3E 01
     ld b,$06                     ; 030BC9 06 06
-    ld (ix+$07),a                ; 030BCB DD 77 07
++:  ld (ix+$07),a                ; 030BCB DD 77 07
     ex af,af'                    ; 030BCE 08
     bit 2,a                      ; 030BCF CB 57
-    jr z,$0bd5                   ; 030BD1 28 02
+    jr z,+                       ; 030BD1 28 02
     dec b                        ; 030BD3 05
     dec b                        ; 030BD4 05
-    ld (ix+$08),b                ; 030BD5 DD 70 08
++:  ld (ix+$08),b                ; 030BD5 DD 70 08
     ret                          ; 030BD8 C9
+
+_8bd9: ; $30bd9, $8bd9
     inc (ix+$0b)                 ; 030BD9 DD 34 0B
     ld a,(ix+$0a)                ; 030BDC DD 7E 0A
     sub (ix+$0b)                 ; 030BDF DD 96 0B
@@ -8784,22 +9455,22 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
     exx                          ; 030BF7 D9
     ld a,(ix+$12)                ; 030BF8 DD 7E 12
     bit 7,a                      ; 030BFB CB 7F
-    jr z,$0c09                   ; 030BFD 28 0A
+    jr z,+                       ; 030BFD 28 0A
     add a,(ix+$0e)               ; 030BFF DD 86 0E
-    jr c,$0c11                   ; 030C02 38 0D
+    jr c,++                      ; 030C02 38 0D
     dec (ix+$0f)                 ; 030C04 DD 35 0F
-    jr $0c11                     ; 030C07 18 08
-    add a,(ix+$0e)               ; 030C09 DD 86 0E
-    jr nc,$0c11                  ; 030C0C 30 03
+    jr ++                        ; 030C07 18 08
++:  add a,(ix+$0e)               ; 030C09 DD 86 0E
+    jr nc,++                     ; 030C0C 30 03
     inc (ix+$0f)                 ; 030C0E DD 34 0F
-    ld (ix+$0e),a                ; 030C11 DD 77 0E
+++: ld (ix+$0e),a                ; 030C11 DD 77 0E
     bit 2,(ix+$00)               ; 030C14 DD CB 00 56
     ret nz                       ; 030C18 C0
     ld a,(ix+$13)                ; 030C19 DD 7E 13
     cp $1f                       ; 030C1C FE 1F
     ret z                        ; 030C1E C8
-    jr nz,$0c21                  ; 030C1F 20 00
-    ld a,(ix+$13)                ; 030C21 DD 7E 13
+    jr nz,+                      ; 030C1F 20 00       ; does nothing
++:  ld a,(ix+$13)                ; 030C21 DD 7E 13
     cp $ff                       ; 030C24 FE FF
     jp z,$8c40                   ; 030C26 CA 40 8C
     ld a,(ix+$07)                ; 030C29 DD 7E 07
@@ -8833,9 +9504,9 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
     ret nz                       ; 030C6F C0
     ld a,(ix+$01)                ; 030C70 DD 7E 01
     cp $e0                       ; 030C73 FE E0
-    jr nz,$0c79                  ; 030C75 20 02
+    jr nz,+                      ; 030C75 20 02
     ld a,$c0                     ; 030C77 3E C0
-    ld c,a                       ; 030C79 4F
++:  ld c,a                       ; 030C79 4F
     ld a,l                       ; 030C7A 7D
     and $0f                      ; 030C7B E6 0F
     or c                         ; 030C7D B1
@@ -8849,7 +9520,8 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
     rrca                         ; 030C87 0F
     out ($7f),a                  ; 030C88 D3 7F
     ret                          ; 030C8A C9
-    ld (ix+$0c),a                ; 030C8B DD 77 0C
+
+-:  ld (ix+$0c),a                ; 030C8B DD 77 0C
     push hl                      ; 030C8E E5
     ld c,(ix+$0c)                ; 030C8F DD 4E 0C
     ld b,$00                     ; 030C92 06 00
@@ -8859,28 +9531,33 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
     pop hl                       ; 030C97 E1
     ld a,(bc)                    ; 030C98 0A
     bit 7,a                      ; 030C99 CB 7F
-    jr z,$0cc2                   ; 030C9B 28 25
+    jr z,+                       ; 030C9B 28 25
     cp $82                       ; 030C9D FE 82
-    jr z,$0cad                   ; 030C9F 28 0C
+    jr z,++                      ; 030C9F 28 0C
     cp $81                       ; 030CA1 FE 81
-    jr z,$0cbc                   ; 030CA3 28 17
+    jr z,+++                     ; 030CA3 28 17
     cp $80                       ; 030CA5 FE 80
-    jr z,$0cb9                   ; 030CA7 28 10
+    jr z,++++                    ; 030CA7 28 10
     inc bc                       ; 030CA9 03
     ld a,(bc)                    ; 030CAA 0A
-    jr $0c8b                     ; 030CAB 18 DE
-    pop hl                       ; 030CAD E1
+    jr -                         ; 030CAB 18 DE
+
+++: pop hl                       ; 030CAD E1
     ld a,$1f                     ; 030CAE 3E 1F
     ld (ix+$13),a                ; 030CB0 DD 77 13
     add a,(ix+$01)               ; 030CB3 DD 86 01
     out ($7f),a                  ; 030CB6 D3 7F
     ret                          ; 030CB8 C9
+
+++++:
     xor a                        ; 030CB9 AF
-    jr $0c8b                     ; 030CBA 18 CF
-    ld (ix+$13),$ff              ; 030CBC DD 36 13 FF
+    jr -                         ; 030CBA 18 CF
+
++++:ld (ix+$13),$ff              ; 030CBC DD 36 13 FF
     pop hl                       ; 030CC0 E1
     ret                          ; 030CC1 C9
-    inc (ix+$0c)                 ; 030CC2 DD 34 0C
+
++:  inc (ix+$0c)                 ; 030CC2 DD 34 0C
     add a,(ix+$08)               ; 030CC5 DD 86 08
     bit 4,a                      ; 030CC8 CB 67
     ret z                        ; 030CCA C8
@@ -8893,7 +9570,7 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
     out ($7f),a                  ; 030CD8 D3 7F
     ret                          ; 030CDA C9
 .ends
-.orga $30cdb-$30000
+.org $30cdb-$30000
 
 ;;;; music data?
 
