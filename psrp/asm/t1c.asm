@@ -6,7 +6,8 @@
 
 #include "vars.asm"
 
-.org $7d8d			; $7fd8d-7fdbf ($33)
+;.org $7d8d			; $7fd8d-7fdbf ($33)
+.org $3eca ; fix: avoid paging in slot 0 (see t2a.asm)
 
 	; HL = Table offset
 	; PUSH DE

@@ -1535,7 +1535,7 @@ LoadMarkIIILogo:       ; $6a0
     ldir
 
     ld a,$ff
-    ld (xdf01),a       ; $ff -> 
+    ld (xdf01),a       ; $ff ->
 
     ld hl,$0000
     ld (PaletteMoveDelay),hl ; $00 -> PaletteMoveDelay, PaletteMovePos
@@ -3775,6 +3775,8 @@ _LoadSceneData:        ; $3e88
         call LoadTiles4BitRLE
     pop hl
     inc hl
+
+
     xor a
     ld (TextBox20x6Open),a ; zero TextBox20x6Open
     ld a,(hl)          ; +5: page
@@ -3852,7 +3854,7 @@ HandleNameEntry: ; 3fdd
     ld a,(Controls)              ; 003FF0 3A 05 C2
 
     and P11 | P12                ; 003FF3 E6 30
-    jp z,_NameEntryDPadPressed   ; 003FF5 CA C8 40      ; not a button
+    jp z,_NameEntryNoButtonPressed ;03FF5 CA C8 40      ; not a button
 
     and P11                      ; 003FF8 E6 10         ; which button?
     jp nz,_Button1Pressed        ; 003FFA C2 3E 40
@@ -3990,7 +3992,7 @@ _OKSelected_NameEntry:
 _SaveSlotNameTileAddresses: ; $40be
 .dw $8118 $813c $8160 $8184 $81a8
 
-_NameEntryDPadPressed: ; 40c8
+_NameEntryNoButtonPressed: ; 40c8
     ld a,(Controls)              ; 0040C8 3A 05 C2
     rra                          ; 0040CB 1F
     jr c,_UpHeld                 ; 0040CC 38 3E
@@ -4016,7 +4018,7 @@ _RightNew:
 -:  ldbc $c8,+8                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
     ld de,+2                     ; 0040EC 11 02 00      ; delta for tilemap address
     ld iy,NameEntryCursorX       ; 0040EF FD 21 84 C7   ; which cursor sprite coordinate to change
-    jr _NameEntryDPadPressed_DoneWithInput
+    jr _NameEntryNoButtonPressed_DoneWithInput
 _RightHeld:
     ld a,24                      ; 0040F5 3E 18
     ld (NameEntryKeyRepeatCounter),a
@@ -4028,7 +4030,7 @@ _UpNew:
 -:  ldbc $68,-16                 ; 004100 01 F0 68
     ld de,-$80                   ; 004103 11 80 FF
     ld iy,NameEntryCursorY       ; 004106 FD 21 85 C7
-    jr _NameEntryDPadPressed_DoneWithInput
+    jr _NameEntryNoButtonPressed_DoneWithInput
 _UpHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
@@ -4040,7 +4042,7 @@ _DownNew:
 -:  ldbc $b8,+16                 ; 004117 01 10 B8
     ld de,+$80                   ; 00411A 11 80 00
     ld iy,NameEntryCursorY       ; 00411D FD 21 85 C7
-    jr _NameEntryDPadPressed_DoneWithInput
+    jr _NameEntryNoButtonPressed_DoneWithInput
 _DownHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
@@ -4052,7 +4054,7 @@ _LeftNew:
 -:  ldbc $28,-8                  ; 00412E 01 F8 28
     ld de,-2                     ; 004131 11 FE FF
     ld iy,NameEntryCursorX       ; 004134 FD 21 84 C7
-    jr _NameEntryDPadPressed_DoneWithInput
+    jr _NameEntryNoButtonPressed_DoneWithInput
 _LeftHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
@@ -4063,7 +4065,7 @@ _LeftHeld:
     ; c = delta
     ; de = delta VRAM address
     ; iy = address of sprite coordinate to modify
-_NameEntryDPadPressed_DoneWithInput:
+_NameEntryDirectionPressed:
     ld a,(iy+$00)                ; 004141 FD 7E 00
     cp b                         ; 004144 B8         ; compare coordinate to "stop" value
     ret z                        ; 004145 C8         ; do nothing if equal
@@ -4076,10 +4078,10 @@ _NameEntryDPadPressed_DoneWithInput:
 
     ld a,(hl)                    ; 004151 7E
     or a                         ; 004152 B7
-    jr z,_NameEntryDPadPressed_DoneWithInput         ; repeat if a zero was pointed to -> cursor will snap to next valid position
+    jr z,_NameEntryDirectionPressed         ; repeat if a zero was pointed to -> cursor will snap to next valid position
 
     cp (ix+$04)                  ; 004155 DD BE 04   ; or if it's equal to the existing value -> cursor will skip past control code selections
-    jr z,_NameEntryDPadPressed_DoneWithInput
+    jr z,_NameEntryDirectionPressed
 
     ld (NameEntryCurrentlyPointed),a;415A 32 88 C7   ; save value pointed
 
