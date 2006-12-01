@@ -10,13 +10,17 @@ stats_1.bin                                                                 $035
 t1b                 $033fe-03493?: draw number inline with text         121 $033fe-03467: render number to RAM, plural flag    105    ???
 
 
-t2b_3.obj                                                                   $03494-0349d; Spell blank line - addition           10
+t2b_3.obj                                                                   $03494-0349d: Spell blank line - addition           10
 
 
-
+t1c.obj             $03eca-03fc2: background graphics lookup table      248 $03eca-03f02: dictionary lookup                     56
+save_tiles.bin                                                              $03f02-03f3a: replacement name entry tilemap        56
+tx4.obj                                                                     $03f3a-03f58: code for drawing extended chars       30
+                                                                            $03f58-03fc2: free (106)
 
 ; Password entry screens
-                    $04059-0407b: password entered (unused)              34 $04059-0407b: free (34)
+save_text.bin       $04059-0407b: password entered (unused)              34 $04059-04079: replacement text for "enter your name"32
+                                                                            $04079-0407b: free (2)
 
                     $04261-04278: password population (unused)           23 $04261-04278: free (23)
 
@@ -27,19 +31,18 @@ tx3.obj             $042b5-042cc: draw to RAM during entry               17 $042
 
 
 
-                    $04396-043e6: password lookup data (unused)          80 $04396-043e6: free (80)
-save_text.bin       $043e6-04406: text for "please enter your name"      32 $04386-04406: replacement data (different format)   32
-save_tiles.bin      $04406-0448c: tilemap for name entry                134 $04406-0443e: replacement data                      56
-tx4.obj                                                                     $0443e-0445c: code for drawing extended chars       30
-                                                                            $0445c-0448c: free (48)
-save_lookup.bin     $0448c-0450a: data for lookup table during entry    126 $0448c-044f4: replacement data                     104
-                                                                            $044f4-0450a: free (16)
-
+bg_vector.bin       $04396-043e6: password lookup data (unused)          80 $04396-0448e: lookup table moved from $3eca        248
+                    $043e6-04406: text for "please enter your name"      32               (and modified)
+                    $04406-0448c: tilemap for name entry                134
+save_lookup.bin     $0448c-0450a: data for lookup table during entry    126 $0448e-044f6: replacement data                     104
+                                                                            $044f6-04507: Title screen pause hack               17
+                                                                            $04507-0450a: free (3)
 
 t0b                 $045a4-045c6: tile loading for intro                 29 $045a4-045c6: tile loading for intro, now with
                                                                                           re-usable font loader at $45a9
 
-t4b                 $4be84-4bfff: blank data                            300 $4be84-4bf73: PS Gaiden RLE decoder                239   147 free
+t4b                 $4be84-4bfff: blank data                            300 $4be84-4bf73: PS Gaiden RLE decoder                239   
+                                                                            $4bf73-4bfff: free (147)
 
 world2_e.bin        $58570-5ac7c: landscapes (world 2)                 9997 $58570-5a6db: recompressed                        8556
                                                                             $5a6dc-5ac7c: free?

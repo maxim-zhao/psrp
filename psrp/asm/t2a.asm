@@ -17,17 +17,24 @@ next_item:
 
 	di
 	ld a,$7f000/$4000	; move to page 0
-	ld ($fffd),a
+	ld ($fff0),a
+
+
+; FIX: I've changed this to not use paging in slot 0 because too many
+; emulators, and the GG/SMSPro flash carts, don't support it.
+; Rather than fix up a load of references, I've instead left these in
+; taking space but harmlessly writing to $fff0 instead.
 
 	ld a,(hl)		; grab item #
 	ld hl,ITEMS		; table start
 
 	push de
-	call $3d8d		; copy string to RAM
+;	call $3d8d		; copy string to RAM
+	call $3eca		; copy string to RAM ; changed address
 	pop de
 
 	ld a,$00		; reload page 0
-	ld ($fffd),a
+	ld ($fff0),a
 	ei
 
 	ld hl,TEMP_STR		; start of text
@@ -56,7 +63,7 @@ next_shop:
 
 	di
 	ld a,$7f000/$4000	; move to page 0
-	ld ($fffd),a
+	ld ($fff0),a
 
 	ld a,$03		; shop bank
 	ld ($ffff),a
@@ -66,11 +73,12 @@ next_shop:
 	ld hl,ITEMS		; table start
 
 	push de
-	call $3d8d		; copy string to RAM
+;	call $3d8d		; copy string to RAM
+	call $3eca		; copy string to RAM
 	pop de
 
 	ld a,$00		; reload page 0
-	ld ($fffd),a
+	ld ($fff0),a
 	ei
 
 	ld hl,TEMP_STR		; start of text
@@ -109,7 +117,7 @@ next_shop:
 enemy:
 	di
 	ld a,$7f000/$4000	; move to page 0
-	ld ($fffd),a
+	ld ($fff0),a
 
 	ld a,$03		; shop bank
 	ld ($ffff),a
@@ -118,11 +126,12 @@ enemy:
 	ld hl,ENEMY		; table start
 
 	push de
-	call $3d8d		; copy string to RAM
+;	call $3d8d		; copy string to RAM
+	call $3eca		; copy string to RAM
 	pop de
 
 	ld a,$00		; reload page 0
-	ld ($fffd),a
+	ld ($fff0),a
 	ei
 
 	ld hl,TEMP_STR		; start of text
@@ -147,7 +156,7 @@ next_equipment:
 
 	di
 	ld a,$7f000/$4000	; move to page 0
-	ld ($fffd),a
+	ld ($fff0),a
 
 	ld a,$03		; shop bank
 	ld ($ffff),a
@@ -156,11 +165,12 @@ next_equipment:
 	ld hl,ITEMS		; table start
 
 	push de
-	call $3d8d		; copy string to RAM
+;	call $3d8d		; copy string to RAM
+	call $3eca		; copy string to RAM
 	pop de
 
 	ld a,$00		; reload page 0
-	ld ($fffd),a
+	ld ($fff0),a
 	ei
 
 	ld hl,TEMP_STR		; start of text

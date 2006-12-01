@@ -7,13 +7,14 @@
 
 #include "vars.asm"
 
-.org $443e			; $443e-$448b inclusive
+.org $3f3a
 
+; OutputTilemapRawDataBox: ; $0428
 ; So hl = tilemap data (both bytes)
 ; b = height /tiles
 ; c = 2*width /tiles
 ; de = VRAM location
-; OutputTilemapRawDataBox: ; $0428
+
     call $03de  ; the call I stole to get here
     ld bc,$010e ; 14 bytes per row, 1 row
     ld de,$7bec ; Tilemap location 22,15

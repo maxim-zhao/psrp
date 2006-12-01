@@ -19,7 +19,10 @@ cfa hex_0040.bin		; - VRAM
 cfd hex_7085.bin		; - Source
 
 				; Backgrounds
-3eca bg_vector.bin		; - vector table
+;3eca bg_vector.bin		; - vector table
+4396 bg_vector.bin		; - vector table (moved)
+3e8f hex_8e43.bin		; rewire pointer to it (address-8)
+3e65 hex_9343.bin		; rewire another pointer to it (address-3)
 
 40000 bg_table1.bin		; - accompanying data
 40050 bg1_e.bin			; - merged
@@ -82,7 +85,8 @@ cfd hex_7085.bin		; - Source
 82b0 script_trees.bin		; - actual Huffman trees
 
 bf50 t4a_1.obj			; Decoder init
-7fd8d t1c.obj			; - Dictionary lookup
+;7fd8d t1c.obj			; - Dictionary lookup
+3eca t1c.obj			; - Dictionary lookup
 bed0 t4a.obj			; - SFG decoder
 7fe00 t4a_2.obj			; - Additional scripting codes
 7fed0 t4a_3.obj			; - Substring formatter
@@ -267,17 +271,20 @@ eec9 hex_ff.bin			; - scripting code
 
 ; Savegame name entry screen hacking ---------------------------------------------
 ; compressed tile data (low byte only) for name entry screen
-4406 save_tiles.bin
+3f02 save_tiles.bin
+42cd hex_023f.bin ; rewire pointer
 
 ; "Enter your name" text at the top of the screen
-43e6 save_text.bin  ; name entry screen title text - now it's full raw tilemap data
+4059 save_text.bin  ; name entry screen title text - now it's full raw tilemap data
+41c5 hex_5940.bin   ; rewire pointer
 41cb hex_2001.bin   ; bc parameter = bytes per line, number of lines
 41d2 hex_5078.bin   ; de parameter = where to draw (8,1)
 41d6 hex_28.bin     ; change function call to full raw tilemap drawer
 
-41e4 hex_3e44.bin   ; subvert call to output TileMapData to the screen
+41e4 hex_3a3f.bin   ; subvert call to output TileMapData to the screen
 ; code and data for drawing extended chars there
-443e tx4.obj
+3f3a tx4.obj
+
 
 4221 hex_18600ad30b.bin ; init data for cursor in name entry screen: x=$18, y=$60, [xy=$d30a], value=$0b='A'
 
@@ -288,8 +295,9 @@ eec9 hex_ff.bin			; - scripting code
 
 4344 hex_1a.bin ; width of lookup table
 4342 hex_04.bin ; height of lookup table - width*height<=126
-434e hex_4c.bin ; width complement; (434e)+(4344)*2=$80
-448c save_lookup.bin ; lookup table
+434e hex_4c.bin ; width complement, = $80-(4344)*2
+448e save_lookup.bin ; lookup table
+433c hex_8e44.bin ; rewire pointer
 
 ; Cursor snapping for
 4161 hex_48.bin ; x coordinate of sprite for Next
@@ -349,11 +357,11 @@ eec9 hex_ff.bin			; - scripting code
 ; 10 bytes
 
 ; Press Pause on the title screen to toggle PSG/FM
-66 hex_f53a02c2cd5c44.bin
+66 hex_f53a02c2cdf644.bin
 ; push af        ; f5
 ;   ld a,($c202) ; 3a 02 c2
-;   call $445c   ; cd 38 35
-445c hex_fe03c03a00c0ee013200c03e813204c0c9.bin
+;   call $44f6   ; cd 38 35
+44f6 hex_fe03c03a00c0ee013200c03e813204c0c9.bin
 ;   cp 03        ; fe 03
 ;   ret nz       ; c0
 ;   ld a,($c000) ; 3a 00 c0
@@ -362,9 +370,9 @@ eec9 hex_ff.bin			; - scripting code
 ;   ld a,$81     ; 3e 81
 ;   ld ($c004),a ; 32 04 c0
 ;   ret          ; c9
-; I'm not 100% sure this area is free, I need to finish re-disassembling the
-; name entry screen code. But it is much nicer then holding 1 at startup.
+; 17 bytes
+; This is much nicer then holding 1 at startup, but a bit much for a patch :)
 
 
 ; Remove waits for button press --------------------
-1808 hex_000000.bin ; found treasure chest/display/wait/do you eant to open it?
+1808 hex_000000.bin ; found treasure chest/display/wait/do you want to open it?
