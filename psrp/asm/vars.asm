@@ -4,8 +4,8 @@
 ; Written in TASM 3.0.1
 ;
 
-#define DICT      $7d8d		; dictionary lookup code
-#define DICT_2    $7d8d+$8	; dictionary lookup code (words)
+#define DICT      $3eca		; dictionary lookup code
+#define DICT_2    $3eca+$8	; dictionary lookup code (words)
 #define DECODER   $bed0		; huffman decoder
 #define CACHE     $7ed0		; substring lookup
 
