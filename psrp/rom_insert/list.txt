@@ -343,7 +343,7 @@ eec9 hex_ff.bin			; - scripting code
 
 
 ; HALT on idle polling loop ---------------
-;59 hex_763a02c2b720f9c9.bin
+59 hex_763a08c2b720f9c9.bin
 ; doesn't work? :(
 
 
