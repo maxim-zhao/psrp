@@ -119,22 +119,22 @@ Lutz
 ^Wing Eye
 ^Maneater
 ^Scorpius
-^Raajaago ZZZ
+^Rajahgo
 ^Blue@ Slime
-^Motavian@ Farmer
+^Motavian@ Peasant
 ^Devil Bat
 ^Killer@ Plant
-^Fighter@ Fly
+^Biting@ Fly
 ^Motavian@ Teaser
 ^Herex
 ^Sandworm
 ^Motavian@ Maniac
 ^Gold Lens
 ^Red Slime
-^Batman
+^Bat Man
 ^Horseshoe@ Crab
 ^Shark King
-^Leech
+^Lich
 ^Tarantula
 ^Manticort
 ^Skeleton
