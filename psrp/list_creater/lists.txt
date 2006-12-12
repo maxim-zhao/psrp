@@ -111,23 +111,22 @@ Lutz
 ; ------------------------------------------------
 
 ; Monsters
-; #0 = <blank name>
+; #0 = <blank name> (don't delete the line with one space)
 
-
-foo
+ 
 ^Monster@ Fly
 ^Green@ Slime
 ^Wing Eye
 ^Maneater
 ^Scorpius
-^Raajaago
+^Raajaago ZZZ
 ^Blue@ Slime
 ^Motavian@ Farmer
 ^Devil Bat
 ^Killer@ Plant
 ^Fighter@ Fly
 ^Motavian@ Teaser
-^Helix
+^Herex
 ^Sandworm
 ^Motavian@ Maniac
 ^Gold Lens
@@ -137,13 +136,13 @@ foo
 ^Shark King
 ^Leech
 ^Tarantula
-^Manticore
+^Manticort
 ^Skeleton
 ^Ant-lion
 ^Marshes
 ^Dezorian
 ^Desert@ Leech
-^Kuraion
+^Cryon
 ^Big Nose
 ^Ghoul
 ^Ammonite
@@ -159,14 +158,14 @@ foo
 ^Mad@ Stalker
 ^Dezorian@ Head
 ^Zombie
-^Butte
+^Living Dead
 ^Robot@ Police
 ^Cyborg@ Mage
 ^Flame@ Lizard
 Tajim
 ^Gaia
 ^Machine@ Guard
-^Tentacle
+^Big Eater
 ^Talos
 ^Snake@ Lord
 ^Death@ Bearer
@@ -176,7 +175,7 @@ Tajim
 ^Vulcan
 ^Red@ Dragon
 ^Green@ Dragon
-Shadow@ Warrior
+LaShiec
 ^Mammoth
 ^King Sabre
 ^Dark@ Marauder
@@ -187,7 +186,7 @@ Dragon@ Wise
 Gold Drake
 Mad Doctor
 LaShiec
-Dark Force
+Dark Phallus
 Nightmare
 #
 

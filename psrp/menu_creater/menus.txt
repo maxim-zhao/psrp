@@ -205,63 +205,79 @@ Tylon~
 ; -----------------------------------------------
 
 ; Alisa's battle spells
+; Heal
+; Rakusuta (Bye)
+; Peyaraku (Chat)
+; Flaeli (Fire)
+; Bindwa (Rope)
 
 #
 0c 12 02
 Heal~~~
 ~~~~~~~
-Rakusta
+Quick~~
+~~~Dash
+Trans-~
+~~~rate
+Fire~~~
 ~~~~~~~
-Peya-~~
-~raku~~
-Flaeli~
-~~~~~~~
-Bindwa~
+Bind~~~
 ~~~~~~~
 
 ; -----------------------------------------------
 
 ; Myau's battle spells
+; Doheal (Cure)
+; Terror
+; Walla
+; Powma (Help)
 
 #
 0c 12 02
 Super~~
-~heal~~
+~~~Heal
 Terror~
 ~~~~~~~
-Walla~~
+Waller~
 ~~~~~~~
-Powma~~
-~~~~~~~
+Power~~
+~~Boost
 ~~~~~~~
 ~~~~~~~
 
 ; -----------------------------------------------
 
 ; Lutz's battle spells
+; Fire
+; Telepathy
+; Hewn (Wind)
+; Mu-walla (Prot)
+; Thunder
 
 #
 0c 12 02
-Tandle~
+Fire~~~
 ~~~~~~~
 Tele-~~
-~pathy~
-Hewn~~~
+~~pathy
+Wind~~~
 ~~~~~~~
-Mu-~~~~
-~walla~
+Magic~~
+~waller
 Thunder
 ~~~~~~~
 
 ; -----------------------------------------------
 
 ; Alisa's overworld spells
+; Heal
+; Troopa (Fly)
 
 #
 0c 12 02
 Heal~~~
 ~~~~~~~
-Troopa~
+Troop~~
 ~~~~~~~
 ~~~~~~~
 ~~~~~~~
@@ -273,14 +289,17 @@ Troopa~
 ; -----------------------------------------------
 
 ; Myau's overworld spells
+; Doheal (Cure)
+; Raputto (Trap)
+; Suruto (Exit)
 
 #
 0c 12 02
 Super~~
-~heal~~
-Rapt~~~
+~~~heal
+Untrap~
 ~~~~~~~
-Suruto~
+Bypass~
 ~~~~~~~
 ~~~~~~~
 ~~~~~~~
@@ -290,19 +309,22 @@ Suruto~
 ; -----------------------------------------------
 
 ; Lutz's overworld spells
+; Doheal (Cure)
+; Suruto (Exit)
+; Telepathy
+; Mu-oode (Open)
+; Rebirth (Rise)
 
 #
 0c 12 02
 Super~~
-~heal~~
+~~~heal
 Exit~~~
 ~~~~~~~
-Flutran
-slatent
-Tele~~~
-~~~~~~~
-Mu-oode
-~~~~~~~
+Tele-~~
+~~pathy
+Magic~~
+~Unseal
 Rebirth
 ~~~~~~~
 
