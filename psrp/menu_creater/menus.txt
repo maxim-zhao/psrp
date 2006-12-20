@@ -319,7 +319,7 @@ Bypass~
 0c 12 02
 Super~~
 ~~~heal
-Exit~~~
+Bypass~
 ~~~~~~~
 Tele-~~
 ~~pathy
