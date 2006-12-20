@@ -22,14 +22,14 @@
 ~Short@ Sword
 #Iron Sword
 ~Psycho@ Wand
-~Sabre Claw
+~Saber Claw
 #Iron Axe
 ~Titanium@ Sword
 ~Ceramic@ Sword
 ~Needle Gun
 ~Silver@ Tusk
 ~Heat Gun
-~Light@ Sabre
+~Light@ Saber
 ~Laser Gun
 ~Laconian@ Sword
 ~Laconian@ Axe
@@ -119,7 +119,7 @@ Lutz
 ^Wing Eye
 ^Maneater
 ^Scorpius
-^Rajahgo
+^Giant@ Naiad
 ^Blue@ Slime
 ^Motavian@ Peasant
 ^Devil Bat
@@ -177,7 +177,7 @@ Tajim
 ^Green@ Dragon
 LaShiec
 ^Mammoth
-^King Sabre
+^King Saber
 ^Dark@ Marauder
 ^Golem
 Medusa
