@@ -260,13 +260,13 @@ eec9 hex_ff.bin			; - scripting code
 
 
 ; Cheat: all characters start at LV 20
-1854 hex_14.bin
+;1854 hex_14.bin
 ; Cheat: collect any money to get 65535
-2adb hex_0000.bin
+;2adb hex_0000.bin
 ; cheat: HP rolls over 0->255 (nop out overflow handler setting it to 0)
-1723 hex_00.bin
+;1723 hex_00.bin
 ; cheat: free magic
-1cf8 hex_00.bin
+;1cf8 hex_00.bin
 
 
 ; Savegame name entry screen hacking ---------------------------------------------
