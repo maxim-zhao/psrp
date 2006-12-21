@@ -423,7 +423,7 @@ You got lost in the woods.<wait>
 [0B4]
 ;ココハ ア-マ-ショップデス.<line>
 ;ナニカ カイマスカ.<end>
-Welcome to the armour shop. Can I help you?<end>
+Welcome to the armor shop. Can I help you?<end>
 
 [0B6]
 ;ソウデスカ.マタキテクダサイ.<wait>
@@ -459,7 +459,7 @@ What do you have?<end>
 [0C4]
 ;<item>デスネ.<line>
 ;<number>メセタデ イイデスカ.<end>
-Hm, <use article 01><item>? How does <number><internal hint 01> meseta<use suffix> sound?<end>
+Hmm, <use article 01><item>? How does <number><internal hint 01> meseta<use suffix> sound?<end>
 
 [0C6]
 ;アリガトウ モットウリマスカ.<end>
@@ -478,7 +478,7 @@ This is a hospital. Do you require medical care?<end>
 [0CA]
 ;シンサツト チリョウヒ<line>
 ;<number>メセタデス.ヨロシイデスカ.<end>
-Hm. I can get you good as new for <number><internal hint 02> meseta<use suffix>.<wait more>
+Hmm. I can get you good as new for <number><internal hint 02> meseta<use suffix>.<wait more>
 Shall I proceed?<end>
 
 [0CC]
@@ -936,7 +936,7 @@ Myau.<wait>
 
 [160]
 Hello, Myau. I’m looking for a man named Tylon.<wait more>
-Rumor has it he was travelling with a talking animal.<line><line>
+Rumor has it he was traveling with a talking animal.<line><line>
 I don’t suppose that was you?<wait>
 
 [162]
@@ -949,7 +949,7 @@ I think I can manage. Come on, let’s go help him.<wait>
 
 
 ; ********************************
-; *** Character Intro - Tairon ***
+; *** Character Intro - Tylon ***
 ; ********************************
 ;アリガトウ.タスカッタヨ.<line>
 ;シカシ メデュ-サニ<line>
