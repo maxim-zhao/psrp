@@ -89,11 +89,11 @@ __________________________________________________________
 
 . Credits
 
-Z80 Gaiden  - Core hacking and programming
-Maxim       - Project manager, final hacking/programming
-Paul Jensen - Script translator, editor
-satsu       - Additional translations
-TheRedEye   - Script editor
+Z80 Gaiden        - Core hacking and programming
+Maxim             - Project manager, final hacking/programming
+Paul Jensen       - Script translator, editor
+satsu             - Additional translations
+Frank Cifaldi     - Localization
 
 Special thanks to:
 
@@ -107,7 +107,7 @@ Charles MacDonald - Open-source SMS/GG emulator
 Forgotten         - Functional Z80 disassembler from his GB/GBA emulator
 Gregory Montoir   - Open-source SDL port of first-mentioned program
 KingMike      	  - Concise DTE tutorial
-SnowBro           - Versatile tile editer
+SnowBro           - Versatile tile editor
 
 DJ Squarewave
 TheGZeus
