@@ -1,4 +1,4 @@
-Phantasy Star English Retranslation v0.90
+Phantasy Star English Retranslation v0.91
 =========================================
 
 
@@ -11,7 +11,11 @@ Original Game © 1987
 
 Unofficial Translation 2005-2006
 - SMS Power!
-- v0.9 released 2006/12/20
+- v0.90 released 2006/12/20
+  - first release
+- v0.91 released 2006/12/22
+  - minor script clean-ups
+  - checksum fixed
 
 Phantasy Star Original Dialogue Version
  Japanese to English Retranslation © 2001-2002
