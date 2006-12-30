@@ -467,9 +467,15 @@ I know why you are here. You've certainly made no secret of it.<wait more>
 
 [0A6]
 ; ソノ ユウキヲ ホメテヤル.マハルノドウクツニ ルツ トイウ エスパ-ガ<wait more>
-You plan to overthrow LaShiec? This is very serious.<wait more>
-It's foolish, but I admire your bravery.<wait more>
-I won't try to stop you.<line>
+You plan to overthrow LaShiec, do you not?<wait more>
+LaShiec is a powerful man. No, more than a man.<wait more>
+He's beyond those constraints. He's something else entirely.<wait more>
+You're very brave to take him on.<wait more>
+But bravery, I fear, will not be enough.<wait more>
+However, there's something inside you, something very powerful.<wait more>
+It is a power that you must discover on your own.<wait more>
+I can tell you no more. Not yet.<wait more>
+Go. Destroy him. I won't stop you.<wait more>
 In fact, I will offer you assistance.<wait more>
 
 
@@ -1705,20 +1711,21 @@ Lord LaShiec is unkillable. He'll destroy you all.<wait>
 ; トウトウ ココマデ キタカ.<line>
 ; ウンノ イイヤツラメ.<wait more>
 ; ソンナニ ワシヲ タオシタイノカ.<end>
-You’ve made it here at last. I was beginning to wonder.<wait more>
-I've been watching you very closely, from the beginning.<wait more>
+Ah, it's you. I thought you might come.<wait more>
 I know a great deal about you, child.<wait more>
 I know you loved your brother, dearly. Nero, was it?<wait more>
 Yes.<wait more>
 I know more than that. I know your name, too. Your real name.<wait more>
-Even you don't know that one.<wait more>
-And I know why you're here.<wait more>
+Foolish child. You don't even know your own bloodline.<wait more>
+You have no idea what's inside of you.<wait more>
+And I know why you're here, too.<wait more>
 You plan to kill me. Don't you, child?<end>
 
 [26E]
 ; ソウカ.ソレナラバ<wait more>
 ; ソノ カンガエガ マチガッテイタ<line>
 Yes, of course you do. Your courage is admirable.<wait more>
+You are much like your father.<wait more>
 I'll take little pleasure in killing you.<wait>
 
 [270]
@@ -1740,9 +1747,8 @@ It's a wonder I'm still alive. Thank you.<wait more>
 [274]
 ; ドウヤラ アシキ マリョクニ<line>
 ; オカサレテイタラシイ.<wait more>
-Well done! You've saved Algol!<line>
-And not a moment too soon.<wait more>
-I thank you from the bottom of my heart. We all do.<wait more>
+You've done it. You've saved Algol.<wait more>
+History shall repeat your names, always.<wait more>
 
 [276]
 ; ヨクゾ コノヨヲ スクッテクレタ.<line>
@@ -1751,6 +1757,8 @@ Alisa. There's something I must tell you.<wait more>
 It's a secret I've kept from you, to spare your life.<wait more>
 Now that LaShiec is gone, it's safe to come out with it.<wait more>
 Alisa...your father was the king of Algol.<wait more>
+His royal blood is inside you. It has given you strength.<wait more>
+
 
 [278]
 ; タイヘンナコトニ ナッテイタダロウ.ココロカラ レイヲ イウゾ.<wait more>
