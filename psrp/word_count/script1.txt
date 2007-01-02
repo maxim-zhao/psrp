@@ -831,12 +831,12 @@ It's just a rumor, though. Don't quote me on that.<wait>
 
 
 ; *************
-; *** Abion ***
+; *** Avion ***
 ; *************
 
 [11C]
 ; コノムラハ アビオン トイウノヨ.<wait>
-This village is called Abion.<wait>
+This village is called Avion.<wait>
 
 [11E]
 ; ラシ-クノ マノテハ コノムラニモ<line>
