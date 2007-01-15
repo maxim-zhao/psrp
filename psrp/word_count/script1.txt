@@ -1110,11 +1110,13 @@ I once saw a huge floating rock in the sky!<wait>
 
 [188]
 ; チョウコオネ-サンデ-ス.<wait more>
-My name is Chouko Oneesan.<wait more>
+My name is Choko Oneesan.<wait more>
 
 [18A]
 ; ガンバッテ ボウケンヲ ツヅケテネ.<wait>
-You're doing wonderfully, keep it up!<wait>
+; FC: You're doing wonderfully, keep it up!<wait>
+; PJ: Be tough and carry on your adventure!<wait>
+Be tough and carry on your adventure!<wait>
 
 [18C]
 ; ワタシハ ドクガスカラ ミヲ マモルガスクリア- トイウ ソウチガ<wait more>
