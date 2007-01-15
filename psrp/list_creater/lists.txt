@@ -158,7 +158,7 @@ Lutz
 ^Mad@ Stalker
 ^Dezorian@ Head
 ^Zombie
-^Living Dead
+^Living@ Dead
 ^Robot@ Police
 ^Cyborg@ Mage
 ^Flame@ Lizard
