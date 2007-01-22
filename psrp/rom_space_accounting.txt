@@ -224,7 +224,7 @@ Inline hacks:
 41799 bg3_e.bin     ; PSG bitmap decoder ; Backgrounds ; - merged
 43406 bg5_e.bin			; PSG bitmap decoder ; Backgrounds ; - merged w/ font
 43871 font1_e.bin		; font table
-43a87 font2_e.bin   ; font table
+43bb4 font2_e.bin   ; font table
 43c00 words.bin			; Lists ; Static dictionary
 44640 bg_table8.bin		; PSG bitmap decoder ; Backgrounds ; - accompanying data
 44680 bg8_e.bin			; PSG bitmap decoder ; Backgrounds ; - merged

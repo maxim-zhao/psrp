@@ -52,7 +52,7 @@ cfd hex_7085.bin		; - Source
 ; Font
 
 43871 font1_e.bin		; Two font tables
-43a87 font2_e.bin
+43bb4 font2_e.bin
 
 				; Intro font decoding
 45a4 t0b.obj			; - #1/#2 table decoder calls

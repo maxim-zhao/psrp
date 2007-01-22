@@ -5,7 +5,7 @@
 ;
 
 #define FONT1 $b871
-#define FONT2 $ba87
+#define FONT2 $bbb4
 
 #define VRAM1 $5800
 #define VRAM2 $7e00
