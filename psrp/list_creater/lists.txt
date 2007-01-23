@@ -35,16 +35,16 @@
 ~Laconian@ Axe
 
 
-; armour
+; armor
 
 ~Leather@ Clothes
 ~White@ Cloak
 ~Light Suit
-#Iron Armour
+#Iron Armor
 ~Spiky [Squirrel ]Fur
 ~Zirconian@ Mail
-~Diamond@ Armour
-~Laconian@ Armour
+~Diamond@ Armor
+~Laconian@ Armor
 ^Frad Cloak
 
 
