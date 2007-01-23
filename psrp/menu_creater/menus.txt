@@ -1,4 +1,4 @@
-; height, width*2 (in hex, with two border tiles included)
+﻿; height, width*2 (in hex, with two border tiles included)
 ; 'x' strings
 ;
 ; do not re-arrange the order
