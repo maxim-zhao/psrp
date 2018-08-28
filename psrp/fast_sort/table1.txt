@@ -418,13 +418,13 @@
 277B AEE8
 2784 AEF8
 281B AF09
-218d AF1E
-2195 AF1E
-25AA ADAD ; bugfix? AF1E in original game, seems wrong
-2651 ADAD ; ditto
-299F AF1E
-2A2E AF1E
-579D AF1E
+218d AF1E ; remove trap: trap not found (correct)
+2195 AF1E ; ditto
+25AA ADAD ; bugfix? AF1E in original game ("nothing particularly unusual"), seems wrong (Alsuline not useful now)
+2651 ADAD ; ditto (Dungeon Key)
+299F AF1E ; Treasure chest searching? (correct)
+2A2E AF1E ; search (correct)
+579D AF1E ; ??? depends on enemies?
 2A15 AF32
 2A9B AF32
 21D9 AF3B

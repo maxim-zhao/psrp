@@ -29,3 +29,5 @@ BuildLog.htm
 /psrp/nmake.exe
 *.sms
 *.S00
+*.zip
+*.ips

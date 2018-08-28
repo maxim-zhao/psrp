@@ -27,7 +27,6 @@ void PSG_Encode( FILE *fp, FILE *out )
 	tiles = ftell( fp ) / 0x20;
 
 	// header bytes
-	/// num tiles (word)
 	fwrite( &tiles, 1, 2, out );
 
 	// init
@@ -41,7 +40,6 @@ void PSG_Encode( FILE *fp, FILE *out )
 		int byte;
 
 		// unroll tile to individual color planes
-		/// = deinterleave by 4, single tile
 		for( int col = 0; col < 8; col++ ) {
 			for( int row = 0; row < 4; row++ ) {		
 				byte = fgetc( fp );
@@ -63,7 +61,6 @@ void PSG_Encode( FILE *fp, FILE *out )
 
 		// start going through each 8-byte block
 		for( loops = 0; loops < 4; loops++ ) {
-			/// for each bitplane of the tile
 			map<int,int> symbols;
 			int lcv;
 			int run;
@@ -89,13 +86,11 @@ void PSG_Encode( FILE *fp, FILE *out )
 			symbols.clear();
 
 			// count maximum # of RLE runs
-			/// count occurrences of each byte in bitplane
 			for( lcv = 0; lcv < 8; lcv++ ) {
 				symbols[ tile[ loops * 8 + lcv ] ]++;
 			}
 
 			// target largest symbol
-			/// find most common byte
 			for( lcv = 0; lcv < 8; lcv++ ) {
 				if( symbols[ tile[ loops * 8 + lcv ] ] > RLE_count ) {
 					RLE_count = symbols[ tile[ loops * 8 + lcv ] ];
@@ -107,8 +102,6 @@ void PSG_Encode( FILE *fp, FILE *out )
 
 			// diff compare with each previous block
 			for( run = 0; run < loops; run++ ) {
-				/// check this bitplane against previous ones
-				/// find how many bytes are the same
 
 				// init
 				symbols.clear();
@@ -129,7 +122,6 @@ void PSG_Encode( FILE *fp, FILE *out )
 
 			// diff compare with each previous block (inversion mask)
 			for( run = 0; run < loops; run++ ) {
-				/// same again with inversion
 
 				// init
 				symbols.clear();
@@ -151,20 +143,16 @@ void PSG_Encode( FILE *fp, FILE *out )
 // -------------------------------------------------------
 
 			// extract high-level method
-			/// shift current encoding left 2 to add this one
 			methods <<= 2;
 
 			// basic algorithms
 			if( RLE_count == 8 && RLE == 0x00 ) {
-				/// all 0 = %00
 				methods |= 0x00;
 			}
 			else if( RLE_count == 8 && RLE == 0xff ) {
-				/// all ff = %01
 				methods |= 0x01;
 			}
 			else if( RLE_count <= 2 && LZ_count <= 2 ) {
-				/// raw = %11
 				methods |= 0x03;
 
 				// queue up raw bytes
@@ -175,23 +163,14 @@ void PSG_Encode( FILE *fp, FILE *out )
 
 			// extended
 			else {
-				/// compressed = %10
 				methods |= 0x02;
 
 				// select new method
 				if( LZ_count == 8 ) {
-					/// %000-00-- = whole bitplane duplicate
-					/// %---f--nn
-					/// f = 1 for inverted
-					/// nn = which bitplane to copy from (0-2)
 					if( LZ_mask == 0 ) buffer[ buf_ptr++ ] = 0x00 | LZ_window;
 					else buffer[ buf_ptr++ ] = 0x10 | LZ_window;
 				}
 				else if( LZ_count > RLE_count ) {
-					/// %001000-- = copy bytes
-					/// %010000-- = copy and invert bytes
-					/// %------nn
-					/// nn = which bitplane to copy from (0-2)
 					int pattern;
 
 					if( LZ_mask == 0 ) buffer[ buf_ptr++ ] = 0x20 | LZ_window;
@@ -205,13 +184,10 @@ void PSG_Encode( FILE *fp, FILE *out )
 						if( tile[ loops * 8 + lcv ] == ( tile[ LZ_window * 8 + lcv ] ^ LZ_mask ) )
 							pattern |= 1;
 					}
-					/// next byte = bitmask
-					/// 1 = copy byte
-					/// 0 = don't
+
 					buffer[ buf_ptr++ ] = pattern;
 
 					// add in raw data
-					/// uncopied bytes
 					run = pattern;
 					for( lcv = 0; lcv < 8; lcv++ ) {
 						if( ( run & 0x80 ) == 0 )
@@ -220,7 +196,6 @@ void PSG_Encode( FILE *fp, FILE *out )
 					}
 				}
 				else {
-					/// %-------- = common byte (patterns mean none of the above can have 3 set bits)
 					int pattern;
 
 					pattern = 0;
@@ -232,10 +207,7 @@ void PSG_Encode( FILE *fp, FILE *out )
 							pattern |= 1;
 					}
 
-					/// value = mask
-					/// 1 = use common value
 					buffer[ buf_ptr++ ] = pattern;
-					/// next byte = byte
 					buffer[ buf_ptr++ ] = RLE;
 
 					// add in raw data
