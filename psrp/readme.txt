@@ -23,6 +23,8 @@ Unofficial Translation 2005-2007
 - v1.01 released 2007/12/22
   - checksum fixed for play on a real system
   - fixed a bug with the Pause button mod
+- v1.02 released 2008/01/31
+  - fixed lockup when you visit Tajim
 
 Phantasy Star Original Dialogue Version
  Japanese to English Retranslation © 2001-2002

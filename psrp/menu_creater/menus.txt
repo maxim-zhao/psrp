@@ -263,7 +263,7 @@ Telepathy~
 Wind~~~~~~
 ~~~~~~~~~~
 Magic~~~~~
-~Waller~~~
+~waller~~~
 Thunder~~~
 ~~~~~~~~~~
 
@@ -295,7 +295,7 @@ Troop~~~~~
 
 #
 0c 18 02
-Super~Heal
+Super~heal
 ~~~~~~~~~~
 Untrap~~~~
 ~~~~~~~~~~
@@ -317,7 +317,7 @@ Bypass~~~~
 
 #
 0c 18 02
-Super~Heal
+Super~heal
 ~~~~~~~~~~
 Bypass~~~~
 ~~~~~~~~~~

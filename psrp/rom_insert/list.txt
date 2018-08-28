@@ -3,7 +3,7 @@
 4be84 t4b.obj			; New bitmap decoder
 486 t4b_1.obj			; - remap code
 
-7e8bd title_e.bin		; - recompressed (edited) title screen
+7e8bd title_e.bin		; - recompressed (edited) title screen, 5259/5955 bytes
 8f9 hex_0040.bin		;  - ld hl, $4000 (dest)
 8fc hex_bda8.bin		;  - ld de, $a8bd (dest)
 
@@ -24,14 +24,14 @@ cfd hex_7085.bin		; - Source
 3e8f hex_8e43.bin		; rewire pointer to it (address-8)
 3e65 hex_9343.bin		; rewire another pointer to it (address-3)
 
-40000 bg_table1.bin		; - accompanying data
+40000 bg_table1.bin		; - accompanying palette data
 40050 bg1_e.bin			; - merged
 40ba7 bg2_e.bin
 41799 bg3_e.bin
 
-43406 bg5_e.bin			; - merged w/ font
+43406 bg5_e.bin			; - merged w/ font (? I think not)
 
-44640 bg_table8.bin		; - accompanying data
+44640 bg_table8.bin		; - accompanying palette data
 44680 bg8_e.bin			; - merged
 45338 bg9_e.bin
 45cb0 bg10_e.bin
@@ -137,7 +137,8 @@ bf50 t4a_1.obj			; Decoder init
 
 ; Menus
 
-46c81 menus.bin			; hard-coded window data
+46c81 menus.bin			; hard-coded window data, max 3273 bytes (3626 :() need 1691 for Tarzimal tiles
+
 3b82 hex_11.bin			; menu bank
 3bab hex_11.bin
 
@@ -210,6 +211,13 @@ bf50 t4a_1.obj			; Decoder init
 45df hex_2e07.bin		; - width*2, height
 
 				; see 'menu-list.txt' for auto-generated
+
+
+; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
+420e0 tiles-tarzimal.bin
+; rewire pointer to them (page $10, offset $a0e0)
+ccaf hex_10e0a0.bin
+
 
 
 ; Menu items
@@ -337,11 +345,11 @@ eec9 hex_ff.bin			; - scripting code
 2fdb hex_dc.bin    ; cursor tile index
 
 ; Changed credits -------------------------
-53dbc credits.bin               ; 580 bytes space
+53dbc credits.bin               ; 577/580 bytes
 488d hex_2058.bin		; - VRAM
-4890 hex_eebd.bin		; - Source
+4890 hex_eebd.bin		; - Source (not actually changed)
 4892 hex_cd8604.bin		; - CALL [PSG decoder] (credits font)
-3fdee font3_e.bin
+3fdee font3_e.bin		;  411/530 bytes
 
 
 ; HALT on idle polling loop ---------------
@@ -398,6 +406,6 @@ eec9 hex_ff.bin			; - scripting code
 ; Remove waits for button press --------------------
 1808 hex_000000.bin ; found treasure chest/display/wait/do you want to open it?
 
-
 ; checksum (needs changing whenever anything changes)
-7ffa hex_b6c2.bin
+7ffa hex_acd6.bin
+

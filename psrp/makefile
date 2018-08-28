@@ -153,6 +153,7 @@ rom_insert\stats_2.bin     : handmade_bins\stats_2.bin     ;copy $? $@
 rom_insert\save_tiles.bin  : handmade_bins\save_tiles.bin  ;copy $? $@
 rom_insert\save_text.bin   : handmade_bins\save_text.bin   ;copy $? $@
 rom_insert\save_lookup.bin : handmade_bins\save_lookup.bin ;copy $? $@
+rom_insert\tiles-tarzimal.bin : handmade_bins\tiles-tarzimal.bin ;copy $? $@
 
 # All files needed for the final ROM
 BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_insert\bg5_e.bin \
@@ -182,6 +183,7 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\t5.obj \
        rom_insert\tx1.obj rom_insert\tx2.obj rom_insert\tx3.obj rom_insert\tx4.obj \
        rom_insert\save_tiles.bin rom_insert\save_text.bin rom_insert\save_lookup.bin \
+       rom_insert\tiles-tarzimal.bin \
        rom_insert\credits.bin \
 
 # rom_insert

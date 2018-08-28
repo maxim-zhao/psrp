@@ -440,7 +440,8 @@ Enjoy. Can I get you anything else?<end>
 [0BC]
 ;ソレイジョウ モテナイヨウデスネ.<line>
 ;マタキテクダサイ.<wait>
-It looks like you can't carry anything more. Please come back later.<wait>
+;All right. Have a good day.<wait>
+You can't carry any more. Come back when you can.<wait>
 
 [0BE]
 ;ココハ ドラッグストアデス.<line>
