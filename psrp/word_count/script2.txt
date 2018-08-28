@@ -741,7 +741,7 @@ For SOME reason I’ve failed.<wait>
 
 [132]
 ;モタビア ユキデス.ノリマスカ.<end>
-This is a nonstop flight to Motabia. Getting on?<end>
+This is a nonstop flight to Motavia. Getting on?<end>
 
 [134]
 ;パルマ ユキデス.ノリマスカ.<end>
