@@ -4,7 +4,7 @@
 ; Written in TASM 3.0.1
 ;
 
-#define MENU_SIZE ((7+2)*2)*11	; top border + text
+#define MENU_SIZE ((10+2)*2)*11	; top border + text
 
 .org $35a2			; $35a2-35ae
 

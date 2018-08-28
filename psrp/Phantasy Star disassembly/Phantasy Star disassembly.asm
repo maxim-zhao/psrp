@@ -592,7 +592,7 @@ FunctionLookupTable:
 .dw LoadMarkIIILogo           ; 0 $06a0
 .dw FadeInMarkIIILogoAndPause ; 1 $0689
 .dw StartTitleScreen          ; 2 $08b7
-.dw TitleScreen               ; 3 $073f --+
+.dw TitleScreen               ; 3 $073f --+  // and intro
 .dw fn0bb8                    ; 4         |
 .dw fn9cb                     ; 5 *       |
 .dw DoNothing                 ; 6         |
@@ -2060,7 +2060,7 @@ _fnaf4:
     ld a,($c2f3)       ; 000B37 3A F3 C2
     cp $07             ; 000B3A FE 07
     ret nz              ; 000B3C C0
-    ld a,($c21b)       ; 000B3D 3A 1B C2
+    ld a,(PaletteFadeControl)       ; 000B3D 3A 1B C2
     or a               ; 000B40 B7
     call nz,$7de3        ; 000B41 C4 E3 7D
     ret                    ; 000B44 C9
@@ -4776,7 +4776,7 @@ DrawText20x6:          ; $59ba
 .orga $59ca
 .section "Say something and close 20x8 box" overwrite
 fn59ca:                ; $59ca
-    ld hl,_text        ; Dunno what it says
+    ld hl,_text        ; see below
     call TextBox20x6
     jp Close20x6TextBox
 _text:
@@ -6415,7 +6415,7 @@ FadeOutFullPalette:   ; $7da8
 _FadeOutPalette:
     ld a,$16           ; VBlankFunction_PaletteEffects
     call ExecuteFunctionIndexAInNextVBlank
-    ld a,($c21b)       ; wait for palette to fade out
+    ld a,(PaletteFadeControl)       ; wait for palette to fade out
     or a
     jp nz,_FadeOutPalette
     ret
@@ -9239,7 +9239,7 @@ _0856:
     call $8c79                   ; 030A65 CD 79 8C
     ld hl,$c08e                  ; 030A68 21 8E C0
     res 2,(hl)                   ; 030A6B CB 96
-    
+
 +:  ld hl,$c18e                  ; 030A6D 21 8E C1
     res 2,(hl)                   ; 030A70 CB 96
     ld hl,$c1ce                  ; 030A72 21 CE C1

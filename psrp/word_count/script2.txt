@@ -238,7 +238,7 @@ In the sky above, the phantom Aerocastle revealed its form.<wait>
 [064]
 ;オナカガ スイテナカッタノデ<line>
 ;モトニ モドシタ.<wait>
-He’s not hungry right now, so the berries were put back.<wait>
+Nobody's hungry right now, so she put them back.<wait>
 
 [066]
 ;ハプスビ-ハ イヤイヤヲシタ.<wait>
@@ -440,7 +440,8 @@ Enjoy. Can I get you anything else?<end>
 [0BC]
 ;ソレイジョウ モテナイヨウデスネ.<line>
 ;マタキテクダサイ.<wait>
-All right. Have a good day.<wait>
+;All right. Have a good day.<wait>
+You can't carry any more. Come back when you can.<wait>
 
 [0BE]
 ;ココハ ドラッグストアデス.<line>
@@ -741,7 +742,7 @@ For SOME reason I’ve failed.<wait>
 
 [132]
 ;モタビア ユキデス.ノリマスカ.<end>
-This is a nonstop flight to Motavia. Getting on?<end>
+This is a non-stop flight to Motavia. Getting on?<end>
 
 [134]
 ;パルマ ユキデス.ノリマスカ.<end>

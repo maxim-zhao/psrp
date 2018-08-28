@@ -3,7 +3,7 @@
 #
 
 # The emulator for testing
-EMU = "M:\My Documents\SMS\meka beta\mekaw.exe"
+EMU = "C:\Documents and Settings\Maxim\Desktop\Local docs\Meka\mekaw.exe"
 
 # Assembler (TASM)
 ASM = tasm.exe -80 -b

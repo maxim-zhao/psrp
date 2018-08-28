@@ -55,8 +55,7 @@ world1_e.bin        $747b8-77629: landscapes (world 1)                11890 $747
 lists.bin                                                                   $76ba6-?????: Enemy, name, item lists             1775
                                                                             $?????-77629: Space for above to grow (as translation continues)
 
-title_e.bin         $7e8bd-7ffff: Title screen (old encoding)          5955 $7e8bd-7fd35: Title screen (new encoding, edited) 5240
-t1c                                                                         $7fd8d-7fdc4: Dictionary lookup                     56
+title_e.bin         $7e8bd-7ffff: Title screen (old encoding)          5955 $7e8bd-7fd35: Title screen (new encoding, edited) 5252
 t4a_2.obj			                                                              $7fe00-?????: Huffman decoder init - add.scr.codes 146
 t4a_3.obj			                                                              $7fed0-?????: Huffman decoder init - substr fmter  206
 

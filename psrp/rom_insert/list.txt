@@ -85,7 +85,6 @@ cfd hex_7085.bin		; - Source
 82b0 script_trees.bin		; - actual Huffman trees
 
 bf50 t4a_1.obj			; Decoder init
-;7fd8d t1c.obj			; - Dictionary lookup
 3eca t1c.obj			; - Dictionary lookup
 bed0 t4a.obj			; - SFG decoder
 7fe00 t4a_2.obj			; - Additional scripting codes
@@ -161,7 +160,7 @@ bf50 t4a_1.obj			; Decoder init
 3027 hex_cde43d.bin		; - CALL $3de4
 
 35a2 t2b_1.obj			; Spell selection finder
-35bf hex_12.bin			; - (7+2)*2 width
+35bf hex_18.bin			; - (12+2)*2 width
 1ee1 hex_4c7a.bin		; - VRAM cursor
 1b6a hex_4c7a.bin		; - VRAM cursor
 
@@ -250,6 +249,9 @@ eec9 hex_ff.bin			; - scripting code
 38c1 hex_f0de.bin   ; Yes/no - clashes with #5
 38e1 hex_f0de.bin
 
+3595 hex_30db.bin   ; #6 - Magic - Depth 2 (choose spell)
+35e4 hex_30db.bin
+
 
 ; Text densification
 34c9 hex_40.bin ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
@@ -260,13 +262,13 @@ eec9 hex_ff.bin			; - scripting code
 
 
 ; Cheat: all characters start at LV 20
-;1854 hex_14.bin
+1854 hex_14.bin
 ; Cheat: collect any money to get 65535
-;2adb hex_0000.bin
+2adb hex_0000.bin
 ; cheat: HP rolls over 0->255 (nop out overflow handler setting it to 0)
-;1723 hex_00.bin
+1723 hex_00.bin
 ; cheat: free magic
-;1cf8 hex_00.bin
+1cf8 hex_00.bin
 
 
 ; Savegame name entry screen hacking ---------------------------------------------
@@ -335,17 +337,15 @@ eec9 hex_ff.bin			; - scripting code
 2fdb hex_dc.bin    ; cursor tile index
 
 ; Changed credits -------------------------
-53dbc credits.bin
-4892 hex_cd8604.bin		; - CALL [PSG decoder] (credits font)
-3fdee font3_e.bin
+53dbc credits.bin               ; 580 bytes space
 488d hex_2058.bin		; - VRAM
 4890 hex_eebd.bin		; - Source
+4892 hex_cd8604.bin		; - CALL [PSG decoder] (credits font)
+3fdee font3_e.bin
 
 
 ; HALT on idle polling loop ---------------
 59 hex_763a08c2b720f9c9.bin
-; doesn't work? :(
-
 
 ; Hold 1 on startup to force PSG mode -----
 ;cf hex_3835.bin ; redirect call to FMDetection@$03a4 to go to $3538 instead
@@ -357,21 +357,42 @@ eec9 hex_ff.bin			; - scripting code
 ; 10 bytes
 
 ; Press Pause on the title screen to toggle PSG/FM
-66 hex_f53a02c2cdf644.bin
-; push af        ; f5
+66 hex_f53a02c2cdf835.bin
+; push af        ; f5       ; there are 3 spare bytes at $66 that I can use
 ;   ld a,($c202) ; 3a 02 c2
-;   call $44f6   ; cd 38 35
-44f6 hex_fe03c03a00c0ee013200c03e813204c0c9.bin
+;   call $3f58   ; cd 58 3f
+;3f58 hex_fe03c03a00c0ee013200c03e813204c0c9.bin
+3f58 hex_fe03c03a00c6feffc83a00c0ee013200c03e813204c0c9.bin
 ;   cp 03        ; fe 03
 ;   ret nz       ; c0
+;   ld a,($c600) ; 3a 00 c6 ; check if $c600 == $ff
+;   cp $ff       ; fe ff
+;   ret z        ; c8       ; do nothing if it is (intro started)
 ;   ld a,($c000) ; 3a 00 c0
 ;   xor 1        ; ee 01
-;   ld ($c000),a ; 32 00 c0
+;   ld ($c000),a ; 32 00 c0 ; flip FM bit
 ;   ld a,$81     ; 3e 81
-;   ld ($c004),a ; 32 04 c0
+;   ld ($c004),a ; 32 04 c0 ; restart title screen music
 ;   ret          ; c9
-; 17 bytes
+; 23 bytes
 ; This is much nicer then holding 1 at startup, but a bit much for a patch :)
+
+; Alternative: add a third option to the title screen.
+; Problem: the cursor resets its position and leaves a ghost arrow on option 3,
+; thus needs more work to clean up. Maybe if I can add a sound test?
+;746 hex_02.bin
+; redirect not-first-choice jump, go to 3f58
+;74f hex_583f.bin
+; do some work there (106? bytes of space)
+;3f58 hex_fe03ca9e073a00c0ee013200c03e813204c0c34a07.bin
+;   cp 01        ; fe 03
+;   jp z,$079e   ; ca 9e 07 ; continue handler
+;   ld a,($c000) ; 3a 00 c0
+;   xor 1        ; ee 01
+;   ld ($c000),a ; 32 00 c0 ; flip FM bit
+;   ld a,$81     ; 3e 81
+;   ld ($c004),a ; 32 04 c0 ; restart title screen music
+;   jp $074a     ; c3 4a 07
 
 
 ; Remove waits for button press --------------------

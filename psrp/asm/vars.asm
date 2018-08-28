@@ -10,8 +10,8 @@
 #define CACHE     $7ed0		; substring lookup
 
 #define ITEMS	  $aba6+$0000	; table entry points
-#define NAMES	  $aba6+$0391 ; see list_creater\log.txt
-#define ENEMY	  $aba6+$03a7
+#define NAMES	  $aba6+$038e ; see list_creater\log.txt
+#define ENEMY	  $aba6+$03a4
 
 #define WORDS	  $bc00
 

@@ -846,7 +846,7 @@ Please, you have to stop him!<wait>
 
 [120]
 ; コノムラニ カワッタ オトコガ<line>
-ヒッコシテキタヨ.ドウブツジッケンヲ<wait more>
+; ヒッコシテキタヨ.ドウブツジッケンヲ<wait more>
 A really strange man recently moved here.<wait more>
 Quiet guy. Rumor has it he's experimenting on animals.<wait more>
 And that strange pot!<wait more>
@@ -934,15 +934,17 @@ Don’t tell anybody I told you that!<wait>
 
 [142]
 ; ダレニ キイタカ シラナイガ<line>
-I don’t know what you’re talking about. I run a legitimate business here.<wait>
+I don’t know what you’re talking about.<wait more>
+I run a legitimate business here.<wait>
 
 [144]
 ; ダメナモノハ ダメダ.<line>
-I already told you once, I don't deal with illegal goods. Get out of my store.<wait>
+I already told you once, I don't deal with illegal goods.<wait more>
+Get out of my store.<wait>
 
 [146]
 ; シツコイヤツダ.ソンナニ イウノナラシカタガナイ.ダレニモ イウナヨ.<wait>
-You're not going to give up, are you?<line>
+You're not going to give up, are you?<wait more>
 Here, just take it. One Roadpass, signed and certified.<wait more>
 If anyone asks you about two dead couriers, deny everything.<wait>
 

@@ -1,4 +1,4 @@
-Phantasy Star English Retranslation v0.91
+Phantasy Star English Retranslation v1.00
 =========================================
 
 
@@ -9,13 +9,20 @@ Original Game © 1987
 - Sega Japan
 - released 1987/12/20
 
-Unofficial Translation 2005-2006
+Unofficial Translation 2005-2007
 - SMS Power!
 - v0.90 released 2006/12/20
   - first release
 - v0.91 released 2006/12/22
   - minor script clean-ups
   - checksum fixed
+- v1.00 released 2007/12/20
+  - minor script bugfixes
+  - spell menu expansion
+  - minor bugfix for sound chip selector
+- v1.01 released 2007/12/22
+  - checksum fixed for play on a real system
+  - fixed a bug with the Pause button mod
 
 Phantasy Star Original Dialogue Version
  Japanese to English Retranslation © 2001-2002
@@ -43,7 +50,7 @@ __________________________________________________________
 
 Phantasy Star is a ground-breaking RPG from 1987. It was the first console RPG
 released in the US; it was one of the first sci-fi-based RPGs, although has a
-unique mix of  fantasy and sci-fi; and it introduced many concepts to the genre.
+unique mix of fantasy and sci-fi; and it introduced many concepts to the genre.
 
 It was ground-breakingly large - taking place across three planets, with large,
 colourful, animated monsters. It was one of the first (and only) games to
@@ -126,6 +133,7 @@ __________________________________________________________
 . Possible future plans
 
 - Check for errors in text insertion/translation
+- Expand save menu
 
 Currently no other known outstanding issues.
 
@@ -175,7 +183,8 @@ do it word-for-word. We'd like to think this is what the original translation
 should have been, 18 years ago.
 
 It's also a great framework for further (re-)translation into more languages.
-Please get in touch if you can do some serious work on that.
+Please get in touch if you can do some serious work on that. You will need to
+provide a translator *and* a Z80 coder.
 
 __________________________________________________________
 

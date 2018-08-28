@@ -5,7 +5,7 @@
 ; Written in TASM 3.0.1
 ;
 
-#define LINE_SIZE (7+2)*2	; width of line
+#define LINE_SIZE (10+2)*2	; width of line
 
 .org $35c5			; $35c5-35d2
 

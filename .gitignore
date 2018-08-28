@@ -25,3 +25,7 @@ BuildLog.htm
 /psrp/substring_formatter/words_final.txt
 /psrp/word_count/stats.txt
 /psrp/word_count/words.txt
+.svn
+/psrp/nmake.exe
+*.sms
+*.S00

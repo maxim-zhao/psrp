@@ -184,10 +184,7 @@ RAM locations causes overwrites.
 
 ; 15. Yes / no
 
-[00334C] 334c 21 18 DA    LD HL,DA18h      AF=FF44 BC=0008 DE=C9C2 HL=B263 SP=CAF6 IX=C880 IY=C800 V    P0=00000 P1=7C000 P2=08000 [ROM]  0020
-[00334F] 334f 11 8C 7C    LD DE,7C8Ch      AF=FF44 BC=0008 DE=C9C2 HL=DA18 SP=CAF6 IX=C880 IY=C800 V    P0=00000 P1=7C000 P2=08000 [ROM]  0020
-[003352] 3352 01 28 05    LD BC,0528h      AF=FF44 BC=0008 DE=7C8C HL=DA18 SP=CAF6 IX=C880 IY=C800 V    P0=00000 P1=7C000 P2=08000 [ROM]  0020
-[003355] 3355 CD CA 3B    CALL 3BCAh       AF=FF44 BC=0528 DE=7C8C HL=DA18 SP=CAF6 IX=C880 IY=C800 V    P0=00000 P1=7C000 P2=08000 [ROM]  0020
+??? Buffer is at $de64, 50 bytes
 
 ; 16. MST *
 
@@ -218,38 +215,75 @@ RAM locations causes overwrites.
 
 ; ________________________________________________________
 
+
+- Character status at bottom of window                      32 x  6 x 2 = $180 bytes
  2. $d724-d8a3 = $180
+
+- Main menu (Stats, Magic, Items, Search, Save)             11 x  8 x 2 = $0b0
  1. $d8a4-d953 = $b0
 
- 3. $da18-dadf = $c8
+- Narrative box                                             20 x  6 x 2 = $0f0
+ 3. $da18-dadf = $f0
 
+- Items                                                     12 x 21 x 2 = $1f8
  4. $dc04-ddfc = $1f8
 
+- Player select                                             8  x  9 x 2 = $090 --- could be 1 narrower
  5. $dda8-de37 = $90
+
+- Spell list                                                9  x 12 x 2 = $0d8 --- changing this
  6. $db74-dc4b = $d8
+
+- Player select (secondary, for magic)                      8  x  9 x 2 = $090 --- rarely used?
  7. $de14-dea3 = $90
 
+- Item menu (Use, Equip, Drop)                              7  x  7 x 2 = $062 --- not used much
  8. $de14-de75 = $62
 
+- Player's equipment (weapon, armour, shield)               12 x  8 x 2 = $0c0 --- must be same width as Items
  9. $d928-d9e7 = $c0
+
+- Player stats                                              13 x 14 x 2 = $16c --- shows alongside above
 10. $dc04-dd6f = $16c
 
+- Enemy name (during battle)                                12 x  4 x 2 = $060 --- cannot happen at same time as above 2?
 11. $d928-d987 = $60
+
+- Enemy party (HP stats, max 10?)                           8  x 10 x 2 = $0a0 --- 10?!?
 12. $d978-da17 = $a0
+
+- Battle menu (Attack, Magic, etc)                          8  x 11 x 2 = $0b0 --- same size as (1)
 13. $d8a4-d953 = $b0
+
+- Active player (during battle)                             8  x  3 x 2 = $030
 14. $d700-d72f = $30
 
-15. $da18-dadf = $c8
-16. $db08-dc27 = $120
+- Yes / No                                                  5  x  5 x 2 = $032
+15. $da18
 
-*. $dfb0-dfff = narrative, off-limits
+- Shop MST total                                            12 x  3 x 2 = $048
+16. $db08-db49 = $48
+
+- Shop items                                                18 x  8 x 2 = $120
+17. $d8a4-d9c3 = $120
+
+- Select save slot                                          9  x 12 x 2 = $0d8
+18. $d928-d9ff = $d8
+
+- Shop buy/sell                                             6  x  5 x 2 = $03c
+19. ???
+
+- ??? This was in the file originaly, not sure what it's for
+15. $da18-dadf = $c8
+
+*. $dfb0-dfff = narrative scrolling, off-limits
 
 ; ---------------------------------------------------------
 
 Scenario 1:
 
-( 1) World menu
-( 2) Party stats
+( 2) World menu
+( 1) Party stats
 
 [Stats]
 
@@ -273,8 +307,8 @@ Scenario 1:
 
 Scenario 2:
 
-( 1) World menu
-( 2) Party stats
+( 2) World menu
+( 1) Party stats
 
 [Magic]
 
@@ -297,8 +331,8 @@ Scenario 2:
 
 Scenario 3:
 
-( 1) World menu
-( 2) Party stats
+( 2) World menu
+( 1) Party stats
 
 [Items]
 
@@ -329,7 +363,7 @@ Scenario 4:
 (12) Enemy party
 (13) Battle menu
 (14) Active player
-( 2) Party stats
+( 1) Party stats
 
 [Items]
 
@@ -355,7 +389,7 @@ Scenario 5:
 (12) Enemy party
 (13) Battle menu
 (14) Active player
-( 2) Party stats
+( 1) Party stats
 
 [Magic]
 
