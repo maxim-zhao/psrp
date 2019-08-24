@@ -5,8 +5,8 @@
 # The emulator for testing
 EMU = "D:\My Documents\SMS\meka\mekaw.exe"
 
-# Assembler (TASM)
-ASM = tasm.exe -80 -b
+WLAZ80 = "..\..\..\c\wla-dx\binaries\wla-z80.exe"
+WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 
 # The original PSJ ROM
 PSJ = ps1-j.sms
@@ -46,15 +46,6 @@ rom_insert\words.bin : list_creater\lists.txt list_creater\dict.txt list_creater
 	cd list_creater
 	"Release\list_creater" dict.txt tech1_table.tbl > log2.txt
 	move pass1.bin "..\rom_insert\words.bin"
-	cd ..
-
-# asm
-asm\t*.asm: asm\vars.asm
-
-{asm}.asm{rom_insert}.obj:
-	cd asm
-	$(ASM) $(?F)
-	copy $(@F) ..\rom_insert
 	cd ..
 
 # bitmap_decode
@@ -173,37 +164,24 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\lists.bin \
        rom_insert\menus.bin \
        rom_insert\opening.bin \
-       rom_insert\t0b.obj rom_insert\t0d.obj \
-       rom_insert\t1b.obj \
-       rom_insert\t1c.obj rom_insert\t1c_1.obj rom_insert\t1c_2.obj rom_insert\t1c_3.obj \
-       rom_insert\t2a.obj rom_insert\t2a_1.obj rom_insert\t2a_2.obj rom_insert\t2a_3.obj rom_insert\t2a_4.obj \
-       rom_insert\t2b.obj rom_insert\t2b_1.obj rom_insert\t2b_2.obj rom_insert\t2b_3.obj \
-       rom_insert\t4a.obj rom_insert\t4a_1.obj rom_insert\t4a_1.obj rom_insert\t4a_2.obj rom_insert\t4a_3.obj rom_insert\t4a_4.obj \
-       rom_insert\t4b.obj rom_insert\t4b_1.obj \
-       rom_insert\t5.obj \
-       rom_insert\tx1.obj rom_insert\tx2.obj rom_insert\tx3.obj rom_insert\tx4.obj \
        rom_insert\save_tiles.bin rom_insert\save_text.bin rom_insert\save_lookup.bin \
        rom_insert\tiles-tarzimal.bin \
        rom_insert\credits.bin \
 
 # rom_insert
 ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.txt $(BINS)
-	copy $(PSJ) rom_insert\ps1jert.sms
-	cd rom_insert
-	Release\rom_insert.exe ps1jert.sms list.txt
-	Release\rom_insert.exe ps1jert.sms script_list.txt
-	Release\rom_insert.exe ps1jert.sms menu_list.txt
-	move ps1jert.sms ..
-	cd ..
+  $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
+  $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
+
 	@echo Successful: translated file is ps1jert.sms
 
-CLEANFILES = asm\*.lst asm\*.obj \
+CLEANFILES = asm\*.lst \
 	     list_creater\log*.txt list_creater\dict.txt \
 	     menu_creater\log.txt \
 	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin psg_encoder\font3.bin\
 	     rom_insert\*_e.bin rom_insert\lists.bin rom_insert\log.txt rom_insert\menu_list.txt \
 	     rom_insert\menus.bin rom_insert\opening.bin rom_insert\script1.bin \
-	     rom_insert\script_list.txt rom_insert\script_trees.bin rom_insert\*.obj rom_insert\tree_vector.bin \
+	     rom_insert\script_list.txt rom_insert\script_trees.bin rom_insert\tree_vector.bin \
 	     rom_insert\words.bin rom_insert\title-nt.bin rom_insert\title-pal.bin\
 	     script_inserter\log.txt script_inserter\script*.txt script_inserter\table_temp.tbl script_inserter\words_final.txt \
 	     substring_formatter\dict.txt substring_formatter\log.txt substring_formatter\words.txt substring_formatter\words_final.txt \

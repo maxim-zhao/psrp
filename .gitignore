@@ -31,3 +31,5 @@ BuildLog.htm
 *.S00
 *.zip
 *.ips
+/psrp/ps1jert.sms.o
+/psrp/ps1jert.sym
