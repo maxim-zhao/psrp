@@ -4603,7 +4603,7 @@ IntroSequence:
                           ; ...I heard rumors of a mighty warrior named 'Tairon' during my journey...
                           ; ...If you combine forces, you might be able to defeat LaShiec... and restore peace...
                           ; ...Alisa...
-                          ; ...It°Øs too late for me...
+                          ; ...It‚Äôs too late for me...
                           ; ...Please forgive me... for leaving you alone...
 
     ld a,$02
@@ -6749,81 +6749,81 @@ TileNumberLookup:      ; $8000
 ; Table of top & bottom tile numbers for different letters
 ; 89 entries (?)
 .db $c0,$c0 ; blank        00
-.db $c0,$cb ; A  •°        01
-.db $c0,$cc ; I  •§        02
-.db $c0,$cd ; U  •¶        03
-.db $c0,$ce ; E  •®        04
-.db $c0,$cf ; O  •™        05
-.db $c0,$d0 ; Ka •´        06
-.db $c0,$d1 ; Ki •≠        07
-.db $c0,$d2 ; Ku •Ø        08
-.db $c0,$d3 ; Ke •±        09
-.db $c0,$d4 ; Ko •≥        0a
-.db $c0,$d5 ; Sa •µ        0b
-.db $c0,$d6 ; Si •∑        0c
-.db $c0,$d7 ; Su •π        0d
-.db $c0,$d8 ; Se •ª        0e
-.db $c0,$d9 ; So •Ω        0f
-.db $c0,$da ; Ta •ø        10
-.db $c0,$db ; Ti •¡        11
-.db $c0,$dc ; Tu •ƒ        12
-.db $c0,$dd ; Te •∆        13
-.db $c0,$de ; To •»        14
-.db $c0,$df ; Na •         15
-.db $c0,$e0 ; Ni •À        16
-.db $c0,$e1 ; Nu •Ã        17
-.db $c0,$e2 ; Ne •Õ        18
-.db $c0,$e3 ; No •Œ        19
-.db $c0,$e4 ; Ha •œ        1a
-.db $c0,$e5 ; Hi •“        1b
-.db $c0,$e6 ; Hu •’        1c
-.db $c0,$e7 ; He •ÿ        1d
-.db $c0,$e8 ; Ho •€        1e
-.db $c0,$e9 ; Ma •ﬁ        1f
-.db $c0,$ea ; Mi •ﬂ        20
-.db $c0,$eb ; Mu •‡        21
-.db $c0,$ec ; Me •·        22
-.db $c0,$ed ; Mo •‚        23
-.db $c0,$ee ; Ya •‰        24
-.db $c0,$ef ; Yu •Ê        25
-.db $c0,$f0 ; Yo •Ë        26
-.db $c0,$f1 ; Ra •È        27
-.db $c0,$f2 ; Ri •Í        28      Unused?
-.db $c0,$f3 ; Ru •Î        29      Wi•
-.db $c0,$f4 ; Re •Ï        2a      We•Ò
-.db $c0,$f5 ; Ro •Ì        2b      Vu•Ù
-.db $c0,$f6 ; Wa •Ô        2c
-.db $c0,$f7 ; Wo •Ú        2d
-.db $c0,$f8 ; N  •Û        2e
-.db $c0,$f9 ; Small Tu •√  2f
-.db $c0,$fa ; Small Ya •„  30
-.db $c0,$fb ; Small Yu •Â  31
-.db $c0,$fc ; Small Yo •Á  32
-.db $fd,$d0 ; Ga •¨        33
-.db $fd,$d1 ; Gi •Æ        34
-.db $fd,$d2 ; Gu •∞        35
-.db $fd,$d3 ; Ge •≤        36
-.db $fd,$d4 ; Go •¥        37
-.db $fd,$d5 ; Za •∂        38
-.db $fd,$d6 ; Zi •∏        39
-.db $fd,$d7 ; Zu •∫        3a
-.db $fd,$d8 ; Ze •º        3b
-.db $fd,$d9 ; Zo •æ        3c
-.db $fd,$da ; Da •¿        3d
-.db $fd,$db ; Di •¬        3e
-.db $fd,$dc ; Du •≈        3f
-.db $fd,$dd ; De •«        40
-.db $fd,$de ; Do •…        41
-.db $fd,$e4 ; Ba •–        42
-.db $fd,$e5 ; Bi •”        43
-.db $fd,$e6 ; Bu •÷        44
-.db $fd,$e7 ; Be •Ÿ        45
-.db $fd,$e8 ; Bo •‹        46
-.db $fe,$e4 ; Pa •—        47
-.db $fe,$e5 ; Pi •‘        48
-.db $fe,$e6 ; Pu •◊        49
-.db $fe,$e7 ; Pe •⁄        4a
-.db $fe,$e8 ; Po •›        4b
+.db $c0,$cb ; A  „Ç°        01
+.db $c0,$cc ; I  „Ç§        02
+.db $c0,$cd ; U  „Ç¶        03
+.db $c0,$ce ; E  „Ç®        04
+.db $c0,$cf ; O  „Ç™        05
+.db $c0,$d0 ; Ka „Ç´        06
+.db $c0,$d1 ; Ki „Ç≠        07
+.db $c0,$d2 ; Ku „ÇØ        08
+.db $c0,$d3 ; Ke „Ç±        09
+.db $c0,$d4 ; Ko „Ç≥        0a
+.db $c0,$d5 ; Sa „Çµ        0b
+.db $c0,$d6 ; Si „Ç∑        0c
+.db $c0,$d7 ; Su „Çπ        0d
+.db $c0,$d8 ; Se „Çª        0e
+.db $c0,$d9 ; So „ÇΩ        0f
+.db $c0,$da ; Ta „Çø        10
+.db $c0,$db ; Ti „ÉÅ        11
+.db $c0,$dc ; Tu „ÉÑ        12
+.db $c0,$dd ; Te „ÉÜ        13
+.db $c0,$de ; To „Éà        14
+.db $c0,$df ; Na „Éä        15
+.db $c0,$e0 ; Ni „Éã        16
+.db $c0,$e1 ; Nu „Éå        17
+.db $c0,$e2 ; Ne „Éç        18
+.db $c0,$e3 ; No „Éé        19
+.db $c0,$e4 ; Ha „Éè        1a
+.db $c0,$e5 ; Hi „Éí        1b
+.db $c0,$e6 ; Hu „Éï        1c
+.db $c0,$e7 ; He „Éò        1d
+.db $c0,$e8 ; Ho „Éõ        1e
+.db $c0,$e9 ; Ma „Éû        1f
+.db $c0,$ea ; Mi „Éü        20
+.db $c0,$eb ; Mu „É†        21
+.db $c0,$ec ; Me „É°        22
+.db $c0,$ed ; Mo „É¢        23
+.db $c0,$ee ; Ya „É§        24
+.db $c0,$ef ; Yu „É¶        25
+.db $c0,$f0 ; Yo „É®        26
+.db $c0,$f1 ; Ra „É©        27
+.db $c0,$f2 ; Ri „É™        28      Unused?
+.db $c0,$f3 ; Ru „É´        29      Wi„É∞
+.db $c0,$f4 ; Re „É¨        2a      We„É±
+.db $c0,$f5 ; Ro „É≠        2b      Vu„É¥
+.db $c0,$f6 ; Wa „ÉØ        2c
+.db $c0,$f7 ; Wo „É≤        2d
+.db $c0,$f8 ; N  „É≥        2e
+.db $c0,$f9 ; Small Tu „ÉÉ  2f
+.db $c0,$fa ; Small Ya „É£  30
+.db $c0,$fb ; Small Yu „É•  31
+.db $c0,$fc ; Small Yo „Éß  32
+.db $fd,$d0 ; Ga „Ç¨        33
+.db $fd,$d1 ; Gi „ÇÆ        34
+.db $fd,$d2 ; Gu „Ç∞        35
+.db $fd,$d3 ; Ge „Ç≤        36
+.db $fd,$d4 ; Go „Ç¥        37
+.db $fd,$d5 ; Za „Ç∂        38
+.db $fd,$d6 ; Zi „Ç∏        39
+.db $fd,$d7 ; Zu „Ç∫        3a
+.db $fd,$d8 ; Ze „Çº        3b
+.db $fd,$d9 ; Zo „Çæ        3c
+.db $fd,$da ; Da „ÉÄ        3d
+.db $fd,$db ; Di „ÉÇ        3e
+.db $fd,$dc ; Du „ÉÖ        3f
+.db $fd,$dd ; De „Éá        40
+.db $fd,$de ; Do „Éâ        41
+.db $fd,$e4 ; Ba „Éê        42
+.db $fd,$e5 ; Bi „Éì        43
+.db $fd,$e6 ; Bu „Éñ        44
+.db $fd,$e7 ; Be „Éô        45
+.db $fd,$e8 ; Bo „Éú        46
+.db $fe,$e4 ; Pa „Éë        47
+.db $fe,$e5 ; Pi „Éî        48
+.db $fe,$e6 ; Pu „Éó        49
+.db $fe,$e7 ; Pe „Éö        4a
+.db $fe,$e8 ; Po „Éù        4b
 .db $c0,$fe ; .            4c
 .db $c0,$ff ; -            4d
 .db $c0,$a4 ; ???          4e    a4 is normally graphics, 1a4 is in the tilemap...
@@ -10319,3 +10319,6 @@ TilesTitleScreen:      ; $7e8bd
 .incbin "Tiles\7E8BDcompr Title screen tiles.dat" ; 256 title
 .ends
 ; to end :)
+
+.smsheader ; for checksum
+.endsms
