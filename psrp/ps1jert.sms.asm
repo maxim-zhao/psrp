@@ -15,9 +15,11 @@ banks 32
 .endro
 
 .background "PS1-J.SMS"
+
+.unbackground $00486 $004ae ; Old tile decoder - can go up to 4e1
+.unbackground $00925 $00932 ; Title screen palette - can go up to 944
+
 /*
-.unbackground $00486 $004e0 ; Old tile decoder
-.unbackground $00925 $00944 ; Title screen palette
 .unbackground $034f2 $03544 ; draw one character to tilemap
 .unbackground $033fe $03492 ; draw number inline with text (end is ?)
 .unbackground $03eca $03fc1 ; background graphics lookup table
@@ -58,12 +60,8 @@ banks 32
 .define DecompressToTileMapData $6e05
 .define ExecuteFunctionIndexAInNextVBlank $0056
 
-; Originally vars.asm
-.define DICT      $3eca   ; dictionary lookup code
-.define DICT_2    $3eca+$8  ; dictionary lookup code (words)
-.define DECODER   $bed0   ; huffman decoder
-.define CACHE     $7ed0   ; substring lookup
 
+; Originally vars.asm
 .define ITEMS   $aba6+$0000 ; table entry points
 .define NAMES   $aba6+$038e ; see list_creater\log.txt
 .define ENEMY   $aba6+$03a4
@@ -85,7 +83,7 @@ banks 32
 
 .define LETTER_S  $37   ; suffix letter ('s')
 
-.define NEWLINE   $54   ; carraige-return
+.define NEWLINE   $54   ; carriage-return
 .define EOS       $56   ; end-of-string
 
 .define HLIMIT    $DFB9   ; horizontal chars left
@@ -350,7 +348,7 @@ _Write_VRAM:
 .ends
 
   ROMPosition $00486
-.section "Trampoline to new bitmap decoder" overwrite
+.section "Trampoline to new bitmap decoder" force
 ; RLE/LZ bitmap decoder
 ; - support mapper
 
@@ -887,16 +885,15 @@ DecoderInit:
 
   ROMPosition $3eca
 .section "Dictionary lookup" overwrite
-DictionaryLookup:
   ; HL = Table offset
 
-_Normal:
+DictionaryLookup:
   push af
     ld a,$77000/$4000 ; Load normal lists
     ld (PAGING_SLOT_2),a
     jr +
 
-_Substring:
+DictionaryLookup_Substring:
   push af
     ld a,$43c00/$4000 ; Load dictionary
     ld (PAGING_SLOT_2),a
@@ -1079,7 +1076,7 @@ AdditionalScriptingCodes:
 ; - Extra scripting codes
 
 _Start:
-  call CACHE    ; Check substring RAM
+  call SubstringFormatter    ; Check substring RAM
 
   cp NEWLINE
   jr z,_No_decode
@@ -1088,7 +1085,7 @@ _Start:
   jp nz,_Done
 
 _Decode:
-  call DECODER    ; Regular decode
+  call SFGDecoder    ; Regular decode
 
 _No_decode:
 
@@ -1096,7 +1093,7 @@ _Code1:
   CP $59      ; Post-length hints
   jr nz,_Code2   ; Check next code
 
-  call DECODER    ; Grab length
+  call SFGDecoder    ; Grab length
   ld (POST_LEN),A   ; Cache it
   jr _Decode   ; Immediately grab next code
 
@@ -1112,7 +1109,7 @@ _Code2:
     ld (STR),hl       ; Store string pointer
   pop hl
 
-  call CACHE    ; Our new dictionary lookup code will do auto-formatting
+  call SubstringFormatter    ; Our new dictionary lookup code will do auto-formatting
 
   ; Intentional fall-through
 
@@ -1172,7 +1169,7 @@ _Code5:
   push bc
 
     ld hl,WORDS
-    call DICT_2   ; Relocate substring entry and copy
+    call DictionaryLookup_Substring   ; Relocate substring entry and copy
 
   pop bc
   pop de
@@ -1184,7 +1181,7 @@ _Code6:
   cp $5A      ; Use article
   jr nz,_Code7
 
-  call DECODER    ; Grab #
+  call SFGDecoder    ; Grab #
   ld (ARTICLE),a
   jp _Decode
 
@@ -1463,7 +1460,7 @@ ItemLookup:
     ld a,($c2c4)		; Grab item #
     ld hl,ITEMS		; Item lookup
 
-    call DICT
+    call DictionaryLookup
 
 	pop bc
 	pop de
