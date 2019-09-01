@@ -16,10 +16,9 @@ banks 32
 
 .background "PS1-J.SMS"
 
+/*
 .unbackground $00486 $004ae ; Old tile decoder - can go up to 4e1
 .unbackground $00925 $00932 ; Title screen palette - can go up to 944
-
-/*
 .unbackground $034f2 $03544 ; draw one character to tilemap
 .unbackground $033fe $03492 ; draw number inline with text (end is ?)
 .unbackground $03eca $03fc1 ; background graphics lookup table
@@ -348,7 +347,7 @@ _Write_VRAM:
 .ends
 
   ROMPosition $00486
-.section "Trampoline to new bitmap decoder" force
+.section "Trampoline to new bitmap decoder" overwrite
 ; RLE/LZ bitmap decoder
 ; - support mapper
 

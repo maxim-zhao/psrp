@@ -8,6 +8,10 @@ EMU = "D:\My Documents\SMS\meka\mekaw.exe"
 WLAZ80 = "..\..\..\c\wla-dx\binaries\wla-z80.exe"
 WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 
+# Assumes it's on the path
+CC = cl.exe
+CCFLAGS = /Od /EHsc /W2 /DEBUG /Zi
+
 # The original PSJ ROM
 PSJ = ps1-j.sms
 
@@ -17,10 +21,13 @@ PLAY: ps1jert.sms
 	$(EMU) ps1jert.sms
 
 # word_count
-script_inserter\script1.txt script_inserter\script2.txt substring_formatter\words.txt : word_count\script1.txt word_count\script2.txt
+word_count\word_count.exe : word_count\*.cpp
+  $(CC) $(CCFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
+
+script_inserter\script1.txt script_inserter\script2.txt substring_formatter\words.txt : word_count\script1.txt word_count\script2.txt word_count\word_count.exe
 	cd word_count
 	copy script1.txt + script2.txt script.txt
-	"Release\word_count" < script.txt > stats.txt
+	word_count.exe < script.txt > stats.txt
 	copy script1.txt "..\script_inserter"
 	copy script2.txt "..\script_inserter"
 	copy words.txt "..\substring_formatter"
@@ -28,101 +35,123 @@ script_inserter\script1.txt script_inserter\script2.txt substring_formatter\word
 	cd ..
 
 # substring_formatter
-script_inserter\words_final.txt list_creater\dict.txt : substring_formatter\words.txt
+substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
+  $(CC) $(CCFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
+
+script_inserter\words_final.txt list_creater\dict.txt : substring_formatter\words.txt substring_formatter\substring_formatter.exe
 	cd substring_formatter
-	"Release\substring_formatter" 0x80 > log.txt
+	substring_formatter.exe 0x80 > log.txt
 	copy words_final.txt "..\script_inserter"
 	copy dict.txt "..\list_creater"
 	cd ..
 
 # list_creater
-rom_insert\lists.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl
+list_creater\list_creater.exe : list_creater\*.cpp
+  $(CC) $(CCFLAGS) list_creater/*.cpp /Fe:list_creater\list_creater.exe
+
+rom_insert\lists.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl list_creater\list_creater.exe
 	cd list_creater
-	"Release\list_creater" lists.txt tech1_table.tbl > log.txt
+	list_creater.exe lists.txt tech1_table.tbl > log.txt
 	move pass1.bin "..\rom_insert\lists.bin"
 	cd ..
 
-rom_insert\words.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl
+rom_insert\words.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl list_creater\list_creater.exe
 	cd list_creater
-	"Release\list_creater" dict.txt tech1_table.tbl > log2.txt
+	list_creater.exe dict.txt tech1_table.tbl > log2.txt
 	move pass1.bin "..\rom_insert\words.bin"
 	cd ..
 
 # bitmap_decode
-BITMAP_DECODE = bitmap_decode\Release\bitmap_decode.exe
-psg_encoder\bg1.bin   : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 40020 $@
-psg_encoder\bg2.bin   : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 40f36 $@
-psg_encoder\bg3.bin   : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 41c82 $@
-psg_encoder\bg5.bin   : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 43406 $@
-psg_encoder\bg8.bin   : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 44650 $@
-psg_encoder\bg9.bin   : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 457d4 $@
-psg_encoder\bg10.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 464c1 $@
-psg_encoder\bg11.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 46f68 $@
-psg_encoder\bg13.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 5ac8d $@
-psg_encoder\bg14.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 2c010 $@
-psg_encoder\bg16.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 5eb6f $@
-psg_encoder\bg29.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 27b24 $@
-psg_encoder\bg30.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 524ea $@
-psg_encoder\bg31.bin  : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 4c010 $@
-#psg_encoder\title.bin : $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 7e8bd $@
-psg_encoder\world1.bin: $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 747b8 $@
-psg_encoder\world2.bin: $(PSJ) ;$(BITMAP_DECODE) $(PSJ) 58570 $@
+BITMAP_DECODE = bitmap_decode\bitmap_decode.exe
+
+$(BITMAP_DECODE) : bitmap_decode\*.cpp
+  $(CC) $(CCFLAGS) bitmap_decode\*.cpp /Fe:$(BITMAP_DECODE)
+
+psg_encoder\bg1.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40020 $@
+psg_encoder\bg2.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40f36 $@
+psg_encoder\bg3.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 41c82 $@
+psg_encoder\bg5.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 43406 $@
+psg_encoder\bg8.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 44650 $@
+psg_encoder\bg9.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 457d4 $@
+psg_encoder\bg10.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 464c1 $@
+psg_encoder\bg11.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 46f68 $@
+psg_encoder\bg13.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5ac8d $@
+psg_encoder\bg14.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 2c010 $@
+psg_encoder\bg16.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5eb6f $@
+psg_encoder\bg29.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 27b24 $@
+psg_encoder\bg30.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 524ea $@
+psg_encoder\bg31.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 4c010 $@
+#psg_encoder\title.bin : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 7e8bd $@
+psg_encoder\world1.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 747b8 $@
+psg_encoder\world2.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 58570 $@
 
 
 # tile conversion from PNG
 psg_encoder\font1.bin: new_graphics\font1.png
-	new_graphics\bmp2tile.exe $? -4bit -noremovedupes -savetilesbin $@ -exit
+	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
 
 psg_encoder\font2.bin: new_graphics\font2.png
-	new_graphics\bmp2tile.exe $? -4bit -noremovedupes -savetilesbin $@ -exit
+	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
 
 psg_encoder\font3.bin: new_graphics\font3.png
-	new_graphics\bmp2tile.exe $? -4bit -noremovedupes -savetilesbin $@ -exit
+	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
 
 psg_encoder\title.bin rom_insert\title-nt.bin rom_insert\title-pal.bin: new_graphics\titlescreen.png
-	new_graphics\bmp2tile.exe $? -4bit -savetilesbin psg_encoder\title.bin -savetilemappscompr rom_insert\title-nt.bin -palsms -savepalettebin rom_insert\title-pal.bin -exit
+	new_graphics\bmp2tile.exe $** -4bit -savetilesbin psg_encoder\title.bin -savetilemappscompr rom_insert\title-nt.bin -palsms -savepalettebin rom_insert\title-pal.bin -exit
 
 # psg_encoder
-PSG_ENCODE = psg_encoder\Release\psg_encoder.exe
-rom_insert\bg1_e.bin   : psg_encoder\bg1.bin   ;$(PSG_ENCODE) $? $@
-rom_insert\bg2_e.bin   : psg_encoder\bg2.bin   ;$(PSG_ENCODE) $? $@
-rom_insert\bg3_e.bin   : psg_encoder\bg3.bin   ;$(PSG_ENCODE) $? $@
-rom_insert\bg5_e.bin   : psg_encoder\bg5.bin   ;$(PSG_ENCODE) $? $@
-rom_insert\bg8_e.bin   : psg_encoder\bg8.bin   ;$(PSG_ENCODE) $? $@
-rom_insert\bg9_e.bin   : psg_encoder\bg9.bin   ;$(PSG_ENCODE) $? $@
-rom_insert\bg10_e.bin  : psg_encoder\bg10.bin  ;$(PSG_ENCODE) $? $@
-rom_insert\bg11_e.bin  : psg_encoder\bg11.bin  ;$(PSG_ENCODE) $? $@
-rom_insert\bg13_e.bin  : psg_encoder\bg13.bin  ;$(PSG_ENCODE) $? $@
-rom_insert\bg14_e.bin  : psg_encoder\bg14.bin  ;$(PSG_ENCODE) $? $@
-rom_insert\bg16_e.bin  : psg_encoder\bg16.bin  ;$(PSG_ENCODE) $? $@
-rom_insert\bg29_e.bin  : psg_encoder\bg29.bin  ;$(PSG_ENCODE) $? $@
-rom_insert\bg30_e.bin  : psg_encoder\bg30.bin  ;$(PSG_ENCODE) $? $@
-rom_insert\bg31_e.bin  : psg_encoder\bg31.bin  ;$(PSG_ENCODE) $? $@
-rom_insert\title_e.bin : psg_encoder\title.bin ;$(PSG_ENCODE) $? $@
-rom_insert\world1_e.bin: psg_encoder\world1.bin;$(PSG_ENCODE) $? $@
-rom_insert\world2_e.bin: psg_encoder\world2.bin;$(PSG_ENCODE) $? $@
-rom_insert\font1_e.bin : psg_encoder\font1.bin ;$(PSG_ENCODE) $? $@
-rom_insert\font2_e.bin : psg_encoder\font2.bin ;$(PSG_ENCODE) $? $@
-rom_insert\font3_e.bin : psg_encoder\font3.bin ;$(PSG_ENCODE) $? $@
+PSG_ENCODE = psg_encoder\psg_encoder.exe
+
+$(PSG_ENCODE) : psg_encoder\*.cpp
+  $(CC) $(CCFLAGS) psg_encoder\*.cpp /Fe:$(PSG_ENCODE)
+
+rom_insert\bg1_e.bin   : $(PSG_ENCODE) psg_encoder\bg1.bin   ;$** $@
+rom_insert\bg2_e.bin   : $(PSG_ENCODE) psg_encoder\bg2.bin   ;$** $@
+rom_insert\bg3_e.bin   : $(PSG_ENCODE) psg_encoder\bg3.bin   ;$** $@
+rom_insert\bg5_e.bin   : $(PSG_ENCODE) psg_encoder\bg5.bin   ;$** $@
+rom_insert\bg8_e.bin   : $(PSG_ENCODE) psg_encoder\bg8.bin   ;$** $@
+rom_insert\bg9_e.bin   : $(PSG_ENCODE) psg_encoder\bg9.bin   ;$** $@
+rom_insert\bg10_e.bin  : $(PSG_ENCODE) psg_encoder\bg10.bin  ;$** $@
+rom_insert\bg11_e.bin  : $(PSG_ENCODE) psg_encoder\bg11.bin  ;$** $@
+rom_insert\bg13_e.bin  : $(PSG_ENCODE) psg_encoder\bg13.bin  ;$** $@
+rom_insert\bg14_e.bin  : $(PSG_ENCODE) psg_encoder\bg14.bin  ;$** $@
+rom_insert\bg16_e.bin  : $(PSG_ENCODE) psg_encoder\bg16.bin  ;$** $@
+rom_insert\bg29_e.bin  : $(PSG_ENCODE) psg_encoder\bg29.bin  ;$** $@
+rom_insert\bg30_e.bin  : $(PSG_ENCODE) psg_encoder\bg30.bin  ;$** $@
+rom_insert\bg31_e.bin  : $(PSG_ENCODE) psg_encoder\bg31.bin  ;$** $@
+rom_insert\title_e.bin : $(PSG_ENCODE) psg_encoder\title.bin ;$** $@
+rom_insert\world1_e.bin: $(PSG_ENCODE) psg_encoder\world1.bin;$** $@
+rom_insert\world2_e.bin: $(PSG_ENCODE) psg_encoder\world2.bin;$** $@
+rom_insert\font1_e.bin : $(PSG_ENCODE) psg_encoder\font1.bin ;$** $@
+rom_insert\font2_e.bin : $(PSG_ENCODE) psg_encoder\font2.bin ;$** $@
+rom_insert\font3_e.bin : $(PSG_ENCODE) psg_encoder\font3.bin ;$** $@
 
 # menu_creater
-rom_insert\opening.bin : menu_creater\opening.txt menu_creater\tech1_table.tbl
-	menu_creater\Release\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl
+
+menu_creater\menu_creater.exe: menu_creater\*.cpp
+  $(CC) $(CCFLAGS) menu_creater\*.cpp /Fe:menu_creater\menu_creater.exe
+
+rom_insert\opening.bin : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl
 	move pass1.bin rom_insert\opening.bin
 	del menu_list.txt
 
-rom_insert\menus.bin rom_insert\menu_list.txt : menu_creater\menus.txt menu_creater\tech1_table.tbl
-	menu_creater\Release\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl > menu_creater\log.txt
+rom_insert\menus.bin rom_insert\menu_list.txt : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl > menu_creater\log.txt
 	move pass1.bin rom_insert\menus.bin
 	move menu_list.txt rom_insert\menu_list.txt
 
 # script_inserter
+
+script_inserter\script_inserter.exe: script_inserter\*.cpp
+  $(CC) $(CCFLAGS) script_inserter\*.cpp /Fe:script_inserter\script_inserter.exe
+
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl script_inserter\words_final.txt
 	copy script_inserter\tech1_table.tbl + script_inserter\words_final.txt script_inserter\table_temp.tbl
 
-rom_insert\script?.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin rom_insert\script_list.txt : script_inserter\table_temp.tbl
+rom_insert\script?.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin rom_insert\script_list.txt : script_inserter\table_temp.tbl script_inserter\script_inserter.exe
 	cd script_inserter
-	Release\script_inserter.exe script table_temp.tbl > log.txt
+	script_inserter.exe script table_temp.tbl > log.txt
 	for %f in (script?.bin) do @move "%f" "..\rom_insert"
 	move tree_vector.bin "..\rom_insert"
 	move script_trees.bin "..\rom_insert"
@@ -131,20 +160,23 @@ rom_insert\script?.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin ro
 	cd ..
 
 # credits
-rom_insert\credits.bin: credits\credits.txt
+credits\credits_encode.exe: credits\*.cpp
+  $(CC) $(CCFLAGS) credits\*.cpp /Fe:credits\credits_encode.exe
+
+rom_insert\credits.bin: credits\credits.txt credits\credits_encode.exe
 	credits\credits_encode.exe credits\credits.txt rom_insert\credits.bin
 
 # hand-made bins
-rom_insert\font-nt.bin     : handmade_bins\font-nt.bin     ;copy $? $@
-rom_insert\bg_table1.bin   : handmade_bins\bg_table1.bin   ;copy $? $@
-rom_insert\bg_table8.bin   : handmade_bins\bg_table8.bin   ;copy $? $@
-rom_insert\bg_vector.bin   : handmade_bins\bg_vector.bin   ;copy $? $@
-rom_insert\stats_1.bin     : handmade_bins\stats_1.bin     ;copy $? $@
-rom_insert\stats_2.bin     : handmade_bins\stats_2.bin     ;copy $? $@
-rom_insert\save_tiles.bin  : handmade_bins\save_tiles.bin  ;copy $? $@
-rom_insert\save_text.bin   : handmade_bins\save_text.bin   ;copy $? $@
-rom_insert\save_lookup.bin : handmade_bins\save_lookup.bin ;copy $? $@
-rom_insert\tiles-tarzimal.bin : handmade_bins\tiles-tarzimal.bin ;copy $? $@
+rom_insert\font-nt.bin     : handmade_bins\font-nt.bin     ;copy $** $@
+rom_insert\bg_table1.bin   : handmade_bins\bg_table1.bin   ;copy $** $@
+rom_insert\bg_table8.bin   : handmade_bins\bg_table8.bin   ;copy $** $@
+rom_insert\bg_vector.bin   : handmade_bins\bg_vector.bin   ;copy $** $@
+rom_insert\stats_1.bin     : handmade_bins\stats_1.bin     ;copy $** $@
+rom_insert\stats_2.bin     : handmade_bins\stats_2.bin     ;copy $** $@
+rom_insert\save_tiles.bin  : handmade_bins\save_tiles.bin  ;copy $** $@
+rom_insert\save_text.bin   : handmade_bins\save_text.bin   ;copy $** $@
+rom_insert\save_lookup.bin : handmade_bins\save_lookup.bin ;copy $** $@
+rom_insert\tiles-tarzimal.bin : handmade_bins\tiles-tarzimal.bin ;copy $** $@
 
 # All files needed for the final ROM
 BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_insert\bg5_e.bin \
@@ -169,13 +201,13 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\credits.bin \
 
 # rom_insert
-ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.txt $(BINS) ps1jert.sms.asm
+ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.txt $(BINS) ps1jert.sms.asm*
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 
 	@echo Successful: translated file is ps1jert.sms
 
-CLEANFILES = asm\*.lst \
+CLEANFILES = \
 	     list_creater\log*.txt list_creater\dict.txt \
 	     menu_creater\log.txt \
 	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin psg_encoder\font3.bin\
@@ -185,7 +217,15 @@ CLEANFILES = asm\*.lst \
 	     rom_insert\words.bin rom_insert\title-nt.bin rom_insert\title-pal.bin\
 	     script_inserter\log.txt script_inserter\script*.txt script_inserter\table_temp.tbl script_inserter\words_final.txt \
 	     substring_formatter\dict.txt substring_formatter\log.txt substring_formatter\words.txt substring_formatter\words_final.txt \
-	     word_count\stats.txt word_count\words.txt
+	     word_count\stats.txt word_count\words.txt \
+       word_count\word_count.exe \
+       substring_formatter\substring.exe \
+       list_creater\list_creater.exe \
+       bitmap_decode\bitmap_decode.exe \
+       psg_encoder\psg_encoder.exe \
+       menu_creater\menu_creater.exe \
+       script_inserter\script_inserter.exe \
+       credits\credits_encode.exe
 
 clean:
 	del $(CLEANFILES)

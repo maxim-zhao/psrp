@@ -216,7 +216,8 @@ void Huffman_Generate( char *file, char *file_out )
 		}
 
 		// save data to file: symbols
-		for( int lcv = 0; lcv < tree_symbol[ tree ].size(); lcv++ ) {
+    int lcv;
+		for( lcv = 0; lcv < tree_symbol[ tree ].size(); lcv++ ) {
 			fputc( tree_symbol[ tree ][ lcv ], out );
 
 			// bump pointer

@@ -361,7 +361,7 @@ void Huffman_Generate( char *file, char *file_out, char *vector_out )
 		// save data to file: shape
 		bits = 0;
 		buffer = 0;
-		for( lcv = 0; lcv < tree_shape[ tree ].size(); lcv++ ) {
+		for( int lcv = 0; lcv < tree_shape[ tree ].size(); lcv++ ) {
 			buffer <<= 1;
 			buffer |= tree_shape[ tree ][ lcv ];
 			bits++;

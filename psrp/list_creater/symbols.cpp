@@ -57,7 +57,8 @@ void Load_Tables( int direction )
 			continue;
 		
 		// build new symbol
-		for( int lcv = 0; lcv < strlen( line ); lcv++ ) {
+    int lcv;
+		for( lcv = 0; lcv < strlen( line ); lcv++ ) {
 			
 			// look for symbol terminate
 			if( line[ lcv ] == '=' ) {

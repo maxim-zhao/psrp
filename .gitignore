@@ -33,3 +33,7 @@ BuildLog.htm
 *.ips
 /psrp/ps1jert.sms.o
 /psrp/ps1jert.sym
+*.exe
+*.pdb
+*.ilk
+.vs
