@@ -2545,8 +2545,21 @@ data:
   PatchB $4344 $1a ; width of lookup table
   PatchB $4342 $04 ; height of lookup table - width*height<=126
   PatchB $434e $4c ; width complement, = $80-(4344)*2
-  BinAtPosition $448e "handmade_bins/save_lookup.bin" ; lookup table
-  PatchW $433c $448e ; rewire pointer
+  
+  ROMPosition $448e
+.section "Save lookup" overwrite
+SaveLookup:
+; Character found at each location in the name entry screen
+; A-Z
+.db $0B $0C $0D $0E $0F $10 $11 $12 $13 $14 $15 $16 $17 $18 $19 $1A $1B $1C $1D $1E $1F $20 $21 $22 $23 $24
+; a-z
+.db $25 $26 $27 $28 $29 $2A $2B $2C $2D $2E $2F $30 $31 $32 $33 $34 $35 $36 $37 $38 $39 $3A $3B $3C $3D $3E
+; 0-9, then empty space (so the cursor jumps over it), then punctuation
+.db $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A $00 $00 $00 $00 $00 $00 $00 $00 $3F $43 $40 $46 $47 $48 $41 $42
+; Back, Next, Save. We extend their values to whole rows to enable "snapping" the cursor when moving down from above.
+.db $4F $4F $4F $4F $4F $4E $4E $4E $4E $4E $4E $4E $4E $4E $4E $4E $50 $50 $50 $50 $50 $50 $50 $50 $50 $51
+.ends
+  PatchW $433c SaveLookup ; rewire pointer
 
 ; Cursor snapping for
   PatchB $4161 $48 ; x coordinate of sprite for Next
