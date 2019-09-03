@@ -16,6 +16,8 @@ banks 32
 
 .background "PS1-J.SMS"
 
+.emptyfill $ff
+.unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
 /*
 .unbackground $00486 $004ae ; Old tile decoder - can go up to 4e1
 .unbackground $00925 $00932 ; Title screen palette - can go up to 944
@@ -57,8 +59,7 @@ banks 32
 ; Functions we call
 .define VBlank $0127
 .define DecompressToTileMapData $6e05
-.define ExecuteFunctionIndexAInNextVBlank $0056
-
+.define OutputTilemapRawDataBox $0428
 
 ; Originally vars.asm
 .define ITEMS   $aba6+$0000 ; table entry points
@@ -66,6 +67,13 @@ banks 32
 .define ENEMY   $aba6+$03a4
 
 .define WORDS   $bc00
+
+; RAM used by the game, referenced here
+.define HasFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
+.define NewMusic            $c004 ; b Which music to start playing
+.define VBlankFunctionIndex $c208 ; b Index of function to execute in VBlank
+.define FunctionLookupIndex $c202 ; b Index of "game phase" function
+.define IntroState          $c600 ; b $ff when intro starts
 
 ; RAM
 
@@ -184,7 +192,7 @@ _Plane_Decode:
     
       ex de,hl    ; Lower 2 bits = LZ-window
       ld d,a
-      and $03
+      and %11
       add a,a
       add a,a
       add a,a
@@ -443,20 +451,20 @@ PatchSceneStruct2:
 
   ROMPosition $4396
 .section "bg-vector" overwrite
-SceneData: .incbin "rom_insert/bg_vector.bin"		; - vector table (moved)
+SceneData: .incbin "handmade_bins/bg_vector.bin"   ; - vector table (moved)
 .ends
 
-  BinAtPosition $40000 "handmade_bins/bg_table1.bin"		; - accompanying palette data
-  BinAtPosition $40050 "rom_insert/bg1_e.bin"			; - merged
+  BinAtPosition $40000 "handmade_bins/bg_table1.bin"    ; - accompanying palette data
+  BinAtPosition $40050 "rom_insert/bg1_e.bin"     ; - merged
   BinAtPosition $40ba7 "rom_insert/bg2_e.bin"
   BinAtPosition $41799 "rom_insert/bg3_e.bin"
-  BinAtPosition $43406 "rom_insert/bg5_e.bin"			; - merged w/ font (? I think not)
-  BinAtPosition $44640 "handmade_bins/bg_table8.bin"	; - accompanying palette data
-  BinAtPosition $44680 "rom_insert/bg8_e.bin"			; - merged
+  BinAtPosition $43406 "rom_insert/bg5_e.bin"     ; - merged w/ font (? I think not)
+  BinAtPosition $44640 "handmade_bins/bg_table8.bin"  ; - accompanying palette data
+  BinAtPosition $44680 "rom_insert/bg8_e.bin"     ; - merged
   BinAtPosition $45338 "rom_insert/bg9_e.bin"
   BinAtPosition $45cb0 "rom_insert/bg10_e.bin"
   BinAtPosition $46524 "rom_insert/bg11_e.bin"
-  BinAtPosition $5ac8d "rom_insert/bg13_e.bin"		; - no merge
+  BinAtPosition $5ac8d "rom_insert/bg13_e.bin"    ; - no merge
   BinAtPosition $2c010 "rom_insert/bg14_e.bin"
   BinAtPosition $5eb6f "rom_insert/bg16_e.bin"
   BinAtPosition $27b24 "rom_insert/bg29_e.bin"
@@ -746,7 +754,7 @@ FontPatch4:
   ROMPosition $697c
 .section "Unknown patch" overwrite
 FontPatch5:
-  call $45b7 ; (halfway through new loader, for just the second font group)
+  call DECODE_FONT2 ; (halfway through new loader, for just the second font group)
 .ends
 
 
@@ -802,7 +810,7 @@ CharacterDrawing:
   ROMPosition $8000
 .section "Font lookup" overwrite
 FontLookup:
-.incbin "rom_insert/font-nt.bin"
+.incbin "handmade_bins/font-nt.bin"
 .ends
 
 ; Semi-adaptive Huffman script decoder
@@ -1089,7 +1097,7 @@ _Decode:
 _No_decode:
 
 _Code1:
-  CP $59      ; Post-length hints
+  cp $59      ; Post-length hints
   jr nz,_Code2   ; Check next code
 
   call SFGDecoder    ; Grab length
@@ -1408,36 +1416,37 @@ _Break:
 .section "Cutscene narrative init" overwrite
 CutsceneNarrativeInit:
   ld a,0 ; method selection
-  call $bf50 ; decoder init
+  call DecoderInit
   ret
 .ends
 
   ROMPosition $34b4
 .section "Cutscene text decoder" overwrite
 CutsceneTextDecoder:
-  call $7e00
-  jr z,+$2f ; = order flip
+  call AdditionalScriptingCodes
+  jr z,OrderFlip ; = order flip
   cp $57
-  jr z,+$30
+  jr z,OrderFlip+5 ; = ??? TODO
 .ends
 
   ROMPosition $34e5
 .section "Cutscene $55 clear code" overwrite
 CutsceneClearCode:
-  jp $bf77
+  jp $bf77 ; TODO
+OrderFlip:
 .ends
 
   ROMPosition $333f
 .section "In-game narrative init" overwrite
 InGameNarrativeInit:
   dec a ; = method selection ($01)
-  jp $bf50 ; = decoder init
+  jp DecoderInit
 .ends
 
   ROMPosition $3365
 .section "In-game text decoder" overwrite
 InGameTextDecoder:
-  call $7e00
+  call AdditionalScriptingCodes
 .ends
 
 
@@ -1452,19 +1461,20 @@ ItemLookup:
 ; Item lookup
 ;
 
-	push hl			; Save string ptr
-	push de			; Save VRAM ptr
-	push bc			; Save width, temp
+  push hl     ; Save string ptr
+  push de     ; Save VRAM ptr
+  push bc     ; Save width, temp
 
-    ld a,($c2c4)		; Grab item #
-    ld hl,ITEMS		; Item lookup
+    ld a,($c2c4)    ; Grab item #
+    ld hl,ITEMS   ; Item lookup
 
+LookupItem:
     call DictionaryLookup
 
-	pop bc
-	pop de
-	pop hl
-	jp $3365		; Decode next byte
+  pop bc
+  pop de
+  pop hl
+  jp InGameTextDecoder    ; Decode next byte
 .ends
 
   ROMPosition $33aa
@@ -1476,15 +1486,15 @@ PlayerLookup:
 ; Player lookup
 ;
 
-	push hl			; Save string ptr
-	push de			; Save VRAM ptr
-	push bc			; Save width, temp
+  push hl     ; Save string ptr
+  push de     ; Save VRAM ptr
+  push bc     ; Save width, temp
 
-    ld a,($C2C2)		; Grab item #
+    ld a,($C2C2)    ; Grab item #
     and $03
 
     ld hl,NAMES
-    jp $33e3 ; presumably in the middle of the previous section
+    jp LookupItem
 .ends
 
   ROMPosition $33c8
@@ -1495,14 +1505,14 @@ EnemyLookup:
 ;
 ; Enemy lookup
 ;
-	push hl			; Save string ptr
-	push de			; Save VRAM ptr
-	push bc			; Save width, temp
+  push hl     ; Save string ptr
+  push de     ; Save VRAM ptr
+  push bc     ; Save width, temp
 
-    ld a,($c2e6)		; Grab enemy #
+    ld a,($c2e6)    ; Grab enemy #
 
     ld hl,ENEMY
-    jp $33e3
+    jp LookupItem
 .ends
 
   ROMPosition $33f6
@@ -1521,8 +1531,8 @@ NumberLookup:
 ;      pulls digit calculation out to save space
 ;      105 bytes
   jr z,_DRAW_NUMBER ; draw number if z
-  call $34f2       ; else draw a regular letter
-  jp $3365         ; and loop
+  call CharacterDrawing ; else draw a regular letter
+  jp InGameTextDecoder         ; and loop
 
 _DRAW_NUMBER:
   push hl      ; Save string ptr
@@ -1593,7 +1603,7 @@ _Plural:
   pop hl
 
   inc hl      ; Process next script
-  jp $3365
+  jp InGameTextDecoder
 
 _BCD_Digit:
   ld a,$00     ; Init digit value
@@ -1625,20 +1635,20 @@ VBlankIntercept:
 .section "VBlank page saving" overwrite
 VBlankPageSave:
   ; We wrap the handler to select page 1 in slot 1 and then restore it
-	ld a,(PAGING_SLOT_1)		; Save page 1
-	push af
+  ld a,(PAGING_SLOT_1)    ; Save page 1
+  push af
 
-    ld a,1		; Regular page 1
+    ld a,1    ; Regular page 1
     ld (PAGING_SLOT_1),a
 
-    call VBlank ; $127		; Resume old code
+    call VBlank ; $127    ; Resume old code
 
-	pop af
-	ld (PAGING_SLOT_1),a		; Put back page 1
+  pop af
+  ld (PAGING_SLOT_1),a    ; Put back page 1
 
-	pop af			; Leave ISR manually
-	ei
-	ret
+  pop af      ; Leave ISR manually
+  ei
+  ret
 .ends
 
   ROMPosition $182
@@ -1649,8 +1659,8 @@ OriginalVBlankHandlerPatch:
 
 ; Lists
 
-  BinAtPosition $76ba6 "rom_insert/lists.bin"			; Enemy, name, item lists
-  BinAtPosition $43c00 "rom_insert/words.bin"			; Static dictionary
+  BinAtPosition $76ba6 "rom_insert/lists.bin"     ; Enemy, name, item lists
+  BinAtPosition $43c00 "rom_insert/words.bin"     ; Static dictionary
 
 
 ; English script
@@ -1664,7 +1674,7 @@ IndexTableRemap:
 
 ; Menus
 
-  BinAtPosition $46c81 "rom_insert/menus.bin"			; hard-coded window data, max 3273 bytes (3626 :() need 1691 for Tarzimal tiles
+  BinAtPosition $46c81 "rom_insert/menus.bin"     ; hard-coded window data, max 3273 bytes (3626 :() need 1691 for Tarzimal tiles
 
   PatchB $3b82 $11 ; menu bank
   PatchB $3bab $11 ; menu bank
@@ -1694,14 +1704,14 @@ ActivePlayerMenuOffsetFinder:
 ; Active player menu selection
 ;
 
-	xor a
-	inc h
+  xor a
+  inc h
 
--:dec h			; loop
-	ret z
+-:dec h     ; loop
+  ret z
 
-	add a,l			; skip menu
-	jr -
+  add a,l     ; skip menu
+  jr -
 
 .ends
 
@@ -1710,8 +1720,8 @@ ActivePlayerMenuOffsetFinder:
 TrampolineToActivePlayerMenuOffsetFinder:
   ld h,a
   ld l,$30 ; MENU_SIZE = (8*2)*3
-  nop
-  call $3de4
+  nop ; TODO why?
+  call ActivePlayerMenuOffsetFinder
 .ends
 
   ROMPosition $35a2
@@ -1723,26 +1733,26 @@ SpellSelectionFinder:
 ; Spell selection offset finder
 ;
 
-.define MENU_SIZE ((10+2)*2)*11	; top border + text
+.define MENU_SIZE ((10+2)*2)*11 ; top border + text
 
-	ld de,MENU_SIZE		; menu size
+  ld de,MENU_SIZE   ; menu size
 
-	inc a			; init
-	ld h,0
-	ld l,h
+  inc a     ; init
+  ld h,0
+  ld l,h
 
--:dec a			; loop
-	jr z,+
+-:dec a     ; loop
+  jr z,+
 
-	add hl,de		; skip menu
-	jr -
+  add hl,de   ; skip menu
+  jr -
 
 +:
 .ends
 
-  PatchB $35bf $18			; - (12+2)*2 width
-  PatchW $1ee1 $7a4c		; - VRAM cursor
-  PatchW $1b6a $7a4c		; - VRAM cursor
+  PatchB $35bf $18      ; - (12+2)*2 width
+  PatchW $1ee1 $7a4c    ; - VRAM cursor
+  PatchW $1b6a $7a4c    ; - VRAM cursor
 
 
   ROMPosition $35c5
@@ -1755,16 +1765,18 @@ SpellBlankLine:
 ; - support code
 ;
 
-.define LINE_SIZE (10+2)*2	; width of line
+.define LINE_SIZE (10+2)*2  ; width of line
+
+  ; TODO could do this more simply - we want hl = base + b * LINE_SIZE above
 
   push de
-    ld de,LINE_SIZE		; menu size
-    ld a,b			      ; init
+    ld de,LINE_SIZE   ; menu size
+    ld a,b            ; init
     inc a
-    call $3494		    ; 16-bit addition
-    ld de,0		        ; auto-generated base value
+    call Add16        ; 16-bit addition
+    ld de,0           ; auto-generated base value TODO I guess this is filled in later
     add hl,de
-	pop de
+  pop de
 .ends
 
   ROMPosition $3494
@@ -1775,62 +1787,133 @@ SpellBlankLine:
 ; Spell selection blank line drawer
 ; - addition
 ;
+Add16:
+  ; hl = (a-1) * de
+  ld h,0
+  ld l,h
 
-	ld h,0
-	ld l,h
-
--:dec a			  ; loop
-	jr z,+      ; TODO: could ret z
-	add hl,de		; skip menu
-	jr -
+-:dec a       ; loop
+  jr z,+      ; TODO: could ret z
+  add hl,de   ; skip menu
+  jr -
 
 +:ret
 .ends
 
   PatchB $35d4 $0c  ; - height
 
-  BinAtPosition $3516 "handmade_bins/stats_1.bin"		; Stats menu ('LV', 'MST')
-  PatchW $3911 $3516   ; - LV source
-  PatchW $36e7 $3528   ; - MST source
+.macro Text
+; This is like a 16-bit version of .asciitable. It's quite messy though...
+.if \1 == ' '
+  .redefine _out $10c0
+.else
+.if \1 == '.'
+  .redefine _out $10ff
+.else
+  .if \1 == '|'
+.redefine _out $11f3 ; hflipped for left bar
+.else
+.if \1 == ':'
+.redefine _out $10f4
+.else
+.if \1 == '`'
+.redefine _out $10f5
+.else
+.if \1 == '?'
+.redefine _out $10f6
+.else
+.if \1 == '\''
+.redefine _out $10f7
+.else
+.if \1 == '='
+.redefine _out $10fa
+.else
+.if \1 == '!'
+.redefine _out $10fb
+.else
+.if \1 >= '0'
+  .if \1 <= '9'
+    .redefine _out $10c1 + \1 - '0'
+  .else
+  .if \1 >= 'A'
+    .if \1 <= 'Z'
+      .redefine _out $10cb + \1 - 'A'
+    .else
+    .if \1 >= 'a'
+      .if \1 <= 'z'
+        .redefine _out $10e5 + \1 - 'a'
+      .endif
+    .endif
+  .endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endm
 
-  BinAtPosition $3982 "handmade_bins/stats_2.bin"		; - 'EXP' -> 'Max MP' strings
-  PatchW $391a $3982	; - EXP source
-  PatchB $31a3 $0e		; - width * 2
+  ROMPosition $3516
+.section "Stats menu part 1" overwrite
+Level: .dwm Text "|Level   "
+MST:   .dwm Text "|MST    "
+.ends
+
+  PatchW $3911 Level  ; - LV source
+  PatchW $36e7 MST    ; - MST source
+
+  ROMPosition $3982
+.section "Stats menu part 2" overwrite
+EXP:      .dwm Text "|EXP     "
+Attack:   .dwm Text "|Attack  "
+Defense:  .dwm Text "|Defense "
+MaxHP:    .dwm Text "|Max HP  "
+MaxMP:    .dwm Text "|Max MP   "
+.ends
+
+  PatchW $391a EXP    ; - EXP source
+  PatchB $31a3 $0e    ; - width * 2
   PatchB $36dd $0e
 
-  PatchW $392f $3994  ; - Attack source
-  PatchW $3941 $39a6  ; - Defense source
-  PatchW $3953 $39b8  ; - Max HP source
-  PatchW $3965 $39ca  ; - Max MP source
-  PatchB $3145 $12    ; - width * 2
+  PatchW $392f Attack   ; - Attack source
+  PatchW $3941 Defense  ; - Defense source
+  PatchW $3953 MaxHP    ; - Max HP source
+  PatchW $3965 MaxMP    ; - Max MP source
+  PatchB $3145 $12      ; - width * 2
 
-  PatchW $363f $78a8		; Inventory VRAM (2 tiles left)
+  PatchW $363f $78a8    ; Inventory VRAM (2 tiles left)
   PatchW $3778 $78a8
   PatchW $364b $78a8
-  PatchB $36e5 $0c			; - width * 2
-  PatchW $3617 $7928		; - VRAM cursor
+  PatchB $36e5 $0c      ; - width * 2
+  PatchW $3617 $7928    ; - VRAM cursor
 
-  PatchW $3b18 $7bcc	; Store MST VRAM
+  PatchW $3b18 $7bcc  ; Store MST VRAM
   PatchW $3b41 $7bcc
   PatchW $3b26 $7bcc
 
-  PatchW $3a40 $784c		; Shop inventory VRAM
+  PatchW $3a40 $784c    ; Shop inventory VRAM
 
-  PatchB $3b58 $11			; Hapsby travel (bank)
-  PatchW $3b63 $7b2a		; - VRAM cursor
-  PatchW $3b4f $7aea		; - move window down 1 tile
+  PatchB $3b58 $11      ; Hapsby travel (bank)
+  PatchW $3b63 $7b2a    ; - VRAM cursor
+  PatchW $3b4f $7aea    ; - move window down 1 tile
   PatchW $3b76 $7aea
 
-  PatchW $3835 $7a88		; Equipment VRAM
+  PatchW $3835 $7a88    ; Equipment VRAM
   PatchW $3829 $7a88
   PatchW $386e $7a88
 
-  BinAtPosition $5aadc "rom_insert/opening.bin"		; Opening cinema
-  PatchW $45d9 $aadc		; - source
-  PatchB $45d7 $16			; - source bank
-  PatchW $45df $072e		; - width*2, height
+  BinAtPosition $5aadc "rom_insert/opening.bin"   ; Opening cinema
+  PatchW $45d9 $aadc    ; - source
+  PatchB $45d7 $16      ; - source bank
+  PatchW $45df $072e    ; - width*2, height
 
-				; see 'menu-list.txt' for auto-generated
+        ; see 'menu-list.txt' for auto-generated
 
 
 ; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
@@ -1849,14 +1932,14 @@ SpellBlankLine:
 ;
 
 inventory:
-	ld b,8		; 8 items total
+  ld b,8    ; 8 items total
 
 _next_item:
-	push bc
-	push hl
+  push bc
+  push hl
 
     di
-      ld a,$7f000/$4000	; move to page 0
+      ld a,$7f000/$4000 ; move to page 0
       ld ($fff0),a
 
 ; FIX: I've changed this to not use paging in slot 0 because too many
@@ -1865,175 +1948,175 @@ _next_item:
 ; taking space but harmlessly writing to $fff0 instead.
 ; TODO: fix this!
 
-      ld a,(hl)		; grab item #
-      ld hl,ITEMS		; table start
+      ld a,(hl)   ; grab item #
+      ld hl,ITEMS   ; table start
 
       push de
-        call $3eca		; copy string to RAM ; changed address
+        call DictionaryLookup    ; copy string to RAM ; changed address
       pop de
 
-      ld a,$00		; reload page 0
+      ld a,$00    ; reload page 0
       ld ($fff0),a
     ei
 
-    ld hl,TEMP_STR		; start of text
+    ld hl,TEMP_STR    ; start of text
 
-    call _start_write	; write out 2 lines of text
+    call _start_write ; write out 2 lines of text
     call _wait_vblank
 
     call _start_write
     call _wait_vblank
 
-	pop hl
-	pop bc
+  pop hl
+  pop bc
 
-	inc hl			; next item
-	djnz _next_item
+  inc hl      ; next item
+  djnz _next_item
 
-	ret
+  ret
 ; ________________________________________________________
 
 shop:
-	ld b,3		; 3 items total
+  ld b,3    ; 3 items total
 
 _next_shop:
-	push bc
-	push hl
+  push bc
+  push hl
 
     di
-      ld a,$7f000/$4000	; move to page 0
+      ld a,$7f000/$4000 ; move to page 0
       ld ($fff0),a
 
-      ld a,$03		; shop bank
+      ld a,$03    ; shop bank
       ld (PAGING_SLOT_2),a
 
-      ld a,(hl)		; grab item #
-      ld (FULL_STR),hl	; save current shop ptr
-      ld hl,ITEMS		; table start
+      ld a,(hl)   ; grab item #
+      ld (FULL_STR),hl  ; save current shop ptr
+      ld hl,ITEMS   ; table start
 
       push de
-        call $3eca		; copy string to RAM
+        call DictionaryLookup    ; copy string to RAM
       pop de
 
-      ld a,$00		; reload page 0
+      ld a,$00    ; reload page 0
       ld ($fff0),a
     ei
 
-    ld hl,TEMP_STR		; start of text
+    ld hl,TEMP_STR    ; start of text
 
-    call _start_write	; write out 2 lines of text
+    call _start_write ; write out 2 lines of text
 
-    push hl			; hacky workaround
+    push hl     ; hacky workaround
     push de
-      ld c,$01		; write out price
+      ld c,$01    ; write out price
       call _shop_price
     pop de
     pop hl
-    ld a,$02		; restore page 2
+    ld a,$02    ; restore page 2
     ld (PAGING_SLOT_2),a
 
     call _start_write
 
-    push hl			; hacky workaround
+    push hl     ; hacky workaround
     push de
-      ld c,$00		; do not write price
+      ld c,$00    ; do not write price
       call _shop_price
     pop de
     pop hl
 
-	pop hl			; restore old parameters
-	pop bc
+  pop hl      ; restore old parameters
+  pop bc
 
-	inc hl			; next item
-	inc hl
-	inc hl
-	djnz _next_shop
+  inc hl      ; next item
+  inc hl
+  inc hl
+  djnz _next_shop
 
-	ret
+  ret
 
 
 enemy:
-	di
-    ld a,$7f000/$4000	; move to page 0
+  di
+    ld a,$7f000/$4000 ; move to page 0
     ld ($fff0),a
 
-    ld a,$03		; shop bank
+    ld a,$03    ; shop bank
     ld (PAGING_SLOT_2),a
 
-    ld a,($c2e6)		; grab enemy #
-    ld hl,ENEMY		; table start
+    ld a,($c2e6)    ; grab enemy #
+    ld hl,ENEMY   ; table start
 
     push de
-      call $3eca		; copy string to RAM
+      call DictionaryLookup    ; copy string to RAM
     pop de
 
-    ld a,$00		; reload page 0
+    ld a,$00    ; reload page 0
     ld ($fff0),a
-	ei
+  ei
 
-	ld hl,TEMP_STR		; start of text
+  ld hl,TEMP_STR    ; start of text
 
-	call _start_write	; write out line of text
+  call _start_write ; write out line of text
 
-	ld a,(LEN)		; optionally write next line
-	or a
-	call nz,_start_write
+  ld a,(LEN)    ; optionally write next line
+  or a
+  call nz,_start_write
 
-	call _wait_vblank
+  call _wait_vblank
 
-	ret
+  ret
 
 
 equipment:
-	ld b,3		; 3 items total
+  ld b,3    ; 3 items total
 
 _next_equipment:
-	push bc
-	push hl
+  push bc
+  push hl
 
     di
-      ld a,$7f000/$4000	; move to page 0
+      ld a,$7f000/$4000 ; move to page 0
       ld ($fff0),a
 
-      ld a,$03		; shop bank
+      ld a,$03    ; shop bank
       ld (PAGING_SLOT_2),a
 
-      ld a,(hl)		; grab item #
-      ld hl,ITEMS		; table start
+      ld a,(hl)   ; grab item #
+      ld hl,ITEMS   ; table start
 
       push de
-        call $3eca		; copy string to RAM
+        call DictionaryLookup    ; copy string to RAM
       pop de
 
-      ld a,$00		; reload page 0
+      ld a,$00    ; reload page 0
       ld ($fff0),a
     ei
 
-    ld hl,TEMP_STR		; start of text
+    ld hl,TEMP_STR    ; start of text
 
-    call _start_write	; write out 2 lines of text
+    call _start_write ; write out 2 lines of text
     call _wait_vblank
 
     call _start_write
     call _wait_vblank
 
-	pop hl
-	pop bc
+  pop hl
+  pop bc
 
-	inc hl			; next item
-	djnz _next_equipment
+  inc hl      ; next item
+  djnz _next_equipment
 
-	ret
+  ret
 
 _start_write:
-	di
+  di
     push bc
     push de
-      rst 08h			; set vram address
+      rst $08     ; set vram address
 
       push af     ; Delay
       pop af
-      ld a,$f3		; left border
+      ld a,$f3    ; left border
       out ($be),a
 
       push af     ; Delay
@@ -2041,28 +2124,28 @@ _start_write:
       ld a,$11    ; Top border?  
       out ($be),a
 
-      ld a,(LEN)		; string length
+      ld a,(LEN)    ; string length
       ld c,a
-      ld b,10		; 10-width
+      ld b,10   ; 10-width
 
 _check_length:
-      ld a,c			; check for zero string
+      ld a,c      ; check for zero string
       or a
       jr z,_blank_line
 
 _read_byte:
-      ld a,(hl)		; read character
-      inc hl			; bump pointer
-      dec c			; shrink length
+      ld a,(hl)   ; read character
+      inc hl      ; bump pointer
+      dec c     ; shrink length
 
-      cp $4f			; normal text
+      cp $4f      ; normal text
       jr c,_bump_text
 
 _space:
-      jr z,_blank_line		; non-narrative WS
+      jr z,_blank_line    ; non-narrative WS
 
 _newline:
-      cp $50			; pad rest of line with WS
+      cp $50      ; pad rest of line with WS
       jr nz,_hyphen
 
 _newline_flush:
@@ -2073,36 +2156,36 @@ _newline_flush:
       jr _right_border
 
 _hyphen:
-      cp $51			; add '-'
+      cp $51      ; add '-'
       jr nz,_skip_htext
       ld a,$46
       jr _bump_text
 
 _skip_htext:
-      cp $52			; ignore other codes
+      cp $52      ; ignore other codes
       jr nz,_check_length
 
 _loop_hskip:
-      ld a,(hl)		; eat character
+      ld a,(hl)   ; eat character
       inc hl
       dec c
 
-      cp $53			; check for 'end' or length done
+      cp $53      ; check for 'end' or length done
       jr nz,_loop_hskip
       jr _check_length
 
 _blank_line:
-      xor a			; write out WS for rest of the line
+      xor a     ; write out WS for rest of the line
 
 _bump_text:
       call _write_nt
       djnz _check_length
 
 _right_border:
-      ld a,c			; store length
+      ld a,c      ; store length
       ld (LEN),a
 
-      push af			; right border
+      push af     ; right border
       pop af
       ld a,$f3
       out ($be),a
@@ -2112,24 +2195,24 @@ _right_border:
       ld a,$13
       out ($be),a
 
-    pop de			; restore stack
+    pop de      ; restore stack
     pop bc
 
     push hl
-      ld hl,10*2+2		; left border + 10-char width
-      add hl,de		; save VRAM ptr
+      ld hl,10*2+2    ; left border + 10-char width
+      add hl,de   ; save VRAM ptr
       ld (FULL_STR+2),hl
 
-      ld hl,$0040		; VRAM newline
+      ld hl,$0040   ; VRAM newline
       add hl,de
       ex de,hl
     pop hl
 
-	ei			; wait for vblank
-	ret
+  ei      ; wait for vblank
+  ret
 
 _write_nt:
-      add a,a			; lookup NT
+      add a,a     ; lookup NT
       ld de,$8000
       add a,e
       ld e,a
@@ -2137,7 +2220,7 @@ _write_nt:
       sub e
       ld d,a
 
-      ld a,(de)		; write NT + VDP delay
+      ld a,(de)   ; write NT + VDP delay
       out ($be),a
       push af
       pop af
@@ -2148,29 +2231,29 @@ _write_nt:
       ret
 
 _wait_vblank:
-      ld a,$08		; stable value
-      call $0056
+      ld a,$08    ; stable value
+      call ExecuteFunctionIndexAInNextVBlank
       ret
 
 _shop_price:
       di
-        ld de,(FULL_STR+2)	; restore VRAM ptr
-        rst 08H
+        ld de,(FULL_STR+2)  ; restore VRAM ptr
+        rst $08
 
-        ld a,$03		; shop bank
+        ld a,$03    ; shop bank
         ld (PAGING_SLOT_2),a
 
-        ld hl,(FULL_STR)	; shop ptr
+        ld hl,(FULL_STR)  ; shop ptr
 
-        ld a,(hl)		; check for blank item
+        ld a,(hl)   ; check for blank item
         or a
         jr nz,_write_price
-        ld c,$00		; no price
+        ld c,$00    ; no price
 
 _write_price:
-        push de			; parameter
-        push hl			; parameter
-          jp $3a9a		; write price
+        push de     ; parameter
+        push hl     ; parameter
+          jp $3a9a    ; write price
 
 .ends
 
@@ -2182,18 +2265,18 @@ _write_price:
 ; Item window drawer (inventory)
 ; - setup code
 
-	ld a,$2f000/$4000	; jump to page 1
-	ld (PAGING_SLOT_1),a
+  ld a,$2f000/$4000 ; jump to page 1
+  ld (PAGING_SLOT_1),a
 
-	call $7e3e
+  call inventory
 
-	ld a,$01		; old page 1
-	ld (PAGING_SLOT_1),a
+  ld a,$01    ; old page 1
+  ld (PAGING_SLOT_1),a
 
-	nop
-	nop
+  nop
+  nop
 
-	; 0 bytes left
+  ; 0 bytes left
 .ends
 
   ROMPosition $3a1f
@@ -2203,26 +2286,26 @@ _write_price:
 ; Item window drawer (shop)
 ; - setup code
 
-	ld a,$2f000/$4000	; jump to page 1
-	ld (PAGING_SLOT_1),a
+  ld a,$2f000/$4000 ; jump to page 1
+  ld (PAGING_SLOT_1),a
 
-	call $7e3e+$28+$06
+  call shop
 
-	ld a,$01		; old page 1
-	ld (PAGING_SLOT_1),a
+  ld a,$01    ; old page 1
+  ld (PAGING_SLOT_1),a
 
-	nop
-	nop
-	nop
+  nop
+  nop
+  nop
 
-	nop
-	nop
+  nop
+  nop
 
-	nop
-	nop
-	nop
-	nop
-	nop
+  nop
+  nop
+  nop
+  nop
+  nop
 .ends
 
   ROMPosition $3279
@@ -2232,19 +2315,19 @@ _write_price:
 ; Enemy window drawer
 ; - setup code
 
-	ld a,$2f000/$4000	; jump to page 1
-	ld (PAGING_SLOT_1),a
+  ld a,$2f000/$4000 ; jump to page 1
+  ld (PAGING_SLOT_1),a
 
-	call $7e3e+$71+$06
+  call enemy
 
-	ld a,$01		; old page 1
-	ld (PAGING_SLOT_1),a
+  ld a,$01    ; old page 1
+  ld (PAGING_SLOT_1),a
 
-	nop
-	nop
-	nop
-	nop
-	nop
+  nop
+  nop
+  nop
+  nop
+  nop
 .ends
 
   ROMPosition $3850
@@ -2254,15 +2337,15 @@ _write_price:
 ; Equipment window drawer
 ; - setup code
 
-	ld a,$2f000/$4000	; jump to page 1
-	ld (PAGING_SLOT_1),a
+  ld a,$2f000/$4000 ; jump to page 1
+  ld (PAGING_SLOT_1),a
 
-	call $7e3e+$9b+$06+$03
+  call equipment
 
-	ld a,$01		; old page 1
-	ld (PAGING_SLOT_1),a
+  ld a,$01    ; old page 1
+  ld (PAGING_SLOT_1),a
 
-	nop
+  nop
 .ends
 
 ; Extra scripting
@@ -2273,33 +2356,33 @@ _write_price:
 
 ; Extra scripting
 
-	cp $ff			; custom string [1E7]
-	jr nz,$59ca-CADDR-1
+  cp $ff      ; custom string [1E7]
+  jr nz,$59ca-CADDR-1
 
-	ld hl,$0000		; dummy string, auto-replace
-	jr $59ba-CADDR-1
+  ld hl,$0000   ; dummy string, auto-replace
+  jr $59ba-CADDR-1
 .ends
 
-  PatchB $eec9 $ff			; - scripting code
-  PatchW $49b0 $59bd		; - JP NC,$59bd
+  PatchB $eec9 $ff      ; - scripting code
+  PatchW $49b0 $59bd    ; - JP NC,$59bd
 
 ; Window RAM cache
 
-  PatchW $3788 $de60		; #5  - Choose player
+  PatchW $3788 $de60    ; #5  - Choose player
   PatchW $37de $de60
-  PatchW $37a5 $ddd0		; #7  - Magic - Depth 3 (choose player)
+  PatchW $37a5 $ddd0    ; #7  - Magic - Depth 3 (choose player)
   PatchW $37ef $ddd0
-  PatchW $3877 $d960		; #8  - Item selected
+  PatchW $3877 $d960    ; #8  - Item selected
   PatchW $3889 $d960
-  PatchW $3826 $def0		; #9  - Current equipment
+  PatchW $3826 $def0    ; #9  - Current equipment
   PatchW $386b $def0
   PatchW $38fc $dc50    ; #10 - Individual stats
   PatchW $39df $dc50
-  PatchW $3256 $df20		; #12 - Enemy name
+  PatchW $3256 $df20    ; #12 - Enemy name
   PatchW $331b $df20
-  PatchW $3015 $df80		; #14 - Active player
+  PatchW $3015 $df80    ; #14 - Active player
   PatchW $3036 $df80
-  PatchW $3ad0 $dd00		; #18 - Save slots
+  PatchW $3ad0 $dd00    ; #18 - Save slots
   PatchW $3b08 $dd00
   PatchW $38c1 $def0   ; Yes/no - clashes with #5
   PatchW $38e1 $def0
@@ -2340,7 +2423,7 @@ newline:
     ld de,$7d0e                                             ; xx xx xx
 _inc_and_finish:
     inc c                                                   ; xx
-    jp $3365                                                ; xx xx xx
+    jp InGameTextDecoder                                    ; xx xx xx
 _not_zero:
     dec a    ; test for c==1                                ; 3d
     jr nz,_not_one                                          ; xx xx
@@ -2357,7 +2440,7 @@ _draw_4th_line:
     jr _inc_and_finish                                      ; xx xx
 _not_two:
     ; three: scroll, draw on 4th line
-    call $3546 ; scroll                                     ; xx xx xx
+    call $3546 ; scroll                                     ; xx xx xx ; TODO: label
     dec c      ; cancel increment                           ; xx
     jr _draw_4th_line                                       ; xx xx
 .ends
@@ -2418,7 +2501,7 @@ _not_two:
     ld bc,$010e ; 14 bytes per row, 1 row
     ld de,$7bec ; Tilemap location 22,15
     ld hl,data
-    call $0428  ; output raw tilemap data
+    call OutputTilemapRawDataBox  ; output raw tilemap data
     ret
 
 data:
@@ -2462,11 +2545,12 @@ data:
 ; 1. Extra y coordinates
   ROMPosition $4243
 .section "Name entry 4-sprite cursor trampoline" overwrite
-  call $04a7
-  nop
+  call NameEntryCursor
+  nop ; to fill space for patch
 .ends
   ROMPosition $4a7
 .section "Name entry 4-sprite cursor hack" overwrite
+NameEntryCursor:
   inc e
   ld (de),a
   inc e
@@ -2474,7 +2558,7 @@ data:
   inc e
   ld (de),a
   ret
-  ret ; TOO: remove this. Needed to match a bug in 0.92.
+  ret ; TODO: remove this. Needed to match a bug in 0.92.
 .ends
   
 ; 2. Extra x coords and tile indices
@@ -2538,21 +2622,21 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 ; a = tile index (space = 0)
 ; de = where to write tiles to
 ; hl = cursor location (from GetCursorLocation)
-    call $429b            ; CD 9B 42 ; WriteLetterIndexAToDE
+    call WriteLetterIndexAToDE ; CD 9B 42
     ; c,a are the tile indices for the chosen tile
     ld b,a                ; 47
     ld a,h                ; 7C       ; get cursor location in TileMapData
     sub $58               ; D6 58    ; reduce it by $5800 to make it the VRAM address
     ld h,a                ; 67
     ex de,hl              ; EB
-    rst 08h               ; CF       ; SetVRAMAddressToDE
+    rst $08               ; CF       ; SetVRAMAddressToDE
 ; Original code:
 ;    ld a,b               ; 78       ; write tiles to VRAM
 ;    out ($be),a          ; D3 BE
 ;    ld hl,-64            ; 21 C0 FF
 ;    add hl,de            ; 19
 ;    ex de,hl             ; EB
-;    rst 08h              ; CF
+;    rst $08              ; CF
 ;    ld a,c               ; 79
 ;    out ($be),a          ; D3 BE
 ; Patch:
@@ -2579,35 +2663,51 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
   call LoadTiles
 .ends
   
-  BinAtPosition $3fdee "rom_insert/font3_e.bin"		;  411/530 bytes
+  BinAtPosition $3fdee "rom_insert/font3_e.bin"   ;  411/530 bytes
 
-  ROMPosition $00059
-.section "HALT on idle polling loop" overwrite
-  ; TODO: disassemble
-  .db $76 $3a $08 $c2 $b7 $20 $f9 $c9
+  ROMPosition $00056
+.section "HALT on idle polling loop" force
+ExecuteFunctionIndexAInNextVBlank ; $0056
+; Was:
+;  ld (VBlankFunctionIndex),a
+;-:ld a,(VBlankFunctionIndex)
+;  or a               ; Wait for it to be zero
+;  jr nz,-
+;  ret
+; ...followed by some blank space
+  ld (VBlankFunctionIndex),a
+-:halt
+  ld a,(VBlankFunctionIndex)
+  or a
+  jr nz,-
+  ret
 .ends
 
   ROMPosition $00066
 .section "Press Pause on the title screen to toggle PSG/FM - trampoline" overwrite
-  ; there are 3 spare bytes at $66 that I can use
+  ; There are 3 spare bytes at $66 that I can use. I move the following two opcodes up (as I need them anyway) and then call my handler...
+  ; 
   push af
-    ld a,($c202)
-    call $3f58
+    ld a,(FunctionLookupIndex)
+    call PauseFMToggle
 .ends
 
   ROMPosition $3f58
 .section "Press Pause on the title screen to toggle PSG/FM - implementation" overwrite
-  cp 03        ; fe 03
-  ret nz       ; c0
-  ld a,($c600) ; 3a 00 c6 ; check if $c600 == $ff
-  cp $ff       ; fe ff
-  ret z        ; c8       ; do nothing if it is (intro started)
-  ld a,($c000) ; 3a 00 c0
-  xor 1        ; ee 01
-  ld ($c000),a ; 32 00 c0 ; flip FM bit
-  ld a,$81     ; 3e 81
-  ld ($c004),a ; 32 04 c0 ; restart title screen music
-  ret          ; c9
+PauseFMToggle:
+  cp 3          ; Indicates we are on the title screen
+  ret nz
+  ld a,(IntroState)
+  cp $ff
+  ret z         ; Intro started
+  ; Toggle FM bit
+  ld a,(HasFM)
+  xor 1
+  ld (HasFM),a
+  ; Restart title screen music
+  ld a,$81
+  ld (NewMusic),a
+  ret
 .ends
 
 ; Remove waits for button press --------------------
@@ -2616,11 +2716,11 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 
 ; checksum (needs changing whenever anything changes)
   PatchW $7ffa $d6ac
-
-
-
+; Can be replaced with:
+;.computesmschecksum
 
 ; Stuff from menu_list.txt
+; TODO: generate it instead
   PatchW $3807 $ac81
   PatchW $380d $ac81
   PatchW $3801 $0b10
@@ -2740,6 +2840,7 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
   PatchW $35cf $b98b
 
 ; Stuff from script_list.txt
+; TODO: generate it instead
   BinAtPosition $8cd4 "rom_insert/script1.bin"
   PatchW $4b49 $8cd4
   PatchW $4b4f $8d14
@@ -3318,12 +3419,3 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
   PatchW $4817 $bd90
   PatchW $4822 $bd9d
   PatchW $482d $bda8
-
-
-
-; TODO post-1.02:
-; - list_creater/lists.txt: 
-; ^Governor[-General]'s Letter
-; ^Carbunckle Eye
-; This fixes a glitch showing these in menus as they are already 10 chars long and cause a wrap, so the @ (wrap) char is unnecessary
-

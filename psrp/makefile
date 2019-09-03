@@ -3,14 +3,14 @@
 #
 
 # The emulator for testing
-EMU = "D:\My Documents\SMS\meka\mekaw.exe"
+EMU = "..\..\..\c\meka\meka\mekaw.exe"
 
 WLAZ80 = "..\..\..\c\wla-dx\binaries\wla-z80.exe"
 WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 
 # Assumes it's on the path
 CC = cl.exe
-CCFLAGS = /Od /EHsc /W2 /DEBUG /Zi
+CCFLAGS = /Od /EHsc /W2 /DEBUG /Zi /MP
 
 # The original PSJ ROM
 PSJ = ps1-j.sms
@@ -166,39 +166,21 @@ credits\credits_encode.exe: credits\*.cpp
 rom_insert\credits.bin: credits\credits.txt credits\credits_encode.exe
 	credits\credits_encode.exe credits\credits.txt rom_insert\credits.bin
 
-# hand-made bins
-rom_insert\font-nt.bin     : handmade_bins\font-nt.bin     ;copy $** $@
-rom_insert\bg_table1.bin   : handmade_bins\bg_table1.bin   ;copy $** $@
-rom_insert\bg_table8.bin   : handmade_bins\bg_table8.bin   ;copy $** $@
-rom_insert\bg_vector.bin   : handmade_bins\bg_vector.bin   ;copy $** $@
-rom_insert\stats_1.bin     : handmade_bins\stats_1.bin     ;copy $** $@
-rom_insert\stats_2.bin     : handmade_bins\stats_2.bin     ;copy $** $@
-rom_insert\save_tiles.bin  : handmade_bins\save_tiles.bin  ;copy $** $@
-rom_insert\save_text.bin   : handmade_bins\save_text.bin   ;copy $** $@
-rom_insert\save_lookup.bin : handmade_bins\save_lookup.bin ;copy $** $@
-rom_insert\tiles-tarzimal.bin : handmade_bins\tiles-tarzimal.bin ;copy $** $@
-
 # All files needed for the final ROM
 BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_insert\bg5_e.bin \
        rom_insert\bg8_e.bin  rom_insert\bg9_e.bin  rom_insert\bg10_e.bin rom_insert\bg11_e.bin \
        rom_insert\bg13_e.bin rom_insert\bg14_e.bin rom_insert\bg16_e.bin rom_insert\bg29_e.bin \
        rom_insert\bg30_e.bin rom_insert\bg31_e.bin \
        rom_insert\world1_e.bin rom_insert\world2_e.bin \
-       rom_insert\font1_e.bin rom_insert\font2_e.bin rom_insert\font3_e.bin rom_insert\font-nt.bin \
+       rom_insert\font1_e.bin rom_insert\font2_e.bin rom_insert\font3_e.bin \
        rom_insert\title_e.bin rom_insert\title-nt.bin rom_insert\title-pal.bin \
-       rom_insert\bg_table1.bin rom_insert\bg_table8.bin \
-       rom_insert\bg_vector.bin \
        rom_insert\script_trees.bin \
        rom_insert\tree_vector.bin \
        rom_insert\words.bin \
-       rom_insert\stats_1.bin \
-       rom_insert\stats_2.bin \
        rom_insert\lists.bin \
        rom_insert\menus.bin \
        rom_insert\opening.bin \
-       rom_insert\save_tiles.bin rom_insert\save_text.bin rom_insert\save_lookup.bin \
-       rom_insert\tiles-tarzimal.bin \
-       rom_insert\credits.bin \
+       rom_insert\credits.bin
 
 # rom_insert
 ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.txt $(BINS) ps1jert.sms.asm*
