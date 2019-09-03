@@ -1803,6 +1803,7 @@ Add16:
   PatchB $35d4 $0c  ; - height
 
 .macro Text
+.redefine _out 0
 ; This is like a 16-bit version of .asciitable. It's quite messy though...
 .if \1 == ' '
   .redefine _out $10c0
@@ -1810,26 +1811,29 @@ Add16:
 .if \1 == '.'
   .redefine _out $10ff
 .else
-  .if \1 == '|'
-.redefine _out $11f3 ; hflipped for left bar
+.if \1 == ','
+  .redefine _out $17f5 ; vflipped '
+.else
+.if \1 == '|'
+  .redefine _out $11f3 ; hflipped for left bar
 .else
 .if \1 == ':'
-.redefine _out $10f4
+  .redefine _out $11f4 ; hflipped?
 .else
 .if \1 == '`'
-.redefine _out $10f5
+  .redefine _out $11f5
 .else
 .if \1 == '?'
-.redefine _out $10f6
+  .redefine _out $11f6
 .else
-.if \1 == '\''
-.redefine _out $10f7
+.if \1 == $27 ; '\''
+  .redefine _out $11f7
 .else
-.if \1 == '='
-.redefine _out $10fa
+.if \1 == '-'
+  .redefine _out $11fa
 .else
 .if \1 == '!'
-.redefine _out $10fb
+  .redefine _out $11fb
 .else
 .if \1 >= '0'
   .if \1 <= '9'
@@ -1857,6 +1861,18 @@ Add16:
 .endif
 .endif
 .endif
+.endif
+.if _out == 0
+  .printt "Unhandled character '"
+  .printt "\1"
+  .printt "' in Text macro\n"
+  .fail
+.endif
+.endm
+
+.macro TextLowPriority
+  Text \1
+  .redefine _out _out & $0fff
 .endm
 
   ROMPosition $3516
@@ -2477,8 +2493,13 @@ _not_two:
   PatchW $42cd $3f02 ; rewire pointer
 
 ; "Enter your name" text at the top of the screen
-  BinAtPosition $4059 "handmade_bins/save_text.bin"  ; name entry screen title text - now it's full raw tilemap data
-  PatchW $41c5 $4059   ; rewire pointer
+  ROMPosition $4059
+.section "Enter your name text" overwrite
+EnterYourName:
+.dwm Text "Enter your name:"
+.ends
+
+  PatchW $41c5 EnterYourName ; rewire pointer
   PatchW $41cb $0120   ; bc parameter = bytes per line, number of lines
   PatchW $41d2 $7850   ; de parameter = where to draw (8,1)
   PatchB $41d6 $28     ; change function call to full raw tilemap drawer
@@ -2505,8 +2526,7 @@ _not_two:
     ret
 
 data:
-.dw $07f5,$01f4,$01fa,$01fb,$01f6,$01f5,$01f7
-;     ,     :     -     !     ?   left' right'
+.dwm TextLowPriority ",:-!?`'"
 
 .ends
 
