@@ -141,6 +141,79 @@ PatchAt\1:
 .ends
 .endm
 
+.macro Text
+.redefine _out 0
+; This is like a 16-bit version of .asciitable. It's quite messy though...
+.if \1 == ' '
+  .redefine _out $10c0
+.else
+.if \1 == '.'
+  .redefine _out $10ff
+.else
+.if \1 == ','
+  .redefine _out $17f5 ; vflipped '
+.else
+.if \1 == '|'
+  .redefine _out $11f3 ; hflipped for left bar
+.else
+.if \1 == ':'
+  .redefine _out $11f4 ; hflipped?
+.else
+.if \1 == '`'
+  .redefine _out $11f5
+.else
+.if \1 == '?'
+  .redefine _out $11f6
+.else
+.if \1 == $27 ; '\''
+  .redefine _out $11f7
+.else
+.if \1 == '-'
+  .redefine _out $11fa
+.else
+.if \1 == '!'
+  .redefine _out $11fb
+.else
+.if \1 >= '0'
+  .if \1 <= '9'
+    .redefine _out $10c1 + \1 - '0'
+  .else
+  .if \1 >= 'A'
+    .if \1 <= 'Z'
+      .redefine _out $10cb + \1 - 'A'
+    .else
+    .if \1 >= 'a'
+      .if \1 <= 'z'
+        .redefine _out $10e5 + \1 - 'a'
+      .endif
+    .endif
+  .endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.endif
+.if _out == 0
+  .printt "Unhandled character '"
+  .printt "\1"
+  .printt "' in Text macro\n"
+  .fail
+.endif
+.endm
+
+.macro TextLowPriority
+  Text \1
+  .redefine _out _out & $0fff
+.endm
+
   ROMPosition $4be84, 1
 .section "New bitmap decoder" overwrite
 
@@ -810,7 +883,11 @@ CharacterDrawing:
   ROMPosition $8000
 .section "Font lookup" overwrite
 FontLookup:
-.incbin "handmade_bins/font-nt.bin"
+; This is used to convert text from the game's encoding (indexing into ths area) to name table entries. The extra spaces are unused (and could be repurposed?).
+.dwm Text " 0123456789"
+.dwm Text "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+.dwm Text "abcdefghijklmnopqrstuvwxyz"
+.dwm Text ".:`',  -!?               "
 .ends
 
 ; Semi-adaptive Huffman script decoder
@@ -1801,79 +1878,6 @@ Add16:
 .ends
 
   PatchB $35d4 $0c  ; - height
-
-.macro Text
-.redefine _out 0
-; This is like a 16-bit version of .asciitable. It's quite messy though...
-.if \1 == ' '
-  .redefine _out $10c0
-.else
-.if \1 == '.'
-  .redefine _out $10ff
-.else
-.if \1 == ','
-  .redefine _out $17f5 ; vflipped '
-.else
-.if \1 == '|'
-  .redefine _out $11f3 ; hflipped for left bar
-.else
-.if \1 == ':'
-  .redefine _out $11f4 ; hflipped?
-.else
-.if \1 == '`'
-  .redefine _out $11f5
-.else
-.if \1 == '?'
-  .redefine _out $11f6
-.else
-.if \1 == $27 ; '\''
-  .redefine _out $11f7
-.else
-.if \1 == '-'
-  .redefine _out $11fa
-.else
-.if \1 == '!'
-  .redefine _out $11fb
-.else
-.if \1 >= '0'
-  .if \1 <= '9'
-    .redefine _out $10c1 + \1 - '0'
-  .else
-  .if \1 >= 'A'
-    .if \1 <= 'Z'
-      .redefine _out $10cb + \1 - 'A'
-    .else
-    .if \1 >= 'a'
-      .if \1 <= 'z'
-        .redefine _out $10e5 + \1 - 'a'
-      .endif
-    .endif
-  .endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.endif
-.if _out == 0
-  .printt "Unhandled character '"
-  .printt "\1"
-  .printt "' in Text macro\n"
-  .fail
-.endif
-.endm
-
-.macro TextLowPriority
-  Text \1
-  .redefine _out _out & $0fff
-.endm
 
   ROMPosition $3516
 .section "Stats menu part 1" overwrite
