@@ -10,7 +10,7 @@ WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 
 # Assumes it's on the path
 CC = cl.exe
-CCFLAGS = /Od /EHsc /W2 /DEBUG /Zi /MP
+CCFLAGS = /O2 /EHsc /W2 /Zi /MP
 
 # The original PSJ ROM
 PSJ = ps1-j.sms
