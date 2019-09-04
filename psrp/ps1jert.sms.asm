@@ -60,13 +60,7 @@ banks 32
 .define VBlank $0127
 .define DecompressToTileMapData $6e05
 .define OutputTilemapRawDataBox $0428
-
-; Originally vars.asm
-.define ITEMS   $aba6+$0000 ; table entry points
-.define NAMES   $aba6+$038e ; see list_creater\log.txt
-.define ENEMY   $aba6+$03a4
-
-.define WORDS   $bc00
+.define TextBox20x6 $333a
 
 ; RAM used by the game, referenced here
 .define HasFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
@@ -895,12 +889,12 @@ FontLookup:
   ROMPosition $80b0
 .section "Huffman tree vector" overwrite ; may need to be at $80b0?
 TREE_PTR:
-.incbin "rom_insert/tree_vector.bin"    ; Tree vectors
+.incbin "script_inserter/tree_vector.bin"    ; Tree vectors
 .ends
   ROMPosition $82b0
 .section "Huffman tree" overwrite ; may need to be at $82b0?
 ScriptTrees:
-.incbin "rom_insert/script_trees.bin"   ; - actual Huffman trees
+.incbin "script_inserter/script_trees.bin"   ; - actual Huffman trees
 .ends
 
   ROMPosition $bf50
@@ -1736,18 +1730,28 @@ OriginalVBlankHandlerPatch:
 
 ; Lists
 
-  BinAtPosition $76ba6 "rom_insert/lists.bin"     ; Enemy, name, item lists
-  BinAtPosition $43c00 "rom_insert/words.bin"     ; Static dictionary
+  ROMPosition $76ba6
+.section "Enemy, name, item lists" overwrite
+.include "rom_insert/lists_definitions.asm"
+ITEMS: .incbin "rom_insert/lists.bin" skip ITEMS_OFFSET read ITEMS_SIZE
+NAMES: .incbin "rom_insert/lists.bin" skip NAMES_OFFSET read NAMES_SIZE
+ENEMY: .incbin "rom_insert/lists.bin" skip ENEMY_OFFSET read ENEMY_SIZE
+; There's one more byte in there which we (apparently? TODO) need to read
+.incbin "rom_insert/lists.bin" skip _END_OFFSET
+.ends
 
+  ROMPosition $43c00
+.section "Static dictionary" overwrite
+WORDS: .incbin "rom_insert/words.bin"
+.ends
 
 ; English script
 
   ROMPosition $59ba
 .section "Index table remap" overwrite
 IndexTableRemap:
-  .db $c3 $3a $33 ; see 'script-list.txt' for auto-generated
+  jp TextBox20x6 ; see 'script_list.txt' for auto-generated
 .ends
-
 
 ; Menus
 
@@ -1761,13 +1765,15 @@ IndexTableRemap:
   PatchW $3271 $7818
   PatchW $331e $7818
   
-  ; "HP" letters
-  PatchW $3211 $10d2
-  PatchW $3213 $10da
+  ROMPosition $3211
+.section "HP letters" overwrite
+.dwm Text "HP"
+.ends
 
-  ; "MP" letters
-  PatchW $3219 $10d7
-  PatchW $321b $10da
+  ROMPosition $3219
+.section "MP letters" overwrite
+.dwm Text "MP"
+.ends
 
   ; Choose player: width*2
   PatchB $37c8 $10
@@ -1776,10 +1782,7 @@ IndexTableRemap:
 .section "Active player - menu offset finder" overwrite
 ActivePlayerMenuOffsetFinder:
 ; Originally t2b.asm
-
-;
 ; Active player menu selection
-;
 
   xor a
   inc h
@@ -1795,9 +1798,19 @@ ActivePlayerMenuOffsetFinder:
   ROMPosition $3023
 .section "Trampoline to above" overwrite
 TrampolineToActivePlayerMenuOffsetFinder:
+; Original code was doing it inline:
+;  ld a,($c267) ; get index
+;  add a,a      ; multiply by 36
+;  add a,a
+;  ld l,a
+;  add a,a
+;  add a,a
+;  add a,a
+;  add a,l
+; We replace all this with a jump to a helper as the necessary replacement is a bit bigger
   ld h,a
   ld l,$30 ; MENU_SIZE = (8*2)*3
-  nop ; TODO why?
+  nop ; Fill space
   call ActivePlayerMenuOffsetFinder
 .ends
 
@@ -1805,10 +1818,7 @@ TrampolineToActivePlayerMenuOffsetFinder:
 .section "Spell selection finder" overwrite
 SpellSelectionFinder:
 ; Originally t2b_1.asm
-
-;
 ; Spell selection offset finder
-;
 
 .define MENU_SIZE ((10+2)*2)*11 ; top border + text
 
@@ -1836,11 +1846,8 @@ SpellSelectionFinder:
 .section "Spell blank line" overwrite
 SpellBlankLine:
 ; Originally t2b_2.asm
-
-;
 ; Spell selection blank line drawer
 ; - support code
-;
 
 .define LINE_SIZE (10+2)*2  ; width of line
 
@@ -1859,11 +1866,9 @@ SpellBlankLine:
   ROMPosition $3494
 .section "Spell blank line - addition" overwrite
 ; Originally t2b_3.asm
-
-;
 ; Spell selection blank line drawer
 ; - addition
-;
+
 Add16:
   ; hl = (a-1) * de
   ld h,0
@@ -1927,13 +1932,16 @@ MaxMP:    .dwm Text "|Max MP   "
   PatchW $3835 $7a88    ; Equipment VRAM
   PatchW $3829 $7a88
   PatchW $386e $7a88
+  
+  ROMPosition $5aadc
+.section "Opeing cinema" overwrite
+Opening:
+.incbin "rom_insert/opening.bin"
+.ends
 
-  BinAtPosition $5aadc "rom_insert/opening.bin"   ; Opening cinema
-  PatchW $45d9 $aadc    ; - source
-  PatchB $45d7 $16      ; - source bank
+  PatchW $45d9 Opening  ; - source
+  PatchB $45d7 :Opening ; - source bank
   PatchW $45df $072e    ; - width*2, height
-
-        ; see 'menu-list.txt' for auto-generated
 
 
 ; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
@@ -2874,11 +2882,11 @@ PauseFMToggle:
   PatchW $3b52 $0710
   PatchW $3b79 $0710
   PatchW $3b5d $b91b
-  PatchW $35cf $b98b
+  PatchW $35cf $b98b ; TODO This is patching SpellBlankLine above
 
 ; Stuff from script_list.txt
 ; TODO: generate it instead
-  BinAtPosition $8cd4 "rom_insert/script1.bin"
+  BinAtPosition $8cd4 "script_inserter/script1.bin"
   PatchW $4b49 $8cd4
   PatchW $4b4f $8d14
   PatchW $4b63 $8d31

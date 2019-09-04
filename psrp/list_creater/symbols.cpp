@@ -8,6 +8,7 @@ Phantasy Star: Symbol Converter
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iomanip>
 
 using std::string;
 using std::vector;
@@ -181,10 +182,9 @@ void Process_Text()
     {
         "CLASS",
         "ITEMS",
-        "SPELLS",
         "NAMES",
-        "MONSTERS",
-        "DICT"
+        "ENEMY",
+        "_END"
     };
 
     // Read in dictionary entries
@@ -214,8 +214,8 @@ void Process_Text()
             printf("(line %d) Table %02X: Start $%04X, Length $%04X",
                    line_num, table_number, table_offset - table_length, table_length);
 
-            definitions << ".define " << names[table_number] << "_OFFSET " << table_offset - table_length << "\n";
-            definitions << ".define " << names[table_number] << "_SIZE " << table_length << "\n";
+            definitions << ".define " << names[table_number] << "_OFFSET $" << std::setbase(16) << table_offset - table_length << "\n";
+            definitions << ".define " << names[table_number] << "_SIZE $" << std::setbase(16) << table_length << "\n";
 
 #if 0
             if (table_number == 1) printf("  [t1e.asm = CLASS]");
