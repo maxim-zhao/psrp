@@ -2,81 +2,80 @@
 Phantasy Star: Substring Table Creater
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <deque>
 #include <string>
 
 using namespace::std;
 
-#define START_CODE 0x60
-#define END_CODE 0x60 + 0x60
+constexpr auto start_code = 0x60;
 
-#define SWITCH_CODE 0xFFFF
-#define START_CODE2 0xFFFF
+constexpr auto switch_code = 0xFFFF;
+constexpr auto start_code2 = 0xFFFF;
 
-int main( int argc, char **argv)
+int main(int argc, char** argv)
 {
-	FILE *fp, *out, *dict;
-	char line[8192];
-	int code = START_CODE;
-	deque<string> list;
-	int code_amount;
+    if (argc < 2)
+    {
+        printf("Usage: substring_formatter.exe <# codes>\n");
+        return 0;
+    }
 
-	if( argc < 2 ) {
-		printf( "Usage: substring_formatter.exe <# codes>\n" );
-		return 0;
-	}
+    int code_amount;
+    sscanf(argv[1], "%X", &code_amount);
 
-	sscanf( argv[1], "%X", &code_amount );
+    // open files
+    FILE* fp = fopen("words.txt", "r");
+    FILE* out = fopen("words_final.txt", "w");
+    FILE* dict = fopen("dict.txt", "w");
 
-	// open files
-	fp = fopen( "words.txt", "r" );
-	out = fopen( "words_final.txt", "w" );
-	dict = fopen( "dict.txt", "w" );
+    // read each string and add conversion code
+    char line[8192];
+    int code = start_code;
+    deque<string> list;
+    while (fgets(line, sizeof(line), fp))
+    {
+        // remove '\n'
+        if (line[strlen(line) - 1] == 0x0a) line[strlen(line) - 1] = 0;
 
-	// read each string and add conversion code
-	while( fgets( line, sizeof( line ), fp ) ) {
+        // dictionary word
+        fprintf(dict, "%s\n", line);
 
-		// remove '\n'
-		if( line[ strlen( line ) - 1 ] == 0x0a ) line[ strlen( line ) - 1 ] = 0;
+        // print <string>
+        fprintf(out, "%02X=%s\n", code, line);
 
-		// dictionary word
-		fprintf( dict, "%s\n", line );
+        // queue up
+        list.emplace_back(line);
 
-		// print <string>
-		fprintf( out, "%02X=%s\n", code, line );
+        // bump substring assignment range
+        code++;
 
-		// queue up
-		list.push_back( line );
+        // formatting
+        if (code % 16 == 0)
+        {
+            fprintf(out, "\n");
 
-		// bump substring assignment range
-		code++;
+            // print <string> / <space><string>
+            for (int lcv = code - 16; lcv < code; lcv++)
+            {
+                //fprintf( out, "D0%02X= %s\n", lcv, list[0].c_str() );
+                list.pop_front();
+            }
 
-		// formatting
-		if( code % 16 == 0 ) {
-			fprintf( out, "\n" );
+            fprintf(out, "\n");
+        }
 
-			// print <string> / <space><string>
-			for( int lcv = code - 16; lcv < code; lcv++ ) {
-				//fprintf( out, "D0%02X= %s\n", lcv, list[0].c_str() );
-				list.pop_front();
-			}
+        if (code == switch_code) code = start_code2;
+        if (code == start_code + code_amount) break;
+    }
 
-			fprintf( out, "\n" );
-		}
+    // dictionary EOF
+    fprintf(dict, "#\n");
 
-		if( code == SWITCH_CODE ) code = START_CODE2;
-		//if( code == END_CODE ) break;
-		if( code == START_CODE + code_amount ) break;
-	}
+    fclose(fp);
+    fclose(out);
+    fclose(dict);
 
-	// dictionary EOF
-	fprintf( dict, "#\n" );
-
-	fclose( fp );
-	fclose( out );
-	fclose( dict );
-
-	return 0;
+    return 0;
 }

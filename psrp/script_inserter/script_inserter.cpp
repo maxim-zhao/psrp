@@ -2,7 +2,7 @@
 Phantasy Star: Script Inserter
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 
 extern int Convert_Symbols( char *list_name, char *table_name, char *out_name );
@@ -21,17 +21,8 @@ int main( int argc, char **argv )
 	// phase 1: Script conversion
 	Convert_Symbols( argv[1], argv[2], "pass1.bin" );
 
-	// phase 2: Dual-tile encoding
-//#define DTE
-#ifdef DTE
-	if( DTE_Process( "pass1.bin", "pass2.bin" ) ) return 0;
-
-	// phase 3: Huffman encoding
-	Huffman_Compress( "pass2.bin", "script", "script_trees.bin" );
-#else
 	// phase 2: Huffman encoding
 	Huffman_Compress( "pass1.bin", "script", "script_trees.bin" );
-#endif
 
 	return 0;
 }

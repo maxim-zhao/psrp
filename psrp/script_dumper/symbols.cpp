@@ -6,8 +6,8 @@ Phantasy Star: Symbol Converter
 	#pragma warning( disable: 4786 )	// 255 character debug limit
 #endif
 
-#include <wchar.h>
-#include <stdio.h>
+#include <cwchar>
+#include <cstdio>
 #include <string.h>
 
 #include <string>

@@ -2,7 +2,7 @@
 Phantasy Star: RLE/LZ Compression
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 unsigned char buffer[ 0x4000 ];
 short buf_ptr;

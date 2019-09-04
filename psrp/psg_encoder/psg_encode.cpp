@@ -6,7 +6,7 @@ Phantasy Star: RLE/LZ Encoder
 	#pragma warning( disable: 4786 )	// 255 character debug limit
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <map>
 #include <map>

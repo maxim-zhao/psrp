@@ -2,7 +2,7 @@
 Phantasy Star: Bitmap Decoder
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 extern void PSG_Decode( FILE *fp, FILE *out, int tiles, int offset );
 //void Bitmap_ToGG( FILE *out );

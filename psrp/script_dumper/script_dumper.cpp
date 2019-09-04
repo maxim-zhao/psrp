@@ -2,7 +2,7 @@
 Phantasy Star: Script Dumper
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 extern int Dump_Raw( char *file, char *file_out );
 extern int Convert_Script( char *rom_name, char *symbol_name, char *table_name, char *out_name );

@@ -99,7 +99,7 @@ int main(int argc, char** argv)
     fclose(in);
 
     FILE* out;
-    if (fopen_s(&out, argv[2], "wb") != 0)
+    if (fopen_s(&out, argv[2], "wb") != 0 || out == 0)
     {
         printf("Error opening %s", argv[2]);
         return -1;

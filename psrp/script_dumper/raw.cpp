@@ -2,7 +2,7 @@
 // Phantasy Star: Raw compression
 //
 
-#include <stdio.h>
+#include <cstdio>
 
 #define EOS1	0x56			// end-of-string
 #define EOS2	0x57			// delay

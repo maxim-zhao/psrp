@@ -2,7 +2,7 @@
 Phantasy Star: Bitmap Encoder
 */
 
-#include <stdio.h>
+#include <cstdio>
 
 //extern void Bitmap_FromGG( FILE *in );
 extern void PSG_Encode( FILE *in, FILE *out );

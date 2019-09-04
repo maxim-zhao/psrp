@@ -2,8 +2,8 @@
 //
 //Word Frequency Program (Non-Recursive Version), Fri Oct 30 1998
 
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 #include <string.h>
 #include <stdlib.h>
  

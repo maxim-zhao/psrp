@@ -37,3 +37,9 @@ BuildLog.htm
 *.pdb
 *.ilk
 .vs
+Debug
+Release
+*.vcxproj*
+*.user
+*.sln
+/psrp/rom_insert/*.asm

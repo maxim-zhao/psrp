@@ -6,8 +6,8 @@ Phantasy Star: Symbol Converter
 	#pragma warning( disable: 4786 )	// 255 character debug limit
 #endif
 
-#include <wchar.h>
-#include <stdio.h>
+#include <cwchar>
+#include <cstdio>
 #include <string.h>
 
 #include <string>
@@ -479,7 +479,7 @@ int Convert_Symbols( char *list_name, char *table_name, char *out_name )
 /////////////////////////////////////////////////////
 
 FILE *rom;
-extern unsigned char rom_page[0x4000];
+unsigned char rom_page[0x4000];
 
 #define old_symbol old_symbol_table[ symbol ][ 0 ]
 #define new_symbol new_symbol_table[ symbol ][ 0 ]
