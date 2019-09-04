@@ -8,9 +8,8 @@ EMU = "..\..\..\c\meka\meka\mekaw.exe"
 WLAZ80 = "..\..\..\c\wla-dx\binaries\wla-z80.exe"
 WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 
-# Assumes it's on the path
-CC = cl.exe
-CCFLAGS = /O2 /EHsc /W2 /Zi /MP
+# Assume default CPP = cl
+CPPFLAGS = /O2 /EHsc /W2 /Zi /MP
 
 # The original PSJ ROM
 PSJ = ps1-j.sms
@@ -22,7 +21,7 @@ PLAY: ps1jert.sms
 
 # word_count
 word_count\word_count.exe : word_count\*.cpp
-  $(CC) $(CCFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
+  $(CPP) $(CPPFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
 
 script_inserter\script1.txt script_inserter\script2.txt substring_formatter\words.txt : word_count\script1.txt word_count\script2.txt word_count\word_count.exe
 	cd word_count
@@ -36,7 +35,7 @@ script_inserter\script1.txt script_inserter\script2.txt substring_formatter\word
 
 # substring_formatter
 substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
-  $(CC) $(CCFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
+  $(CPP) $(CPPFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
 
 script_inserter\words_final.txt list_creater\dict.txt : substring_formatter\words.txt substring_formatter\substring_formatter.exe
 	cd substring_formatter
@@ -47,7 +46,7 @@ script_inserter\words_final.txt list_creater\dict.txt : substring_formatter\word
 
 # list_creater
 list_creater\list_creater.exe : list_creater\*.cpp
-  $(CC) $(CCFLAGS) list_creater/*.cpp /Fe:list_creater\list_creater.exe
+  $(CPP) $(CPPFLAGS) list_creater/*.cpp /Fe:list_creater\list_creater.exe
 
 rom_insert\lists.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl list_creater\list_creater.exe
 	cd list_creater
@@ -65,7 +64,7 @@ rom_insert\words.bin : list_creater\lists.txt list_creater\dict.txt list_creater
 BITMAP_DECODE = bitmap_decode\bitmap_decode.exe
 
 $(BITMAP_DECODE) : bitmap_decode\*.cpp
-  $(CC) $(CCFLAGS) bitmap_decode\*.cpp /Fe:$(BITMAP_DECODE)
+  $(CPP) $(CPPFLAGS) bitmap_decode\*.cpp /Fe:$(BITMAP_DECODE)
 
 psg_encoder\bg1.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40020 $@
 psg_encoder\bg2.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40f36 $@
@@ -103,7 +102,7 @@ psg_encoder\title.bin rom_insert\title-nt.bin rom_insert\title-pal.bin: new_grap
 PSG_ENCODE = psg_encoder\psg_encoder.exe
 
 $(PSG_ENCODE) : psg_encoder\*.cpp
-  $(CC) $(CCFLAGS) psg_encoder\*.cpp /Fe:$(PSG_ENCODE)
+  $(CPP) $(CPPFLAGS) psg_encoder\*.cpp /Fe:$(PSG_ENCODE)
 
 rom_insert\bg1_e.bin   : $(PSG_ENCODE) psg_encoder\bg1.bin   ;$** $@
 rom_insert\bg2_e.bin   : $(PSG_ENCODE) psg_encoder\bg2.bin   ;$** $@
@@ -129,7 +128,7 @@ rom_insert\font3_e.bin : $(PSG_ENCODE) psg_encoder\font3.bin ;$** $@
 # menu_creater
 
 menu_creater\menu_creater.exe: menu_creater\*.cpp
-  $(CC) $(CCFLAGS) menu_creater\*.cpp /Fe:menu_creater\menu_creater.exe
+  $(CPP) $(CPPFLAGS) menu_creater\*.cpp /Fe:menu_creater\menu_creater.exe
 
 rom_insert\opening.bin : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
 	menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl
@@ -144,7 +143,7 @@ rom_insert\menus.bin rom_insert\menu_list.txt : menu_creater\menus.txt menu_crea
 # script_inserter
 
 script_inserter\script_inserter.exe: script_inserter\*.cpp
-  $(CC) $(CCFLAGS) script_inserter\*.cpp /Fe:script_inserter\script_inserter.exe
+  $(CPP) $(CPPFLAGS) script_inserter\*.cpp /Fe:script_inserter\script_inserter.exe
 
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl script_inserter\words_final.txt
 	copy script_inserter\tech1_table.tbl + script_inserter\words_final.txt script_inserter\table_temp.tbl
@@ -161,7 +160,7 @@ rom_insert\script?.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin ro
 
 # credits
 credits\credits_encode.exe: credits\*.cpp
-  $(CC) $(CCFLAGS) credits\*.cpp /Fe:credits\credits_encode.exe
+  $(CPP) $(CPPFLAGS) credits\*.cpp /Fe:credits\credits_encode.exe
 
 rom_insert\credits.bin: credits\credits.txt credits\credits_encode.exe
 	credits\credits_encode.exe credits\credits.txt rom_insert\credits.bin
