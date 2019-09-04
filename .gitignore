@@ -43,3 +43,5 @@ Release
 *.user
 *.sln
 /psrp/rom_insert/*.asm
+/psrp/script_inserter/*.bin
+/psrp/script_inserter/script_list.txt

@@ -37,10 +37,9 @@ script_inserter\script1.txt script_inserter\script2.txt substring_formatter\word
 substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
   $(CPP) $(CPPFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
 
-script_inserter\words_final.txt list_creater\dict.txt : substring_formatter\words.txt substring_formatter\substring_formatter.exe
+substring_formatter\words_final.txt list_creater\dict.txt : substring_formatter\words.txt substring_formatter\substring_formatter.exe
 	cd substring_formatter
-	substring_formatter.exe 0x80 > log.txt
-	copy words_final.txt "..\script_inserter"
+	substring_formatter.exe 0x80
 	copy dict.txt "..\list_creater"
 	cd ..
 
@@ -50,8 +49,9 @@ list_creater\list_creater.exe : list_creater\*.cpp
 
 rom_insert\lists.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl list_creater\list_creater.exe
 	cd list_creater
-	list_creater.exe lists.txt tech1_table.tbl > log.txt
+	list_creater.exe lists.txt tech1_table.tbl
 	move pass1.bin "..\rom_insert\lists.bin"
+	move definitions.asm "..\rom_insert\lists_definitions.asm"
 	cd ..
 
 rom_insert\words.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl list_creater\list_creater.exe
@@ -145,16 +145,12 @@ rom_insert\menus.bin rom_insert\menu_list.txt : menu_creater\menus.txt menu_crea
 script_inserter\script_inserter.exe: script_inserter\*.cpp
   $(CPP) $(CPPFLAGS) script_inserter\*.cpp /Fe:script_inserter\script_inserter.exe
 
-script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl script_inserter\words_final.txt
-	copy script_inserter\tech1_table.tbl + script_inserter\words_final.txt script_inserter\table_temp.tbl
+script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words_final.txt
+	copy script_inserter\tech1_table.tbl + substring_formatter\words_final.txt script_inserter\table_temp.tbl
 
-rom_insert\script?.bin rom_insert\tree_vector.bin rom_insert\script_trees.bin rom_insert\script_list.txt : script_inserter\table_temp.tbl script_inserter\script_inserter.exe
+script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\script_trees.bin script_inserter\script_list.txt : script_inserter\table_temp.tbl script_inserter\script_inserter.exe
 	cd script_inserter
 	script_inserter.exe script table_temp.tbl > log.txt
-	for %f in (script?.bin) do @move "%f" "..\rom_insert"
-	move tree_vector.bin "..\rom_insert"
-	move script_trees.bin "..\rom_insert"
-	move script_list.txt "..\rom_insert"
 	del pass1.bin
 	cd ..
 
@@ -173,8 +169,8 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\world1_e.bin rom_insert\world2_e.bin \
        rom_insert\font1_e.bin rom_insert\font2_e.bin rom_insert\font3_e.bin \
        rom_insert\title_e.bin rom_insert\title-nt.bin rom_insert\title-pal.bin \
-       rom_insert\script_trees.bin \
-       rom_insert\tree_vector.bin \
+       script_inserter\script_trees.bin \
+       script_inserter\tree_vector.bin \
        rom_insert\words.bin \
        rom_insert\lists.bin \
        rom_insert\menus.bin \
@@ -182,7 +178,7 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\credits.bin
 
 # rom_insert
-ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.txt $(BINS) ps1jert.sms.asm*
+ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.txt $(BINS) ps1jert.sms.asm rom_insert\lists_definitions.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 
@@ -193,10 +189,10 @@ CLEANFILES = \
 	     menu_creater\log.txt \
 	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin psg_encoder\font3.bin\
 	     rom_insert\*_e.bin rom_insert\lists.bin rom_insert\log.txt rom_insert\menu_list.txt \
-	     rom_insert\menus.bin rom_insert\opening.bin rom_insert\script1.bin \
-	     rom_insert\script_list.txt rom_insert\script_trees.bin rom_insert\tree_vector.bin \
+	     rom_insert\menus.bin rom_insert\opening.bin script_inserter\script1.bin \
+	     script_inserter\script_list.txt script_inserter\script_trees.bin script_inserter\tree_vector.bin \
 	     rom_insert\words.bin rom_insert\title-nt.bin rom_insert\title-pal.bin\
-	     script_inserter\log.txt script_inserter\script*.txt script_inserter\table_temp.tbl script_inserter\words_final.txt \
+	     script_inserter\log.txt script_inserter\script*.txt script_inserter\table_temp.tbl \
 	     substring_formatter\dict.txt substring_formatter\log.txt substring_formatter\words.txt substring_formatter\words_final.txt \
 	     word_count\stats.txt word_count\words.txt \
        word_count\word_count.exe \
