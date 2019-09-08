@@ -1755,10 +1755,13 @@ IndexTableRemap:
 
 ; Menus
 
-  BinAtPosition $46c81 "rom_insert/menus.bin"     ; hard-coded window data, max 3273 bytes (3626 :() need 1691 for Tarzimal tiles
+  ROMPosition $46c81
+.section "Menu data" overwrite
+MenuData:
+.include "rom_insert/menu_list.asm"
 
-  PatchB $3b82 $11 ; menu bank
-  PatchB $3bab $11 ; menu bank
+  PatchB $3b82 :MenuData
+  PatchB $3bab :MenuData
   
   ; Enemy name VRAM
   PatchW $3259 $7818
@@ -1934,14 +1937,11 @@ MaxMP:    .dwm Text "|Max MP   "
   PatchW $386e $7a88
   
   ROMPosition $5aadc
-.section "Opeing cinema" overwrite
+.section "Opening cinema" overwrite
 Opening:
-.incbin "rom_insert/opening.bin"
-.ends
+.include "rom_insert/opening.asm"
 
-  PatchW $45d9 Opening  ; - source
   PatchB $45d7 :Opening ; - source bank
-  PatchW $45df $072e    ; - width*2, height
 
 
 ; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
@@ -2763,126 +2763,7 @@ PauseFMToggle:
   PatchW $7ffa $d6ac
 ; Can be replaced with:
 ;.computesmschecksum
-
-; Stuff from menu_list.txt
-; TODO: generate it instead
-  PatchW $3807 $ac81
-  PatchW $380d $ac81
-  PatchW $3801 $0b10
-  PatchW $3813 $0b10
-  PatchW $381f $0b10
-  PatchW $38cd $ad31
-  PatchW $38c7 $050a
-  PatchW $38e7 $050a
-  PatchW $3359 $ad63
-  PatchW $3353 $0628
-  PatchW $358d $0628
-  PatchW $3238 $ae53
-  PatchW $323e $ae53
-  PatchW $3232 $0b10
-  PatchW $3244 $0b10
-  PatchW $3250 $0b10
-  PatchW $325c $0418
-  PatchW $3321 $0418
-  PatchW $3268 $0a10
-  PatchW $329b $af03
-  PatchW $32a1 $0110
-  PatchW $309c $af13
-  PatchW $30f3 $af13
-  PatchW $32c1 $af13
-  PatchW $37d0 $af13
-  PatchW $309f $0110
-  PatchW $30f6 $0110
-  PatchW $32c4 $0110
-  PatchW $37d3 $0110
-  PatchW $3048 $0640
-  PatchW $3103 $0640
-  PatchW $3226 $0640
-  PatchW $304e $af23
-  PatchW $30a5 $af23
-  PatchW $310a $af23
-  PatchW $305b $af53
-  PatchW $30b2 $af53
-  PatchW $3118 $af53
-  PatchW $3068 $af83
-  PatchW $30bf $af83
-  PatchW $3126 $af83
-  PatchW $3075 $afb3
-  PatchW $30cc $afb3
-  PatchW $3134 $afb3
-  PatchW $3084 $0310
-  PatchW $30db $0310
-  PatchW $37ca $afe3
-  PatchW $378e $0910
-  PatchW $37ab $0910
-  PatchW $37e4 $0910
-  PatchW $37f5 $0910
-  PatchW $38a1 $b073
-  PatchW $389b $050c
-  PatchW $38bb $050c
-  PatchW $3883 $b0af
-  PatchW $387d $070e
-  PatchW $388f $070e
-  PatchW $302b $b111
-  PatchW $301b $0310
-  PatchW $303c $0310
-  PatchW $35b0 $b1d1
-  PatchW $359b $0c18
-  PatchW $35ea $0c18
-  PatchW $356c $b801
-  PatchW $356f $0124
-  PatchW $355a $0324
-  PatchW $3566 $0324
-  PatchW $3908 $b825
-  PatchW $390b $011a
-  PatchW $3926 $b83f
-  PatchW $3938 $b83f
-  PatchW $394a $b83f
-  PatchW $395c $b83f
-  PatchW $396e $b83f
-  PatchW $3929 $011a
-  PatchW $393b $011a
-  PatchW $394d $011a
-  PatchW $395f $011a
-  PatchW $3971 $011a
-  PatchW $397a $b859
-  PatchW $397d $011a
-  PatchW $3902 $0e1a
-  PatchW $39e5 $0e1a
-  PatchW $382c $0818
-  PatchW $3871 $0818
-  PatchW $3642 $1518
-  PatchW $377b $1518
-  PatchW $326e $b873
-  PatchW $3648 $b873
-  PatchW $3832 $b873
-  PatchW $3b23 $b873
-  PatchW $3274 $0118
-  PatchW $364e $0118
-  PatchW $3838 $0118
-  PatchW $3b29 $0118
-  PatchW $328c $b88b
-  PatchW $3681 $b88b
-  PatchW $3860 $b88b
-  PatchW $3b32 $b88b
-  PatchW $328f $0118
-  PatchW $3684 $0118
-  PatchW $3863 $0118
-  PatchW $3b35 $0118
-  PatchW $365c $b8a3
-  PatchW $365f $0218
-  PatchW $3b1b $0318
-  PatchW $3b44 $0318
-  PatchW $39f1 $0824
-  PatchW $3aca $0824
-  PatchW $39f7 $b8d3
-  PatchW $39fd $0124
-  PatchW $3a37 $b8f7
-  PatchW $3a3a $0124
-  PatchW $3b52 $0710
-  PatchW $3b79 $0710
-  PatchW $3b5d $b91b
-  PatchW $35cf $b98b ; TODO This is patching SpellBlankLine above
+; ...when we are hapy to let WLA DX default to a smaller checksum range.
 
 ; Stuff from script_list.txt
 ; TODO: generate it instead

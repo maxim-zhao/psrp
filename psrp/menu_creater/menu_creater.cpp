@@ -3,19 +3,28 @@ Phantasy Star: Menu Creater
 */
 
 #include <cstdio>
+#include <exception>
 
-extern int Convert_Symbols( char *list_name, char *table_name, char *out_name);
+extern void ConvertSymbols(const char* listName, const char* tableName, const char* outName);
 
-int main( int argc, char **argv )
+int main(int argc, const char** argv)
 {
-	// Assert proper usage
-	if( argc != 3 ) {
-		printf( "Usage: list_creater <list file> <table file>\n" );
-		return -1;
-	}
+    // Assert proper usage
+    if (argc != 4)
+    {
+        printf("Usage: %s <list file> <table file> <output name>\n", argv[0]);
+        return -1;
+    }
 
-	// phase 1: text conversion
-	if( Convert_Symbols( argv[1], argv[2], "pass1.bin" ) ) return -1;
+    try
+    {
+        ConvertSymbols(argv[1], argv[2], argv[3]);
+    }
+    catch (std::exception& ex)
+    {
+        printf("%s\n", ex.what());
+        return -1;
+    }
 
-	return 0;
+    return 0;
 }

@@ -176,3 +176,18 @@ f517=,
 fa11=-
 fb11=!
 f611=?
+
+; Borders
+; Using double lines to distinguish left from right and top from bottom...
+; ┌──╖
+; │  ║
+; ╘══╝
+
+f111=┌
+f211=─
+f113=╖
+f311=│
+f313=║
+f115=╘
+f215=═
+f117=╝

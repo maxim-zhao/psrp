@@ -1,480 +1,455 @@
-; height, width*2 (in hex, with two border tiles included)
-; 'x' strings
-;
-; do not re-arrange the order
-;
-; 00 = sides
-; 01 = top + sides + bottom
-; 02 = top + sides
-; 03 = bottom
-; 04 = dimensions
-; 05 = text only
+﻿[WorldMenu]
+ptrs=3807,380d
+dims=3801,3813,381f
 
-; -----------------------------------------------
+┌──────╖
+│Stats ║
+│      ║
+│Magic ║
+│      ║
+│Items ║
+│      ║
+│Search║
+│      ║
+│Save  ║
+╘══════╝
 
-; World menu
+[ChoiceMenu]
+ptrs=38cd
+dims=38c7,38e7
 
-#
-0b 10 01
-Stats~
-~~~~~~
-Magic~
-~~~~~~
-Items~
-~~~~~~
-Search
-~~~~~~
-Save~~
+┌───╖
+│Yes║
+│   ║
+│No ║
+╘═══╝
 
-; -----------------------------------------------
+[NarrativeBox]
+ptrs=3359
+dims=3353,358d
 
-; Choice
+┌──────────────────╖
+│                  ║
+│                  ║
+│                  ║
+│                  ║
+╘══════════════════╝
 
-#
-05 0a 01
-Yes
-~~~
-No~
+[BattleMenu]
+ptrs=3238,323e
+dims=3232,3244,3250
 
-; -----------------------------------------------
+┌──────╖
+│Attack║
+│      ║
+│Magic ║
+│      ║
+│Items ║
+│      ║
+│Talk  ║
+│      ║
+│Run   ║
+╘══════╝
 
-; Narrative
+[EnemyNameBox]
+dimensions only
+dims=325c,3321
 
-#
-06 28 01
+┌──────────╖
+│          ║
+│          ║
+╘══════════╝
+
+[EnemyHPBox]
+dimensions only
+dims=3268
+
+┌──────╖
+│      ║
+│      ║
+│      ║
+│      ║
+│      ║
+│      ║
+│      ║
+│      ║
+╘══════╝
+
+[TopBorder6]
+ptrs=329b
+dims=32a1
+
+┌──────╖
+
+[BottomBorder6]
+ptrs=309c,30f3,32c1,37d0
+dims=309f,30f6,32c4,37d3
+
+╘══════╝
+
+[AllPlayerBoxes]
+dimensions only
+dims=3048,3103,3226
+
+┌──────╖┌──────╖┌──────╖┌──────╖
+│      ║│      ║│      ║│      ║
+│      ║│      ║│      ║│      ║
+│      ║│      ║│      ║│      ║
+│      ║│      ║│      ║│      ║
+╘══════╝╘══════╝╘══════╝╘══════╝
+
+[AlisaBox]
+ptrs=304e,30a5,310a
+dims=3084,30db
+
+┌──────╖
+│Alisa ║
+│------║
+
+[MyauBox]
+ptrs=305b,30b2,3118
+;dims=3084,30db ; same as AlisaBox
+
+┌──────╖
+│ Myau ║
+│------║
+
+[TaironBox]
+ptrs=3068,30bf,3126
+;dims=3084,30db ; same as AlisaBox
+
+┌──────╖
+│Tylon ║
+│------║
+
+[LutzBox]
+ptrs=3075,30cc,3134
+;dims=3084,30db ; same as AlisaBox
+
+┌──────╖
+│ Lutz ║
+│------║
+
+[ChoosePlayerMenu]
+ptrs=37ca
+dims=378e,37ab,37e4,37f5
+
+┌──────╖
+│Alisa ║
+│      ║
+│Myau  ║
+│      ║
+│Tylon ║
+│      ║
+│Lutz  ║
+╘══════╝
+
+[ToolShopMenu]
+ptrs=38a1
+dims=389b,38bb
+
+┌────╖
+│Buy ║
+│    ║
+│Sell║
+╘════╝
+
+[ItemActionMenu]
+ptrs=3883
+dims=387d,388f
+
+┌─────╖
+│Use  ║
+│     ║
+│Equip║
+│     ║
+│Drop ║
+╘═════╝
+
+[AlisaActiveBox]
+ptrs=302b
+dims=301b,303c
+
+┌──────╖
+│Alisa ║
+╘══════╝
+
+; Next three must follow...
+
+[MyauActiveBox]
+
+┌──────╖
+│ Myau ║
+╘══════╝
+
+[TaironActiveBox]
+
+┌──────╖
+│Tylon ║
+╘══════╝
+
+[LutzActiveBox]
+
+┌──────╖
+│ Lutz ║
+╘══════╝
+
+[BattleSpellsAlisa]
+ptrs=35b0
+dims=359b,35ea
+height=12
+; height is 1 more than expected? TODO figure out why
+
+┌──────────╖
+│Heal      ║
+│          ║
+│Quick Dash║
+│          ║
+│Transrate ║
+│          ║
+│Fire      ║
+│          ║
+│Bind      ║
+│          ║
+
+; Next five must follow...
+
+[BattleSpellsMyau]
+
+┌──────────╖
+│Super Heal║
+│          ║
+│Terror    ║
+│          ║
+│Waller    ║
+│          ║
+│Power     ║
+│ Boost    ║
+│          ║
+│          ║
+
+[BattleSpellsLutz]
+
+┌──────────╖
+│Fire      ║
+│          ║
+│Telepathy ║
+│          ║
+│Wind      ║
+│          ║
+│Magic     ║
+│ waller   ║
+│Thunder   ║
+│          ║
+
+[OverworldSpellsAlisa]
+
+┌──────────╖
+│Heal      ║
+│          ║
+│Troop     ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+
+[OverworldSpellsMyau]
+
+┌──────────╖
+│Super heal║
+│          ║
+│Untrap    ║
+│          ║
+│Bypass    ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+
+[OverworldSpellsLutz]
+
+┌──────────╖
+│Super heal║
+│          ║
+│Bypass    ║
+│          ║
+│Telepathy ║
+│          ║
+│Magic     ║
+│ Unseal   ║
+│Rebirth   ║
+│          ║
+
+[NarrativeBlankLine]
+ptrs=356c
+dims=356f
+
+~~~~~~~~~~~~~~~~~~
+
+[NarrativeBlankScrollDimensions]
+dimensions only
+dims=355a,3566
+
 ~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~
 
-; -----------------------------------------------
-
-; Battle
-
-#
-0b 10 01
-Attack
-~~~~~~
-Magic~
-~~~~~~
-Items~
-~~~~~~
-Talk~~
-~~~~~~
-Run~~~
-
-; -----------------------------------------------
-
-; Enemy name (total box, dimensions only)
-
-#
-04 18 04
-
-; -----------------------------------------------
-
-; Enemy HP (total box, dimensions only)
-
-#
-0a 10 04
-
-; -----------------------------------------------
-
-; Top border (6+2 chars)
-
-#
-01 10 02
-
-; -----------------------------------------------
-
-; Bottom border (6+2 chars)
-
-#
-01 10 03
-
-; -----------------------------------------------
-
-; All player boxes (total box, dimensions only)
-
-#
-06 40 04
-
-; -----------------------------------------------
-
-; Alisa (Top / 6+2 chars)
-
-#
-03 10 02
-Alisa~
-------
-
-; -----------------------------------------------
-
-; Myau (Top / 6+2 chars)
-
-#
-03 10 02
-~Myau~
-------
-
-; -----------------------------------------------
-
-; Tairon (Top / 6+2 chars)
-
-#
-03 10 02
-Tylon~
-------
-
-; -----------------------------------------------
-
-; Lutz (Top / 6+2 chars)
-
-#
-03 10 02
-~Lutz~
-------
-
-; -----------------------------------------------
-
-; Choose player
-
-#
-09 10 01
-Alisa~
-~~~~~~
-Myau~~
-~~~~~~
-Tylon~
-~~~~~~
-Lutz~~
-
-; -----------------------------------------------
-
-; Tool shop
-
-#
-05 0c 01
-Buy~
-~~~~
-Sell
-
-; -----------------------------------------------
-
-; Select item
-
-#
-07 0e 01
-Use~~
-~~~~~
-Equip
-~~~~~
-Drop~
-
-; -----------------------------------------------
-
-; Active player: Alisa
-
-#
-03 10 01
-Alisa~
-
-; -----------------------------------------------
-
-; Active player: Myau
-
-#
-03 10 01
-~Myau~
-
-; -----------------------------------------------
-
-; Active player: Tairon
-
-#
-03 10 01
-Tylon~
-
-; -----------------------------------------------
-
-; Active player: Lutz
-
-#
-03 10 01
-~Lutz~
-
-; -----------------------------------------------
-
-; Alisa's battle spells
-; Heal
-; Rakusuta (Bye)
-; Peyaraku (Chat)
-; Flaeli (Fire)
-; Bindwa (Rope)
-
-#
-0c 18 02
-Heal~~~~~~
-~~~~~~~~~~
-Quick~Dash
-~~~~~~~~~~
-Transrate~
-~~~~~~~~~~
-Fire~~~~~~
-~~~~~~~~~~
-Bind~~~~~~
-~~~~~~~~~~
-
-; -----------------------------------------------
-
-; Myau's battle spells
-; Doheal (Cure)
-; Terror
-; Walla
-; Powma (Help)
-
-#
-0c 18 02
-Super~Heal
-~~~~~~~~~~
-Terror~~~~
-~~~~~~~~~~
-Waller~~~~
-~~~~~~~~~~
-Power~~~~~
-~Boost~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-
-; -----------------------------------------------
-
-; Lutz's battle spells
-; Fire
-; Telepathy
-; Hewn (Wind)
-; Mu-walla (Prot)
-; Thunder
-
-#
-0c 18 02
-Fire~~~~~~
-~~~~~~~~~~
-Telepathy~
-~~~~~~~~~~
-Wind~~~~~~
-~~~~~~~~~~
-Magic~~~~~
-~waller~~~
-Thunder~~~
-~~~~~~~~~~
-
-; -----------------------------------------------
-
-; Alisa's overworld spells
-; Heal
-; Troopa (Fly)
-
-#
-0c 18 02
-Heal~~~~~~
-~~~~~~~~~~
-Troop~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-
-; -----------------------------------------------
-
-; Myau's overworld spells
-; Doheal (Cure)
-; Raputto (Trap)
-; Suruto (Exit)
-
-#
-0c 18 02
-Super~heal
-~~~~~~~~~~
-Untrap~~~~
-~~~~~~~~~~
-Bypass~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-
-; -----------------------------------------------
-
-; Lutz's overworld spells
-; Doheal (Cure)
-; Suruto (Exit)
-; Telepathy
-; Mu-oode (Open)
-; Rebirth (Rise)
-
-#
-0c 18 02
-Super~heal
-~~~~~~~~~~
-Bypass~~~~
-~~~~~~~~~~
-Telepathy~
-~~~~~~~~~~
-Magic~~~~~
-~Unseal~~~
-Rebirth~~~
-~~~~~~~~~~
-
-; -----------------------------------------------
-
-; Narrative bottom border
-
-#
-01 24 05
-~~~~~~~~~~~~~~~~~~
-
-; -----------------------------------------------
-
-; Narrative blank scroll, dimensions only
-
-#
-03 24 04
-
-; -----------------------------------------------
-
-; Top border (11+2 chars)
-
-#
-01 1a 02
-
-; -----------------------------------------------
-
-; Side border (11+2 chars)
-
-#
-01 1a 00
-~~~~~~~~~~~
-
-; -----------------------------------------------
-
-; Bottom border (11+2 chars)
-
-#
-01 1a 03
-
-; -----------------------------------------------
-
-; Stats, dimensions only
-
-#
-0e 1a 04
-
-; -----------------------------------------------
-
-; Equipment dimensions
-
-#
-08 18 04
-
-; -----------------------------------------------
-
-; Inventory dimensions
-
-#
-15 18 04
-
-; -----------------------------------------------
-
-; Top border (10+2 chars)
-
-#
-01 18 02
-
-; -----------------------------------------------
-
-; Bottom border (10+2 chars)
-
-#
-01 18 03
-
-; -----------------------------------------------
-
-; Inventory (next page)
-
-#
-02 18 00
-Next~~~~~~
-----------
-
-; -----------------------------------------------
-
-; Store MST (dimensions)
-
-#
-03 18 04
-
-; -----------------------------------------------
-
-; Shop inventory (dimensions)
-
-#
-08 24 04
-
-; -----------------------------------------------
-
-; Top border (16+2 chars)
-
-#
-01 24 02
-
-; -----------------------------------------------
-
-; Bottom border (16+2 chars)
-
-#
-01 24 03
-
-; -----------------------------------------------
-
-; Hapsby travel (dimensions)
-
-#
-07 10 04
-
-; -----------------------------------------------
-
-; Hapsby travel (dimensions)
-
-#
-07 10 01
-Gothic
-~~~~~~
-Uzo~~~
-~~~~~~
-Skray~
-
-; -----------------------------------------------
-
-; Blank spell window
-
-#
-0c 18 01
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-~~~~~~~~~~
-
-; -----------------------------------------------
-
-; terminate
-
-#
+[TopBorder11]
+ptrs=3908
+dims=390b
+
+┌───────────╖
+
+[SideBorder11]
+ptrs=3926,3938,394a,395c,396e
+dims=3929,393b,394d,395f,3971
+
+│           ║
+
+[BottomBorder11]
+ptrs=397a
+dims=397d
+
+╘═══════════╝
+
+[StatsMenuDimensions]
+dimensions only
+dims=3902,39e5
+
+┌───────────╖
+│           ║
+│           ║
+│           ║
+│           ║
+│           ║
+│           ║
+│           ║
+│           ║
+│           ║
+│           ║
+│           ║
+│           ║
+╘═══════════╝
+
+[EquimentMenuDimensions]
+dimensions only
+dims=382c,3871
+
+┌──────────╖
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+╘══════════╝
+
+[InventoryMenuDimensions]
+dimensions only
+dims=3642,377b
+
+┌──────────╖
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+╘══════════╝
+
+[TopBorder10]
+ptrs=326e,3648,3832,3b23
+dims=3274,364e,3838,3b29
+
+┌──────────╖
+
+[BottomBorder10]
+ptrs=328c,3681,3860,3b32
+dims=328f,3684,3863,3b35
+
+╘══════════╝
+
+[InventoryNextMenu]
+ptrs=365c
+dims=365f
+
+│Next      ║
+│----------║
+
+[StoreMSTBoxDimensions]
+dimensions only
+dims=3b1b,3b44
+
+┌──────────╖
+│          ║
+╘══════════╝
+
+[ShopInventoryDimensions]
+dimensions only
+dims=39f1,3aca
+
+┌────────────────╖
+│                ║
+│                ║
+│                ║
+│                ║
+│                ║
+│                ║
+╘════════════════╝
+
+[TopBorder16]
+ptrs=39f7
+dims=39fd
+
+┌────────────────╖
+
+[BottomBorder16]
+ptrs=3a37
+dims=3a3a
+
+╘════════════════╝
+
+[HapsbyTravelMenu]
+ptrs=3b5d
+dims=3b52,3b79
+
+┌──────╖
+│Gothic║
+│      ║
+│Uzo   ║
+│      ║
+│Skray ║
+╘══════╝
+
+[BlankSpellMenu]
+ptrs=35cf
+
+┌──────────╖
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+│          ║
+╘══════════╝

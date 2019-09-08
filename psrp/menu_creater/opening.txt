@@ -1,28 +1,11 @@
-; height, width*2 (in hex, with border)
-; 'x' strings
-;
-; do not re-arrange order
-;
-; 00 = sides
-; 01 = top + sides + bottom
-; 02 = top + sides
-; 03 = bottom
-; 04 = dimensions
-; 05 = text only
+[OpeningCinema]
+ptrs=45d9
+dims=45df
 
-; -----------------------------------------------
-
-; Opening cinema
-
-07 2e 01
-Spring, AW 342~~~~~~~
----------------------
-Camineet Residential~
-~District on the~~~~~
-~planet Palma.~~~~~~~
-
-; -----------------------------------------------
-
-; terminate
-
-#
+┌─────────────────────╖
+│Spring, AW 342       ║
+│---------------------║
+│Camineet Residential ║
+│ District on the     ║
+│ planet Palma.       ║
+╘═════════════════════╝

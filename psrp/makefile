@@ -130,15 +130,11 @@ rom_insert\font3_e.bin : $(PSG_ENCODE) psg_encoder\font3.bin ;$** $@
 menu_creater\menu_creater.exe: menu_creater\*.cpp
   $(CPP) $(CPPFLAGS) menu_creater\*.cpp /Fe:menu_creater\menu_creater.exe
 
-rom_insert\opening.bin : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
-	menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl
-	move pass1.bin rom_insert\opening.bin
-	del menu_list.txt
+rom_insert\opening.asm : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl rom_insert\opening.asm
 
-rom_insert\menus.bin rom_insert\menu_list.txt : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
-	menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl > menu_creater\log.txt
-	move pass1.bin rom_insert\menus.bin
-	move menu_list.txt rom_insert\menu_list.txt
+rom_insert\menus.bin rom_insert\menu_list.asm : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl rom_insert\menu_list.asm
 
 # script_inserter
 
@@ -173,12 +169,10 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        script_inserter\tree_vector.bin \
        rom_insert\words.bin \
        rom_insert\lists.bin \
-       rom_insert\menus.bin \
-       rom_insert\opening.bin \
        rom_insert\credits.bin
 
 # rom_insert
-ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.txt $(BINS) ps1jert.sms.asm rom_insert\lists_definitions.asm
+ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.asm rom_insert\opening.asm $(BINS) ps1jert.sms.asm rom_insert\lists_definitions.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 
@@ -186,10 +180,9 @@ ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\me
 
 CLEANFILES = \
 	     list_creater\log*.txt list_creater\dict.txt \
-	     menu_creater\log.txt \
 	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin psg_encoder\font3.bin\
-	     rom_insert\*_e.bin rom_insert\lists.bin rom_insert\log.txt rom_insert\menu_list.txt \
-	     rom_insert\menus.bin rom_insert\opening.bin script_inserter\script1.bin \
+	     rom_insert\*_e.bin rom_insert\lists.bin rom_insert\log.txt rom_insert\menu_list.asm \
+	     rom_insert\menus.bin rom_insert\opening.asm script_inserter\script1.bin \
 	     script_inserter\script_list.txt script_inserter\script_trees.bin script_inserter\tree_vector.bin \
 	     rom_insert\words.bin rom_insert\title-nt.bin rom_insert\title-pal.bin\
 	     script_inserter\log.txt script_inserter\script*.txt script_inserter\table_temp.tbl \
