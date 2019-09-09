@@ -3,182 +3,132 @@ Phantasy Star: Symbol Converter
 */
 
 #include <cstdio>
-#include <cstring>
 
 #include <string>
 #include <vector>
 #include <fstream>
 #include <iomanip>
+#include <locale>
+#include <codecvt>
+#include <map>
 
-using std::string;
-using std::vector;
-
-constexpr auto list_eof = 0xDF; // end-of-file marker
-
-FILE *list, *table, *pass1;
-
-char line[8192];
-int line_num;
-
-vector<string> new_symbol_table[256];
-vector<string> old_symbol_table[256];
-
-int symbol_longest[256];
-
-//////////////////////////////////////////////////////
-
-void Load_Tables(int direction)
+namespace
 {
-    int header = 0;
-
-    // Check UTF-8 header
-    fread(&header, 1, 3, table);
-    if (header != 0xbfbbef)
-    {
-        // rewind
-        fseek(table, 0, SEEK_SET);
-    }
-
-    // Init
-    memset(symbol_longest, 0, sizeof(symbol_longest));
-
-    // Read in table conversions
-    while (fgets(line, sizeof(line), table))
-    {
-        string new_symbol, old_symbol;
-
-        // remove newline
-        if (line[strlen(line) - 1] == 0x0a)
-            line[strlen(line) - 1] = 0;
-
-        // skip comments or eos
-        if (line[0] == ';' || line[0] == 0)
-            continue;
-
-        // build new symbol
-        int lcv;
-        for (lcv = 0; lcv < strlen(line); lcv++)
-        {
-            // look for symbol terminate
-            if (line[lcv] == '=')
-            {
-                lcv++;
-                break;
-            }
-
-            // add half-byte code
-            new_symbol += line[lcv];
-        }
-
-        // build old symbol
-        old_symbol = line + lcv;
-
-        // assert valid translation
-        if (!old_symbol.empty())
-        {
-            // add header nybble if needed
-            if (new_symbol.size() & 1)
-            {
-                new_symbol = '0' + new_symbol;
-            }
-
-            if (!direction)
-            {
-                // string not found identification
-                if (symbol_longest[old_symbol[0]] < old_symbol.length())
-                {
-                    symbol_longest[old_symbol[0]] = old_symbol.length();
-                }
-
-                // use indexed table for speed boost
-                old_symbol_table[old_symbol[0]].push_back(old_symbol);
-                new_symbol_table[old_symbol[0]].push_back(new_symbol);
-            }
-            else
-            {
-                int index;
-
-                sscanf(new_symbol.c_str(), "%02X", &index);
-
-                // use indexed table for speed boost
-                old_symbol_table[index].push_back(old_symbol);
-                new_symbol_table[index].push_back(new_symbol);
-            }
-        }
-    } // end while
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 }
 
-
-#define old_symbol old_symbol_table[ start ][ entry ]
-#define new_symbol new_symbol_table[ start ][ entry ]
-
-int table_number;
-int table_offset;
-int table_length;
-
-void Find_Entry(char*& pText, int& index)
+class File
 {
-    string lookup;
-
-    // not found
-    index = -1;
-    const int start = *pText;
-
-    // look into the future
-    for (int lcv = 0; lcv < symbol_longest[start] && pText[lcv] != 0; lcv++)
+    std::ifstream _f;
+    unsigned int _lineNumber;
+public:
+    explicit File(const std::string& name): _f(name), _lineNumber(0)
     {
-        // add character
-        lookup += pText[lcv];
-
-        // exhaust all possible matches
-        for (int entry = 0; entry < old_symbol_table[start].size(); entry++)
+        // Check for a BOM
+        int bom = 0;
+        _f.read(reinterpret_cast<char *>(&bom), 3);
+        if (bom != 0xbfbbef)
         {
-            // skip non-matches
-            if (lookup.length() != old_symbol.length()) continue;
-            if (lookup != old_symbol) continue;
-
-            // found a match
-            index = entry;
-        }
-    } // end look
-
-    // bump pointer forward
-    if (index != -1)
-    {
-        int entry = index;
-        pText += old_symbol.length();
-    }
-    else
-    {
-        // log error
-        if (symbol_longest[start])
-        {
-            printf("(line %d) ERROR: Symbol not found '%s'\n",
-                   line_num, lookup.c_str());
-            pText += lookup.length();
-        }
-        else
-        {
-            // no length
-            printf("(line %d) ERROR: Symbol not found '%c'\n",
-                   line_num, start);
-            pText++;
+            // Not found -> rewind
+            _f.seekg(0);
         }
     }
-}
+    bool getLine(std::string& s)
+    {
+        for (;;)
+        {
+            getline(_f, s);
+            if (_f.fail())
+            {
+                return false;
+            }
+            ++_lineNumber;
+            // Remove comments
+            const auto pos = s.find(';');
+            if (pos != std::string::npos)
+            {
+                s.erase(pos);
+            }
+            // Discard empty lines
+            if (s.empty())
+            {
+                continue;
+            }
+            return true;
+        }
+    }
+    unsigned int lineNumber() { return _lineNumber; }
+};
 
+class Table
+{
+    std::map<wchar_t, int> _table;
 
-void Process_Text()
+public:
+    Table(const std::string& fileName)
+    {
+        File f(fileName);
+
+        for (std::string s; f.getLine(s);)
+        {
+            // Remove comments
+            const auto pos = s.find(';');
+            if (pos != std::string::npos)
+            {
+                s.erase(pos);
+            }
+            // Discard empty lines
+            if (s.empty())
+            {
+                continue;
+            }
+            // Find the "="
+            const auto equalsPos = s.find('=');
+            if (equalsPos == std::string::npos)
+            {
+                printf("Warning: unexpected table line \"%s\"\n", s.c_str());
+                continue;
+            }
+            // Parse the bits
+            const auto& l = s.substr(0, equalsPos);
+            const auto& r = s.substr(equalsPos + 1);
+            // l is little-endian hex...
+            int value = std::stoi(l, nullptr, 16);
+            if (l.length() == 4)
+            {
+                // swap bytes
+                value = (value & 0xff) << 8 | (value >> 8);
+            }
+            // r is possibly UTF-8...
+            std::wstring dest = convert.from_bytes(r.c_str());
+            _table[dest[0]] = value;
+        }
+    }
+
+    int find(wchar_t value)
+    {
+        const auto it = _table.find(value);
+        if (it == _table.end())
+        {
+            return -1;
+        }
+        return it->second;
+    }
+};
+
+FILE *pass1;
+
+void Process_Text(File& f, Table& t)
 {
     // Init table entries
-    table_number = 1;
-    table_offset = 0;
-    table_length = 0;
+    int tableNumber = 1;
+    int tableOffset = 0;
+    int tableLength = 0;
     printf("\n");
     printf("Table location data\n");
 
     std::ofstream definitions("definitions.asm");
-    vector<string> names
+    std::vector<std::string> names
     {
         "CLASS",
         "ITEMS",
@@ -188,138 +138,73 @@ void Process_Text()
     };
 
     // Read in dictionary entries
-    while (fgets(line, sizeof(line), list))
+    for (std::string s; f.getLine(s);)
     {
-        char* pText;
-        int line_len;
-        string out_buffer;
-
-        // internal counter
-        line_num++;
-        line_len = 0;
-        pText = line;
-
-        // remove newline
-        if (line[strlen(line) - 1] == 0x0a)
-            line[strlen(line) - 1] = 0;
-
-        // skip comments or eos
-        if (*pText == ';' || *pText == 0)
-            continue;
-
         // check for new table altogether
-        if (*pText == '#' && strlen(line) == 1)
+        if (s.length() == 1 && s[0] == '#')
         {
             // log statistics
             printf("(line %d) Table %02X: Start $%04X, Length $%04X",
-                   line_num, table_number, table_offset - table_length, table_length);
+                   f.lineNumber(), tableNumber, tableOffset - tableLength, tableLength);
 
-            definitions << ".define " << names[table_number] << "_OFFSET $" << std::setbase(16) << table_offset - table_length << "\n";
-            definitions << ".define " << names[table_number] << "_SIZE $" << std::setbase(16) << table_length << "\n";
-
-#if 0
-            if (table_number == 1) printf("  [t1e.asm = CLASS]");
-            if (table_number == 2)
-            {
-                printf("  [t1e.asm = ITEMS]");
-
-                //printf( "\nWarning: SRAM is split here" );
-                //table_offset = 0;
-            }
-            if (table_number == 3) printf("  [t1e.asm = SPELL]");
-            if (table_number == 4) printf("  [t1f.asm = NAME_PTR, NAME_LEN]");
-            if (table_number == 5) printf("  [t1e_3.asm = MONSTER]");
-            if (table_number == 6) printf("  [t7a_3.asm = DICT]");
-#endif
+            definitions << ".define " << names[tableNumber] << "_OFFSET $" << std::setbase(16) << tableOffset - tableLength << "\n";
+            definitions << ".define " << names[tableNumber] << "_SIZE $" << std::setbase(16) << tableLength << "\n";
 
             printf("\n");
 
             // re-init
-            table_number++;
-            table_length = 0;
+            tableNumber++;
+            tableLength = 0;
             continue;
         }
 
+        std::vector<uint8_t> buffer;
+
         // do the conversion
-        while (*pText)
+        for (auto&& c : s)
         {
-            int entry;
-            int start;
-
             // grab symbol
-            start = *pText;
-
-            // check if we have a dictionary entry
-            Find_Entry(pText, entry);
-            if (entry == -1) continue;
-
-            // successful -> start logging changes
-            for (int lcv2 = 0; lcv2 < new_symbol.length(); lcv2 += 2)
+            const auto value = t.find(c);
+            if (value == -1)
             {
-                int code;
-
-                // calculate new hex code
-                sscanf(new_symbol.c_str() + lcv2, "%02X", &code);
-
-                // buffer out data
-                out_buffer += code;
+                continue;
             }
 
-            // line length checking
-            line_len += old_symbol.length();
-
-            // update file position
-            table_offset += old_symbol.length();
-            table_length += old_symbol.length();
+            // Emit to buffer
+            buffer.push_back((uint8_t)value);
         }
 
         // commit changes: length + text
-        fputc(line_len, pass1);
-        fwrite(out_buffer.c_str(), 1, out_buffer.length(), pass1);
+        fputc(buffer.size(), pass1);
+        fwrite(&buffer[0], 1, buffer.size(), pass1);
 
-        table_offset++;
-        table_length++;
-    } // end while
+        tableOffset += buffer.size() + 1;
+        tableLength += buffer.size() + 1;
+    }
 
     // custom stop marker
     printf("\n");
-    fputc(list_eof, pass1);
+    fputc(0xdf, pass1); // Magic number
 }
-
-#undef old_symbol
-#undef new_symbol
-
 
 int Convert_Symbols(const char* list_name, const char* table_name, const char* out_name)
 {
     // Open files
-    list = fopen(list_name, "r");
-    table = fopen(table_name, "r");
     pass1 = fopen(out_name, "wb");
 
     // Check for file errors
-    if (!list)
-    {
-        printf("Error: Could not open file \"%s\"\n", list_name);
-        return -1;
-    }
-    if (!table)
-    {
-        printf("Error: Could not open file \"%s\"\n", table_name);
-        return -1;
-    }
     if (!pass1)
     {
         printf("Error: Could not create file \"%s\"\n", out_name);
         return -1;
     }
 
-    Load_Tables(0);
-    Process_Text();
+    //Load_Tables(0);
+    Table t(table_name);
+    File f(list_name);
+    Process_Text(f, t);
 
     // Done processing
-    fclose(list);
-    fclose(table);
     fclose(pass1);
 
     return 0;
