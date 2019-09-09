@@ -20,7 +20,7 @@ Phantasy Star: Symbol Converter
 
 namespace
 {
-    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> convert;
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 }
 
 class File
@@ -103,7 +103,7 @@ public:
                 value = (value & 0xff) << 8 | (value >> 8);
             }
             // r is possibly UTF-8...
-            std::u16string dest = convert.from_bytes(r.c_str());
+            std::wstring dest = convert.from_bytes(r.c_str());
             _table[dest[0]] = value;
         }
     }
@@ -121,7 +121,7 @@ public:
 
 class Menu
 {
-    std::vector<std::u16string> _lines;
+    std::vector<std::wstring> _lines;
     std::vector<int> _ptrs;
     std::vector<int> _dims;
     std::string _name;
