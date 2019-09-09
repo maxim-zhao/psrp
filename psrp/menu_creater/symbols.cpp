@@ -65,7 +65,7 @@ public:
 
 class Table
 {
-    std::map<char16_t, int> _table;
+    std::map<wchar_t, int> _table;
 
 public:
     Table(const std::string& fileName)
@@ -104,16 +104,17 @@ public:
             }
             // r is possibly UTF-8...
             std::wstring dest = convert.from_bytes(r.c_str());
+            // We assume we only want the first char
             _table[dest[0]] = value;
         }
     }
 
-    int find(char16_t value)
+    int find(wchar_t value)
     {
         const auto it = _table.find(value);
         if (it == _table.end())
         {
-            return 0;
+            return -1;
         }
         return it->second;
     }
@@ -220,7 +221,7 @@ public:
             for (auto&& c : line)
             {
                 const auto& value = table.find(c);
-                if (value == 0)
+                if (value == -1)
                 {
                     // skip unknown chars
                     continue;
