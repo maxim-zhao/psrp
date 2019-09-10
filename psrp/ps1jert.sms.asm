@@ -1929,7 +1929,10 @@ Enemies:
   ROMPosition $43c00
 .section "Static dictionary" overwrite
 Words:
-.include "rom_insert/words.asm"
+;.include "rom_insert/words.asm"
+.include "list_creater/dict.txt" ; is now proper asm
+; Terminator
+.db $df
 .ends
 
 ; English script

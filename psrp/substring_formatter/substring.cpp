@@ -6,8 +6,8 @@ Phantasy Star: Substring Table Creater
 
 #include <deque>
 #include <string>
-
-using namespace::std;
+#include <fstream>
+#include <iomanip>
 
 constexpr auto start_code = 0x60;
 
@@ -22,60 +22,33 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    int code_amount;
-    sscanf(argv[1], "%X", &code_amount);
+    const int numWords = std::stoi(argv[1], nullptr, 16);
 
     // open files
-    FILE* fp = fopen("words.txt", "r");
-    FILE* out = fopen("words_final.txt", "w");
-    FILE* dict = fopen("dict.txt", "w");
+    std::ifstream words("words.txt");
+    std::ofstream table("words_final.txt");
+    std::ofstream dict("dict.txt");
 
     // read each string and add conversion code
-    char line[8192];
     int code = start_code;
-    deque<string> list;
-    while (fgets(line, sizeof(line), fp))
+    std::deque<std::string> list;
+    for (std::string s; std::getline(words, s);)
     {
-        // remove '\n'
-        if (line[strlen(line) - 1] == 0x0a) line[strlen(line) - 1] = 0;
-
         // dictionary word
-        fprintf(dict, "%s\n", line);
+        dict << "  String \"" << s << "\"\n";
 
         // print <string>
-        fprintf(out, "%02X=%s\n", code, line);
+        table << std::setbase(16) << code << "=" << s << "\n";
 
         // queue up
-        list.emplace_back(line);
+        list.emplace_back(s);
 
         // bump substring assignment range
         code++;
 
-        // formatting
-        if (code % 16 == 0)
-        {
-            fprintf(out, "\n");
-
-            // print <string> / <space><string>
-            for (int lcv = code - 16; lcv < code; lcv++)
-            {
-                //fprintf( out, "D0%02X= %s\n", lcv, list[0].c_str() );
-                list.pop_front();
-            }
-
-            fprintf(out, "\n");
-        }
-
         if (code == switch_code) code = start_code2;
-        if (code == start_code + code_amount) break;
+        if (code == start_code + numWords) break;
     }
-
-    // dictionary EOF
-    fprintf(dict, "#\n");
-
-    fclose(fp);
-    fclose(out);
-    fclose(dict);
 
     return 0;
 }

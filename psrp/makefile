@@ -37,27 +37,9 @@ script_inserter\script1.txt script_inserter\script2.txt substring_formatter\word
 substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
   $(CPP) $(CPPFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
 
-substring_formatter\words_final.txt list_creater\dict.txt : substring_formatter\words.txt substring_formatter\substring_formatter.exe
+substring_formatter\words_final.txt: substring_formatter\words.txt substring_formatter\substring_formatter.exe
 	cd substring_formatter
 	substring_formatter.exe 0x80
-	copy dict.txt "..\list_creater"
-	cd ..
-
-# list_creater
-list_creater\list_creater.exe : list_creater\*.cpp
-  $(CPP) $(CPPFLAGS) list_creater/*.cpp /Fe:list_creater\list_creater.exe
-
-rom_insert\lists.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl list_creater\list_creater.exe
-	cd list_creater
-	list_creater.exe lists.txt tech1_table.tbl
-	move pass1.bin "..\rom_insert\lists.bin"
-	move definitions.asm "..\rom_insert\lists_definitions.asm"
-	cd ..
-
-rom_insert\words.bin : list_creater\lists.txt list_creater\dict.txt list_creater\tech1_table.tbl list_creater\list_creater.exe
-	cd list_creater
-	list_creater.exe dict.txt tech1_table.tbl > log2.txt
-	move pass1.bin "..\rom_insert\words.bin"
 	cd ..
 
 # bitmap_decode
@@ -167,30 +149,26 @@ BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_ins
        rom_insert\title_e.bin rom_insert\title-nt.bin rom_insert\title-pal.bin \
        script_inserter\script_trees.bin \
        script_inserter\tree_vector.bin \
-       rom_insert\words.bin \
-       rom_insert\lists.bin \
        rom_insert\credits.bin
 
 # rom_insert
-ps1jert.sms: $(PSJ) rom_insert\list.txt rom_insert\script_list.txt rom_insert\menu_list.asm rom_insert\opening.asm $(BINS) ps1jert.sms.asm rom_insert\lists_definitions.asm
+ps1jert.sms: $(PSJ) rom_insert\menu_list.asm rom_insert\opening.asm $(BINS) ps1jert.sms.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 
 	@echo Successful: translated file is ps1jert.sms
 
 CLEANFILES = \
-	     list_creater\log*.txt list_creater\dict.txt \
 	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin psg_encoder\font3.bin\
-	     rom_insert\*_e.bin rom_insert\lists.bin rom_insert\log.txt rom_insert\menu_list.asm \
+	     rom_insert\*_e.bin rom_insert\log.txt rom_insert\menu_list.asm \
 	     rom_insert\menus.bin rom_insert\opening.asm script_inserter\script1.bin \
 	     script_inserter\script_list.txt script_inserter\script_trees.bin script_inserter\tree_vector.bin \
-	     rom_insert\words.bin rom_insert\title-nt.bin rom_insert\title-pal.bin\
+	     rom_insert\title-nt.bin rom_insert\title-pal.bin\
 	     script_inserter\log.txt script_inserter\script*.txt script_inserter\table_temp.tbl \
 	     substring_formatter\dict.txt substring_formatter\log.txt substring_formatter\words.txt substring_formatter\words_final.txt \
 	     word_count\stats.txt word_count\words.txt \
        word_count\word_count.exe \
        substring_formatter\substring.exe \
-       list_creater\list_creater.exe \
        bitmap_decode\bitmap_decode.exe \
        psg_encoder\psg_encoder.exe \
        menu_creater\menu_creater.exe \
