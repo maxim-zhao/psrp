@@ -23,13 +23,12 @@ PLAY: ps1jert.sms
 word_count\word_count.exe : word_count\*.cpp
   $(CPP) $(CPPFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
 
-script_inserter\script1.txt script_inserter\script2.txt substring_formatter\words.txt : word_count\script1.txt word_count\script2.txt word_count\word_count.exe
+script_inserter\script1.txt script_inserter\script2.txt word_count\words.txt : word_count\script1.txt word_count\script2.txt word_count\word_count.exe
 	cd word_count
 	copy script1.txt + script2.txt script.txt
 	word_count.exe < script.txt > stats.txt
 	copy script1.txt "..\script_inserter"
 	copy script2.txt "..\script_inserter"
-	copy words.txt "..\substring_formatter"
 	del script.txt
 	cd ..
 
@@ -37,10 +36,8 @@ script_inserter\script1.txt script_inserter\script2.txt substring_formatter\word
 substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
   $(CPP) $(CPPFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
 
-substring_formatter\words_final.txt: substring_formatter\words.txt substring_formatter\substring_formatter.exe
-	cd substring_formatter
-	substring_formatter.exe 0x80
-	cd ..
+substring_formatter\words.tbl substring_formatter\words.asm: substring_formatter\substring_formatter.exe word_count\words.txt
+	substring_formatter\substring_formatter.exe 0x80 word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
 
 # bitmap_decode
 BITMAP_DECODE = bitmap_decode\bitmap_decode.exe
@@ -123,8 +120,8 @@ rom_insert\menus.bin rom_insert\menu_list.asm : menu_creater\menus.txt menu_crea
 script_inserter\script_inserter.exe: script_inserter\*.cpp
   $(CPP) $(CPPFLAGS) script_inserter\*.cpp /Fe:script_inserter\script_inserter.exe
 
-script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words_final.txt
-	copy script_inserter\tech1_table.tbl + substring_formatter\words_final.txt script_inserter\table_temp.tbl
+script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words.tbl
+	copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
 
 script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\script_trees.bin script_inserter\script_list.txt : script_inserter\table_temp.tbl script_inserter\script_inserter.exe
 	cd script_inserter
@@ -165,7 +162,7 @@ CLEANFILES = \
 	     script_inserter\script_list.txt script_inserter\script_trees.bin script_inserter\tree_vector.bin \
 	     rom_insert\title-nt.bin rom_insert\title-pal.bin\
 	     script_inserter\log.txt script_inserter\script*.txt script_inserter\table_temp.tbl \
-	     substring_formatter\dict.txt substring_formatter\log.txt substring_formatter\words.txt substring_formatter\words_final.txt \
+	     substring_formatter\words.tbl substring_formatter\words.asm \
 	     word_count\stats.txt word_count\words.txt \
        word_count\word_count.exe \
        substring_formatter\substring.exe \
