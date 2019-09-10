@@ -1246,7 +1246,7 @@ _Code5:
   push de
   push bc
 
-    ld hl,WORDS
+    ld hl,Words
     call DictionaryLookup_Substring   ; Relocate substring entry and copy
 
   pop bc
@@ -1537,7 +1537,7 @@ ItemLookup:
   push bc     ; Save width, temp
 
     ld a,($c2c4)    ; Grab item #
-    ld hl,ITEMS   ; Item lookup
+    ld hl,Items   ; Item lookup
 
 LookupItem:
     call DictionaryLookup
@@ -1564,7 +1564,7 @@ PlayerLookup:
     ld a,($C2C2)    ; Grab item #
     and $03
 
-    ld hl,NAMES
+    ld hl,Names
     jp LookupItem
 .ends
 
@@ -1582,7 +1582,7 @@ EnemyLookup:
 
     ld a,($c2e6)    ; Grab enemy #
 
-    ld hl,ENEMY
+    ld hl,Enemies
     jp LookupItem
 .ends
 
@@ -1730,19 +1730,206 @@ OriginalVBlankHandlerPatch:
 
 ; Lists
 
+.asciitable
+; matches the .tbl files used elsewhere
+map ' ' = $00
+map '0' to '9' = $01 
+map 'A' to 'Z' = $0b
+map 'a' to 'z' = $25
+ ; Punctuation
+ map '.' = $3F
+map ':' = $40
+;map '‘' = $41 ; UTF-8 not working :(
+;map '’' = $42
+map "'" = $42
+map ',' = $43
+map '-' = $46
+map '!' = $47
+map '?' = $48
+; Scripting codes
+map '+' = $4F ; Conditional space (soft wrap point)
+map '@' = $50 ; Newline (when in a menu)
+map '%' = $51 ; Hyphen (when wrapped)
+map '[' = $52 ; [] = do not draw in menus, only during narratives
+map ']' = $53
+; Articles
+map '~' = $54 ; a
+map '#' = $55 ; an
+map '^' = $56 ; the
+map '&' = $57 ; some
+.enda
+
+.macro String args s
+.db s.length
+.asc s
+.endm
+
   ROMPosition $76ba6
 .section "Enemy, name, item lists" overwrite
-.include "rom_insert/lists_definitions.asm"
-ITEMS: .incbin "rom_insert/lists.bin" skip ITEMS_OFFSET read ITEMS_SIZE
-NAMES: .incbin "rom_insert/lists.bin" skip NAMES_OFFSET read NAMES_SIZE
-ENEMY: .incbin "rom_insert/lists.bin" skip ENEMY_OFFSET read ENEMY_SIZE
-; There's one more byte in there which we (apparently? TODO) need to read
-.incbin "rom_insert/lists.bin" skip _END_OFFSET
+
+; Order is important!
+Items:
+  String " " ; empty item (blank)
+; weapons
+  String "~Wood Cane"
+  String "~Short@ Sword"
+  String "#Iron Sword"
+  String "~Psycho@ Wand"
+  String "~Saber Claw"
+  String "#Iron Axe"
+  String "~Titanium@ Sword"
+  String "~Ceramic@ Sword"
+  String "~Needle Gun"
+  String "~Silver@ Tusk"
+  String "~Heat Gun"
+  String "~Light@ Saber"
+  String "~Laser Gun"
+  String "~Laconian@ Sword"
+  String "~Laconian@ Axe"
+; armour
+  String "~Leather@ Clothes"
+  String "~White@ Cloak"
+  String "~Light Suit"
+  String "#Iron Armor"
+  String "~Spiky [Squirrel ]Fur"
+  String "~Zirconian@ Mail"
+  String "~Diamond@ Armor"
+  String "~Laconian@ Armor"
+  String "^Frad Cloak"
+; shields
+  String "~Leather@ Shield"
+  String "~Bronze@ Shield"
+  String "#Iron@ Shield"
+  String "~Ceramic@ Shield"
+  String "#Animal@ Glove"
+  String "~Laser@ Barrier"
+  String "^Shield of@ Perseus"
+  String "~Laconian@ Shield"
+; vehicles
+  String "^LandMaster"
+  String "^FlowMover"
+  String "^IceDecker"
+; items
+  String "~Pelorie%@+Mate"
+  String "~Ruoginin"
+  String "^Soothe@ Flute"
+  String "~Search%@+light"
+  String "#Escape@ Cloth"
+  String "~TranCarpet"
+  String "~Magic Hat"
+  String "#Alsuline"
+  String "~Poly%@+meteral"
+  String "~Dungeon@ Key"
+  String "~Telepathy@ Ball"
+  String "^Eclipse@ Torch"
+  String "^Aeroprism"
+  String "^Laerma@ Berries"
+  String "Hapsby"
+  String "~Road Pass"
+  String "~Passport"
+  String "~Compass"
+  String "~Shortcake"
+  String "^Governor[-General]'s@ Letter"
+  String "~Laconian@ Pot"
+  String "^Light@ Pendant"
+  String "^Carbunckle@ Eye"
+  String "~GasClear"
+  String "Damoa's@ Crystal"
+  String "~Master@ System"
+  String "^Miracle@ Key"
+  String "Zillion"
+  String "~Secret@ Thing"
+
+Names:
+  String "Alisa"
+  String "Myau"
+  String "Tylon"
+  String "Lutz"
+
+Enemies:
+  String " " ; Empty 
+  String "^Monster@ Fly"
+  String "^Green@ Slime"
+  String "^Wing Eye"
+  String "^Maneater"
+  String "^Scorpius"
+  String "^Giant@ Naiad"
+  String "^Blue@ Slime"
+  String "^Motavian@ Peasant"
+  String "^Devil Bat"
+  String "^Killer@ Plant"
+  String "^Biting@ Fly"
+  String "^Motavian@ Teaser"
+  String "^Herex"
+  String "^Sandworm"
+  String "^Motavian@ Maniac"
+  String "^Gold Lens"
+  String "^Red Slime"
+  String "^Bat Man"
+  String "^Horseshoe@ Crab"
+  String "^Shark King"
+  String "^Lich"
+  String "^Tarantula"
+  String "^Manticort"
+  String "^Skeleton"
+  String "^Ant-lion"
+  String "^Marshes"
+  String "^Dezorian"
+  String "^Desert@ Leech"
+  String "^Cryon"
+  String "^Big Nose"
+  String "^Ghoul"
+  String "^Ammonite"
+  String "^Executor"
+  String "^Wight"
+  String "^Skull@ Soldier"
+  String "^Snail"
+  String "^Manticore"
+  String "^Serpent"
+  String "^Leviathan"
+  String "^Dorouge"
+  String "^Octopus"
+  String "^Mad@ Stalker"
+  String "^Dezorian@ Head"
+  String "^Zombie"
+  String "^Living@ Dead"
+  String "^Robot@ Police"
+  String "^Cyborg@ Mage"
+  String "^Flame@ Lizard"
+  String "Tajim"
+  String "^Gaia"
+  String "^Machine@ Guard"
+  String "^Big Eater"
+  String "^Talos"
+  String "^Snake@ Lord"
+  String "^Death@ Bearer"
+  String "^Chaos@ Sorcerer"
+  String "^Centaur"
+  String "^Ice Man"
+  String "^Vulcan"
+  String "^Red@ Dragon"
+  String "^Green@ Dragon"
+  String "LaShiec"
+  String "^Mammoth"
+  String "^King Saber"
+  String "^Dark@ Marauder"
+  String "^Golem"
+  String "Medusa"
+  String "^Frost@ Dragon"
+  String "Dragon@ Wise"
+  String "Gold Drake"
+  String "Mad Doctor"
+  String "LaShiec"
+  String "Dark Force"
+  String "Nightmare"
+; Terminator
+.db $df
 .ends
 
   ROMPosition $43c00
 .section "Static dictionary" overwrite
-WORDS: .incbin "rom_insert/words.bin"
+Words:
+.include "rom_insert/words.asm"
 .ends
 
 ; English script
@@ -1943,7 +2130,6 @@ Opening:
 
   PatchB $45d7 :Opening ; - source bank
 
-
 ; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
   BinAtPosition $420e0 "handmade_bins/tiles-tarzimal.bin"
 ; rewire pointer to them (page $10, offset $a0e0)
@@ -1977,7 +2163,7 @@ _next_item:
 ; TODO: fix this!
 
       ld a,(hl)   ; grab item #
-      ld hl,ITEMS   ; table start
+      ld hl,Items   ; table start
 
       push de
         call DictionaryLookup    ; copy string to RAM ; changed address
@@ -2020,7 +2206,7 @@ _next_shop:
 
       ld a,(hl)   ; grab item #
       ld (FULL_STR),hl  ; save current shop ptr
-      ld hl,ITEMS   ; table start
+      ld hl,Items   ; table start
 
       push de
         call DictionaryLookup    ; copy string to RAM
@@ -2072,7 +2258,7 @@ enemy:
     ld (PAGING_SLOT_2),a
 
     ld a,($c2e6)    ; grab enemy #
-    ld hl,ENEMY   ; table start
+    ld hl,Enemies   ; table start
 
     push de
       call DictionaryLookup    ; copy string to RAM
@@ -2110,7 +2296,7 @@ _next_equipment:
       ld (PAGING_SLOT_2),a
 
       ld a,(hl)   ; grab item #
-      ld hl,ITEMS   ; table start
+      ld hl,Items   ; table start
 
       push de
         call DictionaryLookup    ; copy string to RAM
