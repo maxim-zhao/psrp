@@ -1,3 +1,10 @@
+// TODO
+// The "C++ version" is much nicer code but it cannot (easily) match the "C version"'s output
+// because when there is a tie for weights, the order of the words is either non-deterministic
+// or (maybe) related to their first instance location in the text (which would be a pain to
+// track). Also, I have a "bugfix" whereby I convert ’ to ' as I parse the text in order to
+// avoid encoding it twice.
+
 //www.cs.utsa.edu/~wagner/CS1723/handouts/treealt.pdf
 //
 //Word Frequency Program (Non-Recursive Version), Fri Oct 30 1998
@@ -6,6 +13,14 @@
 #include <cctype>
 #include <string.h>
 #include <stdlib.h>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <map>
+#include <vector>
+#include <algorithm>
+#include <locale>
+#include <codecvt>
  
 #define MAXWORD 500
 #define MAXS 500
@@ -37,8 +52,120 @@ int sp = 0;
  
 /* word frequency count -- non-recursive version */
 
-int main()
+int main(int argc, const char** argv)
 {
+	/*
+	if (argc != 3)
+	{
+		printf("Usage: %s <script file> <output file>\n", argv[0]);
+		return -1;
+	}
+
+	std::map<std::wstring, int> wordCounts;
+
+	// Load the file
+	std::ifstream f(argv[1]);
+    // Check for a BOM
+    int bom = 0;
+    f.read(reinterpret_cast<char *>(&bom), 3);
+    if (bom != 0xbfbbef)
+    {
+        // Not found -> rewind
+        f.seekg(0);
+    }
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+
+	// For each line
+	for (std::string s; std::getline(f, s);)
+	{
+		// Skip blanks
+		if (s.empty())
+		{
+			continue;
+		}
+		// Skip comments, IDs
+		if (s[0] == ';' || s[0] == '[')
+		{
+			continue;
+		}
+		// Remove <> commands
+		for (auto pos = s.find('<'); pos != std::string::npos; pos = s.find('<', pos))
+		{
+			auto end = s.find('>', pos);
+			if (end == std::string::npos)
+			{
+				break;
+			}
+			// Erase all but one
+			s.erase(pos, end - pos);
+			// And replace with a space
+			s[pos] = ' ';
+		}
+		// Convert to wstring
+		std::wstring line = convert.from_bytes(s.c_str());
+		// We split on any non-alpha characters, but also accept "'" as a starting letter.
+		for (unsigned int i = 0; i < line.length();)
+		{
+			auto c = line[i];
+			if (c == L'’')
+			{
+				// Correct ’ to '
+				line[i] = c = L'\'';
+			}
+			// Is this a candidate?
+			if (::iswalpha(c) || c == L'\'')
+			{
+				// Good candidate; look for the end
+				unsigned int j;
+				for (j = i+1; j != line.length(); ++j)
+				{
+					if (!::iswalpha(line[j]))
+					{
+						break;
+					}
+				}
+				// Pull out the word
+				const auto& word = line.substr(i, j - i);
+				if (word.empty())
+				{
+					continue;
+				}
+				// Count it
+				++wordCounts[word];
+				// Skip it
+				i = j;
+			}
+			else
+			{
+				++i;
+			}
+		}
+	}
+
+	// Then convert to weighted counts
+	std::vector<std::pair<std::wstring, int>> weightedList(wordCounts.size());
+	for (auto&& kvp : wordCounts)
+	{
+		weightedList.emplace_back(kvp.first, kvp.second * (kvp.first.length() - 1));
+	}
+
+	// Then sort by weight
+	std::sort(
+		weightedList.begin(), 
+		weightedList.end(), 
+		[](const std::pair<std::wstring, int>& left, const std::pair<std::wstring, int>& right)
+		{
+			return left.second > right.second;
+		});
+
+	// And emit them
+	std::ofstream of(argv[2]);
+	for (auto && pair : weightedList)
+	{
+		of << convert.to_bytes(pair.first) << "\n";
+	}
+	*/
+	
 	struct tnode *root;
 	int lcv;
 	FILE *fp;
@@ -126,7 +253,7 @@ struct tnode *newnode(char *w)
 }
  
 /* treeprint: in-order print of tree p, non-recursive version */
- 
+
 void treeprint(struct tnode *p)
 { 
 	for (;;) {
