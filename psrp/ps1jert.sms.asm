@@ -1947,7 +1947,7 @@ IndexTableRemap:
   ROMPosition $46c81
 .section "Menu data" overwrite
 MenuData:
-.include "rom_insert/menu_list.asm"
+.include "menu_creater/menus.asm"
 
   PatchB $3b82 :MenuData
   PatchB $3bab :MenuData
@@ -2128,7 +2128,7 @@ MaxMP:    .dwm Text "|Max MP   "
   ROMPosition $5aadc
 .section "Opening cinema" overwrite
 Opening:
-.include "rom_insert/opening.asm"
+.include "menu_creater/opening.asm"
 
   PatchB $45d7 :Opening ; - source bank
 
@@ -2885,7 +2885,7 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
   PatchB $2fdb $dc    ; cursor tile index
 
 ; Changed credits -------------------------
-  BinAtPosition $53dbc "rom_insert/credits.bin"               ; 577/580 bytes
+  BinAtPosition $53dbc "credits/credits.bin"               ; 577/580 bytes
   
   ROMPosition $488c
 .section "Credits hack" overwrite

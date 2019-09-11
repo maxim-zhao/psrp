@@ -50,3 +50,5 @@ Release
 /psrp/rom_insert/*.psgcompr
 /psrp/new_graphics/*.bin
 /psrp/psg_encoder/*.psgcompr
+/psrp/credits/credits.bin
+/psrp/menu_creater/*.asm

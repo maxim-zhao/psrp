@@ -116,11 +116,11 @@ psg_encoder\font3.psgcompr : $(PSG_ENCODE) new_graphics\font3.bin ;$** $@
 menu_creater\menu_creater.exe: menu_creater\*.cpp
   $(CPP) $(CPPFLAGS) menu_creater\*.cpp /Fe:menu_creater\menu_creater.exe
 
-rom_insert\opening.asm : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
-	menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl rom_insert\opening.asm
+menu_creater\opening.asm : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\opening.asm
 
-rom_insert\menus.bin rom_insert\menu_list.asm : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
-	menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl rom_insert\menu_list.asm
+menu_creater\menus.asm : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menus.asm
 
 # script_inserter
 
@@ -138,10 +138,10 @@ script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\scri
 
 # credits
 credits\credits_encode.exe: credits\*.cpp
-  $(CPP) $(CPPFLAGS) credits\*.cpp /Fe:credits\credits_encode.exe
+  $(CPP) $(CPPFLAGS) credi  ts\*.cpp /Fe:credits\credits_encode.exe
 
-rom_insert\credits.bin: credits\credits.txt credits\credits_encode.exe
-	credits\credits_encode.exe credits\credits.txt rom_insert\credits.bin
+credits\credits.bin: credits\credits.txt credits\credits_encode.exe
+	credits\credits_encode.exe credits\credits.txt credits\credits.bin
 
 # All files needed for the final ROM
 BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgcompr  psg_encoder\bg5.psgcompr \
@@ -153,10 +153,10 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
        psg_encoder\title.psgcompr new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin \
        script_inserter\script_trees.bin \
        script_inserter\tree_vector.bin \
-       rom_insert\credits.bin
+       credits\credits.bin
 
-# rom_insert
-ps1jert.sms: $(PSJ) rom_insert\menu_list.asm rom_insert\opening.asm $(BINS) ps1jert.sms.asm
+# ROM building
+ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\opening.asm substring_formatter\words.asm $(BINS) ps1jert.sms.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 
@@ -164,8 +164,7 @@ ps1jert.sms: $(PSJ) rom_insert\menu_list.asm rom_insert\opening.asm $(BINS) ps1j
   fc /b ps1jert.sms ps1jert.102.sms | more
 
 CLEANFILES = $(BINS) \
-	     rom_insert\menu_list.asm \
-	     rom_insert\opening.asm \
+	     menu_creater\*.asm \
        script_inserter\script1.bin \
 	     script_inserter\script_list.txt \
        script_inserter\script_trees.bin \
