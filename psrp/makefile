@@ -138,7 +138,7 @@ script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\scri
 
 # credits
 credits\credits_encode.exe: credits\*.cpp
-  $(CPP) $(CPPFLAGS) credi  ts\*.cpp /Fe:credits\credits_encode.exe
+  $(CPP) $(CPPFLAGS) credits\*.cpp /Fe:credits\credits_encode.exe
 
 credits\credits.bin: credits\credits.txt credits\credits_encode.exe
 	credits\credits_encode.exe credits\credits.txt credits\credits.bin
