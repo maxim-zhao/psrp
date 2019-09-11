@@ -450,13 +450,13 @@ TitleScreenTiles:
   ROMPosition $3bc68
 .section "Title screen name table" overwrite
 TitleScreenTilemap:
-.incbin "rom_insert/title-nt.bin"
+.incbin "new_graphics/title-nt.bin"
 .ends
 
   ROMPosition $00925
 .section "Title screen palette" overwrite
 TitleScreenPalette:
-.incbin "rom_insert/title-pal.bin"
+.incbin "new_graphics/title-pal.bin"
 .ends
 
 .macro "LoadPagedTiles" args address, dest
@@ -2882,8 +2882,6 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 .ends
 
 ; New title screen ------------------------
-  BinAtPosition $3BC68 "rom_insert/title-nt.bin" ; tilemap
-  BinAtPosition $0925 "rom_insert/title-pal.bin" ; palette
   PatchB $2fdb $dc    ; cursor tile index
 
 ; Changed credits -------------------------

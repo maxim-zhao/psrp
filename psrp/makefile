@@ -176,7 +176,7 @@ CLEANFILES = $(BINS) \
 	     substring_formatter\words.tbl substring_formatter\words.asm \
 	     word_count\stats.txt word_count\words.txt \
        word_count\word_count.exe \
-       substring_formatter\substring.exe \
+       substring_formatter\substringformatter.exe \
        bitmap_decode\bitmap_decode.exe \
        psg_encoder\psg_encoder.exe \
        menu_creater\menu_creater.exe \
