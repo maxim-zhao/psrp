@@ -20,6 +20,7 @@ PLAY: ps1jert.sms
 	$(EMU) ps1jert.sms
 
 # word_count
+# Analyses the script to determine which words can be substituted for best "compression"
 word_count\word_count.exe : word_count\*.cpp
   $(CPP) $(CPPFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
 
@@ -33,6 +34,7 @@ script_inserter\script1.txt script_inserter\script2.txt word_count\words.txt : w
 	cd ..
 
 # substring_formatter
+# Converts the word list from word_count to a dictionary and a TBL file for those words
 substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
   $(CPP) $(CPPFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
 
@@ -40,6 +42,8 @@ substring_formatter\words.tbl substring_formatter\words.asm: substring_formatter
 	substring_formatter\substring_formatter.exe 0x80 word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
 
 # bitmap_decode
+# Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
+# This is done to free up ROM space.
 BITMAP_DECODE = bitmap_decode\bitmap_decode.exe
 
 $(BITMAP_DECODE) : bitmap_decode\*.cpp
@@ -59,12 +63,13 @@ psg_encoder\bg16.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5eb6f $
 psg_encoder\bg29.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 27b24 $@
 psg_encoder\bg30.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 524ea $@
 psg_encoder\bg31.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 4c010 $@
-#psg_encoder\title.bin : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 7e8bd $@
+#psg_encoder\title.bin : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 7e8bd $@ # Replaced with a custom image
 psg_encoder\world1.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 747b8 $@
 psg_encoder\world2.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 58570 $@
 
 
 # tile conversion from PNG
+# This is for "original" graphics.
 psg_encoder\font1.bin: new_graphics\font1.png
 	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
 
@@ -74,35 +79,37 @@ psg_encoder\font2.bin: new_graphics\font2.png
 psg_encoder\font3.bin: new_graphics\font3.png
 	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
 
+# TODO newer BMP2Tile can compress better and directly to the targeted compression format.
 psg_encoder\title.bin rom_insert\title-nt.bin rom_insert\title-pal.bin: new_graphics\titlescreen.png
 	new_graphics\bmp2tile.exe $** -4bit -savetilesbin psg_encoder\title.bin -savetilemappscompr rom_insert\title-nt.bin -palsms -savepalettebin rom_insert\title-pal.bin -exit
 
 # psg_encoder
+# Encodes tile data to the "PS Gaiden" format - see above.
 PSG_ENCODE = psg_encoder\psg_encoder.exe
 
 $(PSG_ENCODE) : psg_encoder\*.cpp
   $(CPP) $(CPPFLAGS) psg_encoder\*.cpp /Fe:$(PSG_ENCODE)
 
-rom_insert\bg1_e.bin   : $(PSG_ENCODE) psg_encoder\bg1.bin   ;$** $@
-rom_insert\bg2_e.bin   : $(PSG_ENCODE) psg_encoder\bg2.bin   ;$** $@
-rom_insert\bg3_e.bin   : $(PSG_ENCODE) psg_encoder\bg3.bin   ;$** $@
-rom_insert\bg5_e.bin   : $(PSG_ENCODE) psg_encoder\bg5.bin   ;$** $@
-rom_insert\bg8_e.bin   : $(PSG_ENCODE) psg_encoder\bg8.bin   ;$** $@
-rom_insert\bg9_e.bin   : $(PSG_ENCODE) psg_encoder\bg9.bin   ;$** $@
-rom_insert\bg10_e.bin  : $(PSG_ENCODE) psg_encoder\bg10.bin  ;$** $@
-rom_insert\bg11_e.bin  : $(PSG_ENCODE) psg_encoder\bg11.bin  ;$** $@
-rom_insert\bg13_e.bin  : $(PSG_ENCODE) psg_encoder\bg13.bin  ;$** $@
-rom_insert\bg14_e.bin  : $(PSG_ENCODE) psg_encoder\bg14.bin  ;$** $@
-rom_insert\bg16_e.bin  : $(PSG_ENCODE) psg_encoder\bg16.bin  ;$** $@
-rom_insert\bg29_e.bin  : $(PSG_ENCODE) psg_encoder\bg29.bin  ;$** $@
-rom_insert\bg30_e.bin  : $(PSG_ENCODE) psg_encoder\bg30.bin  ;$** $@
-rom_insert\bg31_e.bin  : $(PSG_ENCODE) psg_encoder\bg31.bin  ;$** $@
-rom_insert\title_e.bin : $(PSG_ENCODE) psg_encoder\title.bin ;$** $@
-rom_insert\world1_e.bin: $(PSG_ENCODE) psg_encoder\world1.bin;$** $@
-rom_insert\world2_e.bin: $(PSG_ENCODE) psg_encoder\world2.bin;$** $@
-rom_insert\font1_e.bin : $(PSG_ENCODE) psg_encoder\font1.bin ;$** $@
-rom_insert\font2_e.bin : $(PSG_ENCODE) psg_encoder\font2.bin ;$** $@
-rom_insert\font3_e.bin : $(PSG_ENCODE) psg_encoder\font3.bin ;$** $@
+rom_insert\bg1.psgcompr   : $(PSG_ENCODE) psg_encoder\bg1.bin   ;$** $@
+rom_insert\bg2.psgcompr   : $(PSG_ENCODE) psg_encoder\bg2.bin   ;$** $@
+rom_insert\bg3.psgcompr   : $(PSG_ENCODE) psg_encoder\bg3.bin   ;$** $@
+rom_insert\bg5.psgcompr   : $(PSG_ENCODE) psg_encoder\bg5.bin   ;$** $@
+rom_insert\bg8.psgcompr   : $(PSG_ENCODE) psg_encoder\bg8.bin   ;$** $@
+rom_insert\bg9.psgcompr   : $(PSG_ENCODE) psg_encoder\bg9.bin   ;$** $@
+rom_insert\bg10.psgcompr  : $(PSG_ENCODE) psg_encoder\bg10.bin  ;$** $@
+rom_insert\bg11.psgcompr  : $(PSG_ENCODE) psg_encoder\bg11.bin  ;$** $@
+rom_insert\bg13.psgcompr  : $(PSG_ENCODE) psg_encoder\bg13.bin  ;$** $@
+rom_insert\bg14.psgcompr  : $(PSG_ENCODE) psg_encoder\bg14.bin  ;$** $@
+rom_insert\bg16.psgcompr  : $(PSG_ENCODE) psg_encoder\bg16.bin  ;$** $@
+rom_insert\bg29.psgcompr  : $(PSG_ENCODE) psg_encoder\bg29.bin  ;$** $@
+rom_insert\bg30.psgcompr  : $(PSG_ENCODE) psg_encoder\bg30.bin  ;$** $@
+rom_insert\bg31.psgcompr  : $(PSG_ENCODE) psg_encoder\bg31.bin  ;$** $@
+rom_insert\title.psgcompr : $(PSG_ENCODE) psg_encoder\title.bin ;$** $@
+rom_insert\world1.psgcompr: $(PSG_ENCODE) psg_encoder\world1.bin;$** $@
+rom_insert\world2.psgcompr: $(PSG_ENCODE) psg_encoder\world2.bin;$** $@
+rom_insert\font1.psgcompr : $(PSG_ENCODE) psg_encoder\font1.bin ;$** $@
+rom_insert\font2.psgcompr : $(PSG_ENCODE) psg_encoder\font2.bin ;$** $@
+rom_insert\font3.psgcompr : $(PSG_ENCODE) psg_encoder\font3.bin ;$** $@
 
 # menu_creater
 
@@ -137,13 +144,13 @@ rom_insert\credits.bin: credits\credits.txt credits\credits_encode.exe
 	credits\credits_encode.exe credits\credits.txt rom_insert\credits.bin
 
 # All files needed for the final ROM
-BINS = rom_insert\bg1_e.bin  rom_insert\bg2_e.bin  rom_insert\bg3_e.bin  rom_insert\bg5_e.bin \
-       rom_insert\bg8_e.bin  rom_insert\bg9_e.bin  rom_insert\bg10_e.bin rom_insert\bg11_e.bin \
-       rom_insert\bg13_e.bin rom_insert\bg14_e.bin rom_insert\bg16_e.bin rom_insert\bg29_e.bin \
-       rom_insert\bg30_e.bin rom_insert\bg31_e.bin \
-       rom_insert\world1_e.bin rom_insert\world2_e.bin \
-       rom_insert\font1_e.bin rom_insert\font2_e.bin rom_insert\font3_e.bin \
-       rom_insert\title_e.bin rom_insert\title-nt.bin rom_insert\title-pal.bin \
+BINS = rom_insert\bg1.psgcompr  rom_insert\bg2.psgcompr  rom_insert\bg3.psgcompr  rom_insert\bg5.psgcompr \
+       rom_insert\bg8.psgcompr  rom_insert\bg9.psgcompr  rom_insert\bg10.psgcompr rom_insert\bg11.psgcompr \
+       rom_insert\bg13.psgcompr rom_insert\bg14.psgcompr rom_insert\bg16.psgcompr rom_insert\bg29.psgcompr \
+       rom_insert\bg30.psgcompr rom_insert\bg31.psgcompr \
+       rom_insert\world1.psgcompr rom_insert\world2.psgcompr \
+       rom_insert\font1.psgcompr rom_insert\font2.psgcompr rom_insert\font3.psgcompr \
+       rom_insert\title.psgcompr rom_insert\title-nt.bin rom_insert\title-pal.bin \
        script_inserter\script_trees.bin \
        script_inserter\tree_vector.bin \
        rom_insert\credits.bin
@@ -154,10 +161,11 @@ ps1jert.sms: $(PSJ) rom_insert\menu_list.asm rom_insert\opening.asm $(BINS) ps1j
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 
 	@echo Successful: translated file is ps1jert.sms
+  fc /b ps1jert.sms ps1jert.102.sms | more
 
 CLEANFILES = \
 	     psg_encoder\bg*.bin psg_encoder\title.bin psg_encoder\world*.bin psg_encoder\font1.bin psg_encoder\font2.bin psg_encoder\font3.bin\
-	     rom_insert\*_e.bin rom_insert\log.txt rom_insert\menu_list.asm \
+	     rom_insert\*.psgcompr rom_insert\log.txt rom_insert\menu_list.asm \
 	     rom_insert\menus.bin rom_insert\opening.asm script_inserter\script1.bin \
 	     script_inserter\script_list.txt script_inserter\script_trees.bin script_inserter\tree_vector.bin \
 	     rom_insert\title-nt.bin rom_insert\title-pal.bin\
