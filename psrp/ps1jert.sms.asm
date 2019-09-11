@@ -444,7 +444,7 @@ LoadTiles:
   ROMPosition $7e8bd
 .section "Replacement title screen" overwrite
 TitleScreenTiles:
-.incbin "rom_insert/title.psgcompr"
+.incbin "psg_encoder/title.psgcompr"
 .ends
 
   ROMPosition $3bc68
@@ -483,7 +483,7 @@ TitleScreenPatch:
   ROMPosition $747b8
 .section "Outside tiles" overwrite
 OutsideTiles:
-.incbin "rom_insert/world1.psgcompr"
+.incbin "psg_encoder/world1.psgcompr"
 .ends
   ROMPosition $00ce4
 .section "BG loader patch 1" overwrite
@@ -493,7 +493,7 @@ OutsideTiles:
   ROMPosition $58570
 .section "Town tiles" overwrite
 TownTiles:
-.incbin "rom_insert/world2.psgcompr"
+.incbin "psg_encoder/world2.psgcompr"
 .ends
 
   ROMPosition $00cf4
@@ -522,21 +522,21 @@ SceneData: .incbin "handmade_bins/bg_vector.bin"   ; - vector table (moved)
 .ends
 
   BinAtPosition $40000 "handmade_bins/bg_table1.bin"    ; - accompanying palette data
-  BinAtPosition $40050 "rom_insert/bg1.psgcompr"     ; - merged
-  BinAtPosition $40ba7 "rom_insert/bg2.psgcompr"
-  BinAtPosition $41799 "rom_insert/bg3.psgcompr"
-  BinAtPosition $43406 "rom_insert/bg5.psgcompr"     ; - merged w/ font (? I think not)
+  BinAtPosition $40050 "psg_encoder/bg1.psgcompr"     ; - merged
+  BinAtPosition $40ba7 "psg_encoder/bg2.psgcompr"
+  BinAtPosition $41799 "psg_encoder/bg3.psgcompr"
+  BinAtPosition $43406 "psg_encoder/bg5.psgcompr"     ; - merged w/ font (? I think not)
   BinAtPosition $44640 "handmade_bins/bg_table8.bin"  ; - accompanying palette data
-  BinAtPosition $44680 "rom_insert/bg8.psgcompr"     ; - merged
-  BinAtPosition $45338 "rom_insert/bg9.psgcompr"
-  BinAtPosition $45cb0 "rom_insert/bg10.psgcompr"
-  BinAtPosition $46524 "rom_insert/bg11.psgcompr"
-  BinAtPosition $5ac8d "rom_insert/bg13.psgcompr"    ; - no merge
-  BinAtPosition $2c010 "rom_insert/bg14.psgcompr"
-  BinAtPosition $5eb6f "rom_insert/bg16.psgcompr"
-  BinAtPosition $27b24 "rom_insert/bg29.psgcompr"
-  BinAtPosition $524ea "rom_insert/bg30.psgcompr"
-  BinAtPosition $4c010 "rom_insert/bg31.psgcompr"
+  BinAtPosition $44680 "psg_encoder/bg8.psgcompr"     ; - merged
+  BinAtPosition $45338 "psg_encoder/bg9.psgcompr"
+  BinAtPosition $45cb0 "psg_encoder/bg10.psgcompr"
+  BinAtPosition $46524 "psg_encoder/bg11.psgcompr"
+  BinAtPosition $5ac8d "psg_encoder/bg13.psgcompr"    ; - no merge
+  BinAtPosition $2c010 "psg_encoder/bg14.psgcompr"
+  BinAtPosition $5eb6f "psg_encoder/bg16.psgcompr"
+  BinAtPosition $27b24 "psg_encoder/bg29.psgcompr"
+  BinAtPosition $524ea "psg_encoder/bg30.psgcompr"
+  BinAtPosition $4c010 "psg_encoder/bg31.psgcompr"
 
 /*
 .bank 1 slot 1
@@ -552,7 +552,7 @@ SceneData: .incbin "handmade_bins/bg_vector.bin"   ; - vector table (moved)
 .macro TilesAndPalette
 .section "\1 tiles" force
 Palette\1: .db \3, \4, \5, \6, \7, \8, \9, \10, \11, \12, \13, \14, \15, \16, \17, \18
-Tiles\1: .incbin "rom_insert/\2.psgcompr"
+Tiles\1: .incbin "psg_encoder/\2.psgcompr"
 .ends
 .endm
 
@@ -609,13 +609,13 @@ PaletteBuildingShop2:     .db $2a,$00,$3f,$2a,$25,$25,$0b,$07,$06,$06,$38,$34,$0
 PaletteBuildingShop3:     .db $3a,$00,$3f,$25,$36,$36,$29,$28,$14,$2a,$38,$34,$2e,$38,$3c,$34
 PaletteBuildingShop4:     .db $2a,$00,$3f,$25,$25,$2a,$0b,$07,$06,$06,$38,$34,$0f,$08,$0c,$04
 PaletteBuildingDestroyed: .db $2a,$00,$3f,$25,$00,$2a,$00,$00,$00,$00,$34,$00,$00,$08,$0c,$04
-TilesBuilding:           .incbin "rom_insert/bg16.psgcompr"
+TilesBuilding:           .incbin "psg_encoder/bg16.psgcompr"
 .ends
   TilesAndPalette GoldDragon bg14 $30,$00,$3F,$30,$38,$03,$0B,$0F,$01,$02,$03,$07,$25,$2A,$2F,$20
 .section "AirCastle tiles" force
 PaletteAirCastle:         .db $30,$00,$3F,$0B,$06,$1A,$2F,$2A,$08,$15,$30,$30,$30,$30,$30,$30
 PaletteAirCastleFull:     .db $30,$00,$3f,$0b,$06,$1a,$2f,$2a,$08,$15,$15,$0b,$06,$1a,$2f,$28
-TilesAirCastle:           .incbin "rom_insert/bg13.psgcompr"
+TilesAirCastle:           .incbin "psg_encoder/bg13.psgcompr"
 .ends
   TilesAndPalette DeadTrees     bg11  $25,$00,$3F,$2F,$0B,$01,$06,$2A,$06,$06,$06,$06,$06,$06,$06,$06
   TilesAndPalette Spaceport     bg10  $34,$00,$3F,$01,$03,$2A,$25,$02,$0B,$3C,$00,$00,$00,$00,$00,$00
@@ -626,12 +626,12 @@ TilesAirCastle:           .incbin "rom_insert/bg13.psgcompr"
 .section "PalmaForest tiles" force
 PalettePalmaForest:         .db $04,$00,$3F,$08,$0C,$06,$01,$0B,$00,$00,$00,$00,$00,$00,$00,$00
 PaletteDezorisForest:       .db $3E,$00,$3F,$3F,$3F,$1C,$18,$3E,$00,$00,$00,$00,$00,$00,$00,$00
-TilesPalmaForest:           .incbin "rom_insert/bg2.psgcompr"
+TilesPalmaForest:           .incbin "psg_encoder/bg2.psgcompr"
 .ends
 .section "PalmaAndDezorisOpen tiles" force
 PalettePalmaOpen:         .db $01,$00,$3F,$2F,$0B,$06,$08,$0C,$04,$34,$00,$00,$00,$00,$00,$00
 PaletteDezorisOpen:       .db $3E,$00,$3F,$3F,$3C,$38,$3C,$3F,$3C,$30,$00,$00,$00,$00,$00,$00
-TilesPalmaAndDezorisOpen: .incbin "rom_insert/bg1.psgcompr"
+TilesPalmaAndDezorisOpen: .incbin "psg_encoder/bg1.psgcompr"
 .ends
 
 ; Placeholders for tilemap addresses
@@ -727,13 +727,13 @@ BackgroundSceneLoaderTileLoaderPatch:
   ROMPosition $43871
 .section "Font part 1" overwrite
 FONT1:
-.incbin "rom_insert/font1.psgcompr"
+.incbin "psg_encoder/font1.psgcompr"
 .ends
 
   ROMPosition $43bb4
 .section "Font part 2" overwrite
 FONT2:
-.incbin "rom_insert/font2.psgcompr"
+.incbin "psg_encoder/font2.psgcompr"
 .ends
 
 ; Originally t0b.asm
@@ -2896,7 +2896,7 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
   call LoadTiles
 .ends
   
-  BinAtPosition $3fdee "rom_insert/font3.psgcompr"   ;  411/530 bytes
+  BinAtPosition $3fdee "psg_encoder/font3.psgcompr"   ;  411/530 bytes
 
   ROMPosition $00056
 .section "HALT on idle polling loop" force

@@ -48,3 +48,5 @@ Release
 /psrp/substring_formatter/words.asm
 /psrp/substring_formatter/words.tbl
 /psrp/rom_insert/*.psgcompr
+/psrp/new_graphics/*.bin
+/psrp/psg_encoder/*.psgcompr
