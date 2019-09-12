@@ -17,10 +17,22 @@ banks 32
 .background "PS1-J.SMS"
 
 .emptyfill $ff
+; Bank 0
 .unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
-/*
-.unbackground $00486 $004ae ; Old tile decoder - can go up to 4e1
+.unbackground $00486 $004ae ; Old tile decoder - can go up to $004e1
+.unbackground $008f3 $0090b ; Title screen graphics loading
 .unbackground $00925 $00932 ; Title screen palette - can go up to 944
+; Bank 14
+.unbackground $3BC68 $3bfff ; Title screen tilemap + unused space
+; Bank 18
+.unbackground $4be84 $4bfff ; Unused space                 
+; Bank 22
+.unbackground $58570 $5a6db ; landscapes (world 2) - can go up to $5ac7e
+; Bank 29
+.unbackground $747b8 $76ba5 ; landscapes (world 1) - can go up to $77629
+; Bank 31
+.unbackground $7e8bd $7fd47 ; Title screen tiles - can go up to $7ffff
+/*
 .unbackground $034f2 $03544 ; draw one character to tilemap
 .unbackground $033fe $03492 ; draw number inline with text (end is ?)
 .unbackground $03eca $03fc1 ; background graphics lookup table
@@ -37,17 +49,12 @@ banks 32
 .unbackground $08000 $0bfff ; font tile lookup plus script
 .unbackground $27b14 $27fff ; Mansion palette and tiles
 .unbackground $2c000 $2ffff ; palettes and tiles
-.unbackground $3BC68 $3bfff ; Title screen tilemap
 .unbackground $40000 $43fff ; Scene tiles and palettes (whole bank)
 .unbackground $44640 $47fff ; Palettes and tiles
-.unbackground $4be84 $4bfff ; blank data                 
 .unbackground $4c000 $4ffff ; Various enemy tiles
 .unbackground $50000 $53dbb ; Palettes and tiles
-.unbackground $58570 $5ac7b ; landscapes (world 2)       
 .unbackground $5ac8d $5b9d5 ; Air Castle                 
 .unbackground $5ea9f $5ffff ; Palettes and tiles
-.unbackground $747b8 $77628 ; landscapes (world 1)       
-.unbackground $7e8bd $7ffff ; Title screen tiles
 */
 .define VRAM_PTR  $DFC0   ; VRAM address
 .define BUFFER    $DFD0   ; 32-byte buffer
@@ -114,7 +121,7 @@ banks 32
 .macro BinAtPosition args _address, _filename
   ROMPosition _address
 .section "Auto bin include \2 @ \1" overwrite
-BinAt\1:
+BinAt\1_\2:
 .incbin _filename
 .ends
 .endm
@@ -209,7 +216,7 @@ PatchAt\1:
 .endm
 
   ROMPosition $4be84, 1
-.section "New bitmap decoder" overwrite
+.section "New bitmap decoder" force
 
 ; Originally t4b, t4b_1
 
@@ -422,7 +429,7 @@ _Write_VRAM:
 .ends
 
   ROMPosition $00486
-.section "Trampoline to new bitmap decoder" overwrite
+.section "Trampoline to new bitmap decoder" force
 ; RLE/LZ bitmap decoder
 ; - support mapper
 
@@ -442,19 +449,19 @@ LoadTiles:
 .ends
 
   ROMPosition $7e8bd
-.section "Replacement title screen" overwrite
+.section "Replacement title screen" force ; superfree
 TitleScreenTiles:
 .incbin "psg_encoder/title.psgcompr"
 .ends
 
   ROMPosition $3bc68
-.section "Title screen name table" overwrite
+.section "Title screen name table" force ; superfree
 TitleScreenTilemap:
 .incbin "new_graphics/title-nt.bin"
 .ends
 
   ROMPosition $00925
-.section "Title screen palette" overwrite
+.section "Title screen palette" force ; not movable
 TitleScreenPalette:
 .incbin "new_graphics/title-pal.bin"
 .ends
@@ -470,34 +477,46 @@ LoadPagedTiles\1:
 .endm
 
   ROMPosition $008f3
-.section "Title screen patch" overwrite
+.section "Title screen patch" force ; not movable
 TitleScreenPatch:
+; Original code:
+;  ld hl,$ffff        ; Page in tiles
+;  ld (hl),$1f
+;  ld hl,$a8bd        ; Source
+;  ld de,$4000        ; Dest
+;  call $0486         ; Load
+;  ld hl,$ffff        ; Page in tilemap
+;  ld (hl),$0e
+;  ld hl,$bc68        ; Source
+;  call $6e05         ; Load
   LoadPagedTiles TitleScreenTiles $4000
 
   ld hl,PAGING_SLOT_2
   ld (hl),:TitleScreenTilemap
   ld hl,TitleScreenTilemap
   call DecompressToTileMapData
+  ; Size matches original
 .ends
 
-  ROMPosition $747b8
-.section "Outside tiles" overwrite
-OutsideTiles:
-.incbin "psg_encoder/world1.psgcompr"
-.ends
   ROMPosition $00ce4
-.section "BG loader patch 1" overwrite
+.section "BG loader patch 1" overwrite ; not movable
   LoadPagedTiles OutsideTiles $4000
 .ends
 
+  ROMPosition $747b8
+.section "Outside tiles" force ; superfree
+OutsideTiles:
+.incbin "psg_encoder/world1.psgcompr"
+.ends
+
   ROMPosition $58570
-.section "Town tiles" overwrite
+.section "Town tiles" force ; superfree
 TownTiles:
 .incbin "psg_encoder/world2.psgcompr"
 .ends
 
   ROMPosition $00cf4
-.section "BG loader patch 2" overwrite
+.section "BG loader patch 2" overwrite ; not movable
   LoadPagedTiles TownTiles $4000
 .ends
 
@@ -505,15 +524,15 @@ TownTiles:
 ; These are referenced by a structure originally at $3eca... but it is now moved.
 
  ROMPosition $3e8e
-.section "Patch scene struct" overwrite
+.section "Patch scene struct 1" overwrite ; not movable
 PatchSceneStruct1:
   ld de,SceneData-8
 .ends
 
-  ROMPosition $3e65
-.section "Patch scene struct again" overwrite
+  ROMPosition $3e64
+.section "Patch scene struct 2" overwrite ; not movable
 PatchSceneStruct2:
-  .dw SceneData-3 ; TODO: check the opcode
+  ld de,SceneData-3
 .ends
 
   ROMPosition $4396
@@ -967,13 +986,13 @@ DecoderInit:
 
 DictionaryLookup:
   push af
-    ld a,$77000/$4000 ; Load normal lists
+    ld a,:Items ; Load normal lists
     ld (PAGING_SLOT_2),a
     jr +
 
 DictionaryLookup_Substring:
   push af
-    ld a,$43c00/$4000 ; Load dictionary
+    ld a,:Words ; Load dictionary
     ld (PAGING_SLOT_2),a
 
 +:pop af      ; Restore index #
@@ -2091,18 +2110,18 @@ EXP:      .dwm Text "|EXP     "
 Attack:   .dwm Text "|Attack  "
 Defense:  .dwm Text "|Defense "
 MaxHP:    .dwm Text "|Max HP  "
-MaxMP:    .dwm Text "|Max MP   "
+MaxMP:    .dwm Text "|Max MP   " ; TODO extra space here
 .ends
 
   PatchW $391a EXP    ; - EXP source
-  PatchB $31a3 $0e    ; - width * 2
+  PatchB $31a3 $0e    ; - width * 2 - TODO use _sizeof_EXP
   PatchB $36dd $0e
 
   PatchW $392f Attack   ; - Attack source
   PatchW $3941 Defense  ; - Defense source
   PatchW $3953 MaxHP    ; - Max HP source
   PatchW $3965 MaxMP    ; - Max MP source
-  PatchB $3145 $12      ; - width * 2
+  PatchB $3145 _sizeof_Attack ; - length in bytes
 
   PatchW $363f $78a8    ; Inventory VRAM (2 tiles left)
   PatchW $3778 $78a8
@@ -2110,7 +2129,7 @@ MaxMP:    .dwm Text "|Max MP   "
   PatchB $36e5 $0c      ; - width * 2
   PatchW $3617 $7928    ; - VRAM cursor
 
-  PatchW $3b18 $7bcc  ; Store MST VRAM
+  PatchW $3b18 $7bcc    ; Store MST VRAM
   PatchW $3b41 $7bcc
   PatchW $3b26 $7bcc
 
@@ -2429,7 +2448,7 @@ _right_border:
 
 _write_nt:
       add a,a     ; lookup NT
-      ld de,$8000
+      ld de,FontLookup
       add a,e
       ld e,a
       adc a,d
@@ -2813,13 +2832,14 @@ WriteLetterIndexAToDE: ; $429b
 ; returns:
 ; c = low byte of name table value
 ; a = high byte
+; This part is unchanged:
   push hl
     ex de,hl
     ld hl,PAGING_SLOT_2
-    ld (hl),$02
-    ld hl,$8000
+    ld (hl),:FontLookup
+    ld hl,FontLookup
     ld c,a
-    ld b,$00
+    ld b,0
     add hl,bc
     add hl,bc
 ; Original code:
