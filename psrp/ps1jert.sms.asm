@@ -17,47 +17,60 @@ banks 32
 .background "PS1-J.SMS"
 
 .emptyfill $ff
+
+.macro FreeSpace args start, end, realEnd
+; Change to realEnd when auto-fitting (need to debug that?)
+.unbackground start end
+.endm
+
 ; Bank 0
-.unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
-.unbackground $00486 $004ae ; Old tile decoder - can go up to $004e1
-.unbackground $008f3 $0090b ; Title screen graphics loading
-.unbackground $00925 $00932 ; Title screen palette - can go up to 944
+  FreeSpace $00056 $00065 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
+  FreeSpace $00486 $004ae $004b2 ; Old tile decoder
+  FreeSpace $008f3 $0090b $0090b ; Title screen graphics loading
+  FreeSpace $00925 $00932 $00944 ; Title screen palette - can go up to 944
+; Bank 1
+  FreeSpace $04396 $043e5 $043e5 ; password lookup data (unused)
+  FreeSpace $043e6 $04405 $04405 ; text for "please enter your name"
+  FreeSpace $04406 $0448b $0448b ; tilemap for name entry
+  FreeSpace $0448c $044f5 $04509 ; data for lookup table during entry - can go up to $4509
+; Bank 9
+  FreeSpace $27b24 $27e75 $27fff ; Mansion tiles + unused space
+; Bank 11
+  FreeSpace $2c010 $2c85a $2caeb ; Gold Dragon tiles
 ; Bank 14
-.unbackground $3BC68 $3bfff ; Title screen tilemap + unused space
+  FreeSpace $3BC68 $3bfff $3bfff ; Title screen tilemap + unused space
+; Bank 16
+  FreeSpace $40000 $4277a $43fff ; Scene tiles and palettes (part 1)
+  FreeSpace $43406 $43a82 $43fff ; Scene tiles and palettes (part 2)
+; Bank 17
+  FreeSpace $44640 $47aaa $47fff ; Palettes and tiles
 ; Bank 18
-.unbackground $4be84 $4bfff ; Unused space                 
+  FreeSpace $4be84 $4bfff $4bfff ; Unused space                 
+; Bank 19
+  FreeSpace $4c010 $4ccfb $4cdbd ; Dark Force tiles
+; Bank 20
+  FreeSpace $524ea $52a66 $52ba1 ; Lassic room tiles
 ; Bank 22
-.unbackground $58570 $5a6db ; landscapes (world 2) - can go up to $5ac7e
+  FreeSpace $58570 $5a6db $5ac8c ; Tiles for town
+  FreeSpace $5ac8d $5b78c $5b9e6 ; Tiles for air castle
+; Bank 23
+  FreeSpace $5eb6f $5f5ba $5f766 ; Building interior tiles
 ; Bank 29
-.unbackground $747b8 $76ba5 ; landscapes (world 1) - can go up to $77629
+  FreeSpace $747b8 $76ba5 $77629 ; landscapes (world 1)
 ; Bank 31
-.unbackground $7e8bd $7fd47 ; Title screen tiles - can go up to $7ffff
+  FreeSpace $7e8bd $7fd47 $7ffff ; Title screen tiles
 /*
-.unbackground $034f2 $03544 ; draw one character to tilemap
-.unbackground $033fe $03492 ; draw number inline with text (end is ?)
-.unbackground $03eca $03fc1 ; background graphics lookup table
-.unbackground $03fc2 $03fd1 ; sky castle palette
-.unbackground $04059 $0407a ; password entered (unused)
-.unbackground $04261 $04277 ; password population (unused)
-.unbackground $0429b $042b4 ; draw to tilemap during entry
-.unbackground $042b5 $042cb ; draw to RAM during entry
-.unbackground $04396 $043e5 ; password lookup data (unused)
-.unbackground $043e6 $04405 ; text for "please enter your name"
-.unbackground $04406 $0448b ; tilemap for name entry
-.unbackground $0448c $04509 ; data for lookup table during entry
-.unbackground $045a4 $045c5 ; tile loading for intro
-.unbackground $08000 $0bfff ; font tile lookup plus script
-.unbackground $27b14 $27fff ; Mansion palette and tiles
-.unbackground $2c000 $2ffff ; palettes and tiles
-.unbackground $40000 $43fff ; Scene tiles and palettes (whole bank)
-.unbackground $44640 $47fff ; Palettes and tiles
-.unbackground $4c000 $4ffff ; Various enemy tiles
-.unbackground $50000 $53dbb ; Palettes and tiles
-.unbackground $5ac8d $5b9d5 ; Air Castle                 
-.unbackground $5ea9f $5ffff ; Palettes and tiles
+  FreeSpace $034f2 $03544 ; draw one character to tilemap
+  FreeSpace $033fe $03492 ; draw number inline with text (end is ?)
+  FreeSpace $03eca $03fc1 ; background graphics lookup table
+  FreeSpace $03fc2 $03fd1 ; sky castle palette
+  FreeSpace $04059 $0407a ; password entered (unused)
+  FreeSpace $04261 $04277 ; password population (unused)
+  FreeSpace $0429b $042b4 ; draw to tilemap during entry
+  FreeSpace $042b5 $042cb ; draw to RAM during entry
+  FreeSpace $045a4 $045c5 ; tile loading for intro
+  FreeSpace $08000 $0bfff ; font tile lookup plus script
 */
-.define VRAM_PTR  $DFC0   ; VRAM address
-.define BUFFER    $DFD0   ; 32-byte buffer
 
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
@@ -77,6 +90,9 @@ banks 32
 .define IntroState          $c600 ; b $ff when intro starts
 
 ; RAM
+
+.define VRAM_PTR  $DFC0   ; VRAM address
+.define BUFFER    $DFD0   ; 32-byte buffer
 
 .define STR       $DFB0   ; pointer to WRAM string
 .define LEN       $DFB2   ; length of substring in WRAM
@@ -536,26 +552,167 @@ PatchSceneStruct2:
 .ends
 
   ROMPosition $4396
-.section "bg-vector" overwrite
-SceneData: .incbin "handmade_bins/bg_vector.bin"   ; - vector table (moved)
+.section "bg-vector" force
+.struct Scene
+  PaletteTilesBank  db
+  Palette           dw
+  Tiles             dw
+  TilemapBank       db
+  Tilemap           dw
+.endst
+
+.macro SceneDataStruct ; structure holding scene data (palette, tiles and tilemap offsets)
+; One scene has the palette unpaged, all others require it to be in the same bank as the tiles
+.dstruct Scene_\1_\3 instanceof Scene data :Tiles\2, Palette\1, Tiles\2, :Tilemap\3, Tilemap\3
+.endm
+
+SceneData:
+ SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaOpen         
+ SceneDataStruct PalmaForest       ,PalmaForest        ,PalmaForest       
+ SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaSea          
+ SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaCoast        
+ SceneDataStruct MotabiaOpen       ,MotabiaOpen        ,MotabiaOpen       
+ SceneDataStruct DezorisOpen       ,PalmaAndDezorisOpen,DezorisOpen       
+ SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaLavapit      
+ SceneDataStruct PalmaTown         ,PalmaTown          ,PalmaTown         
+ SceneDataStruct PalmaVillage      ,PalmaVillage       ,PalmaVillage      
+ SceneDataStruct Spaceport         ,Spaceport          ,Spaceport         
+ SceneDataStruct DeadTrees         ,DeadTrees          ,DeadTrees         
+ SceneDataStruct DezorisForest     ,PalmaForest        ,PalmaForest       
+ SceneDataStruct AirCastle         ,AirCastle          ,AirCastle         
+ SceneDataStruct GoldDragon        ,GoldDragon         ,GoldDragon        
+ SceneDataStruct AirCastleFull     ,AirCastle          ,AirCastle         
+ SceneDataStruct BuildingEmpty     ,Building           ,BuildingEmpty     
+ SceneDataStruct BuildingWindows   ,Building           ,BuildingWindows   
+ SceneDataStruct BuildingHospital1 ,Building           ,BuildingHospital1 
+ SceneDataStruct BuildingHospital2 ,Building           ,BuildingHospital2 
+ SceneDataStruct BuildingChurch1   ,Building           ,BuildingChurch1   
+ SceneDataStruct BuildingChurch2   ,Building           ,BuildingChurch2   
+ SceneDataStruct BuildingArmoury1  ,Building           ,BuildingArmoury1  
+ SceneDataStruct BuildingArmoury2  ,Building           ,BuildingArmoury2  
+ SceneDataStruct BuildingShop1     ,Building           ,BuildingShop1     
+ SceneDataStruct BuildingShop2     ,Building           ,BuildingShop2     
+ SceneDataStruct BuildingShop3     ,Building           ,BuildingShop3     
+ SceneDataStruct BuildingShop4     ,Building           ,BuildingShop4     
+ SceneDataStruct BuildingDestroyed ,Building           ,BuildingDestroyed 
+ SceneDataStruct Mansion           ,Mansion            ,Mansion           
+ SceneDataStruct LassicRoom        ,LassicRoom         ,LassicRoom        
+ SceneDataStruct DarkForce         ,DarkForce          ,DarkForce         
+
 .ends
 
-  BinAtPosition $40000 "handmade_bins/bg_table1.bin"    ; - accompanying palette data
-  BinAtPosition $40050 "psg_encoder/bg1.psgcompr"     ; - merged
-  BinAtPosition $40ba7 "psg_encoder/bg2.psgcompr"
-  BinAtPosition $41799 "psg_encoder/bg3.psgcompr"
-  BinAtPosition $43406 "psg_encoder/bg5.psgcompr"     ; - merged w/ font (? I think not)
-  BinAtPosition $44640 "handmade_bins/bg_table8.bin"  ; - accompanying palette data
-  BinAtPosition $44680 "psg_encoder/bg8.psgcompr"     ; - merged
-  BinAtPosition $45338 "psg_encoder/bg9.psgcompr"
-  BinAtPosition $45cb0 "psg_encoder/bg10.psgcompr"
-  BinAtPosition $46524 "psg_encoder/bg11.psgcompr"
-  BinAtPosition $5ac8d "psg_encoder/bg13.psgcompr"    ; - no merge
-  BinAtPosition $2c010 "psg_encoder/bg14.psgcompr"
-  BinAtPosition $5eb6f "psg_encoder/bg16.psgcompr"
-  BinAtPosition $27b24 "psg_encoder/bg29.psgcompr"
-  BinAtPosition $524ea "psg_encoder/bg30.psgcompr"
-  BinAtPosition $4c010 "psg_encoder/bg31.psgcompr"
+  ROMPosition $40000
+.section "Palettes 1" force ; TODO inline, attach to tiles and superfree
+PalettePalmaOpen:       .incbin "handmade_bins/bg_table1.bin" skip $00 read $10
+PaletteDezorisOpen:     .incbin "handmade_bins/bg_table1.bin" skip $10 read $10
+PalettePalmaForest:     .incbin "handmade_bins/bg_table1.bin" skip $20 read $10
+PaletteDezorisForest:   .incbin "handmade_bins/bg_table1.bin" skip $30 read $10
+PalettePalmaSea:        .incbin "handmade_bins/bg_table1.bin" skip $40 read $10
+.ends
+
+.macro Bin
+.section "\1" force
+\1:
+.incbin \2
+\1_end:
+.ends
+.endm
+
+  Bin TilesPalmaAndDezorisOpen    "psg_encoder/bg1.psgcompr"
+  Bin TilesPalmaForest  "psg_encoder/bg2.psgcompr"
+  Bin TilesPalmaSea     "psg_encoder/bg3.psgcompr"
+  Bin TilesTarzimal     "handmade_bins/tiles-tarzimal.bin" ; TODO make superfree
+
+; Gap?
+
+  ROMPosition $43406
+  Bin TilesMotabiaOpen  "psg_encoder/bg5.psgcompr"
+
+; Gap?
+
+  ROMPosition $44640
+.section "Palettes 2" overwrite ; TODO inline, attach to tiles and superfree
+PalettePalmaTown:       .incbin "handmade_bins/bg_table8.bin" skip $00 read $10
+PalettePalmaVillage:    .incbin "handmade_bins/bg_table8.bin" skip $10 read $10
+PaletteSpaceport:       .incbin "handmade_bins/bg_table8.bin" skip $20 read $10
+PaletteDeadTrees:       .incbin "handmade_bins/bg_table8.bin" skip $30 read $10
+.ends
+  
+  Bin TilesPalmaTown    "psg_encoder/bg8.psgcompr"
+  Bin TilesPalmaVillage "psg_encoder/bg9.psgcompr"
+  Bin TilesSpaceport    "psg_encoder/bg10.psgcompr"
+  Bin TilesDeadTrees    "psg_encoder/bg11.psgcompr"
+
+  ROMPosition $5ac8d
+  Bin TilesAirCastle    "psg_encoder/bg13.psgcompr"
+  ROMPosition $2c010
+  Bin TilesGoldDragon   "psg_encoder/bg14.psgcompr"
+  ROMPosition $5eb6f
+  Bin TilesBuilding     "psg_encoder/bg16.psgcompr"
+  ROMPosition $27b24
+  Bin TilesMansion      "psg_encoder/bg29.psgcompr"
+  ROMPosition $524ea
+  Bin TilesLassicRoom   "psg_encoder/bg30.psgcompr"
+  ROMPosition $4c010
+  Bin TilesDarkForce    "psg_encoder/bg31.psgcompr"
+  
+  ; We also need the non-relocated tilemap and palette addresses to populate the table...
+.macro LabelAtPosition
+  ROMPosition \1
+  \2:
+.endm
+
+  LabelAtPosition $03fc2 PaletteAirCastleFull
+  LabelAtPosition $27b14 PaletteMansion
+  LabelAtPosition $2c000 PaletteGoldDragon
+  LabelAtPosition $433f6 PaletteMotabiaOpen
+  LabelAtPosition $4c000 PaletteDarkForce
+  LabelAtPosition $524da PaletteLassicRoom
+  LabelAtPosition $5ac7d PaletteAirCastle
+  LabelAtPosition $5ea9f PaletteBuildingEmpty
+  LabelAtPosition $5eaaf PaletteBuildingWindows
+  LabelAtPosition $5eabf PaletteBuildingHospital1
+  LabelAtPosition $5eacf PaletteBuildingHospital2
+  LabelAtPosition $5eadf PaletteBuildingChurch1
+  LabelAtPosition $5eaef PaletteBuildingChurch2
+  LabelAtPosition $5eaff PaletteBuildingArmoury1
+  LabelAtPosition $5eb0f PaletteBuildingArmoury2
+  LabelAtPosition $5eb1f PaletteBuildingShop1
+  LabelAtPosition $5eb2f PaletteBuildingShop2
+  LabelAtPosition $5eb3f PaletteBuildingShop3
+  LabelAtPosition $5eb4f PaletteBuildingShop4
+  LabelAtPosition $5eb5f PaletteBuildingDestroyed
+
+  LabelAtPosition $3c000 TilemapPalmaOpen
+  LabelAtPosition $3c333 TilemapPalmaForest
+  LabelAtPosition $3c6e9 TilemapPalmaSea
+  LabelAtPosition $3c9a0 TilemapPalmaCoast
+  LabelAtPosition $3cc80 TilemapMotabiaOpen
+  LabelAtPosition $3ce46 TilemapDezorisOpen
+  LabelAtPosition $3d116 TilemapPalmaLavapit
+  LabelAtPosition $3d47b TilemapPalmaTown
+  LabelAtPosition $3d70a TilemapPalmaVillage
+  LabelAtPosition $3da2c TilemapSpaceport
+  LabelAtPosition $3dc11 TilemapDeadTrees
+  LabelAtPosition $5bc32 TilemapAirCastle
+  LabelAtPosition $5be2a TilemapGoldDragon
+  LabelAtPosition $5c000 TilemapBuildingEmpty
+  LabelAtPosition $5c31e TilemapBuildingWindows
+  LabelAtPosition $5c654 TilemapBuildingHospital1
+  LabelAtPosition $5c8dd TilemapBuildingHospital2
+  LabelAtPosition $5cba6 TilemapBuildingChurch1
+  LabelAtPosition $5cf8e TilemapBuildingChurch2
+  LabelAtPosition $5d2ed TilemapBuildingArmoury1
+  LabelAtPosition $5d61b TilemapBuildingArmoury2
+  LabelAtPosition $5d949 TilemapBuildingShop1
+  LabelAtPosition $5dca3 TilemapBuildingShop2
+  LabelAtPosition $5dfe3 TilemapBuildingShop3
+  LabelAtPosition $5e310 TilemapBuildingShop4
+  LabelAtPosition $5e64c TilemapBuildingDestroyed
+  LabelAtPosition $2778b TilemapMansion
+  LabelAtPosition $6fd63 TilemapLassicRoom
+  LabelAtPosition $37db1 TilemapDarkForce
+
 
 /*
 .bank 1 slot 1
@@ -713,12 +870,12 @@ TilemapBuildingShop4:
 TilemapBuildingDestroyed:
 
 .bank 9 slot 2
-.unbackground $27471 $2778a ; Mansion tiles
+  FreeSpace $27471 $2778a ; Mansion tiles
 .org $2778b-$24000
 TilemapMansion:
 
 .bank 27 slot 2
-.unbackground $6c000 $6f40a ; Various tiles
+  FreeSpace $6c000 $6f40a ; Various tiles
 .org $6fd63-$6c000
 TilemapLassicRoom:
 
@@ -2152,10 +2309,10 @@ Opening:
   PatchB $45d7 :Opening ; - source bank
 
 ; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
-  BinAtPosition $420e0 "handmade_bins/tiles-tarzimal.bin"
+;  BinAtPosition $420e0 "handmade_bins/tiles-tarzimal.bin"
 ; rewire pointer to them (page $10, offset $a0e0)
-  PatchB $ccaf $10
-  PatchW $ccb0 $a0e0
+  PatchB $ccaf :TilesTarzimal
+  PatchW $ccb0 TilesTarzimal
   
   
   ROMPosition $2fe3e 1
