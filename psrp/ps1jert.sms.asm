@@ -601,13 +601,17 @@ SceneData:
 
 .ends
 
+.macro CopyFromOriginal
+.incbin "PS1-J.SMS" skip \1 read \2
+.endm
+
   ROMPosition $40000
-.section "Palettes 1" force ; TODO inline, attach to tiles and superfree
-PalettePalmaOpen:       .incbin "handmade_bins/bg_table1.bin" skip $00 read $10
-PaletteDezorisOpen:     .incbin "handmade_bins/bg_table1.bin" skip $10 read $10
-PalettePalmaForest:     .incbin "handmade_bins/bg_table1.bin" skip $20 read $10
-PaletteDezorisForest:   .incbin "handmade_bins/bg_table1.bin" skip $30 read $10
-PalettePalmaSea:        .incbin "handmade_bins/bg_table1.bin" skip $40 read $10
+.section "Palettes 1" force ; TODO attach to tiles and superfree
+PalettePalmaOpen:      CopyFromOriginal $40000 16
+PaletteDezorisOpen:    CopyFromOriginal $40010 16
+PalettePalmaForest:    CopyFromOriginal $40f16 16
+PaletteDezorisForest:  CopyFromOriginal $40f26 16
+PalettePalmaSea:       CopyFromOriginal $41c72 16
 .ends
 
 .macro Bin
@@ -621,7 +625,10 @@ PalettePalmaSea:        .incbin "handmade_bins/bg_table1.bin" skip $40 read $10
   Bin TilesPalmaAndDezorisOpen    "psg_encoder/bg1.psgcompr"
   Bin TilesPalmaForest  "psg_encoder/bg2.psgcompr"
   Bin TilesPalmaSea     "psg_encoder/bg3.psgcompr"
-  Bin TilesTarzimal     "handmade_bins/tiles-tarzimal.bin" ; TODO make superfree
+  
+.section "Tarzimal tiles" force ; TODO make superfree
+TilesTarzimal: CopyFromOriginal $4794a 1691
+.ends
 
 ; Gap?
 
@@ -631,11 +638,11 @@ PalettePalmaSea:        .incbin "handmade_bins/bg_table1.bin" skip $40 read $10
 ; Gap?
 
   ROMPosition $44640
-.section "Palettes 2" overwrite ; TODO inline, attach to tiles and superfree
-PalettePalmaTown:       .incbin "handmade_bins/bg_table8.bin" skip $00 read $10
-PalettePalmaVillage:    .incbin "handmade_bins/bg_table8.bin" skip $10 read $10
-PaletteSpaceport:       .incbin "handmade_bins/bg_table8.bin" skip $20 read $10
-PaletteDeadTrees:       .incbin "handmade_bins/bg_table8.bin" skip $30 read $10
+.section "Palettes 2" force ; TODO inline, attach to tiles and superfree
+PalettePalmaTown:     CopyFromOriginal $44640 16
+PalettePalmaVillage:  CopyFromOriginal $457c4 16
+PaletteSpaceport:     CopyFromOriginal $464b1 16
+PaletteDeadTrees:     CopyFromOriginal $46f58 16
 .ends
 
   Bin TilesPalmaTown    "psg_encoder/bg8.psgcompr"
@@ -2309,8 +2316,7 @@ Opening:
   PatchB $45d7 :Opening ; - source bank
 
 ; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
-;  BinAtPosition $420e0 "handmade_bins/tiles-tarzimal.bin"
-; rewire pointer to them (page $10, offset $a0e0)
+; rewire pointer to them
   PatchB $ccaf :TilesTarzimal
   PatchW $ccb0 TilesTarzimal
 
@@ -2865,8 +2871,44 @@ _not_two:
 
 ; Savegame name entry screen hacking ---------------------------------------------
 ; compressed tile data (low byte only) for name entry screen
-  BinAtPosition $3f02 "handmade_bins/save_tiles.bin"
-  PatchW $42cd $3f02 ; rewire pointer
+  ROMPosition $3f02
+.section "Name entry tilemap data" overwrite
+NameEntryTiles:
+; Custom format...
+; %0nnnnnnn $xx = $xx n times
+; $10nnnnnn $xx = $xx, $xx+1, $xx+2... n times
+; %11nnnnnn ... = n bytes raw
+; Fant is loaded at index $c0 so all chars are offset
+; Nevertheless it's easier to do by hand than to generate it.
+; The code generates the left and right lines, and the flips.
+.define RLE %00000000
+.define RUN %10000000
+.define RAW %11000000
+.db RAW |   2, $c0, $f1 ; " /"
+.db RLE |  28, $f2      ;   "----------------------------"
+.db RAW |   1, $f1      ;                               "\"
+.db RLE | 127, $c0      ; "                                " ...
+.db RLE | 101, $c0
+.db RUN |  26, $cb      ; "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+.db RLE |  38, $c0      ; (space)
+.db RUN |  26, $e5      ; "abcdefghijklmnopqrstuvwxyz"
+.db RLE |  38, $c0      ; (space)
+.db RUN |  10, $c1      ; "1234567890"
+.db RLE |   8, $c0      ;           "        "
+.db RLE |   8, $ff      ; (punctuation all dots - will be patched later)
+.db RLE |  38, $c0      ; (space)
+.db RAW |  10, $cc $e5 $e7 $ef $c0 $c0 $d8 $e9 $fc $f8 ; "Back  Next"
+.db RLE |  12, $c0      ; (space)
+.db RAW |   4, $dd $e5 $fa $e9 ; "Save"
+.db RLE | 127, $c0      ; (space)
+.db RLE |  37, $c0
+.db RAW |   1, $f1      ; "\"
+.db RLE |  28, $f2      ;  "----------------------------"
+.db RLE |   1, $f1      ;                              "/" ; should be RAW, doesn't matter
+.db $00 ; Terminator
+.ends
+
+  PatchW $42cd NameEntryTiles ; rewire pointer
 
 ; "Enter your name" text at the top of the screen
   ROMPosition $4059
