@@ -45,7 +45,7 @@ banks 32
 ; Bank 17
   FreeSpace $44640 $47aaa $47fff ; Palettes and tiles
 ; Bank 18
-  FreeSpace $4be84 $4bfff $4bfff ; Unused space                 
+  FreeSpace $4be84 $4bfff $4bfff ; Unused space
 ; Bank 19
   FreeSpace $4c010 $4ccfb $4cdbd ; Dark Force tiles
 ; Bank 20
@@ -261,10 +261,10 @@ _Tiles_Loop:
 
       ld c,(ix+0)   ; Decoder method selection
       inc ix
-  
+
       ld b,4    ; 4 color planes
       ld de,BUFFER
-  
+
       ; Decoder method
       ; - 00 = 8 $00's
       ; - 01 = 8 $FF's
@@ -279,7 +279,7 @@ _Plane_Decode:
 
       ld a,(ix+0)   ; RLE/LZ selection
       inc ix
-    
+
       ex de,hl    ; Lower 2 bits = LZ-window
       ld d,a
       and %11
@@ -287,7 +287,7 @@ _Plane_Decode:
       add a,a
       add a,a
       ld e,a
-    
+
       ld a,d      ; LZ-window cursor
       ld d,0
       ld iy,BUFFER
@@ -415,7 +415,7 @@ _Write_VRAM:
           out (PORT_VDP_DATA),a ; Write to VRAM
           add hl,de   ; Bump to next plane
           djnz _Write_VRAM
-  
+
         pop hl      ; Go to next byte in sequence
         inc hl
         dec c
@@ -427,7 +427,7 @@ _Write_VRAM:
       add hl,bc
       ld (VRAM_PTR),hl
 
-    pop bc      
+    pop bc
     ; Determine # tiles left to decode
     dec bc
     ld a,b
@@ -552,7 +552,7 @@ PatchSceneStruct2:
 .ends
 
   ROMPosition $4396
-.section "bg-vector" force
+.section "Scene data lookup" force
 .struct Scene
   PaletteTilesBank  db
   Palette           dw
@@ -567,37 +567,37 @@ PatchSceneStruct2:
 .endm
 
 SceneData:
- SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaOpen         
- SceneDataStruct PalmaForest       ,PalmaForest        ,PalmaForest       
- SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaSea          
- SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaCoast        
- SceneDataStruct MotabiaOpen       ,MotabiaOpen        ,MotabiaOpen       
- SceneDataStruct DezorisOpen       ,PalmaAndDezorisOpen,DezorisOpen       
- SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaLavapit      
- SceneDataStruct PalmaTown         ,PalmaTown          ,PalmaTown         
- SceneDataStruct PalmaVillage      ,PalmaVillage       ,PalmaVillage      
- SceneDataStruct Spaceport         ,Spaceport          ,Spaceport         
- SceneDataStruct DeadTrees         ,DeadTrees          ,DeadTrees         
- SceneDataStruct DezorisForest     ,PalmaForest        ,PalmaForest       
- SceneDataStruct AirCastle         ,AirCastle          ,AirCastle         
- SceneDataStruct GoldDragon        ,GoldDragon         ,GoldDragon        
- SceneDataStruct AirCastleFull     ,AirCastle          ,AirCastle         
- SceneDataStruct BuildingEmpty     ,Building           ,BuildingEmpty     
- SceneDataStruct BuildingWindows   ,Building           ,BuildingWindows   
- SceneDataStruct BuildingHospital1 ,Building           ,BuildingHospital1 
- SceneDataStruct BuildingHospital2 ,Building           ,BuildingHospital2 
- SceneDataStruct BuildingChurch1   ,Building           ,BuildingChurch1   
- SceneDataStruct BuildingChurch2   ,Building           ,BuildingChurch2   
- SceneDataStruct BuildingArmoury1  ,Building           ,BuildingArmoury1  
- SceneDataStruct BuildingArmoury2  ,Building           ,BuildingArmoury2  
- SceneDataStruct BuildingShop1     ,Building           ,BuildingShop1     
- SceneDataStruct BuildingShop2     ,Building           ,BuildingShop2     
- SceneDataStruct BuildingShop3     ,Building           ,BuildingShop3     
- SceneDataStruct BuildingShop4     ,Building           ,BuildingShop4     
- SceneDataStruct BuildingDestroyed ,Building           ,BuildingDestroyed 
- SceneDataStruct Mansion           ,Mansion            ,Mansion           
- SceneDataStruct LassicRoom        ,LassicRoom         ,LassicRoom        
- SceneDataStruct DarkForce         ,DarkForce          ,DarkForce         
+ SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaOpen
+ SceneDataStruct PalmaForest       ,PalmaForest        ,PalmaForest
+ SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaSea
+ SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaCoast
+ SceneDataStruct MotabiaOpen       ,MotabiaOpen        ,MotabiaOpen
+ SceneDataStruct DezorisOpen       ,PalmaAndDezorisOpen,DezorisOpen
+ SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaLavapit
+ SceneDataStruct PalmaTown         ,PalmaTown          ,PalmaTown
+ SceneDataStruct PalmaVillage      ,PalmaVillage       ,PalmaVillage
+ SceneDataStruct Spaceport         ,Spaceport          ,Spaceport
+ SceneDataStruct DeadTrees         ,DeadTrees          ,DeadTrees
+ SceneDataStruct DezorisForest     ,PalmaForest        ,PalmaForest
+ SceneDataStruct AirCastle         ,AirCastle          ,AirCastle
+ SceneDataStruct GoldDragon        ,GoldDragon         ,GoldDragon
+ SceneDataStruct AirCastleFull     ,AirCastle          ,AirCastle
+ SceneDataStruct BuildingEmpty     ,Building           ,BuildingEmpty
+ SceneDataStruct BuildingWindows   ,Building           ,BuildingWindows
+ SceneDataStruct BuildingHospital1 ,Building           ,BuildingHospital1
+ SceneDataStruct BuildingHospital2 ,Building           ,BuildingHospital2
+ SceneDataStruct BuildingChurch1   ,Building           ,BuildingChurch1
+ SceneDataStruct BuildingChurch2   ,Building           ,BuildingChurch2
+ SceneDataStruct BuildingArmoury1  ,Building           ,BuildingArmoury1
+ SceneDataStruct BuildingArmoury2  ,Building           ,BuildingArmoury2
+ SceneDataStruct BuildingShop1     ,Building           ,BuildingShop1
+ SceneDataStruct BuildingShop2     ,Building           ,BuildingShop2
+ SceneDataStruct BuildingShop3     ,Building           ,BuildingShop3
+ SceneDataStruct BuildingShop4     ,Building           ,BuildingShop4
+ SceneDataStruct BuildingDestroyed ,Building           ,BuildingDestroyed
+ SceneDataStruct Mansion           ,Mansion            ,Mansion
+ SceneDataStruct LassicRoom        ,LassicRoom         ,LassicRoom
+ SceneDataStruct DarkForce         ,DarkForce          ,DarkForce
 
 .ends
 
@@ -637,7 +637,7 @@ PalettePalmaVillage:    .incbin "handmade_bins/bg_table8.bin" skip $10 read $10
 PaletteSpaceport:       .incbin "handmade_bins/bg_table8.bin" skip $20 read $10
 PaletteDeadTrees:       .incbin "handmade_bins/bg_table8.bin" skip $30 read $10
 .ends
-  
+
   Bin TilesPalmaTown    "psg_encoder/bg8.psgcompr"
   Bin TilesPalmaVillage "psg_encoder/bg9.psgcompr"
   Bin TilesSpaceport    "psg_encoder/bg10.psgcompr"
@@ -655,7 +655,7 @@ PaletteDeadTrees:       .incbin "handmade_bins/bg_table8.bin" skip $30 read $10
   Bin TilesLassicRoom   "psg_encoder/bg30.psgcompr"
   ROMPosition $4c010
   Bin TilesDarkForce    "psg_encoder/bg31.psgcompr"
-  
+
   ; We also need the non-relocated tilemap and palette addresses to populate the table...
 .macro LabelAtPosition
   ROMPosition \1
@@ -766,7 +766,7 @@ SceneData:
  SceneDataStruct LassicRoom        ,LassicRoom         ,LassicRoom        ; 30 14 A4DA A4EA 1B BD63    524DA  524EA 6FD63
  SceneDataStruct DarkForce         ,DarkForce          ,DarkForce         ; 31 13 8000 8010 0D BDB1    4C000  4C010 37DB1
 .ends
-  
+
   ; TODO: these should be extracted to PNGs and then generated to bins
   TilesAndPalette DarkForce   bg31  $00,$00,$3F,$30,$38,$03,$0B,$0F,$20,$30,$34,$38,$3C,$02,$03,$01
   TilesAndPalette LassicRoom  bg30  $10,$00,$3F,$20,$25,$2A,$02,$03,$01,$06,$30,$38,$2F,$0F,$0B,$3F
@@ -895,7 +895,7 @@ BackgroundSceneLoaderTileLoaderPatch:
   ld d,(hl)
   ld e,a
   ld hl,$4000
-  call LoadTiles  
+  call LoadTiles
 .ends
 
 ; Font
@@ -952,7 +952,7 @@ DECODE_FONT2:
   ld hl,Font2VRAMAddress
   call LoadTiles
   ret
-  
+
   nop ; this version is actually 3 bytes smaller now... need to nop out old code
   nop ; to continue correctly
   nop
@@ -1014,7 +1014,7 @@ CharacterDrawing:
 
   di            ; prepare VRAM output
   push bc
-    push de     
+    push de
       push af
         rst $08      ; Set address
       pop af
@@ -1045,7 +1045,7 @@ CharacterDrawing:
   ei               ; Wait for VBlank
   ld a,10          ; Trigger a name table refresh
   call ExecuteFunctionIndexAInNextVBlank
-                
+
   dec b             ; Shrink window width
   ret
 .ends
@@ -1090,15 +1090,15 @@ DecoderInit:
 
     ld a,CODE   ; Map in new page 1
     ld (PAGING_SLOT_1),a
-  
+
     ld a,EOS    ; Starting tree symbol
     ld (TREE),a
-  
+
     ld a,$80    ; Initial tree barrel
     ld (BARREL),a
-  
+
     ld (SCRIPT),hl    ; Beginning script offset
-  
+
     xor a     ; A = $00
     ld (POST_LEN),a   ; No post hints
     ld (LINE_NUM),a   ; No lines drawn
@@ -1909,7 +1909,7 @@ OriginalVBlankHandlerPatch:
 .asciitable
 ; matches the .tbl files used elsewhere
 map ' ' = $00
-map '0' to '9' = $01 
+map '0' to '9' = $01
 map 'A' to 'Z' = $0b
 map 'a' to 'z' = $25
  ; Punctuation
@@ -2023,7 +2023,7 @@ Names:
   String "Lutz"
 
 Enemies:
-  String " " ; Empty 
+  String " " ; Empty
   String "^Monster@ Fly"
   String "^Green@ Slime"
   String "^Wing Eye"
@@ -2127,12 +2127,12 @@ MenuData:
 
   PatchB $3b82 :MenuData
   PatchB $3bab :MenuData
-  
+
   ; Enemy name VRAM
   PatchW $3259 $7818
   PatchW $3271 $7818
   PatchW $331e $7818
-  
+
   ROMPosition $3211
 .section "HP letters" overwrite
 .dwm Text "HP"
@@ -2300,7 +2300,7 @@ MaxMP:    .dwm Text "|Max MP   " ; TODO extra space here
   PatchW $3835 $7a88    ; Equipment VRAM
   PatchW $3829 $7a88
   PatchW $386e $7a88
-  
+
   ROMPosition $5aadc
 .section "Opening cinema" overwrite
 Opening:
@@ -2313,8 +2313,8 @@ Opening:
 ; rewire pointer to them (page $10, offset $a0e0)
   PatchB $ccaf :TilesTarzimal
   PatchW $ccb0 TilesTarzimal
-  
-  
+
+
   ROMPosition $2fe3e 1
 .section "scripting code" overwrite
 ; Originally t2a.asm
@@ -2513,7 +2513,7 @@ _start_write:
 
       push af     ; Delay
       pop af
-      ld a,$11    ; Top border?  
+      ld a,$11    ; Top border?
       out ($be),a
 
       ld a,(LEN)    ; string length
@@ -2784,21 +2784,21 @@ _write_price:
 
 ; Fixes from alex_231 - untested
 /*
-  PatchW $334d $d9f4 ; #3 Narrative Box 
-  PatchW $3387 $d9f4 
-  PatchW $3877 $d954 ; #8 Item selected 
-  PatchW $3889 $d954 
-  PatchW $38fc $dcbc ; #10 Individual stats 
-  PatchW $39df $dcbc 
-  PatchW $3262 $d954 ; #12 Enemy party 
-  PatchW $330a $d954 
-  PatchW $3595 $db74 ; #6 Magic - Depth 2 (choose spell) 
-  PatchW $35e4 $db74 
+  PatchW $334d $d9f4 ; #3 Narrative Box
+  PatchW $3387 $d9f4
+  PatchW $3877 $d954 ; #8 Item selected
+  PatchW $3889 $d954
+  PatchW $38fc $dcbc ; #10 Individual stats
+  PatchW $39df $dcbc
+  PatchW $3262 $d954 ; #12 Enemy party
+  PatchW $330a $d954
+  PatchW $3595 $db74 ; #6 Magic - Depth 2 (choose spell)
+  PatchW $35e4 $db74
 */
 
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
-  
+
   ROMPosition $0000f
 .section "Newline patch" overwrite
 ; Originally tx1.asm
@@ -2881,7 +2881,7 @@ EnterYourName:
   PatchB $41d6 $28     ; change function call to full raw tilemap drawer
 
   PatchW $41e4 $3f3a   ; subvert call to output TileMapData to the screen
-  
+
   ROMPosition $3f3a
 .section "Name entry screen extended characters" overwrite
 ; Originally tx4.asm
@@ -2921,7 +2921,7 @@ data:
   PatchB $4344 $1a ; width of lookup table
   PatchB $4342 $04 ; height of lookup table - width*height<=126
   PatchB $434e $4c ; width complement, = $80-(4344)*2
-  
+
   ROMPosition $448e
 .section "Save lookup" overwrite
 SaveLookup:
@@ -2969,7 +2969,7 @@ NameEntryCursor:
   ret
   ret ; TODO: remove this. Needed to match a bug in 0.92.
 .ends
-  
+
 ; 2. Extra x coords and tile indices
   PatchB $4251 $04
 ; 3. Cursor extends right, not left, relative to the "snapped" positions
@@ -3063,14 +3063,14 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 
 ; Changed credits -------------------------
   BinAtPosition $53dbc "credits/credits.bin"               ; 577/580 bytes
-  
+
   ROMPosition $488c
 .section "Credits hack" overwrite
   ld hl,$5820
   ld de,$bdee
   call LoadTiles
 .ends
-  
+
   BinAtPosition $3fdee "psg_encoder/font3.psgcompr"   ;  411/530 bytes
 
   ROMPosition $00056
@@ -3094,7 +3094,7 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
   ROMPosition $00066
 .section "Press Pause on the title screen to toggle PSG/FM - trampoline" overwrite
   ; There are 3 spare bytes at $66 that I can use. I move the following two opcodes up (as I need them anyway) and then call my handler...
-  ; 
+  ;
   push af
     ld a,(FunctionLookupIndex)
     call PauseFMToggle
