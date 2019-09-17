@@ -68,7 +68,7 @@ class Table
     std::map<wchar_t, int> _table;
 
 public:
-    Table(const std::string& fileName)
+    explicit Table(const std::string& fileName)
     {
         File f(fileName);
 
