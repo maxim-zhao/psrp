@@ -36,7 +36,7 @@ struct tnode *addtree(struct tnode *, char *);
 struct tnode *newnode(char *); 
 void treeprint(struct tnode *);
 struct tnode *talloc(void);
-int getword(char *, int);
+int getword(const unsigned char*&, char *, int);
 char *strdupl(char *);
 
 /* custom additions */
@@ -173,15 +173,24 @@ int main(int argc, const char** argv)
 	char word[MAXWORD];
 	root = NULL;
  
-	while (getword(word, MAXWORD) != EOF) {
-		if (isalpha(word[0]) || word[0] == '\'')
-			root = addtree(root, word);
+	// Load the input file(s)
+	for (int i = 2; i < argc; ++i)
+	{
+		std::ifstream f(argv[i]);
+		// For each line
+		for (std::string s; std::getline(f, s);)
+		{
+			const auto* p = (const unsigned char*) s.c_str();
+			while (getword(p, word, MAXWORD) != 0) 
+			{
+				if ((word[0] > ' ' && isalpha(word[0])) || word[0] == '\'')
+					root = addtree(root, word);
+			}
+		}
 	}
 	//treeprint(root);
 
-	fp = fopen( "words.txt", "w" );
-
-	printf( "Most common 256 words, weighted by lengths\n" );
+	fp = fopen(argv[1], "w");
 
 	for( lcv = 0; lcv < 256; lcv++ ) {
 		struct tnode *node;
@@ -192,11 +201,8 @@ int main(int argc, const char** argv)
 			node -> count = 0;
 		} while( 1 );
 
-		printf( "%4d %s\n", node -> count, node -> word );
 		fprintf( fp, "%s\n", node -> word );
 		node -> count = 0;
-
-		if( lcv == 127 ) printf( "\n----------------------------\n\n" );
 	}
 
 	destroy( root );
@@ -284,43 +290,43 @@ struct tnode *talloc(void)
 }
 
 /* getword: get next word or charcter from input */
-int getword(char *word, int lim) 
+int getword(const unsigned char*& p, char *word, int lim) 
 {
 	int c;
  
 	char *w = word;
 	
-	while (isspace(c = getchar())) ;
+	while (isspace(c = (unsigned char)*p++)) ;
 	if (c == '<') {
-		while (c != '>') c = getchar();
+		while (c != '>') c = *p++;
 		*w = '\0';
 		return c;
 	}
 	if (c == '[') {
-		while (c != ']') c = getchar();
+		while (c != ']') c = *p++;
 		*w = '\0';
 		return c;
 	}
 	if (c == '{') {
-		while (c != '}') c = getchar();
+		while (c != '}') c = *p++;
 		*w = '\0';
 		return c;
 	}
 	if( c == ';' ) {
-		while (c != '\n') c = getchar();
+		while (c != '\0') c = *p++;
 		*w = '\0';
 		return c;
 	}
 
-	if (c != EOF) *w++ = c;
+	if (c != 0) *w++ = c;
 	if (!isalpha(c) && c != '\'') {
 		*w = '\0';
 		return c;
 	}
 	
 	for ( ; --lim > 0; w++)
-		if (!isalpha(*w = getchar())) {
-			ungetc(*w, stdin);
+		if (!isalpha((unsigned char)(*w = *p++))) {
+			--p;
 			break;
 		}
  
@@ -360,7 +366,7 @@ int size(void)
 /* find largest node */
 struct tnode *largest(struct tnode *p)
 { 
-	struct tnode *node;
+	struct tnode *node = nullptr;
 	unsigned int most = 0;
 
 	for (;;) {

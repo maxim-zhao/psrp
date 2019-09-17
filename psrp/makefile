@@ -24,14 +24,8 @@ PLAY: ps1jert.sms
 word_count\word_count.exe : word_count\*.cpp
   $(CPP) $(CPPFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
 
-script_inserter\script1.txt script_inserter\script2.txt word_count\words.txt : word_count\script1.txt word_count\script2.txt word_count\word_count.exe
-	cd word_count
-	copy script1.txt + script2.txt script.txt
-	word_count.exe < script.txt > stats.txt
-	copy script1.txt "..\script_inserter"
-	copy script2.txt "..\script_inserter"
-	del script.txt
-	cd ..
+word_count\words.txt : word_count\script1.txt word_count\script2.txt word_count\word_count.exe
+  word_count\word_count.exe word_count\words.txt word_count\script1.txt word_count\script2.txt
 
 # substring_formatter
 # Converts the word list from word_count to a dictionary and a TBL file for those words
@@ -130,8 +124,9 @@ script_inserter\script_inserter.exe: script_inserter\*.cpp
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words.tbl
 	copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
 
-script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\script_trees.bin script_inserter\script_list.txt : script_inserter\table_temp.tbl script_inserter\script_inserter.exe
+script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\script_trees.bin script_inserter\script_list.txt: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script1.txt word_count\script2.txt
 	cd script_inserter
+  copy /y ..\word_count\script?.txt .
 	script_inserter.exe script table_temp.tbl > log.txt
 	del pass1.bin
 	cd ..
