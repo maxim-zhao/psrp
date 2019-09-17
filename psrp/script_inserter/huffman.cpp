@@ -241,7 +241,7 @@ void Travel_Node(int& tree, int& ptr)
 }
 
 
-void Huffman_Generate(char* file, char* file_out, char* vector_out)
+void Huffman_Generate(const char* file, const char* file_out, const char* vector_out)
 {
     FILE *fp, *out, *vector;
     int symbol;
@@ -513,9 +513,9 @@ void Huffman_Encode(char* file, char* file_out)
 }
 
 
-void Huffman_Script(char* file, char* file_out)
+void Huffman_Script(const char* file, const char* file_out, const char* script_list)
 {
-    FILE *fp, *out, *script_out;
+    FILE *fp, *out = nullptr, *script_out;
     //FILE *vector1, *vector2;
 
     int symbol;
@@ -544,7 +544,7 @@ void Huffman_Script(char* file, char* file_out)
 
     // Open up files
     fp = fopen(file, "rb");
-    script_out = fopen("script_list.txt", "w");
+    script_out = fopen(script_list, "w");
 
     if (!fp)
     {
@@ -627,7 +627,7 @@ void Huffman_Script(char* file, char* file_out)
             }
 
             // Write out created codeword
-            while (codeword.size())
+            while (!codeword.empty())
             {
                 buffer <<= 1;
                 buffer |= codeword[0];
@@ -642,7 +642,7 @@ void Huffman_Script(char* file, char* file_out)
                 // Flush data to buffer
                 if (bits == 8)
                 {
-                    code += buffer;
+                    code += (char)buffer;
                     bits = 0;
                     buffer = 0;
                 }
@@ -723,7 +723,10 @@ void Huffman_Script(char* file, char* file_out)
     while (symbol != EOF);
 
     // add up last page
-    script_size += ftell(out);
+    if (out)
+    {
+        script_size += ftell(out);
+    }
 
     // size status
     script_size /= 1024.0;
@@ -739,10 +742,10 @@ void Huffman_Script(char* file, char* file_out)
 }
 
 
-void Huffman_Compress(char* file_in, char* file_out, char* tree_out)
+void Huffman_Compress(const char* file_in, const char* file_out, const char* tree_out, const char* tree_vector_filename, const char* script_list)
 {
-    Huffman_Generate(file_in, tree_out, "tree_vector.bin");
-    Huffman_Script(file_in, file_out);
+    Huffman_Generate(file_in, tree_out, tree_vector_filename);
+    Huffman_Script(file_in, file_out, script_list);
 }
 
 //////////////////////////////////////////////////////

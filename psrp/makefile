@@ -9,7 +9,7 @@ WLAZ80 = "..\..\..\c\wla-dx\binaries\wla-z80.exe"
 WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 
 # Assume default CPP = cl
-CPPFLAGS = /O2 /EHsc /W2 /Zi /MP
+CPPFLAGS = /O2 /EHsc /W2 /Zi /MP /FS
 
 # The original PSJ ROM
 PSJ = ps1-j.sms
@@ -125,11 +125,9 @@ script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_format
 	copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
 
 script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\script_trees.bin script_inserter\script_list.txt: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script1.txt word_count\script2.txt
-	cd script_inserter
-  copy /y ..\word_count\script?.txt .
-	script_inserter.exe script table_temp.tbl > log.txt
+  copy /y word_count\script?.txt script_inserter
+	script_inserter\script_inserter.exe script_inserter\script script_inserter\table_temp.tbl script_inserter\script script_inserter\script_trees.bin script_inserter\tree_vector.bin script_inserter\script_list.txt
 	del pass1.bin
-	cd ..
 
 # credits
 credits\credits_encode.exe: credits\*.cpp
