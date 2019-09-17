@@ -14,109 +14,26 @@ banksize $4000
 banks 32
 .endro
 
-.background "PS1-J.SMS"
+.define ORIGINAL_ROM "PS1-J.SMS"
 
-.emptyfill $ff
+.background ORIGINAL_ROM
 
-.macro FreeSpace args start, end, realEnd
+; Macros
+
+; Wrapper around .unbackground to clear what's used vs. what's unused. The former is
+; needed to stay byte-identical to 1.02, but the latter is "better" when we come to extens
+; past that.
+.macro FreeSpace args _start, _end, _realEnd
 ; Change to realEnd when auto-fitting (need to debug that?)
-.unbackground start end
+.unbackground _start _end
 .endm
 
-; Bank 0
-  FreeSpace $00056 $00065 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
-  FreeSpace $00486 $004ae $004b2 ; Old tile decoder
-  FreeSpace $008f3 $0090b $0090b ; Title screen graphics loading
-  FreeSpace $00925 $00932 $00944 ; Title screen palette - can go up to 944
-; Bank 1
-  FreeSpace $04396 $043e5 $043e5 ; password lookup data (unused)
-  FreeSpace $043e6 $04405 $04405 ; text for "please enter your name"
-  FreeSpace $04406 $0448b $0448b ; tilemap for name entry
-  FreeSpace $0448c $044f5 $04509 ; data for lookup table during entry - can go up to $4509
-; Bank 9
-  FreeSpace $27b24 $27e75 $27fff ; Mansion tiles + unused space
-; Bank 11
-  FreeSpace $2c010 $2c85a $2caeb ; Gold Dragon tiles
-; Bank 14
-  FreeSpace $3BC68 $3bfff $3bfff ; Title screen tilemap + unused space
-; Bank 16
-  FreeSpace $40000 $4277a $43fff ; Scene tiles and palettes (part 1)
-  FreeSpace $43406 $43a82 $43fff ; Scene tiles and palettes (part 2)
-; Bank 17
-  FreeSpace $44640 $47aaa $47fff ; Palettes and tiles
-; Bank 18
-  FreeSpace $4be84 $4bfff $4bfff ; Unused space
-; Bank 19
-  FreeSpace $4c010 $4ccfb $4cdbd ; Dark Force tiles
-; Bank 20
-  FreeSpace $524ea $52a66 $52ba1 ; Lassic room tiles
-; Bank 22
-  FreeSpace $58570 $5a6db $5ac8c ; Tiles for town
-  FreeSpace $5ac8d $5b78c $5b9e6 ; Tiles for air castle
-; Bank 23
-  FreeSpace $5eb6f $5f5ba $5f766 ; Building interior tiles
-; Bank 29
-  FreeSpace $747b8 $76ba5 $77629 ; landscapes (world 1)
-; Bank 31
-  FreeSpace $7e8bd $7fd47 $7ffff ; Title screen tiles
-/*
-  FreeSpace $034f2 $03544 ; draw one character to tilemap
-  FreeSpace $033fe $03492 ; draw number inline with text (end is ?)
-  FreeSpace $03eca $03fc1 ; background graphics lookup table
-  FreeSpace $03fc2 $03fd1 ; sky castle palette
-  FreeSpace $04059 $0407a ; password entered (unused)
-  FreeSpace $04261 $04277 ; password population (unused)
-  FreeSpace $0429b $042b4 ; draw to tilemap during entry
-  FreeSpace $042b5 $042cb ; draw to RAM during entry
-  FreeSpace $045a4 $045c5 ; tile loading for intro
-  FreeSpace $08000 $0bfff ; font tile lookup plus script
-*/
+; Some data is relocated unmodified from the original ROM; this 
+.macro CopyFromOriginal args _offset, _size
+.incbin ORIGINAL_ROM skip _offset read _size
+.endm
 
-.define PAGING_SLOT_1 $fffe
-.define PAGING_SLOT_2 $ffff
-.define PORT_VDP_DATA $be
-
-; Functions we call
-.define VBlank $0127
-.define DecompressToTileMapData $6e05
-.define OutputTilemapRawDataBox $0428
-.define TextBox20x6 $333a
-
-; RAM used by the game, referenced here
-.define HasFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
-.define NewMusic            $c004 ; b Which music to start playing
-.define VBlankFunctionIndex $c208 ; b Index of function to execute in VBlank
-.define FunctionLookupIndex $c202 ; b Index of "game phase" function
-.define IntroState          $c600 ; b $ff when intro starts
-
-; RAM
-
-.define VRAM_PTR  $DFC0   ; VRAM address
-.define BUFFER    $DFD0   ; 32-byte buffer
-
-.define STR       $DFB0   ; pointer to WRAM string
-.define LEN       $DFB2   ; length of substring in WRAM
-.define TEMP_STR  $DFC0 + $08 ; dictionary RAM ($DFC0-DFEF)
-.define FULL_STR  $DFC0
-
-.define POST_LEN  $DFB3   ; post-string hint (ex. <Herb>...)
-.define LINE_NUM  $DFB4   ; # of lines drawn
-.define FLAG    $DFB5   ; auto-wait flag
-.define ARTICLE   $DFB6   ; article category #
-.define SUFFIX    $DFB7   ; suffix flag
-
-.define LETTER_S  $37   ; suffix letter ('s')
-
-.define NEWLINE   $54   ; carriage-return
-.define EOS       $56   ; end-of-string
-
-.define HLIMIT    $DFB9   ; horizontal chars left
-.define VLIMIT    $DFBA   ; vertical line limit
-.define SCRIPT    $DFBB   ; pointer to script
-.define BANK      $DFBD   ; bank holding script
-.define BARREL    $DFBE   ; current Huffman encoding barrel
-.define TREE      $DFBF   ; current Huffman tree
-
+; Sets the assembler to the given output address (and optionally non-default slot)
 .macro ROMPosition args _address, _slot
 .if NARGS == 1
   .if _address < $4000
@@ -134,14 +51,26 @@ banks 32
 .org _address # $4000 ; modulo
 .endm
 
-.macro BinAtPosition args _address, _filename
+; Creates a section with the given name holding the given binary file.
+; Uses the current address.
+.macro Bin
+.section "\1" force
+\1:
+.incbin \2
+\1_end:
+.ends
+.endm
+
+; Includes a binary at the given ROM address
+.macro BinAtPosition args _address, _filename, _mode
   ROMPosition _address
-.section "Auto bin include \2 @ \1" overwrite
+.section "Auto bin include \2 @ \1" \3
 BinAt\1_\2:
 .incbin _filename
 .ends
 .endm
 
+; Patches a byte at the given ROM address
 .macro PatchB args _address, _value
   ROMPosition _address
 .section "Auto patch @ \1" overwrite
@@ -150,6 +79,7 @@ PatchAt\1:
 .ends
 .endm
 
+; Patches a word at the given ROM address
 .macro PatchW args _address, _value
   ROMPosition _address
 .section "Auto patch @ \1" overwrite
@@ -158,6 +88,8 @@ PatchAt\1:
 .ends
 .endm
 
+; Filter macro for turning text into 16-bit tilemap entries. 
+; Sets the high priority bit on all tiles.
 .macro Text
 .redefine _out 0
 ; This is like a 16-bit version of .asciitable. It's quite messy though...
@@ -226,13 +158,129 @@ PatchAt\1:
 .endif
 .endm
 
+; Filter macro for turning text into 16-bit tilemap entries. 
+; Does not set the high priority bit.
 .macro TextLowPriority
   Text \1
   .redefine _out _out & $0fff
 .endm
 
+; Macro to load tiles from the given label
+.macro "LoadPagedTiles" args address, dest
+LoadPagedTiles\1:
+  ; Common pattern used to load tiles in the original code
+  ld hl,PAGING_SLOT_2
+  ld (hl),:address
+  ld hl,dest
+  ld de,address
+  call LoadTiles
+.endm
+
+.emptyfill $ff
+
+; Bank 0
+  FreeSpace $00056 $00065 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
+  FreeSpace $00486 $004ae $004b2 ; Old tile decoder
+  FreeSpace $008f3 $0090b $0090b ; Title screen graphics loading
+  FreeSpace $00925 $00932 $00944 ; Title screen palette - can go up to 944
+; Bank 1
+  FreeSpace $04396 $043e5 $043e5 ; password lookup data (unused)
+  FreeSpace $043e6 $04405 $04405 ; text for "please enter your name"
+  FreeSpace $04406 $0448b $0448b ; tilemap for name entry
+  FreeSpace $0448c $044f5 $04509 ; data for lookup table during entry - can go up to $4509
+  FreeSpace $045a4 $045c3 $045c3 ; tile loading for intro
+; Bank 2
+  FreeSpace $08000 $0bdd1 $0bfff ; font tile lookup, script, item names, unknown
+; Bank 9
+  FreeSpace $27b24 $27e75 $27fff ; Mansion tiles + unused space
+; Bank 11
+  FreeSpace $2c010 $2c85a $2caeb ; Gold Dragon tiles
+; Bank 14
+  FreeSpace $3BC68 $3bfff $3bfff ; Title screen tilemap + unused space
+; Bank 15
+  FreeSpace $3fdee $3ffff $3ffff ; Credits font
+; Bank 16
+  FreeSpace $40000 $4277a $428f5 ; Scene tiles and palettes (part 1)
+  FreeSpace $43406 $43a82 $43fff ; Scene tiles and palettes (part 2)
+  FreeSpace $43bb4 $43ee4 $43fff ; see above
+; Bank 17
+  FreeSpace $44640 $47aaa $47fff ; Palettes and tiles
+; Bank 18
+  FreeSpace $4be84 $4bfff $4bfff ; Unused space
+; Bank 19
+  FreeSpace $4c010 $4ccfb $4cdbd ; Dark Force tiles
+; Bank 20
+  FreeSpace $524ea $52a66 $52ba1 ; Lassic room tiles
+  FreeSpace $53dbc $53fff $53fff ; Credits data
+; Bank 22
+  FreeSpace $58570 $5a6db $5ac8c ; Tiles for town
+  FreeSpace $5ac8d $5b78c $5b9e6 ; Tiles for air castle
+; Bank 23
+  FreeSpace $5eb6f $5f5ba $5f766 ; Building interior tiles
+; Bank 29
+  FreeSpace $747b8 $76ba5 $77629 ; landscapes (world 1)
+; Bank 31
+  FreeSpace $7e8bd $7fd47 $7ffff ; Title screen tiles
+/*
+  FreeSpace $034f2 $03544 ; draw one character to tilemap
+  FreeSpace $033fe $03492 ; draw number inline with text (end is ?)
+  FreeSpace $03eca $03fc1 ; background graphics lookup table
+  FreeSpace $03fc2 $03fd1 ; sky castle palette
+  FreeSpace $04059 $0407a ; password entered (unused)
+  FreeSpace $04261 $04277 ; password population (unused)
+  FreeSpace $0429b $042b4 ; draw to tilemap during entry
+  FreeSpace $042b5 $042cb ; draw to RAM during entry
+*/
+
+.define PAGING_SLOT_1 $fffe
+.define PAGING_SLOT_2 $ffff
+.define PORT_VDP_DATA $be
+
+; Functions we call
+.define VBlank $0127
+.define DecompressToTileMapData $6e05
+.define OutputTilemapRawDataBox $0428
+.define TextBox20x6 $333a
+
+; RAM used by the game, referenced here
+.define HasFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
+.define NewMusic            $c004 ; b Which music to start playing
+.define VBlankFunctionIndex $c208 ; b Index of function to execute in VBlank
+.define FunctionLookupIndex $c202 ; b Index of "game phase" function
+.define IntroState          $c600 ; b $ff when intro starts
+
+; RAM
+
+.define VRAM_PTR  $DFC0   ; VRAM address
+.define BUFFER    $DFD0   ; 32-byte buffer
+
+.define STR       $DFB0   ; pointer to WRAM string
+.define LEN       $DFB2   ; length of substring in WRAM
+.define TEMP_STR  $DFC0 + $08 ; dictionary RAM ($DFC0-DFEF)
+.define FULL_STR  $DFC0
+
+.define POST_LEN  $DFB3   ; post-string hint (ex. <Herb>...)
+.define LINE_NUM  $DFB4   ; # of lines drawn
+.define FLAG    $DFB5   ; auto-wait flag
+.define ARTICLE   $DFB6   ; article category #
+.define SUFFIX    $DFB7   ; suffix flag
+
+.define LETTER_S  $37   ; suffix letter ('s')
+
+.define NEWLINE   $54   ; carriage-return
+.define EOS       $56   ; end-of-string
+
+.define HLIMIT    $DFB9   ; horizontal chars left
+.define VLIMIT    $DFBA   ; vertical line limit
+.define SCRIPT    $DFBB   ; pointer to script
+.define BANK      $DFBD   ; bank holding script
+.define BARREL    $DFBE   ; current Huffman encoding barrel
+.define TREE      $DFBF   ; current Huffman tree
+
+
+.slot 1
   ROMPosition $4be84, 1
-.section "New bitmap decoder" force
+.section "New bitmap decoder" force ; superfree
 
 ; Originally t4b, t4b_1
 
@@ -445,7 +493,7 @@ _Write_VRAM:
 .ends
 
   ROMPosition $00486
-.section "Trampoline to new bitmap decoder" force
+.section "Trampoline to new bitmap decoder" force ; not movable
 ; RLE/LZ bitmap decoder
 ; - support mapper
 
@@ -482,18 +530,8 @@ TitleScreenPalette:
 .incbin "new_graphics/title-pal.bin"
 .ends
 
-.macro "LoadPagedTiles" args address, dest
-LoadPagedTiles\1:
-  ; Common pattern used to load tiles
-  ld hl,PAGING_SLOT_2
-  ld (hl),:address
-  ld hl,dest
-  ld de,address
-  call LoadTiles
-.endm
-
   ROMPosition $008f3
-.section "Title screen patch" force ; not movable
+.section "Title screen patch" size 25 force ; not movable
 TitleScreenPatch:
 ; Original code:
 ;  ld hl,$ffff        ; Page in tiles
@@ -515,7 +553,7 @@ TitleScreenPatch:
 .ends
 
   ROMPosition $00ce4
-.section "BG loader patch 1" overwrite ; not movable
+.section "BG loader patch 1" size 14 overwrite ; not movable
   LoadPagedTiles OutsideTiles $4000
 .ends
 
@@ -532,7 +570,7 @@ TownTiles:
 .ends
 
   ROMPosition $00cf4
-.section "BG loader patch 2" overwrite ; not movable
+.section "BG loader patch 2" size 14 overwrite ; not movable
   LoadPagedTiles TownTiles $4000
 .ends
 
@@ -540,19 +578,20 @@ TownTiles:
 ; These are referenced by a structure originally at $3eca... but it is now moved.
 
  ROMPosition $3e8e
-.section "Patch scene struct 1" overwrite ; not movable
+.section "Patch scene struct 1" size 3 overwrite ; not movable
 PatchSceneStruct1:
   ld de,SceneData-8
 .ends
 
   ROMPosition $3e64
-.section "Patch scene struct 2" overwrite ; not movable
+.section "Patch scene struct 2" size 3 overwrite ; not movable
 PatchSceneStruct2:
   ld de,SceneData-3
 .ends
 
+.slot 1
   ROMPosition $4396
-.section "Scene data lookup" force
+.section "Scene data lookup" force ; free (can be bank 0 or 1)
 .struct Scene
   PaletteTilesBank  db
   Palette           dw
@@ -601,12 +640,8 @@ SceneData:
 
 .ends
 
-.macro CopyFromOriginal
-.incbin "PS1-J.SMS" skip \1 read \2
-.endm
-
   ROMPosition $40000
-.section "Palettes 1" force ; TODO attach to tiles and superfree
+.section "Palettes 1" force ; TODO attach palettes to tiles and superfree together
 PalettePalmaOpen:      CopyFromOriginal $40000 16
 PaletteDezorisOpen:    CopyFromOriginal $40010 16
 PalettePalmaForest:    CopyFromOriginal $40f16 16
@@ -614,23 +649,15 @@ PaletteDezorisForest:  CopyFromOriginal $40f26 16
 PalettePalmaSea:       CopyFromOriginal $41c72 16
 .ends
 
-.macro Bin
-.section "\1" force
-\1:
-.incbin \2
-\1_end:
-.ends
-.endm
-
   Bin TilesPalmaAndDezorisOpen    "psg_encoder/bg1.psgcompr"
   Bin TilesPalmaForest  "psg_encoder/bg2.psgcompr"
   Bin TilesPalmaSea     "psg_encoder/bg3.psgcompr"
   
-.section "Tarzimal tiles" force ; TODO make superfree
+.section "Tarzimal tiles" force ; superfree
 TilesTarzimal: CopyFromOriginal $4794a 1691
 .ends
 
-; Gap?
+; Some data from $428f6 (sea animation tiles)
 
   ROMPosition $43406
   Bin TilesMotabiaOpen  "psg_encoder/bg5.psgcompr"
@@ -721,178 +748,8 @@ PaletteDeadTrees:     CopyFromOriginal $46f58 16
   LabelAtPosition $37db1 TilemapDarkForce
 
 
-/*
-.bank 1 slot 1
-.section "Scene data" overwrite
-
-.macro SceneDataStruct ; structure holding scene data (palette, tiles and tilemap offsets)
-.db :Palette\1
-.dw Palette\1,Tiles\2
-.db :Tilemap\3
-.dw Tilemap\3
-.endm
-
-.macro TilesAndPalette
-.section "\1 tiles" force
-Palette\1: .db \3, \4, \5, \6, \7, \8, \9, \10, \11, \12, \13, \14, \15, \16, \17, \18
-Tiles\1: .incbin "psg_encoder/\2.psgcompr"
-.ends
-.endm
-
-SceneData:
-;                Palette            Tiles               Tilemap
- SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaOpen         ;  1 10 8000 8050 0F 8000 => 40000  40050 3C000
- SceneDataStruct PalmaForest       ,PalmaForest        ,PalmaForest       ;  2 10 8020 8BA7 0F 8333    40020  40BA7 3C333
- SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaSea          ;  3 10 8040 9799 0F 86E9    40040  41799 3C6E9
- SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaCoast        ;    10 8040 9799 0F 89A0    40040  41799 3C9A0
- SceneDataStruct MotabiaOpen       ,MotabiaOpen        ,MotabiaOpen       ;  5 10 B3F6 B406 0F 8C80    433F6  43406 3CC80
- SceneDataStruct DezorisOpen       ,PalmaAndDezorisOpen,DezorisOpen       ;    10 8010 8050 0F 8E46    40010  40050 3CE46
- SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaLavapit      ;    10 8000 8050 0F 9116    40000  40050 3D116
- SceneDataStruct PalmaTown         ,PalmaTown          ,PalmaTown         ;  8 11 8640 8680 0F 947B    44640  44680 3D47B
- SceneDataStruct PalmaVillage      ,PalmaVillage       ,PalmaVillage      ;  9 11 8650 9338 0F 970A    44650  45338 3D70A
- SceneDataStruct Spaceport         ,Spaceport          ,Spaceport         ; 10 11 8660 9CB0 0F 9A2C    44660  45CB0 3DA2C
- SceneDataStruct DeadTrees         ,DeadTrees          ,DeadTrees         ; 11 11 8670 A524 0F 9C11    44670  46524 3DC11
- SceneDataStruct DezorisForest     ,PalmaForest        ,PalmaForest       ;    10 8030 8BA7 0F 8333    40030  40BA7 3C333
- SceneDataStruct AirCastle         ,AirCastle          ,AirCastle         ; 13 16 AC7D AC8D 16 BC32    5AC7D  5AC8D 5BC32
- SceneDataStruct GoldDragon        ,GoldDragon         ,GoldDragon        ; 14 0B 8000 8010 16 BE2A    2C000  2C010 5BE2A
- SceneDataStruct AirCastleFull     ,AirCastle          ,AirCastle         ;    16 3FC2 AC8D 16 BC32    53FC2  5AC8D 5BC32
- SceneDataStruct BuildingEmpty     ,Building           ,BuildingEmpty     ; 16 17 AA9F AB6F 17 8000    5EA9F  5EB6F 5C000
- SceneDataStruct BuildingWindows   ,Building           ,BuildingWindows   ;    17 AAAF AB6F 17 831E    5EAAF  5EB6F 5C31E
- SceneDataStruct BuildingHospital1 ,Building           ,BuildingHospital1 ;    17 AABF AB6F 17 8654    5EABF  5EB6F 5C654
- SceneDataStruct BuildingHospital2 ,Building           ,BuildingHospital2 ;    17 AACF AB6F 17 88DD    5EACF  5EB6F 5C8DD
- SceneDataStruct BuildingChurch1   ,Building           ,BuildingChurch1   ;    17 AADF AB6F 17 8BA6    5EADF  5EB6F 5CBA6
- SceneDataStruct BuildingChurch2   ,Building           ,BuildingChurch2   ;    17 AAEF AB6F 17 8F8E    5EAEF  5EB6F 5CF8E
- SceneDataStruct BuildingArmoury1  ,Building           ,BuildingArmoury1  ;    17 AAFF AB6F 17 92ED    5EAFF  5EB6F 5D2ED
- SceneDataStruct BuildingArmoury2  ,Building           ,BuildingArmoury2  ;    17 AB0F AB6F 17 961B    5EB0F  5EB6F 5D61B
- SceneDataStruct BuildingShop1     ,Building           ,BuildingShop1     ;    17 AB1F AB6F 17 9949    5EB1F  5EB6F 5D949
- SceneDataStruct BuildingShop2     ,Building           ,BuildingShop2     ;    17 AB2F AB6F 17 9CA3    5EB2F  5EB6F 5DCA3
- SceneDataStruct BuildingShop3     ,Building           ,BuildingShop3     ;    17 AB3F AB6F 17 9FE3    5EB3F  5EB6F 5DFE3
- SceneDataStruct BuildingShop4     ,Building           ,BuildingShop4     ;    17 AB4F AB6F 17 A310    5EB4F  5EB6F 5E310
- SceneDataStruct BuildingDestroyed ,Building           ,BuildingDestroyed ;    17 AB5F AB6F 17 A64C    5EB5F  5EB6F 5E64C
- SceneDataStruct Mansion           ,Mansion            ,Mansion           ; 29 09 BB14 BB24 09 B78B    27B14  27B24 2778B
- SceneDataStruct LassicRoom        ,LassicRoom         ,LassicRoom        ; 30 14 A4DA A4EA 1B BD63    524DA  524EA 6FD63
- SceneDataStruct DarkForce         ,DarkForce          ,DarkForce         ; 31 13 8000 8010 0D BDB1    4C000  4C010 37DB1
-.ends
-
-  ; TODO: these should be extracted to PNGs and then generated to bins
-  TilesAndPalette DarkForce   bg31  $00,$00,$3F,$30,$38,$03,$0B,$0F,$20,$30,$34,$38,$3C,$02,$03,$01
-  TilesAndPalette LassicRoom  bg30  $10,$00,$3F,$20,$25,$2A,$02,$03,$01,$06,$30,$38,$2F,$0F,$0B,$3F
-  TilesAndPalette Mansion     bg29  $0B,$00,$3F,$0F,$06,$01,$03,$02,$00,$00,$00,$00,$00,$00,$00,$00
-.section "Building tiles" force
-PaletteBuildingEmpty:     .db $2c,$00,$3f,$3a,$28,$2c,$00,$00,$00,$00,$38,$34,$00,$00,$00,$00
-PaletteBuildingWindows:   .db $2a,$00,$3f,$2a,$25,$25,$00,$00,$00,$00,$38,$34,$00,$08,$0c,$04
-PaletteBuildingHospital1: .db $3f,$00,$3f,$38,$3c,$2f,$3f,$3e,$30,$00,$3c,$38,$3f,$25,$03,$00
-PaletteBuildingHospital2: .db $2f,$00,$3f,$25,$06,$2a,$3f,$3e,$30,$00,$3c,$38,$3f,$25,$03,$00
-PaletteBuildingChurch1:   .db $3c,$00,$3f,$30,$38,$38,$3a,$36,$31,$24,$3c,$0b,$3e,$0f,$03,$06
-PaletteBuildingChurch2:   .db $2f,$00,$3f,$06,$06,$2f,$3c,$38,$34,$01,$3c,$0b,$3e,$0f,$03,$06
-PaletteBuildingArmoury1:  .db $2e,$00,$3f,$2a,$29,$29,$38,$34,$20,$3d,$0b,$0f,$3d,$3a,$36,$38
-PaletteBuildingArmoury2:  .db $2a,$00,$3f,$2a,$25,$25,$07,$06,$01,$0f,$38,$3d,$0b,$2a,$25,$0b
-PaletteBuildingShop1:     .db $2c,$00,$3f,$3a,$28,$2c,$2a,$25,$11,$2a,$38,$34,$3e,$38,$3c,$34
-PaletteBuildingShop2:     .db $2a,$00,$3f,$2a,$25,$25,$0b,$07,$06,$06,$38,$34,$0f,$08,$0c,$04
-PaletteBuildingShop3:     .db $3a,$00,$3f,$25,$36,$36,$29,$28,$14,$2a,$38,$34,$2e,$38,$3c,$34
-PaletteBuildingShop4:     .db $2a,$00,$3f,$25,$25,$2a,$0b,$07,$06,$06,$38,$34,$0f,$08,$0c,$04
-PaletteBuildingDestroyed: .db $2a,$00,$3f,$25,$00,$2a,$00,$00,$00,$00,$34,$00,$00,$08,$0c,$04
-TilesBuilding:           .incbin "psg_encoder/bg16.psgcompr"
-.ends
-  TilesAndPalette GoldDragon bg14 $30,$00,$3F,$30,$38,$03,$0B,$0F,$01,$02,$03,$07,$25,$2A,$2F,$20
-.section "AirCastle tiles" force
-PaletteAirCastle:         .db $30,$00,$3F,$0B,$06,$1A,$2F,$2A,$08,$15,$30,$30,$30,$30,$30,$30
-PaletteAirCastleFull:     .db $30,$00,$3f,$0b,$06,$1a,$2f,$2a,$08,$15,$15,$0b,$06,$1a,$2f,$28
-TilesAirCastle:           .incbin "psg_encoder/bg13.psgcompr"
-.ends
-  TilesAndPalette DeadTrees     bg11  $25,$00,$3F,$2F,$0B,$01,$06,$2A,$06,$06,$06,$06,$06,$06,$06,$06
-  TilesAndPalette Spaceport     bg10  $34,$00,$3F,$01,$03,$2A,$25,$02,$0B,$3C,$00,$00,$00,$00,$00,$00
-  TilesAndPalette PalmaVillage  bg9   $34,$00,$3F,$2F,$0B,$06,$01,$0C,$04,$25,$08,$2A,$3E,$3C,$38,$00
-  TilesAndPalette PalmaTown     bg8   $34,$00,$3F,$2F,$0B,$06,$01,$0C,$04,$25,$08,$2A,$3E,$3C,$38,$00
-  TilesAndPalette MotabiaOpen   bg5   $30,$00,$3F,$30,$34,$38,$3C,$04,$08,$0C,$0B,$06,$2F,$38,$38,$38
-  TilesAndPalette PalmaSea      bg3   $30,$00,$3F,$30,$34,$38,$3C,$04,$08,$0C,$0B,$06,$2F,$38,$38,$38
-.section "PalmaForest tiles" force
-PalettePalmaForest:         .db $04,$00,$3F,$08,$0C,$06,$01,$0B,$00,$00,$00,$00,$00,$00,$00,$00
-PaletteDezorisForest:       .db $3E,$00,$3F,$3F,$3F,$1C,$18,$3E,$00,$00,$00,$00,$00,$00,$00,$00
-TilesPalmaForest:           .incbin "psg_encoder/bg2.psgcompr"
-.ends
-.section "PalmaAndDezorisOpen tiles" force
-PalettePalmaOpen:         .db $01,$00,$3F,$2F,$0B,$06,$08,$0C,$04,$34,$00,$00,$00,$00,$00,$00
-PaletteDezorisOpen:       .db $3E,$00,$3F,$3F,$3C,$38,$3C,$3F,$3C,$30,$00,$00,$00,$00,$00,$00
-TilesPalmaAndDezorisOpen: .incbin "psg_encoder/bg1.psgcompr"
-.ends
-
-; Placeholders for tilemap addresses
-.bank 15 slot 2
-.orga $8000
-TilemapPalmaOpen:
-.orga $8333
-TilemapPalmaForest:
-.orga $86e9
-TilemapPalmaSea:
-.orga $89a0
-TilemapPalmaCoast:
-.orga $8c80
-TilemapMotabiaOpen:
-.orga $8e46
-TilemapDezorisOpen:
-.orga $9116
-TilemapPalmaLavapit:
-.orga $947b
-TilemapPalmaTown:
-.orga $970a
-TilemapPalmaVillage:
-.orga $9a2c
-TilemapSpaceport:
-.orga $9c11
-TilemapDeadTrees:
-
-.bank 22 slot 2
-.orga $bc32
-TilemapAirCastle:
-.orga $be2a
-TilemapGoldDragon:
-
-.bank 23 slot 2
-.orga $8000
-TilemapBuildingEmpty:
-.orga $831e
-TilemapBuildingWindows:
-.orga $8654
-TilemapBuildingHospital1:
-.orga $88dd
-TilemapBuildingHospital2:
-.orga $8ba6
-TilemapBuildingChurch1:
-.orga $8f8e
-TilemapBuildingChurch2:
-.orga $92ed
-TilemapBuildingArmoury1:
-.orga $961b
-TilemapBuildingArmoury2:
-.orga $9949
-TilemapBuildingShop1:
-.orga $9ca3
-TilemapBuildingShop2:
-.orga $9fe3
-TilemapBuildingShop3:
-.orga $a310
-TilemapBuildingShop4:
-.orga $a64c
-TilemapBuildingDestroyed:
-
-.bank 9 slot 2
-  FreeSpace $27471 $2778a ; Mansion tiles
-.org $2778b-$24000
-TilemapMansion:
-
-.bank 27 slot 2
-  FreeSpace $6c000 $6f40a ; Various tiles
-.org $6fd63-$6c000
-TilemapLassicRoom:
-
-.bank 13 slot 2
-.org $37DB1-$34000
-TilemapDarkForce:
-*/
-
   ROMPosition $03eb0
-.section "Background scene loader tile loader patch" overwrite
+.section "Background scene loader tile loader patch" size 8 overwrite ; not movable
 BackgroundSceneLoaderTileLoaderPatch:
 ; Original code:
 ; ld h,(hl)
@@ -908,13 +765,13 @@ BackgroundSceneLoaderTileLoaderPatch:
 ; Font
 
   ROMPosition $43871
-.section "Font part 1" overwrite
+.section "Font part 1" force ; superfree
 FONT1:
 .incbin "psg_encoder/font1.psgcompr"
 .ends
 
   ROMPosition $43bb4
-.section "Font part 2" overwrite
+.section "Font part 2" force ; superfree
 FONT2:
 .incbin "psg_encoder/font2.psgcompr"
 .ends
@@ -922,7 +779,7 @@ FONT2:
 ; Originally t0b.asm
 
   ROMPosition $045a4
-.section "Intro font loader" overwrite
+.section "Intro font loader" force ; not movable
 IntroFontLoader:
 ; was:
 ; ld hl,$ffff        SetPage TilesFont
@@ -968,43 +825,68 @@ DECODE_FONT2:
 .ends
 
   ROMPosition $7c9
-.section "Font patch 1" overwrite
+.section "Font patch 1" overwrite ; not movable
 FontPatch1:
   ; Load game font decoding
+  ; Original code:
+; ld hl,$ffff       ; page in
+; ld (hl),$10
+; ld hl,$bad8       ; laod part 1
+; ld de,$5800
+; call $04b3
+; ld hl,$bebe       ; load part 2
+; ld de,$7e00
+; call $04b3
+
   call DECODE_FONT
-  jr +$12
+  ; TODO: free the space
+  jr $7e0-CADDR-1
 .ends
 
   ROMPosition $10e3
-.section "Font patch 2" overwrite
+.section "Font patch 2" overwrite ; not movable
 FontPatch2:
   ; Dungeon font decoding
+  ; Original code same as above
+
   call DECODE_FONT
-  jr +$12
+  ; TODO: free the space
+  jr $10fa-CADDR-1
 .ends
 
   ROMPosition $3dde
-.section "Font patch 3" overwrite
+.section "Font patch 3" overwrite ; not movable
 FontPatch3:
   ; In-game font decoding
+  ; Original code same as above
+    
   call DECODE_FONT
-  jr +$12
+  ; TODO: free the space
+  jr $3df5-CADDR-1
 .ends
 
   ROMPosition $48da
-.section "Font patch 4" overwrite
+.section "Font patch 4" overwrite ; not movable
 FontPatch4:
   ; Cutscene font decoding
+  ; Original code same as above
+  
   call DECODE_FONT
-  jr +$12
+  jr $48f1-CADDR-1
 .ends
 
 
-; TODO: whats this?
   ROMPosition $697c
-.section "Unknown patch" overwrite
+.section "Font patch 5" overwrite ; not movable
 FontPatch5:
-  call DECODE_FONT2 ; (halfway through new loader, for just the second font group)
+  ; Original code:
+; ld hl,$ffff       ; page in
+; ld (hl),$10
+; ld hl,$bebe       ; load part 2
+; ld de,$7e00
+; call $04b3        ; <-- We only patch this part. TODO: free the space?
+
+  call DECODE_FONT2 ; just the second font group
 .ends
 
 
@@ -1012,7 +894,7 @@ FontPatch5:
 ; Originally t0d.asm
 
   ROMPosition $34f2
-.section "Character drawing" overwrite
+.section "Character drawing" /*size 83*/ overwrite ; not movable; TODO free the space
 CharacterDrawing:
 ; Replacing draw-one-character function from $34f2-3545
 ; drawing 2 tilemap chars, with conditional mirroring, and a scrolling handler,
@@ -1031,7 +913,7 @@ CharacterDrawing:
       ld bc,FontLookup ; index into table
       add a,c
       ld c,a
-      adc a,b       ; overflow accounting
+      adc a,b       ; overflow accounting ; TODO not necessary if it's aligned
       sub c
       ld b,a
 
@@ -1058,7 +940,10 @@ CharacterDrawing:
 .ends
 
   ROMPosition $8000
-.section "Font lookup" overwrite
+
+; The font lookup, Huffman bits and script all share a bank as they are needed at the same time.
+  
+.section "Font lookup" force
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into ths area) to name table entries. The extra spaces are unused (and could be repurposed?).
 .dwm Text " 0123456789"
@@ -1067,15 +952,13 @@ FontLookup:
 .dwm Text ".:`',  -!?               "
 .ends
 
-; Semi-adaptive Huffman script decoder
-
   ROMPosition $80b0
-.section "Huffman tree vector" overwrite ; may need to be at $80b0?
+.section "Huffman tree vector" force
 TREE_PTR:
 .incbin "script_inserter/tree_vector.bin"    ; Tree vectors
 .ends
   ROMPosition $82b0
-.section "Huffman tree" overwrite ; may need to be at $82b0?
+.section "Huffman tree" force
 ScriptTrees:
 .incbin "script_inserter/script_trees.bin"   ; - actual Huffman trees
 .ends
@@ -1083,19 +966,19 @@ ScriptTrees:
   ROMPosition $bf50
 .section "Decoder init" overwrite
 DecoderInit:
-; Originally t4a_1.asm
-;
 ; Semi-adaptive Huffman decoder
 ; - Init decoder
-;
-; Written in TASM 3.0.1
-;
-
-.define CODE $7fd8c/$4000 ; bank with 'backup' code TODO what is this?
+; This is called from various places where the game wants to draw text. We:
+; - page some code into slot 1
+; - init the Huffman decoding state
+; - determine which place we were called from and implement the patched-over code,
+;   plus some context-specific state.
+; - call into the code following the patch point, which will call into other text-decoding functions
+; - then restore slot 1
 
   push af     ; Save routine selection
 
-    ld a,CODE   ; Map in new page 1
+    ld a,:AdditionalScriptingCodes
     ld (PAGING_SLOT_1),a
 
     ld a,EOS    ; Starting tree symbol
@@ -1114,30 +997,37 @@ DecoderInit:
     ld (ARTICLE),a    ; No article usage
     ld (SUFFIX),a   ; No suffix flag
 
-  pop af      ; Choose code reloading method
+  pop af
+
+  ; Now we detect what we need to do to recover from the patch to get here...
   or a
   jr nz,+
 
-; Cutscene handler
-  ld de,$7c42   ; Old code
+CutsceneClear:
+  ; a = 0: Cutscene handler
+  ; Patched-over code
+  ld de,$7c42   ; VRAM address - modified
   ld bc,$0000
-  ld a,$06    ; Set internal wrapping limit
+  ; Context-specific state
+  ld a,6        ; Line count
   ld (VLIMIT),a
-
-  xor a
-  call $34b0    ; Allow remapping of page 1 upon exit ; TODO what is this? In ShowNarrativeText in dasm
+  ; Call back to patch location
+  xor a ; unnecessary?
+  call CutsceneNarrativeInitOriginalCode
   jr ++
 
-+:            ; In-game scripter
-  ld a,$4     ; Set internal wrapping limit ; TODO what is this?
++:; a = 1: in-game dialog
+  ; Context-specific state
+  ld a,4        ; Line count
   ld (VLIMIT),a
-
-  ld a,($c2d3)    ; Old code
-  or a
-  call $3343    ; Allow remapping of page 1 upon exit ; TODO what is this?
+  ; Patched-over code
+  ld a,($c2d3)  ; Old code
+  or a          ; Done second as the flags from this test are what matters
+  ; Call back to patch location
+  call InGameNarrativeInitOriginalCode
 
 ++:
-  ld a,1    ; Put back old 'page 1'
+  ld a,1    ; Restore slot 1
   ld (PAGING_SLOT_1),a
 
   ret
@@ -1217,14 +1107,12 @@ SFGDecoder:
 ; Huffman tree data is in page 2
 ; The symbols for the tree are stored in backwards linear order
 
-.define TREE_BANK 2   ; bank containing Huffman trees ($8000-$BFFF)
-
   push hl
 
     ld a,(PAGING_SLOT_1)    ; Save current page 1
     push af
 
-      ld a,$6f000/$4000 ; Load in script bank #2
+      ld a,$6f000/$4000 ; Load in script bank #2 ; TODO is this needed?
       ld (PAGING_SLOT_1),a
 
       ld hl,(SCRIPT)    ; Set Huffman data location
@@ -1667,11 +1555,16 @@ _Break:
 .ends
 
   ROMPosition $34aa
-.section "Cutscene narrative init" overwrite
+.section "Cutscene narrative init" overwrite ; not movable
 CutsceneNarrativeInit:
-  ld a,0 ; method selection
+  ; This code deliberately fills 6 bytes to patch over the original code:
+; ld de,$7c0c
+; ld bc,$0000
+  ld a,0 ; method selection (0)
   call DecoderInit
   ret
+  ; DecoderInit will call this label:
+CutsceneNarrativeInitOriginalCode:
 .ends
 
   ROMPosition $34b4
@@ -1686,15 +1579,21 @@ CutsceneTextDecoder:
   ROMPosition $34e5
 .section "Cutscene $55 clear code" overwrite
 CutsceneClearCode:
-  jp $bf77 ; TODO
+  jp CutsceneClear
 OrderFlip:
 .ends
 
   ROMPosition $333f
 .section "In-game narrative init" overwrite
 InGameNarrativeInit:
-  dec a ; = method selection ($01)
+; Original code:
+; ld a,(TextBox20x6Open)
+; or a
+  ; Patch is identical size
+  dec a ; method selection (1) ; a is 2 due to existing code
   jp DecoderInit
+  ; DecoderInit will call this label:
+InGameNarrativeInitOriginalCode:
 .ends
 
   ROMPosition $3365
@@ -2110,7 +2009,7 @@ Enemies:
 .ends
 
   ROMPosition $43c00
-.section "Static dictionary" overwrite
+.section "Static dictionary" force ; superfree
 Words:
 .include "substring_formatter/words.asm"
 ; Terminator
@@ -2120,17 +2019,17 @@ Words:
 ; English script
 
   ROMPosition $59ba
-.section "Index table remap" overwrite
+.section "Index table remap" overwrite ; not movable
 IndexTableRemap:
-  jp TextBox20x6 ; see 'script_list.txt' for auto-generated
+  jp TextBox20x6
 .ends
 
 ; Menus
 
   ROMPosition $46c81
-.section "Menu data" overwrite
+.section "Menu data" force ; superfree
 MenuData:
-.include "menu_creater/menus.asm"
+.include "menu_creater/menus.asm" ; closes the section and applies patches
 
   PatchB $3b82 :MenuData
   PatchB $3bab :MenuData
@@ -2141,12 +2040,12 @@ MenuData:
   PatchW $331e $7818
 
   ROMPosition $3211
-.section "HP letters" overwrite
+.section "HP letters" size 4 overwrite
 .dwm Text "HP"
 .ends
 
   ROMPosition $3219
-.section "MP letters" overwrite
+.section "MP letters" size 4 overwrite
 .dwm Text "MP"
 .ends
 
@@ -3104,16 +3003,18 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
   PatchB $2fdb $dc    ; cursor tile index
 
 ; Changed credits -------------------------
-  BinAtPosition $53dbc "credits/credits.bin"               ; 577/580 bytes
+  ROMPosition $53dbc
+  Bin CreditsData "credits/credits.bin" force ; not movable?
 
   ROMPosition $488c
 .section "Credits hack" overwrite
-  ld hl,$5820
-  ld de,$bdee
+  ld hl,$5820 ; VRAM address
+  ld de,CreditsFont
   call LoadTiles
 .ends
 
-  BinAtPosition $3fdee "psg_encoder/font3.psgcompr"   ;  411/530 bytes
+  ROMPosition $3fdee
+  Bin CreditsFont "psg_encoder/font3.psgcompr" ; not movable without patching bank number
 
   ROMPosition $00056
 .section "HALT on idle polling loop" force
@@ -3172,7 +3073,7 @@ PauseFMToggle:
 
 ; Stuff from script_list.txt
 ; TODO: generate it instead
-  BinAtPosition $8cd4 "script_inserter/script1.bin"
+  BinAtPosition $8cd4 "script_inserter/script1.bin" force
   PatchW $4b49 $8cd4
   PatchW $4b4f $8d14
   PatchW $4b63 $8d31
