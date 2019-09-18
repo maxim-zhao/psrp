@@ -10,8 +10,6 @@ Phantasy Star: Symbol Converter (Script)
 #include <string>
 #include <vector>
 #include <stdexcept>
-
-/*
 #include <fstream>
 #include <codecvt>
 #include <map>
@@ -24,8 +22,9 @@ namespace
 class File
 {
     std::ifstream _f;
+	int _lineNumber;
 public:
-    explicit File(const std::string& name): _f(name)
+    explicit File(const std::string& name): _f(name), _lineNumber(0)
     {
         // Check for a BOM
         int bom = 0;
@@ -45,6 +44,7 @@ public:
             {
                 return false;
             }
+        	++_lineNumber;
             // Remove comments
             const auto pos = s.find(';');
             if (pos != std::string::npos)
@@ -59,6 +59,8 @@ public:
             return true;
         }
     }
+
+	int lineNumber() const { return _lineNumber; }
 };
 
 class Table
@@ -117,7 +119,7 @@ public:
         return it->second;
     }
 };
-*/
+
 #define EOS 0x56
 
 std::vector<std::string> new_symbol_table[256];
@@ -239,7 +241,7 @@ int script_internal_hint;
 
 int line_len;
 
-void Scan_Text(char*& pText, int& width)
+void Scan_Text(const char*& pText, int& width)
 {
 	width = 0;
 
@@ -272,11 +274,11 @@ void Scan_Text(char*& pText, int& width)
 	script_hints = 1;
 
 
-void Process_Code(char* & pText, FILE* pass1, int line_num)
+void Process_Code(const char* & pText, FILE* pass1, int line_num)
 {
 	std::string read_symbol;
 	int index = -1;
-	char* pLast;
+	const char* pLast;
 	int post_hint;
 
 #define CODE_TABLE 26
@@ -390,7 +392,7 @@ void Process_Code(char* & pText, FILE* pass1, int line_num)
 				str = '>';
 				while (*pText != '>') str += *(pText++);
 				str += (pText + 1);
-				memcpy(pText, str.c_str(), str.length());
+				//memcpy(pText, str.c_str(), str.length());
 			}
 			break;
 
@@ -563,7 +565,7 @@ void Process_Code(char* & pText, FILE* pass1, int line_num)
 }
 
 
-void Find_Entry(char*& pText, int& index, int line_num)
+void Find_Entry(const char*& pText, int& index, int line_num)
 {
 	std::string lookup;
 	int start;
@@ -619,22 +621,8 @@ void Find_Entry(char*& pText, int& index, int line_num)
 
 void Process_Text(const std::string& name, FILE* pass1)
 {
-	FILE* list = fopen(name.c_str(), "r");
-	if (!list)
-	{
-		throw std::runtime_error("Could not open file \"" + name + "\"");
-	}
-
-	int header = 0;
-
-	// Check UTF-8 header
-	fread(&header, 1, 3, list);
-	if (header != 0xbfbbef)
-	{
-		// rewind
-		fseek(list, 0, SEEK_SET);
-	}
-
+	File f(name);
+	
 	// Init
 	script_width = 0;
 	script_center = 0;
@@ -649,16 +637,13 @@ void Process_Text(const std::string& name, FILE* pass1)
 	script_end = 0;
 
 	// Read in string entries
-	char line[1024];
-	int line_num = 0;
-	while (fgets(line, sizeof(line), list))
+	for (std::string s; f.getLine(s); )
 	{
-		char* pText;
+		const char* pText;
 		std::string out_buffer;
 
 		// init
-		pText = line;
-		line_num++;
+		pText = s.c_str();
 		line_len = 0;
 
 		// remove header
@@ -668,14 +653,6 @@ void Process_Text(const std::string& name, FILE* pass1)
 			pText++;
 		}
 
-		// remove newline
-		if (line[strlen(line) - 1] == 0x0a)
-			line[strlen(line) - 1] = 0;
-
-		// skip comments or eos
-		if (*pText == ';' || *pText == 0)
-			continue;
-
 		// internal counter
 		script_end = 0;
 
@@ -684,7 +661,7 @@ void Process_Text(const std::string& name, FILE* pass1)
 		{
 			int entry;
 			int start;
-			char* pOld;
+			const char* pOld;
 
 			// grab symbol
 			start = *pText & 0xff;
@@ -703,13 +680,13 @@ void Process_Text(const std::string& name, FILE* pass1)
 					out_buffer = "";
 				}
 
-				Process_Code(pText, pass1, line_num);
+				Process_Code(pText, pass1, f.lineNumber());
 				if (script_end) break;
 				continue;
 			}
 
 			// check if we have a dictionary entry
-			Find_Entry(pText, entry, line_num);
+			Find_Entry(pText, entry, f.lineNumber());
 			if (entry == -1) continue;
 
 			// attempt auto-formatting
@@ -719,12 +696,11 @@ void Process_Text(const std::string& name, FILE* pass1)
 				if (start == ' ')
 				{
 					int width;
-					char* pTmp = pOld + 1;
+					const char* pTmp = pOld + 1;
 
 					// flush data
 					if (out_buffer.length())
 					{
-						//fputc( script_border + script_center ? ( script_width - out_buffer.length() ) >> 1 : 0, pass1 );
 						fwrite(out_buffer.c_str(), 1, out_buffer.length(), pass1);
 
 						// reset
@@ -753,9 +729,6 @@ void Process_Text(const std::string& name, FILE* pass1)
 
 						// add newline
 						fputc(0x54, pass1);
-
-						// clear line counter for intro only (handled via engine)
-						//if( script_intro && script_line % script_height == 0 ) fputc( 0xce, pass1 );
 
 						// reset x-pos
 						line_len = 0;
@@ -813,24 +786,8 @@ void Process_Text(const std::string& name, FILE* pass1)
 			line_len += old_symbol.length();
 			if (old_symbol[0] == (char)0xe3) line_len -= 2;
 			if (old_symbol[0] == (char)0xe2) line_len -= 2;
-
-			// update file position
-			//table_offset += read_symbol.length();
-			//table_length += read_symbol.length();
 		}
-
-		// clear buffer
-		memset(line, 0, sizeof(line));
 	} // end while read line
-
-
-	// log statistics
-	//printf( "(line %d) Table %02X: End $%04X, Length $%04X\n",
-	//line_num, table_number, table_offset, table_length );
-	//printf( "\n" );
-	//
-
-	fclose(list);
 }
 
 #undef old_symbol
