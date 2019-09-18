@@ -268,13 +268,13 @@ void Scan_Text(const char*& pText, int& width)
 	} \
 	\
 	if( post_hint ) { \
-		fputc( 0x59, pass1 ); \
-		fputc( post_hint, pass1 ); \
+		pass1.put( 0x59); \
+		pass1.put( post_hint); \
 	} \
 	script_hints = 1;
 
 
-void Process_Code(const char* & pText, FILE* pass1, int line_num)
+void Process_Code(const char* & pText, std::ostream& pass1, int line_num)
 {
 	std::string read_symbol;
 	int index = -1;
@@ -359,8 +359,8 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 				sscanf(pText, "%02X", &value);
 				pText += 2;
 
-				fputc(0x01, pass1);
-				fputc(value, pass1);
+				pass1.put(0x01);
+				pass1.put(value);
 			}
 			break;
 
@@ -372,8 +372,8 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 				sscanf(pText, "%02X", &value);
 				pText += 2;
 
-				fputc(0x02, pass1);
-				fputc(value, pass1);
+				pass1.put(0x02);
+				pass1.put(value);
 			}
 			break;
 
@@ -434,22 +434,22 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 
 			// current player
 		case 15: POST_HINT(1, 6);
-			fputc(0x4f, pass1);
+			pass1.put(0x4f);
 			break;
 
 			// current monster
 		case 16: POST_HINT(1, script_width);
-			fputc(0x50, pass1);
+			pass1.put(0x50);
 			break;
 
 			// current item
 		case 17: POST_HINT(1, script_width);
-			fputc(0x51, pass1);
+			pass1.put(0x51);
 			break;
 
 			// current number
 		case 18: POST_HINT(1, 5);
-			fputc(0x52, pass1);
+			pass1.put(0x52);
 			break;
 
 			// add plain newline
@@ -459,17 +459,17 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 				if (script_line % script_height == 0)
 				{
 					// wait more
-					if (script_autowait) fputc(0x55, pass1);
+					if (script_autowait) pass1.put(0x55);
 
 					// use alternate delay
-					if (script_intro) fputc(0x57, pass1);
+					if (script_intro) pass1.put(0x57);
 				}
 
 				// clear line counter (handled via engine)
 				//if( script_intro && script_line % script_height == 0 ) fputc( 0xce, pass1 );
 
 				// add newline
-				fputc(0x54, pass1);
+				pass1.put(0x54);
 
 				line_len = 0;
 				script_hints = 0;
@@ -479,7 +479,7 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 			// wait for more input
 		case 20:
 			{
-				fputc(0x55, pass1);
+				pass1.put(0x55);
 
 				script_line = 0;
 				script_hints = 0;
@@ -490,7 +490,7 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 			// end of text
 		case 21:
 			{
-				fputc(0x56, pass1);
+				pass1.put(0x56);
 
 				// de-init
 				script_end = 1;
@@ -503,8 +503,8 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 			// delay 'x' seconds
 		case 22:
 			{
-				fputc(0x57, pass1);
-				fputc(0x56, pass1);
+				pass1.put(0x57);
+				pass1.put(0x56);
 
 				// de-init
 				script_end = 1;
@@ -517,8 +517,8 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 			// wait for input
 		case 23:
 			{
-				fputc(0x58, pass1);
-				fputc(0x56, pass1);
+				pass1.put(0x58);
+				pass1.put(0x56);
 
 				// de-init
 				script_end = 1;
@@ -536,8 +536,8 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 				sscanf(pText, "%02X", &value);
 				pText += 2;
 
-				fputc(0x5a, pass1);
-				fputc(value, pass1);
+				pass1.put(0x5a);
+				pass1.put(value);
 
 				script_hints = 1;
 			}
@@ -546,7 +546,7 @@ void Process_Code(const char* & pText, FILE* pass1, int line_num)
 			// (custom) use suffix
 		case 25:
 			{
-				fputc(0x5b, pass1);
+				pass1.put(0x5b);
 
 				script_hints = 1;
 			}
@@ -619,7 +619,7 @@ void Find_Entry(const char*& pText, int& index, int line_num)
 }
 
 
-void Process_Text(const std::string& name, FILE* pass1, const Table& table)
+void Process_Text(const std::string& name, std::ostream& pass1, const Table& table)
 {
 	File f(name);
 	
@@ -672,7 +672,7 @@ void Process_Text(const std::string& name, FILE* pass1, const Table& table)
 				// flush data
 				if (!out_buffer.empty())
 				{
-					fwrite(&out_buffer[0], 1, out_buffer.size(), pass1);
+					pass1.write((const char*)&out_buffer[0], out_buffer.size());
 
 					// reset
 					out_buffer.clear();
@@ -699,7 +699,7 @@ void Process_Text(const std::string& name, FILE* pass1, const Table& table)
 					// flush data
 					if (!out_buffer.empty())
 					{
-						fwrite(&out_buffer[0], 1, out_buffer.size(), pass1);
+						pass1.write((const char*)&out_buffer[0], out_buffer.size());
 
 						// reset
 						out_buffer.clear();
@@ -716,17 +716,17 @@ void Process_Text(const std::string& name, FILE* pass1, const Table& table)
 						if (script_line % script_height == 0)
 						{
 							// use 'wait more'
-							if (script_autowait) fputc(0x55, pass1);
+							if (script_autowait) pass1.put(0x55);
 
 							// use alternate delay
-							if (script_intro) fputc(0x57, pass1);
+							if (script_intro) pass1.put(0x57);
 
 							// reset y-pos
 							script_line = 0;
 						}
 
 						// add newline
-						fputc(0x54, pass1);
+						pass1.put(0x54);
 
 						// reset x-pos
 						line_len = 0;
@@ -737,7 +737,7 @@ void Process_Text(const std::string& name, FILE* pass1, const Table& table)
 						// add padding for quotes
 						if (script_autoquote)
 						{
-							fputc(0x00, pass1);
+							pass1.put(0x00);
 							line_len++;
 						}
 						continue;
@@ -747,8 +747,8 @@ void Process_Text(const std::string& name, FILE* pass1, const Table& table)
 						// real-time line formatting needed
 						if (script_hints && width)
 						{
-							fputc(0x59, pass1);
-							fputc(width + script_internal_hint, pass1);
+							pass1.put(0x59);
+							pass1.put(width + script_internal_hint);
 
 							// manual hint flag reset
 							script_internal_hint = 0;
@@ -792,20 +792,13 @@ void Process_Text(const std::string& name, FILE* pass1, const Table& table)
 #undef new_symbol
 
 
-int Convert_Symbols(const char* list_name, const char* table_name, const char* out_name)
+void Convert_Symbols(const char* list_name, const char* table_name, const char* out_name)
 {
-	// Open files
-	FILE* pass1 = fopen(out_name, "wb");
-
-	if (!pass1)
-	{
-		printf("Error: Could not create file \"%s\"\n", out_name);
-		return -1;
-	}
-
 	Load_Tables(0, table_name);
 
 	Table table(table_name);
+
+	std::ofstream pass1(out_name, std::ios::binary);
 
 	for (int i = 1; i <= 2; i++)
 	{
@@ -814,9 +807,4 @@ int Convert_Symbols(const char* list_name, const char* table_name, const char* o
 		// open each text bank
 		Process_Text(name, pass1, table);
 	}
-
-	// Done processing
-	fclose(pass1);
-
-	return 0;
 }
