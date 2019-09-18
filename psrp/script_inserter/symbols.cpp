@@ -619,7 +619,7 @@ void Find_Entry(const char*& pText, int& index, int line_num)
 }
 
 
-void Process_Text(const std::string& name, FILE* pass1)
+void Process_Text(const std::string& name, FILE* pass1, const Table& table)
 {
 	File f(name);
 	
@@ -640,17 +640,16 @@ void Process_Text(const std::string& name, FILE* pass1)
 	for (std::string s; f.getLine(s); )
 	{
 		const char* pText;
-		std::string out_buffer;
+		std::vector<uint8_t> out_buffer;
 
 		// init
 		pText = s.c_str();
 		line_len = 0;
 
-		// remove header
-		if (*pText == '[')
+		// skip headers
+		if (s[0] == '[')
 		{
-			while (*pText != ']') pText++;
-			pText++;
+			continue;
 		}
 
 		// internal counter
@@ -671,13 +670,12 @@ void Process_Text(const std::string& name, FILE* pass1)
 			if (start == '<')
 			{
 				// flush data
-				if (out_buffer.length())
+				if (!out_buffer.empty())
 				{
-					//fputc( script_border + script_center ? ( script_width - out_buffer.length() ) >> 1 : 0, pass1 );
-					fwrite(out_buffer.c_str(), 1, out_buffer.length(), pass1);
+					fwrite(&out_buffer[0], 1, out_buffer.size(), pass1);
 
 					// reset
-					out_buffer = "";
+					out_buffer.clear();
 				}
 
 				Process_Code(pText, pass1, f.lineNumber());
@@ -699,12 +697,12 @@ void Process_Text(const std::string& name, FILE* pass1)
 					const char* pTmp = pOld + 1;
 
 					// flush data
-					if (out_buffer.length())
+					if (!out_buffer.empty())
 					{
-						fwrite(out_buffer.c_str(), 1, out_buffer.length(), pass1);
+						fwrite(&out_buffer[0], 1, out_buffer.size(), pass1);
 
 						// reset
-						out_buffer = "";
+						out_buffer.clear();
 					}
 
 					// scan for next non-text moment
@@ -779,7 +777,7 @@ void Process_Text(const std::string& name, FILE* pass1)
 #endif
 
 				// buffer out data
-				out_buffer += code;
+				out_buffer.push_back(code);
 			}
 
 			// line length checking
@@ -807,12 +805,14 @@ int Convert_Symbols(const char* list_name, const char* table_name, const char* o
 
 	Load_Tables(0, table_name);
 
+	Table table(table_name);
+
 	for (int i = 1; i <= 2; i++)
 	{
 		std::string name = list_name + std::to_string(i) + ".txt";
 
 		// open each text bank
-		Process_Text(name, pass1);
+		Process_Text(name, pass1, table);
 	}
 
 	// Done processing
