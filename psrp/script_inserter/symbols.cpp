@@ -221,9 +221,6 @@ void Load_Tables(int direction, const std::string& filename)
 }
 
 
-#define old_symbol old_symbol_table[ start ][ entry ]
-#define new_symbol new_symbol_table[ start ][ entry ]
-
 int script_width; // Text box width, used for wrapping
 int script_height; // Text box height, not used
 
@@ -401,8 +398,8 @@ void Find_Entry(const char*& pText, int& index, int line_num)
 		for (int entry = 0; entry < old_symbol_table[start].size(); entry++)
 		{
 			// skip non-matches
-			if (lookup.length() != old_symbol.length()) continue;
-			if (lookup != old_symbol) continue;
+			if (lookup.length() != old_symbol_table[ start ][ entry ].length()) continue;
+			if (lookup != old_symbol_table[ start ][ entry ]) continue;
 
 			// found a match
 			index = entry;
@@ -413,7 +410,7 @@ void Find_Entry(const char*& pText, int& index, int line_num)
 	if (index != -1)
 	{
 		int entry = index;
-		pText += old_symbol.length();
+		pText += old_symbol_table[ start ][ entry ].length();
 	}
 
 		// log error
@@ -468,10 +465,9 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 		// do the conversion
 		while (*pText)
 		{
-			int entry;
+			const int start = *pText & 0xff; // Character found
+			int entry; // Binary value to emit
 
-			// grab symbol
-			const int start = *pText & 0xff;
 			const char* pStart = pText;
 
 			// Check for a scripting code
@@ -524,7 +520,7 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 				else
 				{
 					// real-time line formatting needed
-					if (script_hints && width)
+					if (script_hints && width > 0)
 					{
 						pass1.put(0x59);
 						pass1.put(width + script_internal_hint);
@@ -536,27 +532,24 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			} // end whitespace
 
 			// successful -> start logging changes
-			for (int lcv2 = 0; lcv2 < new_symbol.length(); lcv2 += 2)
+			for (int lcv2 = 0; lcv2 < new_symbol_table[ start ][ entry ].length(); lcv2 += 2)
 			{
 				int code;
 
 				// calculate new hex code
-				sscanf(new_symbol.c_str() + lcv2, "%02X", &code);
+				sscanf(new_symbol_table[ start ][ entry ].c_str() + lcv2, "%02X", &code);
 
 				// buffer out data
 				out_buffer.push_back(code);
 			}
 
 			// line length checking
-			line_len += old_symbol.length();
-			if (old_symbol[0] == (char)0xe3) line_len -= 2;
-			if (old_symbol[0] == (char)0xe2) line_len -= 2;
+			line_len += old_symbol_table[ start ][ entry ].length();
+			if (old_symbol_table[ start ][ entry ][0] == (char)0xe3) line_len -= 2;
+			if (old_symbol_table[ start ][ entry ][0] == (char)0xe2) line_len -= 2;
 		}
 	} // end while read line
 }
-
-#undef old_symbol
-#undef new_symbol
 
 
 void Convert_Symbols(const char* list_name, const char* table_name, const char* out_name)
