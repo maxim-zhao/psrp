@@ -269,7 +269,7 @@ void CheckSuffixLength(int min, int max, std::ostream& pass1, const char* pText)
 }
 
 
-void Process_Code(const char* & pText, std::ostream& pass1, int line_num)
+void ProcessCode(const char* & pText, std::ostream& pass1, int line_num)
 {
 	// We read in the symbol
 	// Let's try and match it with a regex...
@@ -469,26 +469,19 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 		while (*pText)
 		{
 			int entry;
-			int start;
-			const char* pOld;
 
 			// grab symbol
-			start = *pText & 0xff;
-			pOld = pText;
+			const int start = *pText & 0xff;
+			const char* pStart = pText;
 
-			// determine if scripting code needed
+			// Check for a scripting code
 			if (start == '<')
 			{
 				// flush data
-				if (!out_buffer.empty())
-				{
-					pass1.write((const char*)&out_buffer[0], out_buffer.size());
+				std::copy(out_buffer.begin(), out_buffer.end(), std::ostream_iterator<uint8_t>(pass1));
+				out_buffer.clear();
 
-					// reset
-					out_buffer.clear();
-				}
-
-				Process_Code(pText, pass1, f.lineNumber());
+				ProcessCode(pText, pass1, f.lineNumber());
 				if (script_end)
 				{
 					break;
@@ -508,16 +501,11 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			if (start == ' ')
 			{
 				// flush data
-				if (!out_buffer.empty())
-				{
-					pass1.write((const char*)&out_buffer[0], out_buffer.size());
-
-					// reset
-					out_buffer.clear();
-				}
+				std::copy(out_buffer.begin(), out_buffer.end(), std::ostream_iterator<uint8_t>(pass1));
+				out_buffer.clear();
 
 				// scan for next non-text moment
-				int width = GetWordLength(pOld + 1);
+				const int width = GetWordLength(pStart + 1);
 
 				// see if next word does not fit in this same line
 				if (line_len + 1 + width > script_width && !script_hints)
@@ -529,7 +517,7 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 					line_len = 0;
 
 					// bypass only whitespace
-					pText = pOld + 1;
+					pText = pStart + 1;
 
 					continue;
 				}
