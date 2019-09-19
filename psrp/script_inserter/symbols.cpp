@@ -235,9 +235,9 @@ int script_internal_hint; // "hint" value
 
 int line_len; // Line length, used for wrapping
 
-void Scan_Text(const char*& pText, int& width)
+int GetWordLength(const char* pText)
 {
-	width = 0;
+	int width = 0;
 
 	// scan for next non-text moment
 	while (*pText != 0 && *pText != ' ' && *pText != '<')
@@ -248,13 +248,13 @@ void Scan_Text(const char*& pText, int& width)
 		pText++;
 		width++;
 	}
+
+	return width;
 }
 
 void CheckSuffixLength(int min, int max, std::ostream& pass1, const char* pText)
 {
-	const char* pLast = pText;
-	int post_hint;
-	Scan_Text(pLast, post_hint);
+	int post_hint = GetWordLength(pText);
 	if (!script_hints)
 	{
 		if (line_len + post_hint + min > script_width) post_hint = 0;
@@ -507,9 +507,6 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			// check for whitespace
 			if (start == ' ')
 			{
-				int width;
-				const char* pTmp = pOld + 1;
-
 				// flush data
 				if (!out_buffer.empty())
 				{
@@ -520,7 +517,7 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 				}
 
 				// scan for next non-text moment
-				Scan_Text(pTmp, width);
+				int width = GetWordLength(pOld + 1);
 
 				// see if next word does not fit in this same line
 				if (line_len + 1 + width > script_width && !script_hints)
