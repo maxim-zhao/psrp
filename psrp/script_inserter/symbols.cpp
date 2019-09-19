@@ -12,6 +12,7 @@ Phantasy Star: Symbol Converter (Script)
 #include <fstream>
 #include <codecvt>
 #include <map>
+#include <regex>
 
 namespace
 {
@@ -122,8 +123,6 @@ public:
 	// TODO: implement "find longest match at start of string"
 	// Needs to return the match and also the length?
 };
-
-#define EOS 0x56
 
 std::vector<std::string> new_symbol_table[256];
 std::vector<std::string> old_symbol_table[256];
@@ -271,207 +270,118 @@ void Scan_Text(const char*& pText, int& width)
 
 void Process_Code(const char* & pText, std::ostream& pass1, int line_num)
 {
-	std::string read_symbol;
-	int index = -1;
-	const char* pLast;
-	int post_hint;
-
-#define CODE_TABLE 26
-
-	std::string code_table[ CODE_TABLE ] = {
-		"width ", "wrap", "/wrap", "center",
-		"/center", "control ", "line ", "border ",
-		"insert ", "begin quote", "end quote", "begin intro",
-		"end intro", "internal hint ", "height ",
-
-		"player", "monster", "item", "number",
-		"line", "wait more", "end", "delay",
-		"wait",
-		"use article ", "use suffix",
-	};
-
-	// open brace '<'
-	pText++;
-	pLast = pText;
-
-	///////////////////////////////////////////////////////
-
-	// look for script code context
-	while (*pText != '>' && *pText != NULL)
+	// We read in the symbol
+	// Let's try and match it with a regex...
+	const std::regex r("<([^>]+?)( ([A-Za-z0-9]{2}))?>");
+	const std::string s(pText);
+	std::smatch matches;
+	bool handled = false;
+	if (std::regex_search(s, matches, r))
 	{
-		// add characters
-		read_symbol += *(pText++);
-
-		// exhaust all possible matches
-		for (int entry = 0; entry < CODE_TABLE; entry++)
+		handled = true;
+		// Move pointer past it
+		pText += matches[0].length() - 1;
+		// These are needed for the player/item/etc bits to measure the following text length
+		const char* pLast;
+		int post_hint;
+		if (matches[1].str() == "width" && matches[3].matched)
 		{
-			// skip non-matches
-			if (read_symbol.length() != code_table[entry].length()) continue;
-			if (read_symbol != code_table[entry]) continue;
-
-			// found a match
-			index = entry;
-			pLast = pText;
+			script_width = std::stoi(matches[3].str(), nullptr, 16);
 		}
-	} // end while loop
-
-	if (index != -1)
-	{
-		// de-init
-		read_symbol = "";
-		pText = pLast;
-
-		// execute code
-		switch (index)
+		else if (matches[1].str() == "height" && matches[3].matched)
 		{
-			// internal width check
-		case 0:
-			sscanf(pText, "%02X", &script_width);
-			pText += 2;
-			break;
-
-			// internal text wrapping
-		case 1:
-			// no internal text centering
-		case 4:
-			// always on, swallow code
-			break;
-			
-			// internal script hint (for suffix spillage prevention)
-		case 13:
-			{
-				sscanf(pText, "%02X", &script_internal_hint);
-				pText += 2;
-
-				script_hints = true;
-			}
-			break;
-
-			// internal height check
-		case 14:
-			sscanf(pText, "%02X", &script_height);
-			pText += 2;
-			break;
-
-			/////////////////////////////////////////////////
-
-			// current player
-		case 15: POST_HINT(1, 6);
+			script_height = std::stoi(matches[3].str(), nullptr, 16);
+		}
+		else if (matches[1].str() == "internal hint" && matches[3].matched)
+		{
+			script_internal_hint = std::stoi(matches[3].str(), nullptr, 16);
+			script_hints = true;
+		}
+		else if (matches[1].str() == "player")
+		{
+			POST_HINT(1, 6);
 			pass1.put(0x4f);
-			break;
-
-			// current monster
-		case 16: POST_HINT(1, script_width);
+		}
+		else if (matches[1].str() == "monster")
+		{
+			POST_HINT(1, script_width);
 			pass1.put(0x50);
-			break;
-
-			// current item
-		case 17: POST_HINT(1, script_width);
+		}
+		else if (matches[1].str() == "item")
+		{
+			POST_HINT(1, script_width);
 			pass1.put(0x51);
-			break;
-
-			// current number
-		case 18: POST_HINT(1, 5);
+		}
+		else if (matches[1].str() == "number")
+		{
+			POST_HINT(1, 5);
 			pass1.put(0x52);
-			break;
+		}
+		else if (matches[1].str() == "line")
+		{
+			// add newline
+			pass1.put(0x54);
 
-			// add plain newline
-		case 19:
-			{
-				// add newline
-				pass1.put(0x54);
+			line_len = 0;
+			script_hints = false;
+		}
+		else if (matches[1].str() == "wait more")
+		{
+			pass1.put(0x55);
 
-				line_len = 0;
-				script_hints = false;
-			}
-			break;
+			script_hints = false;
+			line_len = 0;
+		}
+		else if (matches[1].str() == "end")
+		{
+			pass1.put(0x56);
 
-			// wait for more input
-		case 20:
-			{
-				pass1.put(0x55);
+			// de-init
+			script_end = true;
+			script_hints = false;
+			line_len = 0;
+		}
+		else if (matches[1].str() == "delay")
+		{
+			pass1.put(0x57);
+			pass1.put(0x56);
 
-				script_hints = false;
-				line_len = 0;
-			}
-			break;
+			// de-init
+			script_end = true;
+			script_hints = false;
+			line_len = 0;
+		}
+		else if (matches[1].str() == "wait")
+		{
+			pass1.put(0x58);
+			pass1.put(0x56);
 
-			// end of text
-		case 21:
-			{
-				pass1.put(0x56);
+			// de-init
+			script_end = true;
+			script_hints = false;
+			line_len = 0;
+		}
+		else if (matches[1].str() == "use article" && matches[3].matched)
+		{
+			const int value = std::stoi(matches[3].str(), nullptr, 16);
 
-				// de-init
-				script_end = true;
-				script_hints = false;
-				line_len = 0;
-			}
-			break;
+			pass1.put(0x5a);
+			pass1.put(value);
 
-			// delay 'x' seconds
-		case 22:
-			{
-				pass1.put(0x57);
-				pass1.put(0x56);
+			script_hints = true;
+		}
+		else if (matches[1].str() == "use suffix")
+		{
+			pass1.put(0x5b);
 
-				// de-init
-				script_end = true;
-				script_hints = false;
-				line_len = 0;
-			}
-			break;
-
-			// wait for input
-		case 23:
-			{
-				pass1.put(0x58);
-				pass1.put(0x56);
-
-				// de-init
-				script_end = true;
-				script_hints = false;
-				line_len = 0;
-			}
-			break;
-
-			// (custom) use indefinite article
-		case 24:
-			{
-				int value;
-
-				sscanf(pText, "%02X", &value);
-				pText += 2;
-
-				pass1.put(0x5a);
-				pass1.put(value);
-
-				script_hints = true;
-			}
-			break;
-
-			// (custom) use suffix
-		case 25:
-			{
-				pass1.put(0x5b);
-
-				script_hints = true;
-			}
-			break;
-		default:
-			printf("(line %d) ERROR: Script code removed '%s'\n",
-			       line_num, read_symbol.c_str());
-			break;
-		}; // end switch
+			script_hints = true;
+		}
+		else
+		{
+			printf("Line %d: ignoring tag \"%s\"\n", line_num, matches[0].str().c_str());
+		}
+		++pText;
 	}
-	else
-	{
-		// log error
-		printf("(line %d) ERROR: Script code not found '%s'\n",
-		       line_num, read_symbol.c_str());
-	}
-
-	// skip code '>' character
-	pText++;
 }
 
 
@@ -582,7 +492,7 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 				}
 
 				Process_Code(pText, pass1, f.lineNumber());
-				if (script_end) 
+				if (script_end)
 				{
 					break;
 				}
@@ -591,7 +501,7 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 
 			// check if we have a dictionary entry
 			Find_Entry(pText, entry, f.lineNumber());
-			if (entry == -1) 
+			if (entry == -1)
 			{
 				continue;
 			}
