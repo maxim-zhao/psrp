@@ -250,22 +250,23 @@ void Scan_Text(const char*& pText, int& width)
 	}
 }
 
-
-#define POST_HINT( MIN, MAX ) \
-	pLast = pText; \
-	while( *( pLast++ ) != '>' ) continue; \
-	Scan_Text( pLast, post_hint ); \
-	\
-	if( !script_hints ) { \
-		if( line_len + post_hint + MIN > script_width ) post_hint = 0; \
-		if( line_len + post_hint + MAX <= script_width ) post_hint = 0; \
-	} \
-	\
-	if( post_hint ) { \
-		pass1.put( 0x59); \
-		pass1.put( post_hint); \
-	} \
+void CheckSuffixLength(int min, int max, std::ostream& pass1, const char* pText)
+{
+	const char* pLast = pText;
+	int post_hint;
+	Scan_Text(pLast, post_hint);
+	if (!script_hints)
+	{
+		if (line_len + post_hint + min > script_width) post_hint = 0;
+		if (line_len + post_hint + max <= script_width) post_hint = 0;
+	}
+	if (post_hint)
+	{
+		pass1.put(0x59);
+		pass1.put(post_hint);
+	}
 	script_hints = true;
+}
 
 
 void Process_Code(const char* & pText, std::ostream& pass1, int line_num)
@@ -280,10 +281,7 @@ void Process_Code(const char* & pText, std::ostream& pass1, int line_num)
 	{
 		handled = true;
 		// Move pointer past it
-		pText += matches[0].length() - 1;
-		// These are needed for the player/item/etc bits to measure the following text length
-		const char* pLast;
-		int post_hint;
+		pText += matches[0].length();
 		if (matches[1].str() == "width" && matches[3].matched)
 		{
 			script_width = std::stoi(matches[3].str(), nullptr, 16);
@@ -299,22 +297,22 @@ void Process_Code(const char* & pText, std::ostream& pass1, int line_num)
 		}
 		else if (matches[1].str() == "player")
 		{
-			POST_HINT(1, 6);
+			CheckSuffixLength(1, 6, pass1, pText);
 			pass1.put(0x4f);
 		}
 		else if (matches[1].str() == "monster")
 		{
-			POST_HINT(1, script_width);
+			CheckSuffixLength(1, script_width, pass1, pText);
 			pass1.put(0x50);
 		}
 		else if (matches[1].str() == "item")
 		{
-			POST_HINT(1, script_width);
+			CheckSuffixLength(1, script_width, pass1, pText);
 			pass1.put(0x51);
 		}
 		else if (matches[1].str() == "number")
 		{
-			POST_HINT(1, 5);
+			CheckSuffixLength(1, 5, pass1, pText);
 			pass1.put(0x52);
 		}
 		else if (matches[1].str() == "line")
@@ -380,7 +378,6 @@ void Process_Code(const char* & pText, std::ostream& pass1, int line_num)
 		{
 			printf("Line %d: ignoring tag \"%s\"\n", line_num, matches[0].str().c_str());
 		}
-		++pText;
 	}
 }
 
