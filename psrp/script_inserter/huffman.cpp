@@ -12,11 +12,23 @@ Phantasy Star: Huffman Compressor
 
 #define EOS 0x56				// end-of-string
 
-// number of Huffman trees to create
-#define LIMIT 0x100
-
-typedef struct
+struct node_t
 {
+	node_t(): size(0), item(0), ptr(0), root(0), left(0), right(0), branch(0)
+	{
+	}
+
+	node_t(int size, int item, int ptr, int root, int left, int right, int branch)
+		: size(size),
+		  item(item),
+		  ptr(ptr),
+		  root(root),
+		  left(left),
+		  right(right),
+		  branch(branch)
+	{
+	}
+
 	int size; // # items total
 	int item; // node's symbol
 
@@ -25,16 +37,13 @@ typedef struct
 	int left; // pointer to left subtree
 	int right; // pointer to right subtree
 	int branch; // side of branch taken from root
-} node_t;
+};
 
-typedef std::deque<node_t> tree_t;
+std::deque<node_t> trees[256];
+node_t nodes[256][256 * 2];
 
-
-tree_t trees[ LIMIT ];
-node_t nodes[ LIMIT ][256 * 2];
-
-std::deque<int> tree_shape[ LIMIT ];
-std::deque<int> tree_symbol[ LIMIT ];
+std::deque<int> tree_shape[256];
+std::deque<int> tree_symbol[256];
 
 int empty_tree_space;
 int tree_end;
@@ -176,9 +185,9 @@ void Create_Node(node_t& node, int size, int item, int ptr, int root, int left, 
 }
 
 
-void Insert_Node(tree_t& tree, node_t& node)
+void Insert_Node(std::deque<node_t>& tree, node_t& node)
 {
-	tree_t::iterator ptr;
+	std::deque<node_t>::iterator ptr;
 
 	ptr = tree.end();
 
@@ -231,14 +240,13 @@ void Travel_Node(int& tree, int& ptr)
 }
 
 
-void Huffman_Generate(const char* inputFilename, const char* outputFilename, const char* vectorFilename)
+void Huffman_Generate(const char* inputFilename, const char* treeFilename, const char* vectorFilename)
 {
-	FILE *fp, *out, *vector;
+	FILE *fp, *out;
 	int symbol;
 
 	fp = fopen(inputFilename, "rb");
-	out = fopen(outputFilename, "wb");
-	vector = fopen(vectorFilename, "wb");
+	out = fopen(treeFilename, "wb");
 	if (!fp)
 	{
 		printf("Error: Could not open file \"%s\"\n", inputFilename);
@@ -246,12 +254,7 @@ void Huffman_Generate(const char* inputFilename, const char* outputFilename, con
 	}
 	if (!out)
 	{
-		printf("Error: Could not write to file \"%s\"\n", outputFilename);
-		return;
-	}
-	if (!vector)
-	{
-		printf("Error: Could not write to file \"%s\"\n", vectorFilename);
+		printf("Error: Could not write to file \"%s\"\n", treeFilename);
 		return;
 	}
 
@@ -259,7 +262,7 @@ void Huffman_Generate(const char* inputFilename, const char* outputFilename, con
 
 	// Build symbol statistics first
 	// These are a count of bytes seen for each preceding byte.
-	int counts[256][256] = {0};
+	int counts[256][256] = {};
 	int precedingByte = EOS;
 	std::ifstream input(inputFilename, std::ios::in | std::ios::binary);
 	char c;
@@ -278,7 +281,14 @@ void Huffman_Generate(const char* inputFilename, const char* outputFilename, con
 	printf( "Tree location data:\n");
 #endif
 
-	for (int tree = 0; tree < LIMIT; tree++)
+	// The "tree vector" file - pointers to each of the 256 trees
+	std::ofstream vector(vectorFilename, std::ios::out | std::ios::binary);
+
+	// An assemblable version
+	std::vector<std::string> treeLabels;
+	std::vector<std::string> treeData;
+
+	for (int tree = 0; tree < 256; tree++)
 	{
 		int node_ptr;
 		int tree_ptr;
@@ -288,7 +298,7 @@ void Huffman_Generate(const char* inputFilename, const char* outputFilename, con
 
 		// grab place markers
 		int start = ftell(out);
-		int start_ptr = start + 0x80b0 + LIMIT * 2;
+		int start_ptr = start + 0x80b0 + 256 * 2;
 
 		// start creating leaf nodes
 		for (int symbol = 0; symbol < 256; symbol++)
@@ -385,10 +395,11 @@ void Huffman_Generate(const char* inputFilename, const char* outputFilename, con
 		}
 
 		// no tree pointer check
-		if (!trees[tree].size()) start_ptr = 0xffff;
+		if (trees[tree].empty()) start_ptr = 0xffff;
 
-		// start of tree itself
-		fwrite(&start_ptr, 1, 2, vector);
+		// Pointer to tree
+		vector.put(start_ptr & 0xff);
+		vector.put(start_ptr >> 8);
 
 		// log output
 #ifdef DEBUG
@@ -398,14 +409,13 @@ void Huffman_Generate(const char* inputFilename, const char* outputFilename, con
 	}
 
 	// final area
-	printf("Trees end at: %06X\n", ftell(out) + 0x80b0 + LIMIT * 2);
-	tree_end = ftell(out) + 0x80b0 + LIMIT * 2;
+	printf("Trees end at: %06X\n", ftell(out) + 0x80b0 + 256 * 2);
+	tree_end = ftell(out) + 0x80b0 + 256 * 2;
 
 	printf("\n");
 
 	fclose(fp);
 	fclose(out);
-	fclose(vector);
 }
 
 
@@ -696,234 +706,8 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 }
 
 
-void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename,
-                      const char* vectorFilename, const char* listFilename)
+void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename, const char* vectorFilename, const char* listFilename)
 {
 	Huffman_Generate(inputFilename, treeFilename, vectorFilename);
 	Huffman_Script(inputFilename, outputFilename, listFilename);
-}
-
-//////////////////////////////////////////////////////
-
-unsigned char rom_page[0x4000];
-
-void Huffman_Decode(FILE* rom, FILE* out)
-{
-	char huf_bits, huf_barrel;
-	int huf_length;
-	int symbol_ptr;
-	int tree;
-
-	// get length byte
-	huf_length = fgetc(rom);
-	if (!huf_length)
-	{
-		printf("NULL-string detected at %06X\n", ftell(rom));
-		return;
-	}
-
-	// reload
-	huf_bits = 8;
-	huf_barrel = fgetc(rom);
-	huf_length--;
-
-	// starting Huffman tree
-	tree = EOS;
-
-	// keep going until terminate symbol
-	do
-	{
-		int tree_ptr;
-		char tree_bits, tree_barrel;
-
-		// find physical tree data in page
-		tree_ptr = rom_page[0x1c3f + tree * 2];
-		tree_ptr += rom_page[0x1c40 + tree * 2] << 8;
-		tree_ptr -= 0x4000;
-		symbol_ptr = tree_ptr - 1;
-
-		// init
-		tree_bits = 8;
-		tree_barrel = rom_page[tree_ptr++];
-
-		// traverse until leaf node reached
-		while ((tree_barrel & 0x80) == 0)
-		{
-			// shift barrel
-			tree_barrel <<= 1;
-			tree_bits--;
-
-			// reload barrel
-			if (!tree_bits)
-			{
-				tree_bits = 8;
-				tree_barrel = rom_page[tree_ptr++];
-			}
-
-			// travel right
-			if ((huf_barrel & 0x80) == 0x80)
-			{
-				int skip_count = 1;
-
-#ifdef DEBUG_SCRIPT
-				printf( "1" );
-#endif
-
-				// bypass symbols in the left subtree
-				while (skip_count)
-				{
-					if ((tree_barrel & 0x80) == 0)
-					{
-						// non-leaf
-						skip_count++;
-					}
-					else
-					{
-						// leaf node
-						skip_count--;
-						symbol_ptr--;
-					}
-
-					// shift barrel
-					tree_barrel <<= 1;
-					tree_bits--;
-
-					// reload
-					if (!tree_bits)
-					{
-						tree_bits = 8;
-						tree_barrel = rom_page[tree_ptr++];
-					}
-				} // end skip nodes
-			}
-			else
-			{
-				// travel left
-				// skip 0 nodes, do nothing
-#ifdef DEBUG_SCRIPT
-				printf( "0" );
-#endif
-			}
-
-			// shift barrel
-			huf_barrel <<= 1;
-			huf_bits--;
-
-			// reload
-			if (!huf_bits)
-			{
-				// safety check
-				if ((tree_barrel & 0x80) && rom_page[symbol_ptr] == EOS)
-					break;
-
-				huf_bits = 8;
-				huf_barrel = fgetc(rom);
-				huf_length--;
-
-				if (huf_length < 0)
-				{
-					printf("ERROR at %06X\n", ftell(rom));
-					return;
-				}
-			}
-		} // end check leaf node
-
-		// adapt to next probability fallout
-		tree = rom_page[symbol_ptr];
-
-#ifdef DEBUG_SCRIPT
-		printf( "~\n" );
-#endif
-
-		fputc(rom_page[symbol_ptr], out);
-	}
-	while (tree != EOS);
-
-#ifdef DEBUG_SCRIPT
-	printf( "\n" );
-#endif
-
-	// flush zero bits
-	while (huf_length--) fgetc(rom);
-}
-
-
-int Huffman_Decompress(char* file, char* file_out)
-{
-	FILE *rom, *out;
-
-	// open file
-	rom = fopen(file, "rb");
-	out = fopen(file_out, "wb");
-
-	if (!rom)
-	{
-		printf("Error: Could not open file \"%s\"\n", file);
-		return -1;
-	}
-	if (!out)
-	{
-		printf("Error: Could not write to file \"%s\"\n", file_out);
-		return -1;
-	}
-
-	// gather all Huffman data
-	fseek(rom, 0x28000, SEEK_SET);
-	fread(rom_page, 1, sizeof(rom_page), rom);
-
-	// header text
-	printf("Script blocks:\n");
-
-	// six known tables of script
-	for (int table = 1; table <= 6; table++)
-	{
-		int start, end;
-
-		// find starting location
-		switch (table)
-		{
-		case 1: fseek(rom, 0x2000e, SEEK_SET);
-			end = 256;
-			break;
-		case 2: fseek(rom, 0x20010, SEEK_SET);
-			end = 256;
-			break;
-		case 3: fseek(rom, 0x20012, SEEK_SET);
-			end = 256;
-			break;
-		case 4: fseek(rom, 0x24000, SEEK_SET);
-			end = 256;
-			break;
-		case 5: fseek(rom, 0x24002, SEEK_SET);
-			end = 256;
-			break;
-		case 6: fseek(rom, 0x24004, SEEK_SET);
-			end = 149;
-			break;
-		}
-		fread(&start, 1, 2, rom);
-
-		// another offset
-		if (table <= 3) start += 0x203de;
-		else start += 0x2401e;
-
-		// final spot
-		fseek(rom, start, SEEK_SET);
-
-		// possible entries
-		for (int entry = 0; entry < end; entry++)
-		{
-			printf("[%01X %02X] %06X, %06X\n", table, entry,
-			       ftell(rom), ftell(out));
-			Huffman_Decode(rom, out);
-		}
-		printf("[%01X] %06X - %06X (%06X)\n", table,
-		       start, ftell(rom), ftell(rom) - start);
-	}
-
-	printf("\n");
-	fclose(out);
-	fclose(rom);
-
-	return 0;
 }
