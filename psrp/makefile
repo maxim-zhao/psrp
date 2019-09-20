@@ -144,8 +144,7 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
        psg_encoder\world1.psgcompr psg_encoder\world2.psgcompr \
        psg_encoder\font1.psgcompr psg_encoder\font2.psgcompr psg_encoder\font3.psgcompr \
        psg_encoder\title.psgcompr new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin \
-       script_inserter\script_trees.bin \
-       script_inserter\tree_vector.bin \
+       script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\script_trees.bin \
        credits\credits.bin
 
 # ROM building

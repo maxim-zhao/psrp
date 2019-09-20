@@ -61,56 +61,59 @@ public:
 		}
 	}
 
+	bool getLine(std::wstring& ws)
+	{
+		std::string s;
+		const bool result = getLine(s);
+		if (result)
+		{
+			ws = convert.from_bytes(s);
+		}
+		return result;
+	}
+
 	int lineNumber() const { return _lineNumber; }
 };
 
 class Table
 {
-	std::map<wchar_t, int> _table;
+	std::map<std::wstring, int> _table;
+	std::map<int, std::wstring> _reverseTable;
+	std::string::size_type _maxLength;
 
 public:
-	explicit Table(const std::string& fileName)
+	explicit Table(const std::string& fileName): _maxLength(0)
 	{
 		File f(fileName);
 
-		for (std::string s; f.getLine(s);)
+		std::wregex r(L"([0-9a-zA-Z]+)=(.+)");
+		std::wsmatch matches;
+
+		for (std::wstring s; f.getLine(s);)
 		{
-			// Remove comments
-			const auto pos = s.find(';');
-			if (pos != std::string::npos)
+			if (s.empty() || s[0] == L';')
 			{
-				s.erase(pos);
+				// skip comments and blanks
+				continue;
 			}
-			// Discard empty lines
-			if (s.empty())
+			if (!std::regex_search(s, matches, r))
 			{
 				continue;
 			}
-			// Find the "="
-			const auto equalsPos = s.find('=');
-			if (equalsPos == std::string::npos)
-			{
-				printf("Warning: unexpected table line \"%s\"\n", s.c_str());
-				continue;
-			}
-			// Parse the bits
-			const auto& l = s.substr(0, equalsPos);
-			const auto& r = s.substr(equalsPos + 1);
-			// l is little-endian hex...
-			int value = std::stoi(l, nullptr, 16);
-			if (l.length() == 4)
+			int value = std::stoi(matches[1], nullptr, 16);
+			if (matches[1].length() == 4)
 			{
 				// swap bytes
 				value = (value & 0xff) << 8 | (value >> 8);
 			}
-			// r is possibly UTF-8...
-			std::wstring dest = convert.from_bytes(r.c_str());
-			// We assume we only want the first char
-			_table[dest[0]] = value;
+			// Stick into our tables
+			_table[matches[2]] = value;
+			_reverseTable[value] = matches[2];
+			_maxLength = std::max(_maxLength, matches[2].str().length());
 		}
 	}
 
-	int find(wchar_t value)
+	int find(const std::wstring& value) const
 	{
 		const auto it = _table.find(value);
 		if (it == _table.end())
@@ -120,12 +123,32 @@ public:
 		return it->second;
 	}
 
-	// TODO: implement "find longest match at start of string"
-	// Needs to return the match and also the length?
+	bool findLongestMatch(const std::wstring& s, std::wstring::size_type index, int& match, int& length) const
+	{
+		// We want to find the longest entry in our dictionary which matches.
+		// We do this by trying one character at a time until we fail.
+		length = 0;
+		match = -1;
+		const auto maxLength = std::min(_maxLength, s.length() - index);
+		for (std::string::size_type trialLength = 1; trialLength <= maxLength; ++trialLength)
+		{
+			auto candidate = s.substr(index, trialLength);
+			auto it = _table.find(candidate);
+			if (it == _table.end())
+			{
+				// We are done
+				return match != -1;
+			}
+			// Else remember it
+			length = trialLength;
+			match = it->second;
+		}
+		return false;
+	}
 };
 
 std::vector<std::string> new_symbol_table[256];
-std::vector<std::string> old_symbol_table[256];
+std::vector<std::wstring> old_symbol_table[256];
 
 int symbol_longest[256];
 
@@ -154,7 +177,8 @@ void Load_Tables(int direction, const std::string& filename)
 	char line[1024];
 	while (fgets(line, sizeof(line), table))
 	{
-		std::string new_symbol, old_symbol;
+		std::string hex;
+		std::wstring text;
 
 		// remove newline
 		if (line[strlen(line) - 1] == 0x0a)
@@ -176,43 +200,32 @@ void Load_Tables(int direction, const std::string& filename)
 			}
 
 			// add half-byte code
-			new_symbol += line[lcv];
+			hex += line[lcv];
 		}
 
 		// build old symbol
-		old_symbol = line + lcv;
+		text = convert.from_bytes(line + lcv);
 
 		// assert valid translation
-		if (old_symbol != "")
+		if (!text.empty())
 		{
 			// add header nybble if needed
-			if (new_symbol.size() & 1)
-				new_symbol = '0' + new_symbol;
+			if (hex.size() & 1)
+				hex = '0' + hex;
 
-			if (!direction)
+			if (direction == 0)
 			{
 				int index;
 
-				index = old_symbol[0] & 0xff;
+				index = text[0] & 0xff;
 
 				// string not found identification
-				if (symbol_longest[index] < old_symbol.length())
-					symbol_longest[index] = old_symbol.length();
+				if (symbol_longest[index] < text.length())
+					symbol_longest[index] = text.length();
 
 				// use indexed table for speed boost
-				old_symbol_table[index].push_back(old_symbol);
-				new_symbol_table[index].push_back(new_symbol);
-			}
-			else
-			{
-				int index;
-
-				index = 0;
-				sscanf(new_symbol.c_str(), "%02X", &index);
-
-				// use indexed table for speed boost
-				old_symbol_table[index].push_back(old_symbol);
-				new_symbol_table[index].push_back(new_symbol);
+				old_symbol_table[index].push_back(text);
+				new_symbol_table[index].push_back(hex);
 			}
 		}
 	} // end while
@@ -232,7 +245,7 @@ int script_internal_hint; // "hint" value
 
 int line_len; // Line length, used for wrapping
 
-int GetWordLength(const char* pText)
+int GetWordLength(const wchar_t* pText)
 {
 	int width = 0;
 
@@ -240,8 +253,8 @@ int GetWordLength(const char* pText)
 	while (*pText != 0 && *pText != ' ' && *pText != '<')
 	{
 		// UTF-8 headers
-		if (*pText == (char)0xe3) pText += 2;
-		if (*pText == (char)0xe2) pText += 2;
+		if (*pText == 0xe3) pText += 2;
+		if (*pText == 0xe2) pText += 2;
 		pText++;
 		width++;
 	}
@@ -249,7 +262,7 @@ int GetWordLength(const char* pText)
 	return width;
 }
 
-void CheckSuffixLength(int min, int max, std::ostream& pass1, const char* pText)
+void CheckSuffixLength(int min, int max, std::ostream& pass1, const wchar_t* pText)
 {
 	int post_hint = GetWordLength(pText);
 	if (!script_hints)
@@ -266,53 +279,51 @@ void CheckSuffixLength(int min, int max, std::ostream& pass1, const char* pText)
 }
 
 
-void ProcessCode(const char* & pText, std::ostream& pass1, int line_num)
+void ProcessCode(const wchar_t* & pText, std::ostream& pass1, int line_num)
 {
 	// We read in the symbol
 	// Let's try and match it with a regex...
-	const std::regex r("<([^>]+?)( ([A-Za-z0-9]{2}))?>");
-	const std::string s(pText);
-	std::smatch matches;
-	bool handled = false;
+	const std::wregex r(L"<([^>]+?)( ([A-Za-z0-9]{2}))?>");
+	const std::wstring s(pText);
+	std::wsmatch matches;
 	if (std::regex_search(s, matches, r))
 	{
-		handled = true;
 		// Move pointer past it
 		pText += matches[0].length();
-		if (matches[1].str() == "width" && matches[3].matched)
+		if (matches[1].str() == L"width" && matches[3].matched)
 		{
 			script_width = std::stoi(matches[3].str(), nullptr, 16);
 		}
-		else if (matches[1].str() == "height" && matches[3].matched)
+		else if (matches[1].str() == L"height" && matches[3].matched)
 		{
 			script_height = std::stoi(matches[3].str(), nullptr, 16);
 		}
-		else if (matches[1].str() == "internal hint" && matches[3].matched)
+		else if (matches[1].str() == L"internal hint" && matches[3].matched)
 		{
 			script_internal_hint = std::stoi(matches[3].str(), nullptr, 16);
 			script_hints = true;
 		}
-		else if (matches[1].str() == "player")
+		else if (matches[1].str() == L"player")
 		{
 			CheckSuffixLength(1, 6, pass1, pText);
 			pass1.put(0x4f);
 		}
-		else if (matches[1].str() == "monster")
+		else if (matches[1].str() == L"monster")
 		{
 			CheckSuffixLength(1, script_width, pass1, pText);
 			pass1.put(0x50);
 		}
-		else if (matches[1].str() == "item")
+		else if (matches[1].str() == L"item")
 		{
 			CheckSuffixLength(1, script_width, pass1, pText);
 			pass1.put(0x51);
 		}
-		else if (matches[1].str() == "number")
+		else if (matches[1].str() == L"number")
 		{
 			CheckSuffixLength(1, 5, pass1, pText);
 			pass1.put(0x52);
 		}
-		else if (matches[1].str() == "line")
+		else if (matches[1].str() == L"line")
 		{
 			// add newline
 			pass1.put(0x54);
@@ -320,14 +331,14 @@ void ProcessCode(const char* & pText, std::ostream& pass1, int line_num)
 			line_len = 0;
 			script_hints = false;
 		}
-		else if (matches[1].str() == "wait more")
+		else if (matches[1].str() == L"wait more")
 		{
 			pass1.put(0x55);
 
 			script_hints = false;
 			line_len = 0;
 		}
-		else if (matches[1].str() == "end")
+		else if (matches[1].str() == L"end")
 		{
 			pass1.put(0x56);
 
@@ -336,7 +347,7 @@ void ProcessCode(const char* & pText, std::ostream& pass1, int line_num)
 			script_hints = false;
 			line_len = 0;
 		}
-		else if (matches[1].str() == "delay")
+		else if (matches[1].str() == L"delay")
 		{
 			pass1.put(0x57);
 			pass1.put(0x56);
@@ -346,7 +357,7 @@ void ProcessCode(const char* & pText, std::ostream& pass1, int line_num)
 			script_hints = false;
 			line_len = 0;
 		}
-		else if (matches[1].str() == "wait")
+		else if (matches[1].str() == L"wait")
 		{
 			pass1.put(0x58);
 			pass1.put(0x56);
@@ -356,7 +367,7 @@ void ProcessCode(const char* & pText, std::ostream& pass1, int line_num)
 			script_hints = false;
 			line_len = 0;
 		}
-		else if (matches[1].str() == "use article" && matches[3].matched)
+		else if (matches[1].str() == L"use article" && matches[3].matched)
 		{
 			const int value = std::stoi(matches[3].str(), nullptr, 16);
 
@@ -365,7 +376,7 @@ void ProcessCode(const char* & pText, std::ostream& pass1, int line_num)
 
 			script_hints = true;
 		}
-		else if (matches[1].str() == "use suffix")
+		else if (matches[1].str() == L"use suffix")
 		{
 			pass1.put(0x5b);
 
@@ -373,20 +384,19 @@ void ProcessCode(const char* & pText, std::ostream& pass1, int line_num)
 		}
 		else
 		{
-			printf("Line %d: ignoring tag \"%s\"\n", line_num, matches[0].str().c_str());
+			printf("Line %d: ignoring tag \"%ls\"\n", line_num, matches[0].str().c_str());
 		}
 	}
 }
 
-
-void Find_Entry(const char*& pText, int& index, int line_num)
+void Find_Entry(const wchar_t*& pText, int& index, int line_num)
 {
-	std::string lookup;
+	std::wstring lookup;
 	int start;
 
 	// not found
 	index = -1;
-	start = (*pText) & 0xff;
+	start = *pText & 0xff;
 
 	// look into the future
 	for (int lcv = 0; lcv < symbol_longest[start] && pText[lcv] != 0; lcv++)
@@ -418,14 +428,14 @@ void Find_Entry(const char*& pText, int& index, int line_num)
 	{
 		if (symbol_longest[start])
 		{
-			printf("(line %d) ERROR: Symbol not found '%s'\n",
+			printf("(line %d) ERROR: Symbol not found '%ls'\n",
 			       line_num, lookup.c_str());
 			pText += lookup.length();
 		}
 		else
 		{
 			// no length
-			printf("(line %d) ERROR: Symbol not found '%c'\n",
+			printf("(line %d) ERROR: Symbol not found '%lc'\n",
 			       line_num, start);
 			pText++;
 		}
@@ -444,9 +454,9 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 	script_end = false;
 
 	// Read in string entries
-	for (std::string s; f.getLine(s);)
+	for (std::wstring s; f.getLine(s);)
 	{
-		const char* pText;
+		const wchar_t* pText;
 		std::vector<uint8_t> out_buffer;
 
 		// init
@@ -454,7 +464,7 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 		line_len = 0;
 
 		// skip headers
-		if (s[0] == '[')
+		if (s[0] == L'[')
 		{
 			continue;
 		}
@@ -465,13 +475,14 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 		// do the conversion
 		while (*pText)
 		{
-			const int start = *pText & 0xff; // Character found
+			const wchar_t start = *pText; // Character found
+			const int key = start & 0xff; // Truncated to 8 bits
 			int entry; // Binary value to emit
 
-			const char* pStart = pText;
+			const wchar_t* pStart = pText;
 
 			// Check for a scripting code
-			if (start == '<')
+			if (start == L'<')
 			{
 				// flush data
 				std::copy(out_buffer.begin(), out_buffer.end(), std::ostream_iterator<uint8_t>(pass1));
@@ -486,6 +497,8 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			}
 
 			// check if we have a dictionary entry
+			//if (table.findLongestMatch())
+			
 			Find_Entry(pText, entry, f.lineNumber());
 			if (entry == -1)
 			{
@@ -532,21 +545,21 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			} // end whitespace
 
 			// successful -> start logging changes
-			for (int lcv2 = 0; lcv2 < new_symbol_table[ start ][ entry ].length(); lcv2 += 2)
+			for (int lcv2 = 0; lcv2 < new_symbol_table[ key ][ entry ].length(); lcv2 += 2)
 			{
 				int code;
 
 				// calculate new hex code
-				sscanf(new_symbol_table[ start ][ entry ].c_str() + lcv2, "%02X", &code);
+				sscanf(new_symbol_table[ key ][ entry ].c_str() + lcv2, "%02X", &code);
 
 				// buffer out data
 				out_buffer.push_back(code);
 			}
 
 			// line length checking
-			line_len += old_symbol_table[ start ][ entry ].length();
-			if (old_symbol_table[ start ][ entry ][0] == (char)0xe3) line_len -= 2;
-			if (old_symbol_table[ start ][ entry ][0] == (char)0xe2) line_len -= 2;
+			line_len += old_symbol_table[ key ][ entry ].length();
+			if (old_symbol_table[ key ][ entry ][0] == (char)0xe3) line_len -= 2;
+			if (old_symbol_table[ key ][ entry ][0] == (char)0xe2) line_len -= 2;
 		}
 	} // end while read line
 }
