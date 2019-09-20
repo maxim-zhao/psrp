@@ -407,10 +407,11 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 
 void Convert_Symbols(const char* listName, const char* tableName, const char* outName)
 {
-	Table table(tableName);
+	const Table table(tableName);
 
 	std::ofstream pass1(outName, std::ios::binary);
 
+	// We have two script files...
 	for (int i = 1; i <= 2; i++)
 	{
 		std::string name = listName + std::to_string(i) + ".txt";
