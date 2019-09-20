@@ -419,4 +419,6 @@ void Convert_Symbols(const char* listName, const char* tableName, const char* ou
 		// open each text bank
 		Process_Text(name, pass1, table);
 	}
+
+	printf("Encoded script is %d bytes\n", (int)pass1.tellp());
 }
