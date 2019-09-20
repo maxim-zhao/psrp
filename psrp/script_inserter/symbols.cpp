@@ -4,7 +4,6 @@ Phantasy Star: Symbol Converter (Script)
 
 
 #include <cstdio>
-#include <cstring>
 
 #include <string>
 #include <vector>
@@ -78,7 +77,6 @@ public:
 class Table
 {
 	std::map<std::wstring, int> _table;
-	std::map<int, std::wstring> _reverseTable;
 	std::string::size_type _maxLength;
 
 public:
@@ -108,7 +106,6 @@ public:
 			}
 			// Stick into our tables
 			_table[matches[2]] = value;
-			_reverseTable[value] = matches[2];
 			_maxLength = std::max(_maxLength, matches[2].str().length());
 		}
 	}
@@ -123,116 +120,29 @@ public:
 		return it->second;
 	}
 
-	bool findLongestMatch(const std::wstring& s, std::wstring::size_type index, int& match, int& length) const
+	bool findLongestMatch(const std::wstring& s, int& match, int& length) const
 	{
 		// We want to find the longest entry in our dictionary which matches.
 		// We do this by trying one character at a time until we fail.
 		length = 0;
 		match = -1;
-		const auto maxLength = std::min(_maxLength, s.length() - index);
+		const auto maxLength = std::min(_maxLength, s.length());
+		std::wstring candidate;
 		for (std::string::size_type trialLength = 1; trialLength <= maxLength; ++trialLength)
 		{
-			auto candidate = s.substr(index, trialLength);
+			candidate += s[trialLength - 1];
 			auto it = _table.find(candidate);
 			if (it == _table.end())
 			{
-				// We are done
-				return match != -1;
+				continue;
 			}
 			// Else remember it
 			length = trialLength;
 			match = it->second;
 		}
-		return false;
+		return match != -1;
 	}
 };
-
-std::vector<std::string> new_symbol_table[256];
-std::vector<std::wstring> old_symbol_table[256];
-
-int symbol_longest[256];
-
-//////////////////////////////////////////////////////
-
-void Load_Tables(int direction, const std::string& filename)
-{
-	FILE* table = fopen(filename.c_str(), "r");
-
-	if (!table) throw std::runtime_error("Unable to open table file \"" + filename + "\"");
-
-	int header = 0;
-
-	// Check UTF-8 header
-	fread(&header, 1, 3, table);
-	if (header != 0xbfbbef)
-	{
-		// rewind
-		fseek(table, 0, SEEK_SET);
-	}
-
-	// Init
-	memset(symbol_longest, 0, sizeof(symbol_longest));
-
-	// Read in table conversions
-	char line[1024];
-	while (fgets(line, sizeof(line), table))
-	{
-		std::string hex;
-		std::wstring text;
-
-		// remove newline
-		if (line[strlen(line) - 1] == 0x0a)
-			line[strlen(line) - 1] = 0;
-
-		// skip comments or eos
-		if (line[0] == ';' || line[0] == 0)
-			continue;
-
-		// build new symbol
-		int lcv;
-		for (lcv = 0; lcv < strlen(line); lcv++)
-		{
-			// look for symbol terminate
-			if (line[lcv] == '=')
-			{
-				lcv++;
-				break;
-			}
-
-			// add half-byte code
-			hex += line[lcv];
-		}
-
-		// build old symbol
-		text = convert.from_bytes(line + lcv);
-
-		// assert valid translation
-		if (!text.empty())
-		{
-			// add header nybble if needed
-			if (hex.size() & 1)
-				hex = '0' + hex;
-
-			if (direction == 0)
-			{
-				int index;
-
-				index = text[0] & 0xff;
-
-				// string not found identification
-				if (symbol_longest[index] < text.length())
-					symbol_longest[index] = text.length();
-
-				// use indexed table for speed boost
-				old_symbol_table[index].push_back(text);
-				new_symbol_table[index].push_back(hex);
-			}
-		}
-	} // end while
-
-	fclose(table);
-}
-
 
 int script_width; // Text box width, used for wrapping
 int script_height; // Text box height, not used
@@ -264,22 +174,22 @@ int GetWordLength(const wchar_t* pText)
 
 void CheckSuffixLength(int min, int max, std::ostream& pass1, const wchar_t* pText)
 {
-	int post_hint = GetWordLength(pText);
+	int postHint = GetWordLength(pText);
 	if (!script_hints)
 	{
-		if (line_len + post_hint + min > script_width) post_hint = 0;
-		if (line_len + post_hint + max <= script_width) post_hint = 0;
+		if (line_len + postHint + min > script_width) postHint = 0;
+		if (line_len + postHint + max <= script_width) postHint = 0;
 	}
-	if (post_hint)
+	if (postHint)
 	{
 		pass1.put(0x59);
-		pass1.put(post_hint);
+		pass1.put(postHint);
 	}
 	script_hints = true;
 }
 
 
-void ProcessCode(const wchar_t* & pText, std::ostream& pass1, int line_num)
+void ProcessCode(const wchar_t* & pText, std::ostream& pass1, const int lineNum)
 {
 	// We read in the symbol
 	// Let's try and match it with a regex...
@@ -384,64 +294,10 @@ void ProcessCode(const wchar_t* & pText, std::ostream& pass1, int line_num)
 		}
 		else
 		{
-			printf("Line %d: ignoring tag \"%ls\"\n", line_num, matches[0].str().c_str());
+			printf("Line %d: ignoring tag \"%ls\"\n", lineNum, matches[0].str().c_str());
 		}
 	}
 }
-
-void Find_Entry(const wchar_t*& pText, int& index, int line_num)
-{
-	std::wstring lookup;
-	int start;
-
-	// not found
-	index = -1;
-	start = *pText & 0xff;
-
-	// look into the future
-	for (int lcv = 0; lcv < symbol_longest[start] && pText[lcv] != 0; lcv++)
-	{
-		// add character
-		lookup += pText[lcv];
-
-		// exhaust all possible matches
-		for (int entry = 0; entry < old_symbol_table[start].size(); entry++)
-		{
-			// skip non-matches
-			if (lookup.length() != old_symbol_table[ start ][ entry ].length()) continue;
-			if (lookup != old_symbol_table[ start ][ entry ]) continue;
-
-			// found a match
-			index = entry;
-		}
-	} // end look
-
-	// bump pointer forward
-	if (index != -1)
-	{
-		int entry = index;
-		pText += old_symbol_table[ start ][ entry ].length();
-	}
-
-		// log error
-	else
-	{
-		if (symbol_longest[start])
-		{
-			printf("(line %d) ERROR: Symbol not found '%ls'\n",
-			       line_num, lookup.c_str());
-			pText += lookup.length();
-		}
-		else
-		{
-			// no length
-			printf("(line %d) ERROR: Symbol not found '%lc'\n",
-			       line_num, start);
-			pText++;
-		}
-	}
-}
-
 
 void Process_Text(const std::string& name, std::ostream& pass1, const Table& table)
 {
@@ -457,7 +313,7 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 	for (std::wstring s; f.getLine(s);)
 	{
 		const wchar_t* pText;
-		std::vector<uint8_t> out_buffer;
+		std::vector<uint8_t> outBuffer;
 
 		// init
 		pText = s.c_str();
@@ -476,7 +332,6 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 		while (*pText)
 		{
 			const wchar_t start = *pText; // Character found
-			const int key = start & 0xff; // Truncated to 8 bits
 			int entry; // Binary value to emit
 
 			const wchar_t* pStart = pText;
@@ -485,8 +340,8 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			if (start == L'<')
 			{
 				// flush data
-				std::copy(out_buffer.begin(), out_buffer.end(), std::ostream_iterator<uint8_t>(pass1));
-				out_buffer.clear();
+				std::copy(outBuffer.begin(), outBuffer.end(), std::ostream_iterator<uint8_t>(pass1));
+				outBuffer.clear();
 
 				ProcessCode(pText, pass1, f.lineNumber());
 				if (script_end)
@@ -497,21 +352,20 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			}
 
 			// check if we have a dictionary entry
-			//if (table.findLongestMatch())
-			
-			Find_Entry(pText, entry, f.lineNumber());
-			if (entry == -1)
+			int matchLength;
+			if (!table.findLongestMatch(pText, entry, matchLength))
 			{
 				continue;
 			}
-
+			pText += matchLength;
+			
 			// attempt auto-formatting
 			// check for whitespace
 			if (start == ' ')
 			{
 				// flush data
-				std::copy(out_buffer.begin(), out_buffer.end(), std::ostream_iterator<uint8_t>(pass1));
-				out_buffer.clear();
+				std::copy(outBuffer.begin(), outBuffer.end(), std::ostream_iterator<uint8_t>(pass1));
+				outBuffer.clear();
 
 				// scan for next non-text moment
 				const int width = GetWordLength(pStart + 1);
@@ -530,52 +384,36 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 
 					continue;
 				}
-				else
+				if (script_hints && width > 0)
 				{
 					// real-time line formatting needed
-					if (script_hints && width > 0)
-					{
-						pass1.put(0x59);
-						pass1.put(width + script_internal_hint);
+					pass1.put(0x59);
+					pass1.put(width + script_internal_hint);
 
-						// manual hint flag reset
-						script_internal_hint = 0;
-					}
+					// manual hint flag reset
+					script_internal_hint = 0;
 				}
 			} // end whitespace
 
-			// successful -> start logging changes
-			for (int lcv2 = 0; lcv2 < new_symbol_table[ key ][ entry ].length(); lcv2 += 2)
-			{
-				int code;
-
-				// calculate new hex code
-				sscanf(new_symbol_table[ key ][ entry ].c_str() + lcv2, "%02X", &code);
-
-				// buffer out data
-				out_buffer.push_back(code);
-			}
+			// successful -> emit byte
+			outBuffer.push_back(entry);
 
 			// line length checking
-			line_len += old_symbol_table[ key ][ entry ].length();
-			if (old_symbol_table[ key ][ entry ][0] == (char)0xe3) line_len -= 2;
-			if (old_symbol_table[ key ][ entry ][0] == (char)0xe2) line_len -= 2;
+			line_len += matchLength;
 		}
 	} // end while read line
 }
 
 
-void Convert_Symbols(const char* list_name, const char* table_name, const char* out_name)
+void Convert_Symbols(const char* listName, const char* tableName, const char* outName)
 {
-	Load_Tables(0, table_name);
+	Table table(tableName);
 
-	Table table(table_name);
-
-	std::ofstream pass1(out_name, std::ios::binary);
+	std::ofstream pass1(outName, std::ios::binary);
 
 	for (int i = 1; i <= 2; i++)
 	{
-		std::string name = list_name + std::to_string(i) + ".txt";
+		std::string name = listName + std::to_string(i) + ".txt";
 
 		// open each text bank
 		Process_Text(name, pass1, table);
