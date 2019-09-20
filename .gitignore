@@ -52,3 +52,4 @@ Release
 /psrp/psg_encoder/*.psgcompr
 /psrp/credits/credits.bin
 /psrp/menu_creater/*.asm
+/psrp/script_inserter/*.asm

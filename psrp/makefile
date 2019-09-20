@@ -124,10 +124,10 @@ script_inserter\script_inserter.exe: script_inserter\*.cpp
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words.tbl
 	copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
 
-script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\script_trees.bin script_inserter\script_list.txt: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script1.txt word_count\script2.txt
+script_inserter\script1.bin script_inserter\tree.asm script_inserter\script_list.txt: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script1.txt word_count\script2.txt
   copy /y word_count\script?.txt script_inserter
-	script_inserter\script_inserter.exe script_inserter\script script_inserter\table_temp.tbl script_inserter\script script_inserter\script_trees.bin script_inserter\tree_vector.bin script_inserter\script_list.txt
-	del pass1.bin
+	script_inserter\script_inserter.exe script_inserter\script script_inserter\table_temp.tbl script_inserter\script script_inserter\tree.asm script_inserter\script_list.txt
+#	del pass1.bin
 
 # credits
 credits\credits_encode.exe: credits\*.cpp
@@ -148,7 +148,7 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
        credits\credits.bin
 
 # ROM building
-ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\opening.asm substring_formatter\words.asm $(BINS) ps1jert.sms.asm
+ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\opening.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 
@@ -159,8 +159,7 @@ CLEANFILES = $(BINS) \
 	     menu_creater\*.asm \
        script_inserter\script1.bin \
 	     script_inserter\script_list.txt \
-       script_inserter\script_trees.bin \
-       script_inserter\tree_vector.bin \
+	     script_inserter\*.asm \
 	     script_inserter\log.txt \
        script_inserter\script*.txt \
        script_inserter\table_temp.tbl \

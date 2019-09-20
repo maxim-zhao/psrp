@@ -12,43 +12,40 @@ Phantasy Star: Huffman Compressor
 #include <iomanip>
 
 
-#define EOS 0x56				// end-of-string
+#define EOS 0x56 // end-of-string
 
-struct node_t
+struct Node
 {
-	node_t(): size(0), item(0), ptr(0), root(0), left(0), right(0), branch(0)
+	Node(): count(0), symbol(0), index(0), parent(0), left(0), right(0), branch(0)
 	{
 	}
 
-	node_t(int size, int item, int ptr, int root, int left, int right, int branch)
-		: size(size),
-		  item(item),
-		  ptr(ptr),
-		  root(root),
+	Node(int size, int item, int ptr, int root, int left, int right, int branch)
+		: count(size),
+		  symbol(item),
+		  index(ptr),
+		  parent(root),
 		  left(left),
 		  right(right),
 		  branch(branch)
 	{
 	}
 
-	int size; // # items total
-	int item; // node's symbol
+	int count; // # items total
+	int symbol; // node's symbol
 
-	int ptr; // location in node list
-	int root; // parent node
+	int index; // location in node list
+	int parent; // parent node
 	int left; // pointer to left subtree
 	int right; // pointer to right subtree
 	int branch; // side of branch taken from root
 };
 
-std::deque<node_t> trees[256]; // One tree for each "preceding letter". Some will be empty.
-node_t nodes[256][256 * 2];
+std::deque<Node> trees[256]; // One tree for each "preceding letter". Some will be empty.
+Node nodes[256][256 * 2];
 
 std::deque<int> tree_shape[256]; // Tree shape for each tree
 std::deque<int> tree_symbol[256]; // Symbols encoded in each tree
-
-int empty_tree_space;
-int tree_end;
 
 //////////////////////////////////////////////////////
 
@@ -174,29 +171,27 @@ unsigned short pointers[] = {
 
 //////////////////////////////////////////////////////
 
-void Create_Node(node_t& node, int size, int item, int ptr, int root, int left, int right)
+void Create_Node(Node& node, int size, int item, int ptr, int root, int left, int right)
 {
-	node.size = size;
-	node.item = item;
+	node.count = size;
+	node.symbol = item;
 
-	node.ptr = ptr;
-	node.root = root;
+	node.index = ptr;
+	node.parent = root;
 	node.left = left;
 	node.right = right;
 	node.branch = -1;
 }
 
 
-void Insert_Node(std::deque<node_t>& tree, node_t& node)
+void Insert_Node(std::deque<Node>& tree, Node& node)
 {
-	std::deque<node_t>::iterator ptr;
-
-	ptr = tree.end();
+	auto ptr = tree.end();
 
 	// insert smallest items at back
 	for (int lcv = tree.size() - 1; lcv >= 0; lcv--, ptr--)
 	{
-		if (node.size <= tree[lcv].size) break;
+		if (node.count <= tree[lcv].count) break;
 	}
 
 	tree.insert(ptr, node);
@@ -211,13 +206,13 @@ int travel_level;
 //       during pre-order traversal
 void Travel_Node(int& tree, int& ptr)
 {
-	node_t& node = nodes[tree][ptr];
+	Node& node = nodes[tree][ptr];
 
 	if (node.left == -1)
 	{
 		// root
 		tree_shape[tree].push_back(1);
-		tree_symbol[tree].push_front(node.item);
+		tree_symbol[tree].push_front(node.symbol);
 
 #ifdef DEBUG
 		printf( " 1 [%02X %03X %01X]", node.item, node.size, travel_level );
@@ -242,26 +237,8 @@ void Travel_Node(int& tree, int& ptr)
 }
 
 
-void Huffman_Generate(const char* inputFilename, const char* treeFilename, const char* vectorFilename)
+void Huffman_Generate(const char* inputFilename, const char* treeFilename)
 {
-	FILE *fp, *out;
-	int symbol;
-
-	fp = fopen(inputFilename, "rb");
-	out = fopen(treeFilename, "wb");
-	if (!fp)
-	{
-		printf("Error: Could not open file \"%s\"\n", inputFilename);
-		return;
-	}
-	if (!out)
-	{
-		printf("Error: Could not write to file \"%s\"\n", treeFilename);
-		return;
-	}
-
-	/*------------------------------------------*/
-
 	// Build symbol statistics first
 	// These are a count of bytes seen for each preceding byte.
 	int counts[256][256] = {};
@@ -283,16 +260,14 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 	printf( "Tree location data:\n");
 #endif
 
-	// The "tree vector" file - pointers to each of the 256 trees
-	std::ofstream vector(vectorFilename, std::ios::out | std::ios::binary);
-
-	// An assemblable version
+	// Generated text for the assembler for the tree data
 	std::vector<std::string> treeLabels;
-	std::vector<std::string> treeDatas;
+	std::vector<std::string> treeSymbols;
+	std::vector<std::string> treeStructures;
 
 	for (int tree = 0; tree < 256; tree++)
 	{
-		std::ostringstream ss;
+		std::stringstream ss(std::ios::out | std::ios::ate);
 		ss << "HuffmanTree" << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << tree;
 		treeLabels.push_back(ss.str());
 		
@@ -302,10 +277,6 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		int buffer;
 		int bits;
 
-		// grab place markers
-		int start = ftell(out);
-		int start_ptr = start + 0x80b0 + 256 * 2;
-
 		// start creating leaf nodes
 		for (int symbol = 0; symbol < 256; symbol++)
 		{
@@ -313,7 +284,7 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 
 			if (size != 0)
 			{
-				node_t& node = nodes[tree][symbol];
+				Node& node = nodes[tree][symbol];
 
 				// add basic node
 				Create_Node(node, size, symbol, symbol, -1, -1, -1);
@@ -325,7 +296,7 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		node_ptr = 256;
 		while (trees[tree].size() > 1)
 		{
-			node_t item1, item2;
+			Node item1, item2;
 
 			// take two smallest items
 			item1 = trees[tree].back();
@@ -335,20 +306,20 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 			trees[tree].pop_back();
 
 			// grab target memory location
-			node_t& node = nodes[tree][node_ptr];
-			node_t& left = nodes[tree][item1.ptr];
-			node_t& right = nodes[tree][item2.ptr];
+			Node& node = nodes[tree][node_ptr];
+			Node& left = nodes[tree][item1.index];
+			Node& right = nodes[tree][item2.index];
 
 			// link nodes for encoding speed
-			left.root = node_ptr;
-			right.root = node_ptr;
+			left.parent = node_ptr;
+			right.parent = node_ptr;
 
 			left.branch = 0;
 			right.branch = 1;
 
 			// merge
-			Create_Node(node, left.size + right.size, -1,
-			            node_ptr, -1, left.ptr, right.ptr);
+			Create_Node(node, left.count + right.count, -1,
+			            node_ptr, -1, left.index, right.index);
 			Insert_Node(trees[tree], node);
 
 			node_ptr++;
@@ -357,24 +328,20 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		// format tree to storable form
 		if (!trees[tree].empty())
 		{
-			node_ptr = trees[tree][0].ptr;
+			node_ptr = trees[tree][0].index;
 			tree_ptr = tree;
 			Travel_Node(tree_ptr, node_ptr);
 		}
 
 		// save data to file: symbols
-		std::ostringstream treeData;
-		treeData << ".db ";
+		ss.str(".db ");
 		for (int symbol : tree_symbol[tree])
 		{
-			fputc(symbol, out);
-			treeData << '$' << std::hex << std::setw(2) << std::setfill('0') << symbol << ' ';
-
-			// bump pointer
-			start_ptr++;
+			ss << '$' << std::hex << std::setw(2) << std::setfill('0') << symbol << ' ';
 		}
+		treeSymbols.push_back(ss.str());
 
-		treeData << "\n.db";
+		ss.str(".db");
 
 		// save data to file: shape
 		bits = 0;
@@ -383,9 +350,9 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		{
 			if (bits == 0)
 			{
-				treeData << " %";
+				ss << " %";
 			}
-			treeData << bit;
+			ss << bit;
 			buffer <<= 1;
 			buffer |= bit;
 			bits++;
@@ -393,7 +360,6 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 			// flush to file
 			if (bits == 8)
 			{
-				fputc(buffer, out);
 				bits = 0;
 				buffer = 0;
 			}
@@ -404,21 +370,13 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		{
 			while (bits < 8)
 			{
-				treeData << '0';
+				ss << '0';
 				buffer <<= 1;
 				bits++;
 			}
-			fputc(buffer, out);
 		}
 
-		treeDatas.push_back(treeData.str());
-
-		// no tree pointer check
-		if (trees[tree].empty()) start_ptr = 0xffff;
-
-		// Pointer to tree
-		vector.put(start_ptr & 0xff);
-		vector.put(start_ptr >> 8);
+		treeStructures.push_back(ss.str());
 
 		// log output
 #ifdef DEBUG
@@ -427,7 +385,9 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 #endif
 	}
 
-	std::ofstream o("foo.asm");
+	// TODO: prune trees at the end with no data - costs some vector space for nothing
+
+	std::ofstream o(treeFilename);
 	o << "TreeVector:\n.dw";
 	// Labels
 	for (unsigned int i = 0; i < treeLabels.size(); ++i)
@@ -449,17 +409,11 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		{
 			continue;
 		}
-		o << treeLabels[i] << ":\n" << treeDatas[i] << '\n';
+		o << "; Symbols that may follow symbol $" << std::hex << std::setw(2) << std::setfill('0') << i << '\n'
+			<< treeSymbols[i] << '\n'
+			<< treeLabels[i] << ": ; Binary tree structure for the above\n"
+			<< treeStructures[i] << '\n';
 	}
-
-	// final area
-	printf("Trees end at: %06X\n", ftell(out) + 0x80b0 + 256 * 2);
-	tree_end = ftell(out) + 0x80b0 + 256 * 2;
-
-	printf("\n");
-
-	fclose(fp);
-	fclose(out);
 }
 
 
@@ -495,13 +449,13 @@ void Huffman_Encode(char* file, char* file_out)
 	while ((symbol = fgetc(fp)) != EOF)
 	{
 		std::deque<int> codeword;
-		node_t node = nodes[old_tree][symbol];
+		Node node = nodes[old_tree][symbol];
 
 		// Work upwards through tree
-		while (node.root != -1)
+		while (node.parent != -1)
 		{
 			codeword.push_front(node.branch);
-			node = nodes[old_tree][node.root];
+			node = nodes[old_tree][node.parent];
 		}
 
 		// Write out created codeword
@@ -585,6 +539,8 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 		return;
 	}
 
+	int tree_end = 0x8cd4; // TODO get rid?
+
 	fprintf(script_out, "%x script1.bin\n", tree_end);
 
 	// Header
@@ -620,7 +576,7 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 		do
 		{
 			std::deque<int> codeword;
-			node_t node;
+			Node node;
 
 			// grab symbol to encode
 			symbol = fgetc(fp);
@@ -630,10 +586,10 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 			node = nodes[old_tree][symbol];
 
 			// Work upwards through tree
-			while (node.root != -1)
+			while (node.parent != -1)
 			{
 				codeword.push_front(node.branch);
-				node = nodes[old_tree][node.root];
+				node = nodes[old_tree][node.parent];
 			}
 
 			// Write out created codeword
@@ -750,8 +706,8 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 }
 
 
-void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename, const char* vectorFilename, const char* listFilename)
+void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename, const char* listFilename)
 {
-	Huffman_Generate(inputFilename, treeFilename, vectorFilename);
+	Huffman_Generate(inputFilename, treeFilename);
 	Huffman_Script(inputFilename, outputFilename, listFilename);
 }

@@ -953,14 +953,9 @@ FontLookup:
 .ends
 
   ROMPosition $80b0
-.section "Huffman tree vector" force
+.section "Huffman tree stuff" force
 TREE_PTR:
-.incbin "script_inserter/tree_vector.bin"    ; Tree vectors
-.ends
-  ROMPosition $82b0
-.section "Huffman tree" force
-ScriptTrees:
-.incbin "script_inserter/script_trees.bin"   ; - actual Huffman trees
+.include "script_inserter/tree.asm"
 .ends
 
   ROMPosition $bf50
