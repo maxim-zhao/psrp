@@ -8,6 +8,8 @@ Phantasy Star: Huffman Compressor
 #include <vector>
 #include <fstream>
 #include <iterator>
+#include <sstream>
+#include <iomanip>
 
 
 #define EOS 0x56				// end-of-string
@@ -39,11 +41,11 @@ struct node_t
 	int branch; // side of branch taken from root
 };
 
-std::deque<node_t> trees[256];
+std::deque<node_t> trees[256]; // One tree for each "preceding letter". Some will be empty.
 node_t nodes[256][256 * 2];
 
-std::deque<int> tree_shape[256];
-std::deque<int> tree_symbol[256];
+std::deque<int> tree_shape[256]; // Tree shape for each tree
+std::deque<int> tree_symbol[256]; // Symbols encoded in each tree
 
 int empty_tree_space;
 int tree_end;
@@ -286,10 +288,14 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 
 	// An assemblable version
 	std::vector<std::string> treeLabels;
-	std::vector<std::string> treeData;
+	std::vector<std::string> treeDatas;
 
 	for (int tree = 0; tree < 256; tree++)
 	{
+		std::ostringstream ss;
+		ss << "HuffmanTree" << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << tree;
+		treeLabels.push_back(ss.str());
+		
 		int node_ptr;
 		int tree_ptr;
 
@@ -349,7 +355,7 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		}
 
 		// format tree to storable form
-		if (trees[tree].size())
+		if (!trees[tree].empty())
 		{
 			node_ptr = trees[tree][0].ptr;
 			tree_ptr = tree;
@@ -357,21 +363,31 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		}
 
 		// save data to file: symbols
-		for (int lcv = 0; lcv < tree_symbol[tree].size(); lcv++)
+		std::ostringstream treeData;
+		treeData << ".db ";
+		for (int symbol : tree_symbol[tree])
 		{
-			fputc(tree_symbol[tree][lcv], out);
+			fputc(symbol, out);
+			treeData << '$' << std::hex << std::setw(2) << std::setfill('0') << symbol << ' ';
 
 			// bump pointer
 			start_ptr++;
 		}
 
+		treeData << "\n.db";
+
 		// save data to file: shape
 		bits = 0;
 		buffer = 0;
-		for (int lcv = 0; lcv < tree_shape[tree].size(); lcv++)
+		for (int bit : tree_shape[tree])
 		{
+			if (bits == 0)
+			{
+				treeData << " %";
+			}
+			treeData << bit;
 			buffer <<= 1;
-			buffer |= tree_shape[tree][lcv];
+			buffer |= bit;
 			bits++;
 
 			// flush to file
@@ -388,11 +404,14 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		{
 			while (bits < 8)
 			{
+				treeData << '0';
 				buffer <<= 1;
 				bits++;
 			}
 			fputc(buffer, out);
 		}
+
+		treeDatas.push_back(treeData.str());
 
 		// no tree pointer check
 		if (trees[tree].empty()) start_ptr = 0xffff;
@@ -406,6 +425,31 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, const
 		printf( "(%02X) Symbols = $%03X, %06X\n", tree,
 			tree_symbol[ tree ].size(), start );
 #endif
+	}
+
+	std::ofstream o("foo.asm");
+	o << "TreeVector:\n.dw";
+	// Labels
+	for (unsigned int i = 0; i < treeLabels.size(); ++i)
+	{
+		if (trees[i].empty())
+		{
+			o << " $ffff";
+		}
+		else
+		{
+			o << ' ' << treeLabels[i];
+		}
+	}
+	o << "\n";
+	// Data
+	for (unsigned int i = 0; i < treeLabels.size(); ++i)
+	{
+		if (trees[i].empty())
+		{
+			continue;
+		}
+		o << treeLabels[i] << ":\n" << treeDatas[i] << '\n';
 	}
 
 	// final area
