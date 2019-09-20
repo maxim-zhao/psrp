@@ -8,7 +8,7 @@ Phantasy Star: Script Inserter
 
 
 extern void Convert_Symbols(const char* listName, const char* tableName, const char* outName);
-extern void Huffman_Compress(const char* file_in, const char* file_out, const char* tree_out, const char* tree_vector_filename, const char* script_list);
+extern void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename, const char* vectorFilename, const char* listFilename);
 
 
 int main(int argc, const char** argv)
