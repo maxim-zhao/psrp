@@ -37,7 +37,7 @@ class Tree
 					add(0);
 				}
 			}
-			catch (const std::exception& ex)
+			catch (const std::exception&)
 			{
 				// ignore it
 			}
@@ -63,7 +63,7 @@ public:
 		Node* _pRight = nullptr;
 		int _count;
 		int _symbol = -1;
-		std::list<int> _codeWord;
+		std::list<bool> _codeWord;
 		
 	public:
 		// Value version
@@ -79,8 +79,14 @@ public:
 			_pRight(pRight),
 			_count(pLeft->_count + pRight->_count)
 		{
-			_pLeft->prefixCodeword(0);
-			_pRight->prefixCodeword(1);
+			_pLeft->prefixCodeword(false);
+			_pRight->prefixCodeword(true);
+		}
+
+		~Node()
+		{
+			delete _pLeft;
+			delete _pRight;
 		}
 
 		// Comparison operator
@@ -118,20 +124,20 @@ public:
 			_pRight->structure(bw);
 		}
 
-		const std::list<int>& getCodeword() const { return _codeWord; };
+		const std::list<bool>& getCodeword() const { return _codeWord; };
 
 	private:
-		void prefixCodeword(int value)
+		void prefixCodeword(bool isRightNode)
 		{
 			// If we are a value node, do it; else push to children
 			if (_pLeft == nullptr)
 			{
-				_codeWord.push_front(value);
+				_codeWord.push_front(isRightNode);
 			}
 			else
 			{
-				_pLeft->prefixCodeword(value);
-				_pRight->prefixCodeword(value);
+				_pLeft->prefixCodeword(isRightNode);
+				_pRight->prefixCodeword(isRightNode);
 			}
 		}
 	};
@@ -166,6 +172,7 @@ public:
 		if (nodes.empty())
 		{
 			// Nothing to do
+			_pRoot = nullptr;
 			return;
 		}
 		
@@ -198,6 +205,23 @@ public:
 			_leavesBySymbol[pNode->getSymbol()] = pNode;
 		}
 	}
+
+	~Tree()
+	{
+		delete _pRoot;
+	}
+
+
+	Tree(const Tree& other) = delete;
+	Tree(Tree&& other) noexcept
+		: _pRoot{other._pRoot},
+		  _name{std::move(other._name)},
+		  _leavesBySymbol{std::move(other._leavesBySymbol)}
+	{
+		other._pRoot = nullptr; // they're my nodes now
+	}
+
+	Tree& operator=(Tree other) = delete;
 
 	void symbols(std::ostream& s) const
 	{
@@ -233,26 +257,17 @@ public:
 		return _name;
 	}
 	
-	std::list<int> getCodeword(int symbol) const
+	std::list<bool> getCodeword(int symbol) const
 	{
-		auto it = _leavesBySymbol.find(symbol);
+		const auto it = _leavesBySymbol.find(symbol);
 		if (it == _leavesBySymbol.end())
 		{
-			return std::list<int>();
+			return std::list<bool>();
 		}
 		return it->second->getCodeword();
 	}
 };
 
-//std::deque<node_t> trees[256]; // One tree for each "preceding letter". Some will be empty.
-//node_t nodes[256][256 * 2]; // 512 for each tree, first 256 correspond to indices
-
-/*
-std::deque<int> tree_shape[256]; // Tree shape for each tree
-std::deque<int> tree_symbol[256]; // Symbols encoded in each tree
-*/
-
-//////////////////////////////////////////////////////
 
 unsigned short pointers[] = {
 	0x4b48, 0x4b4e, 0x4b62, 0x4b7c, 0x4b82,
@@ -460,13 +475,13 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, std::
 	}
 
 	// Build trees
-	for (int tree = 0; tree < 256; tree++)
+	for (int precedingSymbol = 0; precedingSymbol < 256; precedingSymbol++)
 	{
 		// Make a leaf node for each symbol
 		std::vector<Tree::Node*> newNodes;
 		for (int symbol = 0; symbol < 256; symbol++)
 		{
-			int count = counts[tree][symbol];
+			int count = counts[precedingSymbol][symbol];
 			if (count == 0)
 			{
 				continue;
@@ -474,11 +489,11 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, std::
 			newNodes.push_back(new Tree::Node(symbol, count));
 		}
 
-		// Assemble into a tree
-		trees.emplace_back(tree, newNodes);
-	}
+		// TODO: don't make empty trees here (costs some space)
 
-	// TODO: don't make empty trees here (costs some space)
+		// Assemble into a tree
+		trees.emplace_back(precedingSymbol, newNodes);
+	}
 
 	std::ofstream o(treeFilename);
 	o << "TreeVector:\n.dw";
@@ -588,31 +603,18 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 		// Construct each Huffman code
 		do
 		{
-			//std::deque<int> codeword;
-			//node_t node;
-
 			// grab symbol to encode
 			symbol = fgetc(fp);
 			if (symbol == EOF) break;
 
 			// find in tree
 			auto codeword = trees[old_tree].getCodeword(symbol);
-			/*
-			node = nodes[old_tree][symbol];
-
-			// Work upwards through tree
-			while (node.parent != -1)
-			{
-				codeword.push_front(node.branch);
-				node = nodes[old_tree][node.parent];
-			}
-			*/
 
 			// Write out created codeword
 			while (!codeword.empty())
 			{
 				buffer <<= 1;
-				buffer |= *codeword.begin();
+				if (*codeword.begin()) buffer |= 1;
 				bits++;
 
 #ifdef DEBUG_SCRIPT
@@ -712,18 +714,13 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 	script_size /= 1024.0;
 	printf("\n\nTotal size: %.2f KB\n", script_size);
 
-	/*------------------------------------------*/
-
-	//fclose( vector1 );
-	//fclose( vector2 );
 	fclose(script_out);
 	fclose(out);
 	fclose(fp);
 }
 
 
-void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename,
-                      const char* listFilename)
+void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename, const char* listFilename)
 {
 	std::vector<Tree> trees;
 	Huffman_Generate(inputFilename, treeFilename, trees);
