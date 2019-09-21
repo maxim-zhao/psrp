@@ -3,7 +3,6 @@ Phantasy Star: Huffman Compressor
 */
 
 #include <cstdio>
-#include <deque>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -12,6 +11,7 @@ Phantasy Star: Huffman Compressor
 #include <iomanip>
 #include <list>
 #include <map>
+#include <set>
 
 
 #define EOS 0x56 // end-of-string
@@ -175,7 +175,7 @@ public:
 			_pRoot = nullptr;
 			return;
 		}
-		
+
 		// First we copy the nodes into a list, in order
 		std::list<Node*> orderedNodes;
 
@@ -195,11 +195,11 @@ public:
 			const auto pNode = new Node(pLeft, pRight);
 			insertNode(orderedNodes, pNode);
 		}
-
+		
 		// And keep the root
 		_pRoot = orderedNodes.front();
 
-		// We also hold onto the leaves
+		// We also hold onto the leaves for easy lookup
 		for (auto&& pNode: nodes)
 		{
 			_leavesBySymbol[pNode->getSymbol()] = pNode;
@@ -208,7 +208,7 @@ public:
 
 	~Tree()
 	{
-		delete _pRoot;
+		delete _pRoot; // recursively deletes whole tree
 	}
 
 
@@ -389,75 +389,7 @@ unsigned short pointers[] = {
 	0x4816, 0x4821, 0x482c, 0xffff,
 };
 
-//////////////////////////////////////////////////////
-/*
-void Create_Node(node_t& node, int size, int item, int ptr, int root, int left, int right)
-{
-	node.count = size;
-	node.symbol = item;
-
-	node.index = ptr;
-	node.parent = root;
-	node.left = left;
-	node.right = right;
-	node.branch = -1;
-}
-
-
-void Insert_Node(std::deque<node_t>& tree, node_t& node)
-{
-	auto ptr = tree.end();
-
-	// insert smallest items at back
-	for (int lcv = tree.size() - 1; lcv >= 0; lcv--, ptr--)
-	{
-		if (node.count <= tree[lcv].count) break;
-	}
-
-	tree.insert(ptr, node);
-}
-
-
-#ifdef DEBUG
-int travel_level;
-#endif
-
-// Note: Reference variables to cut down on stack space
-//       during pre-order traversal
-void Travel_Node(int& tree, int& ptr)
-{
-	node_t& node = nodes[tree][ptr];
-
-	if (node.left == -1)
-	{
-		// root
-		tree_shape[tree].push_back(1);
-		tree_symbol[tree].push_front(node.symbol);
-
-#ifdef DEBUG
-		printf( " 1 [%02X %03X %01X]", node.item, node.size, travel_level );
-#endif
-	}
-	else
-	{
-#ifdef DEBUG
-		printf( " 0" );
-		travel_level++;
-#endif
-
-		// non-root
-		tree_shape[tree].push_back(0);
-		Travel_Node(tree, node.left);
-		Travel_Node(tree, node.right);
-
-#ifdef DEBUG
-		travel_level--;
-#endif
-	}
-}
-*/
-
-void Huffman_Generate(const char* inputFilename, const char* treeFilename, std::vector<Tree>& trees)
+void BuildHuffmanTree(const char* inputFilename, const char* treeFilename, std::vector<Tree>& trees)
 {
 	// Build symbol statistics first
 	// These are a count of bytes seen for each preceding byte.
@@ -523,10 +455,9 @@ void Huffman_Generate(const char* inputFilename, const char* treeFilename, std::
 	}
 }
 
-void Huffman_Script(const char* file, const char* file_out, const char* script_list, const std::vector<Tree>& trees)
+void EmitScript(const char* pass1, const char* scriptFilename, const char* scritpListFilename, const std::vector<Tree>& trees)
 {
 	FILE *fp, *out = nullptr, *script_out;
-	//FILE *vector1, *vector2;
 
 	int symbol;
 	int old_tree;
@@ -541,7 +472,6 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 	float script_size;
 
 	int overage;
-	int offsets[6 * 2];
 
 	// init
 	table_number = 1;
@@ -550,15 +480,13 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 	script_size = 0;
 	overage = 0;
 
-	memset(offsets, 0, sizeof(offsets));
-
 	// Open up files
-	fp = fopen(file, "rb");
-	script_out = fopen(script_list, "w");
+	fp = fopen(pass1, "rb");
+	script_out = fopen(scritpListFilename, "w");
 
 	if (!fp)
 	{
-		printf("Error: Could not open file \"%s\"\n", file);
+		printf("Error: Could not open file \"%s\"\n", pass1);
 		return;
 	}
 	if (!script_out)
@@ -566,6 +494,8 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 		printf("Error: Could not open file \"script-list.txt\"\n");
 		return;
 	}
+
+	std::ostringstream ss;
 
 	int tree_end = 0x8cd4; // TODO get rid?
 
@@ -581,7 +511,7 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 		// Create a new file
 		if (table_entry == 0)
 		{
-			sprintf(file_name, "%s%d.bin", file_out, table_number);
+			sprintf(file_name, "%s%d.bin", scriptFilename, table_number);
 			out = fopen(file_name, "wb");
 			if (!out)
 			{
@@ -658,28 +588,7 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 			code += buffer;
 		}
 
-		/*------------------------------------------*/
-
-		// Defrag, splinter text
-		if (overage == 0 && ftell(out) + tree_end + 1 + code.length() >= 0xbecf)
-		{
-			overage = 1;
-
-			// add up volume of data
-			script_size += ftell(out);
-			fclose(out);
-
-			// move to next portion
-			out = fopen("script2.bin", "wb");
-			tree_end = 0x6f40b - 0x6c000 + 0x4000; // page 1
-
-			// log file
-			fprintf(script_out, "%x script2.bin\n", 0x6f40b);
-		}
-
-		/*------------------------------------------*/
-
-		if (!code.length()) continue;
+		if (code.empty()) continue;
 
 		// Write out hard-coded pointers
 		int ptr = ftell(out) + tree_end;
@@ -723,6 +632,6 @@ void Huffman_Script(const char* file, const char* file_out, const char* script_l
 void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename, const char* listFilename)
 {
 	std::vector<Tree> trees;
-	Huffman_Generate(inputFilename, treeFilename, trees);
-	Huffman_Script(inputFilename, outputFilename, listFilename, trees);
+	BuildHuffmanTree(inputFilename, treeFilename, trees);
+	EmitScript(inputFilename, outputFilename, listFilename, trees);
 }
