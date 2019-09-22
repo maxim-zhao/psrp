@@ -447,7 +447,7 @@ void EmitScript(const char* scriptFilename, const char* scriptListFilename,
 	for (auto && entry : script)
 	{
 		std::string name = "Script" + std::to_string(entryNumber++);
-		ss << '\n' << name << ":\n.db";
+		ss << '\n' << name << ": ; " << entry.first << "\n.db";
 		BitWriter bw(ss);
 		
 		// Starting tree number
@@ -455,10 +455,6 @@ void EmitScript(const char* scriptFilename, const char* scriptListFilename,
 		buffer = 0;
 		bits = 0;
 		code = "";
-
-#ifdef DEBUG_SCRIPT
-		printf( "[%01X %02X]\n", table_number, table_entry );
-#endif
 
 		// Construct each Huffman code
 		for (auto && symbol : entry.second)
