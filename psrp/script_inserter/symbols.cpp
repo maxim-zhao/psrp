@@ -16,6 +16,22 @@ Phantasy Star: Symbol Converter (Script)
 namespace
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+
+	enum
+	{
+		SymbolPlayer = 0x4f,
+		SymbolMonster = 0x50,
+		SymbolItem = 0x51,
+		SymbolNumber = 0x52,
+		SymbolNewLine = 0x54,
+		SymbolWaitMore = 0x55,
+		SymbolEnd = 0x56,
+		SymbolDelay = 0x57,
+		SymbolWait = 0x58,
+		SymbolPostHint = 0x59,
+		SymbolArticle = 0x5a,
+		SymbolSuffix = 0x5b,
+	};
 }
 
 class File
@@ -182,7 +198,7 @@ void CheckSuffixLength(int min, int max, std::vector<uint8_t>& outBuffer, const 
 	}
 	if (postHint)
 	{
-		outBuffer.push_back(0x59);
+		outBuffer.push_back(SymbolPostHint);
 		outBuffer.push_back(postHint);
 	}
 	script_hints = true;
@@ -216,41 +232,41 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
 		else if (matches[1].str() == L"player")
 		{
 			CheckSuffixLength(1, 6, outBuffer, pText);
-			outBuffer.push_back(0x4f);
+			outBuffer.push_back(SymbolPlayer);
 		}
 		else if (matches[1].str() == L"monster")
 		{
 			CheckSuffixLength(1, script_width, outBuffer, pText);
-			outBuffer.push_back(0x50);
+			outBuffer.push_back(SymbolMonster);
 		}
 		else if (matches[1].str() == L"item")
 		{
 			CheckSuffixLength(1, script_width, outBuffer, pText);
-			outBuffer.push_back(0x51);
+			outBuffer.push_back(SymbolItem);
 		}
 		else if (matches[1].str() == L"number")
 		{
 			CheckSuffixLength(1, 5, outBuffer, pText);
-			outBuffer.push_back(0x52);
+			outBuffer.push_back(SymbolNumber);
 		}
 		else if (matches[1].str() == L"line")
 		{
 			// add newline
-			outBuffer.push_back(0x54);
+			outBuffer.push_back(SymbolNewLine);
 
 			line_len = 0;
 			script_hints = false;
 		}
 		else if (matches[1].str() == L"wait more")
 		{
-			outBuffer.push_back(0x55);
+			outBuffer.push_back(SymbolWaitMore);
 
 			script_hints = false;
 			line_len = 0;
 		}
 		else if (matches[1].str() == L"end")
 		{
-			outBuffer.push_back(0x56);
+			outBuffer.push_back(SymbolEnd);
 
 			// de-init
 			script_end = true;
@@ -259,8 +275,8 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
 		}
 		else if (matches[1].str() == L"delay")
 		{
-			outBuffer.push_back(0x57);
-			outBuffer.push_back(0x56);
+			outBuffer.push_back(SymbolDelay);
+			outBuffer.push_back(SymbolEnd);
 
 			// de-init
 			script_end = true;
@@ -269,8 +285,8 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
 		}
 		else if (matches[1].str() == L"wait")
 		{
-			outBuffer.push_back(0x58);
-			outBuffer.push_back(0x56);
+			outBuffer.push_back(SymbolWait);
+			outBuffer.push_back(SymbolEnd);
 
 			// de-init
 			script_end = true;
@@ -281,14 +297,14 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
 		{
 			const int value = std::stoi(matches[3].str(), nullptr, 16);
 
-			outBuffer.push_back(0x5a);
+			outBuffer.push_back(SymbolArticle);
 			outBuffer.push_back(value);
 
 			script_hints = true;
 		}
 		else if (matches[1].str() == L"use suffix")
 		{
-			outBuffer.push_back(0x5b);
+			outBuffer.push_back(SymbolSuffix);
 
 			script_hints = true;
 		}
@@ -375,7 +391,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<std::
 				if (line_len + 1 + width > script_width && !script_hints)
 				{
 					// add newline
-					outBuffer.push_back(0x54);
+					outBuffer.push_back(SymbolNewLine);
 
 					// reset x-pos
 					line_len = 0;
@@ -388,7 +404,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<std::
 				if (script_hints && width > 0)
 				{
 					// real-time line formatting needed
-					outBuffer.push_back(0x59);
+					outBuffer.push_back(SymbolPostHint);
 					outBuffer.push_back(width + script_internal_hint);
 
 					// manual hint flag reset
