@@ -403,9 +403,6 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			line_len += matchLength;
 		}
 
-		// Flush buffer to file
-		std::copy(outBuffer.begin(), outBuffer.end(), std::ostream_iterator<uint8_t>(pass1));
-
 		// Store to current item
 		std::copy(outBuffer.begin(), outBuffer.end(), std::back_inserter(currentLineData));
 
@@ -433,5 +430,12 @@ void Convert_Symbols(const char* listName, const char* tableName, const char* ou
 		Process_Text(name, pass1, table, script);
 	}
 
-	printf("Encoded script is %d bytes\n", (int)pass1.tellp());
+	// Emit script binary file
+	int count = 0;
+	for (auto && entry : script)
+	{
+		count += entry.second.size();
+		std::copy(entry.second.begin(), entry.second.end(), std::ostream_iterator<uint8_t>(pass1));
+	}
+	printf("Dictionary encoding gives %d bytes for %d script entries\n", count, script.size());
 }

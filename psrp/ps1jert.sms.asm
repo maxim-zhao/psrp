@@ -3068,7 +3068,7 @@ PauseFMToggle:
 
 ; Stuff from script_list.txt
 ; TODO: generate it instead
-  BinAtPosition $8cd4 "script_inserter/script1.bin" overwrite
+  BinAtPosition $8cd4 "script_inserter/script1.bin" force
   PatchW $4b49 $8cd4
   PatchW $4b4f $8d14
   PatchW $4b63 $8d31
