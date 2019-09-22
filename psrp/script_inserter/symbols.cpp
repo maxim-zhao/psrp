@@ -172,7 +172,7 @@ int GetWordLength(const wchar_t* pText)
 	return width;
 }
 
-void CheckSuffixLength(int min, int max, std::ostream& pass1, const wchar_t* pText)
+void CheckSuffixLength(int min, int max, std::vector<uint8_t>& outBuffer, const wchar_t* pText)
 {
 	int postHint = GetWordLength(pText);
 	if (!script_hints)
@@ -182,14 +182,14 @@ void CheckSuffixLength(int min, int max, std::ostream& pass1, const wchar_t* pTe
 	}
 	if (postHint)
 	{
-		pass1.put(0x59);
-		pass1.put(postHint);
+		outBuffer.push_back(0x59);
+		outBuffer.push_back(postHint);
 	}
 	script_hints = true;
 }
 
 
-void ProcessCode(const wchar_t* & pText, std::ostream& pass1, const int lineNum)
+void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const int lineNum)
 {
 	// We read in the symbol
 	// Let's try and match it with a regex...
@@ -215,42 +215,42 @@ void ProcessCode(const wchar_t* & pText, std::ostream& pass1, const int lineNum)
 		}
 		else if (matches[1].str() == L"player")
 		{
-			CheckSuffixLength(1, 6, pass1, pText);
-			pass1.put(0x4f);
+			CheckSuffixLength(1, 6, outBuffer, pText);
+			outBuffer.push_back(0x4f);
 		}
 		else if (matches[1].str() == L"monster")
 		{
-			CheckSuffixLength(1, script_width, pass1, pText);
-			pass1.put(0x50);
+			CheckSuffixLength(1, script_width, outBuffer, pText);
+			outBuffer.push_back(0x50);
 		}
 		else if (matches[1].str() == L"item")
 		{
-			CheckSuffixLength(1, script_width, pass1, pText);
-			pass1.put(0x51);
+			CheckSuffixLength(1, script_width, outBuffer, pText);
+			outBuffer.push_back(0x51);
 		}
 		else if (matches[1].str() == L"number")
 		{
-			CheckSuffixLength(1, 5, pass1, pText);
-			pass1.put(0x52);
+			CheckSuffixLength(1, 5, outBuffer, pText);
+			outBuffer.push_back(0x52);
 		}
 		else if (matches[1].str() == L"line")
 		{
 			// add newline
-			pass1.put(0x54);
+			outBuffer.push_back(0x54);
 
 			line_len = 0;
 			script_hints = false;
 		}
 		else if (matches[1].str() == L"wait more")
 		{
-			pass1.put(0x55);
+			outBuffer.push_back(0x55);
 
 			script_hints = false;
 			line_len = 0;
 		}
 		else if (matches[1].str() == L"end")
 		{
-			pass1.put(0x56);
+			outBuffer.push_back(0x56);
 
 			// de-init
 			script_end = true;
@@ -259,8 +259,8 @@ void ProcessCode(const wchar_t* & pText, std::ostream& pass1, const int lineNum)
 		}
 		else if (matches[1].str() == L"delay")
 		{
-			pass1.put(0x57);
-			pass1.put(0x56);
+			outBuffer.push_back(0x57);
+			outBuffer.push_back(0x56);
 
 			// de-init
 			script_end = true;
@@ -269,8 +269,8 @@ void ProcessCode(const wchar_t* & pText, std::ostream& pass1, const int lineNum)
 		}
 		else if (matches[1].str() == L"wait")
 		{
-			pass1.put(0x58);
-			pass1.put(0x56);
+			outBuffer.push_back(0x58);
+			outBuffer.push_back(0x56);
 
 			// de-init
 			script_end = true;
@@ -281,14 +281,14 @@ void ProcessCode(const wchar_t* & pText, std::ostream& pass1, const int lineNum)
 		{
 			const int value = std::stoi(matches[3].str(), nullptr, 16);
 
-			pass1.put(0x5a);
-			pass1.put(value);
+			outBuffer.push_back(0x5a);
+			outBuffer.push_back(value);
 
 			script_hints = true;
 		}
 		else if (matches[1].str() == L"use suffix")
 		{
-			pass1.put(0x5b);
+			outBuffer.push_back(0x5b);
 
 			script_hints = true;
 		}
@@ -299,7 +299,7 @@ void ProcessCode(const wchar_t* & pText, std::ostream& pass1, const int lineNum)
 	}
 }
 
-void Process_Text(const std::string& name, std::ostream& pass1, const Table& table)
+void Process_Text(const std::string& name, std::ostream& pass1, const Table& table, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
 {
 	File f(name);
 
@@ -308,6 +308,9 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 	script_hints = false;
 	script_internal_hint = 0;
 	script_end = false;
+
+	std::wstring currentLine;
+	std::vector<uint8_t> currentLineData;
 
 	// Read in string entries
 	for (std::wstring s; f.getLine(s);)
@@ -328,6 +331,8 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 		// internal counter
 		script_end = false;
 
+		currentLine += s;
+
 		// do the conversion
 		while (*pText)
 		{
@@ -339,13 +344,11 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			// Check for a scripting code
 			if (start == L'<')
 			{
-				// flush data
-				std::copy(outBuffer.begin(), outBuffer.end(), std::ostream_iterator<uint8_t>(pass1));
-				outBuffer.clear();
+				ProcessCode(pText, outBuffer, f.lineNumber());
 
-				ProcessCode(pText, pass1, f.lineNumber());
 				if (script_end)
 				{
+					// Ignore rest of string
 					break;
 				}
 				continue;
@@ -355,6 +358,8 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			int matchLength;
 			if (!table.findLongestMatch(pText, entry, matchLength))
 			{
+				// Ignore unrecognized chars
+				printf("Ignoring unknown character \"%c\" at line %d\n", *pText, f.lineNumber());
 				continue;
 			}
 			pText += matchLength;
@@ -363,10 +368,6 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			// check for whitespace
 			if (start == ' ')
 			{
-				// flush data
-				std::copy(outBuffer.begin(), outBuffer.end(), std::ostream_iterator<uint8_t>(pass1));
-				outBuffer.clear();
-
 				// scan for next non-text moment
 				const int width = GetWordLength(pStart + 1);
 
@@ -374,7 +375,7 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 				if (line_len + 1 + width > script_width && !script_hints)
 				{
 					// add newline
-					pass1.put(0x54);
+					outBuffer.push_back(0x54);
 
 					// reset x-pos
 					line_len = 0;
@@ -387,8 +388,8 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 				if (script_hints && width > 0)
 				{
 					// real-time line formatting needed
-					pass1.put(0x59);
-					pass1.put(width + script_internal_hint);
+					outBuffer.push_back(0x59);
+					outBuffer.push_back(width + script_internal_hint);
 
 					// manual hint flag reset
 					script_internal_hint = 0;
@@ -401,11 +402,25 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 			// line length checking
 			line_len += matchLength;
 		}
+
+		// Flush buffer to file
+		std::copy(outBuffer.begin(), outBuffer.end(), std::ostream_iterator<uint8_t>(pass1));
+
+		// Store to current item
+		std::copy(outBuffer.begin(), outBuffer.end(), std::back_inserter(currentLineData));
+
+		if (script_end)
+		{
+			// Store to the script object
+			script.emplace_back(convert.to_bytes(currentLine), currentLineData);
+			currentLine.clear();
+			currentLineData.clear();
+		}
 	} // end while read line
 }
 
 
-void Convert_Symbols(const char* listName, const char* tableName, const char* outName)
+void Convert_Symbols(const char* listName, const char* tableName, const char* outName, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
 {
 	const Table table(tableName);
 
@@ -415,9 +430,7 @@ void Convert_Symbols(const char* listName, const char* tableName, const char* ou
 	for (int i = 1; i <= 2; i++)
 	{
 		std::string name = listName + std::to_string(i) + ".txt";
-
-		// open each text bank
-		Process_Text(name, pass1, table);
+		Process_Text(name, pass1, table, script);
 	}
 
 	printf("Encoded script is %d bytes\n", (int)pass1.tellp());
