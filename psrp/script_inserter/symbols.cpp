@@ -445,16 +445,11 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
 }
 
 
-void Convert_Symbols(const char* listName, const char* tableName, std::vector<ScriptItem>& script)
+void Convert_Symbols(const std::string& scriptFilename, const std::string& tableFilename, std::vector<ScriptItem>& script)
 {
-	const Table table(tableName);
+	const Table table(tableFilename);
 
-	// We have two script files...
-	for (int i = 1; i <= 2; i++)
-	{
-		std::string name = listName + std::to_string(i) + ".txt";
-		Process_Text(name, table, script);
-	}
+	Process_Text(scriptFilename, table, script);
 
 	// Measure script
 	int count = 0;

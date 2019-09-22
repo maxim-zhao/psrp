@@ -378,7 +378,7 @@ void EmitScript(const std::string& scriptFilename, const std::vector<Tree>& tree
 }
 
 
-void Huffman_Compress(const char* outputFilename, const char* treeFilename, const std::vector<ScriptItem>& script)
+void Huffman_Compress(const std::string& outputFilename, const std::string& treeFilename, const std::vector<ScriptItem>& script)
 {
 	std::vector<Tree> trees;
 	BuildHuffmanTree(treeFilename, trees, script);

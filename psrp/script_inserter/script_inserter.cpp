@@ -9,8 +9,8 @@ Phantasy Star: Script Inserter
 #include "ScriptItem.h"
 
 
-extern void Convert_Symbols(const char* listName, const char* tableName, std::vector<ScriptItem>& script);
-extern void Huffman_Compress(const char* outputFilename, const char* treeFilename, const std::vector<ScriptItem>& script);
+extern void Convert_Symbols(const std::string& scriptFilename, const std::string& tableFilename, std::vector<ScriptItem>& script);
+extern void Huffman_Compress(const std::string& outputFilename, const std::string& treeFilename, const std::vector<ScriptItem>& script);
 
 
 int main(int argc, const char** argv)

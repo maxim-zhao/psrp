@@ -24,8 +24,8 @@ PLAY: ps1jert.sms
 word_count\word_count.exe : word_count\*.cpp
   $(CPP) $(CPPFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
 
-word_count\words.txt : word_count\script1.txt word_count\script2.txt word_count\word_count.exe
-  word_count\word_count.exe word_count\words.txt word_count\script1.txt word_count\script2.txt
+word_count\words.txt : word_count\script.txt word_count\word_count.exe
+  word_count\word_count.exe word_count\words.txt word_count\script.txt
 
 # substring_formatter
 # Converts the word list from word_count to a dictionary and a TBL file for those words
@@ -124,9 +124,8 @@ script_inserter\script_inserter.exe: script_inserter\*.cpp
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words.tbl
 	copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
 
-script_inserter\script.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script1.txt word_count\script2.txt
-  copy /y word_count\script?.txt script_inserter
-	script_inserter\script_inserter.exe script_inserter\script script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\tree.asm
+script_inserter\script.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script.txt
+	script_inserter\script_inserter.exe word_count\script.txt script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\tree.asm
 
 # credits
 credits\credits_encode.exe: credits\*.cpp
@@ -143,7 +142,7 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
        psg_encoder\world1.psgcompr psg_encoder\world2.psgcompr \
        psg_encoder\font1.psgcompr psg_encoder\font2.psgcompr psg_encoder\font3.psgcompr \
        psg_encoder\title.psgcompr new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin \
-       script_inserter\script1.bin script_inserter\tree_vector.bin script_inserter\script_trees.bin \
+       script_inserter\tree_vector.bin script_inserter\script.asm \
        credits\credits.bin
 
 # ROM building
@@ -156,11 +155,7 @@ ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\opening.asm substring_fo
 
 CLEANFILES = $(BINS) \
 	     menu_creater\*.asm \
-       script_inserter\script1.bin \
-	     script_inserter\script_list.txt \
 	     script_inserter\*.asm \
-	     script_inserter\log.txt \
-       script_inserter\script*.txt \
        script_inserter\table_temp.tbl \
 	     substring_formatter\words.tbl substring_formatter\words.asm \
 	     word_count\stats.txt word_count\words.txt \
