@@ -9,145 +9,132 @@
 ; *** Camineet Residential District ***
 ; *************************************
 
-[002]
+[4b48]
 ; ワタシハ スエロ.アリサノ キモチハヨクワカルワ.モウダレモ アナタヲ<wait more>
+; トメルコトハ デキナイ. デモ モシタタカイデ キズツイタトキハ<wait>
 ; Woman
 You're doing what?<wait more>
-
-[004]
-; トメルコトハ デキナイ. デモ モシタタカイデ キズツイタトキハ<wait>
 Alisa...taking on LaShiec is crazy, but I know how stubborn you are, so I'll do what I can to help.<wait more>
 If you get hurt, come back here and your old pal Suelo will fix you up.<wait>
 
-[006]
+[4b4e]
 ; ココデ ユックリ ヤスンデ オユキ.<wait more>
 ; ムリヲ シナイヨウニネ.<line>
 ; マタ イツデモ イラッシャイ.<wait>
 Please get some rest.<wait more>
 Don’t overdo it, okay? You will always be welcome here.<wait>
 
-
-[008]
+[4b62]
 ; ボクハ ネキセ.<line>
 ; キクトコロニ ヨルト<wait more>
-; Man
-My name is Nekiseh. I'm sorry to hear about your brother.<wait more>
-
-[00A]
 ; ユウシャ タイロンハ シオントイウ<line>
 ; マチニ イルラシイ.<wait more>
-Last we heard, Tylon was staying in a town called Shion.<wait more>
-
-[00C]
 ; アッ.ソレト ネロカラ<line>
 ; ラコニアンポット トイウ ツボヲ<wait more>
-Nero asked me to hold on to this Laconian Pot.<wait more>
-
-[00E]
 ; アズカッテタンダ.アトデ ヤクニ<line>
 ; タツダロウカラ モッテイクトイイヨ.<wait>
+; Man
+My name is Nekiseh. I'm sorry to hear about your brother.<wait more>
+Last we heard, Tylon was staying in a town called Shion.<wait more>
+Nero asked me to hold on to this Laconian Pot.<wait more>
 He would have wanted you to have this. Here, take it.<wait>
 
-[010]
+[4b7c]
 ; チカラニナレナクテ ゴメン.<line>
 ; ブジヲ イノッテルヨ.<wait>
 I'm sorry, I can't risk helping you any more. Good luck.<wait>
 
-
-[012]
+[4b82]
 ; コノ カミニ-ト キョジュウクハ<line>
 ; カイゲンレイガ シカレテイルンダ.<wait>
 ; Man
 How long are they going to hold us under martial law like this?<wait>
 
-[014]
+[4b88]
 ; カギノ カカッタ ドアヲ アケルニハダンジョンキ-ガ ヒツヨウデス.<wait>
 ; Man
 You'll need a Dungeon Key if you want to open locked doors.<wait>
 
-[016]
+[4b8e]
 ; アカリガナイト ススメナイ<line>
 ; ダンジョンモ アルヨ.<wait>
 ; Man
 Some dungeons are pitch black, you'll need a light.<wait>
 
-[018]
+[4b94]
 ; カミニ-トノ ニシハ スペ-スポ-トデス.<wait>
 ; Man
 I can't believe the spaceport requires a Roadpass now.<wait more>
 How am I supposed to get home?<wait>
 
-[01A]
+[4b9a]
 ; ミナトマチデハ イロイロナ トリヒキガ デキル トイウ ハナシダ.<wait>
 ; Man
 I've heard that illegal goods are traded in port towns.<wait>
 
-[01C]
+[4bba]
 ; キョジュウクノ ソトニハ デナイホウガ ミノタメダ.<wait>
 ; Police
 Citizens are advised to remain inside the residential area.<wait>
 
-[01E]
+[4bc0]
 ; シニタクナカッタラ ココニイルンダ.<wait>
 ; Police
 Unless you have a death wish, you should remain inside.<wait>
 
-[020]
+[4bcd,4c26,4cc2,4d0e]
 ; ココヲ トオスワケニハ イカナイ.<wait>
 ; Police
 Sorry, we're on high security alert. Access denied.<wait>
 
-[022]
+[4bda,4d23]
 ; ロ-ドパスノ ナイモノハ ココヲ<line>
 ; トオレナイ.<wait>
 ; Police
 A signed Roadpass is required to access the spaceport.<wait>
 
-[024]
+[4be0,4c3a,4cd5,4d18,4d2d,5497]
 ; トオッテ ヨシ.<wait>
 ; Police
 Access granted. Go on through.<wait>
-
 
 ; ************************************
 ; *** Parolit Residential District ***
 ; ************************************
 
-[026]
+[4bf1]
 ; ココハ パロリト キョジュウクヨ.<wait>
 ; Woman
 Welcome to Parolit residential district.<wait>
 
-[028]
+[4bf7]
 ; モリノナカハ トクニ<line>
 ; キヲツケタホウガイイヨ.<wait>
 ; Man
 It's easy to get lost in the forest, be careful.<wait>
 
-[02A]
+[4bfd]
 ; キョジュウクノ ミナミノ ドウクツニメデュ-サ トイウ マモノガ<wait more>
-; Man
-I've heard that a monster called Medusa was awakened in the cave south of here.<wait more>
-
-[02C]
 ; ヨミガエッタトイウ.スガタヲ<line>
 ; ミタモノハ イシニ サレルソウダ.<wait>
+; Man
+I've heard that a monster called Medusa was awakened in the cave south of here.<wait more>
 Rumor has it she turns all who look at her into stone!<wait>
 
-[02E]
+[4c03]
 ; ヒガシヘ イクト シオン トイウ<line>
 ; ミナトマチガ アルラシイ.<wait>
 ; Man
 If you go east, you’ll come to a port town called Shion.<wait>
 
-[030]
+[4c09]
 ; スペ-スポ-トカラ モタビアセイノ<line>
 ; パセオ マデ イケルヨ.<wait>
 ; Man
 You can get to Paseo on planet Motavia from the spaceport.<wait more>
 But due to heightened security, you'll need a Roadpass.<wait>
 
-[032]
+[4c0f]
 ; パロリトノ ニシニアル ガシコノモリヘハ チカツウロガ アルラシイ.<wait>
 ; Man
 Did you know there's an abandoned catacomb leading west, to the Gothic Woods?<wait more>
@@ -158,69 +145,63 @@ Supposedly it's somewhere nearby, but I can't find it.<wait>
 ; *** Port town Shion ***
 ; ***********************
 
-[034]
+[4da7]
 ; タイロンナラ メデュ-サヲ タオシニイッタヨ. ヤツハ コトバヲ ハナス<wait more>
-; Man
-Yeah, Tylon was here. He said something about going south, to slay Medusa.<wait more>
-
-[036]
 ; ドウブツヲ ツレテ イタナア.<line>
 ; ソノ ドウブツハ クビニ<wait more>
-He had a strange, talking animal with him! It had a bottle of medicine around its neck.<wait more>
-
-[038]
 ; クスリビンヲ ブラサゲテイタガ<line>
 ; ナニカノ ヤクニ タツノカネエ.<wait>
+; Man
+Yeah, Tylon was here. He said something about going south, to slay Medusa.<wait more>
+He had a strange, talking animal with him! It had a bottle of medicine around its neck.<wait more>
 I wonder what it was?<wait>
 
-[03A]
+[4dac]
 ; ラシ-ク ヲ タオシニイクンダッテ<line>
 ; ナ. ガンバレヨ.<wait>
 It's about time someone took on LaShiec. God be with you.<wait>
 
-[03C]
+[4db6]
 ; コノマエ メデュ-サノ ドウクツデ<line>
 ; シャベル ドウブツヲ ヒロッタンダ.<wait more>
-This is going to sound crazy, but I found a talking animal wandering Medusa's dungeon.<wait more>
-
-[03E]
 ; パセオノ ショウニンニ タカク ウリツケテヤッタヨ.ヘッヘッヘ.<wait>
+This is going to sound crazy, but I found a talking animal wandering Medusa's dungeon.<wait more>
 I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
 
-[040]
+[4dbb]
 ; サイキンハ フケイキダネ.ドコカニ<line>
 ; イイ モウケバナシハ ナイモノカネ.<wait>
 The economy's plummeted since LaShiec came into power.<wait more>
 I'm so broke, I don't know what to do...<wait>
 
-[042]
+[4dc1]
 ; シオンノ ミナミノ ハントウニハ<line>
 ; イアラト ヨバレル ドウクツガアル.<wait>
 Iala Cave lies on the peninsula south of town.<wait>
 
-[044]
+[4dc7]
 ; ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
 Welcome to Shion.<wait more>
 We had a bustling trade economy here, until LaShiec's embargo.<wait more>
 Now most of us are desperate for work.<wait>
 
-[046]
+[4dcd]
 ; エピトイウ マヨイノモリハ<line>
 ; コンパスガナイト トオレナイヨ.<wait>
 You'd have to be some kind of idiot to go into Eppi Forest without a Compass.<wait>
 
-[048]
+[4dd3]
 ; マホウノ カカッタドアハ マジックヲツカワナイト ヒラキマセン.<wait>
 The only way to open a door sealed with magic is to cast a spell of your own.<wait>
 
-[04A]
+[4dd9]
 ; コノマチカラ キタヘイクト バヤ<line>
 ; マ-レ トイウ オカガ アリマス.<wait more>
 ; デモワレワレハ ソノオカヘ<line>
 ; チカヅクコトガ デキマセン.<wait>
 If you head north, you'll find a knoll called Baya Marlay, but you won’t be able to get to it.<wait>
 
-[04C]
+[4ddf]
 ; バヤマ-レノ キタノ カイガンニ<line>
 ; ナウラトイウ ドウクツガ アリマス.<wait>
 I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
@@ -231,75 +212,67 @@ But with all these monsters suddenly appearing, I wouldn't even try to get there
 ; *** Eppi ***
 ; ************
 
-[04E]
+[4de5]
 ; モタビアノ ソウトクハ モシカシタラミカタニ ナッテクレルカモシレナイ.<wait>
 It wouldn't surprise me if the Governor-general of Motavia approved of what you're doing.<wait>
 
-[050]
+[4deb]
 ; モタビアニハ スゴイ エスパ-ガ<line>
 ; イルラシイヨ.<wait>
 All the great Espers live on Motavia.<wait>
 
-[052]
+[4df1]
 ; ガシコノモリニハ ソノムカシ ルベノハカセノ ケンキュウジョガ アッタ.<wait>
 Long ago, a professor named Luveno had a research laboratory in the Gothic Woods.<wait more>
 I wonder if it's still there?<wait>
 
-[054]
+[4df7]
 ; エピノムラヘ ヨウコソ.<wait>
 Welcome to Eppi Village!<wait more>
 We don't get many visitors lately, now that the forest is crawling with monsters.<wait>
 
-[056]
+[4dfd]
 ; ソナタハ ダンジョンキ-ノ アリカヲサガシテ イルノカナ.<end>
 Taking on ol' LaShiec, are you?<wait more>
 You're either a fool, or you're tougher than you look.<wait more>
 Either way, I admire your bravery. Are you in need of a Dungeon Key?<end>
 
-[058]
+[4e17]
 ; ダンジョンキ-ハ カミニ-ト<line>
 ; キョジュウクノ ハズレニアル<wait more>
-I hid one inside the warehouse on the outskirts of Camineet's residential district.<wait more>
-It's all yours. Good luck.<wait>
-
-[05A]
 ; ソウコノナカニ ワシガ コッソリ<line>
 ; カクシテオイタゾヨ.<wait>
 ; <end>
-; Continues 058
+I hid one inside the warehouse on the outskirts of Camineet's residential district.<wait more>
+It's all yours. Good luck.<wait>
 
-[05C]
+[4e1d]
 ; セカイデ イチバン カタクテ ツヨイブッシツヲ シッテイルカ.<end>
 Do you know what the hardest, strongest material in the world is?<end>
 
-[05E]
+[4e2b]
 ; ソレハ ラコニア ジャ. ソレデ<line>
 ; デキタ ブキハ サイキョウナンジャ.<wait>
 It's Laconia! Laconian weapons are the strongest around!<wait>
 
-
-[060]
+[4ba9,4e06,4e26]
 ; ナラバ ヨイ.<wait>
 Oh. Okay.<wait>
 
-[062]
+[4ba0]
 ; アルゴル タイヨウケイノ ワクセイヲシッテイルカナ.<end>
 Do you know about the planets of Algol?<end>
 
-[064]
+[4bb4]
 ; パルマ モタビア デゾリス ノ <number>ツノ ワクセイガアル.<wait more>
-There are <number><internal hint 02> planet<use suffix>: Palma, Motavia, and Dezoris.<wait more>
-
-[066]
 ; パルマハ ミドリノホシ.モタビアハ<line>
 ; スナノホシ.デゾリスハ コオリノ<wait more>
+; ホシジャ.アルゴル タイヨウケイニハキキガ セマッテイルノジャ.<wait>
+There are <number><internal hint 02> planet<use suffix>: Palma, Motavia, and Dezoris.<wait more>
 The three planets have a distinct geology.<wait more>
 Palma is a planet of greenery.<line>
 Motavia is a planet of sand.<line>
 Dezoris is a planet of ice.<wait more>
-
-[068]
-; ホシジャ.アルゴル タイヨウケイニハキキガ セマッテイルノジャ.<wait>
 To tell you the truth, I fear for the future of our planets.<wait>
 
 
@@ -307,53 +280,53 @@ To tell you the truth, I fear for the future of our planets.<wait>
 ; *** Camineet Spaceport ***
 ; **************************
 
-[06A]
+[4c9e]
 ; ココハ パルマノ スペ-スポ-トダ.モタビアセイノ パセオマデ イケル.<wait>
 Welcome to Palma's Spaceport. You can travel to Paseo on Motavia from here.<wait>
 
-[06C]
+[4ca4]
 ; パセオニハ ソウトクガ イル.モタビアセイ ゼンブヲ オサメテイルンダ.<wait>
 These ships are headed toward Paseo, the capital of Motavia. The Governor-general lives there.<wait>
 
-[06E]
+[4caa]
 ; ガシコノ ケンキュウジョデハ ムカシスペ-スシップヲ ツクッテタソウダ.<wait>
 Before space travel was commercialized, spaceships were built at a research laboratory in Gothic.<wait>
 
-[070]
+[4c1d,4cb7]
 ; パスポ-トヲ モッテイルカ.<end>
 Do you have a passport?<end>
 
-[072]
+[4d33]
 ; ココデ パスポ-トノ シンセイガ<line>
 ; デキマス.シンセイヲシマスカ.<end>
 Are you here to apply for a Passport?<end>
 
-[074]
+[4d44]
 ; イママデニ ワルイコトヲ シタコトガアリマスカ.<end>
 I'm required by law to ask you a series of questions.<wait more>
 Have you ever been convicted of a crime?<end>
 
-[076]
+[4d55]
 ; イマ アナタハ ナニカ ワルイ<line>
 ; ビョウキニ カカッテイマスカ.<end>
 Do you suffer from an illness that may be irritated by travel?<end>
 
-[078]
+[4d6c]
 ; テスウリョウ <number>メセタデス.<line>
 ; ヨロシイデスカ.<end>
 There is a handling fee of <number><internal hint 02> meseta<use suffix>. Can you pay?<end>
 
-[07A]
+[4d91]
 ; デハ パスポ-トヲ ハッコウシマス.オウケトリクダサイ.<wait>
 Okay then, I'll issue you a passport.<line>
 Here you are.<wait more>
 Next in line!<wait>
 
-[07C]
+[4d3e,4d77,4eca]
 ; ソウデスカ.デハ オキヲツケテ.<wait>
 Very well. Next in line, please?<wait>
 
-[07E]
+[4d4f,4d60]
 ; ソレハ ヨクナイデスネ.<line>
 ; マタ オコシクダサイ.<wait>
 I'm sorry, you don't qualify. Next?<wait>
@@ -363,17 +336,17 @@ I'm sorry, you don't qualify. Next?<wait>
 ; *** Paseo Spaceport ***
 ; ***********************
 
-[080]
+[4e31]
 ; ココハ モタビアノ<line>
 ; パセオ スペ-スポ-ト ダヨ.<wait>
 This is Paseo, the only spaceport on Motavia.<wait>
 
-[082]
+[4e37]
 ; サバクノ ナカデハ アリジゴクガ<line>
 ; アバレテ イルトイウ ウワサダヨ.<wait>
 It's ant-lion breeding season, be careful out there.<wait>
 
-[084]
+[4e3d]
 ; パルマセイノ<line>
 ; ナウラ トイウ ドウクツニハ<wait more>
 ; ケ-キヤガ アルンダッテネ.<wait>
@@ -385,88 +358,87 @@ I wonder if it gets any business, in a cave like that?<wait>
 ; *** Paseo ***
 ; *************
 
-[086]
+[4e43]
 ; モタビアノ ソウトクハ ジツハ<line>
 ; ラシ-クト ナカガ ワルイラシイヨ.<wait>
 Even the Governor-general is on bad terms with LaShiec.<wait>
 
-[088]
+[4e49]
 ; ソウトクニ アウニハ オクリモノガ<line>
 ; イルソウヨ.<wait>
 To meet with the Governor-General, you need to present a gift.<wait>
 
-[08A]
+[4e4f]
 ; ソウトクハ アマイモノガ ダイスキ.<wait>
 The Governor-General loves sweets.<wait>
 
-[08C]
+[4e55]
 ; マハル トイウ ドウクツガ パセオノキタノ ヤマノ ナカニ アリマス.<wait>
 The cave Mahal is located in the mountains north of Paseo.<wait>
 
-[08E]
+[4e5b]
 ; ココハ モタビアノ シュト<line>
 ; パセオ デス.<wait>
 This is Paseo, Motavia’s capital city.<wait>
 
-[090]
+[4e61]
 ; アリジゴクハ ヒトノ アシデハ<line>
 ; トテモ トオレナイダロウ.<wait>
 You can't cross over ant-lions on foot.<wait>
 
-[092]
+[4e7f]
 ; メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
 Ever seen a talking cat before?<wait more>
 Rare. Real rare. One of a kind if I'm not mistaken.<wait more>
 <number> million<internal hint 02> meseta<use suffix>, and it's yours. How 'bout it?<end>
 
-[094]
+[4e8a]
 ; アンタ ウソツキダネ.<wait>
 Whoa, seriously?<wait more>
 Hey, where are you going?<wait>
 
-[096]
+[4e98]
 ; オヤ アンタ メズラシイ ツボヲ<line>
 ; モッテイルネ.<wait more>
-That's too bad.<wait more>
-...hold on, now. Is that a Laconian Pot?<wait more>
-
-[098]
 ; ソノ ラコニアンポット トナラ<line>
 ; コウカンシテモ イイヨ. ドウカネ.<end>
+That's too bad.<wait more>
+...hold on, now. Is that a Laconian Pot?<wait more>
 How 'bout a trade, the pot for the kitty?<end>
 
-[09A]
+[4ea9]
 ; ソレジャ ツレテイキナ.<line>
 ; カワイガッテ ヤッテクレ.<wait>
 I hate to see the little guy go, but I can't pass up a trade like this.<wait more>
 Take good care of 'im.<wait>
 
-[09C]
+[5627]
 ; ソウトクヘノ オクリモノヲ<line>
 Halt! Did you bring a gift for the Governor- general?<end>
 
-[09E]
+[564b]
 ; デハ ソノ ショ-トケ-キヲ<line>
 ; アズカッテ オコウ.<wait>
 Ah, Shortcake. He'll be pleased. I'll hold on to this for you.<wait more>
 Proceed.<wait>
 
-[0A0]
+[5651]
 ; オクリモノニ ナルヨウナ モノヲ<line>
 These are not suitable gifts!<wait>
 
-[0A2]
+[5632]
 ; サッサト カエレ.<wait>
 I can't grant you access without a gift!<wait>
 
-[0A4]
+[4f19]
 ; ワタシガ コノホシノ ソウトクダ.<line>
 ; ラシ-クヲ タオシニ イクソウダナ.<wait more>
+; ソノ ユウキヲ ホメテヤル.マハルノドウクツニ ルツ トイウ エスパ-ガ<wait more>
+; イル. ワタシノ テガミヲ モッテ<line>
+; アイニ ユクガヨイ.<wait more>
+; ラシ-クヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
 Welcome. You have traveled far. Please, sit.<wait more>
 I know why you are here. You've certainly made no secret of it.<wait more>
-
-[0A6]
-; ソノ ユウキヲ ホメテヤル.マハルノドウクツニ ルツ トイウ エスパ-ガ<wait more>
 You plan to overthrow LaShiec, do you not?<wait more>
 LaShiec is a powerful man. No, more than a man.<wait more>
 He's beyond those constraints. He's something else entirely.<wait more>
@@ -477,50 +449,38 @@ It is a power that you must discover on your own.<wait more>
 I can tell you no more. Not yet.<wait more>
 Go. Destroy him. I won't stop you.<wait more>
 In fact, I will offer you assistance.<wait more>
-
-
-[0A8]
-; イル. ワタシノ テガミヲ モッテ<line>
-; アイニ ユクガヨイ.<wait more>
 A powerful Esper named Lutz lives in Mahal cave, north of here.<line>
 Take this letter to him. He will understand.<wait more>
-
-[0AA]
-; ラシ-クヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
 Return here when you have defeated LaShiec. I have faith in you.<wait>
 
-[0AA-2]
+[4f13,4fc6]
+; ラシ-クヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
 Return here when you have defeated LaShiec. God be with you.<wait>
 
-
-[0AC]
+[53c4]
 ; ルツハ パセオノ ソウトクノ<line>
 ; メイレイナラバ キクカモシレナイ.<wait>
 Since the orders are from the Governor-general, Lutz will probably listen.<wait>
 
-[0AE]
+[53df]
 ; アナタガタハ ダレデスカ. ワタシハイマ シュギョウチュウデス.<wait more>
-Who are you?<wait more>
-
-[0B0]
 ; ジャマヲ シナイデ クダサイ.<wait>
+Who are you?<wait more>
 I'm trying to train. Don't interrupt me.<wait>
 
-[0B2]
+[53c9]
 ; ヤッホ-.<wait>
-;HELLO<wait>
-
 Yahoo!<wait>
 
-[0B4]
+[4fd4]
 ; グウグウ.<wait>
 zzz...<wait>
 
-[0B6]
+[4fda]
 ; ドウゾ ヤスンデ イッテネ.<wait>
 You look tired, why don't you rest here for a while?<wait>
 
-[0B8]
+[4ff9]
 ; ドウカ ブジニ モドッテキテネ.<line>
 Good luck out there. You're going to need it.<wait>
 
@@ -529,100 +489,86 @@ Good luck out there. You're going to need it.<wait>
 ; *** Gothic Woods ***
 ; ********************
 
-[0BA]
+[500b,5034,533a,54a9]
 ; アンタ オレニ ペロリ-メイトヲ<line>
 I could really use a PelorieMate. Can you spare one?<end>
 
-[0BC]
+[5028]
 ; アリガトウ.ココハ ムカシ ルベノ<line>
 ; トイウ カガクシャノ ケンキュウジョ<wait more>
-Thanks.<wait more>
-I suppose you're looking for Doc Luveno.<wait more>
-Yeah, his lab used to be here.<wait more>
-
-[0BE]
 ; ダッタ.ダケド ルベノハ クルッテ<line>
 ; イルトイウ リユウデ コノムラノ<wait more>
-Not no more, though. They finally locked that loon up.<wait more>
-He's being held in Triada, a prison south of here.<wait>
-
-[0C0]
 ; ミナミニアル トリアダ トイウ<line>
 ; ロウゴクニ トジコメラレタンダ.<wait>
 ; <end>
-; Continues 0BE
+Thanks.<wait more>
+I suppose you're looking for Doc Luveno.<wait more>
+Yeah, his lab used to be here.<wait more>
+Not no more, though. They finally locked that loon up.<wait more>
+He's being held in Triada, a prison south of here.<wait>
 
-[0C2]
+[5016,503f,54b4]
 ; アンタニ ハナスコトハ ナイ.<line>
 Then I ain't helping. Get lost.<wait>
 
-[0C4]
+[504f]
 ; ガシコノモリカラ ヤマヘ ツウジル<line>
 ; イッポンミチノ オクニアル トウニハ<wait more>
+; チカヅクナ.ソコニハ スガタヲ ミタダケデ カラダガ イシニナッテシマウ<wait more>
+; トイウ オソロシイ マモノガ スンデイルラシイ.<wait>
 Thank you, stranger.<wait more>
 At the end of the path leading into the mountains is an ancient tower.<wait more>
-
-[0C6]
-; チカヅクナ.ソコニハ スガタヲ ミタダケデ カラダガ イシニナッテシマウ<wait more>
 Word on the street is ol' Medusa is hiding out there.<wait more>
 Unless you fancy being a statue, you best stay away.<wait>
-
-[0C8]
-; トイウ オソロシイ マモノガ スンデイルラシイ.<wait>
-; <end>
-; Continues 0C6
-
 
 ; *******************************
 ; *** Dr. Luveno's Laboratory ***
 ; *******************************
 
-[0CA]
+[507b]
 ; オオ.オソカッタノウ.<line>
 ; サッソクジャガ ワシノ ジョシュヲ<wait more>
-Greetings. What took you so long?<wait more>
-Let's get started. First, go fetch my assistant.<wait more>
-
-[0CC]
 ; ツレテキテクレ.チカツウロノ ナカニカクレテオルハズジャ.<wait more>
 ; ホントニ アイツハ ハズカシガリヤデコマッタモノジャ.<wait>
+Greetings. What took you so long?<wait more>
+Let's get started. First, go fetch my assistant.<wait more>
 He’s probably hiding inside the underground passageway.<wait more>
 A bit paranoid, that one.<wait>
 
-[0CE]
+[4c30,4ccf,54ca]
 ; フザケルナ.<wait>
 Well? Let's see it.<wait>
 
-[0D0]
+[50a7]
 ; タリナイノウ. ワルイガ オカネヲ<line>
 You don’t have enough? Go get some more!<wait>
 
-[0D2]
+[50d1]
 ; ヨロコベ ツイニ ウチュウセン<line>
 ; ルベノゴウガ デキアガッタゾ.<wait>
 Success! This is my finest work yet.<wait more>
 I call it the Luveno. Got a nice ring to it, don't you think?<wait>
 
-[0D4]
+[546d]
 ; イウトオリニ シナイナラ<line>
 If you don’t do as I say, there’s no way I can help you.<wait>
 
-[0D6]
+[50de]
 ; シカシ オマエニハ ルベノゴウハ<line>
 But I'm afraid the Luveno can’t be piloted by a human...<wait>
 
-[0D8]
+[5071]
 ; ルベノゴウノ チョウシハ ドウジャ.ダイジニ ツカッテ オクレ.<wait>
 How’s the Luveno holding up? Take good care of it.<wait>
 
 
-[0DA]
+[5096]
 ; ソレハ ザンネンジャ.<line>
 ; オマエノ タビモ ココマデカノウ.<wait>
 Ah, so you've wasted my time. Wonderful.<wait more>
 Good luck getting back into the spaceport.<wait>
 
-[0DC]
+[510d,5428]
 ; イマ イソガシインダ.<line>
 Don't distract me! I'm very busy.<wait>
 
@@ -631,69 +577,69 @@ Don't distract me! I'm very busy.<wait>
 ; *** Toriada Prison ***
 ; **********************
 
-[0DE]
+[5453]
 ; ワシハ ルベノジャ.タスケニ<line>
 ; キタノナラ ヨケイナコトジャ.<wait more>
 Yes, I'm Dr. Luveno. If you're here to rescue me, forget it!<wait more>
 I'm not going anywhere.<wait>
 
-[0E0]
+[545e]
 ; ナニ.ウチュウセンヲ ツクレジャト.バカモ ヤスミ ヤスミ イエ.<wait more>
 ; ワシガ ソンナコトヲ ヒキウケルト<line>
 What? Build a spaceship?! Are you loony?<wait more>
 Please, I'm an old man. Leave me be.<wait>
 
-[0E2]
+[5464]
 ; ウ-ム.コリナイヤツジャ.<line>
 ; シカタガナイ.<wait more>
 You're not going to leave, are you? Very well.<wait more>
 I'll help you out, but you must do exactly as I say. Understood?<end>
 
-[0E4]
+[5477]
 ; ヨシ.ソレデハ ヒトアシ サキニ<line>
 ; ガシコノ ムラヘ イッテ<wait more>
 Fine. Meet me in Gothic, I'll prepare you a ship.<wait more>
 Don’t worry about me, I'm tougher than I look.<wait>
 
 
-[0E6]
+[5485]
 ; ロ-ドパスヲ モッテイルカ.<end>
 Do you have a Road Pass?<end>
 
-[0E8]
+[549d,55e0]
 ; タイシタ ドキョウダ.<line>
 Intruder detected. Initiating termination sequence.<wait>
 
-[0EA]
+[54c4]
 ; クモノ カイブツハ ホントウハ<line>
 Thanks. Y'know, no matter what people say, spiders are actually very wise creatures.<wait>
 
-[0EC]
+[54d0]
 ; ハプスビ- トイウ<line>
 Have you heard of Hapsby the robot?<end>
 
-[0EE]
+[54e4]
 ; ヤマノ ムコウハ カザンノ フンカデヨウガンイケガ デキテイルソウダヨ.<wait>
 The other side of the mountain's completely covered in lava.<wait more>
 Damned volcanoes put me out of a home!<wait>
 
-[0F0]
+[54ea]
 ; ガシコノ ヤマオクニアル トウハ<line>
 The tower in the mountains of Gothic is called Medusa’s Tower.<wait>
 
-[0F2]
+[54f0]
 ; ヤア.ヒトニ アウノハ<line>
 ; ヒサシブリダ.オハナシシヨウヨ.<end>
 It has been so long since I've seen another person.<wait more>
 Won't you stay for a while and talk to me?<end>
 
-[0F4]
+[550c]
 ; ポリメテラ-ル トイウ クスリハ<wait more>
 ; ラコニア イガイノ ブッシツハ<line>
 A chemical called Polymeteral will dissolve any material!<wait more>
 ...well, anything except Laconia, of course.<wait>
 
-[0F6]
+[542f]
 ; エ-ッ. ルベノハカセガ カエッテ<line>
 ; キタノカイ.<wait more>
 ; マタ ウチュウセンヲ ツクルノカ.<line>
@@ -701,53 +647,40 @@ What? You busted out Doc?<wait more>
 What?! He's building you a spaceship?!<wait more>
 He's too old for this. I'd better go help him out.<wait>
 
-[0F8]
+[5436]
 ; オクノ ヘヤヘ ハイッテ イキテ<line>
 ; カエッタモノハ イナイ.ヒッヒッヒ.<wait>
-
-;NO MAN THAT GOES INTO THE ROOM IN THE FAR CORNER HAS EVER COME OUT ALIVE ;AHAHAHA<wait>
-
 I've seen plenty of men go into the inner chamber.<wait more>
 Coming out, though, is a different story.<wait more>
 I've never seen anyone come out of there alive.<wait>
 
-[0FA]
+[57ec]
 ; イシニ サレテシマッタ ヒトラシイ.モトニ モドレルノダロウカ.<wait>
 It looks like this person’s been turned to stone. Could this be Tylon?<wait>
 
-[0FC]
+[5512]
 ; モハヤ カクゴハ デキテオル<line>
 ; ジャロウナ. フッフッフ.<wait>
-
-;YOU WILL SOON FIND OUT THE TRUTH<wait>
-
 You've gotten far. Soon you will know the truth.<wait>
 
-[0FE]
+[5518]
 ; イキドマリジャ. モドリナサイ.<line>
 ; カエルナラ イマノウチダ.<wait>
-
-;HALT! GO BACK! YOUR LAST CHANCE<wait>
-
 Get out of here!<wait more>
 You don't know what you're up against!.<wait>
 
-[100]
+[551e]
 ; オオ.ナント ユウカンナ<line>
 ; ワカモノヨ. ワナニ キヲツケテナ.<wait>
-
-;HOW BRAVE BUT BE CAREFUL OF TRAPS<wait>
-
 ;Oh, what a brave young lady you are! Beware of traps.<wait>
 ;(changing because there are no ladies if Alisa is dead)
-
 It's brave of you to come here. Beware of hidden traps!<wait>
 
 ; ***************
 ; *** Bartevo ***
 ; ***************
 
-[102]
+[4fff]
 ; バルテボハ オレノ ナワバリダ.<line>
 ; アラスンジャナイゾ.<wait>
 This is MY turf!<wait more>
@@ -758,7 +691,7 @@ MINE.<wait more>
 All of it.<wait more>
 Don't touch my junk! I'm watching you.<wait>
 
-[104]
+[50eb]
 ; ハプスビ- トイウ ロボットヲ<line>
 ; サガシテクルンジャ.<wait more>
 ; アノ ロボットナラ ウチュウセンヲ<line>
@@ -770,15 +703,13 @@ Careful though, Bortevo's surrounded by lava.<wait more>
 Don't give me that look! You agreed to follow my instructions.<wait more>
 I've upheld my end of the bargain, now go do yours.<wait>
 
-[106]
+[5005]
 ; コノ スクラップノナカニ セイノウノイイ ロボットガ ステラレテイル<wait more>
-Someone told me that there’s a perfectly good robot discarded in one of these scrap heaps.<wait more>
-
-[108]
 ; トイウハナシダケド ホントウカネ-.<wait>
+Someone told me that there’s a perfectly good robot discarded in one of these scrap heaps.<wait more>
 I wonder if it’s true?<wait>
 
-[10A]
+[5524]
 ; アビオンノ ムラニ ポリメテラ-ル<line>
 I've heard that they sell a chemical called Polymeteral in Avion Village.<wait>
 
@@ -787,42 +718,40 @@ I've heard that they sell a chemical called Polymeteral in Avion Village.<wait>
 ; *** Lore ***
 ; ************
 
-[10C]
+[5139]
 ; ココハ ロア- トイウ ムラデス.<line>
 ; ラシ-クノセイデ サビレテシマッタ.<wait>
 This is Lore Village.<wait more>
 Well, it used to be, before LaShiec stepped into office.<wait more>
 Now it's just a wasteland for the starving.<wait>
 
-[10E]
+[5119]
 ; カ-バンクルアイ トイウ ホウセキヲシッテイマスカ.<wait more>
-Have you heard of a jewel called the Carbunckle Eye?<wait more>
-
-[110]
 ; カスバノ ドラゴンガ モッテイル<line>
 ; トイウ ウワサデス.<wait>
+Have you heard of a jewel called the Carbunckle Eye?<wait more>
 It’s rumored to be held by a dragon in Casba.<wait more>
 What does a dragon need a jewel for anyway?<wait>
 
-[112]
+[511f]
 ; コノシマノ ニシノ ハズレニハ<line>
 ; アビオン トイウ ムラガ アリマス.<wait>
 Hey, since you're here, you might as well pay Avion a visit.<wait more>
 It's a small town like this one, on the western tip of the island.<wait>
 
-[114]
+[5125]
 ; ラエルマツリ- トイウ キヲ<line>
 Have you heard about Laerma trees?<end>
 
-[116]
+[512e]
 ; デゾリスセイノ アルチプラノ<line>
 I hear the Altiplano plateau on Dezoris is totally covered with 'em.<wait>
 
-[118]
+[5113]
 ; エッ ラシ-クヲ タオシニ イクノ.スゴイネエ.<wait>
 It's about time someone went after that brute. Good luck.<wait>
 
-[11A]
+[]
 ; ウワサダケド アル クリスタルハ<line>
 ; アシキ マホウヲ フウジルトカ.<wait>
 LaShiec's no pushover. His black magic could destroy you.<wait more>
@@ -834,30 +763,28 @@ It's just a rumor, though. Don't quote me on that.<wait>
 ; *** Avion ***
 ; *************
 
-[11C]
+[513f]
 ; コノムラハ アビオン トイウノヨ.<wait>
 This village is called Avion.<wait>
 
-[11E]
+[5145]
 ; ラシ-クノ マノテハ コノムラニモ<line>
 ; ノビテキタ. タスケテクレ.<wait>
 LaShiec’s evil influence has corrupted our village, too!<wait more>
 Please, you have to stop him!<wait>
 
-[120]
+[514b]
 ; コノムラニ カワッタ オトコガ<line>
 ; ヒッコシテキタヨ.ドウブツジッケンヲ<wait more>
+; ヤッテルラシイガ キミガワルイナア.ツボ ミタイナモノヲ モッテタヨ.<wait>
 A really strange man recently moved here.<wait more>
 Quiet guy. Rumor has it he's experimenting on animals.<wait more>
 And that strange pot!<wait more>
 He's always walking around with it clutched to his chest.<wait more>
-
-[122]
-; ヤッテルラシイガ キミガワルイナア.ツボ ミタイナモノヲ モッテタヨ.<wait>
 First the lava cuts us off from society, then this guy moves in.<wait more>
 What's this town coming to?<wait>
 
-[124]
+[54de]
 ; ラコニアデ デキタ ロボットダヨ.<wait more>
 ; デモ スクラップニ サレテ<line>
 ; ステラレチマッタラシイヨ.<wait>
@@ -865,23 +792,21 @@ It’s a robot made of Laconia!<wait more>
 Luveno created Hapsby as a prototype spaceship pilot.<wait more>
 It was abandoned in a scrap heap and left to rot. What a waste...<wait>
 
-[126]
+[5151]
 ; ワタシ ウチュウノ タビガ<line>
 I’d like to travel through space someday.<wait>
 
-[128]
+[5157]
 ; ジャコウネコ トイウ ドウブツハ<line>
 ; アル キノミヲ タベルト<wait more>
+; オオキクナッテ ソラヲ トベルヨウニナルソウダヨ. フシギダネ.<wait>
 Our new neighbor sure knows a lot about animals.<wait more>
 He told me the weirdest thing about Musk Cats.<wait more>
 He says if they eat a certain berry, they grow huge, and can fly!<wait more>
 I told him he was nuts, of course.<wait more>
-
-[12A]
-; オオキクナッテ ソラヲ トベルヨウニナルソウダヨ. フシギダネ.<wait>
 What kind of berry? Hm. Sorry, I can't recall.<wait>
 
-[12C]
+[57bd]
 ; ボクハ ハプスビ-.<wait more>
 ; ミツケテクレテ アリガトウ. ルベノゴウノ ソウジュウハ マカセテネ.<wait>
 Greetings. I am pilot robot Hapsby.<wait more>
@@ -891,58 +816,54 @@ I will assist you in the operation of any Luveno brand spacecraft.<wait>
 ; *** Uzo ***
 ; ***********
 
-[12E]
+[515d]
 ; ココハ モタビアセイノ ウ-ゾ<line>
 This is Uzo Village, on Motavia.<wait>
 
-[130]
+[5163]
 ; アリジゴクハ ランドマスタ- トイウノリモノヲ ツカエバ トオレマスヨ.<wait>
 Ant-lions? No problem! You can drive a LandMaster right over 'em.<wait>
 
-[132]
+[5169]
 ; ウ-ゾノ ミナミニ カスバ トイウ<line>
 To the South of Uzo lies a village called Casba.<wait>
 
-[134]
+[516f]
 ; カスバノ ドウクツニハ ドラゴンガ<line>
 It looks like a dragon is holed up inside Casba Cave. They say there’s a jewel in its head.<wait>
 
-[136]
+[5194]
 ; フラ-ドマント トイウ マントヲ<line>
-Have you heard of a cloak called the Frad Mantle? <wait more>
-
-[138]
 ; スゴイ ボウギョリョクガ<line>
+Have you heard of a cloak called the Frad Mantle? <wait more>
 From what I hear, it’s really light, yet has excellent protective power.<wait>
 
-[13A]
+[5175]
 ; ス-ズフル-ト トイウ フエノコトヲシッテルカイ.<end>
 Have you heard of the Soothe Flute?<end>
 
-[13C]
+[5133,517e,54d9,54fe]
 ; ソウカイ.ツマンネエノ.<wait>
 Oh.<wait more>
 Very well.<wait>
 
-[13E]
+[518e]
 ; ナイショダケドサ ボクガ パルマセイヘ イッタトキニ ガシコノムラノ<wait more>
-Well, this is a secret, but I went and buried one on the outskirts of Gothic village.<wait more>
-
-[140]
 ; ハズレニ ウメテキタンダ.ダレニモ<line>
+Well, this is a secret, but I went and buried one on the outskirts of Gothic village.<wait more>
 Don’t tell anybody I told you that!<wait>
 
-[142]
+[2dab]
 ; ダレニ キイタカ シラナイガ<line>
 I don’t know what you’re talking about.<wait more>
 I run a legitimate business here.<wait>
 
-[144]
+[2db0]
 ; ダメナモノハ ダメダ.<line>
 I already told you once, I don't deal with illegal goods.<wait more>
 Get out of my store.<wait>
 
-[146]
+[2ddc]
 ; シツコイヤツダ.ソンナニ イウノナラシカタガナイ.ダレニモ イウナヨ.<wait>
 You're not going to give up, are you?<wait more>
 Here, just take it. One Roadpass, signed and certified.<wait more>
@@ -953,15 +874,13 @@ If anyone asks you about two dead couriers, deny everything.<wait>
 ; *** Baya Mahrey Tower ***
 ; *************************
 
-[148]
+[5530]
 ; ワシハ セカイイチノ ウラナイシ<line>
-I am Damoa, the greatest fortuneteller in the world!<wait more>
-
-[14A]
 ; ワシノ ウラナイヲ シンジルカ.<end>
+I am Damoa, the greatest fortuneteller in the world!<wait more>
 Do you believe in my powers of divination?<end>
 
-[14C]
+[54f9]
 ; バルテボニハ ボクノ トモダチガ<line>
 ; イルンダ.<wait more>
 ; イマハ ヨウガンイケノ セイデ<line>
@@ -969,57 +888,53 @@ I've got a friend in Bartevo.<wait more>
 I guess things are pretty bad there right now, what with those pools of lava and all.<wait more>
 If you see him, could you say 'hi' to him for me?<wait>
 
-[14E]
+[5541,5552,5563]
 ; ヨシ.ヨシ.<wait>
 Good. Good.<wait>
 
-[150]
+[5547]
 ; オマエハ サガシモノヲ シテオル<line>
 I sense that you are searching for something, yes?<end>
 
-[152]
+[553b]
 ; ナンジャト.  オマエハ<line>
 What did you say?  Such impudence!  Leave at once!<wait>
 
-[154]
+[5558]
 ; オマエハ アレックス オサ-ルヲ<line>
 I sense that you are looking for Alex Ossale, yes?<end>
 
-[156]
+[5569]
 ; ワシノ イウコトハ スベテ タダシイノジャ. ワカッタカ.<end>
 Everything I say is correct. Understood?<end>
 
-[158]
+[5574]
 ; デハ マタクルガイイ.<wait>
 Then perhaps you should come back later.<wait>
 
-[15A]
+[557a]
 ; ワシニ サカラウノカ.<end>
 Do you defy me?<end>
 
-[15C]
+[5585]
 ; ソウダロウ.オマエハ ナカナカ<line>
-Is that so? You show considerable promise.<wait more>
-
-[15E]
 ; ホウビニ クリスタルヲ ヤロウ.<wait>
+Is that so? You show considerable promise.<wait more>
 I shall reward you with this crystal.<wait>
 
 
-[160]
+[5597]
 ; ココヲ バヤマ-レノ トウト<line>
 ; シリナガラ キタノカ.<end>
-;DO YOU COME IN FULL KNOWLEDGE OF THE TOWER OF BAYA MALAY<end>
 Did you come here thinking it was Baya Marlay tower?<end>
 
-[162]
+[55a0]
 ; カナラズヤ テンノ イカリニ<line>
 ; フレヨウゾ.<wait>
 You will surely be destroyed by heaven's wrath!<wait>
 
-[164]
+[55a5]
 ; ナラバ ヒキカエスガヨイ.<wait>
-;GO BACK BEFORE IT IS TOO LATE<wait>
 Then you should turn back.<wait>
 ;this appears to be in response to an answer to the question above
 
@@ -1027,57 +942,51 @@ Then you should turn back.<wait>
 ; *** Casba ***
 ; *************
 
-[166]
+[519a]
 ; ココハ カスバ トイウ ムラデス.<wait>
 This is Casba Village.<wait>
 
-[168]
+[51a0]
 ; コノムラノ ドウクツニ ドラゴンガ<line>
 A dragon has holed himself up in our cave! I’m scared!<wait>
 
-[16A]
+[51a6]
 ; ダンジョンノ ナカデハ オノレノ<line>
 .........<wait>
 
-[16C]
+[51ac]
 ; マワリヲ キリニ カコマレタ ムラ<line>
-There are stories told in the village surrounded by mist.<wait more>
-
-[16E]
 ; ガアル.ソノムカシ ペルセウスガ<line>
 ; マモノタイジニ ツカッタトイウ.<wait>
+There are stories told in the village surrounded by mist.<wait more>
 They speak of some sort of legendary shield.<wait more>
 Apparently, Perseus once used it to confront a monster.<wait>
 
-[170]
+[51b2]
 ; ボクガ ミズウミノ ニシヘ イクト<wait more>
 ; キリノヨウナ オソロシイ ドクガスガヒロガッテイタンダ.<wait more>
 There's a terrible poison mist west of here.<wait more>
 I don't think you can get through it without protection.<wait>
 
-[172]
+[51b8]
 ; フロ-ム-バ- トイウ ノリモノヲ<line>
 Do you know what a FlowMover is?<end>
 
-[174]
+[51cb]
 ; パルマセイノ シオンノマチデ カッタンダケド コワレチマッタミタイデ<wait more>
+; バルテボニ ステチマッタヨ.<line>
 So you know what junk they are!<wait more>
 I bought one in Shion city, on Palma.<wait more>
 It broke down, so I dumped it in Bartevo.<wait more>
-
-[176]
-; バルテボニ ステチマッタヨ.<line>
 What a waste!<wait>
 
-[178]
+[57e0]
 ; フロ-ム-バ-ヲ ミツケタ.<wait more>
-You found a FlowMover.<wait more>
-
-[17A]
 ; ツカエルヨウニ ナッタゾ.<wait>
+You found a FlowMover.<wait more>
 Hapsby fixed the parts that were broken, so you can use it now!<wait>
 
-[17C]
+[51c1]
 ; アレハ ベンリダヨ. ミズノウエヲ<line>
 ; スイスイ イケルンダ.<wait>
 Oh, they're marvelous! When they work, of course.<wait more>
@@ -1088,87 +997,73 @@ They can glide smoothly across the top of the water.<wait>
 ; *** Drasgow ***
 ; ***************
 
-[17E]
+[51d1]
 ; ココハ ドラスゴ-. ウミノウエノ<line>
 This is Drasgow, a tiny city floating on the sea.<wait>
 
-[180]
+[51d7]
 ; イマ ウミノ ミチハ トザサレテ<line>
-Wow! I didn't expect to see visitors here anytime soon.<wait more>
-
-[182]
 ; ヨクモマア コノマチヘ<line>
 ; タドリツキマシタネ.<wait>
+Wow! I didn't expect to see visitors here anytime soon.<wait more>
 Not since LaShiec put an embargo on sea travel, anyway.<wait more>
 How the heck did you get here?<wait>
 
-[184]
+[51dd]
 ; アビオンノ トウニハ マリョクヲ<line>
 I hear that there's an enchanted sword in Avion Tower.<wait>
 
-[186]
+[51e3]
 ; ワタシハ ムカシ ソラニ ウカブ<line>
 I once saw a huge floating rock in the sky!<wait>
 
-[188]
+[51e9]
 ; チョウコオネ-サンデ-ス.<wait more>
-My name is Choko Oneesan.<wait more>
-
-[18A]
 ; ガンバッテ ボウケンヲ ツヅケテネ.<wait>
-; FC: You're doing wonderfully, keep it up!<wait>
-; PJ: Be tough and carry on your adventure!<wait>
+My name is Choko Oneesan.<wait more>
 Be tough and carry on your adventure!<wait>
 
-[18C]
+[51ef]
 ; ワタシハ ドクガスカラ ミヲ マモルガスクリア- トイウ ソウチガ<wait more>
+; ココニ ウッテイルト キイタノダガ<line>
 Do you know what a GasClear is? They protect you from poison gas.<wait more>
 A shop near here sells them, but I can't find it!<wait more>
-
-[18E]
-; ココニ ウッテイルト キイタノダガ<line>
 Maybe if I head left, up ahead...<wait>
 
-[190]
+[51f5]
 ; ココハ アイテムショップデス.<line>
-This is an item shop. What can I do for you?<wait more>
-
-[192]
 ; ナ-ンチャッテ.カラカッテゴメン.<line>
 ; カンベンシテチョ.<wait>
+This is an item shop. What can I do for you?<wait more>
 ...actually, I lied. This isn't an item shop at all.<wait more>
 What? Don't look at me like that.<wait>
 
-[194]
+[5201]
 ; コンナトコニ オミセガ アッテ<line>
-I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
-
-[196]
 ; ガスクリア- <number>メセタデス.<line>
+I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
 GasClears are <number><internal hint 02> meseta<use suffix> each. Pretty cheap, no? Want one?<end>
 
-[198]
+[5226]
 ; アリガトウ.マタキテネ.<wait>
 Thanks. Come again!<wait>
 
-[19A]
+[521d]
 ; オカネガナイノ-. シケテンナ-.
-What?! You don’t have any money?<wait more>
-
-[19C]
 ; オヤ モッタイナイ.<line>
+What?! You don’t have any money?<wait more>
 What the hell?! I'm not selling you ANYTHING now!<wait>
 
-[19C-2]
+[520c]
 Suit yourself. I'll be here when you change your mind.<wait>
 
-[19E]
+[4cec]
 ; スペ-スポ-トハ ヘイサスル.<wait>
 Access denied.<wait more>
 Space travel is now entirely off limits to all citizens.<wait more>
 This is a matter of national security.<wait>
 
-[1A0]
+[4cfd]
 ; パスポ-トヲ ボッシュウスルゾ.<wait>
 We'll be confiscating your passport now.<wait>
 
@@ -1177,91 +1072,74 @@ We'll be confiscating your passport now.<wait>
 ; *** Skray ***
 ; *************
 
-[1A2]
+[5238]
 ; ココハ デゾリスセイノ スクレ.<line>
 Welcome to Skray! Stick around, it's warm down here.<wait>
 
-[1A4]
+[523e]
 ; パルマセイカラノ イミンハ ホトンドコノマチニ スンデイマス.<wait>
 Almost all of the immigrants from Palma live in this town.<wait>
 
-[1A6]
+[5244]
 ; ワタシ コノホシノコトハ<line>
 ; ヨクシラナイケド キタノ ヤマオクニ<wait more>
+; コノホシノ ジュウミン デゾリアンノムラガ アルソウヨ.<wait>
+; <end>
+; TODO: Dezorians
 Native Dezolians don't live here in Skray.<wait more>
 There are some in a village inside the northern mountains.<wait>
 
-[1A8]
-; コノホシノ ジュウミン デゾリアンノムラガ アルソウヨ.<wait>
-; <end>
-; Continues 1A6
-
-[1AA]
+[524a]
 ; ナニ ラシ-クヲ タオスンダト.<line>
 ; ソレナラバ ラコニアデ デキタ<wait more>
+; ソ-ド アクス シ-ルド ア-マ-<line>
+; コレラノ ブキハ サイキョウノ<line>
+; ブジヲ イノッテイル.<wait>
 Overthrowing LaShiec, are you?<wait more>
 I hope you're adequately equipped.<wait more>
-
-[1AC]
-; ソ-ド アクス シ-ルド ア-マ-<line>
 You'll need a sword, axe, shield, and armor made from laconia.<wait more>
-
-[1AE]
-; コレラノ ブキハ サイキョウノ<line>
 I wouldn't use anything less powerful if I were you.<wait more>
-
-[1B0]
-; ブジヲ イノッテイル.<wait>
 May your journey be safe.<wait>
 
-[1B2]
+[5250]
 ; ラコニアデ デキタ ブキハ セイナルチカラヲ ヒメテイルンダ.<wait more>
-Laconia is more than just strong, it's sacred.<wait more>
-LaShiec knows this, of course.<wait more>
-That's why laconian equipment is so hard to find!<wait more>
-
-[1B4]
 ; ラシ-クハ ソレヲ キラッテ<line>
-He's afraid of it!<wait>
-
-[1B6]
 ; アチコチニ カクシテシマッタトイウ.<wait>
 ; <end>
-; Continues 1B4
+Laconia is more than just strong, it's sacred.<wait more>
+LaShiec knows this, of course.<wait more>
+; TODO: Laconian
+That's why laconian equipment is so hard to find!<wait more>
+He's afraid of it!<wait>
 
-[1B8]
+[5256]
 ; デゾリスセイハ コオリノホシデス.<wait>
 Dezoris is covered entirely in ice.<wait more>
 Not exactly the flourishing greenery of Palma, is it?<wait>
 
-[1BA]
+[525c]
 ; コオリノ ヤマノナカニハ<line>
 They say that parts of the ice mountains crumble easily.<wait>
 
-[1BC]
+[5262]
 ; アルチプラノコウゲンハ マワリヲ<line>
 Altiplano plateau is surrounded by mountains of ice.<wait>
 
-[1BE]
+[5268]
 ; コノホシハ ヒャクネンニ イチド<line>
-This planet has a solar eclipse once every hundred years.<wait more>
-
-[1C0]
 ; ソノトキニ トモサレタ ホノオハ<line>
-A flame lit during an eclipse is called an Eclipse Torch.<wait more>
-
-[1C2]
 ; シンセイナル ホノオトシテ<line>
+This planet has a solar eclipse once every hundred years.<wait more>
+A flame lit during an eclipse is called an Eclipse Torch.<wait more>
+; TODO: Dezorians
 Native Dezolians believe Eclipse Torches carry divine power.<wait>
 
-[1C4]
+[526e]
 ; グアランノ シタイオキバノ<line>
 ; シニンガ ヨミガエッタソウダ.<wait more>
+; オソロシヤ.<wait>
 Whatever nonsense LaShiec's gotten involved with has gone too far.<wait more>
 I've heard dead bodies in Guaran Morgue have come back to life!<wait more>
-
-[1C6]
-; オソロシヤ.<wait>
 Please, stop him. This is horrible!<wait>
 
 
@@ -1281,91 +1159,85 @@ Please, stop him. This is horrible!<wait>
 ;Truth-tellers
 ;-------------
 
-[1C8]
+[5274]
 ; トナリノ ブラクハ<line>
 ; ウソツキバカリダ.キヲツケナヨ.<wait>
 I wouldn't trust anyone in the neighboring village.<wait more>
 Raving pack of pathological liars, they are.<wait>
 
-[1CA]
+[527a]
 ; コノムラノ キタノ ヤマノムコウニ<line>
 ; コロナノトウガ アルズラ.<wait>
 You might want to check out the Corona Tower.<wait more>
 On the other side of the mountains to the north, it is.<wait>
 
-[1CC]
+[5280]
 ; コロナノトウノ ニシニハ デゾリスノドウクツガ アルズラ.<wait more>
-To the west of Corona Tower lies Dezoris Cave, it does.<wait more>
-
-[1CE]
 ; ワシラノ ナカマガ イルズラ.<line>
 ; ヨロシクズラ.<wait>
+To the west of Corona Tower lies Dezoris Cave, it does.<wait more>
 We have friends there, we do.<wait more>
 Give them our regards, you will?<wait>
 
-[1D0]
+[5286]
 ; ラエルマツリ-ニハ ラエルマベリ-<line>
 ; トイウ キノミガ ナルズラヨ.<wait more>
-Laerma trees bear strange fruits.<wait more>
-They're called Laerma Berries, they are.<wait more>
-
-[1D2]
 ; アノ キノミハ オイシイカラ<line>
-They're tasty. I want to eat them, I do.<wait more>
-
-[1D4]
 ; ラコニアノ ツボニ イレナイト<line>
 ; ヒカラビテシマウズラヨ.<wait>
+Laerma trees bear strange fruits.<wait more>
+They're called Laerma Berries, they are.<wait more>
+They're tasty. I want to eat them, I do.<wait more>
 The problem is, we have to put them in a Laconian jar.<wait more>
 If we don't, they get all dried up, they do.<wait>
 
-[1D6]
+[528c]
 ; エアロプリズム トイウノヲ<line>
 Heard of something called an Aeroprism, have you?<end>
 
-[1D8]
+[529a]
 ; コノヨト チガウ セカイガ<line>
 I hear you can see other worlds with one, you can.<wait>
 
-[1DA]
+[5295]
 ; イチド ミテミタイモノズラヨ.<wait>
 I’d really like to look into one sometime, I would.<wait>
 
-[1DC]
+[52a0]
 ; コノブラクノ ミンナハ パルマノ<line>
 All us villagers hate Palmans, we do.<wait>
 
 ;Liars
 ;-----
 
-[1DE]
+[52a6]
 ; コロナノトウニハ イノチノイズミガ<line>
 ; アルンダス.<wait>
 Yep. In Corona Tower, there’s a fountain of youth.<wait more>
 Seriously.<wait>
 
-[1E0]
+[52b2]
 ; デゾリスノ ドウクツノ チカ<line>
 ; <number>カイデ ワ-プデキルンダスヨ.<wait>
 You can warp from the 10th underground level of Dezoris Cave.<wait more>
 No joke. I wouldn't lie to you.<wait>
 
-[1E2]
+[52b8]
 ; ラエルマベリ-ハ アオイイロヲシタ<line>
 ; キノミデ センリョウニ ツカウダス.<wait>
 Laerma Berries are blue, and we use them to dye our clothes.<wait more>
 That's what we do.<wait>
 
-[1E4]
+[52be]
 ; ラエルマツリ-ノ マエデ クリスタルヲ ツカウト ミガ ナルンダス.<wait>
 You can use a crystal to make berries grow on a Laerma tree.<wait more>
 I kid you not!<wait>
 
-[1E6]
+[52c4]
 ; コノブラクハ パルマノ ヒトビトヲ<line>
 This village welcomes all Palmans. Seriously.<wait>
 
-[1E7]
+[59c1]
 Those guys in the other village are all liars. For real.<wait>
 
 
@@ -1373,103 +1245,94 @@ Those guys in the other village are all liars. For real.<wait>
 ; *** Sopia ***
 ; *************
 
-[1E8]
+[52ca]
 ; コノムラハ ソピアト イイマス.<wait more>
 ; ドクガスノ ナカヲ<line>
 This village is called Sopia. Welcome.<wait more>
 I’m glad you were able to make it through the mist.<wait>
 
-[1EA]
+[52d6]
 ; ワタシハ コノムラノ ソンチョウ<line>
-I am the head of this village.<wait more>
-
-[1EC]
 ; マチヤ ムラカラ トザサレタ ソピアハ トテモ マズシイノデス.<wait more>
+; ドウカ <number>メセタ キフシテ<line>
+I am the head of this village.<wait more>
 We in Sopia are very poor. We're outcasts. <wait more>
 The mist shuts us off from other towns.<wait more>
-
-[1EE]
-; ドウカ <number>メセタ キフシテ<line>
 Might you donate <number><internal hint 02> meseta<use suffix> to us?<end>
 
-[1F0]
+[52e1]
 ; ソウデスカ.ザンネンデス.ウウッ.<wait>
 I see. I’m sorry to hear that. Ohhh...<wait>
 
-[1F2]
+[52f2]
 ; オタガイニ マズシイノデスネ.<line>
 So you are poor as well, are you? Such sad times these are.<wait>
 
-[1F4]
+[5300]
 ; アリガトウ.<line>
-Thank you. Perhaps I can help you, in return.<wait more>
-
-[1F6]
 ; ペルセウスガ メデュ-サヲ<line>
 ; タオストキニ ツカッタ タテガ<wait more>
+; ミズウミニアル シマノ サボテンノ<line>
+; シタニ ウメテアルソウデス.<wait>
+; <end>
+Thank you. Perhaps I can help you, in return.<wait more>
 I imagine you're looking for Perseus' shield.<wait more>
 According local legend, Perseus used it to slay Medusa.<wait more>
 It's rumored to be on an island in the lake.<wait more>
 I've heard that it's buried under a cactus.<wait more>
 I'm sorry, that's all I know. Good luck.<wait>
 
-[1F8]
-; ミズウミニアル シマノ サボテンノ<line>
-; シタニ ウメテアルソウデス.<wait>
-; <end>
-; Continues 1F6
-
-[1FA]
+[5306]
 ; アタシ ゲ-マ-ノ ミキチャンヨ.<line>
 Hi, I'm Gamer Miki! Do you own a Master System?<end>
 
-[1FC]
+[530f]
 ; マア アタシトオンナジ ゲ-マ-ネ.ヤッパ エフエムオンゲンハ グ-ネ.<wait>
 Yay! Isn't the FM sound amazing?!<wait>
 
-[1FE]
+[5314]
 ; ヤッダ- アナタ ハヤク カッテ<line>
 ; ラッシャイヨ- モ- プン プン.<wait>
 WHAT?!<wait more>
 Shame on you! Hurry up and buy one!<wait>
 
-[200]
+[531a]
 ; ラシ-クガ ケンリョクヲ ニギル<line>
 Before LaShiec's powerful grasp, this village was very wealthy.<wait>
 
-[202]
+[5320]
 ; ミズウミノ ミナミノ ヤマノ ナカニタジム トイウ ドウシガ イマス.<wait>
 Have you met Tajimu? He's a monk.<wait more>
 He's living in the mountains south of the lake.<wait>
 
-[204]
+[5326]
 ; パルマセイハ キレイナ ホシダト<line>
 I heard that Palma is a beautiful planet. Is it true?<end>
 
-[206]
+[532f]
 ; イッテミタイナ-.<wait>
 Anywhere's better than a town surrounded by poison mist.<wait>
 
-[208]
+[5334]
 ; ソウデスカ.ワタシハ モット<line>
 Oh, I see. I want to go to a place with cleaner air.<wait>
 
-[20A]
+[5355,53a5]
 ; アリガトウ.<wait more>
 Thanks. Please come again.<wait>
 
-[20C]
+[5345]
 ; ケチ.<wait>
 Cheapskate!<wait>
 
-[20E]
+[502e,5055,535b]
 ; バカニスンデネエ.<wait>
 Do I look like an idiot?!<wait>
 
-[210]
+[5361]
 .........<wait>
 
-[212]
+[5849,58ea]
 ; ソウカ.ソレデコソ アルゴルオウノ<line>
 ; ムスメダ.<wait more>
 ; ワタシモ テツダワセテモラウヨ.<wait>
@@ -1482,77 +1345,73 @@ He would be proud of you today.<wait>
 ; *** Baya Mahrey Prison ***
 ; **************************
 
-[214]
+[5619]
 ; オオ アンタモ トジコメラレタノカ<line>
-Oh, so you are confined in here as well. How sad.<wait more>
-
-[216]
 ; ソトニデル ホウホウハ アルンジャガワシハ ココニ イルホウガ<wait more>
 ; キラクデ イイワイ.<wait>
+Oh, so you are confined in here as well. How sad.<wait more>
 Sure, there's a way out of here. But what's the point?<wait more>
 Life is so much less complicated here.<wait>
 
-[218]
+[5613]
 ; コノサキヘハ イカナイホウガ<line>
 You’d better not go any further -- there’s a security guard up ahead.<wait>
 
-[21A]
+[552a]
 ; ヒキカエスナラ イマノウチジャゾ.<wait>
 Now would be a good time to turn around and go home.<wait>
 
-[21C]
+[55b3]
 ; ロ-ドパスヲ モッテイルカ.<end>
 Do you have a roadpass?<end>
 
-[21E]
+[55c5]
 ; ドレドレ<line>
-This is a fake. Where did you get this?<wait more>
-
-[220]
 ; ロボットダト オモッテ ナメルナヨ.ロウニ ブチコンデヤル.<wait>
+This is a fake. Where did you get this?<wait more>
 Well, you certainly picked the right place to get locked up.<wait more>
 Come with me.<wait>
 
-[222]
+[55f5]
 ; オレヲ ココカラ ダシテクレルノカ.デモ ムダダヨ.<wait>
 Did you come to let me out of here?<wait more>
 Oh, please help me. I don't want to die.<wait>
 
-[224]
+[55fb]
 ; ラシ-クヲ タオソウナンテ<line>
 ; ムボウダヨ.<wait>
 Overthrow LaShiec? That’s impossible.<wait more>
 You can't kill the unkillable man.<wait>
 
-[226]
+[5601]
 ; ワタシタチハ ラシ-クノ イケニエニサレテシマウノヨ. ウッウウ.<wait>
 We’re all going to end up as sacrifices for LaShiec!<wait>
 
-[228]
+[582d]
 ; グアランニアル ヨロイヲ<line>
 Did you get the armor in Guaran?<end>
 
-[22A]
+[583b]
 ; ソレハ オトシアナノ ムコウガワニ<line>
 You can find it on the other side of a pitfall.<wait>
 
-[22C]
+[5836]
 ; キミッテ スゴイネ.<wait>
 Wow, you're amazing!<wait>
 
-[22E]
+[5607]
 ; ラシ-クニ デアッタモノハ ミナ<line>
 ; ソノ マリョクデ<wait more>
 LaShiec's more dangerous than most people realize.<wait more>
 His magical powers to snatch away your very soul!<wait>
 
-[230]
+[58ef]
 ; ソウカ.ソレモ ヨカロウ.<line>
 ; マタ イツデモ モドッテクルガイイ.<wait>
 That's a pity. He would have wanted this for you.<wait more>
 Still, you are welcome here at any time.<wait>
 
-[232]
+[560d]
 ; バヤマ-レノ オカノウエニハ<line>
 ; トウガアル.<wait more>
 There’s a tower on top of the knoll of Baya Marlay.<wait more>
@@ -1563,58 +1422,52 @@ I wonder what secrets lie within?<wait>
 ; *** Corona Tower ***
 ; ********************
 
-[234]
+[57fd,5803]
 ; ナニシニキタダ. オメエタチ<line>
 Why have you come here? Stay out of trouble, hear me?<wait>
 
-[236]
+[]
 ; イヤナ ヨカンガスル.<wait>
 I’ve got a bad feeling about this.<wait>
 
-[238]
+[5815]
 ; コレカラ サキハ キヲツケテ.<line>
 Be careful up ahead. You should turn left at the fork in the path.<wait>
 
-[23A]
+[592d]
 ; ココダケノ ハナシダガ ダモア<line>
 ; トイウ ウラナイシノ モッテイル<wait more>
+; クリスタルヲ ラシ-クサマハ<line>
 You didn't hear this from me, but...<wait more>
 Lord LaShiec fears the crystal held by Damoa the fortuneteller.<wait more>
-
-[23C]
-; クリスタルヲ ラシ-クサマハ<line>
 There must be something secret about it.<wait>
 
-[23E]
+[5661]
 ; コノ ヒハ ヒャクネンニ イチド<line>
 ; ノ ニッショクノ トキニ ツケタ<wait more>
+; モノダ. ドラゴンノ モッテイル<line>
+; ホウセキヲ クレルナラバ スコシ<wait more>
+; ワケテ アゲテモ ヨイガ ドウダ.<end>
 Do you see this flame in my hand? This is the Eclipse Torch.<wait more>
 This is the sacred fire of the centennial eclipse.<wait more>
 It's beautiful, holy, and, indeed, very valuable.<wait more>
-
-[240]
-; モノダ. ドラゴンノ モッテイル<line>
-; ホウセキヲ クレルナラバ スコシ<wait more>
 I might be willing to part with some of it, for, say...<wait more>
 ...a dragon's crystal.<wait more>
-
-[242]
-; ワケテ アゲテモ ヨイガ ドウダ.<end>
 What do you say?<end>
 
-[244]
+[5684]
 ; デハ イクリプスト-チヲ<line>
 Excellent. Here you are, then.<wait>
 
-[246]
+[566c]
 ; イラナイノカ.ソレジャア オメエハ<line>
 You don’t want it? Then why have you come here?<wait>
 
-[248]
+[568a]
 ; ホウセキヲ モッテナイデハナイカ.<line>
 You have no jewel! Don’t be foolish!<wait>
 
-[24A]
+[5373]
 ; コンナトコロニ オミセガ アッテ<line>
 ; ゴメンナサイ.<wait more>
 ; ショ-トケ-キヲ <number>メセタデ<line>
@@ -1627,58 +1480,52 @@ My world famous shortcakes are <number><internal hint 02> meseta<use suffix>. Wo
 ; *** Tajim's Cave ***
 ; ********************
 
-[24C]
+[56c7]
 ; オオ ワガデシ ルツヨ. ツイニ<line>
 ; ラシ-クヲ タオス タビニデルカ.<wait>
 Ah, Lutz, my pupil!<wait more>
 You plan to overthrow LaShiec, eh?<wait>
 
-[24E]
+[56d9]
 ; デハ ソツギョウノ シケンヲ シテ<line>
 ; ヤロウ.ワシト タタカウガヨイ.<wait>
 Then you must pass one final test.<wait more>
 Let's duel.<wait>
 
-[250]
+[5722]
 ; ツヨクナッタノウ.ルツヨ.<wait more>
 ; ソレダケノチカラガ アレバヨイ.<wait more>
-You have grown strong, Lutz.<wait more>
-I can't teach you any more.<wait more>
-
-[252]
 ; ワシカラノ オクリモノトシテ<line>
-Take this. It's a Frad Cloak.<wait more>
-
-[254]
 ; オマエノ カラダヲ マモッテクレル<line>
 ; ジャロウ. デハ ユクガヨイ.<wait>
+You have grown strong, Lutz.<wait more>
+I can't teach you any more.<wait more>
+Take this. It's a Frad Cloak.<wait more>
 It will protect your body from harm.<line>
 Now go, my boy.<wait>
 
-[256]
+[571c]
 ; マダマダ シュギョウガ タリンノウ.デナオシテクルガヨイ.<wait>
 You need more training, my boy.<wait more>
 Come back when you're ready. I'll be waiting.<wait>
 
-[258]
+[56a6]
 ; モウ ワシガ オシエルコトハ ナイ.<wait>
 I have nothing left to teach you, my boy.<wait>
 
-[25A]
+[56b3]
 ; オマエサンガタハ ドナタカナ.<line>
-And who might you people be?<wait more>
-
-[25C]
 ; ルツガ オル.シッテオルカ.<end>
+And who might you people be?<wait more>
 My pupil, Lutz, is in Mahal Cave. Do you know him?<end>
 
-[25E]
+[56bc]
 ; ルツニ ツタエネバ ナラヌコトガ<line>
 ; アル. ツレテキテハ クレマイカ.<wait>
 I have something that I must tell him.<wait more>
 Please tell him to come see me.<wait>
 
-[260]
+[56c1]
 ; ソウカ. ナラバ イッテモ<line>
 I see. Then there is no point in talking with you any further.<wait>
 
@@ -1687,31 +1534,27 @@ I see. Then there is no point in talking with you any further.<wait>
 ; *** The Illusionary Aerocastle ***
 ; **********************************
 
-[262]
+[5738]
 ; オマエタチノ コウドウハ<line>
 ; スベテオミトオシダ.<wait more>
+; カカッテクルガ イイ.<wait>
 Hello there.<wait more>
 I know why you're here. We've been watching you closely.<wait more>
-
-[264]
-; カカッテクルガ イイ.<wait>
 This is where your journey ends, I'm afraid.<wait>
 
-[266]
+[5749]
 ; オレハ ラシ-クサマノ<line>
 ; カゲムシャダ.<wait more>
+; オレヲタオシタトコロデ<line>
 Who am I? I am LaShiec's shadow warrior.<wait more>
 You've beaten me, but it will do you no good.<wait more>
-
-[268]
-; オレヲタオシタトコロデ<line>
 Lord LaShiec is unkillable. He'll destroy you all.<wait>
 
-[26A]
+[5367]
 ; ラシ-クサマニ サカラウナ.<wait>
 .........<wait>
 
-[26C]
+[576a]
 ; トウトウ ココマデ キタカ.<line>
 ; ウンノ イイヤツラメ.<wait more>
 ; ソンナニ ワシヲ タオシタイノカ.<end>
@@ -1725,14 +1568,14 @@ You have no idea what's inside of you.<wait more>
 And I know why you're here, too.<wait more>
 You plan to kill me. Don't you, child?<end>
 
-[26E]
+[5773]
 ; ソウカ.ソレナラバ<wait more>
 ; ソノ カンガエガ マチガッテイタ<line>
 Yes, of course you do. Your courage is admirable.<wait more>
 You are much like your father.<wait more>
 I'll take little pleasure in killing you.<wait>
 
-[270]
+[5778]
 ; コノゴニ オヨンデ<line>
 Please. I've no time for games. Come, let's do this.<wait>
 
@@ -1741,36 +1584,29 @@ Please. I've no time for games. Come, let's do this.<wait>
 ; *** Ending ***
 ; **************
 
-[272]
+[58e1]
 ; オオ.ミンナ スマナカッタ.<wait more>
 ; ワタシノ ココロト カラダハ<wait more>
+; ドウヤラ アシキ マリョクニ<line>
+; オカサレテイタラシイ.<wait more>
+; ヨクゾ コノヨヲ スクッテクレタ.<line>
+; モウスコシ オソカッタラ<wait more>
+; タイヘンナコトニ ナッテイタダロウ.ココロカラ レイヲ イウゾ.<wait more>
+; アリサヨ.<line>
 Oh, goodness.<wait more>
 My mind and body were...taken over, by an evil force.<wait more>
 It's a wonder I'm still alive. Thank you.<wait more>
-
-[274]
-; ドウヤラ アシキ マリョクニ<line>
-; オカサレテイタラシイ.<wait more>
 You've done it. You've saved Algol.<wait more>
 History shall repeat your names, always.<wait more>
-
-[276]
-; ヨクゾ コノヨヲ スクッテクレタ.<line>
-; モウスコシ オソカッタラ<wait more>
 Alisa. There's something I must tell you.<wait more>
 It's a secret I've kept from you, to spare your life.<wait more>
 Now that LaShiec is gone, it's safe to come out with it.<wait more>
 Alisa...your father was the king of Algol.<wait more>
 His royal blood is inside you. It has given you strength.<wait more>
-
-
-[278]
-; タイヘンナコトニ ナッテイタダロウ.ココロカラ レイヲ イウゾ.<wait more>
-; アリサヨ.<line>
 We are without a leader, Alisa.<wait more>
 Will you succeed your father and become Algol’s queen?<end>
 
-[27A]
+[5933]
 ; ワタシ オテガミ チエチャンヨ.<line>
 ; イツモ オタヨリ アリガトウ.<wait more>
 ; (World)
@@ -1781,70 +1617,56 @@ Please tell us what you think of this game. We’ll be waiting.<wait>
 ;Raise the Aeroprism toward the sky, from the highest peak.<wait more>
 ;It should reveal the dark castle above.<wait>
 
-[27C]
-; コ
-; Do not touch -- will affect [282]
-
-[27E]
-; コ
-; Do not touch -- will affect [282]
-
-[280]
-; カ
-; Do not touch -- will affect [282]
-
-[282]
+[5856]
 ; ラ サキハ ボクノ<line>
 Hey! Keep outta my turf!<wait>
 
-[284]
+[585c]
 ; ルベノハカセガ イウノダッタラ<line>
 I guess I’ve got to do what Dr. Luveno says. Go on through.<wait>
 
-[286]
+[4c40]
 ; モタビアセイニハ モタビアン<line>
 ; デゾリスセイニハ デゾリアン トイウ<wait more>
 There are intelligent aliens on Motavia and Dezoris.<line>
 Life on another planet! Can you imagine it?<wait>
 
-[288]
+[4e67]
 ; カシコイ モンスタ-ニハ<line>
 ; モンスタ-コトバガ アルソウダ.<wait>
 There are intelligent monsters, but they speak a different language than ours.<wait more>
 You'd have to be some kind of magician to understand them.<wait>
 
-[28A]
+[4e73]
 ; ラコニアンポットハ トテモ タカク<line>
 I made a fortune selling that Laconian Pot! Thanks!<wait>
 
-[28C]
+[508b]
 ; ヨシ コレデ スタッフハ<line>
 ; ソロッタヨウダ. ソコデ<wait more>
+; セイサクヒガ <number>メセタ<line>
+; カカルンジャガ ワシニ クレンカ.<end>
 Right. It looks like my staff is assembled.<wait more>
 What, you don't think two people can build a spaceship?<wait more>
 I'll have you know I've been building these since you were in diapers!<wait more>
-
-[28E]
-; セイサクヒガ <number>メセタ<line>
-; カカルンジャガ ワシニ クレンカ.<end>
 Now then, buying a spaceship isn't like buying some Peloriemate.<wait more>
 This is a serious investment, and it will cost you serious money.<wait more>
 I require <number><internal hint 02> meseta<use suffix> upfront. Can you cover that?<end>
 
-[290]
+[50b5]
 ; アリガトウ.デハ セイサクヲ<line>
 ; ハジメヨウ.スコシマッテクレ.<wait>
 Splendid. We'll begin construction immediately.<wait more>
 This is going to require some time, I'm a bit rusty.<wait more>
 Why don't you go slay some Slimes, or whatever it is you people do?<wait>
 
-[292]
+[50c3]
 ; アワテテモ イイモノハ デキンゾヨ.モウ スコシノシンボウジャ.<wait>
 Please, you can't rush perfection.<wait more>
 Unless you want to end up stranded in space, give us time.<wait more>
 Can't you go wander around a cave or something? We're very busy.<wait>
 
-[294]
+[50f6]
 ; ヨシ.コレデ ルベノゴウニ ノッテ<line>
 ; ウチュウヘ トビダセル.<wait more>
 ; ムラノ ソトヘ デテミルガイイ.<line>
@@ -1855,23 +1677,23 @@ And just in time, too. Spaceport security has gotten tighter.<wait more>
 Go on! The Luveno is docked just outside the village!<wait more>
 Go try it out!<wait>
 
-[296]
+[4c54]
 ; オイ ソコノ ネコ.<line>
 Here, kitty kitty! Come here!<end>
 
-[298]
+[4c75]
 ; ケッケッケ.オマエラモ シニタイカ.<wait>
 Ho ho, that was fun! Who's next?<wait>
 
-[29A]
+[4c7a]
 ; ワシノ ジャマヲ スルヤツハ<line>
 I said come HERE.<wait>
 
-[29C]
+[4f2f]
 ; ナガイタビデ ツカレタダロウ.<line>
 You must be tired from your journey. Why don’t you rest here for a while?<wait>
 
-[29E]
+[4f0d]
 ; モウ イッコクノ ユウヨモ<line>
 ; ユルサレナイ.<wait more>
 ; ココロシテ カカルガヨイ.<line>
@@ -1882,33 +1704,34 @@ There is not a single moment to lose.<wait more>
 Please be careful.<line>
 I pray for your safety.<wait>
 
-[2A0]
+[4f5b]
 ; フカイ ネムリニ ツイタ.<delay>
 You fell into a deep sleep...<delay>
 
-[2A2]
+[4fa2]
 ; オソロシイ ユメダッタ.<wait>
 It was all a dream...<wait>
 
-[2A4]
+[58fc]
 ; ココハ アリサノ ウチデス.<line>
 This is Alisa's home. Nero's presence can still be felt here.<wait>
 
-[2A6]
+[4ed6]
 ; オヤ.ヨウスガ ヘンダ.<wait more>
 Empty! Where is the Governor-General?<wait>
 
-[2A8]
+[56d3]
 ; オヤ.シンデオルノカ.ナサケナイ.<line>
 ; イキカエッテ デナオスガイイ.<wait>
 ;YOU HAVE GOTTEN YOURSELF KILLED COME LETS TRY ONE MORE TIME<wait>
 Hey there. Are you dead? What a pity.<line>
 Revive and try again.<wait>
 
-[2AA]
+[5789]
 ; ラシ-クハ タオレタ.<wait more>
 ; アリサノ ネガイハ カナエラレタ.<wait more>
 ; テンゴクノ ネロモ キット<line>
 Lord LaShiec has fallen. Nero's dying wish was granted.<wait more>
 This is the beginning of a new life in Algol.<wait more>
 The only thing left to do is tell the Governor-general in Paseo.<wait>
+

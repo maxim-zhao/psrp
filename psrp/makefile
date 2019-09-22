@@ -124,10 +124,9 @@ script_inserter\script_inserter.exe: script_inserter\*.cpp
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words.tbl
 	copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
 
-script_inserter\script1.bin script_inserter\tree.asm script_inserter\script_list.txt: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script1.txt word_count\script2.txt
+script_inserter\script.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script1.txt word_count\script2.txt
   copy /y word_count\script?.txt script_inserter
-	script_inserter\script_inserter.exe script_inserter\script script_inserter\table_temp.tbl script_inserter\script script_inserter\tree.asm script_inserter\script_list.txt
-#	del pass1.bin
+	script_inserter\script_inserter.exe script_inserter\script script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\tree.asm
 
 # credits
 credits\credits_encode.exe: credits\*.cpp

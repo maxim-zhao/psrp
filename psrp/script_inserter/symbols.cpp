@@ -12,6 +12,8 @@ Phantasy Star: Symbol Converter (Script)
 #include <codecvt>
 #include <map>
 #include <regex>
+#include <sstream>
+#include "ScriptItem.h"
 
 namespace
 {
@@ -23,6 +25,7 @@ namespace
 		SymbolMonster = 0x50,
 		SymbolItem = 0x51,
 		SymbolNumber = 0x52,
+		// no 0x53
 		SymbolNewLine = 0x54,
 		SymbolWaitMore = 0x55,
 		SymbolEnd = 0x56,
@@ -315,7 +318,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
 	}
 }
 
-void Process_Text(const std::string& name, const Table& table, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
+void Process_Text(const std::string& name, const Table& table, std::vector<ScriptItem>& script)
 {
 	File f(name);
 
@@ -327,6 +330,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<std::
 
 	std::wstring currentLine;
 	std::vector<uint8_t> currentLineData;
+	std::vector<int> patchOffsets;
 
 	// Read in string entries
 	for (std::wstring s; f.getLine(s);)
@@ -341,6 +345,13 @@ void Process_Text(const std::string& name, const Table& table, std::vector<std::
 		// skip headers
 		if (s[0] == L'[')
 		{
+			// Extract patch offsets
+			std::wstringstream wrapper(s.substr(1, s.length() - 2));
+			std::wstring ws;
+			while (std::getline(wrapper, ws, L','))
+			{
+				patchOffsets.push_back(std::stoi(ws, nullptr, 16));
+			}
 			continue;
 		}
 
@@ -425,15 +436,16 @@ void Process_Text(const std::string& name, const Table& table, std::vector<std::
 		if (script_end)
 		{
 			// Store to the script object
-			script.emplace_back(convert.to_bytes(currentLine), currentLineData);
+			script.emplace_back(convert.to_bytes(currentLine), currentLineData, patchOffsets);
 			currentLine.clear();
 			currentLineData.clear();
+			patchOffsets.clear();
 		}
 	} // end while read line
 }
 
 
-void Convert_Symbols(const char* listName, const char* tableName, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
+void Convert_Symbols(const char* listName, const char* tableName, std::vector<ScriptItem>& script)
 {
 	const Table table(tableName);
 
@@ -444,11 +456,11 @@ void Convert_Symbols(const char* listName, const char* tableName, std::vector<st
 		Process_Text(name, table, script);
 	}
 
-	// MEasure script
+	// Measure script
 	int count = 0;
 	for (auto && entry : script)
 	{
-		count += entry.second.size();
+		count += entry.data.size();
 	}
 	printf("Dictionary encoding gives %d bytes for %d script entries\n", count, script.size());
 }

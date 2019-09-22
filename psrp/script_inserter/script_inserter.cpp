@@ -6,10 +6,11 @@ Phantasy Star: Script Inserter
 #include <exception>
 #include <stdexcept>
 #include <vector>
+#include "ScriptItem.h"
 
 
-extern void Convert_Symbols(const char* listName, const char* tableName, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script);
-extern void Huffman_Compress(const char* outputFilename, const char* treeFilename, const char* listFilename, const std::vector<std::pair<std::string, std::vector<uint8_t>>>& script);
+extern void Convert_Symbols(const char* listName, const char* tableName, std::vector<ScriptItem>& script);
+extern void Huffman_Compress(const char* outputFilename, const char* treeFilename, const std::vector<ScriptItem>& script);
 
 
 int main(int argc, const char** argv)
@@ -17,17 +18,17 @@ int main(int argc, const char** argv)
 	try
 	{
 		// Assert proper usage
-		if (argc != 6)
+		if (argc != 5)
 		{
-			throw std::runtime_error("Usage: script_inserter <script name> <table file> <output file> <output Huffman data file> <output script list file>");
+			throw std::runtime_error("Usage: script_inserter <script name> <table file> <output script file> <output Huffman data file>");
 		}
 
 		// phase 1: Script conversion
-		std::vector<std::pair<std::string, std::vector<uint8_t>>> script;
+		std::vector<ScriptItem> script;
 		Convert_Symbols(argv[1], argv[2], script);
 
 		// phase 2: Huffman encoding
-		Huffman_Compress(argv[3], argv[4], argv[5], script);
+		Huffman_Compress(argv[3], argv[4], script);
 	}
 	catch (const std::exception& e)
 	{

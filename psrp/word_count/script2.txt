@@ -1,371 +1,371 @@
 ﻿<width 12></center><wrap><height 03>
 
-[000]
+[13a4]
 ;<monster>ハ <player>ノ<line>
 ;コウゲキヲ カワシタ.<delay>
 <use article 02><monster> dodged <player>’s attack.<delay>
 
-[002]
+[1497]
 ;<player>ハ <monster>ノ<line>
 ;コウゲキヲ カワシタ.<delay>
 <player> dodged <use article 01><monster>’s attack.<delay>
 
-[004]
+[1a96]
 ;<player>ハ ハナシカケタ.<end>
 <player> spoke to <use article 01><monster>.<end>
 
-[006]
+[1ac0,1ca4]
 ;<monster>ハ コタエタ.<delay>
 <use article 02><monster> replied,<delay>
 
-[008]
+[1ab7]
 ;ツウジナカッタ.<delay>
 <use article 02><monster> didn’t understand.<delay>
 
-[00A]
+[1b27]
 ;<monster>ハ ニゲミチニ<line>
 ;タチフサガッタ.<delay>
 <use article 02><monster> blocked the escape route.<delay>
 
-[00C]
+[20cd,20fa,2168,21cb,21fd,22ac]
 ;<player>ノ マジックハ<line>
 ;コウカガ ナカッタ.<delay>
 <player>’s spell had no effect.<delay>
 
-[00E]
+[]
 ;<monster>ノ マジックハ<line>
 ;コウカガ ナカッタ.<delay>
 <use article 02><monster>’s spell had no effect.<delay>
 
-[010]
+[1ffa]
 ;メノマエニ ミエナイ マホウノ<line>
 ;カベガ デキタ.<delay>
 An invisible magic wall was built before your eyes.<delay>
 
-[012]
+[1492]
 ;<monster>ノ コウゲキハ<line>
 ;マホウノ カベニ ハネカエサレタ.<delay>
 <use article 02><monster>’s attack was deflected by the magic wall.<delay>
 
-[014]
+[14f9,15d3,1637]
 ;<monster>ノ マジックハ<line>
 ;マホウノ カベニ ハネカエサレタ.<delay>
 <use article 02><monster>’s spell was deflected by the magic wall.<delay>
 
-[016]
+[1458]
 ;ミエナイ カベノ コウカガ<line>
 ;ナクナッタ.<delay>
 The invisible wall became ineffective.<delay>
 
-[018]
+[1fbc]
 ;<player>ノ タイリョクガ<line>
 ;カイフクシタ.<delay>
 <player>’s stamina was restored.<delay>
 
-[01A]
+[1552]
 ;<monster>ノ タイリョクガ<line>
 ;カイフクシタ.<delay>
 <use article 02><monster>’s stamina was restored.<delay>
 
-[01C]
+[20d3]
 ;<monster>ヲ<line>
 ;カナシバリニシタ.<delay>
 <use article 02><monster> is all bound up.<delay>
 
-[01E]
+[151f]
 ;<player>ハ カナシバリニ アッタ.<delay>
 <player> is all bound up.<delay>
 
-[020]
+[12db]
 ;<player>ハ ウゴケナイ.<delay>
 <player> can’t move.<delay>
 
-[022]
+[140c]
 ;<monster>ハ ウゴケナイ.<delay>
 <use article 02><monster> can’t move.<delay>
 
-[024]
+[12d6]
 ;<player>ハ カナシバリガ トケタ.<delay>
 <player>’s bindings came apart.<delay>
 
-[026]
+[1407]
 ;<monster>ハ<line>
 ;カナシバリガ トケタ.<delay>
 <use article 02><monster>’s bindings came apart.<delay>
 
-[028]
+[2132]
 ;<player>ハ カラダニ チカラガ<line>
 ;ミナギルノヲ カンジタ.<delay>
 <player> felt a great swelling of energy.<delay>
 
-[02A]
+[216f]
 ;<monster>ハ コワクナッテ<line>
 ;シリゴミシタ.<delay>
 <use article 02><monster> got scared and backed away.<delay>
 
-[02C]
+[210d]
 ;<monster>ハ ニゲアシノ<line>
 ;ハヤサニ オドロイタ.<delay>
 <use article 02><monster> was surprised by the speed of the your escape.<delay>
 
-[02E]
+[21ad]
 ;ワナジャナカッタ.<wait>
 There was no trap.<wait>
 
-[030]
+[219f,21b2]
 ;アブナイ トコロダッタ.<player>ハ<line>
 ;ワナヲ ミヤブッテ ハズシタ.<wait>
 That was close! <player> detected and removed the trap.<wait>
 
-[032]
+[23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c]
 ;<player>ハ <item>ヲ<line>
 ;ツカッタ.<delay>
 <player> used <use article 01><item>.<delay>
 
-[034]
+[2883]
 ;<player>ハ <item>ヲ<line>
 ;ソウビシタ.<end>
 <player> equipped <use article 01><item>.<end>
 
-[036]
+[28cc]
 ;<player>ハ <item>ヲ<line>
 ;ステテシマッタ.<wait>
 <player> discarded <use article 01><item>.<end>
 
-[038]
+[20ff,23ec,2554,2582,2677,2803]
 ;シカシ コウカハ ナカッタ.<delay>
 But there was no effect.<delay>
 
-[03A]
+[2418,242a,244c,245e,2486]
 ;シカシ ココデ <item>ハ<line>
 ;ヤクニ タタナイ.<wait>
 But <use article 01><item> is of no use here.<wait>
 
-[03C]
+[2304]
 ;ココデ オリルワケニハ イカナイ.<wait>
 The group can’t get off here.<wait>
 
-[03E]
+[2438,246d]
 ;<item>ニ ノリコンダ.<delay>
 The group boarded <use article 01><item>.<delay>
 
-[040]
+[2311]
 ;<item>カラ トビオリタ.<delay>
 The group got out of <use article 01><item>.<delay>
 
-[042]
+[2402,2569,26af,2701,2816]
 ;シカシ ナニモ オキナカッタ.<delay>
 But nothing happened.<delay>
 
-[044]
+[24eb]
 ;<monster>ハ フエノネヲ<line>
 ;キイテ オトナシクナッタ.<delay>
 <use article 02><monster> heard the sound of the flute and calmed down.<delay>
 
-[046]
+[]
 ;<monster>ハ メガ ウツロダ.<delay>
 <use article 02><monster>’s eyes are blank.<delay>
 
-[048]
+[2505,2597,25f9,26f1,2742,27a2]
 ;シカシ イマハ ソンナコトヲ<line>
 ;シテイルバアイジャ ナイヨウダ.<delay>
 But now doesn’t seem to be the time to do that.<delay>
 
-[04A]
+[24ff,2514,258b,25ed,264b,2733,2793]
 ;<player>ハ <item>ヲ<line>
 ;トリダシタ.<delay>
 <player> took out <use article 01><item>.<delay>
 
-[04C]
+[251a,25aa,2651,279d]
 ;ベツニ コワレテナイヨウダ.<wait>
 There’s no real need for it right now.<wait>
 ;Note: this was originally ‘It doesn’t look particularly broken.’
 ;This translation takes the verb KOWARERU to mean ‘to be begged’
 
-[04E]
+[112c]
 ;マックラデ ススムコトガ デキナイ.<wait>
 It’s pitch black. You can’t move forward.<wait>
 
-[050]
+[25bd,2636]
 ;ソシテ ビンノ フタヲ アケテ<line>
 ;シズカニ タラシタ.<delay>
 Alisa opened the lid to the bottle and poured out its contents.<delay>
 
-[052]
+[25af,260c,262d]
 ;シカシ ミャウハ ビンノ フタヲ<line>
 ;アケルコトガ デキナカッタ.<wait>
 But Myau couldn’t open the lid to the bottle.<wait>
 
-[054]
+[2611]
 ;イツ カイデミテモ イヤナ<line>
 ;ニオイガ スル.<wait>
 No matter when you sniff it, it stinks.<wait>
 
-[056]
+[2276,228e]
 ;<player>ハ トテモ<line>
 ;イヤナ ヨカンガシタ.<wait>
 <player> got a very bad feeling.<wait>
 
-[058]
+[2269,2271,2289]
 ;<player>ハ ナニモ カンジナカッタ.<wait>
 <player> didn’t feel anything.<wait>
 
-[05A]
+[269f]
 ;<monster>ハ アカイ ホナオヲ<line>
 ;ミテ オジケズイタ.<delay>
 <use article 02><monster> saw the red flame and seized up in fear.<delay>
 
-[05C]
+[2693,26e5]
 ; <player>ハ <item>ヲ<line>
 ; テンニ カザシタ.<delay>
 <player> held <use article 01><item> up towards the sky.<delay>
 
-[05E]
+[26d0]
 ;<player>ハ ラエルマベリ-ヲ トッテ<line>
 ;ラコニアンポットニ イレタ.<wait>
 <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
 
-[060]
+[26c4]
 ;ラエルマベリ-ヲ トッテミタガ<line>
 ;シバラクスルト ヒカラビテシマッタ.<wait>
 The Laerma Berries shriveled up soon after being picked.<wait>
 
-[062]
+[2711]
 ;マボロシノ エアロキャッスルガ<line>
 ;オオゾラニ スガタヲ アラワシタ.<wait>
 In the sky above, the phantom Aerocastle revealed its form.<wait>
 
-[064]
+[273d]
 ;オナカガ スイテナカッタノデ<line>
 ;モトニ モドシタ.<wait>
 Nobody's hungry right now, so she put them back.<wait>
 
-[066]
+[277b]
 ;ハプスビ-ハ イヤイヤヲシタ.<wait>
 Hapsby shook his head.<wait>
 
-[068]
+[2784]
 ;ハプスビ-ノ アタマハ カタイ.<wait>
 Hapbsy’s head is hard.<wait>
 
-[06A]
+[281b]
 ;ソレハ ツカワナクテモ<line>
 ;キキメガ アル.<wait>
 This item is always active. You don’t need to use it.<wait>
 
-[06C]
+[218d,2195,299f,2a2e,579d]
 ;トクニ カワッタトコロハ<line>
 ;ナイヨウダ.<wait>
 There doesn’t seem to be anything particularly unusual here.<wait>
 
-[06E]
+[2a15,2a9b]
 ;<item>ヲ ミツケタ.<wait>
 You found <use article 01><item>.<wait>
 
-[070]
+[21d9,22b5]
 ;ナンダカ カラダガ カルクナッタ.<delay>
 Your body became unusually light.<delay>
 
-[072]
+[2248]
 ;<player>ノ タマシイハ<line>
 ;ヨミガエッタ.<wait>
 <player> revived.<wait>
 
-[074]
+[1b45,1f21]
 ;タイロンハ マジックヲ ツカエナイ.<delay>
 Tylon can’t use magic.<delay>
 
-[076]
+[1b9e,1f1c]
 ;<player>ハ マダ マジックヲ<line>
 ;オボエテイナイ.<delay>
 <player> doesn’t know any spells yet.<delay>
 
-[078]
+[28a3]
 ;<player>ハ <item>ヲ<line>
 ;ソウビ デキナイ.<wait>
 <player> can’t equip <use article 01><item>.<wait>
 
-[07A]
+[283e]
 ;ソレハ ソウビシナクテモイイ.<wait>
 You don’t need to equip this item.<wait>
 
-[07C]
+[1872]
 ;ケイケンチガ <number>ポイント<line>
 ;アガッタ.<wait>
 You gained <number> experience<internal hint 02> point<use suffix>.<wait>
 
-[07E]
+[18f3]
 ;<player>ハ レベルアップシタ.<wait>
 <player> leveled up.<wait>
 
-[080]
+[1910]
 ;<player>ハ マジックヲ<line>
 ;ヒトツ ミニツケタ.<wait>
 <player> learned a new spell.<wait>
 
-[082]
+[2a8c]
 ;<number>メセタ ハイッテイタ.<wait>
 You found <number><internal hint 01> meseta<use suffix> inside.<wait>
 
-[084]
+[2a37]
 ;アケテミルカ.<end>
 Do you want to open it?<end>
 
-[086]
+[2a73]
 ;カラッポダッタ.<wait>
 It’s empty.<wait>
 
-[088]
+[2918]
 ;コレイジョウ モノヲ モテナイ<line>
 ;ナニカヲ ステルカ.<end>
 You can’t carry any more. Do you want to drop something?<end>
 
-[08A]
+[2938]
 ;ドレヲ ステルカ.<end>
 Which item do you want to drop?<wait>
 
-[08C]
+[296a]
 ;<item>ヲ ステテ<wait>
 You dropped <use article 01><item>, and<wait>
 
-[08E]
+[297d]
 ;<item>ヲ テニイレタ.<wait>
 You got <use article 01><item>.<wait>
 
-[090]
+[2923]
 ;<item>ハ イラナイノカ.<end>
 Do you want to abandon <use article 01><item>?<end>
 
-[092]
+[292e]
 ;<item>ヲ アキラメタ.<wait>
 You abandoned <use article 01><item>.<wait>
 
-[094]
+[28c3,295d]
 ;<item>ヲ<line>
 ;ステルワケニハ イカナイ.<wait>
 You can’t drop <use article 01><item>!<wait>
 
-[096]
+[1ba7,1f2d]
 ;マジックポイントガ タリナイ.<delay>
 You don’t have enough magic points.<delay>
 
-[098]
+[2236]
 ;<player>ハ マダ イキテイル.<delay>
 <player> is still alive.<delay>
 
-[09A]
+[17ea]
 ;<monster>ヲ ヤッツケタ.<wait>
 You’ve beaten <use article 01><monster>.<end>
 
-[09C]
+[14a6,15e4,1648,4c69,590f]
 ;<player>ハ シンデシマッタ.<delay>
 <player> died.<delay>
 
-[09E]
+[19f7,2b0f]
 ;<player>ハ モウ シンデイル.<delay>
 <player> is already dead.<delay>
 
-[0A0]
+[2752]
 ;ミャウハ ラエルマベリ-ヲ<line>
 ;カジッタ.<wait>
 Myau chewed the Laerma Berries.<wait>
@@ -375,42 +375,42 @@ Myau chewed the Laerma Berries.<wait>
 ; *** Hapsby ***
 ; **************
 
-[0A2]
+[5959]
 ;ドコヘ イキマスカ.<end>
 Where would you like to go?<end>
 
-[0A4]
+[5995]
 ;デゾリスセイノ スクレノマチヘ<line>
 ;イキマス.イイデスカ.<end>
 Would you like to go to Skray, on Dezolis?<end>
 
-[0A6]
+[5990]
 ;モタビアセイノ ウ-ゾノムラヘ<line>
 ;イキマス.イイデスカ.<end>
 Would you like to go to Uzo, on Motavia?<end>
 
-[0A8]
+[598a]
 ;パルマセイノ ガシコノムラヘ<line>
 ;イキマス.イイデスカ.<end>
 Would you like to go to Gothic, on Palma?<end>
 
-[0AA]
+[5980]
 ;ココハ スクレ デス.<end>
 This IS Skray.<end>
 
-[0AC]
+[597b]
 ;ココハ ウ-ゾ デス.<end>
 This IS Uzo.<end>
 
-[0AE]
+[5975]
 ;ココハ ガシコ デス.<end>
 This IS Gothic.<end>
 
-[0B0]
+[]
 ;シュッパ-ツ.<delay>
 Here we go--!<delay>
 
-[0B2]
+[578f]
 ;モリノナカデ ミチニ マヨッテ<line>
 ;シマッタ.<wait>
 You got lost in the woods.<wait>
@@ -420,49 +420,49 @@ You got lost in the woods.<wait>
 ; *** Shops ***
 ; *************
 
-[0B4]
+[2d1c]
 ;ココハ ア-マ-ショップデス.<line>
 ;ナニカ カイマスカ.<end>
 Welcome to the armor shop. Can I help you?<end>
 
-[0B6]
+[2d27,2d89,2e46,537e]
 ;ソウデスカ.マタキテクダサイ.<wait>
 Take care, come back and see us soon.<wait>
 
-[0B8]
+[2d38]
 ;ドレヲ カイマスカ.<end>
 What can I get for you today?<end>
 
-[0BA]
+[2d7e]
 ;アリガトウ.モット カイマスカ.<end>
 Enjoy. Can I get you anything else?<end>
 
-[0BC]
+[2d98,539c]
 ;ソレイジョウ モテナイヨウデスネ.<line>
 ;マタキテクダサイ.<wait>
 ;All right. Have a good day.<wait>
 You can't carry any more. Come back when you can.<wait>
 
-[0BE]
+[2deb]
 ;ココハ ドラッグストアデス.<line>
 ;ナニカ カイマスカ.<end>
 This is a pharmacy. Can I help you with something?<end>
 
-[0C0]
+[2df4]
 ;ココハ ツ-ルショップデス.<line>
 ;ドンナ ゴヨウデスカ.<end>
 Welcome to the tool shop. May I help you?<end>
 
-[0C2]
+[2e0d]
 ;ドレヲ ウリマスカ.<end>
 What do you have?<end>
 
-[0C4]
+[2e4f]
 ;<item>デスネ.<line>
 ;<number>メセタデ イイデスカ.<end>
 Hmm, <use article 01><item>? How does <number><internal hint 01> meseta<use suffix> sound?<end>
 
-[0C6]
+[2e66]
 ;アリガトウ モットウリマスカ.<end>
 Wonderful! Have anything else for me?<end>
 
@@ -471,38 +471,38 @@ Wonderful! Have anything else for me?<end>
 ; *** Hospital ***
 ; ****************
 
-[0C8]
+[2ae9]
 ;ココハ ホスピタルデス.<line>
 ;チリョウヲ ウケマスカ.<end>
 This is a hospital. Do you require medical care?<end>
 
-[0CA]
+[2b54]
 ;シンサツト チリョウヒ<line>
 ;<number>メセタデス.ヨロシイデスカ.<end>
 Hmm. I can get you good as new for <number><internal hint 02> meseta<use suffix>.<wait more>
 Shall I proceed?<end>
 
-[0CC]
+[2b99]
 ;ホカニ チリョウヲ ウケタイカタハ<line>
 ;イマスカ.<end>
 Does anyone else need treatment?<end>
 
-[0CE]
+[2af9]
 ;ドナタガ チリョウヲ ウケマスカ.<end>
 Who requires our attention?<end>
 
-[0D0]
+[2b8a]
 ;オマチドウサマ.<line>
 ;ドウゾ オダイジニ.<wait>
 Thanks for waiting.<line>
 Take care, now.<wait>
 
-[0D2]
+[2b37,2bb1]
 ;ソウデスカ オテツダイデキナクテ<line>
 ;ザンネンデス.デハ オキヲツケテ.<wait>
 Be safe out there.<wait>
 
-[0D4]
+[2b2b]
 ;<player>サンハ イジヨウ<line>
 ;アリマセンネ.<wait>
 You seem perfectly healthy to me...<wait>
@@ -512,74 +512,74 @@ You seem perfectly healthy to me...<wait>
 ; *** Church ***
 ; **************
 
-[0D6]
+[2be7]
 ;ココハ キョウカイデス. ダレカノ<line>
 ;タマシイヲ ヨビモドサレマスカ.<end>
 This is a church. Do you need to revive a departed soul?<end>
 
-[0D8]
+[]
 ;デハ アナタノタメニ<line>
 ;オイノリヲ ササゲマス.<wait>
 Then I shall offer up a prayer for you.<wait>
 
-[0DA]
+[2c37]
 ;ソレデハ ジュモンヲ トナエマス.<delay>
 Concentrate on the departed as I recite an incantation.<delay>
 
-[0DC]
+[2c60]
 ;アルテムハムラム アルテムハムハム<line>
 ;ストラトポン.<delay>
 ArtemuhamuRAmu! ArtemuhamuHAmu! STRATOPON!<delay>
 
-[0DE]
+[2bfb]
 ;ドナタノ タマシイデショウ.<end>
 Who shall be returned?<end>
 
-[0E0]
+[2c71]
 ;ホカノカタハ イカガデスカ.<end>
 Is there anyone else?<end>
 
-[0E2]
+[2c24]
 ;<number>メセタ カカリマスガ<line>
 ;ヨロシイデスカ.<end>
 Our suggested donation is <number><internal hint 02> meseta<use suffix>.<end>
 
-[0E4]
+[2ca8]
 ;コレカラ レベルアップスルタメニハ<wait>
 To level up,<wait>
 
-[0E6]
+[2d16]
 ;<player>ハ <number>ポイント<line>
 ;ヒツヨウデス.<wait>
 <player> needs <number><internal hint 02> point<use suffix>.<wait>
 
-[0E8]
+[2ca2]
 ;アナタガタノ ユクスエニ<line>
 ;カミノ メグミガ アリマスヨウニ.<wait>
 May your future hold blessings from God.<wait>
 
-[0EA]
+[2c90]
 ;<player>ハ イキテイマスヨ.<end>
 <player>? You don’t look dead to me.<wait more>
 If you need medical care, I advise finding the nearest hospital.<end>
 
 
 
-[0EC]
+[1e3b]
 ;セ-ブヲ オコナイマス.<line>
 ;バンゴウヲ エランデクダサイ.<end>
 Saving the game?<line>
 Please choose a slot.<end>
 
-[0EE]
+[084e,1e44]
 ;<number>バンデ イイデスカ.<end>
 Slot <number>, are you sure?<end>
 
-[0F0]
+[1e55]
 ;デハ <number>バンニ セ-ブシマス.<delay>
 OK. Now saving in slot <number>...<delay>
 
-[0F2]
+[1e91]
 ;オワリマシタ.<wait>
 ...done.<wait>
 
@@ -588,127 +588,127 @@ OK. Now saving in slot <number>...<delay>
 ; *** Monster Dialogue ***
 ; ************************
 
-[0F4]
+[1ae5]
 ;ワタシタチハ パルマノ ヒトタチト<line>
 ;ナカヨク シタイ.<wait>
 ‘We want to become friends with the Palmans.’<wait>
 
-[0F6]
+[1ae7]
 ;ラエルマベリ-ガ タベタイナア.<wait>
 ‘I could really go for some Laerma Berries right now!’<wait>
 
-[0F8]
+[1ae9]
 ;ラシ-クサマニハ<line>
 ;サカラワナイホウガ イイヨ.<wait>
 ‘You should not go against Lord LaShiec.’<wait>
 
-[0FA]
+[1aeb]
 ;オッ.ワタシタチノ コトバガ<line>
 ;ワカルンダネ.<wait>
 ‘Oh! So you understand our language, do you?’<wait>
 
-[0FC]
+[1aed]
 ;ヤッホ-.<wait>
 ‘Yahoo!’<wait>
 
-[0FE]
+[1aef]
 ;ダンジョンデハ オトシアナニ<line>
 ;キヲツケナヨ.<wait>
 ‘When you’re in the dungeons, beware of pitfalls.’<wait>
 
-[100]
+[1af1]
 ;タカラバコハ ムヤミニ<line>
 ;アケルト ケガヲスルヨ.<wait>
 ‘You’ll get injured if you open treasure boxes carelessly.’<wait>
 
-[102]
+[1af3]
 ;コノ オイハギヤロウ.<wait>
 ‘You damn thieves!’<wait>
 
-[104]
+[1af5]
 ;ワタシタチハ ドウセ<line>
 ;ニクマレモノダヨ.<wait>
 ‘People hate us no matter what we do.’<wait>
 
-[106]
+[1cce]
 ;ス-ズフル-トノ ネイロハ<line>
 ;イイナア.<wait>
 ‘The Soothe Flute sounds so nice!’<wait>
 
-[108]
+[1cd0]
 ;アイスデッカ- トイウ ノリモノハ<line>
 ;コオリモ ケズレルンダッテ.<wait>
 ‘IceDeckers can cut through ice!’<wait>
 
-[10A]
+[1cd2]
 ;ラシ-クサマハ ソラノウエニ<line>
 ;イラッシャルンダ.<wait>
 ‘Lord LaShiec lives up in the sky.’<wait>
 
-[10C]
+[1cd4]
 ;アビオンノ マッドドクタ-ガ<line>
 ;ラスコニアンポットヲ モッテタゼ.<wait>
 ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
 
-[10E]
+[1cd6]
 ;ソラノ ウエニハ ウチュウセンデモ<line>
 ;イケナイトコロガアルゼ.<wait>
 ‘There are places in the sky that even a spaceship can’t reach.’<wait>
 
-[110]
+[1cd8]
 ;ラエルマベリ-ヲ ミノラセルタメニハアルモノガ ヒツヨウダ.<wait>
 ‘You need to have a certain item in order to make Laerma Berries grow.’<wait>
 
-[112]
+[1cda]
 ;ダンジョンノ メイロニハ<line>
 ;カクシトビラガ アルンダゼ.<wait>
 ‘Some dungeon labyrinths contain hidden doors.’<wait>
 
-[114]
+[1cdc]
 ;ミラクルキ-ハ マホウノドアデモ<line>
 ;アケルコトガ デキルゾ.<wait>
 ‘The Miracle Key can open magic doors!’<wait>
 
-[116]
+[1cde]
 ;デゾリアンニハ ウソツキモ イルカラキヲツケナヨ.<wait>
 ‘Some Dezorians are liars, so be careful.’<wait>
 
-[118]
+[1ce0]
 ;ワタシニ ハナシカケルトハ<line>
 ;ユウキガ アルネエ. ガンバレヨ.<wait>
 ‘My, you’re very brave to talk to me. Hang in there.’<wait>
 
-[11A]
+[1574]
 ;<monster>ハ カラダニ<line>
 ;チカラガ ミナギルノヲカンジタ.<delay>
 <use article 02><monster> felt its body swell with strength.<delay>
 
-[11C]
+[17ff]
 ;<monster>ハ タカラバコヲ<line>
 ;モッテイタ.<end>
 <use article 02><monster> had a treasure chest.<end>
 
-[11E]
+[27c3]
 ;イマ ヒガシヲムイテイル.<wait>
 You are now facing east.<wait>
 
-[120]
+[27cf]
 ;イマ ニシヲ ムイテイル.<wait>
 You are now facing west.<wait>
 
-[122]
+[27bc]
 ;イマ キタヲ ムイテイル.<wait>
 You are now facing north.<wait>
 
-[124]
+[27ca]
 ;イマ ミナミヲ ムイテイル.<wait>
 You are now facing south.<wait>
 
-[126]
+[1786]
 ;アリサタチハ ゼンメツシタ.<wait>
 Alisa and her companions have been annihilated.<wait>
 
-[128]
+[178c]
 ;アリサノ ネガイハ ラシ-クノ<line>
 ;ヤボウノ マエニ<wait more>
 ;ムナシク キエサッタ.<line>
@@ -716,21 +716,21 @@ Alisa and her companions have been annihilated.<wait>
 Alisa’s hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
 The journey ends here.<wait>
 
-[12A]
+[2bc0,2d9d,4d88]
 ;オカネガ タリナイヨウデスネ.<line>
 ;マタキテクダサイ.<wait>
 It looks like you don’t have enough money.<line>
 Please come back later.<wait>
 
-[12C]
+[2e3d]
 ;ソレハ アトデ ヤクニタチマスヨ.<wait>
 That’ll come in handy later.<wait>
 
-[12E]
+[6c6e]
 ;タカラバコヲ ミツケタ.<end>
 You found a treasure chest.<end>
 
-[130]
+[2c82]
 ;アルテムハムラム ア ウッ.<line>
 ;ゴホッ.ゴホッ.<wait more>
 ;ゴメンナサイ.<line>
@@ -740,85 +740,85 @@ Cough! Cough!<wait more>
 My apologies.<line>
 For SOME reason I’ve failed.<wait>
 
-[132]
+[5939]
 ;モタビア ユキデス.ノリマスカ.<end>
 This is a non-stop flight to Motavia. Getting on?<end>
 
-[134]
+[5949]
 ;パルマ ユキデス.ノリマスカ.<end>
 This shuttle is heading for Palma. Getting on?<end>
 
-[136]
+[2cef]
 ;<player>ハ モウ<line>
 ;チカライッパイデス.<wait>
 <player> is already at full health.<wait>
 
-[138]
+[07ee]
 ;ゲ-ムノ ツヅキヲ ヤリマス.<line>
 ;バンゴウヲ エランデクダサイ.<end>
 Continuing a saved game.<line>
 Please choose a slot.<end>
 
-[13A]
+[07fe]
 ;デハ <number>バンノゲ-ムヲ ハジメマス.<delay>
 OK. Continuing from slot <number>.<delay>
 
-[13C]
+[]
 ;パスワ-ドガ チガイマス.<line>
 ;モウイチド タシカメテクダサイ.<wait>
 That password is incorrect.<line>
 Please try again.<wait>
 ; unused
 
-[13E]
+[07e3]
 ;ゲ-ムノツヅキヲ ヤル.-- ハイ<line>
 ;ゲ-ムヲ ケス.------ イイエ<end>
 Do you want to continue a saved game?<end>
 
-[140]
+[082f]
 ;セ-ブシタ ゲ-ムヲ ケシマス.<line>
 ;イイデスカ.<end>
 Do you want to delete a saved game?<end>
 
-[142]
+[083a]
 ;ナンバンノ ゲ-ムヲ ケシマスカ.<end>
 Deleting a saved game.<line>
 Please choose a slot.<end>
 
-[144]
+[0859]
 ;<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
 Deleting game from slot <number>.<end>
 
 ; <end> is nicer than <wait> here - Maxim
 
-[146]
+[16a8]
 ;<player>ハ イシニ ナッテシマッタ.<wait>
 <player> turned to stone.<wait>
 
-[148]
+[136e]
 ;<item>ハ イマ ダレカガ<line>
 ;ツカッテシマッタ.<wait>
 Someone has used <use article 01><item> up.<wait>
 
-[14A]
+[47da]
 ;シダイニ ソラガ アカルクナッテイキヒトビトモ ヘイワヲ トリモドシタ.<end>
 In time, the sky grew brighter. The creatures subsided.<end>
 
-[14C]
+[47e3]
 ;イマ バヤマ-レハ サワヤカナ<line>
 ;ソヨカゼニ ツツマレテイル.<end>
 The only thing above Baya Marlay now is a cool, gentle breeze.<end>
 
-[14E]
+[47ec]
 ;カレラノ ナガク クルシカッタタビヲソヨカゼハ シッテイルノダロウカ.<end>
 Algol’s thankful people picked up the pieces and started anew.<end>
 
-[150]
+[14cc]
 ;ミャウニ ノッテイタ アリサタチハ<line>
 ;ソラニ ホウリダサレテシマッタ.<wait>
 Alisa and the others were knocked off of Myau, into the sky.<wait>
 
-[152]
+[58bd]
 ;ソノトキ アリサノ タマシイハ<line>
 ;ネロノコエヲ キイタ.<wait more>
 ;オマエハ フタタビ イキテ<line>
@@ -828,7 +828,7 @@ Then Alisa heard Nero’s voice, from somewhere far away.<wait more>
 ‘Don’t give up, Alisa. You’ve come so far.’<wait more>
 Her spirit revived.<wait>
 
-[154]
+[24d6]
 ;ココロガ ナゴムヨウナ<line>
 ;ウツクシイ ネイロダ.<wait>
 The sounds melt your heart.<wait>
@@ -874,14 +874,14 @@ The sounds melt your heart.<wait>
 ;キット ミマモッテイテネ.<line>
 ;ニイサン.<wait>
 
-[156]
+[45ef]
 Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
 Defiance of Lord LaShiec will not be tolerated!<wait more>
 
 Nero? NERO!<line><line>
 What happened?!<wait>
 
-[158]
+[45fa]
 Alisa. My sister.<line><line>
 Listen closely, I don’t have long.<wait more>
 LaShiec is a threat to all of Algol, he can not remain in power.<line><line>
@@ -898,7 +898,7 @@ Please forgive me, for asking this of you...<wait more>
 ...and for leaving you all...<line><line>
 ...alone...<wait>
 
-[15A]
+[4605]
 Nero...<wait more>
 I know that you wouldn’t ask this of me if there was any other way.<wait more>
 Your death will not be meaningless, I swear it.<line><line>
@@ -928,24 +928,24 @@ I’m off to kill the most powerful man in the world.<wait>
 ;ジャ イッショニ タイロンヲ<line>
 ;タスケニ イキマショウ.<wait>
 
-[15C]
+[4643]
 I guess we’re companions now, huh?<line><line>
 I’m Alisa. What’s your name?<wait>
 
-[15E]
+[464e]
 Myau.<wait>
 
-[160]
+[4659]
 Hello, Myau. I’m looking for a man named Tylon.<wait more>
 Rumor has it he was traveling with a talking animal.<line><line>
 I don’t suppose that was you?<wait>
 
-[162]
+[4664]
 Tylon got turned to stone trying to slay Medusa!<line><line>
 We can heal him with this medicine, but I can’t open the lid.<wait more>
 He should still be in Scion, do you know how to get there?<wait>
 
-[164]
+[466f]
 I think I can manage. Come on, let’s go help him.<wait>
 
 
@@ -979,25 +979,25 @@ I think I can manage. Come on, let’s go help him.<wait>
 ;カクシテオイタンダッケ.<line>
 ;トリニ イコウゼ.<wait>
 
-[166]
+[4688]
 Ah, Myau, you found help. Thank you.<wait more>
 Medusa was stronger than I thought, I don’t stand a chance of defeating LaShiec.<line><line>
 Who’s your new friend?<wait>
 
-[168]
+[4693]
 My name is Alisa. My brother Nero was killed trying to overthrow LaShiec.<line><line>
 I’m going to assassinate him.<wait more>
 Nero gave me your name just before he died. He said that you’d help.<wait>
 
-[16A]
+[469e]
 I see.<wait more>
 Well, I can’t let a girl like you go alone, now can I?<wait>
 
-[16C]
+[46a9]
 I appreciate your concern, but I can hold my own, thank you.<line><line>
 Why did you go after Medusa?<wait>
 
-[16E]
+[46b4]
 Medusa has a legendary axe, I was hoping to see LaShiec’s blood on it.<wait more>
 I hid a Compass at a dead end inside this cave.<line><line>
 We’re going to need it. Let’s go.<wait>
@@ -1018,12 +1018,12 @@ We’re going to need it. Let’s go.<wait>
 ;タシカ マンホ-ルヲ トオッテ<line>
 ;イケタハズデス.<wait>
 
-[170]
+[46e7]
 You must be Lutz.<line><line>
 I have a letter for you from the Governor-general.<wait more>
 Would you mind reading it?<wait>
 
-[172]
+[46f2]
 Let me see that.<wait more>
 ...Ah. I see. So it’s come to this.<line><line>
 I apologize for my earlier hostility.<wait more>
@@ -1047,10 +1047,10 @@ Let’s go. Quickly.<wait>
 ;ミャウハ トクイソウニ ヒトツ<line>
 ;ハバテイテ ミセタ.<wait>
 
-[174]
+[471b]
 When Myau chewed the Laerma Berries, a fever swept over him, and a dazzling light engulfed his body.<wait>
 
-[176]
+[4726]
 And then, in an instant, he transformed into a beautiful beast with enormous wings.<line><line>
 Myau flapped his wings proudly for all to see.<wait>
 
@@ -1059,31 +1059,31 @@ Myau flapped his wings proudly for all to see.<wait>
 ; *** Ending Scene ***
 ; ********************
 
-[178]
+[4800]
 ; <line>
 ;     アリサ<delay>
 <line>
         Alisa,<delay>
 
-[17A]
+[480b]
 ; <line>
 ;     タイロン<delay>
 <line>
         Tylon,<delay>
 
-[17C]
+[4816]
 ; <line>
 ;     ルツ<delay>
 <line>
          Lutz,<delay>
 
-[17E]
+[4821]
 ; <line>
 ;     ソシテ ミャウ<delay>
 <line>
        and Myau.<delay>
 
-[180]
+[482c]
 ;    ヤミノ キオクガ キエテモ<line>
 ;    カレラノ ナマエハ<line>
 ;    ヒトビトノ ココロニ<line>
