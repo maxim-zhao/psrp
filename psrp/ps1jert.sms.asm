@@ -176,6 +176,41 @@ LoadPagedTiles\1:
   call LoadTiles
 .endm
 
+.asciitable
+; matches the .tbl file used for items
+map ' ' = $00
+map '0' to '9' = $01
+map 'A' to 'Z' = $0b
+map 'a' to 'z' = $25
+; Punctuation
+map '.' = $3F
+map ':' = $40
+;map '‘' = $41 ; UTF-8 not working :(
+;map '’' = $42
+map "'" = $42
+map ',' = $43
+map '-' = $46
+map '!' = $47
+map '?' = $48
+; Scripting codes
+map '+' = $4F ; Conditional space (soft wrap point)
+map '@' = $50 ; Newline (when in a menu)
+map '%' = $51 ; Hyphen (when wrapped)
+map '[' = $52 ; [] = do not draw in menus, only during narratives
+map ']' = $53
+; Articles
+map '~' = $54 ; a
+map '#' = $55 ; an
+map '^' = $56 ; the
+map '&' = $57 ; some (unused)
+.enda
+
+.macro String args s
+.db s.length
+.asc s
+.endm
+
+
 .emptyfill $ff
 
 ; Bank 0
@@ -191,6 +226,8 @@ LoadPagedTiles\1:
   FreeSpace $045a4 $045c3 $045c3 ; tile loading for intro
 ; Bank 2
   FreeSpace $08000 $0bdd1 $0bfff ; font tile lookup, script, item names, unknown
+  FreeSpace $0bed0 $0bf35 $0bfff ; item names - now SFG decoder TODO check for use of space in between
+  FreeSpace $0bf50 $0bf99 $0bfff ; item names - now Huffman decoder init
 ; Bank 9
   FreeSpace $27b24 $27e75 $27fff ; Mansion tiles + unused space
 ; Bank 11
@@ -959,7 +996,7 @@ TREE_PTR:
 .ends
 
   ROMPosition $bf50
-.section "Decoder init" overwrite
+.section "Decoder init" force
 DecoderInit:
 ; Semi-adaptive Huffman decoder
 ; - Init decoder
@@ -979,7 +1016,7 @@ DecoderInit:
     ld a,EOS    ; Starting tree symbol
     ld (TREE),a
 
-    ld a,$80    ; Initial tree barrel
+    ld a,1<<7    ; Initial tree barrel
     ld (BARREL),a
 
     ld (SCRIPT),hl    ; Beginning script offset
@@ -1083,7 +1120,7 @@ _Copy:
 
   ROMPosition $bed0
 
-.section "SFG decoder" overwrite
+.section "SFG decoder" force
 SFGDecoder:
 ; Originally t4a.asm
 
@@ -1107,7 +1144,7 @@ SFGDecoder:
     ld a,(PAGING_SLOT_1)    ; Save current page 1
     push af
 
-      ld a,$6f000/$4000 ; Load in script bank #2 ; TODO is this needed?
+      ld a,$6f000/$4000 ; Load in script bank #2 ; TODO is this needed? Our script fits in page 2?
       ld (PAGING_SLOT_1),a
 
       ld hl,(SCRIPT)    ; Set Huffman data location
@@ -1362,18 +1399,6 @@ SubstringFormatter:
 ; returns tile index to be drawn in a,
 ; or a newline if a new line is needed for this insertion
 
-_Check_Autowait:
-  ; LD A,(FLAG)   ; Scan flag
-  ; OR A      ; See if auto-wait occurred
-  ; JR Z,Lookup   ; Not raised
-
-  ; XOR A     ; Lower flag
-  ; LD (FLAG),A
-  ; XOR A     ; Reset it to zero
-  ; LD (LINE_NUM),A
-  ; LD A,NEWLINE    ; Need to emit a newline [NOT NEEDED]
-  ; RET     ; No decoding needed
-
 _Lookup:
   ld a,(LEN)    ; Grab length of string
   or a      ; Check for zero-length
@@ -1399,13 +1424,12 @@ _Substring:
       or a
       jr z,_Art_Exit   ; article = none
 
-      ld de,TAB1
+      ld de,ArticlesLower
       cp $01      ; article = a,an,the
       jr Z,_Start_Art
 
-      ld de,TAB2
-      ; CP $02      ; article = A,AN,THE
-      ; JR Z,_Start_Art
+      ld de,ArticlesInitialUpper
+      ; a = $02 = article = A,An,The
 
 _Start_Art:
       ld a,(bc)   ; Grab index
@@ -1444,19 +1468,25 @@ _Art_Exit:
     ld bc,(STR)   ; Grab raw text location (again)
     jr _Initial_Codes
 
-; Articles in 'reverse' order
+; Articles are stored backwards
+.macro Article
+  .asc \1
+  .db EOS
+.endm
 
-TAB1: .dw ART_11, ART_12, ART_13
-ART_11: .db $00,$25,EOS     ; 'a '
-ART_12: .db $00,$32,$25,EOS   ; 'an '
-ART_13: .db $00,$29,$2c,$38,EOS   ; 'the '
-ART_14: .db $00,$29,$31,$33,$37,EOS ; 'some '
+ArticlesLower:
+.dw +, ++, +++ ; no "Some"? TODO use or remove
++:    Article " a"
+++:   Article " na"
++++:  Article " eht"
+      Article " emos"
 
-TAB2: .dw ART_21, ART_22, ART_23
-ART_21: .db $00,$0b,EOS     ; 'A '
-ART_22: .db $00,$28,$0b,EOS   ; 'An '
-ART_23: .db $00,$29,$2c,$1e,EOS   ; 'The '
-ART_24: .db $00,$29,$31,$33,$1d,EOS ; 'Some '
+ArticlesInitialUpper:
+.dw +, ++, +++ ; no "Some"? TODO use or remove
++:    Article " A"
+++:   Article " dA" ; BUG: wrong text here
++++:  Article " ehT"
+      Article " emoS"
 
 _Initial_Codes:
     ld a,(bc)   ; Grab character
@@ -1806,40 +1836,6 @@ OriginalVBlankHandlerPatch:
 .ends
 
 ; Lists
-
-.asciitable
-; matches the .tbl files used elsewhere
-map ' ' = $00
-map '0' to '9' = $01
-map 'A' to 'Z' = $0b
-map 'a' to 'z' = $25
- ; Punctuation
- map '.' = $3F
-map ':' = $40
-;map '‘' = $41 ; UTF-8 not working :(
-;map '’' = $42
-map "'" = $42
-map ',' = $43
-map '-' = $46
-map '!' = $47
-map '?' = $48
-; Scripting codes
-map '+' = $4F ; Conditional space (soft wrap point)
-map '@' = $50 ; Newline (when in a menu)
-map '%' = $51 ; Hyphen (when wrapped)
-map '[' = $52 ; [] = do not draw in menus, only during narratives
-map ']' = $53
-; Articles
-map '~' = $54 ; a
-map '#' = $55 ; an
-map '^' = $56 ; the
-map '&' = $57 ; some
-.enda
-
-.macro String args s
-.db s.length
-.asc s
-.endm
 
   ROMPosition $76ba6
 .section "Enemy, name, item lists" overwrite
@@ -2629,12 +2625,12 @@ _write_price:
 ; Equipment window drawer
 ; - setup code
 
-  ld a,$2f000/$4000 ; jump to page 1
+  ld a,:equipment ; jump to page 1
   ld (PAGING_SLOT_1),a
 
   call equipment
 
-  ld a,$01    ; old page 1
+  ld a,1
   ld (PAGING_SLOT_1),a
 
   nop
