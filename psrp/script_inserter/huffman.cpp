@@ -395,19 +395,18 @@ void BuildHuffmanTree(const char* treeFilename, std::vector<Tree>& trees, const 
 	}
 }
 
-void EmitScript(const char* pass1, const char* scriptFilename, const char* scriptListFilename,
-                const std::vector<Tree>& trees, const std::vector<std::pair<std::string, std::vector<uint8_t>>> script)
+void EmitScript(const char* scriptFilename, const char* scriptListFilename,
+                const std::vector<Tree>& trees, const std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
 {
-	FILE *fp, *out = nullptr, *script_out;
+	FILE *out = nullptr;
+	FILE *script_out;
 
-	int symbol;
 	int old_tree;
 	std::string code;
 
 	int buffer;
 	int bits;
 
-	int table_number;
 	int table_entry;
 	int table_last;
 	float script_size;
@@ -415,21 +414,13 @@ void EmitScript(const char* pass1, const char* scriptFilename, const char* scrip
 	int overage;
 
 	// init
-	table_number = 1;
 	table_entry = 0;
 	table_last = 0;
 	script_size = 0;
 	overage = 0;
 
 	// Open up files
-	fp = fopen(pass1, "rb");
 	script_out = fopen(scriptListFilename, "w");
-
-	if (!fp)
-	{
-		printf("Error: Could not open file \"%s\"\n", pass1);
-		return;
-	}
 	if (!script_out)
 	{
 		printf("Error: Could not open file \"script-list.txt\"\n");
@@ -443,30 +434,22 @@ void EmitScript(const char* pass1, const char* scriptFilename, const char* scrip
 
 	fprintf(script_out, "%x script1.bin\n", tree_end);
 
-	// Header
-	printf("Text entry locations:\n\n");
+	char file_name[256];
+	sprintf(file_name, "%s1.bin", scriptFilename);
+	out = fopen(file_name, "wb");
+	if (!out)
+	{
+		printf("Error: Could not write to file \"%s\"\n", file_name);
+		return;
+	}
 
 	int entryNumber = 0;
-	do
+	for (auto && entry : script)
 	{
 		std::string name = "Script" + std::to_string(entryNumber++);
 		ss << '\n' << name << ":\n.db";
 		BitWriter bw(ss);
 		
-		char file_name[256];
-
-		// Create a new file
-		if (table_entry == 0)
-		{
-			sprintf(file_name, "%s%d.bin", scriptFilename, table_number);
-			out = fopen(file_name, "wb");
-			if (!out)
-			{
-				printf("Error: Could not write to file \"%s\"\n", file_name);
-				return;
-			}
-		}
-
 		// Starting tree number
 		old_tree = EOS;
 		buffer = 0;
@@ -478,26 +461,18 @@ void EmitScript(const char* pass1, const char* scriptFilename, const char* scrip
 #endif
 
 		// Construct each Huffman code
-		do
+		for (auto && symbol : entry.second)
 		{
-			// grab symbol to encode
-			symbol = fgetc(fp);
-			if (symbol == EOF) break;
-
 			// find in tree
 			auto codeword = trees[old_tree].getCodeword(symbol);
 
 			// Write out created codeword
-			while (!codeword.empty())
+			for (auto && value : codeword)
 			{
 				buffer <<= 1;
-				if (*codeword.begin()) buffer |= 1;
-				bw.add(*codeword.begin());
+				if (value) buffer |= 1;
+				bw.add(value);
 				bits++;
-
-#ifdef DEBUG_SCRIPT
-				printf( "%01d", codeword[0] );
-#endif
 
 				codeword.pop_front();
 
@@ -510,20 +485,9 @@ void EmitScript(const char* pass1, const char* scriptFilename, const char* scrip
 				}
 			}
 
-#ifdef DEBUG_SCRIPT
-			printf( "~\n" );
-#endif
-
 			// Use new symbol as fresh index
 			old_tree = symbol;
 		}
-		while (symbol != EOS);
-
-#ifdef DEBUG_SCRIPT
-		printf( "\n" );
-#endif
-
-		if (symbol == EOF) break;
 
 		// Flush remaining data to buffer
 		if (bits)
@@ -559,7 +523,6 @@ void EmitScript(const char* pass1, const char* scriptFilename, const char* scrip
 		// adjustments
 		table_last += (1 + code.length());
 	}
-	while (symbol != EOF);
 
 	// add up last page
 	if (out)
@@ -573,14 +536,13 @@ void EmitScript(const char* pass1, const char* scriptFilename, const char* scrip
 
 	fclose(script_out);
 	fclose(out);
-	fclose(fp);
 }
 
 
-void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename,
+void Huffman_Compress(const char* outputFilename, const char* treeFilename,
                       const char* listFilename, const std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
 {
 	std::vector<Tree> trees;
 	BuildHuffmanTree(treeFilename, trees, script);
-	EmitScript(inputFilename, outputFilename, listFilename, trees, script);
+	EmitScript(outputFilename, listFilename, trees, script);
 }

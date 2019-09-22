@@ -8,8 +8,8 @@ Phantasy Star: Script Inserter
 #include <vector>
 
 
-extern void Convert_Symbols(const char* listName, const char* tableName, const char* outName, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script);
-extern void Huffman_Compress(const char* inputFilename, const char* outputFilename, const char* treeFilename, const char* listFilename, const std::vector<std::pair<std::string, std::vector<uint8_t>>>& script);
+extern void Convert_Symbols(const char* listName, const char* tableName, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script);
+extern void Huffman_Compress(const char* outputFilename, const char* treeFilename, const char* listFilename, const std::vector<std::pair<std::string, std::vector<uint8_t>>>& script);
 
 
 int main(int argc, const char** argv)
@@ -24,10 +24,10 @@ int main(int argc, const char** argv)
 
 		// phase 1: Script conversion
 		std::vector<std::pair<std::string, std::vector<uint8_t>>> script;
-		Convert_Symbols(argv[1], argv[2], "pass1.bin", script);
+		Convert_Symbols(argv[1], argv[2], script);
 
 		// phase 2: Huffman encoding
-		Huffman_Compress("pass1.bin", argv[3], argv[4], argv[5], script);
+		Huffman_Compress(argv[3], argv[4], argv[5], script);
 	}
 	catch (const std::exception& e)
 	{

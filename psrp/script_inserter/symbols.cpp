@@ -299,7 +299,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
 	}
 }
 
-void Process_Text(const std::string& name, std::ostream& pass1, const Table& table, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
+void Process_Text(const std::string& name, const Table& table, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
 {
 	File f(name);
 
@@ -417,25 +417,22 @@ void Process_Text(const std::string& name, std::ostream& pass1, const Table& tab
 }
 
 
-void Convert_Symbols(const char* listName, const char* tableName, const char* outName, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
+void Convert_Symbols(const char* listName, const char* tableName, std::vector<std::pair<std::string, std::vector<uint8_t>>>& script)
 {
 	const Table table(tableName);
-
-	std::ofstream pass1(outName, std::ios::binary);
 
 	// We have two script files...
 	for (int i = 1; i <= 2; i++)
 	{
 		std::string name = listName + std::to_string(i) + ".txt";
-		Process_Text(name, pass1, table, script);
+		Process_Text(name, table, script);
 	}
 
-	// Emit script binary file
+	// MEasure script
 	int count = 0;
 	for (auto && entry : script)
 	{
 		count += entry.second.size();
-		std::copy(entry.second.begin(), entry.second.end(), std::ostream_iterator<uint8_t>(pass1));
 	}
 	printf("Dictionary encoding gives %d bytes for %d script entries\n", count, script.size());
 }
