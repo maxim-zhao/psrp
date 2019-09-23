@@ -218,6 +218,8 @@ map '&' = $57 ; some (unused)
   FreeSpace $00486 $004ae $004b2 ; Old tile decoder
   FreeSpace $008f3 $0090b $0090b ; Title screen graphics loading
   FreeSpace $00925 $00932 $00944 ; Title screen palette - can go up to 944
+  FreeSpace $034f2 $03537 $03544 ; draw one character to tilemap
+  FreeSpace $03eca $03f6e $03fc1 ; background graphics lookup table
 ; Bank 1
   FreeSpace $04396 $043e5 $043e5 ; password lookup data (unused)
   FreeSpace $043e6 $04405 $04405 ; text for "please enter your name"
@@ -258,10 +260,9 @@ map '&' = $57 ; some (unused)
   FreeSpace $747b8 $76ba5 $77629 ; landscapes (world 1)
 ; Bank 31
   FreeSpace $7e8bd $7fd47 $7ffff ; Title screen tiles
+  FreeSpace $7fe00 $7fe92 $7ffff ; Title screen tiles
 /*
-  FreeSpace $034f2 $03544 ; draw one character to tilemap
   FreeSpace $033fe $03492 ; draw number inline with text (end is ?)
-  FreeSpace $03eca $03fc1 ; background graphics lookup table
   FreeSpace $03fc2 $03fd1 ; sky castle palette
   FreeSpace $04059 $0407a ; password entered (unused)
   FreeSpace $04261 $04277 ; password population (unused)
@@ -318,9 +319,7 @@ map '&' = $57 ; some (unused)
 .slot 1
   ROMPosition $4be84, 1
 .section "New bitmap decoder" force ; superfree
-
 ; Originally t4b, t4b_1
-
 ; RLE/LZ bitmap decoder
 ; - Phantasy Star Gaiden
 PSG_DECODER:
@@ -543,7 +542,7 @@ LoadTiles:
 
   call PSG_DECODER
 
-  ld a,1    ; Restore page 1
+  ld a,1
   ld (PAGING_SLOT_1),a
 
   ret
@@ -813,10 +812,9 @@ FONT2:
 .incbin "psg_encoder/font2.psgcompr"
 .ends
 
-; Originally t0b.asm
-
   ROMPosition $045a4
 .section "Intro font loader" force ; not movable
+; Originally t0b.asm
 IntroFontLoader:
 ; was:
 ; ld hl,$ffff        SetPage TilesFont
@@ -928,10 +926,10 @@ FontPatch5:
 
 
 ; Font renderer
-; Originally t0d.asm
 
   ROMPosition $34f2
-.section "Character drawing" /*size 83*/ overwrite ; not movable; TODO free the space
+.section "Character drawing" force ; not movable; TODO free the space
+; Originally t0d.asm
 CharacterDrawing:
 ; Replacing draw-one-character function from $34f2-3545
 ; drawing 2 tilemap chars, with conditional mirroring, and a scrolling handler,
@@ -980,7 +978,7 @@ CharacterDrawing:
 
 ; The font lookup, Huffman bits and script all share a bank as they are needed at the same time.
   
-.section "Font lookup" force
+.section "Font lookup" force ; free
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into ths area) to name table entries. The extra spaces are unused (and could be repurposed?).
 .dwm Text " 0123456789"
@@ -990,13 +988,13 @@ FontLookup:
 .ends
 
   ROMPosition $80b0
-.section "Huffman tree stuff" force
+.section "Huffman tree stuff" force ; free
 TREE_PTR:
 .include "script_inserter/tree.asm"
 .ends
 
   ROMPosition $bf50
-.section "Decoder init" force
+.section "Decoder init" force ; free
 DecoderInit:
 ; Semi-adaptive Huffman decoder
 ; - Init decoder
@@ -1067,7 +1065,7 @@ CutsceneClear:
 .ends
 
   ROMPosition $3eca
-.section "Dictionary lookup" overwrite
+.section "Dictionary lookup" force ; free
   ; HL = Table offset
 
 DictionaryLookup:
@@ -1120,13 +1118,11 @@ _Copy:
 
   ROMPosition $bed0
 
-.section "SFG decoder" force
+.section "SFG decoder" force ; free
 SFGDecoder:
 ; Originally t4a.asm
-
 ; Semi-adaptive Huffman decoder
 ; - Shining Force Gaiden: Final Conflict
-;
 
 ; Start of decoder
 ;
@@ -1249,10 +1245,9 @@ _Decode_Done:
 .ends
 
   ROMPosition $7fe00, 1
-.section "Additional scripting codes" overwrite
+.section "Additional scripting codes" force ; superfree
 AdditionalScriptingCodes:
 ; Originally t4a_2.asm
-
 ; Narrative formatter
 ; - Extra scripting codes
 
@@ -1405,7 +1400,6 @@ _Done:
 .section "Substring formatter" overwrite
 SubstringFormatter:
 ; Originally t4a_3.asm
-
 ; Narrative formatter
 ; - Dictionary processing
 
@@ -1651,10 +1645,7 @@ InGameTextDecoder:
 .section "Item lookup" overwrite
 ItemLookup:
 ; Originally t1c_1.asm
-
-;
 ; Item lookup
-;
 
   push hl     ; Save string ptr
   push de     ; Save VRAM ptr
@@ -1676,10 +1667,7 @@ LookupItem:
 .section "Player lookup" overwrite
 PlayerLookup:
 ; Originally t1c_2.asm
-
-;
 ; Player lookup
-;
 
   push hl     ; Save string ptr
   push de     ; Save VRAM ptr
@@ -1696,10 +1684,8 @@ PlayerLookup:
 .section "Enemy lookup" overwrite
 EnemyLookup:
 ; Originally t1c_3.asm
-
-;
 ; Enemy lookup
-;
+
   push hl     ; Save string ptr
   push de     ; Save VRAM ptr
   push bc     ; Save width, temp
@@ -1714,10 +1700,7 @@ EnemyLookup:
 .section "Number lookup" overwrite
 NumberLookup:
 ; Originally t1b.asm
-
-;
 ; Narrative number BCD creater
-;
 
 ; in-line number display
 ; Old: inline looping (costs space), simple, direct output
@@ -2231,10 +2214,7 @@ Opening:
   ROMPosition $2fe3e 1
 .section "scripting code" overwrite
 ; Originally t2a.asm
-
-;
 ; Item window drawer (generic)
-;
 
 inventory:
   ld b,8    ; 8 items total
@@ -2566,11 +2546,10 @@ _write_price:
   ROMPosition $3671
 .section "inventory setup code" overwrite
 ; Originally t2a_1.asm
-
 ; Item window drawer (inventory)
 ; - setup code
 
-  ld a,$2f000/$4000 ; jump to page 1
+  ld a,:inventory
   ld (PAGING_SLOT_1),a
 
   call inventory
@@ -2587,11 +2566,10 @@ _write_price:
   ROMPosition $3a1f
 .section "shop setup code" overwrite
 ; Originally t2a_2.asm
-
 ; Item window drawer (shop)
 ; - setup code
 
-  ld a,$2f000/$4000 ; jump to page 1
+  ld a,:shop
   ld (PAGING_SLOT_1),a
 
   call shop
@@ -2616,11 +2594,10 @@ _write_price:
   ROMPosition $3279
 .section "enemy setup code" overwrite
 ; Originally t2a_3.asm
-
 ; Enemy window drawer
 ; - setup code
 
-  ld a,$2f000/$4000 ; jump to page 1
+  ld a,:enemy
   ld (PAGING_SLOT_1),a
 
   call enemy
@@ -2638,11 +2615,10 @@ _write_price:
   ROMPosition $3850
 .section "equipment setup code" overwrite
 ; Originally t2a_4.asm
-
 ; Equipment window drawer
 ; - setup code
 
-  ld a,:equipment ; jump to page 1
+  ld a,:equipment
   ld (PAGING_SLOT_1),a
 
   call equipment
@@ -2658,7 +2634,6 @@ _write_price:
   ROMPosition $59bd
 .section "Dezorian string" overwrite
 ; Originally t5.asm
-
 ; Extra scripting
 
   cp $ff      ; custom string [1E7]
@@ -2715,7 +2690,6 @@ _write_price:
   ROMPosition $0000f
 .section "Newline patch" overwrite
 ; Originally tx1.asm
-
 ; Text window drawer multi-line handler
 
 newline:
@@ -2834,7 +2808,6 @@ EnterYourName:
   ROMPosition $3f3a
 .section "Name entry screen extended characters" overwrite
 ; Originally tx4.asm
-
 ; Name entry screen patch to draw extended characters
 
 ; OutputTilemapRawDataBox: ; $0428
@@ -2928,7 +2901,6 @@ NameEntryCursor:
   ROMPosition $429b
 .section "Drawing to RAM as you enter" overwrite
 ; Originally tx2.asm
-
 ; Name entry screen patch for code that writes to the in-RAM name table copy
 
 WriteLetterIndexAToDE: ; $429b
@@ -2973,7 +2945,6 @@ WriteLetterIndexAToDE: ; $429b
   ROMPosition $42b5
 .section "Drawing to screen as you enter" overwrite
 ; Originally tx3.asm
-
 ; Name entry screen patch for code that writes to the in-RAM name table copy
 
 WriteLetterToTileMapDataAndVRAM: ; $42b5
@@ -3012,7 +2983,7 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 
 ; Changed credits -------------------------
   ROMPosition $53dbc
-.section "Credits" force ; not movable?
+.section "Credits" force ; not movable
 CreditsData:
 .dw CreditsScreen1, CreditsScreen2, CreditsScreen3, CreditsScreen4, CreditsScreen5, CreditsScreen6, CreditsScreen7, CreditsScreen8, CreditsScreen9, CreditsScreen10, CreditsScreen11, CreditsScreen12, CreditsScreen13, CreditsScreen14
 .macro CreditsEntry args x, y, text
@@ -3107,7 +3078,7 @@ CreditsScreen14:
   Bin CreditsFont "psg_encoder/font3.psgcompr" ; not movable without patching bank number
 
   ROMPosition $00056
-.section "HALT on idle polling loop" force
+.section "HALT on idle polling loop" force ; free
 ExecuteFunctionIndexAInNextVBlank ; $0056
 ; Was:
 ;  ld (VBlankFunctionIndex),a
@@ -3126,15 +3097,15 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
 
   ROMPosition $00066
 .section "Press Pause on the title screen to toggle PSG/FM - trampoline" overwrite
-  ; There are 3 spare bytes at $66 that I can use. I move the following two opcodes up (as I need them anyway) and then call my handler...
-  ;
+  ; There are 3 spare bytes at $66 that I can use. 
+  ; I move the following two opcodes up (as I need them anyway) and then call my handler...
   push af
     ld a,(FunctionLookupIndex)
     call PauseFMToggle
 .ends
 
   ROMPosition $3f58
-.section "Press Pause on the title screen to toggle PSG/FM - implementation" overwrite
+.section "Press Pause on the title screen to toggle PSG/FM - implementation" force ; free
 PauseFMToggle:
   cp 3          ; Indicates we are on the title screen
   ret nz
@@ -3156,7 +3127,7 @@ PauseFMToggle:
   PatchB $180a 0 ; found treasure chest/display/wait/do you want to open it?
 
   ROMPosition $8cd4
-.section "Script" force
+.section "Script" force ; free
 .include "script_inserter/script.asm" ; closes the section
 
 ; Bug matching: throwaway patch offsets went here
