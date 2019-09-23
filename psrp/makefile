@@ -127,13 +127,6 @@ script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_format
 script_inserter\script.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script.txt
 	script_inserter\script_inserter.exe word_count\script.txt script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\tree.asm
 
-# credits
-credits\credits_encode.exe: credits\*.cpp
-  $(CPP) $(CPPFLAGS) credits\*.cpp /Fe:credits\credits_encode.exe
-
-credits\credits.bin: credits\credits.txt credits\credits_encode.exe
-	credits\credits_encode.exe credits\credits.txt credits\credits.bin
-
 # All files needed for the final ROM
 BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgcompr  psg_encoder\bg5.psgcompr \
        psg_encoder\bg8.psgcompr  psg_encoder\bg9.psgcompr  psg_encoder\bg10.psgcompr psg_encoder\bg11.psgcompr \
@@ -142,8 +135,7 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
        psg_encoder\world1.psgcompr psg_encoder\world2.psgcompr \
        psg_encoder\font1.psgcompr psg_encoder\font2.psgcompr psg_encoder\font3.psgcompr \
        psg_encoder\title.psgcompr new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin \
-       script_inserter\tree_vector.bin script_inserter\script.asm \
-       credits\credits.bin
+       script_inserter\script.asm
 
 # ROM building
 ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\opening.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
@@ -160,12 +152,11 @@ CLEANFILES = $(BINS) \
 	     substring_formatter\words.tbl substring_formatter\words.asm \
 	     word_count\stats.txt word_count\words.txt \
        word_count\word_count.exe \
-       substring_formatter\substringformatter.exe \
+       substring_formatter\substring_formatter.exe \
        bitmap_decode\bitmap_decode.exe \
        psg_encoder\psg_encoder.exe \
        menu_creater\menu_creater.exe \
-       script_inserter\script_inserter.exe \
-       credits\credits_encode.exe
+       script_inserter\script_inserter.exe
 
 clean:
 	del $(CLEANFILES)
