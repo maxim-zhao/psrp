@@ -202,8 +202,8 @@ map ']' = $53
 map '~' = $54 ; a
 map '#' = $55 ; an
 map '^' = $56 ; the
-map '&' = $57 ; some (unused)
 .enda
+
 
 .macro String args s
 .db s.length
@@ -1257,16 +1257,15 @@ _Start:
 _Decode:
   call SFGDecoder    ; Regular decode
 
-+:cp $59      ; Post-length hints
-  jr nz,_Code2   ; Check next code
++:cp SymbolPostHint
+  jr nz,+   ; Check next code
 
   call SFGDecoder    ; Grab length
   ld (POST_LEN),A   ; Cache it
   jr _Decode   ; Immediately grab next code
 
-_Code2:
-  cp $00      ; Whitespace
-  jr nz,_Code3   ; Check next code
++:cp $00      ; Whitespace
+  jr nz,+   ; Check next code
 
   push hl
     ld (TEMP_STR),a   ; Store WS, $00
@@ -1280,9 +1279,8 @@ _Code2:
 
   ; Intentional fall-through
 
-_Code3:
-  cp $55      ; - wait more
-  jr nz,_Code4
++:cp SymbolWaitMore
+  jr nz,+
 
 _Reset_Lines:
   push af
@@ -1294,9 +1292,8 @@ _Set_Lines:
 
   jp _Done
 
-_Code4:
-  cp SymbolNewLine
-  jr nz,_Code5   ; Next code
++:cp SymbolNewLine
+  jr nz,+   ; Next code
 
   push hl     ; Automatic narrative waiting
 
@@ -1310,7 +1307,7 @@ _Code4:
 
 _NO_WAIT:
     ld a,SymbolNewLine  ; Reload newline
-    jr _Code4_End
+    jr ++
 
 _WAIT:
     ld a,SymbolWaitMore ; wait more
@@ -1321,13 +1318,12 @@ _Wait_Clear:
     dec (hl)    ; Keep shrinking # lines drawn
     jr nz,_Wait_Clear  ; to save 1 byte of space
 
-_Code4_End:
+++:
   pop hl      ; Restore stack
   jr _Done
 
-_Code5:
-  cp $60
-  jr c,_Code6    ; Control codes, don't interfere
++:cp $60
+  jr c,+    ; Control codes, don't interfere
 
   sub $60     ; Relocate dictionary entry #
 
@@ -1344,17 +1340,15 @@ _Code5:
 
   jp _Start    ; Our new dictionary lookup code
 
-_Code6:
-  cp SymbolArticle
-  jr nz,_Code7
++:cp SymbolArticle
+  jr nz,+
 
   call SFGDecoder    ; Grab #
   ld (ARTICLE),a
   jp _Decode
 
-_Code7:
-  cp SymbolSuffix
-  jr nz,_Code8
++:cp SymbolSuffix
+  jr nz,+
 
   ld a,(SUFFIX)   ; Check flag
   or a
@@ -1362,7 +1356,7 @@ _Code7:
 
   ld a,LETTER_S   ; add 's'
 
-_Code8:
++:
 
 _Done:
   cp SymbolWait ; Old code
@@ -1476,7 +1470,7 @@ _Art_Exit:
   .db SymbolEnd
 .endm
 
-ArticlesLower:
+ArticlesLower: ; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
 .dw +, ++, +++ ; no "Some"? TODO use or remove
 +:    Article " a"
 ++:   Article " na"
@@ -2449,12 +2443,13 @@ _read_byte:
       inc hl      ; bump pointer
       dec c     ; shrink length
 
-      cp $4f      ; normal text ; TODO scripting codes here?
+      cp $4f      ; normal text
       jr c,_bump_text
 
 _space:
       jr z,_blank_line    ; non-narrative WS
 
+      ; These correspond to the control codes in the .asciitable, not the ones in the script.
 _newline:
       cp $50      ; pad rest of line with WS
       jr nz,_hyphen
