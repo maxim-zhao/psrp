@@ -2408,12 +2408,12 @@ _start_write:
 
       push af     ; Delay
       pop af
-      ld a,$f3    ; left border
+      ld a,$f3    ; left border - TODO .define or .enum or something
       out ($be),a
 
       push af     ; Delay
       pop af
-      ld a,$11    ; Top border?
+      ld a,$11    ; MSB for left border
       out ($be),a
 
       ld a,(LEN)    ; string length
@@ -2430,7 +2430,7 @@ _read_byte:
       inc hl      ; bump pointer
       dec c     ; shrink length
 
-      cp $4f      ; normal text
+      cp $4f      ; normal text ; TODO scripting codes here?
       jr c,_bump_text
 
 _space:
@@ -3135,7 +3135,10 @@ PauseFMToggle:
 
   ROMPosition $8cd4
 .section "Script" force ; free
-.include "script_inserter/script.asm" ; closes the section
+.include "script_inserter/script.asm"
+.ends
+
+.include "script_inserter/script-patches.asm"
 
 ; Bug matching: throwaway patch offsets went here
   ROMPosition $7fee

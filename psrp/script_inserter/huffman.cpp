@@ -212,7 +212,6 @@ public:
 		delete _pRoot; // recursively deletes whole tree
 	}
 
-
 	Tree(const Tree& other) = delete;
 
 	Tree(Tree&& other) noexcept
@@ -274,7 +273,9 @@ void BuildHuffmanTree(const std::string& treeFilename, std::vector<Tree>& trees,
 {
 	// Build symbol statistics first
 	// These are a count of bytes seen for each preceding byte.
-	int counts[256][256] = {};
+	std::vector<std::vector<int>> counts(256);
+	for (auto&& v: counts) v.resize(256);
+	//int counts[256][256] = {};
 	int precedingByte = EOS;
 	for (auto&& entry : script)
 	{
@@ -334,12 +335,13 @@ void BuildHuffmanTree(const std::string& treeFilename, std::vector<Tree>& trees,
 	}
 }
 
-void EmitScript(const std::string& scriptFilename, const std::vector<Tree>& trees, const std::vector<ScriptItem>& script)
+void EmitScript(const std::string& scriptFilename, const std::string& patchFilename, const std::vector<Tree>& trees, const std::vector<ScriptItem>& script)
 {
 	std::ofstream scriptFile(scriptFilename);
 	scriptFile << "; Script entries, Huffman compressed\n";
 
-	std::ostringstream patches;
+	std::ofstream patchFile(patchFilename);
+	patchFile << "; Patches to point at new script entries\n";
 
 	int entryNumber = 0;
 	for (auto&& entry : script)
@@ -370,17 +372,15 @@ void EmitScript(const std::string& scriptFilename, const std::vector<Tree>& tree
 
 		for (auto && offset : entry.offsets)
 		{
-			patches << " PatchW $" << std::hex << std::setw(4) << std::setfill('0') << offset + 1 << ' ' << name << '\n';
+			patchFile << " PatchW $" << std::hex << std::setw(4) << std::setfill('0') << offset + 1 << ' ' << name << '\n';
 		}
 	}
-
-	scriptFile << "\n.ends\n\n; Patches\n" << patches.str();
 }
 
 
-void Huffman_Compress(const std::string& outputFilename, const std::string& treeFilename, const std::vector<ScriptItem>& script)
+void Huffman_Compress(const std::string& scriptFilename, const std::string& patchFilename, const std::string& treeFilename, const std::vector<ScriptItem>& script)
 {
 	std::vector<Tree> trees;
 	BuildHuffmanTree(treeFilename, trees, script);
-	EmitScript(outputFilename, trees, script);
+	EmitScript(scriptFilename, patchFilename, trees, script);
 }

@@ -124,8 +124,8 @@ script_inserter\script_inserter.exe: script_inserter\*.cpp
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words.tbl
 	copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
 
-script_inserter\script.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script.txt
-	script_inserter\script_inserter.exe word_count\script.txt script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\tree.asm
+script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script.txt
+	script_inserter\script_inserter.exe word_count\script.txt script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
 
 # All files needed for the final ROM
 BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgcompr  psg_encoder\bg5.psgcompr \
@@ -134,8 +134,7 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
        psg_encoder\bg30.psgcompr psg_encoder\bg31.psgcompr \
        psg_encoder\world1.psgcompr psg_encoder\world2.psgcompr \
        psg_encoder\font1.psgcompr psg_encoder\font2.psgcompr psg_encoder\font3.psgcompr \
-       psg_encoder\title.psgcompr new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin \
-       script_inserter\script.asm
+       psg_encoder\title.psgcompr new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin
 
 # ROM building
 ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
