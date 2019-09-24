@@ -2184,35 +2184,17 @@ SpellBlankLine:
 
 .define LINE_SIZE (10+2)*2  ; width of line
 
-  ; TODO could do this more simply - we want hl = base + b * LINE_SIZE above
-
+  ; Our menus are wider now, we want a = b * 24.
+  ; We don't have space to do it with shifts so we loop instead (slower)...
+  
   push de
-    ld de,LINE_SIZE   ; menu size
-    ld a,b            ; init
-    inc a
-    call Add16        ; 16-bit addition
-    ld de,BlankSpellMenu
-    add hl,de
+  push bc
+    ld hl,BlankSpellMenu
+    ld de,LINE_SIZE
+-:  add hl,de
+    djnz -
+  pop bc
   pop de
-.ends
-
-  ROMPosition $3494
-.section "Spell blank line - addition" force ; free
-; Originally t2b_3.asm
-; Spell selection blank line drawer
-; - addition
-
-Add16:
-  ; hl = (a-1) * de
-  ld h,0
-  ld l,h
-
--:dec a       ; loop
-  jr z,+      ; TODO: could ret z
-  add hl,de   ; skip menu
-  jr -
-
-+:ret
 .ends
 
   PatchB $35d4 $0c  ; - height
