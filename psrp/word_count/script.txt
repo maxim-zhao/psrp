@@ -4,6 +4,8 @@
 ;
 ; <internal hint *> = immediately follows a <number> flag.
 ;                     couple with <use suffix> to append a 's'. meseta(s).
+; <use article 01> = use article for enemy/item, lowercase
+; <use article 02> = use article for enemy/item, initial uppercase
 
 ; *************************************
 ; *** Camineet Residential District ***

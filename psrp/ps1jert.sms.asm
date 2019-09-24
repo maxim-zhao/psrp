@@ -301,9 +301,6 @@ map '&' = $57 ; some (unused)
 
 .define LETTER_S  $37   ; suffix letter ('s')
 
-.define NEWLINE   $54   ; carriage-return
-.define EOS       $56   ; end-of-string
-
 .define HLIMIT    $DFB9   ; horizontal chars left
 .define VLIMIT    $DFBA   ; vertical line limit
 .define SCRIPT    $DFBB   ; pointer to script
@@ -1008,7 +1005,7 @@ DecoderInit:
     ld a,:AdditionalScriptingCodes
     ld (PAGING_SLOT_1),a
 
-    ld a,EOS    ; Starting tree symbol
+    ld a,SymbolEnd    ; Starting tree symbol
     ld (TREE),a
 
     ld a,1<<7    ; Initial tree barrel
@@ -1251,19 +1248,16 @@ AdditionalScriptingCodes:
 _Start:
   call SubstringFormatter    ; Check substring RAM
 
-  cp NEWLINE
-  jr z,_No_decode
+  cp SymbolNewLine
+  jr z,+
 
-  cp EOS      ; Look for decode flag
+  cp SymbolEnd      ; Look for decode flag
   jp nz,_Done
 
 _Decode:
   call SFGDecoder    ; Regular decode
 
-_No_decode:
-
-_Code1:
-  cp $59      ; Post-length hints
++:cp $59      ; Post-length hints
   jr nz,_Code2   ; Check next code
 
   call SFGDecoder    ; Grab length
@@ -1301,7 +1295,7 @@ _Set_Lines:
   jp _Done
 
 _Code4:
-  cp $54      ; Newline check
+  cp SymbolNewLine
   jr nz,_Code5   ; Next code
 
   push hl     ; Automatic narrative waiting
@@ -1315,11 +1309,11 @@ _Code4:
     jr z,_WAIT
 
 _NO_WAIT:
-    ld a,NEWLINE    ; Reload newline
+    ld a,SymbolNewLine  ; Reload newline
     jr _Code4_End
 
 _WAIT:
-    ld a,$55    ; wait more
+    ld a,SymbolWaitMore ; wait more
     ld (FLAG),a   ; Raise flag
     ld hl,LINE_NUM
 
@@ -1351,7 +1345,7 @@ _Code5:
   jp _Start    ; Our new dictionary lookup code
 
 _Code6:
-  cp $5A      ; Use article
+  cp SymbolArticle
   jr nz,_Code7
 
   call SFGDecoder    ; Grab #
@@ -1359,7 +1353,7 @@ _Code6:
   jp _Decode
 
 _Code7:
-  cp $5B      ; Use suffix
+  cp SymbolSuffix
   jr nz,_Code8
 
   ld a,(SUFFIX)   ; Check flag
@@ -1371,7 +1365,7 @@ _Code7:
 _Code8:
 
 _Done:
-  cp $58      ; Old code
+  cp SymbolWait ; Old code
   ret     ; Go to remaining text handler
 
 .ends
@@ -1410,7 +1404,7 @@ SubstringFormatter:
 _Lookup:
   ld a,(LEN)    ; Grab length of string
   or a      ; Check for zero-length
-  ld a,EOS    ; Load 'abort' flag
+  ld a,SymbolEnd    ; Load 'abort' flag
   ret z     ; Return if NULL
 
 _Substring:
@@ -1424,7 +1418,7 @@ _Substring:
     ld hl,LEN   ; Grab address of length
 
     ; ------------------------------------------------------
-    ; Article (The, An, A, Some) handler
+    ; Article (The, An, A) handler
 
     push de     ; init
 
@@ -1457,7 +1451,7 @@ _Start_Art:
 
 _Add_Art:
       ld a,(de)   ; grab font #
-      cp EOS
+      cp SymbolEnd
       jr z,_Art_Done
 
       dec bc      ; bump dst pointer
@@ -1479,7 +1473,7 @@ _Art_Exit:
 ; Articles are stored backwards
 .macro Article
   .asc \1
-  .db EOS
+  .db SymbolEnd
 .endm
 
 ArticlesLower:
@@ -1536,7 +1530,7 @@ _Text_Spill_WS:
     dec (hl)    ; Shrink length
 
 _Text_Spill_Line:
-    ld a,NEWLINE    ; newline
+    ld a,SymbolNewLine    ; newline
 
   pop bc      ; Stack registers
   pop hl
@@ -2152,7 +2146,7 @@ SpellBlankLine:
     ld a,b            ; init
     inc a
     call Add16        ; 16-bit addition
-    ld de,0           ; auto-generated base value TODO I guess this is filled in later
+    ld de,BlankSpellMenu
     add hl,de
   pop de
 .ends
