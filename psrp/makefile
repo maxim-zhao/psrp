@@ -110,11 +110,11 @@ psg_encoder\font3.psgcompr : $(PSG_ENCODE) new_graphics\font3.bin ;$** $@
 menu_creater\menu_creater.exe: menu_creater\*.cpp
   $(CPP) $(CPPFLAGS) menu_creater\*.cpp /Fe:menu_creater\menu_creater.exe
 
-menu_creater\opening.asm : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
-	menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\opening.asm
+menu_creater\opening.asm menu_creater\opening-patches.asm : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\opening.asm menu_creater\opening-patches.asm
 
-menu_creater\menus.asm : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
-	menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menus.asm
+menu_creater\menus.asm menu_creater\menu-patches.asm : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menus.asm menu_creater\menu-patches.asm
 
 # script_inserter
 
@@ -138,7 +138,7 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
        script_inserter\script.asm
 
 # ROM building
-ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\opening.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
+ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 

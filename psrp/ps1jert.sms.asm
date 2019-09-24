@@ -977,6 +977,7 @@ CharacterDrawing:
   ROMPosition $8000
 
 ; The font lookup, Huffman bits and script all share a bank as they are needed at the same time.
+.bank 2 slot 2
   
 .section "Font lookup" force ; free
 FontLookup:
@@ -2020,7 +2021,10 @@ IndexTableRemap:
   ROMPosition $46c81
 .section "Menu data" force ; superfree
 MenuData:
-.include "menu_creater/menus.asm" ; closes the section and applies patches
+.include "menu_creater/menus.asm"
+.ends
+
+.include "menu_creater/menu-patches.asm"
 
   PatchB $3b82 :MenuData
   PatchB $3bab :MenuData
@@ -2202,6 +2206,9 @@ MaxMP:    .dwm Text "|Max MP   " ; TODO extra space here
 .section "Opening cinema" overwrite
 Opening:
 .include "menu_creater/opening.asm"
+.ends
+
+.include "menu_creater/opening-patches.asm"
 
   PatchB $45d7 :Opening ; - source bank
 

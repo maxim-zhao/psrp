@@ -17,6 +17,7 @@ Phantasy Star: Symbol Converter
 #include <codecvt>
 #include <algorithm>
 #include <fstream>
+#include <iomanip>
 
 namespace
 {
@@ -179,7 +180,7 @@ public:
         }
     }
 
-    void writePatches(FILE* f)
+    void writePatches(std::ofstream& f)
     {
         for (auto&& line : _lines)
         {
@@ -190,21 +191,21 @@ public:
             }
         }
 
-        fprintf(f, "; %s patches\n", _name.c_str());
+        f << "; " << _name << " patches\n" << std::hex;
 
         for (auto&& ptr: _ptrs)
         {
-            fprintf(f, "  PatchW $%x %s\n", ptr, _name.c_str());
+            f << "  PatchW $" << ptr << ' ' << _name << '\n';
         }
 
         for (auto&& ptr: _dims)
         {
-            fprintf(f, "  PatchB $%x %d\n", ptr, _width * 2);
-            fprintf(f, "  PatchB $%x %d\n", ptr+1, _height);
+            f << "  PatchB $" << std::hex << ptr     << ' ' << std::dec << _width * 2 << '\n'
+              << "  PatchB $" << std::hex << ptr + 1 << ' ' << std::dec << _height    << '\n';
         }
     }
 
-    void writeData(FILE* f, Table& table)
+    void writeData(std::ofstream& f, Table& table)
     {
         if (!_emitData)
         {
@@ -213,11 +214,11 @@ public:
         }
 
         // Emit the data at the current (unknown) address
-        fprintf(f, "%s:", _name.c_str());
+        f << _name << ":";
 
         for (auto&& line : _lines)
         {
-            fprintf(f, "\n.dw");
+            f << "\n.dw";
             for (auto&& c : line)
             {
                 const auto& value = table.find(c);
@@ -226,21 +227,18 @@ public:
                     // skip unknown chars
                     continue;
                 }
-                fprintf(f, " $%04x", value); // menu value
+                f << " $" << std::hex << std::setw(4) << std::setfill('0') << value; // menu value
             }
 
-            fprintf(f, " ; %s", convert.to_bytes(line).c_str());
+            f << " ; " << convert.to_bytes(line);
         }
-
-        fprintf(f, "\n\n"); // Add some space
+        f << '\n';
     }
 };
 
-void ProcessText(const std::string& listName, const std::string& tableFile, const std::string& outName)
+void ConvertSymbols(const std::string& listName, const std::string& tableName, const std::string& outName, const std::string& patchesName)
 {
-    FILE* out = fopen(outName.c_str(), "w");
-
-    Table table(tableFile);
+    Table table(tableName);
 
     // Read the menu data
     std::vector<Menu*> menus;
@@ -270,20 +268,15 @@ void ProcessText(const std::string& listName, const std::string& tableFile, cons
     }
 
     // Emit
+    std::ofstream out(outName);
     for (auto&& menu: menus)
     {
         menu->writeData(out, table);
     }
-    fprintf(out, ".ends\n");
+
+    std::ofstream patches(patchesName);
     for (auto&& menu: menus)
     {
-        menu->writePatches(out);
+        menu->writePatches(patches);
     }
-
-    fclose(out);
-}
-
-void ConvertSymbols(const char* listName, const char* tableName, const char* outName)
-{
-    ProcessText(listName, tableName, outName);
 }
