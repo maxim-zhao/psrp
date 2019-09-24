@@ -227,9 +227,11 @@ map '&' = $57 ; some (unused)
   FreeSpace $0448c $044f5 $04509 ; data for lookup table during entry - can go up to $4509
   FreeSpace $045a4 $045c3 $045c3 ; tile loading for intro
 ; Bank 2
-  FreeSpace $08000 $0bdd1 $0bfff ; font tile lookup, script, item names, unknown
-  FreeSpace $0bed0 $0bf35 $0bfff ; item names - now SFG decoder TODO check for use of space in between
-  FreeSpace $0bf50 $0bf99 $0bfff ; item names - now Huffman decoder init
+  FreeSpace $08000 $080b1 $080b1 ; font tile lookup
+  FreeSpace $080b2 $0bd93 $0bd93 ; script
+  FreeSpace $0bd94 $0bdd1 $0bf9b ; item names
+  FreeSpace $0bed0 $0bf35 $0bf9b ; item names - now SFG decoder TODO check for use of space in between
+  FreeSpace $0bf50 $0bf99 $0bf9b ; item names - now Huffman decoder init
 ; Bank 9
   FreeSpace $27b24 $27e75 $27fff ; Mansion tiles + unused space
 ; Bank 11
@@ -273,12 +275,6 @@ map '&' = $57 ; some (unused)
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
-
-; Functions we call
-.define VBlank $0127
-.define DecompressToTileMapData $6e05
-.define OutputTilemapRawDataBox $0428
-.define TextBox20x6 $333a
 
 ; RAM used by the game, referenced here
 .define HasFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
@@ -584,7 +580,7 @@ TitleScreenPatch:
   ld hl,PAGING_SLOT_2
   ld (hl),:TitleScreenTilemap
   ld hl,TitleScreenTilemap
-  call DecompressToTileMapData
+  call $6e05 ; DecompressToTileMapData
   ; Size matches original
 .ends
 
@@ -1607,17 +1603,33 @@ CutsceneNarrativeInitOriginalCode:
   ROMPosition $34b4
 .section "Cutscene text decoder" overwrite
 CutsceneTextDecoder:
-  call AdditionalScriptingCodes
-  jr z,OrderFlip ; = order flip
+  ; This patches later in the same function as above. Original code:
+; ld a,(hl)
+; cp $57
+; jr z,$34ed ; exit after pause
+; cp $58
+; jr z,$34e8 ; exit after button
+  call AdditionalScriptingCodes ; handle extra narrative codes, performs comparison to $58 before returning
+  jr z,ExitAfterButton
   cp $57
-  jr z,OrderFlip+5 ; = ??? TODO
+  jr z,ExitAfterPause
 .ends
 
   ROMPosition $34e5
 .section "Cutscene $55 clear code" overwrite
 CutsceneClearCode:
   jp CutsceneClear
-OrderFlip:
+  
+  ; The rest is the same as the original code, but we want to get the labels for above
+ExitAfterButton:
+  call $2e81 ; MenuWaitForButton
+  pop de
+  ret
+
+ExitAfterPause:
+  call $2eaf ; Pause256Frames
+  pop de
+  ret
 .ends
 
   ROMPosition $333f
@@ -1820,7 +1832,7 @@ VBlankPageSave:
     ld a,1    ; Regular page 1
     ld (PAGING_SLOT_1),a
 
-    call VBlank ; $127    ; Resume old code
+    call $0127 ; VBlank ; Resume old code
 
   pop af
   ld (PAGING_SLOT_1),a    ; Put back page 1
@@ -2013,7 +2025,7 @@ Words:
   ROMPosition $59ba
 .section "Index table remap" overwrite ; not movable
 IndexTableRemap:
-  jp TextBox20x6
+  jp $333a ; TextBox20x6
 .ends
 
 ; Menus
@@ -2817,17 +2829,11 @@ EnterYourName:
 ; Originally tx4.asm
 ; Name entry screen patch to draw extended characters
 
-; OutputTilemapRawDataBox: ; $0428
-; So hl = tilemap data (both bytes)
-; b = height /tiles
-; c = 2*width /tiles
-; de = VRAM location
-
     call $03de  ; the call I stole to get here
     ld bc,$010e ; 14 bytes per row, 1 row
     ld de,$7bec ; Tilemap location 22,15
     ld hl,data
-    call OutputTilemapRawDataBox  ; output raw tilemap data
+    call $0428 ; OutputTilemapRawDataBox  ; output raw tilemap data
     ret
 
 data:

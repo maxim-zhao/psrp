@@ -439,7 +439,7 @@ dims=3b52,3b79
 ╘══════╝
 
 [BlankSpellMenu]
-ptrs=35cf
+;ptrs=35cf Custom asm references this so no need to patch
 
 ┌──────────╖
 │          ║
