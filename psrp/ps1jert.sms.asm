@@ -2124,11 +2124,24 @@ SpellSelectionFinder:
 
 
   ROMPosition $35c5
-.section "Spell blank line" overwrite
+.section "Spell blank line" size 14 overwrite ; not movable
 SpellBlankLine:
 ; Originally t2b_2.asm
 ; Spell selection blank line drawer
 ; - support code
+; Original code:
+; ld     a,b      ; compute a = b * 12 (to find where to start copying the menu data)
+; add    a,a      ; a=2b
+; ld     l,a      ; l=2b
+; add    a,a      ; a=4b
+; add    a,l      ; a=6b
+; add    a,a      ; a=12b
+; ld     hl,$ba3f
+; add    a,l
+; ld     l,a
+; adc    a,h
+; sub    l
+; ld     h,a
 
 .define LINE_SIZE (10+2)*2  ; width of line
 
