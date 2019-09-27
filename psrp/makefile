@@ -142,7 +142,6 @@ ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_cr
   $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
 
 	@echo Successful: translated file is ps1jert.sms
-  fc /b ps1jert.sms ps1jert.102.sms | more
 
 CLEANFILES = $(BINS) \
 	     menu_creater\*.asm \
