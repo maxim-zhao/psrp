@@ -547,13 +547,13 @@ LoadTiles:
   ROMPosition $7e8bd
 .section "Replacement title screen" superfree
 TitleScreenTiles:
-.incbin "psg_encoder/title.psgcompr"
+.incbin "new_graphics/title.psgcompr"
 .ends
 
   ROMPosition $3bc68
 .section "Title screen name table" superfree
 TitleScreenTilemap:
-.incbin "new_graphics/title-nt.bin"
+.incbin "new_graphics/title-nt.pscompr"
 .ends
 
   ROMPosition $00925
@@ -794,10 +794,10 @@ BackgroundSceneLoaderTileLoaderPatch:
 .slot 2
 .section "Font part 1" superfree
 FONT1:
-.incbin "psg_encoder/font1.psgcompr"
+.incbin "new_graphics/font1.psgcompr"
 ; Need to be in the same bank
 FONT2:
-.incbin "psg_encoder/font2.psgcompr"
+.incbin "new_graphics/font2.psgcompr"
 .ends
 
   ROMPosition $045a4
@@ -2902,7 +2902,7 @@ CreditsScreen14:
   ROMPosition $3fdee
 .section "Credits font" force ; superfree
 CreditsFont:
-.incbin "psg_encoder/font3.psgcompr"
+.incbin "new_graphics/font3.psgcompr"
 .ends
 
   ROMPosition $00056

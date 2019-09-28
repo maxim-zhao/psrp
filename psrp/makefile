@@ -57,25 +57,23 @@ psg_encoder\bg16.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5eb6f $
 psg_encoder\bg29.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 27b24 $@
 psg_encoder\bg30.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 524ea $@
 psg_encoder\bg31.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 4c010 $@
-#psg_encoder\title.bin : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 7e8bd $@ # Replaced with a custom image
 psg_encoder\world1.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 747b8 $@
 psg_encoder\world2.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 58570 $@
 
 
 # tile conversion from PNG
 # This is for "original" graphics.
-new_graphics\font1.bin: new_graphics\font1.png
-	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
+new_graphics\font1.psgcompr: new_graphics\font1.png
+	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
-new_graphics\font2.bin: new_graphics\font2.png
-	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
+new_graphics\font2.psgcompr: new_graphics\font2.png
+	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
-new_graphics\font3.bin: new_graphics\font3.png
-	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
+new_graphics\font3.psgcompr: new_graphics\font3.png
+	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
-# TODO newer BMP2Tile can compress better and directly to the targeted compression format.
-new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin: new_graphics\titlescreen.png
-	new_graphics\bmp2tile.exe $** -4bit -savetilesbin new_graphics\title.bin -savetilemappscompr new_graphics\title-nt.bin -palsms -savepalettebin new_graphics\title-pal.bin -exit
+new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.png
+	new_graphics\bmp2tile.exe $** -savetiles new_graphics\title.psgcompr -savetilemap new_graphics\title-nt.pscompr -palsms -savepalette new_graphics\title-pal.bin
 
 # psg_encoder
 # Encodes tile data to the "PS Gaiden" format - see above.
@@ -101,9 +99,6 @@ psg_encoder\bg31.psgcompr  : $(PSG_ENCODE) psg_encoder\bg31.bin  ;$** $@
 psg_encoder\title.psgcompr : $(PSG_ENCODE) new_graphics\title.bin ;$** $@
 psg_encoder\world1.psgcompr: $(PSG_ENCODE) psg_encoder\world1.bin;$** $@
 psg_encoder\world2.psgcompr: $(PSG_ENCODE) psg_encoder\world2.bin;$** $@
-psg_encoder\font1.psgcompr : $(PSG_ENCODE) new_graphics\font1.bin ;$** $@
-psg_encoder\font2.psgcompr : $(PSG_ENCODE) new_graphics\font2.bin ;$** $@
-psg_encoder\font3.psgcompr : $(PSG_ENCODE) new_graphics\font3.bin ;$** $@
 
 # menu_creater
 
@@ -133,8 +128,8 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
        psg_encoder\bg13.psgcompr psg_encoder\bg14.psgcompr psg_encoder\bg16.psgcompr psg_encoder\bg29.psgcompr \
        psg_encoder\bg30.psgcompr psg_encoder\bg31.psgcompr \
        psg_encoder\world1.psgcompr psg_encoder\world2.psgcompr \
-       psg_encoder\font1.psgcompr psg_encoder\font2.psgcompr psg_encoder\font3.psgcompr \
-       psg_encoder\title.psgcompr new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin
+       new_graphics\font1.psgcompr new_graphics\font2.psgcompr new_graphics\font3.psgcompr \
+       new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin
 
 # ROM building
 ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
