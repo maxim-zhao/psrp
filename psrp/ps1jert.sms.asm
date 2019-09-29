@@ -2967,13 +2967,20 @@ FontLookup:
 .dwm Text ".:`',  -!?               "
 .ends
 
+; Both the trees and script entries could be micro-sections but they need to share a bank, 
+; and it's pretty empty, so we don't get any benefit to split them up.
+
+.block "HuffmanTrees"
 .section "Huffman tree stuff" free
 TREE_PTR:
 .include "script_inserter/tree.asm"
 .ends
+.endb
 
 .section "Script" free
+.block "Script"
 .include "script_inserter/script.asm"
+.endb
 .ends
 
 .section "Decoder init" free ; same bank as script
@@ -3005,7 +3012,6 @@ DecoderInit:
     ld (POST_LEN),a   ; No post hints
     ld (LINE_NUM),a   ; No lines drawn
     ld (FLAG),a   ; No wait flag
-;   ld (PLAYER),a   ; Do not reset (assume proper usage)
     ld (ARTICLE),a    ; No article usage
     ld (SUFFIX),a   ; No suffix flag
 
