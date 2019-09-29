@@ -134,7 +134,7 @@ BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgco
 # ROM building
 ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
-  $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
+  $(WLALINK) -d -r -v -S linkfile "ps1jert.sms"
 
 	@echo Successful: translated file is ps1jert.sms
 
