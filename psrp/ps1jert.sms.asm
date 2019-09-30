@@ -83,7 +83,7 @@ PatchAt\1:
 
 ; Filter macro for turning text into 16-bit tilemap entries.
 ; Sets the high priority bit on all tiles.
-.macro Text
+.macro TextToTilemap
 .redefine _out 0
 ; This is like a 16-bit version of .asciitable. It's quite messy though...
 .if \1 == ' '
@@ -146,16 +146,9 @@ PatchAt\1:
 .if _out == 0
   .printt "Unhandled character '"
   .printt "\1"
-  .printt "' in Text macro\n"
+  .printt "' in TextToTilemap macro\n"
   .fail
 .endif
-.endm
-
-; Filter macro for turning text into 16-bit tilemap entries.
-; Does not set the high priority bit.
-.macro TextLowPriority
-  Text \1
-  .redefine _out _out & $0fff
 .endm
 
 ; Macro to load tiles from the given label
@@ -1854,12 +1847,12 @@ MenuData:
 
   ROMPosition $3211
 .section "HP letters" size 4 overwrite ; not movable
-.dwm Text "HP"
+.dwm TextToTilemap "HP"
 .ends
 
   ROMPosition $3219
 .section "MP letters" size 4 overwrite ; not movable
-.dwm Text "MP"
+.dwm TextToTilemap "MP"
 .ends
 
   ; Choose player: width*2
@@ -1969,8 +1962,8 @@ SpellBlankLine:
   ROMPosition $3516
 .section "Stats menu part 1" free
 ; The width of these is important
-Level: .dwm Text "|Level   " ; 3 digit number
-MST:   .dwm Text "|MST   "   ; 5 digit number
+Level: .dwm TextToTilemap "|Level   " ; 3 digit number
+MST:   .dwm TextToTilemap "|MST   "   ; 5 digit number
 .ends
 
   PatchW $3911 Level  ; - LV source
@@ -1979,11 +1972,11 @@ MST:   .dwm Text "|MST   "   ; 5 digit number
   ROMPosition $3982
 .section "Stats menu part 2" free
 ; The width of these is important
-EXP:      .dwm Text "|Exp.  "   ; 5 digit number
-Attack:   .dwm Text "|Attack  " ; 3 digit numbers
-Defense:  .dwm Text "|Defense "
-MaxHP:    .dwm Text "|Max HP  "
-MaxMP:    .dwm Text "|Max MP  "
+EXP:      .dwm TextToTilemap "|Exp.  "   ; 5 digit number
+Attack:   .dwm TextToTilemap "|Attack  " ; 3 digit numbers
+Defense:  .dwm TextToTilemap "|Defense "
+MaxHP:    .dwm TextToTilemap "|Max HP  "
+MaxMP:    .dwm TextToTilemap "|Max MP  "
 .ends
 
   PatchW $391a EXP    ; - EXP source
@@ -2603,7 +2596,7 @@ NameEntryTiles:
   ROMPosition $4059
 .section "Enter your name text" force ; free
 EnterYourName:
-.dwm Text "Enter your name:"
+.dwm TextToTilemap "Enter your name:"
 .ends
 
   ROMPosition $41c4
@@ -2637,7 +2630,7 @@ DrawExtendedCharacters:
     ret
 
 _punctuation:
-.dwm TextLowPriority ",:-!?`'"
+.dwm TextToTilemap ",:-!?`'"
 
 .ends
 
@@ -2961,10 +2954,10 @@ PauseFMToggle:
 .section "Font lookup" free
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into ths area) to name table entries. The extra spaces are unused (and could be repurposed?).
-.dwm Text " 0123456789"
-.dwm Text "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-.dwm Text "abcdefghijklmnopqrstuvwxyz"
-.dwm Text ".:`',  -!?               "
+.dwm TextToTilemap " 0123456789"
+.dwm TextToTilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+.dwm TextToTilemap "abcdefghijklmnopqrstuvwxyz"
+.dwm TextToTilemap ".:`',  -!?               "
 .ends
 
 ; Both the trees and script entries could be micro-sections but they need to share a bank, 
