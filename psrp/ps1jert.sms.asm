@@ -229,8 +229,8 @@ map "^" = $56 ; the
   FreeSpace $08000 $080b1 $080b1 ; font tile lookup
   FreeSpace $080b2 $0bd93 $0bd93 ; script
   FreeSpace $0bd94 $0bdd1 $0bf9b ; item names
-  FreeSpace $0bed0 $0bf35 $0bf9b ; item names - now SFG decoder TODO check for use of space in between
-  FreeSpace $0bf50 $0bf99 $0bf9b ; item names - now Huffman decoder init
+  FreeSpace $0bed0 $0bf35 $0bf9b ; item names - now SFG decoder
+  FreeSpace $0bf50 $0bf99 $0bfff ; item names - now Huffman decoder init
 ; Bank 9
   FreeSpace $27b24 $27e75 $27fff ; Mansion tiles + unused space
 ; Bank 11
