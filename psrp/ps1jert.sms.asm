@@ -306,7 +306,6 @@ map "^" = $56 ; the
 
 
 .slot 1
-  ROMPosition $4be84, 1
 .section "New bitmap decoder" superfree
 ; Originally t4b, t4b_1
 ; RLE/LZ bitmap decoder
@@ -537,13 +536,12 @@ LoadTiles:
   ret
 .ends
 
-  ROMPosition $7e8bd
+.slot 2
 .section "Replacement title screen" superfree
 TitleScreenTiles:
 .incbin "new_graphics/title.psgcompr"
 .ends
 
-  ROMPosition $3bc68
 .section "Title screen name table" superfree
 TitleScreenTilemap:
 .incbin "new_graphics/title-nt.pscompr"
@@ -582,13 +580,12 @@ TitleScreenPatch:
   LoadPagedTiles OutsideTiles $4000
 .ends
 
-  ROMPosition $747b8
+.slot 2
 .section "Outside tiles" superfree
 OutsideTiles:
 .incbin "psg_encoder/world1.psgcompr"
 .ends
 
-  ROMPosition $58570
 .section "Town tiles" superfree
 TownTiles:
 .incbin "psg_encoder/world2.psgcompr"
@@ -664,8 +661,8 @@ SceneData:
 
 .ends
 
-  ROMPosition $40000
-.section "Palettes 1" force ; TODO attach palettes to tiles and superfree together
+.bank 16 slot 2
+.section "Palettes 1" free ; TODO attach palettes to tiles and superfree together
 PalettePalmaOpen:      CopyFromOriginal $40000 16
 PaletteDezorisOpen:    CopyFromOriginal $40010 16
 PalettePalmaForest:    CopyFromOriginal $40f16 16
@@ -679,13 +676,11 @@ PalettePalmaSea:       CopyFromOriginal $41c72 16
 
 ; Some data from $428f6 (sea animation tiles)
 
-  ROMPosition $43406
   Bin TilesMotabiaOpen  "psg_encoder/bg5.psgcompr"
 
-; Gap?
 
-  ROMPosition $44640
-.section "Palettes 2" force ; TODO inline, attach to tiles and superfree
+.bank 17 slot 2
+.section "Palettes 2" free ; TODO inline, attach to tiles and superfree
 PalettePalmaTown:     CopyFromOriginal $44640 16
 PalettePalmaVillage:  CopyFromOriginal $457c4 16
 PaletteSpaceport:     CopyFromOriginal $464b1 16
@@ -1008,8 +1003,8 @@ _Copy:
   ret
 .ends
 
-  ROMPosition $7fe00, 1
-.section "Additional scripting codes" force ; superfree
+.slot 1
+.section "Additional scripting codes" superfree
 AdditionalScriptingCodes:
 ; Originally t4a_2.asm
 ; Narrative formatter
@@ -1132,8 +1127,6 @@ _Done:
   cp SymbolWait ; Old code
   ret     ; Go to remaining text handler
 
-.ends
-
 .enum $4f ; Scripting codes
   SymbolStart     .db
   SymbolPlayer    db ; $4f,
@@ -1151,9 +1144,8 @@ _Done:
   SymbolSuffix    db ; $5b,
 .ende
 
-  ROMPosition $7fed0, 1
-.section "Substring formatter" force ; superfree
 SubstringFormatter:
+; Needs to be in the same bank as AdditionalScriptingCodes
 ; Originally t4a_3.asm
 ; Narrative formatter
 ; - Dictionary processing
