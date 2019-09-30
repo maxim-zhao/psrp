@@ -583,12 +583,12 @@ TitleScreenPatch:
 .slot 2
 .section "Outside tiles" superfree
 OutsideTiles:
-.incbin "psg_encoder/world1.psgcompr"
+.incbin "new_graphics/world1.psgcompr"
 .ends
 
 .section "Town tiles" superfree
 TownTiles:
-.incbin "psg_encoder/world2.psgcompr"
+.incbin "new_graphics/world2.psgcompr"
 .ends
 
   ROMPosition $00cf4
@@ -670,13 +670,13 @@ PaletteDezorisForest:  CopyFromOriginal $40f26 16
 PalettePalmaSea:       CopyFromOriginal $41c72 16
 .ends
 
-  Bin TilesPalmaAndDezorisOpen    "psg_encoder/bg1.psgcompr"
-  Bin TilesPalmaForest  "psg_encoder/bg2.psgcompr"
-  Bin TilesPalmaSea     "psg_encoder/bg3.psgcompr"
+  Bin TilesPalmaAndDezorisOpen    "new_graphics/bg1.psgcompr"
+  Bin TilesPalmaForest  "new_graphics/bg2.psgcompr"
+  Bin TilesPalmaSea     "new_graphics/bg3.psgcompr"
 
 ; Some data from $428f6 (sea animation tiles)
 
-  Bin TilesMotabiaOpen  "psg_encoder/bg5.psgcompr"
+  Bin TilesMotabiaOpen  "new_graphics/bg5.psgcompr"
 
 
 .bank 17 slot 2
@@ -687,23 +687,23 @@ PaletteSpaceport:     CopyFromOriginal $464b1 16
 PaletteDeadTrees:     CopyFromOriginal $46f58 16
 .ends
 
-  Bin TilesPalmaTown    "psg_encoder/bg8.psgcompr"
-  Bin TilesPalmaVillage "psg_encoder/bg9.psgcompr"
-  Bin TilesSpaceport    "psg_encoder/bg10.psgcompr"
-  Bin TilesDeadTrees    "psg_encoder/bg11.psgcompr"
+  Bin TilesPalmaTown    "new_graphics/bg8.psgcompr"
+  Bin TilesPalmaVillage "new_graphics/bg9.psgcompr"
+  Bin TilesSpaceport    "new_graphics/bg10.psgcompr"
+  Bin TilesDeadTrees    "new_graphics/bg11.psgcompr"
 
   ROMPosition $5ac8d
-  Bin TilesAirCastle    "psg_encoder/bg13.psgcompr"
+  Bin TilesAirCastle    "new_graphics/bg13.psgcompr"
   ROMPosition $2c010
-  Bin TilesGoldDragon   "psg_encoder/bg14.psgcompr"
+  Bin TilesGoldDragon   "new_graphics/bg14.psgcompr"
   ROMPosition $5eb6f
-  Bin TilesBuilding     "psg_encoder/bg16.psgcompr"
+  Bin TilesBuilding     "new_graphics/bg16.psgcompr"
   ROMPosition $27b24
-  Bin TilesMansion      "psg_encoder/bg29.psgcompr"
+  Bin TilesMansion      "new_graphics/bg29.psgcompr"
   ROMPosition $524ea
-  Bin TilesLassicRoom   "psg_encoder/bg30.psgcompr"
+  Bin TilesLassicRoom   "new_graphics/bg30.psgcompr"
   ROMPosition $4c010
-  Bin TilesDarkForce    "psg_encoder/bg31.psgcompr"
+  Bin TilesDarkForce    "new_graphics/bg31.psgcompr"
 
   ; We also need the non-relocated tilemap and palette addresses to populate the table...
 .macro LabelAtPosition
