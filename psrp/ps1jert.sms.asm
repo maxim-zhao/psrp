@@ -56,7 +56,7 @@ banks 32
 ; Creates a section with the given name holding the given binary file.
 ; Uses the current address.
 .macro Bin
-.section "\1" force ; TODO: if this is free then it fails to fit the space...
+.section "\1" free
 \1:
 .incbin \2
 \1_end:
