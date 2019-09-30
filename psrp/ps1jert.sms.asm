@@ -1233,18 +1233,16 @@ _Art_Exit:
 .endm
 
 ArticlesLower: ; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
-.dw +, ++, +++ ; no "Some"? TODO use or remove
+.dw +, ++, +++
 +:    Article " a"
 ++:   Article " na"
 +++:  Article " eht"
-      Article " emos"
 
 ArticlesInitialUpper:
-.dw +, ++, +++ ; no "Some"? TODO use or remove
+.dw +, ++, +++
 +:    Article " A"
-++:   Article " dA" ; BUG: wrong text here
+++:   Article " nA"
 +++:  Article " ehT"
-      Article " emoS"
 
 _Initial_Codes:
     ld a,(bc)   ; Grab character
