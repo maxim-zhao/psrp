@@ -1948,7 +1948,7 @@ SpellBlankLine:
 
   PatchB $35d4 $0c  ; - height
 
-  ROMPosition $3516
+.bank 0 slot 0
 .section "Stats menu part 1" free
 ; The width of these is important
 Level: .dwm TextToTilemap "|Level   " ; 3 digit number
@@ -1958,7 +1958,7 @@ MST:   .dwm TextToTilemap "|MST   "   ; 5 digit number
   PatchW $3911 Level  ; - LV source
   PatchW $36e7 MST    ; - MST source
 
-  ROMPosition $3982
+.bank 0 slot 0
 .section "Stats menu part 2" free
 ; The width of these is important
 EXP:      .dwm TextToTilemap "|Exp.  "   ; 5 digit number
@@ -1999,7 +1999,7 @@ MaxMP:    .dwm TextToTilemap "|Max MP  "
   PatchW $3829 $7a88
   PatchW $386e $7a88
 
-  ROMPosition $5aadc
+.bank 2
 .section "Opening cinema" superfree
 Opening:
 .include "menu_creater/opening.asm"
@@ -2009,7 +2009,8 @@ Opening:
 
   PatchB $45d7 :Opening ; - source bank
 
-; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
+
+; relocate Tarzimal's tiles
 
 .slot 2
 .section "Tarzimal tiles" superfree
@@ -2471,7 +2472,7 @@ DezorianCustomStringCheck:
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
 
-  ROMPosition $0000f
+.bank 0 slot 0
 .section "Newline patch" free
 ; Originally tx1.asm
 ; Text window drawer multi-line handler
@@ -2536,8 +2537,8 @@ _not_two:
 
 ; Savegame name entry screen hacking ---------------------------------------------
 ; compressed tile data (low byte only) for name entry screen
-  ROMPosition $3f02
-.section "Name entry tilemap data" force ; free
+.bank 0 slot 0
+.section "Name entry tilemap data" free
 NameEntryTiles:
 ; Custom format...
 ; %0nnnnnnn $xx = $xx n times
@@ -2579,8 +2580,8 @@ NameEntryTiles:
 .ends
 
 ; "Enter your name" text at the top of the screen
-  ROMPosition $4059
-.section "Enter your name text" force ; free
+.bank 1 slot 1 ; can be 0 or 1
+.section "Enter your name text" free
 EnterYourName:
 .dwm TextToTilemap "Enter your name:"
 .ends
@@ -2603,8 +2604,8 @@ EnterYourName:
   call DrawExtendedCharacters
 .ends
 
-  ROMPosition $3f3a
-.section "Name entry screen extended characters" force ; free
+.bank 0 slot 0 ; can be 0 or 1
+.section "Name entry screen extended characters" free
 ; Originally tx4.asm
 ; Name entry screen patch to draw extended characters
 DrawExtendedCharacters:
@@ -2643,8 +2644,8 @@ _punctuation:
   PatchB $4342 4 ; height of lookup table - width*height<=126
   PatchB $434e (32*2 - NameEntryTableWidth)*2 ; width complement
 
-  ROMPosition $448e
-.section "Save lookup" force ; free (can be bank 0 or 1)
+.bank 1 slot 1 ; can be 0 or 1
+.section "Save lookup" free
 SaveLookup:
 ; Character found at each location in the name entry screen
 ; A-Z
@@ -2683,8 +2684,9 @@ SaveLookup:
   call NameEntryCursor
   nop ; to fill space for patch
 .ends
-  ROMPosition $04a7
-.section "Name entry 4-sprite cursor hack" force ; free
+
+.bank 1 slot 1 ; can be 0 or 1
+.section "Name entry 4-sprite cursor hack" free
 NameEntryCursor:
   inc e
   ld (de),a
@@ -2693,7 +2695,6 @@ NameEntryCursor:
   inc e
   ld (de),a
   ret
-  ret ; TODO: remove this. Needed to match a bug in 0.92.
 .ends
 
 ; 2. Extra x coords and tile indices
@@ -2702,8 +2703,8 @@ NameEntryCursor:
   PatchB $425c $c6 ; sub nn -> add a,nn
 
 ; Text drawing as you enter your name
-  ROMPosition $429b
-.section "Drawing to RAM as you enter" force ; free
+.bank 1 slot 1 ; can be 0 or 1
+.section "Drawing to RAM as you enter" free
 ; Originally tx2.asm
 ; Name entry screen patch for code that writes to the in-RAM name table copy
 
@@ -2789,82 +2790,70 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 .section "Credits" force ; not movable
 CreditsData:
 .dw CreditsScreen1, CreditsScreen2, CreditsScreen3, CreditsScreen4, CreditsScreen5, CreditsScreen6, CreditsScreen7, CreditsScreen8, CreditsScreen9, CreditsScreen10, CreditsScreen11, CreditsScreen12, CreditsScreen13, CreditsScreen14
+
 .macro CreditsEntry args x, y, text
 .dw $d000 + ((y * 32) + x) * 2
 .db text.length, text
 .endm
-CreditsScreen1:
-.db 1 ; entry count
+
+CreditsScreen1: .db 1 ; entry count
   CreditsEntry 13,10,"STAFF"
-CreditsScreen2:
-.db 3
+CreditsScreen2: .db 3
   CreditsEntry 5,5,"TOTAL"
   CreditsEntry 6,7,"PLANNING"
   CreditsEntry 17,6,"OSSALE KOHTA"
-CreditsScreen3:
-.db 5
+CreditsScreen3: .db 5
   CreditsEntry 6,5,"SCENARIO"
   CreditsEntry 7,7,"WRITER"
   CreditsEntry 17,6,"OSSALE KOHTA"
   CreditsEntry 9,15,"STORY"
   CreditsEntry 17,15,"APRIL FOOL"
-CreditsScreen4:
-.db 4
+CreditsScreen4: .db 4
   CreditsEntry 4,5,"ASSISTANT"
   CreditsEntry 3,7,"COORDINATORS"
   CreditsEntry 10,11,"OTEGAMI CHIE"
   CreditsEntry 18,15,"GAMER MIKI"
-CreditsScreen5:
-.db 5
+CreditsScreen5: .db 5
   CreditsEntry 3,6,"TOTAL DESIGN"
   CreditsEntry 18,6,"PHOENIX RIE"
   CreditsEntry 5,14,"MONSTER"
   CreditsEntry 7,16,"DESIGN"
   CreditsEntry 17,15,"CHAOTIC KAZ"
-CreditsScreen6:
-.db 3
+CreditsScreen6: .db 3
   CreditsEntry 8,6,"DESIGN"
   CreditsEntry 9,10,"ROCKHY NAO"
   CreditsEntry 17,15,"SADAMORIAN"
-CreditsScreen7:
-.db 4
+CreditsScreen7: .db 4
   CreditsEntry 8,6,"DESIGN"
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8:
-.db 4
+CreditsScreen8: .db 4
   CreditsEntry 9,6,"SOUND"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,15,"SOFT CHECK"
   CreditsEntry 18,15,"WORKS NISHI"
-CreditsScreen9:
-.db 5
+CreditsScreen9: .db 5
   CreditsEntry 3,5,"ASSISTANT"
   CreditsEntry 4,7,"PROGRAMMERS"
   CreditsEntry 9,10,"COM BLUE"
   CreditsEntry 4,15,"M WAKA"
   CreditsEntry 19,15,"ASI"
-CreditsScreen10:
-.db 2
+CreditsScreen10: .db 2
   CreditsEntry 2,6,"MAIN PROGRAM"
   CreditsEntry 17,6,"MUUUU YUJI"
-CreditsScreen11:
-.db 1
+CreditsScreen11: .db 1
   CreditsEntry 9,10,"RETRANSLATION"
-CreditsScreen12:
-.db 4
+CreditsScreen12: .db 4
   CreditsEntry 3,6,"WORDS"
   CreditsEntry 10,10,"PAUL JENSEN"
   CreditsEntry 2,15,"FRANK CIFALDI"
   CreditsEntry 18,15,"SATSU"
-CreditsScreen13:
-.db 3
+CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
-  CreditsEntry 11,10,"Z[\ GAIDEN"
+  CreditsEntry 11,10,"Z[\ GAIDEN" ; numbers are in a funny place
   CreditsEntry 9,15,"MAXIM"
-CreditsScreen14:
-.db 3
+CreditsScreen14: .db 3
   CreditsEntry 10,10,"PRESENTED BY"
   CreditsEntry 10,15,"SEGA"
   CreditsEntry 18,15,"SMS POWER"
@@ -2878,14 +2867,14 @@ CreditsScreen14:
   call LoadTiles
 .ends
 
-  ROMPosition $3fdee
-.section "Credits font" force ; superfree
+.slot 2
+.section "Credits font" superfree
 CreditsFont:
 .incbin "new_graphics/font3.psgcompr"
 .ends
 
   ROMPosition $00056
-.section "HALT on idle polling loop" force ; free
+.section "HALT on idle polling loop" force ; not movable
 ExecuteFunctionIndexAInNextVBlank ; $0056
 ; Was:
 ;  ld (VBlankFunctionIndex),a
@@ -2911,8 +2900,8 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
     call PauseFMToggle
 .ends
 
-  ROMPosition $3f58
-.section "Press Pause on the title screen to toggle PSG/FM - implementation" force ; free
+.bank 0 slot 0 ; can be 0 or 1
+.section "Press Pause on the title screen to toggle PSG/FM - implementation" free
 PauseFMToggle:
   cp 3          ; Indicates we are on the title screen
   ret nz
