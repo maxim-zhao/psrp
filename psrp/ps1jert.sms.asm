@@ -1639,8 +1639,8 @@ OriginalVBlankHandlerPatch:
 
 ; Lists
 
-  ROMPosition $76ba6
-.section "Enemy, name, item lists" force ; superfree
+.bank 2
+.section "Enemy, name, item lists" superfree
 
 ; Order is important!
 Items:
@@ -1801,8 +1801,7 @@ Enemies:
 .db $df
 .ends
 
-  ROMPosition $43c00
-.section "Static dictionary" force ; superfree
+.section "Static dictionary" superfree
 Words:
 .include "substring_formatter/words.asm"
 ; Terminator
@@ -1819,8 +1818,8 @@ IndexTableRemap:
 
 ; Menus
 
-  ROMPosition $46c81
-.section "Menu data" force ; superfree
+.bank 2
+.section "Menu data" superfree
 MenuData:
 .include "menu_creater/menus.asm"
 .ends
