@@ -2040,8 +2040,7 @@ TilesTarzimal: CopyFromOriginal $4794a 1691
 inventory:
   ld b,8    ; 8 items total
 
-_next_item:
-  push bc
+-:push bc
   push hl
 
     di
@@ -2065,7 +2064,7 @@ _next_item:
   pop bc
 
   inc hl      ; next item
-  djnz _next_item
+  djnz -
 
   ret
 ; ________________________________________________________
@@ -2151,8 +2150,7 @@ enemy:
 equipment:
   ld b,3    ; 3 items total
 
-_next_equipment:
-  push bc
+-:push bc
   push hl
 
     di
@@ -2179,7 +2177,7 @@ _next_equipment:
   pop bc
 
   inc hl      ; next item
-  djnz _next_equipment
+  djnz -
 
   ret
 
@@ -2329,7 +2327,6 @@ _write_price:
         push de     ; parameter
         push hl     ; parameter
           jp $3a9a    ; write price
-
 .ends
 
 
