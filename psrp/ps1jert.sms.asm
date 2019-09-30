@@ -2960,12 +2960,12 @@ FontLookup:
 ; Both the trees and script entries could be micro-sections but they need to share a bank, 
 ; and it's pretty empty, so we don't get any benefit to split them up.
 
-.block "HuffmanTrees"
 .section "Huffman tree stuff" free
-TREE_PTR:
+.block "HuffmanTrees"
+HuffmanTrees:
 .include "script_inserter/tree.asm"
-.ends
 .endb
+.ends
 
 .section "Script" free
 .block "Script"
@@ -3075,7 +3075,7 @@ SFGDecoder:
         ld a,(TREE)   ; Load in tree / last symbol
 
         push af
-          ld bc,TREE_PTR    ; Set physical address of tree data
+          ld bc,HuffmanTrees    ; Set physical address of tree data
           ld h,0      ; 8 -> 16
           ld l,a
           add hl,hl   ; 2-byte indices
