@@ -1,9 +1,0 @@
-0b. Relocating the Kanji tiles
-
-
-Most of our tiles can be reused in the same slots. But we come up a few
-tiles short. Some potential room exists at the end of the battle sprites / right
-before the NT.
-
-Because we have two routines to decode the font with(out) Kanji, we'll merge
-the two.
