@@ -969,7 +969,7 @@ CharacterDrawing:
 
 DictionaryLookup:
   push af
-    ld a,:Items ; Load normal lists
+    ld a,:Lists ; Load normal lists
     ld (PAGING_SLOT_2),a
     jr +
 
@@ -1653,7 +1653,7 @@ OriginalVBlankHandlerPatch:
 
 .bank 2
 .section "Enemy, name, item lists" superfree
-
+Lists:
 ; Order is important!
 Items:
   String " " ; empty item (blank)
@@ -1814,10 +1814,16 @@ Enemies:
 .ends
 
 .section "Static dictionary" superfree
+.block "Words"
+; Note that the number of words we add here has a complicated effect on the data size.
+; Adding a word may in theory save multiple bytes but then it adds complexity to the
+; Huffman trees, and thus adding more words can increase the total data size.
+; 128 words seems to be a good tradeoff.
 Words:
 .include "substring_formatter/words.asm"
 ; Terminator
 .db $df
+.endb
 .ends
 
 ; English script
