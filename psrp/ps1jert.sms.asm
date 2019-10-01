@@ -22,14 +22,6 @@ banks 32
 
 ; Macros
 
-; Wrapper around .unbackground to clear what's used vs. what's unused. The former is
-; needed to stay byte-identical to 1.02, but the latter is "better" when we come to extens
-; past that.
-.macro FreeSpace args _start, _end, _realEnd
-; Change to realEnd when auto-fitting (need to debug that?)
-.unbackground _start _realEnd
-.endm
-
 ; Some data is relocated unmodified from the original ROM; this
 .macro CopyFromOriginal args _offset, _size
 .incbin ORIGINAL_ROM skip _offset read _size
@@ -200,71 +192,69 @@ map "^" = $56 ; the
 .emptyfill $ff
 
 ; Bank 0
-  FreeSpace $0000f $00037 $00037 ; Unused space
-  FreeSpace $00056 $00065 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
-  FreeSpace $00486 $004ae $004b2 ; Old tile decoder
-  FreeSpace $008f3 $0090b $0090b ; Title screen graphics loading
-  FreeSpace $00925 $00932 $00944 ; Title screen palette - can go up to 944
-  FreeSpace $033da $033eb $033f3 ; Draw item name
-  FreeSpace $033aa $033b7 $033c3 ; Draw character name
-  FreeSpace $033c8 $033d3 $033d5 ; Draw enemy name
-  FreeSpace $033f6 $03466 $03493 ; Draw number
-  FreeSpace $03494 $0349d $034a4 ; Draw characters from buffer
-  FreeSpace $034f2 $03537 $03545 ; Draw one character to tilemap
-  FreeSpace $03982 $039dd $039dd ; Stats menu tilemap data
-  FreeSpace $03eca $03f6e $03fc1 ; background graphics lookup table
+  .unbackground $0000f $00037 ; $00037  Unused space
+  .unbackground $00056 $00065 ; $00065  ExecuteFunctionIndexAInNextVBlank followed by unused space
+  .unbackground $00486 $004b2 ; $004ae  Old tile decoder
+  .unbackground $008f3 $0090b ; $0090b  Title screen graphics loading
+  .unbackground $00925 $00944 ; $00932  Title screen palette
+  .unbackground $033da $033f3 ; $033eb  Draw item name
+  .unbackground $033aa $033c3 ; $033b7  Draw character name
+  .unbackground $033c8 $033d5 ; $033d3  Draw enemy name
+  .unbackground $033f6 $03493 ; $03466  Draw number
+  .unbackground $03494 $034a4 ; $0349d  Draw characters from buffer
+  .unbackground $034f2 $03545 ; $03537  Draw one character to tilemap
+  .unbackground $03982 $039dd ; $039dd  Stats menu tilemap data
+  .unbackground $03eca $03fc1 ; $03f6e  background graphics lookup table
+  .unbackground $03fc2 $03fd1 ; $03fd1  Sky Castle reveal palette
 ; Bank 1
-  FreeSpace $04059 $04078 $0407a ; password entered (unused)
-  FreeSpace $0429b $042b2 $042b4 ; draw to tilemap during entry
-  FreeSpace $042b5 $042c5 $042cb ; draw to RAM during entry
-  FreeSpace $04261 $04277 $04277 ; password population (unused)
-  FreeSpace $04396 $043e5 $043e5 ; password lookup data (unused)
-  FreeSpace $043e6 $04405 $04405 ; text for "please enter your name"
-  FreeSpace $04406 $0448b $0448b ; tilemap for name entry
-  FreeSpace $0448c $044f5 $04509 ; data for lookup table during entry - can go up to $4509
-  FreeSpace $045a4 $045c3 $045c3 ; tile loading for intro
-  FreeSpace $059ba $059c5 $059c9 ; Draw text box 20x6 (dialogue)
-  FreeSpace $07fe5 $07fff $07fff ; Unused space + header
+  .unbackground $04059 $0407a ; $04078  password entered (unused)
+  .unbackground $0429b $042b4 ; $042b2  draw to tilemap during entry
+  .unbackground $042b5 $042cb ; $042c5  draw to RAM during entry
+  .unbackground $04261 $04277 ; $04277  password population (unused)
+  .unbackground $04396 $043e5 ; $043e5  password lookup data (unused)
+  .unbackground $043e6 $04405 ; $04405  text for "please enter your name"
+  .unbackground $04406 $0448b ; $0448b  tilemap for name entry
+  .unbackground $0448c $04509 ; $044f5  data for lookup table during entry
+  .unbackground $045a4 $045c3 ; $045c3  tile loading for intro
+  .unbackground $059ba $059c9 ; $059c5  Draw text box 20x6 (dialogue)
+  .unbackground $07fe5 $07fff ; $07fff  Unused space + header
 ; Bank 2
-  FreeSpace $08000 $080b1 $080b1 ; font tile lookup
-  FreeSpace $080b2 $0bd93 $0bd93 ; script
-  FreeSpace $0bd94 $0bdd1 $0bf9b ; item names
-  FreeSpace $0bed0 $0bf35 $0bf9b ; item names - now SFG decoder
-  FreeSpace $0bf50 $0bf99 $0bfff ; item names - now Huffman decoder init
+  .unbackground $08000 $080b1 ; $080b1  font tile lookup
+  .unbackground $080b2 $0bd93 ; $0bd93  script
+  .unbackground $0bd94 $0bf9b ; $0bdd1  item names
+  .unbackground $0bed0 $0bf9b ; $0bf35  item names - now SFG decoder
+  .unbackground $0bf50 $0bfff ; $0bf99  item names - now Huffman decoder init
 ; Bank 9
-  FreeSpace $27b24 $27e75 $27fff ; Mansion tiles + unused space
+  .unbackground $27b14 $27fff ; $27e75  Mansion tiles and palette + unused space
 ; Bank 11
-  FreeSpace $2c010 $2c85a $2caeb ; Gold Dragon tiles
-  FreeSpace $2fe3e $2ffff $2ffff ; Unused space
+  .unbackground $2c000 $2caeb ; $2c85a  Gold Dragon tiles and palette
+  .unbackground $2fe3e $2ffff ; $2ffff  Unused space
 ; Bank 14
-  FreeSpace $3BC68 $3bfff $3bfff ; Title screen tilemap + unused space
+  .unbackground $3bc68 $3bfff ; $3bfff  Title screen tilemap + unused space
 ; Bank 15
-  FreeSpace $3fdee $3ffff $3ffff ; Credits font
+  .unbackground $3fdee $3ffff ; $3ffff  Credits font
 ; Bank 16
-  FreeSpace $40000 $4277a $428f5 ; Scene tiles and palettes (part 1)
-  FreeSpace $43406 $43a82 $43fff ; Scene tiles and palettes (part 2)
-  FreeSpace $43bb4 $43ee3 $43fff ; see above
+  .unbackground $40000 $428f5 ; $4277a  Scene tiles and palettes (part 1)
+  .unbackground $433f6 $43fff ; $43a82  Scene tiles and palettes (part 2) + unused space
 ; Bank 17
-  FreeSpace $44640 $47aaa $47fff ; Palettes and tiles
+  .unbackground $44640 $47fff ; $47aaa  Palettes and tiles + unused space
 ; Bank 18
-  FreeSpace $4be84 $4bfff $4bfff ; Unused space
+  .unbackground $4be84 $4bfff ; $4bfff  Unused space
 ; Bank 19
-  FreeSpace $4c010 $4ccfb $4cdbd ; Dark Force tiles
+  .unbackground $4c000 $4cdbd ; $4ccfb  Dark Force tiles and palette
+  .unbackground $4ff59 $4ffff ; $4ffff  Unused space
 ; Bank 20
-  FreeSpace $524ea $52a66 $52ba1 ; Lassic room tiles
-  FreeSpace $53dbc $53fff $53fff ; Credits data, unused space
+  .unbackground $524aa $52ba1 ; $52a66  Lassic room tiles and palette
+  .unbackground $53dbc $53fff ; $53fff  Credits data, unused space
 ; Bank 22
-  FreeSpace $58570 $5a6db $5ac8c ; Tiles for town
-  FreeSpace $5aadc $5ac1d $5ac8c ; ...
-  FreeSpace $5ac8d $5b78c $5b9e6 ; Tiles for air castle
+  .unbackground $58570 $5ac8c ; $5a6db  Tiles for town
+  .unbackground $5ac7d $5b9e6 ; $5b78c  Tiles, palette for air castle
 ; Bank 23
-  FreeSpace $5eb6f $5f5ba $5f766 ; Building interior tiles
+  .unbackground $5ea9f $5f766 ; $5f5ba  Building interior tiles, palettes
 ; Bank 29
-  FreeSpace $747b8 $77294 $77629 ; landscapes (world 1)
+  .unbackground $747b8 $77629 ; $77294  landscapes (world 1)
 ; Bank 31
-  FreeSpace $7e8bd $7fd47 $7ffff ; Title screen tiles
-  FreeSpace $7fe00 $7fe91 $7ffff ; ...
-  FreeSpace $7fed0 $7ff9d $7ffff ; ...
+  .unbackground $7e8bd $7ffff ; $7fd47  Title screen tiles
 
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
@@ -661,76 +651,98 @@ SceneData:
 
 .ends
 
-.bank 16 slot 2
-.section "Palettes 1" free ; TODO attach palettes to tiles and superfree together
+.slot 2
+
+.section "Palma and Dezoris open area graphics" superfree
 PalettePalmaOpen:      CopyFromOriginal $40000 16
 PaletteDezorisOpen:    CopyFromOriginal $40010 16
+TilesPalmaAndDezorisOpen: .incbin "new_graphics/bg1.psgcompr"
+.ends
+
+.section "Forest graphics" superfree
 PalettePalmaForest:    CopyFromOriginal $40f16 16
 PaletteDezorisForest:  CopyFromOriginal $40f26 16
+TilesPalmaForest:     .incbin "new_graphics/bg2.psgcompr"
+.ends
+
+.section "Palma sea graphics" superfree
 PalettePalmaSea:       CopyFromOriginal $41c72 16
+TilesPalmaSea: .incbin "new_graphics/bg3.psgcompr"
 .ends
 
-  Bin TilesPalmaAndDezorisOpen    "new_graphics/bg1.psgcompr"
-  Bin TilesPalmaForest  "new_graphics/bg2.psgcompr"
-  Bin TilesPalmaSea     "new_graphics/bg3.psgcompr"
+.section "Motabia open graphics" superfree
+PaletteMotabiaOpen: CopyFromOriginal $433f6 16
+TilesMotabiaOpen: .incbin "new_graphics/bg5.psgcompr"
+.ends
 
-; Some data from $428f6 (sea animation tiles)
-
-  Bin TilesMotabiaOpen  "new_graphics/bg5.psgcompr"
-
-
-.bank 17 slot 2
-.section "Palettes 2" free ; TODO inline, attach to tiles and superfree
+.section "Palma town graphics" superfree
 PalettePalmaTown:     CopyFromOriginal $44640 16
-PalettePalmaVillage:  CopyFromOriginal $457c4 16
-PaletteSpaceport:     CopyFromOriginal $464b1 16
-PaletteDeadTrees:     CopyFromOriginal $46f58 16
+TilesPalmaTown: .incbin "new_graphics/bg8.psgcompr"
 .ends
 
-  Bin TilesPalmaTown    "new_graphics/bg8.psgcompr"
-  Bin TilesPalmaVillage "new_graphics/bg9.psgcompr"
-  Bin TilesSpaceport    "new_graphics/bg10.psgcompr"
-  Bin TilesDeadTrees    "new_graphics/bg11.psgcompr"
+.section "Palma village graphics" superfree
+PalettePalmaVillage:  CopyFromOriginal $457c4 16
+TilesPalmaVillage: .incbin "new_graphics/bg9.psgcompr"
+.ends
 
-  ROMPosition $5ac8d
-  Bin TilesAirCastle    "new_graphics/bg13.psgcompr"
-  ROMPosition $2c010
-  Bin TilesGoldDragon   "new_graphics/bg14.psgcompr"
-  ROMPosition $5eb6f
-  Bin TilesBuilding     "new_graphics/bg16.psgcompr"
-  ROMPosition $27b24
-  Bin TilesMansion      "new_graphics/bg29.psgcompr"
-  ROMPosition $524ea
-  Bin TilesLassicRoom   "new_graphics/bg30.psgcompr"
-  ROMPosition $4c010
-  Bin TilesDarkForce    "new_graphics/bg31.psgcompr"
+.section "Spaceport graphics" superfree
+PaletteSpaceport:     CopyFromOriginal $464b1 16
+TilesSpaceport: .incbin "new_graphics/bg10.psgcompr"
+.ends
+
+.section "Dead trees graphics" superfree
+PaletteDeadTrees:     CopyFromOriginal $46f58 16
+TilesDeadTrees: .incbin "new_graphics/bg11.psgcompr"
+.ends
+
+.section "Air castle graphics" superfree
+PaletteAirCastle:     CopyFromOriginal $5ac7d 16
+PaletteAirCastleFull: CopyFromOriginal $03fc2 16
+TilesAirCastle: .incbin "new_graphics/bg13.psgcompr"
+.ends
+
+.section "Gold dragon graphics" superfree
+PaletteGoldDragon: CopyFromOriginal $2c000 16
+TilesGoldDragon: .incbin "new_graphics/bg14.psgcompr"
+.ends
+
+.section "Building graphics" superfree
+PaletteBuildingEmpty:     CopyFromOriginal $5ea9f 16
+PaletteBuildingWindows:   CopyFromOriginal $5eaaf 16
+PaletteBuildingHospital1: CopyFromOriginal $5eabf 16
+PaletteBuildingHospital2: CopyFromOriginal $5eacf 16
+PaletteBuildingChurch1:   CopyFromOriginal $5eadf 16
+PaletteBuildingChurch2:   CopyFromOriginal $5eaef 16
+PaletteBuildingArmoury1:  CopyFromOriginal $5eaff 16
+PaletteBuildingArmoury2:  CopyFromOriginal $5eb0f 16
+PaletteBuildingShop1:     CopyFromOriginal $5eb1f 16
+PaletteBuildingShop2:     CopyFromOriginal $5eb2f 16
+PaletteBuildingShop3:     CopyFromOriginal $5eb3f 16
+PaletteBuildingShop4:     CopyFromOriginal $5eb4f 16
+PaletteBuildingDestroyed: CopyFromOriginal $5eb5f 16
+TilesBuilding: .incbin "new_graphics/bg16.psgcompr"
+.ends
+
+.section "Mansion graphics" superfree
+PaletteMansion: CopyFromOriginal $27b14 16
+TilesMansion: .incbin "new_graphics/bg29.psgcompr"
+.ends
+
+.section "Lassic graphics" superfree
+PaletteLassicRoom: CopyFromOriginal $524da 16
+TilesLassicRoom: .incbin "new_graphics/bg30.psgcompr"
+.ends
+
+.section "Dark Force graphics" superfree
+PaletteDarkForce: CopyFromOriginal $4c000 16
+TilesDarkForce: .incbin "new_graphics/bg31.psgcompr"
+.ends
 
   ; We also need the non-relocated tilemap and palette addresses to populate the table...
 .macro LabelAtPosition
   ROMPosition \1
   \2:
 .endm
-
-  LabelAtPosition $03fc2 PaletteAirCastleFull
-  LabelAtPosition $27b14 PaletteMansion
-  LabelAtPosition $2c000 PaletteGoldDragon
-  LabelAtPosition $433f6 PaletteMotabiaOpen
-  LabelAtPosition $4c000 PaletteDarkForce
-  LabelAtPosition $524da PaletteLassicRoom
-  LabelAtPosition $5ac7d PaletteAirCastle
-  LabelAtPosition $5ea9f PaletteBuildingEmpty
-  LabelAtPosition $5eaaf PaletteBuildingWindows
-  LabelAtPosition $5eabf PaletteBuildingHospital1
-  LabelAtPosition $5eacf PaletteBuildingHospital2
-  LabelAtPosition $5eadf PaletteBuildingChurch1
-  LabelAtPosition $5eaef PaletteBuildingChurch2
-  LabelAtPosition $5eaff PaletteBuildingArmoury1
-  LabelAtPosition $5eb0f PaletteBuildingArmoury2
-  LabelAtPosition $5eb1f PaletteBuildingShop1
-  LabelAtPosition $5eb2f PaletteBuildingShop2
-  LabelAtPosition $5eb3f PaletteBuildingShop3
-  LabelAtPosition $5eb4f PaletteBuildingShop4
-  LabelAtPosition $5eb5f PaletteBuildingDestroyed
 
   LabelAtPosition $3c000 TilemapPalmaOpen
   LabelAtPosition $3c333 TilemapPalmaForest
