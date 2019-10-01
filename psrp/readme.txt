@@ -1,4 +1,4 @@
-Phantasy Star English Retranslation v1.00
+Phantasy Star English Retranslation v1.03
 =========================================
 
 
@@ -9,7 +9,7 @@ Original Game © 1987
 - Sega Japan
 - released 1987/12/20
 
-Unofficial Translation 2005-2007
+Unofficial Translation 2005-2019
 - SMS Power!
 - v0.90 released 2006/12/20
   - first release
@@ -25,6 +25,9 @@ Unofficial Translation 2005-2007
   - fixed a bug with the Pause button mod
 - v1.02 released 2008/01/31
   - fixed lockup when you visit Tajim
+- v1.03 released 2019/??/??
+  - rebuilt tools and assembly process
+  - ...
 
 Phantasy Star Original Dialogue Version
  Japanese to English Retranslation © 2001-2002
