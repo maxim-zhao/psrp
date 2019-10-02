@@ -2431,17 +2431,24 @@ _write_price:
 
   ROMPosition $59bd
 .section "Dezorian string" force 
-; needs to be close to its hooked points unless I change to jp opcodes
-; also the string pointer address needs to be fixed...
-; Originally t5.asm
-; Extra scripting
-; This is placed in a bit of free space and we patch a jump into it...
+; In the native Dezorian village, a slight contextual error occurs.
+; 
+; (West) Those guys in the village next to us are all a bunch of liars. Be careful, eh.<wait>
+; (East) The neighboring villagers are all liars. Be careful.<wait>
+; 
+; Both 'West' strings are used. No reference to the 'East' variety is made.
+; A small hack is inserted to catch for 'extra' strings.
+;
+; Note that as the script needs to inject its address into here, we have to ensure its location
+; is fixed, so we can't use a free section. Since we are fixig it, we choose somewhere close
+; to allow us to use jr to jump back to the handlers.
 DezorianCustomStringCheck:
   cp $ff      ; custom string [1E7]
   jr nz,$59ca-CADDR-1 ; Where the patched jump went to (shows an error message?)
 
   ld hl,$0000   ; String pointer is patched by script.asm, needs to match the address this ends up at...
-  ; Pointed string is "Those guys in the other village are all liars. For real.<wait>"
+  ; [59c1]
+  ; Those guys in the other village are all liars. For real.<wait>
   jr $59ba-CADDR-1 ; DrawText20x6
 .ends
 
