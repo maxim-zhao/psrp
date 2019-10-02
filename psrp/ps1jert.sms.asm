@@ -1099,10 +1099,10 @@ _Wait_Clear:
   pop hl      ; Restore stack
   jr _Done
 
-+:cp $60
++:cp WordListStart
   jr c,+    ; Control codes, don't interfere
 
-  sub $60     ; Relocate dictionary entry #
+  sub WordListStart     ; Subtract offset
 
   push hl
   push de
@@ -1154,6 +1154,7 @@ _Done:
   SymbolPostHint  db ; $59,
   SymbolArticle   db ; $5a,
   SymbolSuffix    db ; $5b,
+  WordListStart   db ; $5c
 .ende
 
 SubstringFormatter:
@@ -1816,9 +1817,12 @@ Enemies:
 .section "Static dictionary" superfree
 .block "Words"
 ; Note that the number of words we add here has a complicated effect on the data size.
-; Adding a word may in theory save multiple bytes but then it adds complexity to the
-; Huffman trees, and thus adding more words can increase the total data size.
-; 128 words seems to be a good tradeoff.
+; Adding more words costs space here (in a paged bank), but saves space in bank 2 - mostly,
+; because it also increases the complexity of the Huffman trees.
+; If our goal is to maximise script space then we should maximise the word count.
+; The limit is 160 (could stretch a few more...)
+; If our goal is to minimise total space used across both the script and word list then the 
+; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
 .include "substring_formatter/words.asm"
 ; Terminator
@@ -2955,16 +2959,10 @@ FontLookup:
 
 ; Both the trees and script entries could be micro-sections but they need to share a bank, 
 ; and it's pretty empty, so we don't get any benefit to split them up.
-
-.section "Huffman tree stuff" free
-.block "HuffmanTrees"
+.section "Script and Huffman trees" free
+.block "Script"
 HuffmanTrees:
 .include "script_inserter/tree.asm"
-.endb
-.ends
-
-.section "Script" free
-.block "Script"
 .include "script_inserter/script.asm"
 .endb
 .ends

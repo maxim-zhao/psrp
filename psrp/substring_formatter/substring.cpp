@@ -8,8 +8,9 @@ Phantasy Star: Substring Table Creater
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 
-constexpr auto start_code = 0x60;
+constexpr auto start_code = 0x5c; // see WordListStart in asm
 
 int main(int argc, char** argv)
 {
@@ -19,8 +20,8 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    const int numWords = std::stoi(argv[1], nullptr, 16);
-
+    const int numWords = std::stoi(argv[1]);
+    
     // open files
     std::ifstream words(argv[2]);
     std::ofstream table(argv[3]);
@@ -31,6 +32,12 @@ int main(int argc, char** argv)
     std::deque<std::string> list;
     for (std::string s; std::getline(words, s);)
     {
+        if (code > 0xff)
+        {
+            std::cerr << "Word list too large!\n";
+            return -1;
+        }
+
         // dictionary word
         dict << "  String \"" << s << "\"\n";
 
@@ -41,13 +48,15 @@ int main(int argc, char** argv)
         list.emplace_back(s);
 
         // bump substring assignment range
-        code++;
-
+        ++code;
+        
         if (code == start_code + numWords) 
         {
             break;
         }
     }
+    
+    std::cout << "Word list contains " << code - start_code << " words\n";
 
     return 0;
 }
