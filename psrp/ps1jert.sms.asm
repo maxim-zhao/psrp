@@ -1657,6 +1657,9 @@ OriginalVBlankHandlerPatch:
 Lists:
 ; Order is important!
 Items:
+  ; Item names should be manually word-wrapped (using '@') if longer than 10 
+  ; characters (the menu width), unless exactly 10 characters long in which 
+  ; case don't :) as the line is already wrapped at that point.
   String " " ; empty item (blank)
 ; weapons
   String "~Wood Cane"
@@ -1717,10 +1720,10 @@ Items:
   String "~Passport"
   String "~Compass"
   String "~Shortcake"
-  String "^Governor[-General]'s@ Letter"
+  String "^Governor[-General]'s Letter"
   String "~Laconian@ Pot"
   String "^Light@ Pendant"
-  String "^Carbunckle@ Eye"
+  String "^Carbunckle Eye"
   String "~GasClear"
   String "Damoa's@ Crystal"
   String "~Master@ System"
