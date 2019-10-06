@@ -998,7 +998,7 @@ _Copy:
   ld de,TEMP_STR    ; Copy to work RAM
   ld (STR),de   ; Save pointer location
   ldir
-
+/*
   dec hl      ; Check last character
   ld a,(hl)
 
@@ -1008,7 +1008,7 @@ _Copy:
   xor a     ; Clear flag
 
 +:ld (SUFFIX),a
-
+*/
   ld a,2    ; Normal page
   ld (PAGING_SLOT_2),a
 
