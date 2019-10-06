@@ -54,3 +54,4 @@ Release
 /psrp/menu_creater/*.asm
 /psrp/script_inserter/*.asm
 *.psgcompr
+*.pscompr
