@@ -223,7 +223,7 @@ map "^" = $56 ; the
   .unbackground $080b2 $0bd93 ; $0bd93  script
   .unbackground $0bd94 $0bf9b ; $0bdd1  item names
   .unbackground $0bed0 $0bf9b ; $0bf35  item names - now SFG decoder
-  .unbackground $0bf50 $0bfff ; $0bf99  item names - now Huffman decoder init
+  .unbackground $0bf50 $0bf9b ; $0bf99  item names - now Huffman decoder init
 ; Bank 9
   .unbackground $27b14 $27fff ; $27e75  Mansion tiles and palette + unused space
 ; Bank 11
@@ -1661,7 +1661,7 @@ Items:
   ; characters (the menu width), unless exactly 10 characters long in which 
   ; case don't :) as the line is already wrapped at that point.
   String " " ; empty item (blank)
-; weapons
+; weapons: 01-0f
   String "~Wood Cane"
   String "~Short@ Sword"
   String "#Iron Sword"
@@ -1677,7 +1677,7 @@ Items:
   String "~Laser Gun"
   String "~Laconian@ Sword"
   String "~Laconian@ Axe"
-; armour
+; armour: 10-18
   String "~Leather@ Clothes"
   String "~White@ Cloak"
   String "~Light Suit"
@@ -1687,7 +1687,7 @@ Items:
   String "~Diamond@ Armor"
   String "~Laconian@ Armor"
   String "^Frad Cloak"
-; shields
+; shields: 19-20
   String "~Leather@ Shield"
   String "~Bronze@ Shield"
   String "#Iron@ Shield"
@@ -1696,11 +1696,11 @@ Items:
   String "~Laser@ Barrier"
   String "^Shield of@ Perseus"
   String "~Laconian@ Shield"
-; vehicles
+; vehicles: 21-23
   String "^LandMaster"
   String "^FlowMover"
   String "^IceDecker"
-; items
+; items: 24+
   String "~Pelorie%@+Mate"
   String "~Ruoginin"
   String "^Soothe@ Flute"
