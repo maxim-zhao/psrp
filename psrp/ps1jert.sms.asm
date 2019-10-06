@@ -1538,28 +1538,28 @@ _DRAW_NUMBER:
 
     ld bc,10000    ; # 10000's
     call _BCD_Digit
-    ld (ix+$00),A
+    ld (ix+0),a
 
     ld bc,1000     ; # 1000's
     call _BCD_Digit
-    ld (ix+$01),A
+    ld (ix+1),a
 
     ld bc,100      ; # 100's
     call _BCD_Digit
-    ld (ix+$02),A
+    ld (ix+2),a
 
     ld bc,10       ; # 10's
     call _BCD_Digit
-    ld (ix+$03),A
+    ld (ix+3),a
 
     ld a,l      ; # 1's (_BCD_Digit has made it only possible to be in the range 0..9)
-    add a,$01   ; add 1 because result = digit+1
-    ld (ix+$04),a
+    add a,1     ; add 1 because result = digit+1
+    ld (ix+4),a
 
 
     ; scan the resultant string to see where the first non-zero digit is
     ; but we want to show the last digit even if it is zero
-    ld b,$04    ; look at 4 digits max
+    ld b,4      ; look at 4 digits max
     ld hl,TEMP_STR    ; scan value
 
 _Scan:
@@ -1576,7 +1576,7 @@ _Done:
     ld (LEN),a    ; save length
 
     ; length != 1 -> must be plural
-    cp $01
+    cp 1
     jr nz,_Plural  ; length must be 1
 
     ; else check for '1'
@@ -1600,9 +1600,7 @@ _Plural:
   jp InGameTextDecoder
 
 _BCD_Digit:
-  ld a,$00     ; Init digit value
-               ; Note: $01 = '0', auto-bump
-  or a         ; Clear carry flag ; TODO: can just xor a to zero and clear flag
+  xor a ; clear carry flag, a = 0
 
 ; subtract bc from hl until it overflows, then add it on again
 ; return a = number of subtractions done until overflow occurred,
