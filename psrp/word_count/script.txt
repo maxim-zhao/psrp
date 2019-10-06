@@ -1,4 +1,4 @@
-﻿<width 12></center><wrap><height 02>
+﻿<width 12><height 02>
 
 ; Special code legend:
 ;
@@ -1737,7 +1737,7 @@ Lord LaShiec has fallen. Nero's dying wish was granted.<wait more>
 This is the beginning of a new life in Algol.<wait more>
 The only thing left to do is tell the Governor-general in Paseo.<wait>
 
-<width 12></center><wrap><height 03>
+<width 12><height 03>
 
 [13a4]
 ;<monster>ハ <player>ノ<line>
@@ -2578,7 +2578,7 @@ The sounds melt your heart.<wait>
 ; *** Cutscenes ***
 ; *****************
 
-<width 1C></center><wrap><height 06>
+<width 1C><height 06>
 
 ; ********************
 ; *** Introduction ***
