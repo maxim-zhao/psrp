@@ -3065,99 +3065,90 @@ SFGDecoder:
 
   push hl
 
-    ld a,(PAGING_SLOT_1)    ; Save current page 1
-    push af
+    ld hl,(SCRIPT)    ; Set Huffman data location
+    ld a,(BARREL)   ; Load Huffman barrel
 
-      ld a,$6f000/$4000 ; Load in script bank #2 ; TODO is this needed? Our script fits in page 2?
-      ld (PAGING_SLOT_1),a
+    ex af,af'   ; Context switch to tree mode
+    exx
+      ld a,(TREE)   ; Load in tree / last symbol
 
-      ld hl,(SCRIPT)    ; Set Huffman data location
-      ld a,(BARREL)   ; Load Huffman barrel
+      push af
+        ld bc,HuffmanTrees    ; Set physical address of tree data
+        ld h,0      ; 8 -> 16
+        ld l,a
+        add hl,hl   ; 2-byte indices
+        add hl,bc   ; add offset
 
-      ex af,af'   ; Context switch to tree mode
-      exx
-        ld a,(TREE)   ; Load in tree / last symbol
+        ld a,(hl)   ; grab final offset
+        inc hl
+        ld h,(hl)
+        ld l,a
+      pop af
 
-        push af
-          ld bc,HuffmanTrees    ; Set physical address of tree data
-          ld h,0      ; 8 -> 16
-          ld l,a
-          add hl,hl   ; 2-byte indices
-          add hl,bc   ; add offset
+      ld a,$80    ; Initialise the tree barrel data
+      ld d,h      ; Point to symbol data
+      ld e,l
+      dec de      ; Symbol data starts one behind the tree
 
-          ld a,(hl)   ; grab final offset
-          inc hl
-          ld h,(hl)
-          ld l,a
-        pop af
-
-        ld a,$80    ; Initialise the tree barrel data
-        ld d,h      ; Point to symbol data
-        ld e,l
-        dec de      ; Symbol data starts one behind the tree
-
-        jr _Tree_Shift1    ; Grab first bit
+      jr _Tree_Shift1    ; Grab first bit
 
 _Tree_Mode1:
-      ex af,af'   ; Context switch to tree mode
-      exx
+    ex af,af'   ; Context switch to tree mode
+    exx
 
 _Tree_Shift1:
-        add a,a     ; Shift out next tree bit to carry flag
-        jr nz,+     ; Check for empty tree barrel
+      add a,a     ; Shift out next tree bit to carry flag
+      jr nz,+     ; Check for empty tree barrel
 
-        ld a,(hl)   ; Shift out next tree bit to carry flag
-        inc hl      ; Bump tree pointer
+      ld a,(hl)   ; Shift out next tree bit to carry flag
+      inc hl      ; Bump tree pointer
 
-        adc a,a     ; Note: We actually shift in a '1' by doing this! Clever trick to use all 8 bits for tree codes
+      adc a,a     ; Note: We actually shift in a '1' by doing this! Clever trick to use all 8 bits for tree codes
 
-+:      jr c,_Decode_Done ; 0 -> tree node = continue looking
-                          ; 1 -> root node = symbol found
++:    jr c,_Decode_Done ; 0 -> tree node = continue looking
+                        ; 1 -> root node = symbol found
 
-      ex af,af'   ; Switch to Huffman data processing = full context switch
-      exx
+    ex af,af'   ; Switch to Huffman data processing = full context switch
+    exx
 
-      add a,a     ; Read in Huffman bit
-      jr nz,_Check_Huffman1  ; Check Huffman barrel status
+    add a,a     ; Read in Huffman bit
+    jr nz,_Check_Huffman1  ; Check Huffman barrel status
 
-      ld a,(hl)   ; Reload 8-bit Huffman barrel
-      inc hl      ; Bump Huffman data pointer
-      adc a,a     ; Re-grab bit
+    ld a,(hl)   ; Reload 8-bit Huffman barrel
+    inc hl      ; Bump Huffman data pointer
+    adc a,a     ; Re-grab bit
 
 _Check_Huffman1:
-      jr nc,_Tree_Mode1  ; 0 -> travel left, 1 -> travel right
+    jr nc,_Tree_Mode1  ; 0 -> travel left, 1 -> travel right
 
-      ex af,af'   ; Switch back to tree mode
-      exx
+    ex af,af'   ; Switch back to tree mode
+    exx
 
-        ld c,1    ; Start counting how many symbols to skip in the linear list since we are traversing the right sub-tree
+      ld c,1    ; Start counting how many symbols to skip in the linear list since we are traversing the right sub-tree
 
 _Tree_Shift2:
-        add a,a     ; Check if tree data needs refreshing
-        jr nz,_Check_Tree2
+      add a,a     ; Check if tree data needs refreshing
+      jr nz,_Check_Tree2
 
-        ld a,(hl)   ; Refresh tree barrel again
-        inc hl      ; Bump tree pointer
-        adc a,a     ; Grab new tree bit
+      ld a,(hl)   ; Refresh tree barrel again
+      inc hl      ; Bump tree pointer
+      adc a,a     ; Grab new tree bit
 
 _Check_Tree2:
-        jr c,_Bump_Symbol  ; 0 -> tree, 1 -> symbol
+      jr c,_Bump_Symbol  ; 0 -> tree, 1 -> symbol
 
-        inc c     ; Need to bypass one more node
-        jr _Tree_Shift2    ; Keep bypassing symbols
+      inc c     ; Need to bypass one more node
+      jr _Tree_Shift2    ; Keep bypassing symbols
 
 _Bump_Symbol:
-        dec de      ; Bump pointer in symbol list backwards
-        dec c     ; One less node/symbol to skip
+      dec de      ; Bump pointer in symbol list backwards
+      dec c     ; One less node/symbol to skip
 
-        jr nz,_Tree_Shift2 ; Check for full exhaustion of left subtree nodes
+      jr nz,_Tree_Shift2 ; Check for full exhaustion of left subtree nodes
 
-        jr _Tree_Shift1    ; Need status of termination
+      jr _Tree_Shift1    ; Need status of termination
 
 _Decode_Done:
-    pop af      ; Restore old page 1
-    ld (PAGING_SLOT_1),a
-
     ld a,(de)   ; Find symbol
     ld (TREE),a   ; Save decoded byte
 
