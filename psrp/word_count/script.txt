@@ -270,7 +270,7 @@ Do you know about the planets of Algol?<end>
 ; パルマハ ミドリノホシ.モタビアハ<line>
 ; スナノホシ.デゾリスハ コオリノ<wait more>
 ; ホシジャ.アルゴル タイヨウケイニハキキガ セマッテイルノジャ.<wait>
-There are <number><internal hint 02> planet<use suffix>: Palma, Motavia, and Dezoris.<wait more>
+There are three planets: Palma, Motavia, and Dezoris.<wait more>
 The three planets have a distinct geology.<wait more>
 Palma is a planet of greenery.<line>
 Motavia is a planet of sand.<line>
