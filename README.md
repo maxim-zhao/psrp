@@ -1,5 +1,4 @@
-Phantasy Star English Retranslation v1.03
-=========================================
+# Phantasy Star English Retranslation v1.03
 
 Phantasy Star
 - Sega Master System + YM-2413 FM
@@ -33,8 +32,7 @@ Phantasy Star Original Dialogue Version
 Japanese to English Retranslation © 2001-2002
 - Paul Jensen
 
-What is Phantasy Star
----------------------
+## What is Phantasy Star
 
 Phantasy Star is a ground-breaking RPG from 1987. It was the first console RPG
 released in the US; it was one of the first sci-fi-based RPGs, although has a
@@ -47,8 +45,7 @@ development, without resorting to videogaming's female sterotypes.
 
 If you want to learn more about the game, check out some of the web links below.
 
-Contents
---------
+## Contents
 
 The following changes are made to the game engine:
 
@@ -60,8 +57,7 @@ The following changes are made to the game engine:
 - Reworked name entry screen
 - FM/PSG switching (press Pause on the title screen)
 
-Instructions
-------------
+## Instructions
 
 This IPS patch requires that you download a program that can apply it to a
 properly dumped ROM-image of the game. "Floating IPS" is recommended for 
@@ -69,9 +65,11 @@ Windows.
 
 The original, unmodified game has the following characteristics:
 
-|Size:  |512KB (524,288 bytes)             |
-|CRC32: |`6605D36A`                        |
-|MD5:   |`DFEBC48DFE8165202B7F002D8BAC477B`|
+Size:  512KB (524,288 bytes)
+
+CRC32: `6605D36A`
+
+MD5:   `DFEBC48DFE8165202B7F002D8BAC477B`
 
 There is only one known Japanese version of the game. The patch will NOT work
 with the US/European versions, or any other game on any platform.
@@ -83,41 +81,51 @@ unmodified ROM image.
 Changes made between version numbers may adversely affect emulator save states.
 In such event, please use the in-game save feature to gain any new features.
 
-Credits
--------
+## Credits
 
-Z80 Gaiden        - Core hacking and programming
-Maxim             - Project manager, final hacking/programming
-Paul Jensen       - Script translator, editor
-satsu             - Additional translations
-Frank Cifaldi     - Localization
+### Z80 Gaiden
+- Core hacking and programming
+### Maxim
+- Project manager, final hacking/programming
+### Paul Jensen
+- Script translator, editor
+### satsu
+- Additional translations
+### Frank Cifaldi
+- Localization
 
 Special thanks to:
 
-Sega Japan        - Original publisher, developer, creative content
-                  - Phantasy Star Gaiden, Phantasy Star 1-4
-Team Sonic        - Shining Force Gaiden: Final Conflict
+### Sega Japan
+- Original publisher, developer, creative content
+- Phantasy Star Gaiden, Phantasy Star 1-4
+### Team Sonic
+- Shining Force Gaiden: Final Conflict
 
+### Bock (Omar Cornut)
+- Meka is an excellent debugging emulator
+### Charles MacDonald
+- Open-source SMS/GG emulator
+### Forgotten
+- Functional Z80 disassembler from his GB/GBA emulator
+### Gregory Montoir
+- Open-source SDL port of first-mentioned program
+### KingMike
+- Concise DTE tutorial
+### SnowBro
+- Versatile tile editor
 
-Bock (Omar Cornut)- Meka is an excellent debugging emulator
-Charles MacDonald - Open-source SMS/GG emulator
-Forgotten         - Functional Z80 disassembler from his GB/GBA emulator
-Gregory Montoir   - Open-source SDL port of first-mentioned program
-KingMike      	  - Concise DTE tutorial
-SnowBro           - Versatile tile editor
+Also thanks to the following for various contributions to item naming, etc.
+- DJ Squarewave
+- TheGZeus
+- idrougge
+- Namida
+- LEADKUN
+- Mia
 
-DJ Squarewave
-TheGZeus
-idrougge
-Namida
-LEADKUN
-Mia
-                  - various contributions to item naming, etc.
+## Authors' notes
 
-Authors' notes
---------------
-
-Z80 Gaiden:
+### Z80 Gaiden (2004)
 
 Paul Jensen had posted a translated script with a good majority of the lists in
 2001-2002. I wasn't aware of its existence until someone mentioned a
@@ -136,8 +144,7 @@ time.
 This author releases copyright ownership in the patch and produces it under the
 banner of the original team of Maxim and Paul Jensen: SMS Power!.
 
-
-Maxim (2006):
+### Maxim (2006)
 
 This has been a long time coming. When I received the near-complete translation
 from Z80 Gaiden (who goes by several names and has done amazing work on
@@ -162,8 +169,7 @@ It's also a great framework for further (re-)translation into more languages.
 Please get in touch if you can do some serious work on that. You will need to
 provide a translator *and* a Z80 coder.
 
-Disclaimer
-----------
+## Disclaimer
 
 This translation is unofficial and not supported by Sega Japan.
 
@@ -180,8 +186,7 @@ respective companies.
 
 No breach of copyright is intended with the release of this translation.
 
-Game Credits
-------------
+## Game Credits
 
 ````
 TOTAL PLANNING
@@ -227,8 +232,7 @@ MUUUU YUJI (Yuji Naka)
 
 Do you know who some of the other people are? Please get in touch.
 
-Web links
----------
+## Web links
 
 http://rpg-home.lunar-net.com/psi-web/
 http://www.algol-star-system.net/
@@ -239,8 +243,7 @@ http://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 https://github.com/maxim-zhao/psrp
 
-Contact
--------
+## Contact
 
 PLEASE get in touch if you find a bug or you think you can help correct a
 mistake.
@@ -251,4 +254,4 @@ http://www.smspower.org/forums/
 
 or raise issues at
 
-https://github.com/maxim-zhao/psrp/issues
+https://github.com/maxim-zhao/psrp/issues 
