@@ -2,10 +2,38 @@
 
 ; Special code legend:
 ;
-; <internal hint *> = immediately follows a <number> flag.
-;                     couple with <use suffix> to append a 's'. meseta(s).
+; <number> = render a number. Also sets a suffix flag if the number is 0 or >1.
+; <use suffix> = 's' is the suffix flag is set (see above).
+; <internal hint nn> = word wrapping bug helper. The suffix insertion confuses 
+;   the wrapper, so add this *before* the space before the word where the 
+;   suffix gets added, with n = the number of characters potentially added to 
+;   the word - so:
+;   "You found <number> meseta<use suffix> inside"
+;   becomes
+;   "You found <number><internal hint 01> meseta<use suffix> inside"
+;   and
+;   "You gained <number> experience point<use suffix>."
+;   becomes
+;   "You gained <number> experience<internal hint 02> point<use suffix>."
+;   This is a bit of a hack because it wraps as if the suffix there is even 
+;   when it isn't.
+;                     
 ; <use article 01> = use article for enemy/item, lowercase
 ; <use article 02> = use article for enemy/item, initial uppercase
+;
+; <width nn> = wrap at width n
+; <height nn> = insert waits so text "pages" at height n
+;
+; <player> = player name
+; <monster> = enemy name
+; <item> = item name
+;
+; <line> = line break
+; <wait> = wait, end of entry
+; <end> = end of entry
+; <wait more> = wait, not end of entry
+; <delay> = delay a bit
+; 
 
 ; *************************************
 ; *** Camineet Residential District ***
