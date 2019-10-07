@@ -69,9 +69,9 @@ Windows.
 
 The original, unmodified game has the following characteristics:
 
-Size:  512KB (524,288 bytes)
-CRC32: 6605D36A
-MD5:   DFEBC48DFE8165202B7F002D8BAC477B
+|Size:  |512KB (524,288 bytes)             |
+|CRC32: |`6605D36A`                        |
+|MD5:   |`DFEBC48DFE8165202B7F002D8BAC477B`|
 
 There is only one known Japanese version of the game. The patch will NOT work
 with the US/European versions, or any other game on any platform.
@@ -160,7 +160,7 @@ should have been, 18 years ago.
 
 It's also a great framework for further (re-)translation into more languages.
 Please get in touch if you can do some serious work on that. You will need to
-provide a translator *and- a Z80 coder.
+provide a translator *and* a Z80 coder.
 
 Disclaimer
 ----------
@@ -183,6 +183,7 @@ No breach of copyright is intended with the release of this translation.
 Game Credits
 ------------
 
+````
 TOTAL PLANNING
 OSSALE KOHTA (Kotaro Hayashida)
 
@@ -222,23 +223,24 @@ ASI
 
 MAIN PROGRAM
 MUUUU YUJI (Yuji Naka)
+````
 
 Do you know who some of the other people are? Please get in touch.
 
-__________________________________________________________
-
-. Web links
+Web links
+---------
 
 http://rpg-home.lunar-net.com/psi-web/
 http://www.algol-star-system.net/
 http://www.phantasy-star.net/
 http://www.pscave.com/
 
-http://www.smspower.org/translations/phantasystar-en/
+http://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
-__________________________________________________________
+https://github.com/maxim-zhao/psrp
 
-. Contact
+Contact
+-------
 
 PLEASE get in touch if you find a bug or you think you can help correct a
 mistake.
@@ -247,6 +249,6 @@ You can post on the SMS Power! forums:
 
 http://www.smspower.org/forums/
 
-or feel free to contact me via
+or raise issues at
 
-http://www.smspower.org/contact.html#maxim
+https://github.com/maxim-zhao/psrp/issues
