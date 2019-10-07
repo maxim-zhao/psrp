@@ -3,9 +3,11 @@
 ; Special code legend:
 ;
 ; <number> = render a number. Also sets a suffix flag if the number is 0 or >1.
-;   Note that in sevaral places the number is fixed, but it saves quite a few 
-;   bytes to use this tag (and the ones below) rather than include digits in the
-;   text.
+;   Note that in sevaral places the number is fixed, but it saves ~35 bytes to 
+;   use this tag (and the ones below) rather than include digits in the text
+;   (as that adds additional Huffman trees).
+;   However, in some places we spell words out (e.g. "three", "tenth") for 
+;   better grammar.
 ; <use suffix> = 's' is the suffix flag is set (see above).
 ; <internal hint nn> = word wrapping bug helper. The suffix insertion confuses 
 ;   the wrapper, so add this *before* the space before the word where the 
