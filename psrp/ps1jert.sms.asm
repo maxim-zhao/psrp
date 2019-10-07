@@ -1,4 +1,6 @@
-; Attempt at unifying the PS1JERT into a WLA DX project...
+; This unifies all the work donw for the PS1JERT into a single WLA DX files,
+; using WLA DX to do the assembly and insertion of code and data.
+; We use WLA DX features (and macrros) to implement some of the data transformation.
 
 .memorymap
 slotsize $4000
@@ -20,15 +22,7 @@ banks 32
 
 ; Macros
 
-; Wrapper around .unbackground to clear what's used vs. what's unused. The former is
-; needed to stay byte-identical to 1.02, but the latter is "better" when we come to extens
-; past that.
-.macro FreeSpace args _start, _end, _realEnd
-; Change to realEnd when auto-fitting (need to debug that?)
-.unbackground _start _end
-.endm
-
-; Some data is relocated unmodified from the original ROM; this 
+; Some data is relocated unmodified from the original ROM; this
 .macro CopyFromOriginal args _offset, _size
 .incbin ORIGINAL_ROM skip _offset read _size
 .endm
@@ -54,19 +48,10 @@ banks 32
 ; Creates a section with the given name holding the given binary file.
 ; Uses the current address.
 .macro Bin
-.section "\1" force
+.section "\1" free
 \1:
 .incbin \2
 \1_end:
-.ends
-.endm
-
-; Includes a binary at the given ROM address
-.macro BinAtPosition args _address, _filename, _mode
-  ROMPosition _address
-.section "Auto bin include \2 @ \1" \3
-BinAt\1_\2:
-.incbin _filename
 .ends
 .endm
 
@@ -88,9 +73,9 @@ PatchAt\1:
 .ends
 .endm
 
-; Filter macro for turning text into 16-bit tilemap entries. 
+; Filter macro for turning text into 16-bit tilemap entries.
 ; Sets the high priority bit on all tiles.
-.macro Text
+.macro TextToTilemap
 .redefine _out 0
 ; This is like a 16-bit version of .asciitable. It's quite messy though...
 .if \1 == ' '
@@ -153,16 +138,9 @@ PatchAt\1:
 .if _out == 0
   .printt "Unhandled character '"
   .printt "\1"
-  .printt "' in Text macro\n"
+  .printt "' in TextToTilemap macro\n"
   .fail
 .endif
-.endm
-
-; Filter macro for turning text into 16-bit tilemap entries. 
-; Does not set the high priority bit.
-.macro TextLowPriority
-  Text \1
-  .redefine _out _out & $0fff
 .endm
 
 ; Macro to load tiles from the given label
@@ -177,108 +155,110 @@ LoadPagedTiles\1:
 .endm
 
 .asciitable
-; matches the .tbl file used for items
-map ' ' = $00
-map '0' to '9' = $01
-map 'A' to 'Z' = $0b
-map 'a' to 'z' = $25
+; Matches the .tbl file used for items. Some values have different meanings in the main script.
+map " " = $00
+map "0" to "9" = $01
+map "A" to "Z" = $0b
+map "a" to "z" = $25
 ; Punctuation
-map '.' = $3F
-map ':' = $40
-;map '‘' = $41 ; UTF-8 not working :(
-;map '’' = $42
+map "." = $3F
+map ":" = $40
+;map "‘" = $41 ; UTF-8 not working :(
+;map "’" = $42
 map "'" = $42
-map ',' = $43
-map '-' = $46
-map '!' = $47
-map '?' = $48
+map "," = $43
+map "-" = $46
+map "!" = $47
+map "?" = $48
 ; Scripting codes
-map '+' = $4F ; Conditional space (soft wrap point)
-map '@' = $50 ; Newline (when in a menu)
-map '%' = $51 ; Hyphen (when wrapped)
-map '[' = $52 ; [] = do not draw in menus, only during narratives
-map ']' = $53
+map "+" = $4F ; Conditional space (soft wrap point)
+map "@" = $50 ; Newline (when in a menu)
+map "%" = $51 ; Hyphen (when wrapped)
+map "[" = $52 ; [] = do not draw in menus, only during narratives
+map "]" = $53
 ; Articles
-map '~' = $54 ; a
-map '#' = $55 ; an
-map '^' = $56 ; the
-map '&' = $57 ; some (unused)
+map "~" = $54 ; a
+map "#" = $55 ; an
+map "^" = $56 ; the
 .enda
+
+.define LETTER_S  $37   ; suffix letter ('s')
 
 .macro String args s
 .db s.length
 .asc s
 .endm
 
-
 .emptyfill $ff
 
 ; Bank 0
-  FreeSpace $00056 $00065 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
-  FreeSpace $00486 $004ae $004b2 ; Old tile decoder
-  FreeSpace $008f3 $0090b $0090b ; Title screen graphics loading
-  FreeSpace $00925 $00932 $00944 ; Title screen palette - can go up to 944
-  FreeSpace $034f2 $03537 $03544 ; draw one character to tilemap
-  FreeSpace $03eca $03f6e $03fc1 ; background graphics lookup table
+  .unbackground $0000f $00037 ; $00037  Unused space
+  .unbackground $00056 $00065 ; $00065  ExecuteFunctionIndexAInNextVBlank followed by unused space
+  .unbackground $00486 $004b2 ; $004ae  Old tile decoder
+  .unbackground $008f3 $0090b ; $0090b  Title screen graphics loading
+  .unbackground $00925 $00944 ; $00932  Title screen palette
+  .unbackground $033da $033f3 ; $033eb  Draw item name
+  .unbackground $033aa $033c3 ; $033b7  Draw character name
+  .unbackground $033c8 $033d5 ; $033d3  Draw enemy name
+  .unbackground $033f6 $03493 ; $03466  Draw number
+  .unbackground $03494 $034a4 ; $0349d  Draw characters from buffer
+  .unbackground $034f2 $03545 ; $03537  Draw one character to tilemap
+  .unbackground $03982 $039dd ; $039dd  Stats menu tilemap data
+  .unbackground $03eca $03fc1 ; $03f6e  background graphics lookup table
+  .unbackground $03fc2 $03fd1 ; $03fd1  Sky Castle reveal palette
 ; Bank 1
-  FreeSpace $04396 $043e5 $043e5 ; password lookup data (unused)
-  FreeSpace $043e6 $04405 $04405 ; text for "please enter your name"
-  FreeSpace $04406 $0448b $0448b ; tilemap for name entry
-  FreeSpace $0448c $044f5 $04509 ; data for lookup table during entry - can go up to $4509
-  FreeSpace $045a4 $045c3 $045c3 ; tile loading for intro
+  .unbackground $04059 $0407a ; $04078  password entered (unused)
+  .unbackground $0429b $042b4 ; $042b2  draw to tilemap during entry
+  .unbackground $042b5 $042cb ; $042c5  draw to RAM during entry
+  .unbackground $04261 $04277 ; $04277  password population (unused)
+  .unbackground $04396 $043e5 ; $043e5  password lookup data (unused)
+  .unbackground $043e6 $04405 ; $04405  text for "please enter your name"
+  .unbackground $04406 $0448b ; $0448b  tilemap for name entry
+  .unbackground $0448c $04509 ; $044f5  data for lookup table during entry
+  .unbackground $045a4 $045c3 ; $045c3  tile loading for intro
+  .unbackground $059ba $059c9 ; $059c5  Draw text box 20x6 (dialogue)
+  .unbackground $07fe5 $07fff ; $07fff  Unused space + header
 ; Bank 2
-  FreeSpace $08000 $0bdd1 $0bfff ; font tile lookup, script, item names, unknown
-  FreeSpace $0bed0 $0bf35 $0bfff ; item names - now SFG decoder TODO check for use of space in between
-  FreeSpace $0bf50 $0bf99 $0bfff ; item names - now Huffman decoder init
+  .unbackground $08000 $080b1 ; $080b1  font tile lookup
+  .unbackground $080b2 $0bd93 ; $0bd93  script
+  .unbackground $0bd94 $0bf9b ; $0bdd1  item names
+  .unbackground $0bed0 $0bf9b ; $0bf35  item names - now SFG decoder
+  .unbackground $0bf50 $0bf9b ; $0bf99  item names - now Huffman decoder init
 ; Bank 9
-  FreeSpace $27b24 $27e75 $27fff ; Mansion tiles + unused space
+  .unbackground $27b14 $27fff ; $27e75  Mansion tiles and palette + unused space
 ; Bank 11
-  FreeSpace $2c010 $2c85a $2caeb ; Gold Dragon tiles
+  .unbackground $2c000 $2caeb ; $2c85a  Gold Dragon tiles and palette
+  .unbackground $2fe3e $2ffff ; $2ffff  Unused space
 ; Bank 14
-  FreeSpace $3BC68 $3bfff $3bfff ; Title screen tilemap + unused space
+  .unbackground $3bc68 $3bfff ; $3bfff  Title screen tilemap + unused space
 ; Bank 15
-  FreeSpace $3fdee $3ffff $3ffff ; Credits font
+  .unbackground $3fdee $3ffff ; $3ffff  Credits font
 ; Bank 16
-  FreeSpace $40000 $4277a $428f5 ; Scene tiles and palettes (part 1)
-  FreeSpace $43406 $43a82 $43fff ; Scene tiles and palettes (part 2)
-  FreeSpace $43bb4 $43ee4 $43fff ; see above
+  .unbackground $40000 $428f5 ; $4277a  Scene tiles and palettes (part 1)
+  .unbackground $433f6 $43fff ; $43a82  Scene tiles and palettes (part 2) + unused space
 ; Bank 17
-  FreeSpace $44640 $47aaa $47fff ; Palettes and tiles
+  .unbackground $44640 $47fff ; $47aaa  Palettes and tiles + unused space
 ; Bank 18
-  FreeSpace $4be84 $4bfff $4bfff ; Unused space
+  .unbackground $4be84 $4bfff ; $4bfff  Unused space
 ; Bank 19
-  FreeSpace $4c010 $4ccfb $4cdbd ; Dark Force tiles
+  .unbackground $4c000 $4cdbd ; $4ccfb  Dark Force tiles and palette
+  .unbackground $4ff59 $4ffff ; $4ffff  Unused space
 ; Bank 20
-  FreeSpace $524ea $52a66 $52ba1 ; Lassic room tiles
-  FreeSpace $53dbc $53fff $53fff ; Credits data
+  .unbackground $524aa $52ba1 ; $52a66  Lassic room tiles and palette
+  .unbackground $53dbc $53fff ; $53fff  Credits data, unused space
 ; Bank 22
-  FreeSpace $58570 $5a6db $5ac8c ; Tiles for town
-  FreeSpace $5ac8d $5b78c $5b9e6 ; Tiles for air castle
+  .unbackground $58570 $5ac8c ; $5a6db  Tiles for town
+  .unbackground $5ac7d $5b9e6 ; $5b78c  Tiles, palette for air castle
 ; Bank 23
-  FreeSpace $5eb6f $5f5ba $5f766 ; Building interior tiles
+  .unbackground $5ea9f $5f766 ; $5f5ba  Building interior tiles, palettes
 ; Bank 29
-  FreeSpace $747b8 $76ba5 $77629 ; landscapes (world 1)
+  .unbackground $747b8 $77629 ; $77294  landscapes (world 1)
 ; Bank 31
-  FreeSpace $7e8bd $7fd47 $7ffff ; Title screen tiles
-  FreeSpace $7fe00 $7fe92 $7ffff ; Title screen tiles
-/*
-  FreeSpace $033fe $03492 ; draw number inline with text (end is ?)
-  FreeSpace $03fc2 $03fd1 ; sky castle palette
-  FreeSpace $04059 $0407a ; password entered (unused)
-  FreeSpace $04261 $04277 ; password population (unused)
-  FreeSpace $0429b $042b4 ; draw to tilemap during entry
-  FreeSpace $042b5 $042cb ; draw to RAM during entry
-*/
+  .unbackground $7e8bd $7ffff ; $7fd47  Title screen tiles
 
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
-
-; Functions we call
-.define VBlank $0127
-.define DecompressToTileMapData $6e05
-.define OutputTilemapRawDataBox $0428
-.define TextBox20x6 $333a
 
 ; RAM used by the game, referenced here
 .define HasFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
@@ -286,6 +266,10 @@ map '&' = $57 ; some (unused)
 .define VBlankFunctionIndex $c208 ; b Index of function to execute in VBlank
 .define FunctionLookupIndex $c202 ; b Index of "game phase" function
 .define IntroState          $c600 ; b $ff when intro starts
+.define NameIndex           $c2c2 ; b Index into Names
+.define ItemIndex           $c2c4 ; b Index into Items
+.define NumberToShowInText  $c2c5 ; b Number to show in text
+.define EnemyIndex          $c2e6 ; b Index into Enemies
 
 ; RAM
 
@@ -299,14 +283,9 @@ map '&' = $57 ; some (unused)
 
 .define POST_LEN  $DFB3   ; post-string hint (ex. <Herb>...)
 .define LINE_NUM  $DFB4   ; # of lines drawn
-.define FLAG    $DFB5   ; auto-wait flag
+.define FLAG      $DFB5   ; auto-wait flag
 .define ARTICLE   $DFB6   ; article category #
 .define SUFFIX    $DFB7   ; suffix flag
-
-.define LETTER_S  $37   ; suffix letter ('s')
-
-.define NEWLINE   $54   ; carriage-return
-.define EOS       $56   ; end-of-string
 
 .define HLIMIT    $DFB9   ; horizontal chars left
 .define VLIMIT    $DFBA   ; vertical line limit
@@ -317,8 +296,7 @@ map '&' = $57 ; some (unused)
 
 
 .slot 1
-  ROMPosition $4be84, 1
-.section "New bitmap decoder" force ; superfree
+.section "New bitmap decoder" superfree
 ; Originally t4b, t4b_1
 ; RLE/LZ bitmap decoder
 ; - Phantasy Star Gaiden
@@ -548,16 +526,15 @@ LoadTiles:
   ret
 .ends
 
-  ROMPosition $7e8bd
-.section "Replacement title screen" force ; superfree
+.slot 2
+.section "Replacement title screen" superfree
 TitleScreenTiles:
-.incbin "psg_encoder/title.psgcompr"
+.incbin "new_graphics/title.psgcompr"
 .ends
 
-  ROMPosition $3bc68
-.section "Title screen name table" force ; superfree
+.section "Title screen name table" superfree
 TitleScreenTilemap:
-.incbin "new_graphics/title-nt.bin"
+.incbin "new_graphics/title-nt.pscompr"
 .ends
 
   ROMPosition $00925
@@ -584,7 +561,7 @@ TitleScreenPatch:
   ld hl,PAGING_SLOT_2
   ld (hl),:TitleScreenTilemap
   ld hl,TitleScreenTilemap
-  call DecompressToTileMapData
+  call $6e05 ; DecompressToTileMapData
   ; Size matches original
 .ends
 
@@ -593,16 +570,15 @@ TitleScreenPatch:
   LoadPagedTiles OutsideTiles $4000
 .ends
 
-  ROMPosition $747b8
-.section "Outside tiles" force ; superfree
+.slot 2
+.section "Outside tiles" superfree
 OutsideTiles:
-.incbin "psg_encoder/world1.psgcompr"
+.incbin "new_graphics/world1.psgcompr"
 .ends
 
-  ROMPosition $58570
-.section "Town tiles" force ; superfree
+.section "Town tiles" superfree
 TownTiles:
-.incbin "psg_encoder/world2.psgcompr"
+.incbin "new_graphics/world2.psgcompr"
 .ends
 
   ROMPosition $00cf4
@@ -625,9 +601,8 @@ PatchSceneStruct2:
   ld de,SceneData-3
 .ends
 
-.slot 1
-  ROMPosition $4396
-.section "Scene data lookup" force ; free (can be bank 0 or 1)
+.bank 1 slot 1
+.section "Scene data lookup" free ; (can be bank 0 or 1)
 .struct Scene
   PaletteTilesBank  db
   Palette           dw
@@ -676,82 +651,98 @@ SceneData:
 
 .ends
 
-  ROMPosition $40000
-.section "Palettes 1" force ; TODO attach palettes to tiles and superfree together
+.slot 2
+
+.section "Palma and Dezoris open area graphics" superfree
 PalettePalmaOpen:      CopyFromOriginal $40000 16
 PaletteDezorisOpen:    CopyFromOriginal $40010 16
+TilesPalmaAndDezorisOpen: .incbin "new_graphics/bg1.psgcompr"
+.ends
+
+.section "Forest graphics" superfree
 PalettePalmaForest:    CopyFromOriginal $40f16 16
 PaletteDezorisForest:  CopyFromOriginal $40f26 16
+TilesPalmaForest:     .incbin "new_graphics/bg2.psgcompr"
+.ends
+
+.section "Palma sea graphics" superfree
 PalettePalmaSea:       CopyFromOriginal $41c72 16
+TilesPalmaSea: .incbin "new_graphics/bg3.psgcompr"
 .ends
 
-  Bin TilesPalmaAndDezorisOpen    "psg_encoder/bg1.psgcompr"
-  Bin TilesPalmaForest  "psg_encoder/bg2.psgcompr"
-  Bin TilesPalmaSea     "psg_encoder/bg3.psgcompr"
-  
-.section "Tarzimal tiles" force ; superfree
-TilesTarzimal: CopyFromOriginal $4794a 1691
+.section "Motabia open graphics" superfree
+PaletteMotabiaOpen: CopyFromOriginal $433f6 16
+TilesMotabiaOpen: .incbin "new_graphics/bg5.psgcompr"
 .ends
 
-; Some data from $428f6 (sea animation tiles)
-
-  ROMPosition $43406
-  Bin TilesMotabiaOpen  "psg_encoder/bg5.psgcompr"
-
-; Gap?
-
-  ROMPosition $44640
-.section "Palettes 2" force ; TODO inline, attach to tiles and superfree
+.section "Palma town graphics" superfree
 PalettePalmaTown:     CopyFromOriginal $44640 16
-PalettePalmaVillage:  CopyFromOriginal $457c4 16
-PaletteSpaceport:     CopyFromOriginal $464b1 16
-PaletteDeadTrees:     CopyFromOriginal $46f58 16
+TilesPalmaTown: .incbin "new_graphics/bg8.psgcompr"
 .ends
 
-  Bin TilesPalmaTown    "psg_encoder/bg8.psgcompr"
-  Bin TilesPalmaVillage "psg_encoder/bg9.psgcompr"
-  Bin TilesSpaceport    "psg_encoder/bg10.psgcompr"
-  Bin TilesDeadTrees    "psg_encoder/bg11.psgcompr"
+.section "Palma village graphics" superfree
+PalettePalmaVillage:  CopyFromOriginal $457c4 16
+TilesPalmaVillage: .incbin "new_graphics/bg9.psgcompr"
+.ends
 
-  ROMPosition $5ac8d
-  Bin TilesAirCastle    "psg_encoder/bg13.psgcompr"
-  ROMPosition $2c010
-  Bin TilesGoldDragon   "psg_encoder/bg14.psgcompr"
-  ROMPosition $5eb6f
-  Bin TilesBuilding     "psg_encoder/bg16.psgcompr"
-  ROMPosition $27b24
-  Bin TilesMansion      "psg_encoder/bg29.psgcompr"
-  ROMPosition $524ea
-  Bin TilesLassicRoom   "psg_encoder/bg30.psgcompr"
-  ROMPosition $4c010
-  Bin TilesDarkForce    "psg_encoder/bg31.psgcompr"
+.section "Spaceport graphics" superfree
+PaletteSpaceport:     CopyFromOriginal $464b1 16
+TilesSpaceport: .incbin "new_graphics/bg10.psgcompr"
+.ends
+
+.section "Dead trees graphics" superfree
+PaletteDeadTrees:     CopyFromOriginal $46f58 16
+TilesDeadTrees: .incbin "new_graphics/bg11.psgcompr"
+.ends
+
+.section "Air castle graphics" superfree
+PaletteAirCastle:     CopyFromOriginal $5ac7d 16
+PaletteAirCastleFull: CopyFromOriginal $03fc2 16
+TilesAirCastle: .incbin "new_graphics/bg13.psgcompr"
+.ends
+
+.section "Gold dragon graphics" superfree
+PaletteGoldDragon: CopyFromOriginal $2c000 16
+TilesGoldDragon: .incbin "new_graphics/bg14.psgcompr"
+.ends
+
+.section "Building graphics" superfree
+PaletteBuildingEmpty:     CopyFromOriginal $5ea9f 16
+PaletteBuildingWindows:   CopyFromOriginal $5eaaf 16
+PaletteBuildingHospital1: CopyFromOriginal $5eabf 16
+PaletteBuildingHospital2: CopyFromOriginal $5eacf 16
+PaletteBuildingChurch1:   CopyFromOriginal $5eadf 16
+PaletteBuildingChurch2:   CopyFromOriginal $5eaef 16
+PaletteBuildingArmoury1:  CopyFromOriginal $5eaff 16
+PaletteBuildingArmoury2:  CopyFromOriginal $5eb0f 16
+PaletteBuildingShop1:     CopyFromOriginal $5eb1f 16
+PaletteBuildingShop2:     CopyFromOriginal $5eb2f 16
+PaletteBuildingShop3:     CopyFromOriginal $5eb3f 16
+PaletteBuildingShop4:     CopyFromOriginal $5eb4f 16
+PaletteBuildingDestroyed: CopyFromOriginal $5eb5f 16
+TilesBuilding: .incbin "new_graphics/bg16.psgcompr"
+.ends
+
+.section "Mansion graphics" superfree
+PaletteMansion: CopyFromOriginal $27b14 16
+TilesMansion: .incbin "new_graphics/bg29.psgcompr"
+.ends
+
+.section "Lassic graphics" superfree
+PaletteLassicRoom: CopyFromOriginal $524da 16
+TilesLassicRoom: .incbin "new_graphics/bg30.psgcompr"
+.ends
+
+.section "Dark Force graphics" superfree
+PaletteDarkForce: CopyFromOriginal $4c000 16
+TilesDarkForce: .incbin "new_graphics/bg31.psgcompr"
+.ends
 
   ; We also need the non-relocated tilemap and palette addresses to populate the table...
 .macro LabelAtPosition
   ROMPosition \1
   \2:
 .endm
-
-  LabelAtPosition $03fc2 PaletteAirCastleFull
-  LabelAtPosition $27b14 PaletteMansion
-  LabelAtPosition $2c000 PaletteGoldDragon
-  LabelAtPosition $433f6 PaletteMotabiaOpen
-  LabelAtPosition $4c000 PaletteDarkForce
-  LabelAtPosition $524da PaletteLassicRoom
-  LabelAtPosition $5ac7d PaletteAirCastle
-  LabelAtPosition $5ea9f PaletteBuildingEmpty
-  LabelAtPosition $5eaaf PaletteBuildingWindows
-  LabelAtPosition $5eabf PaletteBuildingHospital1
-  LabelAtPosition $5eacf PaletteBuildingHospital2
-  LabelAtPosition $5eadf PaletteBuildingChurch1
-  LabelAtPosition $5eaef PaletteBuildingChurch2
-  LabelAtPosition $5eaff PaletteBuildingArmoury1
-  LabelAtPosition $5eb0f PaletteBuildingArmoury2
-  LabelAtPosition $5eb1f PaletteBuildingShop1
-  LabelAtPosition $5eb2f PaletteBuildingShop2
-  LabelAtPosition $5eb3f PaletteBuildingShop3
-  LabelAtPosition $5eb4f PaletteBuildingShop4
-  LabelAtPosition $5eb5f PaletteBuildingDestroyed
 
   LabelAtPosition $3c000 TilemapPalmaOpen
   LabelAtPosition $3c333 TilemapPalmaForest
@@ -800,16 +791,13 @@ BackgroundSceneLoaderTileLoaderPatch:
 
 ; Font
 
-  ROMPosition $43871
-.section "Font part 1" force ; superfree
+.slot 2
+.section "Font part 1" superfree
 FONT1:
-.incbin "psg_encoder/font1.psgcompr"
-.ends
-
-  ROMPosition $43bb4
-.section "Font part 2" force ; superfree
+.incbin "new_graphics/font1.psgcompr"
+; Need to be in the same bank
 FONT2:
-.incbin "psg_encoder/font2.psgcompr"
+.incbin "new_graphics/font2.psgcompr"
 .ends
 
   ROMPosition $045a4
@@ -894,7 +882,7 @@ FontPatch2:
 FontPatch3:
   ; In-game font decoding
   ; Original code same as above
-    
+
   call DECODE_FONT
   ; TODO: free the space
   jr $3df5-CADDR-1
@@ -905,7 +893,7 @@ FontPatch3:
 FontPatch4:
   ; Cutscene font decoding
   ; Original code same as above
-  
+
   call DECODE_FONT
   jr $48f1-CADDR-1
 .ends
@@ -928,7 +916,7 @@ FontPatch5:
 ; Font renderer
 
   ROMPosition $34f2
-.section "Character drawing" force ; not movable; TODO free the space
+.section "Character drawing" force ; not movable
 ; Originally t0d.asm
 CharacterDrawing:
 ; Replacing draw-one-character function from $34f2-3545
@@ -974,104 +962,14 @@ CharacterDrawing:
   ret
 .ends
 
-  ROMPosition $8000
+.bank 0 slot 0 ; Dictionary lookup must be in slot 0 as the others are being mapped.
 
-; The font lookup, Huffman bits and script all share a bank as they are needed at the same time.
-.bank 2 slot 2
-  
-.section "Font lookup" force ; free
-FontLookup:
-; This is used to convert text from the game's encoding (indexing into ths area) to name table entries. The extra spaces are unused (and could be repurposed?).
-.dwm Text " 0123456789"
-.dwm Text "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-.dwm Text "abcdefghijklmnopqrstuvwxyz"
-.dwm Text ".:`',  -!?               "
-.ends
-
-  ROMPosition $80b0
-.section "Huffman tree stuff" force ; free
-TREE_PTR:
-.include "script_inserter/tree.asm"
-.ends
-
-  ROMPosition $bf50
-.section "Decoder init" force ; free
-DecoderInit:
-; Semi-adaptive Huffman decoder
-; - Init decoder
-; This is called from various places where the game wants to draw text. We:
-; - page some code into slot 1
-; - init the Huffman decoding state
-; - determine which place we were called from and implement the patched-over code,
-;   plus some context-specific state.
-; - call into the code following the patch point, which will call into other text-decoding functions
-; - then restore slot 1
-
-  push af     ; Save routine selection
-
-    ld a,:AdditionalScriptingCodes
-    ld (PAGING_SLOT_1),a
-
-    ld a,EOS    ; Starting tree symbol
-    ld (TREE),a
-
-    ld a,1<<7    ; Initial tree barrel
-    ld (BARREL),a
-
-    ld (SCRIPT),hl    ; Beginning script offset
-
-    xor a     ; A = $00
-    ld (POST_LEN),a   ; No post hints
-    ld (LINE_NUM),a   ; No lines drawn
-    ld (FLAG),a   ; No wait flag
-;   ld (PLAYER),a   ; Do not reset (assume proper usage)
-    ld (ARTICLE),a    ; No article usage
-    ld (SUFFIX),a   ; No suffix flag
-
-  pop af
-
-  ; Now we detect what we need to do to recover from the patch to get here...
-  or a
-  jr nz,+
-
-CutsceneClear:
-  ; a = 0: Cutscene handler
-  ; Patched-over code
-  ld de,$7c42   ; VRAM address - modified
-  ld bc,$0000
-  ; Context-specific state
-  ld a,6        ; Line count
-  ld (VLIMIT),a
-  ; Call back to patch location
-  xor a ; unnecessary?
-  call CutsceneNarrativeInitOriginalCode
-  jr ++
-
-+:; a = 1: in-game dialog
-  ; Context-specific state
-  ld a,4        ; Line count
-  ld (VLIMIT),a
-  ; Patched-over code
-  ld a,($c2d3)  ; Old code
-  or a          ; Done second as the flags from this test are what matters
-  ; Call back to patch location
-  call InGameNarrativeInitOriginalCode
-
-++:
-  ld a,1    ; Restore slot 1
-  ld (PAGING_SLOT_1),a
-
-  ret
-
-.ends
-
-  ROMPosition $3eca
-.section "Dictionary lookup" force ; free
+.section "Dictionary lookup" free
   ; HL = Table offset
 
 DictionaryLookup:
   push af
-    ld a,:Items ; Load normal lists
+    ld a,:Lists ; Load normal lists
     ld (PAGING_SLOT_2),a
     jr +
 
@@ -1100,7 +998,7 @@ _Copy:
   ld de,TEMP_STR    ; Copy to work RAM
   ld (STR),de   ; Save pointer location
   ldir
-
+/*
   dec hl      ; Check last character
   ld a,(hl)
 
@@ -1110,143 +1008,15 @@ _Copy:
   xor a     ; Clear flag
 
 +:ld (SUFFIX),a
-
+*/
   ld a,2    ; Normal page
   ld (PAGING_SLOT_2),a
 
   ret
 .ends
 
-  ROMPosition $bed0
-
-.section "SFG decoder" force ; free
-SFGDecoder:
-; Originally t4a.asm
-; Semi-adaptive Huffman decoder
-; - Shining Force Gaiden: Final Conflict
-
-; Start of decoder
-;
-; Note:
-; The Z80 uses one set of registers for decoding the Huffman input data
-; The other context is used to traverse the Huffman tree itself
-;
-; Encoded Huffman data is in page 2
-;
-; Huffman tree data is in page 2
-; The symbols for the tree are stored in backwards linear order
-
-  push hl
-
-    ld a,(PAGING_SLOT_1)    ; Save current page 1
-    push af
-
-      ld a,$6f000/$4000 ; Load in script bank #2 ; TODO is this needed? Our script fits in page 2?
-      ld (PAGING_SLOT_1),a
-
-      ld hl,(SCRIPT)    ; Set Huffman data location
-      ld a,(BARREL)   ; Load Huffman barrel
-
-      ex af,af'   ; Context switch to tree mode
-      exx
-        ld a,(TREE)   ; Load in tree / last symbol
-
-        push af
-          ld bc,TREE_PTR    ; Set physical address of tree data
-          ld h,0      ; 8 -> 16
-          ld l,a
-          add hl,hl   ; 2-byte indices
-          add hl,bc   ; add offset
-
-          ld a,(hl)   ; grab final offset
-          inc hl
-          ld h,(hl)
-          ld l,a
-        pop af
-
-        ld a,$80    ; Initialise the tree barrel data
-        ld d,h      ; Point to symbol data
-        ld e,l
-        dec de      ; Symbol data starts one behind the tree
-
-        jr _Tree_Shift1    ; Grab first bit
-
-_Tree_Mode1:
-      ex af,af'   ; Context switch to tree mode
-      exx
-
-_Tree_Shift1:
-        add a,a     ; Shift out next tree bit to carry flag
-        jr nz,+     ; Check for empty tree barrel
-
-        ld a,(hl)   ; Shift out next tree bit to carry flag
-        inc hl      ; Bump tree pointer
-
-        adc a,a     ; Note: We actually shift in a '1' by doing this! Clever trick to use all 8 bits for tree codes
-
-+:      jr c,_Decode_Done ; 0 -> tree node = continue looking
-                          ; 1 -> root node = symbol found
-
-      ex af,af'   ; Switch to Huffman data processing = full context switch
-      exx
-
-      add a,a     ; Read in Huffman bit
-      jr nz,_Check_Huffman1  ; Check Huffman barrel status
-
-      ld a,(hl)   ; Reload 8-bit Huffman barrel
-      inc hl      ; Bump Huffman data pointer
-      adc a,a     ; Re-grab bit
-
-_Check_Huffman1:
-      jr nc,_Tree_Mode1  ; 0 -> travel left, 1 -> travel right
-
-      ex af,af'   ; Switch back to tree mode
-      exx
-
-        ld c,1    ; Start counting how many symbols to skip in the linear list since we are traversing the right sub-tree
-
-_Tree_Shift2:
-        add a,a     ; Check if tree data needs refreshing
-        jr nz,_Check_Tree2
-
-        ld a,(hl)   ; Refresh tree barrel again
-        inc hl      ; Bump tree pointer
-        adc a,a     ; Grab new tree bit
-
-_Check_Tree2:
-        jr c,_Bump_Symbol  ; 0 -> tree, 1 -> symbol
-
-        inc c     ; Need to bypass one more node
-        jr _Tree_Shift2    ; Keep bypassing symbols
-
-_Bump_Symbol:
-        dec de      ; Bump pointer in symbol list backwards
-        dec c     ; One less node/symbol to skip
-
-        jr nz,_Tree_Shift2 ; Check for full exhaustion of left subtree nodes
-
-        JR _Tree_Shift1    ; Need status of termination
-
-_Decode_Done:
-    pop af      ; Restore old page 1
-    ld (PAGING_SLOT_1),a
-
-    ld a,(de)   ; Find symbol
-    ld (TREE),a   ; Save decoded byte
-
-    ex af,af'   ; Go to Huffman mode
-    exx
-      ld (SCRIPT),hl    ; Save script pointer
-      ld (BARREL),a   ; Save Huffman barrel
-    ex af,af'   ; Go to Tree mode
-    ; no need to exx again
-
-  pop hl      ; Restore stack and exit
-  ret
-.ends
-
-  ROMPosition $7fe00, 1
-.section "Additional scripting codes" force ; superfree
+.slot 1
+.section "Additional scripting codes" superfree
 AdditionalScriptingCodes:
 ; Originally t4a_2.asm
 ; Narrative formatter
@@ -1255,28 +1025,24 @@ AdditionalScriptingCodes:
 _Start:
   call SubstringFormatter    ; Check substring RAM
 
-  cp NEWLINE
-  jr z,_No_decode
+  cp SymbolNewLine
+  jr z,+
 
-  cp EOS      ; Look for decode flag
+  cp SymbolEnd      ; Look for decode flag
   jp nz,_Done
 
 _Decode:
   call SFGDecoder    ; Regular decode
 
-_No_decode:
-
-_Code1:
-  cp $59      ; Post-length hints
-  jr nz,_Code2   ; Check next code
++:cp SymbolPostHint
+  jr nz,+   ; Check next code
 
   call SFGDecoder    ; Grab length
   ld (POST_LEN),A   ; Cache it
   jr _Decode   ; Immediately grab next code
 
-_Code2:
-  cp $00      ; Whitespace
-  jr nz,_Code3   ; Check next code
++:cp $00      ; Whitespace
+  jr nz,+   ; Check next code
 
   push hl
     ld (TEMP_STR),a   ; Store WS, $00
@@ -1290,9 +1056,8 @@ _Code2:
 
   ; Intentional fall-through
 
-_Code3:
-  cp $55      ; - wait more
-  jr nz,_Code4
++:cp SymbolWaitMore
+  jr nz,+
 
 _Reset_Lines:
   push af
@@ -1304,9 +1069,8 @@ _Set_Lines:
 
   jp _Done
 
-_Code4:
-  cp $54      ; Newline check
-  jr nz,_Code5   ; Next code
++:cp SymbolNewLine
+  jr nz,+   ; Next code
 
   push hl     ; Automatic narrative waiting
 
@@ -1319,11 +1083,11 @@ _Code4:
     jr z,_WAIT
 
 _NO_WAIT:
-    ld a,NEWLINE    ; Reload newline
-    jr _Code4_End
+    ld a,SymbolNewLine  ; Reload newline
+    jr ++
 
 _WAIT:
-    ld a,$55    ; wait more
+    ld a,SymbolWaitMore ; wait more
     ld (FLAG),a   ; Raise flag
     ld hl,LINE_NUM
 
@@ -1331,15 +1095,14 @@ _Wait_Clear:
     dec (hl)    ; Keep shrinking # lines drawn
     jr nz,_Wait_Clear  ; to save 1 byte of space
 
-_Code4_End:
+++:
   pop hl      ; Restore stack
   jr _Done
 
-_Code5:
-  cp $60
-  jr c,_Code6    ; Control codes, don't interfere
++:cp WordListStart
+  jr c,+    ; Control codes, don't interfere
 
-  sub $60     ; Relocate dictionary entry #
+  sub WordListStart     ; Subtract offset
 
   push hl
   push de
@@ -1354,17 +1117,15 @@ _Code5:
 
   jp _Start    ; Our new dictionary lookup code
 
-_Code6:
-  cp $5A      ; Use article
-  jr nz,_Code7
++:cp SymbolArticle
+  jr nz,+
 
   call SFGDecoder    ; Grab #
   ld (ARTICLE),a
   jp _Decode
 
-_Code7:
-  cp $5B      ; Use suffix
-  jr nz,_Code8
++:cp SymbolSuffix
+  jr nz,+
 
   ld a,(SUFFIX)   ; Check flag
   or a
@@ -1372,13 +1133,11 @@ _Code7:
 
   ld a,LETTER_S   ; add 's'
 
-_Code8:
++:
 
 _Done:
-  cp $58      ; Old code
+  cp SymbolWait ; Old code
   ret     ; Go to remaining text handler
-
-.ends
 
 .enum $4f ; Scripting codes
   SymbolStart     .db
@@ -1395,11 +1154,11 @@ _Done:
   SymbolPostHint  db ; $59,
   SymbolArticle   db ; $5a,
   SymbolSuffix    db ; $5b,
+  WordListStart   db ; $5c
 .ende
 
-  ROMPosition $7fed0, 1
-.section "Substring formatter" overwrite
 SubstringFormatter:
+; Needs to be in the same bank as AdditionalScriptingCodes
 ; Originally t4a_3.asm
 ; Narrative formatter
 ; - Dictionary processing
@@ -1414,7 +1173,7 @@ SubstringFormatter:
 _Lookup:
   ld a,(LEN)    ; Grab length of string
   or a      ; Check for zero-length
-  ld a,EOS    ; Load 'abort' flag
+  ld a,SymbolEnd    ; Load 'abort' flag
   ret z     ; Return if NULL
 
 _Substring:
@@ -1428,7 +1187,7 @@ _Substring:
     ld hl,LEN   ; Grab address of length
 
     ; ------------------------------------------------------
-    ; Article (The, An, A, Some) handler
+    ; Article (The, An, A) handler
 
     push de     ; init
 
@@ -1438,7 +1197,7 @@ _Substring:
 
       ld de,ArticlesLower
       cp $01      ; article = a,an,the
-      jr Z,_Start_Art
+      jr z,_Start_Art
 
       ld de,ArticlesInitialUpper
       ; a = $02 = article = A,An,The
@@ -1461,7 +1220,7 @@ _Start_Art:
 
 _Add_Art:
       ld a,(de)   ; grab font #
-      cp EOS
+      cp SymbolEnd
       jr z,_Art_Done
 
       dec bc      ; bump dst pointer
@@ -1483,22 +1242,20 @@ _Art_Exit:
 ; Articles are stored backwards
 .macro Article
   .asc \1
-  .db EOS
+  .db SymbolEnd
 .endm
 
-ArticlesLower:
-.dw +, ++, +++ ; no "Some"? TODO use or remove
+ArticlesLower: ; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
+.dw +, ++, +++
 +:    Article " a"
 ++:   Article " na"
 +++:  Article " eht"
-      Article " emos"
 
 ArticlesInitialUpper:
-.dw +, ++, +++ ; no "Some"? TODO use or remove
+.dw +, ++, +++
 +:    Article " A"
-++:   Article " dA" ; BUG: wrong text here
+++:   Article " nA"
 +++:  Article " ehT"
-      Article " emoS"
 
 _Initial_Codes:
     ld a,(bc)   ; Grab character
@@ -1540,7 +1297,7 @@ _Text_Spill_WS:
     dec (hl)    ; Shrink length
 
 _Text_Spill_Line:
-    ld a,NEWLINE    ; newline
+    ld a,SymbolNewLine    ; newline
 
   pop bc      ; Stack registers
   pop hl
@@ -1592,7 +1349,7 @@ _Break:
 .ends
 
   ROMPosition $34aa
-.section "Cutscene narrative init" overwrite ; not movable
+.section "Cutscene narrative init patch" overwrite ; not movable
 CutsceneNarrativeInit:
   ; This code deliberately fills 6 bytes to patch over the original code:
 ; ld de,$7c0c
@@ -1605,23 +1362,39 @@ CutsceneNarrativeInitOriginalCode:
 .ends
 
   ROMPosition $34b4
-.section "Cutscene text decoder" overwrite
+.section "Cutscene text decoder patch" overwrite ; not movable
 CutsceneTextDecoder:
-  call AdditionalScriptingCodes
-  jr z,OrderFlip ; = order flip
+  ; This patches later in the same function as above. Original code:
+; ld a,(hl)
+; cp $57
+; jr z,$34ed ; exit after pause
+; cp $58
+; jr z,$34e8 ; exit after button
+  call AdditionalScriptingCodes ; handle extra narrative codes, performs comparison to $58 before returning
+  jr z,ExitAfterButton
   cp $57
-  jr z,OrderFlip+5 ; = ??? TODO
+  jr z,ExitAfterPause
 .ends
 
   ROMPosition $34e5
-.section "Cutscene $55 clear code" overwrite
+.section "Cutscene $55 clear code patch" overwrite ; not movable
 CutsceneClearCode:
   jp CutsceneClear
-OrderFlip:
+
+  ; The rest is the same as the original code, but we want to get the labels for above
+ExitAfterButton:
+  call $2e81 ; MenuWaitForButton
+  pop de
+  ret
+
+ExitAfterPause:
+  call $2eaf ; Pause256Frames
+  pop de
+  ret
 .ends
 
   ROMPosition $333f
-.section "In-game narrative init" overwrite
+.section "In-game narrative init patch" overwrite ; not movable
 InGameNarrativeInit:
 ; Original code:
 ; ld a,(TextBox20x6Open)
@@ -1634,7 +1407,7 @@ InGameNarrativeInitOriginalCode:
 .ends
 
   ROMPosition $3365
-.section "In-game text decoder" overwrite
+.section "In-game text decoder" overwrite ; not movable
 InGameTextDecoder:
   call AdditionalScriptingCodes
 .ends
@@ -1643,17 +1416,35 @@ InGameTextDecoder:
 ; Narrative scripting
 
   ROMPosition $33da
-.section "Item lookup" overwrite
+.section "Item lookup patch" force ; not movable
 ItemLookup:
 ; Originally t1c_1.asm
 ; Item lookup
+; Original code:
+; push hl
+;   ld a,(ItemIndex)
+;   ld l,a
+;   ld h,0
+;   add hl,hl
+;   add hl,hl
+;   add hl,hl
+;   push bc
+;     ld bc,ItemTextTable
+;     add hl,bc  ; hl = ItemTextTable
+;   pop bc         ;    + ItemIndex * 8
+;   ld a,8
+;   call _DrawALetters
+; pop hl
+; inc hl
+; jp _ReadData
+; 26 bytes
 
   push hl     ; Save string ptr
   push de     ; Save VRAM ptr
   push bc     ; Save width, temp
 
-    ld a,($c2c4)    ; Grab item #
-    ld hl,Items   ; Item lookup
+    ld a,(ItemIndex)
+    ld hl,Items
 
 LookupItem:
     call DictionaryLookup
@@ -1662,47 +1453,71 @@ LookupItem:
   pop de
   pop hl
   jp InGameTextDecoder    ; Decode next byte
+  ; 18 bytes
 .ends
 
   ROMPosition $33aa
-.section "Player lookup" overwrite
+.section "Player lookup patch" force ; not movable
 PlayerLookup:
 ; Originally t1c_2.asm
 ; Player lookup
+; Original code:
+; push hl
+;   ld a,(TextCharacterNumber)
+;   and $03        ; just low 2 bits
+;   add a,a        ; multiply by 4
+;   add a,a
+;   ld hl,_CharacterNames
+;   add a,l
+;   ld l,a
+;   adc a,h
+;   sub l          ; hl = _CharacterNames
+;   ld h,a         ; + 4*TextCharacterNumber
+;   ld a,4
+;   call _DrawALetters
+; pop hl
+; inc hl             ; next data
+; jp _ReadData
+; 25 bytes
 
   push hl     ; Save string ptr
   push de     ; Save VRAM ptr
   push bc     ; Save width, temp
 
-    ld a,($C2C2)    ; Grab item #
-    and $03
-
+    ld a,(NameIndex)
+    and 3 ; I guess it uses the other bits for something?
     ld hl,Names
     jp LookupItem
+  ; 13 bytes
 .ends
 
   ROMPosition $33c8
-.section "Enemy lookup" overwrite
+.section "Enemy lookup patch" force ; not movable
 EnemyLookup:
-; Originally t1c_3.asm
 ; Enemy lookup
-
+; Original code:
+; push hl
+;   ld hl,EnemyName
+;   ld a,8
+;   call _DrawALetters
+; pop hl
+; inc hl
+; jp _ReadData
+; 12 bytes
   push hl     ; Save string ptr
   push de     ; Save VRAM ptr
   push bc     ; Save width, temp
-
-    ld a,($c2e6)    ; Grab enemy #
-
+    ld a,(EnemyIndex)
     ld hl,Enemies
     jp LookupItem
+  ; 10 bytes
 .ends
 
   ROMPosition $33f6
-.section "Number lookup" overwrite
+.section "Number lookup patch" force ; not movable
 NumberLookup:
 ; Originally t1b.asm
 ; Narrative number BCD creater
-
 ; in-line number display
 ; Old: inline looping (costs space), simple, direct output
 ; New: renders string to a temp buffer for wrapping,
@@ -1718,33 +1533,33 @@ _DRAW_NUMBER:
   push bc      ; Width, temp
   push ix      ; Temp
 
-    ld hl,($c2c5)    ; Load 16-bit parameter
+    ld hl,(NumberToShowInText)    ; Load 16-bit parameter
     ld ix,TEMP_STR   ; Decode to buffer
 
     ld bc,10000    ; # 10000's
     call _BCD_Digit
-    ld (ix+$00),A
+    ld (ix+0),a
 
     ld bc,1000     ; # 1000's
     call _BCD_Digit
-    ld (ix+$01),A
+    ld (ix+1),a
 
     ld bc,100      ; # 100's
     call _BCD_Digit
-    ld (ix+$02),A
+    ld (ix+2),a
 
     ld bc,10       ; # 10's
     call _BCD_Digit
-    ld (ix+$03),A
+    ld (ix+3),a
 
     ld a,l      ; # 1's (_BCD_Digit has made it only possible to be in the range 0..9)
-    add a,$01   ; add 1 because result = digit+1
-    ld (ix+$04),a
+    add a,1     ; add 1 because result = digit+1
+    ld (ix+4),a
 
 
     ; scan the resultant string to see where the first non-zero digit is
     ; but we want to show the last digit even if it is zero
-    ld b,$04    ; look at 4 digits max
+    ld b,4      ; look at 4 digits max
     ld hl,TEMP_STR    ; scan value
 
 _Scan:
@@ -1761,7 +1576,7 @@ _Done:
     ld (LEN),a    ; save length
 
     ; length != 1 -> must be plural
-    cp $01
+    cp 1
     jr nz,_Plural  ; length must be 1
 
     ; else check for '1'
@@ -1785,9 +1600,7 @@ _Plural:
   jp InGameTextDecoder
 
 _BCD_Digit:
-  ld a,$00     ; Init digit value
-               ; Note: $01 = '0', auto-bump
-  or a         ; Clear carry flag
+  xor a ; clear carry flag, a = 0
 
 ; subtract bc from hl until it overflows, then add it on again
 ; return a = number of subtractions done until overflow occurred,
@@ -1795,23 +1608,22 @@ _BCD_Digit:
 ; so a = hl / bc + 1 (integer division + 1)
 ; eg. hl =  9999, bc = 10000, a = 1
 ; eg. hl = 10000, bc = 10000, a = 2
-_BCD_Loop:
-  sbc hl,bc    ; Divide by subtraction
+-:sbc hl,bc    ; Divide by subtraction
   inc a        ; Bump place marker
-  jr nc,_BCD_Loop ; No underflow
+  jr nc,-      ; No underflow
 
   add hl,bc    ; Restore value from underflowed subtraction
   ret
 .ends
 
   ROMPosition $0003f
-.section "VBlank intercept" overwrite
+.section "VBlank intercept" overwrite ; not movable
 VBlankIntercept:
-  jp VBlankPageSave ;$0494
+  jp VBlankPageSave
 .ends
 
   ROMPosition $00494
-.section "VBlank page saving" overwrite
+.section "VBlank page saving" free
 VBlankPageSave:
   ; We wrap the handler to select page 1 in slot 1 and then restore it
   ld a,(PAGING_SLOT_1)    ; Save page 1
@@ -1820,7 +1632,7 @@ VBlankPageSave:
     ld a,1    ; Regular page 1
     ld (PAGING_SLOT_1),a
 
-    call VBlank ; $127    ; Resume old code
+    call $0127 ; VBlank ; Resume old code
 
   pop af
   ld (PAGING_SLOT_1),a    ; Put back page 1
@@ -1831,20 +1643,23 @@ VBlankPageSave:
 .ends
 
   ROMPosition $182
-.section "Original VBlank handler no ei/reti" overwrite
+.section "Original VBlank handler no ei/reti patch" overwrite ; not movable
 OriginalVBlankHandlerPatch:
   ret
 .ends
 
 ; Lists
 
-  ROMPosition $76ba6
-.section "Enemy, name, item lists" overwrite
-
+.bank 2
+.section "Enemy, name, item lists" superfree
+Lists:
 ; Order is important!
 Items:
+  ; Item names should be manually word-wrapped (using '@') if longer than 10 
+  ; characters (the menu width), unless exactly 10 characters long in which 
+  ; case don't :) as the line is already wrapped at that point.
   String " " ; empty item (blank)
-; weapons
+; weapons: 01-0f
   String "~Wood Cane"
   String "~Short@ Sword"
   String "#Iron Sword"
@@ -1860,7 +1675,7 @@ Items:
   String "~Laser Gun"
   String "~Laconian@ Sword"
   String "~Laconian@ Axe"
-; armour
+; armour: 10-18
   String "~Leather@ Clothes"
   String "~White@ Cloak"
   String "~Light Suit"
@@ -1870,7 +1685,7 @@ Items:
   String "~Diamond@ Armor"
   String "~Laconian@ Armor"
   String "^Frad Cloak"
-; shields
+; shields: 19-20
   String "~Leather@ Shield"
   String "~Bronze@ Shield"
   String "#Iron@ Shield"
@@ -1879,11 +1694,11 @@ Items:
   String "~Laser@ Barrier"
   String "^Shield of@ Perseus"
   String "~Laconian@ Shield"
-; vehicles
+; vehicles: 21-23
   String "^LandMaster"
   String "^FlowMover"
   String "^IceDecker"
-; items
+; items: 24+
   String "~Pelorie%@+Mate"
   String "~Ruoginin"
   String "^Soothe@ Flute"
@@ -1903,10 +1718,10 @@ Items:
   String "~Passport"
   String "~Compass"
   String "~Shortcake"
-  String "^Governor[-General]'s@ Letter"
+  String "^Governor[-General]'s Letter"
   String "~Laconian@ Pot"
   String "^Light@ Pendant"
-  String "^Carbunckle@ Eye"
+  String "^Carbunckle Eye"
   String "~GasClear"
   String "Damoa's@ Crystal"
   String "~Master@ System"
@@ -2000,26 +1815,34 @@ Enemies:
 .db $df
 .ends
 
-  ROMPosition $43c00
-.section "Static dictionary" force ; superfree
+.section "Static dictionary" superfree
+.block "Words"
+; Note that the number of words we add here has a complicated effect on the data size.
+; Adding more words costs space here (in a paged bank), but saves space in bank 2 - mostly,
+; because it also increases the complexity of the Huffman trees.
+; If our goal is to maximise script space then we should maximise the word count.
+; The limit is 160 (could stretch a few more...)
+; If our goal is to minimise total space used across both the script and word list then the 
+; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
 .include "substring_formatter/words.asm"
 ; Terminator
 .db $df
+.endb
 .ends
 
 ; English script
 
   ROMPosition $59ba
-.section "Index table remap" overwrite ; not movable
+.section "Index table remap" force ; not movable
 IndexTableRemap:
-  jp TextBox20x6
+  jp $333a ; TextBox20x6
 .ends
 
 ; Menus
 
-  ROMPosition $46c81
-.section "Menu data" force ; superfree
+.bank 2
+.section "Menu data" superfree
 MenuData:
 .include "menu_creater/menus.asm"
 .ends
@@ -2035,20 +1858,20 @@ MenuData:
   PatchW $331e $7818
 
   ROMPosition $3211
-.section "HP letters" size 4 overwrite
-.dwm Text "HP"
+.section "HP letters" size 4 overwrite ; not movable
+.dwm TextToTilemap "HP"
 .ends
 
   ROMPosition $3219
-.section "MP letters" size 4 overwrite
-.dwm Text "MP"
+.section "MP letters" size 4 overwrite ; not movable
+.dwm TextToTilemap "MP"
 .ends
 
   ; Choose player: width*2
   PatchB $37c8 $10
 
   ROMPosition $3de4
-.section "Active player - menu offset finder" overwrite
+.section "Active player - menu offset finder" overwrite ; not movable?
 ActivePlayerMenuOffsetFinder:
 ; Originally t2b.asm
 ; Active player menu selection
@@ -2065,7 +1888,7 @@ ActivePlayerMenuOffsetFinder:
 .ends
 
   ROMPosition $3023
-.section "Trampoline to above" overwrite
+.section "Trampoline to above" overwrite ; not movable
 TrampolineToActivePlayerMenuOffsetFinder:
 ; Original code was doing it inline:
 ;  ld a,($c267) ; get index
@@ -2084,7 +1907,7 @@ TrampolineToActivePlayerMenuOffsetFinder:
 .ends
 
   ROMPosition $35a2
-.section "Spell selection finder" overwrite
+.section "Spell selection finder" overwrite ; not movable
 SpellSelectionFinder:
 ; Originally t2b_1.asm
 ; Spell selection offset finder
@@ -2112,68 +1935,65 @@ SpellSelectionFinder:
 
 
   ROMPosition $35c5
-.section "Spell blank line" overwrite
+.section "Spell blank line" size 14 overwrite ; not movable
 SpellBlankLine:
 ; Originally t2b_2.asm
 ; Spell selection blank line drawer
 ; - support code
+; Original code:
+; ld     a,b      ; compute a = b * 12 (to find where to start copying the menu data)
+; add    a,a      ; a=2b
+; ld     l,a      ; l=2b
+; add    a,a      ; a=4b
+; add    a,l      ; a=6b
+; add    a,a      ; a=12b
+; ld     hl,$ba3f
+; add    a,l
+; ld     l,a
+; adc    a,h
+; sub    l
+; ld     h,a
 
 .define LINE_SIZE (10+2)*2  ; width of line
 
-  ; TODO could do this more simply - we want hl = base + b * LINE_SIZE above
-
+  ; Our menus are wider now, we want a = b * 24.
+  ; We don't have space to do it with shifts so we loop instead (slower)...
+  
   push de
-    ld de,LINE_SIZE   ; menu size
-    ld a,b            ; init
-    inc a
-    call Add16        ; 16-bit addition
-    ld de,0           ; auto-generated base value TODO I guess this is filled in later
-    add hl,de
+  push bc
+    ld hl,BlankSpellMenu
+    ld de,LINE_SIZE
+-:  add hl,de
+    djnz -
+  pop bc
   pop de
-.ends
-
-  ROMPosition $3494
-.section "Spell blank line - addition" overwrite
-; Originally t2b_3.asm
-; Spell selection blank line drawer
-; - addition
-
-Add16:
-  ; hl = (a-1) * de
-  ld h,0
-  ld l,h
-
--:dec a       ; loop
-  jr z,+      ; TODO: could ret z
-  add hl,de   ; skip menu
-  jr -
-
-+:ret
 .ends
 
   PatchB $35d4 $0c  ; - height
 
-  ROMPosition $3516
-.section "Stats menu part 1" overwrite
-Level: .dwm Text "|Level   "
-MST:   .dwm Text "|MST    "
+.bank 0 slot 0
+.section "Stats menu part 1" free
+; The width of these is important
+Level: .dwm TextToTilemap "|Level   " ; 3 digit number
+MST:   .dwm TextToTilemap "|MST   "   ; 5 digit number
 .ends
 
   PatchW $3911 Level  ; - LV source
   PatchW $36e7 MST    ; - MST source
 
-  ROMPosition $3982
-.section "Stats menu part 2" overwrite
-EXP:      .dwm Text "|EXP     "
-Attack:   .dwm Text "|Attack  "
-Defense:  .dwm Text "|Defense "
-MaxHP:    .dwm Text "|Max HP  "
-MaxMP:    .dwm Text "|Max MP   " ; TODO extra space here
+.bank 0 slot 0
+.section "Stats menu part 2" free
+; The width of these is important
+EXP:      .dwm TextToTilemap "|Exp.  "   ; 5 digit number
+Attack:   .dwm TextToTilemap "|Attack  " ; 3 digit numbers
+Defense:  .dwm TextToTilemap "|Defense "
+MaxHP:    .dwm TextToTilemap "|Max HP  "
+MaxMP:    .dwm TextToTilemap "|Max MP  "
 .ends
 
   PatchW $391a EXP    ; - EXP source
-  PatchB $31a3 $0e    ; - width * 2 - TODO use _sizeof_EXP
-  PatchB $36dd $0e
+  PatchB $31a3 _sizeof_EXP ; size
+  PatchB $36dd _sizeof_EXP
 
   PatchW $392f Attack   ; - Attack source
   PatchW $3941 Defense  ; - Defense source
@@ -2193,7 +2013,7 @@ MaxMP:    .dwm Text "|Max MP   " ; TODO extra space here
 
   PatchW $3a40 $784c    ; Shop inventory VRAM
 
-  PatchB $3b58 $11      ; Hapsby travel (bank)
+  PatchB $3b58 :MenuData ; Hapsby travel (bank)
   PatchW $3b63 $7b2a    ; - VRAM cursor
   PatchW $3b4f $7aea    ; - move window down 1 tile
   PatchW $3b76 $7aea
@@ -2202,8 +2022,8 @@ MaxMP:    .dwm Text "|Max MP   " ; TODO extra space here
   PatchW $3829 $7a88
   PatchW $386e $7a88
 
-  ROMPosition $5aadc
-.section "Opening cinema" overwrite
+.bank 2
+.section "Opening cinema" superfree
 Opening:
 .include "menu_creater/opening.asm"
 .ends
@@ -2212,43 +2032,37 @@ Opening:
 
   PatchB $45d7 :Opening ; - source bank
 
-; relocate Tarzimal's tiles (bug in 1.00-1.01 caused by larger magic menus)
+
+; relocate Tarzimal's tiles
+
+.slot 2
+.section "Tarzimal tiles" superfree
+TilesTarzimal: CopyFromOriginal $4794a 1691
+.ends
+
 ; rewire pointer to them
   PatchB $ccaf :TilesTarzimal
   PatchW $ccb0 TilesTarzimal
 
 
-  ROMPosition $2fe3e 1
-.section "scripting code" overwrite
+.slot 1
+.section "Scripting code" superfree
 ; Originally t2a.asm
 ; Item window drawer (generic)
 
 inventory:
   ld b,8    ; 8 items total
 
-_next_item:
-  push bc
+-:push bc
   push hl
 
     di
-      ld a,$7f000/$4000 ; move to page 0
-      ld ($fff0),a
-
-; FIX: I've changed this to not use paging in slot 0 because too many
-; emulators, and the GG/SMSPro flash carts, don't support it.
-; Rather than fix up a load of references, I've instead left these in
-; taking space but harmlessly writing to $fff0 instead.
-; TODO: fix this!
-
       ld a,(hl)   ; grab item #
       ld hl,Items   ; table start
 
       push de
         call DictionaryLookup    ; copy string to RAM ; changed address
       pop de
-
-      ld a,$00    ; reload page 0
-      ld ($fff0),a
     ei
 
     ld hl,TEMP_STR    ; start of text
@@ -2263,7 +2077,7 @@ _next_item:
   pop bc
 
   inc hl      ; next item
-  djnz _next_item
+  djnz -
 
   ret
 ; ________________________________________________________
@@ -2271,15 +2085,11 @@ _next_item:
 shop:
   ld b,3    ; 3 items total
 
-_next_shop:
-  push bc
+-:push bc
   push hl
 
     di
-      ld a,$7f000/$4000 ; move to page 0
-      ld ($fff0),a
-
-      ld a,$03    ; shop bank
+      ld a,3 ; Shop data bank
       ld (PAGING_SLOT_2),a
 
       ld a,(hl)   ; grab item #
@@ -2289,9 +2099,6 @@ _next_shop:
       push de
         call DictionaryLookup    ; copy string to RAM
       pop de
-
-      ld a,$00    ; reload page 0
-      ld ($fff0),a
     ei
 
     ld hl,TEMP_STR    ; start of text
@@ -2304,7 +2111,7 @@ _next_shop:
       call _shop_price
     pop de
     pop hl
-    ld a,$02    ; restore page 2
+    ld a,2    ; restore page 2
     ld (PAGING_SLOT_2),a
 
     call _start_write
@@ -2322,28 +2129,22 @@ _next_shop:
   inc hl      ; next item
   inc hl
   inc hl
-  djnz _next_shop
+  djnz -
 
   ret
 
 
 enemy:
   di
-    ld a,$7f000/$4000 ; move to page 0
-    ld ($fff0),a
-
-    ld a,$03    ; shop bank
+    ld a,3    ; enemy data bank
     ld (PAGING_SLOT_2),a
 
-    ld a,($c2e6)    ; grab enemy #
+    ld a,(EnemyIndex)    ; grab enemy #
     ld hl,Enemies   ; table start
 
     push de
       call DictionaryLookup    ; copy string to RAM
     pop de
-
-    ld a,$00    ; reload page 0
-    ld ($fff0),a
   ei
 
   ld hl,TEMP_STR    ; start of text
@@ -2362,15 +2163,11 @@ enemy:
 equipment:
   ld b,3    ; 3 items total
 
-_next_equipment:
-  push bc
+-:push bc
   push hl
 
     di
-      ld a,$7f000/$4000 ; move to page 0
-      ld ($fff0),a
-
-      ld a,$03    ; shop bank
+      ld a,3    ; data bank
       ld (PAGING_SLOT_2),a
 
       ld a,(hl)   ; grab item #
@@ -2379,9 +2176,6 @@ _next_equipment:
       push de
         call DictionaryLookup    ; copy string to RAM
       pop de
-
-      ld a,$00    ; reload page 0
-      ld ($fff0),a
     ei
 
     ld hl,TEMP_STR    ; start of text
@@ -2396,7 +2190,7 @@ _next_equipment:
   pop bc
 
   inc hl      ; next item
-  djnz _next_equipment
+  djnz -
 
   ret
 
@@ -2408,12 +2202,12 @@ _start_write:
 
       push af     ; Delay
       pop af
-      ld a,$f3    ; left border
+      ld a,$f3    ; border
       out ($be),a
 
       push af     ; Delay
       pop af
-      ld a,$11    ; Top border?
+      ld a,$11    ; MSB for left border
       out ($be),a
 
       ld a,(LEN)    ; string length
@@ -2436,14 +2230,14 @@ _read_byte:
 _space:
       jr z,_blank_line    ; non-narrative WS
 
+      ; These correspond to the control codes in the .asciitable, not the ones in the script.
 _newline:
       cp $50      ; pad rest of line with WS
       jr nz,_hyphen
 
-_newline_flush:
-      xor a
+-:    xor a
       call _write_nt
-      djnz _newline_flush
+      djnz -
 
       jr _right_border
 
@@ -2479,12 +2273,12 @@ _right_border:
 
       push af     ; right border
       pop af
-      ld a,$f3
+      ld a,$f3    ; border
       out ($be),a
 
       push af
       pop af
-      ld a,$13
+      ld a,$13    ; hflipped
       out ($be),a
 
     pop de      ; restore stack
@@ -2495,7 +2289,7 @@ _right_border:
       add hl,de   ; save VRAM ptr
       ld (FULL_STR+2),hl
 
-      ld hl,$0040   ; VRAM newline
+      ld hl,32*2  ; VRAM newline
       add hl,de
       ex de,hl
     pop hl
@@ -2532,7 +2326,7 @@ _shop_price:
         ld de,(FULL_STR+2)  ; restore VRAM ptr
         rst $08
 
-        ld a,$03    ; shop bank
+        ld a,3    ; shop data bank
         ld (PAGING_SLOT_2),a
 
         ld hl,(FULL_STR)  ; shop ptr
@@ -2540,18 +2334,17 @@ _shop_price:
         ld a,(hl)   ; check for blank item
         or a
         jr nz,_write_price
-        ld c,$00    ; no price
+        ld c,0    ; no price
 
 _write_price:
         push de     ; parameter
         push hl     ; parameter
           jp $3a9a    ; write price
-
 .ends
 
 
   ROMPosition $3671
-.section "inventory setup code" overwrite
+.section "Inventory setup patch" size 15 overwrite ; not movable
 ; Originally t2a_1.asm
 ; Item window drawer (inventory)
 ; - setup code
@@ -2561,7 +2354,7 @@ _write_price:
 
   call inventory
 
-  ld a,$01    ; old page 1
+  ld a,1
   ld (PAGING_SLOT_1),a
 
   nop
@@ -2571,17 +2364,16 @@ _write_price:
 .ends
 
   ROMPosition $3a1f
-.section "shop setup code" overwrite
+.section "shop setup code" size 23 overwrite ; not movable
 ; Originally t2a_2.asm
 ; Item window drawer (shop)
 ; - setup code
-
   ld a,:shop
   ld (PAGING_SLOT_1),a
 
   call shop
 
-  ld a,$01    ; old page 1
+  ld a,1    ; old page 1
   ld (PAGING_SLOT_1),a
 
   nop
@@ -2599,7 +2391,7 @@ _write_price:
 .ends
 
   ROMPosition $3279
-.section "enemy setup code" overwrite
+.section "enemy setup code" size 18 overwrite ; not movable
 ; Originally t2a_3.asm
 ; Enemy window drawer
 ; - setup code
@@ -2620,7 +2412,7 @@ _write_price:
 .ends
 
   ROMPosition $3850
-.section "equipment setup code" overwrite
+.section "equipment setup code" size 14 overwrite ; not movable
 ; Originally t2a_4.asm
 ; Equipment window drawer
 ; - setup code
@@ -2639,21 +2431,37 @@ _write_price:
 ; Extra scripting
 
   ROMPosition $59bd
-.section "Dezorian string" overwrite
-; Originally t5.asm
-; Extra scripting
-
+.section "Dezorian string" force 
+; In the native Dezorian village, a slight contextual error occurs.
+; 
+; (West) Those guys in the village next to us are all a bunch of liars. Be careful, eh.<wait>
+; (East) The neighboring villagers are all liars. Be careful.<wait>
+; 
+; Both 'West' strings are used. No reference to the 'East' variety is made.
+; A small hack is inserted to catch for 'extra' strings.
+;
+; Note that as the script needs to inject its address into here, we have to ensure its location
+; is fixed, so we can't use a free section. Since we are fixig it, we choose somewhere close
+; to allow us to use jr to jump back to the handlers.
+DezorianCustomStringCheck:
   cp $ff      ; custom string [1E7]
-  jr nz,$59ca-CADDR-1
+  jr nz,$59ca-CADDR-1 ; Where the patched jump went to (shows an error message?)
 
-  ld hl,$0000   ; dummy string, auto-replace
-  jr $59ba-CADDR-1
+  ld hl,$0000   ; String pointer is patched by script.asm, needs to match the address this ends up at...
+  ; [59c1]
+  ; Those guys in the other village are all liars. For real.<wait>
+  jr $59ba-CADDR-1 ; DrawText20x6
 .ends
 
-  PatchB $eec9 $ff      ; - scripting code
-  PatchW $49b0 $59bd    ; - JP NC,$59bd
+  PatchB $eec9 $ff      ; - insert $ff scripting code into data
+  PatchW $49b0 DezorianCustomStringCheck ; Patch to jump to extra code
 
 ; Window RAM cache
+; When showing "windows", the game copies the tilemap data to RAM so it can restore the
+; background when the window closes. The windows thus need to (1) close in reverse opening order
+; and (2) use non-overlapping areas of this cache.
+; The total number of windows exceeds the cache size, so it is a careful act to select the right
+; addresses.
 
   PatchW $3788 $de60    ; #5  - Choose player
   PatchW $37de $de60
@@ -2694,46 +2502,46 @@ _write_price:
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
 
-  ROMPosition $0000f
-.section "Newline patch" overwrite
+.bank 0 slot 0
+.section "Newline patch" free
 ; Originally tx1.asm
 ; Text window drawer multi-line handler
 
 newline:
-    ld b,$12 ; reset x counter                              ; 06 xx
-    inc hl   ; move pointer to next byte                    ; 23
-    ld a,c   ; get line counter                             ; 79
-    or a     ; test for c==0                                ; b7
-    jr nz,_not_zero                                         ; xx xx
+    ld b,$12 ; reset x counter
+    inc hl   ; move pointer to next byte
+    ld a,c   ; get line counter                             ;
+    or a     ; test for c==0
+    jr nz,_not_zero
     ; zero: draw on 2nd line
-    ld de,$7d0e                                             ; xx xx xx
+    ld de,$7d0e ; VRAM address
 _inc_and_finish:
-    inc c                                                   ; xx
-    jp InGameTextDecoder                                    ; xx xx xx
+    inc c
+    jp InGameTextDecoder
 _not_zero:
-    dec a    ; test for c==1                                ; 3d
-    jr nz,_not_one                                          ; xx xx
+    dec a    ; test for c==1
+    jr nz,_not_one
     ; one: draw on 3rd
 _draw_3rd_line:
-    ld de,$7d4e                                             ; xx xx xx
-    jr _inc_and_finish                                      ; xx xx
+    ld de,$7d4e ; VRAM address
+    jr _inc_and_finish
 _not_one:
-    dec a    ; test for c==2                                ; 3d
-    jr nz,_not_two                                          ; xx xx
+    dec a    ; test for c==2
+    jr nz,_not_two
     ; two: draw on 4th
 _draw_4th_line:
-    ld de,$7d8e                                             ; xx xx xx
-    jr _inc_and_finish                                      ; xx xx
+    ld de,$7d8e
+    jr _inc_and_finish
 _not_two:
     ; three: scroll, draw on 4th line
-    call $3546 ; scroll                                     ; xx xx xx ; TODO: label
-    dec c      ; cancel increment                           ; xx
-    jr _draw_4th_line                                       ; xx xx
+    call $3546 ; _ScrollTextBoxUp2Lines (see patch below reduces it to one)
+    dec c      ; cancel increment
+    jr _draw_4th_line
 .ends
 
   ROMPosition $3397
 .section "Newline patch trampoline" overwrite
-  jp $000f
+  jp newline
 .ends
 
   ROMPosition $354c
@@ -2759,8 +2567,8 @@ _not_two:
 
 ; Savegame name entry screen hacking ---------------------------------------------
 ; compressed tile data (low byte only) for name entry screen
-  ROMPosition $3f02
-.section "Name entry tilemap data" overwrite
+.bank 0 slot 0
+.section "Name entry tilemap data" free
 NameEntryTiles:
 ; Custom format...
 ; %0nnnnnnn $xx = $xx n times
@@ -2796,63 +2604,78 @@ NameEntryTiles:
 .db $00 ; Terminator
 .ends
 
-  PatchW $42cd NameEntryTiles ; rewire pointer
+  ROMPosition $42cc
+.section "Patch name entry tiles pointer" overwrite ; not movable
+  ld hl,NameEntryTiles ; rewire pointer
+.ends
 
 ; "Enter your name" text at the top of the screen
-  ROMPosition $4059
-.section "Enter your name text" overwrite
+.bank 1 slot 1 ; can be 0 or 1
+.section "Enter your name text" free
 EnterYourName:
-.dwm Text "Enter your name:"
+.dwm TextToTilemap "Enter your name:"
 .ends
 
-  PatchW $41c5 EnterYourName ; rewire pointer
-  PatchW $41cb $0120   ; bc parameter = bytes per line, number of lines
-  PatchW $41d2 $7850   ; de parameter = where to draw (8,1)
-  PatchB $41d6 $28     ; change function call to full raw tilemap drawer
+  ROMPosition $41c4
+.section "Enter your name pointer patch" overwrite ; not movable
+  ld hl,EnterYourName ; rewire pointer (space used for scene data lookup)
+  ld ($c781),a        ; unchanged
+  ld bc, $0120        ; bytes per line, number of lines
+  xor a
+  ld ($c210),a        ; Tilemap high byte (unchanged)
+  ld de, $7850        ; where to draw (8,1)
+  di
+  call $0428 ; OutputTilemapRawDataBox ; change function call to full raw tilemap drawer
+.ends
 
-  PatchW $41e4 $3f3a   ; subvert call to output TileMapData to the screen
+  ROMPosition $41e3
+.section "Name entry punctuation hook" overwrite ; not movable
+  ; We patch a call here to minimise the patch size
+  call DrawExtendedCharacters
+.ends
 
-  ROMPosition $3f3a
-.section "Name entry screen extended characters" overwrite
+.bank 0 slot 0 ; can be 0 or 1
+.section "Name entry screen extended characters" free
 ; Originally tx4.asm
 ; Name entry screen patch to draw extended characters
-
-; OutputTilemapRawDataBox: ; $0428
-; So hl = tilemap data (both bytes)
-; b = height /tiles
-; c = 2*width /tiles
-; de = VRAM location
-
-    call $03de  ; the call I stole to get here
+DrawExtendedCharacters:
+    call $03de ; OutputToVRAM ; the call I stole to get here
     ld bc,$010e ; 14 bytes per row, 1 row
     ld de,$7bec ; Tilemap location 22,15
-    ld hl,data
-    call OutputTilemapRawDataBox  ; output raw tilemap data
+    ld hl,_punctuation
+    call $0428 ; OutputTilemapRawDataBox  ; output raw tilemap data
     ret
 
-data:
-.dwm TextLowPriority ",:-!?`'"
+_punctuation:
+.dwm TextToTilemap ",:-!?`'"
 
 .ends
+
+.define NameEntryMinX $18
+.define NameEntryMinY $60
+.define NameEntryTableWidth 26 ; letters
+.define NameEntryTableHeight 4 ; rows
+.define NameEntryMaxX NameEntryMinX + (NameEntryTableWidth - 1) * 8
+.define NameEntryMaxY NameEntryMinY + (NameEntryTableHeight - 1) * 16 ; double-spaced
 
   ROMPosition $4221
-.section "Name entry cursor initial data" overwrite
-.db $18, $60 ; x, y in screen coordinates
-.dw $d30a ; x, y in RAM (?)
-.db $0b ; pointed value is 'A'
+.section "Name entry cursor initial data" overwrite ; not movable
+.db NameEntryMinX, NameEntryMinY ; x, y in screen coordinates
+.dw $d30a ; x, y in RAM tilemap cache
+.asc "A" ; pointed value
 .ends
 
-  PatchB $4130 $18 ; min sprite x
-  PatchB $40eb $e0 ; max sprite x
-  PatchB $4102 $60 ; min sprite y
-  PatchB $4119 $90 ; max sprite y
+  PatchB $4130 NameEntryMinX
+  PatchB $40eb NameEntryMaxX
+  PatchB $4102 NameEntryMinY
+  PatchB $4119 NameEntryMaxY
 
-  PatchB $4344 $1a ; width of lookup table
-  PatchB $4342 $04 ; height of lookup table - width*height<=126
-  PatchB $434e $4c ; width complement, = $80-(4344)*2
+  PatchB $4344 NameEntryTableWidth ; width of lookup table
+  PatchB $4342 4 ; height of lookup table - width*height<=126
+  PatchB $434e (32*2 - NameEntryTableWidth)*2 ; width complement
 
-  ROMPosition $448e
-.section "Save lookup" overwrite
+.bank 1 slot 1 ; can be 0 or 1
+.section "Save lookup" free
 SaveLookup:
 ; Character found at each location in the name entry screen
 ; A-Z
@@ -2882,12 +2705,18 @@ SaveLookup:
 ; 4-sprite cursor hack
 ; 1. Extra y coordinates
   ROMPosition $4243
-.section "Name entry 4-sprite cursor trampoline" overwrite
+.section "Name entry 4-sprite cursor trampoline" size 4 overwrite ; not movable
+; Original code:
+; inc e
+; ld (de),a
+; inc e
+; ld (de),a
   call NameEntryCursor
   nop ; to fill space for patch
 .ends
-  ROMPosition $4a7
-.section "Name entry 4-sprite cursor hack" overwrite
+
+.bank 1 slot 1 ; can be 0 or 1
+.section "Name entry 4-sprite cursor hack" free
 NameEntryCursor:
   inc e
   ld (de),a
@@ -2896,7 +2725,6 @@ NameEntryCursor:
   inc e
   ld (de),a
   ret
-  ret ; TODO: remove this. Needed to match a bug in 0.92.
 .ends
 
 ; 2. Extra x coords and tile indices
@@ -2905,8 +2733,8 @@ NameEntryCursor:
   PatchB $425c $c6 ; sub nn -> add a,nn
 
 ; Text drawing as you enter your name
-  ROMPosition $429b
-.section "Drawing to RAM as you enter" overwrite
+.bank 1 slot 1 ; can be 0 or 1
+.section "Drawing to RAM as you enter" free
 ; Originally tx2.asm
 ; Name entry screen patch for code that writes to the in-RAM name table copy
 
@@ -2946,11 +2774,10 @@ WriteLetterIndexAToDE: ; $429b
 ; End patch
   pop hl
   ret
-
 .ends
 
   ROMPosition $42b5
-.section "Drawing to screen as you enter" overwrite
+.section "Drawing to screen as you enter" force ; not movable (without patching calls)
 ; Originally tx3.asm
 ; Name entry screen patch for code that writes to the in-RAM name table copy
 
@@ -2993,99 +2820,91 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 .section "Credits" force ; not movable
 CreditsData:
 .dw CreditsScreen1, CreditsScreen2, CreditsScreen3, CreditsScreen4, CreditsScreen5, CreditsScreen6, CreditsScreen7, CreditsScreen8, CreditsScreen9, CreditsScreen10, CreditsScreen11, CreditsScreen12, CreditsScreen13, CreditsScreen14
+
 .macro CreditsEntry args x, y, text
 .dw $d000 + ((y * 32) + x) * 2
 .db text.length, text
 .endm
-CreditsScreen1:
-.db 1
+
+CreditsScreen1: .db 1 ; entry count
   CreditsEntry 13,10,"STAFF"
-CreditsScreen2:
-.db 3
+CreditsScreen2: .db 3
   CreditsEntry 5,5,"TOTAL"
   CreditsEntry 6,7,"PLANNING"
   CreditsEntry 17,6,"OSSALE KOHTA"
-CreditsScreen3:
-.db 5
+CreditsScreen3: .db 5
   CreditsEntry 6,5,"SCENARIO"
   CreditsEntry 7,7,"WRITER"
   CreditsEntry 17,6,"OSSALE KOHTA"
   CreditsEntry 9,15,"STORY"
   CreditsEntry 17,15,"APRIL FOOL"
-CreditsScreen4:
-.db 4
+CreditsScreen4: .db 4
   CreditsEntry 4,5,"ASSISTANT"
   CreditsEntry 3,7,"COORDINATORS"
   CreditsEntry 10,11,"OTEGAMI CHIE"
   CreditsEntry 18,15,"GAMER MIKI"
-CreditsScreen5:
-.db 5
+CreditsScreen5: .db 5
   CreditsEntry 3,6,"TOTAL DESIGN"
   CreditsEntry 18,6,"PHOENIX RIE"
   CreditsEntry 5,14,"MONSTER"
   CreditsEntry 7,16,"DESIGN"
   CreditsEntry 17,15,"CHAOTIC KAZ"
-CreditsScreen6:
-.db 3
+CreditsScreen6: .db 3
   CreditsEntry 8,6,"DESIGN"
   CreditsEntry 9,10,"ROCKHY NAO"
   CreditsEntry 17,15,"SADAMORIAN"
-CreditsScreen7:
-.db 4
+CreditsScreen7: .db 4
   CreditsEntry 8,6,"DESIGN"
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8:
-.db 4
+CreditsScreen8: .db 4
   CreditsEntry 9,6,"SOUND"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,15,"SOFT CHECK"
   CreditsEntry 18,15,"WORKS NISHI"
-CreditsScreen9:
-.db 5
+CreditsScreen9: .db 5
   CreditsEntry 3,5,"ASSISTANT"
   CreditsEntry 4,7,"PROGRAMMERS"
   CreditsEntry 9,10,"COM BLUE"
   CreditsEntry 4,15,"M WAKA"
   CreditsEntry 19,15,"ASI"
-CreditsScreen10:
-.db 2
+CreditsScreen10: .db 2
   CreditsEntry 2,6,"MAIN PROGRAM"
   CreditsEntry 17,6,"MUUUU YUJI"
-CreditsScreen11:
-.db 1
+CreditsScreen11: .db 1
   CreditsEntry 9,10,"RETRANSLATION"
-CreditsScreen12:
-.db 4
+CreditsScreen12: .db 4
   CreditsEntry 3,6,"WORDS"
   CreditsEntry 10,10,"PAUL JENSEN"
   CreditsEntry 2,15,"FRANK CIFALDI"
   CreditsEntry 18,15,"SATSU"
-CreditsScreen13:
-.db 3
+CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
-  CreditsEntry 11,10,"Z[\ GAIDEN"
+  CreditsEntry 11,10,"Z[\ GAIDEN" ; numbers are in a funny place
   CreditsEntry 9,15,"MAXIM"
-CreditsScreen14:
-.db 3
+CreditsScreen14: .db 3
   CreditsEntry 10,10,"PRESENTED BY"
   CreditsEntry 10,15,"SEGA"
   CreditsEntry 18,15,"SMS POWER"
 .ends
 
-  ROMPosition $488c
-.section "Credits hack" overwrite
+  ROMPosition $488a
+.section "Credits hack" overwrite ; not movable
+  ld (hl),:CreditsFont
   ld hl,$5820 ; VRAM address
   ld de,CreditsFont
   call LoadTiles
 .ends
 
-  ROMPosition $3fdee
-  Bin CreditsFont "psg_encoder/font3.psgcompr" ; not movable without patching bank number
+.slot 2
+.section "Credits font" superfree
+CreditsFont:
+.incbin "new_graphics/font3.psgcompr"
+.ends
 
   ROMPosition $00056
-.section "HALT on idle polling loop" force ; free
+.section "HALT on idle polling loop" force ; not movable
 ExecuteFunctionIndexAInNextVBlank ; $0056
 ; Was:
 ;  ld (VBlankFunctionIndex),a
@@ -3103,21 +2922,22 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
 .ends
 
   ROMPosition $00066
-.section "Press Pause on the title screen to toggle PSG/FM - trampoline" overwrite
-  ; There are 3 spare bytes at $66 that I can use. 
+.section "Press Pause on the title screen to toggle PSG/FM - trampoline" overwrite ; not movable
+  ; There are 3 spare bytes at $66 that I can use.
   ; I move the following two opcodes up (as I need them anyway) and then call my handler...
   push af
     ld a,(FunctionLookupIndex)
     call PauseFMToggle
 .ends
 
-  ROMPosition $3f58
-.section "Press Pause on the title screen to toggle PSG/FM - implementation" force ; free
+.bank 0 slot 0 ; can be 0 or 1
+.section "Press Pause on the title screen to toggle PSG/FM - implementation" free
 PauseFMToggle:
   cp 3          ; Indicates we are on the title screen
   ret nz
+  ; We make no attempt to preserve FunctionLookupIndex on return (TODO?)
   ld a,(IntroState)
-  cp $ff
+  cp $ff        ; could inc a to save a byte
   ret z         ; Intro started
   ; Toggle FM bit
   ld a,(HasFM)
@@ -3133,19 +2953,219 @@ PauseFMToggle:
   PatchW $1808 0
   PatchB $180a 0 ; found treasure chest/display/wait/do you want to open it?
 
-  ROMPosition $8cd4
-.section "Script" force ; free
-.include "script_inserter/script.asm" ; closes the section
+; The font lookup, Huffman bits and script all share a bank as they are needed at the same time.
+.bank 2 slot 2
 
-; Bug matching: throwaway patch offsets went here
-  ROMPosition $7fee
-.section "Silly bug" overwrite
-.dw $0c18
+.section "Font lookup" free
+FontLookup:
+; This is used to convert text from the game's encoding (indexing into ths area) to name table entries. The extra spaces are unused (and could be repurposed?).
+.dwm TextToTilemap " 0123456789"
+.dwm TextToTilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+.dwm TextToTilemap "abcdefghijklmnopqrstuvwxyz"
+.dwm TextToTilemap ".:`',  -!?               "
 .ends
 
-; checksum (needs changing whenever anything changes)
-  PatchW $7ffa $d6ac
-; Can be replaced with:
-;.computesmschecksum
-; ...when we are happy to let WLA DX default to a smaller checksum range.
+; Both the trees and script entries could be micro-sections but they need to share a bank, 
+; and it's pretty empty, so we don't get any benefit to split them up.
+.section "Script and Huffman trees" free
+.block "Script"
+HuffmanTrees:
+.include "script_inserter/tree.asm"
+.include "script_inserter/script.asm"
+.endb
+.ends
 
+.section "Decoder init" free ; same bank as script
+DecoderInit:
+; Semi-adaptive Huffman decoder
+; - Init decoder
+; This is called from various places where the game wants to draw text. We:
+; - page some code into slot 1
+; - init the Huffman decoding state
+; - determine which place we were called from and implement the patched-over code,
+;   plus some context-specific state.
+; - call into the code following the patch point, which will call into other text-decoding functions
+; - then restore slot 1
+
+  push af     ; Save routine selection
+
+    ld a,:AdditionalScriptingCodes
+    ld (PAGING_SLOT_1),a
+
+    ld a,SymbolEnd    ; Starting tree symbol
+    ld (TREE),a
+
+    ld a,1<<7    ; Initial tree barrel
+    ld (BARREL),a
+
+    ld (SCRIPT),hl    ; Beginning script offset
+
+    xor a     ; A = $00
+    ld (POST_LEN),a   ; No post hints
+    ld (LINE_NUM),a   ; No lines drawn
+    ld (FLAG),a   ; No wait flag
+    ld (ARTICLE),a    ; No article usage
+    ld (SUFFIX),a   ; No suffix flag
+
+  pop af
+
+  ; Now we detect what we need to do to recover from the patch to get here...
+  or a
+  jr nz,+
+
+CutsceneClear:
+  ; a = 0: Cutscene handler
+  ; Patched-over code
+  ld de,$7c42   ; VRAM address - modified
+  ld bc,$0000
+  ; Context-specific state
+  ld a,6        ; Line count
+  ld (VLIMIT),a
+  ; Call back to patch location
+  xor a ; unnecessary?
+  call CutsceneNarrativeInitOriginalCode
+  jr ++
+
++:; a = 1: in-game dialog
+  ; Context-specific state
+  ld a,4        ; Line count
+  ld (VLIMIT),a
+  ; Patched-over code
+  ld a,($c2d3)  ; Old code
+  or a          ; Done second as the flags from this test are what matters
+  ; Call back to patch location
+  call InGameNarrativeInitOriginalCode
+
+++:
+  ld a,1    ; Restore slot 1
+  ld (PAGING_SLOT_1),a
+
+  ret
+
+.ends
+
+.section "SFG decoder" free ; same bank as script
+SFGDecoder:
+; Originally t4a.asm
+; Semi-adaptive Huffman decoder
+; - Shining Force Gaiden: Final Conflict
+
+; Start of decoder
+
+; Note:
+; The Z80 uses one set of registers for decoding the Huffman input data
+; The other context is used to traverse the Huffman tree itself
+
+; Encoded Huffman data is in page 2
+
+; Huffman tree data is in page 2
+; The symbols for the tree are stored in backwards linear order
+
+  push hl
+
+    ld hl,(SCRIPT)    ; Set Huffman data location
+    ld a,(BARREL)   ; Load Huffman barrel
+
+    ex af,af'   ; Context switch to tree mode
+    exx
+      ld a,(TREE)   ; Load in tree / last symbol
+
+      push af
+        ld bc,HuffmanTrees    ; Set physical address of tree data
+        ld h,0      ; 8 -> 16
+        ld l,a
+        add hl,hl   ; 2-byte indices
+        add hl,bc   ; add offset
+
+        ld a,(hl)   ; grab final offset
+        inc hl
+        ld h,(hl)
+        ld l,a
+      pop af
+
+      ld a,$80    ; Initialise the tree barrel data
+      ld d,h      ; Point to symbol data
+      ld e,l
+      dec de      ; Symbol data starts one behind the tree
+
+      jr _Tree_Shift1    ; Grab first bit
+
+_Tree_Mode1:
+    ex af,af'   ; Context switch to tree mode
+    exx
+
+_Tree_Shift1:
+      add a,a     ; Shift out next tree bit to carry flag
+      jr nz,+     ; Check for empty tree barrel
+
+      ld a,(hl)   ; Shift out next tree bit to carry flag
+      inc hl      ; Bump tree pointer
+
+      adc a,a     ; Note: We actually shift in a '1' by doing this! Clever trick to use all 8 bits for tree codes
+
++:    jr c,_Decode_Done ; 0 -> tree node = continue looking
+                        ; 1 -> root node = symbol found
+
+    ex af,af'   ; Switch to Huffman data processing = full context switch
+    exx
+
+    add a,a     ; Read in Huffman bit
+    jr nz,_Check_Huffman1  ; Check Huffman barrel status
+
+    ld a,(hl)   ; Reload 8-bit Huffman barrel
+    inc hl      ; Bump Huffman data pointer
+    adc a,a     ; Re-grab bit
+
+_Check_Huffman1:
+    jr nc,_Tree_Mode1  ; 0 -> travel left, 1 -> travel right
+
+    ex af,af'   ; Switch back to tree mode
+    exx
+
+      ld c,1    ; Start counting how many symbols to skip in the linear list since we are traversing the right sub-tree
+
+_Tree_Shift2:
+      add a,a     ; Check if tree data needs refreshing
+      jr nz,_Check_Tree2
+
+      ld a,(hl)   ; Refresh tree barrel again
+      inc hl      ; Bump tree pointer
+      adc a,a     ; Grab new tree bit
+
+_Check_Tree2:
+      jr c,_Bump_Symbol  ; 0 -> tree, 1 -> symbol
+
+      inc c     ; Need to bypass one more node
+      jr _Tree_Shift2    ; Keep bypassing symbols
+
+_Bump_Symbol:
+      dec de      ; Bump pointer in symbol list backwards
+      dec c     ; One less node/symbol to skip
+
+      jr nz,_Tree_Shift2 ; Check for full exhaustion of left subtree nodes
+
+      jr _Tree_Shift1    ; Need status of termination
+
+_Decode_Done:
+    ld a,(de)   ; Find symbol
+    ld (TREE),a   ; Save decoded byte
+
+    ex af,af'   ; Go to Huffman mode
+    exx
+      ld (SCRIPT),hl    ; Save script pointer
+      ld (BARREL),a   ; Save Huffman barrel
+    ex af,af'   ; Go to Tree mode
+    ; no need to exx again
+
+  pop hl      ; Restore stack and exit
+  ret
+.ends
+
+.include "script_inserter/script-patches.asm"
+
+.smsheader
+   productcode 00, 95, 0 ; 9500
+   version 3 ; 1.03 :)
+   regioncode 4
+   reservedspace $ff, $ff
+.endsms

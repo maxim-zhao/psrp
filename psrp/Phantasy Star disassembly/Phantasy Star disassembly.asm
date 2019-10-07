@@ -6844,6 +6844,85 @@ TileNumberLookup:      ; $8000
 .include "text\text1.inc"
 .ends
 .orga $bf9c
+.section "Item metadata" overwrite
+ItemMetadata:
+; %765432tt
+;  ||||  ``- Item type: 0 = weapon, 1 = armour, 2 = shield
+;  ````----- Equippable by player bits. Zero if equippable. Noah - Odin - Myau - Alis
+
+.define ItemMetadata_Weapon %00
+.define ItemMetadata_Armour %01
+.define ItemMetadata_Shield %10
+.db $00 ; blank
+; Weapons
+.db %11010000 ; Wood Cane - Myau?
+.db %11010000 
+.db %01010000
+.db %11010000
+.db %00100000
+.db %01000000
+.db %01010000
+.db %01010000
+.db %01000000
+.db %00100000
+.db %01000000
+.db %01010000
+.db %01000000
+.db %01010000
+.db %01000000
+; Armour
+.db %01010001
+.db %10000001
+.db %01010001
+.db %01000001
+.db %00100001
+.db %01010001
+.db %01010001
+.db %01000001
+.db %10000001
+; Shields
+.db %01010010
+.db %01000010
+.db %01010010
+.db %01010010
+.db %00100010
+.db %11010010
+.db %01000110
+.db %01010010
+; Vehicles
+.db $04
+.db $04
+.db $04
+; Items
+.db $00
+.db $00
+.db $00
+.db $00
+.db $00
+.db $00
+.db $00
+.db $04 ; Polymeteral
+.db $00
+.db $04 ; Telepathy Ball
+.db $00
+.db $04
+.db $04
+.db $04
+.db $04
+.db $04
+.db $00
+.db $04
+.db $00
+.db $04
+.db $04
+.db $00
+.db $04
+.db $00
+.db $00
+.db $00
+.db $04
+.db $00
+.ends
 
 
 ;=======================================================================================================

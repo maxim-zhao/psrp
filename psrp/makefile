@@ -33,7 +33,7 @@ substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
   $(CPP) $(CPPFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
 
 substring_formatter\words.tbl substring_formatter\words.asm: substring_formatter\substring_formatter.exe word_count\words.txt
-	substring_formatter\substring_formatter.exe 0x80 word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
+	substring_formatter\substring_formatter.exe 164 word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
 
 # bitmap_decode
 # Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
@@ -43,67 +43,54 @@ BITMAP_DECODE = bitmap_decode\bitmap_decode.exe
 $(BITMAP_DECODE) : bitmap_decode\*.cpp
   $(CPP) $(CPPFLAGS) bitmap_decode\*.cpp /Fe:$(BITMAP_DECODE)
 
-psg_encoder\bg1.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40020 $@
-psg_encoder\bg2.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40f36 $@
-psg_encoder\bg3.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 41c82 $@
-psg_encoder\bg5.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 43406 $@
-psg_encoder\bg8.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 44650 $@
-psg_encoder\bg9.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 457d4 $@
-psg_encoder\bg10.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 464c1 $@
-psg_encoder\bg11.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 46f68 $@
-psg_encoder\bg13.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5ac8d $@
-psg_encoder\bg14.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 2c010 $@
-psg_encoder\bg16.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5eb6f $@
-psg_encoder\bg29.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 27b24 $@
-psg_encoder\bg30.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 524ea $@
-psg_encoder\bg31.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 4c010 $@
-#psg_encoder\title.bin : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 7e8bd $@ # Replaced with a custom image
-psg_encoder\world1.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 747b8 $@
-psg_encoder\world2.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 58570 $@
+new_graphics\bg1.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40020 $@
+new_graphics\bg2.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40f36 $@
+new_graphics\bg3.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 41c82 $@
+new_graphics\bg5.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 43406 $@
+new_graphics\bg8.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 44650 $@
+new_graphics\bg9.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 457d4 $@
+new_graphics\bg10.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 464c1 $@
+new_graphics\bg11.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 46f68 $@
+new_graphics\bg13.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5ac8d $@
+new_graphics\bg14.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 2c010 $@
+new_graphics\bg16.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5eb6f $@
+new_graphics\bg29.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 27b24 $@
+new_graphics\bg30.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 524ea $@
+new_graphics\bg31.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 4c010 $@
+new_graphics\world1.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 747b8 $@
+new_graphics\world2.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 58570 $@
 
 
 # tile conversion from PNG
 # This is for "original" graphics.
-new_graphics\font1.bin: new_graphics\font1.png
-	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
+new_graphics\font1.psgcompr: new_graphics\font1.png
+	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
-new_graphics\font2.bin: new_graphics\font2.png
-	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
+new_graphics\font2.psgcompr: new_graphics\font2.png
+	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
-new_graphics\font3.bin: new_graphics\font3.png
-	new_graphics\bmp2tile.exe $** -4bit -noremovedupes -savetilesbin $@ -exit
+new_graphics\font3.psgcompr: new_graphics\font3.png
+	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
-# TODO newer BMP2Tile can compress better and directly to the targeted compression format.
-new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin: new_graphics\titlescreen.png
-	new_graphics\bmp2tile.exe $** -4bit -savetilesbin new_graphics\title.bin -savetilemappscompr new_graphics\title-nt.bin -palsms -savepalettebin new_graphics\title-pal.bin -exit
+new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.png
+	new_graphics\bmp2tile.exe $** -savetiles new_graphics\title.psgcompr -savetilemap new_graphics\title-nt.pscompr -palsms -savepalette new_graphics\title-pal.bin
 
-# psg_encoder
-# Encodes tile data to the "PS Gaiden" format - see above.
-PSG_ENCODE = psg_encoder\psg_encoder.exe
-
-$(PSG_ENCODE) : psg_encoder\*.cpp
-  $(CPP) $(CPPFLAGS) psg_encoder\*.cpp /Fe:$(PSG_ENCODE)
-
-psg_encoder\bg1.psgcompr   : $(PSG_ENCODE) psg_encoder\bg1.bin   ;$** $@
-psg_encoder\bg2.psgcompr   : $(PSG_ENCODE) psg_encoder\bg2.bin   ;$** $@
-psg_encoder\bg3.psgcompr   : $(PSG_ENCODE) psg_encoder\bg3.bin   ;$** $@
-psg_encoder\bg5.psgcompr   : $(PSG_ENCODE) psg_encoder\bg5.bin   ;$** $@
-psg_encoder\bg8.psgcompr   : $(PSG_ENCODE) psg_encoder\bg8.bin   ;$** $@
-psg_encoder\bg9.psgcompr   : $(PSG_ENCODE) psg_encoder\bg9.bin   ;$** $@
-psg_encoder\bg10.psgcompr  : $(PSG_ENCODE) psg_encoder\bg10.bin  ;$** $@
-psg_encoder\bg11.psgcompr  : $(PSG_ENCODE) psg_encoder\bg11.bin  ;$** $@
-psg_encoder\bg13.psgcompr  : $(PSG_ENCODE) psg_encoder\bg13.bin  ;$** $@
-psg_encoder\bg14.psgcompr  : $(PSG_ENCODE) psg_encoder\bg14.bin  ;$** $@
-psg_encoder\bg16.psgcompr  : $(PSG_ENCODE) psg_encoder\bg16.bin  ;$** $@
-psg_encoder\bg29.psgcompr  : $(PSG_ENCODE) psg_encoder\bg29.bin  ;$** $@
-psg_encoder\bg30.psgcompr  : $(PSG_ENCODE) psg_encoder\bg30.bin  ;$** $@
-psg_encoder\bg31.psgcompr  : $(PSG_ENCODE) psg_encoder\bg31.bin  ;$** $@
-psg_encoder\title.psgcompr : $(PSG_ENCODE) new_graphics\title.bin ;$** $@
-psg_encoder\world1.psgcompr: $(PSG_ENCODE) psg_encoder\world1.bin;$** $@
-psg_encoder\world2.psgcompr: $(PSG_ENCODE) psg_encoder\world2.bin;$** $@
-psg_encoder\font1.psgcompr : $(PSG_ENCODE) new_graphics\font1.bin ;$** $@
-psg_encoder\font2.psgcompr : $(PSG_ENCODE) new_graphics\font2.bin ;$** $@
-psg_encoder\font3.psgcompr : $(PSG_ENCODE) new_graphics\font3.bin ;$** $@
+new_graphics\bg1.psgcompr   : new_graphics\bg1.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg2.psgcompr   : new_graphics\bg2.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg3.psgcompr   : new_graphics\bg3.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg5.psgcompr   : new_graphics\bg5.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg8.psgcompr   : new_graphics\bg8.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg9.psgcompr   : new_graphics\bg9.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg10.psgcompr  : new_graphics\bg10.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg11.psgcompr  : new_graphics\bg11.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg13.psgcompr  : new_graphics\bg13.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg14.psgcompr  : new_graphics\bg14.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg16.psgcompr  : new_graphics\bg16.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg29.psgcompr  : new_graphics\bg29.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg30.psgcompr  : new_graphics\bg30.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg31.psgcompr  : new_graphics\bg31.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\world1.psgcompr: new_graphics\world1.bin ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\world2.psgcompr: new_graphics\world2.bin ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
 # menu_creater
 
@@ -124,26 +111,24 @@ script_inserter\script_inserter.exe: script_inserter\*.cpp
 script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words.tbl
 	copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
 
-script_inserter\script.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script.txt
-	script_inserter\script_inserter.exe word_count\script.txt script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\tree.asm
+script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe word_count\script.txt
+	script_inserter\script_inserter.exe word_count\script.txt script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
 
 # All files needed for the final ROM
-BINS = psg_encoder\bg1.psgcompr  psg_encoder\bg2.psgcompr  psg_encoder\bg3.psgcompr  psg_encoder\bg5.psgcompr \
-       psg_encoder\bg8.psgcompr  psg_encoder\bg9.psgcompr  psg_encoder\bg10.psgcompr psg_encoder\bg11.psgcompr \
-       psg_encoder\bg13.psgcompr psg_encoder\bg14.psgcompr psg_encoder\bg16.psgcompr psg_encoder\bg29.psgcompr \
-       psg_encoder\bg30.psgcompr psg_encoder\bg31.psgcompr \
-       psg_encoder\world1.psgcompr psg_encoder\world2.psgcompr \
-       psg_encoder\font1.psgcompr psg_encoder\font2.psgcompr psg_encoder\font3.psgcompr \
-       psg_encoder\title.psgcompr new_graphics\title.bin new_graphics\title-nt.bin new_graphics\title-pal.bin \
-       script_inserter\script.asm
+BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.psgcompr  new_graphics\bg5.psgcompr \
+       new_graphics\bg8.psgcompr  new_graphics\bg9.psgcompr  new_graphics\bg10.psgcompr new_graphics\bg11.psgcompr \
+       new_graphics\bg13.psgcompr new_graphics\bg14.psgcompr new_graphics\bg16.psgcompr new_graphics\bg29.psgcompr \
+       new_graphics\bg30.psgcompr new_graphics\bg31.psgcompr \
+       new_graphics\world1.psgcompr new_graphics\world2.psgcompr \
+       new_graphics\font1.psgcompr new_graphics\font2.psgcompr new_graphics\font3.psgcompr \
+       new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin
 
 # ROM building
 ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
-  $(WLALINK) -d -r -v -S -A linkfile "ps1jert.sms"
+  $(WLALINK) -d -r -v -S linkfile "ps1jert.sms"
 
 	@echo Successful: translated file is ps1jert.sms
-  fc /b ps1jert.sms ps1jert.102.sms | more
 
 CLEANFILES = $(BINS) \
 	     menu_creater\*.asm \
@@ -154,7 +139,6 @@ CLEANFILES = $(BINS) \
        word_count\word_count.exe \
        substring_formatter\substring_formatter.exe \
        bitmap_decode\bitmap_decode.exe \
-       psg_encoder\psg_encoder.exe \
        menu_creater\menu_creater.exe \
        script_inserter\script_inserter.exe
 
