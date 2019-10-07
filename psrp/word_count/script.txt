@@ -3,6 +3,9 @@
 ; Special code legend:
 ;
 ; <number> = render a number. Also sets a suffix flag if the number is 0 or >1.
+;   Note that in sevaral places the number is fixed, but it saves quite a few 
+;   bytes to use this tag (and the ones below) rather than include digits in the
+;   text.
 ; <use suffix> = 's' is the suffix flag is set (see above).
 ; <internal hint nn> = word wrapping bug helper. The suffix insertion confuses 
 ;   the wrapper, so add this *before* the space before the word where the 
@@ -298,13 +301,13 @@ Do you know about the planets of Algol?<end>
 ; パルマハ ミドリノホシ.モタビアハ<line>
 ; スナノホシ.デゾリスハ コオリノ<wait more>
 ; ホシジャ.アルゴル タイヨウケイニハキキガ セマッテイルノジャ.<wait>
+; <number> is always 3.
 There are three planets: Palma, Motavia, and Dezoris.<wait more>
 The three planets have a distinct geology.<wait more>
 Palma is a planet of greenery.<line>
 Motavia is a planet of sand.<line>
 Dezoris is a planet of ice.<wait more>
 To tell you the truth, I fear for the future of our planets.<wait>
-
 
 ; **************************
 ; *** Camineet Spaceport ***
@@ -344,6 +347,7 @@ Do you suffer from an illness that may be irritated by travel?<end>
 [4d6c]
 ; テスウリョウ <number>メセタデス.<line>
 ; ヨロシイデスカ.<end>
+; <number> is always 100.
 There is a handling fee of <number><internal hint 02> meseta<use suffix>. Can you pay?<end>
 
 [4d91]
@@ -418,9 +422,10 @@ You can't cross over ant-lions on foot.<wait>
 
 [4e7f]
 ; メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
+; <number> is always 10.
 Ever seen a talking cat before?<wait more>
 Rare. Real rare. One of a kind if I'm not mistaken.<wait more>
-<number> million<internal hint 02> meseta<use suffix>, and it's yours. How 'bout it?<end>
+Ten million mesetas, and it's yours. How 'bout it?<end>
 
 [4e8a]
 ; アンタ ウソツキダネ.<wait>
@@ -1071,8 +1076,9 @@ What? Don't look at me like that.<wait>
 [5201]
 ; コンナトコニ オミセガ アッテ<line>
 ; ガスクリア- <number>メセタデス.<line>
+; <number> is always 1000.
 I'll bet you're surprised to find a shop in a place like this, huh?<wait more>
-GasClears are <number><internal hint 02> meseta<use suffix> each. Pretty cheap, no? Want one?<end>
+GasClears are <number><internal hint 01> meseta<use suffix> each. Pretty cheap, no? Want one?<end>
 
 [5226]
 ; アリガトウ.マタキテネ.<wait>
@@ -1249,7 +1255,8 @@ Seriously.<wait>
 [52b2]
 ; デゾリスノ ドウクツノ チカ<line>
 ; <number>カイデ ワ-プデキルンダスヨ.<wait>
-You can warp from the 10th underground level of Dezoris Cave.<wait more>
+; <number> is always 10.
+You can warp from the tenth underground level of Dezoris Cave.<wait more>
 No joke. I wouldn't lie to you.<wait>
 
 [52b8]
@@ -1285,10 +1292,11 @@ I'm glad you were able to make it through the mist.<wait>
 ; ワタシハ コノムラノ ソンチョウ<line>
 ; マチヤ ムラカラ トザサレタ ソピアハ トテモ マズシイノデス.<wait more>
 ; ドウカ <number>メセタ キフシテ<line>
+; <number> is always 400.
 I am the head of this village.<wait more>
 We in Sopia are very poor. We're outcasts. <wait more>
 The mist shuts us off from other towns.<wait more>
-Might you donate <number><internal hint 02> meseta<use suffix> to us?<end>
+Might you donate <number><internal hint 01> meseta<use suffix> to us?<end>
 
 [52e1]
 ; ソウデスカ.ザンネンデス.ウウッ.<wait>
@@ -1501,10 +1509,10 @@ You have no jewel! Don't be foolish!<wait>
 ; コンナトコロニ オミセガ アッテ<line>
 ; ゴメンナサイ.<wait more>
 ; ショ-トケ-キヲ <number>メセタデ<line>
+; <number> is always 280.
 Hey, welcome, glad you could make it. Sorry about the location.<wait more>
 With all these tax hikes, it's all I could afford. You know how it is.<wait more>
 My world famous shortcakes are <number><internal hint 02> meseta<use suffix>. Would you like one?<end>
-
 
 ; ********************
 ; *** Tajim's Cave ***
@@ -1676,12 +1684,13 @@ I made a fortune selling that Laconian Pot! Thanks!<wait>
 ; ソロッタヨウダ. ソコデ<wait more>
 ; セイサクヒガ <number>メセタ<line>
 ; カカルンジャガ ワシニ クレンカ.<end>
+; <number> is always 1200.
 Right. It looks like my staff is assembled.<wait more>
 What, you don't think two people can build a spaceship?<wait more>
 I'll have you know I've been building these since you were in diapers!<wait more>
 Now then, buying a spaceship isn't like buying some Peloriemate.<wait more>
 This is a serious investment, and it will cost you serious money.<wait more>
-I require <number><internal hint 02> meseta<use suffix> upfront. Can you cover that?<end>
+I require <number><internal hint 01> meseta<use suffix> upfront. Can you cover that?<end>
 
 [50b5]
 ; アリガトウ.デハ セイサクヲ<line>
@@ -2533,9 +2542,9 @@ OK. Continuing from slot <number>.<delay>
 []
 ;パスワ-ドガ チガイマス.<line>
 ;モウイチド タシカメテクダサイ.<wait>
+; unused
 That password is incorrect.<line>
 Please try again.<wait>
-; unused
 
 [07e3]
 ;ゲ-ムノツヅキヲ ヤル.-- ハイ<line>
@@ -2555,7 +2564,6 @@ Please choose a slot.<end>
 [0859]
 ;<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
 Deleting game from slot <number>.<end>
-
 ; <end> is nicer than <wait> here - Maxim
 
 [16a8]
