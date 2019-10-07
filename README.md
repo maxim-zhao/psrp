@@ -234,14 +234,17 @@ Do you know who some of the other people are? Please get in touch.
 
 ## Web links
 
-http://rpg-home.lunar-net.com/psi-web/
-http://www.algol-star-system.net/
-http://www.phantasy-star.net/
-http://www.pscave.com/
+Fan pages:
+- [Home of Phantasy Star](http://www.wolfgangarchive.com/psi-web/)
+- [Algol Star System](https://web.archive.org/web/20060803085931/http://algol-star-system.net/)
+- [The Phantasy Star Pages](http://www.phantasy-star.net)
+- [Phantasy STar Cave](http://www.pscave.com)
 
-http://www.smspower.org/Translations/PhantasyStar-SMS-EN
+Official distribution page for this patch:
+- http://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
-https://github.com/maxim-zhao/psrp
+Source code:
+- https://github.com/maxim-zhao/psrp
 
 ## Contact
 
