@@ -234,6 +234,8 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
  - "free" sections can go anywhere in the current bank. This is useful for functions or data that are referenced from the same bank.
  - Some data can go literally anywhere as it's always accessed via paging; these are "superfree".
 - Note that we relocate and repopulate (using labels and macro) the "`SceneDataStruct`", in order to map in the majority of our recompressed and relocated graphics data. The tilemaps and palettes are all copied from the original ROM, the latter are relocated too.
+- The name entry screen is patched quite manually, including making data for a screen-specific run-oriented tilemap encoding.
+- Likewise for the credits. Note: please do not erase any credits on derived versions.
 
 ## Disclaimer
 

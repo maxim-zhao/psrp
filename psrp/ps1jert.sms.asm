@@ -2948,7 +2948,7 @@ PauseFMToggle:
 
 .section "Font lookup" free
 FontLookup:
-; This is used to convert text from the game's encoding (indexing into ths area) to name table entries. The extra spaces are unused (and could be repurposed?).
+; This is used to convert text from the game's encoding (indexing into this area) to name table entries. The extra spaces are unused (and could be repurposed?).
 .dwm TextToTilemap " 0123456789"
 .dwm TextToTilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .dwm TextToTilemap "abcdefghijklmnopqrstuvwxyz"
