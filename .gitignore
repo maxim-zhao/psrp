@@ -55,3 +55,4 @@ Release
 /psrp/script_inserter/*.asm
 *.psgcompr
 *.pscompr
+*.bps

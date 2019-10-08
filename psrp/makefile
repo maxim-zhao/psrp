@@ -7,6 +7,7 @@ EMU = "..\..\..\c\meka\meka\mekaw.exe"
 
 WLAZ80 = "..\..\..\c\wla-dx\binaries\wla-z80.exe"
 WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
+FLIPS = "..\..\..\sms-build-tools\flips\flips.exe"
 
 # Assume default CPP = cl
 CPPFLAGS = /O2 /EHsc /W2 /Zi /MP /FS
@@ -14,7 +15,7 @@ CPPFLAGS = /O2 /EHsc /W2 /Zi /MP /FS
 # The original PSJ ROM
 PSJ = ps1-j.sms
 
-DUMMY: ps1jert.sms
+DUMMY: ps1jert.ips ps1jert.bps
 
 PLAY: ps1jert.sms
 	$(EMU) ps1jert.sms
@@ -141,6 +142,12 @@ CLEANFILES = $(BINS) \
        bitmap_decode\bitmap_decode.exe \
        menu_creater\menu_creater.exe \
        script_inserter\script_inserter.exe
+
+ps1jert.ips: $(PSJ) ps1jert.sms
+  $(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.ips
+
+ps1jert.bps: $(PSJ) ps1jert.sms
+  $(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.bps
 
 clean:
 	del $(CLEANFILES)
