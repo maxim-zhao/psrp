@@ -20,6 +20,73 @@ banks 32
 
 .background ORIGINAL_ROM
 
+.emptyfill $ff
+
+; Bank 0
+  .unbackground $0000f $00037 ; $00037  Unused space
+  .unbackground $00056 $00065 ; $00065  ExecuteFunctionIndexAInNextVBlank followed by unused space
+  .unbackground $00486 $004b2 ; $004ae  Old tile decoder
+  .unbackground $008f3 $0090b ; $0090b  Title screen graphics loading
+  .unbackground $00925 $00944 ; $00932  Title screen palette
+  .unbackground $033da $033f3 ; $033eb  Draw item name
+  .unbackground $033aa $033c3 ; $033b7  Draw character name
+  .unbackground $033c8 $033d5 ; $033d3  Draw enemy name
+  .unbackground $033f6 $03493 ; $03466  Draw number
+  .unbackground $03494 $034a4 ; $0349d  Draw characters from buffer
+  .unbackground $034f2 $03545 ; $03537  Draw one character to tilemap
+  .unbackground $03982 $039dd ; $039dd  Stats menu tilemap data
+  .unbackground $03eca $03fc1 ; $03f6e  background graphics lookup table
+  .unbackground $03fc2 $03fd1 ; $03fd1  Sky Castle reveal palette
+; Bank 1
+  .unbackground $04059 $0407a ; $04078  password entered (unused)
+  .unbackground $0429b $042b4 ; $042b2  draw to tilemap during entry
+  .unbackground $042b5 $042cb ; $042c5  draw to RAM during entry
+  .unbackground $04261 $04277 ; $04277  password population (unused)
+  .unbackground $04396 $043e5 ; $043e5  password lookup data (unused)
+  .unbackground $043e6 $04405 ; $04405  text for "please enter your name"
+  .unbackground $04406 $0448b ; $0448b  tilemap for name entry
+  .unbackground $0448c $04509 ; $044f5  data for lookup table during entry
+  .unbackground $045a4 $045c3 ; $045c3  tile loading for intro
+  .unbackground $059ba $059c9 ; $059c5  Draw text box 20x6 (dialogue)
+  .unbackground $07fe5 $07fff ; $07fff  Unused space + header
+; Bank 2
+  .unbackground $08000 $080b1 ; $080b1  font tile lookup
+  .unbackground $080b2 $0bd93 ; $0bd93  script
+  .unbackground $0bd94 $0bf9b ; $0bdd1  item names
+  .unbackground $0bed0 $0bf9b ; $0bf35  item names - now SFG decoder
+  .unbackground $0bf50 $0bf9b ; $0bf99  item names - now Huffman decoder init
+; Bank 9
+  .unbackground $27b14 $27fff ; $27e75  Mansion tiles and palette + unused space
+; Bank 11
+  .unbackground $2c000 $2caeb ; $2c85a  Gold Dragon tiles and palette
+  .unbackground $2fe3e $2ffff ; $2ffff  Unused space
+; Bank 14
+  .unbackground $3bc68 $3bfff ; $3bfff  Title screen tilemap + unused space
+; Bank 15
+  .unbackground $3fdee $3ffff ; $3ffff  Credits font
+; Bank 16
+  .unbackground $40000 $428f5 ; $4277a  Scene tiles and palettes (part 1)
+  .unbackground $433f6 $43fff ; $43a82  Scene tiles and palettes (part 2) + unused space
+; Bank 17
+  .unbackground $44640 $47fff ; $47aaa  Palettes and tiles + unused space
+; Bank 18
+  .unbackground $4be84 $4bfff ; $4bfff  Unused space
+; Bank 19
+  .unbackground $4c000 $4cdbd ; $4ccfb  Dark Force tiles and palette
+  .unbackground $4ff59 $4ffff ; $4ffff  Unused space
+; Bank 20
+  .unbackground $524aa $52ba1 ; $52a66  Lassic room tiles and palette
+  .unbackground $53dbc $53fff ; $53fff  Credits data, unused space
+; Bank 22
+  .unbackground $58570 $5ac8c ; $5a6db  Tiles for town
+  .unbackground $5ac7d $5b9e6 ; $5b78c  Tiles, palette for air castle
+; Bank 23
+  .unbackground $5ea9f $5f766 ; $5f5ba  Building interior tiles, palettes
+; Bank 29
+  .unbackground $747b8 $77629 ; $77294  landscapes (world 1)
+; Bank 31
+  .unbackground $7e8bd $7ffff ; $7fd47  Title screen tiles
+
 ; Macros
 
 ; Some data is relocated unmodified from the original ROM; this
@@ -43,16 +110,6 @@ banks 32
   .bank (_address / $4000) slot _slot ; Slot is given
 .endif
 .org _address # $4000 ; modulo
-.endm
-
-; Creates a section with the given name holding the given binary file.
-; Uses the current address.
-.macro Bin
-.section "\1" free
-\1:
-.incbin \2
-\1_end:
-.ends
 .endm
 
 ; Patches a byte at the given ROM address
@@ -144,7 +201,7 @@ PatchAt\1:
 .endm
 
 ; Macro to load tiles from the given label
-.macro "LoadPagedTiles" args address, dest
+.macro LoadPagedTiles args address, dest
 LoadPagedTiles\1:
   ; Common pattern used to load tiles in the original code
   ld hl,PAGING_SLOT_2
@@ -188,73 +245,6 @@ map "^" = $56 ; the
 .db s.length
 .asc s
 .endm
-
-.emptyfill $ff
-
-; Bank 0
-  .unbackground $0000f $00037 ; $00037  Unused space
-  .unbackground $00056 $00065 ; $00065  ExecuteFunctionIndexAInNextVBlank followed by unused space
-  .unbackground $00486 $004b2 ; $004ae  Old tile decoder
-  .unbackground $008f3 $0090b ; $0090b  Title screen graphics loading
-  .unbackground $00925 $00944 ; $00932  Title screen palette
-  .unbackground $033da $033f3 ; $033eb  Draw item name
-  .unbackground $033aa $033c3 ; $033b7  Draw character name
-  .unbackground $033c8 $033d5 ; $033d3  Draw enemy name
-  .unbackground $033f6 $03493 ; $03466  Draw number
-  .unbackground $03494 $034a4 ; $0349d  Draw characters from buffer
-  .unbackground $034f2 $03545 ; $03537  Draw one character to tilemap
-  .unbackground $03982 $039dd ; $039dd  Stats menu tilemap data
-  .unbackground $03eca $03fc1 ; $03f6e  background graphics lookup table
-  .unbackground $03fc2 $03fd1 ; $03fd1  Sky Castle reveal palette
-; Bank 1
-  .unbackground $04059 $0407a ; $04078  password entered (unused)
-  .unbackground $0429b $042b4 ; $042b2  draw to tilemap during entry
-  .unbackground $042b5 $042cb ; $042c5  draw to RAM during entry
-  .unbackground $04261 $04277 ; $04277  password population (unused)
-  .unbackground $04396 $043e5 ; $043e5  password lookup data (unused)
-  .unbackground $043e6 $04405 ; $04405  text for "please enter your name"
-  .unbackground $04406 $0448b ; $0448b  tilemap for name entry
-  .unbackground $0448c $04509 ; $044f5  data for lookup table during entry
-  .unbackground $045a4 $045c3 ; $045c3  tile loading for intro
-  .unbackground $059ba $059c9 ; $059c5  Draw text box 20x6 (dialogue)
-  .unbackground $07fe5 $07fff ; $07fff  Unused space + header
-; Bank 2
-  .unbackground $08000 $080b1 ; $080b1  font tile lookup
-  .unbackground $080b2 $0bd93 ; $0bd93  script
-  .unbackground $0bd94 $0bf9b ; $0bdd1  item names
-  .unbackground $0bed0 $0bf9b ; $0bf35  item names - now SFG decoder
-  .unbackground $0bf50 $0bf9b ; $0bf99  item names - now Huffman decoder init
-; Bank 9
-  .unbackground $27b14 $27fff ; $27e75  Mansion tiles and palette + unused space
-; Bank 11
-  .unbackground $2c000 $2caeb ; $2c85a  Gold Dragon tiles and palette
-  .unbackground $2fe3e $2ffff ; $2ffff  Unused space
-; Bank 14
-  .unbackground $3bc68 $3bfff ; $3bfff  Title screen tilemap + unused space
-; Bank 15
-  .unbackground $3fdee $3ffff ; $3ffff  Credits font
-; Bank 16
-  .unbackground $40000 $428f5 ; $4277a  Scene tiles and palettes (part 1)
-  .unbackground $433f6 $43fff ; $43a82  Scene tiles and palettes (part 2) + unused space
-; Bank 17
-  .unbackground $44640 $47fff ; $47aaa  Palettes and tiles + unused space
-; Bank 18
-  .unbackground $4be84 $4bfff ; $4bfff  Unused space
-; Bank 19
-  .unbackground $4c000 $4cdbd ; $4ccfb  Dark Force tiles and palette
-  .unbackground $4ff59 $4ffff ; $4ffff  Unused space
-; Bank 20
-  .unbackground $524aa $52ba1 ; $52a66  Lassic room tiles and palette
-  .unbackground $53dbc $53fff ; $53fff  Credits data, unused space
-; Bank 22
-  .unbackground $58570 $5ac8c ; $5a6db  Tiles for town
-  .unbackground $5ac7d $5b9e6 ; $5b78c  Tiles, palette for air castle
-; Bank 23
-  .unbackground $5ea9f $5f766 ; $5f5ba  Building interior tiles, palettes
-; Bank 29
-  .unbackground $747b8 $77629 ; $77294  landscapes (world 1)
-; Bank 31
-  .unbackground $7e8bd $7ffff ; $7fd47  Title screen tiles
 
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
@@ -1843,8 +1833,10 @@ IndexTableRemap:
 
 .bank 2
 .section "Menu data" superfree
+.block "Menus"
 MenuData:
 .include "menu_creater/menus.asm"
+.endb
 .ends
 
 .include "menu_creater/menu-patches.asm"
@@ -2024,8 +2016,10 @@ MaxMP:    .dwm TextToTilemap "|Max MP  "
 
 .bank 2
 .section "Opening cinema" superfree
+.block "Opening"
 Opening:
 .include "menu_creater/opening.asm"
+.endb
 .ends
 
 .include "menu_creater/opening-patches.asm"
