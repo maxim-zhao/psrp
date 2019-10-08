@@ -222,7 +222,7 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
 - We then "unbackground" various areas that are either replaced code/data, unused code/data (e.g. there are vestiges of a password system), or just unused areas of ROM.
 - Next we can define some helper macros for various tasks:
   - **`CopyFromOriginal`** is useful for where we are moving a chunk of of data to a different location.
-  - ** `ROMPosition`** allows us to set the assembly position in ROM space, useful for patching specific addresses.
+  - **`ROMPosition`** allows us to set the assembly position in ROM space, useful for patching specific addresses.
   - **`PatchB`** and **`PatchW`** allow us to patch bytes and words at specific addresses. This is used for many of the generated "patch" files.
   - **`TextToTilemap`** is a fairly large macro that simply converts a string to tilemap data. This is used for various places where the game draws stats menus, and the name entry screen. 
   - **`LoadPagedTiles`** is used for a repeated pattern of mapping in some tile data and loading t to VRAM.
