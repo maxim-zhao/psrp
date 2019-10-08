@@ -169,7 +169,7 @@ It's also a great framework for further (re-)translation into more languages.
 Please get in touch if you can do some serious work on that. You will need to
 provide a translator *and* a Z80 coder.
 
-## Technical motes
+## Technical notes
 
 The Git history contains many documents written by Z80 Gaiden during his hacking work.
 These became less relevant later so they are no longer present.
