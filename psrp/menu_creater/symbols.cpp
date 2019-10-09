@@ -127,8 +127,8 @@ class Menu
     std::vector<int> _ptrs;
     std::vector<int> _dims;
     std::string _name;
-    unsigned int _width;
-    unsigned int _height;
+    std::size_t _width;
+    std::size_t _height;
     bool _emitData;
 
 public:
@@ -161,11 +161,11 @@ public:
         }
         else if (line.substr(0, 6) == "width=")
         {
-            _width = std::max(_width, (unsigned int)std::stoi(line.substr(6)));
+            _width = std::max(_width, (std::size_t)std::stoi(line.substr(6)));
         }
         else if (line.substr(0, 7) == "height=")
         {
-            _height = std::max(_height, (unsigned int)std::stoi(line.substr(7)));
+            _height = std::max(_height, (std::size_t)std::stoi(line.substr(7)));
         }
         else if (line == "dimensions only")
         {

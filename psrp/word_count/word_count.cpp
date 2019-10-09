@@ -15,7 +15,7 @@ int main(int argc, const char** argv)
         return -1;
     }
 
-    std::map<std::wstring, int> wordCounts;
+    std::map<std::wstring, std::size_t> wordCounts;
 
     // Load the file
     std::ifstream f(argv[2]);
@@ -96,10 +96,10 @@ int main(int argc, const char** argv)
         }
     }
 
-    printf("Script has %d unique words\n", wordCounts.size());
+    printf("Script has %zd unique words\n", wordCounts.size());
 
     // Then convert to weighted counts
-    std::vector<std::pair<std::wstring, int>> weightedList;
+    std::vector<std::pair<std::wstring, std::size_t>> weightedList;
     for (auto&& kvp : wordCounts)
     {
         weightedList.emplace_back(kvp.first, kvp.second * (kvp.first.length() - 1));
@@ -109,7 +109,7 @@ int main(int argc, const char** argv)
     std::sort(
         weightedList.begin(), 
         weightedList.end(), 
-        [](const std::pair<std::wstring, int>& left, const std::pair<std::wstring, int>& right)
+        [](const std::pair<std::wstring, std::size_t>& left, const std::pair<std::wstring, std::size_t>& right)
         {
           // We want a "stable" sort so we sort on the string if there is a tie on count.
           if (left.second == right.second)
