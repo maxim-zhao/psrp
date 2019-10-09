@@ -182,13 +182,13 @@ There are several programs included, some of which are not part of the build pro
 
 ### word_count
 
-This takes the script (which lives in its directory) and generates a words.txt listing the most commonly-used words, weighted by length, in descending order.
+This takes the script and generates a file listing the most commonly-used words, weighted by length, in descending order. It breaks words on apostrophes, so we can avoid counting "Alisa" and "Alisa's" separately.
 
 ### substring_formatter
 
 This takes the word list and uses it to substitute the common words with a single byte. It generates a TBL file, and assembly code for the word list.
 
-The optimal number of words to substitute this way for a given script is complicated, as substituting more words adds complexity to the next compression steps; but to maximise the script space overall, we should maximise the word count, which means selecting the 164 most common words (unless we find some more symbol space).
+The optimal number of words to substitute this way for a given script is complicated, as substituting more words adds complexity to the next compression steps; but to maximise the script space overall, we should maximise the word count, which means selecting the 164 most common words. (This number could be increased a little, or reduced if we needed more characters.)
 
 It then converts the whole script into encoded data (for the substituted words, the non-substituted letters and some control codes). Next it applies "adaptive Huffman compression" to each script entry - for every byte in the script, we have a Huffman tree for each subsequent byte. This means the individual trees can be quite small (so the encoded tree path is smaller), but there are up to 256 of them.
 
@@ -235,7 +235,21 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
  - Some data can go literally anywhere as it's always accessed via paging; these are "superfree".
 - Note that we relocate and repopulate (using labels and macro) the "`SceneDataStruct`", in order to map in the majority of our recompressed and relocated graphics data. The tilemaps and palettes are all copied from the original ROM, the latter are relocated too.
 - The name entry screen is patched quite manually, including making data for a screen-specific run-oriented tilemap encoding.
-- Likewise for the credits. Note: please do not erase any credits on derived versions.
+- For the credits, we inject new credits at the original data location. Note: please do not erase any credits on derived versions.
+- Finally, there are a few original things added to the code...
+  1. We fix a bug in the original game where the same text is used in both of the "liar" villages
+  2. We add a feature to the title screen to change between FM and PSG music when you press Pause
+  3. We remove some of the waits for button presses
+  4. We change the main "Idle loop" to use the halt instruction, which allows much more efficient emulation
+  
+### Thoughts on further translation
+
+- There is space in the font for more characters, e.g. for accents. However, there is limited symbol space between the existing characters ('?' at `48`) and the control codes (at `$4f`). Thus you may need to skip past to `$5d` - in which case you need to reduce the word list size.
+- The prefixes (a, an, some) will need some expansion for other languages.
+- The script space is pretty tight. The game code can in theory map some of the script into slot 1, giving much more space for the encoded script - but this is removed in the current code.
+- If possible, re-retranslate from Japanese. Consider that localisation is part of translation. The English you see isn't identical to the Japanese.
+- If you need more space, consider recompressing the remaining graphics, and maybe the tilemaps.
+- You will almost certainly need a skilled developer to help you.
 
 ## Disclaimer
 
