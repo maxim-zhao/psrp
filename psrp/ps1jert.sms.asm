@@ -2925,10 +2925,9 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
 PauseFMToggle:
   cp 3          ; Indicates we are on the title screen
   ret nz
-  ; We make no attempt to preserve FunctionLookupIndex on return (TODO?)
-  ld a,(IntroState)
-  cp $ff        ; could inc a to save a byte
-  ret z         ; Intro started
+  ld a,(IntroState) ; $ff = intro started
+  inc a
+  ret z        ; Intro started. We leave a = 0, this will cause the pause handler to behave the same as for a = 3 anyway.
   ; Toggle FM bit
   ld a,(HasFM)
   xor 1
@@ -2936,7 +2935,7 @@ PauseFMToggle:
   ; Restart title screen music
   ld a,$81
   ld (NewMusic),a
-  ret
+  ret ; We leave a = $81, this will cause the pause handler to behave the same as for a = 3 anyway.
 .ends
 
 ; Remove waits for button press --------------------
