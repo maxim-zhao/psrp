@@ -61,17 +61,17 @@ int main(int argc, const char** argv)
         for (unsigned int i = 0; i < line.length();)
         {
             auto c = line[i];
-            if (c == L'’')
+            if (c == L'\'')
             {
-                // Correct ’ to '
-                line[i] = c = L'\'';
+                // Correct ' to ’
+                line[i] = c = L'’';
             }
             // Is this a candidate?
-            if (::iswalpha(c) || c == L'\'')
+            if (::iswalpha(c) || c == L'’')
             {
                 // Good candidate; look for the end
                 unsigned int j;
-                for (j = i+1; j != line.length(); ++j)
+                for (j = i + 1; j != line.length(); ++j)
                 {
                     if (!::iswalpha(line[j]))
                     {
