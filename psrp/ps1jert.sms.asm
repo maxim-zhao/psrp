@@ -1,6 +1,6 @@
-; This unifies all the work donw for the PS1JERT into a single WLA DX files,
+; This unifies all the work done for the PS1JERT into a single WLA DX files,
 ; using WLA DX to do the assembly and insertion of code and data.
-; We use WLA DX features (and macrros) to implement some of the data transformation.
+; We use WLA DX features (and macros) to implement some of the data transformation.
 
 .memorymap
 slotsize $4000
@@ -2218,7 +2218,7 @@ _read_byte:
       inc hl      ; bump pointer
       dec c     ; shrink length
 
-      cp $4f      ; normal text
+      cp $4f      ; normal text is before this
       jr c,_bump_text
 
 _space:
@@ -2957,9 +2957,11 @@ FontLookup:
 ; Both the trees and script entries could be micro-sections but they need to share a bank, 
 ; and it's pretty empty, so we don't get any benefit to split them up.
 .section "Script and Huffman trees" free
-.block "Script"
+.block "HuffmanTrees"
 HuffmanTrees:
 .include "script_inserter/tree.asm"
+.endb
+.block "Script"
 .include "script_inserter/script.asm"
 .endb
 .ends
