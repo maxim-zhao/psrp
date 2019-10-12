@@ -1123,8 +1123,7 @@ Almost all of the immigrants from Palma live in this town.<wait>
 ; ヨクシラナイケド キタノ ヤマオクニ<wait more>
 ; コノホシノ ジュウミン デゾリアンノムラガ アルソウヨ.<wait>
 ; <end>
-; TODO: Dezorians
-Native Dezolians don’t live here in Skray.<wait more>
+Native Dezorians don’t live here in Skray.<wait more>
 There are some in a village inside the northern mountains.<wait>
 
 [524a]
@@ -1146,8 +1145,7 @@ May your journey be safe.<wait>
 ; <end>
 Laconia is more than just strong, it’s sacred.<wait more>
 LaShiec knows this, of course.<wait more>
-; TODO: Laconian
-That’s why laconian equipment is so hard to find!<wait more>
+That’s why Laconian equipment is so hard to find!<wait more>
 He’s afraid of it!<wait>
 
 [5256]
@@ -1169,8 +1167,7 @@ Altiplano plateau is surrounded by mountains of ice.<wait>
 ; シンセイナル ホノオトシテ<line>
 This planet has a solar eclipse once every hundred years.<wait more>
 A flame lit during an eclipse is called an Eclipse Torch.<wait more>
-; TODO: Dezorians
-Native Dezolians believe Eclipse Torches carry divine power.<wait>
+Native Dezorians believe Eclipse Torches carry divine power.<wait>
 
 [526e]
 ; グアランノ シタイオキバノ<line>
@@ -2160,7 +2157,7 @@ Where would you like to go?<end>
 [5995]
 ;デゾリスセイノ スクレノマチヘ<line>
 ;イキマス.イイデスカ.<end>
-Would you like to go to Skray, on Dezolis?<end>
+Would you like to go to Skray, on Dezoris?<end>
 
 [5990]
 ;モタビアセイノ ウ-ゾノムラヘ<line>
