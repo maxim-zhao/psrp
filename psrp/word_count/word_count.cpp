@@ -58,7 +58,7 @@ int main(int argc, const char** argv)
         // Convert to wstring
         std::wstring line = convert.from_bytes(s.c_str());
         // replace ' with ’
-        std::replace(s.begin(), s.end(), L'\'', L'’');
+        std::replace(line.begin(), line.end(), L'\'', L'’');
         // We split on any non-alpha characters, but also accept "'" as a starting letter.
         for (unsigned int i = 0; i < line.length();)
         {
