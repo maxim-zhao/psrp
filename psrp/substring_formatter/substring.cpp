@@ -4,11 +4,13 @@ Phantasy Star: Substring Table Creater
 
 #include <cstdio>
 
-#include <deque>
 #include <string>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <locale>
+#include <codecvt>
+#include <algorithm>
 
 constexpr auto start_code = 0x5c; // see WordListStart in asm
 
@@ -27,9 +29,10 @@ int main(int argc, char** argv)
     std::ofstream table(argv[3]);
     std::ofstream dict(argv[4]);
 
+    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+
     // read each string and add conversion code
     int code = start_code;
-    std::deque<std::string> list;
     for (std::string s; std::getline(words, s);)
     {
         if (code > 0xff)
@@ -37,15 +40,14 @@ int main(int argc, char** argv)
             std::cerr << "Word list too large!\n";
             return -1;
         }
-
-        // dictionary word
-        dict << "  String \"" << s << "\"\n";
-
-        // print <string>
+        
+        // Emit to TBL file (as UTF-8)
         table << std::setbase(16) << code << "=" << s << "\n";
 
-        // queue up
-        list.emplace_back(s);
+        // Emit as source - WLA DX can't do UTF-8 :( so we convert ’ to '
+        std::wstring line = convert.from_bytes(s.c_str());
+        std::replace(line.begin(), line.end(), L'\x2019', L'\'');
+        dict << "  String \"" << convert.to_bytes(line) << "\"\n";
 
         // bump substring assignment range
         ++code;
@@ -56,6 +58,8 @@ int main(int argc, char** argv)
         }
     }
     
+    std::cout << "As char: " << L'’' << "\nAs hex: " << L'\x2019' << "\n";
+
     std::cout << "Word list contains " << code - start_code << " words\n";
 
     return 0;

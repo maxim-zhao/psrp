@@ -57,14 +57,14 @@ int main(int argc, const char** argv)
         }
         // Convert to wstring
         std::wstring line = convert.from_bytes(s.c_str());
-        // replace ' with ’
-        std::replace(line.begin(), line.end(), L'\'', L'’');
+        // replace ' with â€™
+        std::replace(line.begin(), line.end(), L'\'', L'\x2019');
         // We split on any non-alpha characters, but also accept "'" as a starting letter.
         for (unsigned int i = 0; i < line.length();)
         {
             auto c = line[i];
             // Is this a candidate?
-            if (::iswalpha(c) || c == L'’')
+            if (::iswalpha(c) || c == L'\x2019')
             {
                 // Good candidate; look for the end
                 unsigned int j;

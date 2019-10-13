@@ -351,7 +351,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
         std::vector<uint8_t> outBuffer;
         
         // replace ' with ’
-        std::replace(s.begin(), s.end(), L'\'', L'’');
+        std::replace(s.begin(), s.end(), L'\'', L'\x2019');
 
         // init
         pText = s.c_str();
