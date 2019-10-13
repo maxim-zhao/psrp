@@ -3072,7 +3072,7 @@ FontLookup:
 ; Both the trees and script entries could be micro-sections but they need to share a bank, 
 ; and it's pretty empty, so we don't get any benefit to split them up.
 .section "Script and Huffman trees" free
-.block "HuffmanTrees"
+.block "Huffman trees"
 HuffmanTrees:
 .include "script_inserter/tree.asm"
 .endb
