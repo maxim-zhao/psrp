@@ -2456,6 +2456,121 @@ DezorianCustomStringCheck:
 ; and (2) use non-overlapping areas of this cache.
 ; The total number of windows exceeds the cache size, so it is a careful act to select the right
 ; addresses.
+; RAM cache in the original (not to scale!):
+; $d700 +---------------+ +---------------+
+;       | Active player | | MST in shop   |
+;       | (during       | | (10x3)        |
+;       | battle)       | |               |
+;       | (6x3)         | |               |
+; $d724 +---------------+ |               |
+; $d73c | Party stats   | +---------------+
+;       | (32x6)        |
+; $d8a4 +---------------+ +---------------+ +---------------+
+;       | Battle menu   | | Regular menu  | | Shop items    |
+;       | (6x11)        | | (6x11)        | | (16x8)        |
+; $d928 +---------------+ +---------------+ |               | +---------------+
+;       | Enemy name    | | Currently     | |               | | Select        |
+;       | (10x4)        | | equipped      | |               | | save slot     |
+; $d978 +---------------+ | items         | |               | | (9x12)        |
+; $d9a4 | Enemy stats   | | (10x8)        | +---------------+ |               |
+; $d9c8 | (8x10)        | +---------------+                   |               |
+; $da00 |               |                                     +---------------+
+; $da18 +---------------+
+;       | Narrative box |
+;       | (20x6)        |
+; $db08 +---------------+
+;       | Narrative     |
+;       | scroll buffer |
+;       | (18x3)        |
+; $db74 +---------------+ +---------------+
+;       | Inventory     | | Spells        |
+;       | (10x21)       | | (6x12)        |
+; $dc04 |               | +---------------+
+;       |               | | Character     |
+;       |               | |  stats (12x14)|
+; $dd54 |               | +---------------+
+; $dda8 +---------------+ 
+;       | Player select | 
+;       | (6x9)         | 
+; $de14 +---------------+ +---------------+ +---------------+ +---------------+
+;       | Player select | | Use/Equip/Drop| | Buy/Sell      | | Hapsby travel |
+;       | (magic) (6x9) | | (5x7)         | | (6x5)         | | (5x8)         |
+; $de50 |               | |               | +---------------+ |               |
+; $de5a |               | +---------------+                   |               |
+; $de80 +---------------+                                     |               |
+; $de64 +---------------+                                     +---------------+
+;       | Yes/No        | 
+;       | (5x5)         | 
+; $de96 +---------------+ 
+;
+; In the retranslation we have some bigger windows so it's a little trickier...
+; * The world and battle menus are now 8x11
+; * Enemy name is now 12x4
+; * Use/Equip/Drop is now 7x7
+; * Spell menu is now 12x12
+; * Character stats is now 13x14
+; * Currently equipped items is now 12x8
+; * Inventory is now 12x21
+; * MST in shop is now 12x3
+; * Shop items is now 18x8
+; * Hapsby travel is now 8x7
+;
+; High pressure scenarios:
+; 1. World -> status
+; * Party stats
+; * Menu -> Status
+;     * Player select
+;       * Equipped items
+;       * Player stats
+;       * Player spells
+; 2.World -> heal
+; * Party stats
+; * Menu -> Magic
+;   * Player select
+;     * Magic list -> heal
+;       * Player select 2
+;         * Narrative: player healed (no scroll)
+; 3. World -> equip
+; * Party stats
+; * Menu -> Items
+;   * Inventory -> select item
+;     * Use/Equip/Drop
+;       * Use (e.g. armour)
+;         * Select player
+;           * Narrative: player equipped item (no scroll)
+;             * Current equipment
+; 4. Battle -> inventory
+; * Party stats
+; * Enemy name
+; * Enemy stats
+; * Active player
+; * Battle menu-> Items
+;   * Inventory (no more options here - implicit action)
+; 5. Battle -> heal
+; * Party stats
+; * Enemy name
+; * Enemy stats
+; * Active player
+; * Battle menu-> Magic
+;   * Player select
+;     * Magic list -> heal
+;       * Player select 2
+;         * Narrative: player healed (no scroll)
+; 6. Chest -> Untrap
+; * Party stats
+; * Menu -> Magic
+;   * Player select
+;     * Magic list -> untrap
+;       * Narrative: no trap, contained mesetas + item (scrolls)
+; 7. Battle -> telepathy
+; * Party stats
+; * Enemy name
+; * Enemy stats
+; * Active player
+; * Battle menu-> Magic
+;   * Player select
+;     * Magic list -> telepathy
+;       * Narrative: eney response (scrolls)
 
   PatchW $3788 $de60    ; #5  - Choose player
   PatchW $37de $de60

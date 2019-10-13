@@ -190,7 +190,9 @@ BANKS 30
 .define CharacterStatsNoah        $c430
 .define CharacterStatsEnemies     $c440     ; Enemy character stats x 8
 
+.define Inventory                 $c4c0     ; 32 bytes, item indices
 .define xc4e0                     $c4e0     ; ?
+.define InventoryCount            $c4e2     ; Number if items in Inventory
 .define xc4f0                     $c4f0     ; ?
 
 .define xc600                     $c600     ; ?
