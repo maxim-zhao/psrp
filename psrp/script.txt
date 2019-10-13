@@ -1,4 +1,4 @@
-﻿<width 12><height 02>
+<width 12><height 02>
 
 ; Special code legend:
 ;
