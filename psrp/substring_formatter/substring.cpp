@@ -58,8 +58,6 @@ int main(int argc, char** argv)
         }
     }
     
-    std::cout << "As char: " << L'’' << "\nAs hex: " << L'\x2019' << "\n";
-
     std::cout << "Word list contains " << code - start_code << " words\n";
 
     return 0;
