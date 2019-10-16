@@ -308,16 +308,19 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
             script_hints = false;
             line_len = 0;
         }
-        else if (matches[1].str() == L"use article" && matches[3].matched)
+        else if (matches[1].str() == L"article")
         {
-            const int value = std::stoi(matches[3].str(), nullptr, 16);
-
             outBuffer.push_back(SymbolArticle);
-            outBuffer.push_back(value);
-
+            outBuffer.push_back(1); // lowercase
             script_hints = true;
         }
-        else if (matches[1].str() == L"use suffix")
+        else if (matches[1].str() == L"Article")
+        {
+            outBuffer.push_back(SymbolArticle);
+            outBuffer.push_back(2); // uppercase
+            script_hints = true;
+        }
+        else if (matches[1].str() == L"s")
         {
             outBuffer.push_back(SymbolSuffix);
 

@@ -8,23 +8,23 @@
 ;   (as that adds additional Huffman trees).
 ;   However, in some places we spell words out (e.g. "three", "tenth") for 
 ;   better grammar.
-; <use suffix> = ‘s’ if the suffix flag is set (see above).
+; <s> = ‘s’ if the suffix flag is set (see above).
 ; <internal hint nn> = word wrapping bug helper. The suffix insertion confuses 
 ;   the wrapper, so add this *before* the space before the word where the 
 ;   suffix gets added, with n = the number of characters potentially added to 
 ;   the word - so:
-;   "You found <number> meseta<use suffix> inside"
+;   "You found <number> meseta<s> inside"
 ;   becomes
-;   "You found <number><internal hint 01> meseta<use suffix> inside"
+;   "You found <number><internal hint 01> meseta<s> inside"
 ;   and
-;   "You gained <number> experience point<use suffix>."
+;   "You gained <number> experience point<s>."
 ;   becomes
-;   "You gained <number> experience<internal hint 02> point<use suffix>."
+;   "You gained <number> experience<internal hint 02> point<s>."
 ;   This is a bit of a hack because it wraps as if the suffix there is even 
 ;   when it isn’t.
 ;                     
-; <use article 01> = use article for enemy/item, lowercase
-; <use article 02> = use article for enemy/item, initial uppercase
+; <article> = use article for enemy/item, lowercase
+; <Article> = use article for enemy/item, initial uppercase
 ;
 ; <width nn> = wrap at width n
 ; <height nn> = insert waits so text "pages" at height n
@@ -350,7 +350,7 @@ Do you suffer from an illness that may be irritated by travel?<end>
 ; テスウリョウ <number>メセタデス.<line>
 ; ヨロシイデスカ.<end>
 ; <number> is always 100.
-There is a handling fee of <number><internal hint 02> meseta<use suffix>. Can you pay?<end>
+There is a handling fee of <number><internal hint 02> meseta<s>. Can you pay?<end>
 
 [4d91]
 ; デハ パスポ-トヲ ハッコウシマス.オウケトリクダサイ.<wait>
@@ -1080,7 +1080,7 @@ What? Don’t look at me like that.<wait>
 ; ガスクリア- <number>メセタデス.<line>
 ; <number> is always 1000.
 I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
-GasClears are <number><internal hint 01> meseta<use suffix> each. Pretty cheap, no? Want one?<end>
+GasClears are <number><internal hint 01> meseta<s> each. Pretty cheap, no? Want one?<end>
 
 [5226]
 ; アリガトウ.マタキテネ.<wait>
@@ -1295,7 +1295,7 @@ I’m glad you were able to make it through the mist.<wait>
 I am the head of this village.<wait more>
 We in Sopia are very poor. We’re outcasts. <wait more>
 The mist shuts us off from other towns.<wait more>
-Might you donate <number><internal hint 01> meseta<use suffix> to us?<end>
+Might you donate <number><internal hint 01> meseta<s> to us?<end>
 
 [52e1]
 ; ソウデスカ.ザンネンデス.ウウッ.<wait>
@@ -1511,7 +1511,7 @@ You have no jewel! Don’t be foolish!<wait>
 ; <number> is always 280.
 Hey, welcome, glad you could make it. Sorry about the location.<wait more>
 With all these tax hikes, it’s all I could afford. You know how it is.<wait more>
-My world famous shortcakes are <number><internal hint 02> meseta<use suffix>. Would you like one?<end>
+My world famous shortcakes are <number><internal hint 02> meseta<s>. Would you like one?<end>
 
 ; ********************
 ; *** Tajim’s Cave ***
@@ -1693,7 +1693,7 @@ What, you don’t think two people can build a spaceship?<wait more>
 I’ll have you know I’ve been building these since you were in diapers!<wait more>
 Now then, buying a spaceship isn’t like buying some Peloriemate.<wait more>
 This is a serious investment, and it will cost you serious money.<wait more>
-I require <number><internal hint 01> meseta<use suffix> upfront. Can you cover that?<end>
+I require <number><internal hint 01> meseta<s> upfront. Can you cover that?<end>
 
 [50b5]
 ; アリガトウ.デハ セイサクヲ<line>
@@ -1786,29 +1786,29 @@ The only thing left to do is tell the Governor-general in Paseo.<wait>
 [13a4]
 ;<monster>ハ <player>ノ<line>
 ;コウゲキヲ カワシタ.<delay>
-<use article 02><monster> dodged <player>’s attack.<delay>
+<Article><monster> dodged <player>’s attack.<delay>
 
 [1497]
 ;<player>ハ <monster>ノ<line>
 ;コウゲキヲ カワシタ.<delay>
-<player> dodged <use article 01><monster>’s attack.<delay>
+<player> dodged <article><monster>’s attack.<delay>
 
 [1a96]
 ;<player>ハ ハナシカケタ.<end>
-<player> spoke to <use article 01><monster>.<end>
+<player> spoke to <article><monster>.<end>
 
 [1ac0,1ca4]
 ;<monster>ハ コタエタ.<delay>
-<use article 02><monster> replied,<delay>
+<Article><monster> replied,<delay>
 
 [1ab7]
 ;ツウジナカッタ.<delay>
-<use article 02><monster> didn’t understand.<delay>
+<Article><monster> didn’t understand.<delay>
 
 [1b27]
 ;<monster>ハ ニゲミチニ<line>
 ;タチフサガッタ.<delay>
-<use article 02><monster> blocked the escape route.<delay>
+<Article><monster> blocked the escape route.<delay>
 
 [20cd,20fa,2168,21cb,21fd,22ac]
 ;<player>ノ マジックハ<line>
@@ -1818,7 +1818,7 @@ The only thing left to do is tell the Governor-general in Paseo.<wait>
 []
 ;<monster>ノ マジックハ<line>
 ;コウカガ ナカッタ.<delay>
-<use article 02><monster>’s spell had no effect.<delay>
+<Article><monster>’s spell had no effect.<delay>
 
 [1ffa]
 ;メノマエニ ミエナイ マホウノ<line>
@@ -1828,12 +1828,12 @@ An invisible magic wall was built before your eyes.<delay>
 [1492]
 ;<monster>ノ コウゲキハ<line>
 ;マホウノ カベニ ハネカエサレタ.<delay>
-<use article 02><monster>’s attack was deflected by the magic wall.<delay>
+<Article><monster>’s attack was deflected by the magic wall.<delay>
 
 [14f9,15d3,1637]
 ;<monster>ノ マジックハ<line>
 ;マホウノ カベニ ハネカエサレタ.<delay>
-<use article 02><monster>’s spell was deflected by the magic wall.<delay>
+<Article><monster>’s spell was deflected by the magic wall.<delay>
 
 [1458]
 ;ミエナイ カベノ コウカガ<line>
@@ -1848,12 +1848,12 @@ The invisible wall became ineffective.<delay>
 [1552]
 ;<monster>ノ タイリョクガ<line>
 ;カイフクシタ.<delay>
-<use article 02><monster>’s stamina was restored.<delay>
+<Article><monster>’s stamina was restored.<delay>
 
 [20d3]
 ;<monster>ヲ<line>
 ;カナシバリニシタ.<delay>
-<use article 02><monster> is all bound up.<delay>
+<Article><monster> is all bound up.<delay>
 
 [151f]
 ;<player>ハ カナシバリニ アッタ.<delay>
@@ -1865,7 +1865,7 @@ The invisible wall became ineffective.<delay>
 
 [140c]
 ;<monster>ハ ウゴケナイ.<delay>
-<use article 02><monster> can’t move.<delay>
+<Article><monster> can’t move.<delay>
 
 [12d6]
 ;<player>ハ カナシバリガ トケタ.<delay>
@@ -1874,7 +1874,7 @@ The invisible wall became ineffective.<delay>
 [1407]
 ;<monster>ハ<line>
 ;カナシバリガ トケタ.<delay>
-<use article 02><monster>’s bindings came apart.<delay>
+<Article><monster>’s bindings came apart.<delay>
 
 [2132]
 ;<player>ハ カラダニ チカラガ<line>
@@ -1884,12 +1884,12 @@ The invisible wall became ineffective.<delay>
 [216f]
 ;<monster>ハ コワクナッテ<line>
 ;シリゴミシタ.<delay>
-<use article 02><monster> got scared and backed away.<delay>
+<Article><monster> got scared and backed away.<delay>
 
 [210d]
 ;<monster>ハ ニゲアシノ<line>
 ;ハヤサニ オドロイタ.<delay>
-<use article 02><monster> was surprised by the speed of the your escape.<delay>
+<Article><monster> was surprised by the speed of the your escape.<delay>
 
 [21ad]
 ;ワナジャナカッタ.<wait>
@@ -1903,17 +1903,17 @@ That was close! <player> detected and removed the trap.<wait>
 [23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c]
 ;<player>ハ <item>ヲ<line>
 ;ツカッタ.<delay>
-<player> used <use article 01><item>.<delay>
+<player> used <article><item>.<delay>
 
 [2883]
 ;<player>ハ <item>ヲ<line>
 ;ソウビシタ.<end>
-<player> equipped <use article 01><item>.<end>
+<player> equipped <article><item>.<end>
 
 [28cc]
 ;<player>ハ <item>ヲ<line>
 ;ステテシマッタ.<wait>
-<player> discarded <use article 01><item>.<end>
+<player> discarded <article><item>.<end>
 
 [20ff,23ec,2554,2582,2677,2803]
 ;シカシ コウカハ ナカッタ.<delay>
@@ -1922,7 +1922,7 @@ But there was no effect.<delay>
 [2418,242a,244c,245e,2486]
 ;シカシ ココデ <item>ハ<line>
 ;ヤクニ タタナイ.<wait>
-But <use article 01><item> is of no use here.<wait>
+But <article><item> is of no use here.<wait>
 
 [2304]
 ;ココデ オリルワケニハ イカナイ.<wait>
@@ -1930,11 +1930,11 @@ The group can’t get off here.<wait>
 
 [2438,246d]
 ;<item>ニ ノリコンダ.<delay>
-The group boarded <use article 01><item>.<delay>
+The group boarded <article><item>.<delay>
 
 [2311]
 ;<item>カラ トビオリタ.<delay>
-The group got out of <use article 01><item>.<delay>
+The group got out of <article><item>.<delay>
 
 [2402,2569,26af,2701,2816]
 ;シカシ ナニモ オキナカッタ.<delay>
@@ -1943,11 +1943,11 @@ But nothing happened.<delay>
 [24eb]
 ;<monster>ハ フエノネヲ<line>
 ;キイテ オトナシクナッタ.<delay>
-<use article 02><monster> heard the sound of the flute and calmed down.<delay>
+<Article><monster> heard the sound of the flute and calmed down.<delay>
 
 []
 ;<monster>ハ メガ ウツロダ.<delay>
-<use article 02><monster>’s eyes are blank.<delay>
+<Article><monster>’s eyes are blank.<delay>
 
 [2505,2597,25f9,26f1,2742,27a2]
 ;シカシ イマハ ソンナコトヲ<line>
@@ -1957,7 +1957,7 @@ But now doesn’t seem to be the time to do that.<delay>
 [24ff,2514,258b,25ed,264b,2733,2793]
 ;<player>ハ <item>ヲ<line>
 ;トリダシタ.<delay>
-<player> took out <use article 01><item>.<delay>
+<player> took out <article><item>.<delay>
 
 [251a,25aa,2651,279d]
 ;ベツニ コワレテナイヨウダ.<wait>
@@ -1996,12 +1996,12 @@ No matter when you sniff it, it stinks.<wait>
 [269f]
 ;<monster>ハ アカイ ホナオヲ<line>
 ;ミテ オジケズイタ.<delay>
-<use article 02><monster> saw the red flame and seized up in fear.<delay>
+<Article><monster> saw the red flame and seized up in fear.<delay>
 
 [2693,26e5]
 ; <player>ハ <item>ヲ<line>
 ; テンニ カザシタ.<delay>
-<player> held <use article 01><item> up towards the sky.<delay>
+<player> held <article><item> up towards the sky.<delay>
 
 [26d0]
 ;<player>ハ ラエルマベリ-ヲ トッテ<line>
@@ -2043,7 +2043,7 @@ There doesn’t seem to be anything particularly unusual here.<wait>
 
 [2a15,2a9b]
 ;<item>ヲ ミツケタ.<wait>
-You found <use article 01><item>.<wait>
+You found <article><item>.<wait>
 
 [21d9,22b5]
 ;ナンダカ カラダガ カルクナッタ.<delay>
@@ -2066,7 +2066,7 @@ Tylon can’t use magic.<delay>
 [28a3]
 ;<player>ハ <item>ヲ<line>
 ;ソウビ デキナイ.<wait>
-<player> can’t equip <use article 01><item>.<wait>
+<player> can’t equip <article><item>.<wait>
 
 [283e]
 ;ソレハ ソウビシナクテモイイ.<wait>
@@ -2075,7 +2075,7 @@ You don’t need to equip this item.<wait>
 [1872]
 ;ケイケンチガ <number>ポイント<line>
 ;アガッタ.<wait>
-You gained <number> experience<internal hint 02> point<use suffix>.<wait>
+You gained <number> experience<internal hint 02> point<s>.<wait>
 
 [18f3]
 ;<player>ハ レベルアップシタ.<wait>
@@ -2088,7 +2088,7 @@ You gained <number> experience<internal hint 02> point<use suffix>.<wait>
 
 [2a8c]
 ;<number>メセタ ハイッテイタ.<wait>
-You found <number><internal hint 01> meseta<use suffix> inside.<wait>
+You found <number><internal hint 01> meseta<s> inside.<wait>
 
 [2a37]
 ;アケテミルカ.<end>
@@ -2109,24 +2109,24 @@ Which item do you want to drop?<wait>
 
 [296a]
 ;<item>ヲ ステテ<wait>
-You dropped <use article 01><item>, and<wait>
+You dropped <article><item>, and<wait>
 
 [297d]
 ;<item>ヲ テニイレタ.<wait>
-You got <use article 01><item>.<wait>
+You got <article><item>.<wait>
 
 [2923]
 ;<item>ハ イラナイノカ.<end>
-Do you want to abandon <use article 01><item>?<end>
+Do you want to abandon <article><item>?<end>
 
 [292e]
 ;<item>ヲ アキラメタ.<wait>
-You abandoned <use article 01><item>.<wait>
+You abandoned <article><item>.<wait>
 
 [28c3,295d]
 ;<item>ヲ<line>
 ;ステルワケニハ イカナイ.<wait>
-You can’t drop <use article 01><item>!<wait>
+You can’t drop <article><item>!<wait>
 
 [1ba7,1f2d]
 ;マジックポイントガ タリナイ.<delay>
@@ -2138,7 +2138,7 @@ You don’t have enough magic points.<delay>
 
 [17ea]
 ;<monster>ヲ ヤッツケタ.<wait>
-You’ve beaten <use article 01><monster>.<end>
+You’ve beaten <article><monster>.<end>
 
 [14a6,15e4,1648,4c69,590f]
 ;<player>ハ シンデシマッタ.<delay>
@@ -2243,7 +2243,7 @@ What do you have?<end>
 [2e4f]
 ;<item>デスネ.<line>
 ;<number>メセタデ イイデスカ.<end>
-Hmm, <use article 01><item>? How does <number><internal hint 01> meseta<use suffix> sound?<end>
+Hmm, <article><item>? How does <number><internal hint 01> meseta<s> sound?<end>
 
 [2e66]
 ;アリガトウ モットウリマスカ.<end>
@@ -2262,7 +2262,7 @@ This is a hospital. Do you require medical care?<end>
 [2b54]
 ;シンサツト チリョウヒ<line>
 ;<number>メセタデス.ヨロシイデスカ.<end>
-Hmm. I can get you good as new for <number><internal hint 02> meseta<use suffix>.<wait more>
+Hmm. I can get you good as new for <number><internal hint 02> meseta<s>.<wait more>
 Shall I proceed?<end>
 
 [2b99]
@@ -2325,7 +2325,7 @@ Is there anyone else?<end>
 [2c24]
 ;<number>メセタ カカリマスガ<line>
 ;ヨロシイデスカ.<end>
-Our suggested donation is <number><internal hint 02> meseta<use suffix>.<end>
+Our suggested donation is <number><internal hint 02> meseta<s>.<end>
 
 [2ca8]
 ;コレカラ レベルアップスルタメニハ<wait>
@@ -2334,7 +2334,7 @@ To level up,<wait>
 [2d16]
 ;<player>ハ <number>ポイント<line>
 ;ヒツヨウデス.<wait>
-<player> needs <number><internal hint 02> point<use suffix>.<wait>
+<player> needs <number><internal hint 02> point<s>.<wait>
 
 [2ca2]
 ;アナタガタノ ユクスエニ<line>
@@ -2464,12 +2464,12 @@ OK. Now saving in slot <number>...<delay>
 [1574]
 ;<monster>ハ カラダニ<line>
 ;チカラガ ミナギルノヲカンジタ.<delay>
-<use article 02><monster> felt its body swell with strength.<delay>
+<Article><monster> felt its body swell with strength.<delay>
 
 [17ff]
 ;<monster>ハ タカラバコヲ<line>
 ;モッテイタ.<end>
-<use article 02><monster> had a treasure chest.<end>
+<Article><monster> had a treasure chest.<end>
 
 [27c3]
 ;イマ ヒガシヲムイテイル.<wait>
@@ -2580,7 +2580,7 @@ Deleting game from slot <number>.<end>
 [136e]
 ;<item>ハ イマ ダレカガ<line>
 ;ツカッテシマッタ.<wait>
-Someone has used <use article 01><item> up.<wait>
+Someone has used <article><item> up.<wait>
 
 [47da]
 ;シダイニ ソラガ アカルクナッテイキヒトビトモ ヘイワヲ トリモドシタ.<end>
