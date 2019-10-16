@@ -2514,6 +2514,7 @@ DezorianCustomStringCheck:
 ; * MST in shop is now 12x3
 ; * Shop items is now 18x8
 ; * Hapsby travel is now 8x7
+; * Player select is now 8x9
 ;
 ; High pressure scenarios:
 ; 1. World -> status
@@ -2534,11 +2535,10 @@ DezorianCustomStringCheck:
 ; * Party stats
 ; * Menu -> Items
 ;   * Inventory -> select item
-;     * Use/Equip/Drop
-;       * Use (e.g. armour)
-;         * Select player
-;           * Narrative: player equipped item (no scroll)
-;             * Current equipment
+;     * Use/Equip/Drop -> Use (e.g. armour)
+;       * Select player
+;         * Narrative: player equipped item (no scroll)
+;           * Current equipment
 ; 4. Battle -> inventory
 ; * Party stats
 ; * Enemy name
@@ -2572,139 +2572,89 @@ DezorianCustomStringCheck:
 ;     * Magic list -> telepathy
 ;       * Narrative: enemy response (scrolls)
 
-; $d700                   +---------------+
-;                         | MST in shop   |
-;                         | (12x3)        |
-;                         |               |
-;                         |               |
-; $d724 +---------------+ |               |
-; $d748 | Party stats   | +---------------+
-;       | (32x6)        |
-; $d8a4 +---------------+ +---------------+ +---------------+
-;       | Battle menu   | | Regular menu  | | Shop items    |
-;       | (8x11)        | | (8x11)        | | (18x8)        |
-; $d954 +---------------+ +---------------+ |               | 
-;                                           |               | 
-;                                           |               | 
-; $d978 +---------------+                   |               | 
-; $d94c | Enemy stats   |                   +---------------+ 
-;       | (8x10)        |                                     
-;       |               |                                     
-; $da18 +---------------+
+; My layout (TODO: lots of testing...)
+
+; $d700 +---------------+ // We assume these first three are always needed (nearly true)
+;       | Party stats   | 
+;       | (32x6)        | 
+; $d880 +---------------+
 ;       | Narrative box |
 ;       | (20x6)        |
-; $db08 +---------------+
+; $d970 +---------------+
 ;       | Narrative     |
 ;       | scroll buffer |
 ;       | (18x3)        |
-; $db74 +---------------+ 
-;       
-;       
-; $dc04 +---------------+ 
-;       | Inventory     | 
-;       | (12x21)       | 
-;       |               | 
-; $ddfc +---------------+ 
+; $d9dc +---------------+ +---------------+                   +---------------+
+;       | Battle menu   | | Regular menu  |                   | Shop items    |
+;       | (8x11)    (B) | | (8x11)    (W) |                   | (18x8)        |
+; $da8c +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
+; $dafc | Enemy name    | | Currently     | | Hapsby travel | +---------------+ | Select        |
+;       | (12x4)    (B) | | equipped      | | (8x7)     (W) | | MST in shop   | | save slot     |
+; $daec +---------------+ | items         | |               | | (12x3)        | | (9x12)        |
+; $dafc | Enemy stats   | | (12x8)    (W) | +---------------+ |               | |               |
+; $db44 | (8x10)        | |               |                   +---------------+ |               |
+; $db4c |               | +---------------+ +---------------+ | Buy/Sell      | |               |
+;       |               | | Character     | | Use/Equip/Drop| | (6x5)         | |           (W) |
+; $db64 |               | |  stats (13x14)| | (7x7)     (W) | |           (S) | +---------------+
+; $db80 |           (B) | |               | |               | +---------------+
+; $db8c +---------------+ |               | |               |
+; $dbae | Active player | |               | +---------------+ 
+;       | (during       | |               |                   
+;       | battle)       | |               |
+;       | (6x3)     (B) | |               |
+; $dbbc +---------------+ |           (W) | 
+; $dcb8 | Inventory     | +---------------+
+;       | (12x21)       | | Spells        |
+;       |               | | (12x12) (B,W) |
+;       |               | |               |
+;       |               | |               | 
+;       |         (B,W) | |               | 
+; $ddb4 +---------------+ |               |
+; $ddd8 +---------------+ +---------------+
+;       | Yes/No        | | Player select |
+;       | (5x5)         | | (8x9)         |
+; $de0a +---------------+ |         (B,W) |
+; $de68                   +---------------+
+;                         | Player select |
+;                         | (magic) (8x9) |
+;                         |         (B,W) |
+; $def8                   +---------------+
 
-; $de14 +---------------+ +---------------+
-;       | Buy/Sell      | | Hapsby travel |
-;       | (6x5)         | | (8x7)         |
-; $de50 +---------------+ |               |
-; $de60                   |               | +---------------+
-; $de84                   +---------------+ | Player select |
-;                                           | (6x9)         |
-; $decc                                     +---------------+ <- A bit far?
-;
-; $de96 <- old end
+; $de96 <- old end. 
+; If we extend past $deff then we interfere with resets (but we 
+; could patch that and free space up to $dffb).
 
-; 1.02 seems to use RAM up to $dfa3 which is a bit much!
- 
- 
- 
-| Player select | 
-| (magic) (6x9) | 
-+---------------+ 
-+---------------+
-| Use/Equip/Drop|
-| (7x7)         |
-+---------------+
-+---------------+
-| Currently     |
-| equipped      |
-| items         |
-| (12x8)        |
-+---------------+
-+---------------+
-| Character     |
-|  stats (13x14)|
-+---------------+
-+---------------+
-| Enemy name    |
-| (12x4)        |
-+---------------+
-+---------------+
-| Active player |
-| (during       |
-| battle)       |
-| (6x3)         |
-+---------------+
-+---------------+
-| Select        |
-| save slot     |
-| (9x12)        |
-+---------------+
-+---------------+
-| Yes/No        |
-| (5x5)         |
-+---------------+
-+---------------+
-| Spells        |
-| (12x12)       |
-+---------------+
+.macro PatchWindow
+  PatchW \2 \1
+.if nargs > 2
+  PatchW \3 \1
+.endif
+.if nargs > 3
+  PatchW \4 \1
+.endif
+.endm
 
-
-
-
-
-
-
-
-
-  PatchW $3788 $de60    ; #5  - Choose player
-  PatchW $37de $de60
-  PatchW $37a5 $ddd0    ; #7  - Magic - Depth 3 (choose player)
-  PatchW $37ef $ddd0
-  PatchW $3877 $d960    ; #8  - Item selected
-  PatchW $3889 $d960
-  PatchW $3826 $def0    ; #9  - Current equipment
-  PatchW $386b $def0
-  PatchW $38fc $dc50    ; #10 - Individual stats
-  PatchW $39df $dc50
-  PatchW $3256 $df20    ; #12 - Enemy name
-  PatchW $331b $df20
-  PatchW $3015 $df80    ; #14 - Active player
-  PatchW $3036 $df80
-  PatchW $3ad0 $dd00    ; #18 - Save slots
-  PatchW $3b08 $dd00
-  PatchW $38c1 $def0   ; Yes/no - clashes with #5
-  PatchW $38e1 $def0
-
-  PatchW $3595 $db30   ; #6 - Magic - Depth 2 (choose spell)
-  PatchW $35e4 $db30
-
-; Fixes from alex_231 - untested
-/*
-  PatchW $334d $d9f4 ; #3 Narrative Box
-  PatchW $3387 $d9f4
-  PatchW $3877 $d954 ; #8 Item selected
-  PatchW $3889 $d954
-  PatchW $38fc $dcbc ; #10 Individual stats
-  PatchW $39df $dcbc
-  PatchW $3262 $d954 ; #12 Enemy party
-  PatchW $330a $d954
-  PatchW $3595 $db74 ; #6 Magic - Depth 2 (choose spell)
-  PatchW $35e4 $db74
-*/
+  PatchWindow $d700 $3042 $3220 $30fd ; Party stats
+  PatchWindow $db8c $3015 $3036 ; Active player (during battle)
+  PatchWindow $dbbc $363c $3775 ; Inventory
+  PatchWindow $d880 $334d $3587 ; Narrative box
+  PatchWindow $d970 $3554 $3560 ; Narrative box scroll buffer
+  PatchWindow $d9dc $322c $324a ; Battle menu
+  PatchWindow $d9dc $37fb $3819 ; Regular world menu
+  PatchWindow $d9dc $39eb $3ac4 ; Shop items
+  PatchWindow $da8c $3826 $386b ; Currently equipped items
+  PatchWindow $da8c $3ad0 $3b08 ; Select save slot
+  PatchWindow $da8c $3256 $331b ; Enemy name
+  PatchWindow $da8c $3b4c $3b73 ; Hapsby travel
+  PatchWindow $daec $3262 $330a ; Enemy stats (up to 8)
+  PatchWindow $dafc $3b15 $3b3e ; MST in shop
+  PatchWindow $db4c $38fc $39df ; Character stats
+  PatchWindow $db4c $3877 $3889 ; Use, Equip, Drop
+  PatchWindow $db44 $3895 $38b5 ; Buy/Sell
+  PatchWindow $dcb8 $3595 $35e4 ; Spell list
+  PatchWindow $ddd8 $3788 $37de ; Player select
+  PatchWindow $de68 $37a5 $37ef ; Player select for magic
+  PatchWindow $ddd8 $38c1 $38e1 ; Yes/No
 
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
