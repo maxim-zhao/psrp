@@ -1643,6 +1643,10 @@ His royal blood is inside you. It has given you strength.<wait more>
 We are without a leader, Alisa.<wait more>
 Will you succeed your father and become Algol’s queen?<end>
 
+
+
+
+
 [5933]
 ; ワタシ オテガミ チエチャンヨ.<line>
 ; イツモ オタヨリ アリガトウ.<wait more>
@@ -1773,7 +1777,11 @@ Lord LaShiec has fallen. Nero’s dying wish was granted.<wait more>
 This is the beginning of a new life in Algol.<wait more>
 The only thing left to do is tell the Governor-general in Paseo.<wait>
 
-<width 12><height 03>
+; ****************************
+; *** Battle/menu dialogue ***
+; ****************************
+
+<width 12><height 04>
 
 [13a4]
 ;<monster>ハ <player>ノ<line>
