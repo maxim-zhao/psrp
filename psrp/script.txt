@@ -26,7 +26,7 @@
 ; <article> = use article for enemy/item, lowercase
 ; <Article> = use article for enemy/item, initial uppercase
 ;
-; <width nn> = wrap at width n
+; <width nn> = wrap at width n (hex)
 ; <height nn> = insert waits so text "pages" at height n
 ;
 ; <player> = player name
@@ -987,10 +987,6 @@ This is Casba Village.<wait>
 ; コノムラノ ドウクツニ ドラゴンガ<line>
 A dragon has holed himself up in our cave! I’m scared!<wait>
 
-[51a6]
-; ダンジョンノ ナカデハ オノレノ<line>
-.........<wait>
-
 [51ac]
 ; マワリヲ キリニ カコマレタ ムラ<line>
 ; ガアル.ソノムカシ ペルセウスガ<line>
@@ -1366,9 +1362,6 @@ Cheapskate!<wait>
 ; バカニスンデネエ.<wait>
 Do I look like an idiot?!<wait>
 
-[5361]
-.........<wait>
-
 [5849,58ea]
 ; ソウカ.ソレデコソ アルゴルオウノ<line>
 ; ムスメダ.<wait more>
@@ -1571,6 +1564,18 @@ I see. Then there is no point in talking with you any further.<wait>
 ; *** The Illusionary Aerocastle ***
 ; **********************************
 
+[5361]
+.........<wait>
+
+[51a6]
+; ダンジョンノ ナカデハ オノレノ<line>
+; メヲ　シンジルデナイゾ。<wait>
+...TODO...<wait>
+
+[5367]
+; ラシ－クサマニ　サカラウナ。<wait>
+...TODO...<wait>
+
 [5738]
 ; オマエタチノ コウドウハ<line>
 ; スベテオミトオシダ.<wait more>
@@ -1586,10 +1591,6 @@ This is where your journey ends, I’m afraid.<wait>
 Who am I? I am LaShiec’s shadow warrior.<wait more>
 You’ve beaten me, but it will do you no good.<wait more>
 Lord LaShiec is unkillable. He’ll destroy you all.<wait>
-
-[5367]
-; ラシ-クサマニ サカラウナ.<wait>
-.........<wait>
 
 [576a]
 ; トウトウ ココマデ キタカ.<line>
