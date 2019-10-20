@@ -1570,11 +1570,11 @@ I see. Then there is no point in talking with you any further.<wait>
 [51a6]
 ; ダンジョンノ ナカデハ オノレノ<line>
 ; メヲ　シンジルデナイゾ。<wait>
-...TODO...<wait>
+There is more than meets the eye in this dungeon, fools.<wait>
 
 [5367]
 ; ラシ－クサマニ　サカラウナ。<wait>
-...TODO...<wait>
+Don’t disobey King LaShiec.<wait>
 
 [5738]
 ; オマエタチノ コウドウハ<line>
