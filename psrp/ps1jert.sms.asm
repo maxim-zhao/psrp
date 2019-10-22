@@ -1701,7 +1701,7 @@ Items:
   String "~Dungeon@ Key"
   String "~Telepathy@ Ball"
   String "^Eclipse@ Torch"
-  String "^Aeroprism"
+  String "^Aeroprism" ; $30
   String "^Laerma@ Berries"
   String "Hapsby"
   String "~Road Pass"
@@ -1742,7 +1742,7 @@ Enemies:
   String "^Herex"
   String "^Sandworm"
   String "^Motavian@ Maniac"
-  String "^Gold Lens"
+  String "^Gold Lens" ; $10
   String "^Red Slime"
   String "^Bat Man"
   String "^Horseshoe@ Crab"
@@ -1758,7 +1758,7 @@ Enemies:
   String "^Cryon"
   String "^Big Nose"
   String "^Ghoul"
-  String "^Ammonite"
+  String "^Ammonite" ; $20
   String "^Executor"
   String "^Wight"
   String "^Skull@ Soldier"
@@ -1774,7 +1774,7 @@ Enemies:
   String "^Living@ Dead"
   String "^Robot@ Police"
   String "^Cyborg@ Mage"
-  String "^Flame@ Lizard"
+  String "^Flame@ Lizard" ; $30
   String "Tajim"
   String "^Gaia"
   String "^Machine@ Guard"
