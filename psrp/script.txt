@@ -477,7 +477,7 @@ Before space travel was commercialized, spaceships were built at a research labo
 ; Airstrip guards
 ; パスポ-トヲ モッテイルカ.<end>
 ; Do you have a passport?
-Do you have a passport?<end>
+Do you have a Passport?<end>
 
 [4d33]
 ; Passport office
@@ -511,7 +511,7 @@ There is a handling fee of <number><internal hint 02> meseta<s>. Can you pay?<en
 [4d91]
 ; Passport office
 ; デハ パスポ-トヲ ハッコウシマス.オウケトリクダサイ.<wait>
-Okay then, I’ll issue you a passport.<line>
+Okay then, I’ll issue you a Passport.<line>
 Here you are.<wait more>
 Next in line!<wait>
 
@@ -1207,8 +1207,7 @@ Please, I’m an old man. Leave me be.<wait>
 ; Dr Luveno (third time)
 ; ウ-ム.コリナイヤツジャ.<line>
 ; シカタガナイ.<wait more>
-; Hmmm... Didn’t I tell you to-- Aah, I give up! You must promise to do
- whatever I ask. Agreed?
+; Hmmm... Didn’t I tell you to-- Aah, I give up! You must promise to do whatever I ask. Agreed?
 You’re not going to leave, are you? Very well.<wait more>
 I’ll help you out, but you must do exactly as I say. Understood?<end>
 
@@ -1386,7 +1385,7 @@ This is a matter of national security.<wait>
 
 [4cfd]
 ; パスポ-トヲ ボッシュウスルゾ.<wait>
-We’ll be confiscating your passport now.<wait>
+We’ll be confiscating your Passport now.<wait>
 
 
 ; orphaned
@@ -2683,25 +2682,25 @@ Algol’s thankful people picked up the pieces and started anew.<end>
 ; <line>
 ; アリサ<delay>
 <line>
- Alisa,<delay>
+        Alisa,<delay>
 
 [480b]
 ; <line>
 ; タイロン<delay>
 <line>
- Tylon,<delay>
+        Tylon,<delay>
 
 [4816]
 ; <line>
 ; ルツ<delay>
 <line>
- Lutz,<delay>
+         Lutz,<delay>
 
 [4821]
 ; <line>
 ; ソシテ ミャウ<delay>
 <line>
- and Myau.<delay>
+       and Myau.<delay>
 
 [482c]
 ; ヤミノ キオクガ キエテモ<line>
