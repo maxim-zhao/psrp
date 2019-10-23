@@ -352,6 +352,12 @@ void EmitScript(const std::string& scriptFilename, const std::string& patchFilen
     int entryNumber = 0;
     for (auto&& entry : script)
     {
+        if (entry.offsets.size() == 0)
+        {
+            // Unused entry
+            continue;
+        }
+      
         std::string name = "Script" + std::to_string(entryNumber++);
         scriptFile << '\n' << name << ": ; " << entry.text << "\n.db";
 
