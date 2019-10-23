@@ -58,7 +58,7 @@ banks 32
 ; Bank 9
   .unbackground $27b14 $27fff ; $27e75  Mansion tiles and palette + unused space
 ; Bank 11
-  .unbackground $2c000 $2caeb ; $2c85a  Gold Dragon tiles and palette
+  .unbackground $2c000 $2caea ; $2c85a  Gold Dragon tiles and palette
   .unbackground $2fe3e $2ffff ; $2ffff  Unused space
 ; Bank 14
   .unbackground $3bc68 $3bfff ; $3bfff  Title screen tilemap + unused space
