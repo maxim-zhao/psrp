@@ -102,6 +102,7 @@
 ; Keep a sharp watch over me, big brother!
 
 [45ef]
+; Nero on ground, robot police
 Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
 Defiance of Lord LaShiec will not be tolerated!<wait more>
 
@@ -109,6 +110,7 @@ Nero? NERO!<line><line>
 What happened?!<wait>
 
 [45fa]
+; Nero, dying
 Alisa. My sister.<line><line>
 Listen closely, I don’t have long.<wait more>
 LaShiec is a threat to all of Algol, he can not remain in power.<line><line>
@@ -126,6 +128,7 @@ Please forgive me, for asking this of you...<wait more>
 ...alone...<wait>
 
 [4605]
+; Alisa
 Nero...<wait more>
 I know that you wouldn’t ask this of me if there was any other way.<wait more>
 Your death will not be meaningless, I swear it.<line><line>
@@ -676,23 +679,28 @@ I made a fortune selling that Laconian Pot! Thanks!<wait>
 ; Alisa: I see. Let’s go help him!
 
 [4643]
+; Alisa
 I guess we’re companions now, huh?<line><line>
 I’m Alisa. What’s your name?<wait>
 
 [464e]
+; Myau
 Myau.<wait>
 
 [4659]
+; Alisa
 Hello, Myau. I’m looking for a man named Tylon.<wait more>
 Rumor has it he was traveling with a talking animal.<line><line>
 I don’t suppose that was you?<wait>
 
 [4664]
+; Myau
 Tylon got turned to stone trying to slay Medusa!<line><line>
 We can heal him with this medicine, but I can’t open the lid.<wait more>
 He should still be in Scion, do you know how to get there?<wait>
 
 [466f]
+; Alisa
 I think I can manage. Come on, let’s go help him.<wait>
 
 <width 12><height 04>
@@ -704,11 +712,6 @@ I think I can manage. Come on, let’s go help him.<wait>
 ; Alas, Myau was not able to open the lid to the bottle.
 But Myau couldn’t open the lid to the bottle.<wait>
 
-[4fd4]
-; Guards outside Underground Passage to Governor's Mansion
-; グウグウ.<wait>
-; zzz... zzz...
-zzz...<wait>
 
 ; ******************************
 ; *** Cave South of Camineet ***
@@ -880,6 +883,12 @@ My world famous shortcakes are <number><internal hint 02> meseta<s>. Would you l
 ; *********************
 ; *** Paseo (again) ***
 ; *********************
+
+[4fd4]
+; Guards outside Underground Passage to Governor's Mansion
+; グウグウ.<wait>
+; zzz... zzz...
+zzz...<wait>
 
 [5627]
 ; Guard inside Underground Passage to Governor's Mansion
