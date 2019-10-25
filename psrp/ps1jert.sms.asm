@@ -1946,7 +1946,7 @@ SpellBlankLine:
 ; sub    l
 ; ld     h,a
 
-.define LINE_SIZE (10+2)*2  ; width of line
+.define LINE_SIZE (10+2)*2  ; width of line (spells menu)
 
   ; Our menus are wider now, we want a = b * 24.
   ; We don't have space to do it with shifts so we loop instead (slower)...
@@ -2161,7 +2161,7 @@ equipment:
   push hl
 
     di
-      ld a,3    ; data bank
+      ld a,:Items    ; data bank
       ld (PAGING_SLOT_2),a
 
       ld a,(hl)   ; grab item #
@@ -2572,57 +2572,60 @@ DezorianCustomStringCheck:
 ;     * Magic list -> telepathy
 ;       * Narrative: enemy response (scrolls)
 
-; My layout (TODO: lots of testing...)
+; My layout
 
 ; $d700 +---------------+ // We assume these first three are always needed (nearly true)
 ;       | Party stats   | 
 ;       | (32x6)        | 
 ; $d880 +---------------+
 ;       | Narrative box |
-;       | (20x6)        |
-; $d970 +---------------+
+;       | (26x6)        |
+; $d9b8 +---------------+
 ;       | Narrative     |
 ;       | scroll buffer |
-;       | (18x3)        |
-; $d9dc +---------------+ +---------------+                   +---------------+
+;       | (24x3)        |
+; $da48 +---------------+ +---------------+                   +---------------+
 ;       | Battle menu   | | Regular menu  |                   | Shop items    |
 ;       | (8x11)    (B) | | (8x11)    (W) |                   | (18x8)        |
-; $da8c +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
-; $dafc | Enemy name    | | Currently     | | Hapsby travel | +---------------+ | Select        |
-;       | (12x4)    (B) | | equipped      | | (8x7)     (W) | | MST in shop   | | save slot     |
-; $daec +---------------+ | items         | |               | | (12x3)        | | (9x12)        |
-; $dafc | Enemy stats   | | (12x8)    (W) | +---------------+ |               | |               |
-; $db44 | (8x10)        | |               |                   +---------------+ |               |
-; $db4c |               | +---------------+ +---------------+ | Buy/Sell      | |               |
-;       |               | | Character     | | Use/Equip/Drop| | (6x5)         | |           (W) |
-; $db64 |               | |  stats (13x14)| | (7x7)     (W) | |           (S) | +---------------+
-; $db80 |           (B) | |               | |               | +---------------+
-; $db8c +---------------+ |               | |               |
-; $dbae | Active player | |               | +---------------+ 
+; $daf8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
+;       | Enemy name    | | Currently     | | Hapsby travel | |               | | Select        |
+;       | (12x4)    (B) | | equipped      | | (8x7)     (W) | |               | | save slot     |
+; $db58 +---------------+ | items         | |               | |               | | (9x12)        |
+; $db68 | Enemy stats   | |               | +---------------+ +---------------+ |               |
+;       | (8x10)        | | (12x8)    (W) |                   | MST in shop   | |               |
+;       |               | |               |                   | (12x3)    (S) | |               |
+; $dbb0 |               | |               |                   +---------------+ |               |
+; $dbb8 |               | +---------------+ +---------------+ | Buy/Sell      | |           (W) |
+; $dbd0 |               | | Character     | | Use/Equip/Drop| | (6x5)     (S) | +---------------+
+; $dbec |           (B) | |  stats (13x14)| | (7x7)     (W) | +---------------+
+; $dbf8 +---------------+ |               | |               | 
+; $dc1a | Active player | |               | +---------------+ 
 ;       | (during       | |               |                   
 ;       | battle)       | |               |
 ;       | (6x3)     (B) | |               |
-; $dbbc +---------------+ |           (W) | 
-; $dcb8 | Inventory     | +---------------+
-;       | (12x21)       | | Spells        |
-;       |               | | (12x12) (B,W) |
-;       |               | |               |
-;       |               | |               | 
-;       |         (B,W) | |               | 
-; $ddb4 +---------------+ |               |
-; $ddd8 +---------------+ +---------------+
+; $dc28 +---------------+ |           (W) | 
+; $dd24 | Inventory     | +---------------+
+;       | (12x21) (B,W) | | Spells        |
+; $de20 +---------------+ | (12x12) (B,W) |
+; $de44 +---------------+ +---------------+
 ;       | Yes/No        | | Player select |
 ;       | (5x5)         | | (8x9)         |
-; $de0a +---------------+ |         (B,W) |
-; $de68                   +---------------+
+; $de76 +---------------+ |         (B,W) |
+; $ded4                   +---------------+
 ;                         | Player select |
 ;                         | (magic) (8x9) |
 ;                         |         (B,W) |
-; $def8                   +---------------+
+; $df64                   +---------------+
 
-; $de96 <- old end. 
-; If we extend past $deff then we interfere with resets (but we 
-; could patch that and free space up to $dffb).
+; The game puts the stack in a space from $cba0..$caff. The RAM window cache 
+; therefore can extend as far as $dffb (inclusive) - $dffc+ are used
+; to "mirror" paging register writes. (The original game stops at $de65 inclusive.)
+; However the game uses two lone bytes at $df00 (Port $3E value, typically 0)
+; and $df01 (set to $ff, never read). We therefore need to move the former
+; (and ignore the latter) to free up some space.
+  PatchW $00a6 $dffb ; move port $3e value to top of RAM
+  PatchW $03a5 $dffb
+  PatchW $03cc $dffb
 
 .macro PatchWindow
   PatchW \2 \1
@@ -2635,29 +2638,41 @@ DezorianCustomStringCheck:
 .endm
 
   PatchWindow $d700 $3042 $3220 $30fd ; Party stats
-  PatchWindow $db8c $3015 $3036 ; Active player (during battle)
-  PatchWindow $dbbc $363c $3775 ; Inventory
-  PatchWindow $d880 $334d $3587 ; Narrative box
-  PatchWindow $d970 $3554 $3560 ; Narrative box scroll buffer
-  PatchWindow $d9dc $322c $324a ; Battle menu
-  PatchWindow $d9dc $37fb $3819 ; Regular world menu
-  PatchWindow $d9dc $39eb $3ac4 ; Shop items
-  PatchWindow $da8c $3826 $386b ; Currently equipped items
-  PatchWindow $da8c $3ad0 $3b08 ; Select save slot
-  PatchWindow $da8c $3256 $331b ; Enemy name
-  PatchWindow $da8c $3b4c $3b73 ; Hapsby travel
-  PatchWindow $daec $3262 $330a ; Enemy stats (up to 8)
-  PatchWindow $dafc $3b15 $3b3e ; MST in shop
-  PatchWindow $db4c $38fc $39df ; Character stats
-  PatchWindow $db4c $3877 $3889 ; Use, Equip, Drop
-  PatchWindow $db44 $3895 $38b5 ; Buy/Sell
-  PatchWindow $dcb8 $3595 $35e4 ; Spell list
-  PatchWindow $ddd8 $3788 $37de ; Player select
-  PatchWindow $de68 $37a5 $37ef ; Player select for magic
-  PatchWindow $ddd8 $38c1 $38e1 ; Yes/No
+  PatchWindow $D880 $334d $3587 ; Narrative box
+  PatchWindow $D9B8 $3554 $3560 ; Narrative box scroll buffer
+  PatchWindow $DA48 $322c $324a ; Battle menu
+  PatchWindow $DA48 $37fb $3819 ; Regular world menu
+  PatchWindow $DA48 $39eb $3ac4 ; Shop items
+  PatchWindow $DAF8 $3826 $386b ; Currently equipped items
+  PatchWindow $DAF8 $3ad0 $3b08 ; Select save slot
+  PatchWindow $DAF8 $3256 $331b ; Enemy name
+  PatchWindow $DAF8 $3b4c $3b73 ; Hapsby travel
+  PatchWindow $DB58 $3262 $330a ; Enemy stats (up to 8)
+  PatchWindow $DB68 $3b15 $3b3e ; MST in shop
+  PatchWindow $DBB0 $3895 $38b5 ; Buy/Sell
+  PatchWindow $DBB8 $38fc $39df ; Character stats
+  PatchWindow $DBB8 $3877 $3889 ; Use, Equip, Drop
+  PatchWindow $DBF8 $3015 $3036 ; Active player (during battle)
+  PatchWindow $DC28 $363c $3775 ; Inventory
+  PatchWindow $DD24 $3595 $35e4 ; Spell list
+  PatchWindow $DE44 $3788 $37de ; Player select
+  PatchWindow $DE44 $38c1 $38e1 ; Yes/No
+  PatchWindow $DED4 $37a5 $37ef ; Player select for magic
 
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
+
+.define NARRATIVE_WIDTH 24
+.define NARRATIVE_VRAM_START $7c80 + (32 - NARRATIVE_WIDTH) / 2 * 2
+.define NARRATIVE_SCROLL_VRAM_START NARRATIVE_VRAM_START + 66
+
+  PatchB $3364 NARRATIVE_WIDTH ; Width counter
+  PatchW $3350 NARRATIVE_VRAM_START
+  PatchW $3386 NARRATIVE_VRAM_START
+  PatchW $358a NARRATIVE_VRAM_START
+  PatchW $3360 NARRATIVE_SCROLL_VRAM_START
+  PatchW $3563 NARRATIVE_SCROLL_VRAM_START
+  PatchW $3557 NARRATIVE_SCROLL_VRAM_START + 32 * 2 ; + 1 row
 
 .bank 0 slot 0
 .section "Newline patch" free
@@ -2665,13 +2680,13 @@ DezorianCustomStringCheck:
 ; Text window drawer multi-line handler
 
 newline:
-    ld b,$12 ; reset x counter
+    ld b,NARRATIVE_WIDTH ; reset x counter
     inc hl   ; move pointer to next byte
     ld a,c   ; get line counter                             ;
     or a     ; test for c==0
     jr nz,_not_zero
     ; zero: draw on 2nd line
-    ld de,$7d0e ; VRAM address
+    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 ; VRAM address
 _inc_and_finish:
     inc c
     jp InGameTextDecoder
@@ -2680,13 +2695,13 @@ _not_zero:
     jr nz,+
     ; one: draw on 3rd
 _draw_3rd_line:
-    ld de,$7d4e ; VRAM address
+    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 * 2 ; VRAM address
     jr _inc_and_finish
 +:  dec a    ; test for c==2
     jr nz,+
     ; two: draw on 4th
 _draw_4th_line:
-    ld de,$7d8e
+    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 * 3
     jr _inc_and_finish
 +:  ; three: scroll, draw on 4th line
     call $3546 ; _ScrollTextBoxUp2Lines (see patch below reduces it to one)

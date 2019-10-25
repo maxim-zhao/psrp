@@ -139,7 +139,7 @@ I’m off to kill the most powerful man in the world.<wait>
 ; *** Camineet Residential District ***
 ; *************************************
 
-<width 12><height 04>
+<width 18><height 04>
 
 [58fc]
 ; ココハ アリサノ ウチデス.<line>
@@ -703,7 +703,7 @@ He should still be in Scion, do you know how to get there?<wait>
 ; Alisa
 I think I can manage. Come on, let’s go help him.<wait>
 
-<width 12><height 04>
+<width 18><height 04>
 
 [25af,260c,262d]
 ; Using "Alsuline"
@@ -797,7 +797,7 @@ Medusa has a legendary axe, I was hoping to see LaShiec’s blood on it.<wait mo
 I hid a Compass at a dead end inside this cave.<line><line>
 We’re going to need it. Let’s go.<wait>
 
-<width 12><height 04>
+<width 18><height 04>
 
 
 ; ************
@@ -1058,7 +1058,7 @@ Let’s go. Quickly.<wait>
 ; ********************
 ; *** Gothic Woods ***
 ; ********************
-<width 12><height 04>
+<width 18><height 04>
 
 [500b,5034,533a,54a9]
 ; Villager
@@ -2507,7 +2507,7 @@ And then, in an instant, he transformed into a beautiful beast with enormous win
 Myau flapped his wings proudly for all to see.<wait>
 
 
-<width 12><height 04>
+<width 18><height 04>
 
 [14cc]
 ; (If yau dies in the Gold Dragon battle)
@@ -2730,7 +2730,7 @@ Though memories of this dark time will fade, these four names will remain in the
 ; *** Battle/menu dialogue ***
 ; ****************************
 
-<width 12><height 04>
+<width 18><height 04>
 
 [13a4]
 ;<monster>ハ <player>ノ<line>
