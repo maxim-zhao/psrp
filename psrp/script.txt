@@ -9,7 +9,7 @@
 ; Special code legend:
 ;
 ; <number> = render a number. Also sets a suffix flag if the number is 0 or >1.
-; Note that in sevaral places the number is fixed, but it saves ~35 bytes to 
+; Note that in several places the number is fixed, but it saves ~35 bytes to 
 ; use this tag (and the ones below) rather than include digits in the text
 ; (as that adds additional Huffman trees).
 ; However, in some places we spell words out (e.g. "three", "tenth") for 
@@ -1559,7 +1559,7 @@ Our new neighbor sure knows a lot about animals.<wait more>
 He told me the weirdest thing about Musk Cats.<wait more>
 He says if they eat a certain berry, they grow huge, and can fly!<wait more>
 I told him he was nuts, of course.<wait more>
-What kind of berry? Hm. Sorry, I can’t recall.<wait>
+What kind of berry? Hmm. Sorry, I can’t recall.<wait>
 
 [4c54]
 ; Mad Doctor
@@ -1819,7 +1819,7 @@ This is Drasgow, a tiny city floating on the sea.<wait>
 ; ヨクモマア コノマチヘ<line>
 ; タドリツキマシタネ.<wait>
 ; Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!
-Wow! I didn’t expect to see visitors here anytime soon.<wait more>
+Wow! I didn’t expect to see visitors here any time soon.<wait more>
 Not since LaShiec put an embargo on sea travel, anyway.<wait more>
 How the heck did you get here?<wait>
 
@@ -2234,7 +2234,7 @@ I’ve got a bad feeling about this.<wait>
 ; クリスタルヲ ラシ-クサマハ<line>
 ; Don’t let this get out, but there's a fortuneteller named Damoa who is in posession of a crystal that LaShiec hates. There must be something secret about that crystal.
 You didn’t hear this from me, but...<wait more>
-Lord LaShiec fears the crystal held by Damoa the fortuneteller.<wait more>
+Lord LaShiec fears the crystal held by Damoa the fortune-teller.<wait more>
 There must be something secret about it.<wait>
 
 [5661]
@@ -2419,7 +2419,7 @@ Life is so much less complicated here.<wait>
 ; ワシハ セカイイチノ ウラナイシ<line>
 ; ワシノ ウラナイヲ シンジルカ.<end>
 ; I am the World’s Greatest Fortune Teller, Damoa! Do you believe in my amazing powers?
-I am Damoa, the greatest fortuneteller in the world!<wait more>
+I am Damoa, the greatest fortune-teller in the world!<wait more>
 Do you believe in my powers of divination?<end>
 
 [5541,5552,5563]
