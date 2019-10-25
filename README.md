@@ -26,7 +26,12 @@ Unofficial Translation 2005-2019
 - v1.03 released 2019/??/??
   - rebuilt tools and assembly process
   - fixed issue with 10-letter item names in inventory (#2)
-  - fixed bug with pluralisation (#4)
+  - fixed bug with pluralisation (#5)
+  - fixed missing script in Aerocastle Gardens (#3)
+  - fixed screen corruption when closing menus (#1)
+  - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
+  - fixed naming inconsistencies in the script, e.g. Dezoris/Dezolis, Roadpass/roadpass/road pass
+  
 
 Phantasy Star Original Dialogue Version 
 Japanese to English Retranslation © 2001-2002
@@ -244,7 +249,12 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
   
 ### Thoughts on further translation
 
-- There is space in the font for more characters, e.g. for accents. However, there is limited symbol space between the existing characters ('?' at `48`) and the control codes (at `$4f`). Thus you may need to skip past to `$5d` - in which case you need to reduce the word list size.
+- There is no space in the font for more characters, e.g. for accents. You may consider these options:
+  - One of the quote symbols doubles as a comma, but you could make it into a more neutral shape and use it for both sides of a quote (maybe with horizontal mirroring).
+  - Your script may not use all the letters. The English script does not include"J", "X" or Z" - but make sure to check the items, and consider that you also then exclude these letters from the name entry screen. Of course your language may not use all of the 26 English letters either.
+  - Rotated ! and ? don't need tiles, just add them with tile flipping flags to the various places necessary - TBL files, the TextToTilemap macro, etc
+  - If all else fails, then you can just use uppercase letters instead.
+- WLA DX doesn't support UTF-8 :( so take care with any place the code uses .asciitable - the characters have to be single-byte. You may be OK if you use an old-fashioned text encoding.  
 - The prefixes (a, an, some) will need some expansion for other languages.
 - The script space is pretty tight. The game code can in theory map some of the script into slot 1, giving much more space for the encoded script - but this is removed in the current code.
 - If possible, re-retranslate from Japanese. Consider that localisation is part of translation. The English you see isn't identical to the Japanese.
