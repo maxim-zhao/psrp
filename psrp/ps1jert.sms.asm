@@ -2662,8 +2662,8 @@ DezorianCustomStringCheck:
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
 
-.define NARRATIVE_WIDTH 24
-.define NARRATIVE_VRAM_START $7c80 + (32 - NARRATIVE_WIDTH) / 2 * 2
+.define NARRATIVE_WIDTH 24 ; text character width
+.define NARRATIVE_VRAM_START $7c80 + (32 - (NARRATIVE_WIDTH + 2)) / 2 * 2
 .define NARRATIVE_SCROLL_VRAM_START NARRATIVE_VRAM_START + 66
 
   PatchB $3364 NARRATIVE_WIDTH ; Width counter
