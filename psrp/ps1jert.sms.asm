@@ -988,17 +988,6 @@ _Copy:
   ld de,TEMP_STR    ; Copy to work RAM
   ld (STR),de   ; Save pointer location
   ldir
-/*
-  dec hl      ; Check last character
-  ld a,(hl)
-
-  cp LETTER_S   ; <name>'s attack
-  jr nz,+
-
-  xor a     ; Clear flag
-
-+:ld (SUFFIX),a
-*/
   ld a,2    ; Normal page
   ld (PAGING_SLOT_2),a
 
@@ -1645,23 +1634,23 @@ OriginalVBlankHandlerPatch:
 Lists:
 ; Order is important!
 Items:
-  ; Item names should be manually word-wrapped (using '@') if longer than 10 
-  ; characters (the menu width), unless exactly 10 characters long in which 
+  ; Item names should be manually word-wrapped (using '@') if longer than 11 
+  ; characters (the menu width), unless exactly 11 characters long in which 
   ; case don't :) as the line is already wrapped at that point.
   String " " ; empty item (blank)
 ; weapons: 01-0f
   String "~Wood Cane"
-  String "~Short@ Sword"
+  String "~Short Sword"
   String "#Iron Sword"
-  String "~Psycho@ Wand"
+  String "~Psycho Wand"
   String "~Saber Claw"
   String "#Iron Axe"
   String "~Titanium@ Sword"
   String "~Ceramic@ Sword"
   String "~Needle Gun"
-  String "~Silver@ Tusk"
+  String "~Silver Tusk"
   String "~Heat Gun"
-  String "~Light@ Saber"
+  String "~Light Saber"
   String "~Laser Gun"
   String "~Laconian@ Sword"
   String "~Laconian@ Axe"
@@ -1678,7 +1667,7 @@ Items:
 ; shields: 19-20
   String "~Leather@ Shield"
   String "~Bronze@ Shield"
-  String "#Iron@ Shield"
+  String "#Iron Shield"
   String "~Ceramic@ Shield"
   String "#Animal@ Glove"
   String "~Laser@ Barrier"
@@ -1689,16 +1678,16 @@ Items:
   String "^FlowMover"
   String "^IceDecker"
 ; items: 24+
-  String "~Pelorie%@+Mate"
+  String "~PelorieMate"
   String "~Ruoginin"
   String "^Soothe@ Flute"
-  String "~Search%@+light"
+  String "~Searchlight"
   String "#Escape@ Cloth"
   String "~TranCarpet"
   String "~Magic Hat"
   String "#Alsuline"
   String "~Poly%@+meteral"
-  String "~Dungeon@ Key"
+  String "~Dungeon Key"
   String "~Telepathy@ Ball"
   String "^Eclipse@ Torch"
   String "^Aeroprism" ; $30
@@ -1715,7 +1704,7 @@ Items:
   String "~GasClear"
   String "Damoa's@ Crystal"
   String "~Master@ System"
-  String "^Miracle@ Key"
+  String "^Miracle Key"
   String "Zillion"
   String "~Secret@ Thing"
 
@@ -1727,17 +1716,17 @@ Names:
 
 Enemies:
   String " " ; Empty
-  String "^Monster@ Fly"
-  String "^Green@ Slime"
+  String "^Monster Fly"
+  String "^Green Slime"
   String "^Wing Eye"
   String "^Maneater"
   String "^Scorpius"
-  String "^Giant@ Naiad"
-  String "^Blue@ Slime"
+  String "^Giant Naiad"
+  String "^Blue Slime"
   String "^Motavian@ Peasant"
   String "^Devil Bat"
   String "^Killer@ Plant"
-  String "^Biting@ Fly"
+  String "^Biting Fly"
   String "^Motavian@ Teaser"
   String "^Herex"
   String "^Sandworm"
@@ -1768,25 +1757,25 @@ Enemies:
   String "^Leviathan"
   String "^Dorouge"
   String "^Octopus"
-  String "^Mad@ Stalker"
+  String "^Mad Stalker"
   String "^Dezorian@ Head"
   String "^Zombie"
-  String "^Living@ Dead"
+  String "^Living Dead"
   String "^Robot@ Police"
-  String "^Cyborg@ Mage"
+  String "^Cyborg Mage"
   String "^Flame@ Lizard" ; $30
   String "Tajim"
   String "^Gaia"
   String "^Machine@ Guard"
   String "^Big Eater"
   String "^Talos"
-  String "^Snake@ Lord"
+  String "^Snake Lord"
   String "^Death@ Bearer"
   String "^Chaos@ Sorcerer"
   String "^Centaur"
   String "^Ice Man"
   String "^Vulcan"
-  String "^Red@ Dragon"
+  String "^Red Dragon"
   String "^Green@ Dragon"
   String "LaShiec"
   String "^Mammoth"
@@ -1795,7 +1784,7 @@ Enemies:
   String "^Golem"
   String "Medusa"
   String "^Frost@ Dragon"
-  String "Dragon@ Wise"
+  String "Dragon Wise"
   String "Gold Drake"
   String "Mad Doctor"
   String "LaShiec"
@@ -1843,11 +1832,6 @@ MenuData:
 
   PatchB $3b82 :MenuData
   PatchB $3bab :MenuData
-
-  ; Enemy name VRAM
-  PatchW $3259 $7818
-  PatchW $3271 $7818
-  PatchW $331e $7818
 
   ROMPosition $3211
 .section "HP letters" size 4 overwrite ; not movable
@@ -1972,6 +1956,7 @@ MST:   .dwm TextToTilemap "|MST   "   ; 5 digit number
 
   PatchW $3911 Level  ; - LV source
   PatchW $36e7 MST    ; - MST source
+  PatchB $36e5 7*2    ; MST width * 2
 
 .bank 0 slot 0
 .section "Stats menu part 2" free
@@ -1993,12 +1978,6 @@ MaxMP:    .dwm TextToTilemap "|Max MP  "
   PatchW $3965 MaxMP    ; - Max MP source
   PatchB $3145 _sizeof_Attack ; - length in bytes
 
-  PatchW $363f $78a8    ; Inventory VRAM (2 tiles left)
-  PatchW $3778 $78a8
-  PatchW $364b $78a8
-  PatchB $36e5 $0c      ; - width * 2
-  PatchW $3617 $7928    ; - VRAM cursor
-
   PatchW $3b18 $7bcc    ; Store MST VRAM
   PatchW $3b41 $7bcc
   PatchW $3b26 $7bcc
@@ -2009,10 +1988,6 @@ MaxMP:    .dwm TextToTilemap "|Max MP  "
   PatchW $3b63 $7b2a    ; - VRAM cursor
   PatchW $3b4f $7aea    ; - move window down 1 tile
   PatchW $3b76 $7aea
-
-  PatchW $3835 $7a88    ; Equipment VRAM
-  PatchW $3829 $7a88
-  PatchW $386e $7a88
 
 .bank 2
 .section "Opening cinema" superfree
@@ -2188,6 +2163,8 @@ equipment:
 
   ret
 
+.define ITEM_NAME_WIDTH 11 ; when drawn in menus
+
 _start_write:
   di
     push bc
@@ -2206,7 +2183,7 @@ _start_write:
 
       ld a,(LEN)    ; string length
       ld c,a
-      ld b,10   ; 10-width
+      ld b,ITEM_NAME_WIDTH
 
 _check_length:
       ld a,c      ; check for zero string
@@ -2279,7 +2256,7 @@ _right_border:
     pop bc
 
     push hl
-      ld hl,10*2+2    ; left border + 10-char width
+      ld hl,ITEM_NAME_WIDTH*2+2    ; left border + width
       add hl,de   ; save VRAM ptr
       ld (FULL_STR+2),hl
 
@@ -2504,6 +2481,7 @@ DezorianCustomStringCheck:
 ; $de96 +---------------+ 
 ;
 ; In the retranslation we have some bigger windows so it's a little trickier...
+; * Narrative is 26x6
 ; * The world and battle menus are now 8x11
 ; * Enemy name is now 12x4
 ; * Use/Equip/Drop is now 7x7
@@ -2589,33 +2567,33 @@ DezorianCustomStringCheck:
 ;       | (8x11)    (B) | | (8x11)    (W) |                   | (18x8)        |
 ; $daf8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Enemy name    | | Currently     | | Hapsby travel | |               | | Select        |
-;       | (12x4)    (B) | | equipped      | | (8x7)     (W) | |               | | save slot     |
-; $db58 +---------------+ | items         | |               | |               | | (9x12)        |
+;       | (13x4)    (B) | | equipped      | | (8x7)     (W) | |               | | save slot     |
+; $db60 +---------------+ | items         | |               | |               | | (9x12)        |
 ; $db68 | Enemy stats   | |               | +---------------+ +---------------+ |               |
-;       | (8x10)        | | (12x8)    (W) |                   | MST in shop   | |               |
+;       | (8x10)        | | (13x8)    (W) |                   | MST in shop   | |               |
 ;       |               | |               |                   | (12x3)    (S) | |               |
 ; $dbb0 |               | |               |                   +---------------+ |               |
-; $dbb8 |               | +---------------+ +---------------+ | Buy/Sell      | |           (W) |
+; $dbc8 |               | +---------------+ +---------------+ | Buy/Sell      | |           (W) |
 ; $dbd0 |               | | Character     | | Use/Equip/Drop| | (6x5)     (S) | +---------------+
 ; $dbec |           (B) | |  stats (13x14)| | (7x7)     (W) | +---------------+
-; $dbf8 +---------------+ |               | |               | 
+; $dc00 +---------------+ |               | |               | 
 ; $dc1a | Active player | |               | +---------------+ 
 ;       | (during       | |               |                   
 ;       | battle)       | |               |
 ;       | (6x3)     (B) | |               |
-; $dc28 +---------------+ |           (W) | 
-; $dd24 | Inventory     | +---------------+
-;       | (12x21) (B,W) | | Spells        |
-; $de20 +---------------+ | (12x12) (B,W) |
-; $de44 +---------------+ +---------------+
+; $dc30 +---------------+ |           (W) | 
+; $dd34 | Inventory     | +---------------+
+;       | (13x21) (B,W) | | Spells        |
+; $de52 +---------------+ | (12x12) (B,W) |
+; $de54 +---------------+ +---------------+
 ;       | Yes/No        | | Player select |
 ;       | (5x5)         | | (8x9)         |
 ; $de76 +---------------+ |         (B,W) |
-; $ded4                   +---------------+
+; $dee4                   +---------------+
 ;                         | Player select |
 ;                         | (magic) (8x9) |
 ;                         |         (B,W) |
-; $df64                   +---------------+
+; $df74                   +---------------+
 
 ; The game puts the stack in a space from $cba0..$caff. The RAM window cache 
 ; therefore can extend as far as $dffb (inclusive) - $dffc+ are used
@@ -2647,17 +2625,17 @@ DezorianCustomStringCheck:
   PatchWindow $DAF8 $3ad0 $3b08 ; Select save slot
   PatchWindow $DAF8 $3256 $331b ; Enemy name
   PatchWindow $DAF8 $3b4c $3b73 ; Hapsby travel
-  PatchWindow $DB58 $3262 $330a ; Enemy stats (up to 8)
+  PatchWindow $DB60 $3262 $330a ; Enemy stats (up to 8)
   PatchWindow $DB68 $3b15 $3b3e ; MST in shop
-  PatchWindow $DBB0 $3895 $38b5 ; Buy/Sell
-  PatchWindow $DBB8 $38fc $39df ; Character stats
-  PatchWindow $DBB8 $3877 $3889 ; Use, Equip, Drop
-  PatchWindow $DBF8 $3015 $3036 ; Active player (during battle)
-  PatchWindow $DC28 $363c $3775 ; Inventory
-  PatchWindow $DD24 $3595 $35e4 ; Spell list
-  PatchWindow $DE44 $3788 $37de ; Player select
-  PatchWindow $DE44 $38c1 $38e1 ; Yes/No
-  PatchWindow $DED4 $37a5 $37ef ; Player select for magic
+  PatchWindow $DBB3 $3895 $38b5 ; Buy/Sell
+  PatchWindow $DBC8 $38fc $39df ; Character stats
+  PatchWindow $DBC8 $3877 $3889 ; Use, Equip, Drop
+  PatchWindow $DC00 $3015 $3036 ; Active player (during battle)
+  PatchWindow $DC30 $363c $3775 ; Inventory
+  PatchWindow $DD34 $3595 $35e4 ; Spell list
+  PatchWindow $DE54 $3788 $37de ; Player select
+  PatchWindow $DE54 $38c1 $38e1 ; Yes/No
+  PatchWindow $DEE4 $37a5 $37ef ; Player select for magic
 
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
@@ -2673,6 +2651,27 @@ DezorianCustomStringCheck:
   PatchW $3360 NARRATIVE_SCROLL_VRAM_START
   PatchW $3563 NARRATIVE_SCROLL_VRAM_START
   PatchW $3557 NARRATIVE_SCROLL_VRAM_START + 32 * 2 ; + 1 row
+  
+; Inventory menu
+.define ITEM_LIST_WIDTH ITEM_NAME_WIDTH + 2
+.define INVENTORY_VRAM_LOCATION $7880 + (32 - ITEM_LIST_WIDTH) * 2
+  PatchW $363f INVENTORY_VRAM_LOCATION
+  PatchW $3778 INVENTORY_VRAM_LOCATION
+  PatchW $364b INVENTORY_VRAM_LOCATION
+  PatchW $3617 INVENTORY_VRAM_LOCATION + 32*2*2 ; $7928    ; - VRAM cursor
+
+; Currently equipped items list
+.define EQUIPPED_VRAM_LOCATION $7aa0 - ITEM_LIST_WIDTH * 2
+  PatchW $3835 EQUIPPED_VRAM_LOCATION
+  PatchW $3829 EQUIPPED_VRAM_LOCATION
+  PatchW $386e EQUIPPED_VRAM_LOCATION
+
+; Enemy name
+.define ENEMY_NAME_VRAM_LOCATION $7830 - ITEM_LIST_WIDTH * 2
+  PatchW $3259 ENEMY_NAME_VRAM_LOCATION
+  PatchW $3271 ENEMY_NAME_VRAM_LOCATION
+  PatchW $331e ENEMY_NAME_VRAM_LOCATION
+
 
 .bank 0 slot 0
 .section "Newline patch" free

@@ -191,7 +191,7 @@ BANKS 30
 .define CharacterStatsEnemies     $c440     ; Enemy character stats x 8
 
 .define Inventory                 $c4c0     ; 32 bytes, item indices
-.define xc4e0                     $c4e0     ; ?
+.define Meseta                    $c4e0     ; w Current money
 .define InventoryCount            $c4e2     ; Number of items in Inventory
 .define xc4f0                     $c4f0     ; ?
 
@@ -1613,7 +1613,7 @@ NewGame:
     ld (VLocation),hl
     ld (xc311),hl      ; ???
     ld hl,$0000        ;
-    ld (xc4e0),hl      ; ???
+    ld (Meseta),hl      ; ???
 
     call IntroSequence
 
