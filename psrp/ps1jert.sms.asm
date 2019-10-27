@@ -1982,8 +1982,6 @@ MaxMP:    .dwm TextToTilemap "|Max MP  "
   PatchW $3b41 $7bcc
   PatchW $3b26 $7bcc
 
-  PatchW $3a40 $784c    ; Shop inventory VRAM
-
   PatchB $3b58 :MenuData ; Hapsby travel (bank)
   PatchW $3b63 $7b2a    ; - VRAM cursor
   PatchW $3b4f $7aea    ; - move window down 1 tile
@@ -2674,7 +2672,12 @@ DezorianCustomStringCheck:
   PatchW $3259 ENEMY_NAME_VRAM_LOCATION
   PatchW $3271 ENEMY_NAME_VRAM_LOCATION
   PatchW $331e ENEMY_NAME_VRAM_LOCATION
-
+  
+.define SHOP_ITEMS_VRAM_LOCATION $7800 + (32 - (ITEM_LIST_WIDTH + 8)) + 2
+  PatchW $39ee SHOP_ITEMS_VRAM_LOCATION
+  PatchW $39fa SHOP_ITEMS_VRAM_LOCATION
+  PatchW $3ac7 SHOP_ITEMS_VRAM_LOCATION
+  PatchW $3a40 SHOP_ITEMS_VRAM_LOCATION+32*2 ; Cursor start location
 
 .bank 0 slot 0
 .section "Newline patch" free
