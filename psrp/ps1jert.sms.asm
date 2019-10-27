@@ -1634,8 +1634,8 @@ OriginalVBlankHandlerPatch:
 Lists:
 ; Order is important!
 Items:
-  ; Item names should be manually word-wrapped (using '@') if longer than 11 
-  ; characters (the menu width), unless exactly 11 characters long in which 
+  ; Item names should be manually word-wrapped (using '@') if longer than 14
+  ; characters (the menu width), unless exactly 14 characters long in which
   ; case don't :) as the line is already wrapped at that point.
   String " " ; empty item (blank)
 ; weapons: 01-0f
@@ -1645,32 +1645,32 @@ Items:
   String "~Psycho Wand"
   String "~Saber Claw"
   String "#Iron Axe"
-  String "~Titanium@ Sword"
-  String "~Ceramic@ Sword"
+  String "~Titanium Sword"
+  String "~Ceramic Sword"
   String "~Needle Gun"
   String "~Silver Tusk"
   String "~Heat Gun"
   String "~Light Saber"
   String "~Laser Gun"
-  String "~Laconian@ Sword"
-  String "~Laconian@ Axe"
+  String "~Laconian Sword"
+  String "~Laconian Axe"
 ; armour: 10-18
   String "~Leather@ Clothes"
-  String "~White@ Cloak"
+  String "~White Cloak"
   String "~Light Suit"
   String "#Iron Armor"
   String "~Spiky [Squirrel ]Fur"
-  String "~Zirconian@ Mail"
-  String "~Diamond@ Armor"
-  String "~Laconian@ Armor"
+  String "~Zirconian Mail"
+  String "~Diamond Armor"
+  String "~Laconian Armor"
   String "^Frad Cloak"
 ; shields: 19-20
-  String "~Leather@ Shield"
-  String "~Bronze@ Shield"
+  String "~Leather Shield"
+  String "~Bronze Shield"
   String "#Iron Shield"
-  String "~Ceramic@ Shield"
-  String "#Animal@ Glove"
-  String "~Laser@ Barrier"
+  String "~Ceramic Shield"
+  String "#Animal Glove"
+  String "~Laser Barrier"
   String "^Shield of@ Perseus"
   String "~Laconian@ Shield"
 ; vehicles: 21-23
@@ -1680,33 +1680,33 @@ Items:
 ; items: 24+
   String "~PelorieMate"
   String "~Ruoginin"
-  String "^Soothe@ Flute"
+  String "^Soothe Flute"
   String "~Searchlight"
-  String "#Escape@ Cloth"
+  String "#Escape Cloth"
   String "~TranCarpet"
   String "~Magic Hat"
   String "#Alsuline"
-  String "~Poly%@+meteral"
+  String "~Polymeteral"
   String "~Dungeon Key"
-  String "~Telepathy@ Ball"
-  String "^Eclipse@ Torch"
+  String "~Telepathy Ball"
+  String "^Eclipse Torch"
   String "^Aeroprism" ; $30
-  String "^Laerma@ Berries"
+  String "^Laerma Berries"
   String "Hapsby"
   String "~Road Pass"
   String "~Passport"
   String "~Compass"
   String "~Shortcake"
   String "^Governor[-General]'s Letter"
-  String "~Laconian@ Pot"
-  String "^Light@ Pendant"
+  String "~Laconian Pot"
+  String "^Light Pendant"
   String "^Carbunckle Eye"
   String "~GasClear"
   String "Damoa's@ Crystal"
-  String "~Master@ System"
+  String "~Master System"
   String "^Miracle Key"
   String "Zillion"
-  String "~Secret@ Thing"
+  String "~Secret Thing"
 
 Names:
   String "Alisa"
@@ -1725,7 +1725,7 @@ Enemies:
   String "^Blue Slime"
   String "^Motavian@ Peasant"
   String "^Devil Bat"
-  String "^Killer@ Plant"
+  String "^Killer Plant"
   String "^Biting Fly"
   String "^Motavian@ Teaser"
   String "^Herex"
@@ -1734,7 +1734,7 @@ Enemies:
   String "^Gold Lens" ; $10
   String "^Red Slime"
   String "^Bat Man"
-  String "^Horseshoe@ Crab"
+  String "^Horseshoe Crab"
   String "^Shark King"
   String "^Lich"
   String "^Tarantula"
@@ -1743,14 +1743,14 @@ Enemies:
   String "^Ant-lion"
   String "^Marshes"
   String "^Dezorian"
-  String "^Desert@ Leech"
+  String "^Desert Leech"
   String "^Cryon"
   String "^Big Nose"
   String "^Ghoul"
   String "^Ammonite" ; $20
   String "^Executor"
   String "^Wight"
-  String "^Skull@ Soldier"
+  String "^Skull Soldier"
   String "^Snail"
   String "^Manticore"
   String "^Serpent"
@@ -1758,32 +1758,32 @@ Enemies:
   String "^Dorouge"
   String "^Octopus"
   String "^Mad Stalker"
-  String "^Dezorian@ Head"
+  String "^Dezorian Head"
   String "^Zombie"
   String "^Living Dead"
-  String "^Robot@ Police"
+  String "^Robot Police"
   String "^Cyborg Mage"
-  String "^Flame@ Lizard" ; $30
+  String "^Flame Lizard" ; $30
   String "Tajim"
   String "^Gaia"
-  String "^Machine@ Guard"
+  String "^Machine Guard"
   String "^Big Eater"
   String "^Talos"
   String "^Snake Lord"
-  String "^Death@ Bearer"
-  String "^Chaos@ Sorcerer"
+  String "^Death Bearer"
+  String "^Chaos Sorcerer"
   String "^Centaur"
   String "^Ice Man"
   String "^Vulcan"
   String "^Red Dragon"
-  String "^Green@ Dragon"
+  String "^Green Dragon"
   String "LaShiec"
   String "^Mammoth"
   String "^King Saber"
-  String "^Dark@ Marauder"
+  String "^Dark Marauder"
   String "^Golem"
   String "Medusa"
-  String "^Frost@ Dragon"
+  String "^Frost Dragon"
   String "Dragon Wise"
   String "Gold Drake"
   String "Mad Doctor"
@@ -1801,7 +1801,7 @@ Enemies:
 ; because it also increases the complexity of the Huffman trees.
 ; If our goal is to maximise script space then we should maximise the word count.
 ; The limit is 160 (could stretch a few more...)
-; If our goal is to minimise total space used across both the script and word list then the 
+; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
 .include "substring_formatter/words.asm"
@@ -1934,7 +1934,7 @@ SpellBlankLine:
 
   ; Our menus are wider now, we want a = b * 24.
   ; We don't have space to do it with shifts so we loop instead (slower)...
-  
+
   push de
   push bc
     ld hl,BlankSpellMenu
@@ -1951,12 +1951,12 @@ SpellBlankLine:
 .section "Stats menu part 1" free
 ; The width of these is important
 Level: .dwm TextToTilemap "|Level   " ; 3 digit number
-MST:   .dwm TextToTilemap "|MST   "   ; 5 digit number
+MST:   .dwm TextToTilemap "|MST      "   ; 5 digit number
 .ends
 
   PatchW $3911 Level  ; - LV source
   PatchW $36e7 MST    ; - MST source
-  PatchB $36e5 7*2    ; MST width * 2
+  PatchB $36e5 10*2    ; MST width * 2
 
 .bank 0 slot 0
 .section "Stats menu part 2" free
@@ -2163,7 +2163,7 @@ equipment:
 
   ret
 
-.define ITEM_NAME_WIDTH 11 ; when drawn in menus
+.define ITEM_NAME_WIDTH 14 ; when drawn in menus
 
 _start_write:
   di
@@ -2402,12 +2402,12 @@ _write_price:
 ; Extra scripting
 
   ROMPosition $59bd
-.section "Dezorian string" force 
+.section "Dezorian string" force
 ; In the native Dezorian village, a slight contextual error occurs.
-; 
+;
 ; (West) Those guys in the village next to us are all a bunch of liars. Be careful, eh.<wait>
 ; (East) The neighboring villagers are all liars. Be careful.<wait>
-; 
+;
 ; Both 'West' strings are used. No reference to the 'East' variety is made.
 ; A small hack is inserted to catch for 'extra' strings.
 ;
@@ -2459,16 +2459,16 @@ DezorianCustomStringCheck:
 ;       | Narrative     |
 ;       | scroll buffer |
 ;       | (18x3)        |
-; $db74 +---------------+  
-;       | Spells        |  
-;       | (6x12)        |  
-; $dc04 +---------------+ +---------------+ 
-;       | Inventory     | | Character     | 
-;       | (10x21)       | |  stats (12x14)| 
-; $dd54 |               | +---------------+ 
-; $dda8 +---------------+                   
-;       | Player select | 
-;       | (6x9)         | 
+; $db74 +---------------+
+;       | Spells        |
+;       | (6x12)        |
+; $dc04 +---------------+ +---------------+
+;       | Inventory     | | Character     |
+;       | (10x21)       | |  stats (12x14)|
+; $dd54 |               | +---------------+
+; $dda8 +---------------+
+;       | Player select |
+;       | (6x9)         |
 ; $de14 +---------------+ +---------------+ +---------------+ +---------------+
 ;       | Player select | | Use/Equip/Drop| | Buy/Sell      | | Hapsby travel |
 ;       | (magic) (6x9) | | (5x7)         | | (6x5)         | | (5x8)         |
@@ -2476,9 +2476,9 @@ DezorianCustomStringCheck:
 ; $de5a |               | +---------------+                   |               |
 ; $de80 +---------------+                                     |               |
 ; $de64 +---------------+                                     +---------------+
-;       | Yes/No        | 
-;       | (5x5)         | 
-; $de96 +---------------+ 
+;       | Yes/No        |
+;       | (5x5)         |
+; $de96 +---------------+
 ;
 ; In the retranslation we have some bigger windows so it's a little trickier...
 ; * Narrative is 26x6
@@ -2553,49 +2553,52 @@ DezorianCustomStringCheck:
 ; My layout
 
 ; $d700 +---------------+ // We assume these first three are always needed (nearly true)
-;       | Party stats   | 
-;       | (32x6)        | 
-; $d880 +---------------+
-;       | Narrative box |
-;       | (26x6)        |
-; $d9b8 +---------------+
-;       | Narrative     |
+;       | Party stats   |
+;       | (32x6)        |
+; $d880 +---------------+ +---------------+
+;       | Narrative box | | Character     |
+;       | (26x6)        | |  stats (13x14)|
+; $d9b8 +---------------+ |               |
+; $d9ec | Narrative     | +---------------+
 ;       | scroll buffer |
 ;       | (24x3)        |
-; $da48 +---------------+ +---------------+                   +---------------+
-;       | Battle menu   | | Regular menu  |                   | Shop items    |
-;       | (8x11)    (B) | | (8x11)    (W) |                   | (18x8)        |
+; $da48 +---------------+                   +---------------+ +---------------+
+;       | Regular menu  |                   | Battle menu   | | Shop items    |
+;       | (8x11)    (W) |                   | (8x11)    (B) | | (22x8)        |
 ; $daf8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
-;       | Enemy name    | | Currently     | | Hapsby travel | |               | | Select        |
-;       | (13x4)    (B) | | equipped      | | (8x7)     (W) | |               | | save slot     |
-; $db60 +---------------+ | items         | |               | |               | | (9x12)        |
-; $db68 | Enemy stats   | |               | +---------------+ +---------------+ |               |
-;       | (8x10)        | | (13x8)    (W) |                   | MST in shop   | |               |
-;       |               | |               |                   | (12x3)    (S) | |               |
-; $dbb0 |               | |               |                   +---------------+ |               |
-; $dbc8 |               | +---------------+ +---------------+ | Buy/Sell      | |           (W) |
-; $dbd0 |               | | Character     | | Use/Equip/Drop| | (6x5)     (S) | +---------------+
-; $dbec |           (B) | |  stats (13x14)| | (7x7)     (W) | +---------------+
-; $dc00 +---------------+ |               | |               | 
-; $dc1a | Active player | |               | +---------------+ 
-;       | (during       | |               |                   
-;       | battle)       | |               |
-;       | (6x3)     (B) | |               |
-; $dc30 +---------------+ |           (W) | 
-; $dd34 | Inventory     | +---------------+
-;       | (13x21) (B,W) | | Spells        |
-; $de52 +---------------+ | (12x12) (B,W) |
-; $de54 +---------------+ +---------------+
-;       | Yes/No        | | Player select |
-;       | (5x5)         | | (8x9)         |
-; $de76 +---------------+ |         (B,W) |
-; $dee4                   +---------------+
-;                         | Player select |
-;                         | (magic) (8x9) |
-;                         |         (B,W) |
-; $df74                   +---------------+
+;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
+;       | equipped      | | (8x7)     (W) | | (16x4)    (B) | |               | | save slot     |
+; $db68 | items         | +---------------+ |               | |               | | (9x12)        |
+; $db78 |               |                   +---------------+ |               | |               |
+;       |               |                   | Enemy stats   | |               | |               |
+; $dba8 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
+; $dbca |               |                   |               | | MST in shop   | |               |
+; $dbd0 |               |                   |               | | (12x3)    (S) | +---------------+
+; $dbf3 |               |                   |               | +---------------+
+; $dbf8 +---------------+ +---------------+ |               | +---------------+
+;       | Player select | | Buy/Sell      | |           (B) | | Yes/No        |
+; $dc18 | (8x9)   (B,W) | | (6x5)     (S) | +---------------+ | (5x5)         |
+; $dc2a |               | |               | | Active player | +---------------+
+; $dc34 |               | +---------------+ | (during       |
+;       |               |                   | battle)       |
+;       |               |                   | (6x3)     (B) |
+; $dc48 |               |                   +---------------+
+; $dc88 +---------------+ +---------------+
+;       | Inventory     | | Spells        |
+;       | (16x21) (B,W) | | (12x12) (B,W) |
+; $dda8 |               | +---------------+
+;       |               | | Player select |
+;       |               | | (magic) (8x9) |
+;       |               | |         (B,W) |
+; $de38 |               | +---------------+
+; $df28 +---------------+
+;       | Use/Equip/Drop|
+;       | (7x7)     (W) |
+; $df8a +---------------+
+;
 
-; The game puts the stack in a space from $cba0..$caff. The RAM window cache 
+
+; The game puts the stack in a space from $cba0..$caff. The RAM window cache
 ; therefore can extend as far as $dffb (inclusive) - $dffc+ are used
 ; to "mirror" paging register writes. (The original game stops at $de65 inclusive.)
 ; However the game uses two lone bytes at $df00 (Port $3E value, typically 0)
@@ -2625,17 +2628,17 @@ DezorianCustomStringCheck:
   PatchWindow $DAF8 $3ad0 $3b08 ; Select save slot
   PatchWindow $DAF8 $3256 $331b ; Enemy name
   PatchWindow $DAF8 $3b4c $3b73 ; Hapsby travel
-  PatchWindow $DB60 $3262 $330a ; Enemy stats (up to 8)
-  PatchWindow $DB68 $3b15 $3b3e ; MST in shop
-  PatchWindow $DBB3 $3895 $38b5 ; Buy/Sell
-  PatchWindow $DBC8 $38fc $39df ; Character stats
-  PatchWindow $DBC8 $3877 $3889 ; Use, Equip, Drop
-  PatchWindow $DC00 $3015 $3036 ; Active player (during battle)
-  PatchWindow $DC30 $363c $3775 ; Inventory
-  PatchWindow $DD34 $3595 $35e4 ; Spell list
-  PatchWindow $DE54 $3788 $37de ; Player select
-  PatchWindow $DE54 $38c1 $38e1 ; Yes/No
-  PatchWindow $DEE4 $37a5 $37ef ; Player select for magic
+  PatchWindow $DB78 $3262 $330a ; Enemy stats (up to 8)
+  PatchWindow $DBA8 $3b15 $3b3e ; MST in shop
+  PatchWindow $DBF8 $3895 $38b5 ; Buy/Sell
+  PatchWindow $D880 $38fc $39df ; Character stats
+  PatchWindow $DF28 $3877 $3889 ; Use, Equip, Drop
+  PatchWindow $DC18 $3015 $3036 ; Active player (during battle)
+  PatchWindow $DC88 $363c $3775 ; Inventory
+  PatchWindow $DC88 $3595 $35e4 ; Spell list
+  PatchWindow $DBF8 $3788 $37de ; Player select
+  PatchWindow $DBF8 $38c1 $38e1 ; Yes/No
+  PatchWindow $DDA8 $37a5 $37ef ; Player select for magic
 
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
@@ -2651,7 +2654,7 @@ DezorianCustomStringCheck:
   PatchW $3360 NARRATIVE_SCROLL_VRAM_START
   PatchW $3563 NARRATIVE_SCROLL_VRAM_START
   PatchW $3557 NARRATIVE_SCROLL_VRAM_START + 32 * 2 ; + 1 row
-  
+
 ; Inventory menu
 .define ITEM_LIST_WIDTH ITEM_NAME_WIDTH + 2
 .define INVENTORY_VRAM_LOCATION $7880 + (32 - ITEM_LIST_WIDTH) * 2
@@ -3131,7 +3134,7 @@ FontLookup:
 .dwm TextToTilemap ".:`',  -!?               "
 .ends
 
-; Both the trees and script entries could be micro-sections but they need to share a bank, 
+; Both the trees and script entries could be micro-sections but they need to share a bank,
 ; and it's pretty empty, so we don't get any benefit to split them up.
 .section "Script and Huffman trees" free
 .block "Huffman trees"
