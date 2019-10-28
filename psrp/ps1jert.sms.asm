@@ -1950,35 +1950,28 @@ SpellBlankLine:
 .bank 0 slot 0
 .section "Stats menu part 1" free
 ; The width of these is important
-Level: .dwm TextToTilemap "|Level   " ; 3 digit number
-MST:   .dwm TextToTilemap "|MST      "   ; 5 digit number
+Level:    .dwm TextToTilemap "|Level    " ; 3 digit number
+EXP:      .dwm TextToTilemap "|Exp.   "   ; 5 digit number
+Attack:   .dwm TextToTilemap "|Attack   " ; 3 digit numbers
+Defense:  .dwm TextToTilemap "|Defense  "
+MaxMP:    .dwm TextToTilemap "|Max MP   "
+MaxHP:    .dwm TextToTilemap "|Max HP   "
+MST:      .dwm TextToTilemap "|Meseta   "   ; 5 digit number but also used for shop so extra spaces needed
 .ends
 
-  PatchW $3911 Level  ; - LV source
-  PatchW $36e7 MST    ; - MST source
-  PatchB $36e5 10*2    ; MST width * 2
-
-.bank 0 slot 0
-.section "Stats menu part 2" free
-; The width of these is important
-EXP:      .dwm TextToTilemap "|Exp.  "   ; 5 digit number
-Attack:   .dwm TextToTilemap "|Attack  " ; 3 digit numbers
-Defense:  .dwm TextToTilemap "|Defense "
-MaxHP:    .dwm TextToTilemap "|Max HP  "
-MaxMP:    .dwm TextToTilemap "|Max MP  "
-.ends
-
-  PatchW $391a EXP    ; - EXP source
-  PatchB $31a3 _sizeof_EXP ; size
+  PatchW $3911 Level
+  PatchW $391a EXP
+  PatchB $31a3 _sizeof_EXP
   PatchB $36dd _sizeof_EXP
+  PatchW $392f Attack
+  PatchB $3145 _sizeof_Attack
+  PatchW $3941 Defense
+  PatchW $3965 MaxMP
+  PatchW $3953 MaxHP
+  PatchW $36e7 MST
+  PatchB $36e5 _sizeof_MST
 
-  PatchW $392f Attack   ; - Attack source
-  PatchW $3941 Defense  ; - Defense source
-  PatchW $3953 MaxHP    ; - Max HP source
-  PatchW $3965 MaxMP    ; - Max MP source
-  PatchB $3145 _sizeof_Attack ; - length in bytes
-
-  PatchW $3b18 $7bcc    ; Store MST VRAM
+  PatchW $3b18 $7bcc    ; Store MST VRAM location
   PatchW $3b41 $7bcc
   PatchW $3b26 $7bcc
 
@@ -2555,9 +2548,9 @@ DezorianCustomStringCheck:
 ;       | (32x6)        |
 ; $d880 +---------------+ +---------------+
 ;       | Narrative box | | Character     |
-;       | (26x6)        | |  stats (13x14)|
+;       | (26x6)        | |  stats (14x14)|
 ; $d9b8 +---------------+ |               |
-; $d9ec | Narrative     | +---------------+
+; $da08 | Narrative     | +---------------+
 ;       | scroll buffer |
 ;       | (24x3)        |
 ; $da48 +---------------+                   +---------------+ +---------------+
@@ -2672,7 +2665,7 @@ DezorianCustomStringCheck:
   PatchW $3259 ENEMY_NAME_VRAM_LOCATION
   PatchW $3271 ENEMY_NAME_VRAM_LOCATION
   PatchW $331e ENEMY_NAME_VRAM_LOCATION
-  
+
 .define SHOP_ITEMS_VRAM_LOCATION $7800 + (32 - (ITEM_LIST_WIDTH + 8)) + 2
   PatchW $39ee SHOP_ITEMS_VRAM_LOCATION
   PatchW $39fa SHOP_ITEMS_VRAM_LOCATION

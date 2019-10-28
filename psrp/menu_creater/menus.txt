@@ -302,38 +302,38 @@ dims=355a,3566
 ptrs=3908
 dims=390b
 
-┌───────────╖
+┌────────────╖
 
 [SideBorder11]
 ptrs=3926,3938,394a,395c,396e
 dims=3929,393b,394d,395f,3971
 
-│           ║
+│            ║
 
 [BottomBorder11]
 ptrs=397a
 dims=397d
 
-╘═══════════╝
+╘════════════╝
 
 [StatsMenuDimensions]
 dimensions only
 dims=3902,39e5
 
-┌───────────╖
-│           ║
-│           ║
-│           ║
-│           ║
-│           ║
-│           ║
-│           ║
-│           ║
-│           ║
-│           ║
-│           ║
-│           ║
-╘═══════════╝
+┌────────────╖
+│            ║
+│            ║
+│            ║
+│            ║
+│            ║
+│            ║
+│            ║
+│            ║
+│            ║
+│            ║
+│            ║
+│            ║
+╘════════════╝
 
 [EquimentMenuDimensions]
 dimensions only
