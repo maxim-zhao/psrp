@@ -23,52 +23,55 @@ banks 32
 .emptyfill $ff
 
 ; Bank 0
-  .unbackground $0000f $00037 ; $00037  Unused space
-  .unbackground $00056 $00065 ; $00065  ExecuteFunctionIndexAInNextVBlank followed by unused space
-  .unbackground $00486 $004b2 ; $004ae  Old tile decoder
-  .unbackground $008f3 $0090b ; $0090b  Title screen graphics loading
-  .unbackground $00925 $00944 ; $00932  Title screen palette
-  .unbackground $033da $033f3 ; $033eb  Draw item name
-  .unbackground $033aa $033c3 ; $033b7  Draw character name
-  .unbackground $033c8 $033d5 ; $033d3  Draw enemy name
-  .unbackground $033f6 $03493 ; $03466  Draw number
-  .unbackground $03494 $034a4 ; $0349d  Draw characters from buffer
-  .unbackground $034f2 $03545 ; $03537  Draw one character to tilemap
-  .unbackground $03982 $039dd ; $039dd  Stats menu tilemap data
-  .unbackground $03eca $03fc1 ; $03f6e  background graphics lookup table
-  .unbackground $03fc2 $03fd1 ; $03fd1  Sky Castle reveal palette
+  .unbackground $0000f $00037 ; Unused space
+  .unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
+  .unbackground $00486 $004b2 ; Old tile decoder
+  .unbackground $007c9 $007df ; Load game font loader
+  .unbackground $008f3 $0090b ; Title screen graphics loading
+  .unbackground $00925 $00944 ; Title screen palette
+  .unbackground $010e3 $010f9 ; Dungeon font loader
+  .unbackground $033da $033f3 ; Draw item name
+  .unbackground $033aa $033c3 ; Draw character name
+  .unbackground $033c8 $033d5 ; Draw enemy name
+  .unbackground $033f6 $03493 ; Draw number
+  .unbackground $03494 $034a4 ; Draw characters from buffer
+  .unbackground $034f2 $03545 ; Draw one character to tilemap
+  .unbackground $03982 $039dd ; Stats menu tilemap data
+  .unbackground $03dde $03df4 ; Dungeon font loader
+  .unbackground $03eca $03fc1 ; background graphics lookup table
+  .unbackground $03fc2 $03fd1 ; Sky Castle reveal palette
 ; Bank 1
-  .unbackground $04059 $0407a ; $04078  password entered (unused)
-  .unbackground $0429b $042b4 ; $042b2  draw to tilemap during entry
-  .unbackground $042b5 $042cb ; $042c5  draw to RAM during entry
-  .unbackground $04261 $04277 ; $04277  password population (unused)
-  .unbackground $04396 $043e5 ; $043e5  password lookup data (unused)
-  .unbackground $043e6 $04405 ; $04405  text for "please enter your name"
-  .unbackground $04406 $0448b ; $0448b  tilemap for name entry
-  .unbackground $0448c $04509 ; $044f5  data for lookup table during entry
-  .unbackground $045a4 $045c3 ; $045c3  tile loading for intro
-  .unbackground $059ba $059c9 ; $059c5  Draw text box 20x6 (dialogue)
-  .unbackground $07fe5 $07fff ; $07fff  Unused space + header
+  .unbackground $04059 $0407a ; password entered (unused)
+  .unbackground $0429b $042b4 ; draw to tilemap during entry
+  .unbackground $042b5 $042cb ; draw to RAM during entry
+  .unbackground $04261 $04277 ; password population (unused)
+  .unbackground $04396 $043e5 ; password lookup data (unused)
+  .unbackground $043e6 $04405 ; text for "please enter your name"
+  .unbackground $04406 $0448b ; tilemap for name entry
+  .unbackground $0448c $04509 ; data for lookup table during entry
+  .unbackground $045a4 $045c3 ; tile loading for intro
+  .unbackground $059ba $059c9 ; Draw text box 20x6 (dialogue)
+  .unbackground $07fe5 $07fff ; Unused space + header
 ; Bank 2
-  .unbackground $08000 $080b1 ; $080b1  font tile lookup
-  .unbackground $080b2 $0bd93 ; $0bd93  script
-  .unbackground $0bd94 $0bf9b ; $0bdd1  item names
-  .unbackground $0bed0 $0bf9b ; $0bf35  item names - now SFG decoder
-  .unbackground $0bf50 $0bf9b ; $0bf99  item names - now Huffman decoder init
+  .unbackground $08000 $080b1 ; font tile lookup
+  .unbackground $080b2 $0bd93 ; script
+  .unbackground $0bd94 $0bf9b ; item names
+  .unbackground $0bed0 $0bf9b ; item names - now SFG decoder
+  .unbackground $0bf50 $0bf9b ; item names - now Huffman decoder init
 ; Bank 9
-  .unbackground $27b14 $27fff ; $27e75  Mansion tiles and palette + unused space
+  .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
 ; Bank 11
-  .unbackground $2c000 $2caea ; $2c85a  Gold Dragon tiles and palette
-  .unbackground $2fe3e $2ffff ; $2ffff  Unused space
+  .unbackground $2c000 $2caea ; Gold Dragon tiles and palette
+  .unbackground $2fe3e $2ffff ; Unused space
 ; Bank 14
-  .unbackground $3bc68 $3bfff ; $3bfff  Title screen tilemap + unused space
+  .unbackground $3bc68 $3bfff ; Title screen tilemap + unused space
 ; Bank 15
-  .unbackground $3fdee $3ffff ; $3ffff  Credits font
+  .unbackground $3fdee $3ffff ; Credits font
 ; Bank 16
-  .unbackground $40000 $428f5 ; $4277a  Scene tiles and palettes (part 1)
-  .unbackground $433f6 $43fff ; $43a82  Scene tiles and palettes (part 2) + unused space
+  .unbackground $40000 $428f5 ; Scene tiles and palettes (part 1)
+  .unbackground $433f6 $43fff ; Scene tiles and palettes (part 2) + unused space
 ; Bank 17
-  .unbackground $44640 $47fff ; $47aaa  Palettes and tiles + unused space
+  .unbackground $44640 $47fff ; Palettes and tiles + unused space
 ; Bank 18
   .unbackground $4be84 $4bfff ; $4bfff  Unused space
 ; Bank 19
@@ -128,6 +131,11 @@ PatchAt\1:
 PatchAt\1:
   .dw _value
 .ends
+.endm
+
+; Allows us to "jr" to an absolute address
+.macro JR_TO
+  jr \1-CADDR-1
 .endm
 
 ; Filter macro for turning text into 16-bit tilemap entries.
@@ -783,127 +791,44 @@ BackgroundSceneLoaderTileLoaderPatch:
 
 .slot 2
 .section "Font part 1" superfree
-FONT1:
-.incbin "new_graphics/font1.psgcompr"
-; Need to be in the same bank
-FONT2:
-.incbin "new_graphics/font2.psgcompr"
+FONT1: .incbin "new_graphics/font1.psgcompr"
+FONT2: .incbin "new_graphics/font2.psgcompr"
 .ends
-
-  ROMPosition $045a4
-.section "Intro font loader" force ; not movable
-; Originally t0b.asm
-IntroFontLoader:
-; was:
-; ld hl,$ffff        SetPage TilesFont
-; ld (hl),$10
-; ld hl,$bad8        ld hl,TilesFont
-; ld de,$5800        TileAddressDE $c0
-; call $04b3         call LoadTiles4BitRLE
-; ld hl,$bebe        ld hl,TilesExtraFont
-; ld de,$7e00        TileAddressDE $1f0
-; call $04b3         call LoadTiles4BitRLE
-; ld hl,$bf5e        ld hl,TilesExtraFont2
-; ld de,$5700        TileAddressDE $b8
-; call $04b3         call LoadTiles4BitRLE
 
 .define Font1VRAMAddress $5800
 .define Font2VRAMAddress $7e00
 
-; replace an in-line font decoding setup with a new one that's reusable,
-; because it has a ret after it
-
-  call DECODE_FONT
-  jr ++
-
-DECODE_FONT:    ; reusable elsewhere now
+.bank 0 slot 0
+.section "Load font to VRAM" free
+DECODE_FONT:
   ld hl,PAGING_SLOT_2
   ld (hl),:FONT1
-
   ld de,FONT1
   ld hl,Font1VRAMAddress
   call LoadTiles
-
-DECODE_FONT2:
   ld de,FONT2
   ld hl,Font2VRAMAddress
-  call LoadTiles
-  ret
-
-  nop ; this version is actually 3 bytes smaller now... need to nop out old code
-  nop ; to continue correctly
-  nop
-
-++
+  jp LoadTiles ; and ret
 .ends
 
-  ROMPosition $7c9
-.section "Font patch 1" overwrite ; not movable
-FontPatch1:
-  ; Load game font decoding
-  ; Original code:
-; ld hl,$ffff       ; page in
-; ld (hl),$10
-; ld hl,$bad8       ; laod part 1
-; ld de,$5800
-; call $04b3
-; ld hl,$bebe       ; load part 2
-; ld de,$7e00
-; call $04b3
+; We use a single
+.macro PatchFontLoader args start, end
+  .unbackground start end-1
+  ROMPosition start
+  .section "Font patch \@" force
+    call DECODE_FONT
+    JR_TO end
+  .ends
+.endm
 
-  call DECODE_FONT
-  ; TODO: free the space
-  jr $7e0-CADDR-1
-.ends
+  PatchFontLoader $45a4 $45c4 ; Intro
+  PatchFontLoader $07c9 $07e0 ; Load game
+  PatchFontLoader $10e3 $10fa ; Dungeon
+  PatchFontLoader $3dde $3df5 ; Overworld
+  PatchFontLoader $48da $48f1 ; Cutscene
+  PatchFontLoader $6971 $697f ; After dungeon pitfall - scrolling overwrites the "font2" section but we just reload both...
 
-  ROMPosition $10e3
-.section "Font patch 2" overwrite ; not movable
-FontPatch2:
-  ; Dungeon font decoding
-  ; Original code same as above
-
-  call DECODE_FONT
-  ; TODO: free the space
-  jr $10fa-CADDR-1
-.ends
-
-  ROMPosition $3dde
-.section "Font patch 3" overwrite ; not movable
-FontPatch3:
-  ; In-game font decoding
-  ; Original code same as above
-
-  call DECODE_FONT
-  ; TODO: free the space
-  jr $3df5-CADDR-1
-.ends
-
-  ROMPosition $48da
-.section "Font patch 4" overwrite ; not movable
-FontPatch4:
-  ; Cutscene font decoding
-  ; Original code same as above
-
-  call DECODE_FONT
-  jr $48f1-CADDR-1
-.ends
-
-
-  ROMPosition $697c
-.section "Font patch 5" overwrite ; not movable
-FontPatch5:
-  ; Original code:
-; ld hl,$ffff       ; page in
-; ld (hl),$10
-; ld hl,$bebe       ; load part 2
-; ld de,$7e00
-; call $04b3        ; <-- We only patch this part. TODO: free the space?
-
-  call DECODE_FONT2 ; just the second font group
-.ends
-
-
-; Font renderer
+; Text renderer
 
   ROMPosition $34f2
 .section "Character drawing" force ; not movable
@@ -2660,12 +2585,19 @@ DezorianCustomStringCheck:
   PatchW $3829 EQUIPPED_VRAM_LOCATION
   PatchW $386e EQUIPPED_VRAM_LOCATION
 
-; Enemy name
-.define ENEMY_NAME_VRAM_LOCATION $7830 - ITEM_LIST_WIDTH * 2
+; Enemy name now right-aligned
+.define ENEMY_NAME_VRAM_LOCATION $7840 - ITEM_LIST_WIDTH * 2
   PatchW $3259 ENEMY_NAME_VRAM_LOCATION
   PatchW $3271 ENEMY_NAME_VRAM_LOCATION
   PatchW $331e ENEMY_NAME_VRAM_LOCATION
 
+; Enemy HP moved down a bit
+.define ENEMY_HP_VRAM_LOCATION $7830 + 32 * 2 * 4
+  PatchW $3265 ENEMY_HP_VRAM_LOCATION
+  PatchW $329e ENEMY_HP_VRAM_LOCATION
+  PatchW $330d ENEMY_HP_VRAM_LOCATION
+
+; Shop items - centred
 .define SHOP_ITEMS_VRAM_LOCATION $7800 + (32 - (ITEM_LIST_WIDTH + 8)) + 2
   PatchW $39ee SHOP_ITEMS_VRAM_LOCATION
   PatchW $39fa SHOP_ITEMS_VRAM_LOCATION
