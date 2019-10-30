@@ -10,7 +10,7 @@ WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 FLIPS = "..\..\..\sms-build-tools\flips\flips.exe"
 
 # Assume default CPP = cl
-CPPFLAGS = /O2 /EHsc /W2 /Zi /MP /FS
+CPPFLAGS = /Os /EHsc /W4 /MP /FS /GS- /MD
 
 # The original PSJ ROM
 PSJ = ps1-j.sms
