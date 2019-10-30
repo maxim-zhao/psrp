@@ -153,10 +153,10 @@ PatchAt\1:
   .redefine _out $17f5 ; vflipped '
 .else
 .if \1 == '|'
-  .redefine _out $11f3 ; hflipped for left bar
+  .redefine _out $11f3
 .else
 .if \1 == ':'
-  .redefine _out $11f4 ; hflipped?
+  .redefine _out $11f4
 .else
 .if \1 == '`'
   .redefine _out $11f5
@@ -1648,14 +1648,14 @@ Enemies:
   String "^Scorpius"
   String "^Giant Naiad"
   String "^Blue Slime"
-  String "^Motavian@ Peasant"
+  String "^Motavian Peasant"
   String "^Devil Bat"
   String "^Killer Plant"
   String "^Biting Fly"
-  String "^Motavian@ Teaser"
+  String "^Motavian Teaser"
   String "^Herex"
   String "^Sandworm"
-  String "^Motavian@ Maniac"
+  String "^Motavian Maniac"
   String "^Gold Lens" ; $10
   String "^Red Slime"
   String "^Bat Man"
@@ -2018,31 +2018,115 @@ shop:
 
   ret
 
-
 enemy:
+  ; Enemy name window drawing
+  ; Get enemy name to TEMP_STR
   di
-    ld a,3    ; enemy data bank
+    ld a,:Enemies
     ld (PAGING_SLOT_2),a
 
-    ld a,(EnemyIndex)    ; grab enemy #
+    ld a,(EnemyIndex)
     ld hl,Enemies   ; table start
 
     push de
       call DictionaryLookup    ; copy string to RAM
     pop de
   ei
-
-  ld hl,TEMP_STR    ; start of text
-
-  call _start_write ; write out line of text
-
-  ld a,(LEN)    ; optionally write next line
-  or a
-  call nz,_start_write
-
+  
+  ; compute the name length
+  ; LEN contains the length including control symbols
+  ld a,(LEN)
+  ld hl,TEMP_STR
+  ld b,a
+  ld c,0
+-:ld a,(hl)
+  inc hl
+  cp $4f
+  jr nc,+
+  inc c
++:djnz -
+  ; now c is the real name length
+  
+  ; Compute the VRAM address
+  ld hl,$7840 - 4 ; right-aligned, minus space for borders
+  ld a,c
+  add a,a
+  neg
+  ld e,a
+  ld d,-1
+  add hl,de
+  ex de,hl
+  
+  push de
+    ; Set VRAM address
+    rst $08
+    ; Draw top border
+    ld hl,BorderTop
+    call _DrawBorder
+  pop de
   call _wait_vblank
+  ; Next row
+  ld hl,32*2
+  add hl,de
+  ex de,hl
+  push de
+    rst $08
+    ld hl,BorderSides
+    call _DrawOneTile
+    push hl
+      ; Now for the enemy name
+      ld hl,TEMP_STR
+      ld a,(LEN)
+      ld b,a
+    -:ld a,(hl)
+      inc hl
+      cp $4f
+      call c,_write_nt
+      djnz -
+    pop hl
+    call _DrawOneTile
+  pop de
+  call _wait_vblank
+  ; Next row
+  ld hl,32*2
+  add hl,de
+  ex de,hl
+  rst $08
+  ld hl,BorderBottom
+  call _DrawBorder
+  
+  ; clear LEN
+  xor a
+  ld (LEN),a
 
+  jp _wait_vblank ; and ret
+  
+_DrawBorder:
+  ; Emit tile data from (hl) to VRAM, repeating the second word (LEN) times
+  call _DrawOneTile
+  ld b,c
+-:call _DrawOneTile
+  dec hl
+  dec hl
+  djnz -
+  inc hl
+  inc hl
+_DrawOneTile:
+  ld a,(hl)
+  out (PORT_VDP_DATA),a
+  inc hl
+  ld a,(hl)
+  out (PORT_VDP_DATA),a
+  inc hl
   ret
+  
+; Tilemap words for the borders
+BorderTop:
+.dw $11f1, $11f2, $13f1
+BorderSides:
+.dw $11f3,        $13f3
+BorderBottom:
+.dw $15f1, $15f2, $17f1
 
 
 equipment:
@@ -2277,27 +2361,21 @@ _write_price:
   nop
 .ends
 
-  ROMPosition $3279
-.section "enemy setup code" size 18 overwrite ; not movable
-; Originally t2a_3.asm
-; Enemy window drawer
-; - setup code
-
-  ld a,:enemy
+.macro TrampolineTo args dest, start, end
+  .unbackground start end-1
+  ROMPosition start
+  .section "Trampoline to \1 @ \2" force
+  ld a,:dest
   ld (PAGING_SLOT_1),a
-
-  call enemy
-
-  ld a,$01    ; old page 1
+  call dest
+  ld a,1
   ld (PAGING_SLOT_1),a
-
-  nop
-  nop
-  nop
-  nop
-  nop
+  JR_TO end
 .ends
+.endm
 
+  TrampolineTo enemy $326d $3294
+  
   ROMPosition $3850
 .section "equipment setup code" size 14 overwrite ; not movable
 ; Originally t2a_4.asm
@@ -2483,7 +2561,7 @@ DezorianCustomStringCheck:
 ;       | (8x11)    (W) |                   | (8x11)    (B) | | (22x8)        |
 ; $daf8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
-;       | equipped      | | (8x7)     (W) | | (16x4)    (B) | |               | | save slot     |
+;       | equipped      | | (8x7)     (W) | | (18x3)    (B) | |               | | save slot     |
 ; $db68 | items         | +---------------+ |               | |               | | (9x12)        |
 ; $db78 |               |                   +---------------+ |               | |               |
 ;       |               |                   | Enemy stats   | |               | |               |
@@ -2585,14 +2663,18 @@ DezorianCustomStringCheck:
   PatchW $3829 EQUIPPED_VRAM_LOCATION
   PatchW $386e EQUIPPED_VRAM_LOCATION
 
-; Enemy name now right-aligned
-.define ENEMY_NAME_VRAM_LOCATION $7840 - ITEM_LIST_WIDTH * 2
+; Enemy name now right-aligned, 3 rows, variable width - we allow up to 19
+.define ENEMY_NAME_VRAM_LOCATION $7840 - 21 * 2
+.define ENEMY_NAME_VRAM_SIZE (21 << 1) + (3 << 8)
   PatchW $3259 ENEMY_NAME_VRAM_LOCATION
-  PatchW $3271 ENEMY_NAME_VRAM_LOCATION
+  PatchW $325c ENEMY_NAME_VRAM_SIZE
   PatchW $331e ENEMY_NAME_VRAM_LOCATION
+  PatchW $3321 ENEMY_NAME_VRAM_SIZE
+  
+;  PatchW $3271 ENEMY_NAME_VRAM_LOCATION
 
 ; Enemy HP moved down a bit
-.define ENEMY_HP_VRAM_LOCATION $7830 + 32 * 2 * 4
+.define ENEMY_HP_VRAM_LOCATION $7830 + 32 * 2 * 3
   PatchW $3265 ENEMY_HP_VRAM_LOCATION
   PatchW $329e ENEMY_HP_VRAM_LOCATION
   PatchW $330d ENEMY_HP_VRAM_LOCATION
