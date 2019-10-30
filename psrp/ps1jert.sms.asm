@@ -2543,6 +2543,11 @@ DezorianCustomStringCheck:
 ;   * Player select
 ;     * Magic list -> telepathy
 ;       * Narrative: enemy response (scrolls)
+; 8. Hospital
+; * Narrative
+;   * Player select
+;     * Meseta
+;       * Yes/No
 
 ; My layout
 
@@ -2561,34 +2566,34 @@ DezorianCustomStringCheck:
 ;       | (8x11)    (W) |                   | (8x11)    (B) | | (22x8)        |
 ; $daf8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
-;       | equipped      | | (8x7)     (W) | | (18x3)    (B) | |               | | save slot     |
+;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
 ; $db68 | items         | +---------------+ |               | |               | | (9x12)        |
-; $db78 |               |                   +---------------+ |               | |               |
+; $db76 |               |                   +---------------+ |               | |               |
 ;       |               |                   | Enemy stats   | |               | |               |
 ; $dba8 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
-; $dbca |               |                   |               | | MST in shop   | |               |
-; $dbd0 |               |                   |               | | (12x3)    (S) | +---------------+
-; $dbf3 |               |                   |               | +---------------+
-; $dbf8 +---------------+ +---------------+ |               | +---------------+
-;       | Player select | | Buy/Sell      | |           (B) | | Yes/No        |
-; $dc18 | (8x9)   (B,W) | | (6x5)     (S) | +---------------+ | (5x5)         |
-; $dc2a |               | |               | | Active player | +---------------+
-; $dc34 |               | +---------------+ | (during       |
+; $dbd0 |               |                   |               |                   +---------------+
+; $dbf8 +---------------+ +---------------+ |               | 
+;       | Player select | | Buy/Sell      | |           (B) | 
+; $dc16 | (8x9) (B,W,S) | | (6x5)     (S) | +---------------+ 
+; $dc34 |               | +---------------+ | Active player | 
+;       |               |                   | (during       |
 ;       |               |                   | battle)       |
 ;       |               |                   | (6x3)     (B) |
-; $dc48 |               |                   +---------------+
-; $dc88 +---------------+ +---------------+
-;       | Inventory     | | Spells        |
-;       | (16x21) (B,W) | | (12x12) (B,W) |
-; $dda8 |               | +---------------+
+; $dc46 |               |                   +---------------+
+; $dc88 +---------------+ +---------------+                   +---------------+
+;       | Inventory     | | Spells        |                   | MST in shop   |
+;       | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) |
+; $dce8 |               | |               |                   +---------------+
+; $dda8 |               | +---------------+                   
 ;       |               | | Player select |
 ;       |               | | (magic) (8x9) |
 ;       |               | |         (B,W) |
 ; $de38 |               | +---------------+
-; $df28 +---------------+
-;       | Use/Equip/Drop|
-;       | (7x7)     (W) |
-; $df8a +---------------+
+; $df28 +---------------+ +---------------+
+;       | Use/Equip/Drop| | Yes/No        |
+;       | (7x7)     (W) | | (5x5)         |
+; $df5a |               | +---------------+
+; $df8a +---------------+ 
 ;
 
 
@@ -2622,16 +2627,16 @@ DezorianCustomStringCheck:
   PatchWindow $DAF8 $3ad0 $3b08 ; Select save slot
   PatchWindow $DAF8 $3256 $331b ; Enemy name
   PatchWindow $DAF8 $3b4c $3b73 ; Hapsby travel
-  PatchWindow $DB78 $3262 $330a ; Enemy stats (up to 8)
-  PatchWindow $DBA8 $3b15 $3b3e ; MST in shop
+  PatchWindow $DB76 $3262 $330a ; Enemy stats (up to 8)
+  PatchWindow $DC88 $3b15 $3b3e ; MST in shop
   PatchWindow $DBF8 $3895 $38b5 ; Buy/Sell
   PatchWindow $D880 $38fc $39df ; Character stats
   PatchWindow $DF28 $3877 $3889 ; Use, Equip, Drop
-  PatchWindow $DC18 $3015 $3036 ; Active player (during battle)
+  PatchWindow $DC16 $3015 $3036 ; Active player (during battle)
   PatchWindow $DC88 $363c $3775 ; Inventory
   PatchWindow $DC88 $3595 $35e4 ; Spell list
   PatchWindow $DBF8 $3788 $37de ; Player select
-  PatchWindow $DBF8 $38c1 $38e1 ; Yes/No
+  PatchWindow $DF28 $38c1 $38e1 ; Yes/No
   PatchWindow $DDA8 $37a5 $37ef ; Player select for magic
 
 ; Text densification
@@ -2671,8 +2676,6 @@ DezorianCustomStringCheck:
   PatchW $331e ENEMY_NAME_VRAM_LOCATION
   PatchW $3321 ENEMY_NAME_VRAM_SIZE
   
-;  PatchW $3271 ENEMY_NAME_VRAM_LOCATION
-
 ; Enemy HP moved down a bit
 .define ENEMY_HP_VRAM_LOCATION $7830 + 32 * 2 * 3
   PatchW $3265 ENEMY_HP_VRAM_LOCATION
