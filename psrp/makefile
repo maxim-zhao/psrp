@@ -10,7 +10,7 @@ WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 FLIPS = "..\..\..\sms-build-tools\flips\flips.exe"
 
 # Assume default CPP = cl
-CPPFLAGS = /Os /EHsc /W4 /MP /FS /GS- /MD
+CPPFLAGS = /Os /EHsc /W4 /MP /FS /GS- /MD /nologo /WX
 
 # The original PSJ ROM
 PSJ = ps1-j.sms
@@ -42,7 +42,7 @@ substring_formatter\words.tbl substring_formatter\words.asm: substring_formatter
 BITMAP_DECODE = bitmap_decode\bitmap_decode.exe
 
 $(BITMAP_DECODE) : bitmap_decode\*.cpp
-  $(CPP) $(CPPFLAGS) bitmap_decode\*.cpp /Fe:$(BITMAP_DECODE)
+  $(CPP) $(CPPFLAGS) bitmap_decode\*.cpp /Fe:$(BITMAP_DECODE) /W2
 
 new_graphics\bg1.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40020 $@
 new_graphics\bg2.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40f36 $@

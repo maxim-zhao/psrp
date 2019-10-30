@@ -166,7 +166,7 @@ public:
   
     std::wstring elementForSymbol(int symbol) const
     {
-        auto& it = _reverseTable.find(symbol);
+        auto it = _reverseTable.find(symbol);
         if (it == _reverseTable.end())
         {
             return L"";
@@ -214,7 +214,7 @@ void CheckSuffixLength(int min, int max, std::vector<uint8_t>& outBuffer, const 
     if (postHint)
     {
         outBuffer.push_back(SymbolPostHint);
-        outBuffer.push_back(postHint);
+        outBuffer.push_back(static_cast<uint8_t>(postHint));
     }
     script_hints = true;
 }
@@ -379,7 +379,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
         currentLine += s;
 
         // do the conversion
-        while (*pText)
+        while (*pText != '\0')
         {
             const wchar_t start = *pText; // Character found
             int entry; // Binary value to emit
@@ -435,7 +435,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
                 {
                     // real-time line formatting needed
                     outBuffer.push_back(SymbolPostHint);
-                    outBuffer.push_back(width + script_internal_hint);
+                    outBuffer.push_back(static_cast<uint8_t>(width + script_internal_hint));
 
                     // manual hint flag reset
                     script_internal_hint = 0;
@@ -443,7 +443,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
             } // end whitespace
 
             // successful -> emit byte
-            outBuffer.push_back(entry);
+            outBuffer.push_back(static_cast<uint8_t>(entry));
 
             // line length checking
             line_len += matchLength;
@@ -488,7 +488,7 @@ void Convert_Symbols(const std::string& scriptFilename, const std::string& table
         if (symbolCounts[i] == 0)
         {
             std::cout << "Symbol $" << std::setw(2) << std::hex << i << " is unused (";
-            auto& text = table.elementForSymbol(i);
+            const auto& text = table.elementForSymbol(i);
             if (text.empty())
             {
                 std::cout << "not in table file";
