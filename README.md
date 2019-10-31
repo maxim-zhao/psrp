@@ -31,6 +31,10 @@ Unofficial Translation 2005-2019
   - fixed screen corruption when closing menus (#1)
   - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
   - fixed naming inconsistencies in the script, e.g. Dezoris/Dezolis, Roadpass/roadpass/road pass
+  - enemy names no longer have a size limit (#9)
+  - script updates from Frank Cifaldi
+  - font and window borders updated (WIP)
+  - ...
   
 
 Phantasy Star Original Dialogue Version 
