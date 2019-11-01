@@ -4,13 +4,9 @@ dims=3801,3813,381f
 
 ┌──────╖
 │Stats ║
-│      ║
 │Magic ║
-│      ║
 │Items ║
-│      ║
 │Search║
-│      ║
 │Save  ║
 ╘══════╝
 
@@ -20,7 +16,6 @@ dims=38c7,38e7
 
 ┌───╖
 │Yes║
-│   ║
 │No ║
 ╘═══╝
 
@@ -41,13 +36,9 @@ dims=3232,3244,3250
 
 ┌──────╖
 │Attack║
-│      ║
 │Magic ║
-│      ║
 │Items ║
-│      ║
 │Talk  ║
-│      ║
 │Run   ║
 ╘══════╝
 
@@ -73,8 +64,8 @@ dims=32a1
 ┌──────╖
 
 [BottomBorder6]
-ptrs=309c,30f3,32c1,37d0
-dims=309f,30f6,32c4,37d3
+ptrs=309c,30f3,32c1
+dims=309f,30f6,32c4
 
 ╘══════╝
 
@@ -124,16 +115,19 @@ ptrs=3075,30cc,3134
 [ChoosePlayerMenu]
 ptrs=37ca
 dims=378e,37ab,37e4,37f5
+height=6
+; for bottom row
 
-┌──────╖
-│Alisa ║
-│      ║
-│Myau  ║
-│      ║
-│Tylon ║
-│      ║
-│Lutz  ║
-╘══════╝
+┌─────╖
+│Alisa║
+│Myau ║
+│Tylon║
+│Lutz ║
+
+[ChoosePlayerMenuBottom]
+ptrs=37d0
+dims=37d3
+╘═════╝
 
 [ToolShopMenu]
 ptrs=38a1
@@ -141,7 +135,6 @@ dims=389b,38bb
 
 ┌────╖
 │Buy ║
-│    ║
 │Sell║
 ╘════╝
 
@@ -151,9 +144,7 @@ dims=387d,388f
 
 ┌─────╖
 │Use  ║
-│     ║
 │Equip║
-│     ║
 │Drop ║
 ╘═════╝
 
@@ -188,92 +179,66 @@ dims=301b,303c
 [BattleSpellsAlisa]
 ptrs=35b0
 dims=359b,35ea
-height=12
-; height is 1 more than expected? TODO figure out why
+height=7
+; for bottom row
 
-┌──────────╖
-│Heal      ║
-│          ║
-│Quick Dash║
-│          ║
-│Transrate ║
-│          ║
-│Fire      ║
-│          ║
-│Bind      ║
-│          ║
+┌────────────╖
+│Heal        ║
+│Quick Dash  ║
+│Transrate   ║
+│Fire        ║
+│Bind        ║
 
 ; Next five must follow...
 
 [BattleSpellsMyau]
 
-┌──────────╖
-│Super Heal║
-│          ║
-│Terror    ║
-│          ║
-│Waller    ║
-│          ║
-│Power     ║
-│ Boost    ║
-│          ║
-│          ║
+┌────────────╖
+│Super Heal  ║
+│Terror      ║
+│Waller      ║
+│Power Boost ║
+│            ║
 
 [BattleSpellsLutz]
 
-┌──────────╖
-│Fire      ║
-│          ║
-│Telepathy ║
-│          ║
-│Wind      ║
-│          ║
-│Magic     ║
-│ waller   ║
-│Thunder   ║
-│          ║
+┌────────────╖
+│Fire        ║
+│Telepathy   ║
+│Wind        ║
+│Magic Waller║
+│Thunder     ║
 
 [OverworldSpellsAlisa]
 
-┌──────────╖
-│Heal      ║
-│          ║
-│Troop     ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
+┌────────────╖
+│Heal        ║
+│Troop       ║
+│            ║
+│            ║
+│            ║
 
 [OverworldSpellsMyau]
 
-┌──────────╖
-│Super heal║
-│          ║
-│Untrap    ║
-│          ║
-│Bypass    ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
+┌────────────╖
+│Super heal  ║
+│Untrap      ║
+│Bypass      ║
+│            ║
+│            ║
 
 [OverworldSpellsLutz]
 
-┌──────────╖
-│Super heal║
-│          ║
-│Bypass    ║
-│          ║
-│Telepathy ║
-│          ║
-│Magic     ║
-│ Unseal   ║
-│Rebirth   ║
-│          ║
+┌────────────╖
+│Super heal  ║
+│Bypass      ║
+│Telepathy   ║
+│Magic Unseal║
+│Rebirth     ║
+
+[SpellMenuBottom]
+; referenced in assembly code
+╘════════════╝
 
 [NarrativeBlankLine]
 ptrs=356c
@@ -289,22 +254,10 @@ dims=355a,3566
 ~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-[TopBorder11]
-ptrs=3908
-dims=390b
-
+[StatsBorderTop]
 ┌────────────╖
 
-[SideBorder11]
-ptrs=3926,3938,394a,395c,396e
-dims=3929,393b,394d,395f,3971
-
-│            ║
-
-[BottomBorder11]
-ptrs=397a
-dims=397d
-
+[StatsBorderBottom]
 ╘════════════╝
 
 [StatsMenuDimensions]
@@ -312,110 +265,93 @@ dimensions only
 dims=3902,39e5
 
 ┌────────────╖
-│            ║
-│            ║
-│            ║
-│            ║
-│            ║
-│            ║
-│            ║
-│            ║
-│            ║
-│            ║
-│            ║
-│            ║
+│Level     99║
+│Exp.   65535║
+│Attack   256║
+│Defense  256║
+│Max HP   256║
+│Max MP   256║
+│Meseta 65535║
 ╘════════════╝
 
 [EquimentMenuDimensions]
 dimensions only
 dims=382c,3871
 
-┌──────────────╖
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-╘══════════════╝
+┌──────────────────╖
+│                  ║
+│                  ║
+│                  ║
+╘══════════════════╝
 
 [InventoryMenuDimensions]
 dimensions only
 dims=3642,377b
 
-┌──────────────╖
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-│              ║
-╘══════════════╝
+┌──────────────────╖
+│ Meseta     65535 ║
+│ Next             ║
+│ Item 1           ║
+│ Item 2           ║
+│ Item 3           ║
+│ Item 4           ║
+│ Item 5           ║
+│ Item 6           ║
+│ Item 7           ║
+│ Item 8           ║
+╘══════════════════╝
 
 [TopBorder10]
+; inventory, shop MST, currently equipped items
 ptrs=3648,3832,3b23
 dims=364e,3838,3b29
 
-┌──────────────╖
+┌──────────────────╖
 
 [BottomBorder10]
+; inventory, shop MST, currently equipped items
 ptrs=3681,3860,3b32
 dims=3684,3863,3b35
 
-╘══════════════╝
+╘══════════════════╝
 
 [InventoryNextMenu]
 ptrs=365c
 dims=365f
 
-│Next          ║
-│--------------║
+│Next              ║
 
 [StoreMSTBoxDimensions]
 dimensions only
 dims=3b1b,3b44
 
-┌──────────────╖
-│              ║
-╘══════════════╝
+┌──────────────────╖
+│                  ║
+╘══════════════════╝
 
 [ShopInventoryDimensions]
 dimensions only
 dims=39f1,3aca
 
-┌────────────────────╖
-│                    ║
-│                    ║
-│                    ║
-│                    ║
-│                    ║
-│                    ║
-╘════════════════════╝
+┌────────────────────────╖
+│ Item 1           65535 ║
+│ Item 2           65535 ║
+│ Item 3           65535 ║
+╘════════════════════════╝
 
 [TopBorder16]
+; Shop inventory
 ptrs=39f7
 dims=39fd
 
-┌────────────────────╖
+┌────────────────────────╖
 
 [BottomBorder16]
+; Shop inventory
 ptrs=3a37
 dims=3a3a
 
-╘════════════════════╝
+╘════════════════════════╝
 
 [HapsbyTravelMenu]
 ptrs=3b5d
@@ -429,18 +365,3 @@ dims=3b52,3b79
 │Skray ║
 ╘══════╝
 
-[BlankSpellMenu]
-;ptrs=35cf Custom asm references this so no need to patch
-
-┌──────────╖
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
-│          ║
-╘══════════╝

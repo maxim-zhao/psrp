@@ -2862,7 +2862,7 @@ That was close! <player> detected and removed the trap.<wait>
 [28cc]
 ;<player>ハ <item>ヲ<line>
 ;ステテシマッタ.<wait>
-<player> discarded <article><item>.<end>
+<player> discarded <article><item>.<wait>
 
 [20ff,23ec,2554,2582,2677,2803]
 ;シカシ コウカハ ナカッタ.<delay>

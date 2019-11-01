@@ -36,7 +36,7 @@ banks 32
   .unbackground $033f6 $03493 ; Draw number
   .unbackground $03494 $034a4 ; Draw characters from buffer
   .unbackground $034f2 $03545 ; Draw one character to tilemap
-  .unbackground $03982 $039dd ; Stats menu tilemap data
+  .unbackground $03982 $039dd ; Stats window tilemap data
   .unbackground $03dde $03df4 ; Dungeon font loader
   .unbackground $03eca $03fc1 ; background graphics lookup table
   .unbackground $03fc2 $03fd1 ; Sky Castle reveal palette
@@ -217,6 +217,10 @@ LoadPagedTiles\1:
   ld hl,dest
   ld de,address
   call LoadTiles
+.endm
+
+.macro DefineVRAMAddress args name, x, y
+.define \1 $7800 + ((y * 32) + x) * 2
 .endm
 
 .asciitable
@@ -1559,9 +1563,7 @@ OriginalVBlankHandlerPatch:
 Lists:
 ; Order is important!
 Items:
-  ; Item names should be manually word-wrapped (using '@') if longer than 14
-  ; characters (the menu width), unless exactly 14 characters long in which
-  ; case don't :) as the line is already wrapped at that point.
+  ; Max width 18 excluding control characters and [...] parts
   String " " ; empty item (blank)
 ; weapons: 01-0f
   String "~Wood Cane"
@@ -1580,7 +1582,7 @@ Items:
   String "~Laconian Sword"
   String "~Laconian Axe"
 ; armour: 10-18
-  String "~Leather@ Clothes"
+  String "~Leather Clothes"
   String "~White Cloak"
   String "~Light Suit"
   String "#Iron Armor"
@@ -1596,8 +1598,8 @@ Items:
   String "~Ceramic Shield"
   String "#Animal Glove"
   String "~Laser Barrier"
-  String "^Shield of@ Perseus"
-  String "~Laconian@ Shield"
+  String "^Shield of Perseus"
+  String "~Laconian Shield"
 ; vehicles: 21-23
   String "^LandMaster"
   String "^FlowMover"
@@ -1627,7 +1629,7 @@ Items:
   String "^Light Pendant"
   String "^Carbunckle Eye"
   String "~GasClear"
-  String "Damoa's@ Crystal"
+  String "Damoa's Crystal"
   String "~Master System"
   String "^Miracle Key"
   String "Zillion"
@@ -1768,9 +1770,6 @@ MenuData:
 .dwm TextToTilemap "MP"
 .ends
 
-  ; Choose player: width*2
-  PatchB $37c8 $10
-
   ROMPosition $3de4
 .section "Active player - menu offset finder" overwrite ; not movable?
 ActivePlayerMenuOffsetFinder:
@@ -1813,7 +1812,7 @@ SpellSelectionFinder:
 ; Originally t2b_1.asm
 ; Spell selection offset finder
 
-.define MENU_SIZE ((10+2)*2)*11 ; top border + text
+.define MENU_SIZE (14*2)*6 ; top border + text
 
   ld de,MENU_SIZE   ; menu size
 
@@ -1829,11 +1828,6 @@ SpellSelectionFinder:
 
 +:
 .ends
-
-  PatchB $35bf $18      ; - (12+2)*2 width
-  PatchW $1ee1 $7a4c    ; - VRAM cursor
-  PatchW $1b6a $7a4c    ; - VRAM cursor
-
 
   ROMPosition $35c5
 .section "Spell blank line" size 14 overwrite ; not movable
@@ -1854,56 +1848,12 @@ SpellBlankLine:
 ; adc    a,h
 ; sub    l
 ; ld     h,a
-
-.define LINE_SIZE (10+2)*2  ; width of line (spells menu)
-
-  ; Our menus are wider now, we want a = b * 24.
-  ; We don't have space to do it with shifts so we loop instead (slower)...
-
-  push de
-  push bc
-    ld hl,BlankSpellMenu
-    ld de,LINE_SIZE
--:  add hl,de
-    djnz -
-  pop bc
-  pop de
+  ; We just don't draw "empty" spell menus...
+  ld hl,SpellMenuBottom
+  ld bc,1<<8 + 14*2  ; width of line
+  jp $3b81 ; draw and exit
+  ; TODO free up space after this
 .ends
-
-  PatchB $35d4 $0c  ; - height
-
-.bank 0 slot 0
-.section "Stats menu part 1" free
-; The width of these is important
-Level:    .dwm TextToTilemap "|Level    " ; 3 digit number
-EXP:      .dwm TextToTilemap "|Exp.   "   ; 5 digit number
-Attack:   .dwm TextToTilemap "|Attack   " ; 3 digit numbers
-Defense:  .dwm TextToTilemap "|Defense  "
-MaxMP:    .dwm TextToTilemap "|Max MP   "
-MaxHP:    .dwm TextToTilemap "|Max HP   "
-MST:      .dwm TextToTilemap "|Meseta   "   ; 5 digit number but also used for shop so extra spaces needed
-.ends
-
-  PatchW $3911 Level
-  PatchW $391a EXP
-  PatchB $31a3 _sizeof_EXP
-  PatchB $36dd _sizeof_EXP
-  PatchW $392f Attack
-  PatchB $3145 _sizeof_Attack
-  PatchW $3941 Defense
-  PatchW $3965 MaxMP
-  PatchW $3953 MaxHP
-  PatchW $36e7 MST
-  PatchB $36e5 _sizeof_MST
-
-  PatchW $3b18 $7bcc    ; Store MST VRAM location
-  PatchW $3b41 $7bcc
-  PatchW $3b26 $7bcc
-
-  PatchB $3b58 :MenuData ; Hapsby travel (bank)
-  PatchW $3b63 $7b2a    ; - VRAM cursor
-  PatchW $3b4f $7aea    ; - move window down 1 tile
-  PatchW $3b76 $7aea
 
 .bank 2
 .section "Opening cinema" superfree
@@ -1955,9 +1905,6 @@ inventory:
     call _start_write ; write out 2 lines of text
     call _wait_vblank
 
-    call _start_write
-    call _wait_vblank
-
   pop hl
   pop bc
 
@@ -1998,16 +1945,6 @@ shop:
     pop hl
     ld a,2    ; restore page 2
     ld (PAGING_SLOT_2),a
-
-    call _start_write
-
-    push hl     ; hacky workaround
-    push de
-      ld c,$00    ; do not write price
-      call _shop_price
-    pop de
-    pop hl
-
   pop hl      ; restore old parameters
   pop bc
 
@@ -2149,12 +2086,8 @@ equipment:
 
     ld hl,TEMP_STR    ; start of text
 
-    call _start_write ; write out 2 lines of text
+    call _start_write ; write out name
     call _wait_vblank
-
-    call _start_write
-    call _wait_vblank
-
   pop hl
   pop bc
 
@@ -2163,7 +2096,7 @@ equipment:
 
   ret
 
-.define ITEM_NAME_WIDTH 14 ; when drawn in menus
+.define ITEM_NAME_WIDTH 18 ; when drawn in menus
 
 _start_write:
   di
@@ -2375,24 +2308,8 @@ _write_price:
 .endm
 
   TrampolineTo enemy $326d $3294
+  TrampolineTo equipment $3850 $385f
   
-  ROMPosition $3850
-.section "equipment setup code" size 14 overwrite ; not movable
-; Originally t2a_4.asm
-; Equipment window drawer
-; - setup code
-
-  ld a,:equipment
-  ld (PAGING_SLOT_1),a
-
-  call equipment
-
-  ld a,1
-  ld (PAGING_SLOT_1),a
-
-  nop
-.ends
-
 ; Extra scripting
 
   ROMPosition $59bd
@@ -2471,7 +2388,7 @@ DezorianCustomStringCheck:
 ; $de80 +---------------+                                     |               |
 ; $de64 +---------------+                                     +---------------+
 ;       | Yes/No        |
-;       | (5x5)         |
+;       | (5x4)         |
 ; $de96 +---------------+
 ;
 ; In the retranslation we have some bigger windows so it's a little trickier...
@@ -2642,9 +2559,11 @@ DezorianCustomStringCheck:
 ; Text densification
   PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
 
+.define ONE_ROW 32*2
+
 .define NARRATIVE_WIDTH 24 ; text character width
-.define NARRATIVE_VRAM_START $7c80 + (32 - (NARRATIVE_WIDTH + 2)) / 2 * 2
-.define NARRATIVE_SCROLL_VRAM_START NARRATIVE_VRAM_START + 66
+  DefineVRAMAddress NARRATIVE_VRAM_START (32 - (NARRATIVE_WIDTH + 2))/2, 18
+  DefineVRAMAddress NARRATIVE_SCROLL_VRAM_START (32 - (NARRATIVE_WIDTH + 2))/2+1 19
 
   PatchB $3364 NARRATIVE_WIDTH ; Width counter
   PatchW $3350 NARRATIVE_VRAM_START
@@ -2652,42 +2571,144 @@ DezorianCustomStringCheck:
   PatchW $358a NARRATIVE_VRAM_START
   PatchW $3360 NARRATIVE_SCROLL_VRAM_START
   PatchW $3563 NARRATIVE_SCROLL_VRAM_START
-  PatchW $3557 NARRATIVE_SCROLL_VRAM_START + 32 * 2 ; + 1 row
+  PatchW $3557 NARRATIVE_SCROLL_VRAM_START + ONE_ROW
 
 ; Inventory menu
 .define ITEM_LIST_WIDTH ITEM_NAME_WIDTH + 2
-.define INVENTORY_VRAM_LOCATION $7880 + (32 - ITEM_LIST_WIDTH) * 2
+  DefineVRAMAddress INVENTORY_VRAM_LOCATION (32 - ITEM_LIST_WIDTH - 1), 1
   PatchW $363f INVENTORY_VRAM_LOCATION
   PatchW $3778 INVENTORY_VRAM_LOCATION
   PatchW $364b INVENTORY_VRAM_LOCATION
-  PatchW $3617 INVENTORY_VRAM_LOCATION + 32*2*2 ; $7928    ; - VRAM cursor
+  PatchW $3617 INVENTORY_VRAM_LOCATION + ONE_ROW * 2 ; - VRAM cursor
 
 ; Currently equipped items list
-.define EQUIPPED_VRAM_LOCATION $7aa0 - ITEM_LIST_WIDTH * 2
+  DefineVRAMAddress EQUIPPED_VRAM_LOCATION 1, 13
   PatchW $3835 EQUIPPED_VRAM_LOCATION
   PatchW $3829 EQUIPPED_VRAM_LOCATION
   PatchW $386e EQUIPPED_VRAM_LOCATION
 
-; Enemy name now right-aligned, 3 rows, variable width - we allow up to 19
-.define ENEMY_NAME_VRAM_LOCATION $7840 - 21 * 2
+; Enemy name now top-right-aligned, 3 rows, variable width - we allow up to 19
+  DefineVRAMAddress ENEMY_NAME_VRAM_LOCATION 32-21, 0
 .define ENEMY_NAME_VRAM_SIZE (21 << 1) + (3 << 8)
   PatchW $3259 ENEMY_NAME_VRAM_LOCATION
   PatchW $325c ENEMY_NAME_VRAM_SIZE
   PatchW $331e ENEMY_NAME_VRAM_LOCATION
   PatchW $3321 ENEMY_NAME_VRAM_SIZE
   
-; Enemy HP moved down a bit
-.define ENEMY_HP_VRAM_LOCATION $7830 + 32 * 2 * 3
+; Enemy HP just below enemy name
+  DefineVRAMAddress ENEMY_HP_VRAM_LOCATION 32-8, 3
   PatchW $3265 ENEMY_HP_VRAM_LOCATION
   PatchW $329e ENEMY_HP_VRAM_LOCATION
   PatchW $330d ENEMY_HP_VRAM_LOCATION
 
 ; Shop items - centred
-.define SHOP_ITEMS_VRAM_LOCATION $7800 + (32 - (ITEM_LIST_WIDTH + 8)) + 2
+  DefineVRAMAddress SHOP_ITEMS_VRAM_LOCATION (32-(ITEM_LIST_WIDTH + 6))/2, 0
   PatchW $39ee SHOP_ITEMS_VRAM_LOCATION
   PatchW $39fa SHOP_ITEMS_VRAM_LOCATION
   PatchW $3ac7 SHOP_ITEMS_VRAM_LOCATION
-  PatchW $3a40 SHOP_ITEMS_VRAM_LOCATION+32*2 ; Cursor start location
+  PatchW $3a40 SHOP_ITEMS_VRAM_LOCATION + ONE_ROW ; Cursor start location
+  
+; Yes/No aligns to the top-right of the narrative box
+  DefineVRAMAddress YESNO_VRAM_LOCATION (NARRATIVE_WIDTH + 2 + (32 - (NARRATIVE_WIDTH + 2))/2 - 5), 14
+  PatchW $38c4 YESNO_VRAM_LOCATION
+  PatchW $38e4 YESNO_VRAM_LOCATION
+  PatchW $38d3 YESNO_VRAM_LOCATION + ONE_ROW
+  
+; Buy/Sell should go in the same place
+  DefineVRAMAddress BUYSELL_VRAM_LOCATION (NARRATIVE_WIDTH + 2 + (32 - (NARRATIVE_WIDTH + 2))/2 - 6), 14
+  PatchW $3898 BUYSELL_VRAM_LOCATION
+  PatchW $38b8 BUYSELL_VRAM_LOCATION
+  PatchW $38a7 BUYSELL_VRAM_LOCATION + ONE_ROW
+  
+; PLayer select has 1 row per player
+; a = player count, but we want n+1 rows of data for n players
+  PatchB $37c5 $3c ; inc a
+  PatchB $37c8 7*2 ; width*2
+  DefineVRAMAddress PLAYER_SELECT_VRAM_LOCATION 1,8
+  PatchW $378b PLAYER_SELECT_VRAM_LOCATION
+  PatchW $37e1 PLAYER_SELECT_VRAM_LOCATION
+  PatchW $3797 PLAYER_SELECT_VRAM_LOCATION + ONE_ROW
+  
+; Magic menu
+  DefineVRAMAddress MAGIC_MENU_VRAM_LOCATION 9,1
+  PatchW $3598 MAGIC_MENU_VRAM_LOCATION
+  PatchW $35b4 MAGIC_MENU_VRAM_LOCATION
+  PatchW $35e7 MAGIC_MENU_VRAM_LOCATION
+  PatchB $35bb 0 ; nop - row count correction
+ 
+  PatchB $35bf 14*2      ; - width*2
+  PatchB $35d4 7      ; - height
+  PatchW $1ee1 MAGIC_MENU_VRAM_LOCATION + ONE_ROW
+  PatchW $1b6a MAGIC_MENU_VRAM_LOCATION + ONE_ROW
+  
+; Stats window
+  DefineVRAMAddress STATS_WINDOW_VRAM_LOCATION 17, 1
+  PatchW $38ff STATS_WINDOW_VRAM_LOCATION
+  PatchW $39e2 STATS_WINDOW_VRAM_LOCATION
+
+.bank 0 slot 0
+.section "Stats window data" free
+; The width of these is important
+Level:    .dwm TextToTilemap "|Level    " ; 3 digit number
+EXP:      .dwm TextToTilemap "|Exp.   "   ; 5 digit number
+Attack:   .dwm TextToTilemap "|Attack   " ; 3 digit numbers
+Defense:  .dwm TextToTilemap "|Defense  "
+MaxMP:    .dwm TextToTilemap "|Max MP   "
+MaxHP:    .dwm TextToTilemap "|Max HP   "
+MST:      .dwm TextToTilemap "|Meseta       "   ; 5 digit number but also used for shop so extra spaces needed
+.ends
+
+  ROMPosition $3907
+.section "Stats window" overwrite ; TODO: unbackground space
+  ; We re-write this to reduce its size.
+  ; ix = player stats
+  .define DrawTextAndNumberA $3140
+  .define DrawTextAndNumberBC $319e
+stats:  
+  ld hl,StatsBorderTop
+  ld bc,1<<8 + 14<<1 ; size
+  call $3b81 ; draw to tilemap
+  ld hl,Level
+  ld a,(ix+5)
+  call DrawTextAndNumberA
+  ld hl,EXP
+  ld c,(ix+3)
+  ld b,(ix+4)
+  call DrawTextAndNumberBC
+  ld hl,Attack
+  ld a,(ix+8)
+  call DrawTextAndNumberA
+  ld hl,Defense
+  ld a,(ix+8)
+  call DrawTextAndNumberA
+  ld hl,MaxHP
+  ld a,(ix+6)
+  call DrawTextAndNumberA
+  ld hl,MaxMP
+  ld a,(ix+7)
+  call DrawTextAndNumberA
+  call $36d9 ; meseta
+  call DrawTextAndNumberBC
+  ld hl,StatsBorderBottom
+  ld bc,1<<8 + 14<<1 ; size
+  jp $3b81 ; draw and exit
+.ends
+
+; Patch in string lengths to places called above
+  PatchB $31a3 _sizeof_EXP
+  PatchB $36dd _sizeof_EXP
+  PatchB $3145 _sizeof_Attack
+  PatchB $36e5 _sizeof_MST
+
+  PatchW $3b18 $7bcc    ; Store MST VRAM location
+  PatchW $3b41 $7bcc
+  PatchW $3b26 $7bcc
+
+  PatchB $3b58 :MenuData ; Hapsby travel (bank)
+  PatchW $3b63 $7b2a    ; - VRAM cursor
+  PatchW $3b4f $7aea    ; - move window down 1 tile
+  PatchW $3b76 $7aea
+
 
 .bank 0 slot 0
 .section "Newline patch" free
@@ -3346,6 +3367,32 @@ _Decode_Done:
 .ends
 
 .include "script_inserter/script-patches.asm"
+
+  ROMPosition $2fe2
+.section "Cursor row count hack" overwrite
+  call CalculateCursorPos
+  JR_TO $2feb
+.ends
+
+  ROMPosition $2ff8
+.section "Cursor row count hack 2" overwrite
+  call CalculateCursorPos
+  JR_TO $3001
+.ends
+
+.slot 0
+.section "Compute cursor position" free
+CalculateCursorPos:
+  ld e,0
+  srl a
+  rr e
+  srl a
+  rr e
+  ld d,a
+  add hl,de
+  ex de,hl
+  ret
+.ends
 
 .smsheader
    productcode 00, 95, 0 ; 9500
