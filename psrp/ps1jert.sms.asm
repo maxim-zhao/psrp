@@ -2495,7 +2495,7 @@ DezorianCustomStringCheck:
 ; $dc34 |               | +---------------+ | Active player | 
 ;       |               |                   | (during       |
 ;       |               |                   | battle)       |
-;       |               |                   | (6x3)     (B) |
+;       |               |                   | (8x3)     (B) |
 ; $dc46 |               |                   +---------------+
 ; $dc88 +---------------+ +---------------+                   +---------------+
 ;       | Inventory     | | Spells        |                   | MST in shop   |
@@ -2511,8 +2511,38 @@ DezorianCustomStringCheck:
 ;       | (7x7)     (W) | | (5x5)         |
 ; $df5a |               | +---------------+
 ; $df8a +---------------+ 
-;
 
+.macro DefineWindow args name, start, width, height, x, y
+  .define \1 start
+  .define \1_size width*height*2
+  .define \1_end start + width*height*2
+  .define \1_dims width<<1 | height << 8
+  .define \1_VRAM $7800 + (y * 32 + x) * 2
+.endm
+
+;              Name             RAM location           W  H  X  Y
+  DefineWindow PARTYSTATS       $d700                 32  6  0 18
+  DefineWindow NARRATIVE        PARTYSTATS_end        26  6  3 18
+  DefineWindow NARRATIVE_SCROLL NARRATIVE_end         24  3  4 19
+  DefineWindow CHARACTERSTATS   NARRATIVE             14  9 17  4
+  DefineWindow MENU             NARRATIVE_SCROLL_end   8  7  1  1
+  DefineWindow CURRENT_ITEMS    MENU_end              20  5 11 13
+  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end      7  6  9  1
+  DefineWindow INVENTORY        PLAYER_SELECT_end     20 12 11  1
+  DefineWindow USEEQUIPDROP     INVENTORY_end          7  5 14 16
+  DefineWindow HAPSBY           MENU_end               8  5 21 11
+  DefineWindow BUYSELL          CURRENT_ITEMS_end      6  4 23 14
+  DefineWindow SPELLS           INVENTORY             14  7  1  8 ; Spells and inventory are mutually exclusive
+  DefineWindow PLAYER_SELECT_2  SPELLS_end             7  6 15  8
+  DefineWindow YESNO            USEEQUIPDROP           5  4 24 14
+  DefineWindow ENEMY_NAME       MENU_end              21  3 11  0 ; max width 19 chars
+  DefineWindow ENEMY_STATS      ENEMY_NAME_end         8 10 24  3
+  DefineWindow ACTIVE_PLAYER    ENEMY_STATS_end        8  3 10 10 ; TODO position
+  DefineWindow SHOP             MENU                  20  5  4  0
+  DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
+  DefineWindow SAVE             MENU_end               9 12 10 10 ; TODO - position, size, convert?
+
+; TODO: add rules for checking no overlap? hard
 
 ; The game puts the stack in a space from $cba0..$caff. The RAM window cache
 ; therefore can extend as far as $dffb (inclusive) - $dffc+ are used
@@ -2524,7 +2554,7 @@ DezorianCustomStringCheck:
   PatchW $03a5 $dffb
   PatchW $03cc $dffb
 
-.macro PatchWindow
+.macro PatchWords
   PatchW \2 \1
 .if nargs > 2
   PatchW \3 \1
@@ -2534,117 +2564,85 @@ DezorianCustomStringCheck:
 .endif
 .endm
 
-  PatchWindow $d700 $3042 $3220 $30fd ; Party stats
-  PatchWindow $D880 $334d $3587 ; Narrative box
-  PatchWindow $D9B8 $3554 $3560 ; Narrative box scroll buffer
-  PatchWindow $DA48 $322c $324a ; Battle menu
-  PatchWindow $DA48 $37fb $3819 ; Regular world menu
-  PatchWindow $DA48 $39eb $3ac4 ; Shop items
-  PatchWindow $DAF8 $3826 $386b ; Currently equipped items
-  PatchWindow $DAF8 $3ad0 $3b08 ; Select save slot
-  PatchWindow $DAF8 $3256 $331b ; Enemy name
-  PatchWindow $DAF8 $3b4c $3b73 ; Hapsby travel
-  PatchWindow $DB76 $3262 $330a ; Enemy stats (up to 8)
-  PatchWindow $DC88 $3b15 $3b3e ; MST in shop
-  PatchWindow $DBF8 $3895 $38b5 ; Buy/Sell
-  PatchWindow $D880 $38fc $39df ; Character stats
-  PatchWindow $DF28 $3877 $3889 ; Use, Equip, Drop
-  PatchWindow $DC16 $3015 $3036 ; Active player (during battle)
-  PatchWindow $DC88 $363c $3775 ; Inventory
-  PatchWindow $DC88 $3595 $35e4 ; Spell list
-  PatchWindow $DBF8 $3788 $37de ; Player select
-  PatchWindow $DF28 $38c1 $38e1 ; Yes/No
-  PatchWindow $DDA8 $37a5 $37ef ; Player select for magic
-
-; Text densification
-  PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
-
 .define ONE_ROW 32*2
 
+  PatchWords PARTYSTATS $3042 $3220 $30fd ; Party stats
+
 .define NARRATIVE_WIDTH 24 ; text character width
-  DefineVRAMAddress NARRATIVE_VRAM_START (32 - (NARRATIVE_WIDTH + 2))/2, 18
-  DefineVRAMAddress NARRATIVE_SCROLL_VRAM_START (32 - (NARRATIVE_WIDTH + 2))/2+1 19
-
   PatchB $3364 NARRATIVE_WIDTH ; Width counter
-  PatchW $3350 NARRATIVE_VRAM_START
-  PatchW $3386 NARRATIVE_VRAM_START
-  PatchW $358a NARRATIVE_VRAM_START
-  PatchW $3360 NARRATIVE_SCROLL_VRAM_START
-  PatchW $3563 NARRATIVE_SCROLL_VRAM_START
-  PatchW $3557 NARRATIVE_SCROLL_VRAM_START + ONE_ROW
-
-; Inventory menu
-.define ITEM_LIST_WIDTH ITEM_NAME_WIDTH + 2
-  DefineVRAMAddress INVENTORY_VRAM_LOCATION (32 - ITEM_LIST_WIDTH - 1), 1
-  PatchW $363f INVENTORY_VRAM_LOCATION
-  PatchW $3778 INVENTORY_VRAM_LOCATION
-  PatchW $364b INVENTORY_VRAM_LOCATION
-  PatchW $3617 INVENTORY_VRAM_LOCATION + ONE_ROW * 2 ; - VRAM cursor
-
-; Currently equipped items list
-  DefineVRAMAddress EQUIPPED_VRAM_LOCATION 1, 13
-  PatchW $3835 EQUIPPED_VRAM_LOCATION
-  PatchW $3829 EQUIPPED_VRAM_LOCATION
-  PatchW $386e EQUIPPED_VRAM_LOCATION
-
-; Enemy name now top-right-aligned, 3 rows, variable width - we allow up to 19
-  DefineVRAMAddress ENEMY_NAME_VRAM_LOCATION 32-21, 0
-.define ENEMY_NAME_VRAM_SIZE (21 << 1) + (3 << 8)
-  PatchW $3259 ENEMY_NAME_VRAM_LOCATION
-  PatchW $325c ENEMY_NAME_VRAM_SIZE
-  PatchW $331e ENEMY_NAME_VRAM_LOCATION
-  PatchW $3321 ENEMY_NAME_VRAM_SIZE
+  PatchWords NARRATIVE              $334d $3587 ; Narrative box
+  PatchWords NARRATIVE_SCROLL       $3554 $3560 ; Narrative box scroll buffer
+  PatchWords NARRATIVE_VRAM         $3350 $3386 $358a
+  PatchWords NARRATIVE_SCROLL_VRAM  $3360 $3563
+  PatchW $3557 NARRATIVE_SCROLL_VRAM + ONE_ROW
+  PatchB $34c9 ONE_ROW ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
   
-; Enemy HP just below enemy name
-  DefineVRAMAddress ENEMY_HP_VRAM_LOCATION 32-8, 3
-  PatchW $3265 ENEMY_HP_VRAM_LOCATION
-  PatchW $329e ENEMY_HP_VRAM_LOCATION
-  PatchW $330d ENEMY_HP_VRAM_LOCATION
+  PatchWords MENU                   $322c $324a ; Battle menu
+  PatchWords MENU                   $37fb $3819 ; Regular world menu
+  
+  PatchWords SHOP                   $39eb $3ac4 ; Shop items
+  PatchWords SHOP_VRAM              $39ee $39fa $3ac7
+  PatchW $3a40 SHOP_VRAM + ONE_ROW ; Cursor start location
 
-; Shop items - centred
-  DefineVRAMAddress SHOP_ITEMS_VRAM_LOCATION (32-(ITEM_LIST_WIDTH + 6))/2, 0
-  PatchW $39ee SHOP_ITEMS_VRAM_LOCATION
-  PatchW $39fa SHOP_ITEMS_VRAM_LOCATION
-  PatchW $3ac7 SHOP_ITEMS_VRAM_LOCATION
-  PatchW $3a40 SHOP_ITEMS_VRAM_LOCATION + ONE_ROW ; Cursor start location
+  PatchWords CURRENT_ITEMS          $3826 $386b ; Currently equipped items
+  PatchWords CURRENT_ITEMS_VRAM     $3835 $3829 $386e
+
+  PatchWords SAVE                   $3ad0 $3b08 ; Select save slot
+
+  PatchWords ENEMY_NAME             $3256 $331b ; Enemy name
+  PatchWords ENEMY_NAME_VRAM        $3259 $331e
+  PatchWords ENEMY_NAME_dims        $325c $3321
+
+  PatchWords ENEMY_STATS            $3262 $330a ; Enemy stats (up to 8)
+  PatchWords ENEMY_STATS_VRAM       $3265 $329e $330d
+
+  PatchWords HAPSBY                 $3b4c $3b73 ; Hapsby travel
+
+  PatchWords SHOP_MST               $3b15 $3b3e ; MST in shop
+
+  PatchWords BUYSELL                $3895 $38b5 ; Buy/Sell
+  PatchWords BUYSELL_VRAM           $3898 $38b8
+  PatchW $38a7 BUYSELL_VRAM + ONE_ROW
   
-; Yes/No aligns to the top-right of the narrative box
-  DefineVRAMAddress YESNO_VRAM_LOCATION (NARRATIVE_WIDTH + 2 + (32 - (NARRATIVE_WIDTH + 2))/2 - 5), 14
-  PatchW $38c4 YESNO_VRAM_LOCATION
-  PatchW $38e4 YESNO_VRAM_LOCATION
-  PatchW $38d3 YESNO_VRAM_LOCATION + ONE_ROW
-  
-; Buy/Sell should go in the same place
-  DefineVRAMAddress BUYSELL_VRAM_LOCATION (NARRATIVE_WIDTH + 2 + (32 - (NARRATIVE_WIDTH + 2))/2 - 6), 14
-  PatchW $3898 BUYSELL_VRAM_LOCATION
-  PatchW $38b8 BUYSELL_VRAM_LOCATION
-  PatchW $38a7 BUYSELL_VRAM_LOCATION + ONE_ROW
-  
-; PLayer select has 1 row per player
-; a = player count, but we want n+1 rows of data for n players
+  PatchWords CHARACTERSTATS         $38fc $39df ; Character stats
+  PatchWords CHARACTERSTATS_VRAM    $38ff $39e2
+
+  PatchWords USEEQUIPDROP           $3877 $3889 ; Use, Equip, Drop
+  PatchWords USEEQUIPDROP_VRAM      $387a $388c
+  PatchW $2336 USEEQUIPDROP_VRAM + ONE_ROW ; cursor
+
+  PatchWords ACTIVE_PLAYER          $3015 $3036 ; Active player (during battle)
+
+  PatchWords INVENTORY              $363c $3775 ; Inventory
+  PatchWords INVENTORY_VRAM         $363f $3778 $364b
+  PatchW $3617 INVENTORY_VRAM + ONE_ROW * 2 ; - VRAM cursor
+
+  PatchWords SPELLS                 $3595 $35e4 ; Spell list
+  PatchWords SPELLS_VRAM            $3598 $35b4 $35e7
+  PatchB $35bb 0      ; nop - row count correction
+  PatchB $35bf 14*2   ; - width*2
+  PatchB $35d4 7      ; - height
+  PatchW $1ee1 SPELLS_VRAM + ONE_ROW
+  PatchW $1b6a SPELLS_VRAM + ONE_ROW
+
+  PatchWords PLAYER_SELECT          $3788 $37de ; Player select
+  ; a = player count, but we want n+1 rows of data for n players
   PatchB $37c5 $3c ; inc a
   PatchB $37c8 7*2 ; width*2
-  DefineVRAMAddress PLAYER_SELECT_VRAM_LOCATION 1,8
-  PatchW $378b PLAYER_SELECT_VRAM_LOCATION
-  PatchW $37e1 PLAYER_SELECT_VRAM_LOCATION
-  PatchW $3797 PLAYER_SELECT_VRAM_LOCATION + ONE_ROW
+  PatchWords PLAYER_SELECT_VRAM     $378b $37e1
+  PatchW $3797 PLAYER_SELECT_VRAM + ONE_ROW
+
+  PatchWords YESNO                  $38c1 $38e1 ; Yes/No
+  PatchWords YESNO_VRAM             $38c4 $38e4
+  PatchW $38d3 YESNO_VRAM + ONE_ROW
   
-; Magic menu
-  DefineVRAMAddress MAGIC_MENU_VRAM_LOCATION 9,1
-  PatchW $3598 MAGIC_MENU_VRAM_LOCATION
-  PatchW $35b4 MAGIC_MENU_VRAM_LOCATION
-  PatchW $35e7 MAGIC_MENU_VRAM_LOCATION
-  PatchB $35bb 0 ; nop - row count correction
+  PatchWords PLAYER_SELECT_2        $37a5 $37ef ; Player select for magic
+  PatchWords PLAYER_SELECT_2_VRAM   $37a8 $37f2
+  PatchW $37b4 PLAYER_SELECT_2_VRAM + ONE_ROW
  
-  PatchB $35bf 14*2      ; - width*2
-  PatchB $35d4 7      ; - height
-  PatchW $1ee1 MAGIC_MENU_VRAM_LOCATION + ONE_ROW
-  PatchW $1b6a MAGIC_MENU_VRAM_LOCATION + ONE_ROW
-  
+   
 ; Stats window
-  DefineVRAMAddress STATS_WINDOW_VRAM_LOCATION 17, 1
-  PatchW $38ff STATS_WINDOW_VRAM_LOCATION
-  PatchW $39e2 STATS_WINDOW_VRAM_LOCATION
+  DefineVRAMAddress STATS_WINDOW_VRAM 17, 4
 
 .bank 0 slot 0
 .section "Stats window data" free
@@ -2658,8 +2656,9 @@ MaxHP:    .dwm TextToTilemap "|Max HP   "
 MST:      .dwm TextToTilemap "|Meseta       "   ; 5 digit number but also used for shop so extra spaces needed
 .ends
 
+.unbackground $3907 $397f
   ROMPosition $3907
-.section "Stats window" overwrite ; TODO: unbackground space
+.section "Stats window" force
   ; We re-write this to reduce its size.
   ; ix = player stats
   .define DrawTextAndNumberA $3140
@@ -2688,7 +2687,6 @@ stats:
   ld a,(ix+7)
   call DrawTextAndNumberA
   call $36d9 ; meseta
-  call DrawTextAndNumberBC
   ld hl,StatsBorderBottom
   ld bc,1<<8 + 14<<1 ; size
   jp $3b81 ; draw and exit
@@ -2698,6 +2696,7 @@ stats:
   PatchB $31a3 _sizeof_EXP
   PatchB $36dd _sizeof_EXP
   PatchB $3145 _sizeof_Attack
+  PatchW $36e7 MST
   PatchB $36e5 _sizeof_MST
 
   PatchW $3b18 $7bcc    ; Store MST VRAM location
@@ -2722,7 +2721,7 @@ newline:
     or a     ; test for c==0
     jr nz,_not_zero
     ; zero: draw on 2nd line
-    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 ; VRAM address
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW ; VRAM address
 _inc_and_finish:
     inc c
     jp InGameTextDecoder
@@ -2731,16 +2730,16 @@ _not_zero:
     jr nz,+
     ; one: draw on 3rd
 _draw_3rd_line:
-    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 * 2 ; VRAM address
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW * 2 ; VRAM address
     jr _inc_and_finish
 +:  dec a    ; test for c==2
     jr nz,+
     ; two: draw on 4th
 _draw_4th_line:
-    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 * 3
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW * 3
     jr _inc_and_finish
 +:  ; three: scroll, draw on 4th line
-    call $3546 ; _ScrollTextBoxUp2Lines (see patch below reduces it to one)
+    call $3546 ; _ScrollTextBoxUp2Lines (patch reduces it to one)
     dec c      ; cancel increment
     jr _draw_4th_line
 .ends
