@@ -2975,7 +2975,7 @@ Tylon can’t use magic.<delay>
 [1b9e,1f1c]
 ;<player>ハ マダ マジックヲ<line>
 ;オボエテイナイ.<delay>
-<player> doesn’t know any spells yet.<delay>
+<player> doesn’t know any spells yet.<wait>
 
 [28a3]
 ;<player>ハ <item>ヲ<line>
