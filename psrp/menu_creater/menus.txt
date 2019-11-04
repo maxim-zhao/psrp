@@ -152,29 +152,29 @@ dims=387d,388f
 ptrs=302b
 dims=301b,303c
 
-┌──────╖
-│Alisa ║
-╘══════╝
+┌─────╖
+│Alisa║
+╘═════╝
 
 ; Next three must follow...
 
 [MyauActiveBox]
 
-┌──────╖
-│ Myau ║
-╘══════╝
+┌─────╖
+│Myau ║
+╘═════╝
 
 [TaironActiveBox]
 
-┌──────╖
-│Tylon ║
-╘══════╝
+┌─────╖
+│Tylon║
+╘═════╝
 
 [LutzActiveBox]
 
-┌──────╖
-│ Lutz ║
-╘══════╝
+┌─────╖
+│Lutz ║
+╘═════╝
 
 [BattleSpellsAlisa]
 ptrs=35b0

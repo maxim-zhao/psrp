@@ -1757,6 +1757,7 @@ MenuData:
 
 .include "menu_creater/menu-patches.asm"
 
+  PatchB $3b58 :MenuData
   PatchB $3b82 :MenuData
   PatchB $3bab :MenuData
 
@@ -1768,42 +1769,6 @@ MenuData:
   ROMPosition $3219
 .section "MP letters" size 4 overwrite ; not movable
 .dwm TextToTilemap "MP"
-.ends
-
-  ROMPosition $3de4
-.section "Active player - menu offset finder" overwrite ; not movable?
-ActivePlayerMenuOffsetFinder:
-; Originally t2b.asm
-; Active player menu selection
-
-  xor a
-  inc h
-
--:dec h     ; loop
-  ret z
-
-  add a,l     ; skip menu
-  jr -
-
-.ends
-
-  ROMPosition $3023
-.section "Trampoline to above" overwrite ; not movable
-TrampolineToActivePlayerMenuOffsetFinder:
-; Original code was doing it inline:
-;  ld a,($c267) ; get index
-;  add a,a      ; multiply by 36
-;  add a,a
-;  ld l,a
-;  add a,a
-;  add a,a
-;  add a,a
-;  add a,l
-; We replace all this with a jump to a helper as the necessary replacement is a bit bigger
-  ld h,a
-  ld l,$30 ; MENU_SIZE = (8*2)*3
-  nop ; Fill space
-  call ActivePlayerMenuOffsetFinder
 .ends
 
   ROMPosition $35a2
@@ -2470,54 +2435,50 @@ DezorianCustomStringCheck:
 
 ; $d700 +---------------+ // We assume these first three are always needed (nearly true)
 ;       | Party stats   |
-;       | (32x6)        |
 ; $d880 +---------------+ +---------------+
 ;       | Narrative box | | Character     |
-;       | (26x6)        | |  stats (14x14)|
-; $d9b8 +---------------+ |               |
-; $da08 | Narrative     | +---------------+
+; $d9b8 +---------------+ | stats         |
+; $d97c | Narrative     | +---------------+
 ;       | scroll buffer |
-;       | (24x3)        |
 ; $da48 +---------------+                   +---------------+ +---------------+
 ;       | Regular menu  |                   | Battle menu   | | Shop items    |
-;       | (8x11)    (W) |                   | (8x11)    (B) | | (22x8)        |
-; $daf8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
+;       |           (W) |                   |           (B) | | (22x8)        |
+; $dab8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
-; $db68 | items         | +---------------+ |               | |               | | (9x12)        |
-; $db76 |               |                   +---------------+ |               | |               |
+; $db08 | items         | +---------------+ |               | |               | | (9x12)        |
+; $db36 |               |                   +---------------+ |               | |               |
 ;       |               |                   | Enemy stats   | |               | |               |
-; $dba8 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
-; $dbd0 |               |                   |               |                   +---------------+
-; $dbf8 +---------------+ +---------------+ |               | 
-;       | Player select | | Buy/Sell      | |           (B) | 
-; $dc16 | (8x9) (B,W,S) | | (6x5)     (S) | +---------------+ 
-; $dc34 |               | +---------------+ | Active player | 
-;       |               |                   | (during       |
-;       |               |                   | battle)       |
-;       |               |                   | (8x3)     (B) |
-; $dc46 |               |                   +---------------+
-; $dc88 +---------------+ +---------------+                   +---------------+
+; $db10 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
+; $db80 +---------------+ +---------------+ |               |                   |               |
+; $db90 | Player select | | Buy/Sell      | |           (B) |                   +---------------+
+;       | (8x9) (B,W,S) | | (6x5)     (S) | |               | 
+; $dbb0 |               | +---------------+ |               |
+; $dbd4 +---------------+                   |               |
+; $dbd6 +---------------+ +---------------+ +---------------+ +---------------+
 ;       | Inventory     | | Spells        |                   | MST in shop   |
 ;       | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) |
-; $dce8 |               | |               |                   +---------------+
-; $dda8 |               | +---------------+                   
+; $dc4e |               | |               |                   +---------------+
+; $dc9a |               | +---------------+                   
 ;       |               | | Player select |
 ;       |               | | (magic) (8x9) |
 ;       |               | |         (B,W) |
-; $de38 |               | +---------------+
-; $df28 +---------------+ +---------------+
-;       | Use/Equip/Drop| | Yes/No        |
-;       | (7x7)     (W) | | (5x5)         |
-; $df5a |               | +---------------+
-; $df8a +---------------+ 
+; $dcee |               | +---------------+
+; $ddb6 +---------------+ +---------------+ +---------------+
+;       | Use/Equip/Drop| | Yes/No        | | Active player |
+;       | (7x7)     (W) | | (5x5)         | | (during       |
+; $ddde |               | +---------------+ | battle)   (B) |
+; $dde0 |               |                   +---------------+
+; $ddfc +---------------+
 
 .macro DefineWindow args name, start, width, height, x, y
   .define \1 start
   .define \1_size width*height*2
   .define \1_end start + width*height*2
-  .define \1_dims width<<1 | height << 8
+  .define \1_dims (width << 1) | (height << 8)
   .define \1_VRAM $7800 + (y * 32 + x) * 2
+  .export \1 \1_end \1_dims \1_VRAM
+;  .print "\1: ", hex start, " ", hex width*height*2, " ", hex start + width*height*2, " ", hex (width << 1) | (height << 8), " ", hex $7800 + (y * 32 + x) * 2, "\n"
 .endm
 
 ;              Name             RAM location           W  H  X  Y
@@ -2527,17 +2488,17 @@ DezorianCustomStringCheck:
   DefineWindow CHARACTERSTATS   NARRATIVE             14  9 17  4
   DefineWindow MENU             NARRATIVE_SCROLL_end   8  7  1  1
   DefineWindow CURRENT_ITEMS    MENU_end              20  5 11 13
-  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end      7  6  9  1
-  DefineWindow INVENTORY        PLAYER_SELECT_end     20 12 11  1
+  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end      7  6  1  8
+  DefineWindow INVENTORY        ENEMY_STATS_end       20 12 11  1
   DefineWindow USEEQUIPDROP     INVENTORY_end          7  5 14 16
-  DefineWindow HAPSBY           MENU_end               8  5 21 11
+  DefineWindow HAPSBY           MENU_end               8  5 21 13
   DefineWindow BUYSELL          CURRENT_ITEMS_end      6  4 23 14
-  DefineWindow SPELLS           INVENTORY             14  7  1  8 ; Spells and inventory are mutually exclusive
-  DefineWindow PLAYER_SELECT_2  SPELLS_end             7  6 15  8
+  DefineWindow SPELLS           INVENTORY             14  7  9  1 ; Spells and inventory are mutually exclusive
+  DefineWindow PLAYER_SELECT_2  SPELLS_end             7  6  9  8
   DefineWindow YESNO            USEEQUIPDROP           5  4 24 14
   DefineWindow ENEMY_NAME       MENU_end              21  3 11  0 ; max width 19 chars
   DefineWindow ENEMY_STATS      ENEMY_NAME_end         8 10 24  3
-  DefineWindow ACTIVE_PLAYER    ENEMY_STATS_end        8  3 10 10 ; TODO position
+  DefineWindow ACTIVE_PLAYER    INVENTORY_end          7  3  1  8
   DefineWindow SHOP             MENU                  20  5  4  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
   DefineWindow SAVE             MENU_end               9 12 10 10 ; TODO - position, size, convert?
@@ -2597,8 +2558,11 @@ DezorianCustomStringCheck:
   PatchWords ENEMY_STATS_VRAM       $3265 $329e $330d
 
   PatchWords HAPSBY                 $3b4c $3b73 ; Hapsby travel
+  PatchWords HAPSBY_VRAM            $3b4f $3b76
+  PatchW $3b63 HAPSBY_VRAM + ONE_ROW
 
   PatchWords SHOP_MST               $3b15 $3b3e ; MST in shop
+  PatchWords SHOP_MST_VRAM          $3b18 $3b41 $3b26
 
   PatchWords BUYSELL                $3895 $38b5 ; Buy/Sell
   PatchWords BUYSELL_VRAM           $3898 $38b8
@@ -2612,7 +2576,13 @@ DezorianCustomStringCheck:
   PatchW $2336 USEEQUIPDROP_VRAM + ONE_ROW ; cursor
 
   PatchWords ACTIVE_PLAYER          $3015 $3036 ; Active player (during battle)
-
+  PatchWords ACTIVE_PLAYER_VRAM     $3018 $3039
+  ROMPosition $3023
+  .section "Active player data size patch" overwrite
+  call GetActivePlayerTilemapData
+  JR_TO $302a
+  .ends
+  
   PatchWords INVENTORY              $363c $3775 ; Inventory
   PatchWords INVENTORY_VRAM         $363f $3778 $364b
   PatchW $3617 INVENTORY_VRAM + ONE_ROW * 2 ; - VRAM cursor
@@ -2639,12 +2609,25 @@ DezorianCustomStringCheck:
   PatchWords PLAYER_SELECT_2        $37a5 $37ef ; Player select for magic
   PatchWords PLAYER_SELECT_2_VRAM   $37a8 $37f2
   PatchW $37b4 PLAYER_SELECT_2_VRAM + ONE_ROW
- 
-   
+  
 ; Stats window
   DefineVRAMAddress STATS_WINDOW_VRAM 17, 4
-
+  
 .bank 0 slot 0
+.section "Multiply" free
+GetActivePlayerTilemapData:
+  ; we want a = a * ACTIVE_PLAYER_size
+  ; we need to preserve de, bc
+  ld h,a
+  inc h
+  xor a
+-:add a,ACTIVE_PLAYER_size
+  dec h
+  jr nz,-
+  sub ACTIVE_PLAYER_size
+  ret
+.ends
+
 .section "Stats window data" free
 ; The width of these is important
 Level:    .dwm TextToTilemap "|Level    " ; 3 digit number
@@ -2698,16 +2681,6 @@ stats:
   PatchB $3145 _sizeof_Attack
   PatchW $36e7 MST
   PatchB $36e5 _sizeof_MST
-
-  PatchW $3b18 $7bcc    ; Store MST VRAM location
-  PatchW $3b41 $7bcc
-  PatchW $3b26 $7bcc
-
-  PatchB $3b58 :MenuData ; Hapsby travel (bank)
-  PatchW $3b63 $7b2a    ; - VRAM cursor
-  PatchW $3b4f $7aea    ; - move window down 1 tile
-  PatchW $3b76 $7aea
-
 
 .bank 0 slot 0
 .section "Newline patch" free
