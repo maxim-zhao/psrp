@@ -1,5 +1,5 @@
 ﻿[Save]
-; Original is 216 bytes -> 15x7 if we want to fit in the same space.
+; Original is 216 bytes -> 15x7 if we want to fit in the same space. This allows 11-character names.
 ; The game actually uses RAM as so:
 ; 8000..803f Identifier           40 bytes
 ; 8040..80ff Unused              192 bytes
@@ -15,9 +15,9 @@
 ; 9800..9fff Unused             2048 bytes
 ; So we could extend to 7 slots very easily, and still have loads of space for a bigger menu.
 ┌─────────────╖
-│             ║
-│             ║
-│             ║
-│             ║
-│             ║
+│1            ║
+│2            ║
+│3            ║
+│4            ║
+│5            ║
 ╘═════════════╝

@@ -2757,8 +2757,7 @@ NameEntryTiles:
 .db RUN |  26, $e5      ; "abcdefghijklmnopqrstuvwxyz"
 .db RLE |  38, $c0      ; (space)
 .db RUN |  10, $c1      ; "1234567890"
-.db RLE |   8, $c0      ;           "        "
-.db RLE |   8, $ff      ; (punctuation all dots - will be patched later)
+.db RLE |  16, $c0      ;           "                " (punctuation will be patched later)
 .db RLE |  38, $c0      ; (space)
 .db RAW |  10, $cc $e5 $e7 $ef $c0 $c0 $d8 $e9 $fc $f8 ; "Back  Next"
 .db RLE |  12, $c0      ; (space)
@@ -2767,7 +2766,7 @@ NameEntryTiles:
 .db RLE |  37, $c0
 .db RAW |   1, $f1      ; "\"
 .db RLE |  28, $f2      ;  "----------------------------"
-.db RLE |   1, $f1      ;                              "/" ; should be RAW, doesn't matter
+.db RAW |   1, $f1      ;                              "/"
 .db $00 ; Terminator
 .ends
 
@@ -3017,7 +3016,7 @@ SaveBlankTilemap: ; could relocate to free up low space?
   ld e,a
   ld d,$81
   ld hl,SaveBlankTilemap + 17 * 2
-  ld bc, 17*2
+  ld bc, 15*2
   ldir
   JR_TO $881
 .ends
@@ -3049,25 +3048,30 @@ SaveDataPatch:
     ldir
     
     ; ...then copy the names. This could be smaller but it's not worth the effort...
-    ld hl,Temp + (9 * 1) * 4 + 2
-    ld de,SaveGameMenu + (15 * 1) * 2 + 2
-    ld bc,7 * 2
+    .define OLD_START ((9*2)+3)*2 ; offset from start to first name
+    .define OLD_STEP 9*2*2 ; step between names
+    .define NEW_START (15+3)*2 ; equivalent for new menu
+    .define NEW_STEP 15*2
+    .define NAME_LENGTH 5*2
+    ld hl,Temp + OLD_START + OLD_STEP * 0
+    ld de,SaveGameMenu + NEW_START + NEW_STEP * 0
+    ld bc,NAME_LENGTH
     ldir
-    ld hl,Temp + (9 * 2) * 4 + 2
-    ld de,SaveGameMenu + (15 * 2) * 2 + 2
-    ld bc,7 * 2
+    ld hl,Temp + OLD_START + OLD_STEP * 1
+    ld de,SaveGameMenu + NEW_START + NEW_STEP * 1
+    ld bc,NAME_LENGTH
     ldir
-    ld hl,Temp + (9 * 3) * 4 + 2
-    ld de,SaveGameMenu + (15 * 3) * 2 + 2
-    ld bc,7 * 2
+    ld hl,Temp + OLD_START + OLD_STEP * 2
+    ld de,SaveGameMenu + NEW_START + NEW_STEP * 2
+    ld bc,NAME_LENGTH
     ldir
-    ld hl,Temp + (9 * 4) * 4 + 2
-    ld de,SaveGameMenu + (15 * 4) * 2 + 2
-    ld bc,7 * 2
+    ld hl,Temp + OLD_START + OLD_STEP * 3
+    ld de,SaveGameMenu + NEW_START + NEW_STEP * 3
+    ld bc,NAME_LENGTH
     ldir
-    ld hl,Temp + (9 * 5) * 4 + 2
-    ld de,SaveGameMenu + (15 * 5) * 2 + 2
-    ld bc,7 * 2
+    ld hl,Temp + OLD_START + OLD_STEP * 4
+    ld de,SaveGameMenu + NEW_START + NEW_STEP * 4
+    ld bc,NAME_LENGTH
     ldir
   pop bc
   pop de
