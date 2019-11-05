@@ -1,0 +1,23 @@
+﻿[Save]
+; Original is 216 bytes -> 15x7 if we want to fit in the same space.
+; The game actually uses RAM as so:
+; 8000..803f Identifier           40 bytes
+; 8040..80ff Unused              192 bytes
+; 8100..81d7 Menu                216 bytes
+; 81d8..8200 Unused               40 bytes
+; 8201..8105 Slot used flags       5 bytes (could be 1)
+; 8206..83ff Unused              506 bytes
+; 8400..87ff Slot 1             1024 bytes
+; 8800..8bff Slot 2             1024 bytes
+; 8c00..8fff Slot 3             1024 bytes
+; 9000..93ff Slot 4             1024 bytes
+; 9400..97ff Slot 5             1024 bytes
+; 9800..9fff Unused             2048 bytes
+; So we could extend to 7 slots very easily, and still have loads of space for a bigger menu.
+┌─────────────╖
+│             ║
+│             ║
+│             ║
+│             ║
+│             ║
+╘═════════════╝

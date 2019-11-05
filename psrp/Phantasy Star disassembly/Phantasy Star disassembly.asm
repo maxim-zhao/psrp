@@ -245,7 +245,7 @@ BANKS 30
 ;=======================================================================================================
 .define SRAMIdent                 $8000     ; 64 bytes Marker for checking for SRAM corruption
 
-.define x8100                     $8100     ; 216 bytes ??? Tilemap?
+.define SaveMenuTilemap           $8100     ; 216 bytes - menu tilemap
 
 .define SRAMSlotsUsed             $8201     ; 5 bytes 00 = slot empty, 01 = slot used
 
@@ -1735,7 +1735,7 @@ _Delete:               ; $82f
     add a,a
     add a,$18
     ld e,a
-    ld d,$81           ; de = x8100 + $16 + 66*a
+    ld d,$81           ; de = SaveMenuTilemap + $16 + 66*a
     ld hl,_5Blanks
     ld bc,10
     ldir               ; Blank top line of name in SRAM tilemap
@@ -1858,9 +1858,9 @@ _InitSRAM:
     ldir               ; Zero first $1ffc bytes of SRAM
 
     ld hl,DefaultSRAMData
-    ld de,x8100
+    ld de,SaveMenuTilemap
     ld bc,DefaultSRAMDataEnd-DefaultSRAMData
-    ldir               ; Fill from x8100 with default data
+    ldir               ; Fill from SaveMenuTilemap with default data
 
     ld hl,_SRAMIdentData
     ld de,SRAMIdent
@@ -3578,7 +3578,7 @@ HideMenuYesNo:
 GetSavegameSelection:  ; $3adb
     ld a,SRAMPagingOn  ; Draw menu from tilemap in SRAM
     ld (SRAMPaging),a
-    ld hl,x8100
+    ld hl,SaveMenuTilemap
     TileMapAddressDE 23,1
     ld bc,$0c12        ; 6x12
     call OutputTilemapBoxWipe

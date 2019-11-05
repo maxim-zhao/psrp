@@ -104,6 +104,9 @@ menu_creater\opening.asm menu_creater\opening-patches.asm : menu_creater\opening
 menu_creater\menus.asm menu_creater\menu-patches.asm : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
 	menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menus.asm menu_creater\menu-patches.asm
 
+menu_creater\save.asm menu_creater\save-patches.asm : menu_creater\save.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
+	menu_creater\menu_creater.exe menu_creater\save.txt menu_creater\tech1_table.tbl menu_creater\save.asm menu_creater\save-patches.asm
+
 # script_inserter
 
 script_inserter\script_inserter.exe: script_inserter\*.cpp
@@ -125,7 +128,7 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin
 
 # ROM building
-ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
+ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm menu_creater\save.asm menu_creater\save-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
   $(WLALINK) -d -r -v -S linkfile "ps1jert.sms"
 

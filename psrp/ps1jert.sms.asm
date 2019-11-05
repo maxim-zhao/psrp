@@ -37,6 +37,7 @@ banks 32
   .unbackground $03494 $034a4 ; Draw characters from buffer
   .unbackground $034f2 $03545 ; Draw one character to tilemap
   .unbackground $03982 $039dd ; Stats window tilemap data
+  .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
   .unbackground $03eca $03fc1 ; background graphics lookup table
   .unbackground $03fc2 $03fd1 ; Sky Castle reveal palette
@@ -2357,18 +2358,6 @@ DezorianCustomStringCheck:
 ; $de96 +---------------+
 ;
 ; In the retranslation we have some bigger windows so it's a little trickier...
-; * Narrative is 26x6
-; * The world and battle menus are now 8x11
-; * Enemy name is now 12x4
-; * Use/Equip/Drop is now 7x7
-; * Spell menu is now 12x12
-; * Character stats is now 13x14
-; * Currently equipped items is now 12x8
-; * Inventory is now 12x21
-; * MST in shop is now 12x3
-; * Shop items is now 18x8
-; * Hapsby travel is now 8x7
-; * Player select is now 8x9
 ;
 ; High pressure scenarios:
 ; 1. World -> status
@@ -2446,7 +2435,7 @@ DezorianCustomStringCheck:
 ; $dab8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
-; $db08 | items         | +---------------+ |               | |               | | (9x12)        |
+; $db08 | items         | +---------------+ |               | |               | | (15x7)        |
 ; $db36 |               |                   +---------------+ |               | |               |
 ;       |               |                   | Enemy stats   | |               | |               |
 ; $db10 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
@@ -2501,7 +2490,7 @@ DezorianCustomStringCheck:
   DefineWindow ACTIVE_PLAYER    INVENTORY_end          7  3  1  8
   DefineWindow SHOP             MENU                  20  5  4  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
-  DefineWindow SAVE             MENU_end               9 12 10 10 ; TODO - position, size, convert?
+  DefineWindow SAVE             MENU_end              15  7 16  1 ; TODO
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -2549,6 +2538,9 @@ DezorianCustomStringCheck:
   PatchWords CURRENT_ITEMS_VRAM     $3835 $3829 $386e
 
   PatchWords SAVE                   $3ad0 $3b08 ; Select save slot
+  PatchWords SAVE_VRAM              $3ad3 $3b0b $3ae4
+  PatchWords SAVE_dims              $3ad6 $3b0e $3ae7
+  PatchW $3af2 SAVE_VRAM + ONE_ROW
 
   PatchWords ENEMY_NAME             $3256 $331b ; Enemy name
   PatchWords ENEMY_NAME_VRAM        $3259 $331e
@@ -2609,10 +2601,7 @@ DezorianCustomStringCheck:
   PatchWords PLAYER_SELECT_2        $37a5 $37ef ; Player select for magic
   PatchWords PLAYER_SELECT_2_VRAM   $37a8 $37f2
   PatchW $37b4 PLAYER_SELECT_2_VRAM + ONE_ROW
-  
-; Stats window
-  DefineVRAMAddress STATS_WINDOW_VRAM 17, 4
-  
+
 .bank 0 slot 0
 .section "Multiply" free
 GetActivePlayerTilemapData:
@@ -2987,6 +2976,105 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 ; End patch
     ret                   ; C9
 .ends
+
+.bank 0 slot 0
+.section "Default tilemap" free
+SaveBlankTilemap: ; could relocate to free up low space?
+.include "menu_creater/save.asm"
+.ends
+
+  ; SRAM initialisation
+  PatchW $09b0 SaveBlankTilemap
+
+  ; when deleting, the game just blanks out the tilemap
+  .unbackground $86c $880
+  ROMPosition $86c
+.section "Delete a save game" force
+;    dec    a               ; 00086C 3D 
+;    add    a,a             ; 00086D 87 
+;    ld     e,a             ; 00086E 5F 
+;    add    a,a             ; 00086F 87 
+;    add    a,a             ; 000870 87 
+;    add    a,a             ; 000871 87 
+;    add    a,e             ; 000872 83 
+;    add    a,a             ; 000873 87 
+;    add    a,$18           ; 000874 C6 18 
+;    ld     e,a             ; 000876 5F 
+;    ld     d,$81           ; 000877 16 81 
+;    ld     hl,$089a        ; 000879 21 9A 08 
+;    ld     bc,$000a        ; 00087C 01 0A 00 
+;    ldir                   ; 00087F ED B0 
+  ; compute where to write to
+  ; a = 1-based index
+  ; we want a * 17 * 2
+  ld e,a
+  add a,a
+  add a,a
+  add a,a
+  add a,a
+  add a,e
+  add a,a
+  ld e,a
+  ld d,$81
+  ld hl,SaveBlankTilemap + 17 * 2
+  ld bc, 17*2
+  ldir
+  JR_TO $881
+.ends
+
+; When loading an existing save game, we want to "fix" the data if it's from the older layout
+  PatchW $3aea SaveDataPatch
+  
+.bank 0 slot 0
+.section "Save data patch" free
+.define SaveGameMenu $8100
+.define Temp         $9800
+SaveDataPatch:
+  ld a,(SaveGameMenu + $12)
+  cp $f3 ; old data
+  jp nz,$3b8f ; what we stole to get here
+
+  push hl
+  push de
+  push bc
+    ; We copy the data higher in RAM...
+    ld hl,SaveGameMenu
+    ld de,Temp
+    ld bc,216
+    ldir
+    ; ...then re-initialise it...
+    ld hl,SaveBlankTilemap
+    ld de,SaveGameMenu
+    ld bc,_sizeof_SaveBlankTilemap
+    ldir
+    
+    ; ...then copy the names. This could be smaller but it's not worth the effort...
+    ld hl,Temp + (9 * 1) * 4 + 2
+    ld de,SaveGameMenu + (15 * 1) * 2 + 2
+    ld bc,7 * 2
+    ldir
+    ld hl,Temp + (9 * 2) * 4 + 2
+    ld de,SaveGameMenu + (15 * 2) * 2 + 2
+    ld bc,7 * 2
+    ldir
+    ld hl,Temp + (9 * 3) * 4 + 2
+    ld de,SaveGameMenu + (15 * 3) * 2 + 2
+    ld bc,7 * 2
+    ldir
+    ld hl,Temp + (9 * 4) * 4 + 2
+    ld de,SaveGameMenu + (15 * 4) * 2 + 2
+    ld bc,7 * 2
+    ldir
+    ld hl,Temp + (9 * 5) * 4 + 2
+    ld de,SaveGameMenu + (15 * 5) * 2 + 2
+    ld bc,7 * 2
+    ldir
+  pop bc
+  pop de
+  pop hl
+  jp $3b8f ; what we stole to get here
+.ends
+
 
 ; New title screen ------------------------
   PatchB $2fdb $dc    ; cursor tile index
