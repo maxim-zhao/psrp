@@ -3273,7 +3273,7 @@ Slot <number>, are you sure?<end>
 
 [1e55]
 ;デハ <number>バンニ セ-ブシマス.<delay>
-OK. Now saving in slot <number>...<delay>
+OK. Now saving in slot<internal hint 01> <number>...<delay>
 
 [1e91]
 ;オワリマシタ.<wait>
@@ -3462,7 +3462,7 @@ Please choose a slot.<end>
 
 [07fe]
 ;デハ <number>バンノゲ-ムヲ ハジメマス.<delay>
-OK. Continuing from slot <number>.<delay>
+OK. Continuing from slot<internal hint 01> <number>.<delay>
 
 []
 ;パスワ-ドガ チガイマス.<line>
@@ -3488,7 +3488,7 @@ Please choose a slot.<end>
 
 [0859]
 ;<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
-Deleting game from slot <number>.<end>
+Deleting game from slot<internal hint 01> <number>.<end>
 ; <end> is nicer than <wait> here - Maxim
 
 [16a8]
