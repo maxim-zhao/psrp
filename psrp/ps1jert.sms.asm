@@ -259,6 +259,7 @@ map "^" = $56 ; the
 .asc s
 .endm
 
+.define PAGING_SRAM $fffc
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
@@ -544,6 +545,7 @@ TitleScreenTilemap:
 .section "Title screen palette" force ; not movable
 TitleScreenPalette:
 .incbin "new_graphics/title-pal.bin"
+.dsb 18 0 ; black background
 .ends
 
   ROMPosition $008f3
@@ -2984,6 +2986,18 @@ SaveBlankTilemap: ; could relocate to free up low space?
 
   ; SRAM initialisation
   PatchW $09b0 SaveBlankTilemap
+  
+  ; Name location pointer table
+  ROMPosition $40be
+.section "Save game name locations" overwrite
+.define SaveFirstNameOffset $8100 + (15+3)*2 ; equivalent for new menu
+.define SaveNameDelta 15*2
+.dw SaveFirstNameOffset + SaveNameDelta * 0
+.dw SaveFirstNameOffset + SaveNameDelta * 1
+.dw SaveFirstNameOffset + SaveNameDelta * 2
+.dw SaveFirstNameOffset + SaveNameDelta * 3
+.dw SaveFirstNameOffset + SaveNameDelta * 4
+.ends
 
   ; when deleting, the game just blanks out the tilemap
   .unbackground $86c $88e
@@ -3030,6 +3044,32 @@ SaveBlankTilemap: ; could relocate to free up low space?
   JR_TO $088f
 .ends
 
+  .unbackground $4091 $40a9
+  ROMPosition $4091
+.section "Copy entered name to save data" force
+;    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
+;    ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
+;
+;    ld a,SRAMPagingOn            ; 004097 3E 08
+;    ld (SRAMPaging),a            ; 004099 32 FC FF   ; page in SRAM
+;    ldir                         ; 00409C ED B0      ; copy tiles to SRAM name section
+;
+;    ld c,$08                     ; 00409E 0E 08      ; move dest 8 bytes on
+;    ex de,hl                     ; 0040A0 EB
+;    add hl,bc                    ; 0040A1 09
+;    ex de,hl                     ; 0040A2 EB
+;    ld c,$36                     ; 0040A3 0E 36      ; move src 54 bytes on (bottom row of name)
+;    add hl,bc                    ; 0040A5 09
+;    ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
+;    ldir                         ; 0040A8 ED B0
+  ; de points to the destination already
+  ld hl,$d19a+64
+  ld bc,5*2
+  ld a,8 ; Enable SRAM
+  ld (PAGING_SRAM),a
+  ldir
+  JR_TO $40aa
+.ends
 ; When loading an existing save game, we want to "fix" the data if it's from the older layout
   PatchW $3aea SaveDataPatch
   
@@ -3059,27 +3099,25 @@ SaveDataPatch:
     ; ...then copy the names. This could be smaller but it's not worth the effort...
     .define OLD_START ((9*2)+3)*2 ; offset from start to first name
     .define OLD_STEP 9*2*2 ; step between names
-    .define NEW_START (15+3)*2 ; equivalent for new menu
-    .define NEW_STEP 15*2
     .define NAME_LENGTH 5*2
     ld hl,Temp + OLD_START + OLD_STEP * 0
-    ld de,SaveGameMenu + NEW_START + NEW_STEP * 0
+    ld de,SaveFirstNameOffset + SaveNameDelta * 0
     ld bc,NAME_LENGTH
     ldir
     ld hl,Temp + OLD_START + OLD_STEP * 1
-    ld de,SaveGameMenu + NEW_START + NEW_STEP * 1
+    ld de,SaveFirstNameOffset + SaveNameDelta * 1
     ld bc,NAME_LENGTH
     ldir
     ld hl,Temp + OLD_START + OLD_STEP * 2
-    ld de,SaveGameMenu + NEW_START + NEW_STEP * 2
+    ld de,SaveFirstNameOffset + SaveNameDelta * 2
     ld bc,NAME_LENGTH
     ldir
     ld hl,Temp + OLD_START + OLD_STEP * 3
-    ld de,SaveGameMenu + NEW_START + NEW_STEP * 3
+    ld de,SaveFirstNameOffset + SaveNameDelta * 3
     ld bc,NAME_LENGTH
     ldir
     ld hl,Temp + OLD_START + OLD_STEP * 4
-    ld de,SaveGameMenu + NEW_START + NEW_STEP * 4
+    ld de,SaveFirstNameOffset + SaveNameDelta * 4
     ld bc,NAME_LENGTH
     ldir
   pop bc

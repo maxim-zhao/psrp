@@ -3964,7 +3964,7 @@ _OKSelected_NameEntry:
     inc hl                       ; 00408F 23
     ld d,(hl)                    ; 004090 56         ; de = slot address
 
-    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapAddress location of (13,6) (top row of name)
+    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
     ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
 
     ld a,SRAMPagingOn            ; 004097 3E 08
