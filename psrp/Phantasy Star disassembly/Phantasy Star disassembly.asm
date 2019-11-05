@@ -3915,7 +3915,7 @@ _Button1Pressed: ; 403e
     call _GetTileMapDataAddressForCharAInHL ; 004047 CD 78 42
     ld a,(de)                    ; 00404A 1A
     di                           ; 00404B F3
-    call _WriteCharAToTileMapAndTileMapDataAtHL ; 00404C CD B5 42
+      call _WriteCharAToTileMapAndTileMapDataAtHL ; 00404C CD B5 42
     ei                           ; 00404F FB
     jp _PrevSelected             ; 004050 C3 2C 40
 

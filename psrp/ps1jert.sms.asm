@@ -2999,6 +2999,14 @@ SaveBlankTilemap: ; could relocate to free up low space?
 .dw SaveFirstNameOffset + SaveNameDelta * 4
 .ends
 
+  ; The code draws the password/name with spaces every 8 chars, we nobble that
+  PatchB $4293 $c9 ; return earlier
+  
+  ; We set the "start point" for name entry
+  PatchB $41c3 $1f
+  PatchB $4035 $1f ; same as above, leftmost char index
+  PatchB $401f $1f+10 ; rightmost char index (inclusive)
+
   ; when deleting, the game just blanks out the tilemap
   .unbackground $86c $88e
   ROMPosition $86c
@@ -3063,13 +3071,14 @@ SaveBlankTilemap: ; could relocate to free up low space?
 ;    ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
 ;    ldir                         ; 0040A8 ED B0
   ; de points to the destination already
-  ld hl,$d19a+64
-  ld bc,5*2
+  ld hl,$d19a+64-6
+  ld bc,11*2
   ld a,8 ; Enable SRAM
   ld (PAGING_SRAM),a
   ldir
   JR_TO $40aa
 .ends
+
 ; When loading an existing save game, we want to "fix" the data if it's from the older layout
   PatchW $3aea SaveDataPatch
   
