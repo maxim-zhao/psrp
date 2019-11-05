@@ -2986,7 +2986,7 @@ SaveBlankTilemap: ; could relocate to free up low space?
   PatchW $09b0 SaveBlankTilemap
 
   ; when deleting, the game just blanks out the tilemap
-  .unbackground $86c $880
+  .unbackground $86c $88e
   ROMPosition $86c
 .section "Delete a save game" force
 ;    dec    a               ; 00086C 3D 
@@ -3002,23 +3002,32 @@ SaveBlankTilemap: ; could relocate to free up low space?
 ;    ld     d,$81           ; 000877 16 81 
 ;    ld     hl,$089a        ; 000879 21 9A 08 
 ;    ld     bc,$000a        ; 00087C 01 0A 00 
-;    ldir                   ; 00087F ED B0 
+;    ldir                   ; 00087F ED B0      ; row 1
+;    ex     de,hl           ; 000881 EB 
+;    ld     bc,$0008        ; 000882 01 08 00 
+;    add    hl,bc           ; 000885 09 
+;    ex     de,hl           ; 000886 EB 
+;    ld     hl,$089a        ; 000887 21 9A 08 
+;    ld     bc,$000a        ; 00088A 01 0A 00 
+;    ldir                   ; 00088D ED B0      ; row 2
   ; compute where to write to
   ; a = 1-based index
-  ; we want a * 17 * 2
+  ; we want de = $8100 + (a * 15 + 3) * 2
   ld e,a
   add a,a
   add a,a
   add a,a
   add a,a
-  add a,e
+  sub e
+  add a,3
   add a,a
   ld e,a
-  ld d,$81
-  ld hl,SaveBlankTilemap + 17 * 2
-  ld bc, 15*2
+  ld d,$81 ; this points to the whole row, 15 tiles wide
+  ; we point at some suitable blank data to copy
+  ld hl,SaveBlankTilemap + (15 + 3) * 2
+  ld bc,11*2 ; name length
   ldir
-  JR_TO $881
+  JR_TO $088f
 .ends
 
 ; When loading an existing save game, we want to "fix" the data if it's from the older layout
