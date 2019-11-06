@@ -4020,7 +4020,7 @@ _RightNew:
 -:  ldbc $c8,+8                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
     ld de,+2                     ; 0040EC 11 02 00      ; delta for tilemap address
     ld iy,NameEntryCursorX       ; 0040EF FD 21 84 C7   ; which cursor sprite coordinate to change
-    jr _NameEntryNoButtonPressed_DoneWithInput
+    jr _NameEntryDirectionPressed
 _RightHeld:
     ld a,24                      ; 0040F5 3E 18
     ld (NameEntryKeyRepeatCounter),a
@@ -4032,7 +4032,7 @@ _UpNew:
 -:  ldbc $68,-16                 ; 004100 01 F0 68
     ld de,-$80                   ; 004103 11 80 FF
     ld iy,NameEntryCursorY       ; 004106 FD 21 85 C7
-    jr _NameEntryNoButtonPressed_DoneWithInput
+    jr _NameEntryDirectionPressed
 _UpHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
@@ -4044,7 +4044,7 @@ _DownNew:
 -:  ldbc $b8,+16                 ; 004117 01 10 B8
     ld de,+$80                   ; 00411A 11 80 00
     ld iy,NameEntryCursorY       ; 00411D FD 21 85 C7
-    jr _NameEntryNoButtonPressed_DoneWithInput
+    jr _NameEntryDirectionPressed
 _DownHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
@@ -4056,7 +4056,7 @@ _LeftNew:
 -:  ldbc $28,-8                  ; 00412E 01 F8 28
     ld de,-2                     ; 004131 11 FE FF
     ld iy,NameEntryCursorX       ; 004134 FD 21 84 C7
-    jr _NameEntryNoButtonPressed_DoneWithInput
+    jr _NameEntryDirectionPressed
 _LeftHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a

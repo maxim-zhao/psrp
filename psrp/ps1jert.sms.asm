@@ -2761,8 +2761,8 @@ NameEntryTiles:
 .db RUN |  10, $c1      ; "1234567890"
 .db RLE |  16, $c0      ;           "                " (punctuation will be patched later)
 .db RLE |  38, $c0      ; (space)
-.db RAW |  10, $cc $e5 $e7 $ef $c0 $c0 $d8 $e9 $fc $f8 ; "Back  Next"
-.db RLE |  12, $c0      ; (space)
+.db RAW |  17, $cc $e5 $e7 $ef $c0 $c0 $d8 $e9 $fc $f8 $c0 $c0 $dd $f4 $e5 $e7 $e9; "Back  Next  Space"
+.db RLE |   5, $c0      ; (space)
 .db RAW |   4, $dd $e5 $fa $e9 ; "Save"
 .db RLE | 127, $c0      ; (space)
 .db RLE |  37, $c0
@@ -2811,8 +2811,8 @@ DrawExtendedCharacters:
     ld bc,$0110 ; 16 bytes per row, 1 row
     ld de,$7bea ; Tilemap location 21,15
     ld hl,_punctuation
-    call $0428 ; OutputTilemapRawDataBox  ; output raw tilemap data
-    ret
+    jp $0428 ; OutputTilemapRawDataBox  ; output raw tilemap data
+    ; and ret
 
 _punctuation:
 .dwm TextToTilemap ".,:-!?`'"
@@ -2851,52 +2851,125 @@ SaveLookup:
 .asc "0123456789        .,:-!?"
 .db $41, $42 ; quotes, can't do with .asc
 ; Back, Next, Save. We extend their values to whole rows to enable "snapping" the cursor when moving down from above.
-.db $4F $4F $4F $4F $4F $4E $4E $4E $4E $4E $4E $4E $4E $4E $4E $4E $50 $50 $50 $50 $50 $50 $50 $50 $50 $51
+;   B   a   c   k   _   _   N   e   x   t   _   _   S   p   a   c   e   _   _   _   _   _   S   a   v   e
+.db $4F $4F $4F $4F $4F $4E $4E $4E $4E $4E $4E $50 $50 $50 $50 $50 $50 $50 $50 $50 $51 $51 $51 $51 $51 $ff ; last is $ff to fix a cursor bug
 .ends
   PatchW $433c SaveLookup ; rewire pointer
-
-; Cursor snapping for
-  PatchB $4161 $48 ; x coordinate of sprite for Next
-  PatchW $4163 $d496 ; lookup position for Next
-  PatchB $416c $18 ; x coordinate of sprite for Prev
-  PatchB $416a $8a ; lookup position for Prev (same high byte as for Next)
-  PatchB $4170 $c8 ; x coordinate of sprite for Save
-  PatchB $4172 $b6 ; lookup position for Save (same high byte as for Next)
-
-; make $50+ count as Save - change jr z,<addr> to jr nc,<addr>
-; because I'm using a $51 in the lookup data to stop a cursor bug
-  PatchB $402a $30
-
-
-; 4-sprite cursor hack
-; 1. Extra y coordinates
-  ROMPosition $4243
-.section "Name entry 4-sprite cursor trampoline" size 4 overwrite ; not movable
-; Original code:
-; inc e
-; ld (de),a
-; inc e
-; ld (de),a
-  call NameEntryCursor
-  nop ; to fill space for patch
+  
+; Adding "space" item
+  .unbackground $4160 $417a
+  ROMPosition $4160
+.section "control char trampoline" force
+  jp ControlChar
 .ends
-
-.bank 1 slot 1 ; can be 0 or 1
-.section "Name entry 4-sprite cursor hack" free
-NameEntryCursor:
+  
+.bank 0 slot 0
+.section "Extra control char" free
+ControlChar:
+;    cp $4e                       ; 00415D FE 4E      ; check if it was a control char, in which case snap to its left char
+;    ret c                        ; 00415F D8
+;     ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
+;     ld hl,$d5a2                  ; 004162 21 A2 D5
+;     jr z,+                       ; 004165 28 0C
+;     cp $4f                       ; 004167 FE 4F
+;     ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
+;     ld c,$a8                     ; 00416B 0E A8
+;     jr z,+                       ; 00416D 28 04
+;     ld c,$c8                     ; 00416F 0E C8      ; default: jump to Save
+;     ld l,$b2                     ; 004171 2E B2 
+; +:  ld (NameEntryCursorTileMapDataAddress),hl
+;     ld a,c                       ; 004176 79
+;     ld (NameEntryCursorX),a      ; 004177 32 84 C7
+;     ret                          ; 00417A C9
+  ; a is the pointed control character
+  sub $4e
+  ret c
+  ; Next values
+  ld c,$48 ; x
+  ld hl,$d496 ; data pointer
+  jr z,+
+  dec a
+  ; Prev
+  ld c,$18 ; x
+  ld l,$8a ; data pointer
+  jr z,+
+  dec a
+  ; Space
+  ld c,$78
+  ld l,$a2
+  jr z,+
+  ; Save for any other value
+  ld c,$c8 ; x
+  ld l,$b6 ; data pointer
++:ld ($c786),hl
+  ld a,c
+  ld ($c784),a
+  ret
+.ends
+  
+  .unbackground $4237 $4260
+  ROMPosition $4237
+.section "Cursor sprite handling" force
+  ; the first two sprites ys have been set (but not the x)
+  inc de
+  ; the first is the "curent char", the second is the start of the "pointed item"
+  ld a,($c788) ; check what we are pointing at
+  cp $4e ; carry will be set if a normal letter
+  ld b,1
+  jr c,+
+  cp $50 ; space
+  ld b,5
+  jr z,+
+  dec b ; everything else
++:ld a,($c785) ; Y coordinate
+  ld c,b
+-:ld (de),a
   inc e
+  djnz -
+  ; terminate
+  ld a,208
   ld (de),a
-  inc e
-  ld (de),a
-  inc e
-  ld (de),a
+  ; now do the Xs
+  ld e,$80
+  ex de,hl ; so we can output register c
+  ld (hl),e ; this is the "current char"'s X
+  inc hl
+  ld b,c ; get counter back
+  ld c,0 ; tile index
+  ld (hl),c
+  inc hl
+  ld a,($c784) ; X coordinate for the "pointed item"
+-:ld (hl),a
+  inc l
+  add a,8
+  ld (hl),c
+  inc l
+  djnz -
   ret
 .ends
 
+  ROMPosition $4028
+.section "Control char handling trampoline" overwrite
+  jp ControlCharCheck
+.ends
+
+.bank 1 slot 1
+.section "Control char handling" free
+ControlCharCheck:
+  ; a = 4f (next), 51 (space) or something else
+  cp $4f
+  jp z,$402c ; Prev
+  cp $50
+  jp nz,$4053 ; Save
+  ; Space
+  ld a,0
+  jp $4006 ; char entry
+.ends
+
 ; 2. Extra x coords and tile indices
-  PatchB $4251 $04
+;  PatchB $4251 $05
 ; 3. Cursor extends right, not left, relative to the "snapped" positions
-  PatchB $425c $c6 ; sub nn -> add a,nn
+;  PatchB $425c $c6 ; sub nn -> add a,nn
 
 ; Text drawing as you enter your name
 .bank 1 slot 1 ; can be 0 or 1
