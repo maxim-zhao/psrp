@@ -2808,14 +2808,14 @@ EnterYourName:
 ; Name entry screen patch to draw extended characters
 DrawExtendedCharacters:
     call $03de ; OutputToVRAM ; the call I stole to get here
-    ld bc,$010e ; 14 bytes per row, 1 row
-    ld de,$7bec ; Tilemap location 22,15
+    ld bc,$0110 ; 16 bytes per row, 1 row
+    ld de,$7bea ; Tilemap location 21,15
     ld hl,_punctuation
     call $0428 ; OutputTilemapRawDataBox  ; output raw tilemap data
     ret
 
 _punctuation:
-.dwm TextToTilemap ",:-!?`'"
+.dwm TextToTilemap ".,:-!?`'"
 
 .ends
 
