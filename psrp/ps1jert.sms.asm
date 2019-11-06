@@ -539,6 +539,7 @@ TitleScreenTilemap:
 .section "Title screen palette" force ; not movable
 TitleScreenPalette:
 .incbin "new_graphics/title-pal.bin"
+.dsb 18 0 ; black background
 .ends
 
   ROMPosition $008f3
