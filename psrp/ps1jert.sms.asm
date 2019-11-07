@@ -2490,7 +2490,7 @@ DezorianCustomStringCheck:
   DefineWindow ENEMY_NAME       MENU_end              21  3 11  0 ; max width 19 chars
   DefineWindow ENEMY_STATS      ENEMY_NAME_end         8 10 24  3
   DefineWindow ACTIVE_PLAYER    INVENTORY_end          7  3  1  8
-  DefineWindow SHOP             MENU                  20  5  4  0
+  DefineWindow SHOP             MENU                  20  5  3  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
   DefineWindow SAVE             MENU_end              15  7 16  1 ; TODO
 
