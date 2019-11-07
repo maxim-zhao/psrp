@@ -111,17 +111,22 @@ What happened?!<wait>
 
 [45fa]
 ; Nero, dying
-Alisa. My sister.<line><line>
+Alisa, my sister.<line><line>
 Listen closely, I don’t have long.<wait more>
-LaShiec is a threat to all of Algol, he can not remain in power.<line><line>
-I don’t know what’s happened to him, but I do know this.<wait more>
+The rumors we've heard are true. LaShiec has...changed.<line><line>
+And it goes beyond his military taking over our streets.<wait more>
+All of the horrible monsters outside, all of the darkness suddenly in our lives...<line><line>
+Somehow, all of it traces back to him.<wait more>
+I tried to figure out how, but I guess I got too close to the truth.<line><line>
+There's only one option left for all of us.<wait more>
 Lord LaShiec must die.<line><line>
-For the sake of everyone, Alisa, you have to kill him.<wait more>
+You have to kill him, Alisa, or all of Algol will be lost. Maybe it already is.<wait more>
 My mistake was trying to take him on alone.<line><line>
 These are dangerous people, you’re going to need help.<wait more>
-I’ve heard tales of a warrior, a man named Tylon, who shares my cause.<line><line>
+I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
 I wanted to enlist his help, but he’s gone missing.<wait more>
-You have to find him, Alisa. Find Tylon, and kill LaShiec, before it’s too late.<wait more>
+You have to find him, Alisa.<line><line>
+Find Tylon, and kill LaShiec, before it’s too late.<wait more>
 Alisa...such a terrible burden. I’m so sorry.<line><line>
 Please forgive me, for asking this of you...<wait more>
 ...and for leaving you all...<line><line>
@@ -132,8 +137,7 @@ Please forgive me, for asking this of you...<wait more>
 Nero...<wait more>
 I know that you wouldn’t ask this of me if there was any other way.<wait more>
 Your death will not be meaningless, I swear it.<line><line>
-Watch over and protect me, big brother.<wait more>
-I’m off to kill the most powerful man in the world.<wait>
+Watch over and protect me, big brother.<wait>
 
 ; *************************************
 ; *** Camineet Residential District ***
@@ -144,7 +148,8 @@ I’m off to kill the most powerful man in the world.<wait>
 [58fc]
 ; ココハ アリサノ ウチデス.<line>
 ; This is Alisa’s house. Nobody is here.
-This is Alisa’s home. Nero’s presence can still be felt here.<wait>
+This is Alisa’s home.<line><line>
+Nero's things are still where he left them.<wait>
 
 [4b48]
 ; Suelo (first visit)
@@ -154,8 +159,10 @@ This is Alisa’s home. Nero’s presence can still be felt here.<wait>
 ; [from doing what you must do], but don't overdo it, okay? If you are ever injured
 ; in battle, please come here to relax and recover. You will always be welcome.
 You’re doing what?<wait more>
-Alisa...taking on LaShiec is crazy, but I know how stubborn you are, so I’ll do what I can to help.<wait more>
-If you get hurt, come back here and your old pal Suelo will fix you up.<wait>
+Alisa...taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+I won't waste my breath trying to talk you out of this, just...please be careful.<wait more>
+If you get hurt, come back here to rest and heal.<wait more>
+We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
 
 [4b4e]
 ; Suelo (subsequent visits)
@@ -164,7 +171,7 @@ If you get hurt, come back here and your old pal Suelo will fix you up.<wait>
 ; マタ イツデモ イラッシャイ.<wait>
 ; Please relax and recover. Don’t overdo it, okay? You will always be welcome here.
 Please get some rest.<wait more>
-Don’t overdo it, okay? You will always be welcome here.<wait>
+Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
 
 [4b62]
 ; Nekiseh (first visit)
@@ -179,87 +186,90 @@ Don’t overdo it, okay? You will always be welcome here.<wait>
 ; My name is Nekise. I just found out that the hero Tairon is staying in the town of
 ; Shion. Oh, and, your brother entrusted me with this jar -- it’s called a
 ; ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.
-My name is Nekiseh. I’m sorry to hear about your brother.<wait more>
-Last we heard, Tylon was staying in a town called Shion.<wait more>
-Nero asked me to hold on to this Laconian Pot.<wait more>
-He would have wanted you to have this. Here, take it.<wait>
+My name is Nekiseh.<line><line>
+I was sorry to hear about your loss.<wait more>
+Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
+The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
+Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
+It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
 
 [4b7c]
 ; チカラニナレナクテ ゴメン.<line>
 ; ブジヲ イノッテルヨ.<wait>
 ; Forgive me, but there is nothing more I can do. May you[r journey] be safe.
-I’m sorry, I can’t risk helping you any more. Good luck.<wait>
+I wish there was more I could do for you. Good luck out there.<line><wait>
 
 [4b82]
 ; Camineet resident - man
 ; コノ カミニ-ト キョジュウクハ<line>
 ; カイゲンレイガ シカレテイルンダ.<wait>
 ; The Camineet residential district is under martial law.
-How long are they going to hold us under martial law like this?<wait>
+I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
+Camineet used to be so nice. How did it come to this?<line><wait>
 
 [4b88]
 ; Camineet resident - man
 ; カギノ カカッタ ドアヲ アケルニハダンジョンキ-ガ ヒツヨウデス.<wait>
 ; You need a ‘Dungeon Key’ to open locked doors.
-You’ll need a Dungeon Key if you want to open locked doors.<wait>
+Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
 
 [4b8e]
 ; Camineet resident - man
 ; アカリガナイト ススメナイ<line>
 ; ダンジョンモ アルヨ.<wait>
 ; You will not be able to advance through certain dungeons if you don't have a light.
-Some dungeons are pitch black, you’ll need a light.<wait>
+Some dungeons are pitch black, make sure you always have a light source with you.<wait>
 
 [4b94]
 ; Camineet resident - man
 ; カミニ-トノ ニシハ スペ-スポ-トデス.<wait>
 ; West of Camineet? That's the Spaceport.
-I can’t believe the spaceport requires a Roadpass now.<wait more>
-How am I supposed to get home?<wait>
+You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
+I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
 
 [4b9a]
 ; Camineet resident - man
 ; ミナトマチデハ イロイロナ トリヒキガ デキル トイウ ハナシダ.<wait>
 ; They say that all sorts of business goes on in the port town.
-I’ve heard that illegal goods are traded in port towns.<wait>
+You can buy just about anything in port towns. I even got a fake I.D. once!<wait>
 
 [4bba]
 ; Camineet police
 ; キョジュウクノ ソトニハ デナイホウガ ミノタメダ.<wait>
 ; Stay inside the residential area if you know what's good for you.
-Citizens are advised to remain inside the residential area.<wait>
+Remain inside the residential area. It is not safe for citizens outside.<wait>
 
 [4bc0]
 ; Camineet police
 ; シニタクナカッタラ ココニイルンダ.<wait>
 ; I can’t just let you pass through here!
-Unless you have a death wish, you should remain inside.<wait>
+We cannot protect you outside. Stay inside of your homes until the danger has passed.<wait>
 
 [4bcd,4c26,4cc2,4d0e]
 ; Camineet police (at road, without a Roadpass)
 ; ココヲ トオスワケニハ イカナイ.<wait>
 ; Want to stay alive?  Then stay here!
-Sorry, we’re on high security alert. Access denied.<wait>
+This entrance is for Roadpass holders only! Stay back or we will use force!<wait>
 
 [4bda,4d23]
 ; Camineet police (at road, without a Roadpass)
 ; ロ-ドパスノ ナイモノハ ココヲ<line>
 ; トオレナイ.<wait>
 ; Nobody gets through here without a 'Roadpass'.
-A signed Roadpass is required to access the spaceport.<wait>
+Nobody gets through here without a Roadpass.<wait>
 
 [4be0,4c3a,4cd5,4d18,4d2d,5497]
 ; Camineet police (at road, with a Roadpass)
 ; (also used elsewhere)
 ; トオッテ ヨシ.<wait>
 ; Okay, you may pass.
-Access granted. Go on through.<wait>
+Roadpass confirmed. Go on through.<wait>
 
 [4ba0]
 ; Camineet resident - man
 ; アルゴル タイヨウケイノ ワクセイヲシッテイルカナ.<end>
 ; Do you know the planets in the Algol Solar System?
-Do you know about the planets of Algol?<end>
+Do you know about all the planets in our solar system?<end>
 
 [4bb4]
 ; Camineet resident - man - "no" to question about Algol
@@ -273,12 +283,13 @@ Do you know about the planets of Algol?<end>
 ; Motavia is a planet of sand.
 ; Dezoris is a planet of ice.
 ; There is a crisis drawing near to Algol...
-There are three planets: Palma, Motavia, and Dezoris.<wait more>
-The three planets have a distinct geology.<wait more>
-Palma is a planet of greenery.<line>
-Motavia is a planet of sand.<line>
-Dezoris is a planet of ice.<wait more>
-To tell you the truth, I fear for the future of our planets.<wait>
+Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
+Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
+Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
+Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
+And Dezoris is a planet of ice. Very few lifeforms can survive its frozen surface.<wait more>
+Algol thrives due to the delicate ecological balance of our three planets.<wait more>
+But I can sense something is changing. I fear a crisis is drawing near...<wait>
 
 [4ba9,4e06,4e26]
 ; Camineet resident - man - "yes" to question about Algol
@@ -302,7 +313,7 @@ Welcome to Parolit residential district.<wait>
 ; モリノナカハ トクニ<line>
 ; キヲツケタホウガイイヨ.<wait>
 ; When you're in the forest, you need to be especially cautious.
-It’s easy to get lost in the forest, be careful.<wait>
+The forest is especially dangerous lately, be careful if you head that way.<wait>
 
 [4bfd]
 ; Man
@@ -311,15 +322,15 @@ It’s easy to get lost in the forest, be careful.<wait>
 ; ミタモノハ イシニ サレルソウダ.<wait>
 ; I hear that the monster Medusa has returned to the cave South of the city.
 ; They say if you look at it, you'll turn to stone!
-I’ve heard that a monster called Medusa was awakened in the cave south of here.<wait more>
-Rumor has it she turns all who look at her into stone!<wait>
+Rumors are going around that Medusa has returned to her cave, just south of here.<wait more>
+They say one look turns you into a living statue. That can't be true, can it?<wait>
 
 [4c03]
 ; Man
 ; ヒガシヘ イクト シオン トイウ<line>
 ; ミナトマチガ アルラシイ.<wait>
 ; If you travel East, you will reach the port town of Shion.
-If you go east, you’ll come to a port town called Shion.<wait>
+If you're looking for a port town, Shion is just east of here.<wait>
 
 [4c09]
 ; Man
@@ -334,7 +345,7 @@ But due to heightened security, you’ll need a Roadpass.<wait>
 ; パロリトノ ニシニアル ガシコノモリヘハ チカツウロガ アルラシイ.<wait>
 ; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
 Did you know there’s an abandoned catacomb leading west, to the Gothic Woods?<wait more>
-Supposedly it’s somewhere nearby, but I can’t find it.<wait>
+Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
 
 
 ; ***********************
@@ -3429,7 +3440,7 @@ That’ll come in handy later.<wait>
 
 [6c6e]
 ;タカラバコヲ ミツケタ.<end>
-You found a treasure chest.<end>
+You found a treasure chest.<line><end>
 
 [2c82]
 ;アルテムハムラム ア ウッ.<line>
