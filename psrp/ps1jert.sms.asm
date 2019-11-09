@@ -274,6 +274,8 @@ map "^" = $56 ; the
 .define ItemIndex           $c2c4 ; b Index into Items
 .define NumberToShowInText  $c2c5 ; b Number to show in text
 .define EnemyIndex          $c2e6 ; b Index into Enemies
+.define SaveTilemapOld      $8100 ; Tilemap data for save - original
+.define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
 ; RAM
 
@@ -2462,6 +2464,23 @@ DezorianCustomStringCheck:
 ; $dde0 |               |                   +---------------+
 ; $ddfc +---------------+
 
+; Save data has to be relocated to make space for it to be wider/taller
+.define SAVE_NAME_WIDTH 18
+.define SAVE_SLOT_COUNT 5
+; 8000..803f Identifier           40 bytes
+; 8040..80ff Unused              192 bytes
+; 8100..81d7 Menu                216 bytes <- can move to $8040?
+; 81d8..8200 Unused               40 bytes
+; 8201..8105 Slot used flags       5 bytes (could be 1) <- need to relocate at the title screen?
+; 8206..83ff Unused              506 bytes
+; 8400..87ff Slot 1             1024 bytes
+; 8800..8bff Slot 2             1024 bytes
+; 8c00..8fff Slot 3             1024 bytes
+; 9000..93ff Slot 4             1024 bytes
+; 9400..97ff Slot 5             1024 bytes
+; 9800..9fff Unused             2048 bytes
+
+
 .macro DefineWindow args name, start, width, height, x, y
   .define \1 start
   .define \1_size width*height*2
@@ -2492,7 +2511,7 @@ DezorianCustomStringCheck:
   DefineWindow ACTIVE_PLAYER    INVENTORY_end          7  3  1  8
   DefineWindow SHOP             MENU                  20  5  3  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
-  DefineWindow SAVE             MENU_end              15  7 16  1 ; TODO
+  DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH  1 ; TODO
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -2542,6 +2561,7 @@ DezorianCustomStringCheck:
   PatchWords SAVE                   $3ad0 $3b08 ; Select save slot
   PatchWords SAVE_VRAM              $3ad3 $3b0b $3ae4
   PatchWords SAVE_dims              $3ad6 $3b0e $3ae7
+  PatchWords SaveTilemap            $3ae1
   PatchW $3af2 SAVE_VRAM + ONE_ROW
 
   PatchWords ENEMY_NAME             $3256 $331b ; Enemy name
@@ -3053,32 +3073,110 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 
 .bank 0 slot 0
 .section "Default tilemap" free
-SaveBlankTilemap: ; could relocate to free up low space?
-.include "menu_creater/save.asm"
+;.include "menu_creater/save.asm"
+  ; We want to emit this:
+  ; ┌─────────────╖
+  ; │1            ║
+  ; │2            ║
+  ; │3            ║
+  ; │4            ║
+  ; │5            ║
+  ; ╘═════════════╝
+BlankSaveTilemap:
+  ld de,SaveTilemap
+  ld hl,_top
+  call _process
+  ld c,$c2 ; '1'
+-:ld a,c
+  inc c
+  ld (de),a
+  inc de
+  ld a,$10
+  ld (de),a
+  inc de
+  ld hl,_blank
+  call _process
+  ld a,$c2 + SAVE_SLOT_COUNT
+  cp c
+  jr nz,-
+  ; undo 2
+  dec de
+  dec de
+  ld hl,_bottom
+  ; fall through
+  
+_process:
+--:
+  ld a,(hl)
+  or a
+  ret z
+  ld b,a
+  inc hl
+  inc hl
+  inc hl
+-:dec hl
+  dec hl
+  push bc
+    ldi
+    ldi
+  pop bc
+  djnz -
+  jr --
+  
+.macro element args value, count
+  .db count
+  .dw value
+.endm
+
+_top:
+  element $11f1 1
+  element $11f2 SAVE_NAME_WIDTH+2
+  element $13f1 1
+  element $11f3 1
+  .db 0
+_blank:
+  element $10c0 SAVE_NAME_WIDTH+1
+  element $13f3 1
+  element $11f3 1
+  .db 0
+_bottom:
+  element $15f1 1
+  element $15f2 SAVE_NAME_WIDTH+2
+  element $17f1 1
+  .db 0
+
 .ends
 
   ; SRAM initialisation
-  PatchW $09b0 SaveBlankTilemap
+  ROMPosition $9af
+.section "Save RAM init" overwrite
+  call BlankSaveTilemap
+  JR_TO $09ba
+.ends
+;  PatchW $09b0 SaveBlankTilemap
   
   ; Name location pointer table
   ROMPosition $40be
 .section "Save game name locations" overwrite
-.define SaveFirstNameOffset $8100 + (15+3)*2 ; equivalent for new menu
-.define SaveNameDelta 15*2
+SaveGameNameLocations:
+.define SaveFirstNameOffset SaveTilemap + (SAVE_NAME_WIDTH+4+3)*2 ; equivalent for new menu
+.define SaveNameDelta (SAVE_NAME_WIDTH+4)*2
 .dw SaveFirstNameOffset + SaveNameDelta * 0
 .dw SaveFirstNameOffset + SaveNameDelta * 1
 .dw SaveFirstNameOffset + SaveNameDelta * 2
 .dw SaveFirstNameOffset + SaveNameDelta * 3
 .dw SaveFirstNameOffset + SaveNameDelta * 4
+; TODO: relocate for n=7
 .ends
 
   ; The code draws the password/name with spaces every 8 chars, we nobble that
   PatchB $4293 $c9 ; return earlier
   
-  ; We set the "start point" for name entry
-  PatchB $41c3 $1f
-  PatchB $4035 $1f ; same as above, leftmost char index
-  PatchB $401f $1f+10 ; rightmost char index (inclusive)
+  ; We set the "start point" for name entry.
+  .define NameEntryStart 13 - SAVE_NAME_WIDTH/2
+  PatchB $41c3 NameEntryStart
+  PatchB $4035 NameEntryStart ; same as above, leftmost char index
+  PatchB $401f NameEntryStart + SAVE_NAME_WIDTH - 1 ; rightmost char index (inclusive)
 
   ; when deleting, the game just blanks out the tilemap
   .unbackground $86c $88e
@@ -3105,22 +3203,27 @@ SaveBlankTilemap: ; could relocate to free up low space?
 ;    ld     hl,$089a        ; 000887 21 9A 08 
 ;    ld     bc,$000a        ; 00088A 01 0A 00 
 ;    ldir                   ; 00088D ED B0      ; row 2
+DeletePatch:
   ; compute where to write to
   ; a = 1-based index
-  ; we want de = $8100 + (a * 15 + 3) * 2
+  ; we want de = SaveTilemap + (a * (SAVE_NAME_WIDTH+4) + 2) * 2
+  ld hl,0
+  ld d,0
   ld e,a
-  add a,a
-  add a,a
-  add a,a
-  add a,a
-  sub e
-  add a,3
-  add a,a
-  ld e,a
-  ld d,$81 ; this points to the whole row, 15 tiles wide
-  ; we point at some suitable blank data to copy
-  ld hl,SaveBlankTilemap + (15 + 3) * 2
-  ld bc,11*2 ; name length
+  ld b,SAVE_NAME_WIDTH+4
+-:add hl,de
+  djnz -
+  inc hl
+  inc hl
+  add hl,hl
+  ld de,SaveTilemap
+  add hl,de
+  ld e,l
+  ld d,h
+  ; We then want to copy the blank we are pointing at to the right
+  inc de
+  inc de
+  ld bc,SAVE_NAME_WIDTH*2
   ldir
   JR_TO $088f
 .ends
@@ -3144,8 +3247,8 @@ SaveBlankTilemap: ; could relocate to free up low space?
 ;    ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
 ;    ldir                         ; 0040A8 ED B0
   ; de points to the destination already
-  ld hl,$d19a+64-6
-  ld bc,11*2
+  ld hl,$d146 + NameEntryStart*2
+  ld bc,SAVE_NAME_WIDTH*2
   ld a,8 ; Enable SRAM
   ld (PAGING_SRAM),a
   ldir
@@ -3157,10 +3260,9 @@ SaveBlankTilemap: ; could relocate to free up low space?
   
 .bank 0 slot 0
 .section "Save data patch" free
-.define SaveGameMenu $8100
 .define Temp         $9800
 SaveDataPatch:
-  ld a,(SaveGameMenu + $12)
+  ld a,(SaveTilemapOld + $12)
   cp $f3 ; old data
   jp nz,$3b8f ; what we stole to get here
 
@@ -3168,18 +3270,15 @@ SaveDataPatch:
   push de
   push bc
     ; We copy the data higher in RAM...
-    ld hl,SaveGameMenu
+    ld hl,SaveTilemapOld
     ld de,Temp
-    ld bc,216
+    ld bc,216 ; size of old data
     ldir
     ; ...then re-initialise it...
-    ld hl,SaveBlankTilemap
-    ld de,SaveGameMenu
-    ld bc,_sizeof_SaveBlankTilemap
-    ldir
+    call BlankSaveTilemap
     
     ; ...then copy the names. This could be smaller but it's not worth the effort...
-    .define OLD_START ((9*2)+3)*2 ; offset from start to first name
+    .define OLD_START ((9*2)+3)*2 ; offset from start to first name - 9 tiles per row
     .define OLD_STEP 9*2*2 ; step between names
     .define NAME_LENGTH 5*2
     ld hl,Temp + OLD_START + OLD_STEP * 0

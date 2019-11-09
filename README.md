@@ -33,8 +33,9 @@ Unofficial Translation 2005-2019
   - fixed naming inconsistencies in the script, e.g. Dezoris/Dezolis, Roadpass/roadpass/road pass
   - enemy names no longer have a size limit (#9)
   - script updates from Frank Cifaldi
-  - font and window borders updated (WIP)
-  - ...
+  - menus converted to single-spacing, and widened to fit all item names
+  - save game names widened
+  - additional save slots enabled (using existing 8KB save RAM)
   
 
 Phantasy Star Original Dialogue Version 
