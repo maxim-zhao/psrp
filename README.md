@@ -34,6 +34,7 @@ Unofficial Translation 2005-2019
   - enemy names no longer have a size limit (#9)
   - script updates from Frank Cifaldi
   - menus converted to single-spacing, and widened to fit all item names
+  - enemy name box auto-sizes to fit
   - save game names widened
   - additional save slots enabled (using existing 8KB save RAM)
   

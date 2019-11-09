@@ -2439,18 +2439,18 @@ DezorianCustomStringCheck:
 ; $dab8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
-; $db08 | items         | +---------------+ |               | |               | | (15x7)        |
+; $db08 | items         | +---------------+ |               | |               | | (22x9)        |
 ; $db36 |               |                   +---------------+ |               | |               |
 ;       |               |                   | Enemy stats   | |               | |               |
 ; $db10 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
 ; $db80 +---------------+ +---------------+ |               |                   |               |
-; $db90 | Player select | | Buy/Sell      | |           (B) |                   +---------------+
-;       | (8x9) (B,W,S) | | (6x5)     (S) | |               | 
-; $dbb0 |               | +---------------+ |               |
-; $dbd4 +---------------+                   |               |
-; $dbd6 +---------------+ +---------------+ +---------------+ +---------------+
-;       | Inventory     | | Spells        |                   | MST in shop   |
-;       | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) |
+;       | Player select | | Buy/Sell      | |           (B) |                   |               |
+;       | (8x9) (B,W,S) | | (6x5)     (S) | |               |                   |               |
+; $dbb0 |               | +---------------+ |               |                   |               |
+; $dbd4 +---------------+                   |               |                   |               |
+; $dbd6 +---------------+ +---------------+ +---------------+ +---------------+ |               |
+;       | Inventory     | | Spells        |                   | MST in shop   | |               |
+; $dc44 | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
 ; $dc4e |               | |               |                   +---------------+
 ; $dc9a |               | +---------------+                   
 ;       |               | | Player select |
@@ -2466,7 +2466,7 @@ DezorianCustomStringCheck:
 
 ; Save data has to be relocated to make space for it to be wider/taller
 .define SAVE_NAME_WIDTH 18
-.define SAVE_SLOT_COUNT 5
+.define SAVE_SLOT_COUNT 7
 ; 8000..803f Identifier           40 bytes
 ; 8040..80ff Unused              192 bytes
 ; 8100..81d7 Menu                216 bytes <- can move to $8040?
@@ -3156,18 +3156,22 @@ _bottom:
 ;  PatchW $09b0 SaveBlankTilemap
   
   ; Name location pointer table
-  ROMPosition $40be
-.section "Save game name locations" overwrite
+  .unbackground $40be $40c7
+.bank 1 slot 1
+.section "Save game name locations" free
 SaveGameNameLocations:
 .define SaveFirstNameOffset SaveTilemap + (SAVE_NAME_WIDTH+4+3)*2 ; equivalent for new menu
 .define SaveNameDelta (SAVE_NAME_WIDTH+4)*2
-.dw SaveFirstNameOffset + SaveNameDelta * 0
-.dw SaveFirstNameOffset + SaveNameDelta * 1
-.dw SaveFirstNameOffset + SaveNameDelta * 2
-.dw SaveFirstNameOffset + SaveNameDelta * 3
-.dw SaveFirstNameOffset + SaveNameDelta * 4
-; TODO: relocate for n=7
+.repeat SAVE_SLOT_COUNT index count
+.dw SaveFirstNameOffset + SaveNameDelta * count
+.endr
 .ends
+  PatchW $408b SaveGameNameLocations-2 ; 1-based lookup
+
+  ; Selection menu upper limit
+  PatchB $3af8 SAVE_SLOT_COUNT-1
+  ; Title screen continue -> start if no saves
+  PatchB $07a7 SAVE_SLOT_COUNT
 
   ; The code draws the password/name with spaces every 8 chars, we nobble that
   PatchB $4293 $c9 ; return earlier
