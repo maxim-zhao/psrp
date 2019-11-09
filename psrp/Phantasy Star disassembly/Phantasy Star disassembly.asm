@@ -89,6 +89,7 @@ BANKS 30
 .define xc263                     $c263     ; b ??? Scrollingtilemap data page(?)
 .define ScrollDirection           $c264     ; b Scroll direction; %----RLDU
 .define PaletteRotateEnabled      $c265     ; b Palette rotation enabled if non-zero
+                                            ; also related to movement?
 
 .define CursorEnabled             $c268     ; b $ff if cursor showing, $00 otherwise
 .define CursorTileMapAddress      $c269     ; w Address of low byte of top cursor position in tilemap
@@ -161,6 +162,7 @@ BANKS 30
 
 
 .define xc30e                     $c30e     ; b ??? used by palette rotation but could be more
+                                            ; vehicle?
 .define PaletteRotatePos          $c30f     ; b Palette rotation position
 .define PaletteRotateCounter      $c310     ; b Palette rotation delay counter
 .define xc311                     $c311     ; w ??? Related to VLocation

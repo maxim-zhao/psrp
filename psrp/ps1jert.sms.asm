@@ -2754,6 +2754,10 @@ _draw_4th_line:
   PatchB $1cf8 0
 */
 
+;  PatchB $7417 2 ; walking speed up
+;  PatchB $740e 7 ; counter when walking
+;  PatchB $7410 $00 ; always fast walking
+
 ; Savegame name entry screen hacking ---------------------------------------------
 ; compressed tile data (low byte only) for name entry screen
 .bank 0 slot 0
