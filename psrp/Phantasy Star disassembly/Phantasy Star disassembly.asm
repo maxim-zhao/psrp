@@ -245,7 +245,7 @@ BANKS 30
 ;=======================================================================================================
 .define SRAMIdent                 $8000     ; 64 bytes Marker for checking for SRAM corruption
 
-.define x8100                     $8100     ; 216 bytes ??? Tilemap?
+.define SaveMenuTilemap           $8100     ; 216 bytes - menu tilemap
 
 .define SRAMSlotsUsed             $8201     ; 5 bytes 00 = slot empty, 01 = slot used
 
@@ -1735,7 +1735,7 @@ _Delete:               ; $82f
     add a,a
     add a,$18
     ld e,a
-    ld d,$81           ; de = x8100 + $16 + 66*a
+    ld d,$81           ; de = SaveMenuTilemap + $16 + 66*a
     ld hl,_5Blanks
     ld bc,10
     ldir               ; Blank top line of name in SRAM tilemap
@@ -1858,9 +1858,9 @@ _InitSRAM:
     ldir               ; Zero first $1ffc bytes of SRAM
 
     ld hl,DefaultSRAMData
-    ld de,x8100
+    ld de,SaveMenuTilemap
     ld bc,DefaultSRAMDataEnd-DefaultSRAMData
-    ldir               ; Fill from x8100 with default data
+    ldir               ; Fill from SaveMenuTilemap with default data
 
     ld hl,_SRAMIdentData
     ld de,SRAMIdent
@@ -3578,7 +3578,7 @@ HideMenuYesNo:
 GetSavegameSelection:  ; $3adb
     ld a,SRAMPagingOn  ; Draw menu from tilemap in SRAM
     ld (SRAMPaging),a
-    ld hl,x8100
+    ld hl,SaveMenuTilemap
     TileMapAddressDE 23,1
     ld bc,$0c12        ; 6x12
     call OutputTilemapBoxWipe
@@ -3915,7 +3915,7 @@ _Button1Pressed: ; 403e
     call _GetTileMapDataAddressForCharAInHL ; 004047 CD 78 42
     ld a,(de)                    ; 00404A 1A
     di                           ; 00404B F3
-    call _WriteCharAToTileMapAndTileMapDataAtHL ; 00404C CD B5 42
+      call _WriteCharAToTileMapAndTileMapDataAtHL ; 00404C CD B5 42
     ei                           ; 00404F FB
     jp _PrevSelected             ; 004050 C3 2C 40
 
@@ -3964,7 +3964,7 @@ _OKSelected_NameEntry:
     inc hl                       ; 00408F 23
     ld d,(hl)                    ; 004090 56         ; de = slot address
 
-    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapAddress location of (13,6) (top row of name)
+    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
     ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
 
     ld a,SRAMPagingOn            ; 004097 3E 08
@@ -4020,7 +4020,7 @@ _RightNew:
 -:  ldbc $c8,+8                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
     ld de,+2                     ; 0040EC 11 02 00      ; delta for tilemap address
     ld iy,NameEntryCursorX       ; 0040EF FD 21 84 C7   ; which cursor sprite coordinate to change
-    jr _NameEntryNoButtonPressed_DoneWithInput
+    jr _NameEntryDirectionPressed
 _RightHeld:
     ld a,24                      ; 0040F5 3E 18
     ld (NameEntryKeyRepeatCounter),a
@@ -4032,7 +4032,7 @@ _UpNew:
 -:  ldbc $68,-16                 ; 004100 01 F0 68
     ld de,-$80                   ; 004103 11 80 FF
     ld iy,NameEntryCursorY       ; 004106 FD 21 85 C7
-    jr _NameEntryNoButtonPressed_DoneWithInput
+    jr _NameEntryDirectionPressed
 _UpHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
@@ -4044,7 +4044,7 @@ _DownNew:
 -:  ldbc $b8,+16                 ; 004117 01 10 B8
     ld de,+$80                   ; 00411A 11 80 00
     ld iy,NameEntryCursorY       ; 00411D FD 21 85 C7
-    jr _NameEntryNoButtonPressed_DoneWithInput
+    jr _NameEntryDirectionPressed
 _DownHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
@@ -4056,7 +4056,7 @@ _LeftNew:
 -:  ldbc $28,-8                  ; 00412E 01 F8 28
     ld de,-2                     ; 004131 11 FE FF
     ld iy,NameEntryCursorX       ; 004134 FD 21 84 C7
-    jr _NameEntryNoButtonPressed_DoneWithInput
+    jr _NameEntryDirectionPressed
 _LeftHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a

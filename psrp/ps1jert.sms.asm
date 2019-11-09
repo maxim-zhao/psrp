@@ -36,7 +36,8 @@ banks 32
   .unbackground $033f6 $03493 ; Draw number
   .unbackground $03494 $034a4 ; Draw characters from buffer
   .unbackground $034f2 $03545 ; Draw one character to tilemap
-  .unbackground $03982 $039dd ; Stats menu tilemap data
+  .unbackground $03982 $039dd ; Stats window tilemap data
+  .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
   .unbackground $03eca $03fc1 ; background graphics lookup table
   .unbackground $03fc2 $03fd1 ; Sky Castle reveal palette
@@ -219,6 +220,10 @@ LoadPagedTiles\1:
   call LoadTiles
 .endm
 
+.macro DefineVRAMAddress args name, x, y
+.define \1 $7800 + ((y * 32) + x) * 2
+.endm
+
 .asciitable
 ; Matches the .tbl file used for items. Some values have different meanings in the main script.
 map " " = $00
@@ -254,6 +259,7 @@ map "^" = $56 ; the
 .asc s
 .endm
 
+.define PAGING_SRAM $fffc
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
@@ -268,6 +274,8 @@ map "^" = $56 ; the
 .define ItemIndex           $c2c4 ; b Index into Items
 .define NumberToShowInText  $c2c5 ; b Number to show in text
 .define EnemyIndex          $c2e6 ; b Index into Enemies
+.define SaveTilemapOld      $8100 ; Tilemap data for save - original
+.define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
 ; RAM
 
@@ -1560,9 +1568,7 @@ OriginalVBlankHandlerPatch:
 Lists:
 ; Order is important!
 Items:
-  ; Item names should be manually word-wrapped (using '@') if longer than 14
-  ; characters (the menu width), unless exactly 14 characters long in which
-  ; case don't :) as the line is already wrapped at that point.
+  ; Max width 18 excluding control characters and [...] parts
   String " " ; empty item (blank)
 ; weapons: 01-0f
   String "~Wood Cane"
@@ -1581,7 +1587,7 @@ Items:
   String "~Laconian Sword"
   String "~Laconian Axe"
 ; armour: 10-18
-  String "~Leather@ Clothes"
+  String "~Leather Clothes"
   String "~White Cloak"
   String "~Light Suit"
   String "#Iron Armor"
@@ -1597,8 +1603,8 @@ Items:
   String "~Ceramic Shield"
   String "#Animal Glove"
   String "~Laser Barrier"
-  String "^Shield of@ Perseus"
-  String "~Laconian@ Shield"
+  String "^Shield of Perseus"
+  String "~Laconian Shield"
 ; vehicles: 21-23
   String "^LandMaster"
   String "^FlowMover"
@@ -1628,7 +1634,7 @@ Items:
   String "^Light Pendant"
   String "^Carbunckle Eye"
   String "~GasClear"
-  String "Damoa's@ Crystal"
+  String "Damoa's Crystal"
   String "~Master System"
   String "^Miracle Key"
   String "Zillion"
@@ -1756,6 +1762,7 @@ MenuData:
 
 .include "menu_creater/menu-patches.asm"
 
+  PatchB $3b58 :MenuData
   PatchB $3b82 :MenuData
   PatchB $3bab :MenuData
 
@@ -1769,52 +1776,13 @@ MenuData:
 .dwm TextToTilemap "MP"
 .ends
 
-  ; Choose player: width*2
-  PatchB $37c8 $10
-
-  ROMPosition $3de4
-.section "Active player - menu offset finder" overwrite ; not movable?
-ActivePlayerMenuOffsetFinder:
-; Originally t2b.asm
-; Active player menu selection
-
-  xor a
-  inc h
-
--:dec h     ; loop
-  ret z
-
-  add a,l     ; skip menu
-  jr -
-
-.ends
-
-  ROMPosition $3023
-.section "Trampoline to above" overwrite ; not movable
-TrampolineToActivePlayerMenuOffsetFinder:
-; Original code was doing it inline:
-;  ld a,($c267) ; get index
-;  add a,a      ; multiply by 36
-;  add a,a
-;  ld l,a
-;  add a,a
-;  add a,a
-;  add a,a
-;  add a,l
-; We replace all this with a jump to a helper as the necessary replacement is a bit bigger
-  ld h,a
-  ld l,$30 ; MENU_SIZE = (8*2)*3
-  nop ; Fill space
-  call ActivePlayerMenuOffsetFinder
-.ends
-
   ROMPosition $35a2
 .section "Spell selection finder" overwrite ; not movable
 SpellSelectionFinder:
 ; Originally t2b_1.asm
 ; Spell selection offset finder
 
-.define MENU_SIZE ((10+2)*2)*11 ; top border + text
+.define MENU_SIZE (14*2)*6 ; top border + text
 
   ld de,MENU_SIZE   ; menu size
 
@@ -1830,11 +1798,6 @@ SpellSelectionFinder:
 
 +:
 .ends
-
-  PatchB $35bf $18      ; - (12+2)*2 width
-  PatchW $1ee1 $7a4c    ; - VRAM cursor
-  PatchW $1b6a $7a4c    ; - VRAM cursor
-
 
   ROMPosition $35c5
 .section "Spell blank line" size 14 overwrite ; not movable
@@ -1855,56 +1818,12 @@ SpellBlankLine:
 ; adc    a,h
 ; sub    l
 ; ld     h,a
-
-.define LINE_SIZE (10+2)*2  ; width of line (spells menu)
-
-  ; Our menus are wider now, we want a = b * 24.
-  ; We don't have space to do it with shifts so we loop instead (slower)...
-
-  push de
-  push bc
-    ld hl,BlankSpellMenu
-    ld de,LINE_SIZE
--:  add hl,de
-    djnz -
-  pop bc
-  pop de
+  ; We just don't draw "empty" spell menus...
+  ld hl,SpellMenuBottom
+  ld bc,1<<8 + 14*2  ; width of line
+  jp $3b81 ; draw and exit
+  ; TODO free up space after this
 .ends
-
-  PatchB $35d4 $0c  ; - height
-
-.bank 0 slot 0
-.section "Stats menu part 1" free
-; The width of these is important
-Level:    .dwm TextToTilemap "|Level    " ; 3 digit number
-EXP:      .dwm TextToTilemap "|Exp.   "   ; 5 digit number
-Attack:   .dwm TextToTilemap "|Attack   " ; 3 digit numbers
-Defense:  .dwm TextToTilemap "|Defense  "
-MaxMP:    .dwm TextToTilemap "|Max MP   "
-MaxHP:    .dwm TextToTilemap "|Max HP   "
-MST:      .dwm TextToTilemap "|Meseta   "   ; 5 digit number but also used for shop so extra spaces needed
-.ends
-
-  PatchW $3911 Level
-  PatchW $391a EXP
-  PatchB $31a3 _sizeof_EXP
-  PatchB $36dd _sizeof_EXP
-  PatchW $392f Attack
-  PatchB $3145 _sizeof_Attack
-  PatchW $3941 Defense
-  PatchW $3965 MaxMP
-  PatchW $3953 MaxHP
-  PatchW $36e7 MST
-  PatchB $36e5 _sizeof_MST
-
-  PatchW $3b18 $7bcc    ; Store MST VRAM location
-  PatchW $3b41 $7bcc
-  PatchW $3b26 $7bcc
-
-  PatchB $3b58 :MenuData ; Hapsby travel (bank)
-  PatchW $3b63 $7b2a    ; - VRAM cursor
-  PatchW $3b4f $7aea    ; - move window down 1 tile
-  PatchW $3b76 $7aea
 
 .bank 2
 .section "Opening cinema" superfree
@@ -1956,9 +1875,6 @@ inventory:
     call _start_write ; write out 2 lines of text
     call _wait_vblank
 
-    call _start_write
-    call _wait_vblank
-
   pop hl
   pop bc
 
@@ -1999,16 +1915,6 @@ shop:
     pop hl
     ld a,2    ; restore page 2
     ld (PAGING_SLOT_2),a
-
-    call _start_write
-
-    push hl     ; hacky workaround
-    push de
-      ld c,$00    ; do not write price
-      call _shop_price
-    pop de
-    pop hl
-
   pop hl      ; restore old parameters
   pop bc
 
@@ -2150,12 +2056,8 @@ equipment:
 
     ld hl,TEMP_STR    ; start of text
 
-    call _start_write ; write out 2 lines of text
+    call _start_write ; write out name
     call _wait_vblank
-
-    call _start_write
-    call _wait_vblank
-
   pop hl
   pop bc
 
@@ -2164,7 +2066,7 @@ equipment:
 
   ret
 
-.define ITEM_NAME_WIDTH 14 ; when drawn in menus
+.define ITEM_NAME_WIDTH 18 ; when drawn in menus
 
 _start_write:
   di
@@ -2376,24 +2278,8 @@ _write_price:
 .endm
 
   TrampolineTo enemy $326d $3294
+  TrampolineTo equipment $3850 $385f
   
-  ROMPosition $3850
-.section "equipment setup code" size 14 overwrite ; not movable
-; Originally t2a_4.asm
-; Equipment window drawer
-; - setup code
-
-  ld a,:equipment
-  ld (PAGING_SLOT_1),a
-
-  call equipment
-
-  ld a,1
-  ld (PAGING_SLOT_1),a
-
-  nop
-.ends
-
 ; Extra scripting
 
   ROMPosition $59bd
@@ -2472,22 +2358,10 @@ DezorianCustomStringCheck:
 ; $de80 +---------------+                                     |               |
 ; $de64 +---------------+                                     +---------------+
 ;       | Yes/No        |
-;       | (5x5)         |
+;       | (5x4)         |
 ; $de96 +---------------+
 ;
 ; In the retranslation we have some bigger windows so it's a little trickier...
-; * Narrative is 26x6
-; * The world and battle menus are now 8x11
-; * Enemy name is now 12x4
-; * Use/Equip/Drop is now 7x7
-; * Spell menu is now 12x12
-; * Character stats is now 13x14
-; * Currently equipped items is now 12x8
-; * Inventory is now 12x21
-; * MST in shop is now 12x3
-; * Shop items is now 18x8
-; * Hapsby travel is now 8x7
-; * Player select is now 8x9
 ;
 ; High pressure scenarios:
 ; 1. World -> status
@@ -2554,49 +2428,92 @@ DezorianCustomStringCheck:
 
 ; $d700 +---------------+ // We assume these first three are always needed (nearly true)
 ;       | Party stats   |
-;       | (32x6)        |
 ; $d880 +---------------+ +---------------+
 ;       | Narrative box | | Character     |
-;       | (26x6)        | |  stats (14x14)|
-; $d9b8 +---------------+ |               |
-; $da08 | Narrative     | +---------------+
+; $d9b8 +---------------+ | stats         |
+; $d97c | Narrative     | +---------------+
 ;       | scroll buffer |
-;       | (24x3)        |
 ; $da48 +---------------+                   +---------------+ +---------------+
 ;       | Regular menu  |                   | Battle menu   | | Shop items    |
-;       | (8x11)    (W) |                   | (8x11)    (B) | | (22x8)        |
-; $daf8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
+;       |           (W) |                   |           (B) | | (22x8)        |
+; $dab8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
-; $db68 | items         | +---------------+ |               | |               | | (9x12)        |
-; $db76 |               |                   +---------------+ |               | |               |
+; $db08 | items         | +---------------+ |               | |               | | (15x7)        |
+; $db36 |               |                   +---------------+ |               | |               |
 ;       |               |                   | Enemy stats   | |               | |               |
-; $dba8 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
-; $dbd0 |               |                   |               |                   +---------------+
-; $dbf8 +---------------+ +---------------+ |               | 
-;       | Player select | | Buy/Sell      | |           (B) | 
-; $dc16 | (8x9) (B,W,S) | | (6x5)     (S) | +---------------+ 
-; $dc34 |               | +---------------+ | Active player | 
-;       |               |                   | (during       |
-;       |               |                   | battle)       |
-;       |               |                   | (6x3)     (B) |
-; $dc46 |               |                   +---------------+
-; $dc88 +---------------+ +---------------+                   +---------------+
+; $db10 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
+; $db80 +---------------+ +---------------+ |               |                   |               |
+; $db90 | Player select | | Buy/Sell      | |           (B) |                   +---------------+
+;       | (8x9) (B,W,S) | | (6x5)     (S) | |               | 
+; $dbb0 |               | +---------------+ |               |
+; $dbd4 +---------------+                   |               |
+; $dbd6 +---------------+ +---------------+ +---------------+ +---------------+
 ;       | Inventory     | | Spells        |                   | MST in shop   |
 ;       | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) |
-; $dce8 |               | |               |                   +---------------+
-; $dda8 |               | +---------------+                   
+; $dc4e |               | |               |                   +---------------+
+; $dc9a |               | +---------------+                   
 ;       |               | | Player select |
 ;       |               | | (magic) (8x9) |
 ;       |               | |         (B,W) |
-; $de38 |               | +---------------+
-; $df28 +---------------+ +---------------+
-;       | Use/Equip/Drop| | Yes/No        |
-;       | (7x7)     (W) | | (5x5)         |
-; $df5a |               | +---------------+
-; $df8a +---------------+ 
-;
+; $dcee |               | +---------------+
+; $ddb6 +---------------+ +---------------+ +---------------+
+;       | Use/Equip/Drop| | Yes/No        | | Active player |
+;       | (7x7)     (W) | | (5x5)         | | (during       |
+; $ddde |               | +---------------+ | battle)   (B) |
+; $dde0 |               |                   +---------------+
+; $ddfc +---------------+
 
+; Save data has to be relocated to make space for it to be wider/taller
+.define SAVE_NAME_WIDTH 18
+.define SAVE_SLOT_COUNT 5
+; 8000..803f Identifier           40 bytes
+; 8040..80ff Unused              192 bytes
+; 8100..81d7 Menu                216 bytes <- can move to $8040?
+; 81d8..8200 Unused               40 bytes
+; 8201..8105 Slot used flags       5 bytes (could be 1) <- need to relocate at the title screen?
+; 8206..83ff Unused              506 bytes
+; 8400..87ff Slot 1             1024 bytes
+; 8800..8bff Slot 2             1024 bytes
+; 8c00..8fff Slot 3             1024 bytes
+; 9000..93ff Slot 4             1024 bytes
+; 9400..97ff Slot 5             1024 bytes
+; 9800..9fff Unused             2048 bytes
+
+
+.macro DefineWindow args name, start, width, height, x, y
+  .define \1 start
+  .define \1_size width*height*2
+  .define \1_end start + width*height*2
+  .define \1_dims (width << 1) | (height << 8)
+  .define \1_VRAM $7800 + (y * 32 + x) * 2
+  .export \1 \1_end \1_dims \1_VRAM
+;  .print "\1: ", hex start, " ", hex width*height*2, " ", hex start + width*height*2, " ", hex (width << 1) | (height << 8), " ", hex $7800 + (y * 32 + x) * 2, "\n"
+.endm
+
+;              Name             RAM location           W  H  X  Y
+  DefineWindow PARTYSTATS       $d700                 32  6  0 18
+  DefineWindow NARRATIVE        PARTYSTATS_end        26  6  3 18
+  DefineWindow NARRATIVE_SCROLL NARRATIVE_end         24  3  4 19
+  DefineWindow CHARACTERSTATS   NARRATIVE             14  9 17  4
+  DefineWindow MENU             NARRATIVE_SCROLL_end   8  7  1  1
+  DefineWindow CURRENT_ITEMS    MENU_end              20  5 11 13
+  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end      7  6  1  8
+  DefineWindow INVENTORY        ENEMY_STATS_end       20 12 11  1
+  DefineWindow USEEQUIPDROP     INVENTORY_end          7  5 14 16
+  DefineWindow HAPSBY           MENU_end               8  5 21 13
+  DefineWindow BUYSELL          CURRENT_ITEMS_end      6  4 23 14
+  DefineWindow SPELLS           INVENTORY             14  7  9  1 ; Spells and inventory are mutually exclusive
+  DefineWindow PLAYER_SELECT_2  SPELLS_end             7  6  9  8
+  DefineWindow YESNO            USEEQUIPDROP           5  4 24 14
+  DefineWindow ENEMY_NAME       MENU_end              21  3 11  0 ; max width 19 chars
+  DefineWindow ENEMY_STATS      ENEMY_NAME_end         8 10 24  3
+  DefineWindow ACTIVE_PLAYER    INVENTORY_end          7  3  1  8
+  DefineWindow SHOP             MENU                  20  5  3  0
+  DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
+  DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH  1 ; TODO
+
+; TODO: add rules for checking no overlap? hard
 
 ; The game puts the stack in a space from $cba0..$caff. The RAM window cache
 ; therefore can extend as far as $dffb (inclusive) - $dffc+ are used
@@ -2608,7 +2525,7 @@ DezorianCustomStringCheck:
   PatchW $03a5 $dffb
   PatchW $03cc $dffb
 
-.macro PatchWindow
+.macro PatchWords
   PatchW \2 \1
 .if nargs > 2
   PatchW \3 \1
@@ -2618,77 +2535,163 @@ DezorianCustomStringCheck:
 .endif
 .endm
 
-  PatchWindow $d700 $3042 $3220 $30fd ; Party stats
-  PatchWindow $D880 $334d $3587 ; Narrative box
-  PatchWindow $D9B8 $3554 $3560 ; Narrative box scroll buffer
-  PatchWindow $DA48 $322c $324a ; Battle menu
-  PatchWindow $DA48 $37fb $3819 ; Regular world menu
-  PatchWindow $DA48 $39eb $3ac4 ; Shop items
-  PatchWindow $DAF8 $3826 $386b ; Currently equipped items
-  PatchWindow $DAF8 $3ad0 $3b08 ; Select save slot
-  PatchWindow $DAF8 $3256 $331b ; Enemy name
-  PatchWindow $DAF8 $3b4c $3b73 ; Hapsby travel
-  PatchWindow $DB76 $3262 $330a ; Enemy stats (up to 8)
-  PatchWindow $DC88 $3b15 $3b3e ; MST in shop
-  PatchWindow $DBF8 $3895 $38b5 ; Buy/Sell
-  PatchWindow $D880 $38fc $39df ; Character stats
-  PatchWindow $DF28 $3877 $3889 ; Use, Equip, Drop
-  PatchWindow $DC16 $3015 $3036 ; Active player (during battle)
-  PatchWindow $DC88 $363c $3775 ; Inventory
-  PatchWindow $DC88 $3595 $35e4 ; Spell list
-  PatchWindow $DBF8 $3788 $37de ; Player select
-  PatchWindow $DF28 $38c1 $38e1 ; Yes/No
-  PatchWindow $DDA8 $37a5 $37ef ; Player select for magic
+.define ONE_ROW 32*2
 
-; Text densification
-  PatchB $34c9 $40 ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
+  PatchWords PARTYSTATS $3042 $3220 $30fd ; Party stats
 
 .define NARRATIVE_WIDTH 24 ; text character width
-.define NARRATIVE_VRAM_START $7c80 + (32 - (NARRATIVE_WIDTH + 2)) / 2 * 2
-.define NARRATIVE_SCROLL_VRAM_START NARRATIVE_VRAM_START + 66
-
   PatchB $3364 NARRATIVE_WIDTH ; Width counter
-  PatchW $3350 NARRATIVE_VRAM_START
-  PatchW $3386 NARRATIVE_VRAM_START
-  PatchW $358a NARRATIVE_VRAM_START
-  PatchW $3360 NARRATIVE_SCROLL_VRAM_START
-  PatchW $3563 NARRATIVE_SCROLL_VRAM_START
-  PatchW $3557 NARRATIVE_SCROLL_VRAM_START + 32 * 2 ; + 1 row
-
-; Inventory menu
-.define ITEM_LIST_WIDTH ITEM_NAME_WIDTH + 2
-.define INVENTORY_VRAM_LOCATION $7880 + (32 - ITEM_LIST_WIDTH) * 2
-  PatchW $363f INVENTORY_VRAM_LOCATION
-  PatchW $3778 INVENTORY_VRAM_LOCATION
-  PatchW $364b INVENTORY_VRAM_LOCATION
-  PatchW $3617 INVENTORY_VRAM_LOCATION + 32*2*2 ; $7928    ; - VRAM cursor
-
-; Currently equipped items list
-.define EQUIPPED_VRAM_LOCATION $7aa0 - ITEM_LIST_WIDTH * 2
-  PatchW $3835 EQUIPPED_VRAM_LOCATION
-  PatchW $3829 EQUIPPED_VRAM_LOCATION
-  PatchW $386e EQUIPPED_VRAM_LOCATION
-
-; Enemy name now right-aligned, 3 rows, variable width - we allow up to 19
-.define ENEMY_NAME_VRAM_LOCATION $7840 - 21 * 2
-.define ENEMY_NAME_VRAM_SIZE (21 << 1) + (3 << 8)
-  PatchW $3259 ENEMY_NAME_VRAM_LOCATION
-  PatchW $325c ENEMY_NAME_VRAM_SIZE
-  PatchW $331e ENEMY_NAME_VRAM_LOCATION
-  PatchW $3321 ENEMY_NAME_VRAM_SIZE
+  PatchWords NARRATIVE              $334d $3587 ; Narrative box
+  PatchWords NARRATIVE_SCROLL       $3554 $3560 ; Narrative box scroll buffer
+  PatchWords NARRATIVE_VRAM         $3350 $3386 $358a
+  PatchWords NARRATIVE_SCROLL_VRAM  $3360 $3563
+  PatchW $3557 NARRATIVE_SCROLL_VRAM + ONE_ROW
+  PatchB $34c9 ONE_ROW ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
   
-; Enemy HP moved down a bit
-.define ENEMY_HP_VRAM_LOCATION $7830 + 32 * 2 * 3
-  PatchW $3265 ENEMY_HP_VRAM_LOCATION
-  PatchW $329e ENEMY_HP_VRAM_LOCATION
-  PatchW $330d ENEMY_HP_VRAM_LOCATION
+  PatchWords MENU                   $322c $324a ; Battle menu
+  PatchWords MENU                   $37fb $3819 ; Regular world menu
+  
+  PatchWords SHOP                   $39eb $3ac4 ; Shop items
+  PatchWords SHOP_VRAM              $39ee $39fa $3ac7
+  PatchW $3a40 SHOP_VRAM + ONE_ROW ; Cursor start location
 
-; Shop items - centred
-.define SHOP_ITEMS_VRAM_LOCATION $7800 + (32 - (ITEM_LIST_WIDTH + 8)) + 2
-  PatchW $39ee SHOP_ITEMS_VRAM_LOCATION
-  PatchW $39fa SHOP_ITEMS_VRAM_LOCATION
-  PatchW $3ac7 SHOP_ITEMS_VRAM_LOCATION
-  PatchW $3a40 SHOP_ITEMS_VRAM_LOCATION+32*2 ; Cursor start location
+  PatchWords CURRENT_ITEMS          $3826 $386b ; Currently equipped items
+  PatchWords CURRENT_ITEMS_VRAM     $3835 $3829 $386e
+
+  PatchWords SAVE                   $3ad0 $3b08 ; Select save slot
+  PatchWords SAVE_VRAM              $3ad3 $3b0b $3ae4
+  PatchWords SAVE_dims              $3ad6 $3b0e $3ae7
+  PatchWords SaveTilemap            $3ae1
+  PatchW $3af2 SAVE_VRAM + ONE_ROW
+
+  PatchWords ENEMY_NAME             $3256 $331b ; Enemy name
+  PatchWords ENEMY_NAME_VRAM        $3259 $331e
+  PatchWords ENEMY_NAME_dims        $325c $3321
+
+  PatchWords ENEMY_STATS            $3262 $330a ; Enemy stats (up to 8)
+  PatchWords ENEMY_STATS_VRAM       $3265 $329e $330d
+
+  PatchWords HAPSBY                 $3b4c $3b73 ; Hapsby travel
+  PatchWords HAPSBY_VRAM            $3b4f $3b76
+  PatchW $3b63 HAPSBY_VRAM + ONE_ROW
+
+  PatchWords SHOP_MST               $3b15 $3b3e ; MST in shop
+  PatchWords SHOP_MST_VRAM          $3b18 $3b41 $3b26
+
+  PatchWords BUYSELL                $3895 $38b5 ; Buy/Sell
+  PatchWords BUYSELL_VRAM           $3898 $38b8
+  PatchW $38a7 BUYSELL_VRAM + ONE_ROW
+  
+  PatchWords CHARACTERSTATS         $38fc $39df ; Character stats
+  PatchWords CHARACTERSTATS_VRAM    $38ff $39e2
+
+  PatchWords USEEQUIPDROP           $3877 $3889 ; Use, Equip, Drop
+  PatchWords USEEQUIPDROP_VRAM      $387a $388c
+  PatchW $2336 USEEQUIPDROP_VRAM + ONE_ROW ; cursor
+
+  PatchWords ACTIVE_PLAYER          $3015 $3036 ; Active player (during battle)
+  PatchWords ACTIVE_PLAYER_VRAM     $3018 $3039
+  ROMPosition $3023
+  .section "Active player data size patch" overwrite
+  call GetActivePlayerTilemapData
+  JR_TO $302a
+  .ends
+  
+  PatchWords INVENTORY              $363c $3775 ; Inventory
+  PatchWords INVENTORY_VRAM         $363f $3778 $364b
+  PatchW $3617 INVENTORY_VRAM + ONE_ROW * 2 ; - VRAM cursor
+
+  PatchWords SPELLS                 $3595 $35e4 ; Spell list
+  PatchWords SPELLS_VRAM            $3598 $35b4 $35e7
+  PatchB $35bb 0      ; nop - row count correction
+  PatchB $35bf 14*2   ; - width*2
+  PatchB $35d4 7      ; - height
+  PatchW $1ee1 SPELLS_VRAM + ONE_ROW
+  PatchW $1b6a SPELLS_VRAM + ONE_ROW
+
+  PatchWords PLAYER_SELECT          $3788 $37de ; Player select
+  ; a = player count, but we want n+1 rows of data for n players
+  PatchB $37c5 $3c ; inc a
+  PatchB $37c8 7*2 ; width*2
+  PatchWords PLAYER_SELECT_VRAM     $378b $37e1
+  PatchW $3797 PLAYER_SELECT_VRAM + ONE_ROW
+
+  PatchWords YESNO                  $38c1 $38e1 ; Yes/No
+  PatchWords YESNO_VRAM             $38c4 $38e4
+  PatchW $38d3 YESNO_VRAM + ONE_ROW
+  
+  PatchWords PLAYER_SELECT_2        $37a5 $37ef ; Player select for magic
+  PatchWords PLAYER_SELECT_2_VRAM   $37a8 $37f2
+  PatchW $37b4 PLAYER_SELECT_2_VRAM + ONE_ROW
+
+.bank 0 slot 0
+.section "Multiply" free
+GetActivePlayerTilemapData:
+  ; we want a = a * ACTIVE_PLAYER_size
+  ; we need to preserve de, bc
+  ld h,a
+  inc h
+  xor a
+-:add a,ACTIVE_PLAYER_size
+  dec h
+  jr nz,-
+  sub ACTIVE_PLAYER_size
+  ret
+.ends
+
+.section "Stats window data" free
+; The width of these is important
+Level:    .dwm TextToTilemap "|Level    " ; 3 digit number
+EXP:      .dwm TextToTilemap "|Exp.   "   ; 5 digit number
+Attack:   .dwm TextToTilemap "|Attack   " ; 3 digit numbers
+Defense:  .dwm TextToTilemap "|Defense  "
+MaxMP:    .dwm TextToTilemap "|Max MP   "
+MaxHP:    .dwm TextToTilemap "|Max HP   "
+MST:      .dwm TextToTilemap "|Meseta       "   ; 5 digit number but also used for shop so extra spaces needed
+.ends
+
+.unbackground $3907 $397f
+  ROMPosition $3907
+.section "Stats window" force
+  ; We re-write this to reduce its size.
+  ; ix = player stats
+  .define DrawTextAndNumberA $3140
+  .define DrawTextAndNumberBC $319e
+stats:  
+  ld hl,StatsBorderTop
+  ld bc,1<<8 + 14<<1 ; size
+  call $3b81 ; draw to tilemap
+  ld hl,Level
+  ld a,(ix+5)
+  call DrawTextAndNumberA
+  ld hl,EXP
+  ld c,(ix+3)
+  ld b,(ix+4)
+  call DrawTextAndNumberBC
+  ld hl,Attack
+  ld a,(ix+8)
+  call DrawTextAndNumberA
+  ld hl,Defense
+  ld a,(ix+8)
+  call DrawTextAndNumberA
+  ld hl,MaxHP
+  ld a,(ix+6)
+  call DrawTextAndNumberA
+  ld hl,MaxMP
+  ld a,(ix+7)
+  call DrawTextAndNumberA
+  call $36d9 ; meseta
+  ld hl,StatsBorderBottom
+  ld bc,1<<8 + 14<<1 ; size
+  jp $3b81 ; draw and exit
+.ends
+
+; Patch in string lengths to places called above
+  PatchB $31a3 _sizeof_EXP
+  PatchB $36dd _sizeof_EXP
+  PatchB $3145 _sizeof_Attack
+  PatchW $36e7 MST
+  PatchB $36e5 _sizeof_MST
 
 .bank 0 slot 0
 .section "Newline patch" free
@@ -2702,7 +2705,7 @@ newline:
     or a     ; test for c==0
     jr nz,_not_zero
     ; zero: draw on 2nd line
-    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 ; VRAM address
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW ; VRAM address
 _inc_and_finish:
     inc c
     jp InGameTextDecoder
@@ -2711,16 +2714,16 @@ _not_zero:
     jr nz,+
     ; one: draw on 3rd
 _draw_3rd_line:
-    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 * 2 ; VRAM address
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW * 2 ; VRAM address
     jr _inc_and_finish
 +:  dec a    ; test for c==2
     jr nz,+
     ; two: draw on 4th
 _draw_4th_line:
-    ld de,NARRATIVE_SCROLL_VRAM_START + 32 * 2 * 3
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW * 3
     jr _inc_and_finish
 +:  ; three: scroll, draw on 4th line
-    call $3546 ; _ScrollTextBoxUp2Lines (see patch below reduces it to one)
+    call $3546 ; _ScrollTextBoxUp2Lines (patch reduces it to one)
     dec c      ; cancel increment
     jr _draw_4th_line
 .ends
@@ -2776,17 +2779,16 @@ NameEntryTiles:
 .db RUN |  26, $e5      ; "abcdefghijklmnopqrstuvwxyz"
 .db RLE |  38, $c0      ; (space)
 .db RUN |  10, $c1      ; "1234567890"
-.db RLE |   8, $c0      ;           "        "
-.db RLE |   8, $ff      ; (punctuation all dots - will be patched later)
+.db RLE |  16, $c0      ;           "                " (punctuation will be patched later)
 .db RLE |  38, $c0      ; (space)
-.db RAW |  10, $cc $e5 $e7 $ef $c0 $c0 $d8 $e9 $fc $f8 ; "Back  Next"
-.db RLE |  12, $c0      ; (space)
+.db RAW |  17, $cc $e5 $e7 $ef $c0 $c0 $d8 $e9 $fc $f8 $c0 $c0 $dd $f4 $e5 $e7 $e9; "Back  Next  Space"
+.db RLE |   5, $c0      ; (space)
 .db RAW |   4, $dd $e5 $fa $e9 ; "Save"
 .db RLE | 127, $c0      ; (space)
 .db RLE |  37, $c0
 .db RAW |   1, $f1      ; "\"
 .db RLE |  28, $f2      ;  "----------------------------"
-.db RLE |   1, $f1      ;                              "/" ; should be RAW, doesn't matter
+.db RAW |   1, $f1      ;                              "/"
 .db $00 ; Terminator
 .ends
 
@@ -2826,14 +2828,14 @@ EnterYourName:
 ; Name entry screen patch to draw extended characters
 DrawExtendedCharacters:
     call $03de ; OutputToVRAM ; the call I stole to get here
-    ld bc,$010e ; 14 bytes per row, 1 row
-    ld de,$7bec ; Tilemap location 22,15
+    ld bc,$0110 ; 16 bytes per row, 1 row
+    ld de,$7bea ; Tilemap location 21,15
     ld hl,_punctuation
-    call $0428 ; OutputTilemapRawDataBox  ; output raw tilemap data
-    ret
+    jp $0428 ; OutputTilemapRawDataBox  ; output raw tilemap data
+    ; and ret
 
 _punctuation:
-.dwm TextToTilemap ",:-!?`'"
+.dwm TextToTilemap ".,:-!?`'"
 
 .ends
 
@@ -2869,52 +2871,125 @@ SaveLookup:
 .asc "0123456789        .,:-!?"
 .db $41, $42 ; quotes, can't do with .asc
 ; Back, Next, Save. We extend their values to whole rows to enable "snapping" the cursor when moving down from above.
-.db $4F $4F $4F $4F $4F $4E $4E $4E $4E $4E $4E $4E $4E $4E $4E $4E $50 $50 $50 $50 $50 $50 $50 $50 $50 $51
+;   B   a   c   k   _   _   N   e   x   t   _   _   S   p   a   c   e   _   _   _   _   _   S   a   v   e
+.db $4F $4F $4F $4F $4F $4E $4E $4E $4E $4E $4E $50 $50 $50 $50 $50 $50 $50 $50 $50 $51 $51 $51 $51 $51 $ff ; last is $ff to fix a cursor bug
 .ends
   PatchW $433c SaveLookup ; rewire pointer
-
-; Cursor snapping for
-  PatchB $4161 $48 ; x coordinate of sprite for Next
-  PatchW $4163 $d496 ; lookup position for Next
-  PatchB $416c $18 ; x coordinate of sprite for Prev
-  PatchB $416a $8a ; lookup position for Prev (same high byte as for Next)
-  PatchB $4170 $c8 ; x coordinate of sprite for Save
-  PatchB $4172 $b6 ; lookup position for Save (same high byte as for Next)
-
-; make $50+ count as Save - change jr z,<addr> to jr nc,<addr>
-; because I'm using a $51 in the lookup data to stop a cursor bug
-  PatchB $402a $30
-
-
-; 4-sprite cursor hack
-; 1. Extra y coordinates
-  ROMPosition $4243
-.section "Name entry 4-sprite cursor trampoline" size 4 overwrite ; not movable
-; Original code:
-; inc e
-; ld (de),a
-; inc e
-; ld (de),a
-  call NameEntryCursor
-  nop ; to fill space for patch
+  
+; Adding "space" item
+  .unbackground $4160 $417a
+  ROMPosition $4160
+.section "control char trampoline" force
+  jp ControlChar
 .ends
-
-.bank 1 slot 1 ; can be 0 or 1
-.section "Name entry 4-sprite cursor hack" free
-NameEntryCursor:
+  
+.bank 0 slot 0
+.section "Extra control char" free
+ControlChar:
+;    cp $4e                       ; 00415D FE 4E      ; check if it was a control char, in which case snap to its left char
+;    ret c                        ; 00415F D8
+;     ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
+;     ld hl,$d5a2                  ; 004162 21 A2 D5
+;     jr z,+                       ; 004165 28 0C
+;     cp $4f                       ; 004167 FE 4F
+;     ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
+;     ld c,$a8                     ; 00416B 0E A8
+;     jr z,+                       ; 00416D 28 04
+;     ld c,$c8                     ; 00416F 0E C8      ; default: jump to Save
+;     ld l,$b2                     ; 004171 2E B2 
+; +:  ld (NameEntryCursorTileMapDataAddress),hl
+;     ld a,c                       ; 004176 79
+;     ld (NameEntryCursorX),a      ; 004177 32 84 C7
+;     ret                          ; 00417A C9
+  ; a is the pointed control character
+  sub $4e
+  ret c
+  ; Next values
+  ld c,$48 ; x
+  ld hl,$d496 ; data pointer
+  jr z,+
+  dec a
+  ; Prev
+  ld c,$18 ; x
+  ld l,$8a ; data pointer
+  jr z,+
+  dec a
+  ; Space
+  ld c,$78
+  ld l,$a2
+  jr z,+
+  ; Save for any other value
+  ld c,$c8 ; x
+  ld l,$b6 ; data pointer
++:ld ($c786),hl
+  ld a,c
+  ld ($c784),a
+  ret
+.ends
+  
+  .unbackground $4237 $4260
+  ROMPosition $4237
+.section "Cursor sprite handling" force
+  ; the first two sprites ys have been set (but not the x)
+  inc de
+  ; the first is the "curent char", the second is the start of the "pointed item"
+  ld a,($c788) ; check what we are pointing at
+  cp $4e ; carry will be set if a normal letter
+  ld b,1
+  jr c,+
+  cp $50 ; space
+  ld b,5
+  jr z,+
+  dec b ; everything else
++:ld a,($c785) ; Y coordinate
+  ld c,b
+-:ld (de),a
   inc e
+  djnz -
+  ; terminate
+  ld a,208
   ld (de),a
-  inc e
-  ld (de),a
-  inc e
-  ld (de),a
+  ; now do the Xs
+  ld e,$80
+  ex de,hl ; so we can output register c
+  ld (hl),e ; this is the "current char"'s X
+  inc hl
+  ld b,c ; get counter back
+  ld c,0 ; tile index
+  ld (hl),c
+  inc hl
+  ld a,($c784) ; X coordinate for the "pointed item"
+-:ld (hl),a
+  inc l
+  add a,8
+  ld (hl),c
+  inc l
+  djnz -
   ret
 .ends
 
+  ROMPosition $4028
+.section "Control char handling trampoline" overwrite
+  jp ControlCharCheck
+.ends
+
+.bank 1 slot 1
+.section "Control char handling" free
+ControlCharCheck:
+  ; a = 4f (next), 51 (space) or something else
+  cp $4f
+  jp z,$402c ; Prev
+  cp $50
+  jp nz,$4053 ; Save
+  ; Space
+  ld a,0
+  jp $4006 ; char entry
+.ends
+
 ; 2. Extra x coords and tile indices
-  PatchB $4251 $04
+;  PatchB $4251 $05
 ; 3. Cursor extends right, not left, relative to the "snapped" positions
-  PatchB $425c $c6 ; sub nn -> add a,nn
+;  PatchB $425c $c6 ; sub nn -> add a,nn
 
 ; Text drawing as you enter your name
 .bank 1 slot 1 ; can be 0 or 1
@@ -2995,6 +3070,243 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 ; End patch
     ret                   ; C9
 .ends
+
+.bank 0 slot 0
+.section "Default tilemap" free
+;.include "menu_creater/save.asm"
+  ; We want to emit this:
+  ; ┌─────────────╖
+  ; │1            ║
+  ; │2            ║
+  ; │3            ║
+  ; │4            ║
+  ; │5            ║
+  ; ╘═════════════╝
+BlankSaveTilemap:
+  ld de,SaveTilemap
+  ld hl,_top
+  call _process
+  ld c,$c2 ; '1'
+-:ld a,c
+  inc c
+  ld (de),a
+  inc de
+  ld a,$10
+  ld (de),a
+  inc de
+  ld hl,_blank
+  call _process
+  ld a,$c2 + SAVE_SLOT_COUNT
+  cp c
+  jr nz,-
+  ; undo 2
+  dec de
+  dec de
+  ld hl,_bottom
+  ; fall through
+  
+_process:
+--:
+  ld a,(hl)
+  or a
+  ret z
+  ld b,a
+  inc hl
+  inc hl
+  inc hl
+-:dec hl
+  dec hl
+  push bc
+    ldi
+    ldi
+  pop bc
+  djnz -
+  jr --
+  
+.macro element args value, count
+  .db count
+  .dw value
+.endm
+
+_top:
+  element $11f1 1
+  element $11f2 SAVE_NAME_WIDTH+2
+  element $13f1 1
+  element $11f3 1
+  .db 0
+_blank:
+  element $10c0 SAVE_NAME_WIDTH+1
+  element $13f3 1
+  element $11f3 1
+  .db 0
+_bottom:
+  element $15f1 1
+  element $15f2 SAVE_NAME_WIDTH+2
+  element $17f1 1
+  .db 0
+
+.ends
+
+  ; SRAM initialisation
+  ROMPosition $9af
+.section "Save RAM init" overwrite
+  call BlankSaveTilemap
+  JR_TO $09ba
+.ends
+;  PatchW $09b0 SaveBlankTilemap
+  
+  ; Name location pointer table
+  ROMPosition $40be
+.section "Save game name locations" overwrite
+SaveGameNameLocations:
+.define SaveFirstNameOffset SaveTilemap + (SAVE_NAME_WIDTH+4+3)*2 ; equivalent for new menu
+.define SaveNameDelta (SAVE_NAME_WIDTH+4)*2
+.dw SaveFirstNameOffset + SaveNameDelta * 0
+.dw SaveFirstNameOffset + SaveNameDelta * 1
+.dw SaveFirstNameOffset + SaveNameDelta * 2
+.dw SaveFirstNameOffset + SaveNameDelta * 3
+.dw SaveFirstNameOffset + SaveNameDelta * 4
+; TODO: relocate for n=7
+.ends
+
+  ; The code draws the password/name with spaces every 8 chars, we nobble that
+  PatchB $4293 $c9 ; return earlier
+  
+  ; We set the "start point" for name entry.
+  .define NameEntryStart 13 - SAVE_NAME_WIDTH/2
+  PatchB $41c3 NameEntryStart
+  PatchB $4035 NameEntryStart ; same as above, leftmost char index
+  PatchB $401f NameEntryStart + SAVE_NAME_WIDTH - 1 ; rightmost char index (inclusive)
+
+  ; when deleting, the game just blanks out the tilemap
+  .unbackground $86c $88e
+  ROMPosition $86c
+.section "Delete a save game" force
+;    dec    a               ; 00086C 3D 
+;    add    a,a             ; 00086D 87 
+;    ld     e,a             ; 00086E 5F 
+;    add    a,a             ; 00086F 87 
+;    add    a,a             ; 000870 87 
+;    add    a,a             ; 000871 87 
+;    add    a,e             ; 000872 83 
+;    add    a,a             ; 000873 87 
+;    add    a,$18           ; 000874 C6 18 
+;    ld     e,a             ; 000876 5F 
+;    ld     d,$81           ; 000877 16 81 
+;    ld     hl,$089a        ; 000879 21 9A 08 
+;    ld     bc,$000a        ; 00087C 01 0A 00 
+;    ldir                   ; 00087F ED B0      ; row 1
+;    ex     de,hl           ; 000881 EB 
+;    ld     bc,$0008        ; 000882 01 08 00 
+;    add    hl,bc           ; 000885 09 
+;    ex     de,hl           ; 000886 EB 
+;    ld     hl,$089a        ; 000887 21 9A 08 
+;    ld     bc,$000a        ; 00088A 01 0A 00 
+;    ldir                   ; 00088D ED B0      ; row 2
+DeletePatch:
+  ; compute where to write to
+  ; a = 1-based index
+  ; we want de = SaveTilemap + (a * (SAVE_NAME_WIDTH+4) + 2) * 2
+  ld hl,0
+  ld d,0
+  ld e,a
+  ld b,SAVE_NAME_WIDTH+4
+-:add hl,de
+  djnz -
+  inc hl
+  inc hl
+  add hl,hl
+  ld de,SaveTilemap
+  add hl,de
+  ld e,l
+  ld d,h
+  ; We then want to copy the blank we are pointing at to the right
+  inc de
+  inc de
+  ld bc,SAVE_NAME_WIDTH*2
+  ldir
+  JR_TO $088f
+.ends
+
+  .unbackground $4091 $40a9
+  ROMPosition $4091
+.section "Copy entered name to save data" force
+;    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
+;    ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
+;
+;    ld a,SRAMPagingOn            ; 004097 3E 08
+;    ld (SRAMPaging),a            ; 004099 32 FC FF   ; page in SRAM
+;    ldir                         ; 00409C ED B0      ; copy tiles to SRAM name section
+;
+;    ld c,$08                     ; 00409E 0E 08      ; move dest 8 bytes on
+;    ex de,hl                     ; 0040A0 EB
+;    add hl,bc                    ; 0040A1 09
+;    ex de,hl                     ; 0040A2 EB
+;    ld c,$36                     ; 0040A3 0E 36      ; move src 54 bytes on (bottom row of name)
+;    add hl,bc                    ; 0040A5 09
+;    ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
+;    ldir                         ; 0040A8 ED B0
+  ; de points to the destination already
+  ld hl,$d146 + NameEntryStart*2
+  ld bc,SAVE_NAME_WIDTH*2
+  ld a,8 ; Enable SRAM
+  ld (PAGING_SRAM),a
+  ldir
+  JR_TO $40aa
+.ends
+
+; When loading an existing save game, we want to "fix" the data if it's from the older layout
+  PatchW $3aea SaveDataPatch
+  
+.bank 0 slot 0
+.section "Save data patch" free
+.define Temp         $9800
+SaveDataPatch:
+  ld a,(SaveTilemapOld + $12)
+  cp $f3 ; old data
+  jp nz,$3b8f ; what we stole to get here
+
+  push hl
+  push de
+  push bc
+    ; We copy the data higher in RAM...
+    ld hl,SaveTilemapOld
+    ld de,Temp
+    ld bc,216 ; size of old data
+    ldir
+    ; ...then re-initialise it...
+    call BlankSaveTilemap
+    
+    ; ...then copy the names. This could be smaller but it's not worth the effort...
+    .define OLD_START ((9*2)+3)*2 ; offset from start to first name - 9 tiles per row
+    .define OLD_STEP 9*2*2 ; step between names
+    .define NAME_LENGTH 5*2
+    ld hl,Temp + OLD_START + OLD_STEP * 0
+    ld de,SaveFirstNameOffset + SaveNameDelta * 0
+    ld bc,NAME_LENGTH
+    ldir
+    ld hl,Temp + OLD_START + OLD_STEP * 1
+    ld de,SaveFirstNameOffset + SaveNameDelta * 1
+    ld bc,NAME_LENGTH
+    ldir
+    ld hl,Temp + OLD_START + OLD_STEP * 2
+    ld de,SaveFirstNameOffset + SaveNameDelta * 2
+    ld bc,NAME_LENGTH
+    ldir
+    ld hl,Temp + OLD_START + OLD_STEP * 3
+    ld de,SaveFirstNameOffset + SaveNameDelta * 3
+    ld bc,NAME_LENGTH
+    ldir
+    ld hl,Temp + OLD_START + OLD_STEP * 4
+    ld de,SaveFirstNameOffset + SaveNameDelta * 4
+    ld bc,NAME_LENGTH
+    ldir
+  pop bc
+  pop de
+  pop hl
+  jp $3b8f ; what we stole to get here
+.ends
+
 
 ; New title screen ------------------------
   PatchB $2fdb $dc    ; cursor tile index
@@ -3347,6 +3659,32 @@ _Decode_Done:
 .ends
 
 .include "script_inserter/script-patches.asm"
+
+  ROMPosition $2fe2
+.section "Cursor row count hack" overwrite
+  call CalculateCursorPos
+  JR_TO $2feb
+.ends
+
+  ROMPosition $2ff8
+.section "Cursor row count hack 2" overwrite
+  call CalculateCursorPos
+  JR_TO $3001
+.ends
+
+.slot 0
+.section "Compute cursor position" free
+CalculateCursorPos:
+  ld e,0
+  srl a
+  rr e
+  srl a
+  rr e
+  ld d,a
+  add hl,de
+  ex de,hl
+  ret
+.ends
 
 .smsheader
    productcode 00, 95, 0 ; 9500
