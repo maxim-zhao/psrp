@@ -2500,7 +2500,7 @@ DezorianCustomStringCheck:
   DefineWindow CURRENT_ITEMS    MENU_end              20  5 11 13
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end      7  6  1  8
   DefineWindow INVENTORY        ENEMY_STATS_end       20 12 11  1
-  DefineWindow USEEQUIPDROP     INVENTORY_end          7  5 14 16
+  DefineWindow USEEQUIPDROP     INVENTORY_end          7  5 24 13
   DefineWindow HAPSBY           MENU_end               8  5 21 13
   DefineWindow BUYSELL          CURRENT_ITEMS_end      6  4 23 14
   DefineWindow SPELLS           INVENTORY             14  7  9  1 ; Spells and inventory are mutually exclusive
