@@ -35,8 +35,9 @@ Unofficial Translation 2005-2019
   - script updates from Frank Cifaldi
   - menus converted to single-spacing, and widened to fit all item names
   - enemy name box auto-sizes to fit
-  - save game names widened
-  - additional save slots enabled (using existing 8KB save RAM)
+  - save game names widened (#15)
+  - additional save slots enabled (using existing 8KB save RAM) (#16)
+  - doubled walking and vehicle speed (#8)
   
 
 Phantasy Star Original Dialogue Version 
@@ -60,13 +61,13 @@ If you want to learn more about the game, check out some of the web links below.
 
 The following changes are made to the game engine:
 
-- 2-line naming terminology
 - Narrative formatting
 - Window expansion
 - Replaced 8x8 font
 - Use of adapting indefinite articles
 - Reworked name entry screen
 - FM/PSG switching (press Pause on the title screen)
+- Extended save slots names and count
 
 ## Instructions
 

@@ -89,7 +89,7 @@ BANKS 30
 .define xc263                     $c263     ; b ??? Scrollingtilemap data page(?)
 .define ScrollDirection           $c264     ; b Scroll direction; %----RLDU
 .define PaletteRotateEnabled      $c265     ; b Palette rotation enabled if non-zero
-                                            ; also related to movement?
+.define WalkingMovementCounter    $c265     ; b Counter for movement
 
 .define CursorEnabled             $c268     ; b $ff if cursor showing, $00 otherwise
 .define CursorTileMapAddress      $c269     ; w Address of low byte of top cursor position in tilemap
@@ -124,7 +124,7 @@ BANKS 30
 .define EnemyName                 $c2c8     ; 8 bytes -> $c2d0 8 character enemy name
 
 .define xc2d0                     $c2d0     ; w ??? result of NumEnemies*(something)
-.define xc2d2                     $c2d2     ; b ???
+.define MovementInProgress        $c2d2     ; b $ff when doing a block movement
 .define TextBox20x6Open           $c2d3     ; b 20x6 text box open
 
 .define xc2d5                     $c2d5     ; b ???
@@ -162,7 +162,8 @@ BANKS 30
 
 
 .define xc30e                     $c30e     ; b ??? used by palette rotation but could be more
-                                            ; vehicle?
+.define VehicleMovementFlags      $c30e     ; b Zero if not in a vehicle, else flags for terrain that can be passed?
+
 .define PaletteRotatePos          $c30f     ; b Palette rotation position
 .define PaletteRotateCounter      $c310     ; b Palette rotation delay counter
 .define xc311                     $c311     ; w ??? Related to VLocation
@@ -216,8 +217,13 @@ BANKS 30
                                             ; +1: character number? - 0 = empty, 1 = Alis, 2 = Noah, 3 = Odin, 4 = Myau, 5 = vehicle
                                             ; +2: sprite base y
                                             ; +4: sprite base x
-                                            ; +16: currentanimframe
-                                            ; +17: lastanimframe
+                                            ; +10 ($0a): ???
+                                            ; +13 ($0d): animation frame index 0-3
+                                            ; +14 ($0e): animation counter
+                                            ; +16 ($10): currentanimframe (based on +13 and +18)
+                                            ; +17 ($11): lastanimframe
+                                            ; +18 ($12): current facing direction (0,1,2,3=U,D,L,R)
+                                            ; +19 ($13): previous facing direction (same as above)
                                             ; First 4 are main characters, other 4 are ???
 
 .define SpriteTable               $c900     ; 256 bytes -> $ca00 , copy of sprite table for rapid writing to VDP
@@ -2230,11 +2236,11 @@ fn0c64: ; $0c64
     ld a,(PaletteRotateEnabled)
     or a
     jr nz,+            ; if PaletteRotateEnabled then skip -+
-    ld a,(xc2d2)       ; ??? Read xc2d2                     |
+    ld a,(MovementInProgress)       ; ??? Read MovementInProgress                     |
     or a               ;                                    |
-    jr z,+             ; if xc2d2==0 then skip -------------+
+    jr z,+             ; if MovementInProgress==0 then skip -------------+
     xor a              ; Invert bits                        |
-    ld (xc2d2),a       ; and write back                     |
+    ld (MovementInProgress),a       ; and write back                     |
     call $61df         ; ???                                |
     or a               ; check result                       |
     jr z,+             ; if zero then skip -----------------+

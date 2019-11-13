@@ -2511,7 +2511,7 @@ DezorianCustomStringCheck:
   DefineWindow ACTIVE_PLAYER    INVENTORY_end          7  3  1  8
   DefineWindow SHOP             MENU                  20  5  3  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
-  DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH  1 ; TODO
+  DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -2754,9 +2754,97 @@ _draw_4th_line:
   PatchB $1cf8 0
 */
 
-;  PatchB $7417 2 ; walking speed up
-;  PatchB $740e 7 ; counter when walking
-;  PatchB $7410 $00 ; always fast walking
+; Walking speedup
+; The game moves by 1px for 16 frames, or 2px for 8 frames, depending on whether you are in a vehicle or walking.
+; We patch that to 2x8 or 4x4.
+
+  ROMPosition $7409
+.section "Walking speed patch" size 23 overwrite
+;    ld     a,(VehicleMovementFlags)       ; 007409 3A 0E C3 
+;    or     a               ; 00740C B7 
+;    ld     a,$0f           ; 00740D 3E 0F ; 16 frames when walking
+;    jr     z,+;$7413         ; 00740F 28 02 
+;    ld     a,$07           ; 007411 3E 07 ; 8 frames in a vehicle
+;+:  ld     (WalkingMovementCounter),a       ; 007413 32 65 C2 ; init counter
+;_doMovement: ; jumped to from elsewhere so needs to not move
+;    ld     de,$0001        ; 007416 11 01 00 ; Movement amount (for walking) -> 16 frames * 1px = 16px
+;    ld     a,(VehicleMovementFlags)       ; 007419 3A 0E C3 
+;    or     a               ; 00741C B7 
+;    jr     z,+;$7420         ; 00741D 28 01 
+;    inc    e               ; 00741F 1C ; +1 for a vehicle -> 8 frames * 2px = 16px
+;+:  ld     a,(VScroll)       ; 007420 3A 04 C3 
+.define VehicleType $c30e
+.define MovementFrameCounter $c265
+  ld a,(VehicleType)
+  or a
+  ld a,8-1
+  jr z,+
+  ld a,4-1
++:ld (MovementFrameCounter),a
+_doMovement:
+  ld e,2 ; we skip setting d here as it's not used anyway and we gain the byte we need below...
+  ld a,(VehicleType)
+  or a
+  jr z,+
+  ld e,4
++:
+.ends
+
+; Animation and character following is driven by a particular frame number in the sequence...
+  PatchB $5d21 $07 ; from $f - value in MovementFrameCounter that triggers checking the movement direction
+  PatchB $5dbe $03 ; from $7 - animation counter for walking animation
+  
+.unbackground $5de9 $5e02
+  ROMPosition $5de9
+.section "Sprite movement for followers hook" force
+;    jp     nc,$5df7        ; 005DE9 D2 F7 5D ; horizontal
+;    or     a               ; 005DEC B7 
+;    jr     nz,$5df0        ; 005DED 20 01 ; up => add 1 to iy+2
+;    dec    a               ; 005DEF 3D ; down => add -1 to iy+2
+;    add    a,(iy+$02)      ; 005DF0 FD 86 02 
+;    ld     (iy+$02),a      ; 005DF3 FD 77 02 
+;    ret                    ; 005DF6 C9 
+;
+;    ; now 0 = left, 1 = right
+;    sub    $02             ; 005DF7 D6 02 
+;    jr     nz,$5dfc        ; 005DF9 20 01 
+;    dec    a               ; 005DFB 3D ; -1 or +1 to iy+4
+;    add    a,(iy+$04)      ; 005DFC FD 86 04 
+;    ld     (iy+$04),a      ; 005DFF FD 77 04 
+;    ret                    ; 005E02 C9 
+  ; We want to change those +/-1 to +/-2...
+  jp SpriteMovementPatch
+.ends
+
+.bank 0 slot 0
+.section "Sprite movement for followers" free
+SpriteMovementPatch:
+  jr nc,_vertical
+_horizontal:
+  call _getDelta
+  add a,(iy+2)
+  ld (iy+2),a
+  ret
+_vertical:
+  call _getDelta
+  add a,(iy+4)
+  ld (iy+4),a
+  ret
+  
+_getDelta:
+  push hl
+    ld hl,_table
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)
+  pop hl
+  ret
+_table:
+.db -2, +2, -2, +2 ; Movement deltas for U, D, R, L
+.ends
 
 ; Savegame name entry screen hacking ---------------------------------------------
 ; compressed tile data (low byte only) for name entry screen
