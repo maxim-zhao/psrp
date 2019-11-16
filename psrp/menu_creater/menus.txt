@@ -387,7 +387,7 @@ dims=3b52,3b79
 │Village      ║
 │Dezoris      ║
 │Tower        ║
-│La Shiec     ║
+│LaShiec      ║
 │Dark Force   ║
 │Ending       ║
 │Game Over    ║
