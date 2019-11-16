@@ -363,3 +363,32 @@ dims=3b52,3b79
 │Skray ║
 ╘══════╝
 
+[SoundTestMenuTop]
+┌─────────────╖
+[SoundTestMenuChipPSG]
+│Chip      PSG║
+[SoundTestMenuChipYM2413]
+│Chip   YM2413║
+[SoundTestMenu]
+│Return       ║
+│-------------║
+│Title Screen ║
+│Intro        ║
+│Town         ║
+│Shop         ║
+│Palma        ║
+│Battle       ║
+│Cave         ║
+│Church       ║
+│Vehicle      ║
+│Story        ║
+│Motavia      ║
+│Final Dungeon║
+│Village      ║
+│Dezoris      ║
+│Tower        ║
+│La Shiec     ║
+│Dark Force   ║
+│Ending       ║
+│Game Over    ║
+╘═════════════╝

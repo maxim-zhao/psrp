@@ -810,17 +810,22 @@ FONT2: .incbin "new_graphics/font2.psgcompr"
 .bank 0 slot 0
 .section "Load font to VRAM" free
 DECODE_FONT:
-  ld hl,PAGING_SLOT_2
-  ld (hl),:FONT1
-  ld de,FONT1
-  ld hl,Font1VRAMAddress
-  call LoadTiles
-  ld de,FONT2
-  ld hl,Font2VRAMAddress
-  jp LoadTiles ; and ret
+  ld a,(PAGING_SLOT_2)
+  push af
+    ld a,:FONT1
+    ld (PAGING_SLOT_2),a
+    ld de,FONT1
+    ld hl,Font1VRAMAddress
+    call LoadTiles
+    ld de,FONT2
+    ld hl,Font2VRAMAddress
+    call LoadTiles
+  pop af
+  ld (PAGING_SLOT_2),a
+  ret
 .ends
 
-; We use a single
+; We use a macro to patch out all the places the font is laoded...
 .macro PatchFontLoader args start, end
   .unbackground start end-1
   ROMPosition start
@@ -2512,6 +2517,7 @@ DezorianCustomStringCheck:
   DefineWindow SHOP             MENU                  20  5  3  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
+  DefineWindow SoundTestWindow  0 /* unused */        15 24  9  0
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -3788,3 +3794,136 @@ CalculateCursorPos:
    regioncode 4
    reservedspace $ff, $ff
 .endsms
+
+; Sound test
+  .unbackground $00745 $00750
+  ROMPosition $0745
+.section "Title screen extension part 1" force
+;    ld     a,$01           ; 000745 3E 01 
+;    ld     ($c26e),a       ; 000747 32 6E C2 
+;    call   $2eb9           ; 00074A CD B9 2E 
+;    or     a               ; 00074D B7 
+;    jp     nz,$079e        ; 00074E C2 9E 07 
+  ld a,2 ; 3 options
+  ld ($c26e),a ; CursorMax
+  call $2eb9 ; WaitForMenuSelection
+  or a
+  jp SoundTestCheck
+.ends
+.slot 0
+.section "Title screen extension part 2" free
+SoundTestCheck:
+  ; 0 = new game
+  jp z,$0751
+  dec a
+  ; 1 = continue
+  jp z,$079e
+  ; else sound test
+  ld a,:SoundTest
+  ld (PAGING_SLOT_2),a
+  call SoundTest
+  ld a,2
+  ld (PAGING_SLOT_2),a
+  ret
+.ends
+.slot 2
+.section "Sound test" superfree
+SoundTest:
+  ; We go to a black screen...
+  call $7da8 ; FadeOutFullPalette
+  di
+  call $03f2 ; ClearTileMap
+  ei
+  ld hl,FunctionLookupIndex
+  ld (hl),8 ; LoadScene
+  call DECODE_FONT
+  call $0344 ; ClearSpriteTableAndFadeInWholePalette
+
+  ld hl,SoundTestMenuTop
+  ld de,SoundTestWindow_VRAM
+  ld bc,(1<<8)|(15*2) ; top border
+  call $3b81 ; draw to tilemap
+  call SoundTestChipDisplay
+  ld hl,SoundTestMenu
+  ld bc,(22<<8)|(15*2)
+  call $3b81 ; draw the rest
+  ld hl,SoundTestWindow_VRAM + ONE_ROW
+  ld ($c269),hl ; CursorTileMapAddress
+  
+  ; We need to retain the selected music in order to restart it when the chip is changed. We pick some unused RAM here.
+  .define MusicSelection $d000
+  ; We start with the title screen music already playing
+  ld a,$81
+  ld (MusicSelection),a
+
+  ; We hack the menu selection to retain the cursor position...
+  ld hl,$0000
+  ld ($c26b),hl  ; 0 -> CursorPos, OldCursorPos
+  
+-:ld a,$ff
+  ld ($c268),a ; CursorEnabled
+  ld a,21 ; 22 options
+  ld ($c26e),a ; CursorMax
+  call $2ec8 ; WaitForMenuSelection skipping the bit where it reset the cursor position
+  
+  or a
+  jr nz,+
+  ; Toggle FM
+  ld a,(HasFM)
+  xor 1
+  ld (HasFM),a
+  ; Restart music
+  ld a,(MusicSelection)
+  ld (NewMusic),a
+  ; Update menu
+  call SoundTestChipDisplay
+  jr -
+
++:cp 1
+  jr nz,+
+  
+  ; Stop the music
+  ld a,$d7
+  ld (NewMusic),a
+  ; Fade out the screen
+  call $7da8 ; FadeOutFullPalette
+  ; Restart the title screen
+  ld hl,FunctionLookupIndex
+  ld (hl),2 ; StartTitleScreen
+  ret
+
++:sub 3 ; top 3 entries are not music
+  ; and #2 is a separator
+  jr c,-
+  
+  ; Look up ID
+  ld hl,SoundTestIDs
+  add a,l
+  ld l,a
+  adc a,h
+  sub l
+  ld h,a
+  ld a,(hl)
+
+  ; Remember it
+  ld (MusicSelection),a
+  ; Play it
+  ld (NewMusic),a
+  
+  ; Back to selection mode
+  jr -
+
+SoundTestIDs:
+; music IDs matching the order in the menu (and VGM pack)
+.db $81 $8C $87 $8E $82 $89 $86 $8D $8F $8A $83 $85 $88 $84 $90 $92 $93 $8B $94
+
+SoundTestChipDisplay:
+  ld de,SoundTestWindow_VRAM + ONE_ROW
+  ld bc,(1<<8)|(15*2) ; one row
+  ld hl,SoundTestMenuChipPSG
+  ld a,(HasFM)
+  or a
+  jr z,+
+  ld hl,SoundTestMenuChipYM2413
++:jp $3b81 ; and ret
+.ends
