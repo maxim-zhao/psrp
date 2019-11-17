@@ -366,7 +366,7 @@ dims=3b52,3b79
 [SoundTestMenuTop]
 ┌─────────────╖
 [SoundTestMenuChipPSG]
-│Chip      PSG║
+│Chip  SN76489║
 [SoundTestMenuChipYM2413]
 │Chip   YM2413║
 [SoundTestMenu]

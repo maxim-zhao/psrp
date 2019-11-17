@@ -265,7 +265,7 @@ map "^" = $56 ; the
 .define PORT_VDP_DATA $be
 
 ; RAM used by the game, referenced here
-.define HasFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
+.define UseFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
 .define NewMusic            $c004 ; b Which music to start playing
 .define VBlankFunctionIndex $c208 ; b Index of function to execute in VBlank
 .define FunctionLookupIndex $c202 ; b Index of "game phase" function
@@ -277,29 +277,29 @@ map "^" = $56 ; the
 .define SaveTilemapOld      $8100 ; Tilemap data for save - original
 .define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
-; RAM
+; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less...
 
-.define VRAM_PTR  $DFC0   ; VRAM address
-.define BUFFER    $DFD0   ; 32-byte buffer
-
-.define STR       $DFB0   ; pointer to WRAM string
-.define LEN       $DFB2   ; length of substring in WRAM
-.define TEMP_STR  $DFC0 + $08 ; dictionary RAM ($DFC0-DFEF)
-.define FULL_STR  $DFC0
-
-.define POST_LEN  $DFB3   ; post-string hint (ex. <Herb>...)
-.define LINE_NUM  $DFB4   ; # of lines drawn
-.define FLAG      $DFB5   ; auto-wait flag
-.define ARTICLE   $DFB6   ; article category #
-.define SUFFIX    $DFB7   ; suffix flag
-
-.define HLIMIT    $DFB9   ; horizontal chars left
-.define VLIMIT    $DFBA   ; vertical line limit
-.define SCRIPT    $DFBB   ; pointer to script
-.define BANK      $DFBD   ; bank holding script
-.define BARREL    $DFBE   ; current Huffman encoding barrel
-.define TREE      $DFBF   ; current Huffman tree
-
+.enum $df00
+  ; Script decoding
+  STR       dw   ; pointer to WRAM string
+  LEN       db   ; length of substring in WRAM
+  POST_LEN  db   ; post-string hint (ex. <Herb>...)
+  LINE_NUM  db   ; # of lines drawn
+  FLAG      db   ; auto-wait flag
+  ARTICLE   db   ; article category #
+  SUFFIX    db   ; suffix flag
+  HLIMIT    db   ; horizontal chars left
+  VLIMIT    db   ; vertical line limit
+  SCRIPT    dw   ; pointer to script
+  BANK      db   ; bank holding script
+  BARREL    db   ; current Huffman encoding barrel
+  TREE      db   ; current Huffman tree
+  VRAM_PTR  dw   ; VRAM address
+  FULL_STR  dw   ; pointer backup
+  TEMP_STR  .db  ; buffer for strings
+  BUFFER    dsb 32 ; buffer for tile decoding
+  HasFM     db   ; copy of FM detection result
+.ende
 
 .slot 1
 .section "New bitmap decoder" superfree
@@ -3519,33 +3519,6 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
   ret
 .ends
 
-  ROMPosition $00066
-.section "Press Pause on the title screen to toggle PSG/FM - trampoline" overwrite ; not movable
-  ; There are 3 spare bytes at $66 that I can use.
-  ; I move the following two opcodes up (as I need them anyway) and then call my handler...
-  push af
-    ld a,(FunctionLookupIndex)
-    call PauseFMToggle
-.ends
-
-.bank 0 slot 0 ; can be 0 or 1
-.section "Press Pause on the title screen to toggle PSG/FM - implementation" free
-PauseFMToggle:
-  cp 3          ; Indicates we are on the title screen
-  ret nz
-  ld a,(IntroState) ; $ff = intro started
-  inc a
-  ret z        ; Intro started. We leave a = 0, this will cause the pause handler to behave the same as for a = 3 anyway.
-  ; Toggle FM bit
-  ld a,(HasFM)
-  xor 1
-  ld (HasFM),a
-  ; Restart title screen music
-  ld a,$81
-  ld (NewMusic),a
-  ret ; We leave a = $81, this will cause the pause handler to behave the same as for a = 3 anyway.
-.ends
-
 ; Remove waits for button press --------------------
   PatchW $1808 0
   PatchB $180a 0 ; found treasure chest/display/wait/do you want to open it?
@@ -3843,7 +3816,7 @@ SoundTest:
   ld de,SoundTestWindow_VRAM
   ld bc,(1<<8)|(15*2) ; top border
   call $3b81 ; draw to tilemap
-  call SoundTestChipDisplay
+  call _chip
   ld hl,SoundTestMenu
   ld bc,(22<<8)|(15*2)
   call $3b81 ; draw the rest
@@ -3868,15 +3841,18 @@ SoundTest:
   
   or a
   jr nz,+
-  ; Toggle FM
+  ; Toggle FM - if allowed
   ld a,(HasFM)
+  or a
+  jr z,-
+  ld a,(UseFM)
   xor 1
-  ld (HasFM),a
+  ld (UseFM),a
   ; Restart music
   ld a,(MusicSelection)
   ld (NewMusic),a
   ; Update menu
-  call SoundTestChipDisplay
+  call _chip
   jr -
 
 +:cp 1
@@ -3897,7 +3873,7 @@ SoundTest:
   jr c,-
   
   ; Look up ID
-  ld hl,SoundTestIDs
+  ld hl,_ids
   add a,l
   ld l,a
   adc a,h
@@ -3913,17 +3889,29 @@ SoundTest:
   ; Back to selection mode
   jr -
 
-SoundTestIDs:
-; music IDs matching the order in the menu (and VGM pack)
+_ids:
+; Music IDs matching the order in the menu (and VGM pack)
 .db $81 $8C $87 $8E $82 $89 $86 $8D $8F $8A $83 $85 $88 $84 $90 $92 $93 $8B $94
 
-SoundTestChipDisplay:
+_chip:
   ld de,SoundTestWindow_VRAM + ONE_ROW
   ld bc,(1<<8)|(15*2) ; one row
   ld hl,SoundTestMenuChipPSG
-  ld a,(HasFM)
+  ld a,(UseFM)
   or a
   jr z,+
   ld hl,SoundTestMenuChipYM2413
 +:jp $3b81 ; and ret
+.ends
+
+; We hook the FM detection so we can cache the result
+  PatchW $00cf FMDetectionHook
+  
+.slot 0
+.section "FM detection hook" free
+FMDetectionHook:
+  call $03a4 ; do FM detection
+  ld a,(UseFM)
+  ld (HasFM),a
+  ret
 .ends
