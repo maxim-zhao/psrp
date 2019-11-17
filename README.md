@@ -23,7 +23,7 @@ Unofficial Translation 2005-2019
   - fixed a bug with the Pause button mod
 - v1.02 released 2008/01/31
   - fixed lockup when you visit Tajim
-- v1.03 released 2019/??/??
+- v2.00 released 2019/??/??
   - rebuilt tools and assembly process
   - fixed issue with 10-letter item names in inventory (#2)
   - fixed bug with pluralisation (#5)
@@ -38,6 +38,7 @@ Unofficial Translation 2005-2019
   - save game names widened (#15)
   - additional save slots enabled (using existing 8KB save RAM) (#16)
   - doubled walking and vehicle speed (#8)
+  - added music test (#18)
   
 
 Phantasy Star Original Dialogue Version 
