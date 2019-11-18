@@ -299,6 +299,7 @@ map "^" = $56 ; the
   TEMP_STR  .db  ; buffer for strings
   BUFFER    dsb 32 ; buffer for tile decoding
   HasFM     db   ; copy of FM detection result
+  MusicSelection db ; music test last selected song
 .ende
 
 .slot 1
@@ -532,6 +533,9 @@ LoadTiles:
   ret
 .ends
 
+; New title screen ------------------------
+  PatchB $2fdb $6d    ; cursor tile index for title screen
+
 .slot 2
 .section "Replacement title screen" superfree
 TitleScreenTiles:
@@ -543,6 +547,16 @@ TitleScreenTilemap:
 .incbin "new_graphics/title-nt.pscompr"
 .ends
 
+.section "Replacement title screen part 2" superfree
+TitleScreenLogoTiles:
+.incbin "new_graphics/logo.psgcompr"
+.ends
+
+.section "Title screen name table for logo" superfree
+TitleScreenLogoTilemap:
+.incbin "new_graphics/logo-nt.bin"
+.ends
+
   ROMPosition $00925
 .section "Title screen palette" force ; not movable
 TitleScreenPalette:
@@ -551,7 +565,8 @@ TitleScreenPalette:
 .ends
 
   ROMPosition $008f3
-.section "Title screen patch" size 25 force ; not movable
+  .unbackground $008f3 $0090b
+.section "Title screen patch" force ; not movable
 TitleScreenPatch:
 ; Original code:
 ;  ld hl,$ffff        ; Page in tiles
@@ -568,8 +583,36 @@ TitleScreenPatch:
   ld hl,PAGING_SLOT_2
   ld (hl),:TitleScreenTilemap
   ld hl,TitleScreenTilemap
-  call $6e05 ; DecompressToTileMapData
+  call TitleScreenExtra
   ; Size matches original
+.ends
+
+.section "Title screen extra tile load" free
+TitleScreenExtra:
+  call $6e05 ; DecompressToTileMapData - what we stole to get here
+  
+  LoadPagedTiles TitleScreenLogoTiles $6000
+
+  ld a,:TitleScreenLogoTilemap
+  ld (PAGING_SLOT_2),a
+  
+  ; We want to emit a tilemap sub-area. We do this by hand...
+  ld hl,TitleScreenLogoTilemap ; source
+  ld de,$d000 + (32 * 2 + 4) * 2 ; destination
+  ld b,13 ; rows
+-:push bc 
+    ld bc,17*2 ; bytes per row
+    ldir
+    ; next row
+    ld a,64-17*2
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+  pop bc
+  djnz -
+  jp DECODE_FONT ; and ret
 .ends
 
   ROMPosition $00ce4
@@ -1826,7 +1869,7 @@ SpellBlankLine:
   ; We just don't draw "empty" spell menus...
   ld hl,SpellMenuBottom
   ld bc,1<<8 + 14*2  ; width of line
-  jp $3b81 ; draw and exit
+  jp $3b8f ; draw and exit
   ; TODO free up space after this
 .ends
 
@@ -2517,7 +2560,7 @@ DezorianCustomStringCheck:
   DefineWindow SHOP             MENU                  20  5  3  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
-  DefineWindow SoundTestWindow  0 /* unused */        15 24  9  0
+  DefineWindow SoundTestWindow  $d700                 15 24  16  0
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -3410,9 +3453,6 @@ SaveDataPatch:
 .ends
 
 
-; New title screen ------------------------
-  PatchB $2fdb $dc    ; cursor tile index
-
 ; Changed credits -------------------------
   ROMPosition $53dbc
 .section "Credits" force ; not movable
@@ -3802,15 +3842,13 @@ SoundTestCheck:
 .slot 2
 .section "Sound test" superfree
 SoundTest:
-  ; We go to a black screen...
-  call $7da8 ; FadeOutFullPalette
-  di
-  call $03f2 ; ClearTileMap
-  ei
   ld hl,FunctionLookupIndex
-  ld (hl),8 ; LoadScene
-  call DECODE_FONT
-  call $0344 ; ClearSpriteTableAndFadeInWholePalette
+  ld (hl),8 ; LoadScene (also changes cursor tile)
+  
+  ld hl,SoundTestWindow
+  ld de,SoundTestWindow_VRAM
+  ld bc,SoundTestWindow_dims
+  call $3bca ; InputTilemapRect
 
   ld hl,SoundTestMenuTop
   ld de,SoundTestWindow_VRAM
@@ -3823,8 +3861,7 @@ SoundTest:
   ld hl,SoundTestWindow_VRAM + ONE_ROW
   ld ($c269),hl ; CursorTileMapAddress
 
-  ; We need to retain the selected music in order to restart it when the chip is changed. We pick some unused RAM here.
-  .define MusicSelection $d000
+  ; We need to retain the selected music in order to restart it when the chip is changed.
   ; We start with the title screen music already playing
   ld a,$81
   ld (MusicSelection),a
@@ -3858,14 +3895,22 @@ SoundTest:
 +:cp 1
   jr nz,+
 
-  ; Stop the music
-  ld a,$d7
-  ld (NewMusic),a
-  ; Fade out the screen
-  call $7da8 ; FadeOutFullPalette
-  ; Restart the title screen
+  ; Return to title screen
+  ; Hide the menu
+  ld hl,SoundTestWindow
+  ld de,SoundTestWindow_VRAM
+  ld bc,SoundTestWindow_dims
+  call $3b81 ; RestoreTilemapRect
+  
+  ; We need to hide the cursor as it resets to the top...
+  ld de,$7c12 + 32 * 2 * 2
+  rst $08
+  xor a
+  out ($be),a
+
+  ; Continue the title screen VBlank handler
   ld hl,FunctionLookupIndex
-  ld (hl),2 ; StartTitleScreen
+  ld (hl),3 ; TitleScreen
   ret
 
 +:sub 3 ; top 3 entries are not music
