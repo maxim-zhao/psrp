@@ -1944,7 +1944,7 @@ enemy:
       call DictionaryLookup    ; copy string to RAM
     pop de
   ei
-  
+
   ; compute the name length
   ; LEN contains the length including control symbols
   ld a,(LEN)
@@ -1958,7 +1958,7 @@ enemy:
   inc c
 +:djnz -
   ; now c is the real name length
-  
+
   ; Compute the VRAM address
   ld hl,$7840 - 4 ; right-aligned, minus space for borders
   ld a,c
@@ -1968,7 +1968,7 @@ enemy:
   ld d,-1
   add hl,de
   ex de,hl
-  
+
   push de
     ; Set VRAM address
     rst $08
@@ -2006,13 +2006,13 @@ enemy:
   rst $08
   ld hl,BorderBottom
   call _DrawBorder
-  
+
   ; clear LEN
   xor a
   ld (LEN),a
 
   jp _wait_vblank ; and ret
-  
+
 _DrawBorder:
   ; Emit tile data from (hl) to VRAM, repeating the second word (LEN) times
   call _DrawOneTile
@@ -2031,7 +2031,7 @@ _DrawOneTile:
   out (PORT_VDP_DATA),a
   inc hl
   ret
-  
+
 ; Tilemap words for the borders
 BorderTop:
 .dw $11f1, $11f2, $13f1
@@ -2284,7 +2284,7 @@ _write_price:
 
   TrampolineTo enemy $326d $3294
   TrampolineTo equipment $3850 $385f
-  
+
 ; Extra scripting
 
   ROMPosition $59bd
@@ -2457,7 +2457,7 @@ DezorianCustomStringCheck:
 ;       | Inventory     | | Spells        |                   | MST in shop   | |               |
 ; $dc44 | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
 ; $dc4e |               | |               |                   +---------------+
-; $dc9a |               | +---------------+                   
+; $dc9a |               | +---------------+
 ;       |               | | Player select |
 ;       |               | | (magic) (8x9) |
 ;       |               | |         (B,W) |
@@ -2553,10 +2553,10 @@ DezorianCustomStringCheck:
   PatchWords NARRATIVE_SCROLL_VRAM  $3360 $3563
   PatchW $3557 NARRATIVE_SCROLL_VRAM + ONE_ROW
   PatchB $34c9 ONE_ROW ; cutscene text display: increment VRAM pointer by $0040 (not $0080) for newlines
-  
+
   PatchWords MENU                   $322c $324a ; Battle menu
   PatchWords MENU                   $37fb $3819 ; Regular world menu
-  
+
   PatchWords SHOP                   $39eb $3ac4 ; Shop items
   PatchWords SHOP_VRAM              $39ee $39fa $3ac7
   PatchW $3a40 SHOP_VRAM + ONE_ROW ; Cursor start location
@@ -2587,7 +2587,7 @@ DezorianCustomStringCheck:
   PatchWords BUYSELL                $3895 $38b5 ; Buy/Sell
   PatchWords BUYSELL_VRAM           $3898 $38b8
   PatchW $38a7 BUYSELL_VRAM + ONE_ROW
-  
+
   PatchWords CHARACTERSTATS         $38fc $39df ; Character stats
   PatchWords CHARACTERSTATS_VRAM    $38ff $39e2
 
@@ -2602,7 +2602,7 @@ DezorianCustomStringCheck:
   call GetActivePlayerTilemapData
   JR_TO $302a
   .ends
-  
+
   PatchWords INVENTORY              $363c $3775 ; Inventory
   PatchWords INVENTORY_VRAM         $363f $3778 $364b
   PatchW $3617 INVENTORY_VRAM + ONE_ROW * 2 ; - VRAM cursor
@@ -2625,7 +2625,7 @@ DezorianCustomStringCheck:
   PatchWords YESNO                  $38c1 $38e1 ; Yes/No
   PatchWords YESNO_VRAM             $38c4 $38e4
   PatchW $38d3 YESNO_VRAM + ONE_ROW
-  
+
   PatchWords PLAYER_SELECT_2        $37a5 $37ef ; Player select for magic
   PatchWords PLAYER_SELECT_2_VRAM   $37a8 $37f2
   PatchW $37b4 PLAYER_SELECT_2_VRAM + ONE_ROW
@@ -2663,7 +2663,7 @@ MST:      .dwm TextToTilemap "|Meseta       "   ; 5 digit number but also used f
   ; ix = player stats
   .define DrawTextAndNumberA $3140
   .define DrawTextAndNumberBC $319e
-stats:  
+stats:
   ld hl,StatsBorderTop
   ld bc,1<<8 + 14<<1 ; size
   call $3b81 ; draw to tilemap
@@ -2766,19 +2766,19 @@ _draw_4th_line:
 
   ROMPosition $7409
 .section "Walking speed patch" size 23 overwrite
-;    ld     a,(VehicleMovementFlags)       ; 007409 3A 0E C3 
-;    or     a               ; 00740C B7 
+;    ld     a,(VehicleMovementFlags)       ; 007409 3A 0E C3
+;    or     a               ; 00740C B7
 ;    ld     a,$0f           ; 00740D 3E 0F ; 16 frames when walking
-;    jr     z,+;$7413         ; 00740F 28 02 
+;    jr     z,+;$7413         ; 00740F 28 02
 ;    ld     a,$07           ; 007411 3E 07 ; 8 frames in a vehicle
 ;+:  ld     (WalkingMovementCounter),a       ; 007413 32 65 C2 ; init counter
 ;_doMovement: ; jumped to from elsewhere so needs to not move
 ;    ld     de,$0001        ; 007416 11 01 00 ; Movement amount (for walking) -> 16 frames * 1px = 16px
-;    ld     a,(VehicleMovementFlags)       ; 007419 3A 0E C3 
-;    or     a               ; 00741C B7 
-;    jr     z,+;$7420         ; 00741D 28 01 
+;    ld     a,(VehicleMovementFlags)       ; 007419 3A 0E C3
+;    or     a               ; 00741C B7
+;    jr     z,+;$7420         ; 00741D 28 01
 ;    inc    e               ; 00741F 1C ; +1 for a vehicle -> 8 frames * 2px = 16px
-;+:  ld     a,(VScroll)       ; 007420 3A 04 C3 
+;+:  ld     a,(VScroll)       ; 007420 3A 04 C3
 .define VehicleType $c30e
 .define MovementFrameCounter $c265
   ld a,(VehicleType)
@@ -2799,25 +2799,25 @@ _doMovement:
 ; Animation and character following is driven by a particular frame number in the sequence...
   PatchB $5d21 $07 ; from $f - value in MovementFrameCounter that triggers checking the movement direction
   PatchB $5dbe $03 ; from $7 - animation counter for walking animation
-  
+
 .unbackground $5de9 $5e02
   ROMPosition $5de9
 .section "Sprite movement for followers hook" force
 ;    jp     nc,$5df7        ; 005DE9 D2 F7 5D ; horizontal
-;    or     a               ; 005DEC B7 
+;    or     a               ; 005DEC B7
 ;    jr     nz,$5df0        ; 005DED 20 01 ; up => add 1 to iy+2
 ;    dec    a               ; 005DEF 3D ; down => add -1 to iy+2
-;    add    a,(iy+$02)      ; 005DF0 FD 86 02 
-;    ld     (iy+$02),a      ; 005DF3 FD 77 02 
-;    ret                    ; 005DF6 C9 
+;    add    a,(iy+$02)      ; 005DF0 FD 86 02
+;    ld     (iy+$02),a      ; 005DF3 FD 77 02
+;    ret                    ; 005DF6 C9
 ;
 ;    ; now 0 = left, 1 = right
-;    sub    $02             ; 005DF7 D6 02 
-;    jr     nz,$5dfc        ; 005DF9 20 01 
+;    sub    $02             ; 005DF7 D6 02
+;    jr     nz,$5dfc        ; 005DF9 20 01
 ;    dec    a               ; 005DFB 3D ; -1 or +1 to iy+4
-;    add    a,(iy+$04)      ; 005DFC FD 86 04 
-;    ld     (iy+$04),a      ; 005DFF FD 77 04 
-;    ret                    ; 005E02 C9 
+;    add    a,(iy+$04)      ; 005DFC FD 86 04
+;    ld     (iy+$04),a      ; 005DFF FD 77 04
+;    ret                    ; 005E02 C9
   ; We want to change those +/-1 to +/-2...
   jp SpriteMovementPatch
 .ends
@@ -2836,7 +2836,7 @@ _vertical:
   add a,(iy+4)
   ld (iy+4),a
   ret
-  
+
 _getDelta:
   push hl
     ld hl,_table
@@ -2973,14 +2973,14 @@ SaveLookup:
 .db $4F $4F $4F $4F $4F $4E $4E $4E $4E $4E $4E $50 $50 $50 $50 $50 $50 $50 $50 $50 $51 $51 $51 $51 $51 $ff ; last is $ff to fix a cursor bug
 .ends
   PatchW $433c SaveLookup ; rewire pointer
-  
+
 ; Adding "space" item
   .unbackground $4160 $417a
   ROMPosition $4160
 .section "control char trampoline" force
   jp ControlChar
 .ends
-  
+
 .bank 0 slot 0
 .section "Extra control char" free
 ControlChar:
@@ -2994,7 +2994,7 @@ ControlChar:
 ;     ld c,$a8                     ; 00416B 0E A8
 ;     jr z,+                       ; 00416D 28 04
 ;     ld c,$c8                     ; 00416F 0E C8      ; default: jump to Save
-;     ld l,$b2                     ; 004171 2E B2 
+;     ld l,$b2                     ; 004171 2E B2
 ; +:  ld (NameEntryCursorTileMapDataAddress),hl
 ;     ld a,c                       ; 004176 79
 ;     ld (NameEntryCursorX),a      ; 004177 32 84 C7
@@ -3024,7 +3024,7 @@ ControlChar:
   ld ($c784),a
   ret
 .ends
-  
+
   .unbackground $4237 $4260
   ROMPosition $4237
 .section "Cursor sprite handling" force
@@ -3202,7 +3202,7 @@ BlankSaveTilemap:
   dec de
   ld hl,_bottom
   ; fall through
-  
+
 _process:
 --:
   ld a,(hl)
@@ -3220,7 +3220,7 @@ _process:
   pop bc
   djnz -
   jr --
-  
+
 .macro element args value, count
   .db count
   .dw value
@@ -3252,7 +3252,7 @@ _bottom:
   JR_TO $09ba
 .ends
 ;  PatchW $09b0 SaveBlankTilemap
-  
+
   ; Name location pointer table
   .unbackground $40be $40c7
 .bank 1 slot 1
@@ -3273,7 +3273,7 @@ SaveGameNameLocations:
 
   ; The code draws the password/name with spaces every 8 chars, we nobble that
   PatchB $4293 $c9 ; return earlier
-  
+
   ; We set the "start point" for name entry.
   .define NameEntryStart 13 - SAVE_NAME_WIDTH/2
   PatchB $41c3 NameEntryStart
@@ -3284,26 +3284,26 @@ SaveGameNameLocations:
   .unbackground $86c $88e
   ROMPosition $86c
 .section "Delete a save game" force
-;    dec    a               ; 00086C 3D 
-;    add    a,a             ; 00086D 87 
-;    ld     e,a             ; 00086E 5F 
-;    add    a,a             ; 00086F 87 
-;    add    a,a             ; 000870 87 
-;    add    a,a             ; 000871 87 
-;    add    a,e             ; 000872 83 
-;    add    a,a             ; 000873 87 
-;    add    a,$18           ; 000874 C6 18 
-;    ld     e,a             ; 000876 5F 
-;    ld     d,$81           ; 000877 16 81 
-;    ld     hl,$089a        ; 000879 21 9A 08 
-;    ld     bc,$000a        ; 00087C 01 0A 00 
+;    dec    a               ; 00086C 3D
+;    add    a,a             ; 00086D 87
+;    ld     e,a             ; 00086E 5F
+;    add    a,a             ; 00086F 87
+;    add    a,a             ; 000870 87
+;    add    a,a             ; 000871 87
+;    add    a,e             ; 000872 83
+;    add    a,a             ; 000873 87
+;    add    a,$18           ; 000874 C6 18
+;    ld     e,a             ; 000876 5F
+;    ld     d,$81           ; 000877 16 81
+;    ld     hl,$089a        ; 000879 21 9A 08
+;    ld     bc,$000a        ; 00087C 01 0A 00
 ;    ldir                   ; 00087F ED B0      ; row 1
-;    ex     de,hl           ; 000881 EB 
-;    ld     bc,$0008        ; 000882 01 08 00 
-;    add    hl,bc           ; 000885 09 
-;    ex     de,hl           ; 000886 EB 
-;    ld     hl,$089a        ; 000887 21 9A 08 
-;    ld     bc,$000a        ; 00088A 01 0A 00 
+;    ex     de,hl           ; 000881 EB
+;    ld     bc,$0008        ; 000882 01 08 00
+;    add    hl,bc           ; 000885 09
+;    ex     de,hl           ; 000886 EB
+;    ld     hl,$089a        ; 000887 21 9A 08
+;    ld     bc,$000a        ; 00088A 01 0A 00
 ;    ldir                   ; 00088D ED B0      ; row 2
 DeletePatch:
   ; compute where to write to
@@ -3359,7 +3359,7 @@ DeletePatch:
 
 ; When loading an existing save game, we want to "fix" the data if it's from the older layout
   PatchW $3aea SaveDataPatch
-  
+
 .bank 0 slot 0
 .section "Save data patch" free
 .define Temp         $9800
@@ -3378,7 +3378,7 @@ SaveDataPatch:
     ldir
     ; ...then re-initialise it...
     call BlankSaveTilemap
-    
+
     ; ...then copy the names. This could be smaller but it's not worth the effort...
     .define OLD_START ((9*2)+3)*2 ; offset from start to first name - 9 tiles per row
     .define OLD_STEP 9*2*2 ; step between names
@@ -3772,11 +3772,11 @@ CalculateCursorPos:
   .unbackground $00745 $00750
   ROMPosition $0745
 .section "Title screen extension part 1" force
-;    ld     a,$01           ; 000745 3E 01 
-;    ld     ($c26e),a       ; 000747 32 6E C2 
-;    call   $2eb9           ; 00074A CD B9 2E 
-;    or     a               ; 00074D B7 
-;    jp     nz,$079e        ; 00074E C2 9E 07 
+;    ld     a,$01           ; 000745 3E 01
+;    ld     ($c26e),a       ; 000747 32 6E C2
+;    call   $2eb9           ; 00074A CD B9 2E
+;    or     a               ; 00074D B7
+;    jp     nz,$079e        ; 00074E C2 9E 07
   ld a,2 ; 3 options
   ld ($c26e),a ; CursorMax
   call $2eb9 ; WaitForMenuSelection
@@ -3822,7 +3822,7 @@ SoundTest:
   call $3b81 ; draw the rest
   ld hl,SoundTestWindow_VRAM + ONE_ROW
   ld ($c269),hl ; CursorTileMapAddress
-  
+
   ; We need to retain the selected music in order to restart it when the chip is changed. We pick some unused RAM here.
   .define MusicSelection $d000
   ; We start with the title screen music already playing
@@ -3832,13 +3832,13 @@ SoundTest:
   ; We hack the menu selection to retain the cursor position...
   ld hl,$0000
   ld ($c26b),hl  ; 0 -> CursorPos, OldCursorPos
-  
+
 -:ld a,$ff
   ld ($c268),a ; CursorEnabled
   ld a,21 ; 22 options
   ld ($c26e),a ; CursorMax
   call $2ec8 ; WaitForMenuSelection skipping the bit where it reset the cursor position
-  
+
   or a
   jr nz,+
   ; Toggle FM - if allowed
@@ -3857,7 +3857,7 @@ SoundTest:
 
 +:cp 1
   jr nz,+
-  
+
   ; Stop the music
   ld a,$d7
   ld (NewMusic),a
@@ -3871,7 +3871,7 @@ SoundTest:
 +:sub 3 ; top 3 entries are not music
   ; and #2 is a separator
   jr c,-
-  
+
   ; Look up ID
   ld hl,_ids
   add a,l
@@ -3885,7 +3885,7 @@ SoundTest:
   ld (MusicSelection),a
   ; Play it
   ld (NewMusic),a
-  
+
   ; Back to selection mode
   jr -
 
@@ -3906,7 +3906,7 @@ _chip:
 
 ; We hook the FM detection so we can cache the result
   PatchW $00cf FMDetectionHook
-  
+
 .slot 0
 .section "FM detection hook" free
 FMDetectionHook:
