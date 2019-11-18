@@ -375,20 +375,27 @@ dims=3b52,3b79
 │Title Screen ║
 │Intro        ║
 │Town         ║
+│Dungeon      ║
 │Shop         ║
+│Church       ║
 │Palma        ║
 │Battle       ║
-│Cave         ║
-│Church       ║
-│Vehicle      ║
 │Story        ║
-│Motavia      ║
-│Final Dungeon║
 │Village      ║
+│Vehicle      ║
+│Motavia      ║
 │Dezoris      ║
 │Tower        ║
+│Final Dungeon║
 │LaShiec      ║
 │Dark Force   ║
 │Ending       ║
 │Game Over    ║
 ╘═════════════╝
+
+[OptionsMenu]
+┌───────────────────╖
+│Walking speed    x1║
+│XP multiplier    x1║
+│Money multiplier x1║
+╘═══════════════════╝

@@ -3890,8 +3890,26 @@ SoundTest:
   jr -
 
 _ids:
-; Music IDs matching the order in the menu (and VGM pack)
-.db $81 $8C $87 $8E $82 $89 $86 $8D $8F $8A $83 $85 $88 $84 $90 $92 $93 $8B $94
+; Music IDs matching the order in the menu
+.db $81 ; Title Screen
+.db $8C ; Intro
+.db $87 ; Town
+.db $86 ; Dungeon
+.db $8E ; Shop
+.db $8D ; Church
+.db $82 ; Palma
+.db $89 ; Battle
+.db $8A ; Story
+.db $88 ; Village
+.db $8F ; Vehicle
+.db $83 ; Motavia
+.db $84 ; Dezoris
+.db $90 ; Tower
+.db $85 ; Final Dungeon
+.db $92 ; LaShiec
+.db $93 ; Dark Force
+.db $8B ; Ending
+.db $94 ; Game Over
 
 _chip:
   ld de,SoundTestWindow_VRAM + ONE_ROW
