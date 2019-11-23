@@ -271,8 +271,8 @@ map "^" = $56 ; the
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
-.define SRAMPagingOn    $08
-.define SRAMPagingOff   $80
+.define SRAMPagingOn $08
+.define SRAMPagingOff $80
 
 ; RAM used by the game, referenced here
 .define UseFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
@@ -287,7 +287,7 @@ map "^" = $56 ; the
 .define SaveTilemapOld      $8100 ; Tilemap data for save - original
 .define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
-; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less...
+; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
 .enum $df00
   ; Script decoding
@@ -311,6 +311,25 @@ map "^" = $56 ; the
   HasFM     db   ; copy of FM detection result
   MusicSelection db ; music test last selected song
 .ende
+
+; Functions in the original game we make use if
+.define VBlankHandler $0127
+.define OutputTilemapRawDataBox $0428
+.define IsSlotUsed $08a4
+.define DoYesNoMenu $2e75
+.define WaitForMenuSelection $2eb9
+.define MenuWaitForButton $2e81
+.define Pause256Frames $2eaf
+.define DrawTextAndNumberA $3140
+.define DrawTextAndNumberBC $319e
+.define TextBox $333a
+.define TextBoxEnd $357e
+.define DrawMeseta $36d9
+.define GetSavegameSelection $3adb
+.define OutputTilemapBoxWipePaging $3b81
+.define InputTilemapRect $3bca
+.define DecompressToTileMapData $6e05
+  
 
 .slot 1
 .section "New bitmap decoder" superfree
@@ -598,14 +617,14 @@ TitleScreenPatch:
 
 .section "Title screen extra tile load" free
 TitleScreenExtra:
-  call $6e05 ; DecompressToTileMapData - what we stole to get here
+  call DecompressToTileMapData ; what we stole to get here
   
   LoadPagedTiles TitleScreenLogoTiles $6000
 
   ld a,:TitleScreenLogoTilemap
   ld (PAGING_SLOT_2),a
   
-  ; We want to emit a tilemap sub-area. We do this by hand...
+  ; We want to emit a tilemap sub-area. There isn't a function in the game to do this...
   ld hl,TitleScreenLogoTilemap ; source
   ld de,$d000 + (32 * 2 + 4) * 2 ; destination
   ld b,13 ; rows
@@ -621,6 +640,7 @@ TitleScreenExtra:
     ld d,a
   pop bc
   djnz -
+
   jp DECODE_FONT ; and ret
 .ends
 
@@ -1353,12 +1373,12 @@ CutsceneClearCode:
 
   ; The rest is the same as the original code, but we want to get the labels for above
 ExitAfterButton:
-  call $2e81 ; MenuWaitForButton
+  call MenuWaitForButton
   pop de
   ret
 
 ExitAfterPause:
-  call $2eaf ; Pause256Frames
+  call Pause256Frames
   pop de
   ret
 .ends
@@ -1602,7 +1622,7 @@ VBlankPageSave:
     ld a,1    ; Regular page 1
     ld (PAGING_SLOT_1),a
 
-    call $0127 ; VBlank ; Resume old code
+    call VBlankHandler ; Resume old code
 
   pop af
   ld (PAGING_SLOT_1),a    ; Put back page 1
@@ -2713,12 +2733,10 @@ MST:      .dwm TextToTilemap "|Meseta       "   ; 5 digit number but also used f
 .section "Stats window" force
   ; We re-write this to reduce its size.
   ; ix = player stats
-  .define DrawTextAndNumberA $3140
-  .define DrawTextAndNumberBC $319e
 stats:
   ld hl,StatsBorderTop
   ld bc,1<<8 + 14<<1 ; size
-  call $3b81 ; draw to tilemap
+  call OutputTilemapBoxWipePaging ; draw to tilemap
   ld hl,Level
   ld a,(ix+5)
   call DrawTextAndNumberA
@@ -2738,10 +2756,10 @@ stats:
   ld hl,MaxMP
   ld a,(ix+7)
   call DrawTextAndNumberA
-  call $36d9 ; meseta
+  call DrawMeseta
   ld hl,StatsBorderBottom
   ld bc,1<<8 + 14<<1 ; size
-  jp $3b81 ; draw and exit
+  jp OutputTilemapBoxWipePaging ; draw and exit
 .ends
 
 ; Patch in string lengths to places called above
@@ -2962,7 +2980,7 @@ EnterYourName:
   ld ($c210),a        ; Tilemap high byte (unchanged)
   ld de, $7850        ; where to draw (8,1)
   di
-  call $0428 ; OutputTilemapRawDataBox ; change function call to full raw tilemap drawer
+  call OutputTilemapRawDataBox ; change function call to full raw tilemap drawer
 .ends
 
   ROMPosition $41e3
@@ -2980,7 +2998,7 @@ DrawExtendedCharacters:
     ld bc,$0110 ; 16 bytes per row, 1 row
     ld de,$7bea ; Tilemap location 21,15
     ld hl,_punctuation
-    jp $0428 ; OutputTilemapRawDataBox  ; output raw tilemap data
+    jp OutputTilemapRawDataBox  ; output raw tilemap data
     ; and ret
 
 _punctuation:
@@ -3784,7 +3802,7 @@ TitleScreenModTrampoline:
 .slot 2
 .section "Title screen modification" superfree
 TitleScreenMod:
-  call $2eb9 ; WaitForMenuSelection
+  call WaitForMenuSelection
   or a
   jp z,$0751
   dec a
@@ -3800,7 +3818,7 @@ Continue:
   ld hl,ContinueWindow
   ld de,ContinueWindow_VRAM
   ld bc,ContinueWindow_dims
-  call $3bca ; InputTilemapRect
+  call InputTilemapRect
 
   ld hl,ContinueMenu
   ld de,ContinueWindow_VRAM
@@ -3815,7 +3833,7 @@ _SelectAction:
   ld ($c268),a ; CursorEnabled
   ld a,2 ; 3 options
   ld ($c26e),a ; CursorMax
-  call $2eb9 ; WaitForMenuSelection
+  call WaitForMenuSelection
   
   cp 2
   jr nz,+
@@ -3842,10 +3860,10 @@ _SelectAction:
     ld hl,SAVE
     ld de,SAVE_VRAM
     ld bc,SAVE_dims
-    call $3bca ; InputTilemapRect
+    call InputTilemapRect
     ; Select a savegame
--:  call $3adb ; GetSavegameSelection - leaves value in NumberToShowInText
-    call $08a4 ; IsSlotUsed
+-:  call GetSavegameSelection ; leaves value in NumberToShowInText
+    call IsSlotUsed
     jr z,- ; repeat selection until a valid one is chosen
   pop af
   ; check for button 1 or 2
@@ -3880,7 +3898,7 @@ SoundTest:
   ld hl,SoundTestWindow
   ld de,SoundTestWindow_VRAM
   ld bc,SoundTestWindow_dims
-  call $3bca ; InputTilemapRect
+  call InputTilemapRect
 
   ld hl,SoundTestMenuTop
   ld de,SoundTestWindow_VRAM
@@ -4017,7 +4035,7 @@ FMDetectionHook:
 DrawTilemap:
   ld a,(PAGING_SLOT_2)
   push af
-    call $3b81 ; OutputTilemapBoxWipePaging
+    call OutputTilemapBoxWipePaging ; OutputTilemapBoxWipePaging
   pop af
   ld (PAGING_SLOT_2),a
   ret
@@ -4027,12 +4045,12 @@ DrawTilemap:
 DeleteSavedGame:
   ; We want to jump back to slot 2 when we are done
   ld hl,ScriptConfirmSlot ; Slot <n>, are you sure?
-  call $333a ; TextBox20x6
-  call $2e75 ; DoYesNoMenu
+  call TextBox
+  call DoYesNoMenu
   jr nz,_no
   
   ld hl,ScriptDeletingFromSlotN ; Deleting game from slot <n>.
-  call $333a ; TextBox20x6
+  call TextBox
 
   ld a,SRAMPagingOn
   ld (PAGING_SRAM),a
@@ -4070,10 +4088,10 @@ DeleteSavedGame:
   ld (PAGING_SRAM),a
 
   ld hl,ScriptDone ; ...done.
-  call $333a ; TextBox20x6
+  call TextBox
 
 _no:
-  call $357e ; Close20x6TextBox
+  call TextBoxEnd
   
   ld a,:Continue
   ld (PAGING_SLOT_2),a
