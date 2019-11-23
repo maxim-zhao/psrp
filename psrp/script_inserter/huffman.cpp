@@ -349,17 +349,9 @@ void EmitScript(const std::string& scriptFilename, const std::string& patchFilen
     std::ofstream patchFile(patchFilename);
     patchFile << "; Patches to point at new script entries\n";
 
-    int entryNumber = 0;
     for (auto&& entry : script)
     {
-        if (entry.offsets.size() == 0)
-        {
-            // Unused entry
-            continue;
-        }
-      
-        std::string name = "Script" + std::to_string(entryNumber++);
-        scriptFile << '\n' << name << ": ; " << entry.text << "\n.db";
+        scriptFile << '\n' << entry.label << ": ; " << entry.text << "\n.db";
 
         // Starting tree number
         int previousSymbol = EOS;
@@ -384,7 +376,7 @@ void EmitScript(const std::string& scriptFilename, const std::string& patchFilen
 
         for (auto && offset : entry.offsets)
         {
-            patchFile << " PatchW $" << std::hex << std::setw(4) << std::setfill('0') << offset + 1 << ' ' << name << '\n';
+            patchFile << " PatchW $" << std::hex << std::setw(4) << std::setfill('0') << offset + 1 << ' ' << entry.label << '\n';
         }
     }
 }

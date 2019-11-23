@@ -3278,15 +3278,16 @@ If you need medical care, I advise finding the nearest hospital.<end>
 Saving the game?<line>
 Please choose a slot.<end>
 
-[084e,1e44]
+;[084e,1e44] ; No longer patching the "delete" prompt
+[ScriptConfirmSlot,1e44]
 ;<number>バンデ イイデスカ.<end>
 Slot <number>, are you sure?<end>
 
 [1e55]
 ;デハ <number>バンニ セ-ブシマス.<delay>
-OK. Now saving in slot<internal hint 01> <number>...<delay>
+OK. Now saving in slot<internal hint 04> <number>...<delay>
 
-[1e91]
+[ScriptDone,1e91]
 ;オワリマシタ.<wait>
 ...done.<wait>
 
@@ -3465,13 +3466,16 @@ This shuttle is heading for Palma. Getting on?<end>
 ;チカライッパイデス.<wait>
 <player> is already at full health.<wait>
 
-[07ee]
+; Continue/Save "dialogue" removed...
+;[07ee]
+[]
 ;ゲ-ムノ ツヅキヲ ヤリマス.<line>
 ;バンゴウヲ エランデクダサイ.<end>
 Continuing a saved game.<line>
 Please choose a slot.<end>
 
-[07fe]
+;[07fe]
+[]
 ;デハ <number>バンノゲ-ムヲ ハジメマス.<delay>
 OK. Continuing from slot<internal hint 01> <number>.<delay>
 
@@ -3482,24 +3486,27 @@ OK. Continuing from slot<internal hint 01> <number>.<delay>
 That password is incorrect.<line>
 Please try again.<wait>
 
-[07e3]
+;[07e3]
+[]
 ;ゲ-ムノツヅキヲ ヤル.-- ハイ<line>
 ;ゲ-ムヲ ケス.------ イイエ<end>
 Do you want to continue a saved game?<end>
 
-[082f]
+;[082f]
+[]
 ;セ-ブシタ ゲ-ムヲ ケシマス.<line>
 ;イイデスカ.<end>
 Do you want to delete a saved game?<end>
 
-[083a]
+;[083a]
+[]
 ;ナンバンノ ゲ-ムヲ ケシマスカ.<end>
 Deleting a saved game.<line>
 Please choose a slot.<end>
 
-[0859]
+[ScriptDeletingFromSlotN]
 ;<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
-Deleting game from slot<internal hint 01> <number>.<end>
+Deleting game from slot<internal hint 04> <number>...<end>
 ; <end> is nicer than <wait> here - Maxim
 
 [16a8]

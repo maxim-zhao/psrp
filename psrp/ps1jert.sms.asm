@@ -26,6 +26,8 @@ banks 32
   .unbackground $0000f $00037 ; Unused space
   .unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
   .unbackground $00486 $004b2 ; Old tile decoder
+  .unbackground $00745 $00750 ; Title screen menu
+  .unbackground $0079e $008a3 ; Continue/Delete screen/menus
   .unbackground $007c9 $007df ; Load game font loader
   .unbackground $008f3 $0090b ; Title screen graphics loading
   .unbackground $00925 $00944 ; Title screen palette
@@ -36,6 +38,7 @@ banks 32
   .unbackground $033f6 $03493 ; Draw number
   .unbackground $03494 $034a4 ; Draw characters from buffer
   .unbackground $034f2 $03545 ; Draw one character to tilemap
+  .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
@@ -43,6 +46,10 @@ banks 32
   .unbackground $03fc2 $03fd1 ; Sky Castle reveal palette
 ; Bank 1
   .unbackground $04059 $0407a ; password entered (unused)
+  .unbackground $04091 $040a9 ; Save name entry
+  .unbackground $040be $040c7 ; Save game pointer table
+  .unbackground $04160 $0417a ; name entry screen special item handler
+  .unbackground $04237 $04260 ; name entry screen cursor handling
   .unbackground $0429b $042b4 ; draw to tilemap during entry
   .unbackground $042b5 $042cb ; draw to RAM during entry
   .unbackground $04261 $04277 ; password population (unused)
@@ -52,6 +59,7 @@ banks 32
   .unbackground $0448c $04509 ; data for lookup table during entry
   .unbackground $045a4 $045c3 ; tile loading for intro
   .unbackground $059ba $059c9 ; Draw text box 20x6 (dialogue)
+  .unbackground $05de9 $05e02 ; Party overworld sprite handling
   .unbackground $07fe5 $07fff ; Unused space + header
 ; Bank 2
   .unbackground $08000 $080b1 ; font tile lookup
@@ -263,6 +271,8 @@ map "^" = $56 ; the
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
+.define SRAMPagingOn    $08
+.define SRAMPagingOff   $80
 
 ; RAM used by the game, referenced here
 .define UseFM               $c000 ; b 01 if YM2413 detected, 00 otherwise
@@ -565,7 +575,6 @@ TitleScreenPalette:
 .ends
 
   ROMPosition $008f3
-  .unbackground $008f3 $0090b
 .section "Title screen patch" force ; not movable
 TitleScreenPatch:
 ; Original code:
@@ -879,7 +888,7 @@ DECODE_FONT:
 .endm
 
   PatchFontLoader $45a4 $45c4 ; Intro
-  PatchFontLoader $07c9 $07e0 ; Load game
+;  PatchFontLoader $07c9 $07e0 ; Load game
   PatchFontLoader $10e3 $10fa ; Dungeon
   PatchFontLoader $3dde $3df5 ; Overworld
   PatchFontLoader $48da $48f1 ; Cutscene
@@ -2561,6 +2570,7 @@ DezorianCustomStringCheck:
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
   DefineWindow SoundTestWindow  $d700                 15 24  16  0
+  DefineWindow ContinueWindow   $d700                  8  5  18 16
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -2699,7 +2709,6 @@ MaxHP:    .dwm TextToTilemap "|Max HP   "
 MST:      .dwm TextToTilemap "|Meseta       "   ; 5 digit number but also used for shop so extra spaces needed
 .ends
 
-.unbackground $3907 $397f
   ROMPosition $3907
 .section "Stats window" force
   ; We re-write this to reduce its size.
@@ -2843,7 +2852,6 @@ _doMovement:
   PatchB $5d21 $07 ; from $f - value in MovementFrameCounter that triggers checking the movement direction
   PatchB $5dbe $03 ; from $7 - animation counter for walking animation
 
-.unbackground $5de9 $5e02
   ROMPosition $5de9
 .section "Sprite movement for followers hook" force
 ;    jp     nc,$5df7        ; 005DE9 D2 F7 5D ; horizontal
@@ -3018,7 +3026,6 @@ SaveLookup:
   PatchW $433c SaveLookup ; rewire pointer
 
 ; Adding "space" item
-  .unbackground $4160 $417a
   ROMPosition $4160
 .section "control char trampoline" force
   jp ControlChar
@@ -3068,7 +3075,6 @@ ControlChar:
   ret
 .ends
 
-  .unbackground $4237 $4260
   ROMPosition $4237
 .section "Cursor sprite handling" force
   ; the first two sprites ys have been set (but not the x)
@@ -3297,7 +3303,6 @@ _bottom:
 ;  PatchW $09b0 SaveBlankTilemap
 
   ; Name location pointer table
-  .unbackground $40be $40c7
 .bank 1 slot 1
 .section "Save game name locations" free
 SaveGameNameLocations:
@@ -3323,57 +3328,6 @@ SaveGameNameLocations:
   PatchB $4035 NameEntryStart ; same as above, leftmost char index
   PatchB $401f NameEntryStart + SAVE_NAME_WIDTH - 1 ; rightmost char index (inclusive)
 
-  ; when deleting, the game just blanks out the tilemap
-  .unbackground $86c $88e
-  ROMPosition $86c
-.section "Delete a save game" force
-;    dec    a               ; 00086C 3D
-;    add    a,a             ; 00086D 87
-;    ld     e,a             ; 00086E 5F
-;    add    a,a             ; 00086F 87
-;    add    a,a             ; 000870 87
-;    add    a,a             ; 000871 87
-;    add    a,e             ; 000872 83
-;    add    a,a             ; 000873 87
-;    add    a,$18           ; 000874 C6 18
-;    ld     e,a             ; 000876 5F
-;    ld     d,$81           ; 000877 16 81
-;    ld     hl,$089a        ; 000879 21 9A 08
-;    ld     bc,$000a        ; 00087C 01 0A 00
-;    ldir                   ; 00087F ED B0      ; row 1
-;    ex     de,hl           ; 000881 EB
-;    ld     bc,$0008        ; 000882 01 08 00
-;    add    hl,bc           ; 000885 09
-;    ex     de,hl           ; 000886 EB
-;    ld     hl,$089a        ; 000887 21 9A 08
-;    ld     bc,$000a        ; 00088A 01 0A 00
-;    ldir                   ; 00088D ED B0      ; row 2
-DeletePatch:
-  ; compute where to write to
-  ; a = 1-based index
-  ; we want de = SaveTilemap + (a * (SAVE_NAME_WIDTH+4) + 2) * 2
-  ld hl,0
-  ld d,0
-  ld e,a
-  ld b,SAVE_NAME_WIDTH+4
--:add hl,de
-  djnz -
-  inc hl
-  inc hl
-  add hl,hl
-  ld de,SaveTilemap
-  add hl,de
-  ld e,l
-  ld d,h
-  ; We then want to copy the blank we are pointing at to the right
-  inc de
-  inc de
-  ld bc,SAVE_NAME_WIDTH*2
-  ldir
-  JR_TO $088f
-.ends
-
-  .unbackground $4091 $40a9
   ROMPosition $4091
 .section "Copy entered name to save data" force
 ;    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
@@ -3808,8 +3762,7 @@ CalculateCursorPos:
    reservedspace $ff, $ff
 .endsms
 
-; Sound test
-  .unbackground $00745 $00750
+; Title screen menu extension
   ROMPosition $0745
 .section "Title screen extension part 1" force
 ;    ld     a,$01           ; 000745 3E 01
@@ -3819,28 +3772,107 @@ CalculateCursorPos:
 ;    jp     nz,$079e        ; 00074E C2 9E 07
   ld a,2 ; 3 options
   ld ($c26e),a ; CursorMax
-  call $2eb9 ; WaitForMenuSelection
-  or a
-  jp SoundTestCheck
+  jp TitleScreenModTrampoline
 .ends
 .slot 0
 .section "Title screen extension part 2" free
-SoundTestCheck:
-  ; 0 = new game
-  jp z,$0751
-  dec a
-  ; 1 = continue
-  jp z,$079e
-  ; else sound test
-  ld a,:SoundTest
+TitleScreenModTrampoline:
+  ld a,:TitleScreenMod
   ld (PAGING_SLOT_2),a
-  call SoundTest
-  ld a,2
-  ld (PAGING_SLOT_2),a
-  ret
+  jp TitleScreenMod
 .ends
 .slot 2
-.section "Sound test" superfree
+.section "Title screen modification" superfree
+TitleScreenMod:
+  call $2eb9 ; WaitForMenuSelection
+  or a
+  jp z,$0751
+  dec a
+  jp z,Continue
+  dec a
+  jp z,SoundTest
+  -:jr - ; todo: options menu
+  
+Continue:
+  ld hl,FunctionLookupIndex
+  ld (hl),8 ; LoadScene (also changes cursor tile)
+  
+  ld hl,ContinueWindow
+  ld de,ContinueWindow_VRAM
+  ld bc,ContinueWindow_dims
+  call $3bca ; InputTilemapRect
+
+  ld hl,ContinueMenu
+  ld de,ContinueWindow_VRAM
+  ld bc,ContinueWindow_dims
+  call DrawTilemap
+
+_SelectAction:
+  ld hl,ContinueWindow_VRAM + ONE_ROW
+  ld ($c269),hl ; CursorTileMapAddress
+
+  ld a,$ff
+  ld ($c268),a ; CursorEnabled
+  ld a,2 ; 3 options
+  ld ($c26e),a ; CursorMax
+  call $2eb9 ; WaitForMenuSelection
+  
+  cp 2
+  jr nz,+
+  ; return to title screen
+  ld hl,ContinueWindow
+  ld de,ContinueWindow_VRAM
+  ld bc,ContinueWindow_dims
+  call DrawTilemap
+  
+  ; We need to hide the cursor as it resets to the top...
+  ld de,$7c12 + 32 * 2 * 1
+  rst $08
+  xor a
+  out ($be),a
+
+  ; Continue the title screen VBlank handler
+  ld hl,FunctionLookupIndex
+  ld (hl),3 ; TitleScreen
+  ret
++:  
+  ; remember the selection while we show the slot selection menu
+  push af
+    ; Save tilemap
+    ld hl,SAVE
+    ld de,SAVE_VRAM
+    ld bc,SAVE_dims
+    call $3bca ; InputTilemapRect
+    ; Select a savegame
+-:  call $3adb ; GetSavegameSelection - leaves value in NumberToShowInText
+    call $08a4 ; IsSlotUsed
+    jr z,- ; repeat selection until a valid one is chosen
+  pop af
+  ; check for button 1 or 2
+  bit 4,c
+  jr nz,_closeSaveGameWindow ; back to selection on button 1
+  
+  
+  ; now check what action
+  or a
+  jp z,ContinueSavedGame
+  
+_delete:
+  call DeleteSavedGame
+  
+_closeSaveGameWindow:
+  ; Restore tilemap
+  ld hl,SAVE
+  ld de,SAVE_VRAM
+  ld bc,SAVE_dims
+  call DrawTilemap
+  ; Clear cursor tile next to "delete"
+  ld de,ContinueWindow_VRAM + ONE_ROW * 2
+  rst $08
+  ld a,$f3  
+  out ($be),a
+  jr _SelectAction
+  
 SoundTest:
   ld hl,FunctionLookupIndex
   ld (hl),8 ; LoadScene (also changes cursor tile)
@@ -3853,11 +3885,11 @@ SoundTest:
   ld hl,SoundTestMenuTop
   ld de,SoundTestWindow_VRAM
   ld bc,(1<<8)|(15*2) ; top border
-  call $3b81 ; draw to tilemap
+  call DrawTilemap
   call _chip
   ld hl,SoundTestMenu
-  ld bc,(22<<8)|(15*2)
-  call $3b81 ; draw the rest
+  ld bc,SoundTestWindow_dims - $200 ; remove 2 rows
+  call DrawTilemap
   ld hl,SoundTestWindow_VRAM + ONE_ROW
   ld ($c269),hl ; CursorTileMapAddress
 
@@ -3900,10 +3932,10 @@ SoundTest:
   ld hl,SoundTestWindow
   ld de,SoundTestWindow_VRAM
   ld bc,SoundTestWindow_dims
-  call $3b81 ; RestoreTilemapRect
+  call DrawTilemap
   
   ; We need to hide the cursor as it resets to the top...
-  ld de,$7c12 + 32 * 2 * 2
+  ld de,$7c12 + ONE_ROW * 2
   rst $08
   xor a
   out ($be),a
@@ -3964,7 +3996,7 @@ _chip:
   or a
   jr z,+
   ld hl,SoundTestMenuChipYM2413
-+:jp $3b81 ; and ret
++:jp DrawTilemap ; and ret
 .ends
 
 ; We hook the FM detection so we can cache the result
@@ -3976,5 +4008,109 @@ FMDetectionHook:
   call $03a4 ; do FM detection
   ld a,(UseFM)
   ld (HasFM),a
+  ret
+.ends
+
+; We want to access the menu drawing code from high banks, so we make a low trampoline here that preserves the slot
+.slot 0
+.section "Menu drawing trampoline" free
+DrawTilemap:
+  ld a,(PAGING_SLOT_2)
+  push af
+    call $3b81 ; OutputTilemapBoxWipePaging
+  pop af
+  ld (PAGING_SLOT_2),a
+  ret
+.ends
+  
+.section "Save game deletion" free
+DeleteSavedGame:
+  ; We want to jump back to slot 2 when we are done
+  ld hl,ScriptConfirmSlot ; Slot <n>, are you sure?
+  call $333a ; TextBox20x6
+  call $2e75 ; DoYesNoMenu
+  jr nz,_no
+  
+  ld hl,ScriptDeletingFromSlotN ; Deleting game from slot <n>.
+  call $333a ; TextBox20x6
+
+  ld a,SRAMPagingOn
+  ld (PAGING_SRAM),a
+
+  ; We need to blank $8200 + n
+  ld h,$82
+  ld a,(NumberToShowInText)
+  ld l,a
+  xor a
+  ld (hl),0
+
+  ; compute where to write to
+  ; a = 1-based index
+  ; we want de = SaveTilemap + (a * (SAVE_NAME_WIDTH+4) + 2) * 2
+  ld d,0
+  ld e,l
+  ld hl,0
+  ld b,SAVE_NAME_WIDTH+4
+-:add hl,de
+  djnz -
+  inc hl
+  inc hl
+  add hl,hl
+  ld de,SaveTilemap
+  add hl,de
+  ld e,l
+  ld d,h
+  ; We then want to copy the blank we are pointing at to the right
+  inc de
+  inc de
+  ld bc,SAVE_NAME_WIDTH*2
+  ldir
+  
+  ld a,SRAMPagingOff
+  ld (PAGING_SRAM),a
+
+  ld hl,ScriptDone ; ...done.
+  call $333a ; TextBox20x6
+
+_no:
+  call $357e ; Close20x6TextBox
+  
+  ld a,:Continue
+  ld (PAGING_SLOT_2),a
+  ret
+.ends
+
+.section "Check SRAM slot is used" free
+IsSlotUsed:
+  ; check slot is used. Can't go in slot 2 as that's where SRAM is.
+  ld a,SRAMPagingOn
+  ld (PAGING_SRAM),a
+  ld a,(NumberToShowInText)
+  ld l,a
+  ld h,$82           ; hl = 82nn -> SRAMSlotsUsed
+  ld a,(hl)          ; Set z if slot not used
+  or a
+  ld a,SRAMPagingOff
+  ld (PAGING_SRAM),a
+  ret
+.ends
+
+.section "Continue a saved game" free
+ContinueSavedGame:
+  ld a,SRAMPagingOn  ; Load game
+  ld (PAGING_SRAM),a
+  ld a,(NumberToShowInText)
+  ld h,a
+  ld l,0
+  add hl,hl
+  add hl,hl
+  set 7,h            ; hl = $8000 + $400*a = slot a game data ($400 bytes)
+  ld de,$c300
+  ld bc,1024 ; bytes
+  ldir               ; Copy
+  ld a,SRAMPagingOff
+  ld (PAGING_SRAM),a
+  ld hl,FunctionLookupIndex
+  ld (hl),$0a        ; Start game
   ret
 .ends

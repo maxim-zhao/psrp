@@ -342,10 +342,15 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
     script_hints = false;
     script_internal_hint = 0;
     script_end = false;
+    
+    int entryNumber = 0;
 
     std::wstring currentLine;
     std::vector<uint8_t> currentLineData;
     std::vector<int> patchOffsets;
+    
+    std::wregex r(L"[[0-9a-f]+");
+    std::string label;
 
     // Read in string entries
     for (std::wstring s; f.getLine(s);)
@@ -363,12 +368,20 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
         // skip headers
         if (s[0] == L'[')
         {
-            // Extract patch offsets
+            // Extract patch offsets or label name
             std::wstringstream wrapper(s.substr(1, s.length() - 2));
             std::wstring ws;
             while (std::getline(wrapper, ws, L','))
             {
-                patchOffsets.push_back(std::stoi(ws, nullptr, 16));
+                if (regex_match(ws, r))
+                {
+                    patchOffsets.push_back(std::stoi(ws, nullptr, 16));
+                }
+                else
+                {
+                    // It's a label
+                    label = convert.to_bytes(ws);
+                }
             }
             continue;
         }
@@ -454,11 +467,27 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
 
         if (script_end)
         {
-            // Store to the script object
-            script.emplace_back(convert.to_bytes(currentLine), currentLineData, patchOffsets);
+            entryNumber++;
+            bool discard = false;
+            // Discard unused items
+            if (label.empty())
+            {
+                if (patchOffsets.empty())
+                {
+                    // Skip this one
+                    discard = true;
+                }
+                label = "Script" + std::to_string(entryNumber);
+            }
+            if (!discard)
+            {
+              // Store to the script object
+              script.emplace_back(convert.to_bytes(currentLine), currentLineData, patchOffsets, label);
+            }
             currentLine.clear();
             currentLineData.clear();
             patchOffsets.clear();
+            label.clear();
         }
     } // end while read line
 }

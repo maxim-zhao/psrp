@@ -399,3 +399,10 @@ dims=3b52,3b79
 │XP multiplier    x1║
 │Money multiplier x1║
 ╘═══════════════════╝
+
+[ContinueMenu]
+┌──────╖
+│Load  ║
+│Delete║
+│Return║
+╘══════╝
