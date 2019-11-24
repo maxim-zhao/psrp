@@ -318,6 +318,9 @@ map "^" = $56 ; the
   HasFM     db   ; copy of FM detection result
   MusicSelection db ; music test last selected song
   MovementSpeedUp db ; non-zero for speedup
+  ExpMultiplier  db ; b Experience scaling
+  MoneyMultiplier  db ; b Money pickups scaling
+  Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
 ; Functions in the original game we make use if
@@ -333,6 +336,7 @@ map "^" = $56 ; the
 .define TextBox $333a
 .define TextBoxEnd $357e
 .define DrawMeseta $36d9
+.define OutputDigit $3762 ; Draws a to current VRAM address, except 0 uses tile in bc
 .define GetSavegameSelection $3adb
 .define OutputTilemapBoxWipePaging $3b81
 .define InputTilemapRect $3bca
@@ -2598,6 +2602,7 @@ DezorianCustomStringCheck:
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
   DefineWindow SoundTestWindow  $d700                 15 24  16  0
   DefineWindow ContinueWindow   $d700                  8  5  18 16
+  DefineWindow OptionsWindow    $d700                 19  6  12 18
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -2607,9 +2612,9 @@ DezorianCustomStringCheck:
 ; However the game uses two lone bytes at $df00 (Port $3E value, typically 0)
 ; and $df01 (set to $ff, never read). We therefore need to move the former
 ; (and ignore the latter) to free up some space.
-  PatchW $00a6 $dffb ; move port $3e value to top of RAM
-  PatchW $03a5 $dffb
-  PatchW $03cc $dffb
+  ; See Initialisation later for the first bit
+  PatchW $03a5 Port3EValue
+  PatchW $03cc Port3EValue
 
 .macro PatchWords
   PatchW \2 \1
@@ -3841,7 +3846,7 @@ CalculateCursorPos:
 ;    call   $2eb9           ; 00074A CD B9 2E
 ;    or     a               ; 00074D B7
 ;    jp     nz,$079e        ; 00074E C2 9E 07
-  ld a,2 ; 3 options
+  ld a,3 ; 4 options
   ld (CursorMax),a ; CursorMax
   jp TitleScreenModTrampoline
 .ends
@@ -3862,8 +3867,114 @@ TitleScreenMod:
   jp z,Continue
   dec a
   jp z,SoundTest
-  -:jr - ; todo: options menu
+  ; else fall through
+
+_OptionsMenu:
+  ld hl,FunctionLookupIndex
+  ld (hl),8 ; LoadScene (also changes cursor tile)
   
+  ; Save tilemap
+  ld hl,OptionsWindow
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call InputTilemapRect
+
+  ; Draw window
+  ld hl,OptionsMenu
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call DrawTilemap
+  ; TODO: can we draw the numbers here? It's rather trickier...
+
+  ; Start selection
+  ld hl,OptionsWindow_VRAM + ONE_ROW
+  ld (CursorTileMapAddress),hl
+  ld hl,$0000
+  ld (CursorPos),hl  ; 0 -> CursorPos, OldCursorPos
+
+_OptionsSelect:
+  ; We draw in the numbers here
+  ld de,OptionsWindow_VRAM + ONE_ROW * 1 + 2 * 17
+  rst $8
+  ld a,(MovementSpeedUp)
+  inc a
+  call OutputDigit
+
+  ld de,OptionsWindow_VRAM + ONE_ROW * 2 + 2 * 17
+  rst $8
+  ld a,(ExpMultiplier)
+  call OutputDigit
+
+  ld de,OptionsWindow_VRAM + ONE_ROW * 3 + 2 * 17
+  rst $8
+  ld a,(MoneyMultiplier)
+  call OutputDigit
+
+  ld a,$ff
+  ld (CursorEnabled),a ; CursorEnabled
+  ld a,3 ; 4 options
+  ld (CursorMax),a ; CursorMax
+  call $2ec8 ; no cursor position reset
+  
+  ; Then adjust the right thing
+  or a
+  jr nz,+
+  
+_movement:
+  ; Toggle bit
+  ld a,(MovementSpeedUp)
+  xor 1
+  ld (MovementSpeedUp),a
+  jr _OptionsSelect
+  
+  cp 3
+  jr nz,+
+  ld hl,OptionsWindow
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call DrawTilemap
+  ld de,$7c12 + ONE_ROW * 3
+  jp BackToTitle
+  
++:dec a
+  jr nz,++
+  
+_xp:
+  ld hl,ExpMultiplier
+-:ld a,(hl)
+  inc a
+  cp 5
+  jr nz,+
+  ld a,1
++:ld (hl),a
+  jr _OptionsSelect ; loop
+
+++:dec a
+  jr nz,+
+
+_money:
+  ld hl,MoneyMultiplier
+  jr -
+  
++:; Back to title
+  ld hl,OptionsWindow
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call DrawTilemap
+  ld de,$7c12 + ONE_ROW * 3
+  ; fall through
+  
+BackToTitle:
+  ; We need to hide the cursor as it resets to the top...
+  rst $08
+  xor a
+  out ($be),a
+
+  ; Continue the title screen VBlank handler
+  ld hl,FunctionLookupIndex
+  ld (hl),3 ; TitleScreen
+  ret
+
 Continue:
   ; Start new game if no slots are filled
   ld b,SAVE_SLOT_COUNT
@@ -3899,24 +4010,16 @@ _SelectAction:
   
   cp 2
   jr nz,+
+  
   ; return to title screen
   ld hl,ContinueWindow
   ld de,ContinueWindow_VRAM
   ld bc,ContinueWindow_dims
   call DrawTilemap
-  
-  ; We need to hide the cursor as it resets to the top...
-  ld de,$7c12 + 32 * 2 * 1
-  rst $08
-  xor a
-  out ($be),a
+  ld de,$7c12 + ONE_ROW * 1
+  jp BackToTitle
 
-  ; Continue the title screen VBlank handler
-  ld hl,FunctionLookupIndex
-  ld (hl),3 ; TitleScreen
-  ret
-+:  
-  ; remember the selection while we show the slot selection menu
++:; remember the selection while we show the slot selection menu
   push af
     ; Save tilemap
     ld hl,SAVE
@@ -4016,14 +4119,7 @@ SoundTest:
   
   ; We need to hide the cursor as it resets to the top...
   ld de,$7c12 + ONE_ROW * 2
-  rst $08
-  xor a
-  out ($be),a
-
-  ; Continue the title screen VBlank handler
-  ld hl,FunctionLookupIndex
-  ld (hl),3 ; TitleScreen
-  ret
+  jp BackToTitle
 
 +:sub 3 ; top 3 entries are not music
   ; and #2 is a separator
@@ -4199,4 +4295,23 @@ ContinueSavedGame:
   ld hl,FunctionLookupIndex
   ld (hl),$0a        ; Start game
   ret
+.ends
+
+  ROMPosition $00a5
+.section "Initialisation hack" overwrite
+;    ld     a,($c000)       ; 0000A2 3A 00 C0 
+;    ld     ($df00),a       ; 0000A5 32 00 DF 
+  ; This runs on startup but not at reset
+  jp Initialisation
+.ends
+
+.section "Initialisation" free
+Initialisation:
+  ld (Port3EValue),a
+  ; Initialise our mutipliers
+  ld a,1
+  ld (ExpMultiplier),a
+  ld (MoneyMultiplier),a
+  ; Back to normal
+  jp $00a8
 .ends
