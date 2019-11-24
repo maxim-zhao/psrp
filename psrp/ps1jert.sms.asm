@@ -279,17 +279,19 @@ map "^" = $56 ; the
 .define NewMusic            $c004 ; b Which music to start playing
 .define VBlankFunctionIndex $c208 ; b Index of function to execute in VBlank
 .define FunctionLookupIndex $c202 ; b Index of "game phase" function
-.define IntroState          $c600 ; b $ff when intro starts
+.define MovementFrameCounter $c265 ; Number of frames for each movement step
 .define NameIndex           $c2c2 ; b Index into Names
 .define ItemIndex           $c2c4 ; b Index into Items
 .define NumberToShowInText  $c2c5 ; b Number to show in text
 .define EnemyIndex          $c2e6 ; b Index into Enemies
+.define VehicleType         $c30e ; b Zero when walking
+.define IntroState          $c600 ; b $ff when intro starts
 .define SaveTilemapOld      $8100 ; Tilemap data for save - original
 .define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
-.enum $df00
+.enum $df00 export
   ; Script decoding
   STR       dw   ; pointer to WRAM string
   LEN       db   ; length of substring in WRAM
@@ -306,10 +308,11 @@ map "^" = $56 ; the
   TREE      db   ; current Huffman tree
   VRAM_PTR  dw   ; VRAM address
   FULL_STR  dw   ; pointer backup
-  TEMP_STR  .db  ; buffer for strings
+  TEMP_STR  .db  ; buffer for strings, shared with following
   BUFFER    dsb 32 ; buffer for tile decoding
   HasFM     db   ; copy of FM detection result
   MusicSelection db ; music test last selected song
+  MovementSpeedUp db ; non-zero for speedup
 .ende
 
 ; Functions in the original game we make use if
@@ -329,7 +332,6 @@ map "^" = $56 ; the
 .define OutputTilemapBoxWipePaging $3b81
 .define InputTilemapRect $3bca
 .define DecompressToTileMapData $6e05
-  
 
 .slot 1
 .section "New bitmap decoder" superfree
@@ -2834,23 +2836,22 @@ _draw_4th_line:
 ; The game moves by 1px for 16 frames, or 2px for 8 frames, depending on whether you are in a vehicle or walking.
 ; We patch that to 2x8 or 4x4.
 
+  /*
   ROMPosition $7409
 .section "Walking speed patch" size 23 overwrite
-;    ld     a,(VehicleMovementFlags)       ; 007409 3A 0E C3
+;    ld     a,(VehicleType)       ; 007409 3A 0E C3
 ;    or     a               ; 00740C B7
 ;    ld     a,$0f           ; 00740D 3E 0F ; 16 frames when walking
 ;    jr     z,+;$7413         ; 00740F 28 02
 ;    ld     a,$07           ; 007411 3E 07 ; 8 frames in a vehicle
-;+:  ld     (WalkingMovementCounter),a       ; 007413 32 65 C2 ; init counter
+;+:  ld     (MovementFrameCounter),a       ; 007413 32 65 C2 ; init counter
 ;_doMovement: ; jumped to from elsewhere so needs to not move
 ;    ld     de,$0001        ; 007416 11 01 00 ; Movement amount (for walking) -> 16 frames * 1px = 16px
-;    ld     a,(VehicleMovementFlags)       ; 007419 3A 0E C3
+;    ld     a,(VehicleType)       ; 007419 3A 0E C3
 ;    or     a               ; 00741C B7
 ;    jr     z,+;$7420         ; 00741D 28 01
 ;    inc    e               ; 00741F 1C ; +1 for a vehicle -> 8 frames * 2px = 16px
 ;+:  ld     a,(VScroll)       ; 007420 3A 04 C3
-.define VehicleType $c30e
-.define MovementFrameCounter $c265
   ld a,(VehicleType)
   or a
   ld a,8-1
@@ -2865,10 +2866,63 @@ _doMovement:
   ld e,4
 +:
 .ends
+*/
+
+  ROMPosition $7409
+.section "Walking speed patch trampoline" overwrite
+  ; Max 13 bytes, using 11
+  ld hl,WalkingFramesPerStep
+  call GetMovementSpeedLookup
+  ld (MovementFrameCounter),a
+  JR_TO $7416
+.ends
+
+  ROMPosition $7416
+.section "Walking speed patch trampoline 2" overwrite
+  ; Max 10 bytes
+  call WalkingSpeedPatch
+  JR_TO $7420
+.ends
+
+.section "Walking speed patch data" free
+WalkingFramesPerStep:
+  .db 8-1, 16-1, 4-1, 8-1
+WalkingPixelsPerFrame:
+  .db 2, 1, 4, 2
+.ends
+
+.section "Walking speed patch helper" free
+GetMovementSpeedLookup:
+  ld a,(VehicleType) ; zero or non-zero
+  sub 1 ; will carry if zero
+  ld a,(MovementSpeedUp) ; 1 or 0
+  adc a,a ; now it's 0-3
+  ; %00 = vehicle x1
+  ; %01 = walking x1
+  ; $10 = vehicle x2
+  ; $11 = walking x2
+  ; Look up in table
+  add a,l
+  ld l,a
+  adc a,h
+  sub l
+  ld h,a
+  ld a,(hl)
+  ret
+.ends
+
+.section "Walking speed patch part 2" free
+WalkingSpeedPatch:
+  ld hl,WalkingPixelsPerFrame
+  call GetMovementSpeedLookup
+  ld d,0
+  ld e,a
+  ret
+.ends
 
 ; Animation and character following is driven by a particular frame number in the sequence...
-  PatchB $5d21 $07 ; from $f - value in MovementFrameCounter that triggers checking the movement direction
-  PatchB $5dbe $03 ; from $7 - animation counter for walking animation
+;  PatchB $5d21 $07 ; from $f - value in MovementFrameCounter that triggers checking the movement direction
+;  PatchB $5dbe $03 ; from $7 - animation counter for walking animation
 
   ROMPosition $5de9
 .section "Sprite movement for followers hook" force
