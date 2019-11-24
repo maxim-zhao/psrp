@@ -1900,7 +1900,7 @@ SpellBlankLine:
   ; We just don't draw "empty" spell menus...
   ld hl,SpellMenuBottom
   ld bc,1<<8 + 14*2  ; width of line
-  jp $3b8f ; draw and exit
+  jp $3b81 ; draw and exit
   ; TODO free up space after this
 .ends
 
@@ -3386,11 +3386,6 @@ SaveGameNameLocations:
 .ends
   PatchW $408b SaveGameNameLocations-2 ; 1-based lookup
 
-  ; Selection menu upper limit
-  PatchB $3af8 SAVE_SLOT_COUNT-1
-  ; Title screen continue -> start if no saves
-  PatchB $07a7 SAVE_SLOT_COUNT
-
   ; The code draws the password/name with spaces every 8 chars, we nobble that
   PatchB $4293 $c9 ; return earlier
 
@@ -3866,7 +3861,16 @@ TitleScreenMod:
   -:jr - ; todo: options menu
   
 Continue:
-  ld hl,FunctionLookupIndex
+  ; Start new game if no slots are filled
+  ld b,SAVE_SLOT_COUNT
+  ld a,1
+-:ld (NumberToShowInText),a
+  call IsSlotUsed
+  jp nz,+
+  djnz -
+  jp $0751
+  
++:ld hl,FunctionLookupIndex
   ld (hl),8 ; LoadScene (also changes cursor tile)
   
   ld hl,ContinueWindow
