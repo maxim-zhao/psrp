@@ -280,6 +280,11 @@ map "^" = $56 ; the
 .define VBlankFunctionIndex $c208 ; b Index of function to execute in VBlank
 .define FunctionLookupIndex $c202 ; b Index of "game phase" function
 .define MovementFrameCounter $c265 ; Number of frames for each movement step
+.define CursorEnabled       $c268 ; b $ff when in "cursor mode"
+.define CursorTileMapAddress $c269 ; w Tilemap address of top option
+.define CursorPos           $c26b ; b Cursor index
+.define OldCursorPos        $c26c ; b Previous value of above
+.define CursorMax           $c26e ; b Maximum index for menu selection (0-based)
 .define NameIndex           $c2c2 ; b Index into Names
 .define ItemIndex           $c2c4 ; b Index into Items
 .define NumberToShowInText  $c2c5 ; b Number to show in text
@@ -3372,7 +3377,6 @@ _bottom:
   call BlankSaveTilemap
   JR_TO $09ba
 .ends
-;  PatchW $09b0 SaveBlankTilemap
 
   ; Name location pointer table
 .bank 1 slot 1
@@ -3833,12 +3837,12 @@ CalculateCursorPos:
   ROMPosition $0745
 .section "Title screen extension part 1" force
 ;    ld     a,$01           ; 000745 3E 01
-;    ld     ($c26e),a       ; 000747 32 6E C2
+;    ld     (CursorMax),a       ; 000747 32 6E C2
 ;    call   $2eb9           ; 00074A CD B9 2E
 ;    or     a               ; 00074D B7
 ;    jp     nz,$079e        ; 00074E C2 9E 07
   ld a,2 ; 3 options
-  ld ($c26e),a ; CursorMax
+  ld (CursorMax),a ; CursorMax
   jp TitleScreenModTrampoline
 .ends
 .slot 0
@@ -3885,12 +3889,12 @@ Continue:
 
 _SelectAction:
   ld hl,ContinueWindow_VRAM + ONE_ROW
-  ld ($c269),hl ; CursorTileMapAddress
+  ld (CursorTileMapAddress),hl
 
   ld a,$ff
-  ld ($c268),a ; CursorEnabled
+  ld (CursorEnabled),a ; CursorEnabled
   ld a,2 ; 3 options
-  ld ($c26e),a ; CursorMax
+  ld (CursorMax),a ; CursorMax
   call WaitForMenuSelection
   
   cp 2
@@ -3967,7 +3971,7 @@ SoundTest:
   ld bc,SoundTestWindow_dims - $200 ; remove 2 rows
   call DrawTilemap
   ld hl,SoundTestWindow_VRAM + ONE_ROW
-  ld ($c269),hl ; CursorTileMapAddress
+  ld (CursorTileMapAddress),hl
 
   ; We need to retain the selected music in order to restart it when the chip is changed.
   ; We start with the title screen music already playing
@@ -3976,12 +3980,12 @@ SoundTest:
 
   ; We hack the menu selection to retain the cursor position...
   ld hl,$0000
-  ld ($c26b),hl  ; 0 -> CursorPos, OldCursorPos
+  ld (CursorPos),hl  ; 0 -> CursorPos, OldCursorPos
 
 -:ld a,$ff
-  ld ($c268),a ; CursorEnabled
+  ld (CursorEnabled),a ; CursorEnabled
   ld a,21 ; 22 options
-  ld ($c26e),a ; CursorMax
+  ld (CursorMax),a ; CursorMax
   call $2ec8 ; WaitForMenuSelection skipping the bit where it reset the cursor position
 
   or a
@@ -4175,7 +4179,7 @@ IsSlotUsed:
 ContinueSavedGame:
   ld a,SRAMPagingOn  ; Load game
   ld (PAGING_SRAM),a
-  ld a,(NumberToShowInText)
+  ld a,(NumberToShowInText) ; 1-based
   ld h,a
   ld l,0
   add hl,hl
@@ -4186,6 +4190,12 @@ ContinueSavedGame:
   ldir               ; Copy
   ld a,SRAMPagingOff
   ld (PAGING_SRAM),a
+
+  ; This is important, not sure what it does :)
+  ld a,($c316)       ; Check xc316
+  cp 11
+  ret nz             ; if == 11
+
   ld hl,FunctionLookupIndex
   ld (hl),$0a        ; Start game
   ret
