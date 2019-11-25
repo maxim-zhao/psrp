@@ -4336,6 +4336,7 @@ Initialisation:
   jp $00a8
 .ends
 
+; Money is already multiplied by the enemy count, we can easily chain an extra multiplication on
   ROMPosition $6335
 .section "Money multiplier trampoline" overwrite
   call MoneyHack
@@ -4348,6 +4349,23 @@ MoneyHack:
   ; We want to multiply this again
   ex de,hl
   ld a,(MoneyMultiplier)
+  ld c,a ; b is already 0
+  jp Multiply16 ; and ret
+.ends
+
+; Experience is handled exactly the same as money
+  ROMPosition $634f
+.section "Experience multiplier trampoline" overwrite
+  call ExperienceHack
+.ends
+
+.bank 1 slot 1
+.section "Experience multiplier" free
+ExperienceHack:
+  call Multiply16 ; What we stole to get here
+  ; We want to multiply this again
+  ex de,hl
+  ld a,(ExpMultiplier)
   ld c,a ; b is already 0
   jp Multiply16 ; and ret
 .ends
