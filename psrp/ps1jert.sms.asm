@@ -4363,7 +4363,7 @@ MoneyHack:
 .ends
 
 ; Experience is handled exactly the same as money
-  ROMPosition $634f
+  ROMPosition $634c
 .section "Experience multiplier trampoline" overwrite
   call ExperienceHack
 .ends

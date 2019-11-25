@@ -39,7 +39,8 @@ Unofficial Translation 2005-2019
   - additional save slots enabled (using existing 8KB save RAM) (#16)
   - doubled walking and vehicle speed (#8)
   - added music test (#18)
-  - changed game save handling to menus from title screen
+  - changed game save handling to menus from title screen (#20)
+  - added options menu for walking speed, experience and money multipliers (#19)
   
 
 Phantasy Star Original Dialogue Version 
