@@ -405,7 +405,7 @@ Iala Cave lies on the peninsula south of town.<wait>
 ; ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
 ; This is the port town of Shion. This place used to be busy with trade.
 Welcome to Shion, the busiest port on Palma...or at least, it was.<wait more>
-W<wait>
+With the world the way it is lately, there isn't much trade going on anymore.<wait>
 
 [4dcd]
 ; エピトイウ マヨイノモリハ<line>
