@@ -1,7 +1,7 @@
 ; Main script
 ;
 ; Note on comments:
-; - Stuff with ****** around it is an area indicator
+; - Stuff with ******* around it is an area indicator
 ; - Japanese text is the original script
 ; - Text in ALL CAPS is the original English translation
 ; - Most other text is Paul Jensen's original retranslation from 2002
