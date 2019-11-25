@@ -2846,38 +2846,6 @@ _draw_4th_line:
 ; The game moves by 1px for 16 frames, or 2px for 8 frames, depending on whether you are in a vehicle or walking.
 ; We patch that to 2x8 or 4x4.
 
-  /*
-  ROMPosition $7409
-.section "Walking speed patch" size 23 overwrite
-;    ld     a,(VehicleType)       ; 007409 3A 0E C3
-;    or     a               ; 00740C B7
-;    ld     a,$0f           ; 00740D 3E 0F ; 16 frames when walking
-;    jr     z,+;$7413         ; 00740F 28 02
-;    ld     a,$07           ; 007411 3E 07 ; 8 frames in a vehicle
-;+:  ld     (MovementFrameCounter),a       ; 007413 32 65 C2 ; init counter
-;_doMovement: ; jumped to from elsewhere so needs to not move
-;    ld     de,$0001        ; 007416 11 01 00 ; Movement amount (for walking) -> 16 frames * 1px = 16px
-;    ld     a,(VehicleType)       ; 007419 3A 0E C3
-;    or     a               ; 00741C B7
-;    jr     z,+;$7420         ; 00741D 28 01
-;    inc    e               ; 00741F 1C ; +1 for a vehicle -> 8 frames * 2px = 16px
-;+:  ld     a,(VScroll)       ; 007420 3A 04 C3
-  ld a,(VehicleType)
-  or a
-  ld a,8-1
-  jr z,+
-  ld a,4-1
-+:ld (MovementFrameCounter),a
-_doMovement:
-  ld e,2 ; we skip setting d here as it's not used anyway and we gain the byte we need below...
-  ld a,(VehicleType)
-  or a
-  jr z,+
-  ld e,4
-+:
-.ends
-*/
-
   ROMPosition $7409
 .section "Walking speed patch trampoline" overwrite
   ; Max 13 bytes, using 11
@@ -2931,8 +2899,49 @@ WalkingSpeedPatch:
 .ends
 
 ; Animation and character following is driven by a particular frame number in the sequence...
-;  PatchB $5d21 $07 ; from $f - value in MovementFrameCounter that triggers checking the movement direction
-;  PatchB $5dbe $03 ; from $7 - animation counter for walking animation
+  ROMPosition $5d20
+.section "Walking speed patch part 3 trampoline" overwrite
+;    cp     $0f             ; 005D20 FE 0F 
+;    jp     nz,$5dac        ; 005D22 C2 AC 5D 
+  jp WalkingSpeedPatch3
+.ends
+
+.section "WalkingSpeedPatch3" free
+WalkingSpeedPatch3:
+  push bc
+  ld b,a ; save counter value
+
+  ; Walking mode, we want $f or $7
+  ld a,(MovementSpeedUp)
+  or a
+  jr nz,+
+  ld a,$f
+  jr ++
++:ld a,$7
+++:
+  cp b
+  pop bc
+  jp nz,$5dac
+  jp $5d25
+.ends
+
+; In the handler we then want to set an animation counter for the walking sequence
+  ROMPosition $5dbb
+.section "Walking speed patch part 4 trampoline" overwrite
+;    ld     (iy+$0e),$07    ; 005DBB FD 36 0E 07 
+  jp WalkingSpeedPatch4
+.ends
+
+.section "WalkingSpeedPatch4" free
+WalkingSpeedPatch4:
+  ld a,(MovementSpeedUp)
+  or a
+  jr nz,+
+  ld (iy+$e),7
+  jp $5dbf
++:ld (iy+$e),3
+  jp $5dbf
+.ends
 
   ROMPosition $5de9
 .section "Sprite movement for followers hook" force
@@ -2972,7 +2981,15 @@ _vertical:
 
 _getDelta:
   push hl
-    ld hl,_table
+    push af
+      ; Check which table to use
+      ld a,(MovementSpeedUp)
+      or a
+      jr z,+
+      ld hl,_table
+      jr ++
++:    ld hl,_table2
+++: pop af
     add a,l
     ld l,a
     adc a,h
@@ -2982,7 +2999,9 @@ _getDelta:
   pop hl
   ret
 _table:
-.db -2, +2, -2, +2 ; Movement deltas for U, D, R, L
+.db -2, +2, -2, +2
+_table2:
+.db -1, +1, -1, +1
 .ends
 
 ; Savegame name entry screen hacking ---------------------------------------------
