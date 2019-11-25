@@ -341,6 +341,7 @@ map "^" = $56 ; the
 .define OutputTilemapBoxWipePaging $3b81
 .define InputTilemapRect $3bca
 .define DecompressToTileMapData $6e05
+.define Multiply16 $0505 ; dehl = de * bc
 
 .slot 1
 .section "New bitmap decoder" superfree
@@ -4333,4 +4334,20 @@ Initialisation:
   ld (MoneyMultiplier),a
   ; Back to normal
   jp $00a8
+.ends
+
+  ROMPosition $6335
+.section "Money multiplier trampoline" overwrite
+  call MoneyHack
+.ends
+
+.bank 1 slot 1
+.section "Money multiplier" free
+MoneyHack:
+  call Multiply16 ; What we stole to get here
+  ; We want to multiply this again
+  ex de,hl
+  ld a,(MoneyMultiplier)
+  ld c,a ; b is already 0
+  jp Multiply16 ; and ret
 .ends
