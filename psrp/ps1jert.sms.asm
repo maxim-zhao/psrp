@@ -3890,7 +3890,16 @@ TitleScreenMod:
   ; else fall through
 
 _OptionsMenu:
-  ld hl,FunctionLookupIndex
+  ; Start new game if no slots are filled
+  ld b,SAVE_SLOT_COUNT
+  ld a,1
+-:ld (NumberToShowInText),a
+  call IsSlotUsed
+  jp nz,+
+  djnz -
+  jp $0751
+  
++:ld hl,FunctionLookupIndex
   ld (hl),8 ; LoadScene (also changes cursor tile)
   
   ; Save tilemap

@@ -2849,7 +2849,7 @@ The invisible wall became ineffective.<delay>
 [210d]
 ;<monster>ハ ニゲアシノ<line>
 ;ハヤサニ オドロイタ.<delay>
-<Article><monster> was surprised by the speed of the your escape.<delay>
+<Article><monster> was surprised by the speed of your escape.<delay>
 
 [21ad]
 ;ワナジャナカッタ.<wait>
