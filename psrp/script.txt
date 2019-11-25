@@ -115,18 +115,18 @@ Alisa, my sister.<line><line>
 Listen closely, I don’t have long.<wait more>
 The rumors we've heard are true. LaShiec has...changed.<line><line>
 And it goes beyond his military taking over our streets.<wait more>
-All of the horrible monsters outside, all of the darkness suddenly in our lives...<line><line>
-Somehow, all of it traces back to him.<wait more>
-I tried to figure out how, but I guess I got too close to the truth.<line><line>
-There's only one option left for all of us.<wait more>
-Lord LaShiec must die.<line><line>
-You have to kill him, Alisa, or all of Algol will be lost. Maybe it already is.<wait more>
+All of the horrible creatures outside, all of the darkness in our lives...<line><line>
+Somehow, it all traces back to him.<wait more>
+I tried to learn how, but I guess I got too close to the truth.<line><line>
+There's only one option left now, for all of us.<wait more>
+Lord LaShiec must be stopped.<line><line>
+If he isn't, the darkness he's aligned himself with will claim all of Algol.<wait more>
 My mistake was trying to take him on alone.<line><line>
 These are dangerous people, you’re going to need help.<wait more>
 I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
-I wanted to enlist his help, but he’s gone missing.<wait more>
+I tried to enlist his help, but he's gone missing.<wait more>
 You have to find him, Alisa.<line><line>
-Find Tylon, and kill LaShiec, before it’s too late.<wait more>
+Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
 Alisa...such a terrible burden. I’m so sorry.<line><line>
 Please forgive me, for asking this of you...<wait more>
 ...and for leaving you all...<line><line>
@@ -135,9 +135,10 @@ Please forgive me, for asking this of you...<wait more>
 [4605]
 ; Alisa
 Nero...<wait more>
-I know that you wouldn’t ask this of me if there was any other way.<wait more>
 Your death will not be meaningless, I swear it.<line><line>
-Watch over and protect me, big brother.<wait>
+I won't let these monsters take our home.<wait more>
+Watch over and protect me, big brother.<line><line>
+With your spirit by my side, LaShiec doesn't stand a chance.<wait>
 
 ; *************************************
 ; *** Camineet Residential District ***
@@ -158,10 +159,9 @@ Nero's things are still where he left them.<wait>
 ; My name is Suelo. I know how you feel, Alisa. No one will be able to stop you
 ; [from doing what you must do], but don't overdo it, okay? If you are ever injured
 ; in battle, please come here to relax and recover. You will always be welcome.
-You’re doing what?<wait more>
 Alisa...taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
 I won't waste my breath trying to talk you out of this, just...please be careful.<wait more>
-If you get hurt, come back here to rest and heal.<wait more>
+If you ever get hurt, come back here to heal.<wait more>
 We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
 
 [4b4e]
@@ -186,7 +186,7 @@ Your brother would be proud of you. But don't overdo it, okay? Come back here an
 ; My name is Nekise. I just found out that the hero Tairon is staying in the town of
 ; Shion. Oh, and, your brother entrusted me with this jar -- it’s called a
 ; ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.
-My name is Nekiseh.<line><line>
+My name is Nekise.<line><line>
 I was sorry to hear about your loss.<wait more>
 Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
 The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
@@ -197,7 +197,7 @@ It's pretty valuable, maybe it will help you on your journey? Here, please take 
 ; チカラニナレナクテ ゴメン.<line>
 ; ブジヲ イノッテルヨ.<wait>
 ; Forgive me, but there is nothing more I can do. May you[r journey] be safe.
-I wish there was more I could do for you. Good luck out there.<line><wait>
+I wish there was more I could do for you. Please be safe out there.<line><wait>
 
 [4b82]
 ; Camineet resident - man
@@ -269,7 +269,7 @@ Roadpass confirmed. Go on through.<wait>
 ; Camineet resident - man
 ; アルゴル タイヨウケイノ ワクセイヲシッテイルカナ.<end>
 ; Do you know the planets in the Algol Solar System?
-Do you know about all the planets in our solar system?<end>
+Do you know about all the planets in the Algol Solar System?<end>
 
 [4bb4]
 ; Camineet resident - man - "no" to question about Algol
@@ -287,9 +287,9 @@ Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
 Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
 Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
 Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
-And Dezoris is a planet of ice. Very few lifeforms can survive its frozen surface.<wait more>
-Algol thrives due to the delicate ecological balance of our three planets.<wait more>
-But I can sense something is changing. I fear a crisis is drawing near...<wait>
+And Dezoris is a planet of ice. Very little life thrives on its frozen surface.<wait more>
+All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
+Every day draws us closer to a crisis that can never be reversed.<wait>
 
 [4ba9,4e06,4e26]
 ; Camineet resident - man - "yes" to question about Algol
@@ -337,8 +337,8 @@ If you're looking for a port town, Shion is just east of here.<wait>
 ; スペ-スポ-トカラ モタビアセイノ<line>
 ; パセオ マデ イケルヨ.<wait>
 ; You can travel to Paseo, on the planet Motavia, from the spaceport.
-You can get to Paseo on planet Motavia from the spaceport.<wait more>
-But due to heightened security, you’ll need a Roadpass.<wait>
+Our Spaceport flies directly to Paseo, the capital of Motavia.<wait more>
+I'd love to go someday. I've never been off-planet before!<line><wait>
 
 [4c0f]
 ; Man
@@ -404,9 +404,8 @@ Iala Cave lies on the peninsula south of town.<wait>
 [4dc7]
 ; ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
 ; This is the port town of Shion. This place used to be busy with trade.
-Welcome to Shion.<wait more>
-We had a bustling trade economy here, until LaShiec’s embargo.<wait more>
-Now most of us are desperate for work.<wait>
+Welcome to Shion, the busiest port on Palma...or at least, it was.<wait more>
+W<wait>
 
 [4dcd]
 ; エピトイウ マヨイノモリハ<line>
@@ -425,7 +424,8 @@ The only way to open a door sealed with magic is to cast a spell of your own.<wa
 ; デモワレワレハ ソノオカヘ<line>
 ; チカヅクコトガ デキマセン.<wait>
 ; If you go North from this town you will reach the hill of Baya Mahrey. However, we aren’t able to get near to it.
-If you head north, you’ll find a knoll called Baya Marlay, but you won’t be able to get to it.<wait>
+To the north, past the prison, is the pride of Palma: a beautiful knoll called Baya Marlay.<wait more>
+Too bad nobody can get to it anymore...<wait>
 
 [4ddf]
 ; バヤマ-レノ キタノ カイガンニ<line>
