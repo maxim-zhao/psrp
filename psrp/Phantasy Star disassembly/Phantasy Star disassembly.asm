@@ -133,7 +133,7 @@ BANKS 30
 
 .define xc2d9                     $c2d9     ; w ???
 
-.define xc2dd                     $c2dd     ; w ??? result of numenemies*(something)
+.define EnemyMoney                     $c2dd     ; w Monster money drop - result of numenemies*(something)
 .define xc2df                     $c2df     ; b ???
 .define xc2e0                     $c2e0     ; b ???
 .define xc2e1                     $c2e1     ; w ??? might be 2*b
@@ -5156,7 +5156,7 @@ LoadEnemy:             ; $627a
     pop hl
     ld a,(hl)          ; next byte in xc2df
     ld (xc2df),a
-    inc hl             ; next word in de
+    inc hl             ; next word in de = money per enemy
     ld e,(hl)
     inc hl
     ld d,(hl)
@@ -5165,7 +5165,7 @@ LoadEnemy:             ; $627a
         ld c,a
         ld b,$00
         call Multiply16
-        ld (xc2dd),hl  ; xc2dd = NumEnemies*de
+        ld (EnemyMoney),hl  ; EnemyMoney = NumEnemies*de
     pop hl
     inc hl
     ld a,(hl)          ; Next byte in xc2e0

@@ -279,17 +279,24 @@ map "^" = $56 ; the
 .define NewMusic            $c004 ; b Which music to start playing
 .define VBlankFunctionIndex $c208 ; b Index of function to execute in VBlank
 .define FunctionLookupIndex $c202 ; b Index of "game phase" function
-.define IntroState          $c600 ; b $ff when intro starts
+.define MovementFrameCounter $c265 ; Number of frames for each movement step
+.define CursorEnabled       $c268 ; b $ff when in "cursor mode"
+.define CursorTileMapAddress $c269 ; w Tilemap address of top option
+.define CursorPos           $c26b ; b Cursor index
+.define OldCursorPos        $c26c ; b Previous value of above
+.define CursorMax           $c26e ; b Maximum index for menu selection (0-based)
 .define NameIndex           $c2c2 ; b Index into Names
 .define ItemIndex           $c2c4 ; b Index into Items
 .define NumberToShowInText  $c2c5 ; b Number to show in text
 .define EnemyIndex          $c2e6 ; b Index into Enemies
+.define VehicleType         $c30e ; b Zero when walking
+.define IntroState          $c600 ; b $ff when intro starts
 .define SaveTilemapOld      $8100 ; Tilemap data for save - original
 .define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
-.enum $df00
+.enum $df00 export
   ; Script decoding
   STR       dw   ; pointer to WRAM string
   LEN       db   ; length of substring in WRAM
@@ -306,10 +313,14 @@ map "^" = $56 ; the
   TREE      db   ; current Huffman tree
   VRAM_PTR  dw   ; VRAM address
   FULL_STR  dw   ; pointer backup
-  TEMP_STR  .db  ; buffer for strings
+  TEMP_STR  .db  ; buffer for strings, shared with following
   BUFFER    dsb 32 ; buffer for tile decoding
   HasFM     db   ; copy of FM detection result
   MusicSelection db ; music test last selected song
+  MovementSpeedUp db ; non-zero for speedup
+  ExpMultiplier  db ; b Experience scaling
+  MoneyMultiplier  db ; b Money pickups scaling
+  Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
 ; Functions in the original game we make use if
@@ -325,11 +336,12 @@ map "^" = $56 ; the
 .define TextBox $333a
 .define TextBoxEnd $357e
 .define DrawMeseta $36d9
+.define OutputDigit $3762 ; Draws a to current VRAM address, except 0 uses tile in bc
 .define GetSavegameSelection $3adb
 .define OutputTilemapBoxWipePaging $3b81
 .define InputTilemapRect $3bca
 .define DecompressToTileMapData $6e05
-  
+.define Multiply16 $0505 ; dehl = de * bc
 
 .slot 1
 .section "New bitmap decoder" superfree
@@ -2591,6 +2603,7 @@ DezorianCustomStringCheck:
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
   DefineWindow SoundTestWindow  $d700                 15 24  16  0
   DefineWindow ContinueWindow   $d700                  8  5  18 16
+  DefineWindow OptionsWindow    $d700                 19  6  12 18
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -2600,9 +2613,9 @@ DezorianCustomStringCheck:
 ; However the game uses two lone bytes at $df00 (Port $3E value, typically 0)
 ; and $df01 (set to $ff, never read). We therefore need to move the former
 ; (and ignore the latter) to free up some space.
-  PatchW $00a6 $dffb ; move port $3e value to top of RAM
-  PatchW $03a5 $dffb
-  PatchW $03cc $dffb
+  ; See Initialisation later for the first bit
+  PatchW $03a5 Port3EValue
+  PatchW $03cc Port3EValue
 
 .macro PatchWords
   PatchW \2 \1
@@ -2835,40 +2848,101 @@ _draw_4th_line:
 ; We patch that to 2x8 or 4x4.
 
   ROMPosition $7409
-.section "Walking speed patch" size 23 overwrite
-;    ld     a,(VehicleMovementFlags)       ; 007409 3A 0E C3
-;    or     a               ; 00740C B7
-;    ld     a,$0f           ; 00740D 3E 0F ; 16 frames when walking
-;    jr     z,+;$7413         ; 00740F 28 02
-;    ld     a,$07           ; 007411 3E 07 ; 8 frames in a vehicle
-;+:  ld     (WalkingMovementCounter),a       ; 007413 32 65 C2 ; init counter
-;_doMovement: ; jumped to from elsewhere so needs to not move
-;    ld     de,$0001        ; 007416 11 01 00 ; Movement amount (for walking) -> 16 frames * 1px = 16px
-;    ld     a,(VehicleMovementFlags)       ; 007419 3A 0E C3
-;    or     a               ; 00741C B7
-;    jr     z,+;$7420         ; 00741D 28 01
-;    inc    e               ; 00741F 1C ; +1 for a vehicle -> 8 frames * 2px = 16px
-;+:  ld     a,(VScroll)       ; 007420 3A 04 C3
-.define VehicleType $c30e
-.define MovementFrameCounter $c265
-  ld a,(VehicleType)
-  or a
-  ld a,8-1
-  jr z,+
-  ld a,4-1
-+:ld (MovementFrameCounter),a
-_doMovement:
-  ld e,2 ; we skip setting d here as it's not used anyway and we gain the byte we need below...
-  ld a,(VehicleType)
-  or a
-  jr z,+
-  ld e,4
-+:
+.section "Walking speed patch trampoline" overwrite
+  ; Max 13 bytes, using 11
+  ld hl,WalkingFramesPerStep
+  call GetMovementSpeedLookup
+  ld (MovementFrameCounter),a
+  JR_TO $7416
+.ends
+
+  ROMPosition $7416
+.section "Walking speed patch trampoline 2" overwrite
+  ; Max 10 bytes
+  call WalkingSpeedPatch
+  JR_TO $7420
+.ends
+
+.section "Walking speed patch data" free
+WalkingFramesPerStep:
+  .db 8-1, 16-1, 4-1, 8-1
+WalkingPixelsPerFrame:
+  .db 2, 1, 4, 2
+.ends
+
+.section "Walking speed patch helper" free
+GetMovementSpeedLookup:
+  ld a,(VehicleType) ; zero or non-zero
+  sub 1 ; will carry if zero
+  ld a,(MovementSpeedUp) ; 1 or 0
+  adc a,a ; now it's 0-3
+  ; %00 = vehicle x1
+  ; %01 = walking x1
+  ; $10 = vehicle x2
+  ; $11 = walking x2
+  ; Look up in table
+  add a,l
+  ld l,a
+  adc a,h
+  sub l
+  ld h,a
+  ld a,(hl)
+  ret
+.ends
+
+.section "Walking speed patch part 2" free
+WalkingSpeedPatch:
+  ld hl,WalkingPixelsPerFrame
+  call GetMovementSpeedLookup
+  ld d,0
+  ld e,a
+  ret
 .ends
 
 ; Animation and character following is driven by a particular frame number in the sequence...
-  PatchB $5d21 $07 ; from $f - value in MovementFrameCounter that triggers checking the movement direction
-  PatchB $5dbe $03 ; from $7 - animation counter for walking animation
+  ROMPosition $5d20
+.section "Walking speed patch part 3 trampoline" overwrite
+;    cp     $0f             ; 005D20 FE 0F 
+;    jp     nz,$5dac        ; 005D22 C2 AC 5D 
+  jp WalkingSpeedPatch3
+.ends
+
+.section "WalkingSpeedPatch3" free
+WalkingSpeedPatch3:
+  push bc
+  ld b,a ; save counter value
+
+  ; Walking mode, we want $f or $7
+  ld a,(MovementSpeedUp)
+  or a
+  jr nz,+
+  ld a,$f
+  jr ++
++:ld a,$7
+++:
+  cp b
+  pop bc
+  jp nz,$5dac
+  jp $5d25
+.ends
+
+; In the handler we then want to set an animation counter for the walking sequence
+  ROMPosition $5dbb
+.section "Walking speed patch part 4 trampoline" overwrite
+;    ld     (iy+$0e),$07    ; 005DBB FD 36 0E 07 
+  jp WalkingSpeedPatch4
+.ends
+
+.section "WalkingSpeedPatch4" free
+WalkingSpeedPatch4:
+  ld a,(MovementSpeedUp)
+  or a
+  jr nz,+
+  ld (iy+$e),7
+  jp $5dbf
++:ld (iy+$e),3
+  jp $5dbf
+.ends
 
   ROMPosition $5de9
 .section "Sprite movement for followers hook" force
@@ -2908,7 +2982,15 @@ _vertical:
 
 _getDelta:
   push hl
-    ld hl,_table
+    push af
+      ; Check which table to use
+      ld a,(MovementSpeedUp)
+      or a
+      jr z,+
+      ld hl,_table
+      jr ++
++:    ld hl,_table2
+++: pop af
     add a,l
     ld l,a
     adc a,h
@@ -2918,7 +3000,9 @@ _getDelta:
   pop hl
   ret
 _table:
-.db -2, +2, -2, +2 ; Movement deltas for U, D, R, L
+.db -2, +2, -2, +2
+_table2:
+.db -1, +1, -1, +1
 .ends
 
 ; Savegame name entry screen hacking ---------------------------------------------
@@ -3318,7 +3402,6 @@ _bottom:
   call BlankSaveTilemap
   JR_TO $09ba
 .ends
-;  PatchW $09b0 SaveBlankTilemap
 
   ; Name location pointer table
 .bank 1 slot 1
@@ -3779,12 +3862,12 @@ CalculateCursorPos:
   ROMPosition $0745
 .section "Title screen extension part 1" force
 ;    ld     a,$01           ; 000745 3E 01
-;    ld     ($c26e),a       ; 000747 32 6E C2
+;    ld     (CursorMax),a       ; 000747 32 6E C2
 ;    call   $2eb9           ; 00074A CD B9 2E
 ;    or     a               ; 00074D B7
 ;    jp     nz,$079e        ; 00074E C2 9E 07
-  ld a,2 ; 3 options
-  ld ($c26e),a ; CursorMax
+  ld a,3 ; 4 options
+  ld (CursorMax),a ; CursorMax
   jp TitleScreenModTrampoline
 .ends
 .slot 0
@@ -3804,8 +3887,123 @@ TitleScreenMod:
   jp z,Continue
   dec a
   jp z,SoundTest
-  -:jr - ; todo: options menu
+  ; else fall through
+
+_OptionsMenu:
+  ; Start new game if no slots are filled
+  ld b,SAVE_SLOT_COUNT
+  ld a,1
+-:ld (NumberToShowInText),a
+  call IsSlotUsed
+  jp nz,+
+  djnz -
+  jp $0751
   
++:ld hl,FunctionLookupIndex
+  ld (hl),8 ; LoadScene (also changes cursor tile)
+  
+  ; Save tilemap
+  ld hl,OptionsWindow
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call InputTilemapRect
+
+  ; Draw window
+  ld hl,OptionsMenu
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call DrawTilemap
+  ; TODO: can we draw the numbers here? It's rather trickier...
+
+  ; Start selection
+  ld hl,OptionsWindow_VRAM + ONE_ROW
+  ld (CursorTileMapAddress),hl
+  ld hl,$0000
+  ld (CursorPos),hl  ; 0 -> CursorPos, OldCursorPos
+
+_OptionsSelect:
+  ; We draw in the numbers here
+  ld de,OptionsWindow_VRAM + ONE_ROW * 1 + 2 * 17
+  rst $8
+  ld a,(MovementSpeedUp)
+  inc a
+  call OutputDigit
+
+  ld de,OptionsWindow_VRAM + ONE_ROW * 2 + 2 * 17
+  rst $8
+  ld a,(ExpMultiplier)
+  call OutputDigit
+
+  ld de,OptionsWindow_VRAM + ONE_ROW * 3 + 2 * 17
+  rst $8
+  ld a,(MoneyMultiplier)
+  call OutputDigit
+
+  ld a,$ff
+  ld (CursorEnabled),a ; CursorEnabled
+  ld a,3 ; 4 options
+  ld (CursorMax),a ; CursorMax
+  call $2ec8 ; no cursor position reset
+  
+  ; Then adjust the right thing
+  or a
+  jr nz,+
+  
+_movement:
+  ; Toggle bit
+  ld a,(MovementSpeedUp)
+  xor 1
+  ld (MovementSpeedUp),a
+  jr _OptionsSelect
+  
+  cp 3
+  jr nz,+
+  ld hl,OptionsWindow
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call DrawTilemap
+  ld de,$7c12 + ONE_ROW * 3
+  jp BackToTitle
+  
++:dec a
+  jr nz,++
+  
+_xp:
+  ld hl,ExpMultiplier
+-:ld a,(hl)
+  inc a
+  cp 5
+  jr nz,+
+  ld a,1
++:ld (hl),a
+  jr _OptionsSelect ; loop
+
+++:dec a
+  jr nz,+
+
+_money:
+  ld hl,MoneyMultiplier
+  jr -
+  
++:; Back to title
+  ld hl,OptionsWindow
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call DrawTilemap
+  ld de,$7c12 + ONE_ROW * 3
+  ; fall through
+  
+BackToTitle:
+  ; We need to hide the cursor as it resets to the top...
+  rst $08
+  xor a
+  out ($be),a
+
+  ; Continue the title screen VBlank handler
+  ld hl,FunctionLookupIndex
+  ld (hl),3 ; TitleScreen
+  ret
+
 Continue:
   ; Start new game if no slots are filled
   ld b,SAVE_SLOT_COUNT
@@ -3831,34 +4029,26 @@ Continue:
 
 _SelectAction:
   ld hl,ContinueWindow_VRAM + ONE_ROW
-  ld ($c269),hl ; CursorTileMapAddress
+  ld (CursorTileMapAddress),hl
 
   ld a,$ff
-  ld ($c268),a ; CursorEnabled
+  ld (CursorEnabled),a ; CursorEnabled
   ld a,2 ; 3 options
-  ld ($c26e),a ; CursorMax
+  ld (CursorMax),a ; CursorMax
   call WaitForMenuSelection
   
   cp 2
   jr nz,+
+  
   ; return to title screen
   ld hl,ContinueWindow
   ld de,ContinueWindow_VRAM
   ld bc,ContinueWindow_dims
   call DrawTilemap
-  
-  ; We need to hide the cursor as it resets to the top...
-  ld de,$7c12 + 32 * 2 * 1
-  rst $08
-  xor a
-  out ($be),a
+  ld de,$7c12 + ONE_ROW * 1
+  jp BackToTitle
 
-  ; Continue the title screen VBlank handler
-  ld hl,FunctionLookupIndex
-  ld (hl),3 ; TitleScreen
-  ret
-+:  
-  ; remember the selection while we show the slot selection menu
++:; remember the selection while we show the slot selection menu
   push af
     ; Save tilemap
     ld hl,SAVE
@@ -3913,7 +4103,7 @@ SoundTest:
   ld bc,SoundTestWindow_dims - $200 ; remove 2 rows
   call DrawTilemap
   ld hl,SoundTestWindow_VRAM + ONE_ROW
-  ld ($c269),hl ; CursorTileMapAddress
+  ld (CursorTileMapAddress),hl
 
   ; We need to retain the selected music in order to restart it when the chip is changed.
   ; We start with the title screen music already playing
@@ -3922,12 +4112,12 @@ SoundTest:
 
   ; We hack the menu selection to retain the cursor position...
   ld hl,$0000
-  ld ($c26b),hl  ; 0 -> CursorPos, OldCursorPos
+  ld (CursorPos),hl  ; 0 -> CursorPos, OldCursorPos
 
 -:ld a,$ff
-  ld ($c268),a ; CursorEnabled
+  ld (CursorEnabled),a ; CursorEnabled
   ld a,21 ; 22 options
-  ld ($c26e),a ; CursorMax
+  ld (CursorMax),a ; CursorMax
   call $2ec8 ; WaitForMenuSelection skipping the bit where it reset the cursor position
 
   or a
@@ -3958,14 +4148,7 @@ SoundTest:
   
   ; We need to hide the cursor as it resets to the top...
   ld de,$7c12 + ONE_ROW * 2
-  rst $08
-  xor a
-  out ($be),a
-
-  ; Continue the title screen VBlank handler
-  ld hl,FunctionLookupIndex
-  ld (hl),3 ; TitleScreen
-  ret
+  jp BackToTitle
 
 +:sub 3 ; top 3 entries are not music
   ; and #2 is a separator
@@ -4121,7 +4304,7 @@ IsSlotUsed:
 ContinueSavedGame:
   ld a,SRAMPagingOn  ; Load game
   ld (PAGING_SRAM),a
-  ld a,(NumberToShowInText)
+  ld a,(NumberToShowInText) ; 1-based
   ld h,a
   ld l,0
   add hl,hl
@@ -4132,7 +4315,66 @@ ContinueSavedGame:
   ldir               ; Copy
   ld a,SRAMPagingOff
   ld (PAGING_SRAM),a
+
+  ; This is important, not sure what it does :)
+  ld a,($c316)       ; Check xc316
+  cp 11
+  ret nz             ; if == 11
+
   ld hl,FunctionLookupIndex
   ld (hl),$0a        ; Start game
   ret
+.ends
+
+  ROMPosition $00a5
+.section "Initialisation hack" overwrite
+;    ld     a,($c000)       ; 0000A2 3A 00 C0 
+;    ld     ($df00),a       ; 0000A5 32 00 DF 
+  ; This runs on startup but not at reset
+  jp Initialisation
+.ends
+
+.section "Initialisation" free
+Initialisation:
+  ld (Port3EValue),a
+  ; Initialise our mutipliers
+  ld a,1
+  ld (ExpMultiplier),a
+  ld (MoneyMultiplier),a
+  ; Back to normal
+  jp $00a8
+.ends
+
+; Money is already multiplied by the enemy count, we can easily chain an extra multiplication on
+  ROMPosition $6335
+.section "Money multiplier trampoline" overwrite
+  call MoneyHack
+.ends
+
+.bank 1 slot 1
+.section "Money multiplier" free
+MoneyHack:
+  call Multiply16 ; What we stole to get here
+  ; We want to multiply this again
+  ex de,hl
+  ld a,(MoneyMultiplier)
+  ld c,a ; b is already 0
+  jp Multiply16 ; and ret
+.ends
+
+; Experience is handled exactly the same as money
+  ROMPosition $634f
+.section "Experience multiplier trampoline" overwrite
+  call ExperienceHack
+.ends
+
+.bank 1 slot 1
+.section "Experience multiplier" free
+ExperienceHack:
+  call Multiply16 ; What we stole to get here
+  ; We want to multiply this again
+  ex de,hl
+  ld a,(ExpMultiplier)
+  ld c,a ; b is already 0
+  jp Multiply16 ; and ret
 .ends

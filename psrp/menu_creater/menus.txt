@@ -394,11 +394,12 @@ dims=3b52,3b79
 ╘═════════════╝
 
 [OptionsMenu]
-┌───────────────────╖
-│Walking speed    x1║
-│XP multiplier    x1║
-│Money multiplier x1║
-╘═══════════════════╝
+┌─────────────────╖
+│Movement speed x ║
+│Experience     x ║
+│Mesetas        x ║
+│Return           ║
+╘═════════════════╝
 
 [ContinueMenu]
 ┌──────╖
