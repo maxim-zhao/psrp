@@ -138,6 +138,8 @@ BANKS 30
 .define xc2e0                     $c2e0     ; b ???
 .define xc2e1                     $c2e1     ; w ??? might be 2*b
 
+.define BattleProbability         $c2e3     ; b Chance of an enemy encounter (*255)
+
 .define xc2e5                     $c2e5     ; b ???
 .define EnemyNumber               $c2e6     ; b Enemy number - index into EnemyData
 .define xc2e7                     $c2e7     ; b ???

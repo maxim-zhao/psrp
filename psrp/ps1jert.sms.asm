@@ -320,6 +320,7 @@ map "^" = $56 ; the
   MovementSpeedUp db ; non-zero for speedup
   ExpMultiplier  db ; b Experience scaling
   MoneyMultiplier  db ; b Money pickups scaling
+  FewerBattles db ; b 1 to halve battle probability
   Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
@@ -342,6 +343,7 @@ map "^" = $56 ; the
 .define InputTilemapRect $3bca
 .define DecompressToTileMapData $6e05
 .define Multiply16 $0505 ; dehl = de * bc
+.define GetRandomNumber $066a ; returns in a
 
 .slot 1
 .section "New bitmap decoder" superfree
@@ -2603,7 +2605,7 @@ DezorianCustomStringCheck:
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
   DefineWindow SoundTestWindow  $d700                 15 24  16  0
   DefineWindow ContinueWindow   $d700                  8  5  18 16
-  DefineWindow OptionsWindow    $d700                 19  6  12 18
+  DefineWindow OptionsWindow    $d700                 15  7  16 17
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -3890,16 +3892,7 @@ TitleScreenMod:
   ; else fall through
 
 _OptionsMenu:
-  ; Start new game if no slots are filled
-  ld b,SAVE_SLOT_COUNT
-  ld a,1
--:ld (NumberToShowInText),a
-  call IsSlotUsed
-  jp nz,+
-  djnz -
-  jp $0751
-  
-+:ld hl,FunctionLookupIndex
+  ld hl,FunctionLookupIndex
   ld (hl),8 ; LoadScene (also changes cursor tile)
   
   ; Save tilemap
@@ -3923,25 +3916,36 @@ _OptionsMenu:
 
 _OptionsSelect:
   ; We draw in the numbers here
-  ld de,OptionsWindow_VRAM + ONE_ROW * 1 + 2 * 17
+  ld de,OptionsWindow_VRAM + ONE_ROW * 1 + 2 * 13
   rst $8
   ld a,(MovementSpeedUp)
   inc a
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 2 + 2 * 17
+  ld de,OptionsWindow_VRAM + ONE_ROW * 2 + 2 * 13
   rst $8
   ld a,(ExpMultiplier)
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 3 + 2 * 17
+  ld de,OptionsWindow_VRAM + ONE_ROW * 3 + 2 * 13
   rst $8
   ld a,(MoneyMultiplier)
   call OutputDigit
 
+  ld de,OptionsWindow_VRAM + ONE_ROW * 4 + 2 * 10
+  rst $8
+  ld a,(FewerBattles)
+  or a
+  ld hl,_BattlesAll
+  jr z,+
+  ld hl,_BattlesHalf
++:ld b,4*2
+  ld c,$be
+  otir  
+
   ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
-  ld a,3 ; 4 options
+  ld a,4 ; 5 options
   ld (CursorMax),a ; CursorMax
   call $2ec8 ; no cursor position reset
   
@@ -3984,6 +3988,17 @@ _xp:
 _money:
   ld hl,MoneyMultiplier
   jr -
+  
++:dec a
+  jr nz,+
+_battles:
+  ld a,(FewerBattles)
+  xor 1
+  ld (FewerBattles),a
+  jp _OptionsSelect
+  
+_BattlesAll:  .dwm TextToTilemap " All"
+_BattlesHalf: .dwm TextToTilemap "Half"
   
 +:; Back to title
   ld hl,OptionsWindow
@@ -4377,4 +4392,21 @@ ExperienceHack:
   ld a,(ExpMultiplier)
   ld c,a ; b is already 0
   jp Multiply16 ; and ret
+.ends
+
+; Enemy encounters are when a random number is less than some threshold...
+  ROMPosition $10b4
+.section "Battle reducer trampoline" overwrite
+;    call GetRandomNumber           ; 0010B4 CD 6A 06 
+  call BattleReducer
+.ends
+
+.section "BattleReducer" free
+BattleReducer:
+  ld a,(FewerBattles)
+  or a
+  jr z,+
+  ; if non-zero, we halve b
+  srl b
++:jp GetRandomNumber ; and return
 .ends

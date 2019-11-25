@@ -394,12 +394,13 @@ dims=3b52,3b79
 ╘═════════════╝
 
 [OptionsMenu]
-┌─────────────────╖
-│Movement speed x ║
-│Experience     x ║
-│Mesetas        x ║
-│Return           ║
-╘═════════════════╝
+┌─────────────╖
+│Walk speed x ║
+│Experience x ║
+│Mesetas    x ║
+│Battles      ║
+│Return       ║
+╘═════════════╝
 
 [ContinueMenu]
 ┌──────╖
