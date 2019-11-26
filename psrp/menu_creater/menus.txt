@@ -370,7 +370,6 @@ dims=3b52,3b79
 [SoundTestMenuChipYM2413]
 │Chip   YM2413║
 [SoundTestMenu]
-│Return       ║
 │-------------║
 │Title Screen ║
 │Intro        ║
@@ -399,12 +398,10 @@ dims=3b52,3b79
 │Experience x ║
 │Mesetas    x ║
 │Battles      ║
-│Return       ║
 ╘═════════════╝
 
 [ContinueMenu]
 ┌──────╖
 │Load  ║
 │Delete║
-│Return║
 ╘══════╝

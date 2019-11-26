@@ -2603,9 +2603,9 @@ DezorianCustomStringCheck:
   DefineWindow SHOP             MENU                  20  5  3  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
-  DefineWindow SoundTestWindow  $d700                 15 24  16  0
-  DefineWindow ContinueWindow   $d700                  8  5  18 16
-  DefineWindow OptionsWindow    $d700                 15  7  16 17
+  DefineWindow SoundTestWindow  $d700                 15 23  16  0
+  DefineWindow ContinueWindow   $d700                  8  4  18 16
+  DefineWindow OptionsWindow    $d700                 15  6  16 17
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -3945,9 +3945,36 @@ _OptionsSelect:
 
   ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
-  ld a,4 ; 5 options
+  ld a,3 ; 4 options
   ld (CursorMax),a ; CursorMax
   call $2ec8 ; no cursor position reset
+  
+  ; If button 1, return
+  ld b,a
+  ld a,%00010000 ; Button 1
+  cp c
+  jr nz,+
+  
+_optionsReturn:
+  ld hl,OptionsWindow
+  ld de,OptionsWindow_VRAM
+  ld bc,OptionsWindow_dims
+  call DrawTilemap
+  ld de,$7c12 + ONE_ROW * 3
+  ; fall through
+  
+BackToTitle:
+  ; We need to hide the cursor as it resets to the top...
+  rst $08
+  xor a
+  out ($be),a
+
+  ; Continue the title screen VBlank handler
+  ld hl,FunctionLookupIndex
+  ld (hl),3 ; TitleScreen
+  ret
+  
++:ld a,b
   
   ; Then adjust the right thing
   or a
@@ -3972,7 +3999,7 @@ _movement:
 +:dec a
   jr nz,++
   
-_xp:
+_experience:
   ld hl,ExpMultiplier
 -:ld a,(hl)
   inc a
@@ -3980,7 +4007,7 @@ _xp:
   jr nz,+
   ld a,1
 +:ld (hl),a
-  jr _OptionsSelect ; loop
+  jp _OptionsSelect ; loop
 
 ++:dec a
   jr nz,+
@@ -3989,8 +4016,7 @@ _money:
   ld hl,MoneyMultiplier
   jr -
   
-+:dec a
-  jr nz,+
++:; Last option
 _battles:
   ld a,(FewerBattles)
   xor 1
@@ -4000,25 +4026,6 @@ _battles:
 _BattlesAll:  .dwm TextToTilemap " All"
 _BattlesHalf: .dwm TextToTilemap "Half"
   
-+:; Back to title
-  ld hl,OptionsWindow
-  ld de,OptionsWindow_VRAM
-  ld bc,OptionsWindow_dims
-  call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 3
-  ; fall through
-  
-BackToTitle:
-  ; We need to hide the cursor as it resets to the top...
-  rst $08
-  xor a
-  out ($be),a
-
-  ; Continue the title screen VBlank handler
-  ld hl,FunctionLookupIndex
-  ld (hl),3 ; TitleScreen
-  ret
-
 Continue:
   ; Start new game if no slots are filled
   ld b,SAVE_SLOT_COUNT
@@ -4048,13 +4055,17 @@ _SelectAction:
 
   ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
-  ld a,2 ; 3 options
+  ld a,1 ; 2 options
   ld (CursorMax),a ; CursorMax
   call WaitForMenuSelection
   
-  cp 2
+  ; If button 1, return
+  ld b,a
+  ld a,%00010000 ; Button 1
+  cp c
   jr nz,+
-  
+
+_continueReturn:
   ; return to title screen
   ld hl,ContinueWindow
   ld de,ContinueWindow_VRAM
@@ -4063,7 +4074,9 @@ _SelectAction:
   ld de,$7c12 + ONE_ROW * 1
   jp BackToTitle
 
-+:; remember the selection while we show the slot selection menu
++:ld a,b
+
+  ; remember the selection while we show the slot selection menu
   push af
     ; Save tilemap
     ld hl,SAVE
@@ -4131,9 +4144,29 @@ SoundTest:
 
 -:ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
-  ld a,21 ; 22 options
+  ld a,20 ; 21 options
   ld (CursorMax),a ; CursorMax
   call $2ec8 ; WaitForMenuSelection skipping the bit where it reset the cursor position
+
+  ; If button 1, return
+  ld b,a
+  ld a,%00010000 ; Button 1
+  cp c
+  jr nz,+
+  
+_musicReturn:
+  ; Return to title screen
+  ; Hide the menu
+  ld hl,SoundTestWindow
+  ld de,SoundTestWindow_VRAM
+  ld bc,SoundTestWindow_dims
+  call DrawTilemap
+  
+  ; We need to hide the cursor as it resets to the top...
+  ld de,$7c12 + ONE_ROW * 2
+  jp BackToTitle
+
++:ld a,b
 
   or a
   jr nz,+
@@ -4151,22 +4184,7 @@ SoundTest:
   call _chip
   jr -
 
-+:cp 1
-  jr nz,+
-
-  ; Return to title screen
-  ; Hide the menu
-  ld hl,SoundTestWindow
-  ld de,SoundTestWindow_VRAM
-  ld bc,SoundTestWindow_dims
-  call DrawTilemap
-  
-  ; We need to hide the cursor as it resets to the top...
-  ld de,$7c12 + ONE_ROW * 2
-  jp BackToTitle
-
-+:sub 3 ; top 3 entries are not music
-  ; and #2 is a separator
++:sub 2 ; top 2 entries are not music
   jr c,-
 
   ; Look up ID
