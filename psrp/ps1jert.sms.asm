@@ -4027,16 +4027,7 @@ _BattlesAll:  .dwm TextToTilemap " All"
 _BattlesHalf: .dwm TextToTilemap "Half"
   
 Continue:
-  ; Start new game if no slots are filled
-  ld b,SAVE_SLOT_COUNT
-  ld a,1
--:ld (NumberToShowInText),a
-  call IsSlotUsed
-  jp nz,+
-  djnz -
-  jp $0751
-  
-+:ld hl,FunctionLookupIndex
+  ld hl,FunctionLookupIndex
   ld (hl),8 ; LoadScene (also changes cursor tile)
   
   ld hl,ContinueWindow
@@ -4078,8 +4069,22 @@ _continueReturn:
 
   ; remember the selection while we show the slot selection menu
   push af
+    ; First check if there are any...
+_checkForSaves:
+    ld b,SAVE_SLOT_COUNT
+    ld c,1
+  -:ld a,b
+    ld (NumberToShowInText),a
+    call IsSlotUsed
+    jp nz,+
+    djnz -
+    ; Nope
+    call NoSavedGames
+  pop af
+  jr _continueDone
+
     ; Save tilemap
-    ld hl,SAVE
++:  ld hl,SAVE
     ld de,SAVE_VRAM
     ld bc,SAVE_dims
     call InputTilemapRect
@@ -4106,6 +4111,8 @@ _closeSaveGameWindow:
   ld de,SAVE_VRAM
   ld bc,SAVE_dims
   call DrawTilemap
+
+_continueDone:  
   ; Clear cursor tile next to "delete"
   ld de,ContinueWindow_VRAM + ONE_ROW * 2
   rst $08
@@ -4427,4 +4434,16 @@ BattleReducer:
   ; if non-zero, we halve b
   srl b
 +:jp GetRandomNumber ; and return
+.ends
+
+.section "No saved games message" free
+NoSavedGames:
+  ld a,(PAGING_SLOT_2)
+  push af
+    ld hl,ScriptNoSavedGames
+    call TextBox
+    call TextBoxEnd
+  pop af
+  ld (PAGING_SLOT_2),a
+  ret
 .ends
