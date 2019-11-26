@@ -4314,9 +4314,6 @@ DeleteSavedGame:
   ld a,SRAMPagingOff
   ld (PAGING_SRAM),a
 
-  ld hl,ScriptDone ; ...done.
-  call TextBox
-
 _no:
   call TextBoxEnd
   

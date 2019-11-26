@@ -3506,7 +3506,7 @@ Please choose a slot.<end>
 
 [ScriptDeletingFromSlotN]
 ;<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
-Deleting game from slot<internal hint 04> <number>...<end>
+Deleting game from slot<internal hint 04> <number>...<delay>
 ; <end> is nicer than <wait> here - Maxim
 
 [ScriptNoSavedGames]
