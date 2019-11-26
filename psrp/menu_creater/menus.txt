@@ -255,24 +255,24 @@ dims=355a,3566
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 [StatsBorderTop]
-┌────────────╖
+┌────────────────╖
 
 [StatsBorderBottom]
-╘════════════╝
+╘════════════════╝
 
 [StatsMenuDimensions]
 dimensions only
 dims=3902,39e5
 
-┌────────────╖
-│Level     99║
-│Exp.   65535║
-│Attack   256║
-│Defense  256║
-│Max HP   256║
-│Max MP   256║
-│Meseta 65535║
-╘════════════╝
+┌────────────────╖
+│Level         99║
+│Experience 65535║
+│Attack       255║
+│Defense      255║
+│Maximum HP   255║
+│Maximum MP   255║
+│Meseta     65535║
+╘════════════════╝
 
 [EquimentMenuDimensions]
 dimensions only

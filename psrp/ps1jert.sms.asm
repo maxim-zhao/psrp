@@ -2522,7 +2522,7 @@ DezorianCustomStringCheck:
 ; $d880 +---------------+ +---------------+
 ;       | Narrative box | | Character     |
 ; $d9b8 +---------------+ | stats         |
-; $d97c | Narrative     | +---------------+
+; $d9c4 | Narrative     | +---------------+
 ;       | scroll buffer |
 ; $da48 +---------------+                   +---------------+ +---------------+
 ;       | Regular menu  |                   | Battle menu   | | Shop items    |
@@ -2586,7 +2586,7 @@ DezorianCustomStringCheck:
   DefineWindow PARTYSTATS       $d700                 32  6  0 18
   DefineWindow NARRATIVE        PARTYSTATS_end        26  6  3 18
   DefineWindow NARRATIVE_SCROLL NARRATIVE_end         24  3  4 19
-  DefineWindow CHARACTERSTATS   NARRATIVE             14  9 17  4
+  DefineWindow CHARACTERSTATS   NARRATIVE             18  9 13  4
   DefineWindow MENU             NARRATIVE_SCROLL_end   8  7  1  1
   DefineWindow CURRENT_ITEMS    MENU_end              20  5 11 13
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end      7  6  1  8
@@ -2735,22 +2735,21 @@ GetActivePlayerTilemapData:
 
 .section "Stats window data" free
 ; The width of these is important
-Level:    .dwm TextToTilemap "|Level    " ; 3 digit number
-EXP:      .dwm TextToTilemap "|Exp.   "   ; 5 digit number
-Attack:   .dwm TextToTilemap "|Attack   " ; 3 digit numbers
-Defense:  .dwm TextToTilemap "|Defense  "
-MaxMP:    .dwm TextToTilemap "|Max MP   "
-MaxHP:    .dwm TextToTilemap "|Max HP   "
+Level:    .dwm TextToTilemap "|Level        " ; 3 digit number
+EXP:      .dwm TextToTilemap "|Experience "   ; 5 digit number
+Attack:   .dwm TextToTilemap "|Attack       " ; 3 digit numbers
+Defense:  .dwm TextToTilemap "|Defense      "
+MaxMP:    .dwm TextToTilemap "|Maximum MP   "
+MaxHP:    .dwm TextToTilemap "|Maximum HP   "
 MST:      .dwm TextToTilemap "|Meseta       "   ; 5 digit number but also used for shop so extra spaces needed
 .ends
 
   ROMPosition $3907
 .section "Stats window" force
-  ; We re-write this to reduce its size.
   ; ix = player stats
 stats:
   ld hl,StatsBorderTop
-  ld bc,1<<8 + 14<<1 ; size
+  ld bc,1<<8 + 18<<1 ; size
   call OutputTilemapBoxWipePaging ; draw to tilemap
   ld hl,Level
   ld a,(ix+5)
@@ -2773,7 +2772,7 @@ stats:
   call DrawTextAndNumberA
   call DrawMeseta
   ld hl,StatsBorderBottom
-  ld bc,1<<8 + 14<<1 ; size
+  ld bc,1<<8 + 18<<1 ; size
   jp OutputTilemapBoxWipePaging ; draw and exit
 .ends
 
