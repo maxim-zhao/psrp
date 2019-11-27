@@ -38,6 +38,7 @@ banks 32
   .unbackground $033f6 $03493 ; Draw number
   .unbackground $03494 $034a4 ; Draw characters from buffer
   .unbackground $034f2 $03545 ; Draw one character to tilemap
+  .unbackground $035c5 $035d9 ; Spell menu blank space filling
   .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
@@ -951,7 +952,7 @@ CharacterDrawing:
       ld bc,FontLookup ; index into table
       add a,c
       ld c,a
-      adc a,b       ; overflow accounting ; TODO not necessary if it's aligned
+      adc a,b       ; overflow accounting
       sub c
       ld b,a
 
@@ -1891,7 +1892,7 @@ SpellSelectionFinder:
 .ends
 
   ROMPosition $35c5
-.section "Spell blank line" size 14 overwrite ; not movable
+.section "Spell blank line" size 14 force; not movable
 SpellBlankLine:
 ; Originally t2b_2.asm
 ; Spell selection blank line drawer
@@ -1913,7 +1914,6 @@ SpellBlankLine:
   ld hl,SpellMenuBottom
   ld bc,1<<8 + 14*2  ; width of line
   jp $3b81 ; draw and exit
-  ; TODO free up space after this
 .ends
 
 .bank 2
