@@ -328,8 +328,16 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
         }
         else
         {
-            std::cerr << "Line " << lineNum << ": ignoring tag \"" << convert.to_bytes(matches[0].str()) << "\"\n";
+            std::ostringstream ss;
+            ss << "Line " << lineNum << ": ignoring tag \"" << convert.to_bytes(matches[0].str()) << "\"";
+            throw std::runtime_error(ss.str());
         }
+    }
+    else
+    {
+        std::ostringstream ss;
+        ss << "Line " << lineNum << ": invalid tag \"" << convert.to_bytes(pText) << "\"\n";
+        throw std::runtime_error(ss.str());
     }
 }
 
