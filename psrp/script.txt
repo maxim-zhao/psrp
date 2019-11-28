@@ -249,7 +249,7 @@ We cannot protect you outside. Stay inside of your homes until the danger has pa
 ; Camineet police (at road, without a Roadpass)
 ; ココヲ トオスワケニハ イカナイ.<wait>
 ; Want to stay alive?  Then stay here!
-This entrance is for Roadpass holders only! Stay back or we will use force!<wait>
+Authorization is required to pass this point. Stay back or we will use force!<wait>
 
 [4bda,4d23]
 ; Camineet police (at road, without a Roadpass)
@@ -263,7 +263,7 @@ Nobody gets through here without a Roadpass.<wait>
 ; (also used elsewhere)
 ; トオッテ ヨシ.<wait>
 ; Okay, you may pass.
-Roadpass confirmed. Go on through.<wait>
+Okay, go on through.<wait>
 
 [4ba0]
 ; Camineet resident - man
@@ -357,8 +357,9 @@ Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
 ; モタビアセイニハ モタビアン<line>
 ; デゾリスセイニハ デゾリアン トイウ<wait more>
 ; On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
-There are intelligent aliens on Motavia and Dezoris.<line>
-Life on another planet! Can you imagine it?<wait>
+We're not the only intelligent life in the Algol Solar System, you know.<wait more>
+Motvaia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
+I'd love to have a conversation with an actual alien someday...<line><wait>
 
 [4da7]
 ; Man
@@ -368,9 +369,9 @@ Life on another planet! Can you imagine it?<wait>
 ; クスリビンヲ ブラサゲテイタガ<line>
 ; ナニカノ ヤクニ タツノカネエ.<wait>
 ; Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
-Yeah, Tylon was here. He said something about going south, to slay Medusa.<wait more>
-He had a strange, talking animal with him! It had a bottle of medicine around its neck.<wait more>
-I wonder what it was?<wait>
+Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
+He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
+It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
 
 [4dac]
 ; Same man (second time)
@@ -399,7 +400,7 @@ I’m so broke, I don’t know what to do...<wait>
 ; シオンノ ミナミノ ハントウニハ<line>
 ; イアラト ヨバレル ドウクツガアル.<wait>
 ; On the peninsula South of Shion, you will find Iala Cave.
-Iala Cave lies on the peninsula south of town.<wait>
+Iala Cave lies on the peninsula southeast of here.<wait>
 
 [4dc7]
 ; ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
@@ -411,7 +412,7 @@ With the world the way it is lately, there isn't much trade going on anymore.<wa
 ; エピトイウ マヨイノモリハ<line>
 ; コンパスガナイト トオレナイヨ.<wait>
 ; The Eppi Woods are confusing. You need a ‘Compass’ just to pass through them.
-You’d have to be some kind of idiot to go into Eppi Forest without a Compass.<wait>
+The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
 
 [4dd3]
 ; マホウノ カカッタドアハ マジックヲツカワナイト ヒラキマセン.<wait>
@@ -432,29 +433,27 @@ Too bad nobody can get to it anymore...<wait>
 ; ナウラトイウ ドウクツガ アリマス.<wait>
 ; On the beach North of Baya Mahrey, you will find Naula Cave.
 I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
-But with all these monsters suddenly appearing, I wouldn’t even try to get there now.<wait>
+But with all these monsters suddenly appearing, I can't go near it anymore.<wait>
 
 [2dab]
 ; Trader (first time you buy the Secret Thing)
 ; ダレニ キイタカ シラナイガ<line>
 ; Who the hell told you that? You’d better just forget about it if you know what’s good for you.
-I don’t know what you’re talking about.<wait more>
-I run a legitimate business here.<wait>
+I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
 
 [2db0]
 ; Trader (second time you buy the Secret Thing)
 ; ダメナモノハ ダメダ.<line>
 ; Give it up, willya? Now get outta here!
-I already told you once, I don’t deal with illegal goods.<wait more>
-Get out of my store.<wait>
+Give it up, will ya? I already told you, we're a legitimate business.<wait more>
+Get out of my store.<delay>
 
 [2ddc]
 ; Trader (third time you buy the Secret Thing)
 ; シツコイヤツダ.ソンナニ イウノナラシカタガナイ.ダレニモ イウナヨ.<wait>
 ; You just don't quit, do you? I give up. If you're gonna keep bugging me, then just [take it]. But don't tell anybody.
-You’re not going to give up, are you?<wait more>
-Here, just take it. One Roadpass, signed and certified.<wait more>
-If anyone asks you about two dead couriers, deny everything.<wait>
+You’re not going to give up, are you? Fine, just take it.<wait more>
+One Roadpass, signed and certified. But you didn't get this from me, understand?<wait>
 
 
 ; ******************
@@ -476,19 +475,20 @@ You got lost in the woods.<wait>
 ; Luggage handler
 ; ココハ パルマノ スペ-スポ-トダ.モタビアセイノ パセオマデ イケル.<wait>
 ; This is Palma Spaceport. You can go to Paseo, on the planet Motavia.
-Welcome to Palma’s Spaceport. You can travel to Paseo on Motavia from here.<wait>
+Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
 
 [4ca4]
 ; Luggage handler
 ; パセオニハ ソウトクガ イル.モタビアセイ ゼンブヲ オサメテイルンダ.<wait>
 ; The Governor-General lives in Paseo. He rules all of Motavia.
-These ships are headed toward Paseo, the capital of Motavia. The Governor-General lives there.<wait>
+The Governor-General rules all of Motavia from his office in Paseo.<wait>
 
 [4caa]
 ; Luggage handler
 ; ガシコノ ケンキュウジョデハ ムカシスペ-スシップヲ ツクッテタソウダ.<wait>
 ; Rumor has it that the Gothic Laboratory was once used to build spaceships.
-Before space travel was commercialized, spaceships were built at a research laboratory in Gothic.<wait>
+;Back in the old days, ships like these were built at the laboratory in Gothic.<wait>
+Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
 
 [4c1d,4cb7]
 ; Airstrip guards
@@ -515,7 +515,7 @@ Have you ever been convicted of a crime?<end>
 ; イマ アナタハ ナニカ ワルイ<line>
 ; ビョウキニ カカッテイマスカ.<end>
 ; Are you suffering from an illness right now?
-Do you suffer from an illness that may be irritated by travel?<end>
+Are you suffering from an illness that may be contagious to other passengers?<end>
 
 [4d6c]
 ; Passport office
@@ -523,27 +523,26 @@ Do you suffer from an illness that may be irritated by travel?<end>
 ; ヨロシイデスカ.<end>
 ; <number> is always 100.
 ; The fee is 100 mesetas. Is that agreeable?
-There is a handling fee of <number><internal hint 02> meseta<s>. Can you pay?<end>
+There is a handling fee of <number><internal hint 02> meseta<s>. Are you willing to pay?<end>
 
 [4d91]
 ; Passport office
 ; デハ パスポ-トヲ ハッコウシマス.オウケトリクダサイ.<wait>
-Okay then, I’ll issue you a Passport.<line>
-Here you are.<wait more>
-Next in line!<wait>
+Great! Here is your passport. Be sure to retain possession of it at all times.<wait more>
+Next in line?<wait>
 
 [4d3e,4d77,4eca]
 ; Passport office (say "no" to question about paying)
 ; ソウデスカ.デハ オキヲツケテ.<wait>
 ; I see. Well then, take care.
-Very well. Next in line, please?<wait>
+Oh, okay then.<wait>
 
 [4d4f,4d60]
 ; Passport office (say "no" to first two questions)
 ; ソレハ ヨクナイデスネ.<line>
 ; マタ オコシクダサイ.<wait>
 ; That's too bad. Please come back some other time.
-I’m sorry, you don’t qualify. Next?<wait>
+I’m sorry, you don't qualify. Feel free to try again later. Next?<wait>
 
 
 ; ***********************
@@ -562,7 +561,7 @@ This is Paseo, the only spaceport on Motavia.<wait>
 ; サバクノ ナカデハ アリジゴクガ<line>
 ; アバレテ イルトイウ ウワサダヨ.<wait>
 ; I’ve heard rumors that there are vicious ‘Ant-lions’ in the desert!
-It’s ant-lion breeding season, be careful out there.<wait>
+It’s Ant-Lion breeding season, be careful out there. They get vicious.<wait>
 
 [4e3d]
 ; パルマセイノ<line>
@@ -586,17 +585,17 @@ Even the Governor-General is on bad terms with LaShiec.<wait>
 ; ソウトクニ アウニハ オクリモノガ<line>
 ; イルソウヨ.<wait>
 ; You need to have a gift in order to meet with the Governor-General.
-To meet with the Governor-General, you need to present a gift.<wait>
+You need to bring a gift if you're going to meet with the Governor-General.<wait>
 
 [4e4f]
 ; ソウトクハ アマイモノガ ダイスキ.<wait>
 ; The Governor-General loves sweets.
-The Governor-General loves sweet things.<wait>
+The Governor-General has got a real sweet tooth.<wait>
 
 [4e55]
 ; マハル トイウ ドウクツガ パセオノキタノ ヤマノ ナカニ アリマス.<wait>
 ; Maharu Cave is located in the mountains to the north of Paseo.
-The cave Mahal is located in the mountains north of Paseo.<wait>
+Mahal Cave is located in the mountains north of Paseo.<wait>
 
 [4e5b]
 ; ココハ モタビアノ シュト<line>
@@ -608,22 +607,20 @@ This is Paseo, Motavia’s capital city.<wait>
 ; アリジゴクハ ヒトノ アシデハ<line>
 ; トテモ トオレナイダロウ.<wait>
 ; There’s no way to pass over those ant lions on FOOT, [but...].
-You can’t cross over ant-lions on foot.<wait>
+There's no way to get past the Ant-Lions on foot, but I've heard there's another way...<wait>
 
 [4e67]
 ; カシコイ モンスタ-ニハ<line>
 ; モンスタ-コトバガ アルソウダ.<wait>
 ; I hear that intelligent monsters have monster languages.
-There are intelligent monsters, but they speak a different language than ours.<wait more>
-You’d have to be some kind of magician to understand them.<wait>
+There are intelligent monsters, but they speak a different language than ours.<wait>
 
 [4e7f]
 ; Trader (before getting Myau)
 ; メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
 ; <number> is always 10.
 ; I gotta real rare animal here. You can have it fuh 10 billion mesetas. Wuddayuhsay?
-Ever seen a talking cat before?<wait more>
-Rare. Real rare. One of a kind if I’m not mistaken.<wait more>
+Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
 Ten million mesetas, and it’s yours. How ’bout it?<end>
 
 [4e8a]
@@ -631,7 +628,7 @@ Ten million mesetas, and it’s yours. How ’bout it?<end>
 ; アンタ ウソツキダネ.<wait>
 ; Yeah, right. You gotta be kiddin’ me!
 Whoa, seriously?<wait more>
-Hey, where are you going?<wait>
+Hey, where are you going?<delay>
 
 [4e98]
 ; Trader (say no to previous question)
@@ -642,15 +639,14 @@ Hey, where are you going?<wait>
 ; Say... That’s a real unusual pot you got there... ...is 'dat a ‘Laconian Pot’?! How ‘bout I give you da animal, you give me the pot? Whuddayuhsay?
 That’s too bad.<wait more>
 ...hold on, now. Is that a Laconian Pot?<wait more>
-How ’bout a trade, the pot for the kitty?<end>
+How ’bout a trade, the pot for the furball?<end>
 
 [4ea9]
 ; Trader (say yes to previous question)
 ; ソレジャ ツレテイキナ.<line>
 ; カワイガッテ ヤッテクレ.<wait>
 ; Alri---ght, there yuh go. Take good care uv‘im.
-I hate to see the little guy go, but I can’t pass up a trade like this.<wait more>
-Take good care of ’im.<wait>
+I hate to see the little guy go, but I can’t pass up a trade like this. Take good care of ’im.<wait>
 
 [4e73]
 ; Trader (after getting Myau)
@@ -707,12 +703,11 @@ I don’t suppose that was you?<wait>
 [4664]
 ; Myau
 Tylon got turned to stone trying to slay Medusa!<line><line>
-We can heal him with this medicine, but I can’t open the lid.<wait more>
-He should still be in Scion, do you know how to get there?<wait>
+We can heal him with this medicine, but I can’t open the lid...<wait>
 
 [466f]
 ; Alisa
-I think I can manage. Come on, let’s go help him.<wait>
+I think I can manage that.<line><line>Come on, let’s go help him!<wait>
 
 <width 18><height 04>
 
@@ -731,14 +726,15 @@ But Myau couldn’t open the lid to the bottle.<wait>
 [57ec]
 ; イシニ サレテシマッタ ヒトラシイ.モトニ モドレルノダロウカ.<wait>
 ; It seems that something turned this person into stone! Maybe he can be returned to normal...
-It looks like this person’s been turned to stone. Could this be Tylon?<wait>
+Something turned this person into stone! Maybe he can be returned to normal...<wait>
 
 [25bd,2636]
 ; Using "Alsuline"
 ; ソシテ ビンノ フタヲ アケテ<line>
 ; シズカニ タラシタ.<delay>
 ; Alisa opened the lid to the bottle, and the contents quietly spilled out.
-Alisa opened the lid to the bottle and poured out its contents.<delay>
+Alisa opened the lid to the bottle and poured out its contents.<wait more>
+It's working!<delay>
 
 ; ********************************
 ; *** Character Intro - Tylon ***
@@ -786,27 +782,30 @@ Alisa opened the lid to the bottle and poured out its contents.<delay>
 ; We should go get it.
 
 [4688]
-Ah, Myau, you found help. Thank you.<wait more>
-Medusa was stronger than I thought, I don’t stand a chance of defeating LaShiec.<line><line>
+Ah, Myau, you found help. Thank you.<line><line>
+I don't know if it will do any good though.<wait more>
+If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<line><line>
 Who’s your new friend?<wait>
 
 [4693]
-My name is Alisa. My brother Nero was killed trying to overthrow LaShiec.<line><line>
-I’m going to assassinate him.<wait more>
-Nero gave me your name just before he died. He said that you’d help.<wait>
+My name is Alisa.<line><line>
+My brother Nero was killed trying to overthrow LaShiec.<wait more>
+I'm going to destroy him, no matter what it takes.<line><line>
+Nero gave me your name just before he died, and said that you might help me.<wait>
 
 [469e]
-I see.<wait more>
-Well, I can’t let a girl like you go alone, now can I?<wait>
+I see. Well then, for Nero's sake, let's team up!<line><line>
+There's always room for one more, right Myau?<wait>
 
 [46a9]
-I appreciate your concern, but I can hold my own, thank you.<line><line>
-Why did you go after Medusa?<wait>
+Tell me something before we go.<line><line>
+You said you were trying to slay Medusa. Why?<wait>
 
 [46b4]
-Medusa has a legendary axe, I was hoping to see LaShiec’s blood on it.<wait more>
-I hid a Compass at a dead end inside this cave.<line><line>
-We’re going to need it. Let’s go.<wait>
+Oh, it's because she has a magical axe, and I want it.<line><line>
+Maybe we can grab it on the way to LaShiec?<wait more>
+Anyway, I hid a Compass at a dead end in this cave.<line><line>
+Come on, let's go grab it. I'm sure we could use it.<wait>
 
 <width 18><height 04>
 
@@ -819,7 +818,8 @@ We’re going to need it. Let’s go.<wait>
 ; Villager
 ; モタビアノ ソウトクハ モシカシタラミカタニ ナッテクレルカモシレナイ.<wait>
 ; I wonder if Motabia’s Governor-general might aid you in your quest.
-It wouldn’t surprise me if the Governor-General of Motavia approved of what you’re doing.<wait>
+It wouldn’t surprise me if the Governor-General of Motavia approved of what you’re doing.<wait more>
+He might even be able to help you in your quest. Have you talked to him yet?<wait>
 
 [4deb]
 ; Villager
@@ -859,7 +859,7 @@ Either way, I admire your bravery. Are you in need of a Dungeon Key?<end>
 ; <end>
 ; I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on the outskirts of Camineet residential area.
 I hid one inside the warehouse on the outskirts of Camineet’s residential district.<wait more>
-It’s all yours. Good luck.<wait>
+I hid it pretty good, you might want to take a second look if you've already been there.<wait>
 
 [4e1d]
 ; Villager
@@ -872,7 +872,7 @@ Do you know what the hardest, strongest material in the world is?<end>
 ; ソレハ ラコニア ジャ. ソレデ<line>
 ; デキタ ブキハ サイキョウナンジャ.<wait>
 ; It’s ‘Laconia’! Laconian weapons are the strongest [in the solar system].
-It’s Laconia! Laconian weapons are the strongest around!<wait>
+It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
 
 
 ; ******************
@@ -886,9 +886,8 @@ It’s Laconia! Laconian weapons are the strongest around!<wait>
 ; ショ-トケ-キヲ <number>メセタデ<line>
 ; <number> is always 280.
 ; I’m sorry for having a store in a place like this. Shortcakes are 1000 meseta. Would you like one?
-Hey, welcome, glad you could make it. Sorry about the location.<wait more>
-With all these tax hikes, it’s all I could afford. You know how it is.<wait more>
-My world famous shortcakes are <number><internal hint 02> meseta<s>. Would you like one?<end>
+Hey, a customer! Glad you found us. Sorry about the location...<wait more>
+My shortcakes are the best in Algol, and a steal at only <number><internal hint 02> meseta<s>. Want one?<end>
 
 
 ; *********************
@@ -939,21 +938,13 @@ I can’t grant you access without a gift!<wait>
 ; In Maharu Cave you will find an Esper named Lutz (pronounced 'roots').
 ; Please take this letter to him.
 ; I am absolutely certain that you will defeat LaShiec and return here.
-Welcome. You have traveled far. Please, sit.<wait more>
-I know why you are here. You’ve certainly made no secret of it.<wait more>
-You plan to overthrow LaShiec, do you not?<wait more>
-LaShiec is a powerful man. No, more than a man.<wait more>
-He’s beyond those constraints. He’s something else entirely.<wait more>
-You’re very brave to take him on.<wait more>
-But bravery, I fear, will not be enough.<wait more>
-However, there’s something inside you, something very powerful.<wait more>
-It is a power that you must discover on your own.<wait more>
-I can tell you no more. Not yet.<wait more>
-Go. Destroy him. I won’t stop you.<wait more>
-In fact, I will offer you assistance.<wait more>
-A powerful Esper named Lutz lives in Mahal cave, north of here.<line>
-Take this letter to him. He will understand.<wait more>
-Return here when you have defeated LaShiec. I have faith in you.<wait>
+Welcome. I am the Governor-General of this planet. You have come so far. Please, sit.<wait more>
+I know why you are here. You’ve certainly made no secret of it. You're going to kill LaShiec.<wait more>
+LaShiec is a powerful man. No, more than a man. He’s beyond those constraints now.<wait more>
+You’re very brave to take him on. But bravery, I fear, will not be enough.<wait more>
+Go. Destroy him. I won’t stop you. In fact, I will offer you assistance.<wait more>
+A powerful Esper named Lutz lives in Mahal cave, north of here. Take this letter to him.<wait more>
+With his help, I have faith that you will succeed. Come back here when you have.<wait>
 
 [4f13,4fc6]
 ; Governor-General (subsequent visits)
@@ -1051,18 +1042,16 @@ I’m trying to train. Don’t interrupt me.<wait>
 ; If I recall correctly, there is manhole that leads to the village. 
 
 [46e7]
-You must be Lutz.<line><line>
-I have a letter for you from the Governor-General.<wait more>
+You must be Lutz. I have a letter for you from the Governor-General.<line><line>
 Would you mind reading it?<wait>
 
 [46f2]
 Let me see that.<wait more>
 ...Ah. I see. So it’s come to this.<line><line>
 I apologize for my earlier hostility.<wait more>
-LaShiec is a dangerous man. For the sake of Algol, he must be stopped.<line><line>
-I think I can help.<wait more>
-We have to alert Dr. Luveno, in the Gothic woods.<line><line>
-If I recall, we can get there through a manhole at Camineet Space Station.<wait more>
+Together, we must protect Algol from falling into the hands of evil.<line><line>
+First, we must meet with Dr. Luveno, in the Gothic Woods.<wait more>
+If I recall, we can get there through a manhole at Camineet Space Station.<line><line>
 Let’s go. Quickly.<wait>
 
 
@@ -2012,11 +2001,11 @@ Oh, I see. I want to go to a place with cleaner air.<wait>
 ; ケチ.<wait>
 Cheapskate!<wait>
 
-
-; orphaned?
 [5355,53a5]
+; Shortcake salesman (after purchase)
 ; アリガトウ.<wait more>
-Thanks. Please come again.<wait>
+;Thanks. Please come again.
+Thanks. Enjoy!<wait>
 
 
 ; ********************
