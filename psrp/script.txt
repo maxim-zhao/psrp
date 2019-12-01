@@ -31,7 +31,7 @@
 ; 
 ; <article> = use article for enemy/item, lowercase
 ; <Article> = use article for enemy/item, initial uppercase
-;
+; 
 ; <width nn> = wrap at width n (hex)
 ; <height nn> = insert waits so text "pages" at height n
 ;
@@ -733,7 +733,7 @@ Something turned this person into stone! Maybe he can be returned to normal...<w
 ; ソシテ ビンノ フタヲ アケテ<line>
 ; シズカニ タラシタ.<delay>
 ; Alisa opened the lid to the bottle, and the contents quietly spilled out.
-Alisa opened the lid to the bottle and poured out its contents.<wait more>
+Alisa opened the lid on the bottle and poured out its contents.<wait more>
 It's working!<delay>
 
 ; ********************************
@@ -1014,7 +1014,7 @@ Yahoo!<wait>
 ; アナタガタハ ダレデスカ. ワタシハイマ シュギョウチュウデス.<wait more>
 ; ジャマヲ シナイデ クダサイ.<wait>
 ; Who are you? I'm in the middle of training right now. Please don’t interrupt.
-Who are you?<wait more>
+Who are you?<line><line>
 I’m trying to train. Don’t interrupt me.<wait>
 
 
@@ -1078,22 +1078,20 @@ I could really use a PelorieMate. Can you spare one?<end>
 ; Thanks. This place used to be the lab of a scientist named ‘Luveno’.
 ; But he turned crazy, see, and got locked up in Toriada, the prison
 ; to the South of this village.
-Thanks.<wait more>
-I suppose you’re looking for Doc Luveno.<wait more>
-Yeah, his lab used to be here.<wait more>
-Not no more, though. They finally locked that loon up.<wait more>
+Thanks. I suppose you’re looking for Doc Luveno? Yeah, his lab used to be here.<wait more>
+Not no more, though. Guy went crazy. They finally locked that loon up.<wait more>
 He’s being held in Triada, a prison south of here.<wait>
 
 [502e,5055,535b]
 ; Villager (yes to previous question, and you don't have a PelorieMate)
 ; バカニスンデネエ.<wait>
 ; Don’t f--- with me!
-Do I look like an idiot?!<wait>
+Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
 
 [5016,503f,54b4]
 ; Villager (no to previous question)
 ; アンタニ ハナスコトハ ナイ.<line>
-Then I ain’t helping. Get lost.<wait>
+Then I got nothing to say to you. Get lost.<wait>
 
 [504f]
 ; Another villager (yes to previous question, and you have a PelorieMate)
@@ -1106,21 +1104,20 @@ Then I ain’t helping. Get lost.<wait>
 ; there's a freaky monster that, if you just LOOK at it, will turn yuh tuh
 ; stone!
 Thank you, stranger.<wait more>
-At the end of the path leading into the mountains is an ancient tower.<wait more>
-Word on the street is ol’ Medusa is hiding out there.<wait more>
-Unless you fancy being a statue, you best stay away.<wait>
+At the end of the long path directly south of here, there's an ancient tower.<wait more>
+Word is there's a monster in there that turns you to stone if you just look at it!<wait>
 
 [5856]
 ; Villager guarding open field (no Luveno/Hapsby)
 ; ラ サキハ ボクノ<line>
 ; The area beyond here is my territory, so stay the hell out!
-Hey! Keep outta my turf!<wait>
+Hey! Keep outta my turf! Everything past here is mine!<wait>
 
 [585c]
 ; Villager guarding open field (have Luveno/Hapsby)
 ; ルベノハカセガ イウノダッタラ<line>
 ; Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.
-I guess I’ve got to do what Dr. Luveno says. Go on through.<wait>
+Well, I guess I gotta do what Dr. Luveno says. Go head and pass.<wait>
 
 
 ; *********************
@@ -1149,7 +1146,7 @@ Thanks. Y’know, no matter what people say, spiders are actually very wise crea
 ; Prisoner
 ; ガシコノ ヤマオクニアル トウハ<line>
 ; The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’
-The tower in the mountains of Gothic is called Medusa’s Tower.<wait>
+The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
 
 [550c]
 ; Prisoner
@@ -1164,8 +1161,7 @@ A chemical called Polymeteral will dissolve any material!<wait more>
 ; ヤア.ヒトニ アウノハ<line>
 ; ヒサシブリダ.オハナシシヨウヨ.<end>
 ; Whassup? I haven’t seen any people in a long time! Let’s talk!
-It has been so long since I’ve seen another person.<wait more>
-Won’t you stay for a while and talk to me?<end>
+Oh, hi! I haven't seen another person in a long time! Will you stay and talk for a while?<end>
 
 [54f9]
 ; Prisoner (yes to previous question)
@@ -1196,40 +1192,37 @@ It was abandoned in a scrap heap and left to rot. What a waste...<wait>
 ; Prisoner
 ; ヤマノ ムコウハ カザンノ フンカデヨウガンイケガ デキテイルソウダヨ.<wait>
 ; I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.
-The other side of the mountain’s completely covered in lava.<wait more>
-Damned volcanoes put me out of a home!<wait>
+Volcanic eruptions covered the other side of the mountains with a whole bunch of lava.<wait>
 
 [5453]
 ; Dr Luveno (first time)
 ; ワシハ ルベノジャ.タスケニ<line>
 ; キタノナラ ヨケイナコトジャ.<wait more>
 ; I’m Luveno. You came here to rescue me? That’s not really necessary. You should go home.
-Yes, I’m Dr. Luveno. If you’re here to rescue me, forget it!<wait more>
-I’m not going anywhere.<wait>
+Yes, I’m Dr. Luveno. If you're here to rescue me, forget it! I'm not going anywhere.<wait>
 
 [545e]
 ; Dr Luveno (second time)
 ; ナニ.ウチュウセンヲ ツクレジャト.バカモ ヤスミ ヤスミ イエ.<wait more>
 ; ワシガ ソンナコトヲ ヒキウケルト<line>
 ; What? Did you say 'build a spaceship?' [BAKA MO YASUMIYASUMI IE.]  Do you think I want to be responsible for something like that?
-What? Build a spaceship?! Are you loony?<wait more>
-Please, I’m an old man. Leave me be.<wait>
+What? You want me to build a spaceship?! Why would I do that? Go away, leave me be.<wait>
 
 [5464]
 ; Dr Luveno (third time)
 ; ウ-ム.コリナイヤツジャ.<line>
 ; シカタガナイ.<wait more>
 ; Hmmm... Didn’t I tell you to-- Aah, I give up! You must promise to do whatever I ask. Agreed?
-You’re not going to leave, are you? Very well.<wait more>
-I’ll help you out, but you must do exactly as I say. Understood?<end>
+You again? Ach, I give up. I'll build your spaceship, but there's one condition.<wait more>
+You must promise you'll follow my instructions exactly, no matter what I ask. Agreed?<end>
 
 [5477]
 ; Dr Luveno (yes to previous question)
 ; ヨシ.ソレデハ ヒトアシ サキニ<line>
 ; ガシコノ ムラヘ イッテ<wait more>
 ; Good. Well then, I’m going to go to Gothic Village and make the proper arrangements. Meet me there later. Oh, don’t worry. I can make it there myself.
-Fine. Meet me in Gothic, I’ll prepare you a ship.<wait more>
-Don’t worry about me, I’m tougher than I look.<wait>
+Good. Well then, I'm off to Gothic Village to get started. I'll met you there.<wait more>
+Oh, don't worry about me, I'm tougher than I look. I'll make it there by myself.<wait>
 
 [546d]
 ; Dr Luveno (no to previous question)
@@ -1249,7 +1242,7 @@ Don’t distract me! I’m very busy.<wait>
 ; キタノカイ.<wait more>
 ; マタ ウチュウセンヲ ツクルノカ.<line>
 ; Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice [but to help]. I’ll go there right away.
-What? You busted out Doc?<wait more>
+What? You busted out Doc Luveno?<wait more>
 What?! He’s building you a spaceship?!<wait more>
 He’s too old for this. I’d better go help him out.<wait>
 
@@ -1270,8 +1263,7 @@ You’ve gotten far. Soon you will know the truth.<wait>
 [5518]
 ; イキドマリジャ. モドリナサイ.<line>
 ; カエルナラ イマノウチダ.<wait>
-Get out of here!<wait more>
-You don’t know what you’re up against!.<wait>
+Get out of here while you're still breathing! You don’t know what you’re up against!<wait>
 
 [551e]
 ; オオ.ナント ユウカンナ<line>
@@ -1292,11 +1284,10 @@ It’s brave of you to come here. Beware of hidden traps!<wait>
 ; サッソクジャガ ワシノ ジョシュヲ<wait more>
 ; ツレテキテクレ.チカツウロノ ナカニカクレテオルハズジャ.<wait more>
 ; ホントニ アイツハ ハズカシガリヤデコマッタモノジャ.<wait>
-; Ahh, you’re late! Quickly! Do me a favor and bring my assistant back here. He’s probably hiding in that underground tunnel. It really irritates me shy a person he is.
-Greetings. What took you so long?<wait more>
-Let’s get started. First, go fetch my assistant.<wait more>
-He’s probably hiding inside the underground passageway.<wait more>
-A bit paranoid, that one.<wait>
+; Ahh, you’re late! Quickly! Do me a favor and bring my assistant back here. 
+;He’s probably hiding in that underground tunnel. It really irritates me shy a person he is.
+Finally. What took you so long? First, I need you to fetch my assistant.<wait more>
+He's probably hiding in the underground tunnel. He's shy, that one. It's irritating.<wait>
 
 [508b]
 ; Dr Luveno
@@ -1309,8 +1300,7 @@ A bit paranoid, that one.<wait>
 Right. It looks like my staff is assembled.<wait more>
 What, you don’t think two people can build a spaceship?<wait more>
 I’ll have you know I’ve been building these since you were in diapers!<wait more>
-Now then, buying a spaceship isn’t like buying some PelorieMate.<wait more>
-This is a serious investment, and it will cost you serious money.<wait more>
+Now then, there's the matter of cost. Spaceships aren't free, you know.<wait more>
 I require <number><internal hint 01> meseta<s> upfront. Can you cover that?<end>
 
 [50b5]
@@ -1319,8 +1309,7 @@ I require <number><internal hint 01> meseta<s> upfront. Can you cover that?<end>
 ; ハジメヨウ.スコシマッテクレ.<wait>
 ; Thanks. Now then, let’s begin construction, shall we? Please wait for a little while.
 Splendid. We’ll begin construction immediately.<wait more>
-This is going to require some time, I’m a bit rusty.<wait more>
-Why don’t you go slay some Slimes, or whatever it is you people do?<wait>
+This is delicate work, do me a favor and try not to bother me for a while?<wait>
 
 [50a7]
 ; Dr Luveno (if you don't have enough money)
@@ -1333,8 +1322,7 @@ You don’t have enough? Go get some more!<wait>
 ; ソレハ ザンネンジャ.<line>
 ; オマエノ タビモ ココマデカノウ.<wait>
 ; What a shame. So your journey ends here, I suppose...
-Ah, so you’ve wasted my time. Wonderful.<wait more>
-Good luck getting back into the spaceport.<wait>
+Ah, so you’ve wasted my time. Wonderful.<wait>
 
 [50c3]
 ; Dr Luveno (first two times you talk to him)
@@ -1362,10 +1350,9 @@ But I’m afraid the Luveno can’t be piloted by a human...<wait>
 ; サガシテクルンジャ.<wait more>
 ; アノ ロボットナラ ウチュウセンヲ<line>
 ; ソウジュウ デキルハズジャ.<wait>
-I built a robot named Hapsby years ago, he’s a good pilot.<wait more>
+I built a robot named Hapsby years ago, just for this purpose.<wait more>
 He’s probably still in that scrap heap in Bortevo.<wait more>
-Go fetch him, will you?<wait more>
-Careful though, Bortevo’s surrounded by lava.<wait more>
+Go fetch him, will you? Watch your step, though. Bortevo’s surrounded by lava.<wait more>
 Don’t give me that look! You agreed to follow my instructions.<wait more>
 I’ve upheld my end of the bargain, now go do yours.<wait>
 
@@ -1379,8 +1366,7 @@ I’ve upheld my end of the bargain, now go do yours.<wait>
 Ah, my little Hapsby, you’ve come home!<wait more>
 Excellent. With Hapsby you can pilot the Luveno through space!<wait more>
 And just in time, too. Spaceport security has gotten tighter.<wait more>
-Go on! The Luveno is docked just outside the village!<wait more>
-Go try it out!<wait>
+Go on! The Luveno is docked just outside the village! Go try it out!<wait>
 
 [5071]
 ; Luveno (subsequent visits)
@@ -1391,13 +1377,11 @@ How’s the Luveno holding up? Take good care of it.<wait>
 ; Spaceports now closed...
 [4cec]
 ; スペ-スポ-トハ ヘイサスル.<wait>
-Access denied.<wait more>
-Space travel is now entirely off limits to all citizens.<wait more>
-This is a matter of national security.<wait>
+Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
 
 [4cfd]
 ; パスポ-トヲ ボッシュウスルゾ.<wait>
-We’ll be confiscating your Passport now.<wait>
+All existing Passports are now invalid and must be destroyed. We're confiscating yours.<wait>
 
 
 ; orphaned
@@ -1416,13 +1400,7 @@ Well? Let’s see it.<wait>
 ; バルテボハ オレノ ナワバリダ.<line>
 ; アラスンジャナイゾ.<wait>
 ; Bartevo is my territory. Don’t be screwin’ around!
-This is MY turf!<wait more>
-And this house? MY house!<wait more>
-And those big piles of junk?<wait more>
-That’s right. MY junk.<wait more>
-MINE.<wait more>
-All of it.<wait more>
-Don’t touch my junk! I’m watching you.<wait>
+Bartevo is my turf, stranger. Don't go poking your nose around.<wait>
 
 [5005]
 ; Villager
@@ -1432,18 +1410,18 @@ Don’t touch my junk! I’m watching you.<wait>
 Someone told me that there’s a perfectly good robot discarded in one of these scrap heaps.<wait more>
 I wonder if it’s true?<wait>
 
-[5524]
-; Villager
+[5524] 
+; Villager (in the cave next to Bortevo)
 ; アビオンノ ムラニ ポリメテラ-ル<line>
 ; The drug store in Abion sells Polymeteral, I hear.
-I’ve heard that they sell a chemical called Polymeteral in Avion Village.<wait>
+The drug store in Avion Village sells Polymeteral.<wait>
 
 [57bd]
 ; Hapsby
 ; ボクハ ハプスビ-.<wait more>
 ; ミツケテクレテ アリガトウ. ルベノゴウノ ソウジュウハ マカセテネ.<wait>
 ; I am Hapsby. Thanks for getting me out of that scrap heap. Let me pilot the ‘Luveno’ for you, okay?
-Greetings. I am pilot robot Hapsby.<wait more>
+Greetings. I am pilot robot Hapsby. Thanks for rescuing me.<wait more>
 I will assist you in the operation of any Luveno brand spacecraft.<wait>
 
 [57e0]
@@ -1463,9 +1441,8 @@ Hapsby fixed the parts that were broken, so you can use it now!<wait>
 ; ココハ ロア- トイウ ムラデス.<line>
 ; ラシ-クノセイデ サビレテシマッタ.<wait>
 ; This is the Village of Lore. Thanks to LaShiec, it’s become a wasteland.
-This is Lore Village.<wait more>
-Well, it used to be, before LaShiec stepped into office.<wait more>
-Now it’s just a wasteland for the starving.<wait>
+This is Lore Village. Well, it used to be, before LaShiec's corruption.<wait more>
+As you can see, now it’s a wasteland.<wait>
 
 [5119]
 ; Villager
@@ -1495,13 +1472,13 @@ Have you heard about Laerma trees?<end>
 ; Villager (no to previous question)
 ; デゾリスセイノ アルチプラノ<line>
 ; I hear the Altiplano Plateau on Dezoris is totally covered by them.
-I hear the Altiplano plateau on Dezoris is totally covered with ’em.<wait>
+I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
 
 [5113]
 ; Villager
 ; エッ ラシ-クヲ タオシニ イクノ.スゴイネエ.<wait>
 ; Huh? You’re going to defeat LaShiec? Awesome!
-It’s about time someone went after that brute. Good luck.<wait>
+You're going to bring down LaShiec? It's about time someone did!<wait>
 
 ; unused? index $011a originally
 []
@@ -1527,8 +1504,7 @@ This village is called Avion.<wait>
 ; ラシ-クノ マノテハ コノムラニモ<line>
 ; ノビテキタ. タスケテクレ.<wait>
 ; The evil hand of LaShiec has extended to this village as well! Please help us!
-LaShiec’s evil influence has corrupted our village, too!<wait more>
-Please, you have to stop him!<wait>
+LaShiec’s evil influence has corrupted our village, too! Please, you have to stop him!<wait>
 
 [514b]
 ; Villager
@@ -1536,12 +1512,9 @@ Please, you have to stop him!<wait>
 ; ヒッコシテキタヨ.ドウブツジッケンヲ<wait more>
 ; ヤッテルラシイガ キミガワルイナア.ツボ ミタイナモノヲ モッテタヨ.<wait>
 ; Some weird freak just moved to this village, and he was carrying a jar or something. It seems he’s been doing experiments on animals. I gotta bad feeling about that guy.
-A really strange man recently moved here.<wait more>
-Quiet guy. Rumor has it he’s experimenting on animals.<wait more>
-And that strange pot!<wait more>
-He’s always walking around with it clutched to his chest.<wait more>
-First the lava cuts us off from society, then this guy moves in.<wait more>
-What’s this town coming to?<wait>
+A really weird guy recently moved here. Rumor has it he experiments on animals.<wait more>
+And that strange pot! He’s always walking around with it clutched to his chest.<wait more>
+I've got a really bad feeling about him.<wait>
 
 [5151]
 ; Villager
@@ -1557,9 +1530,7 @@ I’d like to travel through space someday.<wait>
 ; They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly! Weird, huh?
 Our new neighbor sure knows a lot about animals.<wait more>
 He told me the weirdest thing about Musk Cats.<wait more>
-He says if they eat a certain berry, they grow huge, and can fly!<wait more>
-I told him he was nuts, of course.<wait more>
-What kind of berry? Hmm. Sorry, I can’t recall.<wait>
+He says if they eat a certain berry, they grow huge, and can fly!<wait>
 
 [4c54]
 ; Mad Doctor
@@ -1588,13 +1559,13 @@ I said come HERE.<wait>
 ; Townsperson
 ; ココハ デゾリスセイノ スクレ.<line>
 ; This is Skray, on the planet Dezoris. Pretty cold outside, wasn’t it?
-Welcome to Skray! Stick around, it’s warm down here.<wait>
+Welcome to Skray, the warmest place on Dezoris! Pretty cold out there, isn't it?<wait>
 
 [523e]
 ; Townsperson
 ; パルマセイカラノ イミンハ ホトンドコノマチニ スンデイマス.<wait>
 ; Nearly all of the Palman immigrants live in this town.
-Almost all of the immigrants from Palma live in this town.<wait>
+Almost all of us Palman immigrants live here in Skray. We're just not built for the cold.<wait>
 
 [5244]
 ; Townsperson
@@ -1603,8 +1574,8 @@ Almost all of the immigrants from Palma live in this town.<wait>
 ; コノホシノ ジュウミン デゾリアンノムラガ アルソウヨ.<wait>
 ; <end>
 ; I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the the northern mountains.
-Native Dezorians don’t live here in Skray.<wait more>
-There are some in a village inside the northern mountains.<wait>
+I'm new to Dezoris so I don't know too much about it yet. You should talk to the natives.<wait more>
+I haven't been yet, but a lot of them live in a village inside the mountains up north.<wait>
 
 [524a]
 ; Townsperson
@@ -1614,11 +1585,9 @@ There are some in a village inside the northern mountains.<wait>
 ; コレラノ ブキハ サイキョウノ<line>
 ; ブジヲ イノッテイル.<wait>
 ; What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.
-Overthrowing LaShiec, are you?<wait more>
-I hope you’re adequately equipped.<wait more>
-You’ll need a sword, axe, shield, and armor made from Laconia.<wait more>
-I wouldn’t use anything less powerful if I were you.<wait more>
-May your journey be safe.<wait>
+Overthrowing LaShiec, are you? You'll need a sword, axe, shield, and armor made of Laconia.<wait more>
+Laconia is the most powerful material in Algol, I wouldn't use anything less.<wait more>
+I'll be praying for your safety. We all will.<wait>
 
 [5250]
 ; Townsperson
@@ -1627,29 +1596,26 @@ May your journey be safe.<wait>
 ; アチコチニ カクシテシマッタトイウ.<wait>
 ; <end>
 ; Weapons made from laconia conceal holy powers, y’know. I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.
-Laconia is more than just strong, it’s sacred.<wait more>
-LaShiec knows this, of course.<wait more>
-That’s why Laconian equipment is so hard to find!<wait more>
-He’s afraid of it!<wait>
+Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
+LaShiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
 
 [5256]
 ; Townsperson
 ; デゾリスセイハ コオリノホシデス.<wait>
 ; Planet Dezoris is made of ice.
-Dezoris is covered entirely in ice.<wait more>
-Not exactly the flourishing greenery of Palma, is it?<wait>
+Dezoris is basically a giant ice cube. It's a big change from the green fields of Palma.<wait>
 
 [525c]
 ; Townsperson
 ; コオリノ ヤマノナカニハ<line>
 ; There are places inside the ice mountains that can be easily broken.
-They say that parts of the ice mountains crumble easily.<wait>
+Not all of the ice mountains are as tough as they look, some parts of them shatter easily.<wait>
 
 [5262]
 ; Townsperson
 ; アルチプラノコウゲンハ マワリヲ<line>
 ; The area around the Altiplano Plateau is encircled by mountains of ice.
-Altiplano plateau is surrounded by mountains of ice.<wait>
+The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
 
 [5268]
 ; Townsperson
@@ -1666,10 +1632,9 @@ Native Dezorians believe Eclipse Torches carry divine power.<wait>
 ; グアランノ シタイオキバノ<line>
 ; シニンガ ヨミガエッタソウダ.<wait more>
 ; オソロシヤ.<wait>
-; I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!
-Whatever nonsense LaShiec’s gotten involved with has gone too far.<wait more>
-I’ve heard dead bodies in Guaran Morgue have come back to life!<wait more>
-Please, stop him. This is horrible!<wait>
+; I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!>
+The unholy forces LaShiec and his ilk have involved themselves with have gone too far.<wait more>
+All of the dead bodies in Guaran Morgue have come back to life! It's grotesque!<wait>
 
 
 ; ***********
@@ -1692,13 +1657,13 @@ Ant-lions? No problem! You can drive a LandMaster right over ’em.<wait>
 ; Villager
 ; ウ-ゾノ ミナミニ カスバ トイウ<line>
 ; To the South of Uzo, there is a village called Casba.
-To the South of Uzo lies a village called Casba.<wait>
+To the south of Uzo lies a village called Casba.<wait>
 
 [516f]
 ; Villager
 ; カスバノ ドウクツニハ ドラゴンガ<line>
 ; It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in its head!
-It looks like a dragon is holed up inside Casba Cave. They say there’s a jewel in its head.<wait>
+A dragon is holed up inside Casba Cave. They say there’s a jewel embedded in its head!<wait>
 
 [5194]
 ; Villager
@@ -1728,7 +1693,7 @@ Very well.<wait>
 ; ハズレニ ウメテキタンダ.ダレニモ<line>
 ; Well, this is a secret, but when I went to Palma, I buried it on the outskirts of Gothic Village. Don’t tell anybody!
 Well, this is a secret, but I went and buried one on the outskirts of Gothic village.<wait more>
-Don’t tell anybody I told you that!<wait>
+Don’t tell anybody!<wait>
 
 ; Soothe Flute stuff
 [24d6]
@@ -1758,7 +1723,7 @@ This is Casba Village.<wait>
 ; Villager
 ; コノムラノ ドウクツニ ドラゴンガ<line>
 ; There’s a dragon living in Casba Cave! I’m so scared!
-A dragon has holed himself up in our cave! I’m scared!<wait>
+There's a dragon living in Casba Cave! I'm so scared!<wait>
 
 [51ac]
 ; Villager
@@ -1766,17 +1731,16 @@ A dragon has holed himself up in our cave! I’m scared!<wait>
 ; ガアル.ソノムカシ ペルセウスガ<line>
 ; マモノタイジニ ツカッタトイウ.<wait>
 ; The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, [a man named] Perseus used that shield to confront a monster.
-There are stories told in the village surrounded by mist.<wait more>
-They speak of some sort of legendary shield.<wait more>
-Apparently, Perseus once used it to confront a monster.<wait>
+In a village surrounded by gas, people tell the tale of a legendary shield.<wait more>
+They say that a long time ago, a man named Perseus used it to confront a monster.<wait>
 
 [51b2]
 ; Villager
 ; ボクガ ミズウミノ ニシヘ イクト<wait more>
 ; キリノヨウナ オソロシイ ドクガスガヒロガッテイタンダ.<wait more>
 ; One time I traveled north of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!
-There’s a terrible poison mist west of here.<wait more>
-I don’t think you can get through it without protection.<wait>
+North of the lake I saw this terrible, fog-like poison gas spreading all over!<wait more>
+Whatever you do, stay away from there!<wait>
 
 [51b8]
 ; Villager
@@ -1789,10 +1753,8 @@ Do you know what a FlowMover is?<end>
 ; パルマセイノ シオンノマチデ カッタンダケド コワレチマッタミタイデ<wait more>
 ; バルテボニ ステチマッタヨ.<line>
 ; Well, I bought one on Palma, in the town of Shion, but it turned out to be broken, so I ditched it in Bartevo. What a waste!
-So you know what junk they are!<wait more>
-I bought one in Shion city, on Palma.<wait more>
-It broke down, so I dumped it in Bartevo.<wait more>
-What a waste!<wait>
+So you know what junk they are! I bought one in the town of Shion, on Palma.<wait more>
+It broke down, so I dumped it in Bartevo. No wonder they don't sell them anymore.<wait>
 
 [51c1]
 ; Villager (no to previous question)
@@ -1811,7 +1773,7 @@ They can glide smoothly across the top of the water.<wait>
 ; Townsperson
 ; ココハ ドラスゴ-. ウミノウエノ<line>
 ; This is Drasgo, a tiny town on the sea.
-This is Drasgow, a tiny city floating on the sea.<wait>
+Welcome to Drasgo, our tiny little town floating on the sea.<wait>
 
 [51d7]
 ; Townsperson
@@ -1820,8 +1782,7 @@ This is Drasgow, a tiny city floating on the sea.<wait>
 ; タドリツキマシタネ.<wait>
 ; Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!
 Wow! I didn’t expect to see visitors here any time soon.<wait more>
-Not since LaShiec put an embargo on sea travel, anyway.<wait more>
-How the heck did you get here?<wait>
+Not since LaShiec put an embargo on sea travel, anyway. How the heck did you get here?<wait>
 
 [51dd]
 ; Townsperson
@@ -1839,17 +1800,15 @@ I once saw a huge floating rock in the sky!<wait>
 ; ????
 ; チョウコオネ-サンデ-ス.<wait more>
 ; ガンバッテ ボウケンヲ ツヅケテネ.<wait>
-My name is Choko Oneesan.<wait more>
-Be tough and carry on your adventure!<wait>
+It's me, Choko Oneesan! Be brave and strong as you continue your quest!<wait>
 
 [51ef]
 ; Person inside cave
 ; ワタシハ ドクガスカラ ミヲ マモルガスクリア- トイウ ソウチガ<wait more>
 ; ココニ ウッテイルト キイタノダガ<line>
 ; I heard that a store in this city sells an apparatus called a ‘GasClear’, which protects the body against poison gas. The only thing is, I can’t find the damn store! Sheesh!
-Do you know what a GasClear is? They protect you from poison gas.<wait more>
-A shop near here sells them, but I can’t find it!<wait more>
-Maybe if I head left, up ahead...<wait>
+I came to this town to buy GasClear, I need it to protect myself from poiosonous gas.<wait more>
+There's supposed to be a shop around here that sells it, but I can't find it anywhere!<wait>
 
 [51f5]
 ; Person inside cave
@@ -1859,8 +1818,7 @@ Maybe if I head left, up ahead...<wait>
 ; This is an item shop. What can I do for you? Haah haah!
 ; Sorry, I’m just kidding! Please forgive me.
 This is an item shop. What can I do for you?<wait more>
-...actually, I lied. This isn’t an item shop at all.<wait more>
-What? Don’t look at me like that.<wait>
+...haha, sorry, I'm just joking around! What? Don't give me that look.<wait> 
 
 [5201]
 ; GasClear salesman
@@ -1883,7 +1841,7 @@ Thanks. Come again!<wait>
 ; オヤ モッタイナイ.<line>
 ; Huh? You don’t have enough money?
 ; What the hell?! I’m not selling you ANYTHING!
-What?! You don’t have any money?<wait more>
+Huh? You don’t have enough money?<wait more>
 What the hell?! I’m not selling you ANYTHING now!<wait>
 
 [520c]
@@ -1911,10 +1869,9 @@ I’m glad you were able to make it through the mist.<wait>
 ; ドウカ <number>メセタ キフシテ<line>
 ; <number> is always 400.
 ; I am the chief of this village. Due to the gas, Sopia is cut off from other towns and villages, and is therefore very poor. Could you by any chance offer a contribution of 400 mesetas?
-I am the head of this village.<wait more>
-We in Sopia are very poor. We’re outcasts. <wait more>
-The mist shuts us off from other towns.<wait more>
-Might you donate <number><internal hint 01> meseta<s> to us?<end>
+I am the chief of this village.<wait more>
+We in Sopia are very poor. The mist shuts us off from other towns.<wait more>
+Would you by chance be able to spare <number><internal hint 01> meseta<s> to help us?<end>
 
 [52e1]
 ; The Village Chief (no to previous question)
@@ -1938,17 +1895,14 @@ So you are poor as well, are you? Such sad times these are.<wait>
 ; <end>
 ; Thank you. According to local legend, the shield that Perseus used when he defeated Medusa is buried under a cactus on the island in the middle of the lake.
 Thank you. Perhaps I can help you, in return.<wait more>
-I imagine you’re looking for Perseus’ shield.<wait more>
-According local legend, Perseus used it to slay Medusa.<wait more>
-It’s rumored to be on an island in the lake.<wait more>
-I’ve heard that it’s buried under a cactus.<wait more>
-I’m sorry, that’s all I know. Good luck.<wait>
+I imagine you’re looking for Perseus’ shield? The one he used to slay Medusa?<wait more>
+Local legend says it's on the island in the lake, buried under a cactus.<wait>
 
 [5306]
 ; Gamer Miki
 ; アタシ ゲ-マ-ノ ミキチャンヨ.<line>
 ; I'm Gamer Miki-chan! Do you own a Master System?
-Hi, I’m Gamer Miki! Do you own a Master System?<end>
+Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
 
 [530f]
 ; Gamer Miki (yes to previous question)
@@ -1974,27 +1928,26 @@ Before LaShiec’s powerful grasp, this village was very wealthy.<wait>
 ; Villager
 ; ミズウミノ ミナミノ ヤマノ ナカニタジム トイウ ドウシガ イマス.<wait>
 ; There’s a monk named Tajimu living in the mountains South of the lake.
-Have you met Tajim? He’s a monk.<wait more>
-He’s living in the mountains south of the lake.<wait>
+Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait>
 
 [5326]
 ; Villager
 ; パルマセイハ キレイナ ホシダト<line>
 ; I heard that Palma is a very beautiful planet. Is it really true?
-I heard that Palma is a beautiful planet. Is it true?<end>
+I heard that Palma is a very beautiful planet. Is it true?<end>
 
 [532f]
 ; Villager (yes to previous question)
 ; イッテミタイナ-.<wait>
 ; Ooh, I want to go there soo bad!
-Anywhere’s better than a town surrounded by poison mist.<wait>
+Oh, I want to go there so bad!<wait>
 
 [5334]
 ; Villager (no to previous question)
 ; ソウデスカ.ワタシハ モット<line>
 ; クウキノ キレイナトコロヘイキタイ.<wait>
 ; Oh, I see. I want to go to a place with cleaner air.
-Oh, I see. I want to go to a place with cleaner air.<wait>
+Oh, interesting. I'd go just about anywhere that has cleaner air.<wait>
 
 [5345]
 ; Villager (no to request for PelorieMate)
@@ -2005,7 +1958,7 @@ Cheapskate!<wait>
 ; Shortcake salesman (after purchase)
 ; アリガトウ.<wait more>
 ;Thanks. Please come again.
-Thanks. Enjoy!<wait>
+Thank you!<wait>
 
 
 ; ********************
@@ -2039,24 +1992,21 @@ I see. Then there is no point in talking with you any further.<wait>
 ; オオ ワガデシ ルツヨ. ツイニ<line>
 ; ラシ-クヲ タオス タビニデルカ.<wait>
 ; Ah. My student, Lutz! I see you are finally on your way to defeating LaShiec.
-Ah, Lutz, my pupil!<wait more>
-You plan to overthrow LaShiec, eh?<wait>
+Ah, Lutz, my pupil! I see you are finally fulfilling your destiny to defeat LaShiec.<wait>
 
 [56d3]
 ; Tajim (if Lutz is dead - not possible?)
 ; オヤ.シンデオルノカ.ナサケナイ.<line>
 ; イキカエッテ デナオスガイイ.<wait>
 ;YOU HAVE GOTTEN YOURSELF KILLED COME LETS TRY ONE MORE TIME<wait>
-Hey there. Are you dead? What a pity.<line>
-Revive and try again.<wait>
+...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.<wait>
 
 [56d9]
 ; Tajim
 ; デハ ソツギョウノ シケンヲ シテ<line>
 ; ヤロウ.ワシト タタカウガヨイ.<wait>
 ; That being the case, I'll give you your final test: a duel with me!
-Then you must pass one final test.<wait more>
-Let’s duel.<wait>
+I've taught you all that I know. It's time to give you one final test: A duel against me!<wait>
 
 [5722]
 ; Tajim (if you win)
@@ -2066,24 +2016,21 @@ Let’s duel.<wait>
 ; オマエノ カラダヲ マモッテクレル<line>
 ; ジャロウ. デハ ユクガヨイ.<wait>
 ; You’ve become strong, my boy! You have all the power you’ll ever need. Please use this Frad Cloak. It is my gift to you. It will protect your body from harm. Well then, you’d best be on your way.
-You have grown strong, Lutz.<wait more>
-I can’t teach you any more.<wait more>
-Take this. It’s a Frad Cloak.<wait more>
-It will protect your body from harm.<line>
-Now go, my boy.<wait>
+You have grown strong, my boy! You have all the power you need to complete your task.<wait more>
+Take this. It’s a Frad Cloak, my gift to you. It will protect your body from harm.<wait more>
+Now go! Fulfill your destiny and bring peace back to Algol!<wait>
 
 [571c]
 ; Tajim (if you lose)
 ; マダマダ シュギョウガ タリンノウ.デナオシテクルガヨイ.<wait>
 ; You still haven’t trained enough. You should come back later.
-You need more training, my boy.<wait more>
-Come back when you’re ready. I’ll be waiting.<wait>
+You need more training, my boy. Come back when you’re ready. I’ll be waiting.<wait>
 
 [56a6]
 ; Tajim (subsequent visits)
 ; モウ ワシガ オシエルコトハ ナイ.<wait>
 ; There is nothing more I can teach you.
-I have nothing left to teach you, my boy.<wait>
+There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
 
 
 ; ****************************
@@ -2098,16 +2045,14 @@ I have nothing left to teach you, my boy.<wait>
 ; トナリノ ブラクハ<line>
 ; ウソツキバカリダ.キヲツケナヨ.<wait>
 ; Those guys in the village next to us are all a bunch of liars. Be careful, eh.
-I wouldn’t trust anyone in the neighboring village.<wait more>
-Raving pack of pathological liars, they are.<wait>
+I wouldn’t trust anyone in the neighboring village...pathological liars, they are.<wait>
 
 [527a]
 ; Honest Dezorian
 ; コノムラノ キタノ ヤマノムコウニ<line>
 ; コロナノトウガ アルズラ.<wait>
 ; Corona Tower lies on the other side of the mountains to the North of this village, eh.
-You might want to check out the Corona Tower.<wait more>
-On the other side of the mountains to the north, it is.<wait>
+Corona Tower is on the other side of the mountains to the north, it is.<wait>
 
 [5280]
 ; Honest Dezorian
@@ -2115,9 +2060,7 @@ On the other side of the mountains to the north, it is.<wait>
 ; ワシラノ ナカマガ イルズラ.<line>
 ; ヨロシクズラ.<wait>
 ; To the West of Corona Tower is Dezoris Cave, eh. Please send my regards to our comrades there, eh.
-To the west of Corona Tower lies Dezoris Cave, it does.<wait more>
-We have friends there, we do.<wait more>
-Give them our regards, you will?<wait>
+Dezoris Cave is west of Corona Tower, it is. Say hi to our friends there, you must!<wait>
 
 [5286]
 ; Honest Dezorian
@@ -2127,11 +2070,9 @@ Give them our regards, you will?<wait>
 ; ラコニアノ ツボニ イレナイト<line>
 ; ヒカラビテシマウズラヨ.<wait>
 ; Laerma trees make berries called ‘Laerma Berries’, eh. Those berries are real tasty, eh. We wanna use them for food, eh, but if we don’t put them into a ‘Laconian Pot’, they just get all shriveled up, eh.
-Laerma trees bear strange fruits.<wait more>
-They’re called Laerma Berries, they are.<wait more>
-They’re tasty. I want to eat them, I do.<wait more>
-The problem is, we have to put them in a Laconian jar.<wait more>
-If we don’t, they get all dried up, they do.<wait>
+Laerma trees bear strange fruits, they do.<wait more>
+They’re called Laerma Berries, and real tasty, they are.<wait more>
+But unless you put them in a Laconian Pot they shrivel, they do.<wait>
 
 [528c]
 ; Honest Dezorian
@@ -2155,15 +2096,14 @@ I’d really like to look into one sometime, I would.<wait>
 ; Honest Dezorian
 ; コノブラクノ ミンナハ パルマノ<line>
 ; All the people in this village hate those Palmans, eh.
-All us villagers hate Palmans, we do.<wait>
+Everyone here hates Palmans, we do.<wait>
 
 [52a6]
 ; Dishonest Dezorian
 ; コロナノトウニハ イノチノイズミガ<line>
 ; アルンダス.<wait>
 ; There's a Life Spring/Fountain of Youth in Corona Tower, y’know.
-Yep. In Corona Tower, there’s a fountain of youth.<wait more>
-Seriously.<wait>
+The Fountain of Youth is inside Corona Tower. Cross my heart!<wait>
 
 [52b2]
 ; Dishonest Dezorian
@@ -2171,36 +2111,33 @@ Seriously.<wait>
 ; <number>カイデ ワ-プデキルンダスヨ.<wait>
 ; <number> is always 10.
 ; There's a warp on the 10th underground floor of Dezoris cave, y’know.
-You can warp from the tenth underground level of Dezoris Cave.<wait more>
-No joke. I wouldn’t lie to you.<wait>
+There's a warp on the tenth underground level of Dezoris Cave. No joke!<wait>
 
 [52b8]
 ; Dishonest Dezorian
 ; ラエルマベリ-ハ アオイイロヲシタ<line>
 ; キノミデ センリョウニ ツカウダス.<wait>
 ; Laerma Berries are colored blue. We use them as a dye, y’know.
-Laerma Berries are blue, and we use them to dye our clothes.<wait more>
-That’s what we do.<wait>
+Laerma Berries are blue, and we use them to dye our clothes. It's true!<wait>
 
 [52be]
 ; Dishonest Dezorian
 ; ラエルマツリ-ノ マエデ クリスタルヲ ツカウト ミガ ナルンダス.<wait>
 ; If you use a crystal in front of the Laerma Tree, berries will grow, y’know.
-You can use a crystal to make berries grow on a Laerma tree.<wait more>
-I kid you not!<wait>
+You can use a crystal to make berries grow on a Laerma tree. You betcha!<wait>
 
 [52c4]
 ; Dishonest Dezorian
 ; コノブラクハ パルマノ ヒトビトヲ<line>
 ; カンゲイシマス.<wait>
 ; This village welcomes Palmans.
-This village welcomes all Palmans. Seriously.<wait>
+This village welcomes all Palmans. Seriously!<wait>
 
 [59c1]
 ; Dishonest Dezorian
 ; コノムラハ ソピァト イイマス.
 ; The neighboring villagers are all liars. Be careful.
-Those guys in the other village are all liars. For real.<wait>
+The neighboring villagers lie. Really!<wait>
 
 
 ; ********************
@@ -2247,10 +2184,9 @@ There must be something secret about it.<wait>
 ; This flame is lit during each centennial solar eclipse. If you give me a dragon’s jewel, however, I’ll share the flame with you. Do we have an agreement? 
 Do you see this flame in my hand? This is the Eclipse Torch.<wait more>
 This is the sacred fire of the centennial eclipse.<wait more>
-It’s beautiful, holy, and, indeed, very valuable.<wait more>
+It’s beautiful, holy, and extremely valuable.<wait more>
 I might be willing to part with some of it, for, say...<wait more>
-...a dragon’s crystal.<wait more>
-What do you say?<end>
+...a dragon’s crystal. What do you say?<end>
 
 [5684]
 ; Torchbearer (yes to previous question)
@@ -2281,8 +2217,9 @@ You have no jewel! Don’t be foolish!<wait>
 ; イツモ オタヨリ アリガトウ.<wait more>
 ; RAISE THE AEROPRISM TOWARDS THE HEAVENS. YOU SHOULD THEN BE ABLE TO SEE THE DARK CASTLE<wait>
 ; I am 'Otegami Chie-chan!’ Thanks for all your letters. Please tell us how you feel about this game. We’ll be waiting.
-I’m Otegami Chie-chan! Thanks for all your letters.<line>
-Please tell us what you think of this game. We’ll be waiting.<wait>
+I’m Otegami Chie-chan, from Sega! Thanks for all your letters.<wait more>
+Please tell us what you think of this game. We’re eager to hear from you.<wait more>
+Here's a tip: Go to the highest point in Palma, and raise the Aeroprism to the sky!<wait>
 
 
 ; *************************
@@ -2306,7 +2243,7 @@ Please tell us what you think of this game. We’ll be waiting.<wait>
 ; If no Laconian Pot...
 ; ラエルマベリ-ヲ トッテミタガ<line>
 ; シバラクスルト ヒカラビテシマッタ.<wait>
-The Laerma Berries shriveled up soon after being picked.<wait>
+<player> picked up some Laerma Berries, but they shrivled up immediately!<wait>
 
 
 ; *******************
@@ -2326,16 +2263,14 @@ Now would be a good time to turn around and go home.<wait>
 ; Prisoner
 ; オレヲ ココカラ ダシテクレルノカ.デモ ムダダヨ.<wait>
 ; I wonder if you could help me escape from this place, but it’s hopeless.
-Did you come to let me out of here?<wait more>
-Oh, please help me. I don’t want to die.<wait>
+Did you come to help me escape?<wait>
 
 [55fb]
 ; Prisoner
 ; ラシ-クヲ タオソウナンテ<line>
 ; ムボウダヨ.<wait>
 ; Defeat LaShiec?! That’s nonsense!
-Overthrow LaShiec? That’s impossible.<wait more>
-You can’t kill the unkillable man.<wait>
+Destroy LaShiec? That’s impossible. You can’t kill one who cannot die.<wait>
 
 [5601]
 ; Prisoner
@@ -2374,14 +2309,13 @@ His magical powers to snatch away your very soul!<wait>
 ; バヤマ-レノ オカノウエニハ<line>
 ; トウガアル.<wait more>
 ; There is a tower on top of Baya Mahrey knoll. There must be secrets hidden inside.
-There’s a tower on top of the knoll of Baya Marlay.<wait more>
-I wonder what secrets lie within?<wait>
+There’s a tower on top of the knoll of Baya Marlay. I wonder what secrets lie within?<wait>
 
 [5613]
 ; Prisoner
 ; コノサキヘハ イカナイホウガ<line>
 ; You’d better not go any further, ‘cuz there’s a guard station up there.
-You’d better not go any further -- there’s a security guard up ahead.<wait>
+You’d better not go any further, there’s a security guard up ahead.<wait>
 
 [55b3]
 ; Robot Police
@@ -2395,8 +2329,7 @@ Do you have a Roadpass?<end>
 ; ロボットダト オモッテ ナメルナヨ.ロウニ ブチコンデヤル.<wait>
 ; Let me see here... Hm? This is a fake! Don't think you can fool me just because I'm a robot! Let me show you to your cell.
 This is a fake. Where did you get this?<wait more>
-Well, you certainly picked the right place to get locked up.<wait more>
-Come with me.<wait>
+Well, you certainly picked the right place to get locked up. Come with me.<wait>
 
 [5619]
 ; Prisoner
@@ -2464,22 +2397,21 @@ Do you defy me?<end>
 ; ソウダロウ.オマエハ ナカナカ<line>
 ; ホウビニ クリスタルヲ ヤロウ.<wait>
 ; Is that so... You show considerable promise. I shall give you this crystal as a reward.
-Is that so? You show considerable promise.<wait more>
-I shall reward you with this crystal.<wait>
+Is that so? Good! You show considerable promise. I shall reward you with this crystal.<wait>
 
 [2711]
 ; (Use Aeroprism)
 ; マボロシノ エアロキャッスルガ<line>
 ; オオゾラニ スガタヲ アラワシタ.<wait>
 ; The illusionary ‘Aerocastle’ materialized in the vast open sky.
-In the sky above, the phantom Aerocastle revealed its form.<wait>
+The Aerocastle was revealed.<wait>
 
 [2752]
 ; (USe Laerma Berries)
 ; ミャウハ ラエルマベリ-ヲ<line>
 ; カジッタ.<wait>
 ; Myau took a bite of the ‘Laerma Berry’.
-Myau chewed the Laerma Berries.<wait>
+Myau ate the Laerma Berries.<wait>
 
 
 ; *****************************
@@ -2503,8 +2435,8 @@ Myau chewed the Laerma Berries.<wait>
 When Myau chewed the Laerma Berries, a fever swept over him, and a dazzling light engulfed his body.<wait>
 
 [4726]
-And then, in an instant, he transformed into a beautiful beast with enormous wings.<line><line>
-Myau flapped his wings proudly for all to see.<wait>
+And then, in an instant, he transformed into a beautiful beast with enormous wings!<line><line>
+Myau proudly flapped his wings for all to see.<wait>
 
 
 <width 18><height 04>
@@ -2519,13 +2451,13 @@ Alisa and the others were knocked off of Myau, into the sky.<wait>
 [5597]
 ; ココヲ バヤマ-レノ トウト<line>
 ; シリナガラ キタノカ.<end>
-Did you come here thinking it was Baya Marlay tower?<end>
+Did you come here seeking Baya Marlay tower?<end>
 
 [55a0]
 ; (yes to previous question)
 ; カナラズヤ テンノ イカリニ<line>
 ; フレヨウゾ.<wait>
-You will surely be destroyed by heaven’s wrath!<wait>
+Then you will be destroyed!<wait>
 
 [55a5]
 ; (no to previous question)
@@ -2552,7 +2484,7 @@ There is more than meets the eye in this dungeon, fools.<wait>
 ; Old Man
 ; ラシ－クサマニ サカラウナ.<wait>
 ; Do not defy the great LaShiec.
-Don’t disobey King LaShiec.<wait>
+Defy King LaShiec at your peril.<wait>
 
 [5738]
 ; Shadow Warrior
@@ -2560,9 +2492,7 @@ Don’t disobey King LaShiec.<wait>
 ; スベテオミトオシダ.<wait more>
 ; カカッテクルガ イイ.<wait>
 ; Make your move, fools. I can see right through you.
-Hello there.<wait more>
-I know why you’re here. We’ve been watching you closely.<wait more>
-This is where your journey ends, I’m afraid.<wait>
+I know why you’re here. I’ve been watching you closely. Your pathetic journey ends here.<wait>
 
 [5749]
 ; Shadow Warrior
@@ -2570,9 +2500,8 @@ This is where your journey ends, I’m afraid.<wait>
 ; カゲムシャダ.<wait more>
 ; オレヲタオシタトコロデ<line>
 ; I am King LaShiec’s shadow warrior. You have gained nothing by defeating me! Hee hee hee!
-Who am I? I am LaShiec’s shadow warrior.<wait more>
-You’ve beaten me, but it will do you no good.<wait more>
-Lord LaShiec is unkillable. He’ll destroy you all.<wait>
+I am merely LaShiec’s shadow warrior. You’ve gained nothing by defeating me.<wait more>
+King LaShiec can't be killed. His power defies comprehension. You have come here to die.<wait>
 
 [576a]
 ; LaShiec
@@ -2580,30 +2509,22 @@ Lord LaShiec is unkillable. He’ll destroy you all.<wait>
 ; ウンノ イイヤツラメ.<wait more>
 ; ソンナニ ワシヲ タオシタイノカ.<end>
 ; And so you finally arrive. How fortunate you are. Do you really wish to defeat me?
-Ah, it’s you. I thought you might come.<wait more>
-I know a great deal about you, child.<wait more>
-I know you loved your brother, dearly. Nero, was it?<wait more>
-Yes.<wait more>
-I know more than that. I know your name, too. Your real name.<wait more>
-Foolish child. You don’t even know your own bloodline.<wait more>
-You have no idea what’s inside of you.<wait more>
-And I know why you’re here, too.<wait more>
-You plan to kill me. Don’t you, child?<end>
+Ah, it’s you. You've finally arrived. How accomplished you must feel.<wait more>
+Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
+And you have what? Weapons? Magic? Did you really hope to destroy me?<end>
 
 [5773]
 ; LaShiec (yes to previous question)
 ; ソウカ.ソレナラバ<wait more>
 ; ソノ カンガエガ マチガッテイタ<line>
 ; I see. Then perhaps I should show you the error in your judgment!
-Yes, of course you do. Your courage is admirable.<wait more>
-You are much like your father.<wait more>
-I’ll take little pleasure in killing you.<wait>
+Then let us hope you will be a worthy sacrifice.<wait>
 
 [5778]
 ; LaShiec (no to previous question)
 ; コノゴニ オヨンデ<line>
 ; You have already wasted too much of my time. I shall make you regret it!
-Please. I’ve no time for games. Come, let’s do this.<wait>
+I’ve no time for games! Come, let me show you what lies beyond this life.<wait>
 
 [5789]
 ; (Defeat LaShiec)
@@ -2612,9 +2533,9 @@ Please. I’ve no time for games. Come, let’s do this.<wait>
 ; テンゴクノ ネロモ キット<line>
 ; What?! Could it be that I die? What a disgrace. I shall live again!
 ; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
-Lord LaShiec has fallen. Nero’s dying wish was granted.<wait more>
-This is the beginning of a new life in Algol.<wait more>
-The only thing left to do is tell the Governor-General in Paseo.<wait>
+You may have destroyed this body, but I can never truly die! I shall live again!<line><line><line><line><wait more>
+Lord LaShiec has fallen. Nero’s dying wish was granted. A new life has begun in Algol.<wait more>
+The only thing left to do is return to the Governor-General in Paseo!<wait>
 
 ; **************
 ; *** Ending ***
@@ -2635,18 +2556,13 @@ The only thing left to do is tell the Governor-General in Paseo.<wait>
 ; And now, Alisa, I have something I wish to tell you:
 ; The truth is, your father was once the King of Algol.
 ; Now that the demon’s fortress has been destroyed, and LaShiec is no more, will be your father’s successor and become the Queen of Algol?
-Oh, goodness.<wait more>
-My mind and body were...taken over, by an evil force.<wait more>
-It’s a wonder I’m still alive. Thank you.<wait more>
-You’ve done it. You’ve saved Algol.<wait more>
-History shall repeat your names, always.<wait more>
-Alisa. There’s something I must tell you.<wait more>
-It’s a secret I’ve kept from you, to spare your life.<wait more>
-Now that LaShiec is gone, it’s safe to come out with it.<wait more>
-Alisa...your father was the king of Algol.<wait more>
-His royal blood is inside you. It has given you strength.<wait more>
-We are without a leader, Alisa.<wait more>
-Will you succeed your father and become Algol’s queen?<end>
+Oh, goodness. Please forgive me. My mind and body were controlled by an evil force.<wait more>
+You’ve done it! You’ve saved Algol. History shall repeat your names, always.<wait more>
+LaShiec is no more, his terrible fortress has been destroyed. Finally, peace can be restored.<wait more>
+And just in time, too. I fear if you'd taken any longer, we would have lost everything.<wait more>
+Alisa. There is something I must tell you. A secret I've kept, to spare your life.<wait more>
+Alisa...your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
+Algol is without a leader. Will succed your father, and take your place as our queen?<end>
 
 [5849,58ea]
 ; Governor-General (yes to previous question)
@@ -2655,17 +2571,14 @@ Will you succeed your father and become Algol’s queen?<end>
 ; ムスメダ.<wait more>
 ; ワタシモ テツダワセテモラウヨ.<wait>
 ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
-Your father was the best king Algol has ever known.<wait more>
-And more than that, he was a good man.<wait more>
-He would be proud of you today.<wait>
+Then you have my eternal loyalty. All hail the new Queen of Algol, Alisa Landeel!<wait>
 
 [58ef]
 ; Governor-General (no to previous question)
 ; ソウカ.ソレモ ヨカロウ.<line>
 ; マタ イツデモ モドッテクルガイイ.<wait>
 ; I see. [You must do as you wish]. You are welcome to return at anytime.
-That’s a pity. He would have wanted this for you.<wait more>
-Still, you are welcome here at any time.<wait>
+I see. I won't try to convince you. Should you change your mind, Algol will always welcome you.<wait>
 
 
 ; ********************
@@ -2675,18 +2588,18 @@ Still, you are welcome here at any time.<wait>
 [47da]
 ; シダイニ ソラガ アカルクナッテイキヒトビトモ ヘイワヲ トリモドシタ.<end>
 ; Gradually, the sky brightened, and peace was restored to all.
-In time, the sky grew brighter. The creatures subsided.<end>
+Gradually, the sky brightened. The creatures subsided. Peace returned.<end>
 
 [47e3]
 ; イマ バヤマ-レハ サワヤカナ<line>
 ; ソヨカゼニ ツツマレテイル.<end>
 ; Baya Mahrey is covered by a refreshing breeze right now...
-The only thing above Baya Marlay now is a cool, gentle breeze.<end>
+A cool, gentle breeze now surrounds Baya Marlay.<end>
 
 [47ec]
 ; カレラノ ナガク クルシカッタタビヲソヨカゼハ シッテイルノダロウカ.<end>
 ; ...but does the breeze know of their long and difficult journey?
-Algol’s thankful people picked up the pieces and started anew.<end>
+But does the breeze know of the hardships they endured?<end>
 
 <width 1C><height 06>
 
@@ -2916,7 +2829,7 @@ It’s pitch black. You can’t move forward.<wait>
 [2611]
 ;イツ カイデミテモ イヤナ<line>
 ;ニオイガ スル.<wait>
-No matter when you sniff it, it stinks.<wait>
+Wow, this stuff stinks.<wait>
 
 [2276,228e]
 ;<player>ハ トテモ<line>
@@ -3495,11 +3408,8 @@ Please choose a slot.<end>
 
 [ScriptDeletingFromSlotN]
 ;<number>バンノ ゲ-ムヲ ケシマシタ.<wait>
-Deleting game from slot<internal hint 04> <number>...<delay>
+Deleting game from slot<internal hint 04> <number>...<end>
 ; <end> is nicer than <wait> here - Maxim
-
-[ScriptNoSavedGames]
-There are no saved games!<wait>
 
 [16a8]
 ;<player>ハ イシニ ナッテシマッタ.<wait>
