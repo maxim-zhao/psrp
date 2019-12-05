@@ -2133,7 +2133,7 @@ You can use a crystal to make berries grow on a Laerma tree. You betcha!<wait>
 ; This village welcomes Palmans.
 This village welcomes all Palmans. Seriously!<wait>
 
-[59c1]
+[DishonestDezorianFix]
 ; Dishonest Dezorian
 ; コノムラハ ソピァト イイマス.
 ; The neighboring villagers are all liars. Be careful.
