@@ -3411,6 +3411,9 @@ Please choose a slot.<end>
 Deleting game from slot<internal hint 04> <number>...<end>
 ; <end> is nicer than <wait> here - Maxim
 
+[ScriptNoSavedGames]
+There are no saved games!<wait>
+
 [16a8]
 ;<player>ハ イシニ ナッテシマッタ.<wait>
 <player> turned to stone.<wait>
