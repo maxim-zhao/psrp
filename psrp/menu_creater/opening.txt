@@ -3,9 +3,9 @@ ptrs=45d9
 dims=45df
 
 ┌─────────────────────╖
-│Spring, AW 342       ║
+│Eté, année 342       ║
 │---------------------║
-│Camineet Residential ║
-│ District on the     ║
-│ planet Palma.       ║
+│District résidentiel ║
+│de Camineet sur      ║
+│la planète Palma.    ║
 ╘═════════════════════╝
