@@ -3638,7 +3638,8 @@ HuffmanTrees:
 .endb
 .ends
 
-.section "Decoder init" free ; same bank as script
+.bank 2 slot 2
+.section "Decoder init" free
 DecoderInit:
 ; Semi-adaptive Huffman decoder
 ; - Init decoder
@@ -3707,7 +3708,8 @@ CutsceneClear:
 
 .ends
 
-.section "SFG decoder" free ; same bank as script
+.bank 0 slot 0
+.section "SFG decoder" free
 SFGDecoder:
 ; Originally t4a.asm
 ; Semi-adaptive Huffman decoder
