@@ -2965,7 +2965,8 @@ You don’t have enough magic points.<delay>
 
 [17ea]
 ;<monster>ヲ ヤッツケタ.<wait>
-You’ve beaten <article><monster>.<end>
+You’ve beaten <article><monster>.<wait>
+; <wait> because else you can't read it when you defeat Dark Force...
 
 [14a6,15e4,1648,4c69,590f]
 ;<player>ハ シンデシマッタ.<delay>
