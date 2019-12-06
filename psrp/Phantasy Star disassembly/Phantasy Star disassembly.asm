@@ -133,7 +133,9 @@ BANKS 30
 
 .define xc2d9                     $c2d9     ; w ???
 
-.define EnemyMoney                     $c2dd     ; w Monster money drop - result of numenemies*(something)
+.define RoomIndex                 $c2db     ; b Room index to table at $49d1
+
+.define EnemyMoney                $c2dd     ; w Monster money drop - result of numenemies*(something)
 .define xc2df                     $c2df     ; b ???
 .define xc2e0                     $c2e0     ; b ???
 .define xc2e1                     $c2e1     ; w ??? might be 2*b
@@ -6368,7 +6370,7 @@ fn7b60:
     inc hl              ; 007B95 23
     ld h,(hl)          ; 007B96 66
     ld l,a             ; 007B97 6F
-    ld ($c2db),hl      ; 007B98 22 DB C2
+    ld (RoomIndex),hl      ; 007B98 22 DB C2
     xor a               ; 007B9B AF
     ld ($c29d),a       ; 007B9C 32 9D C2
     ld hl,($c311)      ; 007B9F 2A 11 C3

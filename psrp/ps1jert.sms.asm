@@ -656,7 +656,7 @@ TitleScreenExtra:
   pop bc
   djnz -
 
-  jp DECODE_FONT ; and ret
+  jp LoadFonts ; and ret
 .ends
 
   ROMPosition $00ce4
@@ -896,38 +896,36 @@ FONT2: .incbin "new_graphics/font2.psgcompr"
 
 .bank 0 slot 0
 .section "Load font to VRAM" free
-DECODE_FONT:
+LoadFonts:
   ld a,(PAGING_SLOT_2)
   push af
-    ld a,:FONT1
-    ld (PAGING_SLOT_2),a
-    ld de,FONT1
-    ld hl,Font1VRAMAddress
-    call LoadTiles
-    ld de,FONT2
-    ld hl,Font2VRAMAddress
-    call LoadTiles
+    LoadPagedTiles FONT1, Font1VRAMAddress
+    jr +
+
+LoadUpperFont:
+  ld a,(PAGING_SLOT_2)
+  push af
++:  LoadPagedTiles FONT2, Font2VRAMAddress
   pop af
   ld (PAGING_SLOT_2),a
   ret
 .ends
 
 ; We use a macro to patch out all the places the font is laoded...
-.macro PatchFontLoader args start, end
+.macro PatchFontLoader args function, start, end
   .unbackground start end-1
   ROMPosition start
   .section "Font patch \@" force
-    call DECODE_FONT
+    call function
     JR_TO end
   .ends
 .endm
 
-  PatchFontLoader $45a4 $45c4 ; Intro
-;  PatchFontLoader $07c9 $07e0 ; Load game
-  PatchFontLoader $10e3 $10fa ; Dungeon
-  PatchFontLoader $3dde $3df5 ; Overworld
-  PatchFontLoader $48da $48f1 ; Cutscene
-  PatchFontLoader $6971 $697f ; After dungeon pitfall - scrolling overwrites the "font2" section but we just reload both...
+  PatchFontLoader LoadFonts $45a4 $45c4 ; Intro
+  PatchFontLoader LoadFonts $10e3 $10fa ; Dungeon
+  PatchFontLoader LoadFonts $3dde $3df5 ; Overworld
+  PatchFontLoader LoadFonts $48da $48f1 ; Cutscene
+  PatchFontLoader LoadUpperFont $6971 $697f ; After dungeon pitfall - scrolling overwrites the "font2" section but we need to not load the "main" font because during the ending it's non-standard
 
 ; Text renderer
 
