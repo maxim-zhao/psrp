@@ -3724,25 +3724,25 @@ SFGDecoder:
 
     ex af,af'   ; Context switch to tree mode
     exx
-      ld a,(TREE)   ; Load in tree / last symbol
+      ld a',(TREE)   ; Load in tree / last symbol
 
-      push af
-        ld bc,HuffmanTrees    ; Set physical address of tree data
-        ld h,0      ; 8 -> 16
-        ld l,a
-        add hl,hl   ; 2-byte indices
-        add hl,bc   ; add offset
+      push af'
+        ld bc',HuffmanTrees    ; Set physical address of tree data
+        ld h',0      ; 8 -> 16
+        ld l',a'
+        add hl',hl'   ; 2-byte indices
+        add hl',bc'   ; add offset
 
-        ld a,(hl)   ; grab final offset
-        inc hl
-        ld h,(hl)
-        ld l,a
-      pop af
+        ld a',(hl')   ; grab final offset
+        inc hl'
+        ld h',(hl')
+        ld l',a'
+      pop af'
 
-      ld a,$80    ; Initialise the tree barrel data
-      ld d,h      ; Point to symbol data
-      ld e,l
-      dec de      ; Symbol data starts one behind the tree
+      ld a',$80    ; Initialise the tree barrel data
+      ld d',h'      ; Point to symbol data
+      ld e',l'
+      dec de'      ; Symbol data starts one behind the tree
 
       jr _Tree_Shift1    ; Grab first bit
 
@@ -3751,13 +3751,13 @@ _Tree_Mode1:
     exx
 
 _Tree_Shift1:
-      add a,a     ; Shift out next tree bit to carry flag
+      add a',a'     ; Shift out next tree bit to carry flag
       jr nz,+     ; Check for empty tree barrel
 
-      ld a,(hl)   ; Shift out next tree bit to carry flag
-      inc hl      ; Bump tree pointer
+      ld a',(hl')   ; Shift out next tree bit to carry flag
+      inc hl'      ; Bump tree pointer
 
-      adc a,a     ; Note: We actually shift in a '1' by doing this! Clever trick to use all 8 bits for tree codes
+      adc a',a'     ; Note: We actually shift in a '1' by doing this! Clever trick to use all 8 bits for tree codes
 
 +:    jr c,_Decode_Done ; 0 -> tree node = continue looking
                         ; 1 -> root node = symbol found
@@ -3778,38 +3778,38 @@ _Check_Huffman1:
     ex af,af'   ; Switch back to tree mode
     exx
 
-      ld c,1    ; Start counting how many symbols to skip in the linear list since we are traversing the right sub-tree
+      ld c',1    ; Start counting how many symbols to skip in the linear list since we are traversing the right sub-tree
 
 _Tree_Shift2:
-      add a,a     ; Check if tree data needs refreshing
+      add a',a'     ; Check if tree data needs refreshing
       jr nz,_Check_Tree2
 
-      ld a,(hl)   ; Refresh tree barrel again
-      inc hl      ; Bump tree pointer
-      adc a,a     ; Grab new tree bit
+      ld a',(hl')   ; Refresh tree barrel again
+      inc hl'      ; Bump tree pointer
+      adc a',a'     ; Grab new tree bit
 
 _Check_Tree2:
       jr c,_Bump_Symbol  ; 0 -> tree, 1 -> symbol
 
-      inc c     ; Need to bypass one more node
+      inc c'     ; Need to bypass one more node
       jr _Tree_Shift2    ; Keep bypassing symbols
 
 _Bump_Symbol:
-      dec de      ; Bump pointer in symbol list backwards
-      dec c     ; One less node/symbol to skip
+      dec de'      ; Bump pointer in symbol list backwards
+      dec c'     ; One less node/symbol to skip
 
       jr nz,_Tree_Shift2 ; Check for full exhaustion of left subtree nodes
 
       jr _Tree_Shift1    ; Need status of termination
 
 _Decode_Done:
-    ld a,(de)   ; Find symbol
-    ld (TREE),a   ; Save decoded byte
+      ld a',(de')   ; Find symbol
+      ld (TREE),a'   ; Save decoded byte
 
     ex af,af'   ; Go to Huffman mode
     exx
-      ld (SCRIPT),hl    ; Save script pointer
-      ld (BARREL),a   ; Save Huffman barrel
+    ld (SCRIPT),hl    ; Save script pointer
+    ld (BARREL),a   ; Save Huffman barrel
     ex af,af'   ; Go to Tree mode
     ; no need to exx again
 
