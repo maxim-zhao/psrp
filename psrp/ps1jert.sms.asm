@@ -2648,6 +2648,7 @@ DezorianCustomStringCheck:
   PatchWords SAVE_dims              $3ad6 $3b0e $3ae7
   PatchWords SaveTilemap            $3ae1
   PatchW $3af2 SAVE_VRAM + ONE_ROW
+  PatchB $3af8 SAVE_SLOT_COUNT - 1 ; Cursor limit
 
   PatchWords ENEMY_NAME             $3256 $331b ; Enemy name
   PatchWords ENEMY_NAME_VRAM        $3259 $331e
