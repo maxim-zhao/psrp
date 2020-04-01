@@ -158,7 +158,7 @@ public:
                 continue;
             }
             // Else remember it
-            length = trialLength;
+            length = (int)trialLength;
             match = it->second;
         }
         return match != -1;
@@ -512,7 +512,7 @@ void Convert_Symbols(const std::string& scriptFilename, const std::string& table
     std::vector<int> symbolCounts(256);
     for (auto && entry : script)
     {
-        count += entry.data.size();
+        count += (int)entry.data.size();
         for (auto && b : entry.data)
         {
             ++symbolCounts[b];
