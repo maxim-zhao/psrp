@@ -1799,7 +1799,7 @@ Enemies:
   String "^Vulcan"
   String "^Red Dragon"
   String "^Green Dragon"
-  String "Lassic"
+  String "Lashiec"
   String "^Mammoth"
   String "^King Saber"
   String "^Dark Marauder"
@@ -1809,7 +1809,7 @@ Enemies:
   String "Wise Dragon"
   String "Gold Drake"
   String "Mad Doctor"
-  String "Lassic"
+  String "Lashiec"
   String "Dark Force"
   String "Nightmare"
 ; Terminator
