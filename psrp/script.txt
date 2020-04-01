@@ -62,11 +62,11 @@
 ; ニイサン.<line>
 ; ナニガ アッタノ.<line>
 ; シッカリシテ.<wait>
-; Guards: You little bastard -- poking your nose into LaShiec's business like that!
+; Guards: You little bastard -- poking your nose into Lashiec's business like that!
 ; Maybe from now on you'll try to mind your manners!
 ; Alisa: Nero! What happened?! Hang on!
-Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
-Defiance of Lord LaShiec will not be tolerated!<wait more>
+Citizens of Camineet, this boy’s fate is a reminder for all of you.<line><line>
+Defiance of Lord Lashiec will not be tolerated!<wait more>
 
 Nero? NERO!<line><line>
 What happened?!<wait>
@@ -91,32 +91,32 @@ What happened?!<wait>
 ; オマエ ヒトリヲ ノコシテイク オレヲ<line>
 ; ユルシテクレ.<wait>
 ; Nero: ...Alisa... listen...
-; ...LaShiec has brought an enormous calamity upon our world...
+; ...Lashiec has brought an enormous calamity upon our world...
 ; ...The world is facing ruin...
-; ...I tried to find out what LaShiec is planning...
+; ...I tried to find out what Lashiec is planning...
 ; ...But by myself, I wasn't able to do anything...
 ; ...I heard rumors of a mighty warrior named 'Tairon' during my journey...
-; ...If you combine forces, you might be able to defeat LaShiec... and restore
+; ...If you combine forces, you might be able to defeat Lashiec... and restore
 ; peace...
 ; ...Alisa...
 ; ...It’s too late for me...
 ; ...Please forgive me... for leaving you alone...
 Alisa, my sister.<line><line>
 Listen closely, I don’t have long.<wait more>
-The rumors we've heard are true. LaShiec has...changed.<line><line>
+The rumors we've heard are true. Lashiec has...changed.<line><line>
 And it goes beyond his military taking over our streets.<wait more>
 All of the horrible creatures outside, all of the darkness in our lives...<line><line>
 Somehow, it all traces back to him.<wait more>
 I tried to learn how, but I guess I got too close to the truth.<line><line>
 There's only one option left now, for all of us.<wait more>
-Lord LaShiec must be stopped.<line><line>
+Lord Lashiec must be stopped.<line><line>
 If he isn't, the darkness he's aligned himself with will claim all of Algol.<wait more>
 My mistake was trying to take him on alone.<line><line>
 These are dangerous people, you’re going to need help.<wait more>
-I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
+I’ve heard tales of a warrior, a man named Tyron, who could be an ally.<line><line>
 I tried to enlist his help, but he's gone missing.<wait more>
 You have to find him, Alisa.<line><line>
-Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
+Find Tyron, and defeat Lashiec. Together, you can bring peace back to Algol.<wait more>
 Alisa...such a terrible burden. I’m so sorry.<line><line>
 Please forgive me, for asking this of you...<wait more>
 ...and for leaving you all...<line><line>
@@ -136,7 +136,7 @@ Nero...<wait more>
 Your death will not be meaningless, I swear it.<line><line>
 I won't let these monsters take our home.<wait more>
 Watch over and protect me, big brother.<line><line>
-With your spirit by my side, LaShiec doesn't stand a chance.<wait>
+With your spirit by my side, Lashiec doesn't stand a chance.<wait>
 
 ; *************************************
 ; *** Camineet Residential District ***
@@ -160,7 +160,7 @@ Nero's things are still where he left them.<wait>
 ; My name is Suelo. I know how you feel, Alisa. No one will be able to stop you
 ; [from doing what you must do], but don't overdo it, okay? If you are ever injured
 ; in battle, please come here to relax and recover. You will always be welcome.
-Alisa...taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+Alisa...taking on Lashiec is crazy. But I know how stubborn and determined you can be.<wait more>
 I won't waste my breath trying to talk you out of this, just...please be careful.<wait more>
 If you ever get hurt, come back here to heal.<wait more>
 We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
@@ -171,9 +171,7 @@ We've been neighbors a long time, you know Suelo's home is always open for you.<
 ; ココデ ユックリ ヤスンデ オユキ.<wait more>
 ; ムリヲ シナイヨウニネ.<line>
 ; マタ イツデモ イラッシャイ.<wait>
-; Please relax and recover. Don’t overdo it, okay? You will always be welcome here.
-Please get some rest.<wait more>
-Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+Please rest. Your brother would be proud of you, but don’t overdo it, okay?<wait>
 
 [4b62]
 ; Nekiseh (first visit)
@@ -193,9 +191,9 @@ Your brother would be proud of you. But don't overdo it, okay? Come back here an
 ; Shion. Oh, and, your brother entrusted me with this jar -- it’s called a
 ; ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.
 My name is Nekise.<line><line>
-I was sorry to hear about your loss.<wait more>
-Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
-The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
+I was sorry to hear about your loss.<line><line>
+Nero asked me to help him find a warrior named Tyron, or ‘Odin’ as he likes to call himself.<wait more>
+The last I heard he was staying in a town called Shion. Maybe he's still there.<wait more>
 Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
 It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
 
@@ -212,7 +210,7 @@ I wish there was more I could do for you. Please be safe out there.<line><wait>
 ; コノ カミニ-ト キョジュウクハ<line>
 ; カイゲンレイガ シカレテイルンダ.<wait>
 ; The Camineet residential district is under martial law.
-I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
+I can't leave my home anymore without Lashiec's private police watching my every move.<wait more>
 Camineet used to be so nice. How did it come to this?<line><wait>
 
 [4b88]
@@ -309,7 +307,7 @@ Each planet has a unique atmosphere, meaning they all have distinct characterist
 Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
 Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
 And Dezoris is a planet of ice. Very little life thrives on its frozen surface.<wait more>
-All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
+All three of our beautiful planets are threatened by Lashiec's ambitions.<wait more>
 Every day draws us closer to a crisis that can never be reversed.<wait>
 
 [4ba9,4e06,4e26]
@@ -357,7 +355,8 @@ They say one look turns you into a living statue. That can't be true, can it?<wa
 ; ヒガシヘ イクト シオン トイウ<line>
 ; ミナトマチガ アルラシイ.<wait>
 ; If you travel East, you will reach the port town of Shion.
-If you're looking for a port town, Shion is just east of here.<wait>
+; If you're looking for a port town, Shion is just east of here.<wait>
+If you travel east, you will reach the port town of Shion.<wait>
 
 [4c09]
 ; Man
@@ -373,7 +372,7 @@ I'd love to go someday. I've never been off-planet before!<line><wait>
 ; [032]
 ; パロリトノ ニシニアル ガシコノモリヘハ チカツウロガ アルラシイ.<wait>
 ; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
-Did you know there’s an abandoned catacomb leading west, to the Gothic Woods?<wait more>
+Did you know there’s an abandoned sewer leading west, to the Gothic Woods?<wait more>
 Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
 
 
@@ -388,7 +387,7 @@ Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
 ; デゾリスセイニハ デゾリアン トイウ<wait more>
 ; On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
 We're not the only intelligent life in the Algol Solar System, you know.<wait more>
-Motvaia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
+Motavia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
 I'd love to have a conversation with an actual alien someday...<line><wait>
 
 [4da7]
@@ -402,7 +401,7 @@ I'd love to have a conversation with an actual alien someday...<line><wait>
 ; クスリビンヲ ブラサゲテイタガ<line>
 ; ナニカノ ヤクニ タツノカネエ.<wait>
 ; Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
-Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
+Yeah, Tyron was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
 He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
 It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
 
@@ -411,8 +410,8 @@ It had a bottle of important-looking medicine on its neck. I wonder what it's fo
 ; [03A]
 ; ラシ-ク ヲ タオシニイクンダッテ<line>
 ; ナ. ガンバレヨ.<wait>
-; You’re on a quest to defeat LaShiec, huh? Well, good luck!
-It’s about time someone took on LaShiec. God be with you.<wait>
+; You’re on a quest to defeat Lashiec, huh? Well, good luck!
+It’s about time someone took on Lashiec. God be with you.<wait>
 
 [4db6]
 ; [03C]
@@ -430,7 +429,7 @@ I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
 ; サイキンハ フケイキダネ.ドコカニ<line>
 ; イイ モウケバナシハ ナイモノカネ.<wait>
 ; Times have been rough lately, don’t you think? I wonder if there’s anywhere I can go to make money.
-The economy’s plummeted since LaShiec came into power.<wait more>
+The economy’s plummeted since Lashiec came into power.<wait more>
 I’m so broke, I don’t know what to do...<wait>
 
 [4dc1]
@@ -537,8 +536,8 @@ The Governor-General rules all of Motavia from his office in Paseo.<wait>
 ; [06E]
 ; ガシコノ ケンキュウジョデハ ムカシスペ-スシップヲ ツクッテタソウダ.<wait>
 ; Rumor has it that the Gothic Laboratory was once used to build spaceships.
-;Back in the old days, ships like these were built at the laboratory in Gothic.<wait>
-Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
+; Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.
+Back in the old days, ships like these were built in the laboratories at Gothic.<wait>
 
 [4c1d,4cb7]
 ; Airstrip guards
@@ -640,8 +639,8 @@ I wonder if it gets any business, in a cave like that?<wait>
 ; [086]
 ; モタビアノ ソウトクハ ジツハ<line>
 ; ラシ-クト ナカガ ワルイラシイヨ.<wait>
-; ...Actually, the Governor-General seems to be on very bad terms with LaShiec!
-Even the Governor-General is on bad terms with LaShiec.<wait>
+; ...Actually, the Governor-General seems to be on very bad terms with Lashiec!
+Even the Governor-General is on bad terms with Lashiec.<wait>
 
 [4e49]
 ; [088]
@@ -773,14 +772,14 @@ Myau.<wait>
 [4659]
 ; Alisa
 ; [160]-2
-Hello, Myau. I’m looking for a man named Tylon.<wait more>
+Hello, Myau. I’m looking for a man named Tyron.<wait more>
 Rumor has it he was traveling with a talking animal.<line><line>
 I don’t suppose that was you?<wait>
 
 [4664]
 ; Myau
 ; [162]-2
-Tylon got turned to stone trying to slay Medusa!<line><line>
+Tyron got turned to stone trying to slay Medusa!<line><line>
 We can heal him with this medicine, but I can’t open the lid...<wait>
 
 [466f]
@@ -819,7 +818,7 @@ Alisa opened the lid on the bottle and poured out its contents.<wait more>
 It's working!<delay>
 
 ; ********************************
-; *** Character Intro - Tylon ***
+; *** Character Intro - Tyron ***
 ; ********************************
 
 <width 1C><height 06>
@@ -853,11 +852,11 @@ It's working!<delay>
 
 ; Tairon: Thanks for rescuing me. I don’t know if it’ll do any good though.
 ; If we got taken down by Medusa, I don’t think we can even stand a chance
-; against LaShiec.
-; Alisa: My brother ended up dead when he tried to overthrow LaShiec.
+; against Lashiec.
+; Alisa: My brother ended up dead when he tried to overthrow Lashiec.
 ; Just before he died, he gave me your name.
 ; Tairon: I see... All right then, for the sake of your brother,
-; let’s join together and destroy LaShiec!
+; let’s join together and destroy Lashiec!
 ; Alisa: Tell me something first -- Why did you try to kill Medusa?
 ; Tairon: See, Medusa has this magical axe, and I wanted to get it, but she got away from
 ; me. Damn... But anyway... I hid a 'Compass' at a dead end in this cave.
@@ -867,13 +866,13 @@ It's working!<delay>
 ; [166]-2
 Ah, Myau, you found help. Thank you.<line><line>
 I don't know if it will do any good though.<wait more>
-If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<line><line>
+If we couldn't defeat Medusa, we don’t stand a chance against Lashiec.<line><line>
 Who’s your new friend?<wait>
 
 [4693]
 ; [168]-2
 My name is Alisa.<line><line>
-My brother Nero was killed trying to overthrow LaShiec.<wait more>
+My brother Nero was killed trying to overthrow Lashiec.<wait more>
 I'm going to destroy him, no matter what it takes.<line><line>
 Nero gave me your name just before he died, and said that you might help me.<wait>
 
@@ -890,7 +889,7 @@ You said you were trying to slay Medusa. Why?<wait>
 [46b4]
 ; [16E]-2
 Oh, it's because she has a magical axe, and I want it.<line><line>
-Maybe we can grab it on the way to LaShiec?<wait more>
+Maybe we can grab it on the way to Lashiec?<wait more>
 Anyway, I hid a Compass at a dead end in this cave.<line><line>
 Come on, let's go grab it. I'm sure we could use it.<wait>
 
@@ -938,7 +937,7 @@ We don’t get many visitors lately, now that the forest is crawling with monste
 ; [056]
 ; ソナタハ ダンジョンキ-ノ アリカヲサガシテ イルノカナ.<end>
 ; Are you by any chance searching for the ‘Dungeon Key’?
-Taking on ol’ LaShiec, are you?<wait more>
+Taking on ol’ Lashiec, are you?<wait more>
 You’re either a fool, or you’re tougher than you look.<wait more>
 Either way, I admire your bravery. Are you in need of a Dungeon Key?<end>
 
@@ -1040,16 +1039,16 @@ I can’t grant you access without a gift!<wait>
 ; アイニ ユクガヨイ.<wait more>
 ; [0AA]
 ; ラシ-クヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
-; I am the Governor-General of this planet. I understand you are on a quest to defeat LaShiec. I commend you for your courage.
+; I am the Governor-General of this planet. I understand you are on a quest to defeat Lashiec. I commend you for your courage.
 ; In Maharu Cave you will find an Esper named Lutz (pronounced 'roots').
 ; Please take this letter to him.
-; I am absolutely certain that you will defeat LaShiec and return here.
+; I am absolutely certain that you will defeat Lashiec and return here.
 Welcome. I am the Governor-General of this planet. You have come so far. Please, sit.<wait more>
-I know why you are here. You’ve certainly made no secret of it. You're going to kill LaShiec.<wait more>
-LaShiec is a powerful man. No, more than a man. He’s beyond those constraints now.<wait more>
+I know why you are here. You’ve certainly made no secret of it. You're going to kill Lashiec.<wait more>
+Lashiec is a powerful man. No, more than a man. He’s beyond those constraints now.<wait more>
 You’re very brave to take him on. But bravery, I fear, will not be enough.<wait more>
 Go. Destroy him. I won’t stop you. In fact, I will offer you assistance.<wait more>
-A powerful Esper named Lutz lives in Mahal cave, north of here. Take this letter to him.<wait more>
+A powerful Esper, Noah Lutz, lives in Mahal cave to the north. Take this letter to him.<wait more>
 With his help, I have faith that you will succeed. Come back here when you have.<wait>
 
 [4f13,4fc6]
@@ -1057,7 +1056,7 @@ With his help, I have faith that you will succeed. Come back here when you have.
 ; [0AA]
 ; ラシ-クヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
 ; [0AA-2]
-Return here when you have defeated LaShiec. God be with you.<wait>
+Return here when you have defeated Lashiec. God be with you.<wait>
 
 [4ff9]
 ; [0B8]
@@ -1099,13 +1098,13 @@ It was all a dream...<wait>
 ; [1B0]
 ; ブジヲ イノッテイル.<wait>
 ; There’s no time to lose! Have faith in yourself. I’ll be praying for your safety.
-; THAT WAS QUICK! OH I SEE YOU ARE NOT THROUGH WITH LaShiec YOU HAD BEST REST AT THE INN<wait>
+; THAT WAS QUICK! OH I SEE YOU ARE NOT THROUGH WITH Lashiec YOU HAD BEST REST AT THE INN<wait>
 There is not a single moment to lose.<wait more>
 Please be careful.<line>
 I pray for your safety.<wait>
 
 [4ed6]
-; (after defeating LaShiec)
+; (after defeating Lashiec)
 ; [2A6]
 ; オヤ.ヨウスガ ヘンダ.<wait more>
 ; Hey. That’s weird... Where’d the Governor-General go?
@@ -1618,8 +1617,8 @@ Hapsby fixed the parts that were broken, so you can use it now!<wait>
 ; [10C]
 ; ココハ ロア- トイウ ムラデス.<line>
 ; ラシ-クノセイデ サビレテシマッタ.<wait>
-; This is the Village of Lore. Thanks to LaShiec, it’s become a wasteland.
-This is Lore Village. Well, it used to be, before LaShiec's corruption.<wait more>
+; This is the Village of Lore. Thanks to Lashiec, it’s become a wasteland.
+This is Lore Village. Well, it used to be, before Lashiec's corruption.<wait more>
 As you can see, now it’s a wasteland.<wait>
 
 [5119]
@@ -1661,15 +1660,15 @@ I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
 ; Villager
 ; [118]
 ; エッ ラシ-クヲ タオシニ イクノ.スゴイネエ.<wait>
-; Huh? You’re going to defeat LaShiec? Awesome!
-You're going to bring down LaShiec? It's about time someone did!<wait>
+; Huh? You’re going to defeat Lashiec? Awesome!
+You're going to bring down Lashiec? It's about time someone did!<wait>
 
 ; unused? index $011a originally
 []
 ; [11A]
 ; ウワサダケド アル クリスタルハ<line>
 ; アシキ マホウヲ フウジルトカ.<wait>
-LaShiec’s no pushover. His black magic could destroy you.<wait more>
+Lashiec’s no pushover. His black magic could destroy you.<wait more>
 I’ve heard certain crystals can protect you against such magic.<wait more>
 It’s just a rumor, though. Don’t quote me on that.<wait>
 
@@ -1690,8 +1689,8 @@ This village is called Avion.<wait>
 ; [11E]
 ; ラシ-クノ マノテハ コノムラニモ<line>
 ; ノビテキタ. タスケテクレ.<wait>
-; The evil hand of LaShiec has extended to this village as well! Please help us!
-LaShiec’s evil influence has corrupted our village, too! Please, you have to stop him!<wait>
+;Lashiec’s evil influence has corrupted our village, too! Please, you have to stop him!
+The evil hand of Lashiec has extended to this village as well! Please help us!<wait>
 
 [514b]
 ; Villager
@@ -1787,8 +1786,8 @@ I haven't been yet, but a lot of them live in a village inside the mountains up 
 ; コレラノ ブキハ サイキョウノ<line>
 ; [1B0]
 ; ブジヲ イノッテイル.<wait>
-; What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.
-Overthrowing LaShiec, are you? You'll need a sword, axe, shield, and armor made of Laconia.<wait more>
+; What? ‘Overthrow Lashiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.
+Overthrowing Lashiec, are you? You'll need a sword, axe, shield, and armor made of Laconia.<wait more>
 Laconia is the most powerful material in Algol, I wouldn't use anything less.<wait more>
 I'll be praying for your safety. We all will.<wait>
 
@@ -1801,9 +1800,9 @@ I'll be praying for your safety. We all will.<wait>
 ; [1B6]
 ; アチコチニ カクシテシマッタトイウ.<wait>
 ; <end>
-; Weapons made from laconia conceal holy powers, y’know. I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.
+; Weapons made from laconia conceal holy powers, y’know. I heard that Lashiec despises them, so he hid them here and there throughout the planets of Algol.
 Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
-LaShiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
+Lashiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
 
 [5256]
 ; Townsperson
@@ -1847,7 +1846,7 @@ Native Dezorians believe Eclipse Torches carry divine power.<wait>
 ; [1C6]
 ; オソロシヤ.<wait>
 ; I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!>
-The unholy forces LaShiec and his ilk have involved themselves with have gone too far.<wait more>
+The unholy forces Lashiec and his ilk have involved themselves with have gone too far.<wait more>
 All of the dead bodies in Guaran Morgue have come back to life! It's grotesque!<wait>
 
 
@@ -2020,7 +2019,7 @@ Welcome to Drasgo, our tiny little town floating on the sea.<wait>
 ; タドリツキマシタネ.<wait>
 ; Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!
 Wow! I didn’t expect to see visitors here any time soon.<wait more>
-Not since LaShiec put an embargo on sea travel, anyway. How the heck did you get here?<wait>
+Not since Lashiec put an embargo on sea travel, anyway. How the heck did you get here?<wait>
 
 [51dd]
 ; Townsperson
@@ -2186,8 +2185,8 @@ Shame on you! Hurry up and buy one!<wait>
 ; Villager
 ; [200]
 ; ラシ-クガ ケンリョクヲ ニギル<line>
-; Before LaShiec’s powerful grasp, this village was very wealthy.
-Before LaShiec’s powerful grasp, this village was very wealthy.<wait>
+; Before Lashiec’s powerful grasp, this village was very wealthy.
+Before Lashiec’s oppressive rule, this village was quite wealthy.<wait>
 
 [5320]
 ; Villager
@@ -2267,8 +2266,8 @@ I see. Then there is no point in talking with you any further.<wait>
 ; [24C]
 ; オオ ワガデシ ルツヨ. ツイニ<line>
 ; ラシ-クヲ タオス タビニデルカ.<wait>
-; Ah. My student, Lutz! I see you are finally on your way to defeating LaShiec.
-Ah, Lutz, my pupil! I see you are finally fulfilling your destiny to defeat LaShiec.<wait>
+; Ah. My student, Lutz! I see you are finally on your way to defeating Lashiec.
+Ah, Lutz, my pupil! I see you are finally fulfilling your destiny to defeat Lashiec.<wait>
 
 [56d3]
 ; Tajim (if Lutz is dead - not possible?)
@@ -2474,9 +2473,9 @@ I’ve got a bad feeling about this.<wait>
 ; トイウ ウラナイシノ モッテイル<wait more>
 ; [23C]
 ; クリスタルヲ ラシ-クサマハ<line>
-; Don’t let this get out, but there's a fortuneteller named Damoa who is in posession of a crystal that LaShiec hates. There must be something secret about that crystal.
+; Don’t let this get out, but there's a fortuneteller named Damoa who is in posession of a crystal that Lashiec hates. There must be something secret about that crystal.
 You didn’t hear this from me, but...<wait more>
-Lord LaShiec fears the crystal held by Damoa the fortune-teller.<wait more>
+Lord Lashiec fears the crystal held by Damoa the fortune-teller.<wait more>
 There must be something secret about it.<wait>
 
 [5661]
@@ -2585,15 +2584,15 @@ Did you come to help me escape?<wait>
 ; [224]
 ; ラシ-クヲ タオソウナンテ<line>
 ; ムボウダヨ.<wait>
-; Defeat LaShiec?! That’s nonsense!
-Destroy LaShiec? That’s impossible. You can’t kill one who cannot die.<wait>
+; Defeat Lashiec?! That’s nonsense!
+Destroy Lashiec? That’s impossible. You can’t kill one who cannot die.<wait>
 
 [5601]
 ; Prisoner
 ; [226]
 ; ワタシタチハ ラシ-クノ イケニエニサレテシマウノヨ. ウッウウ.<wait>
-; We will all be sacrificed in the name of LaShiec! Agh!
-We’re all going to end up as sacrifices for LaShiec!<wait>
+; We will all be sacrificed in the name of Lashiec! Agh!
+We’re all going to end up as sacrifices for Lashiec!<wait>
 
 [582d]
 ; Prisoner
@@ -2621,9 +2620,8 @@ Wow, you’re amazing!<wait>
 ; [22E]
 ; ラシ-クニ デアッタモノハ ミナ<line>
 ; ソノ マリョクデ<wait more>
-; All those who have gone up against LaShiec have had their souls taken by his magic.
-LaShiec’s more dangerous than most people realize.<wait more>
-His magical powers to snatch away your very soul!<wait>
+;Lashiec’s more dangerous than most people realize. His magical powers to snatch away your very soul!
+All those who have gone up against Lashiec have had their souls taken by his magic.<wait>
 
 [560d]
 ; Prisoner
@@ -2653,9 +2651,11 @@ Do you have a Roadpass?<end>
 ; ドレドレ<line>
 ; [220]
 ; ロボットダト オモッテ ナメルナヨ.ロウニ ブチコンデヤル.<wait>
-; Let me see here... Hm? This is a fake! Don't think you can fool me just because I'm a robot! Let me show you to your cell.
-This is a fake. Where did you get this?<wait more>
-Well, you certainly picked the right place to get locked up. Come with me.<wait>
+;This is a fake. Where did you get this?
+;Well, you certainly picked the right place to get locked up. Come with me.
+Let me see here... Hm? This is a fake!<wait more>
+Don't think you can fool me just because I'm a robot!<wait more>
+...Let me show you to your cell.<wait>
 
 [5619]
 ; Prisoner
@@ -2833,8 +2833,8 @@ There is more than meets the eye in this dungeon, fools.<wait>
 ; Old Man
 ; [26A]
 ; ラシ－クサマニ サカラウナ.<wait>
-; Do not defy the great LaShiec.
-Defy King LaShiec at your peril.<wait>
+; Do not defy the great Lashiec.
+Defy King Lashiec at your peril.<wait>
 
 [5738]
 ; Shadow Warrior
@@ -2853,12 +2853,12 @@ I know why you’re here. I’ve been watching you closely. Your pathetic journe
 ; カゲムシャダ.<wait more>
 ; [268]
 ; オレヲタオシタトコロデ<line>
-; I am King LaShiec’s shadow warrior. You have gained nothing by defeating me! Hee hee hee!
-I am merely LaShiec’s shadow warrior. You’ve gained nothing by defeating me.<wait more>
-King LaShiec can't be killed. His power defies comprehension. You have come here to die.<wait>
+; I am King Lashiec’s shadow warrior. You have gained nothing by defeating me! Hee hee hee!
+I am merely Lashiec’s shadow warrior. You’ve gained nothing by defeating me.<wait more>
+King Lashiec can't be killed. His power defies comprehension. You have come here to die.<wait>
 
 [576a]
-; LaShiec
+; Lashiec
 ; [26C]
 ; トウトウ ココマデ キタカ.<line>
 ; ウンノ イイヤツラメ.<wait more>
@@ -2866,10 +2866,10 @@ King LaShiec can't be killed. His power defies comprehension. You have come here
 ; And so you finally arrive. How fortunate you are. Do you really wish to defeat me?
 Ah, it’s you. You've finally arrived. How accomplished you must feel.<wait more>
 Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
-And you have what? Weapons? Magic? Did you really hope to destroy me?<end>
+And you have what? Weapons? Magic? Did you really hope to defeat me?<end>
 
 [5773]
-; LaShiec (yes to previous question)
+; Lashiec (yes to previous question)
 ; [26E]
 ; ソウカ.ソレナラバ<wait more>
 ; ソノ カンガエガ マチガッテイタ<line>
@@ -2877,22 +2877,22 @@ And you have what? Weapons? Magic? Did you really hope to destroy me?<end>
 Then let us hope you will be a worthy sacrifice.<wait>
 
 [5778]
-; LaShiec (no to previous question)
+; Lashiec (no to previous question)
 ; [270]
 ; コノゴニ オヨンデ<line>
 ; You have already wasted too much of my time. I shall make you regret it!
 I’ve no time for games! Come, let me show you what lies beyond this life.<wait>
 
 [5789]
-; (Defeat LaShiec)
+; (Defeat Lashiec)
 ; [2AA]
 ; ラシ-クハ タオレタ.<wait more>
 ; アリサノ ネガイハ カナエラレタ.<wait more>
 ; テンゴクノ ネロモ キット<line>
 ; What?! Could it be that I die? What a disgrace. I shall live again!
-; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
+; Lashiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
 You may have destroyed this body, but I can never truly die! I shall live again!<line><line><line><line><wait more>
-Lord LaShiec has fallen. Nero’s dying wish was granted. A new life has begun in Algol.<wait more>
+Lord Lashiec has fallen. Nero’s dying wish has been fulfilled. A new era has begun in Algol.<wait more>
 The only thing left to do is return to the Governor-General in Paseo!<wait>
 
 ; **************
@@ -2917,10 +2917,10 @@ The only thing left to do is return to the Governor-General in Paseo!<wait>
 ; Well done! You have saved the world! If you had taken any longer, terrible events might have come to pass. I extend you my utmost appreciation.
 ; And now, Alisa, I have something I wish to tell you:
 ; The truth is, your father was once the King of Algol.
-; Now that the demon’s fortress has been destroyed, and LaShiec is no more, will be your father’s successor and become the Queen of Algol?
+; Now that the demon’s fortress has been destroyed, and Lashiec is no more, will be your father’s successor and become the Queen of Algol?
 Oh, goodness. Please forgive me. My mind and body were controlled by an evil force.<wait more>
 You’ve done it! You’ve saved Algol. History shall repeat your names, always.<wait more>
-LaShiec is no more, his terrible fortress has been destroyed. Finally, peace can be restored.<wait more>
+Lashiec is no more, his terrible fortress has been destroyed. Finally, peace can be restored.<wait more>
 And just in time, too. I fear if you'd taken any longer, we would have lost everything.<wait more>
 Alisa. There is something I must tell you. A secret I've kept, to spare your life.<wait more>
 Alisa...your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
@@ -2953,7 +2953,7 @@ I see. I won't try to convince you. Should you change your mind, Algol will alwa
 ; [14A]-2
 ; シダイニ ソラガ アカルクナッテイキヒトビトモ ヘイワヲ トリモドシタ.<end>
 ; Gradually, the sky brightened, and peace was restored to all.
-Gradually, the sky brightened. The creatures subsided. Peace returned.<end>
+Gradually, the sky brightened. The monsters retreated. Peace returned.<end>
 
 [47e3]
 ; [14C]-2
@@ -2982,7 +2982,7 @@ But does the breeze know of the hardships they endured?<end>
 ; <line>
 ; タイロン<delay>
 <line>
-        Tylon,<delay>
+        Tyron,<delay>
 
 [4816]
 ; [17C]-2
@@ -3307,7 +3307,7 @@ Your body became unusually light.<delay>
 [1b45,1f21]
 ; [074]-2
 ;タイロンハ マジックヲ ツカエナイ.<delay>
-Tylon can’t use magic.<delay>
+Tyron can’t use magic.<delay>
 
 [1b9e,1f1c]
 ; [076]-2
@@ -3699,7 +3699,7 @@ OK. Now saving in slot<internal hint 04> <number>...<delay>
 ; [0F8]-2
 ;ラシ-クサマニハ<line>
 ;サカラワナイホウガ イイヨ.<wait>
-‘You should not go against Lord LaShiec.’<wait>
+‘You should not go against Lord Lashiec.’<wait>
 
 [1aeb]
 ; [0FA]-2
@@ -3751,7 +3751,7 @@ OK. Now saving in slot<internal hint 04> <number>...<delay>
 ; [10A]-2
 ;ラシ-クサマハ ソラノウエニ<line>
 ;イラッシャルンダ.<wait>
-‘Lord LaShiec lives up in the sky.’<wait>
+‘Lord Lashiec lives up in the sky.’<wait>
 
 [1cd4]
 ; [10C]-2
@@ -3841,7 +3841,7 @@ Alisa and her companions have been annihilated.<wait>
 ;ヤボウノ マエニ<wait more>
 ;ムナシク キエサッタ.<line>
 ;ココデ ボウケンハ オワリデス.<wait>
-Alisa’s hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
+Alisa’s hopes have vanished fruitlessly in the face of Lashiec’s ambition.<wait more>
 The journey ends here.<wait>
 
 [2bc0,2d9d,4d88]

@@ -1,0 +1,168 @@
+---------------------------------------------------------------------------
+Bugs: 
+---------------------------------------------------------------------------
+Fixed "Defense" value showing up as "Attack" in the Stats Menu
+
+the error was in ps1jert.sms.asm:
+
+  call DrawTextAndNumberBC
+  ld hl,Attack
+  ld a,(ix+8)
+  call DrawTextAndNumberA
+  ld hl,Defense
+  ld a,(ix+9) ; was ld a,(ix+8)
+
+
+---------------------------------------------------------------------------
+(Re)(De)(Un)localized Text Strings:
+---------------------------------------------------------------------------
+[Names]
+
+Tylon		-->	Tyron ; a common complaint
+LaShiec		-->	Lashiec ; matches the PSIV localization
+
+[Enemies]
+
+Monster Fly 	-->	Sworm ; Too iconic
+Shark King 	-->	Fishman ; Too iconic, most people spent years of their life grinding these. 
+                	Lorewise, both fishmen and batmen (werebats) are humans genetically modified 
+			by Lashiec for aquatic/aerial combat.
+
+Dragon Wise 	-->	Wise Dragon ; don't know why the adjective was placed after the subject on these two.
+Dezorian Head 	--> 	Head Dezorian
+
+Robot Police	-->	Robot Cop
+Machine Guard	-->	Android Guard ; retains more of the original localization flavor: "Androcop".
+
+
+[Spells]
+
+Troop		-->	Teleport (originally FLY; Teleport in PS Generation 1 remake translation)
+Super heal	-->	Super Heal (overworld version of "heal" was in lower case)
+Waller		-->	Wall
+Transrate	-->	Translate (spelling error?)
+Magic Waller	-->	Protection (originally PROT; note: Wall and Protection are exactly the same)
+
+
+-------------------------------------------------------------------------------------
+Script Changes:
+-------------------------------------------------------------------------------------
+This is just another pass to wipe out the last bits of Engrish, fix some small errors,
+and address some contextual problems.
+
+Format:
+==============================
+[offset]
+//comments
+
+; ORIGINAL	 (if available)
+; PJenson (2002) (if available)
+; SMS (2008-20)
+  this patch
+==============================
+
+[45ef]
+// corpse --> fate; technically Nero is not yet dead at this point.
+
+; Citizens of Camineet, this boy’s corpse is a reminder for all of you.
+  Citizens of Camineet, this boy’s fate is a reminder for all of you.
+
+
+[4b4e] 
+// Condenses Suelo's dialogue on return visits so no additional button press is required to print all text.
+// A player might come back here upwards of 100 times a playthrough; so this one is a major QoL thing.
+
+; Please get some rest. Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.
+  Please rest. Your brother would be proud of you, but don’t overdo it, okay?
+
+
+[4f19]
+// Included as a nod to the original localized name.
+
+; A powerful Esper, Lutz lives in Mahal cave, north of here. Take this letter to him.
+  A powerful Esper, Noah Lutz, lives in Mahal cave to the north. Take this letter to him.
+
+[00E]
+// Included as a nod to the original localized name. Adds something to the idea that Tyron may 
+// be a bit of a blowhard, and not quite the warrior his reputation implies.
+
+; Nero asked me to help him find a warrior named Tylon, are you looking for him too?
+; The last I heard, he was staying in a town called Shion. Maybe he's still near there.
+  Nero asked me to help him find a warrior named Tyron, or ‘Odin’ as he likes to call himself.
+  The last I heard he was staying in a town called Shion. Maybe he's still there.
+
+
+[4c03]
+// Reverted (with lower case on "east"); it just feels more succinct/natural.
+
+; If you travel East, you will reach the port town of Shion.
+; If you're looking for a port town, Shion is just east of here.
+  If you travel east, you will reach the port town of Shion.
+
+
+[4c0f]
+// In Mahal cave, Lutz refers to a "manhole cover" at Camineet spaceport, impling something more like a sewer. 
+// Personally, the term "catacomb" caused me undo confusion in my playthrough.
+
+; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
+; Did you know there’s an abandoned catacomb leading west, to the Gothic Woods? Supposedly it’s somewhere nearby, but I can’t find it.
+  Did you know there’s an abandoned sewer leading west, to the Gothic Woods? Supposedly it’s somewhere nearby, but I can’t find it.
+
+
+[4c40]
+// Fixed typo; Motvaia --> Motavia
+
+
+[4caa]
+// The original line had more readability. Pluralized laboratory to give a sense Gothic may have 
+// been a center of technological research and production rather than just a single facility.
+
+; Rumor has it that the Gothic Laboratory was once used to build spaceships.
+; Back in the old days, ships like these were built at the laboratory in Gothic.
+; Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.
+  Back in the old days, ships like these were built in the laboratories at Gothic.
+
+
+// Reverted; the original line was a bit more evocative.
+[5145]
+; Lashiec’s evil influence has corrupted our village, too! Please, you have to stop him!
+  The evil hand of Lashiec has extended to this village as well! Please help us!
+
+
+// Kind of an awkward (Engrish-sounding) line.
+[531a]
+; Before Lashiec’s powerful grasp, this village was very wealthy.
+  Before Lashiec’s oppressive rule, this village was quite wealthy.
+
+
+// Reverted; the original line was more elegant and evocative. 
+// Plus "His (He has?) magical powers to snatch away your very soul!" makes no sense as written.
+[5607]
+; LaShiec’s more dangerous than most people realize. His magical powers to snatch away your very soul!
+  All those who have gone up against Lashiec have had their souls taken by his magic.
+
+
+// Reverted with tweak: A dramatic pause before party is imprisoned allows this line to retain 
+// the "humor" of original line and the seriousness of the 2008-20 line.
+[55c5]
+; Let me see here... Hm? This is a fake! Don't think you can fool me just because I'm a robot! Let me show you to your cell.
+; This is a fake. Where did you get this? Well, you certainly picked the right place to get locked up. Come with me.
+  Let me see here... Hm? This is a fake! Don't think you can fool me just because I'm a robot! ...Let me show you to your cell.
+
+
+// destroy --> defeat; A villain who is contemptuous of the heroes would use a milder term when rhetorically questioning their ability to undo him.
+[576a]
+; [...] And you have what? Weapons? Magic? Did you really hope to destroy me?
+  [...] And you have what? Weapons? Magic? Did you really hope to defeat me?
+
+
+// life --> era ; "A new life in Algol" (new life for whom, what?)
+[5789]
+; [...] Lord Lashiec has fallen. Nero’s dying wish was granted. A new life has begun in Algol. The only thing left to do is return to the Governor-General in Paseo!
+  [...] Lord Lashiec has fallen. Nero’s dying wish was granted. A new era has begun in Algol. The only thing left to do is return to the Governor-General in Paseo!
+
+
+// "The creatures subsided" sounds a bit odd.
+[47da]
+; Gradually, the sky brightened. The creatures subsided. Peace returned.
+  Gradually, the sky brightened. The monsters retreated. Peace returned.

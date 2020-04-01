@@ -101,7 +101,7 @@ ptrs=3068,30bf,3126
 ;dims=3084,30db ; same as AlisaBox
 
 ┌──────╖
-│Tylon ║
+│Tyron ║
 │------║
 
 [LutzBox]
@@ -121,7 +121,7 @@ height=6
 ┌─────╖
 │Alisa║
 │Myau ║
-│Tylon║
+│Tyron║
 │Lutz ║
 
 [ChoosePlayerMenuBottom]
@@ -167,7 +167,7 @@ dims=301b,303c
 [TaironActiveBox]
 
 ┌─────╖
-│Tylon║
+│Tyron║
 ╘═════╝
 
 [LutzActiveBox]
@@ -185,7 +185,7 @@ height=7
 ┌────────────╖
 │Heal        ║
 │Quick Dash  ║
-│Transrate   ║
+│Translate   ║
 │Fire        ║
 │Bind        ║
 
@@ -196,7 +196,7 @@ height=7
 ┌────────────╖
 │Super Heal  ║
 │Terror      ║
-│Waller      ║
+│Wall        ║
 │Power Boost ║
 │            ║
 
@@ -206,14 +206,14 @@ height=7
 │Fire        ║
 │Telepathy   ║
 │Wind        ║
-│Magic Waller║
+│Protection  ║
 │Thunder     ║
 
 [OverworldSpellsAlisa]
 
 ┌────────────╖
 │Heal        ║
-│Troop       ║
+│Teleport    ║
 │            ║
 │            ║
 │            ║
@@ -221,7 +221,7 @@ height=7
 [OverworldSpellsMyau]
 
 ┌────────────╖
-│Super heal  ║
+│Super Heal  ║
 │Untrap      ║
 │Bypass      ║
 │            ║
@@ -230,7 +230,7 @@ height=7
 [OverworldSpellsLutz]
 
 ┌────────────╖
-│Super heal  ║
+│Super Heal  ║
 │Bypass      ║
 │Telepathy   ║
 │Magic Unseal║
@@ -386,7 +386,7 @@ dims=3b52,3b79
 │Dezoris      ║
 │Tower        ║
 │Final Dungeon║
-│LaShiec      ║
+│Lashiec      ║
 │Dark Force   ║
 │Ending       ║
 │Game Over    ║

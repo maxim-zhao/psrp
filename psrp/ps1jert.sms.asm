@@ -1733,12 +1733,12 @@ Items:
 Names:
   String "Alisa"
   String "Myau"
-  String "Tylon"
+  String "Tyron"
   String "Lutz"
 
 Enemies:
   String " " ; Empty
-  String "^Monster Fly"
+  String "^Sworm"
   String "^Green Slime"
   String "^Wing Eye"
   String "^Maneater"
@@ -1757,7 +1757,7 @@ Enemies:
   String "^Red Slime"
   String "^Bat Man"
   String "^Horseshoe Crab"
-  String "^Shark King"
+  String "^Fishman"
   String "^Lich"
   String "^Tarantula"
   String "^Manticort"
@@ -1780,15 +1780,15 @@ Enemies:
   String "^Dorouge"
   String "^Octopus"
   String "^Mad Stalker"
-  String "^Dezorian Head"
+  String "^Head Dezorian"
   String "^Zombie"
   String "^Living Dead"
-  String "^Robot Police"
+  String "^Robot Cop"
   String "^Cyborg Mage"
   String "^Flame Lizard" ; $30
   String "Tajim"
   String "^Gaia"
-  String "^Machine Guard"
+  String "^Android Guard"
   String "^Big Eater"
   String "^Talos"
   String "^Snake Lord"
@@ -1799,17 +1799,17 @@ Enemies:
   String "^Vulcan"
   String "^Red Dragon"
   String "^Green Dragon"
-  String "LaShiec"
+  String "Lassic"
   String "^Mammoth"
   String "^King Saber"
   String "^Dark Marauder"
   String "^Golem"
   String "Medusa"
   String "^Frost Dragon"
-  String "Dragon Wise"
+  String "Wise Dragon"
   String "Gold Drake"
   String "Mad Doctor"
-  String "LaShiec"
+  String "Lassic"
   String "Dark Force"
   String "Nightmare"
 ; Terminator
@@ -2754,7 +2754,7 @@ stats:
   ld a,(ix+8)
   call DrawTextAndNumberA
   ld hl,Defense
-  ld a,(ix+8)
+  ld a,(ix+9)
   call DrawTextAndNumberA
   ld hl,MaxHP
   ld a,(ix+6)
