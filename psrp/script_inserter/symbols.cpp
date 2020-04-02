@@ -357,7 +357,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
     std::vector<uint8_t> currentLineData;
     std::vector<int> patchOffsets;
     
-    std::wregex r(L"[[0-9a-f]+");
+    std::wregex r(L"[0-9a-f]+");
     std::string label;
 
     // Read in string entries

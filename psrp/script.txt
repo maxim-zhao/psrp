@@ -1583,7 +1583,7 @@ Bartevo is my turf, stranger. Don't go poking your nose around.<wait>
 Someone told me that there’s a perfectly good robot discarded in one of these scrap heaps.<wait more>
 I wonder if it’s true?<wait>
 
-[5524] 
+[5524]
 ; Villager (in the cave next to Bortevo)
 ; [10A]
 ; アビオンノ ムラニ ポリメテラ-ル<line>
