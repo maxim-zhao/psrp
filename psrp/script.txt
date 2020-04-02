@@ -373,7 +373,7 @@ I'd love to go someday. I've never been off-planet before!<line><wait>
 ; [032]
 ; パロリトノ ニシニアル ガシコノモリヘハ チカツウロガ アルラシイ.<wait>
 ; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
-Did you know there’s an abandoned catacomb leading west, to the Gothic Woods?<wait more>
+Did you know there’s an underground passage leading west, to the Gothic Woods?<wait more>
 Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
 
 
@@ -1691,7 +1691,7 @@ This village is called Avion.<wait>
 ; ラシ-クノ マノテハ コノムラニモ<line>
 ; ノビテキタ. タスケテクレ.<wait>
 ; The evil hand of LaShiec has extended to this village as well! Please help us!
-LaShiec’s evil influence has corrupted our village, too! Please, you have to stop him!<wait>
+The evil hand of Lashiec has extended to this village too! Please, you have to stop him!<wait>
 
 [514b]
 ; Villager
@@ -2187,7 +2187,7 @@ Shame on you! Hurry up and buy one!<wait>
 ; [200]
 ; ラシ-クガ ケンリョクヲ ニギル<line>
 ; Before LaShiec’s powerful grasp, this village was very wealthy.
-Before LaShiec’s powerful grasp, this village was very wealthy.<wait>
+Before LaShiec’s oppressive rule, this village was very wealthy.<wait>
 
 [5320]
 ; Villager
@@ -2623,7 +2623,7 @@ Wow, you’re amazing!<wait>
 ; ソノ マリョクデ<wait more>
 ; All those who have gone up against LaShiec have had their souls taken by his magic.
 LaShiec’s more dangerous than most people realize.<wait more>
-His magical powers can snatch away your very soul!<wait>
+Those who have challenged him have had their souls taken by his magic!<wait>
 
 [560d]
 ; Prisoner
@@ -2866,7 +2866,7 @@ King LaShiec can't be killed. His power defies comprehension. You have come here
 ; And so you finally arrive. How fortunate you are. Do you really wish to defeat me?
 Ah, it’s you. You've finally arrived. How accomplished you must feel.<wait more>
 Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
-And you have what? Weapons? Magic? Did you really hope to destroy me?<end>
+And you have what? Weapons? Magic? Did you really hope to defeat me?<end>
 
 [5773]
 ; LaShiec (yes to previous question)
@@ -2892,7 +2892,7 @@ I’ve no time for games! Come, let me show you what lies beyond this life.<wait
 ; What?! Could it be that I die? What a disgrace. I shall live again!
 ; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
 You may have destroyed this body, but I can never truly die! I shall live again!<line><line><line><line><wait more>
-Lord LaShiec has fallen. Nero’s dying wish was granted. A new life has begun in Algol.<wait more>
+Lord LaShiec has fallen. Nero’s dying wish was granted. A new era has begun in Algol.<wait more>
 The only thing left to do is return to the Governor-General in Paseo!<wait>
 
 ; **************
@@ -2953,7 +2953,7 @@ I see. I won't try to convince you. Should you change your mind, Algol will alwa
 ; [14A]-2
 ; シダイニ ソラガ アカルクナッテイキヒトビトモ ヘイワヲ トリモドシタ.<end>
 ; Gradually, the sky brightened, and peace was restored to all.
-Gradually, the sky brightened. The creatures subsided. Peace returned.<end>
+Gradually, the sky brightened. The monsters retreated. Peace returned.<end>
 
 [47e3]
 ; [14C]-2
