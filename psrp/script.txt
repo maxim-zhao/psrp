@@ -2623,7 +2623,7 @@ Wow, you’re amazing!<wait>
 ; ソノ マリョクデ<wait more>
 ; All those who have gone up against LaShiec have had their souls taken by his magic.
 LaShiec’s more dangerous than most people realize.<wait more>
-His magical powers to snatch away your very soul!<wait>
+His magical powers can snatch away your very soul!<wait>
 
 [560d]
 ; Prisoner
