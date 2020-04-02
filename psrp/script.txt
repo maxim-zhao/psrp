@@ -388,7 +388,7 @@ Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
 ; デゾリスセイニハ デゾリアン トイウ<wait more>
 ; On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
 We're not the only intelligent life in the Algol Solar System, you know.<wait more>
-Motvaia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
+Motavia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
 I'd love to have a conversation with an actual alien someday...<line><wait>
 
 [4da7]
