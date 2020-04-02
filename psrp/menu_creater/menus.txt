@@ -221,7 +221,7 @@ height=7
 [OverworldSpellsMyau]
 
 ┌────────────╖
-│Super heal  ║
+│Super Heal  ║
 │Untrap      ║
 │Bypass      ║
 │            ║
@@ -230,7 +230,7 @@ height=7
 [OverworldSpellsLutz]
 
 ┌────────────╖
-│Super heal  ║
+│Super Heal  ║
 │Bypass      ║
 │Telepathy   ║
 │Magic Unseal║
