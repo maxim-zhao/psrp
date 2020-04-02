@@ -1653,7 +1653,7 @@ OriginalVBlankHandlerPatch:
 
 ; Lists
 
-.bank 2
+.slot 2
 .section "Enemy, name, item lists" superfree
 Lists:
 ; Order is important!
@@ -1822,7 +1822,7 @@ Enemies:
 ; Adding more words costs space here (in a paged bank), but saves space in bank 2 - mostly,
 ; because it also increases the complexity of the Huffman trees.
 ; If our goal is to maximise script space then we should maximise the word count.
-; The limit is 160 (could stretch a few more...)
+; The limit is 164 ($100 - WordListStart).
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
@@ -1842,7 +1842,7 @@ IndexTableRemap:
 
 ; Menus
 
-.bank 2
+.slot 2
 .section "Menu data" superfree
 .block "Menus"
 MenuData:
@@ -1914,7 +1914,7 @@ SpellBlankLine:
   jp $3b81 ; draw and exit
 .ends
 
-.bank 2
+.slot 2
 .section "Opening cinema" superfree
 .block "Opening"
 Opening:
