@@ -2754,7 +2754,7 @@ stats:
   ld a,(ix+8)
   call DrawTextAndNumberA
   ld hl,Defense
-  ld a,(ix+8)
+  ld a,(ix+9)
   call DrawTextAndNumberA
   ld hl,MaxHP
   ld a,(ix+6)
