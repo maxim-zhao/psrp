@@ -23,7 +23,7 @@ Unofficial Translation 2005-2019
   - fixed a bug with the Pause button mod
 - v1.02 released 2008/01/31
   - fixed lockup when you visit Tajim
-- v2.00 released 2019/??/??
+- v2.00 released 2020/??/??
   - rebuilt tools and assembly process
   - fixed issue with 10-letter item names in inventory (#2)
   - fixed bug with pluralisation (#5)
@@ -129,6 +129,8 @@ Also thanks to the following for various contributions to item naming, etc.
 - Namida
 - LEADKUN
 - Mia
+- vivify93
+- MandrasX
 
 ## Authors' notes
 
