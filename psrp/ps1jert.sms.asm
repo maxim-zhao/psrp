@@ -2381,7 +2381,7 @@ _write_price:
 ; A small hack is inserted to catch for 'extra' strings.
 DezorianCustomStringCheck:
   cp $ff      ; custom string [1E7]
-  jp $59ca    ; Where the patched jump went to (shows an error message?)
+  jp nz,$59ca    ; Where the patched jump went to (shows an error message? Shows junk now...)
 
   ld hl,DishonestDezorianFix ; Those guys in the other village are all liars. For real.<wait>
   jp IndexTableRemap
