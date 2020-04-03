@@ -2381,7 +2381,7 @@ _write_price:
 ; A small hack is inserted to catch for 'extra' strings.
 DezorianCustomStringCheck:
   cp $ff      ; custom string [1E7]
-  jp nz,$59ca    ; Where the patched jump went to (shows an error message? Shows junk now...)
+  jp $59ca    ; Where the patched jump went to (shows an error message? Shows junk now...)
 
   ld hl,DishonestDezorianFix ; Those guys in the other village are all liars. For real.<wait>
   jp IndexTableRemap
@@ -2709,6 +2709,22 @@ DezorianCustomStringCheck:
   PatchWords PLAYER_SELECT_2        $37a5 $37ef ; Player select for magic
   PatchWords PLAYER_SELECT_2_VRAM   $37a8 $37f2
   PatchW $37b4 PLAYER_SELECT_2_VRAM + ONE_ROW
+
+; If you try to sell an item but you don't have any to sell,
+; the game acts the same as if you cancelled the selection with button 1.
+; To do this it needs to have bit 4 of c set. The inventory drawing code
+; leaves c in this state so it doesn't bother to set it. Our changes
+; break this.
+  ROMPosition $3602
+.section "Sell cycle fix patch" overwrite
+  jp z,NoItemsToSell
+.ends
+
+.section "Sell cycle fix" free
+NoItemsToSell:
+  ld c,1<<4 ; act like a cancel
+  jp MenuWaitForButton ; and then do what the original code did
+.ends
 
 .bank 0 slot 0
 .section "Multiply" free
