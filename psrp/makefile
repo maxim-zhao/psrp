@@ -78,6 +78,9 @@ new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal
 new_graphics\logo.psgcompr new_graphics\logo-nt.bin: new_graphics\logo.png
 	new_graphics\bmp2tile.exe $** -tileoffset 256 -savetiles new_graphics\logo.psgcompr -savetilemap new_graphics\logo-nt.bin
 
+new_graphics\alisa.tiles.bin: new_graphics\alisa.png
+	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+
 new_graphics\bg1.psgcompr   : new_graphics\bg1.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\bg2.psgcompr   : new_graphics\bg2.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\bg3.psgcompr   : new_graphics\bg3.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
@@ -125,7 +128,8 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\world1.psgcompr new_graphics\world2.psgcompr \
        new_graphics\font1.psgcompr new_graphics\font2.psgcompr new_graphics\font3.psgcompr \
        new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin \
-       new_graphics\logo.psgcompr new_graphics\logo-nt.bin
+       new_graphics\logo.psgcompr new_graphics\logo-nt.bin \
+       new_graphics\alisa.tiles.bin
 
 # ROM building
 ps1jert.sms: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm

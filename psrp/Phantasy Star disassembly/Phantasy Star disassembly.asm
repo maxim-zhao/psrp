@@ -5328,7 +5328,7 @@ AnimCharacterSprites:  ; $6471
     ld (ix+17),a           ; make it equal
     ld d,a                 ; save in d
     ld a,(ix+$01)          ; get 1 byte after = character number
-    or a                   ; set flags with it (why?) ###############
+    or a                   ; check for zero
     ld hl,_FunctionTable-2 ; -2 because 0 is not used
     jp nz,FunctionLookup
   +:ld de,32           ; move to next data
@@ -5370,7 +5370,7 @@ _Noah:                 ; $64c2
     add hl,de
     ld de,NoahSprites
     add hl,de          ; hl = NoahSprites + (ix+$10)*192
-    ld de,$7600        ; tile $1b0
+    TileAddressDE $1b0
     SetVRAMAddressToDE
     ld c,VDPData
     call outi128       ; output 192 bytes = 6 tiles
@@ -5387,7 +5387,7 @@ _Odin:                 ; $64df
     add hl,de
     ld de,OdinSprites
     add hl,de          ; hl = NoahSprites + (ix+$10)*192
-    ld de,$76c0        ; tile $1b6
+    TileAddressDE $1b6
     SetVRAMAddressToDE
     ld c,VDPData
     call outi128       ; output 192 bytes = 6 tiles
@@ -5399,7 +5399,7 @@ _Myau:                 ; $64fc
     rr e
     ld hl,MyauSprites
     add hl,de          ; hl = MyauSprite + (ix+$10)*128
-    ld de,$7780        ; tile $1bc
+    TileAddressDE $1bc
     SetVRAMAddressToDE
     ld c,VDPData
     jp outi128         ; output 128 bytes = 4 tiles and ret

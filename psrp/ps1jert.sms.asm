@@ -322,6 +322,7 @@ map "^" = $56 ; the
   ExpMultiplier  db ; b Experience scaling
   MoneyMultiplier  db ; b Money pickups scaling
   FewerBattles db ; b 1 to halve battle probability
+  BrunetteAlisa db ; 1 to enable brown hair
   Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
@@ -4331,21 +4332,6 @@ _no:
   ret
 .ends
 
-.section "Check SRAM slot is used" free
-IsSlotUsed:
-  ; check slot is used. Can't go in slot 2 as that's where SRAM is.
-  ld a,SRAMPagingOn
-  ld (PAGING_SRAM),a
-  ld a,(NumberToShowInText)
-  ld l,a
-  ld h,$82           ; hl = 82nn -> SRAMSlotsUsed
-  ld a,(hl)          ; Set z if slot not used
-  or a
-  ld a,SRAMPagingOff
-  ld (PAGING_SRAM),a
-  ret
-.ends
-
 .section "Continue a saved game" free
 ContinueSavedGame:
   ld a,SRAMPagingOn  ; Load game
@@ -4452,4 +4438,51 @@ NoSavedGames:
   pop af
   ld (PAGING_SLOT_2),a
   ret
+.ends
+
+  ROMPosition $64a5
+.unbackground $64a5 $64de
+.section "Brunette Alisa hook" force
+  jp BrunetteAlisaCheck
+.ends
+
+.section "Brunette Alisa check"
+BrunetteAlisaCheck:
+  ; We copy some of the code from the place we patched...
+  ld e,0
+  srl d
+  rr e
+  ld l,e
+  ld h,d
+  srl d
+  rr e
+  add hl,de
+  ld de,$8000 ; source address
+  
+  ; Now we need the flag to replace this address...
+  ld a,(BrunetteAlisa)
+  or a
+  jr z,+
+
+  ld a,:BrunetteAlisaTiles
+  ld (PAGING_SLOT_2),a
+  ld de,BrunetteAlisaTiles
+
++:; Back to the original code
+  add hl,de
+  ld de, $7540 ; VRAM address
+  rst $8
+  ld c,PORT_VDP_DATA
+  call $5b1a ; outi128
+  call $5b9a ; outi64 ; Changed from a jp to a call
+  ; Restore paging for other characters
+  ld a,$1c
+  ld (PAGING_SLOT_2),a
+  ret
+.ends
+
+.slot 2
+.section "Brunette Alisa tiles" superfree
+BrunetteAlisaTiles:
+.incbin "new_graphics/alisa.tiles.bin"
 .ends
