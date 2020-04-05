@@ -68,6 +68,8 @@ banks 32
   .unbackground $0bd94 $0bf9b ; item names
   .unbackground $0bed0 $0bf9b ; item names - now SFG decoder
   .unbackground $0bf50 $0bf9b ; item names - now Huffman decoder init
+;  .unbackground $0bf9c $0bfdb ; item metadata
+  .unbackground $0bfdc $0bfff ; blank
 ; Bank 9
   .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
 ; Bank 11
@@ -3731,7 +3733,6 @@ SFGDecoder:
 ; The other context is used to traverse the Huffman tree itself
 
 ; Encoded Huffman data is in page 2
-
 ; Huffman tree data is in page 2
 ; The symbols for the tree are stored in backwards linear order
 
