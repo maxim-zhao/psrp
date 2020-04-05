@@ -2556,7 +2556,7 @@ Here's a tip: Go to the highest point in Palma, and raise the Aeroprism to the s
 ; If no Laconian Pot...
 ; ラエルマベリ-ヲ トッテミタガ<line>
 ; シバラクスルト ヒカラビテシマッタ.<wait>
-<player> picked up some Laerma Berries, but they shrivled up immediately!<wait>
+<player> picked up some Laerma Berries, but they shriveled up immediately!<wait>
 
 
 ; *******************
