@@ -1629,8 +1629,8 @@ As you can see, now it’s a wasteland.<wait>
 ; [110]
 ; カスバノ ドラゴンガ モッテイル<line>
 ; トイウ ウワサデス.<wait>
-; Do you know of a jewel called the ‘Carbunkle Eye’? Rumor has it that it’s being held by the Casba Dragon.
-Have you heard of a jewel called the Carbunckle Eye?<wait more>
+; Do you know of a jewel called the ‘Carbuncle Eye’? Rumor has it that it’s being held by the Casba Dragon.
+Have you heard of a jewel called the Carbuncle Eye?<wait more>
 It’s rumored to be held by a dragon in Casba.<wait more>
 What does a dragon need a jewel for anyway?<wait>
 
@@ -2511,7 +2511,7 @@ Excellent. Here you are, then.<wait>
 You don’t want it? Then why have you come here?<wait>
 
 [568a]
-; Torchbearer (yes to previous question but no Carbunckle Eye)
+; Torchbearer (yes to previous question but no Carbuncle Eye)
 ; [248]
 ; ホウセキヲ モッテナイデハナイカ.<line>
 ; You mean to say you don’t have the jewel?! Don’t toy with me!

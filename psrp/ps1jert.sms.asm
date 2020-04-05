@@ -1723,7 +1723,7 @@ Items:
   String "^Governor[-General]'s Letter"
   String "~Laconian Pot"
   String "^Light Pendant"
-  String "^Carbunckle Eye"
+  String "^Carbuncle Eye"
   String "~GasClear"
   String "Damoa's Crystal"
   String "~Master System"
