@@ -2597,7 +2597,7 @@ DezorianCustomStringCheck:
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
   DefineWindow SoundTestWindow  $d700                 15 23  16  0
   DefineWindow ContinueWindow   $d700                  8  4  18 16
-  DefineWindow OptionsWindow    $d700                 15  6  16 17
+  DefineWindow OptionsWindow    $d700                 21  7  11 17
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -3916,7 +3916,6 @@ _OptionsMenu:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
-  ; TODO: can we draw the numbers here? It's rather trickier...
 
   ; Start selection
   ld hl,OptionsWindow_VRAM + ONE_ROW
@@ -3926,23 +3925,23 @@ _OptionsMenu:
 
 _OptionsSelect:
   ; We draw in the numbers here
-  ld de,OptionsWindow_VRAM + ONE_ROW * 1 + 2 * 13
+  ld de,OptionsWindow_VRAM + ONE_ROW * 1 + 2 * 19
   rst $8
   ld a,(MovementSpeedUp)
   inc a
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 2 + 2 * 13
+  ld de,OptionsWindow_VRAM + ONE_ROW * 2 + 2 * 19
   rst $8
   ld a,(ExpMultiplier)
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 3 + 2 * 13
+  ld de,OptionsWindow_VRAM + ONE_ROW * 3 + 2 * 19
   rst $8
   ld a,(MoneyMultiplier)
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 4 + 2 * 10
+  ld de,OptionsWindow_VRAM + ONE_ROW * 4 + 2 * 16
   rst $8
   ld a,(FewerBattles)
   or a
@@ -3950,12 +3949,23 @@ _OptionsSelect:
   jr z,+
   ld hl,_BattlesHalf
 +:ld b,4*2
-  ld c,$be
+  ld c,PORT_VDP_DATA
+  otir  
+
+  ld de,OptionsWindow_VRAM + ONE_ROW * 5 + 2 * 15
+  rst $8
+  ld a,(BrunetteAlisa)
+  or a
+  ld hl,_Black
+  jr z,+
+  ld hl,_Brown
++:ld b,5*2
+  ld c,PORT_VDP_DATA
   otir  
 
   ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
-  ld a,3 ; 4 options
+  ld a,4 ; 5 options
   ld (CursorMax),a ; CursorMax
   call $2ec8 ; no cursor position reset
   
@@ -3995,7 +4005,7 @@ _movement:
   ld a,(MovementSpeedUp)
   xor 1
   ld (MovementSpeedUp),a
-  jr _OptionsSelect
+  jp _OptionsSelect
   
   cp 3
   jr nz,+
@@ -4026,16 +4036,26 @@ _money:
   ld hl,MoneyMultiplier
   jr -
   
-+:; Last option
++:dec a
+  jr nz,+
+  
 _battles:
   ld a,(FewerBattles)
   xor 1
   ld (FewerBattles),a
   jp _OptionsSelect
+
++:; Last option
+  ld a,(BrunetteAlisa)
+  xor 1
+  ld (BrunetteAlisa),a
+  jp _OptionsSelect
   
 _BattlesAll:  .dwm TextToTilemap " All"
 _BattlesHalf: .dwm TextToTilemap "Half"
-  
+_Brown:  .dwm TextToTilemap "Brown"
+_Black:  .dwm TextToTilemap "Black"
+
 Continue:
   ld hl,FunctionLookupIndex
   ld (hl),8 ; LoadScene (also changes cursor tile)
@@ -4440,13 +4460,14 @@ NoSavedGames:
   ret
 .ends
 
+.unbackground $64a5 $64c1
   ROMPosition $64a5
-.unbackground $64a5 $64de
 .section "Brunette Alisa hook" force
   jp BrunetteAlisaCheck
 .ends
 
-.section "Brunette Alisa check"
+.bank 0 slot 0
+.section "Brunette Alisa check" free
 BrunetteAlisaCheck:
   ; We copy some of the code from the place we patched...
   ld e,0

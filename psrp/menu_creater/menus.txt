@@ -393,12 +393,13 @@ dims=3b52,3b79
 ╘═════════════╝
 
 [OptionsMenu]
-┌─────────────╖
-│Walk speed x ║
-│Experience x ║
-│Mesetas    x ║
-│Battles      ║
-╘═════════════╝
+┌───────────────────╖
+│Walk speed       x ║
+│Experience       x ║
+│Mesetas          x ║
+│Battles            ║
+│Alisa's hair       ║
+╘═══════════════════╝
 
 [ContinueMenu]
 ┌──────╖
