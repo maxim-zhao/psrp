@@ -2924,7 +2924,7 @@ LaShiec is no more, his terrible fortress has been destroyed. Finally, peace can
 And just in time, too. I fear if you'd taken any longer, we would have lost everything.<wait more>
 Alisa. There is something I must tell you. A secret I've kept, to spare your life.<wait more>
 Alisa...your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
-Algol is without a leader. Will succed your father, and take your place as our queen?<end>
+Algol is without a leader. Will succeed your father, and take your place as our queen?<end>
 
 [5849,58ea]
 ; Governor-General (yes to previous question)
