@@ -103,7 +103,7 @@ What happened?!<wait>
 ; ...Please forgive me... for leaving you alone...
 Alisa, my sister.<line><line>
 Listen closely, I don’t have long.<wait more>
-The rumors we've heard are true. LaShiec has... changed.<line><line>
+The rumors we've heard are true. LaShiec has... changed.<line>
 And it goes beyond his military taking over our streets.<wait more>
 All of the horrible creatures outside, all of the darkness in our lives...<line><line>
 Somehow, it all traces back to him.<wait more>
