@@ -103,7 +103,7 @@ What happened?!<wait>
 ; ...Please forgive me... for leaving you alone...
 Alisa, my sister.<line><line>
 Listen closely, I don’t have long.<wait more>
-The rumors we've heard are true. LaShiec has...changed.<line><line>
+The rumors we've heard are true. LaShiec has... changed.<line><line>
 And it goes beyond his military taking over our streets.<wait more>
 All of the horrible creatures outside, all of the darkness in our lives...<line><line>
 Somehow, it all traces back to him.<wait more>
@@ -117,7 +117,7 @@ I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><
 I tried to enlist his help, but he's gone missing.<wait more>
 You have to find him, Alisa.<line><line>
 Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
-Alisa...such a terrible burden. I’m so sorry.<line><line>
+Alisa... such a terrible burden. I’m so sorry.<line><line>
 Please forgive me, for asking this of you...<wait more>
 ...and for leaving you all...<line><line>
 ...alone...<wait>
@@ -160,8 +160,8 @@ Nero's things are still where he left them.<wait>
 ; My name is Suelo. I know how you feel, Alisa. No one will be able to stop you
 ; [from doing what you must do], but don't overdo it, okay? If you are ever injured
 ; in battle, please come here to relax and recover. You will always be welcome.
-Alisa...taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
-I won't waste my breath trying to talk you out of this, just...please be careful.<wait more>
+Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
 If you ever get hurt, come back here to heal.<wait more>
 We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
 
@@ -444,7 +444,7 @@ Iala Cave lies on the peninsula southeast of here.<wait>
 ; [044]
 ; ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
 ; This is the port town of Shion. This place used to be busy with trade.
-Welcome to Shion, the busiest port on Palma...or at least, it was.<wait more>
+Welcome to Shion, the busiest port on Palma... or at least, it was.<wait more>
 With the world the way it is lately, there isn't much trade going on anymore.<wait>
 
 [4dcd]
@@ -2329,7 +2329,7 @@ There is nothing more I can teach you. Fulfill your destiny and bring peace back
 ; トナリノ ブラクハ<line>
 ; ウソツキバカリダ.キヲツケナヨ.<wait>
 ; Those guys in the village next to us are all a bunch of liars. Be careful, eh.
-I wouldn’t trust anyone in the neighboring village...pathological liars, they are.<wait>
+I wouldn’t trust anyone in the neighboring village... pathological liars, they are.<wait>
 
 [527a]
 ; Honest Dezorian
@@ -2923,7 +2923,7 @@ You’ve done it! You’ve saved Algol. History shall repeat your names, always.
 LaShiec is no more, his terrible fortress has been destroyed. Finally, peace can be restored.<wait more>
 And just in time, too. I fear if you'd taken any longer, we would have lost everything.<wait more>
 Alisa. There is something I must tell you. A secret I've kept, to spare your life.<wait more>
-Alisa...your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
+Alisa... your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
 Algol is without a leader. Will succeed your father, and take your place as our queen?<end>
 
 [5849,58ea]
