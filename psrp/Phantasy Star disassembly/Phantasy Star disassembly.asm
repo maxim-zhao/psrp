@@ -3475,7 +3475,7 @@ _DrawLetter:           ; $34f2
     ld a,c             ; get c
     or a               ; if non-zero,
     call nz,_ScrollTextBoxUp2Lines
-    ld de,$7d4e        ; TileMapAddressDE 7,21
+    TileMapAddressDE 7,21
     ld bc,$1201        ; reset b=1, c=$12
     ret
 
@@ -6861,7 +6861,8 @@ TileNumberLookup:      ; $8000
 .section "Item metadata" overwrite
 ItemMetadata:
 ; %765432tt
-;  ||||  ``- Item type: 0 = weapon, 1 = armour, 2 = shield
+;  |||| |``- Item type: 0 = weapon, 1 = armour, 2 = shield
+;  |||| `--- Equippable item
 ;  ````----- Equippable by player bits. Zero if equippable. Noah - Odin - Myau - Alis
 
 .define ItemMetadata_Weapon %00

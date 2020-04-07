@@ -68,7 +68,7 @@ banks 32
   .unbackground $0bd94 $0bf9b ; item names
   .unbackground $0bed0 $0bf9b ; item names - now SFG decoder
   .unbackground $0bf50 $0bf9b ; item names - now Huffman decoder init
-;  .unbackground $0bf9c $0bfdb ; item metadata
+  .unbackground $0bf9c $0bfdb ; item metadata
   .unbackground $0bfdc $0bfff ; blank
 ; Bank 9
   .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
@@ -104,7 +104,7 @@ banks 32
 
 ; Macros
 
-; Some data is relocated unmodified from the original ROM; this
+; Some data is relocated unmodified from the original ROM; this macro helps with that
 .macro CopyFromOriginal args _offset, _size
 .incbin ORIGINAL_ROM skip _offset read _size
 .endm
@@ -941,41 +941,68 @@ CharacterDrawing:
 ; with a new one from $3f42-3f66 that draws a single char using a 2-byte lookup
 ; and leaves the scrolling to be handled by the word-wrapping code elsewhere
 
+  cp SymbolNewLine
+  jr nz,+
+  xor a ; set to 0 for newlines to avoid drawing junk
++:
   di            ; prepare VRAM output
-  push bc
-    push de
-      push af
-        rst $08      ; Set address
-      pop af
 
-      add a,a        ; 2-byte table
-
-      ld bc,FontLookup ; index into table
-      add a,c
-      ld c,a
-      adc a,b       ; overflow accounting
-      sub c
-      ld b,a
-
-      ld a,(bc)     ; load low NT-byte
-      out (PORT_VDP_DATA),a
-      push af       ; VRAM wait
-      pop af
-
-      inc bc        ; write out high NT-byte
-      ld a,(bc)
-      out (PORT_VDP_DATA),a
-
-    pop de        ; Bump VRAM address
-    inc de
-    inc de
-  pop bc
+  push af
+    rst $08      ; Set address
+  pop af
+  
+  call EmitCharacter
+  
+  ; Bump VRAM address
+  inc de
+  inc de
 
   ei               ; Wait for VBlank
   ld a,10          ; Trigger a name table refresh
   call ExecuteFunctionIndexAInNextVBlank
 
   dec b             ; Shrink window width
+  ret
+.ends
+
+.section "Font lookup helper" free
+EmitCharacter:
+  ; Short of space in bank 0, we trampoline...
+  push hl
+    ; We need to stash a, we also double it here...
+    add a,a
+    ld l,a
+    ld a,(PAGING_SLOT_1)
+    push af
+      ld a,:EmitCharacterImpl
+      ld (PAGING_SLOT_1),a
+      call EmitCharacterImpl
+    pop af
+    ld (PAGING_SLOT_1),a
+  pop hl
+  ret
+.ends
+
+.bank 1 slot 1
+.section "Font lookup helper part 2" superfree
+EmitCharacterImpl:
+  ; We look up the two-byte tile data for character index a, 
+  ; and emit to the VDP
+  ld h,>FontLookup ; Aligned table
+
+  ld a,(PAGING_SLOT_2)
+  push af
+    ld a,:FontLookup
+    ld (PAGING_SLOT_2),a
+    ld a,(hl)
+    out (PORT_VDP_DATA),a
+    push af       ; VRAM wait
+    pop af  
+    inc hl
+    ld a,(hl)
+    out (PORT_VDP_DATA),a
+  pop af
+  ld (PAGING_SLOT_2),a
   ret
 .ends
 
@@ -1077,7 +1104,6 @@ _Set_Lines:
 
 +:cp SymbolNewLine
   jr nz,+   ; Next code
-
   push hl     ; Automatic narrative waiting
 
     ld hl,LINE_NUM    ; Grab # lines drawn
@@ -1840,7 +1866,7 @@ Words:
   ROMPosition $59ba
 .section "Index table remap" force ; not movable
 IndexTableRemap:
-  jp $333a ; TextBox20x6
+  jp TextBox
 .ends
 
 ; Menus
@@ -2080,7 +2106,7 @@ enemy:
     -:ld a,(hl)
       inc hl
       cp $4f
-      call c,_write_nt
+      call c,EmitCharacter
       djnz -
     pop hl
     call _DrawOneTile
@@ -2202,7 +2228,7 @@ _newline:
       jr nz,_hyphen
 
 -:    xor a
-      call _write_nt
+      call EmitCharacter
       djnz -
 
       jr _right_border
@@ -2230,7 +2256,7 @@ _blank_line:
       xor a     ; write out WS for rest of the line
 
 _bump_text:
-      call _write_nt
+      call EmitCharacter
       djnz _check_length
 
 _right_border:
@@ -2262,25 +2288,6 @@ _right_border:
 
   ei      ; wait for vblank
   ret
-
-_write_nt:
-      add a,a     ; lookup NT
-      ld de,FontLookup
-      add a,e
-      ld e,a
-      adc a,d
-      sub e
-      ld d,a
-
-      ld a,(de)   ; write NT + VDP delay
-      out ($be),a
-      push af
-      pop af
-      inc de
-      ld a,(de)
-      out ($be),a
-
-      ret
 
 _wait_vblank:
       ld a,$08    ; stable value
@@ -2373,7 +2380,7 @@ _write_price:
   TrampolineTo equipment $3850 $385f
 
 ; Extra scripting
-
+.bank 1 slot 1
 .section "Dezorian string" free
 ; In the native Dezorian village, a slight contextual error occurs.
 ;
@@ -3628,17 +3635,19 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
 ; The font lookup, Huffman bits and script all share a bank as they are needed at the same time.
 .bank 2 slot 2
 
-.section "Font lookup" free
+.section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into this area) to name table entries. The extra spaces are unused (and could be repurposed?).
+; TODO: one of the spaces is used when wrapping text in the intro, should try to not do that?
+; TODO: can this be relocated?
 .dwm TextToTilemap " 0123456789"
 .dwm TextToTilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .dwm TextToTilemap "abcdefghijklmnopqrstuvwxyz"
-.dwm TextToTilemap ".:`',  -!?               "
+.dwm TextToTilemap ".:`',  -!?0123456789a"
 .ends
 
 ; Both the trees and script entries could be micro-sections but they need to share a bank,
-; and it's pretty empty, so we don't get any benefit to split them up.
+; and it's otherwise pretty empty, so we don't get any benefit to split them up.
 .section "Script and Huffman trees" free
 .block "Huffman trees"
 HuffmanTrees:
@@ -4508,3 +4517,18 @@ BrunetteAlisaCheck:
 BrunetteAlisaTiles:
 .incbin "new_graphics/alisa.tiles.bin"
 .ends
+
+; Relocating item metadata to increase script space
+
+.bank 31 slot 2
+.section "Item metadata" superfree
+ItemMetaData:
+  CopyFromOriginal $0bf9c $40
+.ends
+
+  PatchB $2828 :ItemMetaData
+  PatchW $282d ItemMetaData
+  PatchB $28b2 :ItemMetaData
+  PatchW $28b7 ItemMetaData
+  PatchB $294c :ItemMetaData
+  PatchW $2951 ItemMetaData
