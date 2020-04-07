@@ -3646,12 +3646,14 @@ FontLookup:
 
 ; Both the trees and script entries could be micro-sections but they need to share a bank,
 ; and it's otherwise pretty empty, so we don't get any benefit to split them up.
+.slot 1
 .section "Huffman trees" free
 .block "Huffman trees"
 HuffmanTrees:
 .include "script_inserter/tree.asm"
 .endb
 .ends
+.slot 2
 .section "Script" free
 .block "Script"
 .include "script_inserter/script.asm"
@@ -3746,6 +3748,8 @@ SFGDecoder:
 ; The symbols for the tree are stored in backwards linear order
 
   push hl
+    ld a,:HuffmanTrees
+    ld (PAGING_SLOT_1),a
 
     ld hl,(SCRIPT)    ; Set Huffman data location
     ld a,(BARREL)   ; Load Huffman barrel
