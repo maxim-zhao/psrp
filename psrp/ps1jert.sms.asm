@@ -248,9 +248,9 @@ map ":" = $40
 ;map "’" = $42
 map "'" = $42
 map "," = $43
-map "-" = $46
-map "!" = $47
-map "?" = $48
+map "-" = $44
+map "!" = $45
+map "?" = $46
 ; Scripting codes
 map "+" = $4F ; Conditional space (soft wrap point)
 map "@" = $50 ; Newline (when in a menu)
@@ -1171,7 +1171,7 @@ _Done:
   cp SymbolWait ; Old code
   ret     ; Go to remaining text handler
 
-.enum $4f ; Scripting codes
+.enum $4f ; Scripting codes. The start value must be greater than the highest index character.
   SymbolStart     .db
   SymbolPlayer    db ; $4f,
   SymbolMonster   db ; $50,
@@ -3637,22 +3637,22 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
 
 .section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
-; This is used to convert text from the game's encoding (indexing into this area) to name table entries. The extra spaces are unused (and could be repurposed?).
-; TODO: one of the spaces is used when wrapping text in the intro, should try to not do that?
-; TODO: can this be relocated?
+; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table.
 .dwm TextToTilemap " 0123456789"
 .dwm TextToTilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .dwm TextToTilemap "abcdefghijklmnopqrstuvwxyz"
-.dwm TextToTilemap ".:`',  -!?0123456789a"
+.dwm TextToTilemap ".:`',-!?"
 .ends
 
 ; Both the trees and script entries could be micro-sections but they need to share a bank,
 ; and it's otherwise pretty empty, so we don't get any benefit to split them up.
-.section "Script and Huffman trees" free
+.section "Huffman trees" free
 .block "Huffman trees"
 HuffmanTrees:
 .include "script_inserter/tree.asm"
 .endb
+.ends
+.section "Script" free
 .block "Script"
 .include "script_inserter/script.asm"
 .endb
