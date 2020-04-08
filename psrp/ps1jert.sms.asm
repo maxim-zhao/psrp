@@ -94,7 +94,7 @@ banks 32
   .unbackground $53dbc $53fff ; $53fff  Credits data, unused space
 ; Bank 22
   .unbackground $58570 $5ac8c ; $5a6db  Tiles for town
-  .unbackground $5ac7d $5b9e6 ; $5b78c  Tiles, palette for air castle
+  .unbackground $5ac7d $5b9d6 ; $5b78c  Tiles, palette for air castle
 ; Bank 23
   .unbackground $5ea9f $5f766 ; $5f5ba  Building interior tiles, palettes
 ; Bank 29
