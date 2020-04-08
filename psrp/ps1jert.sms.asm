@@ -3644,16 +3644,17 @@ FontLookup:
 .dwm TextToTilemap ".:`',-!?"
 .ends
 
-; Both the trees and script entries could be micro-sections but they need to share a bank,
-; and it's otherwise pretty empty, so we don't get any benefit to split them up.
+; We locate the Huffman trees in a different slot to the script so we can access them at the same time
 .slot 1
-.section "Huffman trees" free
+.section "Huffman trees" superfree
 .block "Huffman trees"
 HuffmanTrees:
 .include "script_inserter/tree.asm"
 .endb
 .ends
-.slot 2
+
+; ...but the script still needs to go in slot 2.
+.bank 2 slot 2
 .section "Script" free
 .block "Script"
 .include "script_inserter/script.asm"
@@ -3743,8 +3744,8 @@ SFGDecoder:
 ; The Z80 uses one set of registers for decoding the Huffman input data
 ; The other context is used to traverse the Huffman tree itself
 
-; Encoded Huffman data is in page 2
-; Huffman tree data is in page 2
+; Encoded Huffman data is in slot 2
+; Huffman tree data is in slot 1
 ; The symbols for the tree are stored in backwards linear order
 
   push hl
@@ -3842,6 +3843,8 @@ _Decode_Done:
     exx
     ld (SCRIPT),hl    ; Save script pointer
     ld (BARREL),a   ; Save Huffman barrel
+    ld a,:AdditionalScriptingCodes ; restore paging
+    ld (PAGING_SLOT_1),a
     ex af,af'   ; Go to Tree mode
     ; no need to exx again
 
