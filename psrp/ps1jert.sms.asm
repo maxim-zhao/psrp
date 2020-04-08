@@ -803,6 +803,9 @@ PaletteGoldDragon: CopyFromOriginal $2c000 16
 TilesGoldDragon: .incbin "new_graphics/bg14.psgcompr"
 .ends
 
+  PatchB $4750 :PaletteGoldDragon
+  PatchW $4752 PaletteGoldDragon
+
 .section "Building graphics" superfree
 PaletteBuildingEmpty:     CopyFromOriginal $5ea9f 16
 PaletteBuildingWindows:   CopyFromOriginal $5eaaf 16
