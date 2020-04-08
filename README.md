@@ -41,7 +41,7 @@ Unofficial Translation 2005-2019
   - added music test (#18)
   - changed game save handling to menus from title screen (#20)
   - added options menu for walking speed, experience and money multipliers (#19)
-  - added option to change Alisa's sprite hair colour
+  - added option to change Alisa's sprite hair colour (#38)
   
 
 Phantasy Star Original Dialogue Version 
