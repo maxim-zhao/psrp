@@ -90,7 +90,7 @@ banks 32
   .unbackground $4c000 $4cdbd ; $4ccfb  Dark Force tiles and palette
   .unbackground $4ff59 $4ffff ; $4ffff  Unused space
 ; Bank 20
-  .unbackground $524aa $52ba1 ; $52a66  Lassic room tiles and palette
+  .unbackground $524da $52ba1 ; $52a66  Lassic room tiles and palette
   .unbackground $53dbc $53fff ; $53fff  Credits data, unused space
 ; Bank 22
   .unbackground $58570 $5ac8c ; $5a6db  Tiles for town
@@ -748,9 +748,11 @@ SceneData:
 
 .ends
 
-; Gold Dragon palette is referenced elsewhere too
+; Some palettes are referenced elsewhere too
   PatchB $4750 :PaletteGoldDragon
   PatchW $4752 PaletteGoldDragon
+  PatchB $588d :PaletteDarkForce
+  PatchW $588f PaletteDarkForce
 
 .bank 2 slot 2
 
