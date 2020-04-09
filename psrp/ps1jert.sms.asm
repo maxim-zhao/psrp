@@ -85,22 +85,22 @@ banks 32
 ; Bank 17
   .unbackground $44640 $47fff ; Palettes and tiles + unused space
 ; Bank 18
-  .unbackground $4be84 $4bfff ; $4bfff  Unused space
+  .unbackground $4be84 $4bfff ; Unused space
 ; Bank 19
-  .unbackground $4c000 $4cdbd ; $4ccfb  Dark Force tiles and palette
-  .unbackground $4ff59 $4ffff ; $4ffff  Unused space
+  .unbackground $4c000 $4cdbd ; Dark Force tiles and palette
+  .unbackground $4ff59 $4ffff ; Unused space
 ; Bank 20
-  .unbackground $524da $52ba1 ; $52a66  Lassic room tiles and palette
-  .unbackground $53dbc $53fff ; $53fff  Credits data, unused space
+  .unbackground $524da $52ba1 ; Lassic room tiles and palette
+  .unbackground $53dbc $53fff ; Credits data, unused space
 ; Bank 22
-  .unbackground $58570 $5ac8c ; $5a6db  Tiles for town
-  .unbackground $5ac7d $5b9d6 ; $5b78c  Tiles, palette for air castle
+  .unbackground $58570 $5ac8c ; Tiles for town
+  .unbackground $5ac7d $5b9d6 ; Tiles, palette for air castle
 ; Bank 23
-  .unbackground $5ea9f $5f766 ; $5f5ba  Building interior tiles, palettes
+  .unbackground $5ea9f $5f766 ; Building interior tiles, palettes
 ; Bank 29
-  .unbackground $747b8 $77629 ; $77294  landscapes (world 1)
+  .unbackground $747b8 $77629 ; landscapes (world 1)
 ; Bank 31
-  .unbackground $7e8bd $7ffff ; $7fd47  Title screen tiles
+  .unbackground $7e8bd $7ffff ; Title screen tiles
 
 ; Macros
 
