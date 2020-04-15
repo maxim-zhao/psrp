@@ -4545,3 +4545,19 @@ ItemMetaData:
   PatchW $28b7 ItemMetaData
   PatchB $294c :ItemMetaData
   PatchW $2951 ItemMetaData
+
+  ROMPosition $2874
+.section "Equipping bug fix hook" overwrite
+  call GetItemType
+.ends
+
+.section "Equipping bug fix" free
+GetItemType:
+  ; We need to page in the item metadata again
+  ld a,:ItemMetaData
+  ld (PAGING_SLOT_2),a
+  ; What we replaced to get here
+  ld a,(hl)
+  and 3
+  ret
+.ends
