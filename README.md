@@ -23,28 +23,31 @@ Unofficial Translation 2005-2019
   - fixed a bug with the Pause button mod
 - v1.02 released 2008/01/31
   - fixed lockup when you visit Tajim
-- v2.00 released 2020/??/??
-  - rebuilt tools and assembly process
-  - fixed issue with 10-letter item names in inventory (#2)
-  - fixed bug with pluralisation (#5)
-  - fixed missing script in Aerocastle Gardens (#3)
-  - fixed screen corruption when closing menus (#1)
-  - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
-  - fixed naming inconsistencies in the script, e.g. Dezoris/Dezolis, Roadpass/roadpass/road pass
-  - enemy names no longer have a size limit (#9)
-  - script updates from Frank Cifaldi
-  - menus converted to single-spacing, and widened to fit all item names
-  - enemy name box auto-sizes to fit
-  - save game names widened (#15)
-  - additional save slots enabled (using existing 8KB save RAM) (#16)
-  - doubled walking and vehicle speed (#8)
-  - added music test (#18)
-  - changed game save handling to menus from title screen (#20)
-  - added options menu for walking speed, experience and money multipliers (#19)
-  - added option to change Alisa's sprite hair colour (#38)
-  
+- v2.00 released 2020/05/??
+  - script improvements:
+    - script updates from Frank Cifaldi
+    - fixed naming inconsistencies in the script, e.g. Dezoris/Dezolis, Roadpass/roadpass/road pass
+  - bugs fixed:
+    - fixed issue with 10-letter item names in inventory (#2)
+    - fixed bug with pluralisation (#5)
+    - fixed missing script in Aerocastle Gardens (#3)
+    - fixed screen corruption when closing menus (#1)
+  - interface improvements:
+    - support long enemy names (#9)
+    - menus converted to single-spacing, and widened to fit all item names
+    - save game names widened (#15)
+    - additional save slots enabled (using existing 8KB save RAM) (#16)
+    - changed game save handling to menus from title screen (#20)
+    - added music test (#18)
+    - doubled walking and vehicle speed (#8)
+    - added options menu for walking speed, experience and money multipliers (#19)
+    - added option to change Alisa's sprite hair colour (#38)
+  - technical improvements:
+    - rebuilt tools and assembly process, including some C++ modernisation and x64 support
+    - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
 
-Phantasy Star Original Dialogue Version 
+
+Phantasy Star Original Dialogue Version
 Japanese to English Retranslation © 2001-2002
 - Paul Jensen
 
@@ -143,8 +146,7 @@ The game proved to be an interesting task - lack of useful padding space. Narrat
 
 So this project was designed to keep the FM music intact while squeezing in more full item descriptions and textual script content.
 
-Not enough thanks can be directed to Mr. Jensen for his care in posting his retranslation publicly online and keeping it freely accessible for all this
-time.
+Not enough thanks can be directed to Mr. Jensen for his care in posting his retranslation publicly online and keeping it freely accessible for all this time.
 
 This author releases copyright ownership in the patch and produces it under the banner of the original team of Maxim and Paul Jensen: SMS Power!.
 
@@ -160,11 +162,11 @@ I hope you all enjoy TheRedEye's script changes. We've approached this project w
 
 It's also a great framework for further (re-)translation into more languages. Please get in touch if you can do some serious work on that. You will need to provide a translator *and* a Z80 coder.
 
-### Maxim (2019)
+### Maxim (2020)
 
 When I first worked on this, I was quite a lot less experienced. I had not learned much C and thus was using the programs from Z80 Gaiden blindly, and this made it difficult to understand what was going on. However, I've always been the sort of person who needs to understand how things work (that's how I got into Master System development in the first place), and I eventually decided to come back to this project and make a few pointless technical changes - rewriting the support programs in slightly more modern C++, with comments so I can understand them. Along the way I was able to throw away some very verbose code and replace it with much more elegant equivalents thanks to language advances. I realised a lot of the things done in code were possible to do in WLA DX, and often more easily - e.g. inserting new code as assembly instead of hex, mapping text to the game's character codes, and applying patches using labels. This also enabled more use of comments. Furthermore, the original was using the venerable tasm assembler - which is not easy to run on modern 64-bit Windows.
 
-As is often the case, I then got a bit hooked. I strove to remove as much of the C code as possible - all that's really left is the bitmap decoder and script encoder. Up to this point I was always producing a bit-identical output to the 1.02 release. Then I started to move to mapping out the chunks of code and data which had been replaced, marking them as free space and then letting WLA DX deal with placing the patches and enhancements in the available space. Doing this allowed me to gain confidence in the availability of "free space" for further enhancements. This allowed me to start making some of the improvements (and bug fixes) I'd been thinking of for the last decade or so. (When I said "I'm committed to keep working on it", I didn't give any promises as to *when*...)
+As is often the case, I then got a bit hooked. I strove to remove as much of the original C code as possible - all that's really left is the bitmap decoder and script encoder. Up to this point I was always producing a bit-identical output to the 1.02 release. Then I started to move to mapping out the chunks of code and data which had been replaced, marking them as free space and then letting WLA DX deal with placing the patches and enhancements in the available space. Doing this allowed me to gain confidence in the availability of "free space" for further enhancements. This allowed me to start making some of the improvements (and bug fixes) I'd been thinking of for the last decade or so. (When I said "I'm committed to keep working on it", I didn't give any promises as to *when*...)
 
 A big thing I wanted to do was deal with the wrapping in menus. The original used two-line menus mainly due to a common hack for katakana-based games - so it can save tiles by putting the diacritics on the row above. The characters "ヒビピ" are somewhat analagous to characters like "eèéêë" in European languages. Placing the modifiers on the row above reduces the number of tiles needed, which is a big deal for Master System games' limited VRAM space. However to swap to single-line menus I'd also need to widen them to make room for the names (many of which were split over two lines in order to fit). This meant dealing with the game's "window RAM buffers", which was a complicated task. I needed to map out every "menu window" that the game ever opens, determine which could be open at the same time, and allocate them all space in memory such that we never use the same space for two things at the same time. This was quite difficult and has a correspondingly large comment in the source explaining it. However, the end result is not only the removal of all unnecessary wrapping, but also a more pleasant experience (I think) as there's less blank black on the screen.
 
@@ -174,13 +176,12 @@ As I posted updates online people asked for some "quality of life" improvements 
 
 I also got a welcome message from Frank Cifaldi (TheRedEye, also the founder of the Video Game History Foundation) offering to do further script enhancements on top of his script from 2006. This could take advantage of the bigger text boxes to really expand the story. I think you'll find the enhancements really help the story.
 
-
 ## Technical notes
 
 The Git history contains many documents written by Z80 Gaiden during his hacking work.
 These became less relevant later so they are no longer present.
 
-The code is designed to build in a VIsual Studio developer command prompt, with WLA DX
+The code is designed to build in a Visual Studio developer command prompt, with WLA DX
 available. It uses Microsoft's NMAKE too for the makefile; it is unlikely to work with
 GNU Make without modifications, but otherwise the build process is fairly simple.
 
@@ -206,8 +207,6 @@ The menus themselves are encoded as raw tilemap data. This program takes the UTF
 
 Changing the menu dimensions is far from trivial. In order to act like overlapping windows, the game caches the tilemap data from under each one as it is drawn, and then restores it. This is done using fixed RAM areas, rather than some kind of stack, and these areas need to overlap (due to RAM restrictions), so we need to ensure only windows which are never used at the same time overlap in memory.
 
-One future enhancement may be to take the menus which currently "double-space" entries (often with wrapping), like the items menu, and make them twice as wide and half as high. This will require a great deal of rearranging the screen and RAM positions, and may increase RAM pressure.
-
 ### bitmap_decode
 
 In order to free up space in the ROM, we re-encode some of the graphics (tile) data with a more efficient (but slower) compression method - namely, the algorithm used in Phantasy Star Gaiden. We first decode the data using bitmap_decode, which puts it into the raw VRAM tile format, and then re-encode it using BMP2Tile.
@@ -230,7 +229,7 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
   - **`CopyFromOriginal`** is useful for where we are moving a chunk of of data to a different location.
   - **`ROMPosition`** allows us to set the assembly position in ROM space, useful for patching specific addresses.
   - **`PatchB`** and **`PatchW`** allow us to patch bytes and words at specific addresses. This is used for many of the generated "patch" files.
-  - **`TextToTilemap`** is a fairly large macro that simply converts a string to tilemap data. This is used for various places where the game draws stats menus, and the name entry screen. 
+  - **`TextToTilemap`** is a fairly large macro that simply converts a string to tilemap data. This is used for various places where the game draws stats menus, and the name entry screen.
   - **`LoadPagedTiles`** is used for a repeated pattern of mapping in some tile data and loading t to VRAM.
   - **`String`** is used to encode various bits of text in the game (especially the lists). We use WLA DX's `.asciitable` to help with the mapping to avoid needing another monstrous macro like `TextToTilemap`.
 - We define some names for various RAM locations used by the game, as well as locations used by the new script engine code (which re-use areas used by the old engine).
@@ -244,10 +243,10 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
 - For the credits, we inject new credits at the original data location. Note: please do not erase any credits on derived versions.
 - Finally, there are a few original things added to the code...
   1. We fix a bug in the original game where the same text is used in both of the "liar" villages
-  2. We add a feature to the title screen to change between FM and PSG music when you press Pause
+  2. We add menus to the title screen for our sound and options menus, and the game save management
   3. We remove some of the waits for button presses
   4. We change the main "Idle loop" to use the halt instruction, which allows much more efficient emulation
-  
+
 ### Thoughts on further translation
 
 - There is no space in the font for more characters, e.g. for accents. You may consider these options:
@@ -255,7 +254,7 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
   - Your script may not use all the letters. The English script does not include"J", "X" or Z" - but make sure to check the items, and consider that you also then exclude these letters from the name entry screen. Of course your language may not use all of the 26 English letters either.
   - Rotated ! and ? don't need tiles, just add them with tile flipping flags to the various places necessary - TBL files, the TextToTilemap macro, etc
   - If all else fails, then you can just use uppercase letters instead.
-- WLA DX doesn't support UTF-8 :( so take care with any place the code uses .asciitable - the characters have to be single-byte. You may be OK if you use an old-fashioned text encoding.  
+- WLA DX doesn't support UTF-8 :( so take care with any place the code uses .asciitable - the characters have to be single-byte. You may be OK if you use an old-fashioned text encoding.
 - The prefixes (a, an, some) will need some expansion for other languages.
 - The script space is pretty tight. The game code can in theory map some of the script into slot 1, giving much more space for the encoded script - but this is removed in the current code.
 - If possible, re-retranslate from Japanese. Consider that localisation is part of translation. The English you see isn't identical to the Japanese.
@@ -350,4 +349,4 @@ http://www.smspower.org/forums/
 
 or raise issues at
 
-https://github.com/maxim-zhao/psrp/issues 
+https://github.com/maxim-zhao/psrp/issues
