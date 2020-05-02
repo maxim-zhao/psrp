@@ -357,7 +357,9 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
     std::vector<uint8_t> currentLineData;
     std::vector<int> patchOffsets;
     
-    std::wregex r(L"[0-9a-f]+");
+    std::wregex labelRegex(L"^\\w*\\[(.*)\\]\\w*$");
+    std::wregex hexRegex(L"[0-9a-fA-F]{4}\\w*");
+    std::wsmatch matches;
     std::string label;
 
     // Read in string entries
@@ -373,15 +375,15 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
         pText = s.c_str();
         line_len = 0;
 
-        // skip headers
-        if (s[0] == L'[')
+        // detect headers
+        if (regex_match(s, matches, labelRegex))
         {
-            // Extract patch offsets or label name
-            std::wstringstream wrapper(s.substr(1, s.length() - 2));
+            // Extract patch offsets or label name(s)
+            std::wstringstream wrapper(matches[1]);
             std::wstring ws;
             while (std::getline(wrapper, ws, L','))
             {
-                if (regex_match(ws, r))
+                if (regex_match(ws, hexRegex))
                 {
                     patchOffsets.push_back(std::stoi(ws, nullptr, 16));
                 }
