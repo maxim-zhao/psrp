@@ -45,6 +45,7 @@ Unofficial Translation 2005-2019
   - technical improvements:
     - rebuilt tools and assembly process, including some C++ modernisation and x64 support
     - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
+  - new font
 
 
 Phantasy Star Original Dialogue Version
@@ -102,6 +103,8 @@ Changes made between version numbers may adversely affect emulator save states. 
 - Additional translations
 ### Frank Cifaldi (TheRedEye)
 - Localization and script enhancements
+## Damien Guard
+- Custom font
 
 Special thanks to:
 
@@ -112,7 +115,7 @@ Special thanks to:
 - Shining Force Gaiden: Final Conflict (scripting engine is based on code from this game)
 
 ### Bock (Omar Cornut)
-- Meka is an excellent debugging emulator (used extensively for the hacking work)
+- Meka is an excellent debugging emulator (used extensively for the hacking work): https://www.smspower.org/meka/
 ### Charles MacDonald
 - Open-source SMS/GG emulator
 ### Forgotten
@@ -175,6 +178,8 @@ Having sorted all that out, it also meant I could extend the title screen to use
 As I posted updates online people asked for some "quality of life" improvements - inspired by some of the "official" changes made in the Switch port, to speed up walking, reduce random enemy battles and reduce the amount of grinding for money and experience. This was put inside another menu.
 
 I also got a welcome message from Frank Cifaldi (TheRedEye, also the founder of the Video Game History Foundation) offering to do further script enhancements on top of his script from 2006. This could take advantage of the bigger text boxes to really expand the story. I think you'll find the enhancements really help the story.
+
+I also reached out to Damien
 
 ## Technical notes
 
@@ -246,6 +251,8 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
   2. We add menus to the title screen for our sound and options menus, and the game save management
   3. We remove some of the waits for button presses
   4. We change the main "Idle loop" to use the halt instruction, which allows much more efficient emulation
+  5. We replace the game load/delete menus (with awkward yes/no menus and black background) with menus from the title screen
+  6. We add in "quality of life" options, and a sound test
 
 ### Thoughts on further translation
 
