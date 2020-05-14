@@ -320,13 +320,18 @@ map "^" = $56 ; the
   BUFFER    dsb 32 ; buffer for tile decoding
   HasFM     db   ; copy of FM detection result
   MusicSelection db ; music test last selected song
+  
+  SettingsStart: .db
   MovementSpeedUp db ; non-zero for speedup
   ExpMultiplier  db ; b Experience scaling
   MoneyMultiplier  db ; b Money pickups scaling
   FewerBattles db ; b 1 to halve battle probability
   BrunetteAlisa db ; 1 to enable brown hair
-  Port3EValue db  ; Value left at $c000 by the BIOS
   Font db ; 1 for the "alternate" font
+
+  SettingsEnd: .db
+
+  Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
 ; Functions in the original game we make use if
@@ -658,6 +663,8 @@ TitleScreenExtra:
     ld d,a
   pop bc
   djnz -
+  
+  call SettingsFromSRAM ; Load settings from SRAM
 
   jp LoadFonts ; and ret
 .ends
@@ -2588,22 +2595,44 @@ DezorianCustomStringCheck:
 ; $dde0 |               |                   +---------------+
 ; $ddfc +---------------+
 
-; Save data has to be relocated to make space for it to be wider/taller
+; Save data menu has to be moved to allow more slots and longer names
+; Save slots are $400 bytes so we have room for 7.
+; Names could go up to 24 characters... but we limit to 18 because that fits nicely on the screen.
 .define SAVE_NAME_WIDTH 18
 .define SAVE_SLOT_COUNT 7
-; 8000..803f Identifier           40 bytes
-; 8040..80ff Unused              192 bytes
-; 8100..81d7 Menu                216 bytes <- can move to $8040?
-; 81d8..8200 Unused               40 bytes
-; 8201..8105 Slot used flags       5 bytes (could be 1) <- need to relocate at the title screen?
-; 8206..83ff Unused              506 bytes
-; 8400..87ff Slot 1             1024 bytes
-; 8800..8bff Slot 2             1024 bytes
-; 8c00..8fff Slot 3             1024 bytes
-; 9000..93ff Slot 4             1024 bytes
-; 9400..97ff Slot 5             1024 bytes
-; 9800..9fff Unused             2048 bytes
-
+; Original layout:            Expanded layout:
+; $8000 +-----------------+   +-----------------+
+;       | Identifier      |   | Identifier      |
+; $8040 +-----------------+   +-----------------+
+;                             | Menu (22x9)     |
+; $8100 +-----------------+   |                 |
+; $81cc | Menu (9x12)     |   +-----------------+
+; $81d8 +-----------------+
+;
+; $8201 +-----------------+   +-----------------+
+;       | Slot used flags |   | Slot used flags |
+; $8205 +-----------------+   |                 |
+; $8207                       +-----------------+
+;
+; $8210                       +-----------------+
+;                             | Options         |
+; $8216                       +-----------------+
+;
+; $8400 +-----------------+   +-----------------+
+;       | Slot 1          |   | Slot 1          |
+; $8800 +-----------------+   +-----------------+
+;       | Slot 2          |   | Slot 2          |
+; $8c00 +-----------------+   +-----------------+
+;       | Slot 3          |   | Slot 3          |
+; $9000 +-----------------+   +-----------------+
+;       | Slot 4          |   | Slot 4          |
+; $9400 +-----------------+   +-----------------+
+;       | Slot 5          |   | Slot 5          |
+; $9800 +-----------------+   +-----------------+
+;                             | Slot 6          |
+; $9c00                       +-----------------+
+;                             | Slot 7          |
+; $a000                       +-----------------+
 
 .macro DefineWindow args name, start, width, height, x, y
   .define \1 start
@@ -3373,15 +3402,16 @@ WriteLetterToTileMapDataAndVRAM: ; $42b5
 
 .bank 0 slot 0
 .section "Default tilemap" free
-;.include "menu_creater/save.asm"
   ; We want to emit this:
-  ; ┌─────────────╖
-  ; │1            ║
-  ; │2            ║
-  ; │3            ║
-  ; │4            ║
-  ; │5            ║
-  ; ╘═════════════╝
+  ; ┌────────────────────╖
+  ; │1                   ║ ; <- number, then SAVE_NAME_WIDTH+1 spaces
+  ; │2                   ║
+  ; │3                   ║
+  ; │4                   ║
+  ; │5                   ║
+  ; │6                   ║
+  ; │7                   ║
+  ; ╘════════════════════╝
 BlankSaveTilemap:
   ld de,SaveTilemap
   ld hl,_top
@@ -3495,7 +3525,7 @@ SaveGameNameLocations:
   ; de points to the destination already
   ld hl,$d146 + NameEntryStart*2
   ld bc,SAVE_NAME_WIDTH*2
-  ld a,8 ; Enable SRAM
+  ld a,SRAMPagingOn
   ld (PAGING_SRAM),a
   ldir
   JR_TO $40aa
@@ -4036,6 +4066,10 @@ _OptionsSelect:
   jr nz,+
   
 _optionsReturn:
+  ; Copy setting to save RAM
+  ; We are in slot 2 here so we need to put this in low ROM
+  call SettingsToSRAM
+
   ld hl,OptionsWindow
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
@@ -4350,6 +4384,28 @@ _chip:
   jr z,+
   ld hl,SoundTestMenuChipYM2413
 +:jp DrawTilemap ; and ret
+.ends
+
+.bank 1 slot 1
+.section "Setting SRAM helpers" free
+; We are very low on space :( so we have to split these up
+SettingsToSRAM:
+  ld hl,SettingsStart
+  ld de,$8210 ; SRAM location
+CopySettings:
+  ld bc,SettingsEnd-SettingsStart
+  ld a,SRAMPagingOn
+  ld (PAGING_SRAM),a
+  ldir
+  ld a,SRAMPagingOff
+  ld (PAGING_SRAM),a
+  ret
+.ends
+.section "Setting SRAM helper 2" free
+SettingsFromSRAM:
+  ld hl,$8210
+  ld de,SettingsStart
+  jp CopySettings
 .ends
 
 ; We hook the FM detection so we can cache the result
