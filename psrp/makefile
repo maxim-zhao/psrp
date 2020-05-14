@@ -63,15 +63,11 @@ new_graphics\world2.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 58570 
 
 
 # tile conversion from PNG
-# This is for "original" graphics.
-new_graphics\font1.psgcompr: new_graphics\font1.png
-	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-
-new_graphics\font2.psgcompr: new_graphics\font2.png
-	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-
-new_graphics\font3.psgcompr: new_graphics\font3.png
-	new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font2.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font3.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font2a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
 new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.png
 	new_graphics\bmp2tile.exe $** -savetiles new_graphics\title.psgcompr -savetilemap new_graphics\title-nt.pscompr -palsms -savepalette new_graphics\title-pal.bin
@@ -127,6 +123,7 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\bg30.psgcompr new_graphics\bg31.psgcompr \
        new_graphics\world1.psgcompr new_graphics\world2.psgcompr \
        new_graphics\font1.psgcompr new_graphics\font2.psgcompr new_graphics\font3.psgcompr \
+       new_graphics\font1a.psgcompr new_graphics\font2a.psgcompr \
        new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin \
        new_graphics\logo.psgcompr new_graphics\logo-nt.bin \
        new_graphics\alisa.tiles.bin

@@ -326,6 +326,7 @@ map "^" = $56 ; the
   FewerBattles db ; b 1 to halve battle probability
   BrunetteAlisa db ; 1 to enable brown hair
   Port3EValue db  ; Value left at $c000 by the BIOS
+  Font db ; 1 for the "alternate" font
 .ende
 
 ; Functions in the original game we make use if
@@ -566,8 +567,7 @@ _Write_VRAM:
 ; - support mapper
 
 ; Redirects calls to LoadTiles4BitRLENoDI@$0486 (decompress graphics, interrupt-unsafe version)
-; to a ripped decompressor from Phantasy Star Gaiden which is stored at the above address
-; Thus the remainder of the old decompressor is orphaned.
+; to a ripped decompressor from Phantasy Star Gaiden
 LoadTiles:
   ld a,:PSG_DECODER
   ld (PAGING_SLOT_1),a
@@ -898,6 +898,26 @@ BackgroundSceneLoaderTileLoaderPatch:
 .section "Font part 1" superfree
 FONT1: .incbin "new_graphics/font1.psgcompr"
 FONT2: .incbin "new_graphics/font2.psgcompr"
+FONT1a: .incbin "new_graphics/font1a.psgcompr"
+FONT2a: .incbin "new_graphics/font2a.psgcompr"
+LoadFontsImpl:
+    ld hl,Font1VRAMAddress
+    ld de,FONT1
+    ld a,(Font)
+    or a
+    jr z,+
+    ld de,FONT1a
++:  call LoadTiles
+    ; then fall through into the following
+
+LoadUpperFontImpl:
+    ld hl,Font2VRAMAddress
+    ld de,FONT2
+    ld a,(Font)
+    or a
+    jr z,+
+    ld de,FONT2a
++:  jp LoadTiles ; and ret
 .ends
 
 .define Font1VRAMAddress $5800
@@ -908,13 +928,19 @@ FONT2: .incbin "new_graphics/font2.psgcompr"
 LoadFonts:
   ld a,(PAGING_SLOT_2)
   push af
-    LoadPagedTiles FONT1, Font1VRAMAddress
-    jr +
+    ld a,:LoadFontsImpl
+    ld (PAGING_SLOT_2),a
+    call LoadFontsImpl
+  pop af
+  ld (PAGING_SLOT_2),a
+  ret
 
 LoadUpperFont:
   ld a,(PAGING_SLOT_2)
   push af
-+:  LoadPagedTiles FONT2, Font2VRAMAddress
+    ld a,:LoadUpperFontImpl
+    ld (PAGING_SLOT_2),a
+    call LoadUpperFontImpl
   pop af
   ld (PAGING_SLOT_2),a
   ret
@@ -2612,7 +2638,7 @@ DezorianCustomStringCheck:
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
   DefineWindow SoundTestWindow  $d700                 15 23  16  0
   DefineWindow ContinueWindow   $d700                  8  4  18 16
-  DefineWindow OptionsWindow    $d700                 21  7  11 17
+  DefineWindow OptionsWindow    $d700                 21  8  11 16
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -3971,9 +3997,9 @@ _OptionsSelect:
   ld hl,_BattlesAll
   jr z,+
   ld hl,_BattlesHalf
-+:ld b,4*2
++:ld b,_sizeof__BattlesAll
   ld c,PORT_VDP_DATA
-  otir  
+  otir
 
   ld de,OptionsWindow_VRAM + ONE_ROW * 5 + 2 * 15
   rst $8
@@ -3982,13 +4008,24 @@ _OptionsSelect:
   ld hl,_Black
   jr z,+
   ld hl,_Brown
-+:ld b,5*2
++:ld b,_sizeof__Black
   ld c,PORT_VDP_DATA
-  otir  
+  otir
+  
+  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * 12
+  rst $8
+  ld a,(Font)
+  or a
+  ld hl,_Font1
+  jr z,+
+  ld hl,_Font2
++:ld b,_sizeof__Font1
+  ld c,PORT_VDP_DATA
+  otir
 
   ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
-  ld a,4 ; 5 options
+  ld a,5 ; 6 options
   ld (CursorMax),a ; CursorMax
   call $2ec8 ; no cursor position reset
   
@@ -4068,16 +4105,34 @@ _battles:
   ld (FewerBattles),a
   jp _OptionsSelect
 
-+:; Last option
++:dec a
+  jr nz,+
+  
+_hair:
   ld a,(BrunetteAlisa)
   xor 1
   ld (BrunetteAlisa),a
   jp _OptionsSelect
+
++:; Last option, no need for dec
+
+_font:
+  ld a,(Font)
+  xor 1
+  ld (Font),a
+  ; We reload the font here
+  call LoadFonts
+  ; Then we need to wait for VBlank
+  halt
+  jp _OptionsSelect
   
 _BattlesAll:  .dwm TextToTilemap " All"
 _BattlesHalf: .dwm TextToTilemap "Half"
-_Brown:  .dwm TextToTilemap "Brown"
-_Black:  .dwm TextToTilemap "Black"
+_Brown: .dwm TextToTilemap "Brown"
+_Black: .dwm TextToTilemap "Black"
+_Font1: .dwm TextToTilemap " DamienG"
+_Font2: .dwm TextToTilemap "Original"
+ 
 
 Continue:
   ld hl,FunctionLookupIndex
