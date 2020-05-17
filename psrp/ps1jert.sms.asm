@@ -317,7 +317,7 @@ map "^" = $56 ; the
   VRAM_PTR  dw   ; VRAM address
   FULL_STR  dw   ; pointer backup
   TEMP_STR  .db  ; buffer for strings, shared with following
-  BUFFER    dsb 32 ; buffer for tile decoding
+  PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
   HasFM     db   ; copy of FM detection result
   MusicSelection db ; music test last selected song
   
@@ -356,215 +356,8 @@ map "^" = $56 ; the
 .define GetRandomNumber $066a ; returns in a
 
 .slot 1
-.section "New bitmap decoder" superfree
-; Originally t4b, t4b_1
-; RLE/LZ bitmap decoder
-; - Phantasy Star Gaiden
-PSG_DECODER:
-  push af     ; Save registers
-  push bc
-  push de
-  push hl
-  push ix
-  push iy
 
-    ld (VRAM_PTR),hl  ; Cache VRAM offset
-
-    push de     ; New source register
-    pop ix
-
-    ld c,(ix+0)   ; Load # tiles to decode
-    inc ix
-    ld b,(ix+0)
-    inc ix
-
-_Tiles_Loop:
-    push bc     ; Save # runs
-
-      ld c,(ix+0)   ; Decoder method selection
-      inc ix
-
-      ld b,4    ; 4 color planes
-      ld de,BUFFER
-
-      ; Decoder method
-      ; - 00 = 8 $00's
-      ; - 01 = 8 $FF's
-      ; - 10 = RLE/LZ extended
-      ; - 11 = 8 raw bytes
-
-_Plane_Decode:
-      rlc c     ; 00/01
-      jr nc,_All_Bytes
-      rlc c     ; 11
-      jr c,_Free_Bytes
-
-      ld a,(ix+0)   ; RLE/LZ selection
-      inc ix
-
-      ex de,hl    ; Lower 2 bits = LZ-window
-      ld d,a
-      and %11
-      add a,a
-      add a,a
-      add a,a
-      ld e,a
-
-      ld a,d      ; LZ-window cursor
-      ld d,0
-      ld iy,BUFFER
-      add iy,de
-      ex de,hl
-
-      cp $03      ; Check RLE/LZ pattern
-      jr c,_LZ_Normal
-      cp $10
-      jr c,_RLE_Mix
-      cp $13
-      jr c,_LZ_Invert
-      cp $20
-      jr c,_RLE_Mix
-      cp $23
-      jr c,_LZ_Mix_Normal
-      cp $40
-      jr c,_RLE_Mix
-      cp $43
-      jr c,_LZ_Mix_Invert
-
-_RLE_Mix:
-      ld h,a      ; Set 8-bit decode pattern
-      ld l,(ix+0)   ; Set RLE byte
-      inc ix
-      jr _RLE_Init
-
-
-_Free_Bytes:
-      ld h,0    ; 8 raw bytes
-      jr _RLE_Init
-
-
-_All_Bytes:
-      rlc c     ; Dummy bit
-
-      sbc a,a     ; $00 or $FF is cache byte
-      ld l,a
-
-      ld h,$ff    ; 8 RLE's pattern mask
-
-_RLE_Init:
-      push bc     ; 8 runs
-        ld b,8
-
-_RLE_Loop:
-        ld a,l      ; Load cached (RLE) byte
-        rlc h     ; Check pattern mask: Free or RLE
-        jr c,_RLE_Store
-
-        ld a,(ix+0)   ; Read raw byte
-        inc ix
-
-_RLE_Store:
-        ld (de),a   ; Store byte, keep decoding
-        inc de
-        djnz _RLE_Loop
-
-      pop bc      ; Proceed to next color plane
-      jr _End_Loop
-
-_LZ_Normal:
-      ld hl,$ff00   ; 8 LZ transactions
-      jr _LZ_Init
-
-_LZ_Invert:
-      ld hl,$ffff   ; 8 LZ runs (inversion)
-      jr _LZ_Init
-
-_LZ_Mix_Normal:
-      ld h,(ix+0)   ; Load pattern mask
-      ld l,0        ; No inversion
-      inc ix
-      jr _LZ_Init
-
-_LZ_Mix_Invert:
-      ld h,(ix+0)   ; Load pattern mask
-      ld l,$ff    ; Inversion
-      inc ix
-      ; fall through
-
-_LZ_Init:
-      push bc     ; 8 Runs
-        ld b,8
-
-_LZ_Loop:
-        ld a,(iy+0)   ; Load byte at LZ window cursor
-        inc iy
-
-        xor l     ; Full inversion if needed
-
-        rlc h     ; Decode: Free or LZ
-        jr c,_LZ_Store
-
-        ld a,(ix+0)   ; Load raw
-        inc ix
-
-_LZ_Store:
-        ld (de),a   ; Enter data until exhausted
-        inc de
-        djnz _LZ_Loop
-
-      pop bc
-      ; fall through
-
-_End_Loop:
-      dec b     ; One fewer color planes
-      jp nz,_Plane_Decode
-
-      ld de,(VRAM_PTR)  ; Set VRAM address
-      di
-        rst $08
-
-        ld de,8   ; Color planes grouped in bytes of 8
-        ld c,e
-
-        ld hl,BUFFER    ; 4-bpp tile address
-
-_Write_Loop:
-        ld b,4    ; 4 color planes
-        push hl
-
-_Write_VRAM:
-          ld a,(hl)   ; Grab byte
-          out (PORT_VDP_DATA),a ; Write to VRAM
-          add hl,de   ; Bump to next plane
-          djnz _Write_VRAM
-
-        pop hl      ; Go to next byte in sequence
-        inc hl
-        dec c
-        jr nz,_Write_Loop
-
-      ei      ; Update new VRAM offset
-      ld hl,(VRAM_PTR)
-      ld bc,32
-      add hl,bc
-      ld (VRAM_PTR),hl
-
-    pop bc
-    ; Determine # tiles left to decode
-    dec bc
-    ld a,b
-    or c
-    jp nz,_Tiles_Loop
-
-  pop iy      ; Done
-  pop ix
-  pop hl
-  pop de
-  pop bc
-  pop af
-  ret
-
-.ends
+.include "PSGaiden_tile_decomp.inc"
 
   ROMPosition $00486
 .section "Trampoline to new bitmap decoder" force ; not movable
@@ -574,10 +367,10 @@ _Write_VRAM:
 ; Redirects calls to LoadTiles4BitRLENoDI@$0486 (decompress graphics, interrupt-unsafe version)
 ; to a ripped decompressor from Phantasy Star Gaiden
 LoadTiles:
-  ld a,:PSG_DECODER
+  ld a,:PSGaiden_tile_decompr
   ld (PAGING_SLOT_1),a
-
-  call PSG_DECODER
+  
+  call PSGaiden_tile_decompr
 
   ld a,1
   ld (PAGING_SLOT_1),a
@@ -4042,7 +3835,7 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
   
-  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * 12
+  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * 13
   rst $8
   ld a,(Font)
   or a
@@ -4164,8 +3957,8 @@ _BattlesAll:  .dwm TextToTilemap " All"
 _BattlesHalf: .dwm TextToTilemap "Half"
 _Brown: .dwm TextToTilemap "Brown"
 _Black: .dwm TextToTilemap "Black"
-_Font1: .dwm TextToTilemap " Polaris"
-_Font2: .dwm TextToTilemap "PSIII/IV"
+_Font1: .dwm TextToTilemap "Polaris"
+_Font2: .dwm TextToTilemap " AW2284"
  
 
 Continue:

@@ -179,7 +179,7 @@ As I posted updates online people asked for some "quality of life" improvements 
 
 I also got a welcome message from Frank Cifaldi (TheRedEye, also the founder of the Video Game History Foundation) offering to do further script enhancements on top of his script from 2006. This could take advantage of the bigger text boxes to really expand the story. I think you'll find the enhancements really help the story.
 
-I also reached out to DamienG and he came up with an awesome new font. Note that the "PSIII/IV" font is a tweaked version of the font from Phantasy Star IV's English release, with the numbers from Phantasy Star III.
+I also reached out to DamienG and he came up with an awesome new font. Note that the "AW2284" font is a tweaked version of the font from Phantasy Star IV's English release, with the numbers from Phantasy Star III.
 
 ## Technical notes
 
