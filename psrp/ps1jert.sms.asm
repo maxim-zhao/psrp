@@ -4042,7 +4042,7 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
   
-  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * 13
+  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * 12
   rst $8
   ld a,(Font)
   or a
@@ -4164,8 +4164,8 @@ _BattlesAll:  .dwm TextToTilemap " All"
 _BattlesHalf: .dwm TextToTilemap "Half"
 _Brown: .dwm TextToTilemap "Brown"
 _Black: .dwm TextToTilemap "Black"
-_Font1: .dwm TextToTilemap "Polaris"
-_Font2: .dwm TextToTilemap "PS1JERT"
+_Font1: .dwm TextToTilemap " Polaris"
+_Font2: .dwm TextToTilemap "PSIII/IV"
  
 
 Continue:
