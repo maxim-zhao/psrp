@@ -45,7 +45,7 @@ Unofficial Translation 2005-2019
   - technical improvements:
     - rebuilt tools and assembly process, including some C++ modernisation and x64 support
     - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
-  - new font
+  - new font by DamienG
 
 
 Phantasy Star Original Dialogue Version
@@ -104,7 +104,7 @@ Changes made between version numbers may adversely affect emulator save states. 
 ### Frank Cifaldi (TheRedEye)
 - Localization and script enhancements
 ## Damien Guard
-- Custom font
+- Polaris font, see also https://damieng.com/typography/zx-origins/
 
 Special thanks to:
 
@@ -179,7 +179,7 @@ As I posted updates online people asked for some "quality of life" improvements 
 
 I also got a welcome message from Frank Cifaldi (TheRedEye, also the founder of the Video Game History Foundation) offering to do further script enhancements on top of his script from 2006. This could take advantage of the bigger text boxes to really expand the story. I think you'll find the enhancements really help the story.
 
-I also reached out to Damien
+I also reached out to DamienG and he came up with an awesome new font. Note that the "PSIII/IV" font is a tweaked version of the font from Phantasy Star IV's English release, with the numbers from Phantasy Star III.
 
 ## Technical notes
 
@@ -222,7 +222,7 @@ Note also that the original game has two versions of the tile decoder - one for 
 
 ### new_graphics
 
-In a few places we insert new graphics - the title screen and fonts. We render these as PNG files and use BMP2Tile to convert to the necessary formats.
+In a few places we insert new graphics - the title screen and fonts. We render these as PNG files and use BMP2Tile to convert to the necessary formats. We also have a duplicate tileset for Alisa with brown hair.
 
 ### ROM building
 
