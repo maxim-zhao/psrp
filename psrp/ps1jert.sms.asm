@@ -4198,7 +4198,15 @@ CopySettings:
 SettingsFromSRAM:
   ld hl,$8210
   ld de,SettingsStart
-  jp CopySettings
+  call CopySettings
+  ; If they were blank, we need to initialise the multipliers
+  ld a,(ExpMultiplier)
+  or a
+  ret nz
+  inc a
+  ld (ExpMultiplier),a
+  ld (MoneyMultiplier),a
+  ret
 .ends
 
 ; We hook the FM detection so we can cache the result
@@ -4316,10 +4324,6 @@ ContinueSavedGame:
 .section "Initialisation" free
 Initialisation:
   ld (Port3EValue),a
-  ; Initialise our mutipliers
-  ld a,1
-  ld (ExpMultiplier),a
-  ld (MoneyMultiplier),a
   ; Back to normal
   jp $00a8
 .ends
