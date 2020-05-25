@@ -4025,12 +4025,12 @@ _checkForSaves:
     call InputTilemapRect
     ; Select a savegame
 -:  call GetSavegameSelection ; leaves value in NumberToShowInText
+    ; check for button 1 or 2
+    bit 4,c
+    jr nz,_button1 ; cancel on 1 regardless of selection
     call IsSlotUsed
     jr z,- ; repeat selection until a valid one is chosen
   pop af
-  ; check for button 1 or 2
-  bit 4,c
-  jr nz,_closeSaveGameWindow ; back to selection on button 1
   
   
   ; now check what action
@@ -4054,6 +4054,10 @@ _continueDone:
   ld a,$f3  
   out ($be),a
   jr _SelectAction
+  
+_button1:
+  pop af
+  jr _closeSaveGameWindow
   
 SoundTest:
   ld hl,FunctionLookupIndex
