@@ -1,4 +1,4 @@
-# Phantasy Star English Retranslation v2.00 beta
+# Phantasy Star English Retranslation v2.00
 
 Phantasy Star
 - Sega Master System + YM-2413 FM
@@ -23,7 +23,7 @@ Unofficial Translation 2005-2019
   - fixed a bug with the Pause button mod
 - v1.02 released 2008/01/31
   - fixed lockup when you visit Tajim
-- v2.00 released 2020/05/??
+- v2.00 released 2020/05/25
   - script improvements:
     - script updates from Frank Cifaldi
     - fixed naming inconsistencies in the script, e.g. Dezoris/Dezolis, Roadpass/roadpass/road pass
