@@ -185,7 +185,7 @@ height=7
 ┌────────────╖
 │Heal        ║
 │Quick Dash  ║
-│Transrate   ║
+│Translate   ║
 │Fire        ║
 │Bind        ║
 
