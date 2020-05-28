@@ -29,8 +29,8 @@
 ; This is a bit of a hack because it wraps as if the suffix there is even 
 ; when it isn’t.
 ; 
-; <article> = use article for enemy/item, lowercase
-; <Article> = use article for enemy/item, initial uppercase
+; <article> = use article for enemy/item, lowercase. Includes a trailing space.
+; <Article> = use article for enemy/item, initial uppercase. Includes a trailing space.
 ; 
 ; <width nn> = wrap at width n (hex)
 ; <height nn> = insert waits so text "pages" at height n
@@ -1154,7 +1154,7 @@ I’m trying to train. Don’t interrupt me.<wait>
 ;タシカ マンホ-ルヲ トオッテ<line>
 ;イケタハズデス.<wait>
 ;
-; Alisa: We came to deliver this letter from the Governor-General.
+; A: We came to deliver this letter from the Governor-General.
 ; Won’t you read it please?
 ; Lutz: I understand...
 ; Together, we must protect the Algol system from the hand of evil.

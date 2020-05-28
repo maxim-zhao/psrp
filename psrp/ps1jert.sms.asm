@@ -3487,7 +3487,6 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
   PatchW $1808 0
   PatchB $180a 0 ; found treasure chest/display/wait/do you want to open it?
 
-; The font lookup, Huffman bits and script all share a bank as they are needed at the same time.
 .bank 2 slot 2
 
 .section "Font lookup" align 256 superfree ; alignment simplifies code...
