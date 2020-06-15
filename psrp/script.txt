@@ -2051,7 +2051,7 @@ It's me, Choko Oneesan! Be brave and strong as you continue your quest!<wait>
 ; [18E]
 ; ココニ ウッテイルト キイタノダガ<line>
 ; I heard that a store in this city sells an apparatus called a ‘GasClear’, which protects the body against poison gas. The only thing is, I can’t find the damn store! Sheesh!
-I came to this town to buy GasClear, I need it to protect myself from poiosonous gas.<wait more>
+I came to this town to buy GasClear, I need it to protect myself from poisonous gas.<wait more>
 There's supposed to be a shop around here that sells it, but I can't find it anywhere!<wait>
 
 [51f5]
