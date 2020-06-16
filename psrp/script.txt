@@ -688,7 +688,7 @@ There are intelligent monsters, but they speak a different language than ours.<w
 ; [092]
 ; メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
 ; <number> is always 10.
-; I gotta real rare animal here. You can have it fuh 10 billion mesetas. Wuddayuhsay?
+; I gotta real rare animal here. You can have it fuh 10 billion mesetas. Whuddayuhsay?
 Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
 Ten billion mesetas, and it’s yours. How ’bout it?<end>
 
@@ -2453,7 +2453,7 @@ Be careful up ahead. You should turn left at the fork in the path.<wait>
 
 [57fd,5803]
 ; Dezorian
-; (Also in Guaron Morgue)
+; (Also in Guaran Morgue)
 ; [234]
 ; ナニシニキタダ. オメエタチ<line>
 ; What is your business here? Don’t cause any trouble!
@@ -2474,7 +2474,7 @@ I’ve got a bad feeling about this.<wait>
 ; トイウ ウラナイシノ モッテイル<wait more>
 ; [23C]
 ; クリスタルヲ ラシ-クサマハ<line>
-; Don’t let this get out, but there's a fortuneteller named Damoa who is in posession of a crystal that LaShiec hates. There must be something secret about that crystal.
+; Don’t let this get out, but there's a fortuneteller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.
 You didn’t hear this from me, but...<wait more>
 Lord LaShiec fears the crystal held by Damoa the fortune-teller.<wait more>
 There must be something secret about it.<wait>
