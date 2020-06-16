@@ -1852,7 +1852,7 @@ SRAMCheck:             ; $0945
     inc de
     cpi                ; check if first $40 bytes of SRAM are the same as the marker
     jr nz,_InitSRAM    ; If not, initialise SRAM
-    jp pe,-            ; Loop
+    jp pe,-            ; Loop - p flag indicates when bc underflows
     ld a,SRAMPagingOff
     ld (SRAMPaging),a  ; page out SRAM
     ret
