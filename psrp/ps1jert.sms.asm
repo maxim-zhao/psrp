@@ -1521,75 +1521,76 @@ Lists:
 Items:
   ; Max width 18 excluding control characters and [...] parts
   String " " ; empty item (blank)
+  ;      Retranslation name    			| Japanese name	Romaji				Sega translation (decomppressed)
 ; weapons: 01-0f
-  String "~Wood Cane"
-  String "~Short Sword"
-  String "#Iron Sword"
-  String "~Psycho Wand"
-  String "~Saber Claw"
-  String "#Iron Axe"
-  String "~Titanium Sword"
-  String "~Ceramic Sword"
-  String "~Needle Gun"
-  String "~Silver Tusk"
-  String "~Heat Gun"
-  String "~Light Saber"
-  String "~Laser Gun"
-  String "~Laconian Sword"
-  String "~Laconian Axe"
-; armour: 10-18
-  String "~Leather Clothes"
-  String "~White Cloak"
-  String "~Light Suit"
-  String "#Iron Armor"
-  String "~Spiky [Squirrel ]Fur"
-  String "~Zirconian Mail"
-  String "~Diamond Armor"
-  String "~Laconian Armor"
-  String "^Frad Cloak"
-; shields: 19-20
-  String "~Leather Shield"
-  String "~Bronze Shield"
-  String "#Iron Shield"
-  String "~Ceramic Shield"
-  String "#Animal Glove"
-  String "~Laser Barrier"
-  String "^Shield of Perseus"
-  String "~Laconian Shield"
-; vehicles: 21-23
-  String "^LandMaster"
-  String "^FlowMover"
-  String "^IceDecker"
-; items: 24+
-  String "~PelorieMate"
-  String "~Ruoginin"
-  String "^Soothe Flute"
-  String "~Searchlight"
-  String "#Escape Cloth"
-  String "~TranCarpet"
-  String "~Magic Hat"
-  String "#Alsuline"
-  String "~Polymeteral"
-  String "~Dungeon Key"
-  String "~Telepathy Ball"
-  String "^Eclipse Torch"
-  String "^Aeroprism" ; $30
-  String "^Laerma Berries"
-  String "Hapsby"
-  String "~Road Pass"
-  String "~Passport"
-  String "~Compass"
-  String "~Shortcake"
-  String "^Governor[-General]'s Letter"
-  String "~Laconian Pot"
-  String "^Light Pendant"
-  String "^Carbuncle Eye"
-  String "~GasClear"
-  String "Damoa's Crystal"
-  String "~Master System"
-  String "^Miracle Key"
-  String "Zillion"
-  String "~Secret Thing"
+  String "~Wood Cane"                   ; ウッドケイン 		uddokein 			WOODCANE (Wood Cane)
+  String "~Short Sword"                 ; ショートソード 	shōtosōdo 			SHT. SWD (Short Sword)
+  String "#Iron Sword"                  ; アイアンソード 	aiansōdo 			IRN. SWD (Iron Sword)
+  String "~Psycho Wand"                 ; サイコウォンド 	saikowondo 			WAND	 (Wand)
+  String "~Saber Claw"                  ; シルバータスク 	shirubātasuku 		IRN.FANG (Iron Fang)
+  String "#Iron Axe"                    ; アイアンアクス 	aianakusu 			IRN. AXE (Iron Axe)
+  String "~Titanium Sword"              ; チタニウムソード	chitaniumusōdo		TIT. SWD (Titanium Sword)
+  String "~Ceramic Sword"               ; セラミックソード 	seramikkusōdo 		CRC. SWD (Ceramic Sword)
+  String "~Needle Gun"                  ; ニードルガン		nīdorugan			NEEDLGUN (Needle Gun)
+  String "~Silver Tusk"                 ; サーベルクロー		sāberukurō			SIL.FANG (Silver Fang)
+  String "~Heat Gun"                    ; ヒートガン		hītogan				HEAT.GUN (Heat Gun)
+  String "~Light Saber"                 ; ライトセイバー		raitoseibā			LGT.SABR (Light Saber)
+  String "~Laser Gun"                   ; レーザーガン 		rēzāgan 			LASR.GUN (Laser Gun)
+  String "~Laconian Sword"              ; ラコニアンソード	rakoniansōdo		LAC. SWD (Laconian Sword)
+  String "~Laconian Axe"                ; ラコニアンアクス	rakonianakusu		LAC. AXE (Laconian Axe)
+; armour: 10-18                         ;               
+  String "~Leather Clothes"             ; レザークロス   	rezākurosu   		LTH.ARMR (Leather Armor)
+  String "~White Cloak"                 ; ホワイトマント  	howaitomanto  		WHT.MANT (White Mantle)
+  String "~Light Suit"                  ; ライトスーツ   	raitosūtsu   		LGT.SUIT (Light Suit)
+  String "#Iron Armor"                  ; アイアンアーマ  	aianāma  			IRN.ARMR (Iron Armor)
+  String "~Spiky [Squirrel ]Fur"        ; トゲリスノケガワ 	togerisunokegawa 	THCK.FUR (Thick Fur)
+  String "~Zirconian Mail"              ; ジルコニアメイル	jirukoniameiru		ZIR.ARMR (Zirconian Armour)
+  String "~Diamond Armor"               ; ダイヤノヨロイ  	daiyanoyoroi  		DMD.ARMR (Diamond Armor)
+  String "~Laconian Armor"              ; ラコニアアーマ  	rakoniāama  		LAC.ARMR (Laconian Armor)
+  String "^Frad Cloak"                  ; フラードマント  	furādomanto  		FRD.MANT (Frad Mantle)
+; shields: 19-20                        ;               
+  String "~Leather Shield"              ; レザーシールド    	rezāshīrudo         LTH. SLD (Leather Shield)
+  String "~Bronze Shield"               ; アイアンシールド    aianshīrudo        	BRNZ.SLD (Bronze Shield)
+  String "#Iron Shield"                 ; ボロンシールド     boronshīrudo		IRN. SLD (Iron Shield)
+  String "~Ceramic Shield"              ; セラミックノタテ     seramikkunotate		CRC. SLD (Ceramic Shield)
+  String "#Animal Glove"                ; アニマルグラブ     animarugurabu   	GLOVE	 (Glove)
+  String "~Laser Barrier"               ; レーザーバリア     rēzābaria        	LASR.SLD (Laser Shield)
+  String "^Shield of Perseus"           ; ペルセウスノタテ    peruseusunotate  	MIRR.SLD (Mirror Shield)
+  String "~Laconian Shield"             ; ラコニアシールド    rakoniashīrudo    	LAC. SLD (Laconian Shield)
+; vehicles: 21-23                       ;               
+  String "^LandMaster"                  ; ランドマスター		randomasutā			LANDROVR (Land Rover)
+  String "^FlowMover"                   ; フロームーバー		furōmūbā			HOVRCRFT (Hovercraft)
+  String "^IceDecker"                   ; アイスデッカー		aisudekkā			ICE DIGR (Ice Digger)
+; items: 24+                            ;               
+  String "~PelorieMate"                 ; ペロリーメイト   	perorīmeito   		COLA	 (Cola)
+  String "~Ruoginin"                    ; ルオギニン      	ruoginin      		BURGER   (Burger)
+  String "^Soothe Flute"                ; スーズフルート   	sūzufurūto   		FLUTE    (Flute)
+  String "~Searchlight"                 ; サーチライト    	sāchiraito    		FLASH    (Flash)
+  String "#Escape Cloth"                ; エスケープクロス  	esukēpukurosu  		ESCAPER  (Escaper)
+  String "~TranCarpet"                  ; トランカーペット  	torankāpetto  		TRANSER  (Transer)
+  String "~Magic Hat"                   ; マジックハット   	majikkuhatto   		MAGC HAT (Magic Hat)
+  String "#Alsuline"                    ; アルシュリン     	arushurin     		ALSULIN  (Alsulin)
+  String "~Polymeteral"                 ; ポリメテラール   	porimeterāru   		POLYMTRL (Polymeteral)
+  String "~Dungeon Key"                 ; ダンジョンキー   	danjonkī   			DUGN KEY (Dungeon Key)
+  String "~Telepathy Ball"              ; テレパシーボール 	terepashībōru 		SPHERE   (Sphere)
+  String "^Eclipse Torch"               ; イクリプストーチ  	ikuripusutōchi  	TORCH	 (Torch)
+  String "^Aeroprism" ; $30             ; エアロプリズム   	earopurizumu   		PRISM	 (Prism)
+  String "^Laerma Berries"              ; ラエルマベリー   	raerumaberī   		NUTS	 (Nuts)
+  String "Hapsby"                       ; ハプスビー     	hapusubī     		HAPSBY	 (Hapsby)
+  String "~Road Pass"                   ; ロードパス      	rōdopasu      		ROADPASS (Roadpass)
+  String "~Passport"                    ; パスポート     	pasupōto     		PASSPORT (Passport)
+  String "~Compass"                     ; コンパス       	konpasu       		COMPASS  (Compass)
+  String "~Shortcake"                   ; ショートケーキ   	shōtokēki   		CAKE	 (Cake)
+  String "^Governor[-General]'s Letter" ; ソウトクノテガミ  	soutokunotegami  	LETTER	 (Letter)
+  String "~Laconian Pot"				; ラコニアンポット  	rakonianpotto  		LAC. POT (Laconian Pot)
+  String "^Light Pendant"               ; ライトペンダント  	raitopendanto  		MAG.LAMP (Magic Lamp)
+  String "^Carbuncle Eye"               ; カーバンクルアイ 	kābankuruai 		AMBR EYE (Amber Eye)
+  String "~GasClear"                    ; ガスクリア      	gasukuria      		GAS. SLD (Gas Shield)
+  String "Damoa's Crystal"              ; ダモアクリスタル  	damoakurisutaru  	CRYSTAL  (Crystal)
+  String "~Master System"               ; マスターシステム 	masutāshisutemu 	M SYSTEM (Master System)
+  String "^Miracle Key"                 ; ミラクルキー     	mirakurukī     		MRCL KEY (Miracle Key)
+  String "Zillion"                      ; ジリオン       	jirion       		ZILLION  (Zillion)
+  String "~Secret Thing"                ; ヒミツノモノ     	himitsunomono     	SECRET   (Secret)
 
 Names:
   String "Alisa"
@@ -1599,80 +1600,80 @@ Names:
 
 Enemies:
   String " " ; Empty
-  String "^Monster Fly"
-  String "^Green Slime"
-  String "^Wing Eye"
-  String "^Maneater"
-  String "^Scorpius"
-  String "^Giant Naiad"
-  String "^Blue Slime"
-  String "^Motavian Peasant"
-  String "^Devil Bat"
-  String "^Killer Plant"
-  String "^Biting Fly"
-  String "^Motavian Teaser"
-  String "^Herex"
-  String "^Sandworm"
-  String "^Motavian Maniac"
-  String "^Gold Lens" ; $10
-  String "^Red Slime"
-  String "^Bat Man"
-  String "^Horseshoe Crab"
-  String "^Shark King"
-  String "^Lich"
-  String "^Tarantula"
-  String "^Manticort"
-  String "^Skeleton"
-  String "^Ant-lion"
-  String "^Marshes"
-  String "^Dezorian"
-  String "^Desert Leech"
-  String "^Cryon"
-  String "^Big Nose"
-  String "^Ghoul"
-  String "^Ammonite" ; $20
-  String "^Executor"
-  String "^Wight"
-  String "^Skull Soldier"
-  String "^Snail"
-  String "^Manticore"
-  String "^Serpent"
-  String "^Leviathan"
-  String "^Dorouge"
-  String "^Octopus"
-  String "^Mad Stalker"
-  String "^Dezorian Head"
-  String "^Zombie"
-  String "^Living Dead"
-  String "^Robot Police"
-  String "^Cyborg Mage"
-  String "^Flame Lizard" ; $30
-  String "Tajim"
-  String "^Gaia"
-  String "^Machine Guard"
-  String "^Big Eater"
-  String "^Talos"
-  String "^Snake Lord"
-  String "^Death Bearer"
-  String "^Chaos Sorcerer"
-  String "^Centaur"
-  String "^Ice Man"
-  String "^Vulcan"
-  String "^Red Dragon"
-  String "^Green Dragon"
-  String "LaShiec"
-  String "^Mammoth"
-  String "^King Saber"
-  String "^Dark Marauder"
-  String "^Golem"
-  String "Medusa"
-  String "^Frost Dragon"
-  String "Dragon Wise"
-  String "Gold Drake"
-  String "Mad Doctor"
-  String "LaShiec"
-  String "Dark Force"
-  String "Nightmare"
+  String "^Monster Fly"         		; モンスターフライ	monsutaa furai		SWORM    (Sworm)
+  String "^Green Slime"         		; グリーンスライム	guriin suraimu  	GR.SLIME (Green Slime)
+  String "^Wing Eye"            		; ウイングアイ     	uingu ai			WING EYE (Wing Eye)
+  String "^Maneater"            		; マンイーター  	man iitaa  			MANEATER (Man Eater)
+  String "^Scorpius"            		; スコーピラス  	sukoopirasu  		SCORPION (Scorpion)
+  String "^Giant Naiad"         		; ラージャーゴ  	raajaago  			G.SCORPI (Gold Scorpion)
+  String "^Blue Slime"          		; ブルースライム  	buruu suraimu  		BL.SLIME (Blue Slime)
+  String "^Motavian Peasant"    		; モタビアンノーフ  	motabian noofu  	N.FARMER (N.Farmer)
+  String "^Devil Bat"           		; デビルバット  	debiru batto  		OWL BEAR (Owl Bear)
+  String "^Killer Plant"        		; キラープラント  	kiraa puranto  		DEADTREE (Dead Tree)
+  String "^Biting Fly"          		; バイターフライ  	baitaa furai  		SCORPIUS (Scorpius)
+  String "^Motavian Teaser"     		; モタビアンイビル  	motabian ibiru  	E.FARMER (E.Farmer)
+  String "^Herex"               		; ヘレックス  		herekkusu  			GIANTFLY (Giant Fly)
+  String "^Sandworm"            		; サンドフーム  	sandowaamu  		CRAWLER  (Crawler)
+  String "^Motavian Maniac"     		; モタビアンマニア  	motabian mania  	BARBRIAN (Barbarian)
+  String "^Gold Lens" ; $10     		; ゴールドレンズ  	goorudo renzu  		GOLDLENS (Goldlens)
+  String "^Red Slime"           		; レッドスライム  	reddo suraimu  		RD.SLIME (Red Slime)
+  String "^Bat Man"             		; バットマン  		battoman  			WERE BAT (Werebat)
+  String "^Horseshoe Crab"      		; カブトガニ  		kabutogani  		BIG CLUB (Big Club)
+  String "^Shark King"          		; シャーキン  		shaakin  			FISHMAN  (Fishman)
+  String "^Lich"                		; リッチ  			ricchi  			EVILDEAD (Evil Dead)
+  String "^Tarantula"           		; タラヌチッラ  		taranutirra  		TARANTUL (Tarantula)
+  String "^Manticort"           		; マンチコア  		mantikoa  			MANTICOR (Manticore)
+  String "^Skeleton"            		; スケルトン  		sukeruton  			SKELETON (Skeleton)
+  String "^Ant-lion"            		; アリジゴク  		arijigoku  			ANT LION (Ant Lion)
+  String "^Marshes"             		; マーシーズ  		maashiizu  			MARMAN   (Marshman)
+  String "^Dezorian"            		; デゾリアン  		dezorian  			DEZORIAN (Dezorian)
+  String "^Desert Leech"        		; デザートリーチ  	dezaato riichi  	LEECH	 (Leech)
+  String "^Cryon"               		; クライオン  		kuraion  			VAMPIRE	 (Vampire)
+  String "^Big Nose"            		; ビッグノーズ  		biggu noozu  		ELEPHANT (Elephant)
+  String "^Ghoul"               		; グール  		guuru  				GHOUL    (Ghoul)
+  String "^Ammonite" ; $20      		; アンモナイト  	anmonaito  			SHELFISH (Shellfish)
+  String "^Executor"            		; エグゼキュート  	eguzekyuuto  		EXECUTER (Executer)
+  String "^Wight"               		; ワイト  		waito  				WIGHT	 (Wight)
+  String "^Skull Soldier"       		; スカルソルジャー  	sukaru sorujaa  	SKULL-EN (Skull-En)
+  String "^Snail"               		; マイマイ  		maimai  			AMMONITE (Ammonite)
+  String "^Manticore"           		; マンチコート  	manticooto  		SPHINX 	 (Sphinx)
+  String "^Serpent"             		; サーペント  		saapento  			SERPENT  (Serpent)
+  String "^Leviathan"           		; リバイアサン  	ribaiasan  			SANDWORM (Sandworm)
+  String "^Dorouge"             		; ドルージュ  		doruuju  			LICH     (Lich)
+  String "^Octopus"             		; オクトパス  		okutopasu  			OCTOPUS  (Octopus)
+  String "^Mad Stalker"         		; マッドストーカー  	maddo sutookaa  	STALKER  (Stalker)
+  String "^Dezorian Head"       		; デゾリアンヘッド  	dezorian heddo  	EVILHEAD (Evil Head)
+  String "^Zombie"              		; ゾンビ  		zonbi  				ZOMBIE   (Zombie)
+  String "^Living Dead"         		; ビュート  		byuuto  			BATALION (Battalion)
+  String "^Robot Police"        		; ロボットポリス  	robotto porisu  	ROBOTCOP (Robotcop)
+  String "^Cyborg Mage"         		; サイボーグメイジ  	saiboogu meiji  	SORCERER (Sorcerer)
+  String "^Flame Lizard" ; $30  		; フレームリザド  	fureemu rizado  	NESSIE   (Nessie)
+  String "Tajim"                		; タジム  		tajim  				TARZIMAL (Tarzimal)
+  String "^Gaia"                		; ガイア  		gaia  				GOLEM	 (Golem)
+  String "^Machine Guard"       		; マシーンガーダー  	mashiin gaadaa  	ANDROCOP (Androcop)
+  String "^Big Eater"           		; ビッグイ－タ－  	bigguiitaa  		TENTACLE (Tentacle)
+  String "^Talos"               		; タロス  		tarosu  			GIANT    (Giant)
+  String "^Snake Lord"          		; スネークロード  	suneeku roodo  		WYVERN   (Wyvern)
+  String "^Death Bearer"        		; デスベアラー  	desu bearaa  		REAPER	 (Reaper)
+  String "^Chaos Sorcerer"      		; カオスンーサラー  	kaosu soosaraa  	MAGICIAN (Magician)
+  String "^Centaur"             		; セントール  		sentooru  			HORSEMAN (Horseman)
+  String "^Ice Man"             		; アイスマン  		aisuman  			FROSTMAN (Frostman)
+  String "^Vulcan"              		; バルカン  		barukan  			AMUNDSEN (Amundsen)
+  String "^Red Dragon"          		; レッドドラゴン  	reddo doragon  		RD.DRAGN (Red Dragon)
+  String "^Green Dragon"        		; グリーンドラゴン  	guriin doragon  	GR.DRAGN (Green Dragon)
+  String "LaShiec"              		; ラシーク  		rashiiku			SHADOW 	 (Shadow)
+  String "^Mammoth"             		; マンモス  		manmosu  			MAMMOTH  (Mammoth)
+  String "^King Saber"          		; キングセイバー  	kingu saiba  		CENTAUR  (Centaur)
+  String "^Dark Marauder"       		; ダークマローダー  	daaku maroodaa  	MARAUDER (Marauder)
+  String "^Golem"               		; コーレム  		kooremu  			TITAN	 (Titan)
+  String "Medusa"               		; メデューサ  		medyuusa  			MEDUSA	 (Medusa)
+  String "^Frost Dragon"        		; フロストドラゴン  	furosu doragon  	WT.DRAGN (White Dragon)
+  String "Dragon Wise"          		; ドラゴンワイズ  	doragon waizu  		BL.DRAGN (Blue Dragon)
+  String "Gold Drake"           		; ゴールドドレイク  	goorudo doreiku 	GD.DRAGN (Gold Dragon)
+  String "Mad Doctor"           		; マッドドクター  	maddo dokutaa  		DR.MAD	 (Dr. Mad)
+  String "LaShiec"              		; ラシーク  		rashiiku  			LASSIC   (Lassic)
+  String "Dark Force"           		; ダークファルス  	daaku farusu  		DARKFALZ (Dark Falz)
+  String "Nightmare"            		; ナイトメア  		naitomea  			SACCUBUS (Saccubus)
 ; Terminator
 .db $df
 .ends
