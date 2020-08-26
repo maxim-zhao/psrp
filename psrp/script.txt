@@ -3844,7 +3844,7 @@ Alisa and her companions have been annihilated.<wait>
 Alisa’s hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
 The journey ends here.<wait>
 
-[2bc0,2d9d,4d88]
+[2bc0,2d9d,4d88,538f]
 ; [12A]-2
 ;オカネガ タリナイヨウデスネ.<line>
 ;マタキテクダサイ.<wait>
