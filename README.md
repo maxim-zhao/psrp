@@ -353,39 +353,60 @@ As a result, some of the character dialogue is extended beyond what was in the o
 
 Telling you the names of all the things in the game is a kind of spoiler, so don't look here unless you're OK with that.
 
-###Weapons
+### Characters
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
-ウッドケイン|uddokein|WOODCANE|Wood Cane|Wood Cane|Transliteration
-ショートソード|shōtosōdo|SHT. SWD|Short Sword|Short Sword|Transliteration
-アイアンソード|aiansōdo|IRN. SWD|Iron Sword|Iron Sword|Transliteration
+アリサ|arisa|ALIS|Alis|Alisa|Transliteration. Later games use "Alis" but the "a" is there in the original.
+ミャウ|myau|MYAU|Myau|Myau|Transliteration (and onomatopoeia) (unchanged)
+タイロン|tairon|ODIN|Odin|Tairon|Transliteration. Controversial - could also be "Tylon", "Tyrone", "Tyron", ...
+ルツ|rutsu|LUTZ|Lutz|Lutz|Transliteration
+ラシーク|rashīku|LASSIC|Lassic|LaShiec|Transliteration. [Fits wth later translations.](https://phantasystar.fandom.com/wiki/Lashiec)
+ネロ|nero|NERO|Nero|Nero|Transliteration (unchanged)
+スエロ|suero|SUELO|Suelo|Suelo|Transliteration (unchanged)
+ネキセ|nekise|NEKISE|Nekise|Nekise|Transliteration (unchanged). Could be "Nekiseh" to imply the correct pronunciation.
+
+### Locations
+Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
+:---|:---|:---|:---|:---|:---
+アルゴル|arugoru|ALGOL|Algol|Algol|Transliteration (unchanged)
+パルマ|paruma|PALMA|Palma|Palma|Transliteration (unchanged)
+モタビア|motabia|MOTAVIA|Motavia|Motavia|Transliteration (unchanged)
+デゾリス|dezorisu|DEZORIS|Dezoris|Dezoris|Transliteration (unchanged)
+カミニート|kaminīto|CAMINEET|Camineet|Camineet|Transliteration (unchanged)
+
+### Weapons
+Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
+:---|:---|:---|:---|:---|:---
+ウッドケイン|uddokein|WOODCANE|Wood Cane|Wood Cane|Transliteration (unchanged)
+ショートソード|shōtosōdo|SHT. SWD|Short Sword|Short Sword|Transliteration (unchanged)
+アイアンソード|aiansōdo|IRN. SWD|Iron Sword|Iron Sword|Transliteration (unchanged)
 サイコウォンド|saikowondo|WAND|Wand|Psycho Wand|Transliteration
 シルバータスク|shirubātasuku|IRN.FANG|Iron Fang|Silver Tusk|Transliteration. Sega translation changed the meaning, see also "SIL. FANG" below.
-アイアンアクス|aianakusu|IRN. AXE|Iron Axe|Iron Axe|Transliteration
-チタニウムソード|chitaniumusōdo|TIT. SWD|Titanium Sword|Titanium Sword|Transliteration
-セラミックソード|seramikkusōdo|CRC. SWD|Ceramic Sword|Ceramic Sword|Transliteration
-ニードルガン|nīdorugan|NEEDLGUN|Needle Gun|Needle Gun|Transliteration
+アイアンアクス|aianakusu|IRN. AXE|Iron Axe|Iron Axe|Transliteration (unchanged)
+チタニウムソード|chitaniumusōdo|TIT. SWD|Titanium Sword|Titanium Sword|Transliteration (unchanged)
+セラミックソード|seramikkusōdo|CRC. SWD|Ceramic Sword|Ceramic Sword|Transliteration (unchanged)
+ニードルガン|nīdorugan|NEEDLGUN|Needle Gun|Needle Gun|Transliteration (unchanged)
 サーベルクロー|sāberukurō|SIL.FANG|Silver Fang|Saber Claw|Transliteration. Sega translation changed the meaning.
-ヒートガン|ītogan|HEAT.GUN|Heat Gun|Heat Gun|Transliteration
-ライトセイバー|raitoseibā|LGT.SABR|Light Saber|Light Saber|Transliteration
-レーザーガン|rēzāgan|LASR.GUN|Laser Gun|Laser Gun|Transliteration
-ラコニアンソード|rakoniansōdo|LAC. SWD|Laconian Sword|Laconian Sword|Transliteration
-ラコニアンアクス|rakonianakusu|LAC. AXE|Laconian Axe|Laconian Axe|Transliteration
+ヒートガン|ītogan|HEAT.GUN|Heat Gun|Heat Gun|Transliteration (unchanged)
+ライトセイバー|raitoseibā|LGT.SABR|Light Saber|Light Saber|Transliteration (unchanged)
+レーザーガン|rēzāgan|LASR.GUN|Laser Gun|Laser Gun|Transliteration (unchanged)
+ラコニアンソード|rakoniansōdo|LAC. SWD|Laconian Sword|Laconian Sword|Transliteration (unchanged)
+ラコニアンアクス|rakonianakusu|LAC. AXE|Laconian Axe|Laconian Axe|Transliteration (unchanged)
 
-###Armour
+### Armour
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
 レザークロス|rezākurosu|LTH.ARMR|Leather Armor|Leather Clothes|Transliteration
-ホワイトマント|howaitomanto|WHT.MANT|White Mantle|White Mantle|Transliteration
-ライトスーツ|raitosūtsu|LGT.SUIT|Light Suit|Light Suit|Transliteration
-アイアンアーマ|aianāma|IRN.ARMR|Iron Armor|Iron Armor|Transliteration
+ホワイトマント|howaitomanto|WHT.MANT|White Mantle|White Mantle|Transliteration (unchanged)
+ライトスーツ|raitosūtsu|LGT.SUIT|Light Suit|Light Suit|Transliteration (unchanged)
+アイアンアーマ|aianāma|IRN.ARMR|Iron Armor|Iron Armor|Transliteration (unchanged)
 トゲリスノケガワ|togerisunokegawa|THCK.FUR|Thick Fur|Spiky Squirrel Fur|Translation (トゲリスの毛皮)
-ジルコニアメイル|jirukoniameiru|ZIR.ARMR|Zirconian Armour|Zirconia Mail|Transliteration
+ジルコニアメイル|jirukoniameiru|ZIR.ARMR|Zirconian Armour|Zirconia Mail|Transliteration. Note that zirconia is a cheaper version of diamond.
 ダイヤノヨロイ|daiyanoyoroi|DMD.ARMR|Diamond Armor|Diamond Armor|Transliteration + translation (ダイヤの鎧)
 ラコニアアーマ|rakoniāama|LAC.ARMR|Laconian Armor|Laconian Armor|Transliteration
 フラードマント|furādomanto|FRD.MANT|Frad Mantle|Frad Mantle|Transliteration
 
-###Shields
+### Shields
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
 レザーシールド|rezāshīrudo|LTH. SLD|Leather Shield|Leather Shield|Transliteration
@@ -397,14 +418,14 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ペルセウスノタテ|peruseusunotate|MIRR.SLD|Mirror Shield|Shield of Perseus|Transliteration + translation (ペルセウスの盾)
 ラコニアシールド|rakoniashīrudo|LAC. SLD|Laconian Shield|Laconian Shield|Transliteration
 
-###Vehicles
+### Vehicles
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
 ランドマスター|randomasutā|LANDROVR|Land Rover|LandMaster|Transliteration
 フロームーバー|furōmūbā|HOVRCRFT|Hovercraft|FlowMover|Transliteration
 アイスデッカー|aisudekkā|ICE DIGR|Ice Digger|IceDecker|Transliteration
 
-###Items
+### Items
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
 ペロリーメイト|perorīmeito|COLA|Cola|PelorieMate|Transliteration. Note that this is a play on "CalorieMate", a Japanese brand of "energy bar"
@@ -436,8 +457,6 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ミラクルキー|mirakurukī|MRCL KEY|Miracle Key|Miracle Key|Transliteration
 ジリオン|jirion|ZILLION|Zillion|Zillion|Transliteration
 ヒミツノモノ|himitsunomono|SECRET|Secret|Secret Thing|Translation (秘密の物)
-
-
 
 ## Contact
 
