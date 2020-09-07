@@ -117,13 +117,11 @@ Special thanks to:
 ### Bock (Omar Cornut)
 - Meka is an excellent debugging emulator (used extensively for the hacking work): https://www.smspower.org/meka/
 ### Charles MacDonald
-- Open-source SMS/GG emulator
+- Open-source SMS/GG emulator SMSPlus
 ### Forgotten
 - Functional Z80 disassembler from his GB/GBA emulator
 ### Gregory Montoir
-- Open-source SDL port of first-mentioned program
-### KingMike
-- Concise DTE tutorial
+- Open-source SDL port of SMSPlus
 ### SnowBro
 - Versatile tile editor
 ### Ville Helin
@@ -344,6 +342,102 @@ Official distribution page for this patch:
 
 Source code:
 - https://github.com/maxim-zhao/psrp
+
+## Translation notes
+
+The goal of this translation is to produce a blend between "what the original Japanese version was like" and "what a good localisation would have been in 1987".
+This means some effort is needed to adapt the intent of the original Japanese more or less literally as needed.
+As a result, some of the character dialogue is extended beyond what was in the original Japanese, occasionally adding some hints, sometimes adding some extra style to some of the bare-bones dialogue where we are able to extend things beyond the space restrictions that also limited the Japanese script.
+
+***Spoilers ahead***
+
+Telling you the names of all the things in the game is a kind of spoiler, so don't look here unless you're OK with that.
+
+###Weapons
+Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
+:---|:---|:---|:---|:---|:---
+ウッドケイン|uddokein|WOODCANE|Wood Cane|Wood Cane|Transliteration
+ショートソード|shōtosōdo|SHT. SWD|Short Sword|Short Sword|Transliteration
+アイアンソード|aiansōdo|IRN. SWD|Iron Sword|Iron Sword|Transliteration
+サイコウォンド|saikowondo|WAND|Wand|Psycho Wand|Transliteration
+シルバータスク|shirubātasuku|IRN.FANG|Iron Fang|Silver Tusk|Transliteration. Sega translation changed the meaning, see also "SIL. FANG" below.
+アイアンアクス|aianakusu|IRN. AXE|Iron Axe|Iron Axe|Transliteration
+チタニウムソード|chitaniumusōdo|TIT. SWD|Titanium Sword|Titanium Sword|Transliteration
+セラミックソード|seramikkusōdo|CRC. SWD|Ceramic Sword|Ceramic Sword|Transliteration
+ニードルガン|nīdorugan|NEEDLGUN|Needle Gun|Needle Gun|Transliteration
+サーベルクロー|sāberukurō|SIL.FANG|Silver Fang|Saber Claw|Transliteration. Sega translation changed the meaning.
+ヒートガン|ītogan|HEAT.GUN|Heat Gun|Heat Gun|Transliteration
+ライトセイバー|raitoseibā|LGT.SABR|Light Saber|Light Saber|Transliteration
+レーザーガン|rēzāgan|LASR.GUN|Laser Gun|Laser Gun|Transliteration
+ラコニアンソード|rakoniansōdo|LAC. SWD|Laconian Sword|Laconian Sword|Transliteration
+ラコニアンアクス|rakonianakusu|LAC. AXE|Laconian Axe|Laconian Axe|Transliteration
+
+###Armour
+Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
+:---|:---|:---|:---|:---|:---
+レザークロス|rezākurosu|LTH.ARMR|Leather Armor|Leather Clothes|Transliteration
+ホワイトマント|howaitomanto|WHT.MANT|White Mantle|White Mantle|Transliteration
+ライトスーツ|raitosūtsu|LGT.SUIT|Light Suit|Light Suit|Transliteration
+アイアンアーマ|aianāma|IRN.ARMR|Iron Armor|Iron Armor|Transliteration
+トゲリスノケガワ|togerisunokegawa|THCK.FUR|Thick Fur|Spiky Squirrel Fur|Translation (トゲリスの毛皮)
+ジルコニアメイル|jirukoniameiru|ZIR.ARMR|Zirconian Armour|Zirconia Mail|Transliteration
+ダイヤノヨロイ|daiyanoyoroi|DMD.ARMR|Diamond Armor|Diamond Armor|Transliteration + translation (ダイヤの鎧)
+ラコニアアーマ|rakoniāama|LAC.ARMR|Laconian Armor|Laconian Armor|Transliteration
+フラードマント|furādomanto|FRD.MANT|Frad Mantle|Frad Mantle|Transliteration
+
+###Shields
+Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
+:---|:---|:---|:---|:---|:---
+レザーシールド|rezāshīrudo|LTH. SLD|Leather Shield|Leather Shield|Transliteration
+アイアンシールド|aianshīrudo|BRNZ.SLD|Bronze Shield|Iron Shield|Transliteration. Swapped with Bronze Shield in Sega translation.
+ボロンシールド|boronshīrudo|IRN. SLD|Iron Shield|Bronze Shield|Transliteration. Swapped with Iron Shield in Sega translation.
+セラミックノタテ|seramikkunotate|CRC. SLD|Ceramic Shield|Ceramic Shield|Transliteration + translation (セラミックの盾)
+アニマルグラブ|animarugurabu|GLOVE|Glove|Animal Glove|Transliteration
+レーザーバリア|rēzābaria|LASR.SLD|Laser Shield|Laser Barrier|Transliteration
+ペルセウスノタテ|peruseusunotate|MIRR.SLD|Mirror Shield|Shield of Perseus|Transliteration + translation (ペルセウスの盾)
+ラコニアシールド|rakoniashīrudo|LAC. SLD|Laconian Shield|Laconian Shield|Transliteration
+
+###Vehicles
+Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
+:---|:---|:---|:---|:---|:---
+ランドマスター|randomasutā|LANDROVR|Land Rover|LandMaster|Transliteration
+フロームーバー|furōmūbā|HOVRCRFT|Hovercraft|FlowMover|Transliteration
+アイスデッカー|aisudekkā|ICE DIGR|Ice Digger|IceDecker|Transliteration
+
+###Items
+Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
+:---|:---|:---|:---|:---|:---
+ペロリーメイト|perorīmeito|COLA|Cola|PelorieMate|Transliteration. Note that this is a play on "CalorieMate", a Japanese brand of "energy bar"
+ルオギニン|ruoginin|BURGER|Burger|Ruoginin|Transliteration. Not sure if there is some reason for the name.
+スーズフルート|sūzufurūto|FLUTE|Flute|Soothe Flute|Transliteration
+サーチライト|sāchiraito|FLASH|Flash|Searchlight|Transliteration
+エスケープクロス|esukēpukurosu|ESCAPER|Escaper|Escape Cloth|Transliteration
+トランカーペット|torankāpetto|TRANSER|Transer|TranCarpet|Transliteration
+マジックハット|majikkuhatto|MAGC HAT|Magic Hat|Magic Hat|Transliteration
+アルシュリン|arushurin|ALSULIN|Alsulin|Alsuline|Transliteration. Not sure if there is some reason for the name.
+ポリメテラール|porimeterāru|POLYMTRL|Polymeteral|Polymeteral|Transliteration
+ダンジョンキー|danjonkī|DUGN KEY|Dungeon Key|Dungeon Key|Transliteration
+テレパシーボール|terepashībōru|SPHERE|Sphere|Telepathy Ball|Transliteration
+イクリプストーチ|ikuripusutōchi|TORCH|Torch|Eclipse Torch|Transliteration
+エアロプリズム|earopurizumu|PRISM|Prism|Aeroprism|Transliteration
+ラエルマベリー|raerumaberī|NUTS|Nuts|Laerma Berries|Transliteration
+ハプスビー|hapusubī|HAPSBY|Hapsby|Hapsby|Transliteration
+ロードパス|rōdopasu|ROADPASS|Roadpass|Road Pass|Transliteration
+パスポート|pasupōto|PASSPORT|Passport|Passport|Transliteration
+コンパス|konpasu|COMPASS|Compass|Compass|Transliteration
+ショートケーキ|shōtokēki|CAKE|Cake|Shortcake|Transliteration
+ソウトクノテガミ|soutokunotegami|LETTER|Letter|Governor[-General]'s Letter|Translation (総督の手紙)
+ラコニアンポット|rakonianpotto|LAC. POT|Laconian Pot|Laconian Pot|Transliteration
+ライトペンダント|raitopendanto|MAG.LAMP|Magic Lamp|Light Pendant|Transliteration
+カーバンクルアイ|kābankuruai|AMBR EYE|Amber Eye|Carbuncle Eye|Transliteration
+ガスクリア|gasukuria|GAS. SLD|Gas Shield|GasClear|Transliteration
+ダモアクリスタル|damoakurisutaru|CRYSTAL|Crystal|Damoa's Crystal|Transliteration
+マスターシステム|masutāshisutemu|M SYSTEM|Master System|Master System|Transliteration
+ミラクルキー|mirakurukī|MRCL KEY|Miracle Key|Miracle Key|Transliteration
+ジリオン|jirion|ZILLION|Zillion|Zillion|Transliteration
+ヒミツノモノ|himitsunomono|SECRET|Secret|Secret Thing|Translation (秘密の物)
+
+
 
 ## Contact
 
