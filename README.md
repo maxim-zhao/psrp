@@ -236,11 +236,11 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
   - **`LoadPagedTiles`** is used for a repeated pattern of mapping in some tile data and loading t to VRAM.
   - **`String`** is used to encode various bits of text in the game (especially the lists). We use WLA DX's `.asciitable` to help with the mapping to avoid needing another monstrous macro like `TextToTilemap`.
 - We define some names for various RAM locations used by the game, as well as locations used by the new script engine code (which re-use areas used by the old engine).
-- Next we start defining a mixture of new code and patches to the old code to call into the new code. We use WLA DX's "section" syntax to define chunks of code and data and give WLA DX hints about where they need to be placed; this allows it to deal with packing the chunks into the available space for us.
- - Some is marked as "overwrite", where we are patching over the original code at the address given.
- - "force" sections also go exactly where we have said, but these can only be placed if we have also "unbackgrounded" the space.
- - "free" sections can go anywhere in the current bank. This is useful for functions or data that are referenced from the same bank.
- - Some data can go literally anywhere as it's always accessed via paging; these are "superfree".
+- Next we start defining a mixture of new code and patches to the old code to call into the new code. We use WLA DX's `.section` syntax to define chunks of code and data and give WLA DX hints about where they need to be placed; this allows it to deal with packing the chunks into the available space for us.
+ - Some is marked as `overwrite`, where we are patching over the original code at the address given.
+ - `force` sections also go exactly where we have said, but these can only be placed if we have also `unbackgrounded` the space.
+ - `free` sections can go anywhere in the current bank. This is useful for functions or data that are referenced from the same bank.
+ - Some data can go literally anywhere as it's always accessed via paging; these are `superfree`.
 - Note that we relocate and repopulate (using labels and macro) the "`SceneDataStruct`", in order to map in the majority of our recompressed and relocated graphics data. The tilemaps and palettes are all copied from the original ROM, the latter are relocated too.
 - The name entry screen is patched quite manually, including making data for a screen-specific run-oriented tilemap encoding.
 - For the credits, we inject new credits at the original data location. Note: please do not erase any credits on derived versions.
@@ -256,10 +256,10 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
 
 - There is no space in the font for more characters, e.g. for accents. You may consider these options:
   - One of the quote symbols doubles as a comma, but you could make it into a more neutral shape and use it for both sides of a quote (maybe with horizontal mirroring).
-  - Your script may not use all the letters. The English script does not include"J", "X" or Z" - but make sure to check the items, and consider that you also then exclude these letters from the name entry screen. Of course your language may not use all of the 26 English letters either.
+  - Your script may not use all the letters. The English script does not include "J", "X" or Z" - but make sure to check the items, and consider that you also then exclude these letters from the name entry screen. Of course your language may not use all of the 26 English letters either.
   - Rotated ! and ? don't need tiles, just add them with tile flipping flags to the various places necessary - TBL files, the TextToTilemap macro, etc
   - If all else fails, then you can just use uppercase letters instead.
-- WLA DX doesn't support UTF-8 :( so take care with any place the code uses .asciitable - the characters have to be single-byte. You may be OK if you use an old-fashioned text encoding.
+- WLA DX doesn't support UTF-8 :( so take care with any place the code uses `.asciitable` - the characters have to be single-byte. You may be OK if you use an old-fashioned text encoding.
 - The prefixes (a, an, some) will need some expansion for other languages.
 - The script space is pretty tight. The game code can in theory map some of the script into slot 1, giving much more space for the encoded script - but this is removed in the current code.
 - If possible, re-retranslate from Japanese. Consider that localisation is part of translation. The English you see isn't identical to the Japanese.
