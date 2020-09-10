@@ -2000,9 +2000,9 @@ Oh, they’re marvelous! When they work, of course.<wait more>
 They can glide smoothly across the top of the water.<wait>
 
 
-; ***************
-; *** Drasgow ***
-; ***************
+; **************
+; *** Drasgo ***
+; **************
 
 [51d1]
 ; Townsperson
@@ -2671,7 +2671,7 @@ Life is so much less complicated here.<wait>
 
 
 ; *************************
-; *** Baya Mahrey Tower ***
+; *** Baya Marlay Tower ***
 ; *************************
 
 ; Damoa the Fortuneteller

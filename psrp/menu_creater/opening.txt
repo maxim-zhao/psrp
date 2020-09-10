@@ -9,3 +9,9 @@ dims=45df
 │ District on the     ║
 │ planet Palma.       ║
 ╘═════════════════════╝
+
+; SPACE CENTURY 342,
+; CAMINEET ON PALMA
+
+; Spring, AW 342
+; Camineet Residential District on the planet Palma.
