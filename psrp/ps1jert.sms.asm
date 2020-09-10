@@ -1547,8 +1547,8 @@ Items:
   String "~White Mantle"                ; WHT.MANT  White Mantle        howaitomanto        ホワイトマント
   String "~Light Suit"                  ; LGT.SUIT  Light Suit          raitosūtsu          ライトスーツ
   String "#Iron Armor"                  ; IRN.ARMR  Iron Armor          aianāma             アイアンアーマ
-  String "~Spiky [Squirrel ]Fur"        ; THCK.FUR  Thick Fur           togerisunokegawa    トゲリスノケガワ
-  String "~Zirconian Mail"              ; ZIR.ARMR  Zirconian Armour    jirukoniameiru      ジルコニアメイル
+  String "~Spiky Squirrel Fur"          ; THCK.FUR  Thick Fur           togerisunokegawa    トゲリスノケガワ
+  String "~Zirconia Mail"               ; ZIR.ARMR  Zirconian Armour    jirukoniameiru      ジルコニアメイル
   String "~Diamond Armor"               ; DMD.ARMR  Diamond Armor       daiyanoyoroi        ダイヤノヨロイ
   String "~Laconian Armor"              ; LAC.ARMR  Laconian Armor      rakoniāama          ラコニアアーマ
   String "^Frad Mantle"                 ; FRD.MANT  Frad Mantle         furādomanto         フラードマント
