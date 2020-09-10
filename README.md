@@ -361,7 +361,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ダモア|damoa|DAMOR|Damor|Damoa|Transliteration
 エスパー|esupā|ESPAR|Espar|Esper(s)|Transliteration
 ゲーマーノ ミキチャン|gēmāno mikichan|MIKI|Miki|Gamer Miki-chan|Transliteration
-ソウトク|soutoku|GOVERNOR|Governor|Governer-General|Translation (総督)
+ソウトク|soutoku|GOVERNOR|Governor|Governor-General|Translation (総督)
 ラシーク|rashīku|LASSIC|Lassic|LaShiec|Transliteration. [Fits with later translations.](https://phantasystar.fandom.com/wiki/Lashiec)
 ルツ|rutsu|LUTZ|Lutz|Lutz|Transliteration
 ルベノ|rubeno|LUVENO|Luveno|Luveno|Transliteration (unchanged)
