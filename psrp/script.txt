@@ -1516,8 +1516,8 @@ But I’m afraid the Luveno can’t be piloted by a human...<wait>
 ; アノ ロボットナラ ウチュウセンヲ<line>
 ; ソウジュウ デキルハズジャ.<wait>
 I built a robot named Hapsby years ago, just for this purpose.<wait more>
-He’s probably still in that scrap heap in Bortevo.<wait more>
-Go fetch him, will you? Watch your step, though. Bortevo’s surrounded by lava.<wait more>
+He’s probably still in that scrap heap in Bartevo.<wait more>
+Go fetch him, will you? Watch your step, though. Bartevo’s surrounded by lava.<wait more>
 Don’t give me that look! You agreed to follow my instructions.<wait more>
 I’ve upheld my end of the bargain, now go do yours.<wait>
 
@@ -1584,7 +1584,7 @@ Someone told me that there’s a perfectly good robot discarded in one of these 
 I wonder if it’s true?<wait>
 
 [5524]
-; Villager (in the cave next to Bortevo)
+; Villager (in the cave next to Bartevo)
 ; [10A]
 ; アビオンノ ムラニ ポリメテラール<line>
 ; The drug store in Abion sells Polymeteral, I hear.
