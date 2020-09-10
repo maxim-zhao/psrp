@@ -2560,7 +2560,7 @@ Here's a tip: Go to the highest point in Palma, and raise the Aeroprism to the s
 
 
 ; *******************
-; *** Abion Tower ***
+; *** Avion Tower ***
 ; *******************
 [552a]
 ; [21A]
