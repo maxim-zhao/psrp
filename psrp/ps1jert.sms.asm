@@ -1919,6 +1919,7 @@ enemy:
   add hl,de
   ex de,hl
 
+  call _wait_vblank
   push de
     ; Set VRAM address
     rst $08
@@ -1926,7 +1927,6 @@ enemy:
     ld hl,BorderTop
     call _DrawBorder
   pop de
-  call _wait_vblank
   ; Next row
   ld hl,32*2
   add hl,de
