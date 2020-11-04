@@ -7,7 +7,7 @@ Original Game © 1987
 - Sega Japan
 - released 1987/12/20
 
-Unofficial Translation 2005-2019
+Unofficial Translation 2005-2020
 - SMS Power!
 - v0.90 released 2006/12/20
   - first release
@@ -46,7 +46,14 @@ Unofficial Translation 2005-2019
     - rebuilt tools and assembly process, including some C++ modernisation and x64 support
     - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
   - new font by DamienG
-
+- v2.01 releases 2020/??/??
+  - script improvements:
+    - some after-the-deadline changes from Frank Cifaldi
+    - tyop correctoins
+    - further naming inconsistencies cleared up for all names/locations
+  - bugs fixed:
+    - occasional temporary glitch in enemy name box on real hardware (#49)
+    - script error when you don't have money for shortcake (#48)
 
 Phantasy Star Original Dialogue Version
 Japanese to English Retranslation © 2001-2002
