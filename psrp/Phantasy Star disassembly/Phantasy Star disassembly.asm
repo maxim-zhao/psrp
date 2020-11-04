@@ -176,7 +176,7 @@ BANKS 30
 .define xc316                     $c316     ; b Backup of FunctionLookupIndex?
 
 .define CharacterStats            $c400     ; 192 (12 x 16) bytes -> $c4c0 Character attributes:
-                                            ; +0: b alive 00/01
+                                            ; +0: b alive (bit 0), power boost active (bit 7)
                                             ; +1: b HP
                                             ; +2: b MP
                                             ; +3: w EP
