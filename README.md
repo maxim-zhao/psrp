@@ -54,6 +54,7 @@ Unofficial Translation 2005-2020
   - bugs fixed:
     - occasional temporary glitch in enemy name box on real hardware (#49)
     - script error when you don't have money for shortcake (#48)
+    - Myau attack stat at level 30 is corrected - this is a bug in the Japanese version of the game, fixed in the official English translation (#48)
 
 Phantasy Star Original Dialogue Version
 Japanese to English Retranslation © 2001-2002

@@ -4477,3 +4477,9 @@ GetItemType:
   and 3
   ret
 .ends
+
+
+; There is a bug in the Japanese ROM that makes Myau have a low attack stat at level 30.
+; This "fix" makes it match the export version, with a sensible value.
+  PatchB $fa88 $56
+  
