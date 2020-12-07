@@ -205,7 +205,7 @@ public:
         }
     }
 
-    void writeData(std::ofstream& f, Table& table)
+    void writeData(std::ofstream& f)
     {
         if (!_emitData)
         {
@@ -218,19 +218,7 @@ public:
 
         for (auto&& line : _lines)
         {
-            f << "\n.dw";
-            for (auto&& c : line)
-            {
-                const auto& value = table.find(c);
-                if (value == -1)
-                {
-                    // skip unknown chars
-                    continue;
-                }
-                f << " $" << std::hex << std::setw(4) << std::setfill('0') << value; // menu value
-            }
-
-            f << " ; " << convert.to_bytes(line);
+            f << "\n.stringmap tilemap \"" << convert.to_bytes(line) << "\"";
         }
         f << '\n';
     }
@@ -271,7 +259,7 @@ void ConvertSymbols(const std::string& listName, const std::string& tableName, c
     std::ofstream out(outName);
     for (auto&& menu: menus)
     {
-        menu->writeData(out, table);
+        menu->writeData(out);
     }
 
     std::ofstream patches(patchesName);

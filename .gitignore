@@ -57,3 +57,4 @@ Release
 *.pscompr
 *.bps
 *.sav
+/psrp/script_with_words.tbl

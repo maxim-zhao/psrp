@@ -99,22 +99,22 @@ new_graphics\world2.psgcompr: new_graphics\world2.bin ; new_graphics\bmp2tile.ex
 menu_creater\menu_creater.exe: menu_creater\*.cpp
   $(CPP) $(CPPFLAGS) menu_creater\*.cpp /Fe:menu_creater\menu_creater.exe
 
-menu_creater\opening.asm menu_creater\opening-patches.asm : menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
-  menu_creater\menu_creater.exe menu_creater\opening.txt menu_creater\tech1_table.tbl menu_creater\opening.asm menu_creater\opening-patches.asm
+menu_creater\opening.asm menu_creater\opening-patches.asm : menu_creater\opening.txt tilemap.tbl menu_creater\menu_creater.exe
+  menu_creater\menu_creater.exe menu_creater\opening.txt tilemap.tbl menu_creater\opening.asm menu_creater\opening-patches.asm
 
-menu_creater\menus.asm menu_creater\menu-patches.asm : menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menu_creater.exe
-  menu_creater\menu_creater.exe menu_creater\menus.txt menu_creater\tech1_table.tbl menu_creater\menus.asm menu_creater\menu-patches.asm
+menu_creater\menus.asm menu_creater\menu-patches.asm : menu_creater\menus.txt tilemap.tbl menu_creater\menu_creater.exe
+  menu_creater\menu_creater.exe menu_creater\menus.txt tilemap.tbl menu_creater\menus.asm menu_creater\menu-patches.asm
 
 # script_inserter
 
 script_inserter\script_inserter.exe: script_inserter\*.cpp
   $(CPP) $(CPPFLAGS) script_inserter\*.cpp /Fe:script_inserter\script_inserter.exe
 
-script_inserter\table_temp.tbl: script_inserter\tech1_table.tbl substring_formatter\words.tbl
-  copy script_inserter\tech1_table.tbl + substring_formatter\words.tbl script_inserter\table_temp.tbl
+script_with_words.tbl: script.tbl substring_formatter\words.tbl
+  copy /y /b script.tbl + substring_formatter\words.tbl script_with_words.tbl
 
-script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm: script_inserter\table_temp.tbl script_inserter\script_inserter.exe script.txt
-  script_inserter\script_inserter.exe script.txt script_inserter\table_temp.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
+script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm: script_with_words.tbl script_inserter\script_inserter.exe script.txt
+  script_inserter\script_inserter.exe script.txt script_with_words.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
 
 # All files needed for the final ROM
 BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.psgcompr  new_graphics\bg5.psgcompr \
@@ -129,7 +129,7 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\alisa.tiles.bin
 
 # ROM building
-ps1jert.sms.o: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm $(BINS) ps1jert.sms.asm
+ps1jert.sms.o: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm menu_creater\opening.asm menu_creater\opening-patches.asm substring_formatter\words.asm script_inserter\tree.asm tilemap.tbl script.tbl $(BINS) ps1jert.sms.asm
   $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
 
 ps1jert.sms: ps1jert.sms.o
@@ -139,7 +139,7 @@ ps1jert.sms: ps1jert.sms.o
 CLEANFILES = $(BINS) \
        menu_creater\*.asm \
        script_inserter\*.asm \
-       script_inserter\table_temp.tbl \
+       script_with_words.tbl \
        substring_formatter\words.tbl substring_formatter\words.asm \
        word_count\stats.txt word_count\words.txt \
        word_count\word_count.exe \
