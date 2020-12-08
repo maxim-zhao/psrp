@@ -3373,12 +3373,12 @@ Which item do you want to drop?<wait>
 ; [08C]-2
 ;<item>ヲ ステテ<wait>
 You dropped <article><item>, and<wait>
-; TODO: this runs into the next one - always? then should lowercase the start.
+; this runs into the next one...
 
 [297d]
 ; [08E]-2
 ;<item>ヲ テニイレタ.<wait>
-You got <article><item>.<wait>
+you got <article><item>.<wait>
 
 [2923]
 ; [090]-2
