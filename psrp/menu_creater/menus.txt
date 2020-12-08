@@ -254,12 +254,6 @@ dims=355a,3566
 ~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-[StatsBorderTop]
-┌────────────────╖
-
-[StatsBorderBottom]
-╘════════════════╝
-
 [StatsMenuDimensions]
 dimensions only
 dims=3902,39e5

@@ -174,11 +174,11 @@ LoadPagedTiles\1:
 .define LETTER_S  $37   ; suffix letter ('s')
 
 .macro String args s
-; Item names are length-prefixed
-.db _e\@ - _s\@ ; s.length
-_s\@:
+; Item names are length-prefixed.
+.db _sizeof__script\@
+_script\@:
 .stringmap script s
-_e\@:
+_script\@_end:
 .endm
 
 .define PAGING_SRAM $fffc
@@ -245,7 +245,7 @@ _e\@:
   Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
-; Functions in the original game we make use if
+; Functions in the original game we make use of
 .define VBlankHandler $0127
 .define OutputTilemapRawDataBox $0428
 .define IsSlotUsed $08a4
@@ -268,6 +268,7 @@ _e\@:
 
 .slot 1
 
+; The tile decoder needs to be in a low bank as it operates on data in slot 2.
 .include "PSGaiden_tile_decomp.inc"
 
   ROMPosition $00486
@@ -2060,54 +2061,6 @@ _write_price:
           jp $3a9a    ; write price
 .ends
 
-
-  ROMPosition $3671
-.section "Inventory setup patch" size 15 overwrite ; not movable
-; Originally t2a_1.asm
-; Item window drawer (inventory)
-; - setup code
-
-  ld a,:inventory
-  ld (PAGING_SLOT_1),a
-
-  call inventory
-
-  ld a,1
-  ld (PAGING_SLOT_1),a
-
-  nop
-  nop
-
-  ; 0 bytes left
-.ends
-
-  ROMPosition $3a1f
-.section "shop setup code" size 23 overwrite ; not movable
-; Originally t2a_2.asm
-; Item window drawer (shop)
-; - setup code
-  ld a,:shop
-  ld (PAGING_SLOT_1),a
-
-  call shop
-
-  ld a,1    ; old page 1
-  ld (PAGING_SLOT_1),a
-
-  nop
-  nop
-  nop
-
-  nop
-  nop
-
-  nop
-  nop
-  nop
-  nop
-  nop
-.ends
-
 .macro TrampolineTo args dest, start, end
   .unbackground start end-1
   ROMPosition start
@@ -2121,6 +2074,8 @@ _write_price:
 .ends
 .endm
 
+  TrampolineTo inventory $3671 $3680
+  TrampolineTo shop $3a1f $3a36
   TrampolineTo enemy $326d $3294
   TrampolineTo equipment $3850 $385f
 
@@ -2518,22 +2473,39 @@ GetActivePlayerTilemapData:
   ret
 .ends
 
-.section "Stats window data" free
-; The width of these is important
-Level:    .stringmap tilemap "│Level        " ; 3 digit number
-EXP:      .stringmap tilemap "│Experience "   ; 5 digit number
-Attack:   .stringmap tilemap "│Attack       " ; 3 digit numbers
-Defense:  .stringmap tilemap "│Defense      "
-MaxMP:    .stringmap tilemap "│Maximum MP   "
-MaxHP:    .stringmap tilemap "│Maximum HP   "
+  ROMPosition $3907
+.section "Stats window" force
+stats:
+  ; ix = player stats
+  ; We can assume slot 1 needs to be restored to 1
+  ld a,:statsImpl
+  ld (PAGING_SLOT_1),a
+  call statsImpl
+  ld a,1
+  ld (PAGING_SLOT_1),a
+  ret
+.ends
+
+; This one needs to go in low ROM as it's accessed from multiple places (stats, shop, inventory)
+.bank 0 slot 0
+.section "Meseta tilemap data" free
 MST:      .stringmap tilemap "│Meseta       "   ; 5 digit number but also used for shop so extra spaces needed
 .ends
 
-  ROMPosition $3907
-.section "Stats window" force
-  ; ix = player stats
-stats:
-  ld hl,StatsBorderTop
+.slot 1
+.section "Stats window drawing" superfree
+; The width of these is important
+StatsBorderTop:     .stringmap tilemap "┌────────────────╖"
+Level:              .stringmap tilemap "│Level        " ; 3 digit number
+EXP:                .stringmap tilemap "│Experience "   ; 5 digit number
+Attack:             .stringmap tilemap "│Attack       " ; 3 digit numbers
+Defense:            .stringmap tilemap "│Defense      "
+MaxMP:              .stringmap tilemap "│Maximum MP   "
+MaxHP:              .stringmap tilemap "│Maximum HP   "
+StatsBorderBottom:  .stringmap tilemap "╘════════════════╝"
+
+statsImpl:
+  ld hl,StatsBorderTop ; This is paged in (slot 2)
   ld bc,1<<8 + 18<<1 ; size
   call OutputTilemapBoxWipePaging ; draw to tilemap
   ld hl,Level
@@ -2562,13 +2534,12 @@ stats:
 .ends
 
 ; Patch in string lengths to places called above
-  PatchB $31a3 _sizeof_EXP
+  PatchB $31a3 _sizeof_EXP ; in DrawTextAndNumberBC
   PatchB $36dd _sizeof_EXP
-  PatchB $3145 _sizeof_Attack
-  PatchW $36e7 MST
+  PatchB $3145 _sizeof_Attack ; in DrawTextAndNumberA
+  PatchW $36e7 MST ; in DrawMeseta
   PatchB $36e5 _sizeof_MST
 
-.bank 0 slot 0
 .section "Newline patch" free
 ; Originally tx1.asm
 ; Text window drawer multi-line handler
@@ -2576,7 +2547,7 @@ stats:
 newline:
     ld b,NARRATIVE_WIDTH ; reset x counter
     inc hl   ; move pointer to next byte
-    ld a,c   ; get line counter                             ;
+    ld a,c   ; get line counter
     or a     ; test for c==0
     jr nz,_not_zero
     ; zero: draw on 2nd line
@@ -2800,15 +2771,15 @@ NameEntryTiles:
 ; %0nnnnnnn $xx = $xx n times
 ; $10nnnnnn $xx = $xx, $xx+1, $xx+2... n times
 ; %11nnnnnn ... = n bytes raw
-; Fant is loaded at index $c0 so all chars are offset
+; Font is loaded at index $c0 so all chars are offset
 ; Nevertheless it's easier to do by hand than to generate it.
 ; The code generates the left and right lines, and the flips.
 .define RLE %00000000
 .define RUN %10000000
 .define RAW %11000000
-.db RAW |   2, $c0, $f1 ; " /"
-.db RLE |  28, $f2      ;   "----------------------------"
-.db RAW |   1, $f1      ;                               "\"
+.db RAW |   2, $c0, $f1 ; " ┌"
+.db RLE |  28, $f2      ;   "────────────────────────────"
+.db RAW |   1, $f1      ;                               "╖"
 .db RLE | 127, $c0      ; "                                " ...
 .db RLE | 101, $c0
 .db RUN |  26, $cb      ; "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -2823,9 +2794,9 @@ NameEntryTiles:
 .db RAW |   4, $dd $e5 $fa $e9 ; "Save"
 .db RLE | 127, $c0      ; (space)
 .db RLE |  37, $c0
-.db RAW |   1, $f1      ; "\"
-.db RLE |  28, $f2      ;  "----------------------------"
-.db RAW |   1, $f1      ;                              "/"
+.db RAW |   1, $f1      ; "╘"
+.db RLE |  28, $f2      ;  "════════════════════════════"
+.db RAW |   1, $f1      ;                              "╝"
 .db $00 ; Terminator
 .ends
 
