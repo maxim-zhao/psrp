@@ -46,7 +46,7 @@ Unofficial Translation 2005-2020
     - rebuilt tools and assembly process, including some C++ modernisation and x64 support
     - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
   - new font by DamienG
-- v2.01 releases 2020/??/??
+- v2.01 released 2020/??/??
   - script improvements:
     - some after-the-deadline changes from Frank Cifaldi
     - tyop correctoins
@@ -315,8 +315,8 @@ CHAOTIC KAZ
 
 DESIGN
 ROCKHY NAO (Naoto Ohshima)
-SADAMORIAN
-MYAU CHOKO
+SADAMORIAN (Koki Sadamori)
+MYAU CHOKO (Takako Kawaguchi)
 G CHIE
 YONESAN (Hitoshi Yoneda)
 
@@ -328,7 +328,7 @@ WORKS NISHI (Akinori Nishiyama)
 
 ASSISTANT PROGRAMMERS
 COM BLUE
-M WAKA
+M WAKA (Masahiro Wakayama)
 ASI
 
 MAIN PROGRAM
@@ -343,7 +343,7 @@ Fan pages:
 - [Home of Phantasy Star](http://www.wolfgangarchive.com/psi-web/)
 - [Algol Star System](https://web.archive.org/web/20060803085931/http://algol-star-system.net/)
 - [The Phantasy Star Pages](http://www.phantasy-star.net)
-- [Phantasy STar Cave](http://www.pscave.com)
+- [Phantasy Star Cave](http://www.pscave.com)
 
 Official distribution page for this patch:
 - http://www.smspower.org/Translations/PhantasyStar-SMS-EN
