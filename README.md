@@ -426,7 +426,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 サイコウォンド|saikowondo|WAND|Wand|Psycho Wand|Transliteration
 サーベルクロー|sāberukurō|SIL.FANG|Silver Fang|Saber Claw|Transliteration. Sega translation changed the meaning.
 ショートソード|shōtosōdo|SHT. SWD|Short Sword|Short Sword|Transliteration (unchanged)
-シルバータスク|shirubātasuku|IRN.FANG|Iron Fang|Silver Tusk|Transliteration. Sega translation changed the meaning, see also "SIL. FANG" below.
+シルバータスク|shirubātasuku|IRN.FANG|Iron Fang|Silver Tusk|Transliteration. Sega translation changed the meaning, see also "SIL. FANG".
 チタニウムソード|chitaniumusōdo|TIT. SWD|Titanium Sword|Titanium Sword|Transliteration (unchanged)
 ウッドケイン|uddokein|WOODCANE|Wood Cane|Wood Cane|Transliteration (unchanged)
 
@@ -486,7 +486,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ペロリーメイト|perorīmeito|COLA|Cola|PelorieMate|Transliteration. This is a play on "CalorieMate", a Japanese brand of "energy bar"
 ポリメテラール|porimeterāru|POLYMTRL|Polymeteral|Polymeteral|Transliteration
 ロードパス|rōdopasu|ROADPASS|Roadpass|Road Pass|Transliteration
-ルオギニン|ruoginin|BURGER|Burger|Ruoginin|Transliteration. Not sure if there is some reason for the name.
+ルオギニン|ruoginin|BURGER|Burger|Ruoginin|Transliteration. Similar to PelorieMate, this is a corruption of Arginine V (アルギニンV, aruginin V), a Japanese brand of "energy drink"
 サーチライト|sāchiraito|FLASH|Flash|Searchlight|Transliteration
 ヒミツノモノ|himitsunomono|SECRET|Secret|Secret Thing|Translation (秘密の物)
 ショートケーキ|shōtokēki|CAKE|Cake|Shortcake|Transliteration

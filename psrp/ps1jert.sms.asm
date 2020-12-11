@@ -1432,7 +1432,7 @@ Lists:
 ; Order is important!
 Items:
   ; Max width 18 excluding [...] parts
-  String "" ; empty item (blank)
+  String " " ; empty item (blank). Must be at least one space.
   ;        Retranslation name               Sega translation              Romaji              Japanese
 ; weapons: 01-0f
   String "[A] Wood Cane"                    ; WOODCANE  Wood Cane           uddokein            ウッドケイン
