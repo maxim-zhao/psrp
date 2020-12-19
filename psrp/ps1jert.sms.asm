@@ -1474,8 +1474,8 @@ Items:
   String "[The] FlowMover"                  ; HOVRCRFT  Hovercraft          furōmūbā            フロームーバー
   String "[The] IceDecker"                  ; ICE DIGR  Ice Digger          aisudekkā           アイスデッカー
 ; items: 24+
-  String "[A] PelorieMate"                  ; COLA      Cola                perorīmeito         ペロリーメイト
-  String "[A] Ruoginin"                     ; BURGER    Burger              ruoginin            ルオギニン
+  String "[A] Cola"                         ; COLA      Cola                perorīmeito         ペロリーメイト
+  String "[A] Burger"                       ; BURGER    Burger              ruoginin            ルオギニン
   String "[The] Soothe Flute"               ; FLUTE     Flute               sūzufurūto          スーズフルート
   String "[A] Searchlight"                  ; FLASH     Flash               sāchiraito          サーチライト
   String "[An] Escape Cloth"                ; ESCAPER   Escaper             esukēpukurosu       エスケープクロス

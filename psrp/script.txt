@@ -1187,7 +1187,7 @@ Let’s go. Quickly.<wait>
 ; [0BA]
 ; アンタ オレニ ペロリーメイトヲ<line>
 ; Hey, you mind if I bum a ‘Perolimate’?
-I could really use a PelorieMate. Can you spare one?<end>
+I could really use a Cola. Can you spare one?<end>
 
 [5028]
 ; Villager (yes to previous question, and you have a PelorieMate)
@@ -3512,7 +3512,7 @@ You can’t carry any more. Come back when you can.<wait>
 ; [0BE]-2
 ;ココハ ドラッグストアデス.<line>
 ;ナニカ カイマスカ.<end>
-This is a pharmacy. Can I help you with something?<end>
+This is a fast food shop. Can I help you with something?<end>
 
 [2df4]
 ; [0C0]-2
