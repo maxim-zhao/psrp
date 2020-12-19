@@ -1,28 +1,21 @@
-# Phantasy Star English Retranslation v2.00
+# Phantasy Star English Retranslation v2.01
 
-Phantasy Star
-- Sega Master System + YM-2413 FM
+Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
+This project is an unofficial retranslation/relocalisation based on that first Japanese version, with some enhancements.
 
-Original Game © 1987
-- Sega Japan
-- released 1987/12/20
+For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
-Unofficial Translation 2005-2020
-- SMS Power!
-- v0.90 released 2006/12/20
-  - first release
-- v0.91 released 2006/12/22
-  - minor script clean-ups
-  - checksum fixed
-- v1.00 released 2007/12/20
-  - minor script bugfixes
-  - spell menu expansion
-  - minor bugfix for sound chip selector
-- v1.01 released 2007/12/22
-  - checksum fixed for play on a real system
-  - fixed a bug with the Pause button mod
-- v1.02 released 2008/01/31
-  - fixed lockup when you visit Tajim
+Changelog (in reverse chronological order):
+- v2.01 released 2020/12/20
+  - script improvements:
+    - some after-the-deadline changes from Frank Cifaldi
+    - tyop correctoins
+    - further naming inconsistencies cleared up for all names/locations
+  - bugs fixed:
+    - occasional temporary glitch in enemy name box on real hardware (#49)
+    - script error when you don't have money for shortcake (#47)
+    - Myau attack stat at level 30 is corrected - this is a bug in the Japanese version of the game, fixed in the official English translation (#48)
+  - added "original names" version with mostly original names for some characters, spells and items
 - v2.00 released 2020/05/25
   - script improvements:
     - script updates from Frank Cifaldi
@@ -45,20 +38,23 @@ Unofficial Translation 2005-2020
   - technical improvements:
     - rebuilt tools and assembly process, including some C++ modernisation and x64 support
     - optimised space usage to make it easier for further translations (or script improvements) to fit without expanding the ROM
-  - new font by DamienG
-- v2.01 released 2020/??/??
-  - script improvements:
-    - some after-the-deadline changes from Frank Cifaldi
-    - tyop correctoins
-    - further naming inconsistencies cleared up for all names/locations
-  - bugs fixed:
-    - occasional temporary glitch in enemy name box on real hardware (#49)
-    - script error when you don't have money for shortcake (#48)
-    - Myau attack stat at level 30 is corrected - this is a bug in the Japanese version of the game, fixed in the official English translation (#48)
+  - new font by [DamienG](https://damieng.com/typography/zx-origins/polaris)
+- v1.02 released 2008/01/31
+  - fixed lockup when you visit Tajim
+- v1.01 released 2007/12/22
+  - checksum fixed for play on a real system
+  - fixed a bug with the Pause button mod
+- v1.00 released 2007/12/20
+  - minor script bugfixes
+  - spell menu expansion
+  - minor bugfix for sound chip selector
+- v0.91 released 2006/12/22
+  - minor script clean-ups
+  - checksum fixed
+- v0.90 released 2006/12/20
+  - first release
 
-Phantasy Star Original Dialogue Version
-Japanese to English Retranslation © 2001-2002
-- Paul Jensen
+The script was originally based on the Phantasy Star Original Dialogue Version Japanese to English Retranslation by Paul Jensen.
 
 ## What is Phantasy Star
 
@@ -124,14 +120,6 @@ Special thanks to:
 
 ### Bock (Omar Cornut)
 - Meka is an excellent debugging emulator (used extensively for the hacking work): https://www.smspower.org/meka/
-### Charles MacDonald
-- Open-source SMS/GG emulator SMSPlus
-### Forgotten
-- Functional Z80 disassembler from his GB/GBA emulator
-### Gregory Montoir
-- Open-source SDL port of SMSPlus
-### SnowBro
-- Versatile tile editor
 ### Ville Helin
 - WLA DX is an excellent assembler and enables a lot of the adaptations for the translation. I hope to see more translation patches with published source using it.
 
@@ -144,6 +132,7 @@ Also thanks to the following for various contributions to item naming, etc.
 - Mia
 - vivify93
 - MandrasX
+- Joe Redifer
 
 ## Authors' notes
 
@@ -237,12 +226,11 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
 - We "background" the original ROM, so that we can build a ROM image based on it
 - We then "unbackground" various areas that are either replaced code/data, unused code/data (e.g. there are vestiges of a password system), or just unused areas of ROM.
 - Next we can define some helper macros for various tasks:
-  - **`CopyFromOriginal`** is useful for where we are moving a chunk of of data to a different location.
-  - **`ROMPosition`** allows us to set the assembly position in ROM space, useful for patching specific addresses.
-  - **`PatchB`** and **`PatchW`** allow us to patch bytes and words at specific addresses. This is used for many of the generated "patch" files.
-  - **`TextToTilemap`** is a fairly large macro that simply converts a string to tilemap data. This is used for various places where the game draws stats menus, and the name entry screen.
-  - **`LoadPagedTiles`** is used for a repeated pattern of mapping in some tile data and loading t to VRAM.
-  - **`String`** is used to encode various bits of text in the game (especially the lists). We use WLA DX's `.asciitable` to help with the mapping to avoid needing another monstrous macro like `TextToTilemap`.
+  - `CopyFromOriginal` is useful for where we are moving a chunk of of data to a different location.
+  - `ROMPosition` allows us to set the assembly position in ROM space, useful for patching specific addresses.
+  - `PatchB` and `PatchW` allow us to patch bytes and words at specific addresses. This is used for many of the generated "patch" files.
+  - `LoadPagedTiles` is used for a repeated pattern of mapping in some tile data and loading t to VRAM.
+  - `String` is used to encode various bits of text in the game (especially the lists). We use WLA DX's `.asciitable` to help with the mapping to avoid needing another monstrous macro like `TextToTilemap`.
 - We define some names for various RAM locations used by the game, as well as locations used by the new script engine code (which re-use areas used by the old engine).
 - Next we start defining a mixture of new code and patches to the old code to call into the new code. We use WLA DX's `.section` syntax to define chunks of code and data and give WLA DX hints about where they need to be placed; this allows it to deal with packing the chunks into the available space for us.
  - Some is marked as `overwrite`, where we are patching over the original code at the address given.
@@ -283,7 +271,7 @@ It is provided "as-is" with no warranty.
 Any enclosed files are offered at no charge and must be distributed together in
 original condition.
 
-These files -may not- be released for commercial sales without explicit
+These files _may not_ be released for commercial sales without explicit
 authorisation from all parties who own copyright ownership.
 
 Sega Japan, Phantasy Star and Shining Force are registered trademarks of their
