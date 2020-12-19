@@ -101,7 +101,7 @@ What happened?!<wait>
 ; ...Alisa...
 ; ...It’s too late for me...
 ; ...Please forgive me... for leaving you alone...
-Alisa, my sister.<line><line>
+Alis, my sister.<line><line>
 Listen closely, I don’t have long.<wait more>
 The rumors we've heard are true. LaShiec has... changed.<line>
 And it goes beyond his military taking over our streets.<wait more>
@@ -113,11 +113,11 @@ Lord LaShiec must be stopped.<line><line>
 If he isn't, the darkness he's aligned himself with will claim all of Algol.<wait more>
 My mistake was trying to take him on alone.<line><line>
 These are dangerous people, you’re going to need help.<wait more>
-I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
+I’ve heard tales of a warrior, a man named Odin, who could be an ally.<line><line>
 I tried to enlist his help, but he's gone missing.<wait more>
-You have to find him, Alisa.<line><line>
-Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
-Alisa... such a terrible burden. I’m so sorry.<line><line>
+You have to find him, Alis.<line><line>
+Find Odin, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
+Alis... such a terrible burden. I’m so sorry.<line><line>
 Please forgive me, for asking this of you...<wait more>
 ...and for leaving you all...<line><line>
 ...alone...<wait>
@@ -148,7 +148,7 @@ With your spirit by my side, LaShiec doesn't stand a chance.<wait>
 ; [2A4]
 ; ココハ アリサノ ウチデス.<line>
 ; This is Alisa’s house. Nobody is here.
-This is Alisa’s home.<line><line>
+This is Alis’ home.<line><line>
 Nero's things are still where he left them.<wait>
 
 [4b48]
@@ -160,7 +160,7 @@ Nero's things are still where he left them.<wait>
 ; My name is Suelo. I know how you feel, Alisa. No one will be able to stop you
 ; [from doing what you must do], but don't overdo it, okay? If you are ever injured
 ; in battle, please come here to relax and recover. You will always be welcome.
-Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+Alis... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
 I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
 If you ever get hurt, come back here to heal.<wait more>
 We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
@@ -194,7 +194,7 @@ Your brother would be proud of you. But don't overdo it, okay? Come back here an
 ; ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.
 My name is Nekise.<line><line>
 I was sorry to hear about your loss.<wait more>
-Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
+Nero asked me to help him find a warrior named Odin, are you looking for him too?<wait more>
 The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
 Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
 It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
@@ -402,7 +402,7 @@ I'd love to have a conversation with an actual alien someday...<line><wait>
 ; クスリビンヲ ブラサゲテイタガ<line>
 ; ナニカノ ヤクニ タツノカネエ.<wait>
 ; Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
-Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
+Yeah, Odin was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
 He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
 It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
 
@@ -763,7 +763,7 @@ I made a fortune selling that Laconian Pot! Thanks!<wait>
 ; Alisa
 ; [15C]-2
 I guess we’re companions now, huh?<line><line>
-I’m Alisa. What’s your name?<wait>
+I’m Alis. What’s your name?<wait>
 
 [464e]
 ; Myau
@@ -773,14 +773,14 @@ Myau.<wait>
 [4659]
 ; Alisa
 ; [160]-2
-Hello, Myau. I’m looking for a man named Tylon.<wait more>
+Hello, Myau. I’m looking for a man named Odin.<wait more>
 Rumor has it he was traveling with a talking animal.<line><line>
 I don’t suppose that was you?<wait>
 
 [4664]
 ; Myau
 ; [162]-2
-Tylon got turned to stone trying to slay Medusa!<line><line>
+Odin got turned to stone trying to slay Medusa!<line><line>
 We can heal him with this medicine, but I can’t open the lid...<wait>
 
 [466f]
@@ -815,7 +815,7 @@ Something turned this person into stone! Maybe he can be returned to normal...<w
 ; ソシテ ビンノ フタヲ アケテ<line>
 ; シズカニ タラシタ.<delay>
 ; Alisa opened the lid to the bottle, and the contents quietly spilled out.
-Alisa opened the lid on the bottle and poured out its contents.<wait more>
+Alis opened the lid on the bottle and poured out its contents.<wait more>
 It's working!<delay>
 
 ; ********************************
@@ -867,13 +867,13 @@ It's working!<delay>
 ; [166]-2
 Ah, Myau, you found help. Thank you.<line><line>
 I don't know if it will do any good though.<wait more>
-If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<line><line>
+If we couldn't defeat Medusa, we don’t stand a chance against Lassic.<line><line>
 Who’s your new friend?<wait>
 
 [4693]
 ; [168]-2
-My name is Alisa.<line><line>
-My brother Nero was killed trying to overthrow LaShiec.<wait more>
+My name is Alis.<line><line>
+My brother Nero was killed trying to overthrow Lassic.<wait more>
 I'm going to destroy him, no matter what it takes.<line><line>
 Nero gave me your name just before he died, and said that you might help me.<wait>
 
@@ -2790,7 +2790,7 @@ Myau proudly flapped his wings for all to see.<wait>
 ; ミャウニ ノッテイタ アリサタチハ<line>
 ; ソラニ ホウリダサレテシマッタ.<wait>
 ; Alisa and her companions were flung into the sky.
-Alisa and the others were knocked off of Myau, into the sky.<wait>
+Alis and the others were knocked off of Myau, into the sky.<wait>
 
 [5597]
 ; [160]
@@ -2922,8 +2922,8 @@ Oh, goodness. Please forgive me. My mind and body were controlled by an evil for
 You’ve done it! You’ve saved Algol. History shall repeat your names, always.<wait more>
 LaShiec is no more, his terrible fortress has been destroyed. Finally, peace can be restored.<wait more>
 And just in time, too. I fear if you'd taken any longer, we would have lost everything.<wait more>
-Alisa. There is something I must tell you. A secret I've kept, to spare your life.<wait more>
-Alisa... your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
+Alis. There is something I must tell you. A secret I've kept, to spare your life.<wait more>
+Alis... your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
 Algol is without a leader. Will you succeed your father, and take your place as our queen?<end>
 
 [5849,58ea]
@@ -2934,7 +2934,7 @@ Algol is without a leader. Will you succeed your father, and take your place as 
 ; ムスメダ.<wait more>
 ; ワタシモ テツダワセテモラウヨ.<wait>
 ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
-Then you have my eternal loyalty. All hail the new Queen of Algol, Alisa Landeel!<wait>
+Then you have my eternal loyalty. All hail the new Queen of Algol, Alis Landeel!<wait>
 
 [58ef]
 ; Governor-General (no to previous question)
@@ -2975,14 +2975,14 @@ But does the breeze know of the hardships they endured?<end>
 ; <line>
 ; アリサ<delay>
 <line>
-        Alisa,<delay>
+        Alis,<delay>
 
 [480b]
 ; [17A]-2
 ; <line>
 ; タイロン<delay>
 <line>
-        Tylon,<delay>
+        Odin,<delay>
 
 [4816]
 ; [17C]-2
@@ -3307,7 +3307,7 @@ Your body became unusually light.<delay>
 [1b45,1f21]
 ; [074]-2
 ;タイロンハ マジックヲ ツカエナイ.<delay>
-Tylon can’t use magic.<delay>
+Odin can’t use magic.<delay>
 
 [1b9e,1f1c]
 ; [076]-2
@@ -3834,7 +3834,7 @@ You are now facing south.<wait>
 [1786]
 ; [126]-2
 ;アリサタチハ ゼンメツシタ.<wait>
-Alisa and her companions have been annihilated.<wait>
+Alis and her companions have been annihilated.<wait>
 
 [178c]
 ; [128]-2
@@ -3842,7 +3842,7 @@ Alisa and her companions have been annihilated.<wait>
 ;ヤボウノ マエニ<wait more>
 ;ムナシク キエサッタ.<line>
 ;ココデ ボウケンハ オワリデス.<wait>
-Alisa’s hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
+Alis’ hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
 The journey ends here.<wait>
 
 [2bc0,2d9d,4d88,538f]
@@ -3960,7 +3960,7 @@ Someone has used <article><item> up.<wait>
 ;オマエハ フタタビ イキテ<line>
 ;ヘイワノタメニ ツクスガイイ.<wait more>
 ;アリサノ タマシイハ ヨミガエッタ.<wait>
-Then Alisa heard Nero’s voice, from somewhere far away.<wait more>
-‘Don’t give up, Alisa. You’ve come so far.’<wait more>
+Then Alis heard Nero’s voice, from somewhere far away.<wait more>
+‘Don’t give up, Alis. You’ve come so far.’<wait more>
 Her spirit revived.<wait>
 

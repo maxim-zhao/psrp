@@ -85,7 +85,7 @@ ptrs=304e,30a5,310a
 dims=3084,30db
 
 ┌──────╖
-│Alisa ║
+│ Alis ║
 │------║
 
 [MyauBox]
@@ -101,7 +101,7 @@ ptrs=3068,30bf,3126
 ;dims=3084,30db ; same as AlisaBox
 
 ┌──────╖
-│Tylon ║
+│ Odin ║
 │------║
 
 [LutzBox]
@@ -119,9 +119,9 @@ height=6
 ; for bottom row
 
 ┌─────╖
-│Alisa║
+│Alis ║
 │Myau ║
-│Tylon║
+│Odin ║
 │Lutz ║
 
 [ChoosePlayerMenuBottom]
@@ -152,29 +152,29 @@ dims=387d,388f
 ptrs=302b
 dims=301b,303c
 
-┌─────╖
-│Alisa║
-╘═════╝
+┌────╖
+│Alis║
+╘════╝
 
 ; Next three must follow...
 
 [MyauActiveBox]
 
-┌─────╖
-│Myau ║
-╘═════╝
+┌────╖
+│Myau║
+╘════╝
 
 [TaironActiveBox]
 
-┌─────╖
-│Tylon║
-╘═════╝
+┌────╖
+│Odin║
+╘════╝
 
 [LutzActiveBox]
 
-┌─────╖
-│Lutz ║
-╘═════╝
+┌────╖
+│Lutz║
+╘════╝
 
 [BattleSpellsAlisa]
 ptrs=35b0
@@ -184,20 +184,20 @@ height=7
 
 ┌────────────╖
 │Heal        ║
-│Quick Dash  ║
-│Transrate   ║
+│Bye         ║
+│Chat        ║
 │Fire        ║
-│Bind        ║
+│Rope        ║
 
 ; Next five must follow...
 
 [BattleSpellsMyau]
 
 ┌────────────╖
-│Super Heal  ║
+│Cure        ║
 │Terror      ║
-│Waller      ║
-│Power Boost ║
+│Wall        ║
+│Help        ║
 │            ║
 
 [BattleSpellsLutz]
@@ -206,14 +206,14 @@ height=7
 │Fire        ║
 │Telepathy   ║
 │Wind        ║
-│Magic Waller║
+│Protect     ║
 │Thunder     ║
 
 [OverworldSpellsAlisa]
 
 ┌────────────╖
 │Heal        ║
-│Troop       ║
+│Fly         ║
 │            ║
 │            ║
 │            ║
@@ -221,20 +221,20 @@ height=7
 [OverworldSpellsMyau]
 
 ┌────────────╖
-│Super Heal  ║
-│Untrap      ║
-│Bypass      ║
+│Cure        ║
+│Trap        ║
+│Exit        ║
 │            ║
 │            ║
 
 [OverworldSpellsLutz]
 
 ┌────────────╖
-│Super Heal  ║
-│Bypass      ║
+│Cure        ║
+│Exit        ║
 │Telepathy   ║
-│Magic Unseal║
-│Rebirth     ║
+│Open        ║
+│Rise        ║
 
 [SpellMenuBottom]
 ; referenced in assembly code
@@ -392,7 +392,7 @@ dims=3b52,3b79
 │Experience       x ║
 │Mesetas          x ║
 │Battles            ║
-│Alisa's hair       ║
+│Alis' hair         ║
 │Font               ║
 ╘═══════════════════╝
 

@@ -1505,9 +1505,9 @@ Items:
   String "[A] Secret Thing"                 ; SECRET    Secret              himitsunomono       ヒミツノモノ
     
 Names:  
-  String "Alisa"                            ; ALIS      Alis                arisa               アリサ
+  String "Alis"                             ; ALIS      Alis                arisa               アリサ
   String "Myau"                             ; MYAU      Myau                myau                ミャウ
-  String "Tylon"                            ; ODIN      Odin                tairon              タイロン
+  String "Odin"                             ; ODIN      Odin                tairon              タイロン
   String "Lutz"                             ; LUTZ      Lutz                rutsu               ルツ
     
 Enemies:    
