@@ -1,0 +1,730 @@
+<width 12></center><wrap><height 03>
+
+[000]
+L'attaque <use article 03><player><line>est parée !<delay>
+
+[002]
+<use article 02><player> pare le coup <use article 03><monster>.<delay>
+
+[004]
+<use article 02><player> parle <use article 04><monster>.<end>
+
+[006]
+Le monstre répond:<delay>
+
+[008]
+<use article 02><monster> ne vous comprend pas.<delay>
+
+[00A]
+<use article 02><monster> bloque votre fuite.<delay>
+
+[00C]
+Le sort <use article 03><player> n'a pas d'effet.<delay>
+
+[00E]
+Le sort <use article 03><monster> n'a pas d'effet.<delay>
+
+[010]
+Un mur magique<line>se dresse devant<line>vous.<delay>
+
+[012]
+La barrière dévie l'attaque <use article 03><monster>.<delay>
+
+[014]
+Le sort dévie l'attaque <use article 03><monster>.<delay>
+
+[016]
+La barrière est<line>brisée.<delay>
+
+[018]
+L'énergie <use article 03><player> est restaurée.<delay>
+
+[01A]
+<use article 02><monster> a restauré son énergie.<delay>
+
+[01C]
+<use article 02><monster> s'est fait ligoter!<delay>
+
+[01E]
+<use article 02><player> s'est fait<line>ligoter !<delay>
+
+[020]
+<use article 02><player> ne peut<line>plus bouger.<delay>
+
+[022]
+<use article 02><monster> ne peut pas bouger.<delay>
+
+[024]
+<use article 02><player> brise ses liens.<delay>
+
+[026]
+<use article 02><monster> brise ses liens.<delay>
+
+[028]
+La force <use article 03><player> décuple.<delay>
+
+[02A]
+<use article 02><monster> a peur et recule.<delay>
+
+[02C]
+<use article 02><monster> est surpris par votre fuite !<delay>
+
+[02E]
+C'est sans danger.<wait>
+
+[030]
+<use article 02><player> le démine,<line>c'était moins une!<wait>
+
+[032]
+<use article 02><player> utilise <use article 01><item>.<delay>
+
+[034]
+<use article 02><player> s'équipe <use article 03><item>.<end>
+
+[036]
+<use article 02><player> jette <use article 01><item>.<end>
+
+[038]
+Cela n'a pas effet.<delay>
+
+[03A]
+<use article 01><item> n'est pas utilisable ici.<wait>
+
+[03C]
+Le groupe ne peut<line>pas descendre ici.<wait>
+
+[03E]
+Le groupe monte à<line>bord de l'engin.<delay>
+
+[040]
+Le groupe sort<line><use article 03><item>.<delay>
+
+[042]
+Mais rien ne se<line>passe...<delay>
+
+[044]
+Le doux son de flute endort <use article 01><monster>.<delay>
+
+[046]
+Les yeux <use article 03><monster> sont vides.<delay>
+
+[048]
+Ce n'est pas le<line>bon moment...<delay>
+
+[04A]
+<use article 02><player> prend <use article 01><item>.<delay>
+
+[04C]
+<use article 02><player> n'en a pas<line>besoin pour le<line>moment.<wait>
+
+[04E]
+C'est trop sombre,<line>il nous faut<line>de la lumière !<wait>
+
+[050]
+Alisa ouvre la<line>bouteille et en<line>verse le contenu.<delay>
+
+[052]
+Mais Myau ne peut<line>pas ouvrir la<line>bouteille.<wait>
+
+[054]
+Peut importe<line>combien de fois<line>vous le reniflez,<line>ca empeste.<wait>
+
+[056]
+<use article 02><player> a un<line>très mauvais<line>pressentiment.<wait>
+
+[058]
+<use article 02><player> ne ressent<line>rien d'étrange.<wait>
+
+[05A]
+<use article 02><monster> prend peur en voyant la flamme.<delay>
+
+[05C]
+<use article 02><player> tend <use article 01><item> vers le ciel<delay>
+
+[05E]
+<use article 02><player> mets des<line>baies Laerma dans<line>le vase Laconian.<wait>
+
+[060]
+Les baies Laerma<line>se dessèchent vite<line>après avoir été<line>cueillies.<wait>
+
+[062]
+Dans le ciel,<line>le Chateau Aérien<line>apparait sous vos<line>yeux.<wait>
+
+[064]
+Myau n'ayant pas<line>faim,Alisa les<line>range.<wait>
+
+[066]
+Hapsby secoue la<line>tête.<wait>
+
+[068]
+La tête d'Hapsby<line>est dure.<wait>
+
+[06A]
+Cet objet est<line>toujours actif.<wait>
+
+[06C]
+Rien d'anormal ici<wait>
+
+[06E]
+<use article 02><item>!<wait>
+
+[070]
+Votre corps semble<line>devenir léger...<delay>
+
+[072]
+<use article 02><player> ressuscite.<wait>
+
+[074]
+Tylon ne peut pas utiliser la magie.<delay>
+
+[076]
+<use article 02><player> ne connait<line>pas de sortilège.<delay>
+
+[078]
+Impossible d'équiper <use article 02><player> <use article 03><item>.<wait>
+
+[07A]
+S'équiper de cet<line>objet est inutile.<wait>
+
+[07C]
++<number> point<use suffix> d'Exp<internal hint 02>.<wait>
+
+[07E]
+<use article 02><player> gagne un<line>niveau !<wait>
+
+[080]
+<use article 02><player> apprend un<line>nouveau sort !<wait>
+
+[082]
++<number><internal hint 01> meseta<use suffix>.<wait>
+
+[084]
+L'ouvrir ?<end>
+
+[086]
+Il est vide.<wait>
+
+[088]
+Vous ne pouvez<line>plus rien porter !<wait more>
+Voulez-vous jeter<line>quelque chose ?<end>
+
+[08A]
+Quel objet voulez-<line>vous jeter ?<wait>
+
+[08C]
+Vous jetez <use article 01><item>.<wait>
+
+[08E]
+Vous avez <use article 01><item>.<wait>
+
+[090]
+Voulez-vous laisser <use article 01><item> ?<end>
+
+[092]
+Vous laissez <use article 01><item>.<wait>
+
+[094]
+Impossible de jeter <use article 01><item> !<wait>
+
+[096]
+Vous n'avez pas<line>assez de points<line>magiques.<delay>
+
+[098]
+<use article 02><player> est encore<line>en vie.<delay>
+
+[09A]
+Vous avez vaincu !<end>
+
+[09C]
+<use article 02><player> meurt de ses blessures.<delay>
+
+[09E]
+La mort a déjà<line>frappé <use article 02><player>.<delay>
+
+[0A0]
+Myau mache les<line>baies Laerma.<wait>
+
+; **************
+; *** Hapsby ***
+; **************
+
+[0A2]
+Ou voudriez-vous<line>aller ?<end>
+
+[0A4]
+Voulez-vous aller<line>à Skure,<line>sur Dézoris ?<end>
+
+[0A6]
+Voulez-vous aller<line>à Uzo,<line>sur Motavia ?<end>
+
+[0A8]
+Voulez-vous aller<line>à Gothic,<line>sur Palma ?<end>
+
+[0AA]
+La cité de Skure.<end>
+
+[0AC]
+La ville d'Uzo.<end>
+
+[0AE]
+Nous voilà<line>à Gothic.<end>
+
+[0B0]
+Allons-y !<delay>
+
+[0B2]
+Vous êtes perdue<line>dans les bois.<wait>
+
+
+; *************
+; *** Shops ***
+; *************
+
+[0B4]
+Bienvenue<line>à l'armurerie!<line>Besoin d'armes<line>pour votre quête ?<end>
+
+[0B6]
+Prenez soin de<line>vous et à bientot.<wait> 
+
+[0B8]
+Que puis-je faire<line>pour vous<line>aujourd'hui ?<end>
+
+[0BA]
+Parfait,<line>autre chose ?<end>
+
+[0BC]
+Votre inventaire<line>est complet !<line>Faites un peu de<line>trie et revenez.<wait>
+
+[0BE]
+Bienvenue à<line>la pharmacie.<line>Besoin d'aide ?<end>
+
+[0C0]
+Bienvenue à<line>la quincaillerie.<line>Que voulez-vous<line>faire ?<end>
+
+[0C2]
+Voyons voir...<end>
+
+[0C4]
+<use article 01><item>.<line>Disons <number><internal hint 01> ?<end>
+
+[0C6]
+Magnifique !<line>Autre chose ?<end>
+
+
+; ****************
+; *** Hospital ***
+; ****************
+
+[0C8]
+Bienvenue<line>à l'hopital.<line>Avez-vous besoin<line>de soins ?<end>
+
+[0CA]
+Hmm.<line>Les soins coutent<line><number><internal hint 02> meseta<use suffix>.<wait more>
+Puis-je commencer?<end>
+
+[0CC]
+Quelqu'un d'autre<line>a t-il besoin de<line>soins?<end>
+
+[0CE]
+Quel personne doit<line>être soignée?<end>
+
+[0D0]
+Merci d'avoir<line>patienté,essayez<line>de faire un peu<line>plus attention.<wait>
+
+[0D2]
+Prenez garde à<line>vous dehors.<wait>
+
+[0D4]
+Vous m'avez l'air<line>d'être en parfaite<line>santé...<wait>
+
+
+; **************
+; *** Church ***
+; **************
+
+[0D6]
+Bienvenue dans<line>notre église.<line>Une ame disparu ?<end>
+
+[0D8]
+Je prierai pour<line>vous.<wait>
+
+[0DA]
+Recueillez-vous<line>pendant que je<line>récite une<line>incantation.<delay>
+
+[0DC]
+ArtemuhamuRAmu !<line>ArtemuhamuHAmu !<line>STRATOPON !<delay>
+
+[0DE]
+Quelle ame voulez-<line>vous ramener ?<end>
+
+[0E0]
+Encore une ame ?<end>
+
+
+[0E2]
+Nous suggérons un<line>don de <number><internal hint 02> meseta<use suffix>.<end>
+
+[0E4]
+Pour monter d'un<line>niveau,<wait>
+
+[0E6]
+<use article 02><player> a besoin de <number><internal hint 02> point<use suffix>.<wait>
+
+[0E8]
+Puisse Dieu bénir<line>votre avenir.<wait>
+
+[0EA]
+Cette personne<line>ne m'a pas l'air<line>morte !<wait more>
+Si vous avez<line>besoin de soins,<line>cherchez l'hopital<line>le plus proche.<end>
+
+[0EC]
+Sauvegarder votre<line>progression ?<line>Choisissez un<line>emplacement.<end>
+
+[0EE]
+Emplacement <number>,<line>êtes-vous sur ?<end>
+
+[0F0]
+Ok.<line>Emplacement<line>numéro <number> en cours<line>de sauvegarde...<delay>
+
+[0F2]
+...terminé.<wait>
+
+
+; ************************
+; *** Monster Dialogue ***
+; ************************
+
+[0F4]
+Nous voulons être<line>amis avec les<line>Palmans.<wait>
+
+[0F6]
+Je pourrais aller<line>chercher des baies<line>Laerma maintenant!<wait>
+
+[0F8]
+Vous ne devriez<line>pas tenir tête au<line>Seigneur Lassic.<wait>
+
+[0FA]
+Oh! Vous comprenez<line>notre langue ?<wait>
+
+[0FC]
+Super !<wait>
+
+[0FE]
+Méfiez-vous des<line>pièges présents<line>dans les donjons.<wait>
+
+[100]
+N'ouvrez pas les<line>coffres au trésor<line>trop hativement.<wait>
+
+[102]
+Satanés voleurs !<wait>
+
+[104]
+Les gens nous<line>détestent quoi que<line>nous fassions.<wait>
+
+[106]
+Le son de la flute<line>apaisante est si<line>beau.<wait>
+
+[108]
+Les ForaGlaces<line>permettent de<line>briser la glace.<wait>
+
+[10A]
+Le Seigneur Lassic<line>vit dans le ciel.<wait>
+
+[10C]
+Le Savant fou à<line>Abion possède un<line>vase Laconian.<wait>
+
+[10E]
+Les vaisseaux ne<line>vont pas partout<line>dans le ciel.<wait>
+
+[110]
+Il faut un vase<line>pour que les baies<line>Laerma murissent.<wait>
+
+[112]
+Certains donjons<line>ont des passages<line>secrets.<wait>
+
+[114]
+La Clé Magique<line>peut ouvrir les<line>portes scellées !<wait>
+
+[116]
+Certains Dézoriens<line>sont des menteurs,<line>soyez prudents.<wait>
+
+[118]
+Vous êtes bien<line>brave pour me<line>parler.<line>Approchez-vous.<wait>
+
+[11A]
+Le corps <use article 03><monster> s'emplit de force.<delay>
+
+[11C]
+;<use article 02><monster> laisse un coffre.<end>
+L'ennemi laisse un<line>coffre au trésor.<end>
+
+
+[11E]
+Vous faites face à<line>l'est.<wait>
+
+[120]
+Vous faites face à<line>l'ouest.<wait>
+
+[122]
+Vous faites face<line>au nord.<wait>
+
+[124]
+Vous faites face<line>au sud.<wait>
+
+[126]
+Alisa et ses amis<line>ont été anéantis.<wait>
+
+[128]
+Le rêve d'Alisa<line>s'évanoui face à<line>l'ambition de Lassic.<wait more>
+Votre périple se<line>termine ici...<wait>
+
+[12A]
+Il semblerait que<line>vous n'ayez pas<line>assez d'argent.<line>
+Revenez plus tard.<wait>
+
+[12C]
+Cela arrivera en<line>son temps.<wait>
+
+[12E]
+Vous trouvez un<line>coffre.<end>
+
+[130]
+ArtemuHamuRAmu<line>A--rgh !!<line>
+Hurrrmp!<line>Hurrrmp!<wait more>
+Mes excuses.<line>
+Quelque chose m'a<line>fait échouer.<wait>
+
+[132]
+C'est un vol<line>sans escale<line>vers Motavia.<line>Monter à bord ?<end>
+
+[134]
+Cette navette se<line>dirige vers Palma.<line>Embarquer ?<end>
+
+[136]
+<use article 02><player> est déjà<line>en pleine forme.<wait>
+
+[138]
+Choisissez un<line>emplacement.<end>
+
+[13A]
+Ok.<line>Continuer à partir<line>de l'emplacement<line>numéro <number>.<delay>
+
+[13C]
+Mot de passe<line>incorrect.<line>Réessayez.<wait>
+
+[13E]
+Voulez-vous<line>continuer<line>une partie<line>sauvegardée ?<end>
+
+[140]
+Voulez-vous<line>supprimer<line>une sauvegarde ?<end>
+
+[142]
+Suppression<line>d'une sauvegarde.<line>Choisir un<line>emplacement.<end>
+
+[144]
+Suppression de<line>la sauvegarde,<line>emplacement <number>.<end>
+
+[146]
+<use article 02><player> se fait<line>pétrifier !<wait>
+
+[148]
+Quelqu'un utilise<line><use article 01><item>.<wait>
+
+[14A]
+Avec le temps,<line>le ciel se clarifia<line>et les monstres<line>disparurent.<end>
+
+[14C]
+Seule une douce<line>brise flotte dé-<line>sormais au dessus<line>de Baya Malay.<end>
+
+
+[14E]
+;Le peuple d'Algol,<line>reconnaissant,a<line>pansé ses plaies<line>et pris un nouveau<line>départ.<end>
+La reconnaissance<line>du peuple d'Algol<line>sonna le début<line>d'une nouvelle ère<end>
+
+
+[150]
+Alisa et ses<line>compagnons furent<line>projetés de Myau,<line>dans le ciel.<wait>
+
+[152]
+Et Alisa entendit<line>la voix de Néro,<line>lointaine,<line>très lointaine.<wait more>
+N'abandonne pas,<line>Alisa.<line>Tu es arrivée<line>jusqu'ici.<wait more>
+Alisa sentit son<line>esprit revivre.<wait>
+
+[154]
+Cela réchauffe<line>votre coeur.<wait>
+
+; ___________________________________________________________
+
+; *****************
+; *** Cutscenes ***
+; *****************
+
+<width 1C></center><wrap><height 06>
+
+; ********************
+; *** Introduction ***
+; ********************
+
+[156]
+Citoyens de Camineet,<line>
+le corps de ce garcon est<line>
+un avertissement pour vous<line>
+tous.<line>
+Le Seigneur Lassic ne<line>
+tolérera aucune offense !<wait more>
+Néro ? NERO !<line><line>
+Que s'est-il passé ?!<wait>
+
+[158]
+Alisa. Ma soeur.<line><line>
+Ecoute moi attentivement,<line>
+Il me reste peu de temps.<wait more>
+Lassic est une menace<line>
+pour Algol,il ne doit pas<line>
+rester au pouvoir.<line><line>
+Je ne sais pas ce qui lui<line>
+est arrivé...<wait more>
+mais je sais une chose,<line>
+Lassic doit être anéanti !<line><line>
+Pour le bien de tous,<line>
+Alisa,tu dois l'arrêter.<wait more>
+Mon erreur fut de<line>
+l'affronter seul.<line><line>
+Ces gens sont dangereux,<line>
+il te faudra de l'aide.<wait more>
+On m'a parlé d'un guerrier,<line>
+un homme nommé Tylon,<line>
+qui partage ma cause.<wait more>
+J'ai voulu lui demander<line>
+son aide,mais personne ne<line>
+sait ce qu'il est devenu.<wait more>
+Alisa,retrouve-le et tue<line>
+Lassic avant qu'il ne soit<line>
+trop tard !<wait more>
+C'est un terrible fardeau.<line>
+J'en suis désolé,Alisa.<line><line>
+Pardonne-moi de te<line>
+demander une telle chose...<wait more>
+... et aussi de...<line><line>  
+... te laisser seule...<wait>
+
+[15A]
+Néro...<wait more>
+Je sais que tu ne me<line> 
+l'aurais pas demandé s'il<line> 
+y avait eu un autre moyen.<wait more>
+Ta mort ne sera pas vaine,<line> 
+j'en fais la promesse.<wait more>
+Veille sur moi,<line>
+grand frère.<wait more>
+Je suis partie pour<line> 
+anéantir l'homme le plus<line> 
+puissant du monde.<wait>
+
+; ******************************
+; *** Character Intro - Myau ***
+; ******************************
+
+[15C]
+Je suppose que nous sommes<line>compagnons maintenant,<line>hein ?<line><line>
+Je m'appelle Alisa.<line>Comment t'appelles-tu ?<wait>
+
+[15E]
+Myau.<wait>
+
+[160]
+Bonjour,Myau.<line>Je suis à la recherche d'un<line>homme nommé Tylon.<wait more>
+La rumeur veut qu'il voyage<line>avec un animal parlant.<line><line>
+Serait-ce toi ?<wait>
+
+[162]
+Tylon a été transformé en<line>pierre en essayant de tuer<line>Médusa !<wait more>
+Nous pouvons le guérir<line>avec cet élixir,mais je<line>n'arrive pas à en retirer<line>le bouchon.<wait more>
+Tylon doit toujours être à<line>Scion,sais-tu comment y<line>aller ?<wait>
+
+[164]
+Je pense que je devrais<line>y arriver.<line>Viens,allons l'aider.<wait>
+
+
+; ********************************
+; *** Character Intro - Tylon ***
+; ********************************
+
+[166]
+Ah,Myau,<line>tu as trouvé de l'aide.<line><line>Merci.<wait more>
+Médusa était plus forte<line>que je ne le pensais,<line>je n'aurais aucune chance<line>face à Lassic.<wait more>
+Comment s'appelle ta<line>nouvelle amie ?<wait>
+
+[168]
+Je m'appelle Alisa.<line>Mon frère Néro a été tué en<line>tentant d'arrêter Lassic.<line><line>
+Et je vais l'assassiner.<wait more>
+Néro m'a parlé de toi<line>juste avant de mourir.<line><line>Il disait que tu m'aiderais.<wait>
+
+[16A]
+Je vois.<wait more>
+Bon,je ne peux pas laisser<line>une fille comme toi partir<line>seule,non ?<wait>
+
+[16C]
+Je comprends ton inquiétude<line>mais je peux me débrouiller<line>seule,merci.<wait more>
+Pourquoi cours-tu après<line>Médusa ?<wait>
+
+[16E]
+Médusa possède une hache<line>légendaire,j'espérais<line>la voir recouverte du sang<line>de Lassic.<wait more>
+J'ai caché une boussole<line>au fond d'un cul de sac<line>de cette grotte.<line><line>
+Nous allons en avoir besoin.<line>Allons-y.<wait>
+
+
+; ******************************
+; *** Character Intro - Lutz ***
+; ******************************
+
+[170]
+Vous devez être Lutz !<line><line>
+J'ai une lettre pour vous<line>de la part du Gouverneur.<wait more>
+Voudriez-vous la lire ?<wait>
+
+[172]
+Laissez-moi voir ca...<wait more>
+...Ah. Je vois.<line>Donc,c'en est arrivé là.<line><line>
+Pardonnez mon accueil de<line>tout à l'heure.<wait more>
+Lassic est dangereux.<line>Pour le bien d'Algol,<line>Lassic doit être stoppé.<line><line>
+Je pense que je peux<line>vous venir en aide.<wait more>
+Nous devons alerter<line>le docteur Luveno,il vit<line>dans les bois de Gothic.<wait more>
+D'après mes souvenirs,<line>nous pouvons y acceder par<line>une bouche d'égout située<line>au spatioport de Camineet.<wait more>
+Allons-y.<line>Vite !<wait>
+
+
+; *****************************
+; *** Myaus Transformation ***
+; *****************************
+
+[174]
+Après que Myau eut maché<line>les baies Laerma,<line>il fut pris d'un accès<line>de fièvre,et une lumière<line>éblouissante s'engouffra<line>dans son corps.<wait>
+
+[176]
+Et en un instant,<line>il se transforma en<line>un magnifique animal pourvu<line>d'énormes ailes !<wait more>
+Myau battit des ailes<line>fièrement pour que chacun<line>puisse les admirer.<wait>
+
+
+; ********************
+; *** Ending Scene ***
+; ********************
+
+[178]
+<line>
+        Alisa,<delay>
+
+[17A]
+<line>
+        Tylon,<delay>
+
+[17C]
+<line>
+         Lutz,<delay>
+
+[17E]
+<line>
+       et Myau.<delay>
+
+[180]
+Tandis que le souvenir<line>de cette sombre époque<line>s'estompera,<wait more>ces quatres noms resteront<line>à jamais gravés dans<line>le coeur du peuple d'Algol.<delay>

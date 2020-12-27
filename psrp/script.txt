@@ -65,11 +65,15 @@
 ; Guards: You little bastard -- poking your nose into LaShiec's business like that!
 ; Maybe from now on you'll try to mind your manners!
 ; Alisa: Nero! What happened?! Hang on!
-Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
-Defiance of Lord LaShiec will not be tolerated!<wait more>
-
-Nero? NERO!<line><line>
-What happened?!<wait>
+; R: Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
+; R: Defiance of Lord LaShiec will not be tolerated!<wait more>
+; R: 
+; R: Nero? NERO!<line><line>
+; R: What happened?!<wait>
+Citoyens de Camineet, le corps de ce garcon est un avertissement pour vous tous.<line>
+Le Seigneur Lassic ne tolérera aucune offense !<wait more>
+Néro ? NERO !<line><line>
+Que s'est-il passé ?!<wait>
 
 [45fa]
 ; Nero, dying
@@ -101,26 +105,43 @@ What happened?!<wait>
 ; ...Alisa...
 ; ...It’s too late for me...
 ; ...Please forgive me... for leaving you alone...
-Alisa, my sister.<line><line>
-Listen closely, I don’t have long.<wait more>
-The rumors we've heard are true. LaShiec has... changed.<line>
-And it goes beyond his military taking over our streets.<wait more>
-All of the horrible creatures outside, all of the darkness in our lives...<line><line>
-Somehow, it all traces back to him.<wait more>
-I tried to learn how, but I guess I got too close to the truth.<line><line>
-There's only one option left now, for all of us.<wait more>
-Lord LaShiec must be stopped.<line><line>
-If he isn't, the darkness he's aligned himself with will claim all of Algol.<wait more>
-My mistake was trying to take him on alone.<line><line>
-These are dangerous people, you’re going to need help.<wait more>
-I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
-I tried to enlist his help, but he's gone missing.<wait more>
-You have to find him, Alisa.<line><line>
-Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
-Alisa... such a terrible burden. I’m so sorry.<line><line>
-Please forgive me, for asking this of you...<wait more>
-...and for leaving you all...<line><line>
-...alone...<wait>
+; R: Alisa, my sister.<line><line>
+; R: Listen closely, I don’t have long.<wait more>
+; R: The rumors we've heard are true. LaShiec has... changed.<line>
+; R: And it goes beyond his military taking over our streets.<wait more>
+; R: All of the horrible creatures outside, all of the darkness in our lives...<line><line>
+; R: Somehow, it all traces back to him.<wait more>
+; R: I tried to learn how, but I guess I got too close to the truth.<line><line>
+; R: There's only one option left now, for all of us.<wait more>
+; R: Lord LaShiec must be stopped.<line><line>
+; R: If he isn't, the darkness he's aligned himself with will claim all of Algol.<wait more>
+; R: My mistake was trying to take him on alone.<line><line>
+; R: These are dangerous people, you’re going to need help.<wait more>
+; R: I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
+; R: I tried to enlist his help, but he's gone missing.<wait more>
+; R: You have to find him, Alisa.<line><line>
+; R: Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
+; R: Alisa... such a terrible burden. I’m so sorry.<line><line>
+; R: Please forgive me, for asking this of you...<wait more>
+; R: ...and for leaving you all...<line><line>
+; R: ...alone...<wait>
+Alisa. Ma soeur.<line><line>
+Ecoute moi attentivement, il me reste peu de temps.<wait more>
+Lassic est une menace pour Algol, il ne doit pas rester au pouvoir.<line><line>
+Je ne sais pas ce qui lui est arrivé...<wait more>
+mais je sais une chose, Lassic doit être anéanti !<line><line>
+Pour le bien de tous,<line>
+Alisa, tu dois l'arrêter.<wait more>
+Mon erreur fut de l'affronter seul.<line><line>
+Ces gens sont dangereux, il te faudra de l'aide.<wait more>
+On m'a parlé d'un guerrier, un homme nommé Tylon, qui partage ma cause.<wait more>
+J'ai voulu lui demander son aide, mais personne ne sait ce qu'il est devenu.<wait more>
+Alisa, retrouve-le et tue Lassic avant qu'il ne soit trop tard !<wait more>
+C'est un terrible fardeau.<line>
+J'en suis désolé, Alisa.<line><line>
+Pardonne-moi de te demander une telle chose...<wait more>
+... et aussi de...<line><line>
+... te laisser seule...<wait>
 
 [4605]
 ; Alisa
@@ -132,11 +153,17 @@ Please forgive me, for asking this of you...<wait more>
 
 ; Alisa: I will go and fight to ensure that my brother did not die in vain!
 ; Keep a sharp watch over me, big brother!
-Nero...<wait more>
-Your death will not be meaningless, I swear it.<line><line>
-I won't let these monsters take our home.<wait more>
-Watch over and protect me, big brother.<line><line>
-With your spirit by my side, LaShiec doesn't stand a chance.<wait>
+; R: Nero...<wait more>
+; R: Your death will not be meaningless, I swear it.<line><line>
+; R: I won't let these monsters take our home.<wait more>
+; R: Watch over and protect me, big brother.<line><line>
+; R: With your spirit by my side, LaShiec doesn't stand a chance.<wait>
+
+Néro...<wait more>
+Je sais que tu ne me l'aurais pas demandé s'il y avait eu un autre moyen.<wait more>
+Ta mort ne sera pas vaine, j'en fais la promesse.<wait more>
+Veille sur moi, grand frère.<wait more>
+Je suis partie pour anéantir l'homme le plus puissant du monde.<wait>
 
 ; *************************************
 ; *** Camineet Residential District ***
@@ -148,8 +175,10 @@ With your spirit by my side, LaShiec doesn't stand a chance.<wait>
 ; [2A4]
 ; ココハ アリサノ ウチデス.<line>
 ; This is Alisa’s house. Nobody is here.
-This is Alisa’s home.<line><line>
-Nero's things are still where he left them.<wait>
+; R: This is Alisa’s home.<line><line>
+; R: Nero's things are still where he left them.<wait>
+La maison d'Alisa.<line>
+On peut encore y ressentir la présence de Néro.<wait>
 
 [4b48]
 ; Suelo (first visit)
@@ -160,10 +189,14 @@ Nero's things are still where he left them.<wait>
 ; My name is Suelo. I know how you feel, Alisa. No one will be able to stop you
 ; [from doing what you must do], but don't overdo it, okay? If you are ever injured
 ; in battle, please come here to relax and recover. You will always be welcome.
-Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
-I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
-If you ever get hurt, come back here to heal.<wait more>
-We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
+; R: Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+; R: I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
+; R: If you ever get hurt, come back here to heal.<wait more>
+; R: We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
+Que veux-tu faire?<wait more>
+Alisa, tu es folle de vouloir tenir tête à Lassic !<wait more>
+Mais je sais comme tu es bornée, je t'aiderai donc comme je pourrai.<wait more>
+Si tu es blessée, viens ici et ton amie Suelo t'arrangera ca.<wait>
 
 [4b4e]
 ; Suelo (subsequent visits)
@@ -172,8 +205,10 @@ We've been neighbors a long time, you know Suelo's home is always open for you.<
 ; ムリヲ シナイヨウニネ.<line>
 ; マタ イツデモ イラッシャイ.<wait>
 ; Please relax and recover. Don’t overdo it, okay? You will always be welcome here.
-Please get some rest.<wait more>
-Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+; R: Please get some rest.<wait more>
+; R: Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+Repose-toi un peu, si tu veux.<wait more>
+Tu seras toujours la bienvenue ici.<wait>
 
 [4b62]
 ; Nekiseh (first visit)
@@ -192,19 +227,24 @@ Your brother would be proud of you. But don't overdo it, okay? Come back here an
 ; My name is Nekise. I just found out that the hero Tairon is staying in the town of
 ; Shion. Oh, and, your brother entrusted me with this jar -- it’s called a
 ; ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.
-My name is Nekise.<line><line>
-I was sorry to hear about your loss.<wait more>
-Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
-The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
-Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
-It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
+; R: My name is Nekise.<line><line>
+; R: I was sorry to hear about your loss.<wait more>
+; R: Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
+; R: The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
+; R: Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
+; R: It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
+Je suis Nékisée, mes sincères condoléances pour ton frère.<wait more>
+Nous avons entendu dire que Tylon se trouvait à Scion.<wait more>
+Néro m'avait demandé de garder ce vase Laconian.<wait more>
+Il aurait voulu que tu l'aies. Tiens,prends-le.<wait>
 
 [4b7c]
 ; [010]
 ; チカラニナレナクテ ゴメン.<line>
 ; ブジヲ イノッテルヨ.<wait>
 ; Forgive me, but there is nothing more I can do. May you[r journey] be safe.
-I wish there was more I could do for you. Please be safe out there.<line><wait>
+; R: I wish there was more I could do for you. Please be safe out there.<line><wait>
+Je suis désolé, mais je ne peux pas t'aider plus. Bonne chance.<wait>
 
 [4b82]
 ; Camineet resident - man
@@ -212,15 +252,17 @@ I wish there was more I could do for you. Please be safe out there.<line><wait>
 ; コノ カミニート キョジュウクハ<line>
 ; カイゲンレイガ シカレテイルンダ.<wait>
 ; The Camineet residential district is under martial law.
-I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
-Camineet used to be so nice. How did it come to this?<line><wait>
+; R: I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
+; R: Camineet used to be so nice. How did it come to this?<line><wait>
+Combien de temps allons-nous rester sous cette loi martiale ?<wait>
 
 [4b88]
 ; Camineet resident - man
 ; [014]
 ; カギノ カカッタ ドアヲ アケルニハダンジョンキーガ ヒツヨウデス.<wait>
 ; You need a ‘Dungeon Key’ to open locked doors.
-Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
+; R: Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
+Tu auras besoin de la Clé du Donjon si tu veux ouvrir les portes.<wait>
 
 [4b8e]
 ; Camineet resident - man
@@ -228,43 +270,51 @@ Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
 ; アカリガナイト ススメナイ<line>
 ; ダンジョンモ アルヨ.<wait>
 ; You will not be able to advance through certain dungeons if you don't have a light.
-Some dungeons are pitch black, make sure you always have a light source with you.<wait>
+; R: Some dungeons are pitch black, make sure you always have a light source with you.<wait>
+Certains donjons sont totalement obscurs, tu auras besoin de lumière.<wait>
 
 [4b94]
 ; Camineet resident - man
 ; [018]
 ; カミニートノ ニシハ スペースポートデス.<wait>
 ; West of Camineet? That's the Spaceport.
-You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
-I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
+; R: You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
+; R: I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
+Je ne peux pas le croire !<wait more>
+Il faut un permis pour entrer sur le Spatioport !<wait more>
+Comment vais-je rentrer chez moi ?<wait>
 
 [4b9a]
 ; Camineet resident - man
 ; [01A]
 ; ミナトマチデハ イロイロナ トリヒキガ デキル トイウ ハナシダ.<wait>
 ; They say that all sorts of business goes on in the port town.
-You can buy just about anything in port towns. I even got a fake I.D. once!<wait>
+; R: You can buy just about anything in port towns. I even got a fake I.D. once!<wait>
+J'ai entendu dire qu'il y avait du marché noir dans les ports...<wait>
 
 [4bba]
 ; Camineet police
 ; [01C]
 ; キョジュウクノ ソトニハ デナイホウガ ミノタメダ.<wait>
 ; Stay inside the residential area if you know what's good for you.
-Remain inside the residential area. It is not safe for citizens outside.<wait>
+; R: Remain inside the residential area. It is not safe for citizens outside.<wait>
+Les citoyens sont priés de rester dans la zone résidentielle.<wait>
 
 [4bc0]
 ; Camineet police
 ; [01E]
 ; シニタクナカッタラ ココニイルンダ.<wait>
 ; I can’t just let you pass through here!
-We cannot protect you outside. Stay inside of your homes until the danger has passed.<wait>
+; R: We cannot protect you outside. Stay inside of your homes until the danger has passed.<wait>
+Si vous ne voulez pas mourir, ne passez pas.<wait>
 
 [4bcd,4c26,4cc2,4d0e]
 ; Camineet police (at road, without a Roadpass)
 ; [020]
 ; ココヲ トオスワケニハ イカナイ.<wait>
 ; Want to stay alive?  Then stay here!
-Authorization is required to pass this point. Stay back or we will use force!<wait>
+; R: Authorization is required to pass this point. Stay back or we will use force!<wait>
+Désolé, nous sommes en état d'alerte. Accès interdit.<wait>
 
 [4bda,4d23]
 ; Camineet police (at road, without a Roadpass)
@@ -272,7 +322,8 @@ Authorization is required to pass this point. Stay back or we will use force!<wa
 ; ロードパスノ ナイモノハ ココヲ<line>
 ; トオレナイ.<wait>
 ; Nobody gets through here without a 'Roadpass'.
-Nobody gets through here without a Roadpass.<wait>
+; R: Nobody gets through here without a Roadpass.<wait>
+Un permis signé est nécessaire pour accéder au Spatioport.<wait>
 
 [4be0,4c3a,4cd5,4d18,4d2d,5497]
 ; Camineet police (at road, with a Roadpass)
@@ -280,14 +331,16 @@ Nobody gets through here without a Roadpass.<wait>
 ; [024]
 ; トオッテ ヨシ.<wait>
 ; Okay, you may pass.
-Okay, go on through.<wait>
+; R: Okay, go on through.<wait>
+Accès accordé. Allez-y.<wait>
 
 [4ba0]
 ; Camineet resident - man
 ; [062]
 ; アルゴル タイヨウケイノ ワクセイヲシッテイルカナ.<end>
 ; Do you know the planets in the Algol Solar System?
-Do you know about all the planets in the Algol Solar System?<end>
+; R: Do you know about all the planets in the Algol Solar System?<end>
+Connaissez-vous les planètes d'Algol ?<end>
 
 [4bb4]
 ; Camineet resident - man - "no" to question about Algol
@@ -304,13 +357,19 @@ Do you know about all the planets in the Algol Solar System?<end>
 ; Motavia is a planet of sand.
 ; Dezoris is a planet of ice.
 ; There is a crisis drawing near to Algol...
-Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
-Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
-Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
-Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
-And Dezoris is a planet of ice. Very little life thrives on its frozen surface.<wait more>
-All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
-Every day draws us closer to a crisis that can never be reversed.<wait>
+; R: Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
+; R: Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
+; R: Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
+; R: Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
+; R: And Dezoris is a planet of ice. Very little life thrives on its frozen surface.<wait more>
+; R: All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
+; R: Every day draws us closer to a crisis that can never be reversed.<wait>
+Il y a <number><internal hint 02> planète<s>: Palma, Motavia, et Dézoris.<wait more>
+Ces trois planètes sont totalement différentes.<wait more>
+Palma est une planète verdoyante.<wait more>
+Motavia est un désert de sable.<wait more>
+Quant à Dézoris, elle est couverte de glace.<wait more>
+Pour vous dire la vérité, je crains pour l'avenir de nos planètes.<wait>
 
 [4ba9,4e06,4e26]
 ; Camineet resident - man - "yes" to question about Algol
@@ -318,7 +377,8 @@ Every day draws us closer to a crisis that can never be reversed.<wait>
 ; [060]
 ; ナラバ ヨイ.<wait>
 ; I see. Never mind.
-Oh. Okay.<wait>
+; R: Oh. Okay.<wait>
+Oh. Très bien.<wait>
 
 ; ************************************
 ; *** Parolit Residential District ***

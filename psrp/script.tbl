@@ -41,6 +41,12 @@
 23=Y
 24=Z
 
+; French accented letters - stripping accents for now
+25=à
+29=é
+29=ê
+29=è
+
 ; Lowercase
 25=a
 26=b
