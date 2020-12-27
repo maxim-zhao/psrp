@@ -3,11 +3,11 @@ ptrs=3807,380d
 dims=3801,3813,381f
 
 ┌──────╖
-│Stats ║
-│Magic ║
-│Items ║
-│Search║
-│Save  ║
+│Infos ║
+│Magies║
+│Objets║
+│Sonder║
+│Sauver║
 ╘══════╝
 
 [ChoiceMenu]
@@ -15,8 +15,8 @@ ptrs=38cd
 dims=38c7,38e7
 
 ┌───╖
-│Yes║
-│No ║
+│Oui║
+│Non║
 ╘═══╝
 
 [NarrativeBox]
@@ -35,11 +35,11 @@ ptrs=3238,323e
 dims=3232,3244,3250
 
 ┌──────╖
-│Attack║
-│Magic ║
-│Items ║
-│Talk  ║
-│Run   ║
+│Combat║
+│Magies║
+│Objets║
+│Parler║
+│Fuir  ║
 ╘══════╝
 
 [EnemyHPBox]
@@ -133,19 +133,19 @@ dims=37d3
 ptrs=38a1
 dims=389b,38bb
 
-┌────╖
-│Buy ║
-│Sell║
-╘════╝
+┌───────╖
+│Acheter║
+│Vendre ║
+╘═══════╝
 
 [ItemActionMenu]
 ptrs=3883
 dims=387d,388f
 
 ┌─────╖
-│Use  ║
-│Equip║
-│Drop ║
+│User ║
+│Munir║
+│Jeter║
 ╘═════╝
 
 [AlisaActiveBox]
@@ -183,37 +183,38 @@ height=7
 ; for bottom row
 
 ┌────────────╖
-│Heal        ║
-│Quick Dash  ║
-│Transrate   ║
-│Fire        ║
-│Bind        ║
+│Soins       ║
+│Déguerpir   ║
+│Traducteur  ║
+│Flammes     ║
+│Ligoter     ║
 
 ; Next five must follow...
 
 [BattleSpellsMyau]
 
 ┌────────────╖
-│Super Heal  ║
-│Terror      ║
-│Waller      ║
-│Power Boost ║
+│Super Soins ║
+│Terroriser  ║
+│Barrière    ║
+│Tonifier    ║
 │            ║
 
 [BattleSpellsLutz]
 
 ┌────────────╖
-│Fire        ║
-│Telepathy   ║
-│Wind        ║
-│Magic Waller║
-│Thunder     ║
+│Flammes     ║
+│Télépathie  ║
+│Tornades    ║
+│Barrière Mag║
+│Foudre      ║
+; Barriere Magique
 
 [OverworldSpellsAlisa]
 
 ┌────────────╖
-│Heal        ║
-│Troop       ║
+│Soins       ║
+│Téléporter  ║
 │            ║
 │            ║
 │            ║
@@ -221,20 +222,21 @@ height=7
 [OverworldSpellsMyau]
 
 ┌────────────╖
-│Super Heal  ║
-│Untrap      ║
-│Bypass      ║
+│Super Soins ║
+│Déminer     ║
+│Passe-murail║
 │            ║
 │            ║
+; Passe-muraille
 
 [OverworldSpellsLutz]
 
 ┌────────────╖
-│Super Heal  ║
-│Bypass      ║
-│Telepathy   ║
-│Magic Unseal║
-│Rebirth     ║
+│Super Soins ║
+│Passe-murail║
+│Télépathie  ║
+│Desceller   ║
+│Renaitre    ║
 
 [SpellMenuBottom]
 ; referenced in assembly code
@@ -284,7 +286,7 @@ dims=3642,377b
 
 ┌──────────────────╖
 │ Meseta     65535 ║
-│ Next             ║
+│ Suite            ║
 │ Item 1           ║
 │ Item 2           ║
 │ Item 3           ║
@@ -313,7 +315,7 @@ dims=3684,3863,3b35
 ptrs=365c
 dims=365f
 
-│Next              ║
+│Suite             ║
 
 [StoreMSTBoxDimensions]
 dimensions only
@@ -354,12 +356,13 @@ dims=3b52,3b79
 ┌──────╖
 │Gothic║
 │Uzo   ║
-│Skray ║
+│Skure ║
 ╘══════╝
 
 [SoundTestMenuTop]
 ┌─────────────╖
 [SoundTestMenuChipPSG]
+; TODO: translations below here
 │Chip  SN76489║
 [SoundTestMenuChipYM2413]
 │Chip   YM2413║
