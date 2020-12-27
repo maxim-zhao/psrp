@@ -389,7 +389,8 @@ Oh. Très bien.<wait>
 ; [026]
 ; ココハ パロリト キョジュウクヨ.<wait>
 ; This is Parolit residential district.
-Welcome to Parolit residential district.<wait>
+; R: Welcome to Parolit residential district.<wait>
+Bienvenue à la zone résidentielle de Parolit.<wait>
 
 [4bf7]
 ; Man
@@ -397,7 +398,8 @@ Welcome to Parolit residential district.<wait>
 ; モリノナカハ トクニ<line>
 ; キヲツケタホウガイイヨ.<wait>
 ; When you're in the forest, you need to be especially cautious.
-The forest is especially dangerous lately, be careful if you head that way.<wait>
+; R: The forest is especially dangerous lately, be careful if you head that way.<wait>
+Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 [4bfd]
 ; Man
@@ -408,8 +410,10 @@ The forest is especially dangerous lately, be careful if you head that way.<wait
 ; ミタモノハ イシニ サレルソウダ.<wait>
 ; I hear that the monster Medusa has returned to the cave South of the city.
 ; They say if you look at it, you'll turn to stone!
-Rumors are going around that Medusa has returned to her cave, just south of here.<wait more>
-They say one look turns you into a living statue. That can't be true, can it?<wait>
+; R: Rumors are going around that Medusa has returned to her cave, just south of here.<wait more>
+; R: They say one look turns you into a living statue. That can't be true, can it?<wait>
+Le monstre appelé Médusa a été réveillé dans la grotte au sud.<wait more>
+La légende raconte qu'elle pétrifie ceux qui croisent son regard !<wait>
 
 [4c03]
 ; Man
@@ -417,7 +421,8 @@ They say one look turns you into a living statue. That can't be true, can it?<wa
 ; ヒガシヘ イクト シオン トイウ<line>
 ; ミナトマチガ アルラシイ.<wait>
 ; If you travel East, you will reach the port town of Shion.
-If you're looking for a port town, Shion is just east of here.<wait>
+; R: If you're looking for a port town, Shion is just east of here.<wait>
+Si tu vas à l'est, tu arriveras à la ville portuaire de Scion.<wait>
 
 [4c09]
 ; Man
@@ -425,16 +430,20 @@ If you're looking for a port town, Shion is just east of here.<wait>
 ; スペースポートカラ モタビアセイノ<line>
 ; パセオ マデ イケルヨ.<wait>
 ; You can travel to Paseo, on the planet Motavia, from the spaceport.
-Our Spaceport flies directly to Paseo, the capital of Motavia.<wait more>
-I'd love to go someday. I've never been off-planet before!<line><wait>
+; R: Our Spaceport flies directly to Paseo, the capital of Motavia.<wait more>
+; R: I'd love to go someday. I've never been off-planet before!<line><wait>
+Le Spatioport permet d'aller à Paséo sur Motavia.<wait more>
+Mais il te faudra un permis pour y accéder.<wait>
 
 [4c0f]
 ; Man
 ; [032]
 ; パロリトノ ニシニアル ガシコノモリヘハ チカツウロガ アルラシイ.<wait>
 ; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
-Did you know there’s an underground passage leading west, to the Gothic Woods?<wait more>
-Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
+; R: Did you know there’s an underground passage leading west, to the Gothic Woods?<wait more>
+; R: Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
+Un ancien passage mène à l'ouest, vers Gothic !<wait more>
+Il est censé être par ici, mais je n'arrive pas à le trouver.<wait>
 
 
 ; ***********************
@@ -447,9 +456,11 @@ Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
 ; モタビアセイニハ モタビアン<line>
 ; デゾリスセイニハ デゾリアン トイウ<wait more>
 ; On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
-We're not the only intelligent life in the Algol Solar System, you know.<wait more>
-Motavia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
-I'd love to have a conversation with an actual alien someday...<line><wait>
+; R: We're not the only intelligent life in the Algol Solar System, you know.<wait more>
+; R: Motavia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
+; R: I'd love to have a conversation with an actual alien someday...<line><wait>
+Il y a des êtres intelligents sur Motavia et Dézoris.<wait more>
+D'autres planètes abritent la vie ! C'est incroyable, n'est-ce pas ?<wait>
 
 [4da7]
 ; Man
@@ -462,9 +473,13 @@ I'd love to have a conversation with an actual alien someday...<line><wait>
 ; クスリビンヲ ブラサゲテイタガ<line>
 ; ナニカノ ヤクニ タツノカネエ.<wait>
 ; Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
-Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
-He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
-It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
+; R: Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
+; R: He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
+; R: It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
+Oui,Tylon est passé ici.<wait more>
+Il disait aller vers le sud pour tuer Médusa.<wait more>
+Un animal parlant avec une fiole autour du cou l'accompagnait !<wait more>
+Je me demande ce que c'était ?<wait>
 
 [4dac]
 ; Same man (second time)
@@ -472,7 +487,9 @@ It had a bottle of important-looking medicine on its neck. I wonder what it's fo
 ; ラシーク ヲ タオシニイクンダッテ<line>
 ; ナ. ガンバレヨ.<wait>
 ; You’re on a quest to defeat LaShiec, huh? Well, good luck!
-It’s about time someone took on LaShiec. God be with you.<wait>
+; R: It’s about time someone took on LaShiec. God be with you.<wait>
+Il est temps que quelqu'un s'en prenne à Lassic.<wait more>
+Que Dieu vous protège.<wait>
 
 [4db6]
 ; [03C]
@@ -481,8 +498,10 @@ It’s about time someone took on LaShiec. God be with you.<wait>
 ; [03E]
 ; パセオノ ショウニンニ タカク ウリツケテヤッタヨ.ヘッヘッヘ.<wait>
 ; I found a talking animal in Medusa’s Cave earlier, see? Then I sold it off to a trader in Paseo and made a bundle! Heh, heh, heh!
-This is going to sound crazy, but I found a talking animal wandering Medusa’s dungeon.<wait more>
-I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
+; R: This is going to sound crazy, but I found a talking animal wandering Medusa’s dungeon.<wait more>
+; R: I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
+C'est incroyable, mais j'ai trouvé un animal parlant, errant dans le donjon de Médusa.<wait more>
+Je l'ai vendu à un commercant de Paséo. Le p'tit bout valait une vraie fortune !<wait>
 
 [4dbb]
 ; Same person as above (second time)
@@ -490,35 +509,43 @@ I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
 ; サイキンハ フケイキダネ.ドコカニ<line>
 ; イイ モウケバナシハ ナイモノカネ.<wait>
 ; Times have been rough lately, don’t you think? I wonder if there’s anywhere I can go to make money.
-The economy’s plummeted since LaShiec came into power.<wait more>
-I’m so broke, I don’t know what to do...<wait>
+; R: The economy’s plummeted since LaShiec came into power.<wait more>
+; R: I’m so broke, I don’t know what to do...<wait>
+L'économie est en chute libre depuis l'arrivée de Lassic.<wait more>
+Je suis tellement déprimé que je ne sais quoi faire.<wait>
 
 [4dc1]
 ; [042]
 ; シオンノ ミナミノ ハントウニハ<line>
 ; イアラト ヨバレル ドウクツガアル.<wait>
 ; On the peninsula South of Shion, you will find Iala Cave.
-Iala Cave lies on the peninsula southeast of here.<wait>
+; R: Iala Cave lies on the peninsula southeast of here.<wait>
+La grotte Iala est située sur la péninsule au sud de la ville.<wait>
 
 [4dc7]
 ; [044]
 ; ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
 ; This is the port town of Shion. This place used to be busy with trade.
-Welcome to Shion, the busiest port on Palma... or at least, it was.<wait more>
-With the world the way it is lately, there isn't much trade going on anymore.<wait>
+; R: Welcome to Shion, the busiest port on Palma... or at least, it was.<wait more>
+; R: With the world the way it is lately, there isn't much trade going on anymore.<wait>
+Bienvenue à Scion.<wait more>
+Notre économie était prospère, jusqu'à l'embargo de Lassic.<wait more>
+Aujourd'hui, la plupart d'entre-nous est au chomage.<wait>
 
 [4dcd]
 ; [046]
 ; エピトイウ マヨイノモリハ<line>
 ; コンパスガナイト トオレナイヨ.<wait>
 ; The Eppi Woods are confusing. You need a ‘Compass’ just to pass through them.
-The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
+; R: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
+Aller dans la forêt d'Eppi sans boussole ? Vous devez être un peu stupide !<wait>
 
 [4dd3]
 ; [048]
 ; マホウノ カカッタドアハ マジックヲツカワナイト ヒラキマセン.<wait>
 ; Magically-sealed doors can be opened only with magic.
-The only way to open a door sealed with magic is to cast a spell of your own.<wait>
+; R: The only way to open a door sealed with magic is to cast a spell of your own.<wait>
+La seul moyen de débloquer une porte scellée, est d'y jeter un de vos propres sorts.<wait>
 
 [4dd9]
 ; [04A]
@@ -527,39 +554,48 @@ The only way to open a door sealed with magic is to cast a spell of your own.<wa
 ; デモワレワレハ ソノオカヘ<line>
 ; チカヅクコトガ デキマセン.<wait>
 ; If you go North from this town you will reach the hill of Baya Mahrey. However, we aren’t able to get near to it.
-To the north, past the prison, is the pride of Palma: a beautiful knoll called Baya Marlay.<wait more>
-Too bad nobody can get to it anymore...<wait>
+; R: To the north, past the prison, is the pride of Palma: a beautiful knoll called Baya Marlay.<wait more>
+; R: Too bad nobody can get to it anymore...<wait>
+Au nord,se trouve la colline appelée Baya Malay.<wait more>
+Mais vous ne serez pas en mesure d'y accéder.<wait>
 
 [4ddf]
 ; [04C]
 ; バヤマーレノ キタノ カイガンニ<line>
 ; ナウラトイウ ドウクツガ アリマス.<wait>
 ; On the beach North of Baya Mahrey, you will find Naula Cave.
-I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
-But with all these monsters suddenly appearing, I can't go near it anymore.<wait>
+; R: I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
+; R: But with all these monsters suddenly appearing, I can't go near it anymore.<wait>
+J'avais l'habitude de faire de la spéléologie dans la grotte Naula, sur la cote nord de Baya Malay.<wait more>
+Mais avec tous ces monstres errants, je ne me risquerai pas d'y retourner!<wait>
 
 [2dab]
 ; Trader (first time you buy the Secret Thing)
 ; [142]
 ; ダレニ キイタカ シラナイガ<line>
 ; Who the hell told you that? You’d better just forget about it if you know what’s good for you.
-I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
+; R: I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
+Je ne sais pas de quoi vous parlez. Je tiens un honnête commerce ici, moi !<wait>
 
 [2db0]
 ; Trader (second time you buy the Secret Thing)
 ; [144]
 ; ダメナモノハ ダメダ.<line>
 ; Give it up, willya? Now get outta here!
-Give it up, will ya? I already told you, we're a legitimate business.<wait more>
-Get out of my store.<delay>
+; R: Give it up, will ya? I already told you, we're a legitimate business.<wait more>
+; R: Get out of my store.<delay>
+Je l'ai déjà dit, je ne fais pas de contrebande !<wait more>
+Sortez de mon magasin !<wait>
 
 [2ddc]
 ; Trader (third time you buy the Secret Thing)
 ; [146]
 ; シツコイヤツダ.ソンナニ イウノナラシカタガナイ.ダレニモ イウナヨ.<wait>
 ; You just don't quit, do you? I give up. If you're gonna keep bugging me, then just [take it]. But don't tell anybody.
-You’re not going to give up, are you? Fine, just take it.<wait more>
-One Roadpass, signed and certified. But you didn't get this from me, understand?<wait>
+; R: You’re not going to give up, are you? Fine, just take it.<wait more>
+; R: One Roadpass, signed and certified. But you didn't get this from me, understand?<wait>
+Vous n'allez pas abandonner, n'est-ce pas ?<wait more>
+Ici, il suffit d'un permis, signé et certifié. Concernant les coursiers morts, niez tout.<wait>
 
 
 ; ******************
