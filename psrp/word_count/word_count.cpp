@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <locale>
 #include <codecvt>
-// We just include the cpp here to make things simpler...
+// We just include the cpp here to make things simpler... it has some compiler warnings for us to suppress.
 #pragma warning(push, 3)
 #pragma warning(disable: 4244)
 #include "../mini-yaml/yaml/Yaml.hpp"
@@ -23,8 +23,15 @@ int main(int argc, const char** argv)
 
     // Load the file
     Yaml::Node root;
-    Yaml::Parse(root, argv[2]);
-    printf("3\n");
+    try
+    {
+        Yaml::Parse(root, argv[2]);
+    }
+    catch (const Yaml::Exception& e)
+    {
+        printf("Exception: %s\n", e.what());
+        return -1;
+    }
 
     std::map<std::wstring, std::size_t> wordCounts;
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
@@ -34,9 +41,21 @@ int main(int argc, const char** argv)
     {
         // Get the entry
         auto& entry = root[entryIndex];
+
         // Take a copy of the text
-        auto s = entry["en"].As<std::string>("");
-        printf("Entry %d is \"%s\"\n", entryIndex, s.c_str());
+        auto s = entry["en"].As<std::string>();
+        if (s.empty())
+        {
+            // Formatting entries have no text
+            if (entry["width"].IsScalar())
+            {
+                continue;
+            }
+            else
+            {
+                std::cerr << "Warning: entry has no text for offsets: " << entry["offsets"].As<std::string>() << "\n";
+            }
+        }
         // Remove <> commands
         for (auto pos = s.find('<'); pos != std::string::npos; pos = s.find('<', pos))
         {
