@@ -13,110 +13,60 @@
 Que veux-tu faire?<wait more>
 
 [004]
-Alisa,tu es folle<line>
-de vouloir tenir<line>
-tête à Lassic !<wait more>
-Mais je sais comme<line>
-tu es bornée,<line>
-je t'aiderai donc<line>
-comme je pourrai.<wait more>
-Si tu es blessée,<line>
-viens ici et<line>
-ton amie Suelo<line>
-t'arrangera ca.<wait>
+Alisa, tu es folle de vouloir tenir tête à Lassic !<wait more>
+Mais je sais comme tu es bornée, je t'aiderai donc comme je pourrai.<wait more>
+Si tu es blessée, viens ici et ton amie Suelo t'arrangera ca.<wait>
 
 [006]
-Repose-toi un peu,<line>
-si tu veux.<wait more>
-Tu seras toujours<line>
-la bienvenue ici.<wait>
+Repose-toi un peu, si tu veux.<wait more>
+Tu seras toujours la bienvenue ici.<wait>
 
 [008]
-Je suis Nékisée,<line>
-mes sincères<line>
-condoléances pour<line>
-ton frère.<wait more>
+Je suis Nékisée, mes sincères condoléances pour ton frère.<wait more>
 
 [00A]
-Nous avons entendu<line>
-dire que Tylon se<line>
-trouvait à Scion.<wait more>
+Nous avons entendu dire que Tylon se trouvait à Scion.<wait more>
 
 [00C]
-Néro m'avait<line>
-demandé de garder<line>
-ce vase Laconian.<wait more>
+Néro m'avait demandé de garder ce vase Laconian.<wait more>
 
 [00E]
-Il aurait voulu<line>
-que tu l'aies.<line>
-Tiens,prends-le.<wait>
+Il aurait voulu que tu l'aies. Tiens, prends-le.<wait>
 
 [010]
-Je suis désolé,<line>
-mais je ne peux<line>
-pas t'aider plus.<line>
-Bonne chance.<wait>
+Je suis désolé, mais je ne peux pas t'aider plus. Bonne chance.<wait>
 
 [012]
-Combien de temps<line>
-allons-nous rester<line>
-sous cette loi<line>
-martiale ?<wait>
+Combien de temps allons-nous rester sous cette loi martiale ?<wait>
 
 [014]
-Tu auras besoin de<line>
-la Clé du Donjon<line>
-si tu veux ouvrir<line>
-les portes.<wait>
+Tu auras besoin de la Clé du Donjon si tu veux ouvrir les portes.<wait>
 
 [016]
-Certains donjons<line>
-sont totalement<line>
-obscurs,tu auras<line>
-besoin de lumière.<wait>
+Certains donjons sont totalement obscurs, tu auras besoin de lumière.<wait>
 
 [018]
-Je ne peux pas le<line>
-croire !<wait more>
-Il faut un permis<line>
-pour entrer sur<line>
-le Spatioport !<wait more>
-Comment vais-je<line>
-rentrer chez moi ?<wait>
+Je ne peux pas le croire !<wait more>
+Il faut un permis pour entrer sur le Spatioport !<wait more>
+Comment vais-je rentrer chez moi ?<wait>
 
 [01A]
-J'ai entendu dire<line>
-qu'il y avait du<line>
-marché noir dans<line>
-les ports...<wait>
+J'ai entendu dire qu'il y avait du marché noir dans les ports...<wait>
 
 [01C]
-Les citoyens sont<line>
-priés de rester<line>
-dans la zone<line>
-résidentielle.<wait>
+Les citoyens sont priés de rester dans la zone résidentielle.<wait>
 
 [01E]
-Si vous ne voulez<line>
-pas mourir,ne<line>
-passez pas.<wait>
+Si vous ne voulez pas mourir, ne passez pas.<wait>
 
 [020]
-Désolé,<line>
-nous sommes en état<line>
-d'alerte.<line>
-Accès interdit.<wait>
+Désolé, nous sommes en état d'alerte. Accès interdit.<wait>
 
 [022]
-Un permis signé<line>
-est nécessaire<line>
-pour accéder au<line>
-Spatioport.<wait>
+Un permis signé est nécessaire pour accéder au Spatioport.<wait>
 
 [024]
-Accès accordé.<line>
-Allez-y.<wait>
+Accès accordé. Allez-y.<wait>
 
 
 ; ************************************
@@ -124,154 +74,84 @@ Allez-y.<wait>
 ; ************************************
 
 [026]
-Bienvenue à la<line>
-zone résidentielle<line>
-de Parolit.<wait>
+Bienvenue à la zone résidentielle de Parolit.<wait>
 
 [028]
-Il est facile<line>
-de se perdre<line>
-dans la forêt,<line>
-sois prudente.<wait>
+Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 [02A]
-Le monstre appelé<line>
-Médusa a été<line>
-réveillé dans<line>
-la grotte au sud.<wait more>
+Le monstre appelé Médusa a été réveillé dans la grotte au sud.<wait more>
 
 [02C]
-La légende raconte<line>
-qu'elle pétrifie<line>
-ceux qui croisent<line>
-son regard !<wait>
+La légende raconte qu'elle pétrifie ceux qui croisent son regard !<wait>
 
 [02E]
-Si tu vas à l'est,<line>
-tu arriveras à la<line>
-ville portuaire<line>
-de Scion.<wait>
+Si tu vas à l'est, tu arriveras à la ville portuaire de Scion.<wait>
 
 [030]
-Le Spatioport<line>
-permet d'aller à<line>
-Paséo sur Motavia.<wait more>
-Mais il te faudra<line>
-un permis pour y<line>
-accéder.<wait>
+Le Spatioport permet d'aller à Paséo sur Motavia.<wait more>
+Mais il te faudra un permis pour y accéder.<wait>
 
 [032]
 un ancien passage<line>
 mène à l'ouest,<line>
 vers Gothic !<wait more>
-Il est censé être<line>
-par ici,mais<line>
-je n'arrive pas<line>
-à le trouver.<wait>
+Il est censé être par ici, mais je n'arrive pas à le trouver.<wait>
 
 ; ***********************
 ; *** Port town Shion ***
 ; ***********************
 
 [034]
-Oui,Tylon est<line>
-passé ici.<wait more>
-Il disait aller<line>
-vers le sud pour<line>
-tuer Médusa.<wait more>
+Oui, Tylon est passé ici.<wait more>
+Il disait aller vers le sud pour tuer Médusa.<wait more>
 
 [036]
-Un animal parlant<line>
-avec une fiole<line>
-autour du cou<line>
-l'accompagnait !<wait more>
+Un animal parlant avec une fiole autour du cou l'accompagnait !<wait more>
 
 [038]
-Je me demande<line>
-ce que c'était ?<wait>
+Je me demande ce que c'était ?<wait>
 
 [03A]
-Il est temps<line>
-que quelqu'un s'en<line>
-prenne à Lassic.<wait more>
-Que Dieu vous<line>
-protège.<wait>
+Il est temps que quelqu'un s'en prenne à Lassic.<wait more>
+Que Dieu vous protège.<wait>
 
 [03C]
-C'est incroyable,<line>
-mais j'ai trouvé<line>
-un animal parlant,<wait more>
-errant dans le<line>
-donjon de Médusa.<wait more>
+C'est incroyable, mais j'ai trouvé un animal parlant,<wait more>
+errant dans le donjon de Médusa.<wait more>
 
 [03E]
-Je l'ai vendu à un<line>
-commercant de<line>
-Paséo.<wait more>
-Le p'tit bout<line>
-valait une vraie<line>
-fortune !<wait>
+Je l'ai vendu à un commercant de Paséo.<wait more>
+Le p'tit bout valait une vraie fortune !<wait>
 
 [040]
-L'économie est<line>
-en chute libre<line>
-depuis l'arrivée<line>
-de Lassic.<wait more>
-Je suis tellement<line>
-déprimé que je ne<line>
-sais quoi faire.<wait>
+L'économie est en chute libre depuis l'arrivée de Lassic.<wait more>
+Je suis tellement déprimé que je ne sais quoi faire.<wait>
 
 [042]
-La grotte Iala<line>
-est située sur<line>
-la péninsule au<line>
-sud de la ville.<wait>
+La grotte Iala est située sur la péninsule au sud de la ville.<wait>
 
 [044]
 Bienvenue à Scion.<wait more>
-Notre économie<line>
-était prospère,<line>
-jusqu'à l'embargo<line>
-de Lassic.<wait more>
-Aujourd'hui,<line>
-la plupart<line>
-d'entre-nous est<line>
-au chomage.<wait>
+Notre économie était prospère, jusqu'à l'embargo de Lassic.<wait more>
+Aujourd'hui, la plupart d'entre-nous est au chomage.<wait>
 
 [046]
-Aller dans la<line>
-forêt d'Eppi sans<line>
-boussole ?<wait more>
-Vous devez être<line>
-un peu stupide !<wait>
+Aller dans la forêt d'Eppi sans boussole ?<wait more>
+Vous devez être un peu stupide !<wait>
 
 [048]
-La seul moyen<line>
-de débloquer une<line>
-porte scellée,<wait more>
-est d'y jeter un<line>
-de vos propres<line>
-sorts.<wait>
+La seul moyen de débloquer une porte scellée,<wait more>
+est d'y jeter un de vos propres sorts.<wait>
 
 [04A]
-Au nord,se trouve<line>
-la colline appelée<line>
-Baya Malay.<wait more>
-Mais vous ne serez<line>
-pas en mesure d'y<line>
-accéder.<wait>
+Au nord, se trouve la colline appelée Baya Malay.<wait more>
+Mais vous ne serez pas en mesure d'y accéder.<wait>
 
 [04C]
-J'avais l'habitude<line>
-de faire de la<line>
-spéléologie dans<line>
-la grotte Naula,<wait more>
-sur la cote nord<line>
-de Baya Malay.<wait more>
-Mais avec tous ces<line>
-monstres errants,<line>
-je ne me risquerai<line>
-pas d'y retourner!<wait>
+J'avais l'habitude de faire de la spéléologie dans la grotte Naula,<wait more>
+sur la cote nord de Baya Malay.<wait more>
+Mais avec tous ces monstres errants, je ne me risquerai pas d'y retourner!<wait>
 
 
 ; ************
@@ -279,111 +159,61 @@ pas d'y retourner!<wait>
 ; ************
 
 [04E]
-Connaissant le<line>
-Gouverneur de<line>
-Motavia,<wait more>
-je pense qu'il est<line>
-en accord avec<line>
-la quête que vous<line>
-avez entreprise !<wait>
+Connaissant le Gouverneur de Motavia,<wait more>
+je pense qu'il est en accord avec la quête que vous avez entreprise !<wait>
 
 [050]
-C'est bien connu,<line>
-tous les grands<line>
-Espers vivent sur<line>
-Motavia !<wait>
+C'est bien connu, tous les grands Espers vivent sur Motavia !<wait>
 
 [052]
-Jadis,le docteur<line>
-Luveno avait un<line>
-laboratoire à<line>
-Gothic.<wait more>
-Je me demande s'il<line>
-y est toujours ?<wait>
+Jadis, le docteur Luveno avait un laboratoire à Gothic.<wait more>
+Je me demande s'il y est toujours ?<wait>
 
 [054]
 Bienvenue à Eppi !<wait more>
-Depuis l'arrivée<line>
-des monstres dans<line>
-la forêt,<wait more>
-nous ne recevons<line>
-plus beaucoup de<line>
-visiteurs.<wait>
+Depuis l'arrivée des monstres dans la forêt,<wait more>
+nous ne recevons plus beaucoup de visiteurs.<wait>
 
 
 [056]
-Vous en prendre au<line>
-seigneur Lassic,<line>
-vous êtes vraiment<line>
-sérieuse ?<wait more>
-Vous êtes folle,<line>
-ou plus forte que<line>
-vous ne laissez<line>
-paraitre !<wait more>
-Quoi qu'il en<line>
-soit,j'admire<line>
-votre bravoure !<wait more>
-Auriez-vous besoin<line>
-d'une clé pour les<line>
-donjons ?<end>
+Vous en prendre au seigneur Lassic, vous êtes vraiment sérieuse ?<wait more>
+Vous êtes folle, ou plus forte que vous ne laissez paraitre !<wait more>
+Quoi qu'il en soit, j'admire votre bravoure !<wait more>
+Auriez-vous besoin d'une clé pour les donjons ?<end>
 
 [058]
-J'en ai caché une<line>
-à l'entrepot,<wait more>
-situé dans à la<line>
-périphérie de la<line>
-zone résidentielle<line>
-de Camineet.<wait more>
-Elle est à vous.<line>
-Bonne chance !<wait>
+J'en ai caché une à l'entrepot,<wait more>
+situé dans à la périphérie de la zone résidentielle de Camineet.<wait more>
+Elle est à vous. Bonne chance !<wait>
 
 [05A]
 ; <end>
 ; Continues 058
 
 [05C]
-Connaissez-vous le<line>
-matériau qui est<line>
-le plus incroyable<line>
-au monde ?<end>
+Connaissez-vous le matériau qui est le plus incroyable au monde ?<end>
 
 [05E]
-C'est le Laconian!<line>
-Les armes faites<line>
-en Laconian sont<line>
-les meilleures !<wait>
+C'est le Laconian! Les armes faites en Laconian sont les meilleures !<wait>
 
 [060]
 Oh. Très bien.<wait>
 
 [062]
-Connaissez-vous<line>
-les planètes<line>
-d'Algol ?<end>
+Connaissez-vous les planètes d'Algol ?<end>
 
 [064]
 Il y a <number><internal hint 02> planète<use suffix>:<wait more>
-Palma,<line>
-Motavia,<line>
-et Dézoris.<wait more>
+Palma, Motavia, et Dézoris.<wait more>
 
 [066]
-Ces trois planètes<line>
-sont totalement<line>
-différentes.<wait more>
-Palma est une<line>
-planète verdoyante<wait more>
-Motavia est un<line>
-désert de sable.<wait more>
-Quant à Dézoris,<line>
-elle est couverte<line>
-de glace.<wait more>
+Ces trois planètes sont totalement différentes.<wait more>
+Palma est une planète verdoyante<wait more>
+Motavia est un désert de sable.<wait more>
+Quant à Dézoris, elle est couverte de glace.<wait more>
 
 [068]
-Pour vous dire la<line>
-vérité,je crains<line>
-pour l'avenir de<line>
-nos planètes.<wait>
+Pour vous dire la vérité, je crains pour l'avenir de nos planètes.<wait>
 
 
 ; **************************
@@ -391,75 +221,43 @@ nos planètes.<wait>
 ; **************************
 
 [06A]
-Bienvenue au<line>
-Spatioport de<line>
-Palma.<wait more>
-D'ici,vous pouvez<line>
-vous rendre à<line>
-Paséo sur Motavia.<wait>
+Bienvenue au Spatioport de Palma.<wait more>
+D'ici, vous pouvez vous rendre à Paséo sur Motavia.<wait>
 
 [06C]
-Ces vaisseaux se<line>
-dirigent vers<line>
-la capitale de<line>
-Motavia,Paséo.<wait more>
-Le Gouverneur y<line>
-habite.<wait>
+Ces vaisseaux se dirigent vers la capitale de Motavia, Paséo.<wait more>
+Le Gouverneur y habite.<wait>
 
 [06E]
-Avant les lignes<line>
-commerciales,<wait more>
-ces vaisseaux ont<line>
-été inventés dans<line>
-un laboratoire à<line>
-Gothic.<wait>
+Avant les lignes commerciales,<wait more>
+ces vaisseaux ont été inventés dans un laboratoire à Gothic.<wait>
 
 [070]
-Avez-vous<line>
-un Passeport ?<wait>
+Avez-vous un Passeport ?<wait>
 
 [072]
-Etes-vous ici pour<line>
-une demande de<line>
-Passeport ?<end>
+Etes-vous ici pour une demande de Passeport ?<end>
 
 [074]
-La loi m'oblige<line>
-à vous poser<line>
-une série de<line>
-questions.<wait more>
-Avez-vous déjà été<line>
-reconnue coupable<line>
-d'un crime ?<end>
+La loi m'oblige à vous poser une série de questions.<wait more>
+Avez-vous déjà été reconnue coupable d'un crime ?<end>
 
 [076]
-Souffrez-vous<line>
-d'une maladie<line>
-contagieuse ?<end>
+Souffrez-vous d'une maladie contagieuse ?<end>
 
 [078]
-Les frais de<line>
-dossier sont de<line>
-<number><internal hint 02> meseta<use suffix>.<line>
-Pouvez-vous payer?<end>
+Les frais de dossier sont de <number><internal hint 02> meseta<use suffix>. Pouvez-vous payer?<end>
 
 [07A]
-Très bien,je vais<line>
-vous délivrer<line>
-un Passeport.<wait more>
+Très bien, je vais vous délivrer un Passeport.<wait more>
 Le voici.<wait more>
 Au suivant !<wait>
 
 [07C]
-Parfait.<line>
-Au suivant,<line>
-s'il vous plait.<wait>
+Parfait. Au suivant, s'il vous plait.<wait>
 
 [07E]
-Désolé,<line>
-vous n'êtes pas<line>
-habilitée.<line>
-Suivant !<wait>
+Désolé, vous n'êtes pas habilitée. Suivant !<wait>
 
 
 ; ***********************
@@ -467,25 +265,14 @@ Suivant !<wait>
 ; ***********************
 
 [080]
-Vous êtes à Paséo,<line>
-le seul Spatioport<line>
-de Motavia.<wait>
+Vous êtes à Paséo, le seul Spatioport de Motavia.<wait>
 
 [082]
-C'est la saison de<line>
-reproduction des<line>
-fourmilions,<line>
-soyez prudente.<wait>
+C'est la saison de reproduction des fourmilions, soyez prudente.<wait>
 
 [084]
-Il existerait une<line>
-Patisserie située<line>
-dans la grotte<line>
-Naula,sur Palma.<wait more>
-Je me demande<line>
-s'il y a beaucoup<line>
-de clients...<line>
-dans une grotte ?<wait>
+Il existerait une Patisserie située dans la grotte Naula, sur Palma.<wait more>
+Je me demande s'il y a beaucoup de clients... dans une grotte ?<wait>
 
 
 ; *************
@@ -493,173 +280,94 @@ dans une grotte ?<wait>
 ; *************
 
 [086]
-Même le Gouverneur<line>
-est en froid avec<line>
-Lassic.<wait>
+Même le Gouverneur est en froid avec Lassic.<wait>
 
 [088]
-Pour obtenir une<line>
-entrevue avec<line>
-le Gouverneur,<line>
-il faut un cadeau.<wait>
+Pour obtenir une entrevue avec le Gouverneur, il faut un cadeau.<wait>
 
 [08A]
-Le Gouverneur aime<line>
-les petites<line>
-douceurs...<wait>
+Le Gouverneur aime les petites douceurs...<wait>
 
 [08C]
-La grotte Mahal<line>
-se situe dans les<line>
-montagnes au nord<line>
-de Paséo.<wait>
+La grotte Mahal se situe dans les montagnes au nord de Paséo.<wait>
 
 [08E]
-Bienvenue à Paséo,<line>
-la capitale de<line>
-Motavia.<wait>
+Bienvenue à Paséo, la capitale de Motavia.<wait>
 
 [090]
-Vous ne pouvez pas<line>
-enjamber les<line>
-fourmilions !<wait>
+Vous ne pouvez pas enjamber les fourmilions !<wait>
 
 [092]
-Vous avez déjà vu<line>
-un chat parler ?<wait more>
-Rare,très rare.<line>
-Unique en son<line>
-genre,si je ne me<line>
-trompe pas.<wait more>
+Vous avez déjà vu un chat parler ?<wait more>
+Rare, très rare. Unique en son genre, si je ne me trompe pas.<wait more>
 <number><internal hint 02> millions
-de meseta<use suffix>,
-et il est à vous.<line>
-Ca vous convient ?<end>
+de meseta<use suffix>, 
+et il est à vous. Ca vous convient ?<end>
 
 [094]
 Sérieusement ?<wait more>
-Hé,ou allez-vous?<wait>
+Hé, ou allez-vous?<wait>
 
 [096]
 C'est dommage.<wait more>
 ...attendez !<wait more>
-Est-ce un vase<line>
-Laconian ?<wait more>
+Est-ce un vase Laconian ?<wait more>
 
 [098]
-Faisons un marché,<line>
-le vase contre<line>
-le chaton ?<end>
+Faisons un marché, le vase contre le chaton ?<end>
 
 [09A]
-Ca me fend le<line>
-coeur,mais je ne<line>
-peux pas rater une<line>
-offre pareille.<wait more>
-Prenez bien soin<line>
-de lui.<wait>
+Ca me fend le coeur, mais je ne peux pas rater une offre pareille.<wait more>
+Prenez bien soin de lui.<wait>
 
 [09C]
 Halte !<wait more>
-Avez-vous apporté<line>
-un présent pour le<line>
-Gouverneur ?<end>
+Avez-vous apporté un présent pour le Gouverneur ?<end>
 
 [09E]
-Oh,une tarte !<line>
-Il va être ravi.<line>
-Je vais la porter<line>
-pour vous.<wait more>
+Oh, une tarte ! Il va être ravi. Je vais la porter pour vous.<wait more>
 Veuillez entrer.<wait>
 
 [0A0]
-Ce présent n'est<line>
-pas approprié !<wait>
+Ce présent n'est pas approprié !<wait>
 
 [0A2]
-Aucune entrevue<line>
-possible sans<line>
-présent !<wait>
+Aucune entrevue possible sans présent !<wait>
 
 [0A4]
-Bienvenue,votre<line>
-voyage a été long.<line>
-Prenez place.<wait more>
-Je sais pourquoi<line>
-vous êtes venue.<line>
-Vous n'en avez<line>
-fait aucun secret.<wait more>
+Bienvenue, votre voyage a été long. Prenez place.<wait more>
+Je sais pourquoi vous êtes venue. Vous n'en avez fait aucun secret.<wait more>
 
 [0A6]
-Vous envisagez de<line>
-renverser Lassic,<line>
-n'est-ce pas ?<wait more>
-Lassic est un<line>
-homme puissant.<line>
-Non,plus qu'un<line>
-simple homme.<wait more>
-Il est au-delà de<line>
-ces limites.<line>
-Il est autre chose<wait more>
-Vous êtes très<line>
-courageuse de<line>
-le défier.<wait more>
-Mais je crains que<line>
-votre courage ne<line>
-suffise pas.<wait more>
-Cependant,il y<line>
-a quelque chose<line>
-en vous,quelque<line>
-chose de fort !<wait more>
-C'est une force<line>
-que vous devrez<line>
-découvrir par<line>
-vous-même.<wait more>
-Je ne peux rien<line>
-vous dire de plus.<line>
-Pas maintenant.<wait more>
-Allez,détruisez-<line>
-le. Je ne vous<line>
-arrêterai pas.<wait more>
-Et même,<line>
-je vous offrirai<line>
-mon aide.<wait more>
+Vous envisagez de renverser Lassic, n'est-ce pas ?<wait more>
+Lassic est un homme puissant. Non, plus qu'un simple homme.<wait more>
+Il est au-delà de ces limites. Il est autre chose<wait more>
+Vous êtes très courageuse de le défier.<wait more>
+Mais je crains que votre courage ne suffise pas.<wait more>
+Cependant, il y a quelque chose en vous, quelque chose de fort !<wait more>
+C'est une force que vous devrez découvrir par vous-même.<wait more>
+Je ne peux rien vous dire de plus. Pas maintenant.<wait more>
+Allez, détruisez- le. Je ne vous arrêterai pas.<wait more>
+Et même, je vous offrirai mon aide.<wait more>
 
 [0A8]
-Un puissant Esper,<line>
-Lutz,vit dans la<line>
-grotte Mahal,<line>
-au nord d'ici.<wait more>
-Prenez cette<line>
-lettre pour lui.<line>
-Il comprendra.<wait more>
+Un puissant Esper, Lutz, vit dans la grotte Mahal, au nord d'ici.<wait more>
+Prenez cette lettre pour lui. Il comprendra.<wait more>
 
 [0AA]
-Revenez ici quand<line>
-vous aurez vaincu<line>
-Lassic.<line>
-J'ai foi en vous.<wait>
+Revenez ici quand vous aurez vaincu Lassic. J'ai foi en vous.<wait>
 
 [0AA-2]
-Revenez ici quand<line>
-vous aurez vaincu<line>
-Lassic.<line>
-Que Dieu vous garde.<wait>
+Revenez ici quand vous aurez vaincu Lassic. Que Dieu vous garde.<wait>
 
 [0AC]
-Les ordres venant<line>
-du Gouverneur,<line>
-Lutz les écoutera<line>
-peut-être...<wait>
+Les ordres venant du Gouverneur, Lutz les écoutera peut-être...<wait>
 
 [0AE]
 Qui êtes-vous ?<wait more>
 
 [0B0]
-J'essaye quelque<line>
-chose...<line>
-Veuillez ne pas<line>
-m'interrompre !<wait>
+J'essaye quelque chose... Veuillez ne pas m'interrompre !<wait>
 
 [0B2]
 Salut<wait>
@@ -668,16 +376,11 @@ Salut<wait>
 Pff...<wait>
 
 [0B6]
-Vous m'avez l'air<line>
-fatigué,<wait more>
-pourquoi ne pas<line>
-vous reposer ici<line>
-un moment ?<wait>
+Vous m'avez l'air fatigué,<wait more>
+pourquoi ne pas vous reposer ici un moment ?<wait>
 
 [0B8]
-Bonne chance.<line>
-Vous allez en<line>
-avoir besoin.<wait>
+Bonne chance. Vous allez en avoir besoin.<wait>
 
 
 ; ********************
@@ -685,53 +388,32 @@ avoir besoin.<wait>
 ; ********************
 
 [0BA]
-J'aurais vraiment<line>
-besoin d'une<line>
-Vitabarre.<wait more>
-Vous n'en n'auriez<line>
-pas une ?<end>
+J'aurais vraiment besoin d'une Vitabarre.<wait more>
+Vous n'en n'auriez pas une ?<end>
 
 [0BC]
 Je vous remercie.<wait more>
-Je suppose que<line>
-vous recherchez le<line>
-Docteur Luveno ?<wait more>
-Son labo était par<line>
-ici normalement.<wait more>
+Je suppose que vous recherchez le Docteur Luveno ?<wait more>
+Son labo était par ici normalement.<wait more>
 
 [0BE]
-Mais ils ont fini<line>
-par enfermer ce<line>
-vieil imbécile.<wait more>
-Il est détenu à<line>
-Triada,une prison<line>
-située au sud.<wait>
+Mais ils ont fini par enfermer ce vieil imbécile.<wait more>
+Il est détenu à Triada, une prison située au sud.<wait>
 
 [0C0]
 ; <end>
 ; Continues 0BE
 
 [0C2]
-Alors je ne vous<line>
-aiderai pas !<line>
-Veuillez partir.<wait>
+Alors je ne vous aiderai pas ! Veuillez partir.<wait>
 
 [0C4]
-Merci à vous,<line>
-étrangère.<wait more>
-Il y a une vieille<line>
-tour au bout du<line>
-chemin qui mène<line>
-aux montagnes,<wait more>
+Merci à vous, étrangère.<wait more>
+Il y a une vieille tour au bout du chemin qui mène aux montagnes,<wait more>
 
 [0C6]
-selon la rumeur,<line>
-le monstre Médusa<line>
-s'y cacherait.<wait more>
-Mais restez plutot<line>
-ici si vous ne<line>
-voulez pas finir<line>
-pétrifiée !<wait>
+selon la rumeur, le monstre Médusa s'y cacherait.<wait more>
+Mais restez plutot ici si vous ne voulez pas finir pétrifiée !<wait>
 
 [0C8]
 ; <end>
@@ -743,75 +425,39 @@ pétrifiée !<wait>
 ; *******************************
 
 [0CA]
-Bonjour.<line>
-Qu'est-ce qui<line>
-vous a pris si<line>
-longtemps ?<wait more>
-Commencons.<line>
-Premièrement,<line>
-allez chercher mon<line>
-assistant.<wait more>
+Bonjour. Qu'est-ce qui vous a pris si longtemps ?<wait more>
+Commencons. Premièrement, allez chercher mon assistant.<wait more>
 
 [0CC]
-Il s'est peut<line>
-être caché à<line>
-l'intérieur du<line>
-souterrain.<wait more>
-Un peu parano,<line>
-celui-là.<wait>
+Il s'est peut être caché à l'intérieur du souterrain.<wait more>
+Un peu parano, celui-là.<wait>
 
 [0CE]
-Eh bien ?<line>
-Voyons ca.<wait>
+Eh bien ? Voyons ca.<wait>
 
 [0D0]
-Vous n'en avez<line>
-pas assez ?<line>
-Allez en chercher<line>
-un peu plus !<wait>
+Vous n'en avez pas assez ? Allez en chercher un peu plus !<wait>
 
 [0D2]
-Parfait !<line>
-C'est mon<line>
-chef-d'oeuvre !<wait more>
-Je l'appelle<line>
-le Luveno.<wait more>
-C'est vraiment une<line>
-superbe pièce,<line>
-n'est-ce pas ?<wait>
+Parfait ! C'est mon chef-d'oeuvre !<wait more>
+Je l'appelle le Luveno.<wait more>
+C'est vraiment une superbe pièce, n'est-ce pas ?<wait>
 
 [0D4]
-Si vous ne faites<line>
-pas ce que je dis,<line>
-ca ne marchera<line>
-jamais.<wait>
+Si vous ne faites pas ce que je dis, ca ne marchera jamais.<wait>
 
 [0D6]
-Mais j'ai peur<line>
-qu'aucun humain ne<line>
-puisse piloter<line>
-le Luveno...<wait>
+Mais j'ai peur qu'aucun humain ne puisse piloter le Luveno...<wait>
 
 [0D8]
-Le Luveno se<line>
-comporte bien ?<line>
-Merci d'en prendre<line>
-bien soin.<wait>
+Le Luveno se comporte bien ? Merci d'en prendre bien soin.<wait>
 
 [0DA]
-Alors comme ca,<line>
-vous m'avez fait<line>
-perdre mon temps.<line>
-Bravo.<wait more>
-Bonne chance<line>
-pour retourner<line>
-au Spatioport.<wait>
+Alors comme ca, vous m'avez fait perdre mon temps. Bravo.<wait more>
+Bonne chance pour retourner au Spatioport.<wait>
 
 [0DC]
-Ne me dérangez<line>
-surtout pas !<line>
-Je suis très très<line>
-occupé !<wait>
+Ne me dérangez surtout pas ! Je suis très très occupé !<wait>
 
 
 ; **********************
@@ -819,210 +465,110 @@ occupé !<wait>
 ; **********************
 
 [0DE]
-Oui,je suis<line>
-le Docteur Luveno.<wait more>
-Si vous êtes ici<line>
-pour me sauver,<line>
-oubliez ca !<wait more>
-Je ne vais nulle<line>
-part.<wait>
+Oui, je suis le Docteur Luveno.<wait more>
+Si vous êtes ici pour me sauver, oubliez ca !<wait more>
+Je ne vais nulle part.<wait>
 
 [0E0]
-Quoi ?<line>
-Construire un<line>
-vaisseau spatial ?<line>
-Vous êtes dingue ?<wait more>
-Je suis un vieil<line>
-homme,laissez-moi<line>
-tranquille.<wait>
+Quoi ? Construire un vaisseau spatial ? Vous êtes dingue ?<wait more>
+Je suis un vieil homme, laissez-moi tranquille.<wait>
 
 [0E2]
-Vous n'allez pas<line>
-partir,n'est-ce<line>
-pas ?<wait more>
+Vous n'allez pas partir, n'est-ce pas ?<wait more>
 Très bien.<wait more>
-Je vous aiderai,<line>
-mais vous devrez<line>
-faire exactement<line>
-ce que je dirai.<wait more>
+Je vous aiderai, mais vous devrez faire exactement ce que je dirai.<wait more>
 Compris ?<end>
 
 [0E4]
-Parfait,rendez-<line>
-vous à Gothic,<line>
-j'y préparerai un<line>
-vaisseau spatial.<wait more>
-Ne vous inquiétez<line>
-pas,je suis<line>
-plus résistant que<line>
-j'en ai l'air !<wait>
+Parfait, rendez- vous à Gothic, j'y préparerai un vaisseau spatial.<wait more>
+Ne vous inquiétez pas, je suis plus résistant que j'en ai l'air !<wait>
 
 [0E6]
-Avez-vous un<line>
-laisser passer ?<end>
+Avez-vous un laisser passer ?<end>
 
 [0E8]
-Intrus détecté.<line>
-Activons la phase<line>
-d'extermination.<wait>
+Intrus détecté. Activons la phase d'extermination.<wait>
 
 [0EA]
-Merci. Tu sais,<line>
-peu importe ce que<line>
-les gens disent,<wait more>
-les araignées sont<line>
-en réalité des<line>
-créatures très<line>
-sages.<wait>
+Merci. Tu sais, peu importe ce que les gens disent,<wait more>
+les araignées sont en réalité des créatures très sages.<wait>
 
 [0EC]
-Avez-vous entendu<line>
-parler du robot<line>
-Hapsby ?<end>
+Avez-vous entendu parler du robot Hapsby ?<end>
 
 [0EE]
-L'autre coté<line>
-des montagnes<line>
-est complètement<line>
-recouvert de lave.<wait more>
-J'ai du abandonner<line>
-ma maison...<line>
-maudit volcan !<wait>
+L'autre coté des montagnes est complètement recouvert de lave.<wait more>
+J'ai du abandonner ma maison... maudit volcan !<wait>
 
 [0F0]
-La tour située<line>
-dans les montagnes<line>
-de Gothic,<wait more>
-est appelée la<line>
-tour de Médusa.<wait>
+La tour située dans les montagnes de Gothic,<wait more>
+est appelée la tour de Médusa.<wait>
 
 [0F2]
-Il y a longtemps<line>
-que je n'ai vu<line>
-personne.<wait more>
-Vous ne voulez pas<line>
-rester parler avec<line>
-moi un moment ?<end>
+Il y a longtemps que je n'ai vu personne.<wait more>
+Vous ne voulez pas rester parler avec moi un moment ?<end>
 
 [0F4]
-Un produit appelé<line>
-Polymatériau peut<line>
-tout dissoudre !<wait more>
-Sauf le Laconian,<line>
-bien sur.<wait>
+Un produit appelé Polymatériau peut tout dissoudre !<wait more>
+Sauf le Laconian, bien sur.<wait>
 
 [0F6]
-Qu'est-ce ?<line>
-Vous avez fait<line>
-évader Doc ?<wait more>
-Quoi ?!<line>
-Il vous construit<line>
-un vaisseau<line>
-spatial ?!<wait more>
-Il est trop vieux<line>
-pour ca,je ferais<line>
-mieux d'aller lui<line>
-apporter mon aide.<wait>
+Qu'est-ce ? Vous avez fait évader Doc ?<wait more>
+Quoi ?! Il vous construit un vaisseau spatial ?!<wait more>
+Il est trop vieux pour ca, je ferais mieux d'aller lui apporter mon aide.<wait>
 
 [0F8]
-J'ai vu beaucoup<line>
-de gens entrer<line>
-dans la chambre<line>
-intérieure.<wait more>
-En sortir,<line>
-là c'est une autre<line>
-histoire !<wait more>
-Je n'ai jamais vu<line>
-personne en<line>
-sortir vivant.<wait>
+J'ai vu beaucoup de gens entrer dans la chambre intérieure.<wait more>
+En sortir, là c'est une autre histoire !<wait more>
+Je n'ai jamais vu personne en sortir vivant.<wait>
 
 [0FA]
-On dirait que<line>
-cette personne<line>
-a été changée<line>
-en pierre.<wait more>
+On dirait que cette personne a été changée en pierre.<wait more>
 Serait-ce Tylon ?<wait>
 
 [0FC]
-Vous qui êtes<line>
-venue jusqu'ici,<line>
-vous connaitrez<line>
-bientot la vérité.<wait>
+Vous qui êtes venue jusqu'ici, vous connaitrez bientot la vérité.<wait>
 
 [0FE]
 Sortez d'ici !<wait more>
-Vous ne savez pas<line>
-à quoi vous faites<line>
-face !<wait>
+Vous ne savez pas à quoi vous faites face !<wait>
 
 [100]
-C'est courageux à<line>
-vous de venir ici.<line>
-Faites attention<line>
-aux pièges !<wait>
+C'est courageux à vous de venir ici. Faites attention aux pièges !<wait>
 
 ; ***************
 ; *** Bortevo ***
 ; ***************
 
 [102]
-C'est MON<line>
-territoire !<wait more>
-Et cette maison ?<line>
-MA maison !<wait more>
-Et ce gros tas<line>
-d'ordures ?<wait more>
-Tout à fait.<line>
-MES ordures.<wait more>
+C'est MON territoire !<wait more>
+Et cette maison ? MA maison !<wait more>
+Et ce gros tas d'ordures ?<wait more>
+Tout à fait. MES ordures.<wait more>
 A MOI<wait more>
 Tout est à moi.<wait more>
-Ne touchez à rien,<line>
-je vous observe !<wait>
+Ne touchez à rien, je vous observe !<wait>
 
 [104]
-Quelques années<line>
-auparavant,j'ai<line>
-créé un robot que<line>
-j'ai baptisé<wait more>
-Hapsby,c'était un<line>
-très bon pilote.<wait more>
-Il doit toujours<line>
-être dans le tas<line>
-de ferraille situé<line>
-à Bortevo.<wait more>
-Iriez-vous le<line>
-chercher ?<wait more>
-Faites attention,<line>
-Bortevo est cerné<line>
-de lave.<wait more>
-Ne me regardez pas<line>
-comme ca !<wait more>
-Vous avez accepté<line>
-de suivre mes<line>
-instructions.<wait more>
-J'ai rempli ma<line>
-part du marché,<line>
-faites la votre.<wait>
+Quelques années auparavant, j'ai créé un robot que j'ai baptisé<wait more>
+Hapsby, c'était un très bon pilote.<wait more>
+Il doit toujours être dans le tas de ferraille situé à Bortevo.<wait more>
+Iriez-vous le chercher ?<wait more>
+Faites attention, Bortevo est cerné de lave.<wait more>
+Ne me regardez pas comme ca !<wait more>
+Vous avez accepté de suivre mes instructions.<wait more>
+J'ai rempli ma part du marché, faites la votre.<wait>
 
 [106]
-On m'a dit qu'un<line>
-robot en parfait<line>
-état de marche,<wait more>
-avait été jeté<line>
-dans un de ces tas<line>
-de ferraille.<wait more>
+On m'a dit qu'un robot en parfait état de marche,<wait more>
+avait été jeté dans un de ces tas de ferraille.<wait more>
 
 [108]
-Je me demande si<line>
-c'est vrai.<wait>
+Je me demande si c'est vrai.<wait>
 
 [10A]
-J'ai entendu dire<line>
-qu'on trouvait<line>
-un produit appelé<line>
-Polymatériau<wait more>
-dans la cité<line>
-d'Abion.<wait>
+J'ai entendu dire qu'on trouvait un produit appelé Polymatériau<wait more>
+dans la cité d'Abion.<wait>
 
 
 ; ************
@@ -1030,70 +576,35 @@ d'Abion.<wait>
 ; ************
 
 [10C]
-Bienvenue au<line>
-village de Lore.<wait more>
-Enfin...<line>
-avant que Lassic<line>
-ne devienne un<line>
-tyran.<wait more>
-Désormais,ce<line>
-n'est plus qu'une<line>
-terre en friche<line>
-pour les affamés.<wait>
+Bienvenue au village de Lore.<wait more>
+Enfin... avant que Lassic ne devienne un tyran.<wait more>
+Désormais, ce n'est plus qu'une terre en friche pour les affamés.<wait>
 
 [10E]
-Avez-vous déjà<line>
-entendu parler du<line>
-joyau nommé l'Oeil<line>
-de Carboucle ?<wait more>
+Avez-vous déjà entendu parler du joyau nommé l'Oeil de Carboucle ?<wait more>
 
 [110]
-Il est dit qu'il<line>
-est gardé par un<line>
-dragon à Casba.<wait more>
-Que pourrait bien<line>
-faire un dragon<line>
-avec un joyau ?<wait>
+Il est dit qu'il est gardé par un dragon à Casba.<wait more>
+Que pourrait bien faire un dragon avec un joyau ?<wait>
 
 [112]
-Puisque vous êtes<line>
-ici,vous pourriez<line>
-visiter Abion.<wait more>
-C'est un village<line>
-comme celui-ci,<line>
-à la pointe ouest<line>
-de l'ile.<wait>
+Puisque vous êtes ici, vous pourriez visiter Abion.<wait more>
+C'est un village comme celui-ci, à la pointe ouest de l'ile.<wait>
 
 [114]
-Avez-vous entendu<line>
-parler des arbres<line>
-Laerma ?<end>
+Avez-vous entendu parler des arbres Laerma ?<end>
 
 [116]
-Sur Dézoris,la<line>
-plaine d'Altiplano<line>
-en est recouverte.<wait>
+Sur Dézoris, la plaine d'Altiplano en est recouverte.<wait>
 
 [118]
-Il serait temps<line>
-que quelqu'un<line>
-se dresse contre<line>
-cette brute.<wait more>
+Il serait temps que quelqu'un se dresse contre cette brute.<wait more>
 Bonne chance.<wait>
 
 [11A]
-Lassic n'est pas<line>
-un tendre.<line>
-Sa magie noire<line>
-peut vous tuer.<wait more>
-Je crois que<line>
-certains cristaux<line>
-peuvent vous<line>
-protéger d'elle.<wait more>
-C'est une rumeur,<line>
-alors ne dites à<line>
-personne que je<line>
-vous en ai parlé.<wait>
+Lassic n'est pas un tendre. Sa magie noire peut vous tuer.<wait more>
+Je crois que certains cristaux peuvent vous protéger d'elle.<wait more>
+C'est une rumeur, alors ne dites à personne que je vous en ai parlé.<wait>
 
 
 ; *************
@@ -1101,184 +612,99 @@ vous en ai parlé.<wait>
 ; *************
 
 [11C]
-Notre village<line>
-se nomme Abion.<wait>
+Notre village se nomme Abion.<wait>
 
 [11E]
-L'aura maléfique<line>
-de Lassic a<line>
-également corrompu<line>
-notre village !<wait more>
-S'il vous plait,<line>
-arrêtez-le.<wait>
+L'aura maléfique de Lassic a également corrompu notre village !<wait more>
+S'il vous plait, arrêtez-le.<wait>
 
 
 [120]
 Un homme étrange<line>
-a emménagé ici.<line>
-Quelqu'un de<line>
-tranquille.<wait more>
-Il parait<line>
-qu'il ferait<line>
-des expériences<line>
-sur les animaux.<wait more>
+a emménagé ici. Quelqu'un de tranquille.<wait more>
+Il parait qu'il ferait des expériences sur les animaux.<wait more>
 Et ce vase !<wait more>
-Il se promène<line>
-toujours avec,<line>
-plaqué contre<line>
-sa poitrine.<wait more>
+Il se promène toujours avec, plaqué contre sa poitrine.<wait more>
 
 [122]
-Tout d'abord<line>
-la lave nous coupe<line>
-de la société et<line>
-maintenant,Lui.<wait more>
-Que va devenir<line>
-notre village ?<wait>
+Tout d'abord la lave nous coupe de la société et maintenant, Lui.<wait more>
+Que va devenir notre village ?<wait>
 
 [124]
-C'est un robot<line>
-construit en<line>
-Laconian !<wait more>
-Luveno l'a inventé<line>
-pour piloter des<line>
-vaisseaux spatiaux<wait more>
-Mais il l'a jeté<line>
-dans un tas de<line>
-ferraille et l'a<line>
-laissé pourrir.<wait more>
+C'est un robot construit en Laconian !<wait more>
+Luveno l'a inventé pour piloter des vaisseaux spatiaux<wait more>
+Mais il l'a jeté dans un tas de ferraille et l'a laissé pourrir.<wait more>
 Quel gachis...<wait>
 
 [126]
-J'aimerais un jour<line>
-pouvoir voyager<line>
-dans l'espace.<wait>
+J'aimerais un jour pouvoir voyager dans l'espace.<wait>
 
 [128]
-Notre nouveau<line>
-voisin en connait<line>
-beaucoup sur les<line>
-animaux.<wait more>
-Il m'a raconté<line>
-une chose bien<line>
-étrange à propos<line>
-des chats Musk.<wait more>
-Il disait qu'en<line>
-mangeant une<line>
-certaine baie,<wait more>
-ils devenaient<line>
-énormes et<line>
-pouvaient voler !<wait more>
-Bien sur,je lui<line>
-ai dit qu'il était<line>
-fou.<wait more>
+Notre nouveau voisin en connait beaucoup sur les animaux.<wait more>
+Il m'a raconté une chose bien étrange à propos des chats Musk.<wait more>
+Il disait qu'en mangeant une certaine baie,<wait more>
+ils devenaient énormes et pouvaient voler !<wait more>
+Bien sur, je lui ai dit qu'il était fou.<wait more>
 
 [12A]
-Quel baies ?<line>
-Hmm...<line>
-Désolé,<line>
-je ne sais plus.<wait>
+Quel baies ? Hmm... Désolé, je ne sais plus.<wait>
 
 [12C]
-Salutations.<line>
-Je suis Hapsby,<line>
-le robot pilote.<wait more>
-Je vous aiderai<line>
-dans l'utilisation<line>
-de n'importe quel<line>
-vaisseau Luveno.<wait>
+Salutations. Je suis Hapsby, le robot pilote.<wait more>
+Je vous aiderai dans l'utilisation de n'importe quel vaisseau Luveno.<wait>
 
 ; ***********
 ; *** Uzo ***
 ; ***********
 
 [12E]
-Bienvenue au<line>
-village d'Uzo<line>
-sur Motavia.<wait>
+Bienvenue au village d'Uzo sur Motavia.<wait>
 
 [130]
-Fourmilions ?<line>
-Pas de problème !<wait more>
-Conduisez donc<line>
-un GéoMaster<line>
-au dessus d'eux !<wait>
+Fourmilions ? Pas de problème !<wait more>
+Conduisez donc un GéoMaster au dessus d'eux !<wait>
 
 [132]
-Au sud d'Uzo se<line>
-trouve le village<line>
-de Casba.<wait>
+Au sud d'Uzo se trouve le village de Casba.<wait>
 
 [134]
-Il semble qu'un<line>
-énorme dragon se<line>
-soit tapi dans la<line>
-grotte de Casba.<wait more>
-Les gens disent<line>
-que sa tête est<line>
-ornée d'un joyau !<wait>
+Il semble qu'un énorme dragon se soit tapi dans la grotte de Casba.<wait more>
+Les gens disent que sa tête est ornée d'un joyau !<wait>
 
 [136]
-Avez-vous entendu<line>
-parler d'un objet<line>
-appelé la Cape<line>
-de Frad ?<wait more>
+Avez-vous entendu parler d'un objet appelé la Cape de Frad ?<wait more>
 
 [138]
-D'après ce qu'on<line>
-en dit,elle est<line>
-vraiment légère,<wait more>
-et possède un<line>
-excellent pouvoir<line>
-de protection.<wait>
+D'après ce qu'on en dit, elle est vraiment légère,<wait more>
+et possède un excellent pouvoir de protection.<wait>
 
 [13A]
-Avez-vous entendu<line>
-parler de la<line>
-Flute apaisante ?<end>
+Avez-vous entendu parler de la Flute apaisante ?<end>
 
 [13C]
 Oh.<wait more>
 Très bien.<wait>
 
 [13E]
-Eh bien,<line>
-c'est un secret,<line>
-mais...<wait more>
-J'ai enterré l'une<line>
-d'entres elles à<line>
-la périphérie de<line>
-la cité de Gothic.<wait more>
+Eh bien, c'est un secret, mais...<wait more>
+J'ai enterré l'une d'entres elles à la périphérie de la cité de Gothic.<wait more>
 
 [140]
-Ne dites à<line>
-personne que je<line>
-vous en ai parlé !<wait>
+Ne dites à personne que je vous en ai parlé !<wait>
 
 [142]
-Je ne sais pas de<line>
-quoi vous parlez.<wait more>
-Je tiens un<line>
-honnête commerce<line>
-ici,moi !<wait>
+Je ne sais pas de quoi vous parlez.<wait more>
+Je tiens un honnête commerce ici, moi !<wait>
 
 [144]
-Je l'ai déjà dit,<line>
-je ne fais pas de<line>
-contrebande !<wait more>
-Sortez de mon<line>
-magasin !<wait>
+Je l'ai déjà dit, je ne fais pas de contrebande !<wait more>
+Sortez de mon magasin !<wait>
 
 [146]
-Vous n'allez pas<line>
-abandonner,<line>
-n'est-ce pas ?<wait more>
-Ici,il suffit<line>
-d'un permis,<line>
-signé et certifié.<wait more>
-Concernant les<line>
-coursiers morts,<line>
-niez tout.<wait>
+Vous n'allez pas abandonner, n'est-ce pas ?<wait more>
+Ici, il suffit<line>
+d'un permis, signé et certifié.<wait more>
+Concernant les coursiers morts, niez tout.<wait>
 
 
 ; *************************
@@ -1286,295 +712,167 @@ niez tout.<wait>
 ; *************************
 
 [148]
-Je suis Damoa,<line>
-le plus grand<line>
-voyant du monde !<wait more>
+Je suis Damoa, le plus grand voyant du monde !<wait more>
 
 [14A]
-Croyez-vous en<line>
-mon pouvoir de<line>
-divination ?<end>
+Croyez-vous en mon pouvoir de divination ?<end>
 
 [14C]
-J'avais un ami<line>
-à Bortevo.<wait more>
-Les choses vont<line>
-assez mal là-bas,<wait more>
-à cause de ces<line>
-coulées de lave<line>
-et du reste.<wait more>
-Si vous le voyez,<line>
-pourriez-vous le<line>
-saluer de ma part?<wait>
+J'avais un ami à Bortevo.<wait more>
+Les choses vont assez mal là-bas,<wait more>
+à cause de ces coulées de lave et du reste.<wait more>
+Si vous le voyez, pourriez-vous le saluer de ma part?<wait>
 
 [14E]
 Bien. Bien.<wait>
 
 [150]
-Je sens que vous<line>
-êtes en quête de<line>
-quelque chose,<line>
-non ?<end>
+Je sens que vous êtes en quête de quelque chose, non ?<end>
 
 [152]
-Que dites vous ?<line>
-Comment osez-vous!<line>
-Fichez le camp !<wait>
+Que dites vous ? Comment osez-vous! Fichez le camp !<wait>
 
 [154]
-Je percois que<line>
-vous êtes...<line>
-à la recherche<line>
-d'Alex Ossale,<line>
-non ?<end>
+Je percois que vous êtes... à la recherche d'Alex Ossale, non ?<end>
 
 [156]
-Tout ce que je dis<line>
-est vrai.<line>
-Compris ?<end>
+Tout ce que je dis est vrai. Compris ?<end>
 
 [158]
-Alors peut être<line>
-devriez-vous<line>
-revenir plus tard.<wait>
+Alors peut être devriez-vous revenir plus tard.<wait>
 
 [15A]
 Vous me défiez ?<end>
 
 [15C]
-C'est vrai ?<line>
-Vous jurez.<wait more>
+C'est vrai ? Vous jurez.<wait more>
 
 [15E]
-Je vais vous<line>
-récompenser avec<line>
-ce cristal.<wait>
+Je vais vous récompenser avec ce cristal.<wait>
 
 [160]
-Vous êtes venue<line>
-ici en pensant que<line>
-c'était la tour de<line>
-Baya Malay ?<end>
+Vous êtes venue ici en pensant que c'était la tour de Baya Malay ?<end>
 
 [162]
-Vous serez<line>
-certainement<line>
-détruits par le<line>
-courroux céleste !<wait>
+Vous serez certainement détruits par le courroux céleste !<wait>
 
 [164]
-Vous devriez faire<line>
-marche arrière.<wait>
+Vous devriez faire marche arrière.<wait>
 
 ; *************
 ; *** Casba ***
 ; *************
 
 [166]
-Bienvenue à vous<line>
-dans notre village<line>
-de Casba.<wait>
+Bienvenue à vous dans notre village de Casba.<wait>
 
 [168]
-Un dragon s'est<line>
-retranché dans<line>
-notre grotte !<line>
-Ca me fait peur !<wait>
+Un dragon s'est retranché dans notre grotte ! Ca me fait peur !<wait>
 
 [16A]
 .........<wait>
 
 [16C]
-Il se raconte des<line>
-histoires dans le<line>
-village noyé dans<line>
-la brume.<wait more>
+Il se raconte des histoires dans le village noyé dans la brume.<wait more>
 
 [16E]
-Elles parlent<line>
-d'un bouclier<line>
-légendaire.<wait more>
-Apparemment,<line>
-Persée s'en serait<line>
-servi pour vaincre<line>
-un monstre.<wait>
+Elles parlent d'un bouclier légendaire.<wait more>
+Apparemment, Persée s'en serait servi pour vaincre un monstre.<wait>
 
 [170]
-Faites attention,<line>
-à l'ouest d'ici<line>
-la brume est<line>
-empoisonnée.<wait more>
-Je ne pense pas<line>
-que vous puissiez<line>
-la traverser sans<line>
-protection.<wait>
+Faites attention, à l'ouest d'ici la brume est empoisonnée.<wait more>
+Je ne pense pas que vous puissiez la traverser sans protection.<wait>
 
 [172]
-Savez-vous ce<line>
-qu'est un<line>
-AquaNaute ?<end>
+Savez-vous ce qu'est un AquaNaute ?<end>
 
 [174]
-Alors vous savez<line>
-que c'est de la<line>
-camelote !<wait more>
-J'en avais acheté<line>
-un à Scion,sur<line>
-Palma.<wait more>
-Après qu'il soit<line>
-tombé en panne,<line>
-je l'ai jeté à<line>
-Bortevo.<wait more>
+Alors vous savez que c'est de la camelote !<wait more>
+J'en avais acheté un à Scion, sur Palma.<wait more>
+Après qu'il soit tombé en panne, je l'ai jeté à Bortevo.<wait more>
 
 [176]
 Quel gachis !<wait>
 
 [178]
-Vous avez trouvé<line>
-un AquaNaute.<wait more>
+Vous avez trouvé un AquaNaute.<wait more>
 
 [17A]
-Hapsby a fini de<line>
-réparer les pièces<line>
-endommagées,<wait more>
-vous pouvez<line>
-maintenant<line>
-l'utiliser !<wait>
+Hapsby a fini de réparer les pièces endommagées,<wait more>
+vous pouvez maintenant l'utiliser !<wait>
 
 [17C]
-Oh,c'est génial !<line>
-Quand ca marche,<line>
-bien-sur.<wait more>
-Il peut glisser en<line>
-douceur au dessus<line>
-de l'eau.<wait>
+Oh, c'est génial ! Quand ca marche, bien-sur.<wait more>
+Il peut glisser en douceur au dessus de l'eau.<wait>
 
 ; ***************
 ; *** Drasgot ***
 ; ***************
 
 [17E]
-Voici Drasgot,<line>
-une petite ville<line>
-flottante,<line>
-sur la mer.<wait>
+Voici Drasgot, une petite ville flottante, sur la mer.<wait>
 
 [180]
-Oh !<line>
-Je ne pensais pas<line>
-voir déjà des<line>
-visiteurs.<wait more>
+Oh ! Je ne pensais pas voir déjà des visiteurs.<wait more>
 
 [182]
-Pas depuis que<line>
-Lassic a mis un<line>
-embargo sur les<line>
-voyages en mer.<wait more>
-Comment diable<line>
-êtes-vous arrivés<line>
-jusqu'ici ?<wait>
+Pas depuis que Lassic a mis un embargo sur les voyages en mer.<wait more>
+Comment diable êtes-vous arrivés jusqu'ici ?<wait>
 
 [184]
-J'ai entendu dire<line>
-qu'il y avait une<line>
-épée magique dans<line>
-la tour d'Abion.<wait>
+J'ai entendu dire qu'il y avait une épée magique dans la tour d'Abion.<wait>
 
 [186]
-Une fois,j'ai vu<line>
-un énorme rocher<line>
-flottant dans<line>
-le ciel !<wait>
+Une fois, j'ai vu un énorme rocher flottant dans le ciel !<wait>
 
 [188]
-On me nomme Grande<line>
-Soeur Choko.<wait more>
+On me nomme Grande Soeur Choko.<wait more>
 
 [18A]
-Soyez forte et<line>
-poursuivez votre<line>
-aventure !<wait>
+Soyez forte et poursuivez votre aventure !<wait>
 
 [18C]
-Savez-vous ce<line>
-qu'est un masque<line>
-à gaz ?<wait more>
-Ca vous protège<line>
-contre les gaz<line>
-toxiques.<wait more>
-Un magasin près<line>
-d'ici en vend,<line>
-mais je n'arrive<line>
-pas à le trouver !<wait more>
+Savez-vous ce qu'est un masque à gaz ?<wait more>
+Ca vous protège contre les gaz toxiques.<wait more>
+Un magasin près d'ici en vend, mais je n'arrive pas à le trouver !<wait more>
 
 [18E]
-Peut être en<line>
-allant à gauche,<line>
-puis tout droit...<wait>
+Peut être en allant à gauche, puis tout droit...<wait>
 
 [190]
-Bienvenue dans<line>
-notre magasin.<line>
-Que puis-je faire<line>
-pour vous ?<wait more>
+Bienvenue dans notre magasin. Que puis-je faire pour vous ?<wait more>
 
 [192]
-...en fait,j'ai<line>
-menti,ce n'est<line>
-pas vraiment<line>
-un magasin.<wait more>
-Quoi ?<line>
-Ne me regardez pas<line>
-comme ca.<wait>
+...en fait, j'ai menti, ce n'est pas vraiment un magasin.<wait more>
+Quoi ? Ne me regardez pas comme ca.<wait>
 
 [194]
-Je parie que vous<line>
-êtes surprise de<line>
-trouver un magasin<line>
-ici,hein ?<wait more>
+Je parie que vous êtes surprise de trouver un magasin ici, hein ?<wait more>
 
 [196]
-Les masques valent<line>
-<number><internal hint 02> meseta<use suffix> pièce<line>
-Bon marché,non ?<wait more>
+Les masques valent <number><internal hint 02> meseta<use suffix> pièce Bon marché, non ?<wait more>
 En voulez-vous un?<end>
 
 
 [198]
-Merci.<line>
-Revenez quand vous<line>
-voulez !<wait>
+Merci. Revenez quand vous voulez !<wait>
 
 [19A]
-Quoi ?!<line>
-Vous n'avez pas<line>
-d'argent ?<wait more>
+Quoi ?! Vous n'avez pas d'argent ?<wait more>
 
 [19C]
-Quoi ?!<line>
-Je ne vous vendrai<line>
-plus RIEN !<wait>
+Quoi ?! Je ne vous vendrai plus RIEN !<wait>
 
 [19C-2]
-Comme vous voulez.<line>
-Je serai là quand<line>
-vous aurez changé<line>
-d'avis.<wait>
+Comme vous voulez. Je serai là quand vous aurez changé d'avis.<wait>
 
 [19E]
 Accès refusé.<wait more>
-Désormais,les<line>
-voyages spatiaux<line>
-sont fermés à tous<line>
-les citoyens.<wait more>
-C'est une question<line>
-de sécurité<line>
-nationale.<wait>
+Désormais, les voyages spatiaux sont fermés à tous les citoyens.<wait more>
+C'est une question de sécurité nationale.<wait>
 
 [1A0]
-Votre Passeport<line>
-vous est confisqué<line>
-sur le champ.<wait>
+Votre Passeport vous est confisqué sur le champ.<wait>
 
 
 ; *************
@@ -1583,26 +881,14 @@ sur le champ.<wait>
 
 [1A2]
 Bienvenue à Skure!<wait more>
-Restez bien dans<line>
-les environs,car<line>
-il ne fait pas<line>
-chaud dehors.<wait>
+Restez bien dans les environs, car il ne fait pas chaud dehors.<wait>
 
 [1A4]
-Presque tous les<line>
-immigrants venus<line>
-de Palma vivent<line>
-dans cette ville.<wait>
+Presque tous les immigrants venus de Palma vivent dans cette ville.<wait>
 
 [1A6]
-Les autochtones<line>
-Dézoriens ne<line>
-vivent pas ici,<line>
-à Skure.<wait more>
-Quelques-uns<line>
-vivent dans un<line>
-village dans les<line>
-montagnes du nord.<wait>
+Les autochtones Dézoriens ne vivent pas ici, à Skure.<wait more>
+Quelques-uns vivent dans un village dans les montagnes du nord.<wait>
 
 [1A8]
 ; <end>
@@ -1610,37 +896,22 @@ montagnes du nord.<wait>
 
 [1AA]
 Renverser Lassic ?<wait more>
-J'espère que vous<line>
-êtes bien équipé !<wait more>
+J'espère que vous êtes bien équipé !<wait more>
 
 [1AC]
-Vous aurez besoin<line>
-d'une épée,<line>
-d'une hache,<line>
-d'un bouclier,<wait more>
-et d'une armure<line>
-Laconian.<wait more>
+Vous aurez besoin d'une épée, d'une hache, d'un bouclier,<wait more>
+et d'une armure Laconian.<wait more>
 
 [1AE]
-Si j'étais vous,<line>
-je n'utiliserais<line>
-rien de moins<line>
-puissant.<wait more>
+Si j'étais vous, je n'utiliserais rien de moins puissant.<wait more>
 
 [1B0]
-Que votre voyage<line>
-soit sur.<wait>
+Que votre voyage soit sur.<wait>
 
 [1B2]
-Le Laconian n'est<line>
-pas que puissant,<line>
-il est sacré.<wait more>
-Lassic le sait,<line>
-bien entendu.<wait more>
-C'est pourquoi les<line>
-équipements faits<line>
-de Laconian sont<line>
-si durs à trouver!<wait more>
+Le Laconian n'est pas que puissant, il est sacré.<wait more>
+Lassic le sait, bien entendu.<wait more>
+C'est pourquoi les équipements faits de Laconian sont si durs à trouver!<wait more>
 
 [1B4]
 Il en a peur !<wait>
@@ -1650,58 +921,31 @@ Il en a peur !<wait>
 ; Continues 1B4
 
 [1B8]
-La planète Dézoris<line>
-est totalement<line>
-couverte de glace,<wait more>
-pas exactement<line>
-la florissante<line>
-verdure de Palma,<line>
-n'est ce pas ?<wait>
+La planète Dézoris est totalement couverte de glace,<wait more>
+pas exactement la florissante verdure de Palma, n'est ce pas ?<wait>
 
 [1BA]
-Ils disent que des<line>
-blocs se détachent<line>
-du glacier.<wait>
+Ils disent que des blocs se détachent du glacier.<wait>
 
 [1BC]
-Le plateau<line>
-d'Altiplano est<line>
-entouré par des<line>
-glaciers.<wait>
+Le plateau d'Altiplano est entouré par des glaciers.<wait>
 
 [1BE]
-Cette planète n'a<line>
-qu'une éclipse<line>
-par siècle !<wait more>
+Cette planète n'a qu'une éclipse par siècle !<wait more>
 
 [1C0]
-Une flamme allumée<line>
-pendant l'éclipse<line>
-est appelée Torche<line>
-d'éclipse.<wait more>
+Une flamme allumée pendant l'éclipse est appelée Torche d'éclipse.<wait more>
 
 [1C2]
-Les Dézoriens<line>
-croient que ces<line>
-torches possèdent<line>
-un pouvoir divin.<wait>
+Les Dézoriens croient que ces torches possèdent un pouvoir divin.<wait>
 
 [1C4]
-Quelles que soient<line>
-ces absurdités,<line>
-Lassic est allé<line>
-trop loin...<wait more>
-J'ai entendu dire<line>
-qu'à la morgue de<line>
-Garond,<wait more>
-des morts étaient<line>
-revenus à la vie !<wait more>
+Quelles que soient ces absurdités, Lassic est allé trop loin...<wait more>
+J'ai entendu dire qu'à la morgue de Garond,<wait more>
+des morts étaient revenus à la vie !<wait more>
 
 [1C6]
-S'il vous plait,<line>
-arrêtez-le.<line>
-C'est bien trop<line>
-horrible !<wait>
+S'il vous plait, arrêtez-le. C'est bien trop horrible !<wait>
 
 
 ; ****************************
@@ -1710,120 +954,63 @@ horrible !<wait>
 
 ;Truth-tellers
 [1C8]
-Confiance en<line>
-n'importe qui dans<line>
-le village voisin,<line>
-je n'aurais pas.<wait more>
-Un tas de crétins<line>
-mythomanes,<line>
-ils sont.<wait>
+Confiance en n'importe qui dans le village voisin, je n'aurais pas.<wait more>
+Un tas de crétins mythomanes, ils sont.<wait>
 
 [1CA]
-Aller vérifier<line>
-la tour Corona,<line>
-vous pourriez !<wait more>
-Au nord,<line>
-de l'autre coté<line>
-des montagnes,<line>
-elle se trouve.<wait>
+Aller vérifier la tour Corona, vous pourriez !<wait more>
+Au nord, de l'autre coté des montagnes, elle se trouve.<wait>
 
 [1CC]
-A l'ouest de<line>
-la tour Corona,<line>
-la grotte Dézoris,<line>
-se trouve.<wait more>
+A l'ouest de la tour Corona, la grotte Dézoris, se trouve.<wait more>
 
 [1CE]
-Là-bas,des amis<line>
-nous avons.<line>
-Nos respects leur<line>
-donnerez-vous ?<wait>
+Là-bas, des amis nous avons. Nos respects leur donnerez-vous ?<wait>
 
 [1D0]
-D'étranges fruits,<line>
-les arbres Laerma<line>
-portent.<wait more>
-Des baies Laerma,<line>
-on les appelle.<wait more>
+D'étranges fruits, les arbres Laerma portent.<wait more>
+Des baies Laerma, on les appelle.<wait more>
 
 [1D2]
-Savoureuses,<line>
-elles sont !<line>
-En manger<line>
-je voudrais.<wait more>
+Savoureuses, elles sont ! En manger je voudrais.<wait more>
 
 [1D4]
-Un souci il y a,<line>
-dans un pot en<line>
-Laconian,elles<line>
-doivent être.<wait more>
-Si dans un tel pot<line>
-elles ne sont pas,<line>
-toutes desséchées<line>
-elles deviennent.<wait>
+Un souci il y a, dans un pot en Laconian, elles doivent être.<wait more>
+Si dans un tel pot elles ne sont pas, toutes desséchées elles deviennent.<wait>
 
 [1D6]
-Entendu parler<line>
-d'une chose nommée<line>
-Aéroprisme,avez-<line>
-vous ?<end>
+Entendu parler d'une chose nommée Aéroprisme, avez- vous ?<end>
 
 [1D8]
-Avec cet objet,<line>
-voir autres mondes<line>
-vous pourrez.<wait>
+Avec cet objet, voir autres mondes vous pourrez.<wait>
 
 [1DA]
-Regarder à<line>
-travers,vraiment<line>
-je voudrais !<wait>
+Regarder à travers, vraiment je voudrais !<wait>
 
 [1DC]
-Nous villageois,<line>
-les Palmans nous<line>
-haissons.<wait>
+Nous villageois, les Palmans nous haissons.<wait>
 
 ;Liars
 [1DE]
-Etre à la tour<line>
-Corona que voussa<line>
-trouver fontaine<line>
-de jouvence.<wait>
+Etre à la tour Corona que voussa trouver fontaine de jouvence.<wait>
 
 [1E0]
-Voussa pouvoir<line>
-être téléportés au<line>
-10ème sous-sol de<line>
-la grotte Dézoris!<wait more>
-Pas blague.<line>
-Noussa pas mentir<line>
-à voussa.<wait>
+Voussa pouvoir être téléportés au 10ème sous-sol de la grotte Dézoris!<wait more>
+Pas blague. Noussa pas mentir à voussa.<wait>
 
 [1E2]
-Baies Laerma être<line>
-bleues,et noussa<line>
-les utiliser pour<line>
-teindre vêtements.<wait more>
-Etre ce que noussa<line>
-faire.<wait>
+Baies Laerma être bleues, et noussa les utiliser pour teindre vêtements.<wait more>
+Etre ce que noussa faire.<wait>
 
 [1E4]
-Voussa pouvoir<line>
-utiliser cristal<line>
-pour faire pousser<line>
-baies sur arbre.<wait more>
+Voussa pouvoir utiliser cristal pour faire pousser baies sur arbre.<wait more>
 Pas plaisanter !<wait>
 
 [1E6]
-Village accueillir<line>
-toussa Palmans.<line>
-Ca être vrai.<wait>
+Village accueillir toussa Palmans. Ca être vrai.<wait>
 
 [1E7]
-Gars dans autre<line>
-village être<line>
-toussa menteurs.<line>
-Moissa pas mentir.<wait>
+Gars dans autre village être toussa menteurs. Moissa pas mentir.<wait>
 
 
 ; *************
@@ -1832,147 +1019,85 @@ Moissa pas mentir.<wait>
 
 [1E8]
 Bienvenue à Sopia.<wait more>
-Je suis heureux<line>
-que vous ayez<line>
-réussi à traverser<line>
-la brume.<wait>
+Je suis heureux que vous ayez réussi à traverser la brume.<wait>
 
 [1EA]
-Je suis le chef<line>
-de ce village.<wait more>
+Je suis le chef de ce village.<wait more>
 
 [1EC]
-Nous autres de<line>
-Sopia sommes très<line>
-pauvres.<wait more>
-On nous considère<line>
-comme des parias,<wait more>
-et la brume nous<line>
-isole des autres<line>
-villages.<wait more>
+Nous autres de Sopia sommes très pauvres.<wait more>
+On nous considère comme des parias,<wait more>
+et la brume nous isole des autres villages.<wait more>
 
 [1EE]
-Pourriez-vous nous<line>
-faire un don de<line>
-<number><internal hint 02> meseta<use suffix>?<end>
+Pourriez-vous nous faire un don de <number><internal hint 02> meseta<use suffix>?<end>
 
 [1F0]
 Je vois...<wait more>
-Je suis navré<line>
-d'entendre ca.<line>
-Ohhh...<wait>
+Je suis navré d'entendre ca. Ohhh...<wait>
 
 [1F2]
-Vous aussi êtes<line>
-pauvres ?<wait more>
-Quelle sinistre<line>
-époque vivons-nous<wait>
+Vous aussi êtes pauvres ?<wait more>
+Quelle sinistre époque vivons-nous<wait>
 
 [1F4]
-Je vous remercie.<line>
-En retour,<line>
-je peux peut-être<line>
-vous aider.<wait more>
+Je vous remercie. En retour, je peux peut-être vous aider.<wait more>
 
 [1F6]
-J'imagine que<line>
-vous recherchez<line>
-le bouclier de<line>
-Persée ?<wait more>
-Selon une légende<line>
-locale,Persée<line>
-l'aurait utilisé<line>
-contre Médusa.<wait more>
-Il est supposé<line>
-être sur une ile<line>
-du lac.<wait more>
-J'ai entendu dire<line>
-qu'il serait<line>
-enterré sous un<line>
-cactus.<wait more>
-Navré,c'est tout<line>
-ce que je sais.<line>
-Bonne chance.<wait>
+J'imagine que vous recherchez le bouclier de Persée ?<wait more>
+Selon une légende locale, Persée l'aurait utilisé contre Médusa.<wait more>
+Il est supposé être sur une ile du lac.<wait more>
+J'ai entendu dire qu'il serait enterré sous un cactus.<wait more>
+Navré, c'est tout ce que je sais. Bonne chance.<wait>
 
 [1F8]
 ; <end>
 ; Continues 1F6
 
 [1FA]
-Salut,je suis<line>
-Joe Musashi !<wait more>
-Possèdes-tu une<line>
-Master System ?<end>
+Salut, je suis Joe Musashi !<wait more>
+Possèdes-tu une Master System ?<end>
 
 [1FC]
-Génial !<line>
-Quel super son FM,<line>
-n'est-ce pas ?<wait>
+Génial ! Quel super son FM, n'est-ce pas ?<wait>
 
 [1FE]
 QUOI ?!<wait more>
-Quelle Honte !<line>
-Dépêche-toi d'en<line>
-acheter une !<wait>
+Quelle Honte ! Dépêche-toi d'en acheter une !<wait>
 
 [200]
-Avant l'avènement<line>
-de Lassic,<line>
-ce village était<line>
-très riche.<wait>
+Avant l'avènement de Lassic, ce village était très riche.<wait>
 
 [202]
-Avez-vous croisé<line>
-Maitre Tajim ?<line>
-C'est un moine.<wait more>
-Il habite dans les<line>
-montagnes situées<line>
-au sud du lac.<wait>
+Avez-vous croisé Maitre Tajim ? C'est un moine.<wait more>
+Il habite dans les montagnes situées au sud du lac.<wait>
 
 [204]
-On m'a dit que<line>
-Palma était une<line>
-superbe planète.<line>
-Est-ce vrai ?<end>
+On m'a dit que Palma était une superbe planète. Est-ce vrai ?<end>
 
 [206]
-N'importe ou sera<line>
-mieux qu'ici !<wait more>
-Il n'y a pas pire<line>
-qu'une ville noyée<line>
-de brume mortelle.<wait>
+N'importe ou sera mieux qu'ici !<wait more>
+Il n'y a pas pire qu'une ville noyée de brume mortelle.<wait>
 
 [208]
-Oh,je vois.<line>
-Je veux aller<line>
-quelque part ou<line>
-l'air est sain.<wait>
+Oh, je vois. Je veux aller quelque part ou l'air est sain.<wait>
 
 [20A]
-Je vous remercie.<line>
-Revenez quand vous<line>
-le voulez.<wait>
+Je vous remercie. Revenez quand vous le voulez.<wait>
 
 [20C]
 Radin !<wait>
 
 [20E]
-Ai-je l'air d'un<line>
-idiot ???<wait>
+Ai-je l'air d'un idiot ???<wait>
 
 [210]
 .........<wait>
 
 [212]
-Votre père était<line>
-le meilleur Roi<line>
-qu'Algol ait connu<wait more>
-Et plus que cela,<line>
-il était un homme<line>
-bon.<wait more>
-Il serait très<line>
-fier de vous<line>
-aujourd'hui.<wait>
+Votre père était le meilleur Roi qu'Algol ait connu<wait more>
+Et plus que cela, il était un homme bon.<wait more>
+Il serait très fier de vous aujourd'hui.<wait>
 
 
 ; **************************
@@ -1980,104 +1105,60 @@ aujourd'hui.<wait>
 ; **************************
 
 [214]
-Oh,vous aussi,<line>
-vous êtes<line>
-emprisonnés ici.<line>
-C'est bien triste.<wait more>
+Oh, vous aussi, vous êtes emprisonnés ici. C'est bien triste.<wait more>
 
 [216]
-Bien sur,qu'il<line>
-y a un moyen de<line>
-sortir d'ici !<line>
-Mais à quoi bon ?<wait more>
-La vie est bien<line>
-plus simple ici.<wait>
+Bien sur, qu'il y a un moyen de sortir d'ici ! Mais à quoi bon ?<wait more>
+La vie est bien plus simple ici.<wait>
 
 [218]
-Vous feriez mieux<line>
-de ne pas aller<line>
-plus loin,il y a<line>
-un gardien devant.<wait>
+Vous feriez mieux de ne pas aller plus loin, il y a un gardien devant.<wait>
 
 [21A]
-Sortir ?<line>
-Ce serait le bon<line>
-moment pour le<line>
-faire !<wait>
+Sortir ? Ce serait le bon moment pour le faire !<wait>
 
 [21C]
-Avez-vous un<line>
-permis ?<end>
+Avez-vous un permis ?<end>
 
 [21E]
-C'est un faux !<line>
-Ou l'avez-vous<line>
-obtenu ?<wait more>
+C'est un faux ! Ou l'avez-vous obtenu ?<wait more>
 
 [220]
-Eh bien,vous avez<line>
-choisi le bon<line>
-endroit pour vous<line>
-faire enfermer.<wait more>
+Eh bien, vous avez choisi le bon endroit pour vous faire enfermer.<wait more>
 Venez avec moi.<wait>
 
 [222]
-Etes-vous venus<line>
-me sortir d'ici ?<wait more>
-Oh,s'il vous<line>
-plait aidez-moi...<line>
-Je ne veux pas<line>
-mourir !<wait>
+Etes-vous venus me sortir d'ici ?<wait more>
+Oh, s'il vous plait aidez-moi... Je ne veux pas mourir !<wait>
 
 [224]
-Renverser Lassic ?<line>
-C'est impossible.<wait more>
-Vous ne pouvez pas<line>
-tuer un homme<line>
-invincible.<wait>
+Renverser Lassic ? C'est impossible.<wait more>
+Vous ne pouvez pas tuer un homme invincible.<wait>
 
 [226]
-Nous allons tous<line>
-être sacrifiés au<line>
-Seigneur Lassic !<wait>
+Nous allons tous être sacrifiés au Seigneur Lassic !<wait>
 
 [228]
-Avez-vous trouvé<line>
-l'armure à Garond?<end>
+Avez-vous trouvé l'armure à Garond?<end>
 
 [22A]
-Vous pouvez la<line>
-trouver de l'autre<line>
-coté d'un piège.<wait>
+Vous pouvez la trouver de l'autre coté d'un piège.<wait>
 
 [22C]
-Vous êtes vraiment<line>
-étonnante !<wait>
+Vous êtes vraiment étonnante !<wait>
 
 [22E]
-Lassic est bien<line>
-plus dangereux que<line>
-ce que l'on ose<line>
-s'imaginer.<wait more>
-Ses pouvoirs<line>
-magiques peuvent<line>
-même arracher<line>
-votre ame !<wait>
+Lassic est bien plus dangereux que ce que l'on ose s'imaginer.<wait more>
+Ses pouvoirs magiques peuvent même arracher votre ame !<wait>
 
 [230]
-Dommage,il vous<line>
+Dommage, il vous<line>
 serait bien utile.<wait more>
-Vous êtes toujours<line>
-la bienvenue ici.<wait>
+Vous êtes toujours la bienvenue ici.<wait>
 
 [232]
-Il y a une tour au<line>
-sommet de la<line>
-colline de Baya<line>
-Malay.<wait more>
-Je me demande bien<line>
-quels secrets<line>
-y sont cachés...<wait>
+Il y a une tour au sommet de la colline de Baya Malay.<wait more>
+Je me demande bien quels secrets y sont cachés...<wait>
 
 
 ; ********************
@@ -2085,89 +1166,52 @@ y sont cachés...<wait>
 ; ********************
 
 [234]
-Pourquoi êtes-vous<line>
-venue ici ?<line>
-Evitez les ennuis,<line>
-entendu ?<wait>
+Pourquoi êtes-vous venue ici ? Evitez les ennuis, entendu ?<wait>
 
 [236]
-J'ai un mauvais<line>
-pressentiment.<wait>
+J'ai un mauvais pressentiment.<wait>
 
 [238]
 Soyez prudente.<wait more>
-Sur la route,<line>
-vous devez tourner<line>
-à gauche,à la<line>
-bifurcation.<wait>
+Sur la route, vous devez tourner à gauche, à la bifurcation.<wait>
 
 [23A]
-Je ne vous ai<line>
-rien dit,mais...<wait more>
-Le seigneur Lassic<line>
-craint le cristal<line>
-détenu par Damoa,<line>
-le devin.<wait more>
+Je ne vous ai rien dit, mais...<wait more>
+Le seigneur Lassic craint le cristal détenu par Damoa, le devin.<wait more>
 
 [23C]
-Il doit y avoir<line>
-quelque chose de<line>
-secret à ce sujet.<wait>
+Il doit y avoir quelque chose de secret à ce sujet.<wait>
 
 [23E]
-Voyez-vous<line>
-cette flamme ?<line>
-C'est la Torche<line>
-d'éclipse.<wait more>
-C'est le feu sacré<line>
-de l'éclipse du<line>
-centenaire.<wait more>
-Il est beau,sacré<line>
-et,en effet,très<line>
-précieux.<wait more>
+Voyez-vous cette flamme ? C'est la Torche d'éclipse.<wait more>
+C'est le feu sacré de l'éclipse du centenaire.<wait more>
+Il est beau, sacré et, en effet, très précieux.<wait more>
 
 [240]
 Je pourrais<line>
 partager cette<line>
 flamme en échange<line>
 de...<wait more>
-...du cristal d'un<line>
-dragon !<wait more>
+...du cristal d'un dragon !<wait more>
 
 [242]
 Que dites-vous ?<end>
 
 [244]
-Parfait,la voici.<wait>
+Parfait, la voici.<wait>
 
 [246]
-Vous n'en<line>
-voulez pas ?<line>
-Alors pourquoi<line>
-êtes-vous venue<line>
-ici ?<wait>
+Vous n'en voulez pas ? Alors pourquoi êtes-vous venue ici ?<wait>
 
 [248]
-Vous n'avez pas<line>
-de joyau !<line>
-Alors ne soyez pas<line>
-stupide !<wait>
+Vous n'avez pas de joyau ! Alors ne soyez pas stupide !<wait>
 
 [24A]
-Bienvenue dans<line>
-mon magasin !<line>
-Désolé pour<line>
-l'endroit...<wait more>
-Mais avec ces<line>
-hausses d'impots,<line>
-c'est tout ce que<line>
-je peux m'offrir.<wait more>
+Bienvenue dans mon magasin ! Désolé pour l'endroit...<wait more>
+Mais avec ces hausses d'impots, c'est tout ce que je peux m'offrir.<wait more>
 Vous comprenez.<wait more>
-Mes fameuses<line>
-tartes coutent<line>
-<number><internal hint 02> meseta<use suffix>.<wait more>
-Je vous en emballe<line>
-une ?<end>
+Mes fameuses tartes coutent <number><internal hint 02> meseta<use suffix>.<wait more>
+Je vous en emballe une ?<end>
 
 
 ; ********************
@@ -2175,72 +1219,44 @@ une ?<end>
 ; ********************
 
 [24C]
-Ah,Lutz,<line>
-mon élève !<wait more>
-Tu envisages de<line>
-renverser Lassic,<line>
-hein ?<wait>
+Ah, Lutz, mon élève !<wait more>
+Tu envisages de renverser Lassic, hein ?<wait>
 
 [24E]
-Alors tu te dois<line>
-de passer un test<line>
-final.<wait more>
-Battons-nous en<line>
-duel.<wait>
+Alors tu te dois de passer un test final.<wait more>
+Battons-nous en duel.<wait>
 
 [250]
-Tu es devenu fort,<line>
-Lutz.<wait more>
-Je n'ai plus rien<line>
-à t'apprendre.<wait more>
+Tu es devenu fort, Lutz.<wait more>
+Je n'ai plus rien à t'apprendre.<wait more>
 
 [252]
-Accepte ceci.<line>
-C'est une Cape<line>
-de Frad.<wait more>
+Accepte ceci. C'est une Cape de Frad.<wait more>
 
 [254]
-Elle protégera<line>
-ton corps des<line>
-blessures.<wait more>
-Maintenant,va<line>
-mon garcon.<wait>
+Elle protégera ton corps des blessures.<wait more>
+Maintenant, va mon garcon.<wait>
 
 [256]
-Tu dois encore<line>
-t'entrainer,<line>
-mon garcon.<wait more>
-Reviens quand<line>
-tu seras prêt.<line>
-Je t'attendrai.<wait>
+Tu dois encore t'entrainer, mon garcon.<wait more>
+Reviens quand tu seras prêt. Je t'attendrai.<wait>
 
 [258]
-Je n'ai plus rien<line>
-à t'apprendre,<line>
-mon garcon.<wait>
+Je n'ai plus rien à t'apprendre, mon garcon.<wait>
 
 [25A]
-Et qui sont toutes<line>
-ces personnes ?<wait more>
+Et qui sont toutes ces personnes ?<wait more>
 
 [25C]
-Mon élève,Lutz,<line>
-est dans la grotte<line>
-Mahal.<wait more>
+Mon élève, Lutz, est dans la grotte Mahal.<wait more>
 Le cotoyez-vous ?<end>
 
 [25E]
-J'ai quelque chose<line>
-à lui dire.<wait more>
-S'il vous plait<line>
-dites-lui de venir<line>
-me voir.<wait>
+J'ai quelque chose à lui dire.<wait more>
+S'il vous plait dites-lui de venir me voir.<wait>
 
 [260]
-Je vois...Il n'y a<line>
-donc aucun intérêt<line>
-à en parler plus<line>
-avec vous.<wait>
+Je vois...Il n'y a donc aucun intérêt à en parler plus avec vous.<wait>
 
 
 ; **********************************
@@ -2249,83 +1265,42 @@ avec vous.<wait>
 
 [262]
 Bienvenue.<wait more>
-Je sais très bien<line>
-pourquoi vous êtes<line>
-venue jusqu'ici.<wait more>
-Nous vous avons<line>
-observée pendant<line>
-très longtemps.<wait more>
+Je sais très bien pourquoi vous êtes venue jusqu'ici.<wait more>
+Nous vous avons observée pendant très longtemps.<wait more>
 
 [264]
-Mais je crains<line>
-que votre quête<line>
-ne s'achève ici !<wait>
+Mais je crains que votre quête ne s'achève ici !<wait>
 
 [266]
 Qui suis-je ?<wait more>
-Je suis l'Ombre<line>
-de notre Seigneur<line>
-Lassic.<wait more>
-Vous m'avez battue<line>
-mais cela ne vous<line>
-servira à rien.<wait more>
+Je suis l'Ombre de notre Seigneur Lassic.<wait more>
+Vous m'avez battue mais cela ne vous servira à rien.<wait more>
 
 [268]
-Le Seigneur Lassic<line>
-est invulnérable.<line>
-Il vous détruira<line>
-tous !<wait>
+Le Seigneur Lassic est invulnérable. Il vous détruira tous !<wait>
 
 [26A]
 .........<wait>
 
 [26C]
-Ah,c'est vous.<line>
-J'ai songé que<line>
-vous viendriez.<wait more>
-J'en sais<line>
-beaucoup sur vous,<line>
-mon enfant.<wait more>
-Je sais que vous<line>
-aimiez beaucoup<line>
-votre frère.<line>
-Néro,c'est ca ?<wait more>
+Ah, c'est vous. J'ai songé que vous viendriez.<wait more>
+J'en sais beaucoup sur vous, mon enfant.<wait more>
+Je sais que vous aimiez beaucoup votre frère. Néro, c'est ca ?<wait more>
 Oui.<wait more>
-Mais j'en sais<line>
-davantage.<line>
-Je connais aussi<line>
-votre nom.<wait more>
+Mais j'en sais davantage. Je connais aussi votre nom.<wait more>
 Votre vrai nom.<wait more>
-Stupide enfant.<line>
-Vous ne connaissez<line>
-même pas de votre<line>
-propre lignée !<wait more>
-Vous n'avez aucune<line>
-idée de ce qui est<line>
-en vous.<wait more>
-Et je sais aussi<line>
-pourquoi vous êtes<line>
-venue.<wait more>
-Vous envisagez de<line>
-me tuer.<line>
-N'est-ce pas,<line>
-mon enfant ?<end>
+Stupide enfant. Vous ne connaissez même pas de votre propre lignée !<wait more>
+Vous n'avez aucune idée de ce qui est en vous.<wait more>
+Et je sais aussi pourquoi vous êtes venue.<wait more>
+Vous envisagez de me tuer. N'est-ce pas, mon enfant ?<end>
 
 [26E]
-Oui,bien entendu.<line>
-Votre courage est<line>
-admirable.<wait more>
-Vous êtes un peu<line>
-comme votre père.<wait more>
-Je vais prendre<line>
-un malin plaisir<line>
-à vous tuer.<wait>
+Oui, bien entendu. Votre courage est admirable.<wait more>
+Vous êtes un peu comme votre père.<wait more>
+Je vais prendre un malin plaisir à vous tuer.<wait>
 
 [270]
-Aller.<line>
-Je n'ai pas le<line>
-temps de jouer.<line>
-Finissons-en.<wait>
+Aller. Je n'ai pas le temps de jouer. Finissons-en.<wait>
 
 
 ; **************
@@ -2333,61 +1308,28 @@ Finissons-en.<wait>
 ; **************
 
 [272]
-Oh,mon Dieu !<wait more>
-Mon corps et mon<line>
-esprit étaient...<line>
-possédés par une<line>
-force démoniaque.<wait more>
-C'est incroyable<line>
-que je sois encore<line>
-en vie !<line>
-Merci infiniment.<wait more>
+Oh, mon Dieu !<wait more>
+Mon corps et mon esprit étaient... possédés par une force démoniaque.<wait more>
+C'est incroyable que je sois encore en vie ! Merci infiniment.<wait more>
 
 [274]
-Vous l'avez fait !<line>
-Vous avez réussi<line>
-à sauver Algol !<wait more>
-L'histoire<line>
-se rappellera<line>
-de vos noms,<line>
-pour toujours.<wait more>
+Vous l'avez fait ! Vous avez réussi à sauver Algol !<wait more>
+L'histoire se rappellera de vos noms, pour toujours.<wait more>
 
 [276]
-Alisa,il y a<line>
-quelque chose que<line>
-je dois te dire.<wait more>
-Je te l'ai caché,<line>
-afin de te<line>
-protéger.<wait more>
-Maintenant que<line>
-Lassic n'est plus,<line>
-je peux te le<line>
-révéler.<wait more>
-Alisa...<line>
-ton père était<line>
-le roi d'Algol.<wait more>
-Son sang royal<line>
-coule en toi.<line>
-Tu as hérité de<line>
-sa force.<wait more>
+Alisa, il y a quelque chose que je dois te dire.<wait more>
+Je te l'ai caché, afin de te protéger.<wait more>
+Maintenant que Lassic n'est plus, je peux te le révéler.<wait more>
+Alisa... ton père était le roi d'Algol.<wait more>
+Son sang royal coule en toi. Tu as hérité de sa force.<wait more>
 
 [278]
-Désormais nous<line>
-sommes sans roi,<line>
-Alisa.<wait more>
-Prendras-tu sa<line>
-place afin de<line>
-devenir la reine<line>
-d'Algol ?<end>
+Désormais nous sommes sans roi, Alisa.<wait more>
+Prendras-tu sa place afin de devenir la reine d'Algol ?<end>
 
 [27A]
-Je suis Ichigo !<line>
-Merci à tous pour<line>
-votre soutien.<wait more>
-Dites-nous ce que<line>
-vous pensez de<line>
-notre traduction.<line>
-Merci !<wait>
+Je suis Ichigo ! Merci à tous pour votre soutien.<wait more>
+Dites-nous ce que vous pensez de notre traduction. Merci !<wait>
 
 [27C]
 ; コ
@@ -2406,176 +1348,82 @@ Hey !<line>
 Sortez d'ici !<wait>
 
 [284]
-Faisons ce que<line>
-Luveno a dit.<line>
-L'ignorer !<wait>
+Faisons ce que Luveno a dit. L'ignorer !<wait>
 
 [286]
-Il y a des êtres<line>
-intelligents sur<line>
-Motavia et Dézoris<wait more>
-D'autres planètes<line>
-abritent la vie !<line>
-C'est incroyable,<line>
-n'est-ce pas ?<wait>
+Il y a des êtres intelligents sur Motavia et Dézoris<wait more>
+D'autres planètes abritent la vie ! C'est incroyable, n'est-ce pas ?<wait>
 
 [288]
-Certains monstres<line>
-parlent,mais une<line>
-autre langue.<wait more>
-Il faudrait être<line>
-une sorte de<line>
-magicien pour les<line>
-comprendre !<wait>
+Certains monstres parlent, mais une autre langue.<wait more>
+Il faudrait être une sorte de magicien pour les comprendre !<wait>
 
 [28A]
-J'ai fait fortune<line>
-en vendant ce vase<line>
-Laconian !<line>
-Merci !<wait>
+J'ai fait fortune en vendant ce vase Laconian ! Merci !<wait>
 
 [28C]
-Super !<line>
-On dirait que mon<line>
-équipe est enfin<line>
-complète.<wait more>
-Quoi,vous pensez<line>
-que deux personnes<line>
-ne suffisent pas ?<wait more>
-Sachez que j'en<line>
-construisais déjà<line>
-quand vous têtiez<line>
-encore votre mère!<wait more>
+Super ! On dirait que mon équipe est enfin complète.<wait more>
+Quoi, vous pensez que deux personnes ne suffisent pas ?<wait more>
+Sachez que j'en construisais déjà quand vous têtiez encore votre mère!<wait more>
 
 [28E]
-Bon,l'achat d'un<line>
-vaisseau,ce n'est<line>
-pas comme acheter<line>
-des Vitabarres.<wait more>
-C'est du sérieux,<line>
-et il vous en<line>
-coutera beaucoup<line>
-d'argent.<wait more>
-Je demande <number><internal hint 02><line>
-meseta<use suffix> d'acompte.<line>
-Avez-vous cette<line>
-somme ?<end>
+Bon, l'achat d'un vaisseau, ce n'est pas comme acheter des Vitabarres.<wait more>
+C'est du sérieux, et il vous en coutera beaucoup d'argent.<wait more>
+Je demande <number><internal hint 02> meseta<use suffix> d'acompte. Avez-vous cette somme ?<end>
 
 [290]
-Super.<line>
-Commencons<line>
-la construction<line>
-immédiatement.<wait more>
-Cela nécessitera<line>
-un certain temps,<line>
-je suis un peu...<line>
-rouillé.<wait more>
-Si vous alliez<line>
-exterminer<line>
-quelques Hélix ?<wait more>
-Ou vaquer à un<line>
-autre de vos passe<line>
--temps favoris ?<wait>
+Super. Commencons la construction immédiatement.<wait more>
+Cela nécessitera un certain temps, je suis un peu... rouillé.<wait more>
+Si vous alliez exterminer quelques Hélix ?<wait more>
+Ou vaquer à un autre de vos passe -temps favoris ?<wait>
 
 [292]
-S'il vous plait,<line>
-on ne peut pas<line>
-précipiter la<line>
-perfection.<wait more>
-A moins de vouloir<line>
-finir coincé dans<line>
-l'espace,laissez-<line>
-nous du temps !<wait more>
-Allez donc visiter<line>
-une grotte,car là<line>
-nous sommes très<line>
-occupés !<wait>
+S'il vous plait, on ne peut pas précipiter la perfection.<wait more>
+A moins de vouloir finir coincé dans l'espace, laissez- nous du temps !<wait more>
+Allez donc visiter une grotte, car là nous sommes très occupés !<wait>
 
 [294]
-Ah,<line>
-mon petit Hapsby,<line>
-tu es revenu chez<line>
-toi !<wait more>
-Parfait,Hapsby<line>
-pourra piloter<line>
-le Luveno dans<line>
-l'espace !<wait more>
-Et dans les temps!<line>
-La sécurité du<line>
-Spatioport a<line>
-été renforcée.<wait more>
-Allez-y !<line>
-Le Luveno est<line>
-juste à la sortie<line>
-de la ville !<wait more>
+Ah, mon petit Hapsby, tu es revenu chez toi !<wait more>
+Parfait, Hapsby pourra piloter le Luveno dans l'espace !<wait more>
+Et dans les temps! La sécurité du Spatioport a été renforcée.<wait more>
+Allez-y ! Le Luveno est juste à la sortie de la ville !<wait more>
 Allez l'essayer !<wait>
 
 [296]
-Ici,minou minou !<line>
-Viens ici !<end>
+Ici, minou minou ! Viens ici !<end>
 
 [298]
-Ha ha,<line>
-c'était amusant !<line>
-A qui le tour ?<wait>
+Ha ha, c'était amusant ! A qui le tour ?<wait>
 
 
 [29A]
-J'ai dit<line>
-VIENS ICI !<wait>
+J'ai dit VIENS ICI !<wait>
 
 [29C]
-Vous devez être<line>
-fatiguée de votre<line>
-voyage.<wait more>
-Pourquoi ne pas<line>
-vous reposer ici<line>
-un moment ?<wait>
+Vous devez être fatiguée de votre voyage.<wait more>
+Pourquoi ne pas vous reposer ici un moment ?<wait>
 
 [29E]
-Il n'y a pas un<line>
-seul instant à<line>
-perdre.<wait more>
-S'il vous plait,<line>
-soyez prudente.<line>
-Je prierai pour<line>
-votre sécurité.<wait>
+Il n'y a pas un seul instant à perdre.<wait more>
+S'il vous plait, soyez prudente. Je prierai pour votre sécurité.<wait>
 
 [2A0]
-Vous tombez dans<line>
-un profond sommeil<line>
-...<delay>
+Vous tombez dans un profond sommeil ...<delay>
 
 [2A2]
 C'était un rêve...<wait>
 
 [2A4]
-La maison d'Alisa.<line>
-On peut encore<line>
-y ressentir la<line>
-présence de Néro.<wait>
+La maison d'Alisa. On peut encore y ressentir la présence de Néro.<wait>
 
 [2A6]
-Personne ?<line>
-Ou se trouve le<line>
-Gouverneur ?<wait>
+Personne ? Ou se trouve le Gouverneur ?<wait>
 
 [2A8]
-Hé !<line>
-Etes-vous morte ?<line>
-Quel dommage...<wait more>
-Ressuscitez et<line>
-essayez encore.<wait>
+Hé ! Etes-vous morte ? Quel dommage...<wait more>
+Ressuscitez et essayez encore.<wait>
 
 [2AA]
-Lassic est tombé !<line>
-La promesse faite<line>
-à Néro est enfin<line>
-accomplie.<wait more>
-C'est le début<line>
-d'une nouvelle ère<line>
-pour Algol.<wait more>
-Il ne reste plus<line>
-qu'à en parler au<line>
-Gouverneur sur<line>
-Paséo.<wait>
+Lassic est tombé ! La promesse faite à Néro est enfin accomplie.<wait more>
+C'est le début d'une nouvelle ère pour Algol.<wait more>
+Il ne reste plus qu'à en parler au Gouverneur sur Paséo.<wait>
