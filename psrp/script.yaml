@@ -1,10 +1,19 @@
 # Main script
 #
-# Note on comments:
-# - Stuff with ****** around it is an area indicator
-# - Japanese text is the original script
-# - Text in ALL CAPS is the original English translation
-# - Most other text is Paul Jensen's original retranslation from 2002
+# This file is encoded as YAML.
+# Hints:
+# - # means a comment
+# - | introduces a multi-line string, indicated by indentation. (Don't use >, which makes YAML insert unwanted spaces.)
+# - Strings can be enclosed in quotes to make surrounding whitespace retained.
+#
+# Each script entry comprises these elements:
+# - offsets: locations in the ROM referring to this script item
+# - indices: indices in the original game's indirection table which correspond to items in this entry. Useful only for correlation with older scripts.
+# - ja: original Japanese
+# - translated: translation of the "ja" text, for information only (incomplete)
+# - us: Sega localisation for this item (very incomplete)
+# - en, fr: translations consumed by the code
+# Stuff with ****** around it is an area indicator.
 #
 # Special code legend:
 #
@@ -1935,7 +1944,7 @@
     Sachez que j'en construisais déjà quand vous têtiez encore votre mère!<wait more>
     Bon, l'achat d'un vaisseau, ce n'est pas comme acheter des Vitabarres.<wait more>
     C'est du sérieux, et il vous en coutera beaucoup d'argent.<wait more>
-    Je demande <number><internal hint 02> meseta<s> d'acompte. Avez-vous cette somme ?<end>
+    Je demande <number><internal hint 01> meseta<s> d'acompte. Avez-vous cette somme ?<end>
 
 - offsets:50b5
   # Dr Luveno (yes to the previous question)
@@ -2788,7 +2797,7 @@
     GasClears are <number><internal hint 01> meseta<s> each. Pretty cheap, no? Want one?<end>
   fr: |
     Je parie que vous êtes surprise de trouver un magasin ici, hein ?<wait more>
-    Les masques valent <number><internal hint 02> meseta<s> pièce Bon marché, non ?<wait more>
+    Les masques valent <number><internal hint 01> meseta<s> pièce Bon marché, non ?<wait more>
     En voulez-vous un?<end>
 
 - offsets:5226
@@ -3980,8 +3989,8 @@
   ja: |
     アリサ<delay>
     <line>
-  en:        Alisa,<delay>
-  fr:        Alisa,<delay>
+  en: "       Alisa,<delay>"
+  fr: "       Alisa,<delay>"
 
 - offsets:480b
   indices:17A-2
@@ -3989,8 +3998,8 @@
   ja: |
     タイロン<delay>
     <line>
-  en:        Tylon,<delay>
-  fr:        Tylon,<delay>
+  en: "       Tylon,<delay>"
+  fr: "       Tylon,<delay>"
 
 - offsets:4816
   indices:17C-2
@@ -3998,8 +4007,8 @@
   ja: |
     ルツ<delay>
     <line>
-  en:         Lutz,<delay>
-  fr:         Lutz,<delay>
+  en: "        Lutz,<delay>"
+  fr: "        Lutz,<delay>"
 
 - offsets:4821
   indices:17E-2
@@ -4007,8 +4016,8 @@
   ja: |
     ソシテ ミャウ<delay>
     <line>
-  en:     and Myau.<delay>
-  fr:      et Myau.<delay>
+  en: "    and Myau.<delay>"
+  fr: "     et Myau.<delay>"
 
 - offsets:482c
   indices:180-2
@@ -4433,7 +4442,7 @@
     ケイケンチガ <number>ポイント<line>
     アガッタ.<wait>
   en: You gained <number> experience<internal hint 02> point<s>.<wait>
-  fr: Plus <number> point<s> d'Exp<internal hint 02>.<wait>
+  fr: Plus <number><internal hint 01> point<s> d'Exp.<wait>
 
 - offsets:18f3
   indices:07E-2
@@ -4453,7 +4462,7 @@
   indices:082-2
   ja: <number>メセタ ハイッテイタ.<wait>
   en: You found <number><internal hint 01> meseta<s> inside.<wait>
-  fr: Plus <number><internal hint 01> meseta<s>.<wait>
+  fr: Plus <number><internal hint 02> meseta<s>.<wait>
 
 - offsets:2a37
   indices:084-2
@@ -4678,7 +4687,7 @@
     <item>デスネ.<line>
     <number>メセタデ イイデスカ.<end>
   en: Hmm, <article><item>? How does <number><internal hint 01> meseta<s> sound?<end>
-  fr: <article><item>. Disons <number><internal hint 01> ?<end>
+  fr: <article><item>. Disons <number><internal hint 01> meseta<s> ?<end>
 
 - offsets:2e66
   indices:0C6-2
