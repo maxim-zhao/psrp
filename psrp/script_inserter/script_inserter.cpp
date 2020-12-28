@@ -9,7 +9,7 @@ Phantasy Star: Script Inserter
 #include "ScriptItem.h"
 
 
-extern void Convert_Symbols(const std::string& scriptFilename, const std::string& tableFilename, std::vector<ScriptItem>& script);
+extern void Convert_Symbols(const std::string& scriptFilename, const std::string& language, const std::string& tableFilename, std::vector<ScriptItem>& script);
 extern void Huffman_Compress(const std::string& scriptFilename, const std::string& patchFilename, const std::string& treeFilename, const std::vector<ScriptItem>& script);
 
 
@@ -18,17 +18,17 @@ int main(int argc, const char** argv)
 	try
 	{
 		// Assert proper usage
-		if (argc != 6)
+		if (argc != 7)
 		{
-			throw std::runtime_error("Usage: script_inserter <script name> <table file> <output script file> <output script patch file> <output Huffman data file>");
+			throw std::runtime_error("Usage: script_inserter <script file> <language> <table file> <output script file> <output script patch file> <output Huffman data file>");
 		}
 
 		// phase 1: Script conversion
 		std::vector<ScriptItem> script;
-		Convert_Symbols(argv[1], argv[2], script);
+		Convert_Symbols(argv[1], argv[2], argv[3], script);
 
 		// phase 2: Huffman encoding
-		Huffman_Compress(argv[3], argv[4], argv[5], script);
+		Huffman_Compress(argv[4], argv[5], argv[6], script);
 	}
 	catch (const std::exception& e)
 	{

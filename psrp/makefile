@@ -15,6 +15,9 @@ CPPFLAGS = /Os /EHsc /W4 /MP /FS /GS- /MD /nologo /WX
 # The original PSJ ROM
 PSJ = ps1-j.sms
 
+# The language
+LANGUAGE = en
+
 DUMMY: ps1jert.ips ps1jert.bps
 
 PLAY: ps1jert.sms
@@ -26,7 +29,7 @@ word_count\word_count.exe : word_count\*.cpp
   $(CPP) $(CPPFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
 
 word_count\words.txt : script.yaml word_count\word_count.exe
-  word_count\word_count.exe word_count\words.txt script.yaml
+  word_count\word_count.exe word_count\words.txt script.yaml $(LANGUAGE)
 
 # substring_formatter
 # Converts the word list from word_count to a dictionary and a TBL file for those words
@@ -114,7 +117,7 @@ script_with_words.tbl: script.tbl substring_formatter\words.tbl
   copy /y /b script.tbl + substring_formatter\words.tbl script_with_words.tbl
 
 script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm: script_with_words.tbl script_inserter\script_inserter.exe script.yaml
-  script_inserter\script_inserter.exe script.yaml script_with_words.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
+  script_inserter\script_inserter.exe script.yaml $(LANGUAGE) script_with_words.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
 
 # All files needed for the final ROM
 BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.psgcompr  new_graphics\bg5.psgcompr \

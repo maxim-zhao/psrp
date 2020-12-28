@@ -15,9 +15,9 @@
 
 int main(int argc, const char** argv)
 {
-    if (argc != 3)
+    if (argc != 4)
     {
-        printf("Usage: %s <output file> <script file>\n", argv[0]);
+        printf("Usage: %s <output file> <script file> <language>\n", argv[0]);
         return -1;
     }
 
@@ -35,6 +35,7 @@ int main(int argc, const char** argv)
 
     std::map<std::wstring, std::size_t> wordCounts;
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
+    std::string language(argv[3]);
 
     // For each entry
     for (unsigned int entryIndex = 0; entryIndex < root.Size(); ++entryIndex)
@@ -43,7 +44,7 @@ int main(int argc, const char** argv)
         auto& entry = root[entryIndex];
 
         // Take a copy of the text
-        auto s = entry["en"].As<std::string>();
+        auto s = entry[language].As<std::string>();
         if (s.empty())
         {
             // Formatting entries have no text

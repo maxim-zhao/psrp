@@ -318,6 +318,13 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             outBuffer.push_back(2); // uppercase
             script_hints = true;
         }
+        else if (matches[1].str() == L"use article" && matches[3].matched)
+        {
+            outBuffer.push_back(SymbolArticle);
+            auto i = std::stoi(matches[3].str(), nullptr, 16);
+            outBuffer.push_back((uint8_t)i); // extra articles
+            script_hints = true;
+        }
         else if (matches[1].str() == L"s")
         {
             outBuffer.push_back(SymbolSuffix);
@@ -339,7 +346,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
     }
 }
 
-void Process_Text(const std::string& name, const Table& table, std::vector<ScriptItem>& script)
+void Process_Text(const std::string& name, const std::string& language, const Table& table, std::vector<ScriptItem>& script)
 {
     // Load the file
     Yaml::Node root;
@@ -388,7 +395,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
         }
 
         // Get the text and convert from UTF-8
-        std::wstring s = convert.from_bytes(node["en"].As<std::string>().c_str());
+        std::wstring s = convert.from_bytes(node[language].As<std::string>().c_str());
 
         // replace ' with ’
         std::replace(s.begin(), s.end(), L'\'', L'\x2019');
@@ -503,11 +510,11 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
 }
 
 
-void Convert_Symbols(const std::string& scriptFilename, const std::string& tableFilename, std::vector<ScriptItem>& script)
+void Convert_Symbols(const std::string& scriptFilename, const std::string& language, const std::string& tableFilename, std::vector<ScriptItem>& script)
 {
     const Table table(tableFilename);
 
-    Process_Text(scriptFilename, table, script);
+    Process_Text(scriptFilename, language, table, script);
 
     // Measure script
     int count = 0;

@@ -1935,7 +1935,7 @@
     Sachez que j'en construisais déjà quand vous têtiez encore votre mère!<wait more>
     Bon, l'achat d'un vaisseau, ce n'est pas comme acheter des Vitabarres.<wait more>
     C'est du sérieux, et il vous en coutera beaucoup d'argent.<wait more>
-    Je demande <number><internal hint 02> meseta<use suffix> d'acompte. Avez-vous cette somme ?<end>
+    Je demande <number><internal hint 02> meseta<s> d'acompte. Avez-vous cette somme ?<end>
 
 - offsets:50b5
   # Dr Luveno (yes to the previous question)
@@ -2595,7 +2595,7 @@
     <monster>ハ フエノネヲ<line>
     キイテ オトナシクナッタ.<delay>
   en: <Article><monster> heard the sound of the flute and calmed down.<delay>
-  fr: Le doux son de flute endort <use article 01><monster>.<delay>
+  fr: Le doux son de flute endort <article><monster>.<delay>
 
 
 # *************
@@ -2788,7 +2788,7 @@
     GasClears are <number><internal hint 01> meseta<s> each. Pretty cheap, no? Want one?<end>
   fr: |
     Je parie que vous êtes surprise de trouver un magasin ici, hein ?<wait more>
-    Les masques valent <number><internal hint 02> meseta<use suffix> pièce Bon marché, non ?<wait more>
+    Les masques valent <number><internal hint 02> meseta<s> pièce Bon marché, non ?<wait more>
     En voulez-vous un?<end>
 
 - offsets:5226
@@ -2856,7 +2856,7 @@
     Nous autres de Sopia sommes très pauvres.<wait more>
     On nous considère comme des parias,<wait more>
     et la brume nous isole des autres villages.<wait more>
-    Pourriez-vous nous faire un don de <number><internal hint 02> meseta<use suffix>?<end>
+    Pourriez-vous nous faire un don de <number><internal hint 02> meseta<s>?<end>
 
 - offsets:52e1
   # The Village Chief (no to previous question)
@@ -3403,7 +3403,7 @@
   ja: テンニ カザシタ.<delay>
   translated: Alisa held the 'Eclipse Torch' over her head.
   en: <player> held <article><item> up towards the sky.<delay>
-  fr: <use article 02><player> tend <use article 01><item> vers le ciel<delay>
+  fr: <Article><player> tend <article><item> vers le ciel<delay>
 
 - offsets:26d0
   # <player>ハ ラエルマベリーヲ トッテ<line>
@@ -3411,7 +3411,7 @@
   ja: ラコニアンポットニ イレタ.<wait>
   translated: Alisa took the ‘Laerma Berries’ and put them in the ‘Laconian Pot’.
   en: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
-  fr: <use article 02><player> mets des baies Laerma dans le vase Laconian.<wait>
+  fr: <Article><player> mets des baies Laerma dans le vase Laconian.<wait>
 
 - offsets:26c4
   # If no Laconian Pot...
@@ -4045,13 +4045,13 @@
     <player>ハ <monster>ノ<line>
     コウゲキヲ カワシタ.<delay>
   en: <player> dodged <article><monster>’s attack.<delay>
-  fr: <use article 02><player> pare le coup <use article 03><monster>.<delay>
+  fr: <Article><player> pare le coup <use article 03><monster>.<delay>
 
 - offsets:1a96
   indices:004-2
   ja: <player>ハ ハナシカケタ.<end>
   en: <player> spoke to <article><monster>.<end>
-  fr: <use article 02><player> parle <use article 04><monster>.<end>
+  fr: <Article><player> parle <use article 04><monster>.<end>
 
 - offsets:1ac0,1ca4
   indices:006-2
@@ -4063,7 +4063,7 @@
   indices:008-2
   ja: ツウジナカッタ.<delay>
   en: <Article><monster> didn’t understand.<delay>
-  fr: <use article 02><monster> ne vous comprend pas.<delay>
+  fr: <Article><monster> ne vous comprend pas.<delay>
 
 - offsets:1b27
   indices:00A-2
@@ -4071,7 +4071,7 @@
     <monster>ハ ニゲミチニ<line>
     タチフサガッタ.<delay>
   en: <Article><monster> blocked the escape route.<delay>
-  fr: <use article 02><monster> bloque votre fuite.<delay>
+  fr: <Article><monster> bloque votre fuite.<delay>
 
 - offsets:20cd,20fa,2168,21cb,21fd,22ac
   indices:00C-2
@@ -4135,7 +4135,7 @@
     <monster>ノ タイリョクガ<line>
     カイフクシタ.<delay>
   en: <Article><monster>’s stamina was restored.<delay>
-  fr: <use article 02><monster> a restauré son énergie.<delay>
+  fr: <Article><monster> a restauré son énergie.<delay>
 
 - offsets:20d3
   indices:01C-2
@@ -4143,31 +4143,31 @@
     <monster>ヲ<line>
     カナシバリニシタ.<delay>
   en: <Article><monster> is all bound up.<delay>
-  fr: <use article 02><monster> s'est fait ligoter!<delay>
+  fr: <Article><monster> s'est fait ligoter!<delay>
 
 - offsets:151f
   indices:01E-2
   ja: <player>ハ カナシバリニ アッタ.<delay>
   en: <player> is all bound up.<delay>
-  fr: <use article 02><player> s'est fait ligoter !<delay>
+  fr: <Article><player> s'est fait ligoter !<delay>
 
 - offsets:12db
   indices:020-2
   ja: <player>ハ ウゴケナイ.<delay>
   en: <player> can’t move.<delay>
-  fr: <use article 02><player> ne peut plus bouger.<delay>
+  fr: <Article><player> ne peut plus bouger.<delay>
 
 - offsets:140c
   indices:022-2
   ja: <monster>ハ ウゴケナイ.<delay>
   en: <Article><monster> can’t move.<delay>
-  fr: <use article 02><monster> ne peut pas bouger.<delay>
+  fr: <Article><monster> ne peut pas bouger.<delay>
 
 - offsets:12d6
   indices:024-2
   ja: <player>ハ カナシバリガ トケタ.<delay>
   en: <player>’s bindings came apart.<delay>
-  fr: <use article 02><player> brise ses liens.<delay>
+  fr: <Article><player> brise ses liens.<delay>
 
 - offsets:1407
   indices:026-2
@@ -4175,7 +4175,7 @@
     <monster>ハ<line>
     カナシバリガ トケタ.<delay>
   en: <Article><monster>’s bindings came apart.<delay>
-  fr: <use article 02><monster> brise ses liens.<delay>
+  fr: <Article><monster> brise ses liens.<delay>
 
 - offsets:2132
   indices:028-2
@@ -4191,7 +4191,7 @@
     <monster>ハ コワクナッテ<line>
     シリゴミシタ.<delay>
   en: <Article><monster> got scared and backed away.<delay>
-  fr: <use article 02><monster> a peur et recule.<delay>
+  fr: <Article><monster> a peur et recule.<delay>
 
 - offsets:210d
   indices:02C-2
@@ -4199,7 +4199,7 @@
     <monster>ハ ニゲアシノ<line>
     ハヤサニ オドロイタ.<delay>
   en: <Article><monster> was surprised by the speed of your escape.<delay>
-  fr: <use article 02><monster> est surpris par votre fuite !<delay>
+  fr: <Article><monster> est surpris par votre fuite !<delay>
 
 - offsets:21ad
   indices:02E-2
@@ -4213,7 +4213,7 @@
     アブナイ トコロダッタ.<player>ハ<line>
     ワナヲ ミヤブッテ ハズシタ.<wait>
   en: That was close! <player> detected and removed the trap.<wait>
-  fr: <use article 02><player> le démine, c'était moins une!<wait>
+  fr: <Article><player> le démine, c'était moins une!<wait>
 
 - offsets:23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
   indices:032-2
@@ -4221,7 +4221,7 @@
     <player>ハ <item>ヲ<line>
     ツカッタ.<delay>
   en: <player> used <article><item>.<delay>
-  fr: <use article 02><player> utilise <use article 01><item>.<delay>
+  fr: <Article><player> utilise <article><item>.<delay>
 
 - offsets:2883
   indices:034-2
@@ -4229,7 +4229,7 @@
     <player>ハ <item>ヲ<line>
     ソウビシタ.<end>
   en: <player> equipped <article><item>.<end>
-  fr: <use article 02><player> s'équipe <use article 03><item>.<end>
+  fr: <Article><player> s'équipe <use article 03><item>.<end>
 
 - offsets:28cc
   indices:036-2
@@ -4237,7 +4237,7 @@
     <player>ハ <item>ヲ<line>
     ステテシマッタ.<wait>
   en: <player> discarded <article><item>.<wait>
-  fr: <use article 02><player> jette <use article 01><item>.<end>
+  fr: <Article><player> jette <article><item>.<end>
 
 - offsets:20ff,23ec,2554,2582,2677,2803
   indices:038-2
@@ -4251,7 +4251,7 @@
     シカシ ココデ <item>ハ<line>
     ヤクニ タタナイ.<wait>
   en: But <article><item> is of no use here.<wait>
-  fr: <use article 01><item> n'est pas utilisable ici.<wait>
+  fr: <article><item> n'est pas utilisable ici.<wait>
 
 - offsets:2304
   indices:03C-2
@@ -4297,7 +4297,7 @@
     <player>ハ <item>ヲ<line>
     トリダシタ.<delay>
   en: <player> took out <article><item>.<delay>
-  fr: <use article 02><player> prend <use article 01><item>.<delay>
+  fr: <Article><player> prend <article><item>.<delay>
 
 - offsets:251a,25aa,2651,279d
   indices:04C-2
@@ -4305,7 +4305,7 @@
   #Note: this was originally ‘It doesn’t look particularly broken.’
   #This translation takes the verb KOWARERU to mean ‘to be begged’
   en: There’s no real need for it right now.<wait>
-  fr: <use article 02><player> n'en a pas besoin pour le moment.<wait>
+  fr: <Article><player> n'en a pas besoin pour le moment.<wait>
 
 - offsets:112c
   indices:04E-2
@@ -4327,13 +4327,13 @@
     <player>ハ トテモ<line>
     イヤナ ヨカンガシタ.<wait>
   en: <player> got a very bad feeling.<wait>
-  fr: <use article 02><player> a un très mauvais pressentiment.<wait>
+  fr: <Article><player> a un très mauvais pressentiment.<wait>
 
 - offsets:2269,2271,2289
   indices:058-2
   ja: <player>ハ ナニモ カンジナカッタ.<wait>
   en: <player> didn’t feel anything.<wait>
-  fr: <use article 02><player> ne ressent rien d'étrange.<wait>
+  fr: <Article><player> ne ressent rien d'étrange.<wait>
 
 - offsets:269f
   indices:05A-2
@@ -4341,7 +4341,7 @@
     <monster>ハ アカイ ホナオヲ<line>
     ミテ オジケズイタ.<delay>
   en: <Article><monster> saw the red flame and seized up in fear.<delay>
-  fr: <use article 02><monster> prend peur en voyant la flamme.<delay>
+  fr: <Article><monster> prend peur en voyant la flamme.<delay>
 
 - offsets:273d
   indices:064-2
@@ -4383,7 +4383,7 @@
   indices:06E-2
   ja: <item>ヲ ミツケタ.<wait>
   en: You found <article><item>.<wait>
-  fr: <use article 02><item>!<wait>
+  fr: <Article><item>!<wait>
 
 - offsets:21d9,22b5
   indices:070-2
@@ -4397,7 +4397,7 @@
     <player>ノ タマシイハ<line>
     ヨミガエッタ.<wait>
   en: <player> revived.<wait>
-  fr: <use article 02><player> ressuscite.<wait>
+  fr: <Article><player> ressuscite.<wait>
 
 - offsets:1b45,1f21
   indices:074-2
@@ -4411,7 +4411,7 @@
     <player>ハ マダ マジックヲ<line>
     オボエテイナイ.<delay>
   en: <player> doesn’t know any spells yet.<wait>
-  fr: <use article 02><player> ne connait pas de sortilège.<delay>
+  fr: <Article><player> ne connait pas de sortilège.<delay>
 
 - offsets:28a3
   indices:078-2
@@ -4419,7 +4419,7 @@
     <player>ハ <item>ヲ<line>
     ソウビ デキナイ.<wait>
   en: <player> can’t equip <article><item>.<wait>
-  fr: Impossible d'équiper <use article 02><player> <use article 03><item>.<wait>
+  fr: Impossible d'équiper <Article><player> <use article 03><item>.<wait>
 
 - offsets:283e
   indices:07A-2
@@ -4433,13 +4433,13 @@
     ケイケンチガ <number>ポイント<line>
     アガッタ.<wait>
   en: You gained <number> experience<internal hint 02> point<s>.<wait>
-  fr: +<number> point<use suffix> d'Exp<internal hint 02>.<wait>
+  fr: Plus <number> point<s> d'Exp<internal hint 02>.<wait>
 
 - offsets:18f3
   indices:07E-2
   ja: <player>ハ レベルアップシタ.<wait>
   en: <player> leveled up.<wait>
-  fr: <use article 02><player> gagne un niveau !<wait>
+  fr: <Article><player> gagne un niveau !<wait>
 
 - offsets:1910
   indices:080-2
@@ -4447,13 +4447,13 @@
     <player>ハ マジックヲ<line>
     ヒトツ ミニツケタ.<wait>
   en: <player> learned a new spell.<wait>
-  fr: <use article 02><player> apprend un nouveau sort !<wait>
+  fr: <Article><player> apprend un nouveau sort !<wait>
 
 - offsets:2a8c
   indices:082-2
   ja: <number>メセタ ハイッテイタ.<wait>
   en: You found <number><internal hint 01> meseta<s> inside.<wait>
-  fr: +<number><internal hint 01> meseta<use suffix>.<wait>
+  fr: Plus <number><internal hint 01> meseta<s>.<wait>
 
 - offsets:2a37
   indices:084-2
@@ -4487,26 +4487,26 @@
   indices:08C-2
   ja: <item>ヲ ステテ<wait>
   en: You dropped <article><item>, and<wait>
-  fr: Vous jetez <use article 01><item>.<wait>
+  fr: Vous jetez <article><item>.<wait>
   # this runs into the next one...
 
 - offsets:297d
   indices:08E-2
   ja: <item>ヲ テニイレタ.<wait>
   en: you got <article><item>.<wait>
-  fr: Vous avez <use article 01><item>.<wait>
+  fr: Vous avez <article><item>.<wait>
 
 - offsets:2923
   indices:090-2
   ja: <item>ハ イラナイノカ.<end>
   en: Do you want to abandon <article><item>?<end>
-  fr: Voulez-vous laisser <use article 01><item> ?<end>
+  fr: Voulez-vous laisser <article><item> ?<end>
 
 - offsets:292e
   indices:092-2
   ja: <item>ヲ アキラメタ.<wait>
   en: You abandoned <article><item>.<wait>
-  fr: Vous laissez <use article 01><item>.<wait>
+  fr: Vous laissez <article><item>.<wait>
 
 - offsets:28c3,295d
   indices:094-2
@@ -4514,7 +4514,7 @@
     <item>ヲ<line>
     ステルワケニハ イカナイ.<wait>
   en: You can’t drop <article><item>!<wait>
-  fr: Impossible de jeter <use article 01><item> !<wait>
+  fr: Impossible de jeter <article><item> !<wait>
 
 - offsets:1ba7,1f2d
   indices:096-2
@@ -4526,7 +4526,7 @@
   indices:098-2
   ja: <player>ハ マダ イキテイル.<delay>
   en: <player> is still alive.<delay>
-  fr: <use article 02><player> est encore en vie.<delay>
+  fr: <Article><player> est encore en vie.<delay>
 
 - offsets:17ea
   indices:09A-2
@@ -4539,13 +4539,13 @@
   indices:09C-2
   ja: <player>ハ シンデシマッタ.<delay>
   en: <player> died.<delay>
-  fr: <use article 02><player> meurt de ses blessures.<delay>
+  fr: <Article><player> meurt de ses blessures.<delay>
 
 - offsets:19f7,2b0f
   indices:09E-2
   ja: <player>ハ モウ シンデイル.<delay>
   en: <player> is already dead.<delay>
-  fr: La mort a déjà frappé <use article 02><player>.<delay>
+  fr: La mort a déjà frappé <Article><player>.<delay>
   
 
 # **************
@@ -4678,7 +4678,7 @@
     <item>デスネ.<line>
     <number>メセタデ イイデスカ.<end>
   en: Hmm, <article><item>? How does <number><internal hint 01> meseta<s> sound?<end>
-  fr: <use article 01><item>. Disons <number><internal hint 01> ?<end>
+  fr: <article><item>. Disons <number><internal hint 01> ?<end>
 
 - offsets:2e66
   indices:0C6-2
@@ -4708,7 +4708,7 @@
     Hmm. I can get you good as new for <number><internal hint 02> meseta<s>.<wait more>
     Shall I proceed?<end>
   fr: |
-    Hmm. Les soins coutent <number><internal hint 02> meseta<use suffix>.<wait more>
+    Hmm. Les soins coutent <number><internal hint 02> meseta<s>.<wait more>
     Puis-je commencer?<end>
 
 - offsets:2b99
@@ -4804,7 +4804,7 @@
     <number>メセタ カカリマスガ<line>
     ヨロシイデスカ.<end>
   en: Our suggested donation is <number><internal hint 02> meseta<s>.<end>
-  fr: Nous suggérons un don de <number><internal hint 02> meseta<use suffix>.<end>
+  fr: Nous suggérons un don de <number><internal hint 02> meseta<s>.<end>
 
 - offsets:2ca8
   indices:0E4-2
@@ -4818,7 +4818,7 @@
     <player>ハ <number>ポイント<line>
     ヒツヨウデス.<wait>
   en: <player> needs <number><internal hint 02> point<s>.<wait>
-  fr: <use article 02><player> a besoin de <number><internal hint 02> point<use suffix>.<wait>
+  fr: <Article><player> a besoin de <number><internal hint 02> point<s>.<wait>
 
 - offsets:2ca2
   indices:0E8-2
@@ -5143,7 +5143,7 @@
     <player>ハ モウ<line>
     チカライッパイデス.<wait>
   en: <player> is already at full health.<wait>
-  fr: <use article 02><player> est déjà en pleine forme.<wait>
+  fr: <Article><player> est déjà en pleine forme.<wait>
 
  # Continue/Save "dialogue" removed...
 - offsets:#07ee
@@ -5205,13 +5205,13 @@
 
 - offsets:ScriptNoSavedGames
   en: There are no saved games!<wait>
-  fr: Il n'y a pas de sauvegardes!
+  fr: Il n'y a pas de sauvegardes!<wait>
 
 - offsets:16a8
   indices:146-2
   ja: <player>ハ イシニ ナッテシマッタ.<wait>
   en: <player> turned to stone.<wait>
-  fr: <use article 02><player> se fait pétrifier !<wait>
+  fr: <Article><player> se fait pétrifier !<wait>
 
 - offsets:136e
   indices:148-2
@@ -5219,7 +5219,7 @@
     <item>ハ イマ ダレカガ<line>
     ツカッテシマッタ.<wait>
   en: Someone has used <article><item> up.<wait>
-  fr: Quelqu'un utilise <use article 01><item>.<wait>
+  fr: Quelqu'un utilise <article><item>.<wait>
 
 - offsets:58bd
   indices:152-2
