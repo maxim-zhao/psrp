@@ -1,0 +1,4 @@
+[submodule "psrp/mini-yaml"]
+	path = psrp/mini-yaml
+	url = https://github.com/jimmiebergmann/mini-yaml.git
+	branch = master

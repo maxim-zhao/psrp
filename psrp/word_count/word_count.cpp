@@ -6,7 +6,13 @@
 #include <algorithm>
 #include <locale>
 #include <codecvt>
- 
+// We just include the cpp here to make things simpler...
+#pragma warning(push, 3)
+#pragma warning(disable: 4244)
+#include "../mini-yaml/yaml/Yaml.hpp"
+#include "../mini-yaml/yaml/Yaml.cpp"
+ #pragma warning(pop)
+
 int main(int argc, const char** argv)
 {
     if (argc != 3)
@@ -15,33 +21,22 @@ int main(int argc, const char** argv)
         return -1;
     }
 
-    std::map<std::wstring, std::size_t> wordCounts;
-
     // Load the file
-    std::ifstream f(argv[2]);
-    // Check for a BOM
-    int bom = 0;
-    f.read(reinterpret_cast<char *>(&bom), 3);
-    if (bom != 0xbfbbef)
-    {
-        // Not found -> rewind
-        f.seekg(0);
-    }
+    Yaml::Node root;
+    Yaml::Parse(root, argv[2]);
+    printf("3\n");
+
+    std::map<std::wstring, std::size_t> wordCounts;
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
 
-    // For each line
-    for (std::string s; std::getline(f, s);)
+    // For each entry
+    for (unsigned int entryIndex = 0; entryIndex < root.Size(); ++entryIndex)
     {
-        // Skip blanks
-        if (s.empty())
-        {
-            continue;
-        }
-        // Skip comments, IDs
-        if (s[0] == ';' || s[0] == '[')
-        {
-            continue;
-        }
+        // Get the entry
+        auto& entry = root[entryIndex];
+        // Take a copy of the text
+        auto s = entry["en"].As<std::string>("");
+        printf("Entry %d is \"%s\"\n", entryIndex, s.c_str());
         // Remove <> commands
         for (auto pos = s.find('<'); pos != std::string::npos; pos = s.find('<', pos))
         {

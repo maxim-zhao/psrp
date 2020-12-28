@@ -51,12 +51,12 @@
 # ********************
 
 # <width 1C><height 06>
-width:28
-height:6
+- width:28
+  height:6
 
 - offsets:45ef
   # Nero on ground, robot police
-  indices:[ [156]-2]
+  indices:156-2
   ja: |
     ラシークサマノ コトヲ コソコソト<line>
     カギマワリヤガッテ.<line>
@@ -83,7 +83,7 @@ height:6
 
 - offsets:45fa
   # Nero, dying
-  indices:[ [158]-2]
+  indices:158-2
   ja: |
     アリサ.キイテクレ.<line>
     ラシークハ コノホシニ キョダイナ<line>
@@ -154,7 +154,7 @@ height:6
 
 - offsets:4605
   descrption: Alisa
-  indices:[ [15A]-2]
+  indices:15A-2
   ja: |
     アリサハ ニイサンノ イノチヲ ムダニ<line>
     シナイタメニ タタカイニ イキマス.<line>
@@ -181,11 +181,11 @@ height:6
 # *************************************
 
 # <width 18><height 04>
-width:24
-height:4
+- width:24
+  height:4
 
 - offsets:58fc
-  indices:[2A4]
+  indices:2A4
   # Alisa's house
   ja: ココハ アリサノ ウチデス.<line>
   translated: This is Alisa’s house. Nobody is here.
@@ -198,7 +198,7 @@ height:4
 
 - offsets:4b48
   # Suelo (first visit)
-  indices:[002],[004]
+  indices:002,004
   ja: |
     ワタシハ スエロ.アリサノ キモチハヨクワカルワ.モウダレモ アナタヲ<wait more>
     トメルコトハ デキナイ. デモ モシタタカイデ キズツイタトキハ<wait>
@@ -216,7 +216,7 @@ height:4
 
 - offsets:4b4e
   # Suelo (subsequent visits)
-  indices:[006]
+  indices:006
   ja: |
     ココデ ユックリ ヤスンデ オユキ.<wait more>
     ムリヲ シナイヨウニネ.<line>
@@ -231,7 +231,7 @@ height:4
 
 - offsets:4b62
   # Nekiseh (first visit)
-  indices:[008],[00A],[00C],[00E]
+  indices:008,00A,00C,00E
   ja: |
     ボクハ ネキセ.<line>
     キクトコロニ ヨルト<wait more>
@@ -257,7 +257,7 @@ height:4
 
 - offsets:4b7c
   # Nekiseh (subsequent visits)
-  indices:[010]
+  indices:010
   ja: |
     チカラニナレナクテ ゴメン.<line>
     ブジヲ イノッテルヨ.<wait>
@@ -267,7 +267,7 @@ height:4
 
 - offsets:4b82
   # Camineet resident - man
-  indices:[012]
+  indices:012
   ja: |
     コノ カミニート キョジュウクハ<line>
     カイゲンレイガ シカレテイルンダ.<wait>
@@ -279,7 +279,7 @@ height:4
 
 - offsets:4b88
   # Camineet resident - man
-  indices:[014]
+  indices:014
   ja: カギノ カカッタ ドアヲ アケルニハダンジョンキーガ ヒツヨウデス.<wait>
   translated: You need a ‘Dungeon Key’ to open locked doors.
   en: Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
@@ -287,7 +287,7 @@ height:4
 
 - offsets:4b8e
   # Camineet resident - man
-  indices:[016]
+  indices:016
   ja: |
     アカリガナイト ススメナイ<line>
     ダンジョンモ アルヨ.<wait>
@@ -297,7 +297,7 @@ height:4
 
 - offsets:4b94
   # Camineet resident - man
-  indices:[018]
+  indices:018
   ja: カミニートノ ニシハ スペースポートデス.<wait>
   translated: West of Camineet? That's the Spaceport.
   en: |
@@ -310,7 +310,7 @@ height:4
 
 - offsets:4b9a
   # Camineet resident - man
-  indices:[01A]
+  indices:01A
   ja: ミナトマチデハ イロイロナ トリヒキガ デキル トイウ ハナシダ.<wait>
   translated: They say that all sorts of business goes on in the port town.
   en: You can buy just about anything in port towns. I even got a fake I.D. once!<wait>
@@ -318,7 +318,7 @@ height:4
 
 - offsets:4bba
   # Camineet police
-  indices:[01C]
+  indices:01C
   ja: キョジュウクノ ソトニハ デナイホウガ ミノタメダ.<wait>
   translated: Stay inside the residential area if you know what's good for you.
   en: Remain inside the residential area. It is not safe for citizens outside.<wait>
@@ -326,7 +326,7 @@ height:4
 
 - offsets:4bc0
   # Camineet police
-  indices:[01E]
+  indices:01E
   ja: シニタクナカッタラ ココニイルンダ.<wait>
   translated: I can’t just let you pass through here!
   en: We cannot protect you outside. Stay inside of your homes until the danger has passed.<wait>
@@ -334,7 +334,7 @@ height:4
 
 - offsets:4bcd,4c26,4cc2,4d0e
   # Camineet police (at road, without a Roadpass)
-  indices:[020]
+  indices:020
   ja: ココヲ トオスワケニハ イカナイ.<wait>
   translated: Want to stay alive?  Then stay here!
   en: Authorization is required to pass this point. Stay back or we will use force!<wait>
@@ -342,7 +342,7 @@ height:4
 
 - offsets:4bda,4d23
   # Camineet police (at road, without a Roadpass)
-  indices:[022]
+  indices:022
   ja: |
     ロードパスノ ナイモノハ ココヲ<line>
     トオレナイ.<wait>
@@ -353,7 +353,7 @@ height:4
 - offsets:4be0,4c3a,4cd5,4d18,4d2d,5497
   # Camineet police (at road, with a Roadpass)
   # (also used elsewhere)
-  indices:[024]
+  indices:024
   ja: トオッテ ヨシ.<wait>
   translated: Okay, you may pass.
   en: Okay, go on through.<wait>
@@ -361,7 +361,7 @@ height:4
 
 - offsets:4ba0
   # Camineet resident - man
-  indices:[062]
+  indices:062
   ja: アルゴル タイヨウケイノ ワクセイヲシッテイルカナ.<end>
   translated: Do you know the planets in the Algol Solar System?
   en: Do you know about all the planets in the Algol Solar System?<end>
@@ -369,7 +369,7 @@ height:4
 
 - offsets:4bb4
   # Camineet resident - man - "no" to question about Algol
-  indices:[064],[066],[068]
+  indices:064,066,068
   ja: |
     パルマ モタビア デゾリス ノ <number>ツノ ワクセイガアル.<wait more>
     パルマハ ミドリノホシ.モタビアハ<line>
@@ -401,7 +401,7 @@ height:4
 - offsets:4ba9,4e06,4e26
   # Camineet resident - man - "yes" to question about Algol
   # (also used elsewhere)
-  indices:[060]
+  indices:060
   ja: ナラバ ヨイ.<wait>
   translated: I see. Never mind.
   en: Oh. Okay.<wait>
@@ -413,7 +413,7 @@ height:4
 
 - offsets:4bf1
   # Woman
-  indices:[026]
+  indices:026
   ja: ココハ パロリト キョジュウクヨ.<wait>
   translated: This is Parolit residential district.
   en: Welcome to Parolit residential district.<wait>
@@ -421,20 +421,19 @@ height:4
 
 - offsets:4bf7
   # Man
-  indices:[028]
+  indices:028
   ja: |
     モリノナカハ トクニ<line>
     キヲツケタホウガイイヨ.<wait>
   translated: When you're in the forest, you need to be especially cautious.
   en: The forest is especially dangerous lately, be careful if you head that way.<wait>
-Il est facile de se perdre dans la forêt, sois prudente.<wait>
+  fr: Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4bfd
   # Man
-  indices:[02A]
-  ja: キョジュウクノ ミナミノ ドウクツニメデューサ トイウ マモノガ<wait more>
-  indices:[02C]
+  indices:02A,02C
   ja: |
+    キョジュウクノ ミナミノ ドウクツニメデューサ トイウ マモノガ<wait more>
     ヨミガエッタトイウ.スガタヲ<line>
     ミタモノハ イシニ サレルソウダ.<wait>
   translated: I hear that the monster Medusa has returned to the cave South of the city. They say if you look at it, you'll turn to stone!
@@ -447,7 +446,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4c03
   # Man
-  indices:[02E]
+  indices:02E
   ja: |
     ヒガシヘ イクト シオン トイウ<line>
     ミナトマチガ アルラシイ.<wait>
@@ -457,7 +456,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4c09
   # Man
-  indices:[030]
+  indices:030
   ja: |
     スペースポートカラ モタビアセイノ<line>
     パセオ マデ イケルヨ.<wait>
@@ -471,7 +470,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4c0f
   # Man
-  indices:[032]
+  indices:032
   ja: パロリトノ ニシニアル ガシコノモリヘハ チカツウロガ アルラシイ.<wait>
   translated: I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
   en: |
@@ -488,7 +487,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4c40
   # Man
-  indices:[286]
+  indices:286
   ja: |
     モタビアセイニハ モタビアン<line>
     デゾリスセイニハ デゾリアン トイウ<wait more>
@@ -503,7 +502,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4da7
   # Man
-  indices:[034],[036],[038]
+  indices:034,036,038
   ja: |
     タイロンナラ メデューサヲ タオシニイッタヨ. ヤツハ コトバヲ ハナス<wait more>
     ドウブツヲ ツレテ イタナア.<line>
@@ -523,7 +522,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4dac
   # Same man (second time)
-  indices:[03A]
+  indices:03A
   ja: |
     ラシーク ヲ タオシニイクンダッテ<line>
     ナ. ガンバレヨ.<wait>
@@ -534,7 +533,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
     Que Dieu vous protège.<wait>
 
 - offsets:4db6
-  indices:[03C],[03E]
+  indices:03C,03E
   ja: |
     コノマエ メデューサノ ドウクツデ<line>
     シャベル ドウブツヲ ヒロッタンダ.<wait more>
@@ -549,7 +548,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4dbb
   # Same person as above (second time)
-  indices:[040]
+  indices:040
   ja: |
     サイキンハ フケイキダネ.ドコカニ<line>
     イイ モウケバナシハ ナイモノカネ.<wait>
@@ -562,7 +561,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
     Je suis tellement déprimé que je ne sais quoi faire.<wait>
 
 - offsets:4dc1
-  indices:[042]
+  indices:042
   ja: |
     シオンノ ミナミノ ハントウニハ<line>
     イアラト ヨバレル ドウクツガアル.<wait>
@@ -571,7 +570,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
   fr: La grotte Iala est située sur la péninsule au sud de la ville.<wait>
 
 - offsets:4dc7
-  indices:[044]
+  indices:044
   ja: ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
   translated: This is the port town of Shion. This place used to be busy with trade.
   en: |
@@ -583,7 +582,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
     Aujourd'hui, la plupart d'entre-nous est au chomage.<wait>
 
 - offsets:4dcd
-  indices:[046]
+  indices:046
   ja: |
     エピトイウ マヨイノモリハ<line>
     コンパスガナイト トオレナイヨ.<wait>
@@ -592,14 +591,14 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
   fr: Aller dans la forêt d'Eppi sans boussole ? Vous devez être un peu stupide !<wait>
 
 - offsets:4dd3
-  indices:[048]
+  indices:048
   ja: マホウノ カカッタドアハ マジックヲツカワナイト ヒラキマセン.<wait>
   translated: Magically-sealed doors can be opened only with magic.
   en: The only way to open a door sealed with magic is to cast a spell of your own.<wait>
   fr: La seul moyen de débloquer une porte scellée, est d'y jeter un de vos propres sorts.<wait>
 
 - offsets:4dd9
-  indices:[04A]
+  indices:04A
   ja: |
     コノマチカラ キタヘイクト バヤ<line>
     マーレ トイウ オカガ アリマス.<wait more>
@@ -614,7 +613,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
     Mais vous ne serez pas en mesure d'y accéder.<wait>
 
 - offsets:4ddf
-  indices:[04C]
+  indices:04C
   ja: |
     バヤマーレノ キタノ カイガンニ<line>
     ナウラトイウ ドウクツガ アリマス.<wait>
@@ -628,7 +627,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:2dab
   # Trader (first time you buy the Secret Thing)
-  indices:[142]
+  indices:142
   ja: ダレニ キイタカ シラナイガ<line>
   translated: Who the hell told you that? You’d better just forget about it if you know what’s good for you.
   en: I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
@@ -636,7 +635,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:2db0
   # Trader (second time you buy the Secret Thing)
-  indices:[144]
+  indices:144
   ja: ダメナモノハ ダメダ.<line>
   translated: Give it up, willya? Now get outta here!
   en: |
@@ -648,7 +647,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:2ddc
   # Trader (third time you buy the Secret Thing)
-  indices:[146]
+  indices:146
   ja: シツコイヤツダ.ソンナニ イウノナラシカタガナイ.ダレニモ イウナヨ.<wait>
   translated: You just don't quit, do you? I give up. If you're gonna keep bugging me, then just [take it]. But don't tell anybody.
   en: |
@@ -664,7 +663,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 # ******************
 
 - offsets:578f
-  indices:[0B2-2]
+  indices:0B2-2
   ja: |
     モリノナカデ ミチニ マヨッテ<line>
     シマッタ.<wait>
@@ -679,7 +678,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4c9e
   # Luggage handler
-  indices:[06A]
+  indices:06A
   ja: ココハ パルマノ スペースポートダ.モタビアセイノ パセオマデ イケル.<wait>
   translated: This is Palma Spaceport. You can go to Paseo, on the planet Motavia.
   en: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
@@ -687,7 +686,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4ca4
   # Luggage handler
-  indices:[06C]
+  indices:06C
   ja: パセオニハ ソウトクガ イル.モタビアセイ ゼンブヲ オサメテイルンダ.<wait>
   translated: The Governor-General lives in Paseo. He rules all of Motavia.
   en: The Governor-General rules all of Motavia from his office in Paseo.<wait>
@@ -695,7 +694,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4caa
   # Luggage handler
-  indices:[06E]
+  indices:06E
   ja: ガシコノ ケンキュウジョデハ ムカシスペースシップヲ ツクッテタソウダ.<wait>
   translated: Rumor has it that the Gothic Laboratory was once used to build spaceships. Back in the old days, ships like these were built at the laboratory in Gothic.<wait>
   en: Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
@@ -703,7 +702,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4c1d,4cb7
   # Airstrip guards
-  indices:[070]
+  indices:070
   ja: パスポートヲ モッテイルカ.<end>
   translated: Do you have a passport?
   en: Do you have a Passport?<end>
@@ -711,7 +710,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4d33
   # Passport office
-  indices:[072]
+  indices:072
   ja: |
     ココデ パスポートノ シンセイガ<line>
     デキマス.シンセイヲシマスカ.<end>
@@ -721,7 +720,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4d44
   # Passport office
-  indices:[074]
+  indices:074
   ja: イママデニ ワルイコトヲ シタコトガアリマスカ.<end>
   translated: Up to today, have you ever done any bad things?
   en: |
@@ -733,7 +732,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4d55
   # Passport office
-  indices:[076]
+  indices:076
   ja: |
     イマ アナタハ ナニカ ワルイ<line>
     ビョウキニ カカッテイマスカ.<end>
@@ -743,7 +742,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4d6c
   # Passport office
-  indices:[078]
+  indices:078
   ja: |
     テスウリョウ <number>メセタデス.<line>
     ヨロシイデスカ.<end>
@@ -754,7 +753,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4d91
   # Passport office
-  indices:[07A]
+  indices:07A
   ja: デハ パスポートヲ ハッコウシマス.オウケトリクダサイ.<wait>
   en: |
     Great! Here is your passport. Be sure to retain possession of it at all times.<wait more>
@@ -766,7 +765,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4d3e,4d77,4eca
   # Passport office (say "no" to question about paying)
-  indices:[07C]
+  indices:07C
   ja: ソウデスカ.デハ オキヲツケテ.<wait>
   translated: I see. Well then, take care.
   en: Oh, okay then.<wait>
@@ -774,7 +773,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4d4f,4d60
   # Passport office (say "no" to first two questions)
-  indices:[07E]
+  indices:07E
   ja: |
     ソレハ ヨクナイデスネ.<line>
     マタ オコシクダサイ.<wait>
@@ -789,7 +788,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4e31
   # Luggage handler
-  indices:[080]
+  indices:080
   ja: |
     ココハ モタビアノ<line>
     パセオ スペースポート ダヨ.<wait>
@@ -799,7 +798,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4e37
   # Luggage handler
-  indices:[082]
+  indices:082
   ja: |
     サバクノ ナカデハ アリジゴクガ<line>
     アバレテ イルトイウ ウワサダヨ.<wait>
@@ -808,7 +807,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
   fr: C'est la saison de reproduction des fourmilions, soyez prudente.<wait>
 
 - offsets:4e3d
-  indices:[084]
+  indices:084
   ja: |
     パルマセイノ<line>
     ナウラ トイウ ドウクツニハ<wait more>
@@ -826,7 +825,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 # *************
 
 - offsets:4e43
-  indices:[086]
+  indices:086
   ja: |
     モタビアノ ソウトクハ ジツハ<line>
     ラシークト ナカガ ワルイラシイヨ.<wait>
@@ -835,7 +834,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
   fr: Même le Gouverneur est en froid avec Lassic.<wait>
 
 - offsets:4e49
-  indices:[088]
+  indices:088
   ja: |
     ソウトクニ アウニハ オクリモノガ<line>
     イルソウヨ.<wait>
@@ -844,21 +843,21 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
   fr: Pour obtenir une entrevue avec le Gouverneur, il faut un cadeau.<wait>
 
 - offsets:4e4f
-  indices:[08A]
+  indices:08A
   ja: ソウトクハ アマイモノガ ダイスキ.<wait>
   translated: The Governor-General loves sweets.
   en: The Governor-General has got a real sweet tooth.<wait>
   fr: Le Gouverneur aime les petites douceurs...<wait>
 
 - offsets:4e55
-  indices:[08C]
+  indices:08C
   ja: マハル トイウ ドウクツガ パセオノキタノ ヤマノ ナカニ アリマス.<wait>
   translated: Maharu Cave is located in the mountains to the north of Paseo.
   en: Mahal Cave is located in the mountains north of Paseo.<wait>
   fr: La grotte Mahal se situe dans les montagnes au nord de Paséo.<wait>
 
 - offsets:4e5b
-  indices:[08E]
+  indices:08E
   ja: |
     ココハ モタビアノ シュト<line>
     パセオ デス.<wait>
@@ -867,7 +866,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
   fr: Bienvenue à Paséo, la capitale de Motavia.<wait>
 
 - offsets:4e61
-  indices:[090]
+  indices:090
   ja: |
     アリジゴクハ ヒトノ アシデハ<line>
     トテモ トオレナイダロウ.<wait>
@@ -876,7 +875,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
   fr: Vous ne pouvez pas enjamber les fourmilions !<wait>
 
 - offsets:4e67
-  indices:[288]
+  indices:288
   ja: |
     カシコイ モンスターニハ<line>
     モンスターコトバガ アルソウダ.<wait>
@@ -888,7 +887,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4e7f
   # Trader (before getting Myau)
-  indices:[092]
+  indices:092
   ja: メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
   # <number> is always 10.
   translated: I gotta real rare animal here. You can have it fuh 10 billion mesetas. Whuddayuhsay?
@@ -902,7 +901,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4e8a
   # Trader (say yes to previous question)
-  indices:[094]
+  indices:094
   ja: アンタ ウソツキダネ.<wait>
   translated: Yeah, right. You gotta be kiddin’ me!
   en: |
@@ -914,7 +913,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4e98
   # Trader (say no to previous question)
-  indices:[096],[098]
+  indices:096,098
   ja: |
     オヤ アンタ メズラシイ ツボヲ<line>
     モッテイルネ.<wait more>
@@ -933,7 +932,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4ea9
   # Trader (say yes to previous question)
-  indices:[09A]
+  indices:09A
   ja: |
     ソレジャ ツレテイキナ.<line>
     カワイガッテ ヤッテクレ.<wait>
@@ -945,7 +944,7 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
 - offsets:4e73
   # Trader (after getting Myau)
-  indices:[28A]
+  indices:28A
   ja: ラコニアンポットハ トテモ タカク<line>
   translated: That laconian pot was worth a fortune! Thanks a bundle!
   en: I made a fortune selling that Laconian Pot! Thanks!<wait>
@@ -957,12 +956,12 @@ Il est facile de se perdre dans la forêt, sois prudente.<wait>
 # ******************************
 
 # <width 1C><height 06>
-width:28
-height:6
+- width:28
+  height:6
 
 - offsets:4643
   # Alisa
-  indices:[15C-2]
+  indices:15C-2
   ja: |
     キョウカラ ナカマネ.<line>
     ワタシハ アリサ.<line>
@@ -977,7 +976,7 @@ height:6
 
 - offsets:464e
   # Myau
-  indices:[15E-2]
+  indices:15E-2
   ja: ミャウ.<wait>
   translated: Myau.
   en: Myau.<wait>
@@ -985,7 +984,7 @@ height:6
 
 - offsets:4659
   # Alisa
-  indices:[160-2]
+  indices:160-2
   ja: |
     ネエ ミャウ.<line>
     タイロンノ コト ナンダケド ナニカ<line>
@@ -1002,7 +1001,7 @@ height:6
 
 - offsets:4664
   # Myau
-  indices:[162-2]
+  indices:162-2
   ja: |
     タイロン イシニ ナッチャッタノ.<line>
     コノ クスリ カケレバ ナオルンダ.<line>
@@ -1019,7 +1018,7 @@ height:6
 
 - offsets:466f
   # Alisa
-  indices:[164-2]
+  indices:164-2
   ja: |
     ソッカ.<line>
     ジャ イッショニ タイロンヲ<line>
@@ -1029,12 +1028,12 @@ height:6
   fr: Je pense que je devrais y arriver. Viens, allons l'aider.<wait>
 
 # <width 18><height 04>
-width:24
-height:4
+- width:24
+  height:4
 
 - offsets:25af,260c,262d
   # Using "Alsuline"
-  indices:[052-2]
+  indices:052-2
   ja: |
     シカシ ミャウハ ビンノ フタヲ<line>
     アケルコトガ デキナカッタ.<wait>
@@ -1048,7 +1047,7 @@ height:4
 # ******************************
 
 - offsets:57ec
-  indices:[0FA]
+  indices:0FA
   ja: イシニ サレテシマッタ ヒトラシイ.モトニ モドレルノダロウカ.<wait>
   translated: It seems that something turned this person into stone! Maybe he can be returned to normal...
   en: Something turned this person into stone! Maybe he can be returned to normal...<wait>
@@ -1058,7 +1057,7 @@ height:4
 
 - offsets:25bd,2636
   # Using "Alsuline"
-  indices:[050-2]
+  indices:050-2
   ja: |
     ソシテ ビンノ フタヲ アケテ<line>
     シズカニ タラシタ.<delay>
@@ -1073,11 +1072,11 @@ height:4
 # ********************************
 
 # <width 1C><height 06>
-width:28
-height:6
+- width:28
+  height:6
 
 - offsets:4688
-  indices:[166-2]
+  indices:166-2
   # Tairon
   ja: |
     アリガトウ.タスカッタヨ.<line>
@@ -1096,7 +1095,7 @@ height:6
     Comment s'appelle ta nouvelle amie ?<wait>
 
 - offsets:4693
-  indices:[168-2]
+  indices:168-2
   # Alisa
   ja: |
     ワタシノ ニイサンモ ラシークヲ<line>
@@ -1114,7 +1113,7 @@ height:6
     Néro m'a parlé de toi juste avant de mourir.  Il disait que tu m'aiderais.<wait>
 
 - offsets:469e
-  indices:[16A-2]
+  indices:16A-2
   # Tairon
   ja: |
     ソウダッタノカ.<line>
@@ -1130,7 +1129,7 @@ height:6
     Bon, je ne peux pas laisser une fille comme toi partir seule, non ?<wait>
 
 - offsets:46a9
-  indices:[16C-2]
+  indices:16C-2
   # Alisa
   ja: |
     ソレヨリ ナゼ メデューサヲ<line>
@@ -1144,7 +1143,7 @@ height:6
     Pourquoi cours-tu après Médusa ?<wait>
 
 - offsets:46b4
-  indices:[16E-2]
+  indices:16E-2
   ja: |
     メデューサガ モッテイル デンセツノ<line>
     オノガ ホシカッタンダケド<line>
@@ -1171,12 +1170,12 @@ height:6
 # ************
 
 # <width 18><height 04>
-width:24
-height:4
+- width:24
+  height:4
 
 - offsets:4de5
   # Villager
-  indices:[04E]
+  indices:04E
   ja: モタビアノ ソウトクハ モシカシタラミカタニ ナッテクレルカモシレナイ.<wait>
   translated: I wonder if Motabia’s Governor-general might aid you in your quest.
   en: |
@@ -1188,7 +1187,7 @@ height:4
 
 - offsets:4deb
   # Villager
-  indices:[050]
+  indices:050
   ja: |
     モタビアニハ スゴイ エスパーガ<line>
     イルラシイヨ.<wait>
@@ -1198,7 +1197,7 @@ height:4
 
 - offsets:4df1
   # Villager
-  indices:[052]
+  indices:052
   ja: ガシコノモリニハ ソノムカシ ルベノハカセノ ケンキュウジョガ アッタ.<wait>
   translated: A doctor named ‘Luveno’ used to have a laboratory in Gothic Forest.
   en: |
@@ -1210,7 +1209,7 @@ height:4
 
 - offsets:4df7
   # Villager
-  indices:[054]
+  indices:054
   ja: エピノムラヘ ヨウコソ.<wait>
   translated: Welcome to Eppi Village!
   en: |
@@ -1223,7 +1222,7 @@ height:4
 
 - offsets:4dfd
   # Villager
-  indices:[056]
+  indices:056
   ja: ソナタハ ダンジョンキーノ アリカヲサガシテ イルノカナ.<end>
   translated: Are you by any chance searching for the ‘Dungeon Key’?
   en: |
@@ -1238,7 +1237,7 @@ height:4
 
 - offsets:4e17
   # Villager (yes to previous question)
-  indices:[058],[05A]
+  indices:058,05A
   ja: |
     ダンジョンキーハ カミニート<line>
     キョジュウクノ ハズレニアル<wait more>
@@ -1256,7 +1255,7 @@ height:4
 
 - offsets:4e1d
   # Villager
-  indices:[05C]
+  indices:05C
   ja: セカイデ イチバン カタクテ ツヨイブッシツヲ シッテイルカ.<end>
   translated: Do you know what the hardest, strongest material in the world is?
   en: Do you know what the hardest, strongest material in the world is?<end>
@@ -1264,7 +1263,7 @@ height:4
   
 - offsets:4e2b
   # Villager (no to previous question)
-  indices:[05E]
+  indices:05E
   ja: |
     ソレハ ラコニア ジャ. ソレデ<line>
     デキタ ブキハ サイキョウナンジャ.<wait>
@@ -1279,7 +1278,7 @@ height:4
 
 - offsets:5373
   # Shortcake Salesman
-  indices:[24A]
+  indices:24A
   ja: |
     コンナトコロニ オミセガ アッテ<line>
     ゴメンナサイ.<wait more>
@@ -1303,7 +1302,7 @@ height:4
 
 - offsets:4fd4
   # Guards outside Underground Passage to Governor's Mansion
-  indices:[0B4]
+  indices:0B4
   ja: グウグウ.<wait>
   translated: zzz... zzz...
   en: zzz...<wait>
@@ -1311,7 +1310,7 @@ height:4
 
 - offsets:5627
   # Guard inside Underground Passage to Governor's Mansion
-  indices:[09C]
+  indices:09C
   ja: ソウトクヘノ オクリモノヲ<line>
   translated: Did you bring a present for the Governor-General?
   en: Halt! Did you bring a gift for the Governor-General?<end>
@@ -1321,7 +1320,7 @@ height:4
 
 - offsets:564b
   # Guard inside Underground Passage to Governor's Mansion (yes/shortcake to previous question)
-  indices:[09E]
+  indices:09E
   ja: |
     デハ ソノ ショートケーキヲ<line>
     アズカッテ オコウ.<wait>
@@ -1335,7 +1334,7 @@ height:4
 
 - offsets:5651
   # Guard inside Underground Passage to Governor's Mansion (yes/other item to previous question)
-  indices:[0A0]
+  indices:0A0
   ja: オクリモノニ ナルヨウナ モノヲ<line>
   translated: That is NOT a suitable gift. 
   en: These are not suitable gifts!<wait>
@@ -1343,7 +1342,7 @@ height:4
 
 - offsets:5632
   # Guard inside Underground Passage to Governor's Mansion (no to previous question)
-  indices:[0A2]
+  indices:0A2
   ja: サッサト カエレ.<wait>
   translated: Leave at once!
   en: I can’t grant you access without a gift!<wait>
@@ -1351,7 +1350,7 @@ height:4
 
 - offsets:4f19
   # Governor-General (first visit)
-  indices:[0A4],[0A6],[0A8],[0AA]
+  indices:0A4,0A6,0A8,0AA
   ja: |
     ワタシガ コノホシノ ソウトクダ.<line>
     ラシークヲ タオシニ イクソウダナ.<wait more>
@@ -1387,20 +1386,20 @@ height:4
 
 - offsets:4f13,4fc6
   # Governor-General (subsequent visits)
-  indices:[0AA],[0AA-2]
+  indices:0AA,0AA-2
   ja: ラシークヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
   en: Return here when you have defeated LaShiec. God be with you.<wait>
   fr: Revenez ici quand vous aurez vaincu Lassic. Que Dieu vous garde.<wait>
 
 - offsets:4ff9
-  indices:[0B8]
+  indices:0B8
   ja: ドウカ ブジニ モドッテキテネ.<line>
   en: Good luck out there. You’re going to need it.<wait>
   fr: Bonne chance. Vous allez en avoir besoin.<wait>
 
 - offsets:4f2f
   # Lady in Guest House (first visit)
-  indices:[29C]
+  indices:29C
   ja: ナガイタビデ ツカレタダロウ.<line>
   translated: You must be tired from your long journey. You should relax here for a while.
   en: You must be tired from your journey. Why don’t you rest here for a while?<wait>
@@ -1410,7 +1409,7 @@ height:4
 
 - offsets:4fda
   # Lady in Guest House (subsequent visits)
-  indices:[0B6]
+  indices:0B6
   ja: ドウゾ ヤスンデ イッテネ.<wait>
   translated: Please rest before you go.
   en: You look tired, why don’t you rest here for a while?<wait>
@@ -1419,14 +1418,14 @@ height:4
     pourquoi ne pas vous reposer ici un moment ?<wait>
 
 - offsets:4f5b
-  indices:[2A0]
+  indices:2A0
   ja: フカイ ネムリニ ツイタ.<delay>
   translated: You enter into a deep sleep…
   en: You fell into a deep sleep...<delay>
   fr: Vous tombez dans un profond sommeil ...<delay>
 
 - offsets:4fa2
-  indices:[2A2]
+  indices:2A2
   ja: オソロシイ ユメダッタ.<wait>
   translated: What a frightening dream !
   en: It was all a dream...<wait>
@@ -1434,7 +1433,7 @@ height:4
 
 - offsets:4f0d
   # Governor-General (return after dream):
-  indices:[29E],[1B0]
+  indices:29E,1B0
   ja: |
     モウ イッコクノ ユウヨモ<line>
     ユルサレナイ.<wait more>
@@ -1453,7 +1452,7 @@ height:4
 
 - offsets:4ed6
   # (after defeating LaShiec)
-  indices:[2A6]
+  indices:2A6
   ja: オヤ.ヨウスガ ヘンダ.<wait more>
   translated: Hey. That’s weird... Where’d the Governor-General go?
   en: Empty! Where is the Governor-General?<wait>
@@ -1465,7 +1464,7 @@ height:4
 # ******************
 
 - offsets:53c4
-  indices:[0AC]
+  indices:0AC
   ja: |
     ルツハ パセオノ ソウトクノ<line>
     メイレイナラバ キクカモシレナイ.<wait>
@@ -1473,14 +1472,14 @@ height:4
   fr: Les ordres venant du Gouverneur, Lutz les écoutera peut-être...<wait>
 
 - offsets:53c9
-  indices:[0B2]
+  indices:0B2
   ja: ヤッホー.<wait>
   en: Yahoo!<wait>
   fr: Salut<wait>
 
 - offsets:53df
   # Lutz, if you have no letter
-  indices:[0AE],[0B0]
+  indices:0AE,0B0
   ja: |
     アナタガタハ ダレデスカ. ワタシハイマ シュギョウチュウデス.<wait more>
     ジャマヲ シナイデ クダサイ.<wait>
@@ -1497,11 +1496,11 @@ height:4
 # *** Character Intro - Lutz ***
 # ******************************
 # <width 1C><height 06>
-width:28
-height:6
+- width:28
+  height:6
 
 - offsets:46e7
-  indices:[170-2]
+  indices:170-2
   ja: |
     ソウトクカラノ テガミヲ アズカッテ<line>
     キマシタ.<line>
@@ -1516,7 +1515,7 @@ height:6
     Voudriez-vous la lire ?<wait>
 
 - offsets:46f2
-  indices:[172-2]
+  indices:172-2
   ja: |
     ワカリマシタ.<line>
     ミンナデ コノ アルゴルタイヨウケイヲ<line>
@@ -1549,13 +1548,13 @@ height:6
 # *** Gothic Woods ***
 # ********************
 # <width 18><height 04>
-width:24
-height:4
+- width:24
+  height:4
 
 
 - offsets:500b,5034,533a,54a9
   # Villager
-  indices:[0BA]
+  indices:0BA
   ja: アンタ オレニ ペロリーメイトヲ<line>
   translated: Hey, you mind if I bum a ‘Perolimate’?
   en: I could really use a PelorieMate. Can you spare one?<end>
@@ -1565,7 +1564,7 @@ height:4
 
 - offsets:5028
   # Villager (yes to previous question, and you have a PelorieMate)
-  indices:[0BC],[0BE],[0C0]
+  indices:0BC,0BE,0C0
   ja: |
     アリガトウ.ココハ ムカシ ルベノ<line>
     トイウ カガクシャノ ケンキュウジョ<wait more>
@@ -1589,7 +1588,7 @@ height:4
 
 - offsets:502e,5055,535b
   # Villager (yes to previous question, and you don't have a PelorieMate)
-  indices:[20E]
+  indices:20E
   ja: バカニスンデネエ.<wait>
   translated: Don’t f--ー with me!
   en: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
@@ -1597,14 +1596,14 @@ height:4
 
 - offsets:5016,503f,54b4
   # Villager (no to previous question)
-  indices:[0C2]
+  indices:0C2
   ja: アンタニ ハナスコトハ ナイ.<line>
   en: Then I got nothing to say to you. Get lost.<wait>
   fr: Alors je ne vous aiderai pas ! Veuillez partir.<wait>
 
 - offsets:504f
   # Another villager (yes to previous question, and you have a PelorieMate)
-  indices:[0C4],[0C6],[0C8]
+  indices:0C4,0C6,0C8
   ja: |
     ガシコノモリカラ ヤマヘ ツウジル<line>
     イッポンミチノ オクニアル トウニハ<wait more>
@@ -1623,7 +1622,7 @@ height:4
 
 - offsets:5856
   # Villager guarding open field (no Luveno/Hapsby)
-  indices:[282]
+  indices:282
   ja: ラ サキハ ボクノ<line>
   translated: The area beyond here is my territory, so stay the hell out!
   en: Hey! Keep outta my turf! Everything past here is mine!<wait>
@@ -1633,7 +1632,7 @@ height:4
 
 - offsets:585c
   # Villager guarding open field (have Luveno/Hapsby)
-  indices:[284]
+  indices:284
   ja: ルベノハカセガ イウノダッタラ<line>
   translated: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.
   en: Well, I guess I gotta do what Dr. Luveno says. Go head and pass.<wait>
@@ -1646,7 +1645,7 @@ height:4
 
 - offsets:5485
   # Guard Near Entrance
-  indices:[0E6]
+  indices:0E6
   ja: ロードパスヲ モッテイルカ.<end>
   translated: Do you have a Roadpass?
   en: Do you have a Roadpass?<end>
@@ -1655,7 +1654,7 @@ height:4
 - offsets:549d,55e0
   # Guard Near Entrance (no to previous question)
   translated: Same sequence in Baya Mahrey Prison
-  indices:[0E8]
+  indices:0E8
   ja: タイシタ ドキョウダ.<line>
   translated: You are very brave. Please allow me to kill you...
   en: Intruder detected. Initiating termination sequence.<wait>
@@ -1663,7 +1662,7 @@ height:4
 
 - offsets:54c4
   # Prisoner (if you give PelorieMate)
-  indices:[0EA]
+  indices:0EA
   ja: クモノ カイブツハ ホントウハ<line>
   en: Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.<wait>
   fr: |
@@ -1672,7 +1671,7 @@ height:4
 
 - offsets:54ea
   # Prisoner
-  indices:[0F0]
+  indices:0F0
   ja: ガシコノ ヤマオクニアル トウハ<line>
   translated: The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’
   en: The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
@@ -1682,7 +1681,7 @@ height:4
 
 - offsets:550c
   # Prisoner
-  indices:[0F4]
+  indices:0F4
   ja: |
     ポリメテラール トイウ クスリハ<wait more>
     ラコニア イガイノ ブッシツハ<line>
@@ -1696,7 +1695,7 @@ height:4
 
 - offsets:54f0
   # Prisoner
-  indices:[0F2]
+  indices:0F2
   ja: |
     ヤア.ヒトニ アウノハ<line>
     ヒサシブリダ.オハナシシヨウヨ.<end>
@@ -1708,7 +1707,7 @@ height:4
 
 - offsets:54f9
   # Prisoner (yes to previous question)
-  indices:[14C]
+  indices:14C
   ja: |
     バルテボニハ ボクノ トモダチガ<line>
     イルンダ.<wait more>
@@ -1726,7 +1725,7 @@ height:4
 
 - offsets:54d0
   # Prisoner (yes to previous question)
-  indices:[0EC]
+  indices:0EC
   ja: ハプスビー トイウ<line>
   translated: Do you know of a robot called ‘Hapsby’?
   en: Have you heard of Hapsby the robot?<end>
@@ -1734,7 +1733,7 @@ height:4
 
 - offsets:54de
   # Prisoner (no to previous question)
-  indices:[124]
+  indices:124
   ja: |
     ラコニアデ デキタ ロボットダヨ.<wait more>
     デモ スクラップニ サレテ<line>
@@ -1751,7 +1750,7 @@ height:4
 
 - offsets:54e4
   # Prisoner
-  indices:[0EE]
+  indices:0EE
   ja: ヤマノ ムコウハ カザンノ フンカデヨウガンイケガ デキテイルソウダヨ.<wait>
   translated: I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.
   en: Volcanic eruptions covered the other side of the mountains with a whole bunch of lava.<wait>
@@ -1761,7 +1760,7 @@ height:4
 
 - offsets:5453
   # Dr Luveno (first time)
-  indices:[0DE]
+  indices:0DE
   ja: |
     ワシハ ルベノジャ.タスケニ<line>
     キタノナラ ヨケイナコトジャ.<wait more>
@@ -1774,7 +1773,7 @@ height:4
 
 - offsets:545e
   # Dr Luveno (second time)
-  indices:[0E0]
+  indices:0E0
   ja: |
     ナニ.ウチュウセンヲ ツクレジャト.バカモ ヤスミ ヤスミ イエ.<wait more>
     ワシガ ソンナコトヲ ヒキウケルト<line>
@@ -1786,7 +1785,7 @@ height:4
 
 - offsets:5464
   # Dr Luveno (third time)
-  indices:[0E2]
+  indices:0E2
   ja: |
     ウーム.コリナイヤツジャ.<line>
     シカタガナイ.<wait more>
@@ -1802,7 +1801,7 @@ height:4
 
 - offsets:5477
   # Dr Luveno (yes to previous question)
-  indices:[0E4]
+  indices:0E4
   ja: |
     ヨシ.ソレデハ ヒトアシ サキニ<line>
     ガシコノ ムラヘ イッテ<wait more>
@@ -1816,7 +1815,7 @@ height:4
 
 - offsets:546d
   # Dr Luveno (no to previous question)
-  indices:[0D4]
+  indices:0D4
   ja: イウトオリニ シナイナラ<line>
   translated: Well, if you won’t promise, then I’m afraid I can’t help you.
   en: If you don’t do as I say, there’s no way I can help you.<wait>
@@ -1824,7 +1823,7 @@ height:4
 
 - offsets:510d,5428
   # Man in underground tunnel
-  indices:[0DC]
+  indices:0DC
   ja: イマ イソガシインダ.<line>
   translated: I’m busy right now, so please don’t interrupt.
   en: Don’t distract me! I’m very busy.<wait>
@@ -1832,7 +1831,7 @@ height:4
 
 - offsets:542f
   # Man in underground tunnel
-  indices:[0F6]
+  indices:0F6
   ja: |
     エーッ. ルベノハカセガ カエッテ<line>
     キタノカイ.<wait more>
@@ -1850,7 +1849,7 @@ height:4
 # Orphaned? Are these reachable?
 
 - offsets:5436
-  indices:[0F8]
+  indices:0F8
   ja: |
     オクノ ヘヤヘ ハイッテ イキテ<line>
     カエッタモノハ イナイ.ヒッヒッヒ.<wait>
@@ -1864,7 +1863,7 @@ height:4
     Je n'ai jamais vu personne en sortir vivant.<wait>
 
 - offsets:5512
-  indices:[0FC]
+  indices:0FC
   ja: |
     モハヤ カクゴハ デキテオル<line>
     ジャロウナ. フッフッフ.<wait>
@@ -1872,7 +1871,7 @@ height:4
   fr: Vous qui êtes venue jusqu'ici, vous connaitrez bientot la vérité.<wait>
 
 - offsets:5518
-  indices:[0FE]
+  indices:0FE
   ja: |
     イキドマリジャ. モドリナサイ.<line>
     カエルナラ イマノウチダ.<wait>
@@ -1882,7 +1881,7 @@ height:4
     Vous ne savez pas à quoi vous faites face !<wait>
 
 - offsets:551e
-  indices:[100]
+  indices:100
   ja: |
     オオ.ナント ユウカンナ<line>
     ワカモノヨ. ワナニ キヲツケテナ.<wait>
@@ -1898,7 +1897,7 @@ height:4
 
 - offsets:507b
   # Dr Luveno (if you didn't talk to his assistant yet)
-  indices:[0CA],[0CC]
+  indices:0CA,0CC
   ja: |
     オオ.オソカッタノウ.<line>
     サッソクジャガ ワシノ ジョシュヲ<wait more>
@@ -1916,7 +1915,7 @@ height:4
 
 - offsets:508b
   # Dr Luveno
-  indices:[28C],[28E]
+  indices:28C,28E
   ja: |
     ヨシ コレデ スタッフハ<line>
     ソロッタヨウダ. ソコデ<wait more>
@@ -1940,7 +1939,7 @@ height:4
 
 - offsets:50b5
   # Dr Luveno (yes to the previous question)
-  indices:[290]
+  indices:290
   ja: |
     アリガトウ.デハ セイサクヲ<line>
     ハジメヨウ.スコシマッテクレ.<wait>
@@ -1956,7 +1955,7 @@ height:4
 
 - offsets:50a7
   # Dr Luveno (if you don't have enough money)
-  indices:[0D0]
+  indices:0D0
   ja: タリナイノウ. ワルイガ オカネヲ<line>
   translated: You don’t have enough? I’m sorry, but must get some more money.
   en: You don’t have enough? Go get some more!<wait>
@@ -1964,7 +1963,7 @@ height:4
 
 - offsets:5096
   # Dr Luveno (no to the previous question)
-  indices:[0DA]
+  indices:0DA
   ja: |
     ソレハ ザンネンジャ.<line>
     オマエノ タビモ ココマデカノウ.<wait>
@@ -1976,7 +1975,7 @@ height:4
 
 - offsets:50c3
   # Dr Luveno (first two times you talk to him)
-  indices:[292]
+  indices:292
   ja: アワテテモ イイモノハ デキンゾヨ.モウ スコシノシンボウジャ.<wait>
   en: |
     Please, you can’t rush perfection.<wait more>
@@ -1989,7 +1988,7 @@ height:4
 
 - offsets:50d1
   # Dr Luveno (third time)
-  indices:[0D2]
+  indices:0D2
   ja: |
     ヨロコベ ツイニ ウチュウセン<line>
     ルベノゴウガ デキアガッタゾ.<wait>
@@ -2003,7 +2002,7 @@ height:4
 
 - offsets:50de
   # If you don't have Hapsby already
-  indices:[0D6]
+  indices:0D6
   ja: シカシ オマエニハ ルベノゴウハ<line>
   translated: But you won’t be able to pilot the spaceship yourself.
   en: But I’m afraid the Luveno can’t be piloted by a human...<wait>
@@ -2011,7 +2010,7 @@ height:4
 
 - offsets:50eb
   # If you don't have Hapsby already
-  indices:[104]
+  indices:104
   ja: |
     ハプスビー トイウ ロボットヲ<line>
     サガシテクルンジャ.<wait more>
@@ -2035,7 +2034,7 @@ height:4
 
 - offsets:50f6
   # Luveno (if you have Hapsby)
-  indices:[294]
+  indices:294
   ja: |
     ヨシ.コレデ ルベノゴウニ ノッテ<line>
     ウチュウヘ トビダセル.<wait more>
@@ -2056,7 +2055,7 @@ height:4
 
 - offsets:5071
   # Luveno (subsequent visits)
-  indices:[0D8]
+  indices:0D8
   ja: ルベノゴウノ チョウシハ ドウジャ.ダイジニ ツカッテ オクレ.<wait>
   translated: How’s the ‘Luveno’ holding up? Please be careful with it.
   en: How’s the Luveno holding up? Take good care of it.<wait>
@@ -2064,7 +2063,7 @@ height:4
 
   translated: Spaceports now closed...
 - offsets:4cec
-  indices:[19E]
+  indices:19E
   ja: スペースポートハ ヘイサスル.<wait>
   en: Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
   fr: |
@@ -2073,14 +2072,14 @@ height:4
     C'est une question de sécurité nationale.<wait>
 
 - offsets:4cfd
-  indices:[1A0]
+  indices:1A0
   ja: パスポートヲ ボッシュウスルゾ.<wait>
   en: All existing Passports are now invalid and must be destroyed. We're confiscating yours.<wait>
   fr: Votre Passeport vous est confisqué sur le champ.<wait>
 
 # orphaned?
 - offsets:4c30,4ccf,54ca
-  indices:[0CE]
+  indices:0CE
   ja: フザケルナ.<wait>
   en: Well? Let’s see it.<wait>
   fr: Eh bien ? Voyons ca.<wait>
@@ -2092,7 +2091,7 @@ height:4
 
 - offsets:4fff
   # Villager
-  indices:[102]
+  indices:102
   ja: |
     バルテボハ オレノ ナワバリダ.<line>
     アラスンジャナイゾ.<wait>
@@ -2109,7 +2108,7 @@ height:4
 
 - offsets:5005
   # Villager
-  indices:[106],[108]
+  indices:106,108
   ja: |
     コノ スクラップノナカニ セイノウノイイ ロボットガ ステラレテイル<wait more>
     トイウハナシダケド ホントウカネー.<wait>
@@ -2124,7 +2123,7 @@ height:4
 
 - offsets:5524
   # Villager (in the cave next to Bartevo)
-  indices:[10A]
+  indices:10A
   ja: アビオンノ ムラニ ポリメテラール<line>
   translated: The drug store in Abion sells Polymeteral, I hear.
   en: The drug store in Avion Village sells Polymeteral.<wait>
@@ -2134,7 +2133,7 @@ height:4
 
 - offsets:57bd
   # Hapsby
-  indices:[12C]
+  indices:12C
   ja: |
     ボクハ ハプスビー.<wait more>
     ミツケテクレテ アリガトウ. ルベノゴウノ ソウジュウハ マカセテネ.<wait>
@@ -2147,7 +2146,7 @@ height:4
     Je vous aiderai dans l'utilisation de n'importe quel vaisseau Luveno.<wait>
 
 - offsets:57e0
-  indices:[178,17A]
+  indices:178,17A
   ja: |
     フロームーバーヲ ミツケタ.<wait more>
     ツカエルヨウニ ナッタゾ.<wait>
@@ -2167,7 +2166,7 @@ height:4
 
 - offsets:5139
   # Villager
-  indices:[10C]
+  indices:10C
   ja: |
     ココハ ロアー トイウ ムラデス.<line>
     ラシークノセイデ サビレテシマッタ.<wait>
@@ -2182,7 +2181,7 @@ height:4
 
 - offsets:5119
   # Villager
-  indices:[10E],[110]
+  indices:10E,110
   ja: |
     カーバンクルアイ トイウ ホウセキヲシッテイマスカ.<wait more>
     カスバノ ドラゴンガ モッテイル<line>
@@ -2199,7 +2198,7 @@ height:4
 
 - offsets:511f
   # Villager
-  indices:[112]
+  indices:112
   ja: |
     コノシマノ ニシノ ハズレニハ<line>
     アビオン トイウ ムラガ アリマス.<wait>
@@ -2213,7 +2212,7 @@ height:4
 
 - offsets:5125
   # Villager
-  indices:[114]
+  indices:114
   ja: ラエルマツリー トイウ キヲ<line>
   translated: Do you know about the ‘Laerma Tree?'
   en: Have you heard about Laerma trees?<end>
@@ -2221,7 +2220,7 @@ height:4
 
 - offsets:512e
   # Villager (no to previous question)
-  indices:[116]
+  indices:116
   ja: デゾリスセイノ アルチプラノ<line>
   translated: I hear the Altiplano Plateau on Dezoris is totally covered by them.
   en: I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
@@ -2229,7 +2228,7 @@ height:4
 
 - offsets:5113
   # Villager
-  indices:[118]
+  indices:118
   ja: エッ ラシークヲ タオシニ イクノ.スゴイネエ.<wait>
   translated: Huh? You’re going to defeat LaShiec? Awesome!
   en: You're going to bring down LaShiec? It's about time someone did!<wait>
@@ -2237,8 +2236,8 @@ height:4
     Il serait temps que quelqu'un se dresse contre cette brute.<wait more>
     Bonne chance.<wait>
 
-- offsets: # unused? index $011a originally
-  indices:[11A]
+- offsets:~ # unused? index $011a originally
+  indices:11A
   ja: |
     ウワサダケド アル クリスタルハ<line>
     アシキ マホウヲ フウジルトカ.<wait>
@@ -2257,7 +2256,7 @@ height:4
 
 - offsets:513f
   # Villager
-  indices:[11C]
+  indices:11C
   ja: コノムラハ アビオン トイウノヨ.<wait>
   translated: This village is called Abion.
   en: This village is called Avion.<wait>
@@ -2265,7 +2264,7 @@ height:4
 
 - offsets:5145
   # Villager
-  indices:[11E]
+  indices:11E
   ja: |
     ラシークノ マノテハ コノムラニモ<line>
     ノビテキタ. タスケテクレ.<wait>
@@ -2277,7 +2276,7 @@ height:4
 
 - offsets:514b
   # Villager
-  indices:[120],[122]
+  indices:120,122
   ja: |
     コノムラニ カワッタ オトコガ<line>
     ヒッコシテキタヨ.ドウブツジッケンヲ<wait more>
@@ -2298,7 +2297,7 @@ height:4
 
 - offsets:5151
   # Villager
-  indices:[126]
+  indices:126
   ja: ワタシ ウチュウノ タビガ<line>
   translated: I want to try and travel the stars.
   en: I’d like to travel through space someday.<wait>
@@ -2306,11 +2305,11 @@ height:4
 
 - offsets:5157
   # Villager
-  indices:[128]
+  indices:128
   ja: |
     ジャコウネコ トイウ ドウブツハ<line>
     アル キノミヲ タベルト<wait more>
-  indices:[12A]
+  indices:12A
   ja: オオキクナッテ ソラヲ トベルヨウニナルソウダヨ. フシギダネ.<wait>
   translated: They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly! Weird, huh?
   en: |
@@ -2326,7 +2325,7 @@ height:4
 
 - offsets:4c54
   # Mad Doctor
-  indices:[296]
+  indices:296
   ja: オイ ソコノ ネコ.<line>
   translated: Hey, cat! C'mere!
   en: Here, kitty kitty! Come here!<end>
@@ -2334,7 +2333,7 @@ height:4
 
 - offsets:4c75
   # Mad Doctor (yes to previous question)
-  indices:[298]
+  indices:298
   ja: ケッケッケ.オマエラモ シニタイカ.<wait>
   translated: Hee hee hee! You guys wanna die too?
   en: Ho ho, that was fun! Who’s next?<wait>
@@ -2342,7 +2341,7 @@ height:4
 
 - offsets:4c7a
   # Mad Doctor (no to previous question)
-  indices:[29A]
+  indices:29A
   ja: ワシノ ジャマヲ スルヤツハ<line>
   translated: I will kill anything that gets in my way!
   en: I said come HERE.<wait>
@@ -2355,7 +2354,7 @@ height:4
 
 - offsets:5238
   # Townsperson
-  indices:[1A2]
+  indices:1A2
   ja: ココハ デゾリスセイノ スクレ.<line>
   translated: This is Skray, on the planet Dezoris. Pretty cold outside, wasn’t it?
   en: Welcome to Skray, the warmest place on Dezoris! Pretty cold out there, isn't it?<wait>
@@ -2365,7 +2364,7 @@ height:4
 
 - offsets:523e
   # Townsperson
-  indices:[1A4]
+  indices:1A4
   ja: パルマセイカラノ イミンハ ホトンドコノマチニ スンデイマス.<wait>
   translated: Nearly all of the Palman immigrants live in this town.
   en: Almost all of us Palman immigrants live here in Skray. We're just not built for the cold.<wait>
@@ -2373,7 +2372,7 @@ height:4
 
 - offsets:5244
   # Townsperson
-  indices:[1A6],[1A8]
+  indices:1A6,1A8
   ja: |
     ワタシ コノホシノコトハ<line>
     ヨクシラナイケド キタノ ヤマオクニ<wait more>
@@ -2389,7 +2388,7 @@ height:4
 
 - offsets:524a
   # Townsperson
-  indices:[1AA],[1AC],[1AE],[1B0]
+  indices:1AA,1AC,1AE,1B0
   ja: |
     ナニ ラシークヲ タオスンダト.<line>
     ソレナラバ ラコニアデ デキタ<wait more>
@@ -2411,7 +2410,7 @@ height:4
 
 - offsets:5250
   # Townsperson
-  indices:[1B2],[1B4],[1B6]
+  indices:1B2,1B4,1B6
   ja: |
     ラコニアデ デキタ ブキハ セイナルチカラヲ ヒメテイルンダ.<wait more>
     ラシークハ ソレヲ キラッテ<line>
@@ -2429,7 +2428,7 @@ height:4
 
 - offsets:5256
   # Townsperson
-  indices:[1B8]
+  indices:1B8
   ja: デゾリスセイハ コオリノホシデス.<wait>
   translated: Planet Dezoris is made of ice.
   en: Dezoris is basically a giant ice cube. It's a big change from the green fields of Palma.<wait>
@@ -2439,7 +2438,7 @@ height:4
 
 - offsets:525c
   # Townsperson
-  indices:[1BA]
+  indices:1BA
   ja: コオリノ ヤマノナカニハ<line>
   translated: There are places inside the ice mountains that can be easily broken.
   en: Not all of the ice mountains are as tough as they look, some parts of them shatter easily.<wait>
@@ -2447,7 +2446,7 @@ height:4
 
 - offsets:5262
   # Townsperson
-  indices:[1BC]
+  indices:1BC
   ja: アルチプラノコウゲンハ マワリヲ<line>
   translated: The area around the Altiplano Plateau is encircled by mountains of ice.
   en: The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
@@ -2455,7 +2454,7 @@ height:4
 
 - offsets:5268
   # Townsperson
-  indices:[1BE],[1C0],[1C2]
+  indices:1BE,1C0,1C2
   ja: |
     コノホシハ ヒャクネンニ イチド<line>
     ソノトキニ トモサレタ ホノオハ<line>
@@ -2472,7 +2471,7 @@ height:4
 
 - offsets:526e
   # Townsperson
-  indices:[1C4],[1C6]
+  indices:1C4,1C6
   ja: |
     グアランノ シタイオキバノ<line>
     シニンガ ヨミガエッタソウダ.<wait more>
@@ -2494,7 +2493,7 @@ height:4
 
 - offsets:515d
   # Villager
-  indices:[12E]
+  indices:12E
   ja: ココハ モタビアセイノ ウーゾ<line>
   translated: This is Uzo Village, on the planet Motavia.
   en: This is Uzo Village, on Motavia.<wait>
@@ -2502,7 +2501,7 @@ height:4
 
 - offsets:5163
   # Villager
-  indices:[130]
+  indices:130
   ja: アリジゴクハ ランドマスター トイウノリモノヲ ツカエバ トオレマスヨ.<wait>
   translated: You can pass over antlions if you have a ‘LandMaster.’
   en: Ant-lions? No problem! You can drive a LandMaster right over ’em.<wait>
@@ -2512,7 +2511,7 @@ height:4
 
 - offsets:5169
   # Villager
-  indices:[132]
+  indices:132
   ja: ウーゾノ ミナミニ カスバ トイウ<line>
   translated: To the South of Uzo, there is a village called Casba.
   en: To the south of Uzo lies a village called Casba.<wait>
@@ -2520,7 +2519,7 @@ height:4
 
 - offsets:516f
   # Villager
-  indices:[134]
+  indices:134
   ja: カスバノ ドウクツニハ ドラゴンガ<line>
   translated: It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in its head!
   en: A dragon is holed up inside Casba Cave. They say there’s a jewel embedded in its head!<wait>
@@ -2530,8 +2529,8 @@ height:4
 
 - offsets:5194
   # Villager
-  indices:[136]
-  indices:[138]
+  indices:136
+  indices:138
   ja: |
     フラードマント トイウ マントヲ<line>
     スゴイ ボウギョリョクガ<line>
@@ -2546,7 +2545,7 @@ height:4
 
 - offsets:5175
   # Villager
-  indices:[13A]
+  indices:13A
   ja: スーズフルート トイウ フエノコトヲシッテルカイ.<end>
   translated: Do you know about the ‘Soothe Flute?’
   en: Have you heard of the Soothe Flute?<end>
@@ -2555,7 +2554,7 @@ height:4
 - offsets:5133,517e,54d9,54fe
   # Villager (yes to previous question)
   translated: (used in multiple places)
-  indices:[13C]
+  indices:13C
   ja: ソウカイ.ツマンネエノ.<wait>
   translated: Really? What a bore!
   en: |
@@ -2567,7 +2566,7 @@ height:4
 
 - offsets:518e
   # Villager (no to previous question)
-  indices:[13E],[140]
+  indices:13E,140
   ja: |
     ナイショダケドサ ボクガ パルマセイヘ イッタトキニ ガシコノムラノ<wait more>
     ハズレニ ウメテキタンダ.ダレニモ<line>
@@ -2582,7 +2581,7 @@ height:4
 
 # Soothe Flute stuff
 - offsets:24d6
-  indices:[154-2]
+  indices:154-2
   ja: |
     ココロガ ナゴムヨウナ<line>
     ウツクシイ ネイロダ.<wait>
@@ -2591,7 +2590,7 @@ height:4
   fr: Cela réchauffe votre coeur.<wait>
 
 - offsets:24eb
-  indices:[044-2]
+  indices:044-2
   ja: |
     <monster>ハ フエノネヲ<line>
     キイテ オトナシクナッタ.<delay>
@@ -2605,7 +2604,7 @@ height:4
 
 - offsets:519a
   # Villager
-  indices:[166]
+  indices:166
   ja: ココハ カスバ トイウ ムラデス.<wait>
   translated: This is Casba Village.
   en: This is Casba Village.<wait>
@@ -2613,7 +2612,7 @@ height:4
 
 - offsets:51a0
   # Villager
-  indices:[168]
+  indices:168
   ja: コノムラノ ドウクツニ ドラゴンガ<line>
   translated: There’s a dragon living in Casba Cave! I’m so scared!
   en: There's a dragon living in Casba Cave! I'm so scared!<wait>
@@ -2621,7 +2620,7 @@ height:4
 
 - offsets:51ac
   # Villager
-  indices:[16C],[16E]
+  indices:16C,16E
   ja: |
     マワリヲ キリニ カコマレタ ムラ<line>
     ガアル.ソノムカシ ペルセウスガ<line>
@@ -2637,7 +2636,7 @@ height:4
 
 - offsets:51b2
   # Villager
-  indices:[170]
+  indices:170
   ja: |
     ボクガ ミズウミノ ニシヘ イクト<wait more>
     キリノヨウナ オソロシイ ドクガスガヒロガッテイタンダ.<wait more>
@@ -2651,7 +2650,7 @@ height:4
 
 - offsets:51b8
   # Villager
-  indices:[172]
+  indices:172
   ja: フロームーバー トイウ ノリモノヲ<line>
   translated: Do you know about the ‘FlowMover’?
   en: Do you know what a FlowMover is?<end>
@@ -2659,7 +2658,7 @@ height:4
 
 - offsets:51cb
   # Villager (yes to previous question)
-  indices:[174],[176]
+  indices:174,176
   ja: |
     パルマセイノ シオンノマチデ カッタンダケド コワレチマッタミタイデ<wait more>
     バルテボニ ステチマッタヨ.<line>
@@ -2675,7 +2674,7 @@ height:4
 
 - offsets:51c1
   # Villager (no to previous question)
-  indices:[17C]
+  indices:17C
   ja: |
     アレハ ベンリダヨ. ミズノウエヲ<line>
     スイスイ イケルンダ.<wait>
@@ -2694,7 +2693,7 @@ height:4
 
 - offsets:51d1
   # Townsperson
-  indices:[17E]
+  indices:17E
   ja: ココハ ドラスゴー. ウミノウエノ<line>
   translated: This is Drasgo, a tiny town on the sea.
   en: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
@@ -2702,8 +2701,8 @@ height:4
 
 - offsets:51d7
   # Townsperson
-  indices:[180]
-  indices:[182]
+  indices:180
+  indices:182
   ja: |
     イマ ウミノ ミチハ トザサレテ<line>
     ヨクモマア コノマチヘ<line>
@@ -2719,7 +2718,7 @@ height:4
 
 - offsets:51dd
   # Townsperson
-  indices:[184]
+  indices:184
   ja: アビオンノ トウニハ マリョクヲ<line>
   translated: I hear that there's an enchanted sword in Abion Tower.
   en: I hear that there’s an enchanted sword in Avion Tower.<wait>
@@ -2727,7 +2726,7 @@ height:4
 
 - offsets:51e3
   # Townsperson
-  indices:[186]
+  indices:186
   ja: ワタシハ ムカシ ソラニ ウカブ<line>
   translated: I once saw a huge floating rock in the sky!
   en: I once saw a huge floating rock in the sky!<wait>
@@ -2735,7 +2734,7 @@ height:4
 
 - offsets:51e9
   # ????
-  indices:[188],[18A]
+  indices:188,18A
   ja: |
     チョウコオネーサンデース.<wait more>
     ガンバッテ ボウケンヲ ツヅケテネ.<wait>
@@ -2746,7 +2745,7 @@ height:4
 
 - offsets:51ef
   # Person inside cave
-  indices:[18C],[18E]
+  indices:18C,18E
   ja: |
     ワタシハ ドクガスカラ ミヲ マモルガスクリアー トイウ ソウチガ<wait more>
     ココニ ウッテイルト キイタノダガ<line>
@@ -2762,7 +2761,7 @@ height:4
 
 - offsets:51f5
   # Person inside cave
-  indices:[190],[192]
+  indices:190,192
   ja: |
     ココハ アイテムショップデス.<line>
     ナーンチャッテ.カラカッテゴメン.<line>
@@ -2778,7 +2777,7 @@ height:4
 
 - offsets:5201
   # GasClear salesman
-  indices:[194],[196]
+  indices:194,196
   ja: |
     コンナトコニ オミセガ アッテ<line>
     ガスクリアー <number>メセタデス.<line>
@@ -2794,7 +2793,7 @@ height:4
 
 - offsets:5226
   # GasClear salesman (yes to previous question)
-  indices:[198]
+  indices:198
   ja: アリガトウ.マタキテネ.<wait>
   translated: Thank you. Please come again.
   en: Thanks. Come again!<wait>
@@ -2802,7 +2801,7 @@ height:4
 
 - offsets:521d
   # GasClear salesman (yes to previous question, but don't have enough money)
-  indices:[19A],[19C]
+  indices:19A,19C
   ja: |
     オカネガナイノー. シケテンナー.
     オヤ モッタイナイ.<line>
@@ -2815,7 +2814,7 @@ height:4
     Quoi ?! Je ne vous vendrai plus RIEN !<wait>
 
 - offsets:520c
-  indices:[19C-2]
+  indices:19C-2
   ja: モウ ウッテァゲナイヨ.
   translated: Hey, what the hell?! I’m not selling you ANYTHING!
   en: Suit yourself. I’ll be here when you change your mind.<wait>
@@ -2827,7 +2826,7 @@ height:4
 
 - offsets:52ca
   # Villager
-  indices:[1E8]
+  indices:1E8
   ja: |
     コノムラハ ソピアト イイマス.<wait more>
     ドクガスノ ナカヲ<line>
@@ -2841,7 +2840,7 @@ height:4
 
 - offsets:52d6
   # The Village Chief
-  indices:[1EA],[1EC],[1EE]
+  indices:1EA,1EC,1EE
   ja: |
     ワタシハ コノムラノ ソンチョウ<line>
     マチヤ ムラカラ トザサレタ ソピアハ トテモ マズシイノデス.<wait more>
@@ -2861,7 +2860,7 @@ height:4
 
 - offsets:52e1
   # The Village Chief (no to previous question)
-  indices:[1F0]
+  indices:1F0
   ja: ソウデスカ.ザンネンデス.ウウッ.<wait>
   translated: I see. What a pity. Hmmm…
   en: I see. I’m sorry to hear that. Ohhh...<wait>
@@ -2871,7 +2870,7 @@ height:4
 
 - offsets:52f2
   # The Village Chief (yes to previous question, but not enough money)
-  indices:[1F2]
+  indices:1F2
   ja: オタガイニ マズシイノデスネ.<line>
   translated: You are poor as well, eh? What a sad world in which we live.
   en: So you are poor as well, are you? Such sad times these are.<wait>
@@ -2881,7 +2880,7 @@ height:4
 
 - offsets:5300
   # The Village Chief (yes to previous question)
-  indices:[1F4],[1F6],[1F8]
+  indices:1F4,1F6,1F8
   ja: |
     アリガトウ.<line>
     ペルセウスガ メデューサヲ<line>
@@ -2904,7 +2903,7 @@ height:4
 
 - offsets:5306
   # Gamer Miki
-  indices:[1FA]
+  indices:1FA
   ja: アタシ ゲーマーノ ミキチャンヨ.<line>
   translated: I'm Gamer Miki-chan! Do you own a Master System?
   en: Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
@@ -2914,7 +2913,7 @@ height:4
 
 - offsets:530f
   # Gamer Miki (yes to previous question)
-  indices:[1FC]
+  indices:1FC
   ja: マア アタシトオンナジ ゲーマーネ.ヤッパ エフエムオンゲンハ グーネ.<wait>
   translated: Wow! I guess we game the same! After all, the FM sound system is way cool, huh?
   en: Yay! Isn’t the FM sound amazing?!<wait>
@@ -2922,7 +2921,7 @@ height:4
 
 - offsets:5314
   # Gamer Miki (no to previous question)
-  indices:[1FE]
+  indices:1FE
   ja: |
     ヤッダー アナタ ハヤク カッテ<line>
     ラッシャイヨー モー プン プン.<wait>
@@ -2936,7 +2935,7 @@ height:4
 
 - offsets:531a
   # Villager
-  indices:[200]
+  indices:200
   ja: ラシークガ ケンリョクヲ ニギル<line>
   translated: Before LaShiec’s powerful grasp, this village was very wealthy.
   en: Before LaShiec’s oppressive rule, this village was very wealthy.<wait>
@@ -2944,7 +2943,7 @@ height:4
 
 - offsets:5320
   # Villager
-  indices:[202]
+  indices:202
   ja: ミズウミノ ミナミノ ヤマノ ナカニタジム トイウ ドウシガ イマス.<wait>
   translated: There’s a monk named Tajimu living in the mountains South of the lake.
   en: Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait>
@@ -2954,7 +2953,7 @@ height:4
 
 - offsets:5326
   # Villager
-  indices:[204]
+  indices:204
   ja: パルマセイハ キレイナ ホシダト<line>
   translated: I heard that Palma is a very beautiful planet. Is it really true?
   en: I heard that Palma is a very beautiful planet. Is it true?<end>
@@ -2962,7 +2961,7 @@ height:4
 
 - offsets:532f
   # Villager (yes to previous question)
-  indices:[206]
+  indices:206
   ja: イッテミタイナー.<wait>
   translated: Ooh, I want to go there soo bad!
   en: Oh, I want to go there so bad!<wait>
@@ -2972,7 +2971,7 @@ height:4
 
 - offsets:5334
   # Villager (no to previous question)
-  indices:[208]
+  indices:208
   ja: |
     ソウデスカ.ワタシハ モット<line>
     クウキノ キレイナトコロヘイキタイ.<wait>
@@ -2982,14 +2981,14 @@ height:4
 
 - offsets:5345
   # Villager (no to request for PelorieMate)
-  indices:[20C]
+  indices:20C
   ja: ケチ.<wait>
   en: Cheapskate!<wait>
   fr: Radin !<wait>
 
 - offsets:5355,53a5
   # Shortcake salesman (after purchase)
-  indices:[20A]
+  indices:20A
   ja: アリガトウ.<wait more>
   translated: Thanks. Please come again.
   en: Thank you!<wait>
@@ -3001,7 +3000,7 @@ height:4
 
 - offsets:56b3
   # Tajim (if you don't have Lutz - not possible?)
-  indices:[25A],[25C]
+  indices:25A,25C
   ja: |
     オマエサンガタハ ドナタカナ.<line>
     ルツガ オル.シッテオルカ.<end>
@@ -3016,7 +3015,7 @@ height:4
 
 - offsets:56bc
   # Tajim (yes to previous question)
-  indices:[25E]
+  indices:25E
   ja: |
     ルツニ ツタエネバ ナラヌコトガ<line>
     アル. ツレテキテハ クレマイカ.<wait>
@@ -3030,7 +3029,7 @@ height:4
 
 - offsets:56c1
   # Tajim (no to previous question)
-  indices:[260]
+  indices:260
   ja: ソウカ. ナラバ イッテモ<line>
   translated: I see. In that case, I guess it’s pointless for us to talk.
   en: I see. Then there is no point in talking with you any further.<wait>
@@ -3038,7 +3037,7 @@ height:4
 
 - offsets:56c7
   # Tajim (if you have Lutz)
-  indices:[24C]
+  indices:24C
   ja: |
     オオ ワガデシ ルツヨ. ツイニ<line>
     ラシークヲ タオス タビニデルカ.<wait>
@@ -3050,7 +3049,7 @@ height:4
 
 - offsets:56d3
   # Tajim (if Lutz is dead)
-  indices:[2A8]
+  indices:2A8
   ja: |
     オヤ.シンデオルノカ.ナサケナイ.<line>
     イキカエッテ デナオスガイイ.<wait>
@@ -3062,7 +3061,7 @@ height:4
 
 - offsets:56d9
   # Tajim
-  indices:[24E]
+  indices:24E
   ja: |
     デハ ソツギョウノ シケンヲ シテ<line>
     ヤロウ.ワシト タタカウガヨイ.<wait>
@@ -3074,7 +3073,7 @@ height:4
 
 - offsets:5722
   # Tajim (if you win)
-  indices:[250],[252],[254]
+  indices:250,252,254
   ja: |
     ツヨクナッタノウ.ルツヨ.<wait more>
     ソレダケノチカラガ アレバヨイ.<wait more>
@@ -3095,7 +3094,7 @@ height:4
 
 - offsets:571c
   # Tajim (if you lose)
-  indices:[256]
+  indices:256
   ja: マダマダ シュギョウガ タリンノウ.デナオシテクルガヨイ.<wait>
   translated: You still haven’t trained enough. You should come back later.
   en: You need more training, my boy. Come back when you’re ready. I’ll be waiting.<wait>
@@ -3105,7 +3104,7 @@ height:4
 
 - offsets:56a6
   # Tajim (subsequent visits)
-  indices:[258]
+  indices:258
   ja: モウ ワシガ オシエルコトハ ナイ.<wait>
   translated: There is nothing more I can teach you.
   en: There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
@@ -3121,7 +3120,7 @@ height:4
 
 - offsets:5274
   # Honest Dezorian
-  indices:[1C8]
+  indices:1C8
   ja: |
     トナリノ ブラクハ<line>
     ウソツキバカリダ.キヲツケナヨ.<wait>
@@ -3133,7 +3132,7 @@ height:4
 
 - offsets:527a
   # Honest Dezorian
-  indices:[1CA]
+  indices:1CA
   ja: |
     コノムラノ キタノ ヤマノムコウニ<line>
     コロナノトウガ アルズラ.<wait>
@@ -3145,7 +3144,7 @@ height:4
 
 - offsets:5280
   # Honest Dezorian
-  indices:[1CC],[1CE]
+  indices:1CC,1CE
   ja: |
     コロナノトウノ ニシニハ デゾリスノドウクツガ アルズラ.<wait more>
     ワシラノ ナカマガ イルズラ.<line>
@@ -3158,7 +3157,7 @@ height:4
 
 - offsets:5286
   # Honest Dezorian
-  indices:[1D0],[1D2],[1D4]
+  indices:1D0,1D2,1D4
   ja: |
     ラエルマツリーニハ ラエルマベリー<line>
     トイウ キノミガ ナルズラヨ.<wait more>
@@ -3179,7 +3178,7 @@ height:4
 
 - offsets:528c
   # Honest Dezorian
-  indices:[1D6]
+  indices:1D6
   ja: エアロプリズム トイウノヲ<line>
   translated: Do you know about the ‘Aeroprism’?
   en: Heard of something called an Aeroprism, have you?<end>
@@ -3187,7 +3186,7 @@ height:4
 
 - offsets:529a
   # Honest Dezorian (no to previous question)
-  indices:[1D8]
+  indices:1D8
   ja: コノヨト チガウ セカイガ<line>
   translated: I hear you can use it to look at other worlds, eh.
   en: I hear you can see other worlds with one, you can.<wait>
@@ -3195,7 +3194,7 @@ height:4
 
 - offsets:5295
   # Honest Dezorian (yes to previous question)
-  indices:[1DA]
+  indices:1DA
   ja: イチド ミテミタイモノズラヨ.<wait>
   translated: I’d really like to see it at least once, eh.
   en: I’d really like to look into one sometime, I would.<wait>
@@ -3203,7 +3202,7 @@ height:4
 
 - offsets:52a0
   # Honest Dezorian
-  indices:[1DC]
+  indices:1DC
   ja: コノブラクノ ミンナハ パルマノ<line>
   translated: All the people in this village hate those Palmans, eh.
   en: Everyone here hates Palmans, we do.<wait>
@@ -3211,7 +3210,7 @@ height:4
 
 - offsets:52a6
   # Dishonest Dezorian
-  indices:[1DE]
+  indices:1DE
   ja: |
     コロナノトウニハ イノチノイズミガ<line>
     アルンダス.<wait>
@@ -3221,7 +3220,7 @@ height:4
 
 - offsets:52b2
   # Dishonest Dezorian
-  indices:[1E0]
+  indices:1E0
   ja: |
     デゾリスノ ドウクツノ チカ<line>
     <number>カイデ ワープデキルンダスヨ.<wait>
@@ -3234,7 +3233,7 @@ height:4
 
 - offsets:52b8
   # Dishonest Dezorian
-  indices:[1E2]
+  indices:1E2
   ja: |
     ラエルマベリーハ アオイイロヲシタ<line>
     キノミデ センリョウニ ツカウダス.<wait>
@@ -3246,7 +3245,7 @@ height:4
 
 - offsets:52be
   # Dishonest Dezorian
-  indices:[1E4]
+  indices:1E4
   ja: ラエルマツリーノ マエデ クリスタルヲ ツカウト ミガ ナルンダス.<wait>
   translated: If you use a crystal in front of the Laerma Tree, berries will grow, y’know.
   en: You can use a crystal to make berries grow on a Laerma tree. You betcha!<wait>
@@ -3256,7 +3255,7 @@ height:4
 
 - offsets:52c4
   # Dishonest Dezorian
-  indices:[1E6]
+  indices:1E6
   ja: |
     コノブラクハ パルマノ ヒトビトヲ<line>
     カンゲイシマス.<wait>
@@ -3266,7 +3265,7 @@ height:4
 
 - offsets:DishonestDezorianFix
   # Dishonest Dezorian
-  indices:[1E7]
+  indices:1E7
   ja: コノムラハ ソピァト イイマス.
   translated: The neighboring villagers are all liars. Be careful.
   en: The neighboring villagers lie. Really!<wait>
@@ -3279,8 +3278,8 @@ height:4
 
 - offsets:5815
   # Dungeon Southwest of Corona Tower
-  translated: Dishonest Dezorian
-  indices:[238]
+  # Dishonest Dezorian
+  indices:238
   ja: コレカラ サキハ キヲツケテ.<line>
   en: Be careful up ahead. You should turn left at the fork in the path.<wait>
   fr: |
@@ -3289,16 +3288,15 @@ height:4
 
 - offsets:57fd,5803
   # Dezorian
-  translated: (Also in Guaran Morgue)
-  indices:[234]
+  # (Also in Guaran Morgue)
+  indices:234
   ja: ナニシニキタダ. オメエタチ<line>
   translated: What is your business here? Don’t cause any trouble!
   en: Why have you come here? Stay out of trouble, hear me?<wait>
   fr: Pourquoi êtes-vous venue ici ? Evitez les ennuis, entendu ?<wait>
 
-# Unused
-- offsets:
-  indices:[236]
+- offsets:~ # Unused
+  indices:236
   ja: イヤナ ヨカンガスル.<wait>
   translated: I’ve got a baad feeling about this...
   en: I’ve got a bad feeling about this.<wait>
@@ -3306,7 +3304,7 @@ height:4
 
 - offsets:592d
   # Dezorian
-  indices:[23A],[23C]
+  indices:23A,23C
   ja: |
     ココダケノ ハナシダガ ダモア<line>
     トイウ ウラナイシノ モッテイル<wait more>
@@ -3323,7 +3321,7 @@ height:4
 
 - offsets:5661
   # Torchbearer
-  indices:[23E],[240],[242]
+  indices:23E,240,242
   ja: |
     コノ ヒハ ヒャクネンニ イチド<line>
     ノ ニッショクノ トキニ ツケタ<wait more>
@@ -3350,7 +3348,7 @@ height:4
 
 - offsets:5684
   # Torchbearer (yes to previous question)
-  indices:[244]
+  indices:244
   ja: デハ イクリプストーチヲ<line>
   translated: Well then, please accept this ‘Eclipse Torch’.
   en: Excellent. Here you are, then.<wait>
@@ -3358,7 +3356,7 @@ height:4
 
 - offsets:566c
   # Torchbearer (no to previous question)
-  indices:[246]
+  indices:246
   ja: イラナイノカ.ソレジャア オメエハ<line>
   translated: You don’t want it?! Then, ah, for what did you come here?
   en: You don’t want it? Then why have you come here?<wait>
@@ -3366,7 +3364,7 @@ height:4
 
 - offsets:568a
   # Torchbearer (yes to previous question but no Carbuncle Eye)
-  indices:[248]
+  indices:248
   ja: ホウセキヲ モッテナイデハナイカ.<line>
   translated: You mean to say you don’t have the jewel?! Don’t toy with me!
   en: You have no jewel! Don’t be foolish!<wait>
@@ -3379,7 +3377,7 @@ height:4
 
 - offsets:5933
   # Otegami Chie-chan
-  indices:[27A]
+  indices:27A
   ja: |
     ワタシ オテガミ チエチャンヨ.<line>
     イツモ オタヨリ アリガトウ.<wait more>
@@ -3400,7 +3398,7 @@ height:4
 
 - offsets:2693,26e5
   # Also used for the Aeroprism later...
-  indices:[05C-2]
+  indices:05C-2
   translated: <player>ハ <item>ヲ<line>
   ja: テンニ カザシタ.<delay>
   translated: Alisa held the 'Eclipse Torch' over her head.
@@ -3409,7 +3407,7 @@ height:4
 
 - offsets:26d0
   # <player>ハ ラエルマベリーヲ トッテ<line>
-  indices:[05E-2]
+  indices:05E-2
   ja: ラコニアンポットニ イレタ.<wait>
   translated: Alisa took the ‘Laerma Berries’ and put them in the ‘Laconian Pot’.
   en: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
@@ -3417,7 +3415,7 @@ height:4
 
 - offsets:26c4
   # If no Laconian Pot...
-  indices:[060-2]
+  indices:060-2
   ja: |
     ラエルマベリーヲ トッテミタガ<line>
     シバラクスルト ヒカラビテシマッタ.<wait>
@@ -3429,7 +3427,7 @@ height:4
 # *** Avion Tower ***
 # *******************
 - offsets:552a
-  indices:[21A]
+  indices:21A
   ja: ヒキカエスナラ イマノウチジャゾ.<wait>
   translated: Leaving? Better do it now.
   en: Now would be a good time to turn around and go home.<wait>
@@ -3442,7 +3440,7 @@ height:4
 
 - offsets:55f5
   # Prisoner
-  indices:[222]
+  indices:222
   ja: オレヲ ココカラ ダシテクレルノカ.デモ ムダダヨ.<wait>
   translated: I wonder if you could help me escape from this place, but it’s hopeless.
   en: Did you come to help me escape?<wait>
@@ -3452,7 +3450,7 @@ height:4
 
 - offsets:55fb
   # Prisoner
-  indices:[224]
+  indices:224
   ja: |
     ラシークヲ タオソウナンテ<line>
     ムボウダヨ.<wait>
@@ -3464,7 +3462,7 @@ height:4
 
 - offsets:5601
   # Prisoner
-  indices:[226]
+  indices:226
   ja: ワタシタチハ ラシークノ イケニエニサレテシマウノヨ. ウッウウ.<wait>
   translated: We will all be sacrificed in the name of LaShiec! Agh!
   en: We’re all going to end up as sacrifices for LaShiec!<wait>
@@ -3472,7 +3470,7 @@ height:4
 
 - offsets:582d
   # Prisoner
-  indices:[228]
+  indices:228
   ja: グアランニアル ヨロイヲ<line>
   translated: Have you gotten the armor from Guaran?
   en: Did you get the armor in Guaran?<end>
@@ -3480,7 +3478,7 @@ height:4
 
 - offsets:583b
   # Prisoner (no to previous question)
-  indices:[22A]
+  indices:22A
   ja: ソレハ オトシアナノ ムコウガワニ<line>
   translated: It’s on the other side of a pitfall!
   en: You can find it on the other side of a pitfall.<wait>
@@ -3488,7 +3486,7 @@ height:4
 
 - offsets:5836
   # Prisoner (yes to previous question)
-  indices:[22C]
+  indices:22C
   ja: キミッテ スゴイネ.<wait>
   translated: Damn! You’re pretty cool!
   en: Wow, you’re amazing!<wait>
@@ -3496,7 +3494,7 @@ height:4
 
 - offsets:5607
   # Prisoner
-  indices:[22E]
+  indices:22E
   ja: |
     ラシークニ デアッタモノハ ミナ<line>
     ソノ マリョクデ<wait more>
@@ -3510,7 +3508,7 @@ height:4
 
 - offsets:560d
   # Prisoner
-  indices:[232]
+  indices:232
   ja: |
     バヤマーレノ オカノウエニハ<line>
     トウガアル.<wait more>
@@ -3522,7 +3520,7 @@ height:4
 
 - offsets:5613
   # Prisoner
-  indices:[218]
+  indices:218
   ja: コノサキヘハ イカナイホウガ<line>
   translated: You’d better not go any further, ‘cuz there’s a guard station up there.
   en: You’d better not go any further, there’s a security guard up ahead.<wait>
@@ -3530,7 +3528,7 @@ height:4
 
 - offsets:55b3
   # Robot Police
-  indices:[21C]
+  indices:21C
   ja: ロードパスヲ モッテイルカ.<end>
   translated: Do you have a roadpass?
   en: Do you have a Roadpass?<end>
@@ -3538,7 +3536,7 @@ height:4
 
 - offsets:55c5
   # Robot Police (yes to previous question, have one)
-  indices:[21E],[220]
+  indices:21E,220
   ja: |
     ドレドレ<line>
     ロボットダト オモッテ ナメルナヨ.ロウニ ブチコンデヤル.<wait>
@@ -3553,7 +3551,7 @@ height:4
 
 - offsets:5619
   # Prisoner
-  indices:[214],[216]
+  indices:214,216
   ja: |
     オオ アンタモ トジコメラレタノカ<line>
     ソトニデル ホウホウハ アルンジャガワシハ ココニ イルホウガ<wait more>
@@ -3576,7 +3574,7 @@ height:4
 # Damoa the Fortuneteller
 
 - offsets:5530
-  indices:[148],[14A]
+  indices:148,14A
   ja: |
     ワシハ セカイイチノ ウラナイシ<line>
     ワシノ ウラナイヲ シンジルカ.<end>
@@ -3590,14 +3588,14 @@ height:4
 
 - offsets:5541,5552,5563
   # (yes to previous question)
-  indices:[14E]
+  indices:14E
   ja: ヨシ.ヨシ.<wait>
   translated: Good. Good.
   en: Good. Good.<wait>
   fr: Bien. Bien.<wait>
 
 - offsets:5547
-  indices:[150]
+  indices:150
   ja: オマエハ サガシモノヲ シテオル<line>
   translated: I sense that you are looking for something, yes?
   en: I sense that you are searching for something, yes?<end>
@@ -3605,20 +3603,20 @@ height:4
 
 - offsets:553b
   # (no to previous question)
-  indices:[152]
+  indices:152
   ja: ナンジャト. オマエハ<line>
   en: What did you say? Such impudence! Leave at once!<wait>
   fr: Que dites vous ? Comment osez-vous! Fichez le camp !<wait>
 
 - offsets:5558
-  indices:[154]
+  indices:154
   ja: オマエハ アレックス オサールヲ<line>
   translated: I see that you are looking for Alex Ossale, yes?
   en: I sense that you are looking for Alex Ossale, yes?<end>
   fr: Je percois que vous êtes... à la recherche d'Alex Ossale, non ?<end>
 
 - offsets:5569
-  indices:[156]
+  indices:156
   ja: ワシノ イウコトハ スベテ タダシイノジャ. ワカッタカ.<end>
   translated: Everything I say is correct. Understand?
   en: Everything I say is correct. Understood?<end>
@@ -3626,14 +3624,14 @@ height:4
 
 - offsets:5574
   # (no to previous two questions, or yes to last question)
-  indices:[158]
+  indices:158
   ja: デハ マタクルガイイ.<wait>
   translated: In that case, perhaps you should come back later.
   en: Then perhaps you should come back later.<wait>
   fr: Alors peut être devriez-vous revenir plus tard.<wait>
 
 - offsets:557a
-  indices:[15A]
+  indices:15A
   ja: ワシニ サカラウノカ.<end>
   translated: Do you oppose me?
   en: Do you defy me?<end>
@@ -3641,7 +3639,7 @@ height:4
 
 - offsets:5585
   # (no to final question)
-  indices:[15C],[15E]
+  indices:15C,15E
   ja: |
     ソウダロウ.オマエハ ナカナカ<line>
     ホウビニ クリスタルヲ ヤロウ.<wait>
@@ -3653,7 +3651,7 @@ height:4
 
 - offsets:2711
   # (Use Aeroprism)
-  indices:[062-2]
+  indices:062-2
   ja: |
     マボロシノ エアロキャッスルガ<line>
     オオゾラニ スガタヲ アラワシタ.<wait>
@@ -3663,7 +3661,7 @@ height:4
 
 - offsets:2752
   # (Use Laerma Berries)
-  indices:[0A0-2]
+  indices:0A0-2
   ja: |
     ミャウハ ラエルマベリーヲ<line>
     カジッタ.<wait>
@@ -3676,12 +3674,12 @@ height:4
 # *** Myau’s Transformation ***
 # *****************************
 # <width 1C><height 06>
-width:28
-height:6
+- width:28
+  height:6
 
 
 - offsets:471b
-  indices:[174-2]
+  indices:174-2
   ja: |
     ラエルマベリーヲ カジルト<line>
     ミャウノ カラダハ ネツヲ オビ<line>
@@ -3691,7 +3689,7 @@ height:6
   fr: Après que Myau eut maché les baies Laerma, il fut pris d'un accès de fièvre, et une lumière éblouissante s'engouffra dans son corps.<wait>
 
 - offsets:4726
-  indices:[176-2]
+  indices:176-2
   ja: |
     ソシテ ミルミル ウチニ ミャウハ<line>
     オオキナ ツバサヲ モッタ ウツクシイ<line>
@@ -3708,12 +3706,12 @@ height:6
 
 
 # <width 18><height 04>
-width:24
-height:4
+- width:24
+  height:4
 
 - offsets:14cc
   # (If Myau dies in the Gold Dragon battle)
-  indices:[150-2]
+  indices:150-2
   ja: |
     ミャウニ ノッテイタ アリサタチハ<line>
     ソラニ ホウリダサレテシマッタ.<wait>
@@ -3722,7 +3720,7 @@ height:4
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
 
 - offsets:5597
-  indices:[160]
+  indices:160
   ja: |
     ココヲ バヤマーレノ トウト<line>
     シリナガラ キタノカ.<end>
@@ -3731,7 +3729,7 @@ height:4
 
 - offsets:55a0
   # (yes to previous question)
-  indices:[162]
+  indices:162
   ja: |
     カナラズヤ テンノ イカリニ<line>
     フレヨウゾ.<wait>
@@ -3740,7 +3738,7 @@ height:4
 
 - offsets:55a5
   # (no to previous question)
-  indices:[164]
+  indices:164
   ja: ナラバ ヒキカエスガヨイ.<wait>
   en: Then you should turn back.<wait>
   fr: Vous devriez faire marche arrière.<wait>
@@ -3752,13 +3750,13 @@ height:4
 
 - offsets:5361
   # Old Man
-  indices:[210]
+  indices:210
   en: .........<wait>
   fr: .........<wait>
 
 - offsets:51a6
   # Old Man
-  indices:[16A]
+  indices:16A
   ja: |
     ダンジョンノ ナカデハ オノレノ<line>
     メヲ シンジルデナイゾ.<wait>
@@ -3768,7 +3766,7 @@ height:4
 
 - offsets:5367
   # Old Man
-  indices:[26A]
+  indices:26A
   ja: ラシ－クサマニ サカラウナ.<wait>
   translated: Do not defy the great LaShiec.
   en: Defy King LaShiec at your peril.<wait>
@@ -3776,7 +3774,7 @@ height:4
 
 - offsets:5738
   # Shadow Warrior
-  indices:[262],[264]
+  indices:262,264
   ja: |
     オマエタチノ コウドウハ<line>
     スベテオミトオシダ.<wait more>
@@ -3791,7 +3789,7 @@ height:4
 
 - offsets:5749
   # Shadow Warrior
-  indices:[266],[268]
+  indices:266,268
   ja: |
     オレハ ラシークサマノ<line>
     カゲムシャダ.<wait more>
@@ -3808,7 +3806,7 @@ height:4
 
 - offsets:576a
   # LaShiec
-  indices:[26C]
+  indices:26C
   ja: |
     トウトウ ココマデ キタカ.<line>
     ウンノ イイヤツラメ.<wait more>
@@ -3832,7 +3830,7 @@ height:4
 
 - offsets:5773
   # LaShiec (yes to previous question)
-  indices:[26E]
+  indices:26E
   ja: |
     ソウカ.ソレナラバ<wait more>
     ソノ カンガエガ マチガッテイタ<line>
@@ -3845,7 +3843,7 @@ height:4
 
 - offsets:5778
   # LaShiec (no to previous question)
-  indices:[270]
+  indices:270
   ja: コノゴニ オヨンデ<line>
   translated: You have already wasted too much of my time. I shall make you regret it!
   en: I’ve no time for games! Come, let me show you what lies beyond this life.<wait>
@@ -3853,7 +3851,7 @@ height:4
 
 - offsets:5789
   # (Defeat LaShiec)
-  indices:[2AA]
+  indices:2AA
   ja: |
     ラシークハ タオレタ.<wait more>
     アリサノ ネガイハ カナエラレタ.<wait more>
@@ -3877,7 +3875,7 @@ height:4
 
 - offsets:58e1
   # Governor-General
-  indices:[272],[274],[276],[278]
+  indices:272,274,276,278
   ja: |
     オオ.ミンナ スマナカッタ.<wait more>
     ワタシノ ココロト カラダハ<wait more>
@@ -3918,7 +3916,7 @@ height:4
 - offsets:5849,58ea
   # Governor-General (yes to previous question)
   translated: (other entry seems unreachable?)
-  indices:[212]
+  indices:212
   ja: |
     ソウカ.ソレデコソ アルゴルオウノ<line>
     ムスメダ.<wait more>
@@ -3932,7 +3930,7 @@ height:4
 
 - offsets:58ef
   # Governor-General (no to previous question)
-  indices:[230]
+  indices:230
   ja: |
     ソウカ.ソレモ ヨカロウ.<line>
     マタ イツデモ モドッテクルガイイ.<wait>
@@ -3949,14 +3947,14 @@ height:4
 # ********************
 
 - offsets:47da
-  indices:[14A-2]
+  indices:14A-2
   ja: シダイニ ソラガ アカルクナッテイキヒトビトモ ヘイワヲ トリモドシタ.<end>
   translated: Gradually, the sky brightened, and peace was restored to all.
   en: Gradually, the sky brightened. The monsters retreated. Peace returned.<end>
   fr: Avec le temps, le ciel se clarifia et les monstres disparurent.<end>
 
 - offsets:47e3
-  indices:[14C-2]
+  indices:14C-2
   ja: |
     イマ バヤマーレハ サワヤカナ<line>
     ソヨカゼニ ツツマレテイル.<end>
@@ -3965,19 +3963,19 @@ height:4
   fr: Seule une douce brise flotte désormais au dessus de Baya Malay.<end>
 
 - offsets:47ec
-  indices:[14E-2]
+  indices:14E-2
   ja: カレラノ ナガク クルシカッタタビヲソヨカゼハ シッテイルノダロウカ.<end>
   translated: ...but does the breeze know of their long and difficult journey?
   en: But does the breeze know of the hardships they endured?<end>
   fr: La reconnaissance du peuple d'Algol sonna le début d'une nouvelle ère<end>
 
 # <width 1C><height 06>
-width:28
-height:6
+- width:28
+  height:6
 
 
 - offsets:4800
-  indices:[178-2]
+  indices:178-2
   translated: <line>
   ja: |
     アリサ<delay>
@@ -3986,7 +3984,7 @@ height:6
   fr:        Alisa,<delay>
 
 - offsets:480b
-  indices:[17A-2]
+  indices:17A-2
   translated: <line>
   ja: |
     タイロン<delay>
@@ -3995,7 +3993,7 @@ height:6
   fr:        Tylon,<delay>
 
 - offsets:4816
-  indices:[17C-2]
+  indices:17C-2
   translated: <line>
   ja: |
     ルツ<delay>
@@ -4004,7 +4002,7 @@ height:6
   fr:         Lutz,<delay>
 
 - offsets:4821
-  indices:[17E-2]
+  indices:17E-2
   translated: <line>
   ja: |
     ソシテ ミャウ<delay>
@@ -4013,7 +4011,7 @@ height:6
   fr:      et Myau.<delay>
 
 - offsets:482c
-  indices:[180-2]
+  indices:180-2
   ja: |
     ヤミノ キオクガ キエテモ<line>
     カレラノ ナマエハ<line>
@@ -4029,62 +4027,62 @@ height:6
 # ****************************
 
 # <width 18><height 04>
-width:24
-height:4
+- width:24
+  height:4
 
 
 - offsets:13a4
-  indices:[000-2]
-  ja:
+  indices:000-2
+  ja: |
     <monster>ハ <player>ノ<line>
     コウゲキヲ カワシタ.<delay>
   en: <Article><monster> dodged <player>’s attack.<delay>
   fr: L'attaque <use article 03><player> est parée !<delay>
 
 - offsets:1497
-  indices:[002-2]
-  ja:
+  indices:002-2
+  ja: |
     <player>ハ <monster>ノ<line>
     コウゲキヲ カワシタ.<delay>
   en: <player> dodged <article><monster>’s attack.<delay>
   fr: <use article 02><player> pare le coup <use article 03><monster>.<delay>
 
 - offsets:1a96
-  indices:[004-2]
+  indices:004-2
   ja: <player>ハ ハナシカケタ.<end>
   en: <player> spoke to <article><monster>.<end>
   fr: <use article 02><player> parle <use article 04><monster>.<end>
 
 - offsets:1ac0,1ca4
-  indices:[006-2]
+  indices:006-2
   ja: <monster>ハ コタエタ.<delay>
   en: <Article><monster> replied,<delay>
   fr: Le monstre répond:<delay>
 
 - offsets:1ab7
-  indices:[008-2]
+  indices:008-2
   ja: ツウジナカッタ.<delay>
   en: <Article><monster> didn’t understand.<delay>
   fr: <use article 02><monster> ne vous comprend pas.<delay>
 
 - offsets:1b27
-  indices:[00A-2]
-  ja:
+  indices:00A-2
+  ja: |
     <monster>ハ ニゲミチニ<line>
     タチフサガッタ.<delay>
   en: <Article><monster> blocked the escape route.<delay>
   fr: <use article 02><monster> bloque votre fuite.<delay>
 
 - offsets:20cd,20fa,2168,21cb,21fd,22ac
-  indices:[00C-2]
-  ja:
+  indices:00C-2
+  ja: |
     <player>ノ マジックハ<line>
     コウカガ ナカッタ.<delay>
   en: <player>’s spell had no effect.<delay>
   fr: Le sort <use article 03><player> n'a pas d'effet.<delay>
 
-- offsets: # unused
-  indices:[00E-2]
+- offsets:~ # unused
+  indices:00E-2
   ja: |
     <monster>ノ マジックハ<line>
     コウカガ ナカッタ.<delay>
@@ -4092,7 +4090,7 @@ height:4
   fr: Le sort <use article 03><monster> n'a pas d'effet.<delay>
 
 - offsets:1ffa
-  indices:[010-2]
+  indices:010-2
   ja: |
     メノマエニ ミエナイ マホウノ<line>
     カベガ デキタ.<delay>
@@ -4100,7 +4098,7 @@ height:4
   fr: Un mur magique se dresse devant vous.<delay>
 
 - offsets:1492
-  indices:[012-2]
+  indices:012-2
   ja: |
     <monster>ノ コウゲキハ<line>
     マホウノ カベニ ハネカエサレタ.<delay>
@@ -4108,7 +4106,7 @@ height:4
   fr: La barrière dévie l'attaque <use article 03><monster>.<delay>
 
 - offsets:14f9,15d3,1637
-  indices:[014-2]
+  indices:014-2
   ja: |
     <monster>ノ マジックハ<line>
     マホウノ カベニ ハネカエサレタ.<delay>
@@ -4116,7 +4114,7 @@ height:4
   fr: Le sort dévie l'attaque <use article 03><monster>.<delay>
 
 - offsets:1458
-  indices:[016-2]
+  indices:016-2
   ja: |
     ミエナイ カベノ コウカガ<line>
     ナクナッタ.<delay>
@@ -4124,7 +4122,7 @@ height:4
   fr: La barrière est brisée.<delay>
 
 - offsets:1fbc
-  indices:[018-2]
+  indices:018-2
   ja: |
     <player>ノ タイリョクガ<line>
     カイフクシタ.<delay>
@@ -4132,7 +4130,7 @@ height:4
   fr: L'énergie <use article 03><player> est restaurée.<delay>
 
 - offsets:1552
-  indices:[01A-2]
+  indices:01A-2
   ja: |
     <monster>ノ タイリョクガ<line>
     カイフクシタ.<delay>
@@ -4140,7 +4138,7 @@ height:4
   fr: <use article 02><monster> a restauré son énergie.<delay>
 
 - offsets:20d3
-  indices:[01C-2]
+  indices:01C-2
   ja: |
     <monster>ヲ<line>
     カナシバリニシタ.<delay>
@@ -4148,31 +4146,31 @@ height:4
   fr: <use article 02><monster> s'est fait ligoter!<delay>
 
 - offsets:151f
-  indices:[01E-2]
+  indices:01E-2
   ja: <player>ハ カナシバリニ アッタ.<delay>
   en: <player> is all bound up.<delay>
   fr: <use article 02><player> s'est fait ligoter !<delay>
 
 - offsets:12db
-  indices:[020-2]
+  indices:020-2
   ja: <player>ハ ウゴケナイ.<delay>
   en: <player> can’t move.<delay>
   fr: <use article 02><player> ne peut plus bouger.<delay>
 
 - offsets:140c
-  indices:[022-2]
+  indices:022-2
   ja: <monster>ハ ウゴケナイ.<delay>
   en: <Article><monster> can’t move.<delay>
   fr: <use article 02><monster> ne peut pas bouger.<delay>
 
 - offsets:12d6
-  indices:[024-2]
+  indices:024-2
   ja: <player>ハ カナシバリガ トケタ.<delay>
   en: <player>’s bindings came apart.<delay>
   fr: <use article 02><player> brise ses liens.<delay>
 
 - offsets:1407
-  indices:[026-2]
+  indices:026-2
   ja: |
     <monster>ハ<line>
     カナシバリガ トケタ.<delay>
@@ -4180,7 +4178,7 @@ height:4
   fr: <use article 02><monster> brise ses liens.<delay>
 
 - offsets:2132
-  indices:[028-2]
+  indices:028-2
   ja: |
     <player>ハ カラダニ チカラガ<line>
     ミナギルノヲ カンジタ.<delay>
@@ -4188,7 +4186,7 @@ height:4
   fr: La force <use article 03><player> décuple.<delay>
 
 - offsets:216f
-  indices:[02A-2]
+  indices:02A-2
   ja: |
     <monster>ハ コワクナッテ<line>
     シリゴミシタ.<delay>
@@ -4196,7 +4194,7 @@ height:4
   fr: <use article 02><monster> a peur et recule.<delay>
 
 - offsets:210d
-  indices:[02C-2]
+  indices:02C-2
   ja: |
     <monster>ハ ニゲアシノ<line>
     ハヤサニ オドロイタ.<delay>
@@ -4204,13 +4202,13 @@ height:4
   fr: <use article 02><monster> est surpris par votre fuite !<delay>
 
 - offsets:21ad
-  indices:[02E-2]
+  indices:02E-2
   ja: ワナジャナカッタ.<wait>
   en: There was no trap.<wait>
   fr: C'est sans danger.<wait>
 
 - offsets:219f,21b2
-  indices:[030-2]
+  indices:030-2
   ja: |
     アブナイ トコロダッタ.<player>ハ<line>
     ワナヲ ミヤブッテ ハズシタ.<wait>
@@ -4218,7 +4216,7 @@ height:4
   fr: <use article 02><player> le démine, c'était moins une!<wait>
 
 - offsets:23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
-  indices:[032-2]
+  indices:032-2
   ja: |
     <player>ハ <item>ヲ<line>
     ツカッタ.<delay>
@@ -4226,7 +4224,7 @@ height:4
   fr: <use article 02><player> utilise <use article 01><item>.<delay>
 
 - offsets:2883
-  indices:[034-2]
+  indices:034-2
   ja: |
     <player>ハ <item>ヲ<line>
     ソウビシタ.<end>
@@ -4234,7 +4232,7 @@ height:4
   fr: <use article 02><player> s'équipe <use article 03><item>.<end>
 
 - offsets:28cc
-  indices:[036-2]
+  indices:036-2
   ja: |
     <player>ハ <item>ヲ<line>
     ステテシマッタ.<wait>
@@ -4242,13 +4240,13 @@ height:4
   fr: <use article 02><player> jette <use article 01><item>.<end>
 
 - offsets:20ff,23ec,2554,2582,2677,2803
-  indices:[038-2]
+  indices:038-2
   ja: シカシ コウカハ ナカッタ.<delay>
   en: But there was no effect.<delay>
   fr: Cela n'a pas effet.<delay>
 
 - offsets:2418,242a,244c,245e,2486
-  indices:[03A-2]
+  indices:03A-2
   ja: |
     シカシ ココデ <item>ハ<line>
     ヤクニ タタナイ.<wait>
@@ -4256,37 +4254,37 @@ height:4
   fr: <use article 01><item> n'est pas utilisable ici.<wait>
 
 - offsets:2304
-  indices:[03C-2]
+  indices:03C-2
   ja: ココデ オリルワケニハ イカナイ.<wait>
   en: The group can’t get off here.<wait>
   fr: Le groupe ne peut pas descendre ici.<wait>
 
 - offsets:2438,246d
-  indices:[03E-2]
+  indices:03E-2
   ja: <item>ニ ノリコンダ.<delay>
   en: The group boarded <article><item>.<delay>
   fr: Le groupe monte à bord de l'engin.<delay>
 
 - offsets:2311
-  indices:[040-2]
+  indices:040-2
   ja: <item>カラ トビオリタ.<delay>
   en: The group got out of <article><item>.<delay>
   fr: Le groupe sort <use article 03><item>.<delay>
 
 - offsets:2402,2569,26af,2701,2816
-  indices:[042-2]
+  indices:042-2
   ja: シカシ ナニモ オキナカッタ.<delay>
   en: But nothing happened.<delay>
   fr: Mais rien ne se passe...<delay>
 
-- offsets: # unused
-  indices:[046-2]
+- offsets:~ # unused
+  indices:046-2
   ja: <monster>ハ メガ ウツロダ.<delay>
   en: <Article><monster>’s eyes are blank.<delay>
   fr: Les yeux <use article 03><monster> sont vides.<delay>
 
 - offsets:2505,2597,25f9,26f1,2742,27a2
-  indices:[048-2]
+  indices:048-2
   ja: |
     シカシ イマハ ソンナコトヲ<line>
     シテイルバアイジャ ナイヨウダ.<delay>
@@ -4294,7 +4292,7 @@ height:4
   fr: Ce n'est pas le bon moment...<delay>
 
 - offsets:24ff,2514,258b,25ed,264b,2733,2793
-  indices:[04A-2]
+  indices:04A-2
   ja: |
     <player>ハ <item>ヲ<line>
     トリダシタ.<delay>
@@ -4302,7 +4300,7 @@ height:4
   fr: <use article 02><player> prend <use article 01><item>.<delay>
 
 - offsets:251a,25aa,2651,279d
-  indices:[04C-2]
+  indices:04C-2
   ja: ベツニ コワレテナイヨウダ.<wait>
   #Note: this was originally ‘It doesn’t look particularly broken.’
   #This translation takes the verb KOWARERU to mean ‘to be begged’
@@ -4310,13 +4308,13 @@ height:4
   fr: <use article 02><player> n'en a pas besoin pour le moment.<wait>
 
 - offsets:112c
-  indices:[04E-2]
+  indices:04E-2
   ja: マックラデ ススムコトガ デキナイ.<wait>
   en: It’s pitch black. You can’t move forward.<wait>
   fr: C'est trop sombre, il nous faut de la lumière !<wait>
 
 - offsets:2611
-  indices:[054-2]
+  indices:054-2
   ja: |
     イツ カイデミテモ イヤナ<line>
     ニオイガ スル.<wait>
@@ -4324,7 +4322,7 @@ height:4
   fr: Peut importe combien de fois vous le reniflez, ca empeste.<wait>
 
 - offsets:2276,228e
-  indices:[056-2]
+  indices:056-2
   ja: |
     <player>ハ トテモ<line>
     イヤナ ヨカンガシタ.<wait>
@@ -4332,13 +4330,13 @@ height:4
   fr: <use article 02><player> a un très mauvais pressentiment.<wait>
 
 - offsets:2269,2271,2289
-  indices:[058-2]
+  indices:058-2
   ja: <player>ハ ナニモ カンジナカッタ.<wait>
   en: <player> didn’t feel anything.<wait>
   fr: <use article 02><player> ne ressent rien d'étrange.<wait>
 
 - offsets:269f
-  indices:[05A-2]
+  indices:05A-2
   ja: |
     <monster>ハ アカイ ホナオヲ<line>
     ミテ オジケズイタ.<delay>
@@ -4346,7 +4344,7 @@ height:4
   fr: <use article 02><monster> prend peur en voyant la flamme.<delay>
 
 - offsets:273d
-  indices:[064-2]
+  indices:064-2
   ja: |
     オナカガ スイテナカッタノデ<line>
     モトニ モドシタ.<wait>
@@ -4354,19 +4352,19 @@ height:4
   fr: Myau n'ayant pas faim, Alisa les range.<wait>
 
 - offsets:277b
-  indices:[066-2]
+  indices:066-2
   ja: ハプスビーハ イヤイヤヲシタ.<wait>
   en: Hapsby shook his head.<wait>
   fr: Hapsby secoue la tête.<wait>
 
 - offsets:2784
-  indices:[068-2]
+  indices:068-2
   ja: ハプスビーノ アタマハ カタイ.<wait>
   en: Hapbsy’s head is hard.<wait>
   fr: La tête d'Hapsby est dure.<wait>
 
 - offsets:281b
-  indices:[06A-2]
+  indices:06A-2
   ja: |
     ソレハ ツカワナクテモ<line>
     キキメガ アル.<wait>
@@ -4374,7 +4372,7 @@ height:4
   fr: Cet objet est toujours actif.<wait>
 
 - offsets:218d,2195,299f,2a2e,579d
-  indices:[06C-2]
+  indices:06C-2
   ja: |
     トクニ カワッタトコロハ<line>
     ナイヨウダ.<wait>
@@ -4382,19 +4380,19 @@ height:4
   fr: Rien d'anormal ici<wait>
 
 - offsets:2a15,2a9b
-  indices:[06E-2]
+  indices:06E-2
   ja: <item>ヲ ミツケタ.<wait>
   en: You found <article><item>.<wait>
   fr: <use article 02><item>!<wait>
 
 - offsets:21d9,22b5
-  indices:[070-2]
+  indices:070-2
   ja: ナンダカ カラダガ カルクナッタ.<delay>
   en: Your body became unusually light.<delay>
   fr: Votre corps semble devenir léger...<delay>
 
 - offsets:2248
-  indices:[072-2]
+  indices:072-2
   ja: |
     <player>ノ タマシイハ<line>
     ヨミガエッタ.<wait>
@@ -4402,13 +4400,13 @@ height:4
   fr: <use article 02><player> ressuscite.<wait>
 
 - offsets:1b45,1f21
-  indices:[074-2]
+  indices:074-2
   ja: タイロンハ マジックヲ ツカエナイ.<delay>
   en: Tylon can’t use magic.<delay>
   fr: Tylon ne peut pas utiliser la magie.<delay>
 
 - offsets:1b9e,1f1c
-  indices:[076-2]
+  indices:076-2
   ja: |
     <player>ハ マダ マジックヲ<line>
     オボエテイナイ.<delay>
@@ -4416,7 +4414,7 @@ height:4
   fr: <use article 02><player> ne connait pas de sortilège.<delay>
 
 - offsets:28a3
-  indices:[078-2]
+  indices:078-2
   ja: |
     <player>ハ <item>ヲ<line>
     ソウビ デキナイ.<wait>
@@ -4424,13 +4422,13 @@ height:4
   fr: Impossible d'équiper <use article 02><player> <use article 03><item>.<wait>
 
 - offsets:283e
-  indices:[07A-2]
+  indices:07A-2
   ja: ソレハ ソウビシナクテモイイ.<wait>
   en: You don’t need to equip this item.<wait>
   fr: S'équiper de cet objet est inutile.<wait>
 
 - offsets:1872
-  indices:[07C-2]
+  indices:07C-2
   ja: |
     ケイケンチガ <number>ポイント<line>
     アガッタ.<wait>
@@ -4438,13 +4436,13 @@ height:4
   fr: +<number> point<use suffix> d'Exp<internal hint 02>.<wait>
 
 - offsets:18f3
-  indices:[07E-2]
+  indices:07E-2
   ja: <player>ハ レベルアップシタ.<wait>
   en: <player> leveled up.<wait>
   fr: <use article 02><player> gagne un niveau !<wait>
 
 - offsets:1910
-  indices:[080-2]
+  indices:080-2
   ja: |
     <player>ハ マジックヲ<line>
     ヒトツ ミニツケタ.<wait>
@@ -4452,25 +4450,25 @@ height:4
   fr: <use article 02><player> apprend un nouveau sort !<wait>
 
 - offsets:2a8c
-  indices:[082-2]
+  indices:082-2
   ja: <number>メセタ ハイッテイタ.<wait>
   en: You found <number><internal hint 01> meseta<s> inside.<wait>
   fr: +<number><internal hint 01> meseta<use suffix>.<wait>
 
 - offsets:2a37
-  indices:[084-2]
+  indices:084-2
   ja: アケテミルカ.<end>
   en: Do you want to open it?<end>
   fr: L'ouvrir ?<end>
 
 - offsets:2a73
-  indices:[086-2]
+  indices:086-2
   ja: カラッポダッタ.<wait>
   en: It’s empty.<wait>
   fr: Il est vide.<wait>
 
 - offsets:2918
-  indices:[088-2]
+  indices:088-2
   ja: |
     コレイジョウ モノヲ モテナイ<line>
     ナニカヲ ステルカ.<end>
@@ -4480,38 +4478,38 @@ height:4
     Voulez-vous jeter quelque chose ?<end>
 
 - offsets:2938
-  indices:[08A-2]
+  indices:08A-2
   ja: ドレヲ ステルカ.<end>
   en: Which item do you want to drop?<wait>
   fr: Quel objet voulez-vous jeter ?<wait>
 
 - offsets:296a
-  indices:[08C-2]
+  indices:08C-2
   ja: <item>ヲ ステテ<wait>
   en: You dropped <article><item>, and<wait>
   fr: Vous jetez <use article 01><item>.<wait>
   # this runs into the next one...
 
 - offsets:297d
-  indices:[08E-2]
+  indices:08E-2
   ja: <item>ヲ テニイレタ.<wait>
   en: you got <article><item>.<wait>
   fr: Vous avez <use article 01><item>.<wait>
 
 - offsets:2923
-  indices:[090-2]
+  indices:090-2
   ja: <item>ハ イラナイノカ.<end>
   en: Do you want to abandon <article><item>?<end>
   fr: Voulez-vous laisser <use article 01><item> ?<end>
 
 - offsets:292e
-  indices:[092-2]
+  indices:092-2
   ja: <item>ヲ アキラメタ.<wait>
   en: You abandoned <article><item>.<wait>
   fr: Vous laissez <use article 01><item>.<wait>
 
 - offsets:28c3,295d
-  indices:[094-2]
+  indices:094-2
   ja: |
     <item>ヲ<line>
     ステルワケニハ イカナイ.<wait>
@@ -4519,32 +4517,32 @@ height:4
   fr: Impossible de jeter <use article 01><item> !<wait>
 
 - offsets:1ba7,1f2d
-  indices:[096-2]
+  indices:096-2
   ja: マジックポイントガ タリナイ.<delay>
   en: You don’t have enough magic points.<delay>
   fr: Vous n'avez pas assez de points magiques.<delay>
 
 - offsets:2236
-  indices:[098-2]
+  indices:098-2
   ja: <player>ハ マダ イキテイル.<delay>
   en: <player> is still alive.<delay>
   fr: <use article 02><player> est encore en vie.<delay>
 
 - offsets:17ea
-  indices:[09A-2]
+  indices:09A-2
   ja: <monster>ヲ ヤッツケタ.<wait>
   en: You’ve beaten <article><monster>.<wait>
   # <wait> because else you can't read it when you defeat Dark Force...
   fr: Vous avez vaincu !<end>
 
 - offsets:14a6,15e4,1648,4c69,590f
-  indices:[09C-2]
+  indices:09C-2
   ja: <player>ハ シンデシマッタ.<delay>
   en: <player> died.<delay>
   fr: <use article 02><player> meurt de ses blessures.<delay>
 
 - offsets:19f7,2b0f
-  indices:[09E-2]
+  indices:09E-2
   ja: <player>ハ モウ シンデイル.<delay>
   en: <player> is already dead.<delay>
   fr: La mort a déjà frappé <use article 02><player>.<delay>
@@ -4555,14 +4553,14 @@ height:4
 # **************
 
 - offsets:5959
-  indices:[0A2-2]
+  indices:0A2-2
   ja: ドコヘ イキマスカ.<end>
   translated: Where would you like to go?
   en: Where would you like to go?<end>
   fr: Ou voudriez-vous aller ?<end>
 
 - offsets:5995
-  indices:[0A4-2]
+  indices:0A4-2
   ja: |
     デゾリスセイノ スクレノマチヘ<line>
     イキマス.イイデスカ.<end>
@@ -4571,7 +4569,7 @@ height:4
   fr: Voulez-vous aller à Skure, sur Dézoris ?<end>
 
 - offsets:5990
-  indices:[0A6-2]
+  indices:0A6-2
   ja: |
     モタビアセイノ ウーゾノムラヘ<line>
     イキマス.イイデスカ.<end>
@@ -4580,7 +4578,7 @@ height:4
   fr: Voulez-vous aller à Uzo, sur Motavia ?<end>
 
 - offsets:598a
-  indices:[0A8-2]
+  indices:0A8-2
   ja: |
     パルマセイノ ガシコノムラヘ<line>
     イキマス.イイデスカ.<end>
@@ -4589,25 +4587,25 @@ height:4
   fr: Voulez-vous aller à Gothic, sur Palma ?<end>
 
 - offsets:5980
-  indices:[0AA-2]
+  indices:0AA-2
   ja: ココハ スクレ デス.<end>
   en: This IS Skray.<end>
   fr: La cité de Skure.<end>
 
 - offsets:597b
-  indices:[0AC-2]
+  indices:0AC-2
   ja: ココハ ウーゾ デス.<end>
   en: This IS Uzo.<end>
   fr: La ville d'Uzo.<end>
 
 - offsets:5975
-  indices:[0AE-2]
+  indices:0AE-2
   ja: ココハ ガシコ デス.<end>
   en: This IS Gothic.<end>
   fr: Nous voilà à Gothic.<end>
 
-- offsets: # Unused...
-  indices:[0B0-2]
+- offsets:~ # Unused...
+  indices:0B0-2
   ja: シュッパーツ.<delay>
   en: Here we go--!<delay>
   fr: Allons-y !<delay>
@@ -4618,7 +4616,7 @@ height:4
 # *************
 
 - offsets:2d1c
-  indices:[0B4-2]
+  indices:0B4-2
   ja: |
     ココハ アーマーショップデス.<line>
     ナニカ カイマスカ.<end>
@@ -4626,25 +4624,25 @@ height:4
   fr: Bienvenue à l'armurerie! Besoin d'armes pour votre quête ?<end>
 
 - offsets:2d27,2d89,2e46,537e
-  indices:[0B6-2]
+  indices:0B6-2
   ja: ソウデスカ.マタキテクダサイ.<wait>
   en: Take care, come back and see us soon.<wait>
   fr: Prenez soin de vous et à bientot.<wait> 
 
 - offsets:2d38
-  indices:[0B8-2]
+  indices:0B8-2
   ja: ドレヲ カイマスカ.<end>
   en: What can I get for you today?<end>
   fr: Que puis-je faire pour vous aujourd'hui ?<end>
 
 - offsets:2d7e
-  indices:[0BA-2]
+  indices:0BA-2
   ja: アリガトウ.モット カイマスカ.<end>
   en: Enjoy. Can I get you anything else?<end>
   fr: Parfait, autre chose ?<end>
 
 - offsets:2d98,539c
-  indices:[0BC-2]
+  indices:0BC-2
   ja: |
     ソレイジョウ モテナイヨウデスネ.<line>
     マタキテクダサイ.<wait>
@@ -4653,7 +4651,7 @@ height:4
   fr: Votre inventaire est complet ! Faites un peu de trie et revenez.<wait>
 
 - offsets:2deb
-  indices:[0BE-2]
+  indices:0BE-2
   ja: |
     ココハ ドラッグストアデス.<line>
     ナニカ カイマスカ.<end>
@@ -4661,7 +4659,7 @@ height:4
   fr: Bienvenue à la pharmacie. Besoin d'aide ?<end>
 
 - offsets:2df4
-  indices:[0C0-2]
+  indices:0C0-2
   ja: |
     ココハ ツールショップデス.<line>
     ドンナ ゴヨウデスカ.<end>
@@ -4669,13 +4667,13 @@ height:4
   fr: Bienvenue à la quincaillerie. Que voulez-vous faire ?<end>
 
 - offsets:2e0d
-  indices:[0C2-2]
+  indices:0C2-2
   ja: ドレヲ ウリマスカ.<end>
   en: What do you have?<end>
   fr: Voyons voir...<end>
 
 - offsets:2e4f
-  indices:[0C4-2]
+  indices:0C4-2
   ja: |
     <item>デスネ.<line>
     <number>メセタデ イイデスカ.<end>
@@ -4683,7 +4681,7 @@ height:4
   fr: <use article 01><item>. Disons <number><internal hint 01> ?<end>
 
 - offsets:2e66
-  indices:[0C6-2]
+  indices:0C6-2
   ja: アリガトウ モットウリマスカ.<end>
   en: Wonderful! Have anything else for me?<end>
   fr: Magnifique ! Autre chose ?<end>
@@ -4694,7 +4692,7 @@ height:4
 # ****************
 
 - offsets:2ae9
-  indices:[0C8-2]
+  indices:0C8-2
   ja: |
     ココハ ホスピタルデス.<line>
     チリョウヲ ウケマスカ.<end>
@@ -4702,7 +4700,7 @@ height:4
   fr: Bienvenue à l'hopital. Avez-vous besoin de soins ?<end>
 
 - offsets:2b54
-  indices:[0CA-2]
+  indices:0CA-2
   ja: |
     シンサツト チリョウヒ<line>
     <number>メセタデス.ヨロシイデスカ.<end>
@@ -4714,7 +4712,7 @@ height:4
     Puis-je commencer?<end>
 
 - offsets:2b99
-  indices:[0CC-2]
+  indices:0CC-2
   ja: |
     ホカニ チリョウヲ ウケタイカタハ<line>
     イマスカ.<end>
@@ -4722,13 +4720,13 @@ height:4
   fr: Quelqu'un d'autre a t-il besoin de soins?<end>
 
 - offsets:2af9
-  indices:[0CE-2]
+  indices:0CE-2
   ja: ドナタガ チリョウヲ ウケマスカ.<end>
   en: Who requires our attention?<end>
   fr: Quel personne doit être soignée?<end>
 
 - offsets:2b8a
-  indices:[0D0-2]
+  indices:0D0-2
   ja: |
     オマチドウサマ.<line>
     ドウゾ オダイジニ.<wait>
@@ -4738,7 +4736,7 @@ height:4
   fr: Merci d'avoir patienté, essayez de faire un peu plus attention.<wait>
 
 - offsets:2b37,2bb1
-  indices:[0D2-2]
+  indices:0D2-2
   ja: |
     ソウデスカ オテツダイデキナクテ<line>
     ザンネンデス.デハ オキヲツケテ.<wait>
@@ -4746,7 +4744,7 @@ height:4
   fr: Prenez garde à vous dehors.<wait>
 
 - offsets:2b2b
-  indices:[0D4-2]
+  indices:0D4-2
   ja: |
     <player>サンハ イジヨウ<line>
     アリマセンネ.<wait>
@@ -4759,15 +4757,15 @@ height:4
 # **************
 
 - offsets:2be7
-  indices:[0D6-2]
+  indices:0D6-2
   ja: |
     ココハ キョウカイデス. ダレカノ<line>
     タマシイヲ ヨビモドサレマスカ.<end>
   en: This is a church. Do you need to revive a departed soul?<end>
   fr: Bienvenue dans notre église. Une ame disparu ?<end>
 
-- offsets: # Unused
-  indices:[0D8-2]
+- offsets:~ # Unused
+  indices:0D8-2
   ja: |
     デハ アナタノタメニ<line>
     オイノリヲ ササゲマス.<wait>
@@ -4775,13 +4773,13 @@ height:4
   fr: Je prierai pour vous.<wait>
 
 - offsets:2c37
-  indices:[0DA-2]
+  indices:0DA-2
   ja: ソレデハ ジュモンヲ トナエマス.<delay>
   en: Concentrate on the departed as I recite an incantation.<delay>
   fr: Recueillez-vous pendant que je récite une incantation.<delay>
 
 - offsets:2c60
-  indices:[0DC-2]
+  indices:0DC-2
   ja: |
     アルテムハムラム アルテムハムハム<line>
     ストラトポン.<delay>
@@ -4789,19 +4787,19 @@ height:4
   fr: ArtemuhamuRAmu ! ArtemuhamuHAmu ! STRATOPON !<delay>
 
 - offsets:2bfb
-  indices:[0DE-2]
+  indices:0DE-2
   ja: ドナタノ タマシイデショウ.<end>
   en: Who shall be returned?<end>
   fr: Quelle ame voulez-vous ramener ?<end>
 
 - offsets:2c71
-  indices:[0E0-2]
+  indices:0E0-2
   ja: ホカノカタハ イカガデスカ.<end>
   en: Is there anyone else?<end>
   fr: Encore une ame ?<end>
 
 - offsets:2c24
-  indices:[0E2-2]
+  indices:0E2-2
   ja: |
     <number>メセタ カカリマスガ<line>
     ヨロシイデスカ.<end>
@@ -4809,13 +4807,13 @@ height:4
   fr: Nous suggérons un don de <number><internal hint 02> meseta<use suffix>.<end>
 
 - offsets:2ca8
-  indices:[0E4-2]
+  indices:0E4-2
   ja: コレカラ レベルアップスルタメニハ<wait>
   en: To level up,<wait>
   fr: Pour monter d'un niveau,<wait>
 
 - offsets:2d16
-  indices:[0E6-2]
+  indices:0E6-2
   ja: |
     <player>ハ <number>ポイント<line>
     ヒツヨウデス.<wait>
@@ -4823,7 +4821,7 @@ height:4
   fr: <use article 02><player> a besoin de <number><internal hint 02> point<use suffix>.<wait>
 
 - offsets:2ca2
-  indices:[0E8-2]
+  indices:0E8-2
   ja: |
     アナタガタノ ユクスエニ<line>
     カミノ メグミガ アリマスヨウニ.<wait>
@@ -4831,7 +4829,7 @@ height:4
   fr: Puisse Dieu bénir votre avenir.<wait>
 
 - offsets:2c90
-  indices:[0EA-2]
+  indices:0EA-2
   ja: <player>ハ イキテイマスヨ.<end>
   en: |
     <player>? You don’t look dead to me.<wait more>
@@ -4846,7 +4844,7 @@ height:4
 # **************
 
 - offsets:1e3b
-  indices:[0EC-2]
+  indices:0EC-2
   ja: |
     セーブヲ オコナイマス.<line>
     バンゴウヲ エランデクダサイ.<end>
@@ -4856,19 +4854,19 @@ height:4
 
 #[084e,1e44] ; No longer patching the "delete" prompt
 - offsets:ScriptConfirmSlot,1e44
-  indices:[0EE-2]
+  indices:0EE-2
   ja: <number>バンデ イイデスカ.<end>
   en: Slot <number>, are you sure?<end>
   fr: Emplacement <number>, êtes-vous sur ?<end>
 
 - offsets:1e55
-  indices:[0F0-2]
+  indices:0F0-2
   ja: デハ <number>バンニ セーブシマス.<delay>
   en: OK. Now saving in slot<internal hint 04> <number>...<delay>
   fr: Ok. Emplacement numéro <number> en cours de sauvegarde...<delay>
 
 - offsets:ScriptDone,1e91
-  indices:[0F2-2]
+  indices:0F2-2
   ja: オワリマシタ.<wait>
   en: ...done.<wait>
   fr: ...terminé.<wait>
@@ -4879,7 +4877,7 @@ height:4
 # ************************
 
 - offsets:1ae5
-  indices:[0F4-2]
+  indices:0F4-2
   ja: |
     ワタシタチハ パルマノ ヒトタチト<line>
     ナカヨク シタイ.<wait>
@@ -4887,13 +4885,13 @@ height:4
   fr: Nous voulons être amis avec les Palmans.<wait>
 
 - offsets:1ae7
-  indices:[0F6-2]
+  indices:0F6-2
   ja: ラエルマベリーガ タベタイナア.<wait>
   en: ‘I could really go for some Laerma Berries right now!’<wait>
   fr: Je pourrais aller chercher des baies Laerma maintenant!<wait>
 
 - offsets:1ae9
-  indices:[0F8-2]
+  indices:0F8-2
   ja: |
     ラシークサマニハ<line>
     サカラワナイホウガ イイヨ.<wait>
@@ -4901,7 +4899,7 @@ height:4
   fr: Vous ne devriez pas tenir tête au Seigneur Lassic.<wait>
 
 - offsets:1aeb
-  indices:[0FA-2]
+  indices:0FA-2
   ja: |
     オッ.ワタシタチノ コトバガ<line>
     ワカルンダネ.<wait>
@@ -4909,13 +4907,13 @@ height:4
   fr: Oh! Vous comprenez notre langue ?<wait>
 
 - offsets:1aed
-  indices:[0FC-2]
+  indices:0FC-2
   ja: ヤッホー.<wait>
   en: ‘Yahoo!’<wait>
   fr: Super !<wait>
 
 - offsets:1aef
-  indices:[0FE-2]
+  indices:0FE-2
   ja: |
     ダンジョンデハ オトシアナニ<line>
     キヲツケナヨ.<wait>
@@ -4923,7 +4921,7 @@ height:4
   fr: Méfiez-vous des pièges présents dans les donjons.<wait>
 
 - offsets:1af1
-  indices:[100-2]
+  indices:100-2
   ja: |
     タカラバコハ ムヤミニ<line>
     アケルト ケガヲスルヨ.<wait>
@@ -4931,13 +4929,13 @@ height:4
   fr: N'ouvrez pas les coffres au trésor trop hativement.<wait>
 
 - offsets:1af3
-  indices:[102-2]
+  indices:102-2
   ja: コノ オイハギヤロウ.<wait>
   en: ‘You damn thieves!’<wait>
   fr: Satanés voleurs !<wait>
 
 - offsets:1af5
-  indices:[104-2]
+  indices:104-2
   ja: |
     ワタシタチハ ドウセ<line>
     ニクマレモノダヨ.<wait>
@@ -4945,7 +4943,7 @@ height:4
   fr: Les gens nous détestent quoi que nous fassions.<wait>
 
 - offsets:1cce
-  indices:[106-2]
+  indices:106-2
   ja: |
     スーズフルートノ ネイロハ<line>
     イイナア.<wait>
@@ -4953,7 +4951,7 @@ height:4
   fr: Le son de la flute apaisante est si beau.<wait>
 
 - offsets:1cd0
-  indices:[108-2]
+  indices:108-2
   ja: |
     アイスデッカー トイウ ノリモノハ<line>
     コオリモ ケズレルンダッテ.<wait>
@@ -4961,7 +4959,7 @@ height:4
   fr: Les ForaGlaces permettent de briser la glace.<wait>
 
 - offsets:1cd2
-  indices:[10A-2]
+  indices:10A-2
   ja: |
     ラシークサマハ ソラノウエニ<line>
     イラッシャルンダ.<wait>
@@ -4969,7 +4967,7 @@ height:4
   fr: Le Seigneur Lassic vit dans le ciel.<wait>
 
 - offsets:1cd4
-  indices:[10C-2]
+  indices:10C-2
   ja: |
     アビオンノ マッドドクターガ<line>
     ラスコニアンポットヲ モッテタゼ.<wait>
@@ -4977,7 +4975,7 @@ height:4
   fr: Le Savant fou à Abion possède un vase Laconian.<wait>
 
 - offsets:1cd6
-  indices:[10E-2]
+  indices:10E-2
   ja: |
     ソラノ ウエニハ ウチュウセンデモ<line>
     イケナイトコロガアルゼ.<wait>
@@ -4985,13 +4983,13 @@ height:4
   fr: Les vaisseaux ne vont pas partout dans le ciel.<wait>
 
 - offsets:1cd8
-  indices:[110-2]
+  indices:110-2
   ja: ラエルマベリーヲ ミノラセルタメニハアルモノガ ヒツヨウダ.<wait>
   en: ‘You need to have a certain item in order to make Laerma Berries grow.’<wait>
   fr: Il faut un vase pour que les baies Laerma murissent.<wait>
 
 - offsets:1cda
-  indices:[112-2]
+  indices:112-2
   ja: |
     ダンジョンノ メイロニハ<line>
     カクシトビラガ アルンダゼ.<wait>
@@ -4999,7 +4997,7 @@ height:4
   fr: Certains donjons ont des passages secrets.<wait>
 
 - offsets:1cdc
-  indices:[114-2]
+  indices:114-2
   ja: |
     ミラクルキーハ マホウノドアデモ<line>
     アケルコトガ デキルゾ.<wait>
@@ -5007,13 +5005,13 @@ height:4
   fr: La Clé Magique peut ouvrir les portes scellées !<wait>
 
 - offsets:1cde
-  indices:[116-2]
+  indices:116-2
   ja: デゾリアンニハ ウソツキモ イルカラキヲツケナヨ.<wait>
   en: ‘Some Dezorians are liars, so be careful.’<wait>
   fr: Certains Dézoriens sont des menteurs, soyez prudents.<wait>
 
 - offsets:1ce0
-  indices:[118-2]
+  indices:118-2
   ja: |
     ワタシニ ハナシカケルトハ<line>
     ユウキガ アルネエ. ガンバレヨ.<wait>
@@ -5026,7 +5024,7 @@ height:4
 # ***************
 
 - offsets:1574
-  indices:[11A-2]
+  indices:11A-2
   ja: |
     <monster>ハ カラダニ<line>
     チカラガ ミナギルノヲカンジタ.<delay>
@@ -5034,7 +5032,7 @@ height:4
   fr: Le corps <use article 03><monster> s'emplit de force.<delay>
 
 - offsets:17ff
-  indices:[11C-2]
+  indices:11C-2
   ja: |
     <monster>ハ タカラバコヲ<line>
     モッテイタ.<end>
@@ -5042,37 +5040,37 @@ height:4
   fr: L'ennemi laisse un coffre au trésor.<end>
 
 - offsets:27c3
-  indices:[11E-2]
+  indices:11E-2
   ja: イマ ヒガシヲムイテイル.<wait>
   en: You are now facing east.<wait>
   fr: Vous faites face à l'est.<wait>
 
 - offsets:27cf
-  indices:[120-2]
+  indices:120-2
   ja: イマ ニシヲ ムイテイル.<wait>
   en: You are now facing west.<wait>
   fr: Vous faites face à l'ouest.<wait>
 
 - offsets:27bc
-  indices:[122-2]
+  indices:122-2
   ja: イマ キタヲ ムイテイル.<wait>
   en: You are now facing north.<wait>
   fr: Vous faites face au nord.<wait>
 
 - offsets:27ca
-  indices:[124-2]
+  indices:124-2
   ja: イマ ミナミヲ ムイテイル.<wait>
   en: You are now facing south.<wait>
   fr: Vous faites face au sud.<wait>
 
 - offsets:1786
-  indices:[126-2]
+  indices:126-2
   ja: アリサタチハ ゼンメツシタ.<wait>
   en: Alisa and her companions have been annihilated.<wait>
   fr: Alisa et ses amis ont été anéantis.<wait>
 
 - offsets:178c
-  indices:[128-2]
+  indices:128-2
   ja: |
     アリサノ ネガイハ ラシークノ<line>
     ヤボウノ マエニ<wait more>
@@ -5086,7 +5084,7 @@ height:4
     Votre périple se termine ici...<wait>
 
 - offsets:2bc0,2d9d,4d88,538f
-  indices:[12A-2]
+  indices:12A-2
   ja: |
     オカネガ タリナイヨウデスネ.<line>
     マタキテクダサイ.<wait>
@@ -5098,19 +5096,19 @@ height:4
     Revenez plus tard.<wait>
 
 - offsets:2e3d
-  indices:[12C-2]
+  indices:12C-2
   ja: ソレハ アトデ ヤクニタチマスヨ.<wait>
   en: That’ll come in handy later.<wait>
   fr: Cela arrivera en son temps.<wait>
 
 - offsets:6c6e
-  indices:[12E-2]
+  indices:12E-2
   ja: タカラバコヲ ミツケタ.<end>
   en: You found a treasure chest.<line><end>
   fr: Vous trouvez un coffre.<end>
 
 - offsets:2c82
-  indices:[130-2]
+  indices:130-2
   ja: |
     アルテムハムラム ア ウッ.<line>
     ゴホッ.ゴホッ.<wait more>
@@ -5128,19 +5126,19 @@ height:4
     Quelque chose m'a fait échouer.<wait>
 
 - offsets:5939
-  indices:[132-2]
+  indices:132-2
   ja: モタビア ユキデス.ノリマスカ.<end>
   en: This is a non-stop flight to Motavia. Getting on?<end>
   fr: C'est un vol sans escale vers Motavia. Monter à bord ?<end>
 
 - offsets:5949
-  indices:[134-2]
+  indices:134-2
   ja: パルマ ユキデス.ノリマスカ.<end>
   en: This shuttle is heading for Palma. Getting on?<end>
   fr: Cette navette se dirige vers Palma. Embarquer ?<end>
 
 - offsets:2cef
-  indices:[136-2]
+  indices:136-2
   ja: |
     <player>ハ モウ<line>
     チカライッパイデス.<wait>
@@ -5149,7 +5147,7 @@ height:4
 
  # Continue/Save "dialogue" removed...
 - offsets:#07ee
-  indices:[138-2]
+  indices:138-2
   ja: |
     ゲームノ ツヅキヲ ヤリマス.<line>
     バンゴウヲ エランデクダサイ.<end>
@@ -5159,13 +5157,13 @@ height:4
   fr: Choisissez un emplacement.<end>
 
 - offsets:#07fe
-  indices:[13A-2]
+  indices:13A-2
   ja: デハ <number>バンノゲームヲ ハジメマス.<delay>
   en: OK. Continuing from slot<internal hint 01> <number>.<delay>
   fr: Ok. Continuer à partir de l'emplacement numéro <number>.<delay>
 
-- offsets: # Unused
-  indices:[13C-2]
+- offsets:~ # Unused
+  indices:13C-2
   ja: |
     パスワードガ チガイマス.<line>
     モウイチド タシカメテクダサイ.<wait>
@@ -5175,7 +5173,7 @@ height:4
   fr: Mot de passe incorrect. Réessayez.<wait>
 
 - offsets:#07e3
-  indices:[13E-2]
+  indices:13E-2
   ja: |
     ゲームノツヅキヲ ヤル.ーー ハイ<line>
     ゲームヲ ケス.ーーーーーー イイエ<end>
@@ -5183,7 +5181,7 @@ height:4
   fr: Voulez-vous continuer une partie sauvegardée ?<end>
 
 - offsets:#082f
-  indices:[140-2]
+  indices:140-2
   ja: |
     セーブシタ ゲームヲ ケシマス.<line>
     イイデスカ.<end>
@@ -5191,7 +5189,7 @@ height:4
   fr: Voulez-vous supprimer une sauvegarde ?<end>
 
 - offsets:#083a
-  indices:[142-2]
+  indices:142-2
   ja: ナンバンノ ゲームヲ ケシマスカ.<end>
   en: |
     Deleting a saved game.<line>
@@ -5199,7 +5197,7 @@ height:4
   fr: Suppression d'une sauvegarde. Choisir un emplacement.<end>
 
 - offsets:ScriptDeletingFromSlotN
-  indices:[144-2]
+  indices:144-2
   ja: <number>バンノ ゲームヲ ケシマシタ.<wait>
   en: Deleting game from slot<internal hint 04> <number>...<end>
   # <end> is nicer than <wait> here - Maxim
@@ -5210,13 +5208,13 @@ height:4
   fr: Il n'y a pas de sauvegardes!
 
 - offsets:16a8
-  indices:[146-2]
+  indices:146-2
   ja: <player>ハ イシニ ナッテシマッタ.<wait>
   en: <player> turned to stone.<wait>
   fr: <use article 02><player> se fait pétrifier !<wait>
 
 - offsets:136e
-  indices:[148-2]
+  indices:148-2
   ja: |
     <item>ハ イマ ダレカガ<line>
     ツカッテシマッタ.<wait>
@@ -5224,7 +5222,7 @@ height:4
   fr: Quelqu'un utilise <use article 01><item>.<wait>
 
 - offsets:58bd
-  indices:[152-2]
+  indices:152-2
   ja: |
     ソノトキ アリサノ タマシイハ<line>
     ネロノコエヲ キイタ.<wait more>
