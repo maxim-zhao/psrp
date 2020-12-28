@@ -2236,7 +2236,7 @@
     Il serait temps que quelqu'un se dresse contre cette brute.<wait more>
     Bonne chance.<wait>
 
-- offsets:~ # unused? index $011a originally
+- offsets:# unused? index $011a originally
   indices:11A
   ja: |
     ウワサダケド アル クリスタルハ<line>
@@ -3295,7 +3295,7 @@
   en: Why have you come here? Stay out of trouble, hear me?<wait>
   fr: Pourquoi êtes-vous venue ici ? Evitez les ennuis, entendu ?<wait>
 
-- offsets:~ # Unused
+- offsets:# Unused
   indices:236
   ja: イヤナ ヨカンガスル.<wait>
   translated: I’ve got a baad feeling about this...
@@ -4081,7 +4081,7 @@
   en: <player>’s spell had no effect.<delay>
   fr: Le sort <use article 03><player> n'a pas d'effet.<delay>
 
-- offsets:~ # unused
+- offsets:# unused
   indices:00E-2
   ja: |
     <monster>ノ マジックハ<line>
@@ -4277,7 +4277,7 @@
   en: But nothing happened.<delay>
   fr: Mais rien ne se passe...<delay>
 
-- offsets:~ # unused
+- offsets:# unused
   indices:046-2
   ja: <monster>ハ メガ ウツロダ.<delay>
   en: <Article><monster>’s eyes are blank.<delay>
@@ -4604,7 +4604,7 @@
   en: This IS Gothic.<end>
   fr: Nous voilà à Gothic.<end>
 
-- offsets:~ # Unused...
+- offsets:# Unused...
   indices:0B0-2
   ja: シュッパーツ.<delay>
   en: Here we go--!<delay>
@@ -4764,7 +4764,7 @@
   en: This is a church. Do you need to revive a departed soul?<end>
   fr: Bienvenue dans notre église. Une ame disparu ?<end>
 
-- offsets:~ # Unused
+- offsets:# Unused
   indices:0D8-2
   ja: |
     デハ アナタノタメニ<line>
@@ -5162,7 +5162,7 @@
   en: OK. Continuing from slot<internal hint 01> <number>.<delay>
   fr: Ok. Continuer à partir de l'emplacement numéro <number>.<delay>
 
-- offsets:~ # Unused
+- offsets:# Unused
   indices:13C-2
   ja: |
     パスワードガ チガイマス.<line>

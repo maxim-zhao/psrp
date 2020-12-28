@@ -351,7 +351,7 @@ void EmitScript(const std::string& scriptFilename, const std::string& patchFilen
 
     for (auto&& entry : script)
     {
-        scriptFile << '\n' << entry.label << ": ; " << entry.text << "\n.db";
+        scriptFile << '\n' << entry.label << ":\n/*" << entry.text << "*/\n.db";
 
         // Starting tree number
         int previousSymbol = EOS;

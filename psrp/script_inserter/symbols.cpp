@@ -14,6 +14,12 @@ Phantasy Star: Symbol Converter (Script)
 #include <iostream>
 #include <iomanip>
 #include "ScriptItem.h"
+// We just include the cpp here to make things simpler... it has some compiler warnings for us to suppress.
+#pragma warning(push, 3)
+#pragma warning(disable: 4244)
+#include "../mini-yaml/yaml/Yaml.hpp"
+#include "../mini-yaml/yaml/Yaml.cpp"
+ #pragma warning(pop)
 
 namespace
 {
@@ -126,7 +132,7 @@ public:
             }
             // Stick into our tables
             _table[matches[2]] = value;
-      _reverseTable[value] = matches[2];
+            _reverseTable[value] = matches[2];
             _maxLength = std::max(_maxLength, matches[2].str().length());
         }
     }
@@ -158,7 +164,7 @@ public:
                 continue;
             }
             // Else remember it
-            length = (int)trialLength;
+            length = static_cast<int>(trialLength);
             match = it->second;
         }
         return match != -1;
@@ -220,7 +226,7 @@ void CheckSuffixLength(int min, int max, std::vector<uint8_t>& outBuffer, const 
 }
 
 
-void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const int lineNum)
+void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
 {
     // We read in the symbol
     // Let's try and match it with a regex...
@@ -231,15 +237,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
     {
         // Move pointer past it
         pText += matches[0].length();
-        if (matches[1].str() == L"width" && matches[3].matched)
-        {
-            script_width = std::stoi(matches[3].str(), nullptr, 16);
-        }
-        else if (matches[1].str() == L"height" && matches[3].matched)
-        {
-            script_height = std::stoi(matches[3].str(), nullptr, 16);
-        }
-        else if (matches[1].str() == L"internal hint" && matches[3].matched)
+        if (matches[1].str() == L"internal hint" && matches[3].matched)
         {
             script_internal_hint = std::stoi(matches[3].str(), nullptr, 16);
             script_hints = true;
@@ -329,21 +327,23 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer, const 
         else
         {
             std::ostringstream ss;
-            ss << "Line " << lineNum << ": ignoring tag \"" << convert.to_bytes(matches[0].str()) << "\"";
+            ss << "Ignoring tag \"" << convert.to_bytes(matches[0].str()) << "\"";
             throw std::runtime_error(ss.str());
         }
     }
     else
     {
         std::ostringstream ss;
-        ss << "Line " << lineNum << ": invalid tag \"" << convert.to_bytes(pText) << "\"\n";
+        ss << "Invalid tag \"" << convert.to_bytes(pText) << "\"\n";
         throw std::runtime_error(ss.str());
     }
 }
 
 void Process_Text(const std::string& name, const Table& table, std::vector<ScriptItem>& script)
 {
-    File f(name);
+    // Load the file
+    Yaml::Node root;
+    Yaml::Parse(root, name.c_str());
 
     // Init
     script_width = 0;
@@ -352,58 +352,64 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
     script_end = false;
     
     int entryNumber = 0;
-
-    std::wstring currentLine;
-    std::vector<uint8_t> currentLineData;
-    std::vector<int> patchOffsets;
     
-    std::wregex labelRegex(L"^\\w*\\[(.*)\\]\\w*$");
-    std::wregex hexRegex(L"[0-9a-fA-F]{4}\\w*");
-    std::wsmatch matches;
-    std::string label;
+    std::regex hexRegex("[0-9a-fA-F]{4}\\w*");
 
     // Read in string entries
-    for (std::wstring s; f.getLine(s);)
+    for (unsigned int nodeIndex = 0; nodeIndex < root.Size(); ++nodeIndex)
     {
-        const wchar_t* pText;
-        std::vector<uint8_t> outBuffer;
-        
+        // Get the script node
+        auto& node = root[nodeIndex];
+
+        // If it has dimensions, use them from now on
+        script_width = node["width"].As<int>(script_width);
+        script_height = node["width"].As<int>(script_height);
+
+        // Extract patch offsets and/or label name(s)
+        std::vector<int> patchOffsets;
+        std::string label;
+        std::stringstream wrapper(node["offsets"].As<std::string>());
+        std::string item;
+        while (std::getline(wrapper, item, ','))
+        {
+            if (regex_match(item, hexRegex))
+            {
+                patchOffsets.push_back(std::stoi(item, nullptr, 16));
+            }
+            else
+            {
+                if (item.empty() || item == "\n")
+                {
+                    continue;
+                }
+                // It's a label
+                label = item;
+            }
+        }
+
+        // Get the text and convert from UTF-8
+        std::wstring s = convert.from_bytes(node["en"].As<std::string>().c_str());
+
         // replace ' with ’
         std::replace(s.begin(), s.end(), L'\'', L'\x2019');
 
         // init
-        pText = s.c_str();
+        const wchar_t* pText = s.c_str();
         line_len = 0;
-
-        // detect headers
-        if (regex_match(s, matches, labelRegex))
-        {
-            // Extract patch offsets or label name(s)
-            std::wstringstream wrapper(matches[1]);
-            std::wstring ws;
-            while (std::getline(wrapper, ws, L','))
-            {
-                if (regex_match(ws, hexRegex))
-                {
-                    patchOffsets.push_back(std::stoi(ws, nullptr, 16));
-                }
-                else
-                {
-                    // It's a label
-                    label = convert.to_bytes(ws);
-                }
-            }
-            continue;
-        }
+        std::vector<uint8_t> outBuffer;
 
         // internal counter
         script_end = false;
 
-        currentLine += s;
-
         // do the conversion
-        while (*pText != '\0')
+        while (*pText != L'\0')
         {
+            // Skip line breaks
+            if (*pText == L'\n')
+            {
+                ++pText;
+                continue;
+            }
             const wchar_t start = *pText; // Character found
             int entry; // Binary value to emit
 
@@ -412,7 +418,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
             // Check for a scripting code
             if (start == L'<')
             {
-                ProcessCode(pText, outBuffer, f.lineNumber());
+                ProcessCode(pText, outBuffer);
 
                 if (script_end)
                 {
@@ -428,7 +434,7 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
             {
                 // Fail on unmappable chars
                 std::ostringstream ss;
-                ss << "Unmapped character '" << convert.to_bytes(*pText) << "' at line " << f.lineNumber();
+                ss << "Unmapped character '" << convert.to_bytes(*pText) << "'";
                 throw std::runtime_error(ss.str());
             }
             pText += matchLength;
@@ -472,9 +478,6 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
             line_len += matchLength;
         }
 
-        // Store to current item
-        std::copy(outBuffer.begin(), outBuffer.end(), std::back_inserter(currentLineData));
-
         if (script_end)
         {
             entryNumber++;
@@ -491,13 +494,10 @@ void Process_Text(const std::string& name, const Table& table, std::vector<Scrip
             }
             if (!discard)
             {
-              // Store to the script object
-              script.emplace_back(convert.to_bytes(currentLine), currentLineData, patchOffsets, label);
+                // Store to the script object
+                script.emplace_back(convert.to_bytes(s), outBuffer, patchOffsets, label);
             }
-            currentLine.clear();
-            currentLineData.clear();
             patchOffsets.clear();
-            label.clear();
         }
     } // end while read line
 }
@@ -514,7 +514,7 @@ void Convert_Symbols(const std::string& scriptFilename, const std::string& table
     std::vector<int> symbolCounts(256);
     for (auto && entry : script)
     {
-        count += (int)entry.data.size();
+        count += static_cast<int>(entry.data.size());
         for (auto && b : entry.data)
         {
             ++symbolCounts[b];
