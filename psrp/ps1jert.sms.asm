@@ -1629,6 +1629,7 @@ MenuData:
   PatchB $3b58 :MenuData
   PatchB $3b82 :MenuData
   PatchB $3bab :MenuData
+  PatchB $45d7 :MenuData
 
   ROMPosition $3211
 .section "HP letters" size 4 overwrite ; not movable
@@ -1687,19 +1688,6 @@ SpellBlankLine:
   ld bc,1<<8 + 14*2  ; width of line
   jp $3b81 ; draw and exit
 .ends
-
-.slot 2
-.section "Opening cinema" superfree
-.block "Opening"
-Opening:
-.include "menu_creater/opening.asm"
-.endb
-.ends
-
-.include "menu_creater/opening-patches.asm"
-
-  PatchB $45d7 :Opening ; - source bank
-
 
 ; relocate Tarzimal's tiles
 

@@ -100,7 +100,7 @@
     ╘══════╝
 
 - name: EnemyHPBox
-  # dimensions only
+  emitData: false
   dims: 3268,3310
   en: |
     ┌──────╖
@@ -138,7 +138,7 @@
   fr: ╘══════╝
 
 - name: AllPlayerBoxes
-  # dimensions only
+  emitData: false
   dims: 3048,3103,3226
   fr: |
     ┌──────╖┌──────╖┌──────╖┌──────╖
@@ -413,7 +413,7 @@
   fr: ~~~~~~~~~~~~~~~~~~~~~~~~
 
 - name: NarrativeBlankScrollDimensions
-  # dimensions only
+  emitData: false
   dims: 355a,3566
   en: |
     ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -425,7 +425,7 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~
 
 - name: StatsMenuDimensions
-  # dimensions only
+  emitData: false
   dims: 3902,39e5
   en: |
     ┌────────────────╖
@@ -449,7 +449,7 @@
     ╘════════════════╝
   
 - name: EquimentMenuDimensions
-  # dimensions only
+  emitData: false
   dims: 382c,3871
   en: |
     ┌──────────────────╖
@@ -465,7 +465,7 @@
     ╘══════════════════╝
 
 - name: InventoryMenuDimensions
-  # dimensions only
+  emitData: false
   dims: 3642,377b
   en: |
     ┌──────────────────╖
@@ -515,7 +515,7 @@
   fr: │Suite             ║
 
 - name: StoreMSTBoxDimensions
-  # dimensions only
+  emitData: false
   dims: 3b1b,3b44
   en: |
     ┌──────────────────╖
@@ -527,7 +527,7 @@
     ╘══════════════════╝
 
 - name: ShopInventoryDimensions
-  # dimensions only
+  emitData: false
   dims: 39f1,3aca
   en: |
     ┌────────────────────────╖

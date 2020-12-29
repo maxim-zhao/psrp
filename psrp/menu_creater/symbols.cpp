@@ -19,6 +19,8 @@ Phantasy Star: Symbol Converter
 #include <fstream>
 #include <iomanip>
 
+#include "../mini-yaml/yaml/Yaml.hpp"
+
 namespace
 {
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> convert;
@@ -132,52 +134,38 @@ class Menu
     bool _emitData;
 
 public:
-    explicit Menu(std::string name): _name(std::move(name)), _width(0), _height(0), _emitData(true)
+    explicit Menu(Yaml::Node& node, const std::string& language)
+    : _name(node["name"].As<std::string>()),
+      _width(0),
+      _height(0),
+      _emitData(true)
     {
-    }
+        // Get ptrs, if any
+        std::stringstream ss(node["ptrs"].As<std::string>());
+        std::string item;
+        while (std::getline(ss, item, ','))
+        {
+            _ptrs.push_back(std::stoi(item, nullptr, 16));
+        }
+        // And dims
+        ss = std::stringstream(node["dims"].As<std::string>());
+        while (std::getline(ss, item, ','))
+        {
+            _dims.push_back(std::stoi(item, nullptr, 16));
+        }
+        // And data emitting
+        _emitData = node["emitData"].As<bool>(_emitData);
 
-    void addLine(const std::string& line)
-    {
-        // Check if it's a name=value
-        if (line.substr(0, 5) == "ptrs=")
+        // Then get the text
+        ss = std::stringstream(node[language].As<std::string>());
+        while (std::getline(ss, item))
         {
-            // Split value
-            std::stringstream ss(line.substr(5));
-            std::string item;
-            while (std::getline(ss, item, ','))
-            {
-                _ptrs.push_back(std::stoi(item, nullptr, 16));
-            }
-        }
-        else if (line.substr(0, 5) == "dims=")
-        {
-            // Split value
-            std::stringstream ss(line.substr(5));
-            std::string item;
-            while (std::getline(ss, item, ','))
-            {
-                _dims.push_back(std::stoi(item, nullptr, 16));
-            }
-        }
-        else if (line.substr(0, 6) == "width=")
-        {
-            _width = std::max(_width, (std::size_t)std::stoi(line.substr(6)));
-        }
-        else if (line.substr(0, 7) == "height=")
-        {
-            _height = std::max(_height, (std::size_t)std::stoi(line.substr(7)));
-        }
-        else if (line == "dimensions only")
-        {
-            _emitData = false;
-        }
-        else
-        {
-            const auto&& line16 = convert.from_bytes(line.c_str());
+            const auto&& line16 = convert.from_bytes(item.c_str());
             _lines.push_back(line16);
             _width = std::max(_width, line16.length());
-            _height = std::max(_height, _lines.size());
         }
+        // Any overrides for height
+        _height = node["height"].As<std::size_t>(_lines.size());
     }
 
     void writePatches(std::ofstream& f)
@@ -224,35 +212,23 @@ public:
     }
 };
 
-void ConvertSymbols(const std::string& listName, const std::string& tableName, const std::string& outName, const std::string& patchesName)
+void ConvertSymbols(const std::string& yamlFile, const std::string& language, const std::string& tableFile, const std::string& outName, const std::string& patchesName)
 {
-    Table table(tableName);
+    Table table(tableFile);
 
     // Read the menu data
     std::vector<Menu*> menus;
-    Menu* pCurrentItem = nullptr;
 
-    File f(listName);
+    // Load the file
+    Yaml::Node root;
+    Yaml::Parse(root, yamlFile.c_str());
 
-    for (std::string s; f.getLine(s);)
+    for (unsigned int nodeIndex = 0; nodeIndex < root.Size(); ++nodeIndex)
     {
-        if (s.at(0) == '[')
-        {
-            // finish current item
-            if (pCurrentItem != nullptr)
-            {
-                menus.push_back(pCurrentItem);
-            }
-            pCurrentItem = new Menu(s.substr(1, s.length() - 2));
-            continue;
-        }
-        // else add to current
-        pCurrentItem->addLine(s);
-    }
-    // Add last item
-    if (pCurrentItem != nullptr)
-    {
-        menus.push_back(pCurrentItem);
+        // Get the script node
+        auto& node = root[nodeIndex];
+
+        menus.push_back(new Menu(node, language));
     }
 
     // Emit
