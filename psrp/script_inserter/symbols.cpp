@@ -14,11 +14,7 @@ Phantasy Star: Symbol Converter (Script)
 #include <iostream>
 #include <iomanip>
 #include "ScriptItem.h"
-// We just include the cpp here to make things simpler... it has some compiler warnings for us to suppress.
-#pragma warning(push, 3)
-#pragma warning(disable: 4244)
 #include "../mini-yaml/yaml/Yaml.hpp"
- #pragma warning(pop)
 
 namespace
 {

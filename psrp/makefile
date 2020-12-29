@@ -25,7 +25,7 @@ PLAY: ps1jert.sms
 
 # word_count
 # Analyses the script to determine which words can be substituted for best "compression"
-word_count\word_count.exe : word_count\*.cpp
+word_count\word_count.exe : word_count\*.cpp mini-yaml/yaml/Yaml.cpp
   $(CPP) $(CPPFLAGS) $** /Fe:word_count\word_count.exe
 
 word_count\words.txt : script.yaml word_count\word_count.exe

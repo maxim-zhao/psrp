@@ -6,12 +6,7 @@
 #include <algorithm>
 #include <locale>
 #include <codecvt>
-// We just include the cpp here to make things simpler... it has some compiler warnings for us to suppress.
-#pragma warning(push, 3)
-#pragma warning(disable: 4244)
 #include "../mini-yaml/yaml/Yaml.hpp"
-#include "../mini-yaml/yaml/Yaml.cpp"
- #pragma warning(pop)
 
 int main(int argc, const char** argv)
 {
@@ -52,10 +47,7 @@ int main(int argc, const char** argv)
             {
                 continue;
             }
-            else
-            {
-                std::cerr << "Warning: entry has no text for offsets: " << entry["offsets"].As<std::string>() << "\n";
-            }
+            std::cerr << "Warning: entry has no text for offsets: " << entry["offsets"].As<std::string>() << "\n";
         }
         // Remove <> commands
         for (auto pos = s.find('<'); pos != std::string::npos; pos = s.find('<', pos))
@@ -111,10 +103,17 @@ int main(int argc, const char** argv)
     printf("Script has %zd unique words\n", wordCounts.size());
 
     // Then convert to weighted counts
+    // The benefit of substituting a word is a bit complicated.
+    // The substituted text storage is in a separate bank to the main script so moving low-frequency long words there
+    // can be worthwhile. The space taken by a word is very much dependent on the letter frequency that we later Huffman compress,
+    // so common letter sequences are cheaper than unusual ones; the Huffman trees are also stored outside the script bank.
+    // Thus we can maximize the script space by selecting the words which are used the most, and are long when Huffman encoded.
+    // As we don't know the Huffman length, we use the word length as a proxy.
+    // Some tweaking of the weight function seems to find this gives the smallest size for the script block, which is the most space-pressured.
     std::vector<std::pair<std::wstring, std::size_t>> weightedList;
     for (auto&& kvp : wordCounts)
     {
-        weightedList.emplace_back(kvp.first, kvp.second * (kvp.first.length() - 1));
+        weightedList.emplace_back(kvp.first, (kvp.second - 1) * (kvp.first.length() - 0));
     }
   
     // Then sort by weight
