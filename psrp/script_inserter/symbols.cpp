@@ -18,7 +18,6 @@ Phantasy Star: Symbol Converter (Script)
 #pragma warning(push, 3)
 #pragma warning(disable: 4244)
 #include "../mini-yaml/yaml/Yaml.hpp"
-#include "../mini-yaml/yaml/Yaml.cpp"
  #pragma warning(pop)
 
 namespace
@@ -172,7 +171,7 @@ public:
   
     std::wstring elementForSymbol(int symbol) const
     {
-        auto it = _reverseTable.find(symbol);
+        const auto it = _reverseTable.find(symbol);
         if (it == _reverseTable.end())
         {
             return L"";
@@ -322,7 +321,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
         {
             outBuffer.push_back(SymbolArticle);
             auto i = std::stoi(matches[3].str(), nullptr, 16);
-            outBuffer.push_back((uint8_t)i); // extra articles
+            outBuffer.push_back(static_cast<uint8_t>(i)); // extra articles
             script_hints = true;
         }
         else if (matches[1].str() == L"s")
@@ -439,7 +438,7 @@ void Process_Text(const std::string& name, const std::string& language, const Ta
             int matchLength;
             if (!table.findLongestMatch(pText, entry, matchLength))
             {
-                // Fail on unmappable chars
+                // Fail on un-mappable chars
                 std::ostringstream ss;
                 ss << "Unmapped character '" << convert.to_bytes(*pText) << "'";
                 throw std::runtime_error(ss.str());
