@@ -113,7 +113,7 @@ namespace Yaml
             static bool Get(const std::string & data)
             {
                 std::string tmpData = data;
-                std::transform(tmpData.begin(), tmpData.end(), tmpData.begin(), ::tolower);
+                std::transform(tmpData.begin(), tmpData.end(), tmpData.begin(), [](unsigned char c){ return (char)std::tolower(c); });
                 if(tmpData == "true" || tmpData == "yes" || tmpData == "1")
                 {
                     return true;

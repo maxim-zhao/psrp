@@ -30,8 +30,9 @@
 #include <vector>
 #include <list>
 #include <cstdio>
-#include <stdarg.h>
+#include <cstdarg>
 
+#pragma warning(disable:4100) // Unreferenced formal parameter
 
 // Implementation access definitions.
 #define NODE_IMP static_cast<NodeImp*>(m_pImp)
@@ -1882,7 +1883,6 @@ namespace Yaml
         void ParseScalar(Node & node, std::list<ReaderLine *>::iterator & it)
         {
             std::string data = "";
-            ReaderLine * pFirstLine = *it;
             ReaderLine * pLine = *it;
 
             // Check if current line is a block scalar.
