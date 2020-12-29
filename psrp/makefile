@@ -15,7 +15,7 @@ CPPFLAGS = /Os /EHsc /W4 /MP /FS /GS- /MD /nologo /WX
 # The original PSJ ROM
 PSJ = ps1-j.sms
 
-# The language
+# The language data to use
 LANGUAGE = en
 
 DUMMY: ps1jert.ips ps1jert.bps
@@ -26,7 +26,7 @@ PLAY: ps1jert.sms
 # word_count
 # Analyses the script to determine which words can be substituted for best "compression"
 word_count\word_count.exe : word_count\*.cpp
-  $(CPP) $(CPPFLAGS) word_count\*.cpp /Fe:word_count\word_count.exe
+  $(CPP) $(CPPFLAGS) $** /Fe:word_count\word_count.exe
 
 word_count\words.txt : script.yaml word_count\word_count.exe
   word_count\word_count.exe word_count\words.txt script.yaml $(LANGUAGE)
@@ -34,7 +34,7 @@ word_count\words.txt : script.yaml word_count\word_count.exe
 # substring_formatter
 # Converts the word list from word_count to a dictionary and a TBL file for those words
 substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
-  $(CPP) $(CPPFLAGS) substring_formatter\*.cpp /Fe:substring_formatter\substring_formatter.exe
+  $(CPP) $(CPPFLAGS) $** /Fe:substring_formatter\substring_formatter.exe
 
 substring_formatter\words.tbl substring_formatter\words.asm: substring_formatter\substring_formatter.exe word_count\words.txt
   substring_formatter\substring_formatter.exe 164 word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
@@ -45,7 +45,7 @@ substring_formatter\words.tbl substring_formatter\words.asm: substring_formatter
 BITMAP_DECODE = bitmap_decode\bitmap_decode.exe
 
 $(BITMAP_DECODE) : bitmap_decode\*.cpp
-  $(CPP) $(CPPFLAGS) bitmap_decode\*.cpp /Fe:$(BITMAP_DECODE) /W2
+  $(CPP) $(CPPFLAGS) $** /Fe:$(BITMAP_DECODE) /W2
 
 new_graphics\bg1.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40020 $@
 new_graphics\bg2.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40f36 $@
@@ -100,7 +100,7 @@ new_graphics\world2.psgcompr: new_graphics\world2.bin ; new_graphics\bmp2tile.ex
 # menu_creater
 
 menu_creater\menu_creater.exe: menu_creater\*.cpp
-  $(CPP) $(CPPFLAGS) menu_creater\*.cpp /Fe:menu_creater\menu_creater.exe
+  $(CPP) $(CPPFLAGS) $** /Fe:menu_creater\menu_creater.exe
 
 menu_creater\opening.asm menu_creater\opening-patches.asm : menu_creater\opening.txt tilemap.tbl menu_creater\menu_creater.exe
   menu_creater\menu_creater.exe menu_creater\opening.txt tilemap.tbl menu_creater\opening.asm menu_creater\opening-patches.asm
@@ -110,8 +110,8 @@ menu_creater\menus.asm menu_creater\menu-patches.asm : menu_creater\menus.txt ti
 
 # script_inserter
 
-script_inserter\script_inserter.exe: script_inserter\*.cpp
-  $(CPP) $(CPPFLAGS) script_inserter\*.cpp /Fe:script_inserter\script_inserter.exe
+script_inserter\script_inserter.exe: script_inserter\*.cpp mini-yaml/yaml/Yaml.cpp
+  $(CPP) $(CPPFLAGS) $** /Fe:script_inserter\script_inserter.exe
 
 script_with_words.tbl: script.tbl substring_formatter\words.tbl
   copy /y /b script.tbl + substring_formatter\words.tbl script_with_words.tbl
