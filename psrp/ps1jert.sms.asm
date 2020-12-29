@@ -3366,7 +3366,7 @@ FontLookup:
 .stringmap tilemap " 0123456789"
 .stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ".:‘’,-!?"
+.stringmap tilemap ".:‘’,-!?_"
 .ends
 
 ; We locate the Huffman trees in a different slot to the script so we can access them at the same time

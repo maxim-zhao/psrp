@@ -85,6 +85,8 @@
 44=-
 45=!
 46=?
+; non-breaking space
+47=_
 
 ; Text between [] is skipped in menus but not in body text
 52=[

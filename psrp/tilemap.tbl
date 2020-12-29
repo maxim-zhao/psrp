@@ -6,6 +6,8 @@
 ; Note we allow "~" as "visible space"
 c010= 
 c010=~
+; Non-breaking space
+c010=_
 
 ; Numbers
 c110=0
