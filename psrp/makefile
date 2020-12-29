@@ -72,8 +72,8 @@ new_graphics\font3.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedup
 new_graphics\font1a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\font2a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
-new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.png
-  new_graphics\bmp2tile.exe $** -savetiles new_graphics\title.psgcompr -savetilemap new_graphics\title-nt.pscompr -palsms -savepalette new_graphics\title-pal.bin
+new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.$(LANGUAGE).png
+  new_graphics\bmp2tile.exe $** -tileoffset 0 -savetiles new_graphics\title.psgcompr -savetilemap new_graphics\title-nt.pscompr -palsms -savepalette new_graphics\title-pal.bin
 new_graphics\logo.psgcompr new_graphics\logo-nt.bin: new_graphics\logo.png
   new_graphics\bmp2tile.exe $** -tileoffset 256 -savetiles new_graphics\logo.psgcompr -savetilemap new_graphics\logo-nt.bin
 

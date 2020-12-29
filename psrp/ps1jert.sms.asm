@@ -291,7 +291,7 @@ LoadTiles:
 .ends
 
 ; New title screen ------------------------
-  PatchB $2fdb $6d    ; cursor tile index for title screen
+  PatchB $2fdb $26    ; cursor tile index for title screen
 
 .slot 2
 .section "Replacement title screen" superfree
@@ -357,10 +357,10 @@ TitleScreenExtra:
   ld de,$d000 + (32 * 2 + 4) * 2 ; destination
   ld b,13 ; rows
 -:push bc
-    ld bc,17*2 ; bytes per row
+    ld bc,23*2 ; bytes per row
     ldir
     ; next row
-    ld a,64-17*2
+    ld a,64-23*2
     add a,e
     ld e,a
     adc a,d
