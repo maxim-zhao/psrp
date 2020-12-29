@@ -609,7 +609,7 @@
     ╘═════════════╝
   fr: |
     │--------------║
-    │Écran de Titre║
+    │Ecran de Titre║
     │Introduction  ║
     │Ville         ║
     │Donjon        ║
@@ -641,14 +641,14 @@
     │Font               ║
     ╘═══════════════════╝
   fr: |
-    ┌──────────────────────────╖
-    │Vitesse de marche       x ║
-    │Expérience              x ║
-    │Mesetas                 x ║
-    │Batailles                 ║
-    │Cheveux d'Alisa           ║
-    │Police                    ║
-    ╘══════════════════════════╝
+    ┌──────────────────────╖
+    │Vitesse de marche   x ║
+    │Expérience          x ║
+    │Mesetas             x ║
+    │Batailles             ║
+    │Cheveux d'Alisa       ║
+    │Police                ║
+    ╘══════════════════════╝
 - name: ContinueMenu
   en: |
     ┌──────╖

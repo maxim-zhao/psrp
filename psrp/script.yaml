@@ -4386,7 +4386,7 @@
     トクニ カワッタトコロハ<line>
     ナイヨウダ.<wait>
   en: There doesn’t seem to be anything particularly unusual here.<wait>
-  fr: Rien d'anormal ici<wait>
+  fr: Rien d'anormal ici.<wait>
 
 - offsets:2a15,2a9b
   indices:06E-2
@@ -4860,6 +4860,7 @@
   en: |
     Saving the game?<line>
     Please choose a slot.<end>
+  fr: Sauvegarder votre progression ? Choisissez un emplacement.<end>
 
 #[084e,1e44] ; No longer patching the "delete" prompt
 - offsets:ScriptConfirmSlot,1e44

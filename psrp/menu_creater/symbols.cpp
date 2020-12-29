@@ -195,20 +195,20 @@ public:
 
     void writeData(std::ofstream& f)
     {
-        if (!_emitData)
+        if (_emitData)
         {
-            // No data
-            return;
-        }
+            // Emit the data at the current (unknown) address
+            f << _name << ":";
 
-        // Emit the data at the current (unknown) address
-        f << _name << ":";
-
-        for (auto&& line : _lines)
-        {
-            f << "\n.stringmap tilemap \"" << convert.to_bytes(line) << "\"";
+            for (auto&& line : _lines)
+            {
+                f << "\n.stringmap tilemap \"" << convert.to_bytes(line) << "\"";
+            }
+            f << '\n';
         }
-        f << '\n';
+        f << ".define " << _name << "_width " << _width << "\n";
+        f << ".define " << _name << "_height " << _height << "\n";
+        f << ".define " << _name << "_dims " << (_width * 2 + _height * 256) << "\n";
     }
 };
 

@@ -130,7 +130,7 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
 
 # ROM building
 ps1jert.sms.o: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm substring_formatter\words.asm script_inserter\tree.asm tilemap.tbl script.tbl $(BINS) ps1jert.sms.asm
-  $(WLAZ80) -o "ps1jert.sms.o" "ps1jert.sms.asm"
+  $(WLAZ80) -D LANGUAGE=$(LANGUAGE) -o "ps1jert.sms.o" "ps1jert.sms.asm"
 
 ps1jert.sms: ps1jert.sms.o
   $(WLALINK) -d -r -v -S linkfile "ps1jert.sms"

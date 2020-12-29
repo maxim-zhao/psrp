@@ -2313,9 +2313,9 @@ DezorianCustomStringCheck:
   DefineWindow SHOP             MENU                  20  5  3  0
   DefineWindow SHOP_MST         INVENTORY             20  3  3 15 ; same width as inventory (for now)
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4 SAVE_SLOT_COUNT+2 27-SAVE_NAME_WIDTH 1
-  DefineWindow SoundTestWindow  $d700                 15 23  16  0
-  DefineWindow ContinueWindow   $d700                  8  4  18 16
-  DefineWindow OptionsWindow    $d700                 21  8  11 16
+  DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width SoundTestMenu_height+2  32-SoundTestMenu_width 0
+  DefineWindow OptionsWindow    $d700                 OptionsMenu_width OptionsMenu_height  32-OptionsMenu_width 24-OptionsMenu_height
+  DefineWindow ContinueWindow   $d700                 ContinueMenu_width ContinueMenu_height  18 16
 
 ; TODO: add rules for checking no overlap? hard
 
@@ -3667,23 +3667,23 @@ _OptionsMenu:
 
 _OptionsSelect:
   ; We draw in the numbers here
-  ld de,OptionsWindow_VRAM + ONE_ROW * 1 + 2 * 19
+  ld de,OptionsWindow_VRAM + ONE_ROW * 1 + 2 * (OptionsMenu_width - 2)
   rst $8
   ld a,(MovementSpeedUp)
   inc a
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 2 + 2 * 19
+  ld de,OptionsWindow_VRAM + ONE_ROW * 2 + 2 * (OptionsMenu_width - 2)
   rst $8
   ld a,(ExpMultiplier)
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 3 + 2 * 19
+  ld de,OptionsWindow_VRAM + ONE_ROW * 3 + 2 * (OptionsMenu_width - 2)
   rst $8
   ld a,(MoneyMultiplier)
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 4 + 2 * 16
+  ld de,OptionsWindow_VRAM + ONE_ROW * 4 + 2 * (OptionsMenu_width - 5)
   rst $8
   ld a,(FewerBattles)
   or a
@@ -3694,7 +3694,7 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 5 + 2 * 15
+  ld de,OptionsWindow_VRAM + ONE_ROW * 5 + 2 * (OptionsMenu_width - 6)
   rst $8
   ld a,(BrunetteAlisa)
   or a
@@ -3705,7 +3705,7 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * 13
+  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * (OptionsMenu_width - 8)
   rst $8
   ld a,(Font)
   or a
@@ -3823,13 +3823,21 @@ _font:
   halt
   jp _OptionsSelect
 
+.if LANGUAGE == "en"
 _BattlesAll:  .stringmap tilemap " All"
 _BattlesHalf: .stringmap tilemap "Half"
 _Brown: .stringmap tilemap "Brown"
 _Black: .stringmap tilemap "Black"
+.else
+.if LANGUAGE == "fr"
+_BattlesAll:  .stringmap tilemap "Tout"
+_BattlesHalf: .stringmap tilemap "Demi"
+_Brown: .stringmap tilemap "Bruns"
+_Black: .stringmap tilemap "Noirs"
+.endif
+.endif
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
-
 
 Continue:
   ld hl,FunctionLookupIndex
@@ -3940,7 +3948,7 @@ SoundTest:
 
   ld hl,SoundTestMenuTop
   ld de,SoundTestWindow_VRAM
-  ld bc,(1<<8)|(15*2) ; top border
+  ld bc,SoundTestMenuTop_dims ; (1<<8)|(15*2) ; top border
   call DrawTilemap
   call _chip
   ld hl,SoundTestMenu
@@ -4044,7 +4052,7 @@ _ids:
 
 _chip:
   ld de,SoundTestWindow_VRAM + ONE_ROW
-  ld bc,(1<<8)|(15*2) ; one row
+  ld bc,SoundTestMenuChipPSG_dims ; (1<<8)|(15*2) ; one row
   ld hl,SoundTestMenuChipPSG
   ld a,(UseFM)
   or a
