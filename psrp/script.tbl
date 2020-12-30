@@ -92,15 +92,15 @@
 52=[
 53=]
 ; Articles. Note these have trailing spaces.
-54=[A] 
-55=[An] 
-56=[The] 
+54=<A> 
+55=<An> 
+56=<The> 
 ; French articles
-54=[L']
-55=[Le] 
-56=[La] 
-57=[Les] 
-57=[d'] 
-58=[de] 
+54=<L'>
+55=<Le> 
+56=<La> 
+57=<Les> 
+57=<d'> 
+58=<de> 
 
 ; Words go below...
