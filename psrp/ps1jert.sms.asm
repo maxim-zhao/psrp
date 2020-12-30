@@ -962,12 +962,32 @@ _Substring:
       or a
       jr z,_Art_Exit   ; article = none
 
+.if LANGUAGE == "en"
       ld de,ArticlesLower
       cp $01      ; article = a,an,the
       jr z,_Start_Art
 
       ld de,ArticlesInitialUpper
       ; a = $02 = article = A,An,The
+      ; fall through
+.else
+.if LANGUAGE == "fr"
+      ld de,ArticlesLower
+      cp $01      ; article = l', le, la, les,
+      jr z,_Start_Art
+
+      ld de,ArticlesInitialUpper
+      cp $02      ; article = L', Le, La, ,
+      jr z,_Start_Art
+
+      ld de,ArticlesPossessive
+      cp $03      ; article = de l', du, de la, d' ,de
+      jr z,_Start_Art
+
+      ld de,ArticlesDirective
+      ; fall through
+.endif
+.endif
 
 _Start_Art:
       ld a,(bc)   ; Grab index
@@ -1012,6 +1032,7 @@ _Art_Exit:
   .db SymbolEnd
 .endm
 
+.if LANGUAGE == "en"
 ArticlesLower: ; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
 .dw +, ++, +++
 +:    Article " a"
@@ -1023,6 +1044,38 @@ ArticlesInitialUpper:
 +:    Article " A"
 ++:   Article " nA"
 +++:  Article " ehT"
+.else
+.if LANGUAGE == "fr"
+ArticlesLower: ; Le <item>
+.dw +, ++, +++, ++++, +++++
++:    Article "'l"  ; Start with vowel
+++:   Article " el" ; Feminine
++++:  Article " al" ; Masculine
+++++: Article ""    ; Name (so no article)
++++++:Article " sel" ; Plural
+ArticlesInitialUpper:
+.dw +, ++, +++, ++++, +++++
++:    Article "'L"
+++:   Article " eL"
++++:  Article " aL"
+++++: Article ""
++++++:Article " seL"
+ArticlesPossessive:
+.dw +, ++, +++, ++++, +++++
++:    Article "'l ed"
+++:   Article " el ed"
++++:  Article " al ed"
+++++: Article "'d"
++++++:Article " ed"
+ArticlesDirective:
+.dw +, ++, +++, ++++, +++++
++:    Article "'l à"
+++:   Article " ua"
++++:  Article " al à"
+++++: Article " à"
++++++:Article ""
+.endif
+.endif
 
 _Initial_Codes:
     ld a,(bc)   ; Grab character
