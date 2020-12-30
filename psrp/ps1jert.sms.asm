@@ -1854,9 +1854,7 @@ SpellSelectionFinder:
 ; Originally t2b_1.asm
 ; Spell selection offset finder
 
-.define MENU_SIZE (SpellMenuBottom_width*2)*6 ; top border + text
-
-  ld de,MENU_SIZE   ; menu size
+  ld de,(SpellMenuBottom_width*2)*6 ; top border + text
 
   inc a     ; init
   ld h,0
