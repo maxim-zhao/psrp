@@ -11,9 +11,9 @@ defaultslot 2
 .endme
 
 .rombankmap
-bankstotal 32
+bankstotal 33
 banksize $4000
-banks 32
+banks 33
 .endro
 
 .define ORIGINAL_ROM "PS1-J.SMS"
@@ -1854,7 +1854,7 @@ SpellSelectionFinder:
 ; Originally t2b_1.asm
 ; Spell selection offset finder
 
-.define MENU_SIZE (14*2)*6 ; top border + text
+.define MENU_SIZE (SpellMenuBottom_width*2)*6 ; top border + text
 
   ld de,MENU_SIZE   ; menu size
 
@@ -1892,7 +1892,7 @@ SpellBlankLine:
 ; ld     h,a
   ; We just don't draw "empty" spell menus...
   ld hl,SpellMenuBottom
-  ld bc,1<<8 + 14*2  ; width of line
+  ld bc,1<<8 + SpellMenuBottom_width*2  ; width of line
   jp $3b81 ; draw and exit
 .ends
 
@@ -2510,7 +2510,7 @@ DezorianCustomStringCheck:
   DefineWindow CURRENT_ITEMS    MENU_end              20  5 11 13
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end      7  6  1  8
   DefineWindow INVENTORY        ENEMY_STATS_end       20 12 11  1
-  DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width ItemActionMenu_height 24 13
+  DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width ItemActionMenu_height 31-ItemActionMenu_width 13
   DefineWindow HAPSBY           MENU_end               8  5 21 13
   DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width ToolShopMenu_height 23 14
   DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width  7  9  1 ; Spells and inventory are mutually exclusive
@@ -2618,7 +2618,7 @@ DezorianCustomStringCheck:
   PatchWords SPELLS                 $3595 $35e4 ; Spell list
   PatchWords SPELLS_VRAM            $3598 $35b4 $35e7
   PatchB $35bb 0      ; nop - row count correction
-  PatchB $35bf 14*2   ; - width*2
+  PatchB $35bf SpellMenuBottom_width*2   ; - width*2
   PatchB $35d4 7      ; - height
   PatchW $1ee1 SPELLS_VRAM + ONE_ROW
   PatchW $1b6a SPELLS_VRAM + ONE_ROW
