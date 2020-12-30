@@ -248,11 +248,11 @@
     ╘═════╝
 
   fr: |
-    ┌─────╖
-    │User ║
-    │Munir║
-    │Jeter║
-    ╘═════╝
+    ┌────────╖
+    │Utiliser║
+    │Equiper ║
+    │Jeter   ║
+    ╘════════╝
 
 - name: AlisaActiveBox
   ptrs: 302b
@@ -310,12 +310,12 @@
     │Fire        ║
     │Bind        ║
   fr: |
-    ┌────────────╖
-    │Soins       ║
-    │Déguerpir   ║
-    │Traducteur  ║
-    │Flammes     ║
-    │Ligoter     ║
+    ┌────────────────╖
+    │Soins           ║
+    │Déguerpir       ║
+    │Traducteur      ║
+    │Flammes         ║
+    │Ligoter         ║
 
 # Next five must follow...
 
@@ -328,12 +328,12 @@
     │Power Boost ║
     │            ║
   fr: |
-    ┌────────────╖
-    │Super Soins ║
-    │Terroriser  ║
-    │Barrière    ║
-    │Tonifier    ║
-    │            ║
+    ┌────────────────╖
+    │Super Soins     ║
+    │Terroriser      ║
+    │Barrière        ║
+    │Tonifier        ║
+    │                ║
 
 - name: BattleSpellsLutz
   en: |
@@ -344,13 +344,12 @@
     │Magic Waller║
     │Thunder     ║
   fr: |
-    ┌────────────╖
-    │Flammes     ║
-    │Télépathie  ║
-    │Tornades    ║
-    │Barrière Mag║
-    │Foudre      ║
- # TODO: expand for Barriere Magique?
+    ┌────────────────╖
+    │Flammes         ║
+    │Télépathie      ║
+    │Tornades        ║
+    │Barrière Magique║
+    │Foudre          ║
  
 - name: OverworldSpellsAlisa
   en: |
@@ -361,12 +360,12 @@
     │            ║
     │            ║
   fr: |
-    ┌────────────╖
-    │Soins       ║
-    │Téléporter  ║
-    │            ║
-    │            ║
-    │            ║
+    ┌────────────────╖
+    │Soins           ║
+    │Téléporter      ║
+    │                ║
+    │                ║
+    │                ║
 
 - name: OverworldSpellsMyau
   en: |
@@ -377,13 +376,12 @@
     │            ║
     │            ║
   fr: |
-    ┌────────────╖
-    │Super Soins ║
-    │Déminer     ║
-    │Passe-murail║
-    │            ║
-    │            ║
-  # Passe-muraille
+    ┌────────────────╖
+    │Super Soins     ║
+    │Déminer         ║
+    │Passe-muraille  ║
+    │                ║
+    │                ║
 
 - name: OverworldSpellsLutz
   en: |
@@ -394,17 +392,17 @@
     │Magic Unseal║
     │Rebirth     ║
   fr: |
-    ┌────────────╖
-    │Super Soins ║
-    │Passe-murail║
-    │Télépathie  ║
-    │Desceller   ║
-    │Renaitre    ║
+    ┌────────────────╖
+    │Super Soins     ║
+    │Passe-muraille  ║
+    │Télépathie      ║
+    │Desceller       ║
+    │Renaitre        ║
 
 - name: SpellMenuBottom
   # referenced in assembly code
   en: ╘════════════╝
-  fr: ╘════════════╝
+  fr: ╘════════════════╝
 
 - name: NarrativeBlankLine
   ptrs: 356c

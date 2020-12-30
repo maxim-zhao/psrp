@@ -2341,11 +2341,10 @@ DezorianCustomStringCheck:
 ;       | (magic) (6x9) | | (5x7)         | | (6x5)         | | (5x8)         |
 ; $de50 |               | |               | +---------------+ |               |
 ; $de5a |               | +---------------+                   |               |
-; $de80 +---------------+                                     |               |
-; $de64 +---------------+                                     +---------------+
-;       | Yes/No        |
-;       | (5x4)         |
-; $de96 +---------------+
+; $de64 |               | +---------------+                   +---------------+
+; $de80 +---------------+ | Yes/No        |
+;                         | (5x4)         |
+; $de96                   +---------------+
 ;
 ; In the retranslation we have some bigger windows so it's a little trickier...
 ;
@@ -2431,24 +2430,27 @@ DezorianCustomStringCheck:
 ; $db10 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
 ; $db80 +---------------+ +---------------+ |               |                   |               |
 ;       | Player select | | Buy/Sell      | |           (B) |                   |               |
-;       | (8x9) (B,W,S) | | (6x5)     (S) | |               |                   |               |
-; $dbb0 |               | +---------------+ |               |                   |               |
+;       | (8x9) (B,W,S) | | (6x4)     (S) | |               |                   |               |
+; $dbb0 |               | +- - - - - - - -+ |               |                   |               |
+;       |               | | (fr:9x4)      | |               |                   |               |
+; $dbc8 |               | +---------------+ |               |                   |               |
 ; $dbd4 +---------------+                   |               |                   |               |
 ; $dbd6 +---------------+ +---------------+ +---------------+ +---------------+ |               |
 ;       | Inventory     | | Spells        |                   | MST in shop   | |               |
 ; $dc44 | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
 ; $dc4e |               | |               |                   +---------------+
-; $dc9a |               | +---------------+
-;       |               | | Player select |
-;       |               | | (magic) (8x9) |
-;       |               | |         (B,W) |
-; $dcee |               | +---------------+
+; $dc9a |               | +- - - - - - - -+
+;       |               | | (fr: 16x12)   |
+; $dcd2 |               | +---------------+
 ; $ddb6 +---------------+ +---------------+ +---------------+
 ;       | Use/Equip/Drop| | Yes/No        | | Active player |
-;       | (7x7)     (W) | | (5x5)         | | (during       |
+;       | (7x5)     (W) | | (5x5)         | | (during       |
 ; $ddde |               | +---------------+ | battle)   (B) |
 ; $dde0 |               |                   +---------------+
-; $ddfc +---------------+
+; $ddfc +- - - - - - - -+                   | Player select |
+;       | (fr:10x5)     |                   | (magic) (8x9) |
+; $de1a +---------------+                   |         (B,W) |
+; $de34                                     +---------------+
 
 ; Save data menu has to be moved to allow more slots and longer names
 ; Save slots are $400 bytes so we have room for 7.
@@ -2508,11 +2510,11 @@ DezorianCustomStringCheck:
   DefineWindow CURRENT_ITEMS    MENU_end              20  5 11 13
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end      7  6  1  8
   DefineWindow INVENTORY        ENEMY_STATS_end       20 12 11  1
-  DefineWindow USEEQUIPDROP     INVENTORY_end          7  5 24 13
+  DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width ItemActionMenu_height 24 13
   DefineWindow HAPSBY           MENU_end               8  5 21 13
-  DefineWindow BUYSELL          CURRENT_ITEMS_end      6  4 23 14
-  DefineWindow SPELLS           INVENTORY             14  7  9  1 ; Spells and inventory are mutually exclusive
-  DefineWindow PLAYER_SELECT_2  SPELLS_end             7  6  9  8
+  DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width ToolShopMenu_height 23 14
+  DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width  7  9  1 ; Spells and inventory are mutually exclusive
+  DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end      7  6  9  8
   DefineWindow YESNO            USEEQUIPDROP           5  4 24 14
   DefineWindow ENEMY_NAME       MENU_end              21  3 11  0 ; max width 19 chars
   DefineWindow ENEMY_STATS      ENEMY_NAME_end         8 10 24  3
