@@ -1420,6 +1420,8 @@ OriginalVBlankHandlerPatch:
 .slot 2
 .section "Enemy, name, item lists" superfree
 Lists:
+
+.if LANGUAGE == "en"
 ; Order is important!
 Items:
   ; Max width 18 excluding [...] parts
@@ -1577,6 +1579,185 @@ Enemies:
   String "LaShiec"                          ; LASSIC    Lassic              rashīku             ラシーク
   String "Dark Force"                       ; DARKFALZ  Dark Falz           dākufarusu          ダークファルス
   String "Nightmare"                        ; SACCUBUS  Saccubus            naitomea            ナイトメア
+.else
+.if LANGUAGE == "fr"
+.endif
+
+Items:
+
+; Phantasy Star lists
+
+; Width = limit 10 chars
+;
+; +  = conditional space
+; @  = newline
+; %  = hyphen
+; [] = do not draw in menus, only during narratives
+
+; ~  = l', L', de l', à l'
+; #  = le, Le, du, au 
+; ^  = la, La, de la, à la
+; /  = les, Les, des, aux
+; &  = ,  ,  , de, à
+
+; empty item (blank)
+  String " "
+; Armes
+  String "[Le] Sceptre"
+  String "[Le] Glaive"
+  String "[L']Epée"
+  String "[Le] Sceptre Psycho"
+  String "[Les] Griffes d'acier"
+  String "[La] Hache"
+  String "[L']Epée titane"
+  String "[L']Epée céramique"
+  String "[Le] Pistolet à pointes"
+  String "[Les] Crocs en métal"
+  String "[Le] Canon plasma"
+  String "[Le] Sabre laser"
+  String "[Le] Pistolet laser"
+  String "[L']Epée laconian"
+  String "[La] Hache laconian"
+; Armures
+  String "[Le] Tenue de cuir"
+  String "[La] Cape blanche"
+  String "[Le] Plastron"
+  String "[L']Armure d'acier"
+  String "[La] Fourrure piquante"
+  String "[La] Armure zircon"
+  String "[L']Armure diamant"
+  String "[L']Armure laconian"
+  String "[La] Cape de Frad"
+; Boucliers
+  String "[Le] Bouclier de cuir"
+  String "[Le] Bouclier de bronze"
+  String "[Le] Bouclier d'acier"
+  String "[Le] Bouclier céramique"
+  String "[Les] Gants sauvages"
+  String "[Le] Bouclier laser"
+  String "[Le] Bouclier de Persée"
+  String "[Le] Bouclier laconian"
+; vehicules
+  String "[Le] GéoMaster"
+  String "[L']AquaNaute"
+  String "[Le] ForaGlace"
+; objets
+  String "[La] Vitabarre"
+  String "[L']Aquavital"
+  String "[La] Flute apaisante"
+  String "[La] Lampe torche"
+  String "[Le] Voile de fuite"
+  String "[Le] Tapis du croyant"
+  String "[La] Coiffe magique"
+  String "[L']Alsuline"
+  String "[L']Polymatériau"
+  String "[La] Clé des donjons"
+  String "[La] Sphère d'esprit"
+  String "[La] Torche d'éclipse"
+  String "[L']Aéroprisme"
+  String "[Les] Baies Laerma"
+  String "Hapsby"
+  String "[Le] Permis"
+  String "[Le] Passeport"
+  String "[Le] Boussole"
+  String "[La] Tarte"
+  String "[La] Lettre du Gouverneur"
+  String "[Le] Vase laconian"
+  String "[Le] Pendentif lumineux"
+  String "[L']Oeil de Carboucle"
+  String "[Le] Masque à gaz"
+  String "[Le] Cristal de Damoa"
+  String "[La] Master System"
+  String "[La] Clé Magique"
+  String "Shinobi"
+  String "[L']Objet secret"
+Names:
+; Persos
+  String "[à] Alisa"
+  String "[aux] Myau"
+  String "[aux] Tylon"
+  String "[aux] Lutz"
+Enemies:
+; Monstres
+; empty item (blank)
+  String " "
+  String "[La] Mouche géante"
+  String "[Le] Gluant vert"
+  String "[L']Oculum ailé"
+  String "[Le] Dévoreur"
+  String "[Le] Scorpion"
+  String "[La] Naiade géante"
+  String "[Le] Gluant bleu"
+  String "[Le] Paysan Motavien"
+  String "[L']Oculum vampire"
+  String "[La] Plante carnivore"
+  String "[L']Hélix"
+  String "[Le] Chineur Motavien"
+  String "[La] Mouche piquante"
+  String "[Le] Vers des sables"
+  String "[Le] Barjot Motavien"
+  String "[L']Oculum doré"
+  String "[Le] Gluant rouge"
+  String "[L']Homo chiropter"
+  String "[La] Limule"
+  String "[L']Homo squalus"
+  String "[L']Ame errante"
+  String "[La] Tarantule"
+  String "[La] Manticore"
+  String "[Le] Squelette"
+  String "[Le] Fourmilion"
+  String "[L']Homo palustris"
+  String "[Le] Dézorien"
+  String "[La] Sangsue du désert"
+  String "[L']Homo nosferatu"
+  String "[L']Eléphant"
+  String "[Le] Goule"
+  String "[L']Ammonite"
+  String "[L']Exécuteur"
+  String "[La] Liche"
+  String "[Le] Soldat squelette"
+  String "[Le] Nautilus"
+  String "[Le] Sphinx"
+  String "[Le] Serpent"
+  String "[Le] Léviathan"
+  String "[Le] Roi Liche"
+  String "[La] Pieuvre"
+  String "[Le] Rodeur"
+  String "[Le] Chef Dézorien"
+  String "[Le] Revenant"
+  String "[Le] Mort vivant"
+  String "[Le] Cyber garde"
+  String "[Le] Sorcier du Chaos"
+  String "[Le] Lézard de feu"
+  String "[Les] Maitre Tajim"
+  String "[Les] Gaia"
+  String "[Le] Garde mécanique"
+  String "[Le] Kraken"
+  String "[Les] Talos"
+  String "[Le] Seigneur serpent"
+  String "[Le] Porteur de mort"
+  String "[Le] Cyber mage"
+  String "[Le] Centaure"
+  String "[Le] Géant de glace"
+  String "[Le] Géant de feu"
+  String "[Le] Dragon rouge"
+  String "[Le] Dragon vert"
+  String "[L']Ombre de Lassic"
+  String "[Le] Mammouth"
+  String "[Le] Roi des sabres"
+  String "[Le] Maraudeur sombre"
+  String "[Le] Golem"
+  String "[de] Médusa"
+  String "[Le] Dragon blanc"
+  String "[Le] Dragon de Casba"
+  String "[Le] Dragon doré"
+  String "[Le] Savant fou"
+  String "[des] Lassic"
+  String "[des] Force Obscure"
+  String "[des] Cauchemar"
+
+.endif
+
 ; Terminator
 .db $df
 .ends
@@ -2473,6 +2654,7 @@ MST:      .stringmap tilemap "│Meseta       "   ; 5 digit number but also used
 .slot 1
 .section "Stats window drawing" superfree
 ; The width of these is important
+.if LANGUAGE == "en"
 StatsBorderTop:     .stringmap tilemap "┌────────────────╖"
 Level:              .stringmap tilemap "│Level        " ; 3 digit number
 EXP:                .stringmap tilemap "│Experience "   ; 5 digit number
@@ -2481,6 +2663,18 @@ Defense:            .stringmap tilemap "│Defense      "
 MaxMP:              .stringmap tilemap "│Maximum MP   "
 MaxHP:              .stringmap tilemap "│Maximum HP   "
 StatsBorderBottom:  .stringmap tilemap "╘════════════════╝"
+.else
+.if LANGUAGE == "fr"
+StatsBorderTop:     .stringmap tilemap "┌────────────────╖"
+Level:              .stringmap tilemap "│Niveau       " ; 3 digit number
+EXP:                .stringmap tilemap "│Expérience "   ; 5 digit number
+Attack:             .stringmap tilemap "│Attaque      " ; 3 digit numbers
+Defense:            .stringmap tilemap "│Défense      "
+MaxMP:              .stringmap tilemap "│HP maximum   "
+MaxHP:              .stringmap tilemap "│MP maximum   "
+StatsBorderBottom:  .stringmap tilemap "╘════════════════╝"
+.endif
+.endif
 
 statsImpl:
   ld hl,StatsBorderTop ; This is paged in (slot 2)

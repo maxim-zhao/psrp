@@ -95,5 +95,14 @@
 54=[A] 
 55=[An] 
 56=[The] 
+; French articles
+54=[L']
+55=[Le] 
+56=[La] 
+57=[Les] 
+57=[à] 
+58=[aux] 
+57=[de] 
+58=[des] 
 
 ; Words go below...
