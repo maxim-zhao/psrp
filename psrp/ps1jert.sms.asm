@@ -1046,34 +1046,34 @@ ArticlesInitialUpper:
 +++:  Article " ehT"
 .else
 .if LANGUAGE == "fr"
-ArticlesLower: ; Le <item>
+ArticlesLower: ; le <x>
 .dw +, ++, +++, ++++, +++++
 +:    Article "'l"  ; Start with vowel
 ++:   Article " el" ; Feminine
 +++:  Article " al" ; Masculine
 ++++: Article ""    ; Name (so no article)
 +++++:Article " sel" ; Plural
-ArticlesInitialUpper:
+ArticlesInitialUpper: ; Le <x>
 .dw +, ++, +++, ++++, +++++
 +:    Article "'L"
 ++:   Article " eL"
 +++:  Article " aL"
 ++++: Article ""
-+++++:Article " seL"
-ArticlesPossessive:
++++++:Article " seL" ; Unused?
+ArticlesPossessive: ; de <x>
 .dw +, ++, +++, ++++, +++++
 +:    Article "'l ed"
-++:   Article " el ed"
+++:   Article " ud"
 +++:  Article " al ed"
-++++: Article "'d"
-+++++:Article " ed"
-ArticlesDirective:
+++++: Article "'d" ; This one for names starting with a vowel
++++++:Article " ed" ; This one for names not starting with a consonant
+ArticlesDirective: ; à <x> 
 .dw +, ++, +++, ++++, +++++
 +:    Article "'l à"
 ++:   Article " ua"
 +++:  Article " al à"
 ++++: Article " à"
-+++++:Article ""
++++++:Article " xua" ; Unused?
 .endif
 .endif
 
@@ -1632,12 +1632,10 @@ Enemies:
   String "LaShiec"                          ; LASSIC    Lassic              rashīku             ラシーク
   String "Dark Force"                       ; DARKFALZ  Dark Falz           dākufarusu          ダークファルス
   String "Nightmare"                        ; SACCUBUS  Saccubus            naitomea            ナイトメア
-.else
-.if LANGUAGE == "fr"
 .endif
 
+.if LANGUAGE == "fr"
 Items:
-
 ; Phantasy Star lists
 
 ; Width = limit 10 chars
@@ -1808,7 +1806,6 @@ Enemies:
   String "[des] Lassic"
   String "[des] Force Obscure"
   String "[des] Cauchemar"
-
 .endif
 
 ; Terminator

@@ -301,6 +301,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             script_hints = false;
             line_len = 0;
         }
+        /* English articles */
         else if (matches[1].str() == L"article")
         {
             outBuffer.push_back(SymbolArticle);
@@ -313,6 +314,32 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             outBuffer.push_back(2); // uppercase
             script_hints = true;
         }
+        /* French */
+        else if (matches[1].str() == L"article")
+        {
+            outBuffer.push_back(SymbolArticle);
+            outBuffer.push_back(1);
+            script_hints = true;
+        }
+        else if (matches[1].str() == L"Article")
+        {
+            outBuffer.push_back(SymbolArticle);
+            outBuffer.push_back(2);
+            script_hints = true;
+        }
+        else if (matches[1].str() == L"de")
+        {
+            outBuffer.push_back(SymbolArticle);
+            outBuffer.push_back(3);
+            script_hints = true;
+        }
+        else if (matches[1].str() == L"à")
+        {
+            outBuffer.push_back(SymbolArticle);
+            outBuffer.push_back(4);
+            script_hints = true;
+        }
+        /* Fallback on manual numbers */
         else if (matches[1].str() == L"use article" && matches[3].matched)
         {
             outBuffer.push_back(SymbolArticle);

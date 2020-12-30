@@ -4050,7 +4050,7 @@
     <monster>ハ <player>ノ<line>
     コウゲキヲ カワシタ.<delay>
   en: <Article><monster> dodged <player>’s attack.<delay>
-  fr: L'attaque <use article 03><player> est parée_!<delay>
+  fr: L'attaque <de><player> est parée_!<delay>
 
 - offsets:1497
   indices:002-2
@@ -4058,13 +4058,13 @@
     <player>ハ <monster>ノ<line>
     コウゲキヲ カワシタ.<delay>
   en: <player> dodged <article><monster>’s attack.<delay>
-  fr: <Article><player> pare le coup <use article 03><monster>.<delay>
+  fr: <Article><player> pare le coup <de><monster>.<delay>
 
 - offsets:1a96
   indices:004-2
   ja: <player>ハ ハナシカケタ.<end>
   en: <player> spoke to <article><monster>.<end>
-  fr: <Article><player> parle <use article 04><monster>.<end>
+  fr: <Article><player> parle <à><monster>.<end>
 
 - offsets:1ac0,1ca4
   indices:006-2
@@ -4092,7 +4092,7 @@
     <player>ノ マジックハ<line>
     コウカガ ナカッタ.<delay>
   en: <player>’s spell had no effect.<delay>
-  fr: Le sort <use article 03><player> n'a pas d'effet.<delay>
+  fr: Le sort <de><player> n'a pas d'effet.<delay>
 
 - offsets:# unused
   indices:00E-2
@@ -4100,7 +4100,7 @@
     <monster>ノ マジックハ<line>
     コウカガ ナカッタ.<delay>
   en: <Article><monster>’s spell had no effect.<delay>
-  fr: Le sort <use article 03><monster> n'a pas d'effet.<delay>
+  fr: Le sort <de><monster> n'a pas d'effet.<delay>
 
 - offsets:1ffa
   indices:010-2
@@ -4116,7 +4116,7 @@
     <monster>ノ コウゲキハ<line>
     マホウノ カベニ ハネカエサレタ.<delay>
   en: <Article><monster>’s attack was deflected by the magic wall.<delay>
-  fr: La barrière dévie l'attaque <use article 03><monster>.<delay>
+  fr: La barrière dévie l'attaque <de><monster>.<delay>
 
 - offsets:14f9,15d3,1637
   indices:014-2
@@ -4124,7 +4124,7 @@
     <monster>ノ マジックハ<line>
     マホウノ カベニ ハネカエサレタ.<delay>
   en: <Article><monster>’s spell was deflected by the magic wall.<delay>
-  fr: Le sort dévie l'attaque <use article 03><monster>.<delay>
+  fr: Le sort dévie l'attaque <de><monster>.<delay>
 
 - offsets:1458
   indices:016-2
@@ -4140,7 +4140,7 @@
     <player>ノ タイリョクガ<line>
     カイフクシタ.<delay>
   en: <player>’s stamina was restored.<delay>
-  fr: L'énergie <use article 03><player> est restaurée.<delay>
+  fr: L'énergie <de><player> est restaurée.<delay>
 
 - offsets:1552
   indices:01A-2
@@ -4196,7 +4196,7 @@
     <player>ハ カラダニ チカラガ<line>
     ミナギルノヲ カンジタ.<delay>
   en: <player> felt a great swelling of energy.<delay>
-  fr: La force <use article 03><player> décuple.<delay>
+  fr: La force <de><player> décuple.<delay>
 
 - offsets:216f
   indices:02A-2
@@ -4242,7 +4242,7 @@
     <player>ハ <item>ヲ<line>
     ソウビシタ.<end>
   en: <player> equipped <article><item>.<end>
-  fr: <Article><player> s'équipe <use article 03><item>.<end>
+  fr: <Article><player> s'équipe <de><item>.<end>
 
 - offsets:28cc
   indices:036-2
@@ -4282,7 +4282,7 @@
   indices:040-2
   ja: <item>カラ トビオリタ.<delay>
   en: The group got out of <article><item>.<delay>
-  fr: Le groupe sort <use article 03><item>.<delay>
+  fr: Le groupe sort <de><item>.<delay>
 
 - offsets:2402,2569,26af,2701,2816
   indices:042-2
@@ -4294,7 +4294,7 @@
   indices:046-2
   ja: <monster>ハ メガ ウツロダ.<delay>
   en: <Article><monster>’s eyes are blank.<delay>
-  fr: Les yeux <use article 03><monster> sont vides.<delay>
+  fr: Les yeux <de><monster> sont vides.<delay>
 
 - offsets:2505,2597,25f9,26f1,2742,27a2
   indices:048-2
@@ -4432,7 +4432,7 @@
     <player>ハ <item>ヲ<line>
     ソウビ デキナイ.<wait>
   en: <player> can’t equip <article><item>.<wait>
-  fr: Impossible d'équiper <Article><player> <use article 03><item>.<wait>
+  fr: Impossible d'équiper <Article><player> <de><item>.<wait>
 
 - offsets:283e
   indices:07A-2
@@ -5043,7 +5043,7 @@
     <monster>ハ カラダニ<line>
     チカラガ ミナギルノヲカンジタ.<delay>
   en: <Article><monster> felt its body swell with strength.<delay>
-  fr: Le corps <use article 03><monster> s'emplit de force.<delay>
+  fr: Le corps <de><monster> s'emplit de force.<delay>
 
 - offsets:17ff
   indices:11C-2
