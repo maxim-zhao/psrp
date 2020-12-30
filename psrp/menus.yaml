@@ -299,7 +299,7 @@
     ╘═════╝
 
 - name: BattleSpellsAlisa
-  ptrs: 35b0
+  #ptrs: 35b0
   dims: 359b,35ea
   height: 7 # for bottom row
   en: |
@@ -326,14 +326,12 @@
     │Terror      ║
     │Waller      ║
     │Power Boost ║
-    │            ║
   fr: |
     ┌────────────────╖
     │Super Soins     ║
     │Terroriser      ║
     │Barrière        ║
     │Tonifier        ║
-    │                ║
 
 - name: BattleSpellsLutz
   en: |
@@ -356,16 +354,10 @@
     ┌────────────╖
     │Heal        ║
     │Troop       ║
-    │            ║
-    │            ║
-    │            ║
   fr: |
     ┌────────────────╖
     │Soins           ║
     │Téléporter      ║
-    │                ║
-    │                ║
-    │                ║
 
 - name: OverworldSpellsMyau
   en: |
@@ -373,15 +365,11 @@
     │Super Heal  ║
     │Untrap      ║
     │Bypass      ║
-    │            ║
-    │            ║
   fr: |
     ┌────────────────╖
     │Super Soins     ║
     │Déminer         ║
     │Passe-muraille  ║
-    │                ║
-    │                ║
 
 - name: OverworldSpellsLutz
   en: |
@@ -572,15 +560,15 @@
 
 - name: SoundTestMenuTop
   en: ┌─────────────╖
-  fr: ┌──────────────╖
+  fr: ┌─────────────╖
 
 - name: SoundTestMenuChipPSG
   en: │Chip  SN76489║
-  fr: │Puce   SN76489║
+  fr: │Puce  SN76489║
 
 - name: SoundTestMenuChipYM2413
   en: │Chip   YM2413║
-  fr: │Puce    YM2413║
+  fr: │Puce   YM2413║
   
 - name: SoundTestMenu
   en: |
@@ -606,27 +594,27 @@
     │Game Over    ║
     ╘═════════════╝
   fr: |
-    │--------------║
-    │Ecran de Titre║
-    │Introduction  ║
-    │Ville         ║
-    │Donjon        ║
-    │Magasin       ║
-    │Eglise        ║
-    │Palma         ║
-    │Bataille      ║
-    │Histoire      ║
-    │Village       ║
-    │Véhicule      ║
-    │Motavia       ║
-    │Dezoris       ║
-    │Tour          ║
-    │Donjon Final  ║
-    │LaShiec       ║
-    │Force Obscure ║
-    │Fin           ║
-    │Jeu Fini      ║
-    ╘══════════════╝
+    │-------------║
+    │Ecran Titre  ║
+    │Introduction ║
+    │Ville        ║
+    │Donjon       ║
+    │Magasin      ║
+    │Eglise       ║
+    │Palma        ║
+    │Bataille     ║
+    │Histoire     ║
+    │Village      ║
+    │Véhicule     ║
+    │Motavia      ║
+    │Dezoris      ║
+    │Tour         ║
+    │Donjon Final ║
+    │LaShiec      ║
+    │Force Obscure║
+    │Fin          ║
+    │Game Over    ║
+    ╘═════════════╝
 
 - name: OptionsMenu
   en: |
@@ -643,7 +631,7 @@
     │Vitesse de marche   x ║
     │Expérience          x ║
     │Mesetas             x ║
-    │Batailles             ║
+    │Combats               ║
     │Cheveux d'Alisa       ║
     │Police                ║
     ╘══════════════════════╝
@@ -655,6 +643,6 @@
     ╘══════╝
   fr: |
     ┌───────╖
-    │Charge ║
+    │Charger║
     │Effacer║
     ╘═══════╝

@@ -11,9 +11,9 @@ defaultslot 2
 .endme
 
 .rombankmap
-bankstotal 33
+bankstotal 32
 banksize $4000
-banks 33
+banks 32
 .endro
 
 .define ORIGINAL_ROM "PS1-J.SMS"
@@ -1848,50 +1848,40 @@ MenuData:
 .stringmap tilemap "MP"
 .ends
 
+.unbackground $35a2 $35d7
   ROMPosition $35a2
-.section "Spell selection finder" overwrite ; not movable
-SpellSelectionFinder:
-; Originally t2b_1.asm
-; Spell selection offset finder
+.section "Spell selection finder" force ; not movable
+DrawSpellsMenu:
+  ; We want to compute hl = a'th spells menu data
+  ; de = dest VRAM address
+  ; b = spell count to draw
+  push de
+    add a,a
+    ld e,a
+    ld d,0
+    ld hl,_magicmenutable
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+  pop de
+  ; Next we want to check if b = 0 
+  ld a,b
+  or a
+  jp z,$35da
+  ; Now we want to compute b = row count, c = column count  * 2
+  inc b
+  ld c,SpellMenuBottom_width*2
+  call OutputTilemapBoxWipePaging           ; 0035C1 CD 81 3B 
 
-  ld de,(SpellMenuBottom_width*2)*6 ; top border + text
-
-  inc a     ; init
-  ld h,0
-  ld l,h
-
--:dec a     ; loop
-  jr z,+
-
-  add hl,de   ; skip menu
-  jr -
-
-+:
-.ends
-
-  ROMPosition $35c5
-.section "Spell blank line" size 14 force; not movable
-SpellBlankLine:
-; Originally t2b_2.asm
-; Spell selection blank line drawer
-; - support code
-; Original code:
-; ld     a,b      ; compute a = b * 12 (to find where to start copying the menu data)
-; add    a,a      ; a=2b
-; ld     l,a      ; l=2b
-; add    a,a      ; a=4b
-; add    a,l      ; a=6b
-; add    a,a      ; a=12b
-; ld     hl,$ba3f
-; add    a,l
-; ld     l,a
-; adc    a,h
-; sub    l
-; ld     h,a
-  ; We just don't draw "empty" spell menus...
+  ; Then we draw the bottom row directly after it
   ld hl,SpellMenuBottom
   ld bc,1<<8 + SpellMenuBottom_width*2  ; width of line
-  jp $3b81 ; draw and exit
+  jp OutputTilemapBoxWipePaging ; draw and exit
+_magicmenutable:
+.dw BattleSpellsAlisa, BattleSpellsMyau, BattleSpellsLutz
+.dw OverworldSpellsAlisa, OverworldSpellsMyau, OverworldSpellsLutz
 .ends
 
 ; relocate Tarzimal's tiles
@@ -2614,10 +2604,7 @@ DezorianCustomStringCheck:
   PatchW $3617 INVENTORY_VRAM + ONE_ROW * 2 ; - VRAM cursor
 
   PatchWords SPELLS                 $3595 $35e4 ; Spell list
-  PatchWords SPELLS_VRAM            $3598 $35b4 $35e7
-  PatchB $35bb 0      ; nop - row count correction
-  PatchB $35bf SpellMenuBottom_width*2   ; - width*2
-  PatchB $35d4 7      ; - height
+  PatchWords SPELLS_VRAM            $3598 $35e7
   PatchW $1ee1 SPELLS_VRAM + ONE_ROW
   PatchW $1b6a SPELLS_VRAM + ONE_ROW
 
