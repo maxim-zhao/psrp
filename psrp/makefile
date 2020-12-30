@@ -72,10 +72,10 @@ new_graphics\font3.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedup
 new_graphics\font1a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\font2a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
-new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.$(LANGUAGE).png
-  new_graphics\bmp2tile.exe $** -tileoffset 0 -savetiles new_graphics\title.psgcompr -savetilemap new_graphics\title-nt.pscompr -palsms -savepalette new_graphics\title-pal.bin
-new_graphics\logo.psgcompr new_graphics\logo-nt.bin: new_graphics\logo.png
-  new_graphics\bmp2tile.exe $** -tileoffset 256 -savetiles new_graphics\logo.psgcompr -savetilemap new_graphics\logo-nt.bin
+new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.top.png
+  new_graphics\bmp2tile.exe $** -tileoffset 0 -savetiles new_graphics\title.top.psgcompr -savetilemap new_graphics\title.top.tilemap.pscompr -palsms -savepalette new_graphics\title-pal.bin
+new_graphics\title.bottom.psgcompr new_graphics\title.bottom.tilemap.pscompr: new_graphics\titlescreen.$(LANGUAGE).png
+  new_graphics\bmp2tile.exe $** -tileoffset 256 -savetiles new_graphics\title.bottom.psgcompr -savetilemap new_graphics\title.bottom.tilemap.pscompr
 
 new_graphics\alisa.tiles.bin: new_graphics\alisa.png
   new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
@@ -124,8 +124,8 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\world1.psgcompr new_graphics\world2.psgcompr \
        new_graphics\font1.psgcompr new_graphics\font2.psgcompr new_graphics\font3.psgcompr \
        new_graphics\font1a.psgcompr new_graphics\font2a.psgcompr \
-       new_graphics\title.psgcompr new_graphics\title-nt.pscompr new_graphics\title-pal.bin \
-       new_graphics\logo.psgcompr new_graphics\logo-nt.bin \
+       new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin \
+       new_graphics\title.bottom.psgcompr new_graphics\title.bottom.tilemap.pscompr \
        new_graphics\alisa.tiles.bin
 
 # ROM building

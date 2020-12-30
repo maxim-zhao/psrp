@@ -291,27 +291,27 @@ LoadTiles:
 .ends
 
 ; New title screen ------------------------
-  PatchB $2fdb $26    ; cursor tile index for title screen
+  PatchB $2fdb $32    ; cursor tile index for title screen
 
 .slot 2
 .section "Replacement title screen" superfree
-TitleScreenTiles:
-.incbin "new_graphics/title.psgcompr"
+TitleScreenTilesBottom:
+.incbin "new_graphics/title.bottom.psgcompr"
 .ends
 
 .section "Title screen name table" superfree
-TitleScreenTilemap:
-.incbin "new_graphics/title-nt.pscompr"
+TitleScreenTilemapBottom:
+.incbin "new_graphics/title.bottom.tilemap.pscompr"
 .ends
 
 .section "Replacement title screen part 2" superfree
-TitleScreenLogoTiles:
-.incbin "new_graphics/logo.psgcompr"
+TitleScreenTilesTop:
+.incbin "new_graphics/title.top.psgcompr"
 .ends
 
 .section "Title screen name table for logo" superfree
-TitleScreenLogoTilemap:
-.incbin "new_graphics/logo-nt.bin"
+TitleScreenTilemapTop:
+.incbin "new_graphics/title.top.tilemap.pscompr"
 .ends
 
   ROMPosition $00925
@@ -334,11 +334,11 @@ TitleScreenPatch:
 ;  ld (hl),$0e
 ;  ld hl,$bc68        ; Source
 ;  call $6e05         ; Load
-  LoadPagedTiles TitleScreenTiles $4000
+  LoadPagedTiles TitleScreenTilesBottom $6000
 
   ld hl,PAGING_SLOT_2
-  ld (hl),:TitleScreenTilemap
-  ld hl,TitleScreenTilemap
+  ld (hl),:TitleScreenTilemapBottom
+  ld hl,TitleScreenTilemapBottom
   call TitleScreenExtra
   ; Size matches original
 .ends
@@ -346,28 +346,19 @@ TitleScreenPatch:
 .section "Title screen extra tile load" free
 TitleScreenExtra:
   call DecompressToTileMapData ; what we stole to get here
+  ; Then copy down...
+  ld hl,$d000
+  ld de,$d000 + 12 * 32 * 2
+  ld bc,12 * 32 * 2
+  ldir
 
-  LoadPagedTiles TitleScreenLogoTiles $6000
+  ; Now we load the top half
+  LoadPagedTiles TitleScreenTilesTop $4000
 
-  ld a,:TitleScreenLogoTilemap
+  ld a,:TitleScreenTilemapTop
   ld (PAGING_SLOT_2),a
-
-  ; We want to emit a tilemap sub-area. There isn't a function in the game to do this...
-  ld hl,TitleScreenLogoTilemap ; source
-  ld de,$d000 + (32 * 2 + 4) * 2 ; destination
-  ld b,13 ; rows
--:push bc
-    ld bc,23*2 ; bytes per row
-    ldir
-    ; next row
-    ld a,64-23*2
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-    ld d,a
-  pop bc
-  djnz -
+  ld hl,TitleScreenTilemapTop
+  call DecompressToTileMapData
 
   call SettingsFromSRAM ; Load settings from SRAM
 
