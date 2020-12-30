@@ -8,6 +8,9 @@ Phantasy Star: Script Inserter
 #include <vector>
 #include "ScriptItem.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 extern void Convert_Symbols(const std::string& scriptFilename, const std::string& language, const std::string& tableFilename, std::vector<ScriptItem>& script);
 extern void Huffman_Compress(const std::string& scriptFilename, const std::string& patchFilename, const std::string& treeFilename, const std::vector<ScriptItem>& script);
@@ -17,6 +20,10 @@ int main(int argc, const char** argv)
 {
 	try
 	{
+#ifdef WIN32
+		SetConsoleOutputCP(CP_UTF8);
+#endif
+
 		// Assert proper usage
 		if (argc != 7)
 		{

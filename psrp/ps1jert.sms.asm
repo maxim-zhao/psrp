@@ -1636,21 +1636,6 @@ Enemies:
 
 .if LANGUAGE == "fr"
 Items:
-; Phantasy Star lists
-
-; Width = limit 10 chars
-;
-; +  = conditional space
-; @  = newline
-; %  = hyphen
-; [] = do not draw in menus, only during narratives
-
-; ~  = l', L', de l', à l'
-; #  = le, Le, du, au 
-; ^  = la, La, de la, à la
-; /  = les, Les, des, aux
-; &  = ,  ,  , de, à
-
 ; empty item (blank)
   String " "
 ; Armes
@@ -1724,10 +1709,10 @@ Items:
   String "[L']Objet secret"
 Names:
 ; Persos
-  String "[à] Alisa"
-  String "[aux] Myau"
-  String "[aux] Tylon"
-  String "[aux] Lutz"
+  String "[d'] Alisa"
+  String "[de] Myau"
+  String "[de] Tylon"
+  String "[de] Lutz"
 Enemies:
 ; Monstres
 ; empty item (blank)

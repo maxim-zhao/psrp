@@ -75,19 +75,19 @@
     ナニガ アッタノ.<line>
     シッカリシテ.<wait>
   translated: |
-     Guards: You little bastard -- poking your nose into LaShiec's business like that!
-     Maybe from now on you'll try to mind your manners!
-     Alisa: Nero! What happened?! Hang on!
+    Guards: You little bastard -- poking your nose into LaShiec's business like that!
+    Maybe from now on you'll try to mind your manners!
+    Alisa: Nero! What happened?! Hang on!
   en: |
-     Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
-     Defiance of Lord LaShiec will not be tolerated!<wait more>
-     Nero? NERO!<line><line>
-     What happened?!<wait>
+    Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
+    Defiance of Lord LaShiec will not be tolerated!<wait more>
+    Nero? NERO!<line><line>
+    What happened?!<wait>
   fr: |
-     Citoyens de Camineet, le corps de ce garcon est un avertissement pour vous tous.<line>
-     Le Seigneur Lassic ne tolérera aucune offense_!<wait more>
-     Néro_? NERO_!<line><line>
-     Que s'est-il passé_?!<wait>
+    Citoyens de Camineet, le corps de ce garcon est un avertissement pour vous tous.<line>
+    Le Seigneur Lassic ne tolérera aucune offense_!<wait more>
+    Néro_? NERO_!<line><line>
+    Que s'est-il passé_?!<wait>
 
 - offsets:45fa
   # Nero, dying
@@ -110,54 +110,54 @@
     オマエ ヒトリヲ ノコシテイク オレヲ<line>
     ユルシテクレ.<wait>
   translated: |
-     Nero: ...Alisa... listen...
-     ...LaShiec has brought an enormous calamity upon our world...
-     ...The world is facing ruin...
-     ...I tried to find out what LaShiec is planning...
-     ...But by myself, I wasn't able to do anything...
-     ...I heard rumors of a mighty warrior named 'Tairon' during my journey...
-     ...If you combine forces, you might be able to defeat LaShiec... and restore peace...
-     ...Alisa...
-     ...It’s too late for me...
-     ...Please forgive me... for leaving you alone...
+    Nero: ...Alisa... listen...
+    ...LaShiec has brought an enormous calamity upon our world...
+    ...The world is facing ruin...
+    ...I tried to find out what LaShiec is planning...
+    ...But by myself, I wasn't able to do anything...
+    ...I heard rumors of a mighty warrior named 'Tairon' during my journey...
+    ...If you combine forces, you might be able to defeat LaShiec... and restore peace...
+    ...Alisa...
+    ...It’s too late for me...
+    ...Please forgive me... for leaving you alone...
   en: |
-     Alisa, my sister.<line><line>
-     Listen closely, I don’t have long.<wait more>
-     The rumors we've heard are true. LaShiec has... changed.<line>
-     And it goes beyond his military taking over our streets.<wait more>
-     All of the horrible creatures outside, all of the darkness in our lives...<line><line>
-     Somehow, it all traces back to him.<wait more>
-     I tried to learn how, but I guess I got too close to the truth.<line><line>
-     There's only one option left now, for all of us.<wait more>
-     Lord LaShiec must be stopped.<line><line>
-     If he isn't, the darkness he's aligned himself with will claim all of Algol.<wait more>
-     My mistake was trying to take him on alone.<line><line>
-     These are dangerous people, you’re going to need help.<wait more>
-     I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
-     I tried to enlist his help, but he's gone missing.<wait more>
-     You have to find him, Alisa.<line><line>
-     Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
-     Alisa... such a terrible burden. I’m so sorry.<line><line>
-     Please forgive me, for asking this of you...<wait more>
-     ...and for leaving you all...<line><line>
-     ...alone...<wait>
+    Alisa, my sister.<line><line>
+    Listen closely, I don’t have long.<wait more>
+    The rumors we've heard are true. LaShiec has... changed.<line>
+    And it goes beyond his military taking over our streets.<wait more>
+    All of the horrible creatures outside, all of the darkness in our lives...<line><line>
+    Somehow, it all traces back to him.<wait more>
+    I tried to learn how, but I guess I got too close to the truth.<line><line>
+    There's only one option left now, for all of us.<wait more>
+    Lord LaShiec must be stopped.<line><line>
+    If he isn't, the darkness he's aligned himself with will claim all of Algol.<wait more>
+    My mistake was trying to take him on alone.<line><line>
+    These are dangerous people, you’re going to need help.<wait more>
+    I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
+    I tried to enlist his help, but he's gone missing.<wait more>
+    You have to find him, Alisa.<line><line>
+    Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
+    Alisa... such a terrible burden. I’m so sorry.<line><line>
+    Please forgive me, for asking this of you...<wait more>
+    ...and for leaving you all...<line><line>
+    ...alone...<wait>
   fr: |
-     Alisa. Ma soeur.<line><line>
-     Ecoute moi attentivement, il me reste peu de temps.<wait more>
-     Lassic est une menace pour Algol, il ne doit pas rester au pouvoir.<line><line>
-     Je ne sais pas ce qui lui est arrivé...<wait more>
-     mais je sais une chose, Lassic doit être anéanti_!<line><line>
-     Pour le bien de tous, Alisa, tu dois l'arrêter.<wait more>
-     Mon erreur fut de l'affronter seul.<line><line>
-     Ces gens sont dangereux, il te faudra de l'aide.<wait more>
-     On m'a parlé d'un guerrier, un homme nommé Tylon, qui partage ma cause.<wait more>
-     J'ai voulu lui demander son aide, mais personne ne sait ce qu'il est devenu.<wait more>
-     Alisa, retrouve-le et tue Lassic avant qu'il ne soit trop tard_!<wait more>
-     C'est un terrible fardeau.<line>
-     J'en suis désolé, Alisa.<line><line>
-     Pardonne-moi de te demander une telle chose...<wait more>
-     ... et aussi de...<line><line>
-     ... te laisser seule...<wait>
+    Alisa. Ma soeur.<line><line>
+    Ecoute moi attentivement, il me reste peu de temps.<wait more>
+    Lassic est une menace pour Algol, il ne doit pas rester au pouvoir.<line><line>
+    Je ne sais pas ce qui lui est arrivé...<wait more>
+    mais je sais une chose, Lassic doit être anéanti_!<line><line>
+    Pour le bien de tous, Alisa, tu dois l'arrêter.<wait more>
+    Mon erreur fut de l'affronter seul.<line><line>
+    Ces gens sont dangereux, il te faudra de l'aide.<wait more>
+    On m'a parlé d'un guerrier, un homme nommé Tylon, qui partage ma cause.<wait more>
+    J'ai voulu lui demander son aide, mais personne ne sait ce qu'il est devenu.<wait more>
+    Alisa, retrouve-le et tue Lassic avant qu'il ne soit trop tard_!<wait more>
+    C'est un terrible fardeau.<line>
+    J'en suis désolé, Alisa.<line><line>
+    Pardonne-moi de te demander une telle chose...<wait more>
+    ... et aussi de...<line><line>
+    ... te laisser seule...<wait>
 
 - offsets:4605
   descrption: Alisa
@@ -168,20 +168,20 @@
     キット ミマモッテイテネ.<line>
     ニイサン.<wait>
   translated: |
-     I will go and fight to ensure that my brother did not die in vain!
-     Keep a sharp watch over me, big brother!
+    I will go and fight to ensure that my brother did not die in vain!
+    Keep a sharp watch over me, big brother!
   en: |
-     Nero...<wait more>
-     Your death will not be meaningless, I swear it.<line><line>
-     I won't let these monsters take our home.<wait more>
-     Watch over and protect me, big brother.<line><line>
-     With your spirit by my side, LaShiec doesn't stand a chance.<wait>
+    Nero...<wait more>
+    Your death will not be meaningless, I swear it.<line><line>
+    I won't let these monsters take our home.<wait more>
+    Watch over and protect me, big brother.<line><line>
+    With your spirit by my side, LaShiec doesn't stand a chance.<wait>
   fr: |
-     Néro...<wait more>
-     Je sais que tu ne me l'aurais pas demandé s'il y avait eu un autre moyen.<wait more>
-     Ta mort ne sera pas vaine, j'en fais la promesse.<wait more>
-     Veille sur moi, grand frère.<wait more>
-     Je suis partie pour anéantir l'homme le plus puissant du monde.<wait>
+    Néro...<wait more>
+    Je sais que tu ne me l'aurais pas demandé s'il y avait eu un autre moyen.<wait more>
+    Ta mort ne sera pas vaine, j'en fais la promesse.<wait more>
+    Veille sur moi, grand frère.<wait more>
+    Je suis partie pour anéantir l'homme le plus puissant du monde.<wait>
 
 # *************************************
 # *** Camineet Residential District ***
@@ -197,11 +197,11 @@
   ja: ココハ アリサノ ウチデス.<line>
   translated: This is Alisa’s house. Nobody is here.
   en: |
-     This is Alisa’s home.<line><line>
-     Nero's things are still where he left them.<wait>
+    This is Alisa’s home.<line><line>
+    Nero's things are still where he left them.<wait>
   fr: |
-     La maison d'Alisa.<line>
-     On peut encore y ressentir la présence de Néro.<wait>
+    La maison d'Alisa.<line>
+    On peut encore y ressentir la présence de Néro.<wait>
 
 - offsets:4b48
   # Suelo (first visit)
@@ -211,15 +211,15 @@
     トメルコトハ デキナイ. デモ モシタタカイデ キズツイタトキハ<wait>
   translated: My name is Suelo. I know how you feel, Alisa. No one will be able to stop you [from doing what you must do], but don't overdo it, okay? If you are ever injured in battle, please come here to relax and recover. You will always be welcome.
   en: |
-     Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
-     I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
-     If you ever get hurt, come back here to heal.<wait more>
-     We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
+    Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+    I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
+    If you ever get hurt, come back here to heal.<wait more>
+    We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
   fr: |
-     Que veux-tu faire?<wait more>
-     Alisa, tu es folle de vouloir tenir tête à Lassic_!<wait more>
-     Mais je sais comme tu es bornée, je t'aiderai donc comme je pourrai.<wait more>
-     Si tu es blessée, viens ici et ton amie Suelo t'arrangera ca.<wait>
+    Que veux-tu faire?<wait more>
+    Alisa, tu es folle de vouloir tenir tête à Lassic_!<wait more>
+    Mais je sais comme tu es bornée, je t'aiderai donc comme je pourrai.<wait more>
+    Si tu es blessée, viens ici et ton amie Suelo t'arrangera ca.<wait>
 
 - offsets:4b4e
   # Suelo (subsequent visits)
@@ -230,11 +230,11 @@
     マタ イツデモ イラッシャイ.<wait>
   translated: Please relax and recover. Don’t overdo it, okay? You will always be welcome here.
   en: |
-     Please get some rest.<wait more>
-     Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+    Please get some rest.<wait more>
+    Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
   fr: |
-     Repose-toi un peu, si tu veux.
-     Tu seras toujours la bienvenue ici.<wait>
+    Repose-toi un peu, si tu veux.
+    Tu seras toujours la bienvenue ici.<wait>
 
 - offsets:4b62
   # Nekiseh (first visit)
@@ -250,17 +250,17 @@
     タツダロウカラ モッテイクトイイヨ.<wait>
   translated: My name is Nekise. I just found out that the hero Tairon is staying in the town of Shion. Oh, and, your brother entrusted me with this jar -- it’s called a ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.
   en: |
-     My name is Nekise.<line><line>
-     I was sorry to hear about your loss.<wait more>
-     Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
-     The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
-     Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
-     It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
+    My name is Nekise.<line><line>
+    I was sorry to hear about your loss.<wait more>
+    Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
+    The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
+    Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
+    It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
   fr: |
-     Je suis Nékisée, mes sincères condoléances pour ton frère.<wait more>
-     Nous avons entendu dire que Tylon se trouvait à Scion.<wait more>
-     Néro m'avait demandé de garder ce vase Laconian.<wait more>
-     Il aurait voulu que tu l'aies. Tiens, prends-le.<wait>
+    Je suis Nékisée, mes sincères condoléances pour ton frère.<wait more>
+    Nous avons entendu dire que Tylon se trouvait à Scion.<wait more>
+    Néro m'avait demandé de garder ce vase Laconian.<wait more>
+    Il aurait voulu que tu l'aies. Tiens, prends-le.<wait>
 
 - offsets:4b7c
   # Nekiseh (subsequent visits)
@@ -280,8 +280,8 @@
     カイゲンレイガ シカレテイルンダ.<wait>
   translated: The Camineet residential district is under martial law.
   en: |
-     I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
-     Camineet used to be so nice. How did it come to this?<line><wait>
+    I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
+    Camineet used to be so nice. How did it come to this?<line><wait>
   fr: Combien de temps allons-nous rester sous cette loi martiale_?<wait>
 
 - offsets:4b88
@@ -308,12 +308,12 @@
   ja: カミニートノ ニシハ スペースポートデス.<wait>
   translated: West of Camineet? That's the Spaceport.
   en: |
-     You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
-     I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
+    You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
+    I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
   fr: |
-     Je ne peux pas le croire_!<wait more>
-     Il faut un permis pour entrer sur le Spatioport_!<wait more>
-     Comment vais-je rentrer chez moi_?<wait>
+    Je ne peux pas le croire_!<wait more>
+    Il faut un permis pour entrer sur le Spatioport_!<wait more>
+    Comment vais-je rentrer chez moi_?<wait>
 
 - offsets:4b9a
   # Camineet resident - man
@@ -384,26 +384,26 @@
     ホシジャ.アルゴル タイヨウケイニハキキガ セマッテイルノジャ.<wait>
   # <number> is always 3.
   translated: |
-     There are three planets: Palma, Motabia, and Dezoris.
-     Palma is a planet of greenery.
-     Motavia is a planet of sand.
-     Dezoris is a planet of ice.
-     There is a crisis drawing near to Algol...
+    There are three planets: Palma, Motabia, and Dezoris.
+    Palma is a planet of greenery.
+    Motavia is a planet of sand.
+    Dezoris is a planet of ice.
+    There is a crisis drawing near to Algol...
   en: |
-     Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
-     Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
-     Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
-     Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
-     And Dezoris is a planet of ice. Very little life thrives on its frozen surface.<wait more>
-     All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
-     Every day draws us closer to a crisis that can never be reversed.<wait>
+    Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
+    Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
+    Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
+    Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
+    And Dezoris is a planet of ice. Very little life thrives on its frozen surface.<wait more>
+    All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
+    Every day draws us closer to a crisis that can never be reversed.<wait>
   fr: |
-     Il y a trois planètes: Palma, Motavia, et Dézoris.<wait more>
-     Ces trois planètes sont totalement différentes.<wait more>
-     Palma est une planète verdoyante.<wait more>
-     Motavia est un désert de sable.<wait more>
-     Quant à Dézoris, elle est couverte de glace.<wait more>
-     Pour vous dire la vérité, je crains pour l'avenir de nos planètes.<wait>
+    Il y a trois planètes: Palma, Motavia, et Dézoris.<wait more>
+    Ces trois planètes sont totalement différentes.<wait more>
+    Palma est une planète verdoyante.<wait more>
+    Motavia est un désert de sable.<wait more>
+    Quant à Dézoris, elle est couverte de glace.<wait more>
+    Pour vous dire la vérité, je crains pour l'avenir de nos planètes.<wait>
 
 - offsets:4ba9,4e06,4e26
   # Camineet resident - man - "yes" to question about Algol
@@ -3416,7 +3416,7 @@
   ja: テンニ カザシタ.<delay>
   translated: Alisa held the 'Eclipse Torch' over her head.
   en: <player> held <article><item> up towards the sky.<delay>
-  fr: <Article><player> tend <article><item> vers le ciel<delay>
+  fr: <player> tend <article><item> vers le ciel.<delay>
 
 - offsets:26d0
   # <player>ハ ラエルマベリーヲ トッテ<line>
@@ -3424,7 +3424,7 @@
   ja: ラコニアンポットニ イレタ.<wait>
   translated: Alisa took the ‘Laerma Berries’ and put them in the ‘Laconian Pot’.
   en: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
-  fr: <Article><player> mets des baies Laerma dans le vase Laconian.<wait>
+  fr: <player> mets des baies Laerma dans le vase Laconian.<wait>
 
 - offsets:26c4
   # If no Laconian Pot...
@@ -3993,8 +3993,8 @@
   ja: |
     アリサ<delay>
     <line>
-  en: "       Alisa,<delay>"
-  fr: "       Alisa,<delay>"
+  en: "      Alisa,<delay>"
+  fr: "      Alisa,<delay>"
 
 - offsets:480b
   indices:17A-2
@@ -4002,8 +4002,8 @@
   ja: |
     タイロン<delay>
     <line>
-  en: "       Tylon,<delay>"
-  fr: "       Tylon,<delay>"
+  en: "      Tylon,<delay>"
+  fr: "      Tylon,<delay>"
 
 - offsets:4816
   indices:17C-2
@@ -4011,8 +4011,8 @@
   ja: |
     ルツ<delay>
     <line>
-  en: "        Lutz,<delay>"
-  fr: "        Lutz,<delay>"
+  en: "       Lutz,<delay>"
+  fr: "       Lutz,<delay>"
 
 - offsets:4821
   indices:17E-2
@@ -4021,7 +4021,7 @@
     ソシテ ミャウ<delay>
     <line>
   en: "    and Myau.<delay>"
-  fr: "     et Myau.<delay>"
+  fr: "    et Myau.<delay>"
 
 - offsets:482c
   indices:180-2

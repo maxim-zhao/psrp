@@ -1,4 +1,4 @@
-/*
+﻿/*
 Phantasy Star: Symbol Converter (Script)
 */
 
@@ -232,32 +232,33 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
     {
         // Move pointer past it
         pText += matches[0].length();
-        if (matches[1].str() == L"internal hint" && matches[3].matched)
+        const auto& tag = matches[1].str();
+        if (tag == L"internal hint" && matches[3].matched)
         {
             script_internal_hint = std::stoi(matches[3].str(), nullptr, 16);
             script_hints = true;
         }
-        else if (matches[1].str() == L"player")
+        else if (tag == L"player")
         {
             CheckSuffixLength(1, 6, outBuffer, pText);
             outBuffer.push_back(SymbolPlayer);
         }
-        else if (matches[1].str() == L"monster")
+        else if (tag == L"monster")
         {
             CheckSuffixLength(1, script_width, outBuffer, pText);
             outBuffer.push_back(SymbolMonster);
         }
-        else if (matches[1].str() == L"item")
+        else if (tag == L"item")
         {
             CheckSuffixLength(1, script_width, outBuffer, pText);
             outBuffer.push_back(SymbolItem);
         }
-        else if (matches[1].str() == L"number")
+        else if (tag == L"number")
         {
             CheckSuffixLength(1, 5, outBuffer, pText);
             outBuffer.push_back(SymbolNumber);
         }
-        else if (matches[1].str() == L"line")
+        else if (tag == L"line")
         {
             // add newline
             outBuffer.push_back(SymbolNewLine);
@@ -265,14 +266,14 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             line_len = 0;
             script_hints = false;
         }
-        else if (matches[1].str() == L"wait more")
+        else if (tag == L"wait more")
         {
             outBuffer.push_back(SymbolWaitMore);
 
             script_hints = false;
             line_len = 0;
         }
-        else if (matches[1].str() == L"end")
+        else if (tag == L"end")
         {
             outBuffer.push_back(SymbolEnd);
 
@@ -281,7 +282,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             script_hints = false;
             line_len = 0;
         }
-        else if (matches[1].str() == L"delay")
+        else if (tag == L"delay")
         {
             outBuffer.push_back(SymbolDelay);
             outBuffer.push_back(SymbolEnd);
@@ -291,7 +292,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             script_hints = false;
             line_len = 0;
         }
-        else if (matches[1].str() == L"wait")
+        else if (tag == L"wait")
         {
             outBuffer.push_back(SymbolWait);
             outBuffer.push_back(SymbolEnd);
@@ -301,53 +302,41 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             script_hints = false;
             line_len = 0;
         }
-        /* English articles */
-        else if (matches[1].str() == L"article")
+        /* English and French articles */
+        else if (tag == L"article")
         {
             outBuffer.push_back(SymbolArticle);
             outBuffer.push_back(1); // lowercase
             script_hints = true;
         }
-        else if (matches[1].str() == L"Article")
+        else if (tag == L"Article")
         {
             outBuffer.push_back(SymbolArticle);
             outBuffer.push_back(2); // uppercase
             script_hints = true;
         }
         /* French */
-        else if (matches[1].str() == L"article")
-        {
-            outBuffer.push_back(SymbolArticle);
-            outBuffer.push_back(1);
-            script_hints = true;
-        }
-        else if (matches[1].str() == L"Article")
-        {
-            outBuffer.push_back(SymbolArticle);
-            outBuffer.push_back(2);
-            script_hints = true;
-        }
-        else if (matches[1].str() == L"de")
+        else if (tag == L"de")
         {
             outBuffer.push_back(SymbolArticle);
             outBuffer.push_back(3);
             script_hints = true;
         }
-        else if (matches[1].str() == L"à")
+        else if (tag == L"à")
         {
             outBuffer.push_back(SymbolArticle);
             outBuffer.push_back(4);
             script_hints = true;
         }
         /* Fallback on manual numbers */
-        else if (matches[1].str() == L"use article" && matches[3].matched)
+        else if (tag == L"use article" && matches[3].matched)
         {
             outBuffer.push_back(SymbolArticle);
             auto i = std::stoi(matches[3].str(), nullptr, 16);
             outBuffer.push_back(static_cast<uint8_t>(i)); // extra articles
             script_hints = true;
         }
-        else if (matches[1].str() == L"s")
+        else if (tag == L"s")
         {
             outBuffer.push_back(SymbolSuffix);
 
@@ -416,117 +405,127 @@ void Process_Text(const std::string& name, const std::string& language, const Ta
             }
         }
 
-        // Get the text and convert from UTF-8
-        std::wstring s = convert.from_bytes(node[language].As<std::string>().c_str());
-
-        // replace ' with ’
-        std::replace(s.begin(), s.end(), L'\'', L'\x2019');
-
-        // init
-        const wchar_t* pText = s.c_str();
-        line_len = 0;
-        std::vector<uint8_t> outBuffer;
-
-        // internal counter
-        script_end = false;
-
-        // do the conversion
-        while (*pText != L'\0')
+        try
         {
-            // Skip line breaks
-            if (*pText == L'\n')
+            // Get the text and convert from UTF-8
+            std::wstring s = convert.from_bytes(node[language].As<std::string>().c_str());
+
+            // replace ' with ’
+            std::replace(s.begin(), s.end(), L'\'', L'\x2019');
+
+            // init
+            const wchar_t* pText = s.c_str();
+            line_len = 0;
+            std::vector<uint8_t> outBuffer;
+
+            // internal counter
+            script_end = false;
+
+            // do the conversion
+            while (*pText != L'\0')
             {
-                ++pText;
-                continue;
-            }
-            const wchar_t start = *pText; // Character found
-            int entry; // Binary value to emit
-
-            const wchar_t* pStart = pText;
-
-            // Check for a scripting code
-            if (start == L'<')
-            {
-                ProcessCode(pText, outBuffer);
-
-                if (script_end)
+                // Skip line breaks
+                if (*pText == L'\n')
                 {
-                    // Ignore rest of string
-                    break;
-                }
-                continue;
-            }
-
-            // check if we have a dictionary entry
-            int matchLength;
-            if (!table.findLongestMatch(pText, entry, matchLength))
-            {
-                // Fail on un-mappable chars
-                std::ostringstream ss;
-                ss << "Unmapped character '" << convert.to_bytes(*pText) << "'";
-                throw std::runtime_error(ss.str());
-            }
-            pText += matchLength;
-            
-            // attempt auto-formatting
-            // check for whitespace
-            if (start == ' ')
-            {
-                // scan for next non-text moment
-                const int width = GetWordLength(pStart + 1);
-
-                // see if next word does not fit in this same line
-                if (line_len + 1 + width > script_width && !script_hints)
-                {
-                    // add newline
-                    outBuffer.push_back(SymbolNewLine);
-
-                    // reset x-pos
-                    line_len = 0;
-
-                    // bypass only whitespace
-                    pText = pStart + 1;
-
+                    ++pText;
                     continue;
                 }
-                if (script_hints && width > 0)
+                const wchar_t start = *pText; // Character found
+                int entry; // Binary value to emit
+
+                const wchar_t* pStart = pText;
+
+                // Check for a scripting code
+                if (start == L'<')
                 {
-                    // real-time line formatting needed
-                    outBuffer.push_back(SymbolPostHint);
-                    outBuffer.push_back(static_cast<uint8_t>(width + script_internal_hint));
+                    ProcessCode(pText, outBuffer);
 
-                    // manual hint flag reset
-                    script_internal_hint = 0;
+                    if (script_end)
+                    {
+                        // Ignore rest of string
+                        break;
+                    }
+                    continue;
                 }
-            } // end whitespace
 
-            // successful -> emit byte
-            outBuffer.push_back(static_cast<uint8_t>(entry));
+                // check if we have a dictionary entry
+                int matchLength;
+                if (!table.findLongestMatch(pText, entry, matchLength))
+                {
+                    // Fail on un-mappable chars
+                    std::ostringstream ss;
+                    ss << "Unmapped character '" << convert.to_bytes(*pText) << "'";
+                    throw std::runtime_error(ss.str());
+                }
+                pText += matchLength;
+                
+                // attempt auto-formatting
+                // check for whitespace
+                if (start == ' ')
+                {
+                    // scan for next non-text moment
+                    const int width = GetWordLength(pStart + 1);
 
-            // line length checking
-            line_len += matchLength;
+                    // see if next word does not fit in this same line
+                    if (line_len + 1 + width > script_width && !script_hints)
+                    {
+                        // add newline
+                        outBuffer.push_back(SymbolNewLine);
+
+                        // reset x-pos
+                        line_len = 0;
+
+                        // bypass only whitespace
+                        pText = pStart + 1;
+
+                        continue;
+                    }
+                    if (script_hints && width > 0)
+                    {
+                        // real-time line formatting needed
+                        outBuffer.push_back(SymbolPostHint);
+                        outBuffer.push_back(static_cast<uint8_t>(width + script_internal_hint));
+
+                        // manual hint flag reset
+                        script_internal_hint = 0;
+                    }
+                } // end whitespace
+
+                // successful -> emit byte
+                outBuffer.push_back(static_cast<uint8_t>(entry));
+
+                // line length checking
+                line_len += matchLength;
+            }
+
+            if (script_end)
+            {
+                entryNumber++;
+                bool discard = false;
+                // Discard unused items
+                if (label.empty())
+                {
+                    if (patchOffsets.empty())
+                    {
+                        // Skip this one
+                        discard = true;
+                    }
+                    label = "Script" + std::to_string(entryNumber);
+                }
+                if (!discard)
+                {
+                    // Store to the script object
+                    script.emplace_back(convert.to_bytes(s), outBuffer, patchOffsets, label);
+                }
+                patchOffsets.clear();
+            }
         }
-
-        if (script_end)
+        catch (const std::exception& e)
         {
-            entryNumber++;
-            bool discard = false;
-            // Discard unused items
-            if (label.empty())
-            {
-                if (patchOffsets.empty())
-                {
-                    // Skip this one
-                    discard = true;
-                }
-                label = "Script" + std::to_string(entryNumber);
-            }
-            if (!discard)
-            {
-                // Store to the script object
-                script.emplace_back(convert.to_bytes(s), outBuffer, patchOffsets, label);
-            }
-            patchOffsets.clear();
+            std::ostringstream ss;
+            ss << "Exception processing script entry for offset " << node["offsets"].As<std::string>()
+                << ": " << e.what();
+            throw std::runtime_error(ss.str());
         }
     } // end while read line
 }
