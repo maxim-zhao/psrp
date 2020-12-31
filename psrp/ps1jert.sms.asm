@@ -1783,14 +1783,14 @@ Enemies:
   String "<Le> Roi des sabres"
   String "<Le> Maraudeur sombre"
   String "<Le> Golem"
-  String "[de] Médusa"
+  String "<de> Médusa"
   String "<Le> Dragon blanc"
   String "<Le> Dragon de Casba"
   String "<Le> Dragon doré"
   String "<Le> Savant fou"
-  String "[des] Lassic"
-  String "[des] Force Obscure"
-  String "[des] Cauchemar"
+  String "<de> Lassic"
+  String "<de> Force Obscure"
+  String "<de> Cauchemar"
 .endif
 
 ; Terminator
