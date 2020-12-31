@@ -996,6 +996,9 @@ _Start_Art:
       add a,a     ; Multiply by two
       add a,e     ; Add offset
       ld e,a      ; (note: be careful we don't byte-wrap)
+      ld a,0
+      adc d
+      ld d,a
 
       ld a,(de)   ; Grab final string offset
       inc de
@@ -1024,7 +1027,7 @@ _Art_Done:
 _Art_Exit:
     pop de      ; now proceed normally
     ld bc,(STR)   ; Grab raw text location (again)
-    jr _Initial_Codes
+    jp _Initial_Codes
 
 ; Articles are stored backwards
 .macro Article
@@ -1046,34 +1049,41 @@ ArticlesInitialUpper:
 +++:  Article " ehT"
 .else
 .if LANGUAGE == "fr"
+; Order is:
+; Start with vowel
+; Feminine
+; Masculine
+; Plural
+; Name (so no article) - starting with vowel
+; Name (so no article) - starting with consonant
 ArticlesLower: ; le <x>
-.dw +, ++, +++, ++++, +++++
-+:    Article "'l"  ; Start with vowel
-++:   Article " el" ; Feminine
-+++:  Article " al" ; Masculine
-++++: Article ""    ; Name (so no article)
-+++++:Article " sel" ; Plural
+.dw +, ++, +++, ++++, _blank, _blank
++:      Article "'l"
+++:     Article " el"
++++:    Article " al"
+++++:   Article " sel"
+_blank: Article ""
 ArticlesInitialUpper: ; Le <x>
-.dw +, ++, +++, ++++, +++++
-+:    Article "'L"
-++:   Article " eL"
-+++:  Article " aL"
-++++: Article ""
-+++++:Article " seL" ; Unused?
+.dw +, ++, +++, ++++, _blank, _blank
++:      Article "'L"
+++:     Article " eL"
++++:    Article " aL"
+++++:   Article " seL"
 ArticlesPossessive: ; de <x>
-.dw +, ++, +++, ++++, +++++
-+:    Article "'l ed"
-++:   Article " ud"
-+++:  Article " al ed"
-++++: Article "'d" ; This one for names starting with a vowel
-+++++:Article " ed" ; This one for names not starting with a consonant
+.dw +, ++, +++, ++++, +++++, ++++++
++:      Article "'l ed"
+++:     Article " ud"
++++:    Article " al ed"
+++++:   Article " sed"
++++++:  Article "'d"
+++++++: Article " ed"
 ArticlesDirective: ; à <x> 
-.dw +, ++, +++, ++++, +++++
-+:    Article "'l à"
-++:   Article " ua"
-+++:  Article " al à"
-++++: Article " à"
-+++++:Article " xua" ; Unused?
+.dw +, ++, +++, ++++, +++++, +++++ ; last one used twice
++:      Article "'l à"
+++:     Article " ua"
++++:    Article " al à"
+++++:   Article " xua"
++++++:  Article " à"
 .endif
 .endif
 
@@ -1477,7 +1487,7 @@ Lists:
 .if LANGUAGE == "en"
 ; Order is important!
 Items:
-  ; Max width 18 excluding [...] parts
+  ; Max width 18 excluding <...> prefix (with space)
   String " " ; empty item (blank). Must be at least one space.
   ;        Retranslation name               Sega translation              Romaji              Japanese
 ; weapons: 01-0f
@@ -1626,9 +1636,9 @@ Enemies:
   String "<The> Golem"                      ; TITAN     Titan               kōremu              コーレム
   String "Medusa"                           ; MEDUSA    Medusa              medyūsa             メデューサ
   String "<The> Frost Dragon"               ; WT.DRAGN  White Dragon        furosutodoragon     フロストドラゴン
-  String "Dragon Wise"                      ; B.DRAGN  Blue Dragon         doragonwaizu        ドラゴンワイズ
-  String "Gold Drake"                       ; GD.DRAGN  Gold Dragon         gōrudodoreiku       ゴールドドレイク
-  String "Mad Doctor"                       ; DR.MAD    Dr. Mad             maddodokutā         マッドドクター
+  String "Dragon Wise"                      ; B.DRAGN   Blue Dragon         doragonwaizu        ドラゴンワイズ
+  String "<The> Gold Drake"                 ; GD.DRAGN  Gold Dragon         gōrudodoreiku       ゴールドドレイク
+  String "<The> Mad Doctor"                 ; DR.MAD    Dr. Mad             maddodokutā         マッドドクター
   String "LaShiec"                          ; LASSIC    Lassic              rashīku             ラシーク
   String "Dark Force"                       ; DARKFALZ  Dark Falz           dākufarusu          ダークファルス
   String "Nightmare"                        ; SACCUBUS  Saccubus            naitomea            ナイトメア
@@ -1639,77 +1649,77 @@ Items:
 ; empty item (blank)
   String " "
 ; Armes
-  String "<Le> Sceptre"
-  String "<Le> Glaive"
-  String "<L'>Epée"
-  String "<Le> Sceptre Psycho"
-  String "<Les> Griffes d'acier"
-  String "<La> Hache"
-  String "<L'>Epée titane"
-  String "<L'>Epée céramique"
-  String "<Le> Pistolet à pointes"
-  String "<Les> Crocs en métal"
-  String "<Le> Canon plasma"
-  String "<Le> Sabre laser"
-  String "<Le> Pistolet laser"
-  String "<L'>Epée laconian"
-  String "<La> Hache laconian"
+  String "<du> Sceptre"
+  String "<du> Glaive"
+  String "<de l'>Epée"
+  String "<du> Sceptre Psycho"
+  String "<des> Griffes d'acier"
+  String "<de la> Hache"
+  String "<de l'>Epée titane"
+  String "<de l'>Epée céramique"
+  String "<du> Pistolet à pointes"
+  String "<des> Crocs en métal"
+  String "<du> Canon plasma"
+  String "<du> Sabre laser"
+  String "<du> Pistolet laser"
+  String "<de l'>Epée laconian"
+  String "<de la> Hache laconian"
 ; Armures
-  String "<Le> Tenue de cuir"
-  String "<La> Cape blanche"
-  String "<Le> Plastron"
-  String "<L'>Armure d'acier"
-  String "<La> Fourrure piquante"
-  String "<La> Armure zircon"
-  String "<L'>Armure diamant"
-  String "<L'>Armure laconian"
-  String "<La> Cape de Frad"
+  String "<du> Tenue de cuir"
+  String "<de la> Cape blanche"
+  String "<du> Plastron"
+  String "<de l'>Armure d'acier"
+  String "<de la> Fourrure piquante"
+  String "<de la> Armure zircon"
+  String "<de l'>Armure diamant"
+  String "<de l'>Armure laconian"
+  String "<de la> Cape de Frad"
 ; Boucliers
-  String "<Le> Bouclier de cuir"
-  String "<Le> Bouclier de bronze"
-  String "<Le> Bouclier d'acier"
-  String "<Le> Bouclier céramique"
-  String "<Les> Gants sauvages"
-  String "<Le> Bouclier laser"
-  String "<Le> Bouclier de Persée"
-  String "<Le> Bouclier laconian"
+  String "<du> Bouclier de cuir"
+  String "<du> Bouclier de bronze"
+  String "<du> Bouclier d'acier"
+  String "<du> Bouclier céramique"
+  String "<des> Gants sauvages"
+  String "<du> Bouclier laser"
+  String "<du> Bouclier de Persée"
+  String "<du> Bouclier laconian"
 ; vehicules
-  String "<Le> GéoMaster"
-  String "<L'>AquaNaute"
-  String "<Le> ForaGlace"
+  String "<du> GéoMaster"
+  String "<de l'>AquaNaute"
+  String "<du> ForaGlace"
 ; objets
-  String "<La> Vitabarre"
-  String "<L'>Aquavital"
-  String "<La> Flute apaisante"
-  String "<La> Lampe torche"
-  String "<Le> Voile de fuite"
-  String "<Le> Tapis du croyant"
-  String "<La> Coiffe magique"
-  String "<L'>Alsuline"
-  String "<L'>Polymatériau"
-  String "<La> Clé des donjons"
-  String "<La> Sphère d'esprit"
-  String "<La> Torche d'éclipse"
-  String "<L'>Aéroprisme"
-  String "<Les> Baies Laerma"
-  String "Hapsby"
-  String "<Le> Permis"
-  String "<Le> Passeport"
-  String "<Le> Boussole"
-  String "<La> Tarte"
-  String "<La> Lettre du Gouverneur"
-  String "<Le> Vase laconian"
-  String "<Le> Pendentif lumineux"
-  String "<L'>Oeil de Carboucle"
-  String "<Le> Masque à gaz"
-  String "<Le> Cristal de Damoa"
-  String "<La> Master System"
-  String "<La> Clé Magique"
-  String "Shinobi"
-  String "<L'>Objet secret"
+  String "<de la> Vitabarre"
+  String "<de l'>Aquavital"
+  String "<de la> Flute apaisante"
+  String "<de la> Lampe torche"
+  String "<du> Voile de fuite"
+  String "<du> Tapis du croyant"
+  String "<de la> Coiffe magique"
+  String "<de l'>Alsuline"
+  String "<de la> Polymatériau"
+  String "<de la> Clé des donjons"
+  String "<de la> Sphère d'esprit"
+  String "<de la> Torche d'éclipse"
+  String "<de l'>Aéroprisme"
+  String "<des> Baies Laerma"
+  String "<de> Hapsby"
+  String "<du> Permis"
+  String "<du> Passeport"
+  String "<du> Boussole"
+  String "<de la> Tarte"
+  String "<de la> Lettre du Gouverneur"
+  String "<du> Vase laconian"
+  String "<du> Pendentif lumineux"
+  String "<de l'>Oeil de Carboucle"
+  String "<du> Masque à gaz"
+  String "<du> Cristal de Damoa"
+  String "<de la> Master System"
+  String "<de la> Clé Magique"
+  String "<de> Shinobi"
+  String "<de l'>Objet secret"
 Names:
 ; Persos
-  String "<d'> Alisa"
+  String "<d'>Alisa"
   String "<de> Myau"
   String "<de> Tylon"
   String "<de> Lutz"
@@ -1717,77 +1727,77 @@ Enemies:
 ; Monstres
 ; empty item (blank)
   String " "
-  String "<La> Mouche géante"
-  String "<Le> Gluant vert"
-  String "<L'>Oculum ailé"
-  String "<Le> Dévoreur"
-  String "<Le> Scorpion"
-  String "<La> Naiade géante"
-  String "<Le> Gluant bleu"
-  String "<Le> Paysan Motavien"
-  String "<L'>Oculum vampire"
-  String "<La> Plante carnivore"
-  String "<L'>Hélix"
-  String "<Le> Chineur Motavien"
-  String "<La> Mouche piquante"
-  String "<Le> Vers des sables"
-  String "<Le> Barjot Motavien"
-  String "<L'>Oculum doré"
-  String "<Le> Gluant rouge"
-  String "<L'>Homo chiropter"
-  String "<La> Limule"
-  String "<L'>Homo squalus"
-  String "<L'>Ame errante"
-  String "<La> Tarantule"
-  String "<La> Manticore"
-  String "<Le> Squelette"
-  String "<Le> Fourmilion"
-  String "<L'>Homo palustris"
-  String "<Le> Dézorien"
-  String "<La> Sangsue du désert"
-  String "<L'>Homo nosferatu"
-  String "<L'>Eléphant"
-  String "<Le> Goule"
-  String "<L'>Ammonite"
-  String "<L'>Exécuteur"
-  String "<La> Liche"
-  String "<Le> Soldat squelette"
-  String "<Le> Nautilus"
-  String "<Le> Sphinx"
-  String "<Le> Serpent"
-  String "<Le> Léviathan"
-  String "<Le> Roi Liche"
-  String "<La> Pieuvre"
-  String "<Le> Rodeur"
-  String "<Le> Chef Dézorien"
-  String "<Le> Revenant"
-  String "<Le> Mort vivant"
-  String "<Le> Cyber garde"
-  String "<Le> Sorcier du Chaos"
-  String "<Le> Lézard de feu"
-  String "<Les> Maitre Tajim"
-  String "<Les> Gaia"
-  String "<Le> Garde mécanique"
-  String "<Le> Kraken"
-  String "<Les> Talos"
-  String "<Le> Seigneur serpent"
-  String "<Le> Porteur de mort"
-  String "<Le> Cyber mage"
-  String "<Le> Centaure"
-  String "<Le> Géant de glace"
-  String "<Le> Géant de feu"
-  String "<Le> Dragon rouge"
-  String "<Le> Dragon vert"
-  String "<L'>Ombre de Lassic"
-  String "<Le> Mammouth"
-  String "<Le> Roi des sabres"
-  String "<Le> Maraudeur sombre"
-  String "<Le> Golem"
+  String "<de la> Mouche géante"
+  String "<du> Gluant vert"
+  String "<de l'>Oculum ailé"
+  String "<du> Dévoreur"
+  String "<du> Scorpion"
+  String "<de la> Naiade géante"
+  String "<du> Gluant bleu"
+  String "<du> Paysan Motavien"
+  String "<de l'>Oculum vampire"
+  String "<de la> Plante carnivore"
+  String "<de l'>Hélix"
+  String "<du> Chineur Motavien"
+  String "<de la> Mouche piquante"
+  String "<du> Vers des sables"
+  String "<du> Barjot Motavien"
+  String "<de l'>Oculum doré"
+  String "<du> Gluant rouge"
+  String "<de l'>Homo chiropter"
+  String "<de la> Limule"
+  String "<de l'>Homo squalus"
+  String "<de l'>Ame errante"
+  String "<de la> Tarantule"
+  String "<de la> Manticore"
+  String "<du> Squelette"
+  String "<du> Fourmilion"
+  String "<de l'>Homo palustris"
+  String "<du> Dézorien"
+  String "<de la> Sangsue du désert"
+  String "<de l'>Homo nosferatu"
+  String "<de l'>Eléphant"
+  String "<du> Goule"
+  String "<de l'>Ammonite"
+  String "<de l'>Exécuteur"
+  String "<de la> Liche"
+  String "<du> Soldat squelette"
+  String "<du> Nautilus"
+  String "<du> Sphinx"
+  String "<du> Serpent"
+  String "<du> Léviathan"
+  String "<du> Roi Liche"
+  String "<de la> Pieuvre"
+  String "<du> Rodeur"
+  String "<du> Chef Dézorien"
+  String "<du> Revenant"
+  String "<du> Mort vivant"
+  String "<du> Cyber garde"
+  String "<du> Sorcier du Chaos"
+  String "<du> Lézard de feu"
+  String "<de> Maitre Tajim"
+  String "<du> Gaia"
+  String "<du> Garde mécanique"
+  String "<du> Kraken"
+  String "<du> Talos"
+  String "<du> Seigneur serpent"
+  String "<du> Porteur de mort"
+  String "<du> Cyber mage"
+  String "<du> Centaure"
+  String "<du> Géant de glace"
+  String "<du> Géant de feu"
+  String "<du> Dragon rouge"
+  String "<du> Dragon vert"
+  String "<de l'>Ombre de Lassic"
+  String "<du> Mammouth"
+  String "<du> Roi des sabres"
+  String "<du> Maraudeur sombre"
+  String "<du> Golem"
   String "<de> Médusa"
-  String "<Le> Dragon blanc"
-  String "<Le> Dragon de Casba"
-  String "<Le> Dragon doré"
-  String "<Le> Savant fou"
+  String "<du> Dragon blanc"
+  String "<du> Dragon de Casba"
+  String "<du> Dragon doré"
+  String "<du> Savant fou"
   String "<de> Lassic"
   String "<de> Force Obscure"
   String "<de> Cauchemar"
@@ -2405,41 +2415,41 @@ DezorianCustomStringCheck:
 ;       | Narrative box | | Character     |
 ;       |               | | stats         |
 ; $d9c4 |               | +---------------+
-; $d9dc +---------------+
+; $d9f4 +---------------+
 ;       | Narrative     |
 ;       | scroll buffer |
-; $da8a +---------------+                   +---------------+ +---------------+
+; $daae +---------------+                   +---------------+ +---------------+
 ;       | Regular menu  |                   | Battle menu   | | Shop items    |
 ;       |           (W) |                   |           (B) | | (22x8)        |
-; $dafa +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
+; $db1e +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
-; $db4a | items         | +---------------+ |               | |               | | (22x9)    (W) |
-; $db52 | (16x8)    (W) |                   |               | +---------------+ |               |
-; $db78 |               |                   +---------------+                   |               |
-; $dbc2 +---------------+ +---------------+ | Enemy stats   |                   |               |
+; $db6e | items         | +---------------+ |               | |               | | (22x9)    (W) |
+; $db76 | (16x8)    (W) |                   |               | +---------------+ |               |
+; $db9c |               |                   +---------------+                   |               |
+; $dbe6 +---------------+ +---------------+ | Enemy stats   |                   |               |
 ;       | Player select | | Buy/Sell      | | (8x10)    (B) |                   |               |
-;       | (8x9) (B,W,S) | | (6x4)     (S) | |               |                   |               |
-; $dbfa |               | +- - - - - - - -+ |               |                   |               |
+;       | (8x9) (B,W)   | | (6x4)     (S) | |               |                   |               |
+; $dc1e |               | +- - - - - - - -+ |               |                   |               |
 ;       |               | | (fr:9x4)      | |               |                   |               |
-; $???? |               | +---------------+ |               |                   |               |
-; $dc16 +---------------+                   |               |                   |               |
-; $dc18 +---------------+ +---------------+ +---------------+ +---------------+ |               |
+; $dc2e |               | +---------------+ |               |                   |               |
+; $dc3a +---------------+                   |               |                   |               |
+; $dc3c +---------------+ +---------------+ +---------------+ +---------------+ |               |
 ;       | Inventory     | | Spells        |                   | MST in shop   | |               |
-; $dc86 | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
-; $dc90 |               | |               |                   +---------------+
-; $dcdc |               | +- - - - - - - -+
+; $dcaa | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
+; $dcb4 |               | |               |                   +---------------+
+; $dd00 |               | +- - - - - - - -+
 ;       |               | | (fr: 16x12)   |
-; $???? |               | +---------------+
-; $ddf8 +---------------+ +---------------+ +---------------+
+; $dd38 |               | +---------------+
+; $de1c +---------------+ +---------------+ +---------------+
 ;       | Use/Equip/Drop| | Yes/No        | | Active player |
 ;       | (7x5)     (W) | | (5x5)         | | (during       |
-; $de20 |               | +---------------+ | battle)   (B) |
-; $de22 |               |                   +---------------+
-; $de3e +- - - - - - - -+                   | Player select |
+; $de44 |               | +---------------+ | battle)   (B) |
+; $de46 |               |                   +---------------+
+; $de62 +- - - - - - - -+                   | Player select |
 ;       | (fr:10x5)     |                   | (magic) (8x9) |
-; $???? +---------------+                   |         (B,W) |
-; $de76                                     +---------------+
+; $de80 +---------------+                   |         (B,W) |
+; $de9a                                     +---------------+
 
 ; Save data menu has to be moved to allow more slots and longer names
 ; Save slots are $400 bytes so we have room for 7.
