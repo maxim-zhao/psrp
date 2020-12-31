@@ -3937,9 +3937,8 @@
   translated: I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
   en: Then you have my eternal loyalty. All hail the new Queen of Algol, Alisa Landeel!<wait>
   fr: |
-    Votre père était le meilleur Roi qu'Algol ait connu<wait more>
-    Et plus que cela, il était un homme bon.<wait more>
-    Il serait très fier de vous aujourd'hui.<wait>
+    Votre père était le meilleur Roi qu'Algol ait connu.<wait more>
+    Et plus que cela, il était un homme bon. Il serait très fier de vous aujourd'hui.<wait>
 
 - offsets:58ef
   # Governor-General (no to previous question)
@@ -3993,8 +3992,8 @@
   ja: |
     アリサ<delay>
     <line>
-  en: "      Alisa,<delay>"
-  fr: "      Alisa,<delay>"
+  en: "______Alisa,<delay>"
+  fr: "______Alisa,<delay>"
 
 - offsets:480b
   indices:17A-2
@@ -4002,8 +4001,8 @@
   ja: |
     タイロン<delay>
     <line>
-  en: "      Tylon,<delay>"
-  fr: "      Tylon,<delay>"
+  en: "______Tylon,<delay>"
+  fr: "______Tylon,<delay>"
 
 - offsets:4816
   indices:17C-2
@@ -4011,8 +4010,8 @@
   ja: |
     ルツ<delay>
     <line>
-  en: "       Lutz,<delay>"
-  fr: "       Lutz,<delay>"
+  en: "_______Lutz,<delay>"
+  fr: "_______Lutz,<delay>"
 
 - offsets:4821
   indices:17E-2
@@ -4020,8 +4019,8 @@
   ja: |
     ソシテ ミャウ<delay>
     <line>
-  en: "    and Myau.<delay>"
-  fr: "    et Myau.<delay>"
+  en: "___and Myau.<delay>"
+  fr: "____et Myau.<delay>"
 
 - offsets:482c
   indices:180-2
@@ -4032,7 +4031,7 @@
     ノコリツヅケルダロウ.<delay>
   translated: Though the dark memories will fade away, their names will continue to remain in the hearts of the people.
   en: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
-  fr: Tandis que le souvenir de cette sombre époque s'estompera,<wait more>ces quatres noms resteront à jamais gravés dans le coeur du peuple d'Algol.<delay>
+  fr: Tandis que le souvenir de cette sombre époque s'estompera, ces quatres noms resteront à jamais gravés dans le coeur du peuple d'Algol.<delay>
 
 
 # ****************************
@@ -4546,7 +4545,7 @@
   ja: <monster>ヲ ヤッツケタ.<wait>
   en: You’ve beaten <article><monster>.<wait>
   # <wait> because else you can't read it when you defeat Dark Force...
-  fr: Vous avez vaincu_!<end>
+  fr: Vous avez vaincu_!<wait>
 
 - offsets:14a6,15e4,1648,4c69,590f
   indices:09C-2
