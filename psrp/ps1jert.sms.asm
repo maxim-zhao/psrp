@@ -1707,7 +1707,7 @@ Items:
   String "<du> Passeport"
   String "<du> Boussole"
   String "<de la> Tarte"
-  String "<de la> Lettre du Gouverneur"
+  String "<de la> Lettre [du Gouverneur]"
   String "<du> Vase laconian"
   String "<du> Pendentif lumineux"
   String "<de l'>Oeil de Carboucle"
