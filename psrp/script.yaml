@@ -91,7 +91,7 @@
 # |##                             #|
 # +--------------------------------+
 # The portrait is a little to the left but the text will have a ragged edge so it looks OK.
-- width:29 
+- width:29
   height:6
 
 - offsets:45ef
@@ -218,7 +218,36 @@
 # *** Camineet Residential District ***
 # *************************************
 
-- width:24
+# For "in-game" dialogue we use the same vertical space as the original, but widen as much as possible.
+# Considering the same unsafe areas as before, we end up with an odd width. (Some example extra boxes here.)
+# +--------------------------------+
+# |##+------+         +-----------+|
+# |##|Attack|         |Enemy name ||
+# |##|Magic |         +-----------+|
+# |##|      |              +------+|
+# |##|      |              |HP  88||
+# |##|      |              |HP  99||
+# |##+------+              |HP 155||
+# |##+-----+               +------+|
+# |##|Alisa|                      #|
+# |##|Myau |                      #|
+# |##|     |                      #|
+# |##|     |                      #|
+# |##+-----+                      #|
+# |##                             #|
+# |##                             #|
+# |##                             #|
+# |##                             #|
+# |##                             #|
+# |#+-----------------------------+|
+# |#|Text goes here, up to 29     ||
+# |#|columns and 4 rows.          ||
+# |#|...                          ||
+# |#|Last row of text here.       ||
+# |#+-----------------------------+|
+# +--------------------------------+
+# We let the text borders go into the unsafe area.
+- width:29
   height:4
 
 - offsets:58fc
@@ -1063,7 +1092,7 @@
   en: I think I can manage that.<line><line>Come on, let’s go help him!<wait>
   fr: Je pense que je devrais y arriver. Viens, allons l'aider.<wait>
 
-- width:24
+- width:29
   height:4
 
 - offsets:25af,260c,262d
@@ -1203,7 +1232,7 @@
 # *** Eppi ***
 # ************
 
-- width:24
+- width:29
   height:4
 
 - offsets:4de5
@@ -1579,7 +1608,7 @@
 # ********************
 # *** Gothic Woods ***
 # ********************
-- width:24
+- width:29
   height:4
 
 
@@ -3741,7 +3770,7 @@
     Myau battit des ailes fièrement pour que chacun puisse les admirer.<wait>
 
 
-- width:24
+- width:29
   height:4
 
 - offsets:14cc
@@ -4059,7 +4088,7 @@
 # *** Battle/menu dialogue ***
 # ****************************
 
-- width:24
+- width:29
   height:4
 
 

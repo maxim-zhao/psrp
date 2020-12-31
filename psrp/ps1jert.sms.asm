@@ -2403,42 +2403,43 @@ DezorianCustomStringCheck:
 ;       | Party stats   |
 ; $d880 +---------------+ +---------------+
 ;       | Narrative box | | Character     |
-; $d9b8 +---------------+ | stats         |
-; $d9c4 | Narrative     | +---------------+
+;       |               | | stats         |
+; $d9c4 |               | +---------------+
+; $d9dc +---------------+
+;       | Narrative     |
 ;       | scroll buffer |
-; $da48 +---------------+                   +---------------+ +---------------+
+; $da8a +---------------+                   +---------------+ +---------------+
 ;       | Regular menu  |                   | Battle menu   | | Shop items    |
 ;       |           (W) |                   |           (B) | | (22x8)        |
-; $dab8 +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
+; $dafa +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
-; $db08 | items         | +---------------+ |               | |               | | (22x9)        |
-; $db36 |               |                   +---------------+ |               | |               |
-;       |               |                   | Enemy stats   | |               | |               |
-; $db10 | (16x8)    (W) |                   | (8x10)        | +---------------+ |           (W) |
-; $db80 +---------------+ +---------------+ |               |                   |               |
-;       | Player select | | Buy/Sell      | |           (B) |                   |               |
+; $db4a | items         | +---------------+ |               | |               | | (22x9)    (W) |
+; $db52 | (16x8)    (W) |                   |               | +---------------+ |               |
+; $db78 |               |                   +---------------+                   |               |
+; $dbc2 +---------------+ +---------------+ | Enemy stats   |                   |               |
+;       | Player select | | Buy/Sell      | | (8x10)    (B) |                   |               |
 ;       | (8x9) (B,W,S) | | (6x4)     (S) | |               |                   |               |
-; $dbb0 |               | +- - - - - - - -+ |               |                   |               |
+; $dbfa |               | +- - - - - - - -+ |               |                   |               |
 ;       |               | | (fr:9x4)      | |               |                   |               |
-; $dbc8 |               | +---------------+ |               |                   |               |
-; $dbd4 +---------------+                   |               |                   |               |
-; $dbd6 +---------------+ +---------------+ +---------------+ +---------------+ |               |
+; $???? |               | +---------------+ |               |                   |               |
+; $dc16 +---------------+                   |               |                   |               |
+; $dc18 +---------------+ +---------------+ +---------------+ +---------------+ |               |
 ;       | Inventory     | | Spells        |                   | MST in shop   | |               |
-; $dc44 | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
-; $dc4e |               | |               |                   +---------------+
-; $dc9a |               | +- - - - - - - -+
+; $dc86 | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
+; $dc90 |               | |               |                   +---------------+
+; $dcdc |               | +- - - - - - - -+
 ;       |               | | (fr: 16x12)   |
-; $dcd2 |               | +---------------+
-; $ddb6 +---------------+ +---------------+ +---------------+
+; $???? |               | +---------------+
+; $ddf8 +---------------+ +---------------+ +---------------+
 ;       | Use/Equip/Drop| | Yes/No        | | Active player |
 ;       | (7x5)     (W) | | (5x5)         | | (during       |
-; $ddde |               | +---------------+ | battle)   (B) |
-; $dde0 |               |                   +---------------+
-; $ddfc +- - - - - - - -+                   | Player select |
+; $de20 |               | +---------------+ | battle)   (B) |
+; $de22 |               |                   +---------------+
+; $de3e +- - - - - - - -+                   | Player select |
 ;       | (fr:10x5)     |                   | (magic) (8x9) |
-; $de1a +---------------+                   |         (B,W) |
-; $de34                                     +---------------+
+; $???? +---------------+                   |         (B,W) |
+; $de76                                     +---------------+
 
 ; Save data menu has to be moved to allow more slots and longer names
 ; Save slots are $400 bytes so we have room for 7.
@@ -2486,13 +2487,12 @@ DezorianCustomStringCheck:
   .define \1_dims (width << 1) | (height << 8)
   .define \1_VRAM $7800 + (y * 32 + x) * 2
   .export \1 \1_end \1_dims \1_VRAM
-;  .print "\1: ", hex start, " ", hex width*height*2, " ", hex start + width*height*2, " ", hex (width << 1) | (height << 8), " ", hex $7800 + (y * 32 + x) * 2, "\n"
 .endm
 
 ;              Name             RAM location           W  H  X  Y
   DefineWindow PARTYSTATS       $d700                 32  6  0 18
-  DefineWindow NARRATIVE        PARTYSTATS_end        26  6  3 18
-  DefineWindow NARRATIVE_SCROLL NARRATIVE_end         24  3  4 19
+  DefineWindow NARRATIVE        PARTYSTATS_end        31  6  1 18
+  DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31  3  2 19
   DefineWindow CHARACTERSTATS   NARRATIVE             18  9 13  4
   DefineWindow MENU             NARRATIVE_SCROLL_end   8  7  1  1
   DefineWindow CURRENT_ITEMS    MENU_end              20  5 11 13
@@ -2540,7 +2540,7 @@ DezorianCustomStringCheck:
 
   PatchWords PARTYSTATS $3042 $3220 $30fd ; Party stats
 
-.define NARRATIVE_WIDTH 24 ; text character width
+.define NARRATIVE_WIDTH 29 ; text character width
   PatchB $3364 NARRATIVE_WIDTH ; Width counter
   PatchWords NARRATIVE              $334d $3587 ; Narrative box
   PatchWords NARRATIVE_SCROLL       $3554 $3560 ; Narrative box scroll buffer
