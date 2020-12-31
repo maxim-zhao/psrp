@@ -3542,7 +3542,7 @@ CreditsScreen13: .db 3
 CreditsScreen14: .db 3
   CreditsEntry 10,10,"PRESENTED BY"
   CreditsEntry 10,15,"SEGA"
-  CreditsEntry 18,15,"SMS POWER"
+  CreditsEntry 18,15,"SMS POWER!"
 .ends
 
   ROMPosition $488a
