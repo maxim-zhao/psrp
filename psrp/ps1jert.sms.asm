@@ -3456,14 +3456,19 @@ SaveDataPatch:
 
 
 ; Changed credits -------------------------
-  ROMPosition $53dbc
-.section "Credits" force ; not movable
+  PatchB $70b4 :CreditsData
+  PatchW $70ba CreditsData-4
+.slot 2
+.section "Credits" superfree
 CreditsData:
 .dw CreditsScreen1, CreditsScreen2, CreditsScreen3, CreditsScreen4, CreditsScreen5, CreditsScreen6, CreditsScreen7, CreditsScreen8, CreditsScreen9, CreditsScreen10, CreditsScreen11, CreditsScreen12, CreditsScreen13, CreditsScreen14
 
+.stringmaptable credits "credits.tbl"
+
 .macro CreditsEntry args x, y, text
 .dw $d000 + ((y * 32) + x) * 2
-.db text.length, text
+.db text.length
+.stringmap credits text
 .endm
 
 CreditsScreen1: .db 1 ; entry count
@@ -3514,14 +3519,25 @@ CreditsScreen10: .db 2
   CreditsEntry 17,6,"MUUUU YUJI"
 CreditsScreen11: .db 1
   CreditsEntry 9,10,"RETRANSLATION"
+.if LANGUAGE == "en"
 CreditsScreen12: .db 4
   CreditsEntry 3,6,"WORDS"
   CreditsEntry 10,10,"PAUL JENSEN"
   CreditsEntry 2,15,"FRANK CIFALDI"
   CreditsEntry 18,15,"SATSU"
+.endif
+.if LANGUAGE == "fr"
+CreditsScreen12: .db 6
+  CreditsEntry 3,6,"ANGLAIS"
+  CreditsEntry 18,6,"PAUL JENSEN"
+  CreditsEntry 10,10,"FRANK CIFALDI"
+  CreditsEntry 25,10,"SATSU"
+  CreditsEntry 3,15,"FRANCAIS"
+  CreditsEntry 18,15,"ICHIGOBANKAI"
+.endif
 CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
-  CreditsEntry 11,10,"Z[\ GAIDEN" ; numbers are in a funny place
+  CreditsEntry 11,10,"Z80 GAIDEN"
   CreditsEntry 9,15,"MAXIM"
 CreditsScreen14: .db 3
   CreditsEntry 10,10,"PRESENTED BY"
