@@ -165,13 +165,22 @@ LoadPagedTiles\1:
 .define \1 $7800 + ((y * 32) + x) * 2
 .endm
 
+.if LANGUAGE == "en"
 ; This string mapping is for raw (16-bit) tilemap data. It sets the priority bit on every tile.
-.stringmaptable tilemap "tilemap.tbl"
+.stringmaptable tilemap "tilemap.en.tbl"
 
 ; This one is for script text and item names (8-bit). It includes control codes but not dictionary words.
-.stringmaptable script "script.tbl"
+.stringmaptable script "script.en.tbl"
 
 .define LETTER_S  $37   ; suffix letter ('s')
+.endif
+
+.if LANGUAGE == "fr"
+.stringmaptable tilemap "tilemap.fr.tbl"
+.stringmaptable script "script.fr.tbl"
+.define LETTER_S  $37   ; suffix letter ('s')
+.endif
+
 
 .macro String args s
 ; Item names are length-prefixed. We create two labels to correctly measure this. 
@@ -3601,6 +3610,10 @@ FontLookup:
 .stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
 .stringmap tilemap ".:‘’,-!?_"
+.if LANGUAGE == "fr"
+; Extra characters for French
+.stringmap tilemap "àéêè"
+.endif
 .ends
 
 ; We locate the Huffman trees in a different slot to the script so we can access them at the same time

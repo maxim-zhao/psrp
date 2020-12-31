@@ -66,10 +66,10 @@ new_graphics\world2.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 58570 
 
 
 # tile conversion from PNG
-new_graphics\font1.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1.psgcompr: new_graphics\font1.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\font2.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\font3.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font1a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1a.psgcompr: new_graphics\font1a.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\font2a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
 new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.top.png
@@ -102,16 +102,16 @@ new_graphics\world2.psgcompr: new_graphics\world2.bin ; new_graphics\bmp2tile.ex
 menu_creater\menu_creater.exe: menu_creater\*.cpp mini-yaml/yaml/Yaml.cpp
   $(CPP) $(CPPFLAGS) $** /Fe:menu_creater\menu_creater.exe
 
-menu_creater\menus.asm menu_creater\menu-patches.asm : menus.yaml tilemap.tbl menu_creater\menu_creater.exe
-  menu_creater\menu_creater.exe menus.yaml $(LANGUAGE) tilemap.tbl menu_creater\menus.asm menu_creater\menu-patches.asm
+menu_creater\menus.asm menu_creater\menu-patches.asm : menus.yaml tilemap.$(LANGUAGE).tbl menu_creater\menu_creater.exe
+  menu_creater\menu_creater.exe menus.yaml $(LANGUAGE) tilemap.$(LANGUAGE).tbl menu_creater\menus.asm menu_creater\menu-patches.asm
 
 # script_inserter
 
 script_inserter\script_inserter.exe: script_inserter\*.cpp mini-yaml/yaml/Yaml.cpp
   $(CPP) $(CPPFLAGS) $** /Fe:script_inserter\script_inserter.exe
 
-script_with_words.tbl: script.tbl substring_formatter\words.tbl
-  copy /y /b script.tbl + substring_formatter\words.tbl script_with_words.tbl
+script_with_words.tbl: script.$(LANGUAGE).tbl substring_formatter\words.tbl
+  copy /y /b script.$(LANGUAGE).tbl + substring_formatter\words.tbl script_with_words.tbl
 
 script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm: script_with_words.tbl script_inserter\script_inserter.exe script.yaml
   script_inserter\script_inserter.exe script.yaml $(LANGUAGE) script_with_words.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
@@ -129,7 +129,7 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\alisa.tiles.bin
 
 # ROM building
-ps1jert.sms.o: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm substring_formatter\words.asm script_inserter\tree.asm tilemap.tbl script.tbl credits.tbl $(BINS) ps1jert.sms.asm
+ps1jert.sms.o: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm substring_formatter\words.asm script_inserter\tree.asm tilemap.$(LANGUAGE).tbl script.$(LANGUAGE).tbl credits.tbl $(BINS) ps1jert.sms.asm
   $(WLAZ80) -D LANGUAGE=$(LANGUAGE) -o "ps1jert.sms.o" "ps1jert.sms.asm"
 
 ps1jert.sms: ps1jert.sms.o
