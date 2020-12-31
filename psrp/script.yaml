@@ -5099,7 +5099,7 @@
     <monster>ハ タカラバコヲ<line>
     モッテイタ.<end>
   en: <Article><monster> had a treasure chest.<end>
-  fr: L'ennemi laisse un coffre au trésor.<end>
+  fr: <Article><monster> laisse un coffre au trésor.<end>
 
 - offsets:27c3
   indices:11E-2
@@ -5177,7 +5177,7 @@
     ゴメンナサイ.<line>
     ドウヤラ シッパイシタヨウデス.<wait>
   en: |
-    ArutemuhamuRAmu A--ugh!.<line>
+    ArutemuhamuRAmu A--ugh!<line>
     Cough! Cough!<wait more>
     My apologies.<line>
     For SOME reason I’ve failed.<wait>
