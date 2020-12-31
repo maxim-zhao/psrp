@@ -995,7 +995,7 @@ _Start_Art:
       jr c,_Art_Done ; if there is a letter there, it'll be 0..$40ish. So do nothing.
       add a,a     ; Multiply by two
       add a,e     ; Add offset
-      ld e,a      ; (note: be careful we don't byte-wrap)
+      ld e,a      ; (Could align the tables to avoid the need to carry)
       ld a,0
       adc d
       ld d,a
@@ -2450,6 +2450,7 @@ DezorianCustomStringCheck:
 ;       | (fr:10x5)     |                   | (magic) (8x9) |
 ; $de80 +---------------+                   |         (B,W) |
 ; $de9a                                     +---------------+
+; (Maximum is $deff)
 
 ; Save data menu has to be moved to allow more slots and longer names
 ; Save slots are $400 bytes so we have room for 7.
