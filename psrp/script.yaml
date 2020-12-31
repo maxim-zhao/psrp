@@ -15,6 +15,12 @@
 # - en, fr: translations consumed by the code
 # Stuff with ****** around it is an area indicator.
 #
+# Some values change the text wrapping routines:
+# - width: changes the wrapping width
+# - height: changes the line count for automatic insertion of "wait more" codes
+# These are special because they tale effect for all future script entries. As the script
+# swaps between "character intro" and "in-game" dialogue, these appear to change the settings.
+#
 # Special code legend:
 #
 # <number> = render a number. Also sets a suffix flag if the number is 0 or >1.
@@ -40,15 +46,13 @@
 # 
 # <article> = use article for enemy/item, lowercase. Includes a trailing space.
 # <Article> = use article for enemy/item, initial uppercase. Includes a trailing space.
-# 
-# <width nn> = wrap at width n (hex)
-# <height nn> = insert waits so text "pages" at height n
-#
+# <de> = use possessive+article for an enemy (French)
+# <à> = use directive+article for an enemy or player (French)
 # <player> = player name
 # <monster> = enemy name
 # <item> = item name
 #
-# <line> = line break
+# <line> = line break (should be used sparingly)
 # <wait> = wait, end of entry
 # <end> = end of entry
 # <wait more> = wait, not end of entry
@@ -59,8 +63,35 @@
 # *** Introduction ***
 # ********************
 
-# <width 1C><height 06>
-- width:28
+# The SMS screen is offset to the left so we avoid the leftmost column, plus we need to allow a little bit of "unsafe space" so we put wide text as so:
+# +--------------------------------+
+# |##                             #|
+# |##                             #|
+# |##   +--------------------+    #|
+# |##   |    (Portrait)      |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   |                    |    #|
+# |##   +--------------------+    #|
+# |##                             #|
+# |##Text goes here, wrapping at  #|
+# |##29 columns, up to 6 rows.    #|
+# |##...                          #|
+# |##...                          #|
+# |##...                          #|
+# |##Last row of text here.       #|
+# |##                             #|
+# +--------------------------------+
+# The portrait is a little to the left but the text will have a ragged edge so it looks OK.
+- width:29 
   height:6
 
 - offsets:45ef
@@ -187,7 +218,6 @@
 # *** Camineet Residential District ***
 # *************************************
 
-# <width 18><height 04>
 - width:24
   height:4
 
@@ -962,8 +992,7 @@
 # *** Character Intro - Myau ***
 # ******************************
 
-# <width 1C><height 06>
-- width:28
+- width:29
   height:6
 
 - offsets:4643
@@ -1034,7 +1063,6 @@
   en: I think I can manage that.<line><line>Come on, let’s go help him!<wait>
   fr: Je pense que je devrais y arriver. Viens, allons l'aider.<wait>
 
-# <width 18><height 04>
 - width:24
   height:4
 
@@ -1078,8 +1106,7 @@
 # *** Character Intro - Tylon ***
 # ********************************
 
-# <width 1C><height 06>
-- width:28
+- width:29
   height:6
 
 - offsets:4688
@@ -1176,7 +1203,6 @@
 # *** Eppi ***
 # ************
 
-# <width 18><height 04>
 - width:24
   height:4
 
@@ -1502,8 +1528,7 @@
 # ******************************
 # *** Character Intro - Lutz ***
 # ******************************
-# <width 1C><height 06>
-- width:28
+- width:29
   height:6
 
 - offsets:46e7
@@ -1554,7 +1579,6 @@
 # ********************
 # *** Gothic Woods ***
 # ********************
-# <width 18><height 04>
 - width:24
   height:4
 
@@ -3686,8 +3710,7 @@
 # *****************************
 # *** Myau’s Transformation ***
 # *****************************
-# <width 1C><height 06>
-- width:28
+- width:29
   height:6
 
 
@@ -3718,7 +3741,6 @@
     Myau battit des ailes fièrement pour que chacun puisse les admirer.<wait>
 
 
-# <width 18><height 04>
 - width:24
   height:4
 
@@ -3981,8 +4003,7 @@
   en: But does the breeze know of the hardships they endured?<end>
   fr: La reconnaissance du peuple d'Algol sonna le début d'une nouvelle ère<end>
 
-# <width 1C><height 06>
-- width:28
+- width:29
   height:6
 
 
@@ -4038,7 +4059,6 @@
 # *** Battle/menu dialogue ***
 # ****************************
 
-# <width 18><height 04>
 - width:24
   height:4
 
