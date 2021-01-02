@@ -46,18 +46,7 @@ banks 32
   .unbackground $03eca $03fc1 ; background graphics lookup table
   .unbackground $03fc2 $03fd1 ; Sky Castle reveal palette
 ; Bank 1
-  .unbackground $04059 $0407a ; password entered (unused)
-  .unbackground $04091 $040a9 ; Save name entry
-  .unbackground $040be $040c7 ; Save game pointer table
-  .unbackground $04160 $0417a ; name entry screen special item handler
-  .unbackground $04237 $04260 ; name entry screen cursor handling
-  .unbackground $0429b $042b4 ; draw to tilemap during entry
-  .unbackground $042b5 $042cb ; draw to RAM during entry
-  .unbackground $04261 $04277 ; password population (unused)
-  .unbackground $04396 $043e5 ; password lookup data (unused)
-  .unbackground $043e6 $04405 ; text for "please enter your name"
-  .unbackground $04406 $0448b ; tilemap for name entry
-  .unbackground $0448c $04509 ; data for lookup table during entry
+  .unbackground $03fdd $04509 ; Name entry code/data
   .unbackground $045a4 $045c3 ; tile loading for intro
   .unbackground $059ba $059c9 ; Draw text box 20x6 (dialogue)
   .unbackground $05de9 $05e02 ; Party overworld sprite handling
@@ -183,7 +172,7 @@ LoadPagedTiles\1:
 
 
 .macro String args s
-; Item names are length-prefixed. We create two labels to correctly measure this. 
+; Item names are length-prefixed. We create two labels to correctly measure this.
 .db _sizeof__script\@
 _script\@:
 .stringmap script s
@@ -327,7 +316,10 @@ TitleScreenTilemapTop:
 .section "Title screen palette" force ; not movable
 TitleScreenPalette:
 .incbin "new_graphics/title-pal.bin"
-.dsb 18 0 ; black background
+.db 0, 0 ; last two entries unused
+.db 0 ; background colour
+.db 0,0,$3c ; cursor for name entry screen
+.dsb 12 0 ; leave rest black
 .ends
 
   ROMPosition $008f3
@@ -1086,7 +1078,7 @@ ArticlesPossessive: ; de <x>
 ++++:   Article " sed"
 +++++:  Article "'d"
 ++++++: Article " ed"
-ArticlesDirective: ; à <x> 
+ArticlesDirective: ; à <x>
 .dw +, ++, +++, ++++, +++++, +++++ ; last one used twice
 +:      Article "'l à"
 ++:     Article " ua"
@@ -1568,15 +1560,15 @@ Items:
   String "<The> Miracle Key"                ; MRCL KEY  Miracle Key         mirakurukī          ミラクルキー
   String "Zillion"                          ; ZILLION   Zillion             jirion              ジリオン
   String "<A> Secret Thing"                 ; SECRET    Secret              himitsunomono       ヒミツノモノ
-    
-Names:  
+
+Names:
   String "Alisa"                            ; ALIS      Alis                arisa               アリサ
   String "Myau"                             ; MYAU      Myau                myau                ミャウ
   String "Tylon"                            ; ODIN      Odin                tairon              タイロン
   String "Lutz"                             ; LUTZ      Lutz                rutsu               ルツ
-    
-Enemies:    
-  String " " ; Empty    
+
+Enemies:
+  String " " ; Empty
   String "<The> Monster Fly"                ; SWORM     Sworm               monsutāfurai        モンスターフライ
   String "<The> Green Slime"                ; GR.SLIME  Green Slime         gurīnsuraimu        グリーンスライム
   String "<The> Wing Eye"                   ; WING EYE  Wing Eye            uinguai             ウイングアイ
@@ -1885,14 +1877,14 @@ DrawSpellsMenu:
     ld h,(hl)
     ld l,a
   pop de
-  ; Next we want to check if b = 0 
+  ; Next we want to check if b = 0
   ld a,b
   or a
   jp z,$35da
   ; Now we want to compute b = row count, c = column count  * 2
   inc b
   ld c,SpellMenuBottom_width*2
-  call OutputTilemapBoxWipePaging           ; 0035C1 CD 81 3B 
+  call OutputTilemapBoxWipePaging           ; 0035C1 CD 81 3B
 
   ; Then we draw the bottom row directly after it
   ld hl,SpellMenuBottom
@@ -2094,12 +2086,11 @@ _DrawOneTile:
 
 ; Tilemap words for the borders
 BorderTop:
-.dw $11f1, $11f2, $13f1
+.stringmap tilemap "┌─╖"
 BorderSides:
-.dw $11f3,        $13f3
+.stringmap tilemap "│║"
 BorderBottom:
-.dw $15f1, $15f2, $17f1
-
+.stringmap tilemap "╘═╝"
 
 equipment:
   ld b,3    ; 3 items total
@@ -2169,24 +2160,6 @@ _read_byte:
 _space:
       jr z,_blank_line    ; non-narrative WS
 
-      ; These correspond to the control codes in the .asciitable, not the ones in the script.
-/* These control codes are no longer used
-_newline:
-      cp $50      ; pad rest of line with WS
-      jr nz,_hyphen
-
--:    xor a
-      call EmitCharacter
-      djnz -
-
-      jr _right_border
-
-_hyphen:
-      cp $51      ; add '-'
-      jr nz,_skip_htext
-      ld a,$46
-      jr _bump_text
-*/
 _skip_htext:
       cp $52      ; [...] excluded text
       jr nz,_check_length
@@ -2976,318 +2949,653 @@ _table2:
 .db -1, +1, -1, +1
 .ends
 
-; Savegame name entry screen hacking ---------------------------------------------
-; compressed tile data (low byte only) for name entry screen
+; Savegame name entry screen
+
+.enum $c784 export ; cursor memory
+  CursorMemoryStart .db
+  CursorX db
+  CursorY db
+  CurrentIndex db
+  KeyRepeatCounter db
+  CursorSpriteCount db
+  PreviouslyPointedValue dw
+.ende
+
+.define NAME_TILEMAP_Y 6
+.define NAME_TILEMAP_X (32 - SAVE_NAME_WIDTH) / 2
+.define NAME_TILEMAP_POS $4000 + $3800 + (NAME_TILEMAP_Y * 32 + NAME_TILEMAP_X) * 2
+
+; We relocate the code and data to paged banks, freeing up a few hundred bytes in banks 0 and 1...
+
 .bank 0 slot 0
-.section "Name entry tilemap data" free
-NameEntryTiles:
-; Custom format...
-; %0nnnnnnn $xx = $xx n times
-; $10nnnnnn $xx = $xx, $xx+1, $xx+2... n times
-; %11nnnnnn ... = n bytes raw
-; Font is loaded at index $c0 so all chars are offset
-; Nevertheless it's easier to do by hand than to generate it.
-; The code generates the left and right lines, and the flips.
-.define RLE %00000000
-.define RUN %10000000
-.define RAW %11000000
-.db RAW |   2, $c0, $f1 ; " ┌"
-.db RLE |  28, $f2      ;   "────────────────────────────"
-.db RAW |   1, $f1      ;                               "╖"
-.db RLE | 127, $c0      ; "                                " ...
-.db RLE | 101, $c0
-.db RUN |  26, $cb      ; "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-.db RLE |  38, $c0      ; (space)
-.db RUN |  26, $e5      ; "abcdefghijklmnopqrstuvwxyz"
-.db RLE |  38, $c0      ; (space)
-.db RUN |  10, $c1      ; "1234567890"
-.db RLE |  16, $c0      ;           "                " (punctuation will be patched later)
-.db RLE |  38, $c0      ; (space)
-.db RAW |  17, $cc $e5 $e7 $ef $c0 $c0 $d8 $e9 $fc $f8 $c0 $c0 $dd $f4 $e5 $e7 $e9; "Back  Next  Space"
-.db RLE |   5, $c0      ; (space)
-.db RAW |   4, $dd $e5 $fa $e9 ; "Save"
-.db RLE | 127, $c0      ; (space)
-.db RLE |  37, $c0
-.db RAW |   1, $f1      ; "╘"
-.db RLE |  28, $f2      ;  "════════════════════════════"
-.db RAW |   1, $f1      ;                              "╝"
-.db $00 ; Terminator
+.orga $3fdd
+.section "Name entry per-frame handler trampoline" force
+  ld a,:NameEntryPerFrame
+  ld (PAGING_SLOT_2),a
+  call NameEntryPerFrame
+  ld a,2
+  ld (PAGING_SLOT_2),a
+  ret
 .ends
 
-  ROMPosition $42cc
-.section "Patch name entry tiles pointer" overwrite ; not movable
-  ld hl,NameEntryTiles ; rewire pointer
-.ends
+.slot 2
+.section "Name entry per-frame handler" superfree
+NameEntryPerFrame:
+  ; From the priginal...
+  ld a,($c212) ; PauseFlag
+  or a
+  call nz,$011D ; DoPause
+  ld a,8 ; VBlankFunction_Menu
+  call $0056 ; ExecuteFunctionIndexAInNextVBlank
+  
+  call NameEntryInputs
+  jp NameEntrySprites ; and return
 
-; "Enter your name" text at the top of the screen
-.bank 1 slot 1 ; can be 0 or 1
-.section "Enter your name text" free
-EnterYourName:
-.stringmap tilemap "Enter your name:"
-.ends
+NameEntryInputs:
+  ; Get inputs
+  ld a,($c205) ; buttons newly pressed
+  and %00110000 ; button 1 or 2
+  jp z,_noButtons
+  and %00010000 ; button 1
+  jp nz,_button1
 
-  ROMPosition $41c4
-.section "Enter your name pointer patch" overwrite ; not movable
-  ld hl,EnterYourName ; rewire pointer (space used for scene data lookup)
-  ld ($c781),a        ; unchanged
-  ld bc, $0120        ; bytes per line, number of lines
-  xor a
-  ld ($c210),a        ; Tilemap high byte (unchanged)
-  ld de, $7850        ; where to draw (8,1)
+_button2:
+  ; Get pointed character
+  call _getPointedTileAddress
+  ld a,(hl)
+  cp $c0
+  jr c,_controlCharacter
+  ; We get the tilemap word to de
+  ld e,a
+  inc hl
+  ld d,(hl)
+  ; Then write it to the current cursor position
+  call _writeTilemapEntry
+  ; Increment index
+  jr _next
+  
+_controlCharacter:
+  cp 'B'
+  jr z,_back
+  cp 'N'
+  jr z,_next
+  cp 'S'
+  jr z,_space
+  cp 'V'
+  jr z,_save
+  ret
+
+_button1:
+  ; Move left
+  call _back
+  ; Blank char
+  ld de,$00c0
+  jp _writeTilemapEntry ; and ret
+
+_back:
+  ld a,(CurrentIndex)
+  dec a
+  ret m
+  ld (CurrentIndex),a
+  ret
+
+_next:
+  ld a,(CurrentIndex)
+  inc a
+  cp SAVE_NAME_WIDTH
+  ret z
+  ld (CurrentIndex),a
+  ret
+  
+_space:
+  ld de,$00c0
+  call _writeTilemapEntry
+  jr _next
+  
+_save:
+  ; get name from VRAM to RAM
+  ld de,NAME_TILEMAP_POS - $4000
+  rst $8
+  ; read to $d000, slowly
+  ld hl,$d000
+  ld b,SAVE_NAME_WIDTH*2
+  ld c,PORT_VDP_DATA
   di
-  call OutputTilemapRawDataBox ; change function call to full raw tilemap drawer
-.ends
+-:  ini
+    push ix
+    pop ix
+    jr nz,-
+  ei
+  ; Compute the destination address
+  ld hl,(NumberToShowInText) ; is the save index
+  add hl,hl
+  ld de,_SaveGameNameLocations-2 ; as it's a 1-based index
+  add hl,de
+  ld e,(hl)
+  inc hl
+  ld d,(hl)
+  ; Set the source and length
+  ld hl,$d000
+  ld bc,SAVE_NAME_WIDTH*2
+  ; then jump to a low-ROM helper
+  jp SaveNameToSaveRam
+  ret
 
-  ROMPosition $41e3
-.section "Name entry punctuation hook" overwrite ; not movable
-  ; We patch a call here to minimise the patch size
-  call DrawExtendedCharacters
-.ends
+_SaveGameNameLocations:
+.define SaveFirstNameOffset SaveTilemap + (SAVE_NAME_WIDTH+4+3)*2 ; equivalent for new menu
+.define SaveNameDelta (SAVE_NAME_WIDTH+4)*2
+.repeat SAVE_SLOT_COUNT index count
+.dw SaveFirstNameOffset + SaveNameDelta * count
+.endr
 
-.bank 0 slot 0 ; can be 0 or 1
-.section "Name entry screen extended characters" free
-; Originally tx4.asm
-; Name entry screen patch to draw extended characters
-DrawExtendedCharacters:
-    call $03de ; OutputToVRAM ; the call I stole to get here
-    ld bc,$0110 ; 16 bytes per row, 1 row
-    ld de,$7bea ; Tilemap location 21,15
-    ld hl,_punctuation
-    jp OutputTilemapRawDataBox  ; output raw tilemap data
-    ; and ret
+_writeTilemapEntry:
+  ; We do this in VRAM only...
+  ld a,(CurrentIndex)
+  ; Offset tilemap address
+  push de
+    add a,a
+    ld e,a
+    ld d,0
+    ld hl,NAME_TILEMAP_POS
+    add hl,de
+    ex de,hl
+    rst $8 ; set address
+  pop de
+  ; write it
+  di
+    ld a,e
+    out (PORT_VDP_DATA),a
+    push ix
+    pop ix
+    ld a,d
+    out (PORT_VDP_DATA),a
+  ei
+  ret
+  
+; Direction auto-repeat timings
+.define NameEntryRepeatInitialFrames 24
+.define NameEntryRepeatFrames 5
 
-_punctuation:
-.stringmap tilemap ".,:-!?‘’"
+_noButtons:
+  ; check for new key presses
+  ld a,($c205)
+  rra
+  jr c,_UpNew
+  rra
+  jr c,_DownNew
+  rra
+  jr c,_LeftNew
+  rra
+  jr c,_RightNew
+  ld a,($c204)
+  rra
+  jr c,_UpHeld
+  rra
+  jr c,_DownHeld
+  rra
+  jr c,_LeftHeld
+  rra
+  ret nc
+  ; fall through
+_RightHeld:
+  call _DecrementKeyRepeatCounter
+  ret nz
+  ; Move cursor right
+-:ld b,NameEntryMaxX ; max value
+  ld c,+1 ; delta
+  ld iy,CursorX ; value to change
+  jr _DirectionPressed
+_RightNew:
+  ld a,NameEntryRepeatInitialFrames ; initial repeat timer
+  ld (KeyRepeatCounter),a
+  jr -
 
-.ends
+_UpHeld:
+  call _DecrementKeyRepeatCounter
+  ret nz
+-:ld b,NameEntryMinY
+  ld c,-2
+  ld iy,CursorY
+  jr _DirectionPressed
+_UpNew:
+  ld a,NameEntryRepeatInitialFrames
+  ld (KeyRepeatCounter),a
+  jr -
 
-.define NameEntryMinX $18
-.define NameEntryMinY $60
-.define NameEntryTableWidth 26 ; letters
-.define NameEntryTableHeight 4 ; rows
-.define NameEntryMaxX NameEntryMinX + (NameEntryTableWidth - 1) * 8
-.define NameEntryMaxY NameEntryMinY + (NameEntryTableHeight - 1) * 16 ; double-spaced
+_DownHeld:
+  call _DecrementKeyRepeatCounter
+  ret nz
+-:ld b,NameEntryMaxY
+  ld c,+2
+  ld iy,CursorY
+  jr _DirectionPressed
+_DownNew:
+  ld a,NameEntryRepeatInitialFrames
+  ld (KeyRepeatCounter),a
+  jr -
 
-  ROMPosition $4221
-.section "Name entry cursor initial data" overwrite ; not movable
-.db NameEntryMinX, NameEntryMinY ; x, y in screen coordinates
-.dw $d30a ; x, y in RAM tilemap cache
-.stringmap script "A" ; pointed value
-.ends
+_LeftHeld:
+  call _DecrementKeyRepeatCounter
+  ret nz
+-:ld b,NameEntryMinX
+  ld c,-1
+  ld iy,CursorX
+  jr _DirectionPressed
+_LeftNew:
+  ld a,NameEntryRepeatInitialFrames
+  ld (KeyRepeatCounter),a
+  jr -
 
-  PatchB $4130 NameEntryMinX
-  PatchB $40eb NameEntryMaxX
-  PatchB $4102 NameEntryMinY
-  PatchB $4119 NameEntryMaxY
+_DecrementKeyRepeatCounter:
+  ld hl,KeyRepeatCounter
+  dec (hl)
+  ret nz
+  ld (hl),NameEntryRepeatFrames ; reset counter -> repeat every 5 frames, 30/s
+  ret
+  
+_DirectionPressed:
+  ; Get the currently pointed value
+  call _getPointedTileAddress
+  ld a,(hl)
+  ld (PreviouslyPointedValue),a
+  inc hl
+  ld a,(hl)
+  ld (PreviouslyPointedValue+1),a
+  
+  ; Get the current X or Y value
+-:ld a,(iy+0)
+  cp b ; see if already at the limit
+  jr z,+
+  add c
+  ld (iy+0),a
+  ; Next check if we are pointing at a valid entry
+  call _getPointedTileAddress
+  ld a,(hl)
+  cp $c0 ; space
+  ; If space, repeat
+  jr z,-
+  ; If the same as we are already pointing, continue
+  push af
+    ld a,(PreviouslyPointedValue)
+    ld d,a
+    ld a,(PreviouslyPointedValue+1)
+    ld e,a
+  pop af
+  cp d
+  jr nz,+ ; different
+  inc hl
+  ld a,(hl)
+  cp e
+  jr z,- ; same, repeat movement
++:; If the pointed value is a control word, we want to move to its left
+  call _getPointedTileAddress
+  ld a,(hl)
+  cp $c0 ; space
+  jr z,_spaceAtLimit
+  ret nc
+  ; It is a control word... scan left until we find a space
+  ld b,-1
+-:inc b
+  dec hl
+  dec hl
+  ld a,(hl)
+  cp $c0
+  jr nz,-
+  ; b is the amount to move left
+  ld a,(CursorX)
+  sub b
+  ld (CursorX),a  
+  ret
+  
+_spaceAtLimit:
+  ; If we run into a blank at the limit then we want to go down/right until we find something.
+  ; We don't want to repeat the action that got us here, so we only try a direction that is not already at the limit.
+  ld iy,CursorX
+  ld b,NameEntryMaxX
+  ld c,+1
+  ld a,(iy+0)
+  cp b
+  call nz,_DirectionPressed
+  ld iy,CursorY
+  ld b,NameEntryMaxY
+  ld c,+2
+  ld a,(iy+0)
+  cp b
+  call nz,_DirectionPressed ; and ret
+  ret
+  
+_getPointedTileAddress:
+  ; Compute the tilemap address of the pointed item.
+  ; Compute Y*32
+  ld a,(CursorY)
+  ld l,a
+  ld h,0
+  ld d,h
+  add hl,hl
+  add hl,hl
+  add hl,hl
+  add hl,hl
+  add hl,hl
+  ; add the x
+  ld a,(CursorX)
+  ld e,a
+  add hl,de
+  ; Multiply by 2
+  add hl,hl
+  ; Now it's an offset into TileMapData. We look up the value...
+  ld de,$d000
+  add hl,de
+  ret ; in hl
+  
+NameEntrySprites:
+  ; We want to draw cursor sprites
+  xor a
+  ld (CursorSpriteCount),a
+  ; First for the entry point
+  ld a,(CurrentIndex)
+  ; Multiply to pixels
+  add a,a
+  add a,a
+  add a,a
+  ; Offset
+  add a,NAME_TILEMAP_X*8 ; TODO compute this value from SAVE_NAME_WIDTH?
+  ; Write to sprite table
+  ld b,a ; x
+  ld c,NAME_TILEMAP_Y*8+7 ; y TODO the right place here
+  call _setSprite
 
-  PatchB $4344 NameEntryTableWidth ; width of lookup table
-  PatchB $4342 4 ; height of lookup table - width*height<=126
-  PatchB $434e (32*2 - NameEntryTableWidth)*2 ; width complement
+  ; Compute the current word's cursor width
+  call _getPointedTileAddress
+  ld a,(hl)
+  cp $c0 ; space
+  ld b,1 ; for non-word rows
+  jr nc,+
 
-.bank 1 slot 1 ; can be 0 or 1
-.section "Save lookup" free
-SaveLookup:
-; Character found at each location in the name entry screen
-.stringmap script "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-.stringmap script "abcdefghijklmnopqrstuvwxyz"
-.stringmap script "0123456789        .,:-!?‘’"
-; Back, Next, Save. We extend their values to whole rows to enable "snapping" the cursor when moving down from above.
-;   B   a   c   k   _   _   N   e   x   t   _   _   S   p   a   c   e   _   _   _   _   _   S   a   v   e
-.db $4F $4F $4F $4F $4F $4E $4E $4E $4E $4E $4E $50 $50 $50 $50 $50 $50 $50 $50 $50 $51 $51 $51 $51 $51 $ff ; last is $ff to fix a cursor bug
-.ends
-  PatchW $433c SaveLookup ; rewire pointer
+  ; Count how many we move right before seeing a space
+  ld b,-1
+-:inc b
+  ld a,(hl)
+  inc hl
+  inc hl
+  cp $c0
+  jr nz,-
 
-; Adding "space" item
-  ROMPosition $4160
-.section "control char trampoline" force
-  jp ControlChar
++:
+  ; Next draw the cursor for the selected letter/word
+  ld a,(CursorY)
+  add a,a
+  add a,a
+  add a,a
+  add 7 ; offset below letter
+  ld c,a
+  ld a,(CursorX)
+  add a,a
+  add a,a
+  add a,a
+  ld e,a ; X for first
+-:push bc
+    ld b,e
+    call _setSprite
+    inc d
+    ld a,e
+    add 8
+    ld e,a
+  pop bc
+  djnz -
+  
+  ; Terminate the sprite table
+  ld c,$d0
+  ; fall through
+
+_setSprite:
+  ld hl,CursorSpriteCount
+  ld a,(hl)
+  inc (hl)
+  ld h,$c9 ; SpriteTable is at $c900
+  ld l,a ; offset for y
+  ld (hl),c
+  add a,a
+  add 128
+  ld l,a ; offset for xn
+  ld (hl),b
+  inc l
+  ld (hl),0
+  ret
 .ends
 
 .bank 0 slot 0
-.section "Extra control char" free
-ControlChar:
-;    cp $4e                       ; 00415D FE 4E      ; check if it was a control char, in which case snap to its left char
-;    ret c                        ; 00415F D8
-;     ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
-;     ld hl,$d5a2                  ; 004162 21 A2 D5
-;     jr z,+                       ; 004165 28 0C
-;     cp $4f                       ; 004167 FE 4F
-;     ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
-;     ld c,$a8                     ; 00416B 0E A8
-;     jr z,+                       ; 00416D 28 04
-;     ld c,$c8                     ; 00416F 0E C8      ; default: jump to Save
-;     ld l,$b2                     ; 004171 2E B2
-; +:  ld (NameEntryCursorTileMapDataAddress),hl
-;     ld a,c                       ; 004176 79
-;     ld (NameEntryCursorX),a      ; 004177 32 84 C7
-;     ret                          ; 00417A C9
-  ; a is the pointed control character
-  sub $4e
-  ret c
-  ; Next values
-  ld c,$48 ; x
-  ld hl,$d496 ; data pointer
-  jr z,+
-  dec a
-  ; Prev
-  ld c,$18 ; x
-  ld l,$8a ; data pointer
-  jr z,+
-  dec a
-  ; Space
-  ld c,$78
-  ld l,$a2
-  jr z,+
-  ; Save for any other value
-  ld c,$c8 ; x
-  ld l,$b6 ; data pointer
-+:ld ($c786),hl
-  ld a,c
-  ld ($c784),a
-  ret
-.ends
+.section "Save name writer" free
+SaveNameToSaveRam:
+  ; Page it in
+  ld a,SRAMPagingOn
+  ld (PAGING_SRAM),a
+  ; Copy
+  ldir
+  ; Page out again
+  ld a,SRAMPagingOff
+  ld (PAGING_SRAM),a
 
-  ROMPosition $4237
-.section "Cursor sprite handling" force
-  ; the first two sprites ys have been set (but not the x)
-  inc de
-  ; the first is the "curent char", the second is the start of the "pointed item"
-  ld a,($c788) ; check what we are pointing at
-  cp $4e ; carry will be set if a normal letter
-  ld b,1
-  jr c,+
-  cp $50 ; space
-  ld b,5
+  ; Copied from original
+  ld a,($c316)
+  cp $0b
+  ld a,$0a
   jr z,+
-  dec b ; everything else
-+:ld a,($c785) ; Y coordinate
-  ld c,b
--:ld (de),a
-  inc e
-  djnz -
-  ; terminate
-  ld a,208
-  ld (de),a
-  ; now do the Xs
-  ld e,$80
-  ex de,hl ; so we can output register c
-  ld (hl),e ; this is the "current char"'s X
-  inc hl
-  ld b,c ; get counter back
-  ld c,0 ; tile index
-  ld (hl),c
-  inc hl
-  ld a,($c784) ; X coordinate for the "pointed item"
--:ld (hl),a
-  inc l
-  add a,8
-  ld (hl),c
-  inc l
-  djnz -
+  ld a,$0c
++:ld (FunctionLookupIndex),a
   ret
-.ends
 
-  ROMPosition $4028
-.section "Control char handling trampoline" overwrite
-  jp ControlCharCheck
 .ends
 
 .bank 1 slot 1
-.section "Control char handling" free
-ControlCharCheck:
-  ; a = 4f (next), 51 (space) or something else
-  cp $4f
-  jp z,$402c ; Prev
-  cp $50
-  jp nz,$4053 ; Save
-  ; Space
-  ld a,0
-  jp $4006 ; char entry
-.ends
-
-; 2. Extra x coords and tile indices
-;  PatchB $4251 $05
-; 3. Cursor extends right, not left, relative to the "snapped" positions
-;  PatchB $425c $c6 ; sub nn -> add a,nn
-
-; Text drawing as you enter your name
-.bank 1 slot 1 ; can be 0 or 1
-.section "Drawing to RAM as you enter" free
-; Originally tx2.asm
-; Name entry screen patch for code that writes to the in-RAM name table copy
-
-WriteLetterIndexAToDE: ; $429b
-; parameters:
-; de = where to write tile data (pointing to lower tile of pair)
-; a = char number (space = 0)
-; returns:
-; c = low byte of name table value
-; a = high byte
-; This part is unchanged:
-  push hl
-    ex de,hl
-    ld hl,PAGING_SLOT_2
-    ld (hl),:FontLookup
-    ld hl,FontLookup
-    ld c,a
-    ld b,0
-    add hl,bc
-    add hl,bc
-; Original code:
-;    ld c,(hl)          ; 4E       ; get value in c,a
-;    inc hl             ; 23
-;    ld a,(hl)          ; 7E
-;    ld (de),a          ; 12       ; write to address passed in in de
-;    ld hl,-64          ; 21 C0 FF
-;    add hl,de          ; 19       ; and 1 row above it
-;    ld (hl),c          ; 71
-; Patch:
-    ld a,(hl)              ; 7E
-    ld (de),a              ; 12
-    ld c,a                 ; 4F
-    inc hl                 ; 23
-    inc de                 ; 13
-    ld a,(hl)              ; 7E
-    ld (de),a              ; 12
-; End patch
-  pop hl
+.orga $4183
+.section "Draw name entry screen trampoline" force
+  ld a,:DrawNameEntryScreen
+  ld (PAGING_SLOT_2),a
+  call DrawNameEntryScreen
+  ld a,2
+  ld (PAGING_SLOT_2),a
   ret
 .ends
 
-  ROMPosition $42b5
-.section "Drawing to screen as you enter" force ; not movable (without patching calls)
-; Originally tx3.asm
-; Name entry screen patch for code that writes to the in-RAM name table copy
+.slot 2
+.section "Draw name entry screen" superfree
+; This is called once to set up the name entry screen.
+; A lot of this code is copied from the original, but with customisations...
+DrawNameEntryScreen:
+  call $7da8 ; FadeOutFullPalette
 
-WriteLetterToTileMapDataAndVRAM: ; $42b5
-; Parameters:
-; a = tile index (space = 0)
-; de = where to write tiles to
-; hl = cursor location (from GetCursorLocation)
-    call WriteLetterIndexAToDE ; CD 9B 42
-    ; c,a are the tile indices for the chosen tile
-    ld b,a                ; 47
-    ld a,h                ; 7C       ; get cursor location in TileMapData
-    sub $58               ; D6 58    ; reduce it by $5800 to make it the VRAM address
-    ld h,a                ; 67
-    ex de,hl              ; EB
-    rst $08               ; CF       ; SetVRAMAddressToDE
-; Original code:
-;    ld a,b               ; 78       ; write tiles to VRAM
-;    out ($be),a          ; D3 BE
-;    ld hl,-64            ; 21 C0 FF
-;    add hl,de            ; 19
-;    ex de,hl             ; EB
-;    rst $08              ; CF
-;    ld a,c               ; 79
-;    out ($be),a          ; D3 BE
-; Patch:
-    ld a,c                ; 79
-    out ($be),a           ; D3 BE
-    ld a,b                ; 78
-    out ($be),a           ; D3 BE
-; End patch
-    ret                   ; C9
+  ; Increment FunctionLookupIndex to go to the per-frame handler next
+  ld hl,FunctionLookupIndex
+  inc (hl)
+
+  ; Draw the name entry screen into TileMapData
+  ; first blank it out
+  ld hl,$d000
+  ld de,$d002
+  ld bc,32*24*2-1
+  ld (hl),$c0 ; space
+  inc hl
+  ld (hl),$00
+  dec hl
+  ldir
+
+  ; Then draw text
+  ld hl,_NameEntryItems
+  ld b,(hl)
+  inc hl
+-:push bc
+    ; read dest pointer to de
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ; read length
+    ld c,(hl)
+    inc hl
+    ld b,0
+    ; copy
+    ldir
+  pop bc
+  djnz -
+
+  ; For the box we do some loops to save space compared to storing it all raw...
+  ; Top
+  ld hl,$d000 + (3 * 32 + 2) * 2
+  ld de,$d000 + (3 * 32 + 2) * 2 + 2
+  ld bc,54
+  ldir
+  ; Bottom
+  ld hl,$d000 + (23 * 32 + 2) * 2
+  ld de,$d000 + (23 * 32 + 2) * 2 + 2
+  ld bc,54
+  ldir
+  ; Left
+  ld hl,$d000 + (4 * 32 + 1) * 2
+  ld de,$11f3 ; left edge tile
+  call _side
+  ld hl,$d000 + (4 * 32 + 30) * 2
+  ld de,$13f3 ; left edge tile
+  call _side
+
+  ; Select the right palette
+  ld hl,TitleScreenPalette
+  ld de,$c240 ; TargetPalette
+  ld bc,32
+  ldir
+
+  di
+    ; Draw the tilemap to VRAM
+    ld hl,$d000
+    ld de,$7800
+    ld bc,32*24*2
+    call $03de ; OutputToVRAM
+    ; Load the cursor sprite
+    ld hl,$6000 ; tile $100
+    ld de,_CursorSprite
+    call LoadTiles
+  ei
+
+  ; init the cursor memory
+  ld de,CursorMemoryStart
+  ld hl,_CursorMemoryInitialValues
+  ld bc,_sizeof__CursorMemoryInitialValues
+  ldir
+
+  ; Update the tilemap in memory with the control words
+  ld hl,NameEntryLookup
+  ; Get count
+  ld b,(hl)
+  inc hl
+-:push bc
+    ; Get position
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ; Get count
+    ld c,(hl)
+    inc hl
+    ; Get value
+    ld a,(hl)
+    inc hl
+--  ld (de),a
+    inc de
+    dec c
+    jr nz,--
+  pop bc
+  djnz -
+
+  ; zero some stuff
+  xor a
+  ld ($c304),a ; VScroll
+  ld ($c300),a ; HScroll
+  ld ($c2d3),a ; TextBox20x6Open
+
+  jp $0344 ; ClearSpriteTableAndFadeInWholePalette ; and ret
+
+_side:
+  ld b,19
+-:ld (hl),e
+  inc hl
+  ld (hl),d
+  push de
+    ld de,ONE_ROW-1
+    add hl,de
+  pop de
+  djnz -
+  ret
+
+_CursorSprite:
+.incbin "new_graphics/name-entry-cursor.psgcompr"
+
+.macro NameEntryText args x,y,text
+.dw $d000 + (y * 32 + x) * 2 ; destination
+.db _NameEntryText\@end - CADDR - 1
+.stringmap tilemap text
+_NameEntryText\@end:
+.endm
+
+.macro NameEntryMask args x,y,count,text
+.dw $d000 + (y * 32 + x) * 2 ; destination
+.db count*2, text
+.endm
+
+_NameEntryItems:
+.if LANGUAGE == "en"
+.db 10
+  NameEntryText  8,  1, "Enter your name:"
+  NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
+  NameEntryText  3, 15, "0123456789"
+  NameEntryText 21, 15,                   ".,:-!?‘’"
+  NameEntryText  3, 17, "Back  Next  Space     Save"
+  NameEntryText  1,  3, "┌─" ; Leave these ones alone...
+  NameEntryText  1, 23, "╘═"
+  NameEntryText 30,  3, "╖"
+  NameEntryText 30, 23, "╝"
+NameEntryLookup:
+.db 4
+  NameEntryMask  3, 17, 4, "B" ; X, Y, length, type (Back)
+  NameEntryMask  9, 17, 4, "N" ; Next
+  NameEntryMask 15, 17, 5, "S" ; Space
+  NameEntryMask 25, 17, 4, "V" ; saVe
+.define NameEntryMinX 3
+.define NameEntryMaxX 28
+.define NameEntryMinY 11
+.define NameEntryMaxY 17
+
+.endif
+.if LANGUAGE == "fr"
+.db 12
+  NameEntryText  8,  1,      "Entrez votre nom:"
+  NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
+  NameEntryText  3, 15, "àéêè"
+  NameEntryText  9, 15,       "0123456789"
+  NameEntryText 21, 15,                   ".,:-!?‘’"
+  NameEntryText  3, 17, "Précédent"
+  NameEntryText 22, 17,                    "Suivant"
+  NameEntryText  3, 19, "Espace"
+  NameEntryText 23, 19,                     "Sauver"
+  NameEntryText  1,  3, "┌─"
+  NameEntryText  1, 23, "╘═"
+  NameEntryText 30,  3, "╖"
+  NameEntryText 30, 23, "╝"
+NameEntryLookup:
+.db 4
+  NameEntryMask  3, 17, 9, "B" ; X, Y, length, type (Back)
+  NameEntryMask 22, 17, 7, "N" ; Next
+  NameEntryMask  3, 19, 6, "S" ; Space
+  NameEntryMask 23, 19, 6, "V" ; saVe
+.define NameEntryMinX 3
+.define NameEntryMaxX 28
+.define NameEntryMinY 11
+.define NameEntryMaxY 19
+.endif
+
+_CursorMemoryInitialValues:
+.db 3, 11, 0 ; X, Y, index into drawn name
+
 .ends
 
 .bank 0 slot 0
@@ -3346,7 +3654,6 @@ _process:
 .macro element args value, count
   .db count
   .stringmap tilemap value
-  ;.dw value
 .endm
 
 _top:
@@ -3373,53 +3680,6 @@ _bottom:
 .section "Save RAM init" overwrite
   call BlankSaveTilemap
   JR_TO $09ba
-.ends
-
-  ; Name location pointer table
-.bank 1 slot 1
-.section "Save game name locations" free
-SaveGameNameLocations:
-.define SaveFirstNameOffset SaveTilemap + (SAVE_NAME_WIDTH+4+3)*2 ; equivalent for new menu
-.define SaveNameDelta (SAVE_NAME_WIDTH+4)*2
-.repeat SAVE_SLOT_COUNT index count
-.dw SaveFirstNameOffset + SaveNameDelta * count
-.endr
-.ends
-  PatchW $408b SaveGameNameLocations-2 ; 1-based lookup
-
-  ; The code draws the password/name with spaces every 8 chars, we nobble that
-  PatchB $4293 $c9 ; return earlier
-
-  ; We set the "start point" for name entry.
-  .define NameEntryStart 13 - SAVE_NAME_WIDTH/2
-  PatchB $41c3 NameEntryStart
-  PatchB $4035 NameEntryStart ; same as above, leftmost char index
-  PatchB $401f NameEntryStart + SAVE_NAME_WIDTH - 1 ; rightmost char index (inclusive)
-
-  ROMPosition $4091
-.section "Copy entered name to save data" force
-;    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
-;    ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
-;
-;    ld a,SRAMPagingOn            ; 004097 3E 08
-;    ld (SRAMPaging),a            ; 004099 32 FC FF   ; page in SRAM
-;    ldir                         ; 00409C ED B0      ; copy tiles to SRAM name section
-;
-;    ld c,$08                     ; 00409E 0E 08      ; move dest 8 bytes on
-;    ex de,hl                     ; 0040A0 EB
-;    add hl,bc                    ; 0040A1 09
-;    ex de,hl                     ; 0040A2 EB
-;    ld c,$36                     ; 0040A3 0E 36      ; move src 54 bytes on (bottom row of name)
-;    add hl,bc                    ; 0040A5 09
-;    ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
-;    ldir                         ; 0040A8 ED B0
-  ; de points to the destination already
-  ld hl,$d146 + NameEntryStart*2
-  ld bc,SAVE_NAME_WIDTH*2
-  ld a,SRAMPagingOn
-  ld (PAGING_SRAM),a
-  ldir
-  JR_TO $40aa
 .ends
 
 ; When loading an existing save game, we want to "fix" the data if it's from the older layout
@@ -4603,4 +4863,3 @@ GetItemType:
 ; There is a bug in the Japanese ROM that makes Myau have a low attack stat at level 30.
 ; This "fix" makes it match the export version, with a sensible value.
   PatchB $fa88 $56
-  
