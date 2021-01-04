@@ -82,11 +82,24 @@
 ; non-breaking space
 47=_
 
-; French accented letters - stripping accents for now
+; French accented letters
 48=à
 49=é
 4A=ê
 4B=è
+; Below here are mapping to the unaccented characters...
+0B=Â
+0F=É
+0F=Ê
+25=â
+27=ç
+2D=î
+2D=ï
+33=ô
+3329=œ
+1929=Œ
+39=ù
+39=û
 
 ; These control codes only apply to items/names...
 

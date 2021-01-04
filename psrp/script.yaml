@@ -115,8 +115,8 @@
     Nero? NERO!<line><line>
     What happened?!<wait>
   fr: |
-    Citoyens de Camineet, le corps de ce garcon est un avertissement pour vous tous.<line>
-    Le Seigneur Lassic ne tolérera aucune offense_!<wait more>
+    Citoyens de Camineet, le corps de ce garçon est un avertissement pour vous tous.<line>
+    Le Seigneur Lassic ne tolèrera aucune offense_!<wait more>
     Néro_? NERO_!<line><line>
     Que s'est-il passé_?!<wait>
 
@@ -173,8 +173,8 @@
     ...and for leaving you all...<line><line>
     ...alone...<wait>
   fr: |
-    Alisa. Ma soeur.<line><line>
-    Ecoute moi attentivement, il me reste peu de temps.<wait more>
+    Alisa. Ma sœur.<line><line>
+    Écoute moi attentivement, il me reste peu de temps.<wait more>
     Lassic est une menace pour Algol, il ne doit pas rester au pouvoir.<line><line>
     Je ne sais pas ce qui lui est arrivé...<wait more>
     mais je sais une chose, Lassic doit être anéanti_!<line><line>
@@ -610,7 +610,7 @@
     I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
   fr: |
     C'est incroyable, mais j'ai trouvé un animal parlant, errant dans le donjon de Médusa.<wait more>
-    Je l'ai vendu à un commercant de Paséo. Le p'tit bout valait une vraie fortune_!<wait>
+    Je l'ai vendu à un commerçant de Paséo. Le p'tit bout valait une vraie fortune_!<wait>
 
 - offsets:4dbb
   # Same person as above (second time)
@@ -645,7 +645,7 @@
   fr: |
     Bienvenue à Scion.<wait more>
     Notre économie était prospère, jusqu'à l'embargo de Lassic.<wait more>
-    Aujourd'hui, la plupart d'entre-nous est au chomage.<wait>
+    Aujourd'hui, la plupart d'entre-nous est au chômage.<wait>
 
 - offsets:4dcd
   indices:046
@@ -782,7 +782,7 @@
     デキマス.シンセイヲシマスカ.<end>
   translated: You can apply for a ‘passport’ here. Would you like to apply?
   en: Are you here to apply for a Passport?<end>
-  fr: Etes-vous ici pour une demande de Passeport_?<end>
+  fr: Êtes-vous ici pour une demande de Passeport_?<end>
 
 - offsets:4d44
   # Passport office
@@ -975,7 +975,7 @@
     Hey, where are you going?<delay>
   fr: |
     Sérieusement_?<wait more>
-    Hé, ou allez-vous?<wait>
+    Hé, Où allez-vous?<wait>
 
 - offsets:4e98
   # Trader (say no to previous question)
@@ -1005,7 +1005,7 @@
   translated: Alri--ーght, there yuh go. Take good care uv‘im.
   en: I hate to see the little guy go, but I can’t pass up a trade like this. Take good care of ’im.<wait>
   fr: |
-    Ca me fend le coeur, mais je ne peux pas rater une offre pareille.<wait more>
+    Ca me fend le cœur, mais je ne peux pas rater une offre pareille.<wait more>
     Prenez bien soin de lui.<wait>
 
 - offsets:4e73
@@ -1293,7 +1293,7 @@
     Either way, I admire your bravery. Are you in need of a Dungeon Key?<end>
   fr: |
     Vous en prendre au seigneur Lassic, vous êtes vraiment sérieuse_?<wait more>
-    Vous êtes folle, ou plus forte que vous ne laissez paraitre_!<wait more>
+    Vous êtes folle, Où plus forte que vous ne laissez paraitre_!<wait more>
     Quoi qu'il en soit, j'admire votre bravoure_!<wait more>
     Auriez-vous besoin d'une clé pour les donjons_?<end>
 
@@ -1311,7 +1311,7 @@
     I hid one inside the warehouse on the outskirts of Camineet’s residential district.<wait more>
     I hid it pretty good, you might want to take a second look if you've already been there.<wait>
   fr: |
-    J'en ai caché une à l'entrepot,<wait more>
+    J'en ai caché une à l'entrepôt,<wait more>
     situé dans à la périphérie de la zone résidentielle de Camineet.<wait more>
     Elle est à vous. Bonne chance_!<wait>
 
@@ -1352,9 +1352,9 @@
     My shortcakes are the best in Algol, and a steal at only <number><internal hint 02> meseta<s>. Want one?<end>
   fr: |
     Bienvenue dans mon magasin_! Désolé pour l'endroit...<wait more>
-    Mais avec ces hausses d'impots, c'est tout ce que je peux m'offrir.<wait more>
+    Mais avec ces hausses d'impôts, c'est tout ce que je peux m'offrir.<wait more>
     Vous comprenez.<wait more>
-    Mes fameuses tartes coutent <number><internal hint 02> meseta<s>.<wait more>
+    Mes fameuses tartes coûtent <number><internal hint 02> meseta<s>.<wait more>
     Je vous en emballe une_?<end>
 
 
@@ -1518,7 +1518,7 @@
   ja: オヤ.ヨウスガ ヘンダ.<wait more>
   translated: Hey. That’s weird... Where’d the Governor-General go?
   en: Empty! Where is the Governor-General?<wait>
-  fr: Personne_? Ou se trouve le Gouverneur_?<wait>
+  fr: Personne_? Où se trouve le Gouverneur_?<wait>
 
 
 # ******************
@@ -1531,7 +1531,7 @@
     ルツハ パセオノ ソウトクノ<line>
     メイレイナラバ キクカモシレナイ.<wait>
   en: Since the orders are from the Governor-General, Lutz will probably listen.<wait>
-  fr: Les ordres venant du Gouverneur, Lutz les écoutera peut-être...<wait>
+  fr: Les ordres venant du Gouverneur, Lutz les écoûtera peut-être...<wait>
 
 - offsets:53c9
   indices:0B2
@@ -1601,7 +1601,7 @@
     Lassic est dangereux. Pour le bien d'Algol, Lassic doit être stoppé.  
     Je pense que je peux vous venir en aide.<wait more>
     Nous devons alerter le docteur Luveno, il vit dans les bois de Gothic.<wait more>
-    D'après mes souvenirs, nous pouvons y acceder par une bouche d'égout située au spatioport de Camineet.<wait more>
+    D'après mes souvenirs, nous pouvons y accéder par une bouche d'égout située au spatioport de Camineet.<wait more>
     Allons-y. Vite_!<wait>
 
 
@@ -1678,7 +1678,7 @@
     Merci à vous, étrangère.<wait more>
     Il y a une vieille tour au bout du chemin qui mène aux montagnes,<wait more>
     selon la rumeur, le monstre Médusa s'y cacherait.<wait more>
-    Mais restez plutot ici si vous ne voulez pas finir pétrifiée_!<wait>
+    Mais restez plutôt ici si vous ne voulez pas finir pétrifiée_!<wait>
 
 - offsets:5856
   # Villager guarding open field (no Luveno/Hapsby)
@@ -1806,7 +1806,7 @@
     C'est un robot construit en Laconian_!<wait more>
     Luveno l'a inventé pour piloter des vaisseaux spatiaux<wait more>
     Mais il l'a jeté dans un tas de ferraille et l'a laissé pourrir.<wait more>
-    Quel gachis...<wait>
+    Quel gâchis...<wait>
 
 - offsets:54e4
   # Prisoner
@@ -1928,7 +1928,7 @@
     モハヤ カクゴハ デキテオル<line>
     ジャロウナ. フッフッフ.<wait>
   en: You’ve gotten far. Soon you will know the truth.<wait>
-  fr: Vous qui êtes venue jusqu'ici, vous connaitrez bientot la vérité.<wait>
+  fr: Vous qui êtes venue jusqu'ici, vous connaîtrez bientôt la vérité.<wait>
 
 - offsets:5518
   indices:0FE
@@ -1969,7 +1969,7 @@
     He's probably hiding in the underground tunnel. He's shy, that one. It's irritating.<wait>
   fr: |
     Bonjour. Qu'est-ce qui vous a pris si longtemps_?<wait more>
-    Commencons. Premièrement, allez chercher mon assistant.<wait more>
+    Commençons. Premièrement, allez chercher mon assistant.<wait more>
     Il s'est peut être caché à l'intérieur du souterrain.<wait more>
     Un peu parano, celui-là.<wait>
 
@@ -1994,7 +1994,7 @@
     Quoi, vous pensez que deux personnes ne suffisent pas_?<wait more>
     Sachez que j'en construisais déjà quand vous têtiez encore votre mère!<wait more>
     Bon, l'achat d'un vaisseau, ce n'est pas comme acheter des Vitabarres.<wait more>
-    C'est du sérieux, et il vous en coutera beaucoup d'argent.<wait more>
+    C'est du sérieux, et il vous en coûtera beaucoup d'argent.<wait more>
     Je demande <number><internal hint 01> meseta<s> d'acompte. Avez-vous cette somme_?<end>
 
 - offsets:50b5
@@ -2008,10 +2008,10 @@
     Splendid. We’ll begin construction immediately.<wait more>
     This is delicate work, do me a favor and try not to bother me for a while?<wait>
   fr: |
-    Super. Commencons la construction immédiatement.<wait more>
+    Super. Commençons la construction immédiatement.<wait more>
     Cela nécessitera un certain temps, je suis un peu... rouillé.<wait more>
     Si vous alliez exterminer quelques Hélix_?<wait more>
-    Ou vaquer à un autre de vos passe -temps favoris_?<wait>
+    Où vaquer à un autre de vos passe -temps favoris_?<wait>
 
 - offsets:50a7
   # Dr Luveno (if you don't have enough money)
@@ -2268,7 +2268,7 @@
     It’s a small town like this one, on the western tip of the island.<wait>
   fr: |
     Puisque vous êtes ici, vous pourriez visiter Abion.<wait more>
-    C'est un village comme celui-ci, à la pointe ouest de l'ile.<wait>
+    C'est un village comme celui-ci, à la pointe ouest de l'île.<wait>
 
 - offsets:5125
   # Villager
@@ -2376,18 +2376,10 @@
     He told me the weirdest thing about Musk Cats.<wait more>
     He says if they eat a certain berry, they grow huge, and can fly!<wait>
   fr: |
-    Notre nouveau voisin en 
-    connait beaucoup sur les 
-    animaux.<wait more>
-    Il m'a raconté une chose
-    bien étrange à propos 
-    des chats Musk.<wait more>
-    Il disait qu'en mangeant
-    une certaine baie,
-    ils devenaient énormes
-    et pouvaient voler_!<wait more>
-    Bien sur, je lui ai dit
-    qu'il était fou.<wait more>
+    Notre nouveau voisin en connaît beaucoup sur les animaux.<wait more>
+    Il m'a raconté une chose bien étrange à propos des chats Musk.<wait more>
+    Il disait qu'en mangeant une certaine baie, ils devenaient énormes et pouvaient voler_!<wait more>
+    Bien sur, je lui ai dit qu'il était fou.<wait more>
 
 - offsets:4c54
   # Mad Doctor
@@ -2642,7 +2634,7 @@
     Don’t tell anybody!<wait>
   fr: |
     Eh bien, c'est un secret, mais...<wait more>
-    J'ai enterré l'une d'entres elles à la périphérie de la cité de Gothic.<wait more>
+    J'ai enterré l'une d'entrés elles à la périphérie de la cité de Gothic.<wait more>
     Ne dites à personne que je vous en ai parlé_!<wait>
 
 # Soothe Flute stuff
@@ -2653,7 +2645,7 @@
     ウツクシイ ネイロダ.<wait>
   translated: The beautiful tone relaxes the soul. 
   en: The sounds melt your heart.<wait>
-  fr: Cela réchauffe votre coeur.<wait>
+  fr: Cela réchauffe votre cœur.<wait>
 
 - offsets:24eb
   indices:044-2
@@ -2806,7 +2798,7 @@
     ガンバッテ ボウケンヲ ツヅケテネ.<wait>
   en: It's me, Choko Oneesan! Be brave and strong as you continue your quest!<wait>
   fr: |
-    On me nomme Grande Soeur Choko.<wait more>
+    On me nomme Grande Sœur Choko.<wait more>
     Soyez forte et poursuivez votre aventure_!<wait>
 
 - offsets:51ef
@@ -2963,7 +2955,7 @@
     Je vous remercie. En retour, je peux peut-être vous aider.<wait more>
     J'imagine que vous recherchez le bouclier de Persée_?<wait more>
     Selon une légende locale, Persée l'aurait utilisé contre Médusa.<wait more>
-    Il est supposé être sur une ile du lac.<wait more>
+    Il est supposé être sur une île du lac.<wait more>
     J'ai entendu dire qu'il serait enterré sous un cactus.<wait more>
     Navré, c'est tout ce que je sais. Bonne chance.<wait>
 
@@ -3014,7 +3006,7 @@
   translated: There’s a monk named Tajimu living in the mountains South of the lake.
   en: Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait>
   fr: |
-    Avez-vous croisé Maitre Tajim_? C'est un moine.<wait more>
+    Avez-vous croisé Maître Tajim_? C'est un moine.<wait more>
     Il habite dans les montagnes situées au sud du lac.<wait>
 
 - offsets:5326
@@ -3032,7 +3024,7 @@
   translated: Ooh, I want to go there soo bad!
   en: Oh, I want to go there so bad!<wait>
   fr: |
-    N'importe ou sera mieux qu'ici_!<wait more>
+    N'importe où sera mieux qu'ici_!<wait more>
     Il n'y a pas pire qu'une ville noyée de brume mortelle.<wait>
 
 - offsets:5334
@@ -3043,7 +3035,7 @@
     クウキノ キレイナトコロヘイキタイ.<wait>
   translated: Oh, I see. I want to go to a place with cleaner air.
   en: Oh, interesting. I'd go just about anywhere that has cleaner air.<wait>
-  fr: Oh, je vois. Je veux aller quelque part ou l'air est sain.<wait>
+  fr: Oh, je vois. Je veux aller quelque part où l'air est sain.<wait>
 
 - offsets:5345
   # Villager (no to request for PelorieMate)
@@ -3077,7 +3069,7 @@
   fr: |
     Et qui sont toutes ces personnes_?<wait more>
     Mon élève, Lutz, est dans la grotte Mahal.<wait more>
-    Le cotoyez-vous_?<end>
+    Le côtoyez-vous_?<end>
 
 - offsets:56bc
   # Tajim (yes to previous question)
@@ -3122,7 +3114,7 @@
   us: YOU HAVE GOTTEN YOURSELF KILLED COME LETS TRY ONE MORE TIME<wait>
   en: ...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.<wait>
   fr: |
-    Hé_! Etes-vous morte_? Quel dommage...<wait more>
+    Hé_! Êtes-vous morte_? Quel dommage...<wait more>
     Ressuscitez et essayez encore.<wait>
 
 - offsets:56d9
@@ -3156,7 +3148,7 @@
     Je n'ai plus rien à t'apprendre.<wait more>
     Accepte ceci. C'est une Cape de Frad.<wait more>
     Elle protégera ton corps des blessures.<wait more>
-    Maintenant, va mon garcon.<wait>
+    Maintenant, va mon garçon.<wait>
 
 - offsets:571c
   # Tajim (if you lose)
@@ -3165,7 +3157,7 @@
   translated: You still haven’t trained enough. You should come back later.
   en: You need more training, my boy. Come back when you’re ready. I’ll be waiting.<wait>
   fr: |
-    Tu dois encore t'entrainer, mon garcon.<wait more>
+    Tu dois encore t'entraîner, mon garçon.<wait more>
     Reviens quand tu seras prêt. Je t'attendrai.<wait>
 
 - offsets:56a6
@@ -3174,7 +3166,7 @@
   ja: モウ ワシガ オシエルコトハ ナイ.<wait>
   translated: There is nothing more I can teach you.
   en: There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
-  fr: Je n'ai plus rien à t'apprendre, mon garcon.<wait>
+  fr: Je n'ai plus rien à t'apprendre, mon garçon.<wait>
 
 
 # ****************************
@@ -3272,7 +3264,7 @@
   ja: コノブラクノ ミンナハ パルマノ<line>
   translated: All the people in this village hate those Palmans, eh.
   en: Everyone here hates Palmans, we do.<wait>
-  fr: Nous villageois, les Palmans nous haissons.<wait>
+  fr: Nous villageois, les Palmans nous haïssons.<wait>
 
 - offsets:52a6
   # Dishonest Dezorian
@@ -3282,7 +3274,7 @@
     アルンダス.<wait>
   translated: There's a Life Spring/Fountain of Youth in Corona Tower, y’know.
   en: The Fountain of Youth is inside Corona Tower. Cross my heart!<wait>
-  fr: Etre à la tour Corona que voussa trouver fontaine de jouvence.<wait>
+  fr: Être à la tour Corona que voussa trouver fontaine de jouvence.<wait>
 
 - offsets:52b2
   # Dishonest Dezorian
@@ -3307,7 +3299,7 @@
   en: Laerma Berries are blue, and we use them to dye our clothes. It's true!<wait>
   fr: |
     Baies Laerma être bleues, et noussa les utiliser pour teindre vêtements.<wait more>
-    Etre ce que noussa faire.<wait>
+    Être ce que noussa faire.<wait>
 
 - offsets:52be
   # Dishonest Dezorian
@@ -3359,7 +3351,7 @@
   ja: ナニシニキタダ. オメエタチ<line>
   translated: What is your business here? Don’t cause any trouble!
   en: Why have you come here? Stay out of trouble, hear me?<wait>
-  fr: Pourquoi êtes-vous venue ici_? Evitez les ennuis, entendu_?<wait>
+  fr: Pourquoi êtes-vous venue ici_? Évitez les ennuis, entendu_?<wait>
 
 - offsets:# Unused
   indices:236
@@ -3511,7 +3503,7 @@
   translated: I wonder if you could help me escape from this place, but it’s hopeless.
   en: Did you come to help me escape?<wait>
   fr: |
-    Etes-vous venus me sortir d'ici_?<wait more>
+    Êtes-vous venus me sortir d'ici_?<wait more>
     Oh, s'il vous plait aidez-moi... Je ne veux pas mourir_!<wait>
 
 - offsets:55fb
@@ -3611,7 +3603,7 @@
     This is a fake. Where did you get this?<wait more>
     Well, you certainly picked the right place to get locked up. Come with me.<wait>
   fr: |
-    C'est un faux_! Ou l'avez-vous obtenu_?<wait more>
+    C'est un faux_! Où l'avez-vous obtenu_?<wait more>
     Eh bien, vous avez choisi le bon endroit pour vous faire enfermer.<wait more>
     Venez avec moi.<wait>
 
@@ -3723,7 +3715,7 @@
     オオゾラニ スガタヲ アラワシタ.<wait>
   translated: The illusionary ‘Aerocastle’ materialized in the vast open sky.
   en: The Aerocastle was revealed.<wait>
-  fr: Dans le ciel, le Chateau Aérien apparait sous vos yeux.<wait>
+  fr: Dans le ciel, le Château Aérien apparaît sous vos yeux.<wait>
 
 - offsets:2752
   # (Use Laerma Berries)
@@ -3733,7 +3725,7 @@
     カジッタ.<wait>
   translated: Myau took a bite of the ‘Laerma Berry’.
   en: Myau ate the Laerma Berries.<wait>
-  fr: Myau mache les baies Laerma.<wait>
+  fr: Myau mâché les baies Laerma.<wait>
   
 
 # *****************************
@@ -3751,7 +3743,7 @@
     マバユイ ヒカリニ ツツマレタ.<wait>
   translated: As Myau chewed the Laerma Berry, his body was enveloped by a warm and dazzling light.
   en: When Myau chewed the Laerma Berries, a fever swept over him, and a dazzling light engulfed his body.<wait>
-  fr: Après que Myau eut maché les baies Laerma, il fut pris d'un accès de fièvre, et une lumière éblouissante s'engouffra dans son corps.<wait>
+  fr: Après que Myau eut mâché les baies Laerma, il fut pris d'un accès de fièvre, et une lumière éblouissante s'engouffra dans son corps.<wait>
 
 - offsets:4726
   indices:176-2
@@ -4013,7 +4005,7 @@
   indices:14A-2
   ja: シダイニ ソラガ アカルクナッテイキヒトビトモ ヘイワヲ トリモドシタ.<end>
   translated: Gradually, the sky brightened, and peace was restored to all.
-  en: Gradually, the sky brightened. The monsters retreated. Peace returned.<end>
+  en: Gradually, the sky brightened. The monsters rÊtreated. Peace returned.<end>
   fr: Avec le temps, le ciel se clarifia et les monstres disparurent.<end>
 
 - offsets:47e3
@@ -4081,7 +4073,7 @@
     ノコリツヅケルダロウ.<delay>
   translated: Though the dark memories will fade away, their names will continue to remain in the hearts of the people.
   en: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
-  fr: Tandis que le souvenir de cette sombre époque s'estompera, ces quatres noms resteront à jamais gravés dans le coeur du peuple d'Algol.<delay>
+  fr: Tandis que le souvenir de cette sombre époque s'estompera, ces quatres noms resteront à jamais gravés dans le cœur du peuple d'Algol.<delay>
 
 
 # ****************************
@@ -4472,7 +4464,7 @@
     <player>ハ マダ マジックヲ<line>
     オボエテイナイ.<delay>
   en: <player> doesn’t know any spells yet.<wait>
-  fr: <Article><player> ne connait pas de sortilège.<delay>
+  fr: <Article><player> ne connaît pas de sortilège.<delay>
 
 - offsets:28a3
   indices:078-2
@@ -4618,7 +4610,7 @@
   ja: ドコヘ イキマスカ.<end>
   translated: Where would you like to go?
   en: Where would you like to go?<end>
-  fr: Ou voudriez-vous aller_?<end>
+  fr: Où voudriez-vous aller_?<end>
 
 - offsets:5995
   indices:0A4-2
@@ -4688,7 +4680,7 @@
   indices:0B6-2
   ja: ソウデスカ.マタキテクダサイ.<wait>
   en: Take care, come back and see us soon.<wait>
-  fr: Prenez soin de vous et à bientot.<wait> 
+  fr: Prenez soin de vous et à bientôt.<wait> 
 
 - offsets:2d38
   indices:0B8-2
@@ -4758,7 +4750,7 @@
     ココハ ホスピタルデス.<line>
     チリョウヲ ウケマスカ.<end>
   en: This is a hospital. Do you require medical care?<end>
-  fr: Bienvenue à l'hopital. Avez-vous besoin de soins_?<end>
+  fr: Bienvenue à l'hôpital. Avez-vous besoin de soins_?<end>
 
 - offsets:2b54
   indices:0CA-2
@@ -4769,7 +4761,7 @@
     Hmm. I can get you good as new for <number><internal hint 02> meseta<s>.<wait more>
     Shall I proceed?<end>
   fr: |
-    Hmm. Les soins coutent <number><internal hint 02> meseta<s>.<wait more>
+    Hmm. Les soins coûtent <number><internal hint 02> meseta<s>.<wait more>
     Puis-je commencer?<end>
 
 - offsets:2b99
@@ -4823,7 +4815,7 @@
     ココハ キョウカイデス. ダレカノ<line>
     タマシイヲ ヨビモドサレマスカ.<end>
   en: This is a church. Do you need to revive a departed soul?<end>
-  fr: Bienvenue dans notre église. Une ame disparu_?<end>
+  fr: Bienvenue dans notre église. Une âme disparu_?<end>
 
 - offsets:# Unused
   indices:0D8-2
@@ -4851,7 +4843,7 @@
   indices:0DE-2
   ja: ドナタノ タマシイデショウ.<end>
   en: Who shall be returned?<end>
-  fr: Quelle ame voulez-vous ramener_?<end>
+  fr: Quelle âme voulez-vous ramener_?<end>
 
 - offsets:2c71
   indices:0E0-2
@@ -4897,7 +4889,7 @@
     If you need medical care, I advise finding the nearest hospital.<end>
   fr: |
     Cette personne ne m'a pas l'air morte_!<wait more>
-    Si vous avez besoin de soins, cherchez l'hopital le plus proche.<end>
+    Si vous avez besoin de soins, cherchez l'hôpital le plus proche.<end>
 
 
 # **************
@@ -4988,7 +4980,7 @@
     タカラバコハ ムヤミニ<line>
     アケルト ケガヲスルヨ.<wait>
   en: ‘You’ll get injured if you open treasure boxes carelessly.’<wait>
-  fr: N'ouvrez pas les coffres au trésor trop hativement.<wait>
+  fr: N'ouvrez pas les coffres au trésor trop hâtivement.<wait>
 
 - offsets:1af3
   indices:102-2
@@ -5048,7 +5040,7 @@
   indices:110-2
   ja: ラエルマベリーヲ ミノラセルタメニハアルモノガ ヒツヨウダ.<wait>
   en: ‘You need to have a certain item in order to make Laerma Berries grow.’<wait>
-  fr: Il faut un vase pour que les baies Laerma murissent.<wait>
+  fr: Il faut un vase pour que les baies Laerma mûrissent.<wait>
 
 - offsets:1cda
   indices:112-2

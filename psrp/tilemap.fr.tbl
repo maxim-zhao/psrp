@@ -50,12 +50,6 @@ e110=X
 e210=Y
 e310=Z
 
-; French accented letters - stripping accents for now
-e510=à
-e910=é
-ea10=ê
-eb10=è
-
 ; Lowercase
 ; (last digit 2 = hflip)
 e410=a
@@ -87,6 +81,16 @@ fb10=w
 fc10=x
 fd10=y
 fe10=z
+
+; French accented letters
+e510=à
+e910=é
+ea10=ê
+eb10=è
+; Below here are mapping to the unaccented characters...
+c110e810=Œ
+cf10=É
+ef10=î
 
 ; Punctuation
 ff10=.

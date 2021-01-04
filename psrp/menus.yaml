@@ -250,7 +250,7 @@
   fr: |
     ┌────────╖
     │Utiliser║
-    │Equiper ║
+    │Équiper ║
     │Jeter   ║
     ╘════════╝
 
@@ -385,7 +385,7 @@
     │Passe-muraille  ║
     │Télépathie      ║
     │Desceller       ║
-    │Renaitre        ║
+    │Renaître        ║
 
 - name: SpellMenuBottom
   # referenced in assembly code
@@ -595,12 +595,12 @@
     ╘═════════════╝
   fr: |
     │-------------║
-    │Ecran Titre  ║
+    │Écran Titre  ║
     │Introduction ║
     │Ville        ║
     │Donjon       ║
     │Magasin      ║
-    │Eglise       ║
+    │Église       ║
     │Palma        ║
     │Bataille     ║
     │Histoire     ║

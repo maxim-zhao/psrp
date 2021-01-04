@@ -66,63 +66,6 @@ public:
     }
 };
 
-class Table
-{
-    std::map<wchar_t, int> _table;
-
-public:
-    explicit Table(const std::string& fileName)
-    {
-        File f(fileName);
-
-        for (std::string s; f.getLine(s);)
-        {
-            // Remove comments
-            const auto pos = s.find(';');
-            if (pos != std::string::npos)
-            {
-                s.erase(pos);
-            }
-            // Discard empty lines
-            if (s.empty())
-            {
-                continue;
-            }
-            // Find the "="
-            const auto equalsPos = s.find('=');
-            if (equalsPos == std::string::npos)
-            {
-                printf("Warning: unexpected table line \"%s\"\n", s.c_str());
-                continue;
-            }
-            // Parse the bits
-            const auto& l = s.substr(0, equalsPos);
-            const auto& r = s.substr(equalsPos + 1);
-            // l is little-endian hex...
-            int value = std::stoi(l, nullptr, 16);
-            if (l.length() == 4)
-            {
-                // swap bytes
-                value = (value & 0xff) << 8 | (value >> 8);
-            }
-            // r is possibly UTF-8...
-            std::wstring dest = convert.from_bytes(r.c_str());
-            // We assume we only want the first char
-            _table[dest[0]] = value;
-        }
-    }
-
-    int find(wchar_t value)
-    {
-        const auto it = _table.find(value);
-        if (it == _table.end())
-        {
-            return -1;
-        }
-        return it->second;
-    }
-};
-
 class Menu
 {
     std::vector<std::wstring> _lines;
@@ -212,10 +155,8 @@ public:
     }
 };
 
-void ConvertSymbols(const std::string& yamlFile, const std::string& language, const std::string& tableFile, const std::string& outName, const std::string& patchesName)
+void ConvertSymbols(const std::string& yamlFile, const std::string& language, const std::string& outName, const std::string& patchesName)
 {
-    Table table(tableFile);
-
     // Read the menu data
     std::vector<Menu*> menus;
 

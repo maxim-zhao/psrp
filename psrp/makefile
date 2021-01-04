@@ -115,8 +115,8 @@ new_graphics\world2.psgcompr: new_graphics\world2.bin ; new_graphics\bmp2tile.ex
 menu_creater\menu_creater.exe: menu_creater\*.cpp mini-yaml/yaml/Yaml.cpp
   $(CPP) $(CPPFLAGS) $** /Fe:menu_creater\menu_creater.exe
 
-menu_creater\menus.asm menu_creater\menu-patches.asm : menus.yaml tilemap.$(LANGUAGE).tbl menu_creater\menu_creater.exe
-  menu_creater\menu_creater.exe menus.yaml $(LANGUAGE) tilemap.$(LANGUAGE).tbl menu_creater\menus.asm menu_creater\menu-patches.asm
+menu_creater\menus.asm menu_creater\menu-patches.asm : menus.yaml menu_creater\menu_creater.exe
+  menu_creater\menu_creater.exe menus.yaml $(LANGUAGE) menu_creater\menus.asm menu_creater\menu-patches.asm
 
 # script_inserter
 
