@@ -30,7 +30,7 @@ WORD_COUNT = 93
 WORD_COUNT = 57
 !ENDIF
 
-DUMMY: ps1jert.ips ps1jert.bps
+DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
 
 PLAY: ps1jert.sms
   $(EMU) ps1jert.sms
@@ -162,11 +162,11 @@ CLEANFILES = $(BINS) \
        menu_creater\menu_creater.exe \
        script_inserter\script_inserter.exe
 
-ps1jert.ips: $(PSJ) ps1jert.sms
-  $(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.ips
+ps1jert.$(LANGUAGE).ips: $(PSJ) ps1jert.sms
+  $(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.$(LANGUAGE).ips
 
-ps1jert.bps: $(PSJ) ps1jert.sms
-  $(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.bps
+ps1jert.$(LANGUAGE).bps: $(PSJ) ps1jert.sms
+  $(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.$(LANGUAGE).bps
 
 clean:
   del $(CLEANFILES)
