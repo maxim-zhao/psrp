@@ -18,6 +18,18 @@ PSJ = ps1-j.sms
 # The language data to use
 LANGUAGE = en
 
+# The dictionary size. Maximum is 164.
+# A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
+# The optimal word count depends on the script. Iterating through the options can help to find the best value. CMD one-liner:
+# for /l %n in (1,1,164) do @del substring_formatter\words.tbl & (nmake WORD_COUNT=%n LANGUAGE=fr ps1jert.sms 2>&1 | find "unused bytes") >> sizes.txt
+# On 2021-01-04 the optimal value for total size was 93 for English and 57 for French.
+!IF "$(LANGUAGE)" == "en"
+WORD_COUNT = 93
+!ENDIF
+!IF "$(LANGUAGE)" == "fr"
+WORD_COUNT = 57
+!ENDIF
+
 DUMMY: ps1jert.ips ps1jert.bps
 
 PLAY: ps1jert.sms
@@ -37,7 +49,7 @@ substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
   $(CPP) $(CPPFLAGS) $** /Fe:substring_formatter\substring_formatter.exe
 
 substring_formatter\words.tbl substring_formatter\words.asm: substring_formatter\substring_formatter.exe word_count\words.txt
-  substring_formatter\substring_formatter.exe 164 word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
+  substring_formatter\substring_formatter.exe $(WORD_COUNT) word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
 
 # bitmap_decode
 # Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
