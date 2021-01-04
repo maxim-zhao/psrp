@@ -632,7 +632,7 @@
     シオンノ ミナミノ ハントウニハ<line>
     イアラト ヨバレル ドウクツガアル.<wait>
   translated: On the peninsula South of Shion, you will find Iala Cave.
-  en: Iala Cave lies on the peninsula southeast of here.<wait>
+  en: Iala Cave lies on the peninsula south-east of here.<wait>
   fr: La grotte Iala est située sur la péninsule au sud de la ville.<wait>
 
 - offsets:4dc7
@@ -1002,7 +1002,7 @@
   ja: |
     ソレジャ ツレテイキナ.<line>
     カワイガッテ ヤッテクレ.<wait>
-  translated: Alri--ーght, there yuh go. Take good care uv‘im.
+  translated: Alri---ght, there yuh go. Take good care uv‘im.
   en: I hate to see the little guy go, but I can’t pass up a trade like this. Take good care of ’im.<wait>
   fr: |
     Ca me fend le cœur, mais je ne peux pas rater une offre pareille.<wait more>
@@ -2920,7 +2920,7 @@
   # The Village Chief (no to previous question)
   indices:1F0
   ja: ソウデスカ.ザンネンデス.ウウッ.<wait>
-  translated: I see. What a pity. Hmmm…
+  translated: I see. What a pity. Hmmm...
   en: I see. I’m sorry to hear that. Ohhh...<wait>
   fr: |
     Je vois...<wait more>
@@ -3367,7 +3367,7 @@
     ココダケノ ハナシダガ ダモア<line>
     トイウ ウラナイシノ モッテイル<wait more>
     クリスタルヲ ラシークサマハ<line>
-  translated: Don’t let this get out, but there's a fortuneteller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.
+  translated: Don’t let this get out, but there's a fortune-teller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.
   en: |
     You didn’t hear this from me, but...<wait more>
     Lord LaShiec fears the crystal held by Damoa the fortune-teller.<wait more>
