@@ -3566,11 +3566,11 @@ NameEntryLookup:
 
 .endif
 .if LANGUAGE == "fr"
-.db 12
+.db 14
   NameEntryText  8,  1,      "Entrez votre nom:"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
-  NameEntryText  3, 15, "àéêè"
+  NameEntryText  3, 15, "àéêèç"
   NameEntryText  9, 15,       "0123456789"
   NameEntryText 21, 15,                   ".,:-!?‘’"
   NameEntryText  3, 17, "Précédent"
@@ -3867,14 +3867,14 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
 
 .section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
-; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table.
+; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table. These must be in the order given in script.fr.tbl.
 .stringmap tilemap " 0123456789"
 .stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
 .stringmap tilemap ".:‘’,-!?_"
 .if LANGUAGE == "fr"
 ; Extra characters for French
-.stringmap tilemap "àéêè"
+.stringmap tilemap "àéêèç"
 .endif
 .ends
 

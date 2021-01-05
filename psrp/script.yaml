@@ -115,8 +115,11 @@
     Nero? NERO!<line><line>
     What happened?!<wait>
   fr: |
-    Citoyens de Camineet, le corps de ce garçon est un avertissement pour vous tous.<line>
-    Le Seigneur Lassic ne tolèrera aucune offense_!<wait more>
+    Citoyens de Camineet,<line>
+    le corps de ce garçon est un<line>
+    avertissement pour vous tous.<line>
+    Le Seigneur Lassic<line>
+    ne tolèrera aucune offense_!<wait more>
     Néro_? NERO_!<line><line>
     Que s'est-il passé_?!<wait>
 

@@ -78,12 +78,18 @@ new_graphics\world2.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 58570 
 
 
 # tile conversion from PNG
-new_graphics\font1.psgcompr: new_graphics\font1.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font2.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font3.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font1a.psgcompr: new_graphics\font1a.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font2a.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\name-entry-cursor.psgcompr: $*.png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1.psgcompr: new_graphics\font1.$(LANGUAGE).png
+  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font2.psgcompr: new_graphics\font2.$(LANGUAGE).png
+  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font3.psgcompr: $*.png
+  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1a.psgcompr: new_graphics\font1a.$(LANGUAGE).png
+  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font2a.psgcompr: new_graphics\font2a.$(LANGUAGE).png
+  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\name-entry-cursor.psgcompr: $*.png
+  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
 new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.top.png
   new_graphics\bmp2tile.exe $** -tileoffset 0 -savetiles new_graphics\title.top.psgcompr -savetilemap new_graphics\title.top.tilemap.pscompr -palsms -savepalette new_graphics\title-pal.bin
