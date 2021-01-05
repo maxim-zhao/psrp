@@ -3807,13 +3807,15 @@ CreditsScreen12: .db 4
   CreditsEntry 18,15,"SATSU"
 .endif
 .if LANGUAGE == "fr"
-CreditsScreen12: .db 6
+CreditsScreen12: .db 8
   CreditsEntry 3,6,"ANGLAIS"
   CreditsEntry 18,6,"PAUL JENSEN"
   CreditsEntry 10,10,"FRANK CIFALDI"
   CreditsEntry 25,10,"SATSU"
   CreditsEntry 3,15,"FRANCAIS"
-  CreditsEntry 18,15,"ICHIGOBANKAI"
+  CreditsEntry 18,14,"ICHIGOBANKAI"
+  CreditsEntry 20,15,"WIL76"
+  CreditsEntry 18,16,"VINGAZOLE"
 .endif
 CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
