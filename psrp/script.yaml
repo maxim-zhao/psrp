@@ -331,7 +331,7 @@
     チカラニナレナクテ ゴメン.<line>
     ブジヲ イノッテルヨ.<wait>
   translated: Forgive me, but there is nothing more I can do. May you[r journey] be safe.
-  en: I wish there was more I could do for you. Please be safe out there.<line><wait>
+  en: I wish there was more I could do for you. Please be safe out there.<wait>
   fr: Je suis désolé, mais je ne peux pas t'aider plus. Bonne chance.<wait>
 
 - offsets:4b82
@@ -343,7 +343,7 @@
   translated: The Camineet residential district is under martial law.
   en: |
     I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
-    Camineet used to be so nice. How did it come to this?<line><wait>
+    Camineet used to be so nice. How did it come to this?<wait>
   fr: Combien de temps allons-nous rester sous cette loi martiale_?<wait>
 
 - offsets:4b88
@@ -532,7 +532,7 @@
   translated: You can travel to Paseo, on the planet Motavia, from the spaceport.
   en: |
     Our Spaceport flies directly to Paseo, the capital of Motavia.<wait more>
-    I'd love to go someday. I've never been off-planet before!<line><wait>
+    I'd love to go someday. I've never been off-planet before!<wait>
   fr: |
     Le Spatioport permet d'aller à Paséo sur Motavia.<wait more>
     Mais il te faudra un permis pour y accéder.<wait>
@@ -544,7 +544,7 @@
   translated: I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
   en: |
     Did you know there’s an underground passage leading west, to the Gothic Woods?<wait more>
-    Supposedly it’s somewhere nearby, but I can’t find it.<line><wait>
+    Supposedly it’s somewhere nearby, but I can’t find it.<wait>
   fr: |
     Un ancien passage mène à l'ouest, vers Gothic_!<wait more>
     Il est censé être par ici, mais je n'arrive pas à le trouver.<wait>
@@ -564,7 +564,7 @@
   en: |
     We're not the only intelligent life in the Algol Solar System, you know.<wait more>
     Motavia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
-    I'd love to have a conversation with an actual alien someday...<line><wait>
+    I'd love to have a conversation with an actual alien someday...<wait>
   fr: |
     Il y a des êtres intelligents sur Motavia et Dézoris.<wait more>
     D'autres planètes abritent la vie_! C'est incroyable, n'est-ce pas_?<wait>
