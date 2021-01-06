@@ -548,8 +548,9 @@ void Convert_Symbols(const std::string& scriptFilename, const std::string& langu
             ++symbolCounts[b];
         }
     }
+
     std::cout << "Dictionary encoding gives " << count << " bytes for " << script.size() << " script entries\n";
-  
+
     for (int i = 0; i < 256; ++i)
     {
         if (symbolCounts[i] == 0)

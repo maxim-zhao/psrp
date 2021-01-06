@@ -21,6 +21,7 @@ Phantasy Star: Huffman Compressor
 class BitWriter
 {
     int _bitCount = 8;
+    int _byteCount = 0;
     std::ostream& _s;
 public:
     explicit BitWriter(std::ostream& s): _s(s)
@@ -49,9 +50,15 @@ public:
         {
             _s << " %";
             _bitCount = 0;
+            ++_byteCount;
         }
         _s << (bit ? 1 : 0);
         ++_bitCount;
+    }
+
+    int getBytes() const
+    {
+        return _byteCount;
     }
 };
 
@@ -100,17 +107,14 @@ public:
         int getSymbol() const { return _symbol; }
 
         // Stringify values in the tree, right to left
-        void symbols(std::ostream& s) const
+        int symbols(std::ostream& s) const
         {
             if (_symbol > -1)
             {
                 s << " $" << std::hex << std::setw(2) << std::setfill('0') << _symbol;
+                return 1;
             }
-            else
-            {
-                _pRight->symbols(s);
-                _pLeft->symbols(s);
-            }
+            return _pRight->symbols(s) + _pLeft->symbols(s);
         }
 
         // Stringify each node's type (1 = value, 0 = parent), left to right
@@ -225,18 +229,21 @@ public:
 
     Tree& operator=(Tree other) = delete;
 
-    void symbols(std::ostream& s) const
+    int symbols(std::ostream& s) const
     {
+        int result = 0;
         if (_pRoot != nullptr)
         {
             s << ".db";
-            _pRoot->symbols(s);
+            result = _pRoot->symbols(s);
             s << '\n';
         }
+        return result;
     }
 
-    void structure(std::ostream& s) const
+    int structure(std::ostream& s) const
     {
+        int result = 0;
         if (_pRoot != nullptr)
         {
             s << ".db";
@@ -244,9 +251,11 @@ public:
                 // Scope so BitWriter destructs when it is done
                 BitWriter bw(s);
                 _pRoot->structure(bw);
+                result = bw.getBytes();
             }
             s << '\n';
         }
+        return result;
     }
 
     bool isEmpty() const
@@ -311,6 +320,7 @@ void BuildHuffmanTree(const std::string& treeFilename, std::vector<Tree>& trees,
         trees.pop_back();
     }
 
+    int treesSize = 0;
     std::ofstream o(treeFilename);
     o << "TreeVector:\n.dw";
     // Labels
@@ -324,6 +334,7 @@ void BuildHuffmanTree(const std::string& treeFilename, std::vector<Tree>& trees,
         {
             o << ' ' << tree.getName();
         }
+        treesSize += 2;
     }
     o << "\n";
     // Data
@@ -335,10 +346,11 @@ void BuildHuffmanTree(const std::string& treeFilename, std::vector<Tree>& trees,
             continue;
         }
         o << "; Dictionary elements that can follow element $" << std::hex << i << "\n";
-        tree.symbols(o);
+        treesSize += tree.symbols(o);
         o << tree.getName() << ": ; Binary tree structure for the above\n";
-        tree.structure(o);
+        treesSize += tree.structure(o);
     }
+    std::cout << "Huffman trees take " << std::dec << treesSize << " bytes\n";
 }
 
 void EmitScript(const std::string& scriptFilename, const std::string& patchFilename, const std::vector<Tree>& trees, const std::vector<ScriptItem>& script)
@@ -349,6 +361,7 @@ void EmitScript(const std::string& scriptFilename, const std::string& patchFilen
     std::ofstream patchFile(patchFilename);
     patchFile << "; Patches to point at new script entries\n";
 
+    int scriptSize = 0;
     for (auto&& entry : script)
     {
         scriptFile << '\n' << entry.label << ":\n/*" << entry.text << "*/\n.db";
@@ -378,7 +391,10 @@ void EmitScript(const std::string& scriptFilename, const std::string& patchFilen
         {
             patchFile << " PatchW $" << std::hex << std::setw(4) << std::setfill('0') << offset + 1 << ' ' << entry.label << '\n';
         }
+
+        scriptSize += bw.getBytes();
     }
+    std::cout << "Huffman compressed script is " << std::dec << scriptSize << " bytes\n";
 }
 
 

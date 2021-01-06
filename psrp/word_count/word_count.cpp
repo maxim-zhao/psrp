@@ -113,6 +113,10 @@ int main(int argc, const char** argv)
     std::vector<std::pair<std::wstring, std::size_t>> weightedList;
     for (auto&& kvp : wordCounts)
     {
+        if (kvp.first.length() == 1)
+        {
+            continue;
+        }
         weightedList.emplace_back(kvp.first, (kvp.second - 1) * (kvp.first.length() - 0));
     }
   
