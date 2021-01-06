@@ -4101,19 +4101,19 @@
     <player>ハ <monster>ノ<line>
     コウゲキヲ カワシタ.<delay>
   en: <player> dodged <article><monster>’s attack.<delay>
-  fr: <Article><player> pare le coup <de><monster>.<delay>
+  fr: <player> pare le coup <de><monster>.<delay>
 
 - offsets:1a96
   indices:004-2
   ja: <player>ハ ハナシカケタ.<end>
   en: <player> spoke to <article><monster>.<end>
-  fr: <Article><player> parle <à><monster>.<end>
+  fr: <player> parle <à><monster>.<end>
 
 - offsets:1ac0,1ca4
   indices:006-2
   ja: <monster>ハ コタエタ.<delay>
   en: <Article><monster> replied,<delay>
-  fr: Le monstre répond,<delay>
+  fr: <Article><monster> répond,<delay>
 
 - offsets:1ab7
   indices:008-2
@@ -4205,13 +4205,13 @@
   indices:01E-2
   ja: <player>ハ カナシバリニ アッタ.<delay>
   en: <player> is all bound up.<delay>
-  fr: <Article><player> s'est fait ligoter_!<delay>
+  fr: <player> s'est fait ligoter_!<delay>
 
 - offsets:12db
   indices:020-2
   ja: <player>ハ ウゴケナイ.<delay>
   en: <player> can’t move.<delay>
-  fr: <Article><player> ne peut plus bouger.<delay>
+  fr: <player> ne peut plus bouger.<delay>
 
 - offsets:140c
   indices:022-2
@@ -4223,7 +4223,7 @@
   indices:024-2
   ja: <player>ハ カナシバリガ トケタ.<delay>
   en: <player>’s bindings came apart.<delay>
-  fr: <Article><player> brise ses liens.<delay>
+  fr: <player> brise ses liens.<delay>
 
 - offsets:1407
   indices:026-2
@@ -4269,7 +4269,7 @@
     アブナイ トコロダッタ.<player>ハ<line>
     ワナヲ ミヤブッテ ハズシタ.<wait>
   en: That was close! <player> detected and removed the trap.<wait>
-  fr: <Article><player> le démine, c'était moins une!<wait>
+  fr: <player> le démine, c'était moins une!<wait>
 
 - offsets:23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
   indices:032-2
@@ -4277,7 +4277,7 @@
     <player>ハ <item>ヲ<line>
     ツカッタ.<delay>
   en: <player> used <article><item>.<delay>
-  fr: <Article><player> utilise <article><item>.<delay>
+  fr: <player> utilise <article><item>.<delay>
 
 - offsets:2883
   indices:034-2
@@ -4285,7 +4285,7 @@
     <player>ハ <item>ヲ<line>
     ソウビシタ.<end>
   en: <player> equipped <article><item>.<end>
-  fr: <Article><player> s'équipe <de><item>.<end>
+  fr: <player> s'équipe <de><item>.<end>
 
 - offsets:28cc
   indices:036-2
@@ -4293,7 +4293,7 @@
     <player>ハ <item>ヲ<line>
     ステテシマッタ.<wait>
   en: <player> discarded <article><item>.<wait>
-  fr: <Article><player> jette <article><item>.<end>
+  fr: <player> jette <article><item>.<end>
 
 - offsets:20ff,23ec,2554,2582,2677,2803
   indices:038-2
@@ -4353,7 +4353,7 @@
     <player>ハ <item>ヲ<line>
     トリダシタ.<delay>
   en: <player> took out <article><item>.<delay>
-  fr: <Article><player> prend <article><item>.<delay>
+  fr: <player> prend <article><item>.<delay>
 
 - offsets:251a,25aa,2651,279d
   indices:04C-2
@@ -4361,7 +4361,7 @@
   #Note: this was originally ‘It doesn’t look particularly broken.’
   #This translation takes the verb KOWARERU to mean ‘to be begged’
   en: There’s no real need for it right now.<wait>
-  fr: <Article><player> n'en a pas besoin pour le moment.<wait>
+  fr: <player> n'en a pas besoin pour le moment.<wait>
 
 - offsets:112c
   indices:04E-2
@@ -4383,13 +4383,13 @@
     <player>ハ トテモ<line>
     イヤナ ヨカンガシタ.<wait>
   en: <player> got a very bad feeling.<wait>
-  fr: <Article><player> a un très mauvais pressentiment.<wait>
+  fr: <player> a un très mauvais pressentiment.<wait>
 
 - offsets:2269,2271,2289
   indices:058-2
   ja: <player>ハ ナニモ カンジナカッタ.<wait>
   en: <player> didn’t feel anything.<wait>
-  fr: <Article><player> ne ressent rien d'étrange.<wait>
+  fr: <player> ne ressent rien d'étrange.<wait>
 
 - offsets:269f
   indices:05A-2
@@ -4453,7 +4453,7 @@
     <player>ノ タマシイハ<line>
     ヨミガエッタ.<wait>
   en: <player> revived.<wait>
-  fr: <Article><player> ressuscite.<wait>
+  fr: <player> ressuscite.<wait>
 
 - offsets:1b45,1f21
   indices:074-2
@@ -4467,7 +4467,7 @@
     <player>ハ マダ マジックヲ<line>
     オボエテイナイ.<delay>
   en: <player> doesn’t know any spells yet.<wait>
-  fr: <Article><player> ne connaît pas de sortilège.<delay>
+  fr: <player> ne connaît pas de sortilège.<delay>
 
 - offsets:28a3
   indices:078-2
@@ -4475,7 +4475,7 @@
     <player>ハ <item>ヲ<line>
     ソウビ デキナイ.<wait>
   en: <player> can’t equip <article><item>.<wait>
-  fr: Impossible d'équiper <Article><player> <de><item>.<wait>
+  fr: Impossible d'équiper <player> <de><item>.<wait>
 
 - offsets:283e
   indices:07A-2
@@ -4495,7 +4495,7 @@
   indices:07E-2
   ja: <player>ハ レベルアップシタ.<wait>
   en: <player> leveled up.<wait>
-  fr: <Article><player> gagne un niveau_!<wait>
+  fr: <player> gagne un niveau_!<wait>
 
 - offsets:1910
   indices:080-2
@@ -4503,7 +4503,7 @@
     <player>ハ マジックヲ<line>
     ヒトツ ミニツケタ.<wait>
   en: <player> learned a new spell.<wait>
-  fr: <Article><player> apprend un nouveau sort_!<wait>
+  fr: <player> apprend un nouveau sort_!<wait>
 
 - offsets:2a8c
   indices:082-2
@@ -4582,7 +4582,7 @@
   indices:098-2
   ja: <player>ハ マダ イキテイル.<delay>
   en: <player> is still alive.<delay>
-  fr: <Article><player> est encore en vie.<delay>
+  fr: <player> est encore en vie.<delay>
 
 - offsets:17ea
   indices:09A-2
@@ -4595,13 +4595,13 @@
   indices:09C-2
   ja: <player>ハ シンデシマッタ.<delay>
   en: <player> died.<delay>
-  fr: <Article><player> meurt de ses blessures.<delay>
+  fr: <player> meurt de ses blessures.<delay>
 
 - offsets:19f7,2b0f
   indices:09E-2
   ja: <player>ハ モウ シンデイル.<delay>
   en: <player> is already dead.<delay>
-  fr: La mort a déjà frappé <Article><player>.<delay>
+  fr: La mort a déjà frappé <player>.<delay>
   
 
 # **************
@@ -4874,7 +4874,7 @@
     <player>ハ <number>ポイント<line>
     ヒツヨウデス.<wait>
   en: <player> needs <number><internal hint 02> point<s>.<wait>
-  fr: <Article><player> a besoin de <number><internal hint 02> point<s>.<wait>
+  fr: <player> a besoin de <number><internal hint 02> point<s>.<wait>
 
 - offsets:2ca2
   indices:0E8-2
@@ -5200,7 +5200,7 @@
     <player>ハ モウ<line>
     チカライッパイデス.<wait>
   en: <player> is already at full health.<wait>
-  fr: <Article><player> est déjà en pleine forme.<wait>
+  fr: <player> est déjà en pleine forme.<wait>
 
  # Continue/Save "dialogue" removed...
 - offsets:#07ee
@@ -5268,7 +5268,7 @@
   indices:146-2
   ja: <player>ハ イシニ ナッテシマッタ.<wait>
   en: <player> turned to stone.<wait>
-  fr: <Article><player> se fait pétrifier_!<wait>
+  fr: <player> se fait pétrifier_!<wait>
 
 - offsets:136e
   indices:148-2
