@@ -22,12 +22,12 @@ LANGUAGE = en
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count depends on the script. Iterating through the options can help to find the best value. CMD one-liner:
 # for /l %n in (1,1,164) do @del substring_formatter\words.tbl & (nmake WORD_COUNT=%n LANGUAGE=fr ps1jert.sms 2>&1 | find "unused bytes") >> sizes.txt
-# On 2021-01-04 the optimal value for total size was 93 for English and 57 for French.
+# On 2021-01-06 the optimal value for total size was 93 for English and 54 for French.
 !IF "$(LANGUAGE)" == "en"
 WORD_COUNT = 93
 !ENDIF
 !IF "$(LANGUAGE)" == "fr"
-WORD_COUNT = 57
+WORD_COUNT = 54
 !ENDIF
 
 DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
