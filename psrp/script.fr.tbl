@@ -71,7 +71,6 @@
 
 ; Punctuation
 3F=.
-40=:
 41=‘
 42=’
 42='
@@ -88,6 +87,7 @@
 4A=ê
 4B=è
 4C=ç
+4D=ù
 
 ; Below here are mapping to the unaccented characters...
 0B=Â
@@ -99,7 +99,6 @@
 33=ô
 3329=œ
 1929=Œ
-39=ù
 39=û
 
 ; These control codes only apply to items/names...

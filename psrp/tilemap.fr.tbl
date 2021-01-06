@@ -88,6 +88,7 @@ e910=é
 ea10=ê
 eb10=è
 f711=ç
+f411=ù
 ; Below here are mapping to the unaccented characters...
 c110e810=Œ
 cf10=É
@@ -95,7 +96,6 @@ ef10=î
 
 ; Punctuation
 ff10=.
-f411=:
 f513=‘
 f511=’
 f511='

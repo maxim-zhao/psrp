@@ -117,7 +117,7 @@
   fr: |
     Citoyens de Camineet,<line>
     le corps de ce garçon est un<line>
-    avertissement pour vous tous.<line>
+    avertissement pour vous tous.<line><line>
     Le Seigneur Lassic<line>
     ne tolèrera aucune offense_!<wait more>
     Néro_? NERO_!<line><line>
@@ -460,7 +460,7 @@
     All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
     Every day draws us closer to a crisis that can never be reversed.<wait>
   fr: |
-    Il y a trois planètes: Palma, Motavia, et Dézoris.<wait more>
+    Il y a trois planètes - Palma, Motavia, et Dézoris.<wait more>
     Ces trois planètes sont totalement différentes.<wait more>
     Palma est une planète verdoyante.<wait more>
     Motavia est un désert de sable.<wait more>
@@ -4113,7 +4113,7 @@
   indices:006-2
   ja: <monster>ハ コタエタ.<delay>
   en: <Article><monster> replied,<delay>
-  fr: Le monstre répond:<delay>
+  fr: Le monstre répond,<delay>
 
 - offsets:1ab7
   indices:008-2
