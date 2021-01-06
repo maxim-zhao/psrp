@@ -555,17 +555,11 @@ void Convert_Symbols(const std::string& scriptFilename, const std::string& langu
     {
         if (symbolCounts[i] == 0)
         {
-            std::cout << "Symbol $" << std::setw(2) << std::hex << i << " is unused (";
             const auto& text = table.elementForSymbol(i);
-            if (text.empty())
+            if (!text.empty())
             {
-                std::cout << "not in table file";
+                std::cout << "Symbol $" << std::setw(2) << std::hex << i << " is unused (\"" << convert.to_bytes(text) << "\")\n";
             }
-            else
-            {
-                std::cout << '"' << convert.to_bytes(text) << '"';
-            }
-            std::cout << ")\n";
         }
     }
   
