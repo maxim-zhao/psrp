@@ -250,20 +250,6 @@ Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japan
   5. We replace the game load/delete menus (with awkward yes/no menus and black background) with menus from the title screen
   6. We add in "quality of life" options, and a sound test
 
-### Thoughts on further translation
-
-- There is no space in the font for more characters, e.g. for accents. You may consider these options:
-  - One of the quote symbols doubles as a comma, but you could make it into a more neutral shape and use it for both sides of a quote (maybe with horizontal mirroring).
-  - Your script may not use all the letters. The English script does not include "J", "X" or Z" - but make sure to check the items, and consider that you also then exclude these letters from the name entry screen. Of course your language may not use all of the 26 English letters either.
-  - Rotated ! and ? don't need tiles, just add them with tile flipping flags to the various places necessary - TBL files, the TextToTilemap macro, etc
-  - If all else fails, then you can just use uppercase letters instead.
-- WLA DX doesn't support UTF-8 :( so take care with any place the code uses `.asciitable` - the characters have to be single-byte. You may be OK if you use an old-fashioned text encoding.
-- The prefixes (a, an, some) will need some expansion for other languages.
-- The script space is pretty tight. The game code can in theory map some of the script into slot 1, giving much more space for the encoded script - but this is removed in the current code.
-- If possible, re-retranslate from Japanese. Consider that localisation is part of translation. The English you see isn't identical to the Japanese.
-- If you need more space, consider recompressing the remaining graphics, and maybe the tilemaps.
-- You will almost certainly need a skilled developer to help you.
-
 ## Disclaimer
 
 This translation is unofficial and not supported by Sega Japan.
