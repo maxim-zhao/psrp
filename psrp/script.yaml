@@ -109,6 +109,13 @@
     Guards: You little bastard -- poking your nose into LaShiec's business like that!
     Maybe from now on you'll try to mind your manners!
     Alisa: Nero! What happened?! Hang on!
+  us: |
+    SCUM! DO NOT SNIFF<line>
+    AROUND IN LASSIC'S<line>
+    AFFAIRS! LEARN<line>
+    THIS LESSON WELL!<wait more>
+    NERO! WHAT HAPP-<line>
+    ENED! DON'T DIE!<end>
   en: |
     Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
     Defiance of Lord LaShiec will not be tolerated!<wait more>
@@ -154,6 +161,23 @@
     ...Alisa...
     ...It’s too late for me...
     ...Please forgive me... for leaving you alone...
+  us: |
+    ALIS,LISTEN!<line>
+    LASSIC IS LEADING<line>
+    OUR WORLD TO<line>
+    DESTRUCTION. I<wait more>
+    TRIED TO DISCOVER<line>
+    HIS PLANS, BUT I<line>
+    COULD NOT DO MUCH<line>
+    BY MYSELF.<wait more>
+    I HAVE HEARD OF A<line>
+    MAN WITH GREAT <line>
+    STRENGTH NAMED <line>
+    "ODIN." MAYBE THE<wait more>
+    TWO OF YOU CAN<line>
+    STOP LASSIC.<line>
+    ALIS,IT'S TOO LATE<line>
+    FOR ME. BE STRONG.<end>
   en: |
     Alisa, my sister.<line><line>
     Listen closely, I don’t have long.<wait more>
@@ -204,6 +228,12 @@
   translated: |
     I will go and fight to ensure that my brother did not die in vain!
     Keep a sharp watch over me, big brother!
+  us: |
+    I WILL MAKE SURE<line>
+    THAT MY BROTHER<line>
+    DIED NOT IN VAIN!<line>
+    WATCH OVER AND<wait more>
+    PROTECT ME, NERO!<end>
   en: |
     Nero...<wait more>
     Your death will not be meaningless, I swear it.<line><line>
@@ -258,6 +288,9 @@
   # Alisa's house
   ja: ココハ アリサノ ウチデス.<line>
   translated: This is Alisa’s house. Nobody is here.
+  us: |
+    HERE IS THE HOME<line>
+    OF ALIS.<end>
   en: |
     This is Alisa’s home.<line><line>
     Nero's things are still where he left them.<wait>
@@ -272,6 +305,17 @@
     ワタシハ スエロ.アリサノ キモチハヨクワカルワ.モウダレモ アナタヲ<wait more>
     トメルコトハ デキナイ. デモ モシタタカイデ キズツイタトキハ<wait>
   translated: My name is Suelo. I know how you feel, Alisa. No one will be able to stop you [from doing what you must do], but don't overdo it, okay? If you are ever injured in battle, please come here to relax and recover. You will always be welcome.
+  us: |
+    I'M SUELO. I KNOW<line>
+    HOW YOU MUST FEEL,<wait more>
+    DEAR,NO ONE CAN<line>
+    STOP YOU FROM <wait more>
+    DOING WHAT YOU <line>
+    KNOW YOU MUST DO.<wait more>
+    BUT IF YOU SHOULD<line>
+    EVER BE WOUNDED<wait more>
+    IN BATTLE,COME<line>
+    HERE TO REST.<end>
   en: |
     Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
     I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
@@ -291,6 +335,11 @@
     ムリヲ シナイヨウニネ.<line>
     マタ イツデモ イラッシャイ.<wait>
   translated: Please relax and recover. Don’t overdo it, okay? You will always be welcome here.
+  us: |
+    PLEASE REST<line>
+    YOURSELF.<wait more>
+    YOU ARE WELCOME <line>
+    HERE AT ANYTIME.<end>
   en: |
     Please get some rest.<wait more>
     Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
@@ -311,6 +360,20 @@
     アズカッテタンダ.アトデ ヤクニ<line>
     タツダロウカラ モッテイクトイイヨ.<wait>
   translated: My name is Nekise. I just found out that the hero Tairon is staying in the town of Shion. Oh, and, your brother entrusted me with this jar -- it’s called a ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.
+  us: |
+    I'M NEKISE. ONE<line>
+    HEARS LOTS OF<wait more>
+    STORIES, YOU KNOW,
+    BUT SOME SAY THAT<wait more>
+    A FIGHTER NAMED <line>
+    ODIN LIVES IN A<wait more>
+    TOWN CALLED SCION.<line>
+    ALSO, I HAVE A<wait more>
+    LACONIAN POT GIVEN<line>
+    BY NERO. THAT<wait more>
+    WOULD BE HELPFUL<line>
+    TO YOU IN YOUR <wait more>
+    TASK.<end>
   en: |
     My name is Nekise.<line><line>
     I was sorry to hear about your loss.<wait more>
@@ -331,6 +394,11 @@
     チカラニナレナクテ ゴメン.<line>
     ブジヲ イノッテルヨ.<wait>
   translated: Forgive me, but there is nothing more I can do. May you[r journey] be safe.
+  us: |
+    I WISH I COULD<line>
+    HELP YOU MORE.<wait more>
+    I PRAY FOR YOUR <line>
+    SAFETY.<end>
   en: I wish there was more I could do for you. Please be safe out there.<wait>
   fr: Je suis désolé, mais je ne peux pas t'aider plus. Bonne chance.<wait>
 
@@ -341,6 +409,11 @@
     コノ カミニート キョジュウクハ<line>
     カイゲンレイガ シカレテイルンダ.<wait>
   translated: The Camineet residential district is under martial law.
+  us: |
+    THE CAMINEET<line>
+    RESIDENTIAL AREA<wait more>
+    IS UNDER<line>
+    MARTIAL LAW.<end>
   en: |
     I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
     Camineet used to be so nice. How did it come to this?<wait>
@@ -351,6 +424,10 @@
   indices:014
   ja: カギノ カカッタ ドアヲ アケルニハダンジョンキーガ ヒツヨウデス.<wait>
   translated: You need a ‘Dungeon Key’ to open locked doors.
+  us: |
+    YOU NEED A<line>
+    DUNGEON KEY TO<wait more>
+    OPEN LOCKED DOORS.<end>
   en: Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
   fr: Tu auras besoin de la Clé du Donjon si tu veux ouvrir les portes.<wait>
 
@@ -361,6 +438,11 @@
     アカリガナイト ススメナイ<line>
     ダンジョンモ アルヨ.<wait>
   translated: You will not be able to advance through certain dungeons if you don't have a light.
+  us: |
+    IN SOME DUNGEONS<line>
+    YOU WILL NOT GET<wait more>
+    FAR WITHOUT SOME<line>
+    SORT OF LIGHT.<end>
   en: Some dungeons are pitch black, make sure you always have a light source with you.<wait>
   fr: Certains donjons sont totalement obscurs, tu auras besoin de lumière.<wait>
 
@@ -369,6 +451,10 @@
   indices:018
   ja: カミニートノ ニシハ スペースポートデス.<wait>
   translated: West of Camineet? That's the Spaceport.
+  us:
+    THERE IS A<line>
+    SPACEPORT TO THE <wait more>
+    WEST OF CAMINEET.<end>
   en: |
     You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
     I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
@@ -382,6 +468,11 @@
   indices:01A
   ja: ミナトマチデハ イロイロナ トリヒキガ デキル トイウ ハナシダ.<wait>
   translated: They say that all sorts of business goes on in the port town.
+  us: |
+    IF YOU WANT TO<line>
+    MAKE A DEAL, YOU <wait more>
+    SHOULD HEAD FOR<line>
+    THE PORT TOWN.<end>
   en: You can buy just about anything in port towns. I even got a fake I.D. once!<wait>
   fr: J'ai entendu dire qu'il y avait du marché noir dans les ports...<wait>
 
@@ -390,6 +481,10 @@
   indices:01C
   ja: キョジュウクノ ソトニハ デナイホウガ ミノタメダ.<wait>
   translated: Stay inside the residential area if you know what's good for you.
+  us: |
+    YOU HAD BETTER<line>
+    NOT LEAVE THE <wait more>
+    RESIDENTIAL AREA.<end>
   en: Remain inside the residential area. It is not safe for citizens outside.<wait>
   fr: Les citoyens sont priés de rester dans la zone résidentielle.<wait>
 
@@ -398,6 +493,10 @@
   indices:01E
   ja: シニタクナカッタラ ココニイルンダ.<wait>
   translated: I can’t just let you pass through here!
+  us: |
+    UNLESS YOU HOPE TO
+    DIE, YOU HAD BEST<wait more>
+    STAY HERE.<end>
   en: We cannot protect you outside. Stay inside of your homes until the danger has passed.<wait>
   fr: Si vous ne voulez pas mourir, ne passez pas.<wait>
 
@@ -406,6 +505,7 @@
   indices:020
   ja: ココヲ トオスワケニハ イカナイ.<wait>
   translated: Want to stay alive?  Then stay here!
+  us: YOU MAY NOT PASS.<end>
   en: Authorization is required to pass this point. Stay back or we will use force!<wait>
   fr: Désolé, nous sommes en état d'alerte. Accès interdit.<wait>
 
@@ -416,6 +516,9 @@
     ロードパスノ ナイモノハ ココヲ<line>
     トオレナイ.<wait>
   translated: Nobody gets through here without a 'Roadpass'.
+  us: |
+    YOU CANNOT PASS<line>
+    WITHOUT ROADPASS.<end>
   en: Nobody gets through here without a Roadpass.<wait>
   fr: Un permis signé est nécessaire pour accéder au Spatioport.<wait>
 
@@ -425,6 +528,7 @@
   indices:024
   ja: トオッテ ヨシ.<wait>
   translated: Okay, you may pass.
+  us: YOU MAY PROCEED.<end>
   en: Okay, go on through.<wait>
   fr: Accès accordé. Allez-y.<wait>
 
@@ -433,6 +537,11 @@
   indices:062
   ja: アルゴル タイヨウケイノ ワクセイヲシッテイルカナ.<end>
   translated: Do you know the planets in the Algol Solar System?
+  us: |
+    DO YOU KNOW ABOUT<line>
+    THE PLANETS OF<wait more>
+    THE ALGOL STAR<line>
+    SYSTEM?<prompt>
   en: Do you know about all the planets in the Algol Solar System?<end>
   fr: Connaissez-vous les planètes d'Algol_?<end>
 
@@ -451,6 +560,21 @@
     Motavia is a planet of sand.
     Dezoris is a planet of ice.
     There is a crisis drawing near to Algol...
+  us: |
+    THERE ARE THREE<line>
+    PLANETS: PALMA<wait more>
+    MOTAVIA AND<line>
+    DEZORIS.<wait more>
+    PALMA IS A WORLD<line>
+    OF GREEN.<wait more>
+    MOTAVIA IS A WORLD<line>
+    OF SAND.<wait more>
+    DEZORIS IS A WORLD<line>
+    OF ICE.<wait more>
+    THE ALGOL STAR<line>
+    SYSTEM IS<wait more>
+    CURRENTLY FACING <line>
+    A GREAT CRISIS.<end>
   en: |
     Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
     Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
@@ -473,6 +597,7 @@
   indices:060
   ja: ナラバ ヨイ.<wait>
   translated: I see. Never mind.
+  us: O.K. GOOD DAY.<end>
   en: Oh. Okay.<wait>
   fr: Oh. Très bien.<wait>
 
@@ -485,6 +610,9 @@
   indices:026
   ja: ココハ パロリト キョジュウクヨ.<wait>
   translated: This is Parolit residential district.
+  us: |
+    THIS IS PAROLIT<line>
+    RESIDENTIAL AREA.<end>
   en: Welcome to Parolit residential district.<wait>
   fr: Bienvenue à la zone résidentielle de Parolit.<wait>
 
@@ -495,6 +623,9 @@
     モリノナカハ トクニ<line>
     キヲツケタホウガイイヨ.<wait>
   translated: When you're in the forest, you need to be especially cautious.
+  us: |
+    THE FOREST IS A<line>
+    DANGEROUS PLACE.<end>
   en: The forest is especially dangerous lately, be careful if you head that way.<wait>
   fr: Il est facile de se perdre dans la forêt, sois prudente.<wait>
 
@@ -506,6 +637,13 @@
     ヨミガエッタトイウ.スガタヲ<line>
     ミタモノハ イシニ サレルソウダ.<wait>
   translated: I hear that the monster Medusa has returned to the cave South of the city. They say if you look at it, you'll turn to stone!
+  us: |
+    MEDUSA HAS BEEN<line>
+    REBORN AND LIVES<wait more>
+    IN A CAVE TO THE <line>
+    SOUTH. IF YOU SEE<wait more>
+    HER, YOU WILL BE<line>
+    TURNED TO STONE.<end>
   en: |
     Rumors are going around that Medusa has returned to her cave, just south of here.<wait more>
     They say one look turns you into a living statue. That can't be true, can it?<wait>
@@ -520,6 +658,10 @@
     ヒガシヘ イクト シオン トイウ<line>
     ミナトマチガ アルラシイ.<wait>
   translated: If you travel East, you will reach the port town of Shion.
+  us: |
+    TO THE EAST LIES<line>
+    A PORT TOWN<wait more>
+    CALLED SCION.<end>
   en: If you're looking for a port town, Shion is just east of here.<wait>
   fr: Si tu vas à l'est, tu arriveras à la ville portuaire de Scion.<wait>
 
@@ -530,6 +672,10 @@
     スペースポートカラ モタビアセイノ<line>
     パセオ マデ イケルヨ.<wait>
   translated: You can travel to Paseo, on the planet Motavia, from the spaceport.
+  us: |
+    FROM THE SPACEPORT<line>
+    YOU CAN GO TO<wait more>
+    PASEO ON MOTAVIA.<end>
   en: |
     Our Spaceport flies directly to Paseo, the capital of Motavia.<wait more>
     I'd love to go someday. I've never been off-planet before!<wait>
@@ -542,6 +688,13 @@
   indices:032
   ja: パロリトノ ニシニアル ガシコノモリヘハ チカツウロガ アルラシイ.<wait>
   translated: I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
+  us: |
+    THERE IS AN<line>
+    UNDERGROUND<wait more>
+    PASSAGE TO THE <line>
+    GOTHIC FOREST<wait more>
+    SOMEWHERE TO THE <line>
+    WEST OF PAROLIT.<end>
   en: |
     Did you know there’s an underground passage leading west, to the Gothic Woods?<wait more>
     Supposedly it’s somewhere nearby, but I can’t find it.<wait>
@@ -561,6 +714,14 @@
     モタビアセイニハ モタビアン<line>
     デゾリスセイニハ デゾリアン トイウ<wait more>
   translated: On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
+  us: |
+    THEY SAY THAT<line>
+    THERE ARE MOTAVIAN<wait more>
+    LIVING ON MOTAVIA<line>
+    AND DEZORIANN ON<wait more>
+    DEZORIS. I'D SURE<line>
+    LIKE A CHANCE TO<wait more>
+    TALK TO SOMEONE.<end>
   en: |
     We're not the only intelligent life in the Algol Solar System, you know.<wait more>
     Motavia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
@@ -579,6 +740,17 @@
     クスリビンヲ ブラサゲテイタガ<line>
     ナニカノ ヤクニ タツノカネエ.<wait>
   translated: Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
+  us: |
+    ODIN SET OFF TO<line>
+    KILL MEDUSA. HE<wait more>
+    WENT WITH AN<line>
+    ANIMAL THAT CAN<wait more>
+    SPEAK! THE ANIMAL<line>
+    HAD A BOTTLE OF<wait more>
+    MEDICINE HANGING<line>
+    FROM ITS NECK, BUT<wait more>
+    I DON'T KNOW WHAT<line>
+    THAT IS FOR.<end>
   en: |
     Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
     He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
@@ -596,6 +768,11 @@
     ラシーク ヲ タオシニイクンダッテ<line>
     ナ. ガンバレヨ.<wait>
   translated: You’re on a quest to defeat LaShiec, huh? Well, good luck!
+  us: |
+    I HEAR YOU ARE <line>
+    GOING TO TRY<wait more>
+    TO KILL LASSIC.<line>
+    BEST OF LUCK!<end>
   en: It’s about time someone took on LaShiec. God be with you.<wait>
   fr: |
     Il est temps que quelqu'un s'en prenne à Lassic.<wait more>
@@ -608,6 +785,15 @@
     シャベル ドウブツヲ ヒロッタンダ.<wait more>
     パセオノ ショウニンニ タカク ウリツケテヤッタヨ.ヘッヘッヘ.<wait>
   translated: I found a talking animal in Medusa’s Cave earlier, see? Then I sold it off to a trader in Paseo and made a bundle! Heh, heh, heh!
+  us: |
+    I RECENTLY FOUND A
+    TALKING BEAST IN<wait more>
+    THE CAVE WHERE<line>
+    MEDUSA LIVES.<wait more>
+    I SOLD HIM FOR A<line>
+    GOOD PRICE TO A<wait more>
+    MERCHANT FROM <line>
+    PASEO!<end>
   en: |
     This is going to sound crazy, but I found a talking animal wandering Medusa’s dungeon.<wait more>
     I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
@@ -622,6 +808,11 @@
     サイキンハ フケイキダネ.ドコカニ<line>
     イイ モウケバナシハ ナイモノカネ.<wait>
   translated: Times have been rough lately, don’t you think? I wonder if there’s anywhere I can go to make money.
+  us: |
+    TIMES ARE HARD.<line>
+    THERE DOESN'T SEEM<wait more>
+    TO BE ANYWAY TO<line>
+    MAKE MONEY.<end>
   en: |
     The economy’s plummeted since LaShiec came into power.<wait more>
     I’m so broke, I don’t know what to do...<wait>
@@ -635,6 +826,11 @@
     シオンノ ミナミノ ハントウニハ<line>
     イアラト ヨバレル ドウクツガアル.<wait>
   translated: On the peninsula South of Shion, you will find Iala Cave.
+  us: |
+    A CAVE CALLED IALA
+    CAN BE FOUND ON<wait more>
+    THE PENINSULA TO<line>
+    THE SOUTH OF SCION<end>
   en: Iala Cave lies on the peninsula south-east of here.<wait>
   fr: La grotte Iala est située sur la péninsule au sud de la ville.<wait>
 
@@ -642,6 +838,11 @@
   indices:044
   ja: ココハ ミナトマチ シオン.ムカシハボウエキデ ニギワッタモノダ.<wait>
   translated: This is the port town of Shion. This place used to be busy with trade.
+  us: |
+    THIS IS THE PORT<line>
+    TOWN SCION.<wait more>
+    LONG AGO, WE<line>
+    THRIVED ON TRADE.<end>
   en: |
     Welcome to Shion, the busiest port on Palma... or at least, it was.<wait more>
     With the world the way it is lately, there isn't much trade going on anymore.<wait>
@@ -656,6 +857,10 @@
     エピトイウ マヨイノモリハ<line>
     コンパスガナイト トオレナイヨ.<wait>
   translated: The Eppi Woods are confusing. You need a ‘Compass’ just to pass through them.
+  us: |
+    YOU NEED A COMPASS
+    TO PASS THROUGH<wait more>
+    THE EPPI FOREST.<end>
   en: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
   fr: Aller dans la forêt d'Eppi sans boussole_? Vous devez être un peu stupide_!<wait>
 
@@ -663,6 +868,10 @@
   indices:048
   ja: マホウノ カカッタドアハ マジックヲツカワナイト ヒラキマセン.<wait>
   translated: Magically-sealed doors can be opened only with magic.
+  us: |
+    A DOOR LOCKED WITHMAGIC 
+    CAN ONLY BE<wait more>
+    OPENED WITH MAGIC.<end>
   en: The only way to open a door sealed with magic is to cast a spell of your own.<wait>
   fr: La seul moyen de débloquer une porte scellée, est d'y jeter un de vos propres sorts.<wait>
 
@@ -674,6 +883,13 @@
     デモワレワレハ ソノオカヘ<line>
     チカヅクコトガ デキマセン.<wait>
   translated: If you go North from this town you will reach the hill of Baya Mahrey. However, we aren’t able to get near to it.
+  us: |
+    THERE IS A HILL<line>
+    NAMED BAYA MALAY<wait more>
+    TO THE NORTH OF<line>
+    THIS TOWN.<wait more>
+    BUT NONE OF US<line>
+    DARE APPROACH IT.<end>
   en: |
     To the north, past the prison, is the pride of Palma: a beautiful knoll called Baya Marlay.<wait more>
     Too bad nobody can get to it anymore...<wait>
@@ -687,6 +903,11 @@
     バヤマーレノ キタノ カイガンニ<line>
     ナウラトイウ ドウクツガ アリマス.<wait>
   translated: On the beach North of Baya Mahrey, you will find Naula Cave.
+  us: |
+    A CAVE CALLED<line>
+    NAULA LIES ON THE <wait more>
+    NORTH COAST OF<line>
+    BAYA MALAY.<end>
   en: |
     I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
     But with all these monsters suddenly appearing, I can't go near it anymore.<wait>
@@ -699,6 +920,11 @@
   indices:142
   ja: ダレニ キイタカ シラナイガ<line>
   translated: Who the hell told you that? You’d better just forget about it if you know what’s good for you.
+  us: | 
+    I DON'T KNOW WHO<line>
+    TOLD YOU THAT.<wait more>
+    YOU HAD BEST<line>
+    FORGET IT.<end>
   en: I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
   fr: Je ne sais pas de quoi vous parlez. Je tiens un honnête commerce ici, moi_!<wait>
 
@@ -707,6 +933,11 @@
   indices:144
   ja: ダメナモノハ ダメダ.<line>
   translated: Give it up, willya? Now get outta here!
+  us: | 
+    I TELL YOU NO ONE<line>
+    CAN DO.GO ON BACK<wait more>
+    TO WHEREVER YOU <line>
+    CAME FROM.<end>
   en: |
     Give it up, will ya? I already told you, we're a legitimate business.<wait more>
     Get out of my store.<delay>
@@ -719,6 +950,12 @@
   indices:146
   ja: シツコイヤツダ.ソンナニ イウノナラシカタガナイ.ダレニモ イウナヨ.<wait>
   translated: You just don't quit, do you? I give up. If you're gonna keep bugging me, then just [take it]. But don't tell anybody.
+  us: |
+    ALL RIGHT, ALL<line>
+    RIGHT. I GIVE UP.<wait more>
+    BUT DON'T TELL<line>
+    ANYONE WHERE YOU <wait more>
+    GOT THIS, O.K.?<end>
   en: |
     You’re not going to give up, are you? Fine, just take it.<wait more>
     One Roadpass, signed and certified. But you didn't get this from me, understand?<wait>
@@ -737,6 +974,9 @@
     モリノナカデ ミチニ マヨッテ<line>
     シマッタ.<wait>
   translated: The road is totally obscured by the thick forest.
+  us: |
+    THE PATH IN THE <line>
+    WOODS IS UNCLEAR.<end>
   en: You got lost in the woods.<wait>
   fr: Vous êtes perdue dans les bois.<wait>
 
@@ -750,6 +990,12 @@
   indices:06A
   ja: ココハ パルマノ スペースポートダ.モタビアセイノ パセオマデ イケル.<wait>
   translated: This is Palma Spaceport. You can go to Paseo, on the planet Motavia.
+  us: |
+    THIS IS PALMA'S<line>
+    SPACEPORT.<wait more>
+    FROM THE SPACEPORT<line>
+    YOU CAN GO TO<wait more>
+    PASEO ON MOTAVIA.<end>
   en: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
   fr: Bienvenue au Spatioport de Palma. D'ici, vous pouvez vous rendre à Paséo sur Motavia.<wait>
 
@@ -758,6 +1004,10 @@
   indices:06C
   ja: パセオニハ ソウトクガ イル.モタビアセイ ゼンブヲ オサメテイルンダ.<wait>
   translated: The Governor-General lives in Paseo. He rules all of Motavia.
+  us: |
+    THE GOVERNOR IS IN
+    PASEO. HE RULES<wait more>
+    ALL OF MOTAVIA.<end>
   en: The Governor-General rules all of Motavia from his office in Paseo.<wait>
   fr: Ces vaisseaux se dirigent vers la capitale de Motavia, Paséo. Le Gouverneur y habite.<wait>
 
@@ -766,6 +1016,11 @@
   indices:06E
   ja: ガシコノ ケンキュウジョデハ ムカシスペースシップヲ ツクッテタソウダ.<wait>
   translated: Rumor has it that the Gothic Laboratory was once used to build spaceships. Back in the old days, ships like these were built at the laboratory in Gothic.<wait>
+  us: |
+    LONG AGO, A<line>
+    SPACESHIP WAS<wait more>
+    BUILT IN THE <line>
+    GOTHIC LABORATORY.<end>
   en: Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
   fr: Avant les lignes commerciales, ces vaisseaux ont été inventés dans un laboratoire à Gothic.<wait>
 
@@ -774,6 +1029,9 @@
   indices:070
   ja: パスポートヲ モッテイルカ.<end>
   translated: Do you have a passport?
+  us: |
+    DO YOU HAVE YOUR <line>
+    PASSPORT?<prompt>
   en: Do you have a Passport?<end>
   fr: Avez-vous un Passeport_?<wait>
 
@@ -784,6 +1042,11 @@
     ココデ パスポートノ シンセイガ<line>
     デキマス.シンセイヲシマスカ.<end>
   translated: You can apply for a ‘passport’ here. Would you like to apply?
+  us: |
+    YOU CAN FILE FOR A<line>
+    PASSPORT HERE.<wait more>
+    DO YOU WANT A<line>
+    PASSPORT?<prompt>
   en: Are you here to apply for a Passport?<end>
   fr: Êtes-vous ici pour une demande de Passeport_?<end>
 
@@ -792,6 +1055,9 @@
   indices:074
   ja: イママデニ ワルイコトヲ シタコトガアリマスカ.<end>
   translated: Up to today, have you ever done any bad things?
+  us: |
+    HAVE YOU EVER DONE<line>
+    ANYTHING ILLEGAL? <prompt>
   en: |
     I’m required by law to ask you a series of questions.<wait more>
     Have you ever been convicted of a crime?<end>
@@ -806,6 +1072,9 @@
     イマ アナタハ ナニカ ワルイ<line>
     ビョウキニ カカッテイマスカ.<end>
   translated: Are you suffering from an illness right now?
+  us: |
+    DO YOU CURRENTLY<line>
+    HAVE AN ILLNESS?<prompt>
   en: Are you suffering from an illness that may be contagious to other passengers?<end>
   fr: Souffrez-vous d'une maladie contagieuse_?<end>
 
@@ -815,8 +1084,12 @@
   ja: |
     テスウリョウ <number>メセタデス.<line>
     ヨロシイデスカ.<end>
-  translated: <number> is always 100.
+  # <number> is always 100.
   translated: The fee is 100 mesetas. Is that agreeable?
+  us: |
+    THE PASSPORT FEE<line>
+    IS 100 MESETAS.<wait more>
+    WOULD YOU PAY IT?<prompt>
   en: There is a handling fee of <number><internal hint 02> meseta<s>. Are you willing to pay?<end>
   fr: Les frais de dossier sont de <number><internal hint 02> meseta<s>. Pouvez-vous payer?<end>
 
@@ -824,6 +1097,10 @@
   # Passport office
   indices:07A
   ja: デハ パスポートヲ ハッコウシマス.オウケトリクダサイ.<wait>
+  translated: Well then, we will issue you a passport. Here you go.
+  us: |
+    YOUR PASSPORT IS<line>
+    READY, HERE.<end>
   en: |
     Great! Here is your passport. Be sure to retain possession of it at all times.<wait more>
     Next in line?<wait>
@@ -837,6 +1114,9 @@
   indices:07C
   ja: ソウデスカ.デハ オキヲツケテ.<wait>
   translated: I see. Well then, take care.
+  us: |
+    I SEE. HAVE A GOOD
+    DAY.<end>
   en: Oh, okay then.<wait>
   fr: Parfait. Au suivant, s'il vous plait.<wait>
 
@@ -847,6 +1127,10 @@
     ソレハ ヨクナイデスネ.<line>
     マタ オコシクダサイ.<wait>
   translated: That's too bad. Please come back some other time.
+  us: |
+    THAT'S NOT GOOD.<line>
+    YOU'LL HAVE TO<wait more>
+    COME BACK LATER.<end>
   en: I’m sorry, you don't qualify. Feel free to try again later. Next?<wait>
   fr: Désolé, vous n'êtes pas habilitée. Suivant_!<wait>
 
@@ -862,6 +1146,10 @@
     ココハ モタビアノ<line>
     パセオ スペースポート ダヨ.<wait>
   translated: This is Paseo spaceport, on the planet Motabia.
+  us: |
+    WELCOME TO THE <line>
+    PASEO SPACEPORT<wait more>
+    ON MOTAVIA.<end>
   en: This is Paseo, the only spaceport on Motavia.<wait>
   fr: Vous êtes à Paséo, le seul Spatioport de Motavia.<wait>
 
@@ -872,6 +1160,10 @@
     サバクノ ナカデハ アリジゴクガ<line>
     アバレテ イルトイウ ウワサダヨ.<wait>
   translated: I’ve heard rumors that there are vicious ‘Ant-lions’ in the desert!
+  us: |
+    IT IS SAID THAT<line>
+    ANT LIONS ROAM<wait more>
+    IN THE DESERT.<end>
   en: It’s Ant-Lion breeding season, be careful out there. They get vicious.<wait>
   fr: C'est la saison de reproduction des fourmilions, soyez prudente.<wait>
 
@@ -881,6 +1173,11 @@
     パルマセイノ<line>
     ナウラ トイウ ドウクツニハ<wait more>
     ケーキヤガ アルンダッテネ.<wait>
+  us: |
+    THERE IS A CAKE<line>
+    SHOP IN THE CAVE<wait more>
+    CALLED NAULA ON<line>
+    PALMA!<end>
   en: |
     I hear there’s a cake shop in Naula cave on Palma.<wait more>
     I wonder if it gets any business, in a cave like that?<wait>
@@ -899,6 +1196,11 @@
     モタビアノ ソウトクハ ジツハ<line>
     ラシークト ナカガ ワルイラシイヨ.<wait>
   translated: ...Actually, the Governor-General seems to be on very bad terms with LaShiec!
+  us: |
+    MOTAVIA'S GOVERNOR
+    AND LASSIC ARE NOT<wait more>
+    ON GOOD TERMS, IT<line>
+    IS SAID.<end>
   en: Even the Governor-General is on bad terms with LaShiec.<wait>
   fr: Même le Gouverneur est en froid avec Lassic.<wait>
 
@@ -908,6 +1210,10 @@
     ソウトクニ アウニハ オクリモノガ<line>
     イルソウヨ.<wait>
   translated: You need to have a gift in order to meet with the Governor-General.
+  us: |
+    A GIFT IS NEEDED<line>
+    IF YOU WISH TO SEE<wait more>
+    THE GOVERNOR.<end>
   en: You need to bring a gift if you're going to meet with the Governor-General.<wait>
   fr: Pour obtenir une entrevue avec le Gouverneur, il faut un cadeau.<wait>
 
@@ -915,6 +1221,9 @@
   indices:08A
   ja: ソウトクハ アマイモノガ ダイスキ.<wait>
   translated: The Governor-General loves sweets.
+  us: |
+    THE GOVERNOR LOVES
+    SWEETS, I HEAR.<end>
   en: The Governor-General has got a real sweet tooth.<wait>
   fr: Le Gouverneur aime les petites douceurs...<wait>
 
@@ -922,6 +1231,11 @@
   indices:08C
   ja: マハル トイウ ドウクツガ パセオノキタノ ヤマノ ナカニ アリマス.<wait>
   translated: Maharu Cave is located in the mountains to the north of Paseo.
+  us: |
+    THERE IS A CAVE<line>
+    CALLED MAHARU IN<wait more>
+    A MOUNTAIN TO THE <line>
+    NORTH OF PASEO.<end>
   en: Mahal Cave is located in the mountains north of Paseo.<wait>
   fr: La grotte Mahal se situe dans les montagnes au nord de Paséo.<wait>
 
@@ -931,6 +1245,9 @@
     ココハ モタビアノ シュト<line>
     パセオ デス.<wait>
   translated: This is Paseo, capital of Motabia.
+  us: |
+    THIS IS PASEO<line>
+    MOTAVIA'S CAPITAL.<end>
   en: This is Paseo, Motavia’s capital city.<wait>
   fr: Bienvenue à Paséo, la capitale de Motavia.<wait>
 
@@ -940,6 +1257,10 @@
     アリジゴクハ ヒトノ アシデハ<line>
     トテモ トオレナイダロウ.<wait>
   translated: There’s no way to pass over those ant lions on FOOT, [but...].
+  us: |
+    IT'S NOT POSSIBLE<line>
+    TO PASS THROUGH<wait more>
+    ANT LION ON FOOT.<end>
   en: There's no way to get past the Ant-Lions on foot, but I've heard there's another way...<wait>
   fr: Vous ne pouvez pas enjamber les fourmilions_!<wait>
 
@@ -949,6 +1270,11 @@
     カシコイ モンスターニハ<line>
     モンスターコトバガ アルソウダ.<wait>
   translated: I hear that intelligent monsters have monster languages.
+  us: |
+    SOME INTELLIGENT<line>
+    MONSTERS HAVE <wait more>
+    THEIR OWN<line>
+    LANGUAGE.<end>
   en: There are intelligent monsters, but they speak a different language than ours.<wait>
   fr: |
     Certains monstres parlent, mais une autre langue.<wait more>
@@ -960,6 +1286,11 @@
   ja: メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
   # <number> is always 10.
   translated: I gotta real rare animal here. You can have it fuh 10 billion mesetas. Whuddayuhsay?
+  us: |
+    I HAVE AN RARE<line>
+    ANIMAL HERE. WOULD<wait more>
+    YOU PAY 1 BILLION<line>
+    MESETAS FOR IT?<prompt>
   en: |
     Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
     Ten billion mesetas, and it’s yours. How ’bout it?<end>
@@ -973,6 +1304,7 @@
   indices:094
   ja: アンタ ウソツキダネ.<wait>
   translated: Yeah, right. You gotta be kiddin’ me!
+  us: YOU ARE A LIAR!<end>
   en: |
     Whoa, seriously?<wait more>
     Hey, where are you going?<delay>
@@ -989,6 +1321,11 @@
     ソノ ラコニアンポット トナラ<line>
     コウカンシテモ イイヨ. ドウカネ.<end>
   translated: Say... That’s a real unusual pot you got there... ...is 'dat a ‘Laconian Pot’?! How ‘bout I give you da animal, you give me the pot? Whuddayuhsay?
+  us: |
+    I SEE YOU HAVE A<line>
+    STRANGE POT.<wait more>
+    SHALL I TRADE THE <line>
+    ANIMAL FOR IT?<prompt>
   en: |
     That’s too bad.<wait more>
     ...hold on, now. Is that a Laconian Pot?<wait more>
@@ -1006,6 +1343,9 @@
     ソレジャ ツレテイキナ.<line>
     カワイガッテ ヤッテクレ.<wait>
   translated: Alri---ght, there yuh go. Take good care uv‘im.
+  us: |
+    ALL RIGHT, THERE<line>
+    YOU GO WITH HIM.<end>
   en: I hate to see the little guy go, but I can’t pass up a trade like this. Take good care of ’im.<wait>
   fr: |
     Ca me fend le cœur, mais je ne peux pas rater une offre pareille.<wait more>
@@ -1016,6 +1356,11 @@
   indices:28A
   ja: ラコニアンポットハ トテモ タカク<line>
   translated: That laconian pot was worth a fortune! Thanks a bundle!
+  us: |
+    I SOLD THAT<line>
+    LACONIAN POT FOR<wait more>
+    A GREAT DEAL OF<line>
+    MONEY. THANKS.<end>
   en: I made a fortune selling that Laconian Pot! Thanks!<wait>
   fr: J'ai fait fortune en vendant ce vase Laconian_! Merci_!<wait>
   
@@ -1035,6 +1380,11 @@
     ワタシハ アリサ.<line>
     アナタノ ナマエヲ オシエテ.<wait>
   translated: I guess we’re gonna be traveling together from now on, huh? I’m Alisa. What’s your name?
+  us: |
+    WE WILL BE FELLOW<line>
+    TRAVELERS.<line>
+    I'M ALIS: WHAT'S<line>
+    YOUR NAME?<end>
   en: |
     I guess we’re companions now, huh?<line><line>
     I’m Alisa. What’s your name?<wait>
@@ -1047,6 +1397,7 @@
   indices:15E-2
   ja: ミャウ.<wait>
   translated: Myau.
+  us: I'M MYAU.<end>
   en: Myau.<wait>
   fr: Myau.<wait>
 
@@ -1058,6 +1409,10 @@
     タイロンノ コト ナンダケド ナニカ<line>
     シッテイタラ オシエテ.<wait>
   translated: Well, Myau, tell me what happened to Tairon.
+  us: |
+    MYAU, HAVE YOU <line>
+    EVER HEARD OF A<line>
+    MAN NAMED ODIN?<end>
   en: |
     Hello, Myau. I’m looking for a man named Tylon.<wait more>
     Rumor has it he was traveling with a talking animal.<line><line>
@@ -1076,6 +1431,13 @@
     ケド ミャウ ビンノ フタ<line>
     アケラレナイノ.<wait>
   translated: Someone turned him into stone. I can heal him with this medicine, but I can’t open the lid, so...
+  us: |
+    YES, BUT HE IS<line>
+    TURNED TO STONE!<line>
+    IF HE DRINKS THIS<line>
+    MEDICINE, HE'LL BE<wait more>
+    O.K., BUT I CANNOT<line>
+    OPEN THE BOTTLE.<end>
   en: |
     Tylon got turned to stone trying to slay Medusa!<line><line>
     We can heal him with this medicine, but I can’t open the lid...<wait>
@@ -1092,6 +1454,11 @@
     ジャ イッショニ タイロンヲ<line>
     タスケニ イキマショウ.<wait>
   translated: I see. Let’s go help him!
+  us: |
+    WELL, THEN, WE'D<line>
+    BETTER GO SAVE<line>
+    ODIN TOGETHER,<line>
+    O.K.?<end>
   en: I think I can manage that.<line><line>Come on, let’s go help him!<wait>
   fr: Je pense que je devrais y arriver. Viens, allons l'aider.<wait>
 
@@ -1105,6 +1472,9 @@
     シカシ ミャウハ ビンノ フタヲ<line>
     アケルコトガ デキナカッタ.<wait>
   translated: Alas, Myau was not able to open the lid to the bottle.
+  us: |
+    BUT MYAU CANNOT<line>
+    OPEN THE BOTTLE.<end>
   en: But Myau couldn’t open the lid to the bottle.<wait>
   fr: Mais Myau ne peut pas ouvrir la bouteille.<wait>
 
@@ -1117,6 +1487,13 @@
   indices:0FA
   ja: イシニ サレテシマッタ ヒトラシイ.モトニ モドレルノダロウカ.<wait>
   translated: It seems that something turned this person into stone! Maybe he can be returned to normal...
+  us: |
+    IT SEEMS TO BE A<line>
+    MAN WHO HAS BEEN<wait more>
+    TURNED TO STONE!<line>
+    I WONDER IF HE CAN<wait more>
+    BE RETURNED TO HIS
+    ORIGINAL FORM?<end>
   en: Something turned this person into stone! Maybe he can be returned to normal...<wait>
   fr: |
     On dirait que cette personne a été changée en pierre.<wait more>
@@ -1132,6 +1509,11 @@
   en: |
     Alisa opened the lid on the bottle and poured out its contents.<wait more>
     It's working!<delay>
+  us: |
+    THE BOTTLECAP<line>
+    OPENS AND THE <wait more>
+    CONTENTS QUIETLY<line>
+    LEAK OUT.<wait>
   fr: Alisa ouvre la bouteille et en verse le contenu.<delay>
 
 # ********************************
@@ -1150,6 +1532,14 @@
     シテヤラレルヨウデハ ラシークハ<line>
     タオセソウニ ナイナ.<wait>
   translated: Thanks for rescuing me. I don’t know if it’ll do any good though. If we got taken down by Medusa, I don’t think we can even stand a chance against LaShiec.
+  us: |
+    THANKS FOR SAVING<line>
+    ME. I GUESS IF<line>
+    MEDUSA CAN STOP<line>
+    ME, I DON'T HAVE <wait more>
+    MUCH HOPE OF<line>
+    KILLING LASSIC,<line>
+    DO I?<end>
   en: |
     Ah, Myau, you found help. Thank you.<line><line>
     I don't know if it will do any good though.<wait more>
@@ -1169,6 +1559,12 @@
     シヌマエニ アナタノ ナマエヲ<line>
     イイノコシテ.<wait>My name is Alisa.<line><line>
   translated: My brother ended up dead when he tried to overthrow LaShiec. Just before he died, he gave me your name.
+  us: |
+    MY BROTHER DIED<line>
+    TRYING TO KILL<line>
+    LASSIC. BEFORE HE<line>
+    DIED, HE TOLD ME<wait more>
+    TO SEEK YOUR HELP.<end>
   en: |
     My brother Nero was killed trying to overthrow LaShiec.<wait more>
     I'm going to destroy him, no matter what it takes.<line><line>
@@ -1187,6 +1583,11 @@
     チカラヲ アワセテ ラシークヲ<line>
     タオソウ.<wait>
   translated: I see... All right then, for the sake of your brother, let’s join together and destroy LaShiec!
+  us: |
+    IS THAT SO? WELL,<line>
+    I MUST NOT LET<line>
+    YOUR BROTHER DIE<line>
+    UNAVENGED.<end>
   en: |
     I see. Well then, for Nero's sake, let's team up!<line><line>
     There's always room for one more, right Myau?<wait>
@@ -1201,6 +1602,9 @@
     ソレヨリ ナゼ メデューサヲ<line>
     タオソウト シタノ.<wait>
   translated: Tell me something first -- Why did you try to kill Medusa?
+  us: |
+    WHY DID YOU TRY TO<line>
+    KILL MEDUSA?<end>
   en: |
     Tell me something before we go.<line><line>
     You said you were trying to slay Medusa. Why?<wait>
@@ -1210,6 +1614,7 @@
 
 - offsets:46b4
   indices:16E-2
+  # Tairon
   ja: |
     メデューサガ モッテイル デンセツノ<line>
     オノガ ホシカッタンダケド<line>
@@ -1219,7 +1624,18 @@
     イキドマリニ コンパスヲ<line>
     カクシテオイタンダッケ.<line>
     トリニ イコウゼ.<wait>
-  translated: Tairon: See, Medusa has this magical axe, and I wanted to get it, but she got away from me. Damn... But anyway... I hid a 'Compass' at a dead end in this cave. We should go get it.
+  translated: See, Medusa has this magical axe, and I wanted to get it, but she got away from me. Damn... But anyway... I hid a 'Compass' at a dead end in this cave. We should go get it.
+  us: |
+    BECAUSE MEDUSA HAS<line>
+    A MYSTIC AXE.<line>
+    UNFORTUNATELY, SHE<line>
+    GOT AWAY FROM ME.<wait more>
+    ANYHOW, I HAVE <line>
+    STASHED A COMPASS<line>
+    IN ONE OF THE<line>
+    PASSAGES OF THIS <wait more>
+    CAVE. LET'S GO AND<line>
+    GET IT<end>
   en: |
     Oh, it's because she has a magical axe, and I want it.<line><line>
     Maybe we can grab it on the way to LaShiec?<wait more>
@@ -1243,6 +1659,11 @@
   indices:04E
   ja: モタビアノ ソウトクハ モシカシタラミカタニ ナッテクレルカモシレナイ.<wait>
   translated: I wonder if Motabia’s Governor-general might aid you in your quest.
+  us: |
+    THE GOVERNOR OF<line>
+    MOTAVIA MIGHT<wait more>
+    POSSIBLY HELP YOU 
+    WELL.<end>
   en: |
     It wouldn’t surprise me if the Governor-General of Motavia approved of what you’re doing.<wait more>
     He might even be able to help you in your quest. Have you talked to him yet?<wait>
@@ -1257,6 +1678,9 @@
     モタビアニハ スゴイ エスパーガ<line>
     イルラシイヨ.<wait>
   translated: On Motabia live the great ‘Espers’.
+  us: |
+    NOAH LIVES ON<line>
+    MOTAVIA.<end>
   en: All the great Espers live on Motavia.<wait>
   fr: C'est bien connu, tous les grands Espers vivent sur Motavia_!<wait>
 
@@ -1265,6 +1689,11 @@
   indices:052
   ja: ガシコノモリニハ ソノムカシ ルベノハカセノ ケンキュウジョガ アッタ.<wait>
   translated: A doctor named ‘Luveno’ used to have a laboratory in Gothic Forest.
+  us: |
+    DR.LUVENO HAD A<line>
+    LABORATORY IN THE <wait more>
+    GOTHIC FOREST LONG
+    AGO, IT IS SAID.<end>
   en: |
     Long ago, a professor named Luveno had a research laboratory in the Gothic Woods.<wait more>
     I wonder if it’s still there?<wait>
@@ -1277,6 +1706,7 @@
   indices:054
   ja: エピノムラヘ ヨウコソ.<wait>
   translated: Welcome to Eppi Village!
+  us: WELCOME TO EPPI.<end>
   en: |
     Welcome to Eppi Village!<wait more>
     We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
@@ -1290,6 +1720,9 @@
   indices:056
   ja: ソナタハ ダンジョンキーノ アリカヲサガシテ イルノカナ.<end>
   translated: Are you by any chance searching for the ‘Dungeon Key’?
+  us: |
+    ARE YOU LOOKING<line>
+    FOR A DUNGEON KEY?<prompt>
   en: |
     Taking on ol’ LaShiec, are you?<wait more>
     You’re either a fool, or you’re tougher than you look.<wait more>
@@ -1310,6 +1743,12 @@
     カクシテオイタゾヨ.<wait>
     <end>
   translated: I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on the outskirts of Camineet residential area.
+  us: |
+    I'VE HIDDEN A<line>
+    DUNGEON KEY IN THE<wait more>
+    WAREHOUSE IN THE <line>
+    OUTSKIRTS OF THE <wait more>
+    CAMINEET.<end>
   en: |
     I hid one inside the warehouse on the outskirts of Camineet’s residential district.<wait more>
     I hid it pretty good, you might want to take a second look if you've already been there.<wait>
@@ -1323,6 +1762,11 @@
   indices:05C
   ja: セカイデ イチバン カタクテ ツヨイブッシツヲ シッテイルカ.<end>
   translated: Do you know what the hardest, strongest material in the world is?
+  us: |
+    DO YOU KNOW WHAT<line>
+    THE HARDEST,<wait more>
+    STRONGEST MATERIAL
+    IN OUR WORLD IS?<prompt>
   en: Do you know what the hardest, strongest material in the world is?<end>
   fr: Connaissez-vous le matériau qui est le plus incroyable au monde_?<end>
   
@@ -1333,6 +1777,11 @@
     ソレハ ラコニア ジャ. ソレデ<line>
     デキタ ブキハ サイキョウナンジャ.<wait>
   translated: It’s ‘Laconia’! Laconian weapons are the strongest [in the solar system].
+  us: |
+    IT'S LACONIA!<line>
+    ARMS MADE WITH<wait more>
+    LACONIA ARE THE <line>
+    BEST TO HAVE.<end>
   en: It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
   fr: C'est le Laconian! Les armes faites en Laconian sont les meilleures_!<wait>
 
@@ -1350,6 +1799,12 @@
     ショートケーキヲ <number>メセタデ<line>
   # <number> is always 280.
   translated: I’m sorry for having a store in a place like this. Shortcakes are 1000 meseta. Would you like one?
+  us: |
+    I'M SORRY I HAVE A<line>
+    SHOP IN SUCH A<wait more>
+    PLACE. SHORTCAKE<line>
+    FOR 1000 MESETAS!<wait more>
+    WILL YOU BUY ONE?<prompt>
   en: |
     Hey, a customer! Glad you found us. Sorry about the location...<wait more>
     My shortcakes are the best in Algol, and a steal at only <number><internal hint 02> meseta<s>. Want one?<end>
@@ -1370,6 +1825,7 @@
   indices:0B4
   ja: グウグウ.<wait>
   translated: zzz... zzz...
+  us: ZZZ...ZZZ...<end>
   en: zzz...<wait>
   fr: Pff...<wait>
 
@@ -1378,6 +1834,10 @@
   indices:09C
   ja: ソウトクヘノ オクリモノヲ<line>
   translated: Did you bring a present for the Governor-General?
+  us: |
+    DO YOU HAVE A<line>
+    PRESENT TO GIVE TO<wait more>
+    THE GOVERNOR?<prompt>
   en: Halt! Did you bring a gift for the Governor-General?<end>
   fr: |
     Halte_!<wait more>
@@ -1390,6 +1850,9 @@
     デハ ソノ ショートケーキヲ<line>
     アズカッテ オコウ.<wait>
   translated: Well then, I’ll look after this ‘Shortcake’.
+  us: |
+    I'LL TAKE THE <line>
+    SHORTCAKE NOW.<end>
   en: |
     Ah, Shortcake. He’ll be pleased. I’ll hold on to this for you.<wait more>
     Proceed.<wait>
@@ -1402,6 +1865,10 @@
   indices:0A0
   ja: オクリモノニ ナルヨウナ モノヲ<line>
   translated: That is NOT a suitable gift. 
+  us: |
+    I DON'T THINK YOU <line>
+    HAVE A SUITABLE<wait more>
+    PRESENT.<end>
   en: These are not suitable gifts!<wait>
   fr: Ce présent n'est pas approprié_!<wait>
 
@@ -1410,6 +1877,9 @@
   indices:0A2
   ja: サッサト カエレ.<wait>
   translated: Leave at once!
+  us: |
+    GO BACK TO YOUR <line>
+    HOME NOW.<end>
   en: I can’t grant you access without a gift!<wait>
   fr: Aucune entrevue possible sans présent_!<wait>
 
@@ -1424,6 +1894,23 @@
     アイニ ユクガヨイ.<wait more>
     ラシークヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
   translated: I am the Governor-General of this planet. I understand you are on a quest to defeat LaShiec. I commend you for your courage. In Maharu Cave you will find an Esper named Lutz (pronounced 'roots'). Please take this letter to him. I am absolutely certain that you will defeat LaShiec and return here.
+  us: |
+    I'M THE GOVERNOR.<line>
+    I'M TOLD THAT YOU <wait more>
+    INTEND TO TRY TO<line>
+    KILL LASSIC.<wait more>
+    I ADMIRE YOUR <line>
+    COURAGE. IN THE <wait more>
+    MAHARU CAVE LIVES<line>
+    AN ESPAR NAMED <wait more>
+    NOAH. I WILL GIVE<line>
+    YOU A LETTER OF<wait more>
+    INTRODUCTION TO<line>
+    PRESENT TO HER.<wait more>
+    I HAVE FAITH THAT<line>
+    YOU WILL KILL<wait more>
+    LASSIC AND RETURN<line>
+    HERE EVENTUALLY.<end>
   en: |
     Welcome. I am the Governor-General of this planet. You have come so far. Please, sit.<wait more>
     I know why you are here. You’ve certainly made no secret of it. You're going to kill LaShiec.<wait more>
@@ -1453,12 +1940,21 @@
   # Governor-General (subsequent visits)
   indices:0AA,0AA-2
   ja: ラシークヲ タオシテ キット ココヘモドッテクルコトヲ シンジテイルゾ.<wait>
+  translated: I am absolutely certain that you will defeat LaShiec and return here.
+  us: |
+    I HAVE FAITH THAT<line>
+    YOU WILL KILL<wait more>
+    LASSIC AND RETURN<line>
+    HERE EVENTUALLY.<end>
   en: Return here when you have defeated LaShiec. God be with you.<wait>
   fr: Revenez ici quand vous aurez vaincu Lassic. Que Dieu vous garde.<wait>
 
 - offsets:4ff9
   indices:0B8
   ja: ドウカ ブジニ モドッテキテネ.<line>
+  us: |
+    I AM PRAYING FOR<line>
+    YOUR SAFETY.<end>
   en: Good luck out there. You’re going to need it.<wait>
   fr: Bonne chance. Vous allez en avoir besoin.<wait>
 
@@ -1467,6 +1963,10 @@
   indices:29C
   ja: ナガイタビデ ツカレタダロウ.<line>
   translated: You must be tired from your long journey. You should relax here for a while.
+  us: |
+    YOU SHOULD REST<line>
+    HERE AWHILE AFTER<wait more>
+    YOUR LONG JOURNEY.<end>
   en: You must be tired from your journey. Why don’t you rest here for a while?<wait>
   fr: |
     Vous devez être fatiguée de votre voyage.<wait more>
@@ -1477,6 +1977,9 @@
   indices:0B6
   ja: ドウゾ ヤスンデ イッテネ.<wait>
   translated: Please rest before you go.
+  us: |
+    PLEASE REST YOUR <line>
+    WEARY BONES.<end>
   en: You look tired, why don’t you rest here for a while?<wait>
   fr: |
     Vous m'avez l'air fatigué,<wait more>
@@ -1485,7 +1988,10 @@
 - offsets:4f5b
   indices:2A0
   ja: フカイ ネムリニ ツイタ.<delay>
-  translated: You enter into a deep sleep…
+  translated: You enter into a deep sleep...
+  us: |
+    YOU FELL INTO A<line>
+    DEEP SLEEP.<delay>
   en: You fell into a deep sleep...<delay>
   fr: Vous tombez dans un profond sommeil ...<delay>
 
@@ -1493,6 +1999,9 @@
   indices:2A2
   ja: オソロシイ ユメダッタ.<wait>
   translated: What a frightening dream_!
+  us: |
+    YOU HAD A BAD<line>
+    DREAM.<end>
   en: It was all a dream...<wait>
   fr: C'était un rêve...<wait>
 
@@ -1505,7 +2014,13 @@
     ココロシテ カカルガヨイ.<line>
     ブジヲ イノッテイル.<wait>
   translated: There’s no time to lose! Have faith in yourself. I’ll be praying for your safety.
-  us: THAT WAS QUICK! OH I SEE YOU ARE NOT THROUGH WITH LASSIC YOU HAD BEST REST AT THE INN<wait>
+  us: |
+    THAT WAS QUICK-OH,<line>
+    I SEE,YOU ARE NOT <wait more>
+    THROUGH WITH<line>
+    LASSIC. YOU HAD<wait more>
+    BEST REST AT THE <line>
+    INN.<end>
   en: |
     There is not a single moment to lose.<wait more>
     Please be careful.<line>
@@ -1520,6 +2035,11 @@
   indices:2A6
   ja: オヤ.ヨウスガ ヘンダ.<wait more>
   translated: Hey. That’s weird... Where’d the Governor-General go?
+  us: |
+    IT HAS SOMETHING<line>
+    STRANGE.<wait more>
+    WHERE IS THE <line>
+    GOVERNOR,I WONDER?<end>
   en: Empty! Where is the Governor-General?<wait>
   fr: Personne_? Où se trouve le Gouverneur_?<wait>
 
@@ -1533,12 +2053,18 @@
   ja: |
     ルツハ パセオノ ソウトクノ<line>
     メイレイナラバ キクカモシレナイ.<wait>
+  us: |
+    IF THE GOVERNOR<line>
+    ORDERS NOAH TO DO<wait more>
+    SOMETHING,HE WILL<line>
+    LIKELY OBEY.<end>
   en: Since the orders are from the Governor-General, Lutz will probably listen.<wait>
   fr: Les ordres venant du Gouverneur, Lutz les écoûtera peut-être...<wait>
 
 - offsets:53c9
   indices:0B2
   ja: ヤッホー.<wait>
+  us: HELLO!<end>
   en: Yahoo!<wait>
   fr: Salut<wait>
 
@@ -1549,6 +2075,11 @@
     アナタガタハ ダレデスカ. ワタシハイマ シュギョウチュウデス.<wait more>
     ジャマヲ シナイデ クダサイ.<wait>
   translated: Who are you? I'm in the middle of training right now. Please don’t interrupt.
+  us: |
+    WHO ARE YOU? I'M<line>
+    BUSY WITH MY<wait more>
+    TRAINING NOW! DO<line>
+    NOT BE A NUISANCE!<end>
   en: |
     Who are you?<line><line>
     I’m trying to train. Don’t interrupt me.<wait>
@@ -1570,6 +2101,11 @@
     キマシタ.<line>
     ヨンデイタダケマセンカ.<wait>
   translated: We came to deliver this letter from the Governor-General. Won’t you read it please?
+  us: |
+    I'VE RECEIVED A<line>
+    LETTER FROM THE <line>
+    GOVERNOR. PLEASE <line>
+    READ IT.<end>
   en: |
     You must be Lutz. I have a letter for you from the Governor-General.<line><line>
     Would you mind reading it?<wait>
@@ -1589,6 +2125,21 @@
     タシカ マンホールヲ トオッテ<line>
     イケタハズデス.<wait>
   translated: I understand... Together, we must protect the Algol system from the hand of evil. To do that, we must first meet with Dr. Luveno in the Gothic Woods. If I recall correctly, there is manhole that leads to the village. 
+  us: |
+    LET ME SEE IT.....<line>
+    OUR DUTY IS CLEAR:<line>
+    WE MUST PROTECT<line>
+    THE PLANETS OF THE<wait more>
+    ALGOL SYSTEM FROM <line>
+    EVIL.<line>
+    WE MUST FIRST GO<line>
+    TO THE GOTHIC<wait more>
+    FORESTS AND FIND<line>
+    DR.LUVENO. WE CAN<line>
+    USE AN UNDERGROUND<line>
+    PASSAGE FROM A<wait more>
+    MANHOLE IN THE<line>
+    SPACEPORT.<end>
   en: |
     Let me see that.<wait more>
     ...Ah. I see. So it’s come to this.<line><line>
@@ -1620,6 +2171,9 @@
   indices:0BA
   ja: アンタ オレニ ペロリーメイトヲ<line>
   translated: Hey, you mind if I bum a ‘Perolimate’?
+  us: |
+    COULD YA SPARE ME<line>
+    A CUP OF COLA?<prompt>
   en: I could really use a PelorieMate. Can you spare one?<end>
   fr: |
     J'aurais vraiment besoin d'une Vitabarre.<wait more>
@@ -1637,6 +2191,14 @@
     ロウゴクニ トジコメラレタンダ.<wait>
     <end>
   translated: Thanks. This place used to be the lab of a scientist named ‘Luveno’. But he turned crazy, see, and got locked up in Toriada, the prison to the South of this village.
+  us: |
+    THANKS! THIS WAS<line>
+    ONCE THE LAB. OF<wait more>
+    DR.LUVENO. HE WENT
+    BONKERS, THOUGH<wait more>
+    AND BE INPRISONED<line>
+    IN TRIADA TO THE <wait more>
+    SOUTH OF HERE.<end>
   en: |
     Thanks. I suppose you’re looking for Doc Luveno? Yeah, his lab used to be here.<wait more>
     Not no more, though. Guy went crazy. They finally locked that loon up.<wait more>
@@ -1654,6 +2216,7 @@
   indices:20E
   ja: バカニスンデネエ.<wait>
   translated: Don’t f--ー with me!
+  us: DON'T BE A FOOL!<end>
   en: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
   fr: Ai-je l'air d'un idiot_???<wait>
 
@@ -1661,6 +2224,10 @@
   # Villager (no to previous question)
   indices:0C2
   ja: アンタニ ハナスコトハ ナイ.<line>
+  translated: I ain’t talking to you, then. Get the hell away from me.
+  us: |
+    I GOT NOTHIN' TO<line>
+    SAY T'YA!GET LOST!<end>
   en: Then I got nothing to say to you. Get lost.<wait>
   fr: Alors je ne vous aiderai pas_! Veuillez partir.<wait>
 
@@ -1673,6 +2240,17 @@
     チカヅクナ.ソコニハ スガタヲ ミタダケデ カラダガ イシニナッテシマウ<wait more>
     トイウ オソロシイ マモノガ スンデイルラシイ.<wait>
   translated: In the heart of the mountains, there's a tower that can be reached by one of the roads leading out of Gothic. Inside the tower, they say, there's a freaky monster that, if you just LOOK at it, will turn yuh tuh stone!
+  us: |
+    DON'T GO NEAR THE <line>
+    TOWER AT THE FAR<wait more>
+    END OF THE NARROW<line>
+    ROAD WHICH GOES<wait more>
+    FROM THE GOTHIC<line>
+    FOREST THROUGH THE<wait more>
+    MOUNTAINS. A MAGIC
+    BEAST LIVES THERE.<wait more>
+    LOOK AT IT AND YA<line>
+    TURN TO STONE.<end>
   en: |
     Thank you, stranger.<wait more>
     At the end of the long path directly south of here, there's an ancient tower.<wait more>
@@ -1688,6 +2266,10 @@
   indices:282
   ja: ラ サキハ ボクノ<line>
   translated: The area beyond here is my territory, so stay the hell out!
+  us: |
+    YOU CANNOT COME<line>
+    THROUGH HERE.<wait more>
+    THIS IS MY AREA.<end>
   en: Hey! Keep outta my turf! Everything past here is mine!<wait>
   fr: |
     Hey_!<line>
@@ -1698,6 +2280,11 @@
   indices:284
   ja: ルベノハカセガ イウノダッタラ<line>
   translated: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.
+  us: |
+    WELL,IF DR.LUVENO<line>
+    SENT YOU ,I GUESS<wait more>
+    I HAVE TO LET YOU <line>
+    THROUGH.<end>
   en: Well, I guess I gotta do what Dr. Luveno says. Go head and pass.<wait>
   fr: Faisons ce que Luveno a dit. L'ignorer_!<wait>
   
@@ -1711,15 +2298,21 @@
   indices:0E6
   ja: ロードパスヲ モッテイルカ.<end>
   translated: Do you have a Roadpass?
+  us: |
+    DO YOU HAVE YOUR <line>
+    ROADPASS?<prompt>
   en: Do you have a Roadpass?<end>
   fr: Avez-vous un laisser passer_?<end>
 
 - offsets:549d,55e0
   # Guard Near Entrance (no to previous question)
-  translated: Same sequence in Baya Mahrey Prison
+  # Same sequence in Baya Mahrey Prison
   indices:0E8
   ja: タイシタ ドキョウダ.<line>
   translated: You are very brave. Please allow me to kill you...
+  us: |
+    YOU ARE A FOOL!<line>
+    YOU WILL DIE!<end>
   en: Intruder detected. Initiating termination sequence.<wait>
   fr: Intrus détecté. Activons la phase d'extermination.<wait>
 
@@ -1727,6 +2320,11 @@
   # Prisoner (if you give PelorieMate)
   indices:0EA
   ja: クモノ カイブツハ ホントウハ<line>
+  translated: Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.
+  us: |
+    SPIDER MONSTERS<line>
+    ARE ACTUALLY<wait more>
+    VERY INTELLIGENT.<end>
   en: Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.<wait>
   fr: |
     Merci. Tu sais, peu importe ce que les gens disent,<wait more>
@@ -1737,6 +2335,11 @@
   indices:0F0
   ja: ガシコノ ヤマオクニアル トウハ<line>
   translated: The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’
+  us: |
+    THE TOWER DEEP IN<line>
+    THE GOTHIC<wait more>
+    MOUNTAINS IS KNOWN
+    AS MEDUSA'S TOWER.<end>
   en: The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
   fr: |
     La tour située dans les montagnes de Gothic,<wait more>
@@ -1749,6 +2352,11 @@
     ポリメテラール トイウ クスリハ<wait more>
     ラコニア イガイノ ブッシツハ<line>
   translated: There’s this chemical called ‘Polymeteral’ that they say will dissolve any material except laconia.
+  us: |
+    POLYMETERAL WILL<line>
+    DISSOLVE ALL<wait more>
+    MATERIALS EXCEPT<line>
+    FOR LACONIA.<end>
   en: |
     A chemical called Polymeteral will dissolve any material!<wait more>
     ...well, anything except Laconia, of course.<wait>
@@ -1763,6 +2371,11 @@
     ヤア.ヒトニ アウノハ<line>
     ヒサシブリダ.オハナシシヨウヨ.<end>
   translated: Whassup? I haven’t seen any people in a long time! Let’s talk!
+  us: |
+    I HAVEN'T SEEN<line>
+    ANYONE FOR A LONG<wait more>
+    TIME. WILL YOU<line>
+    TALK WITH ME?<prompt>
   en: Oh, hi! I haven't seen another person in a long time! Will you stay and talk for a while?<end>
   fr: |
     Il y a longtemps que je n'ai vu personne.<wait more>
@@ -1774,8 +2387,15 @@
   ja: |
     バルテボニハ ボクノ トモダチガ<line>
     イルンダ.<wait more>
-  ja: イマハ ヨウガンイケノ セイデ<line>
+    イマハ ヨウガンイケノ セイデ<line>
   translated: Y’know, I’ve got a friend in Bartevo. But those lava pools are making things real tough right now, I guess. If you see my friend, could you tell him I said ‘hi?’
+  us: |
+    I'VE GOT A FRIEND<line>
+    IN BORTEVO. HE'S<wait more>
+    PROBABLY HAVING A<line>
+    HARD TIME BECAUSE<wait more>
+    OF THE LAVA. WHY<line>
+    NOT VISIT HIM?<end>
   en: |
     I’ve got a friend in Bartevo.<wait more>
     I guess things are pretty bad there right now, what with those pools of lava and all.<wait more>
@@ -1791,6 +2411,9 @@
   indices:0EC
   ja: ハプスビー トイウ<line>
   translated: Do you know of a robot called ‘Hapsby’?
+  us: |
+    DO YOU KNOW THE <line>
+    ROBOT HAPSBY?<prompt>
   en: Have you heard of Hapsby the robot?<end>
   fr: Avez-vous entendu parler du robot Hapsby_?<end>
 
@@ -1801,6 +2424,14 @@
     ラコニアデ デキタ ロボットダヨ.<wait more>
     デモ スクラップニ サレテ<line>
     ステラレチマッタラシイヨ.<wait>
+  translated: It’s a robot made out of laconia! But it seems to have been dumped into a scrap heap!
+  us: |
+    IT'S A ROBOT MADE<line>
+    OF LACONIA. BUT<wait more>
+    IT HAS BEEN<line>
+    ABANDONED<wait more>
+    SOMEWHERE AS<line>
+    BEING USELESS.<end>
   en: |
     It’s a robot made of Laconia!<wait more>
     Luveno created Hapsby as a prototype spaceship pilot.<wait more>
@@ -1816,6 +2447,12 @@
   indices:0EE
   ja: ヤマノ ムコウハ カザンノ フンカデヨウガンイケガ デキテイルソウダヨ.<wait>
   translated: I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.
+  us: |
+    ON THE FAR SIDE OF
+    THE MOUNTAINS LIES<wait more>
+    A POOL OF MOLTEN<line>
+    LAVA CREATED BY A<wait more>
+    VOLCANIC ERUPTION.<end>
   en: Volcanic eruptions covered the other side of the mountains with a whole bunch of lava.<wait>
   fr: |
     L'autre coté des montagnes est complètement recouvert de lave.<wait more>
@@ -1828,6 +2465,11 @@
     ワシハ ルベノジャ.タスケニ<line>
     キタノナラ ヨケイナコトジャ.<wait more>
   translated: I’m Luveno. You came here to rescue me? That’s not really necessary. You should go home.
+  us: |
+    I'M LUVENO. IF<line>
+    YOU'VE COME FOR<wait more>
+    HELP, YOU HAD BEST
+    FORGET IT. LEAVE!<end>
   en: Yes, I’m Dr. Luveno. If you're here to rescue me, forget it! I'm not going anywhere.<wait>
   fr: |
     Oui, je suis le Docteur Luveno.<wait more>
@@ -1841,6 +2483,13 @@
     ナニ.ウチュウセンヲ ツクレジャト.バカモ ヤスミ ヤスミ イエ.<wait more>
     ワシガ ソンナコトヲ ヒキウケルト<line>
   translated: What? Did you say 'build a spaceship?' [BAKA MO YASUMIYASUMI IE.]  Do you think I want to be responsible for something like that?
+  us: |
+    YOU WANT ME TO<line>
+    BUILD A SPACESHIP<wait more>
+    FOR YOU ? NOT A<line>
+    CHANCE! I CAN'T<wait more>
+    ACCEPT SUCH<line>
+    RESPONSIBILITY.<end>
   en: What? You want me to build a spaceship?! Why would I do that? Go away, leave me be.<wait>
   fr: |
     Quoi_? Construire un vaisseau spatial_? Vous êtes dingue_?<wait more>
@@ -1853,6 +2502,12 @@
     ウーム.コリナイヤツジャ.<line>
     シカタガナイ.<wait more>
   translated: Hmmm... Didn’t I tell you to-- Aah, I give up! You must promise to do whatever I ask. Agreed?
+  us: |
+    YOU ARE CERTAINLY<line>
+    PERSISITENT. WELL,<wait more>
+    IF YOU WILL DO AS<line>
+    I SAY, I WILL HELP<wait more>
+    YOU. IS IT A DEAL?<prompt>
   en: |
     You again? Ach, I give up. I'll build your spaceship, but there's one condition.<wait more>
     You must promise you'll follow my instructions exactly, no matter what I ask. Agreed?<end>
@@ -1869,6 +2524,13 @@
     ヨシ.ソレデハ ヒトアシ サキニ<line>
     ガシコノ ムラヘ イッテ<wait more>
   translated: Good. Well then, I’m going to go to Gothic Village and make the proper arrangements. Meet me there later. Oh, don’t worry. I can make it there myself.
+  us: |
+    O.K. I WILL GO TO<line>
+    GOTHIC VILLAGE<wait more>
+    NEARBY TO MAKE<line>
+    PREPARATIONS. COME<wait more>
+    THEN. DO NOT WASTE
+    WORRY ON ME.<end>
   en: |
     Good. Well then, I'm off to Gothic Village to get started. I'll met you there.<wait more>
     Oh, don't worry about me, I'm tougher than I look. I'll make it there by myself.<wait>
@@ -1881,6 +2543,9 @@
   indices:0D4
   ja: イウトオリニ シナイナラ<line>
   translated: Well, if you won’t promise, then I’m afraid I can’t help you.
+  us: |
+    IF YOU DON'T OBEY<line>
+    ME, I CANNOT HELP.<end>
   en: If you don’t do as I say, there’s no way I can help you.<wait>
   fr: Si vous ne faites pas ce que je dis, ca ne marchera jamais.<wait>
 
@@ -1889,6 +2554,9 @@
   indices:0DC
   ja: イマ イソガシインダ.<line>
   translated: I’m busy right now, so please don’t interrupt.
+  us: |
+    I'M BUSY.DON'T<line>
+    BOTHER ME.<end>
   en: Don’t distract me! I’m very busy.<wait>
   fr: Ne me dérangez surtout pas_! Je suis très très occupé_!<wait>
 
@@ -1900,6 +2568,13 @@
     キタノカイ.<wait more>
     マタ ウチュウセンヲ ツクルノカ.<line>
   translated: Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice [but to help]. I’ll go there right away.
+  us: |
+    WHAT? DR.LUVENO<line>
+    HAS RETURNED?<wait more>
+    HE WILL BUILD<line>
+    ANOTHER SPACESHIP?<wait more>
+    I WILL BE THERE<line>
+    RIGHT AWAY.<end>
   en: |
     What? You busted out Doc Luveno?<wait more>
     What?! He’s building you a spaceship?!<wait more>
@@ -1916,6 +2591,12 @@
   ja: |
     オクノ ヘヤヘ ハイッテ イキテ<line>
     カエッタモノハ イナイ.ヒッヒッヒ.<wait>
+  us: |
+    NO MAN THAT GOES<line>
+    INTO THE ROOM IN<wait more>
+    THE FAR CORNER HAS
+    EVER COME OUT<wait more>
+    ALIVE! AHA-HA-HA!<end>
   en: |
     I’ve seen plenty of men go into the inner chamber.<wait more>
     Coming out, though, is a different story.<wait more>
@@ -1930,6 +2611,9 @@
   ja: |
     モハヤ カクゴハ デキテオル<line>
     ジャロウナ. フッフッフ.<wait>
+  us: |
+    YOU WILL SOON FIND<line>
+    OUT THE TRUTH!<end>
   en: You’ve gotten far. Soon you will know the truth.<wait>
   fr: Vous qui êtes venue jusqu'ici, vous connaîtrez bientôt la vérité.<wait>
 
@@ -1938,6 +2622,10 @@
   ja: |
     イキドマリジャ. モドリナサイ.<line>
     カエルナラ イマノウチダ.<wait>
+  us: |
+    HALT! GO BACK!<line>
+    YOUR LAST CHANCE!<end>
+
   en: Get out of here while you're still breathing! You don’t know what you’re up against!<wait>
   fr: |
     Sortez d'ici_!<wait more>
@@ -1949,6 +2637,9 @@
     オオ.ナント ユウカンナ<line>
     ワカモノヨ. ワナニ キヲツケテナ.<wait>
   translated: Oh, what a brave young lady you are! Beware of traps.<wait>
+  us: |
+    HOW BRAVE! BUT BE<line>
+    CAREFUL OF TRAPS!<end>
   # (there are no ladies if Alisa is dead)
   en: It’s brave of you to come here. Beware of hidden traps!<wait>
   fr: C'est courageux à vous de venir ici. Faites attention aux pièges_!<wait>
@@ -1967,6 +2658,13 @@
     ツレテキテクレ.チカツウロノ ナカニカクレテオルハズジャ.<wait more>
     ホントニ アイツハ ハズカシガリヤデコマッタモノジャ.<wait>
   translated: Ahh, you’re late! Quickly! Do me a favor and bring my assistant back here. He’s probably hiding in that underground tunnel. It really irritates me shy a person he is.
+  us: |
+    AH, IT'S GETTING<line>
+    LATE! FETCH MY<wait more>
+    ASSISTANT. HE'S<line>
+    LIKELY HIDING<wait more>
+    IN THE UNDERGROUND
+    PASSAGE.<end>
   en: |
     Finally. What took you so long? First, I need you to fetch my assistant.<wait more>
     He's probably hiding in the underground tunnel. He's shy, that one. It's irritating.<wait>
@@ -1986,6 +2684,14 @@
     カカルンジャガ ワシニ クレンカ.<end>
   # <number> is always 1200.
   translated: Okay, it looks like my staff is assembled. Manufacturing expenses come to 1200 meseta. Will you please give it to me?
+  us: |
+    NOW THAT MY STAFF<line>
+    IS ASSEMBLED<wait more>
+    I CAN BEGIN.THERE<line>
+    IS HOWERVER, A<wait more>
+    SLIGHT FEE OF 1200
+    MESETAS INVOLVED.<wait more>
+    WILL YOU PAY?<prompt>
   en: |
     Right. It looks like my staff is assembled.<wait more>
     What, you don’t think two people can build a spaceship?<wait more>
@@ -2007,6 +2713,11 @@
     アリガトウ.デハ セイサクヲ<line>
     ハジメヨウ.スコシマッテクレ.<wait>
   translated: Thanks. Now then, let’s begin construction, shall we? Please wait for a little while.
+  us: |
+    THANK YOU. I CAN<line>
+    NOW GET TO WORK.<wait more>
+    PLEASE WAIT ONE<line>
+    MOMENT.<end>
   en: |
     Splendid. We’ll begin construction immediately.<wait more>
     This is delicate work, do me a favor and try not to bother me for a while?<wait>
@@ -2021,6 +2732,11 @@
   indices:0D0
   ja: タリナイノウ. ワルイガ オカネヲ<line>
   translated: You don’t have enough? I’m sorry, but must get some more money.
+  us: |
+    YOU DON'T HAVE <line>
+    ENOUGH. COME BACK<wait more>
+    AGAIN WHEN YOU <line>
+    HAVE ENOUGH FUNDS.<end>
   en: You don’t have enough? Go get some more!<wait>
   fr: Vous n'en avez pas assez_? Allez en chercher un peu plus_!<wait>
 
@@ -2031,6 +2747,10 @@
     ソレハ ザンネンジャ.<line>
     オマエノ タビモ ココマデカノウ.<wait>
   translated: What a shame. So your journey ends here, I suppose...
+  us: |
+    THAT'S TOO BAD.<line>
+    AND YOU HAVE COME<wait more>
+    SO FAR, TOO.<end>
   en: Ah, so you’ve wasted my time. Wonderful.<wait>
   fr: |
     Alors comme ca, vous m'avez fait perdre mon temps. Bravo.<wait more>
@@ -2040,6 +2760,11 @@
   # Dr Luveno (first two times you talk to him)
   indices:292
   ja: アワテテモ イイモノハ デキンゾヨ.モウ スコシノシンボウジャ.<wait>
+  us: |
+    IT CANNOT BE<line>
+    HURRIED! PLEASE <wait more>
+    SHOW A BIT MORE<line>
+    PATIENCE!<end>
   en: |
     Please, you can’t rush perfection.<wait more>
     Unless you want to end up stranded in space, give us time.<wait more>
@@ -2055,6 +2780,11 @@
   ja: |
     ヨロコベ ツイニ ウチュウセン<line>
     ルベノゴウガ デキアガッタゾ.<wait>
+  translated: At last, the spaceship is finished!  I’m pleased to present to you, the ‘Luveno’!
+  us: |
+    SUCCESS! I PRESENT
+    A SUPERB SPACESHIP<wait more>
+    THE LUVENO.<end>
   en: |
     Success! This is my finest work yet.<wait more>
     I call it the Luveno. Got a nice ring to it, don’t you think?<wait>
@@ -2068,6 +2798,9 @@
   indices:0D6
   ja: シカシ オマエニハ ルベノゴウハ<line>
   translated: But you won’t be able to pilot the spaceship yourself.
+  us: |
+    BUT YOU CANNOT FLY<line>
+    A SPACESHIP.<end>
   en: But I’m afraid the Luveno can’t be piloted by a human...<wait>
   fr: Mais j'ai peur qu'aucun humain ne puisse piloter le Luveno...<wait>
 
@@ -2079,6 +2812,11 @@
     サガシテクルンジャ.<wait more>
     アノ ロボットナラ ウチュウセンヲ<line>
     ソウジュウ デキルハズジャ.<wait>
+  us: |
+    YOU MUST FIND A<line>
+    ROBOT NAMED <wait more>
+    HAPSBY. HE CAN FLY
+    A SPACESHIP.<end>
   en: |
     I built a robot named Hapsby years ago, just for this purpose.<wait more>
     He’s probably still in that scrap heap in Bartevo.<wait more>
@@ -2104,6 +2842,10 @@
     ムラノ ソトヘ デテミルガイイ.<line>
     ナカナカノ デキダヨ.<wait>
   translated: Now then, you can use the Luveno to fly through space. Go outside the village and take a look. It’s a brilliant piece of work.
+  us: |
+    WE CAN BOARD THE <line>
+    LUVENO AND BE ON<wait more>
+    OUR WAY!<end>
   en: |
     Ah, my little Hapsby, you’ve come home!<wait more>
     Excellent. With Hapsby you can pilot the Luveno through space!<wait more>
@@ -2121,6 +2863,9 @@
   indices:0D8
   ja: ルベノゴウノ チョウシハ ドウジャ.ダイジニ ツカッテ オクレ.<wait>
   translated: How’s the ‘Luveno’ holding up? Please be careful with it.
+  us: |
+    HOW IS THE LUVENO?
+    USE IT WELL.<end>
   en: How’s the Luveno holding up? Take good care of it.<wait>
   fr: Le Luveno se comporte bien_? Merci d'en prendre bien soin.<wait>
 
@@ -2128,6 +2873,9 @@
 - offsets:4cec
   indices:19E
   ja: スペースポートハ ヘイサスル.<wait>
+  us: |
+    THE SPACEPORT IS<line>
+    CLOSED.<end>
   en: Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
   fr: |
     Accès refusé.<wait more>
@@ -2137,6 +2885,9 @@
 - offsets:4cfd
   indices:1A0
   ja: パスポートヲ ボッシュウスルゾ.<wait>
+  us: |
+    WE ARE CONFISCAT-<line>
+    ING YOUR PASSPORT.<end>
   en: All existing Passports are now invalid and must be destroyed. We're confiscating yours.<wait>
   fr: Votre Passeport vous est confisqué sur le champ.<wait>
 
@@ -2144,6 +2895,7 @@
 - offsets:4c30,4ccf,54ca
   indices:0CE
   ja: フザケルナ.<wait>
+  us: DON'T BE A FOOL!<end>
   en: Well? Let’s see it.<wait>
   fr: Eh bien_? Voyons ca.<wait>
 
@@ -2159,6 +2911,11 @@
     バルテボハ オレノ ナワバリダ.<line>
     アラスンジャナイゾ.<wait>
   translated: Bartevo is my territory. Don’t be screwin’ around!
+  us: |
+    BORTEVO IS MY<line>
+    TURF. DON'T YA<wait more>
+    MESS 'ROUND HERE,<line>
+    NOW GIT!<end>
   en: Bartevo is my turf, stranger. Don't go poking your nose around.<wait>
   fr: |
     C'est MON territoire_!<wait more>
@@ -2176,6 +2933,13 @@
     コノ スクラップノナカニ セイノウノイイ ロボットガ ステラレテイル<wait more>
     トイウハナシダケド ホントウカネー.<wait>
   translated: I heard that a high-performance robot got dumped inside one of these scrap piles. I wonder if it’s true?
+  us: |
+    IN THIS PILE OF<line>
+    JUNK, SOMEWHERE,<wait more>
+    THERE IS S'PPOSED<line>
+    T'BE A USABLE<wait more>
+    ROBOT,BUT YOU KNOW<line>
+    HOW RUMORS BE.<end>
   en: |
     Someone told me that there’s a perfectly good robot discarded in one of these scrap heaps.<wait more>
     I wonder if it’s true?<wait>
@@ -2189,6 +2953,9 @@
   indices:10A
   ja: アビオンノ ムラニ ポリメテラール<line>
   translated: The drug store in Abion sells Polymeteral, I hear.
+  us: |
+    POLYMETERAL IS FOR<line>
+    SALE IN ABION.<end>
   en: The drug store in Avion Village sells Polymeteral.<wait>
   fr: |
     J'ai entendu dire qu'on trouvait un produit appelé Polymatériau<wait more>
@@ -2201,6 +2968,11 @@
     ボクハ ハプスビー.<wait more>
     ミツケテクレテ アリガトウ. ルベノゴウノ ソウジュウハ マカセテネ.<wait>
   translated: I am Hapsby. Thanks for getting me out of that scrap heap. Let me pilot the ‘Luveno’ for you, okay?
+  us: |
+    I'M HAPSBY.<line>
+    THANKS FOR FINDING<wait more>
+    ME. I CAN FLY THE <line>
+    LUVENO FOR YOU.<end>
   en: |
     Greetings. I am pilot robot Hapsby. Thanks for rescuing me.<wait more>
     I will assist you in the operation of any Luveno brand spacecraft.<wait>
@@ -2214,6 +2986,11 @@
     フロームーバーヲ ミツケタ.<wait more>
     ツカエルヨウニ ナッタゾ.<wait>
   translated: You found the ‘FlowMover’! Hapsby fixed the areas that were damaged, so you can use it now!
+  us: |
+    YOU FOUND THE <line>
+    HOVERCRAFT.HAPSBY<wait more>
+    HAS RESTORED IT TO<line>
+    WORKING ORDER.<end>
   en: |
     You found a FlowMover.<wait more>
     Hapsby fixed the parts that were broken, so you can use it now!<wait>
@@ -2234,6 +3011,13 @@
     ココハ ロアー トイウ ムラデス.<line>
     ラシークノセイデ サビレテシマッタ.<wait>
   translated: This is the Village of Lore. Thanks to LaShiec, it’s become a wasteland.
+  us: |
+    THIS TOWN IS<line>
+    CALLED LOAR.<wait more>
+    WE HAVE BEEN IN<line>
+    DECLINE THANKS TO<wait more>
+    THE WORK OF<line>
+    LASSIC.<end>
   en: |
     This is Lore Village. Well, it used to be, before LaShiec's corruption.<wait more>
     As you can see, now it’s a wasteland.<wait>
@@ -2250,6 +3034,12 @@
     カスバノ ドラゴンガ モッテイル<line>
     トイウ ウワサデス.<wait>
   translated: Do you know of a jewel called the ‘Carbuncle Eye’? Rumor has it that it’s being held by the Casba Dragon.
+  us: |
+    HAVE YOU HEARD OF<line>
+    A GEM CALLED "THE <wait more>
+    AMBER EYE"?<line>
+    SOME SAY THE CASBA<wait more>
+    DRAGON HAS ONE.<end>
   en: |
     Have you heard of a jewel called the Carbuncle Eye?<wait more>
     It’s rumored to be held by a dragon in Casba.<wait more>
@@ -2266,6 +3056,11 @@
     コノシマノ ニシノ ハズレニハ<line>
     アビオン トイウ ムラガ アリマス.<wait>
   translated: On the West end of this island, there is a village called Abion.
+  us: |
+    THERE IS A VILLAGE
+    CALLED ABION ON<wait more>
+    THE WESTERN EDGE<line>
+    ON THIS ISLAND.<end>
   en: |
     Hey, since you’re here, you might as well pay Avion a visit.<wait more>
     It’s a small town like this one, on the western tip of the island.<wait>
@@ -2278,6 +3073,9 @@
   indices:114
   ja: ラエルマツリー トイウ キヲ<line>
   translated: Do you know about the ‘Laerma Tree?'
+  us: |
+    DO YOU KNOW ABOUT<line>
+    LAERMA TREES?<prompt>
   en: Have you heard about Laerma trees?<end>
   fr: Avez-vous entendu parler des arbres Laerma_?<end>
 
@@ -2286,6 +3084,11 @@
   indices:116
   ja: デゾリスセイノ アルチプラノ<line>
   translated: I hear the Altiplano Plateau on Dezoris is totally covered by them.
+  us: |
+    THEY GROW ON THE <line>
+    ALTIPLANO PLATEAU<wait more>
+    ON THE PLANET<line>
+    DEZORIS.<end>
   en: I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
   fr: Sur Dézoris, la plaine d'Altiplano en est recouverte.<wait>
 
@@ -2294,6 +3097,15 @@
   indices:118
   ja: エッ ラシークヲ タオシニ イクノ.スゴイネエ.<wait>
   translated: Huh? You’re going to defeat LaShiec? Awesome!
+  us: |
+    YOU ARE GOING TO<line>
+    TRY TO KILL LASSIC<wait more>
+    I HEAR. THAT'S<line>
+    GREAT!<wait more>
+    I HAVE HEARD THAT<line>
+    A CERTAIN<wait more>
+    CRYSTAL WILL BLOCK<line>
+    EVIL MAGIC.<end>
   en: You're going to bring down LaShiec? It's about time someone did!<wait>
   fr: |
     Il serait temps que quelqu'un se dresse contre cette brute.<wait more>
@@ -2304,6 +3116,12 @@
   ja: |
     ウワサダケド アル クリスタルハ<line>
     アシキ マホウヲ フウジルトカ.<wait>
+  translated: Now this is just a rumor, but supposedly there are crystals that protect against evil magic.
+  us: |
+    I HAVE HEARD THAT<line>
+    A CERTAIN<wait more>
+    CRYSTAL WILL BLOCK<line>
+    EVIL MAGIC.<end>
   en: |
     LaShiec’s no pushover. His black magic could destroy you.<wait more>
     I’ve heard certain crystals can protect you against such magic.<wait more>
@@ -2322,6 +3140,7 @@
   indices:11C
   ja: コノムラハ アビオン トイウノヨ.<wait>
   translated: This village is called Abion.
+  us: WELCOME TO ABION.<end>
   en: This village is called Avion.<wait>
   fr: Notre village se nomme Abion.<wait>
 
@@ -2332,6 +3151,9 @@
     ラシークノ マノテハ コノムラニモ<line>
     ノビテキタ. タスケテクレ.<wait>
   translated: The evil hand of LaShiec has extended to this village as well! Please help us!
+  us: |
+    HELP! LASSIC HAS<line>
+    COME TO THIS TOWN!<end>
   en: The evil hand of Lashiec has extended to this village too! Please, you have to stop him!<wait>
   fr: |
     L'aura maléfique de Lassic a également corrompu notre village_!<wait more>
@@ -2345,6 +3167,14 @@
     ヒッコシテキタヨ.ドウブツジッケンヲ<wait more>
     ヤッテルラシイガ キミガワルイナア.ツボ ミタイナモノヲ モッテタヨ.<wait>
   translated: Some weird freak just moved to this village, and he was carrying a jar or something. It seems he’s been doing experiments on animals. I gotta bad feeling about that guy.
+  us: |
+    A STRANGE MAN CAME
+    TO THIS TOWN. HE<wait more>
+    SEEMS TO BE<line>
+    PERFORMING ANIMAL<wait more>
+    EXPERIMENTS. HE<line>
+    BROUGHT A LARGE<wait more>
+    POT OR SOMETHING.<end>
   en: |
     A really weird guy recently moved here. Rumor has it he experiments on animals.<wait more>
     And that strange pot! He’s always walking around with it clutched to his chest.<wait more>
@@ -2362,18 +3192,27 @@
   indices:126
   ja: ワタシ ウチュウノ タビガ<line>
   translated: I want to try and travel the stars.
+  us: |
+    I'D LIKE TO TRAVEL
+    IN OUTER SPACE.<end>
   en: I’d like to travel through space someday.<wait>
   fr: J'aimerais un jour pouvoir voyager dans l'espace.<wait>
 
 - offsets:5157
   # Villager
-  indices:128
+  indices:128,12A
   ja: |
     ジャコウネコ トイウ ドウブツハ<line>
     アル キノミヲ タベルト<wait more>
-  indices:12A
-  ja: オオキクナッテ ソラヲ トベルヨウニナルソウダヨ. フシギダネ.<wait>
+    オオキクナッテ ソラヲ トベルヨウニナルソウダヨ. フシギダネ.<wait>
   translated: They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly! Weird, huh?
+  us: |
+    SOME CATS, IF THEY
+    EAT A CERTAIN TYPE<wait more>
+    OF NUT,THEY BECOME
+    HUGE AND CAN FLY.<wait more>
+    IT'S REALLY VERY<line>
+    WIERD.<end>
   en: |
     Our new neighbor sure knows a lot about animals.<wait more>
     He told me the weirdest thing about Musk Cats.<wait more>
@@ -2389,6 +3228,9 @@
   indices:296
   ja: オイ ソコノ ネコ.<line>
   translated: Hey, cat! C'mere!
+  us: |
+    HEY, BRING THAT<line>
+    CAT OVER HERE!<prompt>
   en: Here, kitty kitty! Come here!<end>
   fr: Ici, minou minou_! Viens ici_!<end>
 
@@ -2397,6 +3239,9 @@
   indices:298
   ja: ケッケッケ.オマエラモ シニタイカ.<wait>
   translated: Hee hee hee! You guys wanna die too?
+  us: |
+    OOHH,HA,HA! THE <line>
+    CAT WILL DIE!<end>
   en: Ho ho, that was fun! Who’s next?<wait>
   fr: Ha ha, c'était amusant_! A qui le tour_?<wait>
 
@@ -2405,6 +3250,9 @@
   indices:29A
   ja: ワシノ ジャマヲ スルヤツハ<line>
   translated: I will kill anything that gets in my way!
+  us: |
+    I WILL KILL ANY<line>
+    WHO INTERFERE!<end>
   en: I said come HERE.<wait>
   fr: J'ai dit VIENS ICI_!<wait>
 
@@ -2418,6 +3266,11 @@
   indices:1A2
   ja: ココハ デゾリスセイノ スクレ.<line>
   translated: This is Skray, on the planet Dezoris. Pretty cold outside, wasn’t it?
+  us: |
+    WELCOME TO SKURE<line>
+    ON DEZORIS.<wait more>
+    IT'S FREEZING<line>
+    OUTSIDE, ISN'T IT?<end>
   en: Welcome to Skray, the warmest place on Dezoris! Pretty cold out there, isn't it?<wait>
   fr: |
     Bienvenue à Skure!<wait more>
@@ -2428,6 +3281,10 @@
   indices:1A4
   ja: パルマセイカラノ イミンハ ホトンドコノマチニ スンデイマス.<wait>
   translated: Nearly all of the Palman immigrants live in this town.
+  us: |
+    MOST EMIGRANTS<line>
+    FROM PALMA<wait more>
+    SETTLE HERE.<end>
   en: Almost all of us Palman immigrants live here in Skray. We're just not built for the cold.<wait>
   fr: Presque tous les immigrants venus de Palma vivent dans cette ville.<wait>
 
@@ -2440,6 +3297,15 @@
     コノホシノ ジュウミン デゾリアンノムラガ アルソウヨ.<wait>
     <end>
   translated: I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the the northern mountains.
+  us: |
+    I DON'T KNOW A LOT
+    ABOUT THIS PLANET,<wait more>
+    BUT WORD HAS IT<line>
+    THAT THERE IS A<wait more>
+    TOWN OF NATIVE<line>
+    DEZORIANS IN THE <wait more>
+    FAR REACHES OF THE
+    MOUNTAINS.<end>
   en: |
     I'm new to Dezoris so I don't know too much about it yet. You should talk to the natives.<wait more>
     I haven't been yet, but a lot of them live in a village inside the mountains up north.<wait>
@@ -2457,6 +3323,17 @@
     コレラノ ブキハ サイキョウノ<line>
     ブジヲ イノッテイル.<wait>
   translated: What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.
+  us: |
+    IF YOU REALLY HOPE
+    TO KILL LASSIC,<wait more>
+    YOU HAD BEST FIND<line>
+    A SWORD, AXE,<wait more>
+    SHIELD, ARMOR<line>
+    MADE OF LACONIA.<wait more>
+    SUCH WEAPONS ARE <line>
+    STRONGEST.<wait more>
+    I PRAY FOR YOUR <line>
+    SAFETY.<end>
   en: |
     Overthrowing LaShiec, are you? You'll need a sword, axe, shield, and armor made of Laconia.<wait more>
     Laconia is the most powerful material in Algol, I wouldn't use anything less.<wait more>
@@ -2478,6 +3355,17 @@
     アチコチニ カクシテシマッタトイウ.<wait>
     <end>
   translated: Weapons made from laconia conceal holy powers, y’know. I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.
+  us: |
+    ARMS MADE OF<line>
+    LACONIA CONCEAL<wait more>
+    HOLY POWER. LASSIC
+    FEARS THIS POWER<wait more>
+    AND HAS BEEN<line>
+    RUNNING AND HIDING<wait more>
+    IN DIFFERENT<line>
+    PLACES IN THE <wait more>
+    PLANETS OF THE <line>
+    ALGOL SYSTEM.<end>
   en: |
     Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
     LaShiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
@@ -2492,6 +3380,9 @@
   indices:1B8
   ja: デゾリスセイハ コオリノホシデス.<wait>
   translated: Planet Dezoris is made of ice.
+  us: |
+    DEZORIS IS A<line>
+    WORLD OF ICE.<end>
   en: Dezoris is basically a giant ice cube. It's a big change from the green fields of Palma.<wait>
   fr: |
     La planète Dézoris est totalement couverte de glace,<wait more>
@@ -2502,6 +3393,13 @@
   indices:1BA
   ja: コオリノ ヤマノナカニハ<line>
   translated: There are places inside the ice mountains that can be easily broken.
+  us: |
+    THERE ARE PLACES<line>
+    IN THE MOUNTAINS<wait more>
+    WHERE THE ICE IS<line>
+    SOFT AND<wait more>
+    IMPASSABLE TO<line>
+    THOSE ON FOOT.<end>
   en: Not all of the ice mountains are as tough as they look, some parts of them shatter easily.<wait>
   fr: Ils disent que des blocs se détachent du glacier.<wait>
 
@@ -2510,6 +3408,11 @@
   indices:1BC
   ja: アルチプラノコウゲンハ マワリヲ<line>
   translated: The area around the Altiplano Plateau is encircled by mountains of ice.
+  us: |
+    THE ALTIPLANO<line>
+    PLATEAU IS AT THE <wait more>
+    TOP OF THE ICE<line>
+    MOUNTAIN.<end>
   en: The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
   fr: Le plateau d'Altiplano est entouré par des glaciers.<wait>
 
@@ -2521,6 +3424,17 @@
     ソノトキニ トモサレタ ホノオハ<line>
     シンセイナル ホノオトシテ<line>
   translated: This planet has a solar eclipse once every hundred years. There is a flame lit at this time called an ‘Eclipse Torch’. It is regarded by the Dezorians as sacred. 
+  us: |
+    AN ECLIPSE OCCURS<line>
+    ON THIS PLANET<wait more>
+    ONCE EVERY HUNDRED
+    YEARS. A TORCH<wait more>
+    LIT DURING AN<line>
+    ECLIPSE IS CALLED<wait more>
+    AN "ECLIPSE TORCH"
+    AND IS REGARDED<wait more>
+    AS HOLY BY THE <line>
+    DEZORIANS.<end>
   en: |
     This planet has a solar eclipse once every hundred years.<wait more>
     A flame lit during an eclipse is called an Eclipse Torch.<wait more>
@@ -2538,6 +3452,11 @@
     シニンガ ヨミガエッタソウダ.<wait more>
     オソロシヤ.<wait>
   translated: I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!
+  us: |
+    THE DEAD GUARON<line>
+    MORGUE HAVE BEEN<wait more>
+    CALLED BACK TO<line>
+    LIFE! WHAT FEAR!<end>
   en: |
     The unholy forces LaShiec and his ilk have involved themselves with have gone too far.<wait more>
     All of the dead bodies in Guaran Morgue have come back to life! It's grotesque!<wait>
@@ -2557,6 +3476,9 @@
   indices:12E
   ja: ココハ モタビアセイノ ウーゾ<line>
   translated: This is Uzo Village, on the planet Motavia.
+  us: |
+    THIS TOWN IS<line>
+    CALLED UZO.<end>
   en: This is Uzo Village, on Motavia.<wait>
   fr: Bienvenue au village d'Uzo sur Motavia.<wait>
 
@@ -2565,6 +3487,13 @@
   indices:130
   ja: アリジゴクハ ランドマスター トイウノリモノヲ ツカエバ トオレマスヨ.<wait>
   translated: You can pass over antlions if you have a ‘LandMaster.’
+  us: |
+    IF YOU USE A<line>
+    VEHICLE CALLED THE<wait more>
+    LAND ROVER, THE <line>
+    ANT LION WILL NOT<wait more>
+    BE ABLE TO HARM<line>
+    YOU.<end>
   en: Ant-lions? No problem! You can drive a LandMaster right over ’em.<wait>
   fr: |
     Fourmilions_? Pas de problème_!<wait more>
@@ -2575,6 +3504,10 @@
   indices:132
   ja: ウーゾノ ミナミニ カスバ トイウ<line>
   translated: To the South of Uzo, there is a village called Casba.
+  us: |
+    THERE IS A TOWN<line>
+    CALLED CASBA TO<wait more>
+    THE SOUTH OF HERE.<end>
   en: To the south of Uzo lies a village called Casba.<wait>
   fr: Au sud d'Uzo se trouve le village de Casba.<wait>
 
@@ -2583,6 +3516,12 @@
   indices:134
   ja: カスバノ ドウクツニハ ドラゴンガ<line>
   translated: It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in its head!
+  us: |
+    THERE ARE DRAGONS<line>
+    LIVING IN THE <wait more>
+    CASBA CAVE. THESE<line>
+    DRAGONS HAVE GEMS<wait more>
+    IN THEIR HEADS!<end>
   en: A dragon is holed up inside Casba Cave. They say there’s a jewel embedded in its head!<wait>
   fr: |
     Il semble qu'un énorme dragon se soit tapi dans la grotte de Casba.<wait more>
@@ -2590,12 +3529,18 @@
 
 - offsets:5194
   # Villager
-  indices:136
-  indices:138
+  indices:136,138
   ja: |
     フラードマント トイウ マントヲ<line>
     スゴイ ボウギョリョクガ<line>
   translated: Have you heard of the ‘Frad Cloak?' They say it’s light in weight, but has superb defensive power.
+  us: |
+    HAVE YOU HEARD<line>
+    ABOUT MANTLES MADE<wait more>
+    OF FRAD FIBERS?<line>
+    THEY ARE LIGHT,<wait more>
+    BUT PROVIDE GREAT <line>
+    PROTECTION.<end>
   en: |
     Have you heard of a cloak called the Frad Mantle? <wait more>
     From what I hear, it’s really light, yet has excellent protective power.<wait>
@@ -2609,6 +3554,10 @@
   indices:13A
   ja: スーズフルート トイウ フエノコトヲシッテルカイ.<end>
   translated: Do you know about the ‘Soothe Flute?’
+  us: |
+    HAVE YOU HEARD<line>
+    ABOUT THE <wait more>
+    SOOTHING FLUTE?<prompt>
   en: Have you heard of the Soothe Flute?<end>
   fr: Avez-vous entendu parler de la Flute apaisante_?<end>
 
@@ -2618,6 +3567,7 @@
   indices:13C
   ja: ソウカイ.ツマンネエノ.<wait>
   translated: Really? What a bore!
+  us: OH, NEVER MIND.<end>
   en: |
     Oh.<wait more>
     Very well.<wait>
@@ -2632,6 +3582,13 @@
     ナイショダケドサ ボクガ パルマセイヘ イッタトキニ ガシコノムラノ<wait more>
     ハズレニ ウメテキタンダ.ダレニモ<line>
   translated: Well, this is a secret, but when I went to Palma, I buried it on the outskirts of Gothic Village. Don’t tell anybody!
+  us: |
+    IT'S A SECRET, BUT
+    I BURIED ONE AT<wait more>
+    THE OUTSKIRTS OF<line>
+    THE TOWN OF GOTHIC<wait more>
+    ON PALMA. DON'T<line>
+    TELL ANYONE.<end>
   en: |
     Well, this is a secret, but I went and buried one on the outskirts of Gothic village.<wait more>
     Don’t tell anybody!<wait>
@@ -2646,6 +3603,9 @@
   ja: |
     ココロガ ナゴムヨウナ<line>
     ウツクシイ ネイロダ.<wait>
+  us: |
+    THE SOUND IS<line>
+    HEARTWARMING.<end>
   translated: The beautiful tone relaxes the soul. 
   en: The sounds melt your heart.<wait>
   fr: Cela réchauffe votre cœur.<wait>
@@ -2655,6 +3615,10 @@
   ja: |
     <monster>ハ フエノネヲ<line>
     キイテ オトナシクナッタ.<delay>
+  us: |
+    <monster> HEARS THE<line>
+    FLUTE AND FALLS<wait more>
+    ASLEEP.<wait>
   en: <Article><monster> heard the sound of the flute and calmed down.<delay>
   fr: Le doux son de flute endort <article><monster>.<delay>
 
@@ -2668,6 +3632,9 @@
   indices:166
   ja: ココハ カスバ トイウ ムラデス.<wait>
   translated: This is Casba Village.
+  us: |
+    THIS TOWN IS<line>
+    CALLED CASBA.<end>
   en: This is Casba Village.<wait>
   fr: Bienvenue à vous dans notre village de Casba.<wait>
 
@@ -2676,6 +3643,11 @@
   indices:168
   ja: コノムラノ ドウクツニ ドラゴンガ<line>
   translated: There’s a dragon living in Casba Cave! I’m so scared!
+  us: |
+    FIERCE DRAGONS<line>
+    LIVE IN THE CAVE<wait more>
+    NEAR HERE,AND I'M<line>
+    SCARED OF THEM.<end>
   en: There's a dragon living in Casba Cave! I'm so scared!<wait>
   fr: Un dragon s'est retranché dans notre grotte_! Ca me fait peur_!<wait>
 
@@ -2687,6 +3659,15 @@
     ガアル.ソノムカシ ペルセウスガ<line>
     マモノタイジニ ツカッタトイウ.<wait>
   translated: The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, [a man named] Perseus used that shield to confront a monster.
+  us: |
+    THERE ARE LEGENDS<line>
+    OF A MYSTIC SHIELD<wait more>
+    IN A VILLAGE<line>
+    SURROUNDED IN MIST<wait more>
+    IT IS THE SHIELD<line>
+    PERSEUS USED IN<wait more>
+    DAYS TO CONQUER<line>
+    MAGIC BEASTS.<end>
   en: |
     In a village surrounded by gas, people tell the tale of a legendary shield.<wait more>
     They say that a long time ago, a man named Perseus used it to confront a monster.<wait>
@@ -2702,6 +3683,13 @@
     ボクガ ミズウミノ ニシヘ イクト<wait more>
     キリノヨウナ オソロシイ ドクガスガヒロガッテイタンダ.<wait more>
   translated: One time I traveled north of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!
+  us: |
+    THERE IS POISON<line>
+    GAS ABOVE THE SEA<wait more>
+    TO THE WEST. NO<line>
+    ONE CAN GO NEAR<wait more>
+    THERE WITHOUT SOME
+    PROTECTION.<end>
   en: |
     North of the lake I saw this terrible, fog-like poison gas spreading all over!<wait more>
     Whatever you do, stay away from there!<wait>
@@ -2714,6 +3702,10 @@
   indices:172
   ja: フロームーバー トイウ ノリモノヲ<line>
   translated: Do you know about the ‘FlowMover’?
+  us: |
+    HAVE YOU HEARD OF<line>
+    VEHICLE CALLED<wait more>
+    THE HOVERCRAFT?<prompt>
   en: Do you know what a FlowMover is?<end>
   fr: Savez-vous ce qu'est un AquaNaute_?<end>
 
@@ -2724,6 +3716,15 @@
     パルマセイノ シオンノマチデ カッタンダケド コワレチマッタミタイデ<wait more>
     バルテボニ ステチマッタヨ.<line>
   translated: Well, I bought one on Palma, in the town of Shion, but it turned out to be broken, so I ditched it in Bartevo. What a waste!
+  us: |
+    I BOUGHT IT IN<line>
+    SCION ON PALMA<wait more>
+    BUT IT SEEMED<line>
+    BROKEN SO I<wait more>
+    ABANDONED IT IN<line>
+    BORTEVO. IT<wait more>
+    PROBABLY CAN STILL
+    BE USED, THOUGH.<end>
   en: |
     So you know what junk they are! I bought one in the town of Shion, on Palma.<wait more>
     It broke down, so I dumped it in Bartevo. No wonder they don't sell them anymore.<wait>
@@ -2740,6 +3741,10 @@
     アレハ ベンリダヨ. ミズノウエヲ<line>
     スイスイ イケルンダ.<wait>
   translated: With a FlowMover, you can glide smoothly across the the top of the water. They can really come in handy!
+  us: |
+    IT'S A GOOD THING<line>
+    TO HAVE. IT MOVES<wait more>
+    ACROSS WATER.<end>
   en: |
     Oh, they’re marvelous! When they work, of course.<wait more>
     They can glide smoothly across the top of the water.<wait>
@@ -2757,18 +3762,28 @@
   indices:17E
   ja: ココハ ドラスゴー. ウミノウエノ<line>
   translated: This is Drasgo, a tiny town on the sea.
+  us: |
+    WELCOME TO DRASGOW
+    -- A SMALL TOWN<wait more>
+    ON THE OCEAN.<end>
   en: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
   fr: Voici Drasgot, une petite ville flottante, sur la mer.<wait>
 
 - offsets:51d7
   # Townsperson
-  indices:180
-  indices:182
+  indices:180,182
   ja: |
     イマ ウミノ ミチハ トザサレテ<line>
     ヨクモマア コノマチヘ<line>
     タドリツキマシタネ.<wait>
   translated: Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!
+  us: |
+    YOU ARE DARING TO<line>
+    HAVE FOUND YOUR <wait more>
+    WAY HERE EVEN<line>
+    THOUGH THE SEA<wait more>
+    LANES ARE CLOSED<line>
+    TO SHIPS.<end>
   en: |
     Wow! I didn’t expect to see visitors here any time soon.<wait more>
     Not since LaShiec put an embargo on sea travel, anyway. How the heck did you get here?<wait>
@@ -2782,6 +3797,11 @@
   indices:184
   ja: アビオンノ トウニハ マリョクヲ<line>
   translated: I hear that there's an enchanted sword in Abion Tower.
+  us: |
+    THERE IS A MAGIC<line>
+    SWORD IN A TOWER<wait more>
+    ON A FORGOTTEN<line>
+    ISLAND.<end>
   en: I hear that there’s an enchanted sword in Avion Tower.<wait>
   fr: J'ai entendu dire qu'il y avait une épée magique dans la tour d'Abion.<wait>
 
@@ -2790,6 +3810,10 @@
   indices:186
   ja: ワタシハ ムカシ ソラニ ウカブ<line>
   translated: I once saw a huge floating rock in the sky!
+  us: |
+    LONG AGO, I SAW A<line>
+    GIANT ROCK FLOAT<wait more>
+    THROUGH THE SKY.<end>
   en: I once saw a huge floating rock in the sky!<wait>
   fr: Une fois, j'ai vu un énorme rocher flottant dans le ciel_!<wait>
 
@@ -2799,6 +3823,13 @@
   ja: |
     チョウコオネーサンデース.<wait more>
     ガンバッテ ボウケンヲ ツヅケテネ.<wait>
+  us: |
+    THE TOP OF THE <line>
+    HILL CALLED BAYA<wait more>
+    MALAY IS ALWAYS<line>
+    HIDDEN BY CLOUDS.<wait more>
+    SOMETHING MUST BE<line>
+    UP THERE!<end>
   en: It's me, Choko Oneesan! Be brave and strong as you continue your quest!<wait>
   fr: |
     On me nomme Grande Sœur Choko.<wait more>
@@ -2811,6 +3842,13 @@
     ワタシハ ドクガスカラ ミヲ マモルガスクリアー トイウ ソウチガ<wait more>
     ココニ ウッテイルト キイタノダガ<line>
   translated: I heard that a store in this city sells an apparatus called a ‘GasClear’, which protects the body against poison gas. The only thing is, I can’t find the damn store! Sheesh!
+  us: |
+    I HEARD THAT THEY<line>
+    SELL GAS SHIELD<wait more>
+    HERE, BUT I DON'T<line>
+    KNOW WHERE THE <wait more>
+    SHOP IS!<line>
+    WHAT A MESS!<end>
   en: |
     I came to this town to buy GasClear, I need it to protect myself from poisonous gas.<wait more>
     There's supposed to be a shop around here that sells it, but I can't find it anywhere!<wait>
@@ -2828,6 +3866,14 @@
     ナーンチャッテ.カラカッテゴメン.<line>
     カンベンシテチョ.<wait>
   translated: This is an item shop. What can I do for you? Haah haah! Sorry, I’m just kidding! Please forgive me.
+  us: |
+    WELCOME TO OUR<line>
+    STORE. WHAT CAN I<wait more>
+    HELP YOU WITH?<wait more>
+    AHH, I WAS PULLING
+    YOUR LEG! WHAT'S<wait more>
+    A MATTER, CAN'T<line>
+    YOU TAKE A JOKE?<end>
   en: |
     This is an item shop. What can I do for you?<wait more>
     ...haha, sorry, I'm just joking around! What? Don't give me that look.<wait> 
@@ -2844,6 +3890,15 @@
     ガスクリアー <number>メセタデス.<line>
   # <number> is always 1000.
   translated: You must be pretty shocked to see a store in a place like this, huh? ‘GasClears’ are 1000 mesetas. Pretty cheap, no? You wanna buy one?
+  us: |
+    I BET YOU ARE <line>
+    SURPRISED TO SEE A<wait more>
+    SHOP IN A PLACE<line>
+    LIKE THIS!<wait more>
+    A GAS SHIELD IS<line>
+    ONLY 1000 MESETAS!<wait more>
+    PRETTY CHEAP, HUH?
+    WILL YOU BUY ONE?<prompt>
   en: |
     I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
     GasClears are <number><internal hint 01> meseta<s> each. Pretty cheap, no? Want one?<end>
@@ -2857,6 +3912,9 @@
   indices:198
   ja: アリガトウ.マタキテネ.<wait>
   translated: Thank you. Please come again.
+  us: |
+    THANKS! SEE YOU <line>
+    AGAIN.<end>
   en: Thanks. Come again!<wait>
   fr: Merci. Revenez quand vous voulez_!<wait>
 
@@ -2867,6 +3925,11 @@
     オカネガナイノー. シケテンナー.
     オヤ モッタイナイ.<line>
   translated: Huh? You don’t have enough money? What the hell?! I’m not selling you ANYTHING!
+  us: |
+    YOU DON'T HAVE <line>
+    ENOUGH MONEY!<end>
+    SORRY, THAT WAS<line>
+    YOUR ONLY CHANCE.<end>
   en: |
     Huh? You don’t have enough money?<wait more>
     What the hell?! I’m not selling you ANYTHING now!<wait>
@@ -2892,6 +3955,11 @@
     コノムラハ ソピアト イイマス.<wait more>
     ドクガスノ ナカヲ<line>
   translated: This village is called Sopia. I’m glad that you were able to brave your way through the poison gas.
+  us: |
+    THIS TOWN IS<line>
+    CALLED SOPIA.<wait more>
+    YOU ARE BRAVE TO<line>
+    PENETRATE THE GAS.<end>
   en: |
     This village is called Sopia. Welcome.<wait more>
     I’m glad you were able to make it through the mist.<wait>
@@ -2908,6 +3976,17 @@
     ドウカ <number>メセタ キフシテ<line>
   # <number> is always 400.
   translated: I am the chief of this village. Due to the gas, Sopia is cut off from other towns and villages, and is therefore very poor. Could you by any chance offer a contribution of 400 mesetas?
+  us: |
+    I'M THE HEAD OF<line>
+    THIS VILLAGE.<wait more>
+    BECAUSE OF THE <line>
+    CLOUD OF GAS,<wait more>
+    WE ARE CUT OFF<line>
+    FROM OTHER TOWNS,<wait more>
+    WE ARE THEREFORE<line>
+    VERY POOR.<wait more>
+    WILL YOU DONATE<line>
+    400 MESETAS?<prompt>
   en: |
     I am the chief of this village.<wait more>
     We in Sopia are very poor. The mist shuts us off from other towns.<wait more>
@@ -2924,6 +4003,9 @@
   indices:1F0
   ja: ソウデスカ.ザンネンデス.ウウッ.<wait>
   translated: I see. What a pity. Hmmm...
+  us: |
+    I SEE. WE MUST GO<line>
+    ON SUFFERING...<end>
   en: I see. I’m sorry to hear that. Ohhh...<wait>
   fr: |
     Je vois...<wait more>
@@ -2934,6 +4016,9 @@
   indices:1F2
   ja: オタガイニ マズシイノデスネ.<line>
   translated: You are poor as well, eh? What a sad world in which we live.
+  us: |
+    YOU HAVE A LITTLE<line>
+    MONEY,TOO, I SEE.<end>
   en: So you are poor as well, are you? Such sad times these are.<wait>
   fr: |
     Vous aussi êtes pauvres_?<wait more>
@@ -2950,6 +4035,16 @@
     シタニ ウメテアルソウデス.<wait>
     <end>
   translated: Thank you. According to local legend, the shield that Perseus used when he defeated Medusa is buried under a cactus on the island in the middle of the lake.
+  us: |
+    THANKS! ACCORDING<line>
+    TO OUR LEGENDS,<wait more>
+    THE VERY SHIELD,<line>
+    PERSEUS USED TO<wait more>
+    OVERCOME MEDUSA,IS
+    BURIED ON THE <wait more>
+    SMALL ISLAND IN<line>
+    THE MIDDLE OF A<wait more>
+    LAKE.<end>
   en: |
     Thank you. Perhaps I can help you, in return.<wait more>
     I imagine you’re looking for Perseus’ shield? The one he used to slay Medusa?<wait more>
@@ -2967,6 +4062,10 @@
   indices:1FA
   ja: アタシ ゲーマーノ ミキチャンヨ.<line>
   translated: I'm Gamer Miki-chan! Do you own a Master System?
+  us: |
+    HI! I'M MIKI!<line>
+    DO YOU LIKE<wait more>
+    SEGA GAMES?<prompt>
   en: Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
   fr: |
     Salut, je suis Joe Musashi_!<wait more>
@@ -2977,6 +4076,9 @@
   indices:1FC
   ja: マア アタシトオンナジ ゲーマーネ.ヤッパ エフエムオンゲンハ グーネ.<wait>
   translated: Wow! I guess we game the same! After all, the FM sound system is way cool, huh?
+  us: |
+    OF COURSE! SEGA<line>
+    GAMES ARE BEST.<end>
   en: Yay! Isn’t the FM sound amazing?!<wait>
   fr: Génial_! Quel super son FM, n'est-ce pas_?<wait>
 
@@ -2987,6 +4089,12 @@
     ヤッダー アナタ ハヤク カッテ<line>
     ラッシャイヨー モー プン プン.<wait>
   translated: Aawww! That’s no good! Hurry up and buy one! Hmph!
+  us: |
+    I CAN'T BELIEVE<line>
+    IT. IF YOU DON'T<wait more>
+    LIKE THE GAME,....<line>
+    WHY HAVE YOU <wait more>
+    PLAYED SO FAR!?!<end>
   en: |
     WHAT?!<wait more>
     Shame on you! Hurry up and buy one!<wait>
@@ -2999,6 +4107,10 @@
   indices:200
   ja: ラシークガ ケンリョクヲ ニギル<line>
   translated: Before LaShiec’s powerful grasp, this village was very wealthy.
+  us: |
+    BEFORE LASSIC CAME
+    TO POWER, EVEN OUR<wait more>
+    TOWN HAD PLENTY.<end>
   en: Before LaShiec’s oppressive rule, this village was very wealthy.<wait>
   fr: Avant l'avènement de Lassic, ce village était très riche.<wait>
 
@@ -3007,6 +4119,11 @@
   indices:202
   ja: ミズウミノ ミナミノ ヤマノ ナカニタジム トイウ ドウシガ イマス.<wait>
   translated: There’s a monk named Tajimu living in the mountains South of the lake.
+  us: |
+    THERE IS A MONK<line>
+    NAMED TAJIM IN THE<wait more>
+    MOUNTAINS TO THE <line>
+    SOUTH OF THE LAKE.<end>
   en: Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait>
   fr: |
     Avez-vous croisé Maître Tajim_? C'est un moine.<wait more>
@@ -3017,6 +4134,11 @@
   indices:204
   ja: パルマセイハ キレイナ ホシダト<line>
   translated: I heard that Palma is a very beautiful planet. Is it really true?
+  us: |
+    I'VE HEARD THAT<line>
+    THE PALMA IS A<wait more>
+    BEAUTIFUL PLANET.<line>
+    IS THAT TRUE?<prompt>
   en: I heard that Palma is a very beautiful planet. Is it true?<end>
   fr: On m'a dit que Palma était une superbe planète. Est-ce vrai_?<end>
 
@@ -3025,6 +4147,9 @@
   indices:206
   ja: イッテミタイナー.<wait>
   translated: Ooh, I want to go there soo bad!
+  us: |
+    I'D LIKE TO GO<line>
+    VISITING SOMEDAY.<end>
   en: Oh, I want to go there so bad!<wait>
   fr: |
     N'importe où sera mieux qu'ici_!<wait more>
@@ -3037,6 +4162,11 @@
     ソウデスカ.ワタシハ モット<line>
     クウキノ キレイナトコロヘイキタイ.<wait>
   translated: Oh, I see. I want to go to a place with cleaner air.
+  us: |
+    NO? I'D LIKE TO GO
+    SOMEWHERE THE AIR<wait more>
+    IS MORE CLEAN<line>
+    AND FRESH.<end>
   en: Oh, interesting. I'd go just about anywhere that has cleaner air.<wait>
   fr: Oh, je vois. Je veux aller quelque part où l'air est sain.<wait>
 
@@ -3044,6 +4174,7 @@
   # Villager (no to request for PelorieMate)
   indices:20C
   ja: ケチ.<wait>
+  us: TIGHTWAND!<end>
   en: Cheapskate!<wait>
   fr: Radin_!<wait>
 
@@ -3052,6 +4183,9 @@
   indices:20A
   ja: アリガトウ.<wait more>
   translated: Thanks. Please come again.
+  us: |
+    THANKS!<line>
+    COME AGAIN!<end>
   en: Thank you!<wait>
   fr: Je vous remercie. Revenez quand vous le voulez.<wait>
 
@@ -3066,6 +4200,12 @@
     オマエサンガタハ ドナタカナ.<line>
     ルツガ オル.シッテオルカ.<end>
   translated: Who, may I ask, are you? I have a student, Lutz, in the Cave of Magic. Do you know him?
+  us: |
+    AND WHO ARE YOU?<line>
+    FIND MY PUPIL NOAH<wait more>
+    IN THE MAHARU<line>
+    CAVE.DO YOU KNOW<wait more>
+    HIM?<prompt>
   en: |
     And who might you people be?<wait more>
     My pupil, Lutz, is in Mahal Cave. Do you know him?<end>
@@ -3081,6 +4221,10 @@
     ルツニ ツタエネバ ナラヌコトガ<line>
     アル. ツレテキテハ クレマイカ.<wait>
   translated: There is something I must tell Lutz. Would you please escort him to me?
+  us: |
+    I'VE SOMETHING<line>
+    I MUST TELL HIM.<wait more>
+    BRING HIM HERE.<end>
   en: |
     I have something that I must tell him.<wait more>
     Please tell him to come see me.<wait>
@@ -3093,6 +4237,11 @@
   indices:260
   ja: ソウカ. ナラバ イッテモ<line>
   translated: I see. In that case, I guess it’s pointless for us to talk.
+  us: |
+    IN THAT CASE,<line>
+    THERE IS NO POINT<wait more>
+    IN FURTHER<line>
+    CONVERSATION.<end>
   en: I see. Then there is no point in talking with you any further.<wait>
   fr: Je vois...Il n'y a donc aucun intérêt à en parler plus avec vous.<wait>
 
@@ -3103,6 +4252,11 @@
     オオ ワガデシ ルツヨ. ツイニ<line>
     ラシークヲ タオス タビニデルカ.<wait>
   translated: Ah. My student, Lutz! I see you are finally on your way to defeating LaShiec.
+  us: |
+    AH,MY YOUNG PUPIL,
+    NOAH. YOU ARE <wait more>
+    PREPARING TO FACE<line>
+    LASSIC?<end>
   en: Ah, Lutz, my pupil! I see you are finally fulfilling your destiny to defeat LaShiec.<wait>
   fr: |
     Ah, Lutz, mon élève_!<wait more>
@@ -3114,7 +4268,11 @@
   ja: |
     オヤ.シンデオルノカ.ナサケナイ.<line>
     イキカエッテ デナオスガイイ.<wait>
-  us: YOU HAVE GOTTEN YOURSELF KILLED COME LETS TRY ONE MORE TIME<wait>
+  us: |
+    YOU HAVE GOTTEN<line>
+    YOURSELF KILLED?<wait more>
+    COME, LET'S TRY<line>
+    ONE MORE TIME.<end>
   en: ...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.<wait>
   fr: |
     Hé_! Êtes-vous morte_? Quel dommage...<wait more>
@@ -3127,6 +4285,10 @@
     デハ ソツギョウノ シケンヲ シテ<line>
     ヤロウ.ワシト タタカウガヨイ.<wait>
   translated: That being the case, I'll give you your final test: a duel with me!
+  us: |
+    COME,YOU MUST PASS<line>
+    YOUR FINAL TEST---<wait more>
+    WE WILL DUEL!<end>
   en: I've taught you all that I know. It's time to give you one final test: A duel against me!<wait>
   fr: |
     Alors tu te dois de passer un test final.<wait more>
@@ -3142,6 +4304,15 @@
     オマエノ カラダヲ マモッテクレル<line>
     ジャロウ. デハ ユクガヨイ.<wait>
   translated: You’ve become strong, my boy! You have all the power you’ll ever need. Please use this Frad Cloak. It is my gift to you. It will protect your body from harm. Well then, you’d best be on your way.
+  us: |
+    YOU HAVE BECOME<line>
+    MUCH STRONGER...<wait more>
+    YOU ARE WELL<line>
+    PREPARED.<wait more>
+    I'LL GIVE YOU A<line>
+    FRAD MANTLE AS A<wait more>
+    GIFT. IT PROTECTS<line>
+    YOU FROM DANGER!<end>
   en: |
     You have grown strong, my boy! You have all the power you need to complete your task.<wait more>
     Take this. It’s a Frad Cloak, my gift to you. It will protect your body from harm.<wait more>
@@ -3158,6 +4329,11 @@
   indices:256
   ja: マダマダ シュギョウガ タリンノウ.デナオシテクルガヨイ.<wait>
   translated: You still haven’t trained enough. You should come back later.
+  us: |
+    YOU ARE NOT YET<line>
+    READY! YOU MUST GO<wait more>
+    STILL UNDERGO MORE
+    TRAINING.<end>
   en: You need more training, my boy. Come back when you’re ready. I’ll be waiting.<wait>
   fr: |
     Tu dois encore t'entraîner, mon garçon.<wait more>
@@ -3168,6 +4344,9 @@
   indices:258
   ja: モウ ワシガ オシエルコトハ ナイ.<wait>
   translated: There is nothing more I can teach you.
+  us: |
+    I HAVE NOTHING TO<line>
+    TEACH YOU MORE.<end>
   en: There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
   fr: Je n'ai plus rien à t'apprendre, mon garçon.<wait>
 
@@ -3186,6 +4365,11 @@
     トナリノ ブラクハ<line>
     ウソツキバカリダ.キヲツケナヨ.<wait>
   translated: Those guys in the village next to us are all a bunch of liars. Be careful, eh.
+  us: |
+    THE NEIBORING<line>
+    VILLAGE ARE ALL<wait more>
+    LIARS! DON'T<line>
+    LISTEN TO THEM!<end>
   en: I wouldn’t trust anyone in the neighboring village... pathological liars, they are.<wait>
   fr: |
     Confiance en n'importe qui dans le village voisin, je n'aurais pas.<wait more>
@@ -3198,6 +4382,13 @@
     コノムラノ キタノ ヤマノムコウニ<line>
     コロナノトウガ アルズラ.<wait>
   translated: Corona Tower lies on the other side of the mountains to the North of this village, eh.
+  us: |
+    ZE CORONA TOWER<line>
+    STANDS ON ZE<wait more>
+    FAR SIDE OF ZE<line>
+    MOUNTAIN TO ZE<wait more>
+    NORTH OF ZIS<line>
+    VILLAGE.<end>
   en: Corona Tower is on the other side of the mountains to the north, it is.<wait>
   fr: |
     Aller vérifier la tour Corona, vous pourriez_!<wait more>
@@ -3211,6 +4402,13 @@
     ワシラノ ナカマガ イルズラ.<line>
     ヨロシクズラ.<wait>
   translated: To the West of Corona Tower is Dezoris Cave, eh. Please send my regards to our comrades there, eh.
+  us: |
+    TO ZE WEST OF ZE<line>
+    CORONA TOWER IS<wait more>
+    ZE DEZORIS CAVE.<line>
+    OUR FRIENDS ARE IN<wait more>
+    ZERE. GIVE ZEM<line>
+    OUR BEST, O.K.?<end>
   en: Dezoris Cave is west of Corona Tower, it is. Say hi to our friends there, you must!<wait>
   fr: |
     A l'ouest de la tour Corona, la grotte Dézoris, se trouve.<wait more>
@@ -3226,6 +4424,16 @@
     ラコニアノ ツボニ イレナイト<line>
     ヒカラビテシマウズラヨ.<wait>
   translated: Laerma trees make berries called ‘Laerma Berries’, eh. Those berries are real tasty, eh. We wanna use them for food, eh, but if we don’t put them into a ‘Laconian Pot’, they just get all shriveled up, eh.
+  us: |
+    LAERMA TREES GROW<line>
+    ZE LAERMA BERRIES.<wait more>
+    ZOSE BERRIES ARE <line>
+    OUR MOST IMPORTANT<wait more>
+    FOOD, BUT IT<line>
+    SHRIVELS UP AFTER<wait more>
+    A FEW MOMENTS,<line>
+    UNLESS IT IS PUT<wait more>
+    IN LACONIAN POT.<end>
   en: |
     Laerma trees bear strange fruits, they do.<wait more>
     They’re called Laerma Berries, and real tasty, they are.<wait more>
@@ -3242,6 +4450,9 @@
   indices:1D6
   ja: エアロプリズム トイウノヲ<line>
   translated: Do you know about the ‘Aeroprism’?
+  us: |
+    DO YOU KNOW WHAT<line>
+    AN AEROPRISM IS?<prompt>
   en: Heard of something called an Aeroprism, have you?<end>
   fr: Entendu parler d'une chose nommée Aéroprisme, avez- vous_?<end>
 
@@ -3250,6 +4461,9 @@
   indices:1D8
   ja: コノヨト チガウ セカイガ<line>
   translated: I hear you can use it to look at other worlds, eh.
+  us: |
+    IT LETS YOU SEE<line>
+    ANOTHER WORLD.<end>
   en: I hear you can see other worlds with one, you can.<wait>
   fr: Avec cet objet, voir autres mondes vous pourrez.<wait>
 
@@ -3258,6 +4472,9 @@
   indices:1DA
   ja: イチド ミテミタイモノズラヨ.<wait>
   translated: I’d really like to see it at least once, eh.
+  us: |
+    I'D LIKE TO SEE<line>
+    ONE SOMETIME.<end>
   en: I’d really like to look into one sometime, I would.<wait>
   fr: Regarder à travers, vraiment je voudrais_!<wait>
 
@@ -3266,6 +4483,9 @@
   indices:1DC
   ja: コノブラクノ ミンナハ パルマノ<line>
   translated: All the people in this village hate those Palmans, eh.
+  us: |
+    WE OF ZIS TOWN<line>
+    HATE PALMANS.<end>
   en: Everyone here hates Palmans, we do.<wait>
   fr: Nous villageois, les Palmans nous haïssons.<wait>
 
@@ -3276,6 +4496,11 @@
     コロナノトウニハ イノチノイズミガ<line>
     アルンダス.<wait>
   translated: There's a Life Spring/Fountain of Youth in Corona Tower, y’know.
+  us: |
+    THERE IS A SPRING<line>
+    OF LIFE IN THE <wait more>
+    CORONA TOWER,<line>
+    THERE IS, YES.<end>
   en: The Fountain of Youth is inside Corona Tower. Cross my heart!<wait>
   fr: Être à la tour Corona que voussa trouver fontaine de jouvence.<wait>
 
@@ -3287,6 +4512,11 @@
     <number>カイデ ワープデキルンダスヨ.<wait>
   # <number> is always 10.
   translated: There's a warp on the 10th underground floor of Dezoris cave, y’know.
+  us: |
+    YOU CAN WARP FROM <line>
+    THE 10TH LEVEL OF<wait more>
+    THE DUNGEON UNDER<line>
+    DEZORIS,YES.<end>
   en: There's a warp on the tenth underground level of Dezoris Cave. No joke!<wait>
   fr: |
     Voussa pouvoir être téléportés au 10ème sous-sol de la grotte Dézoris!<wait more>
@@ -3299,6 +4529,11 @@
     ラエルマベリーハ アオイイロヲシタ<line>
     キノミデ センリョウニ ツカウダス.<wait>
   translated: Laerma Berries are colored blue. We use them as a dye, y’know.
+  us: |
+    LAERMA BERRIES ARE<line>
+    BLUE LAERMA NUTS<line>
+    USED IN DYES,YES,<wait more>
+    THEY ARE , INDEED.<end>
   en: Laerma Berries are blue, and we use them to dye our clothes. It's true!<wait>
   fr: |
     Baies Laerma être bleues, et noussa les utiliser pour teindre vêtements.<wait more>
@@ -3309,6 +4544,13 @@
   indices:1E4
   ja: ラエルマツリーノ マエデ クリスタルヲ ツカウト ミガ ナルンダス.<wait>
   translated: If you use a crystal in front of the Laerma Tree, berries will grow, y’know.
+  us: |
+    IF YOU USE A<line>
+    CRYSTAL IN FRONT<wait more>
+    OF A LAERMA TREE,<line>
+    IT WILL BECOME,<wait more>
+    YES, A LAERMA NUT,
+    YES, INDEED.<end>
   en: You can use a crystal to make berries grow on a Laerma tree. You betcha!<wait>
   fr: |
     Voussa pouvoir utiliser cristal pour faire pousser baies sur arbre.<wait more>
@@ -3321,6 +4563,10 @@
     コノブラクハ パルマノ ヒトビトヲ<line>
     カンゲイシマス.<wait>
   translated: This village welcomes Palmans.
+  us: |
+    THIS TOWN WELCOMES
+    ALL PALMANS,YES,<wait more>
+    INDEED, WE DO.<end>
   en: This village welcomes all Palmans. Seriously!<wait>
   fr: Village accueillir toussa Palmans. Ca être vrai.<wait>
 
@@ -3342,6 +4588,11 @@
   # Dishonest Dezorian
   indices:238
   ja: コレカラ サキハ キヲツケテ.<line>
+  us: |
+    BE CAREFUL UP<line>
+    AHEAD. AT THE <wait more>
+    BREAK IN THE ROAD,
+    GO TO THE LEFT!<end>
   en: Be careful up ahead. You should turn left at the fork in the path.<wait>
   fr: |
     Soyez prudente.<wait more>
@@ -3353,6 +4604,10 @@
   indices:234
   ja: ナニシニキタダ. オメエタチ<line>
   translated: What is your business here? Don’t cause any trouble!
+  us: |
+    WHAT HAVE YOU COME
+    FOR? DO YOU INTEND<wait more>
+    SOME MISCHIEF?<end>
   en: Why have you come here? Stay out of trouble, hear me?<wait>
   fr: Pourquoi êtes-vous venue ici_? Évitez les ennuis, entendu_?<wait>
 
@@ -3360,6 +4615,9 @@
   indices:236
   ja: イヤナ ヨカンガスル.<wait>
   translated: I’ve got a baad feeling about this...
+  us: |
+    I HAVE AN UNEASY<line>
+    FEELING.<end>
   en: I’ve got a bad feeling about this.<wait>
   fr: J'ai un mauvais pressentiment.<wait>
 
@@ -3371,6 +4629,15 @@
     トイウ ウラナイシノ モッテイル<wait more>
     クリスタルヲ ラシークサマハ<line>
   translated: Don’t let this get out, but there's a fortune-teller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.
+  us: |
+    LASSIC LIVES IN<line>
+    FEAR OF THE <wait more>
+    CRYSTAL POSSESSED<line>
+    BY THE SOOTHSAYER<wait more>
+    NAMED DAMOR. THERE
+    IS SOMETHING<wait more>
+    SPECIAL ABOUT IT,<line>
+    WITHOUT A DOUBT.<end>
   en: |
     You didn’t hear this from me, but...<wait more>
     Lord LaShiec fears the crystal held by Damoa the fortune-teller.<wait more>
@@ -3390,6 +4657,16 @@
     ホウセキヲ クレルナラバ スコシ<wait more>
     ワケテ アゲテモ ヨイガ ドウダ.<end>
   translated: This flame is lit during each centennial solar eclipse. If you give me a dragon’s jewel, however, I’ll share the flame with you. Do we have an agreement? 
+  us: |
+    THIS FIRE WAS LIT<line>
+    DURING THE ECLIPSE<wait more>
+    WHICH OCCURS ONCE<line>
+    EVERY 100 YEARS.<wait more>
+    IF YOU GIVE ME A<line>
+    GEM FROM A DRAGON,<wait more>
+    I'LL GIVE YOU SOME
+    OF THIS FIRE.<wait more>
+    HOW ABOUT IT?<prompt>
   en: |
     Do you see this flame in my hand? This is the Eclipse Torch.<wait more>
     This is the sacred fire of the centennial eclipse.<wait more>
@@ -3412,6 +4689,9 @@
   indices:244
   ja: デハ イクリプストーチヲ<line>
   translated: Well then, please accept this ‘Eclipse Torch’.
+  us: |
+    HERE, TAKE THIS <line>
+    ECLIPSE TORCH.<end>
   en: Excellent. Here you are, then.<wait>
   fr: Parfait, la voici.<wait>
 
@@ -3420,6 +4700,9 @@
   indices:246
   ja: イラナイノカ.ソレジャア オメエハ<line>
   translated: You don’t want it?! Then, ah, for what did you come here?
+  us: |
+    NO? THEN WHAT DID<line>
+    YOU COME FOR?<end>
   en: You don’t want it? Then why have you come here?<wait>
   fr: Vous n'en voulez pas_? Alors pourquoi êtes-vous venue ici_?<wait>
 
@@ -3428,6 +4711,10 @@
   indices:248
   ja: ホウセキヲ モッテナイデハナイカ.<line>
   translated: You mean to say you don’t have the jewel?! Don’t toy with me!
+  us: |
+    YOU HAVE NO GEM!<line>
+    DO I LOOK LIKE A<wait more>
+    FOOL OR SOMETHING?<end>
   en: You have no jewel! Don’t be foolish!<wait>
   fr: Vous n'avez pas de joyau_! Alors ne soyez pas stupide_!<wait>
 
@@ -3444,6 +4731,13 @@
     イツモ オタヨリ アリガトウ.<wait more>
   us: RAISE THE AEROPRISM TOWARDS THE HEAVENS. YOU SHOULD THEN BE ABLE TO SEE THE DARK CASTLE<wait>
   translated: I am 'Otegami Chie-chan!’ Thanks for all your letters. Please tell us how you feel about this game. We’ll be waiting.
+  us: |
+    RAISE THE <line>
+    AEROPRISM TOWARDS<wait more>
+    THE HEAVENS- YOU <line>
+    SHOULD THEN BE<wait more>
+    ABLE TO SEE THE <line>
+    DARK CASTLE.<end>
   en: |
     I’m Otegami Chie-chan, from Sega! Thanks for all your letters.<wait more>
     Please tell us what you think of this game. We’re eager to hear from you.<wait more>
@@ -3463,6 +4757,10 @@
   translated: <player>ハ <item>ヲ<line>
   ja: テンニ カザシタ.<delay>
   translated: Alisa held the 'Eclipse Torch' over her head.
+  us: |
+    <player> RAISES<line>
+    <item> TOWARDS<wait more>
+    THE SKY.<wait>
   en: <player> held <article><item> up towards the sky.<delay>
   fr: <player> tend <article><item> vers le ciel.<delay>
 
@@ -3471,6 +4769,11 @@
   indices:05E-2
   ja: ラコニアンポットニ イレタ.<wait>
   translated: Alisa took the ‘Laerma Berries’ and put them in the ‘Laconian Pot’.
+  us: |
+    <player> TAKES THE NUT<line>
+    OF LAERMA AND PUTS<wait more>
+    IT IN THE LACONIAN
+    POT.<end>
   en: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
   fr: <player> mets des baies Laerma dans le vase Laconian.<wait>
 
@@ -3480,6 +4783,11 @@
   ja: |
     ラエルマベリーヲ トッテミタガ<line>
     シバラクスルト ヒカラビテシマッタ.<wait>
+  us: |
+    <player> TAKES THE NUT<line>
+    OF LAERMA, BUT IT<wait more>
+    SHRIVELS UP AFTER<line>
+    A FEW MOMENTS.<end>
   en: <player> picked up some Laerma Berries, but they shriveled up immediately!<wait>
   fr: Les baies Laerma se dessèchent vite après avoir été cueillies.<wait>
   
@@ -3491,6 +4799,10 @@
   indices:21A
   ja: ヒキカエスナラ イマノウチジャゾ.<wait>
   translated: Leaving? Better do it now.
+  us: |
+    IF YOU PLAN TO GO<line>
+    BACK, NOW IS THE <wait more>
+    TIME TO LEAVE.<end>
   en: Now would be a good time to turn around and go home.<wait>
   fr: Sortir_? Ce serait le bon moment pour le faire_!<wait>
   
@@ -3504,6 +4816,9 @@
   indices:222
   ja: オレヲ ココカラ ダシテクレルノカ.デモ ムダダヨ.<wait>
   translated: I wonder if you could help me escape from this place, but it’s hopeless.
+  us: |
+    GET ME OUT HERE?<line>
+    BUT IT'S IN VAIN.<end>
   en: Did you come to help me escape?<wait>
   fr: |
     Êtes-vous venus me sortir d'ici_?<wait more>
@@ -3516,6 +4831,9 @@
     ラシークヲ タオソウナンテ<line>
     ムボウダヨ.<wait>
   translated: Defeat LaShiec?! That’s nonsense!
+  us: |
+    IT'S FOOLISH TO<line>
+    TRY TO GET LASSIC!<end>
   en: Destroy LaShiec? That’s impossible. You can’t kill one who cannot die.<wait>
   fr: |
     Renverser Lassic_? C'est impossible.<wait more>
@@ -3526,6 +4844,9 @@
   indices:226
   ja: ワタシタチハ ラシークノ イケニエニサレテシマウノヨ. ウッウウ.<wait>
   translated: We will all be sacrificed in the name of LaShiec! Agh!
+  us: |
+    LASSIC IS GONNA<line>
+    SACRIFICE US! AGH!<end>
   en: We’re all going to end up as sacrifices for LaShiec!<wait>
   fr: Nous allons tous être sacrifiés au Seigneur Lassic_!<wait>
 
@@ -3534,6 +4855,9 @@
   indices:228
   ja: グアランニアル ヨロイヲ<line>
   translated: Have you gotten the armor from Guaran?
+  us: |
+    HAVE YOU FOUND THE<line>
+    ARMOR IN GUARON?<prompt>
   en: Did you get the armor in Guaran?<end>
   fr: Avez-vous trouvé l'armure à Garond?<end>
 
@@ -3542,6 +4866,10 @@
   indices:22A
   ja: ソレハ オトシアナノ ムコウガワニ<line>
   translated: It’s on the other side of a pitfall!
+  us: |
+    IT CAN BE FOUND ATTHE 
+    FAR SIDE OF<wait more>
+    A PIT TRAP.<end>
   en: You can find it on the other side of a pitfall.<wait>
   fr: Vous pouvez la trouver de l'autre coté d'un piège.<wait>
 
@@ -3550,6 +4878,9 @@
   indices:22C
   ja: キミッテ スゴイネ.<wait>
   translated: Damn! You’re pretty cool!
+  us: |
+    WELL,AREN'T YOU <line>
+    SOMETHING?<end>
   en: Wow, you’re amazing!<wait>
   fr: Vous êtes vraiment étonnante_!<wait>
 
@@ -3560,6 +4891,11 @@
     ラシークニ デアッタモノハ ミナ<line>
     ソノ マリョクデ<wait more>
   translated: All those who have gone up against LaShiec have had their souls taken by his magic.
+  us: |
+    ALL WHO FACE<line>
+    LASSIC LOSE THEIR<wait more>
+    SOULS TO HIS<line>
+    MAGIC!<end>
   en: |
     LaShiec’s more dangerous than most people realize.<wait more>
     Those who have challenged him have had their souls taken by his magic!<wait>
@@ -3574,6 +4910,13 @@
     バヤマーレノ オカノウエニハ<line>
     トウガアル.<wait more>
   translated: There is a tower on top of Baya Mahrey knoll. There must be secrets hidden inside.
+  us: |
+    THERE IS A TOWER<line>
+    OF THE TOP OF<wait more>
+    BAYA MALAY.<line>
+    SOMETHING SECRET<wait more>
+    IS HIDDEN AT THE <line>
+    TOP OF THE TOWER!<end>
   en: There’s a tower on top of the knoll of Baya Marlay. I wonder what secrets lie within?<wait>
   fr: |
     Il y a une tour au sommet de la colline de Baya Malay.<wait more>
@@ -3584,6 +4927,9 @@
   indices:218
   ja: コノサキヘハ イカナイホウガ<line>
   translated: You’d better not go any further, ‘cuz there’s a guard station up there.
+  us: |
+    THERE ARE GUARDS<line>
+    UP AHEAD!<end>
   en: You’d better not go any further, there’s a security guard up ahead.<wait>
   fr: Vous feriez mieux de ne pas aller plus loin, il y a un gardien devant.<wait>
 
@@ -3592,6 +4938,9 @@
   indices:21C
   ja: ロードパスヲ モッテイルカ.<end>
   translated: Do you have a roadpass?
+  us: |
+    DO YOU HAVE YOUR <line>
+    ROADPASS?<prompt>
   en: Do you have a Roadpass?<end>
   fr: Avez-vous un permis_?<end>
 
@@ -3602,6 +4951,11 @@
     ドレドレ<line>
     ロボットダト オモッテ ナメルナヨ.ロウニ ブチコンデヤル.<wait>
   translated: Let me see here... Hm? This is a fake! Don't think you can fool me just because I'm a robot! Let me show you to your cell.
+  us: |
+    THIS IS A FAKE!<line>
+    DO YOU THINK YOU <wait more>
+    CAN FOOL A ROBOT?<line>
+    OFF TO JAIL WE GO!<end>
   en: |
     This is a fake. Where did you get this?<wait more>
     Well, you certainly picked the right place to get locked up. Come with me.<wait>
@@ -3618,6 +4972,13 @@
     ソトニデル ホウホウハ アルンジャガワシハ ココニ イルホウガ<wait more>
     キラクデ イイワイ.<wait>
   translated: Oh! So you’re locked up in here as well? How tragic. There IS a way to get outside, but I'D rather stay here where it's nice and cozy.
+  us: |
+    YOU HAVE BEEN<line>
+    LOCKED UP,TOO<wait more>
+    THERE IS A WAY<line>
+    OUT, BUT I LIKE<wait more>
+    IT IN HERE,<line>
+    MYSELF.<end>
   en: |
     Oh, so you are confined in here as well. How sad.<wait more>
     Sure, there’s a way out of here. But what’s the point?<wait more>
@@ -3640,6 +5001,11 @@
     ワシハ セカイイチノ ウラナイシ<line>
     ワシノ ウラナイヲ シンジルカ.<end>
   translated: I am the World’s Greatest Fortune Teller, Damoa! Do you believe in my amazing powers?
+  us: |
+    I'M THE GREAT <line>
+    DAMOR, SOOTHSAYER!<wait more>
+    DO YOU BELIEVE IN<line>
+    MY PROPHECIES?<prompt>
   en: |
     I am Damoa, the greatest fortune-teller in the world!<wait more>
     Do you believe in my powers of divination?<end>
@@ -3652,6 +5018,7 @@
   indices:14E
   ja: ヨシ.ヨシ.<wait>
   translated: Good. Good.
+  us: GOOD!<end>
   en: Good. Good.<wait>
   fr: Bien. Bien.<wait>
 
@@ -3659,6 +5026,9 @@
   indices:150
   ja: オマエハ サガシモノヲ シテオル<line>
   translated: I sense that you are looking for something, yes?
+  us: |
+    YOU'RE SEARCHING<line>
+    FOR SOMETHING?<prompt>
   en: I sense that you are searching for something, yes?<end>
   fr: Je sens que vous êtes en quête de quelque chose, non_?<end>
 
@@ -3666,6 +5036,10 @@
   # (no to previous question)
   indices:152
   ja: ナンジャト. オマエハ<line>
+  translated: What did you say? You are very disobedient. I think you should leave.
+  us: |
+    LEAVE MY SIGHT,<line>
+    UNBELIEVER!<end>
   en: What did you say? Such impudence! Leave at once!<wait>
   fr: Que dites vous_? Comment osez-vous! Fichez le camp_!<wait>
 
@@ -3673,6 +5047,9 @@
   indices:154
   ja: オマエハ アレックス オサールヲ<line>
   translated: I see that you are looking for Alex Ossale, yes?
+  us: |
+    YOU ARE SEARCHING<line>
+    FOR ALEX OSSALE?<prompt>
   en: I sense that you are looking for Alex Ossale, yes?<end>
   fr: Je percois que vous êtes... à la recherche d'Alex Ossale, non_?<end>
 
@@ -3680,6 +5057,9 @@
   indices:156
   ja: ワシノ イウコトハ スベテ タダシイノジャ. ワカッタカ.<end>
   translated: Everything I say is correct. Understand?
+  us: |
+    EVERYTHING I'VE<line>
+    SAID IS CORRECT?<prompt>
   en: Everything I say is correct. Understood?<end>
   fr: Tout ce que je dis est vrai. Compris_?<end>
 
@@ -3688,6 +5068,9 @@
   indices:158
   ja: デハ マタクルガイイ.<wait>
   translated: In that case, perhaps you should come back later.
+  us: |
+    THEN, COME AGAIN,<line>
+    ANYTIME.<end>
   en: Then perhaps you should come back later.<wait>
   fr: Alors peut être devriez-vous revenir plus tard.<wait>
 
@@ -3695,6 +5078,9 @@
   indices:15A
   ja: ワシニ サカラウノカ.<end>
   translated: Do you oppose me?
+  us: |
+    DO YOU CONTRADICT<line>
+    THE GREAT DAMOR?!?<prompt>
   en: Do you defy me?<end>
   fr: Vous me défiez_?<end>
 
@@ -3705,6 +5091,13 @@
     ソウダロウ.オマエハ ナカナカ<line>
     ホウビニ クリスタルヲ ヤロウ.<wait>
   translated: Is that so... You show considerable promise. I shall give you this crystal as a reward.
+  us: |
+    OF COURSE NOT!YOU<line>
+    ARE A PROMISING<wait more>
+    YOUNG LASS! I WILL
+    GIVE YOU A MAGIC<wait more>
+    CRYSTAL FOR A<line>
+    REWARD.<end>
   en: Is that so? Good! You show considerable promise. I shall reward you with this crystal.<wait>
   fr: |
     C'est vrai_? Vous jurez.<wait more>
@@ -3717,6 +5110,11 @@
     マボロシノ エアロキャッスルガ<line>
     オオゾラニ スガタヲ アラワシタ.<wait>
   translated: The illusionary ‘Aerocastle’ materialized in the vast open sky.
+  us: |
+    A VISION OF A<line>
+    CELESTIAL CASTLE<wait more>
+    APPEAR IN THE <line>
+    SKY.<end>
   en: The Aerocastle was revealed.<wait>
   fr: Dans le ciel, le Château Aérien apparaît sous vos yeux.<wait>
 
@@ -3727,6 +5125,9 @@
     ミャウハ ラエルマベリーヲ<line>
     カジッタ.<wait>
   translated: Myau took a bite of the ‘Laerma Berry’.
+  us: |
+    MYAU ATE THE NUT<line>
+    OF LAERMA.<end>
   en: Myau ate the Laerma Berries.<wait>
   fr: Myau mâché les baies Laerma.<wait>
   
@@ -3745,6 +5146,12 @@
     ミャウノ カラダハ ネツヲ オビ<line>
     マバユイ ヒカリニ ツツマレタ.<wait>
   translated: As Myau chewed the Laerma Berry, his body was enveloped by a warm and dazzling light.
+  us: |
+    WHEN MYAU EATS THE<line>
+    NUTS OF LAERMA, HE<line>
+    BECOMES CLOTHED IN<line>
+    FLAME AND EMITS A<wait more>
+    BLINDING LIGHT.<end>
   en: When Myau chewed the Laerma Berries, a fever swept over him, and a dazzling light engulfed his body.<wait>
   fr: Après que Myau eut mâché les baies Laerma, il fut pris d'un accès de fièvre, et une lumière éblouissante s'engouffra dans son corps.<wait>
 
@@ -3757,6 +5164,14 @@
     ミャウハ トクイソウニ ヒトツ<line>
     ハバテイテ ミセタ.<wait>
   translated: Suddenly, Myau transformed into a beautiful large-winged beast. He proudly flapped his wings.
+  us: |
+    WHEN HE IS VISIBLE<line>
+    AGAIN, HE HAS BEEN<line>
+    TRANSFORMED INTO<wait more>
+    A BEAUTIFUL<line>
+    WINGED BEAST.<line>
+    MYAU FLAPS HIS<line>
+    WINGS PLOUDLY.<end>
   en: |
     And then, in an instant, he transformed into a beautiful beast with enormous wings!<line><line>
     Myau proudly flapped his wings for all to see.<wait>
@@ -3775,6 +5190,11 @@
     ミャウニ ノッテイタ アリサタチハ<line>
     ソラニ ホウリダサレテシマッタ.<wait>
   translated: Alisa and her companions were flung into the sky.
+  us: |
+    ALIS AND HER<line>
+    COMPANY ON MYAU,<wait more>
+    ARE TOSSED INTO<line>
+    THE SKY.<end>
   en: Alisa and the others were knocked off of Myau, into the sky.<wait>
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
 
@@ -3783,6 +5203,11 @@
   ja: |
     ココヲ バヤマーレノ トウト<line>
     シリナガラ キタノカ.<end>
+  us: |
+    DO YOU COME IN<line>
+    FULL KNOWLEDGE OF<wait more>
+    THE TOWER OF BAYA<line>
+    MALAY?<prompt>
   en: Did you come here seeking Baya Marlay tower?<end>
   fr: Vous êtes venue ici en pensant que c'était la tour de Baya Malay_?<end>
 
@@ -3792,6 +5217,10 @@
   ja: |
     カナラズヤ テンノ イカリニ<line>
     フレヨウゾ.<wait>
+  us: |
+    YOU WILL SURELY<line>
+    INCUR THE WRATH<wait more>
+    OF THE HEAVENS!<end>
   en: Then you will be destroyed!<wait>
   fr: Vous serez certainement détruits par le courroux céleste_!<wait>
 
@@ -3799,6 +5228,9 @@
   # (no to previous question)
   indices:164
   ja: ナラバ ヒキカエスガヨイ.<wait>
+  us: |
+    GO BACK BEFORE IT<line>
+    IS TOO LATE.<end>
   en: Then you should turn back.<wait>
   fr: Vous devriez faire marche arrière.<wait>
 
@@ -3810,6 +5242,7 @@
 - offsets:5361
   # Old Man
   indices:210
+  us: ..........<end>
   en: .........<wait>
   fr: .........<wait>
 
@@ -3819,6 +5252,11 @@
   ja: |
     ダンジョンノ ナカデハ オノレノ<line>
     メヲ シンジルデナイゾ.<wait>
+  us: |
+    DON'T BELIEVE YOUR<line>
+    OWN EYES IN THE <wait more>
+    DEPTH OF THE <line>
+    DUNGEONS.<end>
   translated: You can't always trust your eyes in dungeons.
   en: There is more than meets the eye in this dungeon, fools.<wait>
   fr: .........<wait>
@@ -3828,6 +5266,9 @@
   indices:26A
   ja: ラシ－クサマニ サカラウナ.<wait>
   translated: Do not defy the great LaShiec.
+  us: |
+    DON'T GO AGAINST<line>
+    LASSIC!<end>
   en: Defy King LaShiec at your peril.<wait>
   fr: .........<wait>
 
@@ -3839,6 +5280,11 @@
     スベテオミトオシダ.<wait more>
     カカッテクルガ イイ.<wait>
   translated: Make your move, fools. I can see right through you.
+  us: |
+    I HAVE WATCHED<line>
+    ALL YOUR ACTIONS.<wait more>
+    ATTACK ME NOW, IF<line>
+    YOU DARE.<end>
   en: I know why you’re here. I’ve been watching you closely. Your pathetic journey ends here.<wait>
   fr: |
     Bienvenue.<wait more>
@@ -3854,6 +5300,12 @@
     カゲムシャダ.<wait more>
     オレヲタオシタトコロデ<line>
   translated: I am King LaShiec’s shadow warrior. You have gained nothing by defeating me! Hee hee hee!
+  us: |
+    I'M BUT ONLY<line>
+    LASSIC'S SHADOW!<wait more>
+    EVEN IF YOU DEFEAT
+    ME, YOU'VE GAINED<wait more>
+    NOTHING AT ALL!<end>
   en: |
     I am merely LaShiec’s shadow warrior. You’ve gained nothing by defeating me.<wait more>
     King LaShiec can't be killed. His power defies comprehension. You have come here to die.<wait>
@@ -3871,6 +5323,14 @@
     ウンノ イイヤツラメ.<wait more>
     ソンナニ ワシヲ タオシタイノカ.<end>
   translated: And so you finally arrive. How fortunate you are. Do you really wish to defeat me?
+  us: |
+    AH, MY CHILDREN,<line>
+    YOU HAVE DONE VERY<wait more>
+    WELL TO COME THIS <line>
+    FAR. YOU ARE VERY<wait more>
+    LUCKY INDEED. DO<line>
+    YOU REALLY WISH TO<wait more>
+    KILL AN OLD MAN?<prompt>
   en: |
     Ah, it’s you. You've finally arrived. How accomplished you must feel.<wait more>
     Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
@@ -3894,6 +5354,11 @@
     ソウカ.ソレナラバ<wait more>
     ソノ カンガエガ マチガッテイタ<line>
   translated: I see. Then perhaps I should show you the error in your judgment!
+  us: |
+    ALL RIGHT! THEN<line>
+    WE WILL FORGET<wait more>
+    THIS AS AN UNFOR-<line>
+    TUNATE MISTAKE.<end>
   en: Then let us hope you will be a worthy sacrifice.<wait>
   fr: |
     Oui, bien entendu. Votre courage est admirable.<wait more>
@@ -3905,6 +5370,10 @@
   indices:270
   ja: コノゴニ オヨンデ<line>
   translated: You have already wasted too much of my time. I shall make you regret it!
+  us: |
+    EVEN NOW YOU TRY<line>
+    TO FOOL WITH ME?<wait more>
+    YOU SHALL REPENT!<end>
   en: I’ve no time for games! Come, let me show you what lies beyond this life.<wait>
   fr: Aller. Je n'ai pas le temps de jouer. Finissons-en.<wait>
 
@@ -3918,6 +5387,13 @@
   translated: |
     What?! Could it be that I die? What a disgrace. I shall live again!
     LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
+  us: |
+    LASSIC HAS DIED.<line>
+    ALIS ACCOMPLISHED<wait more>
+    HER WISH. NERO IS<line>
+    SATISFIED NOW IN<wait more>
+    HEAVEN. HURRY TO<line>
+    THE GOVERNOR!<end>
   en: |
     You may have destroyed this body, but I can never truly die! I shall live again!<line><line><line><line><wait more>
     Lord LaShiec has fallen. Nero’s dying wish was granted. A new era has begun in Algol.<wait more>
@@ -3926,6 +5402,27 @@
     Lassic est tombé_! La promesse faite à Néro est enfin accomplie.<wait more>
     C'est le début d'une nouvelle ère pour Algol.<wait more>
     Il ne reste plus qu'à en parler au Gouverneur sur Paséo.<wait>
+
+
+- offsets:# Unreachable?
+  indices:27c
+  us: |
+    ALRIGHT! YOU SAVED
+    ALL OF ALGOL!<end>
+    
+- offsets:# Unreachable?
+  indices:27e
+  us: |
+    WE ARE  ALL<line>
+    THANKFUL FOR YOUR <wait more>
+    BRAVE DEEDS! WE<line>
+    LOVE YOU !<end>
+
+- offsets:# Unreachable?
+  indices:280
+  us: |
+    REPORT QUICKLY TO<line>
+    THE GOVERNOR!<end>
 
 
 # **************
@@ -3950,6 +5447,31 @@
     And now, Alisa, I have something I wish to tell you:
     The truth is, your father was once the King of Algol.
     Now that the demon’s fortress has been destroyed, and LaShiec is no more, will be your father’s successor and become the Queen of Algol?
+  us: |
+    I'M SORRY, I MUST<line>
+    HAVE BEEN<wait more>
+    POSSESSED BODY AND
+    SOUL BY EVIL.<wait more>
+    YOU RESCUED OUR<line>
+    WORLD JUST IN THE <wait more>
+    NICK OF TIME! IF<line>
+    YOU HAD COME ANY<wait more>
+    LATER, IT MIGHT<line>
+    HAVE BEEN TOO LATE<wait more>
+    WE ALL THANK YOU<line>
+    FROM THE BOTTOM<wait more>
+    OF OUR HEARTS.<line>
+    ALIS, YOUR FATHER<wait more>
+    WAS ONCE KING OF<line>
+    ALGOL. THE DARK<wait more>
+    CASTLE HAS BEEN<line>
+    DESTROYED, LASSIC<wait more>
+    KILLED... DO YOU,<line>
+    ALIS,WISH TO<wait more>
+    ASCEND YOUR <line>
+    FATHER'S THRONE<wait more>
+    AND BECOME THE <line>
+    QUEEN OF ALGOL?<prompt>
   en: |
     Oh, goodness. Please forgive me. My mind and body were controlled by an evil force.<wait more>
     You’ve done it! You’ve saved Algol. History shall repeat your names, always.<wait more>
@@ -3981,6 +5503,12 @@
     ムスメダ.<wait more>
     ワタシモ テツダワセテモラウヨ.<wait>
   translated: I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
+  us: |
+    THEN YOU ARE THE <line>
+    VERY QUEEN OF THE <wait more>
+    ENTIRE SYSTEM. I<line>
+    WILL ASSIST YOU IN<wait more>
+    ALL WAYS POSSIBLE.<end>
   en: Then you have my eternal loyalty. All hail the new Queen of Algol, Alisa Landeel!<wait>
   fr: |
     Votre père était le meilleur Roi qu'Algol ait connu.<wait more>
@@ -3993,6 +5521,11 @@
     ソウカ.ソレモ ヨカロウ.<line>
     マタ イツデモ モドッテクルガイイ.<wait>
   translated: I see. [You must do as you wish]. You are welcome to return at anytime.
+  us: |
+    NO? THAT'S FINE,<line>
+    IF YOU SO DESIRE.<wait more>
+    YOU WILL ALWAYS BE
+    WELCOME HERE.<end>
   en: I see. I won't try to convince you. Should you change your mind, Algol will always welcome you.<wait>
   fr: |
     Dommage, il vous<line>
@@ -4008,6 +5541,12 @@
   indices:14A-2
   ja: シダイニ ソラガ アカルクナッテイキヒトビトモ ヘイワヲ トリモドシタ.<end>
   translated: Gradually, the sky brightened, and peace was restored to all.
+  us: |
+    THE SKY GRADUALLY<line>
+    CLEARS AND<delay>
+    THE PEACE IS<line>
+    RETURNED TO THE <delay>
+    ALGOL SYSTEM.<line>
   en: Gradually, the sky brightened. The monsters retreated. Peace returned.<end>
   fr: Avec le temps, le ciel se clarifia et les monstres disparurent.<end>
 
@@ -4017,6 +5556,10 @@
     イマ バヤマーレハ サワヤカナ<line>
     ソヨカゼニ ツツマレテイル.<end>
   translated: Baya Mahrey is covered by a refreshing breeze right now...
+  us: |
+    A GENTLE BREEZE<delay>
+    CARESSES<line>
+    BAYA MALAY.<delay>
   en: A cool, gentle breeze now surrounds Baya Marlay.<end>
   fr: Seule une douce brise flotte désormais au dessus de Baya Malay.<end>
 
@@ -4024,6 +5567,11 @@
   indices:14E-2
   ja: カレラノ ナガク クルシカッタタビヲソヨカゼハ シッテイルノダロウカ.<end>
   translated: ...but does the breeze know of their long and difficult journey?
+  us: |
+    BUT DOES THE <line>
+    BREEZE KNOWS OF<delay>
+    THE HARDSHIPS THAT
+    THEY ENDURED?<delay>
   en: But does the breeze know of the hardships they endured?<end>
   fr: La reconnaissance du peuple d'Algol sonna le début d'une nouvelle ère<end>
 
@@ -4037,6 +5585,9 @@
   ja: |
     アリサ<delay>
     <line>
+  us: |
+    <line>
+         ALIS<wait>
   en: "______Alisa,<delay>"
   fr: "______Alisa,<delay>"
 
@@ -4046,6 +5597,9 @@
   ja: |
     タイロン<delay>
     <line>
+  us: |
+    <line>
+         ODIN<wait>
   en: "______Tylon,<delay>"
   fr: "______Tylon,<delay>"
 
@@ -4055,6 +5609,9 @@
   ja: |
     ルツ<delay>
     <line>
+  us: |
+    <line>
+         NOAH<wait>
   en: "_______Lutz,<delay>"
   fr: "_______Lutz,<delay>"
 
@@ -4064,6 +5621,9 @@
   ja: |
     ソシテ ミャウ<delay>
     <line>
+  us: |
+    <line>
+         AND MYAU<wait>
   en: "___and Myau.<delay>"
   fr: "____et Myau.<delay>"
 
@@ -4075,6 +5635,14 @@
     ヒトビトノ ココロニ<line>
     ノコリツヅケルダロウ.<delay>
   translated: Though the dark memories will fade away, their names will continue to remain in the hearts of the people.
+  us: |
+    EVEN THOUGH THE<line>
+    MEMORIES OF EVIL<line>
+    FADE AWAY, THEIR<line>
+    NAMES WILL BE KEPT<wait>
+    IN THE HEARTS OF<line>
+    THE PEOPLE OF THE <line>
+    ALGOL FOREVER!!!<wait>
   en: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
   fr: Tandis que le souvenir de cette sombre époque s'estompera, ces quatres noms resteront à jamais gravés dans le cœur du peuple d'Algol.<delay>
 
@@ -4092,6 +5660,9 @@
   ja: |
     <monster>ハ <player>ノ<line>
     コウゲキヲ カワシタ.<delay>
+  us: |
+    <monster> DODGES<line>
+    <player>'S ATTACK.<wait>
   en: <Article><monster> dodged <player>’s attack.<delay>
   fr: L'attaque <de><player> est parée_!<delay>
 
@@ -4100,24 +5671,33 @@
   ja: |
     <player>ハ <monster>ノ<line>
     コウゲキヲ カワシタ.<delay>
+  us: |
+    <player> DODGES<line>
+    <monster>'S ATTACK.<wait>
   en: <player> dodged <article><monster>’s attack.<delay>
   fr: <player> pare le coup <de><monster>.<delay>
 
 - offsets:1a96
   indices:004-2
   ja: <player>ハ ハナシカケタ.<end>
+  us: <player> SPEAKS.<prompt>
   en: <player> spoke to <article><monster>.<end>
   fr: <player> parle <à><monster>.<end>
 
 - offsets:1ac0,1ca4
   indices:006-2
   ja: <monster>ハ コタエタ.<delay>
+  us: <monster> ANSWERS.<wait>
   en: <Article><monster> replied,<delay>
   fr: <Article><monster> répond,<delay>
 
 - offsets:1ab7
   indices:008-2
   ja: ツウジナカッタ.<delay>
+  us: |
+    <player> AND <monster><line>
+    CANNOT UNDERSTAND<wait more>
+    EACH OTHER.<wait>
   en: <Article><monster> didn’t understand.<delay>
   fr: <Article><monster> ne vous comprend pas.<delay>
 
@@ -4126,6 +5706,9 @@
   ja: |
     <monster>ハ ニゲミチニ<line>
     タチフサガッタ.<delay>
+  us: |
+    <monster> BLOCKS<line>
+    ANY RETREAT.<wait>
   en: <Article><monster> blocked the escape route.<delay>
   fr: <Article><monster> bloque votre fuite.<delay>
 
@@ -4134,6 +5717,9 @@
   ja: |
     <player>ノ マジックハ<line>
     コウカガ ナカッタ.<delay>
+  us: |
+    <player>'S MAGIC IS<line>
+    NOT EFFECTIVE.<wait>
   en: <player>’s spell had no effect.<delay>
   fr: Le sort <de><player> n'a pas d'effet.<delay>
 
@@ -4142,6 +5728,9 @@
   ja: |
     <monster>ノ マジックハ<line>
     コウカガ ナカッタ.<delay>
+  us: |
+    <monster>'S MAGIC<line>
+    IS NOT EFFECTIVE.<wait>
   en: <Article><monster>’s spell had no effect.<delay>
   fr: Le sort <de><monster> n'a pas d'effet.<delay>
 
@@ -4150,6 +5739,9 @@
   ja: |
     メノマエニ ミエナイ マホウノ<line>
     カベガ デキタ.<delay>
+  us: |
+    AN INVISIBLE MAGIC
+    WALL ARISES.<wait>
   en: An invisible magic wall was built before your eyes.<delay>
   fr: Un mur magique se dresse devant vous.<delay>
 
@@ -4158,6 +5750,10 @@
   ja: |
     <monster>ノ コウゲキハ<line>
     マホウノ カベニ ハネカエサレタ.<delay>
+  us: |
+    THE MAGIC WALL<line>
+    DEFLECTS THE <wait more>
+    <monster>'S ATTACK.<wait>
   en: <Article><monster>’s attack was deflected by the magic wall.<delay>
   fr: La barrière dévie l'attaque <de><monster>.<delay>
 
@@ -4166,6 +5762,10 @@
   ja: |
     <monster>ノ マジックハ<line>
     マホウノ カベニ ハネカエサレタ.<delay>
+  us: |
+    THE MAGIC WALL<line>
+    DEFLECTS THE <wait more>
+    <monster>'S MAGIC.<wait>
   en: <Article><monster>’s spell was deflected by the magic wall.<delay>
   fr: Le sort dévie l'attaque <de><monster>.<delay>
 
@@ -4174,6 +5774,9 @@
   ja: |
     ミエナイ カベノ コウカガ<line>
     ナクナッタ.<delay>
+  us: |
+    THE MAGIC WALL<line>
+    DISAPPEAR.<wait>
   en: The invisible wall became ineffective.<delay>
   fr: La barrière est brisée.<delay>
 
@@ -4182,6 +5785,7 @@
   ja: |
     <player>ノ タイリョクガ<line>
     カイフクシタ.<delay>
+  us: <player> IS HEALED.<wait>
   en: <player>’s stamina was restored.<delay>
   fr: L'énergie <de><player> est restaurée.<delay>
 
@@ -4190,6 +5794,9 @@
   ja: |
     <monster>ノ タイリョクガ<line>
     カイフクシタ.<delay>
+  us: |
+    <monster> IS<line>
+    HEALED.<wait>
   en: <Article><monster>’s stamina was restored.<delay>
   fr: <Article><monster> a restauré son énergie.<delay>
 
@@ -4198,30 +5805,41 @@
   ja: |
     <monster>ヲ<line>
     カナシバリニシタ.<delay>
+  us: |
+    <monster> IS TIED<line>
+    UP.<wait>
   en: <Article><monster> is all bound up.<delay>
   fr: <Article><monster> s'est fait ligoter!<delay>
 
 - offsets:151f
   indices:01E-2
   ja: <player>ハ カナシバリニ アッタ.<delay>
+  us: <player> IS TIED UP.<wait>
   en: <player> is all bound up.<delay>
   fr: <player> s'est fait ligoter_!<delay>
 
 - offsets:12db
   indices:020-2
   ja: <player>ハ ウゴケナイ.<delay>
+  us: <player> CANNOT MOVE.<wait>
   en: <player> can’t move.<delay>
   fr: <player> ne peut plus bouger.<delay>
 
 - offsets:140c
   indices:022-2
   ja: <monster>ハ ウゴケナイ.<delay>
+  us: |
+    <monster> CANNOT<line>
+    MOVE.<wait>
   en: <Article><monster> can’t move.<delay>
   fr: <Article><monster> ne peut pas bouger.<delay>
 
 - offsets:12d6
   indices:024-2
   ja: <player>ハ カナシバリガ トケタ.<delay>
+  us: |
+    <player> REMOVES THE <line>
+    BINDINGS.<wait>
   en: <player>’s bindings came apart.<delay>
   fr: <player> brise ses liens.<delay>
 
@@ -4230,6 +5848,9 @@
   ja: |
     <monster>ハ<line>
     カナシバリガ トケタ.<delay>
+  us: |
+    <monster> REMOVES<line>
+    THE BINDINGS.<wait>
   en: <Article><monster>’s bindings came apart.<delay>
   fr: <Article><monster> brise ses liens.<delay>
 
@@ -4238,6 +5859,9 @@
   ja: |
     <player>ハ カラダニ チカラガ<line>
     ミナギルノヲ カンジタ.<delay>
+  us: |
+    <player> IS BURSTING<line>
+    WITH STRENGTH.<wait>
   en: <player> felt a great swelling of energy.<delay>
   fr: La force <de><player> décuple.<delay>
 
@@ -4246,6 +5870,9 @@
   ja: |
     <monster>ハ コワクナッテ<line>
     シリゴミシタ.<delay>
+  us: |
+    <monster> RECOILS<line>
+    IN FEAR.<wait>
   en: <Article><monster> got scared and backed away.<delay>
   fr: <Article><monster> a peur et recule.<delay>
 
@@ -4254,12 +5881,17 @@
   ja: |
     <monster>ハ ニゲアシノ<line>
     ハヤサニ オドロイタ.<delay>
+  us: |
+    ALIS AND HER<line>
+    COMPANY ESCAPE<wait more>
+    QUICKLY.<wait>
   en: <Article><monster> was surprised by the speed of your escape.<delay>
   fr: <Article><monster> est surpris par votre fuite_!<delay>
 
 - offsets:21ad
   indices:02E-2
   ja: ワナジャナカッタ.<wait>
+  us: THERE WAS NO TRAP.<end>
   en: There was no trap.<wait>
   fr: C'est sans danger.<wait>
 
@@ -4268,6 +5900,9 @@
   ja: |
     アブナイ トコロダッタ.<player>ハ<line>
     ワナヲ ミヤブッテ ハズシタ.<wait>
+  us: |
+    <player> SPOTTED AND<line>
+    DISARMED THE TRAP.<end>
   en: That was close! <player> detected and removed the trap.<wait>
   fr: <player> le démine, c'était moins une!<wait>
 
@@ -4276,6 +5911,9 @@
   ja: |
     <player>ハ <item>ヲ<line>
     ツカッタ.<delay>
+  us: |
+    <player> USES<line>
+    <item>.<wait>
   en: <player> used <article><item>.<delay>
   fr: <player> utilise <article><item>.<delay>
 
@@ -4284,6 +5922,9 @@
   ja: |
     <player>ハ <item>ヲ<line>
     ソウビシタ.<end>
+  us: |
+    <player> EQUIPS<line>
+    <item>.<prompt>
   en: <player> equipped <article><item>.<end>
   fr: <player> s'équipe <de><item>.<end>
 
@@ -4292,12 +5933,18 @@
   ja: |
     <player>ハ <item>ヲ<line>
     ステテシマッタ.<wait>
+  us: |
+    <player> DROPS<line>
+    <item>.<end>
   en: <player> discarded <article><item>.<wait>
   fr: <player> jette <article><item>.<end>
 
 - offsets:20ff,23ec,2554,2582,2677,2803
   indices:038-2
   ja: シカシ コウカハ ナカッタ.<delay>
+  us: |
+    BUT IT HAS NO<line>
+    EFFECT.<wait>
   en: But there was no effect.<delay>
   fr: Cela n'a pas effet.<delay>
 
@@ -4306,36 +5953,51 @@
   ja: |
     シカシ ココデ <item>ハ<line>
     ヤクニ タタナイ.<wait>
+  us: |
+    USING <item><line>
+    WILL DO NO GOOD<wait more>
+    HERE.<end>
   en: But <article><item> is of no use here.<wait>
   fr: <article><item> n'est pas utilisable ici.<wait>
 
 - offsets:2304
   indices:03C-2
   ja: ココデ オリルワケニハ イカナイ.<wait>
+  us: |
+    CANNOT DISEMBARK<line>
+    HERE!<end>
   en: The group can’t get off here.<wait>
   fr: Le groupe ne peut pas descendre ici.<wait>
 
 - offsets:2438,246d
   indices:03E-2
   ja: <item>ニ ノリコンダ.<delay>
+  us: EMBARKED.<wait>
   en: The group boarded <article><item>.<delay>
   fr: Le groupe monte à bord de l'engin.<delay>
 
 - offsets:2311
   indices:040-2
   ja: <item>カラ トビオリタ.<delay>
+  us: DISEMBARKED.<wait>
   en: The group got out of <article><item>.<delay>
   fr: Le groupe sort <de><item>.<delay>
 
 - offsets:2402,2569,26af,2701,2816
   indices:042-2
   ja: シカシ ナニモ オキナカッタ.<delay>
+  us: |
+    NOTHING HAPPENS,<line>
+    HOWEVER.<wait>
   en: But nothing happened.<delay>
   fr: Mais rien ne se passe...<delay>
 
 - offsets:# unused
   indices:046-2
   ja: <monster>ハ メガ ウツロダ.<delay>
+  us: |
+    <monster>'S EYES<line>
+    LOOK VACANT.<wait>
   en: <Article><monster>’s eyes are blank.<delay>
   fr: Les yeux <de><monster> sont vides.<delay>
 
@@ -4344,6 +6006,9 @@
   ja: |
     シカシ イマハ ソンナコトヲ<line>
     シテイルバアイジャ ナイヨウダ.<delay>
+  us: |
+    CANNOT DO THAT<line>
+    HERE.<wait>
   en: But now doesn’t seem to be the time to do that.<delay>
   fr: Ce n'est pas le bon moment...<delay>
 
@@ -4352,20 +6017,29 @@
   ja: |
     <player>ハ <item>ヲ<line>
     トリダシタ.<delay>
+  us: |
+    <player> TAKES OUT<line>
+    <item>.<wait>
   en: <player> took out <article><item>.<delay>
   fr: <player> prend <article><item>.<delay>
 
 - offsets:251a,25aa,2651,279d
   indices:04C-2
   ja: ベツニ コワレテナイヨウダ.<wait>
-  #Note: this was originally ‘It doesn’t look particularly broken.’
-  #This translation takes the verb KOWARERU to mean ‘to be begged’
+  us: |
+    IT DOESN'T SEEM TO
+    BE BROKEN.<end>
+  # Note: this was originally ‘It doesn’t look particularly broken.’
+  # This translation takes the verb KOWARERU to mean ‘to be begged’
   en: There’s no real need for it right now.<wait>
   fr: <player> n'en a pas besoin pour le moment.<wait>
 
 - offsets:112c
   indices:04E-2
   ja: マックラデ ススムコトガ デキナイ.<wait>
+  us: |
+    CANNOT GO FORWARD,
+    IT'S PITCH BLACK.<end>
   en: It’s pitch black. You can’t move forward.<wait>
   fr: C'est trop sombre, il nous faut de la lumière_!<wait>
 
@@ -4374,6 +6048,7 @@
   ja: |
     イツ カイデミテモ イヤナ<line>
     ニオイガ スル.<wait>
+  us: IT STINKS!<end>
   en: Wow, this stuff stinks.<wait>
   fr: Peut importe combien de fois vous le reniflez, ca empeste.<wait>
 
@@ -4382,12 +6057,18 @@
   ja: |
     <player>ハ トテモ<line>
     イヤナ ヨカンガシタ.<wait>
+  us: |
+    <player> HAS A TERRI-<line>
+    BLE PREMONITION.<end>
   en: <player> got a very bad feeling.<wait>
   fr: <player> a un très mauvais pressentiment.<wait>
 
 - offsets:2269,2271,2289
   indices:058-2
   ja: <player>ハ ナニモ カンジナカッタ.<wait>
+  us: |
+    <player> FEELS<line>
+    NOTHING.<end>
   en: <player> didn’t feel anything.<wait>
   fr: <player> ne ressent rien d'étrange.<wait>
 
@@ -4396,6 +6077,10 @@
   ja: |
     <monster>ハ アカイ ホナオヲ<line>
     ミテ オジケズイタ.<delay>
+  us: |
+    <monster> SEES THE <line>
+    RED FLAME AND<wait more>
+    BECOMES AFRAID.<wait>
   en: <Article><monster> saw the red flame and seized up in fear.<delay>
   fr: <Article><monster> prend peur en voyant la flamme.<delay>
 
@@ -4404,18 +6089,28 @@
   ja: |
     オナカガ スイテナカッタノデ<line>
     モトニ モドシタ.<wait>
+  us: |
+    MYAU ISN'T HUNGRY,<line>
+    SO SHE PUTS THE <wait more>
+    FOOD BACK.<end>
   en: Nobody’s hungry right now, so she put them back.<wait>
   fr: Myau n'ayant pas faim, Alisa les range.<wait>
 
 - offsets:277b
   indices:066-2
   ja: ハプスビーハ イヤイヤヲシタ.<wait>
+  us: |
+    HAPSBY SHAKES HIS<line>
+    HEAD "NO".<end>
   en: Hapsby shook his head.<wait>
   fr: Hapsby secoue la tête.<wait>
 
 - offsets:2784
   indices:068-2
   ja: ハプスビーノ アタマハ カタイ.<wait>
+  us: |
+    HAPSBY IS<line>
+    HARDHEADED.<end>
   en: Hapbsy’s head is hard.<wait>
   fr: La tête d'Hapsby est dure.<wait>
 
@@ -4424,6 +6119,9 @@
   ja: |
     ソレハ ツカワナクテモ<line>
     キキメガ アル.<wait>
+  us: |
+    THERE IS NO NEED<line>
+    TO USE THAT.<end>
   en: This item is always active. You don’t need to use it.<wait>
   fr: Cet objet est toujours actif.<wait>
 
@@ -4432,18 +6130,28 @@
   ja: |
     トクニ カワッタトコロハ<line>
     ナイヨウダ.<wait>
+  us: |
+    THERE DOESN'T SEEM
+    TO BE ANYTHING<wait more>
+    SPECIAL ABOUT IT.<end>
   en: There doesn’t seem to be anything particularly unusual here.<wait>
   fr: Rien d'anormal ici.<wait>
 
 - offsets:2a15,2a9b
   indices:06E-2
   ja: <item>ヲ ミツケタ.<wait>
+  us: |
+    YOU FOUND<line>
+    <item>.<end>
   en: You found <article><item>.<wait>
   fr: <Article><item>!<wait>
 
 - offsets:21d9,22b5
   indices:070-2
   ja: ナンダカ カラダガ カルクナッタ.<delay>
+  us: |
+    <player> FEELS VERY<line>
+    LIGHT.<wait>
   en: Your body became unusually light.<delay>
   fr: Votre corps semble devenir léger...<delay>
 
@@ -4452,12 +6160,18 @@
   ja: |
     <player>ノ タマシイハ<line>
     ヨミガエッタ.<wait>
+  us: |
+    <player> IS<line>
+    RESURRECTED.<end>
   en: <player> revived.<wait>
   fr: <player> ressuscite.<wait>
 
 - offsets:1b45,1f21
   indices:074-2
   ja: タイロンハ マジックヲ ツカエナイ.<delay>
+  us: |
+    ODIN CANNOT USE<line>
+    MAGIC.<wait>
   en: Tylon can’t use magic.<delay>
   fr: Tylon ne peut pas utiliser la magie.<delay>
 
@@ -4466,6 +6180,9 @@
   ja: |
     <player>ハ マダ マジックヲ<line>
     オボエテイナイ.<delay>
+  us: |
+    <player> HAS NOT <line>
+    LEARNED MAGIC YET<wait>
   en: <player> doesn’t know any spells yet.<wait>
   fr: <player> ne connaît pas de sortilège.<delay>
 
@@ -4474,12 +6191,18 @@
   ja: |
     <player>ハ <item>ヲ<line>
     ソウビ デキナイ.<wait>
+  us: |
+    <player> CANNOT EQUIP<line>
+    THAT ITEM.<end>
   en: <player> can’t equip <article><item>.<wait>
   fr: Impossible d'équiper <player> <de><item>.<wait>
 
 - offsets:283e
   indices:07A-2
   ja: ソレハ ソウビシナクテモイイ.<wait>
+  us: |
+    YOU NEED NOT EQUIP
+    THAT ITEM.<end>
   en: You don’t need to equip this item.<wait>
   fr: S'équiper de cet objet est inutile.<wait>
 
@@ -4488,12 +6211,18 @@
   ja: |
     ケイケンチガ <number>ポイント<line>
     アガッタ.<wait>
+  us: |
+    YOU GAINED <number><line>
+    EXPERIENCE POINTS.<end>
   en: You gained <number> experience<internal hint 02> point<s>.<wait>
   fr: Plus <number><internal hint 01> point<s> d'Exp.<wait>
 
 - offsets:18f3
   indices:07E-2
   ja: <player>ハ レベルアップシタ.<wait>
+  us: |
+    <player> ADVANCED<line>
+    A LEVEL.<end>
   en: <player> leveled up.<wait>
   fr: <player> gagne un niveau_!<wait>
 
@@ -4502,24 +6231,34 @@
   ja: |
     <player>ハ マジックヲ<line>
     ヒトツ ミニツケタ.<wait>
+  us: |
+    <player> LEARNED<line>
+    A SPELL.<end>
   en: <player> learned a new spell.<wait>
   fr: <player> apprend un nouveau sort_!<wait>
 
 - offsets:2a8c
   indices:082-2
   ja: <number>メセタ ハイッテイタ.<wait>
+  us: |
+    THERE ARE <number><line>
+    MESETAS INSIDE.<end>
   en: You found <number><internal hint 01> meseta<s> inside.<wait>
   fr: Plus <number><internal hint 02> meseta<s>.<wait>
 
 - offsets:2a37
   indices:084-2
   ja: アケテミルカ.<end>
+  us: |
+    DO YOU WANT TO<line>
+    OPEN IT?<prompt>
   en: Do you want to open it?<end>
   fr: L'ouvrir_?<end>
 
 - offsets:2a73
   indices:086-2
   ja: カラッポダッタ.<wait>
+  us: IT'S EMPTY.<end>
   en: It’s empty.<wait>
   fr: Il est vide.<wait>
 
@@ -4528,6 +6267,11 @@
   ja: |
     コレイジョウ モノヲ モテナイ<line>
     ナニカヲ ステルカ.<end>
+  us: |
+    YOU CANNOT CARRY<line>
+    ANYMORE.<wait more>
+    DO YOU WANT TO<line>
+    DROP SOMETHING?<prompt>
   en: You can’t carry any more. Do you want to drop something?<end>
   fr: |
     Vous ne pouvez plus rien porter_!<wait more>
@@ -4536,12 +6280,18 @@
 - offsets:2938
   indices:08A-2
   ja: ドレヲ ステルカ.<end>
+  us: |
+    WHAT DO YOU WANT <line>
+    TO DROP?<prompt>
   en: Which item do you want to drop?<wait>
   fr: Quel objet voulez-vous jeter_?<wait>
 
 - offsets:296a
   indices:08C-2
   ja: <item>ヲ ステテ<wait>
+  us: |
+    <item> IS <line>
+    DROPPED,<end>
   en: You dropped <article><item>, and<wait>
   fr: Vous jetez <article><item>.<wait>
   # this runs into the next one...
@@ -4549,18 +6299,27 @@
 - offsets:297d
   indices:08E-2
   ja: <item>ヲ テニイレタ.<wait>
+  us: |
+    AND <item> IS<line>
+    PICKED UP.<end>
   en: you got <article><item>.<wait>
   fr: Vous avez <article><item>.<wait>
 
 - offsets:2923
   indices:090-2
   ja: <item>ハ イラナイノカ.<end>
+  us: |
+    <item> IS NOT <line>
+    NEEDED?<prompt>
   en: Do you want to abandon <article><item>?<end>
   fr: Voulez-vous laisser <article><item>_?<end>
 
 - offsets:292e
   indices:092-2
   ja: <item>ヲ アキラメタ.<wait>
+  us: |
+    <item> IS<line>
+    ABANDONED.<end>
   en: You abandoned <article><item>.<wait>
   fr: Vous laissez <article><item>.<wait>
 
@@ -4569,24 +6328,36 @@
   ja: |
     <item>ヲ<line>
     ステルワケニハ イカナイ.<wait>
+  us: |
+    <item> SHOULDN'T<line>
+    BE THROWN AWAY.<end>
   en: You can’t drop <article><item>!<wait>
   fr: Impossible de jeter <article><item>_!<wait>
 
 - offsets:1ba7,1f2d
   indices:096-2
   ja: マジックポイントガ タリナイ.<delay>
+  us: |
+    NOT ENOUGH MAGIC<line>
+    POINTS.<wait>
   en: You don’t have enough magic points.<delay>
   fr: Vous n'avez pas assez de points magiques.<delay>
 
 - offsets:2236
   indices:098-2
   ja: <player>ハ マダ イキテイル.<delay>
+  us: |
+    <player> IS STILL<line>
+    ALIVE.<wait>
   en: <player> is still alive.<delay>
   fr: <player> est encore en vie.<delay>
 
 - offsets:17ea
   indices:09A-2
   ja: <monster>ヲ ヤッツケタ.<wait>
+  us: |
+    <monster><line>
+    IS KILLED.<end>
   en: You’ve beaten <article><monster>.<wait>
   # <wait> because else you can't read it when you defeat Dark Force...
   fr: Vous avez vaincu_!<wait>
@@ -4594,12 +6365,16 @@
 - offsets:14a6,15e4,1648,4c69,590f
   indices:09C-2
   ja: <player>ハ シンデシマッタ.<delay>
+  us: <player> DIED.<wait>
   en: <player> died.<delay>
   fr: <player> meurt de ses blessures.<delay>
 
 - offsets:19f7,2b0f
   indices:09E-2
   ja: <player>ハ モウ シンデイル.<delay>
+  us: |
+    <player> IS ALREADY<line>
+    DEAD.<wait>
   en: <player> is already dead.<delay>
   fr: La mort a déjà frappé <player>.<delay>
   
@@ -4612,6 +6387,9 @@
   indices:0A2-2
   ja: ドコヘ イキマスカ.<end>
   translated: Where would you like to go?
+  us: |
+    WHERE ARE WE<line>
+    GOING?<prompt>
   en: Where would you like to go?<end>
   fr: Où voudriez-vous aller_?<end>
 
@@ -4621,6 +6399,9 @@
     デゾリスセイノ スクレノマチヘ<line>
     イキマス.イイデスカ.<end>
   translated: Destination: Skray, on Dezoris. Confirm?
+  us: |
+    WE ARE HEADING FOR
+    SKURE ON DEZORIS?<prompt>
   en: Would you like to go to Skray, on Dezoris?<end>
   fr: Voulez-vous aller à Skure, sur Dézoris_?<end>
 
@@ -4630,6 +6411,9 @@
     モタビアセイノ ウーゾノムラヘ<line>
     イキマス.イイデスカ.<end>
   translated: Destination: Uzo, on Motabia. Confirm?
+  us: |
+    WE ARE HEADING FOR
+    UZO ON MOTAVIA?<prompt>
   en: Would you like to go to Uzo, on Motavia?<end>
   fr: Voulez-vous aller à Uzo, sur Motavia_?<end>
 
@@ -4639,30 +6423,37 @@
     パルマセイノ ガシコノムラヘ<line>
     イキマス.イイデスカ.<end>
   translated: Destination: Gothic, on Palma. Confirm?
+  us: |
+    WE ARE HEADING FOR
+    GOTHIC ON PALMA?<prompt>
   en: Would you like to go to Gothic, on Palma?<end>
   fr: Voulez-vous aller à Gothic, sur Palma_?<end>
 
 - offsets:5980
   indices:0AA-2
   ja: ココハ スクレ デス.<end>
+  us: WE ARE AT SKURE.<prompt>
   en: This IS Skray.<end>
   fr: La cité de Skure.<end>
 
 - offsets:597b
   indices:0AC-2
   ja: ココハ ウーゾ デス.<end>
+  us: WE ARE AT UZO.<prompt>
   en: This IS Uzo.<end>
   fr: La ville d'Uzo.<end>
 
 - offsets:5975
   indices:0AE-2
   ja: ココハ ガシコ デス.<end>
+  us: WE ARE AT GOTHIC.<prompt>
   en: This IS Gothic.<end>
   fr: Nous voilà à Gothic.<end>
 
 - offsets:# Unused...
   indices:0B0-2
   ja: シュッパーツ.<delay>
+  us: LET'S GO!<wait>
   en: Here we go--!<delay>
   fr: Allons-y_!<delay>
 
@@ -4676,24 +6467,35 @@
   ja: |
     ココハ アーマーショップデス.<line>
     ナニカ カイマスカ.<end>
+  us: |
+    THIS IS AN ARMORY.
+    DO YOU WANT TO BUY<wait more>
+    SOMETHING?<prompt>
   en: Welcome to the armor shop. Can I help you?<end>
   fr: Bienvenue à l'armurerie! Besoin d'armes pour votre quête_?<end>
 
 - offsets:2d27,2d89,2e46,537e
   indices:0B6-2
   ja: ソウデスカ.マタキテクダサイ.<wait>
+  us: WELL, COME AGAIN.<end>
   en: Take care, come back and see us soon.<wait>
   fr: Prenez soin de vous et à bientôt.<wait> 
 
 - offsets:2d38
   indices:0B8-2
   ja: ドレヲ カイマスカ.<end>
+  us: |
+    WHICH DO YOU WANT <line>
+    TO BUY?<prompt>
   en: What can I get for you today?<end>
   fr: Que puis-je faire pour vous aujourd'hui_?<end>
 
 - offsets:2d7e
   indices:0BA-2
   ja: アリガトウ.モット カイマスカ.<end>
+  us: |
+    THANK YOU.<line>
+    ANYTHING ELSE?<prompt>
   en: Enjoy. Can I get you anything else?<end>
   fr: Parfait, autre chose_?<end>
 
@@ -4702,7 +6504,12 @@
   ja: |
     ソレイジョウ モテナイヨウデスネ.<line>
     マタキテクダサイ.<wait>
-  translation: All right. Have a good day.<wait>
+  translation: It's looks like you can't carry anything more. Please come back later.
+  us: |
+    YOU CANNOT CARRY<line>
+    ANY MORE.<wait more>
+    THANK YOU AND<line>
+    COME AGAIN.<end>
   en: You can’t carry any more. Come back when you can.<wait>
   fr: Votre inventaire est complet_! Faites un peu de trie et revenez.<wait>
 
@@ -4711,6 +6518,11 @@
   ja: |
     ココハ ドラッグストアデス.<line>
     ナニカ カイマスカ.<end>
+  us: |
+    THIS IS A<line>
+    FIRST FOOD SHOP.<wait more>
+    WOULD YOU LIKE TO<line>
+    BUY SOMETHING?<prompt>
   en: This is a pharmacy. Can I help you with something?<end>
   fr: Bienvenue à la pharmacie. Besoin d'aide_?<end>
 
@@ -4719,12 +6531,19 @@
   ja: |
     ココハ ツールショップデス.<line>
     ドンナ ゴヨウデスカ.<end>
+  us: |
+    THIS IS A<line>
+    SECOND-HAND SHOP.<wait more>
+    CAN I HELP YOU?<prompt>
   en: Welcome to the tool shop. May I help you?<end>
   fr: Bienvenue à la quincaillerie. Que voulez-vous faire_?<end>
 
 - offsets:2e0d
   indices:0C2-2
   ja: ドレヲ ウリマスカ.<end>
+  us: |
+    WHAT WOULD YOU <line>
+    LIKE TO SELL?<prompt>
   en: What do you have?<end>
   fr: Voyons voir...<end>
 
@@ -4733,12 +6552,20 @@
   ja: |
     <item>デスネ.<line>
     <number>メセタデ イイデスカ.<end>
+  us: |
+    <item>? LET ME<line>
+    SEE.....<wait more>
+    HOW ABOUT <number><line>
+    MESETAS?<prompt>
   en: Hmm, <article><item>? How does <number><internal hint 01> meseta<s> sound?<end>
   fr: <article><item>. Disons <number><internal hint 01> meseta<s>_?<end>
 
 - offsets:2e66
   indices:0C6-2
   ja: アリガトウ モットウリマスカ.<end>
+  us: |
+    THANK YOU.<line>
+    ANYTHING ELSE?<prompt>
   en: Wonderful! Have anything else for me?<end>
   fr: Magnifique_! Autre chose_?<end>
 
@@ -4752,6 +6579,9 @@
   ja: |
     ココハ ホスピタルデス.<line>
     チリョウヲ ウケマスカ.<end>
+  us: |
+    THIS IS A HOSPITAL
+    DO YOU NEED HELP?<prompt>
   en: This is a hospital. Do you require medical care?<end>
   fr: Bienvenue à l'hôpital. Avez-vous besoin de soins_?<end>
 
@@ -4760,6 +6590,11 @@
   ja: |
     シンサツト チリョウヒ<line>
     <number>メセタデス.ヨロシイデスカ.<end>
+  us: |
+    THE FEE FOR<line>
+    HEALING IS <number><wait more>
+    MESETAS. IS THAT<line>
+    ACCEPTABLE?<prompt>
   en: |
     Hmm. I can get you good as new for <number><internal hint 02> meseta<s>.<wait more>
     Shall I proceed?<end>
@@ -4772,12 +6607,18 @@
   ja: |
     ホカニ チリョウヲ ウケタイカタハ<line>
     イマスカ.<end>
+  us: |
+    DOES ANYONE ELSE<line>
+    NEED TO BE HEALED?<prompt>
   en: Does anyone else need treatment?<end>
   fr: Quelqu'un d'autre a t-il besoin de soins?<end>
 
 - offsets:2af9
   indices:0CE-2
   ja: ドナタガ チリョウヲ ウケマスカ.<end>
+  us: |
+    WHO NEEDS TO BE<line>
+    HEALED?<prompt>
   en: Who requires our attention?<end>
   fr: Quel personne doit être soignée?<end>
 
@@ -4786,6 +6627,9 @@
   ja: |
     オマチドウサマ.<line>
     ドウゾ オダイジニ.<wait>
+  us: |
+    THANK YOU FOR<line>
+    WAITING.TAKE CARE.<end>
   en: |
     Thanks for waiting.<line>
     Take care, now.<wait>
@@ -4796,6 +6640,10 @@
   ja: |
     ソウデスカ オテツダイデキナクテ<line>
     ザンネンデス.デハ オキヲツケテ.<wait>
+  us: |
+    I'M SORRY I COULD<line>
+    NOT HELP.<wait more>
+    PLEASE BE CAREFUL.<end>
   en: Be safe out there.<wait>
   fr: Prenez garde à vous dehors.<wait>
 
@@ -4804,6 +6652,9 @@
   ja: |
     <player>サンハ イジヨウ<line>
     アリマセンネ.<wait>
+  us: |
+    <player> IS NOT NEED<line>
+    TO BE HEALED.<end>
   en: You seem perfectly healthy to me...<wait>
   fr: Vous m'avez l'air d'être en parfaite santé...<wait>
 
@@ -4817,6 +6668,10 @@
   ja: |
     ココハ キョウカイデス. ダレカノ<line>
     タマシイヲ ヨビモドサレマスカ.<end>
+  us: |
+    THIS IS A CHURCH.<line>
+    DO YOU WISH TO<wait more>
+    RESURRECT SOMEONE?<prompt>
   en: This is a church. Do you need to revive a departed soul?<end>
   fr: Bienvenue dans notre église. Une âme disparu_?<end>
 
@@ -4825,12 +6680,18 @@
   ja: |
     デハ アナタノタメニ<line>
     オイノリヲ ササゲマス.<wait>
+  us: |
+    I SHALL PRAY FOR<line>
+    YOU.<end>
   en: Then I shall offer up a prayer for you.<wait>
   fr: Je prierai pour vous.<wait>
 
 - offsets:2c37
   indices:0DA-2
   ja: ソレデハ ジュモンヲ トナエマス.<delay>
+  us: |
+    I WILL NOW CAST<line>
+    A SPELL.<wait>
   en: Concentrate on the departed as I recite an incantation.<delay>
   fr: Recueillez-vous pendant que je récite une incantation.<delay>
 
@@ -4839,18 +6700,48 @@
   ja: |
     アルテムハムラム アルテムハムハム<line>
     ストラトポン.<delay>
+  us: |
+    SABRUS CABRUS<line>
+    SEBRUS BASS!<wait>
   en: ArtemuhamuRAmu! ArtemuhamuHAmu! STRATOPON!<delay>
   fr: ArtemuhamuRAmu_! ArtemuhamuHAmu_! STRATOPON_!<delay>
+
+- offsets:2c82
+  indices:130-2
+  ja: |
+    アルテムハムラム ア ウッ.<line>
+    ゴホッ.ゴホッ.<wait more>
+    ゴメンナサイ.<line>
+    ドウヤラ シッパイシタヨウデス.<wait>
+  us: |
+    SABRUS CABRUS<line>
+    SEB..B...HACK,HACK<wait more>
+    SORRY, I SEEM TO<line>
+    HAVE FAILED.<end>
+  en: |
+    ArutemuhamuRAmu A--ugh!<line>
+    Cough! Cough!<wait more>
+    My apologies.<line>
+    For SOME reason I’ve failed.<wait>
+  fr: |
+    ArtemuHamuRAmu A--rgh_!! 
+    Hurrrmp! Hurrrmp!<wait more>
+    Mes excuses. 
+    Quelque chose m'a fait échouer.<wait>
 
 - offsets:2bfb
   indices:0DE-2
   ja: ドナタノ タマシイデショウ.<end>
+  us: |
+    WHO IS TO BE<line>
+    RESURRECTED?<prompt>
   en: Who shall be returned?<end>
   fr: Quelle âme voulez-vous ramener_?<end>
 
 - offsets:2c71
   indices:0E0-2
   ja: ホカノカタハ イカガデスカ.<end>
+  us: ANYONE ELSE?<prompt>
   en: Is there anyone else?<end>
   fr: Encore une ame_?<end>
 
@@ -4859,12 +6750,18 @@
   ja: |
     <number>メセタ カカリマスガ<line>
     ヨロシイデスカ.<end>
+  us: |
+    THAT REQUIRES<line>
+    <number> MESETAS. O.K.?<prompt>
   en: Our suggested donation is <number><internal hint 02> meseta<s>.<end>
   fr: Nous suggérons un don de <number><internal hint 02> meseta<s>.<end>
 
 - offsets:2ca8
   indices:0E4-2
   ja: コレカラ レベルアップスルタメニハ<wait>
+  us: |
+    TO ADVANCE TO<line>
+    THE NEXT LEVEL,<end>
   en: To level up,<wait>
   fr: Pour monter d'un niveau,<wait>
 
@@ -4873,6 +6770,9 @@
   ja: |
     <player>ハ <number>ポイント<line>
     ヒツヨウデス.<wait>
+  us: |
+    <player> NEEDS <number><line>
+    EXPERIENCE POINTS.<end>
   en: <player> needs <number><internal hint 02> point<s>.<wait>
   fr: <player> a besoin de <number><internal hint 02> point<s>.<wait>
 
@@ -4881,12 +6781,16 @@
   ja: |
     アナタガタノ ユクスエニ<line>
     カミノ メグミガ アリマスヨウニ.<wait>
+  us: |
+    MAY THE GODS<line>
+    WATCH OVER YOU!<end>
   en: May your future hold blessings from God.<wait>
   fr: Puisse Dieu bénir votre avenir.<wait>
 
 - offsets:2c90
   indices:0EA-2
   ja: <player>ハ イキテイマスヨ.<end>
+  us: <player> IS ALIVE.<prompt>
   en: |
     <player>? You don’t look dead to me.<wait more>
     If you need medical care, I advise finding the nearest hospital.<end>
@@ -4904,27 +6808,38 @@
   ja: |
     セーブヲ オコナイマス.<line>
     バンゴウヲ エランデクダサイ.<end>
+  us: |
+    WILL SAVE THE GAME
+    IN PROGRESS.<wait more>
+    PLEASE SELECT<line>
+    A NUMBER.<prompt>
   en: |
     Saving the game?<line>
     Please choose a slot.<end>
   fr: Sauvegarder votre progression_? Choisissez un emplacement.<end>
 
 #[084e,1e44] ; No longer patching the "delete" prompt
+
 - offsets:ScriptConfirmSlot,1e44
   indices:0EE-2
   ja: <number>バンデ イイデスカ.<end>
+  us: |
+    YOU SELECTED <number><line>
+    IS THAT O.K.<prompt>
   en: Slot <number>, are you sure?<end>
   fr: Emplacement <number>, êtes-vous sur_?<end>
 
 - offsets:1e55
   indices:0F0-2
   ja: デハ <number>バンニ セーブシマス.<delay>
+  us: WELL, SAVING <number>.<wait>
   en: OK. Now saving in slot<internal hint 04> <number>...<delay>
   fr: Ok. Emplacement numéro <number> en cours de sauvegarde...<delay>
 
 - offsets:ScriptDone,1e91
   indices:0F2-2
   ja: オワリマシタ.<wait>
+  us: COMPLETED.<end>
   en: ...done.<wait>
   fr: ...terminé.<wait>
 
@@ -4938,12 +6853,19 @@
   ja: |
     ワタシタチハ パルマノ ヒトタチト<line>
     ナカヨク シタイ.<wait>
+  us: |
+    WE WANT TO BE<line>
+    FRIENDS WITH<wait more>
+    PEOPLE FROM PALMA.<end>
   en: ‘We want to become friends with the Palmans.’<wait>
   fr: Nous voulons être amis avec les Palmans.<wait>
 
 - offsets:1ae7
   indices:0F6-2
   ja: ラエルマベリーガ タベタイナア.<wait>
+  us: |
+    I WANT TO EAT A<line>
+    NUT OF LAERMA.<end>
   en: ‘I could really go for some Laerma Berries right now!’<wait>
   fr: Je pourrais aller chercher des baies Laerma maintenant!<wait>
 
@@ -4952,6 +6874,9 @@
   ja: |
     ラシークサマニハ<line>
     サカラワナイホウガ イイヨ.<wait>
+  us: |
+    DO NOT OFFEND<line>
+    LASSIC.<end>
   en: ‘You should not go against Lord LaShiec.’<wait>
   fr: Vous ne devriez pas tenir tête au Seigneur Lassic.<wait>
 
@@ -4960,12 +6885,16 @@
   ja: |
     オッ.ワタシタチノ コトバガ<line>
     ワカルンダネ.<wait>
+  us: |
+    YOU UNDERSTAND OUR
+    LANGUAGE?<end>
   en: ‘Oh! So you understand our language, do you?’<wait>
   fr: Oh! Vous comprenez notre langue_?<wait>
 
 - offsets:1aed
   indices:0FC-2
   ja: ヤッホー.<wait>
+  us: HELLO!<end>
   en: ‘Yahoo!’<wait>
   fr: Super_!<wait>
 
@@ -4974,6 +6903,9 @@
   ja: |
     ダンジョンデハ オトシアナニ<line>
     キヲツケナヨ.<wait>
+  us: |
+    BE CAREFUL OF PITS
+    IN THE DUNGEON.<end>
   en: ‘When you’re in the dungeons, beware of pitfalls.’<wait>
   fr: Méfiez-vous des pièges présents dans les donjons.<wait>
 
@@ -4982,12 +6914,18 @@
   ja: |
     タカラバコハ ムヤミニ<line>
     アケルト ケガヲスルヨ.<wait>
+  us: |
+    MANY OF THE <line>
+    TREASURE CHESTS IN<wait more>
+    THE DUNGEON ARE <line>
+    TRAPPED.<end>
   en: ‘You’ll get injured if you open treasure boxes carelessly.’<wait>
   fr: N'ouvrez pas les coffres au trésor trop hâtivement.<wait>
 
 - offsets:1af3
   indices:102-2
   ja: コノ オイハギヤロウ.<wait>
+  us: YOU THIEF!<end>
   en: ‘You damn thieves!’<wait>
   fr: Satanés voleurs_!<wait>
 
@@ -4996,6 +6934,9 @@
   ja: |
     ワタシタチハ ドウセ<line>
     ニクマレモノダヨ.<wait>
+  us: |
+    WE ARE OUTCASTS.<line>
+    FORGIVE US.<end>
   en: ‘People hate us no matter what we do.’<wait>
   fr: Les gens nous détestent quoi que nous fassions.<wait>
 
@@ -5004,6 +6945,11 @@
   ja: |
     スーズフルートノ ネイロハ<line>
     イイナア.<wait>
+  us: |
+    THE SOUND OF THE <line>
+    SOOTHING FLUTE IS<wait more>
+    A JOY TO BOTH THE <line>
+    EAR AND THE HEART.<end>
   en: ‘The Soothe Flute sounds so nice!’<wait>
   fr: Le son de la flute apaisante est si beau.<wait>
 
@@ -5012,6 +6958,11 @@
   ja: |
     アイスデッカー トイウ ノリモノハ<line>
     コオリモ ケズレルンダッテ.<wait>
+  us: |
+    THE VEHICLE KNOWN<line>
+    AS "ICE DIGGER"<wait more>
+    LIVES UP TO ITS<line>
+    NAME.<end>
   en: ‘IceDeckers can cut through ice!’<wait>
   fr: Les ForaGlaces permettent de briser la glace.<wait>
 
@@ -5020,6 +6971,9 @@
   ja: |
     ラシークサマハ ソラノウエニ<line>
     イラッシャルンダ.<wait>
+  us: |
+    LASSIC LIVES ABOVE
+    THE SKY.<end>
   en: ‘Lord LaShiec lives up in the sky.’<wait>
   fr: Le Seigneur Lassic vit dans le ciel.<wait>
 
@@ -5028,6 +6982,10 @@
   ja: |
     アビオンノ マッドドクターガ<line>
     ラスコニアンポットヲ モッテタゼ.<wait>
+  us: |
+    THE MAD DOCTOR<line>
+    IN ABION HAS A<wait more>
+    LACONIAN POT.<end>
   en: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
   fr: Le Savant fou à Abion possède un vase Laconian.<wait>
 
@@ -5036,12 +6994,21 @@
   ja: |
     ソラノ ウエニハ ウチュウセンデモ<line>
     イケナイトコロガアルゼ.<wait>
+  us: |
+    THERE ARE PLACES<line>
+    IN THE SKY<wait more>
+    WHERE EVEN SPACE-<line>
+    SHIP CANNOT GO.<end>
   en: ‘There are places in the sky that even a spaceship can’t reach.’<wait>
   fr: Les vaisseaux ne vont pas partout dans le ciel.<wait>
 
 - offsets:1cd8
   indices:110-2
   ja: ラエルマベリーヲ ミノラセルタメニハアルモノガ ヒツヨウダ.<wait>
+  us: |
+    A NUT OF LAERMA<line>
+    NEEDS SPECIAL<wait more>
+    LIGHT TO GLOW.<end>
   en: ‘You need to have a certain item in order to make Laerma Berries grow.’<wait>
   fr: Il faut un vase pour que les baies Laerma mûrissent.<wait>
 
@@ -5050,6 +7017,10 @@
   ja: |
     ダンジョンノ メイロニハ<line>
     カクシトビラガ アルンダゼ.<wait>
+  us: |
+    THERE ARE SECRET<line>
+    DOORS IN THE<wait more>
+    DUNGEON MAZE.<end>
   en: ‘Some dungeon labyrinths contain hidden doors.’<wait>
   fr: Certains donjons ont des passages secrets.<wait>
 
@@ -5059,11 +7030,20 @@
     ミラクルキーハ マホウノドアデモ<line>
     アケルコトガ デキルゾ.<wait>
   en: ‘The Miracle Key can open magic doors!’<wait>
+  us: |
+    THE MIRACLE KEY<line>
+    CAN OPEN DOORS<wait more>
+    WHICH ARE SHUT<line>
+    BY MAGIC.<end>
   fr: La Clé Magique peut ouvrir les portes scellées_!<wait>
 
 - offsets:1cde
   indices:116-2
   ja: デゾリアンニハ ウソツキモ イルカラキヲツケナヨ.<wait>
+  us: |
+    SOME DEZORIANS<line>
+    LIKE TO TELL LIES,<wait more>
+    SO BE CAREFUL.<end>
   en: ‘Some Dezorians are liars, so be careful.’<wait>
   fr: Certains Dézoriens sont des menteurs, soyez prudents.<wait>
 
@@ -5072,6 +7052,9 @@
   ja: |
     ワタシニ ハナシカケルトハ<line>
     ユウキガ アルネエ. ガンバレヨ.<wait>
+  us: |
+    YOU ARE BRAVE TO<line>
+    APPROACH ME!<end>
   en: ‘My, you’re very brave to talk to me. Hang in there.’<wait>
   fr: Vous êtes bien brave pour me parler. Approchez-vous.<wait>
 
@@ -5085,6 +7068,9 @@
   ja: |
     <monster>ハ カラダニ<line>
     チカラガ ミナギルノヲカンジタ.<delay>
+  us: |
+    <monster> IS BURST-<line>
+    ING WITH STRENGTH.<wait>
   en: <Article><monster> felt its body swell with strength.<delay>
   fr: Le corps <de><monster> s'emplit de force.<delay>
 
@@ -5093,36 +7079,52 @@
   ja: |
     <monster>ハ タカラバコヲ<line>
     モッテイタ.<end>
+  us: |
+    <monster> HAD A<line>
+    TREASURE CHEST.<prompt>
   en: <Article><monster> had a treasure chest.<end>
   fr: <Article><monster> laisse un coffre au trésor.<end>
 
 - offsets:27c3
   indices:11E-2
   ja: イマ ヒガシヲムイテイル.<wait>
+  us: |
+    WE ARE CURRENTLY<line>
+    FACING EAST.<end>
   en: You are now facing east.<wait>
   fr: Vous faites face à l'est.<wait>
 
 - offsets:27cf
   indices:120-2
   ja: イマ ニシヲ ムイテイル.<wait>
+  us: |
+    WE ARE CURRENTLY<line>
+    FACING WEST.<end>
   en: You are now facing west.<wait>
   fr: Vous faites face à l'ouest.<wait>
 
 - offsets:27bc
   indices:122-2
   ja: イマ キタヲ ムイテイル.<wait>
+  us: |
+    WE ARE CURRENTLY<line>
+    FACING NORTH.<end>
   en: You are now facing north.<wait>
   fr: Vous faites face au nord.<wait>
 
 - offsets:27ca
   indices:124-2
   ja: イマ ミナミヲ ムイテイル.<wait>
+  us: |
+    WE ARE CURRENTLY<line>
+    FACING SOUTH.<end>
   en: You are now facing south.<wait>
   fr: Vous faites face au sud.<wait>
 
 - offsets:1786
   indices:126-2
   ja: アリサタチハ ゼンメツシタ.<wait>
+  us: YOU ARE ALL DEAD.<end>
   en: Alisa and her companions have been annihilated.<wait>
   fr: Alisa et ses amis ont été anéantis.<wait>
 
@@ -5133,6 +7135,12 @@
     ヤボウノ マエニ<wait more>
     ムナシク キエサッタ.<line>
     ココデ ボウケンハ オワリデス.<wait>
+  us: |
+    ALIS'S HOPE CANNOT
+    OVERCOME THE POWER<wait more>
+    OF LASSIC.<line>
+    THE ADVENTURE IS<wait more>
+    OVER.<end>
   en: |
     Alisa’s hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
     The journey ends here.<wait>
@@ -5145,6 +7153,10 @@
   ja: |
     オカネガ タリナイヨウデスネ.<line>
     マタキテクダサイ.<wait>
+  us: |
+    YOU DON'T HAVE <line>
+    ENOUGH MONEY.<wait more>
+    COME AGAIN LATER.<end>
   en: |
     It looks like you don’t have enough money.<line>
     Please come back later.<wait>
@@ -5155,42 +7167,36 @@
 - offsets:2e3d
   indices:12C-2
   ja: ソレハ アトデ ヤクニタチマスヨ.<wait>
+  us: |
+    THAT WILL COME IN<line>
+    HANDY LATER.<end>
   en: That’ll come in handy later.<wait>
   fr: Cela arrivera en son temps.<wait>
 
 - offsets:6c6e
   indices:12E-2
   ja: タカラバコヲ ミツケタ.<end>
+  us: |
+    THERE IS A<line>
+    TREASURE CHEST.<prompt>
   en: You found a treasure chest.<line><end>
   fr: Vous trouvez un coffre.<end>
-
-- offsets:2c82
-  indices:130-2
-  ja: |
-    アルテムハムラム ア ウッ.<line>
-    ゴホッ.ゴホッ.<wait more>
-    ゴメンナサイ.<line>
-    ドウヤラ シッパイシタヨウデス.<wait>
-  en: |
-    ArutemuhamuRAmu A--ugh!<line>
-    Cough! Cough!<wait more>
-    My apologies.<line>
-    For SOME reason I’ve failed.<wait>
-  fr: |
-    ArtemuHamuRAmu A--rgh_!! 
-    Hurrrmp! Hurrrmp!<wait more>
-    Mes excuses. 
-    Quelque chose m'a fait échouer.<wait>
 
 - offsets:5939
   indices:132-2
   ja: モタビア ユキデス.ノリマスカ.<end>
+  us: |
+    BOUND FOR MOTAVIA.
+    GETTING ON?<prompt>
   en: This is a non-stop flight to Motavia. Getting on?<end>
   fr: C'est un vol sans escale vers Motavia. Monter à bord_?<end>
 
 - offsets:5949
   indices:134-2
   ja: パルマ ユキデス.ノリマスカ.<end>
+  us: |
+    BOUND FOR PALMA.<line>
+    GETTING ON?<prompt>
   en: This shuttle is heading for Palma. Getting on?<end>
   fr: Cette navette se dirige vers Palma. Embarquer_?<end>
 
@@ -5199,6 +7205,9 @@
   ja: |
     <player>ハ モウ<line>
     チカライッパイデス.<wait>
+  us: |
+    <player> IS STRONG<line>
+    ENOUGH ALREADY.<end>
   en: <player> is already at full health.<wait>
   fr: <player> est déjà en pleine forme.<wait>
 
@@ -5208,6 +7217,9 @@
   ja: |
     ゲームノ ツヅキヲ ヤリマス.<line>
     バンゴウヲ エランデクダサイ.<end>
+  us: |
+    CONTINUE A GAME.<line>
+    SELECT A NUMBER.<prompt>
   en: |
     Continuing a saved game.<line>
     Please choose a slot.<end>
@@ -5216,6 +7228,7 @@
 - offsets:#07fe
   indices:13A-2
   ja: デハ <number>バンノゲームヲ ハジメマス.<delay>
+  us: CONTINUING GAME <number>.<wait>
   en: OK. Continuing from slot<internal hint 01> <number>.<delay>
   fr: Ok. Continuer à partir de l'emplacement numéro <number>.<delay>
 
@@ -5224,6 +7237,7 @@
   ja: |
     パスワードガ チガイマス.<line>
     モウイチド タシカメテクダサイ.<wait>
+  us: # not present
   en: |
     That password is incorrect.<line>
     Please try again.<wait>
@@ -5234,6 +7248,9 @@
   ja: |
     ゲームノツヅキヲ ヤル.ーー ハイ<line>
     ゲームヲ ケス.ーーーーーー イイエ<end>
+  us: |
+    CONTINUE GAME- YES
+    DELETE   GAME- NO<prompt>
   en: Do you want to continue a saved game?<end>
   fr: Voulez-vous continuer une partie sauvegardée_?<end>
 
@@ -5242,12 +7259,18 @@
   ja: |
     セーブシタ ゲームヲ ケシマス.<line>
     イイデスカ.<end>
+  us: |
+    WILL DELETE A<line>
+    SAVED GAME O.K.?<prompt>
   en: Do you want to delete a saved game?<end>
   fr: Voulez-vous supprimer une sauvegarde_?<end>
 
 - offsets:#083a
   indices:142-2
   ja: ナンバンノ ゲームヲ ケシマスカ.<end>
+  us: |
+    DELETE A GAME.<line>
+    SELECT A NUMBER.<prompt>
   en: |
     Deleting a saved game.<line>
     Please choose a slot.<end>
@@ -5256,6 +7279,9 @@
 - offsets:ScriptDeletingFromSlotN
   indices:144-2
   ja: <number>バンノ ゲームヲ ケシマシタ.<wait>
+  us: |
+    GAME <number> HAS BEEN<line>
+    DELETED.<end>
   en: Deleting game from slot<internal hint 04> <number>...<end>
   # <end> is nicer than <wait> here - Maxim
   fr: Suppression de la sauvegarde, emplacement <number>.<end>
@@ -5267,6 +7293,9 @@
 - offsets:16a8
   indices:146-2
   ja: <player>ハ イシニ ナッテシマッタ.<wait>
+  us: |
+    <player> HAS BEEN<line>
+    TURNED TO STONE.<end>
   en: <player> turned to stone.<wait>
   fr: <player> se fait pétrifier_!<wait>
 
@@ -5275,6 +7304,9 @@
   ja: |
     <item>ハ イマ ダレカガ<line>
     ツカッテシマッタ.<wait>
+  us: |
+    <item> IS USED<line>
+    BY SOMEONE NOW.<end>
   en: Someone has used <article><item> up.<wait>
   fr: Quelqu'un utilise <article><item>.<wait>
 
@@ -5286,6 +7318,15 @@
     オマエハ フタタビ イキテ<line>
     ヘイワノタメニ ツクスガイイ.<wait more>
     アリサノ タマシイハ ヨミガエッタ.<wait>
+  us: |
+    ALIS HEARS NERO'S<line>
+    VOICE IN THE DEPTH<wait more>
+    OF HER SOUL:<line>
+    "YOU'LL BE REBORN<wait more>
+    TO FIGHT FOR<line>
+    PEACE AGAIN."<wait more>
+    ALIS IS<line>
+    RESURRECTED.<end>
   en: |
     Then Alisa heard Nero’s voice, from somewhere far away.<wait more>
     ‘Don’t give up, Alisa. You’ve come so far.’<wait more>

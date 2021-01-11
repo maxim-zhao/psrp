@@ -464,7 +464,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ロードパス|rōdopasu|ROADPASS|Roadpass|Road Pass|Transliteration
 ルオギニン|ruoginin|BURGER|Burger|Ruoginin|Transliteration. Similar to PelorieMate, this is a corruption of Arginine V (アルギニンV, aruginin V), a Japanese brand of "energy drink"
 サーチライト|sāchiraito|FLASH|Flash|Searchlight|Transliteration
-ヒミツノモノ|himitsunomono|SECRET|Secret|Secret Thing|Translation (秘密の物)
+ヒミツノモノ|himitsunomono|SECRETS|Secret|Secret Thing|Translation (秘密の物)
 ショートケーキ|shōtokēki|CAKE|Cake|Shortcake|Transliteration
 スーズフルート|sūzufurūto|FLUTE|Flute|Soothe Flute|Transliteration
 テレパシーボール|terepashībōru|SPHERE|Sphere|Telepathy Ball|Transliteration
