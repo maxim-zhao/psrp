@@ -42,12 +42,13 @@ int main(int argc, const char** argv)
         auto s = entry[language].As<std::string>();
         if (s.empty())
         {
-            // Formatting entries have no text
-            if (entry["width"].IsScalar())
+            // If there's no offsets entry, or it is blank, then we don't want this item
+            const auto& offsets = entry["offsets"].As<std::string>();
+            if (std::all_of(offsets.begin(), offsets.end(), isspace))
             {
                 continue;
             }
-            std::cerr << "Warning: entry has no text for offsets: " << entry["offsets"].As<std::string>() << "\n";
+            std::cerr << "Warning: entry has no text for offsets: " << offsets << "\n";
         }
         // Remove <> commands
         for (auto pos = s.find('<'); pos != std::string::npos; pos = s.find('<', pos))
