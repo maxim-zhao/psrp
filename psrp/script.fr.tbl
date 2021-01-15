@@ -106,10 +106,6 @@
 ; Text between [] is skipped in menus but not in body text
 52=[
 53=]
-; Articles. Note these have trailing spaces.
-54=<A> 
-55=<An> 
-56=<The> 
 ; French articles with trailing spaces except for <d'>
 54=<de l'>
 55=<du> 
