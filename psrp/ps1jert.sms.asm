@@ -3783,28 +3783,32 @@ NameEntryLookup:
 .define NameEntryMinY 11
 .define NameEntryMaxY 19
 .endif
-.if LANGUAGE == "pt-br" ; TODO-pt-br
-.db 10
-  NameEntryText  8,  1, "Enter your name:"
+.if LANGUAGE == "pt-br"
+.db 13
+  NameEntryText  8,  1,      "Digite seu nome:"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
+  ; TODO-pt-br add accented here once font is decided
   NameEntryText  3, 15, "0123456789"
   NameEntryText 21, 15,                   ".,:-!?‘’"
-  NameEntryText  3, 17, "Back  Next  Space     Save"
+  NameEntryText  3, 17, "Voltar"
+  NameEntryText 22, 17,                    "Próximo"
+  NameEntryText  3, 19, "Espaço"
+  NameEntryText 23, 19,                     "Salvar"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
   NameEntryText  1, 23, "╘═"
   NameEntryText 30,  3, "╖"
   NameEntryText 30, 23, "╝"
 NameEntryLookup:
 .db 4
-  NameEntryMask  3, 17, 4, "B" ; X, Y, length, type (Back)
-  NameEntryMask  9, 17, 4, "N" ; Next
-  NameEntryMask 15, 17, 5, "S" ; Space
-  NameEntryMask 25, 17, 4, "V" ; saVe
+  NameEntryMask  3, 17, 6, "B" ; X, Y, length, type (Back)
+  NameEntryMask 22, 17, 7, "N" ; Next
+  NameEntryMask  3, 19, 6, "S" ; Space
+  NameEntryMask 23, 19, 6, "V" ; saVe
 .define NameEntryMinX 3
 .define NameEntryMaxX 28
 .define NameEntryMinY 11
-.define NameEntryMaxY 17
+.define NameEntryMaxY 19
 .endif
 
 _CursorMemoryInitialValues:
