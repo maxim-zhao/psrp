@@ -1125,7 +1125,7 @@
     ALL OF MOTAVIA.<end>
   en: The Governor-General rules all of Motavia from his office in Paseo.<wait>
   fr: Ces vaisseaux se dirigent vers la capitale de Motavia, Paséo. Le Gouverneur y habite.<wait>
-  pt-br: Estas aeronaves estão indo em direção à paseo, capital de Motávia. O governadorugeral mora lá.<wait>
+  pt-br: Estas aeronaves estão indo em direção à Paseo, capital de Motávia. O governadorugeral mora lá.<wait>
 
 - offsets: 4caa
   # Luggage handler
@@ -3924,7 +3924,7 @@
     S'il vous plait, arrêtez-le. C'est bien trop horrible_!<wait>
   pt-br: |
     Qualquer que seja o absurdo em que LaShiec esteja envolvido, isso já foi longe demais.<wait more>
-    Ouvi dizer que cadáveres no necrotério guaran voltaram à vida!<wait more>
+    Ouvi dizer que cadáveres no necrotério Guaran voltaram à vida!<wait more>
     Por favor, pareuo. Isto é horrível!<wait>
 
 
@@ -5035,7 +5035,7 @@
     Un souci il y a, dans un pot en Laconian, elles doivent être.<wait more>
     Si dans un tel pot elles ne sont pas, toutes desséchées elles deviennent.<wait>
   pt-br: |
-    Árvores laerma possuem frutas estranhas.<wait more>
+    Árvores Laerma possuem frutas estranhas.<wait more>
     Elas são chamadas de frutas de laerma, elas são.<wait more>
     Elas são saborosas. Quero comêulas, eu quero.<wait more>
     O problema é que temos que colocáulas em um pote laconiano.<wait more>
@@ -5503,7 +5503,7 @@
     ARMOR IN GUARON?<prompt>
   en: Did you get the armor in Guaran?<end>
   fr: Avez-vous trouvé l'armure à Garond?<end>
-  pt-br: Você conseguiu a armadura em guaran?<end>
+  pt-br: Você conseguiu a armadura em Guaran?<end>
 
 - offsets: 583b
   # Prisoner (no to previous question)
