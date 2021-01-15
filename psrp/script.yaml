@@ -222,18 +222,23 @@
     ... et aussi de...<line><line>
     ... te laisser seule...<wait>
   pt-br: |
-    Alisa. Minha irmã.<line><line>
+    Alisa, minha irmã.<line><line>
     Ouça cautelosamente, eu não tenho muito tempo.<wait more>
-    Lashiec é uma ameaça para toda algol, ele não pode permanecer no poder.<line><line>
-    Não sei o que aconteceu com ele, mas uma coisa eu sei.<wait more>
-    O Lorde LaShiec deve morrer.<line><line>
-    Para o bem de todos alisa, você tem que derrotá-lo.<wait more>
+    Os rumores que ouvimos são verdadeiros. LaShiec... mudou.<line>
+    E isso vai além dos seus militares tomarem conta de nossas ruas.<wait more>    
+    Todas essas criaturas horríveis lá fora, todas essas trevas em nosso meio...<line><line>
+    De alguma forma, todas evidências apontam para ele.<wait more>
+    Eu tentei descobrir, mas acho que cheguei bem perto da verdade.<line><line>
+    Só resta uma opção agora, para todos nós.<wait more>
+    O Lorde LaShiec deve ser parado.<line><line>
+    Se não for, as trevas nas quais ele se alinhou tomarão toda Algol.<wait more>
     Meu erro foi tentar pegá-lo sozinho.<line><line>
     Estas pessoas são perigosas, você vai precisar de ajuda.<wait more>
-    Eu ouvi histórias de um guerreiro, um homem chamado tylon, que compartilha a minha causa.<line><line>
+    Eu ouvi histórias de um guerreiro, um homem chamado Tylon, que poderia ser um aliado.<line><line>
     Queria contar com sua ajuda, mas ele está desaparecido.<wait more>
-    Você tem que encontrá-lo, alisa. Encontre tylon, e derrote LaShiec, antes que seja tarde demais.<wait more>
-    Alisa... Um fardo tão terrível. Me desculpe.<line><line>
+    Você tem que encontrá-lo, Alisa.<line><line>
+    Encontre Tylon, e derrote LaShiec. Juntos, vocês podem trazer a paz de volta a Algol.<wait more>
+    Alisa... um fardo tão terrível. Me desculpe.<line><line>
     Por favor, me perdoe, por pedir isso de você...<wait more>
     ...e por deixar todos vocês...<line><line>
     ...sozinhos...<wait>
@@ -269,10 +274,10 @@
     Je suis partie pour anéantir l'homme le plus puissant du monde.<wait>
   pt-br: |
     Nero...<wait more>
-    Eu sei que você não iria pedir isso de mim se houvesse outro jeito.<wait more>
     Sua morte não será em vão, eu juro.<line><line>
-    Vigie e proteja-me, meu irmão.<wait more>
-    Estou indo derrotar o homem mais poderoso do mundo.<wait>
+    Não deixarei esses monstros invadirem nossa casa.<wait more>
+    Vigie e proteja-me, meu irmão.<line><line>
+    Com seu espírito ao meu lado, LaShiec não terá a menor chance.<wait>
 
 # *************************************
 # *** Camineet Residential District ***
@@ -324,7 +329,9 @@
   fr: |
     La maison d'Alisa.<line>
     On peut encore y ressentir la présence de Néro.<wait>
-  pt-br: Esta é a casa de alisa. A presença de nero ainda pode ser sentida aqui.<wait>
+  pt-br: |
+    Esta é a casa de Alisa.<line><line>
+    As coisas de Nero ainda estão onde ele deixou.<wait>
 
 - offsets: 4b48
   # Suelo (first visit)
@@ -355,9 +362,10 @@
     Mais je sais comme tu es bornée, je t'aiderai donc comme je pourrai.<wait more>
     Si tu es blessée, viens ici et ton amie Suelo t'arrangera ca.<wait>
   pt-br: |
-    Você está fazendo o quê?<wait more>
-    Alisa... enfrentar LaAhiec é loucura, mas eu sei como você é teimosa, então vou fazer o que puder para te ajudar.<wait more>
-    Se você se machucar, volte aqui e sua velha amiga suelo irá cuidar de você.<wait>
+    Alisa... enfrentar LaShiec é loucura. Mas eu sei o quão teimosa e determinada você pode ser.<wait more>
+    Eu não vou perder meu fôlego tentando te convencer disso, mas... por favor, tome cuidado.<wait more>
+    Se você se machucar, volte aqui para se curar.<wait more>
+    Somos vizinhas há muito tempo, você sabe que a casa da Suelo estará sempre aberta para você.<wait>
 
 
 - offsets: 4b4e
@@ -381,7 +389,7 @@
     Tu seras toujours la bienvenue ici.<wait>
   pt-br: |
     Por favor, descanse um pouco.<wait more>
-    Não exagere, ok? você será sempre bem vinda aqui.<wait>
+    Seu irmão ficaria orgulhoso de você. Mas não exagere, ok? Volte aqui quando quiser.<wait>
 
 
 - offsets: 4b62
@@ -424,10 +432,12 @@
     Néro m'avait demandé de garder ce vase Laconian.<wait more>
     Il aurait voulu que tu l'aies. Tiens, prends-le.<wait>
   pt-br: |
-    Meu nome é Nekiseh. Sinto muito pelo seu irmão.<wait more>
-    Da última vez que ouvimos, Tylon estava hospedado em uma cidade chamada shion.<wait more>
-    Nero me pediu para tomar conta deste pote Laconiano.<wait more>
-    Ele queria que você ficasse com isso. Aqui, pode levar.<wait>
+    Meu nome é Nekise.<line><line>
+    Fiquei triste ao saber de sua perda.<wait more>
+    Nero me pediu para ajudá-la a encontrar um guerreiro chamado Tylon, você também está procurando por ele?<wait more>
+    Da última vez que ouvimos, ele estava hospedado em uma cidade chamada Shion. Talvez ele ainda esteja por perto.<wait more>
+    Seu irmão também me pediu para manter este Pote de Lacônia seguro.<wait more>
+    É muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
 
 
 - offsets: 4b7c
@@ -444,7 +454,7 @@
     SAFETY.<end>
   en: I wish there was more I could do for you. Please be safe out there.<wait>
   fr: Je suis désolé, mais je ne peux pas t'aider plus. Bonne chance.<wait>
-  pt-br: Sinto muito, eu não posso me arriscar te ajudando mais. Boa sorte.<wait>
+  pt-br: Eu gostaria de ter ajudado mais. Por favor, se cuide lá fora.<wait>
 
 - offsets: 4b82
   # Camineet resident - man
@@ -462,8 +472,10 @@
     I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
     Camineet used to be so nice. How did it come to this?<wait>
   fr: Combien de temps allons-nous rester sous cette loi martiale_?<wait>
-  pt-br: Quanto tempo eles vão nos manter sob esta lei marcial?<wait>
-
+  pt-br: |
+    Não posso mais sair de casa sem que a guarda de LaShiec observe cada movimento meu.<wait more>
+    Camineet costumava ser tão agradável. Como é que chegou a esse ponto?<wait>
+    
 - offsets: 4b88
   # Camineet resident - man
   indices: 014
@@ -475,7 +487,7 @@
     OPEN LOCKED DOORS.<end>
   en: Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
   fr: Tu auras besoin de la Clé du Donjon si tu veux ouvrir les portes.<wait>
-  pt-br: Você vai precisar de uma chave do calabouço se quiser abrir portas trancadas.<wait>
+  pt-br: Você vai precisar de uma Chave do Calabouço se quiser abrir as portas trancadas de alguns calabouços.<wait>
 
 - offsets: 4b8e
   # Camineet resident - man
@@ -491,7 +503,7 @@
     SORT OF LIGHT.<end>
   en: Some dungeons are pitch black, make sure you always have a light source with you.<wait>
   fr: Certains donjons sont totalement obscurs, tu auras besoin de lumière.<wait>
-  pt-br: Alguns calabouços são muito escuros, você vai precisar de uma luz.<wait>
+  pt-br: Alguns calabouços são muito escuros, certifique-se de ter sempre uma fonte de luz com você.<wait>
 
 - offsets: 4b94
   # Camineet resident - man
@@ -510,8 +522,8 @@
     Il faut un permis pour entrer sur le Spatioport_!<wait more>
     Comment vais-je rentrer chez moi_?<wait>
   pt-br: |
-    Eu não posso acreditar que o espaçoporto agora requer um passe.<wait more>
-    Como é que eu vou chegar em casa?<wait>
+    Você não pode mais entrar no espaçoporto sem um tal de Passe.<wait more>
+    Tentei me cadastrar para conseguir um, mas disseram-me que pode demorar semanas. Como é que vou voltar para casa?<wait>
 
 - offsets: 4b9a
   # Camineet resident - man
@@ -525,7 +537,7 @@
     THE PORT TOWN.<end>
   en: You can buy just about anything in port towns. I even got a fake I.D. once!<wait>
   fr: J'ai entendu dire qu'il y avait du marché noir dans les ports...<wait>
-  pt-br: Ouvi dizer que mercadorias ilegais são comercializadas nas cidades portuárias.<wait>
+  pt-br: Você pode comprar quase tudo nas cidades portuárias. Eu até consegui uma ID falsa uma vez!<wait>
 
 - offsets: 4bba
   # Camineet police
@@ -538,7 +550,7 @@
     RESIDENTIAL AREA.<end>
   en: Remain inside the residential area. It is not safe for citizens outside.<wait>
   fr: Les citoyens sont priés de rester dans la zone résidentielle.<wait>
-  pt-br: Os cidadãos são aconselhados a permanecer dentro da área residencial.<wait>
+  pt-br: Permaneça dentro da área residencial. Não é seguro para os cidadãos lá fora.<wait>
 
 - offsets: 4bc0
   # Camineet police
@@ -551,7 +563,7 @@
     STAY HERE.<end>
   en: We cannot protect you outside. Stay inside of your homes until the danger has passed.<wait>
   fr: Si vous ne voulez pas mourir, ne passez pas.<wait>
-  pt-br: A menos que você tenha um desejo de morte, você deve permanecer no interior.<wait>
+  pt-br: Não podemos protegê-lo lá fora. Fiquem dentro de suas casas até o perigo passar.<wait>
 
 - offsets: 4bcd,4c26,4cc2,4d0e
   # Camineet police (at road, without a Roadpass)
