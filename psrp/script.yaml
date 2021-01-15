@@ -1,12 +1,12 @@
 # Main script
 #
 # This file is encoded as YAML.
-# Hints: 
+# Hints:
 # - # means a comment
 # - | introduces a multi-line string, indicated by indentation. (Don't use >, which makes YAML insert unwanted spaces.)
 # - Strings can be enclosed in quotes to make surrounding whitespace retained.
 #
-# Each script entry comprises these elements: 
+# Each script entry comprises these elements:
 # - offsets: locations in the ROM referring to this script item
 # - indices: indices in the original game's indirection table which correspond to items in this entry. Useful only for correlation with older scripts.
 # - ja: original Japanese
@@ -15,25 +15,25 @@
 # - en, fr: translations consumed by the code
 # Stuff with ****** around it is an area indicator.
 #
-# Some values change the text wrapping routines: 
+# Some values change the text wrapping routines:
 # - width: changes the wrapping width
 # - height: changes the line count for automatic insertion of "wait more" codes
 # These are special because they tale effect for all future script entries. As the script
 # swaps between "character intro" and "in-game" dialogue, these appear to change the settings.
 #
-# Special code legend: 
+# Special code legend:
 #
 # <number> = render a number. Also sets a suffix flag if the number is 0 or >1.
-# Note that in several places the number is fixed, but it saves ~35 bytes to 
+# Note that in several places the number is fixed, but it saves ~35 bytes to
 # use this tag (and the ones below) rather than include digits in the text
 # (as that adds additional Huffman trees).
-# However, in some places we spell words out (e.g. "three", "tenth") for 
+# However, in some places we spell words out (e.g. "three", "tenth") for
 # better grammar.
 # <s> = ‘s’ if the suffix flag is set (see above).
-# <internal hint nn> = word wrapping bug helper. The suffix insertion confuses 
-# the wrapper, so add this *before* the space before the word where the 
-# suffix gets added, with n = the number of characters potentially added to 
-# the word - so: 
+# <internal hint nn> = word wrapping bug helper. The suffix insertion confuses
+# the wrapper, so add this *before* the space before the word where the
+# suffix gets added, with n = the number of characters potentially added to
+# the word - so:
 # "You found <number> meseta<s> inside"
 # becomes
 # "You found <number><internal hint 01> meseta<s> inside"
@@ -41,9 +41,9 @@
 # "You gained <number> experience point<s>."
 # becomes
 # "You gained <number> experience<internal hint 02> point<s>."
-# This is a bit of a hack because it wraps as if the suffix there is even 
+# This is a bit of a hack because it wraps as if the suffix there is even
 # when it isn’t.
-# 
+#
 # <article> = use article for enemy/item, lowercase. Includes a trailing space.
 # <Article> = use article for enemy/item, initial uppercase. Includes a trailing space.
 # <de> = use possessive+article for an enemy (French)
@@ -57,13 +57,13 @@
 #<end> = end of entry
 # <wait more> = wait, not end of entry
 #<delay> = delay a bit
-# 
+#
 
 # ********************
 # *** Introduction ***
 # ********************
 
-# The SMS screen is offset to the left so we avoid the leftmost column, plus we need to allow a little bit of "unsafe space" so we put wide text as so: 
+# The SMS screen is offset to the left so we avoid the leftmost column, plus we need to allow a little bit of "unsafe space" so we put wide text as so:
 # +--------------------------------+
 # |##                             #|
 # |##                             #|
@@ -225,7 +225,7 @@
     Alisa, minha irmã.<line><line>
     Ouça cautelosamente, eu não tenho muito tempo.<wait more>
     Os rumores que ouvimos são verdadeiros. LaShiec... mudou.<line>
-    E isso vai além dos seus militares tomarem conta de nossas ruas.<wait more>    
+    E isso vai além dos seus militares tomarem conta de nossas ruas.<wait more>
     Todas essas criaturas horríveis lá fora, todas essas trevas em nosso meio...<line><line>
     De alguma forma, todas evidências apontam para ele.<wait more>
     Eu tentei descobrir, mas acho que cheguei bem perto da verdade.<line><line>
@@ -475,7 +475,7 @@
   pt-br: |
     Não posso mais sair de casa sem que a guarda de LaShiec observe cada movimento meu.<wait more>
     Camineet costumava ser tão agradável. Como é que chegou a esse ponto?<wait>
-    
+
 - offsets: 4b88
   # Camineet resident - man
   indices: 014
@@ -979,7 +979,7 @@
   ja: マホウノ カカッタドアハ マジックヲツカワナイト ヒラキマセン.<wait>
   translated: Magically-sealed doors can be opened only with magic.
   us: |
-    A DOOR LOCKED WITHMAGIC 
+    A DOOR LOCKED WITHMAGIC
     CAN ONLY BE<wait more>
     OPENED WITH MAGIC.<end>
   en: The only way to open a door sealed with magic is to cast a spell of your own.<wait>
@@ -1560,7 +1560,7 @@
     I guess we’re companions now, huh?<line><line>
     I’m Alisa. What’s your name?<wait>
   fr: |
-    Je suppose que nous sommes compagnons maintenant, hein_?  
+    Je suppose que nous sommes compagnons maintenant, hein_?
     Je m'appelle Alisa. Comment t'appelles-tu_?<wait>
   pt-br: |
     Acho que nós somos companheiros agora, hein?<line><line>
@@ -1594,7 +1594,7 @@
     I don’t suppose that was you?<wait>
   fr: |
     Bonjour, Myau. Je suis à la recherche d'un homme nommé Tylon.<wait more>
-    La rumeur veut qu'il voyage avec un animal parlant.  
+    La rumeur veut qu'il voyage avec un animal parlant.
     Serait-ce toi_?<wait>
   pt-br: |
     Olá, Myau. Estou procurando um homem chamado Tylon.<wait more>
@@ -1761,7 +1761,7 @@
     I'm going to destroy him, no matter what it takes.<line><line>
     Nero gave me your name just before he died, and said that you might help me.<wait>
   fr: |
-    Je m'appelle Alisa. Mon frère Néro a été tué en tentant d'arrêter Lassic.  
+    Je m'appelle Alisa. Mon frère Néro a été tué en tentant d'arrêter Lassic.
     Et je vais l'assassiner.<wait more>
     Néro m'a parlé de toi juste avant de mourir.  Il disait que tu m'aiderais.<wait>
   pt-br: |
@@ -1844,7 +1844,7 @@
     Come on, let's go grab it. I'm sure we could use it.<wait>
   fr: |
     Médusa possède une hache légendaire, j'espérais la voir recouverte du sang de Lassic.<wait more>
-    J'ai caché une boussole au fond d'un cul de sac de cette grotte.  
+    J'ai caché une boussole au fond d'un cul de sac de cette grotte.
     Nous allons en avoir besoin. Allons-y.<wait>
   pt-br: |
     A Medusa tem um machado lendário, e queria ver o sangue de LaShiec nele.<wait more>
@@ -1867,7 +1867,7 @@
   us: |
     THE GOVERNOR OF<line>
     MOTAVIA MIGHT<wait more>
-    POSSIBLY HELP YOU 
+    POSSIBLY HELP YOU
     WELL.<end>
   en: |
     It wouldn’t surprise me if the Governor-General of Motavia approved of what you’re doing.<wait more>
@@ -2260,7 +2260,7 @@
   pt-br: Era tudo um sonho...<wait>
 
 - offsets: 4f0d
-  # Governor-General (return after dream): 
+  # Governor-General (return after dream):
   indices: 29E,1B0
   ja: |
     モウ イッコクノ ユウヨモ<line>
@@ -2374,7 +2374,7 @@
     You must be Lutz. I have a letter for you from the Governor-General.<line><line>
     Would you mind reading it?<wait>
   fr: |
-    Vous devez être Lutz_!  
+    Vous devez être Lutz_!
     J'ai une lettre pour vous de la part du Gouverneur.<wait more>
     Voudriez-vous la lire_?<wait>
   pt-br: |
@@ -2418,9 +2418,9 @@
     Let’s go. Quickly.<wait>
   fr: |
     Laissez-moi voir ca...<wait more>
-    ...Ah. Je vois. Donc, c'en est arrivé là.  
+    ...Ah. Je vois. Donc, c'en est arrivé là.
     Pardonnez mon accueil de tout à l'heure.<wait more>
-    Lassic est dangereux. Pour le bien d'Algol, Lassic doit être stoppé.  
+    Lassic est dangereux. Pour le bien d'Algol, Lassic doit être stoppé.
     Je pense que je peux vous venir en aide.<wait more>
     Nous devons alerter le docteur Luveno, il vit dans les bois de Gothic.<wait more>
     D'après mes souvenirs, nous pouvons y accéder par une bouche d'égout située au spatioport de Camineet.<wait more>
@@ -4111,7 +4111,7 @@
     ASLEEP.<wait>
   en: <Article><monster> heard the sound of the flute and calmed down.<delay>
   fr: Le doux son de flute endort <article><monster>.<delay>
-  pt-br: <use article 01><monster> ouviu o som da flauta e se acalmou.<delay>
+  pt-br: <Article><monster> ouviu o som da flauta e se acalmou.<delay>
 
 
 # *************
@@ -4399,7 +4399,7 @@
     YOU TAKE A JOKE?<end>
   en: |
     This is an item shop. What can I do for you?<wait more>
-    ...haha, sorry, I'm just joking around! What? Don't give me that look.<wait> 
+    ...haha, sorry, I'm just joking around! What? Don't give me that look.<wait>
   fr: |
     Bienvenue dans notre magasin. Que puis-je faire pour vous_?<wait more>
     ...en fait, j'ai menti, ce n'est pas vraiment un magasin.<wait more>
@@ -5408,7 +5408,7 @@
     THE SKY.<wait>
   en: <player> held <article><item> up towards the sky.<delay>
   fr: <player> tend <article><item> vers le ciel.<delay>
-  pt-br: <player> levantou <use article 01><item> para o céu.<delay>
+  pt-br: <player> levantou <article><item> para o céu.<delay>
 
 - offsets: 26d0
   # <player>ハ ラエルマベリーヲ トッテ<line>
@@ -5523,7 +5523,7 @@
   ja: ソレハ オトシアナノ ムコウガワニ<line>
   translated: It’s on the other side of a pitfall!
   us: |
-    IT CAN BE FOUND ATTHE 
+    IT CAN BE FOUND ATTHE
     FAR SIDE OF<wait more>
     A PIT TRAP.<end>
   en: You can find it on the other side of a pitfall.<wait>
@@ -6134,7 +6134,7 @@
   us: |
     ALRIGHT! YOU SAVED
     ALL OF Algol!<end>
-    
+
 - offsets: # Unreachable?
   indices: 27e
   us: |
@@ -6169,7 +6169,7 @@
   translated: |
     Oh! My friends, please forgive me. My mind and body seem to have been enchanted by some sort of evil force.
     Well done! You have saved the world! If you had taken any longer, terrible events might have come to pass. I extend you my utmost appreciation.
-    And now, Alisa, I have something I wish to tell you: 
+    And now, Alisa, I have something I wish to tell you:
     The truth is, your father was once the King of Algol.
     Now that the demon’s fortress has been destroyed, and LaShiec is no more, will be your father’s successor and become the Queen of Algol?
   us: |
@@ -6417,7 +6417,7 @@
     <player>'S ATTACK.<wait>
   en: <Article><monster> dodged <player>’s attack.<delay>
   fr: L'attaque <de><player> est parée_!<delay>
-  pt-br: <use article 01><monster> desviou do ataque de <player>.<delay>
+  pt-br: <Article><monster> desviou do ataque de <player>.<delay>
 
 - offsets: 1497
   indices: 002-2
@@ -6429,7 +6429,7 @@
     <monster>'S ATTACK.<wait>
   en: <player> dodged <article><monster>’s attack.<delay>
   fr: <player> pare le coup <de><monster>.<delay>
-  pt-br: <player> desviou do ataque <use article 02><monster>.<delay>
+  pt-br: <player> desviou do ataque <do><monster>.<delay>
 
 - offsets: 1a96
   indices: 004-2
@@ -6437,7 +6437,7 @@
   us: <player> SPEAKS.<prompt>
   en: <player> spoke to <article><monster>.<end>
   fr: <player> parle <à><monster>.<end>
-  pt-br: <player> falou com <use article 01><monster>.<end>
+  pt-br: <player> falou com <article><monster>.<end>
 
 - offsets: 1ac0,1ca4
   indices: 006-2
@@ -6445,7 +6445,7 @@
   us: <monster> ANSWERS.<wait>
   en: <Article><monster> replied,<delay>
   fr: <Article><monster> répond,<delay>
-  pt-br: <use article 01><monster> respondeu:<delay>
+  pt-br: <Article><monster> respondeu:<delay>
 
 - offsets: 1ab7
   indices: 008-2
@@ -6456,7 +6456,7 @@
     EACH OTHER.<wait>
   en: <Article><monster> didn’t understand.<delay>
   fr: <Article><monster> ne vous comprend pas.<delay>
-  pt-br: Mas <use article 01><monster> não entendeu.<delay>
+  pt-br: Mas <article><monster> não entendeu.<delay>
 
 - offsets: 1b27
   indices: 00A-2
@@ -6468,7 +6468,7 @@
     ANY RETREAT.<wait>
   en: <Article><monster> blocked the escape route.<delay>
   fr: <Article><monster> bloque votre fuite.<delay>
-  pt-br: <use article 01><monster> bloqueou a rota de fuga.<delay>
+  pt-br: <Article><monster> bloqueou a rota de fuga.<delay>
 
 - offsets: 20cd,20fa,2168,21cb,21fd,22ac
   indices: 00C-2
@@ -6492,7 +6492,7 @@
     IS NOT EFFECTIVE.<wait>
   en: <Article><monster>’s spell had no effect.<delay>
   fr: Le sort <de><monster> n'a pas d'effet.<delay>
-  pt-br: A magia <use article 02><monster> não teve nenhum efeito.<delay>
+  pt-br: A magia <do><monster> não teve nenhum efeito.<delay>
 
 - offsets: 1ffa
   indices: 010-2
@@ -6517,7 +6517,7 @@
     <monster>'S ATTACK.<wait>
   en: <Article><monster>’s attack was deflected by the magic wall.<delay>
   fr: La barrière dévie l'attaque <de><monster>.<delay>
-  pt-br: O ataque <use article 02><monster> foi desviado pela parede mágica.<delay>
+  pt-br: O ataque <do><monster> foi desviado pela parede mágica.<delay>
 
 - offsets: 14f9,15d3,1637
   indices: 014-2
@@ -6530,7 +6530,7 @@
     <monster>'S MAGIC.<wait>
   en: <Article><monster>’s spell was deflected by the magic wall.<delay>
   fr: Le sort dévie l'attaque <de><monster>.<delay>
-  pt-br: A magia <use article 02><monster> foi desviada pela parede mágica.<delay>
+  pt-br: A magia <do><monster> foi desviada pela parede mágica.<delay>
 
 - offsets: 1458
   indices: 016-2
@@ -6564,7 +6564,7 @@
     HEALED.<wait>
   en: <Article><monster>’s stamina was restored.<delay>
   fr: <Article><monster> a restauré son énergie.<delay>
-  pt-br: A energia <use article 02><monster> foi restaurada.<delay>
+  pt-br: A energia <do><monster> foi restaurada.<delay>
 
 - offsets: 20d3
   indices: 01C-2
@@ -6576,7 +6576,7 @@
     UP.<wait>
   en: <Article><monster> is all bound up.<delay>
   fr: <Article><monster> s'est fait ligoter!<delay>
-  pt-br: <use article 01><monster> está amarrado.<delay>
+  pt-br: <Article><monster> está amarrado.<delay>
 
 - offsets: 151f
   indices: 01E-2
@@ -6602,7 +6602,7 @@
     MOVE.<wait>
   en: <Article><monster> can’t move.<delay>
   fr: <Article><monster> ne peut pas bouger.<delay>
-  pt-br: <use article 01><monster> não pode se mover.<delay>
+  pt-br: <Article><monster> não pode se mover.<delay>
 
 - offsets: 12d6
   indices: 024-2
@@ -6624,7 +6624,7 @@
     THE BINDINGS.<wait>
   en: <Article><monster>’s bindings came apart.<delay>
   fr: <Article><monster> brise ses liens.<delay>
-  pt-br: <use article 01><monster> se desamarrou.<delay>
+  pt-br: <Article><monster> se desamarrou.<delay>
 
 - offsets: 2132
   indices: 028-2
@@ -6648,7 +6648,7 @@
     IN FEAR.<wait>
   en: <Article><monster> got scared and backed away.<delay>
   fr: <Article><monster> a peur et recule.<delay>
-  pt-br: <use article 01><monster> ficou com medo e recuou.<delay>
+  pt-br: <Article><monster> ficou com medo e recuou.<delay>
 
 - offsets: 210d
   indices: 02C-2
@@ -6661,7 +6661,7 @@
     QUICKLY.<wait>
   en: <Article><monster> was surprised by the speed of your escape.<delay>
   fr: <Article><monster> est surpris par votre fuite_!<delay>
-  pt-br: <use article 01><monster> se admirou com a velocidade de sua fuga.<delay>
+  pt-br: <Article><monster> se admirou com a velocidade de sua fuga.<delay>
 
 - offsets: 21ad
   indices: 02E-2
@@ -6693,7 +6693,7 @@
     <item>.<wait>
   en: <player> used <article><item>.<delay>
   fr: <player> utilise <article><item>.<delay>
-  pt-br: <player> usou <use article 01><item>.<delay>
+  pt-br: <player> usou <article><item>.<delay>
 
 - offsets: 2883
   indices: 034-2
@@ -6705,7 +6705,7 @@
     <item>.<prompt>
   en: <player> equipped <article><item>.<end>
   fr: <player> s'équipe <de><item>.<end>
-  pt-br: <player> equipou <use article 01><item>.<end>
+  pt-br: <player> equipou <article><item>.<end>
 
 - offsets: 28cc
   indices: 036-2
@@ -6717,7 +6717,7 @@
     <item>.<end>
   en: <player> discarded <article><item>.<wait>
   fr: <player> jette <article><item>.<end>
-  pt-br: <player> descartou <use article 01><item>.<delay>
+  pt-br: <player> descartou <article><item>.<delay>
 
 - offsets: 20ff,23ec,2554,2582,2677,2803
   indices: 038-2
@@ -6740,7 +6740,7 @@
     HERE.<end>
   en: But <article><item> is of no use here.<wait>
   fr: <article><item> n'est pas utilisable ici.<wait>
-  pt-br: Mas <use article 01><item> é inútil aqui.<wait>
+  pt-br: Mas <article><item> é inútil aqui.<wait>
 
 - offsets: 2304
   indices: 03C-2
@@ -6786,7 +6786,7 @@
     LOOK VACANT.<wait>
   en: <Article><monster>’s eyes are blank.<delay>
   fr: Les yeux <de><monster> sont vides.<delay>
-  pt-br: Os olhos <use article 02><monster> estão sem vida.<delay>
+  pt-br: Os olhos <do><monster> estão sem vida.<delay>
 
 - offsets: 2505,2597,25f9,26f1,2742,27a2
   indices: 048-2
@@ -6810,7 +6810,7 @@
     <item>.<wait>
   en: <player> took out <article><item>.<delay>
   fr: <player> prend <article><item>.<delay>
-  pt-br: <player> retirou <use article 01><item>.<delay>
+  pt-br: <player> retirou <article><item>.<delay>
 
 - offsets: 251a,25aa,2651,279d
   indices: 04C-2
@@ -6877,7 +6877,7 @@
     BECOMES AFRAID.<wait>
   en: <Article><monster> saw the red flame and seized up in fear.<delay>
   fr: <Article><monster> prend peur en voyant la flamme.<delay>
-  pt-br: <use article 01><monster> viu a chama vermelha e se encolheu de medo.<delay>
+  pt-br: <Article><monster> viu a chama vermelha e se encolheu de medo.<delay>
 
 - offsets: 273d
   indices: 064-2
@@ -6945,7 +6945,7 @@
     <item>.<end>
   en: You found <article><item>.<wait>
   fr: <Article><item>!<wait>
-  pt-br: Você encontrou <use article 01><item>.<wait>
+  pt-br: Você encontrou <article><item>.<wait>
 
 - offsets: 21d9,22b5
   indices: 070-2
@@ -7001,7 +7001,7 @@
     THAT ITEM.<end>
   en: <player> can’t equip <article><item>.<wait>
   fr: Impossible d'équiper <player> <de><item>.<wait>
-  pt-br: <player> não pode equipar <use article 01><item>.<wait>
+  pt-br: <player> não pode equipar <article><item>.<wait>
 
 - offsets: 283e
   indices: 07A-2
@@ -7110,7 +7110,7 @@
   en: You dropped <article><item>, and<wait>
   fr: Vous jetez <article><item>.<wait>
   # this runs into the next one...
-  pt-br: Você descartou <use article 01><item>, e<wait>
+  pt-br: Você descartou <article><item>, e<wait>
 
 - offsets: 297d
   indices: 08E-2
@@ -7120,7 +7120,7 @@
     PICKED UP.<end>
   en: you got <article><item>.<wait>
   fr: Vous avez <article><item>.<wait>
-  pt-br: Você obteve <use article 01><item>.<wait>
+  pt-br: Você obteve <article><item>.<wait>
 
 - offsets: 2923
   indices: 090-2
@@ -7130,7 +7130,7 @@
     NEEDED?<prompt>
   en: Do you want to abandon <article><item>?<end>
   fr: Voulez-vous laisser <article><item>_?<end>
-  pt-br: Você quer abandonar <use article 01><item>?<end>
+  pt-br: Você quer abandonar <article><item>?<end>
 
 - offsets: 292e
   indices: 092-2
@@ -7140,7 +7140,7 @@
     ABANDONED.<end>
   en: You abandoned <article><item>.<wait>
   fr: Vous laissez <article><item>.<wait>
-  pt-br: Você abandonou <use article 01><item>.<wait>
+  pt-br: Você abandonou <article><item>.<wait>
 
 - offsets: 28c3,295d
   indices: 094-2
@@ -7152,7 +7152,7 @@
     BE THROWN AWAY.<end>
   en: You can’t drop <article><item>!<wait>
   fr: Impossible de jeter <article><item>_!<wait>
-  pt-br: Você não pode descartar <use article 01><item>!<wait>
+  pt-br: Você não pode descartar <article><item>!<wait>
 
 - offsets: 1ba7,1f2d
   indices: 096-2
@@ -7183,7 +7183,7 @@
   en: You’ve beaten <article><monster>.<wait>
   # <wait> because else you can't read it when you defeat Dark Force...
   fr: Vous avez vaincu_!<wait>
-  pt-br: Você derrotou <use article 01><monster>.<wait>
+  pt-br: Você derrotou <article><monster>.<wait>
 
 - offsets: 14a6,15e4,1648,4c69,590f
   indices: 09C-2
@@ -7582,9 +7582,9 @@
     My apologies.<line>
     For SOME reason I’ve failed.<wait>
   fr: |
-    ArtemuHamuRAmu A--rgh_!! 
+    ArtemuHamuRAmu A--rgh_!!
     Hurrrmp! Hurrrmp!<wait more>
-    Mes excuses. 
+    Mes excuses.
     Quelque chose m'a fait échouer.<wait>
   pt-br: |
     ArutemuhamuRAmu a - ugh!.<line>
@@ -7970,7 +7970,7 @@
     ING WITH STRENGTH.<wait>
   en: <Article><monster> felt its body swell with strength.<delay>
   fr: Le corps <de><monster> s'emplit de force.<delay>
-  pt-br: <use article 01><monster> sentiu seu corpo cheio de poder.<delay>
+  pt-br: <Article><monster> sentiu seu corpo cheio de poder.<delay>
 
 - offsets: 17ff
   indices: 11C-2
@@ -7982,7 +7982,7 @@
     TREASURE CHEST.<prompt>
   en: <Article><monster> had a treasure chest.<end>
   fr: <Article><monster> laisse un coffre au trésor.<end>
-  pt-br: <use article 01><monster> tinha um baú do tesouro.<end>
+  pt-br: <Article><monster> tinha um baú do tesouro.<end>
 
 - offsets: 27c3
   indices: 11E-2
@@ -8068,7 +8068,7 @@
     It looks like you don’t have enough money.<line>
     Please come back later.<wait>
   fr: |
-    Il semblerait que vous n'ayez pas assez d'argent. 
+    Il semblerait que vous n'ayez pas assez d'argent.
     Revenez plus tard.<wait>
   pt-br: |
     Parece que você não tem dinheiro suficiente.<line>
@@ -8239,7 +8239,7 @@
     BY SOMEONE NOW.<end>
   en: Someone has used <article><item> up.<wait>
   fr: Quelqu'un utilise <article><item>.<wait>
-  pt-br: Alguém usou <use article 01><item>.<wait>
+  pt-br: Alguém usou <article><item>.<wait>
 
 - offsets: 58bd
   indices: 152-2

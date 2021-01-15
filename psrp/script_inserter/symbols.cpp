@@ -302,7 +302,7 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             script_hints = false;
             line_len = 0;
         }
-        /* English and French articles */
+        /* Articles */
         else if (tag == L"article")
         {
             outBuffer.push_back(SymbolArticle);
@@ -315,8 +315,8 @@ void ProcessCode(const wchar_t* & pText, std::vector<uint8_t>& outBuffer)
             outBuffer.push_back(2); // uppercase
             script_hints = true;
         }
-        /* French */
-        else if (tag == L"de")
+        /* Possessives */
+        else if (tag == L"de" || tag == L"do")
         {
             outBuffer.push_back(SymbolArticle);
             outBuffer.push_back(3);

@@ -104,7 +104,7 @@
 ; Text between [] is skipped in menus but not in body text
 52=[
 53=]
-; Articles. Note these have trailing spaces.
+; Articles. Note these have trailing spaces. Not needed: uns, umas, os
 54=<um> 
 55=<uma> 
 56=<o> 
