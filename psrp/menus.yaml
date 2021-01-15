@@ -860,14 +860,14 @@
     │Police                ║
     ╘══════════════════════╝
   pt-br: |
-    ┌──────────────────────╖
-    │Velocidade do passo x ║
-    │Experiência         x ║
-    │Mesetas             x ║
-    │Batalhas              ║
-    │Cabelo de Alisa       ║
-    │Fonte                 ║
-    ╘══════════════════════╝
+    ┌────────────────────────╖
+    │Velocidade do passo   x ║
+    │Experiência           x ║
+    │Mesetas               x ║
+    │Batalhas                ║
+    │Cabelo de Alisa         ║
+    │Fonte                   ║
+    ╘════════════════════════╝
     
 - name: ContinueMenu
   en: |

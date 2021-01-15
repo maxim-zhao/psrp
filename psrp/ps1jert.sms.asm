@@ -4431,7 +4431,7 @@ _OptionsSelect:
   ld a,(MoneyMultiplier)
   call OutputDigit
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 4 + 2 * (OptionsMenu_width - 5)
+  ld de,OptionsWindow_VRAM + ONE_ROW * 4 + 2 * OptionsMenu_width  - _sizeof__BattlesAll - 2
   rst $8
   ld a,(FewerBattles)
   or a
@@ -4442,7 +4442,7 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 5 + 2 * (OptionsMenu_width - 6)
+  ld de,OptionsWindow_VRAM + ONE_ROW * 5 + 2 * OptionsMenu_width - _sizeof__Black - 2
   rst $8
   ld a,(BrunetteAlisa)
   or a
@@ -4583,11 +4583,11 @@ _BattlesHalf: .stringmap tilemap "Demi"
 _Brown: .stringmap tilemap "Bruns"
 _Black: .stringmap tilemap "Noirs"
 .endif
-.if LANGUAGE == "pt-br" ; TODO-pt-br
-_BattlesAll:  .stringmap tilemap " All"
-_BattlesHalf: .stringmap tilemap "Half"
-_Brown: .stringmap tilemap "Brown"
-_Black: .stringmap tilemap "Black"
+.if LANGUAGE == "pt-br" ; TODO-pt-br The width of these needs to be handled
+_BattlesAll:  .stringmap tilemap "    Todas"
+_BattlesHalf: .stringmap tilemap "Reduzidas"
+_Brown: .stringmap tilemap "Castanho"
+_Black: .stringmap tilemap "   Preto"
 .endif
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
