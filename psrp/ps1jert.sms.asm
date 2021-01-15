@@ -4031,14 +4031,14 @@ CreditsScreen12: .db 8
   CreditsEntry 20,15,"WIL76"
   CreditsEntry 18,16,"VINGAZOLE"
 .endif
-.if LANGUAGE == "pt-br" ; TODO-pt-br
-CreditsScreen12: .db 8
-  CreditsEntry 3,6,"INGLES"
+.if LANGUAGE == "pt-br" ; TODO-pt-br Accented characters here? Maybe we can draw them on the tile above? Coordinates need to be checked too.
+CreditsScreen12: .db 7
+  CreditsEntry 3,6,"INGLÊS"
   CreditsEntry 18,6,"PAUL JENSEN"
   CreditsEntry 10,10,"FRANK CIFALDI"
   CreditsEntry 25,10,"SATSU"
-  CreditsEntry 3,15,"PORTUGUES"
-  CreditsEntry 18,14,"BRASILEIRO"
+  CreditsEntry 3,15,"PORTUGUÊS"
+  CreditsEntry 3,16,"DO BRASIL"
   CreditsEntry 20,15,"AJKMETIUK"
 .endif
 CreditsScreen13: .db 3
