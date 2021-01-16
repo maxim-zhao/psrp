@@ -790,6 +790,44 @@ _Copy:
   ret
 .ends
 
+.enum $5f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
+; If changing the value here, you must also change script_inserter/symbols.cpp (encodes data to match this enum) and substring_formatter/sunstring.cpp (needs to know the value of WordListStart)
+  SymbolStart     .db
+  SymbolPlayer    db ; $4f, Handled by the original engine
+  SymbolMonster   db ; $50,
+  SymbolItem      db ; $51,
+  SymbolNumber    db ; $52,
+  SymbolBlank     db ; $53, ; Unused
+  SymbolNewLine   db ; $54,
+  SymbolWaitMore  db ; $55,
+  SymbolEnd       db ; $56,
+  SymbolDelay     db ; $57,
+  SymbolWait      db ; $58,
+  SymbolPostHint  db ; $59, ; New codes
+  SymbolArticle   db ; $5a,
+  SymbolSuffix    db ; $5b,
+;  WordListStart   db ; $5c
+.ende
+.define WordListStart $6c
+; We patch the usages of these codes so we can relocate them.
+; Narrative:
+  PatchB $3366+1 SymbolWait
+  PatchB $336b+1 SymbolEnd
+  PatchB $336e+1 SymbolDelay
+  PatchB $3373+1 SymbolWaitMore
+  PatchB $337d+1 SymbolBlank
+  PatchB $3393+1 SymbolNewLine
+  PatchB $33a6+1 SymbolPlayer
+  PatchB $33c4+1 SymbolMonster
+  PatchB $33d6+1 SymbolItem
+  PatchB $33f4+1 SymbolNumber
+; Cutscenes:
+  ; PatchB $34b5+1 SymbolDelay ; First two are patched over bwloe, see "Cutscene text decoder patch"
+  ; PatchB $34b9+1 SymbolWait
+  PatchB $34bd+1 SymbolWaitMore
+  PatchB $34c1+1 SymbolNewLine
+
+
 .slot 1
 .section "Additional scripting codes" superfree
 AdditionalScriptingCodes:
@@ -912,24 +950,6 @@ _Wait_Clear:
 _Done:
   cp SymbolWait ; Old code
   ret     ; Go to remaining text handler
-
-.enum $4f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
-  SymbolStart     .db
-  SymbolPlayer    db ; $4f,
-  SymbolMonster   db ; $50,
-  SymbolItem      db ; $51,
-  SymbolNumber    db ; $52,
-  SymbolUnused    db ; no $53
-  SymbolNewLine   db ; $54,
-  SymbolWaitMore  db ; $55,
-  SymbolEnd       db ; $56,
-  SymbolDelay     db ; $57,
-  SymbolWait      db ; $58,
-  SymbolPostHint  db ; $59,
-  SymbolArticle   db ; $5a,
-  SymbolSuffix    db ; $5b,
-  WordListStart   db ; $5c
-.ende
 
 SubstringFormatter:
 ; Needs to be in the same bank as AdditionalScriptingCodes
@@ -1209,7 +1229,7 @@ CutsceneTextDecoder:
 ; jr z,$34e8 ; exit after button
   call AdditionalScriptingCodes ; handle extra narrative codes, performs comparison to $58 before returning
   jr z,ExitAfterButton
-  cp $57
+  cp SymbolDelay
   jr z,ExitAfterPause
 .ends
 

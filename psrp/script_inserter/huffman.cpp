@@ -15,7 +15,7 @@ Phantasy Star: Huffman Compressor
 #include "ScriptItem.h"
 
 
-#define EOS 0x56 // end-of-string
+#define EOS 0x66 // end-of-string
 
 // Helper class for streaming bits separated into bytes
 class BitWriter

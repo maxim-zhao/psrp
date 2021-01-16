@@ -22,11 +22,12 @@ namespace
 
     enum
     {
-        SymbolPlayer = 0x4f,
+        // This matches an enum in the assembly code with the same names
+        SymbolPlayer = 0x5f,
         SymbolMonster,
         SymbolItem,
         SymbolNumber,
-        SymbolUnused,
+        SymbolBlank,
         SymbolNewLine,
         SymbolWaitMore,
         SymbolEnd,

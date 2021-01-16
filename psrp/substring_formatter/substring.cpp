@@ -12,7 +12,7 @@ Phantasy Star: Substring Table Creater
 #include <codecvt>
 #include <algorithm>
 
-constexpr auto start_code = 0x5c; // see WordListStart in asm
+constexpr auto start_code = 0x6c; // see WordListStart in asm
 
 int main(int argc, char** argv)
 {
