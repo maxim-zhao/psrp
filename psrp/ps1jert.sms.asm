@@ -913,7 +913,7 @@ _Done:
   cp SymbolWait ; Old code
   ret     ; Go to remaining text handler
 
-.enum $4f ; Scripting codes. The start value must be greater than the highest index character.
+.enum $4f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
   SymbolStart     .db
   SymbolPlayer    db ; $4f,
   SymbolMonster   db ; $50,

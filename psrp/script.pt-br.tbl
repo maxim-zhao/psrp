@@ -95,7 +95,7 @@
 51=õ
 52=ô
 53=ú
-; TODO: out of space!
+; TODO: out of space! We need to fit under $4f, or otherwise patch more of the script engine.
 
 ; Below here are mapping to the unaccented characters...
 0B=Á

@@ -23,18 +23,18 @@ namespace
     enum
     {
         SymbolPlayer = 0x4f,
-        SymbolMonster = 0x50,
-        SymbolItem = 0x51,
-        SymbolNumber = 0x52,
-        // no 0x53
-        SymbolNewLine = 0x54,
-        SymbolWaitMore = 0x55,
-        SymbolEnd = 0x56,
-        SymbolDelay = 0x57,
-        SymbolWait = 0x58,
-        SymbolPostHint = 0x59,
-        SymbolArticle = 0x5a,
-        SymbolSuffix = 0x5b,
+        SymbolMonster,
+        SymbolItem,
+        SymbolNumber,
+        SymbolUnused,
+        SymbolNewLine,
+        SymbolWaitMore,
+        SymbolEnd,
+        SymbolDelay,
+        SymbolWait,
+        SymbolPostHint,
+        SymbolArticle,
+        SymbolSuffix,
     };
 }
 
