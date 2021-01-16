@@ -660,7 +660,7 @@
     Quant à Dézoris, elle est couverte de glace.<wait more>
     Pour vous dire la vérité, je crains pour l'avenir de nos planètes.<wait>
   pt-br: |
-    Há três planetas: Palma, Motávia e Dezóris.<wait more>
+    Há três planetas - Palma, Motávia e Dezóris.<wait more>
     Os três planetas têm uma geologia diferente.<wait more>
     Palma é um planeta de vegetação abundante.<line>
     Motávia é um planeta arenoso.<line>
@@ -6445,7 +6445,7 @@
   us: <monster> ANSWERS.<wait>
   en: <Article><monster> replied,<delay>
   fr: <Article><monster> répond,<delay>
-  pt-br: <Article><monster> respondeu:<delay>
+  pt-br: <Article><monster> respondeu,<delay>
 
 - offsets: 1ab7
   indices: 008-2
@@ -8217,7 +8217,7 @@
 - offsets: ScriptNoSavedGames
   en: There are no saved games!<wait>
   fr: Il n'y a pas de sauvegardes!<wait>
-  pt-br: CHECK THIS: Há jogos não salvos!<wait>
+  pt-br: TODO-pt-br Há jogos não salvos!<wait>
 
 - offsets: 16a8
   indices: 146-2

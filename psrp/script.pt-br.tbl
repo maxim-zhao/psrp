@@ -69,26 +69,9 @@
 3D=y
 3E=z
 
-; Accented characters, mapped to unaccented
-25=ã
-25=á
-25=à
-25=â
-0B=Á
-27=ç
-29=ê
-29=é
-0F=É
-2D=í
-33=ó
-33=õ
-33=ô
-19=Ó
-39=ú
-
 ; Punctuation
 3F=.
-40=:
+;40=:
 41=‘
 42=’
 42='
@@ -98,6 +81,26 @@
 46=?
 ; non-breaking space
 47=_
+
+; Accented characters, mapped to unaccented
+48=ã
+49=á
+4A=à
+4B=â
+4C=ç
+4D=ê
+4E=é
+4F=í
+50=ó
+51=õ
+52=ô
+53=ú
+; TODO: out of space!
+
+; Below here are mapping to the unaccented characters...
+0B=Á
+0F=É
+19=Ó
 
 ; These control codes only apply to items/names...
 

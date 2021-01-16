@@ -3785,12 +3785,12 @@ NameEntryLookup:
 .endif
 .if LANGUAGE == "pt-br"
 .db 13
-  NameEntryText  8,  1,      "Digite seu nome:"
+  NameEntryText  8,  1,      "Digite seu nome"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
   ; TODO-pt-br add accented here once font is decided
   NameEntryText  3, 15, "0123456789"
-  NameEntryText 21, 15,                   ".,:-!?‘’"
+  NameEntryText 21, 15,                   ".,-!?‘’"
   NameEntryText  3, 17, "Voltar"
   NameEntryText 22, 17,                    "Próximo"
   NameEntryText  3, 19, "Espaço"
@@ -4113,7 +4113,7 @@ FontLookup:
 .stringmap tilemap " 0123456789"
 .stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ".:‘’,-!?_"
+.stringmap tilemap ". ‘’,-!?_ãáàâçêéíóõôú"
 .endif
 .ends
 
