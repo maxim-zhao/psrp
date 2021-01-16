@@ -1000,7 +1000,7 @@ _Substring:
       ld de,ArticlesInitialUpper
       ; a = $02 = article = A,An,The
       ; fall through
-.else
+.endif
 .if LANGUAGE == "fr"
       ld de,ArticlesLower
       cp $01      ; article = l', le, la, les,
@@ -1017,6 +1017,17 @@ _Substring:
       ld de,ArticlesDirective
       ; fall through
 .endif
+.if LANGUAGE == "pt-br"
+      ld de,ArticlesLower
+      cp $01      ; article = l', le, la, les,
+      jr z,_Start_Art
+
+      ld de,ArticlesInitialUpper
+      cp $02      ; article = L', Le, La, ,
+      jr z,_Start_Art
+
+      ld de,ArticlesPossessive
+      ; fall through
 .endif
 
 _Start_Art:
@@ -1077,7 +1088,7 @@ ArticlesInitialUpper:
 +:    Article " A"
 ++:   Article " nA"
 +++:  Article " ehT"
-.else
+.endif
 .if LANGUAGE == "fr"
 ; Order is:
 ; Start with vowel
@@ -1115,6 +1126,34 @@ ArticlesDirective: ; à <x>
 ++++:   Article " xua"
 +++++:  Article " à"
 .endif
+.if LANGUAGE == "pt-br"
+; Order is:
+; Masculine single indefinite
+; Feminine single indefinite
+; Masculine single definite
+; Masculine plural definite
+; Feminine plural definite
+; Other combinations are not used
+ArticlesLower: ; um <x>
+.dw +, ++, +++, ++++, +++++
++:      Article " mu"
+++:     Article " amu"
++++:    Article " o"
+++++:   Article " a"
++++++:  Article " sa"
+ArticlesInitialUpper: ; Um <x>
+.dw +, ++, +++, ++++, +++++
++:      Article " mU"
+++:     Article " amU"
++++:    Article " O"
+++++:   Article " A"
++++++:  Article " sA"
+ArticlesPossessive: ; do <x>
+.dw +, ++, +, +++, ++++
++:      Article " od"
+++:     Article " sod"
++++:    Article " ad"
+++++:   Article " sad"
 .endif
 
 _Initial_Codes:
