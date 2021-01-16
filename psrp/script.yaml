@@ -437,7 +437,7 @@
     Nero me pediu para ajudá-la a encontrar um guerreiro chamado Tylon, você também está procurando por ele?<wait more>
     Da última vez que ouvimos, ele estava hospedado em uma cidade chamada Shion. Talvez ele ainda esteja por perto.<wait more>
     Seu irmão também me pediu para manter este Pote de Lacônia seguro.<wait more>
-    É muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
+    Ele é muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
 
 
 - offsets: 4b7c
@@ -707,7 +707,7 @@
     DANGEROUS PLACE.<end>
   en: The forest is especially dangerous lately, be careful if you head that way.<wait>
   fr: Il est facile de se perdre dans la forêt, sois prudente.<wait>
-  pt-br: É fácil se perder na fLoresta, tenha cuidado.<wait>
+  pt-br: A floresta está muito perigosa ultimamente, se for para lá, tome cuidado.<wait>
 
 - offsets: 4bfd
   # Man
@@ -767,8 +767,8 @@
     Le Spatioport permet d'aller à Paséo sur Motavia.<wait more>
     Mais il te faudra un permis pour y accéder.<wait>
   pt-br: |
-    Você pode chegar em paseo no planeta motávia pelo espaçoporto.<wait more>
-    Mas devido à segurança elevada, você precisará de um passe.<wait>
+    Nosso espaçoporto faz voos diretos para Paseo, a capital de Motávia.<wait more>
+    Eu adoraria ir algum dia. Nunca estive fora do planeta antes!<wait>
 
 - offsets: 4c0f
   # Man
@@ -789,8 +789,8 @@
     Un ancien passage mène à l'ouest, vers Gothic_!<wait more>
     Il est censé être par ici, mais je n'arrive pas à le trouver.<wait>
   pt-br: |
-    Você sabia que seguindo à oeste, indo para a fLoresta de gothic, há uma catacumba abandonada?<wait more>
-    Supostamente ela está em algum lugar próximo, mas não consigo encontráula.<wait>
+    Você sabia que há uma passagem subterrânea ao oeste, indo para a Floresta de Gótica?<wait more>
+    Supostamente ela está em algum lugar próximo, mas eu não consigo encontrá-la.<wait>
 
 
 # ***********************
@@ -874,7 +874,7 @@
   fr: |
     Il est temps que quelqu'un s'en prenne à Lassic.<wait more>
     Que Dieu vous protège.<wait>
-  pt-br: É hora de alguém destronar lashiec. Que deus esteja com você.<wait>
+  pt-br: Já era hora de alguém enfrentar LaShiec. Que Deus esteja com você.<wait>
 
 - offsets: 4db6
   indices: 03C,03E
@@ -956,8 +956,8 @@
     Notre économie était prospère, jusqu'à l'embargo de Lassic.<wait more>
     Aujourd'hui, la plupart d'entre-nous est au chômage.<wait>
   pt-br: |
-    Bemuvindo a shion.<wait more>
-    Tínhamos uma economia comercial movimentada aqui, até lashiec embargar tudo.<wait more>
+    Bem-vindo a Shion.<wait more>
+    Tínhamos uma economia comercial movimentada aqui, até LaShiec embargar tudo.<wait more>
     Agora, a maioria de nós está desesperada por trabalho.<wait>
 
 - offsets: 4dcd
@@ -1137,7 +1137,7 @@
     ALL OF MOTAVIA.<end>
   en: The Governor-General rules all of Motavia from his office in Paseo.<wait>
   fr: Ces vaisseaux se dirigent vers la capitale de Motavia, Paséo. Le Gouverneur y habite.<wait>
-  pt-br: Estas aeronaves estão indo em direção à Paseo, capital de Motávia. O governadorugeral mora lá.<wait>
+  pt-br: O Governador-Geral governa toda Motávia de seu escritório, em Paseo.<wait>
 
 - offsets: 4caa
   # Luggage handler
@@ -1151,7 +1151,7 @@
     GOTHIC LABORATORY.<end>
   en: Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
   fr: Avant les lignes commerciales, ces vaisseaux ont été inventés dans un laboratoire à Gothic.<wait>
-  pt-br: As naves espaciais foram construídas em um laboratório de pesquisa em gothic, antes das viagens espaciais serem comercializadas.<wait>
+  pt-br: As naves espaciais foram construídas em um laboratório de pesquisa em Gótica, antes das viagens espaciais serem comercializadas.<wait>
 
 - offsets: 4c1d,4cb7
   # Airstrip guards
@@ -1309,7 +1309,7 @@
     IN THE DESERT.<end>
   en: It’s Ant-Lion breeding season, be careful out there. They get vicious.<wait>
   fr: C'est la saison de reproduction des fourmilions, soyez prudente.<wait>
-  pt-br: É a época de reprodução das formigasuleão, cuidado lá fora.<wait>
+  pt-br: Agora é a época de reprodução das Formigas-Leão, tenha cuidado lá fora. Elas se tornam agressivas.<wait>
 
 - offsets: 4e3d
   indices: 084
@@ -1500,7 +1500,7 @@
     Faisons un marché, le vase contre le chaton_?<end>
   pt-br: |
     Isso é muito ruim.<wait more>
-    ...espere! Isso é um pote laconiano?<wait more>
+    ...espere! Isso é um Pote de Lacônia?<wait more>
     Que tal uma troca, o pote pelo gatinho?<end>
 
 - offsets: 4ea9
@@ -1533,7 +1533,7 @@
     MONEY. THANKS.<end>
   en: I made a fortune selling that Laconian Pot! Thanks!<wait>
   fr: J'ai fait fortune en vendant ce vase Laconian_! Merci_!<wait>
-  pt-br: Ganhei uma fortuna vendendo o pote laconiano! Obrigado!<wait>
+  pt-br: Ganhei uma fortuna vendendo o Pote de Lacônia! Obrigado!<wait>
 
 
 # ******************************
@@ -1908,7 +1908,7 @@
     Jadis, le docteur Luveno avait un laboratoire à Gothic.<wait more>
     Je me demande s'il y est toujours_?<wait>
   pt-br: |
-    Há muito tempo, um cientista chamado luveno tinha um laboratório de pesquisa na fLoresta de gothic.<wait more>
+    Há muito tempo, um cientista chamado luveno tinha um laboratório de pesquisa na floresta de Gótica.<wait more>
     Eu me pergunto se ele ainda está lá?<wait>
 
 - offsets: 4df7
@@ -1925,7 +1925,7 @@
     Depuis l'arrivée des monstres dans la forêt,<wait more>
     nous ne recevons plus beaucoup de visiteurs.<wait>
   pt-br: |
-    Bemuvindo à vila de Eppi!<wait more>
+    Bem-vindo! Está é a vila de Eppi!<wait more>
     Nós não temos muitos visitantes ultimamente, agora que a fLoresta está cheia de monstros.<wait>
 
 - offsets: 4dfd
@@ -2004,7 +2004,7 @@
     BEST TO HAVE.<end>
   en: It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
   fr: C'est le Laconian! Les armes faites en Laconian sont les meilleures_!<wait>
-  pt-br: É Lacônia! Armas de Lacônia são as mais fortes por aí!<wait>
+  pt-br: O material é Lacônia! Armas de Lacônia são as mais fortes de Algol!<wait>
 
 
 # ******************
@@ -2431,7 +2431,7 @@
     Peço desculpas pela minha hostilidade antes.<wait more>
     Lashiec é um homem perigoso. Pelo bem de algol, ele deve ser parado.<line><line>
     Acho que posso ajudar.<wait more>
-    Temos que alertar dr. Luveno, na floresta de gothic.<line><line>
+    Temos que alertar dr. Luveno, na floresta de Gótica.<line><line>
     Se bem me lembro, nós podemos chegar lá através de um bueiro na estação espacial de Camineet.<wait more>
     Vamos. Depressa.<wait>
 
@@ -2639,7 +2639,7 @@
     La tour située dans les montagnes de Gothic,<wait more>
     est appelée la tour de Médusa.<wait>
   pt-br: |
-    A torre nas montanhas de gothic é chamada de torre da Medusa.<wait>
+    A torre nas montanhas de Gótica é chamada de Torre da Medusa.<wait>
 
 - offsets: 550c
   # Prisoner
@@ -2749,7 +2749,7 @@
     Mais il l'a jeté dans un tas de ferraille et l'a laissé pourrir.<wait more>
     Quel gâchis...<wait>
   pt-br: |
-    É um robô feito de Lacônia!<wait more>
+    Ele é um robô feito de Lacônia!<wait more>
     Luveno criou Hapsby como um protótipo de piloto de nave espacial.<wait more>
     Ele foi abandonado em um ferro velho e deixado para enferrujar. Que desperdício...<wait>
 
@@ -2861,8 +2861,8 @@
     Parfait, rendez- vous à Gothic, j'y préparerai un vaisseau spatial.<wait more>
     Ne vous inquiétez pas, je suis plus résistant que j'en ai l'air_!<wait>
   pt-br: |
-    Ótimo. Encontreume em gothic, eu vou preparar uma nave para você.<wait more>
-    Não se preocupe comigo, sou mais forte do que pareço.<wait>
+    Excelente. Bem, então, estou indo para a Vila Gótica para começar. Te encontro lá.<wait more>
+    Ah, não se preocupe comigo, sou mais forte do que pareço. Eu posso ir sozinho.<wait>
 
 - offsets: 546d
   # Dr Luveno (no to previous question)
@@ -2982,7 +2982,7 @@
   # (there are no ladies if Alisa is dead)
   en: It’s brave of you to come here. Beware of hidden traps!<wait>
   fr: C'est courageux à vous de venir ici. Faites attention aux pièges_!<wait>
-  pt-br: É corajoso da sua parte vir aqui. Cuidado com as armadilhas escondidas!<wait>
+  pt-br: Você é muito corajoso para vir até aqui. Cuidado com as armadilhas escondidas!<wait>
 
 
 # *******************************
@@ -3318,7 +3318,7 @@
     Este é meu território!<wait more>
     E esta casa? Minha casa!<wait more>
     E os grandes montes de lixo?<wait more>
-    É isso mesmo. Meu lixo.<wait more>
+    Isso mesmo. Meu lixo.<wait more>
     Meu.<wait more>
     Tudo isso.<wait more>
     Não toque em minha sucata! Estou de olho.<wait>
@@ -3460,9 +3460,9 @@
     Il est dit qu'il est gardé par un dragon à Casba.<wait more>
     Que pourrait bien faire un dragon avec un joyau_?<wait>
   pt-br: |
-    Você já ouviu falar de uma jóia chamada olho de âmbar?<wait more>
+    Você já ouviu falar de uma joia chamada Olho de Carbúnculo?<wait more>
     Há rumores de que ela é guardada por um dragão em Casba.<wait more>
-    De qualquer maneira, o que faria um dragão precisar de uma jóia?<wait>
+    De qualquer maneira, o que faria um dragão precisar de uma joia?<wait>
 
 - offsets: 511f
   # Villager
@@ -3483,8 +3483,8 @@
     Puisque vous êtes ici, vous pourriez visiter Abion.<wait more>
     C'est un village comme celui-ci, à la pointe ouest de l'île.<wait>
   pt-br: |
-    Ei, já que você está aqui, você pode muito bem fazer uma visita a avion.<wait more>
-    É um povoado pequeno como este, na ponta ocidental da ilha.<wait>
+    Ei, já que você está aqui, você pode muito bem fazer uma visita a Avion.<wait more>
+    Lá é um povoado pequeno como este, na ponta ocidental da ilha.<wait>
 
 - offsets: 5125
   # Villager
@@ -3530,7 +3530,7 @@
   fr: |
     Il serait temps que quelqu'un se dresse contre cette brute.<wait more>
     Bonne chance.<wait>
-  pt-br: É hora de alguém ir atrás daquele bruto. Boa sorte.<wait>
+  pt-br: Você vai derrotar LaShiec? Já era hora de alguém fazer isso!<wait>
 
 - offsets: # unused? index $011a originally
   indices: 11A
@@ -3552,9 +3552,9 @@
     Je crois que certains cristaux peuvent vous protéger d'elle.<wait more>
     C'est une rumeur, alors ne dites à personne que je vous en ai parlé.<wait>
   pt-br: |
-    LaShiec não é um novato. Sua magia negra poderia destruíulo.<wait more>
-    Já ouvi que alguns cristais podem protegêulo contra tal magia.<wait more>
-    é apenas um rumor, apesar de tudo. Não comente que falei sobre isso.<wait>
+    LaShiec não é um novato. Sua magia negra poderia destruí-lo.<wait more>
+    Já ouvi que alguns cristais podem protegê-lo contra tal magia.<wait more>
+    Apesar de tudo, isso é apenas um rumor. Não comente que falei sobre isso.<wait>
 
 # *************
 # *** Avion ***
@@ -3830,10 +3830,9 @@
     C'est pourquoi les équipements faits de Laconian sont si durs à trouver!<wait more>
     Il en a peur_!<wait>
   pt-br: |
-    Lacônia é mais do que forte, é sagrada.<wait more>
-    LaShiec sabe disso, é claro.<wait more>
-    É por isso que equipamentos de Lacônia são tão difíceis de encontrar!<wait more>
-    Ele tem medo deles!<wait>
+    Lacônia é mais do que forte, é sagrada. As armas feitas com ela possuem poderes divinos.<wait more>
+    LaShiec sabe disso, é claro, e é por isso que ele as escondeu pela galáxia! Ele está com medo!<wait>
+
 
 - offsets: 5256
   # Townsperson
@@ -3935,9 +3934,8 @@
     des morts étaient revenus à la vie_!<wait more>
     S'il vous plait, arrêtez-le. C'est bien trop horrible_!<wait>
   pt-br: |
-    Qualquer que seja o absurdo em que LaShiec esteja envolvido, isso já foi longe demais.<wait more>
-    Ouvi dizer que cadáveres no necrotério Guaran voltaram à vida!<wait more>
-    Por favor, pareuo. Isto é horrível!<wait>
+    As forças profanas com as quais LaShiec e sua laia se envolveram já foram longe demais.<wait more>
+    Todos os cadáveres do Necrotério Guaran voltaram a viver! Isto é grotesco!<wait>
 
 
 # ***********
@@ -3973,7 +3971,7 @@
     Fourmilions_? Pas de problème_!<wait more>
     Conduisez donc un GéoMaster au dessus d'eux_!<wait>
   pt-br: |
-    Formigasuleão? Não tem problema! Você pode dirigir um Landmaster por cima delas.<wait>
+    Formigas-Leão? Não tem problema! Você pode dirigir um Mestre-Terra por cima delas.<wait>
 
 - offsets: 5169
   # Villager
@@ -4003,7 +4001,7 @@
   fr: |
     Il semble qu'un énorme dragon se soit tapi dans la grotte de Casba.<wait more>
     Les gens disent que sa tête est ornée d'un joyau_!<wait>
-  pt-br: Parece que um dragão está escondido dentro da caverna de Casba. Dizem que há uma jóia em sua cabeça.<wait>
+  pt-br: Parece que um dragão está escondido dentro da Caverna de Casba. Dizem que há uma joia em sua cabeça.<wait>
 
 - offsets: 5194
   # Villager
@@ -4082,7 +4080,7 @@
     J'ai enterré l'une d'entrés elles à la périphérie de la cité de Gothic.<wait more>
     Ne dites à personne que je vous en ai parlé_!<wait>
   pt-br: |
-    Bem, este é um segredo, mas enterrei uma nos arredores da vila de gothic.<wait more>
+    Bem, este é um segredo, mas enterrei uma nos arredores da vila de Gótica.<wait more>
     Não diga a ninguém que eu te disse isso!<wait>
 
 
@@ -4378,8 +4376,8 @@
     Peut être en allant à gauche, puis tout droit...<wait>
   pt-br: |
     Você sabe o que é uma proteção de gás? Elas protegem do gás venenoso.<wait more>
-    Uma loja aqui perto os vende, mas não consigo encontráula!<wait more>
-    Talvez se eu seguir para a esquerda, mais à frente...<wait>
+    Uma loja aqui perto os vende, mas não consigo encontrá-la!<wait more>
+    Talvez se eu seguir para a esquerda, ou quem sabe mais para frente...<wait>
 
 - offsets: 51f5
   # Person inside cave
@@ -4435,7 +4433,7 @@
     En voulez-vous un?<end>
   pt-br: |
     Aposto que você está surpreso ao encontrar uma loja em um lugar como esse, hein?<wait more>
-    A máscara custa <number><internal hint 02> meseta<s> cada. Muito barata, não? Quer uma?<end>
+    A Máscara de Gás custa <number><internal hint 02> meseta<s> cada. Muito barata, não? Quer uma?<end>
 
 - offsets: 5226
   # GasClear salesman (yes to previous question)
@@ -4477,7 +4475,7 @@
   translated: Hey, what the hell?! I’m not selling you ANYTHING!
   en: Suit yourself. I’ll be here when you change your mind.<wait>
   fr: Comme vous voulez. Je serai là quand vous aurez changé d'avis.<wait>
-  pt-br: Fique à vontade. Vou estar aqui quando você mudar de ideia.<wait>
+  pt-br: Como quiser. Vou estar aqui quando você mudar de ideia.<wait>
 
 # *************
 # *** Sopia ***
@@ -5047,11 +5045,9 @@
     Un souci il y a, dans un pot en Laconian, elles doivent être.<wait more>
     Si dans un tel pot elles ne sont pas, toutes desséchées elles deviennent.<wait>
   pt-br: |
-    Árvores Laerma possuem frutas estranhas.<wait more>
-    Elas são chamadas de frutas de laerma, elas são.<wait more>
-    Elas são saborosas. Quero comêulas, eu quero.<wait more>
-    O problema é que temos que colocáulas em um pote laconiano.<wait more>
-    Se não, elas ficam todas secas, é, elas ficam.<wait>
+    As árvores Laerma possuem frutas estranhas.<wait more>
+    Elas são chamadas de Frutas de Laerma e realmente saborosas, elas são.<wait more>
+    Mas, se não colocá-las em um Pote de Lacônia, eles murcham, sim, elas murcham.<wait>
 
 - offsets: 528c
   # Honest Dezorian
@@ -5116,8 +5112,7 @@
   en: The Fountain of Youth is inside Corona Tower. Cross my heart!<wait>
   fr: Être à la tour Corona que voussa trouver fontaine de jouvence.<wait>
   pt-br: |
-    Com certeza. Na torre corona, há uma fonte da juventude.<wait more>
-    É sério.<wait>
+    A Fonte da Juventude está dentro da Torre Corona. Eu juro!<wait>
 
 - offsets: 52b2
   # Dishonest Dezorian
@@ -5223,7 +5218,7 @@
   fr: |
     Soyez prudente.<wait more>
     Sur la route, vous devez tourner à gauche, à la bifurcation.<wait>
-  pt-br: Tenha cuidado lá na frente. Você deve virar à esquerda na bifurcação do caminho.<wait>
+  pt-br: Tenha cuidado lá na frente. Você deve virar para a esquerda na bifurcação do caminho.<wait>
 
 - offsets: 57fd,5803
   # Dezorian
@@ -5317,12 +5312,11 @@
     ...du cristal d'un dragon_!<wait more>
     Que dites-vous_?<end>
   pt-br: |
-    Você vê esta chama em minha mão? Esta é a tocha eclipse.<wait more>
+    Você vê esta chama em minha mão? Esta é a Tocha Eclipse.<wait more>
     Este é o fogo sagrado do eclipse centenário.<wait more>
-    É lindo, santo, e, de fato, muito valioso.<wait more>
+    Ele é lindo, santo, e, de fato, muito valioso.<wait more>
     Eu poderia estar disposto a compartilhar um pouco dela, por, digamos...<wait more>
-    ...uma jóia de um dragão.<wait more>
-    O que você acha?<end>
+    ...uma joia de um dragão. O que você acha?<end>
 
 - offsets: 5684
   # Torchbearer (yes to previous question)
@@ -5359,7 +5353,7 @@
     FOOL OR SOMETHING?<end>
   en: You have no jewel! Don’t be foolish!<wait>
   fr: Vous n'avez pas de joyau_! Alors ne soyez pas stupide_!<wait>
-  pt-br: Você não tem nenhuma jóia! Não seja tolo!<wait>
+  pt-br: Você não tem nenhuma joia! Não seja tolo!<wait>
 
 # *************************
 # *** Aeroprism Dungeon ***
@@ -5422,7 +5416,7 @@
     POT.<end>
   en: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
   fr: <player> mets des baies Laerma dans le vase Laconian.<wait>
-  pt-br: <player> pegou algumas frutas de laerma e colocou no pote laconiano.<wait>
+  pt-br: <player> pegou algumas Frutas de Laerma e colocou no Pote de Lacônia.<wait>
 
 - offsets: 26c4
   # If no Laconian Pot...
@@ -5596,7 +5590,7 @@
     UP AHEAD!<end>
   en: You’d better not go any further, there’s a security guard up ahead.<wait>
   fr: Vous feriez mieux de ne pas aller plus loin, il y a un gardien devant.<wait>
-  pt-br: É melhor você não ir mais longe u há um guarda à frente.<wait>
+  pt-br: Se eu fosse você, não iria mais longe. Há um guarda lá na frente.<wait>
 
 - offsets: 55b3
   # Robot Police
@@ -5787,8 +5781,7 @@
     C'est vrai_? Vous jurez.<wait more>
     Je vais vous récompenser avec ce cristal.<wait>
   pt-br: |
-    É isso mesmo? Você mostra considerável compromisso.<wait more>
-    Vou recompensáulo com este cristal.<wait>
+    Então é isso mesmo? Que bom! Você mostra um compromisso considerável. Vou recompensá-lo com este cristal.<wait>
 
 - offsets: 2711
   # (Use Aeroprism)
@@ -7230,7 +7223,7 @@
     SKURE ON DEZORIS?<prompt>
   en: Would you like to go to Skray, on Dezoris?<end>
   fr: Voulez-vous aller à Skure, sur Dézoris_?<end>
-  pt-br: Gostaria de ir a skray, em dezóris?<end>
+  pt-br: Gostaria de ir para Skray, em Dezóris?<end>
 
 - offsets: 5990
   indices: 0A6-2
@@ -7243,7 +7236,7 @@
     UZO ON MOTAVIA?<prompt>
   en: Would you like to go to Uzo, on Motavia?<end>
   fr: Voulez-vous aller à Uzo, sur Motavia_?<end>
-  pt-br: Gostaria de ir a uzo, em motávia?<end>
+  pt-br: Gostaria de ir para Uzo, em Motávia?<end>
 
 - offsets: 598a
   indices: 0A8-2
@@ -7256,7 +7249,7 @@
     GOTHIC ON PALMA?<prompt>
   en: Would you like to go to Gothic, on Palma?<end>
   fr: Voulez-vous aller à Gothic, sur Palma_?<end>
-  pt-br: Gostaria de ir a gothic, em palma?<end>
+  pt-br: Gostaria de ir para Gótica, em Palma?<end>
 
 - offsets: 5980
   indices: 0AA-2
@@ -7280,7 +7273,7 @@
   us: WE ARE AT GOTHIC.<prompt>
   en: This IS Gothic.<end>
   fr: Nous voilà à Gothic.<end>
-  pt-br: Aqui é gothic.<end>
+  pt-br: Aqui é Gótica.<end>
 
 - offsets: # Unused...
   indices: 0B0-2
@@ -7306,7 +7299,7 @@
     SOMETHING?<prompt>
   en: Welcome to the armor shop. Can I help you?<end>
   fr: Bienvenue à l'armurerie! Besoin d'armes pour votre quête_?<end>
-  pt-br: Bem-vindo à loja de armas. Posso ajudá-lo?<end>
+  pt-br: Bem-vindo! Esta é uma loja de armas. Posso ajudá-lo?<end>
 
 - offsets: 2d27,2d89,2e46,537e
   indices: 0B6-2
@@ -7376,7 +7369,7 @@
     CAN I HELP YOU?<prompt>
   en: Welcome to the tool shop. May I help you?<end>
   fr: Bienvenue à la quincaillerie. Que voulez-vous faire_?<end>
-  pt-br: Bem-vindo à loja de ferramentas. Posso ajudá-lo?<end>
+  pt-br: Bem-vindo! Esta é uma loja de ferramentas. Posso ajudá-lo?<end>
 
 - offsets: 2e0d
   indices: 0C2-2
@@ -7737,7 +7730,7 @@
     PEOPLE FROM PALMA.<end>
   en: ‘We want to become friends with the Palmans.’<wait>
   fr: Nous voulons être amis avec les Palmans.<wait>
-  pt-br: ‘Queremos ser amigos dos palmanos.’<wait>
+  pt-br: ‘Queremos ser amigos dos Palmanos.’<wait>
 
 - offsets: 1ae7
   indices: 0F6-2
@@ -7747,7 +7740,7 @@
     NUT OF LAERMA.<end>
   en: ‘I could really go for some Laerma Berries right now!’<wait>
   fr: Je pourrais aller chercher des baies Laerma maintenant!<wait>
-  pt-br: ‘Eu poderia realmente comer algumas frutas de laerma agora!’<wait>
+  pt-br: ‘Eu poderia realmente comer algumas Frutas de Laerma agora!’<wait>
 
 - offsets: 1ae9
   indices: 0F8-2
@@ -7839,7 +7832,7 @@
     EAR AND THE HEART.<end>
   en: ‘The Soothe Flute sounds so nice!’<wait>
   fr: Le son de la flute apaisante est si beau.<wait>
-  pt-br: ‘A flauta mágica soa tão bem!’<wait>
+  pt-br: ‘A Flauta Calmante soa tão bem!’<wait>
 
 - offsets: 1cd0
   indices: 108-2
@@ -7853,7 +7846,7 @@
     NAME.<end>
   en: ‘IceDeckers can cut through ice!’<wait>
   fr: Les ForaGlaces permettent de briser la glace.<wait>
-  pt-br: ‘Cavadores de gelo podem cortar sobre o gelo!’<wait>
+  pt-br: ‘Cavadores de Gelo podem cortar sobre o gelo!’<wait>
 
 - offsets: 1cd2
   indices: 10A-2
@@ -7865,7 +7858,7 @@
     THE SKY.<end>
   en: ‘Lord LaShiec lives up in the sky.’<wait>
   fr: Le Seigneur Lassic vit dans le ciel.<wait>
-  pt-br: ‘Lorde LaShiec vive acima de nós.’<wait>
+  pt-br: ‘Lorde LaShiec vive acima de nós, no céu.’<wait>
 
 - offsets: 1cd4
   indices: 10C-2
@@ -7878,7 +7871,7 @@
     LACONIAN POT.<end>
   en: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
   fr: Le Savant fou à Abion possède un vase Laconian.<wait>
-  pt-br: ‘O Doutor Maluco em avion tem um pote Laconiano.’<wait>
+  pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
 
 - offsets: 1cd6
   indices: 10E-2
@@ -7903,7 +7896,7 @@
     LIGHT TO GLOW.<end>
   en: ‘You need to have a certain item in order to make Laerma Berries grow.’<wait>
   fr: Il faut un vase pour que les baies Laerma mûrissent.<wait>
-  pt-br: ‘Você precisa ter um certo item para fazer as frutas de Laerma crescerem.’<wait>
+  pt-br: ‘Você precisa ter um certo item para fazer as Frutas de Laerma crescerem.’<wait>
 
 - offsets: 1cda
   indices: 112-2
