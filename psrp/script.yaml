@@ -132,7 +132,7 @@
   pt-br: |
     Cidadãos de Camineet, que este moribundo sirva de exemplo para todos vocês.<line><line>
     Desafiar o Lorde LaShiec não será tolerado!<wait more>
-    Nero? Nero!<line><line>
+    Nero? NERO!<line><line>
     O que aconteceu?!<wait>
 
 - offsets: 45fa
@@ -693,7 +693,7 @@
     RESIDENTIAL AREA.<end>
   en: Welcome to Parolit residential district.<wait>
   fr: Bienvenue à la zone résidentielle de Parolit.<wait>
-  pt-br: Bemuvindo ao distrito residencial de parolit.<wait>
+  pt-br: Bemuvindo ao distrito residencial de Parolit.<wait>
 
 - offsets: 4bf7
   # Man
@@ -747,7 +747,7 @@
     CALLED SCION.<end>
   en: If you're looking for a port town, Shion is just east of here.<wait>
   fr: Si tu vas à l'est, tu arriveras à la ville portuaire de Scion.<wait>
-  pt-br: Se você for para o leste, chegará em uma cidade portuária chamada shion.<wait>
+  pt-br: Se você for para o leste, chegará em uma cidade portuária chamada Shion.<wait>
 
 - offsets: 4c09
   # Man
@@ -854,7 +854,7 @@
     Un animal parlant avec une fiole autour du cou l'accompagnait_!<wait more>
     Je me demande ce que c'était_?<wait>
   pt-br: |
-    Sim, tylon estava aqui. Ele disse algo sobre ir para o sul, para matar a Medusa.<wait more>
+    Sim, Tylon estava aqui. Ele disse algo sobre ir para o sul, para matar a Medusa.<wait more>
     Ele tinha um estranho animal falante com ele, que tinha uma garrafa em volta de seu pescoço.<wait more>
     Eu me pergunto o que era?<wait>
 
@@ -900,7 +900,7 @@
     Je l'ai vendu à un commerçant de Paséo. Le p'tit bout valait une vraie fortune_!<wait>
   pt-br: |
     Isso vai parecer loucura, mas encontrei um animal falante vagando na masmorra da Medusa.<wait more>
-    Eu vendi ele a um comerciante em paseo. O rapazinho valia uma fortuna!<wait>
+    Eu vendi ele a um comerciante em Paseo. O rapazinho valia uma fortuna!<wait>
 
 - offsets: 4dbb
   # Same person as above (second time)
@@ -921,7 +921,7 @@
     L'économie est en chute libre depuis l'arrivée de Lassic.<wait more>
     Je suis tellement déprimé que je ne sais quoi faire.<wait>
   pt-br: |
-    A economia está em queda desde que lashiec chegou ao poder.<wait more>
+    A economia está em queda desde que LaShiec chegou ao poder.<wait more>
     Estou tão quebrado, não sei o que fazer...<wait>
 
 - offsets: 4dc1
@@ -937,7 +937,7 @@
     THE SOUTH OF SCION<end>
   en: Iala Cave lies on the peninsula south-east of here.<wait>
   fr: La grotte Iala est située sur la péninsule au sud de la ville.<wait>
-  pt-br: A caverna de iala fica na península ao sul da cidade.<wait>
+  pt-br: A caverna de Iala fica na península ao sul da cidade.<wait>
 
 - offsets: 4dc7
   indices: 044
@@ -972,7 +972,7 @@
     THE Eppi FOREST.<end>
   en: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
   fr: Aller dans la forêt d'Eppi sans boussole_? Vous devez être un peu stupide_!<wait>
-  pt-br: Você teria que ser algum tipo de idiota para entrar na fLoresta de Eppi sem uma bússola.<wait>
+  pt-br: Você teria que ser algum tipo de idiota para entrar na foresta de Eppi sem uma bússola.<wait>
 
 - offsets: 4dd3
   indices: 048
@@ -1027,7 +1027,7 @@
     J'avais l'habitude de faire de la spéléologie dans la grotte Naula, sur la cote nord de Baya Malay.<wait more>
     Mais avec tous ces monstres errants, je ne me risquerai pas d'y retourner!<wait>
   pt-br: |
-    Eu costumava explorar a caverna de naula, na costa norte de Baya Marlay.<wait more>
+    Eu costumava explorar a caverna de Naula, na costa norte de Baya Marlay.<wait more>
     Mas com todos esses monstros que apareceram de repente, não tentaria sequer chegar lá agora.<wait>
 
 - offsets: 2dab
@@ -1124,7 +1124,7 @@
     PASEO ON MOTAVIA.<end>
   en: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
   fr: Bienvenue au Spatioport de Palma. D'ici, vous pouvez vous rendre à Paséo sur Motavia.<wait>
-  pt-br: Bemuvindo ao espaçoporto de Palma. Você pode viajar daqui para paseo, em Motávia.<wait>
+  pt-br: Bemuvindo ao espaçoporto de Palma. Você pode viajar daqui para Paseo, em Motávia.<wait>
 
 - offsets: 4ca4
   # Luggage handler
@@ -1329,7 +1329,7 @@
     Il existerait une Patisserie située dans la grotte Naula, sur Palma.<wait more>
     Je me demande s'il y a beaucoup de clients... dans une grotte_?<wait>
   pt-br: |
-    Ouvi dizer que há uma loja de bolos na caverna de naula, em Palma.<wait more>
+    Ouvi dizer que há uma loja de bolos na caverna de Naula, em Palma.<wait more>
     Eu me pergunto se ele consegue vender algo, em uma caverna como essa?<wait>
 
 
@@ -1350,7 +1350,7 @@
     IS SAID.<end>
   en: Even the Governor-General is on bad terms with LaShiec.<wait>
   fr: Même le Gouverneur est en froid avec Lassic.<wait>
-  pt-br: Até mesmo o governadorugeral está em maus lençóis com LaShiec.<wait>
+  pt-br: Até mesmo o Governadorugeral está em maus lençóis com LaShiec.<wait>
 
 - offsets: 4e49
   indices: 088
@@ -1364,7 +1364,7 @@
     THE GOVERNOR.<end>
   en: You need to bring a gift if you're going to meet with the Governor-General.<wait>
   fr: Pour obtenir une entrevue avec le Gouverneur, il faut un cadeau.<wait>
-  pt-br: Para se encontrar com o governadorugeral, é preciso levar um presente.<wait>
+  pt-br: Para se encontrar com o Governadorugeral, é preciso levar um presente.<wait>
 
 - offsets: 4e4f
   indices: 08A
@@ -1375,7 +1375,7 @@
     SWEETS, I HEAR.<end>
   en: The Governor-General has got a real sweet tooth.<wait>
   fr: Le Gouverneur aime les petites douceurs...<wait>
-  pt-br: O governadorugeral adora doces.<wait>
+  pt-br: O Governadorugeral adora doces.<wait>
 
 - offsets: 4e55
   indices: 08C
@@ -1388,7 +1388,7 @@
     NORTH OF PASEO.<end>
   en: Mahal Cave is located in the mountains north of Paseo.<wait>
   fr: La grotte Mahal se situe dans les montagnes au nord de Paséo.<wait>
-  pt-br: A caverna mahal está localizada nas montanhas ao norte de Paseo.<wait>
+  pt-br: A caverna Mahal está localizada nas montanhas ao norte de Paseo.<wait>
 
 - offsets: 4e5b
   indices: 08E
@@ -1683,7 +1683,7 @@
   fr: |
     On dirait que cette personne a été changée en pierre.<wait more>
     Serait-ce Tylon_?<wait>
-  pt-br: Parece que essa pessoa foi transformada em pedra. Poderia este ser tylon?<wait>
+  pt-br: Parece que essa pessoa foi transformada em pedra. Poderia este ser Tylon?<wait>
 
 - offsets: 25bd,2636
   # Using "Alsuline"
@@ -1875,7 +1875,7 @@
   fr: |
     Connaissant le Gouverneur de Motavia,<wait more>
     je pense qu'il est en accord avec la quête que vous avez entreprise_!<wait>
-  pt-br: Não me surpreenderia se o governadorugeral de motávia aprovasse o que você está fazendo.<wait>
+  pt-br: Não me surpreenderia se o Governadorugeral de motávia aprovasse o que você está fazendo.<wait>
 
 - offsets: 4deb
   # Villager
@@ -1889,7 +1889,7 @@
     MOTAVIA.<end>
   en: All the great Espers live on Motavia.<wait>
   fr: C'est bien connu, tous les grands Espers vivent sur Motavia_!<wait>
-  pt-br: Todos os grandes espers vivem em motávia.<wait>
+  pt-br: Todos os grandes Espers vivem em motávia.<wait>
 
 - offsets: 4df1
   # Villager
@@ -1908,7 +1908,7 @@
     Jadis, le docteur Luveno avait un laboratoire à Gothic.<wait more>
     Je me demande s'il y est toujours_?<wait>
   pt-br: |
-    Há muito tempo, um cientista chamado luveno tinha um laboratório de pesquisa na floresta de Gótica.<wait more>
+    Há muito tempo, um cientista chamado Luveno tinha um laboratório de pesquisa na floresta de Gótica.<wait more>
     Eu me pergunto se ele ainda está lá?<wait>
 
 - offsets: 4df7
@@ -1948,7 +1948,7 @@
   pt-br: |
     Derrubar LaShiec, não é?<wait more>
     Ou você é um louco, ou é mais forte do que parece.<wait more>
-    De qualquer forma, eu admiro sua coragem. Você está precisando de uma chave do calabouço?<end>
+    De qualquer forma, eu admiro sua coragem. Você está precisando de uma Chave do Calabouço?<end>
 
 - offsets: 4e17
   # Villager (yes to previous question)
@@ -1973,7 +1973,7 @@
     situé dans à la périphérie de la zone résidentielle de Camineet.<wait more>
     Elle est à vous. Bonne chance_!<wait>
   pt-br: |
-    Escondi uma dentro do armazém nos arredores da zona residencial de camineet.<wait more>
+    Escondi uma dentro do armazém nos arredores da zona residencial de Camineet.<wait more>
     Ela é toda sua. Boa sorte.<wait>
 
 - offsets: 4e1d
@@ -2068,7 +2068,7 @@
   fr: |
     Halte_!<wait more>
     Avez-vous apporté un présent pour le Gouverneur_?<end>
-  pt-br: Pare! Trouxe um presente para o governadorugeral?<end>
+  pt-br: Pare! Trouxe um presente para o Governadorugeral?<end>
 
 - offsets: 564b
   # Guard inside Underground Passage to Governor's Mansion (yes/shortcake to previous question)
@@ -2180,7 +2180,7 @@
     Não posso lhe dizer mais nada. Ainda não.<wait more>
     Vá. Destruauo. Não vou impedir.<wait more>
     Na verdade, vou lhe oferecer assistência.<wait more>
-    Um esper poderoso chamado Lutz vive na caverna de mahal, ao norte daqui.<line>
+    Um Esper poderoso chamado Lutz vive na caverna de Mahal, ao norte daqui.<line>
     Leve esta carta, e ele entenderá.<wait more>
     Volte aqui quando você derrotar LaShiec. Tenho fé em você.<wait>
 
@@ -2300,7 +2300,7 @@
     GOVERNOR,I WONDER?<end>
   en: Empty! Where is the Governor-General?<wait>
   fr: Personne_? Où se trouve le Gouverneur_?<wait>
-  pt-br: Vazio! Onde está o governadorugeral?<wait>
+  pt-br: Vazio! Onde está o Governadorugeral?<wait>
 
 
 # ******************
@@ -2319,7 +2319,7 @@
     LIKELY OBEY.<end>
   en: Since the orders are from the Governor-General, Lutz will probably listen.<wait>
   fr: Les ordres venant du Gouverneur, Lutz les écoûtera peut-être...<wait>
-  pt-br: Uma vez que as ordens são do governadorugeral, Lutz provavelmente vai ouvir.<wait>
+  pt-br: Uma vez que as ordens são do Governadorugeral, Lutz provavelmente vai ouvir.<wait>
 
 - offsets: 53c9
   indices: 0B2
@@ -2429,7 +2429,7 @@
     Deixe-me ver isso.<wait more>
     ...ah. Entendo. Então chegou a esse ponto.<line><line>
     Peço desculpas pela minha hostilidade antes.<wait more>
-    Lashiec é um homem perigoso. Pelo bem de algol, ele deve ser parado.<line><line>
+    Lashiec é um homem perigoso. Pelo bem de Algol, ele deve ser parado.<line><line>
     Acho que posso ajudar.<wait more>
     Temos que alertar dr. Luveno, na floresta de Gótica.<line><line>
     Se bem me lembro, nós podemos chegar lá através de um bueiro na estação espacial de Camineet.<wait more>
@@ -2455,7 +2455,7 @@
   fr: |
     J'aurais vraiment besoin d'une Vitabarre.<wait more>
     Vous n'en n'auriez pas une_?<end>
-  pt-br: Eu gostaria de comer uma peloriemate. Você pode me dar uma?<end>
+  pt-br: Eu gostaria de comer uma PelorieMate. Você pode me dar uma?<end>
 
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
@@ -2488,16 +2488,16 @@
     Il est détenu à Triada, une prison située au sud.<wait>
   pt-br: |
     Obrigado.<wait more>
-    Eu suponho que você está procurando o doutor luveno.<wait more>
+    Eu suponho que você está procurando o doutor Luveno.<wait more>
     Sim, seu laboratório costumava ficar aqui.<wait more>
     Não há mais nada, no entanto. Eles finalmente aprisionaram aquele lunático.<wait more>
-    Ele está sendo mantido em triada, uma prisão ao sul daqui.<wait>
+    Ele está sendo mantido em Triada, uma prisão ao sul daqui.<wait>
 
 - offsets: 502e,5055,535b
   # Villager (yes to previous question, and you don't have a PelorieMate)
   indices: 20E
   ja: バカニスンデネエ.<wait>
-  translated: Don’t f--ー with me!
+  translated: Don’t f--- with me!
   us: DON'T BE A FOOL!<end>
   en: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
   fr: Ai-je l'air d'un idiot_???<wait>
@@ -3054,7 +3054,7 @@
     Certo. Parece que minha equipe está reunida.<wait more>
     O que, você não acha que duas pessoas podem construir uma nave espacial?<wait more>
     Pois saiba que eu construo estas naves desde que você usava fraldas!<wait more>
-    Pois então, a compra de uma nave espacial não é como comprar uma peloriemate.<wait more>
+    Pois então, a compra de uma nave espacial não é como comprar uma PelorieMate.<wait more>
     Este é um investimento sério, e vai lhe custar dinheiro de verdade.<wait more>
     Eu preciso de <number><internal hint 02> meseta<s> adiantado. Você pode cobrir isso?<end>
 
@@ -3158,7 +3158,7 @@
     C'est vraiment une superbe pièce, n'est-ce pas_?<wait>
   pt-br: |
     Sucesso! Este é o meu melhor trabalho até então.<wait more>
-    Eu o chamo de luveno. Soa bem, você não acha?<wait>
+    Eu o chamo de Luveno. Soa bem, você não acha?<wait>
 
 - offsets: 50de
   # If you don't have Hapsby already
@@ -3170,7 +3170,7 @@
     A SPACESHIP.<end>
   en: But I’m afraid the Luveno can’t be piloted by a human...<wait>
   fr: Mais j'ai peur qu'aucun humain ne puisse piloter le Luveno...<wait>
-  pt-br: Mas receio que o luveno não possa ser pilotado por um ser humano...<wait>
+  pt-br: Mas receio que o Luveno não possa ser pilotado por um ser humano...<wait>
 
 - offsets: 50eb
   # If you don't have Hapsby already
@@ -3234,9 +3234,9 @@
     Allez l'essayer_!<wait>
   pt-br: |
     Ah, meu pequeno Hapsby, você chegou em casa!<wait more>
-    Excelente. Com Hapsby você pode pilotar o luveno através do espaço!<wait more>
+    Excelente. Com Hapsby você pode pilotar o Luveno através do espaço!<wait more>
     E bem na hora, também. A segurança do espaçoporto ficou mais apertada.<wait more>
-    Vá em frente! O luveno está ancorado fora da aldeia!<wait more>
+    Vá em frente! O Luveno está ancorado fora da aldeia!<wait more>
     Vá experimentáulo!<wait>
 
 - offsets: 5071
@@ -3249,7 +3249,7 @@
     USE IT WELL.<end>
   en: How’s the Luveno holding up? Take good care of it.<wait>
   fr: Le Luveno se comporte bien_? Merci d'en prendre bien soin.<wait>
-  pt-br: Como está indo o luveno? Cuide bem dele.<wait>
+  pt-br: Como está indo o Luveno? Cuide bem dele.<wait>
 
 # Spaceports now closed...
 - offsets: 4cec
@@ -3360,7 +3360,7 @@
   fr: |
     J'ai entendu dire qu'on trouvait un produit appelé Polymatériau<wait more>
     dans la cité d'Abion.<wait>
-  pt-br: Ouvi dizer que eles vendem um produto químico chamado polymeteral na vila de avion.<wait>
+  pt-br: Ouvi dizer que eles vendem um produto químico chamado polymeteral na vila de Avion.<wait>
 
 - offsets: 57bd
   # Hapsby
@@ -3382,7 +3382,7 @@
     Je vous aiderai dans l'utilisation de n'importe quel vaisseau Luveno.<wait>
   pt-br: |
     Saudações. Sou o robôupiloto Hapsby.<wait more>
-    Vou ajudáulo na operação de qualquer espaçonave da marca luveno.<wait>
+    Vou ajudáulo na operação de qualquer espaçonave da marca Luveno.<wait>
 
 - offsets: 57e0
   indices: 178,17A
@@ -3510,7 +3510,7 @@
     DEZORIS.<end>
   en: I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
   fr: Sur Dézoris, la plaine d'Altiplano en est recouverte.<wait>
-  pt-br: Ouvi dizer que o planalto altiplano em Dezóris é totalmente coberto por elas.<wait>
+  pt-br: Ouvi dizer que o planalto Altiplano em Dezóris é totalmente coberto por elas.<wait>
 
 - offsets: 5113
   # Villager
@@ -3568,7 +3568,7 @@
   us: WELCOME TO ABION.<end>
   en: This village is called Avion.<wait>
   fr: Notre village se nomme Abion.<wait>
-  pt-br: Esta aldeia é chamada avion.<wait>
+  pt-br: Esta aldeia é chamada Avion.<wait>
 
 - offsets: 5145
   # Villager
@@ -3878,7 +3878,7 @@
     MOUNTAIN.<end>
   en: The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
   fr: Le plateau d'Altiplano est entouré par des glaciers.<wait>
-  pt-br: O planalto altiplano é rodeado por montanhas de gelo.<wait>
+  pt-br: O planalto Altiplano é rodeado por montanhas de gelo.<wait>
 
 - offsets: 5268
   # Townsperson
@@ -3984,7 +3984,7 @@
     THE SOUTH OF HERE.<end>
   en: To the south of Uzo lies a village called Casba.<wait>
   fr: Au sud d'Uzo se trouve le village de Casba.<wait>
-  pt-br: Ao sul de uzo está uma aldeia chamada Casba.<wait>
+  pt-br: Ao sul de Uzo está uma aldeia chamada Casba.<wait>
 
 - offsets: 516f
   # Villager
@@ -4234,8 +4234,8 @@
     Quel gachis_!<wait>
   pt-br: |
     Então você sabe o lixo que eles são!<wait more>
-    Comprei um na cidade de shion, em Palma.<wait more>
-    Ele quebrou, então larguei em bartevo.<wait more>
+    Comprei um na cidade de Shion, em Palma.<wait more>
+    Ele quebrou, então larguei em Bartevo.<wait more>
     Que desperdício!<wait>
 
 - offsets: 51c1
@@ -4270,12 +4270,12 @@
   ja: ココハ ドラスゴー. ウミノウエノ<line>
   translated: This is Drasgo, a tiny town on the sea.
   us: |
-    WELCOME TO DRASGOW
+    WELCOME TO Drasgow
     -- A SMALL TOWN<wait more>
     ON THE OCEAN.<end>
   en: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
   fr: Voici Drasgot, une petite ville flottante, sur la mer.<wait>
-  pt-br: Esta é drasgow, uma pequena cidade flutuando no mar.<wait>
+  pt-br: Esta é Drasgow, uma pequena cidade flutuando no mar.<wait>
 
 - offsets: 51d7
   # Townsperson
@@ -4316,7 +4316,7 @@
     ISLAND.<end>
   en: I hear that there’s an enchanted sword in Avion Tower.<wait>
   fr: J'ai entendu dire qu'il y avait une épée magique dans la tour d'Abion.<wait>
-  pt-br: Ouvi dizer que há uma espada encantada na torre de avion.<wait>
+  pt-br: Ouvi dizer que há uma espada encantada na torre de Avion.<wait>
 
 - offsets: 51e3
   # Townsperson
@@ -4375,7 +4375,7 @@
     Un magasin près d'ici en vend, mais je n'arrive pas à le trouver_!<wait more>
     Peut être en allant à gauche, puis tout droit...<wait>
   pt-br: |
-    Você sabe o que é uma proteção de gás? Elas protegem do gás venenoso.<wait more>
+    Você sabe o que é uma Máscara de Gás? Elas protegem do gás venenoso.<wait more>
     Uma loja aqui perto os vende, mas não consigo encontrá-la!<wait more>
     Talvez se eu seguir para a esquerda, ou quem sabe mais para frente...<wait>
 
@@ -4500,7 +4500,7 @@
     Bienvenue à Sopia.<wait more>
     Je suis heureux que vous ayez réussi à traverser la brume.<wait>
   pt-br: |
-    Esta aldeia é chamada sopia. Bemuvindo.<wait more>
+    Esta aldeia é chamada Sopia. Bemuvindo.<wait more>
     Fico feliz por você ter atravessado a névoa.<wait>
 
 - offsets: 52d6
@@ -4535,7 +4535,7 @@
     Pourriez-vous nous faire un don de <number><internal hint 02> meseta<s>?<end>
   pt-br: |
     Eu sou o chefe desta aldeia.<wait more>
-    Nós em sopia somos muito pobres. Nós somos exilados.<wait more>
+    Nós em Sopia somos muito pobres. Nós somos exilados.<wait more>
     A névoa nos desliga de outras cidades.<wait more>
     Você poderia doar <number><internal hint 02> meseta<s> para nós?<end>
 
@@ -4779,7 +4779,7 @@
     Le côtoyez-vous_?<end>
   pt-br: |
     E quem seriam vocês?<wait more>
-    Meu aluno, Lutz, está na caverna mahal. Você o conhece?<end>
+    Meu aluno, Lutz, está na caverna Mahal. Você o conhece?<end>
 
 - offsets: 56bc
   # Tajim (yes to previous question)
@@ -4987,7 +4987,7 @@
     Aller vérifier la tour Corona, vous pourriez_!<wait more>
     Au nord, de l'autre coté des montagnes, elle se trouve.<wait>
   pt-br: |
-    Você pode querer checar a torre corona.<wait more>
+    Você pode querer checar a torre Corona.<wait more>
     Do outro lado das montanhas ao norte, sim.<wait>
 
 - offsets: 5280
@@ -5010,7 +5010,7 @@
     A l'ouest de la tour Corona, la grotte Dézoris, se trouve.<wait more>
     Là-bas, des amis nous avons. Nos respects leur donnerez-vous_?<wait>
   pt-br: |
-    Para oeste da torre corona está a caverna de Dezóris, sim.<wait more>
+    Para oeste da torre Corona está a caverna de Dezóris, sim.<wait more>
     Nós temos amigos lá, temos sim.<wait more>
     Dêulhes a nossa saudação, sim?<wait>
 
@@ -6118,9 +6118,9 @@
     C'est le début d'une nouvelle ère pour Algol.<wait more>
     Il ne reste plus qu'à en parler au Gouverneur sur Paséo.<wait>
   pt-br: |
-    Lorde LaShiec caiu. O desejo de morte de nero foi concedido.<wait more>
+    Lorde LaShiec caiu. O desejo de morte de Nero foi concedido.<wait more>
     Este é o começo de uma nova vida para Algol.<wait more>
-    A única coisa que resta a fazer é encontrar o governadorugeral em Paseo.<wait>
+    A única coisa que resta a fazer é encontrar o Governadorugeral em Paseo.<wait>
 
 - offsets: # Unreachable?
   indices: 27c
@@ -6222,7 +6222,7 @@
     Agora que LaShiec se foi, é seguro dizer.<wait more>
     Alisa... Seu pai era o rei de Algol.<wait more>
     Seu sangue real está dentro de você. Ele te deu força.<wait more>
-    Estamos sem um líder, alisa.<wait more>
+    Estamos sem um líder, Alisa.<wait more>
     Você sucederá seu pai e se tornará a rainha de Algol?<end>
 
 - offsets: 5849,58ea
@@ -6300,7 +6300,7 @@
     BAYA MALAY.<delay>
   en: A cool, gentle breeze now surrounds Baya Marlay.<end>
   fr: Seule une douce brise flotte désormais au dessus de Baya Malay.<end>
-  pt-br: A única coisa acima de baya marlay agora é uma suave brisa fresca.<end>
+  pt-br: A única coisa acima de Baya Marlay agora é uma suave brisa fresca.<end>
 
 - offsets: 47ec
   indices: 14E-2
@@ -6313,7 +6313,7 @@
     THEY ENDURED?<delay>
   en: But does the breeze know of the hardships they endured?<end>
   fr: La reconnaissance du peuple d'Algol sonna le début d'une nouvelle ère<end>
-  pt-br: As pessoas de algol agradecidas, juntaram o que restou e começaram de novo.<end>
+  pt-br: As pessoas de Algol agradecidas, juntaram o que restou e começaram de novo.<end>
 
 
 - width: 29
@@ -6389,7 +6389,7 @@
     Algol FOREVER!!!<wait>
   en: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
   fr: Tandis que le souvenir de cette sombre époque s'estompera, ces quatres noms resteront à jamais gravés dans le cœur du peuple d'Algol.<delay>
-  pt-br: Apesar das memórias deste tempo sombrio desaparecerem, esses quatro nomes permanecerão nos corações do povo de algol para sempre.<delay>
+  pt-br: Apesar das memórias deste tempo sombrio desaparecerem, esses quatro nomes permanecerão nos corações do povo de Algol para sempre.<delay>
 
 
 # ****************************
@@ -7257,7 +7257,7 @@
   us: WE ARE AT SKURE.<prompt>
   en: This IS Skray.<end>
   fr: La cité de Skure.<end>
-  pt-br: Aqui é skray..<end>
+  pt-br: Aqui é Skray..<end>
 
 - offsets: 597b
   indices: 0AC-2
@@ -7265,7 +7265,7 @@
   us: WE ARE AT UZO.<prompt>
   en: This IS Uzo.<end>
   fr: La ville d'Uzo.<end>
-  pt-br: Aqui é uzo.<end>
+  pt-br: Aqui é Uzo.<end>
 
 - offsets: 5975
   indices: 0AE-2
