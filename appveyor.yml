@@ -15,9 +15,11 @@ build_script:
     appveyor DownloadFile -Url %URL% -FileName ps.zip
     7z x ps.zip -opsrp
     cd psrp
+    nmake /E LANGUAGE=en
+    nmake /E clean
     nmake /E LANGUAGE=fr
     nmake /E clean
-    nmake /E LANGUAGE=en
+    nmake /E LANGUAGE=pt-br
     7z a ..\psrp.zip *.?ps ..\readme.md
 artifacts:
 - path: psrp.zip
