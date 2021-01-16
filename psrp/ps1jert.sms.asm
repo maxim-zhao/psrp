@@ -791,24 +791,27 @@ _Copy:
 .ends
 
 .enum $5f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
-; If changing the value here, you must also change script_inserter/symbols.cpp (encodes data to match this enum) and substring_formatter/sunstring.cpp (needs to know the value of WordListStart)
+; If changing the value here, you must also change:
+; - script_inserter/symbols.cpp (encodes data to match this enum)
+; - script_inserter/huffman.cpp
+; - substring_formatter/substring.cpp (needs to know the value of WordListStart)
   SymbolStart     .db
-  SymbolPlayer    db ; $4f, Handled by the original engine
-  SymbolMonster   db ; $50,
-  SymbolItem      db ; $51,
-  SymbolNumber    db ; $52,
-  SymbolBlank     db ; $53, ; Unused
-  SymbolNewLine   db ; $54,
-  SymbolWaitMore  db ; $55,
-  SymbolEnd       db ; $56,
-  SymbolDelay     db ; $57,
-  SymbolWait      db ; $58,
-  SymbolPostHint  db ; $59, ; New codes
-  SymbolArticle   db ; $5a,
-  SymbolSuffix    db ; $5b,
-;  WordListStart   db ; $5c
+  SymbolPlayer    db ; $5f, Handled by the original engine
+  SymbolMonster   db ; $60,
+  SymbolItem      db ; $61,
+  SymbolNumber    db ; $62,
+  SymbolBlank     db ; $63, ; Unused
+  SymbolNewLine   db ; $64,
+  SymbolWaitMore  db ; $65,
+  SymbolEnd       db ; $66,
+  SymbolDelay     db ; $67,
+  SymbolWait      db ; $68,
+  SymbolPostHint  db ; $69, ; New codes
+  SymbolArticle   db ; $6a,
+  SymbolSuffix    db ; $6b,
+  WordListStart   db ; $6c
 .ende
-.define WordListStart $6c
+
 ; We patch the usages of these codes so we can relocate them.
 ; Narrative:
   PatchB $3366+1 SymbolWait
