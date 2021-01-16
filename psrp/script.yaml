@@ -573,7 +573,7 @@
   us: YOU MAY NOT PASS.<end>
   en: Authorization is required to pass this point. Stay back or we will use force!<wait>
   fr: Désolé, nous sommes en état d'alerte. Accès interdit.<wait>
-  pt-br: Desculpe, estamos em alerta de segurança elevado. Acesso negado.<wait>
+  pt-br: É necessária autorização para passar neste ponto. Fique para trás, ou usaremos a força!<wait>
 
 - offsets: 4bda,4d23
   # Camineet police (at road, without a Roadpass)
@@ -587,7 +587,7 @@
     WITHOUT ROADPASS.<end>
   en: Nobody gets through here without a Roadpass.<wait>
   fr: Un permis signé est nécessaire pour accéder au Spatioport.<wait>
-  pt-br: Um passe assinado é necessário para acessar o espaçoporto.<wait>
+  pt-br: Ninguém passa por aqui sem um Passe.<wait>
 
 - offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
   # Camineet police (at road, with a Roadpass)
@@ -598,7 +598,7 @@
   us: YOU MAY PROCEED.<end>
   en: Okay, go on through.<wait>
   fr: Accès accordé. Allez-y.<wait>
-  pt-br: Acesso concedido. Vá em frente.<wait>
+  pt-br: Ok, vá em frente.<wait>
 
 - offsets: 4ba0
   # Camineet resident - man
@@ -612,7 +612,7 @@
     SYSTEM?<prompt>
   en: Do you know about all the planets in the Algol Solar System?<end>
   fr: Connaissez-vous les planètes d'Algol_?<end>
-  pt-br: Você sabe sobre os planetas de Algol?<end>
+  pt-br: Você conhece todos os planetas do Sistema Solar de Algol?<end>
 
 - offsets: 4bb4
   # Camineet resident - man - "no" to question about Algol
@@ -660,12 +660,13 @@
     Quant à Dézoris, elle est couverte de glace.<wait more>
     Pour vous dire la vérité, je crains pour l'avenir de nos planètes.<wait>
   pt-br: |
-    Há três planetas - Palma, Motávia e Dezóris.<wait more>
-    Os três planetas têm uma geologia diferente.<wait more>
-    Palma é um planeta de vegetação abundante.<line>
-    Motávia é um planeta arenoso.<line>
-    Dezóris é um planeta de gelo.<wait more>
-    Para dizer bem a verdade, temo pelo futuro dos nossos planetas.<wait>
+    Algol é composta por três planetas: Palma, Motávia e Dezóris.<wait more>
+    Cada planeta possui uma atmosfera única, o que significa que todos têm características distintas.<wait more>
+    Palma, como você sabe, é um planeta de vegetação. Somos abençoados com pastagens e florestas exuberantes.<wait more>
+    A infinita paisagem desértica de Motávia é árida, mas tem a sua beleza.<wait more>
+    E Dezoris é um planeta de gelo. Há pouco desenvolvimento em sua superfície congelada.<wait more>
+    Todos os nossos três lindos planetas estão ameaçados pelas ambições de LaShiec.<wait more>
+    A cada dia estamos próximos de uma crise que nunca poderá ser revertida.<wait>
 
 - offsets: 4ba9,4e06,4e26
   # Camineet resident - man - "yes" to question about Algol
@@ -676,7 +677,7 @@
   us: O.K. GOOD DAY.<end>
   en: Oh. Okay.<wait>
   fr: Oh. Très bien.<wait>
-  pt-br: Ah. Ok.<wait>
+  pt-br: Ah. Ok...<wait>
 
 
 # ************************************
@@ -693,7 +694,7 @@
     RESIDENTIAL AREA.<end>
   en: Welcome to Parolit residential district.<wait>
   fr: Bienvenue à la zone résidentielle de Parolit.<wait>
-  pt-br: Bemuvindo ao distrito residencial de Parolit.<wait>
+  pt-br: Bem-vindo ao distrito residencial de Parolit.<wait>
 
 - offsets: 4bf7
   # Man
@@ -731,8 +732,8 @@
     Le monstre appelé Médusa a été réveillé dans la grotte au sud.<wait more>
     La légende raconte qu'elle pétrifie ceux qui croisent son regard_!<wait>
   pt-br: |
-    Ouvi dizer que um monstro chamado Medusa foi despertado na caverna ao sul daqui.<wait more>
-    Há rumores de que ela transforma todos os que olharem para ela em pedra!<wait>
+    Há rumores de que a Medusa voltou para sua caverna, ao sul daqui.<wait more>
+    Dizem que só um olhar dela transforma você em uma estátua viva. Isso não pode ser verdade, pode?<wait>
 
 - offsets: 4c03
   # Man
@@ -747,7 +748,7 @@
     CALLED SCION.<end>
   en: If you're looking for a port town, Shion is just east of here.<wait>
   fr: Si tu vas à l'est, tu arriveras à la ville portuaire de Scion.<wait>
-  pt-br: Se você for para o leste, chegará em uma cidade portuária chamada Shion.<wait>
+  pt-br: Se você está procurando uma cidade portuária, Shion fica a leste daqui.<wait>
 
 - offsets: 4c09
   # Man
@@ -820,8 +821,9 @@
     Il y a des êtres intelligents sur Motavia et Dézoris.<wait more>
     D'autres planètes abritent la vie_! C'est incroyable, n'est-ce pas_?<wait>
   pt-br: |
-    Existem alienígenas inteligentes em Motávia e Dezóris.<line>
-    Vida em outro planeta! Você pode imaginar isso?<wait>
+    Como você já sabe, não somos a única vida inteligente no Sistema Solar de Algol.<wait more>
+    Motávia tem Motavianos e Dezóris tem Dezorianos. Alguns até falam nossa língua!<wait more>
+    Gostaria muito de ter uma conversa com um alienígena de verdade algum dia...<wait>
 
 - offsets: 4da7
   # Man
@@ -854,9 +856,9 @@
     Un animal parlant avec une fiole autour du cou l'accompagnait_!<wait more>
     Je me demande ce que c'était_?<wait>
   pt-br: |
-    Sim, Tylon estava aqui. Ele disse algo sobre ir para o sul, para matar a Medusa.<wait more>
+    Sim, Tylon estava aqui. Ele disse que estava indo para o sul para matar a Medusa. Eu não o vi desde então.<wait more>
     Ele tinha um estranho animal falante com ele, que tinha uma garrafa em volta de seu pescoço.<wait more>
-    Eu me pergunto o que era?<wait>
+    Ele tinha um frasco de remédio de aparência importante em seu pescoço. Eu me pergunto para o que serve?<wait>
 
 - offsets: 4dac
   # Same man (second time)
@@ -899,7 +901,7 @@
     C'est incroyable, mais j'ai trouvé un animal parlant, errant dans le donjon de Médusa.<wait more>
     Je l'ai vendu à un commerçant de Paséo. Le p'tit bout valait une vraie fortune_!<wait>
   pt-br: |
-    Isso vai parecer loucura, mas encontrei um animal falante vagando na masmorra da Medusa.<wait more>
+    Isso vai parecer loucura, mas encontrei um animal falante vagando pela masmorra da Medusa.<wait more>
     Eu vendi ele a um comerciante em Paseo. O rapazinho valia uma fortuna!<wait>
 
 - offsets: 4dbb
@@ -956,9 +958,8 @@
     Notre économie était prospère, jusqu'à l'embargo de Lassic.<wait more>
     Aujourd'hui, la plupart d'entre-nous est au chômage.<wait>
   pt-br: |
-    Bem-vindo a Shion.<wait more>
-    Tínhamos uma economia comercial movimentada aqui, até LaShiec embargar tudo.<wait more>
-    Agora, a maioria de nós está desesperada por trabalho.<wait>
+    Bem-vindo a Shion, o porto mais movimentado de Palma... ou pelo menos era.<wait more>
+    Com o mundo do jeito que está, não há tanto comércio acontecendo ultimamente.<wait>
 
 - offsets: 4dcd
   indices: 046
@@ -972,7 +973,7 @@
     THE Eppi FOREST.<end>
   en: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
   fr: Aller dans la forêt d'Eppi sans boussole_? Vous devez être un peu stupide_!<wait>
-  pt-br: Você teria que ser algum tipo de idiota para entrar na foresta de Eppi sem uma bússola.<wait>
+  pt-br: A Floresta de Eppi é muito confusa de se orientar, você precisará de uma Bússola para atravessá-la.<wait>
 
 - offsets: 4dd3
   indices: 048
@@ -984,7 +985,7 @@
     OPENED WITH MAGIC.<end>
   en: The only way to open a door sealed with magic is to cast a spell of your own.<wait>
   fr: La seul moyen de débloquer une porte scellée, est d'y jeter un de vos propres sorts.<wait>
-  pt-br: A única maneira de abrir uma porta selada com magia é lançando um feitiço para destrancáula.<wait>
+  pt-br: A única maneira de abrir uma porta selada com magia é lançando um de seus próprios feitiços nela.<wait>
 
 - offsets: 4dd9
   indices: 04A
@@ -1007,7 +1008,9 @@
   fr: |
     Au nord, se trouve la colline appelée Baya Malay.<wait more>
     Mais vous ne serez pas en mesure d'y accéder.<wait>
-  pt-br: Seguindo para o norte você encontrará uma colina chamada Baya Marlay, mas não dá para chegar até ela.<wait>
+  pt-br: |
+    Ao norte, passando a prisão, fica o orgulho de Palma: uma bela colina chamada Baya Marlay.<wait more>
+    Uma pena que ninguém mais possa entrar nela...<wait>
 
 - offsets: 4ddf
   indices: 04C
@@ -1028,7 +1031,7 @@
     Mais avec tous ces monstres errants, je ne me risquerai pas d'y retourner!<wait>
   pt-br: |
     Eu costumava explorar a caverna de Naula, na costa norte de Baya Marlay.<wait more>
-    Mas com todos esses monstros que apareceram de repente, não tentaria sequer chegar lá agora.<wait>
+    Mas com todos esses monstros que apareceram de repente, não tentaria nem chegar perto.<wait>
 
 - offsets: 2dab
   # Trader (first time you buy the Secret Thing)
@@ -1043,8 +1046,7 @@
   en: I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
   fr: Je ne sais pas de quoi vous parlez. Je tiens un honnête commerce ici, moi_!<wait>
   pt-br: |
-    Não sei do que você está falando.<wait more>
-    Tenho um negócio legítimo aqui.<wait>
+    Não sei quem você pensa que é, mas não vendemos esse tipo de coisa aqui. Pode esquecer.<wait>
 
 - offsets: 2db0
   # Trader (second time you buy the Secret Thing)
@@ -1063,7 +1065,7 @@
     Je l'ai déjà dit, je ne fais pas de contrebande_!<wait more>
     Sortez de mon magasin_!<wait>
   pt-br: |
-    Já te disse uma vez, eu não lido com mercadorias ilegais.<wait more>
+    Desista, ok? Já te disse, nosso negócio é legal.<wait more>
     Saia da minha loja.<wait>
 
 - offsets: 2ddc
@@ -1084,9 +1086,8 @@
     Vous n'allez pas abandonner, n'est-ce pas_?<wait more>
     Ici, il suffit d'un permis, signé et certifié. Concernant les coursiers morts, niez tout.<wait>
   pt-br: |
-    Você não vai desistir, não é?<wait more>
-    Aqui, basta leváulo. Um passe, assinado e certificado.<wait more>
-    Se alguém lhe perguntar sobre dois mensageiros mortos, negue tudo.<wait>
+    Você não vai desistir, não é? Tudo bem, pegue aqui.<wait more>
+    Um Passe, assinado e certificado. Mas você não conseguiu isso de mim, entendeu?<wait>
 
 
 # ******************
@@ -1124,7 +1125,7 @@
     PASEO ON MOTAVIA.<end>
   en: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
   fr: Bienvenue au Spatioport de Palma. D'ici, vous pouvez vous rendre à Paséo sur Motavia.<wait>
-  pt-br: Bemuvindo ao espaçoporto de Palma. Você pode viajar daqui para Paseo, em Motávia.<wait>
+  pt-br: Bem-vindo ao Espaçoporto de Palma. Todas as espaçonaves viajam direto para Paseo, a capital de Motávia.<wait>
 
 - offsets: 4ca4
   # Luggage handler
@@ -1151,7 +1152,7 @@
     GOTHIC LABORATORY.<end>
   en: Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
   fr: Avant les lignes commerciales, ces vaisseaux ont été inventés dans un laboratoire à Gothic.<wait>
-  pt-br: As naves espaciais foram construídas em um laboratório de pesquisa em Gótica, antes das viagens espaciais serem comercializadas.<wait>
+  pt-br: Já esteve em Gótica? Antigamente, espaçonaves como essas eram construídas em seu laboratório.<wait>
 
 - offsets: 4c1d,4cb7
   # Airstrip guards
@@ -1163,7 +1164,7 @@
     PASSPORT?<prompt>
   en: Do you have a Passport?<end>
   fr: Avez-vous un Passeport_?<wait>
-  pt-br: Você tem um passaporte?<end>
+  pt-br: Você tem um Passaporte?<end>
 
 - offsets: 4d33
   # Passport office
@@ -1179,7 +1180,7 @@
     PASSPORT?<prompt>
   en: Are you here to apply for a Passport?<end>
   fr: Êtes-vous ici pour une demande de Passeport_?<end>
-  pt-br: Você está aqui para solicitar um passaporte?<end>
+  pt-br: Você está aqui para solicitar um Passaporte?<end>
 
 - offsets: 4d44
   # Passport office
@@ -1211,7 +1212,7 @@
     HAVE AN ILLNESS?<prompt>
   en: Are you suffering from an illness that may be contagious to other passengers?<end>
   fr: Souffrez-vous d'une maladie contagieuse_?<end>
-  pt-br: Você sofre de uma doença contagiosa?<end>
+  pt-br: Você está com alguma doença que pode ser contagiosa para outros passageiros?<end>
 
 - offsets: 4d6c
   # Passport office
@@ -1227,7 +1228,7 @@
     WOULD YOU PAY IT?<prompt>
   en: There is a handling fee of <number><internal hint 02> meseta<s>. Are you willing to pay?<end>
   fr: Les frais de dossier sont de <number><internal hint 02> meseta<s>. Pouvez-vous payer?<end>
-  pt-br: Há uma taxa de manutenção de <number><internal hint 02> meseta<s>. Você pode pagar?<end>
+  pt-br: Há uma taxa administrativa de <number><internal hint 02> meseta<s>. Você está disposto a pagar?<end>
 
 - offsets: 4d91
   # Passport office
@@ -1245,9 +1246,8 @@
     Le voici.<wait more>
     Au suivant_!<wait>
   pt-br: |
-    Ok, então vou emitir um passaporte para você.<line>
-    Aqui está.<wait more>
-    Próximo da fila!<wait>
+    Excelente! Aqui está seu passaporte. Certifique-se de mantê-lo contigo o tempo todo.<wait more>
+    Próximo da fila?<wait>
 
 - offsets: 4d3e,4d77,4eca
   # Passport office (say "no" to question about paying)
@@ -1259,7 +1259,7 @@
     DAY.<end>
   en: Oh, okay then.<wait>
   fr: Parfait. Au suivant, s'il vous plait.<wait>
-  pt-br: Muito bem. Próximo da fila, por favor?<wait>
+  pt-br: Oh, está bem então.<wait>
 
 - offsets: 4d4f,4d60
   # Passport office (say "no" to first two questions)
@@ -1274,7 +1274,7 @@
     COME BACK LATER.<end>
   en: I’m sorry, you don't qualify. Feel free to try again later. Next?<wait>
   fr: Désolé, vous n'êtes pas habilitée. Suivant_!<wait>
-  pt-br: Sinto muito, você não se qualifica. Próximo?<wait>
+  pt-br: Sinto muito, você não se qualifica. Se quiser, você pode tentar novamente mais tarde. Próximo?<wait>
 
 
 # ***********************
@@ -1294,7 +1294,7 @@
     ON MOTAVIA.<end>
   en: This is Paseo, the only spaceport on Motavia.<wait>
   fr: Vous êtes à Paséo, le seul Spatioport de Motavia.<wait>
-  pt-br: Este é o espaçoporto de Paseo, o único em Motávia.<wait>
+  pt-br: Este é Paseo, o único espaçoporto em Motávia.<wait>
 
 - offsets: 4e37
   # Luggage handler
@@ -1350,7 +1350,7 @@
     IS SAID.<end>
   en: Even the Governor-General is on bad terms with LaShiec.<wait>
   fr: Même le Gouverneur est en froid avec Lassic.<wait>
-  pt-br: Até mesmo o Governadorugeral está em maus lençóis com LaShiec.<wait>
+  pt-br: Até mesmo o Governador-Geral está em maus lençóis com LaShiec.<wait>
 
 - offsets: 4e49
   indices: 088
@@ -1364,7 +1364,7 @@
     THE GOVERNOR.<end>
   en: You need to bring a gift if you're going to meet with the Governor-General.<wait>
   fr: Pour obtenir une entrevue avec le Gouverneur, il faut un cadeau.<wait>
-  pt-br: Para se encontrar com o Governadorugeral, é preciso levar um presente.<wait>
+  pt-br: Você precisa trazer um presente se quiser se encontrar com o Governador-Geral.<wait>
 
 - offsets: 4e4f
   indices: 08A
@@ -1375,7 +1375,7 @@
     SWEETS, I HEAR.<end>
   en: The Governor-General has got a real sweet tooth.<wait>
   fr: Le Gouverneur aime les petites douceurs...<wait>
-  pt-br: O Governadorugeral adora doces.<wait>
+  pt-br: O Governador-Geral ama doces.<wait>
 
 - offsets: 4e55
   indices: 08C
@@ -1401,7 +1401,7 @@
     MOTAVIA'S CAPITAL.<end>
   en: This is Paseo, Motavia’s capital city.<wait>
   fr: Bienvenue à Paséo, la capitale de Motavia.<wait>
-  pt-br: Esta é Paseo, capital de Motávia.<wait>
+  pt-br: Esta é Paseo, a capital de Motávia.<wait>
 
 - offsets: 4e61
   indices: 090
@@ -1415,7 +1415,7 @@
     ANT LION ON FOOT.<end>
   en: There's no way to get past the Ant-Lions on foot, but I've heard there's another way...<wait>
   fr: Vous ne pouvez pas enjamber les fourmilions_!<wait>
-  pt-br: Você não pode cruzar sobre as formigasuleão a pé.<wait>
+  pt-br: Não há como passar pelas Formigas-Leão a pé, mas ouvi dizer que há outra maneira...<wait>
 
 - offsets: 4e67
   indices: 288
@@ -1432,9 +1432,7 @@
   fr: |
     Certains monstres parlent, mais une autre langue.<wait more>
     Il faudrait être une sorte de magicien pour les comprendre_!<wait>
-  pt-br: |
-    Há monstros inteligentes, mas eles falam uma língua diferente da nossa.<wait more>
-    Você teria que ser uma espécie de mago para compreendêulos.<wait>
+  pt-br: Há monstros inteligentes, mas eles falam uma língua diferente da nossa.<wait>
 
 - offsets: 4e7f
   # Trader (before getting Myau)
@@ -1455,9 +1453,8 @@
     Rare, très rare. Unique en son genre, si je ne me trompe pas.<wait more>
     10 millions de mesetas, et il est à vous. Ca vous convient_?<end>
   pt-br: |
-    Já viu um gato que fala antes?<wait more>
-    Raro. Realmente raro. Um ser único, se não estou enganado.<wait more>
-    <number> milhões<internal hint 02> de meseta<s>, e ele é seu. Que tal?<end>
+    Já viu um gato que fala antes? Eu tenho um bem aqui. Muito raro. Pode ser o único.<wait more>
+    Dez bilhões de mesetas e ele é seu. Que tal?<end>
 
 - offsets: 4e8a
   # Trader (say yes to previous question)
@@ -1473,7 +1470,7 @@
     Hé, Où allez-vous?<wait>
   pt-br: |
     Uau, é sério?<wait more>
-    Ei, onde você está indo?<wait>
+    Ei, onde você está indo?<delay>
 
 - offsets: 4e98
   # Trader (say no to previous question)
@@ -1517,9 +1514,7 @@
   fr: |
     Ca me fend le cœur, mais je ne peux pas rater une offre pareille.<wait more>
     Prenez bien soin de lui.<wait>
-  pt-br: |
-    Odeio ver o rapazinho ir embora, mas eu não posso deixar passar um negócio como esse.<wait more>
-    Cuide bem dele.<wait>
+  pt-br: Odeio ver o rapazinho ir embora, mas eu não posso deixar passar um negócio como esse. Cuide bem dele.<wait>
 
 - offsets: 4e73
   # Trader (after getting Myau)
@@ -1626,8 +1621,7 @@
     Tylon doit toujours être à Scion, sais-tu comment y aller_?<wait>
   pt-br: |
     Tylon foi transformado em pedra tentando matar a Medusa!<line><line>
-    Nós podemos curá-lo com este medicamento, mas não consigo abrir a tampa.<wait more>
-    Ele ainda deve estar na caverna ao sul de Camineet, você sabe como chegar lá?<wait>
+    Nós podemos curá-lo com este medicamento, mas não consigo abrir a tampa...<wait>
 
 - offsets: 466f
   # Alisa
@@ -1644,7 +1638,7 @@
     O.K.?<end>
   en: I think I can manage that.<line><line>Come on, let’s go help him!<wait>
   fr: Je pense que je devrais y arriver. Viens, allons l'aider.<wait>
-  pt-br: Eu acho que consigo. Venha, vamos ajudá-lo.<wait>
+  pt-br: Eu acho que consigo.<line><line>Venha, vamos ajudá-lo!<wait>
 
 - width: 29
   height: 4
@@ -1683,7 +1677,7 @@
   fr: |
     On dirait que cette personne a été changée en pierre.<wait more>
     Serait-ce Tylon_?<wait>
-  pt-br: Parece que essa pessoa foi transformada em pedra. Poderia este ser Tylon?<wait>
+  pt-br: Algo transformou essa pessoa em pedra! Talvez ele possa voltar ao normal...<wait>
 
 - offsets: 25bd,2636
   # Using "Alsuline"
@@ -1701,7 +1695,9 @@
     CONTENTS QUIETLY<line>
     LEAK OUT.<wait>
   fr: Alisa ouvre la bouteille et en verse le contenu.<delay>
-  pt-br: Alisa abriu a tampa da garrafa e despeja seu conteúdo.<delay>
+  pt-br: |
+    Alisa abriu a tampa da garrafa e despeja seu conteúdo.<wait more>
+    Está funcionando!<delay>
 
 # ********************************
 # *** Character Intro - Tylon ***
