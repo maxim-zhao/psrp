@@ -795,6 +795,7 @@ _Copy:
 ; - script_inserter/symbols.cpp (encodes data to match this enum)
 ; - script_inserter/huffman.cpp
 ; - substring_formatter/substring.cpp (needs to know the value of WordListStart)
+; - values used for articles and name block removal ([...]) in script.<xx>.tbl and values in the code below to handle these 
   SymbolStart     .db
   SymbolPlayer    db ; $5f, Handled by the original engine
   SymbolMonster   db ; $60,
@@ -1032,7 +1033,7 @@ _Substring:
 
 _Start_Art:
       ld a,(bc)   ; Grab index
-      sub $54     ; Remap index range
+      sub $64     ; Remap index range
       jr c,_Art_Done ; if there is a letter there, it'll be 0..$40ish. So do nothing.
       add a,a     ; Multiply by two
       add a,e     ; Add offset
@@ -1133,27 +1134,30 @@ ArticlesDirective: ; à <x>
 ; Masculine single definite
 ; Masculine plural definite
 ; Feminine plural definite
+; Name without article (use de for possessive)
 ; Other combinations are not used
 ArticlesLower: ; um <x>
-.dw +, ++, +++, ++++, +++++
+.dw +, ++, +++, ++++, +++++, _blank
 +:      Article " mu"
 ++:     Article " amu"
 +++:    Article " o"
 ++++:   Article " a"
 +++++:  Article " sa"
+_blank: Article ""
 ArticlesInitialUpper: ; Um <x>
-.dw +, ++, +++, ++++, +++++
+.dw +, ++, +++, ++++, +++++, _blank
 +:      Article " mU"
 ++:     Article " amU"
 +++:    Article " O"
 ++++:   Article " A"
 +++++:  Article " sA"
 ArticlesPossessive: ; do <x>
-.dw +, ++, +, +++, ++++
+.dw +, ++, +, +++, ++++, +++++
 +:      Article " od"
 ++:     Article " sod"
 +++:    Article " ad"
 ++++:   Article " sad"
++++++:  Article " ed"
 .endif
 
 _Initial_Codes:
@@ -1930,7 +1934,7 @@ Items:
   String "<a> Tocha Eclipse"
   String "<o> Aeroprisma"
   String "<as> Frutas de Laerma"
-  String "Hapsby"
+  String "<o> Hapsby"
   String "<um> Passe"
   String "<um> Passaporte"
   String "<uma> Bússola"
@@ -1943,7 +1947,7 @@ Items:
   String "<o> Cristal de Damoa"
   String "<um> Master System"
   String "<a> Chave Milagrosa"
-  String "Zillion"
+  String "<o> Zillion"
   String "<uma> Coisa Secreta"
 Names:
 ; Personagens
@@ -2016,7 +2020,7 @@ Enemies:
   String "<o> Vulcão"
   String "<o> Dragão Vermelho"
   String "<o> Dragão Verde"
-  String "LaShiec"
+  String "<o> LaShiec"
   String "<o> Mamute"
   String "<o> Centauro Rei"
   String "<o> Saqueador Negro"
@@ -2249,7 +2253,7 @@ enemy:
   ld c,0
 -:ld a,(hl)
   inc hl
-  cp $4f
+  cp SymbolStart
   jr nc,+
   inc c
 +:djnz -
@@ -2288,7 +2292,7 @@ enemy:
       ld b,a
     -:ld a,(hl)
       inc hl
-      cp $4f
+      cp SymbolStart ; don't draw scripting codes
       call c,EmitCharacter
       djnz -
     pop hl
@@ -2398,21 +2402,21 @@ _read_byte:
       inc hl      ; bump pointer
       dec c     ; shrink length
 
-      cp $4f      ; normal text is before this
+      cp SymbolStart      ; normal text is before this
       jr c,_bump_text
 
 _space:
       jr z,_blank_line    ; non-narrative WS
 
 _skip_htext:
-      cp $52      ; [...] excluded text
+      cp $62      ; [...] excluded text
       jr nz,_check_length
 
 -:    ld a,(hl)   ; eat character
       inc hl
       dec c
 
-      cp $53      ; check for 'end' or length done
+      cp $63      ; check for 'end' or length done
       jr nz,-
       jr _check_length
 
@@ -3850,7 +3854,7 @@ NameEntryLookup:
   NameEntryText  8,  1,      "Digite seu nome"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
-  NameEntryText  3, 15, "ãáàâçêéíóõôú"
+  NameEntryText  3, 15, "áâãçéêíóôõú"
   NameEntryText  3, 17, "0123456789"
   NameEntryText 22, 17,                   ".,-!?‘’"
   NameEntryText  3, 19, "Voltar"

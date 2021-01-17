@@ -104,14 +104,14 @@
 ; These control codes only apply to items/names...
 
 ; Text between [] is skipped in menus but not in body text
-52=[
-53=]
+62=[
+63=]
 ; French articles with trailing spaces except for <d'>
-54=<de l'>
-55=<du> 
-56=<de la> 
-57=<des> 
-58=<d'>
-59=<de> 
+64=<de l'>
+65=<du> 
+66=<de la> 
+67=<des> 
+68=<d'>
+69=<de> 
 
 ; Words go below...
