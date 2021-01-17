@@ -718,7 +718,7 @@
     ミタモノハ イシニ サレルソウダ.<wait>
   translated: I hear that the monster Medusa has returned to the cave South of the city. They say if you look at it, you'll turn to stone!
   us: |
-    Medusa HAS BEEN<line>
+    MEDUSA HAS BEEN<line>
     REBORN AND LIVES<wait more>
     IN A CAVE TO THE <line>
     SOUTH. IF YOU SEE<wait more>
@@ -835,7 +835,7 @@
   translated: Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
   us: |
     ODIN SET OFF TO<line>
-    KILL Medusa. HE<wait more>
+    KILL MEDUSA. HE<wait more>
     WENT WITH AN<line>
     ANIMAL THAT CAN<wait more>
     SPEAK! THE ANIMAL<line>
@@ -887,7 +887,7 @@
     I RECENTLY FOUND A
     TALKING BEAST IN<wait more>
     THE CAVE WHERE<line>
-    Medusa LIVES.<wait more>
+    MEDUSA LIVES.<wait more>
     I SOLD HIM FOR A<line>
     GOOD PRICE TO A<wait more>
     MERCHANT FROM <line>
@@ -1722,7 +1722,7 @@
   us: |
     THANKS FOR SAVING<line>
     ME. I GUESS IF<line>
-    Medusa CAN STOP<line>
+    MEDUSA CAN STOP<line>
     ME, I DON'T HAVE <wait more>
     MUCH HOPE OF<line>
     KILLING LASSIC,<line>
@@ -1802,7 +1802,7 @@
   translated: Tell me something first -- Why did you try to kill Medusa?
   us: |
     WHY DID YOU TRY TO<line>
-    KILL Medusa?<end>
+    KILL MEDUSA?<end>
   en: |
     Tell me something before we go.<line><line>
     You said you were trying to slay Medusa. Why?<wait>
@@ -1827,7 +1827,7 @@
     トリニ イコウゼ.<wait>
   translated: See, Medusa has this magical axe, and I wanted to get it, but she got away from me. Damn... But anyway... I hid a 'Compass' at a dead end in this cave. We should go get it.
   us: |
-    BECAUSE Medusa HAS<line>
+    BECAUSE MEDUSA HAS<line>
     A MYSTIC AXE.<line>
     UNFORTUNATELY, SHE<line>
     GOT AWAY FROM ME.<wait more>
@@ -2633,7 +2633,7 @@
     THE TOWER DEEP IN<line>
     THE GOTHIC<wait more>
     MOUNTAINS IS KNOWN
-    AS Medusa'S TOWER.<end>
+    AS MEDUSA'S TOWER.<end>
   en: The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
   fr: |
     La tour située dans les montagnes de Gothic,<wait more>
@@ -4582,7 +4582,7 @@
     TO OUR LEGENDS,<wait more>
     THE VERY SHIELD,<line>
     PERSEUS USED TO<wait more>
-    OVERCOME Medusa,IS
+    OVERCOME MEDUSA,IS
     BURIED ON THE <wait more>
     SMALL ISLAND IN<line>
     THE MIDDLE OF A<wait more>
