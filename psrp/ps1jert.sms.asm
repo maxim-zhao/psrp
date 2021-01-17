@@ -1134,27 +1134,30 @@ ArticlesDirective: ; à <x>
 ; Masculine single definite
 ; Masculine plural definite
 ; Feminine plural definite
+; Name without article (use de for possessive)
 ; Other combinations are not used
 ArticlesLower: ; um <x>
-.dw +, ++, +++, ++++, +++++
+.dw +, ++, +++, ++++, +++++, _blank
 +:      Article " mu"
 ++:     Article " amu"
 +++:    Article " o"
 ++++:   Article " a"
 +++++:  Article " sa"
+_blank: Article ""
 ArticlesInitialUpper: ; Um <x>
-.dw +, ++, +++, ++++, +++++
+.dw +, ++, +++, ++++, +++++, _blank
 +:      Article " mU"
 ++:     Article " amU"
 +++:    Article " O"
 ++++:   Article " A"
 +++++:  Article " sA"
 ArticlesPossessive: ; do <x>
-.dw +, ++, +, +++, ++++
+.dw +, ++, +, +++, ++++, +++++
 +:      Article " od"
 ++:     Article " sod"
 +++:    Article " ad"
 ++++:   Article " sad"
++++++:  Article " ed"
 .endif
 
 _Initial_Codes:
@@ -2004,7 +2007,7 @@ Enemies:
   String "<o> Robô Policial"
   String "<o> Mago Ciborgue"
   String "<a> Salamandra"
-  String "<o> Tajim"
+  String "<nome> Tajim"
   String "<o> Titã"
   String "<o> Guarda Mecânico"
   String "<o> Tentáculo"
@@ -2022,14 +2025,14 @@ Enemies:
   String "<o> Centauro Rei"
   String "<o> Saqueador Negro"
   String "<o> Golem"
-  String "<a> Médusa"
+  String "<nome> Médusa"
   String "<o> Dragão de Gelo"
   String "<o> Dragão Sábio"
   String "<o> Dragão Dourado"
   String "<o> Doutor Maluco"
-  String "<o> LaShiec"
-  String "<a> Força Sombria"
-  String "<o> Pesadelo"
+  String "<nome> LaShiec"
+  String "<nome> Força Sombria"
+  String "<nome>  Pesadelo"
 .endif
 
 
