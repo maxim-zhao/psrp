@@ -91,11 +91,11 @@
 ; These control codes only apply to items/names...
 
 ; Text between [] is skipped in menus but not in body text
-52=[
-53=]
+62=[
+63=]
 ; Articles. Note these have trailing spaces.
-54=<A> 
-55=<An> 
-56=<The> 
+64=<A> 
+65=<An> 
+66=<The> 
 
 ; Words go below...
