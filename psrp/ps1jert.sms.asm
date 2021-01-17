@@ -2020,19 +2020,19 @@ Enemies:
   String "<o> Vulcão"
   String "<o> Dragão Vermelho"
   String "<o> Dragão Verde"
-  String "<o> LaShiec"
+  String "<nome> LaShiec"
   String "<o> Mamute"
   String "<o> Centauro Rei"
   String "<o> Saqueador Negro"
   String "<o> Golem"
-  String "<nome> Médusa"
+  String "<nome> Medusa"
   String "<o> Dragão de Gelo"
   String "<o> Dragão Sábio"
   String "<o> Dragão Dourado"
   String "<o> Doutor Maluco"
   String "<nome> LaShiec"
   String "<nome> Força Sombria"
-  String "<nome>  Pesadelo"
+  String "<nome> Pesadelo"
 .endif
 
 
