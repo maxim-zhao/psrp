@@ -2734,7 +2734,7 @@ DezorianCustomStringCheck:
   DefineWindow PARTYSTATS       $d700                 32                    6                     0                       18
   DefineWindow NARRATIVE        PARTYSTATS_end        31                    6                     1                       18
   DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                    3                     2                       19
-  DefineWindow CHARACTERSTATS   NARRATIVE             18                    9                     13                      4
+  DefineWindow CHARACTERSTATS   NARRATIVE             18                    9                     31-_sizeof_StatsBorderTop/2 4
   DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width       WorldMenu_height      1                       1
   DefineWindow CURRENT_ITEMS    MENU_end              20                    5                     11                      13
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                     6                     1                       8
@@ -2941,17 +2941,17 @@ StatsBorderBottom:  .stringmap tilemap "╘════════════�
 StatsBorderTop:     .stringmap tilemap "┌─────────────────╖"
 Level:              .stringmap tilemap "│Nível         " ; 3 digit number
 EXP:                .stringmap tilemap "│Experiência "   ; 5 digit number
-Attack:             .stringmap tilemap "│Ataque       " ; 3 digit numbers
-Defense:            .stringmap tilemap "│Defesa       "
-MaxMP:              .stringmap tilemap "│PV máximo    "
-MaxHP:              .stringmap tilemap "│PM máximo    "
+Attack:             .stringmap tilemap "│Ataque        " ; 3 digit numbers
+Defense:            .stringmap tilemap "│Defesa        "
+MaxMP:              .stringmap tilemap "│PV máximo     "
+MaxHP:              .stringmap tilemap "│PM máximo     "
 StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
 
 .endif
 
 statsImpl:
   ld hl,StatsBorderTop ; This is paged in (slot 2)
-  ld bc,1<<8 + 18<<1 ; size
+  ld bc,1<<8 + _sizeof_StatsBorderTop ; size
   call OutputTilemapBoxWipePaging ; draw to tilemap
   ld hl,Level
   ld a,(ix+5)
@@ -2974,7 +2974,7 @@ statsImpl:
   call DrawTextAndNumberA
   call DrawMeseta
   ld hl,StatsBorderBottom
-  ld bc,1<<8 + 18<<1 ; size
+  ld bc,1<<8 + _sizeof_StatsBorderTop ; size
   jp OutputTilemapBoxWipePaging ; draw and exit
 .ends
 
