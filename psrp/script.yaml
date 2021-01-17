@@ -732,7 +732,7 @@
     Le monstre appelé Médusa a été réveillé dans la grotte au sud.<wait more>
     La légende raconte qu'elle pétrifie ceux qui croisent son regard_!<wait>
   pt-br: |
-    Há rumores de que a Medusa voltou para sua caverna, ao sul daqui.<wait more>
+    Há rumores de que Medusa voltou para sua caverna, ao sul daqui.<wait more>
     Dizem que só um olhar dela transforma você em uma estátua viva. Isso não pode ser verdade, pode?<wait>
 
 - offsets: 4c03
@@ -856,7 +856,7 @@
     Un animal parlant avec une fiole autour du cou l'accompagnait_!<wait more>
     Je me demande ce que c'était_?<wait>
   pt-br: |
-    Sim, Tylon estava aqui. Ele disse que estava indo para o sul para matar a Medusa. Eu não o vi desde então.<wait more>
+    Sim, Tylon estava aqui. Ele disse que estava indo para o sul para matar Medusa. Eu não o vi desde então.<wait more>
     Ele tinha um estranho animal falante com ele, que tinha uma garrafa em volta de seu pescoço.<wait more>
     Ele tinha um frasco de remédio de aparência importante em seu pescoço. Eu me pergunto para o que serve?<wait>
 
@@ -1620,7 +1620,7 @@
     Nous pouvons le guérir avec cet élixir, mais je n'arrive pas à en retirer le bouchon.<wait more>
     Tylon doit toujours être à Scion, sais-tu comment y aller_?<wait>
   pt-br: |
-    Tylon foi transformado em pedra tentando matar a Medusa!<line><line>
+    Tylon foi transformado em pedra tentando matar Medusa!<line><line>
     Nós podemos curá-lo com este medicamento, mas não consigo abrir a tampa...<wait>
 
 - offsets: 466f
@@ -1733,8 +1733,9 @@
     Médusa était plus forte que je ne le pensais, je n'aurais aucune chance face à Lassic.<wait more>
     Comment s'appelle ta nouvelle amie_?<wait>
   pt-br: |
-    Ah, Myau, você encontrou ajuda. Obrigado.<wait more>
-    A Medusa era mais forte do que eu pensava, assim não terei chance de derrotar LaShiec.<line><line>
+    Ah, Myau, você encontrou ajuda. Obrigado.<line><line>
+    Mas não sei se vai adiantar.<wait more>
+    Se não pudéssemos derrotar Medusa, não teríamos nenhuma chance contra LaShiec.<line><line>
     Quem é a sua nova amiga?<wait>
 
 - offsets: 4693
@@ -1761,9 +1762,9 @@
     Et je vais l'assassiner.<wait more>
     Néro m'a parlé de toi juste avant de mourir.  Il disait que tu m'aiderais.<wait>
   pt-br: |
-    Meu nome é Alisa. Meu irmão Nero foi assassinado tentando derrotar LaShiec.<line><line>
-    Estou indo matá-lo.<wait more>
-    Nero me deu o seu nome um pouco antes de morrer. Ele disse que você poderia ajudar.<wait>
+    Meu irmão Nero foi morto tentando derrotar LaShiec.<wait more>
+    Vou destruí-lo, custe o que custar.<line><line>
+    Nero me deu o seu nome um pouco antes de morrer e disse que você poderia me ajudar.<wait>
 
 - offsets: 469e
   indices: 16A-2
@@ -1786,8 +1787,8 @@
     Je vois.<wait more>
     Bon, je ne peux pas laisser une fille comme toi partir seule, non_?<wait>
   pt-br: |
-    Entendo.<wait more>
-    Bem, eu não posso deixar uma garota como você ir sozinha, posso?<wait>
+    Entendo. Pois bem, pela causa de Nero, vamos formar uma equipe!<line><line>
+    Sempre há espaço para mais um, certo Myau?<wait>
 
 - offsets: 46a9
   indices: 16C-2
@@ -1806,8 +1807,8 @@
     Je comprends ton inquiétude mais je peux me débrouiller seule, merci.<wait more>
     Pourquoi cours-tu après Médusa_?<wait>
   pt-br: |
-    Aprecio sua preocupação, mas eu posso me virar sozinha, obrigada.<line><line>
-    Por que você foi atrás da Medusa?<wait>
+    Me diga uma coisa antes de irmos.<line><line>
+    Você disse que estava tentando matar Medusa. Por quê?<wait>
 
 - offsets: 46b4
   indices: 16E-2
@@ -1843,9 +1844,10 @@
     J'ai caché une boussole au fond d'un cul de sac de cette grotte.
     Nous allons en avoir besoin. Allons-y.<wait>
   pt-br: |
-    A Medusa tem um machado lendário, e queria ver o sangue de LaShiec nele.<wait more>
-    Escondi uma bússola em um beco sem saída dentro desta caverna.<line><line>
-    Nós vamos precisar dela. Vamos lá.<wait>
+    Ah, é porque ela tem um machado mágico, e eu o quero.<line><line>
+    Talvez possamos pegá-lo no caminho?<wait more>
+    Enfim, escondi uma Bússola em um beco sem saída nesta caverna.<line><line>
+    Venha, vamos pegá-la. Tenho certeza de que vamos usá-la.<wait>
 
 
 # ************
@@ -1871,8 +1873,10 @@
   fr: |
     Connaissant le Gouverneur de Motavia,<wait more>
     je pense qu'il est en accord avec la quête que vous avez entreprise_!<wait>
-  pt-br: Não me surpreenderia se o Governadorugeral de motávia aprovasse o que você está fazendo.<wait>
-
+  pt-br: |
+    Não me surpreenderia se o Governador-Geral de Motávia aprovasse o que você está fazendo.<wait more>
+    Ele pode até mesmo ser capaz de ajudá-lo em sua busca. Você já falou com ele?<wait>
+    
 - offsets: 4deb
   # Villager
   indices: 050
@@ -1885,7 +1889,7 @@
     MOTAVIA.<end>
   en: All the great Espers live on Motavia.<wait>
   fr: C'est bien connu, tous les grands Espers vivent sur Motavia_!<wait>
-  pt-br: Todos os grandes Espers vivem em motávia.<wait>
+  pt-br: Todos os grandes Espers vivem em Motávia.<wait>
 
 - offsets: 4df1
   # Villager
@@ -1904,7 +1908,7 @@
     Jadis, le docteur Luveno avait un laboratoire à Gothic.<wait more>
     Je me demande s'il y est toujours_?<wait>
   pt-br: |
-    Há muito tempo, um cientista chamado Luveno tinha um laboratório de pesquisa na floresta de Gótica.<wait more>
+    Há muito tempo, um cientista chamado Luveno tinha um laboratório de pesquisa na Floresta de Gótica.<wait more>
     Eu me pergunto se ele ainda está lá?<wait>
 
 - offsets: 4df7
@@ -1921,8 +1925,8 @@
     Depuis l'arrivée des monstres dans la forêt,<wait more>
     nous ne recevons plus beaucoup de visiteurs.<wait>
   pt-br: |
-    Bem-vindo! Está é a vila de Eppi!<wait more>
-    Nós não temos muitos visitantes ultimamente, agora que a fLoresta está cheia de monstros.<wait>
+    Bem-vindo! Está é a Vila de Eppi!<wait more>
+    Nós não temos muitos visitantes ultimamente, agora que a floresta está cheia de monstros.<wait>
 
 - offsets: 4dfd
   # Villager
@@ -1970,7 +1974,7 @@
     Elle est à vous. Bonne chance_!<wait>
   pt-br: |
     Escondi uma dentro do armazém nos arredores da zona residencial de Camineet.<wait more>
-    Ela é toda sua. Boa sorte.<wait>
+    Eu escondi muito bem, você pode querer dar uma segunda olhada se você já esteve por lá.<wait>
 
 - offsets: 4e1d
   # Villager
@@ -2000,7 +2004,7 @@
     BEST TO HAVE.<end>
   en: It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
   fr: C'est le Laconian! Les armes faites en Laconian sont les meilleures_!<wait>
-  pt-br: O material é Lacônia! Armas de Lacônia são as mais fortes de Algol!<wait>
+  pt-br: Ele é a Lacônia! Armas de Lacônia são as mais fortes em toda Algol!<wait>
 
 
 # ******************
@@ -2032,9 +2036,8 @@
     Mes fameuses tartes coûtent <number><internal hint 02> meseta<s>.<wait more>
     Je vous en emballe une_?<end>
   pt-br: |
-    Ei, bemuvindo, ainda bem que conseguiu chegar aqui. Desculpe a localização.<wait more>
-    Com todos estes aumentos de impostos, é tudo o que eu podia pagar. Você sabe como é.<wait more>
-    Meus bolos são famosos no mundo e custam <number><internal hint 02> meseta<s>. Você vai querer um?<end>
+    Ei, um cliente! Que bom que você nos encontrou. Desculpe a localização.<wait more>
+    Meus bolos são famosos em Algol e é um roubo ser apenas <number><internal hint 02> meseta<s>. Quer um?<end>
 
 
 # *********************
@@ -2049,7 +2052,7 @@
   us: ZZZ...ZZZ...<end>
   en: zzz...<wait>
   fr: Pff...<wait>
-  pt-br: Zzz...<wait>
+  pt-br: zzz...<wait>
 
 - offsets: 5627
   # Guard inside Underground Passage to Governor's Mansion
@@ -2064,7 +2067,7 @@
   fr: |
     Halte_!<wait more>
     Avez-vous apporté un présent pour le Gouverneur_?<end>
-  pt-br: Pare! Trouxe um presente para o Governadorugeral?<end>
+  pt-br: Pare! Você trouxe um presente para o Governador-Geral?<end>
 
 - offsets: 564b
   # Guard inside Underground Passage to Governor's Mansion (yes/shortcake to previous question)
@@ -2083,7 +2086,7 @@
     Oh, une tarte_! Il va être ravi. Je vais la porter pour vous.<wait more>
     Veuillez entrer.<wait>
   pt-br: |
-    Ah, um bolo. Ele vai ficar satisfeito. Vou guardar isso para você.<wait more>
+    Ah, um Bolo. Ele vai ficar satisfeito. Vou guardar isso para você.<wait more>
     Prossiga.<wait>
 
 - offsets: 5651
@@ -2164,21 +2167,13 @@
     Prenez cette lettre pour lui. Il comprendra.<wait more>
     Revenez ici quand vous aurez vaincu Lassic. J'ai foi en vous.<wait>
   pt-br: |
-    Bemuvindo. Você tem viajado bastante. Por favor senteuse.<wait more>
-    Eu sei porque você está aqui. Você certamente não fez segredo disso.<wait more>
-    Você pretende destronar LaShiec, não é verdade?<wait more>
-    LaShiec é um homem poderoso. Não, mais do que um homem.<wait more>
-    Está além dessas restrições. Ele é algo completamente diferente.<wait more>
-    Você é muito corajoso para levar isso adiante.<wait more>
-    Mas coragem, eu temo que não será o suficiente.<wait more>
-    No entanto, há algo dentro de você, algo muito poderoso.<wait more>
-    é um poder que você tem que descobrir por conta própria.<wait more>
-    Não posso lhe dizer mais nada. Ainda não.<wait more>
-    Vá. Destruauo. Não vou impedir.<wait more>
-    Na verdade, vou lhe oferecer assistência.<wait more>
-    Um Esper poderoso chamado Lutz vive na caverna de Mahal, ao norte daqui.<line>
-    Leve esta carta, e ele entenderá.<wait more>
-    Volte aqui quando você derrotar LaShiec. Tenho fé em você.<wait>
+    Bem-vinda. Eu sou o Governador-Geral deste planeta. Você veio de tão longe. Por favor, sente-se.<wait more>
+    Eu sei porque você está aqui. Você certamente não fez nenhum segredo disso. Você pretende derrotar LaShiec.<wait more>
+    LaShiec é um homem poderoso. Não, mais do que um homem. Está além dessas restrições.<wait more>
+    Você é muito corajosa para levar isso adiante. Mas coragem, eu temo que não será o suficiente.<wait more>
+    Vá. Destrua-o. Eu não vou te impedir. Na verdade, vou lhe oferecer assistência.<wait more>
+    Um Esper poderoso chamado Lutz vive na caverna de Mahal, ao norte daqui. Leve esta carta para ele.<wait more>
+    Com a ajuda dele, tenho fé que você terá sucesso. Volte aqui quando tiver derrotado LaShiec.<wait>
 
 - offsets: 4f13,4fc6
   # Governor-General (subsequent visits)
@@ -2192,7 +2187,7 @@
     HERE EVENTUALLY.<end>
   en: Return here when you have defeated LaShiec. God be with you.<wait>
   fr: Revenez ici quand vous aurez vaincu Lassic. Que Dieu vous garde.<wait>
-  pt-br: Volte aqui quando você derrotar LaShiec. Que deus esteja com você.<wait>
+  pt-br: Volte aqui quando você derrotar LaShiec. Que Deus esteja com você.<wait>
 
 - offsets: 4ff9
   indices: 0B8
@@ -2202,7 +2197,7 @@
     YOUR SAFETY.<end>
   en: Good luck out there. You’re going to need it.<wait>
   fr: Bonne chance. Vous allez en avoir besoin.<wait>
-  pt-br: Boa sorte lá fora. Você vai precisar dela.<wait>
+  pt-br: Boa sorte lá fora. Você vai precisar.<wait>
 
 - offsets: 4f2f
   # Lady in Guest House (first visit)
@@ -2217,7 +2212,7 @@
   fr: |
     Vous devez être fatiguée de votre voyage.<wait more>
     Pourquoi ne pas vous reposer ici un moment_?<wait>
-  pt-br: Você deve estar cansado de sua jornada. Por que você não descansa aqui por um tempo?<wait>
+  pt-br: Você deve estar cansada de sua jornada. Por que você não descansa aqui por um tempo?<wait>
 
 - offsets: 4fda
   # Lady in Guest House (subsequent visits)
@@ -2231,7 +2226,7 @@
   fr: |
     Vous m'avez l'air fatigué,<wait more>
     pourquoi ne pas vous reposer ici un moment_?<wait>
-  pt-br: Você parece cansado, por que não descansa aqui por um tempo?<wait>
+  pt-br: Você parece cansada, por que não descansa aqui por um tempo?<wait>
 
 - offsets: 4f5b
   indices: 2A0
@@ -2282,7 +2277,7 @@
   pt-br: |
     Não há um único momento a perder.<wait more>
     Por favor, tenha cuidado.<line>
-    Rezarei por sua segurança.<wait>
+    Vou orar por sua segurança.<wait>
 
 - offsets: 4ed6
   # (after defeating LaShiec)
@@ -2296,7 +2291,7 @@
     GOVERNOR,I WONDER?<end>
   en: Empty! Where is the Governor-General?<wait>
   fr: Personne_? Où se trouve le Gouverneur_?<wait>
-  pt-br: Vazio! Onde está o Governadorugeral?<wait>
+  pt-br: Vazio! Onde está o Governador-Geral?<wait>
 
 
 # ******************
@@ -2315,7 +2310,7 @@
     LIKELY OBEY.<end>
   en: Since the orders are from the Governor-General, Lutz will probably listen.<wait>
   fr: Les ordres venant du Gouverneur, Lutz les écoûtera peut-être...<wait>
-  pt-br: Uma vez que as ordens são do Governadorugeral, Lutz provavelmente vai ouvir.<wait>
+  pt-br: Uma vez que as ordens são do Governador-Geral, Lutz provavelmente vai ouvir.<wait>
 
 - offsets: 53c9
   indices: 0B2
@@ -2344,7 +2339,7 @@
     Qui êtes-vous_?<wait more>
     J'essaye quelque chose... Veuillez ne pas m'interrompre_!<wait>
   pt-br: |
-    Quem é você?<wait more>
+    Quem é você?<line><line>
     Estou tentando treinar. Não me interrompa.<wait>
 
 
@@ -2374,8 +2369,7 @@
     J'ai une lettre pour vous de la part du Gouverneur.<wait more>
     Voudriez-vous la lire_?<wait>
   pt-br: |
-    Você deve ser Lutz.<line><line>
-    Tenho uma carta para você do governador-geral.<wait more>
+    Você deve ser Lutz. Tenho uma carta para você do Governador-Geral.<line><line>
     Você se importaria de ler?<wait>
 
 - offsets: 46f2
@@ -2425,10 +2419,9 @@
     Deixe-me ver isso.<wait more>
     ...ah. Entendo. Então chegou a esse ponto.<line><line>
     Peço desculpas pela minha hostilidade antes.<wait more>
-    Lashiec é um homem perigoso. Pelo bem de Algol, ele deve ser parado.<line><line>
-    Acho que posso ajudar.<wait more>
-    Temos que alertar dr. Luveno, na floresta de Gótica.<line><line>
-    Se bem me lembro, nós podemos chegar lá através de um bueiro na estação espacial de Camineet.<wait more>
+    Juntos, devemos proteger Algol de cair em mãos erradas.<line><line>
+    Primeiro, devemos nos encontrar com o Doutor Luveno, na Floresta de Gótica.<wait more>
+    Se bem me lembro, nós podemos chegar lá através de um bueiro na Estação Espacial de Camineet.<line><line>
     Vamos. Depressa.<wait>
 
 
@@ -2543,7 +2536,7 @@
   pt-br: |
     Obrigado, estranho.<wait more>
     No final do caminho que leva para as montanhas tem uma antiga torre.<wait more>
-    Os boatos dizem que a Medusa está escondida lá dentro.<wait more>
+    Os boatos dizem que Medusa está escondida lá dentro.<wait more>
     A menos que você goste de ser uma estátua, é melhor ficar longe.<wait>
 
 - offsets: 5856
@@ -4597,7 +4590,7 @@
   pt-br: |
     Obrigado. Talvez eu possa ajudáulo em troca.<wait more>
     Imagino que você está procurando o escudo de perseu.<wait more>
-    Segundo uma lenda local, perseu usou o escudo para matar a Medusa.<wait more>
+    Segundo uma lenda local, perseu usou o escudo para matar Medusa.<wait more>
     Há rumores de estar em uma ilha no lago.<wait more>
     Ouvi dizer que ele está enterrado sob um cacto.<wait more>
     Sinto muito, isso é tudo que eu sei. Boa sorte.<wait>
@@ -6116,7 +6109,7 @@
   pt-br: |
     Lorde LaShiec caiu. O desejo de morte de Nero foi concedido.<wait more>
     Este é o começo de uma nova vida para Algol.<wait more>
-    A única coisa que resta a fazer é encontrar o Governadorugeral em Paseo.<wait>
+    A única coisa que resta a fazer é encontrar o Governador-Geral em Paseo.<wait>
 
 - offsets: # Unreachable?
   indices: 27c
@@ -8206,7 +8199,7 @@
 - offsets: ScriptNoSavedGames
   en: There are no saved games!<wait>
   fr: Il n'y a pas de sauvegardes!<wait>
-  pt-br: TODO-pt-br Há jogos não salvos!<wait>
+  pt-br: Não há jogos salvos!<wait>
 
 - offsets: 16a8
   indices: 146-2
