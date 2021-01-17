@@ -3850,7 +3850,7 @@ NameEntryLookup:
   NameEntryText  8,  1,      "Digite seu nome"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
-  NameEntryText  3, 15, "ãáàâçêéíóõôú"
+  NameEntryText  3, 15, "áâãçéêíóôõú"
   NameEntryText  3, 17, "0123456789"
   NameEntryText 22, 17,                   ".,-!?‘’"
   NameEntryText  3, 19, "Voltar"
