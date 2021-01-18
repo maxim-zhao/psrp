@@ -11,9 +11,9 @@ defaultslot 2
 .endme
 
 .rombankmap
-bankstotal 32
+bankstotal 33
 banksize $4000
-banks 32
+banks 33
 .endro
 
 .define ORIGINAL_ROM "PS1-J.SMS"
@@ -2043,10 +2043,9 @@ Enemies:
 .section "Static dictionary" superfree
 .block "Words"
 ; Note that the number of words we add here has a complicated effect on the data size.
-; Adding more words costs space here (in a paged bank), but saves space in bank 2 - mostly,
-; because it also increases the complexity of the Huffman trees.
+; Adding more words costs space here (in a paged bank), but saves space in bank 2.
 ; If our goal is to maximise script space then we should maximise the word count.
-; The limit is 164 ($100 - WordListStart).
+; The limit is 148 ($100 - WordListStart).
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
@@ -2950,7 +2949,7 @@ StatsBorderBottom:  .stringmap tilemap "╘════════════�
 .endif
 
 statsImpl:
-  ld hl,StatsBorderTop ; This is paged in (slot 2)
+  ld hl,StatsBorderTop
   ld bc,1<<8 + _sizeof_StatsBorderTop ; size
   call OutputTilemapBoxWipePaging ; draw to tilemap
   ld hl,Level
