@@ -2570,7 +2570,7 @@
 # *** Triada Prison ***
 # *********************
 
-- offsets: 5485
+- offsets: 5485,55b3
   # Guard Near Entrance
   indices: 0E6
   ja: ロードパスヲ モッテイルカ.<end>
@@ -5542,18 +5542,6 @@
   en: You’d better not go any further, there’s a security guard up ahead.<wait>
   fr: Vous feriez mieux de ne pas aller plus loin, il y a un gardien devant.<wait>
   pt-br: Se eu fosse você, não iria mais longe. Há um guarda lá na frente.<wait>
-
-- offsets: 55b3
-  # Robot Police
-  indices: 21C
-  ja: ロードパスヲ モッテイルカ.<end>
-  translated: Do you have a roadpass?
-  us: |
-    DO YOU HAVE YOUR <line>
-    ROADPASS?<prompt>
-  en: Do you have a Roadpass?<end>
-  fr: Avez-vous un permis_?<end>
-  pt-br: Você tem um passe?<end>
 
 - offsets: 55c5
   # Robot Police (yes to previous question, have one)
