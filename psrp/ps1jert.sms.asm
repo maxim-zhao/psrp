@@ -1934,12 +1934,12 @@ Items:
   String "<a> Tocha Eclipse"
   String "<o> Aeroprisma"
   String "<as> Frutas de Laerma"
-  String "Hapsby"
+  String "<o> Hapsby"
   String "<um> Passe"
   String "<um> Passaporte"
   String "<uma> Bússola"
   String "<um> Bolo"
-  String "<a> Carta[ do Governador-Geral]"
+  String "<a> Carta do Governador"
   String "<um> Pote de Lacônia"
   String "<o> Pingente de Luz"
   String "<o> Olho de Carbúnculo"
@@ -1947,7 +1947,7 @@ Items:
   String "<o> Cristal de Damoa"
   String "<um> Master System"
   String "<a> Chave Milagrosa"
-  String "Zillion"
+  String "<o> Zillion"
   String "<uma> Coisa Secreta"
 Names:
 ; Personagens
@@ -1978,7 +1978,7 @@ Enemies:
   String "<a> Gosma Vermelha"
   String "<o> Homem Morcego"
   String "<o> Caranguejo-Ferradura"
-  String "<o> Homem-Peixe"
+  String "<o> Homem Peixe"
   String "<o> Lich"
   String "<a> Tarântula"
   String "<a> Mantícora"
@@ -1986,7 +1986,7 @@ Enemies:
   String "<a> Formiga-Leão"
   String "<o> Homem do Pântano"
   String "<o> Dezoriano"
-  String "<a> Sanguessuga"
+  String "<a> Sanguessuga do Deserto"
   String "<o> Vampiro"
   String "<o> Elefante"
   String "<o> Canibal"
@@ -2032,7 +2032,7 @@ Enemies:
   String "<o> Doutor Maluco"
   String "<nome> LaShiec"
   String "<nome> Força Sombria"
-  String "<nome> Pesadelo"
+  String "<nome>  Pesadelo"
 .endif
 
 
