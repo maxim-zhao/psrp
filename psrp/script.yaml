@@ -3797,9 +3797,7 @@
   fr: |
     La planète Dézoris est totalement couverte de glace,<wait more>
     pas exactement la florissante verdure de Palma, n'est ce pas_?<wait>
-  pt-br: |
-    Dezóris é coberta inteiramente de gelo.<wait more>
-    Não é exatamente o verde fLorescente de Palma, não é?<wait>
+  pt-br: Dezoris é basicamente um cubo de gelo gigante, completamente diferente dos campos verdes de Palma.<wait>
 
 - offsets: 525c
   # Townsperson
@@ -3815,7 +3813,7 @@
     THOSE ON FOOT.<end>
   en: Not all of the ice mountains are as tough as they look, some parts of them shatter easily.<wait>
   fr: Ils disent que des blocs se détachent du glacier.<wait>
-  pt-br: Dizem que partes das montanhas de gelo desmoronam facilmente.<wait>
+  pt-br: Nem todas as montanhas de gelo são tão resistentes quanto parecem, algumas partes se quebram facilmente.<wait>
 
 - offsets: 5262
   # Townsperson
@@ -3829,7 +3827,7 @@
     MOUNTAIN.<end>
   en: The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
   fr: Le plateau d'Altiplano est entouré par des glaciers.<wait>
-  pt-br: O planalto Altiplano é rodeado por montanhas de gelo.<wait>
+  pt-br: A área ao redor do Planalto Altiplano é rodeado por montanhas de gelo.<wait>
 
 - offsets: 5268
   # Townsperson
@@ -3860,8 +3858,8 @@
     Les Dézoriens croient que ces torches possèdent un pouvoir divin.<wait>
   pt-br: |
     Este planeta tem um eclipse solar uma vez a cada cem anos.<wait more>
-    A chama acesa durante um eclipse é chamada de tocha eclipse.<wait more>
-    Os dezorianos nativos acreditam que as tochas eclipse possuem uma energia divina.<wait>
+    A chama acesa durante um eclipse é chamada de Tocha Eclipse.<wait more>
+    Os Dezorianos nativos acreditam que as Tochas Eclipse possuem uma energia divina.<wait>
 
 - offsets: 526e
   # Townsperson
@@ -3976,7 +3974,7 @@
     D'après ce qu'on en dit, elle est vraiment légère,<wait more>
     et possède un excellent pouvoir de protection.<wait>
   pt-br: |
-    Você já ouviu falar de um manto chamado manto de frade?<wait more>
+    Você já ouviu falar de um manto chamado Manto de Frade?<wait more>
     Pelo que ouvi, é muito leve, mas tem um excelente poder de proteção.<wait>
 
 - offsets: 5175
@@ -3990,7 +3988,7 @@
     SOOTHING FLUTE?<prompt>
   en: Have you heard of the Soothe Flute?<end>
   fr: Avez-vous entendu parler de la Flute apaisante_?<end>
-  pt-br: Você já ouviu falar da flauta mágica?<end>
+  pt-br: Você já ouviu falar da Flauta Calmante?<end>
 
 - offsets: 5133,517e,54d9,54fe
   # Villager (yes to previous question)
@@ -4032,7 +4030,7 @@
     Ne dites à personne que je vous en ai parlé_!<wait>
   pt-br: |
     Bem, este é um segredo, mas enterrei uma nos arredores da vila de Gótica.<wait more>
-    Não diga a ninguém que eu te disse isso!<wait>
+    Não diga a ninguém!<wait>
 
 
 # Soothe Flute stuff
@@ -4091,7 +4089,7 @@
     SCARED OF THEM.<end>
   en: There's a dragon living in Casba Cave! I'm so scared!<wait>
   fr: Un dragon s'est retranché dans notre grotte_! Ca me fait peur_!<wait>
-  pt-br: Um dragão se escondeu em nossa caverna! Estou com medo!<wait>
+  pt-br: Tem um dragão vivendo na Caverna de Casba! Estou com tanto medo!<wait>
 
 - offsets: 51ac
   # Villager
@@ -4118,9 +4116,8 @@
     Elles parlent d'un bouclier légendaire.<wait more>
     Apparemment, Persée s'en serait servi pour vaincre un monstre.<wait>
   pt-br: |
-    Há histórias que são contadas sobre uma vila cercada pela névoa.<wait more>
-    Eles falam de algum tipo lendário de escudo.<wait more>
-    Aparentemente, uma vez perseus utilizou para enfrentar um monstro.<wait>
+    Em uma vila cercada por gás, as pessoas contam a história de um escudo lendário.<wait more>
+    Dizem que há muito tempo um homem chamado Perseus o usou para enfrentar um monstro.<wait>
 
 - offsets: 51b2
   # Villager
@@ -4143,8 +4140,8 @@
     Faites attention, à l'ouest d'ici la brume est empoisonnée.<wait more>
     Je ne pense pas que vous puissiez la traverser sans protection.<wait>
   pt-br: |
-    Há uma terrível nuvem de gás venenoso a oeste daqui.<wait more>
-    Não acho que você possa passar por lá sem proteção.<wait>
+    Ao norte do lago, vi esse terrível gás venenoso parecido com uma névoa se espalhando por toda parte!<wait more>
+    Seja o que for, fique longe dele!<wait>
 
 - offsets: 51b8
   # Villager
@@ -4157,7 +4154,7 @@
     THE HOVERCRAFT?<prompt>
   en: Do you know what a FlowMover is?<end>
   fr: Savez-vous ce qu'est un AquaNaute_?<end>
-  pt-br: Você sabe o que é um aerobarco?<end>
+  pt-br: Você sabe o que é um Aerobarco?<end>
 
 - offsets: 51cb
   # Villager (yes to previous question)
@@ -4184,10 +4181,8 @@
     Après qu'il soit tombé en panne, je l'ai jeté à Bortevo.<wait more>
     Quel gachis_!<wait>
   pt-br: |
-    Então você sabe o lixo que eles são!<wait more>
-    Comprei um na cidade de Shion, em Palma.<wait more>
-    Ele quebrou, então larguei em Bartevo.<wait more>
-    Que desperdício!<wait>
+    Então você sabe o lixo que eles são! Comprei um na cidade de Shion, em Palma.<wait more>
+    Ele quebrou, então larguei em Bartevo. Não me admira que eles não os vendam mais.<wait>
 
 - offsets: 51c1
   # Villager (no to previous question)
@@ -4226,7 +4221,7 @@
     ON THE OCEAN.<end>
   en: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
   fr: Voici Drasgot, une petite ville flottante, sur la mer.<wait>
-  pt-br: Esta é Drasgow, uma pequena cidade flutuando no mar.<wait>
+  pt-br: Bem-vindo a Drasgo, uma pequena cidade flutuando no mar.<wait>
 
 - offsets: 51d7
   # Townsperson
@@ -4252,8 +4247,7 @@
     Comment diable êtes-vous arrivés jusqu'ici_?<wait>
   pt-br: |
     Uau! Eu não esperava ver visitantes aqui tão cedo.<wait more>
-    Que estranho, como é que você chegou aqui?<wait more>
-    LaShiec colocou um embargo sobre todas as viagens marítimas!<wait>
+    Que estranho, como é que você chegou aqui? LaShiec embargou as viagens marítimas!<wait>
 
 - offsets: 51dd
   # Townsperson
@@ -4267,7 +4261,7 @@
     ISLAND.<end>
   en: I hear that there’s an enchanted sword in Avion Tower.<wait>
   fr: J'ai entendu dire qu'il y avait une épée magique dans la tour d'Abion.<wait>
-  pt-br: Ouvi dizer que há uma espada encantada na torre de Avion.<wait>
+  pt-br: Ouvi dizer que há uma espada encantada na Torre de Avion.<wait>
 
 - offsets: 51e3
   # Townsperson
@@ -4299,9 +4293,7 @@
   fr: |
     On me nomme Grande Sœur Choko.<wait more>
     Soyez forte et poursuivez votre aventure_!<wait>
-  pt-br: |
-    Meu nome é Choko Oneesan.<wait more>
-    Seja forte e continue sua aventura!<wait>
+  pt-br: Sou eu, Choko Oneesan! Seja forte e valente enquanto você continua sua jornada!<wait>
 
 - offsets: 51ef
   # Person inside cave
@@ -4326,9 +4318,8 @@
     Un magasin près d'ici en vend, mais je n'arrive pas à le trouver_!<wait more>
     Peut être en allant à gauche, puis tout droit...<wait>
   pt-br: |
-    Você sabe o que é uma Máscara de Gás? Elas protegem do gás venenoso.<wait more>
-    Uma loja aqui perto os vende, mas não consigo encontrá-la!<wait more>
-    Talvez se eu seguir para a esquerda, ou quem sabe mais para frente...<wait>
+    Vim a esta cidade para comprar uma Máscara de Gás, preciso dela para me proteger dos gases venenosos.<wait more>
+    Deve haver uma loja por aqui que vende, mas não consigo encontrá-la em lugar nenhum!<wait>
 
 - offsets: 51f5
   # Person inside cave
@@ -4384,7 +4375,7 @@
     En voulez-vous un?<end>
   pt-br: |
     Aposto que você está surpreso ao encontrar uma loja em um lugar como esse, hein?<wait more>
-    A Máscara de Gás custa <number><internal hint 02> meseta<s> cada. Muito barata, não? Quer uma?<end>
+    A Máscara de Gás custa <number><internal hint 01> meseta<s> cada. Muito barata, não? Quer uma?<end>
 
 - offsets: 5226
   # GasClear salesman (yes to previous question)
@@ -4417,8 +4408,8 @@
     Quoi_?! Vous n'avez pas d'argent_?<wait more>
     Quoi_?! Je ne vous vendrai plus RIEN_!<wait>
   pt-br: |
-    O quê? Você não tem dinheiro?<wait more>
-    Mas que coisa! Não estou vendendo nada para você agora!<wait>
+    O quê? Você não tem dinheiro suficiente?<wait more>
+    Mas que coisa! Eu não vou te vender NADA agora!<wait>
 
 - offsets: 520c
   indices: 19C-2
@@ -4451,7 +4442,7 @@
     Bienvenue à Sopia.<wait more>
     Je suis heureux que vous ayez réussi à traverser la brume.<wait>
   pt-br: |
-    Esta vila é chamada Sopia. Bemuvindo.<wait more>
+    Esta vila é chamada Sopia. Bem-vindo.<wait more>
     Fico feliz por você ter atravessado a névoa.<wait>
 
 - offsets: 52d6
@@ -4516,7 +4507,7 @@
   fr: |
     Vous aussi êtes pauvres_?<wait more>
     Quelle sinistre époque vivons-nous<wait>
-  pt-br: Então você é bem pobre, não é? Tais momentos são tristes.<wait>
+  pt-br: Então você é bem pobre, não é? Tais momentos são tão tristes.<wait>
 
 - offsets: 5300
   # The Village Chief (yes to previous question)
@@ -4550,12 +4541,9 @@
     J'ai entendu dire qu'il serait enterré sous un cactus.<wait more>
     Navré, c'est tout ce que je sais. Bonne chance.<wait>
   pt-br: |
-    Obrigado. Talvez eu possa ajudáulo em troca.<wait more>
-    Imagino que você está procurando o escudo de perseu.<wait more>
-    Segundo uma lenda local, perseu usou o escudo para matar Medusa.<wait more>
-    Há rumores de estar em uma ilha no lago.<wait more>
-    Ouvi dizer que ele está enterrado sob um cacto.<wait more>
-    Sinto muito, isso é tudo que eu sei. Boa sorte.<wait>
+    Obrigado. Talvez eu possa ajudá-lo em troca.<wait more>
+    Imagino que você está procurando o Escudo de Perseu. O que ele usou para matar Medusa?<wait more>
+    A lenda local diz que está em uma ilha no lago, enterrado sob um cacto.<wait>
 
 - offsets: 5306
   # Gamer Miki
@@ -4570,7 +4558,7 @@
   fr: |
     Salut, je suis Joe Musashi_!<wait more>
     Possèdes-tu une Master System_?<end>
-  pt-br: Oi, eu sou a Jogadora Miki! Você possui um Master System?<end>
+  pt-br: Oi, eu sou a Jogadora Miki-chan! Você possui um Master System?<end>
 
 - offsets: 530f
   # Gamer Miki (yes to previous question)
@@ -4618,7 +4606,7 @@
     TOWN HAD PLENTY.<end>
   en: Before LaShiec’s oppressive rule, this village was very wealthy.<wait>
   fr: Avant l'avènement de Lassic, ce village était très riche.<wait>
-  pt-br: Antes de LaShiec chegar ao poder, nossa vila tinha muitas riquezas.<wait>
+  pt-br: Antes do governo opressor de LaShiec, nossa vila tinha muitas riquezas.<wait>
 
 - offsets: 5320
   # Villager
@@ -4635,8 +4623,7 @@
     Avez-vous croisé Maître Tajim_? C'est un moine.<wait more>
     Il habite dans les montagnes situées au sud du lac.<wait>
   pt-br: |
-    Você encontrou tajima? Ele é um monge.<wait more>
-    Vive nas montanhas ao sul do lago.<wait>
+    Você conheceu Tajim, o monge? Ele mora nas montanhas ao sul do lago.<wait>
 
 - offsets: 5326
   # Villager
@@ -4664,7 +4651,7 @@
   fr: |
     N'importe où sera mieux qu'ici_!<wait more>
     Il n'y a pas pire qu'une ville noyée de brume mortelle.<wait>
-  pt-br: Qualquer lugar é melhor do que uma cidade cercada por névoa venenosa.<wait>
+  pt-br: Oh, eu queria tanto ir para lá!<wait>
 
 - offsets: 5334
   # Villager (no to previous question)
@@ -4680,7 +4667,7 @@
     AND FRESH.<end>
   en: Oh, interesting. I'd go just about anywhere that has cleaner air.<wait>
   fr: Oh, je vois. Je veux aller quelque part où l'air est sain.<wait>
-  pt-br: Oh, entendo. Eu quero ir para um lugar com um ar mais limpo.<wait>
+  pt-br: Oh, interessante. Eu iria para qualquer lugar que tenha o ar mais puro.<wait>
 
 - offsets: 5345
   # Villager (no to request for PelorieMate)
@@ -4689,7 +4676,7 @@
   us: TIGHTWAND!<end>
   en: Cheapskate!<wait>
   fr: Radin_!<wait>
-  pt-br: Pãouduro!<wait>
+  pt-br: Pão-duro!<wait>
 
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
@@ -4701,7 +4688,7 @@
     COME AGAIN!<end>
   en: Thank you!<wait>
   fr: Je vous remercie. Revenez quand vous le voulez.<wait>
-  pt-br: Obrigado. Por favor, volte sempre.<wait>
+  pt-br: Obrigado!<wait>
 
 
 # ********************
@@ -4730,7 +4717,7 @@
     Le côtoyez-vous_?<end>
   pt-br: |
     E quem seriam vocês?<wait more>
-    Meu aluno, Lutz, está na caverna Mahal. Você o conhece?<end>
+    Meu aluno, Lutz, está na Caverna Mahal. Você o conhece?<end>
 
 - offsets: 56bc
   # Tajim (yes to previous question)
@@ -4751,7 +4738,7 @@
     S'il vous plait dites-lui de venir me voir.<wait>
   pt-br: |
     Tenho algo que devo dizer a ele.<wait more>
-    Por favor, digaulhe para vir me ver.<wait>
+    Por favor, diga-lhe para vir me ver.<wait>
 
 - offsets: 56c1
   # Tajim (no to previous question)
@@ -4765,7 +4752,7 @@
     CONVERSATION.<end>
   en: I see. Then there is no point in talking with you any further.<wait>
   fr: Je vois...Il n'y a donc aucun intérêt à en parler plus avec vous.<wait>
-  pt-br: Entendo. Então, não há sentido em falar com você mais.<wait>
+  pt-br: Entendo. Então, não adianta mais falar com você.<wait>
 
 - offsets: 56c7
   # Tajim (if you have Lutz)
@@ -4784,8 +4771,7 @@
     Ah, Lutz, mon élève_!<wait more>
     Tu envisages de renverser Lassic, hein_?<wait>
   pt-br: |
-    Ah, Lutz, meu aluno!<wait more>
-    Você pretende derrotar LaShiec, não é?<wait>
+    Ah, Lutz, meu aluno! Vejo que você está finalmente cumprindo seu destino de derrotar LaShiec.<wait>
 
 - offsets: 56d3
   # Tajim (if Lutz is dead)
@@ -4803,8 +4789,7 @@
     Hé_! Êtes-vous morte_? Quel dommage...<wait more>
     Ressuscitez et essayez encore.<wait>
   pt-br: |
-    Ué! Você morreu? Que pena.<line>
-    Reviva e tente novamente.<wait>
+    ...Lutz? Oh, entendo, ele morreu. Você aí, vá reviver Lutz em uma igreja e traga-o de volta aqui.<wait>
 
 - offsets: 56d9
   # Tajim
@@ -4821,9 +4806,7 @@
   fr: |
     Alors tu te dois de passer un test final.<wait more>
     Battons-nous en duel.<wait>
-  pt-br: |
-    Então você tem que passar por um teste final.<wait more>
-    Vamos duelar.<wait>
+  pt-br: "Eu te ensinei tudo o que sei. É hora de dar a você um teste final, um duelo contra mim!"<wait>
 
 - offsets: 5722
   # Tajim (if you win)
@@ -4855,11 +4838,9 @@
     Elle protégera ton corps des blessures.<wait more>
     Maintenant, va mon garçon.<wait>
   pt-br: |
-    Você ficou mais forte, Lutz.<wait more>
-    Não há mais nada para te ensinar.<wait more>
-    Tome isso. é um manto de frade.<wait more>
-    Ele irá proteger seu corpo contra danos.<line>
-    Agora vá, meu rapaz.<wait>
+    Você ficou forte, meu rapaz! Você tem todo o poder que precisa para concluir sua tarefa.<wait more>
+    Tome isso, é um Manto de Frade, um presente para você. Isso protegerá seu corpo contra danos.<wait more>
+    Agora vá! Cumpra seu destino e traga a paz de volta a Algol!<wait>
 
 - offsets: 571c
   # Tajim (if you lose)
@@ -4875,9 +4856,7 @@
   fr: |
     Tu dois encore t'entraîner, mon garçon.<wait more>
     Reviens quand tu seras prêt. Je t'attendrai.<wait>
-  pt-br: |
-    Você precisa de mais treinamento, meu rapaz.<wait more>
-    Volte quando estiver pronto. Estarei esperando.<wait>
+  pt-br: Você precisa de mais treinamento, meu rapaz. Volte quando estiver pronto. Estarei esperando.<wait>
 
 - offsets: 56a6
   # Tajim (subsequent visits)
@@ -4889,7 +4868,7 @@
     TEACH YOU MORE.<end>
   en: There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
   fr: Je n'ai plus rien à t'apprendre, mon garçon.<wait>
-  pt-br: Não tenho mais nada a lhe ensinar, meu rapaz.<wait>
+  pt-br: Não tenho mais nada a lhe ensinar. Cumpra seu destino e traga a paz de volta a Algol!<wait>
 
 
 # ****************************
