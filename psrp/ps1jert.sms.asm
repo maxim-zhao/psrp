@@ -11,9 +11,9 @@ defaultslot 2
 .endme
 
 .rombankmap
-bankstotal 33
+bankstotal 32
 banksize $4000
-banks 33
+banks 32
 .endro
 
 .define ORIGINAL_ROM "PS1-J.SMS"
@@ -59,6 +59,9 @@ banks 33
   .unbackground $0bf50 $0bf9b ; item names - now Huffman decoder init
   .unbackground $0bf9c $0bfdb ; item metadata
   .unbackground $0bfdc $0bfff ; blank
+; Bank 3
+  .unbackground $0feb2 $0ff01 ; Hapsby travel menu
+  .unbackground $0ff02 $0ff97 ; Opening cinema text box 
 ; Bank 9
   .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
 ; Bank 11
@@ -86,6 +89,8 @@ banks 33
   .unbackground $5ac7d $5b9d6 ; Tiles, palette for air castle
 ; Bank 23
   .unbackground $5ea9f $5f766 ; Building interior tiles, palettes
+; Bank 27
+  .unbackground $6f40b $6fd62 ; Menu tilemaps
 ; Bank 29
   .unbackground $747b8 $77629 ; landscapes (world 1)
 ; Bank 31
@@ -2075,10 +2080,10 @@ MenuData:
 
 .include "menu_creater/menu-patches.asm"
 
-  PatchB $3b58 :MenuData
-  PatchB $3b82 :MenuData
-  PatchB $3bab :MenuData
-  PatchB $45d7 :MenuData
+  PatchB $3b58 :MenuData ; HapsbyTravelMenu only
+  PatchB $3b82 :MenuData ; OutputTilemapBoxWipePaging
+  PatchB $3bab :MenuData ; OutputTilemapRect
+  PatchB $45d7 :MenuData ; for opening cinema only
 
   ROMPosition $3211
 .section "HP letters" size 4 overwrite ; not movable

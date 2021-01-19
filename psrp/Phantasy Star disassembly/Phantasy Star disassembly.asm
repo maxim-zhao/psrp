@@ -7917,7 +7917,7 @@ Palettefn7f82: ; $fea0 Palette cycle for two colours - blue-cyan-white-cyan-blue
 .ends
 ; followed by
 .orga $beb2            ; $feb2
-.section "Unknown menu" overwrite
+.section "Hapsby travel menu" overwrite
 ; raw tilemap data
 .dw $11f1,$11f2,$11f2,$11f2,$13f1
 .dw $11f3,$10fd,$10c0,$10c0,$13f3
