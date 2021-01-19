@@ -59,6 +59,9 @@ banks 32
   .unbackground $0bf50 $0bf9b ; item names - now Huffman decoder init
   .unbackground $0bf9c $0bfdb ; item metadata
   .unbackground $0bfdc $0bfff ; blank
+; Bank 3
+  .unbackground $0feb2 $0ff01 ; Hapsby travel menu
+  .unbackground $0ff02 $0ff97 ; Opening cinema text box 
 ; Bank 9
   .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
 ; Bank 11
@@ -86,6 +89,8 @@ banks 32
   .unbackground $5ac7d $5b9d6 ; Tiles, palette for air castle
 ; Bank 23
   .unbackground $5ea9f $5f766 ; Building interior tiles, palettes
+; Bank 27
+  .unbackground $6f40b $6fd62 ; Menu tilemaps
 ; Bank 29
   .unbackground $747b8 $77629 ; landscapes (world 1)
 ; Bank 31
@@ -1880,74 +1885,74 @@ Enemies:
 Items:
 ; empty item (blank)
   String " "
-; Armas
-  String "<um> Cajado"
+; Armas         123456789012345678
+  String  "<um> Cajado"
   String "<uma> Espada Curta"
   String "<uma> Espada de Ferro"
-  String "<um> Cajado Mágico"
+  String  "<um> Cajado Mágico"
   String "<uma> Presa de Prata"
-  String "<um> Machado de Ferro"
+  String  "<um> Machado de Ferro"
   String "<uma> Espada de Titânio"
   String "<uma> Espada de Cerâmica"
   String "<uma> Pistola de Agulha"
   String "<uma> Garra Afiada"
   String "<uma> Pistola de Calor"
-  String "<um> Sabre de Luz"
+  String  "<um> Sabre de Luz"
   String "<uma> Arma Laser"
   String "<uma> Espada de Lacônia"
-  String "<um> Machado de Lacônia"
-; Armaduras
+  String  "<um> Machado de Lacônia"
+; Armaduras     123456789012345678
   String "<uma> Veste de Couro"
-  String "<um> Manto Branco"
+  String  "<um> Manto Branco"
   String "<uma> Veste Leve"
   String "<uma> Armadura de Ferro"
   String "<uma> Pele Espinhosa"
   String "<uma> Malha de Zicórnio"
   String "<uma> Armadura de Diamante"
   String "<uma> Armadura de Lacônia"
-  String "<o> Manto de Frade"
-; Escudos
-  String "<um> Escudo de Couro"
-  String "<um> Escudo de Bronze"
-  String "<um> Escudo de Ferro"
-  String "<um> Escudo de Cerâmica"
+  String   "<o> Manto de Frade"
+; Escudos       123456789012345678
+  String  "<um> Escudo de Couro"
+  String  "<um> Escudo de Bronze"
+  String  "<um> Escudo de Ferro"
+  String  "<um> Escudo de Cerâmica"
   String "<uma> Luva Animal"
   String "<uma> Barreira Laser"
-  String "<o> Escudo de Perseu"
-  String "<um> Escudo de Lacônia"
-; veículos
-  String "<o> Mestre-Terra"
-  String "<o> Aerobarco"
-  String "<o> Escavador de Gelo"
-; objetos
+  String   "<o> Escudo de Perseu"
+  String  "<um> Escudo de Lacônia"
+; veículos      123456789012345678
+  String   "<o> Mestre-Terra"
+  String   "<o> Aerobarco"
+  String   "<o> Escavador de Gelo"
+; objetos       123456789012345678
   String "<uma> PelorieMate"
   String "<uma> Ruoginina"
-  String "<a> Flauta Calmante"
+  String   "<a> Flauta Calmante"
   String "<uma> Lanterna"
   String "<uma> Capa de Fuga"
-  String "<um> Teletapete"
-  String "<um> Chapéu Mágico"
+  String  "<um> Teletapete"
+  String  "<um> Chapéu Mágico"
   String "<uma> Alsulina"
-  String "<um> Polimaterial"
+  String  "<um> Polimaterial"
   String "<uma> Chave do Calabouço"
   String "<uma> Bola de Telepatia"
-  String "<a> Tocha Eclipse"
-  String "<o> Aeroprisma"
-  String "<as> Frutas de Laerma"
-  String "Hapsby"
-  String "<um> Passe"
-  String "<um> Passaporte"
+  String   "<a> Tocha Eclipse"
+  String   "<o> Aeroprisma"
+  String  "<as> Frutas de Laerma"
+  String       "Hapsby"
+  String  "<um> Passe"
+  String  "<um> Passaporte"
   String "<uma> Bússola"
-  String "<um> Bolo"
-  String "<a> Carta[ do Governador-Geral]"
-  String "<um> Pote de Lacônia"
-  String "<o> Pingente de Luz"
-  String "<o> Olho de Carbúnculo"
+  String  "<um> Bolo"
+  String   "<a> Carta[ do Governador-Geral]"
+  String  "<um> Pote de Lacônia"
+  String   "<o> Pingente de Luz"
+  String   "<o> Olho de Carbúnculo"
   String "<uma> Máscara de Gás"
-  String "<o> Cristal de Damoa"
-  String "<um> Master System"
-  String "<a> Chave Milagrosa"
-  String "Zillion"
+  String   "<o> Cristal de Damoa"
+  String  "<um> Master System"
+  String   "<a> Chave Milagrosa"
+  String       "Zillion"
   String "<uma> Coisa Secreta"
 Names:
 ; Personagens
@@ -2043,10 +2048,9 @@ Enemies:
 .section "Static dictionary" superfree
 .block "Words"
 ; Note that the number of words we add here has a complicated effect on the data size.
-; Adding more words costs space here (in a paged bank), but saves space in bank 2 - mostly,
-; because it also increases the complexity of the Huffman trees.
+; Adding more words costs space here (in a paged bank), but saves space in bank 2.
 ; If our goal is to maximise script space then we should maximise the word count.
-; The limit is 164 ($100 - WordListStart).
+; The limit is 148 ($100 - WordListStart).
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
@@ -2076,10 +2080,10 @@ MenuData:
 
 .include "menu_creater/menu-patches.asm"
 
-  PatchB $3b58 :MenuData
-  PatchB $3b82 :MenuData
-  PatchB $3bab :MenuData
-  PatchB $45d7 :MenuData
+  PatchB $3b58 :MenuData ; HapsbyTravelMenu only
+  PatchB $3b82 :MenuData ; OutputTilemapBoxWipePaging
+  PatchB $3bab :MenuData ; OutputTilemapRect
+  PatchB $45d7 :MenuData ; for opening cinema only
 
   ROMPosition $3211
 .section "HP letters" size 4 overwrite ; not movable
@@ -2950,7 +2954,7 @@ StatsBorderBottom:  .stringmap tilemap "╘════════════�
 .endif
 
 statsImpl:
-  ld hl,StatsBorderTop ; This is paged in (slot 2)
+  ld hl,StatsBorderTop
   ld bc,1<<8 + _sizeof_StatsBorderTop ; size
   call OutputTilemapBoxWipePaging ; draw to tilemap
   ld hl,Level
@@ -4181,7 +4185,7 @@ FontLookup:
 .stringmap tilemap " 0123456789"
 .stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ". ‘’,-!?_ãáàâçêéíóõôú"
+.stringmap tilemap ". ‘’,-!?_ãá âçêéíóõôú"
 .endif
 .ends
 
