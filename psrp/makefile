@@ -30,7 +30,7 @@ WORD_COUNT = 91
 WORD_COUNT = 54
 !ENDIF
 !IF "$(LANGUAGE)" == "pt-br"
-WORD_COUNT = 41
+WORD_COUNT = 48
 !ENDIF
 
 DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps

@@ -1,4 +1,4 @@
-# Phantasy Star English Retranslation v2.01
+# Phantasy Star English Retranslation v2.02
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/relocalisation based on that first Japanese version, with some enhancements.
@@ -8,6 +8,8 @@ For more information and screenshots see https://www.smspower.org/Translations/P
 Changelog (in reverse chronological order):
 - v2.02 released 2021/??/??
   - added French translation from ichigobankai, Wil76 and Vingazole
+  - added Brazilian Portuguese translation from ajkmetiuk
+  - fixed some bugs relating to the needs of these translations
 - v2.01 released 2020/12/20
   - script improvements:
     - some after-the-deadline changes from Frank Cifaldi
