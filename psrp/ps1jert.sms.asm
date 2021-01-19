@@ -4085,8 +4085,21 @@ CreditsScreen9: .db 5
 CreditsScreen10: .db 2
   CreditsEntry 2,6,"MAIN PROGRAM"
   CreditsEntry 17,6,"MUUUU YUJI"
+.if LANGUAGE == "en"
 CreditsScreen11: .db 1
   CreditsEntry 9,10,"RETRANSLATION"
+.endif
+.if LANGUAGE == "fr"
+CreditsScreen11: .db 1
+  CreditsEntry 10,10,"RETRADUCTION"
+.endif
+.if LANGUAGE == "pt-br"
+CreditsScreen11: .db 3
+  CreditsEntry 19,9,         "~"
+  CreditsEntry 11,10,"RETRADUCAO"
+  CreditsEntry 18,11,       "'"
+.endif
+
 .if LANGUAGE == "en"
 CreditsScreen12: .db 4
   CreditsEntry 3,6,"WORDS"
@@ -4121,10 +4134,25 @@ CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
   CreditsEntry 11,10,"Z80 GAIDEN"
   CreditsEntry 9,15,"MAXIM"
+.if LANGUAGE == "en"
 CreditsScreen14: .db 3
   CreditsEntry 10,10,"PRESENTED BY"
   CreditsEntry 10,15,"SEGA"
   CreditsEntry 18,15,"SMS POWER!"
+.endif
+.if LANGUAGE == "fr"
+CreditsScreen14: .db 3
+  CreditsEntry 10,10,"PRESENTED BY"
+  CreditsEntry 10,15,"SEGA"
+  CreditsEntry 18,15,"SMS POWER!"
+.endif
+.if LANGUAGE == "pt-br"
+CreditsScreen14: .db 4
+  CreditsEntry 11,10,"APRESENTADO"
+  CreditsEntry 14,11,"PELA"
+  CreditsEntry 10,15,"SEGA"
+  CreditsEntry 18,15,"SMS POWER!"
+.endif
 .ends
 
   ROMPosition $488a
