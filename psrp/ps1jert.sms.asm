@@ -377,11 +377,6 @@ TitleScreenExtra:
   jp LoadFonts ; and ret
 .ends
 
-  ROMPosition $00ce4
-.section "BG loader patch 1" size 14 overwrite ; not movable
-  LoadPagedTiles OutsideTiles $4000
-.ends
-
 .slot 2
 .section "Outside tiles" superfree
 OutsideTiles:
@@ -391,6 +386,11 @@ OutsideTiles:
 .section "Town tiles" superfree
 TownTiles:
 .incbin "new_graphics/world2.psgcompr"
+.ends
+
+  ROMPosition $00ce4
+.section "BG loader patch 1" size 14 overwrite ; not movable
+  LoadPagedTiles OutsideTiles $4000
 .ends
 
   ROMPosition $00cf4
