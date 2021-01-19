@@ -4039,6 +4039,7 @@ CreditsData:
 .stringmap credits text
 .endm
 
+.if LANGUAGE == "en"
 CreditsScreen1: .db 1 ; entry count
   CreditsEntry 13,10,"STAFF"
 CreditsScreen2: .db 3
@@ -4085,29 +4086,71 @@ CreditsScreen9: .db 5
 CreditsScreen10: .db 2
   CreditsEntry 2,6,"MAIN PROGRAM"
   CreditsEntry 17,6,"MUUUU YUJI"
-.if LANGUAGE == "en"
 CreditsScreen11: .db 1
   CreditsEntry 9,10,"RETRANSLATION"
-.endif
-.if LANGUAGE == "fr"
-CreditsScreen11: .db 1
-  CreditsEntry 10,10,"RETRADUCTION"
-.endif
-.if LANGUAGE == "pt-br"
-CreditsScreen11: .db 3
-  CreditsEntry 19,9,         "~"
-  CreditsEntry 11,10,"RETRADUCAO"
-  CreditsEntry 18,11,       "'"
-.endif
-
-.if LANGUAGE == "en"
 CreditsScreen12: .db 4
   CreditsEntry 3,6,"WORDS"
   CreditsEntry 10,10,"PAUL JENSEN"
   CreditsEntry 2,15,"FRANK CIFALDI"
   CreditsEntry 18,15,"SATSU"
+CreditsScreen13: .db 3
+  CreditsEntry 6,6,"CODE"
+  CreditsEntry 11,10,"Z80 GAIDEN"
+  CreditsEntry 9,15,"MAXIM"
+CreditsScreen14: .db 3
+  CreditsEntry 10,10,"PRESENTED BY"
+  CreditsEntry 10,15,"SEGA"
+  CreditsEntry 18,15,"SMS POWER!"
 .endif
 .if LANGUAGE == "fr"
+CreditsScreen1: .db 1 ; entry count
+  CreditsEntry 13,10,"STAFF"
+CreditsScreen2: .db 3
+  CreditsEntry 5,5,"TOTAL"
+  CreditsEntry 6,7,"PLANNING"
+  CreditsEntry 17,6,"OSSALE KOHTA"
+CreditsScreen3: .db 5
+  CreditsEntry 6,5,"SCENARIO"
+  CreditsEntry 7,7,"WRITER"
+  CreditsEntry 17,6,"OSSALE KOHTA"
+  CreditsEntry 9,15,"STORY"
+  CreditsEntry 17,15,"APRIL FOOL"
+CreditsScreen4: .db 4
+  CreditsEntry 4,5,"ASSISTANT"
+  CreditsEntry 3,7,"COORDINATORS"
+  CreditsEntry 10,11,"OTEGAMI CHIE"
+  CreditsEntry 18,15,"GAMER MIKI"
+CreditsScreen5: .db 5
+  CreditsEntry 3,6,"TOTAL DESIGN"
+  CreditsEntry 18,6,"PHOENIX RIE"
+  CreditsEntry 5,14,"MONSTER"
+  CreditsEntry 7,16,"DESIGN"
+  CreditsEntry 17,15,"CHAOTIC KAZ"
+CreditsScreen6: .db 3
+  CreditsEntry 8,6,"DESIGN"
+  CreditsEntry 9,10,"ROCKHY NAO"
+  CreditsEntry 17,15,"SADAMORIAN"
+CreditsScreen7: .db 4
+  CreditsEntry 8,6,"DESIGN"
+  CreditsEntry 9,10,"MYAU CHOKO"
+  CreditsEntry 17,15,"G CHIE"
+  CreditsEntry 9,19,"YONESAN"
+CreditsScreen8: .db 4
+  CreditsEntry 9,6,"SOUND"
+  CreditsEntry 18,6,"BO"
+  CreditsEntry 4,15,"SOFT CHECK"
+  CreditsEntry 18,15,"WORKS NISHI"
+CreditsScreen9: .db 5
+  CreditsEntry 3,5,"ASSISTANT"
+  CreditsEntry 4,7,"PROGRAMMERS"
+  CreditsEntry 9,10,"COM BLUE"
+  CreditsEntry 4,15,"M WAKA"
+  CreditsEntry 19,15,"ASI"
+CreditsScreen10: .db 2
+  CreditsEntry 2,6,"MAIN PROGRAM"
+  CreditsEntry 17,6,"MUUUU YUJI"
+CreditsScreen11: .db 1
+  CreditsEntry 10,10,"RETRADUCTION"
 CreditsScreen12: .db 8
   CreditsEntry 3,6,"ANGLAIS"
   CreditsEntry 18,6,"PAUL JENSEN"
@@ -4117,8 +4160,71 @@ CreditsScreen12: .db 8
   CreditsEntry 18,14,"ICHIGOBANKAI"
   CreditsEntry 20,15,"WIL76"
   CreditsEntry 18,16,"VINGAZOLE"
+CreditsScreen13: .db 3
+  CreditsEntry 6,6,"CODE"
+  CreditsEntry 11,10,"Z80 GAIDEN"
+  CreditsEntry 9,15,"MAXIM"
+CreditsScreen14: .db 3
+  CreditsEntry 10,10,"PRESENTED BY"
+  CreditsEntry 10,15,"SEGA"
+  CreditsEntry 18,15,"SMS POWER!"
 .endif
-.if LANGUAGE == "pt-br" ; We add accents using "^"
+.if LANGUAGE == "pt-br"
+CreditsScreen1: .db 1 ; entry count
+  CreditsEntry 13,10,"EQUIPE"
+CreditsScreen2: .db 3
+  CreditsEntry 3,5,"PLANEJAMENTO"
+  CreditsEntry 6,7,"TOTAL"
+  CreditsEntry 17,6,"OSSALE KOHTA"
+CreditsScreen3: .db 5
+  CreditsEntry 6,6,"CENARISTA"
+  CreditsEntry 17,6,"OSSALE KOHTA"
+  CreditsEntry 13,14,   "^"
+  CreditsEntry 7,15,"HISTORIA"
+  CreditsEntry 17,15,"APRIL FOOL"
+CreditsScreen4: .db 6
+  CreditsEntry 4,6,"AUXILIAR DE"
+  CreditsEntry 27,5,         "~"
+  CreditsEntry 17,6,"COORDENACAO"
+  CreditsEntry 26,7,        "'"
+  CreditsEntry 10,11,"OTEGAMI CHIE"
+  CreditsEntry 18,15,"GAMER MIKI"
+CreditsScreen5: .db 5
+  CreditsEntry 3,6,"DESIGN TOTAL"
+  CreditsEntry 18,6,"PHOENIX RIE"
+  CreditsEntry 5,14,"DESIGN DE"
+  CreditsEntry 7,16,"MONSTRO"
+  CreditsEntry 17,15,"CHAOTIC KAZ"
+CreditsScreen6: .db 3
+  CreditsEntry 8,6,"DESIGN"
+  CreditsEntry 9,10,"ROCKHY NAO"
+  CreditsEntry 17,15,"SADAMORIAN"
+CreditsScreen7: .db 4
+  CreditsEntry 8,6,"DESIGN"
+  CreditsEntry 9,10,"MYAU CHOKO"
+  CreditsEntry 17,15,"G CHIE"
+  CreditsEntry 9,19,"YONESAN"
+CreditsScreen8: .db 4
+  CreditsEntry 11,6,"SOM"
+  CreditsEntry 18,6,"BO"
+  CreditsEntry 9,15,"TESTE"
+  CreditsEntry 18,15,"WORKS NISHI"
+CreditsScreen9: .db 7
+  CreditsEntry 4,6,"AUXILIAR DE"
+  CreditsEntry 26,5,        "~"
+  CreditsEntry 17,6,"PROGRAMACAO"
+  CreditsEntry 25,7,       "'"
+  CreditsEntry 9,10,"COM BLUE"
+  CreditsEntry 4,15,"M WAKA"
+  CreditsEntry 19,15,"ASI"
+CreditsScreen10: .db 3
+  CreditsEntry 6,5,"PROGRAMA"
+  CreditsEntry 5,7,"PRINCIPAL"
+  CreditsEntry 17,6,"MUUUU YUJI"
+CreditsScreen11: .db 3
+  CreditsEntry 19,9,         "~"
+  CreditsEntry 11,10,"RETRADUCAO"
+  CreditsEntry 18,11,       "'"
 CreditsScreen12: .db 9
   CreditsEntry 7,5,    "^"
   CreditsEntry 3,6,"INGLES"
@@ -4129,24 +4235,11 @@ CreditsScreen12: .db 9
   CreditsEntry 3,15,"PORTUGUES"
   CreditsEntry 3,16,"DO BRASIL"
   CreditsEntry 18,15,"AJKMETIUK"
-.endif
-CreditsScreen13: .db 3
-  CreditsEntry 6,6,"CODE"
+CreditsScreen13: .db 4
+  CreditsEntry 7,5, "/"
+  CreditsEntry 6,6,"CODIGO"
   CreditsEntry 11,10,"Z80 GAIDEN"
   CreditsEntry 9,15,"MAXIM"
-.if LANGUAGE == "en"
-CreditsScreen14: .db 3
-  CreditsEntry 10,10,"PRESENTED BY"
-  CreditsEntry 10,15,"SEGA"
-  CreditsEntry 18,15,"SMS POWER!"
-.endif
-.if LANGUAGE == "fr"
-CreditsScreen14: .db 3
-  CreditsEntry 10,10,"PRESENTED BY"
-  CreditsEntry 10,15,"SEGA"
-  CreditsEntry 18,15,"SMS POWER!"
-.endif
-.if LANGUAGE == "pt-br"
 CreditsScreen14: .db 4
   CreditsEntry 11,10,"APRESENTADO"
   CreditsEntry 14,11,"PELA"
