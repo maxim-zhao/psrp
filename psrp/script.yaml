@@ -236,8 +236,8 @@
     Estas pessoas são perigosas, você vai precisar de ajuda.<wait more>
     Ouvi histórias de um guerreiro chamado Tylon, que poderia ser um aliado.<line><line>
     Queria contar com sua ajuda, mas ele está desaparecido.<wait more>
-    Você tem que encontrá-lo, Alisa.<line><line>
-    Encontre Tylon, e derrote LaShiec. Tragam a paz de volta a Algol.<wait more>
+    Alisa, você precisa encontrar Tylon.<line><line>
+    Encontre-o, e derrote LaShiec. Juntos, vocês podem trazer a paz de volta a Algol.<wait more>
     Alisa... um fardo tão terrível. Me desculpe.<line><line>
     Por favor, me perdoe, por pedir isso de você...<wait more>
     ...e por deixar todos vocês...<line><line>
@@ -435,7 +435,7 @@
     Meu nome é Nekise.<line><line>
     Fiquei triste ao saber de sua perda.<wait more>
     Nero me pediu para ajudá-la a encontrar um guerreiro chamado Tylon, você também está procurando por ele?<wait more>
-    Da última vez que ouvimos, ele estava hospedado em uma cidade chamada Shion. Talvez ele ainda esteja por perto.<wait more>
+    A última vez que ouvi, ele estava hospedado em uma cidade chamada Shion. Talvez ele ainda esteja por perto.<wait more>
     Seu irmão também me pediu para manter este Pote de Lacônia seguro.<wait more>
     Ele é muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
 
@@ -522,7 +522,7 @@
     Il faut un permis pour entrer sur le Spatioport_!<wait more>
     Comment vais-je rentrer chez moi_?<wait>
   pt-br: |
-    Você não pode mais entrar no espaçoporto sem um tal de Passe.<wait more>
+    Você não pode mais entrar no Espaçoporto sem um tal de Passe.<wait more>
     Tentei me cadastrar para conseguir um, mas disseram-me que pode demorar semanas. Como é que vou voltar para casa?<wait>
 
 - offsets: 4b9a
@@ -677,7 +677,7 @@
   us: O.K. GOOD DAY.<end>
   en: Oh. Okay.<wait>
   fr: Oh. Très bien.<wait>
-  pt-br: Ah. Ok...<wait>
+  pt-br: Ah. Ok.<wait>
 
 
 # ************************************
@@ -768,7 +768,7 @@
     Le Spatioport permet d'aller à Paséo sur Motavia.<wait more>
     Mais il te faudra un permis pour y accéder.<wait>
   pt-br: |
-    Nosso espaçoporto faz voos diretos para Paseo, a capital de Motávia.<wait more>
+    Nosso Espaçoporto faz voos diretos para Paseo, a capital de Motávia.<wait more>
     Eu adoraria ir algum dia. Nunca estive fora do planeta antes!<wait>
 
 - offsets: 4c0f
@@ -857,7 +857,7 @@
     Je me demande ce que c'était_?<wait>
   pt-br: |
     Sim, Tylon estava aqui. Ele disse que estava indo para o sul para matar Medusa. Eu não o vi desde então.<wait more>
-    Ele tinha um estranho animal falante com ele, que tinha uma garrafa em volta de seu pescoço.<wait more>
+    Ele não estava sozinho, ele estava viajando com um animal falante! Eu não pude acreditar!<wait more>
     Ele tinha um frasco de remédio de aparência importante em seu pescoço. Eu me pergunto para o que serve?<wait>
 
 - offsets: 4dac
@@ -901,7 +901,7 @@
     C'est incroyable, mais j'ai trouvé un animal parlant, errant dans le donjon de Médusa.<wait more>
     Je l'ai vendu à un commerçant de Paséo. Le p'tit bout valait une vraie fortune_!<wait>
   pt-br: |
-    Isso vai parecer loucura, mas encontrei um animal falante vagando pela masmorra da Medusa.<wait more>
+    Isso vai parecer loucura, mas encontrei um animal falante vagando pelo calabouço da Medusa.<wait more>
     Eu vendi ele a um comerciante em Paseo. O rapazinho valia uma fortuna!<wait>
 
 - offsets: 4dbb
@@ -939,7 +939,7 @@
     THE SOUTH OF SCION<end>
   en: Iala Cave lies on the peninsula south-east of here.<wait>
   fr: La grotte Iala est située sur la péninsule au sud de la ville.<wait>
-  pt-br: A caverna de Iala fica na península ao sul da cidade.<wait>
+  pt-br: A Caverna de Iala fica na península ao sul da cidade.<wait>
 
 - offsets: 4dc7
   indices: 044
@@ -959,7 +959,7 @@
     Aujourd'hui, la plupart d'entre-nous est au chômage.<wait>
   pt-br: |
     Este é Shion, o porto mais movimentado de Palma... ou pelo menos era.<wait more>
-    Com o mundo do jeito que está, não há tanto comércio acontecendo ultimamente.<wait>
+    Com o mundo do jeito que está, não há tanta negociação acontecendo ultimamente.<wait>
 
 - offsets: 4dcd
   indices: 046
@@ -1211,7 +1211,7 @@
     HAVE AN ILLNESS?<prompt>
   en: Are you suffering from an illness that may be contagious to other passengers?<end>
   fr: Souffrez-vous d'une maladie contagieuse_?<end>
-  pt-br: Você está com alguma doença que pode ser contagiosa para outros passageiros?<end>
+  pt-br: Você sofre de alguma doença contagiosa?<end>
 
 - offsets: 4d6c
   # Passport office
@@ -1387,7 +1387,7 @@
     NORTH OF PASEO.<end>
   en: Mahal Cave is located in the mountains north of Paseo.<wait>
   fr: La grotte Mahal se situe dans les montagnes au nord de Paséo.<wait>
-  pt-br: A caverna Mahal está localizada nas montanhas ao norte de Paseo.<wait>
+  pt-br: A Caverna Mahal está localizada nas montanhas ao norte de Paseo.<wait>
 
 - offsets: 4e5b
   indices: 08E
@@ -1495,7 +1495,7 @@
     Est-ce un vase Laconian_?<wait more>
     Faisons un marché, le vase contre le chaton_?<end>
   pt-br: |
-    Isso é muito ruim.<wait more>
+    Que pena.<wait more>
     ...espere! Isso é um Pote de Lacônia?<wait more>
     Que tal uma troca, o pote pelo gatinho?<end>
 
@@ -1593,7 +1593,7 @@
   pt-br: |
     Olá, Myau. Estou procurando um homem chamado Tylon.<wait more>
     Há rumores de que ele estava viajando com um animal falante.<line><line>
-    Suponho que era você, né?<wait>
+    Poderia ser você?<wait>
 
 - offsets: 4664
   # Myau
@@ -1734,7 +1734,7 @@
   pt-br: |
     Ah, Myau, você encontrou ajuda. Obrigado.<line><line>
     Mas não sei se vai adiantar.<wait more>
-    Se não pudéssemos derrotar Medusa, não teríamos nenhuma chance contra LaShiec.<line><line>
+    Se não conseguirmos derrotar Medusa, não teremos chance contra LaShiec.<line><line>
     Quem é a sua nova amiga?<wait>
 
 - offsets: 4693
@@ -1844,9 +1844,9 @@
     Nous allons en avoir besoin. Allons-y.<wait>
   pt-br: |
     Ah, é porque ela tem um machado mágico, e eu o quero.<line><line>
-    Talvez possamos pegá-lo no caminho?<wait more>
+    Talvez possamos pegá-lo no caminho para LaShiec?<wait more>
     Enfim, escondi uma Bússola em um beco sem saída nesta caverna.<line><line>
-    Venha, vamos pegá-la. Tenho certeza de que vamos usá-la.<wait>
+    Venha, vamos pegá-la. Tenho certeza de que pode ser útil.<wait>
 
 
 # ************
@@ -1874,7 +1874,7 @@
     je pense qu'il est en accord avec la quête que vous avez entreprise_!<wait>
   pt-br: |
     Não me surpreenderia se o Governador-Geral de Motávia aprovasse o que você está fazendo.<wait more>
-    Ele pode até mesmo ser capaz de ajudá-lo em sua busca. Você já falou com ele?<wait>
+    Ele pode até mesmo ser capaz de ajudá-lo em sua jornada. Você já falou com ele?<wait>
     
 - offsets: 4deb
   # Villager
@@ -1924,7 +1924,7 @@
     Depuis l'arrivée des monstres dans la forêt,<wait more>
     nous ne recevons plus beaucoup de visiteurs.<wait>
   pt-br: |
-    Esta é a Vila de Eppi!<wait more>
+    Esta é a Vila Eppi!<wait more>
     Nós não temos muitos visitantes ultimamente, agora que a floresta está cheia de monstros.<wait>
 
 - offsets: 4dfd
@@ -1946,7 +1946,7 @@
     Auriez-vous besoin d'une clé pour les donjons_?<end>
   pt-br: |
     Derrubar LaShiec, não é?<wait more>
-    Ou você é um louco, ou é mais forte do que parece.<wait more>
+    Ou você é louco, ou é mais forte do que parece.<wait more>
     De qualquer forma, eu admiro sua coragem. Você está precisando de uma Chave do Calabouço?<end>
 
 - offsets: 4e17
@@ -1973,7 +1973,7 @@
     Elle est à vous. Bonne chance_!<wait>
   pt-br: |
     Escondi uma dentro do armazém nos arredores da zona residencial de Camineet.<wait more>
-    Eu escondi muito bem, você pode querer dar uma segunda olhada se você já esteve por lá.<wait>
+    Eu deixei bem escondida. Você pode querer dar uma segunda olhada se já esteve lá.<wait>
 
 - offsets: 4e1d
   # Villager
@@ -2003,7 +2003,7 @@
     BEST TO HAVE.<end>
   en: It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
   fr: C'est le Laconian! Les armes faites en Laconian sont les meilleures_!<wait>
-  pt-br: Ele é a Lacônia! Armas de Lacônia são as mais fortes em toda Algol!<wait>
+  pt-br: Se você não sabe, é Lacônia! Armas de Lacônia são as mais fortes em toda Algol!<wait>
 
 
 # ******************
@@ -2036,7 +2036,7 @@
     Je vous en emballe une_?<end>
   pt-br: |
     Ei, um cliente! Que bom que você nos encontrou. Desculpe a localização.<wait more>
-    Meus bolos são famosos em Algol e é um roubo ser apenas <number><internal hint 02> meseta<s>. Quer um?<end>
+    Meus bolos são famosos em Algol, é um roubo ser apenas <number><internal hint 02> meseta<s>. Quer um?<end>
 
 
 # *********************
@@ -2167,12 +2167,12 @@
     Revenez ici quand vous aurez vaincu Lassic. J'ai foi en vous.<wait>
   pt-br: |
     Olá. Eu sou o Governador-Geral deste planeta. Você veio de tão longe. Por favor, sente-se.<wait more>
-    Eu sei porque você está aqui. Você certamente não fez nenhum segredo disso. Você pretende derrotar LaShiec.<wait more>
+    Eu sei porque está aqui. Você certamente não fez nenhum segredo disso. Você pretende derrotar LaShiec.<wait more>
     LaShiec é um homem poderoso. Não, mais do que um homem. Está além dessas restrições.<wait more>
     Você é muito corajosa para levar isso adiante. Mas coragem, eu temo que não será o suficiente.<wait more>
     Vá. Destrua-o. Eu não vou te impedir. Na verdade, vou lhe oferecer assistência.<wait more>
     Um Esper poderoso chamado Lutz vive na caverna de Mahal, ao norte daqui. Leve esta carta para ele.<wait more>
-    Com a ajuda dele, tenho fé que você terá sucesso. Volte aqui quando tiver derrotado LaShiec.<wait>
+    Com sua ajuda, tenho fé que você terá sucesso. Volte aqui quando tiver derrotado LaShiec.<wait>
 
 - offsets: 4f13,4fc6
   # Governor-General (subsequent visits)
@@ -2211,7 +2211,7 @@
   fr: |
     Vous devez être fatiguée de votre voyage.<wait more>
     Pourquoi ne pas vous reposer ici un moment_?<wait>
-  pt-br: Você deve estar cansada de sua jornada. Por que você não descansa aqui por um tempo?<wait>
+  pt-br: Você deve estar cansada de sua jornada. Por que não descansa aqui por um tempo?<wait>
 
 - offsets: 4fda
   # Lady in Guest House (subsequent visits)
@@ -2368,8 +2368,8 @@
     J'ai une lettre pour vous de la part du Gouverneur.<wait more>
     Voudriez-vous la lire_?<wait>
   pt-br: |
-    Você deve ser Lutz. Tenho uma carta para você do Governador-Geral.<line><line>
-    Você se importaria de ler?<wait>
+    Você deve ser Lutz. Tenho uma carta do Governador-Geral para você.<line><line>
+    Se importaria em ler?<wait>
 
 - offsets: 46f2
   indices: 172-2
@@ -2416,11 +2416,11 @@
     Allons-y. Vite_!<wait>
   pt-br: |
     Deixe-me ver isso.<wait more>
-    ...ah. Entendo. Então chegou a esse ponto.<line><line>
+    ...Ah. Entendo. Então chegou a esse ponto.<line><line>
     Peço desculpas pela minha hostilidade antes.<wait more>
     Juntos, devemos proteger Algol de cair em mãos erradas.<line><line>
     Primeiro, devemos nos encontrar com o Doutor Luveno, na Floresta de Gótica.<wait more>
-    Se bem me lembro, nós podemos chegar lá através de um bueiro na Estação Espacial de Camineet.<line><line>
+    Se bem me lembro, podemos chegar lá através de um bueiro na Estação Espacial de Camineet.<line><line>
     Vamos. Depressa.<wait>
 
 
@@ -2443,7 +2443,7 @@
   fr: |
     J'aurais vraiment besoin d'une Vitabarre.<wait more>
     Vous n'en n'auriez pas une_?<end>
-  pt-br: Eu gostaria de comer uma PelorieMate. Você pode me dar uma?<end>
+  pt-br: Gostaria de comer uma PelorieMate. Você pode me dar uma?<end>
 
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
@@ -2476,7 +2476,7 @@
     Il est détenu à Triada, une prison située au sud.<wait>
   pt-br: |
     Obrigado. Eu suponho que você está procurando o Doutor Luveno. Sim, seu laboratório costumava ficar aqui.<wait more>
-    Não há mais nada, no entanto. Aquele cara ficou louco. Eles finalmente aprisionaram aquele lunático.<wait more>
+    Não há mais nada, no entanto. Aquele cara ficou louco. Finalmente aprisionaram aquele lunático.<wait more>
     Ele está sendo mantido em Triada, uma prisão ao sul daqui.<wait>
 
 - offsets: 502e,5055,535b
@@ -2487,7 +2487,7 @@
   us: DON'T BE A FOOL!<end>
   en: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
   fr: Ai-je l'air d'un idiot_???<wait>
-  pt-br: Espere, você não tem uma? Então por que você disse sim?! Cai fora!<wait>
+  pt-br: Espere, você não tem? Então por que disse sim?! Cai fora!<wait>
 
 - offsets: 5016,503f,54b4
   # Villager (no to previous question)
@@ -2499,7 +2499,7 @@
     SAY T'YA!GET LOST!<end>
   en: Then I got nothing to say to you. Get lost.<wait>
   fr: Alors je ne vous aiderai pas_! Veuillez partir.<wait>
-  pt-br: Então não tenho nada para te dizer. Vá embora.<wait>
+  pt-br: Então não tenho nada para te dizer. Cai fora.<wait>
 
 - offsets: 504f
   # Another villager (yes to previous question, and you have a PelorieMate)
@@ -2562,7 +2562,7 @@
     THROUGH.<end>
   en: Well, I guess I gotta do what Dr. Luveno says. Go head and pass.<wait>
   fr: Faisons ce que Luveno a dit. L'ignorer_!<wait>
-  pt-br: Bem, acho que tenho que fazer o que o Doutor Luveno pediu. Vá em frente, pode passar.<wait>
+  pt-br: Bem, acho que devo fazer o que o Doutor Luveno pediu. Vá em frente, pode passar.<wait>
 
 
 # *********************
@@ -2592,7 +2592,7 @@
     YOU WILL DIE!<end>
   en: Intruder detected. Initiating termination sequence.<wait>
   fr: Intrus détecté. Activons la phase d'extermination.<wait>
-  pt-br: Intruso detectado. Iniciando a sequência de eliminação.<wait>
+  pt-br: Intruso detectado. Iniciando sequência de eliminação.<wait>
 
 - offsets: 54c4
   # Prisoner (if you give PelorieMate)
@@ -2607,7 +2607,7 @@
   fr: |
     Merci. Tu sais, peu importe ce que les gens disent,<wait more>
     les araignées sont en réalité des créatures très sages.<wait>
-  pt-br: Obrigado. Sabe, não importa o que as pessoas digam, as aranhas são realmente criaturas muito inteligentes.<wait>
+  pt-br: Obrigado. Sabe, não importa o que as pessoas digam, as aranhas realmente são criaturas muito inteligentes.<wait>
 
 - offsets: 54ea
   # Prisoner
@@ -2691,8 +2691,8 @@
     Si vous le voyez, pourriez-vous le saluer de ma part?<wait>
   pt-br: |
     Eu tenho um amigo em Bartevo.<wait more>
-    Por causa de todas aquelas poças de lava, acho que as coisas estão bem ruins por lá.<wait more>
-    Se caso o vir, poderia cumprimentá-lo por mim?<wait>
+    Por causa de todas aquelas poças de lava, acho que as coisas estão bem feias por lá.<wait more>
+    Se caso o vir, poderia dizer ‘oi’ para ele por mim?<wait>
 
 - offsets: 54d0
   # Prisoner (yes to previous question)
@@ -2813,7 +2813,7 @@
     Je vous aiderai, mais vous devrez faire exactement ce que je dirai.<wait more>
     Compris_?<end>
   pt-br: |
-    Você novamente? Ah, eu desisto. Vou construir sua nave espacial, mas há uma condição.<wait more>
+    Você novamente? Ahh, eu desisto. Vou construir sua nave espacial, mas há uma condição.<wait more>
     Você vai me prometer que seguirá exatamente minhas instruções, não importa o que eu peça. Entendido?<end>
 
 - offsets: 5477
@@ -2915,7 +2915,7 @@
     Je n'ai jamais vu personne en sortir vivant.<wait>
   pt-br: |
     Já vi muitos homens entrando na câmara interna.<wait more>
-    Saindo também, porém, a história é outra.<wait more>
+    Saindo também, porém, a história é diferente.<wait more>
     Nunca vi ninguém sair de lá com vida.<wait>
 
 - offsets: 5512
@@ -2942,7 +2942,7 @@
   fr: |
     Sortez d'ici_!<wait more>
     Vous ne savez pas à quoi vous faites face_!<wait>
-  pt-br: Saia daqui enquanto ainda respira! Você não sabe o que está enfrentando!<wait>
+  pt-br: Saia daqui enquanto ainda respira! Você não sabe com quem está lidando!<wait>
 
 - offsets: 551e
   indices: 100
@@ -3050,7 +3050,7 @@
     Si vous alliez exterminer quelques Hélix_?<wait more>
     Où vaquer à un autre de vos passe -temps favoris_?<wait>
   pt-br: |
-    Esplêndido. Nós vamos começar a construção imediatamente.<wait more>
+    Esplêndido. Vamos começar a construção imediatamente.<wait more>
     Este é um trabalho delicado, vê se não me atrapalha!<wait>
 
 - offsets: 50a7
@@ -3102,7 +3102,7 @@
     A moins de vouloir finir coincé dans l'espace, laissez- nous du temps_!<wait more>
     Allez donc visiter une grotte, car là nous sommes très occupés_!<wait>
   pt-br: |
-    Por favor, você não pode apressar a perfeição.<wait more>
+    Por favor, não apresse a perfeição.<wait more>
     A menos que você queira acabar encalhado no espaço, dá-nos um tempo.<wait more>
     Você não quer ir passear em uma caverna ou algo assim? Estamos muito ocupados.<wait>
 
@@ -3202,7 +3202,7 @@
   pt-br: |
     Ah, meu pequeno Hapsby, você chegou em casa!<wait more>
     Excelente. Com Hapsby você pode pilotar a Luveno através do espaço!<wait more>
-    E bem na hora, também. A segurança do espaçoporto ficou mais rígida.<wait more>
+    E bem na hora, também. A segurança do Espaçoporto ficou mais rígida.<wait more>
     Vá em frente! A Luveno está ancorada fora da vila! Vá experimentá-la!<wait>
 
 - offsets: 5071
@@ -3316,7 +3316,7 @@
   fr: |
     J'ai entendu dire qu'on trouvait un produit appelé Polymatériau<wait more>
     dans la cité d'Abion.<wait>
-  pt-br: A farmácia na Vila de Avion vende o Polimaterial.<wait>
+  pt-br: A farmácia na Vila Avion vende o Polimaterial.<wait>
 
 - offsets: 57bd
   # Hapsby
@@ -3389,7 +3389,7 @@
     Enfin... avant que Lassic ne devienne un tyran.<wait more>
     Désormais, ce n'est plus qu'une terre en friche pour les affamés.<wait>
   pt-br: |
-    Esta é a Vila de Lore. Bem, ela costumava ser, antes da corrupção de LaShiec.<wait more>
+    Esta é a Vila Lore. Bem, ela costumava ser, antes da corrupção de LaShiec.<wait more>
     Como você pode ver, agora é um terreno baldio.<wait>
 
 - offsets: 5119
@@ -3669,7 +3669,7 @@
   fr: |
     Bienvenue à Skure!<wait more>
     Restez bien dans les environs, car il ne fait pas chaud dehors.<wait>
-  pt-br: Esta é Skray, o lugar mais quente de Dezóris! Muito frio lá fora, não acha?<wait>
+  pt-br: Aqui é Skray, o lugar mais quente de Dezóris! Muito frio lá fora, não acha?<wait>
 
 - offsets: 523e
   # Townsperson
@@ -3746,7 +3746,7 @@
   pt-br: |
     Derrotar LaShiec, não é? Você vai precisar de uma espada, um machado, um escudo e uma armadura feitos de Lacônia.<wait more>
     Lacônia é o material mais poderoso em Algol, não usaria nada menos poderoso, se eu fosse você.<wait more>
-    Todos nós estaremos orando por sua segurança.<wait>
+    Estaremos orando por sua segurança.<wait>
 
 - offsets: 5250
   # Townsperson
@@ -3896,7 +3896,7 @@
     CALLED UZO.<end>
   en: This is Uzo Village, on Motavia.<wait>
   fr: Bienvenue au village d'Uzo sur Motavia.<wait>
-  pt-br: Esta é a Vila de Uzo, em Motávia.<wait>
+  pt-br: Esta é a Vila Uzo, em Motávia.<wait>
 
 - offsets: 5163
   # Villager
@@ -4023,7 +4023,7 @@
     J'ai enterré l'une d'entrés elles à la périphérie de la cité de Gothic.<wait more>
     Ne dites à personne que je vous en ai parlé_!<wait>
   pt-br: |
-    Bem, este é um segredo, mas enterrei uma nos arredores da vila de Gótica.<wait more>
+    Bem, este é um segredo, mas enterrei uma nos arredores da vila Gótica.<wait more>
     Não diga a ninguém!<wait>
 
 
@@ -4069,7 +4069,7 @@
     CALLED CASBA.<end>
   en: This is Casba Village.<wait>
   fr: Bienvenue à vous dans notre village de Casba.<wait>
-  pt-br: Esta é a Vila de Casba.<wait>
+  pt-br: Esta é a Vila Casba.<wait>
 
 - offsets: 51a0
   # Villager
@@ -4110,7 +4110,7 @@
     Elles parlent d'un bouclier légendaire.<wait more>
     Apparemment, Persée s'en serait servi pour vaincre un monstre.<wait>
   pt-br: |
-    Em uma vila cercada por gás, as pessoas contam a história de um escudo lendário.<wait more>
+    Em uma vila cercada por névoa, as pessoas contam a história de um escudo lendário.<wait more>
     Dizem que há muito tempo um homem chamado Perseus o usou para enfrentar um monstro.<wait>
 
 - offsets: 51b2
@@ -4241,7 +4241,7 @@
     Comment diable êtes-vous arrivés jusqu'ici_?<wait>
   pt-br: |
     Uau! Eu não esperava ver visitantes aqui tão cedo.<wait more>
-    Que estranho, como é que você chegou aqui? LaShiec embargou as viagens marítimas!<wait>
+    Que estranho! Se LaShiec embargou as viagens marítimas, como é que você chegou aqui?<wait>
 
 - offsets: 51dd
   # Townsperson
@@ -4287,7 +4287,7 @@
   fr: |
     On me nomme Grande Sœur Choko.<wait more>
     Soyez forte et poursuivez votre aventure_!<wait>
-  pt-br: Sou eu, Choko Oneesan! Seja forte e valente enquanto você continua sua jornada!<wait>
+  pt-br: Sou eu, Choko Oneesan! Seja forte e valente enquanto continua sua jornada!<wait>
 
 - offsets: 51ef
   # Person inside cave
@@ -4313,7 +4313,7 @@
     Peut être en allant à gauche, puis tout droit...<wait>
   pt-br: |
     Vim a esta cidade para comprar uma Máscara de Gás, preciso dela para me proteger dos gases venenosos.<wait more>
-    Deve haver uma loja por aqui que vende, mas não consigo encontrá-la em lugar nenhum!<wait>
+    Deve haver uma loja por aqui que vende, mas não consigo encontrar de jeito nenhum!<wait>
 
 - offsets: 51f5
   # Person inside cave
@@ -4340,7 +4340,7 @@
     Quoi_? Ne me regardez pas comme ca.<wait>
   pt-br: |
     Esta é uma loja de ferramentas. Do que você precisa?<wait more>
-    ...haha, desculpe, eu só estava brincando! O quê? Não olhe para mim assim.<wait>
+    ...haha, desculpe, só estava brincando! O quê? Não olhe assim paa mim.<wait>
 
 - offsets: 5201
   # GasClear salesman
@@ -4535,7 +4535,7 @@
   pt-br: |
     Obrigado. Talvez eu possa ajudá-lo em troca.<wait more>
     Imagino que você está procurando o Escudo de Perseu. O que ele usou para matar Medusa?<wait more>
-    A lenda local diz que está em uma ilha no lago, enterrado sob um cacto.<wait>
+    A lenda local diz que ele está em uma ilha no lago, enterrado sob um cacto.<wait>
 
 - offsets: 5306
   # Gamer Miki
@@ -4959,7 +4959,7 @@
   pt-br: |
     As árvores Laerma possuem frutas estranhas.<wait more>
     Elas são chamadas de Frutas de Laerma e são realmente saborosas, elas são.<wait more>
-    Mas, se não colocá-las em um Pote de Lacônia, eles murcham, murcham sim.<wait>
+    Mas, se não colocá-las em um Pote de Lacônia, elas murcham, murcham sim.<wait>
 
 - offsets: 528c
   # Honest Dezorian
@@ -5895,7 +5895,7 @@
     Le Seigneur Lassic est invulnérable. Il vous détruira tous_!<wait>
   pt-br: |
     Eu sou apenas o guerreiro-sombra de LaShiec. Você não ganhou nada ao me derrotar.<wait more>
-    Rei LaShiec é importal. Seu poder desafia a compreensão. Você veio aqui para morrer.<wait>
+    Rei LaShiec é imortal. Seu poder desafia a compreensão. Você veio aqui para morrer.<wait>
 
 - offsets: 576a
   # LaShiec
@@ -6085,13 +6085,13 @@
     Désormais nous sommes sans roi, Alisa.<wait more>
     Prendras-tu sa place afin de devenir la reine d'Algol_?<end>
   pt-br: |
-    Oh, meu Deus. Me perdoe. Minha mente e meu corpo eram controlados por uma força maligna.<wait more>
+    Oh, meu Deus. Me perdoe. Minha mente e meu corpo estavam sendo controlados por uma força maligna.<wait more>
     Você conseguiu! Você salvou Algol. A história deve lembrar os seus nomes, sempre.<wait more>
     LaShiec não existe mais, sua terrível fortaleza foi destruída. Finalmente, a paz pode ser restaurada.<wait more>
     E bem na hora também. Temo que se você demorasse mais, teríamos perdido tudo.<wait more>
     Alisa. Há algo que devo lhe contar. Um segredo que guardei, para poupar sua vida.<wait more>
     Alisa... Seu pai era Aures Landeel, o rei de Algol. A coroa é sua pelo sangue.<wait more>
-    Algol está sem um líder. Você sucederá seu pai, e tomar o seu lugar como nossa rainha?<end>
+    Algol está sem um líder. Você sucederá seu pai, e tomará o seu lugar como nossa rainha?<end>
 
 - offsets: 5849,58ea
   # Governor-General (yes to previous question)
@@ -6111,7 +6111,7 @@
   fr: |
     Votre père était le meilleur Roi qu'Algol ait connu.<wait more>
     Et plus que cela, il était un homme bon. Il serait très fier de vous aujourd'hui.<wait>
-  pt-br: Então você tem minha eterna lealdade. Todos! Vamos saudar a nova rainha de Algol, Alisa Landeel!<wait>
+  pt-br: Então você tem minha eterna lealdade. Todos saúdem a nova Rainha de Algol, Alisa Landeel!<wait>
 
 - offsets: 58ef
   # Governor-General (no to previous question)
@@ -6130,7 +6130,7 @@
     Dommage, il vous<line>
     serait bien utile.<wait more>
     Vous êtes toujours la bienvenue ici.<wait>
-  pt-br: Entendo. Não vou tentar te convencer. Caso mude de ideia, Algol receberá você sempre.<wait>
+  pt-br: Entendo. Não vou tentar te convencer. Caso mude de ideia, Algol estará sempre de portas abertas para você.<wait>
 
 
 # ********************
@@ -6232,7 +6232,7 @@
          AND MYAU<wait>
   en: ___and Myau.<delay>
   fr: ____et Myau.<delay>
-  pt-br: ___e Myau.<delay>
+  pt-br: _____e Myau.<delay>
 
 - offsets: 482c
   indices: 180-2
@@ -7445,7 +7445,7 @@
   pt-br: |
     ArutemuhamuRAmu A--rgh!<line>
     Cof! cof!<wait more>
-    Minhas desculpas.<line>
+    Mil desculpas.<line>
     Por alguma razão, eu falhei.<wait>
 
 - offsets: 2bfb
@@ -8057,7 +8057,7 @@
   fr: Suppression d'une sauvegarde. Choisir un emplacement.<end>
   pt-br: |
     Deletar um jogo salvo.<line>
-    Escolha uma posição para apagar.<end>
+    Escolha uma posição.<end>
 
 - offsets: ScriptDeletingFromSlotN
   indices: 144-2
