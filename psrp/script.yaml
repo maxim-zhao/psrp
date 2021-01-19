@@ -237,7 +237,7 @@
     Ouvi histórias de um guerreiro chamado Tylon, que poderia ser um aliado.<line><line>
     Queria contar com sua ajuda, mas ele está desaparecido.<wait more>
     Alisa, você precisa encontrar Tylon.<line><line>
-    Juntos, vocês podem derrotar LaShiec e trazer a paz de volta a Algol.<wait more>
+    Juntos vocês podem derrotar LaShiec e trazer a paz de volta a Algol.<wait more>
     Alisa... um fardo tão terrível. Me desculpe.<line><line>
     Por favor, me perdoe, por pedir isso de você...<wait more>
     ...e por deixar todos vocês...<line><line>
@@ -2499,7 +2499,7 @@
     SAY T'YA!GET LOST!<end>
   en: Then I got nothing to say to you. Get lost.<wait>
   fr: Alors je ne vous aiderai pas_! Veuillez partir.<wait>
-  pt-br: Então não tenho nada para te dizer. Cai fora.<wait>
+  pt-br: Então não tenho nada para te dizer. Cai fora!<wait>
 
 - offsets: 504f
   # Another villager (yes to previous question, and you have a PelorieMate)
