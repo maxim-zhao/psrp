@@ -1175,6 +1175,9 @@ _Initial_Codes:
     ld (STR),bc   ; Save pointer
     dec (hl)    ; Shrink length
     jr nz,_Initial_Codes ; Loop if still alive
+    ; terminate if we got to the end
+    ld a,SymbolEnd
+    jr +
 
 _Begin_Scan:
     push hl     ; Save new current length
@@ -1206,7 +1209,7 @@ _Text_Spill_WS:
 
 _Text_Spill_Line:
     ld a,SymbolNewLine    ; newline
-
++:
   pop bc      ; Stack registers
   pop hl
   ret     ; exit
