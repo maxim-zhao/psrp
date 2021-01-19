@@ -609,11 +609,11 @@
     │                  ║
     ╘══════════════════╝
   pt-br: |
-    ┌──────────────────╖
-    │                  ║
-    │                  ║
-    │                  ║
-    ╘══════════════════╝
+    ┌────────────────────╖
+    │                    ║
+    │                    ║
+    │                    ║
+    ╘════════════════════╝
     
 - name: InventoryMenuDimensions
   emitData: false
@@ -645,18 +645,18 @@
     │ Item 8           ║
     ╘══════════════════╝
   pt-br: |
-    ┌──────────────────╖
-    │ Meseta     65535 ║
-    │ Próximo          ║
-    │ Item 1           ║
-    │ Item 2           ║
-    │ Item 3           ║
-    │ Item 4           ║
-    │ Item 5           ║
-    │ Item 6           ║
-    │ Item 7           ║
-    │ Item 8           ║
-    ╘══════════════════╝
+    ┌────────────────────╖
+    │ Meseta       65535 ║
+    │ Próximo            ║
+    │ Item 1             ║
+    │ Item 2             ║
+    │ Item 3             ║
+    │ Item 4             ║
+    │ Item 5             ║
+    │ Item 6             ║
+    │ Item 7             ║
+    │ Item 8             ║
+    ╘════════════════════╝
 
 - name: TopBorder10
   # inventory, shop MST, currently equipped items
@@ -664,7 +664,7 @@
   dims: 364e,3838,3b29
   en: ┌──────────────────╖
   fr: ┌──────────────────╖
-  pt-br: ┌──────────────────╖
+  pt-br: ┌────────────────────╖
 
 - name: BottomBorder10
   # inventory, shop MST, currently equipped items
@@ -672,14 +672,14 @@
   dims: 3684,3863,3b35
   en: ╘══════════════════╝
   fr: ╘══════════════════╝
-  pt-br: ╘══════════════════╝
+  pt-br: ╘════════════════════╝
 
 - name: InventoryNextMenu
   ptrs: 365c
   dims: 365f
   en: │Next              ║
   fr: │Suite             ║
-  pt-br: │Próximo           ║
+  pt-br: │Próximo             ║
 
 - name: StoreMSTBoxDimensions
   emitData: false
@@ -693,9 +693,9 @@
     │                  ║
     ╘══════════════════╝
   pt-br: |
-    ┌──────────────────╖
-    │                  ║
-    ╘══════════════════╝
+    ┌────────────────────╖
+    │                    ║
+    ╘════════════════════╝
     
 - name: ShopInventoryDimensions
   emitData: false
@@ -713,11 +713,11 @@
     │ Item 3           65535 ║
     ╘════════════════════════╝
   pt-br: |
-    ┌────────────────────────╖
-    │ Item 1           65535 ║
-    │ Item 2           65535 ║
-    │ Item 3           65535 ║
-    ╘════════════════════════╝
+    ┌──────────────────────────╖
+    │ Item 1             65535 ║
+    │ Item 2             65535 ║
+    │ Item 3             65535 ║
+    ╘══════════════════════════╝
     
 - name: TopBorder16
   # Shop inventory
@@ -725,7 +725,7 @@
   dims: 39fd
   en: ┌────────────────────────╖
   fr: ┌────────────────────────╖
-  pt-br: ┌────────────────────────╖
+  pt-br: ┌──────────────────────────╖
 
 - name: BottomBorder16
   # Shop inventory
@@ -733,7 +733,7 @@
   dims: 3a3a
   en: ╘════════════════════════╝
   fr: ╘════════════════════════╝
-  pt-br: ╘════════════════════════╝
+  pt-br: ╘══════════════════════════╝
   
 - name: HapsbyTravelMenu
   ptrs: 3b5d

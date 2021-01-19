@@ -219,7 +219,7 @@ _script\@_end:
 
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
-.enum $df00 export
+.enum $dfb0 export
   ; Script decoding
   STR       dw   ; pointer to WRAM string
   LEN       db   ; length of substring in WRAM
@@ -1947,7 +1947,7 @@ Items:
   String  "<um> Passaporte"
   String "<uma> Bússola"
   String  "<um> Bolo"
-  String   "<a> Carta[ do Governador-Geral]"
+  String   "<a> Carta do Governador[-Geral]"
   String  "<um> Pote de Lacônia"
   String   "<o> Pingente de Luz"
   String   "<o> Olho de Carbúnculo"
@@ -2377,7 +2377,7 @@ equipment:
 
   ret
 
-.define ITEM_NAME_WIDTH 18 ; when drawn in menus
+.define ITEM_NAME_WIDTH InventoryMenuDimensions_width-2 ; when drawn in menus
 
 _start_write:
   di
@@ -2687,7 +2687,6 @@ DezorianCustomStringCheck:
 ;       | (fr:10x5)     |                   | (magic) (8x9) |
 ; $de80 +---------------+                   |         (B,W) |
 ; $de9a                                     +---------------+
-; (Maximum is $deff)
 
 ; Save data menu has to be moved to allow more slots and longer names
 ; Save slots are $400 bytes so we have room for 7.
@@ -2743,17 +2742,23 @@ DezorianCustomStringCheck:
   DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                    3                     2                       19
   DefineWindow CHARACTERSTATS   NARRATIVE             18                    9                     31-_sizeof_StatsBorderTop/2 4
   DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width       WorldMenu_height      1                       1
-  DefineWindow CURRENT_ITEMS    MENU_end              20                    5                     11                      13
+  DefineWindow CURRENT_ITEMS    MENU_end              InventoryMenuDimensions_width  5            31-InventoryMenuDimensions_width 13
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                     6                     1                       8
-  DefineWindow INVENTORY        ENEMY_STATS_end       20                    12                    11                      1
+  DefineWindow ENEMY_NAME       MENU_end              21                    3                     11                      0 ; max width 19 chars
+  DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                     10                    24                      3
+; Inventory goes after the end off whichever of these is later
+.if ENEMY_STATS_end > PLAYER_SELECT_end
+.define INVENTORY_START ENEMY_STATS_end
+.else
+.define INVENTORY_START PLAYER_SELECT_end
+.endif
+  DefineWindow INVENTORY        INVENTORY_START       InventoryMenuDimensions_width InventoryMenuDimensions_height 31-InventoryMenuDimensions_width 1
   DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width  ItemActionMenu_height 31-ItemActionMenu_width 13
   DefineWindow HAPSBY           MENU_end              8                     5                     21                      13
   DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width    ToolShopMenu_height   23                      14
   DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width 7                     WorldMenu_width+1       1 ; Spells and inventory are mutually exclusive
   DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                     6                     9                       8
   DefineWindow YESNO            USEEQUIPDROP          5                     4                     24                      14
-  DefineWindow ENEMY_NAME       MENU_end              21                    3                     11                      0 ; max width 19 chars
-  DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                     10                    24                      3
   DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                     3                     1                       8
   DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height (32-ShopInventoryDimensions_width)/2 0
   DefineWindow SHOP_MST         INVENTORY             20                    3                     3                       15 ; same width as inventory (for now)
@@ -2761,8 +2766,6 @@ DezorianCustomStringCheck:
   DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width   SoundTestMenu_height+2  32-SoundTestMenu_width 0
   DefineWindow OptionsWindow    $d700                 OptionsMenu_width     OptionsMenu_height    32-OptionsMenu_width    24-OptionsMenu_height
   DefineWindow ContinueWindow   $d700                 ContinueMenu_width    ContinueMenu_height   18                      16
-
-; TODO: add rules for checking no overlap? hard
 
 ; The game puts the stack in a space from $cba0..$caff. The RAM window cache
 ; therefore can extend as far as $dffb (inclusive) - $dffc+ are used
@@ -2918,7 +2921,7 @@ stats:
 ; This one needs to go in low ROM as it's accessed from multiple places (stats, shop, inventory)
 .bank 0 slot 0
 .section "Meseta tilemap data" free
-MST:      .stringmap tilemap "│Meseta       "   ; 5 digit number but also used for shop so extra spaces needed
+MST:      .stringmap tilemap "│Meseta         "   ; 5 digit number but also used for shop so extra spaces needed
 .ends
 
 .slot 1
