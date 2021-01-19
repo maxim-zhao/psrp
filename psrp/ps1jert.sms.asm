@@ -4185,7 +4185,7 @@ FontLookup:
 .stringmap tilemap " 0123456789"
 .stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ". ‘’,-!?_ãáàâçêéíóõôú"
+.stringmap tilemap ". ‘’,-!?_ãá âçêéíóõôú"
 .endif
 .ends
 
