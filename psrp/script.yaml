@@ -5288,7 +5288,7 @@
   pt-br: |
     Eu sou Otegami Chie-chan, da Sega! Obrigado por todas as suas cartas.<wait more>
     Por favor, diga-nos o que você acha deste jogo. Estamos ansiosos em saber.<wait more>
-    Aqui vai uma dica: Vá até o ponto mais alto de Palma e levante o Aeroprisma ao céu!<wait>
+    Aqui vai uma dica - Vá até o ponto mais alto de Palma e levante o Aeroprisma ao céu!<wait>
 
 
 # *************************
@@ -7565,9 +7565,9 @@
   indices: 0F0-2
   ja: デハ <number>バンニ セーブシマス.<delay>
   us: WELL, SAVING <number>.<wait>
-  en: OK. Now saving in slot<internal hint 04> <number>...<delay>
+  en: OK. Now saving in slot <number>...<delay>
   fr: Ok. Emplacement numéro <number> en cours de sauvegarde...<delay>
-  pt-br: Ok. Salvando na posição<internal hint 04> <number>...<delay>
+  pt-br: Ok. Salvando na posição <number>...<delay>
 
 - offsets: ScriptDone,1e91
   indices: 0F2-2
@@ -8065,10 +8065,12 @@
   us: |
     GAME <number> HAS BEEN<line>
     DELETED.<end>
-  en: Deleting game from slot<internal hint 04> <number>...<end>
-  #<end> is nicer than <wait> here - Maxim
-  fr: Suppression de la sauvegarde, emplacement <number>.<end>
-  pt-br: Deletando o jogo da posição<internal hint 04> <number>...<end>
+  en: Deleting game from slot <number>...<delay>
+  #<delay> is nicer than <wait> here - Maxim
+  fr: Suppression de la sauvegarde, emplacement <number>.<delay>
+  pt-br: |
+    Deletando o jogo da posição <line>
+    <number>...<delay>
 
 - offsets: ScriptNoSavedGames
   en: There are no saved games!<wait>
