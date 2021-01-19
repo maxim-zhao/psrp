@@ -573,7 +573,7 @@
   us: YOU MAY NOT PASS.<end>
   en: Authorization is required to pass this point. Stay back or we will use force!<wait>
   fr: Désolé, nous sommes en état d'alerte. Accès interdit.<wait>
-  pt-br: É necessária autorização para passar neste ponto. Fique para trás, ou usaremos a força!<wait>
+  pt-br: Uma autorização é necessária para passar neste ponto. Fique para trás, ou usaremos a força!<wait>
 
 - offsets: 4bda,4d23
   # Camineet police (at road, without a Roadpass)
@@ -4795,7 +4795,7 @@
   fr: |
     Alors tu te dois de passer un test final.<wait more>
     Battons-nous en duel.<wait>
-  pt-br: Eu te ensinei tudo o que sei. É hora de dar a você um teste final, vamos duelar!<wait>
+  pt-br: Eu te ensinei tudo o que sei. Agora é hora de dar a você um teste final, vamos duelar!<wait>
 
 - offsets: 5722
   # Tajim (if you win)
