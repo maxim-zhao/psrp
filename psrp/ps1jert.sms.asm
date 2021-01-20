@@ -2057,7 +2057,7 @@ Enemies:
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
-.include "substring_formatter/words.asm"
+.include "words.asm"
 ; Terminator
 .db $df
 .endb

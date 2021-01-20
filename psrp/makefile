@@ -22,7 +22,7 @@ LANGUAGE = en
 # The dictionary size. Maximum is 164.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count depends on the script. Iterating through the options can help to find the best value. CMD one-liner:
-# for /l %n in (1,1,140) do @del substring_formatter\words.tbl & ((nmake WORD_COUNT=%n LANGUAGE=pt-br ps1jert.sms 2>&1 || echo 0 unused bytes) | find "unused bytes") >> sizes.txt
+# for /l %n in (1,1,140) do @del words.tbl & ((nmake WORD_COUNT=%n LANGUAGE=pt-br ps1jert.sms 2>&1 || echo 0 unused bytes) | find "unused bytes") >> sizes.txt
 # On 2021-01-06 the optimal value for total size was 91 for English and 54 for French.
 !IF "$(LANGUAGE)" == "en"
 WORD_COUNT = 91
@@ -41,13 +41,13 @@ PLAY: ps1jert.sms
 
 # word_count
 # Analyses the script to determine which words can be substituted for best "compression"
-word_count\words.txt : script.yaml tools.py
-  $(PY) tools.py word_count word_count\words.txt script.yaml $(LANGUAGE)
+words.txt : script.yaml tools.py
+  $(PY) tools.py word_count words.txt script.yaml $(LANGUAGE)
 
 # substring_formatter
 # Converts the word list from word_count to a dictionary and a TBL file for those words
-substring_formatter\words.tbl substring_formatter\words.asm: tools.py word_count\words.txt
-  $(PY) tools.py substring_formatter $(WORD_COUNT) word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
+words.tbl words.asm: tools.py words.txt
+  $(PY) tools.py substring_formatter $(WORD_COUNT) words.txt words.tbl words.asm
 
 # bitmap_decode
 # Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
@@ -126,8 +126,8 @@ menu_creater\menus.asm menu_creater\menu-patches.asm : menus.yaml menu_creater\m
 script_inserter\script_inserter.exe: script_inserter\*.cpp mini-yaml/yaml/Yaml.cpp
   $(CPP) $(CPPFLAGS) $** /Fe:script_inserter\script_inserter.exe
 
-script_with_words.tbl: script.$(LANGUAGE).tbl substring_formatter\words.tbl
-  copy /y /b script.$(LANGUAGE).tbl + substring_formatter\words.tbl script_with_words.tbl
+script_with_words.tbl: script.$(LANGUAGE).tbl words.tbl
+  copy /y /b script.$(LANGUAGE).tbl + words.tbl script_with_words.tbl
 
 script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm: script_with_words.tbl script_inserter\script_inserter.exe script.yaml
   script_inserter\script_inserter.exe script.yaml $(LANGUAGE) script_with_words.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
@@ -146,7 +146,7 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\alisa.tiles.bin
 
 # ROM building
-ps1jert.sms.o: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm substring_formatter\words.asm script_inserter\tree.asm tilemap.$(LANGUAGE).tbl script.$(LANGUAGE).tbl credits.tbl $(BINS) ps1jert.sms.asm
+ps1jert.sms.o: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm words.asm script_inserter\tree.asm tilemap.$(LANGUAGE).tbl script.$(LANGUAGE).tbl credits.tbl $(BINS) ps1jert.sms.asm
   $(WLAZ80) -D LANGUAGE=$(LANGUAGE) -o "ps1jert.sms.o" "ps1jert.sms.asm"
 
 ps1jert.sms: ps1jert.sms.o
@@ -157,10 +157,8 @@ CLEANFILES = $(BINS) \
        menu_creater\*.asm \
        script_inserter\*.asm \
        script_with_words.tbl \
-       substring_formatter\words.tbl substring_formatter\words.asm \
-       word_count\stats.txt word_count\words.txt \
-       word_count\word_count.exe \
-       substring_formatter\substring_formatter.exe \
+       words.tbl words.asm \
+       words.txt \
        bitmap_decode\bitmap_decode.exe \
        menu_creater\menu_creater.exe \
        script_inserter\script_inserter.exe
