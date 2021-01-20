@@ -39,15 +39,11 @@ DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
 PLAY: ps1jert.sms
   $(EMU) ps1jert.sms
 
-# word_count
+# generate_words
 # Analyses the script to determine which words can be substituted for best "compression"
-words.txt : script.yaml tools.py
-  $(PY) tools.py word_count words.txt script.yaml $(LANGUAGE)
-
-# substring_formatter
-# Converts the word list from word_count to a dictionary and a TBL file for those words
-words.tbl words.asm: tools.py words.txt
-  $(PY) tools.py substring_formatter $(WORD_COUNT) words.txt words.tbl words.asm
+# Converts the word list to a TBL file and an asm file
+words.tbl words.asm: tools.py script.yaml
+  $(PY) tools.py generate_words words.tbl words.asm script.yaml $(LANGUAGE) $(WORD_COUNT)
 
 # bitmap_decode
 # Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
@@ -158,7 +154,6 @@ CLEANFILES = $(BINS) \
        script_inserter\*.asm \
        script_with_words.tbl \
        words.tbl words.asm \
-       words.txt \
        bitmap_decode\bitmap_decode.exe \
        menu_creater\menu_creater.exe \
        script_inserter\script_inserter.exe

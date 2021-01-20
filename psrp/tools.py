@@ -1,10 +1,12 @@
 import sys
-import json
 import re
 import yaml
 
 
-def word_count(out_file, script_file, language):
+start_code = 0x6c  # see WordListStart in asm
+
+
+def generate_words(tbl_file, asm_file, script_file, language, word_count):
     with open(script_file, "r", encoding="utf-8") as f:
         script = yaml.load(f, Loader=yaml.BaseLoader)  # BaseLoader keeps everything as strings
 
@@ -52,33 +54,20 @@ def word_count(out_file, script_file, language):
     # Then sort by weight descending, word descending
     weighted_list.sort(reverse=True)
 
-    # And emit them
-    with open(out_file, "w", encoding="utf-8") as f:
-        for word in weighted_list:
-            f.write(f"{word[1]}\n")
-
-
-start_code = 0x6c  # see WordListStart in asm
-
-
-def substring_formatter(num_words, word_file, tbl_file, asm_file):
-    with open(word_file, "r", encoding="utf-8") as f, \
-            open(tbl_file, "w", encoding="utf-8") as tbl, \
-            open(asm_file, "w", encoding="utf-8") as asm:
-        for code in range(start_code, start_code + num_words):
+    with open(tbl_file, "w", encoding="utf-8") as tbl, open(asm_file, "w", encoding="utf-8") as asm:
+        for index in range(word_count):
+            code = start_code + index
             if code > 255:
                 raise Exception("Word list too large!")
-            word = f.readline().strip()
+            word = weighted_list[index][1]
             tbl.write(f"{code:2X}={word}\n")
             asm.write(f"  String \"{word}\"\n")
 
 
 def main():
     verb = sys.argv[1]
-    if verb == 'word_count':
-        word_count(sys.argv[2], sys.argv[3], sys.argv[4])
-    elif verb == 'substring_formatter':
-        substring_formatter(int(sys.argv[2]), sys.argv[3], sys.argv[4], sys.argv[5])
+    if verb == 'generate_words':
+        generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], int(sys.argv[6]))
     else:
         print(f"Unknown verb \"{verb}\"")
 
