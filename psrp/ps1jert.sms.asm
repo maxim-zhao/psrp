@@ -4185,14 +4185,14 @@ CreditsScreen2: .db 3
 CreditsScreen3: .db 5
   CreditsEntry 6,6,"CENARISTA"
   CreditsEntry 17,6,"OSSALE KOHTA"
-  CreditsEntry 13,14,   "^"
+  CreditsEntry 11,14,   "/"
   CreditsEntry 7,15,"HISTORIA"
   CreditsEntry 17,15,"APRIL FOOL"
 CreditsScreen4: .db 6
   CreditsEntry 4,6,"AUXILIAR DE"
-  CreditsEntry 27,5,         "~"
+  CreditsEntry 26,5,         "~"
   CreditsEntry 17,6,"COORDENACAO"
-  CreditsEntry 26,7,        "'"
+  CreditsEntry 25,7,        "'"
   CreditsEntry 10,11,"OTEGAMI CHIE"
   CreditsEntry 18,15,"GAMER MIKI"
 CreditsScreen5: .db 5
