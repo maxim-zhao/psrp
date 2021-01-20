@@ -71,35 +71,28 @@
 
 ; Punctuation
 3F=.
-;40=:
-41=‘
-42=’
-42='
-43=,
-44=-
-45=!
-46=?
+40=‘
+41=’
+41='
+42=,
+43=-
+44=!
+45=?
 ; non-breaking space
-47=_
+46=_
 
 ; Accented characters, mapped to unaccented
-48=ã
-49=á
-;4A=à
-4B=â
-4C=ç
-4D=ê
-4E=é
-4F=í
-50=ó
-51=õ
-52=ô
-53=ú
-
-; Below here are mapping to the unaccented characters...
-0B=Á
-0F=É
-19=Ó
+47=ã
+48=á
+49=â
+4A=ç
+4B=ê
+4C=é
+4D=í
+4E=ó
+4F=õ
+50=ô
+51=ú
 
 ; These control codes only apply to items/names...
 
