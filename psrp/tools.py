@@ -18,7 +18,7 @@ def generate_words(tbl_file, asm_file, script_file, language, word_count):
             if "offsets" in entry:
                 offsets = entry["offsets"]
                 if len(offsets) > 0 and not offsets.isspace():
-                    print(f"Warning: entry has no text for offets {offsets}")
+                    print(f"Warning: entry has no text for offsets {offsets}")
             continue
         # replace tags with space
         line = entry[language]
