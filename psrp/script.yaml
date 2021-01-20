@@ -6182,6 +6182,9 @@
 - width: 29
   height: 6
 
+# This text tries to be centred so it needs quotes around the spaces.
+# Width = 29 so leading space = (29 - length) / 2
+
 - offsets: 4800
   indices: 178-2
   translated: <line>
@@ -6191,9 +6194,9 @@
   us: |
     <line>
          ALIS<wait>
-  en: ______Alisa,<delay>
-  fr: ______Alisa,<delay>
-  pt-br: ______Alisa,<delay>
+  en: "           Alisa,<delay>"
+  fr: "           Alisa,<delay>"
+  pt-br: "           Alisa,<delay>"
 
 - offsets: 480b
   indices: 17A-2
@@ -6204,9 +6207,9 @@
   us: |
     <line>
          ODIN<wait>
-  en: ______Tylon,<delay>
-  fr: ______Tylon,<delay>
-  pt-br: ______Tylon,<delay>
+  en: "           Tylon,<delay>"
+  fr: "           Tylon,<delay>"
+  pt-br: "           Tylon,<delay>"
 
 - offsets: 4816
   indices: 17C-2
@@ -6217,9 +6220,9 @@
   us: |
     <line>
          NOAH<wait>
-  en: _______Lutz,<delay>
-  fr: _______Lutz,<delay>
-  pt-br: _______Lutz,<delay>
+  en: "            Lutz,<delay>"
+  fr: "            Lutz,<delay>"
+  pt-br: "            Lutz,<delay>"
 
 - offsets: 4821
   indices: 17E-2
@@ -6230,9 +6233,9 @@
   us: |
     <line>
          AND MYAU<wait>
-  en: ___and Myau.<delay>
-  fr: ____et Myau.<delay>
-  pt-br: _____e Myau.<delay>
+  en: "          and Myau.<delay>"
+  fr: "          et Myau.<delay>"
+  pt-br: "           e Myau.<delay>"
 
 - offsets: 482c
   indices: 180-2
