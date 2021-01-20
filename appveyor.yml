@@ -15,6 +15,7 @@ build_script:
     appveyor DownloadFile -Url %URL% -FileName ps.zip
     7z x ps.zip -opsrp
     cd psrp
+    pip install PyYAML
     nmake /E LANGUAGE=en
     nmake /E clean
     nmake /E LANGUAGE=fr
