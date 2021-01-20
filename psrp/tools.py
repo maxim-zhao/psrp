@@ -64,10 +64,43 @@ def generate_words(tbl_file, asm_file, script_file, language, word_count):
             asm.write(f"  String \"{word}\"\n")
 
 
+def bitmap_decode(dest_file, source_file, offset):
+    with open(source_file, "rb") as source, open(dest_file, "wb") as dest:
+        source.seek(offset)
+        # We decompress into here
+        buffer = bytearray(0x4000)
+        # Four bitplanes are interleaved
+        for bitplane in range(4):
+            offset = bitplane
+            while True:
+                # Get run byte
+                b = ord(source.read(1))
+                # 0 = end of bitplane
+                if b == 0:
+                    break
+                run_len = b & 0x7f;
+                if b & 0x80 == 0x80:
+                    # Raw run
+                    for i in range(run_len):
+                        buffer[offset] = ord(source.read(1))
+                        offset += 4
+                else:
+                    # RLE run
+                    b = ord(source.read(1))
+                    for i in range(run_len):
+                        buffer[offset] = b
+                        offset += 4
+
+        # Then save. Offset is that of the last byte written plus 4.
+        dest.write(buffer[:offset-3])
+
+
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
         generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], int(sys.argv[6]))
+    elif verb == 'bitmap_decode':
+        bitmap_decode(sys.argv[2], sys.argv[3], int(sys.argv[4], base=16))
     else:
         print(f"Unknown verb \"{verb}\"")
 

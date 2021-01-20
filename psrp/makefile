@@ -48,41 +48,30 @@ words.tbl words.asm: tools.py script.yaml
 # bitmap_decode
 # Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
 # This is done to free up ROM space.
-BITMAP_DECODE = bitmap_decode\bitmap_decode.exe
-
-$(BITMAP_DECODE) : bitmap_decode\*.cpp
-  $(CPP) $(CPPFLAGS) $** /Fe:$(BITMAP_DECODE) /W2
-
-new_graphics\bg1.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40020 $@
-new_graphics\bg2.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 40f36 $@
-new_graphics\bg3.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 41c82 $@
-new_graphics\bg5.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 43406 $@
-new_graphics\bg8.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 44650 $@
-new_graphics\bg9.bin   : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 457d4 $@
-new_graphics\bg10.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 464c1 $@
-new_graphics\bg11.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 46f68 $@
-new_graphics\bg13.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5ac8d $@
-new_graphics\bg14.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 2c010 $@
-new_graphics\bg16.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 5eb6f $@
-new_graphics\bg29.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 27b24 $@
-new_graphics\bg30.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 524ea $@
-new_graphics\bg31.bin  : $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 4c010 $@
-new_graphics\world1.bin: $(PSJ) $(BITMAP_DECODE) ;$(BITMAP_DECODE) $(PSJ) 747b8 $@
+new_graphics\bg1.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 40020
+new_graphics\bg2.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 40f36
+new_graphics\bg3.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 41c82
+new_graphics\bg5.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 43406
+new_graphics\bg8.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 44650
+new_graphics\bg9.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 457d4
+new_graphics\bg10.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 464c1
+new_graphics\bg11.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 46f68
+new_graphics\bg13.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 5ac8d
+new_graphics\bg14.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 2c010
+new_graphics\bg16.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 5eb6f
+new_graphics\bg29.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 27b24
+new_graphics\bg30.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 524ea
+new_graphics\bg31.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 4c010
+new_graphics\world1.bin: $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 747b8
 
 
 # tile conversion from PNG
-new_graphics\font1.psgcompr: new_graphics\font1.$(LANGUAGE).png
-  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font2.psgcompr: new_graphics\font2.$(LANGUAGE).png
-  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font3.psgcompr: $*.png
-  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font1a.psgcompr: new_graphics\font1a.$(LANGUAGE).png
-  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font2a.psgcompr: new_graphics\font2a.$(LANGUAGE).png
-  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\name-entry-cursor.psgcompr: $*.png
-  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1.psgcompr: new_graphics\font1.$(LANGUAGE).png   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font2.psgcompr: new_graphics\font2.$(LANGUAGE).png   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font3.psgcompr: $*.png                               ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1a.psgcompr: new_graphics\font1a.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font2a.psgcompr: new_graphics\font2a.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\name-entry-cursor.psgcompr: $*.png                   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
 new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.top.png
   new_graphics\bmp2tile.exe $** -tileoffset 0 -savetiles new_graphics\title.top.psgcompr -savetilemap new_graphics\title.top.tilemap.pscompr -palsms -savepalette new_graphics\title-pal.bin
@@ -154,7 +143,6 @@ CLEANFILES = $(BINS) \
        script_inserter\*.asm \
        script_with_words.tbl \
        words.tbl words.asm \
-       bitmap_decode\bitmap_decode.exe \
        menu_creater\menu_creater.exe \
        script_inserter\script_inserter.exe
 
