@@ -8,6 +8,7 @@ EMU = "..\..\..\c\meka\meka\mekaw.exe"
 WLAZ80 = "..\..\..\c\wla-dx\binaries\wla-z80.exe"
 WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 FLIPS = "..\..\..\sms-build-tools\flips\flips.exe"
+PY = "py"
 
 # Assume default CPP = cl
 CPPFLAGS = /Os /EHsc /W4 /MP /FS /GS- /MD /nologo /WX
@@ -40,19 +41,13 @@ PLAY: ps1jert.sms
 
 # word_count
 # Analyses the script to determine which words can be substituted for best "compression"
-word_count\word_count.exe : word_count\*.cpp mini-yaml/yaml/Yaml.cpp
-  $(CPP) $(CPPFLAGS) $** /Fe:word_count\word_count.exe
-
-word_count\words.txt : script.yaml word_count\word_count.exe
-  word_count\word_count.exe word_count\words.txt script.yaml $(LANGUAGE)
+word_count\words.txt : script.yaml tools.py
+  $(PY) tools.py word_count word_count\words.txt script.yaml $(LANGUAGE)
 
 # substring_formatter
 # Converts the word list from word_count to a dictionary and a TBL file for those words
-substring_formatter\substring_formatter.exe : substring_formatter\*.cpp
-  $(CPP) $(CPPFLAGS) $** /Fe:substring_formatter\substring_formatter.exe
-
-substring_formatter\words.tbl substring_formatter\words.asm: substring_formatter\substring_formatter.exe word_count\words.txt
-  substring_formatter\substring_formatter.exe $(WORD_COUNT) word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
+substring_formatter\words.tbl substring_formatter\words.asm: tools.py word_count\words.txt
+  $(PY) tools.py substring_formatter $(WORD_COUNT) word_count\words.txt substring_formatter\words.tbl substring_formatter\words.asm
 
 # bitmap_decode
 # Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
