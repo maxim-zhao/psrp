@@ -2387,7 +2387,7 @@
     OUR DUTY IS CLEAR: <line>
     WE MUST PROTECT<line>
     THE PLANETS OF THE<wait more>
-    Algol SYSTEM FROM <line>
+    ALGOL SYSTEM FROM <line>
     EVIL.<line>
     WE MUST FIRST GO<line>
     TO THE GOTHIC<wait more>
@@ -2417,11 +2417,11 @@
   pt-br: |
     Deixe-me ver isso.<wait more>
     ...Ah. Entendo. Então chegou a esse ponto.<line><line>
-    Peço desculpas pela minha hostilidade antes.<wait more>
-    Juntos, devemos proteger Algol de cair em mãos erradas.<line><line>
-    Primeiro, devemos nos encontrar com o Doutor Luveno, na Floresta de Gótica.<wait more>
+    Peço desculpas por minha hostilidade antes.<wait more>
+    Juntos, devemos proteger Algol de cair em trevas.<line><line>
+    Primeiro, vamos nos encontrar com Doutor Luveno, na Floresta de Gótica.<wait more>
     Se bem me lembro, podemos chegar lá através de um bueiro na Estação Espacial de Camineet.<line><line>
-    Vamos. Depressa.<wait>
+    Vamos lá. Depressa.<wait>
 
 
 # ********************
@@ -5042,7 +5042,7 @@
   fr: |
     Voussa pouvoir être téléportés au 10ème sous-sol de la grotte Dézoris!<wait more>
     Pas blague. Noussa pas mentir à voussa.<wait>
-  pt-br: Você pode descer até o décimo nível subterrâneo na Caverna de Dezóris. Não estou brincando.<wait>
+  pt-br: Há um atalho no décimo nível subterrâneo na Caverna de Dezóris. Não estou brincando.<wait>
 
 - offsets: 52b8
   # Dishonest Dezorian
