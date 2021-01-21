@@ -64,23 +64,7 @@ new_graphics\bg30.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ
 new_graphics\bg31.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 4c010
 new_graphics\world1.bin: $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 747b8
 
-
-# tile conversion from PNG
-new_graphics\font1.psgcompr: new_graphics\font1.$(LANGUAGE).png   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font2.psgcompr: new_graphics\font2.$(LANGUAGE).png   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font3.psgcompr: $*.png                               ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font1a.psgcompr: new_graphics\font1a.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font2a.psgcompr: new_graphics\font2a.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\name-entry-cursor.psgcompr: $*.png                   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-
-new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.top.png
-  new_graphics\bmp2tile.exe $** -tileoffset 0 -savetiles new_graphics\title.top.psgcompr -savetilemap new_graphics\title.top.tilemap.pscompr -palsms -savepalette new_graphics\title-pal.bin
-new_graphics\title.bottom.psgcompr new_graphics\title.bottom.tilemap.pscompr: new_graphics\titlescreen.$(LANGUAGE).png
-  new_graphics\bmp2tile.exe $** -tileoffset 256 -savetiles new_graphics\title.bottom.psgcompr -savetilemap new_graphics\title.bottom.tilemap.pscompr
-
-new_graphics\alisa.tiles.bin: new_graphics\alisa.png
-  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-
+# Recompression for the above
 new_graphics\bg1.psgcompr   : new_graphics\bg1.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\bg2.psgcompr   : new_graphics\bg2.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\bg3.psgcompr   : new_graphics\bg3.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
@@ -96,15 +80,28 @@ new_graphics\bg29.psgcompr  : new_graphics\bg29.bin   ; new_graphics\bmp2tile.ex
 new_graphics\bg30.psgcompr  : new_graphics\bg30.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\bg31.psgcompr  : new_graphics\bg31.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\world1.psgcompr: new_graphics\world1.bin ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\world2.psgcompr: new_graphics\world2.$(LANGUAGE).png ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+
+# Graphics conversion from PNG
+new_graphics\font1.psgcompr: $*.$(LANGUAGE).png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font2.psgcompr: $*.$(LANGUAGE).png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font3.psgcompr: $*.png                   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font1a.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font2a.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\name-entry-cursor.psgcompr: $*.png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\world2.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+
+new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.top.png
+  new_graphics\bmp2tile.exe $** -tileoffset 0 -savetiles new_graphics\title.top.psgcompr -savetilemap new_graphics\title.top.tilemap.pscompr -palsms -savepalette new_graphics\title-pal.bin
+new_graphics\title.bottom.psgcompr new_graphics\title.bottom.tilemap.pscompr: new_graphics\titlescreen.$(LANGUAGE).png
+  new_graphics\bmp2tile.exe $** -tileoffset 256 -savetiles new_graphics\title.bottom.psgcompr -savetilemap new_graphics\title.bottom.tilemap.pscompr
+
+new_graphics\alisa.tiles.bin: new_graphics\alisa.png
+  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
 # menu_creater
 
-menu_creater\menu_creater.exe: menu_creater\*.cpp mini-yaml/yaml/Yaml.cpp
-  $(CPP) $(CPPFLAGS) $** /Fe:menu_creater\menu_creater.exe
-
-menu_creater\menus.asm menu_creater\menu-patches.asm : menus.yaml menu_creater\menu_creater.exe
-  menu_creater\menu_creater.exe menus.yaml $(LANGUAGE) menu_creater\menus.asm menu_creater\menu-patches.asm
+menus.asm menu-patches.asm : tools.py menus.yaml
+  $(PY) tools.py menu_creator menus.asm menu-patches.asm menus.yaml $(LANGUAGE)
 
 # script_inserter
 
@@ -131,7 +128,7 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\alisa.tiles.bin
 
 # ROM building
-ps1jert.sms.o: $(PSJ) menu_creater\menus.asm menu_creater\menu-patches.asm words.asm script_inserter\tree.asm tilemap.$(LANGUAGE).tbl script.$(LANGUAGE).tbl credits.tbl $(BINS) ps1jert.sms.asm
+ps1jert.sms.o: $(PSJ) menus.asm menu-patches.asm words.asm script_inserter\tree.asm tilemap.$(LANGUAGE).tbl script.$(LANGUAGE).tbl credits.tbl $(BINS) ps1jert.sms.asm
   $(WLAZ80) -D LANGUAGE=$(LANGUAGE) -o "ps1jert.sms.o" "ps1jert.sms.asm"
 
 ps1jert.sms: ps1jert.sms.o
@@ -139,11 +136,10 @@ ps1jert.sms: ps1jert.sms.o
   @echo Successful: translated file is ps1jert.sms
 
 CLEANFILES = $(BINS) \
-       menu_creater\*.asm \
+       menus.asm menu-patches.asm \
        script_inserter\*.asm \
        script_with_words.tbl \
        words.tbl words.asm \
-       menu_creater\menu_creater.exe \
        script_inserter\script_inserter.exe
 
 ps1jert.$(LANGUAGE).ips: $(PSJ) ps1jert.sms

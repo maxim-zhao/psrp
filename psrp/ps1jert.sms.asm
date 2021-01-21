@@ -2077,11 +2077,11 @@ IndexTableRemap:
 .section "Menu data" superfree
 .block "Menus"
 MenuData:
-.include "menu_creater/menus.asm"
+.include "menus.asm"
 .endb
 .ends
 
-.include "menu_creater/menu-patches.asm"
+.include "menu-patches.asm"
 
   PatchB $3b58 :MenuData ; HapsbyTravelMenu only
   PatchB $3b82 :MenuData ; OutputTilemapBoxWipePaging

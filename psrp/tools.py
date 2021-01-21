@@ -78,7 +78,7 @@ def bitmap_decode(dest_file, source_file, offset):
                 # 0 = end of bitplane
                 if b == 0:
                     break
-                run_len = b & 0x7f;
+                run_len = b & 0x7f
                 if b & 0x80 == 0x80:
                     # Raw run
                     for i in range(run_len):
@@ -95,12 +95,60 @@ def bitmap_decode(dest_file, source_file, offset):
         dest.write(buffer[:offset-3])
 
 
+class Menu:
+    def __init__(self, node, language):
+        self.name = node["name"]
+        self.emit_data = node["emitData"] == "true" if "emitData" in node else True
+        self.ptrs = [int(x.strip(), base=16) for x in node["ptrs"].split(",")] if "ptrs" in node else []
+        self.dims = [int(x.strip(), base=16) for x in node["dims"].split(",")] if "dims" in node else []
+        self.lines = node[language].splitlines()
+        self.width = max(len(x) for x in self.lines)
+        if min(len(x) for x in self.lines) != self.width:
+            print(f"Warning: uneven line lengths in menu {self.name}\n")
+        self.height = int(node["height"]) if "height" in node else len(self.lines)
+
+    def write_data(self, f):
+        if self.emit_data:
+            # Emit the data at the current (unknown) address
+            f.write(f"{self.name}:\n")
+            for line in self.lines:
+                f.write(f".stringmap tilemap \"{line}\"\n")
+        f.write(f".define {self.name}_width  {self.width}\n")
+        f.write(f".define {self.name}_height {self.height}\n")
+        f.write(f".define {self.name}_dims   {self.width * 2 + self.height * 256}\n")
+
+    def write_patches(self, f):
+        f.write(f"; {self.name} patches\n")
+        for ptr in self.ptrs:
+            f.write(f"  PatchW ${ptr:x} {self.name}\n")
+        for ptr in self.dims:
+            f.write(f"  PatchB ${ptr+0:x} {self.width}*2\n")
+            f.write(f"  PatchB ${ptr+1:x} {self.height}\n")
+
+
+def menu_creator(data_asm, patches_asm, menus_yaml, language):
+    # Read the file
+    with open(menus_yaml, "r", encoding="utf-8") as f:
+        menus = yaml.load(f, Loader=yaml.BaseLoader)
+
+    # Parse
+    menus = [Menu(x, language) for x in menus]
+
+    # Emit
+    with open(data_asm, "w", encoding="utf-8") as data, open(patches_asm, "w", encoding="utf-8") as patches:
+        for menu in menus:
+            menu.write_data(data)
+            menu.write_patches(patches)
+
+
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
         generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], int(sys.argv[6]))
     elif verb == 'bitmap_decode':
         bitmap_decode(sys.argv[2], sys.argv[3], int(sys.argv[4], base=16))
+    elif verb == 'menu_creator':
+        menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
     else:
         print(f"Unknown verb \"{verb}\"")
 
