@@ -65,3 +65,6 @@ Release
 /psrp/words.txt
 /psrp/menu-patches.asm
 /psrp/menus.asm
+/psrp/script.asm
+/psrp/script-patches.asm
+/psrp/tree.asm

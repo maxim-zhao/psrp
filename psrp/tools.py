@@ -2,7 +2,6 @@ import sys
 import re
 import yaml
 
-
 start_code = 0x6c  # see WordListStart in asm
 
 
@@ -40,7 +39,7 @@ def generate_words(tbl_file, asm_file, script_file, language, word_count):
     # The benefit of substituting a word is a bit complicated.
     # The substituted text storage is in a separate bank to the main script so moving low-frequency long words there can
     # be worthwhile. The space taken by a word is very much dependent on the letter frequency that we later Huffman
-    # compress, so common letter sequences are cheaper than unusual ones; the Huffman trees are also stored outside the
+    # compress, so common letter sequences are cheaper than unusual ones the Huffman trees are also stored outside the
     # script bank. Thus we can maximize the script space by selecting the words which are used the most, and are long
     # when Huffman encoded. As we don't know the Huffman length, we use the word length as a proxy.
     # Some tweaking of the weight function seems to find this gives the smallest size for the script block, which is the
@@ -92,7 +91,7 @@ def bitmap_decode(dest_file, source_file, offset):
                         offset += 4
 
         # Then save. Offset is that of the last byte written plus 4.
-        dest.write(buffer[:offset-3])
+        dest.write(buffer[:offset - 3])
 
 
 class Menu:
@@ -122,8 +121,8 @@ class Menu:
         for ptr in self.ptrs:
             f.write(f"  PatchW ${ptr:x} {self.name}\n")
         for ptr in self.dims:
-            f.write(f"  PatchB ${ptr+0:x} {self.width}*2\n")
-            f.write(f"  PatchB ${ptr+1:x} {self.height}\n")
+            f.write(f"  PatchB ${ptr + 0:x} {self.width}*2\n")
+            f.write(f"  PatchB ${ptr + 1:x} {self.height}\n")
 
 
 def menu_creator(data_asm, patches_asm, menus_yaml, language):
@@ -141,6 +140,503 @@ def menu_creator(data_asm, patches_asm, menus_yaml, language):
             menu.write_patches(patches)
 
 
+class Table:
+    def __init__(self, filename):
+        self.symbol_to_text = {}
+        self.text_to_symbol = {}
+        with open(filename, "r", encoding="utf-8") as f:
+            for line in f.read().splitlines():
+                match = re.fullmatch("([0-9a-zA-Z]+)=(.+)", line)
+                if match:
+                    value = bytes.fromhex(match.group(1))
+                    text = match.group(2)
+                    self.symbol_to_text[ord(value)] = text
+                    self.text_to_symbol[text] = value
+
+        self.longest_value = max(len(x) for x in self.text_to_symbol)
+
+    def find_longest_match(self, s):
+        """
+        Returns the bytes value and string length for the longest match for the start of string s,
+        or None if no match
+        """
+        # We do this by trying one character at a time until we fail.
+        length = 0
+        match = -1
+        max_length = min(self.longest_value, len(s))
+        candidate = ""
+        for trial_length in range(1, max_length+1):
+            candidate += s[trial_length - 1]
+            if candidate in self.text_to_symbol:
+                # Remember it
+                length = trial_length
+                match = self.text_to_symbol[candidate]
+        if length == 0:
+            return None
+        else:
+            return match, length
+
+    def text_for_symbol(self, symbol):
+        return self.symbol_to_text.get(symbol)
+
+
+class ScriptingCode:
+    # This matches an enum in the assembly code with the same names
+    SymbolPlayer, SymbolMonster, SymbolItem, SymbolNumber, SymbolBlank, SymbolNewLine, SymbolWaitMore, SymbolEnd, \
+        SymbolDelay, SymbolWait, SymbolPostHint, SymbolArticle, SymbolSuffix = range(0x5f, 0x6c)
+
+
+def get_word_length(s):
+    # We count characters that are not ' ' or '<'
+    for i in range(len(s)):
+        if s[i] == ' ' or s[i] == '<':
+            break
+    return i
+
+
+class ScriptEntry:
+    def __init__(self, entry, language, entry_number, table: Table, max_width):
+        # Get the text and replace ' with ’
+        self.text = entry[language].replace("'", "’")
+
+        # The "offsets" text is a comma-separated list of either a label or hex offsets to patch.
+        self.offsets = []
+        self.label = f"Script{entry_number}"
+        for offset in [x.strip() for x in entry["offsets"].split(",")]:
+            if re.match("[0-9A-Fa-f]{4}\\w*", offset):
+                self.offsets.append(int(offset, base=16))
+            else:
+                self.label = offset
+
+        # Initialise parsing state
+        self.internal_hint = 0  # Set to a number if an "internal hint" has happened
+        self.current_line_length = 0  # Length of the current line
+        self.max_width = max_width  # Max width of a line
+        self.script_hints = False  # True if some runtime text insertion is needed
+        self.script_end = False  # True when an ending tag is encountered
+
+        # Get the text into a new string and remove line breaks
+        s = self.text.replace("\n", "")
+
+        # Work through the string
+        self.buffer = bytearray()
+        while len(s) > 0:
+            # Check for a tag
+            match = re.match("<([^>]+?)( ([A-Za-z0-9]{2}))?>", s)
+            if match:
+                # Consume the matched text
+                s = s[len(match.group(0)):]
+                # Parse the tag
+                self.parse_tag(match, s)
+            else:
+                # Not a tag
+
+                # If it's a space, consider wrapping
+                if s[0] == " ":
+                    next_word_length = get_word_length(s[1:])
+                    line_length_with_next_word = self.current_line_length + 1 + next_word_length
+                    if line_length_with_next_word > self.max_width and not self.script_hints:
+                        # Replace space with <line>
+                        self.buffer.append(ScriptingCode.SymbolNewLine)
+                        self.current_line_length = 0
+                        # Skip space
+                        s = s[1:]
+                        continue
+                    if self.script_hints and next_word_length > 0:
+                        # real-time line formatting needed
+                        self.buffer.append(ScriptingCode.SymbolPostHint)
+                        self.buffer.append(next_word_length + self.internal_hint)
+
+                        # manual hint flag reset
+                        self.internal_hint = 0
+
+                # Look up in table
+                value, length = table.find_longest_match(s)
+                if not value:
+                    raise Exception(f"Unmapped character '{s[0]}'")
+
+                # Append to the line
+                self.current_line_length += length
+                self.buffer += bytearray(value)
+                # Consume from the string
+                s = s[length:]
+
+                # Stop at an ending tag
+                if self.script_end:
+                    break
+
+    def parse_tag(self, match, s):
+        # parses the match as a tag into self.buffer
+        # s is the text after it
+        tag = match.group(1)
+        if tag == "internal hint" and match.group(3) is not None:
+            self.internal_hint = int(match.group(3), base=16)
+            self.script_hints = True
+        elif tag == "player":
+            self.check_suffix_length(1, 6, s)
+            self.buffer.append(ScriptingCode.SymbolPlayer)
+        elif tag == "monster":
+            self.check_suffix_length(1, self.max_width, s)
+            self.buffer.append(ScriptingCode.SymbolMonster)
+        elif tag == "item":
+            self.check_suffix_length(1, self.max_width, s)
+            self.buffer.append(ScriptingCode.SymbolItem)
+        elif tag == "number":
+            self.check_suffix_length(1, 5, s)
+            self.buffer.append(ScriptingCode.SymbolNumber)
+        elif tag == "line":
+            # add newline
+            self.buffer.append(ScriptingCode.SymbolNewLine)
+            self.current_line_length = 0
+            self.script_hints = False
+        elif tag == "wait more":
+            self.buffer.append(ScriptingCode.SymbolWaitMore)
+            self.current_line_length = 0
+            self.script_hints = False
+        elif tag == "end":
+            self.buffer.append(ScriptingCode.SymbolEnd)
+            # de-init
+            self.script_end = True
+            self.script_hints = False
+            self.current_line_length = 0
+        elif tag == "delay":
+            self.buffer.append(ScriptingCode.SymbolDelay)
+            self.buffer.append(ScriptingCode.SymbolEnd)
+            # de-init
+            self.script_end = True
+            self.script_hints = False
+            self.current_line_length = 0
+        elif tag == "wait":
+            self.buffer.append(ScriptingCode.SymbolWait)
+            self.buffer.append(ScriptingCode.SymbolEnd)
+            # de-init
+            self.script_end = True
+            self.script_hints = False
+            self.current_line_length = 0
+        # Articles
+        # TODO: extract these from the tbl?
+        elif tag == "article":
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(1)  # lowercase
+            self.script_hints = True
+        elif tag == "Article":
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(2)  # uppercase
+            self.script_hints = True
+        # Possessives
+        elif tag == "de" or tag == "do":
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(3)
+            self.script_hints = True
+        elif tag == "à":
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(4)
+            self.script_hints = True
+        # Fallback on manual numbers
+        elif tag == "use article" and match.groups(3) is not None:
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(int(match.groups(3), base=16))
+            self.script_hints = True
+        elif tag == "s":
+            self.buffer.append(ScriptingCode.SymbolSuffix)
+            self.script_hints = True
+        else:
+            raise Exception(f"Ignoring tag \"{match.group(0)}\"")
+
+    def check_suffix_length(self, min_length, max_length, s):
+        # Adds a "post hint" if there is a suffix on this tag
+        # Check for any suffix text
+        suffix_length = get_word_length(s)
+        # Emit a "post hint" if there isn't one already
+        if not self.script_hints:
+            if self.current_line_length + suffix_length + min_length > self.max_width:
+                suffix_length = 0
+            if self.current_line_length + suffix_length + max_length <= self.max_width:
+                suffix_length = 0
+        if suffix_length > 0:
+            self.buffer.append(ScriptingCode.SymbolPostHint)
+            self.buffer.append(suffix_length)
+        self.script_hints = True
+
+
+class BitWriter:
+    """Deals with writing bits into a buffer"""
+    def __init__(self):
+        self.buffer = bytearray()
+        self.bit_count = 0
+        self.current_byte = 0
+
+    def add(self, bit: bool):
+        # Add bit to current_byte, from the right
+        self.current_byte = (self.current_byte << 1) & 0xff
+        if bit:
+            self.current_byte += 1
+        self.bit_count += 1
+
+        # Add to buffer when full
+        if self.bit_count == 8:
+            self.buffer.append(self.current_byte)
+            self.bit_count = 0
+
+    def flush(self):
+        while self.bit_count != 0:
+            self.add(False)
+
+
+class Node:
+    # Pass symbol/count for a leaf, left/right for a parent
+    def __init__(self, symbol=None, count=None, left=None, right=None):
+        self.symbol = symbol
+        self.count = count
+        self.left = left
+        self.right = right
+        self.bits = []
+
+        if left is not None:
+            self.symbol = -1
+            self.count = left.count + right.count
+            # Prepend the "bits" of the children so they can learn their "path"
+            left.prepend_bits(False)
+            right.prepend_bits(True)
+
+    def prepend_bits(self, value):
+        # If we are a leaf, take the bit
+        if self.symbol > -1:
+            self.bits.insert(0, value)
+        else:
+            # propagate to children
+            self.left.prepend_bits(value)
+            self.right.prepend_bits(value)
+
+    def emit_symbols(self, f):
+        if self.symbol > -1:
+            f.write(f" ${self.symbol:02x}")
+            return 1
+        return self.right.emit_symbols(f) + self.left.emit_symbols(f)
+
+    def emit_structure(self, bit_writer):
+        # Stringify each node's type (1 = value, 0 = parent), left to right
+        if self.symbol > -1:
+            bit_writer.add(True)
+            return
+        bit_writer.add(False)
+        self.left.emit_structure(bit_writer)
+        self.right.emit_structure(bit_writer)
+
+    def __str__(self):
+        return f"{self.symbol:02x} x {self.count}"
+
+
+class Tree:
+    def __init__(self, preceding_byte, nodes):
+        self.name = f"HuffmanTree{preceding_byte:02X}"
+        self.nodes_by_symbol = {node.symbol:node for node in nodes}
+
+        if len(nodes) == 0:
+            # Nothing to do
+            self.root = None
+            return
+
+        # Sort the nodes by count descending. This puts the lowest counts at the end.
+        sorted_nodes = []
+        for node in nodes:
+            self.insert(sorted_nodes, node)
+
+        # Then combine them into each other to make a Huffman tree
+        while len(sorted_nodes) > 1:
+            # When we build the tree, we put the smaller node on the left.
+            left = sorted_nodes.pop()
+            right = sorted_nodes.pop()
+            node = Node(left=left, right=right)
+            self.insert(sorted_nodes, node)
+
+        # Then keep the root
+        self.root = sorted_nodes[0]
+
+    @staticmethod
+    def insert(nodes, node):
+        # Nodes are assumed to be in decreasing order by count.
+        # Insert this node at the first position that is less than it, i.e. the rightmost place for it
+        for index in range(len(nodes)):
+            if nodes[index].count < node.count:
+                nodes.insert(index, node)
+                return
+        # Nowhere found, must go at the end
+        nodes.append(node)
+
+    def empty(self):
+        return self.root is None
+
+    def emit_symbols(self, f):
+        if self.root is None:
+            return 0
+        return self.root.emit_symbols(f)
+
+    def emit_structure(self, f):
+        if self.root is None:
+            return 0
+
+        bit_writer = BitWriter()
+        self.root.emit_structure(bit_writer)
+        bit_writer.flush()
+
+        f.write(".db")
+        for b in bit_writer.buffer:
+            f.write(f" %{b:08b}")
+
+        return len(bit_writer.buffer)
+
+    def emit_bits(self, symbol: int, bit_writer: BitWriter):
+        # Find the node for this symbol
+        node = self.nodes_by_symbol[symbol]
+        # Emit its bits
+        for bit in node.bits:
+            bit_writer.add(bit)
+
+
+def script_inserter(data_file, patch_file, trees_file, script_file, language, tbl_file):
+    table = Table(tbl_file)
+    with open(script_file, "r", encoding="utf-8") as f:
+        script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)
+
+    entry_number = 0
+    max_width = -1
+
+    script = []
+    for node in script_yaml:
+        # If it has dimensions, use them from now on
+        if "width" in node:
+            max_width = int(node["width"])
+
+        # If there's no offsets specified, it means the item is unused
+        if "offsets" not in node or node["offsets"] == "":
+            continue
+
+        try:
+            script_entry = ScriptEntry(node, language, entry_number, table, max_width)
+            script.append(script_entry)
+        except Exception as ex:
+            print(f"Error parsing line: {node}\n")
+            raise ex
+
+        entry_number += 1
+
+    # Measure script
+    script_symbols_count = 0
+    char_count = 0
+    symbol_counts = [0] * 256
+    for entry in script:
+        script_symbols_count += len(entry.buffer)
+        char_count += len(entry.text)
+        for b in entry.buffer:
+            symbol_counts[b] += 1
+
+    # We don't exactly know the dict size, we assume it's all the non-tag-looking words in the table file
+    # They are stored as length-prefixed strings
+    dict_size = sum([len(x)+1 for x in table.text_to_symbol.keys() if len(x) > 1 and x[0] != "<"])
+
+    print(f"Dictionary encoding gives {script_symbols_count} bytes for {char_count} characters " +
+          f"in {len(script)} script entries with a {dict_size} bytes dictionary " +
+          f"({(char_count - (script_symbols_count + dict_size))/char_count*100:.2f}% compression)")
+
+    for i in range(256):
+        if symbol_counts[i] == 0:
+            text = table.text_for_symbol(i)
+            if text is not None:
+                print(f"Symbol ${i:02X} is unused (\"{text}\")")
+
+    # Now we Huffman compress the data with per-byte trees
+    # First we count the frequencies per preceding byte
+    counts = [[0 for i in range(256)] for j in range(256)]
+    for entry in script:
+        preceding_byte = ScriptingCode.SymbolEnd
+        for b in entry.buffer:
+            counts[preceding_byte][b] += 1
+            preceding_byte = b
+
+    # Next we build trees for each of them
+    trees = []
+    for preceding_byte in range(0, 256):
+        # Make a tree from this entry
+        # First we make nodes for all the values with non-zero counts
+        nodes = []
+        for symbol in range(0, 256):
+            count = counts[preceding_byte][symbol]
+            if count > 0:
+                nodes.append(Node(symbol=symbol, count=count))
+
+        trees.append(Tree(preceding_byte, nodes))
+
+    # Remove any trailing "empty trees" (i.e. unused symbols). We can't not add them as gaps need to be filled.
+    while trees[-1].empty():
+        trees.pop()
+
+    # Emit Huffman trees as assembly
+    with open(trees_file, "w", encoding="utf-8") as f:
+        f.write("TreeVector:\n.dw")
+        # Labels
+        for tree in trees:
+            if tree.empty():
+                f.write(" $ffff")
+            else:
+                f.write(f" {tree.name}")
+        f.write("\n")
+        trees_size = len(trees) * 2
+        # Data
+        for preceding_byte in range(0, len(trees)):
+            tree = trees[preceding_byte]
+            if tree.empty():
+                continue
+            f.write(f"; Dictionary elements that can follow element ${preceding_byte:x}\n.db")
+            trees_size += tree.emit_symbols(f)
+            f.write(f"\n{tree.name}: ; Binary tree structure for the above\n")
+            trees_size += tree.emit_structure(f)
+            f.write("\n")
+
+        print(f"Huffman trees take {trees_size} bytes")
+
+    # Emit the Huffman-encoded script
+    with open(data_file, "w", encoding="utf-8") as f:
+        f.write("; Script entries, Huffman compressed\n")
+
+        script_size = 0
+
+        for entry in script:
+            f.write(f"\n{entry.label}:\n/*{entry.text}*/\n.db")
+
+            # Starting tree number
+            preceding_byte = ScriptingCode.SymbolEnd
+
+            # Write into a buffer
+            bit_writer = BitWriter()
+            for symbol in entry.buffer:
+                trees[preceding_byte].emit_bits(symbol, bit_writer)
+
+                # Use new symbol as fresh index
+                preceding_byte = symbol
+
+            bit_writer.flush()
+
+            script_size += len(bit_writer.buffer)
+
+            # Emit as assembly
+            for b in bit_writer.buffer:
+                f.write(f" %{b:08b}")
+
+    with open(patch_file, "w", encoding="utf-8") as f:
+        f.write("; Patches to point at new script entries\n")
+        for entry in script:
+            for offset in entry.offsets:
+                f.write(f" PatchW ${offset + 1:04x} {entry.label}\n")
+
+    print(f"Huffman compressed script is {script_size} bytes")
+
+    total_size = script_size + trees_size + dict_size
+
+    print(f"Total space is {script_size} + {trees_size} + {dict_size} = {total_size} bytes " +
+          f"({(char_count - total_size) / char_count * 100:.2f}% compression)")
+
+
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
@@ -149,8 +645,10 @@ def main():
         bitmap_decode(sys.argv[2], sys.argv[3], int(sys.argv[4], base=16))
     elif verb == 'menu_creator':
         menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+    elif verb == 'script_inserter':
+        script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
     else:
-        print(f"Unknown verb \"{verb}\"")
+        raise Exception(f"Unknown verb \"{verb}\"")
 
 
 if __name__ == "__main__":

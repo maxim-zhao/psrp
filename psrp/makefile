@@ -10,9 +10,6 @@ WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 FLIPS = "..\..\..\sms-build-tools\flips\flips.exe"
 PY = "py"
 
-# Assume default CPP = cl
-CPPFLAGS = /Os /EHsc /W4 /MP /FS /GS- /MD /nologo /WX
-
 # The original PSJ ROM
 PSJ = ps1-j.sms
 
@@ -105,14 +102,11 @@ menus.asm menu-patches.asm : tools.py menus.yaml
 
 # script_inserter
 
-script_inserter\script_inserter.exe: script_inserter\*.cpp mini-yaml/yaml/Yaml.cpp
-  $(CPP) $(CPPFLAGS) $** /Fe:script_inserter\script_inserter.exe
-
 script_with_words.tbl: script.$(LANGUAGE).tbl words.tbl
   copy /y /b script.$(LANGUAGE).tbl + words.tbl script_with_words.tbl
 
-script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm: script_with_words.tbl script_inserter\script_inserter.exe script.yaml
-  script_inserter\script_inserter.exe script.yaml $(LANGUAGE) script_with_words.tbl script_inserter\script.asm script_inserter\script-patches.asm script_inserter\tree.asm
+script.asm script-patches.asm tree.asm: script_with_words.tbl tools.py script.yaml
+  $(PY) tools.py script_inserter script.asm script-patches.asm tree.asm script.yaml $(LANGUAGE) script_with_words.tbl
 
 # All files needed for the final ROM
 BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.psgcompr  new_graphics\bg5.psgcompr \
@@ -127,20 +121,17 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\title.bottom.psgcompr new_graphics\title.bottom.tilemap.pscompr \
        new_graphics\alisa.tiles.bin
 
+GENERATED_ASMS = menus.asm menu-patches.asm script.asm script-patches.asm tree.asm words.asm
+
 # ROM building
-ps1jert.sms.o: $(PSJ) menus.asm menu-patches.asm words.asm script_inserter\tree.asm tilemap.$(LANGUAGE).tbl script.$(LANGUAGE).tbl credits.tbl $(BINS) ps1jert.sms.asm
+ps1jert.sms.o: $(PSJ) $(GENERATED_ASMS) tilemap.$(LANGUAGE).tbl script.$(LANGUAGE).tbl credits.tbl $(BINS) ps1jert.sms.asm
   $(WLAZ80) -D LANGUAGE=$(LANGUAGE) -o "ps1jert.sms.o" "ps1jert.sms.asm"
 
 ps1jert.sms: ps1jert.sms.o
   $(WLALINK) -d -r -v -S linkfile "ps1jert.sms"
   @echo Successful: translated file is ps1jert.sms
 
-CLEANFILES = $(BINS) \
-       menus.asm menu-patches.asm \
-       script_inserter\*.asm \
-       script_with_words.tbl \
-       words.tbl words.asm \
-       script_inserter\script_inserter.exe
+CLEANFILES = $(BINS) $(GENERATED_ASMS) script_with_words.tbl words.tbl
 
 ps1jert.$(LANGUAGE).ips: $(PSJ) ps1jert.sms
   $(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.$(LANGUAGE).ips

@@ -796,11 +796,9 @@ _Copy:
 .ends
 
 .enum $5f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
-; If changing the value here, you must also change:
-; - script_inserter/symbols.cpp (encodes data to match this enum)
-; - script_inserter/huffman.cpp
-; - substring_formatter/substring.cpp (needs to know the value of WordListStart)
-; - values used for articles and name block removal ([...]) in script.<xx>.tbl and values in the code below to handle these 
+; If changing the value here, you must also change the symbols range in tools.py
+; and values used for articles and name block removal ([...]) in script.<xx>.tbl 
+; and values in the code below to handle these 
   SymbolStart     .db
   SymbolPlayer    db ; $5f, Handled by the original engine
   SymbolMonster   db ; $60,
@@ -2043,9 +2041,6 @@ Enemies:
   String "<nome> Pesadelo"
 .endif
 
-
-; Terminator
-.db $df
 .ends
 
 .section "Static dictionary" superfree
@@ -2058,8 +2053,6 @@ Enemies:
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
 .include "words.asm"
-; Terminator
-.db $df
 .endb
 .ends
 
@@ -4321,7 +4314,7 @@ FontLookup:
 .section "Huffman trees" superfree
 .block "Huffman trees"
 HuffmanTrees:
-.include "script_inserter/tree.asm"
+.include "tree.asm"
 .endb
 .ends
 
@@ -4329,7 +4322,7 @@ HuffmanTrees:
 .bank 2 slot 2
 .section "Script" free
 .block "Script"
-.include "script_inserter/script.asm"
+.include "script.asm"
 .endb
 .ends
 
@@ -4524,7 +4517,7 @@ _Decode_Done:
   ret
 .ends
 
-.include "script_inserter/script-patches.asm"
+.include "script-patches.asm"
 
   ROMPosition $2fe2
 .section "Cursor row count hack" overwrite
