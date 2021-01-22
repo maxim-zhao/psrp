@@ -34,7 +34,7 @@
     │ de Camineet no      ║
     │ planeta Palma.      ║
     ╘═════════════════════╝
-    
+
 - name: WorldMenu
   ptrs: 3807,380d
   dims: 3801,3813,381f
@@ -62,7 +62,7 @@
     │Procurar║
     │Salvar  ║
     ╘════════╝
-    
+
 - name: ChoiceMenu
   ptrs: 38cd
   dims: 38c7,38e7
@@ -81,7 +81,7 @@
     │Sim║
     │Não║
     ╘═══╝
-    
+
 - name: NarrativeBox
   ptrs: 3359
   dims: 3353,358d
@@ -106,7 +106,7 @@
     │                             ║
     │                             ║
     ╘═════════════════════════════╝
-    
+
 - name: BattleMenu
   ptrs: 3238,323e
   dims: 3232,3244,3250
@@ -134,7 +134,7 @@
     │Falar ║
     │Fugir ║
     ╘══════╝
-    
+
 - name: EnemyHPBox
   emitData: false
   dims: 3268,3310
@@ -171,21 +171,21 @@
     │      ║
     │      ║
     ╘══════╝
-    
+
 - name: TopBorder6
   ptrs: 329b
   dims: 32a1
   en: ┌──────╖
   fr: ┌──────╖
   pt-br: ┌──────╖
-  
+
 - name: BottomBorder6
   ptrs: 309c,30f3,32c1
   dims: 309f,30f6,32c4
   en: ╘══════╝
   fr: ╘══════╝
   pt-br: ╘══════╝
-  
+
 - name: AllPlayerBoxes
   emitData: false
   dims: 3048,3103,3226
@@ -211,7 +211,7 @@
     │      ║│      ║│      ║│      ║
     │      ║│      ║│      ║│      ║
     ╘══════╝╘══════╝╘══════╝╘══════╝
-    
+
 - name: AlisaBox
   ptrs: 304e,30a5,310a
   dims: 3084,30db
@@ -227,7 +227,7 @@
     ┌──────╖
     │Alisa ║
     │------║
-    
+
 - name: MyauBox
   ptrs: 305b,30b2,3118
   en: |
@@ -242,7 +242,7 @@
     ┌──────╖
     │ Myau ║
     │------║
-    
+
 - name: TaironBox
   ptrs: 3068,30bf,3126
   en: |
@@ -257,7 +257,7 @@
     ┌──────╖
     │Tylon ║
     │------║
-    
+
 - name: LutzBox
   ptrs: 3075,30cc,3134
   en: |
@@ -272,7 +272,7 @@
     ┌──────╖
     │ Lutz ║
     │------║
-    
+
 - name: ChoosePlayerMenu
   ptrs: 37ca
   dims: 378e,37ab,37e4,37f5
@@ -295,14 +295,14 @@
     │Myau ║
     │Tylon║
     │Lutz ║
-    
+
 - name: ChoosePlayerMenuBottom
   ptrs: 37d0
   dims: 37d3
   en: ╘═════╝
   fr: ╘═════╝
   pt-br: ╘═════╝
-  
+
 - name: ToolShopMenu
   ptrs: 38a1
   dims: 389b,38bb
@@ -321,7 +321,7 @@
     │Comprar║
     │Vender ║
     ╘═══════╝
-    
+
 - name: ItemActionMenu
   ptrs: 3883
   dims: 387d,388f
@@ -345,7 +345,7 @@
     │Equipar  ║
     │Descartar║
     ╘═════════╝
-    
+
 - name: AlisaActiveBox
   ptrs: 302b
   dims: 301b,303c
@@ -361,7 +361,7 @@
     ┌─────╖
     │Alisa║
     ╘═════╝
-    
+
 # Next three must follow (and be the same size)
 
 - name: MyauActiveBox
@@ -377,7 +377,7 @@
     ┌─────╖
     │Myau ║
     ╘═════╝
-    
+
 - name: TaironActiveBox
   en: |
     ┌─────╖
@@ -391,7 +391,7 @@
     ┌─────╖
     │Tylon║
     ╘═════╝
-    
+
 - name: LutzActiveBox
   en: |
     ┌─────╖
@@ -405,7 +405,7 @@
     ┌─────╖
     │Lutz ║
     ╘═════╝
-    
+
 - name: BattleSpellsAlisa
   #ptrs: 35b0
   dims: 359b,35ea
@@ -431,7 +431,7 @@
     │Traduzir        ║
     │Fogo            ║
     │Amarrar         ║
-    
+
 # Next five must follow...
 
 - name: BattleSpellsMyau
@@ -453,7 +453,7 @@
     │Medo            ║
     │Muralha         ║
     │Aumento de Poder║
-    
+
 - name: BattleSpellsLutz
   en: |
     ┌────────────╖
@@ -476,7 +476,7 @@
     │Vento           ║
     │Barreira Mágica ║
     │Raio            ║
-    
+
 - name: OverworldSpellsAlisa
   en: |
     ┌────────────╖
@@ -490,7 +490,7 @@
     ┌────────────────╖
     │Cura            ║
     │Teletransporte  ║
-    
+
 - name: OverworldSpellsMyau
   en: |
     ┌────────────╖
@@ -536,7 +536,7 @@
   en: ╘════════════╝
   fr: ╘════════════════╝
   pt-br: ╘════════════════╝
-  
+
 - name: NarrativeBlankLine
   ptrs: 356c
   dims: 356f
@@ -591,8 +591,8 @@
     │PV máximo     255║
     │PM máximo     255║
     │Meseta      65535║
-    ╘═════════════════╝ 
-    
+    ╘═════════════════╝
+
 - name: EquimentMenuDimensions
   emitData: false
   dims: 382c,3871
@@ -614,7 +614,7 @@
     │                    ║
     │                    ║
     ╘════════════════════╝
-    
+
 - name: InventoryMenuDimensions
   emitData: false
   dims: 3642,377b
@@ -696,7 +696,7 @@
     ┌────────────────────╖
     │                    ║
     ╘════════════════════╝
-    
+
 - name: ShopInventoryDimensions
   emitData: false
   dims: 39f1,3aca
@@ -718,7 +718,7 @@
     │ Item 2             65535 ║
     │ Item 3             65535 ║
     ╘══════════════════════════╝
-    
+
 - name: TopBorder16
   # Shop inventory
   ptrs: 39f7
@@ -734,7 +734,7 @@
   en: ╘════════════════════════╝
   fr: ╘════════════════════════╝
   pt-br: ╘══════════════════════════╝
-  
+
 - name: HapsbyTravelMenu
   ptrs: 3b5d
   dims: 3b52,3b79
@@ -756,7 +756,7 @@
     │Uzo   ║
     │Skray ║
     ╘══════╝
-    
+
 - name: SoundTestMenuTop
   en: ┌─────────────╖
   fr: ┌─────────────╖
@@ -771,7 +771,7 @@
   en: │Chip   YM2413║
   fr: │Puce   YM2413║
   pt-br: │Chip     YM2413║
-  
+
 - name: SoundTestMenu
   en: |
     │-------------║
@@ -839,7 +839,7 @@
     │Final          ║
     │Fim de jogo    ║
     ╘═══════════════╝
-    
+
 - name: OptionsMenu
   en: |
     ┌───────────────────╖
@@ -868,7 +868,7 @@
     │Cabelo de Alisa         ║
     │Fonte                   ║
     ╘════════════════════════╝
-    
+
 - name: ContinueMenu
   en: |
     ┌──────╖
@@ -885,4 +885,4 @@
     │Carregar║
     │Deletar ║
     ╘════════╝
-    
+
