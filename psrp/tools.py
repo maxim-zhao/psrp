@@ -150,7 +150,7 @@ class Table:
                 if match:
                     value = bytes.fromhex(match.group(1))
                     text = match.group(2)
-                    self.symbol_to_text[ord(value)] = text
+                    self.symbol_to_text[value] = text
                     self.text_to_symbol[text] = value
 
         self.longest_value = max(len(x) for x in self.text_to_symbol)
@@ -541,7 +541,7 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
 
     for i in range(256):
         if symbol_counts[i] == 0:
-            text = table.text_for_symbol(i)
+            text = table.text_for_symbol(i.to_bytes(1, 'little'))
             if text is not None:
                 print(f"Symbol ${i:02X} is unused (\"{text}\")")
 
