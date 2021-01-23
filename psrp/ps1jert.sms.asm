@@ -4258,7 +4258,7 @@ CreditsScreen14: .db 4
 .slot 2
 .section "Credits font" superfree
 CreditsFont:
-.incbin "new_graphics/font3.psgcompr"
+.incbin "new_graphics/font-credits.psgcompr"
 .ends
 
   ROMPosition $00056
