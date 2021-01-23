@@ -10,6 +10,7 @@ Changelog (in reverse chronological order):
   - added French translation from ichigobankai, Wil76 and Vingazole
   - added Brazilian Portuguese translation from ajkmetiuk
   - fixed some bugs relating to the needs of these translations
+  - ported script processing tools to Python
 - v2.01 released 2020/12/20
   - script improvements:
     - some after-the-deadline changes from Frank Cifaldi
