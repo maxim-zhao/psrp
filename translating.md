@@ -101,7 +101,7 @@ French:
 |Name statring with vowel    |                    |                         | d'       | à
 |Name starting with consonant|                    |                         | de       | à
 
-Brazilian Portuguese
+Brazilian Portuguese:
 
 |                            |Mid-sentence article|Start of sentence article|Possessive
 |----------------------------|--------------------|-------------------------|----------
