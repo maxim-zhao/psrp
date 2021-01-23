@@ -73,7 +73,7 @@ The word count is assigned to a value in the makefile, or can be set in the nmak
 Resizing menus
 --------------
 
-Many of the menus have been sized to it the text that goes in them. For example, item names and spell names both determine the size of menus and windows they appear in. If you want to make them narrower, that is fine; you will also save some ROM space. If you want to make them wider, that is more tricky because of the way the game manages the "window cache" when drawing menus and windows over things on the screen. The allcoation is automated but based on some assumptions that may not hold if you resize things more than expected.
+Many of the menus have been sized to it the text that goes in them. For example, item names and spell names both determine the size of menus and windows they appear in. If you want to make them narrower, that is fine; you will also save some ROM space. If you want to make them wider, that is more tricky because of the way the game manages the "window cache" when drawing menus and windows over things on the screen. The allocation is automated but based on some assumptions that may not hold if you resize things more than expected.
 
 Look at the "Window RAM cache" comments in ps1jert.sms.asm for an overview of how this works.
 
