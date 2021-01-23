@@ -79,11 +79,11 @@ new_graphics\bg31.psgcompr  : new_graphics\bg31.bin   ; new_graphics\bmp2tile.ex
 new_graphics\world1.psgcompr: new_graphics\world1.bin ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
 # Graphics conversion from PNG
-new_graphics\font1.psgcompr: $*.$(LANGUAGE).png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font2.psgcompr: $*.$(LANGUAGE).png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font3.psgcompr: $*.png                   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font1a.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font2a.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font-polaris-part1.psgcompr: $*.$(LANGUAGE).png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font-polaris-part2.psgcompr: $*.$(LANGUAGE).png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font-aw2284-part1.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font-aw2284-part2.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font-credits.psgcompr: $*.png                   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\name-entry-cursor.psgcompr: $*.png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 new_graphics\world2.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
@@ -92,7 +92,7 @@ new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graph
 new_graphics\title.bottom.psgcompr new_graphics\title.bottom.tilemap.pscompr: new_graphics\titlescreen.$(LANGUAGE).png
   new_graphics\bmp2tile.exe $** -tileoffset 256 -savetiles new_graphics\title.bottom.psgcompr -savetilemap new_graphics\title.bottom.tilemap.pscompr
 
-new_graphics\alisa.tiles.bin: new_graphics\alisa.png
+new_graphics\alisa-sprite.tiles.bin: new_graphics\alisa-sprite.png
   new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
 
 # menu_creater
@@ -114,12 +114,13 @@ BINS = new_graphics\bg1.psgcompr  new_graphics\bg2.psgcompr  new_graphics\bg3.ps
        new_graphics\bg13.psgcompr new_graphics\bg14.psgcompr new_graphics\bg16.psgcompr new_graphics\bg29.psgcompr \
        new_graphics\bg30.psgcompr new_graphics\bg31.psgcompr \
        new_graphics\world1.psgcompr new_graphics\world2.psgcompr \
-       new_graphics\font1.psgcompr new_graphics\font2.psgcompr new_graphics\font3.psgcompr \
-       new_graphics\font1a.psgcompr new_graphics\font2a.psgcompr \
+       new_graphics\font-polaris-part1.psgcompr new_graphics\font-polaris-part2.psgcompr \
+       new_graphics\font-aw2284-part1.psgcompr new_graphics\font-aw2284-part2.psgcompr \
+       new_graphics\font-credits.psgcompr \
        new_graphics\name-entry-cursor.psgcompr \
        new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin \
        new_graphics\title.bottom.psgcompr new_graphics\title.bottom.tilemap.pscompr \
-       new_graphics\alisa.tiles.bin
+       new_graphics\alisa-sprite.tiles.bin
 
 GENERATED_ASMS = menus.asm menu-patches.asm script.asm script-patches.asm tree.asm words.asm
 
@@ -131,7 +132,7 @@ ps1jert.sms: ps1jert.sms.o
   $(WLALINK) -d -r -v -S linkfile "ps1jert.sms"
   @echo Successful: translated file is ps1jert.sms
 
-CLEANFILES = $(BINS) $(GENERATED_ASMS) script_with_words.tbl words.tbl
+CLEANFILES = $(BINS) $(GENERATED_ASMS) script_with_words.tbl words.tbl new_graphics\*.bin
 
 ps1jert.$(LANGUAGE).ips: $(PSJ) ps1jert.sms
   $(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.$(LANGUAGE).ips

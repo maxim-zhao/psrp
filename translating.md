@@ -6,17 +6,9 @@ The codebase is designed to make it relatively easy to add translations. There a
 new_graphics/font*.xx.png
 -------------------------
 
-Where xx = the language code. These files define the fonts used in the game. The main files are Polaris font, the "a" variants are the AW2284 font. font3 is the end credits font.
+Where xx = the language code. These files define the fonts used in the game - two selectable fonts for the main game, and the credits font. The ["Polaris" font is by DamienG](https://damieng.com/typography/zx-origins/polaris) and made specifically for this translation. The AW2664 is based on the fonts used in later Mega Drive Phantasy Star games.
 
-There are precisely 70 8x8 tiles available for text (letters, numbers, punctuation and space), and four for the menu borders. If your language needs more - for example, accented characters - then it is tricky to find space. Some ideas:
-
-- b, d and p, q may use the same tile with horizontal mirroring
-- 0 and O may use the same tile
-- 1 and l may use the same tile
-- Punctuation like ¿ is just a flipped version of ?
-- With substantial font changes, you may be able to increase the amount of tile reuse, for example for M/W, b/f/p/q, S/5.
-
-However it is likely you won't have enough space for everything.
+There are precisely 70 8x8 tiles available for text (letters, numbers, punctuation and space), and four for the menu borders. If your language needs more - for example, accented characters - then it is tricky to find space. It is possible to use the same tile for some very similar characters - for example, l and 1, and 0 and O. With some redesigning of the font, it is possible to make more characters reusable by flipping. See the pt-br font images (and comments in `tilemap.pt-br.tbl`) for an example of that.
 
 tilemap.xx.tbl
 --------------

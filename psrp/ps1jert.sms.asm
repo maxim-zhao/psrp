@@ -611,10 +611,10 @@ BackgroundSceneLoaderTileLoaderPatch:
 
 .slot 2
 .section "Font part 1" superfree
-FONT1: .incbin "new_graphics/font1.psgcompr"
-FONT2: .incbin "new_graphics/font2.psgcompr"
-FONT1a: .incbin "new_graphics/font1a.psgcompr"
-FONT2a: .incbin "new_graphics/font2a.psgcompr"
+FONT1: .incbin "new_graphics/font-polaris-part1.psgcompr"
+FONT2: .incbin "new_graphics/font-polaris-part2.psgcompr"
+FONT1a: .incbin "new_graphics/font-aw2284-part1.psgcompr"
+FONT2a: .incbin "new_graphics/font-aw2284-part2.psgcompr"
 LoadFontsImpl:
     ld hl,Font1VRAMAddress
     ld de,FONT1
@@ -5263,7 +5263,7 @@ BrunetteAlisaCheck:
 .slot 2
 .section "Brunette Alisa tiles" superfree
 BrunetteAlisaTiles:
-.incbin "new_graphics/alisa.tiles.bin"
+.incbin "new_graphics/alisa-sprite.tiles.bin"
 .ends
 
 ; Relocating item metadata to increase script space
