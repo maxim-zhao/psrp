@@ -98,7 +98,7 @@ French:
 |Feminine                    | le                 | Le                      | du       | au
 |Masculine                   | la                 | La                      | de la    | à la
 |Plural                      | les                | Les                     | des      | aux
-|Name staring with vowel     |                    |                         | d'       | à
+|Name statring with vowel    |                    |                         | d'       | à
 |Name starting with consonant|                    |                         | de       | à
 
 Brazilian Portuguese
