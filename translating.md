@@ -6,7 +6,7 @@ The codebase is designed to make it relatively easy to add translations. There a
 new_graphics/font*.xx.png
 -------------------------
 
-Where xx = the language code. These files define the fonts used in the game. The main files are Polaris font, the "a" variants are the AW2284 font. font3 is the end credits font. 
+Where xx = the language code. These files define the fonts used in the game. The main files are Polaris font, the "a" variants are the AW2284 font. font3 is the end credits font.
 
 There are precisely 70 8x8 tiles available for text (letters, numbers, punctuation and space), and four for the menu borders. If your language needs more - for example, accented characters - then it is tricky to find space. Some ideas:
 
@@ -66,18 +66,51 @@ makefile
 
 The script is compressed in two ways: first by assigning bytes to entire words, favouring those that are used a lot; and second by Huffman compressing the byte sequences using a series of Huffman trees. The words that get assigned bytes are selected based on both their length and frequency of use. The number of words chosen affects both the total ROM space and the size of certain parts of the data, and it can be a tricky trade-off to make.
 
-In order to maximise the space available for the script overall, potentially at the cost of a larger ROM overall (or more difficulty to fit other changes), the maximum word count of 164 should be used. However, this adds more complexity to the Huffman trees and enlarges the dictionary. In order to maximise the space available for the ROM in general - for example to allow a more detailed title screen - then only trial and error can help you find the best value. Iterating over all values is possible to determine the best value.
+In order to maximise the space available for the script overall, potentially at the cost of a larger ROM overall (or more difficulty to fit other changes), the maximum word count of 148 should be used. However, this adds more complexity to the Huffman trees and enlarges the dictionary. In order to maximise the space available for the ROM in general - for example to allow a more detailed title screen - then only trial and error can help you find the best value. Iterating over all values is possible to determine the best value.
 
 The word count is assigned to a value in the makefile, or can be set in the nmake parameters.
 
 Resizing menus
 --------------
 
-Many of the menus have been sized to it the text that goes in them. For example, item names and spell names both determine the size of menus and windows they appear in. If you want to make them narrower, that is fine; you will also save some ROM space. If you want to make them wider, that is more tricky because of the way the game manages the "window cache" when drawing menus and windows over things on the screen.
+Many of the menus have been sized to it the text that goes in them. For example, item names and spell names both determine the size of menus and windows they appear in. If you want to make them narrower, that is fine; you will also save some ROM space. If you want to make them wider, that is more tricky because of the way the game manages the "window cache" when drawing menus and windows over things on the screen. The allcoation is automated but based on some assumptions that may not hold if you resize things more than expected.
 
 Look at the "Window RAM cache" comments in ps1jert.sms.asm for an overview of how this works.
 
-Adding script keywords
-----------------------
+Adding script "articles"
+------------------------
 
-The "articles" (by which I mean those words that are linked to the noun they go with in a sentence, like item and enemy names) available to you are stored in the script as indices for the article handling assembly code to use at runtime. You can specify one by index using the code <use article xx> where xx is a hexadecimal number. However, it is nice to define "words" for these values too. See script_inserter\symbols.cpp, function ProcessCode() to see how these are defined for English and French (`<article>`, `<Article>`, `<de>`, `<à>`) and maybe add more.
+The "articles" (by which I mean those words that are linked to the noun they go with in a sentence, like item and enemy names) available to you are stored in the script as indices for the article handling assembly code to use at runtime. You can specify one by index using the code <use article xx> where xx is a hexadecimal number. However, it is nice to define "words" for these values too. These are added to script.xx.tbl and then also to `parse_tag()` in tools.py. Then you need to add appropriate handlers to ps1jert.sms.asm. It helps to build a table of noun types x word types, for example:
+
+English:
+
+|                      |Mid-sentence|Start of sentence
+|----------------------|------------|-----------------
+|Indefinite            | a          | A
+|Indefinite with vowel | an         | An
+|Definite              | the        | The
+
+French:
+
+|                            |Mid-sentence article|Start of sentence article|Possessive|Directive
+|----------------------------|--------------------|-------------------------|----------|---------
+|Starts with vowel           | l'                 | L'                      | de l'    | à l'
+|Feminine                    | le                 | Le                      | du       | au
+|Masculine                   | la                 | La                      | de la    | à la
+|Plural                      | les                | Les                     | des      | aux
+|Name staring with vowel     |                    |                         | d'       | à
+|Name starting with consonant|                    |                         | de       | à
+
+Brazilian Portuguese
+
+|                            |Mid-sentence article|Start of sentence article|Possessive
+|----------------------------|--------------------|-------------------------|----------
+|Masculine single indefinite | um                 | Um                      | do
+|Masculine plural indefinite | uns                | Uns                     | da
+|Feminine single indefinite  | uma                | Uma                     | dos
+|Feminine plural indefinite  | umas               | Umas                    | das
+|Masculine single definite   | o                  | O                       | do
+|Masculine plural definite   | a                  | A                       | da
+|Feminine single definite    | os                 | Os                      | dos
+|Feminine plural definite    | as                 | As                      | das
+
