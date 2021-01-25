@@ -6,7 +6,7 @@ This project is an unofficial retranslation/relocalisation based on that first J
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
-- v2.02 released 2021/??/??
+- v2.1 released 2021/??/??
   - added French translation from ichigobankai, Wil76 and Vingazole
   - added Brazilian Portuguese translation from ajkmetiuk
   - fixed some bugs relating to the needs of these translations
