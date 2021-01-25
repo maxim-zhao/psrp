@@ -2986,7 +2986,7 @@ statsImpl:
   PatchB $36dd _sizeof_EXP
   PatchB $3145 _sizeof_Attack ; in DrawTextAndNumberA
   PatchW $36e7 MST ; in DrawMeseta
-  PatchB $36e5 _sizeof_MST
+  PatchB $36e5 TopBorder10_width*2-12
 
 .section "Newline patch" free
 ; Originally tx1.asm
