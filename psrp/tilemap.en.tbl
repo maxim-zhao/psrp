@@ -49,12 +49,6 @@ e210=X
 e310=Y
 e410=Z
 
-; French accented letters - stripping accents for now
-;e510=à
-e910=é
-;e910=ê
-e910=è
-
 ; Lowercase
 e510=a
 e610=b
