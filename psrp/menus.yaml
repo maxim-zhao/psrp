@@ -40,14 +40,22 @@
 - name: WorldMenu
   ptrs: 3807,380d
   dims: 3801,3813,381f
+  jp: |
+    ┌────╖
+    │ツヨサ ║
+    │マジック║
+    │アイテム║
+    │シラベル║
+    │セーブ ║
+    ╘════╝
   translated: |
-    ┌──────╖
-    │Stats ║
-    │Magic ║
-    │Items ║
-    │Search║
-    │Save  ║
-    ╘══════╝
+    ┌──────────────╖
+    │Strength/power║ (強さ)
+    │Magic         ║ (Transliteration)
+    │Item          ║ (Transliteration)
+    │Investigate   ║ (調べる)
+    │Save          ║ (Transliteration)
+    ╘══════════════╝
   us: |
     ┌────╖
     │STAS║
@@ -84,6 +92,16 @@
 - name: ChoiceMenu
   ptrs: 38cd
   dims: 38c7,38e7
+  jp: |
+    ┌───╖
+    │ハイ ║
+    │イイエ║
+    ╘═══╝
+  translated: |
+    ┌───╖
+    │Yes║ (はい)
+    │No ║ (いいえ)
+    ╘═══╝
   us: |
     ┌───╖
     │YES║
@@ -133,6 +151,30 @@
 - name: BattleMenu
   ptrs: 3238,323e
   dims: 3232,3244,3250
+  jp: |
+    ┌────╖
+    │タタカウ║
+    │マジック║
+    │アイテム║
+    │ハナス ║
+    │ニゲル ║
+    ╘════╝
+  translated: |
+    ┌────────╖
+    │Fight   ║ (戦う)
+    │Magic   ║ (Transliteration)
+    │Item    ║ (Transliteration)
+    │Talk    ║ (話す)
+    │Run away║ (逃げる)
+    ╘════════╝
+  us: |
+    ┌──────╖
+    │Attack║
+    │Magic ║
+    │Items ║
+    │Talk  ║
+    │Run   ║
+    ╘══════╝
   en: |
     ┌──────╖
     │Attack║
