@@ -2,8 +2,10 @@
   ptrs: 45d9
   dims: 45df
   jp: |
-    AW 342年 春
-    パルマ星 カミニート居住区
+    ┌─────────────╖
+    │AW 342年 春    ║
+    │パルマ星 カミニート居住区║
+    ╘═════════════╝
   translated: |
     Spring, AW 342
     Camineet Residential District on the planet Palma.
@@ -38,6 +40,22 @@
 - name: WorldMenu
   ptrs: 3807,380d
   dims: 3801,3813,381f
+  translated: |
+    ┌──────╖
+    │Stats ║
+    │Magic ║
+    │Items ║
+    │Search║
+    │Save  ║
+    ╘══════╝
+  us: |
+    ┌────╖
+    │STAS║
+    │MAGC║
+    │ITEM║
+    │SRCH║
+    │SAVE║
+    ╘════╝
   en: |
     ┌──────╖
     │Stats ║
@@ -66,6 +84,11 @@
 - name: ChoiceMenu
   ptrs: 38cd
   dims: 38c7,38e7
+  us: |
+    ┌───╖
+    │YES║
+    │NO ║
+    ╘═══╝
   en: |
     ┌───╖
     │Yes║
@@ -215,6 +238,10 @@
 - name: AlisaBox
   ptrs: 304e,30a5,310a
   dims: 3084,30db
+  us: |
+    ┌──────╖
+    │ ALIS ║
+    │      ║
   en: |
     ┌──────╖
     │Alisa ║
@@ -230,6 +257,10 @@
 
 - name: MyauBox
   ptrs: 305b,30b2,3118
+  us: |
+    ┌──────╖
+    │ MYAU ║
+    │      ║
   en: |
     ┌──────╖
     │ Myau ║
@@ -245,6 +276,10 @@
 
 - name: TaironBox
   ptrs: 3068,30bf,3126
+  us: |
+    ┌──────╖
+    │ ODIN ║
+    │------║
   en: |
     ┌──────╖
     │Tylon ║
@@ -260,6 +295,10 @@
 
 - name: LutzBox
   ptrs: 3075,30cc,3134
+  us: |
+    ┌──────╖
+    │ NOAH ║
+    │------║
   en: |
     ┌──────╖
     │ Lutz ║
@@ -277,6 +316,12 @@
   ptrs: 37ca
   dims: 378e,37ab,37e4,37f5
   height: 6 # for bottom row
+  us: |
+    ┌────╖
+    │ALIS║
+    │MYAU║
+    │ODIN║
+    │NOAH║
   en: |
     ┌─────╖
     │Alisa║
@@ -306,6 +351,11 @@
 - name: ToolShopMenu
   ptrs: 38a1
   dims: 389b,38bb
+  us: |
+    ┌────╖
+    │BUY ║
+    │SELL║
+    ╘════╝
   en: |
     ┌─────╖
     │Buy  ║
