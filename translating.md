@@ -114,6 +114,7 @@ To build, you need:
 1. An NMake-compatible builder. You can use [Jom](https://wiki.qt.io/Jom#Download_the_binary_package) as a free-as-in-speech option, or install the [Build Tools for Visual Studio](https://aka.ms/buildtools).
 2. Python 3
 3. [WLA DX](https://github.com/vhelin/wla-dx) - a version newer than 3 Dec 2020, e.g. [from here](https://github.com/maxim-zhao/sms-build-tools/releases/tag/1.0.81)
+4. [BMP2Tile](https://github.com/maxim-zhao/bmp2tile) and its set of [compressors](https://github.com/maxim-zhao/bmp2tilecompressors)
 4. A copy of the original Phantasy Star ROM
 5. (Optionally) Flips, to create patch files
 

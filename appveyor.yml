@@ -4,6 +4,7 @@ environment:
   WLAZ80: wla-z80.exe
   WLALINK: wlalink.exe
   FLIPS: flips.exe
+  BMP2TILE: bmp2tile.exe
   URL:
     secure: cJUFr2NsBjDh6gZxnshL2HMwKuFcjj4JxyfYgTAwY4EaegRkArES3eXzLKOPnUNL3WZddVReEfJCXN81s0sLBA==
 build_script:

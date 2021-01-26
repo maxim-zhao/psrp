@@ -8,6 +8,7 @@ EMU = "..\..\..\c\meka\meka\mekaw.exe"
 WLAZ80 = "..\..\..\c\wla-dx\binaries\wla-z80.exe"
 WLALINK = "..\..\..\c\wla-dx\binaries\wlalink.exe"
 FLIPS = "..\..\..\sms-build-tools\flips\flips.exe"
+BMP2TILE = ..\..\..\c^#\bmp2tile\bmp2tile.exe
 PY = "py"
 
 # The original PSJ ROM
@@ -62,38 +63,38 @@ new_graphics\bg31.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ
 new_graphics\world1.bin: $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 747b8
 
 # Recompression for the above
-new_graphics\bg1.psgcompr   : new_graphics\bg1.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg2.psgcompr   : new_graphics\bg2.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg3.psgcompr   : new_graphics\bg3.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg5.psgcompr   : new_graphics\bg5.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg8.psgcompr   : new_graphics\bg8.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg9.psgcompr   : new_graphics\bg9.bin    ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg10.psgcompr  : new_graphics\bg10.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg11.psgcompr  : new_graphics\bg11.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg13.psgcompr  : new_graphics\bg13.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg14.psgcompr  : new_graphics\bg14.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg16.psgcompr  : new_graphics\bg16.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg29.psgcompr  : new_graphics\bg29.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg30.psgcompr  : new_graphics\bg30.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\bg31.psgcompr  : new_graphics\bg31.bin   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\world1.psgcompr: new_graphics\world1.bin ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\bg1.psgcompr   : new_graphics\bg1.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg2.psgcompr   : new_graphics\bg2.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg3.psgcompr   : new_graphics\bg3.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg5.psgcompr   : new_graphics\bg5.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg8.psgcompr   : new_graphics\bg8.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg9.psgcompr   : new_graphics\bg9.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg10.psgcompr  : new_graphics\bg10.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg11.psgcompr  : new_graphics\bg11.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg13.psgcompr  : new_graphics\bg13.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg14.psgcompr  : new_graphics\bg14.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg16.psgcompr  : new_graphics\bg16.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg29.psgcompr  : new_graphics\bg29.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg30.psgcompr  : new_graphics\bg30.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg31.psgcompr  : new_graphics\bg31.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\world1.psgcompr: new_graphics\world1.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
 
 # Graphics conversion from PNG
-new_graphics\font-polaris-part1.psgcompr: $*.$(LANGUAGE).png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font-polaris-part2.psgcompr: $*.$(LANGUAGE).png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font-aw2284-part1.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font-aw2284-part2.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\font-credits.psgcompr: $*.png                   ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\name-entry-cursor.psgcompr: $*.png       ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
-new_graphics\world2.psgcompr: $*.$(LANGUAGE).png      ; new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+new_graphics\font-polaris-part1.psgcompr: $*.$(LANGUAGE).png       ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-polaris-part2.psgcompr: $*.$(LANGUAGE).png       ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-aw2284-part1.psgcompr: $*.$(LANGUAGE).png      ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-aw2284-part2.psgcompr: $*.$(LANGUAGE).png      ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-credits.psgcompr: $*.png                   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\name-entry-cursor.psgcompr: $*.png       ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\world2.psgcompr: $*.$(LANGUAGE).png      ; $(BMP2TILE) $** -noremovedupes -savetiles $@
 
 new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.top.png
-  new_graphics\bmp2tile.exe $** -tileoffset 0 -savetiles new_graphics\title.top.psgcompr -savetilemap new_graphics\title.top.tilemap.pscompr -palsms -savepalette new_graphics\title-pal.bin
+  $(BMP2TILE) $** -tileoffset 0 -savetiles new_graphics\title.top.psgcompr -savetilemap new_graphics\title.top.tilemap.pscompr -palsms -savepalette new_graphics\title-pal.bin
 new_graphics\title.bottom.psgcompr new_graphics\title.bottom.tilemap.pscompr: new_graphics\titlescreen.$(LANGUAGE).png
-  new_graphics\bmp2tile.exe $** -tileoffset 256 -savetiles new_graphics\title.bottom.psgcompr -savetilemap new_graphics\title.bottom.tilemap.pscompr
+  $(BMP2TILE) $** -tileoffset 256 -savetiles new_graphics\title.bottom.psgcompr -savetilemap new_graphics\title.bottom.tilemap.pscompr
 
 new_graphics\alisa-sprite.tiles.bin: new_graphics\alisa-sprite.png
-  new_graphics\bmp2tile.exe $** -noremovedupes -savetiles $@
+  $(BMP2TILE) $** -noremovedupes -savetiles $@
 
 # menu_creater
 
