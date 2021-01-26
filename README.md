@@ -487,8 +487,8 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ラクスタ|rakusuta|BYE|Bye|Quick Dash|Exit a battle. "Raku" means 'comfort, ease', and "sutasuta" is sound-symbolic for 'quickly running'.
 リーバス|riibasu|RISE|Rise|Rebirth|Resurrects a dead person to full life. Transliteration.
 ドヒール|dohiiru|CURE|Cure|Super Heal|+80HP. "Do" prefix for "super" spells, plus transliteration.
-テレパス|telepasu|TELE|Tele|Telepathy|Talk to enemies. Transliteration.
-テルル|teruru|TERR|Terr|Terror|Decreases enemy DP. Transliteration.
+テレパス|telepasu|TELE|Telepathy|Telepathy|Talk to enemies. Transliteration.
+テルル|teruru|TERR|Terror|Terror|Decreases enemy DP. Transliteration.
 タンドレ|tandore|THUN|Thunder|Thunder|Lightning attack (-30DP to all enemies). Transliteration.
 ペヤラク|peyaraku|CHAT|Chat|Transrate|Talk to enemies, but does not always work - hence a "bad" translation. Might be a play on the words "perapera" ('fluent') and "yaku" ('translation'), created by taking the word "perayaku" ("fluent/perfect translation") and switching the second and third syllables. Similar to "raputto", this also makes sense if you consider that the spell allows you to talk to certain monsters. Also, since the name of the spell isn't a perfect rendering of "peyaraku", it makes sense that the spell doesn't work on all monsters. 
 トルーパ|toruupa|FLY|Fly|Troop|Return to last church. Transliteration.

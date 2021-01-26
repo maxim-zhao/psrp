@@ -280,6 +280,10 @@
 - name: AlisaBox
   ptrs: 304e,30a5,310a
   dims: 3084,30db
+  jp: |
+    ┌──────╖
+    │ アリサ  ║
+    │      ║
   us: |
     ┌──────╖
     │ ALIS ║
@@ -299,6 +303,10 @@
 
 - name: MyauBox
   ptrs: 305b,30b2,3118
+  jp: |
+    ┌──────╖
+    │ ミャウ  ║
+    │      ║
   us: |
     ┌──────╖
     │ MYAU ║
@@ -318,6 +326,10 @@
 
 - name: TaironBox
   ptrs: 3068,30bf,3126
+  jp: |
+    ┌──────╖
+    │ タイロン ║
+    │------║
   us: |
     ┌──────╖
     │ ODIN ║
@@ -337,6 +349,10 @@
 
 - name: LutzBox
   ptrs: 3075,30cc,3134
+  jp: |
+    ┌──────╖
+    │  ルツ  ║
+    │------║
   us: |
     ┌──────╖
     │ NOAH ║
@@ -358,6 +374,12 @@
   ptrs: 37ca
   dims: 378e,37ab,37e4,37f5
   height: 6 # for bottom row
+  jp: |
+    ┌────╖
+    │アリサ ║
+    │ミャウ ║
+    │タイロン║
+    │ルツ  ║
   us: |
     ┌────╖
     │ALIS║
@@ -393,6 +415,11 @@
 - name: ToolShopMenu
   ptrs: 38a1
   dims: 389b,38bb
+  jp: |
+    ┌────╖
+    │カイタイ║
+    │ウソタイ║
+    ╘════╝
   us: |
     ┌────╖
     │BUY ║
@@ -417,20 +444,30 @@
 - name: ItemActionMenu
   ptrs: 3883
   dims: 387d,388f
+  jp: |
+    ┌───╖
+    │ツカウ║
+    │ソウビ║
+    │ステル║
+    ╘═══╝
+  us: |
+    ┌───╖
+    │USE║
+    │EQP║
+    │DRP║
+    ╘═══╝
   en: |
     ┌─────╖
     │Use  ║
     │Equip║
     │Drop ║
     ╘═════╝
-
   fr: |
     ┌────────╖
     │Utiliser║
     │Équiper ║
     │Jeter   ║
     ╘════════╝
-
   pt-br: |
     ┌─────────╖
     │Usar     ║
@@ -502,6 +539,20 @@
   #ptrs: 35b0
   dims: 359b,35ea
   height: 7 # for bottom row
+  jp: |
+    ┌────╖
+    │ヒール ║
+    │ラクスタ║
+    │ペヤラク║
+    │フレエリ║
+    │ビンドワ║
+  us: |
+    ┌────╖
+    │HEAL║
+    │BYE ║
+    │CHAT║
+    │FIRE║
+    │ROPE║
   en: |
     ┌────────────╖
     │Heal        ║
@@ -527,6 +578,18 @@
 # Next five must follow...
 
 - name: BattleSpellsMyau
+  jp: |
+    ┌────╖
+    │ドヒール║
+    │テルル ║
+    │ワーラ ║
+    │パウマ ║
+  us: |
+    ┌────╖
+    │CURE║
+    │TERR║
+    │WALL║
+    │HELP║
   en: |
     ┌────────────╖
     │Super Heal  ║
@@ -547,6 +610,20 @@
     │Aumento de Poder║
 
 - name: BattleSpellsLutz
+  jp: |
+    ┌────╖
+    │フレエリ║
+    │テレパス║
+    │ヒューン║
+    │ムワーラ║
+    │タンドレ║
+  us: |
+    ┌────╖
+    │FIRE║
+    │TELE║
+    │WIND║
+    │PROT║
+    │THUN║
   en: |
     ┌────────────╖
     │Fire        ║
@@ -570,6 +647,14 @@
     │Raio            ║
 
 - name: OverworldSpellsAlisa
+  jp: |
+    ┌────╖
+    │ヒール ║
+    │トルーパ║
+  us: |
+    ┌────╖
+    │HEAL║
+    │FLY ║
   en: |
     ┌────────────╖
     │Heal        ║
@@ -584,6 +669,16 @@
     │Teletransporte  ║
 
 - name: OverworldSpellsMyau
+  jp: |
+    ┌────╖
+    │ドヒール║
+    │ラプット║
+    │スルト ║
+  us: |
+    ┌────╖
+    │CURE║
+    │TRAP║
+    │EXIT║
   en: |
     ┌────────────╖
     │Super Heal  ║
@@ -601,6 +696,20 @@
     │Escapar         ║
 
 - name: OverworldSpellsLutz
+  jp: |
+    ┌────╖
+    │ドヒール║
+    │スルト ║
+    │テレパス║
+    │ムオーデ║
+    │リーバス║
+  us: |
+    ┌────╖
+    │CURE║
+    │EXIT║
+    │TELE║
+    │OPEN║
+    │RISE║
   en: |
     ┌────────────╖
     │Super Heal  ║
@@ -654,6 +763,26 @@
 - name: StatsMenuDimensions
   emitData: false
   dims: 3902,39e5
+  jp: |
+    ┌───────────╖
+    │LV       99║
+    │EP    65535║
+    │コウグキソョワ 255║
+    │シュビソョワ  255║
+    │サイダイHP  255║
+    │サイダイMP  255║
+    │メセタ   65535║
+    ╘═══════════╝
+  us: |
+    ┌───────────╖
+    │LV       99║
+    │EP    65535║
+    │ATTACK  255║
+    │DEFENSE 255║
+    │MAX HP  255║
+    │MAX MP  255║
+    │MST   65535║
+    ╘═══════════╝
   en: |
     ┌────────────────╖
     │Level         99║
@@ -710,44 +839,70 @@
 - name: InventoryMenuDimensions
   emitData: false
   dims: 3642,377b
+  jp: |
+    ┌────────╖
+    │メセタ65535║
+    │ホカノ モチモノ║
+    │Item 1  ║
+    │Item 2  ║
+    │Item 3  ║
+    │Item 4  ║
+    │Item 5  ║
+    │Item 6  ║
+    │Item 7  ║
+    │Item 8  ║
+    ╘════════╝
+  us: |
+    ┌────────╖
+    │MST65535║
+    │NEXT    ║
+    │Item 1  ║
+    │Item 2  ║
+    │Item 3  ║
+    │Item 4  ║
+    │Item 5  ║
+    │Item 6  ║
+    │Item 7  ║
+    │Item 8  ║
+    ╘════════╝
   en: |
     ┌──────────────────╖
-    │ Meseta     65535 ║
-    │ Next             ║
-    │ Item 1           ║
-    │ Item 2           ║
-    │ Item 3           ║
-    │ Item 4           ║
-    │ Item 5           ║
-    │ Item 6           ║
-    │ Item 7           ║
-    │ Item 8           ║
+    │Meseta       65535║
+    │Next              ║
+    │Item 1            ║
+    │Item 2            ║
+    │Item 3            ║
+    │Item 4            ║
+    │Item 5            ║
+    │Item 6            ║
+    │Item 7            ║
+    │Item 8            ║
     ╘══════════════════╝
   fr: |
     ┌──────────────────╖
-    │ Meseta     65535 ║
-    │ Suite            ║
-    │ Item 1           ║
-    │ Item 2           ║
-    │ Item 3           ║
-    │ Item 4           ║
-    │ Item 5           ║
-    │ Item 6           ║
-    │ Item 7           ║
-    │ Item 8           ║
+    │Meseta       65535║
+    │Suite             ║
+    │Item 1            ║
+    │Item 2            ║
+    │Item 3            ║
+    │Item 4            ║
+    │Item 5            ║
+    │Item 6            ║
+    │Item 7            ║
+    │Item 8            ║
     ╘══════════════════╝
   pt-br: |
     ┌────────────────────╖
-    │ Meseta       65535 ║
-    │ Próximo            ║
-    │ Item 1             ║
-    │ Item 2             ║
-    │ Item 3             ║
-    │ Item 4             ║
-    │ Item 5             ║
-    │ Item 6             ║
-    │ Item 7             ║
-    │ Item 8             ║
+    │Meseta         65535║
+    │Próximo             ║
+    │Item 1              ║
+    │Item 2              ║
+    │Item 3              ║
+    │Item 4              ║
+    │Item 5              ║
+    │Item 6              ║
+    │Item 7              ║
+    │Item 8              ║
     ╘════════════════════╝
 
 - name: TopBorder10
@@ -794,21 +949,21 @@
   dims: 39f1,3aca
   en: |
     ┌────────────────────────╖
-    │ Item 1           65535 ║
-    │ Item 2           65535 ║
-    │ Item 3           65535 ║
+    │Item 1             65535║
+    │Item 2             65535║
+    │Item 3             65535║
     ╘════════════════════════╝
   fr: |
     ┌────────────────────────╖
-    │ Item 1           65535 ║
-    │ Item 2           65535 ║
-    │ Item 3           65535 ║
+    │Item 1             65535║
+    │Item 2             65535║
+    │Item 3             65535║
     ╘════════════════════════╝
   pt-br: |
     ┌──────────────────────────╖
-    │ Item 1             65535 ║
-    │ Item 2             65535 ║
-    │ Item 3             65535 ║
+    │Item 1               65535║
+    │Item 2               65535║
+    │Item 3               65535║
     ╘══════════════════════════╝
 
 - name: TopBorder16
@@ -830,6 +985,18 @@
 - name: HapsbyTravelMenu
   ptrs: 3b5d
   dims: 3b52,3b79
+  jp: |
+    ┌───╖
+    │ガシコ║
+    │ウーゾ║
+    │スクレ║
+    ╘═══╝
+  us: |
+    ┌──────╖
+    │GOTHIC║
+    │UZO   ║
+    │SKURE ║
+    ╘══════╝
   en: |
     ┌──────╖
     │Gothic║
