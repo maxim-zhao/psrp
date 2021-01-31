@@ -113,9 +113,19 @@ To build, you need:
 
 1. An NMake-compatible builder. You can use [Jom](https://wiki.qt.io/Jom#Download_the_binary_package) as a free-as-in-speech option, or install the [Build Tools for Visual Studio](https://aka.ms/buildtools).
 2. Python 3
-3. [WLA DX](https://github.com/vhelin/wla-dx) - a version newer than 3 Dec 2020, e.g. [from here](https://github.com/maxim-zhao/sms-build-tools/releases/tag/1.0.81)
+3. [WLA DX](https://github.com/vhelin/wla-dx) - a version newer than 3 Dec 2020
 4. [BMP2Tile](https://github.com/maxim-zhao/bmp2tile) and its set of [compressors](https://github.com/maxim-zhao/bmp2tilecompressors)
-4. A copy of the original Phantasy Star ROM
 5. (Optionally) Flips, to create patch files
+6. A copy of the original Phantasy Star ROM
 
-You may edit the makefile or set environment variables to set the path to the tools necessary, then invoke the builder from #1.
+Parts 3-5 are included in my [SMS Build tools package](https://github.com/maxim-zhao/sms-build-tools/) from version 1.0.81 onwards.
+
+You may edit the makefile or set environment variables to set the path to the tools necessary, then invoke the builder from #1. For example, to build in pt-br mode you might invoke
+```
+nmake LANGUAGE=pt-br ps1jert.sms
+```
+
+Giving back
+-----------
+
+This source code is open and you are welcome to make re-retranslations from it into any language you like. If you do, you must also publish your source with the same lack of restrictions, and I would prefer to merge your translation into the official source repository so it can benefit from any future enhancements.
