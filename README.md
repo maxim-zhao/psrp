@@ -11,6 +11,7 @@ Changelog (in reverse chronological order):
   - added Brazilian Portuguese translation from ajkmetiuk
   - fixed some bugs relating to the needs of these translations
   - ported script processing tools to Python
+  - widened in-game and narrative script boxes
 - v2.01 released 2020/12/20
   - script improvements:
     - some after-the-deadline changes from Frank Cifaldi

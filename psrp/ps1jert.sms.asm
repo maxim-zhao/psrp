@@ -2756,7 +2756,7 @@ DezorianCustomStringCheck:
   DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height (32-ShopInventoryDimensions_width)/2 0
   DefineWindow SHOP_MST         INVENTORY             20                    3                     3                       15 ; same width as inventory (for now)
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4     SAVE_SLOT_COUNT+2     27-SAVE_NAME_WIDTH      1
-  DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width   SoundTestMenu_height+2  32-SoundTestMenu_width 0
+  DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width   SoundTestMenu_height+2 31-SoundTestMenu_width 0
   DefineWindow OptionsWindow    $d700                 OptionsMenu_width     OptionsMenu_height    32-OptionsMenu_width    24-OptionsMenu_height
   DefineWindow ContinueWindow   $d700                 ContinueMenu_width    ContinueMenu_height   18                      16
 
