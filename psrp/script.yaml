@@ -139,7 +139,7 @@
     el cos d'aquest noi és un<line>
     recordatori per tots vosaltres<line>
     Sa majestat Lashiec no<line>
-    tolerarà cap desafiament_!<wait_more>
+    tolerarà cap desafiament_!<wait more>
     Nero? NERO!<line><line>
     Que ha passat?!<wait>
 
@@ -485,7 +485,7 @@
     Seu irmão também me pediu para manter este Pote de Lacônia seguro.<wait more>
     Ele é muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
 
-  en: |
+  ca: |
     Em dic Nekise.<line><line>
     T'acompanyo en el sentiment.<wait more>
     En Nero em va demanar ajuda per trobar un guerrer anomenat Tylon, l'estàs buscant tu també?<wait more>
@@ -681,7 +681,7 @@
   en: Do you know about all the planets in the Algol Solar System?<end>
   fr: Connaissez-vous les planètes d'Algol_?<end>
   pt-br: Você conhece todos os planetas do Sistema Solar de Algol?<end>
-  ca: Coneixes tots els planetes del Sistema d'Algol?
+  ca: Coneixes tots els planetes del Sistema d'Algol?<end>
 
 - offsets: 4bb4
   # Camineet resident - man - "no" to question about Algol
@@ -1248,7 +1248,7 @@
   en: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
   fr: Bienvenue au Spatioport de Palma. D'ici, vous pouvez vous rendre à Paséo sur Motavia.<wait>
   pt-br: Esté é o Espaçoporto de Palma. Todas as espaçonaves viajam direto para Paseo, a capital de Motávia.<wait>
-  en: Benvingut al Port Espacial de Palma. Totes les naus volen en sentit a Paseo, la capital de Motavia.<wait>
+  ca: Benvingut al Port Espacial de Palma. Totes les naus volen en sentit a Paseo, la capital de Motavia.<wait>
 
 - offsets: 4ca4
   # Luggage handler
@@ -2189,7 +2189,7 @@
     Eu deixei bem escondida. Você pode querer dar uma segunda olhada se já esteve lá.<wait>
   ca: |
     En vaig amagar una al magatzem a les afores del districte residencial de Camineet.<wait more>
-    La vaig amagar molt bé, potser li haurás de tornar a fer un cop d'ull si ja vas estar allà.<wait>
+    La vaig amagar molt bé, potser li hauràs de tornar a fer un cop d'ull si ja vas estar allà.<wait>
 
 - offsets: 4e1d
   # Villager
@@ -2271,7 +2271,7 @@
   us: ZZZ...ZZZ...<end>
   en: zzz...<wait>
   fr: Pff...<wait>
-  pt-br: zzz...<wait>
+  ca: zzz...<wait>
 
 - offsets: 5627
   # Guard inside Underground Passage to Governor's Mansion
@@ -3111,7 +3111,7 @@
     Você vai me prometer que seguirá exatamente minhas instruções, não importa o que eu peça. Entendido?<end>
   ca: |
     Altre cop? Ah, em rendeixo. Et construiré la nau espacial, però amb una condició.<wait more>
-    M'has de prometre que seguirás les meves instruccions de forma exacta, et demani el que et demani. D'acord?<end>
+    M'has de prometre que seguiràs les meves instruccions de forma exacta, et demani el que et demani. D'acord?<end>
 
 - offsets: 5477
   # Dr Luveno (yes to previous question)
@@ -4040,7 +4040,7 @@
   en: I said come HERE.<wait>
   fr: J'ai dit VIENS ICI_!<wait>
   pt-br: Eu disse venha AQUI!<wait>
-  ca: He dit que vinguis AÇÍ!.<wait>
+  ca: He dit que vinguis açí!.<wait>
 
 # *************
 # *** Skray ***
@@ -4196,7 +4196,7 @@
     La planète Dézoris est totalement couverte de glace,<wait more>
     pas exactement la florissante verdure de Palma, n'est ce pas_?<wait>
   pt-br: Dezoris é basicamente um cubo de gelo gigante, completamente diferente dos campos verdes de Palma.<wait>
-  ca: Dezoris es básicament un glaçó gegant de gel. Es un gran canvi comparat amb els prats verds de Palma.<wait>
+  ca: Dezoris es bàsicament un glaçó gegant de gel. Es un gran canvi comparat amb els prats verds de Palma.<wait>
 
 - offsets: 525c
   # Townsperson
@@ -4641,7 +4641,7 @@
     Eles podem deslizar suavemente sobre a água.<wait>
   ca: |
     Oh, són meravellosos! Quan funcionen, es clar.<wait more>
-    Poden lliscar rápidament sobre els cossos d'aigua.<wait>
+    Poden lliscar ràpidament sobre els cossos d'aigua.<wait>
 
 
 # **************
@@ -5372,7 +5372,7 @@
 
 # Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say things like ’it does’ and ’you will’ at the ends of sentences, and the liars say things like, ’no joke’, ’seriously’, etc. in their sentences.
 # [Paul Jensen]
-# In catalan version, Hones Dezorians speak western dialect, and the liars Majorcan
+# In catalan version, Honest Dezorians speak western dialect, and the liars Majorcan
 - offsets: 5274
   # Honest Dezorian
   indices: 1C8
@@ -7057,7 +7057,7 @@
   en: <Article><monster>’s stamina was restored.<delay>
   fr: <Article><monster> a restauré son énergie.<delay>
   pt-br: A energia <do><monster> foi restaurada.<delay>
-  cs: L'energia <de><monster> ha estat restaurada.<delay>
+  ca: L'energia <de><monster> ha estat restaurada.<delay>
 
 - offsets: 20d3
   indices: 01C-2
@@ -7149,7 +7149,7 @@
   en: <Article><monster> got scared and backed away.<delay>
   fr: <Article><monster> a peur et recule.<delay>
   pt-br: <Article><monster> ficou com medo e recuou.<delay>
-  cs: <Article><monster> s'ha espantat i fuig.<delay>
+  ca: <Article><monster> s'ha espantat i fuig.<delay>
 
 - offsets: 210d
   indices: 02C-2
@@ -7399,7 +7399,7 @@
   en: <Article><monster> saw the red flame and seized up in fear.<delay>
   fr: <Article><monster> prend peur en voyant la flamme.<delay>
   pt-br: <Article><monster> viu a chama vermelha e se encolheu de medo.<delay>
-  ca: Article><monster> veu la flama vermella i la por l'emplena. <delay>
+  ca: <Article><monster> veu la flama vermella i la por l'emplena. <delay>
 
 - offsets: 273d
   indices: 064-2
@@ -7473,7 +7473,7 @@
   en: You found <article><item>.<wait>
   fr: <Article><item>!<wait>
   pt-br: Você encontrou <article><item>.<wait>
-  pt-br: Heu trobat <article><item>.<wait>
+  ca: Heu trobat <article><item>.<wait>
 
 - offsets: 21d9,22b5
   indices: 070-2
@@ -7811,7 +7811,7 @@
   en: Would you like to go to Gothic, on Palma?<end>
   fr: Voulez-vous aller à Gothic, sur Palma_?<end>
   pt-br: Gostaria de ir para Gótica, em Palma?<end>
-  en: Voleu anar a Gothic, a Palma?<end>
+  ca: Voleu anar a Gothic, a Palma?<end>
 
 - offsets: 5980
   indices: 0AA-2
@@ -8367,7 +8367,7 @@
   en: ‘You should not go against Lord LaShiec.’<wait>
   fr: Vous ne devriez pas tenir tête au Seigneur Lassic.<wait>
   pt-br: ‘Você não deve ir contra LaShiec.’<wait>
-  pt-br: ‘No heu d'anar en contra Lashiec.’<wait>
+  ca: ‘No heu d'anar en contra Lashiec.’<wait>
 
 - offsets: 1aeb
   indices: 0FA-2
@@ -8380,7 +8380,7 @@
   en: ‘Oh! So you understand our language, do you?’<wait>
   fr: Oh! Vous comprenez notre langue_?<wait>
   pt-br: ‘Ah! Então você entende a nossa língua, não é?’<wait>
-  ca: 'Ah! Enteneu la nostra llengua?'<wait>
+  ca: ‘Ah! Enteneu la nostra llengua?’<wait>
 
 - offsets: 1aed
   indices: 0FC-2
@@ -8426,7 +8426,7 @@
   en: ‘You damn thieves!’<wait>
   fr: Satanés voleurs_!<wait>
   pt-br: ‘Seus malditos ladrões!’<wait>
-  ca: 'Maleïts lladres!'<wait>
+  ca: ‘Maleïts lladres!’<wait>
 
 - offsets: 1af5
   indices: 104-2
@@ -8439,7 +8439,7 @@
   en: ‘People hate us no matter what we do.’<wait>
   fr: Les gens nous détestent quoi que nous fassions.<wait>
   pt-br: ‘As pessoas nos odeiam, não importa o que façamos.’<wait>
-  ca: 'La gent ens odia independentment del que fessim.'<wait>
+  ca: ‘La gent ens odia independentment del que fessim.’<wait>
 
 - offsets: 1cce
   indices: 106-2
@@ -8469,7 +8469,7 @@
   en: ‘IceDeckers can cut through ice!’<wait>
   fr: Les ForaGlaces permettent de briser la glace.<wait>
   pt-br: ‘Cavadores de Gelo podem cortar sobre o gelo!’<wait>
-  ca: 'Els Trencaglaços poden atravessar el gel!'
+  ca: ‘Els Trencaglaços poden atravessar el gel!’<wait>
 
 - offsets: 1cd2
   indices: 10A-2
@@ -8511,7 +8511,7 @@
   en: ‘There are places in the sky that even a spaceship can’t reach.’<wait>
   fr: Les vaisseaux ne vont pas partout dans le ciel.<wait>
   pt-br: ‘Há lugares no céu que nem uma nave espacial pode alcançar.’<wait>
-  ca: 'Hi ha llocs al cel que ni una nau espacial pot arribar.'
+  ca: ‘Hi ha llocs al cel que ni una nau espacial pot arribar.’<wait>
 
 - offsets: 1cd8
   indices: 110-2
@@ -8564,7 +8564,7 @@
   en: ‘Some Dezorians are liars, so be careful.’<wait>
   fr: Certains Dézoriens sont des menteurs, soyez prudents.<wait>
   pt-br: ‘Alguns Dezorianos são mentirosos, então tome cuidado.’<wait>
-  ca: 'Alguns habitants de Dezoris son mentiders, ves amb compte'<wait>
+  ca: ‘Alguns habitants de Dezoris son mentiders, ves amb compte’<wait>
 
 - offsets: 1ce0
   indices: 118-2
@@ -8795,7 +8795,7 @@
   en: OK. Continuing from slot<internal hint 01> <number>.<delay>
   fr: Ok. Continuer à partir de l'emplacement numéro <number>.<delay>
   pt-br: Ok. Continuando da posição<internal hint 01> <number>.<delay>
-  en: D'acord. Continuant desde la ranura<internal hint 01> <number>.<delay>
+  ca: D'acord. Continuant desde la ranura<internal hint 01> <number>.<delay>
 
 - offsets: # Unused
   indices: 13C-2
