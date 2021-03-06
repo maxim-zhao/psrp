@@ -829,7 +829,7 @@ _Copy:
   PatchB $33d6+1 SymbolItem
   PatchB $33f4+1 SymbolNumber
 ; Cutscenes:
-  ; PatchB $34b5+1 SymbolDelay ; First two are patched over bwloe, see "Cutscene text decoder patch"
+  ; PatchB $34b5+1 SymbolDelay ; First two are patched over below, see "Cutscene text decoder patch"
   ; PatchB $34b9+1 SymbolWait
   PatchB $34bd+1 SymbolWaitMore
   PatchB $34c1+1 SymbolNewLine
@@ -4775,7 +4775,7 @@ _BattlesHalf: .stringmap tilemap "Demi"
 _Brown: .stringmap tilemap "Bruns"
 _Black: .stringmap tilemap "Noirs"
 .endif
-.if LANGUAGE == "pt-br" ; TODO-pt-br The width of these needs to be handled
+.if LANGUAGE == "pt-br"
 _BattlesAll:  .stringmap tilemap "    Todas"
 _BattlesHalf: .stringmap tilemap "Reduzidas"
 _Brown: .stringmap tilemap "Castanho"
