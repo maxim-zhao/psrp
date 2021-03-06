@@ -53,7 +53,7 @@
 # <item> = item name
 #
 # <line> = line break (should be used sparingly)
-# <wait> = wait, end of entry
+#<wait> = wait, end of entry
 #<end> = end of entry
 # <wait more> = wait, not end of entry
 #<delay> = delay a bit
@@ -135,11 +135,7 @@
     Nero? NERO!<line><line>
     O que aconteceu?!<wait>
   ca: |
-    Ciutadans de Camineet,<line>
-    el cos d'aquest noi és un<line>
-    recordatori per tots vosaltres<line>
-    Sa majestat Lashiec no<line>
-    tolerarà cap desafiament_!<wait more>
+    Ciutadans de Cami-neet, el cos d'aquest noi és un recordatori per tots vosaltres. Sa majestat Lashiec no tolerarà cap desafiament_!<wait more>
     Nero? NERO!<line><line>
     Que ha passat?!<wait>
 
@@ -253,7 +249,7 @@
   ca: |
     Alisa, germana meva.<line><line>
     Escolta'mm amb atenció, el meu temps s'esgota.<wait more>
-    Els rumors que hem sentit són certs. Lashiec ha...canviat.<line> 
+    Els rumors que hem sentit són certs. Lashiec ha...canviat.<line>
     I va més enllà dels seus soldats controlant els carrers.<wait more>
     Tots els monstres al exterior, tota la foscor sobre nostre...<line><line>
     D'alguna manera, tot ens porta a ell.<wait more>
@@ -409,7 +405,7 @@
     Alisa... enfrontar-se a Lashiec es una bogeria. Però sé com de tosuda i decidida pots arribar a ser.<wait more>
     No malbarataré l'alè convencent-te del contrari, només...ves amb compte.<wait more>
     Si mai estàs ferida, torna per recuperar-te.<wait more>
-    Hem estat veïns durant molt de temps, la meva casa sempre estarà oberta per a tu. <wait>
+    Hem estat veïns durant molt de temps, la meva casa sempre estarà oberta per a tu.<wait>
 
 - offsets: 4b4e
   # Suelo (subsequent visits)
@@ -562,7 +558,7 @@
   en: Some dungeons are pitch black, make sure you always have a light source with you.<wait>
   fr: Certains donjons sont totalement obscurs, tu auras besoin de lumière.<wait>
   pt-br: Alguns calabouços são muito escuros, certifique-se de ter sempre uma fonte de luz com você.<wait>
-  ca: Algunes masmorres son totalment fosques, porta sempre una llum a sobre. <wait>
+  ca: Algunes masmorres son totalment fosques, porta sempre una llum a sobre.<wait>
 
 - offsets: 4b94
   # Camineet resident - man
@@ -1148,7 +1144,7 @@
   ca: |
     Acostumava a anar a explorar la cova de Naula, a la costa al nord de Baya Marlay.<wait more>
     Però amb tots els monstres que han aparegut, ja no hi puc anar.<wait>
-    
+
 - offsets: 2dab
   # Trader (first time you buy the Secret Thing)
   indices: 142
@@ -1690,7 +1686,7 @@
   fr: J'ai fait fortune en vendant ce vase Laconian_! Merci_!<wait>
   pt-br: Ganhei uma fortuna vendendo o Pote de Lacônia! Obrigado!<wait>
   ca: He fet una fortuna venen l'olla de Laconia! Gràcies!<wait>
-  
+
 # ******************************
 # *** Character Intro - Myau ***
 # ******************************
@@ -2073,7 +2069,7 @@
   pt-br: |
     Não me surpreenderia se o Governador-Geral de Motávia aprovasse o que você está fazendo.<wait more>
     Ele pode até mesmo ser capaz de ajudá-lo em sua jornada. Você já falou com ele?<wait>
-    
+
   ca: |
     No em sorprendria que al Gobernador General de Motavia li sembés bé el que fas.<wait more>
     Potser fins i tot et podría ajudar en la teva cerca. Has parlat amb ell?<wait>
@@ -2205,7 +2201,7 @@
   fr: Connaissez-vous le matériau qui est le plus incroyable au monde_?<end>
   pt-br: Você sabe qual é o material mais duro, mais forte do mundo?<end>
   ca: Saps quin es el material més dur i fort del món?<end>
-  
+
 - offsets: 4e2b
   # Villager (no to previous question)
   indices: 05E
@@ -7361,7 +7357,7 @@
   en: Wow, this stuff stinks.<wait>
   fr: Peut importe combien de fois vous le reniflez, ca empeste.<wait>
   pt-br: Uau, essa coisa fede.<wait>
-  ca: Ondia, això fa catipén. 
+  ca: Ondia, això fa catipén.<wait>
 
 - offsets: 2276,228e
   indices: 056-2
@@ -7374,7 +7370,7 @@
   en: <player> got a very bad feeling.<wait>
   fr: <player> a un très mauvais pressentiment.<wait>
   pt-br: <player> teve um mal pressentimento.<wait>
-  ca: <player> té un map presentiment. <wait>
+  ca: <player> té un map presentiment.<wait>
 
 - offsets: 2269,2271,2289
   indices: 058-2
@@ -7385,7 +7381,7 @@
   en: <player> didn’t feel anything.<wait>
   fr: <player> ne ressent rien d'étrange.<wait>
   pt-br: <player> não sente nada.<wait>
-  ca: <player> no sent res. <wait>
+  ca: <player> no sent res.<wait>
 
 - offsets: 269f
   indices: 05A-2
@@ -7413,7 +7409,7 @@
   en: Nobody’s hungry right now, so she put them back.<wait>
   fr: Myau n'ayant pas faim, Alisa les range.<wait>
   pt-br: Ninguém está com fome agora, então ela as colocou de volta.<wait>
-  ca: Ningú té gana, així que les torna a guardar. <wait>
+  ca: Ningú té gana, així que les torna a guardar.<wait>
 
 - offsets: 277b
   indices: 066-2
@@ -7424,7 +7420,7 @@
   en: Hapsby shook his head.<wait>
   fr: Hapsby secoue la tête.<wait>
   pt-br: Hapsby balançou a cabeça.<wait>
-  ca: Hapsby nega amb el cap. <wait>
+  ca: Hapsby nega amb el cap.<wait>
 
 - offsets: 2784
   indices: 068-2
@@ -7462,7 +7458,7 @@
   en: There doesn’t seem to be anything particularly unusual here.<wait>
   fr: Rien d'anormal ici.<wait>
   pt-br: Não parece ter nada especial aqui.<wait>
-  ca: No sembla que hi hagi res fora del normal aquí. <wait>
+  ca: No sembla que hi hagi res fora del normal aquí.<wait>
 
 - offsets: 2a15,2a9b
   indices: 06E-2
@@ -7497,7 +7493,7 @@
   en: <player> revived.<wait>
   fr: <player> ressuscite.<wait>
   pt-br: <player> reviveu.<wait>
-  ca: <player> reviu. <wait>
+  ca: <player> reviu.<wait>
 
 - offsets: 1b45,1f21
   indices: 074-2
@@ -7730,7 +7726,7 @@
     <monster><line>
     IS KILLED.<end>
   en: You’ve beaten <article><monster>.<wait>
-  # <wait> because else you can't read it when you defeat Dark Force...
+  #<wait> because else you can't read it when you defeat Dark Force...
   fr: Vous avez vaincu_!<wait>
   pt-br: Você derrotou <article><monster>.<wait>
   ca: Heu derrotat <article><monster>.<wait>
@@ -7913,7 +7909,7 @@
   en: You can’t carry any more. Come back when you can.<wait>
   fr: Votre inventaire est complet_! Faites un peu de trie et revenez.<wait>
   pt-br: Você não pode carregar mais nada. Volte quando puder.<wait>
-  ca: No podeu carregar res mes. Torneu quan ho pogueu fer. <wait>
+  ca: No podeu carregar res mes. Torneu quan ho pogueu fer.<wait>
 
 - offsets: 2deb
   indices: 0BE-2
@@ -8123,7 +8119,7 @@
   en: Then I shall offer up a prayer for you.<wait>
   fr: Je prierai pour vous.<wait>
   pt-br: Então vou orar por você.<wait>
-  ca: Aleshores pregaré per vosaltres. <wait>
+  ca: Aleshores pregaré per vosaltres.<wait>
 
 - offsets: 2c37
   indices: 0DA-2
@@ -8224,7 +8220,7 @@
   en: To level up,<wait>
   fr: Pour monter d'un niveau,<wait>
   pt-br: Para subir de nível,<wait>
-  ca: Per pujar de nivell, <wait>
+  ca: Per pujar de nivell,<wait>
 
 - offsets: 2d16
   indices: 0E6-2
@@ -8641,7 +8637,7 @@
   en: You are now facing north.<wait>
   fr: Vous faites face au nord.<wait>
   pt-br: Você agora está voltado para o norte.<wait>
-  ca: Ara mireu al nord. <wait>
+  ca: Ara mireu al nord.<wait>
 
 - offsets: 27ca
   indices: 124-2
@@ -8652,7 +8648,7 @@
   en: You are now facing south.<wait>
   fr: Vous faites face au sud.<wait>
   pt-br: Você agora está voltado para o sul.<wait>
-  ca: Ara mireu al sud. <wait>
+  ca: Ara mireu al sud.<wait>
 
 - offsets: 1786
   indices: 126-2
@@ -8864,7 +8860,7 @@
     GAME <number> HAS BEEN<line>
     DELETED.<end>
   en: Deleting game from slot <number>...<delay>
-  #<delay> is nicer than <wait> here - Maxim
+  #<delay> is nicer than<wait> here - Maxim
   fr: Suppression de la sauvegarde, emplacement <number>.<delay>
   pt-br: |
     Deletando o jogo da posição <line>
