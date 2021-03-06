@@ -184,7 +184,7 @@ LoadPagedTiles\1:
 .if LANGUAGE == "ca"
 .stringmaptable tilemap "tilemap.ca.tbl"
 .stringmaptable script "script.ca.tbl"
-.define LETTER_S  $37   ; suffix letter ('s')
+.define LETTER_S  $33   ; suffix letter ('s')
 .endif
 
 
