@@ -4544,13 +4544,15 @@ CreditsScreen10: .db 2
   CreditsEntry 17,6,"MUUUU YUJI"
 CreditsScreen11: .db 1
   CreditsEntry 10,10,"RETRADUCTION"
-CreditsScreen12: .db 6
-  CreditsEntry 3,6,"ANGLÉS"
+CreditsScreen12: .db 8
+  CreditsEntry 7,5,    "/"
+  CreditsEntry 3,6,"ANGLES"
   CreditsEntry 18,6,"PAUL JENSEN"
   CreditsEntry 10,10,"FRANK CIFALDI"
   CreditsEntry 25,10,"SATSU"
-  CreditsEntry 3,15,"CATALÀ"
-  CreditsEntry 18,14,"KUSFO"
+  CreditsEntry 8,14,     "`"
+  CreditsEntry 3,15,"CATALA"
+  CreditsEntry 18,15,"KUSFO"
 CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
   CreditsEntry 11,10,"Z80 GAIDEN"
