@@ -1217,19 +1217,19 @@
   en: ┌─────────────╖
   fr: ┌─────────────╖
   pt-br: ┌───────────────╖
-  ca: ┌───────────────╖
+  ca: ┌──────────────╖
 
 - name: SoundTestMenuChipPSG
   en: │Chip  SN76489║
   fr: │Puce  SN76489║
   pt-br: │Chip    SN76489║
-  ca: │Chip    SN76489║
+  ca: │Chip   SN76489║
 
 - name: SoundTestMenuChipYM2413
   en: │Chip   YM2413║
   fr: │Puce   YM2413║
   pt-br: │Chip     YM2413║
-  ca: │Chip     ym2413║
+  ca: │Chip    ym2413║
 
 - name: SoundTestMenu
   en: |
@@ -1299,27 +1299,27 @@
     │Fim de jogo    ║
     ╘═══════════════╝
   ca: |
-    │---------------║
-    │Pantalla títul ║
-    │Introducció    ║
-    │Ciutat         ║
-    │Masmorra       ║
-    │Botiga         ║
-    │Esglesia       ║
-    │Palma          ║
-    │Batalla        ║
-    │Història       ║
-    │Vila           ║
-    │Vehicle        ║
-    │Motàvia        ║
-    │Dezóris        ║
-    │Torre          ║
-    │Masmorra  Final║
-    │Lashiec        ║
-    │Força Fosca    ║
-    │Final          ║
-    │Fi del joc     ║
-    ╘═══════════════╝
+    │--------------║
+    │Pantalla títul║
+    │Introducció   ║
+    │Ciutat        ║
+    │Masmorra      ║
+    │Botiga        ║
+    │Esglesia      ║
+    │Palma         ║
+    │Batalla       ║
+    │Història      ║
+    │Vila          ║
+    │Vehicle       ║
+    │Motàvia       ║
+    │Dezóris       ║
+    │Torre         ║
+    │Masmorra Final║
+    │Lashiec       ║
+    │Força Fosca   ║
+    │Final         ║
+    │Fi del joc    ║
+    ╘══════════════╝
 
 - name: OptionsMenu
   en: |
