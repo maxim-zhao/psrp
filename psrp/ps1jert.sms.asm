@@ -307,7 +307,7 @@ LoadTiles:
 .ends
 
 ; New title screen ------------------------
-  PatchB $2fdb $32    ; cursor tile index for title screen
+  PatchB $2fdb $31    ; cursor tile index for title screen
 
 .slot 2
 .section "Replacement title screen" superfree
