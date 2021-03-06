@@ -110,16 +110,15 @@
 ; Text between [] is skipped in menus but not in body text
 62=[
 63=]
-; Catalan articles with trailing spaces except for <d'>
-64=<un>
-65=<una>
-66=<el>
+; Catalan articles with trailing spaces except for <l'>
+64=<un> 
+65=<una> 
+66=<el> 
 67=<la> 
-68=<els>
-69=<les>
-6A=<l'> 
-6B=<en> 
+68=<els> 
+69=<les> 
+6A=<l'>
+6B=<en>
 6C=<na>
- 
 
 ; Words go below...
