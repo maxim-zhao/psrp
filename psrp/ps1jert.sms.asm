@@ -3163,6 +3163,7 @@ Defense:            .stringmap tilemap "│Defesa        "
 MaxMP:              .stringmap tilemap "│PV máximo     "
 MaxHP:              .stringmap tilemap "│PM máximo     "
 StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
+.endif
 .if LANGUAGE == "ca"
 StatsBorderTop:     .stringmap tilemap "┌─────────────────╖"
 Level:              .stringmap tilemap "│Nivell        " ; 3 digit number
@@ -3172,7 +3173,6 @@ Defense:            .stringmap tilemap "│Defensa       "
 MaxMP:              .stringmap tilemap "│PV màxim      "
 MaxHP:              .stringmap tilemap "│PM màximo     "
 StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
-
 .endif
 
 statsImpl:
