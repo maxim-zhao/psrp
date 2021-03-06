@@ -2267,6 +2267,7 @@
   us: ZZZ...ZZZ...<end>
   en: zzz...<wait>
   fr: Pff...<wait>
+  pt-br: zzz...<wait>
   ca: zzz...<wait>
 
 - offsets: 5627
@@ -2507,7 +2508,7 @@
     I pray for your safety.<wait>
   fr: |
     Il n'y a pas un seul instant à perdre.<wait more>
-    S'il vous plait, soyez prudente. Je prierai pour votre sécurité.<wait>
+    S'il vous plait, soyez prudente. Je prierai pour votre sécurité.<wait more>
     Que votre voyage soit sur.<wait>
   pt-br: |
     Não há um único momento a perder.<wait more>
@@ -3915,7 +3916,7 @@
     L'aura maléfique de Lassic a également corrompu notre village_!<wait more>
     S'il vous plait, arrêtez-le.<wait>
   pt-br: A influência maligna de LaShiec corrompeu nossa vila também! Por favor, você tem que detê-lo!<wait>
-  ca: La negra mà d'en Lashiec ha arribat també a aquesta vila! Si us plau, teniu que aturar-lo!
+  ca: La negra mà d'en Lashiec ha arribat també a aquesta vila! Si us plau, teniu que aturar-lo!<wait>
 
 - offsets: 514b
   # Villager
@@ -3989,7 +3990,7 @@
     Notre nouveau voisin en connaît beaucoup sur les animaux.<wait more>
     Il m'a raconté une chose bien étrange à propos des chats Musk.<wait more>
     Il disait qu'en mangeant une certaine baie, ils devenaient énormes et pouvaient voler_!<wait more>
-    Bien sur, je lui ai dit qu'il était fou.<wait more>
+    Bien sur, je lui ai dit qu'il était fou.<wait>
   pt-br: |
     Nosso novo vizinho com certeza sabe muito sobre animais.<wait more>
     Ele me disse umas coisas estranhas sobre os Gatos Musk.<wait more>
@@ -7862,7 +7863,7 @@
   en: Welcome to the armor shop. Can I help you?<end>
   fr: Bienvenue à l'armurerie! Besoin d'armes pour votre quête_?<end>
   pt-br: Esta é uma loja de armas. Posso ajudá-lo?<end>
-  ca: Benvinguts a la botiga de armadures.
+  ca: Benvinguts a la botiga de armadures.<end>
 
 - offsets: 2d27,2d89,2e46,537e
   indices: 0B6-2
@@ -8040,7 +8041,7 @@
   en: Who requires our attention?<end>
   fr: Quel personne doit être soignée?<end>
   pt-br: Quem requer a nossa atenção?<end>
-  ca: Qui requereix la nostra atenció?
+  ca: Qui requereix la nostra atenció?<end>
 
 - offsets: 2b8a
   indices: 0D0-2
@@ -8196,7 +8197,7 @@
   en: Is there anyone else?<end>
   fr: Encore une ame_?<end>
   pt-br: Há mais alguém?<end>
-  ca: Algú més?
+  ca: Algú més?<end>
 
 - offsets: 2c24
   indices: 0E2-2
