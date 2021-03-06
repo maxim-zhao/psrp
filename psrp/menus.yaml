@@ -681,12 +681,12 @@
     │Fogo            ║
     │Amarrar         ║
   ca: |
-    ┌────────────────╖
-    │Guarir          ║
-    │Fugir Ràpid     ║
-    │Traduïr         ║
-    │Foc             ║
-    │Lligar          ║
+    ┌───────────────╖
+    │Guarir         ║
+    │Fugir Ràpid    ║
+    │Traduïr        ║
+    │Foc            ║
+    │Lligar         ║
 # Next five must follow...
 
 - name: BattleSpellsMyau
@@ -721,11 +721,11 @@
     │Muralha         ║
     │Aumento de Poder║
   ca: |
-    ┌────────────────╖
-    │Super Remei     ║
-    │Por             ║
-    │Muralla         ║
-    │Increment Poder ║
+    ┌───────────────╖
+    │Super Remei    ║
+    │Por            ║
+    │Muralla        ║
+    │Increment Poder║
 
 - name: BattleSpellsLutz
   jp: |
@@ -764,12 +764,12 @@
     │Barreira Mágica ║
     │Raio            ║
   ca: |
-    ┌────────────────╖
-    │Foc             ║
-    │Telepatía       ║
-    │Vent            ║
-    │Barrera Màgica  ║
-    │Llampec         ║
+    ┌───────────────╖
+    │Foc            ║
+    │Telepatía      ║
+    │Vent           ║
+    │Barrera Màgica ║
+    │Llampec        ║
 
 - name: OverworldSpellsAlisa
   jp: |
@@ -793,9 +793,9 @@
     │Cura            ║
     │Teletransporte  ║
   ca: |
-    ┌────────────────╖
-    │Guarir          ║
-    │Teletransport   ║
+    ┌───────────────╖
+    │Guarir         ║
+    │Teletransport  ║
 
 - name: OverworldSpellsMyau
   jp: |
@@ -824,10 +824,10 @@
     │Desarmar        ║
     │Escapar         ║
   ca: |
-    ┌────────────────╖
-    │Super Remei     ║
-    │Desarmar        ║
-    │Fugir           ║
+    ┌───────────────╖
+    │Super Remei    ║
+    │Desarmar       ║
+    │Fugir          ║
 
 - name: OverworldSpellsLutz
   jp: |
@@ -866,19 +866,19 @@
     │Abrir           ║
     │Reviver         ║
   ca: |
-    ┌────────────────╖
-    │Super Remei     ║
-    │Escapar         ║
-    │Telepatía       ║
-    │Obrir           ║
-    │Reviure         ║
+    ┌───────────────╖
+    │Super Remei    ║
+    │Escapar        ║
+    │Telepatía      ║
+    │Obrir          ║
+    │Reviure        ║
 
 - name: SpellMenuBottom
   # referenced in assembly code
   en: ╘════════════╝
   fr: ╘════════════════╝
   pt-br: ╘════════════════╝
-  ca: ╘════════════════╝
+  ca: ╘═══════════════╝
 
 - name: NarrativeBlankLine
   ptrs: 356c
