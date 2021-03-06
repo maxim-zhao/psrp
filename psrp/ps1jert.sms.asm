@@ -4105,7 +4105,7 @@ NameEntryLookup:
 .if LANGUAGE == "ca"
 .db 14
   NameEntryText  8,  1,      "Introdueixi el seu nom"
-  NameEntryText  3, 11, "ABCDEFGHIJLMNOPQRSTUVX"
+  NameEntryText  3, 11, "ABCDEFGHIJLMNOPQRSTUV"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvxyz"
   NameEntryText  3, 15, "àçéèíóòú"
   NameEntryText  3, 17, "0123456789"
@@ -4628,7 +4628,7 @@ FontLookup:
 .stringmap tilemap " 0123456789"
 .stringmap tilemap "ABCDEFGHIJLMNOPQRSTUVZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvxyz"
-.stringmap tilemap ".‘’,-!?_àéèíïòóúü"
+.stringmap tilemap "·l.‘’,-!?_àéèíïòóúüç"
 .endif
 .ends
 

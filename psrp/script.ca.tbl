@@ -70,41 +70,40 @@
 39=z
 
 ; Punctuation
-3A=·
+3A=·l
 3B=.
-3C=:
-3D=‘
-3E=’
-3F='
-40=,
-41=-
-42=!
-43=?
+3C=‘
+3D=’
+3E='
+3E=,
+4F=-
+40=!
+41=?
 ; non-breaking space
-44=_
+42=_
 
 ; Catalan accented letters
-45=à
-46=é
-47=è
-48=í
-49=ï
-4A=ò
-4B=ó
-4C=ú
-4D=ü
-4F=ç
+43=à
+44=é
+45=è
+46=í
+47=ï
+48=ò
+49=ó
+4A=ú
+4B=ü
+4C=ç
 
 ; Below here are mapping to the unaccented characters...
-0B=À
+;0B=À
 0F=É
-0F=È
-13=Í
-13=Ï
-18=Ò
+;0F=È
+;13=Í
+;13=Ï
+;18=Ò
 18=Ó
 1E=Ú
-1E=Ü
+;1E=Ü
 
 ; These control codes only apply to items/names...
 

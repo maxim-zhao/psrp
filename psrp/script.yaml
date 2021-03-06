@@ -737,7 +737,7 @@
     Todos os nossos três lindos planetas estão ameaçados pelas ambições de LaShiec.<wait more>
     A cada dia estamos próximos de uma crise que nunca poderá ser revertida.<wait>
   ca: |
-    Algol conté tres planetes: Palma, Motavia i Dezoris.<wait more>
+    Algol conté tres planetes - Palma, Motavia i Dezoris.<wait more>
     Cadascun d'ells té una atmósfera única, de manera que les seves característiques son diferents.<wait more>
     Palma, com ja saps, es un planeta verd. Ens trobem beneits per grans prats i boscos.<wait more>
     El desert sense fí de Motavia es dur, però te la seva pròpia bellesa.<wait more>
@@ -1122,7 +1122,7 @@
     Ao norte, passando a prisão, fica o orgulho de Palma - uma bela colina chamada Baya Marlay.<wait more>
     Uma pena que ninguém mais possa entrar nela...<wait>
   ca: |
-    Cap al nord, pasada la presó, hi ha l'orgull de Palma: un monticle preciós anomenat Baya Marlay.<wait more>
+    Cap al nord, pasada la presó, hi ha l'orgull de Palma - un monticle preciós anomenat Baya Marlay.<wait more>
     Llàstima que ara ja ningú hi pot anar...<wait>
 
 - offsets: 4ddf
@@ -5295,7 +5295,7 @@
     Alors tu te dois de passer un test final.<wait more>
     Battons-nous en duel.<wait>
   pt-br: Eu te ensinei tudo o que sei. Agora é hora de dar a você um teste final, vamos duelar!<wait>
-  ca: "T'he ensenyat tot el que sé. Es hora de una última prova: Un duel contra mí!<wait>"
+  ca: "T'he ensenyat tot el que sé. Es hora de una última prova. Un duel contra mí!<wait>"
 
 - offsets: 5722
   # Tajim (if you win)
@@ -5831,7 +5831,7 @@
   ca: |
     Sóc en Otegami Chie-chan, de Sega! Merci per tots els missatges.<wait more>
     Si us plau, expliqueu-nos que penseu d'aquest joc. Volem sentir les vostres opinions.<wait more>
-    Us donaré un consell: Aneu al lloc amb més alçada de Palma, i mostreu l'Aeroprisma al cel!<wait>
+    Us donaré un consell. Aneu al lloc amb més alçada de Palma, i mostreu l'Aeroprisma al cel!<wait>
 
 
 # *************************
