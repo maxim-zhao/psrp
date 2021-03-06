@@ -32,7 +32,7 @@ WORD_COUNT = 54
 WORD_COUNT = 48
 !ENDIF
 !IF "$(LANGUAGE)" == "ca"
-WORD_COUNT = 48
+WORD_COUNT = 45
 !ENDIF
 
 DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
