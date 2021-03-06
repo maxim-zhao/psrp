@@ -5091,27 +5091,33 @@ _BattlesAll:  .stringmap tilemap " All"
 _BattlesHalf: .stringmap tilemap "Half"
 _Brown: .stringmap tilemap "Brown"
 _Black: .stringmap tilemap "Black"
+_Font1: .stringmap tilemap "Polaris"
+_Font2: .stringmap tilemap " AW2284"
 .endif
 .if LANGUAGE == "fr"
 _BattlesAll:  .stringmap tilemap "Tout"
 _BattlesHalf: .stringmap tilemap "Demi"
 _Brown: .stringmap tilemap "Bruns"
 _Black: .stringmap tilemap "Noirs"
+_Font1: .stringmap tilemap "Polaris"
+_Font2: .stringmap tilemap " AW2284"
 .endif
 .if LANGUAGE == "pt-br" ; TODO-pt-br The width of these needs to be handled
 _BattlesAll:  .stringmap tilemap "    Todas"
 _BattlesHalf: .stringmap tilemap "Reduzidas"
 _Brown: .stringmap tilemap "Castanho"
 _Black: .stringmap tilemap "   Preto"
+_Font1: .stringmap tilemap "Polaris"
+_Font2: .stringmap tilemap " AW2284"
 .endif
 .if LANGUAGE == "ca"
 _BattlesAll:  .stringmap tilemap " Totes"
 _BattlesHalf: .stringmap tilemap "Meitat"
 _Brown: .stringmap tilemap "Marró"
 _Black: .stringmap tilemap "Negre"
-.endif
 _Font1: .stringmap tilemap "Polaris"
-_Font2: .stringmap tilemap " AW2284"
+_Font2: .stringmap tilemap " DG2284"
+.endif
 
 Continue:
   ld hl,FunctionLookupIndex
