@@ -38,7 +38,7 @@
     ╘═════════════════════╝
   ca: |
     ┌─────────────────────╖
-    │Primavera, any 342   ║
+    │Primavera, DG 342    ║
     │---------------------║
     │Districte residencial║
     │de Camineet al       ║
@@ -681,12 +681,12 @@
     │Fogo            ║
     │Amarrar         ║
   ca: |
-    ┌────────────────╖
-    │Guarir          ║
-    │Fugir Ràpid     ║
-    │Traduïr         ║
-    │Foc             ║
-    │Lligar          ║
+    ┌───────────────╖
+    │Guarir         ║
+    │Fugir Ràpid    ║
+    │Traduïr        ║
+    │Foc            ║
+    │Lligar         ║
 # Next five must follow...
 
 - name: BattleSpellsMyau
@@ -721,11 +721,11 @@
     │Muralha         ║
     │Aumento de Poder║
   ca: |
-    ┌────────────────╖
-    │Super Remei     ║
-    │Por             ║
-    │Muralla         ║
-    │Increment Poder ║
+    ┌───────────────╖
+    │Super Remei    ║
+    │Por            ║
+    │Muralla        ║
+    │Increment Poder║
 
 - name: BattleSpellsLutz
   jp: |
@@ -764,12 +764,12 @@
     │Barreira Mágica ║
     │Raio            ║
   ca: |
-    ┌────────────────╖
-    │Foc             ║
-    │Telepatía       ║
-    │Vent            ║
-    │Barrera Màgica  ║
-    │Llampec         ║
+    ┌───────────────╖
+    │Foc            ║
+    │Telepatía      ║
+    │Vent           ║
+    │Barrera Màgica ║
+    │Llampec        ║
 
 - name: OverworldSpellsAlisa
   jp: |
@@ -793,9 +793,9 @@
     │Cura            ║
     │Teletransporte  ║
   ca: |
-    ┌────────────────╖
-    │Guarir          ║
-    │Teletransport   ║
+    ┌───────────────╖
+    │Guarir         ║
+    │Teletransport  ║
 
 - name: OverworldSpellsMyau
   jp: |
@@ -824,10 +824,10 @@
     │Desarmar        ║
     │Escapar         ║
   ca: |
-    ┌────────────────╖
-    │Super Remei     ║
-    │Desarmar        ║
-    │Fugir           ║
+    ┌───────────────╖
+    │Super Remei    ║
+    │Desarmar       ║
+    │Fugir          ║
 
 - name: OverworldSpellsLutz
   jp: |
@@ -866,19 +866,19 @@
     │Abrir           ║
     │Reviver         ║
   ca: |
-    ┌────────────────╖
-    │Super Remei     ║
-    │Escapar         ║
-    │Telepatía       ║
-    │Obrir           ║
-    │Reviure         ║
+    ┌───────────────╖
+    │Super Remei    ║
+    │Escapar        ║
+    │Telepatía      ║
+    │Obrir          ║
+    │Reviure        ║
 
 - name: SpellMenuBottom
   # referenced in assembly code
   en: ╘════════════╝
   fr: ╘════════════════╝
   pt-br: ╘════════════════╝
-  ca: ╘════════════════╝
+  ca: ╘═══════════════╝
 
 - name: NarrativeBlankLine
   ptrs: 356c
@@ -1217,19 +1217,19 @@
   en: ┌─────────────╖
   fr: ┌─────────────╖
   pt-br: ┌───────────────╖
-  ca: ┌───────────────╖
+  ca: ┌──────────────╖
 
 - name: SoundTestMenuChipPSG
   en: │Chip  SN76489║
   fr: │Puce  SN76489║
   pt-br: │Chip    SN76489║
-  ca: │Chip    SN76489║
+  ca: │Chip   SN76489║
 
 - name: SoundTestMenuChipYM2413
   en: │Chip   YM2413║
   fr: │Puce   YM2413║
   pt-br: │Chip     YM2413║
-  ca: │Chip     YM2413║
+  ca: │Chip    ym2413║
 
 - name: SoundTestMenu
   en: |
@@ -1299,27 +1299,27 @@
     │Fim de jogo    ║
     ╘═══════════════╝
   ca: |
-    │---------------║
-    │Pantalla títul ║
-    │Introducció    ║
-    │Ciutat         ║
-    │Masmorra       ║
-    │Botiga         ║
-    │Esglesia       ║
-    │Palma          ║
-    │Batalla        ║
-    │Història       ║
-    │Vila           ║
-    │Vehicle        ║
-    │Motàvia        ║
-    │Dezóris        ║
-    │Torre          ║
-    │Masmorra  Final║
-    │Lashiec        ║
-    │Força Fosca    ║
-    │Final          ║
-    │Fi del joc     ║
-    ╘═══════════════╝
+    │--------------║
+    │Pantalla títul║
+    │Introducció   ║
+    │Ciutat        ║
+    │Masmorra      ║
+    │Botiga        ║
+    │Esglesia      ║
+    │Palma         ║
+    │Batalla       ║
+    │Història      ║
+    │Vila          ║
+    │Vehicle       ║
+    │Motàvia       ║
+    │Dezóris       ║
+    │Torre         ║
+    │Masmorra Final║
+    │Lashiec       ║
+    │Força Fosca   ║
+    │Final         ║
+    │Fi del joc    ║
+    ╘══════════════╝
 
 - name: OptionsMenu
   en: |
