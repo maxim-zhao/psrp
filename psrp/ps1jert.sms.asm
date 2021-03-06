@@ -2325,9 +2325,10 @@ _DrawBorder:
   inc hl
 _DrawOneTile:
   ld a,(hl)
-  out (PORT_VDP_DATA),a
-  inc hl
-  ld a,(hl)
+  out (PORT_VDP_DATA),a ; 11
+  inc hl                ; 6
+  ld a,(hl)             ; 7
+  nop                   ; 4 -> total 28 cycles
   out (PORT_VDP_DATA),a
   inc hl
   ret
