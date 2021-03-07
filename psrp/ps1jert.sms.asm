@@ -194,6 +194,8 @@ _script\@_end:
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
+.define PORT_FM_CONTROL $f2
+.define PORT_MEMORY_CONTROL $3e
 .define SRAMPagingOn $08
 .define SRAMPagingOff $80
 
@@ -4944,9 +4946,17 @@ _musicReturn:
   ld a,(HasFM)
   or a
   jr z,-
+  ; Enable the right chip
+foo:
+  ld a,(Port3EValue)
+  or $04 ; Disable IO chip
+  out (PORT_MEMORY_CONTROL),a
   ld a,(UseFM)
-  xor 1
+  xor 1 ; happens to be the right value for the port this way
   ld (UseFM),a
+  out (PORT_FM_CONTROL),a
+  ld a,(Port3EValue)
+  out (PORT_MEMORY_CONTROL),a  ; Turn IO chip back on
   ; Restart music
   ld a,(MusicSelection)
   ld (NewMusic),a
