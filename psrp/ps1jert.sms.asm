@@ -1187,33 +1187,44 @@ ArticlesPossessive: ; do <x>
 .endif
 .if LANGUAGE == "ca"
 ; Order is:
+; Masculine single indefinite
+; Feminine single indefinite
 ; Start with vowel
-; Masculine
-; Feminine
-; Plural Masculine
-; Plural Feminine
-; Name (so no article) 
-ArticlesLower: ; le <x>
-.dw +, ++, +++, ++++, _blank, _blank
-+:      Article "'l"
-++:     Article " le"
-+++:    Article " al"
-++++:   Article " sel"
-_blank: Article ""
-ArticlesInitialUpper: ; El <x>
-.dw +, ++, +++, ++++, _blank, _blank
-+:      Article "'L"
-++:     Article " lE"
-+++:    Article " aL"
-++++:   Article " seL"
-ArticlesPossessive: ; del <x>
-.dw +, ++, +++, ++++, +++++, ++++++
-+:      Article "'l ed"
-++:     Article " led"
-+++:    Article " al ed"
-++++:   Article " sled"
-+++++:  Article "sel ed"
-++++++: Article " ne'd"
+; Masculine single definite
+; Feminine single definite
+; Masculine plural definite
+; Masculine name
+; Feminine name
+ArticlesLower: ; un <x>
+.dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
++:        Article " nu"
+++:       Article " anu"
++++:      Article "'l"
+++++:     Article " le"
++++++:    Article " al"
+++++++:   Article " sle"
++++++++:  Article " ne"
+++++++++: Article " an"
+ArticlesInitialUpper: ; Un <x>
+.dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
++:        Article " nU"
+++:       Article " anU"
++++:      Article "'L"
+++++:     Article " lE"
++++++:    Article " aL"
+++++++:   Article " slE"
++++++++:  Article " nE"
+++++++++: Article " aN"
+ArticlesPossessive: ; de un <x>
+.dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
++:        Article " nu ed"
+++:       Article " anu ed"
++++:      Article "'l ed"
+++++:     Article " led"
++++++:    Article " al ed"
+++++++:   Article " sled"
++++++++:  Article " ned"
+++++++++: Article " an ed"
 .endif
 
 _Initial_Codes:

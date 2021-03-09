@@ -112,15 +112,15 @@
 63=]
 ; Catalan articles with trailing spaces except for <l'>
 64=<un> 
+;<uns> unused
 65=<una> 
-66=<el> 
-67=<la> 
-68=<els> 
-69=<les> 
-6A=<l'>
-6B=<en> 
-6C=<na> 
-6D=<del> 
-6E=<de la> 
+;<unes> unused
+66=<l'>
+67=<el> 
+68=<la> 
+69=<els> 
+;<les> unused
+6A=<en> 
+6B=<na> 
 
 ; Words go below...
