@@ -6908,7 +6908,7 @@
   en: <player> dodged <article><monster>’s attack.<delay>
   fr: <player> pare le coup <de><monster>.<delay>
   pt-br: <player> desviou do ataque <do><monster>.<delay>
-  ca: <player> ha desviat l'atac <del><monster>.<delay>
+  ca: <player> ha desviat l’atac <del><monster>.<delay>
 
 - offsets: 1a96
   indices: 004-2
