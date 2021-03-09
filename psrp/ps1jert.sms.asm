@@ -4119,16 +4119,16 @@ NameEntryLookup:
 .endif
 .if LANGUAGE == "ca"
 .db 14
-  NameEntryText  8,  1,      "Introdueixi el seu nom"
-  NameEntryText  3, 11, "ABCDEFGHIJLMNOPQRSTUV"
-  NameEntryText  3, 13, "abcdefghijklmnopqrstuvxyz"
+  NameEntryText  4,  1,  "Introdueixi el seu nom"
+  NameEntryText  3, 11, "ABCDEFGHIJ LMNOPQRSTUV"
+  NameEntryText  3, 13, "abcdefghijklmnopqrstuv xyz"
   NameEntryText  3, 15, "àçéèíóòú"
   NameEntryText  3, 17, "0123456789"
   NameEntryText 22, 17,                   ".,-!?‘’"
   NameEntryText  3, 19, "Enrera"
   NameEntryText 22, 19,                    "Següent"
   NameEntryText  3, 21, "Espai"
-  NameEntryText 23, 21,                     "Guardar"
+  NameEntryText 22, 21,                    "Guardar"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
   NameEntryText  1, 23, "╘═"
   NameEntryText 30,  3, "╖"
@@ -4137,8 +4137,8 @@ NameEntryLookup:
 .db 4
   NameEntryMask  3, 19, 6, "B" ; X, Y, length, type (Back)
   NameEntryMask 22, 19, 7, "N" ; Next
-  NameEntryMask  3, 21, 6, "S" ; Space
-  NameEntryMask 23, 21, 6, "V" ; saVe
+  NameEntryMask  3, 21, 5, "S" ; Space
+  NameEntryMask 22, 21, 6, "V" ; saVe
 .define NameEntryMinX 3
 .define NameEntryMaxX 28
 .define NameEntryMinY 11
