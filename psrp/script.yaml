@@ -135,7 +135,8 @@
     Nero? NERO!<line><line>
     O que aconteceu?!<wait>
   ca: |
-    Ciutadans de Camineet, el cos d'aquest noi és un recordatori per tots vosaltres. Sa majestat Lashiec no tolerarà cap desafiament_!<wait more>
+    Ciutadans de Camineet, el cos d'aquest noi és un recordatori per tots vosaltres. <line>
+    Sa majestat Lashiec no tolerarà cap desafiament!<wait more>
     Nero? NERO!<line><line>
     Que ha passat?!<wait>
 
@@ -248,7 +249,7 @@
     ...sozinhos...<wait>
   ca: |
     Alisa, germana meva.<line><line>
-    Escolta'mm amb atenció, el meu temps s'esgota.<wait more>
+    Escolta'm amb atenció, el meu temps s'esgota.<wait more>
     Els rumors que hem sentit són certs. Lashiec ha...canviat.<line>
     I va més enllà dels seus soldats controlant els carrers.<wait more>
     Tots els monstres al exterior, tota la foscor sobre nostre...<line><line>
@@ -305,7 +306,7 @@
     Com seu espírito ao meu lado, LaShiec não terá a menor chance.<wait>
   ca: |
     Nero...<wait more>
-    La teva mort no serà per res, t'ho prometo.<line><line>
+    La teva mort no serà en va, t'ho prometo.<line><line>
     No deixaré que aquests monstres s'apoderin de casa nostra.<wait more>
     Sigues el meu àngel de la guarda, germà gran.<line><line>
     Amb el teu esperit al meu costat, en Lashiec no tindrà cap oportunitat.<wait>
@@ -486,7 +487,7 @@
     T'acompanyo en el sentiment.<wait more>
     En Nero em va demanar ajuda per trobar un guerrer anomenat Tylon, l'estàs buscant tu també?<wait more>
     L'últim que s'en sap es que s'allotjava al poble de Shion. Potser encara s'hi troba pels voltants.<wait more>
-    El teu germà també em va demanar que li guardés aquesta olla de Laconia
+    El teu germà també em va demanar que li guardés aquesta olla de Laconia.<wait more>
     Es força valuosa, potser et serà útil en el teu viatge? Si us plau, agafa-la.<wait>
 
 - offsets: 4b7c
@@ -910,7 +911,7 @@
     Motávia tem Motavianos e Dezóris tem Dezorianos. Alguns até falam nossa língua!<wait more>
     Gostaria muito de ter uma conversa com um alienígena de verdade algum dia...<wait>
   ca: |
-    Saps que no som l'única vida inteligent al Sistema d'Algol, oi?<wait more>
+    Saps que no som l'única vida intel·ligent al Sistema d'Algol, oi?<wait more>
     A Motavia hi ha els Motavians, a Dezoris hi ha els Dezorians. Alguns fins i tot parlen la nostra llengua!<wait more>
     M'agradaria parlar amb algún alienígena de debó un dia...<wait>
 
@@ -6907,7 +6908,7 @@
   en: <player> dodged <article><monster>’s attack.<delay>
   fr: <player> pare le coup <de><monster>.<delay>
   pt-br: <player> desviou do ataque <do><monster>.<delay>
-  ca: <player> ha desviat l'atac <de><monster>.<delay>
+  ca: <player> ha desviat l'atac <del><monster>.<delay>
 
 - offsets: 1a96
   indices: 004-2
@@ -6976,7 +6977,7 @@
   en: <Article><monster>’s spell had no effect.<delay>
   fr: Le sort <de><monster> n'a pas d'effet.<delay>
   pt-br: A magia <do><monster> não teve nenhum efeito.<delay>
-  ca: La màgia <de><monster> no fa cap efecte.<delay>
+  ca: La màgia <del><monster> no fa cap efecte.<delay>
 
 - offsets: 1ffa
   indices: 010-2
@@ -7003,7 +7004,7 @@
   en: <Article><monster>’s attack was deflected by the magic wall.<delay>
   fr: La barrière dévie l'attaque <de><monster>.<delay>
   pt-br: O ataque <do><monster> foi desviado pela parede mágica.<delay>
-  ca: L'atac <de><monster> es reflectit per el mur màgic.<delay>
+  ca: L'atac <del><monster> es reflectit per el mur màgic.<delay>
 
 - offsets: 14f9,15d3,1637
   indices: 014-2
@@ -7017,7 +7018,7 @@
   en: <Article><monster>’s spell was deflected by the magic wall.<delay>
   fr: Le sort dévie l'attaque <de><monster>.<delay>
   pt-br: A magia <do><monster> foi desviada pela parede mágica.<delay>
-  ca: La màgia <de><monster> ha estat reflectida per el mur màgic.<delay>
+  ca: La màgia <del><monster> ha estat reflectida per el mur màgic.<delay>
 
 - offsets: 1458
   indices: 016-2
@@ -7054,7 +7055,7 @@
   en: <Article><monster>’s stamina was restored.<delay>
   fr: <Article><monster> a restauré son énergie.<delay>
   pt-br: A energia <do><monster> foi restaurada.<delay>
-  ca: L'energia <de><monster> ha estat restaurada.<delay>
+  ca: L'energia <del><monster> ha estat restaurada.<delay>
 
 - offsets: 20d3
   indices: 01C-2
@@ -7067,7 +7068,7 @@
   en: <Article><monster> is all bound up.<delay>
   fr: <Article><monster> s'est fait ligoter!<delay>
   pt-br: A magia imobilizou <Article><monster>.<delay>
-  ca: La magia inmobilitza <Article><monster> .<delay>
+  ca: La magia inmobilitza <article><monster> .<delay>
 
 - offsets: 151f
   indices: 01E-2
@@ -7297,7 +7298,7 @@
   en: <Article><monster>’s eyes are blank.<delay>
   fr: Les yeux <de><monster> sont vides.<delay>
   pt-br: Os olhos <do><monster> estão vazios.<delay>
-  ca: Els ulls <de><monster> estan en blanc.<delay>
+  ca: Els ulls <del><monster> estan en blanc.<delay>
 
 - offsets: 2505,2597,25f9,26f1,2742,27a2
   indices: 048-2
@@ -7863,7 +7864,7 @@
   en: Welcome to the armor shop. Can I help you?<end>
   fr: Bienvenue à l'armurerie! Besoin d'armes pour votre quête_?<end>
   pt-br: Esta é uma loja de armas. Posso ajudá-lo?<end>
-  ca: Benvinguts a la botiga de armadures.<end>
+  ca: Benvinguts a l'armeria.<end>
 
 - offsets: 2d27,2d89,2e46,537e
   indices: 0B6-2
