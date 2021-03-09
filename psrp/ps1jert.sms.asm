@@ -2163,7 +2163,7 @@ Items:
   String  "<la> Torcha d'Eclipsi"
   String  "<el> Aeroprisma"
   String "<els> Fruits de Laerma"
-  String       "Hapsby"
+  String  "<en> Hapsby"
   String  "<un> Salconduit"
   String  "<un> Passaport"
   String "<una> Brúixola"
