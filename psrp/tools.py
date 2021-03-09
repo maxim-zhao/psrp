@@ -329,7 +329,7 @@ class ScriptEntry:
             self.buffer.append(2)  # uppercase
             self.script_hints = True
         # Possessives
-        elif tag == "de" or tag == "do":
+        elif tag == "de" or tag == "do" or tag == "del":
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
             self.script_hints = True
