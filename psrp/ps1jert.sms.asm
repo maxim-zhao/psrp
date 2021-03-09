@@ -2977,10 +2977,10 @@ DezorianCustomStringCheck:
   DefineWindow INVENTORY        INVENTORY_START       InventoryMenuDimensions_width InventoryMenuDimensions_height 31-InventoryMenuDimensions_width 1
   DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width  ItemActionMenu_height 31-ItemActionMenu_width 13
   DefineWindow HAPSBY           MENU_end              8                     5                     21                      13
-  DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width    ToolShopMenu_height   23                      14
+  DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width    ToolShopMenu_height   29-ToolShopMenu_width   14
   DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width 7                     WorldMenu_width+1       1 ; Spells and inventory are mutually exclusive
   DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                     6                     9                       8
-  DefineWindow YESNO            USEEQUIPDROP          5                     4                     24                      14
+  DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width      ChoiceMenu_height     29-ChoiceMenu_width     14
   DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                     3                     1                       8
   DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height (32-ShopInventoryDimensions_width)/2 0
   DefineWindow SHOP_MST         INVENTORY             20                    3                     3                       15 ; same width as inventory (for now)
