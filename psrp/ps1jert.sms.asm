@@ -1199,7 +1199,7 @@ ArticlesLower: ; un <x>
 .dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
 +:        Article " nu"
 ++:       Article " anu"
-+++:      Article "'l"
++++:      Article "’l"
 ++++:     Article " le"
 +++++:    Article " al"
 ++++++:   Article " sle"
@@ -1209,7 +1209,7 @@ ArticlesInitialUpper: ; Un <x>
 .dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
 +:        Article " nU"
 ++:       Article " anU"
-+++:      Article "'L"
++++:      Article "’L"
 ++++:     Article " lE"
 +++++:    Article " aL"
 ++++++:   Article " slE"
@@ -1219,7 +1219,7 @@ ArticlesPossessive: ; de un <x>
 .dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
 +:        Article " nu ed"
 ++:       Article " anu ed"
-+++:      Article "'l ed"
++++:      Article "’l ed"
 ++++:     Article " led"
 +++++:    Article " al ed"
 ++++++:   Article " sled"
