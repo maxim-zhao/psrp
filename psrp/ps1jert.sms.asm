@@ -1040,13 +1040,17 @@ _Substring:
       ld de,ArticlesPossessive
       ; fall through
 .endif
-.if LANGUAGE == "ca"
+.if LANGUAGE == "ca" ;TODO: check here 
       ld de,ArticlesLower
-      cp $01      ; article = l', le, la, les,
+      cp $01      ; article = l', el, la, els, les,
       jr z,_Start_Art
 
       ld de,ArticlesInitialUpper
       cp $02      ; article = L', Le, La, ,
+      jr z,_Start_Art
+
+      ld de,ArticlesPossessive
+      cp $03      ; article = de l', du, de la, d' ,de
       jr z,_Start_Art
 
       ld de,ArticlesPossessive
@@ -1202,7 +1206,7 @@ ArticlesInitialUpper: ; El <x>
 ++:     Article " lE"
 +++:    Article " aL"
 ++++:   Article " seL"
-ArticlesPossessive: ; de <x>
+ArticlesPossessive: ; del <x>
 .dw +, ++, +++, ++++, +++++, ++++++
 +:      Article "'l ed"
 ++:     Article " led"
@@ -2170,7 +2174,7 @@ Names:
   String "Tylon"
   String "Lutz"
 Enemies:
-; Monstros
+; Monstres
 ; empty item (blank)
   String " "
   String "<el> Borinot"
@@ -2181,7 +2185,7 @@ Enemies:
   String  "<l'>Escorpí Gegant"
   String "<el> Llot Blau"
   String "<el> Pagés de Motavia"
-  String "<el> RatPenat Pervers"
+  String "<el> Ratpenat Pervers"
   String "<la> Planta Assassina"
   String  "<l'>Escorpí Assassí"
   String "<el> Tafur de Motavia"
@@ -2209,7 +2213,7 @@ Enemies:
   String  "<l'>Anima en Pena"
   String "<el> Soldat Calavera"
   String "<el> Cargol"
-  String "<la> Manticore"
+  String "<la> Mantícora"
   String "<la> Serp"
   String "<el> Leviatà"
   String  "<l'>Opressor"
@@ -2241,7 +2245,7 @@ Enemies:
   String "<el> Golem"
   String "<na> Medusa"
   String "<el> Drac de Gel"
-  String "<el> Dragc Sabi"
+  String "<el> Drac Savi"
   String "<el> Drac Daurat"
   String "<el> Doctor Boig"
   String "<en> Lashiec"
