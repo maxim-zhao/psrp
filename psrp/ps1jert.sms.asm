@@ -1223,7 +1223,7 @@ ArticlesPossessive: ; de un <x>
 ++++:     Article " led"
 +++++:    Article " al ed"
 ++++++:   Article " sled"
-+++++++:  Article " ned"
++++++++:  Article " ne'd"
 ++++++++: Article " an ed"
 .endif
 

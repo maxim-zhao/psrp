@@ -120,7 +120,7 @@ Catalan:
 |Feminine single definite    | la                 | La                      | de la
 |Masculine plural definite   | els                | Els                     | dels
 |Feminine plural definite    | les                | Les                     | de les
-|Masculine name              | en                 | En                      | den
+|Masculine name              | en                 | En                      | d'en
 |Feminine name               | na                 | Na                      | de na
 
 
