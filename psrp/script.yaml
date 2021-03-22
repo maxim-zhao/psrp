@@ -253,7 +253,7 @@
     Els rumors que hem sentit són certs. Lashiec ha...canviat.<line>
     I va més enllà dels seus soldats controlant els carrers.<wait more>
     Tots els monstres al exterior, tota la foscor sobre nostre...<line><line>
-    D'alguna manera, tot ens porta a ell.<wait more>
+    D'alguna manera, tot ens porta cap ell.<wait more>
     Vaig intentar descobrir el perquè, suposo que era aprop la veritat.<line><line>
     Només ens queda una opció, pel bé de tots nosaltres.<wait more>
     Hem d'aturar en Lashiec.<line><line>
@@ -403,7 +403,7 @@
     Somos vizinhas há muito tempo, você sabe que a casa da Suelo estará sempre aberta para você.<wait>
 
   ca: |
-    Alisa... enfrontar-se a Lashiec es una bogeria. Però sé com de tosuda i decidida pots arribar a ser.<wait more>
+    Alisa... enfrontar-se a Lashiec és una bogeria. Però sé com de tosuda i decidida pots arribar a ser.<wait more>
     No malbarataré l'alè convencent-te del contrari, només...ves amb compte.<wait more>
     Si mai estàs ferida, torna per recuperar-te.<wait more>
     Hem estat veïns durant molt de temps, la meva casa sempre estarà oberta per a tu.<wait>
@@ -483,7 +483,7 @@
     Ele é muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
 
   ca: |
-    Em dic Nekise.<line><line>
+    Em diuen Nekise.<line><line>
     T'acompanyo en el sentiment.<wait more>
     En Nero em va demanar ajuda per trobar un guerrer anomenat Tylon, l'estàs buscant tu també?<wait more>
     L'últim que s'en sap es que s'allotjava al poble de Shion. Potser encara s'hi troba pels voltants.<wait more>
@@ -559,7 +559,7 @@
   en: Some dungeons are pitch black, make sure you always have a light source with you.<wait>
   fr: Certains donjons sont totalement obscurs, tu auras besoin de lumière.<wait>
   pt-br: Alguns calabouços são muito escuros, certifique-se de ter sempre uma fonte de luz com você.<wait>
-  ca: Algunes masmorres son totalment fosques, porta sempre una llum a sobre.<wait>
+  ca: Algunes masmorres son totalment fosques, porta sempre un llum a sobre.<wait>
 
 - offsets: 4b94
   # Camineet resident - man
@@ -734,13 +734,13 @@
     Todos os nossos três lindos planetas estão ameaçados pelas ambições de LaShiec.<wait more>
     A cada dia estamos próximos de uma crise que nunca poderá ser revertida.<wait>
   ca: |
-    Algol conté tres planetes - Palma, Motavia i Dezoris.<wait more>
-    Cadascun d'ells té una atmósfera única, de manera que les seves característiques son diferents.<wait more>
-    Palma, com ja saps, es un planeta verd. Ens trobem beneits per grans prats i boscos.<wait more>
-    El desert sense fí de Motavia es dur, però te la seva pròpia bellesa.<wait more>
-    I Dezoris es un planeta de gel. Molt poca vida pot prosperar-hi.<wait more>
+    Algol és format per tres planetes - Palma, Motavia i Dezoris.<wait more>
+    Cadascun té una atmósfera única, de manera que les seves característiques son diferents.<wait more>
+    Palma, com ja saps, és un planeta verd. Ens trobem beneïts per grans prats i boscos.<wait more>
+    El desert sense fi de Motavia es dur, però te la seva pròpia bellesa.<wait more>
+    I Dezoris és un planeta de gel. Molt poca vida pot prosperar-hi.<wait more>
     Tots tres planetes es troben amenaçats per les ambicions d'en Lashiec.<wait more>
-    Cada dia ens porta més prop de una crisis sense sortida.<wait>
+    Cada dia som més prop d'una crisis sense sortida.<wait>
 
 - offsets: 4ba9,4e06,4e26
   # Camineet resident - man - "yes" to question about Algol
@@ -750,7 +750,7 @@
   translated: I see. Never mind.
   us: O.K. GOOD DAY.<end>
   en: Oh. Okay.<wait>
-  fr: Oh. Très bien.<wait>
+  fr: Oh. Très bien.<wait>e
   pt-br: Ah. Ok.<wait>
   ca: Oh. D'acord.<wait>
 
@@ -5275,7 +5275,7 @@
     Hé_! Êtes-vous morte_? Quel dommage...<wait more>
     Ressuscitez et essayez encore.<wait>
   pt-br: ...Lutz? Oh, entendo, ele morreu. Você aí, vá reviver Lutz em uma igreja e traga-o de volta aqui.<wait>
-  ca: ...Lutz? Oh, ja vec, es mort. Vosaltres, aneu a reviure'l a una església i torneu cap aquí.<wait>
+  ca: ...Lutz? Oh, ja vec, és mort. Vosaltres, aneu a reviure'l a una església i torneu cap aquí.<wait>
 
 - offsets: 56d9
   # Tajim
@@ -5293,7 +5293,7 @@
     Alors tu te dois de passer un test final.<wait more>
     Battons-nous en duel.<wait>
   pt-br: Eu te ensinei tudo o que sei. Agora é hora de dar a você um teste final, vamos duelar!<wait>
-  ca: "T'he ensenyat tot el que sé. Es hora de una última prova. Un duel contra mí!<wait>"
+  ca: "T'he ensenyat tot el que sé. És hora d'una última prova. Un duel contra mí!<wait>"
 
 - offsets: 5722
   # Tajim (if you win)
@@ -5409,7 +5409,7 @@
     Aller vérifier la tour Corona, vous pourriez_!<wait more>
     Au nord, de l'autre coté des montagnes, elle se trouve.<wait>
   pt-br: A Torre Corona fica do outro lado das montanhas, ao norte, fica sim.<wait>
-  ca: La Torre de Corona es a lo altre costat de les montanyes del nord.<wait>
+  ca: La Torre de Corona és a lo altre costat de les montanyes del nord.<wait>
 
 - offsets: 5280
   # Honest Dezorian
@@ -5431,7 +5431,7 @@
     A l'ouest de la tour Corona, la grotte Dézoris, se trouve.<wait more>
     Là-bas, des amis nous avons. Nos respects leur donnerez-vous_?<wait>
   pt-br: A Caverna de Dezoris fica a oeste da Torre Corona. Diga oi para nossos amigos lá, diga sim!<wait>
-  ca: La cova de Dezoris es a ponent de la Torre de Corona. Digues-li hola als nostres amics allà!<wait>
+  ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola als nostres amics allà!<wait>
 
 - offsets: 5286
   # Honest Dezorian
@@ -5496,7 +5496,7 @@
   en: I hear you can see other worlds with one, you can.<wait>
   fr: Avec cet objet, voir autres mondes vous pourrez.<wait>
   pt-br: Ouvi dizer que você pode ver outros mundos com um, você pode.<wait>
-  ca: He sentit dir que pots veure altres mons amb un d'allonses.<wait>
+  ca: He sentit a dir que pots vore altres mons amb un d'allonses.<wait>
 
 - offsets: 5295
   # Honest Dezorian (yes to previous question)
@@ -5509,7 +5509,7 @@
   en: I’d really like to look into one sometime, I would.<wait>
   fr: Regarder à travers, vraiment je voudrais_!<wait>
   pt-br: Eu realmente gostaria de olhar para um deles alguma hora, eu gostaria.<wait>
-  ca: M'agradaria fer un ull amb un dia d'aquestos.<wait>
+  ca: M'agradaria fer-hi un ull amb un d'aquestos un dia.<wait>
 
 - offsets: 52a0
   # Honest Dezorian
@@ -5559,7 +5559,7 @@
     Voussa pouvoir être téléportés au 10ème sous-sol de la grotte Dézoris!<wait more>
     Pas blague. Noussa pas mentir à voussa.<wait>
   pt-br: Há uma passagem secreta no décimo nível subterrâneo na Caverna de Dezóris. Não estou brincando!<wait>
-  ca: Hi ha un passatge secret al desé nivell de sa caverna de Dezoris. No t'enganyo!<wait>
+  ca: Hi ha un passatge secret al desé nivell de sa caverna de Dezoris. No t'engano!<wait>
 
 - offsets: 52b8
   # Dishonest Dezorian
@@ -5578,7 +5578,7 @@
     Baies Laerma être bleues, et noussa les utiliser pour teindre vêtements.<wait more>
     Être ce que noussa faire.<wait>
   pt-br: As Frutas de Laerma são azuis, e as usamos para tingir as nossas roupas. Pura verdade!<wait>
-  ca: Es fruits de Laerma Berries són blaus, i tenyim la roba amb ells.<wait>
+  ca: Es fruits de Laerma són blaus, i tenyim la roba amb ells.<wait>
 
 - offsets: 52be
   # Dishonest Dezorian
