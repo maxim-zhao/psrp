@@ -2123,7 +2123,7 @@ Items:
   String "<una> Malla de Zicorni"
   String "<una> Armadura de Diamant"
   String "<una> Armadura de Laconia"
-  String  "<el> Mantell de Frade"
+  String  "<la> Capa de Frai"
 ; Escudos       123456789012345678
   String  "<un> Escut de Cuir"
   String  "<un> Escut de Bronze"
@@ -2136,7 +2136,7 @@ Items:
 ; veículos      123456789012345678
   String  "<el> LandMaster"
   String  "<el> AeroLliscador"
-  String  "<el> TrencaGlaç"
+  String  "<el> Trencaglaç"
 ; objetos       123456789012345678
   String  "<un> PelorieMate"
   String  "<un> Ruoginin"
@@ -2160,7 +2160,7 @@ Items:
   String  "<la> Carta del Gobernador[ General]"
   String "<una> Olla de Laconia"
   String   "<l'>Arrecada de Llum"
-  String  "<el> Ull de Carbuncle"
+  String  "<l'> Ull de Carboncle"
   String "<una> Màscara de Gas"
   String  "<el> Cristall de Damoa"
   String "<una> Master System"
