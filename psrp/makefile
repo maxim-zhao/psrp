@@ -66,30 +66,30 @@ new_graphics\bg31.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ
 new_graphics\world1.bin: $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 747b8
 
 # Recompression for the above
-new_graphics\bg1.psgcompr   : new_graphics\bg1.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg2.psgcompr   : new_graphics\bg2.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg3.psgcompr   : new_graphics\bg3.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg5.psgcompr   : new_graphics\bg5.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg8.psgcompr   : new_graphics\bg8.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg9.psgcompr   : new_graphics\bg9.bin    ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg10.psgcompr  : new_graphics\bg10.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg11.psgcompr  : new_graphics\bg11.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg13.psgcompr  : new_graphics\bg13.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg14.psgcompr  : new_graphics\bg14.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg16.psgcompr  : new_graphics\bg16.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg29.psgcompr  : new_graphics\bg29.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg30.psgcompr  : new_graphics\bg30.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\bg31.psgcompr  : new_graphics\bg31.bin   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\world1.psgcompr: new_graphics\world1.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg1.psgcompr   : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg2.psgcompr   : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg3.psgcompr   : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg5.psgcompr   : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg8.psgcompr   : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg9.psgcompr   : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg10.psgcompr  : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg11.psgcompr  : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg13.psgcompr  : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg14.psgcompr  : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg16.psgcompr  : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg29.psgcompr  : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg30.psgcompr  : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\bg31.psgcompr  : $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\world1.psgcompr: $*.bin ; $(BMP2TILE) $** -noremovedupes -savetiles $@
 
 # Graphics conversion from PNG
-new_graphics\font-polaris-part1.psgcompr: $*.$(LANGUAGE).png       ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\font-polaris-part2.psgcompr: $*.$(LANGUAGE).png       ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\font-aw2284-part1.psgcompr: $*.$(LANGUAGE).png      ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\font-aw2284-part2.psgcompr: $*.$(LANGUAGE).png      ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\font-credits.psgcompr: $*.png                   ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\name-entry-cursor.psgcompr: $*.png       ; $(BMP2TILE) $** -noremovedupes -savetiles $@
-new_graphics\world2.psgcompr: $*.$(LANGUAGE).png      ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-polaris-part1.psgcompr: $*.$(LANGUAGE).png  ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-polaris-part2.psgcompr: $*.$(LANGUAGE).png  ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-aw2284-part1.psgcompr:  $*.$(LANGUAGE).png  ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-aw2284-part2.psgcompr:  $*.$(LANGUAGE).png  ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\font-credits.psgcompr:       $*.png              ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\name-entry-cursor.psgcompr:  $*.png              ; $(BMP2TILE) $** -noremovedupes -savetiles $@
+new_graphics\world2.psgcompr:             $*.$(LANGUAGE).png  ; $(BMP2TILE) $** -noremovedupes -savetiles $@
 
 new_graphics\title.top.psgcompr new_graphics\title.top.tilemap.pscompr new_graphics\title-pal.bin: new_graphics\titlescreen.top.png
   $(BMP2TILE) $** -tileoffset 0 -savetiles new_graphics\title.top.psgcompr -savetilemap new_graphics\title.top.tilemap.pscompr -palsms -savepalette new_graphics\title-pal.bin
