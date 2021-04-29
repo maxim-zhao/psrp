@@ -201,6 +201,8 @@ _script\@_end:
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
+.define PORT_FM_CONTROL $f2
+.define PORT_MEMORY_CONTROL $3e
 .define SRAMPagingOn $08
 .define SRAMPagingOff $80
 
@@ -836,7 +838,7 @@ _Copy:
   PatchB $33d6+1 SymbolItem
   PatchB $33f4+1 SymbolNumber
 ; Cutscenes:
-  ; PatchB $34b5+1 SymbolDelay ; First two are patched over bwloe, see "Cutscene text decoder patch"
+  ; PatchB $34b5+1 SymbolDelay ; First two are patched over below, see "Cutscene text decoder patch"
   ; PatchB $34b9+1 SymbolWait
   PatchB $34bd+1 SymbolWaitMore
   PatchB $34c1+1 SymbolNewLine
@@ -2134,7 +2136,7 @@ Items:
   String "<una> Malla de Zicorni"
   String "<una> Armadura de Diamant"
   String "<una> Armadura de Laconia"
-  String  "<el> Mantell de Frade"
+  String  "<la> Capa de Frai"
 ; Escudos       123456789012345678
   String  "<un> Escut de Cuir"
   String  "<un> Escut de Bronze"
@@ -2147,7 +2149,7 @@ Items:
 ; veículos      123456789012345678
   String  "<el> LandMaster"
   String  "<el> AeroLliscador"
-  String  "<el> TrencaGlaç"
+  String  "<el> Trencaglaç"
 ; objetos       123456789012345678
   String  "<un> PelorieMate"
   String  "<un> Ruoginin"
@@ -2171,7 +2173,7 @@ Items:
   String  "<la> Carta del Gobernador[ General]"
   String "<una> Olla de Laconia"
   String   "<l'>Arrecada de Llum"
-  String  "<el> Ull de Carbuncle"
+  String  "<l'> Ull de Carboncle"
   String "<una> Màscara de Gas"
   String  "<el> Cristall de Damoa"
   String "<una> Master System"
@@ -2202,7 +2204,7 @@ Enemies:
   String "<el> Tafur de Motavia"
   String "<el> Herex"
   String "<el> Cuc de Terra"
-  String "<el> Maniac de Motavia"
+  String "<el> Maníac de Motavia"
   String "<la> Lent Daurada"
   String "<el> Llot Vermell"
   String  "<l'>Home RatPenat"
@@ -2213,7 +2215,7 @@ Enemies:
   String "<la> Mantícora"
   String  "<l'>Esquelet"
   String "<la> Formiga Lleó"
-  String  "<l'>Home del Pantà"
+  String  "<l'>Home de l'Aiguamoll"
   String "<el> Dezorià"
   String "<la> Sangonera de Sorra"
   String "<el> Vampir"
@@ -2261,7 +2263,7 @@ Enemies:
   String "<el> Doctor Boig"
   String "<en> Lashiec"
   String "<na> Força Fosca"
-  String "<en> Malson"
+  String "<en> Súcube"
 .endif
 
 .ends
@@ -2554,9 +2556,10 @@ _DrawBorder:
   inc hl
 _DrawOneTile:
   ld a,(hl)
-  out (PORT_VDP_DATA),a
-  inc hl
-  ld a,(hl)
+  out (PORT_VDP_DATA),a ; 11
+  inc hl                ; 6
+  ld a,(hl)             ; 7
+  nop                   ; 4 -> total 28 cycles
   out (PORT_VDP_DATA),a
   inc hl
   ret
@@ -3185,8 +3188,8 @@ Level:              .stringmap tilemap "│Nivell        " ; 3 digit number
 EXP:                .stringmap tilemap "│Experiència "   ; 5 digit number
 Attack:             .stringmap tilemap "│Atac          " ; 3 digit numbers
 Defense:            .stringmap tilemap "│Defensa       "
-MaxMP:              .stringmap tilemap "│PV màxim      "
-MaxHP:              .stringmap tilemap "│PM màximo     "
+MaxMP:              .stringmap tilemap "│PM màxim      "
+MaxHP:              .stringmap tilemap "│PV màxim      "
 StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
 .endif
 
@@ -5117,7 +5120,7 @@ _Black: .stringmap tilemap "Noirs"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
 .endif
-.if LANGUAGE == "pt-br" ; TODO-pt-br The width of these needs to be handled
+.if LANGUAGE == "pt-br"
 _BattlesAll:  .stringmap tilemap "    Todas"
 _BattlesHalf: .stringmap tilemap "Reduzidas"
 _Brown: .stringmap tilemap "Castanho"
@@ -5293,9 +5296,17 @@ _musicReturn:
   ld a,(HasFM)
   or a
   jr z,-
+  ; Enable the right chip
+foo:
+  ld a,(Port3EValue)
+  or $04 ; Disable IO chip
+  out (PORT_MEMORY_CONTROL),a
   ld a,(UseFM)
-  xor 1
+  xor 1 ; happens to be the right value for the port this way
   ld (UseFM),a
+  out (PORT_FM_CONTROL),a
+  ld a,(Port3EValue)
+  out (PORT_MEMORY_CONTROL),a  ; Turn IO chip back on
   ; Restart music
   ld a,(MusicSelection)
   ld (NewMusic),a
