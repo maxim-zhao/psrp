@@ -238,7 +238,6 @@ _script\@_end:
   TREE      db   ; current Huffman tree
   VRAM_PTR  dw   ; VRAM address
   FULL_STR  dw   ; pointer backup
-  TEMP_STR  .db  ; buffer for strings, shared with following
   PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
   HasFM     db   ; copy of FM detection result
   MusicSelection db ; music test last selected song
@@ -255,6 +254,8 @@ _script\@_end:
 
   Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
+
+.define TEMP_STR PSGaiden_decomp_buffer+16 ; buffer for strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.
 
 ; Functions in the original game we make use of
 .define VBlankHandler $0127
