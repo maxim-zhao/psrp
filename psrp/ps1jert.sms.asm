@@ -1051,10 +1051,7 @@ _Substring:
       cp $02      ; article = L', Le, La, ,
       jr z,_Start_Art
 
-      ld de,ArticlesPossessive
-      cp $03      ; article = de l', du, de la, d' ,de
-      jr z,_Start_Art
-
+      ; article = de l', du, de la, d' ,de
       ld de,ArticlesPossessive
       ; fall through
 .endif
