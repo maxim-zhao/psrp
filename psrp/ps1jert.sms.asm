@@ -5034,14 +5034,28 @@ CopySettings:
 .ends
 .section "Setting SRAM helper 2" free
 SettingsFromSRAM:
+  ; We first check if SRAM is working
+  ld hl,$8000 ; SRAM marker
+  ld de,$0962 ; Expected value
+  ld bc,$0040 ; length
+  ld a,SRAMPagingOn
+  ld (PAGING_SRAM),a
+-:ld a,(de)
+  inc de
+  cpi
+  jr nz,+ ; Skip copying if SRAM is bad
+  jp pe,- ; parity odd indicates underflow of bc
+
   ld hl,$8210
   ld de,SettingsStart
   call CopySettings
-  ; If they were blank, we need to initialise the multipliers
+  
+  ; If they are not valid, we need to initialise the multipliers
   ld a,(ExpMultiplier)
   or a
   ret nz
-  inc a
++:
+  ld a,1
   ld (ExpMultiplier),a
   ld (MoneyMultiplier),a
   ret
