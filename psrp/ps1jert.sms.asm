@@ -2136,7 +2136,7 @@ Items:
   String "<una> Malla de Zicorni"
   String "<una> Armadura de Diamant"
   String "<una> Armadura de Laconia"
-  String  "<el> Mantell de Frade"
+  String  "<la> Capa de Frai"
 ; Escudos       123456789012345678
   String  "<un> Escut de Cuir"
   String  "<un> Escut de Bronze"
@@ -2149,7 +2149,7 @@ Items:
 ; veículos      123456789012345678
   String  "<el> LandMaster"
   String  "<el> AeroLliscador"
-  String  "<el> TrencaGlaç"
+  String  "<el> Trencaglaç"
 ; objetos       123456789012345678
   String  "<un> PelorieMate"
   String  "<un> Ruoginin"
@@ -2173,7 +2173,7 @@ Items:
   String  "<la> Carta del Gobernador[ General]"
   String "<una> Olla de Laconia"
   String   "<l'>Arrecada de Llum"
-  String  "<el> Ull de Carbuncle"
+  String  "<l'> Ull de Carboncle"
   String "<una> Màscara de Gas"
   String  "<el> Cristall de Damoa"
   String "<una> Master System"
@@ -2204,7 +2204,7 @@ Enemies:
   String "<el> Tafur de Motavia"
   String "<el> Herex"
   String "<el> Cuc de Terra"
-  String "<el> Maniac de Motavia"
+  String "<el> Maníac de Motavia"
   String "<la> Lent Daurada"
   String "<el> Llot Vermell"
   String  "<l'>Home RatPenat"
@@ -2215,7 +2215,7 @@ Enemies:
   String "<la> Mantícora"
   String  "<l'>Esquelet"
   String "<la> Formiga Lleó"
-  String  "<l'>Home del Pantà"
+  String  "<l'>Home de l'Aiguamoll"
   String "<el> Dezorià"
   String "<la> Sangonera de Sorra"
   String "<el> Vampir"
@@ -2263,7 +2263,7 @@ Enemies:
   String "<el> Doctor Boig"
   String "<en> Lashiec"
   String "<na> Força Fosca"
-  String "<en> Malson"
+  String "<en> Súcube"
 .endif
 
 .ends
@@ -3188,8 +3188,8 @@ Level:              .stringmap tilemap "│Nivell        " ; 3 digit number
 EXP:                .stringmap tilemap "│Experiència "   ; 5 digit number
 Attack:             .stringmap tilemap "│Atac          " ; 3 digit numbers
 Defense:            .stringmap tilemap "│Defensa       "
-MaxMP:              .stringmap tilemap "│PV màxim      "
-MaxHP:              .stringmap tilemap "│PM màximo     "
+MaxMP:              .stringmap tilemap "│PM màxim      "
+MaxHP:              .stringmap tilemap "│PV màxim      "
 StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
 .endif
 

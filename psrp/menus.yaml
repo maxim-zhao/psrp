@@ -966,8 +966,8 @@
     │Experiència 65535║
     │Atac          255║
     │Defensa       255║
-    │PV màxims     255║
-    │PM màxims     255║
+    │PV màxim      255║
+    │PM màxim      255║
     │Meseta      65535║
     ╘═════════════════╝
 
