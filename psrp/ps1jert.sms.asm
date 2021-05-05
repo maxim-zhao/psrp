@@ -201,6 +201,8 @@ _script\@_end:
 .define PAGING_SLOT_1 $fffe
 .define PAGING_SLOT_2 $ffff
 .define PORT_VDP_DATA $be
+.define PORT_FM_CONTROL $f2
+.define PORT_MEMORY_CONTROL $3e
 .define SRAMPagingOn $08
 .define SRAMPagingOff $80
 
@@ -836,7 +838,7 @@ _Copy:
   PatchB $33d6+1 SymbolItem
   PatchB $33f4+1 SymbolNumber
 ; Cutscenes:
-  ; PatchB $34b5+1 SymbolDelay ; First two are patched over bwloe, see "Cutscene text decoder patch"
+  ; PatchB $34b5+1 SymbolDelay ; First two are patched over below, see "Cutscene text decoder patch"
   ; PatchB $34b9+1 SymbolWait
   PatchB $34bd+1 SymbolWaitMore
   PatchB $34c1+1 SymbolNewLine
@@ -2554,9 +2556,10 @@ _DrawBorder:
   inc hl
 _DrawOneTile:
   ld a,(hl)
-  out (PORT_VDP_DATA),a
-  inc hl
-  ld a,(hl)
+  out (PORT_VDP_DATA),a ; 11
+  inc hl                ; 6
+  ld a,(hl)             ; 7
+  nop                   ; 4 -> total 28 cycles
   out (PORT_VDP_DATA),a
   inc hl
   ret
@@ -5117,7 +5120,7 @@ _Black: .stringmap tilemap "Noirs"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
 .endif
-.if LANGUAGE == "pt-br" ; TODO-pt-br The width of these needs to be handled
+.if LANGUAGE == "pt-br"
 _BattlesAll:  .stringmap tilemap "    Todas"
 _BattlesHalf: .stringmap tilemap "Reduzidas"
 _Brown: .stringmap tilemap "Castanho"
@@ -5293,9 +5296,17 @@ _musicReturn:
   ld a,(HasFM)
   or a
   jr z,-
+  ; Enable the right chip
+foo:
+  ld a,(Port3EValue)
+  or $04 ; Disable IO chip
+  out (PORT_MEMORY_CONTROL),a
   ld a,(UseFM)
-  xor 1
+  xor 1 ; happens to be the right value for the port this way
   ld (UseFM),a
+  out (PORT_FM_CONTROL),a
+  ld a,(Port3EValue)
+  out (PORT_MEMORY_CONTROL),a  ; Turn IO chip back on
   ; Restart music
   ld a,(MusicSelection)
   ld (NewMusic),a
@@ -5373,14 +5384,28 @@ CopySettings:
 .ends
 .section "Setting SRAM helper 2" free
 SettingsFromSRAM:
+  ; We first check if SRAM is working
+  ld hl,$8000 ; SRAM marker
+  ld de,$0962 ; Expected value
+  ld bc,$0040 ; length
+  ld a,SRAMPagingOn
+  ld (PAGING_SRAM),a
+-:ld a,(de)
+  inc de
+  cpi
+  jr nz,+ ; Skip copying if SRAM is bad
+  jp pe,- ; parity odd indicates underflow of bc
+
   ld hl,$8210
   ld de,SettingsStart
   call CopySettings
-  ; If they were blank, we need to initialise the multipliers
+  
+  ; If they are not valid, we need to initialise the multipliers
   ld a,(ExpMultiplier)
   or a
   ret nz
-  inc a
++:
+  ld a,1
   ld (ExpMultiplier),a
   ld (MoneyMultiplier),a
   ret

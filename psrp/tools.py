@@ -96,15 +96,19 @@ def bitmap_decode(dest_file, source_file, offset):
 
 class Menu:
     def __init__(self, node, language):
-        self.name = node["name"]
-        self.emit_data = node["emitData"] == "true" if "emitData" in node else True
-        self.ptrs = [int(x.strip(), base=16) for x in node["ptrs"].split(",")] if "ptrs" in node else []
-        self.dims = [int(x.strip(), base=16) for x in node["dims"].split(",")] if "dims" in node else []
-        self.lines = node[language].splitlines()
-        self.width = max(len(x) for x in self.lines)
-        if min(len(x) for x in self.lines) != self.width:
-            print(f"Warning: uneven line lengths in menu {self.name}\n")
-        self.height = int(node["height"]) if "height" in node else len(self.lines)
+        try:
+            self.name = node["name"]
+            self.emit_data = node["emitData"] == "true" if "emitData" in node else True
+            self.ptrs = [int(x.strip(), base=16) for x in node["ptrs"].split(",")] if "ptrs" in node else []
+            self.dims = [int(x.strip(), base=16) for x in node["dims"].split(",")] if "dims" in node else []
+            self.lines = node[language].splitlines()
+            self.width = max(len(x) for x in self.lines)
+            if min(len(x) for x in self.lines) != self.width:
+                print(f"Warning: uneven line lengths in menu {self.name}\n")
+            self.height = int(node["height"]) if "height" in node else len(self.lines)
+        except:
+            print(f"Error parsing menu {node}")
+            raise
 
     def write_data(self, f):
         if self.emit_data:
