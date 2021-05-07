@@ -227,13 +227,13 @@
     │Fugir ║
     ╘══════╝
   ca: |
-    ┌──────╖
-    │Atacar║
-    │Màgia ║
-    │Object║
-    │Parlar║
-    │Fugir ║
-    ╘══════╝
+    ┌───────╖
+    │Atacar ║
+    │Màgia  ║
+    │Objecte║
+    │Parlar ║
+    │Fugir  ║
+    ╘═══════╝
 
 - name: EnemyHPBox
   emitData: false

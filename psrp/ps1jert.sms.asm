@@ -2207,7 +2207,7 @@ Enemies:
   String "<el> Maníac de Motavia"
   String "<la> Lent Daurada"
   String "<el> Llot Vermell"
-  String  "<l'>Home RatPenat"
+  String  "<l'>Home Ratpenat"
   String "<el> Cranc Ferradura"
   String "<el> Rei Tauró"
   String "<el> Lich"

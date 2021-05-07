@@ -580,7 +580,7 @@
     Você não pode mais entrar no Espaçoporto sem um tal de Passe.<wait more>
     Tentei me cadastrar para conseguir um, mas disseram-me que pode demorar semanas. Como é que vou voltar para casa?<wait>
   ca: |
-    Fins i tot, no pots entrar al port espacial sense un salconduit.<wait more>
+    Ni tan sols pots entrar al port espacial sense un salconduit.<wait more>
     He intentat aconseguir-ne un, pero diuen que pot trigar setmanes. Com m'ho faré per tornar a casa?<wait>
 
 - offsets: 4b9a
@@ -1258,7 +1258,7 @@
   en: The Governor-General rules all of Motavia from his office in Paseo.<wait>
   fr: Ces vaisseaux se dirigent vers la capitale de Motavia, Paséo. Le Gouverneur y habite.<wait>
   pt-br: O Governador-Geral governa toda Motávia de seu escritório, em Paseo.<wait>
-  ca: El Gobernador-General goberna tota Motavia desde la seva oficina a Paseo.<wait>
+  ca: El Governador-General governa tota Motavia desde la seva oficina a Paseo.<wait>
 
 - offsets: 4caa
   # Luggage handler
@@ -1489,7 +1489,7 @@
   en: Even the Governor-General is on bad terms with LaShiec.<wait>
   fr: Même le Gouverneur est en froid avec Lassic.<wait>
   pt-br: Até mesmo o Governador-Geral está em maus lençóis com LaShiec.<wait>
-  ca: Fins i tot el Gobernador General no te bones relacions amb Lashiec.<wait>
+  ca: Fins i tot el Governador General no te bones relacions amb Lashiec.<wait>
 
 - offsets: 4e49
   indices: 088
@@ -1504,7 +1504,7 @@
   en: You need to bring a gift if you're going to meet with the Governor-General.<wait>
   fr: Pour obtenir une entrevue avec le Gouverneur, il faut un cadeau.<wait>
   pt-br: Você precisa trazer um presente se quiser se encontrar com o Governador-Geral.<wait>
-  ca: Hauries de portar un detall si vols entrevistar-te amb el Gobernador General.<wait>
+  ca: Hauries de portar un detall si vols entrevistar-te amb el Governador General.<wait>
 
 - offsets: 4e4f
   indices: 08A
@@ -1516,7 +1516,7 @@
   en: The Governor-General has got a real sweet tooth.<wait>
   fr: Le Gouverneur aime les petites douceurs...<wait>
   pt-br: O Governador-Geral ama doces.<wait>
-  ca: El Gobernador General és una mica llaminer...<wait>
+  ca: El Governador General és una mica llaminer...<wait>
 
 - offsets: 4e55
   indices: 08C
@@ -1621,7 +1621,7 @@
     Ei, onde você está indo?<delay>
   ca: |
     Bah!En serio?<wait more>
-    Que te'n fots de mí?<delay>
+    Que te'n rius de mí?<delay>
 
 - offsets: 4e98
   # Trader (say no to previous question)
@@ -1972,7 +1972,7 @@
     Entendo. Pois bem, pela causa de Nero, vamos formar uma equipe!<line><line>
     Sempre há espaço para mais um, certo Myau?<wait>
   ca: |
-    Ja vec. Be, en record d'en Nero, fem equip!<line><line>
+    Ja vec. Bé, en record d'en Nero, fem equip!<line><line>
     Sempre hi ha lloc per un més, oi Myau?<wait>
 
 - offsets: 46a9
@@ -2071,7 +2071,7 @@
     Ele pode até mesmo ser capaz de ajudá-lo em sua jornada. Você já falou com ele?<wait>
 
   ca: |
-    No em sorprendria que al Gobernador General de Motavia li semblés bé el que fas.<wait more>
+    No em sorprendria que al Governador General de Motavia li semblés bé el que fas.<wait more>
     Potser fins i tot et podria ajudar en la teva cerca. Has parlat amb ell?<wait>
 
 - offsets: 4deb
@@ -2109,7 +2109,7 @@
     Há muito tempo, um cientista chamado Luveno tinha um laboratório de pesquisa na Floresta de Gótica.<wait more>
     Eu me pergunto se ele ainda está lá?<wait>
   ca: |
-    Fa molt temps,un professor anomenat Luveno disposava d'un laboratori al bosc Gothic.<wait more>
+    Fa molt temps,un professor anomenat Luveno disposava d'un laboratori al bosc de Gothic.<wait more>
     Em pregunto si encara hi deu ser?<wait>
 
 - offsets: 4df7
@@ -2284,7 +2284,7 @@
     Halte_!<wait more>
     Avez-vous apporté un présent pour le Gouverneur_?<end>
   pt-br: Pare! Você trouxe um presente para o Governador-Geral?<end>
-  ca: Pari! Ha portat un regal per al Gobernador General?<end>
+  ca: Pari! Ha portat un regal per al Governador General?<end>
 
 - offsets: 564b
   # Guard inside Underground Passage to Governor's Mansion (yes/shortcake to previous question)
@@ -2397,7 +2397,7 @@
     Um Esper poderoso chamado Lutz vive na caverna de Mahal, ao norte daqui. Leve esta carta para ele.<wait more>
     Com sua ajuda, tenho fé que você terá sucesso. Volte aqui quando tiver derrotado LaShiec.<wait>
   ca: |
-    Benvinguts. Sóc el Gobernador General d'aquest planeta. Heu vingut de molt lluny. Si us plau, seieu.<wait more>
+    Benvinguts. Sóc el Governador General d'aquest planeta. Heu vingut de molt lluny. Si us plau, seieu.<wait more>
     Sé perquè sou aquí. Certament no ho heu mantingut en secret. Voleu matar a en Lashiec.<wait more>
     Lashiec es un home poderós. No, més que un home. Ell ja es troba més enllà d'aquests límits ara.<wait more>
     Sou molt valents de enfrontar-vos-hi. Però la valentía, em temo, no serà prou.<wait more>
@@ -2552,7 +2552,7 @@
   en: Since the orders are from the Governor-General, Lutz will probably listen.<wait>
   fr: Les ordres venant du Gouverneur, Lutz les écoûtera peut-être...<wait>
   pt-br: Uma vez que as ordens são do Governador-Geral, Lutz provavelmente vai ouvir.<wait>
-  ca: Donat que les ordres son del Gobernador General, Lutz probablement escoltarà.<wait>
+  ca: Donat que les ordres son del Governador General, Lutz probablement escoltarà.<wait>
 
 - offsets: 53c9
   indices: 0B2
@@ -2618,7 +2618,7 @@
     Você deve ser Lutz. Tenho uma carta do Governador-Geral para você.<line><line>
     Se importaria em ler?<wait>
   ca: |
-    Tu deus ser en Lutz. Tinc una carta per tú del Gobernador General.<line><line>
+    Tu deus ser en Lutz. Tinc una carta per tú del Governador General.<line><line>
     T'importaria llegir-la?<wait>
 
 - offsets: 46f2
@@ -3596,7 +3596,7 @@
   en: Well? Let’s see it.<wait>
   fr: Eh bien_? Voyons ca.<wait>
   pt-br: Certo? Deixe-me ver isso.<wait>
-  ca: I bé? Ja ho veurem.<wait>
+  ca: De debò? Puc veure'l?.<wait>
 
 
 # ***************
@@ -6593,7 +6593,7 @@
   ca: |
     Potser heu destruït aquest cos, pero jo no puc morir! Reviuré un altre cop!<line><line><line><line><wait more>
     Lashiec ha caigut. L'últim desig d'en Nero s'ha acomplert. Una nova era comença per a Algol.<wait more>
-    Només ens queda anar a veure al Gobernador General a Paseo!<wait>
+    Només ens queda anar a veure al Governador General a Paseo!<wait>
 
 - offsets: # Unreachable?
   indices: 27c
@@ -7323,7 +7323,7 @@
   en: <player> took out <article><item>.<delay>
   fr: <player> prend <article><item>.<delay>
   pt-br: <player> retirou <article><item>.<delay>
-  ca: <player> s'emporta <article><item>.<delay>
+  ca: <player> treu <article><item>.<delay>
 
 - offsets: 251a,25aa,2651,279d
   indices: 04C-2
