@@ -245,7 +245,6 @@ _script\@_end:
   TREE      db   ; current Huffman tree
   VRAM_PTR  dw   ; VRAM address
   FULL_STR  dw   ; pointer backup
-  TEMP_STR  .db  ; buffer for strings, shared with following
   PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
   HasFM     db   ; copy of FM detection result
   MusicSelection db ; music test last selected song
@@ -262,6 +261,8 @@ _script\@_end:
 
   Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
+
+.define TEMP_STR PSGaiden_decomp_buffer+16 ; buffer for strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.
 
 ; Functions in the original game we make use of
 .define VBlankHandler $0127
@@ -1051,10 +1052,7 @@ _Substring:
       cp $02      ; article = L', Le, La, ,
       jr z,_Start_Art
 
-      ld de,ArticlesPossessive
-      cp $03      ; article = de l', du, de la, d' ,de
-      jr z,_Start_Art
-
+      ; article = de l', du, de la, d' ,de
       ld de,ArticlesPossessive
       ; fall through
 .endif
@@ -5384,14 +5382,28 @@ CopySettings:
 .ends
 .section "Setting SRAM helper 2" free
 SettingsFromSRAM:
+  ; We first check if SRAM is working
+  ld hl,$8000 ; SRAM marker
+  ld de,$0962 ; Expected value
+  ld bc,$0040 ; length
+  ld a,SRAMPagingOn
+  ld (PAGING_SRAM),a
+-:ld a,(de)
+  inc de
+  cpi
+  jr nz,+ ; Skip copying if SRAM is bad
+  jp pe,- ; parity odd indicates underflow of bc
+
   ld hl,$8210
   ld de,SettingsStart
   call CopySettings
-  ; If they were blank, we need to initialise the multipliers
+  
+  ; If they are not valid, we need to initialise the multipliers
   ld a,(ExpMultiplier)
   or a
   ret nz
-  inc a
++:
+  ld a,1
   ld (ExpMultiplier),a
   ld (MoneyMultiplier),a
   ret
