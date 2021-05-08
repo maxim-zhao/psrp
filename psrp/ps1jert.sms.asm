@@ -2142,11 +2142,11 @@ DrawSpellsMenu:
   ; Now we want to compute b = row count, c = column count  * 2
   inc b
   ld c,SpellMenuBottom_width*2
-  call OutputTilemapBoxWipePaging           ; 0035C1 CD 81 3B
+  call OutputTilemapBoxWipePaging
 
   ; Then we draw the bottom row directly after it
   ld hl,SpellMenuBottom
-  ld bc,1<<8 + SpellMenuBottom_width*2  ; width of line
+  ld bc,(1<<8) + SpellMenuBottom_width*2  ; width of line
   jp OutputTilemapBoxWipePaging ; draw and exit
 _magicmenutable:
 .dw BattleSpellsAlisa, BattleSpellsMyau, BattleSpellsLutz
@@ -2965,7 +2965,7 @@ StatsBorderBottom:  .stringmap tilemap "╘════════════�
 
 statsImpl:
   ld hl,StatsBorderTop
-  ld bc,1<<8 + _sizeof_StatsBorderTop ; size
+  ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
   call OutputTilemapBoxWipePaging ; draw to tilemap
   ld hl,Level
   ld a,(ix+5)
@@ -2988,7 +2988,7 @@ statsImpl:
   call DrawTextAndNumberA
   call DrawMeseta
   ld hl,StatsBorderBottom
-  ld bc,1<<8 + _sizeof_StatsBorderTop ; size
+  ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
   jp OutputTilemapBoxWipePaging ; draw and exit
 .ends
 
@@ -4955,7 +4955,6 @@ _musicReturn:
   or a
   jr z,-
   ; Enable the right chip
-foo:
   ld a,(Port3EValue)
   or $04 ; Disable IO chip
   out (PORT_MEMORY_CONTROL),a
@@ -5087,7 +5086,7 @@ FMDetectionHook:
 DrawTilemap:
   ld a,(PAGING_SLOT_2)
   push af
-    call OutputTilemapBoxWipePaging ; OutputTilemapBoxWipePaging
+    call OutputTilemapBoxWipePaging
   pop af
   ld (PAGING_SLOT_2),a
   ret
