@@ -229,27 +229,35 @@ _script\@_end:
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
 .enum $dfb0 export
-  ; Script decoding
-  STR       dw   ; pointer to WRAM string
-  LEN       db   ; length of substring in WRAM
-  POST_LEN  db   ; post-string hint (ex. <Herb>...)
-  LINE_NUM  db   ; # of lines drawn
-  FLAG      db   ; auto-wait flag
-  ARTICLE   db   ; article category #
-  SUFFIX    db   ; suffix flag
-  HLIMIT    db   ; horizontal chars left
-  VLIMIT    db   ; vertical line limit
-  SCRIPT    dw   ; pointer to script
-  BANK      db   ; bank holding script
-  BARREL    db   ; current Huffman encoding barrel
-  TREE      db   ; current Huffman tree
-  VRAM_PTR  dw   ; VRAM address
-  FULL_STR  dw   ; pointer backup
-  PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
-  HasFM     db   ; copy of FM detection result
-  MusicSelection db ; music test last selected song
+  .union
+    PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
+  .nextu
+    ; Script decoding
+    ; Buffer for item name strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.
+    ; It is prepended with articles so we need to make sure there is space before it for the longest article 
+    ; (Brazilian Portuguese "de una " = 7) and after it for the longest item name (20)
+    ArticleSpace    dsb 16
+    TEMP_STR        dsb 32
+    STR             dw   ; pointer to WRAM string
+    LEN             db   ; length of substring in WRAM
+    POST_LEN        db   ; post-string hint (ex. <Herb>...)
+    LINE_NUM        db   ; # of lines drawn
+    FLAG            db   ; auto-wait flag
+    ARTICLE         db   ; article category #
+    SUFFIX          db   ; suffix flag
+    HLIMIT          db   ; horizontal chars left
+    VLIMIT          db   ; vertical line limit
+    SCRIPT          dw   ; pointer to script
+    BARREL          db   ; current Huffman encoding barrel
+    TREE            db   ; current Huffman tree
+    VRAM_PTR        dw   ; VRAM address
+    FULL_STR        dw   ; pointer backup
+  .endu
+  HasFM           db   ; copy of FM detection result
+  MusicSelection  db ; music test last selected song
 
   SettingsStart: .db
+  
   MovementSpeedUp db ; non-zero for speedup
   ExpMultiplier  db ; b Experience scaling
   MoneyMultiplier  db ; b Money pickups scaling
@@ -262,7 +270,6 @@ _script\@_end:
   Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
-.define TEMP_STR PSGaiden_decomp_buffer+16 ; buffer for strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.
 
 ; Functions in the original game we make use of
 .define VBlankHandler $0127
@@ -2361,11 +2368,11 @@ DrawSpellsMenu:
   ; Now we want to compute b = row count, c = column count  * 2
   inc b
   ld c,SpellMenuBottom_width*2
-  call OutputTilemapBoxWipePaging           ; 0035C1 CD 81 3B
+  call OutputTilemapBoxWipePaging
 
   ; Then we draw the bottom row directly after it
   ld hl,SpellMenuBottom
-  ld bc,1<<8 + SpellMenuBottom_width*2  ; width of line
+  ld bc,(1<<8) + SpellMenuBottom_width*2  ; width of line
   jp OutputTilemapBoxWipePaging ; draw and exit
 _magicmenutable:
 .dw BattleSpellsAlisa, BattleSpellsMyau, BattleSpellsLutz
@@ -3193,7 +3200,7 @@ StatsBorderBottom:  .stringmap tilemap "╘════════════�
 
 statsImpl:
   ld hl,StatsBorderTop
-  ld bc,1<<8 + _sizeof_StatsBorderTop ; size
+  ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
   call OutputTilemapBoxWipePaging ; draw to tilemap
   ld hl,Level
   ld a,(ix+5)
@@ -3216,7 +3223,7 @@ statsImpl:
   call DrawTextAndNumberA
   call DrawMeseta
   ld hl,StatsBorderBottom
-  ld bc,1<<8 + _sizeof_StatsBorderTop ; size
+  ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
   jp OutputTilemapBoxWipePaging ; draw and exit
 .ends
 
@@ -5295,7 +5302,6 @@ _musicReturn:
   or a
   jr z,-
   ; Enable the right chip
-foo:
   ld a,(Port3EValue)
   or $04 ; Disable IO chip
   out (PORT_MEMORY_CONTROL),a
@@ -5427,7 +5433,7 @@ FMDetectionHook:
 DrawTilemap:
   ld a,(PAGING_SLOT_2)
   push af
-    call OutputTilemapBoxWipePaging ; OutputTilemapBoxWipePaging
+    call OutputTilemapBoxWipePaging
   pop af
   ld (PAGING_SLOT_2),a
   ret
