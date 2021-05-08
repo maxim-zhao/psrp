@@ -222,27 +222,35 @@ _script\@_end:
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
 .enum $dfb0 export
-  ; Script decoding
-  STR       dw   ; pointer to WRAM string
-  LEN       db   ; length of substring in WRAM
-  POST_LEN  db   ; post-string hint (ex. <Herb>...)
-  LINE_NUM  db   ; # of lines drawn
-  FLAG      db   ; auto-wait flag
-  ARTICLE   db   ; article category #
-  SUFFIX    db   ; suffix flag
-  HLIMIT    db   ; horizontal chars left
-  VLIMIT    db   ; vertical line limit
-  SCRIPT    dw   ; pointer to script
-  BANK      db   ; bank holding script
-  BARREL    db   ; current Huffman encoding barrel
-  TREE      db   ; current Huffman tree
-  VRAM_PTR  dw   ; VRAM address
-  FULL_STR  dw   ; pointer backup
-  PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
-  HasFM     db   ; copy of FM detection result
-  MusicSelection db ; music test last selected song
+  .union
+    PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
+  .nextu
+    ; Script decoding
+    ; Buffer for item name strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.
+    ; It is prepended with articles so we need to make sure there is space before it for the longest article 
+    ; (Brazilian Portuguese "de una " = 7) and after it for the longest item name (20)
+    ArticleSpace    dsb 16
+    TEMP_STR        dsb 32
+    STR             dw   ; pointer to WRAM string
+    LEN             db   ; length of substring in WRAM
+    POST_LEN        db   ; post-string hint (ex. <Herb>...)
+    LINE_NUM        db   ; # of lines drawn
+    FLAG            db   ; auto-wait flag
+    ARTICLE         db   ; article category #
+    SUFFIX          db   ; suffix flag
+    HLIMIT          db   ; horizontal chars left
+    VLIMIT          db   ; vertical line limit
+    SCRIPT          dw   ; pointer to script
+    BARREL          db   ; current Huffman encoding barrel
+    TREE            db   ; current Huffman tree
+    VRAM_PTR        dw   ; VRAM address
+    FULL_STR        dw   ; pointer backup
+  .endu
+  HasFM           db   ; copy of FM detection result
+  MusicSelection  db ; music test last selected song
 
   SettingsStart: .db
+  
   MovementSpeedUp db ; non-zero for speedup
   ExpMultiplier  db ; b Experience scaling
   MoneyMultiplier  db ; b Money pickups scaling
@@ -255,7 +263,6 @@ _script\@_end:
   Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
-.define TEMP_STR PSGaiden_decomp_buffer+16 ; buffer for strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.
 
 ; Functions in the original game we make use of
 .define VBlankHandler $0127
