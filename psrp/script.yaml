@@ -2677,7 +2677,7 @@
     ...Ah. Ja entenc. Així que hem arribat fins aquí.<line><line>
     Perdoneu-me per la meva desconfiança inicial.<wait more>
     Junts, hem de protegir Algol de les mans del mal.<line><line>
-    Primer de tot, hem d'anar a trobar el Dr. Luveno, al bosc Gothic.<wait more>
+    Primer de tot, hem d'anar a trobar el Dr. Luveno, al bosc de Gothic.<wait more>
     Si no recordo malament, si pot arribar per un passadís desde el Port Espacial de Camineet.<line><line>
     Anem! Fem via.<wait>
 
@@ -2881,7 +2881,7 @@
     Merci. Tu sais, peu importe ce que les gens disent,<wait more>
     les araignées sont en réalité des créatures très sages.<wait>
   pt-br: Obrigado. Sabe, não importa o que as pessoas digam, as aranhas realmente são criaturas muito inteligentes.<wait>
-  ca: Merci. Sas, no facis cas al que diuen, les aranyes son de fet molt intel·ligents.<wait>
+  ca: Merci. Saps, no facis cas al que diuen, les aranyes son de fet molt intel·ligents.<wait>
 
 - offsets: 54ea
   # Prisoner
@@ -3546,7 +3546,7 @@
     Ah, el petit Hapsby, has tornat a casa!<wait more>
     Excel·lent. Amb en Hapsby podeu portar la Luveno a través del espai!<wait more>
     I just a temps. La seguretat dels ports espacials s'ha endurit.<wait more>
-    Aneu! La Luveno es atracada a les afores de la vila! Aneu a probar-la!<wait>
+    Aneu! La Luveno es atracada a les afores de la vila! Aneu a provar-la!<wait>
 
 - offsets: 5071
   # Luveno (subsequent visits)
@@ -7601,7 +7601,7 @@
   en: Do you want to open it?<end>
   fr: L'ouvrir_?<end>
   pt-br: Você quer abrir?<end>
-  ca: Voleu obrir-ho?<end>
+  ca: Voleu obrir-lo?<end>
 
 - offsets: 2a73
   indices: 086-2
@@ -8493,7 +8493,7 @@
   en: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
   fr: Le Savant fou à Abion possède un vase Laconian.<wait>
   pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
-  ca: ‘El Científic Boig a Avion té una Olla de Laconia.’<wait>
+  ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
 
 - offsets: 1cd6
   indices: 10E-2
@@ -8508,7 +8508,7 @@
   en: ‘There are places in the sky that even a spaceship can’t reach.’<wait>
   fr: Les vaisseaux ne vont pas partout dans le ciel.<wait>
   pt-br: ‘Há lugares no céu que nem uma nave espacial pode alcançar.’<wait>
-  ca: ‘Hi ha llocs al cel que ni una nau espacial pot arribar.’<wait>
+  ca: ‘Hi ha llocs al cel que ni una nau espacial hi pot arribar.’<wait>
 
 - offsets: 1cd8
   indices: 110-2
