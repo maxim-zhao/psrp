@@ -4735,7 +4735,7 @@
     On me nomme Grande Sœur Choko.<wait more>
     Soyez forte et poursuivez votre aventure_!<wait>
   pt-br: Sou eu, Choko Oneesan! Seja forte e valente enquanto continua sua jornada!<wait>
-  ca: Sóc jo, en Choko Oneesan! Sigueu valents i forts en la vostra missió!<wait>
+  ca: Sóc jo, la Choko Oneesan! Sigueu valents i forts en la vostra missió!<wait>
 
 - offsets: 51ef
   # Person inside cave
@@ -5026,7 +5026,7 @@
     Salut, je suis Joe Musashi_!<wait more>
     Possèdes-tu une Master System_?<end>
   pt-br: Oi, eu sou a Jogadora Miki-chan! Você possui um Master System?<end>
-  ca: Hola, Sóc en Miki-chan, un gamer! Tens una Master System?<end>
+  ca: Hola, Sóc la Miki-chan, una gamer! Tens una Master System?<end>
 
 - offsets: 530f
   # Gamer Miki (yes to previous question)
