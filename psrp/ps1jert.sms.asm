@@ -1203,7 +1203,7 @@ ArticlesPossessive: ; do <x>
 ; Masculine name
 ; Feminine name
 ArticlesLower: ; un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
+.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
 +:        Article " nu"
 ++:       Article " anu"
 +++:      Article "’l"
@@ -1213,7 +1213,7 @@ ArticlesLower: ; un <x>
 +++++++:  Article " ne"
 ++++++++: Article " an"
 ArticlesInitialUpper: ; Un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
+.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
 +:        Article " nU"
 ++:       Article " anU"
 +++:      Article "’L"
@@ -1223,7 +1223,7 @@ ArticlesInitialUpper: ; Un <x>
 +++++++:  Article " nE"
 ++++++++: Article " aN"
 ArticlesPossessive: ; de un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, ++++++, +++++++, ++++++++
+.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
 +:        Article " nu ed"
 ++:       Article " anu ed"
 +++:      Article "’l ed"
@@ -1781,7 +1781,7 @@ Enemies:
   String "<The> Green Dragon"               ; GR.DRAGN  Green Dragon        gurīndoragon        グリーンドラゴン
   String "LaShiec"                          ; SHADOW    Shadow              rashīku             ラシーク
   String "<The> Mammoth"                    ; MAMMOTH   Mammoth             manmosu             マンモス
-  String "<The> King Saber"                 ; CENTAUR   Centaur             kinguseibā          キングセイバー
+  String "<The> King Saber"   ; $40         ; CENTAUR   Centaur             kinguseibā          キングセイバー
   String "<The> Dark Marauder"              ; MARAUDER  Marauder            dākumarōdā          ダークマローダー
   String "<The> Golem"                      ; TITAN     Titan               kōremu              コーレム
   String "Medusa"                           ; MEDUSA    Medusa              medyūsa             メデューサ
