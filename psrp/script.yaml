@@ -1040,7 +1040,7 @@
   en: Iala Cave lies on the peninsula south-east of here.<wait>
   fr: La grotte Iala est située sur la péninsule au sud de la ville.<wait>
   pt-br: A Caverna de Iala fica na península ao sul da cidade.<wait>
-  ca: La cova de Iala es troba a la península al sud-est d'aquí.<wait>
+  ca: La cova d'Iala es troba a la península al sud-est d'aquí.<wait>
 
 - offsets: 4dc7
   indices: 044
@@ -3835,7 +3835,7 @@
   en: I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
   fr: Sur Dézoris, la plaine d'Altiplano en est recouverte.<wait>
   pt-br: Ouvi dizer que o Planalto Altiplano em Dezóris é totalmente coberto por elas.<wait>
-  ca: Diuen que l'altiplà de Altiplano, a Dezoris, hi és cobert.<wait>
+  ca: Diuen que l'altiplà d'Altiplano, a Dezoris, hi és cobert.<wait>
 
 - offsets: 5113
   # Villager
@@ -4225,7 +4225,7 @@
   en: The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
   fr: Le plateau d'Altiplano est entouré par des glaciers.<wait>
   pt-br: A área ao redor do Planalto Altiplano é rodeado por montanhas de gelo.<wait>
-  ca: L'àrea al voltant de l'altiplà de Altiplano és envoltada de muntanyes de gel.<wait>
+  ca: L'àrea al voltant de l'altiplà d'Altiplano és envoltada de muntanyes de gel.<wait>
 
 - offsets: 5268
   # Townsperson
@@ -4307,7 +4307,7 @@
   en: This is Uzo Village, on Motavia.<wait>
   fr: Bienvenue au village d'Uzo sur Motavia.<wait>
   pt-br: Esta é a Vila Uzo, em Motávia.<wait>
-  ca: Aquesta és la Vila de Uzo, a Motavia.<wait>
+  ca: Aquesta és la Vila d'Uzo, a Motavia.<wait>
 
 - offsets: 5163
   # Villager
@@ -4340,7 +4340,7 @@
   en: To the south of Uzo lies a village called Casba.<wait>
   fr: Au sud d'Uzo se trouve le village de Casba.<wait>
   pt-br: Ao sul de Uzo está uma vila chamada Casba.<wait>
-  ca: Al sud de Uzo hi ha una vila anomenada Casba.<wait>
+  ca: Al sud d'Uzo hi ha una vila anomenada Casba.<wait>
 
 - offsets: 516f
   # Villager
@@ -5387,7 +5387,7 @@
     Confiance en n'importe qui dans le village voisin, je n'aurais pas.<wait more>
     Un tas de crétins mythomanes, ils sont.<wait>
   pt-br: Eu não confiaria em ninguém na vila vizinha... mentirosos patológicos, eles são.<wait>
-  ca: No te'n refios de ningú de los pobles del costat...uns mentiders que són.<wait>
+  ca: No te'n refios de ningú del poble del costat...uns ensarronadors que són.<wait>
 
 - offsets: 527a
   # Honest Dezorian
@@ -5430,7 +5430,7 @@
     A l'ouest de la tour Corona, la grotte Dézoris, se trouve.<wait more>
     Là-bas, des amis nous avons. Nos respects leur donnerez-vous_?<wait>
   pt-br: A Caverna de Dezoris fica a oeste da Torre Corona. Diga oi para nossos amigos lá, diga sim!<wait>
-  ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola als nostres amics allà!<wait>
+  ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola a los nostres amics allà!<wait>
 
 - offsets: 5286
   # Honest Dezorian
@@ -5469,7 +5469,7 @@
   ca: |
     Los abres de Laerma donen uns fruits estranys.<wait more>
     Es diuen fruits de Laerma, i són molt bons.<wait more>
-    Però si no los fots a una olla de Laconia s'encongeixen.<wait>
+    Però si nols embuteixes a una olla de Laconia s'encongeixen.<wait>
 
 - offsets: 528c
   # Honest Dezorian
@@ -5508,7 +5508,7 @@
   en: I’d really like to look into one sometime, I would.<wait>
   fr: Regarder à travers, vraiment je voudrais_!<wait>
   pt-br: Eu realmente gostaria de olhar para um deles alguma hora, eu gostaria.<wait>
-  ca: M'agradaria fer-hi un ull amb un d'aquestos un dia.<wait>
+  ca: M'agradaria guaitar-hi un dia.<wait>
 
 - offsets: 52a0
   # Honest Dezorian
@@ -5521,7 +5521,7 @@
   en: Everyone here hates Palmans, we do.<wait>
   fr: Nous villageois, les Palmans nous haïssons.<wait>
   pt-br: Todo mundo aqui odeia Palmanos, nós odiamos.<wait>
-  ca: No volem saber re, de los de Palma!.<wait>
+  ca: No en volem saber re, dels de Palma!.<wait>
 
 - offsets: 52a6
   # Dishonest Dezorian
@@ -5558,7 +5558,7 @@
     Voussa pouvoir être téléportés au 10ème sous-sol de la grotte Dézoris!<wait more>
     Pas blague. Noussa pas mentir à voussa.<wait>
   pt-br: Há uma passagem secreta no décimo nível subterrâneo na Caverna de Dezóris. Não estou brincando!<wait>
-  ca: Hi ha un passatge secret al desè nivell de sa caverna de Dezoris. No t'enganyo!<wait>
+  ca: Hi ha un passatge secret al desè nivell de sa caverna de Dezoris. No t'ensarrono!<wait>
 
 - offsets: 52b8
   # Dishonest Dezorian
@@ -5577,7 +5577,7 @@
     Baies Laerma être bleues, et noussa les utiliser pour teindre vêtements.<wait more>
     Être ce que noussa faire.<wait>
   pt-br: As Frutas de Laerma são azuis, e as usamos para tingir as nossas roupas. Pura verdade!<wait>
-  ca: Es fruits de Laerma són blaus, i tenyim la roba amb ells.<wait>
+  ca: Es fruits de Laerma són blaus, i tenyeix la roba amb ells.<wait>
 
 - offsets: 52be
   # Dishonest Dezorian
@@ -5596,7 +5596,7 @@
     Voussa pouvoir utiliser cristal pour faire pousser baies sur arbre.<wait more>
     Pas plaisanter_!<wait>
   pt-br: Você pode usar um cristal para fazer as frutas crescerem em uma árvore Laerma. Pode apostar!<wait>
-  ca: Pots fer servir un cristall per fer créixer fruit a un arbre de Laerma.<wait>
+  ca: Pots emprar un cristall per fer créixer fruit a un arbre de Laerma.<wait>
 
 - offsets: 52c4
   # Dishonest Dezorian
@@ -5612,7 +5612,7 @@
   en: This village welcomes all Palmans. Seriously!<wait>
   fr: Village accueillir toussa Palmans. Ca être vrai.<wait>
   pt-br: Esta vila acolhe bem todos os Palmanos. Sério!<wait>
-  ca: Tots es de Palma son benvinguts aquí. De veritat!<wait>
+  ca: Tots es de Palma son benvenguts aquí. De veritat!<wait>
 
 - offsets: DishonestDezorianFix
   # Dishonest Dezorian
@@ -5622,7 +5622,7 @@
   en: The neighboring villagers lie. Really!<wait>
   fr: Gars dans autre village être toussa menteurs. Moissa pas mentir.<wait>
   pt-br: Esses caras na outra vila são todos mentirosos. Fato!<wait>
-  ca: Es dels pobles del voltant són uns entabanadors.<wait>
+  ca: Es del poble de la vora són uns entabanadors.<wait>
 
 
 # ********************
@@ -5754,7 +5754,7 @@
     És el foc sagrat del eclipse centenari.<wait more>
     És bonic, sagrat i molt valuós.<wait more>
     Potser en compartiría una mica a canvi de...<wait more>
-    ...un cristall de drac. Que dius?<end>
+    ...un joia de drac. Que dius?<end>
 
 - offsets: 5684
   # Torchbearer (yes to previous question)
@@ -5826,7 +5826,7 @@
     Por favor, diga-nos o que você acha deste jogo. Estamos ansiosos em saber.<wait more>
     Aqui vai uma dica - Vá até o ponto mais alto de Palma e levante o Aeroprisma ao céu!<wait>
   ca: |
-    Sóc en Otegami Chie-chan, de Sega! Merci per tots els missatges.<wait more>
+    Sóc na Otegami Chie-chan, de Sega! Merci per tots els missatges.<wait more>
     Si us plau, expliqueu-nos què penseu d'aquest joc. Volem sentir les vostres opinions.<wait more>
     Us donaré un consell. Aneu al lloc amb més alçada de Palma, i mostreu l'Aeroprisma al cel!<wait>
 
