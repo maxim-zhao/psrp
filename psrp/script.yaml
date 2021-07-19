@@ -5704,7 +5704,7 @@
     Deve haver algo secreto nele.<wait>
   ca: |
     Jo no t'ho he dit, però...<wait more>
-    Lord Lashiec tem el cristall de la Damoa, la vident.<wait more>
+    Lord Lashiec tem el cristall de Damoa, el vident.<wait more>
     Hi ha d'haver algun secret amagat.<wait>
 
 - offsets: 5661
@@ -6133,7 +6133,7 @@
     Eu sou Damoa, o maior vidente do mundo!<wait more>
     Você acredita em meus poderes de adivinhação?<end>
   ca: |
-    Soc Damoa, la millor vident del món!<wait more>
+    Soc Damoa, el millor vident del món!<wait more>
     Creieu en els meus poders d'endevinació?<end>
 
 - offsets: 5541,5552,5563
@@ -8763,7 +8763,7 @@
   en: <player> is already at full health.<wait>
   fr: <player> est déjà en pleine forme.<wait>
   pt-br: <player> já está em plena saúde.<wait>
-  ca: <player> ja té plena salut.<wait>
+  ca: <player> ja és en plena forma.<wait>
 
  # Continue/Save "dialogue" removed...
 - offsets: #07ee

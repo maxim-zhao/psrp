@@ -2258,7 +2258,7 @@ Enemies:
   String "<el> Drac Verd"
   String "<en> Lashiec"
   String "<el> Mamut"
-  String "<el> Centaure Rei"
+  String "<el> Rei Centaure"
   String "<el> Cavaller Negre"
   String "<el> Golem"
   String "<na> Medusa"
