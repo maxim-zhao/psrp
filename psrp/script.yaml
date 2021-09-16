@@ -139,6 +139,13 @@
     Sa majestat Lashiec no tolerarà cap desafiament!<wait more>
     Nero? NERO!<line><line>
     Que ha passat?!<wait>
+  es: |
+    Ciudadanos de Camineet, el cuerpo de este chico es un recordatorio para todos vosotros. <line>
+    ¡Su majestad Lashiec no tolerará ningún tipo de desafio!<wait more>
+    ¿Nero? ¡NERO!<line><line>
+    ¡¿Que ha ocurrido?!<wait>
+
+
 
 - offsets: 45fa
   # Nero, dying
@@ -268,6 +275,27 @@
     Si us plau perdona'm, per demanar-te això...<wait more>
     ...i per deixar-te tota...<line><line>
     ...sola...<wait>
+  es: |
+    Alisa, hermana mia.<line><line>
+    Escúchame con atención, mi tiempo se acaba.<wait more>
+    Los rumores que hemos oído son ciertos. Lashiec ha...cambiado.<line>
+    Y va mucho más allá que ver sus soldados controlando las calles.<wait more>
+    Todos los monstruos en el exterior, toda esa oscuridad sobre nuestras cabezas...<line><line>
+    De algún modo, todo nos lleva a él.<wait more>
+    Intenté descubrir el porqué, supongo que me acerqué demasiado  a la verdad.<line><line>
+    Solo nos queda una opción, por el bien de todos.<wait more>
+    Hemos de parar a Lashiec.<line><line>
+    Si no lo conseguimos, la oscuridad con la que se ha aliado se apoderará de Algol.<wait more>
+    Mi error ha sido hacerlo sólo.<line><line>
+    Són peligrosos, necesitarás ayuda.<wait more>
+    He oído hablar de un guerrero, un hombre llamado Tylon, podría ser un aliado.<line><line>
+    Quise unirlo a la causa, pero ha desaparecido.<wait more>
+    Has de encontrarlo, Alisa<line><line>
+    Encuentra a Tylon y derroca a  Lashiec. Juntos podréis traer la paz de nuevo a Algol.<wait more>
+    Alisa... es un gran peso. Lo siento mucho.<line><line>
+    Por favor, perdóname, por pedirte esto...<wait more>
+    ...y por dejarte...<line><line>
+    ...sola...<wait>
 
 - offsets: 4605
   # Alisa
@@ -310,6 +338,12 @@
     No deixaré que aquests monstres s'apoderin de casa nostra.<wait more>
     Sigues el meu àngel de la guarda, germà gran.<line><line>
     Amb el teu esperit al meu costat, en Lashiec no tindrà cap oportunitat.<wait>
+  es: |
+    Nero...<wait more>
+    Tu muerte no será en vano, te lo prometo.<line><line>
+    No dejaré que los monstruos se apoderen de nuestra casa.<wait more>
+    Sé mi ángel de la guarda, hermano mayor.<line><line>
+    Con tu espíritu a mi lado, Lashiec no tiene ninguna posibilidad.<wait>
 
 # *************************************
 # *** Camineet Residential District ***
@@ -367,6 +401,9 @@
   ca: |
     La casa d'Alisa.<line>
     Les coses d'en Nero encara són on les va deixar.<wait>
+  es: |
+    La casa de Alisa.<line>
+    Las cosas de Nero aún están donde las dejó.<wait>
 
 - offsets: 4b48
   # Suelo (first visit)
@@ -406,6 +443,12 @@
     No gastaré paraules convencent-te del contrari, només...vés amb compte.<wait more>
     Si mai estàs ferida, torna per recuperar-te.<wait more>
     Hem estat veïns durant molt de temps, la meva casa sempre estarà oberta per a tu.<wait>
+  es: |
+    Alisa... enfrentarse a Lashiec es una locura. Pero se lo obstinada y tozuda que puedes ser.<wait more>
+    No gastaré palabras convenciéndote, solo...vé con cuidado.<wait more>
+    Si alguna vez estás herida, vuelve para descansar.<wait more>
+    Hemos sido vecinos durante mucho tiempo, mi casa siempre estará abierta para tí.<wait>
+
 
 - offsets: 4b4e
   # Suelo (subsequent visits)
@@ -429,11 +472,12 @@
   pt-br: |
     Por favor, descanse um pouco.<wait more>
     Seu irmão ficaria orgulhoso de você. Mas não exagere, ok? Volte aqui quando quiser.<wait>
-
   ca: |
     Si us plau reposa una mica.<wait more>
     El teu germà estaria orgullós de tu. Però vés amb compte, d'acord? torna quan vulguis.<wait>
-
+  es: |
+    Por favor, descansa un poco.<wait more>
+    Tu hermano estaría orgulloso. Pero ve con cuidado, ¿vale? vuelve cuando quieras.<wait>
 - offsets: 4b62
   # Nekiseh (first visit)
   indices: 008,00A,00C,00E
