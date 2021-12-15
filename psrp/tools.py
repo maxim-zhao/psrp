@@ -641,6 +641,13 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
           f"({(char_count - total_size) / char_count * 100:.2f}% compression)")
 
 
+def fix_makefile(path):
+   with open(path, 'r') as f:
+       lines = f.read()
+   with open(path, 'w') as f:
+       f.write(re.sub('\\\\(.)', '/\\1', lines))
+
+
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
@@ -651,6 +658,8 @@ def main():
         menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
     elif verb == 'script_inserter':
         script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
+    elif verb == 'fix_makefile':
+        fix_makefile(sys.argv[2])
     else:
         raise Exception(f"Unknown verb \"{verb}\"")
 
