@@ -1,27 +1,22 @@
 version: 1.0.{build}
 image: Visual Studio 2019
 environment:
-  WLAZ80: wla-z80.exe
-  WLALINK: wlalink.exe
-  FLIPS: flips.exe
-  BMP2TILE: bmp2tile.exe
   URL:
     secure: cJUFr2NsBjDh6gZxnshL2HMwKuFcjj4JxyfYgTAwY4EaegRkArES3eXzLKOPnUNL3WZddVReEfJCXN81s0sLBA==
 build_script:
 - cmd: |
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-    appveyor DownloadFile https://github.com/maxim-zhao/sms-build-tools/releases/download/1.0.81/tools.7z
+    appveyor DownloadFile https://github.com/maxim-zhao/sms-build-tools/releases/download/1.0.102/tools.7z
     7z x tools.7z -otools
     path %path%;%cd%\tools
     appveyor DownloadFile -Url %URL% -FileName ps.zip
     7z x ps.zip -opsrp
     cd psrp
     py -m pip install PyYAML
-    nmake /E LANGUAGE=en
-    nmake /E clean
-    nmake /E LANGUAGE=fr
-    nmake /E clean
-    nmake /E LANGUAGE=pt-br
+    make LANGUAGE=en
+    make clean
+    make LANGUAGE=fr
+    make clean
+    make LANGUAGE=pt-br
     7z a ..\psrp.zip *.?ps ..\readme.md
 artifacts:
 - path: psrp.zip
