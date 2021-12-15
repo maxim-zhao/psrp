@@ -643,9 +643,9 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
 
 def fix_makefile(path):
    with open(path, 'r') as f:
-       lines = f.read()
+       lines = f.readlines()
    with open(path, 'w') as f:
-       f.write(re.sub('\\\\(.)', '/\\1', lines))
+       f.writelines([re.sub('\\\\(.)', '/\\1', x) for x in lines if not 'INTERNAL' in x])
 
 
 def main():

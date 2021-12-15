@@ -98,7 +98,7 @@ generated/script.asm generated/script-patches.asm generated/tree.asm: generated/
 
 # Generate the dependencies list for assembly
 generated/auto.makefile: ps1jert.sms.asm
-	$(WLAZ80) -M -D LANGUAGE=$(LANGUAGE) -D WLA_DX_BUG_WORKAROUND -o ps1jert.sms.o $^ | find /v "INTERNAL_PASS" > $@
+	$(WLAZ80) -M -D LANGUAGE=$(LANGUAGE) -D WLA_DX_BUG_WORKAROUND -o ps1jert.sms.o $^ > $@
 	$(PY) tools.py fix_makefile $@
 
 include generated/auto.makefile
