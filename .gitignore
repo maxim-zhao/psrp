@@ -68,3 +68,5 @@ Release
 /psrp/script.asm
 /psrp/script-patches.asm
 /psrp/tree.asm
+/tools/
+/psrp/generated/
