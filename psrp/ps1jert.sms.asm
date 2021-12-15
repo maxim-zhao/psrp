@@ -315,28 +315,28 @@ LoadTiles:
 .slot 2
 .section "Replacement title screen" superfree
 TitleScreenTilesBottom:
-.incbin "new_graphics/title.bottom.psgcompr"
+.incbin "generated/title.bottom.psgcompr"
 .ends
 
 .section "Title screen name table" superfree
 TitleScreenTilemapBottom:
-.incbin "new_graphics/title.bottom.tilemap.pscompr"
+.incbin "generated/title.bottom.tilemap.pscompr"
 .ends
 
 .section "Replacement title screen part 2" superfree
 TitleScreenTilesTop:
-.incbin "new_graphics/title.top.psgcompr"
+.incbin "generated/title.top.psgcompr"
 .ends
 
 .section "Title screen name table for logo" superfree
 TitleScreenTilemapTop:
-.incbin "new_graphics/title.top.tilemap.pscompr"
+.incbin "generated/title.top.tilemap.pscompr"
 .ends
 
   ROMPosition $00925
 .section "Title screen palette" force ; not movable
 TitleScreenPalette:
-.incbin "new_graphics/title-pal.bin"
+.incbin "generated/title-pal.bin"
 .db 0, 0 ; last two entries unused
 .db 0 ; background colour
 .db 0,0,$3c ; cursor for name entry screen
@@ -390,12 +390,12 @@ TitleScreenExtra:
 .slot 2
 .section "Outside tiles" superfree
 OutsideTiles:
-.incbin "new_graphics/world1.psgcompr"
+.incbin "generated/world1.psgcompr"
 .ends
 
 .section "Town tiles" superfree
 TownTiles:
-.incbin "new_graphics/world2.psgcompr"
+.incbin "generated/world2.psgcompr"
 .ends
 
   ROMPosition $00ce4
@@ -484,54 +484,54 @@ SceneData:
 .section "Palma and Dezoris open area graphics" superfree
 PalettePalmaOpen:      CopyFromOriginal $40000 16
 PaletteDezorisOpen:    CopyFromOriginal $40010 16
-TilesPalmaAndDezorisOpen: .incbin "new_graphics/bg1.psgcompr"
+TilesPalmaAndDezorisOpen: .incbin "generated/bg1.psgcompr"
 .ends
 
 .section "Forest graphics" superfree
 PalettePalmaForest:    CopyFromOriginal $40f16 16
 PaletteDezorisForest:  CopyFromOriginal $40f26 16
-TilesPalmaForest:     .incbin "new_graphics/bg2.psgcompr"
+TilesPalmaForest:     .incbin "generated/bg2.psgcompr"
 .ends
 
 .section "Palma sea graphics" superfree
 PalettePalmaSea:       CopyFromOriginal $41c72 16
-TilesPalmaSea: .incbin "new_graphics/bg3.psgcompr"
+TilesPalmaSea: .incbin "generated/bg3.psgcompr"
 .ends
 
 .section "Motabia open graphics" superfree
 PaletteMotabiaOpen: CopyFromOriginal $433f6 16
-TilesMotabiaOpen: .incbin "new_graphics/bg5.psgcompr"
+TilesMotabiaOpen: .incbin "generated/bg5.psgcompr"
 .ends
 
 .section "Palma town graphics" superfree
 PalettePalmaTown:     CopyFromOriginal $44640 16
-TilesPalmaTown: .incbin "new_graphics/bg8.psgcompr"
+TilesPalmaTown: .incbin "generated/bg8.psgcompr"
 .ends
 
 .section "Palma village graphics" superfree
 PalettePalmaVillage:  CopyFromOriginal $457c4 16
-TilesPalmaVillage: .incbin "new_graphics/bg9.psgcompr"
+TilesPalmaVillage: .incbin "generated/bg9.psgcompr"
 .ends
 
 .section "Spaceport graphics" superfree
 PaletteSpaceport:     CopyFromOriginal $464b1 16
-TilesSpaceport: .incbin "new_graphics/bg10.psgcompr"
+TilesSpaceport: .incbin "generated/bg10.psgcompr"
 .ends
 
 .section "Dead trees graphics" superfree
 PaletteDeadTrees:     CopyFromOriginal $46f58 16
-TilesDeadTrees: .incbin "new_graphics/bg11.psgcompr"
+TilesDeadTrees: .incbin "generated/bg11.psgcompr"
 .ends
 
 .section "Air castle graphics" superfree
 PaletteAirCastle:     CopyFromOriginal $5ac7d 16
 PaletteAirCastleFull: CopyFromOriginal $03fc2 16
-TilesAirCastle: .incbin "new_graphics/bg13.psgcompr"
+TilesAirCastle: .incbin "generated/bg13.psgcompr"
 .ends
 
 .section "Gold dragon graphics" superfree
 PaletteGoldDragon: CopyFromOriginal $2c000 16
-TilesGoldDragon: .incbin "new_graphics/bg14.psgcompr"
+TilesGoldDragon: .incbin "generated/bg14.psgcompr"
 .ends
 
 .section "Building graphics" superfree
@@ -548,22 +548,22 @@ PaletteBuildingShop2:     CopyFromOriginal $5eb2f 16
 PaletteBuildingShop3:     CopyFromOriginal $5eb3f 16
 PaletteBuildingShop4:     CopyFromOriginal $5eb4f 16
 PaletteBuildingDestroyed: CopyFromOriginal $5eb5f 16
-TilesBuilding: .incbin "new_graphics/bg16.psgcompr"
+TilesBuilding: .incbin "generated/bg16.psgcompr"
 .ends
 
 .section "Mansion graphics" superfree
 PaletteMansion: CopyFromOriginal $27b14 16
-TilesMansion: .incbin "new_graphics/bg29.psgcompr"
+TilesMansion: .incbin "generated/bg29.psgcompr"
 .ends
 
 .section "Lassic graphics" superfree
 PaletteLassicRoom: CopyFromOriginal $524da 16
-TilesLassicRoom: .incbin "new_graphics/bg30.psgcompr"
+TilesLassicRoom: .incbin "generated/bg30.psgcompr"
 .ends
 
 .section "Dark Force graphics" superfree
 PaletteDarkForce: CopyFromOriginal $4c000 16
-TilesDarkForce: .incbin "new_graphics/bg31.psgcompr"
+TilesDarkForce: .incbin "generated/bg31.psgcompr"
 .ends
 
   ; We also need the non-relocated tilemap and palette addresses to populate the table...
@@ -621,10 +621,10 @@ BackgroundSceneLoaderTileLoaderPatch:
 
 .slot 2
 .section "Font part 1" superfree
-FONT1: .incbin "new_graphics/font-polaris-part1.psgcompr"
-FONT2: .incbin "new_graphics/font-polaris-part2.psgcompr"
-FONT1a: .incbin "new_graphics/font-aw2284-part1.psgcompr"
-FONT2a: .incbin "new_graphics/font-aw2284-part2.psgcompr"
+FONT1: .incbin "generated/font-polaris-part1.psgcompr"
+FONT2: .incbin "generated/font-polaris-part2.psgcompr"
+FONT1a: .incbin "generated/font-aw2284-part1.psgcompr"
+FONT2a: .incbin "generated/font-aw2284-part2.psgcompr"
 LoadFontsImpl:
     ld hl,Font1VRAMAddress
     ld de,FONT1
@@ -2062,7 +2062,7 @@ Enemies:
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
-.include "words.asm"
+.include "generated/words.asm"
 .endb
 .ends
 
@@ -2080,11 +2080,11 @@ IndexTableRemap:
 .section "Menu data" superfree
 .block "Menus"
 MenuData:
-.include "menus.asm"
+.include "generated/menus.asm"
 .endb
 .ends
 
-.include "menu-patches.asm"
+.include "generated/menu-patches.asm"
 
   PatchB $3b58 :MenuData ; HapsbyTravelMenu only
   PatchB $3b82 :MenuData ; OutputTilemapBoxWipePaging
@@ -2751,10 +2751,14 @@ DezorianCustomStringCheck:
   DefineWindow ENEMY_NAME       MENU_end              21                    3                     11                      0 ; max width 19 chars
   DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                     10                    24                      3
 ; Inventory goes after the end off whichever of these is later
+.ifdef WLA_DX_BUG_WORKAROUND 
+.define INVENTORY_START ENEMY_STATS_end
+.else
 .if ENEMY_STATS_end > PLAYER_SELECT_end
 .define INVENTORY_START ENEMY_STATS_end
 .else
 .define INVENTORY_START PLAYER_SELECT_end
+.endif
 .endif
   DefineWindow INVENTORY        INVENTORY_START       InventoryMenuDimensions_width InventoryMenuDimensions_height 31-InventoryMenuDimensions_width 1
   DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width  ItemActionMenu_height 31-ItemActionMenu_width 13
@@ -3798,7 +3802,7 @@ _side:
   ret
 
 _CursorSprite:
-.incbin "new_graphics/name-entry-cursor.psgcompr"
+.incbin "generated/name-entry-cursor.psgcompr"
 
 .macro NameEntryText args x,y,text
 .dw $d000 + (y * 32 + x) * 2 ; destination
@@ -4269,7 +4273,7 @@ CreditsScreen14: .db 4
 .slot 2
 .section "Credits font" superfree
 CreditsFont:
-.incbin "new_graphics/font-credits.psgcompr"
+.incbin "generated/font-credits.psgcompr"
 .ends
 
   ROMPosition $00056
@@ -4325,7 +4329,7 @@ FontLookup:
 .section "Huffman trees" superfree
 .block "Huffman trees"
 HuffmanTrees:
-.include "tree.asm"
+.include "generated/tree.asm"
 .endb
 .ends
 
@@ -4333,7 +4337,7 @@ HuffmanTrees:
 .bank 2 slot 2
 .section "Script" free
 .block "Script"
-.include "script.asm"
+.include "generated/script.asm"
 .endb
 .ends
 
@@ -4528,7 +4532,7 @@ _Decode_Done:
   ret
 .ends
 
-.include "script-patches.asm"
+.include "generated/script-patches.asm"
 
   ROMPosition $2fe2
 .section "Cursor row count hack" overwrite
@@ -5295,7 +5299,7 @@ BrunetteAlisaCheck:
 .slot 2
 .section "Brunette Alisa tiles" superfree
 BrunetteAlisaTiles:
-.incbin "new_graphics/alisa-sprite.tiles.bin"
+.incbin "generated/alisa-sprite.tiles.bin"
 .ends
 
 ; Relocating item metadata to increase script space
