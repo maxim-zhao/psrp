@@ -7,7 +7,7 @@ build_script:
 - cmd: |
     appveyor DownloadFile https://github.com/maxim-zhao/sms-build-tools/releases/download/1.0.102/tools.7z
     7z x tools.7z -otools
-    path %path%;%cd%\tools
+    path %cd%\tools;%path%
     appveyor DownloadFile -Url %URL% -FileName ps.zip
     7z x ps.zip -opsrp
     cd psrp
