@@ -655,11 +655,11 @@ def fix_makefile(path):
 
 
 def join(f1, f2, dest):
-    with open(f1, 'r') as f:
+    with open(f1, 'r', encoding="utf-8") as f:
         lines = f.readlines()
-    with open(f2, 'r') as f:
+    with open(f2, 'r', encoding="utf-8") as f:
         lines = lines + f.readlines()
-    with open(dest, 'w') as f:
+    with open(dest, 'w', encoding="utf-8") as f:
         f.writelines(lines)
 
 
