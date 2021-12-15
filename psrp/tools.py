@@ -1,4 +1,5 @@
 import sys
+import os
 import re
 import yaml
 
@@ -657,6 +658,12 @@ def join(f1, f2, dest):
         f.writelines(lines)
 
 
+def clean(path):
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            os.remove(os.path.join(root, file))
+
+
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
@@ -671,6 +678,8 @@ def main():
         fix_makefile(sys.argv[2])
     elif verb == 'join':
         join(sys.argv[2], sys.argv[3], sys.argv[4])
+    elif verb == 'clean':
+        clean(sys.argv[2])
     else:
         raise Exception(f"Unknown verb \"{verb}\"")
 

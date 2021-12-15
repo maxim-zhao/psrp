@@ -115,4 +115,4 @@ ps1jert.$(LANGUAGE).bps: $(PSJ) ps1jert.sms
 	$(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.$(LANGUAGE).bps
 
 clean:
-	del /Q generated\*
+	$(PY) tools.py clean generated
