@@ -36,6 +36,14 @@
     │ de Camineet no      ║
     │ planeta Palma.      ║
     ╘═════════════════════╝
+  ca: |
+    ┌─────────────────────╖
+    │Primavera, DG 342    ║
+    │---------------------║
+    │Districte residencial║
+    │de Camineet al       ║
+    │planeta Palma.       ║
+    ╘═════════════════════╝
 
 - name: WorldMenu
   ptrs: 3807,380d
@@ -88,6 +96,14 @@
     │Procurar║
     │Salvar  ║
     ╘════════╝
+  ca: |
+    ┌────────╖
+    │Estat   ║
+    │Màgia   ║
+    │Objectes║
+    │Cercar  ║
+    │Guardar ║
+    ╘════════╝
 
 - name: ChoiceMenu
   ptrs: 38cd
@@ -122,6 +138,11 @@
     │Sim║
     │Não║
     ╘═══╝
+  ca: |
+    ┌──╖
+    │Sí║
+    │No║
+    ╘══╝
 
 - name: NarrativeBox
   ptrs: 3359
@@ -147,7 +168,13 @@
     │                             ║
     │                             ║
     ╘═════════════════════════════╝
-
+  ca: |
+    ┌─────────────────────────────╖
+    │                             ║
+    │                             ║
+    │                             ║
+    │                             ║
+    ╘═════════════════════════════╝
 - name: BattleMenu
   ptrs: 3238,323e
   dims: 3232,3244,3250
@@ -199,6 +226,14 @@
     │Falar ║
     │Fugir ║
     ╘══════╝
+  ca: |
+    ┌───────╖
+    │Atacar ║
+    │Màgia  ║
+    │Objecte║
+    │Parlar ║
+    │Fugir  ║
+    ╘═══════╝
 
 - name: EnemyHPBox
   emitData: false
@@ -236,6 +271,17 @@
     │      ║
     │      ║
     ╘══════╝
+  ca: |
+    ┌──────╖
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    ╘══════╝
 
 - name: TopBorder6
   ptrs: 329b
@@ -243,6 +289,7 @@
   en: ┌──────╖
   fr: ┌──────╖
   pt-br: ┌──────╖
+  ca: ┌──────╖
 
 - name: BottomBorder6
   ptrs: 309c,30f3,32c1
@@ -250,6 +297,7 @@
   en: ╘══════╝
   fr: ╘══════╝
   pt-br: ╘══════╝
+  ca: ╘══════╝
 
 - name: AllPlayerBoxes
   emitData: false
@@ -270,6 +318,13 @@
     ╘══════╝╘══════╝╘══════╝╘══════╝
 
   pt-br: |
+    ┌──────╖┌──────╖┌──────╖┌──────╖
+    │      ║│      ║│      ║│      ║
+    │      ║│      ║│      ║│      ║
+    │      ║│      ║│      ║│      ║
+    │      ║│      ║│      ║│      ║
+    ╘══════╝╘══════╝╘══════╝╘══════╝
+  ca: |
     ┌──────╖┌──────╖┌──────╖┌──────╖
     │      ║│      ║│      ║│      ║
     │      ║│      ║│      ║│      ║
@@ -300,6 +355,10 @@
     ┌──────╖
     │Alisa ║
     │------║
+  ca: |
+    ┌──────╖
+    │Alisa ║
+    │------║
 
 - name: MyauBox
   ptrs: 305b,30b2,3118
@@ -320,6 +379,10 @@
     │ Myau ║
     │------║
   pt-br: |
+    ┌──────╖
+    │ Myau ║
+    │------║
+  ca: |
     ┌──────╖
     │ Myau ║
     │------║
@@ -346,6 +409,10 @@
     ┌──────╖
     │Tylon ║
     │------║
+  ca: |
+    ┌──────╖
+    │Tylon ║
+    │------║
 
 - name: LutzBox
   ptrs: 3075,30cc,3134
@@ -366,6 +433,10 @@
     │ Lutz ║
     │------║
   pt-br: |
+    ┌──────╖
+    │ Lutz ║
+    │------║
+  ca: |
     ┌──────╖
     │ Lutz ║
     │------║
@@ -404,6 +475,13 @@
     │Myau ║
     │Tylon║
     │Lutz ║
+  ca: |
+    ┌─────╖
+    │Alisa║
+    │Myau ║
+    │Tylon║
+    │Lutz ║
+
 
 - name: ChoosePlayerMenuBottom
   ptrs: 37d0
@@ -411,6 +489,7 @@
   en: ╘═════╝
   fr: ╘═════╝
   pt-br: ╘═════╝
+  ca: ╘═════╝
 
 - name: ToolShopMenu
   ptrs: 38a1
@@ -439,6 +518,11 @@
     ┌───────╖
     │Comprar║
     │Vender ║
+    ╘═══════╝
+  ca: |
+    ┌───────╖
+    │Comprar║
+    │Vendre ║
     ╘═══════╝
 
 - name: ItemActionMenu
@@ -474,6 +558,12 @@
     │Equipar  ║
     │Descartar║
     ╘═════════╝
+  ca: |
+    ┌─────────╖
+    │Emprar   ║
+    │Equipar  ║
+    │Descartar║
+    ╘═════════╝
 
 - name: AlisaActiveBox
   ptrs: 302b
@@ -487,6 +577,10 @@
     │Alisa║
     ╘═════╝
   pt-br: |
+    ┌─────╖
+    │Alisa║
+    ╘═════╝
+  ca: |
     ┌─────╖
     │Alisa║
     ╘═════╝
@@ -506,6 +600,10 @@
     ┌─────╖
     │Myau ║
     ╘═════╝
+  ca: |
+    ┌─────╖
+    │Myau ║
+    ╘═════╝
 
 - name: TaironActiveBox
   en: |
@@ -520,6 +618,10 @@
     ┌─────╖
     │Tylon║
     ╘═════╝
+  ca: |
+    ┌─────╖
+    │Tylon║
+    ╘═════╝
 
 - name: LutzActiveBox
   en: |
@@ -531,6 +633,10 @@
     │Lutz ║
     ╘═════╝
   pt-br: |
+    ┌─────╖
+    │Lutz ║
+    ╘═════╝
+  ca: |
     ┌─────╖
     │Lutz ║
     ╘═════╝
@@ -574,7 +680,13 @@
     │Traduzir        ║
     │Fogo            ║
     │Amarrar         ║
-
+  ca: |
+    ┌───────────────╖
+    │Guarir         ║
+    │Fugir Ràpid    ║
+    │Traduïr        ║
+    │Foc            ║
+    │Lligar         ║
 # Next five must follow...
 
 - name: BattleSpellsMyau
@@ -608,6 +720,12 @@
     │Medo            ║
     │Muralha         ║
     │Aumento de Poder║
+  ca: |
+    ┌───────────────╖
+    │Super Remei    ║
+    │Por            ║
+    │Muralla        ║
+    │Increment Poder║
 
 - name: BattleSpellsLutz
   jp: |
@@ -645,6 +763,13 @@
     │Vento           ║
     │Barreira Mágica ║
     │Raio            ║
+  ca: |
+    ┌───────────────╖
+    │Foc            ║
+    │Telepatía      ║
+    │Vent           ║
+    │Barrera Màgica ║
+    │Llampec        ║
 
 - name: OverworldSpellsAlisa
   jp: |
@@ -667,6 +792,10 @@
     ┌────────────────╖
     │Cura            ║
     │Teletransporte  ║
+  ca: |
+    ┌───────────────╖
+    │Guarir         ║
+    │Teletransport  ║
 
 - name: OverworldSpellsMyau
   jp: |
@@ -694,6 +823,11 @@
     │Super Cura      ║
     │Desarmar        ║
     │Escapar         ║
+  ca: |
+    ┌───────────────╖
+    │Super Remei    ║
+    │Desarmar       ║
+    │Fugir          ║
 
 - name: OverworldSpellsLutz
   jp: |
@@ -731,12 +865,20 @@
     │Telepatia       ║
     │Abrir           ║
     │Reviver         ║
+  ca: |
+    ┌───────────────╖
+    │Super Remei    ║
+    │Escapar        ║
+    │Telepatía      ║
+    │Obrir          ║
+    │Reviure        ║
 
 - name: SpellMenuBottom
   # referenced in assembly code
   en: ╘════════════╝
   fr: ╘════════════════╝
   pt-br: ╘════════════════╝
+  ca: ╘═══════════════╝
 
 - name: NarrativeBlankLine
   ptrs: 356c
@@ -744,6 +886,7 @@
   en: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   fr: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   pt-br: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ca: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - name: NarrativeBlankScrollDimensions
   emitData: false
@@ -757,6 +900,10 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   pt-br: |
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ca: |
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -813,6 +960,16 @@
     │PM máximo     255║
     │Meseta      65535║
     ╘═════════════════╝
+  ca: |
+    ┌─────────────────╖
+    │Nivell         99║
+    │Experiència 65535║
+    │Atac          255║
+    │Defensa       255║
+    │PV màxim      255║
+    │PM màxim      255║
+    │Meseta      65535║
+    ╘═════════════════╝
 
 - name: EquimentMenuDimensions
   emitData: false
@@ -830,6 +987,12 @@
     │                  ║
     ╘══════════════════╝
   pt-br: |
+    ┌────────────────────╖
+    │                    ║
+    │                    ║
+    │                    ║
+    ╘════════════════════╝
+  ca: |
     ┌────────────────────╖
     │                    ║
     │                    ║
@@ -904,6 +1067,19 @@
     │Item 7              ║
     │Item 8              ║
     ╘════════════════════╝
+  ca: |
+    ┌────────────────────╖
+    │Meseta         65535║
+    │Següent             ║
+    │Item 1              ║
+    │Item 2              ║
+    │Item 3              ║
+    │Item 4              ║
+    │Item 5              ║
+    │Item 6              ║
+    │Item 7              ║
+    │Item 8              ║
+    ╘════════════════════╝
 
 - name: TopBorder10
   # inventory, shop MST, currently equipped items
@@ -912,6 +1088,7 @@
   en: ┌──────────────────╖
   fr: ┌──────────────────╖
   pt-br: ┌────────────────────╖
+  ca: ┌────────────────────╖
 
 - name: BottomBorder10
   # inventory, shop MST, currently equipped items
@@ -920,6 +1097,7 @@
   en: ╘══════════════════╝
   fr: ╘══════════════════╝
   pt-br: ╘════════════════════╝
+  ca: ╘════════════════════╝
 
 - name: InventoryNextMenu
   ptrs: 365c
@@ -927,6 +1105,7 @@
   en: │Next              ║
   fr: │Suite             ║
   pt-br: │Próximo             ║
+  ca: │Següent             ║
 
 - name: StoreMSTBoxDimensions
   emitData: false
@@ -940,6 +1119,10 @@
     │                  ║
     ╘══════════════════╝
   pt-br: |
+    ┌────────────────────╖
+    │                    ║
+    ╘════════════════════╝
+  ca:  |
     ┌────────────────────╖
     │                    ║
     ╘════════════════════╝
@@ -965,6 +1148,12 @@
     │Item 2               65535║
     │Item 3               65535║
     ╘══════════════════════════╝
+  ca: |
+    ┌──────────────────────────╖
+    │Item 1               65535║
+    │Item 2               65535║
+    │Item 3               65535║
+    ╘══════════════════════════╝
 
 - name: TopBorder16
   # Shop inventory
@@ -973,6 +1162,7 @@
   en: ┌────────────────────────╖
   fr: ┌────────────────────────╖
   pt-br: ┌──────────────────────────╖
+  ca: ┌──────────────────────────╖
 
 - name: BottomBorder16
   # Shop inventory
@@ -981,6 +1171,7 @@
   en: ╘════════════════════════╝
   fr: ╘════════════════════════╝
   pt-br: ╘══════════════════════════╝
+  ca: ╘══════════════════════════╝
 
 - name: HapsbyTravelMenu
   ptrs: 3b5d
@@ -1015,21 +1206,30 @@
     │Uzo   ║
     │Skray ║
     ╘══════╝
+  ca: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skray ║
+    ╘══════╝
 
 - name: SoundTestMenuTop
   en: ┌─────────────╖
   fr: ┌─────────────╖
   pt-br: ┌───────────────╖
+  ca: ┌──────────────╖
 
 - name: SoundTestMenuChipPSG
   en: │Chip  SN76489║
   fr: │Puce  SN76489║
   pt-br: │Chip    SN76489║
+  ca: │Chip   SN76489║
 
 - name: SoundTestMenuChipYM2413
   en: │Chip   YM2413║
   fr: │Puce   YM2413║
   pt-br: │Chip     YM2413║
+  ca: │Chip    ym2413║
 
 - name: SoundTestMenu
   en: |
@@ -1098,6 +1298,28 @@
     │Final          ║
     │Fim de jogo    ║
     ╘═══════════════╝
+  ca: |
+    │--------------║
+    │Pantalla títul║
+    │Introducció   ║
+    │Ciutat        ║
+    │Masmorra      ║
+    │Botiga        ║
+    │Esglesia      ║
+    │Palma         ║
+    │Batalla       ║
+    │Història      ║
+    │Vila          ║
+    │Vehicle       ║
+    │Motàvia       ║
+    │Dezóris       ║
+    │Torre         ║
+    │Masmorra Final║
+    │Lashiec       ║
+    │Força Fosca   ║
+    │Final         ║
+    │Fi del joc    ║
+    ╘══════════════╝
 
 - name: OptionsMenu
   en: |
@@ -1127,6 +1349,15 @@
     │Cabelo de Alisa         ║
     │Fonte                   ║
     ╘════════════════════════╝
+  ca: |
+    ┌────────────────────────╖
+    │Velocitat de passos   x ║
+    │Experiència           x ║
+    │Mesetas               x ║
+    │Batalles                ║
+    │Cabell d'Alisa          ║
+    │Font                    ║
+    ╘════════════════════════╝
 
 - name: ContinueMenu
   en: |
@@ -1143,5 +1374,10 @@
     ┌────────╖
     │Carregar║
     │Deletar ║
+    ╘════════╝
+  ca: |
+    ┌────────╖
+    │Carregar║
+    │Esborrar║
     ╘════════╝
 

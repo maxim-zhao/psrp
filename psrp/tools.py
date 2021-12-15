@@ -177,6 +177,7 @@ class Table:
                 length = trial_length
                 match = self.text_to_symbol[candidate]
         if length == 0:
+            print(f"Unable to find match for {s}")
             return None
         else:
             return match, length
@@ -268,7 +269,11 @@ class ScriptEntry:
 
                 # Stop at an ending tag
                 if self.script_end:
+                    if len(s) > 0:
+                        raise Exception("Text after end tag")
                     break
+        if not self.script_end:
+            raise Exception("Missing end tag")
 
     def parse_tag(self, match, s):
         # parses the match as a tag into self.buffer
@@ -329,7 +334,7 @@ class ScriptEntry:
             self.buffer.append(2)  # uppercase
             self.script_hints = True
         # Possessives
-        elif tag == "de" or tag == "do":
+        elif tag == "de" or tag == "do" or tag == "del":
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
             self.script_hints = True
@@ -520,9 +525,9 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
         try:
             script_entry = ScriptEntry(node, language, entry_number, table, max_width)
             script.append(script_entry)
-        except Exception as ex:
+        except:
             print(f"Error parsing line: {node}\n")
-            raise ex
+            raise
 
         entry_number += 1
 

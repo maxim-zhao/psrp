@@ -105,6 +105,24 @@ Brazilian Portuguese:
 |Masculine plural definite   | a                  | A                       | da
 |Feminine single definite    | os                 | Os                      | dos
 |Feminine plural definite    | as                 | As                      | das
+|Name                        |                    |                         | de
+
+Catalan:
+
+|                            |Mid-sentence article|Start of sentence article|Possessive
+|----------------------------|--------------------|-------------------------|----------
+|Masculine single indefinite | un                 | Un                      | de un
+|Masculine plural indefinite | uns                | Uns                     | de uns
+|Feminine single indefinite  | una                | Una                     | de una
+|Feminine plural indefinite  | unes               | Unes                    | de unes
+|Starts with vowel definite  | l'                 | L'                      | de l'
+|Masculine single definite   | el                 | El                      | del
+|Feminine single definite    | la                 | La                      | de la
+|Masculine plural definite   | els                | Els                     | dels
+|Feminine plural definite    | les                | Les                     | de les
+|Masculine name              | en                 | En                      | d'en
+|Feminine name               | na                 | Na                      | de na
+
 
 Building
 --------

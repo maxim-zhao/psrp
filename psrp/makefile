@@ -31,6 +31,9 @@ endif
 ifeq ("$(LANGUAGE)", "pt-br")
 WORD_COUNT = 48
 endif
+ifeq ("$(LANGUAGE)", "ca")
+WORD_COUNT = 45
+endif
 
 # Default targets are the patch files for our language
 DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
