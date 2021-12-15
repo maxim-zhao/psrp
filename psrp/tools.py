@@ -648,6 +648,15 @@ def fix_makefile(path):
        f.writelines([re.sub('\\\\(.)', '/\\1', x) for x in lines if not 'INTERNAL' in x])
 
 
+def join(f1, f2, dest):
+    with open(f1, 'r') as f:
+        lines = f.readlines()
+    with open(f2, 'r') as f:
+        lines = lines + f.readlines()
+    with open(dest, 'w') as f:
+        f.writelines(lines)
+
+
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
@@ -660,6 +669,8 @@ def main():
         script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
     elif verb == 'fix_makefile':
         fix_makefile(sys.argv[2])
+    elif verb == 'join':
+        join(sys.argv[2], sys.argv[3], sys.argv[4])
     else:
         raise Exception(f"Unknown verb \"{verb}\"")
 

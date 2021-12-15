@@ -86,9 +86,8 @@ generated/words.tbl generated/words.asm: tools.py script.yaml
 	$(PY) tools.py generate_words generated/words.tbl generated/words.asm script.yaml $(LANGUAGE) $(WORD_COUNT)
 
 # Combine the words and letters symbol dictionaries
-# Windows specific
 generated/script_with_words.tbl: script.$(LANGUAGE).tbl generated/words.tbl
-	copy /y /b script.$(LANGUAGE).tbl + generated\words.tbl generated\script_with_words.tbl
+	$(PY) tools.py join $^ $@
 
 # Generate the script data
 generated/script.asm generated/script-patches.asm generated/tree.asm: generated/script_with_words.tbl tools.py script.yaml
