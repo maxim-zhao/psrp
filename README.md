@@ -1,4 +1,4 @@
-# Phantasy Star English Retranslation v2.1
+# Phantasy Star English Retranslation v2.2
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/relocalisation based on that first Japanese version, with some enhancements.
@@ -10,8 +10,8 @@ Changelog (in reverse chronological order):
   - Phantasy Star 35th anniversary!
   - Fixed a bug with articles for some languages
   - Fixed issue with emulators not supporting cartridge RAM
-  - Fixed glitches in enemy name border drawing on some hardware
-  - Fixed some script inconsistencies in English
+  - Fixed glitches in enemy name border drawing on some hardware (#63)
+  - Fixed some script inconsistencies in English (#61)
   - Added Catalan translation from kusfo
   - Improved the translation tools based on issues found with the Catalan translation
     - More languages are welcome! [Contact me](https://www.smspower.org/Home/Contact) if you want to contribute.
@@ -182,7 +182,7 @@ When I first worked on this, I was quite a lot less experienced. I had not learn
 
 As is often the case, I then got a bit hooked. I strove to remove as much of the original C code as possible - all that's really left is the bitmap decoder and script encoder. Up to this point I was always producing a bit-identical output to the 1.02 release. Then I started to move to mapping out the chunks of code and data which had been replaced, marking them as free space and then letting WLA DX deal with placing the patches and enhancements in the available space. Doing this allowed me to gain confidence in the availability of "free space" for further enhancements. This allowed me to start making some of the improvements (and bug fixes) I'd been thinking of for the last decade or so. (When I said "I'm committed to keep working on it", I didn't give any promises as to *when*...)
 
-A big thing I wanted to do was deal with the wrapping in menus. The original used two-line menus mainly due to a common hack for katakana-based games - so it can save tiles by putting the diacritics on the row above. The characters "ヒビピ" are somewhat analagous to characters like "eèéêë" in European languages. Placing the modifiers on the row above reduces the number of tiles needed, which is a big deal for Master System games' limited VRAM space. However to swap to single-line menus I'd also need to widen them to make room for the names (many of which were split over two lines in order to fit). This meant dealing with the game's "window RAM buffers", which was a complicated task. I needed to map out every "menu window" that the game ever opens, determine which could be open at the same time, and allocate them all space in memory such that we never use the same space for two things at the same time. This was quite difficult and has a correspondingly large comment in the source explaining it. However, the end result is not only the removal of all unnecessary wrapping, but also a more pleasant experience (I think) as there's less blank black on the screen.
+A big thing I wanted to do was deal with the wrapping in menus. The original used two-line menus mainly due to a common hack for katakana-based games - so it can save tiles by putting the diacritics on the row above. The characters "ヒビピ" are somewhat analogous to characters like "eèéêë" in European languages. Placing the modifiers on the row above reduces the number of tiles needed, which is a big deal for Master System games' limited VRAM space. However to swap to single-line menus I'd also need to widen them to make room for the names (many of which were split over two lines in order to fit). This meant dealing with the game's "window RAM buffers", which was a complicated task. I needed to map out every "menu window" that the game ever opens, determine which could be open at the same time, and allocate them all space in memory such that we never use the same space for two things at the same time. This was quite difficult and has a correspondingly large comment in the source explaining it. However, the end result is not only the removal of all unnecessary wrapping, but also a more pleasant experience (I think) as there's less blank black on the screen.
 
 Having sorted all that out, it also meant I could extend the title screen to use menus instead of a black background when leading and saving, and a sound test which is of course a great thing given the game's soundtrack.
 
@@ -197,19 +197,14 @@ I also reached out to DamienG and he came up with an awesome new font. Note that
 The Git history contains many documents written by Z80 Gaiden during his hacking work.
 These became less relevant later so they are no longer present.
 
-The code is designed to build in a Visual Studio developer command prompt, with WLA DX
-available. It uses Microsoft's NMAKE too for the makefile; it is unlikely to work with
-GNU Make without modifications, but otherwise the build process is fairly simple.
+The code is designed to build in a Windows command prompt, with WLA DX and BMP2Tile
+available. It uses GNU Make for the makefile, and Python for custom tools related to the game.
 
-There are several programs included, some of which are not part of the build process but are retained for historical purposes. The main ones are:
+The custom tools are used to perform certain tasks needed to build the final script:
 
-### word_count
+### generate_words
 
-This takes the script and generates a file listing the most commonly-used words, weighted by length, in descending order. It breaks words on apostrophes, so we can avoid counting "Alisa" and "Alisa's" separately.
-
-### substring_formatter
-
-This takes the word list and uses it to substitute the common words with a single byte. It generates a TBL file, and assembly code for the word list.
+This takes the script (from script.yaml, filtered to the target language) and generates a file listing the most commonly-used words, weighted by length, in descending order. It breaks words on apostrophes, so we can avoid counting "Alisa" and "Alisa's" separately. It then takes this word list and uses it to substitute the common words with a single byte. It generates a TBL file, and assembly code for the word list.
 
 The optimal number of words to substitute this way for a given script is complicated, as substituting more words adds complexity to the next compression steps; but to maximise the script space overall, we should maximise the word count, which means selecting the 164 most common words. (This number could be increased a little, or reduced if we needed more characters.)
 
@@ -217,9 +212,9 @@ It then converts the whole script into encoded data (for the substituted words, 
 
 Finally, it emits the Huffman trees and encoded script data as assembly, and also emits patches for all the locations where the original game references a script entry. Note that the game originally had script entries referenced by index; we instead patch with direct pointers.
 
-### menu_creater
+### menu_creator
 
-The menus themselves are encoded as raw tilemap data. This program takes the UTF-8 text in menus.txt (all the menus/windows) and opening.txt (the one window used in the opening) and converts them to the tilemap data. Note that we use a "16-bit" TBL file for this part, with some extra characters used for the menu borders.
+The menus themselves are encoded as raw tilemap data. This program takes the UTF-8 text in menus.yaml and converts them to the tilemap data. Note that we use a "16-bit" TBL file for this part, with some extra characters used for the menu borders.
 
 Changing the menu dimensions is far from trivial. In order to act like overlapping windows, the game caches the tilemap data from under each one as it is drawn, and then restores it. This is done using fixed RAM areas, rather than some kind of stack, and these areas need to overlap (due to RAM restrictions), so we need to ensure only windows which are never used at the same time overlap in memory.
 
