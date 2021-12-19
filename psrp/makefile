@@ -38,7 +38,7 @@ endif
 # Default targets are the patch files for our language
 DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
 
-PLAY: ps1jert.sms
+play: ps1jert.sms
 	$(EMU) ps1jert.sms
 
 # bitmap_decode

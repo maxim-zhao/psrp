@@ -6,6 +6,16 @@ This project is an unofficial retranslation/relocalisation based on that first J
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+- v2.2 released 2021/12/20
+  - Phantasy Star 35th anniversary!
+  - Fixed a bug with articles for some languages
+  - Fixed issue with emulators not supporting cartridge RAM
+  - Fixed glitches in enemy name border drawing on some hardware
+  - Fixed some script inconsistencies in English
+  - Added Catalan translation from kusfo
+  - Improved the translation tools based on issues found with the Catalan translation
+    - More languages are welcome! [Contact me](https://www.smspower.org/Home/Contact) if you want to contribute.
+  - Ported the build system to GNU Make
 - v2.1 released 2021/01/31
   - added French translation from ichigobankai, Wil76 and Vingazole
   - added Brazilian Portuguese translation from ajkmetiuk
