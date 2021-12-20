@@ -7863,7 +7863,7 @@
   en: Welcome to the armor shop. Can I help you?<end>
   fr: Bienvenue à l'armurerie! Besoin d'armes pour votre quête_?<end>
   pt-br: Esta é uma loja de armas. Posso ajudá-lo?<end>
-  ca: Benvinguts a l'armeria.<end>
+  ca: Benvinguts a l'armeria. En qué els puc ajudar?<end>
 
 - offsets: 2d27,2d89,2e46,537e
   indices: 0B6-2
