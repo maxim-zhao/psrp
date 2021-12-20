@@ -7,7 +7,7 @@ For more information and screenshots see https://www.smspower.org/Translations/P
 
 Changelog (in reverse chronological order):
 - v2.2 released 2021/12/20
-  - Phantasy Star 35th anniversary!
+  - Phantasy Star 34th anniversary!
   - Fixed a bug with articles for some languages
   - Fixed issue with emulators not supporting cartridge RAM
   - Fixed glitches in enemy name border drawing on some hardware (#63)
