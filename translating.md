@@ -60,7 +60,7 @@ The script is compressed in two ways: first by assigning bytes to entire words, 
 
 In order to maximise the space available for the script overall, potentially at the cost of a larger ROM overall (or more difficulty to fit other changes), the maximum word count of 148 should be used. However, this adds more complexity to the Huffman trees and enlarges the dictionary. In order to maximise the space available for the ROM in general - for example to allow a more detailed title screen - then only trial and error can help you find the best value. Iterating over all values is possible to determine the best value.
 
-The word count is assigned to a value in the makefile, or can be set in the nmake parameters.
+The word count is assigned to a value in the makefile, or can be set in the make parameters.
 
 Resizing menus
 --------------
@@ -129,18 +129,18 @@ Building
 
 To build, you need:
 
-1. An NMake-compatible builder. You can use [Jom](https://wiki.qt.io/Jom#Download_the_binary_package) as a free-as-in-speech option, or install the [Build Tools for Visual Studio](https://aka.ms/buildtools).
+1. GNU Make
 2. Python 3
 3. [WLA DX](https://github.com/vhelin/wla-dx) - a version newer than 3 Dec 2020
 4. [BMP2Tile](https://github.com/maxim-zhao/bmp2tile) and its set of [compressors](https://github.com/maxim-zhao/bmp2tilecompressors)
 5. (Optionally) Flips, to create patch files
 6. A copy of the original Phantasy Star ROM
 
-Parts 3-5 are included in my [SMS Build tools package](https://github.com/maxim-zhao/sms-build-tools/) from version 1.0.81 onwards.
+Parts 1 and 3-5 are included in my [SMS Build tools package](https://github.com/maxim-zhao/sms-build-tools/) from version 1.0.102 onwards.
 
 You may edit the makefile or set environment variables to set the path to the tools necessary, then invoke the builder from #1. For example, to build in pt-br mode you might invoke
 ```
-nmake LANGUAGE=pt-br ps1jert.sms
+make LANGUAGE=pt-br ps1jert.sms
 ```
 
 Giving back
