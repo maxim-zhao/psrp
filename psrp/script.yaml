@@ -749,7 +749,7 @@
   translated: I see. Never mind.
   us: O.K. GOOD DAY.<end>
   en: Oh. Okay.<wait>
-  fr: Oh. Très bien.<wait>e
+  fr: Oh. Très bien.<wait>
   pt-br: Ah. Ok.<wait>
   ca: Oh. D'acord.<wait>
 
@@ -1923,8 +1923,8 @@
     ワタシノ ニイサンモ ラシークヲ<line>
     タオソウトシテ シンデシマッタワ.<line>
     シヌマエニ アナタノ ナマエヲ<line>
-    イイノコシテ.<wait>My name is Alisa.<line><line>
-  translated: My brother ended up dead when he tried to overthrow LaShiec. Just before he died, he gave me your name.
+    イイノコシテ.<wait>
+  translated: My name is Alisa. My brother ended up dead when he tried to overthrow LaShiec. Just before he died, he gave me your name.
   us: |
     MY BROTHER DIED<line>
     TRYING TO KILL<line>
