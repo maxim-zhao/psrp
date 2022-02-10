@@ -270,7 +270,6 @@ _script\@_end:
   Port3EValue db  ; Value left at $c000 by the BIOS
 .ende
 
-
 ; Functions in the original game we make use of
 .define VBlankHandler $0127
 .define OutputTilemapRawDataBox $0428
@@ -2976,8 +2975,9 @@ DezorianCustomStringCheck:
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                     6                     1                       8
   DefineWindow ENEMY_NAME       MENU_end              21                    3                     11                      0 ; max width 19 chars
   DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                     10                    24                      3
-; Inventory goes after the end off whichever of these is later
+; Inventory goes after the end of whichever of these is later
 .ifdef WLA_DX_BUG_WORKAROUND 
+; The conditional does not work in makefile generation mode; we use the real logic in real compilation mode
 .define INVENTORY_START ENEMY_STATS_end
 .else
 .if ENEMY_STATS_end > PLAYER_SELECT_end
