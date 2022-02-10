@@ -3187,8 +3187,8 @@ Level:              .stringmap tilemap "│Nível         " ; 3 digit number
 EXP:                .stringmap tilemap "│Experiência "   ; 5 digit number
 Attack:             .stringmap tilemap "│Ataque        " ; 3 digit numbers
 Defense:            .stringmap tilemap "│Defesa        "
-MaxMP:              .stringmap tilemap "│PV máximo     "
-MaxHP:              .stringmap tilemap "│PM máximo     "
+MaxMP:              .stringmap tilemap "│Máximo PV     "
+MaxHP:              .stringmap tilemap "│Máximo PM     "
 StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
 .endif
 .if LANGUAGE == "ca"
