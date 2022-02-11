@@ -3177,8 +3177,8 @@ Level:              .stringmap tilemap "│Niveau       " ; 3 digit number
 EXP:                .stringmap tilemap "│Expérience "   ; 5 digit number
 Attack:             .stringmap tilemap "│Attaque      " ; 3 digit numbers
 Defense:            .stringmap tilemap "│Défense      "
-MaxMP:              .stringmap tilemap "│HP maximum   "
-MaxHP:              .stringmap tilemap "│MP maximum   "
+MaxMP:              .stringmap tilemap "│MP maximum   "
+MaxHP:              .stringmap tilemap "│HP maximum   "
 StatsBorderBottom:  .stringmap tilemap "╘════════════════╝"
 .endif
 .if LANGUAGE == "pt-br"
@@ -3187,8 +3187,8 @@ Level:              .stringmap tilemap "│Nível         " ; 3 digit number
 EXP:                .stringmap tilemap "│Experiência "   ; 5 digit number
 Attack:             .stringmap tilemap "│Ataque        " ; 3 digit numbers
 Defense:            .stringmap tilemap "│Defesa        "
-MaxMP:              .stringmap tilemap "│Máximo PV     "
-MaxHP:              .stringmap tilemap "│Máximo PM     "
+MaxMP:              .stringmap tilemap "│PM máximo     "
+MaxHP:              .stringmap tilemap "│PV máximo     "
 StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
 .endif
 .if LANGUAGE == "ca"
