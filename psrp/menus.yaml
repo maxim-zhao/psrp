@@ -956,8 +956,8 @@
     │Experiência 65535║
     │Ataque        255║
     │Defesa        255║
-    │Máximo PV     255║
-    │Máximo PM     255║
+    │PV máximo     255║
+    │PM máximo     255║
     │Meseta      65535║
     ╘═════════════════╝
   ca: |
