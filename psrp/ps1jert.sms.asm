@@ -187,6 +187,12 @@ LoadPagedTiles\1:
 .define LETTER_S  $33   ; suffix letter ('s')
 .endif
 
+.if LANGUAGE == "es"
+.stringmaptable tilemap "tilemap.es.tbl"
+.stringmaptable script "script.es.tbl"
+.define LETTER_S  $33   ; suffix letter ('s')
+.endif
+
 
 
 .macro String args s
@@ -1050,13 +1056,26 @@ _Substring:
       ld de,ArticlesPossessive
       ; fall through
 .endif
-.if LANGUAGE == "ca" ;TODO: check here 
+.if LANGUAGE == "ca" 
       ld de,ArticlesLower
       cp $01      ; article = l', el, la, els, les,
       jr z,_Start_Art
 
       ld de,ArticlesInitialUpper
-      cp $02      ; article = L', Le, La, ,
+      cp $02      ; article = L', El, La, ,
+      jr z,_Start_Art
+
+      ; article = de l', du, de la, d' ,de
+      ld de,ArticlesPossessive
+      ; fall through
+.endif
+.if LANGUAGE == "es" ;TODO: check here 
+      ld de,ArticlesLower
+      cp $01      ; article = el, la, los, las,
+      jr z,_Start_Art
+
+      ld de,ArticlesInitialUpper
+      cp $02      ; article = El, La, ,
       jr z,_Start_Art
 
       ; article = de l', du, de la, d' ,de
@@ -1232,6 +1251,35 @@ ArticlesPossessive: ; de un <x>
 ++++++:   Article " sled"
 +++++++:  Article " ne'd"
 ++++++++: Article " an ed"
+.endif
+.if LANGUAGE == "es"
+; Order is:
+; Masculine single indefinite
+; Feminine single indefinite
+; Masculine single definite
+; Feminine single definite
+; Masculine plural definite
+ArticlesLower: ; un <x>
+.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
++:        Article " nu"
+++:       Article " anu"
++++:     Article " le"
+++++:    Article " al"
++++++:   Article " sol"
+ArticlesInitialUpper: ; Un <x>
+.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
++:        Article " nU"
+++:       Article " anU"
++++:     Article " lE"
+++++:    Article " aL"
++++++:   Article " soL"
+ArticlesPossessive: ; de un <x>
+.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
++:        Article " nu ed"
+++:       Article " anu ed"
++++:     Article " led"
+++++:    Article " al ed"
++++++:   Article " sol ed"
 .endif
 
 _Initial_Codes:
@@ -2175,7 +2223,7 @@ Items:
   String  "<un> Passaport"
   String "<una> Brúixola"
   String  "<un> Pastís"
-  String  "<la> Carta del Gobernador[ General]"
+  String  "<la> Carta del Governador[ General]"
   String "<una> Olla de Laconia"
   String   "<l'>Arrecada de Llum"
   String   "<l'>Ull de Carboncle"
@@ -2271,6 +2319,165 @@ Enemies:
   String "<el> Súcube"
 .endif
 
+.if LANGUAGE == "es"
+Items:
+; empty item (blank)
+  String " "
+; Armas         123456789012345678
+  String  "<un> Bastón"
+  String "<una> Espada Corta"
+  String "<una> Espada de Hierro"
+  String  "<un> Bastón Mágico"
+  String  "<un> Colmillo de Plata"
+  String "<una> Hacha de Hierro"
+  String "<una> Espada de Titanio"
+  String "<una> Espada de Cerámica"
+  String "<una> Pistola de Agujas"
+  String "<una> Garra Afilada"
+  String "<una> Pistola de Calor"
+  String  "<un> Sable de Luz"
+  String "<una> Arma Láser"
+  String "<una> Espada de Laconia"
+  String "<una> Hacha de Laconia"
+; Armaduras     123456789012345678
+  String  "<un> Peto de Cuero"
+  String  "<un> Mantel Blanco"
+  String  "<un> Vestido Ligero"
+  String "<una> Armadura de Hierro"
+  String "<una> Piel Puntiaguda"
+  String "<una> Malla de Zicornio"
+  String "<una> Armadura de Diamante"
+  String "<una> Armadura de Laconia"
+  String  "<la> Capa de Fray"
+; Escudos       123456789012345678
+  String  "<un> Escudo de Cuero"
+  String  "<un> Escudo de Bronce"
+  String  "<un> Escudo de Hierro"
+  String  "<un> Escudo de Cerámica"
+  String  "<un> Guante Animal"
+  String "<una> Barrera Láser"
+  String  "<el> Escudo de Perseo"
+  String  "<un> Escudo de Laconia"
+; veículos      123456789012345678
+  String  "<el> LandMaster"
+  String  "<el> Aerodeslizador"
+  String  "<el> Rompehielos"
+; objetos       123456789012345678
+  String  "<un> PelorieMate"
+  String  "<un> Ruoginin"
+  String  "<la> Flauta Calmante"
+  String "<una> Linterna"
+  String "<una> Capa de Fuga"
+  String "<una> TeleAlfombra"
+  String  "<un> Sombrero Mágico"
+  String "<una> Alsulina"
+  String  "<un> Polymeteral"
+  String "<una> Llave de Mazmorra"
+  String "<una> Bola Telepática"
+  String  "<la> Antorcha de Eclipse"
+  String  "<el> Aeroprisma"
+  String "<los> Frutos de Laerma"
+  String  "Hapsby"
+  String  "<un> Salvoconducto"
+  String  "<un> Pasaporte"
+  String "<una> Brújula"
+  String  "<un> Pastel"
+  String  "<la> Carta del Gobernador[ General]"
+  String "<una> Olla de Laconia"
+  String "<El> Pendiente de Luz"
+  String "<El> Ojo de Carbúnculo"
+  String "<una> Máscara de Gas"
+  String  "<el> Cristal de Damoa"
+  String "<una> Master System"
+  String  "<la> llave Milagrosa"
+  String       "Zillion"
+  String "<una> Cosa Secreta"
+Names:
+; Personajes
+  String "Alisa"
+  String "Myau"
+  String "Tylon"
+  String "Lutz"
+Enemies:
+; Monstres
+; empty item (blank)
+  String " "
+  String "<el> Abejorro"
+  String "<el> Limo Verde"
+  String "<el> Ojo Volador"
+  String "<el> Devorahombres"
+  String "<el> Escorpión"
+  String "<el> Escorpión Gigante"
+  String "<el> Limo Azul"
+  String "<el> Agricultor de Motavia"
+  String "<el> Murcielago Perverso"
+  String "<la> Planta Asesina"
+  String "<el> Escorpión Asesino"
+  String "<el> Tahur de Motavia"
+  String "<el> Herex"
+  String "<la> Lombriz de Tierra"
+  String "<el> Maníaco de Motavia"
+  String "<la> Lente Dorada"
+  String "<el> Limo Rojo"
+  String "<el> Hombre Murciélago"
+  String "<el> Cangrejo Herradura"
+  String "<el> Rey Tiburón"
+  String "<el> Liche"
+  String "<la> Tarántula"
+  String "<la> Mantícora"
+  String "<el> Esqueleto"
+  String "<la> Hormiga León"
+  String "<el> Hombree del Pantano"
+  String "<el> Dezoriano"
+  String "<la> Sanguijuela de Arena"
+  String "<el> Vampiro"
+  String "<el> Elefante"
+  String "<el> Necrófago"
+  String "<la> Ammonita"
+  String "<el> Verdugo"
+  String "<el> Alma en Pena"
+  String "<el> Soldado Calavera"
+  String "<el> Caracol"
+  String "<la> Esfinge"
+  String "<la> Serpiente"
+  String "<el> Leviatán"
+  String "<el> Opresor"
+  String "<el> Pulpo"
+  String "<el> Cazador Loco"
+  String "<el> Cabecilla Dezoriano"
+  String "<el> Zombi"
+  String "<el> Muerto Viviente"
+  String "<el> Policía Robot"
+  String "<el> Mago Cyborg"
+  String "<la> Salamandra"
+  String "Tajim"
+  String "<el> Titán"
+  String "<el> Guardia Mecánico"
+  String "<el> Tentáculo"
+  String "<el> Talos"
+  String "<la> Señora Serpiente"
+  String "<el> Portador de Muerte"
+  String "<el> Mago del Caos"
+  String "<el> Centauro"
+  String "<el> Hombre de Hielo"
+  String "<el> Vulcano"
+  String "<el> Dragón Rojo"
+  String "<el> Dragón Verde"
+  String "Lashiec"
+  String "<el> Mamut"
+  String "<el> Rey Centauro"
+  String "<el> Caballero Negro"
+  String "<el> Golem"
+  String "Medusa"
+  String "<el> Dragón de Hielo"
+  String "<el> Dragón Sabio"
+  String "<el> Dragón Dorado"
+  String "<el> Doctor Loco"
+  String "Lashiec"
+  String "Fuerza Oscura"
+  String "<el> Súcubo"
+.endif
+
 .ends
 
 .section "Static dictionary" superfree
@@ -2325,6 +2532,9 @@ MenuData:
 .if LANGUAGE == "ca"
 .stringmap tilemap "PV"
 .endif
+.if LANGUAGE == "es"
+.stringmap tilemap "PV"
+.endif
 .ends
 
   ROMPosition $3219
@@ -2339,6 +2549,9 @@ MenuData:
 .stringmap tilemap "PM"
 .endif
 .if LANGUAGE == "ca"
+.stringmap tilemap "PM"
+.endif
+.if LANGUAGE == "es"
 .stringmap tilemap "PM"
 .endif
 .ends
@@ -3195,6 +3408,16 @@ Attack:             .stringmap tilemap "│Atac          " ; 3 digit numbers
 Defense:            .stringmap tilemap "│Defensa       "
 MaxMP:              .stringmap tilemap "│PM màxim      "
 MaxHP:              .stringmap tilemap "│PV màxim      "
+StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
+.endif
+.if LANGUAGE == "es"
+StatsBorderTop:     .stringmap tilemap "┌─────────────────╖"
+Level:              .stringmap tilemap "│Nivel         " ; 3 digit number
+EXP:                .stringmap tilemap "│Experiéncia "   ; 5 digit number
+Attack:             .stringmap tilemap "│Ataque        " ; 3 digit numbers
+Defense:            .stringmap tilemap "│Defensa       "
+MaxMP:              .stringmap tilemap "│PM máximo     "
+MaxHP:              .stringmap tilemap "│PV máximo     "
 StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
 .endif
 
@@ -4152,6 +4375,33 @@ NameEntryLookup:
 .define NameEntryMinY 11
 .define NameEntryMaxY 21
 .endif
+.if LANGUAGE == "es"
+.db 14
+  NameEntryText  4,  1,  "Introduzca su nombre"
+  NameEntryText  3, 11, "ABCDEFGHIJ LMNOPQRSTUV"  ;Revisar
+  NameEntryText  3, 13, "abcdefghijklmnopqrstuv xyz"
+  NameEntryText  3, 15, "àçéèíóòú"
+  NameEntryText  3, 17, "0123456789"
+  NameEntryText 22, 17,                   ".,-!?‘’"
+  NameEntryText  3, 19, "Atrás"
+  NameEntryText 22, 19,                    "Siguiente"
+  NameEntryText  3, 21, "Espacio"
+  NameEntryText 22, 21,                    "Guardar"
+  NameEntryText  1,  3, "┌─" ; Leave these ones alone...
+  NameEntryText  1, 23, "╘═"
+  NameEntryText 30,  3, "╖"
+  NameEntryText 30, 23, "╝"
+NameEntryLookup:
+.db 4
+  NameEntryMask  3, 19, 6, "B" ; X, Y, length, type (Back)
+  NameEntryMask 22, 19, 7, "N" ; Next
+  NameEntryMask  3, 21, 5, "S" ; Space
+  NameEntryMask 22, 21, 6, "V" ; saVe
+.define NameEntryMinX 3
+.define NameEntryMaxX 28
+.define NameEntryMinY 11
+.define NameEntryMaxY 21
+.endif
 
 _CursorMemoryInitialValues:
 .db 3, 11, 0 ; X, Y, index into drawn name
@@ -4585,6 +4835,73 @@ CreditsScreen14: .db 3
   CreditsEntry 10,15,"SEGA"
   CreditsEntry 18,15,"SMS POWER!"
 .endif
+.if LANGUAGE == "es"
+CreditsScreen1: .db 1 ; entry count
+  CreditsEntry 13,10,"STAFF"
+CreditsScreen2: .db 3
+  CreditsEntry 5,5,"TOTAL"
+  CreditsEntry 6,7,"PLANNING"
+  CreditsEntry 17,6,"OSSALE KOHTA"
+CreditsScreen3: .db 5
+  CreditsEntry 6,5,"SCENARIO"
+  CreditsEntry 7,7,"WRITER"
+  CreditsEntry 17,6,"OSSALE KOHTA"
+  CreditsEntry 9,15,"STORY"
+  CreditsEntry 17,15,"APRIL FOOL"
+CreditsScreen4: .db 4
+  CreditsEntry 4,5,"ASSISTANT"
+  CreditsEntry 3,7,"COORDINATORS"
+  CreditsEntry 10,11,"OTEGAMI CHIE"
+  CreditsEntry 18,15,"GAMER MIKI"
+CreditsScreen5: .db 5
+  CreditsEntry 3,6,"TOTAL DESIGN"
+  CreditsEntry 18,6,"PHOENIX RIE"
+  CreditsEntry 5,14,"MONSTER"
+  CreditsEntry 7,16,"DESIGN"
+  CreditsEntry 17,15,"CHAOTIC KAZ"
+CreditsScreen6: .db 3
+  CreditsEntry 8,6,"DESIGN"
+  CreditsEntry 9,10,"ROCKHY NAO"
+  CreditsEntry 17,15,"SADAMORIAN"
+CreditsScreen7: .db 4
+  CreditsEntry 8,6,"DESIGN"
+  CreditsEntry 9,10,"MYAU CHOKO"
+  CreditsEntry 17,15,"G CHIE"
+  CreditsEntry 9,19,"YONESAN"
+CreditsScreen8: .db 4
+  CreditsEntry 9,6,"SOUND"
+  CreditsEntry 18,6,"BO"
+  CreditsEntry 4,15,"SOFT CHECK"
+  CreditsEntry 18,15,"WORKS NISHI"
+CreditsScreen9: .db 5
+  CreditsEntry 3,5,"ASSISTANT"
+  CreditsEntry 4,7,"PROGRAMMERS"
+  CreditsEntry 9,10,"COM BLUE"
+  CreditsEntry 4,15,"M WAKA"
+  CreditsEntry 19,15,"ASI"
+CreditsScreen10: .db 2
+  CreditsEntry 2,6,"MAIN PROGRAM"
+  CreditsEntry 17,6,"MUUUU YUJI"
+CreditsScreen11: .db 1
+  CreditsEntry 10,10,"RETRADUCTION"
+CreditsScreen12: .db 8
+  CreditsEntry 7,5,    "/"
+  CreditsEntry 3,6,"INGLES"
+  CreditsEntry 18,6,"PAUL JENSEN"
+  CreditsEntry 10,10,"FRANK CIFALDI"
+  CreditsEntry 25,10,"SATSU"
+  CreditsEntry 8,14,     "`"
+  CreditsEntry 3,15,"CASTELLANO"
+  CreditsEntry 18,15,"KUSFO"
+CreditsScreen13: .db 3
+  CreditsEntry 6,6,"CODE"
+  CreditsEntry 11,10,"Z80 GAIDEN"
+  CreditsEntry 9,15,"MAXIM"
+CreditsScreen14: .db 3
+  CreditsEntry 10,10,"PRESENTED BY"
+  CreditsEntry 10,15,"SEGA"
+  CreditsEntry 18,15,"SMS POWER!"
+.endif
 .ends
 
   ROMPosition $488a
@@ -4649,6 +4966,12 @@ FontLookup:
 .endif
 .if LANGUAGE == "ca"
 .stringmap tilemap " 0123456789"
+.stringmap tilemap "ABCDEFGHIJLMNOPQRSTUVZ"
+.stringmap tilemap "abcdefghijklmnopqrstuvxyz"
+.stringmap tilemap "·l.‘’,-!?_àéèíïòóúüç"
+.endif
+.if LANGUAGE == "es" 
+.stringmap tilemap " 0123456789" ;revisar
 .stringmap tilemap "ABCDEFGHIJLMNOPQRSTUVZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvxyz"
 .stringmap tilemap "·l.‘’,-!?_àéèíïòóúüç"
@@ -5138,6 +5461,14 @@ _BattlesAll:  .stringmap tilemap " Totes"
 _BattlesHalf: .stringmap tilemap "Meitat"
 _Brown: .stringmap tilemap "Marró"
 _Black: .stringmap tilemap "Negre"
+_Font1: .stringmap tilemap "Polaris"
+_Font2: .stringmap tilemap " DG2284"
+.endif
+.if LANGUAGE == "es"
+_BattlesAll:  .stringmap tilemap " Todas"
+_BattlesHalf: .stringmap tilemap "Mitad"
+_Brown: .stringmap tilemap "Marrón"
+_Black: .stringmap tilemap "Negro"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " DG2284"
 .endif
