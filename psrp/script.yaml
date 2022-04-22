@@ -1299,8 +1299,8 @@
   ca: |
     Deixa-ho estar, d'acord? Ja t'ho he dit, som un negoci legal.<wait more>
     Fora de la meva botiga.<delay>
-  ca: |
-    Déjalo, ¿quieres? Ja te he dicho que somos un negocio legal.<wait more>
+  es: |
+    Déjalo, ¿quieres? Ya te he dicho que somos un negocio legal.<wait more>
     Largo de mi tienda.<delay>
 
 - offsets: 2ddc
@@ -1726,7 +1726,7 @@
     Il faudrait être une sorte de magicien pour les comprendre_!<wait>
   pt-br: Há monstros inteligentes, mas eles falam uma língua diferente da nossa.<wait>
   ca: Hi ha monstres intel·ligents, però parlen llengües diferents a la nostra.<wait>
-  es: Hay monstruos inteligentes, pero hablan lenguas diferentes a la nuestra.
+  es: Hay monstruos inteligentes, pero hablan lenguas diferentes a la nuestra.<wait>
 
 - offsets: 4e7f
   # Trader (before getting Myau)
@@ -2238,7 +2238,7 @@
     Oh, es por que esconde una hacha mágica entre sus tesoros, y la vamos a necesitar.<line><line>
     ¿Quizá la podemos conseguir de camino a nuestra lucha con Lashiec?<wait more>
     De todas formas, escondí una brújula en un pasillo sin salida de esta cueva.<line><line>
-    Busquémosla. Estoy seguro que nos será útil.<wait> 
+    Busquémosla. Estoy seguro que nos será útil.<wait>
 
 
 # ************
@@ -2964,7 +2964,7 @@
     Vous n'en n'auriez pas une_?<end>
   pt-br: Gostaria de comer uma PelorieMate. Você pode me dar uma?<end>
   ca: M'aniria bé un PelorieMate. No me'n donaries un?<end>
-  es: Un PelorieMate me iría al pelo. ¿No me darías uno?
+  es: Un PelorieMate me iría al pelo. ¿No me darías uno?<end>
 
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
@@ -3449,6 +3449,7 @@
   fr: Si vous ne faites pas ce que je dis, ca ne marchera jamais.<wait>
   pt-br: Se você não fizer o que eu digo, não há como eu te ajudar.<wait>
   ca: Si no fas el que et dic, no hi ha manera que et pugui ajudar.<wait>
+  es: Si no haces lo que te digo, no existe manera en que te pueda ayudar.<wait>
 
 - offsets: 510d,5428
   # Man in underground tunnel
@@ -3546,6 +3547,7 @@
   fr: Vous qui êtes venue jusqu'ici, vous connaîtrez bientôt la vérité.<wait>
   pt-br: Vocês chegaram longe. Logo descobrirão a verdade.<wait>
   ca: Heu arribat molt lluny. Aviat coneixereu la veritat.<wait>
+  es: Habéis llegado muy lejos. Pronto conoceréis la verdad.<wait>
 
 - offsets: 5518
   indices: 0FE
@@ -5521,7 +5523,7 @@
   fr: Génial_! Quel super son FM, n'est-ce pas_?<wait>
   pt-br: Uau! O som FM não é incrível?!<wait>
   ca: Si! No és meravellós el so FM?!<wait>
-  es: ¡Si! ¡¿No es maravilloso el sonido FM?!
+  es: ¡Si! ¡¿No es maravilloso el sonido FM?!<wait>
 
 - offsets: 5314
   # Gamer Miki (no to previous question)
@@ -5775,7 +5777,7 @@
     Ressuscitez et essayez encore.<wait>
   pt-br: ...Lutz? Oh, entendo, ele morreu. Você aí, vá reviver Lutz em uma igreja e traga-o de volta aqui.<wait>
   ca: ...Lutz? Oh, ja vec, és mort. Vosaltres, aneu a reviure'l a una església i torneu cap aquí.<wait>
-  ca: ...¿Lutz? Oh, ya veo, está muerto. Vosotros, id a revivirlo a una iglesia y volved aquí.<wait>
+  es: ...¿Lutz? Oh, ya veo, está muerto. Vosotros, id a revivirlo a una iglesia y volved aquí.<wait>
 
 - offsets: 56d9
   # Tajim
@@ -6993,6 +6995,7 @@
   fr: .........<wait>
   pt-br: .........<wait>
   ca: .........<wait>
+  es: .........<wait>
 
 - offsets: 51a6
   # Old Man
@@ -7897,7 +7900,7 @@
   fr: <article><item> n'est pas utilisable ici.<wait>
   pt-br: Mas <article><item> é inútil aqui.<wait>
   ca: Però <article><item> és inútil aquí.<wait>
-  es: Pero <article><item> es inútil aquí.
+  es: Pero <article><item> es inútil aquí.<wait>
 
 - offsets: 2304
   indices: 03C-2
@@ -8648,7 +8651,7 @@
   fr: Bienvenue à la quincaillerie. Que voulez-vous faire_?<end>
   pt-br: Esta é uma loja de ferramentas. Posso ajudá-lo?<end>
   ca: Benvinguts a la ferreteria. En qué els puc ajudar?<end>
-  es: Bienvenidos a la ferreteria. ¿Cómo os puedo ayudar?
+  es: Bienvenidos a la ferreteria. ¿Cómo os puedo ayudar?<end>
 
 - offsets: 2e0d
   indices: 0C2-2
@@ -8797,6 +8800,7 @@
   fr: Prenez garde à vous dehors.<wait>
   pt-br: Tome cuidado lá fora.<wait>
   ca: Aneu amb compte allà fora.<wait>
+  es: Id con cuidad ahí fuera.<wait>
 
 - offsets: 2b2b
   indices: 0D4-2

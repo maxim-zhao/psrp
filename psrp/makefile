@@ -34,6 +34,9 @@ WORD_COUNT = 48
 !IF "$(LANGUAGE)" == "ca"
 WORD_COUNT = 45
 !ENDIF
+!IF "$(LANGUAGE)" == "es"
+WORD_COUNT = 45
+!ENDIF
 
 DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
 

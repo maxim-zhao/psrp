@@ -24,6 +24,8 @@ build_script:
     nmake /E LANGUAGE=pt-br
     nmake /E clean
     nmake /E LANGUAGE=ca
+    nmake /E clean
+    nmake /E LANGUAGE=es
     7z a ..\psrp.zip *.?ps ..\readme.md
 artifacts:
 - path: psrp.zip

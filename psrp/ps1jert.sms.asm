@@ -190,7 +190,7 @@ LoadPagedTiles\1:
 .if LANGUAGE == "es"
 .stringmaptable tilemap "tilemap.es.tbl"
 .stringmaptable script "script.es.tbl"
-.define LETTER_S  $33   ; suffix letter ('s')
+.define LETTER_S  $37   ; suffix letter ('s')
 .endif
 
 
@@ -1260,21 +1260,21 @@ ArticlesPossessive: ; de un <x>
 ; Feminine single definite
 ; Masculine plural definite
 ArticlesLower: ; un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
+.dw +, ++, +++, ++++, +++++
 +:        Article " nu"
 ++:       Article " anu"
 +++:     Article " le"
 ++++:    Article " al"
 +++++:   Article " sol"
 ArticlesInitialUpper: ; Un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
+.dw +, ++, +++, ++++, +++++
 +:        Article " nU"
 ++:       Article " anU"
 +++:     Article " lE"
 ++++:    Article " aL"
 +++++:   Article " soL"
 ArticlesPossessive: ; de un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
+.dw +, ++, +++, ++++, +++++
 +:        Article " nu ed"
 ++:       Article " anu ed"
 +++:     Article " led"
@@ -2384,8 +2384,8 @@ Items:
   String  "<un> Pastel"
   String  "<la> Carta del Gobernador[ General]"
   String "<una> Olla de Laconia"
-  String "<El> Pendiente de Luz"
-  String "<El> Ojo de Carbúnculo"
+  String "<el> Pendiente de Luz"
+  String "<el> Ojo de Carbúnculo"
   String "<una> Máscara de Gas"
   String  "<el> Cristal de Damoa"
   String "<una> Master System"
@@ -4378,9 +4378,9 @@ NameEntryLookup:
 .if LANGUAGE == "es"
 .db 14
   NameEntryText  4,  1,  "Introduzca su nombre"
-  NameEntryText  3, 11, "ABCDEFGHIJ LMNOPQRSTUV"  ;Revisar
-  NameEntryText  3, 13, "abcdefghijklmnopqrstuv xyz"
-  NameEntryText  3, 15, "àçéèíóòú"
+  NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  ;Revisar
+  NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
+  NameEntryText  3, 15, "áéíóúñ"
   NameEntryText  3, 17, "0123456789"
   NameEntryText 22, 17,                   ".,-!?‘’"
   NameEntryText  3, 19, "Atrás"
@@ -4972,9 +4972,9 @@ FontLookup:
 .endif
 .if LANGUAGE == "es" 
 .stringmap tilemap " 0123456789" ;revisar
-.stringmap tilemap "ABCDEFGHIJLMNOPQRSTUVZ"
-.stringmap tilemap "abcdefghijklmnopqrstuvxyz"
-.stringmap tilemap "·l.‘’,-!?_àéèíïòóúüç"
+.stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+.stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
+.stringmap tilemap ".‘’,-¡!¿?_áéíóúñ"
 .endif
 .ends
 
