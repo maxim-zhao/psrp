@@ -99,6 +99,10 @@ generated/script_with_words.tbl: script.$(LANGUAGE).tbl generated/words.tbl
 generated/script.asm generated/script-patches.asm generated/tree.asm: generated/script_with_words.tbl tools.py script.yaml
 	$(PY) tools.py script_inserter generated/script.asm generated/script-patches.asm generated/tree.asm script.yaml $(LANGUAGE) generated/script_with_words.tbl
 
+# Generate the font lookup
+generated/font-lookup.asm: script.$(LANGUAGE).tbl
+	$(PY) tools.py generate_font_lookup $^ generated/font-lookup.asm 
+
 # ROM building
 
 # Generate the dependencies list for assembly

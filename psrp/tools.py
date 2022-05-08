@@ -147,7 +147,7 @@ def menu_creator(data_asm, patches_asm, menus_yaml, language):
 
 class Table:
     def __init__(self, filename):
-        self.symbol_to_text = {}
+        self.index_to_text = {}
         self.text_to_symbol = {}
         with open(filename, "r", encoding="utf-8") as f:
             for line in f.read().splitlines():
@@ -155,8 +155,10 @@ class Table:
                 if match:
                     value = bytes.fromhex(match.group(1))
                     text = match.group(2)
-                    self.symbol_to_text[value] = text
                     self.text_to_symbol[text] = value
+                    index = int.from_bytes(value, byteorder="little")
+                    if index < 256 and index not in self.index_to_text:
+                        self.index_to_text[index] = text
 
         self.longest_value = max(len(x) for x in self.text_to_symbol)
 
@@ -182,8 +184,8 @@ class Table:
         else:
             return match, length
 
-    def text_for_symbol(self, symbol):
-        return self.symbol_to_text.get(symbol)
+    def text_for_index(self, index):
+        return self.index_to_text.get(index)
 
 
 class ScriptingCode:
@@ -551,7 +553,7 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
 
     for i in range(256):
         if symbol_counts[i] == 0:
-            text = table.text_for_symbol(i.to_bytes(1, 'little'))
+            text = table.text_for_index(i)
             if text is not None:
                 print(f"Symbol ${i:02X} is unused (\"{text}\")")
 
@@ -669,6 +671,22 @@ def clean(path):
             os.remove(os.path.join(root, file))
 
 
+def generate_font_lookup(tbl_file, lookup_file):
+    tbl = Table(tbl_file)
+    max_symbol = max(filter(lambda x: x < 0x5f, tbl.index_to_text.keys()))
+    print(f"Max key is {hex(max_symbol)}")
+    with open(lookup_file, "w", encoding="utf-8") as f:
+        f.write(".stringmap tilemap \"")
+        for i in range(max_symbol + 1):
+            text = tbl.text_for_index(i)
+            if text is None:
+                print(f"No symbol for index {hex(i)}!")
+                f.write(" "); # blank fill
+            else:
+                f.write(text)
+        f.write("\"")
+
+
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
@@ -685,6 +703,8 @@ def main():
         join(sys.argv[2], sys.argv[3], sys.argv[4])
     elif verb == 'clean':
         clean(sys.argv[2])
+    elif verb == 'generate_font_lookup':
+        generate_font_lookup(sys.argv[2], sys.argv[3])
     else:
         raise Exception(f"Unknown verb \"{verb}\"")
 

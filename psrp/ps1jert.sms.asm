@@ -4949,37 +4949,7 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
 .section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table. These must be in the order given in script.<language>.tbl.
-.if LANGUAGE == "en"
-.stringmap tilemap " 0123456789"
-.stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-.stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ".:‘’,-!?_"
-.endif
-.if LANGUAGE == "fr"
-.stringmap tilemap " 0123456789"
-.stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-.stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ". ‘’,-!?_"
-.stringmap tilemap "àéêèçù"
-.endif
-.if LANGUAGE == "pt-br"
-.stringmap tilemap " 0123456789"
-.stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-.stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ".‘’,-!?_ãáâçêéíóõôú"
-.endif
-.if LANGUAGE == "ca"
-.stringmap tilemap " 0123456789"
-.stringmap tilemap "ABCDEFGHIJLMNOPQRSTUVZ"
-.stringmap tilemap "abcdefghijklmnopqrstuvxyz"
-.stringmap tilemap "·l.‘’,-!?_àéèíïòóúüç"
-.endif
-.if LANGUAGE == "es" 
-.stringmap tilemap " 0123456789"
-.stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-.stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ". ‘’,-!?¡¿_áéíóúñ"
-.endif
+.include "generated/font-lookup.asm"
 .ends
 
 ; We locate the Huffman trees in a different slot to the script so we can access them at the same time
