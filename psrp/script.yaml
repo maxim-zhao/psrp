@@ -140,7 +140,7 @@
     Nero? NERO!<line><line>
     Que ha passat?!<wait>
   es: |
-    Ciudadanos de Camineet, el cuerpo de este chico es un recordatorio para todos vosotros. <line>
+    Ciudadanos de Camineet, el cuerpo de este chico es un recordatorio para todos vosotros.<wait more>
     ¡Su majestad Lashiec no tolerará ningún tipo de desafio!<wait more>
     ¿Nero? ¡NERO!<line><line>
     ¡¿Que ha ocurrido?!<wait>
