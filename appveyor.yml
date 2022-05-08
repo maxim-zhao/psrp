@@ -12,15 +12,15 @@ build_script:
     7z x ps.zip -opsrp
     cd psrp
     py -m pip install PyYAML
-    make -j LANGUAGE=en
+    make LANGUAGE=en
     make clean
-    make -j LANGUAGE=fr
+    make LANGUAGE=fr
     make clean
-    make -j LANGUAGE=pt-br
+    make LANGUAGE=pt-br
     make clean
-    make -j LANGUAGE=ca
+    make LANGUAGE=ca
     make clean
-    make -j LANGUAGE=es
+    make LANGUAGE=es
     7z a ..\psrp.zip *.?ps ..\readme.md
 artifacts:
 - path: psrp.zip
