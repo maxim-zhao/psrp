@@ -19,6 +19,8 @@ build_script:
     make LANGUAGE=pt-br
     make clean
     make LANGUAGE=ca
+	make clean
+	make LANGUAGE=es
     7z a ..\psrp.zip *.?ps ..\readme.md
 artifacts:
 - path: psrp.zip
