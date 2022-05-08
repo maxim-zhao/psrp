@@ -4975,10 +4975,10 @@ FontLookup:
 .stringmap tilemap "·l.‘’,-!?_àéèíïòóúüç"
 .endif
 .if LANGUAGE == "es" 
-.stringmap tilemap " 0123456789" ;revisar
+.stringmap tilemap " 0123456789"
 .stringmap tilemap "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 .stringmap tilemap "abcdefghijklmnopqrstuvwxyz"
-.stringmap tilemap ".‘’,-¡!¿?_áéíóúñ"
+.stringmap tilemap ". ‘’,-!?¡¿_áéíóúñ"
 .endif
 .ends
 
