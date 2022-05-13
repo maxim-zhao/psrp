@@ -12,6 +12,8 @@ build_script:
     7z x ps.zip -opsrp
     cd psrp
     py -m pip install PyYAML
+    make LANGUAGE=de
+    make clean
     make LANGUAGE=en
     make clean
     make LANGUAGE=fr
