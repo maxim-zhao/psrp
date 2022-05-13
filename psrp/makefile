@@ -35,7 +35,12 @@ ifeq ("$(LANGUAGE)", "ca")
 WORD_COUNT = 45
 endif
 ifeq ("$(LANGUAGE)", "es")
-WORD_COUNT = 45
+WORD_COUNT = 45 
+# TODO calibrate this
+endif
+ifeq ("$(LANGUAGE)", "de")
+WORD_COUNT = 45 
+# TODO calibrate this
 endif
 
 # Default targets are the patch files for our language

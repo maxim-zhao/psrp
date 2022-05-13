@@ -2745,10 +2745,10 @@ MenuData:
 .if LANGUAGE == "es"
 .stringmap tilemap "PM"
 .endif
-.ends
 .if LANGUAGE == "de"
 .stringmap tilemap "MP"
 .endif
+.ends
 
 .unbackground $35a2 $35d7
   ROMPosition $35a2
@@ -4613,11 +4613,10 @@ NameEntryLookup:
 .endif
 .if LANGUAGE == "de"
 .db 10
-  NameEntryText  8,  1, "Enter your name:"
+  NameEntryText  8,  1, "Enter your name"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
-  NameEntryText  3, 15, "0123456789"
-  NameEntryText 21, 15,                   ".,:-!?‘’"
+  NameEntryText  3, 15, "0123456789 ÄÖÜäöüß .,-!?‘’"
   NameEntryText  3, 17, "Back  Next  Space     Save"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
   NameEntryText  1, 23, "╘═"

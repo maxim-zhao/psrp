@@ -71,7 +71,7 @@
 
 ; Punctuation
 3F=.
-40=:
+; 40=:
 41=‘
 42=’
 42='
@@ -81,6 +81,15 @@
 46=?
 ; non-breaking space
 47=_
+
+; Umlauts and ß
+48=Ä
+49=Ö
+4A=Ü
+4B=ä
+4C=ö
+4E=ü
+4F=ß
 
 ; These control codes only apply to items/names...
 
