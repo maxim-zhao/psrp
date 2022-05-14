@@ -113,13 +113,13 @@
     │Guardar ║
     ╘════════╝
   es: |
-    ┌────────╖
-    │Estado  ║
-    │Mágia   ║
-    │Objetos ║
-    │Buscar  ║
-    │Guardar ║
-    ╘════════╝
+    ┌───────╖
+    │Estado ║
+    │Mágia  ║
+    │Objetos║
+    │Buscar ║
+    │Guardar║
+    ╘═══════╝
 
 - name: ChoiceMenu
   ptrs: 38cd
@@ -263,13 +263,13 @@
     │Fugir  ║
     ╘═══════╝
   es: |
-    ┌───────╖
-    │Atacar ║
-    │Mágia  ║
-    │Objeto ║
-    │Hablar ║
-    │Huir   ║
-    ╘═══════╝
+    ┌──────╖
+    │Atacar║
+    │Mágia ║
+    │Objeto║
+    │Hablar║
+    │Huir  ║
+    ╘══════╝
 
 - name: EnemyHPBox
   emitData: false
@@ -793,12 +793,12 @@
     │Foc            ║
     │Lligar         ║
   es: |
-    ┌───────────────╖
-    │Curar          ║
-    │Huir Rápido    ║
-    │Traducir       ║
-    │Fuego          ║
-    │Atar           ║
+    ┌──────────────╖
+    │Curar         ║
+    │Huir Rápido   ║
+    │Traducir      ║
+    │Fuego         ║
+    │Atar          ║
 # Next five must follow...
 
 - name: BattleSpellsMyau
@@ -839,11 +839,11 @@
     │Muralla        ║
     │Increment Poder║
   es: |
-    ┌───────────────╖
-    │Super Remedio  ║
-    │Miedo          ║
-    │Muralla        ║
-    │Aumento Poder  ║
+    ┌──────────────╖
+    │Super Remedio ║
+    │Miedo         ║
+    │Muralla       ║
+    │Aumento Poder ║
 
 - name: BattleSpellsLutz
   jp: |
@@ -889,12 +889,12 @@
     │Barrera Màgica ║
     │Llampec        ║
   es: |
-    ┌───────────────╖
-    │Fuego          ║
-    │Telepatía      ║
-    │Viento         ║
-    │Barrera Mágica ║
-    │Relámpago      ║
+    ┌──────────────╖
+    │Fuego         ║
+    │Telepatía     ║
+    │Viento        ║
+    │Barrera Mágica║
+    │Relámpago     ║
 
 - name: OverworldSpellsAlisa
   jp: |
@@ -922,9 +922,9 @@
     │Guarir         ║
     │Teletransport  ║
   es: |
-    ┌───────────────╖
-    │Curar          ║
-    │Teletransporte ║
+    ┌──────────────╖
+    │Curar         ║
+    │Teletransporte║
 
 - name: OverworldSpellsMyau
   jp: |
@@ -958,10 +958,10 @@
     │Desarmar       ║
     │Fugir          ║
   es: |
-    ┌───────────────╖
-    │Super Remedio  ║
-    │Desarmar       ║
-    │Huir           ║
+    ┌──────────────╖
+    │Super Remedio ║
+    │Desarmar      ║
+    │Huir          ║
 
 - name: OverworldSpellsLutz
   jp: |
@@ -1007,12 +1007,12 @@
     │Obrir          ║
     │Reviure        ║
   es: |
-    ┌───────────────╖
-    │Super Remedio  ║
-    │Escapar        ║
-    │Telepatía      ║
-    │Abrir          ║
-    │Revivir        ║
+    ┌──────────────╖
+    │Super Remedio ║
+    │Escapar       ║
+    │Telepatía     ║
+    │Abrir         ║
+    │Revivir       ║
 
 - name: SpellMenuBottom
   # referenced in assembly code
@@ -1020,7 +1020,7 @@
   fr: ╘════════════════╝
   pt-br: ╘════════════════╝
   ca: ╘═══════════════╝
-  es: ╘═══════════════╝
+  es: ╘══════════════╝
 
 - name: NarrativeBlankLine
   ptrs: 356c
@@ -1284,7 +1284,7 @@
   fr: │Suite             ║
   pt-br: │Próximo             ║
   ca: │Següent             ║
-  es: │Siguiente         ║
+  es: │Siguiente           ║
 
 - name: StoreMSTBoxDimensions
   emitData: false
@@ -1613,7 +1613,7 @@
     │Esborrar║
     ╘════════╝
   es: |
-    ┌────────╖
-    │Cargar  ║
-    │Borrar  ║
-    ╘════════╝
+    ┌──────╖
+    │Cargar║
+    │Borrar║
+    ╘══════╝
