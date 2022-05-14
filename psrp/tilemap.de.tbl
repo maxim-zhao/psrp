@@ -87,13 +87,17 @@ fe10=ß
 
 ; Punctuation
 ff10=.
-f513=‘
-f511=’
-f511='
-f517=,
+f411=:
+f511=“
+f513=”
+f713=‘
+f711=’
+f711='
+f717=,
 fa11=-
 fb11=!
 f611=?
+
 
 ; Borders
 ; Using double lines to distinguish left from right and top from bottom...
@@ -109,3 +113,4 @@ f313=║
 f115=╘
 f215=═
 f117=╝
+

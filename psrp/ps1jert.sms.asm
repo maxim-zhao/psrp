@@ -4613,25 +4613,26 @@ NameEntryLookup:
 .endif
 .if LANGUAGE == "de"
 .db 10
-  NameEntryText  8,  1, "Enter your name"
+  NameEntryText  6,  1, "Gib einen Namen ein:"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
-  NameEntryText  3, 15, "0123456789 ÄÖÜäöüß .,-!?‘’"
-  NameEntryText  3, 17, "Back  Next  Space     Save"
+  NameEntryText  3, 15, "äöüß 0123456789  .,-!?‘’“”"
+  NameEntryText  8, 17, "Vorwärts  Zurück"
+  NameEntryText  5, 19, "Leerzeichen  Speichern"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
   NameEntryText  1, 23, "╘═"
   NameEntryText 30,  3, "╖"
   NameEntryText 30, 23, "╝"
 NameEntryLookup:
 .db 4
-  NameEntryMask  3, 17, 4, "B" ; X, Y, length, type (Back)
-  NameEntryMask  9, 17, 4, "N" ; Next
-  NameEntryMask 15, 17, 5, "S" ; Space
-  NameEntryMask 25, 17, 4, "V" ; saVe
+  NameEntryMask  8, 17,  8, "B" ; X, Y, length, type (Back)
+  NameEntryMask 18, 17,  6, "N" ; Next
+  NameEntryMask  5, 19, 11, "S" ; Space
+  NameEntryMask 18, 19,  9, "V" ; saVe
 .define NameEntryMinX 3
 .define NameEntryMaxX 28
 .define NameEntryMinY 11
-.define NameEntryMaxY 17
+.define NameEntryMaxY 19
 .endif
 
 _CursorMemoryInitialValues:

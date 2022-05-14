@@ -20,7 +20,7 @@ LANGUAGE = en
 # The dictionary size. Maximum is 164.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count depends on the script. Iterating through the options can help to find the best value. CMD one-liner:
-# for /l %n in (1,1,140) do @del words.tbl & ((nmake WORD_COUNT=%n LANGUAGE=pt-br ps1jert.sms 2>&1 || echo 0 unused bytes) | find "unused bytes") >> sizes.txt
+# for /l %n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%n LANGUAGE=es ps1jert.sms 2>&1 || echo ROM: 0 bytes) | find "ROM: ") >> sizes.txt
 # On 2021-01-06 the optimal value for total size was 91 for English and 54 for French.
 ifeq ("$(LANGUAGE)", "en")
 WORD_COUNT = 91
@@ -35,8 +35,7 @@ ifeq ("$(LANGUAGE)", "ca")
 WORD_COUNT = 45
 endif
 ifeq ("$(LANGUAGE)", "es")
-WORD_COUNT = 45 
-# TODO calibrate this
+WORD_COUNT = 47
 endif
 ifeq ("$(LANGUAGE)", "de")
 WORD_COUNT = 45 
