@@ -148,9 +148,7 @@
     Bürger von Camineet, lasst euch die Leiche dieses Mannes eine Lehre sein.<line><line>
     Widerstand gegen König LaShiec wird mit dem Tod geahndet.<wait more>
     Nero? NERO!<line><line>
-    Was ist passiert?!
-
-
+    Was ist passiert?!<wait>
 
 - offsets: 45fa
   # Nero, dying
@@ -968,7 +966,7 @@
     Dicen que con una sola mirada te puede convertir en piedra. No puede ser cierto, ¿verdad?<wait>
   de: |
     Gerüchten zufolge ist Medusa in ihre Höhle südlich von hier zurückgekehrt.<wait more>
-    Es heißt, sie kann Leute mit einem Blick versteinern. Ob das stimmt? Hoffentlich nicht.<wait more>
+    Es heißt, sie kann Leute mit einem Blick versteinern. Ob das stimmt? Hoffentlich nicht.<wait>
 
 - offsets: 4c03
   # Man

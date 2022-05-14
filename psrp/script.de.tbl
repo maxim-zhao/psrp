@@ -71,7 +71,7 @@
 
 ; Punctuation
 3F=.
-; 40=:
+40=:
 41=‘
 42=’
 42='
@@ -81,15 +81,22 @@
 46=?
 ; non-breaking space
 47=_
+; Quotes
+; This maps to a German opening quote „
+48=“
+; This maps to a German closing quote “ (confusingly the same as an English opening quote, as used above)
+49=”
 
 ; Umlauts and ß
-48=Ä
-49=Ö
-4A=Ü
-4B=ä
-4C=ö
-4E=ü
-4F=ß
+4A=ä
+4B=ö
+4C=ü
+4D=ß
+
+; These map to the un-umlauted letters
+0B=Ä
+19=Ö
+1F=Ü
 
 ; These control codes only apply to items/names...
 
