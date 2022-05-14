@@ -111,4 +111,14 @@
 68=<Die> 
 69=<Das> 
 
+; Placeholders mapping new tokens to "?"
+46=(
+46=)
+46={
+46=}
+46=<m> 
+46=<f> 
+46=<n> 
+46=<The> 
+
 ; Words go below...
