@@ -678,7 +678,7 @@
   # Camineet police
   indices: 01E
   ja: シニタクナカッタラ ココニイルンダ.<wait>
-  translated: I can’t just let you pass through here!
+  translated: Want to stay alive?  Then stay here!
   us: |
     UNLESS YOU HOPE TO
     DIE, YOU HAD BEST<wait more>
@@ -693,7 +693,7 @@
   # Camineet police (at road, without a Roadpass)
   indices: 020
   ja: ココヲ トオスワケニハ イカナイ.<wait>
-  translated: Want to stay alive?  Then stay here!
+  translated: I can’t just let you pass through here!
   us: YOU MAY NOT PASS.<end>
   en: Authorization is required to pass this point. Stay back or we will use force!<wait>
   fr: Désolé, nous sommes en état d'alerte. Accès interdit.<wait>
@@ -1732,7 +1732,7 @@
   indices: 092
   ja: メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
   # <number> is always 10.
-  translated: I gotta real rare animal here. You can have it fuh 10 billion mesetas. Whuddayuhsay?
+  translated: I gotta real rare animal here. You can have it fer a billion mesetas. Whuddayuhsay?
   us: |
     I HAVE AN RARE<line>
     ANIMAL HERE. WOULD<wait more>
@@ -1740,14 +1740,14 @@
     MESETAS FOR IT?<prompt>
   en: |
     Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
-    Ten billion mesetas, and it’s yours. How ’bout it?<end>
+    One billion mesetas, and it’s yours. How ’bout it?<end>
   fr: |
     Vous avez déjà vu un chat parler_?<wait more>
     Rare, très rare. Unique en son genre, si je ne me trompe pas.<wait more>
-    10 millions de mesetas, et il est à vous. Ca vous convient_?<end>
+    Un milliard de mesetas, et il est à vous. Ca vous convient_?<end>
   pt-br: |
     Já viu um gato que fala antes? Eu tenho um bem aqui. Muito raro. Pode ser o único.<wait more>
-    Dez bilhões de mesetas e ele é seu. Que tal?<end>
+    Um bilhão de mesetas e ele é seu. Que tal?<end>
   ca: |
     Has vist mai un animal que parli? En vols un?. Molt escàs. Potser és únic.<wait more>
     Deu mil milions de mesetas, i és teu. Que et sembla?<end>
@@ -2322,7 +2322,7 @@
   indices: 054
   ja: エピノムラヘ ヨウコソ.<wait>
   translated: Welcome to Eppi Village!
-  us: WELCOME TO Eppi.<end>
+  us: WELCOME TO EPPI.<end>
   en: |
     Welcome to Eppi Village!<wait more>
     We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
@@ -9312,6 +9312,7 @@
     CAN OPEN DOORS<wait more>
     WHICH ARE SHUT<line>
     BY MAGIC.<end>
+  en: ‘The Miracle Key can open magic doors!’<wait>
   fr: La Clé Magique peut ouvrir les portes scellées_!<wait>
   pt-br: ‘A Chave Milagrosa pode abrir portas mágicas!’<wait>
   ca: ‘La Clau Miraculosa pot obrir portes màgiques!’<wait>
