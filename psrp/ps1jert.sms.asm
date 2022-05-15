@@ -5440,7 +5440,7 @@ _Font2: .stringmap tilemap " DG2284"
 _BattlesAll:  .stringmap tilemap " Todas"
 _BattlesHalf: .stringmap tilemap " Mitad"
 _Brown: .stringmap tilemap "Marrón"
-_Black: .stringmap tilemap "Negro"
+_Black: .stringmap tilemap " Negro"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " DG2284"
 .endif
