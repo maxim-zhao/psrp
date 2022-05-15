@@ -1875,7 +1875,7 @@
   indices: 092
   ja: メズラシイ ドウブツガ イルンダケド<number>オク メセタデ カワナイカ.<end>
   # <number> is always 10.
-  translated: I gotta real rare animal here. You can have it fuh 10 billion mesetas. Whuddayuhsay?
+  translated: I gotta real rare animal here. You can have it fer a billion mesetas. Whuddayuhsay?
   us: |
     I HAVE AN RARE<line>
     ANIMAL HERE. WOULD<wait more>
@@ -1883,14 +1883,14 @@
     MESETAS FOR IT?<prompt>
   en: |
     Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
-    Ten billion mesetas, and it’s yours. How ’bout it?<end>
+    One billion mesetas, and it’s yours. How ’bout it?<end>
   fr: |
     Vous avez déjà vu un chat parler_?<wait more>
     Rare, très rare. Unique en son genre, si je ne me trompe pas.<wait more>
-    10 millions de mesetas, et il est à vous. Ca vous convient_?<end>
+    Un milliard de mesetas, et il est à vous. Ca vous convient_?<end>
   pt-br: |
     Já viu um gato que fala antes? Eu tenho um bem aqui. Muito raro. Pode ser o único.<wait more>
-    Dez bilhões de mesetas e ele é seu. Que tal?<end>
+    Um bilhão de mesetas e ele é seu. Que tal?<end>
   ca: |
     Has vist mai un animal que parli? En vols un?. Molt escàs. Potser és únic.<wait more>
     Deu mil milions de mesetas, i és teu. Que et sembla?<end>
