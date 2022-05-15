@@ -53,12 +53,12 @@
     │planeta Palma.      ║
     ╘════════════════════╝
   de: |
-    ┌────────────────────╖
-    │Frühling, 342 AW    ║
-    │--------------------║
-    │Wohnbezirk Camineet ║
-    │ auf Planet Palma.  ║
-    ╘════════════════════╝
+    ┌───────────────────╖
+    │Frühling, 342 AW   ║
+    │-------------------║
+    │Wohnbezirk Camineet║
+    │ auf Planet Palma. ║
+    ╘═══════════════════╝
 
 - name: WorldMenu
   ptrs: 3807,380d
@@ -1749,7 +1749,7 @@
     │Titelbild    ║
     │Intro        ║
     │Stadt        ║
-    │Labyrinth    ║
+    │Höhle        ║
     │Laden        ║
     │Kirche       ║
     │Palma        ║
@@ -1760,8 +1760,8 @@
     │Motavia      ║
     │Dezoris      ║
     │Turm         ║
-    │Endlabyrinth ║
-    │LaShiec      ║
+    │Letzte Höhle ║
+    │Lashiec      ║
     │Dunkle Macht ║
     │Endszene     ║
     │Spielende    ║

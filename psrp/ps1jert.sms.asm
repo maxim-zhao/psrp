@@ -1295,6 +1295,21 @@ ArticlesPossessive: ; de un <x>
 +++++:   Article " sol ed"
 .endif
 .if LANGUAGE == "de"
+; Item articles
+; lower: "einen ", "eine ", "ein ", "den ", "die ", "das "
+; upper: "Einen ", "Eine ", "Ein ", "Den ", "Die ", "Das "
+;
+; Enemy articles nominative
+; lower: "der ", "die ", "das "
+; upper: "Der ", "Die ", "Das "
+;
+; Enemy articles genitive
+; lower: "des ", "der ", "des "
+; upper: "Des ", "Der ", "Des "
+;
+; Enemy articles dative
+; lower: "dem ", "der ", "dem "
+; upper: "Dem ", "Der ", "Dem "
 ArticlesLower:
 .dw +, ++, +++, ++++, +++++, ++++++ ; einen, eine, ein, den, die, das
 +:      Article " nenie"
@@ -2560,7 +2575,7 @@ Items:
   String "<Einen> Flugteppich"
   String "<Einen> Zauberhut"
   String "<Das> Alsulin"
-  String "Polymeteral"
+  String "<Das> Polymeteral"
   String "<Den> Kerkerschlüssel"
   String "<Eine> Telepathiekugel"
   String "<Die> Sonnenfackel" ; Fackel der Sonnenfinsternis
@@ -2589,6 +2604,7 @@ Names:
   String "Lutz{'}"
 
 Enemies:
+; Max width 18 for enemy window
 ; <m> = masculine
 ; <f> = feminine
 ; <n> = neuter
@@ -2657,7 +2673,7 @@ Enemies:
   String "<m> Vulcanus"
   String "<m> Rote[r]{n}(n) Drache{n}(n)"
   String "<m> Grüne[r]{n}(n) Drache{n}(n)"
-  String "LaShiec{s}"
+  String "Lashiec{s}"
   String "<n> Mammut{s}"
   String "<m> Säbelkönig{s}"
   String "<m> Schattenplünderer{s}"
@@ -2667,7 +2683,7 @@ Enemies:
   String "<m> Weise[r]{n}(n) Drache{n}(n)"
   String "<m> Golddrache{n}(n)"
   String "<m> Irre[r]{n}(n) Doktor{s}"
-  String "LaShiec{s}"
+  String "Lashiec{s}"
   String "<f> Dunkle{n}(n) Macht"
   String "<m> Albtraum{s}"
 .endif
@@ -4623,18 +4639,18 @@ NameEntryLookup:
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
   NameEntryText  3, 15, "äöüß 0123456789  .,-!?‘’“”"
-  NameEntryText  8, 17, "Vorwärts  Zurück"
-  NameEntryText  5, 19, "Leerzeichen  Speichern"
+  NameEntryText  3, 17, "Zurück   Vorwärts   Leerz."
+  NameEntryText 23, 19,                     "Fertig"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
   NameEntryText  1, 23, "╘═"
   NameEntryText 30,  3, "╖"
   NameEntryText 30, 23, "╝"
 NameEntryLookup:
 .db 4
-  NameEntryMask  8, 17,  8, "B" ; X, Y, length, type (Back)
-  NameEntryMask 18, 17,  6, "N" ; Next
-  NameEntryMask  5, 19, 11, "S" ; Space
-  NameEntryMask 18, 19,  9, "V" ; saVe
+  NameEntryMask  3, 17,  6, "B" ; X, Y, length, type (Back)
+  NameEntryMask 12, 17,  8, "N" ; Next
+  NameEntryMask 23, 17,  6, "S" ; Space
+  NameEntryMask 23, 19,  6, "V" ; saVe
 .define NameEntryMinX 3
 .define NameEntryMaxX 28
 .define NameEntryMinY 11

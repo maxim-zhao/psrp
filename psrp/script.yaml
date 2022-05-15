@@ -146,7 +146,7 @@
     ¡¿Que ha ocurrido?!<wait>
   de: |
     Bürger von Camineet, lasst euch die Leiche dieses Mannes eine Lehre sein.<line><line>
-    Widerstand gegen König LaShiec wird mit dem Tod geahndet.<wait more>
+    Widerstand gegen König Lashiec wird mit dem Tod geahndet.<wait more>
     Nero? NERO!<line><line>
     Was ist passiert?!<wait>
 
@@ -301,18 +301,18 @@
     ...sola...<wait>
   de: |
     Alisa... hör gut zu.<line><line>
-    Die Leute hatten recht. LaShiec hat... sich verändert.<wait more>
-    Die Militärpolizei in unseren Straßen ist nur ein Indiz dafür...<line><line>
+    Die Leute hatten recht. Lashiec... hat sich verändert.<wait more>
+    Die Militärpolizei in unseren Straßen ist nur ein Indiz davon...<line><line>
     All die Kreaturen außerhalb der Stadt, all das Elend in unserem Leben... alles führt irgendwie auf ihn zurück.<wait more>
-    Ich hab versucht, der Sache auf den Grund zu gehen, aber dann war ich wohl doch zu nah an der Wahrheit dran.<line><line>
-    Es gibt nur einen Ausweg für uns alle: König LaShiec muss sterben.<wait more>
+    Ich hab versucht, der Sache auf den Grund zu gehen, aber ich hab wohl zu viel rausgefunden.<line><line>
+    Es gibt nur einen Ausweg für uns alle: König Lashiec muss sterben.<wait more>
     Wenn ihn keiner aufhält, wird die Finsternis, der er sich verschrieben hat, ganz Algol verschlingen.<wait more>
     Ich dachte, ich könnte ihn eigenhändig erledigen. Das war mein Fehler.<line><line>
     Du musst dir Hilfe suchen.<wait more>
     Die Leute redeten von einem Krieger namens Tylon.<line><line>
-    Ich wollte ihn ausfindig machen, aber er ist wohl verschollen.<wait more>
+    Ich wollte ihn ausfindig machen, aber er ist verschollen.<wait more>
     Finde ihn, Alisa.<line><line>
-    Finde Tylon und töte LaShiec. Zusammen könnt ihr Algol retten.<wait more>
+    Finde Tylon und töte Lashiec. Zusammen könnt ihr Algol retten.<wait more>
     Ich weiß, es ist eine schreckliche Bürde... es tut mir so leid...<line><line>
     ...dass ich dich darum bitten muss...<wait more>
     ...und dich ganz... allein...<line><line>
@@ -367,8 +367,8 @@
     Con tu espíritu a mi lado, Lashiec no tiene ninguna posibilidad.<wait>
   de: |
     Nero...<wait more>
-    Ich schwöre, dein Tod wird nicht umsonst sein.<line><line>
-    So lange ich lebe, wird weder dieser Tyrann noch seine Lakaien unsere Heimat erobern.<wait more>
+    Ich schwöre, dein Tod wird nicht umsonst gewesen sein.<line><line>
+    So lange ich lebe, wird dieser Tyrann niemals unsere Heimat erobern.<wait more>
     Wach über und beschütz mich, Nero.<wait>
 
 # *************************************
@@ -478,8 +478,9 @@
     Si alguna vez estás herida, vuelve para descansar.<wait more>
     Hemos sido vecinos durante mucho tiempo, mi casa siempre estará abierta para tí.<wait>
   de: |
-    Alisa... das ist verrückt, was du vorhast, aber ich kann dich verstehen.<wait more>
-    Ich versuch gar nicht erst, es dir auszureden... aber versprich mir, dass du auf dich Acht gibst.<wait more>
+    Alisa... das ist verrückt, was du vorhast.<wait more>
+    Ich kann dich aber verstehen, also will ich es dir gar nicht erst ausreden.<wait more>
+    Versprich mir nur, dass du auf dich aufpasst, OK?<wait more>
     Falls du dich verletzen solltest, komm vorbei, um dich zu erholen.<wait more>
     Als deine Nachbarin ist das immerhin das mindeste, was ich tun kann.<wait>
 
@@ -666,7 +667,7 @@
   pt-br: Alguns calabouços são muito escuros, certifique-se de ter sempre uma fonte de luz com você.<wait>
   ca: Algunes masmorres son totalment fosques, porta sempre un llum a sobre.<wait>
   es: Algunas mazmorras están totalmente a oscuras, lleva siempre una luz encima.<wait> 
-  de: In manchen Labyrinthen ist es stockduster. Man sollte immer eine Lampe parat haben.<wait>  
+  de: In manchen Höhlen ist es stockduster. Man sollte immer eine Lampe parat haben.<wait>  
 
 - offsets: 4b94
   # Camineet resident - man
@@ -882,7 +883,7 @@
     Palma ist, wie du siehst, ein grüner Planet, reich an üppigen Wiesen und Wäldern.<wait more>
     Motavia ist eine endlose, dürre Wüste, hat aber auch seinen Reiz.<wait more>
     Und Dezoris ist ein Eisplanet, wo kaum Leben zu finden ist.<wait more>
-    Jeder Tag bringt uns näher an eine verheerende, von LaShiec herbeigeführte Katastrophe...<wait>
+    Jeder Tag bringt uns näher an eine verheerende, von Lashiec herbeigeführte Katastrophe...<wait>
 
 - offsets: 4ba9,4e06,4e26
   # Camineet resident - man - "yes" to question about Algol
@@ -1157,7 +1158,7 @@
   pt-br: Já era hora de alguém enfrentar LaShiec. Que Deus esteja com você.<wait>
   ca: Ja és l'hora de que algú s'enfronti a en LaShiec. Que Déu et beneeixi.<wait>
   es: Ja era hora que alguien se enfrentase a LaShiec. Que Dios te bendiga.<wait>
-  de: Nimmt sich endlich einer LaShiec vor, hm? Viel Erfolg.<wait>
+  de: Nimmt sich endlich einer Lashiec vor, hm? Viel Erfolg.<wait>
 
 - offsets: 4db6
   indices: 03C,03E
@@ -1222,7 +1223,7 @@
     La economia se ha hundido desde que LaShiec subió al poder.<wait more>
     Estoy sin blanca, no se que hacer...<wait>
   de: |
-    LaShiec hat die Wirtschaft regelrecht in den Ruin getrieben.<wait more>
+    Lashiec hat die Wirtschaft regelrecht in den Ruin getrieben.<wait more>
     Ich bin total abgebrannt. Wie soll ich nur über die Runden kommen?<wait>
 
 - offsets: 4dc1
@@ -1335,8 +1336,8 @@
     Hacia el norte, pasada la prisión, está el orgullo de Palma - una colina preciosa llamada Baya Marlay.<wait more>
     Lástima que ahora nadie puede llegar allí...<wait>
   de: |
-    To the north, past the prison, is the pride of Palma - a beautiful knoll called Baya Marlay.<wait more>
-    Too bad nobody can get to it anymore...<wait>
+    Nördlich von hier, hinterm Gefängnis, liegt der Hügel Baya Marlay.<wait more>
+    Er wäre eine tolle Sehenswürdigkeit, wenn man nur rankäme...<wait>
 
 - offsets: 4ddf
   indices: 04C
@@ -1365,8 +1366,8 @@
     Solía ir a explorar la cueva de Naula, en la costa al norte de Baya Marlay.<wait more>
     Pero con todos los monstruos que han aparecido, ya no puedo ir.<wait>
   de: |
-    I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
-    But with all these monsters suddenly appearing, I can't go near it anymore.<wait>
+    Früher hab ich gerne die Naula-Höhle nördlich vom Baya Marlay erforscht.<wait more>
+    Nur leider kann ich jetzt wegen der ganzen Monster nicht mehr hin.<wait>
 
 - offsets: 2dab
   # Trader (first time you buy the Secret Thing)
@@ -1383,7 +1384,7 @@
   pt-br: Não sei quem você pensa que é, mas não vendemos esse tipo de coisa aqui. Pode esquecer.<wait>
   ca: No se qui et penses que ets, però no venem aquestes coses aquí. Oblida't d'això.<wait>
   es: No se quien te crees que eres, pero no vendemos estas cosas aquí. Olvídate de ello.<wait>
-  de: I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
+  de: Keine Ahnung, wer dir das eingebläut hat, aber sowas verkaufen wir hier nicht. Verzieh dich!<wait>
 
 - offsets: 2db0
   # Trader (second time you buy the Secret Thing)
@@ -1411,8 +1412,8 @@
     Déjalo, ¿quieres? Ya te he dicho que somos un negocio legal.<wait more>
     Largo de mi tienda.<delay>
   de: |
-    Give it up, will ya? I already told you, we're a legitimate business.<wait more>
-    Get out of my store.<delay>
+    Lässt du's endlich sein?! Ich hab doch gesagt, das ist ein rechtmäßiges Geschäft.<wait more>
+    Raus!<delay>
 
 - offsets: 2ddc
   # Trader (third time you buy the Secret Thing)
@@ -1441,8 +1442,8 @@
     No vas a parar, ¿verdad? De acuerdo, quedátelo.<wait more>
     Un salvoconducto, firmado y certificado. Pero no te lo he dado yo, ¿de acuerdo?<wait>
   de: |
-    You’re not going to give up, are you? Fine, just take it.<wait more>
-    One Roadpass, signed and certified. But you didn't get this from me, understand?<wait>
+    Du bist mir ja ein Sturkopf... na schön, hier.<wait more>
+    Einen Straßenpass, unterzeichnet und beglaubigt. Den hast du aber nicht von mir, kapiert?<wait>
 
 # ******************
 # *** Eppi woods ***
@@ -1462,7 +1463,7 @@
   pt-br: Você se perdeu na floresta.<wait>
   ca: T'has perdut als boscos.<wait>
   es: Te has perdido en los bosques.<wait>
-  de: You got lost in the woods.<wait>
+  de: Du hast dich im Wald verlaufen.<wait>
 
 # ***********************
 # *** Palma Spaceport ***
@@ -1484,7 +1485,7 @@
   pt-br: Esté é o Espaçoporto de Palma. Todas as espaçonaves viajam direto para Paseo, a capital de Motávia.<wait>
   ca: Benvingut al Port Espacial de Palma. Totes les naus volen en sentit a Paseo, la capital de Motavia.<wait>
   es: Bienvenido al Puerto Espacial de Palma. Todas las naves vuelan en dirección a Paseo, la capital de Motavia.<wait>
-  de: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
+  de: Willkommen am Weltraumflug-<line>hafen Palma. Alle Raumschiffe hier fliegen nach Paseo, die Hauptstadt Motavias.<wait>
 
 - offsets: 4ca4
   # Luggage handler
@@ -1500,7 +1501,7 @@
   pt-br: O Governador-Geral governa toda Motávia de seu escritório, em Paseo.<wait>
   ca: El Governador-General governa tota Motavia desde la seva oficina a Paseo.<wait>
   es: El Gobernador General gobierna toda Motavia desde su oficina en Paseo.<wait>
-  de: The Governor-General rules all of Motavia from his office in Paseo.<wait>
+  de: Der Generalgouverneur regiert ganz Motavia von seinem Amtssitz in Paseo aus.<wait>
 
 - offsets: 4caa
   # Luggage handler
@@ -1517,7 +1518,7 @@
   pt-br: Já esteve em Gótica? Antigamente, espaçonaves como essas eram construídas em seu laboratório.<wait>
   ca: Has estat algun cop a Gothic?  Als vells temps, naus com aquestes es construïen al seu laboratori.<wait>
   es: ¿Has estado alguna vez en Gothic?  En los viejos tiempos, naves como estas se construían en su laboratorio.<wait>
-  de: Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
+  de: Es heißt, Raumschiffe wie diese wurden früher im Labor in Gothic hergestellt.<wait>
 
 - offsets: 4c1d,4cb7
   # Airstrip guards
@@ -1532,7 +1533,7 @@
   pt-br: Você tem um Passaporte?<end>
   ca: Te vostè un Passaport?<end>
   es: ¿Tiene usted un Pasaporte?<end>
-  de: Do you have a Passport?<end>
+  de: Haben Sie einen Reisepass?<end>
 
 - offsets: 4d33
   # Passport office
@@ -1551,7 +1552,7 @@
   pt-br: Você está aqui para solicitar um Passaporte?<end>
   ca: Ha vingut per a demanar un Passaport?<end>
   es: ¿Ha venido para pedir un Pasaporte?<end>
-  de: Are you here to apply for a Passport?<end>
+  de: Sind Sie hier, um einen Reisepass zu beantragen?<end>
 
 - offsets: 4d44
   # Passport office
@@ -1577,8 +1578,8 @@
     La ley requiere que le haga una série de preguntas.<wait more>
     ¿Ha sido condenada alguna vez por algún crimen?<end>
   de: |
-    I’m required by law to ask you a series of questions.<wait more>
-    Have you ever been convicted of a crime?<end>
+    Ich bin gesetzlich dazu verpflichtet, Sie einige Fragen zu stellen.<wait more>
+    Wurden Sie jemals wegen eines Verbrechens verurteilt?<end>
 
 - offsets: 4d55
   # Passport office
@@ -1595,7 +1596,7 @@
   pt-br: Você sofre de alguma doença contagiosa?<end>
   ca: Ha patit alguna enfermetat que pugui ser contagiosa per als altres passatgers?<end>
   es: ¿Ha sufrido alguna enfermedad que pueda ser contagiosa para los otros pasajeros?<end>
-  de: Are you suffering from an illness that may be contagious to other passengers?<end>
+  de: Leiden Sie unter einer Krankheit, die für andere Passagiere ansteckend sein könnte?<end>
 
 - offsets: 4d6c
   # Passport office
@@ -1614,7 +1615,7 @@
   pt-br: Há uma taxa administrativa de <number><internal hint 02> meseta<s>. Você está disposto a pagar?<end>
   ca: Hi ha una taxa d'expedició de <number><internal hint 02> meseta<s>. Vol pagar-la?<end>
   es: Hay una tasa de expedición de <number><internal hint 02> meseta<s>. ¿Quiere pagarla?<end>
-  de: There is a handling fee of <number><internal hint 02> meseta<s>. Are you willing to pay?<end>
+  de: Die Bearbeitungsgebühr beträgt <number> Meseta. Werden Sie diese bezahlen?<end>
 
 - offsets: 4d91
   # Passport office
@@ -1641,8 +1642,8 @@
     ¡Perfecto! Aquí tiene su pasaporte. Asegúrese de llevarlo siempre encima.<wait more>
     ¿Siguiente?<wait>
   de: |
-    Great! Here is your passport. Be sure to retain possession of it at all times.<wait more>
-    Next in line?<wait>
+    Vielen Dank! Hier ist Ihr Reisepass. Bitte behalten Sie ihn immer bei sich.<wait more>
+    Der Nächste, bitte!<wait>
 
 - offsets: 4d3e,4d77,4eca
   # Passport office (say "no" to question about paying)
@@ -1657,7 +1658,7 @@
   pt-br: Oh, está bem então.<wait>
   ca: Oh, d'acord aleshores.<wait>
   es: Oh, de acuerdo entonces.<wait>
-  de: Oh, okay then.<wait>
+  de: Oh, dann einen schönen Tag.<wait>
 
 - offsets: 4d4f,4d60
   # Passport office (say "no" to first two questions)
@@ -1675,7 +1676,9 @@
   pt-br: Sinto muito, você não se qualifica. Se quiser, você pode tentar novamente mais tarde. Próximo?<wait>
   ca: Ho sento, no compleix els requisits. Torni més endavant. Següent?<wait>
   es: Lo siento, no cumple los requisitos necesarios. Vuelva otro día. ¿Siguiente?<wait>
-  de: I’m sorry, you don't qualify. Feel free to try again later. Next?<wait>
+  de: |
+    Leider kann ich Ihnen derzeit keinen Reisepass ausstellen. Bitte kommen Sie ein andermal wieder.<wait more>
+    Der Nächste, bitte.<wait>
 
 
 # ***********************
@@ -1698,7 +1701,7 @@
   pt-br: Este é Paseo, o único espaçoporto em Motávia.<wait>
   ca: Això es Paseo, l'únic Port Espacial de Motavia.<wait>
   es: Esto es Paseo, el único Puerto Espacial de Motavia.<wait>
-  de: This is Paseo, the only spaceport on Motavia.<wait>
+  de: Das ist Paseo, mit dem einzigen Weltraumflughafen in ganz Motavia.<wait>
 
 - offsets: 4e37
   # Luggage handler
@@ -1716,7 +1719,7 @@
   pt-br: Agora é a época de reprodução das Formigas-Leão, tenha cuidado lá fora. Elas se tornam agressivas.<wait>
   ca: Es época de cria de les Formigues Lleó, ves amb compte. Son ferotges.<wait>
   es: Es época de cría de las Hormigas León, anda con ojo. Són feroces.<wait>
-  de: It’s Ant-Lion breeding season, be careful out there. They get vicious.<wait>
+  de: Es ist gerade Paarungszeit für Ameisenlöwen. Vorsicht da draußen, die werden sehr aggressiv.<wait>
 
 - offsets: 4e3d
   indices: 084
@@ -1745,8 +1748,8 @@
     He oído que hay una tienda de pasteles en la cueva de Naula, en Palma.<wait more>
     ¿Me pregunto que tipo de negocios deben hacer en una cueva como esa?<wait>
   de: |
-    I hear there’s a cake shop in Naula cave on Palma.<wait more>
-    I wonder if it gets any business, in a cave like that?<wait>
+    Ich hab gehört, es gibt eine Konditorei in der Naula-Höhle auf Palma.<wait more>
+    Wie kriegt man bei so einem Standort wohl Kundschaft?<wait>
 
 # *************
 # *** Paseo ***
@@ -1768,7 +1771,7 @@
   pt-br: Até mesmo o Governador-Geral está em maus lençóis com LaShiec.<wait>
   ca: Fins i tot el Governador General no te bones relacions amb Lashiec.<wait>
   es: Incluso el Gobernador General no tiene buenas relaciones con Lashiec.<wait>
-  de: Even the Governor-General is on bad terms with LaShiec.<wait>
+  de: Selbst der Generalgouverneur versteht sich nicht mit Lashiec.<wait>
 
 - offsets: 4e49
   indices: 088
@@ -1785,7 +1788,7 @@
   pt-br: Você precisa trazer um presente se quiser se encontrar com o Governador-Geral.<wait>
   ca: Hauries de portar un detall si vols entrevistar-te amb el Governador General.<wait>
   es: Deberías traer un detalle si quieres entrevistarte con el Gobernador General.<wait>
-  de: You need to bring a gift if you're going to meet with the Governor-General.<wait>
+  de: Für eine Audienz mit dem Generalgouverneur braucht man ein Geschenk.<wait>
 
 - offsets: 4e4f
   indices: 08A
@@ -1799,7 +1802,7 @@
   pt-br: O Governador-Geral ama doces.<wait>
   ca: El Governador General és una mica llaminer...<wait>
   es: El Gobernador General es un poco goloso...<wait>
-  de: The Governor-General has got a real sweet tooth.<wait>
+  de: Der Generalgouverneur hat eine Schwäche für Süßes.<wait>
 
 - offsets: 4e55
   indices: 08C
@@ -1815,7 +1818,7 @@
   pt-br: A Caverna Mahal está localizada nas montanhas ao norte de Paseo.<wait>
   ca: La cova de Mahal es troba a les muntanyes al nord de Paseo.<wait>
   es: La cueva de Mahal se encuentra en las montañas al norte de Paseo.<wait>
-  de: Mahal Cave is located in the mountains north of Paseo.<wait>
+  de: Die Mahal-Höhle liegt in den Bergen nördlich von hier.<wait>
 
 - offsets: 4e5b
   indices: 08E
@@ -1831,7 +1834,7 @@
   pt-br: Esta é Paseo, a capital de Motávia.<wait>
   ca: Això és Paseo, la capital de Motavia.<wait>
   es: Esto es Paseo, la capital de Motavia.<wait>
-  de: This is Paseo, Motavia’s capital city.<wait>
+  de: Willkommen in Paseo, der Hauptstadt Motavias.<wait>
 
 - offsets: 4e61
   indices: 090
@@ -1848,7 +1851,7 @@
   pt-br: Não há como passar pelas Formigas-Leão a pé, mas ouvi dizer que há outra maneira...<wait>
   ca: No hi ha manera de travessar les Formigues Lleó a peu, però he sentit que hi ha una altra manera...<wait>
   es: No es posible cruzar las Hormigas León a pie, pero he oído que hay otra manera...<wait>  
-  de: There's no way to get past the Ant-Lions on foot, but I've heard there's another way...<wait>
+  de: Zu Fuß lassen sich die Ameisenlöwen nicht überqueren, aber anders vielleicht...<wait>
 
 - offsets: 4e67
   indices: 288
@@ -1868,7 +1871,7 @@
   pt-br: Há monstros inteligentes, mas eles falam uma língua diferente da nossa.<wait>
   ca: Hi ha monstres intel·ligents, però parlen llengües diferents a la nostra.<wait>
   es: Hay monstruos inteligentes, pero hablan lenguas diferentes a la nuestra.<wait>
-  de: There are intelligent monsters, but they speak a different language than ours.<wait>
+  de: Es soll zwar intelligente Monster geben, aber die sprechen eine andere Sprache.<wait>
 
 - offsets: 4e7f
   # Trader (before getting Myau)
@@ -1898,8 +1901,8 @@
     ¿Has visto alguna vez un animal que habla? ¿Quieres uno?. Muy infrecuente. Quizá único.<wait more>
     Diez mil millones de mesetas y es tuyo. ¿Que te parece?<end>
   de: |
-    Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
-    Ten billion mesetas, and it’s yours. How ’bout it?<end>
+    Schon mal 'n sprechendes Tier gesehen? Ich hab eins hier. Ganz sicher das einzige seiner Art.<wait more>
+    Eine Milliarde Meseta und es gehört dir. Kaufst du's?<end>
 
 - offsets: 4e8a
   # Trader (say yes to previous question)
@@ -1922,9 +1925,7 @@
   es: |
     ¡Bah!¿En serio?<wait more>
     ¿Te estás riendo de mí?<delay>
-  de: |
-    Whoa, seriously?<wait more>
-    Hey, where are you going?<delay>
+  de: Ja klar, als ob DU so viel Geld hättest.<wait>
 
 - offsets: 4e98
   # Trader (say no to previous question)
@@ -1962,9 +1963,8 @@
     ...espera. ¿Eso es una olla de Laconia?<wait more>
     Que te parece un cambio, ¿la olla por el animalito?<end>
   de: |
-    That’s too bad.<wait more>
-    ...hold on, now. Is that a Laconian Pot?<wait more>
-    How ’bout a trade, the pot for the furball?<end>
+    Schade... nee, warte mal, ist das 'n Lakoniumtopf?<wait more>
+    Wie wär's mit 'nem Tauschgeschäft? Deinen Topf für meine Mieze.<end>
 
 - offsets: 4ea9
   # Trader (say yes to previous question)
@@ -1983,7 +1983,7 @@
   pt-br: Odeio ver o rapazinho ir embora, mas eu não posso deixar passar um negócio como esse. Cuide bem dele.<wait>
   ca: No m'agrada desfer-me del petitó, però no puc deixar passar una ocasió com aquesta. Cuida'l molt.<wait>
   es: No me gusta deshacerme del pequeñajo, pero no puedo perder una ocasión como esta. Cuídalo mucho.<wait>
-  de: I hate to see the little guy go, but I can’t pass up a trade like this. Take good care of ’im.<wait>
+  de: Ist mir eigentlich schade um den Kleinen, aber das kann ich mir nicht entgehen lassen. Hier hast du ihn.<wait>
 
 - offsets: 4e73
   # Trader (after getting Myau)
@@ -2000,7 +2000,7 @@
   pt-br: Ganhei uma fortuna vendendo o Pote de Lacônia! Obrigado!<wait>
   ca: He fet una fortuna venen l'olla de Laconia! Gràcies!<wait>
   es: ¡He conseguido una fortuna vendiendo la olla de Laconia!¡Grácias!<wait>
-  de: I made a fortune selling that Laconian Pot! Thanks!<wait>
+  de: Mit dem Lakoniumtopf hab ich ein Vermögen gemacht! Danke nochmal!<wait>
 
 # ******************************
 # *** Character Intro - Myau ***
@@ -2038,8 +2038,8 @@
     Supongo que ahora somos compañeros, ¿no?<line><line>
     Me llamo Alisa. ¿Como te llamas?<wait>
   de: |
-    I guess we’re companions now, huh?<line><line>
-    I’m Alisa. What’s your name?<wait>
+    Da sind wir ab jetzt wohl Gefährten, hm?<line><line>
+    Ich bin Alisa. Wie heißt du?<wait>
 
 - offsets: 464e
   # Myau
@@ -2087,9 +2087,9 @@
     Me dijeron que viajaba con un animal que hablaba.<line><line>
     ¿Eres tu?<wait>
   de: |
-    Hello, Myau. I’m looking for a man named Tylon.<wait more>
-    Rumor has it he was traveling with a talking animal.<line><line>
-    I don’t suppose that was you?<wait>
+    Nett, dich kennenzulernen, Myau. Ich suche einen Mann namens Tylon.<wait more>
+    Gerüchten zufolge war er mit einem sprechenden Tier unterwegs.<line><line>
+    Ich nehme an, da war von dir die Rede.<wait>
 
 - offsets: 4664
   # Myau
@@ -2124,8 +2124,8 @@
     ¡Tylon fue convertido en piedra cuando intentaba derrotar a Medusa!<line><line>
     Podemos curarlo con este elixir, pero no puedo abrir el tapón...<wait>
   de: |
-    Tylon got turned to stone trying to slay Medusa!<line><line>
-    We can heal him with this medicine, but I can’t open the lid...<wait>
+    Tylon wollte Medusa töten und wurde versteinert!<line><line>
+    Dafür war dieses Elixier gedacht, aber ich krieg die Flasche nicht auf...<wait>
 
 - offsets: 466f
   # Alisa
@@ -2145,13 +2145,13 @@
   pt-br: Eu acho que consigo.<line><line>Venha, vamos ajudá-lo!<wait>
   ca: Crec que me'n puc encarregar.<line><line>Va, anem a ajudar-lo!<wait>
   es: Creo que puedo encargarme de ello.<line><line>Va, ¡vamos a ayudarlo!<wait>
-  de: I think I can manage that.<line><line>Come on, let’s go help him!<wait>
+  de: OK, überlass das mir.<line><line>Komm, gehen wir ihm helfen!<wait>
 
 - width: 29
   height: 4
 
 - offsets: 25af,260c,262d
-  # Using "Alsuline"
+  # Using "Alsuline" (if you attempt to use it on Odin while Alis is dead?)
   indices: 052-2
   ja: |
     シカシ ミャウハ ビンノ フタヲ<line>
@@ -2165,7 +2165,7 @@
   pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
   ca: Però en  Myau no pot obrir el tap de l'ampolla.<wait>
   es: Pero Myau no puede abrir el tapón del frasco.<wait>
-  de: But Myau couldn’t open the lid to the bottle.<wait>
+  de: Aber Myau bekam die Flasche nicht auf.<wait>
 
 
 # ******************************
@@ -2190,7 +2190,7 @@
   pt-br: Algo transformou essa pessoa em pedra! Talvez ele possa voltar ao normal...<wait>
   ca: Quelcom ha transformat aquesta persona en pedra! Potser la podem tornar a la normalitat...<wait>
   es: ¡Algo ha transformado a esta persona en piedra! Quizá la podemos devovler a la normalidad...<wait>
-  de: Something turned this person into stone! Maybe he can be returned to normal...<wait>
+  de: Sieht wie ein versteinerter Mann aus. Vielleicht kann man ihm helfen...<wait>
 
 - offsets: 25bd,2636
   # Using "Alsuline"
@@ -2217,9 +2217,7 @@
   es: |
     Alisa abre el tapón del frasco y vierte su contenido.<wait more>
     ¡Está funcionando!<delay>
-  de: |
-    Alisa opened the lid on the bottle and poured out its contents.<wait more>
-    It's working!<delay>
+  de: Sie öffnet die Flasche und leert sie auf der Statue aus...<delay>
 
 # ********************************
 # *** Character Intro - Tylon ***
@@ -2270,10 +2268,9 @@
     Si no podemos derrotar a Medusa, no tenemos ninguna posibilidad contra Lashiec.<line><line>
     ¿Quien es tu nueva amiga?<wait>
   de: |
-    Ah, Myau, you found help. Thank you.<line><line>
-    I don't know if it will do any good though.<wait more>
-    If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<line><line>
-    Who’s your new friend?<wait>
+    Ah, Myau, du hast Hilfe gefunden. Danke.<line><line>
+    Aber wenn wir selbst Medusa nicht besiegen konnten, welche Chance hätten wir gegen Lashiec.<wait more>
+    Und du bist...?<wait>
 
 - offsets: 4693
   indices: 168-2
@@ -2311,9 +2308,9 @@
     Lo destruiré, cueste lo que cueste.<line><line>
     Nero me dió tu nombre antes de morir, creíaa que nos podrias ayudar.<wait>
   de: |
-    My brother Nero was killed trying to overthrow LaShiec.<wait more>
-    I'm going to destroy him, no matter what it takes.<line><line>
-    Nero gave me your name just before he died, and said that you might help me.<wait>
+    Alisa. Mein Bruder wollte Lashiec stürzen und hat dabei sein Leben gelassen.<wait more>
+    Ich werde ihn rächen, komme was wolle.<line><line>
+    Bevor er starb, hat er mir deinen Namen genannt, und dass du mir helfen könntest.<wait>
 
 - offsets: 469e
   indices: 16A-2
@@ -2345,8 +2342,8 @@
     Ya veo. Bien, en memoria de Nero, ¡formemos equipo!<line><line>
     Siempre hay sitio para uno más, ¿verdad Myau?<wait>
   de: |
-    I see. Well then, for Nero's sake, let's team up!<line><line>
-    There's always room for one more, right Myau?<wait>
+    Verstehe... Dann lass es uns zusammen anpacken, auch für deinen Bruder!<line><line>
+    Zu dritt haben wir immerhin eine bessere Chance, stimmt's?<wait>
 
 - offsets: 46a9
   indices: 16C-2
@@ -2374,8 +2371,8 @@
     Dime una cosa antes de continuar.<line><line>
     Querías derrotar a Medusa. ¿Por qué?<wait>
   de: |
-    Tell me something before we go.<line><line>
-    You said you were trying to slay Medusa. Why?<wait>
+    Aber bevor wir losmachen...<line><line>
+    Warum wolltet ihr Medusa töten?<wait>
 
 - offsets: 46b4
   indices: 16E-2
@@ -2426,10 +2423,10 @@
     De todas formas, escondí una brújula en un pasillo sin salida de esta cueva.<line><line>
     Busquémosla. Estoy seguro que nos será útil.<wait>
   de: |
-    Oh, it's because she has a magical axe, and I want it.<line><line>
-    Maybe we can grab it on the way to LaShiec?<wait more>
-    Anyway, I hid a Compass at a dead end in this cave.<line><line>
-    Come on, let's go grab it. I'm sure we could use it.<wait>
+    Ach, weil sie eine legendäre Axt besitzt.<line><line>
+    Ich dachte mir, die könnte gegen Lashiec ganz nützlich sein.<wait more>
+    Wie dem auch sei, ich hab einen Kompass in einer Sackgasse hier versteckt.<line><line>
+    Den sollten wir uns auch schnell holen.<wait>
 
 
 # ************
