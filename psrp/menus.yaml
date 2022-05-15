@@ -45,13 +45,13 @@
     │planeta Palma.       ║
     ╘═════════════════════╝
   es: |
-    ┌─────────────────────╖
-    │Primavera, DG 342    ║
-    │---------------------║
-    │Distrito  residencial║
-    │de Camineet en el    ║
-    │planeta Palma.       ║
-    ╘═════════════════════╝
+    ┌────────────────────╖
+    │Primavera, DG 342   ║
+    │--------------------║
+    │Distrito residencial║
+    │de Camineet en el   ║
+    │planeta Palma.      ║
+    ╘════════════════════╝
 
 - name: WorldMenu
   ptrs: 3807,380d
@@ -1429,8 +1429,9 @@
   en: │Chip   YM2413║
   fr: │Puce   YM2413║
   pt-br: │Chip     YM2413║
-  ca: │Chip   SN76489║
-  es: │Chip   SN76489║
+  ca: │Chip    YM2413║
+  es: │Chip    YM2413║
+  de: │Chip   YM2413║
 
 - name: SoundTestMenu
   en: |
