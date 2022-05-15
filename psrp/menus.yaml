@@ -649,7 +649,7 @@
     ╘═════════╝
   es: |
     ┌─────────╖
-    │Emprar   ║
+    │Usar     ║
     │Equipar  ║
     │Descartar║
     ╘═════════╝
@@ -1284,7 +1284,7 @@
   fr: │Suite             ║
   pt-br: │Próximo             ║
   ca: │Següent             ║
-  es: │Siguiente         ║
+  es: │Siguiente           ║
 
 - name: StoreMSTBoxDimensions
   emitData: false

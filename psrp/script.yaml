@@ -341,7 +341,7 @@
   es: |
     Nero...<wait more>
     Tu muerte no será en vano, te lo prometo.<line><line>
-    No dejaré que los monstruos se apoderen de nuestra casa.<wait more>
+    No dejaré que los monstruos se apoderen de nuestro hogar.<wait more>
     Sé mi ángel de la guarda, hermano mayor.<line><line>
     Con tu espíritu a mi lado, Lashiec no tiene ninguna posibilidad.<wait>
 
@@ -5898,7 +5898,7 @@
     Un tas de crétins mythomanes, ils sont.<wait>
   pt-br: Eu não confiaria em ninguém na vila vizinha... mentirosos patológicos, eles são.<wait>
   ca: No te'n refios de ningú del poble del costat...uns ensarronadors que són.<wait>
-  es: No te fies un carallo de los del pueblo del nado...unos mentireiros són.<wait>
+  es: No te fies un carallo de los del pueblo del lado...unos mentireiros són.<wait>
 
 - offsets: 527a
   # Honest Dezorian
@@ -5986,7 +5986,7 @@
   es: |
     Los arbores de Laerma dan una froita extraña.<wait more>
     Se llama froita de Laerma, y són muy buenos.<wait more>
-    Pero si no los pones en olla de Laconia se esmirrían.<wait>
+    Pero si no los pones en una olla de Laconia se esmirrían.<wait>
 
 - offsets: 528c
   # Honest Dezorian

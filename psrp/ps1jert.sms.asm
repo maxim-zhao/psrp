@@ -4388,7 +4388,7 @@ NameEntryLookup:
   NameEntryText  3, 17, "0123456789"
   NameEntryText 22, 17,                   ".,-!?‘’"
   NameEntryText  3, 19, "Atrás"
-  NameEntryText 22, 19,                    "Siguiente"
+  NameEntryText 21, 19,                    "Siguiente"
   NameEntryText  3, 21, "Espacio"
   NameEntryText 22, 21,                    "Guardar"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
