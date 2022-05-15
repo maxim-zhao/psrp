@@ -4635,10 +4635,10 @@ NameEntryLookup:
 .endif
 .if LANGUAGE == "de"
 .db 10
-  NameEntryText  6,  1, "Gib einen Namen ein:"
+  NameEntryText  6,  1, "Gib einen Namen ein"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
-  NameEntryText  3, 15, "äöüß 0123456789  .,-!?‘’“”"
+  NameEntryText  3, 15, "äöüß  0123456789  .,-!?’„“"
   NameEntryText  3, 17, "Zurück   Vorwärts   Leerz."
   NameEntryText 23, 19,                     "Fertig"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...

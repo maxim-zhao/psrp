@@ -305,7 +305,7 @@
     Die Militärpolizei in unseren Straßen ist nur ein Indiz davon...<line><line>
     All die Kreaturen außerhalb der Stadt, all das Elend in unserem Leben... alles führt irgendwie auf ihn zurück.<wait more>
     Ich hab versucht, der Sache auf den Grund zu gehen, aber ich hab wohl zu viel rausgefunden.<line><line>
-    Es gibt nur einen Ausweg für uns alle: König Lashiec muss sterben.<wait more>
+    Es gibt nur einen Ausweg für uns alle. König Lashiec muss sterben.<wait more>
     Wenn ihn keiner aufhält, wird die Finsternis, der er sich verschrieben hat, ganz Algol verschlingen.<wait more>
     Ich dachte, ich könnte ihn eigenhändig erledigen. Das war mein Fehler.<line><line>
     Du musst dir Hilfe suchen.<wait more>
@@ -878,7 +878,7 @@
     Los tres planetas se encuentran amenazados por las ambiciones de Lashiec.<wait more>
     Cada dia estamos más cerca de una crisis sin salida.<wait>
   de: |
-    Algol ist von drei Planeten umgeben: Palma, Motavia und Dezoris.<wait more>
+    Algol ist von drei Planeten umgeben. Palma, Motavia und Dezoris.<wait more>
     Jeder Planet hat seine eigene Atmosphäre, und damit auch sein eigenes Klima.<wait more>
     Palma ist, wie du siehst, ein grüner Planet, reich an üppigen Wiesen und Wäldern.<wait more>
     Motavia ist eine endlose, dürre Wüste, hat aber auch seinen Reiz.<wait more>
@@ -8166,7 +8166,7 @@
   pt-br: <Article><monster> respondeu,<delay>
   ca: <Article><monster> respon,<delay>
   es: <Article><monster> responde,<delay>
-  de: <Der><monster> antwortet:<delay>
+  de: <Der><monster> antwortet.<delay>
 
 - offsets: 1ab7
   indices: 008-2
@@ -9827,7 +9827,7 @@
   pt-br: ‘Queremos ser amigos dos Palmanos.’<wait>
   ca: ‘Volem ser amics dels de Palma.’<wait>
   es: ‘Queremos ser amigos de la gente de Palma.’<wait>
-  de: ‘We want to become friends with the Palmans.’<wait>
+  de: „We want to become friends with the Palmans.’<wait>
 
 - offsets: 1ae7
   indices: 0F6-2
@@ -9840,7 +9840,7 @@
   pt-br: ‘Eu poderia realmente comer algumas Frutas de Laerma agora!’<wait>
   ca: ‘Em podría menjar uns Fruits de Laerma ara!’<wait>
   es: ‘Me comería unos Frutos de Laerma!’<wait>
-  de: ‘I could really go for some Laerma Berries right now!’<wait>
+  de: „I could really go for some Laerma Berries right now!’<wait>
 
 - offsets: 1ae9
   indices: 0F8-2
@@ -9855,7 +9855,7 @@
   pt-br: ‘Você não deve ir contra LaShiec.’<wait>
   ca: ‘No heu d'anar en contra Lashiec.’<wait>
   es: ‘No vayáis en contra de Lashiec.’<wait>
-  de: ‘You should not go against Lord LaShiec.’<wait>
+  de: „You should not go against Lord LaShiec.’<wait>
 
 - offsets: 1aeb
   indices: 0FA-2
@@ -9870,7 +9870,7 @@
   pt-br: ‘Ah! Então você entende a nossa língua, não é?’<wait>
   ca: ‘Ah! Enteneu la nostra llengua?’<wait>
   es: ‘¡Ah! ¿Entendéis nuestra lengua?’<wait>
-  de: ‘Oh! So you understand our language, do you?’<wait>
+  de: „Oh! So you understand our language, do you?’<wait>
 
 - offsets: 1aed
   indices: 0FC-2
@@ -9881,7 +9881,7 @@
   pt-br: ‘Iarrú!’<wait>
   ca: ‘Au!’<wait>
   es: ‘¡Epa!’<wait>
-  de: ‘Yahoo!’<wait>
+  de: „Yahoo!’<wait>
 
 - offsets: 1aef
   indices: 0FE-2
@@ -9896,7 +9896,7 @@
   pt-br: ‘Quando estiver nos calabouços, cuidado com as armadilhas.’<wait>
   ca: ‘Quan sigueu a les masmorres, vigileu amb els paranys.’<wait>
   es: ‘Cuando estéis en las mazmorras, vigilad con las trampas.’<wait>
-  de: ‘When you’re in the dungeons, beware of pitfalls.’<wait>
+  de: „When you’re in the dungeons, beware of pitfalls.’<wait>
 
 - offsets: 1af1
   indices: 100-2
@@ -9913,7 +9913,7 @@
   pt-br: ‘Você vai se machucar se abrir baús do tesouro sem cuidado.’<wait>
   ca: ‘Podeu resultar ferits si obriu cofres del tresor sense precaució.’<wait>
   es: ‘Podéis resultar heridos si abríis cofres del tesoro sin precaución.’<wait>
-  de: ‘You’ll get injured if you open treasure boxes carelessly.’<wait>
+  de: „You’ll get injured if you open treasure boxes carelessly.’<wait>
 
 - offsets: 1af3
   indices: 102-2
@@ -9924,7 +9924,7 @@
   pt-br: ‘Seus malditos ladrões!’<wait>
   ca: ‘Maleïts lladres!’<wait>
   es: ‘¡Malditos ladrones!’<wait>
-  de: ‘You damn thieves!’<wait>
+  de: „You damn thieves!’<wait>
 
 - offsets: 1af5
   indices: 104-2
@@ -9939,7 +9939,7 @@
   pt-br: ‘As pessoas nos odeiam, não importa o que façamos.’<wait>
   ca: ‘La gent ens odia independentment del que fem.’<wait>
   es: ‘La gente nos odia independientemente de lo que hagamos.’<wait>
-  de: ‘People hate us no matter what we do.’<wait>
+  de: „People hate us no matter what we do.’<wait>
 
 - offsets: 1cce
   indices: 106-2
@@ -9956,7 +9956,7 @@
   pt-br: ‘A Flauta Calmante soa tão bem!’<wait>
   ca: ‘La Flauta Calmant sona tan bé!’<wait>
   es: ‘¡La Flauta Calmante suena tan bien!’<wait>
-  de: ‘The Soothe Flute sounds so nice!’<wait>
+  de: „The Soothe Flute sounds so nice!’<wait>
 
 - offsets: 1cd0
   indices: 108-2
@@ -9973,7 +9973,7 @@
   pt-br: ‘Cavadores de Gelo podem cortar sobre o gelo!’<wait>
   ca: ‘Els Trencaglaços poden travessar el gel!’<wait>
   es: ‘¡Los Rompehielos pueden atravesar el hielo!’<wait>
-  de: ‘IceDeckers can cut through ice!’<wait>
+  de: „IceDeckers can cut through ice!’<wait>
 
 - offsets: 1cd2
   indices: 10A-2
@@ -9988,7 +9988,7 @@
   pt-br: ‘Lorde LaShiec vive lá em cima, no céu.’<wait>
   ca: ‘En Lashiec viu dalt del cel.’<wait>
   es: ‘Lashiec vive ens los cielos.’<wait>
-  de: ‘Lord LaShiec lives up in the sky.’<wait>
+  de: „Lord LaShiec lives up in the sky.’<wait>
 
 - offsets: 1cd4
   indices: 10C-2
@@ -10004,7 +10004,7 @@
   pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
   ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
   es: ‘El Doctor Loco en Avion tiene una Olla de Laconia.’<wait>
-  de: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
+  de: „The Mad Doctor in Avion has a Laconian Pot.’<wait>
 
 - offsets: 1cd6
   indices: 10E-2
@@ -10021,7 +10021,7 @@
   pt-br: ‘Há lugares no céu que nem uma nave espacial pode alcançar.’<wait>
   ca: ‘Hi ha llocs al cel que ni una nau espacial hi pot arribar.’<wait>
   es: ‘Hay sitios en el cielo a los que ni una nave espacial puede llegar.’<wait>
-  de: ‘There are places in the sky that even a spaceship can’t reach.’<wait>
+  de: „There are places in the sky that even a spaceship can’t reach.’<wait>
 
 - offsets: 1cd8
   indices: 110-2
@@ -10035,7 +10035,7 @@
   pt-br: ‘Você precisa ter um certo item para fazer as Frutas de Laerma crescerem.’<wait>
   ca: ‘Heu de disposar de un cert objecte per fer creixer els Fruits de Laerma.’<wait>
   es: ‘Debéis llevar un determinado objeto para hacer crecer los Frutos de Laerma.’<wait>
-  de: ‘You need to have a certain item in order to make Laerma Berries grow.’<wait>
+  de: „You need to have a certain item in order to make Laerma Berries grow.’<wait>
 
 - offsets: 1cda
   indices: 112-2
@@ -10051,7 +10051,7 @@
   pt-br: ‘Alguns labirintos nos calabouços tem portas escondidas.’<wait>
   ca: ‘Alguns laberints a les masmorres tenen portes amagades.’<wait>
   es: ‘Algunos laberintos en las mazmorras tienen puertas escondidas.’<wait>
-  de: ‘Some dungeon labyrinths contain hidden doors.’<wait>
+  de: „Some dungeon labyrinths contain hidden doors.’<wait>
 
 - offsets: 1cdc
   indices: 114-2
@@ -10068,7 +10068,7 @@
   pt-br: ‘A Chave Milagrosa pode abrir portas mágicas!’<wait>
   ca: ‘La Clau Miraculosa pot obrir portes màgiques!’<wait>
   es: ‘¡La Llave Milagrosa puede abrir puertas mágicas!’<wait>
-  de: ‘The Miracle Key can open magic doors!’<wait>
+  de: „The Miracle Key can open magic doors!’<wait>
 
 - offsets: 1cde
   indices: 116-2
@@ -10082,7 +10082,7 @@
   pt-br: ‘Alguns Dezorianos são mentirosos, então tome cuidado.’<wait>
   ca: ‘Alguns habitants de Dezoris son mentiders, ves amb compte’<wait>
   es: ‘Algunos habitantes de Dezoris son mentirosos, anda con ojo’<wait>
-  de: ‘Some Dezorians are liars, so be careful.’<wait>
+  de: „Some Dezorians are liars, so be careful.’<wait>
 
 - offsets: 1ce0
   indices: 118-2
@@ -10097,7 +10097,7 @@
   pt-br: ‘Você é muito corajoso para conversar comigo. Fique por aqui.’<wait>
   ca: ‘Certament sou molt valents de parlar amb mi. Apropeu-vos.’<wait>
   es: ‘Ciertamente soís muy valientes para atraveros a hablar conmigo. Acercaros.’<wait>
-  de: ‘My, you’re very brave to talk to me. Hang in there.’<wait>
+  de: „My, you’re very brave to talk to me. Hang in there.’<wait>
 
 
 # ***************
@@ -10528,5 +10528,5 @@
     Su espíritu revive.<wait>
   de: |
     In diesem Moment hörte Alisa Neros Stimme von weit weg.<wait more>
-    “Es ist noch nicht deine Zeit. Das Sonnensystem braucht dich.”<wait more>
+    „Es ist noch nicht deine Zeit. Das Sonnensystem braucht dich.“<wait more>
     Alisa lebt wieder.<wait>

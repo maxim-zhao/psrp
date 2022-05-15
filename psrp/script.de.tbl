@@ -71,27 +71,24 @@
 
 ; Punctuation
 3F=.
-40=:
-41=‘
-42=’
-42='
-43=,
-44=-
-45=!
-46=?
+40=,
+41=-
+42=!
+43=?
+; Apostrophe
+44=’
+44='
+; Double quotes (German style)
+45=„
+46=“
 ; non-breaking space
 47=_
-; Quotes
-; This maps to a German opening quote „
-48=“
-; This maps to a German closing quote “ (confusingly the same as an English opening quote, as used above)
-49=”
 
 ; Umlauts and ß
-4A=ä
-4B=ö
-4C=ü
-4D=ß
+48=ä
+49=ö
+4A=ü
+4B=ß
 
 ; These map to the un-umlauted letters
 0B=Ä
