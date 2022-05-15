@@ -3723,7 +3723,7 @@ NameEntryPerFrame:
   call $0056 ; ExecuteFunctionIndexAInNextVBlank
   
   call NameEntryInputs
-  jp NameEntrySprites ; and return
+  jp NameEntryCursors ; and return
 
 NameEntryInputs:
   ; Get inputs
@@ -4021,7 +4021,37 @@ _getPointedTileAddress:
   add hl,de
   ret ; in hl
   
-NameEntrySprites:
+NameEntryCursors:
+  ; This used to draw cursors using sprites. We now draw it using tiles to avoid the sprite limit.
+  ; This means we need to draw into the name table to both clear the previous cursor and draw the new one.
+
+  ; First for the entry point
+  ld a,(CurrentIndex)
+  ; Offset
+  add a,NAME_TILEMAP_X
+  ; Write to tilemap
+  ; Offset tilemap address
+  add a,a
+  ld e,a
+  ld d,0
+  ld hl,NAME_TILEMAP_POS + 32*2
+  add hl,de
+  ex de,hl
+  rst $8 ; set address
+  ; write it
+  di
+    ld a,$00 ; tile 256
+    out (PORT_VDP_DATA),a
+    push ix
+    pop ix
+    ld a,$09 ; tile 256, sprite palette
+    out (PORT_VDP_DATA),a
+  ei
+  ret
+  
+  ; TODO finish this
+
+/*
   ; We want to draw cursor sprites
   xor a
   ld (CursorSpriteCount),a
@@ -4095,6 +4125,7 @@ _setSprite:
   inc l
   ld (hl),0
   ret
+*/
 .ends
 
 .bank 0 slot 0
