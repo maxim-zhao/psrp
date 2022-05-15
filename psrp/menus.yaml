@@ -13,29 +13,29 @@
     SPACE CENTURY 342,
     CAMINEET ON PALMA
   en: |
-    ┌─────────────────────╖
-    │Spring, AW 342       ║
-    │---------------------║
-    │Camineet Residential ║
-    │ District on the     ║
-    │ planet Palma.       ║
-    ╘═════════════════════╝
+    ┌────────────────────╖
+    │Spring, AW 342      ║
+    │--------------------║
+    │Camineet Residential║
+    │ District on the    ║
+    │ planet Palma.      ║
+    ╘════════════════════╝
   fr: |
-    ┌─────────────────────╖
-    │Printemps, année 342 ║
-    │---------------------║
-    │District résidentiel ║
-    │de Camineet sur      ║
-    │la planète Palma.    ║
-    ╘═════════════════════╝
+    ┌────────────────────╖
+    │Printemps, année 342║
+    │--------------------║
+    │District résidentiel║
+    │de Camineet sur     ║
+    │la planète Palma.   ║
+    ╘════════════════════╝
   pt-br: |
-    ┌─────────────────────╖
-    │AW 342, Primavera    ║
-    │---------------------║
-    │Distrito residencial ║
-    │ de Camineet no      ║
-    │ planeta Palma.      ║
-    ╘═════════════════════╝
+    ┌────────────────────╖
+    │AW 342, Primavera   ║
+    │--------------------║
+    │Distrito residencial║
+    │ de Camineet no     ║
+    │ planeta Palma.     ║
+    ╘════════════════════╝
   ca: |
     ┌─────────────────────╖
     │Primavera, DG 342    ║
@@ -223,13 +223,13 @@
     │Run away║ (逃げる)
     ╘════════╝
   us: |
-    ┌──────╖
-    │Attack║
-    │Magic ║
-    │Items ║
-    │Talk  ║
-    │Run   ║
-    ╘══════╝
+    ┌────╖
+    │ATTK║
+    │MAGC║
+    │ITEM║
+    │TALK║
+    │RUN ║
+    ╘════╝
   en: |
     ┌──────╖
     │Attack║
@@ -1417,7 +1417,6 @@
   ca: ┌──────────────╖
   es: ┌──────────────╖
 
-
 - name: SoundTestMenuChipPSG
   en: │Chip  SN76489║
   fr: │Puce  SN76489║
@@ -1431,7 +1430,6 @@
   pt-br: │Chip     YM2413║
   ca: │Chip    YM2413║
   es: │Chip    YM2413║
-  de: │Chip   YM2413║
 
 - name: SoundTestMenu
   en: |
