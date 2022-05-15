@@ -5080,7 +5080,7 @@ CreditsScreen2: .db 3
   CreditsEntry 5,5,"TOTAL"
   CreditsEntry 6,7,"PLANNING"
   CreditsEntry 17,6,"OSSALE KOHTA"
-CreditsScreen3:   db 5
+CreditsScreen3: .db 5
   CreditsEntry 6,5,"SCENARIO"
   CreditsEntry 7,7,"WRITER"
   CreditsEntry 17,6,"OSSALE KOHTA"
