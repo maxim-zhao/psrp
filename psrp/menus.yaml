@@ -13,29 +13,29 @@
     SPACE CENTURY 342,
     CAMINEET ON PALMA
   en: |
-    ┌─────────────────────╖
-    │Spring, AW 342       ║
-    │---------------------║
-    │Camineet Residential ║
-    │ District on the     ║
-    │ planet Palma.       ║
-    ╘═════════════════════╝
+    ┌────────────────────╖
+    │Spring, AW 342      ║
+    │--------------------║
+    │Camineet Residential║
+    │ District on the    ║
+    │ planet Palma.      ║
+    ╘════════════════════╝
   fr: |
-    ┌─────────────────────╖
-    │Printemps, année 342 ║
-    │---------------------║
-    │District résidentiel ║
-    │de Camineet sur      ║
-    │la planète Palma.    ║
-    ╘═════════════════════╝
+    ┌────────────────────╖
+    │Printemps, année 342║
+    │--------------------║
+    │District résidentiel║
+    │de Camineet sur     ║
+    │la planète Palma.   ║
+    ╘════════════════════╝
   pt-br: |
-    ┌─────────────────────╖
-    │AW 342, Primavera    ║
-    │---------------------║
-    │Distrito residencial ║
-    │ de Camineet no      ║
-    │ planeta Palma.      ║
-    ╘═════════════════════╝
+    ┌────────────────────╖
+    │AW 342, Primavera   ║
+    │--------------------║
+    │Distrito residencial║
+    │ de Camineet no     ║
+    │ planeta Palma.     ║
+    ╘════════════════════╝
   ca: |
     ┌─────────────────────╖
     │Primavera, DG 342    ║
@@ -45,13 +45,13 @@
     │planeta Palma.       ║
     ╘═════════════════════╝
   es: |
-    ┌─────────────────────╖
-    │Primavera, DG 342    ║
-    │---------------------║
-    │Distrito  residencial║
-    │de Camineet en el    ║
-    │planeta Palma.       ║
-    ╘═════════════════════╝
+    ┌────────────────────╖
+    │Primavera, DG 342   ║
+    │--------------------║
+    │Distrito residencial║
+    │de Camineet en el   ║
+    │planeta Palma.      ║
+    ╘════════════════════╝
 
 - name: WorldMenu
   ptrs: 3807,380d
@@ -113,13 +113,13 @@
     │Guardar ║
     ╘════════╝
   es: |
-    ┌────────╖
-    │Estado  ║
-    │Mágia   ║
-    │Objetos ║
-    │Buscar  ║
-    │Guardar ║
-    ╘════════╝
+    ┌───────╖
+    │Estado ║
+    │Mágia  ║
+    │Objetos║
+    │Buscar ║
+    │Guardar║
+    ╘═══════╝
 
 - name: ChoiceMenu
   ptrs: 38cd
@@ -223,13 +223,13 @@
     │Run away║ (逃げる)
     ╘════════╝
   us: |
-    ┌──────╖
-    │Attack║
-    │Magic ║
-    │Items ║
-    │Talk  ║
-    │Run   ║
-    ╘══════╝
+    ┌────╖
+    │ATTK║
+    │MAGC║
+    │ITEM║
+    │TALK║
+    │RUN ║
+    ╘════╝
   en: |
     ┌──────╖
     │Attack║
@@ -263,12 +263,14 @@
     │Fugir  ║
     ╘═══════╝
   es: |
+    ┌──────╖
+    │Atacar║
+    │Mágia ║
+    │Objeto║
+    │Hablar║
+    │Huir  ║
+    ╘══════╝
     ┌───────╖
-    │Atacar ║
-    │Mágia  ║
-    │Objeto ║
-    │Hablar ║
-    │Huir   ║
     ╘═══════╝
 
 - name: EnemyHPBox
@@ -1417,7 +1419,6 @@
   ca: ┌──────────────╖
   es: ┌──────────────╖
 
-
 - name: SoundTestMenuChipPSG
   en: │Chip  SN76489║
   fr: │Puce  SN76489║
@@ -1429,8 +1430,8 @@
   en: │Chip   YM2413║
   fr: │Puce   YM2413║
   pt-br: │Chip     YM2413║
-  ca: │Chip   SN76489║
-  es: │Chip   SN76489║
+  ca: │Chip    YM2413║
+  es: │Chip    YM2413║
 
 - name: SoundTestMenu
   en: |
@@ -1613,7 +1614,7 @@
     │Esborrar║
     ╘════════╝
   es: |
-    ┌────────╖
-    │Cargar  ║
-    │Borrar  ║
-    ╘════════╝
+    ┌──────╖
+    │Cargar║
+    │Borrar║
+    ╘══════╝
