@@ -112,13 +112,14 @@
 69=<Das> 
 
 ; Placeholders mapping new tokens to "?"
-46=(
-46=)
-46={
-46=}
-46=<m> 
-46=<f> 
-46=<n> 
-46=<The> 
+43=(
+43=)
+43={
+43=}
+43=<Der>
+43=<The>
+43=<Nom>
+43=<gen>
+43=<dat>
 
 ; Words go below...
