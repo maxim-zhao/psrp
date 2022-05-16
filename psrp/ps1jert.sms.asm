@@ -4724,7 +4724,9 @@ NameEntryLookup:
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
   NameEntryText  3, 15, "äöüß  0123456789  .,-!?’„“"
-  NameEntryText  3, 17, "Zurück   Vorwärts   Leerz."
+  NameEntryText  3, 17, "Zurück"
+  NameEntryText 21, 17,                   "Vorwärts"
+  NameEntryText  3, 19, "Leerzeichen"
   NameEntryText 23, 19,                     "Fertig"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
   NameEntryText  1, 23, "╘═"
@@ -4733,8 +4735,8 @@ NameEntryLookup:
 NameEntryLookup:
 .db 4
   NameEntryMask  3, 17,  6, "B" ; X, Y, length, type (Back)
-  NameEntryMask 12, 17,  8, "N" ; Next
-  NameEntryMask 23, 17,  6, "S" ; Space
+  NameEntryMask 21, 17,  8, "N" ; Next
+  NameEntryMask  3, 19, 11, "S" ; Space
   NameEntryMask 23, 19,  6, "V" ; saVe
 .define NameEntryMinX 3
 .define NameEntryMaxX 28
