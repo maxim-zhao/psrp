@@ -8130,7 +8130,7 @@
   pt-br: <Article><monster> desviou do ataque de <player>.<delay>
   ca: <Article><monster> ha desviat l'atac de <player>.<delay>
   es: <Article><monster> ha desviado el ataque de <player>.<delay>
-  de: <Der><monster> weicht <player><g> Angriff aus.<delay>
+  de: <Nom><monster> weicht <players> Angriff aus.<delay>
 
 - offsets: 1497
   indices: 002-2
@@ -8145,7 +8145,7 @@
   pt-br: <player> desviou do ataque <do><monster>.<delay>
   ca: <player> ha desviat l’atac <del><monster>.<delay>
   es: <player> ha desviado el ataque <del><monster>.<delay>
-  de: <player> weicht dem Angriff <des><monster><g> aus.<delay>
+  de: <player> weicht dem Angriff <gen><monster> aus.<delay>
 
 - offsets: 1a96
   indices: 004-2
@@ -8156,7 +8156,7 @@
   pt-br: <player> falou com <article><monster>.<end>
   ca: <player> parla amb <article><monster>.<end>
   es: <player> habla con <article><monster>.<end>
-  de: <player> spricht mit <dem><monster>.<end>
+  de: <player> spricht mit <dat><monster>.<end>
 
 - offsets: 1ac0,1ca4
   indices: 006-2
@@ -8167,7 +8167,7 @@
   pt-br: <Article><monster> respondeu,<delay>
   ca: <Article><monster> respon,<delay>
   es: <Article><monster> responde,<delay>
-  de: <Der><monster> antwortet:<delay>
+  de: <Nom><monster> antwortet:<delay>
 
 - offsets: 1ab7
   indices: 008-2
@@ -8181,7 +8181,7 @@
   pt-br: Mas <article><monster> não entendeu.<delay>
   ca: <Article><monster> no us entén.<delay>
   es: <Article><monster> no te entiende.<delay>
-  de: <Der><monster> konnte <player> nicht verstehen.<delay>
+  de: <Nom><monster> konnte <player> nicht verstehen.<delay>
 
 - offsets: 1b27
   indices: 00A-2
@@ -8196,7 +8196,7 @@
   pt-br: <Article><monster> bloqueou a rota de fuga.<delay>
   ca: <Article><monster> bloqueja la fugida.<delay>
   es: <Article><monster> bloquea la huída.<delay>
-  de: <Der><monster> hat den Fluchtweg blockiert.<delay>
+  de: <Nom><monster> hat den Fluchtweg blockiert.<delay>
 
 - offsets: 20cd,20fa,2168,21cb,21fd,22ac
   indices: 00C-2
@@ -8211,7 +8211,7 @@
   pt-br: A magia de <player> não teve nenhum efeito.<delay>
   ca: La màgia de <player> no fa cap efecte.<delay>
   es: La mágia de <player> no tiene ningún efecto.<delay>
-  de: <player><g> Zauber hatte keinen Effekt.<delay>
+  de: <players> Zauber hatte keinen Effekt.<delay>
 
 - offsets: # unused
   indices: 00E-2
@@ -8226,7 +8226,7 @@
   pt-br: A magia <do><monster> não teve nenhum efeito.<delay>
   ca: La màgia <del><monster> no fa cap efecte.<delay>
   es: La mágia <del><monster> no tiene ningún efecto.<delay>
-  de: Der Zauber <des><monster><g> hatte keinen Effekt.<delay>
+  de: Der Zauber <gen><monster> hatte keinen Effekt.<delay>
 
 - offsets: 1ffa
   indices: 010-2
@@ -8257,7 +8257,7 @@
   pt-br: O ataque <do><monster> foi desviado pela parede mágica.<delay>
   ca: L'atac <del><monster> es reflectit per el mur màgic.<delay>
   es: El ataque <del><monster> es reflejado por el muro mágico.<delay>
-  de: Der Angriff <des><monster><g> wurde von der magischen Wand abgewehrt.<delay>
+  de: Der Angriff <gen><monster> wurde von der magischen Wand abgewehrt.<delay>
 
 - offsets: 14f9,15d3,1637
   indices: 014-2
@@ -8273,7 +8273,7 @@
   pt-br: A magia <do><monster> foi desviada pela parede mágica.<delay>
   ca: La màgia <del><monster> ha estat reflectida per el mur màgic.<delay>
   es: La mágia <del><monster> ha sido reflejada por el muro mágico.<delay>
-  de: Der Zauber <des><monster><g> wurde von der magischen Wand abgewehrt.<delay>
+  de: Der Zauber <gen><monster> wurde von der magischen Wand abgewehrt.<delay>
 
 - offsets: 1458
   indices: 016-2
@@ -8301,7 +8301,7 @@
   pt-br: A energia de <player> foi restaurada.<delay>
   ca: L'energia de <player> ha estat restaurada.<delay>
   es: La energía de <player> ha sido restaurada.<delay>
-  de: <player><g> Wunden wurden geheilt.<delay>
+  de: <players> Wunden wurden geheilt.<delay>
 
 - offsets: 1552
   indices: 01A-2
@@ -8316,7 +8316,7 @@
   pt-br: A energia <do><monster> foi restaurada.<delay>
   ca: L'energia <del><monster> ha estat restaurada.<delay>
   es: La energía <del><monster> ha sido restaurada.<delay>
-  de: Die Wunden <des><monster><g> wurden geheilt.<delay>
+  de: Die Wunden <gen><monster> wurden geheilt.<delay>
 
 - offsets: 20d3
   indices: 01C-2
@@ -8331,7 +8331,7 @@
   pt-br: A magia imobilizou <Article><monster>.<delay>
   ca: La màgia inmobilitza <article><monster> .<delay>
   es: La mágia inmobiliza <article><monster> .<delay>
-  de: <Der><monster> wurde gefesselt.<delay>
+  de: <Nom><monster> wurde gefesselt.<delay>
 
 - offsets: 151f
   indices: 01E-2
@@ -8366,7 +8366,7 @@
   pt-br: <Article><monster> não pode se mover.<delay>
   ca: <Article><monster> no es pot moure.<delay>
   es: <Article><monster> no se puede mover.<delay>
-  de: <Der><monster> kann sich nicht bewegen.<delay>
+  de: <Nom><monster> kann sich nicht bewegen.<delay>
 
 - offsets: 12d6
   indices: 024-2
@@ -8379,7 +8379,7 @@
   pt-br: <player> se desamarrou.<delay>
   ca: <player> es deslliura.<delay>
   es: <player> se libera. <delay>
-  de: <player><g> Fesseln fallen auseinander.<delay>
+  de: <players> Fesseln fallen auseinander.<delay>
 
 - offsets: 1407
   indices: 026-2
@@ -8394,7 +8394,7 @@
   pt-br: <Article><monster> se desamarrou.<delay>
   ca: <Article><monster> es deslliura.<delay>
   es: <Article><monster> se libera.<delay>
-  de: Die Fesseln <des><monster><g> fallen auseinander.<delay>
+  de: Die Fesseln <gen><monster> fallen auseinander.<delay>
 
 - offsets: 2132
   indices: 028-2
@@ -8424,7 +8424,7 @@
   pt-br: <Article><monster> ficou com medo e recuou.<delay>
   ca: <Article><monster> s'ha espantat i fuig.<delay>
   es: <Article><monster> se ha asustado y ha huído.<delay>
-  de: <Der><monster> weicht vor Angst zurück.<delay>
+  de: <Nom><monster> weicht vor Angst zurück.<delay>
 
 - offsets: 210d
   indices: 02C-2
@@ -8440,7 +8440,7 @@
   pt-br: <Article><monster> se admirou com a velocidade de sua fuga.<delay>
   ca: <Article><monster> es sorprén de la velocitat de la fugida.<delay>
   es: <Article><monster> se sorprende de la velocidad de la huída.<delay>
-  de: <Der><monster> wurde von der Flucht überrumpelt.<delay>
+  de: <Nom><monster> wurde von der Flucht überrumpelt.<delay>
 
 - offsets: 21ad
   indices: 02E-2
@@ -8601,7 +8601,7 @@
   pt-br: Os olhos <do><monster> estão vazios.<delay>
   ca: Els ulls <del><monster> estan en blanc.<delay>
   es: Los ojos <del><monster> están en blanco.<delay>
-  de: <Der><monster> hat einen leeren Blick.<delay>
+  de: <Nom><monster> hat einen leeren Blick.<delay>
 
 - offsets: 2505,2597,25f9,26f1,2742,27a2
   indices: 048-2
@@ -8716,7 +8716,7 @@
   pt-br: <Article><monster> viu a chama vermelha e se encolheu de medo.<delay>
   ca: <Article><monster> veu la flama vermella i la por l'emplena. <delay>
   es: <Article><monster> ve la llama roja y el miedo le invade. <delay>
-  de: <Der><monster> ist beim Anblick der roten Flamme von Furcht ergriffen.<delay>
+  de: <Nom><monster> ist beim Anblick der roten Flamme von Furcht ergriffen.<delay>
 
 - offsets: 273d
   indices: 064-2
@@ -8815,7 +8815,7 @@
   pt-br: Seu corpo ficou extremamente leve.<delay>
   ca: El cosos es tornen extranyament lleugers. <delay>
   es: Los cuerpos se vuelven extrañamente ligeros. <delay>
-  de: <player><g> Körper wird seltsam leicht.<wait>
+  de: <players> Körper wird seltsam leicht.<wait>
 
 - offsets: 2248
   indices: 072-2
@@ -9106,7 +9106,7 @@
   pt-br: Você derrotou <article><monster>.<wait>
   ca: Heu derrotat <article><monster>.<wait>
   es: Habéis derrotado <article><monster>.<wait>
-  de: <Der><monster> wurde besiegt.<wait>
+  de: <Nom><monster> wurde besiegt.<wait>
 
 - offsets: 14a6,15e4,1648,4c69,590f
   indices: 09C-2
@@ -10161,7 +10161,7 @@
   pt-br: <Article><monster> sentiu seu corpo cheio de poder.<delay>
   ca: <Article><monster> sent omplir-se el seu cos de força.<delay>
   es: <Article><monster> siente como su cuerpo se llena de fuerza.<delay>
-  de: <Der><monster> fühlt große Kraft in sich aufwallen.<delay>
+  de: <Nom><monster> fühlt große Kraft in sich aufwallen.<delay>
 
 - offsets: 17ff
   indices: 11C-2
@@ -10176,7 +10176,7 @@
   pt-br: <Article><monster> tinha um baú do tesouro.<end>
   ca: <Article><monster> té un Cofre del Tresor.<end>
   es: <Article><monster> tiene un Cofre del Tesoro.<end>
-  de: <Der><monster> hatte eine Schatztruhe.<end>
+  de: <Nom><monster> hatte eine Schatztruhe.<end>
 
 - offsets: 27c3
   indices: 11E-2
