@@ -2123,7 +2123,7 @@
     ¡Tylon fue convertido en piedra cuando intentaba derrotar a Medusa!<line><line>
     Podemos curarlo con este elixir, pero no puedo abrir el tapón...<wait>
   de: |
-    Tylon wollte Medusa töten und wurde versteinert!<line>
+    Tylon wollte Medusa töten und wurde versteinert!<line><line>
     Dafür war dieses Elixier gedacht, aber ich krieg die Flasche nicht auf...<wait>
 
 - offsets: 466f
@@ -2268,7 +2268,7 @@
     ¿Quien es tu nueva amiga?<wait>
   de: |
     Ah, Myau, du hast Hilfe gefunden. Danke.<wait more>
-    Aber wenn wir selbst Medusa nicht besiegen konnten, welche Chance hätten wir gegen Lashiec.<wait more>
+    Aber wenn wir selbst Medusa nicht besiegen konnten, welche Chance hätten wir gegen Lashiec?<wait more>
     Und du bist...?<wait>
 
 - offsets: 4693
@@ -2309,7 +2309,7 @@
   de: |
     Alisa. Mein Bruder wollte Lashiec stürzen und hat dabei sein Leben gelassen.<line><line>
     Ich werde ihn rächen, komme was wolle.<wait more>
-    Bevor er starb, hat er mir deinen Namen genannt, und dass du mir helfen könntest.<wait>
+    Bevor er starb, hat er mir deinen Namen genannt, und gesagt, dass du mir helfen könntest.<wait>
 
 - offsets: 469e
   indices: 16A-2
@@ -8802,7 +8802,7 @@
   pt-br: Você encontrou <article><item>.<wait>
   ca: Heu trobat <article><item>.<wait>
   es: Habéis encontrado <article><item>.<wait>
-  de: <player> hat <article><item> gefunden.<wait>
+  de: Du hast <article><item> gefunden.<wait>
 
 - offsets: 21d9,22b5
   indices: 070-2
@@ -8942,7 +8942,7 @@
   pt-br: Você encontrou <number><internal hint 01> meseta<s> dentro.<wait>
   ca: Heu trobat <number><internal hint 01> meseta<s> dintre.<wait>
   es: Habeís encontrado <number><internal hint 01> meseta<s> dentro.<wait>
-  de: <number> Meseta in der Truhe gefunden.<wait>
+  de: Du hast <number> Meseta erhalten.<wait>
 
 - offsets: 2a37
   indices: 084-2
