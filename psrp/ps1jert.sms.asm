@@ -3951,8 +3951,19 @@ NameEntryPerFrame:
   ld a,8 ; VBlankFunction_Menu
   call $0056 ; ExecuteFunctionIndexAInNextVBlank
 
-  ; fall through
+  ld hl,(PreviousSelectionPointer)
+  ld a,h
+  or l
+  jr nz,+
+  ; On first run, we want to draw the cursors
+  ; We need to set this to something valid...
+  call _getPointedTileAddress
+  ld (PreviousSelectionPointer),hl
+  ld (CurrentSelectionPointer),hl
+  call _drawCursors
+  ; then carry on
 
++:
 NameEntryInputs:
   ; Get inputs
   ld a,($c205) ; buttons newly pressed
@@ -4746,7 +4757,7 @@ NameEntryLookup:
 
 _CursorMemoryInitialValues:
 .db 3, 11, 0 ; X, Y, index into drawn name
-.dw $d000 ; Previous selection pointer
+.dw $0000 ; Previous selection pointer. 0 is used to trigger the intial cursor draw.
 
 .ends
 
