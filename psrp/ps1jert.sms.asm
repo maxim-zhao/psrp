@@ -2545,6 +2545,7 @@ Items:
   String "<Eine> Lakoniumaxt"
 ; armour: 10-18
   String "Lederkleidung"
+  ; [] for item list, () for text box
   String "<Einen> Weiße[r](n) Mantel"
   String "Leichte Kleidung"
   String "<Eine> Eisenrüstung"
@@ -2598,16 +2599,18 @@ Items:
   String "<Ein> Geheimnis"
 
 Names:
+; Characters within {} only get printed by <players> tag.
+; <player> tag ignores them.
   String "Alisa{s}"
   String "Myau{s}"
   String "Tylon{s}"
   String "Lutz{'}"
 
 Enemies:
-; Max width 18 for enemy window
-; [a] = noun suffix for nominative without article
-; {g} = noun suffix for genitive
-; (d) = noun suffix for dative
+; Max width 18 for enemy window, excluding <...> prefix (with space)
+; Characters in [] only get printed in enemy name window.
+; Those in {} get printed if <monster> comes after <gen>.
+; Those in () get printed if <monster comes after <dat>.
   String " " ; Empty
   String "<Die> Riesenfliege"
   String "<Der> Grünschleim{s}"
@@ -2616,14 +2619,14 @@ Enemies:
   String "<Der> Skorpion{s}"
   String "<Der> Goldskorpion{s}"
   String "<Der> Blauschleim{s}"
-  String "<Der> Motavia-Bauer{s}"
+  String "<Der> Motavische[r]{n}(n) Bauer{s}"
   String "<Die> Teufelsfledermaus"
   String "<Der> Mörderbaum{s}"
   String "<Die> Beißerfliege"
-  String "<The> Motavian Teaser" ; TO DO
+  String "<Der> Motavische[r]{n}(n) Pläger{s}"
   String "<Der> Herex"
   String "<Der> Sandwurm{s}"
-  String "<The> Motavian Maniac" ; TO DO
+  String "<Der> Motavische[r]{n}(n) Irre[r]{s}(n)"
   String "<Die> Goldlinse"
   String "<Der> Rotschleim{s}"
   String "<Der> Fledermausmann{s}"

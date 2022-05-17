@@ -3216,7 +3216,7 @@
   pt-br: Gostaria de comer uma PelorieMate. Você pode me dar uma?<end>
   ca: M'aniria bé un PelorieMate. No me'n donaries un?<end>
   es: Un PelorieMate me iría al pelo. ¿No me darías uno?<end>
-  de: I could really use a PelorieMate. Can you spare one?<end>
+  de: Ich hab so'n Hunger... Hast du'n PelorieMate für mich?<end>
 
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
@@ -3260,9 +3260,9 @@
     Pero ya no. Enloqueció. Al final lo encerraron.<wait more>
     Lo tienen prisionero en Triada, una prisión hacia el sur.<wait>
   de: |
-    Thanks. I suppose you’re looking for Doc Luveno? Yeah, his lab used to be here.<wait more>
-    Not no more, though. Guy went crazy. They finally locked that loon up.<wait more>
-    He’s being held in Triada, a prison south of here.<wait>
+    Danke. Du suchst Luveno, ne? Der hatte hier mal sein Labor.<wait more>
+    Vor 'ner Weile isser aber irgendwie debil geworden und da ha'm se'n eingesperrt.<wait more>
+    Jetz isser im Triada-<line>Gefängnis, südlich von hier.<wait>
 
 - offsets: 502e,5055,535b
   # Villager (yes to previous question, and you don't have a PelorieMate)
@@ -3275,7 +3275,7 @@
   pt-br: Espere, você não tem? Então por que disse sim?! Cai fora!<wait>
   ca: Un moment, no en tens cap? Aleshores per què em dius que sí?! A prendre pel cul!<wait>
   es: Un momento, ¿no tienes ninguno? ¡¿Entonces por que me dices que sí?! ¡Vete a tomar viento!<wait>
-  de: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
+  de: Hältst du mich für blöde? Verzieh dich!<wait>
 
 - offsets: 5016,503f,54b4
   # Villager (no to previous question)
@@ -3290,7 +3290,7 @@
   pt-br: Então não tenho nada para te dizer. Cai fora!<wait>
   ca: Aleshores no tinc res que conversar amb vosaltres. Adéu.<wait>
   es: Entonces no tengo nada que hablar con vosotros. Adios.<wait>
-  de: Then I got nothing to say to you. Get lost.<wait>
+  de: Dann hab ich dir nix zu sagen. Lass mich in Ruhe.<wait>
 
 - offsets: 504f
   # Another villager (yes to previous question, and you have a PelorieMate)
@@ -3334,9 +3334,10 @@
     Al final del largo camino hacia el sur, hay una torre antigua.<wait more>
     ¡Dicen que la habita un monstruo que te convierte en piedra solo con mirarte!<wait>
   de: |
-    Thank you, stranger.<wait more>
-    At the end of the long path directly south of here, there's an ancient tower.<wait more>
-    Word is there's a monster in there that turns you to stone if you just look at it!<wait>
+    Danke, Mann.<wait more>
+    Südlich von hier gibt's so'n langen Weg durch die Berge zu 'nem alten Turm.<wait more>
+    Würd ich aber nicht hingehen, wenn ich du wäre.<wait more>
+    's heißt, da is'n Monster, das dich beim bloßen Angucken versteinert!<wait>
 
 - offsets: 5856
   # Villager guarding open field (no Luveno/Hapsby)
@@ -3354,7 +3355,7 @@
   pt-br: Ei! Fique longe do meu território! Tudo passando daqui é meu!<wait>
   ca: Hey! Fora del meu tros! A partir d'aquí tot és meu!<wait>
   es: ¡Hey! ¡Fuera de mi terruño! ¡Desde aquí todo esto es mio!<wait>
-  de: Hey! Keep outta my turf! Everything past here is mine!<wait>
+  de: Ey! Das da is' mein Revier! Verzieht euch!<wait>
 
 - offsets: 585c
   # Villager guarding open field (have Luveno/Hapsby)
@@ -3371,7 +3372,7 @@
   pt-br: Bem, acho que devo fazer o que o Doutor Luveno pediu. Vá em frente, pode passar.<wait>
   ca: Bé, suposo que he de fer el que el Doctor Luveno mana. Podeu passar.<wait>
   es: Bien, supongo que he de hacer lo que manda el Doctor Luveno. Podéis pasar.<wait>
-  de: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.<wait>
+  de: Na gut, wenn Luveno sagt, dass ihr durch dürft, muss ich wohl auf ihn hören.<wait>
 
 # *********************
 # *** Triada Prison ***
@@ -3390,7 +3391,7 @@
   pt-br: Você tem um Passe?<end>
   ca: Teniu un salconduit?<end>
   es: ¿Tenéis un salvaconducto?<end>
-  de: Do you have a Roadpass?<end>
+  de: Haben Sie einen Straßenpass?<end>
 
 - offsets: 549d,55e0
   # Guard Near Entrance (no to previous question)
@@ -3424,7 +3425,7 @@
   pt-br: Obrigado. Sabe, não importa o que as pessoas digam, as aranhas realmente são criaturas muito inteligentes.<wait>
   ca: Merci. Saps, no facis cas al que diuen, les aranyes son de fet molt intel·ligents.<wait>
   es: Gracias. Sabes, no hagas caso a las habladurías, lss arañas són de hecho muy inteligentes.<wait>
-  de: Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.<wait>
+  de: Danke. Manche Leute wollen es übrigens nicht wahrhaben, aber Spinnen sind ziemlich schlaue Kreaturen.<wait>
 
 - offsets: 54ea
   # Prisoner
@@ -3443,7 +3444,7 @@
   pt-br: A antiga estrutura situada no coração das Montanhas de Gótica é chamada de Torre da Medusa.<wait>
   ca: A l'estructura antiga enmig de les Muntanyes de Gothic l'anomenen La Torre de la Medusa.<wait>
   es: A la antigua estructura rodeada de las Montañas de Gothic la llaman Torre de la Medusa.<wait>  
-  de: The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
+  de: Bei diesem alten Bauwerk im Herzen des Gothic-Gebirges handelt es sich um Medusas Turm.<wait>
 
 - offsets: 550c
   # Prisoner
@@ -3473,8 +3474,8 @@
     ¡Hay un elemento químico llamado Polymeteral que disuelve cualquier material!<wait more>
     ...bueno, cualquiera menos la Laconia, por supuesto.<wait>
   de: |
-    A chemical called Polymeteral will dissolve any material!<wait more>
-    ...well, anything except Laconia, of course.<wait>
+    Es gibt eine Chemikalie namens Polymeteral, die jedes erdenkliche Material auflösen kann!<wait more>
+    ...mit Ausnahme von Lakonium, versteht sich.<wait>
 
 - offsets: 54f0
   # Prisoner
@@ -3495,7 +3496,7 @@
   pt-br: Oh, olá! Faz muito tempo que não vejo outra pessoa! Gostaria de ficar e conversar um pouco?<end>
   ca: Oh, hola! No he vist a ningú desde fa molt de temps! Vols quedar-te i conversar una mica?<end>
   es: Oh, ¡hola! ¡No he visto a nadies desde hace mucho tiempo! ¿Te quedas y charlamos un poco?<end>
-  de: Oh, hi! I haven't seen another person in a long time! Will you stay and talk for a while?<end>
+  de: Oh, hallo! Ich hab seit Ewigkeiten keinen mehr zu Gesicht bekommen. Bleibt ihr ein bisschen?<end>
 
 - offsets: 54f9
   # Prisoner (yes to previous question)
@@ -3534,24 +3535,24 @@
     Parece que las cosas van bastante mal por ahí, con las coladas de lava y tal.<wait more>
     Si lo ves, ¿puedes decirle 'hola' de mi parte?<wait>
   de: |
-    I’ve got a friend in Bartevo.<wait more>
-    I guess things are pretty bad there right now, what with those pools of lava and all.<wait more>
-    If you see him, could you say ’hi’ to him for me?<wait>
+    Ich hab einen Freund, der in Bartevo wohnt.<wait more>
+    Neulich ist ja dieser Vulkan ausgebrochen, und die Lava schottet ihn wohl vom Rest der Welt ab.<wait more>
+    Wenn ihr ihn seht, grüßt ihr ihn bitte von mir?<wait>
 
 - offsets: 54d0
-  # Prisoner (yes to previous question)
+  # Prisoner
   indices: 0EC
   ja: ハプスビー トイウ<line>
   translated: Do you know of a robot called ‘Hapsby’?
   us: |
     DO YOU KNOW THE <line>
-    ROBOT Hapsby?<prompt>
+    ROBOT HAPSBY?<prompt>
   en: Have you heard of Hapsby the robot?<end>
   fr: Avez-vous entendu parler du robot Hapsby_?<end>
   pt-br: Você já ouviu falar de Hapsby, o robô?<end>
   ca: Has sentit a parlar d'en Hapsby el robot?<end>
   es: ¿Has oído hablar de Hapsby el robot?<end>
-  de: Have you heard of Hapsby the robot?<end>
+  de: Habt ihr von Hapsby, dem Roboter gehört?<end>
 
 - offsets: 54de
   # Prisoner (no to previous question)
@@ -3590,9 +3591,10 @@
     Luveno creó a Hapsby como un prototipo de piloto de nave espacial.<wait more>
     Lo tiraron a un vertedero, y ahí está oxidándose. Qué desperdicio...<wait>
   de: |
-    It’s a robot made of Laconia!<wait more>
-    Luveno created Hapsby as a prototype spaceship pilot.<wait more>
-    It was abandoned in a scrap heap and left to rot. What a waste...<wait>
+    Er ist ein Roboter aus Lakonium!<wait more>
+    Luveno hatte ihn ursprünglich entwickelt, um Raumschiffe zu fliegen.<wait more>
+    Aber dann wurde er in irgendeinen Schrotthaufen geworfen und dort vergessen.<wait more>
+    Eigentlich schade um ihn...<wait>
 
 - offsets: 54e4
   # Prisoner
@@ -3612,7 +3614,7 @@
   pt-br: Erupções vulcânicas cobriram o outro lado das montanhas com um monte de lava.<wait>
   ca: Les erupcions volcàniques han cobert l'altra banda de les muntanyes amb munts de lava.<wait>
   es: Las erupciones volcánicas han cubierto el otro lado de las montañas con un montón de lava.<wait>
-  de: Volcanic eruptions covered the other side of the mountains with a whole bunch of lava.<wait>
+  de: Ein Vulkanausbruch hat die ganze andere Seite des Gebirges mit Lava überflutet.<wait>
 
 - offsets: 5453
   # Dr Luveno (first time)
@@ -3634,7 +3636,7 @@
   pt-br: Sim, eu sou o Doutor Luveno. Se você está aqui para me resgatar, esqueça! Eu não vou a lugar nenhum.<wait>
   ca: Si, sóc en Doctor Luveno. Si has vingut a rescatar-me, oblida-ho! No vaig enlloc.<wait>
   es: Sí, soy el Doctor Luveno. Si has venido a rescatarme, ¡olvídate de ello! No voy a ningún lado.<wait>
-  de: Yes, I’m Dr. Luveno. If you're here to rescue me, forget it! I'm not going anywhere.<wait>
+  de: Jawohl, ich bin Dr. Luveno. Falls ihr gekommen seid, um mich rauszuholen, vergesst es! Mir gefällt's hier.<wait>
 
 - offsets: 545e
   # Dr Luveno (second time)
@@ -3657,7 +3659,7 @@
   pt-br: O quê? Você quer que eu construa uma nave espacial?! Porque eu faria isso? Vá embora, me deixe em paz.<wait>
   ca: Com? Que vols que et construeixi una nau espacial?! Per què ho hauria de fer? Veste'n, deixa'm en pau.<wait>
   es: ¿Qué? ¡¿Que quieres que te construya una nave espacial?! ¿Por que habría de hacerlo? Vete, déjame en paz.<wait>
-  de: What? You want me to build a spaceship?! Why would I do that? Go away, leave me be.<wait>
+  de: Was? Ich soll ein Raumschiff für euch bauen?! Nie im Leben! Lasst mich endlich in Ruhe!<wait>
 
 - offsets: 5464
   # Dr Luveno (third time)
@@ -3690,8 +3692,8 @@
     ¿Otra vez? Ah, me rindo. Te construiré la nave espacial, pero con una condición.<wait more>
     Que me prometas que seguiras mis instrucciones de forma exacta, te pida lo que te pida. ¿De acuerdo?<end>
   de: |
-    You again? Ach, I give up. I'll build your spaceship, but there's one condition.<wait more>
-    You must promise you'll follow my instructions exactly, no matter what I ask. Agreed?<end>
+    Ihr schon wieder? Ist ja schon gut, ich bau euch euer verdammtes Raumschiff... unter einer Bedingung.<wait more>
+    Ihr werdet meinen Anweisungen aufs Genaueste folgen. Abgemacht?<end>
 
 - offsets: 5477
   # Dr Luveno (yes to previous question)
@@ -3723,8 +3725,8 @@
     Perfecto. Entonces, salgo hacia la villa de Gothic para empezar. Nos vemos ahí.<wait more>
     Oh, no te preocupes por mí, soy más duro de lo que parece. Llegaré por mis propios medios.<wait>
   de: |
-    Good. Well then, I'm off to Gothic Village to get started. I'll meet you there.<wait more>
-    Oh, don't worry about me, I'm tougher than I look. I'll make it there by myself.<wait>
+    Sehr gut. Dann sehen wir uns in Gothic.<wait more>
+    Nein, ihr braucht mich nicht zu begleiten. Ich schaff das sehr wohl alleine.<wait>
 
 - offsets: 546d
   # Dr Luveno (no to previous question)
@@ -3739,7 +3741,7 @@
   pt-br: Se você não fizer o que eu digo, não há como eu te ajudar.<wait>
   ca: Si no fas el que et dic, no hi ha manera que et pugui ajudar.<wait>
   es: Si no haces lo que te digo, no existe manera en que te pueda ayudar.<wait>
-  de: If you don’t do as I say, there’s no way I can help you.<wait>
+  de: Wenn ihr meinen Anweisungen nicht Folge leistet, kann ich euch nicht helfen.<wait>
 
 - offsets: 510d,5428
   # Man in underground tunnel
@@ -3754,7 +3756,7 @@
   pt-br: Não me distraia! Estou muito ocupado.<wait>
   ca: No em distreguis! Estic molt ocupat.<wait>
   es: ¡No me distraigas! Estoy muy ocupado.<wait>
-  de: Don’t distract me! I’m very busy.<wait>
+  de: Bitte nicht stören! Ich bin beschäftigt.<wait>
 
 - offsets: 542f
   # Man in underground tunnel
@@ -3792,9 +3794,9 @@
     ¡¿Qué?! ¿Os está construyendo una nave espacial?!<wait more>
     Es demasiado viejo para eso. Mejor que vaya a echarle una mano.<wait>
   de: |
-    What? You busted out Doc Luveno?<wait more>
-    What?! He’s building you a spaceship?!<wait more>
-    He’s too old for this. I’d better go help him out.<wait>
+    Hä, was? Ihr habt Luveno aus'm Knast geholt?<wait more>
+    Er will ein WAS bauen?!<wait more>
+    Das ist doch verrückt! Er ist zu alt für sowas. Ich geh ihm helfen.<wait>
 
 # Orphaned? Are these reachable?
 
@@ -3830,9 +3832,8 @@
     Salir, peró, es otra historia.<wait more>
     Nunca he visto salir a nadie con vida de ahí.<wait>
   de: |
-    I’ve seen plenty of men go into the inner chamber.<wait more>
-    Coming out, though, is a different story.<wait more>
-    I’ve never seen anyone come out of there alive.<wait>
+    Es sind viele Leute in den Raum dort hinten gegangen...<wait more>
+    Aber niemand ist wiedergekommen! Hahaha!<wait>
 
 - offsets: 5512
   indices: 0FC
@@ -3847,7 +3848,7 @@
   pt-br: Vocês chegaram longe. Logo descobrirão a verdade.<wait>
   ca: Heu arribat molt lluny. Aviat coneixereu la veritat.<wait>
   es: Habéis llegado muy lejos. Pronto conoceréis la verdad.<wait>
-  de: You’ve gotten far. Soon you will know the truth.<wait>
+  de: Ich hoffe, ihr seid bereit für das, was kommt... hmhmhm...<wait>
 
 - offsets: 5518
   indices: 0FE
@@ -3864,7 +3865,7 @@
   pt-br: Saia daqui enquanto ainda respira! Você não sabe com quem está lidando!<wait>
   ca: Sortiu d'aquí mentres encara tingueu alé! No sabeu a què us enfronteu!<wait>
   es: ¡Salid de  aquí mientras aún tengáis aliento! ¡No sabéis a qué os enfrentáis!<wait>
-  de: Get out of here while you're still breathing! You don’t know what you’re up against!<wait>
+  de: Kehrt um, so lange ihr noch könnt! Ihr wisst nicht, mit was ihr euch anlegt!<wait>
 
 - offsets: 551e
   indices: 100
@@ -3881,7 +3882,7 @@
   pt-br: Você tem muita coragem para vir até aqui. Cuidado com as armadilhas escondidas!<wait>
   ca: Sou molt valents d'haver arribat aquí. Vigileu amb les trampes amagades!<wait>
   es: Sois muy valientes por haber llegado aquí. ¡Vigilad con las trampas escondidas!<wait>
-  de: It’s brave of you to come here. Beware of hidden traps!<wait>
+  de: Oho, ihr seid aber mutig. Nehmt euch vor Fallen in Acht!<wait>
 
 
 # *******************************
@@ -3922,8 +3923,9 @@
     Finalmente. ¿Por qué habéis tardado tanto? Antes que nada, necesito que vayáis a buscar a mi asistente.<wait more>
     Probablemente esté escondido en el túnel subterraneo. Es tímido. Es un poco irritante.<wait>
   de: |
-    Finally. What took you so long? First, I need you to fetch my assistant.<wait more>
-    He's probably hiding in the underground tunnel. He's shy, that one. It's irritating.<wait>
+    Na endlich, da seid ihr ja. Geht mir meinen Assistenten holen.<wait more>
+    Er versteckt sich wahrscheinlich im unter-<line>irdischen Tunnel. Nervig, wie schüchtern er ist.<wait>
+    
 
 - offsets: 508b
   # Dr Luveno
@@ -3975,11 +3977,11 @@
     Eso si, está el tema del precio. Una nave espacial no sale gratis, ¿sabéis?<wait more>
     Necesito <number><internal hint 01> meseta<s> por adelantado. ¿Podéis cubrirlo?<end>
   de: |
-    Right. It looks like my staff is assembled.<wait more>
-    What, you don’t think two people can build a spaceship?<wait more>
-    I’ll have you know I’ve been building these since you were in diapers!<wait more>
-    Now then, there's the matter of cost. Spaceships aren't free, you know.<wait more>
-    I require <number><internal hint 01> meseta<s> upfront. Can you cover that?<end>
+    Gut, mein Personal ist vollzählig.<wait more>
+    Ja, zwei Leute können sehr wohl zusammen ein Raumschiff bauen.<wait more>
+    Immerhin bau ich Raumschiffe schon, seit ihr euch noch in die Windeln gemacht habt!<wait more>
+    Wie dem auch sei, die Kosten. Material und Arbeits-<line>kraft wachsen schließlich nicht auf Bäumen.<wait more>
+    Ich brauch <number> Meseta im Voraus. Geht das klar?<end>
 
 - offsets: 50b5
   # Dr Luveno (yes to the previous question)
