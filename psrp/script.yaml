@@ -2150,23 +2150,6 @@
 - width: 29
   height: 4
 
-- offsets: 25af,260c,262d
-  # Using "Alsuline" (if you attempt to use it on Odin while Alis is dead?)
-  indices: 052-2
-  ja: |
-    シカシ ミャウハ ビンノ フタヲ<line>
-    アケルコトガ デキナカッタ.<wait>
-  translated: Alas, Myau was not able to open the lid to the bottle.
-  us: |
-    BUT MYAU CANNOT<line>
-    OPEN THE BOTTLE.<end>
-  en: But Myau couldn’t open the lid to the bottle.<wait>
-  fr: Mais Myau ne peut pas ouvrir la bouteille.<wait>
-  pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
-  ca: Però en  Myau no pot obrir el tap de l'ampolla.<wait>
-  es: Pero Myau no puede abrir el tapón del frasco.<wait>
-  de: Aber Myau bekam die Flasche nicht auf.<wait>
-
 
 # ******************************
 # *** Cave South of Camineet ***
@@ -2218,6 +2201,24 @@
     Alisa abre el tapón del frasco y vierte su contenido.<wait more>
     ¡Está funcionando!<delay>
   de: Sie öffnet die Flasche und leert sie auf der Statue aus...<delay>
+
+- offsets: 25af,260c,262d
+  # Using "Alsuline" or "Polymeteral" but only Myau is alive
+  indices: 052-2
+  ja: |
+    シカシ ミャウハ ビンノ フタヲ<line>
+    アケルコトガ デキナカッタ.<wait>
+  translated: Alas, Myau was not able to open the lid to the bottle.
+  us: |
+    BUT MYAU CANNOT<line>
+    OPEN THE BOTTLE.<end>
+  en: But Myau couldn’t open the lid to the bottle.<wait>
+  fr: Mais Myau ne peut pas ouvrir la bouteille.<wait>
+  pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
+  ca: Però en  Myau no pot obrir el tap de l'ampolla.<wait>
+  es: Pero Myau no puede abrir el tapón del frasco.<wait>
+  de: Aber Myau bekam die Flasche nicht auf.<wait>
+
 
 # ********************************
 # *** Character Intro - Tylon ***
