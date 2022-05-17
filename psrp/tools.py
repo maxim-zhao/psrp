@@ -352,13 +352,13 @@ class ScriptEntry:
         elif tag == "s":
             self.buffer.append(ScriptingCode.SymbolSuffix)
             self.script_hints = True
-        elif tag == "Der":
+        elif tag == "Nom":
             pass
-        elif tag == "g":
+        elif tag == "players":
             pass
-        elif tag == "des":
+        elif tag == "gen":
             pass
-        elif tag == "dem":
+        elif tag == "dat":
             pass
         else:
             raise Exception(f"Ignoring tag \"{match.group(0)}\"")
