@@ -1421,14 +1421,14 @@
   en: │Chip  SN76489║
   fr: │Puce  SN76489║
   pt-br: │Chip    SN76489║
-  ca: │Chip   SN76489║
+  ca: │Chip       PSG║
   es: │Chip   SN76489║
 
 - name: SoundTestMenuChipYM2413
   en: │Chip   YM2413║
   fr: │Puce   YM2413║
   pt-br: │Chip     YM2413║
-  ca: │Chip    YM2413║
+  ca: │Chip        FM║
   es: │Chip    YM2413║
 
 - name: SoundTestMenu

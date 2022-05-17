@@ -3685,14 +3685,16 @@ _table2:
 
 ; Savegame name entry screen
 
-.enum $c784 export ; cursor memory
+.enum $c784 export ; cursor memory, original game uses 10B but it seems we may use up to 16B
   CursorMemoryStart .db
   CursorX db
   CursorY db
   CurrentIndex db
+  PreviousSelectionPointer dw
   KeyRepeatCounter db
   CursorSpriteCount db
   PreviouslyPointedValue dw
+  CurrentSelectionPointer dw
 .ende
 
 .define NAME_TILEMAP_Y 6
@@ -3721,10 +3723,20 @@ NameEntryPerFrame:
   call nz,$011D ; DoPause
   ld a,8 ; VBlankFunction_Menu
   call $0056 ; ExecuteFunctionIndexAInNextVBlank
-  
-  call NameEntryInputs
-  jp NameEntrySprites ; and return
 
+  ld hl,(PreviousSelectionPointer)
+  ld a,h
+  or l
+  jr nz,+
+  ; On first run, we want to draw the cursors
+  ; We need to set this to something valid...
+  call _getPointedTileAddress
+  ld (PreviousSelectionPointer),hl
+  ld (CurrentSelectionPointer),hl
+  call _drawCursors
+  ; then carry on
+
++:
 NameEntryInputs:
   ; Get inputs
   ld a,($c205) ; buttons newly pressed
@@ -3735,7 +3747,7 @@ NameEntryInputs:
 
 _button2:
   ; Get pointed character
-  call _getPointedTileAddress
+  ld hl,(CurrentSelectionPointer)
   ld a,(hl)
   cp $c0
   jr c,_controlCharacter
@@ -3771,7 +3783,7 @@ _back:
   dec a
   ret m
   ld (CurrentIndex),a
-  ret
+  jp _drawCursors ; and ret
 
 _next:
   ld a,(CurrentIndex)
@@ -3779,12 +3791,12 @@ _next:
   cp SAVE_NAME_WIDTH
   ret z
   ld (CurrentIndex),a
-  ret
+  jp _drawCursors ; and ret
   
 _space:
   ld de,$00c0
   call _writeTilemapEntry
-  jr _next
+  jr _next ; and ret
   
 _save:
   ; get name from VRAM to RAM
@@ -3929,7 +3941,7 @@ _DecrementKeyRepeatCounter:
   
 _DirectionPressed:
   ; Get the currently pointed value
-  call _getPointedTileAddress
+  ld hl,(CurrentSelectionPointer)
   ld a,(hl)
   ld (PreviouslyPointedValue),a
   inc hl
@@ -3966,7 +3978,9 @@ _DirectionPressed:
   ld a,(hl)
   cp $c0 ; space
   jr z,_spaceAtLimit
-  ret nc
+  ld (CurrentSelectionPointer),hl
+  jp nc,_drawCursors ; and ret
+
   ; It is a control word... scan left until we find a space
   ld b,-1
 -:inc b
@@ -3978,8 +3992,11 @@ _DirectionPressed:
   ; b is the amount to move left
   ld a,(CursorX)
   sub b
-  ld (CursorX),a  
-  ret
+  ld (CursorX),a
+  inc hl
+  inc hl
+  ld (CurrentSelectionPointer),hl
+  jp _drawCursors ; and ret
   
 _spaceAtLimit:
   ; If we run into a blank at the limit then we want to go down/right until we find something.
@@ -4021,79 +4038,77 @@ _getPointedTileAddress:
   add hl,de
   ret ; in hl
   
-NameEntrySprites:
-  ; We want to draw cursor sprites
-  xor a
-  ld (CursorSpriteCount),a
+_drawCursors:
+  ; This used to draw cursors using sprites. We now draw it using tiles to avoid the sprite limit.
+  ; This means we need to draw into the name table to both clear the previous cursor and draw the new one.
+
   ; First for the entry point
   ld a,(CurrentIndex)
-  ; Multiply to pixels
+  ; Offset tilemap address
   add a,a
-  add a,a
-  add a,a
-  ; Offset
-  add a,NAME_TILEMAP_X*8 ; TODO compute this value from SAVE_NAME_WIDTH?
-  ; Write to sprite table
-  ld b,a ; x
-  ld c,NAME_TILEMAP_Y*8+7 ; y TODO the right place here
-  call _setSprite
+  ld e,a
+  ld d,0
+  ld hl,NAME_TILEMAP_POS + 32*2 - 2 ; -2 so we start one tile to the left
+  add hl,de
+  ex de,hl
+  rst $8 ; set address
+  ; write it
+  di
+    ld hl,$00c0 ; blank
+    call _emit
+    ld hl,$0900 ; cursor
+    call _emit
+    ld hl,$00c0 ; blank
+    call _emit
+  ei
 
-  ; Compute the current word's cursor width
-  call _getPointedTileAddress
+  ; Next for the selection cursor
+  ld hl,(PreviousSelectionPointer)
+  ld de,$00c0
+  call _drawSelectionCursor
+  ld hl,(CurrentSelectionPointer)
+  ld (PreviousSelectionPointer),hl
+  ld de,$0900
+  ; fall through
+  
+_drawSelectionCursor:
+  ; How wide is it?
   ld a,(hl)
   cp $c0 ; space
   ld b,1 ; for non-word rows
   jr nc,+
 
   ; Count how many we move right before seeing a space
-  ld b,-1
--:inc b
-  ld a,(hl)
-  inc hl
-  inc hl
-  cp $c0
-  jr nz,-
+  push hl
+    ld b,-1
+-:  inc b
+    ld a,(hl)
+    inc hl
+    inc hl
+    cp $c0
+    jr nz,-
+  pop hl
 
-+:
-  ; Next draw the cursor for the selected letter/word
-  ld a,(CursorY)
-  add a,a
-  add a,a
-  add a,a
-  add 7 ; offset below letter
-  ld c,a
-  ld a,(CursorX)
-  add a,a
-  add a,a
-  add a,a
-  ld e,a ; X for first
--:push bc
-    ld b,e
-    call _setSprite
-    inc d
-    ld a,e
-    add 8
-    ld e,a
-  pop bc
-  djnz -
++:; hl is a RAM address, convert to a VRAM address
+  push de
+    ld de, $7800-$d000+32*2 ; RAM base is $d000, VRAM base is $7800. Add 32*2 to get one row down.
+    add hl,de
+  pop de
+  ex de,hl
+  rst $8 ; set address
+  di
+-:  call _emit
+    djnz -
+  ei
+  ret
   
-  ; Terminate the sprite table
-  ld c,$d0
-  ; fall through
-
-_setSprite:
-  ld hl,CursorSpriteCount
-  ld a,(hl)
-  inc (hl)
-  ld h,$c9 ; SpriteTable is at $c900
-  ld l,a ; offset for y
-  ld (hl),c
-  add a,a
-  add 128
-  ld l,a ; offset for xn
-  ld (hl),b
-  inc l
-  ld (hl),0
+_emit:
+  ld a,l
+  out (PORT_VDP_DATA),a
+  push ix
+  pop ix
+  ld a,h
+  out (PORT_VDP_DATA),a
   ret
 .ends
 
@@ -4123,6 +4138,7 @@ SaveNameToSaveRam:
 .bank 1 slot 1
 .orga $4183
 .section "Draw name entry screen trampoline" force
+  call $7da8 ; FadeOutFullPalette
   ld a,:DrawNameEntryScreen
   ld (PAGING_SLOT_2),a
   call DrawNameEntryScreen
@@ -4136,8 +4152,6 @@ SaveNameToSaveRam:
 ; This is called once to set up the name entry screen.
 ; A lot of this code is copied from the original, but with customisations...
 DrawNameEntryScreen:
-  call $7da8 ; FadeOutFullPalette
-
   ; Increment FunctionLookupIndex to go to the per-frame handler next
   ld hl,FunctionLookupIndex
   inc (hl)
@@ -4407,6 +4421,7 @@ NameEntryLookup:
 
 _CursorMemoryInitialValues:
 .db 3, 11, 0 ; X, Y, index into drawn name
+.dw $0000 ; Previous selection pointer. 0 is used to trigger the intial cursor draw.
 
 .ends
 
