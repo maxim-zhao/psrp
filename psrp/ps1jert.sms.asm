@@ -2610,7 +2610,7 @@ Enemies:
 ; Max width 18 for enemy window, excluding <...> prefix (with space)
 ; Characters in [] only get printed in enemy name window.
 ; Those in {} get printed if <monster> comes after <gen>.
-; Those in () get printed if <monster comes after <dat>.
+; Those in () get printed if <monster> comes after <dat>.
   String " " ; Empty
   String "<Die> Riesenfliege"
   String "<Der> Grünschleim{s}"
@@ -4649,13 +4649,11 @@ NameEntryLookup:
 .endif
 .if LANGUAGE == "de"
 .db 12
-  NameEntryText  6,  1, "Gib einen Namen ein"
+  NameEntryText  6,  1,    "Gib einen Namen ein"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
   NameEntryText  3, 15, "äöüß  0123456789  .,-!?’„“"
-  NameEntryText  3, 17, "Zurück"
-  NameEntryText 21, 17,                   "Vorwärts"
-  NameEntryText  3, 19, "Leerzeichen"
+  NameEntryText  3, 17, "Links  Rechts  Leerzeichen"
   NameEntryText 23, 19,                     "Fertig"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
   NameEntryText  1, 23, "╘═"
@@ -4663,9 +4661,9 @@ NameEntryLookup:
   NameEntryText 30, 23, "╝"
 NameEntryLookup:
 .db 4
-  NameEntryMask  3, 17,  6, "B" ; X, Y, length, type (Back)
-  NameEntryMask 21, 17,  8, "N" ; Next
-  NameEntryMask  3, 19, 11, "S" ; Space
+  NameEntryMask  3, 17,  5, "B" ; X, Y, length, type (Back)
+  NameEntryMask 10, 17,  6, "N" ; Next
+  NameEntryMask 18, 17, 11, "S" ; Space
   NameEntryMask 23, 19,  6, "V" ; saVe
 .define NameEntryMinX 3
 .define NameEntryMaxX 28
@@ -6095,12 +6093,12 @@ DrawTilemap:
 .section "Save game deletion" free
 DeleteSavedGame:
   ; We want to jump back to slot 2 when we are done
-  ld hl,ScriptConfirmSlot ; Slot <Das>, are you sure?
+  ld hl,ScriptConfirmSlot ; Slot <n>, are you sure?
   call TextBox
   call DoYesNoMenu
   jr nz,_no
 
-  ld hl,ScriptDeletingFromSlotN ; Deleting game from slot <Das>.
+  ld hl,ScriptDeletingFromSlotN ; Deleting game from slot <n>.
   call TextBox
 
   ld a,SRAMPagingOn
