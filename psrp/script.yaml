@@ -145,8 +145,8 @@
     ¿Nero? ¡NERO!<line><line>
     ¡¿Que ha ocurrido?!<wait>
   de: |
-    Bürger von Camineet, lasst euch die Leiche dieses Mannes eine Lehre sein.<line><line>
-    Widerstand gegen König Lashiec wird mit dem Tod geahndet.<wait more>
+    Bürger von Camineet, lasst euch die Leiche dieses Mannes eine Lehre sein.<line>
+    Widerstand gegen König Lashiec wird mit dem Tode bestraft.<wait more>
     Nero? NERO!<line><line>
     Was ist passiert?!<wait>
 
@@ -301,19 +301,19 @@
     ...sola...<wait>
   de: |
     Alisa... hör gut zu.<line><line>
-    Die Leute hatten recht. Lashiec... hat sich verändert.<wait more>
-    Die Militärpolizei in unseren Straßen ist nur ein Indiz davon...<line><line>
+    Die Leute hatten recht. Lashiec... er hat sich verändert.<wait more>
+    Die Militärpolizei in unseren Straßen ist nur ein Indiz davon...<wait more>
     All die Kreaturen außerhalb der Stadt, all das Elend in unserem Leben... alles führt irgendwie auf ihn zurück.<wait more>
-    Ich hab versucht, der Sache auf den Grund zu gehen, aber ich hab wohl zu viel rausgefunden.<line><line>
-    Es gibt nur einen Ausweg für uns alle. König Lashiec muss sterben.<wait more>
+    Ich wollte der Sache auf den Grund gehen, aber ich hab wohl zu viel rausgefunden.<line><line>
+    Es gibt nur einen Ausweg. König Lashiec muss sterben.<wait more>
     Wenn ihn keiner aufhält, wird die Finsternis, der er sich verschrieben hat, ganz Algol verschlingen.<wait more>
-    Ich dachte, ich könnte ihn eigenhändig erledigen. Das war mein Fehler.<line><line>
+    Ich dachte, ich könnte ihn alleine stürzen. Das war mein Fehler.<line><line>
     Du musst dir Hilfe suchen.<wait more>
     Die Leute redeten von einem Krieger namens Tylon.<line><line>
     Ich wollte ihn ausfindig machen, aber er ist verschollen.<wait more>
     Finde ihn, Alisa.<line><line>
     Finde Tylon und töte Lashiec. Zusammen könnt ihr Algol retten.<wait more>
-    Ich weiß, es ist eine schreckliche Bürde... es tut mir so leid...<line><line>
+    Ich weiß, es ist eine schreckliche Bürde... und es tut mir so leid...<line><line>
     ...dass ich dich darum bitten muss...<wait more>
     ...und dich ganz... allein...<line><line>
     ...lasse...<wait>
@@ -562,7 +562,6 @@
     A última vez que ouvi, ele estava hospedado em uma cidade chamada Shion. Talvez ele ainda esteja por perto.<wait more>
     Seu irmão também me pediu para manter este Pote de Lacônia seguro.<wait more>
     Ele é muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
-
   ca: |
     Em diuen Nekise.<line><line>
     T'acompanyo en el sentiment.<wait more>
@@ -878,7 +877,7 @@
     Los tres planetas se encuentran amenazados por las ambiciones de Lashiec.<wait more>
     Cada dia estamos más cerca de una crisis sin salida.<wait>
   de: |
-    Algol ist von drei Planeten umgeben. Palma, Motavia und Dezoris.<wait more>
+    Algol ist von drei Planeten umgeben: Palma, Motavia und Dezoris.<wait more>
     Jeder Planet hat seine eigene Atmosphäre, und damit auch sein eigenes Klima.<wait more>
     Palma ist, wie du siehst, ein grüner Planet, reich an üppigen Wiesen und Wäldern.<wait more>
     Motavia ist eine endlose, dürre Wüste, hat aber auch seinen Reiz.<wait more>
@@ -1045,7 +1044,7 @@
     ¿Sabías que hay un paso subterráneo que va hacia el oeste, hacia el Bosque de Gothic?<wait more>
     La entrada se supone que está aquí cerca, pero nunca la he podido encontrar.<wait>
   de: |
-    Wusstest du, dass es unterirdischen Tunnel in den Gothic-Wald im Westen gibt?<wait more>
+    Wusstest du, dass es einen unterirdischen Tunnel in den Gothic-Wald im Westen gibt?<wait more>
     Angeblich soll er hier in der Nähe sein, aber ich weiß nicht, wo.<wait>
 
 
@@ -1485,7 +1484,7 @@
   pt-br: Esté é o Espaçoporto de Palma. Todas as espaçonaves viajam direto para Paseo, a capital de Motávia.<wait>
   ca: Benvingut al Port Espacial de Palma. Totes les naus volen en sentit a Paseo, la capital de Motavia.<wait>
   es: Bienvenido al Puerto Espacial de Palma. Todas las naves vuelan en dirección a Paseo, la capital de Motavia.<wait>
-  de: Willkommen am Weltraumflug-<line>hafen Palma. Alle Raumschiffe hier fliegen nach Paseo, die Hauptstadt Motavias.<wait>
+  de: Willkommen am Weltraumflug-<line>hafen Palma. Alle Raumschiffe hier fliegen nach Paseo, der Hauptstadt Motavias.<wait>
 
 - offsets: 4ca4
   # Luggage handler
@@ -1578,7 +1577,7 @@
     La ley requiere que le haga una série de preguntas.<wait more>
     ¿Ha sido condenada alguna vez por algún crimen?<end>
   de: |
-    Ich bin gesetzlich dazu verpflichtet, Sie einige Fragen zu stellen.<wait more>
+    Ich bin gesetzlich dazu verpflichtet, Ihnen einige Fragen zu stellen.<wait more>
     Wurden Sie jemals wegen eines Verbrechens verurteilt?<end>
 
 - offsets: 4d55
@@ -2150,6 +2149,23 @@
 - width: 29
   height: 4
 
+- offsets: 25af,260c,262d
+  # Using "Alsuline" (if you attempt to use it on Odin while Alis is dead?)
+  indices: 052-2
+  ja: |
+    シカシ ミャウハ ビンノ フタヲ<line>
+    アケルコトガ デキナカッタ.<wait>
+  translated: Alas, Myau was not able to open the lid to the bottle.
+  us: |
+    BUT MYAU CANNOT<line>
+    OPEN THE BOTTLE.<end>
+  en: But Myau couldn’t open the lid to the bottle.<wait>
+  fr: Mais Myau ne peut pas ouvrir la bouteille.<wait>
+  pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
+  ca: Però en  Myau no pot obrir el tap de l'ampolla.<wait>
+  es: Pero Myau no puede abrir el tapón del frasco.<wait>
+  de: Aber Myau bekam die Flasche nicht auf.<wait>
+
 
 # ******************************
 # *** Cave South of Camineet ***
@@ -2217,7 +2233,7 @@
   pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
   ca: Però en  Myau no pot obrir el tap de l'ampolla.<wait>
   es: Pero Myau no puede abrir el tapón del frasco.<wait>
-  de: Aber Myau bekam die Flasche nicht auf.<wait>
+  de: Aber er bekam die Flasche nicht auf.<wait>
 
 
 # ********************************
@@ -2269,8 +2285,8 @@
     Si no podemos derrotar a Medusa, no tenemos ninguna posibilidad contra Lashiec.<line><line>
     ¿Quien es tu nueva amiga?<wait>
   de: |
-    Ah, Myau, du hast Hilfe gefunden. Danke.<line><line>
-    Aber wenn wir selbst Medusa nicht besiegen konnten, welche Chance hätten wir gegen Lashiec.<wait more>
+    Ah, Myau, du hast Hilfe gefunden. Danke.<wait more>
+    Aber wenn wir selbst Medusa nicht besiegen konnten, welche Chance hätten wir gegen Lashiec?<wait more>
     Und du bist...?<wait>
 
 - offsets: 4693
@@ -2309,9 +2325,9 @@
     Lo destruiré, cueste lo que cueste.<line><line>
     Nero me dió tu nombre antes de morir, creíaa que nos podrias ayudar.<wait>
   de: |
-    Alisa. Mein Bruder wollte Lashiec stürzen und hat dabei sein Leben gelassen.<wait more>
-    Ich werde ihn rächen, komme was wolle.<line><line>
-    Bevor er starb, hat er mir deinen Namen genannt, und dass du mir helfen könntest.<wait>
+    Alisa. Mein Bruder wollte Lashiec stürzen und hat dabei sein Leben gelassen.<line><line>
+    Ich werde ihn rächen, komme was wolle.<wait more>
+    Bevor er starb, hat er mir deinen Namen genannt, und gesagt, dass du mir helfen könntest.<wait>
 
 - offsets: 469e
   indices: 16A-2
@@ -2343,7 +2359,7 @@
     Ya veo. Bien, en memoria de Nero, ¡formemos equipo!<line><line>
     Siempre hay sitio para uno más, ¿verdad Myau?<wait>
   de: |
-    Verstehe... Dann lass es uns zusammen anpacken, auch für deinen Bruder!<line><line>
+    Verstehe... Dann lass es uns zusammen anpacken, auch für deinen Bruder!<wait more>
     Zu dritt haben wir immerhin eine bessere Chance, stimmt's?<wait>
 
 - offsets: 46a9
@@ -2426,7 +2442,7 @@
   de: |
     Ach, weil sie eine legendäre Axt besitzt.<line><line>
     Ich dachte mir, die könnte gegen Lashiec ganz nützlich sein.<wait more>
-    Wie dem auch sei, ich hab einen Kompass in einer Sackgasse hier versteckt.<line><line>
+    Wie dem auch sei, ich hab einen Kompass in einer Sack-<line>gasse hier versteckt.<line><line>
     Den sollten wir uns auch schnell holen.<wait>
 
 
@@ -2463,8 +2479,8 @@
     No me sorprendería que al Gobernador General de Motavia aprobase lo que haces.<wait more>
     Quizá hasta podría ayudarte en tu misión. ¿Has hablado con el?<wait>
   de: |
-    It wouldn’t surprise me if the Governor-General of Motavia approved of what you’re doing.<wait more>
-    He might even be able to help you in your quest. Have you talked to him yet?<wait>
+    Dem Generalgouverneur von Motavia würde bestimmt gefallen, was ihr da macht.<wait more>
+    Vielleicht kann er euch sogar helfen. Habt ihr schon mit ihm geredet?<wait>
 
 - offsets: 4deb
   # Villager
@@ -2481,7 +2497,7 @@
   pt-br: Todos os grandes Espers vivem em Motávia.<wait>
   ca: Tots els grans Espers viuen a Motavia.<wait>
   es: Todos los grandes Espers viven en Motavia.<wait>
-  de: All the great Espers live on Motavia.<wait>
+  de: All die großen Esper sind auf Motavia zu finden.<wait>
 
 - offsets: 4df1
   # Villager
@@ -2509,8 +2525,8 @@
     Hace mucho tiempo,un professor llamado Luveno disponía de un laboratorio en el bosque de Gothic.<wait more>
     ¿Me pregunto si aún debe estar ahí?<wait>
   de: |
-    Long ago, a professor named Luveno had a research laboratory in the Gothic Woods.<wait more>
-    I wonder if it’s still there?<wait>
+    Ein gewisser Professor Luveno hatte vor langer Zeit mal ein Forschungsinstitut im Gothic-Wald.<wait more>
+    Vielleicht gibt's das noch?<wait>
 
 - offsets: 4df7
   # Villager
@@ -2535,8 +2551,8 @@
     ¡Bienvenido al pueblo de Eppi!<wait more>
     Últimamente no tenemos demasiados visitantes, con el bosque repleto de monstruos.<wait>
   de: |
-    Welcome to Eppi Village!<wait more>
-    We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
+    Willkommen im Dorf Eppi!<wait more>
+    Wir bekommen fast nie Besucher, weil der Wald so schwer zu durchqueren ist.<wait>
 
 - offsets: 4dfd
   # Villager
@@ -2568,9 +2584,9 @@
     O eres una loca, o eres más fuerte de lo que parece.<wait more>
     De cualquier forma, admiro tu valentía. ¿No necesitas una Llave de Mazmorra?<end>
   de: |
-    Taking on ol’ LaShiec, are you?<wait more>
-    You’re either a fool, or you’re tougher than you look.<wait more>
-    Either way, I admire your bravery. Are you in need of a Dungeon Key?<end>
+    Ihr wollt Lashiec die Stirn bieten?<wait more>
+    Da seid ihr wohl Narren... oder stärker, als ihr ausseht.<wait more>
+    Helfen würde ich euch jedenfalls gerne. Braucht ihr einen Kerkerschlüssel?<end>
 
 - offsets: 4e17
   # Villager (yes to previous question)
@@ -2604,8 +2620,8 @@
     Escondí una en el almacén a las afueras del distrito residencial de Camineet.<wait more>
     La escondí muy bien, quizás habrías de hecharle un ojo si ya estuviste ahí.<wait>
   de: |
-    I hid one inside the warehouse on the outskirts of Camineet’s residential district.<wait more>
-    I hid it pretty good, you might want to take a second look if you've already been there.<wait>
+    Ich hab einen im Lagerhaus in Camineet versteckt, ganz außen am Stadtrand.<wait more>
+    Falls ihr schon dort gesucht habt, sucht ihr am besten ein zweites Mal.<wait>
 
 - offsets: 4e1d
   # Villager
@@ -2622,7 +2638,7 @@
   pt-br: Você sabe qual é o material mais duro, mais forte do mundo?<end>
   ca: Saps quin és el material més dur i fort del món?<end>
   es: ¿Sabes cuál es el material más duro y fuerte del mundo?<end>
-  de: Do you know what the hardest, strongest material in the world is?<end>
+  de: Wisst ihr, was das härteste, stärkste Material in der ganzen Welt ist?<end>
 
 - offsets: 4e2b
   # Villager (no to previous question)
@@ -2641,7 +2657,7 @@
   pt-br: Se você não sabe, é Lacônia! Armas de Lacônia são as mais fortes em toda Algol!<wait>
   ca: És la Laconia! Les armes de Laconia són les més fortes de tot Algol!<wait>
   es: ¡Es la Laconia! ¡Las armas de Laconia son las más fuertes de todo Algol!<wait>
-  de: It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
+  de: Lakonium! Waffen aus Lakonium sind die stärksten in ganz Algol!<wait>
 
 # ******************
 # *** Naula Cave ***
@@ -2681,8 +2697,8 @@
     Anda, ¡un cliente! Me alegro que nos hayas encontrado. Perdon por el emplazamiento...<wait more>
     Mis pasteles son los mejores de Algol, y solo cuestan <number><internal hint 02> meseta<s>. ¿Quieres uno?<end>
   de: |
-    Hey, a customer! Glad you found us. Sorry about the location...<wait more>
-    My shortcakes are the best in Algol, and a steal at only <number><internal hint 02> meseta<s>. Want one?<end>
+    Willkommen in meiner Konditorei! Tur mir leid wegen des Standortes...<wait more>
+    Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta! Wollen Sie eins?<end>
 
 # *********************
 # *** Paseo (again) ***
@@ -2717,7 +2733,7 @@
   pt-br: Pare! Você trouxe um presente para o Governador-Geral?<end>
   ca: Pari! Ha portat un regal per al Governador General?<end>
   es: ¡Alto! ¿LLeva un regalo para el Gobernador General?<end>
-  de: Halt! Did you bring a gift for the Governor-General?<end>
+  de: Halt! Haben Sie ein Geschenk für den Generalgouverneur?<end>
 
 - offsets: 564b
   # Guard inside Underground Passage to Governor's Mansion (yes/shortcake to previous question)
@@ -2745,8 +2761,8 @@
     Ah, pastel. Le encantará. Se lo llevaré personalmente.<wait more>
     Puedes pasar.<wait>
   de: |
-    Ah, Shortcake. He’ll be pleased. I’ll hold on to this for you.<wait more>
-    Proceed.<wait>
+    Ein Törtchen? Das wird ihn freuen. Ich bringe es ihm für Sie.<wait more>
+    Sie dürfen weiter.<wait>
 
 - offsets: 5651
   # Guard inside Underground Passage to Governor's Mansion (yes/other item to previous question)
@@ -2762,7 +2778,7 @@
   pt-br: Estes não são presentes adequados!<wait>
   ca: Aquest no és un present escaient!<wait>
   es: ¡Esto no es un regalo adecuado!<wait>
-  de: These are not suitable gifts!<wait>
+  de: Das sind keine passenden Geschenke!<wait>
 
 - offsets: 5632
   # Guard inside Underground Passage to Governor's Mansion (no to previous question)
@@ -2777,7 +2793,7 @@
   pt-br: Eu não posso lhe conceder acesso sem um presente!<wait>
   ca: No et puc deixar passar sense un present!<wait>
   es: ¡No te puedo dejar pasar sin un regalo!<wait>
-  de: I can’t grant you access without a gift!<wait>
+  de: Ohne ein Geschenk dürfen Sie hier nicht durch.<wait>
 
 - offsets: 4f19
   # Governor-General (first visit)
@@ -2856,13 +2872,14 @@
     Un Esper muy poderoso llamado Lutz vive en la cueva de Mahal, al norte. Entrégale esta carta.<wait more>
     Con su ayuda, tengo fe en que tendreis éxito. Vuelve cuando lo hayáis conseguido.<wait>
   de: |
-    Welcome. I am the Governor-General of this planet. You have come so far. Please, sit.<wait more>
-    I know why you are here. You’ve certainly made no secret of it. You're going to kill LaShiec.<wait more>
-    LaShiec is a powerful man. No, more than a man. He’s beyond those constraints now.<wait more>
-    You’re very brave to take him on. But bravery, I fear, will not be enough.<wait more>
-    Go. Destroy him. I won’t stop you. In fact, I will offer you assistance.<wait more>
-    A powerful Esper named Lutz lives in Mahal cave, north of here. Take this letter to him.<wait more>
-    With his help, I have faith that you will succeed. Come back here when you have.<wait>
+    Willkommen. Ich bin der Generalgouverneur dieses Planeten. Danke, dass Sie gekommen sind.<wait more>
+    Es hat sich schnell rumge-<line>sprochen, was Sie vorhaben. Sie wollen Lashiec töten.<wait more>
+    Lashiec ist... kein herkömm-<line>licher Mensch mehr.<line>Etwas ist mit ihm passiert.<wait more>
+    Sie sind durchaus sehr kühn, aber Kühnheit allein wird nicht genügen.<wait more>
+    Ich glaube aber, ich weiß, was ich für Sie tun kann.<wait more>
+    Nördlich von hier, in der Mahal-Höhle, lebt ein mächtiger Esper namens Lutz.<wait more>
+    Bringen Sie ihm diesen Brief, und er wird Ihnen bestimmt helfen.<wait more>
+    Zu viert werden Sie ganz sicher erfolgreich sein. Sagen Sie Bescheid, wenn Lashiec nicht mehr lebt.<wait>
 
 - offsets: 4f13,4fc6
   # Governor-General (subsequent visits)
@@ -2879,23 +2896,10 @@
   pt-br: Volte aqui quando você derrotar LaShiec. Que Deus esteja com você.<wait>
   ca: Torneu aquí un cop hàgiu derrotat en Lashiec. Déu vos guard.<wait>
   es: Volved aquí una vez hayáis derrotado a Lashiec. Que Dios os proteja.<wait>
-  de: Return here when you have defeated LaShiec. God be with you.<wait>
-
-- offsets: 4ff9
-  indices: 0B8
-  ja: ドウカ ブジニ モドッテキテネ.<line>
-  us: |
-    I AM PRAYING FOR<line>
-    YOUR SAFETY.<end>
-  en: Good luck out there. You’re going to need it.<wait>
-  fr: Bonne chance. Vous allez en avoir besoin.<wait>
-  pt-br: Boa sorte lá fora. Você vai precisar.<wait>
-  ca: Bona fortuna tingueu. La necessitareu.<wait>
-  es: Buena suerte. La necesitaréis.<wait>
-  de: Good luck out there. You’re going to need it.<wait>
+  de: Sagen Sie Bescheid, wenn Lashiec nicht mehr lebt. Ich zähle auf Sie.<wait>
 
 - offsets: 4f2f
-  # Lady in Guest House (first visit)
+  # Governor-General (before nightmare)
   indices: 29C
   ja: ナガイタビデ ツカレタダロウ.<line>
   translated: You must be tired from your long journey. You should relax here for a while.
@@ -2910,10 +2914,10 @@
   pt-br: Você deve estar cansada de sua jornada. Por que não descansa aqui por um tempo?<wait>
   ca: Heu d'estar esgotats del vostre viatge. Per què no descanseu una mica?<wait>
   es: Debeis estar agotados de viajar, ¿Por qué no descansáis un poco?<wait>
-  de: You must be tired from your journey. Why don’t you rest here for a while?<wait>
+  de: Sie sind bestimmt eschöpft von Ihrer langen Reise. Verbringen Sie doch eine Nacht hier.<wait>
 
 - offsets: 4fda
-  # Lady in Guest House (subsequent visits)
+  # Lady in Guest House
   indices: 0B6
   ja: ドウゾ ヤスンデ イッテネ.<wait>
   translated: Please rest before you go.
@@ -2927,7 +2931,21 @@
   pt-br: Você parece cansada, por que não descansa aqui por um tempo?<wait>
   ca: Sembleu esgotats. Per què no descanseu una mica?<wait>
   es: Parecéis agotados. ¿Por qué no descansáis un poco?<wait>
-  de: You look tired, why don’t you rest here for a while?<wait>
+  de: Ihr seht müde aus. Ruht euch doch ein bisschen aus.<wait>
+  
+- offsets: 4ff9
+  # Lady in Guest House (after resting)
+  indices: 0B8
+  ja: ドウカ ブジニ モドッテキテネ.<line>
+  us: |
+    I AM PRAYING FOR<line>
+    YOUR SAFETY.<end>
+  en: Good luck out there. You’re going to need it.<wait>
+  fr: Bonne chance. Vous allez en avoir besoin.<wait>
+  pt-br: Boa sorte lá fora. Você vai precisar.<wait>
+  ca: Bona fortuna tingueu. La necessitareu.<wait>
+  es: Buena suerte. La necesitaréis.<wait>
+  de: Viel Glück. Kommt lebend wieder, ja?<wait>
 
 - offsets: 4f5b
   indices: 2A0
@@ -2941,7 +2959,7 @@
   pt-br: Você caiu em um sono profundo...<delay>
   ca: Caus en un son profund...<delay>
   es: Caes en un sueño profundo...<delay>
-  de: You fell into a deep sleep...<delay>
+  de: Du fällst in einen tiefen Schlaf...<delay>
 
 - offsets: 4fa2
   indices: 2A2
@@ -2955,7 +2973,7 @@
   pt-br: Era tudo um sonho...<wait>
   ca: Ha estat tot un somni...<wait>
   es: Todo era un sueño...<wait>
-  de: It was all a dream...<wait>
+  de: Es war nur ein schlechter Traum...<wait>
 
 - offsets: 4f0d
   # Governor-General (return after dream):
@@ -2994,9 +3012,9 @@
     Por favor, tened cuidado.<line>
     Rezo por vosotros.<wait>
   de: |
-    There is not a single moment to lose.<wait more>
-    Please be careful.<line>
-    I pray for your safety.<wait>
+    Es gibt keine Zeit zu verlieren.<wait more>
+    Fassen Sie sich ein Herz!<line>
+    Und kommen Sie lebend wieder.<wait>
 
 - offsets: 4ed6
   # (after defeating LaShiec)
@@ -3013,7 +3031,7 @@
   pt-br: Vazio! Onde está o Governador-Geral?<wait>
   ca: No hi ha ningú! Ón és el Governador General?<wait>
   es: ¡No hay nadie! ¿Donde está el Gobernador General?<wait>
-  de: Empty! Where is the Governor-General?<wait>
+  de: Komisch, niemand da...<line>Wo ist der Generalgouverneur denn hin?<wait>
 
 # ******************
 # *** Mahal cave ***
@@ -3034,7 +3052,7 @@
   pt-br: Uma vez que as ordens são do Governador-Geral, Lutz provavelmente vai ouvir.<wait>
   ca: Donat que les ordres son del Governador General, Lutz probablement t'escoltarà.<wait>
   es: Dado que las órdenes vienen del Gobernador General, Lutz probablemente te escuchará.<wait> 
-  de: Since the orders are from the Governor-General, Lutz will probably listen.<wait>
+  de: Wenn Lutz jemandem gehorcht, dann dem Generalgouverneur.<wait>
 
 - offsets: 53c9
   indices: 0B2
@@ -3045,7 +3063,7 @@
   pt-br: Iarrú!<wait>
   ca: Hola!<wait>
   es: ¡Hola!<wait>
-  de: Yahoo!<wait>
+  de: Huhu!<wait>
 
 - offsets: 53df
   # Lutz, if you have no letter
@@ -3075,8 +3093,8 @@
     ¿Quiénes sois?<line><line>
     Estoy intentando entrenar. No me interrumpáis.<wait>
   de: |
-    Who are you?<line><line>
-    I’m trying to train. Don’t interrupt me.<wait>
+    Wer seid ihr?<line><line>
+    Ich bin gerade beim Training. Bitte stört mich nicht.<wait>
 
 
 # ******************************
@@ -3114,8 +3132,8 @@
     Tu eres Lutz, ¿verdad?. Tengo una carta para ti del Gobernador General.<line><line>
     ¿La quieres leer?<wait>
   de: |
-    You must be Lutz. I have a letter for you from the Governor-General.<line><line>
-    Would you mind reading it?<wait>
+    Bist du Lutz?<line><line>
+    Ich hab einen Brief für dich vom Generalgouverneur, wenn du ihn bitte lesen könntest.<wait>
 
 - offsets: 46f2
   indices: 172-2
@@ -3185,13 +3203,13 @@
     Si no recuerdo mal, se puede llegar desde un pasaje secreto en el Puerto Espacial de Camineet.<line><line>
     ¡Vamos! El tiempo apremia.<wait>
   de: |
-    Let me see that.<wait more>
-    ...Ah. I see. So it’s come to this.<line><line>
-    I apologize for my earlier hostility.<wait more>
-    Together, we must protect Algol from falling into the hands of evil.<line><line>
-    First, we must meet with Dr. Luveno, in the Gothic Woods.<wait more>
-    If I recall, we can get there through a manhole at Camineet Space Station.<line><line>
-    Let’s go. Quickly.<wait>
+    Lass mich sehen.<wait more>
+    ...Ah, ich verstehe. Dazu ist es also gekommen.<line><line>
+    Tut mir leid, dass ich so brüsk war.<wait more>
+    Zusammen müssen wir Algol vor dem Bösen bewahren.<line><line>
+    Dafür sollten wir zuerst Dr._Luveno im Gothic-Wald besuchen.<wait more>
+    Wenn ich mich recht entsinne, gibt es einen Kontrollschacht am Camineet-Weltraum-<line>flughafen, der dort hinführt.<line><line>
+    Gehen wir. Schnell.<wait>
 
 
 # ********************
@@ -3216,7 +3234,7 @@
   pt-br: Gostaria de comer uma PelorieMate. Você pode me dar uma?<end>
   ca: M'aniria bé un PelorieMate. No me'n donaries un?<end>
   es: Un PelorieMate me iría al pelo. ¿No me darías uno?<end>
-  de: I could really use a PelorieMate. Can you spare one?<end>
+  de: Ich hab so'n Hunger... Hast du'n PelorieMate für mich?<end>
 
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
@@ -3260,9 +3278,9 @@
     Pero ya no. Enloqueció. Al final lo encerraron.<wait more>
     Lo tienen prisionero en Triada, una prisión hacia el sur.<wait>
   de: |
-    Thanks. I suppose you’re looking for Doc Luveno? Yeah, his lab used to be here.<wait more>
-    Not no more, though. Guy went crazy. They finally locked that loon up.<wait more>
-    He’s being held in Triada, a prison south of here.<wait>
+    Danke. Du suchst Luveno, ne? Der hatte hier mal sein Labor.<wait more>
+    Vor 'ner Weile isser aber irgendwie debil geworden und da ha'm se'n eingesperrt.<wait more>
+    Jetz isser im Triada-<line>Gefängnis, südlich von hier.<wait>
 
 - offsets: 502e,5055,535b
   # Villager (yes to previous question, and you don't have a PelorieMate)
@@ -3275,7 +3293,7 @@
   pt-br: Espere, você não tem? Então por que disse sim?! Cai fora!<wait>
   ca: Un moment, no en tens cap? Aleshores per què em dius que sí?! A prendre pel cul!<wait>
   es: Un momento, ¿no tienes ninguno? ¡¿Entonces por que me dices que sí?! ¡Vete a tomar viento!<wait>
-  de: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
+  de: Hältst du mich für blöde? Verzieh dich!<wait>
 
 - offsets: 5016,503f,54b4
   # Villager (no to previous question)
@@ -3290,7 +3308,7 @@
   pt-br: Então não tenho nada para te dizer. Cai fora!<wait>
   ca: Aleshores no tinc res que conversar amb vosaltres. Adéu.<wait>
   es: Entonces no tengo nada que hablar con vosotros. Adios.<wait>
-  de: Then I got nothing to say to you. Get lost.<wait>
+  de: Dann hab ich dir nix zu sagen. Lass mich in Ruhe.<wait>
 
 - offsets: 504f
   # Another villager (yes to previous question, and you have a PelorieMate)
@@ -3334,9 +3352,10 @@
     Al final del largo camino hacia el sur, hay una torre antigua.<wait more>
     ¡Dicen que la habita un monstruo que te convierte en piedra solo con mirarte!<wait>
   de: |
-    Thank you, stranger.<wait more>
-    At the end of the long path directly south of here, there's an ancient tower.<wait more>
-    Word is there's a monster in there that turns you to stone if you just look at it!<wait>
+    Danke, Mann.<wait more>
+    Südlich von hier gibt's so'n langen Weg durch die Berge zu 'nem alten Turm.<wait more>
+    Würd ich aber nicht hingehen, wenn ich du wäre.<wait more>
+    's heißt, da is'n Monster, das dich beim bloßen Angucken versteinert!<wait>
 
 - offsets: 5856
   # Villager guarding open field (no Luveno/Hapsby)
@@ -3354,7 +3373,7 @@
   pt-br: Ei! Fique longe do meu território! Tudo passando daqui é meu!<wait>
   ca: Hey! Fora del meu tros! A partir d'aquí tot és meu!<wait>
   es: ¡Hey! ¡Fuera de mi terruño! ¡Desde aquí todo esto es mio!<wait>
-  de: Hey! Keep outta my turf! Everything past here is mine!<wait>
+  de: Ey! Das da is' mein Revier! Verzieht euch!<wait>
 
 - offsets: 585c
   # Villager guarding open field (have Luveno/Hapsby)
@@ -3371,7 +3390,7 @@
   pt-br: Bem, acho que devo fazer o que o Doutor Luveno pediu. Vá em frente, pode passar.<wait>
   ca: Bé, suposo que he de fer el que el Doctor Luveno mana. Podeu passar.<wait>
   es: Bien, supongo que he de hacer lo que manda el Doctor Luveno. Podéis pasar.<wait>
-  de: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.<wait>
+  de: Na gut, wenn Luveno sagt, dass ihr durch dürft, muss ich wohl auf ihn hören.<wait>
 
 # *********************
 # *** Triada Prison ***
@@ -3390,7 +3409,7 @@
   pt-br: Você tem um Passe?<end>
   ca: Teniu un salconduit?<end>
   es: ¿Tenéis un salvaconducto?<end>
-  de: Do you have a Roadpass?<end>
+  de: Haben Sie einen Straßenpass?<end>
 
 - offsets: 549d,55e0
   # Guard Near Entrance (no to previous question)
@@ -3424,7 +3443,7 @@
   pt-br: Obrigado. Sabe, não importa o que as pessoas digam, as aranhas realmente são criaturas muito inteligentes.<wait>
   ca: Merci. Saps, no facis cas al que diuen, les aranyes son de fet molt intel·ligents.<wait>
   es: Gracias. Sabes, no hagas caso a las habladurías, lss arañas són de hecho muy inteligentes.<wait>
-  de: Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.<wait>
+  de: Danke. Manche Leute wollen es übrigens nicht wahrhaben, aber Spinnen sind ziemlich schlaue Kreaturen.<wait>
 
 - offsets: 54ea
   # Prisoner
@@ -3443,7 +3462,7 @@
   pt-br: A antiga estrutura situada no coração das Montanhas de Gótica é chamada de Torre da Medusa.<wait>
   ca: A l'estructura antiga enmig de les Muntanyes de Gothic l'anomenen La Torre de la Medusa.<wait>
   es: A la antigua estructura rodeada de las Montañas de Gothic la llaman Torre de la Medusa.<wait>  
-  de: The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
+  de: Bei diesem alten Bauwerk im Herzen des Gothic-Gebirges handelt es sich um Medusas Turm.<wait>
 
 - offsets: 550c
   # Prisoner
@@ -3473,8 +3492,8 @@
     ¡Hay un elemento químico llamado Polymeteral que disuelve cualquier material!<wait more>
     ...bueno, cualquiera menos la Laconia, por supuesto.<wait>
   de: |
-    A chemical called Polymeteral will dissolve any material!<wait more>
-    ...well, anything except Laconia, of course.<wait>
+    Es gibt eine Chemikalie namens Polymeteral, die jedes erdenkliche Material auflösen kann!<wait more>
+    ...mit Ausnahme von Lakonium, versteht sich.<wait>
 
 - offsets: 54f0
   # Prisoner
@@ -3495,7 +3514,7 @@
   pt-br: Oh, olá! Faz muito tempo que não vejo outra pessoa! Gostaria de ficar e conversar um pouco?<end>
   ca: Oh, hola! No he vist a ningú desde fa molt de temps! Vols quedar-te i conversar una mica?<end>
   es: Oh, ¡hola! ¡No he visto a nadies desde hace mucho tiempo! ¿Te quedas y charlamos un poco?<end>
-  de: Oh, hi! I haven't seen another person in a long time! Will you stay and talk for a while?<end>
+  de: Oh, hallo! Ich hab seit Ewigkeiten keinen mehr zu Gesicht bekommen. Bleibt ihr ein bisschen?<end>
 
 - offsets: 54f9
   # Prisoner (yes to previous question)
@@ -3534,24 +3553,24 @@
     Parece que las cosas van bastante mal por ahí, con las coladas de lava y tal.<wait more>
     Si lo ves, ¿puedes decirle 'hola' de mi parte?<wait>
   de: |
-    I’ve got a friend in Bartevo.<wait more>
-    I guess things are pretty bad there right now, what with those pools of lava and all.<wait more>
-    If you see him, could you say ’hi’ to him for me?<wait>
+    Ich hab einen Freund, der in Bartevo wohnt.<wait more>
+    Neulich ist ja dieser Vulkan ausgebrochen, und die Lava schottet ihn wohl vom Rest der Welt ab.<wait more>
+    Wenn ihr ihn seht, grüßt ihr ihn bitte von mir?<wait>
 
 - offsets: 54d0
-  # Prisoner (yes to previous question)
+  # Prisoner
   indices: 0EC
   ja: ハプスビー トイウ<line>
   translated: Do you know of a robot called ‘Hapsby’?
   us: |
     DO YOU KNOW THE <line>
-    ROBOT Hapsby?<prompt>
+    ROBOT HAPSBY?<prompt>
   en: Have you heard of Hapsby the robot?<end>
   fr: Avez-vous entendu parler du robot Hapsby_?<end>
   pt-br: Você já ouviu falar de Hapsby, o robô?<end>
   ca: Has sentit a parlar d'en Hapsby el robot?<end>
   es: ¿Has oído hablar de Hapsby el robot?<end>
-  de: Have you heard of Hapsby the robot?<end>
+  de: Habt ihr von Hapsby, dem Roboter gehört?<end>
 
 - offsets: 54de
   # Prisoner (no to previous question)
@@ -3590,9 +3609,10 @@
     Luveno creó a Hapsby como un prototipo de piloto de nave espacial.<wait more>
     Lo tiraron a un vertedero, y ahí está oxidándose. Qué desperdicio...<wait>
   de: |
-    It’s a robot made of Laconia!<wait more>
-    Luveno created Hapsby as a prototype spaceship pilot.<wait more>
-    It was abandoned in a scrap heap and left to rot. What a waste...<wait>
+    Er ist ein Roboter aus Lakonium!<wait more>
+    Luveno hatte ihn ursprünglich entwickelt, um Raumschiffe zu fliegen.<wait more>
+    Aber dann wurde er in irgendeinen Schrotthaufen geworfen und dort vergessen.<wait more>
+    Eigentlich schade um ihn...<wait>
 
 - offsets: 54e4
   # Prisoner
@@ -3612,7 +3632,7 @@
   pt-br: Erupções vulcânicas cobriram o outro lado das montanhas com um monte de lava.<wait>
   ca: Les erupcions volcàniques han cobert l'altra banda de les muntanyes amb munts de lava.<wait>
   es: Las erupciones volcánicas han cubierto el otro lado de las montañas con un montón de lava.<wait>
-  de: Volcanic eruptions covered the other side of the mountains with a whole bunch of lava.<wait>
+  de: Ein Vulkanausbruch hat die ganze andere Seite des Gebirges mit Lava überflutet.<wait>
 
 - offsets: 5453
   # Dr Luveno (first time)
@@ -3634,7 +3654,7 @@
   pt-br: Sim, eu sou o Doutor Luveno. Se você está aqui para me resgatar, esqueça! Eu não vou a lugar nenhum.<wait>
   ca: Si, sóc en Doctor Luveno. Si has vingut a rescatar-me, oblida-ho! No vaig enlloc.<wait>
   es: Sí, soy el Doctor Luveno. Si has venido a rescatarme, ¡olvídate de ello! No voy a ningún lado.<wait>
-  de: Yes, I’m Dr. Luveno. If you're here to rescue me, forget it! I'm not going anywhere.<wait>
+  de: Jawohl, ich bin Dr. Luveno. Falls ihr gekommen seid, um mich rauszuholen, vergesst es! Mir gefällt's hier.<wait>
 
 - offsets: 545e
   # Dr Luveno (second time)
@@ -3657,7 +3677,7 @@
   pt-br: O quê? Você quer que eu construa uma nave espacial?! Porque eu faria isso? Vá embora, me deixe em paz.<wait>
   ca: Com? Que vols que et construeixi una nau espacial?! Per què ho hauria de fer? Veste'n, deixa'm en pau.<wait>
   es: ¿Qué? ¡¿Que quieres que te construya una nave espacial?! ¿Por que habría de hacerlo? Vete, déjame en paz.<wait>
-  de: What? You want me to build a spaceship?! Why would I do that? Go away, leave me be.<wait>
+  de: Was? Ich soll ein Raumschiff für euch bauen?! Nie im Leben! Lasst mich endlich in Ruhe!<wait>
 
 - offsets: 5464
   # Dr Luveno (third time)
@@ -3690,8 +3710,8 @@
     ¿Otra vez? Ah, me rindo. Te construiré la nave espacial, pero con una condición.<wait more>
     Que me prometas que seguiras mis instrucciones de forma exacta, te pida lo que te pida. ¿De acuerdo?<end>
   de: |
-    You again? Ach, I give up. I'll build your spaceship, but there's one condition.<wait more>
-    You must promise you'll follow my instructions exactly, no matter what I ask. Agreed?<end>
+    Ihr schon wieder? Ist ja schon gut, ich bau euch euer verdammtes Raumschiff... unter einer Bedingung.<wait more>
+    Ihr werdet meinen Anweisungen aufs Genaueste folgen. Abgemacht?<end>
 
 - offsets: 5477
   # Dr Luveno (yes to previous question)
@@ -3723,8 +3743,8 @@
     Perfecto. Entonces, salgo hacia la villa de Gothic para empezar. Nos vemos ahí.<wait more>
     Oh, no te preocupes por mí, soy más duro de lo que parece. Llegaré por mis propios medios.<wait>
   de: |
-    Good. Well then, I'm off to Gothic Village to get started. I'll meet you there.<wait more>
-    Oh, don't worry about me, I'm tougher than I look. I'll make it there by myself.<wait>
+    Sehr gut. Dann sehen wir uns in Gothic.<wait more>
+    Nein, ihr braucht mich nicht zu begleiten. Ich schaff das sehr wohl alleine.<wait>
 
 - offsets: 546d
   # Dr Luveno (no to previous question)
@@ -3739,7 +3759,7 @@
   pt-br: Se você não fizer o que eu digo, não há como eu te ajudar.<wait>
   ca: Si no fas el que et dic, no hi ha manera que et pugui ajudar.<wait>
   es: Si no haces lo que te digo, no existe manera en que te pueda ayudar.<wait>
-  de: If you don’t do as I say, there’s no way I can help you.<wait>
+  de: Wenn ihr meinen Anweisungen nicht Folge leistet, kann ich euch nicht helfen.<wait>
 
 - offsets: 510d,5428
   # Man in underground tunnel
@@ -3754,7 +3774,7 @@
   pt-br: Não me distraia! Estou muito ocupado.<wait>
   ca: No em distreguis! Estic molt ocupat.<wait>
   es: ¡No me distraigas! Estoy muy ocupado.<wait>
-  de: Don’t distract me! I’m very busy.<wait>
+  de: Bitte nicht stören! Ich bin beschäftigt.<wait>
 
 - offsets: 542f
   # Man in underground tunnel
@@ -3792,9 +3812,9 @@
     ¡¿Qué?! ¿Os está construyendo una nave espacial?!<wait more>
     Es demasiado viejo para eso. Mejor que vaya a echarle una mano.<wait>
   de: |
-    What? You busted out Doc Luveno?<wait more>
-    What?! He’s building you a spaceship?!<wait more>
-    He’s too old for this. I’d better go help him out.<wait>
+    Hä, was? Ihr habt Luveno aus'm Knast geholt?<wait more>
+    Er will ein WAS bauen?!<wait more>
+    Das ist doch verrückt! Er ist zu alt für sowas. Ich geh ihm helfen.<wait>
 
 # Orphaned? Are these reachable?
 
@@ -3830,9 +3850,8 @@
     Salir, peró, es otra historia.<wait more>
     Nunca he visto salir a nadie con vida de ahí.<wait>
   de: |
-    I’ve seen plenty of men go into the inner chamber.<wait more>
-    Coming out, though, is a different story.<wait more>
-    I’ve never seen anyone come out of there alive.<wait>
+    Es sind viele Leute in den Raum dort hinten gegangen...<wait more>
+    Aber niemand ist wiedergekommen! Hahaha!<wait>
 
 - offsets: 5512
   indices: 0FC
@@ -3847,7 +3866,7 @@
   pt-br: Vocês chegaram longe. Logo descobrirão a verdade.<wait>
   ca: Heu arribat molt lluny. Aviat coneixereu la veritat.<wait>
   es: Habéis llegado muy lejos. Pronto conoceréis la verdad.<wait>
-  de: You’ve gotten far. Soon you will know the truth.<wait>
+  de: Ich hoffe, ihr seid bereit für das, was kommt... hmhmhm...<wait>
 
 - offsets: 5518
   indices: 0FE
@@ -3864,7 +3883,7 @@
   pt-br: Saia daqui enquanto ainda respira! Você não sabe com quem está lidando!<wait>
   ca: Sortiu d'aquí mentres encara tingueu alé! No sabeu a què us enfronteu!<wait>
   es: ¡Salid de  aquí mientras aún tengáis aliento! ¡No sabéis a qué os enfrentáis!<wait>
-  de: Get out of here while you're still breathing! You don’t know what you’re up against!<wait>
+  de: Kehrt um, so lange ihr noch könnt! Ihr wisst nicht, mit was ihr euch anlegt!<wait>
 
 - offsets: 551e
   indices: 100
@@ -3881,7 +3900,7 @@
   pt-br: Você tem muita coragem para vir até aqui. Cuidado com as armadilhas escondidas!<wait>
   ca: Sou molt valents d'haver arribat aquí. Vigileu amb les trampes amagades!<wait>
   es: Sois muy valientes por haber llegado aquí. ¡Vigilad con las trampas escondidas!<wait>
-  de: It’s brave of you to come here. Beware of hidden traps!<wait>
+  de: Oho, ihr seid aber mutig. Nehmt euch vor Fallen in Acht!<wait>
 
 
 # *******************************
@@ -3922,8 +3941,9 @@
     Finalmente. ¿Por qué habéis tardado tanto? Antes que nada, necesito que vayáis a buscar a mi asistente.<wait more>
     Probablemente esté escondido en el túnel subterraneo. Es tímido. Es un poco irritante.<wait>
   de: |
-    Finally. What took you so long? First, I need you to fetch my assistant.<wait more>
-    He's probably hiding in the underground tunnel. He's shy, that one. It's irritating.<wait>
+    Na endlich, da seid ihr ja. Geht mir meinen Assistenten holen.<wait more>
+    Er versteckt sich wahrscheinlich im unter-<line>irdischen Tunnel. Nervig, wie schüchtern er ist.<wait>
+    
 
 - offsets: 508b
   # Dr Luveno
@@ -3975,11 +3995,11 @@
     Eso si, está el tema del precio. Una nave espacial no sale gratis, ¿sabéis?<wait more>
     Necesito <number><internal hint 01> meseta<s> por adelantado. ¿Podéis cubrirlo?<end>
   de: |
-    Right. It looks like my staff is assembled.<wait more>
-    What, you don’t think two people can build a spaceship?<wait more>
-    I’ll have you know I’ve been building these since you were in diapers!<wait more>
-    Now then, there's the matter of cost. Spaceships aren't free, you know.<wait more>
-    I require <number><internal hint 01> meseta<s> upfront. Can you cover that?<end>
+    Gut, mein Personal ist vollzählig.<wait more>
+    Ja, zwei Leute können sehr wohl zusammen ein Raumschiff bauen.<wait more>
+    Immerhin bau ich Raumschiffe schon, seit ihr euch noch in die Windeln gemacht habt!<wait more>
+    Wie dem auch sei, die Kosten. Material und Arbeits-<line>kraft wachsen schließlich nicht auf Bäumen.<wait more>
+    Ich brauch <number> Meseta im Voraus. Geht das klar?<end>
 
 - offsets: 50b5
   # Dr Luveno (yes to the previous question)
@@ -4274,7 +4294,7 @@
   es: Todos los Pasaportes quedan invalidados a partir de ahora y han de ser destruidos. Le confiscamos el suyo.<wait>
   de: All existing Passports are now invalid and must be destroyed. We're confiscating yours.<wait>
 
-# orphaned?
+# Answering yes to "Do you have a passport" if you don't have one
 
 - offsets: 4c30,4ccf,54ca
   indices: 0CE
@@ -4285,7 +4305,7 @@
   pt-br: Certo? Deixe-me ver isso.<wait>
   ca: De debò? A veure.<wait>
   es: ¿En serio? A ver.<wait>
-  de: Well? Let’s see it.<wait>
+  de: Und? Wo haben Sie ihn?<wait>
 
 
 # ***************
@@ -8130,7 +8150,7 @@
   pt-br: <Article><monster> desviou do ataque de <player>.<delay>
   ca: <Article><monster> ha desviat l'atac de <player>.<delay>
   es: <Article><monster> ha desviado el ataque de <player>.<delay>
-  de: <Der><monster> weicht <player><g> Angriff aus.<delay>
+  de: <Nom><monster> weicht <players> Angriff aus.<delay>
 
 - offsets: 1497
   indices: 002-2
@@ -8145,7 +8165,7 @@
   pt-br: <player> desviou do ataque <do><monster>.<delay>
   ca: <player> ha desviat l’atac <del><monster>.<delay>
   es: <player> ha desviado el ataque <del><monster>.<delay>
-  de: <player> weicht dem Angriff <des><monster><g> aus.<delay>
+  de: <player> weicht dem Angriff <gen><monster> aus.<delay>
 
 - offsets: 1a96
   indices: 004-2
@@ -8156,7 +8176,7 @@
   pt-br: <player> falou com <article><monster>.<end>
   ca: <player> parla amb <article><monster>.<end>
   es: <player> habla con <article><monster>.<end>
-  de: <player> spricht mit <dem><monster>.<end>
+  de: <player> spricht mit <dat><monster>.<end>
 
 - offsets: 1ac0,1ca4
   indices: 006-2
@@ -8167,7 +8187,7 @@
   pt-br: <Article><monster> respondeu,<delay>
   ca: <Article><monster> respon,<delay>
   es: <Article><monster> responde,<delay>
-  de: <Der><monster> antwortet.<delay>
+  de: <Nom><monster> antwortet:<delay>
 
 - offsets: 1ab7
   indices: 008-2
@@ -8181,7 +8201,7 @@
   pt-br: Mas <article><monster> não entendeu.<delay>
   ca: <Article><monster> no us entén.<delay>
   es: <Article><monster> no te entiende.<delay>
-  de: <Der><monster> konnte <player> nicht verstehen.<delay>
+  de: <Nom><monster> konnte <player> nicht verstehen.<delay>
 
 - offsets: 1b27
   indices: 00A-2
@@ -8196,7 +8216,7 @@
   pt-br: <Article><monster> bloqueou a rota de fuga.<delay>
   ca: <Article><monster> bloqueja la fugida.<delay>
   es: <Article><monster> bloquea la huída.<delay>
-  de: <Der><monster> hat den Fluchtweg blockiert.<delay>
+  de: <Nom><monster> hat den Fluchtweg blockiert.<delay>
 
 - offsets: 20cd,20fa,2168,21cb,21fd,22ac
   indices: 00C-2
@@ -8211,7 +8231,7 @@
   pt-br: A magia de <player> não teve nenhum efeito.<delay>
   ca: La màgia de <player> no fa cap efecte.<delay>
   es: La mágia de <player> no tiene ningún efecto.<delay>
-  de: <player><g> Zauber hatte keinen Effekt.<delay>
+  de: <players> Zauber hatte keinen Effekt.<delay>
 
 - offsets: # unused
   indices: 00E-2
@@ -8226,7 +8246,7 @@
   pt-br: A magia <do><monster> não teve nenhum efeito.<delay>
   ca: La màgia <del><monster> no fa cap efecte.<delay>
   es: La mágia <del><monster> no tiene ningún efecto.<delay>
-  de: Der Zauber <des><monster><g> hatte keinen Effekt.<delay>
+  de: Der Zauber <gen><monster> hatte keinen Effekt.<delay>
 
 - offsets: 1ffa
   indices: 010-2
@@ -8257,7 +8277,7 @@
   pt-br: O ataque <do><monster> foi desviado pela parede mágica.<delay>
   ca: L'atac <del><monster> es reflectit per el mur màgic.<delay>
   es: El ataque <del><monster> es reflejado por el muro mágico.<delay>
-  de: Der Angriff <des><monster><g> wurde von der magischen Wand abgewehrt.<delay>
+  de: Der Angriff <gen><monster> wurde von der magischen Wand abgewehrt.<delay>
 
 - offsets: 14f9,15d3,1637
   indices: 014-2
@@ -8273,7 +8293,7 @@
   pt-br: A magia <do><monster> foi desviada pela parede mágica.<delay>
   ca: La màgia <del><monster> ha estat reflectida per el mur màgic.<delay>
   es: La mágia <del><monster> ha sido reflejada por el muro mágico.<delay>
-  de: Der Zauber <des><monster><g> wurde von der magischen Wand abgewehrt.<delay>
+  de: Der Zauber <gen><monster> wurde von der magischen Wand abgewehrt.<delay>
 
 - offsets: 1458
   indices: 016-2
@@ -8301,7 +8321,7 @@
   pt-br: A energia de <player> foi restaurada.<delay>
   ca: L'energia de <player> ha estat restaurada.<delay>
   es: La energía de <player> ha sido restaurada.<delay>
-  de: <player><g> Wunden wurden geheilt.<delay>
+  de: <players> Wunden wurden geheilt.<delay>
 
 - offsets: 1552
   indices: 01A-2
@@ -8316,7 +8336,7 @@
   pt-br: A energia <do><monster> foi restaurada.<delay>
   ca: L'energia <del><monster> ha estat restaurada.<delay>
   es: La energía <del><monster> ha sido restaurada.<delay>
-  de: Die Wunden <des><monster><g> wurden geheilt.<delay>
+  de: Die Wunden <gen><monster> wurden geheilt.<delay>
 
 - offsets: 20d3
   indices: 01C-2
@@ -8331,7 +8351,7 @@
   pt-br: A magia imobilizou <Article><monster>.<delay>
   ca: La màgia inmobilitza <article><monster> .<delay>
   es: La mágia inmobiliza <article><monster> .<delay>
-  de: <Der><monster> wurde gefesselt.<delay>
+  de: <Nom><monster> wurde gefesselt.<delay>
 
 - offsets: 151f
   indices: 01E-2
@@ -8366,7 +8386,7 @@
   pt-br: <Article><monster> não pode se mover.<delay>
   ca: <Article><monster> no es pot moure.<delay>
   es: <Article><monster> no se puede mover.<delay>
-  de: <Der><monster> kann sich nicht bewegen.<delay>
+  de: <Nom><monster> kann sich nicht bewegen.<delay>
 
 - offsets: 12d6
   indices: 024-2
@@ -8379,7 +8399,7 @@
   pt-br: <player> se desamarrou.<delay>
   ca: <player> es deslliura.<delay>
   es: <player> se libera. <delay>
-  de: <player><g> Fesseln fallen auseinander.<delay>
+  de: <players> Fesseln fallen auseinander.<delay>
 
 - offsets: 1407
   indices: 026-2
@@ -8394,7 +8414,7 @@
   pt-br: <Article><monster> se desamarrou.<delay>
   ca: <Article><monster> es deslliura.<delay>
   es: <Article><monster> se libera.<delay>
-  de: Die Fesseln <des><monster><g> fallen auseinander.<delay>
+  de: Die Fesseln <gen><monster> fallen auseinander.<delay>
 
 - offsets: 2132
   indices: 028-2
@@ -8424,7 +8444,7 @@
   pt-br: <Article><monster> ficou com medo e recuou.<delay>
   ca: <Article><monster> s'ha espantat i fuig.<delay>
   es: <Article><monster> se ha asustado y ha huído.<delay>
-  de: <Der><monster> weicht vor Angst zurück.<delay>
+  de: <Nom><monster> weicht vor Angst zurück.<delay>
 
 - offsets: 210d
   indices: 02C-2
@@ -8440,7 +8460,7 @@
   pt-br: <Article><monster> se admirou com a velocidade de sua fuga.<delay>
   ca: <Article><monster> es sorprén de la velocitat de la fugida.<delay>
   es: <Article><monster> se sorprende de la velocidad de la huída.<delay>
-  de: <Der><monster> wurde von der Flucht überrumpelt.<delay>
+  de: <Nom><monster> wurde von der Flucht überrumpelt.<delay>
 
 - offsets: 21ad
   indices: 02E-2
@@ -8601,7 +8621,7 @@
   pt-br: Os olhos <do><monster> estão vazios.<delay>
   ca: Els ulls <del><monster> estan en blanc.<delay>
   es: Los ojos <del><monster> están en blanco.<delay>
-  de: <Der><monster> hat einen leeren Blick.<delay>
+  de: <Nom><monster> hat einen leeren Blick.<delay>
 
 - offsets: 2505,2597,25f9,26f1,2742,27a2
   indices: 048-2
@@ -8716,7 +8736,7 @@
   pt-br: <Article><monster> viu a chama vermelha e se encolheu de medo.<delay>
   ca: <Article><monster> veu la flama vermella i la por l'emplena. <delay>
   es: <Article><monster> ve la llama roja y el miedo le invade. <delay>
-  de: <Der><monster> ist beim Anblick der roten Flamme von Furcht ergriffen.<delay>
+  de: <Nom><monster> ist beim Anblick der roten Flamme von Furcht ergriffen.<delay>
 
 - offsets: 273d
   indices: 064-2
@@ -8802,7 +8822,7 @@
   pt-br: Você encontrou <article><item>.<wait>
   ca: Heu trobat <article><item>.<wait>
   es: Habéis encontrado <article><item>.<wait>
-  de: <player> hat <article><item> gefunden.<wait>
+  de: Du hast <article><item> gefunden.<wait>
 
 - offsets: 21d9,22b5
   indices: 070-2
@@ -8815,7 +8835,7 @@
   pt-br: Seu corpo ficou extremamente leve.<delay>
   ca: El cosos es tornen extranyament lleugers. <delay>
   es: Los cuerpos se vuelven extrañamente ligeros. <delay>
-  de: <player><g> Körper wird seltsam leicht.<wait>
+  de: <players> Körper wird seltsam leicht.<wait>
 
 - offsets: 2248
   indices: 072-2
@@ -8942,7 +8962,7 @@
   pt-br: Você encontrou <number><internal hint 01> meseta<s> dentro.<wait>
   ca: Heu trobat <number><internal hint 01> meseta<s> dintre.<wait>
   es: Habeís encontrado <number><internal hint 01> meseta<s> dentro.<wait>
-  de: <number> Meseta in der Truhe gefunden.<wait>
+  de: Du hast <number> Meseta erhalten.<wait>
 
 - offsets: 2a37
   indices: 084-2
@@ -9106,7 +9126,7 @@
   pt-br: Você derrotou <article><monster>.<wait>
   ca: Heu derrotat <article><monster>.<wait>
   es: Habéis derrotado <article><monster>.<wait>
-  de: <Der><monster> wurde besiegt.<wait>
+  de: <Nom><monster> wurde besiegt.<wait>
 
 - offsets: 14a6,15e4,1648,4c69,590f
   indices: 09C-2
@@ -9148,7 +9168,7 @@
   pt-br: Para onde você gostaria de ir?<end>
   ca: On voleu anar?<end>
   es: ¿Donde queréis ir?<end>
-  de: Where would you like to go?<end>
+  de: Wo fliegen wir hin?<end>
 
 - offsets: 5995
   indices: 0A4-2
@@ -9164,7 +9184,7 @@
   pt-br: Gostaria de ir para Skray, em Dezóris?<end>
   ca: Voleu anar a Skray, a Dezoris?<end>
   es: ¿Queréis ir a Skray, en Dezoris?<end>
-  de: Would you like to go to Skray, on Dezoris?<end>
+  de: Wir fliegen nach Skray, auf Dezoris?<end>
 
 - offsets: 5990
   indices: 0A6-2
@@ -9180,7 +9200,7 @@
   pt-br: Gostaria de ir para Uzo, em Motávia?<end>
   ca: Voleu anar a Uzo, a Motavia?<end>
   es: ¿Queréis ir a Uzo, en Motavia?<end>
-  de: Would you like to go to Uzo, on Motavia?<end>
+  de: Wir fliegen nach Uzo, auf Motavia?<end>
 
 - offsets: 598a
   indices: 0A8-2
@@ -9196,7 +9216,7 @@
   pt-br: Gostaria de ir para Gótica, em Palma?<end>
   ca: Voleu anar a Gothic, a Palma?<end>
   es: ¿Queréis ir a Gothic, en Palma?<end>
-  de: Would you like to go to Gothic, on Palma?<end>
+  de: Wir fliegen nach Gothic, auf Palma?<end>
 
 - offsets: 5980
   indices: 0AA-2
@@ -9207,7 +9227,7 @@
   pt-br: Aqui é Skray..<end>
   ca: Hem arribat a Skray.<end>
   es: Hemos llegado a Skray.<end>
-  de: This IS Skray.<end>
+  de: Wir sind bereits in Skray.<end>
 
 - offsets: 597b
   indices: 0AC-2
@@ -9218,7 +9238,7 @@
   pt-br: Aqui é Uzo.<end>
   ca: Hem arribat a Uzo.<end>
   es: Hemos llegado a Uzo.<end>
-  de: This IS Uzo.<end>
+  de: Wir sind bereits in Uzo.<end>
 
 - offsets: 5975
   indices: 0AE-2
@@ -9229,7 +9249,7 @@
   pt-br: Aqui é Gótica.<end>
   ca: Hem arribat a Gothic.<end>
   es: Hemos llegado a Gothic.<end>
-  de: This IS Gothic.<end>
+  de: Wir sind bereits in Gothic.<end>
 
 - offsets: # Unused...
   indices: 0B0-2
@@ -9240,7 +9260,7 @@
   pt-br: Aqui vamos nós!<delay>
   ca: Anem!<delay>
   es: ¡Vamos!<delay>
-  de: Here we go--!<delay>
+  de: Abflug!<delay>
 
 
 # *************
@@ -9261,7 +9281,7 @@
   pt-br: Esta é uma loja de armas. Posso ajudá-lo?<end>
   ca: Benvinguts a l'armeria.<end>
   es: Bienvenido a la armeria.<end>
-  de: Welcome to the armor shop. Can I help you?<end>
+  de: Willkommen im Waffenhandel. Kann ich Ihnen behilflich sein?<end>
 
 - offsets: 2d27,2d89,2e46,537e
   indices: 0B6-2
@@ -9272,7 +9292,7 @@
   pt-br: Cuide-se, e volte sempre.<wait>
   ca: Vagin amb compte, i a reveure.<wait>
   es: Vayan con cuidado, y hasta la vista. <wait>
-  de: Take care, come back and see us soon.<wait>
+  de: Vielen Dank. Kommen Sie bald wieder.<wait>
 
 - offsets: 2d38
   indices: 0B8-2
@@ -9285,7 +9305,7 @@
   pt-br: O que posso fazer por você hoje?<end>
   ca: Que puc fer per vostès?<end>
   es: ¿Qué puedo hacer por ustedes?<end>
-  de: What can I get for you today?<end>
+  de: Was möchten Sie kaufen?<end>
 
 - offsets: 2d7e
   indices: 0BA-2
@@ -9298,7 +9318,7 @@
   pt-br: Aproveite. Posso ajudá-lo em algo mais?<end>
   ca: Perfecte. Alguna cosa més?<end>
   es: Perfecto. ¿Algo más?<end>
-  de: Enjoy. Can I get you anything else?<end>
+  de: Bitte sehr! Darf es noch etwas sein?<end>
 
 - offsets: 2d98,539c
   indices: 0BC-2
@@ -9316,7 +9336,7 @@
   pt-br: Você não pode carregar mais nada. Volte quando puder.<wait>
   ca: No podeu carregar res més. Torneu quan ho pogueu fer.<wait>
   es: No podéis cargar con nada más. Volved cuando lo podáis hacer.<wait>
-  de: You can’t carry any more. Come back when you can.<wait>
+  de: Sie können wohl nichts mehr tragen. Bitte kommen Sie ein andermal wieder.<wait>
 
 - offsets: 2deb
   indices: 0BE-2
@@ -9333,7 +9353,7 @@
   pt-br: Esta é uma farmácia. Posso ajudá-lo?<end>
   ca: Benvinguts a la farmàcia. En què els puc ajudar?<end>
   es: Bienvenidos a la farmacia. ¿Cómo os puedo ayudar?<end>
-  de: This is a pharmacy. Can I help you with something?<end>
+  de: Willkommen in der Apotheke. Kann ich Ihnen behilflich sein?<end>
 
 - offsets: 2df4
   indices: 0C0-2
@@ -9349,7 +9369,7 @@
   pt-br: Esta é uma loja de ferramentas. Posso ajudá-lo?<end>
   ca: Benvinguts a la ferreteria. En qué els puc ajudar?<end>
   es: Bienvenidos a la ferreteria. ¿Cómo os puedo ayudar?<end>
-  de: Welcome to the tool shop. May I help you?<end>
+  de: Willkommen im Geräteladen. Wie kann ich Ihnen helfen?<end>
 
 - offsets: 2e0d
   indices: 0C2-2
@@ -9362,7 +9382,7 @@
   pt-br: O que você tem?<end>
   ca: Que teniu?<end>
   es: ¿Qué tenéis?<end>
-  de: What do you have?<end>
+  de: Was möchten Sie denn verkaufen?<end>
 
 - offsets: 2e4f
   indices: 0C4-2
@@ -9379,7 +9399,7 @@
   pt-br: Hmm, <article><item>? Que tal <number><internal hint 01> meseta<s>?<end>
   ca: Hmm, <article><item>? Que et sembla <number><internal hint 01> meseta<s>?<end>
   es: Hmm, ¿<article><item>? ¿Qué te parece <number><internal hint 01> meseta<s>?<end>
-  de: Hmm, <article><item>? How does <number><internal hint 01> meseta<s> sound?<end>
+  de: Hmm, <article><item>? Dafür kann ich Ihnen <number> Meseta anbieten.<end>
 
 - offsets: 2e66
   indices: 0C6-2
@@ -9392,7 +9412,35 @@
   pt-br: Maravilha! Tem mais alguma coisa para mim?<end>
   ca: Meravellós! Teniu quelcom més per mí?<end>
   es: ¡Maravilloso! ¿Tenéis algo más para mí?<end>
-  de: Wonderful! Have anything else for me?<end>
+  de: Großartig! Verkaufen Sie sonst noch etwas?<end>
+  
+- offsets: 2bc0,2d9d,4d88,538f
+  indices: 12A-2
+  ja: |
+    オカネガ タリナイヨウデスネ.<line>
+    マタキテクダサイ.<wait>
+  us: |
+    YOU DON'T HAVE <line>
+    ENOUGH MONEY.<wait more>
+    COME AGAIN LATER.<end>
+  en: |
+    It looks like you don’t have enough money.<line>
+    Please come back later.<wait>
+  fr: |
+    Il semblerait que vous n'ayez pas assez d'argent.
+    Revenez plus tard.<wait>
+  pt-br: |
+    Parece que você não tem dinheiro suficiente.<line>
+    Volte mais tarde.<wait>
+  ca: |
+    Sembla que no teniu diners suficients.<line>
+    Torneu més tard.<wait>
+  es: |
+    Parece que no tenéis dinero suficiente.<line>
+    Volved más tarde.<wait>
+  de: |
+    Sie scheinen nicht genug Geld zu haben.<line>
+    Bitte kommen Sie ein andermal wieder.<wait>
 
 
 # ****************
@@ -9440,8 +9488,8 @@
     Hmm. Os puedo dejar como nuevos por <number><internal hint 02> meseta<s>.<wait more>
     ¿Procedemos?<end>
   de: |
-    Hmm. I can get you good as new for <number><internal hint 02> meseta<s>.<wait more>
-    Shall I proceed?<end>
+    Die Untersuchungs- und Behandlungskosten wären <number> Meseta.<line>
+    Wollen Sie behandelt werden?<end>
 
 - offsets: 2b99
   indices: 0CC-2
@@ -9456,7 +9504,7 @@
   pt-br: Alguém mais precisa de tratamento?<end>
   ca: Algú més necessita tractament?<end>
   es: ¿Alguien más necesita tratamiento?<end>
-  de: Does anyone else need treatment?<end>
+  de: Soll sonst noch jemand behandelt werden?<end>
 
 - offsets: 2af9
   indices: 0CE-2
@@ -9469,7 +9517,7 @@
   pt-br: Quem requer a nossa atenção?<end>
   ca: Qui requereix la nostra atenció?<end>
   es: ¿Quién requiere nuestra atención?<end>
-  de: Who requires our attention?<end>
+  de: Wer von Ihnen soll behandelt werden?<end>
 
 - offsets: 2b8a
   indices: 0D0-2
@@ -9493,8 +9541,7 @@
     Gracias por vuestra paciencia.<line>
     Id con cuidado.<wait>
   de: |
-    Thanks for waiting.<line>
-    Take care, now.<wait>
+    Danke fürs Warten, und gute Besserung.<wait>
 
 
 - offsets: 2b37,2bb1
@@ -9511,7 +9558,7 @@
   pt-br: Tome cuidado lá fora.<wait>
   ca: Aneu amb compte allà fora.<wait>
   es: Id con cuidad ahí fuera.<wait>
-  de: Be safe out there.<wait>
+  de: Verstehe. Dann passen Sie bitte auf sich auf.<wait>
 
 - offsets: 2b2b
   indices: 0D4-2
@@ -9526,7 +9573,7 @@
   pt-br: Você parece perfeitamente saudável para mim...<wait>
   ca: Sembleu estar en un estat de salut perfecte...<wait>
   es: Parecéis gozar de un estado de salud perfecto...<wait>
-  de: You seem perfectly healthy to me...<wait>
+  de: Sie sehen kerngesund aus...<wait>
 
 
 # **************
@@ -9547,7 +9594,7 @@
   pt-br: Esta é uma igreja. Você precisa reviver uma alma que partiu?<end>
   ca: Això és una església. Necessiteu reviure una ànima que ha partit?<end>
   es: Esto es una iglesia. ¿Necesitáis revivir un alma que ha partido?<end>
-  de: Dies ist eine Kirche. Möchtest du jemanden zurückbringen, der von uns gegangen ist?<end>
+  de: Dies ist eine Kirche. Möchten Sie jemanden zurückbringen, der von uns gegangen ist?<end>
 
 - offsets: # Unused
   indices: 0D8-2
@@ -9562,7 +9609,7 @@
   pt-br: Então vou orar por você.<wait>
   ca: Aleshores pregaré per vosaltres.<wait>
   es: Entonces rezaré por vosotros.<wait>
-  de: Dann spreche ich ein Gebet für dich aus.<wait>
+  de: Dann spreche ich ein Gebet für Sie aus.<wait>
 
 - offsets: 2c37
   indices: 0DA-2
@@ -9632,7 +9679,7 @@
   de: |
     ArtemuhamuRAmu, A--uff!<line>
     Hust! Keuch!<wait more>
-    Entschuldige vielmals.<line>
+    Entschuldigen Sie vielmals.<line>
     Das scheint mir wohl misslungen zu sein.<wait>
 
 - offsets: 2bfb
@@ -9701,6 +9748,22 @@
   ca: a <player> li manquen <number><internal hint 02> punt<s> d'experiència.<wait>
   es: a <player> le faltan <number><internal hint 02> punto<s> de experiéncia.<wait>
   de: <player> <number><internal hint 02> Erfahrungspunkt<s>.<wait>
+  
+- offsets: 2cef
+  # If a party member is already at max level...
+  indices: 136-2
+  ja: |
+    <player>ハ モウ<line>
+    チカライッパイデス.<wait>
+  us: |
+    <player> IS STRONG<line>
+    ENOUGH ALREADY.<end>
+  en: <player> is already at full health.<wait>
+  fr: <player> est déjà en pleine forme.<wait>
+  pt-br: <player> já está em plena saúde.<wait>
+  ca: <player> ja és en plena forma.<wait>
+  es: <player> ya está en plena forma.<wait>
+  de: <player> keine weitere Erfahrung mehr.<wait>
 
 - offsets: 2ca2
   indices: 0E8-2
@@ -9715,7 +9778,7 @@
   pt-br: Que o seu futuro seja cheio das bençãos de Deus.<wait>
   ca: Que el teu futur porti benediccions de Déu.<wait>
   es: Que tu futuro te lleve bendiciones de Dios.<wait>
-  de: Möge eure Zukunft von Gott gesegnet sein.<wait>
+  de: Gott segne Ihre Zukunft.<wait>
 
 - offsets: 2c90
   indices: 0EA-2
@@ -9828,7 +9891,7 @@
   pt-br: ‘Queremos ser amigos dos Palmanos.’<wait>
   ca: ‘Volem ser amics dels de Palma.’<wait>
   es: ‘Queremos ser amigos de la gente de Palma.’<wait>
-  de: „We want to become friends with the Palmans.’<wait>
+  de: „Wir würden uns gerne mit den Palmanern anfreunden.“<wait>
 
 - offsets: 1ae7
   indices: 0F6-2
@@ -9841,7 +9904,7 @@
   pt-br: ‘Eu poderia realmente comer algumas Frutas de Laerma agora!’<wait>
   ca: ‘Em podría menjar uns Fruits de Laerma ara!’<wait>
   es: ‘Me comería unos Frutos de Laerma!’<wait>
-  de: „I could really go for some Laerma Berries right now!’<wait>
+  de: „Ich wöllte echt gerne mal Laermabeeren probieren.“<wait>
 
 - offsets: 1ae9
   indices: 0F8-2
@@ -9856,7 +9919,7 @@
   pt-br: ‘Você não deve ir contra LaShiec.’<wait>
   ca: ‘No heu d'anar en contra Lashiec.’<wait>
   es: ‘No vayáis en contra de Lashiec.’<wait>
-  de: „You should not go against Lord LaShiec.’<wait>
+  de: „König Lashiec solltet ihr besser nicht die Stirn bieten.“<wait>
 
 - offsets: 1aeb
   indices: 0FA-2
@@ -9871,7 +9934,7 @@
   pt-br: ‘Ah! Então você entende a nossa língua, não é?’<wait>
   ca: ‘Ah! Enteneu la nostra llengua?’<wait>
   es: ‘¡Ah! ¿Entendéis nuestra lengua?’<wait>
-  de: „Oh! So you understand our language, do you?’<wait>
+  de: „Oh! Du verstehst unsere Sprache?“<wait>
 
 - offsets: 1aed
   indices: 0FC-2
@@ -9882,7 +9945,7 @@
   pt-br: ‘Iarrú!’<wait>
   ca: ‘Au!’<wait>
   es: ‘¡Epa!’<wait>
-  de: „Yahoo!’<wait>
+  de: „Huhu!“<wait>
 
 - offsets: 1aef
   indices: 0FE-2
@@ -9897,7 +9960,7 @@
   pt-br: ‘Quando estiver nos calabouços, cuidado com as armadilhas.’<wait>
   ca: ‘Quan sigueu a les masmorres, vigileu amb els paranys.’<wait>
   es: ‘Cuando estéis en las mazmorras, vigilad con las trampas.’<wait>
-  de: „When you’re in the dungeons, beware of pitfalls.’<wait>
+  de: „Wenn du Höhlen erkundest, nimm dich vor Fallgruben in Acht.“<wait>
 
 - offsets: 1af1
   indices: 100-2
@@ -9914,7 +9977,7 @@
   pt-br: ‘Você vai se machucar se abrir baús do tesouro sem cuidado.’<wait>
   ca: ‘Podeu resultar ferits si obriu cofres del tresor sense precaució.’<wait>
   es: ‘Podéis resultar heridos si abríis cofres del tesoro sin precaución.’<wait>
-  de: „You’ll get injured if you open treasure boxes carelessly.’<wait>
+  de: „Du kannst dich verletzen, wenn du leichtsinnig Schatztruhen öffnest.“<wait>
 
 - offsets: 1af3
   indices: 102-2
@@ -9925,7 +9988,7 @@
   pt-br: ‘Seus malditos ladrões!’<wait>
   ca: ‘Maleïts lladres!’<wait>
   es: ‘¡Malditos ladrones!’<wait>
-  de: „You damn thieves!’<wait>
+  de: „Ihr verdammten Räuber!“<wait>
 
 - offsets: 1af5
   indices: 104-2
@@ -9940,7 +10003,7 @@
   pt-br: ‘As pessoas nos odeiam, não importa o que façamos.’<wait>
   ca: ‘La gent ens odia independentment del que fem.’<wait>
   es: ‘La gente nos odia independientemente de lo que hagamos.’<wait>
-  de: „People hate us no matter what we do.’<wait>
+  de: „Die Leute hassen uns, egal, was wir tun.“<wait>
 
 - offsets: 1cce
   indices: 106-2
@@ -9957,7 +10020,7 @@
   pt-br: ‘A Flauta Calmante soa tão bem!’<wait>
   ca: ‘La Flauta Calmant sona tan bé!’<wait>
   es: ‘¡La Flauta Calmante suena tan bien!’<wait>
-  de: „The Soothe Flute sounds so nice!’<wait>
+  de: „Die Sanfte Flöte klingt echt schön!“<wait>
 
 - offsets: 1cd0
   indices: 108-2
@@ -9974,7 +10037,7 @@
   pt-br: ‘Cavadores de Gelo podem cortar sobre o gelo!’<wait>
   ca: ‘Els Trencaglaços poden travessar el gel!’<wait>
   es: ‘¡Los Rompehielos pueden atravesar el hielo!’<wait>
-  de: „IceDeckers can cut through ice!’<wait>
+  de: „IceDecker können selbst Eis durchstoßen!“<wait>
 
 - offsets: 1cd2
   indices: 10A-2
@@ -9989,7 +10052,7 @@
   pt-br: ‘Lorde LaShiec vive lá em cima, no céu.’<wait>
   ca: ‘En Lashiec viu dalt del cel.’<wait>
   es: ‘Lashiec vive ens los cielos.’<wait>
-  de: „Lord LaShiec lives up in the sky.’<wait>
+  de: „König Lashiec lebt hoch oben im Himmel.“<wait>
 
 - offsets: 1cd4
   indices: 10C-2
@@ -10005,7 +10068,7 @@
   pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
   ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
   es: ‘El Doctor Loco en Avion tiene una Olla de Laconia.’<wait>
-  de: „The Mad Doctor in Avion has a Laconian Pot.’<wait>
+  de: „Der Irre Doktor in Avion hat einen Lakoniumtopf.“<wait>
 
 - offsets: 1cd6
   indices: 10E-2
@@ -10022,7 +10085,7 @@
   pt-br: ‘Há lugares no céu que nem uma nave espacial pode alcançar.’<wait>
   ca: ‘Hi ha llocs al cel que ni una nau espacial hi pot arribar.’<wait>
   es: ‘Hay sitios en el cielo a los que ni una nave espacial puede llegar.’<wait>
-  de: „There are places in the sky that even a spaceship can’t reach.’<wait>
+  de: „Es gibt Orte im Himmel, wo selbst ein Raumschiff nicht rankommt.“<wait>
 
 - offsets: 1cd8
   indices: 110-2
@@ -10036,7 +10099,7 @@
   pt-br: ‘Você precisa ter um certo item para fazer as Frutas de Laerma crescerem.’<wait>
   ca: ‘Heu de disposar de un cert objecte per fer creixer els Fruits de Laerma.’<wait>
   es: ‘Debéis llevar un determinado objeto para hacer crecer los Frutos de Laerma.’<wait>
-  de: „You need to have a certain item in order to make Laerma Berries grow.’<wait>
+  de: „Laermabeeren brauchen einen bestimmten Gegenstand, um reif zu werden.“<wait>
 
 - offsets: 1cda
   indices: 112-2
@@ -10052,7 +10115,7 @@
   pt-br: ‘Alguns labirintos nos calabouços tem portas escondidas.’<wait>
   ca: ‘Alguns laberints a les masmorres tenen portes amagades.’<wait>
   es: ‘Algunos laberintos en las mazmorras tienen puertas escondidas.’<wait>
-  de: „Some dungeon labyrinths contain hidden doors.’<wait>
+  de: „In manchen Höhlen gibt es versteckte Türen.“<wait>
 
 - offsets: 1cdc
   indices: 114-2
@@ -10069,7 +10132,7 @@
   pt-br: ‘A Chave Milagrosa pode abrir portas mágicas!’<wait>
   ca: ‘La Clau Miraculosa pot obrir portes màgiques!’<wait>
   es: ‘¡La Llave Milagrosa puede abrir puertas mágicas!’<wait>
-  de: „The Miracle Key can open magic doors!’<wait>
+  de: „Der Wunderschlüssel kann magisch verschlossene Türen öffnen!“<wait>
 
 - offsets: 1cde
   indices: 116-2
@@ -10083,7 +10146,7 @@
   pt-br: ‘Alguns Dezorianos são mentirosos, então tome cuidado.’<wait>
   ca: ‘Alguns habitants de Dezoris son mentiders, ves amb compte’<wait>
   es: ‘Algunos habitantes de Dezoris son mentirosos, anda con ojo’<wait>
-  de: „Some Dezorians are liars, so be careful.’<wait>
+  de: „Vorsicht - einige Dezorier lügen gerne.“<wait>
 
 - offsets: 1ce0
   indices: 118-2
@@ -10098,7 +10161,7 @@
   pt-br: ‘Você é muito corajoso para conversar comigo. Fique por aqui.’<wait>
   ca: ‘Certament sou molt valents de parlar amb mi. Apropeu-vos.’<wait>
   es: ‘Ciertamente soís muy valientes para atraveros a hablar conmigo. Acercaros.’<wait>
-  de: „My, you’re very brave to talk to me. Hang in there.’<wait>
+  de: „Du bist ganz schön mutig, mit mir zu reden. Nur nicht nachgeben.“<wait>
 
 
 # ***************
@@ -10118,7 +10181,7 @@
   pt-br: <Article><monster> sentiu seu corpo cheio de poder.<delay>
   ca: <Article><monster> sent omplir-se el seu cos de força.<delay>
   es: <Article><monster> siente como su cuerpo se llena de fuerza.<delay>
-  de: <Der><monster> fühlt große Kraft in sich aufwallen.<delay>
+  de: <Nom><monster> fühlt große Kraft in sich aufwallen.<delay>
 
 - offsets: 17ff
   indices: 11C-2
@@ -10133,7 +10196,7 @@
   pt-br: <Article><monster> tinha um baú do tesouro.<end>
   ca: <Article><monster> té un Cofre del Tresor.<end>
   es: <Article><monster> tiene un Cofre del Tesoro.<end>
-  de: <Der><monster> hatte eine Schatztruhe.<end>
+  de: <Nom><monster> hatte eine Schatztruhe.<end>
 
 - offsets: 27c3
   indices: 11E-2
@@ -10227,36 +10290,8 @@
     La esperanza de Alisa se ha desvanecido frente las ambiciones de Lashiec.<wait more>
     El viaje se acaba aquí.<wait>
   de: |
-    Alisas Hoffnung war vergebens im Angesicht LaShiecs Ambitionen.<wait more>
+    Alisas Hoffnung ist im Angesicht LaShiecs Ambitionen verblasst.<wait more>
     Die Reise endet hier.<wait>
-
-- offsets: 2bc0,2d9d,4d88,538f
-  indices: 12A-2
-  ja: |
-    オカネガ タリナイヨウデスネ.<line>
-    マタキテクダサイ.<wait>
-  us: |
-    YOU DON'T HAVE <line>
-    ENOUGH MONEY.<wait more>
-    COME AGAIN LATER.<end>
-  en: |
-    It looks like you don’t have enough money.<line>
-    Please come back later.<wait>
-  fr: |
-    Il semblerait que vous n'ayez pas assez d'argent.
-    Revenez plus tard.<wait>
-  pt-br: |
-    Parece que você não tem dinheiro suficiente.<line>
-    Volte mais tarde.<wait>
-  ca: |
-    Sembla que no teniu diners suficients.<line>
-    Torneu més tard.<wait>
-  es: |
-    Parece que no tenéis dinero suficiente.<line>
-    Volved más tarde.<wait>
-  de: |
-    Sie scheinen nicht genug Geld zu haben.<line>
-    Bitte kommen Sie ein andermal wieder.<wait>
 
 - offsets: 2e3d
   indices: 12C-2
@@ -10310,21 +10345,6 @@
   es: Esta lanzadera va hacia Palma. ¿Sube?<end>
   de: Dieser Flug geht nach Palma. Steigen Sie ein?<end>
 
-- offsets: 2cef
-  indices: 136-2
-  ja: |
-    <player>ハ モウ<line>
-    チカライッパイデス.<wait>
-  us: |
-    <player> IS STRONG<line>
-    ENOUGH ALREADY.<end>
-  en: <player> is already at full health.<wait>
-  fr: <player> est déjà en pleine forme.<wait>
-  pt-br: <player> já está em plena saúde.<wait>
-  ca: <player> ja és en plena forma.<wait>
-  es: <player> ya está en plena forma.<wait>
-  de: <player> ist bereits stark genug.<wait>
-
  # Continue/Save "dialogue" removed...
 - offsets: #07ee
   indices: 138-2
@@ -10348,8 +10368,8 @@
     Continuando una partida guardada.<line>
     Por favor, escoge una ranura.<end>
   de: |
-    Continuing a saved game.<line>
-    Please choose a slot.<end>
+    Spiel fortsetzen.<line>
+    Bitte wähle eine Nummer.<end>
 
 - offsets: #07fe
   indices: 13A-2
@@ -10360,7 +10380,7 @@
   pt-br: Ok. Continuando da posição<internal hint 01> <number>.<delay>
   ca: D'acord. Continuant desde la ranura<internal hint 01> <number>.<delay>
   es: De acuerdo. Continuando desde la ranura<internal hint 01> <number>.<delay>
-  de: OK. Continuing from slot<internal hint 01> <number>.<delay>
+  de: OK. Spiel in Position <number> wird fortgesetzt.<delay>
 
 - offsets: # Unused
   indices: 13C-2
@@ -10382,8 +10402,8 @@
     Esta palabra de paso es incorrecta.<line>
     Vuelve a probar.<wait>
   de: |
-    That password is incorrect.<line>
-    Please try again.<wait>
+    Das Passwort ist falsch.<line>
+    Versuch es noch einmal.<wait>
 
 - offsets: #07e3
   indices: 13E-2
@@ -10398,7 +10418,9 @@
   pt-br: Quer continuar um jogo salvo?<end>
   ca: Voleu continuar una partida guardada?<end>
   es: ¿Queréis continuar una partida guardada?<end>
-  de: Do you want to continue a saved game?<end>
+  de: |
+    Spiel fortsetzen ------- Ja<line>
+    Spiel löschen ---------- Nein<end>
 
 - offsets: #082f
   indices: 140-2
@@ -10413,7 +10435,7 @@
   pt-br: Você quer deletar um jogo salvo?<end>
   ca: Voleu esborrar una partida guardada?<end>
   es: ¿Queréis borrar una partida guardada?<end>
-  de: Do you want to delete a saved game?<end>
+  de: Möchtest du ein gespeichertes Spiel löschen?<end>
 
 - offsets: #083a
   indices: 142-2
@@ -10435,8 +10457,8 @@
     Borrando una partida guardada.<line>
     Por favor, escoge una ranura.<end>
   de: |
-    Deleting a saved game.<line>
-    Please choose a slot.<end>
+    Spiel löschen.<line>
+    Bitte wähle eine Nummer.<end>
 
 - offsets: ScriptDeletingFromSlotN
   indices: 144-2
@@ -10452,7 +10474,7 @@
     <number>...<delay>
   ca: Esborrant partida de la ranura <number>...<delay>
   es: Borrando una partida de la ranura <number>...<delay>
-  de: Deleting game from slot <number>...<delay>
+  de: Das Spiel in Position <number> wurde gelöscht.<delay>
 
 - offsets: ScriptNoSavedGames
   en: There are no saved games!<wait>
@@ -10460,7 +10482,7 @@
   pt-br: Não há jogos salvos!<wait>
   ca: No hi ha partides guardades!<wait>
   es: ¡No hay partidas guardadas!<wait>
-  de: There are no saved games!<wait>
+  de: Es sind keine Spiele gespeichert!<wait>
 
 - offsets: 16a8
   indices: 146-2
@@ -10529,5 +10551,5 @@
     Su espíritu revive.<wait>
   de: |
     In diesem Moment hörte Alisa Neros Stimme von weit weg.<wait more>
-    „Es ist noch nicht deine Zeit. Das Sonnensystem braucht dich.“<wait more>
+    „Gib noch nicht auf. Die Leute brauchen dich!“<wait more>
     Alisa lebt wieder.<wait>

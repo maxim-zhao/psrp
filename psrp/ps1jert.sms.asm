@@ -2545,6 +2545,7 @@ Items:
   String "<Eine> Lakoniumaxt"
 ; armour: 10-18
   String "Lederkleidung"
+  ; [] for item list, () for text box
   String "<Einen> Weiße[r](n) Mantel"
   String "Leichte Kleidung"
   String "<Eine> Eisenrüstung"
@@ -2598,94 +2599,93 @@ Items:
   String "<Ein> Geheimnis"
 
 Names:
+; Characters within {} only get printed by <players> tag.
+; <player> tag ignores them.
   String "Alisa{s}"
   String "Myau{s}"
   String "Tylon{s}"
   String "Lutz{'}"
 
 Enemies:
-; Max width 18 for enemy window
-; <m> = masculine
-; <f> = feminine
-; <n> = neuter
-; [a] = noun suffix for nominative without article
-; {g} = noun suffix for genitive
-; (d) = noun suffix for dative
+; Max width 18 for enemy window, excluding <...> prefix (with space)
+; Characters in [] only get printed in enemy name window.
+; Those in {} get printed if <monster> comes after <gen>.
+; Those in () get printed if <monster comes after <dat>.
   String " " ; Empty
-  String "<f> Riesenfliege"
-  String "<m> Grünschleim{s}"
-  String "<n> Flügelauge{s}"
-  String "<m> Menschenfresser{s}"
-  String "<m> Skorpion{s}"
-  String "<m> Goldskorpion{s}"
-  String "<m> Blauschleim{s}"
-  String "<m> Motavia-Bauer{s}"
-  String "<f> Teufelsfledermaus"
-  String "<m> Mörderbaum{s}"
-  String "<f> Beißerfliege"
-  String "<The> Motavian Teaser" ; TO DO
-  String "<m> Herex"
-  String "<m> Sandwurm{s}"
-  String "<The> Motavian Maniac" ; TO DO
-  String "<f> Goldlinse"
-  String "<m> Rotschleim{s}"
-  String "<m> Fledermausmann{s}"
-  String "<m> Pfeilschwanzkrebs{es}"
-  String "<m> Haikönig{s}"
-  String "<m> Lich{s}"
-  String "<f> Tarantel"
-  String "<m> Mantikor{s}"
-  String "<n> Skelettt{s}"
-  String "<m> Ameisenlöwe{n}"
-  String "<m> Morastmann{s}"
-  String "<m> Dezorier{s}"
-  String "<m> Wüstenegel{s}"
-  String "<m> Cryon{s}"
-  String "<m> Riesenrüssel{s}"
-  String "<m> Ghul{s}"
-  String "<m> Ammonit{s}"
-  String "<m> Hinrichter{s}"
-  String "<m> Wicht{s}"
-  String "<m> Schädelsoldat{en}(en)"
-  String "<f> Schnecke"
-  String "<m> Mantikort{s}"
-  String "<f> Riesenschlange"
-  String "<m> Leviathan{s}"
-  String "<m> Königslich{s}"
-  String "<m> Octopus"
-  String "<m> Wilde[r]{n}(n) Jäger{s}"
-  String "<n> Dezorier-Oberhaupt{s}"
-  String "<m> Zombie{s}"
-  String "<m> Lebende[r]{n}(n) Tote[r]{n}(n)"
-  String "<m> Roboterpolizist{en}(en)"
-  String "<m> Cyborgmagier{s}"
-  String "<f> Feuerechse"
+  String "<Die> Riesenfliege"
+  String "<Der> Grünschleim{s}"
+  String "<Das> Flügelauge{s}"
+  String "<Der> Menschenfresser{s}"
+  String "<Der> Skorpion{s}"
+  String "<Der> Goldskorpion{s}"
+  String "<Der> Blauschleim{s}"
+  String "<Der> Motavische[r]{n}(n) Bauer{s}"
+  String "<Die> Teufelsfledermaus"
+  String "<Der> Mörderbaum{s}"
+  String "<Die> Beißerfliege"
+  String "<Der> Motavische[r]{n}(n) Pläger{s}"
+  String "<Der> Herex"
+  String "<Der> Sandwurm{s}"
+  String "<Der> Motavische[r]{n}(n) Irre[r]{s}(n)"
+  String "<Die> Goldlinse"
+  String "<Der> Rotschleim{s}"
+  String "<Der> Fledermausmann{s}"
+  String "<Der> Pfeilschwanzkrebs{es}"
+  String "<Der> Haikönig{s}"
+  String "<Der> Lich{s}"
+  String "<Die> Tarantel"
+  String "<Der> Mantikor{s}"
+  String "<Das> Skelettt{s}"
+  String "<Der> Ameisenlöwe{n}"
+  String "<Der> Morastmann{s}"
+  String "<Der> Dezorier{s}"
+  String "<Der> Wüstenegel{s}"
+  String "<Der> Cryon{s}"
+  String "<Der> Riesenrüssel{s}"
+  String "<Der> Ghul{s}"
+  String "<Der> Ammonit{s}"
+  String "<Der> Hinrichter{s}"
+  String "<Der> Wicht{s}"
+  String "<Der> Schädelsoldat{en}(en)"
+  String "<Die> Schnecke"
+  String "<Der> Mantikort{s}"
+  String "<Die> Riesenschlange"
+  String "<Der> Leviathan{s}"
+  String "<Der> Königslich{s}"
+  String "<Der> Octopus"
+  String "<Der> Wilde[r]{n}(n) Jäger{s}"
+  String "<Das> Dezorier-Oberhaupt{s}"
+  String "<Der> Zombie{s}"
+  String "<Der> Lebende[r]{n}(n) Tote[r]{n}(n)"
+  String "<Der> Roboterpolizist{en}(en)"
+  String "<Der> Cyborgmagier{s}"
+  String "<Die> Feuerechse"
   String "Tajim{s}"
-  String "<m> Erdriese{n}(n)"
-  String "<f> Wächtermaschine"
-  String "<m> Vielfraß{es}"
-  String "<m> Talos"
-  String "<f> Oberschlange"
-  String "<m> Todbringer{s}"
-  String "<m> Chaosmagier{s}"
-  String "<m> Zentaur{s}"
-  String "<m> Eismensch{en}"
-  String "<m> Vulcanus"
-  String "<m> Rote[r]{n}(n) Drache{n}(n)"
-  String "<m> Grüne[r]{n}(n) Drache{n}(n)"
+  String "<Der> Erdriese{n}(n)"
+  String "<Die> Wächtermaschine"
+  String "<Der> Vielfraß{es}"
+  String "<Der> Talos"
+  String "<Die> Oberschlange"
+  String "<Der> Todbringer{s}"
+  String "<Der> Chaosmagier{s}"
+  String "<Der> Zentaur{s}"
+  String "<Der> Eismensch{en}"
+  String "<Der> Vulcanus"
+  String "<Der> Rote[r]{n}(n) Drache{n}(n)"
+  String "<Der> Grüne[r]{n}(n) Drache{n}(n)"
   String "Lashiec{s}"
-  String "<n> Mammut{s}"
-  String "<m> Säbelkönig{s}"
-  String "<m> Schattenplünderer{s}"
-  String "<m> Golem{s}"
+  String "<Das> Mammut{s}"
+  String "<Der> Säbelkönig{s}"
+  String "<Der> Schattenplünderer{s}"
+  String "<Der> Golem{s}"
   String "Medusa{s}"
-  String "<m> Eisdrache{n}(n)"
-  String "<m> Weise[r]{n}(n) Drache{n}(n)"
-  String "<m> Golddrache{n}(n)"
-  String "<m> Irre[r]{n}(n) Doktor{s}"
+  String "<Der> Eisdrache{n}(n)"
+  String "<Der> Weise[r]{n}(n) Drache{n}(n)"
+  String "<Der> Golddrache{n}(n)"
+  String "<Der> Irre[r]{n}(n) Doktor{s}"
   String "Lashiec{s}"
-  String "<f> Dunkle{n}(n) Macht"
-  String "<m> Albtraum{s}"
+  String "<Die> Dunkle{n}(n) Macht"
+  String "<Der> Albtraum{s}"
 .endif
 
 .ends
@@ -6095,12 +6095,12 @@ DrawTilemap:
 .section "Save game deletion" free
 DeleteSavedGame:
   ; We want to jump back to slot 2 when we are done
-  ld hl,ScriptConfirmSlot ; Slot <n>, are you sure?
+  ld hl,ScriptConfirmSlot ; Slot <Das>, are you sure?
   call TextBox
   call DoYesNoMenu
   jr nz,_no
 
-  ld hl,ScriptDeletingFromSlotN ; Deleting game from slot <n>.
+  ld hl,ScriptDeletingFromSlotN ; Deleting game from slot <Das>.
   call TextBox
 
   ld a,SRAMPagingOn
