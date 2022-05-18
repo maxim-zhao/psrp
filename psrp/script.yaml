@@ -1533,6 +1533,18 @@
   ca: Te vostè un Passaport?<end>
   es: ¿Tiene usted un Pasaporte?<end>
   de: Haben Sie einen Reisepass?<end>
+  
+- offsets: 4c30,4ccf,54ca
+  # Answering yes to "Do you have a passport" if you don't have one
+  indices: 0CE
+  ja: フザケルナ.<wait>
+  us: DON'T BE A FOOL!<end>
+  en: Well? Let’s see it.<wait>
+  fr: Eh bien_? Voyons ca.<wait>
+  pt-br: Certo? Deixe-me ver isso.<wait>
+  ca: De debò? A veure.<wait>
+  es: ¿En serio? A ver.<wait>
+  de: Und? Wo haben Sie ihn?<wait>
 
 - offsets: 4d33
   # Passport office
@@ -4273,19 +4285,6 @@
   ca: Tots els Passaports són invàlids a partir d'ara i han de ser destruïts. Li confisquem el seu.<wait>
   es: Todos los Pasaportes quedan invalidados a partir de ahora y han de ser destruidos. Le confiscamos el suyo.<wait>
   de: All existing Passports are now invalid and must be destroyed. We're confiscating yours.<wait>
-
-# Answering yes to "Do you have a passport" if you don't have one
-
-- offsets: 4c30,4ccf,54ca
-  indices: 0CE
-  ja: フザケルナ.<wait>
-  us: DON'T BE A FOOL!<end>
-  en: Well? Let’s see it.<wait>
-  fr: Eh bien_? Voyons ca.<wait>
-  pt-br: Certo? Deixe-me ver isso.<wait>
-  ca: De debò? A veure.<wait>
-  es: ¿En serio? A ver.<wait>
-  de: Und? Wo haben Sie ihn?<wait>
 
 
 # ***************
