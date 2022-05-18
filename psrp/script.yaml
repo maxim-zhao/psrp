@@ -4023,8 +4023,8 @@
     Estupendo. Empezaremos a construir inmediatamente.<wait more>
     Es un trabajo delicado, así que hazme un favor y no me molestéis en un rato, ¿de acuerdo?<wait>
   de: |
-    Splendid. We’ll begin construction immediately.<wait more>
-    This is delicate work, do me a favor and try not to bother me for a while?<wait>
+    Ausgezeichnet. Dann fange ich sofort mit den Bauarbeiten an.<wait more>
+    Das wird heikle Arbeit, also tut mir einen Gefallen und stört mich nicht.<wait>
 
 - offsets: 50a7
   # Dr Luveno (if you don't have enough money)
@@ -4041,7 +4041,7 @@
   pt-br: Você não tem o suficiente? Sinto muito, tente conseguir um pouco mais!<wait>
   ca: No en teniu prous? Aneu a conseguir-ne més!<wait>
   es: ¿No tenéis suficientes? ¡Id a conseguir más!<wait>
-  de: You don’t have enough? Go get some more!<wait>
+  de: Ihr habt nicht genug? Dann kommt zurück, wenn ihr mehr habt!<wait>
 
 - offsets: 5096
   # Dr Luveno (no to the previous question)
@@ -4061,7 +4061,7 @@
   pt-br: Ah, então você fez eu perder meu tempo? Maravilha.<wait>
   ca: Ah, així que m'has fet perdre el temps. Maravellós.<wait>
   es: Ah, así que me has hecho perder el tiempo. Maravilloso.<wait>
-  de: Ah, so you’ve wasted my time. Wonderful.<wait>
+  de: Dann war die ganze Chose also umsonst. Na toll.<wait>
 
 - offsets: 50c3
   # Dr Luveno (first two times you talk to him)
@@ -4093,9 +4093,8 @@
     A menos que queráis acabar vagando por el espacio, dadnos tiempo.<wait more>
     ¿No podéis ir a vagabundear en una cueva? Estamos muy ocupados.<wait>
   de: |
-    Please, you can’t rush perfection.<wait more>
-    Unless you want to end up stranded in space, give us time.<wait more>
-    Can’t you go wander around a cave or something? We’re very busy.<wait>
+    Gut Ding will Weile haben. Ein bisschen mehr Geduld wäre angebracht.<wait more>
+    Könnt ihr euch nicht irgendwo anders die Zeit totschlagen? Wir sind beschäftigt.<wait>
 
 - offsets: 50d1
   # Dr Luveno (third time)
@@ -4124,9 +4123,7 @@
   es: |
     ¡Hecho! Esta es mi obra magna.<wait more>
     La llamaré la Luveno. Suena bien, ¿no os parece?<wait>
-  de: |
-    Success! This is my finest work yet.<wait more>
-    I call it the Luveno. Got a nice ring to it, don’t you think?<wait>
+  de: Es ist vollbracht! Darf ich vorstellen? Der Luveno!<wait>
 
 - offsets: 50de
   # If you don't have Hapsby already
@@ -4141,7 +4138,7 @@
   pt-br: Mas receio que a Luveno não possa ser pilotada por um ser humano...<wait>
   ca: No obstant, hem sembla que la Luveno no podrà ser pilotada per un humà...<wait>
   es: Sin embargo, creo que la Luveno no podrá ser pilotada por un humano...<wait>
-  de: But I’m afraid the Luveno can’t be piloted by a human...<wait>
+  de: Aber ich nehme an, keiner von euch weiß, wie man ein Raumschiff steuert.<wait>
 
 - offsets: 50eb
   # If you don't have Hapsby already
@@ -4190,11 +4187,12 @@
     ¡No me miréis así! Habíamos quedado en que seguiriáis mis instrucciones.<wait more>
     He cumplido mi parte, ahora os toca a vosotros.<wait>
   de: |
-    I built a robot named Hapsby years ago, just for this purpose.<wait more>
-    He’s probably still in that scrap heap in Bartevo.<wait more>
-    Go fetch him, will you? Watch your step, though. Bartevo’s surrounded by lava.<wait more>
-    Don’t give me that look! You agreed to follow my instructions.<wait more>
-    I’ve upheld my end of the bargain, now go do yours.<wait>
+    Vor vielen Jahren hab ich einen Roboter namens Hapspy als Raumschiffpilot gebaut.<wait more>
+    Als ich eingesperrt wurde, hat man ihn in Baretvo entsorgt.<wait more>
+    Geht die Schrotthaufen durchwühlen, bis ihr ihn findet. Und seid vorsichtig.<wait more>
+    Bartevo soll heutzutage von Lava umgeben sein.<wait more>
+    Ach, jetzt glotzt nicht so. Ihr kommt dort schon irgendwie durch.<wait more>
+    Ich hab meinen Teil für euch getan. Jetzt seid ihr dran.<wait>
 
 - offsets: 50f6
   # Luveno (if you have Hapsby)
@@ -4236,10 +4234,10 @@
     Y justo a tiempo. La seguridad de los puertos espaciales se ha endurecido.<wait more>
     ¡Iros! ¡La Luveno está atracada en las afueras de la villa! ¡Id a probadla!<wait>
   de: |
-    Ah, my little Hapsby, you’ve come home!<wait more>
-    Excellent. With Hapsby you can pilot the Luveno through space!<wait more>
-    And just in time, too. Spaceport security has gotten tighter.<wait more>
-    Go on! The Luveno is docked just outside the village! Go try it out!<wait>
+    Hapsby, mein Kleiner, du bist wieder da!<wait more>
+    Gut gemacht. Hapsby kann euch den Luveno durchs All fliegen.<wait more>
+    Und keinen Moment zu früh. Die Weltraumflughäfen haben vor Kurzem dicht gemacht.<wait more>
+    Der Luveno steht außerhalb des Dorfes. Macht doch mal eine Probefahrt mit ihm!<wait>
 
 - offsets: 5071
   # Luveno (subsequent visits)
@@ -4254,7 +4252,7 @@
   pt-br: Como está indo a Luveno? Cuide bem dela.<wait>
   ca: Com va la Luveno? Tingueu cura d'ella.<wait>
   es: ¿Como marxa la Luveno? Cuidadla.<wait>
-  de: How’s the Luveno holding up? Take good care of it.<wait>
+  de: Und, wie geht's dem Luveno? Passt gut auf ihn auf, ja?<wait>
 
 # Spaceports now closed...
 - offsets: 4cec
@@ -4271,7 +4269,7 @@
   pt-br: No momento, a segurança de Algol está em alerta vermelho. As viagens espaciais estão totalmente proibidas para todos os cidadãos.<wait>
   ca: Algol està en nivell d'alerta vermella. S'han prohibit els viatges espacials a tots els ciutadans.<wait>
   es: Algol está en nivel de alerta roja. Se han prohibido los viajes espaciales a todos los ciudadanos.<wait>
-  de: Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
+  de: Der Weltraumflughafen ist gesperrt. Raumfahrten sind für alle Bürger verboten.<wait>
 
 - offsets: 4cfd
   indices: 1A0
@@ -4284,7 +4282,7 @@
   pt-br: A partir de agora, todos Passaportes são inválidos e devem ser destruídos. Confiscaremos o seu.<wait>
   ca: Tots els Passaports són invàlids a partir d'ara i han de ser destruïts. Li confisquem el seu.<wait>
   es: Todos los Pasaportes quedan invalidados a partir de ahora y han de ser destruidos. Le confiscamos el suyo.<wait>
-  de: All existing Passports are now invalid and must be destroyed. We're confiscating yours.<wait>
+  de: Alle derzeit ausgestellten Reisepässe sind ungültig und müssen vernichtet werden. Wir konfiszieren Ihren.<wait>
 
 
 # ***************
