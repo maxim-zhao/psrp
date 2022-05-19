@@ -4464,8 +4464,8 @@
     Esto es la villa de Lore. Bueno, lo era, antes de la corrupción que trajo Lashiec.<wait more>
     Como puedes ver, ahora es tierra yerma.<wait>
   de: |
-    This is Lore Village. Well, it used to be, before LaShiec's corruption.<wait more>
-    As you can see, now it’s a wasteland.<wait>
+    Dies ist das Dorf Loar.<wait more>
+    Dank Lashiec ist es jetzt aber nur noch Brachland.<wait>
 
 
 - offsets: 5119
@@ -4503,9 +4503,9 @@
     Dicen que la custodia un dragó en Casba.<wait more>
     ¿Para qué debe querer un dragón una joya?<wait>
   de: |
-    Have you heard of a jewel called the Carbuncle Eye?<wait more>
-    It’s rumored to be held by a dragon in Casba.<wait more>
-    What does a dragon need a jewel for anyway?<wait>
+    Habt ihr von einem Juwel namens Karbunkelauge gehört?<wait more>
+    Gerüchten zufolge hat es ein Drache in Casba.<wait more>
+    Wozu braucht ein Drache überhaupt ein Juwel?<wait>
 
 
 - offsets: 511f
@@ -4536,8 +4536,8 @@
     Ya que estas per aquí, deberías visitar Avion.<wait more>
     Es un pueblo pequeño como este, en la parte occidental de la isla.<wait>
   de: |
-    Hey, since you’re here, you might as well pay Avion a visit.<wait more>
-    It’s a small town like this one, on the western tip of the island.<wait>
+    Hey, wenn ihr schon hier seid, geht doch auch Avion besuchen.<wait more>
+    Es ist ein kleines Dorf am westlichsten Zipfel dieses Kontinents.<wait>
 
 - offsets: 5125
   # Villager
@@ -4552,7 +4552,7 @@
   pt-br: Você já ouviu falar sobre as árvores Laerma?<end>
   ca: Has sentit a parlar dels arbres de Laerma?<end>
   es: ¿Has oído hablar de los árboles de Laerma?<end>
-  de: Have you heard about Laerma trees?<end>
+  de: Wisst ihr, was Laermabäume sind?<end>
 
 - offsets: 512e
   # Villager (no to previous question)
@@ -4569,7 +4569,7 @@
   pt-br: Ouvi dizer que o Planalto Altiplano em Dezóris é totalmente coberto por elas.<wait>
   ca: Diuen que l'altiplà d'Altiplano, a Dezoris, hi és cobert.<wait>
   es: Dicen que el altiplano de Altipleau, en Dezoris, está cubierto de ellos.<wait>
-  de: I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
+  de: Angeblich wachsen sie auf dem Altiplano-Plateau auf Dezoris.<wait>
 
 - offsets: 5113
   # Villager
@@ -4592,7 +4592,7 @@
   pt-br: Você vai derrotar LaShiec? Já era hora de alguém fazer isso!<wait>
   ca: Enderrocareu en Lashiec? Ja era hora que algú ho fés!<wait>
   es: ¿Derrocaréis a Lashiec? ¡Ya era hora de que alguien lo hiciese!<wait>
-  de: You're going to bring down LaShiec? It's about time someone did!<wait>
+  de: Was, ihr wollt Lashiec stürzen? Endlich nimmt sich ihm einer an!<wait>
 
 - offsets: # unused? index $011a originally
   indices: 11A
@@ -4626,9 +4626,9 @@
     He oído que ciertos cristales pueden protegerte contra una mágia semejante.<wait more>
     Es un rumor, eso sí. No vayas diciendo que te lo he dicho yo.<wait>
   de: |
-    LaShiec’s no pushover. His black magic could destroy you.<wait more>
-    I’ve heard certain crystals can protect you against such magic.<wait more>
-    It’s just a rumor, though. Don’t quote me on that.<wait>
+    Mit Lashiec ist nicht zu spaßen. Seine Magie ist tödlich!<wait more>
+    Allerdings soll es einen Kristall geben, der diese Magie erheblich schwächen kann.<wait more>
+    ...So lauten zumindest die Gerüchte.<wait>
 
 # *************
 # *** Avion ***
@@ -4645,7 +4645,7 @@
   pt-br: Esta vila é chamada Avion.<wait>
   ca: Aquesta vila es diu Avion.<wait>
   es: Este villa se llama Avion.<wait>
-  de: This village is called Avion.<wait>
+  de: Willkommen im Dorf Avion.<wait>
 
 - offsets: 5145
   # Villager
@@ -4664,7 +4664,7 @@
   pt-br: A influência maligna de LaShiec corrompeu nossa vila também! Por favor, você tem que detê-lo!<wait>
   ca: La negra mà d'en Lashiec ha arribat també a aquesta vila! Si us plau, teniu que aturar-lo!<wait>
   es: ¡La negra mano de Lashiec ha llegado también a esta villa! Por favor,¡tenéis que pararlo!<wait>
-  de: The evil hand of Lashiec has extended to this village too! Please, you have to stop him!<wait>
+  de: Der Einfluss Lashiecs hat selbst unser Dorf erreicht! Bitte helft uns!<wait>
 
 - offsets: 514b
   # Villager
@@ -4706,9 +4706,10 @@
     ¡Y esa olla extraña! Va dando tumbos con la olla contra el pecho.<wait more>
     Tengo un mal presentimiento.<wait>
   de: |
-    A really weird guy recently moved here. Rumor has it he experiments on animals.<wait more>
-    And that strange pot! He’s always walking around with it clutched to his chest.<wait more>
-    I've got a really bad feeling about him.<wait>
+    Vor Kurzem ist so'n schräger Kerl hierhergezogen.<wait more>
+    Manche behaupten, er mache Tierversuche.<wait more>
+    Und dann ist da dieser komische Topf, mit dem er ständig durch die Gegend läuft.<wait more>
+    Der Kerl gefällt mir überhaupt nicht.<wait>
 
 - offsets: 5151
   # Villager
@@ -4723,7 +4724,7 @@
   pt-br: Gostaria de viajar pelo espaço algum dia.<wait>
   ca: M'agradaria anar al espai algún dia.<wait>
   es: Me gustaria ir al espacio algún dia.<wait>
-  de: I’d like to travel through space someday.<wait>
+  de: Eines Tages wöllte ich gerne mal durchs All reisen.<wait>
 
 - offsets: 5157
   # Villager
@@ -4762,9 +4763,9 @@
     Me dijo algo extraño acerca de los Gatos de Musk.<wait more>
     Dice que si le das un cierto fruto, ¡se vuelven gigantes y pueden volar!<wait>
   de: |
-    Our new neighbor sure knows a lot about animals.<wait more>
-    He told me the weirdest thing about Musk Cats.<wait more>
-    He says if they eat a certain berry, they grow huge, and can fly!<wait>
+    Unser neuer Nachbar weiß ganz schön viel über Tiere.<wait more>
+    Was er mir aber über Schleichkatzen erzählt hat, ist das Verrückteste.<wait more>
+    Er meint, wenn die eine gewisse Beere essen, werden sie riesig und können fliegen!<wait>
 
 - offsets: 4c54
   # Mad Doctor
@@ -4779,7 +4780,7 @@
   pt-br: Aqui, gatinho, gatinho! Venha aqui!<end>
   ca: Aquí, mixeta mixeta! Vine ací!<end>
   es: Aquí, ¡minino minino! ¡Ven aquí!<end>
-  de: Here, kitty kitty! Come here!<end>
+  de: Du. Miezekatze.<line>Komm her.<end>
 
 - offsets: 4c75
   # Mad Doctor (yes to previous question)
@@ -4794,7 +4795,7 @@
   pt-br: Ho ho, isso foi divertido! Quem é o próximo?<wait>
   ca: Ho ho, qué divertit! Qui serà el següent?<wait>
   es: Ho ho, ¡que divertido! ¿Quién será el siguiente?<wait>
-  de: Ho ho, that was fun! Who’s next?<wait>
+  de: Ho ho, das hat Spaß gemacht! Wer will noch sterben?<wait>
 
 - offsets: 4c7a
   # Mad Doctor (no to previous question)
@@ -4809,7 +4810,7 @@
   pt-br: Eu disse venha AQUI!<wait>
   ca: He dit que vinguis ací!<wait>
   es: ¡He dicho que vengas aquí!<wait>
-  de: I said come HERE.<wait>
+  de: Ich sagte komm HER.<wait>
 
 # *************
 # *** Skray ***
