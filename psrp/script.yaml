@@ -4313,7 +4313,7 @@
   pt-br: Bartevo é meu território, estranho. Não meta o nariz onde não é chamado.<wait>
   ca: Bartevo és el meu territori, forasters. No hi fiqueu el nas a on no us demanen.<wait>
   es: Bartevo es mi territorio, forasteros. No metáis las narices donde no os importa.<wait>
-  de: Bartevo is my turf, stranger. Don't go poking your nose around.<wait>
+  de: Bartevo ist mein Revier. Finger weg und Nasen raus.<wait>
 
 - offsets: 5005
   # Villager
@@ -4346,8 +4346,8 @@
     Alguién me contó que hay un robot perfectamente funcional tirado en una de estas montañas de basura.<wait more>
     ¿Me pregunto si será verdad?<wait>
   de: |
-    Someone told me that there’s a perfectly good robot discarded in one of these scrap heaps.<wait more>
-    I wonder if it’s true?<wait>
+    Ich hab gehört, dass jemand einen voll funktionstüchtigen Roboter hier in 'nen Schrott-<line>haufen geworfen hat.<wait more>
+    Stimmt das?<wait>
 
 - offsets: 5524
   # Villager (in the cave next to Bartevo)
@@ -4364,7 +4364,7 @@
   pt-br: A farmácia na Vila Avion vende o Polimaterial.<wait>
   ca: A la farmàcia de la vila d'Avion venen Polymeteral.<wait>
   es: En la farmacia de la villa de Avion venden Polymeteral.<wait>
-  de: The drug store in Avion Village sells Polymeteral.<wait>
+  de: Polymeteral kann man in der Apotheke in Avion kaufen.<wait>
 
 - offsets: 57bd
   # Hapsby
@@ -4394,8 +4394,8 @@
     Saludos. Soy el robot piloto Hapsby. Gracias por rescatarme.<wait more>
     Te ayudaré a manejar cualquier nave diseñada por Luveno.<wait>
   de: |
-    Greetings. I am pilot robot Hapsby. Thanks for rescuing me.<wait more>
-    I will assist you in the operation of any Luveno brand spacecraft.<wait>
+    Ich bin Hapsby. Danke, dass ihr mich gefunden habt.<wait more>
+    Als Roboterpilot kann ich sämtliche Luveno-Raumschiffe für euch steuern.<wait>
 
 - offsets: 57e0
   indices: 178,17A
@@ -4425,8 +4425,8 @@
     Has encontrado el aerodeslizador.<wait more>
     Hapsby ha reparado las partes estropeadas, ¡así que ahora lo puedes usar!<wait>
   de: |
-    You found a FlowMover.<wait more>
-    Hapsby fixed the parts that were broken, so you can use it now!<wait>
+    Du hast einen FlowMover gefunden.<wait more>
+    Hapspy hat ihn repariert und wieder funktionstüchtig gemacht!<wait>
 
 
 # ************
