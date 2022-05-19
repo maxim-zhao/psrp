@@ -4061,7 +4061,7 @@
   pt-br: Ah, então você fez eu perder meu tempo? Maravilha.<wait>
   ca: Ah, així que m'has fet perdre el temps. Maravellós.<wait>
   es: Ah, así que me has hecho perder el tiempo. Maravilloso.<wait>
-  de: Dann war die ganze Chose also umsonst. Na toll.<wait>
+  de: Dann war die ganze Chose also umsonst? Na, vielen Dank auch.<wait>
 
 - offsets: 50c3
   # Dr Luveno (first two times you talk to him)
@@ -4234,7 +4234,7 @@
     Y justo a tiempo. La seguridad de los puertos espaciales se ha endurecido.<wait more>
     ¡Iros! ¡La Luveno está atracada en las afueras de la villa! ¡Id a probadla!<wait>
   de: |
-    Hapsby, mein Kleiner, du bist wieder da!<wait more>
+    Hapsby, mein Kleiner, ich hab dich vermisst!<wait more>
     Gut gemacht. Hapsby kann euch den Luveno durchs All fliegen.<wait more>
     Und keinen Moment zu früh. Die Weltraumflughäfen haben vor Kurzem dicht gemacht.<wait more>
     Der Luveno steht außerhalb des Dorfes. Macht doch mal eine Probefahrt mit ihm!<wait>
