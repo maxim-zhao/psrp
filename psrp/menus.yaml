@@ -1258,9 +1258,9 @@
     ╘════════════════════╝
 
 - name: TopBorder10
-  # inventory, shop MST, currently equipped items
-  ptrs: 3648,3832,3b23
-  dims: 364e,3838,3b29
+  # inventory, currently equipped items # Not shop MST any more
+  ptrs: 3648,3832 #,3b23
+  dims: 364e,3838 #,3b29
   en: ┌──────────────────╖
   fr: ┌──────────────────╖
   pt-br: ┌────────────────────╖

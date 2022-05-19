@@ -41,6 +41,7 @@ banks 32
   .unbackground $035c5 $035d9 ; Spell menu blank space filling
   .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
+  .unbackground $03b13 $03b3b ; Shop MST window drawing
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
   .unbackground $03eca $03fc1 ; background graphics lookup table
@@ -3182,7 +3183,7 @@ DezorianCustomStringCheck:
   DefineWindow PARTYSTATS       $d700                 32                    6                     0                       18
   DefineWindow NARRATIVE        PARTYSTATS_end        31                    6                     1                       18
   DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                    3                     2                       19
-  DefineWindow CHARACTERSTATS   NARRATIVE             18                    9                     31-_sizeof_StatsBorderTop/2 4
+  DefineWindow CHARACTERSTATS   NARRATIVE             StatsMenuDimensions_width StatsMenuDimensions_height 31-StatsMenuDimensions_width 4
   DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width       WorldMenu_height      1                       1
   DefineWindow CURRENT_ITEMS    MENU_end              InventoryMenuDimensions_width  5            31-InventoryMenuDimensions_width 13
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                     6                     1                       8
@@ -3208,7 +3209,7 @@ DezorianCustomStringCheck:
   DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width      ChoiceMenu_height     29-ChoiceMenu_width     14
   DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                     3                     1                       8
   DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height (32-ShopInventoryDimensions_width)/2 0
-  DefineWindow SHOP_MST         INVENTORY             20                    3                     3                       15 ; same width as inventory (for now)
+  DefineWindow SHOP_MST         INVENTORY             StatsMenuDimensions_width 3                  3                       15 ; same width as stats menu
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4     SAVE_SLOT_COUNT+2     27-SAVE_NAME_WIDTH      1
   DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width   SoundTestMenu_height+2 31-SoundTestMenu_width 0
   DefineWindow OptionsWindow    $d700                 OptionsMenu_width     OptionsMenu_height    32-OptionsMenu_width    24-OptionsMenu_height
@@ -3360,9 +3361,20 @@ stats:
   ld a,:statsImpl
   ld (PAGING_SLOT_1),a
   call statsImpl
+Slot1TrampolineEnd:
   ld a,1
   ld (PAGING_SLOT_1),a
   ret
+.ends
+
+  ROMPosition $3b13
+.section "Shop MST window" force
+ShopMST:
+  ; We trampoline to the same area as the stats drawing
+  ld a,:shopMSTImpl
+  ld (PAGING_SLOT_1),a
+  call shopMSTImpl
+  jp Slot1TrampolineEnd
 .ends
 
 ; This one needs to go in low ROM as it's accessed from multiple places (stats, shop, inventory)
@@ -3426,9 +3438,7 @@ StatsBorderBottom:  .stringmap tilemap "╘════════════�
 .endif
 
 statsImpl:
-  ld hl,StatsBorderTop
-  ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
-  call OutputTilemapBoxWipePaging ; draw to tilemap
+  call _borderTop
   ld hl,Level
   ld a,(ix+5)
   call DrawTextAndNumberA
@@ -3448,10 +3458,20 @@ statsImpl:
   ld hl,MaxMP
   ld a,(ix+7)
   call DrawTextAndNumberA
+_mesetaAndEnd:
   call DrawMeseta
   ld hl,StatsBorderBottom
   ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
   jp OutputTilemapBoxWipePaging ; draw and exit
+
+_borderTop:
+  ld hl,StatsBorderTop
+  ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
+  jp OutputTilemapBoxWipePaging ; draw and exit
+  
+shopMSTImpl: ; same section to share data
+  call _borderTop
+  jp _mesetaAndEnd
 .ends
 
 ; Patch in string lengths to places called above
