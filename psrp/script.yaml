@@ -5127,7 +5127,7 @@
   pt-br: Esta é a Vila Uzo, em Motávia.<wait>
   ca: Aquesta és la Vila d'Uzo, a Motavia.<wait>
   es: Esta es la Villa de Uzo, en Motavia.<wait>
-  de: This is Uzo Village, on Motavia.<wait>
+  de: Dies ist das Dorf Uzo auf Motavia.<wait>
 
 - offsets: 5163
   # Villager
@@ -5148,7 +5148,7 @@
   pt-br: Formigas-Leão? Não tem problema! Você pode dirigir um Mestre-Terra por cima delas.<wait>
   ca: Formigues-Lleó? No hi ha problema! Pots passar amb un LandMaster per sobre.<wait>
   es: ¿Hormigas-León? ¡No hay problema! Puedes pasar con un LandMaster por encima.<wait>
-  de: Ant-lions? No problem! You can drive a LandMaster right over ’em.<wait>
+  de: Ameisenlöwen? Mit einem LandMaster könnt ihr einfach über sie drüberfahren!<wait>
 
 - offsets: 5169
   # Villager
@@ -5164,7 +5164,7 @@
   pt-br: Ao sul de Uzo está uma vila chamada Casba.<wait>
   ca: Al sud d'Uzo hi ha una vila anomenada Casba.<wait>
   es: Al sur de Uzo hay una villa llamada Casba.<wait>
-  de: To the south of Uzo lies a village called Casba.<wait>
+  de: Südlich von Uzo liegt ein Dorf namens Casba.<wait>
 
 - offsets: 516f
   # Villager
@@ -5184,7 +5184,7 @@
   pt-br: Parece que um dragão está escondido dentro da Caverna de Casba. Dizem que há uma joia em sua cabeça.<wait>
   ca: Un drac es troba entaforat dintre la cova de Casba. Diuen que té una joia incrustada al cap!<wait>
   es: Un dragón mora en la cueva de Casba. ¡Dicen que tiene una joya incrustada en la cabeza!<wait>
-  de: A dragon is holed up inside Casba Cave. They say there’s a jewel embedded in its head!<wait>
+  de: Ein Drache hat sich in der Casba-Höhle einquartiert. Angeblich hat er ein Juwel in seiner Stirn!<wait>
 
 - offsets: 5194
   # Villager
@@ -5217,8 +5217,8 @@
     ¿Has oído hablar de una capa que se llama Capa de Fray? <wait more>
     Por lo que he oído, es muy ligera, pero tiene una gran capacidad de protección.<wait>
   de: |
-    Have you heard of a cloak called the Frad Mantle? <wait more>
-    From what I hear, it’s really light, yet has excellent protective power.<wait>
+    Schon von einem Kleidungsstück namens Frahd-Umhang gehört?<wait more>
+    Es soll kaum was wiegen, aber trotzdem enormen Schutz bieten.<wait>
 
 - offsets: 5175
   # Villager
@@ -5234,7 +5234,7 @@
   pt-br: Você já ouviu falar da Flauta Calmante?<end>
   ca: Has sentit a parlar de la Flauta Calmant?<end>
   es: ¿Has oído hablar de la Flauta Calmante?<end>
-  de: Have you heard of the Soothe Flute?<end>
+  de: Schon von der Sanften Flöte gehört?<end>
 
 - offsets: 5133,517e,54d9,54fe
   # Villager (yes to previous question)
@@ -5258,9 +5258,7 @@
   es: |
     Oh.<wait more>
     Muy bien.<wait>
-  de: |
-    Oh.<wait more>
-    Very well.<wait>
+  de: Oh. Dann egal.<wait>
 
 - offsets: 518e
   # Villager (no to previous question)
@@ -5292,9 +5290,7 @@
   es: |
     Bueno, esto es un secreto, pero enterré una en las afueras de la villa de Gothic.<wait more>
     ¡No se lo digas a nadie!<wait>
-  de: |
-    Well, this is a secret, but I went and buried one on the outskirts of Gothic village.<wait more>
-    Don’t tell anybody!<wait>
+  de: Sagt das niemandem sonst, aber als ich auf Palma war, hab ich sie unter einem Baum in Gothic vergraben.<wait>
 
 
 # Soothe Flute stuff
@@ -5312,7 +5308,7 @@
   pt-br: A linda melodia acalma seu coração.<wait>
   ca: El so desfà el teu cor.<wait>
   es: El sonido deshace tu corazón.<wait>
-  de: The sounds melt your heart.<wait>
+  de: Die Töne beruhigen deine Seele.<wait>
 
 - offsets: 24eb
   indices: 044-2
@@ -5328,7 +5324,7 @@
   pt-br: <Article><monster> ouviu o som da flauta e se acalmou.<delay>
   ca: <Article><monster> sent el so de la flauta i es calma.<delay>
   es: <Article><monster> oye el sonido de la flauta y se calma.<delay>
-  de: <Article><monster> heard the sound of the flute and calmed down.<delay>
+  de: <Nom><monster> wurde vom Flötenspiel besänftigt.<delay>
 
 
 # *************
