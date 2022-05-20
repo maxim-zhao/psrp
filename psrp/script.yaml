@@ -4833,7 +4833,7 @@
   pt-br: Aqui é Skray, o lugar mais quente de Dezóris! Muito frio lá fora, não acha?<wait>
   ca: Benvinguts a Skray, el lloc més càlid de Dezoris! Fa molt fred allà fora, oi?<wait>
   es: Bienvenidos a Skray, ¡el lugar más cálido de Dezoris! Hace mucho frío ahí fuera, ¿verdad?<wait>
-  de: Welcome to Skray, the warmest place on Dezoris! Pretty cold out there, isn't it?<wait>
+  de: Willkommen in Skray, dem wärmsten Ort auf ganz Dezoris. Ziemlich kalt draußen, ne?<wait>
 
 - offsets: 523e
   # Townsperson
@@ -4849,7 +4849,7 @@
   pt-br: Quase todos os imigrantes de Palma vivem em Skray. Não fomos feitos para o frio.<wait>
   ca: Quasi tots els migrants de Palma vivim aquí a Skray. No estem fets per al fred.<wait>
   es: Casi todos los inmigrantes de Palma vivimos aquí en Skray. No estamos hechos para el frío.<wait>
-  de: Almost all of us Palman immigrants live here in Skray. We're just not built for the cold.<wait>
+  de: Fast alle palmanischen Siedler leben hier in Skray. Die Kälte ist einfach zu viel für uns.<wait>
 
 - offsets: 5244
   # Townsperson
@@ -4884,8 +4884,8 @@
     He llegado hace poco a Dezoris así que aún no lo conozco demasiado. Deberías hablar con los nativos.<wait more>
     Yo aún no he estado, pero muchos de ellos viven en un pueblo en las montañas del norte.<wait>
   de: |
-    I'm new to Dezoris so I don't know too much about it yet. You should talk to the natives.<wait more>
-    I haven't been yet, but a lot of them live in a village inside the mountains up north.<wait>
+    Dezoris ist mir noch totales Neuland. Ich kann euch nicht viel drüber erzählen.<wait more>
+    Allerdings soll's ein Dorf voller Ureinwohner tief in den Bergen im Norden geben.<wait>
 
 - offsets: 524a
   # Townsperson
@@ -4932,9 +4932,9 @@
     Laconia es el material más poderoso de Algol, no usaria nada menos poderoso.<wait more>
     Rezaré por tí. Todos lo haremos.<wait>
   de: |
-    Overthrowing LaShiec, are you? You'll need a sword, axe, shield, and armor made of Laconia.<wait more>
-    Laconia is the most powerful material in Algol, I wouldn't use anything less.<wait more>
-    I'll be praying for your safety. We all will.<wait>
+    Ihr wollt also Lashiec stürzen? Dann braucht ihr Schwert, Axt, Schild und Rüstung aus Lakonium.<wait more>
+    Lakonium ist das stärkste Material in ganz Algol. Mit weniger würde ich mich nicht zufriedengeben.<wait more>
+    Ich bete um eure Sicherheit.<wait>
 
 - offsets: 5250
   # Townsperson
@@ -4973,8 +4973,9 @@
     La Laconia es más que fuerte, es sagrada. Las armas forjadas con ella tienen poderes divinos.<wait more>
     Lashiec lo sabe, por supuesto. ¡Esta es la razón por la que las ha escondido por la galaxia! ¡Tiene miedo!<wait>
   de: |
-    Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
-    LaShiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
+    Lakonium ist nicht nur verdammt hart, sondern auch heilig.<wait more>
+    Lashiec weiß das natürlich. Er hat Angst vor der Macht, der Lakonium innewohnt.<wait more>
+    Deswegen hat er alle Waffen daraus in den abgelegensten Ecken der Welt versteckt.<wait>
 
 
 - offsets: 5256
@@ -4992,7 +4993,7 @@
   pt-br: Dezoris é basicamente um cubo de gelo gigante, completamente diferente dos campos verdes de Palma.<wait>
   ca: Dezoris és bàsicament un glaçó gegant de gel. És un gran canvi comparat amb els prats verds de Palma.<wait>
   es: Dezoris es basicamente un cubito gigante de hielo. Es un gran cambio comparado con los prados verdes de Palma.<wait>
-  de: Dezoris is basically a giant ice cube. It's a big change from the green fields of Palma.<wait>
+  de: Dezoris ist eine riesige Eiskugel. Ganz anders von den grünen Feldern Palmas.<wait>
 
 - offsets: 525c
   # Townsperson
@@ -5011,7 +5012,7 @@
   pt-br: Nem todas as montanhas de gelo são tão resistentes quanto parecem, algumas partes se quebram facilmente.<wait>
   ca: No totes les muntanyes de gel són tan dures com sembla, algunes parts s'esquerden fàcilment.<wait>
   es: No todas las montañas de hielo son tan duras como parece, algunas partes se agrietan fácilmente.<wait>
-  de: Not all of the ice mountains are as tough as they look, some parts of them shatter easily.<wait>
+  de: Manche Eisberge haben brüchige Stellen, die sich einfach zerstören lassen.<wait>
 
 - offsets: 5262
   # Townsperson
@@ -5028,7 +5029,7 @@
   pt-br: A área ao redor do Planalto Altiplano é rodeado por montanhas de gelo.<wait>
   ca: L'àrea al voltant de l'altiplà d'Altiplano és envoltada de muntanyes de gel.<wait>
   es: El área alredor del altiplano de Altipleau está rodeada de montañas de hielo.<wait>
-  de: The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
+  de: Das Altiplano-Plateau ist zu allen Seiten von Eisgebirge umgeben.<wait>
 
 - offsets: 5268
   # Townsperson
@@ -5070,9 +5071,9 @@
     Una llama encendida durante el eclipse se llama una Antorcha de Eclipse.<wait more>
     Los nativos de Dezoris creen que una Antorcha de Eclipse tiene poderes divinos.<wait>
   de: |
-    This planet has a solar eclipse once every hundred years.<wait more>
-    A flame lit during an eclipse is called an Eclipse Torch.<wait more>
-    Native Dezorians believe Eclipse Torches carry divine power.<wait>
+    Alle hundert Jahre passiert auf diesem Planeten eine Sonnenfinsternis.<wait more>
+    Die Dezorier zünden dann Flammen an, die sie Sonnenfackeln nennen.<wait more>
+    Für sie sind diese Fackeln heilig.<wait>
 
 - offsets: 526e
   # Townsperson
@@ -5105,8 +5106,8 @@
     Las fuerzas malsanas con las que se han involucrado Lashiec y los suyos han ido demasiado lejos.<wait more>
     ¡Todos los cuerpos de la morgue de Guaran han vuelto a la vida! ¡Es grotesco!<wait>
   de: |
-    The unholy forces LaShiec and his ilk have involved themselves with have gone too far.<wait more>
-    All of the dead bodies in Guaran Morgue have come back to life! It's grotesque!<wait>
+    Lashiec und sein Gefolge sind mit ihren unheiligen Mächten zu weit gegangen.<wait more>
+    All die Toten im Guaran-Leichenhaus sind wieder zum Leben erwacht! Wie schauderhaft!<wait>
 
 
 # ***********
