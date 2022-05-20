@@ -41,7 +41,7 @@ banks 32
   .unbackground $035c5 $035d9 ; Spell menu blank space filling
   .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
-  .unbackground $03b13 $03b3b ; Shop MST window drawing
+  .unbackground $03b22 $03b39 ; Shop MST window drawing
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
   .unbackground $03eca $03fc1 ; background graphics lookup table
@@ -3277,7 +3277,7 @@ DezorianCustomStringCheck:
   PatchW $3b63 HAPSBY_VRAM + ONE_ROW
 
   PatchWords SHOP_MST               $3b15 $3b3e ; MST in shop
-  PatchWords SHOP_MST_VRAM          $3b18 $3b41 $3b26
+  PatchWords SHOP_MST_VRAM          $3b18 $3b41
 
   PatchWords BUYSELL                $3895 $38b5 ; Buy/Sell
   PatchWords BUYSELL_VRAM           $3898 $38b8
@@ -3367,14 +3367,14 @@ Slot1TrampolineEnd:
   ret
 .ends
 
-  ROMPosition $3b13
+  ROMPosition $3b22
 .section "Shop MST window" force
 ShopMST:
   ; We trampoline to the same area as the stats drawing
   ld a,:shopMSTImpl
   ld (PAGING_SLOT_1),a
   call shopMSTImpl
-  jp Slot1TrampolineEnd
+  JR_TO $3b3a
 .ends
 
 ; This one needs to go in low ROM as it's accessed from multiple places (stats, shop, inventory)
@@ -3470,6 +3470,9 @@ _borderTop:
   jp OutputTilemapBoxWipePaging ; draw and exit
   
 shopMSTImpl: ; same section to share data
+  ; Need to set de as this is also used to update things.
+  ; It's unnecessary for the initial draw as de is set from the copy to RAM.
+  ld de,SHOP_MST_VRAM
   call _borderTop
   jp _mesetaAndEnd
 .ends

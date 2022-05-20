@@ -1056,7 +1056,7 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - name: StatsMenuDimensions
   emitData: false
-  dims: 3902,39e5
+  dims: 3902,39e5,3b1b,3b44 # Last two are actually the shop MST window, we changed it to use this size
   jp: |
     ┌───────────╖
     │LV       99║
@@ -1268,9 +1268,9 @@
   es: ┌────────────────────╖
 
 - name: BottomBorder10
-  # inventory, shop MST, currently equipped items
-  ptrs: 3681,3860,3b32
-  dims: 3684,3863,3b35
+  # inventory, currently equipped items
+  ptrs: 3681,3860 # ,3b32
+  dims: 3684,3863 # ,3b35
   en: ╘══════════════════╝
   fr: ╘══════════════════╝
   pt-br: ╘════════════════════╝
@@ -1285,30 +1285,6 @@
   pt-br: │Próximo             ║
   ca: │Següent             ║
   es: │Siguiente         ║
-
-- name: StoreMSTBoxDimensions
-  emitData: false
-  dims: 3b1b,3b44
-  en: |
-    ┌──────────────────╖
-    │                  ║
-    ╘══════════════════╝
-  fr: |
-    ┌──────────────────╖
-    │                  ║
-    ╘══════════════════╝
-  pt-br: |
-    ┌────────────────────╖
-    │                    ║
-    ╘════════════════════╝
-  ca:  |
-    ┌────────────────────╖
-    │                    ║
-    ╘════════════════════╝
-  es:  |
-    ┌────────────────────╖
-    │                    ║
-    ╘════════════════════╝
 
 - name: ShopInventoryDimensions
   emitData: false
