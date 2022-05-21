@@ -2473,6 +2473,8 @@
   es: |
     Anda, ¡un cliente! Me alegro que nos hayas encontrado. Perdon por el emplazamiento...<wait more>
     Mis pasteles son los mejores de Algol, y solo cuestan <number><internal hint 02> meseta<s>. ¿Quieres uno?<end>
+<<<<<<< HEAD
+=======
   de: |
     Willkommen in meiner Konditorei! Tur mir leid wegen des Standortes...<wait more>
     Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta! Wollen Sie eins?<end>
@@ -5681,6 +5683,8 @@
   ca: Merci!<wait>
   es: ¡Gracias!<wait>
 
+=======
+>>>>>>> 49ff44a (Moved shortcake salesman line to the rest of his lines.)
 
 # ********************
 # *** Tajim’s Cave ***
