@@ -5344,7 +5344,7 @@
   pt-br: Esta é a Vila Casba.<wait>
   ca: Això és la vila de Casba.<wait>
   es: Esto es la villa de Casba.<wait>
-  de: This is Casba Village.<wait>
+  de: Dies ist das Dorf Casba.<wait>
 
 - offsets: 51a0
   # Villager
@@ -5361,7 +5361,7 @@
   pt-br: Tem um dragão vivendo na Caverna de Casba! Estou com tanto medo!<wait>
   ca: Hi ha un drac a la cova de Casba! Tinc molta por!<wait>
   es: ¡Hay un dragón en la cueva de Casba! ¡Tengo mucho miedo!<wait>
-  de: There's a dragon living in Casba Cave! I'm so scared!<wait>
+  de: In der Höhle hier lebt ein Drache! Ich hab Angst!<wait>
 
 - offsets: 51ac
   # Villager
@@ -5397,8 +5397,8 @@
     En una villa cubierta por niebla, la gente explica un cuento sobre un escudo legendario.<wait more>
     Dicen que hace mucho tiempo, un hombre llamado Perseo lo usó para enfrentarse a un monstruo.<wait>
   de: |
-    In a village surrounded by gas, people tell the tale of a legendary shield.<wait more>
-    They say that a long time ago, a man named Perseus used it to confront a monster.<wait>
+    Auf Motavia gibt es ein Dorf, das komplett von Giftgas umgeben ist.<wait more>
+    Die Leute dort reden von einem Schild, den Perseus gehabt haben soll, als er ein Ungeheuer bekämpfte.<wait>
 
 - offsets: 51b2
   # Villager
@@ -5430,8 +5430,8 @@
     ¡Al oeste del lago ví esa terrible niebla venenosa cubriéndolo todo!<wait more>
     Hagas lo que hagas, ¡no te acerques!<wait>
   de: |
-    North of the lake I saw this terrible, fog-like poison gas spreading all over!<wait more>
-    Whatever you do, stay away from there!<wait>
+    Auf meinen Reisen hab ich westlich vom See dieses schreckliche Giftgas überall gesehen!<wait more>
+    Wenn ich ihr wäre, würde ich einen ganz weiten Bogen da drum machen.<wait>
 
 - offsets: 51b8
   # Villager
@@ -5447,7 +5447,7 @@
   pt-br: Você sabe o que é um Aerobarco?<end>
   ca: Saps que és un aerolliscador?<end>
   es: ¿Sabes que es un aerodeslizador?<end>
-  de: Do you know what a FlowMover is?<end>
+  de: Wisst ihr, was ein FlowMover ist?<end>
 
 - offsets: 51cb
   # Villager (yes to previous question)
@@ -5483,8 +5483,9 @@
     ¡Así que sabes la chatarra que son! Me compré uno en Shion, en Palma.<wait more>
     Se estropeó enseguida, así que lo abandoné en Bartevo. No me sorprende que ya no los vendan.<wait>
   de: |
-    So you know what junk they are! I bought one in the town of Shion, on Palma.<wait more>
-    It broke down, so I dumped it in Bartevo. No wonder they don't sell them anymore.<wait>
+    Dann wisst ihr ja, wie nutzlos die sind! Ich hatte einen in Shion auf Palma gekauft.<wait more>
+    Lange hat der mir aber nicht gehalten, also bin ich ihn in Bartevo losgeworden.<wait more>
+    Was für eine Geldverschwendung.<wait>
 
 - offsets: 51c1
   # Villager (no to previous question)
@@ -5513,8 +5514,8 @@
     Oh, ¡son maravillosos! Cuando funcionan, claro.<wait more>
     Pueden deslizarse rápidamente por encima los cuerpos de agua.<wait>
   de: |
-    Oh, they’re marvelous! When they work, of course.<wait more>
-    They can glide smoothly across the top of the water.<wait>
+    Wenn sie funktionieren würden, wären sie toll.<wait more>
+    Man kann mit ihnen problemlos übers Wasser gleiten... könnte man, meine ich.<wait>
 
 
 # **************
