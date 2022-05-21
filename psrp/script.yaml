@@ -4986,7 +4986,7 @@
   ja: |
     ボクガ ミズウミノ ニシヘ イクト<wait more>
     キリノヨウナ オソロシイ ドクガスガヒロガッテイタンダ.<wait more>
-  translated: One time I traveled north of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!
+  translated: One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!
   us: |
     THERE IS POISON<line>
     GAS ABOVE THE SEA<wait more>
@@ -4995,19 +4995,19 @@
     THERE WITHOUT SOME
     PROTECTION.<end>
   en: |
-    North of the lake I saw this terrible, fog-like poison gas spreading all over!<wait more>
+    West of the lake I saw this terrible, fog-like poison gas spreading all over!<wait more>
     Whatever you do, stay away from there!<wait>
   fr: |
     Faites attention, à l'ouest d'ici la brume est empoisonnée.<wait more>
     Je ne pense pas que vous puissiez la traverser sans protection.<wait>
   pt-br: |
-    Ao norte do lago, vi esse terrível gás venenoso parecido com uma névoa se espalhando por toda parte!<wait more>
+    Ao oeste do lago, vi esse terrível gás venenoso parecido com uma névoa se espalhando por toda parte!<wait more>
     Seja o que for, fique longe dele!<wait>
   ca: |
-    Al nord del llac vaig veure aquella terrible boira enmetzinada cobrint-ho tot!<wait more>
+    Al oest del llac vaig veure aquella terrible boira enmetzinada cobrint-ho tot!<wait more>
     Facis el que facis, no t'hi acostis!<wait>
   es: |
-    ¡Al norte del lago ví esa terrible niebla venenosa cubriéndolo todo!<wait more>
+    ¡Al oeste del lago ví esa terrible niebla venenosa cubriéndolo todo!<wait more>
     Hagas lo que hagas, ¡no te acerques!<wait>
 
 - offsets: 51b8
