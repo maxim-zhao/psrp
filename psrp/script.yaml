@@ -5536,7 +5536,7 @@
   pt-br: Esta é Drasgo, uma pequena cidade flutuando no mar.<wait>
   ca: Benvinguts a Drasgo, el nostre petit poble que sura al mar.<wait>
   es: Bienvenidos a Drasgo, nuestro pequeño pueblo que flota en el mar.<wait>
-  de: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
+  de: Willkommen in Drasgow, unserem kleinen Insel-<line>städtchen im Meer.<wait>
 
 - offsets: 51d7
   # Townsperson
@@ -5570,8 +5570,8 @@
     ¡Anda! No esperaba ver forasteros por aquí en estos tiempos.<wait more>
     No desde que Lashiec prohibió los viajes por mar. ¿Como carajo habéis llegado aquí?<wait>
   de: |
-    Wow! I didn’t expect to see visitors here any time soon.<wait more>
-    Not since LaShiec put an embargo on sea travel, anyway. How the heck did you get here?<wait>
+    Wow! Ich hätte nicht erwartet, dass wir jemals wieder Besucher bekommen.<wait more>
+    Seit Lashiec jeglichen Seeverkehr verboten hat, ist hier Schicht im Schacht.<wait>
 
 - offsets: 51dd
   # Townsperson
@@ -5588,7 +5588,7 @@
   pt-br: Ouvi dizer que há uma espada encantada na Torre de Avion.<wait>
   ca: He sentit a dir que hi ha una espasa màgica a la Torre d'Avion.<wait>
   es: He oído que hay una espada mágica en la Torre de Avion.<wait>
-  de: I hear that there’s an enchanted sword in Avion Tower.<wait>
+  de: Ich hab gehört, im Turm von Avion soll es ein magisches Schwert geben.<wait>
 
 - offsets: 51e3
   # Townsperson
@@ -5604,7 +5604,7 @@
   pt-br: Uma vez eu vi uma enorme pedra flutuante no céu!<wait>
   ca: Un cop vaig veure una roca gegantesca volant per el cel!<wait>
   es: ¡Una vez vi una roca gigante volando por el cielo!<wait>
-  de: I once saw a huge floating rock in the sky!<wait>
+  de: Vor langer Zeit hatte ich mal einen riesigen Felsen durch den Himmel fliegen sehen!<wait>
 
 - offsets: 51e9
   #_????
@@ -5626,7 +5626,7 @@
   pt-br: Sou eu, Choko Oneesan! Seja forte e valente enquanto continua sua jornada!<wait>
   ca: Sóc jo, la Choko Oneesan! Sigueu valents i forts en la vostra missió!<wait>
   es: Soy yo, ¡Choko Oneesan! ¡Sed valientes y fuertes en vuestra misión!<wait>
-  de: It's me, Choko Oneesan! Be brave and strong as you continue your quest!<wait>
+  de: Ich bin's, Choko-oneesan! Bleibt am Ball mit eurem Abenteuer!<wait>
 
 - offsets: 51ef
   # Person inside cave
@@ -5660,8 +5660,8 @@
     Vine a este pueblo para comprar la máscara de gas, necesito protección contra gas venenoso.<wait more>
     Se supone que por aquí hay una tienda que las vende, ¡pero no la puedo encontrar!<wait>
   de: |
-    I came to this town to buy GasClear, I need it to protect myself from poisonous gas.<wait more>
-    There's supposed to be a shop around here that sells it, but I can't find it anywhere!<wait>
+    Ich bin zu dieser Stadt gekommen, weil sie hier Gasmasken verkaufen.<wait more>
+    Problem ist nur, dass ich den verflixten Laden nicht finden kann!<wait>
 
 - offsets: 51f5
   # Person inside cave
@@ -5696,8 +5696,9 @@
     Esto es una tienda. ¿Que puedo hacer por ti?<wait more>
     ...ja,ja, lo siento, ¡te estaba tomando el pelo! ¿Qué? No me mires así.<wait>
   de: |
-    This is an item shop. What can I do for you?<wait more>
-    ...haha, sorry, I'm just joking around! What? Don't give me that look.<wait>
+    Willkommen im Allzweckladen. Kann ich Ihnen behilflich sein?<wait more>
+    ...Haha, nur'n Witz!<wait more>
+    Was denn mit den langen Gesichtern?<wait>
 
 - offsets: 5201
   # GasClear salesman
@@ -5733,8 +5734,8 @@
     Estoy seguro que os habéis sorprendido de encontrar una tienda en un sitio como este, ¿eh?<wait more>
     Las máscaras de gas cuestan <number><internal hint 01> meseta<s> cada una. Bastante barato, ¿no? ¿Queréis?<end>
   de: |
-    I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
-    GasClears are <number><internal hint 01> meseta<s> each. Pretty cheap, no? Want one?<end>
+    Tut mir leid wegen des Standortes...<wait more>
+    Gasmasken für <number> Meseta das Stück. Ziemlich preisgünstig, nicht? Kaufen Sie eine?<end>
 
 - offsets: 5226
   # GasClear salesman (yes to previous question)
@@ -5749,7 +5750,7 @@
   pt-br: Obrigado. Volte sempre!<wait>
   ca: Merci. Torneu quan vulgueu!<wait>
   es: Gracias. ¡Volved cuando queráis!<wait>
-  de: Thanks. Come again!<wait>
+  de: Vielen Dank! Kommen Sie gerne wieder!<wait>
 
 - offsets: 521d
   # GasClear salesman (yes to previous question, but don't have enough money)
@@ -5779,8 +5780,8 @@
     ¿Eh? ¿No tienes suficiente dinero?<wait more>
     ¡¿Demonios?! ¡No os voy a vender NADA más!<wait>
   de: |
-    Huh? You don’t have enough money?<wait more>
-    What the hell?! I’m not selling you ANYTHING now!<wait>
+    Bitte? Nicht genug Geld zur Hand?<wait more>
+    Pech gehabt! Dann kriegen Sie halt nix!<wait>
 
 - offsets: 520c
   indices: 19C-2
@@ -5791,7 +5792,7 @@
   pt-br: Como quiser. Vou estar aqui quando você mudar de ideia.<wait>
   ca: Com vulgueu. Estaré aquí per si canvieu d'opinió.<wait>
   es: Como queráis. Estaré por aquí si cambiáis de opinión.<wait>
-  de: Suit yourself. I’ll be here when you change your mind.<wait>
+  de: Wenn Sie meinen. Kommen Sie jederzeit wieder, wenn Sie's sich anders überlegen.<wait>
 
 # *************
 # *** Sopia ***
