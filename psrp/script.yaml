@@ -2691,6 +2691,21 @@
   de: |
     Willkommen in meiner Konditorei! Tur mir leid wegen des Standortes...<wait more>
     Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta! Wollen Sie eins?<end>
+    
+- offsets: 5355,53a5
+  # Shortcake salesman (after purchase)
+  indices: 20A
+  ja: アリガトウ.<wait more>
+  translated: Thanks. Please come again.
+  us: |
+    THANKS!<line>
+    COME AGAIN!<end>
+  en: Thank you!<wait>
+  fr: Je vous remercie. Revenez quand vous le voulez.<wait>
+  pt-br: Obrigado!<wait>
+  ca: Merci!<wait>
+  es: ¡Gracias!<wait>
+  de: Thank you!<wait>
 
 # *********************
 # *** Paseo (again) ***
@@ -6122,21 +6137,6 @@
   ca: Garrepa!<wait>
   es: ¡Tacaño!<wait>
   de: Cheapskate!<wait>
-
-- offsets: 5355,53a5
-  # Shortcake salesman (after purchase)
-  indices: 20A
-  ja: アリガトウ.<wait more>
-  translated: Thanks. Please come again.
-  us: |
-    THANKS!<line>
-    COME AGAIN!<end>
-  en: Thank you!<wait>
-  fr: Je vous remercie. Revenez quand vous le voulez.<wait>
-  pt-br: Obrigado!<wait>
-  ca: Merci!<wait>
-  es: ¡Gracias!<wait>
-  de: Thank you!<wait>
 
 
 # ********************
