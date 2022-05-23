@@ -70,3 +70,4 @@ Release
 /psrp/tree.asm
 /tools/
 /psrp/generated/
+*.autosave
