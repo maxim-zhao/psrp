@@ -335,32 +335,36 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(2)  # uppercase
             self.script_hints = True
-        # Possessives
         elif tag == "de" or tag == "do" or tag == "del":
+            # Possessives (fr, pt-br, ca, es)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
             self.script_hints = True
         elif tag == "à":
+            # Directives (fr)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
             self.script_hints = True
-        # Fallback on manual numbers
         elif tag == "use article" and match.groups(3) is not None:
+            # Fallback on manual numbers (should not be used in the final script)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(int(match.groups(3), base=16))
             self.script_hints = True
         elif tag == "s":
+            # Simplistic pluralisation
             self.buffer.append(ScriptingCode.SymbolSuffix)
             self.script_hints = True
-        elif tag == "EinN":
-            pass
         elif tag == "Nom":
+            # Nominative (de), no lowercase needed
             pass
         elif tag == "gen":
+            # Genetive (de), no uppercase needed
             pass
         elif tag == "dat":
+            # Dative (de), no uppercase needed
             pass
         elif tag == "players":
+            # Posessive form of <player>
             pass
         else:
             raise Exception(f"Ignoring tag \"{match.group(0)}\"")
