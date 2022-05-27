@@ -1088,12 +1088,16 @@ _Substring:
       ; fall through
 .endif
 .if LANGUAGE == "de"
-      ld de,ArticlesLower
-      cp $01      ; article = einen, eine, ein, den, die, das
+      ld de,ArticlesUpperNominative
+      cp $01      ; article = Der, Die, Das, Ein, Eine, Ein
       jr z,_Start_Art
 
-      ld de,ArticlesInitialUpper
-      ; a = $02 = article = Einen, Eine, Ein, Den, Die, Das
+      ld de,ArticlesLowerGenetive
+      cp $02      ; article = des, der, des, eines, einer, eines
+      jr z,_Start_Art
+
+      ; article = dem, der, dem, einem, einer, einem
+      ld de,ArticlesLowerDative
       ; fall through
 .endif
 
@@ -1143,18 +1147,16 @@ _Art_Exit:
   .db SymbolEnd
 .endm
 
+; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
 .if LANGUAGE == "en"
-ArticlesLower: ; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
-.dw +, ++, +++
-+:    Article " a"
-++:   Article " na"
-+++:  Article " eht"
-
-ArticlesInitialUpper:
-.dw +, ++, +++
-+:    Article " A"
-++:   Article " nA"
-+++:  Article " ehT"
+ArticlesLower:        .dw _a, _an, _the
+ArticlesInitialUpper: .dw _A, _An, _The
+_a:   Article " a"
+_an:  Article " na"
+_the: Article " eht"
+_A:   Article " A"
+_An:  Article " nA"
+_The: Article " ehT"
 .endif
 .if LANGUAGE == "fr"
 ; Order is:
@@ -1164,66 +1166,59 @@ ArticlesInitialUpper:
 ; Plural
 ; Name (so no article) - starting with vowel
 ; Name (so no article) - starting with consonant
-ArticlesLower: ; le <x>
-.dw +, ++, +++, ++++, _blank, _blank
-+:      Article "'l"
-++:     Article " el"
-+++:    Article " al"
-++++:   Article " sel"
+ArticlesLower:        .dw _l,     _le, _la,     _les, _blank, _blank
+ArticlesInitialUpper: .dw _L,     _Le, _La,     _Les, _blank, _blank
+ArticlesPossessive:   .dw _de_l,  _du, _de_la,  _des, _d,     _de
+ArticlesDirective:    .dw _a_l,   _au, _a_la,   _aux, _a,     _a
+_l:     Article "'l"
+_le:    Article " el"
+_la:    Article " al"
+_les:   Article " sel"
 _blank: Article ""
-ArticlesInitialUpper: ; Le <x>
-.dw +, ++, +++, ++++, _blank, _blank
-+:      Article "'L"
-++:     Article " eL"
-+++:    Article " aL"
-++++:   Article " seL"
-ArticlesPossessive: ; de <x>
-.dw +, ++, +++, ++++, +++++, ++++++
-+:      Article "'l ed"
-++:     Article " ud"
-+++:    Article " al ed"
-++++:   Article " sed"
-+++++:  Article "'d"
-++++++: Article " ed"
-ArticlesDirective: ; à <x>
-.dw +, ++, +++, ++++, +++++, +++++ ; last one used twice
-+:      Article "'l à"
-++:     Article " ua"
-+++:    Article " al à"
-++++:   Article " xua"
-+++++:  Article " à"
+_L:     Article "'L"
+_Le:    Article " eL"
+_La:    Article " aL"
+_Les:   Article " seL"
+_de_l:  Article "'l ed"
+_du:    Article " ud"
+_de_la: Article " al ed"
+_des:   Article " sed"
+_d:     Article "'d"
+_de:    Article " ed"
+_a_l:   Article "'l à"
+_au:    Article " ua"
+_a_la:  Article " al à"
+_aux:   Article " xua"
+_a:     Article " à"
 .endif
 .if LANGUAGE == "pt-br"
 ; Order is:
-; Masculine single indefinite
-; Feminine single indefinite
-; Masculine single definite
-; Masculine plural definite
-; Feminine plural definite
-; Name without article (use de for possessive)
-; Other combinations are not used
-ArticlesLower: ; um <x>
-.dw +, ++, +++, ++++, +++++, _blank
-+:      Article " mu"
-++:     Article " amu"
-+++:    Article " o"
-++++:   Article " a"
-+++++:  Article " sa"
+; <um>    = Masculine single indefinite
+; <uma>   = Feminine single indefinite
+; <o>     = Masculine single definite
+; <a>     = Masculine plural definite
+; <as>    = Feminine plural definite
+; <nome>  = Name without article (use de for possessive)
+; Other combinations are not used in the script so we omit them here.
+ArticlesLower:       .dw _um, _uma, _o,  _a,   _as,  _blank
+ArticlesInitialUpper:.dw _Um, _Uma, _O,  _A,   _As,  _blank
+ArticlesPossessive:  .dw _do, _dos, _do, _da,  _das, _de
+_um:    Article " mu"
+_uma:   Article " amu"
+_o:     Article " o"
+_a:     Article " a"
+_as:    Article " sa"
 _blank: Article ""
-ArticlesInitialUpper: ; Um <x>
-.dw +, ++, +++, ++++, +++++, _blank
-+:      Article " mU"
-++:     Article " amU"
-+++:    Article " O"
-++++:   Article " A"
-+++++:  Article " sA"
-ArticlesPossessive: ; do <x>
-.dw +, ++, +, +++, ++++, +++++
-+:      Article " od"
-++:     Article " sod"
-+++:    Article " ad"
-++++:   Article " sad"
-+++++:  Article " ed"
+_Um:    Article " mU"
+_Uma:   Article " amU"
+_O:     Article " O"
+_A:     Article " A"
+_As:    Article " sA"
+_do:    Article " od"
+_dos:   Article " sod"
+_da:    Article " ad"
+_das:   Article " sad"
+_de:    Article " ed"
 .endif
 .if LANGUAGE == "ca"
 ; Order is:
@@ -1235,36 +1230,33 @@ ArticlesPossessive: ; do <x>
 ; Masculine plural definite
 ; Masculine name
 ; Feminine name
-ArticlesLower: ; un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
-+:        Article " nu"
-++:       Article " anu"
-+++:      Article "’l"
-++++:     Article " le"
-+++++:    Article " al"
-++++++:   Article " sle"
-+++++++:  Article " ne"
-++++++++: Article " an"
-ArticlesInitialUpper: ; Un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
-+:        Article " nU"
-++:       Article " anU"
-+++:      Article "’L"
-++++:     Article " lE"
-+++++:    Article " aL"
-++++++:   Article " slE"
-+++++++:  Article " nE"
-++++++++: Article " aN"
-ArticlesPossessive: ; de un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
-+:        Article " nu ed"
-++:       Article " anu ed"
-+++:      Article "’l ed"
-++++:     Article " led"
-+++++:    Article " al ed"
-++++++:   Article " sled"
-+++++++:  Article " ne'd"
-++++++++: Article " an ed"
+ArticlesLower:        .dw _un,    _una,     _l,     _el,  _la,    _els,   _en,    _na
+ArticlesInitialUpper: .dw _Un,    _Una,     _L,     _El,  _La,    _Els,   _En,    _Na
+ArticlesPossessive:   .dw _de_un, _de_una,  _de_l,  _del, _de_la, _dels,  _d_en,  _de_na
+_un:      Article " nu"
+_una:     Article " anu"
+_l:       Article "’l"
+_el:      Article " le"
+_la:      Article " al"
+_els:     Article " sle"
+_en:      Article " ne"
+_na:      Article " an"
+_Un:      Article " nU"
+_Una:     Article " anU"
+_L:       Article "’L"
+_El:      Article " lE"
+_La:      Article " aL"
+_Els:     Article " slE"
+_En:      Article " nE"
+_Na:      Article " aN"
+_de_un:   Article " nu ed"
+_de_una:  Article " anu ed"
+_de_l:    Article "’l ed"
+_del:     Article " led"
+_de_la:   Article " al ed"
+_dels:    Article " sled"
+_d_en:    Article " ne'd"
+_de_na:   Article " an ed"
 .endif
 .if LANGUAGE == "es"
 ; Order is:
@@ -1273,60 +1265,40 @@ ArticlesPossessive: ; de un <x>
 ; Masculine single definite
 ; Feminine single definite
 ; Masculine plural definite
-ArticlesLower: ; un <x>
-.dw +, ++, +++, ++++, +++++
-+:        Article " nu"
-++:       Article " anu"
-+++:     Article " le"
-++++:    Article " al"
-+++++:   Article " sol"
-ArticlesInitialUpper: ; Un <x>
-.dw +, ++, +++, ++++, +++++
-+:        Article " nU"
-++:       Article " anU"
-+++:     Article " lE"
-++++:    Article " aL"
-+++++:   Article " soL"
-ArticlesPossessive: ; de un <x>
-.dw +, ++, +++, ++++, +++++
-+:        Article " nu ed"
-++:       Article " anu ed"
-+++:     Article " led"
-++++:    Article " al ed"
-+++++:   Article " sol ed"
+ArticlesLower:        .dw _un,    _una,     _el,  _la,    _los
+ArticlesInitialUpper: .dw _Un,    _Una,     _El,  _La,    _Los
+ArticlesPossessive:   .dw _de_un, _de_una,  _del, _de_la, _de_los
+_un:      Article " nu"
+_una:     Article " anu"
+_el:      Article " le"
+_la:      Article " al"
+_los:     Article " sol"
+_Un:      Article " nU"
+_Una:     Article " anU"
+_El:      Article " lE"
+_La:      Article " aL"
+_Los:     Article " soL"
+_de_un:   Article " nu ed"
+_de_una:  Article " anu ed"
+_del:     Article " led"
+_de_la:   Article " al ed"
+_de_los:  Article " sol ed"
 .endif
 .if LANGUAGE == "de"
-; Item articles
-; lower: "einen ", "eine ", "ein ", "den ", "die ", "das "
-; upper: "Einen ", "Eine ", "Ein ", "Den ", "Die ", "Das "
-;
-; Enemy articles nominative
-; lower: "der ", "die ", "das "
-; upper: "Der ", "Die ", "Das "
-;
-; Enemy articles genitive
-; lower: "des ", "der ", "des "
-; upper: "Des ", "Der ", "Des "
-;
-; Enemy articles dative
-; lower: "dem ", "der ", "dem "
-; upper: "Dem ", "Der ", "Dem "
-ArticlesLower:
-.dw +, ++, +++, ++++, +++++, ++++++ ; einen, eine, ein, den, die, das
-+:      Article " nenie"
-++:     Article " enie"
-+++:    Article " nie"
-++++:   Article " ned"
-+++++:  Article " eid"
-++++++: Article " sad"
-ArticlesInitialUpper:
-.dw +, ++, +++, ++++, +++++, ++++++
-+:      Article " neniE"
-++:     Article " eniE"
-+++:    Article " niE"
-++++:   Article " neD"
-+++++:  Article " eiD"
-++++++: Article " saD"
+ArticlesUpperNominative:  .dw _Der, _Die, _Das, _Ein,   _Eine,  _Ein
+ArticlesLowerGenetive:    .dw _des, _der, _des, _eines, _einer, _eines
+ArticlesLowerDative:      .dw _dem, _der, _dem, _einem, _einer, _einem
+_Der:   Article " reD"
+_Die:   Article " eiD"
+_Das:   Article " saD"
+_Ein:   Article " niE"
+_Eine:  Article " eniE"
+_des:   Article " sed"
+_der:   Article " red"
+_eines: Article " senei"
+_einer: Article " renei"
+_dem:   Article " med"
+_einem: Article " menei"
 .endif
 
 _Initial_Codes:

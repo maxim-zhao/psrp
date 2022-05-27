@@ -355,16 +355,23 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolSuffix)
             self.script_hints = True
         elif tag == "Nom":
-            # Nominative (de), no lowercase needed
+            # Nominative (de), no lowercase needed?
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(1)
             pass
         elif tag == "gen":
-            # Genetive (de), no uppercase needed
+            # Genetive (de), no uppercase needed?
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(2)
             pass
         elif tag == "dat":
-            # Dative (de), no uppercase needed
+            # Dative (de), no uppercase needed?
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(3)
             pass
         elif tag == "players":
-            # Posessive form of <player>
+            # Possessive form of <player>
+            # TODO
             pass
         else:
             raise Exception(f"Ignoring tag \"{match.group(0)}\"")
