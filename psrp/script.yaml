@@ -5,6 +5,9 @@
 # - # means a comment
 # - | introduces a multi-line string, indicated by indentation. (Don't use >, which makes YAML insert unwanted spaces.)
 # - Strings can be enclosed in quotes to make surrounding whitespace retained.
+# - You must wrap strings in quotes if they contain ": ", unless you also use | at the start.
+# - Indentation is significant.
+# - I recommend you use a text editor that syntax-highlights YAML, like Notepad++.
 #
 # Each script entry comprises these elements:
 # - offsets: locations in the ROM referring to this script item
@@ -12,7 +15,7 @@
 # - ja: original Japanese
 # - translated: translation of the "ja" text, for information only (incomplete)
 # - us: Sega localisation for this item (very incomplete)
-# - en, fr: translations consumed by the code
+# - en, fr, pt-br, ca, es, de: translations consumed by the code
 # Stuff with ****** around it is an area indicator.
 #
 # Some values change the text wrapping routines:
@@ -46,17 +49,17 @@
 #
 # <article> = use article for enemy/item, lowercase. Includes a trailing space.
 # <Article> = use article for enemy/item, initial uppercase. Includes a trailing space.
-# <de> = use possessive+article for an enemy (French)
+# <de>, <do>, <del> = use posessive+article for an enemy (French, Brazilian Portuguese, Catalan/Spanish respectively)
 # <à> = use directive+article for an enemy or player (French)
 # <player> = player name
 # <monster> = enemy name
 # <item> = item name
 #
 # <line> = line break (should be used sparingly)
-#<wait> = wait, end of entry
-#<end> = end of entry
+# <wait> = wait, end of entry
+# <end> = end of entry
 # <wait more> = wait, not end of entry
-#<delay> = delay a bit
+# <delay> = delay a bit
 #
 
 # ********************
