@@ -1295,10 +1295,10 @@ _Ein:   Article " niE"
 _Eine:  Article " eniE"
 _des:   Article " sed"
 _der:   Article " red"
-_eines: Article " senei"
-_einer: Article " renei"
+_eines: Article " senie"
+_einer: Article " renie"
 _dem:   Article " med"
-_einem: Article " menei"
+_einem: Article " menie"
 .endif
 
 _Initial_Codes:
