@@ -202,7 +202,7 @@ LoadPagedTiles\1:
 
 
 .macro String args s
-; Item names are length-prefixed. We create two labels to correctly measure this.
+; Item names are length-prefixed. We create two labels to correctly measure this (as WLA DX computes length as the distance to the next label).
 .db _sizeof__script\@
 _script\@:
 .stringmap script s
@@ -264,6 +264,7 @@ _script\@_end:
     TREE            db   ; current Huffman tree
     VRAM_PTR        dw   ; VRAM address
     FULL_STR        dw   ; pointer backup
+    SKIP_BITMASK    db   ; for bracket-based skipping. If a skip region's code AND this is 0, we skip it.
   .endu
   HasFM           db   ; copy of FM detection result
   MusicSelection  db ; music test last selected song
@@ -785,7 +786,8 @@ EmitCharacterImpl:
 
 .section "Dictionary lookup" free
   ; HL = Table offset
-
+  ; A = item index
+  ; We skip over the elements sequentially rather than have an index.
 DictionaryLookup:
   push af
     ld a,:Lists ; Load normal lists
@@ -798,7 +800,7 @@ DictionaryLookup_Substring:
     ld (PAGING_SLOT_2),a
 
 +:pop af      ; Restore index #
-  ld b,0      ; 0-255 indices
+  ld b,0      ; String lengths are always <256
 
 -:ld c,(hl)   ; Grab string length
   or a        ; Check for zero strings left
@@ -810,17 +812,59 @@ DictionaryLookup_Substring:
   jr -        ; Keep searching
 
 _Copy:
-  ld a,c      ; Transfer length
-  ld (LEN),a    ; Save length
-  inc hl      ; Skip length byte
+  ; TODO: apply bracketed parts skipping here.
+  ; This code is used for all item lookups.
+  ; hl = source
+  ld de,TEMP_STR ; destination
+  ld (STR),de ; set pointer to it
+  ld b,(hl) ; Get byte length in b
+  inc hl
+_NextByte:
+  ; Read a byte
+  ld a,(hl)
+  inc hl
+  cp $62 ; bracket start
+  jr z,_bracket
+  cp $63 ; bracket end
+  jr nz,+
+  dec b
+  jr _NextByte
+  
++:; Copy the byte
+  ld (de),a
+  inc de
+  djnz _NextByte ; Loop until counter reaches zero
 
-  ld de,TEMP_STR    ; Copy to work RAM
-  ld (STR),de   ; Save pointer location
-  ldir
+_Done:
+  ; Compute the actual length
+  ld hl,$10000 - TEMP_STR
+  add hl,de
+  ld a,l
+  ld (LEN),a
   ld a,2    ; Normal page
   ld (PAGING_SLOT_2),a
-
   ret
+
+_bracket:
+  ; get the skip type
+  ld a,(hl)
+  inc hl
+  dec b ; Two bytes of the string have been consumed
+  dec b
+  push hl
+    ld hl,SKIP_BITMASK
+    and (hl)
+  pop hl
+  ; if non-zero, carry on consuming
+  jr nz,_NextByte
+  ; We discard bytes until we see a $63. We assume we won't have unbalanced brackets.
+-:ld a,(hl)
+  inc hl
+  dec b
+  jr z,_Done ; And it might be at the end
+  cp $63
+  jr nz,-
+  jr _NextByte ; keep consuming
 .ends
 
 .enum $5f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
@@ -2815,6 +2859,9 @@ inventory:
 
     ld hl,TEMP_STR    ; start of text
 
+    xor a
+    ld (SKIP_BITMASK),a
+
     call _start_write ; write out 2 lines of text
     call _wait_vblank
 
@@ -2847,6 +2894,9 @@ shop:
     ei
 
     ld hl,TEMP_STR    ; start of text
+
+    xor a
+    ld (SKIP_BITMASK),a
 
     call _start_write ; write out 2 lines of text
 
@@ -2999,6 +3049,9 @@ equipment:
 
     ld hl,TEMP_STR    ; start of text
 
+    xor a
+    ld (SKIP_BITMASK),a
+
     call _start_write ; write out name
     call _wait_vblank
   pop hl
@@ -3045,19 +3098,8 @@ _read_byte:
       jr c,_bump_text
 
 _space:
-      jr z,_blank_line    ; non-narrative WS
-
-_skip_htext:
-      cp $62      ; [...] excluded text
       jr nz,_check_length
-
--:    ld a,(hl)   ; eat character
-      inc hl
-      dec c
-
-      cp $63      ; check for 'end' or length done
-      jr nz,-
-      jr _check_length
+      ; else fall through
 
 _blank_line:
       xor a     ; write out WS for rest of the line
@@ -3086,7 +3128,7 @@ _right_border:
     push hl
       ld hl,ITEM_NAME_WIDTH*2+2    ; left border + width
       add hl,de   ; save VRAM ptr
-      ld (FULL_STR+2),hl
+      ld (VRAM_PTR),hl
 
       ld hl,32*2  ; VRAM newline
       add hl,de
@@ -3103,7 +3145,7 @@ _wait_vblank:
 
 _shop_price:
       di
-        ld de,(FULL_STR+2)  ; restore VRAM ptr
+        ld de,(VRAM_PTR)  ; restore VRAM ptr
         rst $08
 
         ld a,3    ; shop data bank

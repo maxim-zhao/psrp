@@ -101,8 +101,15 @@
 ; These control codes only apply to items/names...
 
 ; Text between [] is skipped in menus but not in body text
-62=[
+; We encode a "type" as a second byte for each type of brackets. The closing ones are always just $63, the game code doesn't need them to be different.
+; The second byte encodes a bitmask for skipping. This allows us to determine whether the chunk is emitted or not by encoding bitmasks in the script.
+6201=[
 63=]
+6202={
+63=}
+6204=(
+63=)
+
 ; Articles used in the item tables. Note these have trailing spaces.
 64=<Der>
 65=<Die> 
