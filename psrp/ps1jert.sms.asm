@@ -1092,7 +1092,7 @@ _Substring:
       cp $01      ; article = Der, Die, Das, Ein, Eine, Ein
       jr z,_Start_Art
 
-      ld de,ArticlesLowerGenetive
+      ld de,ArticlesLowerGenitive
       cp $02      ; article = des, der, des, eines, einer, eines
       jr z,_Start_Art
 
@@ -1286,7 +1286,7 @@ _de_los:  Article " sol ed"
 .endif
 .if LANGUAGE == "de"
 ArticlesUpperNominative:  .dw _Der, _Die, _Das, _Ein,   _Eine,  _Ein
-ArticlesLowerGenetive:    .dw _des, _der, _des, _eines, _einer, _eines
+ArticlesLowerGenitive:    .dw _des, _der, _des, _eines, _einer, _eines
 ArticlesLowerDative:      .dw _dem, _der, _dem, _einem, _einer, _einem
 _Der:   Article " reD"
 _Die:   Article " eiD"
