@@ -827,8 +827,9 @@ _NextByte:
   jr z,_bracket
   cp $63 ; bracket end
   jr nz,+
-  dec b
-  jr _NextByte
+_SkipEndBracket:
+  djnz _NextByte
+  jr _Done
   
 +:; Copy the byte
   ld (de),a
@@ -855,16 +856,15 @@ _bracket:
     ld hl,SKIP_BITMASK
     and (hl)
   pop hl
-  ; if non-zero, carry on consuming
+  ; if non-zero, carry on consuming the bracket contents
   jr nz,_NextByte
   ; We discard bytes until we see a $63. We assume we won't have unbalanced brackets.
 -:ld a,(hl)
   inc hl
-  dec b
-  jr z,_Done ; And it might be at the end
   cp $63
-  jr nz,-
-  jr _NextByte ; keep consuming
+  jr z,_SkipEndBracket
+  djnz -
+  jr _Done
 .ends
 
 .enum $5f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
@@ -1538,6 +1538,10 @@ ItemLookup:
     ld hl,Items
 
 LookupItem:
+    push af
+      ld a,$ff ; TODO this
+      ld (SKIP_BITMASK),a
+    pop af
     call DictionaryLookup
 
   pop bc
@@ -1794,7 +1798,7 @@ Items:
   String "<A> PelorieMate"                  ; COLA      Cola                perorīmeito         ペロリーメイト
   String "<A> Ruoginin"                     ; BURGER    Burger              ruoginin            ルオギニン
   String "<The> Soothe Flute"               ; FLUTE     Flute               sūzufurūto          スーズフルート
-  String "<A> Searchlight"                  ; FLASH     Flash               sāchiraito          サーチライト
+  String "<A> Searchlight[ with suffix]"                  ; FLASH     Flash               sāchiraito          サーチライト
   String "<An> Escape Cloth"                ; ESCAPER   Escaper             esukēpukurosu       エスケープクロス
   String "<A> TranCarpet"                   ; TRANSER   Transer             torankāpetto        トランカーペット
   String "<A> Magic Hat"                    ; MAGC HAT  Magic Hat           majikkuhatto        マジックハット
@@ -2849,6 +2853,9 @@ inventory:
   push hl
 
     di
+      xor a
+      ld (SKIP_BITMASK),a
+
       ld a,(hl)   ; grab item #
       ld hl,Items   ; table start
 
@@ -2858,9 +2865,6 @@ inventory:
     ei
 
     ld hl,TEMP_STR    ; start of text
-
-    xor a
-    ld (SKIP_BITMASK),a
 
     call _start_write ; write out 2 lines of text
     call _wait_vblank
@@ -2884,6 +2888,9 @@ shop:
       ld a,3 ; Shop data bank
       ld (PAGING_SLOT_2),a
 
+      xor a ; Show no bracketed parts
+      ld (SKIP_BITMASK),a
+
       ld a,(hl)   ; grab item #
       ld (FULL_STR),hl  ; save current shop ptr
       ld hl,Items   ; table start
@@ -2894,9 +2901,6 @@ shop:
     ei
 
     ld hl,TEMP_STR    ; start of text
-
-    xor a
-    ld (SKIP_BITMASK),a
 
     call _start_write ; write out 2 lines of text
 
@@ -3039,6 +3043,9 @@ equipment:
       ld a,:Items    ; data bank
       ld (PAGING_SLOT_2),a
 
+      xor a
+      ld (SKIP_BITMASK),a
+
       ld a,(hl)   ; grab item #
       ld hl,Items   ; table start
 
@@ -3048,9 +3055,6 @@ equipment:
     ei
 
     ld hl,TEMP_STR    ; start of text
-
-    xor a
-    ld (SKIP_BITMASK),a
 
     call _start_write ; write out name
     call _wait_vblank
