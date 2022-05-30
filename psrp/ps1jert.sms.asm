@@ -1147,7 +1147,7 @@ _Substring:
 
 _Start_Art:
       ld a,(bc)   ; Grab index
-      sub $64     ; Remap index range
+      sub $64     ; Remap index range ($64 is the lowest articlee index)
       jr c,_Art_Done ; if there is a letter there, it'll be 0..$40ish. So do nothing.
       add a,a     ; Multiply by two
       add a,e     ; Add offset
@@ -1193,6 +1193,10 @@ _Art_Exit:
 
 ; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
 .if LANGUAGE == "en"
+; Order is:
+; - Indefinite (starting with consonant)
+; - Indefinite (starting with vowel)
+; - Definite
 ArticlesLower:        .dw _a, _an, _the
 ArticlesInitialUpper: .dw _A, _An, _The
 _a:   Article " a"
@@ -1204,12 +1208,12 @@ _The: Article " ehT"
 .endif
 .if LANGUAGE == "fr"
 ; Order is:
-; Start with vowel
-; Feminine
-; Masculine
-; Plural
-; Name (so no article) - starting with vowel
-; Name (so no article) - starting with consonant
+; - Start with vowel
+; - Feminine
+; - Masculine
+; - Plural
+; - Name (so no article) - starting with vowel
+; - Name (so no article) - starting with consonant
 ArticlesLower:        .dw _l,     _le, _la,     _les, _blank, _blank
 ArticlesInitialUpper: .dw _L,     _Le, _La,     _Les, _blank, _blank
 ArticlesPossessive:   .dw _de_l,  _du, _de_la,  _des, _d,     _de
@@ -1237,12 +1241,12 @@ _a:     Article " à"
 .endif
 .if LANGUAGE == "pt-br"
 ; Order is:
-; <um>    = Masculine single indefinite
-; <uma>   = Feminine single indefinite
-; <o>     = Masculine single definite
-; <a>     = Masculine plural definite
-; <as>    = Feminine plural definite
-; <nome>  = Name without article (use de for possessive)
+; - Masculine single indefinite
+; - Feminine single indefinite
+; - Masculine single definite
+; - Masculine plural definite
+; - Feminine plural definite
+; - Name without article (use de for possessive)
 ; Other combinations are not used in the script so we omit them here.
 ArticlesLower:       .dw _um, _uma, _o,  _a,   _as,  _blank
 ArticlesInitialUpper:.dw _Um, _Uma, _O,  _A,   _As,  _blank
@@ -1266,14 +1270,14 @@ _de:    Article " ed"
 .endif
 .if LANGUAGE == "ca"
 ; Order is:
-; Masculine single indefinite
-; Feminine single indefinite
-; Start with vowel
-; Masculine single definite
-; Feminine single definite
-; Masculine plural definite
-; Masculine name
-; Feminine name
+; - Masculine single indefinite
+; - Feminine single indefinite
+; - Start with vowel
+; - Masculine single definite
+; - Feminine single definite
+; - Masculine plural definite
+; - Masculine name
+; - Feminine name
 ArticlesLower:        .dw _un,    _una,     _l,     _el,  _la,    _els,   _en,    _na
 ArticlesInitialUpper: .dw _Un,    _Una,     _L,     _El,  _La,    _Els,   _En,    _Na
 ArticlesPossessive:   .dw _de_un, _de_una,  _de_l,  _del, _de_la, _dels,  _d_en,  _de_na
@@ -1304,11 +1308,11 @@ _de_na:   Article " an ed"
 .endif
 .if LANGUAGE == "es"
 ; Order is:
-; Masculine single indefinite
-; Feminine single indefinite
-; Masculine single definite
-; Feminine single definite
-; Masculine plural definite
+; - Masculine single indefinite
+; - Feminine single indefinite
+; - Masculine single definite
+; - Feminine single definite
+; - Masculine plural definite
 ArticlesLower:        .dw _un,    _una,     _el,  _la,    _los
 ArticlesInitialUpper: .dw _Un,    _Una,     _El,  _La,    _Los
 ArticlesPossessive:   .dw _de_un, _de_una,  _del, _de_la, _de_los
@@ -1329,6 +1333,13 @@ _de_la:   Article " al ed"
 _de_los:  Article " sol ed"
 .endif
 .if LANGUAGE == "de"
+; Order is:
+; - Definite masculine singular
+; - Definite feminine singular
+; - Definite neuter singular
+; - Indefinite masculine singular
+; - Indefinite feminine singular
+; - Indefinite neuter singular
 ArticlesUpperNominative:  .dw _Der, _Die, _Das, _Ein,   _Eine,  _Ein
 ArticlesLowerGenitive:    .dw _des, _der, _des, _eines, _einer, _eines
 ArticlesLowerDative:      .dw _dem, _der, _dem, _einem, _einer, _einem

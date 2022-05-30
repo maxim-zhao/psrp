@@ -111,17 +111,11 @@
 63=)
 
 ; Articles used in the item tables. Note these have trailing spaces.
-64=<Der>
+64=<Der> 
 65=<Die> 
 66=<Das> 
 67=<Ein> 
 68=<Eine> 
-69=<EinN>
-
-; Placeholders mapping new tokens to "?", handling TODO
-43=(
-43=)
-43={
-43=}
+69=<EinN> 
 
 ; Words go below...
