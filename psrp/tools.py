@@ -369,10 +369,6 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
             pass
-        elif tag == "players":
-            # Possessive form of <player>
-            # TODO
-            pass
         else:
             raise Exception(f"Ignoring tag \"{match.group(0)}\"")
 
