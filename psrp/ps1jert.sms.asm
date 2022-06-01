@@ -1132,17 +1132,24 @@ _Substring:
       ; fall through
 .endif
 .if LANGUAGE == "de"
-      ld de,ArticlesUpperNominative
-      cp $01      ; article = Der, Die, Das, Ein, Eine, Ein
-      jr z,_Start_Art
+      push bc ; we need a register...
+        ld de,ArticlesUpperNominative
+        ld b,%000 ; Skip everything by default
+        cp $01      ; article = Der, Die, Das, Ein, Eine, Ein
+        jr z,+
 
-      ld de,ArticlesLowerGenitive
-      cp $02      ; article = des, der, des, eines, einer, eines
-      jr z,_Start_Art
+        ld de,ArticlesLowerGenitive
+        ld b,%010 ; Bit 1 for genitive
+        cp $02      ; article = des, der, des, eines, einer, eines
+        jr z,+
 
-      ; article = dem, der, dem, einem, einer, einem
-      ld de,ArticlesLowerDative
-      ; fall through
+        ; article = dem, der, dem, einem, einer, einem
+        ld de,ArticlesLowerDative
+        ld b,%100 ; Bit 2 for dative
+        ; fall through
++:      ld a,b
+        ld (SKIP_BITMASK),a
+    pop bc
 .endif
 
 _Start_Art:
@@ -1549,10 +1556,6 @@ ItemLookup:
     ld hl,Items
 
 LookupItem:
-    push af
-      ld a,$ff ; TODO this
-      ld (SKIP_BITMASK),a
-    pop af
     call DictionaryLookup
 
   pop bc
@@ -2939,6 +2942,12 @@ enemy:
   di
     ld a,:Enemies
     ld (PAGING_SLOT_2),a
+
+.if LANGUAGE == "de"
+    ; Select [] brackets only
+    ld a,%001
+    ld (SKIP_BITMASK),a
+.endif
 
     ld a,(EnemyIndex)
     ld hl,Enemies   ; table start
