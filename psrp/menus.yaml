@@ -1205,7 +1205,7 @@
     
 - name: StatsMenuDimensions
   emitData: false
-  dims: 3902,39e5,3b1b,3b44 # Last two are actually the shop MST window, we changed it to use this size
+  dims: 3902,39e5
   jp: |
     ┌───────────╖
     │LV       99║

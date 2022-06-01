@@ -3425,16 +3425,16 @@ DezorianCustomStringCheck:
   .export \1 \1_end \1_dims \1_VRAM
 .endm
 
-;              Name             RAM location          W                     H                     X                       Y
-  DefineWindow PARTYSTATS       $d700                 32                    6                     0                       18
-  DefineWindow NARRATIVE        PARTYSTATS_end        31                    6                     1                       18
-  DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                    3                     2                       19
-  DefineWindow CHARACTERSTATS   NARRATIVE             StatsMenuDimensions_width StatsMenuDimensions_height 31-StatsMenuDimensions_width 4
-  DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width       WorldMenu_height      1                       1
-  DefineWindow CURRENT_ITEMS    MENU_end              InventoryMenuDimensions_width  5            31-InventoryMenuDimensions_width 13
-  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                     6                     1                       8
-  DefineWindow ENEMY_NAME       MENU_end              21                    3                     11                      0 ; max width 19 chars
-  DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                     10                    24                      3
+;              Name             RAM location          W                             H                               X                                     Y
+  DefineWindow PARTYSTATS       $d700                 32                            6                               0                                     18
+  DefineWindow NARRATIVE        PARTYSTATS_end        31                            6                               1                                     18
+  DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                            3                               2                                     19
+  DefineWindow CHARACTERSTATS   NARRATIVE             StatsMenuDimensions_width     StatsMenuDimensions_height      31-StatsMenuDimensions_width          4
+  DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width               WorldMenu_height                1                                     1
+  DefineWindow CURRENT_ITEMS    MENU_end              InventoryMenuDimensions_width 5                               31-InventoryMenuDimensions_width      13
+  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                             6                               1                                     8
+  DefineWindow ENEMY_NAME       MENU_end              21                            3                               11                                    0 ; max width 19 chars
+  DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                             10                              24                                    3
 ; Inventory goes after the end of whichever of these is later
 .ifdef WLA_DX_BUG_WORKAROUND 
 ; The conditional does not work in makefile generation mode; we use the real logic in real compilation mode
@@ -3446,20 +3446,20 @@ DezorianCustomStringCheck:
 .define INVENTORY_START PLAYER_SELECT_end
 .endif
 .endif
-  DefineWindow INVENTORY        INVENTORY_START       InventoryMenuDimensions_width InventoryMenuDimensions_height 31-InventoryMenuDimensions_width 1
-  DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width  ItemActionMenu_height 31-ItemActionMenu_width 13
-  DefineWindow HAPSBY           MENU_end              8                     5                     21                      13
-  DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width    ToolShopMenu_height   29-ToolShopMenu_width   14
-  DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width 7                     WorldMenu_width+1       1 ; Spells and inventory are mutually exclusive
-  DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                     6                     9                       8
-  DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width      ChoiceMenu_height     29-ChoiceMenu_width     14
-  DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                     3                     1                       8
-  DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height (32-ShopInventoryDimensions_width)/2 0
-  DefineWindow SHOP_MST         INVENTORY             StatsMenuDimensions_width 3                  3                       15 ; same width as stats menu
-  DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4     SAVE_SLOT_COUNT+2     27-SAVE_NAME_WIDTH      1
-  DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width   SoundTestMenu_height+2 31-SoundTestMenu_width 0
-  DefineWindow OptionsWindow    $d700                 OptionsMenu_width     OptionsMenu_height    32-OptionsMenu_width    24-OptionsMenu_height
-  DefineWindow ContinueWindow   $d700                 ContinueMenu_width    ContinueMenu_height   18                      16
+  DefineWindow INVENTORY        INVENTORY_START       InventoryMenuDimensions_width InventoryMenuDimensions_height  31-InventoryMenuDimensions_width      1
+  DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width          ItemActionMenu_height           31-ItemActionMenu_width               13
+  DefineWindow HAPSBY           MENU_end              8                             5                               21                                    13
+  DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width            ToolShopMenu_height             29-ToolShopMenu_width                 14
+  DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width         7                               WorldMenu_width+1                     1 ; Spells and inventory are mutually exclusive
+  DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                             6                               9                                     8
+  DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width              ChoiceMenu_height               29-ChoiceMenu_width                   14
+  DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                             3                               1                                     8
+  DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height  (32-ShopInventoryDimensions_width)/2  0
+  DefineWindow SHOP_MST         INVENTORY             StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
+  DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4             SAVE_SLOT_COUNT+2               27-SAVE_NAME_WIDTH                    1
+  DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width           SoundTestMenu_height+2          31-SoundTestMenu_width                0
+  DefineWindow OptionsWindow    $d700                 OptionsMenu_width             OptionsMenu_height              32-OptionsMenu_width                  24-OptionsMenu_height
+  DefineWindow ContinueWindow   $d700                 ContinueMenu_width            ContinueMenu_height             18                                    16
 
 ; The game puts the stack in a space from $cba0..$caff. The RAM window cache
 ; therefore can extend as far as $dffb (inclusive) - $dffc+ are used
@@ -3524,6 +3524,7 @@ DezorianCustomStringCheck:
 
   PatchWords SHOP_MST               $3b15 $3b3e ; MST in shop
   PatchWords SHOP_MST_VRAM          $3b18 $3b41
+  PatchWords SHOP_MST_dims          $3b1b $3b44
 
   PatchWords BUYSELL                $3895 $38b5 ; Buy/Sell
   PatchWords BUYSELL_VRAM           $3898 $38b8
@@ -3620,6 +3621,7 @@ ShopMST:
   ld a,:shopMSTImpl
   ld (PAGING_SLOT_1),a
   call shopMSTImpl
+  call Slot1TrampolineEnd
   JR_TO $3b3a
 .ends
 
