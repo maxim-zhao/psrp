@@ -8130,7 +8130,7 @@
   pt-br: <Article><monster> desviou do ataque de <player>.<delay>
   ca: <Article><monster> ha desviat l'atac de <player>.<delay>
   es: <Article><monster> ha desviado el ataque de <player>.<delay>
-  de: <Nom><monster> weicht <players> Angriff aus.<delay>
+  de: <Nom><monster> weicht <gen><player> Angriff aus.<delay>
 
 - offsets: 1497
   indices: 002-2
@@ -8211,7 +8211,7 @@
   pt-br: A magia de <player> não teve nenhum efeito.<delay>
   ca: La màgia de <player> no fa cap efecte.<delay>
   es: La mágia de <player> no tiene ningún efecto.<delay>
-  de: <players> Zauber hatte keinen Effekt.<delay>
+  de: <gen><player> Zauber hatte keinen Effekt.<delay>
 
 - offsets: # unused
   indices: 00E-2
@@ -8301,7 +8301,7 @@
   pt-br: A energia de <player> foi restaurada.<delay>
   ca: L'energia de <player> ha estat restaurada.<delay>
   es: La energía de <player> ha sido restaurada.<delay>
-  de: <players> Wunden wurden geheilt.<delay>
+  de: <gen><player> Wunden wurden geheilt.<delay>
 
 - offsets: 1552
   indices: 01A-2
@@ -8379,7 +8379,7 @@
   pt-br: <player> se desamarrou.<delay>
   ca: <player> es deslliura.<delay>
   es: <player> se libera. <delay>
-  de: <players> Fesseln fallen auseinander.<delay>
+  de: <gen><player> Fesseln fallen auseinander.<delay>
 
 - offsets: 1407
   indices: 026-2
@@ -8815,7 +8815,7 @@
   pt-br: Seu corpo ficou extremamente leve.<delay>
   ca: El cosos es tornen extranyament lleugers. <delay>
   es: Los cuerpos se vuelven extrañamente ligeros. <delay>
-  de: <players> Körper wird seltsam leicht.<wait>
+  de: <gen><player> Körper wird seltsam leicht.<wait>
 
 - offsets: 2248
   indices: 072-2

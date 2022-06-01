@@ -1013,7 +1013,28 @@ _Wait_Clear:
 
   call SFGDecoder    ; Grab #
   ld (ARTICLE),a
+.if LANGUAGE == "de"
+  ; Set SKIP_BITMASK accordingly
+  ; 1 => 0
+  ; 2 => 2
+  ; 3 => 4
+  push hl
+  push de
+  push af
+    ld d,0
+    ld hl,_SkipBitmaskLookup
+    ld e,a
+    add hl,de
+    ld a,(hl)
+    ld (SKIP_BITMASK),a
+  pop af
+  pop de
+  pop hl
   jp _Decode
+_SkipBitmaskLookup: .db 0, 0, 2, 4
+.else
+  jp _Decode
+.endif
 
 +:cp SymbolSuffix
   jr nz,+
@@ -1132,24 +1153,17 @@ _Substring:
       ; fall through
 .endif
 .if LANGUAGE == "de"
-      push bc ; we need a register...
-        ld de,ArticlesUpperNominative
-        ld b,%000 ; Skip everything by default
-        cp $01      ; article = Der, Die, Das, Ein, Eine, Ein
-        jr z,+
+      ld de,ArticlesUpperNominative
+      cp $01      ; article = Der, Die, Das, Ein, Eine, Ein
+      jr z,_Start_Art
 
-        ld de,ArticlesLowerGenitive
-        ld b,%010 ; Bit 1 for genitive
-        cp $02      ; article = des, der, des, eines, einer, eines
-        jr z,+
+      ld de,ArticlesLowerGenitive
+      cp $02      ; article = des, der, des, eines, einer, eines
+      jr z,_Start_Art
 
-        ; article = dem, der, dem, einem, einer, einem
-        ld de,ArticlesLowerDative
-        ld b,%100 ; Bit 2 for dative
-        ; fall through
-+:      ld a,b
-        ld (SKIP_BITMASK),a
-    pop bc
+      ; article = dem, der, dem, einem, einer, einem
+      ld de,ArticlesLowerDative
+      ; fall through
 .endif
 
 _Start_Art:
@@ -2867,7 +2881,7 @@ inventory:
   push hl
 
     di
-      xor a
+      xor a ; Show no bracketed parts
       ld (SKIP_BITMASK),a
 
       ld a,(hl)   ; grab item #
