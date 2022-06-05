@@ -1839,7 +1839,7 @@ Items:
   String "<A> PelorieMate"                  ; COLA      Cola                perorīmeito         ペロリーメイト
   String "<A> Ruoginin"                     ; BURGER    Burger              ruoginin            ルオギニン
   String "<The> Soothe Flute"               ; FLUTE     Flute               sūzufurūto          スーズフルート
-  String "<A> Searchlight[ with suffix]"                  ; FLASH     Flash               sāchiraito          サーチライト
+  String "<A> Searchlight"                  ; FLASH     Flash               sāchiraito          サーチライト
   String "<An> Escape Cloth"                ; ESCAPER   Escaper             esukēpukurosu       エスケープクロス
   String "<A> TranCarpet"                   ; TRANSER   Transer             torankāpetto        トランカーペット
   String "<A> Magic Hat"                    ; MAGC HAT  Magic Hat           majikkuhatto        マジックハット
