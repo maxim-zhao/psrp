@@ -5,6 +5,9 @@
 # - # means a comment
 # - | introduces a multi-line string, indicated by indentation. (Don't use >, which makes YAML insert unwanted spaces.)
 # - Strings can be enclosed in quotes to make surrounding whitespace retained.
+# - You must wrap strings in quotes if they contain ": ", unless you also use | at the start.
+# - Indentation is significant.
+# - I recommend you use a text editor that syntax-highlights YAML, like Notepad++.
 #
 # Each script entry comprises these elements:
 # - offsets: locations in the ROM referring to this script item
@@ -12,7 +15,7 @@
 # - ja: original Japanese
 # - translated: translation of the "ja" text, for information only (incomplete)
 # - us: Sega localisation for this item (very incomplete)
-# - en, fr: translations consumed by the code
+# - en, fr, pt-br, ca, es, de: translations consumed by the code
 # Stuff with ****** around it is an area indicator.
 #
 # Some values change the text wrapping routines:
@@ -46,17 +49,18 @@
 #
 # <article> = use article for enemy/item, lowercase. Includes a trailing space.
 # <Article> = use article for enemy/item, initial uppercase. Includes a trailing space.
-# <de> = use possessive+article for an enemy (French)
+# <de>, <do>, <del> = use possessive+article for an enemy (French, Brazilian Portuguese, Catalan/Spanish respectively)
 # <à> = use directive+article for an enemy or player (French)
+# <nom>, <dat>, <gen>, <acc> = use nominative, dative, genitive and accusative cases (German)
 # <player> = player name
 # <monster> = enemy name
 # <item> = item name
 #
 # <line> = line break (should be used sparingly)
-#<wait> = wait, end of entry
-#<end> = end of entry
+# <wait> = wait, end of entry
+# <end> = end of entry
 # <wait more> = wait, not end of entry
-#<delay> = delay a bit
+# <delay> = delay a bit
 #
 
 # ********************
@@ -6926,7 +6930,7 @@
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
   es: <player> levanta <article><item> hacia el cielo.<delay>
-  de: <player> held <article><item> up towards the sky.<delay>
+  de: <player> held <acc><item> up towards the sky.<delay>
 
 - offsets: 26d0
   # <player>ハ ラエルマベリーヲ トッテ<line>
@@ -8126,7 +8130,7 @@
   pt-br: <Article><monster> desviou do ataque de <player>.<delay>
   ca: <Article><monster> ha desviat l'atac de <player>.<delay>
   es: <Article><monster> ha desviado el ataque de <player>.<delay>
-  de: <Nom><monster> weicht <players> Angriff aus.<delay>
+  de: <Nom><monster> weicht <gen><player> Angriff aus.<delay>
 
 - offsets: 1497
   indices: 002-2
@@ -8207,7 +8211,7 @@
   pt-br: A magia de <player> não teve nenhum efeito.<delay>
   ca: La màgia de <player> no fa cap efecte.<delay>
   es: La mágia de <player> no tiene ningún efecto.<delay>
-  de: <players> Zauber hatte keinen Effekt.<delay>
+  de: <gen><player> Zauber hatte keinen Effekt.<delay>
 
 - offsets: # unused
   indices: 00E-2
@@ -8297,7 +8301,7 @@
   pt-br: A energia de <player> foi restaurada.<delay>
   ca: L'energia de <player> ha estat restaurada.<delay>
   es: La energía de <player> ha sido restaurada.<delay>
-  de: <players> Wunden wurden geheilt.<delay>
+  de: <gen><player> Wunden wurden geheilt.<delay>
 
 - offsets: 1552
   indices: 01A-2
@@ -8375,7 +8379,7 @@
   pt-br: <player> se desamarrou.<delay>
   ca: <player> es deslliura.<delay>
   es: <player> se libera. <delay>
-  de: <players> Fesseln fallen auseinander.<delay>
+  de: <gen><player> Fesseln fallen auseinander.<delay>
 
 - offsets: 1407
   indices: 026-2
@@ -8477,7 +8481,7 @@
   pt-br: <player> usou <article><item>.<delay>
   ca: <player> empra <article><item>.<delay>
   es: <player> usa <article><item>.<delay>
-  de: <player> benutzt <article><item>.<delay>
+  de: <player> benutzt <acc><item>.<delay>
 
 - offsets: 2883
   indices: 034-2
@@ -8492,7 +8496,7 @@
   pt-br: <player> equipou <article><item>.<end>
   ca: <player> equipa <article><item>.<end>
   es: <player> equipa <article><item>.<end>
-  de: <player> legt <article><item> an.<end>
+  de: <player> legt <acc><item> an.<end>
 
 - offsets: 28cc
   indices: 036-2
@@ -8507,7 +8511,7 @@
   pt-br: <player> descartou <article><item>.<delay>
   ca: <player> llença <article><item>.<delay>
   es: <player> tira <article><item>.<delay>
-  de: <player> wirft <article><item> weg.<wait>
+  de: <player> wirft <acc><item> weg.<wait>
 
 - offsets: 20ff,23ec,2554,2582,2677,2803
   indices: 038-2
@@ -8536,7 +8540,7 @@
   pt-br: Mas <article><item> é inútil aqui.<wait>
   ca: Però <article><item> és inútil aquí.<wait>
   es: Pero <article><item> es inútil aquí.<wait>
-  de: Aber <article><item> hier zu benutzen bringt nichts.<delay>
+  de: Aber <acc><item> hier zu benutzen bringt nichts.<delay>
 
 - offsets: 2304
   indices: 03C-2
@@ -8560,7 +8564,7 @@
   pt-br: O grupo embarcou no <item>.<delay>
   ca: El grup s'embarca a bord de <item>.<delay>
   es: El grupo se embarca a bordo de <item>.<delay>
-  de: Die Gruppe ist in <article><item> eingestiegen.<delay>
+  de: Die Gruppe ist in <acc><item> eingestiegen.<delay>
 
 - offsets: 2311
   indices: 040-2
@@ -8627,7 +8631,7 @@
   pt-br: <player> retirou <article><item>.<delay>
   ca: <player> treu <article><item>.<delay>
   es: <player> saca <article><item>.<delay>
-  de: <player> holt <article><item> raus.<delay>
+  de: <player> holt <acc><item> raus.<delay>
 
 - offsets: 251a,25aa,2651,279d
   indices: 04C-2
@@ -8798,7 +8802,7 @@
   pt-br: Você encontrou <article><item>.<wait>
   ca: Heu trobat <article><item>.<wait>
   es: Habéis encontrado <article><item>.<wait>
-  de: Du hast <article><item> gefunden.<wait>
+  de: Du hast <acc><item> gefunden.<wait>
 
 - offsets: 21d9,22b5
   indices: 070-2
@@ -8811,7 +8815,7 @@
   pt-br: Seu corpo ficou extremamente leve.<delay>
   ca: El cosos es tornen extranyament lleugers. <delay>
   es: Los cuerpos se vuelven extrañamente ligeros. <delay>
-  de: <players> Körper wird seltsam leicht.<wait>
+  de: <gen><player> Körper wird seltsam leicht.<wait>
 
 - offsets: 2248
   indices: 072-2
@@ -8869,7 +8873,7 @@
   pt-br: <player> não pode equipar <article><item>.<wait>
   ca: <player> no es pot equipar amb <article><item>.<wait>
   es: <player> no se puede equipar con <article><item>.<wait>
-  de: <player> kann <article><item> nicht anlegen.<delay>
+  de: <player> kann <acc><item> nicht anlegen.<delay>
 
 - offsets: 283e
   indices: 07A-2
@@ -9008,7 +9012,7 @@
   pt-br: Você descartou <article><item>, e<wait>
   ca: Heu llençat <article><item>.<wait>
   es: Habéis tirado <article><item>.<wait>
-  de: Du hast <article><item> weggeworfen<wait>
+  de: Du hast <acc><item> weggeworfen<wait>
 
 - offsets: 297d
   indices: 08E-2
@@ -9021,7 +9025,7 @@
   pt-br: Você obteve <article><item>.<wait>
   ca: Aconseguiu <article><item>.<wait>
   es: Habéis conseguido <article><item>.<wait>
-  de: und <article><item> erhalten.<wait>
+  de: und <acc><item> erhalten.<wait>
 
 - offsets: 2923
   indices: 090-2
@@ -9034,7 +9038,7 @@
   pt-br: Você quer abandonar <article><item>?<end>
   ca: Voleu descartar <article><item>?<end>
   es: ¿Queréis descartar <article><item>?<end>
-  de: Willst du <article><item> aufgeben?<end>
+  de: Willst du <acc><item> aufgeben?<end>
 
 - offsets: 292e
   indices: 092-2
@@ -9047,7 +9051,7 @@
   pt-br: Você abandonou <article><item>.<wait>
   ca: Descarteu <article><item>.<wait>
   es: Habéis descartado <article><item>.<wait>
-  de: Du hast <article><item> zurückgelassen.<wait>
+  de: Du hast <acc><item> zurückgelassen.<wait>
 
 - offsets: 28c3,295d
   indices: 094-2
@@ -9062,7 +9066,7 @@
   pt-br: Você não pode descartar <article><item>!<wait>
   ca: No pots llençar <article><item>!<wait>
   es: ¡No puedes tirar <article><item>!<wait>
-  de: Du kannst <article><item> nicht wegwerfen!<wait>
+  de: Du kannst <acc><item> nicht wegwerfen!<wait>
 
 - offsets: 1ba7,1f2d
   indices: 096-2
@@ -9375,7 +9379,7 @@
   pt-br: Hmm, <article><item>? Que tal <number><internal hint 01> meseta<s>?<end>
   ca: Hmm, <article><item>? Que et sembla <number><internal hint 01> meseta<s>?<end>
   es: Hmm, ¿<article><item>? ¿Qué te parece <number><internal hint 01> meseta<s>?<end>
-  de: Hmm, <article><item>? Dafür kann ich Ihnen <number> Meseta anbieten.<end>
+  de: Hmm, <acc><item>? Dafür kann ich Ihnen <number> Meseta anbieten.<end>
 
 - offsets: 2e66
   indices: 0C6-2
@@ -10486,7 +10490,7 @@
   pt-br: Alguém usou <article><item>.<wait>
   ca: Algú ha emprat <article><item>.<wait>
   es: Alguien ha utilizado <article><item>.<wait>
-  de: Jemand hat <article><item> schon benutzt.<wait>
+  de: Jemand hat <acc><item> schon benutzt.<wait>
 
 - offsets: 58bd
   indices: 152-2

@@ -101,26 +101,27 @@
 ; These control codes only apply to items/names...
 
 ; Text between [] is skipped in menus but not in body text
-62=[
+; We encode a "type" as a second byte for each type of brackets. The closing ones are always just $63, the game code doesn't need them to be different.
+; The second byte encodes a bitmask for skipping. This allows us to determine whether the chunk is emitted or not by encoding bitmasks in the script.
+; [] = $01 = %0001 = enemy name window/inventory only
+; {} = $02 = %0010 = genetive case only
+; () = $04 = %0100 = dative or accusative case
+; «» = $08 = %1000 = script window only (regardless of case)
+6201=[
 63=]
-; Articles. Note these have trailing spaces.
-64=<Einen> 
-65=<Eine> 
-66=<Ein> 
-67=<Den> 
-68=<Die> 
-69=<Das> 
+6202={
+63=}
+6204=(
+63=)
+6208=«
+63=»
 
-; Placeholders mapping new tokens to "?"
-43=(
-43=)
-43={
-43=}
-43=<Der>
-43=<The>
-43=<Nom>
-43=<gen>
-43=<dat>
-43=<players>
+; Articles used in the item tables. Note these have trailing spaces.
+64=<Der> 
+65=<Die> 
+66=<Das> 
+67=<Ein> 
+68=<Eine> 
+69=<EinN> 
 
 ; Words go below...

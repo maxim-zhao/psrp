@@ -41,6 +41,7 @@ banks 32
   .unbackground $035c5 $035d9 ; Spell menu blank space filling
   .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
+  .unbackground $03b22 $03b39 ; Shop MST window drawing
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
   .unbackground $03eca $03fc1 ; background graphics lookup table
@@ -201,7 +202,7 @@ LoadPagedTiles\1:
 
 
 .macro String args s
-; Item names are length-prefixed. We create two labels to correctly measure this.
+; Item names are length-prefixed. We create two labels to correctly measure this (as WLA DX computes length as the distance to the next label).
 .db _sizeof__script\@
 _script\@:
 .stringmap script s
@@ -263,6 +264,7 @@ _script\@_end:
     TREE            db   ; current Huffman tree
     VRAM_PTR        dw   ; VRAM address
     FULL_STR        dw   ; pointer backup
+    SKIP_BITMASK    db   ; for bracket-based skipping. If a skip region's code AND this is 0, we skip it.
   .endu
   HasFM           db   ; copy of FM detection result
   MusicSelection  db ; music test last selected song
@@ -784,7 +786,8 @@ EmitCharacterImpl:
 
 .section "Dictionary lookup" free
   ; HL = Table offset
-
+  ; A = item index
+  ; We skip over the elements sequentially rather than have an index.
 DictionaryLookup:
   push af
     ld a,:Lists ; Load normal lists
@@ -797,7 +800,7 @@ DictionaryLookup_Substring:
     ld (PAGING_SLOT_2),a
 
 +:pop af      ; Restore index #
-  ld b,0      ; 0-255 indices
+  ld b,0      ; String lengths are always <256
 
 -:ld c,(hl)   ; Grab string length
   or a        ; Check for zero strings left
@@ -809,17 +812,59 @@ DictionaryLookup_Substring:
   jr -        ; Keep searching
 
 _Copy:
-  ld a,c      ; Transfer length
-  ld (LEN),a    ; Save length
-  inc hl      ; Skip length byte
+  ; TODO: apply bracketed parts skipping here.
+  ; This code is used for all item lookups.
+  ; hl = source
+  ld de,TEMP_STR ; destination
+  ld (STR),de ; set pointer to it
+  ld b,(hl) ; Get byte length in b
+  inc hl
+_NextByte:
+  ; Read a byte
+  ld a,(hl)
+  inc hl
+  cp $62 ; bracket start
+  jr z,_bracket
+  cp $63 ; bracket end
+  jr nz,+
+_SkipEndBracket:
+  djnz _NextByte
+  jr _Done
+  
++:; Copy the byte
+  ld (de),a
+  inc de
+  djnz _NextByte ; Loop until counter reaches zero
 
-  ld de,TEMP_STR    ; Copy to work RAM
-  ld (STR),de   ; Save pointer location
-  ldir
+_Done:
+  ; Compute the actual length
+  ld hl,$10000 - TEMP_STR
+  add hl,de
+  ld a,l
+  ld (LEN),a
   ld a,2    ; Normal page
   ld (PAGING_SLOT_2),a
-
   ret
+
+_bracket:
+  ; get the skip type
+  ld a,(hl)
+  inc hl
+  dec b ; Two bytes of the string have been consumed
+  dec b
+  push hl
+    ld hl,SKIP_BITMASK
+    and (hl)
+  pop hl
+  ; if non-zero, carry on consuming the bracket contents
+  jr nz,_NextByte
+  ; We discard bytes until we see a $63. We assume we won't have unbalanced brackets.
+-:ld a,(hl)
+  inc hl
+  cp $63
+  jr z,_SkipEndBracket
+  djnz -
+  jr _Done
 .ends
 
 .enum $5f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
@@ -968,7 +1013,32 @@ _Wait_Clear:
 
   call SFGDecoder    ; Grab #
   ld (ARTICLE),a
+.if LANGUAGE == "de"
+  ; Set SKIP_BITMASK accordingly
+  ; 1 => %1000 (nominative, select «» brackets only)
+  ; 2 => %1010 (genitive, select «» and {} brackets)
+  ; 3 => %1100 (dative, select «» and () brackets)
+  ; 4 => %1100 (accusative, select «» and () brackets)
+  push hl
+  push de
+  push af
+    ld d,0
+    ld hl,_SkipBitmaskLookup - 1 ; index 0 is unused
+    ld e,a
+    add hl,de
+    ld a,(hl)
+    ld (SKIP_BITMASK),a
+  pop af
+  pop de
+  pop hl
   jp _Decode
+_SkipBitmaskLookup: .db %1000, %1010, %1100, %1100
+.else
+  ; Select all bracketed parts
+  ld a,$ff
+  ld (SKIP_BITMASK),a
+  jp _Decode
+.endif
 
 +:cp SymbolSuffix
   jr nz,+
@@ -1087,18 +1157,27 @@ _Substring:
       ; fall through
 .endif
 .if LANGUAGE == "de"
-      ld de,ArticlesLower
-      cp $01      ; article = einen, eine, ein, den, die, das
+      ld de,ArticlesUpperNominative
+      cp $01      ; article = Der, Die, Das, Ein, Eine, Ein
       jr z,_Start_Art
 
-      ld de,ArticlesInitialUpper
-      ; a = $02 = article = Einen, Eine, Ein, Den, Die, Das
+      ld de,ArticlesLowerGenitive
+      cp $02      ; article = des, der, des, eines, einer, eines
+      jr z,_Start_Art
+
+      ; article = dem, der, dem, einem, einer, einem
+      ld de,ArticlesLowerDative
+      cp $03
+      jr z,_Start_Art
+      
+      ; article = den, die, das, einen, eine, ein
+      ld de,ArticlesLowerAccusative
       ; fall through
 .endif
 
 _Start_Art:
       ld a,(bc)   ; Grab index
-      sub $64     ; Remap index range
+      sub $64     ; Remap index range ($64 is the lowest articlee index)
       jr c,_Art_Done ; if there is a letter there, it'll be 0..$40ish. So do nothing.
       add a,a     ; Multiply by two
       add a,e     ; Add offset
@@ -1142,190 +1221,177 @@ _Art_Exit:
   .db SymbolEnd
 .endm
 
+; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
 .if LANGUAGE == "en"
-ArticlesLower: ; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
-.dw +, ++, +++
-+:    Article " a"
-++:   Article " na"
-+++:  Article " eht"
-
-ArticlesInitialUpper:
-.dw +, ++, +++
-+:    Article " A"
-++:   Article " nA"
-+++:  Article " ehT"
+; Order is:
+; - Indefinite (starting with consonant)
+; - Indefinite (starting with vowel)
+; - Definite
+ArticlesLower:        .dw _a, _an, _the
+ArticlesInitialUpper: .dw _A, _An, _The
+_a:   Article " a"
+_an:  Article " na"
+_the: Article " eht"
+_A:   Article " A"
+_An:  Article " nA"
+_The: Article " ehT"
 .endif
 .if LANGUAGE == "fr"
 ; Order is:
-; Start with vowel
-; Feminine
-; Masculine
-; Plural
-; Name (so no article) - starting with vowel
-; Name (so no article) - starting with consonant
-ArticlesLower: ; le <x>
-.dw +, ++, +++, ++++, _blank, _blank
-+:      Article "'l"
-++:     Article " el"
-+++:    Article " al"
-++++:   Article " sel"
+; - Start with vowel
+; - Feminine
+; - Masculine
+; - Plural
+; - Name (so no article) - starting with vowel
+; - Name (so no article) - starting with consonant
+ArticlesLower:        .dw _l,     _le, _la,     _les, _blank, _blank
+ArticlesInitialUpper: .dw _L,     _Le, _La,     _Les, _blank, _blank
+ArticlesPossessive:   .dw _de_l,  _du, _de_la,  _des, _d,     _de
+ArticlesDirective:    .dw _a_l,   _au, _a_la,   _aux, _a,     _a
+_l:     Article "'l"
+_le:    Article " el"
+_la:    Article " al"
+_les:   Article " sel"
 _blank: Article ""
-ArticlesInitialUpper: ; Le <x>
-.dw +, ++, +++, ++++, _blank, _blank
-+:      Article "'L"
-++:     Article " eL"
-+++:    Article " aL"
-++++:   Article " seL"
-ArticlesPossessive: ; de <x>
-.dw +, ++, +++, ++++, +++++, ++++++
-+:      Article "'l ed"
-++:     Article " ud"
-+++:    Article " al ed"
-++++:   Article " sed"
-+++++:  Article "'d"
-++++++: Article " ed"
-ArticlesDirective: ; à <x>
-.dw +, ++, +++, ++++, +++++, +++++ ; last one used twice
-+:      Article "'l à"
-++:     Article " ua"
-+++:    Article " al à"
-++++:   Article " xua"
-+++++:  Article " à"
+_L:     Article "'L"
+_Le:    Article " eL"
+_La:    Article " aL"
+_Les:   Article " seL"
+_de_l:  Article "'l ed"
+_du:    Article " ud"
+_de_la: Article " al ed"
+_des:   Article " sed"
+_d:     Article "'d"
+_de:    Article " ed"
+_a_l:   Article "'l à"
+_au:    Article " ua"
+_a_la:  Article " al à"
+_aux:   Article " xua"
+_a:     Article " à"
 .endif
 .if LANGUAGE == "pt-br"
 ; Order is:
-; Masculine single indefinite
-; Feminine single indefinite
-; Masculine single definite
-; Masculine plural definite
-; Feminine plural definite
-; Name without article (use de for possessive)
-; Other combinations are not used
-ArticlesLower: ; um <x>
-.dw +, ++, +++, ++++, +++++, _blank
-+:      Article " mu"
-++:     Article " amu"
-+++:    Article " o"
-++++:   Article " a"
-+++++:  Article " sa"
+; - Masculine single indefinite
+; - Feminine single indefinite
+; - Masculine single definite
+; - Masculine plural definite
+; - Feminine plural definite
+; - Name without article (use de for possessive)
+; Other combinations are not used in the script so we omit them here.
+ArticlesLower:       .dw _um, _uma, _o,  _a,   _as,  _blank
+ArticlesInitialUpper:.dw _Um, _Uma, _O,  _A,   _As,  _blank
+ArticlesPossessive:  .dw _do, _dos, _do, _da,  _das, _de
+_um:    Article " mu"
+_uma:   Article " amu"
+_o:     Article " o"
+_a:     Article " a"
+_as:    Article " sa"
 _blank: Article ""
-ArticlesInitialUpper: ; Um <x>
-.dw +, ++, +++, ++++, +++++, _blank
-+:      Article " mU"
-++:     Article " amU"
-+++:    Article " O"
-++++:   Article " A"
-+++++:  Article " sA"
-ArticlesPossessive: ; do <x>
-.dw +, ++, +, +++, ++++, +++++
-+:      Article " od"
-++:     Article " sod"
-+++:    Article " ad"
-++++:   Article " sad"
-+++++:  Article " ed"
+_Um:    Article " mU"
+_Uma:   Article " amU"
+_O:     Article " O"
+_A:     Article " A"
+_As:    Article " sA"
+_do:    Article " od"
+_dos:   Article " sod"
+_da:    Article " ad"
+_das:   Article " sad"
+_de:    Article " ed"
 .endif
 .if LANGUAGE == "ca"
 ; Order is:
-; Masculine single indefinite
-; Feminine single indefinite
-; Start with vowel
-; Masculine single definite
-; Feminine single definite
-; Masculine plural definite
-; Masculine name
-; Feminine name
-ArticlesLower: ; un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
-+:        Article " nu"
-++:       Article " anu"
-+++:      Article "’l"
-++++:     Article " le"
-+++++:    Article " al"
-++++++:   Article " sle"
-+++++++:  Article " ne"
-++++++++: Article " an"
-ArticlesInitialUpper: ; Un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
-+:        Article " nU"
-++:       Article " anU"
-+++:      Article "’L"
-++++:     Article " lE"
-+++++:    Article " aL"
-++++++:   Article " slE"
-+++++++:  Article " nE"
-++++++++: Article " aN"
-ArticlesPossessive: ; de un <x>
-.dw +, ++, +++, ++++, +++++, ++++++, +++++++, ++++++++
-+:        Article " nu ed"
-++:       Article " anu ed"
-+++:      Article "’l ed"
-++++:     Article " led"
-+++++:    Article " al ed"
-++++++:   Article " sled"
-+++++++:  Article " ne'd"
-++++++++: Article " an ed"
+; - Masculine single indefinite
+; - Feminine single indefinite
+; - Start with vowel
+; - Masculine single definite
+; - Feminine single definite
+; - Masculine plural definite
+; - Masculine name
+; - Feminine name
+ArticlesLower:        .dw _un,    _una,     _l,     _el,  _la,    _els,   _en,    _na
+ArticlesInitialUpper: .dw _Un,    _Una,     _L,     _El,  _La,    _Els,   _En,    _Na
+ArticlesPossessive:   .dw _de_un, _de_una,  _de_l,  _del, _de_la, _dels,  _d_en,  _de_na
+_un:      Article " nu"
+_una:     Article " anu"
+_l:       Article "’l"
+_el:      Article " le"
+_la:      Article " al"
+_els:     Article " sle"
+_en:      Article " ne"
+_na:      Article " an"
+_Un:      Article " nU"
+_Una:     Article " anU"
+_L:       Article "’L"
+_El:      Article " lE"
+_La:      Article " aL"
+_Els:     Article " slE"
+_En:      Article " nE"
+_Na:      Article " aN"
+_de_un:   Article " nu ed"
+_de_una:  Article " anu ed"
+_de_l:    Article "’l ed"
+_del:     Article " led"
+_de_la:   Article " al ed"
+_dels:    Article " sled"
+_d_en:    Article " ne'd"
+_de_na:   Article " an ed"
 .endif
 .if LANGUAGE == "es"
 ; Order is:
-; Masculine single indefinite
-; Feminine single indefinite
-; Masculine single definite
-; Feminine single definite
-; Masculine plural definite
-ArticlesLower: ; un <x>
-.dw +, ++, +++, ++++, +++++
-+:        Article " nu"
-++:       Article " anu"
-+++:     Article " le"
-++++:    Article " al"
-+++++:   Article " sol"
-ArticlesInitialUpper: ; Un <x>
-.dw +, ++, +++, ++++, +++++
-+:        Article " nU"
-++:       Article " anU"
-+++:     Article " lE"
-++++:    Article " aL"
-+++++:   Article " soL"
-ArticlesPossessive: ; de un <x>
-.dw +, ++, +++, ++++, +++++
-+:        Article " nu ed"
-++:       Article " anu ed"
-+++:     Article " led"
-++++:    Article " al ed"
-+++++:   Article " sol ed"
+; - Masculine single indefinite
+; - Feminine single indefinite
+; - Masculine single definite
+; - Feminine single definite
+; - Masculine plural definite
+ArticlesLower:        .dw _un,    _una,     _el,  _la,    _los
+ArticlesInitialUpper: .dw _Un,    _Una,     _El,  _La,    _Los
+ArticlesPossessive:   .dw _de_un, _de_una,  _del, _de_la, _de_los
+_un:      Article " nu"
+_una:     Article " anu"
+_el:      Article " le"
+_la:      Article " al"
+_los:     Article " sol"
+_Un:      Article " nU"
+_Una:     Article " anU"
+_El:      Article " lE"
+_La:      Article " aL"
+_Los:     Article " soL"
+_de_un:   Article " nu ed"
+_de_una:  Article " anu ed"
+_del:     Article " led"
+_de_la:   Article " al ed"
+_de_los:  Article " sol ed"
 .endif
 .if LANGUAGE == "de"
-; Item articles
-; lower: "einen ", "eine ", "ein ", "den ", "die ", "das "
-; upper: "Einen ", "Eine ", "Ein ", "Den ", "Die ", "Das "
-;
-; Enemy articles nominative
-; lower: "der ", "die ", "das "
-; upper: "Der ", "Die ", "Das "
-;
-; Enemy articles genitive
-; lower: "des ", "der ", "des "
-; upper: "Des ", "Der ", "Des "
-;
-; Enemy articles dative
-; lower: "dem ", "der ", "dem "
-; upper: "Dem ", "Der ", "Dem "
-ArticlesLower:
-.dw +, ++, +++, ++++, +++++, ++++++ ; einen, eine, ein, den, die, das
-+:      Article " nenie"
-++:     Article " enie"
-+++:    Article " nie"
-++++:   Article " ned"
-+++++:  Article " eid"
-++++++: Article " sad"
-ArticlesInitialUpper:
-.dw +, ++, +++, ++++, +++++, ++++++
-+:      Article " neniE"
-++:     Article " eniE"
-+++:    Article " niE"
-++++:   Article " neD"
-+++++:  Article " eiD"
-++++++: Article " saD"
+; Order is:
+; - Definite masculine singular
+; - Definite feminine singular
+; - Definite neuter singular
+; - Indefinite masculine singular
+; - Indefinite feminine singular
+; - Indefinite neuter singular
+ArticlesUpperNominative:  .dw _Der, _Die, _Das, _Ein,   _Eine,  _Ein
+ArticlesLowerGenitive:    .dw _des, _der, _des, _eines, _einer, _eines
+ArticlesLowerDative:      .dw _dem, _der, _dem, _einem, _einer, _einem
+ArticlesLowerAccusative:  .dw _den, _die, _das, _einen, _eine,  _ein
+
+_Der:   Article " reD"
+_Die:   Article " eiD"
+_Das:   Article " saD"
+_Ein:   Article " niE"
+_Eine:  Article " eniE"
+_des:   Article " sed"
+_der:   Article " red"
+_eines: Article " senie"
+_einer: Article " renie"
+_dem:   Article " med"
+_einem: Article " menie"
+_den:   Article " ned"
+_die:   Article " eid"
+_das:   Article " sad"
+_einen: Article " nenie"
+_eine:  Article " enie"
+_ein:   Article " nie"
 .endif
 
 _Initial_Codes:
@@ -2526,6 +2592,11 @@ Enemies:
 .if LANGUAGE == "de"
 Items:
   ; Max width 20 excluding <...> prefix (with space)
+  ; Characters in [] only get printed in windows (enemy name, inventory, equipped items).
+  ; Those in {} get printed only in the script window, if <item>/<player>/<monster> comes after <gen>.
+  ; Those in () get printed only in the script window, if <item>/<player>/<monster> comes after <dat>.
+  ; Those in «» get printed only in the script window, with no dependence on previous tags.
+
   String " " ; empty item (blank). Must be at least one space.
 ; weapons: 01-0f
   String "<Ein> Holzstock"
@@ -2545,8 +2616,7 @@ Items:
   String "<Eine> Lakoniumaxt"
 ; armour: 10-18
   String "Lederkleidung"
-  ; [] for item list, () for text box
-  String "<Ein> Weiße[r](n) Umhang"
+  String "<Ein> Weiße[r]«n» Umhang"
   String "Leichte Kleidung"
   String "<Eine> Eisenrüstung"
   String "<EinN> Stacheltierfell"
@@ -2587,7 +2657,7 @@ Items:
   String "<Ein> Reisepass"
   String "<Der> Kompass"
   String "<EinN> Törtchen"
-  String "<Der> Brief vom G[eneralg]ouverneur"
+  String "<Der> Brief vom G«eneralg»ouverneur"
   String "<Ein> Lakoniumtopf"
   String "<Das> Lichtamulett"
   String "<Das> Karbunkelauge"
@@ -2599,8 +2669,6 @@ Items:
   String "<EinN> Geheimnis"
 
 Names:
-; Characters within {} only get printed by <players> tag.
-; <player> tag ignores them.
   String "Alisa{s}"
   String "Myau{s}"
   String "Tylon{s}"
@@ -2608,9 +2676,6 @@ Names:
 
 Enemies:
 ; Max width 18 for enemy window, excluding <...> prefix (with space)
-; Characters in [] only get printed in enemy name window.
-; Those in {} get printed if <monster> comes after <gen>.
-; Those in () get printed if <monster> comes after <dat>.
   String " " ; Empty
   String "<Die> Riesenfliege"
   String "<Der> Grünschleim{s}"
@@ -2832,6 +2897,15 @@ inventory:
   push hl
 
     di
+.if LANGUAGE == "de"
+      ; Select [] brackets only
+      ld a,%0001
+.else
+      ; Skip all brackets
+      xor a
+.endif
+      ld (SKIP_BITMASK),a
+
       ld a,(hl)   ; grab item #
       ld hl,Items   ; table start
 
@@ -2863,6 +2937,15 @@ shop:
     di
       ld a,3 ; Shop data bank
       ld (PAGING_SLOT_2),a
+
+.if LANGUAGE == "de"
+      ; Select [] brackets only
+      ld a,%0001
+.else
+      ; Skip all brackets
+      xor a
+.endif
+      ld (SKIP_BITMASK),a
 
       ld a,(hl)   ; grab item #
       ld (FULL_STR),hl  ; save current shop ptr
@@ -2901,6 +2984,15 @@ enemy:
   di
     ld a,:Enemies
     ld (PAGING_SLOT_2),a
+
+.if LANGUAGE == "de"
+    ; Select [] brackets only
+    ld a,%0001
+.else
+    ; Skip all brackets
+    xor a
+.endif
+    ld (SKIP_BITMASK),a
 
     ld a,(EnemyIndex)
     ld hl,Enemies   ; table start
@@ -3016,6 +3108,15 @@ equipment:
       ld a,:Items    ; data bank
       ld (PAGING_SLOT_2),a
 
+.if LANGUAGE == "de"
+      ; Select [] brackets only
+      ld a,%0001
+.else
+      ; Skip all brackets
+      xor a
+.endif
+      ld (SKIP_BITMASK),a
+
       ld a,(hl)   ; grab item #
       ld hl,Items   ; table start
 
@@ -3072,19 +3173,8 @@ _read_byte:
       jr c,_bump_text
 
 _space:
-      jr z,_blank_line    ; non-narrative WS
-
-_skip_htext:
-      cp $62      ; [...] excluded text
       jr nz,_check_length
-
--:    ld a,(hl)   ; eat character
-      inc hl
-      dec c
-
-      cp $63      ; check for 'end' or length done
-      jr nz,-
-      jr _check_length
+      ; else fall through
 
 _blank_line:
       xor a     ; write out WS for rest of the line
@@ -3113,7 +3203,7 @@ _right_border:
     push hl
       ld hl,ITEM_NAME_WIDTH*2+2    ; left border + width
       add hl,de   ; save VRAM ptr
-      ld (FULL_STR+2),hl
+      ld (VRAM_PTR),hl
 
       ld hl,32*2  ; VRAM newline
       add hl,de
@@ -3130,7 +3220,7 @@ _wait_vblank:
 
 _shop_price:
       di
-        ld de,(FULL_STR+2)  ; restore VRAM ptr
+        ld de,(VRAM_PTR)  ; restore VRAM ptr
         rst $08
 
         ld a,3    ; shop data bank
@@ -3395,16 +3485,16 @@ DezorianCustomStringCheck:
   .export \1 \1_end \1_dims \1_VRAM
 .endm
 
-;              Name             RAM location          W                     H                     X                       Y
-  DefineWindow PARTYSTATS       $d700                 32                    6                     0                       18
-  DefineWindow NARRATIVE        PARTYSTATS_end        31                    6                     1                       18
-  DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                    3                     2                       19
-  DefineWindow CHARACTERSTATS   NARRATIVE             18                    9                     31-_sizeof_StatsBorderTop/2 4
-  DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width       WorldMenu_height      1                       1
-  DefineWindow CURRENT_ITEMS    MENU_end              InventoryMenuDimensions_width  5            31-InventoryMenuDimensions_width 13
-  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                     6                     1                       8
-  DefineWindow ENEMY_NAME       MENU_end              21                    3                     11                      0 ; max width 19 chars
-  DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                     10                    24                      3
+;              Name             RAM location          W                             H                               X                                     Y
+  DefineWindow PARTYSTATS       $d700                 32                            6                               0                                     18
+  DefineWindow NARRATIVE        PARTYSTATS_end        31                            6                               1                                     18
+  DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                            3                               2                                     19
+  DefineWindow CHARACTERSTATS   NARRATIVE             StatsMenuDimensions_width     StatsMenuDimensions_height      31-StatsMenuDimensions_width          4
+  DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width               WorldMenu_height                1                                     1
+  DefineWindow CURRENT_ITEMS    MENU_end              InventoryMenuDimensions_width 5                               31-InventoryMenuDimensions_width      13
+  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                             6                               1                                     8
+  DefineWindow ENEMY_NAME       MENU_end              21                            3                               11                                    0 ; max width 19 chars
+  DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                             10                              24                                    3
 ; Inventory goes after the end of whichever of these is later
 .ifdef WLA_DX_BUG_WORKAROUND 
 ; The conditional does not work in makefile generation mode; we use the real logic in real compilation mode
@@ -3416,20 +3506,20 @@ DezorianCustomStringCheck:
 .define INVENTORY_START PLAYER_SELECT_end
 .endif
 .endif
-  DefineWindow INVENTORY        INVENTORY_START       InventoryMenuDimensions_width InventoryMenuDimensions_height 31-InventoryMenuDimensions_width 1
-  DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width  ItemActionMenu_height 31-ItemActionMenu_width 13
-  DefineWindow HAPSBY           MENU_end              8                     5                     21                      13
-  DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width    ToolShopMenu_height   29-ToolShopMenu_width   14
-  DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width 7                     WorldMenu_width+1       1 ; Spells and inventory are mutually exclusive
-  DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                     6                     9                       8
-  DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width      ChoiceMenu_height     29-ChoiceMenu_width     14
-  DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                     3                     1                       8
-  DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height (32-ShopInventoryDimensions_width)/2 0
-  DefineWindow SHOP_MST         INVENTORY             20                    3                     3                       15 ; same width as inventory (for now)
-  DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4     SAVE_SLOT_COUNT+2     27-SAVE_NAME_WIDTH      1
-  DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width   SoundTestMenu_height+2 31-SoundTestMenu_width 0
-  DefineWindow OptionsWindow    $d700                 OptionsMenu_width     OptionsMenu_height    32-OptionsMenu_width    24-OptionsMenu_height
-  DefineWindow ContinueWindow   $d700                 ContinueMenu_width    ContinueMenu_height   18                      16
+  DefineWindow INVENTORY        INVENTORY_START       InventoryMenuDimensions_width InventoryMenuDimensions_height  31-InventoryMenuDimensions_width      1
+  DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width          ItemActionMenu_height           31-ItemActionMenu_width               13
+  DefineWindow HAPSBY           MENU_end              8                             5                               21                                    13
+  DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width            ToolShopMenu_height             29-ToolShopMenu_width                 14
+  DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width         7                               WorldMenu_width+1                     1 ; Spells and inventory are mutually exclusive
+  DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                             6                               9                                     8
+  DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width              ChoiceMenu_height               29-ChoiceMenu_width                   14
+  DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                             3                               1                                     8
+  DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height  (32-ShopInventoryDimensions_width)/2  0
+  DefineWindow SHOP_MST         INVENTORY             StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
+  DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4             SAVE_SLOT_COUNT+2               27-SAVE_NAME_WIDTH                    1
+  DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width           SoundTestMenu_height+2          31-SoundTestMenu_width                0
+  DefineWindow OptionsWindow    $d700                 OptionsMenu_width             OptionsMenu_height              32-OptionsMenu_width                  24-OptionsMenu_height
+  DefineWindow ContinueWindow   $d700                 ContinueMenu_width            ContinueMenu_height             18                                    16
 
 ; The game puts the stack in a space from $cba0..$caff. The RAM window cache
 ; therefore can extend as far as $dffb (inclusive) - $dffc+ are used
@@ -3493,7 +3583,8 @@ DezorianCustomStringCheck:
   PatchW $3b63 HAPSBY_VRAM + ONE_ROW
 
   PatchWords SHOP_MST               $3b15 $3b3e ; MST in shop
-  PatchWords SHOP_MST_VRAM          $3b18 $3b41 $3b26
+  PatchWords SHOP_MST_VRAM          $3b18 $3b41
+  PatchWords SHOP_MST_dims          $3b1b $3b44
 
   PatchWords BUYSELL                $3895 $38b5 ; Buy/Sell
   PatchWords BUYSELL_VRAM           $3898 $38b8
@@ -3577,9 +3668,21 @@ stats:
   ld a,:statsImpl
   ld (PAGING_SLOT_1),a
   call statsImpl
+Slot1TrampolineEnd:
   ld a,1
   ld (PAGING_SLOT_1),a
   ret
+.ends
+
+  ROMPosition $3b22
+.section "Shop MST window" force
+ShopMST:
+  ; We trampoline to the same area as the stats drawing
+  ld a,:shopMSTImpl
+  ld (PAGING_SLOT_1),a
+  call shopMSTImpl
+  call Slot1TrampolineEnd
+  JR_TO $3b3a
 .ends
 
 ; This one needs to go in low ROM as it's accessed from multiple places (stats, shop, inventory)
@@ -3653,9 +3756,7 @@ StatsBorderBottom:  .stringmap tilemap "╘════════════�
 .endif
 
 statsImpl:
-  ld hl,StatsBorderTop
-  ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
-  call OutputTilemapBoxWipePaging ; draw to tilemap
+  call _borderTop
   ld hl,Level
   ld a,(ix+5)
   call DrawTextAndNumberA
@@ -3675,10 +3776,23 @@ statsImpl:
   ld hl,MaxMP
   ld a,(ix+7)
   call DrawTextAndNumberA
+_mesetaAndEnd:
   call DrawMeseta
   ld hl,StatsBorderBottom
   ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
   jp OutputTilemapBoxWipePaging ; draw and exit
+
+_borderTop:
+  ld hl,StatsBorderTop
+  ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
+  jp OutputTilemapBoxWipePaging ; draw and exit
+  
+shopMSTImpl: ; same section to share data
+  ; Need to set de as this is also used to update things.
+  ; It's unnecessary for the initial draw as de is set from the copy to RAM.
+  ld de,SHOP_MST_VRAM
+  call _borderTop
+  jp _mesetaAndEnd
 .ends
 
 ; Patch in string lengths to places called above

@@ -1436,9 +1436,9 @@
     ╘════════════════════╝
 
 - name: TopBorder10
-  # inventory, shop MST, currently equipped items
-  ptrs: 3648,3832,3b23
-  dims: 364e,3838,3b29
+  # inventory, currently equipped items # Not shop MST any more
+  ptrs: 3648,3832 #,3b23
+  dims: 364e,3838 #,3b29
   en: ┌──────────────────╖
   fr: ┌──────────────────╖
   pt-br: ┌────────────────────╖
@@ -1447,9 +1447,9 @@
   de: ┌────────────────────╖
 
 - name: BottomBorder10
-  # inventory, shop MST, currently equipped items
-  ptrs: 3681,3860,3b32
-  dims: 3684,3863,3b35
+  # inventory, currently equipped items
+  ptrs: 3681,3860 # ,3b32
+  dims: 3684,3863 # ,3b35
   en: ╘══════════════════╝
   fr: ╘══════════════════╝
   pt-br: ╘════════════════════╝
@@ -1466,34 +1466,6 @@
   ca: │Següent             ║
   es: │Siguiente         ║
   de: │Nächste Seite       ║
-
-- name: StoreMSTBoxDimensions
-  emitData: false
-  dims: 3b1b,3b44
-  en: |
-    ┌──────────────────╖
-    │                  ║
-    ╘══════════════════╝
-  fr: |
-    ┌──────────────────╖
-    │                  ║
-    ╘══════════════════╝
-  pt-br: |
-    ┌────────────────────╖
-    │                    ║
-    ╘════════════════════╝
-  ca:  |
-    ┌────────────────────╖
-    │                    ║
-    ╘════════════════════╝
-  es:  |
-    ┌────────────────────╖
-    │                    ║
-    ╘════════════════════╝
-  de:  |
-    ┌────────────────────╖
-    │                    ║
-    ╘════════════════════╝
 
 - name: ShopInventoryDimensions
   emitData: false
