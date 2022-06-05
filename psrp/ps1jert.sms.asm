@@ -1015,9 +1015,10 @@ _Wait_Clear:
   ld (ARTICLE),a
 .if LANGUAGE == "de"
   ; Set SKIP_BITMASK accordingly
-  ; 1 => 0
-  ; 2 => 2
-  ; 3 => 4
+  ; 1 => 0 (nominative, no brackets wanted)
+  ; 2 => 2 (genitive, select {} brackets)
+  ; 3 => 4 (dative, select () brackets)
+  ; 4 => 4 (accusative, select () brackets)
   push hl
   push de
   push af
@@ -1033,6 +1034,9 @@ _Wait_Clear:
   jp _Decode
 _SkipBitmaskLookup: .db 0, 0, 2, 4, 4
 .else
+  ; Select all bracketed parts
+  ld a,$ff
+  ld (SKIP_BITMASK),a
   jp _Decode
 .endif
 
@@ -2894,7 +2898,13 @@ inventory:
   push hl
 
     di
-      xor a ; Show no bracketed parts
+.if LANGUAGE == "de"
+      ; Select [] brackets only
+      ld a,%001
+.else
+      ; Skip all brackets
+      xor a
+.endif
       ld (SKIP_BITMASK),a
 
       ld a,(hl)   ; grab item #
@@ -2929,7 +2939,13 @@ shop:
       ld a,3 ; Shop data bank
       ld (PAGING_SLOT_2),a
 
-      xor a ; Show no bracketed parts
+.if LANGUAGE == "de"
+      ; Select [] brackets only
+      ld a,%001
+.else
+      ; Skip all brackets
+      xor a
+.endif
       ld (SKIP_BITMASK),a
 
       ld a,(hl)   ; grab item #
@@ -2973,8 +2989,11 @@ enemy:
 .if LANGUAGE == "de"
     ; Select [] brackets only
     ld a,%001
-    ld (SKIP_BITMASK),a
+.else
+    ; Skip all brackets
+    xor a
 .endif
+    ld (SKIP_BITMASK),a
 
     ld a,(EnemyIndex)
     ld hl,Enemies   ; table start
@@ -3090,7 +3109,13 @@ equipment:
       ld a,:Items    ; data bank
       ld (PAGING_SLOT_2),a
 
+.if LANGUAGE == "de"
+      ; Select [] brackets only
+      ld a,%001
+.else
+      ; Skip all brackets
       xor a
+.endif
       ld (SKIP_BITMASK),a
 
       ld a,(hl)   ; grab item #
