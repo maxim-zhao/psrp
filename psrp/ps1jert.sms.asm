@@ -1163,6 +1163,11 @@ _Substring:
 
       ; article = dem, der, dem, einem, einer, einem
       ld de,ArticlesLowerDative
+      cp $03
+      jr z,_Start_Art
+      
+      ; article = den, die, das, einen, eine, ein
+      ld de,ArticlesLowerAccusative
       ; fall through
 .endif
 
@@ -1364,6 +1369,8 @@ _de_los:  Article " sol ed"
 ArticlesUpperNominative:  .dw _Der, _Die, _Das, _Ein,   _Eine,  _Ein
 ArticlesLowerGenitive:    .dw _des, _der, _des, _eines, _einer, _eines
 ArticlesLowerDative:      .dw _dem, _der, _dem, _einem, _einer, _einem
+ArticlesLowerAccusative:  .dw _den, _die, _das, _einen, _eine,  _ein
+
 _Der:   Article " reD"
 _Die:   Article " eiD"
 _Das:   Article " saD"
@@ -1375,6 +1382,12 @@ _eines: Article " senie"
 _einer: Article " renie"
 _dem:   Article " med"
 _einem: Article " menie"
+_den:   Article " ned"
+_die:   Article " eid"
+_das:   Article " sad"
+_einen: Article " nenie"
+_eine:  Article " enie"
+_ein:   Article " nie"
 .endif
 
 _Initial_Codes:

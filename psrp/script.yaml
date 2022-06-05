@@ -6930,7 +6930,7 @@
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
   es: <player> levanta <article><item> hacia el cielo.<delay>
-  de: <player> held <article><item> up towards the sky.<delay>
+  de: <player> held <acc><item> up towards the sky.<delay>
 
 - offsets: 26d0
   # <player>ハ ラエルマベリーヲ トッテ<line>
@@ -8481,7 +8481,7 @@
   pt-br: <player> usou <article><item>.<delay>
   ca: <player> empra <article><item>.<delay>
   es: <player> usa <article><item>.<delay>
-  de: <player> benutzt <article><item>.<delay>
+  de: <player> benutzt <acc><item>.<delay>
 
 - offsets: 2883
   indices: 034-2
@@ -8496,7 +8496,7 @@
   pt-br: <player> equipou <article><item>.<end>
   ca: <player> equipa <article><item>.<end>
   es: <player> equipa <article><item>.<end>
-  de: <player> legt <article><item> an.<end>
+  de: <player> legt <acc><item> an.<end>
 
 - offsets: 28cc
   indices: 036-2
@@ -8511,7 +8511,7 @@
   pt-br: <player> descartou <article><item>.<delay>
   ca: <player> llença <article><item>.<delay>
   es: <player> tira <article><item>.<delay>
-  de: <player> wirft <article><item> weg.<wait>
+  de: <player> wirft <acc><item> weg.<wait>
 
 - offsets: 20ff,23ec,2554,2582,2677,2803
   indices: 038-2
@@ -8540,7 +8540,7 @@
   pt-br: Mas <article><item> é inútil aqui.<wait>
   ca: Però <article><item> és inútil aquí.<wait>
   es: Pero <article><item> es inútil aquí.<wait>
-  de: Aber <article><item> hier zu benutzen bringt nichts.<delay>
+  de: Aber <acc><item> hier zu benutzen bringt nichts.<delay>
 
 - offsets: 2304
   indices: 03C-2
@@ -8564,7 +8564,7 @@
   pt-br: O grupo embarcou no <item>.<delay>
   ca: El grup s'embarca a bord de <item>.<delay>
   es: El grupo se embarca a bordo de <item>.<delay>
-  de: Die Gruppe ist in <article><item> eingestiegen.<delay>
+  de: Die Gruppe ist in <acc><item> eingestiegen.<delay>
 
 - offsets: 2311
   indices: 040-2
@@ -8631,7 +8631,7 @@
   pt-br: <player> retirou <article><item>.<delay>
   ca: <player> treu <article><item>.<delay>
   es: <player> saca <article><item>.<delay>
-  de: <player> holt <article><item> raus.<delay>
+  de: <player> holt <acc><item> raus.<delay>
 
 - offsets: 251a,25aa,2651,279d
   indices: 04C-2
@@ -8802,7 +8802,7 @@
   pt-br: Você encontrou <article><item>.<wait>
   ca: Heu trobat <article><item>.<wait>
   es: Habéis encontrado <article><item>.<wait>
-  de: Du hast <article><item> gefunden.<wait>
+  de: Du hast <acc><item> gefunden.<wait>
 
 - offsets: 21d9,22b5
   indices: 070-2
@@ -8873,7 +8873,7 @@
   pt-br: <player> não pode equipar <article><item>.<wait>
   ca: <player> no es pot equipar amb <article><item>.<wait>
   es: <player> no se puede equipar con <article><item>.<wait>
-  de: <player> kann <article><item> nicht anlegen.<delay>
+  de: <player> kann <acc><item> nicht anlegen.<delay>
 
 - offsets: 283e
   indices: 07A-2
@@ -9012,7 +9012,7 @@
   pt-br: Você descartou <article><item>, e<wait>
   ca: Heu llençat <article><item>.<wait>
   es: Habéis tirado <article><item>.<wait>
-  de: Du hast <article><item> weggeworfen<wait>
+  de: Du hast <acc><item> weggeworfen<wait>
 
 - offsets: 297d
   indices: 08E-2
@@ -9025,7 +9025,7 @@
   pt-br: Você obteve <article><item>.<wait>
   ca: Aconseguiu <article><item>.<wait>
   es: Habéis conseguido <article><item>.<wait>
-  de: und <article><item> erhalten.<wait>
+  de: und <acc><item> erhalten.<wait>
 
 - offsets: 2923
   indices: 090-2
@@ -9038,7 +9038,7 @@
   pt-br: Você quer abandonar <article><item>?<end>
   ca: Voleu descartar <article><item>?<end>
   es: ¿Queréis descartar <article><item>?<end>
-  de: Willst du <article><item> aufgeben?<end>
+  de: Willst du <acc><item> aufgeben?<end>
 
 - offsets: 292e
   indices: 092-2
@@ -9051,7 +9051,7 @@
   pt-br: Você abandonou <article><item>.<wait>
   ca: Descarteu <article><item>.<wait>
   es: Habéis descartado <article><item>.<wait>
-  de: Du hast <article><item> zurückgelassen.<wait>
+  de: Du hast <acc><item> zurückgelassen.<wait>
 
 - offsets: 28c3,295d
   indices: 094-2
@@ -9066,7 +9066,7 @@
   pt-br: Você não pode descartar <article><item>!<wait>
   ca: No pots llençar <article><item>!<wait>
   es: ¡No puedes tirar <article><item>!<wait>
-  de: Du kannst <article><item> nicht wegwerfen!<wait>
+  de: Du kannst <acc><item> nicht wegwerfen!<wait>
 
 - offsets: 1ba7,1f2d
   indices: 096-2
@@ -9379,7 +9379,7 @@
   pt-br: Hmm, <article><item>? Que tal <number><internal hint 01> meseta<s>?<end>
   ca: Hmm, <article><item>? Que et sembla <number><internal hint 01> meseta<s>?<end>
   es: Hmm, ¿<article><item>? ¿Qué te parece <number><internal hint 01> meseta<s>?<end>
-  de: Hmm, <article><item>? Dafür kann ich Ihnen <number> Meseta anbieten.<end>
+  de: Hmm, <acc><item>? Dafür kann ich Ihnen <number> Meseta anbieten.<end>
 
 - offsets: 2e66
   indices: 0C6-2
@@ -10490,7 +10490,7 @@
   pt-br: Alguém usou <article><item>.<wait>
   ca: Algú ha emprat <article><item>.<wait>
   es: Alguien ha utilizado <article><item>.<wait>
-  de: Jemand hat <article><item> schon benutzt.<wait>
+  de: Jemand hat <acc><item> schon benutzt.<wait>
 
 - offsets: 58bd
   indices: 152-2

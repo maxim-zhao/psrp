@@ -369,6 +369,11 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
             pass
+        elif tag == "acc":
+            # Accusative (de), no uppercase needed?
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(4)
+            pass
         else:
             raise Exception(f"Ignoring tag \"{match.group(0)}\"")
 
