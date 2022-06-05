@@ -103,15 +103,18 @@
 ; Text between [] is skipped in menus but not in body text
 ; We encode a "type" as a second byte for each type of brackets. The closing ones are always just $63, the game code doesn't need them to be different.
 ; The second byte encodes a bitmask for skipping. This allows us to determine whether the chunk is emitted or not by encoding bitmasks in the script.
-; [] = $01 = %001 = enemy name window/inventory only
-; {} = $02 = %010 = genetive case only
-; () = $04 = %100 = dative or accusative case
+; [] = $01 = %0001 = enemy name window/inventory only
+; {} = $02 = %0010 = genetive case only
+; () = $04 = %0100 = dative or accusative case
+; «» = $08 = %1000 = script window only (regardless of case)
 6201=[
 63=]
 6202={
 63=}
 6204=(
 63=)
+6208=«
+63=»
 
 ; Articles used in the item tables. Note these have trailing spaces.
 64=<Der> 

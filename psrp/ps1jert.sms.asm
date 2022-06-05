@@ -1015,15 +1015,15 @@ _Wait_Clear:
   ld (ARTICLE),a
 .if LANGUAGE == "de"
   ; Set SKIP_BITMASK accordingly
-  ; 1 => 0 (nominative, no brackets wanted)
-  ; 2 => 2 (genitive, select {} brackets)
-  ; 3 => 4 (dative, select () brackets)
-  ; 4 => 4 (accusative, select () brackets)
+  ; 1 => %1000 (nominative, select «» brackets only)
+  ; 2 => %1010 (genitive, select «» and {} brackets)
+  ; 3 => %1100 (dative, select «» and () brackets)
+  ; 4 => %1100 (accusative, select «» and () brackets)
   push hl
   push de
   push af
     ld d,0
-    ld hl,_SkipBitmaskLookup
+    ld hl,_SkipBitmaskLookup - 1 ; index 0 is unused
     ld e,a
     add hl,de
     ld a,(hl)
@@ -1032,7 +1032,7 @@ _Wait_Clear:
   pop de
   pop hl
   jp _Decode
-_SkipBitmaskLookup: .db 0, 0, 2, 4, 4
+_SkipBitmaskLookup: .db %1000, %1010, %1100, %1100
 .else
   ; Select all bracketed parts
   ld a,$ff
@@ -2592,6 +2592,11 @@ Enemies:
 .if LANGUAGE == "de"
 Items:
   ; Max width 20 excluding <...> prefix (with space)
+  ; Characters in [] only get printed in windows (enemy name, inventory, equipped items).
+  ; Those in {} get printed only in the script window, if <item>/<player>/<monster> comes after <gen>.
+  ; Those in () get printed only in the script window, if <item>/<player>/<monster> comes after <dat>.
+  ; Those in «» get printed only in the script window, with no dependence on previous tags.
+
   String " " ; empty item (blank). Must be at least one space.
 ; weapons: 01-0f
   String "<Ein> Holzstock"
@@ -2611,8 +2616,7 @@ Items:
   String "<Eine> Lakoniumaxt"
 ; armour: 10-18
   String "Lederkleidung"
-  ; [] for item list, () for text box
-  String "<Ein> Weiße[r](n) Umhang"
+  String "<Ein> Weiße[r]«n» Umhang"
   String "Leichte Kleidung"
   String "<Eine> Eisenrüstung"
   String "<EinN> Stacheltierfell"
@@ -2653,7 +2657,7 @@ Items:
   String "<Ein> Reisepass"
   String "<Der> Kompass"
   String "<EinN> Törtchen"
-  String "<Der> Brief vom G[eneralg]ouverneur"
+  String "<Der> Brief vom G«eneralg»ouverneur"
   String "<Ein> Lakoniumtopf"
   String "<Das> Lichtamulett"
   String "<Das> Karbunkelauge"
@@ -2665,8 +2669,6 @@ Items:
   String "<EinN> Geheimnis"
 
 Names:
-; Characters within {} only get printed by <players> tag.
-; <player> tag ignores them.
   String "Alisa{s}"
   String "Myau{s}"
   String "Tylon{s}"
@@ -2674,9 +2676,6 @@ Names:
 
 Enemies:
 ; Max width 18 for enemy window, excluding <...> prefix (with space)
-; Characters in [] only get printed in enemy name window.
-; Those in {} get printed if <monster> comes after <gen>.
-; Those in () get printed if <monster> comes after <dat>.
   String " " ; Empty
   String "<Die> Riesenfliege"
   String "<Der> Grünschleim{s}"
@@ -2900,7 +2899,7 @@ inventory:
     di
 .if LANGUAGE == "de"
       ; Select [] brackets only
-      ld a,%001
+      ld a,%0001
 .else
       ; Skip all brackets
       xor a
@@ -2941,7 +2940,7 @@ shop:
 
 .if LANGUAGE == "de"
       ; Select [] brackets only
-      ld a,%001
+      ld a,%0001
 .else
       ; Skip all brackets
       xor a
@@ -2988,7 +2987,7 @@ enemy:
 
 .if LANGUAGE == "de"
     ; Select [] brackets only
-    ld a,%001
+    ld a,%0001
 .else
     ; Skip all brackets
     xor a
@@ -3111,7 +3110,7 @@ equipment:
 
 .if LANGUAGE == "de"
       ; Select [] brackets only
-      ld a,%001
+      ld a,%0001
 .else
       ; Skip all brackets
       xor a
