@@ -5841,8 +5841,8 @@
     Esta villa se llama Sopia. Bienvenido.<wait more>
     Me alegro que hayáis podido atravesar la neblina.<wait>
   de: |
-    This village is called Sopia. Welcome.<wait more>
-    I’m glad you were able to make it through the mist.<wait>
+    Dieses Dorf heißt Sopia.<wait more>
+    Ich bin froh, zu sehen, dass ihr es durch das Giftgas geschafft habt.<wait>
 
 - offsets: 52d6
   # The Village Chief
@@ -5887,9 +5887,9 @@
     A Sopia somos muy pobres. La neblina envenada nos aisla de los otros pueblos.<wait more>
     ¿No nos podríais dar <number><internal hint 01> meseta<s> para ayudarnos?<end>
   de: |
-    I am the chief of this village.<wait more>
-    We in Sopia are very poor. The mist shuts us off from other towns.<wait more>
-    Would you by chance be able to spare <number><internal hint 01> meseta<s> to help us?<end>
+    Ich bin das Dorfoberhaupt.<wait more>
+    Wegen des Giftgases sind wir von anderen Städten abgeschottet, und daher recht arm.<wait more>
+    Könntet ihr euch vielleicht <number> Meseta entbehren, um uns zu helfen?<end>
 
 - offsets: 52e1
   # The Village Chief (no to previous question)
@@ -5906,7 +5906,7 @@
   pt-br: Entendo. Sinto muito em ouvir isso. Ohhh....<wait>
   ca: Ja vec. És una llàstima sentir això. Ohhh...<wait>
   es: Ya veo. Es una lástima oir eso. Ohhh...<wait>
-  de: I see. I’m sorry to hear that. Ohhh...<wait>
+  de: Ich verstehe. Das ist bedauerlich...<wait>
 
 - offsets: 52f2
   # The Village Chief (yes to previous question, but not enough money)
@@ -5923,7 +5923,7 @@
   pt-br: Então você é bem pobre, não é? Tais momentos são tão tristes.<wait>
   ca: Així que també sou pobres, oi? Quins temps més tristos vivim.<wait>
   es: Así que también sois pobre, ¿verdad? Que tiempos más tristes nos ha tocado vivir.<wait>
-  de: So you are poor as well, are you? Such sad times these are.<wait>
+  de: Ihr seid also auch arm? Das sind traurige Zeiten, in denen wir leben...<wait>
 
 - offsets: 5300
   # The Village Chief (yes to previous question)
@@ -5969,9 +5969,9 @@
     ¿Imagino que estáis buscando el Escudo de Perseo? ¿El que usó para matar a Medusa?<wait more>
     La leyenda local dice que se encuentra en una isla en el lago, enterrado bajo un cactus.<wait>
   de: |
-    Thank you. Perhaps I can help you, in return.<wait more>
-    I imagine you’re looking for Perseus’ shield? The one he used to slay Medusa?<wait more>
-    Local legend says it's on the island in the lake, buried under a cactus.<wait>
+    Ich danke euch vielmals. Im Gegenzug möchte ich euch etwas Nützliches erzählen.<wait more>
+    Sicherlich sucht ihr nach dem Schild des Perseus, den er benutzt hat, um Medusa zu töten?<wait more>
+    Legenden zufolge befindet er sich auf der Insel hier im Meer, unter einem Kaktus begraben.<wait>
 
 - offsets: 5306
   # Gamer Miki
@@ -5989,7 +5989,7 @@
   pt-br: Oi, eu sou a Jogadora Miki-chan! Você possui um Master System?<end>
   ca: Hola, sóc la Miki-chan, una gamer! Tens una Master System?<end>
   es: Hola, soy Miki-chan, ¡una gamer! ¿Tienes la Master System?<end>
-  de: Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
+  de: Hi, ich bin Gamer Miki-chan! Habt ihr ein Master System?<end>
 
 - offsets: 530f
   # Gamer Miki (yes to previous question)
@@ -6004,7 +6004,7 @@
   pt-br: Uau! O som FM não é incrível?!<wait>
   ca: Si! No és meravellós el so FM?!<wait>
   es: ¡Si! ¡¿No es maravilloso el sonido FM?!<wait>
-  de: Yay! Isn’t the FM sound amazing?!<wait>
+  de: Toll! Ich auch! Hat eure Konsole auch FM-Sound?<wait>
 
 - offsets: 5314
   # Gamer Miki (no to previous question)
@@ -6035,8 +6035,9 @@
     ¡¿QUÉ?!<wait more>
     ¡que verguenza! ¡Corre a comprar una!<wait>
   de: |
-    WHAT?!<wait more>
-    Shame on you! Hurry up and buy one!<wait>
+    Wie, WAS?!<wait more>
+    Wie spielt ihr dieses Spiel dann? Auf einem Emulator?<wait more>
+    Kauft euch eine echte Konsole! Hmpf!<wait>
 
 - offsets: 531a
   # Villager
@@ -6052,7 +6053,7 @@
   pt-br: Antes do governo opressor de LaShiec, nossa vila tinha muitas riquezas.<wait>
   ca: Abans del opressiu regnat d'en Lashiec, aquesta vila era molt rica.<wait>
   es: Antes del reinado opressivo de Lashiec, esta villa era molt rica.<wait>
-  de: Before LaShiec’s oppressive rule, this village was very wealthy.<wait>
+  de: In Zeiten vor Lashiecs Diktatur war dieses Dorf einst sehr wohlhabend.<wait>
 
 - offsets: 5320
   # Villager
@@ -6071,7 +6072,7 @@
   pt-br: Você conheceu Tajim, o monge? Ele mora nas montanhas ao sul do lago.<wait>
   ca: Heu conegut en Tajim, el monjo? Viu a les muntanyes al sud del llac.<wait>
   es: ¿Habéis conocido a Tajim el monge? Vive en las montañas al sur del lago. <wait>
-  de: Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait>
+  de: Im Gebirge südlich des Meers lebt ein Mönch namens Tajim.<wait>
 
 - offsets: 5326
   # Villager
@@ -6088,7 +6089,7 @@
   pt-br: Ouvi dizer que Palma é um belo planeta. Isso é verdade?<end>
   ca: He sentit a dir que Palma és un planeta molt bonic. És veritat?<end>
   es: He oído decir que Palma es un planeta muy bonito. ¿Es verdad?<end>
-  de: I heard that Palma is a very beautiful planet. Is it true?<end>
+  de: Ich hab gehört, dass Palma ein wunderschöner Planet ist. Stimmt das?<end>
 
 - offsets: 532f
   # Villager (yes to previous question)
@@ -6105,7 +6106,7 @@
   pt-br: Oh, eu queria tanto ir para lá!<wait>
   ca: Oh, em moro de ganes d'anar-hi!<wait>
   es: Oh, ¡me muero de ganas de ir!<wait>
-  de: Oh, I want to go there so bad!<wait>
+  de: Oh, ich würde so gerne mal dort hin!<wait>
 
 - offsets: 5334
   # Villager (no to previous question)
@@ -6124,7 +6125,7 @@
   pt-br: Oh, interessante. Eu iria para qualquer lugar que tenha o ar mais puro.<wait>
   ca: Oh, interessant. Jo només vull anar a un lloc amb l'aire més net.<wait>
   es: Oh, interesante. Yo solo quiero ir a un lugar con el aire más limpio. <wait>
-  de: Oh, interesting. I'd go just about anywhere that has cleaner air.<wait>
+  de: Ach, wirklich? Ich würde gerne mal wohin, wo die Luft sauberer ist als hier.<wait>
 
 - offsets: 5345
   # Villager (no to request for PelorieMate)
@@ -6136,7 +6137,7 @@
   pt-br: Pão-duro!<wait>
   ca: Garrepa!<wait>
   es: ¡Tacaño!<wait>
-  de: Cheapskate!<wait>
+  de: Geizhals!<wait>
 
 
 # ********************
@@ -6173,8 +6174,8 @@
     ¿Y quién sois vosotros?<wait more>
     Mi discípulo, Lutz, está en la cueva de Mahal. ¿Le conoces?<end>
   de: |
-    And who might you people be?<wait more>
-    My pupil, Lutz, is in Mahal Cave. Do you know him?<end>
+    Und wer seid ihr, wenn ich fragen darf?<wait more>
+    Ich habe einen Lehrling namens Lutz. Kennt ihr ihn?<end>
 
 - offsets: 56bc
   # Tajim (yes to previous question)
@@ -6202,9 +6203,7 @@
   es: |
     Le tenéis que comunicar un mensaje de mi parte.<wait more>
     Decidle que venga a verme.<wait>
-  de: |
-    I have something that I must tell him.<wait more>
-    Please tell him to come see me.<wait>
+  de: Ich muss ihm etwas sagen. Könnt ihr ihn herbringen?<wait>
 
 - offsets: 56c1
   # Tajim (no to previous question)
@@ -6221,7 +6220,7 @@
   pt-br: Entendo. Então, não há porque falar com você.<wait>
   ca: Ja vec. Aleshores no té sentit que parli més amb tu.<wait>
   es: Ya veo. Entonces no tiene sentido que sigamos hablando.<wait>
-  de: I see. Then there is no point in talking with you any further.<wait>
+  de: Verstehe. Dann macht euch von dannen.<wait>
 
 - offsets: 56c7
   # Tajim (if you have Lutz)
@@ -6242,7 +6241,7 @@
   pt-br: Ah, Lutz, meu aluno! Vejo que você está finalmente cumprindo seu destino de derrotar LaShiec.<wait>
   ca: Ah, Lutz, el meu deixeble! Vec que finalment estàs complint el teu destí i t'enfrontaràs a en LaShiec.<wait>
   es: Ah, Lutz, ¡mi discípulo! Veo que finalmente estás cumpliendo tu destino y te enfrentarás a Lashiec.<wait>  
-  de: Ah, Lutz, my pupil! I see you are finally fulfilling your destiny to defeat LaShiec.<wait>
+  de: Ah, Lutz, mein Lehrling! Du machst dich endlich auf die Reise, um Lashiec zu stürzen?<wait>
 
 - offsets: 56d3
   # Tajim (if Lutz is dead)
@@ -6262,7 +6261,7 @@
   pt-br: ...Lutz? Oh, entendo, ele morreu. Você aí, vá reviver Lutz em uma igreja e traga-o de volta aqui.<wait>
   ca: ...Lutz? Oh, ja vec, és mort. Vosaltres, aneu a reviure'l a una església i torneu cap aquí.<wait>
   es: ...¿Lutz? Oh, ya veo, está muerto. Vosotros, id a revivirlo a una iglesia y volved aquí.<wait>
-  de: ...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.<wait>
+  de: ...Lutz? Oh, er ist tot. Ihr da, bringt ihn in einer Kirche wieder zum Leben und dann kommt zurück.<wait>
 
 - offsets: 56d9
   # Tajim
@@ -6282,7 +6281,7 @@
   pt-br: Eu te ensinei tudo o que sei. Agora é hora de dar a você um teste final, vamos duelar!<wait>
   ca: "T'he ensenyat tot el que sé. És hora d'una última prova. Un duel contra mí!<wait>"
   es: "Te he enseñado todo lo que sé. Es la hora de una última prueba. ¡Un duelo contra mí!<wait>"
-  de: I've taught you all that I know. It's time to give you one final test - a duel against me!<wait>
+  de: Ich kann dich nichts mehr lehren, also ist es Zeit für deine letzte Prüfung - ein Duell gegen mich!<wait>
 
 - offsets: 5722
   # Tajim (if you win)
@@ -6326,9 +6325,9 @@
     Coge esto. Es una Capa de Fray, mi regalo para tí. Protegirá tu cuerpo de cualquier mal.<wait more>
     ¡Id ahora! ¡Cumplid vuestro destino y traed la paz otra vez a Algol!<wait>
   de: |
-    You have grown strong, my boy! You have all the power you need to complete your task.<wait more>
-    Take this. It’s a Frad Mantle, my gift to you. It will protect your body from harm.<wait more>
-    Now go! Fulfill your destiny and bring peace back to Algol!<wait>
+    Du bist schon viel stärker geworden! So bist du gut vorbereitet.<wait more>
+    Nimm diesen Frahd-Umhang als Geschenk von mir. Er wird dich schützen.<wait more>
+    Nun geh. Verhilf Algol wieder zu Frieden!<wait>
 
 - offsets: 571c
   # Tajim (if you lose)
@@ -6347,7 +6346,7 @@
   pt-br: Você precisa treinar mais, meu rapaz. Volte quando estiver pronto. Estarei esperando.<wait>
   ca: Necessiteu més entrenament, el meu noi. Torneu quan estigueu preparats. Us estaré esperant.<wait>
   es: Necesitáis más entrenamiento, mi chico. Volved cuando estéis preparados. Os estaré esperando.<wait>  
-  de: You need more training, my boy. Come back when you’re ready. I’ll be waiting.<wait>
+  de: Du bist doch noch nicht bereit. Trainiere etwas mehr, und suche mich dann wieder auf.<wait>
 
 - offsets: 56a6
   # Tajim (subsequent visits)
@@ -6362,7 +6361,7 @@
   pt-br: Não tenho mais nada a lhe ensinar. Cumpra seu destino e traga a paz de volta a Algol!<wait>
   ca: No hi ha res més que us pugui ensenyar. Acompliu el vostre destí i porteu la pau altre cop a Algol!<wait>
   es: No hay nada más que os pueda enseñar. ¡Cumplid vuestro destino y traed la paz de nuevo a Algol!<wait>
-  de: There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
+  de: Ich kann dich nichts mehr lehren. Geh nun und verhilf Algol wieder zu Frieden.<wait>
 
 
 # ****************************
