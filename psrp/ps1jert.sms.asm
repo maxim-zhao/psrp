@@ -1031,7 +1031,7 @@ _Wait_Clear:
   pop de
   pop hl
   jp _Decode
-_SkipBitmaskLookup: .db 0, 0, 2, 4
+_SkipBitmaskLookup: .db 0, 0, 2, 4, 4
 .else
   jp _Decode
 .endif
