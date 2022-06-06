@@ -6688,7 +6688,7 @@
   pt-br: Tenha cuidado lá na frente. Você deve virar para a esquerda na bifurcação do caminho.<wait>
   ca: Ves amb compte més endavant. Gira a sa esquerra a la bifurcació.<wait>
   es: Vete con ojo mas alante. Tira a la izquierda en la bifurcación, acho.<wait>
-  de: Be careful up ahead. You should turn left at the fork in the path.<wait>
+  de: Weiter hinten gefährlich wird es. An der Gabelung solltet links abbiegen, ihr, glaubt mir.<wait>
 
 - offsets: 57fd,5803
   # Dezorian
@@ -6705,7 +6705,7 @@
   pt-br: Por que você veio aqui? Fique fora de problemas, está me ouvindo?<wait>
   ca: Per què heu vingut aquí? No us poseu en problemes, em sentiu?<wait>
   es: ¿Por qué habéis venido aquí? No os metáis en problemas, ¿me oís?<wait>
-  de: Why have you come here? Stay out of trouble, hear me?<wait>
+  de: Warum seid hier, ihr? Macht ja keinen Unfug!<wait>
 
 - offsets: # Unused
   indices: 236
@@ -6719,7 +6719,7 @@
   pt-br: Tenho um mau pressentimento sobre isso.<wait>
   ca: Tinc un mal presentiment.<wait>
   es: Tengo un mal presentimiento.<wait>
-  de: I’ve got a bad feeling about this.<wait>
+  de: Ich hab überhaupt kein gutes Gefühl bei der Sache.<wait>
 
 - offsets: 592d
   # Dezorian
@@ -6759,9 +6759,9 @@
     Lord Lashiec teme el cristal de Damoa, el vidente.<wait more>
     Ha de haber un secreto escondido.<wait>
   de: |
-    You didn’t hear this from me, but...<wait more>
-    Lord LaShiec fears the crystal held by Damoa the fortune-teller.<wait more>
-    There must be something secret about it.<wait>
+    Habt nicht gehört das von mir, ihr, aber...<wait more>
+    Fürchtet sich vor dem Kristall, den besitzt der Wahrsager Damoa, König Lashiec.<wait more>
+    Muss haben ein Geheimnis, dieser Kristall.<wait>
 
 - offsets: 5661
   # Torchbearer
@@ -6818,11 +6818,10 @@
     Quizá compartiría un poco a cambio de...<wait more>
     ...un joya de dragón. ¿Que me dices?<end>
   de: |
-    Do you see this flame in my hand? This is the Eclipse Torch.<wait more>
-    This is the sacred fire of the centennial eclipse.<wait more>
-    It’s beautiful, holy, and extremely valuable.<wait more>
-    I might be willing to part with some of it, for, say...<wait more>
-    ...a dragon’s crystal. What do you say?<end>
+    Nennt sich Sonnenfackel, die Flamme, die seht, ihr.<wait more>
+    Alle 100 Jahre zur Sonnen-<line>finsternis wird gezündet, sie.<wait more>
+    Wenn gebt das Juwel eines Drachen mir, könnt abhaben etwas von der Flamme, ihr.<wait more>
+    Was sagt dazu, ihr?<end>
 
 - offsets: 5684
   # Torchbearer (yes to previous question)
@@ -6837,7 +6836,7 @@
   pt-br: Excelente. Aqui está, então.<wait>
   ca: Excel·lent. Aquí ho tens, doncs.<wait>
   es: Excelente. Aquí tienes.<wait>
-  de: Excellent. Here you are, then.<wait>
+  de: Ausgezeichnet. Dann nehmt an die Fackel, ihr.<wait>
 
 - offsets: 566c
   # Torchbearer (no to previous question)
@@ -6852,7 +6851,7 @@
   pt-br: Você não a quer? Então, por que veio até aqui?<wait>
   ca: No en vols? Aleshores perquè has vingut?<wait>
   es: ¿No quieres? ¿Para qué has venido entonces?<wait>
-  de: You don’t want it? Then why have you come here?<wait>
+  de: Wollt nicht sie, ihr? Warum dann seid gekommen hierher, ihr?<wait>
 
 - offsets: 568a
   # Torchbearer (yes to previous question but no Carbuncle Eye)
@@ -6868,7 +6867,7 @@
   pt-br: Você não tem nenhuma joia! Não seja tolo!<wait>
   ca: No tens cap joia! No siguis estúpid!<wait>
   es: ¡No tienes ninguna joya! ¡No seas estúpido!<wait>
-  de: You have no jewel! Don’t be foolish!<wait>
+  de: Habt kein Juwel, ihr! Seid nicht töricht!<wait>
 
 # *************************
 # *** Aeroprism Dungeon ***
