@@ -7454,7 +7454,7 @@
   pt-br: Quando Myau come as Frutas de Laerma, uma febre o domina e uma luz reluzente envolve seu corpo.<wait>
   ca: Quan en Myau mastega els Fruits de Laerma, una febra se'n apodera, i una llum encegadora cobreix el seu cos.<wait>
   es: Cuando Myau mastica los Frutos de Laerma, una fiebre se apodera de él, y una luz cegadora cubre su cuerpo.<wait>
-  de: When Myau chewed the Laerma Berries, a fever swept over him, and a dazzling light engulfed his body.<wait>
+  de: Als Myau auf der Laermabeere rumkaute, wurde ihm heiß, und sein Körper wurde von grellem Licht umhüllt.<wait>
 
 - offsets: 4726
   indices: 176-2
@@ -7489,8 +7489,8 @@
     Y entonces, en un instante, ¡se transforma en una bella bestia con alas enormes!<line><line>
     Myau bate las alas majestuosamente para que todos lo vean.<wait>
   de: |
-    And then, in an instant, he transformed into a beautiful beast with enormous wings!<line><line>
-    Myau proudly flapped his wings for all to see.<wait>
+    Und plötzlich verwandelte er sich in ein geflügeltes, bildschönes, riesiges Tier.<br><br>
+    Stolz stellte Myau seine Flügel für alle zur Schau.<wait>
 
 
 - width: 29
@@ -7513,7 +7513,7 @@
   pt-br: Alisa e os outros foram derrubados de Myau, lá do céu.<wait>
   ca: Alisa i els altres son arrancats d'en Myau, caient al cel.<wait>
   es: Alisa y los otros son arrancados Myau, cayendo al cielo.<wait>
-  de: Alisa and the others were knocked off of Myau, into the sky.<wait>
+  de: Alisa und die anderen fielen von Myaus Rücken hinunter in die Tiefe.<wait>
 
 - offsets: 5597
   indices: 160
@@ -7530,7 +7530,7 @@
   pt-br: Você veio aqui em busca da torre de Baya Marlay?<end>
   ca: Heu vingut aquí buscant la Torre de Baya Malay?<end>
   es: ¿Habéis venido aquí buscando la Torre de Baya Malay?<end>
-  de: Did you come here seeking Baya Marlay tower?<end>
+  de: Seid ihr hier im Wissen um den Turm auf dem Baya Marlay?<end>
 
 - offsets: 55a0
   # (yes to previous question)
@@ -7547,7 +7547,7 @@
   pt-br: Então você será destruído!<wait>
   ca: Aleshores sereu destruïts!<wait>
   es: ¡Entonces seréis destruídos!<wait>
-  de: Then you will be destroyed!<wait>
+  de: Ihr werdet zweifelsohne den Zorn des Himmels auf euch ziehen!<wait>
 
 - offsets: 55a5
   # (no to previous question)
@@ -7596,7 +7596,7 @@
   pt-br: Há mais do que seus olhos podem ver neste calabouço, tolos.<wait>
   ca: En aquesta masmorra hi ha més del que els vostres ulls poden veure , ximples.<wait>
   es: En esta mazmorra hay más de lo que vuestros ojos pueden ver, imbéciles. <wait>
-  de: There is more than meets the eye in this dungeon, fools.<wait>
+  de: Traut nicht nur euren eigenen Augen in Kerkern.<wait>
 
 - offsets: 5367
   # Old Man
@@ -7611,7 +7611,7 @@
   pt-br: Desafie o Rei LaShiec por sua conta e risco.<wait>
   ca: Desafieu al Rei Lashiec pel vostre risc i ventura.<wait>
   es: Desafias al Rey Lashiec por vuestra cuenta y riesgo.<wait>
-  de: Defy King LaShiec at your peril.<wait>
+  de: Ihr seid Narren, König Lashiec die Stirn zu bieten!<wait>
 
 - offsets: 5738
   # Shadow Warrior
@@ -7635,7 +7635,9 @@
   pt-br: Eu sei porque está aqui. Tenho observado você de perto. Sua jornada patética termina aqui.<wait>
   ca: Sé per que sou aquí. Us he estat vigilant atentament. El vostre patètic viatge acaba aquí.<wait>
   es: Sé por qué estáis aquí. Os he estado vigilando atentamente. Vuestro patético viaje acaba aquí.<wait>
-  de: I know why you’re here. I’ve been watching you closely. Your pathetic journey ends here.<wait>
+  de: |
+    Ich habe euch bei all euren Taten beobachtet.<wait more>
+    Kommt! Eure sinnlose Reise endet hier.<wait>
 
 - offsets: 5749
   # Shadow Warrior
@@ -7669,8 +7671,8 @@
     Yo solo soy un guerrero a la sombra de Lashiec. No habéis conseguido nada derrotándome<wait more>
     El Rey Lashiec no puede morir. Su poder desafía el intelecto. Habéis llegado aquí solo para morir.<wait>
   de: |
-    I am merely LaShiec’s shadow warrior. You’ve gained nothing by defeating me.<wait more>
-    King LaShiec can't be killed. His power defies comprehension. You have come here to die.<wait>
+    Ich bin lediglich König Lashiecs Double! Mein Tod bringt euch keinen Nutzen.<wait more>
+    König Lashiecs Macht ist jenseits eurer Vorstellung. Ihr werdet alle sterben! Hahahaha...<wait>
 
 - offsets: 576a
   # LaShiec
@@ -7716,9 +7718,10 @@
     Aquellos a loss que sirvo me han concedido la immortalidad. Mi poder ya no tiene límites. Soy un Dios.<wait more>
     ¿Y que tenéis vosotros? ¿Armas? ¿Mágia? ¿De verdad creeis que me podéis derrotar?<end>
   de: |
-    Ah, it’s you. You've finally arrived. How accomplished you must feel.<wait more>
-    Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
-    And you have what? Weapons? Magic? Did you really hope to defeat me?<end>
+    Endlich habt ihr es geschafft. Ihr könnt euch glücklich schätzen, heute vor mir zu stehen.<wait more>
+    Die, denen ich diene, haben mich unsterblich gemacht. Meine Macht kennt keine Grenzen mehr.<wait more>
+    Und was habt ihr im Vergleich? Schwerter? Magie?<wait more>
+    Denkt ihr wirklich, ihr könnt mich besiegen?<end>
 
 - offsets: 5773
   # LaShiec (yes to previous question)
@@ -7740,7 +7743,8 @@
   pt-br: Então, espero que você seja um sacrifício digno.<wait>
   ca: Aleshores esperem que sigueu un digne sacrifici.<wait>
   es: Entonces esperemos que seaís un digno sacrificio.<wait>
-  de: Then let us hope you will be a worthy sacrifice.<wait>
+  de: Gut. Dann lasst euch zeigen, wie falsch ihr gedacht habt!<wait>
+    
 
 - offsets: 5778
   # LaShiec (no to previous question)
@@ -7756,7 +7760,7 @@
   pt-br: Não tenho tempo para brincadeiras! Venha, deixe-me mostrar o que está além desta vida.<wait>
   ca: No tinc temps per jocs! Veniu, us mostraré que hi ha més enllà de la vida.<wait>
   es: ¡No tengo tiempo para juegos! Acercáros, os enseñaré que hay más allá de la vida.<wait>
-  de: I’ve no time for games! Come, let me show you what lies beyond this life.<wait>
+  de: Ich habe keine Zeit für eure Spielchen! Kommt, ich zeige euch das Jenseits.<wait>
 
 - offsets: 5789
   # (Defeat LaShiec)
@@ -7796,9 +7800,9 @@
     Lashiec ha caído. El último deseo de Nero se ha cumplido. Una nueva era empieza para Algol.<wait more>
     ¡Solo nos queda ir a ver al Gobernador General en Paseo!<wait>
   de: |
-    You may have destroyed this body, but I can never truly die! I shall live again!<line><line><line><line><wait more>
-    Lord LaShiec has fallen. Nero’s dying wish was granted. A new era has begun in Algol.<wait more>
-    The only thing left to do is return to the Governor-General in Paseo!<wait>
+    König Lashiec ist tot.<wait more>
+    Alisa hat ihre Aufgabe und somit auch Neros Sterbens-<line>wunsch erfüllt. Ein neues Zeitalter kann nun beginnen.<wait more>
+    Alles, was jetzt noch zu tun ist, ist, dem General-<line>gouverneur in Paseo davon zu berichten!<wait>
 
 - offsets: # Unreachable?
   indices: 27c
