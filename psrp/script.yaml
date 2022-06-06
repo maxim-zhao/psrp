@@ -7007,7 +7007,9 @@
   pt-br: Você veio me ajudar a escapar?<wait>
   ca: Heu vingut per ajudar-me a escapar?<wait>
   es: ¿Habéis venido para ayudarme a escapar?<wait>
-  de: Did you come to help me escape?<wait>
+  de: |
+    Seid ihr gekommen, um mich zu befreien?<wait more>
+    Welchen Zweck hat das jetzt noch...<wait>
 
 - offsets: 55fb
   # Prisoner
@@ -7026,7 +7028,7 @@
   pt-br: Derrotar LaShiec? Isso é impossível. Você não pode matar um homem imortal.<wait>
   ca: Destruir en Lashiec? Això és impossible. No pots matar el que no pot morir.<wait>
   es: ¿Destruir a Lashiec? Eso es imposible. No puedes matar lo que no puede morir.<wait>
-  de: Destroy LaShiec? That’s impossible. You can’t kill one who cannot die.<wait>
+  de: Lashiec töten? Aber wie soll man etwas töten, das nicht sterben kann?<wait>
 
 - offsets: 5601
   # Prisoner
@@ -7041,7 +7043,7 @@
   pt-br: Nós todos vamos acabar como sacrifícios para LaShiec!<wait>
   ca: Acabarem tots essent sacrificats a Lashiec!<wait>
   es: ¡Todos seremos sacrificados a Lashiec!<wait>
-  de: We’re all going to end up as sacrifices for LaShiec!<wait>
+  de: Wir werden alle für Lashiec geopfert werden!<wait>
 
 - offsets: 582d
   # Prisoner
@@ -7056,7 +7058,7 @@
   pt-br: Você conseguiu a armadura em Guaran?<end>
   ca: Heu conseguit l'armadura a Guaran?<end>
   es: ¿Habéis conseguido la armadura en Guaran?<end>
-  de: Did you get the armor in Guaran?<end>
+  de: Habt ihr die Rüstung in Guaran gefunden?<end>
 
 - offsets: 583b
   # Prisoner (no to previous question)
@@ -7072,7 +7074,7 @@
   pt-br: Você pode encontrá-la do outro lado de uma armadilha.<wait>
   ca: La podeu trobar a l'altra banda d'una trampa.<wait>
   es: La podéis encontrar al otro lado de una trampa.<wait>
-  de: You can find it on the other side of a pitfall.<wait>
+  de: Sie ist jenseits einer Falltür.<wait>
 
 - offsets: 5836
   # Prisoner (yes to previous question)
@@ -7087,7 +7089,7 @@
   pt-br: Uau, você é incrível!<wait>
   ca: Guau, sou increïbles!<wait>
   es: Guau, ¡sois increíbles!<wait>
-  de: Wow, you’re amazing!<wait>
+  de: Wow, großartig!<wait>
 
 - offsets: 5607
   # Prisoner
@@ -7117,8 +7119,8 @@
     Lashiec es más peligroso de lo que la gente cree.<wait more>
     Aquellos que lo han desafiado han acabado con sus almas consumidas por su mágia!<wait>
   de: |
-    LaShiec’s more dangerous than most people realize.<wait more>
-    Those who have challenged him have had their souls taken by his magic!<wait>
+    Lashiec ist gefährlicher als ihr denkt.<wait more>
+    Er hat jedem, der ihn heraus-<line>gefordert hat, die Seele geraubt!<wait>
 
 - offsets: 560d
   # Prisoner
@@ -7141,7 +7143,7 @@
   pt-br: Há uma torre no topo da colina de Baya Marlay. Eu me pergunto que segredos se encontram lá dentro?<wait>
   ca: Hi ha una torre al capdamunt del monticle de Baya Marlay. Em pregunto quins secrets deu guardar?<wait>
   es: Hay una torre en la cima de la colina de Baya Marlay, ¿Me pregunto que secretos debe guardar?<wait>
-  de: There’s a tower on top of the knoll of Baya Marlay. I wonder what secrets lie within?<wait>
+  de: Auf der Spitze des Baya Marlay steht ein Turm. Ich frage mich, was dort drin versteckt wird.<wait>
 
 - offsets: 5613
   # Prisoner
@@ -7156,7 +7158,7 @@
   pt-br: Se eu fosse você, não iria mais longe. Há um guarda lá na frente.<wait>
   ca: Millor que no continueu per aquí. Hi ha un guàrdia més endavant.<wait>
   es: Mejor que no continuéis por aquí. Hay un guárdia más adelante.<wait>
-  de: You’d better not go any further, there’s a security guard up ahead.<wait>
+  de: Geht besser nicht weiter. Da hinten steht ein Wächter.<wait>
 
 - offsets: 55c5
   # Robot Police (yes to previous question, have one)
@@ -7187,8 +7189,10 @@
     Esto es una falsificación. ¿De donde la habéis sacado?<wait more>
     Bien, habéis venido al mejor lugar para que os encerremos. Venid conmigo.<wait>
   de: |
-    This is a fake. Where did you get this?<wait more>
-    Well, you certainly picked the right place to get locked up. Come with me.<wait>
+    Dann zeigen Sie mal...<wait more>
+    Der Pass ist gefälscht. Wo haben Sie den her?<wait more>
+    Sie dachten wohl, ein Roboter würde den Unterschied nicht merken.<wait more>
+    Wenigstens sind Sie am richtigen Ort, um sich einsperren zu lassen.<line>Kommen Sie mit.<wait>
 
 - offsets: 5619
   # Prisoner
@@ -7226,9 +7230,9 @@
     Seguro que hay una manera de huir. ¿Peró para qué?<wait more>
     La vida es mucho más fácil aquí.<wait>
   de: |
-    Oh, so you are confined in here as well. How sad.<wait more>
-    Sure, there’s a way out of here. But what’s the point?<wait more>
-    Life is so much less complicated here.<wait>
+    Oh, ihr wurdet also auch eingesperrt?<wait more>
+    Klar gibt es einen Ausgang, aber wozu die Mühe?<wait more>
+    Das Leben als Gefangener ist doch so viel weniger schwierig...<wait>
 
 
 # *************************
@@ -7264,8 +7268,8 @@
     Soy Damoa, ¡el mejor vidente del mundo!<wait more>
     ¿Creéis en mis poderes de adivinación?<end>
   de: |
-    I am Damoa, the greatest fortune-teller in the world!<wait more>
-    Do you believe in my powers of divination?<end>
+    Ich bin Damoa, der größte Wahrsager der Welt!<wait more>
+    Glaubt ihr meinen Prophezeiungen?<end>
 
 - offsets: 5541,5552,5563
   # (yes to previous question)
@@ -7278,7 +7282,7 @@
   pt-br: Bom. Muito bom.<wait>
   ca: Bé. Molt bé.<wait>
   es: Bien. Muy bien.<wait>
-  de: Good. Good.<wait>
+  de: Gut, gut.<wait>
 
 - offsets: 5547
   indices: 150
@@ -7292,7 +7296,7 @@
   pt-br: Sinto que você está procurando por algo, né?<end>
   ca: Crec que esteu buscant quelcom, oi?<end>
   es: Creo que estáis buscando algo, ¿verdad?<end>
-  de: I sense that you are searching for something, yes?<end>
+  de: Ich spüre, dass ihr etwas sucht. Liege ich richtig?<end>
 
 - offsets: 553b
   # (no to previous question)
@@ -7307,7 +7311,7 @@
   pt-br: O que você disse? Que atrevimento! Saia daqui!<wait>
   ca: Que heu dit? Que descarats! Aneu-vos-en d'aquí!<wait>
   es: ¿Que habéis dicho? ¡Que descaro! ¡Iros de aquí!<wait>
-  de: What did you say? Such impudence! Leave at once!<wait>
+  de: Wie bitte? So eine Unverschämtheit! Verlasst meinen Saal!<wait>
 
 - offsets: 5558
   indices: 154
@@ -7321,7 +7325,7 @@
   pt-br: Sinto que você está procurando Alex Ossale, né?<end>
   ca: Presenteixo que busqueu en Alex Ossale, oi?<end>
   es: Presiento que buscáis a Alex Ossale, ¿verdad?<end>
-  de: I sense that you are looking for Alex Ossale, yes?<end>
+  de: Ich spüre, dass ihr nach Alex Ossale sucht. Liege ich richtig?<end>
 
 - offsets: 5569
   indices: 156
@@ -7335,7 +7339,7 @@
   pt-br: Tudo o que eu digo é correto. Entendeu?<end>
   ca: Tot el que dic és cert. Enteneu?<end>
   es: Todo lo que digo es cierto. ¿Entendido?<end>
-  de: Everything I say is correct. Understood?<end>
+  de: Alles, was ich gesagt habe, ist wahr. Verstanden?<end>
 
 - offsets: 5574
   # (no to previous two questions, or yes to last question)
@@ -7350,7 +7354,7 @@
   pt-br: Então talvez você deva voltar mais tarde.<wait>
   ca: Aleshores potser haureu de tornar més tard.<wait>
   es: Entonces quizás habréis de venir más tarde.<wait>
-  de: Then perhaps you should come back later.<wait>
+  de: Dann kommt bald wieder.<wait>
 
 - offsets: 557a
   indices: 15A
@@ -7364,7 +7368,7 @@
   pt-br: Você me desafia?<end>
   ca: Que em desafieu?<end>
   es: ¿Me desafiáis?<end>
-  de: Do you defy me?<end>
+  de: Ihr trotzt mir?!<end>
 
 - offsets: 5585
   # (no to final question)
@@ -7387,7 +7391,7 @@
   pt-br: Então é isso? Que bom! Você mostra um compromisso considerável. Vou recompensá-lo com este cristal.<wait>
   ca: Llavors ja està? Molt bé! Mostreu un gran compromís. Us obsequiaré amb aquest cristall.<wait>
   es: ¿Entonces ya está? ¡Muy bien! Mostráis un gran compromíso. Os regalaré este cristal.<wait>
-  de: Is that so? Good! You show considerable promise. I shall reward you with this crystal.<wait>
+  de: Nein? Sehr gut! Ihr gefallt mir. Als Anerkennung gebe ich euch diesen Kristall.<wait>
 
 - offsets: 2711
   # (Use Aeroprism)
@@ -7406,7 +7410,7 @@
   pt-br: O Castelo Aéreo foi revelado.<wait>
   ca: El castell volador es revelat.<wait>
   es: El castillo volador ha sido revelado.<wait>
-  de: The Aerocastle was revealed.<wait>
+  de: Das geisterhafte Luftschloss kam im Himmel zum Vorschein.<wait>
 
 - offsets: 2752
   # (Use Laerma Berries)
@@ -7423,7 +7427,7 @@
   pt-br: Myau comeu as Frutas de Laerma.<wait>
   ca: Myau es menja els Fruits de Laerma.<wait>
   es: Myau se comen los Frutos de Laerma.<wait>
-  de: Myau ate the Laerma Berries.<wait>
+  de: Myau isst eine Laermabeere.<wait>
 
 # *****************************
 # *** Myau’s Transformation ***
