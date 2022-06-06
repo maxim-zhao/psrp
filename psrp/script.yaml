@@ -6376,6 +6376,7 @@
 # [Paul Jensen]
 # In catalan version, Honest Dezorians speak western dialect, and the liars Majorcan
 # In spanish version, Honest Dezorian speaks like galician, and the liars like people from Murcia
+# In German, honest Dezorians use VOS sentence structure while liars use OVS.
 - offsets: 5274
   # Honest Dezorian
   indices: 1C8
@@ -6395,7 +6396,7 @@
   pt-br: Eu não confiaria em ninguém na vila vizinha... mentirosos patológicos, eles são.<wait>
   ca: No te'n refios de ningú del poble del costat...uns ensarronadors que són.<wait>
   es: No te fies un carallo de los del pueblo del nado...unos mentireiros són.<wait>
-  de: I wouldn’t trust anyone in the neighboring village... pathological liars, they are.<wait>
+  de: Würde niemandem vom Dorf nebenan vertrauen, ich. Sind alles Lügner, die.<wait>
 
 - offsets: 527a
   # Honest Dezorian
@@ -6418,7 +6419,7 @@
   pt-br: A Torre Corona fica do outro lado das montanhas, ao norte, fica sim.<wait>
   ca: La Torre de Corona és a lo altre costat de les montanyes del nord.<wait>
   es: La Torre de Corona está al outro lado de las montañas do norte.<wait>
-  de: Corona Tower is on the other side of the mountains to the north, it is.<wait>
+  de: Liegt auf der anderen Seite des Gebirges im Norden, der Korona-Turm.<wait>
 
 - offsets: 5280
   # Honest Dezorian
@@ -6442,7 +6443,9 @@
   pt-br: A Caverna de Dezoris fica a oeste da Torre Corona. Diga oi para nossos amigos lá, diga sim!<wait>
   ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola a los nostres amics allà!<wait>
   es: La cueva de Dezoris está al oeste de la Torre de Corona. ¡Saluda a noso amigos!<wait>
-  de: Dezoris Cave is west of Corona Tower, it is. Say hi to our friends there, you must!<wait>
+  de: |
+    Ist westlich vom Korona-Turm, die Dezoris-Höhle.<wait more>
+    Wenn seht meine Freunde, ihr, von mir grüßt sie, ja?<wait>
 
 - offsets: 5286
   # Honest Dezorian
@@ -6487,9 +6490,9 @@
     Se llama froita de Laerma, y són muy buenos.<wait more>
     Pero si no los pones en olla de Laconia se esmirrían.<wait>
   de: |
-    Laerma trees bear strange fruits, they do.<wait more>
-    They’re called Laerma Berries, and real tasty, they are.<wait more>
-    But unless you put them in a Laconian Pot they shrivel, they do.<wait>
+    Tragen seltene Früchte, Laermabäume.<wait more>
+    Werden genannt Laermabeeren, und sind sehr köstlich, die.<wait more>
+    Aber wenn nicht lagert in einem Lakoniumtopf, sie, dann trocknen aus, sie.<wait>
 
 - offsets: 528c
   # Honest Dezorian
@@ -6504,7 +6507,7 @@
   pt-br: Ouviu falar de uma coisa chamada Aeroprisma, já ouviu?<end>
   ca: Has sentit dir d'una andròmina que es diu Aeroprisma?<end>
   es: ¿Has oído falar de un trasto llamado Aeroprisma?<end>
-  de: Heard of something called an Aeroprism, have you?<end>
+  de: Schon habt gehört vom Aeroprisma, ihr?<end>
 
 - offsets: 529a
   # Honest Dezorian (no to previous question)
@@ -6519,7 +6522,7 @@
   pt-br: Ouvi dizer que você pode ver outros mundos com um, você pode.<wait>
   ca: He sentit a dir que pots vore altres mons amb un d'allonses.<wait>
   es: He oído que pues ver outros mundos con uno.<wait>
-  de: I hear you can see other worlds with one, you can.<wait>
+  de: Habe gehört, ich, dass kann sehen andere Welten damit, man.<wait>
 
 - offsets: 5295
   # Honest Dezorian (yes to previous question)
@@ -6534,7 +6537,7 @@
   pt-br: Eu realmente gostaria de olhar para um deles alguma hora, eu gostaria.<wait>
   ca: M'agradaria guaitar-hi un dia.<wait>
   es: Me gostaria mirarlo un dia.<wait>
-  de: I’d really like to look into one sometime, I would.<wait>
+  de: Würde gerne einmal schauen durch eins, ich.<wait>
 
 - offsets: 52a0
   # Honest Dezorian
@@ -6549,7 +6552,7 @@
   pt-br: Todo mundo aqui odeia Palmanos, nós odiamos.<wait>
   ca: No en volem saber re, dels de Palma!.<wait>
   es: ¡No queremos un carallo de los de Palma!.<wait>
-  de: Everyone here hates Palmans, we do.<wait>
+  de: Hassen Palmaner, wir alle.<wait>
 
 - offsets: 52a6
   # Dishonest Dezorian
@@ -6568,7 +6571,7 @@
   pt-br: A Fonte da Juventude está dentro da Torre Corona. Eu juro!<wait>
   ca: Sa Font de sa Joventut és dintre sa Torre de sa Corona. T'ho juro!<wait>
   es: La Fuente de la Juventú está en la Torre de la Corona. ¡Acho!<wait>
-  de: The Fountain of Youth is inside Corona Tower. Cross my heart!<wait>
+  de: Im Korona-Turm, einen Jungbrunnen es gibt, jawohl.<wait>
 
 - offsets: 52b2
   # Dishonest Dezorian
@@ -6590,7 +6593,7 @@
   pt-br: Há uma passagem secreta no décimo nível subterrâneo na Caverna de Dezóris. Não estou brincando!<wait>
   ca: Hi ha un passatge secret al desè nivell de sa caverna de Dezoris. No t'ensarrono!<wait>
   es: Hay un pasaje secreto en el desimo nivel de la caverna de Dezoris. ¡Bonico!<wait>
-  de: There's a warp on the tenth underground level of Dezoris Cave. No joke!<wait>
+  de: Im zehnten Untergeschoss der Dezoris-Höhle, einen Teleporter kann finden, man, genau.<wait>
 
 - offsets: 52b8
   # Dishonest Dezorian
@@ -6611,7 +6614,7 @@
   pt-br: As Frutas de Laerma são azuis, e as usamos para tingir as nossas roupas. Pura verdade!<wait>
   ca: Es fruits de Laerma són blaus, i tenyeix la roba amb ells.<wait>
   es: Los frutos de Laerma son azules, y tiño la ropa con ellos, acho.<wait>
-  de: Laerma Berries are blue, and we use them to dye our clothes. It's true!<wait>
+  de: Blau gefärbt sind Laermabeeren. Als Farbstoff, sie benutzen wir, ist so.<wait>
 
 - offsets: 52be
   # Dishonest Dezorian
@@ -6632,7 +6635,7 @@
   pt-br: Você pode usar um cristal para fazer as frutas crescerem em uma árvore Laerma. Pode apostar!<wait>
   ca: Pots emprar un cristall per fer créixer fruit a un arbre de Laerma.<wait>
   es: Puedes usar un cristal para hacer creser un fruto de un arbol de Laerma, pijo.<wait>
-  de: You can use a crystal to make berries grow on a Laerma tree. You betcha!<wait>
+  de: Wenn einen Kristall vor einen Laermabaum hält, man, dann Laermabeeren wachsen, kein Scherz!<wait>
 
 - offsets: 52c4
   # Dishonest Dezorian
@@ -6650,7 +6653,7 @@
   pt-br: Esta vila acolhe bem todos os Palmanos. Sério!<wait>
   ca: Tots es de Palma son benvenguts aquí. De veritat!<wait>
   es: Todos los de Palma sois bienvenidos aquí, ¡acho!<wait>
-  de: This village welcomes all Palmans. Seriously!<wait>
+  de: In diesem Dorf sind willkommen, Palmaner, freilich.<wait>
 
 - offsets: DishonestDezorianFix
   # Dishonest Dezorian
@@ -6662,7 +6665,7 @@
   pt-br: Esses caras na outra vila são todos mentirosos. Fato!<wait>
   ca: Es del poble de la vora són uns entabanadors.<wait>
   es: Los del pueblo del lado son unos liantes, bonico.<wait>
-  de: The neighboring villagers lie. Really!<wait>
+  de: Lügen alle, unsere Nachbarn, alles wahr.<wait>
 
 # ********************
 # *** Corona Tower ***
