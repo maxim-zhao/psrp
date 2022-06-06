@@ -6907,9 +6907,9 @@
     Por favor, contadnos que os parece este juego. Queremso oír vuestras opiniones.<wait more>
     Os daré un consejo. Id al lugar más elevado de Palma, y ¡mostrad el Aeroprisma al cielo!<wait>
   de: |
-    I’m Otegami Chie-chan, from Sega! Thanks for all your letters.<wait more>
-    Please tell us what you think of this game. We’re eager to hear from you.<wait more>
-    Here's a tip - go to the highest point in Palma, and raise the Aeroprism to the sky!<wait>
+    Ich bin's, Otegami Chie-chan! Vielen Dank für all eure Briefe!<wait more>
+    Lasst uns wissen, was ihr von der deutschen Neuübersetzung haltet. Wir würden gerne von euch hören.<wait more>
+    Oh, und als kleiner Tipp... Geht zur höchsten Stelle in ganz Palma und haltet das Aeroprisma in die Luft!<wait>
 
 
 # *************************
@@ -6932,7 +6932,7 @@
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
   es: <player> levanta <article><item> hacia el cielo.<delay>
-  de: <player> held <acc><item> up towards the sky.<delay>
+  de: <player> hält <acc><item> hoch.<delay>
 
 - offsets: 26d0
   # <player>ハ ラエルマベリーヲ トッテ<line>
@@ -6949,7 +6949,7 @@
   pt-br: <player> pegou algumas Frutas de Laerma e colocou no Pote de Lacônia.<wait>
   ca: <player> agafa alguns Fruits de Laerma i els posa a l'olla de Laconia.<wait>
   es: <player> coge algunos Frutos de Laerma y los pone en la olla de Laconia.<wait>
-  de: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
+  de: <player> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
 
 - offsets: 26c4
   # If no Laconian Pot...
@@ -6967,7 +6967,7 @@
   pt-br: As Frutas de Laerma murcharam logo após serem colhidas.<wait>
   ca: <player> agafa alguns Fruits de Laerma, però s'encongeixen immediatament!<wait>
   es: <player> coge algunos Frutos de Laerma, ¡peró se encongen immediatamente!<wait>
-  de: <player> picked up some Laerma Berries, but they shriveled up immediately!<wait>
+  de: <player> pflückt ein paar Laermabeeren, aber sie trocknen sofort aus.<wait>
 
 
 # *******************
@@ -6986,7 +6986,7 @@
   pt-br: Agora seria uma boa hora para dar a volta e ir para casa.<wait>
   ca: Ara seria un bon moment per girar cua i tornar a casa.<wait>
   es: Ahora seria un bueno momento para dar media vuelta y volver a casa.<wait>
-  de: Now would be a good time to turn around and go home.<wait>
+  de: Wenn ihr kehrtmachen wollt, tut es am besten jetzt.<wait>
 
 # **************************
 # *** Baya Mahrey Prison ***
