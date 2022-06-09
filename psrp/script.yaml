@@ -444,7 +444,7 @@
     Si mai estàs ferida, torna per recuperar-te.<wait more>
     Hem estat veïns durant molt de temps, la meva casa sempre estarà oberta per a tu.<wait>
   es: |
-    Alisa... enfrentarse a Lashiec es una locura. Pero se lo obstinada y tozuda que puedes ser.<wait more>
+    Alisa... enfrentarse a Lashiec es una locura. Pero sé lo obstinada y tozuda que puedes ser.<wait more>
     No gastaré palabras convenciéndote, solo...vé con cuidado.<wait more>
     Si alguna vez estás herida, vuelve para descansar.<wait more>
     Hemos sido vecinos durante mucho tiempo, mi casa siempre estará abierta para tí.<wait>
@@ -597,7 +597,7 @@
   fr: Tu auras besoin de la Clé du Donjon si tu veux ouvrir les portes.<wait>
   pt-br: Você vai precisar de uma Chave do Calabouço se quiser abrir as portas trancadas de alguns calabouços.<wait>
   ca: Algunes masmorres tenen portes barrades. Necessitaràs una Clau de Masmorra per obrir-les.<wait>
-  es: Algunas mazmorras tienen puertas bloqueadas. Necesitaráss una Llave de Mazmorra per abrirlas.<wait>
+  es: Algunas mazmorras tienen puertas bloqueadas. Necesitarás una Llave de Mazmorra per abrirlas.<wait>
 
 - offsets: 4b8e
   # Camineet resident - man
@@ -1274,7 +1274,7 @@
   fr: Je ne sais pas de quoi vous parlez. Je tiens un honnête commerce ici, moi_!<wait>
   pt-br: Não sei quem você pensa que é, mas não vendemos esse tipo de coisa aqui. Pode esquecer.<wait>
   ca: No se qui et penses que ets, però no venem aquestes coses aquí. Oblida't d'això.<wait>
-  es: No se quien te crees que eres, pero no vendemos estas cosas aquí. Olvídate de ello.<wait>
+  es: No sé quien te crees que eres, pero no vendemos estas cosas aquí. Olvídate de ello.<wait>
 
 - offsets: 2db0
   # Trader (second time you buy the Secret Thing)
