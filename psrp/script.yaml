@@ -366,7 +366,7 @@
   es: |
     Nero...<wait more>
     Tu muerte no será en vano, te lo prometo.<line><line>
-    No dejaré que los monstruos se apoderen de nuestra casa.<wait more>
+    No dejaré que los monstruos se apoderen de nuestro hogar.<wait more>
     Sé mi ángel de la guarda, hermano mayor.<line><line>
     Con tu espíritu a mi lado, Lashiec no tiene ninguna posibilidad.<wait>
   de: |
@@ -477,7 +477,7 @@
     Si mai estàs ferida, torna per recuperar-te.<wait more>
     Hem estat veïns durant molt de temps, la meva casa sempre estarà oberta per a tu.<wait>
   es: |
-    Alisa... enfrentarse a Lashiec es una locura. Pero se lo obstinada y tozuda que puedes ser.<wait more>
+    Alisa... enfrentarse a Lashiec es una locura. Pero sé lo obstinada y tozuda que puedes ser.<wait more>
     No gastaré palabras convenciéndote, solo...vé con cuidado.<wait more>
     Si alguna vez estás herida, vuelve para descansar.<wait more>
     Hemos sido vecinos durante mucho tiempo, mi casa siempre estará abierta para tí.<wait>
@@ -566,6 +566,7 @@
     A última vez que ouvi, ele estava hospedado em uma cidade chamada Shion. Talvez ele ainda esteja por perto.<wait more>
     Seu irmão também me pediu para manter este Pote de Lacônia seguro.<wait more>
     Ele é muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
+
   ca: |
     Em diuen Nekise.<line><line>
     T'acompanyo en el sentiment.<wait more>
@@ -650,7 +651,7 @@
   fr: Tu auras besoin de la Clé du Donjon si tu veux ouvrir les portes.<wait>
   pt-br: Você vai precisar de uma Chave do Calabouço se quiser abrir as portas trancadas de alguns calabouços.<wait>
   ca: Algunes masmorres tenen portes barrades. Necessitaràs una Clau de Masmorra per obrir-les.<wait>
-  es: Algunas mazmorras tienen puertas bloqueadas. Necesitaráss una Llave de Mazmorra per abrirlas.<wait>
+  es: Algunas mazmorras tienen puertas bloqueadas. Necesitarás una Llave de Mazmorra per abrirlas.<wait>
   de: Um verschlossene Türen zu öffnen, braucht man einen Kerkerschlüssel.<wait>
 
 - offsets: 4b8e
@@ -669,7 +670,7 @@
   fr: Certains donjons sont totalement obscurs, tu auras besoin de lumière.<wait>
   pt-br: Alguns calabouços são muito escuros, certifique-se de ter sempre uma fonte de luz com você.<wait>
   ca: Algunes masmorres son totalment fosques, porta sempre un llum a sobre.<wait>
-  es: Algunas mazmorras están totalmente a oscuras, lleva siempre una luz encima.<wait> 
+  es: Algunas mazmorras están totalmente a oscuras, lleva siempre una luz encima.<wait>  
   de: In manchen Höhlen ist es stockduster. Man sollte immer eine Lampe parat haben.<wait>  
 
 - offsets: 4b94
@@ -2468,6 +2469,7 @@
   pt-br: |
     Não me surpreenderia se o Governador-Geral de Motávia aprovasse o que você está fazendo.<wait more>
     Ele pode até mesmo ser capaz de ajudá-lo em sua jornada. Você já falou com ele?<wait>
+
   ca: |
     No em sorprendria que al Governador General de Motavia li semblés bé el que fas.<wait more>
     Potser fins i tot et podria ajudar en la teva cerca. Has parlat amb ell?<wait>
@@ -3575,7 +3577,7 @@
   translated: Do you know of a robot called ‘Hapsby’?
   us: |
     DO YOU KNOW THE <line>
-    ROBOT HAPSBY?<prompt>
+    ROBOT Hapsby?<prompt>
   en: Have you heard of Hapsby the robot?<end>
   fr: Avez-vous entendu parler du robot Hapsby_?<end>
   pt-br: Você já ouviu falar de Hapsby, o robô?<end>
@@ -6488,7 +6490,7 @@
   es: |
     Los arbores de Laerma dan una froita extraña.<wait more>
     Se llama froita de Laerma, y són muy buenos.<wait more>
-    Pero si no los pones en olla de Laconia se esmirrían.<wait>
+    Pero si no los pones en una olla de Laconia se esmirrían.<wait>
   de: |
     Tragen seltene Früchte, Laermabäume.<wait more>
     Werden genannt Laermabeeren, und sind sehr köstlich, die.<wait more>
@@ -8655,7 +8657,7 @@
   fr: <player> n'en a pas besoin pour le moment.<wait>
   pt-br: Não há necessidade de usar isso agora.<wait>
   ca: Això no és necessari ara.<wait>
-  es: Esto no es necesario ahora.<wait>
+  es: Esto no es necesario ahora.<wait> 
   de: Dafür gibt es gerade keinen richtigen Nutzen.<delay>
 
 - offsets: 112c
