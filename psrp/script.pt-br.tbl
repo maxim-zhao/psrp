@@ -97,7 +97,7 @@
 ; These control codes only apply to items/names...
 
 ; Text between [] is skipped in menus but not in body text
-62=[
+6201=[
 63=]
 ; Articles. Note these have trailing spaces. Not needed: uns, umas, os
 64=<um> 

@@ -104,7 +104,7 @@
 ; These control codes only apply to items/names...
 
 ; Text between [] is skipped in menus but not in body text
-62=[
+6201=[
 63=]
 ; French articles with trailing spaces except for <d'>
 64=<de l'>

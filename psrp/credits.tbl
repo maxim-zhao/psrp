@@ -36,9 +36,13 @@
 5E=7
 5F=6
 
-; Accented characters (pt-br, ca)
+; Accented characters (pt-br, ca, de)
 60=^
 61='
 62=~
 63=/
 64=`
+65=¨
+
+; Hyphen
+66=-
