@@ -119,7 +119,7 @@ BANKS 30
 .define TextCharacterNumber       $c2c2     ; b Which number character (0-3) to write the name of when encountering text code $4f
 
 .define ItemTableIndex            $c2c4     ; b Index into item table for text display
-.define NumberToShowInText        $c2c5     ; w 16-bit int to output for text code TextNumber=$52
+.define NumberToShowInText        NumberToShowInText     ; w 16-bit int to output for text code TextNumber=$52
 .define NumEnemies                $c2c7     ; b counter for number of enemies
 .define EnemyName                 $c2c8     ; 8 bytes -> $c2d0 8 character enemy name
 
@@ -194,17 +194,28 @@ BANKS 30
 .define CharacterStatsAlis        $c400
 .define CharacterStatsMyau        $c410
 .define CharacterStatsOdin        $c420
-.define CharacterStatsNoah        $c430
+.define CharacterStatsLutz        $c430
 .define CharacterStatsEnemies     $c440     ; Enemy character stats x 8
 
 .define Inventory                 $c4c0     ; 32 bytes, item indices
 .define Meseta                    $c4e0     ; w Current money
 .define InventoryCount            $c4e2     ; Number of items in Inventory
-.define xc4f0                     $c4f0     ; ?
 
+.define PartySize                 $c4f0     ; 0-3 based on how many player characters have been unlocked
+.define HaveVisitedSuelo          $c501     ; 1 if you have been there
+.define HaveGotPotfromNekise      $c502     ; 1 if you have
+.define LuvenoPrisonVisitCounter  $c503     ; 0 on first visit, 1 after
+.define LuvenoState               $c504     ; 0 -> in prison, 1 -> waiting for assistant, 2 -> have found assistant, 3 -> paid, 4..5 -> waiting, 6 -> built but no Hapsby, 7 -> all done
+.define HaveLutz                  $c506     ; 0 -> not joined yet, 1 -> has joined party (but may be dead)
+.define SootheFluteIsUnhidden     $c507     ; 0 -> hidden, 1 -> can find it
+.define FlowMoverIsUnhidden       $c508     ; 0 -> hidden, 1 -> can find it
+.define PerseusShieldIsUnhidden   $c509     ; 0 -> hidden, 1 -> can find it
+.define HaveGivenShortcake        $c511     ; $ff if yes
+.define HaveBeatenLaShiec         $c516     ; 1 if yes
+.define HaveBeatenShadow          $c517     ; $ff if yes
 .define xc600                     $c600     ; ?
 
-.define xc604                     $c604     ; ?
+.define DungeonKeyIsHidden        $c604     ; $ff at start of game, 0 when villager tells you about it
 
 .define NameEntryMode             $c780     ; b 0 = name entry, 1 = password entry (not used)
 .define NameEntryData             $c781     ; nn bytes: block used for name entry
@@ -218,7 +229,7 @@ BANKS 30
 
 .define CharacterSpriteAttributes $c800     ; 256 (8 x 32) bytes -> $c8ff Character sprite attributes:
                                             ; +0: character number? Affects +1
-                                            ; +1: character number? - 0 = empty, 1 = Alis, 2 = Noah, 3 = Odin, 4 = Myau, 5 = vehicle
+                                            ; +1: character number? - 0 = empty, 1 = Alis, 2 = Lutz, 3 = Odin, 4 = Myau, 5 = vehicle
                                             ; +2: sprite base y
                                             ; +4: sprite base x
                                             ; +10 ($0a): ???
@@ -289,8 +300,182 @@ MusicLassic      db ; 91
 MusicDarkForce   db ; 92
 MusicGameOver    db ; 93
 .ende
+.enum $ae
+SFX_Death        db ; ae
+SFX_af           db ; af
+SFX_b0           db ; b0
+SFX_b1           db ; b1
+SFX_b2           db ; b2
+SFX_b3           db ; b3
+SFX_b4           db ; b4
+SFX_b5           db ; b5
+SFX_b6           db ; b6
+SFX_b7           db ; b7
+SFX_b8           db ; b8
+SFX_b9           db ; b9
+SFX_ba           db ; ba
+SFX_bb           db ; bb
+SFX_bc           db ; bc
+SFX_bd           db ; bd
+SFX_be           db ; be
+SFX_bf           db ; bf
+SFX_c0           db ; c0
+SFX_Heal         db ; c1
+.ende
 .define MusicStop $d7
-; $b8 = ?
+
+.enum 0
+Item_Empty                    db ; $00
+Item_Weapon_WoodCane          db ; $01
+Item_Weapon_ShortSword        db ; $02
+Item_Weapon_IronSword         db ; $03
+Item_Weapon_PsychoWand        db ; $04
+Item_Weapon_SilverTusk        db ; $05
+Item_Weapon_IronAxe           db ; $06
+Item_Weapon_TitaniumSword     db ; $07
+Item_Weapon_CeramicSword      db ; $08
+Item_Weapon_NeedleGun         db ; $09
+Item_Weapon_SaberClaw         db ; $0a
+Item_Weapon_HeatGun           db ; $0b
+Item_Weapon_LightSaber        db ; $0c
+Item_Weapon_LaserGun          db ; $0d
+Item_Weapon_LaconianSword     db ; $0e
+Item_Weapon_LaconianAxe       db ; $0f
+Item_Armour_LeatherClothes    db ; $10
+Item_Armour_WhiteMantle       db ; $11
+Item_Armour_LightSuit         db ; $12
+Item_Armour_IronArmor         db ; $13
+Item_Armour_SpikySquirrelFur  db ; $14
+Item_Armour_ZirconiaMail      db ; $15
+Item_Armour_DiamondArmor      db ; $16
+Item_Armour_LaconianArmor     db ; $17
+Item_Armour_FradMantle        db ; $18
+Item_Shield_LeatherShield     db ; $19
+Item_Shield_IronShield        db ; $1a
+Item_Shield_BronzeShield      db ; $1b
+Item_Shield_CeramicShield     db ; $1c
+Item_Shield_AnimalGlove       db ; $1d
+Item_Shield_LaserBarrier      db ; $1e
+Item_Shield_ShieldOfPerseus   db ; $1f
+Item_Shield_LaconianShield    db ; $20
+Item_Vehicle_LandMaster       db ; $21
+Item_Vehicle_FlowMover        db ; $22
+Item_Vehicle_IceDecker        db ; $23
+Item_PelorieMate              db ; $24
+Item_Ruoginin                 db ; $25
+Item_SootheFlute              db ; $26
+Item_Searchlight              db ; $27
+Item_EscapeCloth              db ; $28
+Item_TranCarpet               db ; $29
+Item_MagicHat                 db ; $2a
+Item_Alsuline                 db ; $2b
+Item_Polymeteral              db ; $2c
+Item_DungeonKey               db ; $2d
+Item_TelepathyBall            db ; $2e
+Item_EclipseTorch             db ; $2f
+Item_Aeroprism                db ; $30
+Item_LaermaBerries            db ; $31
+Item_Hapsby                   db ; $32
+Item_RoadPass                 db ; $33
+Item_Passport                 db ; $34
+Item_Compass                  db ; $35
+Item_Shortcake                db ; $36
+Item_GovernorGeneralsLetter   db ; $37
+Item_LaconianPot              db ; $38
+Item_LightPendant             db ; $39
+Item_CarbuncleEye             db ; $3a
+Item_GasClear                 db ; $3b
+Item_DamoasCrystal            db ; $3c
+Item_MasterSystem             db ; $3d
+Item_MiracleKey               db ; $3e
+Item_Zillion                  db ; $3f
+Item_SecretThing              db ; $40
+.ende
+
+.enum 0
+Player_Alisa  db ; 0
+Player_Myau   db ; 1
+Player_Tylon  db ; 2
+Player_Lutz   db ; 3
+.ende
+
+.enum 0
+Enemy_Empty           db ; $00
+Enemy_MonsterFly      db ; $01
+Enemy_GreenSlime      db ; $02
+Enemy_Wing Eye        db ; $03
+Enemy_Maneater        db ; $04
+Enemy_Scorpius        db ; $05
+Enemy_GiantNaiad      db ; $06
+Enemy_BlueSlime       db ; $07
+Enemy_MotavianPeasant db ; $08
+Enemy_DevilBat        db ; $09
+Enemy_KillerPlant     db ; $0A
+Enemy_BitingFly       db ; $0B
+Enemy_MotavianTeaser  db ; $0C
+Enemy_Herex           db ; $0D
+Enemy_Sandworm        db ; $0E
+Enemy_MotavianManiac  db ; $0F
+Enemy_GoldLens        db ; $10
+Enemy_RedSlime        db ; $11
+Enemy_BatMan          db ; $12
+Enemy_HorseshoeCrab   db ; $13
+Enemy_SharkKing       db ; $14
+Enemy_Lich            db ; $15
+Enemy_Tarantula       db ; $16
+Enemy_Manticort       db ; $17
+Enemy_Skeleton        db ; $18
+Enemy_Antlion         db ; $19
+Enemy_Marshes         db ; $1A
+Enemy_Dezorian        db ; $1B
+Enemy_DesertLeech     db ; $1C
+Enemy_Cryon           db ; $1D
+Enemy_BigNose         db ; $1E
+Enemy_Ghoul           db ; $1F
+Enemy_Ammonite        db ; $20
+Enemy_Executor        db ; $21
+Enemy_Wight           db ; $22
+Enemy_SkullSoldier    db ; $23
+Enemy_Snail           db ; $24
+Enemy_Manticore       db ; $25
+Enemy_Serpent         db ; $26
+Enemy_Leviathan       db ; $27
+Enemy_Dorouge         db ; $28
+Enemy_Octopus         db ; $29
+Enemy_Mad Stalker     db ; $2A
+Enemy_DezorianHead    db ; $2B
+Enemy_Zombie          db ; $2C
+Enemy_LivingDead      db ; $2D
+Enemy_RobotPolice     db ; $2E
+Enemy_CyborgMage      db ; $2F
+Enemy_FlameLizard     db ; $30
+Enemy_Tajim           db ; $31
+Enemy_Gaia            db ; $32
+Enemy_MachineGuard    db ; $33
+Enemy_BigEater        db ; $34
+Enemy_Talos           db ; $35
+Enemy_SnakeLord       db ; $36
+Enemy_DeathBearer     db ; $37
+Enemy_ChaosSorcerer   db ; $38
+Enemy_Centaur         db ; $39
+Enemy_IceMan          db ; $3A
+Enemy_Vulcan          db ; $3B
+Enemy_RedDragon       db ; $3C
+Enemy_GreenDragon     db ; $3D
+Enemy_FakeLaShiec     db ; $3E
+Enemy_Mammoth         db ; $3F
+Enemy_KingSaber       db ; $40
+Enemy_DarkMarauder    db ; $41
+Enemy_Golem           db ; $42
+Enemy_Medusa          db ; $43
+Enemy_FrostDragon     db ; $44
+Enemy_DragonWise      db ; $45
+Enemy_GoldDrake       db ; $46
+Enemy_MadDoctor       db ; $47
+Enemy_LaShiec         db ; $48
+Enemy_DarkForce       db ; $49
+Enemy_Nightmare       db ; $4A
+.ende
 
 ; Text special characters
 .define TextCharacterName $4f
@@ -1089,7 +1274,7 @@ FMDetection:           ; $03a4
 .ends
 ; followed by
 .section "Get controller input" overwrite
-GetControllerInput:    ; $03d1  
+GetControllerInput:    ; $03d1
     in a,(IOPort1)     ; Get controls
     ld hl,ControlsNew
     cpl                ; Invert so 1 = pressed
@@ -1262,7 +1447,7 @@ _VDPDataEnd:
 ; followed by
 .section "Tile loader (4 bpp RLE, no di/ei)" overwrite
 ; Decompresses tile data from hl to VRAM address de
-LoadTiles4BitRLENoDI:  ; $0486  
+LoadTiles4BitRLENoDI:  ; $0486
     ld b,$04
   -:push bc
         push de
@@ -1614,7 +1799,7 @@ NewGame:
 
     ld hl,xc600        ; ???
     ld (hl),$ff
-    ld hl,xc604        ; ???
+    ld hl,DungeonKeyIsHidden
     ld (hl),$ff
     ld hl,$0404        ; Set "world" to 4 (type 4)
     ld (xc308),hl      ;
@@ -1680,7 +1865,7 @@ _ContinueOrDeleteMenu: ; $7e3
     ; Continue chosen
     ld hl,TextChooseWhichToContinue
     call TextBox20x6
-  -:push bc            
+  -:push bc
       call GetSavegameSelection
     pop bc
     call IsSlotUsed
@@ -1816,18 +2001,18 @@ StartTitleScreen:      ; $08b7
       ld hl,TilesTitleScreen
       TileAddressDE 0    ; tile number 0
       call LoadTiles4BitRLENoDI
-  
+
       SetPage TitleScreenTilemap
       ld hl,TitleScreenTilemap
       call DecompressToTileMapData
-  
+
       xor a
       ld (VScroll),a
       ld (HScroll),a     ; Reset scroll registers
-  
+
       ld a,MusicTitle
       ld (NewMusic),a ; Start music
-  
+
       ld de,$8006        ; Output %00000110 to VDP register 0 - enable stretch screen, no scroll lock/column mask/line int/desync
       SetVRAMAddressToDE
 
@@ -1918,7 +2103,7 @@ fn9cb: ; Interplanetary flight?
 
     jr +               ; ####################
   +:ld hl,Frame2Paging
-  
+
     ld (hl),:PaletteSpace
     ld hl,PaletteSpace
     ld de,TargetPalette
@@ -1949,7 +2134,7 @@ fn9cb: ; Interplanetary flight?
     xor a              ; Zero:
     ld (HScroll),a
     ld (VScroll),a
-    
+
     ld hl,TileMapData
     TileMapAddressDE 0,0
     ld bc,32*28*2      ; full tilemap update
@@ -1991,7 +2176,7 @@ fn9cb: ; Interplanetary flight?
 
     call fn0bd0
 
-    ld hl,$0800        ; 000A9A 21 00 08
+    ld hl,$0800
     ld ($c2f2),hl      ; 000A9D 22 F2 C2
   -:ld a,(PauseFlag)
     or a
@@ -2008,11 +2193,11 @@ fn9cb: ; Interplanetary flight?
     sbc hl,de           ; 000ABD ED 52
     ld ($c2f2),hl      ; 000ABF 22 F2 C2
     jr nc,-
-  +:ld hl,$0000        ; 000AC4 21 00 00
+  +:ld hl,$0000
     ld ($c2f2),hl      ; 000AC7 22 F2 C2
-    ld hl,FunctionLookupIndex        ; 000ACA 21 02 C2
+    ld hl,FunctionLookupIndex
     ld (hl),$08        ; 000ACD 36 08
-    ld a,($c2e9)       ; 000ACF 3A E9 C2
+    ld a,(xc2e9)       ; 000ACF 3A E9 C2
     and $7f             ; 000AD2 E6 7F
     ld l,a             ; 000AD4 6F
     add a,a             ; 000AD5 87
@@ -2026,7 +2211,7 @@ fn9cb: ; Interplanetary flight?
     xor a               ; 000AE0 AF
     ld (PaletteRotateEnabled),a       ; 000AE1 32 65 C2
     ld ($c264),a       ; 000AE4 32 64 C2
-    ld ($c2e9),a       ; 000AE7 32 E9 C2
+    ld (xc2e9),a       ; 000AE7 32 E9 C2
     ld ($c30e),a       ; 000AEA 32 0E C3
     ld ($c307),a       ; 000AED 32 07 C3
     call fn7b1e
@@ -2083,7 +2268,7 @@ _ScrollToTopPlanet:    ; $0b45
     ld de,2
     ld a,(VScroll)
     sub e              ; Scroll up by 2 lines
-    cp 224             
+    cp 224
     jr c,+
     ld d,1             ; When it is >= 224
     sub 32             ; make it jump by 32 to scroll smoothly
@@ -2256,7 +2441,7 @@ fn0c64: ; $0c64
     ld a,(PaletteRotateEnabled) ;                             |
     or a               ;                                      |
     ret nz             ; exit if PaletteRotateEnabled         |
-    xor    a           ; zero a                               |
+    xor a           ; zero a                               |
  ++:ld (xc29d),a       ; Save to xc29d <----------------------+
 
     ld hl,FunctionLookupIndex
@@ -2376,7 +2561,7 @@ LoadScene:             ; $0cc6
     inc hl
     ld a,(hl)
     ld (xc263),a       ; xc263 = next byte
-    inc hl             
+    inc hl
     ld a,(hl)
     inc hl
     push hl
@@ -2401,14 +2586,14 @@ LoadScene:             ; $0cc6
         ldir           ; Load different palette
  ++:pop hl
     inc hl
-    ld a,(hl)          
+    ld a,(hl)
     inc hl
     ld h,(hl)
     ld l,a             ; hl = next word = ???
     ld (xc2d9),hl
     call DecompressScrollingTilemapData
     call FillTilemap
-    ld a,$14           
+    ld a,$14
     call GetLocationUnknownData
     rrca               ; divide result by 16
     rrca
@@ -2470,7 +2655,7 @@ _InitialiseCharacterSpriteAttributes: ; $e1c
     ld hl,CharacterStatsAlis
     ld a,$01
     call +
-    ld hl,CharacterStatsNoah
+    ld hl,CharacterStatsLutz
     ld a,$03
     call +
     ld hl,CharacterStatsOdin
@@ -2612,8 +2797,8 @@ CharacterStatsUpdate:  ; $1916
     ld de,LevelStatsOdin-8
     call +
 
-    ld iy,CharacterStatsNoah
-    ld de,LevelStatsNoah-8
+    ld iy,CharacterStatsLutz
+    ld de,LevelStatsLutz-8
     ; fall through
 
   +:bit 0,(iy+0)       ; if alive...
@@ -2684,7 +2869,7 @@ DoYesNoMenu:           ; $2e75
         pop af
     pop bc
     or a               ; set flag z = yes
-    ret 
+    ret
 .ends
 ; followed by
 .orga $2e81
@@ -2730,7 +2915,7 @@ Pause256Frames:      ; $2eaf
     ld b,0           ; Frames to wait (0 = 256 = 4.3s)
   -:ld a,8           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
-    djnz -      
+    djnz -
     ret
 .ends
 ; followed by
@@ -2856,7 +3041,7 @@ Output4CharsPlusStat:  ; $3149
         push af
             SetVRAMAddressToDE
             ld b,$08   ; counter
-            
+
 
          __:ld a,(hl)
             out (VDPData),a ; output 8 bytes from hl to de
@@ -3000,8 +3185,8 @@ ShowEnemyData:         ; $3255
     call OutputTilemapRect
 
     ld a,(EnemyNumber)
-    cp 73
-    ret z              ; end if EnemyNumber = 73 = Dark Force
+    cp Enemy_DarkForce
+    ret z              ; end if EnemyNumber = Dark Force
 
     ld hl,MenuBox8Top
     TileMapAddressDE 24,0
@@ -3092,7 +3277,7 @@ HideEnemyData:         ; $3309
     TileMapAddressDE 24,0
     TileMapAreaBC 8,10
     ld a,(EnemyNumber)
-    cp 73
+    cp Enemy_DarkForce
     call nz,OutputTilemapBoxWipePaging ; restore tilemap if EnemyNumber!=73=Dark Force
 
     ld hl,OldTileMapEnemyName10x4
@@ -3299,7 +3484,7 @@ _NextLine:             ; $3397                <--------------------+  |
             pop de           ;                   |                    |
             call _OutputDigitA ;                 |                    |
             ld a,b     ; preserve digit counter  |                    |
-        pop bc         ; through pop             |                    |
+        pop bc         ; through pop          |                    |
         ld b,a         ;                         |                    |
     pop hl             ;                         |                    |
     inc hl             ; next data               |                    |
@@ -3308,8 +3493,8 @@ _NextLine:             ; $3397                <--------------------+  |
 +:                     ; $3457 <-----------------+                    |
     call _DrawLetter   ; Finally... a normal letter.                  |
     jp _ReadData       ; ---------------------------------------------+
-                                                                      
-_OutputDigitA:         ; $345d                                        
+
+_OutputDigitA:         ; $345d
 ; Only outputs 0 when low bit of c is set
 ; Decrements b to count how many digits have been displayed
     or a               ; if a!=0
@@ -3349,7 +3534,7 @@ _OutputDigitA:         ; $345d
     ei                 ;
     ld a,$0a           ; VBlankFunction_Enemy
     call ExecuteFunctionIndexAInNextVBlank ;
-    dec b              ; 
+    dec b              ;
     ret                ;
                        ;
 _DrawALetters:         ; $3494
@@ -3709,8 +3894,8 @@ InputTilemapRect:
         djnz --
     pop de
     pop bc
-    ei                  
-    ret                 
+    ei
+    ret
 .ends
 ; followed by
 .orga $3be8
@@ -3894,7 +4079,7 @@ _MoveToNextChar:
     rra                          ; 00401B 1F
     jr c,+                       ; 00401C 38 02
     ld c,$25                     ; 00401E 0E 25         ; max = $25 nor name entry
-+:  ld hl,NameEntryCharIndex     ; 004020 21 81 C7
++:  ld hl,NameEntryCharIndex
     ld a,(hl)                    ; 004023 7E
     cp c                         ; 004024 B9
     ret z                        ; 004025 C8
@@ -3940,7 +4125,7 @@ _OKSelected_Password:            ; ####################### this section is unuse
     ld de,_PasswordLookupData    ; 004059 11 96 43   ; data
     exx                          ; 00405C D9
     ld b,$38                     ; 00405D 06 38
-    ld hl,$c700                  ; 00405F 21 00 C7
+    ld hl,$c700
     ld de,$c740                  ; 004062 11 40 C7
 -:  ld a,(hl)                    ; 004065 7E         ; read byte
     or a                         ; 004066 B7
@@ -3958,7 +4143,7 @@ _OKSelected_Password:            ; ####################### this section is unuse
     inc de                       ; 004072 13
     djnz -                       ; 004073 10 F0      ; repeat for $38 bytes
 
-    ld hl,FunctionLookupIndex    ; 004075 21 02 C2
+    ld hl,FunctionLookupIndex
     ld (hl),$0c                  ; 004078 36 0C      ; $3d76
     ret                          ; 00407A C9
 
@@ -4009,13 +4194,13 @@ _SaveSlotNameTileAddresses: ; $40be
 _NameEntryNoButtonPressed: ; 40c8
     ld a,(Controls)              ; 0040C8 3A 05 C2
     rra                          ; 0040CB 1F
-    jr c,_UpHeld                 ; 0040CC 38 3E
+    jr c,_UpHeld            ; 0040CC 38 3E
     rra                          ; 0040CE 1F
-    jr c,_DownHeld               ; 0040CF 38 52
+    jr c,_DownHeld          ; 0040CF 38 52
     rra                          ; 0040D1 1F
-    jr c,_LeftHeld               ; 0040D2 38 66
+    jr c,_LeftHeld          ; 0040D2 38 66
     rra                          ; 0040D4 1F
-    jr c,_RightHeld              ; 0040D5 38 1E
+    jr c,_RightHeld         ; 0040D5 38 1E
     ld a,(ControlsNew)           ; 0040D7 3A 04 C2
     rra                          ; 0040DA 1F
     jr c,_UpNew                  ; 0040DB 38 1F
@@ -4104,7 +4289,7 @@ _NameEntryDirectionPressed:
 
 
     ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
-    ld hl,$d5a2                  ; 004162 21 A2 D5
+    ld hl,$d5a2
     jr z,+                       ; 004165 28 0C
     cp $4f                       ; 004167 FE 4F
     ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
@@ -4121,7 +4306,7 @@ _NameEntryDirectionPressed:
 
 ; decrement keypress repeat counter, set to 5 if zero
 _DecrementKeyRepeatCounter: ; 417b
-    ld hl,$c789                  ; 00417B 21 89 C7
+    ld hl,$c789
     dec (hl)                     ; 00417E 35
     ret nz                       ; 00417F C0
     ld (hl),$05                  ; 004180 36 05
@@ -4132,7 +4317,7 @@ LoadNameEntryScreen: ; $4183
 
     TileMapAddressDE 0,0         ; 004186 11 00 78   ; clear name table
     ld bc,$0300                  ; 004189 01 00 03
-    ld hl,$0000                  ; 00418C 21 00 00
+    ld hl,$0000
     di                           ; 00418F F3
       call FillVRAMWithHL        ; 004190 CD FB 03
     ei                           ; 004193 FB
@@ -4189,14 +4374,14 @@ LoadNameEntryScreen: ; $4183
     ldir                         ; 0041F3 ED B0
 
     TileAddressDE $100           ; 0041F5 11 00 60   ; ld de,$6000
-    ld hl,_NameEntryCursorSprite ; 0041F8 21 76 43
+    ld hl,_NameEntryCursorSprite
     ld bc,32                     ; 0041FB 01 20 00   ; load cursor sprite
     di                           ; 0041FE F3
       call OutputToVRAM          ; 0041FF CD DE 03
     ei                           ; 004202 FB
 
     ld de,NameEntryCursorX       ; 004203 11 84 C7
-    ld hl,_NameEntryCursorInitialValues ; 004206 21 21 42
+    ld hl,_NameEntryCursorInitialValues
     ld bc,_NameEntryCursorInitialValuesEnd-_NameEntryCursorInitialValues ; load cursor initial values
     ldir                         ; 00420C ED B0
 
@@ -4269,7 +4454,7 @@ _DrawCursorSprites: ; 4226
 
 _DrawEntirePassword: ; $4261
 ; Orphaned code to draw the 56-char password on-screen ###############
-    ld hl,NameEntryCharIndex     ; 004261 21 81 C7
+    ld hl,NameEntryCharIndex
     ld (hl),$38                  ; 004264 36 38      ; past end of password
     ld d,$c7                     ; 004266 16 C7
 -:  dec (hl)                     ; 004268 35         ; so now it's the end of the password
@@ -4324,7 +4509,7 @@ _WriteCharAToTileMapDataAtHL: ; 429b
       inc hl                     ; 0042AB 23
       ld a,(hl)                  ; 0042AC 7E
       ld (de),a                  ; 0042AD 12         ; write lower char to de
-      ld hl,-$40                 ; 0042AE 21 C0 FF
+      ld hl,-$40
       add hl,de                  ; 0042B1 19         ; write upper char 1 row above
       ld (hl),c                  ; 0042B2 71
     pop hl                       ; 0042B3 E1
@@ -4340,7 +4525,7 @@ _WriteCharAToTileMapAndTileMapDataAtHL: ; 42b5
     SetVRAMAddressToDE           ; 0042BE CF
     ld a,b                       ; 0042BF 78
     out (VDPData),a              ; 0042C0 D3 BE      ; write lower part
-    ld hl,-$40                   ; 0042C2 21 C0 FF
+    ld hl,-$40
     add hl,de                    ; 0042C5 19
     ex de,hl                     ; 0042C6 EB
     SetVRAMAddressToDE           ; 0042C7 CF
@@ -4350,7 +4535,7 @@ _WriteCharAToTileMapAndTileMapDataAtHL: ; 42b5
 
 ; Decompress data from NameEntryTilemapData to TileMapData(0,6)
 DecompressNameEntryTilemapData: ; $42cc
-    ld hl,NameEntryTilemapData   ; 0042CC 21 06 44
+    ld hl,NameEntryTilemapData
     ld de,TileMapData+32*6       ; 0042CF 11 C0 D0   ; location 0,6
 
 --: ld a,(hl)                    ; 0042D2 7E         ; read byte n
@@ -4518,7 +4703,7 @@ IntroSequence:
     ld hl,TileMapData
     ld bc,$0100        ; 4 rows
     ldir               ; duplicate tilemap -> 28 rows filled
-    
+
     xor a
     ld (HScroll),a     ; zero HScroll
     ld a,$80
@@ -4655,7 +4840,7 @@ IntroScrollDown:
     ld hl,TilemapBottomPlanet
     jp DecompressToTileMapData ; and ret
 .ends
-.orga $467b
+.orga $4636
 
 ; ---------------------------------------------------------------------------------------
 ;                    A r e a   n o t   y e t   p r o c e s s e d
@@ -4762,16 +4947,2461 @@ _NarrativeGraphicsLookup: ; page, palette+tiles offset, raw tiles offset
  NarrativeGraphicsData Alis
  NarrativeGraphicsData Myau
  NarrativeGraphicsData Odin
- NarrativeGraphicsData Noah
+ NarrativeGraphicsData Lutz
  NarrativeGraphicsData MyauWings1
  NarrativeGraphicsData MyauWings2
 .ends
-.orga $49a6
+; followed by
+.section "Room script handling" force
+DoRoomScript:
+    ; Exit if room is 0
+    ld a,(RoomIndex)
+    or a
+    jp z,$1d3d
+    ; Check it is in range
+    cp $b7
+    jp nc,BadScriptIndex
+    ; Look up
+    ld de,_RoomScriptTable
+    call _RoomScriptDispatcher
 
-; ---------------------------------------------------------------------------------------
-;                    A r e a   n o t   y e t   p r o c e s s e d
-; ---------------------------------------------------------------------------------------
+    ld a,(SceneType)
+    or a
+    jp nz,Close20x6TextBox ; close and return
+    ; else
+    call Close20x6TextBox
+    jp $1738
 
+_ScriptEnd:
+    pop hl
+    jp MenuWaitForButton ; end end
+
+_RoomScriptDispatcher: ; $49c9
+    ; Same functionality as FunctionLookup except using de as the base
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp (hl)
+
+_RoomScriptTable:
+; Room index => handler lookup
+.dw _room_00_Suelo
+.dw _room_01_Nekise
+.dw _room_02_CamineetMan1
+.dw _room_03_CamineetMan2
+.dw _room_04_CamineetMan3
+.dw _room_05_CamineetMan4
+.dw _room_06_CamineetMan5
+.dw _room_07_Camineet_AlgolMan:
+.dw _room_08_CamineetGuard1
+.dw _room_09_CamineetGuard2
+.dw _room_0a_CamineetGuard3
+.dw _room_0b_CamineetGuard4
+.dw _room_0c_ParolitWoman1
+.dw _room_0d_ParolitMan1
+.dw _room_0e_ParolitMan2
+.dw _room_0f_ParolitMan3
+.dw _room_10_ParolitMan4
+.dw _room_11_ParolitMan5
+.dw _room_12_AirStripGuard
+.dw _room_13_AirStripGuard
+.dw _room_14_Shion_Man1
+.dw _room_15_MadDoctor
+.dw _room_16_PalmaSpaceportLuggageHandler1
+.dw _room_17_PalmaSpaceportLuggageHandler2
+.dw _room_18_PalmaSpaceportLuggageHandler3
+.dw _room_19_AirStripGuard
+.dw _room_1a_RoadGuard
+.dw _room_1b_RoadGuard
+.dw _room_1c_PassportOffice
+.dw _room_1d_Shion_Man1
+.dw _room_1e_Shion_Man2
+.dw _room_1f_ShionMan3
+.dw _room_20_ShionMan4
+.dw _room_21_ShionMan5
+.dw _room_22_ShionMan6
+.dw _room_23_ShionMan7
+.dw _room_24_ShionMan8
+.dw _room_25_EppiMan1
+.dw _room_26_EppiMan2
+.dw _room_27_EppiMan3
+.dw _room_28_EppiMan4
+.dw _room_29_EppiMan5
+.dw _room_2a_EppiMan6
+.dw _room_2b_PaseoSpaceportLuggageHandler1
+.dw _room_2c_PaseoSpaceportLuggageHandler2
+.dw _room_2d_PaseoSpaceport3
+.dw _room_2e_Paseo1
+.dw _room_2f_Paseo2
+.dw _room_30_Paseo3
+.dw _room_31_Paseo4
+.dw _room_32_Paseo5
+.dw _room_33_Paseo6
+.dw _room_34_Paseo7
+.dw _room_35_PaseoMyauSeller
+.dw _room_36_GovernorGeneral
+.dw _room_37_MansionGuard1
+.dw _room_38_GuestHouseLady
+.dw _room_39_BartevoVillager1
+.dw _room_3a_Bartevo Villager2
+.dw _room_3b_GothicWoods1
+.dw _room_3c_GothicWoods2
+.dw _room_3d_DrLuveno
+.dw _room_3e_50FC
+.dw _room_3f_LoreVillager1
+.dw _room_40_LoreVillager2
+.dw _room_41_511F
+.dw _room_42_LoreVillager4
+.dw _room_43_LoreVillager5
+.dw _room_44_AbionVillager1
+.dw _room_45_AbionVillager2
+.dw _room_46_AbionVillager3
+.dw _room_47_AbionVillager4
+.dw _room_48_AbionVillager5
+.dw _room_49_UzoVillager1
+.dw _room_4a_UzoVillager2
+.dw _room_4b_UzoVillager3
+.dw _room_4c_UzoVillager4
+.dw _room_4d_UzoVillager5
+.dw _room_4e_UzoVillager6
+.dw _room_4f_CasbaVillager1
+.dw _room_50_CasbaVillager2
+.dw _room_51_AeroCastle1
+.dw _room_52_CasbaVillager3
+.dw _room_53_CasbaVillager4
+.dw _room_54_CasbaVillager5
+.dw _room_55_Drasgo1
+.dw _room_56_Drasgo2
+.dw _room_57_Drasgo3
+.dw _room_58_Drasgo4
+.dw _room_59_ChokoOneesan
+.dw _room_5a_DrasgoCave1
+.dw _room_5b_DrasgoCave2
+.dw _room_5c_DrasgoGasClearSeller
+.dw _room_5d_Skray1
+.dw _room_5e_Skray2
+.dw _room_5f_Skray3
+.dw _room_60_Skray4
+.dw _room_61_Skray5
+.dw _room_62_Skray6
+.dw _room_63_Skray7
+.dw _room_64_Skray8
+.dw _room_65_Skray9
+.dw _room_66_Skray10
+.dw _room_67_HonestDezorian1
+.dw _room_68_HonestDezorian2
+.dw _room_69_HonestDezorian3
+.dw _room_6a_HonestDezorian4
+.dw _room_6b_HonestDezorian5
+.dw _room_6c_HonestDezorian6
+.dw _room_6d_DishonestDezorian1
+.dw _room_6e_DishonestDezorian2
+.dw _room_6f_DishonestDezorian3
+.dw _room_70_DishonestDezorian4
+.dw _room_71_DishonestDezorian5
+.dw _room_72_DishonestDezorian6
+.dw _room_73_SopiaVillageChief
+.dw _room_74_GamerMikiChan
+.dw _room_75_Sopia1
+.dw _room_76_Sopia2
+.dw _room_77_Sopia3
+.dw _room_78_Sopia4
+.dw _room_79_AeroCastle2
+.dw _room_7a_AeroCastle3
+.dw _room_7b_ShortcakeShop
+.dw _room_7c_MahalCaveMotavianPeasant
+.dw _room_7d_Lutz
+.dw _room_7e_LuvenosAssistant
+.dw _room_7f_5436
+.dw _room_80_Luveno_Prison
+.dw _room_81_TriadaPrisonGuard1
+.dw _room_82_TriadaPrisoner1
+.dw _room_83_TriadaPrisoner2
+.dw _room_84_TriadaPrisoner3
+.dw _room_85_TriadaPrisoner4
+.dw _room_86_TriadaPrisoner5
+.dw _room_87_TriadaPrisoner6
+.dw _room_88_MedusasTower1
+.dw _room_89_MedusasTower2
+.dw _room_8a_MedusasTower3
+.dw _room_8b_BartevoCave
+.dw _room_8c_AvionTower
+.dw _room_8d_5530
+.dw _room_8e_5597
+; Unused repeats?
+.dw _room_8f_DrasgoCave1
+.dw _room_90_DrasgoCave2
+.dw _room_91_DrasgoGasClearSeller
+.dw _room_92_55AB
+.dw _room_93_55F5
+.dw _room_94_55FB
+.dw _room_95_5601
+.dw _room_96_5607
+.dw _room_97_560D
+.dw _room_98_5613
+.dw _room_99_5619
+.dw _room_9a_561F
+.dw _room_9b_TorchBearer
+.dw _room_9c_Tajim
+.dw _room_9d_5730
+.dw _room_9e_LaShiec
+.dw _room_9f_578F
+.dw _room_a0_5795
+.dw _room_a1_5795
+.dw _room_a2_5798
+.dw _room_a3_CoronoTowerDezorian1
+.dw _room_a4_GuaranMorgue
+.dw _room_a5_CoronaDungeonDihonstDezorian: ; $5809
+.dw _room_a6_581B
+.dw _room_a7_BayaMarlayPrisoner: ; $582D
+.dw _room_a8_BuggyUnused: ; $5841
+.dw _room_a9_LuvenoGuard: ; $584F
+.dw _room_aa_DarkForce: ; $5879
+.dw _room_ab_58C6
+.dw _room_ac_58FC
+.dw _room_ad_5902
+.dw _room_ae_5795
+.dw _room_af_5795
+.dw _room_b0_592D
+.dw _room_b1_OtegamiChieChan: ; $5933
+.dw _room_b2_FlightToMotavia: ; $5939
+.dw _room_b3_FlightToPalma: ; $5949
+.dw _room_b4_HapsbyTravel: ; $5959
+.dw _room_b5_5795
+
+_room_00_Suelo: ; $4B3F
+    ld hl,HaveVisitedSuelo
+    ld a,(hl)
+    or a
+    jr nz,+
+    ; First time
+    ld (hl),1
+    ld hl,$0002
+    ; Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+    ; I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
+    ; If you ever get hurt, come back here to heal.<wait more>
+    ; We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
+    call DrawText20x6           ; 004B4B CD BA 59
++:  ld hl,$0006
+    ; Please get some rest.<wait more>
+    ; Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+    call DrawText20x6           ; 004B51 CD BA 59
+    ld a,SFX_Heal
+    ld (NewMusic),a
+    jp $2bc9
+
+_room_01_Nekise: ; $4b5c
+    ld a,(HaveGotPotfromNekise)
+    ld a,(HaveGotPotfromNekise)
+    or a
+    jr nz,+
+    ; First visit
+    ld hl,$0008
+    ; My name is Nekise.<line><line>
+    ; I was sorry to hear about your loss.<wait more>
+    ; Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
+    ; The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
+    ; Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
+    ; It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
+    call DrawText20x6
+    ld a,Item_LaconianPot
+    ld (ItemTableIndex),a
+    call AddItemToInventory
+    ld a,Item_LaconianPot
+    call HaveItem ; Must be true (=z)?
+    jr nz,+
+    ld a,1
+    ld (HaveGotPotfromNekise),a
++:  ld hl,$0010
+    ; Forgive me, but there is nothing more I can do. May you[r journey] be safe.
+    jp DrawText20x6 ; and ret
+
+_room_02_CamineetMan1: ; $4B82
+    ld hl,$0012
+    ; The Camineet residential district is under martial law.
+    jp DrawText20x6 ; and ret
+
+_room_03_CamineetMan2: ; $4B88
+    ld hl,$0014
+    ; You need a ‘Dungeon Key’ to open locked doors.
+    jp DrawText20x6 ; and ret
+
+_room_04_CamineetMan3 ; $4B8E
+    ld hl,$0016
+    ; You will not be able to advance through certain dungeons if you don't have a light.
+    jp DrawText20x6 ; and ret
+
+_room_05_CamineetMan4 ; $4B94:
+    ld hl,$0018
+    ; West of Camineet? That's the Spaceport.
+    jp DrawText20x6 ; and ret
+
+_room_06_CamineetMan5 ; $4B9A:
+    ld hl,$001a
+    ; They say that all sorts of business goes on in the port town.
+    jp DrawText20x6 ; and ret
+
+_room_07_Camineet_AlgolMan: ; $4BA0:
+    ld hl,$0062
+    ; Do you know the planets in the Algol Solar System?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$0060 ; If yes
+    ; I see. Never mind.
+    jr z,+
+    ld hl,3 ; If no
+    ld (NumberToShowInText),hl
+    ld hl,$0064
+    ; There are three planets: Palma, Motabia, and Dezoris.
+    ; Palma is a planet of greenery.
+    ; Motavia is a planet of sand.
+    ; Dezoris is a planet of ice.
+    ; There is a crisis drawing near to Algol...
++:  jp DrawText20x6 ; and ret
+
+_room_08_CamineetGuard1 ; $4BBA
+    ld hl,$001c
+    ; Stay inside the residential area if you know what's good for you.
+    jp DrawText20x6 ; and ret
+
+_room_09_CamineetGuard2: ; $4BC0
+    ld hl,$001e
+    ; Want to stay alive?  Then stay here!
+    jp DrawText20x6 ; and ret
+
+_room_0a_CamineetGuard3: ; $4BC6:
+    ld a,Item_RoadPass
+    call HaveItem
+    jr z,+
+    ld hl,$0020
+    ; I can’t just let you pass through here!
+    jp DrawText20x6 ; and ret
+
+_room_0b_CamineetGuard4: ; $4BD3:
+    ld a,Item_RoadPass
+    call HaveItem
+    jr z,+
+    ld hl,$0022
+    ; Nobody gets through here without a 'Roadpass'.
+    jp DrawText20x6 ; and ret
++:  ld hl,$0024
+    ; Okay, you may pass.
+    call DrawText20x6
+    ; Copy something from xc309 to xc2e9 TODO what is this?
+    ld a,(xc309)
+    rrca
+    dec a
+    and $03
+    ld (xc2e9),a
+    ret
+
+_room_0c_ParolitWoman1: ; $4BF1:
+    ld hl,$0026
+    ; This is Parolit residential district.
+    jp DrawText20x6 ; and ret
+
+_room_0d_ParolitMan1: ; $4BF7:
+    ld hl,$0028
+    ; When you're in the forest, you need to be especially cautious.
+    jp DrawText20x6 ; and ret
+
+_room_0e_ParolitMan2: ; $4BFD:
+    ld hl,$002a
+    ; I hear that the monster Medusa has returned to the cave South of the city. They say if you look at it, you'll turn to stone!
+    jp DrawText20x6 ; and ret
+
+_room_0f_ParolitMan3: ; $4C03:
+    ld hl,$002e
+    ; If you travel East, you will reach the port town of Shion.
+    jp DrawText20x6 ; and ret
+
+_room_10_ParolitMan4: ; $4C09:
+    ld hl,$0030
+    ; You can travel to Paseo, on the planet Motavia, from the spaceport.
+    jp DrawText20x6 ; and ret
+
+_room_11_ParolitMan5: ; 4C0F:
+    ld hl,$0032
+    ; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
+    jp DrawText20x6 ; and ret
+
+_room_12_AirStripGuard: ; $4C15:
+_room_13_AirStripGuard: ; $4C15:
+    ld a,(LuvenoState)
+    cp $07
+    jp nc,SpacePortsAreClosed
+    ld hl,$0070
+    ; Do you have a passport?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$0020
+    ; I can’t just let you pass through here!
+    jr nz,+
+    ld a,Item_Passport
+    call HaveItem
+    ld hl,$00ce
+    ; Well? Let’s see it.
+    jr nz,+
+    ld a,$06
+    ld (xc2e9),a ; ???
+    ld hl,$0024
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
+
+_room_14_Shion_Man1: ; $4C40:
+    ld hl,$0286
+    ; On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
+    jp DrawText20x6 ; and ret
+
+_room_15_MadDoctor: ; $4C46:
+    ld a,Enemy_MadDoctor
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld a,(CharacterStatsMyau)
+    or a
+    jr z,+
+    ld hl,$0296
+    ; Hey, cat! C'mere!
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ; Kill Myau
+    ld a,SFX_Death
+    ld (NewMusic),a
+    ld a,Player_Myau
+    ld (TextCharacterNumber),a
+    ld hl,$b07b
+    ; <player> died.<delay>
+    call TextBox20x6
+    ld hl,$0000
+    ld (CharacterStatsMyau),hl
+    ld hl,$0298
+    ; Hee hee hee! You guys wanna die too?
+    jr ++
++:  ; Myau is dead or refuses to "come here"
+    ld hl,$029a
+    ; I will kill anything that gets in my way!
+++: call DrawText20x6
+    call Close20x6TextBox
+    ld a,(PartySize)
+    or a
+    jr z,+ ; No Myau yet
+    ld a,Item_LaconianPot
+    call HaveItem
+    jr z,+
+    ; Don't have a Laconian Pot
+    ld hl,$c518
+    ld (xc2e1),hl      ; ???
+    ld a,Item_LaconianPot
+    ld (xc2df),a
++:  jp _55e9_fight ; ???
+
+_room_16_PalmaSpaceportLuggageHandler1: ; $4C9E:
+    ld hl,$006a
+    ; This is Palma Spaceport. You can go to Paseo, on the planet Motavia.
+    jp DrawText20x6 ; and ret
+
+_room_17_PalmaSpaceportLuggageHandler2: ; $4CA4:
+    ld hl,$006c
+    ; The Governor-General lives in Paseo. He rules all of Motavia.
+    jp DrawText20x6 ; and ret
+
+_room_18_PalmaSpaceportLuggageHandler3: ; $4CAA:
+    ld hl,$006e
+    ; Rumor has it that the Gothic Laboratory was once used to build spaceships. Back in the old days, ships like these were built at the laboratory in Gothic.<wait>
+    jp DrawText20x6 ; and ret
+
+_room_19_AirStripGuard: ; $4CB0:
+    ld a,(LuvenoState)
+    cp $07
+    jr nc,SpacePortsAreClosed
+    ld hl,$0070
+    ; Do you have a passport?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$0020
+    ; I can’t just let you pass through here!
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld a,Item_Passport
+    call HaveItem
+    jr z,+
+    ; Don't have one
+    ld hl,$00ce
+    ; Well? Let’s see it.
+    jp DrawText20x6 ; and ret
++:  ; Have one
+    ld hl,$0024
+    ; Okay, you may pass.
+    call DrawText20x6
+    ; Warp position?
+    ld a,(VLocation)
+    cp $60
+    ld hl,_4d03
+    jr nz,+
+    ld hl,_4d06
++:  call fn7b1e
+    ret
+
+SpacePortsAreClosed:
+    ld hl,$019e
+    ; Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
+    call DrawText20x6
+    ld a,Item_Passport
+    call HaveItem
+    ret nz
+    push bc
+      call $28db ; RemoveItemFromInventory
+    pop bc
+    ld hl,$01a0
+    ; WE ARE CONFISCATING YOUR PASSPORT.<end>
+    jp DrawText20x6 ; and ret
+
+_4d03:
+.db $05, $20, $17
+_4d06:
+,db $05, $21, $15
+
+_room_1a_RoadGuard: ; $4D09:
+    ld a,Item_RoadPass
+    call HaveItem
+    ld hl,$0020
+    ; I can’t just let you pass through here!
+    jr nz,+
+    ld a,$04
+    ld (xc2e9),a
+    ld hl,$0024
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
+
+_room_1b_RoadGuard: ; $4D1E:
+    ld a,Item_RoadPass
+    call HaveItem
+    ld hl,$0022
+    ; Nobody gets through here without a 'Roadpass'.
+    jr nz,+
+    ld a,$05
+    ld (xc2e9),a
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
+
+_room_1c_PassportOffice: ; $4D33:
+    ld hl,$0072
+    ; You can apply for a ‘passport’ here. Would you like to apply?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$007c
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld hl,$0074
+    ; Up to today, have you ever done any bad things?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ; Yes
+    ld hl,$007e
+    ; That's too bad. Please come back some other time.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,$0076
+    ; Are you suffering from an illness right now?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+:
+    ; Yes
+    ld hl,$007e
+    ; That's too bad. Please come back some other time.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,100
+    ld (NumberToShowInText),hl
+    ld hl,$0078
+    ; The fee is 100 mesetas. Is that agreeable?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$007c
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld de,100
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$b65c
+    ; It looks like you don’t have enough money.<line>
+    ; Please come back later.<wait>
+    jp TextBox20x6 ; and ret
++:  ; Have enough money; pay it
+    ld (Meseta),hl
+    ld hl,$007a
+    ; Well then, we will issue you a passport. Here you go.
+    call DrawText20x6
+    ld a,Item_Passport
+    ld (ItemTableIndex),a
+    call HaveItem
+    ret z
+    jp AddItemToInventory ; and ret
+
+_room_1d_Shion_Man1: ; $4DA3:
+    ld a,(PartySize)
+    or a
+    ; No Myau yet
+    ld hl,$0034
+    ; Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
+    jr z,+
+    ; Have found Myau
+    ld hl,$003a
+    ; You’re on a quest to defeat LaShiec, huh? Well, good luck!
++:  jp DrawText20x6 ; and ret
+
+_room_1e_Shion_Man2: ; $4DB2:
+    ld a,(PartySize)
+    or a
+    ; No Myau yet
+    ld hl,$003c
+    ; I found a talking animal in Medusa’s Cave earlier, see? Then I sold it off to a trader in Paseo and made a bundle! Heh, heh, heh!
+    jr z,_
+    ; Have found Myau
+    ld hl,$0040
+    ; Times have been rough lately, don’t you think? I wonder if there’s anywhere I can go to make money.
++:  jp DrawText20x6 ; and ret
+
+_room_1f_ShionMan3: ; $4DC1:
+    ld hl,$0042
+    ; On the peninsula South of Shion, you will find Iala Cave.
+    jp DrawText20x6 ; and ret
+
+_room_20_ShionMan4: ; $4DC7:
+    ld hl,$0044
+    ; This is the port town of Shion. This place used to be busy with trade.
+    jp DrawText20x6 ; and ret
+
+_room_21_ShionMan5: ; $4DCD:
+    ld hl,$0046
+    ; The Eppi Woods are confusing. You need a ‘Compass’ just to pass through them.
+    jp DrawText20x6 ; and ret
+
+_room_22_ShionMan6: ; $4DD3:
+    ld hl,$0048
+    ; Magically-sealed doors can be opened only with magic.
+    jp DrawText20x6 ; and ret
+
+_room_23_ShionMan7: ; $4DD9:
+    ld hl,$004a
+    ; If you go North from this town you will reach the hill of Baya Mahrey. However, we aren’t able to get near to it.
+    jp DrawText20x6 ; and ret
+
+_room_24_ShionMan8: ; $4DDF:
+    ld hl,$004c
+    ; On the beach North of Baya Mahrey, you will find Naula Cave.
+    jp DrawText20x6 ; and ret
+
+_room_25_EppiMan1: ; $4DE5:
+    ld hl,$004e
+    ; I wonder if Motabia’s Governor-general might aid you in your quest.
+    jp DrawText20x6 ; and ret
+
+_room_26_EppiMan2: ; $4DEB:
+    ld hl,$0050
+    ; On Motabia live the great ‘Espers’.
+    jp DrawText20x6 ; and ret
+
+_room_27_EppiMan3: ; $4DF1:
+    ld hl,$0052
+    ; A doctor named ‘Luveno’ used to have a laboratory in Gothic Forest.
+    jp DrawText20x6 ; and ret
+
+_room_28_EppiMan4: ; $4DF7:
+    ld hl,$0054
+    ; Welcome to Eppi Village!<wait more>
+    ; We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
+    jp DrawText20x6 ; and ret
+
+_room_29_EppiMan5: ; $4DFD:
+    ld hl,$0056
+    ; Are you by any chance searching for the ‘Dungeon Key’?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; No
+    ld hl,$0060
+    ; I see. Never mind.
+    jr nz,+
+    ; Yes
+    ld a,Item_DungeonKey
+    call HaveItem
+    jr z,++
+    ld hl,DungeonKeyIsHidden
+    ld (hl),0
+++: ld hl,$0058
+    ; I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on the outskirts of Camineet residential area.
++:  jp DrawText20x6  ; and ret
+
+_room_2a_EppiMan6: ; $4E1D:
+    ld hl,$005c
+    ; Do you know what the hardest, strongest material in the world is?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$0060
+    ; I see. Never mind.
+    jr z,+
+    ld hl,$005e
+    ; It’s ‘Laconia’! Laconian weapons are the strongest [in the solar system].
++:  jp DrawText20x6 ; and ret
+
+_room_2b_PaseoSpaceportLuggageHandler1: ; $4E31:
+    ld hl,$0080
+    ; This is Paseo spaceport, on the planet Motabia.
+    jp DrawText20x6 ; and ret
+
+_room_2c_PaseoSpaceportLuggageHandler2: ; $4E37:
+    ld hl,$0082
+    ; I’ve heard rumors that there are vicious ‘Ant-lions’ in the desert!
+    jp DrawText20x6 ; and ret
+
+_room_2d_PaseoSpaceport3: ; $4E3D:
+    ld hl,$0084
+    ; THERE IS A CAKE SHOP IN THE CAVE CALLED NAULA ON PALMA!
+    jp DrawText20x6 ; and ret
+
+_room_2e_Paseo1: ; $4E43:
+    ld hl,$0086
+    ; ..Actually, the Governor-General seems to be on very bad terms with LaShiec!
+    jp DrawText20x6 ; and ret
+
+_room_2f_Paseo2: ; $4E49:
+    ld hl,$0088
+    ; You need to have a gift in order to meet with the Governor-General.
+    jp DrawText20x6 ; and ret
+
+_room_30_Paseo3: ; $4E4F:
+    ld hl,$008a
+    ; The Governor-General loves sweets.
+    jp DrawText20x6 ; and ret
+
+_room_31_Paseo4: ; $4E55:
+    ld hl,$008c
+    ; Maharu Cave is located in the mountains to the north of Paseo.
+    jp DrawText20x6 ; and ret
+
+_room_32_Paseo5: ; $4E5B:
+    ld hl,$008e
+    ; This is Paseo, capital of Motabia.
+    jp DrawText20x6 ; and ret
+
+_room_33_Paseo6: ; $4E61:
+    ld hl,$0090
+    ; There’s no way to pass over those ant lions on FOOT, [but...].
+    jp DrawText20x6 ; and ret
+
+_room_34_Paseo7: ; $4E67:
+    ld hl,$0288
+    ; I hear that intelligent monsters have monster languages.
+    jp DrawText20x6 ; and ret
+
+_room_35_PaseoMyauSeller: ; $4E6D:
+    ld a,(PartySize)
+    or a
+    jr z,+
+    ; Have found Myau
+    ld hl,$028a
+    ; That laconian pot was worth a fortune! Thanks a bundle!
+    jp DrawText20x6 ; and ret
++:  ; No Myau yet
+    ld hl,10
+    ld (NumberToShowInText),hl
+    ld hl,$0092
+    ; I gotta real rare animal here. You can have it fer a billion mesetas. Whuddayuhsay?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,
+    ld hl,$0094
+    ; Yeah, right. You gotta be kiddin’ me!
+    jp DrawText20x6 ; and ret
++:  ld a,Item_LaconianPot
+    call HaveItem
+    jr nz,+
+    push hl
+      ld hl,$0096
+      ; Say... That’s a real unusual pot you got there... ...is 'dat a ‘Laconian Pot’?! How ‘bout I give you da animal, you give me the pot? Whuddayuhsay?
+      call DrawText20x6
+      call DoYesNoMenu
+    pop hl
+    jr nz,+
+    push bc
+      call $28db; RemoveItemFromInventory
+    pop bc
+    ld hl,$009a
+    ; Alri---ght, there yuh go. Take good care uv‘im.
+    call DrawText20x6
+    call Close20x6TextBox
+    pop hl
+    ; Bring Myau to life
+    ld iy,CharacterStatsMyau
+    call InitialiseCharacterStats
+    ld a,1
+    ld (PartySize),a
+    ; Get some Alsuline
+    ld a,Item_Alsuline
+    ld (ItemTableIndex),a
+    call AddItemToInventory
+    jp $4636 ; ShowCharacterIntro?
++:  ld hl,$007c
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
+
+_room_36_GovernorGeneral: ; $4ED0:
+    ld a,(HaveBeatenLaShiec)
+    or a
+    jr z,+
+    ld hl,$02a6
+    ; Hey. That’s weird... Where’d the Governor-General go?
+    call DrawText20x6
+    call Close20x6TextBox
+    pop hl
+    ld hl,$22e6
+    ld ($c30c),hl
+    xor a
+    ld ($c30a),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$0b
+    call $68bf
+    ld a,MusicBossDungeon
+    jp CheckMusic ; and ret
++:  ld a,$35
+    call $63f9
+    call SpriteHandler
+    ld a,(PartySize)
+    cp 3
+    jr nc,+
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
+    jr nz,++
++:  ; No Lutz yet, or have the letter
+    ld hl,$029e
+    ; There’s no time to lose! Have faith in yourself. I’ll be praying for your safety.
+    call DrawText20x6
+    ld hl,$00aa
+    ; I am absolutely certain that you will defeat LaShiec and return here.
+    jp DrawText20x6 ; and ret
+++: ld hl,$00a4
+    ; I am the Governor-General of this planet. I understand you are on a quest to defeat LaShiec. I commend you for your courage. In Maharu Cave you will find an Esper named Lutz (pronounced 'roots'). Please take this letter to him. I am absolutely certain that you will defeat LaShiec and return here.
+    call DrawText20x6
+    ; Get the letter
+    push bc
+      ld a,Item_GovernorGeneralsLetter
+      ld (ItemTableIndex),a
+      call AddItemToInventory
+    pop bc
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
+    ret nz ; Inventory full -> kick out?
+    ld hl,$029c
+    ; You must be tired from your long journey. You should relax here for a while.
+    call DrawText20x6
+    call FadeOutFullPalette
+    call Close20x6TextBox
+    ld a,$20
+    ld (SceneType),a
+    call LoadSceneData
+    ; Turn off sprites
+    ld a,$d0
+    ld (SpriteTable),a
+    ld a,$0c ; VBlankFunction_UpdateTilemap
+    call ExecuteFunctionIndexAInNextVBlank
+    ld hl,_GovernorGeneralPalette
+    ld de,TargetPalette
+    ld bc,_sizeof__GovernorGeneralPalette
+    ldir
+    call FadeInWholePalette
+    ld hl,$02a0
+    ; You enter into a deep sleep...
+    call DrawText20x6
+    call Close20x6TextBox
+    ld a,$a0
+    ld (NewMusic),a
+    call Pause256Frames
+    ld a,Enemy_Nightmare
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ; Preserve all stats as it's just a dream...
+    ld a,(CharacterStatsAlis)
+    push af
+      ld a,(CharacterStatsMyau)
+      push af
+        ld a,(CharacterStatsOdin)
+        push af
+          call fn116b_Fight
+        pop af
+        ld (CharacterStatsOdin),a
+      pop af
+      ld (CharacterStatsMyau),a
+    pop af
+    ld (CharacterStatsAlis),a
+    call FadeOutFullPalette
+    call LoadSceneData
+    ld a,$d0
+    ld (SpriteTable),a
+    ld a,$0c
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld hl,$02a2
+    ; What a frightening dream!
+    call DrawText20x6
+    call FadeOutFullPalette
+    ld a,$1d
+    ld (SceneType),a
+    call LoadSceneData
+    call $2bc9
+    ld a,$0c
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$35
+    call $63f9
+    call SpriteHandler
+    ld hl,$00aa
+    ; I am absolutely certain that you will defeat LaShiec and return here.
+    jp DrawText20x6 ; and ret
+
+_GovernorGeneralPalette:
+.db $00 $00 $3F $00 $00 $00 $00 $00 ; Blacks with one white
+
+_room_37_MansionGuard1: ; $4FD4:
+    ld hl,$00b4
+    ; zzz... zzz...
+    jp DrawText20x6 ; and ret
+
+_room_38_GuestHouseLady: ; $4FDA:
+    ld hl,$00b6
+    ; Please rest before you go.
+    call DrawText20x6
+    call FadeOutFullPalette
+    call Close20x6TextBox
+    ld a,$a0
+    ld (NewMusic),a
+    call Pause256Frames
+    call $2bc9
+    ld a,$c1
+    ld (NewMusic),a
+    call FadeInWholePalette
+    ld hl,$00b8
+    ; I AM PRAYING FOR YOUR SAFETY.<end>
+    jp DrawText20x6 ; and ret
+
+_room_39_BartevoVillager1: ; $4FFF:
+    ld hl,$0102
+    ; Bartevo is my territory. Don’t be screwin’ around!
+    jp DrawText20x6 ; and ret
+
+_room_3a_BartevoVillager2: ; $5005:
+    ld hl,$0106
+    ; I heard that a high-performance robot got dumped inside one of these scrap piles. I wonder if it’s true?
+    jp DrawText20x6 ; and ret
+
+_room_3b_GothicWoods1: ; B:
+    ld hl,$00ba
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$00c2
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
+    jr nz,+
+    ; Have one
+    push bc
+      call $28db ; RemoveItemFromInventory
+    pop bc
+    ld hl,$00bc
+    ; Thanks. This place used to be the lab of a scientist named ‘Luveno’. But he turned crazy, see, and got locked up in Toriada, the prison to the South of this village.
+    jp DrawText20x6 ; and ret
++:  ld hl,$020e
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
+
+_room_3c_GothicWoods2:
+    ld hl,$00ba
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$00c2
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
+    jr nz,+
+    ; Have one
+    call $28db ; RemoveItemFromInventory
+    ld hl,$00c4
+    ; In the heart of the mountains, there's a tower that can be reached by one of the roads leading out of Gothic. Inside the tower, they say, there's a freaky monster that, if you just LOOK at it, will turn yuh tuh stone!
+    jp DrawText20x6 ; and ret
++:  ld hl,$020e
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
+
+_room_3d_DrLuveno: ; $505B:
+    ld a,(LuvenoState)
+    or a
+    jp z,_ScriptEnd
+    ld a,$34
+    call $63f9
+    call SpriteHandler
+    ld a,(LuvenoState)
+    cp $07
+    jr c,+
+    ; Have the Luveno
+    ld hl,$00d8
+    ; How’s the ‘Luveno’ holding up? Please be careful with it.
+    jp DrawText20x6 ; and ret
++:  cp $02
+    jr nc,+
+    ; Didn't talk to assistant yet
+    ld hl,$00ca
+    ; Ahh, you’re late! Quickly! Do me a favor and bring my assistant back here. He’s probably hiding in that underground tunnel. It really irritates me shy a person he is.
+    jp DrawText20x6 ; and ret
++:  cp $03
+    jr nc
+    ; Have assistant but haven't paid
+    ld hl,1200
+    ld (NumberToShowInText),hl
+    ld hl,$028c
+    ; Okay, it looks like my staff is assembled. Manufacturing expenses come to 1200 meseta. Will you please give it to me?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$00da
+    ; What a shame. So your journey ends here, I suppose...
+    jp DrawText20x6 ; and ret
++:  ld de,1200
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+;
+    ld hl,$00d0
+    ; You don’t have enough? I’m sorry, but must get some more money.
+    jp DrawText20x6 ; and ret
++:  ld (Meseta),hl
+    ld a,$03
+    ld (LuvenoState),a
+    ld hl,$0290
+    ; Thanks. Now then, let’s begin construction, shall we? Please wait for a little while.
+    jp DrawText20x6
+++: cp $05
+    jr nc,+
+    ; Next two visits
+    inc a
+    ld (LuvenoState),a ; increment to 4, 5
+    ld hl,$0292
+    ; IT CANNOT BE HURRIED! PLEASE SHOW A BIT MORE PATIENCE!
+    jp DrawText20x6 ; and ret
++:  cp $06
+    jr nc,+
+    ; Third visit
+    inc a
+    ld (LuvenoState),a ; i.e. 6
+    ld hl,$00d2
+    ; At last, the spaceship is finished!  I’m pleased to present to you, the ‘Luveno’!
+    call DrawText20x6
+    ld a,Item_Hapsby
+    call HaveItem
+    jr z,++
+    ; No Hapsby
+    ld hl,$00d6
+    ; But you won’t be able to pilot the spaceship yourself.
+    call DrawText20x6
++:  ld a,Item_Hapsby
+    call HaveItem
+    jr z,++
+    ; No Hapsby
+    ld hl,$0104
+    ; YOU MUST FIND A ROBOT NAMED HAPSBY. HE CAN FLY A SPACESHIP.
+    jp DrawText20x6 ; and ret
+++: ld a,7
+    ld (LuvenoState),a ; Final state
+    ld hl,$0294
+    ; Now then, you can use the Luveno to fly through space. Go outside the village and take a look. It’s a brilliant piece of work.
+    jp DrawText20x6 ; and ret
+
+_room_3e_50FC:
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp 2
+    jp c,_ScriptEnd
+    ; Nothing if Luveno is in progress or done
+    ld a,$10
+    call $63f9
+    call SpriteHandler
+    ld hl,$00dc
+    ; I’m busy right now, so please don’t interrupt.
+    jp DrawText20x6 ; and ret
+
+_room_3f_LoreVillager1: ; $5113:
+    ld hl,$0118
+    ; Huh? You’re going to defeat LaShiec? Awesome!
+    jp DrawText20x6 ; and ret
+
+_room_40_LoreVillager2: ; $5119:
+    ld hl,$010e
+    ; Do you know of a jewel called the ‘Carbuncle Eye’? Rumor has it that it’s being held by the Casba Dragon.
+    jp DrawText20x6 ; and ret
+
+_room_41_LoreVillager3: ; $511F:
+    ld hl,$0112
+    ; On the West end of this island, there is a village called Abion.
+    jp DrawText20x6 ; and ret
+
+_room_42_LoreVillager4: ; $5125:
+    ld hl,$0114
+    ; Do you know about the ‘Laerma Tree?'
+    call DrawText20x6
+    call DoYesNoMenu
+    ; No
+    ld hl,$0116
+    ; I hear the Altiplano Plateau on Dezoris is totally covered by them.
+    jr nz,+
+    ld hl,$013c
+    ; Really? What a bore!
++:  jp DrawText20x6 ; and ret
+
+_room_43_LoreVillager5: ; $5139:
+    ld hl,$010c
+    ; _room_43_5139
+    jp DrawText20x6 ; and ret
+
+_room_44_AbionVillager1: ; $513F:
+    ld hl,$011c
+    ; This village is called Abion.
+    jp DrawText20x6 ; and ret
+
+_room_45_AbionVillager2: ; $5145:
+    ld hl,$011e
+    ; The evil hand of LaShiec has extended to this village as well! Please help us!
+    jp DrawText20x6 ; and ret
+
+_room_46_AbionVillager3: ; $514B:
+    ld hl,$0120
+    ; Some weird freak just moved to this village, and he was carrying a jar or something. It seems he’s been doing experiments on animals. I gotta bad feeling about that guy.
+    jp DrawText20x6 ; and ret
+
+_room_47_AbionVillager4: ; $5151:
+    ld hl,$0126
+    ; I want to try and travel the stars.
+    jp DrawText20x6 ; and ret
+
+_room_48_AbionVillager5: ; $5157:
+    ld hl,$0128
+    ; They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly! Weird, huh?
+    jp DrawText20x6 ; and ret
+
+_room_49_UzoVillager1: ; $515D:
+    ld hl,$012e
+    ; This is Uzo Village, on the planet Motavia.
+    jp DrawText20x6 ; and ret
+
+_room_4a_UzoVillager2: ; $5163:
+    ld hl,$0130
+    ; You can pass over antlions if you have a ‘LandMaster.’
+    jp DrawText20x6 ; and ret
+
+_room_4b_UzoVillager3: ; $5169:
+    ld hl,$0132
+    ; To the South of Uzo, there is a village called Casba.
+    jp DrawText20x6 ; and ret
+
+_room_4c_UzoVillager4: ; $516F:
+    ld hl,$0134
+    ; It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in its head!
+    jp DrawText20x6 ; and ret
+
+_room_4d_UzoVillager5: ; $5175:
+    ld hl,$013a
+    ; Do you know about the ‘Soothe Flute?’
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$013c
+    ; Really? What a bore!
+    jr z,+
+    ld a,(SootheFluteIsUnhidden)
+    or a
+    jr nz,++
+    ld a,1
+    ld (SootheFluteIsUnhidden),a
+++: ld hl,$013e
+    ; Well, this is a secret, but when I went to Palma, I buried it on the outskirts of Gothic Village. Don’t tell anybody!
++:  jp DrawText20x6 ; and ret
+
+_room_4e_UzoVillager6: ; $5194:
+    ld hl,$0136
+    ; Have you heard of the ‘Frad Cloak?' They say it’s light in weight, but has superb defensive power.
+    jp DrawText20x6 ; and ret
+
+_room_4f_CasbaVillager1: ; $519A:
+    ld hl,$0166
+    ; This is Casba Village.
+    jp DrawText20x6 ; and ret
+
+_room_50_CasbaVillager2: ; $51A0:
+    ld hl,$0168
+    ; There’s a dragon living in Casba Cave! I’m so scared!
+    jp DrawText20x6 ; and ret
+
+_room_51_AeroCastle1: ; $51A6:
+    ld hl,$016a
+    ; You can't always trust your eyes in dungeons.
+    jp DrawText20x6 ; and ret
+
+_room_52_CasbaVillager3: ; $51AC:
+    ld hl,$016c
+    ; The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, [a man named] Perseus used that shield to confront a monster.
+    jp DrawText20x6 ; and ret
+
+_room_53_CasbaVillager4: ; $51B2:
+    ld hl,$0170
+    ; One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!
+    jp DrawText20x6 ; and ret
+
+_room_54_CasbaVillager5: ; $51B8:
+    ld hl,$0172
+    ; Do you know about the ‘FlowMover’?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; No
+    ld hl,$017c
+    ; With a FlowMover, you can glide smoothly across the the top of the water. They can really come in handy!
+    jr nz,+
+    ; Yes
+    ld a,1
+    ld (FlowMoverIsUnhidden),a
+    ld hl,$0174
+    ; Well, I bought one on Palma, in the town of Shion, but it turned out to be broken, so I ditched it in Bartevo. What a waste!
++:  jp DrawText20x6 ; and ret
+
+_room_55_Drasgo1 ; $51D1:
+    ld hl,$017e
+    ; This is Drasgo, a tiny town on the sea.
+    jp DrawText20x6 ; and ret
+
+_room_56_Drasgo2: ; $51D7:
+    ld hl,$0180
+    ; Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!
+    jp DrawText20x6 ; and ret
+
+_room_57_Drasgo3: ; $51DD:
+    ld hl,$0184
+    ; I hear that there's an enchanted sword in Abion Tower.
+    jp DrawText20x6 ; and ret
+
+_room_58_Drasgo4: ; $51E3:
+    ld hl,$0186
+    ; I once saw a huge floating rock in the sky!
+    jp DrawText20x6 ; and ret
+
+_room_59_ChokoOneesan: ; $51E9:
+    ld hl,$0188
+    ; It's me, Choko Oneesan! Be brave and strong as you continue your quest!
+    jp DrawText20x6 ; and ret
+
+_room_5a_DrasgoCave1; $51EF:
+_room_8f_DrasgoCave1; $51EF:
+    ld hl,$018c
+    ; I heard that a store in this city sells an apparatus called a ‘GasClear’, which protects the body against poison gas. The only thing is, I can’t find the damn store! Sheesh!
+    jp DrawText20x6 ; and ret
+
+_room_5b_DrasgoCave2: ; $51F5:
+_room_90_DrasgoCave2: ; $51F5:
+    ld hl,$0190
+    ; This is an item shop. What can I do for you? Haah haah! Sorry, I’m just kidding! Please forgive me.
+    jp DrawText20x6 ; and ret
+
+_room_5c_DrasgoGasClearSeller: ; 51FB
+_room_91_DrasgoGasClearSeller:
+    ld hl,1000
+    ld (NumberToShowInText),hl
+    ld hl,$0194
+    ; You must be pretty shocked to see a store in a place like this, huh? ‘GasClears’ are 1000 mesetas. Pretty cheap, no? You wanna buy one?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$019c
+    ; Hey, what the hell?! I’m not selling you ANYTHING!
+    jp DrawText20x6 ; and ret
++:  ld de,1000
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$019a
+    ; Huh? You don’t have enough money? What the hell?! I’m not selling you ANYTHING!
+    jp DrawText20x6 ; and ret
++:  ld (Meseta),hl
+    ld hl,$0198
+    ; Thank you. Please come again.
+    call DrawText20x6
+    ld a,Item_GasClear
+    ld (ItemTableIndex),a
+    call HaveItem
+    ret z ; You can only have one... even if you pay twice
+    jp AddItemToInventory
+
+_room_5d_Skray1: ; $5238:
+    ld hl,$01a2
+    ; This is Skray, on the planet Dezoris. Pretty cold outside, wasn’t it?
+    jp DrawText20x6 ; and ret
+
+_room_5e_Skray2: ; $523E:
+    ld hl,$01a4
+    ; Nearly all of the Palman immigrants live in this town.
+    jp DrawText20x6 ; and ret
+
+_room_5f_Skray3: ; $5244:
+    ld hl,$01a6
+    ; I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the the northern mountains.
+    jp DrawText20x6 ; and ret
+
+_room_60_Skray4: ; $524A:
+    ld hl,$01aa
+    ; What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.
+    jp DrawText20x6 ; and ret
+
+_room_61_Skray5: ; $5250:
+    ld hl,$01b2
+    ; Weapons made from laconia conceal holy powers, y’know. I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.
+    jp DrawText20x6 ; and ret
+
+_room_62_Skray6: ; $5256:
+    ld hl,$01b8
+    ; Planet Dezoris is made of ice.
+    jp DrawText20x6 ; and ret
+
+_room_63_Skray7: ; $525C:
+    ld hl,$01ba
+    ; There are places inside the ice mountains that can be easily broken.
+    jp DrawText20x6 ; and ret
+
+_room_64_Skray8: ; $5262:
+    ld hl,$01bc
+    ; The area around the Altiplano Plateau is encircled by mountains of ice.
+    jp DrawText20x6 ; and ret
+
+_room_65_Skray9: ; $5268:
+    ld hl,$01be
+    ; This planet has a solar eclipse once every hundred years. There is a flame lit at this time called an ‘Eclipse Torch’. It is regarded by the Dezorians as sacred.
+    jp DrawText20x6 ; and ret
+
+_room_66_Skray10: ; $526E:
+    ld hl,$01c4
+    ; I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!
+    jp DrawText20x6 ; and ret
+
+_room_67_HonestDezorian1: ;
+    ld hl,$01c8
+    ; Those guys in the village next to us are all a bunch of liars. Be careful, eh.
+    jp DrawText20x6 ; and ret
+
+_room_68_HonestDezorian2: ;
+    ld hl,$01ca
+    ; Corona Tower lies on the other side of the mountains to the North of this village, eh.
+    jp DrawText20x6 ; and ret
+
+_room_69_HonestDezorian3: ; $5280:
+    ld hl,$01cc
+    ; To the West of Corona Tower is Dezoris Cave, eh. Please send my regards to our comrades there, eh.
+    jp DrawText20x6 ; and ret
+
+_room_6a_HonestDezorian4: ; $5286:
+    ld hl,$01d0
+    ; Laerma trees make berries called ‘Laerma Berries’, eh. Those berries are real tasty, eh. We wanna use them for food, eh, but if we don’t put them into a ‘Laconian Pot’, they just get all shriveled up, eh.
+    jp DrawText20x6 ; and ret
+
+_room_6b_HonestDezorian5: ; $528C:
+    ld hl,$01d6
+    ; Do you know about the ‘Aeroprism’?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; No
+    ld hl,$01da
+    ; I hear you can use it to look at other worlds, eh.
+    jr z,+
+    ; Yes
+    ld hl,$01d8
+    ; I’d really like to see it at least once, eh.
++:  jp DrawText20x6 ; and ret
+
+_room_6c_HonestDezorian6: ; $52A0:
+    ld hl,$01dc
+    ; All the people in this village hate those Palmans, eh.
+    jp DrawText20x6 ; and ret
+
+_room_6d_DishonestDezorian1: ; $52A6:
+    ld hl,$01de
+    ; There's a Life Spring/Fountain of Youth in Corona Tower, y’know.
+    jp DrawText20x6 ; and ret
+
+_room_6e_DishonestDezorian2: ; $52AC:
+    ld hl,10
+    ld (NumberToShowInText),hl
+    ld hl,$01e0
+    ; There's a warp on the 10th underground floor of Dezoris cave, y’know.
+    jp DrawText20x6 ; and ret
+
+_room_6f_DishonestDezorian3: ; $52B8:
+    ld hl,$01e2
+    ; Laerma Berries are colored blue. We use them as a dye, y’know.
+    jp DrawText20x6 ; and ret
+
+_room_70_DishonestDezorian4: ; $52BE:
+    ld hl,$01e4
+    ; If you use a crystal in front of the Laerma Tree, berries will grow, y’know.
+    jp DrawText20x6 ; and ret
+
+_room_71_DishonestDezorian5: ; $52C4:
+    ld hl,$01e6
+    ; This village welcomes Palmans.
+    jp DrawText20x6 ; and ret
+
+_room_72_DishonestDezorian6: ; $52CA:
+    ; This seems to be a bug in the original - it uses a line from elsewhere.
+    ld hl,$01e8
+    ; This village is called Sopia. I’m glad that you were able to brave your way through the poison gas.
+    jp DrawText20x6 ; and ret
+
+_room_73_SopiaVillageChief: ; $52D0:
+    ld hl,400
+    ld (NumberToShowInText),hl
+    ld hl,$01ea
+    ; I am the chief of this village. Due to the gas, Sopia is cut off from other towns and villages, and is therefore very poor. Could you by any chance offer a contribution of 400 mesetas?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$01f0
+    ; I see. What a pity. Hmmm...
+    jp DrawText20x6 ; and ret
++:  ld de,400
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$01f2
+    ; You are poor as well, eh? What a sad world in which we live.
+    jp DrawText20x6 ; and ret
++:  ld (Meseta),hl
+    ld a,$01
+    ld (PerseusShieldIsUnhidden),a
+    ld hl,$01f4
+    ; Thank you. According to local legend, the shield that Perseus used when he defeated Medusa is buried under a cactus on the island in the middle of the lake.
+    jp DrawText20x6 ; and ret
+
+_room_74_GamerMikiChan: ; $5306:
+    ld hl,$01fa
+    ; I'm Gamer Miki-chan! Do you own a Master System?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$01fc
+    ; Wow! I guess we game the same! After all, the FM sound system is way cool, huh?
+    jr z,+
+    ld hl,$01fe
+    ; Aawww! That’s no good! Hurry up and buy one! Hmph!
++:  jp DrawText20x6 ; and ret
+
+_room_75_Sopia1: ; $531A:
+    ld hl,$0200
+    ; Before LaShiec’s powerful grasp, this village was very wealthy.
+    jp DrawText20x6 ; and ret
+
+_room_76_Sopia2: ; $5320:
+    ld hl,$0202;
+    ; There’s a monk named Tajimu living in the mountains South of the lake.
+    jp DrawText20x6 ; and ret
+
+_room_77_Sopia3: ; $5326:
+    ld hl,$0204
+    ; I heard that Palma is a very beautiful planet. Is it really true?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$0206
+    ; Ooh, I want to go there soo bad!
+    jr z,+
+    ld hl,$0208
+    ; Oh, I see. I want to go to a place with cleaner air.
++:  jp DrawText20x6 ; and ret
+
+_room_78_Sopia4: ; 533A:
+    ld hl,$00ba
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$020c
+    ; Cheapskate!
+    jp DrawText20x6
++:  ld a,Item_PelorieMate
+    call HaveItem
+    jr nz,+
+    call $28db ; RemoveItemFromInventory
+    ld hl,$020a
+    ; Thanks. Please come again.
+    jp DrawText20x6 ; and ret
++:  ld hl,$020e
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
+
+_room_79_AeroCastle2: ; $5361:
+    ld hl,$0210
+    ld hl,$0210
+    ; ...........
+    jp DrawText20x6 ; and ret
+
+_room_7a_AeroCastle3: ; $5367:
+    ld hl,$026a
+    ; Do not defy the great LaShiec.
+    jp DrawText20x6 ; and ret
+
+_room_7b_ShortcakeShop: ; $536D:
+    ld hl,280
+    ld (NumberToShowInText),hl
+    ld hl,$024a
+    ; I’m sorry for having a store in a place like this. Shortcakes are 280 meseta. Would you like one?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$b163
+    ; Take care, come back and see us soon.<wait>
+    jp TextBox20x6 ; and ret
++:  ld de,280
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$b65c
+    ; It looks like you don’t have enough money.<line>
+    ; Please come back later.<wait>
+    jp TextBox20x6 ; and ret
++:  ld a,(InventoryCount)
+    cp $18
+    jr c,+
+    ld hl,$b18f
+    ; You can’t carry any more. Come back when you can.<wait>
+    jp TextBox20x6 ; and ret
++:  ld (Meseta),hl
+    ld hl,$020a
+    ; Thank you!<wait>
+    call DrawText20x6
+    ld a,Item_Shortcake
+    ld (ItemTableIndex),a
+    call HaveItem
+    ret z ; You can't have two
+    jp AddItemToInventory ; and ret
+
+_room_7c_MahalCaveMotavianPeasant: ; $53B7:
+    ld a,Enemy_MotavianPeasant
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld a,(PartySize)
+    cp 3
+    ; No Lutz yet
+    ld hl,$00ac
+    ; Since the orders are from the Governor-General, Lutz will probably listen.
+    jr nz,+
+    ; Have Lutz
+    ld hl,$00b2
+    ; Yahoo!
++:  jp DrawText20x6 ; and ret
+
+_room_7d_Lutz: ; $53CF:
+    ld a,(PartySize)
+    cp 3
+    jp nc,_ScriptEnd
+    ; No Lutz yet
+    ld a,$3b
+    call $63f9
+    call SpriteHandler
+    ld hl,$00ae
+    ; Who are you? I'm in the middle of training right now. Please don’t interrupt.
+    call DrawText20x6
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
+    ret nz
+    call $28db ; RemoveItemFromInventory
+    pop hl
+    call Close20x6TextBox
+    call MenuWaitForButton
+    ld a,1
+    ld (HaveLutz),a
+    ld iy,CharacterStatsLutz
+    ld (iy+$0a),$01
+    ld (iy+$0b),$11
+    call InitialiseCharacterStats
+    ld a,3
+    ld (PartySize),a
+    jp $46c8
+
+_room_7e_LuvenosAssistant: ; $5411:
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp 2
+    jp nc,_ScriptEnd ; Nothing if we haven't been to Luveno yet
+    ld a,$10
+    call $63f9
+    call SpriteHandler
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp 1
+    ld de,$00dc
+    ; I’m busy right now, so please don’t interrupt.
+    jr nz,+
+    ld (hl),2 ; Progress LuvenoState
+    ld de,$00f6
+    ; Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice [but to help]. I’ll go there right away.
++:  ex de,hl
+    jp DrawText20x6 ; and ret
+
+_room_7f_5436:
+    ld hl,$00f8
+    ; NO MAN THAT GOES INTO THE ROOM INTHE FAR CORNER HAS EVER COME OUT ALIVE! AHA-HA-HA!
+    jp DrawText20x6 ; and ret
+
+_room_80_Luveno_Prison: ; $543C:
+    ld a,(LuvenoState)
+    or a
+    jp nz,_ScriptEnd ; Nothing if he is not in prison any more
+    ld a,$34
+    call $63f9
+    call SpriteHandler
+    ld hl,LuvenoPrisonVisitCounter
+    ld a,(hl)
+    or a
+    jr nz,+
+    ; First visit
+    inc (hl)
+    ld hl,$00de
+    ; I’m Luveno. You came here to rescue me? That’s not really necessary. You should go home.
+    jp DrawText20x6 ; and ret
++:  cp 1
+    jr nz,+
+    ; Second visit
+    inc (hl)
+    ld hl,$00e0
+    ; What? Did you say 'build a spaceship?' [BAKA MO YASUMIYASUMI IE.]  Do you think I want to be responsible for something like that?
+    jp DrawText20x6 ; and ret
++:  ; Third visit
+    ld hl,$00e2
+    ; Hmmm... Didn’t I tell you to-- Aah, I give up! You must promise to do whatever I ask. Agreed?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$00d4
+    ; Well, if you won’t promise, then I’m afraid I can’t help you.
+    jr nz,+
+    ld hl,LuvenoState
+    ld (hl),1 ; Freed
+    ld hl,$00e4
+    ; Good. Well then, I’m going to go to Gothic Village and make the proper arrangements. Meet me there later. Oh, don’t worry. I can make it there myself.
++:  jp DrawText20x6 ; and ret
+
+_room_81_TriadaPrisonGuard1: ; $547D:
+    ld a,Enemy_RobotPolice
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$00e6
+    ; Do you have a Roadpass?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ; Yes
+    ld a,Item_RoadPass
+    call HaveItem
+    jr nz,+
+    ld hl,$0024
+    ; Okay, you may pass.
+    jp DrawText20x6 ; and ret
++:  ld hl,$00e8
+    ; You are very brave. Please allow me to kill you...
+    call DrawText20x6
+    call Close20x6TextBox
+    jp _55e9_fight
+
+_room_82_TriadaPrisoner1: ; $54A9:
+    ld hl,$00ba
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$00c2
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
+    jr nz,+
+    call $28db ; RemoveItemFromInventory
+    ld hl,$00ea
+    ; Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.
+    jp DrawText20x6 ; and ret
++:  ld hl,$00ce
+    ; Well? Let's see it.
+    jp DrawText20x6 ; and ret
+
+_room_83_TriadaPrisoner2: ; $54D0:
+    ld hl,$00ec
+    ; Do you know of a robot called ‘Hapsby’?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$013c
+    ; Really? What a bore!
+    jr z,+
+    ld hl,$0124
+    ; It’s a robot made out of laconia! But it seems to have been dumped into a scrap heap!
++:  jp DrawText20x6 ; and ret
+
+_room_84_TriadaPrisoner3: ; $54E4:
+    ld hl,$00ee
+    ; I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.
+    jp DrawText20x6 ; and ret
+
+_room_85_TriadaPrisoner4: ; $54EA:
+    ld hl,$00f0
+    ; The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’
+    jp DrawText20x6 ; and ret
+
+_room_86_TriadaPrisoner5: ; $54F0:
+    ld hl,$00f2
+    ; Whassup? I haven’t seen any people in a long time! Let’s talk!
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$014c
+    ; Y’know, I’ve got a friend in Bartevo. But those lava pools are making things real tough right now, I guess. If you see my friend, could you tell him I said ‘hi?’
+    jr z,+
+    ; No
+    ld hl,$013c
+    ; Really? What a bore!
++:  jp DrawText20x6 ; and ret
+
+_room_87_TriadaPrisoner6: ; $5504:
+    ld a,Enemy_Tarantula
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$00f4
+    ; There’s this chemical called ‘Polymeteral’ that they say will dissolve any material except laconia.
+    jp DrawText20x6 ; and ret
+
+_room_88_MedusasTower1: ; $5512:
+    ld hl,$00fc
+    ; You’ve gotten far. Soon you will know the truth.
+    jp DrawText20x6 ; and ret
+
+_room_89_MedusasTower2: ; $5518:
+    ld hl,$00fe
+    ; Get out of here while you're still breathing! You don’t know what you’re up against!
+    jp DrawText20x6 ; and ret
+
+_room_8a_MedusasTower3: ; $551E:
+    ld hl,$0100
+    ; Oh, what a brave young lady you are! Beware of traps.<wait>
+    jp DrawText20x6 ; and ret
+
+_room_8b_BartevoCave: ; $5524:
+    ld hl,$010a
+    ; The drug store in Abion sells Polymeteral, I hear.
+    jp DrawText20x6 ; and ret
+
+_room_8c_AvionTower: ; $552A:
+    ld hl,$021a
+    ; Leaving? Better do it now.
+    jp DrawText20x6 ; and ret
+
+_room_8d_5530:
+    ld hl,$0148
+    ; I am the World’s Greatest Fortune Teller, Damoa! Do you believe in my amazing powers?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+-:  ld hl,$0152
+    ; What did you say? You are very disobedient. I think you should leave.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld hl,$014e
+    ; Good. Good.
+    call DrawText20x6
+    ld hl,$0150
+    ; I sense that you are looking for something, yes?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,-
+    ; Yes
+    ld hl,$014e
+    ; Good. Good.
+    call DrawText20x6
+    ld hl,$0154
+    ; I see that you are looking for Alex Ossale, yes?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,-
+    ; Yes
+    ld hl,$014e
+    ; Good. Good.
+    call DrawText20x6
+    ld hl,$0156
+    ; Everything I say is correct. Understand?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ; Yes
+    ld hl,$0158
+    ; In that case, perhaps you should come back later.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,$015a
+    ; Do you oppose me?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,-
+    ; No
+    ld hl,$015c
+    ; Is that so... You show considerable promise. I shall give you this crystal as a reward.
+    call DrawText20x6
+    ld a,Item_DamoasCrystal
+    ld (ItemTableIndex),a
+    call HaveItem
+    ret z ; You can't have two
+    jp AddItemToInventory ; and ret
+
+_room_8e_5597:
+    ld hl,$0160
+    ; Did you come here seeking Baya Marlay tower?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$0162
+    ; Then you will be destroyed!
+    jr z,+
+    ; No
+    ld hl,$0164
+    ; Then you should turn back.
+    jp DrawText20x6 ; and ret
+
+_room_92_55AB:
+    ld a,Enemy_RobotPolice
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$021c
+    ; Do you have a Roadpass?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ld a,Item_RoadPass
+    call HaveItem
+    jr nz,+
+    ld hl,$021e
+    ; Let me see here... Hm? This is a fake! Don't think you can fool me just because I'm a robot! Let me show you to your cell.
+    call DrawText20x6
+    call Close20x6TextBox
+    pop hl
+    ld hl,$159c
+    ld ($c30c),hl
+    ld a,$01
+    ld ($c30a),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$0a
+    ret
+
++:  ld hl,$00e8
+    ; You are very brave. Please allow me to kill you...
+    call DrawText20x6
+    call Close20x6TextBox
+_55e9_fight:
+    call fn116b_Fight
+    ld a,(CharacterSpriteAttributes)
+    or a
+    call nz,fn1d3d
+    pop hl
+    ret
+
+_room_93_55F5:
+    ld hl,$0222
+    ; I wonder if you could help me escape from this place, but it’s hopeless.
+    jp DrawText20x6 ; and ret
+
+_room_94_55FB:
+    ld hl,$0224
+    ; Defeat LaShiec?! That’s nonsense!
+    jp DrawText20x6 ; and ret
+
+_room_95_5601:
+    ld hl,$0226
+    ; We will all be sacrificed in the name of LaShiec! Agh!
+    jp DrawText20x6 ; and ret
+
+_room_96_5607:
+    ld hl,$022e
+    ; All those who have gone up against LaShiec have had their souls taken by his magic.
+    jp DrawText20x6 ; and ret
+
+_room_97_560D:
+    ld hl,$0232
+    ; There is a tower on top of Baya Mahrey knoll. There must be secrets hidden inside.
+    jp DrawText20x6 ; and ret
+
+_room_98_5613:
+    ld hl,$0218
+    ; You’d better not go any further, ‘cuz there’s a guard station up there.
+    jp DrawText20x6 ; and ret
+
+_room_99_5619:
+    ld hl,$0214
+    ; Oh! So you’re locked up in here as well? How tragic. There IS a way to get outside, but I'D rather stay here where it's nice and cozy.
+    jp DrawText20x6 ; and ret
+
+_room_9a_561F:
+    ld a,Enemy_RobotPolice
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$009c
+    ; Did you bring a present for the Governor-General?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$00a2
+    ; Leave at once!
+    call DrawText20x6
+    jr ++
++:  ld a,Item_Shortcake
+    call HaveItem
+    jr nz,+
+    push bc
+      call $28db ; RemoveItemFromInventory
+    pop bc
+    ld a,$ff
+    ld (HaveGivenShortcake),a
+    ld hl,$009e
+    ; Well then, I’ll look after this ‘Shortcake’.
+    jp DrawText20x6 ; and ret
++:  ld hl,$00a0
+    ; That is NOT a suitable gift.
+    call DrawText20x6
+++: pop hl
+    call Close20x6TextBox
+    call $1738
+    jp $6b2f
+
+_room_9b_TorchBearer: ; $5661:
+    ld hl,$023e
+    ; This flame is lit during each centennial solar eclipse. If you give me a dragon’s jewel, however, I’ll share the flame with you. Do we have an agreement?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$0246
+    ; You don’t want it?! Then, ah, for what did you come here?
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld a,Item_CarbuncleEye
+    call HaveItem
+    jr nz,+
+    call $28db ; RemoveItemFromInventory
+    ld a,Item_EclipseTorch
+    ld (ItemTableIndex),a
+    call AddItemToInventory
+    ; No need to check for space as we just removed the Carbuncle Eye
+    ld hl,$0244
+    ; Well then, please accept this ‘Eclipse Torch’.
+    jp DrawText20x6 ; and ret
++:  ld hl,$0248
+    ; You mean to say you don’t have the jewel?! Don’t toy with me!
+    jp DrawText20x6 ; and ret
+
+_room_9c_Tajim: ; $5690:
+    ld a,Enemy_Tajim
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld a,($c43b)
+    ld b,a
+    ld a,Item_Armour_FradMantle ; ???
+    cp b
+    jr z,+
+    call HaveItem
+    jr nz,++
++:  ld hl,$0258
+    ; There is nothing more I can teach you.
+    jp DrawText20x6 ; and ret
+++: ; Check if Lutz has joined the party
+    ld a,(PartySize)
+    cp 3
+    jr nc,++
+    ; No Lutz
+    ld hl,$025a
+    ; Who, may I ask, are you? I have a student, Lutz, in the Cave of Magic. Do you know him?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$025e
+    ; There is something I must tell Lutz. Would you please escort him to me?
+    jr z,+
+    ; No
+    ld hl,$0260
+    ; I see. In that case, I guess it’s pointless for us to talk.
++:  jp DrawText20x6 ; and ret
+++: ld hl,$024c
+    ; Ah. My student, Lutz! I see you are finally on your way to defeating LaShiec.
+    call DrawText20x6
+    ; Check if Lutz is dead
+    ld a,(CharacterStatsLutz)
+    or a
+    jr nz,+
+    ld hl,$02a8
+    ; ...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.
+    jp DrawText20x6 ; and ret
++:  ld hl,$024e
+    ; That being the case, I'll give you your final test: a duel with me!
+    call DrawText20x6
+    call Close20x6TextBox
+    ; Preserve Lutz' HP but everyone else's IsAlive, to make a Lutz-only fight
+    ld a,(CharacterStatsLutz+1) ; HP
+    push af
+      ld a,(CharacterStatsAlis)
+      push af
+        ld a,(CharacterStatsMyau)
+        push af
+          ld a,(CharacterStatsOdin)
+          push af
+            xor a
+            ld (CharacterStatsAlis),a
+            ld (CharacterStatsMyau),a
+            ld (CharacterStatsOdin),a
+            call fn116b_Fight
+          pop af
+          ld (CharacterStatsOdin),a
+        pop af
+        ld (CharacterStatsMyau),a
+      pop af
+      ld (CharacterStatsAlis),a
+    pop af
+    ld b,a ; Lutz' HP before
+    ld a,(CharacterStatsLutz+1) ; Lutz' HP now
+    or a
+    jr nz,+
+    ; Lutz' HP s 0
+    ; Restore it (and bring him back to life)
+    ld a,b
+    ld (CharacterStatsLutz+1),a
+    ld a,1
+    ld (CharacterStatsLutz+0),a
+    ld hl,$0256
+    ; You still haven’t trained enough. You should come back later.
+    jp DrawText20x6 ; and ret
++:  ; Lutz won
+    ld hl,$0250
+    ; You’ve become strong, my boy! You have all the power you’ll ever need. Please use this Frad Cloak. It is my gift to you. It will protect your body from harm. Well then, you’d best be on your way.
+    call DrawText20x6
+    ld a,Item_Armour_FradMantle
+    ld (ItemTableIndex),a
+    jp AddItemToInventory;$28fb
+
+_room_9d_5730:
+    ld a,Enemy_FakeLaShiec
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$0262
+    ; Make your move, fools. I can see right through you.
+    call DrawText20x6
+    call Close20x6TextBox
+    call fn574f_fight
+    ld a,$ff
+    ld (HaveBeatenShadow),a
+    ld hl,$0266
+    ; I am King LaShiec’s shadow warrior. You have gained nothing by defeating me! Hee hee hee!
+    jp DrawText20x6 ; and ret
+
+fn574f_fight:
+    call fn116b_Fight
+    ld a,(FunctionLookupIndex)
+    cp $02
+    ret    nz
+    pop hl
+    pop hl
+    ret
+
+_room_9e_LaShiec: ; $575B:
+    ld a,(HaveBeatenLaShiec)
+    or a
+    jp nz,_ScriptEnd
+    ld a,Enemy_LaShiec
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$026c
+    ; And so you finally arrive. How fortunate you are. Do you really wish to defeat me?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$026e
+    ; I see. Then perhaps I should show you the error in your judgment!
+    jr z,+
+    ld hl,$0270
+    ; You have already wasted too much of my time. I shall make you regret it!
++:  call DrawText20x6
+    call Close20x6TextBox
+    call fn574f_fight
+    ld a,1
+    ld (HaveBeatenLaShiec),a
+    ld hl,$02aa
+    ; What?! Could it be that I die? What a disgrace. I shall live again!
+    ; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
+    jp DrawText20x6 ; and ret
+
+_room_9f_578F:
+    ld hl,$b132
+    jp TextBox20x6 ; and ret
+
+_room_a0_5795:
+_room_a1_5795:
+_room_ae_5795:
+_room_af_5795:
+_room_b5_5795:
+    call MenuWaitForButton
+_room_a2_5798:
+    call fn1d3d
+    pop hl
+    ret
+
+fn579d_NothingInterestingHere:
+    ld hl,$af1e
+    ; There doesn’t seem to be anything particularly unusual here.
+    call TextBox20x6
+    jp Close20x6TextBox ; and ret
+
+
+GetHapsby:
+    ld a,Item_Hapsby
+    ld (ItemTableIndex),a
+    call HaveItem
+    jr z,fn579d_NothingInterestingHere
+    call Close20x6TextBox
+    ld hl,$c801
+    inc (hl)
+    call SpriteHandler
+    call MenuWaitForButton
+    ld hl,$012c
+    ; I am Hapsby. Thanks for getting me out of that scrap heap. Let me pilot the ‘Luveno’ for you, okay?
+    call DrawText20x6
+    jp AddItemToInventory ; and ret
+
+CheckFlowMover:
+    ; Is it unhidden?
+    ld a,(FlowMoverIsUnhidden)
+    or a
+    jr z,fn579d_NothingInterestingHere
+    ; Do we have Hapsby?
+    ld a,Item_Hapsby
+    ld (ItemTableIndex),a
+    call HaveItem
+    jr nz,fn579d_NothingInterestingHere
+    ; Do we have it already?
+    ld a,Item_Vehicle_FlowMover
+    ld (ItemTableIndex),a
+    call HaveItem
+    jr z,fn579d_NothingInterestingHere
+    ld hl,$0178
+    ; You found the ‘FlowMover’! Hapsby fixed the areas that were damaged, so you can use it now!
+    call DrawText20x6
+    call Close20x6TextBox
+    jp AddItemToInventory ; and ret
+
+FindTairon:
+    ld hl,$00fa
+    ; It seems that something turned this person into stone! Maybe he can be returned to normal...
+    call DrawText20x6
+    jp Close20x6TextBox ; and ret
+
+_room_a3_CoronoTowerDezorian1: ; 57F5:
+    ld a,Enemy_DezorianHead
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$0234
+    ; What is your business here? Don’t cause any trouble!
+    jp DrawText20x6 ; and ret
+
+_room_a4_GuaranMorgue: ; $5803:
+    ld hl,$0234
+    ; What is your business here? Don’t cause any trouble!
+    jp DrawText20x6 ; and ret
+
+_room_a5_CoronaDungeonDihonstDezorian: ; $5809:
+    ld a,Enemy_Dezorian
+    ld (EnemyNumber),a
+    call LoadEnemy
+    xor a
+    ld ($cbc3),a
+    ld hl,$0238
+    ; Be careful up ahead. You should turn left at the fork in the path.<wait>
+    jp DrawText20x6 ; and ret
+
+_room_a6_581B:
+    ld a,Enemy_Serpent
+    ld (EnemyNumber),a
+    call LoadEnemy
+    pop hl
+    ; Make it drop no money
+    ld hl,$0000
+    ld (EnemyMoney),hl
+    jp fn116b_Fight
+
+_room_a7_BayaMarlayPrisoner: ; $582D:
+    ld hl,$0228
+    ; Have you gotten the armor from Guaran?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$022c
+    ; Damn! You’re pretty cool!
+    jr z,+
+    ld hl,$022a
+    ; It’s on the other side of a pitfall!
++:  jp DrawText20x6 ; and ret
+
+_room_a8_BuggyUnused: ; $5841:
+    ; Presumably unused...
+    ld a,Enemy_MotavianPeasant
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$0212
+    ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
+    jp DrawText20x6 ; and ret
+
+_room_a9_LuvenoGuard: ; $584F:
+    ld a,(LuvenoState)
+    cp $07
+    jr nc,+
+    ld hl,$0282
+    ; Hey! Keep outta my turf!<wait>
+    jp DrawText20x6 ; and ret
++:  ld hl,$0284
+    ; I guess I’ve got to do what Dr. Luveno says. Go on through.<wait>
+    call DrawText20x6
+    ld a,(HLocation)
+    cp $40
+    ld hl,_5873
+    jr nc,+;
+    ld hl,_5876
++:  call fn7b1e
+    ret
+
+_5873: .db $07 $1B $1B
+_5876: .db $07 $1B $1D
+
+_room_aa_DarkForce: ; $5879:
+    ld a,$93
+    ld (NewMusic),a
+    call Pause256Frames
+    ld a,$1f
+    ld (SceneType),a
+    call LoadSceneData
+    ld hl,$ffff
+    ld (hl),$13
+    ld hl,$8000
+    ld de,TargetPalette+16 ; sprite palette
+    ld bc,$0010
+    ldir
+    ld a,$0c
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,Enemy_DarkForce
+    ld (EnemyNumber),a
+    call LoadEnemy
+    call MenuWaitHalfSecond
+    ld a,$20
+    ld (SceneType),a
+    call fn574f_fight
+    call Close20x6TextBox
+    ; Did we win?
+    ld a,(CharacterStatsAlis)
+    or a
+    jr nz,+
+    ; No
+    ld hl,$b85a
+    call TextBox20x6
+    call Close20x6TextBox
+
+_room_ab_58C6:
++:  call FadeOutFullPalette
+    ld a,$1d
+    ld (SceneType),a
+    call LoadSceneData
+    ld a,$0c
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$35
+    call $63f9
+    call SpriteHandler
+    ld hl,$0272
+    ; Oh! My friends, please forgive me. My mind and body seem to have been enchanted by some sort of evil force.
+    ; Well done! You have saved the world! If you had taken any longer, terrible events might have come to pass. I extend you my utmost appreciation.
+    ; And now, Alisa, I have something I wish to tell you:
+    ; The truth is, your father was once the King of Algol.
+    ; Now that the demon’s fortress has been destroyed, and LaShiec is no more, will be your father’s successor and become the Queen of Algol?
+    call DrawText20x6
+    call DoYesNoMenu           ; 0058E7 CD 75 2E
+    ; Yes
+    ld hl,$0212
+    ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
+    jr z,+
+    ; No
+    ld hl,$0230
+    ; I see. [You must do as you wish]. You are welcome to return at anytime.
++:  call DrawText20x6
+    call Close20x6TextBox
+    pop hl
+    jp $47b5
+
+_room_ac_58FC:
+    ld hl,$02a4
+    ; This is Alisa’s house. Nobody is here.
+    jp DrawText20x6 ; and ret
+
+_room_ad_5902:
+    ld a,($c2f0)
+    ld d,a
+    ld e,0 ; Character number
+-:  ld a,e
+    ld (TextCharacterNumber),a
+    rr d
+    push de
+      ld hl,$b07b
+      ; <player> died.
+      call c,TextBox20x6
+    pop de
+    inc e
+    ld a,e
+    cp $04
+    jr nz,-
+    ld b,4
+--: ld a,b
+    dec a
+    call fb19d9_PointHLToCharacterInA
+    jr nz,+
+    djnz --
+    jp $175e
++:  jp Close20x6TextBox ; and ret
+
+_room_b0_592D:
+    ld hl,$023a
+    ; Don’t let this get out, but there's a fortune-teller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.
+    jp DrawText20x6 ; and ret
+
+_room_b1_OtegamiChieChan: ; $5933:
+    ld hl,$027a
+    ; I am 'Otegami Chie-chan!’ Thanks for all your letters. Please tell us how you feel about this game. We’ll be waiting.
+    jp DrawText20x6 ; and ret
+
+_room_b2_FlightToMotavia: ; $5939:
+    ld hl,$b6c6
+    ; BOUND FOR MOTAVIA. GETTING ON?
+    call TextBox20x6
+    call DoYesNoMenu
+    ret nz
+    ld a,$81
+    ld (xc2e9),a
+    ret
+
+_room_b3_FlightToPalma: ; $5949:
+    ld hl,$b6d7
+    ; BOUND FOR PALMA. GETTING ON?
+    call TextBox20x6
+    call DoYesNoMenu
+    ret nz
+    ld a,$82
+    ld (xc2e9),a
+    ret
+
+_room_b4_HapsbyTravel: ; $5959:
+-:  ld hl,$b0a8
+    ; Where would you like to go?
+    call TextBox20x6
+    ; Select a planet
+    push bc
+      call $3b4b
+      bit    4,c
+    pop bc
+    ret nz
+    ld d,a
+    ; Are we alredy there?
+    ld a,(xc309)
+    rrca
+    rrca
+    rrca
+    and $03
+    ld e,a
+    cp d
+    jr nz,+
+    ; Print the error
+    or a
+    ld hl,$b11e
+    ; This IS Gothic.
+    jr z,++
+    dec a
+    ld hl,$b112
+    ; This IS Uzo.
+    jr z,++
+    ld hl,$b106
+    ; This IS Skray.
+++: call TextBox20x6
+    jr -
+
++:  ld a,d
+    or a
+    ld hl,$b0eb
+    ; Destination: Gothic, on Palma. Confirm?
+    jr z,+
+    dec a
+    ld hl,$b0cf
+    ; Destination: Uzo, on Motabia. Confirm?
+    jr z,+
+    ld hl,$b0b3
+    ; Destination: Skray, on Dezoris. Confirm?
++:  push de
+      call TextBox20x6
+      call DoYesNoMenu
+    pop de
+    jr nz,-
+    ; Current * 3 + next
+    ld a,e
+    add a,a
+    add a,e
+    add a,d
+    ld d,$00
+    ld e,a
+    ld hl,_table
+    add hl,de
+    ld a,(hl)
+    ld (xc2e9),a
+    ret
+_table:
+.db $81 $83 $84
+.db $85 $82 $86
+.db $87 $88
+.ends
+; followed by
 .orga $59ba
 .section "Draw text 20x6" overwrite
 ; de = 1-based table offset * 2
@@ -4789,12 +7419,13 @@ DrawText20x6:          ; $59ba
 ; followed by
 .orga $59ca
 .section "Say something and close 20x8 box" overwrite
-fn59ca:                ; $59ca
+_badScriptIndex:                ; $59ca
     ld hl,_text        ; see below
     call TextBox20x6
     jp Close20x6TextBox
 _text:
 .db $1f $3d $00 $49 $2b $35 $27 $21 $33 $00 $40 $07 $13 $02 $1f $0e $2e $4c $58
+; マダ プロ グラムガ デキテイマセン.
 ; MaDa PuRoGuRaMuGa DeKiTeIMaSeN.[Exit after button press]
 ; The program is not made yet.
 ; or
@@ -5125,12 +7756,12 @@ LoadEnemy:             ; $627a
     jr nz,+            ; ------------------------------+
     and $f             ;                               |
     ld b,a             ; low nibble -> b               |
-    ld a,(xc4f0)       ; get xcf40                     |
+    ld a,(PartySize)   ;                               |
     inc a              ; add 1                         |
     add a,a            ; and double                    |
     cp b               ;                               |
     jr nc,_f           ;                               |
-    ld b,a             ; if (xc4f0+1)*2<b then b=that  |
+    ld b,a             ; if (PartySize+1)*2<b then b=that  |
  __:call GetRandomNumber ;                             |
     and 7              ;                               |
     cp b               ;                               |
@@ -5193,7 +7824,7 @@ LoadEnemy:             ; $627a
     ld (xc2e7),a       ; Next byte in xc2e7
 
     ld hl,$c500
-    ld ($c2e1),hl      ; $c500 -> xc2e1
+    ld (xc2e1),hl      ; $c500 -> xc2e1
 
     call SpriteHandler
     call SpriteHandler
@@ -5337,7 +7968,7 @@ AnimCharacterSprites:  ; $6471
     ret
 _FunctionTable:
 .dw _Alis
-.dw _Noah
+.dw _Lutz
 .dw _Odin
 .dw _Myau
 .dw _Vehicle
@@ -5359,7 +7990,7 @@ _Alis:                 ; $64a5
     call outi128       ; output 192 bytes = 6 tiles
     jp outi64          ; and ret
 
-_Noah:                 ; $64c2
+_Lutz:                 ; $64c2
     ld e,$00
     srl d
     rr e
@@ -5368,8 +7999,8 @@ _Noah:                 ; $64c2
     srl d
     rr e
     add hl,de
-    ld de,NoahSprites
-    add hl,de          ; hl = NoahSprites + (ix+$10)*192
+    ld de,LutzSprites
+    add hl,de          ; hl = LutzSprites + (ix+$10)*192
     TileAddressDE $1b0
     SetVRAMAddressToDE
     ld c,VDPData
@@ -5386,7 +8017,7 @@ _Odin:                 ; $64df
     rr e
     add hl,de
     ld de,OdinSprites
-    add hl,de          ; hl = NoahSprites + (ix+$10)*192
+    add hl,de          ; hl = LutzSprites + (ix+$10)*192
     TileAddressDE $1b6
     SetVRAMAddressToDE
     ld c,VDPData
@@ -5413,7 +8044,7 @@ _Vehicle:              ; $650f
   +:SetPage VehicleSprites
     ld l,$00
     ld h,d
-    add hl,hl          
+    add hl,hl
     ld de,VehicleSprites
     add hl,de          ; hl = VehicleSprites + (ix+$10)*512
     ld de,$7540        ; tile $1aa
@@ -6088,7 +8719,7 @@ FillTilemap:          ; $76ee
     ld d,a             ; de = $d000+hl
 
     ld a,(VLocation)
-    and $f0            
+    and $f0
     ld l,a
     ld a,(HLocation)
     rrca
@@ -6122,31 +8753,31 @@ FillTilemap:          ; $76ee
                         adc a,d
                         sub e
                         ld d,a         ; de = de + 60
-                        ldi            
-                        ldi            
-                        ldi            
+                        ldi
+                        ldi
+                        ldi
                         ldi            ; Copy another 4 bytes to there
-                    pop de             
+                    pop de
                     ld a,e
                     and $3f
                     jr nz,+            ; If e is a multiple of $40
-                    ld a,e             
+                    ld a,e
                     sub $40            ; then subtract $40
                     ld e,a
               +:pop hl
                 ld a,l
-                and $f0                
+                and $f0
                 ld b,a                 ; b = high nibble of l
-                inc l                  
-                ld a,l                 
-                and $f0                
+                inc l
+                ld a,l
+                and $f0
                 cp b                   ; if adding 1 doesn't change the high nibble (so low=$f???)
                 jr z,+
                 inc h                  ; inc h
                 ld l,b                 ; and strip l to high nibble
-          +:pop bc     
+          +:pop bc
             djnz -     ; repeat 16 times
-            
+
             ld a,$80
             add a,e
             ld e,a
@@ -6166,7 +8797,7 @@ FillTilemap:          ; $76ee
         inc h          ; and add 2 to h
         inc h
       +:ld l,a
-    pop bc             
+    pop bc
     djnz --            ; repeat 12 times
     ld a,$12           ; refresh full tilemap
     jp ExecuteFunctionIndexAInNextVBlank ; and ret
@@ -6224,14 +8855,14 @@ fn78a5:                ; $78a5
     rrca
     and $0f            ; divide by 16
     add a,l            ; add to l = nibble of VLocation
-    ld l,a             
+    ld l,a
     ld a,(hl)          ; so now we have an offset into the decompressed data. Get the byte
     cp $d8             ; if it's >$d8=216
     ret c
     cp $e0             ; and <=$e0=224
-    ret nc             
+    ret nc
     ld (hl),$d7        ; then set it to $d7=215
-    ret                
+    ret
 .ends
 .orga $78f9
 
@@ -6300,7 +8931,7 @@ GetLocationUnknownData: ; $7a07
 .section "???" overwrite
 fn7b1e: ; $7b1e
     ld a,(hl)          ; get byte at hl (eg 01)
-    ld (xc308),a       ; save in xc308 nd xc309
+    ld (xc308),a       ; save in xc308 and xc309
     ld (xc309),a
     inc hl             ; next byte hhhhllll in de (eg 8b)
     ld e,(hl)
@@ -6364,7 +8995,7 @@ fn7b60:
     ld (FunctionLookupIndex),a       ; 007B8B 32 02 C2
     inc hl              ; 007B8E 23
     ld a,(hl)          ; 007B8F 7E
-    ld ($c29e),a       ; 007B90 32 9E C2
+    ld (SceneType),a       ; 007B90 32 9E C2
     inc hl              ; 007B93 23
     ld a,(hl)          ; 007B94 7E
     inc hl              ; 007B95 23
@@ -6657,7 +9288,7 @@ fn7f28:
         and $0f
         ld de,ActualPalette+32-8
         ld bc,8
-        jr nz,+       
+        jr nz,+
         ldir           ; copy 8 colours to palette
       +:ld a,$16       ; VBlankFunction_PaletteEffects
         call ExecuteFunctionIndexAInNextVBlank
@@ -6863,7 +9494,7 @@ ItemMetadata:
 ; %765432tt
 ;  |||| |``- Item type: 0 = weapon, 1 = armour, 2 = shield
 ;  |||| `--- Equippable item
-;  ````----- Equippable by player bits. Zero if equippable. Noah - Odin - Myau - Alis
+;  ````----- Equippable by player bits. Zero if equippable. Lutz - Odin - Myau - Alis
 
 .define ItemMetadata_Weapon %00
 .define ItemMetadata_Armour %01
@@ -6871,7 +9502,7 @@ ItemMetadata:
 .db $00 ; blank
 ; Weapons
 .db %11010000 ; Wood Cane - Myau?
-.db %11010000 
+.db %11010000
 .db %01010000
 .db %11010000
 .db %00100000
@@ -7797,7 +10428,7 @@ LevelStatsOdin:
 .db $be,$2d,$48,$00,$28,$a0,$00,$00
 .db $bf,$2e,$49,$00,$50,$c3,$00,$00
 .db $c0,$2f,$4a,$00,$60,$ea,$00,$00
-LevelStatsNoah:
+LevelStatsLutz:
 .db $2d,$12,$1e,$0c,$00,$00,$01,$01
 .db $31,$16,$24,$12,$46,$00,$01,$01
 .db $36,$17,$29,$16,$96,$00,$01,$01
@@ -8185,7 +10816,7 @@ SoundUpdate:           ; 0e/8052
     ld a,(HasFM)
     or a
     ex af,af'          ; 030056 08
-    ld hl,$c00c        ; 030057 21 0C C0
+    ld hl,$c00c
     exx                ; 03005A D9
     call Sound8135     ; 03005B CD 35 81
     call Sound815c     ; 03005E CD 5C 81
@@ -8278,7 +10909,7 @@ SoundUpdatePSG:
 .orga $8110
 .section "More music code" overwrite
 Sound8110:
-    ld hl,$c12e                  ; 030110 21 2E C1
+    ld hl,$c12e
     bit 7,(hl)                   ; 030113 CB 7E
     ret z                        ; 030115 C8
     ld a,($c10e)                 ; 030116 3A 0E C1
@@ -8291,10 +10922,10 @@ Sound8110:
     ld a,(hl)                    ; 030122 7E
     cp $e0                       ; 030123 FE E0
     jr nz,+                      ; 030125 20 05
-    ld hl,$c06e                  ; 030127 21 6E C0
+    ld hl,$c06e
     set 2,(hl)                   ; 03012A CB D6
 
-+:  ld hl,$c0ae                  ; 03012C 21 AE C0
++:  ld hl,$c0ae
     set 2,(hl)                   ; 03012F CB D6
     ret                          ; 030131 C9
 
@@ -8302,7 +10933,7 @@ Sound8110:
     ret                          ; 030134 C9
 
 Sound8135:
-    ld hl,$c001                  ; 030135 21 01 C0
+    ld hl,$c001
     ld a,(hl)                    ; 030138 7E
     or a                         ; 030139 B7
     ret z                        ; 03013A C8
@@ -8312,11 +10943,11 @@ Sound8135:
     or a                         ; 030140 B7
     res 7,a                      ; 030141 CB BF
     ld (hl),a                    ; 030143 77
-    ld hl,$c018                  ; 030144 21 18 C0
+    ld hl,$c018
     ld de,$0020                  ; 030147 11 20 00
     ld b,$07                     ; 03014A 06 07
     jp m,+                       ; 03014C FA 57 81
-    ld hl,$c158                  ; 03014F 21 58 C1
+    ld hl,$c158
     ld de,$0020                  ; 030152 11 20 00
     ld b,$05                     ; 030155 06 05
 +:
@@ -8396,7 +11027,7 @@ Sound815c:
     jr nz,+                      ; 0301E8 20 0A
     xor a                        ; 0301EA AF
     ld ($c00a),a                 ; 0301EB 32 0A C0
-    ld hl,$c0ce                  ; 0301EE 21 CE C0
+    ld hl,$c0ce
     res 2,(hl)                   ; 0301F1 CB 96
     ret                          ; 0301F3 C9
 +:  ld ix,$c00e                  ; 0301F4 DD 21 0E C0
@@ -8414,7 +11045,7 @@ Sound815c:
 +:  add ix,de                    ; 030213 DD 19
     djnz -                       ; 030215 10 E6
     ret                          ; 030217 C9
-    
+
     call SilencePSGandFM         ; 030218 CD 1F 80
     ld a,($c005)                 ; 03021B 3A 05 C0
     ld ($c002),a                 ; 03021E 32 02 C0
@@ -8422,7 +11053,7 @@ Sound815c:
     ld ($c00a),a                 ; 030223 32 0A C0
     ld a,$0a                     ; 030226 3E 0A
     ld ($c00b),a                 ; 030228 32 0B C0
-    ld hl,$c0ce                  ; 03022B 21 CE C0
+    ld hl,$c0ce
     set 2,(hl)                   ; 03022E CB D6
     push ix                      ; 030230 DD E5
       ld ix,$c00e                ; 030232 DD 21 0E C0
@@ -8477,7 +11108,7 @@ ZeroYM2413Channel: ; $8272
 
     push bc                      ; 030292 C5
       ld b,$12                   ; 030293 06 12
-      ld hl,$8312                ; 030295 21 12 83
+      ld hl,$8312
       ld c,$f1                   ; 030298 0E F1
     -:dec c                      ; 03029A 0D
       outi                       ; 03029B ED A3
@@ -8497,14 +11128,14 @@ ZeroYM2413Channel: ; $8272
     xor a                        ; 0302BA AF
     ld ($c10e),a                 ; 0302BB 32 0E C1
     ld ($c0ee),a                 ; 0302BE 32 EE C0
-    ld hl,$c08e                  ; 0302C1 21 8E C0
+    ld hl,$c08e
     call $8307                   ; 0302C4 CD 07 83
-    ld hl,$c1ae                  ; 0302C7 21 AE C1
+    ld hl,$c1ae
     call $8307                   ; 0302CA CD 07 83
     ex af,af'                    ; 0302CD 08
     jr nz,+                      ; 0302CE 20 0D
     ex af,af'                    ; 0302D0 08
-    ld hl,$804a                  ; 0302D1 21 4A 80
+    ld hl,$804a
     ld c,$7f                     ; 0302D4 0E 7F
     ld b,$08                     ; 0302D6 06 08
     otir                         ; 0302D8 ED B3
@@ -8553,18 +11184,18 @@ ZeroYM2413Channel: ; $8272
     add a,a                      ; 030483 87
     ld c,a                       ; 030484 4F
     ld b,$00                     ; 030485 06 00
-    ld hl,$845c                  ; 030487 21 5C 84
+    ld hl,$845c
     add hl,bc                    ; 03048A 09
     ld a,(hl)                    ; 03048B 7E
     inc hl                       ; 03048C 23
     ld h,(hl)                    ; 03048D 66
     ld l,a                       ; 03048E 6F
     jp (hl)                      ; 03048F E9
-    ld hl,$8452                  ; 030490 21 52 84
+    ld hl,$8452
     sub $d0                      ; 030493 D6 D0
     ex af,af'                    ; 030495 08
     jr nz,+                      ; 030496 20 03
-    ld hl,$83c0                  ; 030498 21 C0 83
+    ld hl,$83c0
 +:  ex af,af'                    ; 03049B 08
     call $85ff                   ; 03049C CD FF 85
     ld de,$c12e                  ; 03049F 11 2E C1
@@ -8579,7 +11210,7 @@ ZeroYM2413Channel: ; $8272
     ret m                        ; 0304B4 F8
     ld b,$00                     ; 0304B5 06 00
     ld c,a                       ; 0304B7 4F
-    ld hl,$8324                  ; 0304B8 21 24 83
+    ld hl,$8324
     add hl,bc                    ; 0304BB 09
     push af                      ; 0304BC F5
     ld a,($c002)                 ; 0304BD 3A 02 C0
@@ -8610,7 +11241,7 @@ ZeroYM2413Channel: ; $8272
     jp m,$84ff                   ; 0304F6 FA FF 84
     call $8000                   ; 0304F9 CD 00 80
     ld de,$c06e                  ; 0304FC 11 6E C0
-    ld hl,$8338                  ; 0304FF 21 38 83
+    ld hl,$8338
     jr ++                        ; 030502 18 19
 +:  ex af,af'                    ; 030504 08
     call $8292                   ; 030505 CD 92 82
@@ -8621,15 +11252,15 @@ ZeroYM2413Channel: ; $8272
     call $8000                   ; 030512 CD 00 80
     jr +                         ; 030515 18 03
     call $802c                   ; 030517 CD 2C 80
-+:  ld hl,$83ca                  ; 03051A 21 CA 83
++:  ld hl,$83ca
 ++: pop af                       ; 03051D F1
     call $85ff                   ; 03051E CD FF 85
     jp $85c6                     ; 030521 C3 C6 85
     sub $a0                      ; 030524 D6 A0
-    ld hl,$8360                  ; 030526 21 60 83
+    ld hl,$8360
     ex af,af'                    ; 030529 08
     jr z,+                       ; 03052A 28 03
-    ld hl,$83f2                  ; 03052C 21 F2 83
+    ld hl,$83f2
 +:  ex af,af'                    ; 03052F 08
     call $85ff                   ; 030530 CD FF 85
     ld h,b                       ; 030533 60
@@ -8652,10 +11283,10 @@ ZeroYM2413Channel: ; $8272
     jr _05c6                     ; 030551 18 73
 ++: ld de,$c0ee                  ; 030553 11 EE C0
     ld a,$24                     ; 030556 3E 24
-    ld hl,$c08e                  ; 030558 21 8E C0
+    ld hl,$c08e
     set 2,(hl)                   ; 03055B CB D6
 ++++:
-    ld hl,$c0ae                  ; 03055D 21 AE C0
+    ld hl,$c0ae
     set 2,(hl)                   ; 030560 CB D6
     call ZeroYM2413Channel       ; 030562 CD 72 82
     jr _05c6                     ; 030565 18 5F
@@ -8675,7 +11306,7 @@ ZeroYM2413Channel: ; $8272
 
 ++: ld a,$df                     ; 03057E 3E DF
     out ($7f),a                  ; 030580 D3 7F
-    ld hl,$c0ce                  ; 030582 21 CE C0
+    ld hl,$c0ce
     set 2,(hl)                   ; 030585 CB D6
     ld a,$e7                     ; 030587 3E E7
     out ($7f),a                  ; 030589 D3 7F
@@ -8688,22 +11319,22 @@ ZeroYM2413Channel: ; $8272
     jr nz,++                     ; 030597 20 12
     ld a,$e7                     ; 030599 3E E7
     out ($7f),a                  ; 03059B D3 7F
-    ld hl,$c0ce                  ; 03059D 21 CE C0
+    ld hl,$c0ce
     set 2,(hl)                   ; 0305A0 CB D6
-    ld hl,$c1ce                  ; 0305A2 21 CE C1
+    ld hl,$c1ce
     set 2,(hl)                   ; 0305A5 CB D6
     ld a,$df                     ; 0305A7 3E DF
     out ($7f),a                  ; 0305A9 D3 7F
 ++: ld de,$c0ee                  ; 0305AB 11 EE C0
-    ld hl,$c08e                  ; 0305AE 21 8E C0
+    ld hl,$c08e
     set 2,(hl)                   ; 0305B1 CB D6
-    ld hl,$c18e                  ; 0305B3 21 8E C1
+    ld hl,$c18e
     set 2,(hl)                   ; 0305B6 CB D6
 +:  ld a,$ff                     ; 0305B8 3E FF
     out ($7f),a                  ; 0305BA D3 7F
-    ld hl,$c0ae                  ; 0305BC 21 AE C0
+    ld hl,$c0ae
     set 2,(hl)                   ; 0305BF CB D6
-    ld hl,$c1ae                  ; 0305C1 21 AE C1
+    ld hl,$c1ae
     set 2,(hl)                   ; 0305C4 CB D6
 _05c6:
     ld h,b                       ; 0305C6 60
@@ -8728,7 +11359,7 @@ _05c6:
     inc de                       ; 0305DF 13
     ld (de),a                    ; 0305E0 12
     push hl                      ; 0305E1 E5
-    ld hl,$0013                  ; 0305E2 21 13 00
+    ld hl,$0013
     add hl,de                    ; 0305E5 19
     ex de,hl                     ; 0305E6 EB
     pop hl                       ; 0305E7 E1
@@ -8789,7 +11420,7 @@ _05c6:
     or $10                       ; 030652 F6 10
 +:  ld (ix+$10),a                ; 030654 DD 77 10
     jp $87fd                     ; 030657 C3 FD 87
-    ld hl,$8660                  ; 03065A 21 60 86
+    ld hl,$8660
     jp $88ae                     ; 03065D C3 AE 88
     inc de                       ; 030660 13
     jp $863c                     ; 030661 C3 3C 86
@@ -8856,7 +11487,7 @@ _05c6:
     ld h,(ix+$0f)                ; 0306FE DD 66 0F
     jp m,$870e                   ; 030701 FA 0E 87
     ex de,hl                     ; 030704 EB
-    ld hl,$b805                  ; 030705 21 05 B8
+    ld hl,$b805
     call $876b                   ; 030708 CD 6B 87
     call $8778                   ; 03070B CD 78 87
     bit 3,(ix+$00)               ; 03070E DD CB 00 5E
@@ -9064,20 +11695,20 @@ _0856:
     sub $80                      ; 030894 D6 80
     jr z,+                       ; 030896 28 03
     add a,(ix+$05)               ; 030898 DD 86 05
-+:  ld hl,$8cdb                  ; 03089B 21 DB 8C
++:  ld hl,$8cdb
     ex af,af'                    ; 03089E 08
     jr z,+                       ; 03089F 28 03
-    ld hl,$8d6d                  ; 0308A1 21 6D 8D
+    ld hl,$8d6d
 +:  ex af,af'                    ; 0308A4 08
     ld c,a                       ; 0308A5 4F
     ld b,$00                     ; 0308A6 06 00
     add hl,bc                    ; 0308A8 09
     add hl,bc                    ; 0308A9 09
     ret                          ; 0308AA C9
-    ld hl,$88be                  ; 0308AB 21 BE 88
+    ld hl,$88be
     push hl                      ; 0308AE E5
     sub $ee                      ; 0308AF D6 EE
-    ld hl,$88c2                  ; 0308B1 21 C2 88
+    ld hl,$88c2
     add a,a                      ; 0308B4 87
     ld c,a                       ; 0308B5 4F
     ld b,$00                     ; 0308B6 06 00
@@ -9091,7 +11722,7 @@ _0856:
     jp $87bf                     ; 0308BF C3 BF 87
     ret p                        ; 0308C2 F0
     adc a,b                      ; 0308C3 88
-    ld hl,$3989                  ; 0308C4 21 89 39
+    ld hl,$3989
     adc a,c                      ; 0308C7 89
     and $88                      ; 0308C8 E6 88
     jr c,_0856                   ; 0308CA 38 8A
@@ -9308,7 +11939,7 @@ _0856:
 
 +:  res 3,(ix+$00)               ; 030A33 DD CB 00 9E
     ret                          ; 030A37 C9
-    ld hl,$c12e                  ; 030A38 21 2E C1
+    ld hl,$c12e
     res 2,(hl)                   ; 030A3B CB 96
     xor a                        ; 030A3D AF
     ld ($c008),a                 ; 030A3E 32 08 C0
@@ -9324,35 +11955,35 @@ _0856:
     ld a,($c08e)                 ; 030A54 3A 8E C0
     and $80                      ; 030A57 E6 80
     jr z,+                       ; 030A59 28 12
-    ld hl,$c09c                  ; 030A5B 21 9C C0
+    ld hl,$c09c
     ld a,(hl)                    ; 030A5E 7E
     inc hl                       ; 030A5F 23
     ld h,(hl)                    ; 030A60 66
     ld l,a                       ; 030A61 6F
     ld a,($c08f)                 ; 030A62 3A 8F C0
     call $8c79                   ; 030A65 CD 79 8C
-    ld hl,$c08e                  ; 030A68 21 8E C0
+    ld hl,$c08e
     res 2,(hl)                   ; 030A6B CB 96
 
-+:  ld hl,$c18e                  ; 030A6D 21 8E C1
++:  ld hl,$c18e
     res 2,(hl)                   ; 030A70 CB 96
-    ld hl,$c1ce                  ; 030A72 21 CE C1
+    ld hl,$c1ce
     res 2,(hl)                   ; 030A75 CB 96
-    ld hl,$c0ce                  ; 030A77 21 CE C0
+    ld hl,$c0ce
     res 2,(hl)                   ; 030A7A CB 96
     ld a,($c0ae)                 ; 030A7C 3A AE C0
     and $80                      ; 030A7F E6 80
     jr z,+                       ; 030A81 28 12
-    ld hl,$c0bc                  ; 030A83 21 BC C0
+    ld hl,$c0bc
     ld a,(hl)                    ; 030A86 7E
     inc hl                       ; 030A87 23
     ld h,(hl)                    ; 030A88 66
     ld l,a                       ; 030A89 6F
     ld a,($c0af)                 ; 030A8A 3A AF C0
     call $8c79                   ; 030A8D CD 79 8C
-    ld hl,$c0ae                  ; 030A90 21 AE C0
+    ld hl,$c0ae
     res 2,(hl)                   ; 030A93 CB 96
-+:  ld hl,$c1ae                  ; 030A95 21 AE C1
++:  ld hl,$c1ae
     res 2,(hl)                   ; 030A98 CB 96
     pop hl                       ; 030A9A E1
     pop hl                       ; 030A9B E1
@@ -9369,20 +12000,20 @@ _0856:
     cp $15                       ; 030AAD FE 15
     jr z,+                       ; 030AAF 28 15
     call $8b34                   ; 030AB1 CD 34 8B
-    ld hl,$c08e                  ; 030AB4 21 8E C0
+    ld hl,$c08e
     res 2,(hl)                   ; 030AB7 CB 96
     ld a,$34                     ; 030AB9 3E 34
     out ($f0),a                  ; 030ABB D3 F0
-    ld hl,$c095                  ; 030ABD 21 95 C0
+    ld hl,$c095
     call $8ae2                   ; 030AC0 CD E2 8A
     jp $8a9a                     ; 030AC3 C3 9A 8A
-+:  ld hl,$c0ae                  ; 030AC6 21 AE C0
++:  ld hl,$c0ae
     res 2,(hl)                   ; 030AC9 CB 96
     ld a,($c12e)                 ; 030ACB 3A 2E C1
     or a                         ; 030ACE B7
-    ld hl,$c0b5                  ; 030ACF 21 B5 C0
+    ld hl,$c0b5
     jp p,$8ad8                   ; 030AD2 F2 D8 8A
-    ld hl,$c135                  ; 030AD5 21 35 C1
+    ld hl,$c135
     ld a,$35                     ; 030AD8 3E 35
     out ($f0),a                  ; 030ADA D3 F0
     call $8ae2                   ; 030ADC CD E2 8A
@@ -9466,7 +12097,7 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
     ld a,(ix+$07)                ; 030B4D DD 7E 07
     dec a                        ; 030B50 3D
     ret m                        ; 030B51 F8
-    ld hl,$b766                  ; 030B52 21 66 B7
+    ld hl,$b766
     call $876b                   ; 030B55 CD 6B 87
     call $8c8e                   ; 030B58 CD 8E 8C
     or $f0                       ; 030B5B F6 F0
@@ -9491,7 +12122,7 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
     jp $881b                     ; 030B83 C3 1B 88
     dec de                       ; 030B86 1B
     jp $881b                     ; 030B87 C3 1B 88
-    ld hl,$8b90                  ; 030B8A 21 90 8B
+    ld hl,$8b90
     jp $88ae                     ; 030B8D C3 AE 88
     inc de                       ; 030B90 13
     jp $8b66                     ; 030B91 C3 66 8B
@@ -9572,7 +12203,7 @@ _8bd9: ; $30bd9, $8bd9
     ld a,(ix+$07)                ; 030C29 DD 7E 07
     dec a                        ; 030C2C 3D
     jp m,$8c40                   ; 030C2D FA 40 8C
-    ld hl,$b766                  ; 030C30 21 66 B7
+    ld hl,$b766
     call $876b                   ; 030C33 CD 6B 87
     call $8c8e                   ; 030C36 CD 8E 8C
     or (ix+$01)                  ; 030C39 DD B6 01
@@ -9593,7 +12224,7 @@ _8bd9: ; $30bd9, $8bd9
     ld h,(ix+$0f)                ; 030C5B DD 66 0F
     jp m,$8c6b                   ; 030C5E FA 6B 8C
     ex de,hl                     ; 030C61 EB
-    ld hl,$b805                  ; 030C62 21 05 B8
+    ld hl,$b805
     call $876b                   ; 030C65 CD 6B 87
     call $8778                   ; 030C68 CD 78 87
     bit 6,(ix+$00)               ; 030C6B DD CB 00 76
@@ -9999,7 +12630,7 @@ VehicleSprites:
 .incbin "Tiles\4af91compr.dat"
 .incbin "Tiles\4b177compr.dat"
 .incbin "Tiles\4b244compr.dat"
-NarrativeGraphicsNoah:
+NarrativeGraphicsLutz:
 .db $00,$00,$3F,$38,$3C,$03,$01,$0F,$2B,$0B,$06,$31,$3E,$2F,$36,$20 ; palette
 .incbin "Tiles\4b398compr.dat"
 .ends
@@ -10178,7 +12809,7 @@ TilesBuilding:
 PaletteSpace:          ; $5f767
 .db $10,$3F,$3E,$38,$34,$30,$20,$04,$3C,$20,$00,$00,$00,$00,$00,$00 ; palette
 .db $10                                                             ; end empty for target planet (?)
-PaletteSpaceEnd:       ; must be followed by 
+PaletteSpaceEnd:       ; must be followed by
 TilesSpace:            ; $5f778
 .incbin "Tiles\5f778compr.dat" ; 98
 .ends
@@ -10319,8 +12950,8 @@ TilemapLassicRoom:
 CharacterSprites:
 AlisSprites:
 .include "Tiles\70000 Alis sprites.inc"
-NoahSprites:
-.include "Tiles\70a80 Noah sprites.inc"
+LutzSprites:
+.include "Tiles\70a80 Lutz sprites.inc"
 OdinSprites:
 .include "Tiles\71440 Odin sprites.inc"
 MyauSprites:

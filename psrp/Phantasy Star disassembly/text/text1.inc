@@ -3129,7 +3129,7 @@ ItemTextTable: ; $bd94
 .db $39 $29 $0a $16 $01 $22 $02 $29                   ; ZiRuKoNiAMeIRu    Zirconain Mail
 .db $3d $02 $24 $19 $26 $2b $02 TextButtonEnd         ; DaIYaNoYoRoI      Diamond Armour
 .db $27 $0a $16 $01 $01 $4d $1f $4d                   ; RaKoNiAA-Ma-      Laconian Armour
-.db $1c $27 $4d $41 $1f $2e $14 TextButtonEnd         ; HuRa-DoMaNTo      ?
+.db $1c $27 $4d $41 $1f $2e $14 TextButtonEnd         ; HuRa-DoMaNTo      Frad Mantle
 .db $2a $38 $4d $0c $4d $29 $41 TextButtonEnd         ; ReZa-Si-RuDo      Leather Shield
 .db $01 $02 $01 $2e $0c $4d $29 $41                   ; AIANSi-RuDo       Iron Shield
 .db $46 $2b $2e $0c $4d $29 $41 TextButtonEnd         ; BoRoNSi-RuDo      Boron/Bronze Shield
@@ -3169,5 +3169,5 @@ ItemTextTable: ; $bd94
 .db $1f $0d $10 $4d $0c $0d $13 $21                   ; MaSuTa-SiSuTeMu   Master System
 .db $20 $27 $08 $29 $07 $4d TextButtonEnd $00         ; MiRaKuRuKi-       Miracle Key
 .db $39 $28 $05 $2e TextButtonEnd $00 $00 $00         ; ZiRiON            Zillion
-.db $1b $20 $12 $19 $23 $19 TextButtonEnd $00         ; HiMiTuNoMoNo      ?
+.db $1b $20 $12 $19 $23 $19 TextButtonEnd $00         ; HiMiTuNoMoNo      Secret Thing
 
