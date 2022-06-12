@@ -1,0 +1,30379 @@
+;=======================================================================================================
+; Phantasy Star disassembly/retranslation
+;=======================================================================================================
+; by Maxim
+; This aims to be a disassembly of Phantasy Star (jp)
+; with comments describing what's going on as much as possible
+; defines,macros,labels etc to make it cleaner
+; and data blocks separated from code
+;
+; #############
+; means something that seems unnecessary
+;
+
+;=======================================================================================================
+; WLA-DX banking setup
+;=======================================================================================================
+
+.MEMORYMAP
+DEFAULTSLOT 0
+SLOTSIZE $7ff0
+SLOT 0 $0000
+SLOTSIZE $0010
+SLOT 1 $7ff0
+SLOTSIZE $4000
+SLOT 2 $8000
+.ENDME
+
+.ROMBANKMAP
+BANKSTOTAL 32
+BANKSIZE $7ff0
+BANKS 1
+BANKSIZE $0010
+BANKS 1
+BANKSIZE $4000
+BANKS 30
+.ENDRO
+
+; This disassembly was created using Emulicious (https://www.emulicious.net)
+
+.enum $C000 export
+HasFM db              ; 01 if YM2413 detected,00 otherwise
+_RAM_C001_ db
+_RAM_C002_ db
+_RAM_C003_ db
+NewMusic db           ; Which music to start playing
+_RAM_C005_ db
+_RAM_C006_ db
+unusedC007      db
+_RAM_C008_ db
+_RAM_C009_ db
+_RAM_C00A_ db
+_RAM_C00B_ db
+_RAM_C00C_ db
+unusedC00D
+_RAM_C00E_ dsb $9
+unusedC017
+_RAM_C018_ db
+.ende
+
+.enum $C06E export
+_RAM_C06E_ dsb $9
+.ende
+
+.enum $C08E export
+_RAM_C08E_ db
+_RAM_C08F_ db
+.ende
+
+.enum $C095 export
+_RAM_C095_ db
+.ende
+
+.enum $C09C export
+_RAM_C09C_ db
+.ende
+
+.enum $C0AE export
+_RAM_C0AE_ db
+_RAM_C0AF_ db
+.ende
+
+.enum $C0B5 export
+_RAM_C0B5_ db
+.ende
+
+.enum $C0BC export
+_RAM_C0BC_ db
+.ende
+
+.enum $C0CE export
+_RAM_C0CE_ db
+.ende
+
+.enum $C0EE export
+_RAM_C0EE_ dsb $9
+.ende
+
+.enum $C10E export
+_RAM_C10E_ dsb $9
+.ende
+
+.enum $C12E export
+_RAM_C12E_ dsb $7
+_RAM_C135_ db
+.ende
+
+.enum $C14E export
+_RAM_C14E_ dsb $9
+.ende
+
+.enum $C158 export
+_RAM_C158_ db
+.ende
+
+.enum $C16E export
+_RAM_C16E_ dsb $9
+.ende
+
+.enum $C18E export
+_RAM_C18E_ db
+.ende
+
+.enum $C1AE export
+_RAM_C1AE_ db
+.ende
+
+.enum $C1CE export
+_RAM_C1CE_ db
+.ende
+
+.enum $C200 export
+VDPReg0 db                    ; Contents of VDP register 0
+VDPReg1 db                    ; Contents of VDP register 1
+FunctionLookupIndex db        ; Index to lookup in FunctionLookup table
+.ende
+
+.enum $C204 export
+ControlsNew db                ; Buttons just pressed (1 = pressed) \ Must be
+Controls db                   ; All buttons pressed (1 = pressed)  / together
+.ende
+
+.enum $C208 export
+VBlankFunctionIndex db        ; Index of function to execute in VBlank
+IsJapanese db                 ; 00 if Japanese,ff if Export
+IsNTSC db                     ; 00 if PAL,ff if NTSC
+ResetButton db                ; Reset button state: %00010000 unpressed %00000000 pressed
+RandomNumberGeneratorWord dw  ; Used for random number generator
+MarkIIILogoDelay dw          ; Counter for number of frames to wait on Mark III logo
+TileMapHighByte db            ; High byte to use when writing low-byte-only tile data to tilemap
+Mask1BitOutput db             ; Mask used by 1bpp tile output code
+PauseFlag db                  ; Pause flag $ff=pause/$00=not
+PaletteMoveDelay db           ; Counter used to slow down palette changes (Mark III logo,water sparkles,???)
+PaletteMovePos db             ; Current position in above palette changes (must follow)
+.ende
+
+.enum $C217 export
+NextSpriteY dw                ; Pointer to next free sprite Y position in SpriteTable
+NextSpriteX dw                ; Pointer to next free sprite X position in SpriteTable
+PaletteFadeControl db         ; Palette fade control:
+                                ;   bit 7 1 = fade in,0 = fade out
+                                ;   lower bits = counter,should go 9->0
+                                ; Must be followed by:
+PaletteSize db                ; counter for number of entries in TargetPalette
+PaletteFadeFrameCounter db    ; Palette fade frame counter
+.ende
+
+.struct OutsideAnimCounter
+Enabled     db ; 00/01
+ResetValue  db ; Reset value of counter
+CountDown   db ; Counted down to 0 and then reset
+Counter     db ; Counted up or down at each reset
+.endst
+
+.enum $C220 export
+ActualPalette dsb 32          ; Actual palette (when fading)
+TargetPalette dsb 32          ; Target palette
+_RAM_C260_ dw
+_RAM_C262_ db
+_RAM_C263_ db                 ; Scrollingtilemap data page(?)
+ScrollDirection db            ; Scroll direction; %----RLDU
+PaletteRotateEnabled .db      ; Palette rotation enabled if non-zero
+WalkingMovementCounter db     ; Counter for movement
+_RAM_C267_ db
+CursorEnabled db              ; $ff if cursor showing,$00 otherwise
+CursorTileMapAddress dw       ; Address of low byte of top cursor position in tilemap
+CursorPos db                  ; How many rows to shift cursor down
+OldCursorPos db               ; Last position
+CursorCounter db              ; Counter for flashing
+CursorMax db                  ; Maximum value for cursor
+OutsideAnimCounters instanceof OutsideAnimCounter 6 ; counter structures for outside tile animations
+_RAM_C287_ dw
+_RAM_C289_ db
+SceneType db                  ; Scene characteristics; controls which animation to do (? and others)
+.ende
+
+.enum $C299 export
+_RAM_C299_ dw
+_RAM_C29B_ dw
+_RAM_C29D_ db
+SceneType db
+_RAM_C29F_ db
+_RAM_C2A0_ db
+.ende
+
+.enum $C2AB export
+_RAM_C2AB_ db
+_RAM_C2AC_ dsb $10
+AnimDelayCounter db           ; Counter for tile animation effects - delay between frames - must be followed by:
+AnimFrameCounter db           ; Counter for tile animation effects - frame #
+PaletteFlashFrames db         ; Number of frames over which to flash palette to white
+.ende
+
+.enum $C2C0 export
+PaletteFlashCount db          ; Number of palette entries to set to white
+PaletteFlashStart db          ; First palette entry to set to white
+TextCharacterNumber db        ; Which number character (0-3) to write the name of when encountering text code $4f
+.ende
+
+.enum $C2C4 export
+ItemTableIndex db             ; Index into item table for text display
+NumberToShowInText dw         ; 16-bit int to output for text code TextNumber=$52
+NumEnemies db                 ; counter for number of enemies
+EnemyName dsb 8               ; 8 character enemy name
+_RAM_C2D0_ dw
+MovementInProgress db         ; $ff when doing a block movement
+TextBox20x6Open db            ; 20x6 text box open
+_RAM_C2D4_ db
+_RAM_C2D5_ db
+SceneAnimEnabled db           ; Enemy scene animations only happen when non-zero
+_RAM_C2D7_ db
+_RAM_C2D8_ db
+_RAM_C2D9_ dw
+RoomIndex db                  ; Room index to table at $49d1
+_RAM_C2DC_ db
+EnemyMoney dw                 ; Monster money drop
+_RAM_C2DF_ db
+_RAM_C2E0_ db
+_RAM_C2E1_ dw
+BattleProbability db          ; Chance of an enemy encounter (*255)
+_RAM_C2E4_ db
+_RAM_C2E5_ db
+EnemyNumber db                ; Enemy number - index into EnemyData
+_RAM_C2E7_ db
+_RAM_C2E8_ db
+_RAM_C2E9_ db
+_RAM_C2EA_ db
+_RAM_C2EB_ db
+_RAM_C2EC_ db
+_RAM_C2ED_ db
+_RAM_C2EE_ db
+_RAM_C2EF_ db
+_RAM_C2F0_ db
+_RAM_C2F1_ db
+_RAM_C2F2_ db
+_RAM_C2F3_ db
+CurrentlyPlayingMusic db      ; Currently playing music number
+_RAM_C2F5_ db
+.ende
+
+.enum $C300 export
+GameData .dsb 1024            ; All data saved/loaded from SRAM
+HScroll db                    ; Horizontal scroll
+HLocation dw                  ; Horizontal location in map
+.ende
+
+.enum $C304 export
+VScroll db                    ; Vertical scroll
+VLocation dw                  ; Vertical location on map - skips parts
+ScrollScreens db              ; Counted down when scrolling between planets/in intro
+_RAM_C308_ db                 ; Type of current "world"???  
+_RAM_C309_ db                 ; Current "world"???
+_RAM_C30A_ db
+.ende
+
+.enum $C30C export
+_RAM_C30C_ db               
+_RAM_C30D_ db
+VehicleMovementFlags db       ; ??? used by palette rotation but could be more
+                                ; Zero if not in a vehicle,else flags for terrain that can be passed?
+PaletteRotatePos db           ; Palette rotation position
+PaletteRotateCounter db       ; Palette rotation delay counter
+_RAM_C311_ dw
+_RAM_C313_ dw
+_RAM_C315_ db
+_RAM_C316_ db
+_RAM_C317_ db
+.ende
+
+.struct Character
+IsAlive db      ;  +0 b alive (bit 0),power boost active (bit 7)
+HP db           ;  +1 b HP
+MP db           ;  +2 b MP
+EP dw           ;  +3 w EP
+LV db           ;  +5 b LV
+MaxHP db        ;  +6 b Max HP
+MaxMP db        ;  +7 b Max MP
+Attack db       ;  +8 b Attack
+Defence db      ;  +9 b Defence
+Weapon db       ; +10 \  These 3 are bytes values
+Armour db       ; +11  | from the same list.
+Shield db       ; +12 /
+Unknown1 db     ; +13
+MagicCount db   ; +14 Number of magics known (?) <5
+Unknown2 db     ; +15
+.endst
+
+.enum $C400 export
+CharacterStats    .instanceof Character 12
+CharacterStatsAlis instanceof Character
+CharacterStatsMyau instanceof Character
+CharacterStatsOdin instanceof Character
+CharacterStatsLutz instanceof Character
+CharacterStatsEnemies instanceof Character 8
+Inventory dsb 32              ; Item indices
+Meseta dw                     ; Current money
+InventoryCount db             ; Number of items in Inventory
+.ende
+
+.enum $C4F0 export
+PartySize db                  ; 0-3 based on how many player characters have been unlocked
+.ende
+
+.enum $C500 export
+_RAM_C500_ db                 
+HaveVisitedSuelo db           ; 1 if you have been there
+HaveGotPotfromNekise db       ; 1 if you have
+LuvenoPrisonVisitCounter db   ; 0 on first visit,1 after
+LuvenoState db                ; 0 -> in prison,1 -> waiting for assistant,2 -> have found assistant,3 -> paid,4..5 -> waiting,6 -> built but no Hapsby,7 -> all done
+.ende
+
+.enum $C506 export
+HaveLutz db                   ; 0 -> not joined yet,1 -> has joined party (but may be dead)
+SootheFluteIsUnhidden db      ; 0 -> hidden,1 -> can find it
+FlowMoverIsUnhidden db        ; 0 -> hidden,1 -> can find it
+PerseusShieldIsUnhidden db    ; 0 -> hidden,1 -> can find it
+_RAM_C50A_ db
+.ende
+
+.enum $C511 export
+HaveGivenShortcake db         ; $ff if yes
+.ende
+
+.enum $C516 export
+HaveBeatenLaShiec db          ; 1 if yes
+HaveBeatenShadow db           ; $ff if yes
+.ende
+
+.enum $C600 export
+_RAM_C600_ db
+.ende
+
+.enum $C604 export
+DungeonKeyIsHidden db         ; $ff at start of game,0 when villager tells you about it
+.ende
+
+.enum $C780 export
+NameEntryMode db              ; 0 = name entry,1 = password entry (not used)
+NameEntryData .db             ; nn bytes: block used for name entry
+NameEntryCharIndex db         ; current char is $c7nn
+.ende
+
+.enum C784 export
+NameEntryCursorX db           ; sprite X coordinate for char selection cursor
+NameEntryCursorY db           ; sprite Y coordinate for char selection cursor
+NameEntryCursorTileMapDataAddress dw ; address of TileMapData byte corresponding to the current cursor position
+NameEntryCurrentlyPointed db  ; value currently being pointed at by the cursor
+NameEntryKeyRepeatCounter db  ; counter for key repeat - delay before faster repeat
+.ende
+
+.enum $C800 export
+CharacterSpriteAttributes .dsb 256 ; Character sprite attributes:
+; +0: character number? Affects +1
+; +1: character number? - 0 = empty,1 = Alis,2 = Lutz,3 = Odin,4 = Myau,5 = vehicle
+; +2: sprite base y
+; +4: sprite base x
+; +10 ($0a): ???
+; +13 ($0d): animation frame index 0-3
+; +14 ($0e): animation counter
+; +16 ($10): currentanimframe (based on +13 and +18)
+; +17 ($11): lastanimframe
+; +18 ($12): current facing direction (0,1,2,3=U,D,L,R)
+; +19 ($13): previous facing direction (same as above)
+; First 4 are main characters,other 4 are ???
+_RAM_C801_ dsb $9
+_RAM_C80A_ db
+.ende
+
+.enum $C80F export
+_RAM_C80F_ db
+_RAM_C810_ db
+.ende
+
+.enum $C812 export
+_RAM_C812_ db
+.ende
+
+.enum $C880 export
+_RAM_C880_ dsb $3
+.ende
+
+.enum $C88A export
+_RAM_C88A_ db
+.ende
+
+.enum $C88D export
+_RAM_C88D_ db
+_RAM_C88E_ db
+.ende
+
+.enum $C894 export
+_RAM_C894_ db
+_RAM_C895_ db
+_RAM_C896_ db
+_RAM_C897_ db
+_RAM_C898_ db
+.ende
+
+.enum $C8A0 export
+_RAM_C8A0_ dsb $3
+.ende
+
+.struct SpriteTableStruct
+    Ys dsb 64
+    Gap dsb 64
+    XNs dsw 64
+.ends
+
+.enum $C900 export
+SpriteTable instanceof SpriteTableStruct ; copy of sprite table for rapid writing to VDP
+.ende
+
+.enum $CB00 export
+DungeonMap dsb 256
+.ende
+
+.enum $CBC3 export
+_RAM_CBC3_ db
+.ende
+
+.enum $CC00 export
+_RAM_CC00_ db ; Areas for decompression of data
+.ende
+
+.enum $CD00 export
+_RAM_CD00_ db
+.ende
+
+.enum $CE00 export
+_RAM_CE00_ db
+.ende
+
+.enum $CF00 export
+_RAM_CF00_ db
+.ende
+
+.enum $D000 export
+TileMapData db                ; RAM copy of the tilemap
+.ende
+
+.enum $D0D4 export
+_RAM_D0D4_ dsb $d
+_RAM_D0E1_ db
+.ende
+
+.enum $D114 export
+_RAM_D114_ dsb $18
+.ende
+
+.enum $D150 export
+_RAM_D150_ dsb $4
+_RAM_D154_ dsb $16
+_RAM_D16A_ dsb $6
+.ende
+
+.enum $D1CF export
+_RAM_D1CF_ db
+.ende
+
+.enum $D1D4 export
+_RAM_D1D4_ dsb $18
+.ende
+
+.enum $D1EF export
+_RAM_D1EF_ db
+.ende
+
+.enum $D21C export
+_RAM_D21C_ dsb $8
+.ende
+
+.enum $D300 export
+TileMapData+12*32*2 dsb $300
+_RAM_D600_ dsb $100
+_RAM_D700_ db
+.ende
+
+.enum $D724 export
+_RAM_D724_ dsb 384                   ; RAM copy of old tilemap for ???
+OldTileMapMenu dsb 132               ; RAM copy of old tilemap for menu
+OldTileMapEnemyName10x4 dsb 10*4*2   ; RAM copy of old tilemap for 10x4 box for enemy name
+OldTileMapEnemyStats8x10 dsb 8*10*2  ; RAM copy of old tilemap for 8x10 box for enemy stats
+.ende
+
+.enum $DA18 export
+OldTileMap20x6 dsb 20*6*2            ; RAM copy of old tilemap for 20x6 box
+OldTileMap20x6Scroll dsb 18*3*2      ; RAM copy of text tilemap for 18x3 box (for text scrolling in 20x6 box)
+_RAM_DB74_ db
+.ende
+
+.enum $DC04 export
+_RAM_DC04_ db
+.ende
+
+.enum $DDA8 export
+_RAM_DDA8_ db
+.ende
+
+.enum $DE14 export
+_RAM_DE14_ db
+.ende
+
+.enum $DE64 export
+OldTileMap5x5 dsb 5*5*2       ; RAM copy of old tilemap for 5x5 box
+.ende
+
+.enum $DF00 export
+Port3EVal db                  ; Last value written to port $3e (IO control)
+_RAM_DF01_ db
+.ende
+
+.enum $DFE0 export
+_RAM_DFE0_ db
+.ende
+
+;=======================================================================================================
+; SRAM:
+;=======================================================================================================
+
+.enum $8000 export
+SRAMIdent dsb 256 ; or 64?
+SaveMenuTilemap dsb 216
+.ende
+
+.enum $8201 export
+SRAMSlotsUsed db
+.ende
+
+;=======================================================================================================
+; Other game-specific stuff:
+;=======================================================================================================
+
+.stringmaptable script "Japanese.tbl"
+
+.enum $81
+MusicTitle       db ; 81
+MusicPalma       db ; 82
+MusicMotabia     db ; 83
+MusicDezoris     db ; 84
+MusicBossDungeon db ; 85
+MusicCave        db ; 86
+MusicTown        db ; 87
+MusicVillage     db ; 88
+MusicBattle      db ; 89
+MusicStory       db ; 8a
+MusicEnding      db ; 8b
+MusicIntro       db ; 8c
+MusicChurch      db ; 8d
+MusicShop        db ; 8e
+MusicVehicle     db ; 8f
+MusicMedusa      db ; 90
+MusicLassic      db ; 91
+MusicDarkForce   db ; 92
+MusicGameOver    db ; 93
+.ende
+.enum $ae
+SFX_Death        db ; ae
+SFX_af           db ; af
+SFX_b0           db ; b0
+SFX_b1           db ; b1
+SFX_b2           db ; b2
+SFX_b3           db ; b3
+SFX_b4           db ; b4
+SFX_b5           db ; b5
+SFX_b6           db ; b6
+SFX_b7           db ; b7
+SFX_b8           db ; b8
+SFX_b9           db ; b9
+SFX_ba           db ; ba
+SFX_bb           db ; bb
+SFX_bc           db ; bc
+SFX_bd           db ; bd
+SFX_be           db ; be
+SFX_bf           db ; bf
+SFX_c0           db ; c0
+SFX_Heal         db ; c1
+.ende
+.define MusicStop $d7
+
+.enum 0
+Item_Empty                    db ; $00
+Item_Weapon_WoodCane          db ; $01
+Item_Weapon_ShortSword        db ; $02
+Item_Weapon_IronSword         db ; $03
+Item_Weapon_PsychoWand        db ; $04
+Item_Weapon_SilverTusk        db ; $05
+Item_Weapon_IronAxe           db ; $06
+Item_Weapon_TitaniumSword     db ; $07
+Item_Weapon_CeramicSword      db ; $08
+Item_Weapon_NeedleGun         db ; $09
+Item_Weapon_SaberClaw         db ; $0a
+Item_Weapon_HeatGun           db ; $0b
+Item_Weapon_LightSaber        db ; $0c
+Item_Weapon_LaserGun          db ; $0d
+Item_Weapon_LaconianSword     db ; $0e
+Item_Weapon_LaconianAxe       db ; $0f
+Item_Armour_LeatherClothes    db ; $10
+Item_Armour_WhiteMantle       db ; $11
+Item_Armour_LightSuit         db ; $12
+Item_Armour_IronArmor         db ; $13
+Item_Armour_SpikySquirrelFur  db ; $14
+Item_Armour_ZirconiaMail      db ; $15
+Item_Armour_DiamondArmor      db ; $16
+Item_Armour_LaconianArmor     db ; $17
+Item_Armour_FradMantle        db ; $18
+Item_Shield_LeatherShield     db ; $19
+Item_Shield_IronShield        db ; $1a
+Item_Shield_BronzeShield      db ; $1b
+Item_Shield_CeramicShield     db ; $1c
+Item_Shield_AnimalGlove       db ; $1d
+Item_Shield_LaserBarrier      db ; $1e
+Item_Shield_ShieldOfPerseus   db ; $1f
+Item_Shield_LaconianShield    db ; $20
+Item_Vehicle_LandMaster       db ; $21
+Item_Vehicle_FlowMover        db ; $22
+Item_Vehicle_IceDecker        db ; $23
+Item_PelorieMate              db ; $24
+Item_Ruoginin                 db ; $25
+Item_SootheFlute              db ; $26
+Item_Searchlight              db ; $27
+Item_EscapeCloth              db ; $28
+Item_TranCarpet               db ; $29
+Item_MagicHat                 db ; $2a
+Item_Alsuline                 db ; $2b
+Item_Polymeteral              db ; $2c
+Item_DungeonKey               db ; $2d
+Item_TelepathyBall            db ; $2e
+Item_EclipseTorch             db ; $2f
+Item_Aeroprism                db ; $30
+Item_LaermaBerries            db ; $31
+Item_Hapsby                   db ; $32
+Item_RoadPass                 db ; $33
+Item_Passport                 db ; $34
+Item_Compass                  db ; $35
+Item_Shortcake                db ; $36
+Item_GovernorGeneralsLetter   db ; $37
+Item_LaconianPot              db ; $38
+Item_LightPendant             db ; $39
+Item_CarbuncleEye             db ; $3a
+Item_GasClear                 db ; $3b
+Item_DamoasCrystal            db ; $3c
+Item_MasterSystem             db ; $3d
+Item_MiracleKey               db ; $3e
+Item_Zillion                  db ; $3f
+Item_SecretThing              db ; $40
+.ende
+
+.enum 0
+Player_Alisa  db ; 0
+Player_Myau   db ; 1
+Player_Tylon  db ; 2
+Player_Lutz   db ; 3
+.ende
+
+.enum 0
+Enemy_Empty           db ; $00
+Enemy_MonsterFly      db ; $01
+Enemy_GreenSlime      db ; $02
+Enemy_Wing Eye        db ; $03
+Enemy_Maneater        db ; $04
+Enemy_Scorpius        db ; $05
+Enemy_GiantNaiad      db ; $06
+Enemy_BlueSlime       db ; $07
+Enemy_MotavianPeasant db ; $08
+Enemy_DevilBat        db ; $09
+Enemy_KillerPlant     db ; $0A
+Enemy_BitingFly       db ; $0B
+Enemy_MotavianTeaser  db ; $0C
+Enemy_Herex           db ; $0D
+Enemy_Sandworm        db ; $0E
+Enemy_MotavianManiac  db ; $0F
+Enemy_GoldLens        db ; $10
+Enemy_RedSlime        db ; $11
+Enemy_BatMan          db ; $12
+Enemy_HorseshoeCrab   db ; $13
+Enemy_SharkKing       db ; $14
+Enemy_Lich            db ; $15
+Enemy_Tarantula       db ; $16
+Enemy_Manticort       db ; $17
+Enemy_Skeleton        db ; $18
+Enemy_Antlion         db ; $19
+Enemy_Marshes         db ; $1A
+Enemy_Dezorian        db ; $1B
+Enemy_DesertLeech     db ; $1C
+Enemy_Cryon           db ; $1D
+Enemy_BigNose         db ; $1E
+Enemy_Ghoul           db ; $1F
+Enemy_Ammonite        db ; $20
+Enemy_Executor        db ; $21
+Enemy_Wight           db ; $22
+Enemy_SkullSoldier    db ; $23
+Enemy_Snail           db ; $24
+Enemy_Manticore       db ; $25
+Enemy_Serpent         db ; $26
+Enemy_Leviathan       db ; $27
+Enemy_Dorouge         db ; $28
+Enemy_Octopus         db ; $29
+Enemy_Mad Stalker     db ; $2A
+Enemy_DezorianHead    db ; $2B
+Enemy_Zombie          db ; $2C
+Enemy_LivingDead      db ; $2D
+Enemy_RobotPolice     db ; $2E
+Enemy_CyborgMage      db ; $2F
+Enemy_FlameLizard     db ; $30
+Enemy_Tajim           db ; $31
+Enemy_Gaia            db ; $32
+Enemy_MachineGuard    db ; $33
+Enemy_BigEater        db ; $34
+Enemy_Talos           db ; $35
+Enemy_SnakeLord       db ; $36
+Enemy_DeathBearer     db ; $37
+Enemy_ChaosSorcerer   db ; $38
+Enemy_Centaur         db ; $39
+Enemy_IceMan          db ; $3A
+Enemy_Vulcan          db ; $3B
+Enemy_RedDragon       db ; $3C
+Enemy_GreenDragon     db ; $3D
+Enemy_FakeLaShiec     db ; $3E
+Enemy_Mammoth         db ; $3F
+Enemy_KingSaber       db ; $40
+Enemy_DarkMarauder    db ; $41
+Enemy_Golem           db ; $42
+Enemy_Medusa          db ; $43
+Enemy_FrostDragon     db ; $44
+Enemy_DragonWise      db ; $45
+Enemy_GoldDrake       db ; $46
+Enemy_MadDoctor       db ; $47
+Enemy_LaShiec         db ; $48
+Enemy_DarkForce       db ; $49
+Enemy_Nightmare       db ; $4A
+.ende
+
+; Text special characters
+.define TextCharacterName $4f
+.define TextEnemyName  $50
+.define TextItem       $51
+.define TextNumber     $52
+.define text53         $53
+.define TextNewLine    $54
+.define TextButton     $55
+.define TextEnd        $56
+.define TextPauseEnd   $57
+.define TextButtonEnd  $58
+
+;=======================================================================================================
+; SMS-specific stuff:
+;=======================================================================================================
+; Ports:
+.define VDPAddress      $bf ; w
+.define VDPData         $be ; w
+.define VDPStatus       $bf ; r
+.define PSG             $7f ; w
+.define FMAddress       $f0 ; w
+.define FMData          $f1 ; w
+.define AudioControl        $f2 ; r/w
+.define MemoryControl   $3e ; w
+.define IOControl       $3f ; w
+.define IOPort1         $dc ; r/w
+.define IOPort2         $dd ; r/w
+; Other:
+.define SRAMPaging      $fffc ; r/w
+.define SRAMPagingOn    $08
+.define SRAMPagingOff   $80
+.define Frame2Paging    $ffff ; r/w
+.define TileMapAddress     $3800 | $4000 ; ORed with $4000 for setting VRAM address
+.define SpriteTableAddress $3f00 | $4000
+.define PaletteAddress     $0000 | $c000
+; VDP registers
+.enum $80
+VDPReg_0                 db ; Misc
+VDPReg_1                 db ; Misc
+VDPRegTileMapAddress     db
+VDPReg_3                 db ; Unused
+VDPReg_4                 db ; Unused
+VDPRegSpriteTableAddress db
+VDPRegSpriteTileSet      db
+VDPRegBorderColour       db
+VDPRegHScroll            db
+VDPRegVScroll            db
+VDPRegLineInt            db
+.ende
+.define P1U %00000001
+.define P1D %00000010
+.define P1L %00000100
+.define P1R %00001000
+.define P11 %00010000
+.define P12 %00100000
+
+;=======================================================================================================
+; Bank 0: $0000 - $3fff
+;=======================================================================================================
+.bank 0 slot 0
+
+.org $0000
+.section "Boot handler" overwrite
+    di
+    im 1
+    ld sp,$CB00
+    jr Start
+.ends
+; followed by
+.orga $0008
+.section "SetVRAMAddressToDE() @ vector $0008" overwrite
+; Outputs de to VRAM address port
+; rst $08 / rst 08h
+SetVRAMAddressToDE:
+    ld a,e
+    out (VDPAddress),a
+    ld a,d
+    out (VDPAddress),a
+    ret
+.ends
+; followed by
+.orga $0038
+.section "IRQ handler" overwrite
+IRQHandler:
+    push af
+      in a,(VDPStatus)
+      or a
+      jp p,IRQ_NotVBlank ; bit 7 not set
+      jp VBlank          ; otherwise -> VBlank
+.ends
+; followed by
+.section "Display enable/disable" overwrite
+TurnOffDisplay:
+    ld a,(VDPReg1)
+    and $bf            ; Remove display enable bit
+    jr +
+
+TurnOnDisplay:
+    ld a,(VDPReg1)
+    or $40             ; Set display enable bit
++:ld (VDPReg1),a
+    ld e,a
+    ld d,VDPReg_1
+    rst SetVRAMAddressToDE
+    ret
+.ends
+; followed by
+.section "Execute function index a in next VBlank" overwrite
+ExecuteFunctionIndexAInNextVBlank:
+; Sets VBlankFunctionIndex to a and waits for it to be processed
+    ld (VBlankFunctionIndex),a
+-:ld a,(VBlankFunctionIndex)
+    or a               ; Wait for it to be zero
+    jr nz,-
+    ret
+.ends
+; followed by
+.orga $0066
+.section "NMI handler" overwrite
+    nop                ; #############
+    nop                ; #############
+    nop                ; #############
+    push af
+      ld a,(FunctionLookupIndex)   ; Test value of FunctionLookupIndex
+      cp $05
+      jr z,+
+      cp $09
+      jr z,+
+      cp $0B
+      jr z,+
+      cp $0D
+      jr nz,++
++:  ld a,(PauseFlag)   ; If FunctionLookupIndex is 5,9,11 or 13 then invert all bits of PauseFlag
+      cpl
+      ld (PauseFlag),a
+++: pop af
+    retn
+.ends
+; followed by
+.section "Main program start" overwrite
+Start:                 ; $0087
+    ld hl,SRAMPaging   ; Initialise paging registers
+    ld (hl),SRAMPagingOff
+    inc hl
+    ld (hl),$00
+    inc hl
+    ld (hl),$01
+    inc hl
+    ld (hl),$02
+
+    ld hl,$df00        ; Zero $df00-$dffb inclusive
+    ld de,$df00+1
+    ld bc,$fb
+    ld (hl),$00
+    ldir
+
+    ld a,($c000)       ; Get last port $3e write from BIOS
+    ld (Port3EVal),a   ; and store it in $df00
+
+ResetPoint:
+    di                 ; Already did these at boot
+    ld sp,$cb00        ; but reset comes here (things done prior are one-time)
+
+    ld hl,$c000        ; Zero $c000-$deff inclusive
+    ld de,$c000+1
+    ld bc,$1EFF
+    ld (hl),$00
+    ldir
+    
+    call CountryDetection
+    or a               ; is it export?
+    jr nz,+            ; if so,skip next bit
+
+    ld b,$02           ; ############# delay by counting down $20000
+  -:ld de,$ffff        ; #############
+ --:dec de             ; #############
+    ld a,d             ; #############
+    or e               ; #############
+    jr nz,--           ; #############
+    djnz -             ; #############
+
+  +:call SoundInit     ; Initialise sound engine
+    call FMDetection   ; FM detection
+    call SRAMCheck     ; SRAM check/initialisation
+    call VDPInitRegs   ; Initialise VDP registers
+    call NTSCDetection ; NTSC detection
+    ei
+
+  -:ld hl,FunctionLookupIndex
+    ld a,(hl)          ; Get value in FunctionLookupIndex (initialised to 0)
+    and $1f            ; Strip to low 5 bits
+    ld hl,FunctionLookupTable
+    call FunctionLookup
+    jp -
+
+; Jump Table from EA to FF (11 entries,indexed by FunctionLookupIndex)
+FunctionLookupTable:
+.dw LoadMarkIIILogo           ; 0 $06a0
+.dw FadeInMarkIIILogoAndPause ; 1 $0689
+.dw StartTitleScreen          ; 2 $08b7
+.dw TitleScreen               ; 3 $073f --+  // and intro
+.dw fn0bb8                    ; 4         |
+.dw fn9cb                     ; 5 *       |
+.dw DoNothing                 ; 6         |
+.dw DoNothing                 ; 7         |
+.dw LoadScene                 ; 8       <-+
+.dw fn0c64                    ; 9 *
+.dw $10d9                     ; a
+.dw $1098                     ; b *
+.dw $3d76                     ; c
+.dw $3cc0                     ; d *
+.dw $1033                     ; e
+.dw $0fe7                     ; f
+.dw LoadNameEntryScreen       ; 10 $4183
+.dw HandleNameEntry           ; 11 $3fdd
+.dw FadeToPictureFrame        ; 12
+.dw FadeToPictureFrame        ; 13
+
+FunctionLookup: ; $0112
+    ; Looks up a function in the table pointed to by hl and jumps to that
+    add a,a            ; Do some manoeuvring to add 2*a to hl allowing 2a+l>$ff
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)          ; Read what's at (hl+2a) into hl
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp (hl)            ; Jump to function
+.ends
+; followed by
+.orga $011d
+.section "Do pause" overwrite
+; Pause loop - silences chips and then sits there waiting to be unpaused
+DoPause:               ; $011d
+    call SilenceChips
+  -:ld a,(PauseFlag)
+    or a
+    ret z              ; Wait for PauseFlag=0
+    jr -
+.ends
+; followed by
+.section "VBlank handler" overwrite
+VBlank:                ; $0127
+    push bc
+    push de
+    push hl
+    push ix
+    push iy
+        ld a,(SRAMPaging)         ; back up paging registers on stack
+      push af
+        ld a,(Frame2Paging)
+        push af
+          ld a,SRAMPagingOff
+          ld (SRAMPaging),a ; turn off SRAM
+          in a,(IOPort2)
+          and %00010000     ; check for reset button
+          ld hl,ResetButton
+          ld c,(hl)         ; c = old value of ResetButton
+          ld (hl),a         ; ResetButton = reset button state
+          xor c             ; xor with old value
+          and c             ; and with old value
+                            ; old new xor result
+                            ;  1   1   0    0
+                            ;  1   0   1    1
+                            ;  0   1   1    0
+                            ;  0   0   0    0
+                            ; so result = 1 if button just pushed,0 otherwise
+          jp nz,ResetPoint
+
+          ld a,(IsNTSC)
+          or a
+          jp nz,+
+          ld b,$00          ; delay if not NTSC (why?) ###########
+        -:djnz -
+        -:djnz -
+        +:ld a,(PauseFlag)
+          or a
+          jp nz,VBlank_Paused
+
+          ld a,(VBlankFunctionIndex)  ; look up function in table - should be multiple of 2
+          and $1f           ; trim to low 5 bits
+          ld hl,VBlankFunctionTable
+          add a,l
+          ld l,a
+          adc a,h
+          sub l
+          ld h,a
+          ld a,(hl)
+          inc hl
+          ld h,(hl)
+          ld l,a
+                jp (hl)           ; jump to looked-up function
+
+VBlank_LookupEnd:
+          xor a             ; zero
+          ld (VBlankFunctionIndex),a
+VBlank_End:                   ; restore backed-up paging regs
+        pop af
+        ld (Frame2Paging),a
+      pop af
+      ld (SRAMPaging),a
+    pop iy
+    pop ix
+    pop hl
+    pop de
+    pop bc
+    pop af
+    ei
+    ret
+.ends
+; followed by
+.section "VBlank function: turn on display" overwrite
+; 11th entry of Jump Table from 1BB (indexed by VBlankFunctionIndex)
+VBlankFunction_TurnOnDisplay:
+    call TurnOnDisplay
+    jp VBlank_LookupEnd
+.ends
+; followed by
+.section "VBlank function: palette effects" overwrite
+; scroll,sprites,palette effects,tile effects,sound
+; 12th entry of Jump Table from 1BB (indexed by VBlankFunctionIndex)
+VBlankFunction_PaletteEffects:
+    ld a,(HScroll)     ; set scroll registers
+    out (VDPAddress),a
+    ld a,VDPRegHScroll
+    out (VDPAddress),a
+    ld a,(VScroll)
+    out (VDPAddress),a
+    ld a,VDPRegVScroll
+    out (VDPAddress),a
+
+    call UpdateSpriteTable
+    call FadePaletteInRAM
+    call FlashPaletteInRAM
+
+    ; Update palette
+    ld hl,ActualPalette
+    ld de,PaletteAddress
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    call outi32        ; output to palette
+
+    call EnemySceneTileAnimation
+    call redirectSoundUpdate
+    jp VBlank_LookupEnd
+.ends
+; followed by
+.section "VBlank function lookup table" overwrite
+VBlankFunctionTable:   ; $01bb                         enemy scene                 refresh
+; Referenced by even numbers only       scroll sprites tile effects controls sound tilemap special
+.dw VBlankFunction_SoundOnly        ; 0                                        Y
+.dw VBlankFunction_MarkIIIFadeIn    ; 2           Y                    Y                   Mark III logo fade and delay
+.dw VBlankFunction_SoundOnly        ; 4                                        Y
+.dw VBlankFunction_MarkIIIFadeIn    ; 6           Y                    Y                   Mark III logo fade and delay
+.dw VBlankFunction_Menu             ; 8    Y      Y         Y          Y       Y           Cursor
+.dw VBlankFunction_Enemy            ; a    Y      Y         Y                  Y
+.dw VBlankFunction_UpdateTilemap    ; c                                        Y    Y(28)
+.dw VBlankFunction_OutsideScrolling ; e    Y      Y                    Y       Y           Palette rotation,character/vehicle sprite animation,scrolling tilemap,outside scene tile animations
+.dw VBlankFunction_10               ; 10   Y      Y                            Y    Y(24)  Output palette
+.dw VBlankFunction_12               ; 12   Y      Y                            Y    Y(28)  Output palette
+.dw VBlankFunction_TurnOnDisplay    ; 14
+.dw VBlankFunction_PaletteEffects   ; 16   Y      Y         Y                  Y           Flash palette,fade palette
+.ends
+; followed by
+.section "VBlank function: Mark III logo fade in" overwrite
+; 2nd entry of Jump Table from 1BB (indexed by VBlankFunctionIndex)
+VBlankFunction_MarkIIIFadeIn:
+    call UpdateSpriteTable
+    call MarkIIIFadeIn
+    call GetControllerInput
+
+    ld hl,(MarkIIILogoDelay)
+    ld a,l
+    or h
+    jp z,VBlank_LookupEnd ; end if MarkIIILogoDelay is zero
+    dec hl
+    ld (MarkIIILogoDelay),hl ; else decrement it and wait
+
+    jp VBlank_LookupEnd
+.ends
+; followed by
+.section "VBlank function: just update sound" overwrite
+VBlankFunction_SoundOnly:
+    call redirectSoundUpdate
+    jp VBlank_LookupEnd
+.ends
+; followed by
+.section "VBlank function: enemy scene with cursor" overwrite
+; scroll,sprites,tile effects,controls,cursor,sound
+VBlankFunction_Menu:
+    ld a,(HScroll)     ; set scroll registers
+    out (VDPAddress),a
+    ld a,VDPRegHScroll
+    out (VDPAddress),a
+    ld a,(VScroll)
+    out (VDPAddress),a
+    ld a,VDPRegVScroll
+    out (VDPAddress),a
+
+    call UpdateSpriteTable
+    call EnemySceneTileAnimation
+    call GetControllerInput
+    call FlashCursor
+    call redirectSoundUpdate
+    jp VBlank_LookupEnd
+.ends
+; 6th entry of Jump Table from 1BB (indexed by VBlankFunctionIndex)
+.section "VBlank function: enemy encounter" overwrite
+; scroll,sprites,tile effects,sound
+VBlankFunction_Enemy:
+    ld a,(HScroll)     ; set scroll registers
+    out (VDPAddress),a
+    ld a,VDPRegHScroll
+    out (VDPAddress),a
+    ld a,(VScroll)
+    out (VDPAddress),a
+    ld a,VDPRegVScroll
+    out (VDPAddress),a
+
+    call UpdateSpriteTable
+    call EnemySceneTileAnimation
+    call redirectSoundUpdate
+    jp VBlank_LookupEnd
+.ends
+; followed by
+.section "VBlank function: Dungeon movement (tiles+sound)" overwrite
+; scroll,fill tilemap from RAM,sound
+VBlankFunction_UpdateTilemap:
+    ld a,(HScroll)     ; set scroll registers
+    out (VDPAddress),a
+    ld a,VDPRegHScroll
+    out (VDPAddress),a
+    ld a,(VScroll)
+    out (VDPAddress),a
+    ld a,VDPRegVScroll
+    out (VDPAddress),a
+
+    ld hl,TileMapData  ; where from
+    xor a
+    out (VDPAddress),a
+    ld a,$78           ; Set VRAM address to $3800 = tilemap
+    out (VDPAddress),a
+    ld c,VDPData
+    call outi128
+    call outi128
+    call outi128
+    call outi128
+    call outi128
+    call outi128
+    call outi128       ; output 896 bytes = 14 rows of tile numbers,quickly
+    ld a,$03           ; Count $380 = 896 more bytes
+    ld b,$80
+  -:outi               ; and output another 14 rows,but more slowly
+    jp nz,-
+    dec a
+    jp nz,-
+    call redirectSoundUpdate
+    jp VBlank_LookupEnd
+.ends
+; 8th entry of Jump Table from 1BB (indexed by VBlankFunctionIndex)
+.section "VBlank function: outside/scrolling scene" overwrite
+; scroll,sprites,palette rotation,character/vehicle sprite animation,scrolling tilemap,outside scene tile animations,controls,sound
+VBlankFunction_OutsideScrolling:
+    ld a,(HScroll)     ; set scroll registers
+    out (VDPAddress),a
+    ld a,VDPRegHScroll
+    out (VDPAddress),a
+    ld a,(VScroll)
+    out (VDPAddress),a
+    ld a,VDPRegVScroll
+    out (VDPAddress),a
+
+    call UpdateSpriteTable
+    call PaletteRotate
+    call AnimCharacterSprites
+    call UpdateScrollingTilemap
+    call OutsideSceneTileAnimations
+    call GetControllerInput
+    call redirectSoundUpdate
+    jp VBlank_LookupEnd
+.ends
+; 9th entry of Jump Table from 1BB (indexed by VBlankFunctionIndex)
+.section "VBlank function: enemy in dungeon?" overwrite
+; scroll,sprites,palette,output 24 rows of tilemap from RAM,sound
+VBlankFunction_10:
+    ld a,(HScroll)     ; set scroll registers
+    out (VDPAddress),a
+    ld a,VDPRegHScroll
+    out (VDPAddress),a
+    ld a,(VScroll)
+    out (VDPAddress),a
+    ld a,VDPRegVScroll
+    out (VDPAddress),a
+
+    call UpdateSpriteTable
+
+    ; Update palette
+    ld hl,ActualPalette
+    ld de,PaletteAddress
+    SetVRAMAddressToDE
+    ld c,VDPData
+    call outi32        ; output to palette
+
+    ld hl,TileMapData
+    xor a
+    out (VDPAddress),a
+    ld a,$78
+    out (VDPAddress),a ; Tilemap
+    ld c,VDPData
+    ld a,$06           ; count $600 bytes = 24 rows (full screen)
+    ld b,$00
+  -:outi               ; output
+    jp nz,-
+    dec a
+    jp nz,-
+
+    call redirectSoundUpdate
+    jp VBlank_LookupEnd
+.ends
+; 10th entry of Jump Table from 1BB (indexed by VBlankFunctionIndex)
+.section "VBlank function: update full tilemap..?" overwrite
+; scroll,sprites,palette,output 28 rows of tilemap from RAM,sound
+VBlankFunction_12:
+    ld a,(HScroll)     ; set scroll registers
+    out (VDPAddress),a
+    ld a,VDPRegHScroll
+    out (VDPAddress),a
+    ld a,(VScroll)
+    out (VDPAddress),a
+    ld a,VDPRegVScroll
+    out (VDPAddress),a
+
+    call UpdateSpriteTable
+
+    ; Update palette
+    ld hl,ActualPalette
+    ld de,PaletteAddress
+    SetVRAMAddressToDE
+    ld c,VDPData
+    call outi32        ; output to palette
+
+    ld hl,TileMapData
+    xor a
+    out (VDPAddress),a
+    ld a,$78
+    out (VDPAddress),a ; Tilemap
+    ld c,VDPData
+    ld a,$07           ; count $700 bytes = 28 rows (full tilemap)
+    ld b,$00
+  -:outi               ; output
+    jp nz,-
+    dec a
+    jp nz,-
+
+    call redirectSoundUpdate
+    jp VBlank_LookupEnd
+.ends
+; followed by
+.section "VBlank paused handler" overwrite
+VBlank_Paused:
+    ; this seems a bit messy,maybe clear it up later? ##########
+    call SilenceChips
+    jp VBlank_End
+.ends
+; followed by
+.section "Sound update redirector" overwrite
+redirectSoundUpdate:
+    ld hl,Frame2Paging
+    ld (hl),:SoundUpdate
+    jp SoundUpdate
+.ends
+; followed by
+.section "Init sound engine redirector" overwrite
+SoundInit:
+    ld hl,Frame2Paging
+    ld (hl),:SoundInitialise
+    jp SoundInitialise
+.ends
+; followed by
+.section "Silence chips sound engine redirector" overwrite
+SilenceChips:
+    ld hl,Frame2Paging
+    ld (hl),:SilencePSGandFM
+    jp SilencePSGandFM
+.ends
+; followed by
+.section "Non-VBlank IRQ handler" overwrite
+IRQ_NotVBlank:
+    pop af             ; ################### not used?
+    ei
+    ret
+.ends
+; followed by
+.section "Clear sprite table" overwrite
+ClearSpriteTableAndFadeInWholePalette:
+    ld hl,SpriteTable  ; Fill SpriteTable y positions with 224 to disable sprites
+    ld de,SpriteTable + 1
+    ld bc,64
+    ld (hl),$E0
+    ldir
+
+    ld c,191           ; then fill the rest with $00
+    ld (hl),$00
+    ldir
+
+    ld a,$14           ; VBlankFunction_TurnOnDisplay
+    call ExecuteFunctionIndexAInNextVBlank
+
+    jp FadeInWholePalette ; and ret
+.ends
+; followed by
+.section "Country detection" overwrite
+; Sets IsJapanese ram variable and returns in a
+CountryDetection:
+    ; Original code
+    ld a,$F5
+    out (IOControl),a  ; $f5 -> (IOControl)
+    in a,(IOPort2)     ; (IOPort2) -> a
+    and $C0
+    cp  $c0            ; Check value that came back
+    jr nz,+
+    ld a,$55
+    out (IOControl),a  ; $55 -> (IOControl)
+    in a,(IOPort2)     ; (IOPort2) -> a
+    and $C0
+    or a               ; Check value that came back
+    jr nz,+
+    ld a,$ff           ; Japanese system detected
+    out (IOControl),a  ; Reset IOControl
+    ld (IsJapanese),a  ; Save to RAM ($ff)
+    ret
+  +:xor a              ; Export system detected
+    ld (IsJapanese),a  ; Save to RAM ($00)
+    ret
+.ends
+; followed by
+.section "NTSC detection" overwrite
+NTSCDetection:
+    ld hl,$0000
+  -:in a,(VDPStatus)   ; Check VDP status      ; 000386 DB BF
+    or a
+    jp p,-             ; Wait for bit 7 (VSync) to be 0
+-:  in a,(VDPStatus)
+    or a
+    jp p,-             ; Again
+  -:inc hl             ; Now count up in hl
+    in a,(VDPStatus)
+    or a
+    jp p,-             ; so hl = number of reads before bit became 1 again
+    xor a              ; 0 -> a and reset carry
+    ld de,$0800
+    sbc hl,de          ; carry = (hl>$800)
+    sbc a,a            ; a = 0 if carry=0, ff otherwise
+    ld (IsNTSC),a      ; Save to IsNTSC
+    ret
+.ends
+; followed by
+.section "FM chip detection" overwrite
+; Sets HasFM ram variable
+FMDetection:
+    ld a,(Port3EVal)
+    or $04             ; Disable IO chip
+    out (MemoryControl),a
+    ldbc 7,0           ; Counter (7 -> b), plus 0 -> c
+-:  ld a,b
+    and $01
+    out (AudioControl),a   ; Output 0/1 lots of times
+    ld e,a
+    in a,(AudioControl)
+    and $07            ; Mask off high bits
+    cp e               ; Compare to what was written
+    jr nz,+
+    inc c              ; c = # of times out==in
++:  djnz -
+    ld a,c
+    cp $07             ; if out==in 7 times then I must have a YM2413!
+    jr z,+
+    xor a              ; 0 -> a
+  +:and $01            ; Strip to bit 0
+    out (AudioControl),a   ; Output $01 if YM2413 and $00 otherwise
+    ld (HasFM),a       ; Store that in HasFM
+    ld a,(Port3EVal)
+    out (MemoryControl),a  ; Turn IO chip back on
+    ret
+.ends
+; followed by
+.section "Get controller input" overwrite
+GetControllerInput:
+    in a,(IOPort1)     ; Get controls
+    ld hl,ControlsNew
+    cpl                ; Invert so 1 = pressed
+    ld b,a             ; b = all buttons pressed
+    xor (hl)
+    ld (hl),b          ; Store b in ControlsNew
+    inc hl
+    and b              ; a = all buttons pressed since last time
+    ld (hl),a          ; Store a in Controls
+    ret
+.ends
+; followed by
+.section "Output bc bytes from hl to VRAM de" overwrite
+; Output bc bytes from hl to VRAM address de
+OutputToVRAM:
+    rst SetVRAMAddressToDE
+    ld a,c
+    or a
+    jr z,+
+    inc b
++:  ld a,b
+    ld b,c
+    ld c,VDPData
+-:  outi
+    jp nz,-
+    dec a
+    jp nz,-
+    ret
+.ends
+; followed by
+.section "Fill VRAM" overwrite
+ClearTileMap:
+    ld de,TileMapAddress
+    ld bc,32*28        ; number of words
+    ld hl,$0000        ; value to fill with
+    ; fall through
+FillVRAMWithHL:
+; Fills bc words of VRAM from de with hl
+    rst SetVRAMAddressToDE
+    ld a,c
+    or a               ; if c!=0 then inc b to make it loop over the right number
+    jr z,_f
+    inc b
+ __:ld a,l             ; output hl to VDPData
+    out (VDPData),a
+    push af
+    pop af
+    ld a,h
+    out (VDPData),a
+    dec c              ; Decrement counter c
+    jr nz,_b
+    djnz _b
+    ret
+.ends
+; followed by
+.section "Output tilemap (interleaved) b x c tiles" overwrite
+; Sets VRAM address to de
+; Then outputs (hl) to VDPData, alternating with (TileMapHighByte)
+; Outputs c words total (c bytes from (hl))
+; Then moves VRAM write address forward by $40 (64 bytes)
+; Repeats all of above b times
+;
+; So hl = tilemap data (low byte only)
+; b = height /tiles
+; c = width /tiles
+; de = VRAM location
+OutputTilemapRawBxC:
+  -:push bc
+    rst SetVRAMAddressToDE
+    ld b,c
+    ld c,VDPData
+     --:outi           ; out (c),(hl); dec b; inc hl
+    ld a,(TileMapHighByte)
+        nop            ; delay
+    out (c),a
+        jr nz,--
+        ex de,hl       ; add $40 to de
+        ld bc,$40
+    add hl,bc
+    ex de,hl
+    pop bc
+    djnz -
+    ret
+.ends
+; followed by
+.section "Output tilemap (full data) b x c/2 tiles" overwrite
+; Sets VRAM address to de
+; Then outputs (hl) to VDPData
+; Outputs c bytes total
+; Then moves VRAM write address forward by $40 (64 bytes)
+; Repeats all of above b times
+;
+; So hl = tilemap data (both bytes)
+; b = height /tiles
+; c = 2*width /tiles
+; de = VRAM location
+OutputTilemapRawDataBox:
+  -:push bc
+    rst SetVRAMAddressToDE
+    ld b,c
+    ld c,VDPData
+     --:outi           ; out (c),(hl); dec b; inc hl
+        jp nz,--
+        ex de,hl       ; add $40 to de
+        ld bc,$40
+    add hl,bc
+    ex de,hl
+    pop bc
+    djnz -
+    ret
+.ends
+; followed by
+.section "Tile loader (1bpp)" overwrite
+; a is stored in Mask1BitOutput
+; its low 4 bits are processed r-l
+; for each 1 bit, the data in (hl) is output to the VDP starting at de
+; for each 0 bit, a $00 is output
+; eg. %----1101 -> (hl), 0, (hl), (hl)
+; Repeat with next (hl), bc times.
+; Suitable for 1-bit graphics
+; Only used for Mark III logo (?) ############
+Output1BitGraphics:
+    ld (Mask1BitOutput),a ; a -> Mask1BitOutput
+    rst SetVRAMAddressToDE
+ --:ld a,(hl)          ; get data at (hl)
+    exx                ; swap bc,de,hl with mirrors
+    ld c,VDPData
+    ld b,$04
+        ld h,a             ; backup data
+        ld a,(Mask1BitOutput) ; get back original a
+      -:rra                ; rotate right through carry
+        ld d,h             ; get data back - could have put it there in the first place ##########
+        jr c,+             ; if rotate went into carry
+        ld d,$00           ; then keep it, else zero
+      +:out (c),d          ; output to VDP
+        djnz -             ; repeat 4 times
+    exx                ; swap back
+    inc hl             ; move to next data
+    dec bc             ; decrement counter
+    ld a,b
+    or c
+    jp nz,--           ; repeat if non-zero
+    ret
+.ends
+; followed by
+.section "Initialise VDP registers" overwrite
+VDPInitRegs:           ; $045d
+    ld hl,_VDPData
+    ld bc,(_VDPDataEnd-_VDPData)<<8 | VDPAddress
+    otir               ; Output VDP data
+
+    ld a,(_VDPData)    ; Store some of it in RAM
+    ld (VDPReg0),a
+    ld a,(_VDPData + 2)
+    ld (VDPReg1),a
+    ret
+
+; Data from 472 to 485 (20 bytes)
+_VDPData:
+.db $06,VDPReg_0
+.db $A0,VDPReg_1
+.db $FF,VDPRegTileMapAddress
+.db $FF,VDPReg_3
+.db $FF,VDPReg_4
+.db $FF,VDPRegSpriteTableAddress
+.db $FF,VDPRegSpriteTileSet
+.db $00,VDPRegBorderColour
+.db $00,VDPRegHScroll
+.db $00,VDPRegVScroll
+
+.ends
+; followed by
+.section "Tile loader (4 bpp RLE, no di/ei)" overwrite
+; Decompresses tile data from hl to VRAM address de
+LoadTiles4BitRLENoDI:
+    ld b,$04
+-:  push bc
+    push de
+            call + ; called 4 times for 4 bitplanes
+    pop de
+    inc de
+    pop bc
+    djnz -
+    ret
+  +:
+ --:ld a,(hl)          ; read count byte <----+
+    inc hl             ; increment pointer    |
+    or a               ; return if zero       |
+    ret z              ;                      |
+                       ;                      |
+    ld c,a             ; get low 7 bits in b  |
+    and $7f            ;                      |
+    ld b,a             ;                      |
+    ld a,c             ; set z flag if high   |
+    and $80            ; bit = 0              |
+                       ;                      |
+  -:SetVRAMAddressToDE ; <------------------+ |
+    ld a,(hl)          ; Get data byte in a | |
+    out (VDPData),a    ; Write it to VRAM   | |
+    jp z,+             ; If z flag then  -+ | |
+                       ; skip inc hl      | | |
+    inc hl             ;                  | | |
+                       ;                  | | |
+  +:inc de             ; Add 4 to de <----+ | |
+    inc de             ;                    | |
+    inc de             ;                    | |
+    inc de             ;                    | |
+    djnz -             ; repeat block  -----+ |
+                       ; b times              |
+    jp nz,--           ; If not z flag then --+
+    inc hl             ; inc hl here instead  |
+    jp --              ; repeat forever ------+
+                       ; (zero count byte quits)
+.ends
+; followed by
+.section "Tile loader (4 bpp RLE, with di/ei)" overwrite
+LoadTiles4BitRLE:      ; $04b3   Same as NoDI only with a di/ei around the VRAM access (because VBlanks will mess it up)
+    ld b,$04           ; 4 bitplanes
+-:  push bc
+    push de
+            call +
+    pop de
+    inc de
+    pop bc
+    djnz -
+    ret
+ --:
+  +:ld a,(hl)          ; header byte
+    inc hl             ; data byte
+    or a
+    ret z              ; exit at zero terminator
+    ld c,a             ; c = header byte
+    and $7F
+    ld b,a             ; b = count
+    ld a,c
+    and $80            ; z flag = high bit
+-:  di
+      SetVRAMAddressToDE
+    ld a,(hl)
+      out (VDPData),a    ; output data
+    ei
+    jp z,+             ; if z flag then don't move to next data byte
+    inc hl
+  +:inc de             ; move target forward 4 bytes
+    inc de
+    inc de
+    inc de
+    djnz -             ; repeat b times
+    jp nz,--
+    inc hl
+    jp --
+.ends
+; followed by
+.orga $4e2
+.section "8-bit multiplication" overwrite
+Multiply8:             ; $4e2
+; input: h,e
+; output: hl = h*e
+; Works by shifting h left, and adding e in to lower 8 bits of hl whenever the it shifted out was a 1
+; Thus, for every 1 in h, you get e << (position of that bit) added to the result
+; Only called once
+    ld d,$00           ; d=0 since we only want to add in e
+    ld l,d             ; l=0 since we only care about the high bits' effect, and want to start with a total of 0
+    add hl,hl          ; double hl (ie. shift h left, shift total left at the same time)
+.rept 7
+    jr nc,+
+    add hl,de          ; if a bit is carried then add de (== add e to the total)
++:  add hl,hl          ; repeat for 8 bits
+.endr
+    ret nc
+    add hl,de
+    ret
+.ends
+; followed by
+.orga $505
+.section "16-bit multiplication" overwrite
+Multiply16:            ; $0505
+; input: de,bc
+; output: dehl = de*bc
+; Called 3 times
+    or a               ; clear carry
+    ld hl,$0000        ; zero hl
+
+.rept 15
+    rl e
+    rl d               ; de<<=1,also copy carry into low bit of de (0 on first iteration,1 on others if hl just overflowed)
+    jr nc,+
+    add hl,bc          ; if a bit was rotated out then add bc to hl
+    jr nc,+
+    inc de             ; if hl has overflowed then there's another bit to carry into de
+  +:add hl,hl          ; hl<<=1,carry bit set if it overflowed (will be carried into de by following opcodes)
+.endr
+
+    rl e               ; last iteration: rets instead of jrs
+    rl d
+    ret nc
+    add hl,bc
+    ret nc
+    inc de             ; pick up last possible overflow bit
+    ret
+.ends
+; followed by
+.orga $5b7
+.section "fn5b7 - divide?" overwrite
+_LABEL_5B7_:
+; Divide? hl/=e? or is it mod?
+; used once
+    xor a              ; zero a
+    add hl,hl          ; hl <<= 1 (shift into carry)
+.rept 16
+    adc a,a            ; double a and add carry bit (shift out of hl)
+    jr c,+             ; if a overflowed
+    cp e               ; compare to e
+    jr c,++            ; if bigger
+  +:sub e              ; subtract e
+    or a               ; make carry flag 1
+ ++:ccf                ; make carry flag 0
+    adc hl,hl          ; double hl and add carry bit
+.endr
+    ret
+.ends
+; followed by
+.orga $66a
+.section "Random number generator" overwrite
+GetRandomNumber:
+; returns a pseudo-random number in a
+    push hl
+    ld hl,(RandomNumberGeneratorWord)
+        ld a,h         ; get high byte
+        rrca           ; rotate right by 2
+    rrca
+        xor h          ; xor with original
+        rrca           ; rotate right by 1
+        xor l          ; xor with low byte
+        rrca           ; rotate right by 4
+    rrca
+    rrca
+    rrca
+        xor l          ; xor again
+        rra            ; rotate right by 1 through carry
+        adc hl,hl      ; add RandomNumberGeneratorWord to itself
+    jr nz,+
+        ld hl,$733c    ; if last xor resulted in zero then re-seed random number generator
+      +:ld a,r         ; r = refresh register = semi-random number
+        xor l          ; xor with l which is fairly random
+    ld (RandomNumberGeneratorWord),hl
+    pop hl
+    ret                ; return random number in a
+.ends
+; 2nd entry of Jump Table from EA (indexed by FunctionLookupIndex)
+FadeInMarkIIILogoAndPause:
+    ld a,$02
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    jr nz,_LABEL_69A_
+    ld a,(MarkIIILogoDelay)
+    or a
+    ret nz
+_LABEL_69A_:
+    ld hl,FunctionLookupIndex
+    ld (hl),$02
+    ret
+
+; 1st entry of Jump Table from EA (indexed by FunctionLookupIndex)
+LoadMarkIIILogo:
+    ld a,(IsJapanese)
+    or a
+    jr nz,_LABEL_69A_
+    ld hl,FunctionLookupIndex
+    inc (hl)
+    di
+    ld hl,$0078
+    ld (MarkIIILogoDelay),hl
+    ld hl,TileMapHighByte
+    ld (hl),$01
+    call TurnOffDisplay
+    call SoundInit
+    call ClearTileMap
+    ld de,$4000
+    ld bc,$0010
+    ld hl,$0000
+    call FillVRAMWithHL
+    ld hl,Frame2Paging
+    ld (hl),$18
+    ld hl,_DATA_627A8_
+    ld de,$6000
+    ld bc,$00E8
+    ld a,$01
+    call Output1BitGraphics
+    ld a,$01
+    ld (TileMapHighByte),a
+    ld hl,_DATA_62782_
+    ld de,$7A8E
+    ld bc,$0213
+    call OutputTilemapRawBxC
+    ld de,$C000
+    ld bc,$0010
+    ld hl,$3838
+    call FillVRAMWithHL
+    ld hl,TargetPalette
+    ld de,TargetPalette + 1
+    ld bc,$001F
+    ld (hl),$38
+    ldir
+    ld a,$FF
+    ld (_RAM_DF01_),a
+    ld hl,$0000
+    ld (PaletteMoveDelay),hl
+    ei
+    jp ClearSpriteTableAndFadeInWholePalette
+
+MarkIIIFadeIn:
+    ld hl,PaletteMoveDelay
+    dec (hl)
+    ret p
+    ld (hl),$07
+    inc hl
+    ld a,(hl)
+    cp $08
+    ret nc
+    inc (hl)
+    ld e,a
+    ld d,$00
+    ld hl,_DATA_737_
+    add hl,de
+    ld a,(hl)
+    ld de,$C001
+    push af
+    rst SetVRAMAddressToDE
+    ex (sp),hl
+    ex (sp),hl
+    pop af
+    out (VDPData),a
+    ret
+
+; Data from 737 to 73E (8 bytes)
+_DATA_737_:
+.db $38 $38 $38 $39 $3A $3B $3E $3F
+
+; 4th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+TitleScreen:
+    ld hl,$7C12
+    ld (CursorTileMapAddress),hl
+    ld a,$01
+    ld (CursorMax),a
+    call WaitForMenuSelection
+    or a
+    jp nz,TitleScreenContinue
+NewGame:
+    ld hl,HScroll
+    ld de,HScroll + 1
+    ld bc,$03FF
+    ld (hl),$00
+    ldir
+    
+    ld iy,CharacterStatsAlis
+    ld (iy+CharacterStats.Weapon),Item_Weapon_ShortSword
+    ld (iy+CharacterStats.Armour),Item_Armour_LeatherClothes
+    call InitialiseCharacterStats
+    
+    ld hl,_RAM_C600_
+    ld (hl),$FF
+    ld hl,DungeonKeyIsHidden
+    ld (hl),$FF
+    ld hl,$0404
+    ld (_RAM_C308_),hl
+    ld hl,$0610
+    ld (HLocation),hl
+    ld (_RAM_C313_),hl
+    ld hl,$0100
+    ld (VLocation),hl
+    ld (_RAM_C311_),hl
+    ld hl,$0000
+    ld (Meseta),hl
+    
+    call IntroSequence
+    ld hl,FunctionLookupIndex
+    ld (hl),$08 ; LoadScene
+    ret
+
+TitleScreenContinue:
+    ld a,SRAMPagingOn
+    ld (SRAMPaging),a
+    ld hl,SRAMSlotsUsed
+    ld b,$05
+-:  ld a,(hl)
+    or a
+    jr nz,+
+    inc hl
+    djnz -
+    ld a,SRAMPagingOff
+    ld (SRAMPaging),a
+    jp NewGame
+
++:  ld a,SRAMPagingOff
+    ld (SRAMPaging),a
+    call FadeOutFullPalette
+    di
+    call ClearTileMap
+    ei
+    ld hl,FunctionLookupIndex
+    ld (hl),$08
+    ld hl,Frame2Paging
+    ld (hl),:TilesFont
+    ld hl,TilesFont
+    ld de,$5800
+    call LoadTiles4BitRLE
+    ld hl,TilesExtraFont
+    ld de,$7E00
+    call LoadTiles4BitRLE
+    call ClearSpriteTableAndFadeInWholePalette
+    
+_ContinueOrDeleteMenu:
+    ld hl,TextContinueOrDelete
+    call TextBox20x6
+    call DoYesNoMenu
+    jr nz,_Delete
+    ld hl,TextChooseWhichToContinue
+    call TextBox20x6
+-:  push bc
+      call GetSavegameSelection
+    pop bc
+    call IsSlotUsed
+    jr z,-
+    ld hl,TextContinuingGameX
+    call TextBox20x6
+    call Close20x6TextBox
+    
+    ld a,SRAMPagingOn  ; Load game
+    ld (SRAMPaging),a
+    ld a,(NumberToShowInText)
+    ld h,a
+    ld l,$00
+    add hl,hl
+    add hl,hl
+    set 7,h
+    ld de,HScroll
+    ld bc,$0400
+    ldir
+    ld a,$80
+    ld (SRAMPaging),a
+    ld a,(_RAM_C316_)
+    cp $0B
+    ret nz
+    ld hl,FunctionLookupIndex
+    ld (hl),$0A
+    ret
+
+_Delete:
+    ld hl,TextConfirmDelete
+    call TextBox20x6
+    call DoYesNoMenu
+    jr nz,_ContinueOrDeleteMenu
+--:  ld hl,TextChooseWhichToDelete
+    call TextBox20x6
+-:  push bc
+      call GetSavegameSelection
+    bit 4,c
+    pop bc
+    jr nz,_Delete
+    call IsSlotUsed
+    jr z,-
+    ld hl,TextConfirmSlotSelection
+    call TextBox20x6
+    call DoYesNoMenu
+    jr nz,--
+    ld hl,TextGameXHasBeenDeleted
+    call TextBox20x6
+    ld a,$08
+    ld (SRAMPaging),a
+    ld a,(NumberToShowInText)
+    ld h,$82
+    ld l,a
+    ld (hl),$00
+    dec a
+    add a,a
+    ld e,a
+    add a,a
+    add a,a
+    add a,a
+    add a,e
+    add a,a
+    add a,$18
+    ld e,a
+    ld d,$81
+    ld hl,_5Blanks
+    ld bc,$000A
+    ldir
+    ex de,hl
+    ld bc,$0008
+    add hl,bc
+    ex de,hl
+    ld hl,_5Blanks
+    ld bc,$000A
+    ldir
+    ld a,$80
+    ld (SRAMPaging),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$02
+    ret
+
+; Data from 89A to 8A3 (10 bytes)
+_5Blanks:
+.dsw 5 $10c0           ; Blank tile in front of sprites
+
+IsSlotUsed:
+    ld a,$08
+    ld (SRAMPaging),a
+    ld a,(NumberToShowInText)
+    ld l,a
+    ld h,$82
+    ld a,(hl)
+    or a
+    ld a,$80
+    ld (SRAMPaging),a
+    ret
+
+; 3rd entry of Jump Table from EA (indexed by FunctionLookupIndex)
+StartTitleScreen:
+    call FadeOutFullPalette
+    di
+    call TurnOffDisplay
+    call SoundInit
+    call ClearTileMap
+    ld hl,FunctionLookupIndex
+    inc (hl)
+    ld hl,$0258
+    ld (MarkIIILogoDelay),hl
+    ld hl,_TitleScreenPalette
+    ld de,TargetPalette
+    ld bc,_sizeof__TitleScreenPalette
+    ldir
+    ld hl,_RAM_C260_
+    ld de,_RAM_C260_ + 1
+    ld bc,$009F
+    ld (hl),$00
+    ldir
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    ld hl,Frame2Paging
+    ld (hl),:TilesTitleScreen
+    ld hl,TilesTitleScreen
+    ld de,$4000
+    call LoadTiles4BitRLENoDI
+    ld hl,Frame2Paging
+    ld (hl),:TitleScreenTilemap
+    ld hl,TitleScreenTilemap
+    call DecompressToTileMapData
+    xor a
+    ld (VScroll),a
+    ld (HScroll),a
+    ld a,$81
+    ld (NewMusic),a
+    ld de,$8006
+    rst SetVRAMAddressToDE
+    ei
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    jp ClearSpriteTableAndFadeInWholePalette
+
+; Data from 925 to 944 (32 bytes)
+_TitleScreenPalette:
+.db $00 $00 $3F $0F $0B $06 $2B $2A $25 $27 $3B $01 $3C $34 $2F $3C
+.db $00 $00 $3C $0F $0B $06 $2B $2A $25 $27 $3B $01 $3C $34 $2F $3C
+
+SRAMCheck:
+    ld a,$08
+    ld (SRAMPaging),a
+    ld hl,SRAMIdent
+    ld de,_SRAMIdentData
+    ld bc,_sizeof__SRAMIdentData
+-:  ld a,(de)
+    inc de
+    cpi
+    jr nz,_InitSRAM
+    jp pe,-
+    ld a,$80
+    ld (SRAMPaging),a
+    ret
+
+; Data from 962 to 9A1 (64 bytes)
+_SRAMIdentData:
+.db "PHANTASY STAR   "
+.db "      BACKUP RAM"
+.db "PROGRAMMED BY   "
+.db "       NAKA YUJI"
+
+_InitSRAM:
+    ld hl,SRAMIdent
+    ld de,SRAMIdent + 1
+    ld bc,$1FFB
+    ld (hl),$00
+    ldir
+    ld hl,DefaultSRAMData
+    ld de,SaveMenuTilemap
+    ld bc,_sizeof_DefaultSRAMData
+    ldir
+    ld hl,_SRAMIdentData
+    ld de,SaveMenuTilemap
+    ld bc,_sizeof__SRAMIdentData
+    ldir
+    ld a,$80
+    ld (SRAMPaging),a
+    ret
+
+; 6th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+_LABEL_9CB_:
+    ld hl,$2009
+    ld (PaletteFadeControl),hl
+-:  ld a,(PauseFlag)
+    or a
+    call nz,DoPause
+    ld a,$0E
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    jr nz,_LABEL_9F6_
+    call _LABEL_AF4_
+    ld hl,(_RAM_C2F2_)
+    ld de,$0008
+    add hl,de
+    ld (_RAM_C2F2_),hl
+    ld a,h
+    cp $08
+    jr c,-
+_LABEL_9F6_:
+    ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(PaletteFadeControl)
+    or a
+    jr nz,_LABEL_9F6_
+    jr +
+
++:  ld hl,Frame2Paging
+    ld (hl),:PaletteSpace
+    ld hl,PaletteSpace
+    ld de,TargetPalette
+    ld bc,_sizeof_PaletteSpace
+    ldir
+    call _LoadPlanetPalette
+    ld hl,TilesSpace
+    ld de,$4000
+    call LoadTiles4BitRLE
+    ld hl,Frame2Paging
+    ld (hl),:TilemapBottomPlanet
+    ld hl,TilemapBottomPlanet
+    call DecompressToTileMapData
+    ld hl,TileMapData
+    ld de,TileMapData+12*32*2
+    ld bc,$0300
+    ldir
+    ld hl,TileMapData
+    ld bc,$0100
+    ldir
+    ld hl,TilemapSpace
+    call DecompressToTileMapData
+    xor a
+    ld (HScroll),a
+    ld (VScroll),a
+    ld hl,TileMapData
+    ld de,$7800
+    ld bc,$0700
+    di
+    call OutputToVRAM
+    ei
+    ld hl,TileMapData
+    ld de,TileMapData+12*32*2
+    ld bc,$0300
+    ldir
+    ld a,$8F
+    ld (NewMusic),a
+    call FadeInWholePalette
+    ld hl,$0000
+    ld (_RAM_C2F2_),hl
+    ld a,$08
+    ld (ScrollScreens),a
+-:  ld a,(PauseFlag)
+    or a
+    call nz,DoPause
+    ld a,$0E
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    jr nz,+
+    call _ScrollToTopPlanet
+    ld a,(ScrollScreens)
+    or a
+    jr nz,-
++:  ld hl,FunctionLookupIndex
+    ld (hl),$04
+    call _LABEL_BD0_
+    ld hl,$0800
+    ld (_RAM_C2F2_),hl
+-:  ld a,(PauseFlag)
+    or a
+    call nz,DoPause
+    ld a,$0E
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    jr nz,+
+    call _LABEL_AF4_
+    ld hl,(_RAM_C2F2_)
+    ld de,$0008
+    or a
+    sbc hl,de
+    ld (_RAM_C2F2_),hl
+    jr nc,-
++:  ld hl,$0000
+    ld (_RAM_C2F2_),hl
+    ld hl,FunctionLookupIndex
+    ld (hl),$08
+    ld a,(_RAM_C2E9_)
+    and $7F
+    ld l,a
+    add a,a
+    add a,a
+    add a,a
+    add a,l
+    ld l,a
+    ld h,$00
+    ld de,$0C18
+    add hl,de
+    xor a
+    ld (PaletteRotateEnabled),a
+    ld (ScrollDirection),a
+    ld (_RAM_C2E9_),a
+    ld (VehicleMovementFlags),a
+    ld (ScrollScreens),a
+    call _LABEL_7B1E_
+    ret
+
+_LABEL_AF4_:
+    ld de,(_RAM_C2F2_)
+    ld a,(VScroll)
+    ld h,a
+    ld b,a
+    ld a,(ScrollScreens)
+    ld l,a
+    or a
+    sbc hl,de
+    ld a,h
+    cp $E0
+    jr c,+
+    sub $20
++:  ld h,a
+    ld (VScroll),a
+    ld a,l
+    ld (ScrollScreens),a
+    ld a,b
+    sub h
+    and $0F
+    ret z
+    ld e,a
+    ld d,$00
+    ld hl,(VLocation)
+    ld b,h
+    ld a,l
+    sub e
+    cp $C0
+    jr c,+
+    sub $40
+    dec h
++:  ld l,a
+    ld a,h
+    and $07
+    ld h,a
+    ld (VLocation),hl
+    cp b
+    call nz,DecompressScrollingTilemapData
+    call _LABEL_75DD_
+    ld a,(_RAM_C2F3_)
+    cp $07
+    ret nz
+    ld a,(PaletteFadeControl)
+    or a
+    call nz,FadePaletteInRAM
+    ret
+
+_ScrollToTopPlanet:
+    ld de,$0002
+    ld a,(VScroll)
+    sub e
+    cp $E0
+    jr c,+
+    ld d,$01
+    sub $20
++:  ld (VScroll),a
+    ld a,(ScrollScreens)
+    sub d
+    ld (ScrollScreens),a
+    cp $01
+    ret nz
+    ld a,d
+    or a
+    ret z
+    ld a,(_RAM_C2E9_)
+    and $7F
+    ld l,a
+    add a,a
+    add a,a
+    add a,a
+    add a,l
+    ld l,a
+    ld h,$00
+    ld de,$0C15
+    add hl,de
+    ld a,(hl)
+    ld (_RAM_C308_),a
+    call _LoadPlanetPalette
+    ld hl,TargetPalette
+    ld de,ActualPalette
+    ld bc,$0020
+    ldir
+    ld hl,_DATA_73D00_
+    jp DecompressToTileMapData
+
+_LoadPlanetPalette:
+    ld a,(_RAM_C308_)
+    and $03
+    add a,a
+    ld l,a
+    add a,a
+    add a,l
+    ld d,$00
+    ld e,a
+    ld hl,PaletteSpacePlanets
+    add hl,de
+    ld de,TargetPalette+2
+    ld bc,$0006
+    ldir
+    ret
+
+; Data from BA6 to BB7 (18 bytes)
+PaletteSpacePlanets:
+.db $3E $38 $34 $30 $20 $04 ; Palma
+.db $2F $1F $0B $06 $01 $06 ; Dezoris
+.db $3F $3F $3E $3C $39 $38 ; Motavia
+
+; 5th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+_LABEL_BB8_:
+    ld a,(_RAM_C2E9_)
+    and $7F
+    ld l,a
+    add a,a
+    add a,a
+    add a,a
+    add a,l
+    ld l,a
+    ld h,$00
+    ld de,$0C12
+    add hl,de
+    ld de,$0BE8
+    push de
+    call _LABEL_7B1E_
+_LABEL_BD0_:
+    ld a,(_RAM_C2E9_)
+    and $7F
+    ld l,a
+    add a,a
+    add a,a
+    add a,a
+    add a,l
+    ld l,a
+    ld h,$00
+    ld de,$0C15
+    add hl,de
+    ld de,+  ; Overriding return address
+    push de
+    call _LABEL_7B1E_
++:  xor a
+    ld (ControlsNew),a
+    ld (ScrollDirection),a
+    ld a,(_RAM_C2E9_)
+    cp $83
+    ld a,$10
+    jr c,+
+    inc a
++:  ld (VehicleMovementFlags),a
+    ld hl,$0000
+    ld (_RAM_C2F2_),hl
+    call LoadScene
+    ld hl,OutsideAnimCounters.1
+    ld de,OutsideAnimCounters.1 + 1
+    ld bc,$0017
+    ld (hl),$00
+    ldir
+    call SpriteHandler
+    ld a,$01
+    ld (ScrollDirection),a
+    ret
+
+_WorldData: ; $0c1b
+;    ,,--------------------------------- World number - space?
+;    ||  ,,----------------------------- VLocation
+;    ||  ||  ,,------------------------- HLocation
+;    ||  ||  ||  ,,--------------------- World number - planet?
+;    ||  ||  ||  ||  ,,----------------- VLocation
+;    ||  ||  ||  ||  ||  ,,------------- HLocation
+;    ||  ||  ||  ||  ||  ||  ,,--------- World number - ?
+;    ||  ||  ||  ||  ||  ||  ||  ,,----- VLocation
+;    ||  ||  ||  ||  ||  ||  ||  ||  ,,- HLocation
+.db $00 $39 $43 $01 $8B $69 $10 $53 $17
+.db $01 $37 $69 $00 $91 $43 $05 $17 $17
+.db $00 $47 $35 $01 $27 $74 $0F $20 $58
+.db $00 $47 $35 $02 $33 $2d $13 $18 $1b
+.db $01 $53 $74 $00 $1b $35 $07 $25 $13
+.db $01 $53 $74 $02 $33 $2d $13 $18 $1b
+.db $02 $5b $2d $00 $1b $35 $07 $25 $13
+.db $02 $5b $2d $01 $27 $74 $0f $20 $58
+
+; 7th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+DoNothing:
+    ret
+
+; 10th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+_LABEL_C64_:
+    ld a,(PauseFlag)
+    or a
+    call nz,DoPause
+    ld a,$0E
+    call ExecuteFunctionIndexAInNextVBlank
+    call SpriteHandler
+    call _LABEL_7A4F_
+    ld a,(PaletteRotateEnabled)
+    or a
+    jr nz,+
+    ld a,(MovementInProgress)
+    or a
+    jr z,+
+    xor a
+    ld (MovementInProgress),a
+    call _LABEL_61DF_
+    or a
+    jr z,+
+    ld a,$FF
+    jp ++
+
++:  ld a,(ControlsNew)
+    and $30
+    ret z
+    ld a,(PaletteRotateEnabled)
+    or a
+    ret nz
+    xor a
+++:  ld (_RAM_C29D_),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$0C
+    ld a,(_RAM_C810_)
+    ld (_RAM_C2D7_),a
+    ld hl,OutsideAnimCounters.1
+    ld de,OutsideAnimCounters.1 + 1
+    ld bc,$0017
+    ld (hl),$00
+    ldir
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    ret
+
+; 9th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+LoadScene:
+    call FadeOutFullPalette
+    di
+    call TurnOffDisplay
+    ei
+    ld hl,FunctionLookupIndex
+    inc (hl)
+    xor a
+    ld (SceneAnimEnabled),a
+    ld (_RAM_C315_),a
+    inc a
+    ld (_RAM_C2D5_),a
+    ld a,(_RAM_C308_)
+    cp $04
+    jr nc,+
+    ld hl,Frame2Paging
+    ld (hl),:TilesOutside
+    ld hl,TilesOutside
+    ld de,$4000
+    call LoadTiles4BitRLE
+    jr ++
+
++:  ld hl,Frame2Paging
+    ld (hl),:TilesTown
+    ld hl,TilesTown
+    ld de,$4000
+    call LoadTiles4BitRLE
+++:  call _ResetCharacterSpriteAttributes
+    call SpriteHandler
+    ld b,$04
+-:  push bc
+    ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    di
+    call AnimCharacterSprites
+    ei
+    pop bc
+    djnz -
+    ld a,(HLocation)
+    neg
+    ld (HScroll),a
+    ld a,(VLocation)
+    ld (VScroll),a
+    ld a,(_RAM_C309_)
+    ld e,a
+    ld d,$00
+    ld hl,WorldDataLookup1
+    add hl,de
+    ld a,(hl)
+    ld (_RAM_C308_),a
+    add a,a
+    ld h,a
+    add a,a
+    ld l,a
+    add a,a
+    add a,l
+    add a,h
+    ld l,a
+    ld h,$00
+    ld de,WorldDataLookup2
+    add hl,de
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld (_RAM_C260_),de
+    ld a,(hl)
+    ld (_RAM_C262_),a
+    inc hl
+    ld e,(hl)
+    ld d,$1F
+    ld (OutsideAnimCounters.1),de
+    inc hl
+    ld e,(hl)
+    ld d,$0F
+    ld (OutsideAnimCounters.2),de
+    inc hl
+    ld e,(hl)
+    ld d,$0F
+    ld (OutsideAnimCounters.3),de
+    inc hl
+    ld e,(hl)
+    ld d,$03
+    ld (OutsideAnimCounters.4),de
+    inc hl
+    ld e,(hl)
+    ld d,$0F
+    ld (OutsideAnimCounters.5),de
+    inc hl
+    ld e,(hl)
+    ld d,$07
+    ld (OutsideAnimCounters.6),de
+    inc hl
+    ld a,(hl)
+    ld (_RAM_C263_),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    ld de,TargetPalette
+    ld bc,$0011
+    ldir
+    ld a,(VehicleMovementFlags)
+    or a
+    jr nz,+
+    push hl
+    ld hl,SpritePalette1
+    ld bc,$000D
+    ldir
+    pop hl
+    ldi
+    ldi
+    jp ++
+
++:  ld hl,SpritePalette2
+    ld bc,$000F
+    ldir
+++:  pop hl
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld (_RAM_C2D9_),hl
+    call DecompressScrollingTilemapData
+    call FillTilemap
+    ld a,$14
+    call GetLocationUnknownData
+    rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    ld (SceneType),a
+    ld a,(VehicleMovementFlags)
+    cp $10
+    ld c,$B8
+    jr nc,+
+    or a
+    ld c,$8F
+    jr nz,+
+    ld a,(_RAM_C309_)
+    ld e,a
+    ld d,$00
+    ld hl,WorldMusics
+    add hl,de
+    ld c,(hl)
++:  ld a,c
+    call CheckMusic
+    ld de,$8026
+    di
+    rst SetVRAMAddressToDE
+    ei
+    jp ClearSpriteTableAndFadeInWholePalette
+
+CheckMusic:
+    push hl
+      ld hl,CurrentlyPlayingMusic
+      cp (hl)
+      jr nz,+
+    pop hl
+    ret
+
++:    ld (NewMusic),a
+      ld (hl),a
+    pop hl
+    ret
+
+_ResetCharacterSpriteAttributes:
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$FF
+    ld (hl),$00
+    ldir
+    ld a,(VehicleMovementFlags)
+    or a
+    jp z,_InitialiseCharacterSpriteAttributes
+    ld hl,CharacterSpriteAttributes
+    ld (hl),$09
+    ret
+
+_InitialiseCharacterSpriteAttributes:
+    ld de,CharacterSpriteAttributes
+    ld bc,$0020
+    ld hl,CharacterStatsAlis
+    ld a,$01
+    call +
+    ld hl,CharacterStatsLutz
+    ld a,$03
+    call +
+    ld hl,CharacterStatsOdin
+    ld a,$05
+    call +
+    ld hl,CharacterStatsMyau
+    ld a,$07
++:  bit 0,(hl)
+    ret z
+    ld (de),a
+    ex de,hl
+    add hl,bc
+    ex de,hl
+    ret
+
+; Data from E47 to EFE (184 bytes)
+Palettee47:            ; $e47
+.db $08,$00,$3f,$01,$03,$0b,$0f,$2f,$06,$38,$3c,$25,$2a,$04,$30,$0c,$08
+Palettee58:            ; $e58
+.db $08,$00,$3f,$01,$03,$0b,$0f,$2f,$06,$38,$3c,$25,$2a,$04,$30,$0c,$2f
+Palettee69:            ; $e69
+.db $3f,$00,$3f,$24,$03,$3c,$0f,$3f,$28,$38,$3c,$25,$2a,$04,$30,$0c,$3f
+Palettee7a:            ; $e7a
+.db $09,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$08,$09,$08,$0c
+Palettee8d:            ; $e8d
+.db $08,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$08,$08,$0c,$04
+Paletteea0:            ; $ea0
+.db $2a,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$08,$2a,$2a,$2a
+Paletteeb3:            ; $eb3
+.db $2f,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$08,$2f,$0b,$06
+Paletteec6:            ; $ec6
+.db $3f,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$3f,$3f,$3c,$38
+Paletteed9:            ; $ed9
+.db $00,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$08,$00,$00,$00
+Paletteeec:            ; $eec
+.db $3c,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$08,$3c,$3c,$3c
+
+; Data from EFF to F0D (15 bytes)
+SpritePalette1:
+.db $00 $3F $2B $0B $2F $37 $0F $38 $34 $06 $01 $2A $25 $00 $00
+
+; Data from F0E to F1C (15 bytes)
+SpritePalette2:
+.db $00 $3F $02 $03 $0B $0F $20 $38 $34 $2F $2A $25 $2F $2A $25
+
+; Data from F1D to F34 (24 bytes)
+WorldDataLookup1:
+.db $00 $01 $02 $03 $04 $04 $04 $05 $05 $05 $05 $05 $06 $06 $07 $07
+.db $07 $07 $07 $08 $08 $09 $09 $0A
+
+; Data from F35 to F4C (24 bytes)
+WorldMusics:
+.db MusicPalma,MusicMotabia,MusicDezoris,MusicDezoris,MusicTown,MusicTown,MusicTown,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicTown,MusicTown,MusicTown,MusicVillage,MusicTown,MusicVillage,MusicVillage,MusicDezoris,MusicDezoris,MusicVillage,MusicVillage,MusicBossDungeon
+
+; Data from F4D to F57 (11 bytes)
+WorldDataLookup2:
+;    ,,--,,-------------------------------------- Offset  xc260 \ Scrolling tilemap data?
+;    ||  ||  ,,---------------------------------- Page    xc262 /
+;    ||  ||  || ,-,-,-,-,-,---------------------- various tile animation enables
+;    ||  ||  || | | | | | |  ,,------------------ xc263 ??? page?
+;    ||  ||  || | | | | | |  ||  ,,--,,---------- Palette offset
+;    ||  ||  || | | | | | |  ||  ||  ||  ,,--,,-- xc2d9 ??? offset?
+.db $00,$80,$0d,1,1,0,1,1,0,$1d,$47,$0e,$35,$a9 ; Palma
+.db $76,$a2,$0d,0,0,1,1,0,1,$1d,$58,$0e,$b9,$a9 ; Motabia
+.db $00,$80,$0e,0,0,0,0,0,0,$1d,$69,$0e,$e3,$a9 ; Dezoris
+.db $00,$80,$0e,0,0,0,0,0,0,$1d,$69,$0e,$49,$aa ; Town
+.db $00,$80,$18,0,0,0,0,0,0,$16,$7a,$0e,$4a,$aa ; Village
+.db $62,$87,$18,0,0,0,0,0,0,$16,$8d,$0e,$70,$ab ; ???
+.db $42,$8f,$18,0,0,0,0,0,0,$16,$a0,$0e,$8b,$ac ; ???
+.db $d9,$93,$18,0,0,0,0,0,0,$16,$b3,$0e,$f7,$ac ; ???
+.db $07,$9c,$18,0,0,0,0,0,0,$16,$c6,$0e,$5f,$ae ; ???
+.db $8b,$9d,$18,0,0,0,0,0,0,$16,$d9,$0e,$71,$ae ; ??? town
+.db $50,$a2,$18,0,0,0,0,0,0,$16,$ec,$0e,$37,$af ; Air Castle
+
+; Unknown code?
+    ld a,(PauseFlag)
+    or a
+    call nz,DoPause
+    ld a,$0E
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    jr nz,+
+    ld a,(_RAM_C2EA_)
+    ld (ControlsNew),a
+    call SpriteHandler
+    ld a,(PaletteRotateEnabled)
+    or a
+    ret nz
+    ld a,(_RAM_C2EB_)
+    dec a
+    ld (_RAM_C2EB_),a
+    ret nz
++:  ld hl,FunctionLookupIndex
+    ld (hl),$08
+    ld a,(_RAM_C2E9_)
+    add a,a
+    add a,a
+    add a,a
+    ld l,a
+    ld h,$00
+    ld de,$1065
+    add hl,de
+    xor a
+    ld (PaletteRotateEnabled),a
+    ld (_RAM_C2E9_),a
+    ld (_RAM_C2EA_),a
+    ld (_RAM_C2EB_),a
+    call _LABEL_7B1E_
+    ret
+
+; Data from 1033 to 107C (74 bytes)
+.db $3A $E9 $C2 $87 $87 $87 $6F $26 $00 $11 $60 $10 $19 $7E $32 $EA
+.db $C2 $23 $7E $32 $EB $C2 $23 $11 $51 $10 $D5 $CD $1E $7B $CD $C6
+.db $0C $21 $6F $C2 $11 $70 $C2 $01 $17 $00 $36 $00 $ED $B0 $21 $01
+.db $00 $22 $7B $C2 $C9 $04 $0C $00 $38 $51 $05 $21 $2C $01 $0B $00
+.db $46 $46 $05 $27 $21 $01 $04 $01 $33 $64
+
+; Data from 107D to 1097 (27 bytes)
+_DATA_107D_:
+.db $0E $2A $20 $08 $0C $00 $38 $48 $04 $21 $53 $02 $0B $00 $3A $46
+.db $06 $54 $20 $02 $04 $01 $2B $64 $10 $43 $1E
+
+_LABEL_1098_:
+    ld a,(PauseFlag)
+    or a
+    call nz,DoPause
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    call _LABEL_6891_
+    ld a,(MovementInProgress)
+    or a
+    ret z
+    xor a
+    ld (MovementInProgress),a
+    ld a,(BattleProbability)
+    ld b,a
+    call GetRandomNumber
+    cp b
+    ret nc
+    ld b,$01
+    call _LABEL_6E6D_
+    ret nz
+    xor a
+_LABEL_10C0_:
+    ld (MovementInProgress),a
+    ld a,(_RAM_C2E4_)
+    call _LABEL_6254_
+    or a
+    ret z
+    call _LABEL_627A_
+    call _LABEL_116B_
+    ld a,(CharacterSpriteAttributes)
+    or a
+    call nz,_LABEL_1D3D_
+    ret
+
+; 11th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+_LABEL_10D9_:
+    call FadeOutFullPalette
+    call _LABEL_7085_
+    ld hl,FunctionLookupIndex
+    inc (hl)
+    ld hl,Frame2Paging
+    ld (hl),$10
+    ld hl,TilesFont
+    ld de,$5800
+    call LoadTiles4BitRLE
+    ld hl,TilesExtraFont
+    ld de,$7E00
+    call LoadTiles4BitRLE
+    ld a,$39
+    call _LABEL_298A_
+    jr nz,+
+    ld a,$FF
+    ld (_RAM_C315_),a
++:  call _LABEL_114F_
+    xor a
+    ld (VScroll),a
+    ld (HScroll),a
+    ld (_RAM_C2D5_),a
+    ld (SceneAnimEnabled),a
+    ld (TextBox20x6Open),a
+    ld de,$8006
+    di
+    rst SetVRAMAddressToDE
+    ei
+    call ClearSpriteTableAndFadeInWholePalette
+    ld b,$01
+    call _LABEL_6C06_
+    ld a,(_RAM_C315_)
+    or a
+    ret nz
+    ld hl,_DATA_ADBC_
+    call TextBox20x6
+    call Close20x6TextBox
+    call _LABEL_1D3D_
+    ld a,(_RAM_C315_)
+    or a
+    jr z,+
+    ld a,$FF
+    ld (_RAM_C315_),a
+    call _LABEL_7022_
+    jp FadeInWholePalette
+
++:  ld hl,FunctionLookupIndex
+    ld (hl),$08
+    ret
+
+_LABEL_114F_:
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    ld a,$D0
+    ld (SpriteTable),a
+    call _LABEL_6FF9_
+    xor a
+    ld (SceneType),a
+    jp _LABEL_6D88_
+
+_LABEL_116B_:
+    ld a,(EnemyNumber)
+    cp $48
+    ld c,$92
+    jr z,+
+    cp $49
+    jr z,++
+    ld c,$89
++:  ld a,c
+    ld (NewMusic),a
+++:  ld hl,_RAM_C2AB_
+    ld b,$0C
+-:  ld a,b
+    dec a
+    ld (hl),a
+    dec hl
+    djnz -
+    xor a
+    ld (_RAM_C2EF_),a
+    call ShowEnemyData
+    ld b,$04
+-:  ld a,b
+    dec a
+    call _LABEL_19D9_
+    jp nz,_LABEL_119F_
+    djnz -
+    jp _LABEL_17B2_
+
+_LABEL_119F_:
+    ld b,$04
+-:  ld a,b
+    dec a
+    call _LABEL_19D9_
+    inc hl
+    ld a,(hl)
+    or a
+    jp nz,+
+    djnz -
+    jp _LABEL_17B2_
+
++:  ld hl,_RAM_C2AC_
+    ld de,_RAM_C2AC_ + 1
+    ld bc,$000F
+    ld (hl),$00
+    ldir
+    ld a,$FF
+    ld (_RAM_C29D_),a
+    xor a
+    ld (_RAM_C267_),a
+    ld (_RAM_C2D4_),a
+    call ShowCombatMenu
+    call _LABEL_3041_
+_LABEL_11D0_:
+    call _LABEL_19D6_
+    jp z,_LABEL_11DC_
+    inc hl
+    ld a,(hl)
+    or a
+    jp nz,+
+_LABEL_11DC_:
+    ld a,(_RAM_C267_)
+    inc a
+    ld (_RAM_C267_),a
+    jp ++
+
++:  ld de,$000C
+    add hl,de
+    ld a,(hl)
+    or a
+    jr nz,_LABEL_11DC_
+    call _LABEL_326D_
+    call RefreshCombatMenu
+    call _LABEL_3014_
+    ld hl,$7882
+    ld (CursorTileMapAddress),hl
+    ld a,$04
+    ld (CursorMax),a
+    call WaitForMenuSelection
+    bit 4,c
+    jp nz,_LABEL_127D_
+    ld hl,_DATA_1A6E_
+    call FunctionLookup
+    call _LABEL_3035_
+++:  ld a,(_RAM_C267_)
+    cp $04
+    jp c,_LABEL_11D0_
+    cp $05
+    jp nc,_LABEL_179A_
+    xor a
+    ld (_RAM_C267_),a
+    call _LABEL_321F_
+    call CloseMenu
+    call _LABEL_1A4E_
+    ld hl,_RAM_C2A0_
+    ld b,$0C
+_LABEL_1232_:
+    push bc
+    push hl
+    ld a,(hl)
+    cp $04
+    jp nc,+
+    call _LABEL_12A4_
+    jp ++
+
++:  call _LABEL_13E8_
+++:  ld hl,CharacterStatsEnemies.1.HP
+    ld de,$0010
+    ld b,$08
+-:  ld a,(hl)
+    or a
+    jp nz,+
+    add hl,de
+    djnz -
+    pop hl
+    pop bc
+    jp _LABEL_17B2_
+
++:  ld hl,CharacterStatsAlis
+    ld de,$0010
+    ld b,$04
+-:  ld a,(hl)
+    or a
+    jp nz,+
+    add hl,de
+    djnz -
+    pop hl
+    pop bc
+    jp _LABEL_175E_
+
++:  pop hl
+    pop bc
+    inc hl
+    ld a,(_RAM_C267_)
+    cp $05
+    jp z,_LABEL_179A_
+    djnz _LABEL_1232_
+    jp _LABEL_119F_
+
+_LABEL_127D_:
+    call _LABEL_3035_
+-:  ld a,(_RAM_C267_)
+    or a
+    jr z,+
+    dec a
++:  ld (_RAM_C267_),a
+    jp z,_LABEL_11D0_
+    call _LABEL_19D6_
+    jp z,-
+    inc hl
+    ld a,(hl)
+    or a
+    jp z,-
+    ld de,$000C
+    add hl,de
+    ld a,(hl)
+    or a
+    jr nz,-
+    jp _LABEL_11D0_
+
+_LABEL_12A4_:
+    ld (_RAM_C267_),a
+    call _LABEL_19D6_
+    ret z
+    ld a,(_RAM_C2D4_)
+    or a
+    ret nz
+    push hl
+    pop iy
+    ld a,(iy+1)
+    or a
+    ret z
+    ld a,(iy+13)
+    or a
+    jr z,++
+    ld a,(_RAM_C267_)
+    ld (TextCharacterNumber),a
+    call GetRandomNumber
+    and $01
+    inc a
+    ld b,a
+    ld a,(iy+13)
+    sub b
+    jr nc,+
+    xor a
++:  ld (iy+13),a
+    or a
+    ld hl,_DATA_AC52_
+    jr z,+
+    ld hl,_DATA_AC3E_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+++:  call _LABEL_3014_
+    call _LABEL_1D2A_
+    cp $01
+    jp nz,_LABEL_1338_
+    ld a,(_RAM_C267_)
+    ld (TextCharacterNumber),a
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld hl,CharacterStatsAlis.Weapon
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)
+    cp $09
+    jr z,+
+    cp $0B
+    jr z,++
+    cp $0D
+    jr z,+++
+    call _LABEL_1A05_
+-:  call GetRandomNumber
+    and $07
+    add a,$04
+    call _LABEL_19D9_
+    jp z,-
+    push hl
+    pop ix
+    call _LABEL_1379_
+    jp _LABEL_1367_
+
++:  ld d,$FB
+    jr ++++
+
+++:  ld d,$F6
+    jr ++++
+
++++:  ld d,$EC
+++++:  ld e,a
+    call _LABEL_204A_
+    jp _LABEL_1367_
+
+_LABEL_1338_:
+    cp $03
+    jp nz,+
+    ld a,c
+    ld (TextCharacterNumber),a
+    ld a,b
+    and $1F
+    ld hl,_DATA_1BE6_
+    call FunctionLookup
+    jp _LABEL_1367_
+
++:  cp $04
+    jp nz,_LABEL_1367_
+    ld a,(_RAM_C267_)
+    ld (TextCharacterNumber),a
+    ld a,b
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    jr nz,+
+    ld (_RAM_C29B_),hl
+    call _LABEL_235D_
+_LABEL_1367_:
+    call _LABEL_326D_
+    call _LABEL_3035_
+    ret
+
++:  ld hl,_DATA_B7BA_
+    call TextBox20x6
+    call Close20x6TextBox
+    jr _LABEL_1367_
+
+_LABEL_1379_:
+    ld a,(iy+8)
+    bit 7,(iy+0)
+    jr z,+
+    ld c,a
+    rrca
+    and $7F
+    add a,c
+    jr nc,+
+    ld a,$FF
++:  call _LABEL_13D5_
+    ld c,a
+    ld a,(ix+9)
+    call _LABEL_13D5_
+    sub c
+    jr c,_LABEL_13BA_
+    cp $10
+    jr c,_LABEL_13AD_
+    rrca
+    jr c,_LABEL_13AD_
+    ld a,$BB
+    ld (NewMusic),a
+    ld hl,_DATA_AB1F_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_13AD_:
+    call GetRandomNumber
+    and $1F
+    cp (iy+5)
+    jr z,+
+    jr nc,_LABEL_13AD_
++:  cpl
+_LABEL_13BA_:
+    push af
+    ld a,$AD
+    ld (NewMusic),a
+    call _LABEL_7E4F_
+    pop af
+    add a,(ix+1)
+    jr c,+
+    xor a
++:  ld (ix+1),a
+    ret nz
+    ld (ix+0),a
+    ld (ix+13),a
+    ret
+
+_LABEL_13D5_:
+    rrca
+    and $7F
+    ld b,a
+    rrca
+    and $3F
+    ld e,a
+    call GetRandomNumber
+    ld h,a
+    call Multiply8
+    ld a,e
+    add a,b
+    add a,h
+    ret
+
+_LABEL_13E8_:
+    call _LABEL_19D9_
+    ret z
+    push hl
+    pop iy
+    ld a,(iy+13)
+    or a
+    jr z,++
+    call GetRandomNumber
+    and $01
+    inc a
+    ld b,a
+    ld a,(iy+13)
+    sub b
+    jr nc,+
+    xor a
++:  ld (iy+13),a
+    or a
+    ld hl,_DATA_AC61_
+    jr z,+
+    ld hl,_DATA_AC48_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+++:  ld a,(_RAM_C2E8_)
+    and $07
+    ld hl,_DATA_1420_
+    jp FunctionLookup
+
+; Jump Table from 1420 to 142F (8 entries,indexed by _RAM_C2E8_)
+_DATA_1420_:
+.dw _LABEL_1461_ _LABEL_14E2_ _LABEL_1528_ _LABEL_155B_ _LABEL_157D_ _LABEL_15F9_ _LABEL_1676_ _LABEL_16BD_
+
+_LABEL_1430_:
+    ld a,(_RAM_C2E8_)
+    and $10
+    jr z,++
+    call GetRandomNumber
+    and $03
+    ld c,a
+    ld a,(_RAM_C2EF_)
+    ld b,a
+    and $7F
+    sub c
+    jr nc,+
+    xor a
++:  or a
+    jr z,++
+    bit 7,b
+    jr z,+
+    or $80
++:  ld (_RAM_C2EF_),a
+    ret
+
+++:  xor a
+    ld (_RAM_C2EF_),a
+    ld hl,_DATA_ABE9_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 1st entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+_LABEL_1461_:
+    ld a,(_RAM_C2EF_)
+    or a
+    call nz,_LABEL_1430_
+-:  call GetRandomNumber
+    and $03
+    call _LABEL_19D9_
+    jp z,-
+    ld (TextCharacterNumber),a
+    push hl
+    pop ix
+    push af
+    ld (_RAM_C2EE_),a
+    call _LABEL_30FB_
+    call _LABEL_16CF_
+    ld a,(_RAM_C2ED_)
+    or a
+    push af
+    call _LABEL_1A2A_
+    pop af
+    jr nz,++
+    ld a,(_RAM_C2EF_)
+    or a
+    ld hl,_DATA_ABB3_
+    jr nz,+
+    ld hl,_DATA_AB31_
++:  call TextBox20x6
+    call Close20x6TextBox
+++:  pop af
+    call _LABEL_19D9_
+    jr nz,++
+    ld hl,_DATA_B07B_
+    call TextBox20x6
+    ld a,(EnemyNumber)
+    cp $46
+    jr nz,+
+    ld a,(TextCharacterNumber)
+    cp $01
+    jr nz,+
+    ld hl,CharacterStatsAlis
+    ld de,$0010
+    xor a
+    ld b,$04
+-:  or (hl)
+    ld (hl),$00
+    add hl,de
+    djnz -
+    or a
+    jr z,+
+    ld hl,_DATA_B837_
+    call TextBox20x6
++:  call Close20x6TextBox
+++:  ld b,$04
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    call _LABEL_321F_
+    ret
+
+; 2nd entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+_LABEL_14E2_:
+    call GetRandomNumber
+    and $03
+    jp nz,_LABEL_1461_
+    ld a,(_RAM_C2EF_)
+    and $80
+    call nz,_LABEL_1430_
+    ld a,(_RAM_C2EF_)
+    and $80
+    jr z,_LABEL_1502_
+    ld hl,_DATA_ABCE_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_1502_:
+    call GetRandomNumber
+    and $03
+    call _LABEL_19D9_
+    jr z,_LABEL_1502_
+    ld (TextCharacterNumber),a
+    ld a,$0D
+    add a,l
+    ld l,a
+    ld a,(hl)
+    or a
+    jp nz,_LABEL_1461_
+    ld (hl),$03
+    ld a,$A1
+    ld (NewMusic),a
+    ld hl,_DATA_AC2F_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 3rd entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+_LABEL_1528_:
+    ld a,(iy+1)
+    cp $1E
+    jr c,+
+    call GetRandomNumber
+    and $07
+    jp nz,_LABEL_1461_
++:  ld b,(iy+6)
+    ld a,(iy+1)
+    add a,$50
+    jr nc,+
+    ld a,$FF
++:  cp b
+    jr c,+
+    ld a,b
++:  ld (iy+1),a
+    ld a,$A1
+    ld (NewMusic),a
+    call _LABEL_326D_
+    ld hl,_DATA_AC10_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 4th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+_LABEL_155B_:
+    call GetRandomNumber
+    and $0F
+    jp nz,_LABEL_1461_
+    ld a,(iy+0)
+    and $80
+    jp nz,_LABEL_1461_
+    set 7,(iy+0)
+    ld a,$A1
+    ld (NewMusic),a
+    ld hl,_DATA_B5B4_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 5th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+_LABEL_157D_:
+    call GetRandomNumber
+    and $03
+    jp nz,_LABEL_1461_
+    call +
++:  ld a,(_RAM_C2EF_)
+    and $80
+    call nz,_LABEL_1430_
+    ld b,$04
+-:  ld a,b
+    sub $04
+    neg
+    call _LABEL_19D9_
+    jr nz,_LABEL_159F_
+    djnz -
+    ret
+
+_LABEL_159F_:
+    call GetRandomNumber
+    and $03
+    call _LABEL_19D9_
+    jp z,_LABEL_159F_
+    ld (TextCharacterNumber),a
+    ld (_RAM_C2EE_),a
+    call _LABEL_30FB_
+    call GetRandomNumber
+    and $03
+    add a,$F6
+    ld b,a
+    ld a,(_RAM_C2EF_)
+    and $80
+    ld a,b
+    call z,_LABEL_171E_
+    ld a,$80
+    ld (_RAM_C88A_),a
+    call _LABEL_1A2A_
+    ld a,(_RAM_C2EF_)
+    and $80
+    jr z,+
+    ld hl,_DATA_ABCE_
+    call TextBox20x6
+    call Close20x6TextBox
++:  ld a,(TextCharacterNumber)
+    call _LABEL_19D9_
+    jr nz,+
+    ld hl,_DATA_B07B_
+    call TextBox20x6
+    call Close20x6TextBox
++:  ld b,$04
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    jp _LABEL_321F_
+
+; 6th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+_LABEL_15F9_:
+    call GetRandomNumber
+    and $03
+    jp nz,_LABEL_1461_
+    ld c,$D8
+_LABEL_1603_:
+    ld b,$04
+_LABEL_1605_:
+    push bc
+    ld a,(_RAM_C2EF_)
+    and $80
+    call nz,_LABEL_1430_
+    pop bc
+    push bc
+    ld a,b
+    sub $04
+    neg
+    call _LABEL_19D9_
+    jr z,_LABEL_165D_
+    ld (TextCharacterNumber),a
+    ld (_RAM_C2EE_),a
+    push bc
+    call _LABEL_30FB_
+    pop bc
+    call ++
+    ld a,$C0
+    ld (_RAM_C88A_),a
+    call _LABEL_1A2A_
+    ld a,(_RAM_C2EF_)
+    and $80
+    jr z,+
+    ld hl,_DATA_ABCE_
+    call TextBox20x6
+    call Close20x6TextBox
++:  ld a,(TextCharacterNumber)
+    call _LABEL_19D9_
+    jr nz,+
+    ld hl,_DATA_B07B_
+    call TextBox20x6
+    call Close20x6TextBox
++:  ld b,$04
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    call _LABEL_321F_
+_LABEL_165D_:
+    pop bc
+    djnz _LABEL_1605_
+    ret
+
+++:  ld a,c
+    cp $FF
+    jp z,_LABEL_16D5_
+    ld a,(_RAM_C2EF_)
+    and $80
+    ret nz
+    call GetRandomNumber
+    and $0F
+    add a,c
+    jp _LABEL_171E_
+
+; 7th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+_LABEL_1676_:
+    ld a,(CharacterStatsOdin)
+    or a
+    jr z,+
+    ld a,(CharacterStatsOdin.Shield)
+    cp $1F
+    jp z,_LABEL_1461_
++:  ld a,(_RAM_C2EF_)
+    or a
+    call nz,_LABEL_1430_
+-:  call GetRandomNumber
+    and $03
+    call _LABEL_19D9_
+    jp z,-
+    ld (TextCharacterNumber),a
+    ld (_RAM_C2EE_),a
+    push hl
+    call _LABEL_30FB_
+    pop hl
+    xor a
+    ld (hl),a
+    inc hl
+    ld (hl),a
+    call _LABEL_1A2A_
+    ld hl,_DATA_B7AA_
+    call TextBox20x6
+    call Close20x6TextBox
+    ld b,$04
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    jp _LABEL_321F_
+
+; 8th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+_LABEL_16BD_:
+    ld a,$3C
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    ld c,$01
+    jp nz,_LABEL_1603_
+    ld c,$FF
+    jp _LABEL_1603_
+
+_LABEL_16CF_:
+    ld a,(_RAM_C2EF_)
+    or a
+    jr nz,++
+_LABEL_16D5_:
+    ld a,(iy+8)
+    bit 7,(iy+0)
+    jr z,+
+    ld c,a
+    rrca
+    and $7F
+    add a,c
+    jr nc,+
+    ld a,$FF
++:  bit 6,(iy+0)
+    jr z,+
+    ld c,a
+    rrca
+    rrca
+    and $3F
+    ld b,a
+    ld a,c
+    sub b
++:  call _LABEL_13D5_
+    ld c,a
+    ld a,(ix+9)
+    call _LABEL_13D5_
+    sub c
+    jr c,_LABEL_171E_
+    cp $10
+    jr c,_LABEL_170E_
+    rrca
+    jr c,_LABEL_170E_
+++:  xor a
+    ld (_RAM_C2ED_),a
+    ret
+
+_LABEL_170E_:
+    call GetRandomNumber
+    and $1F
+    cp (ix+5)
+    jr z,+
+    jr nc,_LABEL_170E_
++:  rrca
+    and $7F
+    cpl
+_LABEL_171E_:
+    add a,(ix+1)
+    jr c,+
+    xor a
++:  ld (ix+1),a
+    jr nz,+
+    ld (ix+0),a
+    ld (ix+13),a
++:  ld a,$FF
+    ld (_RAM_C2ED_),a
+    ret
+
+_LABEL_1735_:
+    call HideEnemyData
+_LABEL_1738_:
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    call SpriteHandler
+    ld a,(SceneType)
+    or a
+    jp nz,+
+    call _LABEL_6DDD_
+    jp ++
+
++:  call _LABEL_3E5A_
+++:  ld a,$10
+    call ExecuteFunctionIndexAInNextVBlank
+    ret
+
+_LABEL_175E_:
+    ld a,(EnemyNumber)
+    cp $31
+    jr z,+
+    cp $4A
+    jr nz,++
++:  ld a,$D8
+    ld (NewMusic),a
+    ret
+
+++:  cp $46
+    jr nz,+
+    ld hl,ActualPalette+16
+    ld b,$10
+-:  ld (hl),$30
+    inc hl
+    djnz -
++:  ld a,$94
+    ld (NewMusic),a
+    ld a,(PartySize)
+    or a
+    ld hl,_DATA_B617_
+    call nz,TextBox20x6
+    ld hl,_DATA_B626_
+    call TextBox20x6
+    ld hl,FunctionLookupIndex
+    ld (hl),$02
+    jp Close20x6TextBox
+
+_LABEL_179A_:
+    push af
+    call _LABEL_1735_
+    call CharacterStatsUpdate
+    ld a,$D8
+    ld (NewMusic),a
+    pop af
+    cp $05
+    ret nz
+    ld a,(SceneType)
+    or a
+    ret nz
+    jp _LABEL_6B2F_
+
+_LABEL_17B2_:
+    ld a,(EnemyNumber)
+    cp $31
+    jr nz,+
+    ld a,$D8
+    ld (NewMusic),a
+    ret
+
++:  cp $46
+    jr nz,+
+    ld hl,ActualPalette+16
+    ld b,$10
+-:  ld (hl),$30
+    inc hl
+    djnz -
++:  ld a,$AF
+    ld (NewMusic),a
+    call _LABEL_1735_
+    ld a,(EnemyNumber)
+    cp $48
+    jr z,+
+    cp $49
+    jr nz,++
++:  ld b,$B4
+    call PauseBFrames
+++:  ld a,$D8
+    ld (NewMusic),a
+    ld hl,_DATA_B071_
+    call TextBox20x6
+    call _LABEL_1869_
+    call CharacterStatsUpdate
+    ld hl,(EnemyMoney)
+    ld a,(_RAM_C2DF_)
+    or l
+    or h
+    ret z
+    ld hl,_DATA_B5CD_
+    call TextBox20x6
+    call _LABEL_180E_
+    call MenuWaitForButton
+    jp _LABEL_2A37_
+
+_LABEL_180E_:
+    ld hl,Frame2Paging
+    ld (hl),$14
+    ld hl,_DATA_50000_
+    ld de,TargetPalette+16+8
+    ld bc,$0008
+    ldir
+    ld hl,TargetPalette
+    ld de,ActualPalette
+    ld bc,$0020
+    ldir
+    ld hl,_DATA_50008_
+    ld de,$6000
+    call LoadTiles4BitRLE
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    ld a,$0D
+    ld (CharacterSpriteAttributes),a
+    call SpriteHandler
+    ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    ret
+
+InitialiseCharacterStats:
+    ld (iy+0),$01
+    ld (iy+5),$01
+    push iy
+    call CharacterStatsUpdate
+    pop iy
+    ld a,(iy+6)
+    ld (iy+1),a
+    ld a,(iy+7)
+    ld (iy+2),a
+    ret
+
+_LABEL_1869_:
+    ld hl,(_RAM_C2D0_)
+    ld (NumberToShowInText),hl
+    ld a,l
+    or h
+    ret z
+    ld hl,_DATA_AFA6_
+    call TextBox20x6
+    ld iy,CharacterStatsAlis
+    ld de,$B8AF
+    xor a
+    ld (TextCharacterNumber),a
+    call +
+    ld iy,CharacterStatsMyau
+    ld de,LevelStatsMyau
+    ld a,$01
+    ld (TextCharacterNumber),a
+    call +
+    ld iy,CharacterStatsOdin
+    ld de,LevelStatsOdin
+    ld a,$02
+    ld (TextCharacterNumber),a
+    call +
+    ld iy,CharacterStatsLutz
+    ld de,LevelStatsLutz
+    ld a,$03
+    ld (TextCharacterNumber),a
++:  bit 0,(iy+0)
+    ret z
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld l,(iy+5)
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,de
+    push hl
+    pop ix
+    ld e,(iy+3)
+    ld d,(iy+4)
+    ld hl,(_RAM_C2D0_)
+    add hl,de
+    jr nc,+
+    ld hl,$FFFF
++:  ld (iy+3),l
+    ld (iy+4),h
+    ret c
+    ld a,(iy+5)
+    cp $1E
+    ret z
+    ld a,h
+    sub (ix+5)
+    ret c
+    jr nz,+
+    ld a,l
+    sub (ix+4)
+    ret c
++:  ld a,$BA
+    ld (NewMusic),a
+    ld hl,_DATA_AFB9_
+    call TextBox20x6
+    ld hl,Frame2Paging
+    ld (hl),$03
+    inc (iy+5)
+    ld a,(ix+6)
+    cp (iy+14)
+    jr nz,+
+    ld a,(ix+7)
+    cp (iy+15)
+    ret z
++:  ld hl,_DATA_AFC6_
+    jp TextBox20x6
+
+CharacterStatsUpdate:
+    ld hl,Frame2Paging
+    ld (hl),:LevelStats
+    ld iy,CharacterStatsAlis
+    ld de,LevelStatsAlis
+    call +
+    ld iy,CharacterStatsMyau
+    ld de,LevelStatsMyau-8
+    call +
+    ld iy,CharacterStatsOdin
+    ld de,LevelStatsOdin-8
+    call +
+    ld iy,CharacterStatsLutz
+    ld de,LevelStatsLutz-8
++:  bit 0,(iy+CharacterStats.IsAlive)
+    ret z
+    ld (iy+CharacterStats.IsAlive),$01
+    ld (iy+CharacterStats.Unknown1),$00
+    ld l,(iy+CharacterStats.LV)
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,de
+    push hl
+    pop ix
+    ld a,(ix+0)
+    ld (iy+6),a
+    ld l,(iy+10)
+    ld h,$00
+    ld de,_ItemStrengths
+    add hl,de
+    ld a,(hl)
+    add a,(ix+1)
+    ld (iy+8),a
+    ld l,(iy+11)
+    ld h,$00
+    add hl,de
+    ld a,(hl)
+    ld l,(iy+12)
+    ld h,$00
+    add hl,de
+    add a,(hl)
+    add a,(ix+2)
+    ld (iy+9),a
+    ld a,(ix+3)
+    ld (iy+7),a
+    ld a,(ix+6)
+    ld (iy+14),a
+    ld a,(ix+7)
+    ld (iy+15),a
+    ret
+
+; Data from 1996 to 19D5 (64 bytes)
+_ItemStrengths:
+.db  0,3,4,12,10,10,10,21,31,18,30,30,46,50,60,80 ; weapons
+.db  5,5,15,20,30,30,60,80,40                      ; armour - splits not certain ???
+.db  3,8,15,23,40,30,40,50                         ; shields
+.dsb 31,0                                          ; 31 0s at the end -> 64 bytes total ##############
+
+_LABEL_19D6_:
+    ld a,(_RAM_C267_)
+_LABEL_19D9_:
+    push af
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld hl,CharacterStatsAlis
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    pop af
+    bit 0,(hl)
+    ret
+
+_LABEL_19EA_:
+    push hl
+    call _LABEL_19D9_
+    pop hl
+    ret nz
+    push af
+    push bc
+    push de
+    push hl
+    ld (TextCharacterNumber),a
+    ld hl,_DATA_B087_
+    call TextBox20x6
+    call Close20x6TextBox
+    pop hl
+    pop de
+    pop bc
+    pop af
+    ret
+
+_LABEL_1A05_:
+    push iy
+    ld (_RAM_C80A_),a
+    ld a,$0B
+    ld (CharacterSpriteAttributes),a
+    call _LABEL_1A15_
+    pop iy
+    ret
+
+_LABEL_1A15_:
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    call SpriteHandler
+    ld a,(CharacterSpriteAttributes)
+    or a
+    jp nz,_LABEL_1A15_
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ret
+
+_LABEL_1A2A_:
+    push iy
+    ld a,$FF
+    ld (_RAM_C29F_),a
+    ld a,(_RAM_C2F1_)
+    ld (NewMusic),a
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    call SpriteHandler
+    ld a,(_RAM_C29F_)
+    or a
+    jp nz,-
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    pop iy
+    ret
+
+_LABEL_1A4E_:
+    ld hl,_RAM_C2A0_
+    ld b,$0C
+-:  call GetRandomNumber
+    and $0F
+    cp $0C
+    jr nc,-
+    add a,$A0
+    ld e,a
+    ld a,$C2
+    adc a,$00
+    ld d,a
+    ld c,(hl)
+    ld a,(de)
+    ex de,hl
+    ld (hl),c
+    ld (de),a
+    ex de,hl
+    inc hl
+    djnz -
+    ret
+
+; Jump Table from 1A6E to 1A77 (5 entries,indexed by CursorPos)
+_DATA_1A6E_:
+.dw _LABEL_1A78_ _LABEL_1B3A_ _LABEL_1CFA_ _LABEL_1A87_ _LABEL_1AF8_
+
+; 1st entry of Jump Table from 1A6E (indexed by CursorPos)
+_LABEL_1A78_:
+    ld bc,$0001
+    xor a
+    call _LABEL_1D15_
+    ld a,(_RAM_C267_)
+    inc a
+    ld (_RAM_C267_),a
+    ret
+
+; 4th entry of Jump Table from 1A6E (indexed by CursorPos)
+_LABEL_1A87_:
+    call _LABEL_3035_
+    call _LABEL_321F_
+    call CloseMenu
+    ld a,(_RAM_C267_)
+    ld (TextCharacterNumber),a
+    ld hl,_DATA_AB43_
+    call TextBox20x6
+    ld a,(_RAM_C2E8_)
+    and $80
+    jr z,_LABEL_1AAD_
+    ld a,(CharacterStatsEnemies.1.Attack)
+    ld b,a
+    ld a,(CharacterStatsAlis.Attack)
+    cp b
+    jr nc,_LABEL_1AC0_
+_LABEL_1AAD_:
+    ld a,$04
+    ld (_RAM_C267_),a
+    ld a,$FF
+    ld (_RAM_C2D4_),a
+    ld hl,_DATA_AB57_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_1AC0_:
+    ld hl,_DATA_AB4E_
+    call TextBox20x6
+-:  call GetRandomNumber
+    and $0F
+    cp $09
+    jr nc,-
+    ld l,a
+    ld h,$00
+    add hl,hl
+    ld de,_DATA_1AE6_
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    call TextBox20x6
+    ld a,$06
+    ld (_RAM_C267_),a
+    jp Close20x6TextBox
+
+; Pointer Table from 1AE6 to 1AF7 (9 entries,indexed by unknown)
+_DATA_1AE6_:
+.dw _DATA_B3E0_ _DATA_B3FC_ _DATA_B40D_ _DATA_B425_ _DATA_B43C_ _DATA_B442_ _DATA_B459_ _DATA_B472_
+.dw _DATA_B47E_
+
+; 5th entry of Jump Table from 1A6E (indexed by CursorPos)
+_LABEL_1AF8_:
+    call _LABEL_3035_
+    call _LABEL_321F_
+    call CloseMenu
+    ld a,(_RAM_C2E7_)
+    ld b,a
+    call GetRandomNumber
+    cp b
+    jr nc,++
+    ld a,(SceneType)
+    or a
+    jr nz,+
+    call _LABEL_6B1D_
+    jr nz,++
++:  ld a,$BC
+    ld (NewMusic),a
+    ld a,$05
+    ld (_RAM_C267_),a
+    ret
+
+++:  ld a,(_RAM_C267_)
+    ld (TextCharacterNumber),a
+    ld hl,_DATA_AB60_
+    call TextBox20x6
+    ld a,$04
+    ld (_RAM_C267_),a
+    ld a,$FF
+    ld (_RAM_C2D4_),a
+    jp Close20x6TextBox
+
+; 2nd entry of Jump Table from 1A6E (indexed by CursorPos)
+_LABEL_1B3A_:
+    ld a,(_RAM_C267_)
+    ld (TextCharacterNumber),a
+    cp $02
+    jp nz,+
+    ld hl,_DATA_AF5E_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld c,a
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld hl,CharacterStatsAlis.MagicCount
+    add a,l
+    ld l,a
+    ld a,(hl)
+    or a
+    jp z,_LABEL_1B9E_
+    ld b,a
+    ld a,c
+    cp $03
+    jr nz,+
+    dec a
++:  push af
+    push hl
+    call _LABEL_3592_
+    ld hl,$7A8C
+    ld (CursorTileMapAddress),hl
+    pop hl
+    ld a,(hl)
+    dec a
+    ld (CursorMax),a
+    call WaitForMenuSelection
+    pop hl
+    bit 4,c
+    jp nz,+
+    ld l,a
+    ld a,h
+    add a,a
+    add a,a
+    add a,h
+    add a,l
+    ld l,a
+    ld h,$00
+    ld de,_DATA_1BB3_
+    add hl,de
+    ld a,(hl)
+    and $1F
+    ld b,a
+    call _LABEL_1CE3_
+    jr c,++
+    ld a,b
+    ld hl,_DATA_1BC2_
+    call FunctionLookup
++:  jp _LABEL_35E3_
+
+_LABEL_1B9E_:
+    ld hl,_DATA_AF71_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+++:  ld hl,_DATA_B054_
+    call TextBox20x6
+    call Close20x6TextBox
+    jp _LABEL_35E3_
+
+; Data from 1BB3 to 1BC1 (15 bytes)
+_DATA_1BB3_:
+.db $01 $09 $10 $05 $08 $02 $0B $03 $0A $00 $05 $11 $07 $04 $06
+
+; Jump Table from 1BC2 to 1BE5 (18 entries,indexed by unknown)
+_DATA_1BC2_:
+.dw _LABEL_1C0A_ _LABEL_1C0D_ _LABEL_1C0D_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C2C_ _LABEL_1C2C_ _LABEL_1C2C_
+.dw _LABEL_1C2C_ _LABEL_1C59_ _LABEL_1C3A_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_
+.dw _LABEL_1C69_ _LABEL_1C8D_
+
+; Jump Table from 1BE6 to 1C09 (18 entries,indexed by _RAM_C2AD_)
+_DATA_1BE6_:
+.dw _LABEL_1F80_ _LABEL_1FA2_ _LABEL_1FA6_ _LABEL_1FE6_ _LABEL_1FEA_ _LABEL_2003_ _LABEL_2042_ _LABEL_2081_
+.dw _LABEL_2092_ _LABEL_20DC_ _LABEL_211C_ _LABEL_213B_ _LABEL_2178_ _LABEL_21C0_ _LABEL_21ED_ _LABEL_221B_
+.dw _LABEL_1C69_ _LABEL_1C8D_
+
+; 1st entry of Jump Table from 1BC2 (indexed by unknown)
+_LABEL_1C0A_:
+    jp _LABEL_1C0A_
+
+; 2nd entry of Jump Table from 1BC2 (indexed by unknown)
+_LABEL_1C0D_:
+    push bc
+    call _LABEL_379F_
+    pop de
+    bit 4,c
+    jr nz,+
+    call _LABEL_19EA_
+    jr z,+
+    ld c,$03
+    ld b,d
+    call _LABEL_1D15_
+    ld a,(_RAM_C267_)
+    inc a
+    ld (_RAM_C267_),a
++:  call _LABEL_37E9_
+    ret
+
+; 6th entry of Jump Table from 1BC2 (indexed by unknown)
+_LABEL_1C2C_:
+    ld c,$03
+    xor a
+    call _LABEL_1D15_
+    ld a,(_RAM_C267_)
+    inc a
+    ld (_RAM_C267_),a
+    ret
+
+; 11th entry of Jump Table from 1BC2 (indexed by unknown)
+_LABEL_1C3A_:
+    push bc
+    call _LABEL_379F_
+    pop de
+    bit 4,c
+    jr nz,+
+    call _LABEL_19EA_
+    jr z,+
+    ld c,$03
+    ld b,d
+    call _LABEL_1D15_
+    ld a,(_RAM_C267_)
+    inc a
+    ld (_RAM_C267_),a
++:  call _LABEL_37E9_
+    ret
+
+; 4th entry of Jump Table from 1BC2 (indexed by unknown)
+_LABEL_1C59_:
+    ld c,$03
+    ld a,(TextCharacterNumber)
+    call _LABEL_1D15_
+    ld a,(_RAM_C267_)
+    inc a
+    ld (_RAM_C267_),a
+    ret
+
+; 17th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_1C69_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+_LABEL_1C73_:
+    ld a,(_RAM_C2E8_)
+    and $C0
+    jp z,_LABEL_1AAD_
+    and $40
+    jp z,_LABEL_1AC0_
+    ld a,(CharacterStatsEnemies.1.Attack)
+    ld b,a
+    ld a,(CharacterStatsAlis.Attack)
+    cp b
+    jr nc,+
+    jp _LABEL_1AAD_
+
+; 18th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_1C8D_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+_LABEL_1C92_:
+    ld a,(_RAM_C2E8_)
+    and $C0
+    jp z,_LABEL_1AAD_
+    and $40
+    jp z,_LABEL_1AC0_
++:  ld a,$AC
+    ld (NewMusic),a
+    ld hl,_DATA_AB4E_
+    call TextBox20x6
+-:  call GetRandomNumber
+    and $0F
+    cp $0A
+    jr nc,-
+    ld l,a
+    ld h,$00
+    add hl,hl
+    ld de,_DATA_1CCF_
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    call TextBox20x6
+    ld a,$06
+    ld (_RAM_C267_),a
+    ld a,$D5
+    ld (NewMusic),a
+    jp Close20x6TextBox
+
+; Pointer Table from 1CCF to 1CE2 (10 entries,indexed by unknown)
+_DATA_1CCF_:
+.dw _DATA_B493_ _DATA_B4A7_ _DATA_B4C8_ _DATA_B4E1_ _DATA_B502_ _DATA_B521_ _DATA_B540_ _DATA_B55C_
+.dw _DATA_B57A_ _DATA_B594_
+
+_LABEL_1CE3_:
+    ld hl,_DATA_1F38_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(_RAM_C267_)
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld de,CharacterStatsAlis.MP
+    add a,e
+    ld e,a
+    ld a,(de)
+    sub (hl)
+    ret
+
+; 3rd entry of Jump Table from 1A6E (indexed by CursorPos)
+_LABEL_1CFA_:
+    call _LABEL_35EF_
+    call _LABEL_3773_
+    bit 4,c
+    ret nz
+    ld a,(ItemTableIndex)
+    ld b,a
+    ld c,$04
+    xor a
+    call _LABEL_1D15_
+    ld a,(_RAM_C267_)
+    inc a
+    ld (_RAM_C267_),a
+    ret
+
+_LABEL_1D15_:
+    push af
+    ld a,(_RAM_C267_)
+    add a,a
+    add a,a
+    ld hl,$C2AC
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    pop af
+    ld (hl),c
+    inc hl
+    ld (hl),b
+    inc hl
+    ld (hl),a
+    ret
+
+_LABEL_1D2A_:
+    ld a,(_RAM_C267_)
+    add a,a
+    add a,a
+    ld hl,_RAM_C2AC_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)
+    inc hl
+    ld b,(hl)
+    inc hl
+    ld c,(hl)
+    ret
+
+_LABEL_1D3D_:
+    xor a
+    ld (_RAM_C29D_),a
+    ld (_RAM_C2D8_),a
+    call _LABEL_37FA_
+    call _LABEL_3041_
+-:  ld a,(_RAM_C2D8_)
+    or a
+    jr nz,++
+    ld hl,$7882
+    ld (CursorTileMapAddress),hl
+    ld a,$04
+    ld (CursorMax),a
+    call WaitForMenuSelection
+    bit 4,c
+    jp nz,+
+    ld hl,_DATA_1DF3_
+    call FunctionLookup
+    call _LABEL_380C_
+    jp -
+
++:  ld a,$FF
+++:  push af
+    cp $05
+    jr z,+
+    xor a
+    ld (CharacterSpriteAttributes),a
+    ld a,$D0
+    ld (SpriteTable),a
++:  call _LABEL_321F_
+    call _LABEL_3818_
+    pop af
+    cp $FF
+    ret z
+    cp $03
+    ret c
+    cp $05
+    jr nc,+
+    ld c,a
+    jp _LABEL_6ABE_
+
++:  cp $06
+    jr nc,+
+    call _LABEL_7F28_
+    call MenuWaitForButton
+    jp _LABEL_467B_
+
++:  cp $07
+    jr nc,+
+    ld a,$85
+    call CheckMusic
+    call _LABEL_7F59_
+    ld a,$FF
+    ld (_RAM_C2DC_),a
+    jp _LABEL_1D3D_
+
++:  cp $08
+    jp c,_LABEL_46FE_
+    ld a,$BF
+    ld (NewMusic),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$08
+    xor a
+    ld (VehicleMovementFlags),a
+    ld a,(_RAM_C317_)
+    ld l,a
+    add a,a
+    add a,l
+    ld h,$00
+    ld l,a
+    ld de,_DATA_1DD8_
+    add hl,de
+    jp _LABEL_7B1E_
+
+; Data from 1DD8 to 1DF2 (27 bytes)
+_DATA_1DD8_:
+.db $04 $16 $69 $04 $27 $6B $07 $29 $2A $09 $19 $66 $0E $29 $19 $0F
+.db $15 $43 $11 $53 $52 $16 $15 $2C $15 $28 $61
+
+; Jump Table from 1DF3 to 1DFC (5 entries,indexed by CursorPos)
+_DATA_1DF3_:
+.dw _LABEL_1DFD_ _LABEL_1EA9_ _LABEL_22C4_ _LABEL_2995_ _LABEL_1E3B_
+
+; 1st entry of Jump Table from 1DF3 (indexed by CursorPos)
+_LABEL_1DFD_:
+    call _LABEL_3782_
+    bit 4,c
+    jr nz,+++
+    call _LABEL_19EA_
+    jr z,+++
+    push af
+    call _LABEL_3824_
+    call _LABEL_38EC_
+    call MenuWaitForButton
+    pop af
+    ld c,a
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld hl,CharacterStatsAlis.MagicCount
+    add a,l
+    ld l,a
+    ld a,(hl)
+    or a
+    jr z,++
+    ld b,a
+    ld a,c
+    cp $03
+    jr nz,+
+    dec a
++:  call _LABEL_3592_
+    call MenuWaitForButton
+    call _LABEL_35E3_
+++:  call _LABEL_39DE_
+    call _LABEL_386A_
++++:  jp _LABEL_37D8_
+
+; 5th entry of Jump Table from 1DF3 (indexed by CursorPos)
+_LABEL_1E3B_:
+    ld hl,_DATA_B39F_
+    call TextBox20x6
+    call _LABEL_3ACF_
+    ld hl,TextConfirmSlotSelection
+    call TextBox20x6
+    call DoYesNoMenu
+    jr nz,_LABEL_1E97_
+    ld a,(FunctionLookupIndex)
+    ld (_RAM_C316_),a
+    ld hl,_DATA_B3C8_
+    call TextBox20x6
+    push bc
+    ld a,(NumberToShowInText)
+    ld h,a
+    ld l,$00
+    add hl,hl
+    add hl,hl
+    set 7,h
+    ex de,hl
+    call IsSlotUsed
+    push af
+    push hl
+    ld a,$08
+    ld (SRAMPaging),a
+    ld (hl),$00
+    ld hl,HScroll
+    ld bc,$0400
+    ldir
+    ld a,$80
+    ld (SRAMPaging),a
+    pop hl
+    pop af
+    ld a,$08
+    ld (SRAMPaging),a
+    ld (hl),$01
+    ld a,$80
+    ld (SRAMPaging),a
+    pop bc
+    jr z,+
+    ld hl,_DATA_B3D8_
+    call TextBox20x6
+_LABEL_1E97_:
+    call _LABEL_3B07_
+    jp Close20x6TextBox
+
++:  xor a
+    ld (NameEntryMode),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$10
+    pop hl
+    pop hl
+    ret
+
+; 2nd entry of Jump Table from 1DF3 (indexed by CursorPos)
+_LABEL_1EA9_:
+    call _LABEL_3782_
+    bit 4,c
+    jp nz,_LABEL_1F16_
+    call _LABEL_19EA_
+    jp z,_LABEL_1F16_
+    cp $02
+    jp z,_LABEL_1F21_
+    ld c,a
+    ld (TextCharacterNumber),a
+    ld (_RAM_C267_),a
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld hl,CharacterStatsAlis.Unknown2
+    add a,l
+    ld l,a
+    ld a,(hl)
+    or a
+    jp z,_LABEL_1F1C_
+    ld b,a
+    ld a,c
+    cp $03
+    jr nz,+
+    dec a
++:  ld c,a
+    add a,$03
+    push bc
+    push hl
+    call _LABEL_3592_
+    ld hl,$7A8C
+    ld (CursorTileMapAddress),hl
+    pop hl
+    ld a,(hl)
+    dec a
+    ld (CursorMax),a
+    call WaitForMenuSelection
+    pop hl
+    bit 4,c
+    jp nz,_LABEL_1F13_
+    ld h,a
+    ld a,l
+    add a,a
+    add a,a
+    add a,l
+    add a,h
+    ld l,a
+    ld h,$00
+    ld de,_DATA_1F4B_
+    add hl,de
+    ld a,(hl)
+    and $1F
+    ld b,a
+    call _LABEL_1CE3_
+    jp c,++
+    ld a,b
+    ld hl,_DATA_1F5A_
+    call FunctionLookup
+_LABEL_1F13_:
+    call _LABEL_35E3_
+_LABEL_1F16_:
+    call _LABEL_37D8_
+    jp _LABEL_30A4_
+
+_LABEL_1F1C_:
+    ld hl,_DATA_AF71_
+    jr +
+
+_LABEL_1F21_:
+    ld hl,_DATA_AF5E_
++:  call TextBox20x6
+    call Close20x6TextBox
+    jp _LABEL_37D8_
+
+++:  ld hl,_DATA_B054_
+    call TextBox20x6
+    call Close20x6TextBox
+    jr _LABEL_1F13_
+
+; Data from 1F38 to 1F4A (19 bytes)
+_DATA_1F38_:
+.db $00 $02 $06 $06 $0A $04 $10 $0C $04 $02 $0A $02 $02 $04 $04 $0C
+.db $02 $04 $08
+
+; Data from 1F4B to 1F59 (15 bytes)
+_DATA_1F4B_:
+.db $01 $12 $00 $00 $00 $02 $0C $0D $00 $00 $02 $0D $11 $0E $0F
+
+; Jump Table from 1F5A to 1F7F (19 entries,indexed by unknown)
+_DATA_1F5A_:
+.dw _LABEL_1F80_ _LABEL_1F83_ _LABEL_1F87_ _LABEL_1FE6_ _LABEL_1FEA_ _LABEL_2003_ _LABEL_2042_ _LABEL_2081_
+.dw _LABEL_2092_ _LABEL_20DC_ _LABEL_211C_ _LABEL_213B_ _LABEL_2178_ _LABEL_21C0_ _LABEL_21ED_ _LABEL_221B_
+.dw _LABEL_2254_ _LABEL_2254_ _LABEL_229C_
+
+; 1st entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_1F80_:
+    jp _LABEL_1F80_
+
+; 2nd entry of Jump Table from 1F5A (indexed by unknown)
+_LABEL_1F83_:
+    ld d,$14
+    jr +
+
+; 3rd entry of Jump Table from 1F5A (indexed by unknown)
+_LABEL_1F87_:
+    ld d,$50
++:  push bc
+    push de
+    call _LABEL_379F_
+    pop de
+    bit 4,c
+    pop bc
+    jr nz,+
+    ld (TextCharacterNumber),a
+    call _LABEL_19EA_
+    jr z,+
+    call ++
++:  jp _LABEL_37E9_
+
+; 2nd entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_1FA2_:
+    ld d,$14
+    jr +
+
+; 3rd entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_1FA6_:
+    ld d,$50
++:  ld a,(TextCharacterNumber)
+    call _LABEL_19EA_
+    ret z
+++:  push de
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+    pop de
+_LABEL_1FBB_:
+    push de
+    ld hl,_DATA_ABFE_
+    call TextBox20x6
+    pop de
+    ld a,$C1
+    ld (NewMusic),a
+    ld a,(TextCharacterNumber)
+    call _LABEL_19D9_
+    push hl
+    pop ix
+    ld b,(ix+6)
+    ld a,(ix+1)
+    add a,d
+    jr nc,+
+    ld a,$FF
++:  cp b
+    jr c,+
+    ld a,b
++:  ld (ix+1),a
+    jp Close20x6TextBox
+
+; 4th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_1FE6_:
+    ld c,$06
+    jr +
+
+; 5th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_1FEA_:
+    ld c,$86
++:  ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+    ld a,c
+    ld (_RAM_C2EF_),a
+    ld hl,_DATA_AB9A_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 6th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_2003_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld de,$F610
+    call _LABEL_200E_
+_LABEL_200E_:
+    ld b,$08
+-:  ld a,b
+    sub $0C
+    neg
+    call _LABEL_19D9_
+    jr nz,+
+    djnz -
+    ret
+
++:  push de
+    ld a,e
+    call _LABEL_1A05_
+-:  call GetRandomNumber
+    and $07
+    add a,$04
+    call _LABEL_19D9_
+    jp z,-
+    push hl
+    pop ix
+    pop de
+    push de
+    call GetRandomNumber
+    and $03
+    add a,d
+    call _LABEL_13BA_
+    call _LABEL_326D_
+    pop de
+    ret
+
+; 7th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_2042_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld de,$D811
+_LABEL_204A_:
+    ld b,$08
+-:  push bc
+    ld a,b
+    sub $0C
+    neg
+    call _LABEL_19D9_
+    jp z,++
+    push hl
+    pop ix
+    push de
+    ld a,e
+    call _LABEL_1A05_
+    pop de
+    push de
+    ld a,d
+    cp $D8
+    jr nz,+
+    call GetRandomNumber
+    and $0F
+    add a,d
++:  call _LABEL_13BA_
+    call _LABEL_326D_
+    pop de
+    ld a,(EnemyNumber)
+    cp $49
+    jr z,+++
+++:  pop bc
+    djnz -
+    ret
+
++++:  pop bc
+    ret
+
+; 8th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_2081_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld de,$F412
+    call _LABEL_200E_
+    call _LABEL_200E_
+    jp _LABEL_200E_
+
+; 9th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_2092_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+    ld a,(_RAM_C2E8_)
+    and $20
+    jr z,++
+    ld a,(CharacterStatsEnemies.1.Attack)
+    ld b,a
+    ld a,(CharacterStatsAlis.Attack)
+    cp b
+    ld c,$03
+    jr nc,+
+    call GetRandomNumber
+    and $03
+    jr z,++
+    ld c,a
++:  ld de,$000D
+    ld b,$08
+-:  ld a,b
+    sub $0C
+    neg
+    call _LABEL_19D9_
+    jr z,+
+    add hl,de
+    ld a,(hl)
+    or a
+    jr z,+++
++:  djnz -
+++:  ld hl,_DATA_AB72_
+    jr ++++
+
++++:  ld (hl),c
+    ld hl,_DATA_AC22_
+++++:  call TextBox20x6
+    jp Close20x6TextBox
+
+; 10th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_20DC_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    xor a
+    ld (ItemTableIndex),a
+_LABEL_20E5_:
+    ld a,(_RAM_C2E7_)
+    or a
+    jr z,+
+    ld a,(SceneType)
+    or a
+    jr nz,++
+    call _LABEL_6B1D_
+    jr z,++
++:  ld a,(ItemTableIndex)
+    or a
+    ld hl,_DATA_AB72_
+    jr z,+
+    ld hl,_DATA_AD02_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+++:  ld a,$BC
+    ld (NewMusic),a
+    ld hl,_DATA_AC9C_
+    call TextBox20x6
+    call Close20x6TextBox
+    ld a,$05
+    ld (_RAM_C267_),a
+    ret
+
+; 11th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_211C_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+    ld a,(TextCharacterNumber)
+    call _LABEL_19EA_
+    ret z
+    call _LABEL_19D9_
+    set 7,(hl)
+    ld hl,_DATA_AC70_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 12th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_213B_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+    ld a,(CharacterStatsEnemies.1.Attack)
+    ld b,a
+    ld a,(CharacterStatsAlis.Attack)
+    cp b
+    jr c,++
+    call GetRandomNumber
+    cp $B2
+    jr nc,++
+    ld b,$08
+-:  ld a,b
+    sub $0C
+    neg
+    call _LABEL_19D9_
+    jr z,+
+    bit 6,(hl)
+    jr z,+++
++:  djnz -
+++:  ld hl,_DATA_AB72_
+    jr ++++
+
++++:  set 6,(hl)
+    ld hl,_DATA_AC8A_
+++++:  call TextBox20x6
+    jp Close20x6TextBox
+
+; 13th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_2178_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+    ld a,(CharacterSpriteAttributes)
+    cp $0E
+    jr z,++
+    ld a,(SceneType)
+    or a
+    ld hl,_DATA_AF1E_
+    jr nz,+
+    call _LABEL_6AED_
+    ld hl,_DATA_AF1E_
+    jr z,+
+    ld l,c
+    ld h,$CB
+    ld (hl),$00
+    ld hl,_DATA_ACBB_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+++:  ld a,(_RAM_C80F_)
+    cp $3D
+    ld hl,_DATA_ACB1_
+    jr z,+
+    ld hl,_DATA_ACBB_
++:  call TextBox20x6
+    ld a,$3D
+    ld (_RAM_C80F_),a
+    jp _LABEL_2A4A_
+
+; 14th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_21C0_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,(SceneType)
+    or a
+    jr z,_LABEL_21D4_
+    ld hl,_DATA_AB72_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_21D4_:
+    ld a,$BF
+    ld (NewMusic),a
+    ld hl,_DATA_AF3B_
+    call TextBox20x6
+    call Close20x6TextBox
+    ld a,$FF
+    ld (_RAM_C2D8_),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$08
+    ret
+
+; 15th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_21ED_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+    ld a,(SceneType)
+    or a
+    jr z,+
+-:  ld hl,_DATA_AB72_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld b,$01
+    call _LABEL_6E8C_
+    and $07
+    cp $06
+    jr nz,-
+    bit 7,(hl)
+    jr nz,-
+    ld a,$04
+    ld (_RAM_C2D8_),a
+    ret
+
+; 16th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
+_LABEL_221B_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    call _LABEL_379F_
+    bit 4,c
+    jr nz,+++
+    push af
+    ld a,$AB
+    ld (NewMusic),a
+    pop af
+    ld (TextCharacterNumber),a
+    call _LABEL_19D9_
+    jr z,+
+    ld hl,_DATA_B064_
+    jr ++
+
++:  ld (hl),$01
+    ld a,$06
+    add a,l
+    ld e,a
+    ld d,h
+    ex de,hl
+    inc de
+    ldi
+    ldi
+    ld hl,_DATA_AF4D_
+++:  call TextBox20x6
+    call Close20x6TextBox
++++:  jp _LABEL_37E9_
+
+; 17th entry of Jump Table from 1F5A (indexed by unknown)
+_LABEL_2254_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AC
+    ld (NewMusic),a
+_LABEL_225E_:
+    ld a,(CharacterSpriteAttributes)
+    cp $0E
+    jr z,++
+    ld a,(SceneType)
+    or a
+    ld hl,_DATA_AE34_
+    jr nz,+
+    call _LABEL_6AED_
+    ld hl,_DATA_AE34_
+    jr z,+
+    ld hl,_DATA_AE21_
++:  call TextBox20x6
+    ld a,$D5
+    ld (NewMusic),a
+    jp Close20x6TextBox
+
+++:  ld a,(_RAM_C80F_)
+    cp $3D
+    ld hl,_DATA_AE34_
+    jr z,+
+    ld hl,_DATA_AE21_
++:  call TextBox20x6
+    ld a,$D5
+    ld (NewMusic),a
+    jp _LABEL_2A37_
+
+; 19th entry of Jump Table from 1F5A (indexed by unknown)
+_LABEL_229C_:
+    ld a,b
+    call _LABEL_1CE3_
+    ld (de),a
+    ld a,$AB
+    ld (NewMusic),a
+    ld a,(SceneType)
+    or a
+    jr nz,_LABEL_22B5_
+    ld hl,_DATA_AB72_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_22B5_:
+    ld hl,_DATA_AF3B_
+    call TextBox20x6
+    call Close20x6TextBox
+    ld a,$08
+    ld (_RAM_C2D8_),a
+    ret
+
+; 3rd entry of Jump Table from 1DF3 (indexed by CursorPos)
+_LABEL_22C4_:
+    ld a,(InventoryCount)
+    or a
+    jp nz,+
+    call _LABEL_35EF_
+    jp _LABEL_3773_
+
++:  call _LABEL_35EF_
+    bit 4,c
+    jp nz,_LABEL_2351_
+    ld a,(ItemTableIndex)
+    cp $21
+    jr c,+++
+    cp $24
+    jr nc,+++
+    sub $21
+    add a,a
+    add a,a
+    add a,$04
+    ld b,a
+    ld a,(VehicleMovementFlags)
+    or a
+    jr z,+++
+    cp b
+    jr nz,+++
+    cp $08
+    jr z,+
+    push bc
+    call _LABEL_78F9_
+    pop bc
+    jr ++
+
++:  push bc
+    call _LABEL_79D5_
+    pop bc
+++:  ld hl,_DATA_AD26_
+    jr nz,+
+    xor a
+    ld (VehicleMovementFlags),a
+    dec a
+    ld (_RAM_C2D8_),a
+    ld hl,_DATA_AD42_
++:  call TextBox20x6
+    call Close20x6TextBox
+    jp _LABEL_2351_
+
++++:  ld b,$04
+-:  ld a,b
+    sub $04
+    neg
+    call _LABEL_19D9_
+    jp nz,+
+    djnz -
+    jp _LABEL_2351_
+
++:  ld (TextCharacterNumber),a
+    call _LABEL_3876_
+    ld hl,$7A72
+    ld (CursorTileMapAddress),hl
+    ld a,$02
+    ld (CursorMax),a
+    call WaitForMenuSelection
+    bit 4,c
+    jp nz,+
+    ld hl,_DATA_2357_
+    call FunctionLookup
++:  call _LABEL_3888_
+_LABEL_2351_:
+    call _LABEL_3773_
+    jp _LABEL_30A4_
+
+; Jump Table from 2357 to 235C (3 entries,indexed by CursorPos)
+_DATA_2357_:
+.dw _LABEL_235D_ _LABEL_2824_ _LABEL_28AE_
+
+; 1st entry of Jump Table from 2357 (indexed by CursorPos)
+_LABEL_235D_:
+    ld a,(ItemTableIndex)
+    ld hl,_DATA_2366_
+    jp FunctionLookup
+
+; Jump Table from 2366 to 23E5 (64 entries,indexed by ItemTableIndex)
+_DATA_2366_:
+.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23F5_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
+.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
+.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
+.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
+.dw _LABEL_23E6_ _LABEL_240B_ _LABEL_2441_ _LABEL_2476_ _LABEL_248F_ _LABEL_2493_ _LABEL_24C5_ _LABEL_24F9_
+.dw _LABEL_253E_ _LABEL_2548_ _LABEL_2572_ _LABEL_258B_ _LABEL_25ED_ _LABEL_2645_ _LABEL_2680_ _LABEL_2693_
+.dw _LABEL_26E5_ _LABEL_271F_ _LABEL_276F_ _LABEL_280C_ _LABEL_280C_ _LABEL_278D_ _LABEL_280C_ _LABEL_280C_
+.dw _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_27D8_ _LABEL_280C_
+
+; 1st entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_23E6_:
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld hl,_DATA_AD02_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 5th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_23F5_:
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    jp nz,_LABEL_20E5_
+    ld hl,_DATA_AD4D_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 34th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_240B_:
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld e,$04
+_LABEL_2413_:
+    ld a,(_RAM_C308_)
+    cp $04
+    ld hl,_DATA_AD11_
+    jr nc,+
+    ld a,(SceneType)
+    or a
+    jr z,+
+    push bc
+    push de
+    call _LABEL_78F9_
+    pop de
+    pop bc
+    ld hl,_DATA_AD11_
+    jr nz,+
+    ld a,e
+    ld (VehicleMovementFlags),a
+    ld a,$FF
+    ld (_RAM_C2D8_),a
+    ld hl,_DATA_AD38_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+; 35th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_2441_:
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,(_RAM_C308_)
+    cp $04
+    ld hl,_DATA_AD11_
+    jr nc,+
+    ld a,(SceneType)
+    or a
+    jr z,+
+    push bc
+    push de
+    call _LABEL_7964_
+    pop de
+    pop bc
+    ld hl,_DATA_AD11_
+    jr nz,+
+    ld a,$08
+    ld (VehicleMovementFlags),a
+    ld a,$FF
+    ld (_RAM_C2D8_),a
+    ld hl,_DATA_AD38_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+; 36th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_2476_:
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,(_RAM_C308_)
+    cp $02
+    ld e,$0C
+    jp z,_LABEL_2413_
+    ld hl,_DATA_AD11_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 37th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_248F_:
+    ld d,$0A
+    jr +
+
+; 38th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_2493_:
+    ld d,$28
++:  ld a,(_RAM_C29D_)
+    or a
+    ld a,(_RAM_C267_)
+    jr nz,+
+    push de
+    call _LABEL_3782_
+    pop de
+    bit 4,c
+    jr nz,++
++:  ld (TextCharacterNumber),a
+    call _LABEL_19EA_
+    jr z,++
+    push de
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    pop de
+    call _LABEL_1FBB_
+    call _LABEL_28D8_
+++:  ld a,(_RAM_C29D_)
+    or a
+    ret nz
+    jp _LABEL_37D8_
+
+; 39th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_24C5_:
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,$C2
+    ld (NewMusic),a
+    ld a,(_RAM_C29D_)
+    or a
+    jr nz,+
+    ld hl,_DATA_B8A7_
+    call TextBox20x6
+    ld a,$D5
+    ld (NewMusic),a
+    ld a,(SceneType)
+    or a
+    jp z,_LABEL_21D4_
+    jp Close20x6TextBox
+
++:  ld hl,_DATA_AD5D_
+    call TextBox20x6
+    ld a,$D5
+    ld (NewMusic),a
+    jp Close20x6TextBox
+
+; 40th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_24F9_:
+    ld a,(_RAM_C29D_)
+    or a
+    jr z,+
+    ld hl,_DATA_ADA0_
+    call TextBox20x6
+    ld hl,_DATA_AD80_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(SceneType)
+    or a
+    jr z,+
+-:  ld hl,_DATA_ADA0_
+    call TextBox20x6
+    ld hl,_DATA_ADAD_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(_RAM_C315_)
+    or a
+    jr nz,-
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    call Close20x6TextBox
+    call _LABEL_28D8_
+    ld a,$FF
+    ld (_RAM_C315_),a
+    ld (_RAM_C2D8_),a
+    ret
+
+; 41st entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_253E_:
+    ld a,(_RAM_C29D_)
+    or a
+    call nz,_LABEL_28D8_
+    jp _LABEL_23F5_
+
+; 42nd entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_2548_:
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    jr z,+
+    ld hl,_DATA_AD02_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(SceneType)
+    or a
+    push af
+    call nz,_LABEL_28D8_
+    pop af
+    jp nz,_LABEL_22B5_
+    ld hl,_DATA_AD4D_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 43rd entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_2572_:
+    call _LABEL_28D8_
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    jp nz,_LABEL_1C73_
+    ld hl,_DATA_AD02_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 44th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_258B_:
+    ld hl,_DATA_ADA0_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    jr z,+
+    ld hl,_DATA_AD80_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(RoomIndex)
+    cp $A3
+    jr z,++
+    call _LABEL_261A_
+    ld hl,_DATA_AF1E_
+    jr nz,+
+-:  ld hl,_DATA_ADEA_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+++:  call _LABEL_261A_
+    jr z,-
+    ld hl,_DATA_ADCF_
+    call TextBox20x6
+    call Close20x6TextBox
+    call _LABEL_28D8_
+    ld iy,CharacterStatsOdin
+    ld (iy+10),$06
+    ld (iy+11),$13
+    call InitialiseCharacterStats
+    ld a,$02
+    ld (PartySize),a
+    ld hl,_RAM_C600_
+    ld (hl),$00
+    ld hl,_RAM_C50A_
+    ld (hl),$FF
+    ld a,$05
+    ld (_RAM_C2D8_),a
+    ret
+
+; 45th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_25ED_:
+    ld hl,_DATA_ADA0_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    jr z,+
+    ld hl,_DATA_AD80_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(RoomIndex)
+    cp $A1
+    jr z,++
+    call _LABEL_261A_
+    ld hl,_DATA_ADEA_
+    jr z,+
+    ld hl,_DATA_AE0A_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_261A_:
+    ld a,(CharacterStatsAlis)
+    ld d,a
+    ld a,(CharacterStatsOdin)
+    ld e,a
+    ld a,(CharacterStatsLutz)
+    or d
+    or e
+    ret
+
+++:  call _LABEL_261A_
+    jr nz,+
+    ld hl,_DATA_ADEA_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld hl,_DATA_ADCF_
+    call TextBox20x6
+    call _LABEL_28D8_
+    call _LABEL_57A6_
+    jp Close20x6TextBox
+
+; 46th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_2645_:
+    ld a,(SceneType)
+    or a
+    jr z,+
+_LABEL_264B_:
+    ld hl,_DATA_ADA0_
+    call TextBox20x6
+    ld hl,_DATA_AF1E_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld b,$01
+    call _LABEL_6E8C_
+    and $07
+    cp $05
+    jr nz,+
+    bit 7,(hl)
+    jr nz,+
+    ld a,$03
+    ld (_RAM_C2D8_),a
+    jp Close20x6TextBox
+
++:  ld hl,_DATA_AD02_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 47th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_2680_:
+    call _LABEL_28D8_
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    jp nz,_LABEL_1C92_
+    jp _LABEL_225E_
+
+; 48th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_2693_:
+    ld hl,_DATA_AE5B_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    jr z,+
+    ld hl,_DATA_AE44_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(RoomIndex)
+    cp $AF
+    jr z,+
+    ld hl,_DATA_AD4D_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  push bc
+    call _LABEL_7F44_
+    pop bc
+    ld a,$38
+    call _LABEL_298A_
+    jr z,+
+    ld hl,_DATA_AE8A_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  call _LABEL_28D8_
+    ld hl,_DATA_AE6B_
+    call TextBox20x6
+    call Close20x6TextBox
+    ld a,$31
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    ret z
+    jp _LABEL_28FB_
+
+; 49th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_26E5_:
+    ld hl,_DATA_AE5B_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    jr z,+
+    ld hl,_DATA_AD80_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(RoomIndex)
+    cp $B0
+    jr z,+
+-:  ld hl,_DATA_AD4D_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(_RAM_C2DC_)
+    cp $FF
+    jr z,-
+    ld hl,_DATA_AEAD_
+    call TextBox20x6
+    ld a,$06
+    ld (_RAM_C2D8_),a
+    jp Close20x6TextBox
+
+; 50th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_271F_:
+    ld a,(CharacterStatsMyau)
+    or a
+    jr z,_LABEL_2733_
+    ld a,(_RAM_C309_)
+    cp $17
+    jr z,+++
+    ld a,(RoomIndex)
+    cp $B0
+    jr z,++
+_LABEL_2733_:
+    ld hl,_DATA_ADA0_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    ld hl,_DATA_AECF_
+    jr z,+
+    ld hl,_DATA_AD80_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+++:  ld a,(_RAM_C2DC_)
+    cp $FF
+    jr nz,_LABEL_2733_
+-:  ld hl,_DATA_B094_
+    call TextBox20x6
+    call Close20x6TextBox
+    ld a,$07
+    ld (_RAM_C2D8_),a
+    ret
+
++++:  ld a,(SceneType)
+    or a
+    jr z,_LABEL_2733_
+    ld a,(_RAM_C29D_)
+    or a
+    jr nz,_LABEL_2733_
+    jr -
+
+; 51st entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_276F_:
+    ld a,(_RAM_C29D_)
+    or a
+    jr z,+
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld hl,_DATA_AEE8_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld hl,_DATA_AEF8_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 54th entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_278D_:
+    ld a,(SceneType)
+    or a
+    jr z,++
+-:  ld hl,_DATA_ADA0_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    ld hl,_DATA_ADAD_
+    jr z,+
+    ld hl,_DATA_AD80_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+++:  ld a,(_RAM_C29D_)
+    or a
+    jr nz,-
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,(_RAM_C30A_)
+    and $03
+    ld hl,_DATA_B5FA_
+    jr z,+
+    cp $01
+    ld hl,_DATA_B5DE_
+    jr z,+
+    cp $02
+    ld hl,_DATA_B608_
+    jr z,+
+    ld hl,_DATA_B5EC_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+; 63rd entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_27D8_:
+    ld a,(SceneType)
+    or a
+    jp nz,_LABEL_264B_
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld b,$01
+    call _LABEL_6E8C_
+    bit 7,(hl)
+    jr nz,++
+    and $07
+    cp $05
+    ld b,$03
+    jr z,+
+    cp $06
+    jr nz,++
+    ld b,$04
++:  ld a,b
+    ld (_RAM_C2D8_),a
+    jp Close20x6TextBox
+
+++:  ld hl,_DATA_AD02_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; 52nd entry of Jump Table from 2366 (indexed by ItemTableIndex)
+_LABEL_280C_:
+    ld hl,_DATA_ACDA_
+    call TextBox20x6
+    ld a,(_RAM_C29D_)
+    or a
+    ld hl,_DATA_AD4D_
+    jr nz,+
+    ld hl,_DATA_AF09_
++:  call TextBox20x6
+    jp Close20x6TextBox
+
+; 2nd entry of Jump Table from 2357 (indexed by CursorPos)
+_LABEL_2824_:
+    ld hl,Frame2Paging
+    ld (hl),$02
+    ld a,(ItemTableIndex)
+    ld hl,_DATA_BF9C_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)
+    rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    jp nz,+
+    ld hl,_DATA_AF96_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld d,a
+    push de
+    push hl
+    call _LABEL_3782_
+    pop hl
+    pop de
+    bit 4,c
+    jp nz,_LABEL_289D_
+    call _LABEL_19EA_
+    jp z,_LABEL_289D_
+    ld (TextCharacterNumber),a
+    ld c,a
+    inc a
+    ld b,a
+    ld a,d
+-:  rrca
+    djnz -
+    jp nc,+
+    ld a,c
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld de,CharacterStatsAlis.Weapon
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+    ld a,(hl)
+    and $03
+    add a,e
+    ld e,a
+    ld a,(de)
+    ld hl,(_RAM_C29B_)
+    ld (hl),a
+    push af
+    ld a,(ItemTableIndex)
+    ld (de),a
+    ld hl,_DATA_ACE6_
+    call TextBox20x6
+    ld a,(TextCharacterNumber)
+    call _LABEL_3824_
+    call MenuWaitForButton
+    call _LABEL_386A_
+    call Close20x6TextBox
+    pop af
+    or a
+    call z,_LABEL_28D8_
+_LABEL_289D_:
+    call CharacterStatsUpdate
+    jp _LABEL_37D8_
+
++:  ld hl,_DATA_AF86_
+    call TextBox20x6
+    call Close20x6TextBox
+    jr _LABEL_289D_
+
+; 3rd entry of Jump Table from 2357 (indexed by CursorPos)
+_LABEL_28AE_:
+    ld hl,Frame2Paging
+    ld (hl),$02
+    ld a,(ItemTableIndex)
+    ld hl,_DATA_BF9C_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)
+    and $04
+    jr z,+
+    ld hl,_DATA_B043_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld hl,_DATA_ACF3_
+    call TextBox20x6
+    call _LABEL_28D8_
+    jp Close20x6TextBox
+
+_LABEL_28D8_:
+    ld hl,(_RAM_C29B_)
+_LABEL_28DB_:
+    push bc
+    ld e,l
+    ld d,h
+    inc hl
+    ld a,$D7
+    sub e
+    and $1F
+    jr z,+
+    ld c,a
+    ld b,$00
+    ldir
++:  ld hl,$C4C0
+    ld a,(InventoryCount)
+    dec a
+    ld (InventoryCount),a
+    add a,l
+    ld l,a
+    ld (hl),$00
+    pop bc
+    ret
+
+_LABEL_28FB_:
+    ld a,(InventoryCount)
+    cp $18
+    jr nc,_LABEL_2918_
+    ld hl,$C4C0
+    add a,l
+    ld l,a
+    ld a,(ItemTableIndex)
+    ld (hl),a
+    ld a,(InventoryCount)
+    inc a
+    ld (InventoryCount),a
+    ld a,$B3
+    ld (NewMusic),a
+    ret
+
+_LABEL_2918_:
+    ld hl,_DATA_AFF8_
+    call TextBox20x6
+    call DoYesNoMenu
+    jr z,_LABEL_2934_
+    ld hl,_DATA_B02E_
+    call TextBox20x6
+    call DoYesNoMenu
+    jr nz,_LABEL_2934_
+    ld hl,_DATA_B039_
+    jp TextBox20x6
+
+_LABEL_2934_:
+    ld a,(ItemTableIndex)
+    push af
+    ld hl,_DATA_B013_
+    call TextBox20x6
+    call _LABEL_35EF_
+    call _LABEL_3773_
+    bit 4,c
+    jr nz,++
+    ld hl,Frame2Paging
+    ld (hl),$02
+    ld a,(ItemTableIndex)
+    ld hl,_DATA_BF9C_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)
+    and $04
+    jr z,+
+    ld hl,_DATA_B043_
+    call TextBox20x6
+    pop af
+    ld (ItemTableIndex),a
+    jp _LABEL_2934_
+
++:  ld hl,_DATA_B01D_
+    call TextBox20x6
+    pop af
+    ld (ItemTableIndex),a
+    ld hl,(_RAM_C29B_)
+    ld (hl),a
+    ld a,$B3
+    ld (NewMusic),a
+    ld hl,_DATA_B024_
+    jp TextBox20x6
+
+++:  pop af
+    ld (ItemTableIndex),a
+    jp _LABEL_2918_
+
+_LABEL_298A_:
+    ld hl,$C4C0
+    ld b,$18
+-:  cp (hl)
+    ret z
+    inc hl
+    djnz -
+    ret
+
+; 4th entry of Jump Table from 1DF3 (indexed by CursorPos)
+_LABEL_2995_:
+    ld a,(CharacterSpriteAttributes)
+    cp $0E
+    jr nz,+
+    call _LABEL_321F_
+    ld hl,_DATA_AF1E_
+    call TextBox20x6
+    call _LABEL_2A37_
+    jp _LABEL_3041_
+
++:  ld hl,(VLocation)
+    ld a,l
+    add a,$60
+    jr c,+
+    cp $C0
+    jr c,++
++:  add a,$40
+    inc h
+++:  ld l,a
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld a,h
+    ld hl,(HLocation)
+    ld bc,$0080
+    add hl,bc
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld l,a
+    ld a,(_RAM_C309_)
+    cp $07
+    jr nz,+
+    ld a,l
+    cp $28
+    jr nz,_LABEL_2A21_
+    ld a,h
+    cp $1E
+    jr nz,_LABEL_2A21_
+    ld a,(SootheFluteIsUnhidden)
+    or a
+    jr z,_LABEL_2A21_
+    cp $FF
+    jr z,_LABEL_2A21_
+    ld a,$FF
+    ld (SootheFluteIsUnhidden),a
+    ld a,$26
+    jr ++
+
++:  cp $01
+    jr nz,_LABEL_2A21_
+    ld a,l
+    cp $30
+    jr nz,_LABEL_2A21_
+    ld a,h
+    cp $48
+    jr nz,_LABEL_2A21_
+    ld a,(PerseusShieldIsUnhidden)
+    or a
+    jr z,_LABEL_2A21_
+    ld a,(CharacterStatsOdin.Shield)
+    ld b,a
+    ld a,$1F
+    cp b
+    jr z,_LABEL_2A21_
+++:  ld (ItemTableIndex),a
+    call _LABEL_298A_
+    jr z,_LABEL_2A21_
+    ld hl,_DATA_AF32_
+    call TextBox20x6
+    call _LABEL_28FB_
+    jp Close20x6TextBox
+
+_LABEL_2A21_:
+    ld a,(RoomIndex)
+    cp $A2
+    jp z,_LABEL_57C6_
+    cp $A3
+    jp z,_LABEL_57EC_
+    ld hl,_DATA_AF1E_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_2A37_:
+    ld hl,_DATA_AFE7_
+    call TextBox20x6
+    call ShowMenuYesNo
+    push af
+    call HideMenuYesNo
+    call Close20x6TextBox
+    pop af
+    or a
+    ret nz
+_LABEL_2A4A_:
+    ld a,$B0
+    ld (NewMusic),a
+    ld hl,(_RAM_C2E1_)
+    ld (hl),$FF
+    ld a,$01
+    ld (_RAM_C80A_),a
+    push bc
+    call _LABEL_1A15_
+    pop bc
+    ld a,(_RAM_C80F_)
+    cp $3D
+    call nz,_LABEL_2AAC_
+    ld hl,(EnemyMoney)
+    ld a,h
+    or l
+    jr nz,+
+    ld a,(_RAM_C2DF_)
+    or a
+    jr nz,+
+    ld hl,_DATA_AFEF_
+    call TextBox20x6
+    ld a,$D0
+    ld (SpriteTable),a
+    jp Close20x6TextBox
+
++:  ld hl,(EnemyMoney)
+    ld (NumberToShowInText),hl
+    call _LABEL_2AD6_
+    ld a,h
+    or l
+    ld hl,_DATA_AFDA_
+    call nz,TextBox20x6
+    ld a,(_RAM_C2DF_)
+    ld (ItemTableIndex),a
+    or a
+    jr z,+
+    ld hl,_DATA_AF32_
+    call TextBox20x6
+    call _LABEL_28FB_
++:  ld a,$D0
+    ld (SpriteTable),a
+    jp Close20x6TextBox
+
+_LABEL_2AAC_:
+    ld a,(_RAM_C80F_)
+    cp $3E
+    jr nz,+
+    ld b,$04
+-:  ld a,b
+    dec a
+    call ++
+    djnz -
+    ret
+
++:  call GetRandomNumber
+    and $03
+++:  call _LABEL_19D9_
+    ret z
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,$00
+    ld e,$03
+    call _LABEL_5B7_
+    pop de
+    ex de,hl
+    ld a,(hl)
+    sub d
+    ld (hl),a
+    ret
+
+_LABEL_2AD6_:
+    ex de,hl
+    ld hl,(Meseta)
+    add hl,de
+    jr nc,+
+    ld hl,$FFFF
++:  ld (Meseta),hl
+    ex de,hl
+    ret
+
+; Data from 2AE5 to 2AE8 (4 bytes)
+.db $CD $81 $2E $C9
+
+_LABEL_2AE9_:
+    ld hl,_DATA_B20E_
+    call TextBox20x6
+    call DoYesNoMenu
+    jp nz,_LABEL_2BB1_
+_LABEL_2AF5_:
+    ld a,(PartySize)
+    or a
+    ld hl,_DATA_B25C_
+    call nz,TextBox20x6
+    call _LABEL_3782_
+    bit 4,c
+    jp nz,_LABEL_2BAE_
+    ld (TextCharacterNumber),a
+    call _LABEL_19D9_
+    jr nz,+
+    ld hl,_DATA_B087_
+    call TextBox20x6
+    jp _LABEL_2BA4_
+
++:  push hl
+    pop iy
+    ld a,(iy+1)
+    cp (iy+6)
+    jr nz,+
+    ld a,(iy+2)
+    cp (iy+7)
+    jr nz,+
+    ld hl,_DATA_B2A5_
+    call TextBox20x6
+    ld a,(PartySize)
+    or a
+    jr nz,_LABEL_2BA4_
+    ld hl,_DATA_B29A_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld a,(iy+6)
+    sub (iy+1)
+    ld b,a
+    ld a,(iy+7)
+    sub (iy+2)
+    add a,b
+    ld l,a
+    ld h,$00
+    ld (NumberToShowInText),hl
+    ld hl,_DATA_B228_
+    call TextBox20x6
+    call _LABEL_3B13_
+    call DoYesNoMenu
+    push af
+    call nz,_LABEL_3B3C_
+    pop af
+    jr nz,_LABEL_2BA4_
+    ld de,(NumberToShowInText)
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr c,_LABEL_2BBA_
+    ld (Meseta),hl
+    call _LABEL_3B21_
+    ld a,$C1
+    ld (NewMusic),a
+    ld a,(iy+6)
+    ld (iy+1),a
+    ld a,(iy+7)
+    ld (iy+2),a
+    ld hl,_DATA_B26E_
+    call TextBox20x6
+    call _LABEL_3B3C_
+    ld a,(PartySize)
+    or a
+    jr z,+
+    ld hl,_DATA_B244_
+    call TextBox20x6
+    call DoYesNoMenu
+    jr nz,_LABEL_2BAE_
+_LABEL_2BA4_:
+    call _LABEL_37D8_
+    ld a,(PartySize)
+    or a
+    jp nz,_LABEL_2AF5_
+_LABEL_2BAE_:
+    call _LABEL_37D8_
+_LABEL_2BB1_:
+    ld hl,_DATA_B282_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_2BBA_:
+    call _LABEL_3B3C_
+    call _LABEL_37D8_
+    ld hl,_DATA_B65C_
+    call TextBox20x6
++:  jp Close20x6TextBox
+
+_LABEL_2BC9_:
+    ld bc,$04FF
+-:  ld a,b
+    dec a
+    call _LABEL_19D9_
+    jr z,+
+    ld a,$06
+    add a,l
+    ld e,a
+    ld d,h
+    ex de,hl
+    inc de
+    ldi
+    ldi
++:  djnz -
+    ret
+
+_LABEL_2BE1_:
+    ld a,(RoomIndex)
+    ld (_RAM_C317_),a
+    ld hl,_DATA_B2B7_
+    call TextBox20x6
+    call DoYesNoMenu
+    or a
+    jp nz,_LABEL_2CA2_
+_LABEL_2BF4_:
+    ld a,(PartySize)
+    or a
+    jp z,_LABEL_2C8D_
+    ld hl,_DATA_B31E_
+    call TextBox20x6
+    call _LABEL_3782_
+    bit 4,c
+    jp nz,_LABEL_2C9F_
+    call _LABEL_19D9_
+    jr nz,_LABEL_2C8D_
+    ld (TextCharacterNumber),a
+    push hl
+    pop iy
+    ld a,(iy+5)
+    add a,a
+    add a,a
+    ld l,a
+    ld h,$00
+    ld e,l
+    ld d,h
+    add hl,hl
+    add hl,hl
+    add hl,de
+    ld (NumberToShowInText),hl
+    ld hl,_DATA_B33C_
+    call TextBox20x6
+    call _LABEL_3B13_
+    call DoYesNoMenu
+    push af
+    call nz,_LABEL_3B3C_
+    pop af
+    jr nz,_LABEL_2C71_
+    ld hl,_DATA_B2F2_
+    call TextBox20x6
+    ld de,(NumberToShowInText)
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jp c,+
+    ld (Meseta),hl
+    call _LABEL_3B21_
+    ld (iy+0),$01
+    ld a,(iy+6)
+    ld (iy+1),a
+    ld a,(iy+7)
+    ld (iy+2),a
+    ld hl,_DATA_B304_
+    call TextBox20x6
+    ld a,$C5
+    ld (NewMusic),a
+    call MenuWaitHalfSecond
+    call _LABEL_3B3C_
+_LABEL_2C71_:
+    ld hl,_DATA_B32D_
+    call TextBox20x6
+    call DoYesNoMenu
+    jr nz,_LABEL_2C9F_
+    call _LABEL_37D8_
+    jp _LABEL_2BF4_
+
++:  ld hl,_DATA_B695_
+    call TextBox20x6
+    call _LABEL_3B3C_
+    jr _LABEL_2C71_
+
+_LABEL_2C8D_:
+    ld (TextCharacterNumber),a
+    ld hl,_DATA_B393_
+    call TextBox20x6
+    ld a,(PartySize)
+    or a
+    jr nz,_LABEL_2C71_
+    call MenuWaitForButton
+_LABEL_2C9F_:
+    call _LABEL_37D8_
+_LABEL_2CA2_:
+    ld hl,_DATA_B374_
+    call TextBox20x6
+    ld hl,_DATA_B351_
+    call TextBox20x6
+    call +
+    jp Close20x6TextBox
+
++:  ld iy,CharacterStatsAlis
+    ld de,$B8AF
+    xor a
+    call +
+    ld iy,CharacterStatsMyau
+    ld de,$B99F
+    ld a,$01
+    call +
+    ld iy,CharacterStatsOdin
+    ld de,$BA8F
+    ld a,$02
+    call +
+    ld iy,CharacterStatsLutz
+    ld de,$BB7F
+    ld a,$03
++:  ld (TextCharacterNumber),a
+    bit 0,(iy+0)
+    ret z
+    ld a,(iy+5)
+    cp $1E
+    jr c,+
+    ld hl,_DATA_B6E7_
+    jp TextBox20x6
+
++:  ld hl,Frame2Paging
+    ld (hl),$03
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,de
+    push hl
+    pop ix
+    ld e,(iy+3)
+    ld d,(iy+4)
+    ld l,(ix+4)
+    ld h,(ix+5)
+    or a
+    sbc hl,de
+    ld (NumberToShowInText),hl
+    ld hl,_DATA_B363_
+    jp TextBox20x6
+
+_LABEL_2D1C_:
+    ld hl,_DATA_B148_
+    call TextBox20x6
+_LABEL_2D22_:
+    call DoYesNoMenu
+    jr z,_LABEL_2D30_
+    ld hl,_DATA_B163_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_2D30_:
+    push bc
+    call _LABEL_39EA_
+    call _LABEL_3B13_
+    pop bc
+_LABEL_2D38_:
+    ld hl,_DATA_B173_
+    call TextBox20x6
+    push bc
+    call _LABEL_39F6_
+    bit 4,c
+    pop bc
+    jr nz,_LABEL_2D89_
+    ld a,(InventoryCount)
+    cp $18
+    jr nc,_LABEL_2D98_
+    ld a,(hl)
+    ld (ItemTableIndex),a
+    inc hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr c,_LABEL_2D9D_
+    ld a,(ItemTableIndex)
+    cp $40
+    jr nc,_LABEL_2DA2_
+    ld (Meseta),hl
+    call _LABEL_3B21_
+    ld a,(ItemTableIndex)
+    cp $21
+    jr c,+
+    cp $24
+    jr nc,+
+    call _LABEL_298A_
+    jr z,++
++:  call _LABEL_28FB_
+++:  ld hl,_DATA_B17E_
+    call TextBox20x6
+    call DoYesNoMenu
+    jr z,_LABEL_2D38_
+_LABEL_2D89_:
+    ld hl,_DATA_B163_
+-:  call TextBox20x6
+    call _LABEL_3B3C_
+    call _LABEL_3AC3_
+    jp Close20x6TextBox
+
+_LABEL_2D98_:
+    ld hl,_DATA_B18F_
+    jr -
+
+_LABEL_2D9D_:
+    ld hl,_DATA_B65C_
+    jr -
+
+_LABEL_2DA2_:
+    ld a,(_RAM_C2EC_)
+    cp $02
+    jr nc,++
+    cp $01
+    ld hl,$0142
+    jr c,+
+    ld hl,$0144
++:  inc a
+    ld (_RAM_C2EC_),a
+    call _LABEL_59BA_
+    call _LABEL_3B3C_
+    call _LABEL_3AC3_
+    jp Close20x6TextBox
+
+++:  xor a
+    ld (_RAM_C2EC_),a
+    push hl
+    ld a,$33
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    pop hl
+    jr z,_LABEL_2DA2_
+    ld (Meseta),hl
+    call _LABEL_3B21_
+    call _LABEL_28FB_
+    ld hl,$0146
+    call _LABEL_59BA_
+    call _LABEL_3B3C_
+    call _LABEL_3AC3_
+    jp Close20x6TextBox
+
+_LABEL_2DEB_:
+    ld hl,_DATA_B1AB_
+    call TextBox20x6
+    jp _LABEL_2D22_
+
+_LABEL_2DF4_:
+    ld hl,_DATA_B1C5_
+    call TextBox20x6
+    call _LABEL_3894_
+    push af
+    push bc
+    call _LABEL_38B4_
+    pop bc
+    pop af
+    bit 4,c
+    jp nz,_LABEL_2E46_
+    or a
+    jp z,_LABEL_2D30_
+_LABEL_2E0D_:
+    ld hl,_DATA_B1E0_
+    call TextBox20x6
+    call _LABEL_35EF_
+    bit 4,c
+    push af
+    call _LABEL_3773_
+    pop af
+    jp nz,_LABEL_2E46_
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld a,(ItemTableIndex)
+    and $3F
+    add a,a
+    ld hl,$B82F
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld (NumberToShowInText),hl
+    or h
+    jr nz,+
+    ld hl,_DATA_B676_
+    call TextBox20x6
+    jp _LABEL_2E0D_
+
+_LABEL_2E46_:
+    ld hl,_DATA_B163_
+    call TextBox20x6
+    jp Close20x6TextBox
+
++:  ld hl,_DATA_B1EB_
+    call TextBox20x6
+    call DoYesNoMenu
+    jr z,+
+    jp _LABEL_2E0D_
+
++:  call _LABEL_28D8_
+    ld hl,(NumberToShowInText)
+    call _LABEL_2AD6_
+    ld hl,_DATA_B1FE_
+    call TextBox20x6
+    call DoYesNoMenu
+    jp z,_LABEL_2E0D_
+    jp _LABEL_2E46_
+
+DoYesNoMenu:
+    push bc
+    call ShowMenuYesNo
+    push af
+    call HideMenuYesNo
+    pop af
+    pop bc
+    or a
+    ret
+
+MenuWaitForButton:
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    jp z,MenuWaitForButton
+    ret
+
+MenuWaitHalfSecond:
+    ld b,$1E
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    ret nz
+    djnz -
+    ret
+
+Pause3Seconds:
+    ld b,$B4
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    ret nz
+    djnz -
+    ret
+
+Pause256Frames:
+    ld b,$00
+PauseBFrames:
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    ret
+
+WaitForMenuSelection:
+    ld a,$FF
+    ld (CursorEnabled),a
+    ld hl,$0000
+    ld (CursorPos),hl
+    xor a
+    ld (CursorCounter),a
+-:  ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $03
+    jp z,++
+    ld c,a
+    ld hl,CursorMax
+    ld a,(CursorPos)
+    bit 0,c
+    jr z,+
+    sub $01
+    jr nc,+
+    ld a,(hl)
++:  bit 1,c
+    jr z,+
+    inc a
+    cp (hl)
+    jr c,+
+    jr z,+
+    xor a
++:  ld (CursorPos),a
+++:  ld a,(Controls)
+    and $30
+    jp z,-
+    ld c,a
+    xor a
+    ld (CursorCounter),a
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    xor a
+    ld (CursorEnabled),a
+    ld a,(CursorPos)
+    ret
+
+_LABEL_2F0D_:
+    ld a,$FF
+    ld (CursorEnabled),a
+_LABEL_2F12_:
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    ld c,a
+    and $03
+    jp z,++
+    ld c,a
+    ld hl,CursorMax
+    ld a,(CursorPos)
+    bit 0,c
+    jr z,+
+    sub $01
+    jr nc,+
+    ld a,(hl)
++:  bit 1,c
+    jr z,+
+    inc a
+    cp (hl)
+    jr c,+
+    jr z,+
+    xor a
++:  ld (CursorPos),a
+    jp +++
+
+++:  ld hl,(_RAM_C299_)
+    ld a,h
+    or a
+    jr z,+++
+    bit 2,c
+    jr z,+
+    ld a,l
+    sub $08
+    jr nc,++
+    ld a,h
+    jr ++
+
++:  bit 3,c
+    jr z,+++
+    ld a,l
+    add a,$08
+    cp h
+    jr c,++
+    jr z,++
+    xor a
+++:  ld (_RAM_C299_),a
+    jr ++++
+
++++:  ld a,c
+    and $30
+    jr z,_LABEL_2F12_
+    xor a
+    ld (CursorCounter),a
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    xor a
+    ld (CursorEnabled),a
+    bit 4,c
+    ret nz
+    ld a,(InventoryCount)
+    cp $09
+    ld a,(CursorPos)
+    ret c
+    or a
+    jr z,+
+    dec a
+    ret
+
++:  ld hl,(_RAM_C299_)
+    ld a,l
+    add a,$08
+    cp h
+    jr c,+
+    jr z,+
+    xor a
++:  ld (_RAM_C299_),a
+++++:  xor a
+    ld (CursorEnabled),a
+    call _LABEL_3647_
+    ld a,(_RAM_C299_)
+    ld l,a
+    ld a,(InventoryCount)
+    dec a
+    cp $08
+    ld h,$00
+    jr c,+
+    ld h,$01
++:  sub l
+    cp $08
+    jr c,+
+    ld a,$07
++:  and $07
+    add a,h
+    ld (CursorMax),a
+    ld hl,(CursorPos)
+    cp l
+    jr nc,+
+    ld l,a
++:  ld h,l
+    ld (CursorPos),hl
+    jp _LABEL_2F0D_
+
+FlashCursor:
+    ld a,(CursorEnabled)
+    or a
+    ret z
+    ld a,(FunctionLookupIndex)
+    cp $03
+    ld bc,$F0F3
+    jr nz,+
+    ld bc,$FF00
++:  ld hl,(CursorTileMapAddress)
+    ld a,(OldCursorPos)
+    srl a
+    ld e,$00
+    rr e
+    ld d,a
+    add hl,de
+    ex de,hl
+    rst SetVRAMAddressToDE
+    ld a,c
+    out (VDPData),a
+    ld hl,(CursorTileMapAddress)
+    ld a,(CursorPos)
+    ld (OldCursorPos),a
+    srl a
+    ld e,$00
+    rr e
+    ld d,a
+    add hl,de
+    ex de,hl
+    rst SetVRAMAddressToDE
+    ld a,(CursorCounter)
+    dec a
+    and $0F
+    ld (CursorCounter),a
+    bit 3,a
+    ld a,b
+    jr nz,+
+    ld a,c
++:  out (VDPData),a
+    ret
+
+_LABEL_3014_:
+    ld hl,_RAM_D700_
+    ld de,$7B02
+    ld bc,$030C
+    call InputTilemapRect
+    ld a,(_RAM_C267_)
+    add a,a
+    add a,a
+    ld l,a
+    add a,a
+    add a,a
+    add a,a
+    add a,l
+    ld hl,$B40B
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3035_:
+    ld hl,_RAM_D700_
+    ld de,$7B02
+    ld bc,$030C
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3041_:
+    ld hl,_RAM_D724_
+    ld de,$7C80
+    ld bc,$0640
+    call InputTilemapRect
+    ld hl,MenuBox8Top
+    ld de,$7C80
+    ld ix,CharacterStatsAlis
+    call +
+    ld hl,_DATA_6F4DB_
+    ld de,$7C90
+    ld ix,CharacterStatsMyau
+    call +
+    ld hl,_DATA_6F50B_
+    ld de,$7CA0
+    ld ix,CharacterStatsOdin
+    call +
+    ld hl,_DATA_6F53B_
+    ld de,$7CB0
+    ld ix,CharacterStatsLutz
++:  bit 0,(ix+0)
+    ret z
+_LABEL_3083_:
+    ld bc,$0310
+    call OutputTilemapBoxWipePaging
+    ld hl,TilesHP
+    ld a,(ix+1)
+    call Output4CharsPlusStat
+    ld hl,TilesMP
+    ld a,(ix+2)
+    call Output4CharsPlusStat
+    ld hl,MenuBox8Bottom
+    ld bc,$0110
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_30A4_:
+    ld hl,MenuBox8Top
+    ld de,$7C80
+    ld ix,CharacterStatsAlis
+    call +
+    ld hl,_DATA_6F4DB_
+    ld de,$7C90
+    ld ix,CharacterStatsMyau
+    call +
+    ld hl,_DATA_6F50B_
+    ld de,$7CA0
+    ld ix,CharacterStatsOdin
+    call +
+    ld hl,_DATA_6F53B_
+    ld de,$7CB0
+    ld ix,CharacterStatsLutz
++:  bit 0,(ix+0)
+    ret z
+    ld bc,$0310
+    call OutputTilemapRect
+    ld hl,TilesHP
+    ld a,(ix+1)
+    call Output4CharsPlusStat
+    ld hl,TilesMP
+    ld a,(ix+2)
+    call Output4CharsPlusStat
+    ld hl,MenuBox8Bottom
+    ld bc,$0110
+    jp OutputTilemapRect
+
+_LABEL_30FB_:
+    push af
+    ld hl,_RAM_D724_
+    ld de,$7C80
+    ld bc,$0640
+    call InputTilemapRect
+    pop af
+_LABEL_3109_:
+    ld hl,MenuBox8Top
+    ld de,$7C80
+    ld ix,CharacterStatsAlis
+    or a
+    jp z,_LABEL_3083_
+    ld hl,_DATA_6F4DB_
+    ld de,$7C90
+    ld ix,CharacterStatsMyau
+    dec a
+    jp z,_LABEL_3083_
+    ld hl,_DATA_6F50B_
+    ld de,$7CA0
+    ld ix,CharacterStatsOdin
+    dec a
+    jp z,_LABEL_3083_
+    ld hl,_DATA_6F53B_
+    ld de,$7CB0
+    ld ix,CharacterStatsLutz
+    jp _LABEL_3083_
+
+Output4CharsPlusStatWide:
+    di
+    push de
+    push af
+    rst SetVRAMAddressToDE
+    ld b,$10
+    jp _LABEL_314F_
+
+Output4CharsPlusStat:
+    di
+    push de
+    push af
+    rst SetVRAMAddressToDE
+    ld b,$08
+_LABEL_314F_:
+    ld a,(hl)
+    out (VDPData),a
+    inc hl
+    djnz _LABEL_314F_
+    pop af
+    ld bc,$C010
+    ld d,$FF
+-:  sub $64
+    inc d
+    jr nc,-
+    add a,$64
+    ld l,a
+    ld a,d
+    call OutputDigit
+    ld d,$FF
+    ld a,l
+-:  sub $0A
+    inc d
+    jr nc,-
+    add a,$0A
+    ld l,a
+    ld a,d
+    call OutputDigit
+    ld d,$FF
+    ld a,l
+-:  sub $01
+    inc d
+    jr nc,-
+    ld a,d
+    ld bc,$C110
+    call OutputDigit
+    push af
+    pop af
+    ld a,$F3
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$13
+    out (VDPData),a
+    pop de
+    ld hl,$0040
+    add hl,de
+    ex de,hl
+    ei
+    ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    ret
+
+_LABEL_319E_:
+    di
+    push de
+    push bc
+    rst SetVRAMAddressToDE
+    ld b,$0C
+-:  ld a,(hl)
+    out (VDPData),a
+    inc hl
+    djnz -
+    pop hl
+    ld bc,$C010
+    ld de,$2710
+    xor a
+    dec a
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    call OutputDigit
+    ld de,$03E8
+    ld a,$FF
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    call OutputDigit
+    ld de,$0064
+    ld a,$FF
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    call OutputDigit
+    ld d,$FF
+    ld a,l
+-:  sub $0A
+    inc d
+    jr nc,-
+    add a,$0A
+    ld l,a
+    ld a,d
+    call OutputDigit
+    ld d,$FF
+    ld a,l
+-:  sub $01
+    inc d
+    jr nc,-
+    ld a,d
+    ld bc,$C110
+    call OutputDigit
+    push af
+    pop af
+    ld a,$F3
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$13
+    out (VDPData),a
+    pop de
+    ld hl,$0040
+    add hl,de
+    ex de,hl
+    ei
+    ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    ret
+
+; Data from 320F to 3216 (8 bytes)
+TilesHP:
+.dw $11f3 $11f4 $11f5 $10c0 ; "|HP "
+TilesMP:
+.dw $11F3 $11F6 $11F5 $10C0 ; "|MP "
+
+_LABEL_321F_:
+    ld hl,_RAM_D724_
+    ld de,$7C80
+    ld bc,$0640
+    jp OutputTilemapBoxWipePaging
+
+ShowCombatMenu:
+    ld hl,OldTileMapMenu
+    ld de,$7842
+    ld bc,$0B0C
+    call InputTilemapRect
+    ld hl,MenuCombat
+    jp OutputTilemapBoxWipePaging
+
+RefreshCombatMenu:
+    ld hl,MenuCombat
+    ld de,$7842
+    ld bc,$0B0C
+    jp OutputTilemapRect
+
+CloseMenu:
+    ld hl,OldTileMapMenu
+    ld de,$7842
+    ld bc,$0B0C
+    jp OutputTilemapBoxWipePaging
+
+ShowEnemyData:
+    ld hl,OldTileMapEnemyName10x4
+    ld de,$781C
+    ld bc,$0414
+    call InputTilemapRect
+    ld hl,OldTileMapEnemyStats8x10
+    ld de,$7830
+    ld bc,$0A10
+    call InputTilemapRect
+_LABEL_326D_:
+    ld hl,Menu10Top
+    ld de,$781C
+    ld bc,$0114
+    call OutputTilemapRect
+    ld hl,Frame2Paging
+    ld (hl),$02
+    ld hl,EnemyName
+    ld c,$00
+    call Output8CharMenuLine
+    ld c,$01
+    call Output8CharMenuLine
+    ld hl,Menu10Bottom
+    ld bc,$0114
+    call OutputTilemapRect
+    ld a,(EnemyNumber)
+    cp $49
+    ret z
+    ld hl,MenuBox8Top
+    ld de,$7830
+    ld bc,$0110
+    call OutputTilemapBoxWipePaging
+    ld ix,CharacterStatsEnemies
+    ld a,(NumEnemies)
+    ld b,a
+-:  push bc
+    ld hl,TilesHP
+    ld a,(ix+1)
+    call Output4CharsPlusStat
+    ld bc,$0010
+    add ix,bc
+    pop bc
+    djnz -
+    ld hl,MenuBox8Bottom
+    ld bc,$0110
+    jp OutputTilemapBoxWipePaging
+
+Output8CharMenuLine:
+    di
+    push bc
+    push hl
+    push de
+    rst SetVRAMAddressToDE
+    push af
+    pop af
+    ld a,$F3
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$11
+    out (VDPData),a
+    ld b,$08
+-:  ld a,(hl)
+    add a,a
+    add a,c
+    ld de,$8000
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+    ld a,(de)
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$10
+    out (VDPData),a
+    inc hl
+    djnz -
+    push af
+    pop af
+    ld a,$F3
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$13
+    out (VDPData),a
+    pop de
+    ld hl,$0040
+    add hl,de
+    ex de,hl
+    pop hl
+    pop bc
+    ei
+    ret
+
+HideEnemyData:
+    ld hl,OldTileMapEnemyStats8x10
+    ld de,$7830
+    ld bc,$0A10
+    ld a,(EnemyNumber)
+    cp $49
+    call nz,OutputTilemapBoxWipePaging
+    ld hl,OldTileMapEnemyName10x4
+    ld de,$781C
+    ld bc,$0414
+    jp OutputTilemapBoxWipePaging
+
+; Data from 3326 to 3335 (16 bytes)
+_CharacterNames:
+.stringmap script "アリサ$2"
+.stringmap script "ミャウ$2"
+.stringmap script "タイロン"
+.stringmap script "ルツ$2　"
+
+-:  dec hl
+    jp _NextLine
+
+TextBox20x6:
+    ld a,:DialogueText
+    ld (Frame2Paging),a
+    ld a,(TextBox20x6Open)
+    or a
+    jp nz,-
+    ld a,$FF
+    ld (TextBox20x6Open),a
+    push hl
+    ld hl,OldTileMap20x6
+    ld de,$7C8C
+    ld bc,$0628
+    call InputTilemapRect
+    ld hl,MenuBox20x6
+    call OutputTilemapBoxWipePaging
+    pop hl
+-:
+_ResetCursor:
+    ld de,$7CCE
+    ld bc,$1200
+_ReadData:
+    ld a,(hl)
+;                                                                  |  |
+; $4f Insert character name                                        |  |
+; $50 Insert enemy name                                            |  |
+; $51 OutputItemName (in ItemTableIndex)                           |  |
+; $52 OutputNumber (in NumberToShowInText)                         |  |
+; $53 ??? Also blanks text box                                     |  |
+; $54 NextLine                                                     |  |
+; $55 BlankTextAfterButton (intro),WaitForButton (menu)           |  |
+; $56 ExitImmediately                                              |  |
+; $57 ExitAfterPause (256 frames in intro,30 in menu)             |  |
+; $58 ExitAfterButton/text end marker                              |  |
+;                                                                  |  |
+    cp $58
+    jp nc,MenuWaitForButton
+    cp $56
+    ret z
+    cp $57
+    jp z,MenuWaitHalfSecond
+    cp $55
+    jr nz,+
+    call MenuWaitForButton
+    jp _NextLine
+
++:  cp $53
+    jr nz,+
+    push hl
+    ld hl,MenuBox20x6
+    ld de,$7C8C
+    ld bc,$0628
+    call OutputTilemapRect
+    pop hl
+    inc hl
+    jp -
+
++:  cp $54
+    jr nz,+
+_NextLine:
+    ld a,c
+    or a
+    call nz,_ScrollTextBoxUp2Lines
+    ld de,$7D4E
+    ld bc,$1201
+    inc hl
+    jp _ReadData
+
++:  cp $4F
+    jr nz,+
+    push hl
+    ld a,(TextCharacterNumber)
+    and $03
+    add a,a
+    add a,a
+    ld hl,_CharacterNames
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,$04
+    call _DrawALetters
+    pop hl
+    inc hl
+    jp _ReadData
+
++:  cp $50
+    jr nz,+
+    push hl
+    ld hl,EnemyName
+    ld a,$08
+    call _DrawALetters
+    pop hl
+    inc hl
+    jp _ReadData
+
++:  cp $51
+    jr nz,+
+    push hl
+    ld a,(ItemTableIndex)
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    push bc
+    ld bc,ItemTextTable
+    add hl,bc
+    pop bc
+    ld a,$08
+    call _DrawALetters
+    pop hl
+    inc hl
+    jp _ReadData
+
++:  cp $52
+    jr nz,+
+    push hl
+    push bc
+    push de
+    ld hl,(NumberToShowInText)
+    ld de,10000
+    xor a
+    ld c,a
+    dec a
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    pop de
+    call _OutputDigitA
+    push de
+    ld de,$03E8
+    ld a,$FF
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    pop de
+    call _OutputDigitA
+    push de
+    ld de,$0064
+    ld a,$FF
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    pop de
+    call _OutputDigitA
+    push de
+    ld d,$FF
+    ld a,l
+-:  sub $0A
+    inc d
+    jr nc,-
+    add a,$0A
+    ld l,a
+    ld a,d
+    pop de
+    call _OutputDigitA
+    push de
+    ld d,$FF
+    ld a,l
+-:  sub $01
+    inc d
+    jr nc,-
+    ld a,d
+    ld c,$01
+    pop de
+    call _OutputDigitA
+    ld a,b
+    pop bc
+    ld b,a
+    pop hl
+    inc hl
+    jp _ReadData
+
++:  call _DrawLetter
+    jp _ReadData
+
+_OutputDigitA:
+    or a
+    jp nz,+
+    bit 0,c
+    ret z
++:  ld c,$01
+    di
+    push de
+    push af
+    rst SetVRAMAddressToDE
+    push af
+    pop af
+    ld a,$C0
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$10
+    out (VDPData),a
+    ld a,$40
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+    rst SetVRAMAddressToDE
+    pop af
+    add a,$C1
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$10
+    out (VDPData),a
+    pop de
+    inc de
+    inc de
+    ei
+    ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    dec b
+    ret
+
+_DrawALetters:
+    push af
+    call _DrawLetter
+    ld a,(hl)
+    cp $58
+    jr z,+
+    pop af
+    dec a
+    jp nz,_DrawALetters
+    ret
+
++:  pop af
+    ret
+
+ShowNarrativeText:
+    ld a,$02
+    ld (Frame2Paging),a
+    ld de,$7C0C
+    ld bc,$0000
+--:  push de
+-:  call _DrawLetter
+    ld a,(hl)
+    cp $57
+    jr z,_ExitAfterPause
+    cp $58
+    jr z,_ExitAfterButton
+    cp $55
+    jr z,_BlankTextAfterButton
+    cp $54
+    jr nz,-
+    inc hl
+    ex de,hl
+    pop hl
+    ld bc,$0080
+    add hl,bc
+    ex de,hl
+    jp --
+
+_BlankTextAfterButton:
+    pop de
+    inc hl
+    push hl
+    call MenuWaitForButton
+    ld de,$7C00
+    ld bc,$0100
+    ld hl,$0800
+    di
+    call FillVRAMWithHL
+    ei
+    pop hl
+    jp ShowNarrativeText
+
+_ExitAfterButton:
+    call MenuWaitForButton
+    pop de
+    ret
+
+_ExitAfterPause:
+    call Pause256Frames
+    pop de
+    ret
+
+_DrawLetter:
+    di
+    push bc
+    push de
+    rst SetVRAMAddressToDE
+    ld a,(hl)
+    add a,a
+    ld bc,TileNumberLookup
+    add a,c
+    ld c,a
+    adc a,b
+    sub c
+    ld b,a
+    ld a,(bc)
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$10
+    out (VDPData),a
+    ex de,hl
+    ld bc,$0040
+    add hl,bc
+    ex de,hl
+    rst SetVRAMAddressToDE
+    ld a,(hl)
+    add a,a
+    ld bc,TileNumberLookup + 1
+    add a,c
+    ld c,a
+    adc a,b
+    sub c
+    ld b,a
+    ld a,(bc)
+    out (VDPData),a
+    push af
+    pop af
+    cp $FE
+    ld a,$12
+    jr z,+
+    ld a,$10
++:  out (VDPData),a
+    inc hl
+    pop de
+    inc de
+    inc de
+    pop bc
+    ei
+    ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    dec b
+    ret nz
+    ld a,(hl)
+    cp $53
+    ret nc
+    ld a,c
+    or a
+    call nz,_ScrollTextBoxUp2Lines
+    ld de,$7D4E
+    ld bc,$1201
+    ret
+
+_ScrollTextBoxUp2Lines:
+    push bc
+    push de
+    push hl
+    call +
+    call +
+    pop hl
+    pop de
+    pop bc
+    ret
+
++:  ld hl,OldTileMap20x6Scroll
+    ld de,$7D0E
+    ld bc,$0324
+    call InputTilemapRect
+    ld hl,OldTileMap20x6Scroll
+    ld de,$7CCE
+    ld bc,$0324
+    call OutputTilemapRect
+    ld hl,Menu18Blanks
+    ld bc,$0124
+    call OutputTilemapRect
+    ld b,$04
+-:  ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    ret
+
+Close20x6TextBox:
+    ld hl,TextBox20x6Open
+    ld a,(hl)
+    or a
+    ret z
+    ld (hl),$00
+    ld hl,OldTileMap20x6
+    ld de,$7C8C
+    ld bc,$0628
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3592_:
+    push af
+    push bc
+    ld hl,_RAM_DB74_
+    ld de,$7A0C
+    ld bc,$0C0C
+    call InputTilemapRect
+    pop bc
+    pop af
+    add a,a
+    add a,a
+    add a,a
+    ld l,a
+    ld h,$00
+    ld e,l
+    ld d,h
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,de
+    add hl,hl
+    ld de,$B6DF
+    add hl,de
+    ld de,$7A0C
+    ld a,b
+    or a
+    jp z,+
+    add a,a
+    inc a
+    ld b,a
+    ld c,$0C
+    push bc
+    call OutputTilemapBoxWipePaging
+    pop bc
+    ld a,b
+    add a,a
+    ld l,a
+    add a,a
+    add a,l
+    add a,a
+    ld hl,$BA3F
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,$0C
+    sub b
+    ld b,a
+    jp OutputTilemapBoxWipePaging
+
++:  ld hl,_DATA_6FA3F_
+    ld bc,$0C0C
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_35E3_:
+    ld hl,_RAM_DB74_
+    ld de,$7A0C
+    ld bc,$0C0C
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_35EF_:
+    ld a,(InventoryCount)
+    dec a
+    and $18
+    ld h,a
+    ld l,$00
+    ld (_RAM_C299_),hl
+    call _LABEL_363B_
+    ld a,(InventoryCount)
+    or a
+    jp z,MenuWaitForButton
+    dec a
+    cp $08
+    ld l,$00
+    jr c,+
+    ld l,$01
+    ld a,$07
++:  and $07
+    add a,l
+    ld (CursorMax),a
+    ld hl,$796C
+    ld (CursorTileMapAddress),hl
+    ld hl,$0000
+    ld (CursorPos),hl
+    xor a
+    ld (CursorCounter),a
+    call _LABEL_2F0D_
+    ld l,a
+    ld a,(_RAM_C299_)
+    add a,l
+    ld hl,$C4C0
+    add a,l
+    ld l,a
+    ld (_RAM_C29B_),hl
+    ld a,(hl)
+    ld (ItemTableIndex),a
+    ret
+
+_LABEL_363B_:
+    ld hl,_RAM_DC04_
+    ld de,$78AC
+    ld bc,$1514
+    call InputTilemapRect
+_LABEL_3647_:
+    ld hl,Menu10Top
+    ld de,$78AC
+    ld bc,$0114
+    call OutputTilemapBoxWipePaging
+    call _LABEL_36E1_
+    ld a,(InventoryCount)
+    cp $09
+    ld hl,_DATA_6FAF7_
+    ld bc,$0214
+    call nc,OutputTilemapBoxWipePaging
+    ld hl,Frame2Paging
+    ld (hl),$02
+    ld a,(_RAM_C299_)
+    ld hl,Inventory
+    add a,l
+    ld l,a
+    ld b,$08
+-:  ld c,$00
+    call _LABEL_368A_
+    ld c,$01
+    call _LABEL_368A_
+    inc hl
+    djnz -
+    ld hl,Menu10Bottom
+    ld bc,$0114
+    call OutputTilemapBoxWipePaging
+    ret
+
+_LABEL_368A_:
+    di
+    push bc
+    push hl
+    push de
+    rst SetVRAMAddressToDE
+    ld l,(hl)
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld de,ItemTextTable
+    add hl,de
+    push af
+    pop af
+    ld a,$F3
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$11
+    out (VDPData),a
+    ld b,$08
+-:  ld a,(hl)
+    add a,a
+    add a,c
+    ld de,$8000
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+    ld a,(de)
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$10
+    out (VDPData),a
+    inc hl
+    djnz -
+    push af
+    pop af
+    ld a,$F3
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$13
+    out (VDPData),a
+    pop de
+    ld hl,$0040
+    add hl,de
+    ex de,hl
+    pop hl
+    pop bc
+    ei
+    ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    ret
+
+_LABEL_36D9_:
+    di
+    push de
+    rst SetVRAMAddressToDE
+    ld b,$0C
+    jp +
+
+_LABEL_36E1_:
+    di
+    push de
+    rst SetVRAMAddressToDE
+    ld b,$08
++:  ld hl,_DATA_3756_
+-:  ld a,(hl)
+    out (VDPData),a
+    inc hl
+    djnz -
+    ld hl,(Meseta)
+_LABEL_36F2_:
+    ld bc,$C010
+    ld de,$2710
+    ld a,$FF
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    call OutputDigit
+    ld de,$03E8
+    ld a,$FF
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    call OutputDigit
+    ld de,$0064
+    ld a,$FF
+-:  sbc hl,de
+    inc a
+    jr nc,-
+    add hl,de
+    call OutputDigit
+    ld d,$FF
+    ld a,l
+-:  sub $0A
+    inc d
+    jr nc,-
+    add a,$0A
+    ld l,a
+    ld a,d
+    call OutputDigit
+    ld d,$FF
+    ld a,l
+-:  sub $01
+    inc d
+    jr nc,-
+    ld a,d
+    ld bc,$C110
+    call OutputDigit
+_LABEL_373D_:
+    push af
+    pop af
+    ld a,$F3
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$13
+    out (VDPData),a
+    pop de
+    ld hl,$0040
+    add hl,de
+    ex de,hl
+    ei
+    ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    ret
+
+; Data from 3756 to 3761 (12 bytes)
+_DATA_3756_:
+.db $F3 $11 $EC $10 $D8 $10 $DA $10 $C0 $10 $C0 $10
+
+OutputDigit:
+    and $0F
+    jp z,+
+    ld bc,$C110
++:  add a,b
+    out (VDPData),a
+    push af
+    pop af
+    ld a,c
+    out (VDPData),a
+    ret
+
+_LABEL_3773_:
+    push bc
+    ld hl,_RAM_DC04_
+    ld de,$78AC
+    ld bc,$1514
+    call OutputTilemapBoxWipePaging
+    pop bc
+    ret
+
+_LABEL_3782_:
+    ld a,(PartySize)
+    or a
+    ret z
+    ld hl,_RAM_DDA8_
+    ld de,$7A44
+    ld bc,$090C
+    call InputTilemapRect
+    call +
+    ld hl,$7A84
+    ld (CursorTileMapAddress),hl
+    jp WaitForMenuSelection
+
+_LABEL_379F_:
+    ld a,(PartySize)
+    or a
+    ret z
+    ld hl,_RAM_DE14_
+    ld de,$7A54
+    ld bc,$090C
+    call InputTilemapRect
+    call +
+    ld hl,$7A94
+    ld (CursorTileMapAddress),hl
+    jp WaitForMenuSelection
+
++:  ld a,(PartySize)
+    or a
+    ret z
+    ld (CursorMax),a
+    inc a
+    add a,a
+    ld b,a
+    ld c,$0C
+    ld hl,_DATA_6FB1F_
+    call OutputTilemapBoxWipePaging
+    ld hl,_DATA_6FB7F_
+    ld bc,$010C
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_37D8_:
+    ld a,(PartySize)
+    or a
+    ret z
+    ld hl,_RAM_DDA8_
+    ld de,$7A44
+    ld bc,$090C
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_37E9_:
+    ld a,(PartySize)
+    or a
+    ret z
+    ld hl,_RAM_DE14_
+    ld de,$7A54
+    ld bc,$090C
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_37FA_:
+    ld hl,OldTileMapMenu
+    ld de,$7842
+    ld bc,$0B0C
+    call InputTilemapRect
+    ld hl,_DATA_6FB8B_
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_380C_:
+    ld hl,_DATA_6FB8B_
+    ld de,$7842
+    ld bc,$0B0C
+    jp OutputTilemapRect
+
+_LABEL_3818_:
+    ld hl,OldTileMapMenu
+    ld de,$7842
+    ld bc,$0B0C
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3824_:
+    push af
+    ld hl,OldTileMapEnemyName10x4
+    ld de,$7A8C
+    ld bc,$0814
+    call InputTilemapRect
+    ld hl,Menu10Top
+    ld de,$7A8C
+    ld bc,$0114
+    call OutputTilemapBoxWipePaging
+    pop af
+    push af
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld hl,Frame2Paging
+    ld (hl),$02
+    ld hl,CharacterStatsAlis.Weapon
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld b,$03
+-:  ld c,$00
+    call _LABEL_368A_
+    ld c,$01
+    call _LABEL_368A_
+    inc hl
+    djnz -
+    ld hl,Menu10Bottom
+    ld bc,$0114
+    call OutputTilemapBoxWipePaging
+    pop af
+    ret
+
+_LABEL_386A_:
+    ld hl,OldTileMapEnemyName10x4
+    ld de,$7A8C
+    ld bc,$0814
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3876_:
+    ld hl,_RAM_DE14_
+    ld de,$7A32
+    ld bc,$070A
+    call InputTilemapRect
+    ld hl,_DATA_6FC0F_
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3888_:
+    ld hl,_RAM_DE14_
+    ld de,$7A32
+    ld bc,$070A
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3894_:
+    ld hl,_RAM_DE14_
+    ld de,$7B48
+    ld bc,$050C
+    call InputTilemapRect
+    ld hl,_DATA_6FC55_
+    call OutputTilemapBoxWipePaging
+    ld hl,$7B88
+    ld (CursorTileMapAddress),hl
+    ld a,$01
+    ld (CursorMax),a
+    jp WaitForMenuSelection
+
+_LABEL_38B4_:
+    ld hl,_RAM_DE14_
+    ld de,$7B48
+    ld bc,$050C
+    jp OutputTilemapBoxWipePaging
+
+ShowMenuYesNo:
+    ld hl,OldTileMap5x5
+    ld de,$7B6A
+    ld bc,$050A
+    call InputTilemapRect
+    ld hl,MenuYesNo
+    call OutputTilemapBoxWipePaging
+    ld hl,$7BAA
+    ld (CursorTileMapAddress),hl
+    ld a,$01
+    ld (CursorMax),a
+    jp WaitForMenuSelection
+
+HideMenuYesNo:
+    ld hl,OldTileMap5x5
+    ld de,$7B6A
+    ld bc,$050A
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_38EC_:
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld hl,CharacterStatsAlis
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    push hl
+    pop ix
+    ld hl,_RAM_DC04_
+    ld de,$7920
+    ld bc,$0E18
+    call InputTilemapRect
+    ld hl,_DATA_6FCC3_
+    ld bc,$0118
+    call OutputTilemapBoxWipePaging
+    ld hl,_DATA_3982_
+    ld a,(ix+5)
+    call Output4CharsPlusStatWide
+    ld hl,_DATA_3992_
+    ld c,(ix+3)
+    ld b,(ix+4)
+    call _LABEL_319E_
+    ld hl,_DATA_6FCDB_
+    ld bc,$0118
+    call OutputTilemapBoxWipePaging
+    ld hl,_DATA_399E_
+    ld a,(ix+8)
+    call Output4CharsPlusStatWide
+    ld hl,_DATA_6FCDB_
+    ld bc,$0118
+    call OutputTilemapBoxWipePaging
+    ld hl,_DATA_39AE_
+    ld a,(ix+9)
+    call Output4CharsPlusStatWide
+    ld hl,_DATA_6FCDB_
+    ld bc,$0118
+    call OutputTilemapBoxWipePaging
+    ld hl,_DATA_39BE_
+    ld a,(ix+6)
+    call Output4CharsPlusStatWide
+    ld hl,_DATA_6FCDB_
+    ld bc,$0118
+    call OutputTilemapBoxWipePaging
+    ld hl,_DATA_39CE_
+    ld a,(ix+7)
+    call Output4CharsPlusStatWide
+    ld hl,_DATA_6FCF3_
+    ld bc,$0118
+    call OutputTilemapBoxWipePaging
+    call _LABEL_36D9_
+    ld hl,_DATA_6FD0B_
+    ld bc,$0118
+    jp OutputTilemapBoxWipePaging
+
+; Data from 3982 to 3991 (16 bytes)
+_DATA_3982_:
+.db $F3 $11 $FA $11 $FB $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+
+; Data from 3992 to 399D (12 bytes)
+_DATA_3992_:
+.db $F3 $11 $F7 $11 $F5 $11 $C0 $10 $C0 $10 $C0 $10
+
+; Data from 399E to 39AD (16 bytes)
+_DATA_399E_:
+.db $F3 $11 $D4 $10 $CD $10 $D3 $10 $D1 $10 $F2 $10 $FC $10 $D2 $10
+
+; Data from 39AE to 39BD (16 bytes)
+_DATA_39AE_:
+.db $F3 $11 $D6 $10 $FB $10 $E5 $10 $F2 $10 $FC $10 $D2 $10 $C0 $10
+
+; Data from 39BE to 39CD (16 bytes)
+_DATA_39BE_:
+.db $F3 $11 $D5 $10 $CC $10 $DA $10 $CC $10 $F4 $11 $F5 $11 $C0 $10
+
+; Data from 39CE to 39DD (16 bytes)
+_DATA_39CE_:
+.db $F3 $11 $D5 $10 $CC $10 $DA $10 $CC $10 $F6 $11 $F5 $11 $C0 $10
+
+_LABEL_39DE_:
+    ld hl,_RAM_DC04_
+    ld de,$7920
+    ld bc,$0E18
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_39EA_:
+    ld hl,OldTileMapMenu
+    ld de,$780C
+    ld bc,$0820
+    jp InputTilemapRect
+
+_LABEL_39F6_:
+    ld hl,_DATA_6FD23_
+    ld de,$780C
+    ld bc,$0120
+    call OutputTilemapBoxWipePaging
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld a,(RoomIndex)
+    and $1F
+    ld l,a
+    ld h,$00
+    add hl,hl
+    ld c,l
+    ld b,h
+    add hl,hl
+    add hl,hl
+    add hl,bc
+    ld bc,$B70D
+    add hl,bc
+    ld a,(hl)
+    ld (CursorMax),a
+    inc hl
+    push hl
+    ld b,$03
+-:  push bc
+    ld c,$00
+    push hl
+    call +
+    pop hl
+    ld c,$01
+    push hl
+    call +
+    pop hl
+    inc hl
+    inc hl
+    inc hl
+    pop bc
+    djnz -
+    ld hl,_DATA_6FD43_
+    ld bc,$0120
+    call OutputTilemapBoxWipePaging
+    ld hl,$788C
+    ld (CursorTileMapAddress),hl
+    call WaitForMenuSelection
+    ld hl,Frame2Paging
+    ld (hl),$03
+    pop hl
+    ld b,a
+    add a,a
+    add a,b
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ret
+
++:  di
+    push de
+    push hl
+    rst SetVRAMAddressToDE
+    ld a,$03
+    ld (Frame2Paging),a
+    ld a,(hl)
+    or a
+    jr nz,+
+    ld c,$00
++:  ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld de,$BD94
+    add hl,de
+    push af
+    pop af
+    ld a,$F3
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$11
+    out (VDPData),a
+    ld a,$02
+    ld (Frame2Paging),a
+    ld b,$08
+-:  ld a,(hl)
+    add a,a
+    add a,c
+    ld de,$8000
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+    ld a,(de)
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$10
+    out (VDPData),a
+    inc hl
+    djnz -
+    ld a,c
+    or a
+    ld b,$01
+    jr nz,_LABEL_3AA2_
+    ld b,$06
+_LABEL_3AA2_:
+    push af
+    pop af
+    ld a,$C0
+    out (VDPData),a
+    push af
+    pop af
+    ld a,$10
+    out (VDPData),a
+    djnz _LABEL_3AA2_
+    ld hl,Frame2Paging
+    ld (hl),$03
+    pop hl
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,c
+    or a
+    jp nz,_LABEL_36F2_
+    jp _LABEL_373D_
+
+_LABEL_3AC3_:
+    ld hl,OldTileMapMenu
+    ld de,$780C
+    ld bc,$0820
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3ACF_:
+    ld hl,OldTileMapEnemyName10x4
+    ld de,$786E
+    ld bc,$0C12
+    call InputTilemapRect
+GetSavegameSelection:
+    ld a,$08
+    ld (SRAMPaging),a
+    ld hl,SaveMenuTilemap
+    ld de,$786E
+    ld bc,$0C12
+    call OutputTilemapBoxWipe
+    ld a,$80
+    ld (SRAMPaging),a
+    ld hl,$78EE
+    ld (CursorTileMapAddress),hl
+    ld a,$04
+    ld (CursorMax),a
+    call WaitForMenuSelection
+    ld l,a
+    inc l
+    ld h,$00
+    ld (NumberToShowInText),hl
+    ret
+
+_LABEL_3B07_:
+    ld hl,OldTileMapEnemyName10x4
+    ld de,$786E
+    ld bc,$0C12
+    jp OutputTilemapBoxWipePaging
+
+_LABEL_3B13_:
+    push bc
+    ld hl,_RAM_D700_
+    ld de,$782C
+    ld bc,$0314
+    call InputTilemapRect
+    pop bc
+_LABEL_3B21_:
+    push bc
+    ld hl,Menu10Top
+    ld de,$782C
+    ld bc,$0114
+    call OutputTilemapBoxWipePaging
+    call _LABEL_36E1_
+    ld hl,Menu10Bottom
+    ld bc,$0114
+    call OutputTilemapBoxWipePaging
+    pop bc
+    ret
+
+_LABEL_3B3C_:
+    push bc
+    ld hl,_RAM_D700_
+    ld de,$782C
+    ld bc,$0314
+    call OutputTilemapBoxWipePaging
+    pop bc
+    ret
+
+_LABEL_3B4B_:
+    ld hl,_RAM_DE14_
+    ld de,$7AAA
+    ld bc,$080A
+    call InputTilemapRect
+    ld a,$03
+    ld (Frame2Paging),a
+    ld hl,_DATA_FEB2_
+    call OutputTilemapBoxWipe
+    ld hl,$7B2A
+    ld (CursorTileMapAddress),hl
+    ld a,$02
+    ld (CursorMax),a
+    call WaitForMenuSelection
+    push af
+    push bc
+    ld hl,_RAM_DE14_
+    ld de,$7AAA
+    ld bc,$080A
+    call OutputTilemapBoxWipePaging
+    pop bc
+    pop af
+    ret
+
+OutputTilemapBoxWipePaging:
+    ld a,:MenuTilemaps
+    ld (Frame2Paging),a
+    call OutputTilemapBoxWipe
+    ld a,:DialogueText
+    ld (Frame2Paging),a
+    ret
+
+OutputTilemapBoxWipe:
+    push bc
+    di
+    rst SetVRAMAddressToDE
+    ld b,c
+    ld c,VDPData
+-:  outi
+    jp nz,-
+    ex de,hl
+    ld bc,$0040
+    add hl,bc
+    ex de,hl
+    ei
+    ld a,$0A
+    call ExecuteFunctionIndexAInNextVBlank
+    pop bc
+    djnz OutputTilemapBoxWipe
+    ret
+
+OutputTilemapRect:
+    ld a,$1B
+    ld (Frame2Paging),a
+    di
+--:  push bc
+    rst SetVRAMAddressToDE
+    ld b,c
+    ld c,VDPData
+-:  outi
+    jp nz,-
+    ex de,hl
+    ld bc,$0040
+    add hl,bc
+    ex de,hl
+    pop bc
+    djnz --
+    ei
+    ld a,$02
+    ld (Frame2Paging),a
+    ret
+
+InputTilemapRect:
+    di
+    push bc
+    push de
+    res 6,d
+--:  push bc
+    rst SetVRAMAddressToDE
+    ld b,c
+    ld c,VDPData
+-:  ini
+    push af
+    pop af
+    jp nz,-
+    ex de,hl
+    ld bc,$0040
+    add hl,bc
+    ex de,hl
+    pop bc
+    djnz --
+    pop de
+    pop bc
+    ei
+    ret
+
+; Data from 3BE8 to 3CBF (216 bytes)
+DefaultSRAMData:
+; TODO: to stringmap
+.dw $11f1,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$13f1
+.dw $11f3,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c2,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c3,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c4,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c5,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10c6,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $15f1,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$17f1
+
+
+_LABEL_3CC0_:
+    ld a,(PauseFlag)
+    or a
+    call nz,DoPause
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(_RAM_C29D_)
+    or a
+    jp nz,_LABEL_3D3E_
+    ld a,(_RAM_C2DC_)
+    call _LABEL_63F9_
+    ld a,(SceneType)
+    sub $10
+    jr nc,+
+    xor a
++:  and $0F
+    ld hl,_DATA_3D4E_
+    call FunctionLookup
+_LABEL_3CE9_:
+    ld a,(SceneType)
+    sub $0F
+    jr nc,+
+    xor a
++:  and $0F
+    ld l,a
+    ld h,$00
+    ld de,$3E49
+    add hl,de
+    ld a,(hl)
+    or a
+    jr z,+
+    ld a,$D8
+    ld (NewMusic),a
++:  xor a
+    ld (_RAM_C29D_),a
+    ld (SceneType),a
+    ld (_RAM_C2D5_),a
+    ld hl,$0000
+    ld (RoomIndex),hl
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    ld a,(FunctionLookupIndex)
+    cp $0D
+    ret nz
+    ld a,(_RAM_C2E9_)
+    bit 7,a
+    jr z,+
+    ld a,$04
+    ld (FunctionLookupIndex),a
+    ret
+
++:  or a
+    ld a,$08
+    jr z,+
+    ld a,$0E
++:  ld (FunctionLookupIndex),a
+    ret
+
+_LABEL_3D3E_:
+    call _LABEL_627A_
+    call _LABEL_116B_
+    ld a,(CharacterSpriteAttributes)
+    or a
+    call nz,_LABEL_1D3D_
+    jp _LABEL_3CE9_
+
+; Jump Table from 3D4E to 3D75 (20 entries,indexed by SceneType)
+_DATA_3D4E_:
+.dw _LABEL_49A6_ _LABEL_49A6_ _LABEL_2AE9_ _LABEL_2AE9_ _LABEL_2BE1_ _LABEL_2BE1_ _LABEL_2D1C_ _LABEL_2D1C_
+.dw _LABEL_2DEB_ _LABEL_2DEB_ _LABEL_2DF4_ _LABEL_2DF4_ _LABEL_49A6_ _LABEL_49A6_ _LABEL_49A6_ _LABEL_49A6_
+.dw _LABEL_49A6_ _LABEL_49A6_ _LABEL_49A6_ _LABEL_49A6_
+
+_LABEL_3D76_:
+    ld a,$D6
+    ld (NewMusic),a
+    call FadeOutFullPalette
+    ld a,(_RAM_C308_)
+    or a
+    jr nz,+
+    ld a,(SceneType)
+    cp $05
+    jr nz,_LABEL_3DD1_
+    ld a,$04
+    ld (SceneType),a
+    jr _LABEL_3DD1_
+
++:  cp $01
+    jr nz,+
+    ld a,(SceneType)
+    cp $01
+    jr nz,_LABEL_3DD1_
+    ld a,$05
+    ld (SceneType),a
+    jr _LABEL_3DD1_
+
++:  cp $07
+    jr nz,+
+    ld a,(SceneType)
+    cp $01
+    jr nz,_LABEL_3DD1_
+    ld a,$05
+    ld (SceneType),a
+    jr _LABEL_3DD1_
+
++:  cp $08
+    jr nz,+
+    ld a,$06
+    ld (SceneType),a
+    jr _LABEL_3DD1_
+
++:  cp $0A
+    jr nz,_LABEL_3DD1_
+    ld a,(SceneType)
+    cp $09
+    jr nz,_LABEL_3DD1_
+    ld a,$08
+    ld (SceneType),a
+_LABEL_3DD1_:
+    ld a,(SceneType)
+    or a
+    jr nz,+
+    inc a
+    ld (SceneType),a
++:  call LoadSceneData
+    ld hl,Frame2Paging
+    ld (hl),$10
+    ld hl,TilesFont
+    ld de,$5800
+    call LoadTiles4BitRLE
+    ld hl,TilesExtraFont
+    ld de,$7E00
+    call LoadTiles4BitRLE
+    xor a
+    ld (VScroll),a
+    ld (HScroll),a
+    ld (CharacterSpriteAttributes),a
+    ld (_RAM_C2E9_),a
+    dec a
+    ld (SceneAnimEnabled),a
+    ld hl,$0000
+    ld (PaletteMoveDelay),hl
+    ld hl,$FF00
+    ld (AnimDelayCounter),hl
+    di
+    call EnemySceneTileAnimation
+    ei
+    ld a,(SceneType)
+    sub $0F
+    jr nc,+
+    xor a
++:  and $0F
+    ld l,a
+    ld h,$00
+    ld de,$3E49
+    add hl,de
+    ld a,(hl)
+    or a
+    jr z,+
+    ld (NewMusic),a
++:  ld hl,FunctionLookupIndex
+    inc (hl)
+    di
+    ld de,$8006
+    rst SetVRAMAddressToDE
+    ei
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    jp ClearSpriteTableAndFadeInWholePalette
+
+; Data from 3E41 to 3E48 (8 bytes)
+SpritePaletteStart:
+.db $00 $00 $3F $30 $38 $03 $0B $0F
+
+; Data from 3E49 to 3E49 (1 bytes)
+_DATA_3E49_:
+.db $00
+
+; Data from 3E4A to 3E59 (16 bytes)
+_DATA_3E4A_:
+.db $00 $00 $00 $00 $8D $8D $8E $8E $8E $8E $8E $8E $00 $00 $00 $00
+
+_LABEL_3E5A_:
+    cp $20
+    jr nc,+
+    add a,a
+    add a,a
+    add a,a
+    ld l,a
+    ld h,$00
+    ld de,_SceneData - 3
+    add hl,de
+    jp _LABEL_3EBA_
+
+LoadSceneData:
+    ld a,(SceneType)
+    cp $20
+    jr c,_LoadSceneData
++:  ld hl,TileMapData
+    ld de,TileMapData+2
+    ld bc,$05FE
+    ld (hl),$00
+    inc hl
+    ld (hl),$08
+    dec hl
+    ldir
+    xor a
+    ld (TextBox20x6Open),a
+    ret
+
+_LoadSceneData:
+    add a,a
+    add a,a
+    add a,a
+    ld l,a
+    ld h,$00
+    ld de,_SceneData-8
+    add hl,de
+    ld a,(hl)
+    ld (Frame2Paging),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    ld de,TargetPalette
+    ld bc,$0010
+    ldir
+    ld hl,SpritePaletteStart
+    ld c,$08
+    ldir
+    pop hl
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    ld de,$4000
+    call LoadTiles4BitRLE
+    pop hl
+    inc hl
+_LABEL_3EBA_:
+    xor a
+    ld (TextBox20x6Open),a
+    ld a,(hl)
+    ld (Frame2Paging),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp DecompressToTileMapData
+
+; Pointer Table from 3ECA to 3ECB (1 entries,indexed by SceneType)
+_SceneData:
+
+.macro SceneDataStruct ; structure holding scene data (palette,tiles and tilemap offsets)
+.db :Palette\1
+.dw Palette\1,Tiles\2
+.db :Tilemap\3
+.dw Tilemap\3
+.endm
+
+;                Palette            Tiles               Tilemap
+ SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaOpen         ; 01 Palma enemy (open)
+ SceneDataStruct PalmaForest       ,PalmaForest        ,PalmaForest       ; 02 Palma enemy (forest)
+ SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaSea          ; 03 Palma enemy (sea)
+ SceneDataStruct PalmaSea          ,PalmaSea           ,PalmaCoast        ; 04 Palma enemy (coast)
+ SceneDataStruct MotabiaOpen       ,MotabiaOpen        ,MotabiaOpen       ; 05 Motabia enemy
+ SceneDataStruct DezorisOpen       ,PalmaAndDezorisOpen,DezorisOpen       ; 06 Dezoris enemy
+ SceneDataStruct PalmaOpen         ,PalmaAndDezorisOpen,PalmaLavapit      ; 07 Palma enemy (lava pit)
+ SceneDataStruct PalmaTown         ,PalmaTown          ,PalmaTown         ; 08 Palma town
+ SceneDataStruct PalmaVillage      ,PalmaVillage       ,PalmaVillage      ; 09 Palma village
+ SceneDataStruct Spaceport         ,Spaceport          ,Spaceport         ; 0a Spaceport
+ SceneDataStruct DeadTrees         ,DeadTrees          ,DeadTrees         ; 0b Dead trees (?)
+ SceneDataStruct DezorisForest     ,PalmaForest        ,PalmaForest       ; 0c Dezoris forest
+ SceneDataStruct AirCastle         ,AirCastle          ,AirCastle         ; 0d
+ SceneDataStruct GoldDragon        ,GoldDragon         ,GoldDragon        ; 0e
+; The original rom is a bit odd here... the palette is in an unpaged area but a page number
+; must be given as part of the data structure... so they put $16. My macro puts 0,so I have
+; to do the data structure explicitly; the macro works 100% though.
+; SceneDataStruct AirCastleFull     ,AirCastle          ,AirCastle         ; 0f
+.db $16
+.dw PaletteAirCastleFull,TilesAirCastle
+ PageAndOffset TilemapAirCastle
+ SceneDataStruct BuildingEmpty     ,Building           ,BuildingEmpty     ; 10
+ SceneDataStruct BuildingWindows   ,Building           ,BuildingWindows   ; 11
+ SceneDataStruct BuildingHospital1 ,Building           ,BuildingHospital1 ; 12
+ SceneDataStruct BuildingHospital2 ,Building           ,BuildingHospital2 ; 13
+ SceneDataStruct BuildingChurch1   ,Building           ,BuildingChurch1   ; 14
+ SceneDataStruct BuildingChurch2   ,Building           ,BuildingChurch2   ; 15
+ SceneDataStruct BuildingArmoury1  ,Building           ,BuildingArmoury1  ; 16
+ SceneDataStruct BuildingArmoury2  ,Building           ,BuildingArmoury2  ; 17
+ SceneDataStruct BuildingShop1     ,Building           ,BuildingShop1     ; 18
+ SceneDataStruct BuildingShop2     ,Building           ,BuildingShop2     ; 19
+ SceneDataStruct BuildingShop3     ,Building           ,BuildingShop3     ; 1a
+ SceneDataStruct BuildingShop4     ,Building           ,BuildingShop4     ; 1b
+ SceneDataStruct BuildingDestroyed ,Building           ,BuildingDestroyed ; 1c
+ SceneDataStruct Mansion           ,Mansion            ,Mansion           ; 1d
+ SceneDataStruct LassicRoom        ,LassicRoom         ,LassicRoom        ; 1e
+ SceneDataStruct DarkForce         ,DarkForce          ,DarkForce         ; 1f
+PaletteAirCastleFull:
+.db $30 $00 $3F $0B $06 $1A $2F $2A $08 $15 $15 $0B $06
+.db $1A $2F $28 
+
+.db $A6 $8B $17 $EF $AA $6F $AB $17 $8E $8F $17 
+
+HandleNameEntry: ; 3fdd
+    ld a,(PauseFlag)             ; 003FDD 3A 12 C2
+    or a                         ; 003FE0 B7
+    call nz,DoPause              ; 003FE1 C4 1D 01
+
+    ld ix,NameEntryCursorX       ; 003FE4 DD 21 84 C7
+    ld a,$08                     ; 003FE8 3E 08         ; VBlankFunction_Menu
+    call ExecuteFunctionIndexAInNextVBlank ; 003FEA CD 56 00
+    call _DrawCursorSprites      ; 003FED CD 26 42
+    ld a,(Controls)              ; 003FF0 3A 05 C2
+
+    and P11 | P12                ; 003FF3 E6 30
+    jp z,_NameEntryNoButtonPressed ;03FF5 CA C8 40      ; not a button
+
+    and P11                      ; 003FF8 E6 10         ; which button?
+    jp nz,_Button1Pressed        ; 003FFA C2 3E 40
+
+_Button2Pressed:
+    ld a,(NameEntryCurrentlyPointed);3FFD 3A 88 C7      ; what is pointed?
+    cp $4e                       ; 004000 FE 4E         ; = Next
+    jr z,_MoveToNextChar         ; 004002 28 12
+    jr nc,_ControlChar           ; 004004 30 22         ; some other control char
+
+    ld de,(NameEntryCharIndex)   ; 004006 ED 5B 81 C7   ; else,it's a char. Get the address to write to (this opcode could have been ld e,(NameEntryCharIndex))
+    ld d,$c7                     ; 00400A 16 C7
+    ld (de),a                    ; 00400C 12
+    call _GetTileMapDataAddressForCharAInHL ; 00400D CD 78 42
+    ld a,(de)                    ; 004010 1A            ; retrieve value since the function killed it
+    di                           ; 004011 F3
+    call _WriteCharAToTileMapAndTileMapDataAtHL ; 004012 CD B5 42
+    ei                           ; 004015 FB
+
+_MoveToNextChar:
++:  ld a,(NameEntryMode)         ; 004016 3A 80 C7
+    ld c,$37                     ; 004019 0E 37         ; max = $37 for password
+    rra                          ; 00401B 1F
+    jr c,+                       ; 00401C 38 02
+    ld c,$25                     ; 00401E 0E 25         ; max = $25 nor name entry
++:  ld hl,NameEntryCharIndex
+    ld a,(hl)                    ; 004023 7E
+    cp c                         ; 004024 B9
+    ret z                        ; 004025 C8
+    inc (hl)                     ; 004026 34            ; increment index if < max
+    ret                          ; 004027 C9
+
+_ControlChar: ; 4028
+    cp $50                       ; 004028 FE 50         ; = OK
+    jr z,_OKSelected             ; 00402A 28 27
+
+_PrevSelected:
+    ld a,(NameEntryMode)         ; 00402C 3A 80 C7      ; name entry or password?
+    ld c,$00                     ; 00402F 0E 00         ; min = $00 for password
+    rra                          ; 004031 1F
+    jr c,+                       ; 004032 38 02
+    ld c,$21                     ; 004034 0E 21         ; min = $21 for name entry
++:  ld hl,NameEntryCharIndex     ; 004036 21 81 C7      ; decrement NameEntryCharIndex if > min
+    ld a,(hl)                    ; 004039 7E
+    cp c                         ; 00403A B9
+    ret z                        ; 00403B C8
+    dec (hl)                     ; 00403C 35
+    ret                          ; 00403D C9
+
+_Button1Pressed: ; 403e
+; delete current char and move cursor back
+    ld de,(NameEntryCharIndex)   ; 00403E ED 5B 81 C7   ; get pointed char
+    ld d,$c7                     ; 004042 16 C7
+    ld a,$00                     ; 004044 3E 00
+    ld (de),a                    ; 004046 12            ; zero it
+    call _GetTileMapDataAddressForCharAInHL ; 004047 CD 78 42
+    ld a,(de)                    ; 00404A 1A
+    di                           ; 00404B F3
+      call _WriteCharAToTileMapAndTileMapDataAtHL ; 00404C CD B5 42
+    ei                           ; 00404F FB
+    jp _PrevSelected             ; 004050 C3 2C 40
+
+_OKSelected:
+    ld a,(NameEntryMode)         ; 004053 3A 80 C7
+    rra                          ; 004056 1F
+    jr nc,_OKSelected_NameEntry  ; 004057 30 22
+
+_OKSelected_Password:            ; ####################### this section is unused
+    ld de,_PasswordLookupData    ; 004059 11 96 43   ; data
+    exx                          ; 00405C D9
+    ld b,$38                     ; 00405D 06 38
+    ld hl,$c700
+    ld de,$c740                  ; 004062 11 40 C7
+-:  ld a,(hl)                    ; 004065 7E         ; read byte
+    or a                         ; 004066 B7
+    jr z,+                       ; 004067 28 07
+
+    exx                          ; 004069 D9         ; if non-zero,look up corresponding byte in the table
+    ld l,a                       ; 00406A 6F
+    ld h,$00                     ; 00406B 26 00
+    add hl,de                    ; 00406D 19
+    ld a,(hl)                    ; 00406E 7E
+    exx                          ; 00406F D9
+
++:  ld (de),a                    ; 004070 12         ; write byte to de
+    inc hl                       ; 004071 23
+    inc de                       ; 004072 13
+    djnz -                       ; 004073 10 F0      ; repeat for $38 bytes
+
+    ld hl,FunctionLookupIndex
+    ld (hl),$0c                  ; 004078 36 0C      ; $3d76
+    ret                          ; 00407A C9
+
+_OKSelected_NameEntry:
+    ld hl,$c721                  ; 00407B 21 21 C7   ; copy entered name
+    ld de,$c778                  ; 00407E 11 78 C7   ; (why???)
+    ld bc,$0005                  ; 004081 01 05 00
+    ldir                         ; 004084 ED B0
+
+    ld hl,(NumberToShowInText)   ; 004086 2A C5 C2   ; still contains the slot number (1-5)
+    add hl,hl                    ; 004089 29
+    ld de,_SaveSlotNameTileAddresses-2 ; 00408A 11 BC 40   ; because it's a 1-based index
+    add hl,de                    ; 00408D 19
+    ld e,(hl)                    ; 00408E 5E
+    inc hl                       ; 00408F 23
+    ld d,(hl)                    ; 004090 56         ; de = slot address
+
+    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
+    ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
+
+    ld a,SRAMPagingOn            ; 004097 3E 08
+    ld (SRAMPaging),a            ; 004099 32 FC FF   ; page in SRAM
+    ldir                         ; 00409C ED B0      ; copy tiles to SRAM name section
+
+    ld c,$08                     ; 00409E 0E 08      ; move dest 8 bytes on
+    ex de,hl                     ; 0040A0 EB
+    add hl,bc                    ; 0040A1 09
+    ex de,hl                     ; 0040A2 EB
+    ld c,$36                     ; 0040A3 0E 36      ; move src 54 bytes on (bottom row of name)
+    add hl,bc                    ; 0040A5 09
+    ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
+    ldir                         ; 0040A8 ED B0
+
+    ld a,SRAMPagingOff           ; 0040AA 3E 80      ; page out SRAM
+    ld (SRAMPaging),a            ; 0040AC 32 FC FF
+
+    ld a,(xc316)                 ; 0040AF 3A 16 C3   ; ???
+    cp $0b                       ; 0040B2 FE 0B
+    ld a,$0a                     ; 0040B4 3E 0A      ; $10d9
+    jr z,+                       ; 0040B6 28 02
+    ld a,$0c                     ; 0040B8 3E 0C      ; $3d76
++:  ld (FunctionLookupIndex),a   ; 0040BA 32 02 C2   ; continue on to there
+    ret                          ; 0040BD C9
+
+_SaveSlotNameTileAddresses: ; $40be
+.dw $8118 $813c $8160 $8184 $81a8
+
+_NameEntryNoButtonPressed: ; 40c8
+    ld a,(Controls)              ; 0040C8 3A 05 C2
+    rra                          ; 0040CB 1F
+    jr c,_UpHeld            ; 0040CC 38 3E
+    rra                          ; 0040CE 1F
+    jr c,_DownHeld          ; 0040CF 38 52
+    rra                          ; 0040D1 1F
+    jr c,_LeftHeld          ; 0040D2 38 66
+    rra                          ; 0040D4 1F
+    jr c,_RightHeld         ; 0040D5 38 1E
+    ld a,(ControlsNew)           ; 0040D7 3A 04 C2
+    rra                          ; 0040DA 1F
+    jr c,_UpNew                  ; 0040DB 38 1F
+    rra                          ; 0040DD 1F
+    jr c,_DownNew                ; 0040DE 38 33
+    rra                          ; 0040E0 1F
+    jr c,_LeftNew                ; 0040E1 38 47
+    rra                          ; 0040E3 1F
+    ret nc                       ; 0040E4 D0
+
+_RightNew:
+    call _DecrementKeyRepeatCounter ;40E5 CD 7B 41
+    ret nz                       ; 0040E8 C0
+-:  ldbc $c8,+8                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
+    ld de,+2                     ; 0040EC 11 02 00      ; delta for tilemap address
+    ld iy,NameEntryCursorX       ; 0040EF FD 21 84 C7   ; which cursor sprite coordinate to change
+    jr _NameEntryDirectionPressed
+_RightHeld:
+    ld a,24                      ; 0040F5 3E 18
+    ld (NameEntryKeyRepeatCounter),a
+    jr -                         ; 0040FA 18 ED
+
+_UpNew:
+    call _DecrementKeyRepeatCounter ;40FC CD 7B 41
+    ret nz                       ; 0040FF C0
+-:  ldbc $68,-16                 ; 004100 01 F0 68
+    ld de,-$80                   ; 004103 11 80 FF
+    ld iy,NameEntryCursorY       ; 004106 FD 21 85 C7
+    jr _NameEntryDirectionPressed
+_UpHeld:
+    ld a,24
+    ld (NameEntryKeyRepeatCounter),a
+    jr -                         ; 004111 18 ED
+
+_DownNew:
+    call _DecrementKeyRepeatCounter ;4113 CD 7B 41
+    ret nz                       ; 004116 C0
+-:  ldbc $b8,+16                 ; 004117 01 10 B8
+    ld de,+$80                   ; 00411A 11 80 00
+    ld iy,NameEntryCursorY       ; 00411D FD 21 85 C7
+    jr _NameEntryDirectionPressed
+_DownHeld:
+    ld a,24
+    ld (NameEntryKeyRepeatCounter),a
+    jr -                         ; 004128 18 ED
+
+_LeftNew:
+    call _DecrementKeyRepeatCounter ;412A CD 7B 41
+    ret nz                       ; 00412D C0
+-:  ldbc $28,-8                  ; 00412E 01 F8 28
+    ld de,-2                     ; 004131 11 FE FF
+    ld iy,NameEntryCursorX       ; 004134 FD 21 84 C7
+    jr _NameEntryDirectionPressed
+_LeftHeld:
+    ld a,24
+    ld (NameEntryKeyRepeatCounter),a
+    jr -                         ; 00413F 18 ED
+
+
+    ; b = "stop" value
+    ; c = delta
+    ; de = delta VRAM address
+    ; iy = address of sprite coordinate to modify
+_NameEntryDirectionPressed:
+    ld a,(iy+$00)                ; 004141 FD 7E 00
+    cp b                         ; 004144 B8         ; compare coordinate to "stop" value
+    ret z                        ; 004145 C8         ; do nothing if equal
+    add a,c                      ; 004146 81
+    ld (iy+$00),a                ; 004147 FD 77 00   ; else add c
+
+    ld hl,(NameEntryCursorTileMapDataAddress)        ; add delta to value array pointer
+    add hl,de                    ; 00414D 19
+    ld (NameEntryCursorTileMapDataAddress),hl
+
+    ld a,(hl)                    ; 004151 7E
+    or a                         ; 004152 B7
+    jr z,_NameEntryDirectionPressed         ; repeat if a zero was pointed to -> cursor will snap to next valid position
+
+    cp (ix+$04)                  ; 004155 DD BE 04   ; or if it's equal to the existing value -> cursor will skip past control code selections
+    jr z,_NameEntryDirectionPressed
+
+    ld (NameEntryCurrentlyPointed),a;415A 32 88 C7   ; save value pointed
+
+    cp $4e                       ; 00415D FE 4E      ; check if it was a control char,in which case snap to its left char
+    ret c                        ; 00415F D8
+
+
+    ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
+    ld hl,$d5a2
+    jr z,+                       ; 004165 28 0C
+    cp $4f                       ; 004167 FE 4F
+    ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
+    ld c,$a8                     ; 00416B 0E A8
+    jr z,+                       ; 00416D 28 04
+    ld c,$c8                     ; 00416F 0E C8      ; default: jump to Save
+    ld l,$b2                     ; 004171 2E B2
+
++:  ld (NameEntryCursorTileMapDataAddress),hl
+    ld a,c                       ; 004176 79
+    ld (NameEntryCursorX),a      ; 004177 32 84 C7
+    ret                          ; 00417A C9
+
+
+; decrement keypress repeat counter,set to 5 if zero
+_DecrementKeyRepeatCounter: ; 417b
+    ld hl,$c789
+    dec (hl)                     ; 00417E 35
+    ret nz                       ; 00417F C0
+    ld (hl),$05                  ; 004180 36 05
+    ret                          ; 004182 C9
+
+LoadNameEntryScreen: ; $4183
+    call FadeOutFullPalette      ; 004183 CD A8 7D   ; go to name entry screen
+
+    TileMapAddressDE 0,0         ; 004186 11 00 78   ; clear name table
+    ld bc,$0300                  ; 004189 01 00 03
+    ld hl,$0000
+    di                           ; 00418F F3
+      call FillVRAMWithHL        ; 004190 CD FB 03
+    ei                           ; 004193 FB
+
+    ld hl,FunctionLookupIndex    ; 004194 21 02 C2   ; increment FunctionLookupIndex do it'll do the right thing after this function finishes
+    inc (hl)                     ; 004197 34
+
+    ld hl,NameEntryData          ; 004198 21 81 C7   ; blank NameEntryData block
+    ld (hl),$00                  ; 00419B 36 00
+    ld de,NameEntryData+1        ; 00419D 11 82 C7
+    ld bc,$007e                  ; 0041A0 01 7E 00
+    ldir                         ; 0041A3 ED B0
+
+    ld hl,TileMapData            ; 0041A5 21 00 D0   ; blank TileMapData
+    ld de,TileMapData+1          ; 0041A8 11 01 D0
+    ld bc,$0600                  ; 0041AB 01 00 06
+    ld (hl),$00                  ; 0041AE 36 00
+    ldir                         ; 0041B0 ED B0
+
+    call DecompressNameEntryTilemapData ; 0041B2 CD CC 42
+
+    ld hl,$c700                  ; 0041B5 21 00 C7   ; blank $c700-$c738
+    ld de,$c701                  ; 0041B8 11 01 C7
+    ld bc,$0037                  ; 0041BB 01 37 00
+    ld (hl),$00                  ; 0041BE 36 00
+    ldir                         ; 0041C0 ED B0
+
+    ld a,$21                     ; 0041C2 3E 21      ; starting point for name entry (see after next opcode)
+
+    ld hl,EnterYourNameRawTilemapData ; 041C4 21 E6 43   ; tilemap data
+
+    ld (NameEntryCharIndex),a    ; 0041C7 32 81 C7
+
+    ldbc 2,16                    ; 0041CA 01 10 02   ; ld bc,$0210
+    xor a                        ; 0041CD AF
+    ld (TileMapHighByte),a       ; 0041CE 32 10 C2   ; TileMapHighByte = 0
+    TileMapAddressDE 8,0         ; 0041D1 11 10 78   ; ld de,$7810
+    di                           ; 0041D4 F3
+      call OutputTilemapRawBxC   ; 0041D5 CD 0F 04
+    ei                           ; 0041D8 FB
+
+    TileMapAddressDE 0,3         ; 0041D9 11 C0 78   ; ld de,$78c0
+    ld hl,$d0c0                  ; 0041DC 21 C0 D0   ; offset in TileMapData for (0,3)
+    ld bc,$0540                  ; 0041DF 01 40 05   ; amount of data to copy
+    di                           ; 0041E2 F3
+      call OutputToVRAM          ; 0041E3 CD DE 03
+    ei                           ; 0041E6 FB
+
+    call _LoadTileMapDataWithCharValues ; 0041E7 CD 3B 43
+
+    ld hl,_NameEntryPalette      ; 0041EA 21 56 43   ; load wanted palette
+    ld de,TargetPalette          ; 0041ED 11 40 C2
+    ld bc,32                     ; 0041F0 01 20 00
+    ldir                         ; 0041F3 ED B0
+
+    TileAddressDE $100           ; 0041F5 11 00 60   ; ld de,$6000
+    ld hl,_NameEntryCursorSprite
+    ld bc,32                     ; 0041FB 01 20 00   ; load cursor sprite
+    di                           ; 0041FE F3
+      call OutputToVRAM          ; 0041FF CD DE 03
+    ei                           ; 004202 FB
+
+    ld de,NameEntryCursorX       ; 004203 11 84 C7
+    ld hl,_NameEntryCursorInitialValues
+    ld bc,_NameEntryCursorInitialValuesEnd-_NameEntryCursorInitialValues ; load cursor initial values
+    ldir                         ; 00420C ED B0
+
+    xor a                        ; 00420E AF         ; zero some stuff
+    ld (VScroll),a               ; 00420F 32 04 C3
+    ld (HScroll),a               ; 004212 32 00 C3
+    ld (TextBox20x6Open),a       ; 004215 32 D3 C2
+
+    ld de,$8006                  ; 004218 11 06 80
+    di                           ; 00421B F3
+    SetVRAMAddressToDE           ; 00421C CF
+    ei                           ; 00421D FB
+    jp ClearSpriteTableAndFadeInWholePalette         ; and ret
+
+
+
+_NameEntryCursorInitialValues: ; 4221
+.db $28 ; selected char cursor sprite X
+.db $68 ; selected char cursor sprite Y
+.dw $D30A ; selected char TileMapData address (5,12)
+.db $01 ; currently pointed char
+_NameEntryCursorInitialValuesEnd:
+
+
+_DrawCursorSprites: ; 4226
+; sets sprites for cursors
+    call _GetTileMapDataAddressForCharAInHL          ; get address of editing char tile for "current tile" indicator
+    ld de,$3040                  ; 004229 11 40 30   ; $3000 means it'll wipe out the $D000 prefix,$40 is because we want a constant offset of 1 row (the cursor is exactly below the relevant tile)
+    add hl,de                    ; 00422C 19         ; add them on and multiply by 4 to get h = row number + 1,l = pixel x coordinate
+    add hl,hl                    ; 00422D 29
+    add hl,hl                    ; 00422E 29
+    ld de,SpriteTable            ; 00422F 11 00 C9
+    ld a,h                       ; 004232 7C         ; now a = row number in tilemap,but for a sprite it's a pixel count -> multiply by 8
+    add a,a                      ; 004233 87
+    add a,a                      ; 004234 87
+    add a,a                      ; 004235 87
+    ld (de),a                    ; 004236 12         ; set y coordinate of first sprite to that
+
+    ld a,(NameEntryCurrentlyPointed);4237 3A 88 C7
+    cp $4e                       ; 00423A FE 4E      ; is it a control char?
+
+    ld a,(NameEntryCursorY)      ; 00423C 3A 85 C7
+    inc de                       ; 00423F 13
+    ld (de),a                    ; 004240 12         ; set y coordinate for selection cursor
+    jr c,+                       ; 004241 38 04      ; and another 2 if it's a control code since they're 3 chars wide
+    inc e                        ; 004243 1C
+    ld (de),a                    ; 004244 12
+    inc e                        ; 004245 1C
+    ld (de),a                    ; 004246 12
++:  inc e                        ; 004247 1C
+    ld a,208                     ; 004248 3E D0      ; terminate sprites
+    ld (de),a                    ; 00424A 12
+
+    ld e,$80                     ; 00424B 1E 80      ; move to x coordinates
+    ex de,hl                     ; 00424D EB
+    ld a,e                       ; 00424E 7B         ; current char x coordinate
+    ld bc,$0300                  ; 00424F 01 00 03   ; b = maximum width of cursor (3),c = sprite number for cursor (0)
+    ld (hl),a                    ; 004252 77         ; set current char sprite x
+    inc l                        ; 004253 2C
+    ld (hl),c                    ; 004254 71         ; set sprite tile
+    ld a,(NameEntryCursorX)      ; 004255 3A 84 C7   ; load cursor x
+-:  inc l                        ; 004258 2C
+    ld (hl),a                    ; 004259 77         ; set sprite x,
+    inc l                        ; 00425A 2C
+    ld (hl),c                    ; 00425B 71         ; tile number
+    sub $08                      ; 00425C D6 08
+    djnz -                                           ; repeat for full-width cursor
+    ret                          ; 004260 C9
+
+
+_DrawEntirePassword: ; $4261
+; Orphaned code to draw the 56-char password on-screen ###############
+    ld hl,NameEntryCharIndex
+    ld (hl),$38                  ; 004264 36 38      ; past end of password
+    ld d,$c7                     ; 004266 16 C7
+-:  dec (hl)                     ; 004268 35         ; so now it's the end of the password
+    ret m                        ; 004269 F8         ; quit when we get to offset -1
+    ld e,(hl)                    ; 00426A 5E         ; de = current char in TileMapData
+    push hl                      ; 00426B E5
+      call _GetTileMapDataAddressForCharAInHL ; 00426C CD 78 42
+      ld a,(de)                  ; 00426F 1A
+      push de                    ; 004270 D5
+        call _WriteCharAToTileMapDataAtHL ; 004271 CD 9B 42
+      pop de                     ; 004274 D1
+    pop hl                       ; 004275 E1
+    jr -                         ; 004276 18 F0
+
+
+
+_GetTileMapDataAddressForCharAInHL: ; 4278
+    ld a,(NameEntryCharIndex)    ; 004278 3A 81 C7   ; current editing char
+    ld hl,$d146                  ; 00427B 21 46 D1   ; a < 24 -> hl = $d146 = (3,5)
+    sub $18                      ; 00427E D6 18
+    jr c,+                       ; 004280 38 0B
+    ld l,$c6                     ; 004282 2E C6      ; 25 < a < 48 -> hl = $d1c6 = (3,7)
+    sub $18                      ; 004284 D6 18
+    jr c,+                       ; 004286 38 05
+    ld hl,$d246                  ; 004288 21 46 D2   ; a > 49 -> hl = $d246 = (3,9)
+    sub $18                      ; 00428B D6 18
++:  add a,$18                    ; 00428D C6 18      ; a = x position in this row
+    ld c,a                       ; 00428F 4F
+    add a,a                      ; 004290 87
+    add a,l                      ; 004291 85
+    ld l,a                       ; 004292 6F         ; hl += a*2,now points to TileMapData address for currently editing char
+
+    ld a,c                       ; 004293 79
+    rra                          ; 004294 1F
+    rra                          ; 004295 1F         ; a /= 4
+    and $06                      ; 004296 E6 06      ; now it'll be 0,2 or 4 for each of the 3 sections of the row
+    add a,l                      ; 004298 85         ; add that on -> 1 char gap every 8 chars
+    ld l,a                       ; 004299 6F
+    ret                          ; 00429A C9
+
+_WriteCharAToTileMapDataAtHL: ; 429b
+    push hl                      ; 00429B E5
+      ex de,hl                   ; 00429C EB         ; save hl
+      ld hl,Frame2Paging         ; 00429D 21 FF FF   ; map in bank 2
+      ld (hl),2                  ; 0042A0 36 02
+      ld hl,TileNumberLookup     ; 0042A2 21 00 80   ; look up tilemap data for char a
+      ld c,a                     ; 0042A5 4F
+      ld b,$00                   ; 0042A6 06 00
+      add hl,bc                  ; 0042A8 09
+      add hl,bc                  ; 0042A9 09
+      ld c,(hl)                  ; 0042AA 4E
+      inc hl                     ; 0042AB 23
+      ld a,(hl)                  ; 0042AC 7E
+      ld (de),a                  ; 0042AD 12         ; write lower char to de
+      ld hl,-$40
+      add hl,de                  ; 0042B1 19         ; write upper char 1 row above
+      ld (hl),c                  ; 0042B2 71
+    pop hl                       ; 0042B3 E1
+    ret                          ; 0042B4 C9
+
+_WriteCharAToTileMapAndTileMapDataAtHL: ; 42b5
+    call _WriteCharAToTileMapDataAtHL ; 0042B5 CD 9B 42
+    ld b,a                       ; 0042B8 47
+    ld a,h                       ; 0042B9 7C         ; convert hl to the corresponding tilemap address
+    sub $58                      ; 0042BA D6 58
+    ld h,a                       ; 0042BC 67
+    ex de,hl                     ; 0042BD EB
+    SetVRAMAddressToDE           ; 0042BE CF
+    ld a,b                       ; 0042BF 78
+    out (VDPData),a              ; 0042C0 D3 BE      ; write lower part
+    ld hl,-$40
+    add hl,de                    ; 0042C5 19
+    ex de,hl                     ; 0042C6 EB
+    SetVRAMAddressToDE           ; 0042C7 CF
+    ld a,c                       ; 0042C8 79
+    out (VDPData),a              ; 0042C9 D3 BE      ; write upper part
+    ret                          ; 0042CB C9
+
+; Decompress data from NameEntryTilemapData to TileMapData(0,6)
+DecompressNameEntryTilemapData: ; $42cc
+    ld hl,NameEntryTilemapData
+    ld de,TileMapData+32*6       ; 0042CF 11 C0 D0   ; location 0,6
+
+--: ld a,(hl)                    ; 0042D2 7E         ; read byte n
+    inc hl                       ; 0042D3 23
+    or a                         ; 0042D4 B7
+    jr z,+++                     ; 0042D5 28 2B      ; zero = end
+    jp p,++                      ; 0042D7 F2 F8 42   ; bit 7 unset = RLE
+    bit 6,a                      ; 0042DA CB 77
+    jr nz,+                      ; 0042DC 20 0D      ; bit 6 set = raw data
+
+    and $3f                      ; 0042DE E6 3F      ; else RLE incrementing series
+    ld b,a                       ; 0042E0 47
+    ld a,(hl)                    ; 0042E1 7E         ; write (next byte) up to (next byte + n&$3f)
+-:  ld (de),a                    ; 0042E2 12
+    inc de                       ; 0042E3 13         ; skip 1 byte
+    inc de                       ; 0042E4 13
+    inc a                        ; 0042E5 3C         ; increment value
+    djnz -                       ; 0042E6 10 FA      ; repeat
+    inc hl                       ; 0042E8 23
+    jr --                        ; 0042E9 18 E7
+
++:  and $3f                      ; 0042EB E6 3F      ; raw
+    ld c,a                       ; 0042ED 4F         ; n&$3f = count
+    ld b,$00                     ; 0042EE 06 00
+-:  ldi                          ; 0042F0 ED A0      ; write data
+    inc de                       ; 0042F2 13
+    jp pe,-                      ; 0042F3 EA F0 42   ; repeat until bc == -1
+    jr --                        ; 0042F6 18 DA
+
+++: ld b,a                       ; 0042F8 47
+    ld a,(hl)                    ; 0042F9 7E         ; write (next byte) n times
+-:  ld (de),a                    ; 0042FA 12
+    inc de                       ; 0042FB 13
+    inc de                       ; 0042FC 13
+    djnz -                       ; 0042FD 10 FB
+    inc hl                       ; 0042FF 23
+    jr --                        ; 004300 18 D0
+
++++:ld hl,$d102                  ; 004302 21 02 D1   ; where to write to (1,4)
+    ld de,$f301                  ; 004305 11 01 F3   ; tile data to write (vertical bar,left)
+    call _DrawVerticalLine       ; 004308 CD 28 43
+
+    inc hl                       ; 00430B 23
+    ldbc $1d,5                   ; 00430C 01 05 1D   ; flip bottom edge vertically
+    call _SetLineFlip            ; 00430F CD 35 43
+
+    ld (hl),$07                  ; 004312 36 07      ; flip bottom-right corner
+    ld hl,$d0fd                  ; 004314 21 FD D0   ; (30,3)
+    ld (hl),$03                  ; 004317 36 03      ; flip top-right corner
+    ld hl,$d0c3                  ; 004319 21 C3 D0   ; (1,3)
+    ldbc $1d,1                   ; 00431C 01 01 1D   ; no flip on top edge,but it's still the high tileset
+    call _SetLineFlip            ; 00431F CD 35 43
+    ld hl,$d13c                  ; 004322 21 3C D1   ; (1,7)
+    ld de,$f303                  ; 004325 11 03 F3   ; vertical bar,right
+    ; fall through
+
+_DrawVerticalLine: ; 4328
+; draws data de to address hl every 32 words,for a rows
+    ld a,$13                     ; 004328 3E 13
+    ld bc,$003f                  ; 00432A 01 3F 00   ; amount to jump in between (draw every 32nd tile)
+-:  ld (hl),d                    ; 00432D 72
+    inc l                        ; 00432E 2C
+    ld (hl),e                    ; 00432F 73
+    add hl,bc                    ; 004330 09
+    dec a                        ; 004331 3D
+    jr nz,-                      ; 004332 20 F9
+    ret                          ; 004334 C9
+
+_SetLineFlip: ; 4335
+; draws tile flipping data c to hl for b tiles (skipping tile numbers in-between)
+    ld (hl),c                    ; 004335 71
+    inc l                        ; 004336 2C
+    inc l                        ; 004337 2C
+    djnz _SetLineFlip            ; 004338 10 FB
+    ret                          ; 00433A C9
+
+_LoadTileMapDataWithCharValues: ; 433b
+    ld hl,NameEntryCharValues    ; 00433B 21 8C 44   ; data
+    ld de,$d30a                  ; 00433E 11 0A D3   ; location in RAM tilemap copy (5,12)
+    ld a,$06                     ; 004341 3E 06      ; number of rows
+--: ld bc,21                     ; 004343 01 15 00   ; write out 21 bytes
+-:  ldi                          ; 004346 ED A0      ; output
+    inc de                       ; 004348 13         ; skip 1
+    jp pe,-                      ; 004349 EA 46 43   ; repeat
+    ex de,hl                     ; 00434C EB
+    ld bc,$0056                  ; 00434D 01 56 00   ; skip on by 86 bytes so we're at the start of the next row
+    add hl,bc                    ; 004350 09
+    ex de,hl                     ; 004351 EB
+    dec a                        ; 004352 3D
+    jr nz,--                     ; 004353 20 EE      ; repeat for all rows
+    ret                          ; 004355 C9
+
+_NameEntryPalette: ; 4356
+.db $00 $00 $3F $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+.db $00 $3C $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+
+_NameEntryCursorSprite: ; 4376
+.db $FF $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+
+_PasswordLookupData: ; 4396
+; unused,does nothing? ##################
+.db $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A $0B $0C $0D $0E $0F $10
+.db $11 $12 $13 $14 $15 $16 $17 $18 $19 $1A $1B $1C $1D $1E $1F $20
+.db $21 $22 $23 $24 $25 $26 $27 $28 $29 $2A $2B $2C $2D $2E $2F $30
+.db $31 $32 $33 $34 $35 $36 $37 $38 $39 $3A $3B $3C $3D $3E $3F $40
+.db $41 $42 $43 $44 $45 $46 $47 $48 $49 $4A $4B $4C $4D $4E $4F $50
+
+EnterYourNameRawTilemapData: ; $43e6
+; text at top of screen "Enter your name"
+.db $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $C0 $FD $C0 $C0 $C0
+.db $DF $E9 $CE $F7 $C0 $DE $CD $F5 $D2 $D6 $DD $D2 $DA $D5 $CC $FE
+
+NameEntryTilemapData: ; $4406
+; draw letter selection tilemap
+; missing vertical box lines to save a few bytes by drawing them in code
+; no tile flipping data,that's fixed up in code
+.db $c2 $c0 $f1 $1c $f2 $01 $f1 $61 $c0 $75 $c0 $20 $c0 $05 $fd $0b $c0 $85 $cb $03 $c0 $85 $e9 $03 $c0 $85 $d0 $1b $c0 $05 $fd $0b
+.db $c0 $85 $d0 $03 $c0 $c5 $ee $c0 $ef $c0 $f0 $03 $c0 $85 $d5 $1b $c0 $05 $fd $0b $c0 $85 $d5 $03 $c0 $85 $f1 $03 $c0 $85 $da $1b
+.db $c0 $05 $fd $0b $c0 $85 $da $03 $c0 $c5 $f6 $c0 $f7 $c0 $f8 $03 $c0 $85 $e4 $1b $c0 $05 $fe $0b $c0 $85 $df $03 $c0 $c5 $fa $fb
+.db $fc $f9 $ff $03 $c0 $85 $e4 $1a $c0 $01 $fd $10 $c0 $85 $e4 $05 $c0 $cb $d7 $d7 $eb $c0 $ed $de $f3 $c0 $cf $f6 $f3 $07 $c0 $01
+.db $f1 $1c $f2 $01 $f1 $00
+
+NameEntryCharValues: ; 448c
+; character codes corresponding to the tiles being shown
+; but only 21 per row
+; also note prev/next/save text at bottom right
+.db $01 $02 $03 $04 $05 $00 $00 $00 $1F $20 $21 $22 $23 $00 $00 $00 $33 $34 $35 $36 $37
+.db $06 $07 $08 $09 $0A $00 $00 $00 $24 $00 $25 $00 $26 $00 $00 $00 $38 $39 $3A $3B $3C
+.db $0B $0C $0D $0E $0F $00 $00 $00 $27 $28 $29 $2A $2B $00 $00 $00 $3D $3E $3F $40 $41
+.db $10 $11 $12 $13 $14 $00 $00 $00 $2C $00 $2D $00 $2E $00 $00 $00 $42 $43 $44 $45 $46
+.db $15 $16 $17 $18 $19 $00 $00 $00 $30 $31 $32 $2F $4D $00 $00 $00 $47 $48 $49 $4A $4B
+.db $1A $1B $1C $1D $1E $00 $00 $00 $4E $4E $4E $4E $4E $00 $4F $4F $4F $4F $50 $50 $50
+
+IntroSequence:
+    ld a,$D7
+    ld (NewMusic),a
+    call FadeOutFullPalette
+    ld hl,Frame2Paging
+    ld (hl),$17
+    ld hl,PaletteSpace
+    ld de,TargetPalette
+    ld bc,$0011
+    ldir
+    ld hl,TilesSpace
+    ld de,$4000
+    call LoadTiles4BitRLE
+    ld hl,Frame2Paging
+    ld (hl),$1C
+    ld hl,TilemapSpace
+    call DecompressToTileMapData
+    ld hl,TileMapData
+    ld de,TileMapData+12*32*2
+    ld bc,12*32*2
+    ldir
+    ld hl,TileMapData
+    ld bc,4*32*2
+    ldir
+    xor a
+    ld (HScroll),a
+    ld a,$80
+    ld (VScroll),a
+    ld hl,TileMapData
+    ld de,$7800
+    ld bc,$0700
+    di
+    call OutputToVRAM
+    ei
+    ld a,$8C
+    ld (NewMusic),a
+    call FadeInWholePalette
+    ld a,$02
+    ld (ScrollDirection),a
+    ld a,$02
+    ld (ScrollScreens),a
+-:  ld a,$0E
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(Controls)
+    and $30
+    jr nz,+
+    call _LABEL_4611_
+    ld a,(ScrollScreens)
+    cp $01
+    jr nz,-
+    ld a,(VScroll)
+    cp $80
+    jr nz,-
+    call Pause3Seconds
++:  xor a
+    ld (ScrollDirection),a
+    ld (ScrollScreens),a
+    call FadeOutFullPalette
+    ld a,$08
+    ld (SceneType),a
+    call LoadSceneData
+    ld hl,Frame2Paging
+    ld (hl),$10
+    ld hl,TilesFont
+    ld de,$5800
+    call LoadTiles4BitRLE
+    ld hl,TilesExtraFont
+    ld de,$7E00
+    call LoadTiles4BitRLE
+    ld hl,_DATA_43F5E_
+    ld de,$5700
+    call LoadTiles4BitRLE
+    xor a
+    ld (VScroll),a
+    ld (HScroll),a
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_FF02_
+    ld de,$7886
+    ld bc,$051E
+    call OutputTilemapBoxWipe
+    call Pause3Seconds
+    call _LABEL_48D7_
+    ld a,$00
+    call _LABEL_492C_
+    ld hl,_DATA_B8BF_
+    call ShowNarrativeText
+    ld a,$01
+    call _LABEL_492C_
+    ld hl,_DATA_B90F_
+    call ShowNarrativeText
+    ld a,$02
+    call _LABEL_492C_
+    ld hl,_DATA_BA08_
+    call ShowNarrativeText
+    ld a,$D7
+    ld (NewMusic),a
+    ret
+
+_LABEL_4611_:
+    ld de,$0001
+    ld a,(VScroll)
+    add a,e
+    cp $E0
+    jr c,+
+    ld d,$01
+    add a,$20
++:  ld (VScroll),a
+    ld a,(ScrollScreens)
+    sub d
+    ld (ScrollScreens),a
+    cp $01
+    ret nz
+    ld a,d
+    or a
+    ret z
+    ld hl,TilemapBottomPlanet
+    jp DecompressToTileMapData
+
+_LABEL_4636_:
+    call _LABEL_48D7_
+    ld a,$8A
+    ld (NewMusic),a
+    ld a,$03
+    call _LABEL_492C_
+    ld hl,_DATA_BA43_
+    call ShowNarrativeText
+    ld a,$04
+    call _LABEL_492C_
+    ld hl,_DATA_BA69_
+    call ShowNarrativeText
+    ld a,$03
+    call _LABEL_492C_
+    ld hl,_DATA_BA6E_
+    call ShowNarrativeText
+    ld a,$04
+    call _LABEL_492C_
+    ld hl,_DATA_BA96_
+    call ShowNarrativeText
+    ld a,$03
+    call _LABEL_492C_
+    ld hl,_DATA_BAD2_
+    call ShowNarrativeText
+    ld a,$D8
+    ld (NewMusic),a
+    ret
+
+_LABEL_467B_:
+    call _LABEL_48D7_
+    ld a,$8A
+    ld (NewMusic),a
+    ld a,$05
+    call _LABEL_492C_
+    ld hl,_DATA_BAF3_
+    call ShowNarrativeText
+    ld a,$03
+    call _LABEL_492C_
+    ld hl,_DATA_BB29_
+    call ShowNarrativeText
+    ld a,$05
+    call _LABEL_492C_
+    ld hl,_DATA_BB64_
+    call ShowNarrativeText
+    ld a,$03
+    call _LABEL_492C_
+    ld hl,_DATA_BB95_
+    call ShowNarrativeText
+    ld a,$05
+    call _LABEL_492C_
+    ld hl,_DATA_BBAF_
+    call ShowNarrativeText
+    call FadeOutFullPalette
+    call _LABEL_114F_
+    ld a,$D8
+    ld (NewMusic),a
+    jp FadeInWholePalette
+
+_LABEL_46C8_:
+    call _LABEL_48D7_
+    ld a,$8A
+    ld (NewMusic),a
+    ld a,$03
+    ld hl,CharacterStatsAlis
+    bit 0,(hl)
+    jr nz,+
+    ld a,$05
+    ld hl,CharacterStatsOdin
+    bit 0,(hl)
+    jr nz,+
+    ld a,$04
++:  call _LABEL_492C_
+    ld hl,_DATA_BC18_
+    call ShowNarrativeText
+    ld a,$06
+    call _LABEL_492C_
+    ld hl,_DATA_BC3E_
+    call ShowNarrativeText
+    ld a,$D8
+    ld (NewMusic),a
+    ret
+
+_LABEL_46FE_:
+    ld a,(_RAM_C309_)
+    cp $17
+    jr nz,+
+    call _LABEL_477E_
+    ld hl,_DATA_477B_
+    jp _LABEL_4770_
+
++:  call _LABEL_48D7_
+    ld a,$8A
+    ld (NewMusic),a
+    ld a,$07
+    call _LABEL_492C_
+    ld hl,_DATA_BCA8_
+    call ShowNarrativeText
+    ld a,$08
+    call _LABEL_492C_
+    ld hl,_DATA_BCD8_
+    call ShowNarrativeText
+    call _LABEL_477E_
+    ld a,$0E
+    ld (SceneType),a
+    call LoadSceneData
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    ld hl,TargetPalette+16
+    ld b,$10
+-:  ld (hl),$30
+    inc hl
+    djnz -
+    call FadeInWholePalette
+    call MenuWaitHalfSecond
+    ld hl,Frame2Paging
+    ld (hl),$0B
+    ld hl,_DATA_2C000_
+    ld de,TargetPalette+16
+    ld bc,$0008
+    ldir
+    ld a,$46
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    call _LABEL_116B_
+    ld a,(FunctionLookupIndex)
+    cp $02
+    ret z
+    ld hl,_DATA_4778_
+_LABEL_4770_:
+    ld a,$08
+    ld (FunctionLookupIndex),a
+    jp _LABEL_7B1E_
+
+; Data from 4778 to 477A (3 bytes)
+_DATA_4778_:
+.db $17 $28 $1F
+
+; Data from 477B to 477D (3 bytes)
+_DATA_477B_:
+.db $00 $40 $4C
+
+_LABEL_477E_:
+    call FadeOutFullPalette
+    ld a,$0F
+    ld (SceneType),a
+    call LoadSceneData
+    ld hl,Frame2Paging
+    ld (hl),$16
+    ld hl,_DATA_5B9D8_
+    ld de,TargetPalette+16+1
+    ld bc,$000F
+    ldir
+    ld hl,_DATA_5B9E7_
+    ld de,$6000
+    call LoadTiles4BitRLE
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$15
+    ld (CharacterSpriteAttributes),a
+    call _LABEL_1A15_
+    jp FadeOutFullPalette
+
+_LABEL_47B5_:
+    call FadeOutFullPalette
+    ld a,$D0
+    ld (SpriteTable),a
+    ld a,$8B
+    ld (NewMusic),a
+    ld a,$0D
+    ld (SceneType),a
+    call LoadSceneData
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld b,$00
+    call PauseBFrames
+    call _LABEL_7F82_
+    ld hl,_DATA_B7CF_
+    call TextBox20x6
+    call Pause256Frames
+    ld hl,_DATA_B7F4_
+    call TextBox20x6
+    call Pause256Frames
+    ld hl,_DATA_B813_
+    call TextBox20x6
+    call Pause256Frames
+    call Close20x6TextBox
+    call _LABEL_48D7_
+    ld a,$03
+    call _LABEL_492C_
+    ld hl,_DATA_BD25_
+    call ShowNarrativeText
+    ld a,$05
+    call _LABEL_492C_
+    ld hl,_DATA_BD30_
+    call ShowNarrativeText
+    ld a,$06
+    call _LABEL_492C_
+    ld hl,_DATA_BD3C_
+    call ShowNarrativeText
+    ld a,$04
+    call _LABEL_492C_
+    ld hl,_DATA_BD46_
+    call ShowNarrativeText
+    ld a,$03
+    call _LABEL_492C_
+    ld hl,_DATA_BD55_
+    call ShowNarrativeText
+    call FadeOutFullPalette
+    ld hl,Frame2Paging
+    ld (hl),$1F
+    ld hl,_DATA_7D676_
+    ld de,TargetPalette
+    ld bc,$0011
+    ldir
+    ld hl,_DATA_7D687_
+    ld de,$4000
+    call LoadTiles4BitRLE
+    ld hl,Frame2Paging
+    ld (hl),$18
+    ld hl,TileMapData
+    ld de,TileMapData + 1
+    ld bc,$0600
+    ld (hl),$00
+    ldir
+    ld hl,_DATA_625E0_
+    ld de,_RAM_D0D4_
+    ld bc,$1316
+    call _LABEL_7107_
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    call Pause256Frames
+    call Pause256Frames
+    ld hl,$3DF7
+    ld (_RAM_C30C_),hl
+    xor a
+    ld (_RAM_C30A_),a
+    call _LABEL_68BF_
+    ld hl,Frame2Paging
+    ld (hl),$0F
+    ld hl,_DATA_3FDEE_
+    ld de,$5820
+    call LoadTiles4BitRLE
+    ld a,$01
+    ld (_RAM_C2F5_),a
+    ld a,$91
+    ld (NewMusic),a
+    ld hl,_DATA_FF98_
+-:  ld a,$03
+    ld (Frame2Paging),a
+    ld a,(hl)
+    cp $FF
+    jr z,++
+    cp $0F
+    jr nz,+
+    ld b,$B4
+    call PauseBFrames
+    inc hl
+    jr -
+
++:  push hl
+    ld (ControlsNew),a
+    call _LABEL_6891_
+    pop hl
+    inc hl
+    jr -
+
+++:  ld a,$D7
+    ld (NewMusic),a
+    xor a
+    ld (_RAM_C2F5_),a
+    ld b,$B4
+    call PauseBFrames
+    ld a,$02
+    ld (FunctionLookupIndex),a
+    ret
+
+_LABEL_48D7_:
+    call FadeOutFullPalette
+    ld hl,Frame2Paging
+    ld (hl),$10
+    ld hl,TilesFont
+    ld de,$5800
+    call LoadTiles4BitRLE
+    ld hl,TilesExtraFont
+    ld de,$7E00
+    call LoadTiles4BitRLE
+    ld hl,Frame2Paging
+    ld (hl),$18
+    ld hl,TargetPalette
+    ld de,TargetPalette + 1
+    ld (hl),$00
+    ld bc,$000F
+    ldir
+    ld hl,_DATA_6257A_
+    ld bc,$0010
+    ldir
+    ld hl,_DATA_6258A_
+    ld de,$4000
+    call LoadTiles4BitRLE
+    ld hl,_DATA_62484_
+    call DecompressToTileMapData
+    xor a
+    ld (VScroll),a
+    ld (HScroll),a
+    ld (TextBox20x6Open),a
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    jp ClearSpriteTableAndFadeInWholePalette
+
+_LABEL_492C_:
+    push af
+    call _LABEL_7DA0_
+    pop af
+    ld l,a
+    add a,a
+    add a,a
+    add a,l
+    ld l,a
+    ld h,$00
+    ld de,_DATA_4979_
+    add hl,de
+    ld a,(hl)
+    ld (Frame2Paging),a
+    inc hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    push hl
+    ex de,hl
+    ld de,TargetPalette
+    ld bc,$0010
+    ldir
+    ld de,$6000
+    call LoadTiles4BitRLE
+    ld hl,Frame2Paging
+    ld (hl),$18
+    pop hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld de,$78CC
+    ld bc,$0C28
+    di
+    call OutputTilemapRawDataBox
+    ld de,$7C00
+    ld bc,$0100
+    ld hl,$0800
+    call FillVRAMWithHL
+    ei
+    jp _LABEL_7DBB_
+
+; Data from 4979 to 49A5 (45 bytes)
+_DATA_4979_:
+.db $1F $00 $80 $90 $A8 $1E $00 $80 $70 $AA $1E $62 $8F $50 $AC $1E
+.db $2B $9C $30 $AE $1F $DB $8A $10 $B0 $1D $2A $B6 $F0 $B1 $12 $88
+.db $B3 $D0 $B3 $1E $4E $AA $B0 $B5 $1E $0C $B3 $90 $B7
+
+_LABEL_49A6_:
+    ld a,(RoomIndex)
+    or a
+    jp z,_LABEL_1D3D_
+    cp $B7
+    jp nc,_LABEL_59CA_
+    ld de,_DATA_49D3_ - 2
+    call +
+    ld a,(SceneType)
+    or a
+    jp nz,Close20x6TextBox
+    call Close20x6TextBox
+    jp _LABEL_1738_
+
+_LABEL_49C5_:
+    pop hl
+    jp MenuWaitForButton
+
++:  ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp (hl)
+
+; Jump Table from 49D3 to 4B3E (182 entries,indexed by RoomIndex)
+_DATA_49D3_:
+.dw _LABEL_4B3F_ _LABEL_4B5C_ _LABEL_4B82_ _LABEL_4B88_ _LABEL_4B8E_ _LABEL_4B94_ _LABEL_4B9A_ _LABEL_4BA0_
+.dw _LABEL_4BBA_ _LABEL_4BC0_ _LABEL_4BC6_ _LABEL_4BD3_ _LABEL_4BF1_ _LABEL_4BF7_ _LABEL_4BFD_ _LABEL_4C03_
+.dw _LABEL_4C09_ _LABEL_4C0F_ _LABEL_4C15_ _LABEL_4C15_ _LABEL_4C40_ _LABEL_4C46_ _LABEL_4C9E_ _LABEL_4CA4_
+.dw _LABEL_4CAA_ _LABEL_4CB0_ _LABEL_4D09_ _LABEL_4D1E_ _LABEL_4D33_ _LABEL_4DA3_ _LABEL_4DB2_ _LABEL_4DC1_
+.dw _LABEL_4DC7_ _LABEL_4DCD_ _LABEL_4DD3_ _LABEL_4DD9_ _LABEL_4DDF_ _LABEL_4DE5_ _LABEL_4DEB_ _LABEL_4DF1_
+.dw _LABEL_4DF7_ _LABEL_4DFD_ _LABEL_4E1D_ _LABEL_4E31_ _LABEL_4E37_ _LABEL_4E3D_ _LABEL_4E43_ _LABEL_4E49_
+.dw _LABEL_4E4F_ _LABEL_4E55_ _LABEL_4E5B_ _LABEL_4E61_ _LABEL_4E67_ _LABEL_4E6D_ _LABEL_4ED0_ _LABEL_4FD4_
+.dw _LABEL_4FDA_ _LABEL_4FFF_ _LABEL_5005_ _LABEL_500B_ _LABEL_5034_ _LABEL_505B_ _LABEL_50FC_ _LABEL_5113_
+.dw _LABEL_5119_ _LABEL_511F_ _LABEL_5125_ _LABEL_5139_ _LABEL_513F_ _LABEL_5145_ _LABEL_514B_ _LABEL_5151_
+.dw _LABEL_5157_ _LABEL_515D_ _LABEL_5163_ _LABEL_5169_ _LABEL_516F_ _LABEL_5175_ _LABEL_5194_ _LABEL_519A_
+.dw _LABEL_51A0_ _LABEL_51A6_ _LABEL_51AC_ _LABEL_51B2_ _LABEL_51B8_ _LABEL_51D1_ _LABEL_51D7_ _LABEL_51DD_
+.dw _LABEL_51E3_ _LABEL_51E9_ _LABEL_51EF_ _LABEL_51F5_ _LABEL_51FB_ _LABEL_5238_ _LABEL_523E_ _LABEL_5244_
+.dw _LABEL_524A_ _LABEL_5250_ _LABEL_5256_ _LABEL_525C_ _LABEL_5262_ _LABEL_5268_ _LABEL_526E_ _LABEL_5274_
+.dw _LABEL_527A_ _LABEL_5280_ _LABEL_5286_ _LABEL_528C_ _LABEL_52A0_ _LABEL_52A6_ _LABEL_52AC_ _LABEL_52B8_
+.dw _LABEL_52BE_ _LABEL_52C4_ _LABEL_52CA_ _LABEL_52D0_ _LABEL_5306_ _LABEL_531A_ _LABEL_5320_ _LABEL_5326_
+.dw _LABEL_533A_ _LABEL_5361_ _LABEL_5367_ _LABEL_536D_ _LABEL_53B7_ _LABEL_53CF_ _LABEL_5411_ _LABEL_5436_
+.dw _LABEL_543C_ _LABEL_547D_ _LABEL_54A9_ _LABEL_54D0_ _LABEL_54E4_ _LABEL_54EA_ _LABEL_54F0_ _LABEL_5504_
+.dw _LABEL_5512_ _LABEL_5518_ _LABEL_551E_ _LABEL_5524_ _LABEL_552A_ _LABEL_5530_ _LABEL_5597_ _LABEL_51EF_
+.dw _LABEL_51F5_ _LABEL_51FB_ _LABEL_55AB_ _LABEL_55F5_ _LABEL_55FB_ _LABEL_5601_ _LABEL_5607_ _LABEL_560D_
+.dw _LABEL_5613_ _LABEL_5619_ _LABEL_561F_ _LABEL_5661_ _LABEL_5690_ _LABEL_5730_ _LABEL_575B_ _LABEL_578F_
+.dw _LABEL_5795_ _LABEL_5795_ _LABEL_5798_ _LABEL_57F5_ _LABEL_5803_ _LABEL_5809_ _LABEL_581B_ _LABEL_582D_
+.dw _LABEL_5841_ _LABEL_584F_ _LABEL_5879_ _LABEL_58C6_ _LABEL_58FC_ _LABEL_5902_ _LABEL_5795_ _LABEL_5795_
+.dw _LABEL_592D_ _LABEL_5933_ _LABEL_5939_ _LABEL_5949_ _LABEL_5959_ _LABEL_5795_
+
+; 1st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4B3F_:
+    ld hl,HaveVisitedSuelo
+    ld a,(hl)
+    or a
+    jr nz,+
+    ld (hl),$01
+    ld hl,$0002
+    call _LABEL_59BA_
++:  ld hl,$0006
+    call _LABEL_59BA_
+    ld a,$C1
+    ld (NewMusic),a
+    jp _LABEL_2BC9_
+
+; 2nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4B5C_:
+    ld a,(HaveGotPotfromNekise)
+    or a
+    jr nz,+
+    ld hl,$0008
+    call _LABEL_59BA_
+    ld a,$38
+    ld (ItemTableIndex),a
+    call _LABEL_28FB_
+    ld a,$38
+    call _LABEL_298A_
+    jr nz,+
+    ld a,$01
+    ld (HaveGotPotfromNekise),a
++:  ld hl,$0010
+    jp _LABEL_59BA_
+
+; 3rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4B82_:
+    ld hl,$0012
+    jp _LABEL_59BA_
+
+; 4th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4B88_:
+    ld hl,$0014
+    jp _LABEL_59BA_
+
+; 5th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4B8E_:
+    ld hl,$0016
+    jp _LABEL_59BA_
+
+; 6th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4B94_:
+    ld hl,$0018
+    jp _LABEL_59BA_
+
+; 7th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4B9A_:
+    ld hl,$001A
+    jp _LABEL_59BA_
+
+; 8th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4BA0_:
+    ld hl,$0062
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$0060
+    jr z,+
+    ld hl,$0003
+    ld (NumberToShowInText),hl
+    ld hl,$0064
++:  jp _LABEL_59BA_
+
+; 9th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4BBA_:
+    ld hl,$001C
+    jp _LABEL_59BA_
+
+; 10th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4BC0_:
+    ld hl,$001E
+    jp _LABEL_59BA_
+
+; 11th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4BC6_:
+    ld a,$33
+    call _LABEL_298A_
+    jr z,+
+    ld hl,$0020
+    jp _LABEL_59BA_
+
+; 12th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4BD3_:
+    ld a,$33
+    call _LABEL_298A_
+    jr z,+
+    ld hl,$0022
+    jp _LABEL_59BA_
+
++:  ld hl,$0024
+    call _LABEL_59BA_
+    ld a,(_RAM_C309_)
+    rrca
+    dec a
+    and $03
+    ld (_RAM_C2E9_),a
+    ret
+
+; 13th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4BF1_:
+    ld hl,$0026
+    jp _LABEL_59BA_
+
+; 14th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4BF7_:
+    ld hl,$0028
+    jp _LABEL_59BA_
+
+; 15th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4BFD_:
+    ld hl,$002A
+    jp _LABEL_59BA_
+
+; 16th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4C03_:
+    ld hl,$002E
+    jp _LABEL_59BA_
+
+; 17th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4C09_:
+    ld hl,$0030
+    jp _LABEL_59BA_
+
+; 18th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4C0F_:
+    ld hl,$0032
+    jp _LABEL_59BA_
+
+; 19th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4C15_:
+    ld a,(LuvenoState)
+    cp $07
+    jp nc,_LABEL_4CEC_
+    ld hl,$0070
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$0020
+    jr nz,+
+    ld a,$34
+    call _LABEL_298A_
+    ld hl,$00CE
+    jr nz,+
+    ld a,$06
+    ld (_RAM_C2E9_),a
+    ld hl,$0024
++:  jp _LABEL_59BA_
+
+; 21st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4C40_:
+    ld hl,$0286
+    jp _LABEL_59BA_
+
+; 22nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4C46_:
+    ld a,$47
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld a,(CharacterStatsMyau)
+    or a
+    jr z,+
+    ld hl,$0296
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,+
+    ld a,$AE
+    ld (NewMusic),a
+    ld a,$01
+    ld (TextCharacterNumber),a
+    ld hl,_DATA_B07B_
+    call TextBox20x6
+    ld hl,$0000
+    ld (CharacterStatsMyau),hl
+    ld hl,$0298
+    jr ++
+
++:  ld hl,$029A
+++:  call _LABEL_59BA_
+    call Close20x6TextBox
+    ld a,(PartySize)
+    or a
+    jr z,+
+    ld a,$38
+    call _LABEL_298A_
+    jr z,+
+    ld hl,$C518
+    ld (_RAM_C2E1_),hl
+    ld a,$38
+    ld (_RAM_C2DF_),a
++:  jp _LABEL_55E9_
+
+; 23rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4C9E_:
+    ld hl,$006A
+    jp _LABEL_59BA_
+
+; 24th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4CA4_:
+    ld hl,$006C
+    jp _LABEL_59BA_
+
+; 25th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4CAA_:
+    ld hl,$006E
+    jp _LABEL_59BA_
+
+; 26th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4CB0_:
+    ld a,(LuvenoState)
+    cp $07
+    jr nc,_LABEL_4CEC_
+    ld hl,$0070
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$0020
+    jp _LABEL_59BA_
+
++:  ld a,$34
+    call _LABEL_298A_
+    jr z,+
+    ld hl,$00CE
+    jp _LABEL_59BA_
+
++:  ld hl,$0024
+    call _LABEL_59BA_
+    ld a,(VLocation)
+    cp $60
+    ld hl,_DATA_4D03_
+    jr nz,+
+    ld hl,_DATA_4D06_
++:  call _LABEL_7B1E_
+    ret
+
+_LABEL_4CEC_:
+    ld hl,$019E
+    call _LABEL_59BA_
+    ld a,$34
+    call _LABEL_298A_
+    ret nz
+    push bc
+    call _LABEL_28DB_
+    pop bc
+    ld hl,$01A0
+    jp _LABEL_59BA_
+
+; Data from 4D03 to 4D05 (3 bytes)
+_DATA_4D03_:
+.db $05 $20 $17
+
+; Data from 4D06 to 4D08 (3 bytes)
+_DATA_4D06_:
+.db $05 $21 $15
+
+; 27th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4D09_:
+    ld a,$33
+    call _LABEL_298A_
+    ld hl,$0020
+    jr nz,+
+    ld a,$04
+    ld (_RAM_C2E9_),a
+    ld hl,$0024
++:  jp _LABEL_59BA_
+
+; 28th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4D1E_:
+    ld a,$33
+    call _LABEL_298A_
+    ld hl,$0022
+    jr nz,+
+    ld a,$05
+    ld (_RAM_C2E9_),a
+    ld hl,$0024
++:  jp _LABEL_59BA_
+
+; 29th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4D33_:
+    ld hl,$0072
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$007C
+    jp _LABEL_59BA_
+
++:  ld hl,$0074
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,+
+    ld hl,$007E
+    jp _LABEL_59BA_
+
++:  ld hl,$0076
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,+
+    ld hl,$007E
+    jp _LABEL_59BA_
+
++:  ld hl,_DATA_64_
+    ld (NumberToShowInText),hl
+    ld hl,$0078
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$007C
+    jp _LABEL_59BA_
+
++:  ld de,$0064
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,_DATA_B65C_
+    jp TextBox20x6
+
++:  ld (Meseta),hl
+    ld hl,$007A
+    call _LABEL_59BA_
+    ld a,$34
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    ret z
+    jp _LABEL_28FB_
+
+; 30th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DA3_:
+    ld a,(PartySize)
+    or a
+    ld hl,$0034
+    jr z,+
+    ld hl,$003A
++:  jp _LABEL_59BA_
+
+; 31st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DB2_:
+    ld a,(PartySize)
+    or a
+    ld hl,$003C
+    jr z,+
+    ld hl,$0040
++:  jp _LABEL_59BA_
+
+; 32nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DC1_:
+    ld hl,$0042
+    jp _LABEL_59BA_
+
+; 33rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DC7_:
+    ld hl,$0044
+    jp _LABEL_59BA_
+
+; 34th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DCD_:
+    ld hl,$0046
+    jp _LABEL_59BA_
+
+; 35th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DD3_:
+    ld hl,$0048
+    jp _LABEL_59BA_
+
+; 36th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DD9_:
+    ld hl,$004A
+    jp _LABEL_59BA_
+
+; 37th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DDF_:
+    ld hl,$004C
+    jp _LABEL_59BA_
+
+; 38th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DE5_:
+    ld hl,$004E
+    jp _LABEL_59BA_
+
+; 39th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DEB_:
+    ld hl,$0050
+    jp _LABEL_59BA_
+
+; 40th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DF1_:
+    ld hl,$0052
+    jp _LABEL_59BA_
+
+; 41st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DF7_:
+    ld hl,$0054
+    jp _LABEL_59BA_
+
+; 42nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4DFD_:
+    ld hl,$0056
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$0060
+    jr nz,++
+    ld a,$2D
+    call _LABEL_298A_
+    jr z,+
+    ld hl,DungeonKeyIsHidden
+    ld (hl),$00
++:  ld hl,$0058
+++:  jp _LABEL_59BA_
+
+; 43rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E1D_:
+    ld hl,$005C
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$0060
+    jr z,+
+    ld hl,$005E
++:  jp _LABEL_59BA_
+
+; 44th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E31_:
+    ld hl,$0080
+    jp _LABEL_59BA_
+
+; 45th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E37_:
+    ld hl,$0082
+    jp _LABEL_59BA_
+
+; 46th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E3D_:
+    ld hl,$0084
+    jp _LABEL_59BA_
+
+; 47th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E43_:
+    ld hl,$0086
+    jp _LABEL_59BA_
+
+; 48th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E49_:
+    ld hl,$0088
+    jp _LABEL_59BA_
+
+; 49th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E4F_:
+    ld hl,$008A
+    jp _LABEL_59BA_
+
+; 50th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E55_:
+    ld hl,$008C
+    jp _LABEL_59BA_
+
+; 51st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E5B_:
+    ld hl,$008E
+    jp _LABEL_59BA_
+
+; 52nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E61_:
+    ld hl,$0090
+    jp _LABEL_59BA_
+
+; 53rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E67_:
+    ld hl,$0288
+    jp _LABEL_59BA_
+
+; 54th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4E6D_:
+    ld a,(PartySize)
+    or a
+    jr z,+
+    ld hl,$028A
+    jp _LABEL_59BA_
+
++:  ld hl,$000A
+    ld (NumberToShowInText),hl
+    ld hl,$0092
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,+
+    ld hl,$0094
+    jp _LABEL_59BA_
+
++:  ld a,$38
+    call _LABEL_298A_
+    jr nz,+
+    push hl
+    ld hl,$0096
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    pop hl
+    jr nz,+
+    push bc
+    call _LABEL_28DB_
+    pop bc
+    ld hl,$009A
+    call _LABEL_59BA_
+    call Close20x6TextBox
+    pop hl
+    ld iy,CharacterStatsMyau
+    call InitialiseCharacterStats
+    ld a,$01
+    ld (PartySize),a
+    ld a,$2B
+    ld (ItemTableIndex),a
+    call _LABEL_28FB_
+    jp _LABEL_4636_
+
++:  ld hl,$007C
+    jp _LABEL_59BA_
+
+; 55th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4ED0_:
+    ld a,(HaveBeatenLaShiec)
+    or a
+    jr z,+
+    ld hl,$02A6
+    call _LABEL_59BA_
+    call Close20x6TextBox
+    pop hl
+    ld hl,$22E6
+    ld (_RAM_C30C_),hl
+    xor a
+    ld (_RAM_C30A_),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$0B
+    call _LABEL_68BF_
+    ld a,$85
+    jp CheckMusic
+
++:  ld a,$35
+    call _LABEL_63F9_
+    call SpriteHandler
+    ld a,(PartySize)
+    cp $03
+    jr nc,+
+    ld a,$37
+    call _LABEL_298A_
+    jr nz,++
++:  ld hl,$029E
+    call _LABEL_59BA_
+    ld hl,$00AA
+    jp _LABEL_59BA_
+
+++:  ld hl,$00A4
+    call _LABEL_59BA_
+    push bc
+    ld a,$37
+    ld (ItemTableIndex),a
+    call _LABEL_28FB_
+    pop bc
+    ld a,$37
+    call _LABEL_298A_
+    ret nz
+    ld hl,$029C
+    call _LABEL_59BA_
+    call FadeOutFullPalette
+    call Close20x6TextBox
+    ld a,$20
+    ld (SceneType),a
+    call LoadSceneData
+    ld a,$D0
+    ld (SpriteTable),a
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    ld hl,_DATA_4FCC_
+    ld de,TargetPalette
+    ld bc,$0008
+    ldir
+    call FadeInWholePalette
+    ld hl,$02A0
+    call _LABEL_59BA_
+    call Close20x6TextBox
+    ld a,$A0
+    ld (NewMusic),a
+    call Pause256Frames
+    ld a,$4A
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld a,(CharacterStatsAlis)
+    push af
+    ld a,(CharacterStatsMyau)
+    push af
+    ld a,(CharacterStatsOdin)
+    push af
+    call _LABEL_116B_
+    pop af
+    ld (CharacterStatsOdin),a
+    pop af
+    ld (CharacterStatsMyau),a
+    pop af
+    ld (CharacterStatsAlis),a
+    call FadeOutFullPalette
+    call LoadSceneData
+    ld a,$D0
+    ld (SpriteTable),a
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld hl,$02A2
+    call _LABEL_59BA_
+    call FadeOutFullPalette
+    ld a,$1D
+    ld (SceneType),a
+    call LoadSceneData
+    call _LABEL_2BC9_
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$35
+    call _LABEL_63F9_
+    call SpriteHandler
+    ld hl,$00AA
+    jp _LABEL_59BA_
+
+; Data from 4FCC to 4FD3 (8 bytes)
+_DATA_4FCC_:
+.db $00 $00 $3F $00 $00 $00 $00 $00
+
+; 56th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4FD4_:
+    ld hl,$00B4
+    jp _LABEL_59BA_
+
+; 57th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4FDA_:
+    ld hl,$00B6
+    call _LABEL_59BA_
+    call FadeOutFullPalette
+    call Close20x6TextBox
+    ld a,$A0
+    ld (NewMusic),a
+    call Pause256Frames
+    call _LABEL_2BC9_
+    ld a,$C1
+    ld (NewMusic),a
+    call FadeInWholePalette
+    ld hl,$00B8
+    jp _LABEL_59BA_
+
+; 58th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_4FFF_:
+    ld hl,$0102
+    jp _LABEL_59BA_
+
+; 59th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5005_:
+    ld hl,$0106
+    jp _LABEL_59BA_
+
+; 60th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_500B_:
+    ld hl,$00BA
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$00C2
+    jp _LABEL_59BA_
+
++:  ld a,$24
+    call _LABEL_298A_
+    jr nz,+
+    push bc
+    call _LABEL_28DB_
+    pop bc
+    ld hl,$00BC
+    jp _LABEL_59BA_
+
++:  ld hl,$020E
+    jp _LABEL_59BA_
+
+; 61st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5034_:
+    ld hl,$00BA
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$00C2
+    jp _LABEL_59BA_
+
++:  ld a,$24
+    call _LABEL_298A_
+    jr nz,+
+    call _LABEL_28DB_
+    ld hl,$00C4
+    jp _LABEL_59BA_
+
++:  ld hl,$020E
+    jp _LABEL_59BA_
+
+; 62nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_505B_:
+    ld a,(LuvenoState)
+    or a
+    jp z,_LABEL_49C5_
+    ld a,$34
+    call _LABEL_63F9_
+    call SpriteHandler
+    ld a,(LuvenoState)
+    cp $07
+    jr c,+
+    ld hl,$00D8
+    jp _LABEL_59BA_
+
++:  cp $02
+    jr nc,+
+    ld hl,$00CA
+    jp _LABEL_59BA_
+
++:  cp $03
+    jr nc,++
+    ld hl,$04B0
+    ld (NumberToShowInText),hl
+    ld hl,$028C
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$00DA
+    jp _LABEL_59BA_
+
++:  ld de,$04B0
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$00D0
+    jp _LABEL_59BA_
+
++:  ld (Meseta),hl
+    ld a,$03
+    ld (LuvenoState),a
+    ld hl,$0290
+    jp _LABEL_59BA_
+
+++:  cp $05
+    jr nc,+
+    inc a
+    ld (LuvenoState),a
+    ld hl,$0292
+    jp _LABEL_59BA_
+
++:  cp $06
+    jr nc,+
+    inc a
+    ld (LuvenoState),a
+    ld hl,$00D2
+    call _LABEL_59BA_
+    ld a,$32
+    call _LABEL_298A_
+    jr z,++
+    ld hl,$00D6
+    call _LABEL_59BA_
++:  ld a,$32
+    call _LABEL_298A_
+    jr z,++
+    ld hl,$0104
+    jp _LABEL_59BA_
+
+++:  ld a,$07
+    ld (LuvenoState),a
+    ld hl,$0294
+    jp _LABEL_59BA_
+
+; 63rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_50FC_:
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp $02
+    jp c,_LABEL_49C5_
+    ld a,$10
+    call _LABEL_63F9_
+    call SpriteHandler
+    ld hl,$00DC
+    jp _LABEL_59BA_
+
+; 64th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5113_:
+    ld hl,$0118
+    jp _LABEL_59BA_
+
+; 65th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5119_:
+    ld hl,$010E
+    jp _LABEL_59BA_
+
+; 66th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_511F_:
+    ld hl,$0112
+    jp _LABEL_59BA_
+
+; 67th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5125_:
+    ld hl,$0114
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$0116
+    jr nz,+
+    ld hl,$013C
++:  jp _LABEL_59BA_
+
+; 68th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5139_:
+    ld hl,$010C
+    jp _LABEL_59BA_
+
+; 69th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_513F_:
+    ld hl,$011C
+    jp _LABEL_59BA_
+
+; 70th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5145_:
+    ld hl,$011E
+    jp _LABEL_59BA_
+
+; 71st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_514B_:
+    ld hl,$0120
+    jp _LABEL_59BA_
+
+; 72nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5151_:
+    ld hl,$0126
+    jp _LABEL_59BA_
+
+; 73rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5157_:
+    ld hl,$0128
+    jp _LABEL_59BA_
+
+; 74th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_515D_:
+    ld hl,$012E
+    jp _LABEL_59BA_
+
+; 75th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5163_:
+    ld hl,$0130
+    jp _LABEL_59BA_
+
+; 76th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5169_:
+    ld hl,$0132
+    jp _LABEL_59BA_
+
+; 77th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_516F_:
+    ld hl,$0134
+    jp _LABEL_59BA_
+
+; 78th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5175_:
+    ld hl,$013A
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$013C
+    jr z,++
+    ld a,(SootheFluteIsUnhidden)
+    or a
+    jr nz,+
+    ld a,$01
+    ld (SootheFluteIsUnhidden),a
++:  ld hl,$013E
+++:  jp _LABEL_59BA_
+
+; 79th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5194_:
+    ld hl,$0136
+    jp _LABEL_59BA_
+
+; 80th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_519A_:
+    ld hl,$0166
+    jp _LABEL_59BA_
+
+; 81st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51A0_:
+    ld hl,$0168
+    jp _LABEL_59BA_
+
+; 82nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51A6_:
+    ld hl,$016A
+    jp _LABEL_59BA_
+
+; 83rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51AC_:
+    ld hl,$016C
+    jp _LABEL_59BA_
+
+; 84th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51B2_:
+    ld hl,$0170
+    jp _LABEL_59BA_
+
+; 85th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51B8_:
+    ld hl,$0172
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$017C
+    jr nz,+
+    ld a,$01
+    ld (FlowMoverIsUnhidden),a
+    ld hl,$0174
++:  jp _LABEL_59BA_
+
+; 86th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51D1_:
+    ld hl,$017E
+    jp _LABEL_59BA_
+
+; 87th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51D7_:
+    ld hl,$0180
+    jp _LABEL_59BA_
+
+; 88th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51DD_:
+    ld hl,$0184
+    jp _LABEL_59BA_
+
+; 89th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51E3_:
+    ld hl,$0186
+    jp _LABEL_59BA_
+
+; 90th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51E9_:
+    ld hl,$0188
+    jp _LABEL_59BA_
+
+; 91st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51EF_:
+    ld hl,$018C
+    jp _LABEL_59BA_
+
+; 92nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51F5_:
+    ld hl,$0190
+    jp _LABEL_59BA_
+
+; 93rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_51FB_:
+    ld hl,$03E8
+    ld (NumberToShowInText),hl
+    ld hl,$0194
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$019C
+    jp _LABEL_59BA_
+
++:  ld de,$03E8
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$019A
+    jp _LABEL_59BA_
+
++:  ld (Meseta),hl
+    ld hl,$0198
+    call _LABEL_59BA_
+    ld a,$3B
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    ret z
+    jp _LABEL_28FB_
+
+; 94th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5238_:
+    ld hl,$01A2
+    jp _LABEL_59BA_
+
+; 95th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_523E_:
+    ld hl,$01A4
+    jp _LABEL_59BA_
+
+; 96th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5244_:
+    ld hl,$01A6
+    jp _LABEL_59BA_
+
+; 97th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_524A_:
+    ld hl,$01AA
+    jp _LABEL_59BA_
+
+; 98th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5250_:
+    ld hl,$01B2
+    jp _LABEL_59BA_
+
+; 99th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5256_:
+    ld hl,$01B8
+    jp _LABEL_59BA_
+
+; 100th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_525C_:
+    ld hl,$01BA
+    jp _LABEL_59BA_
+
+; 101st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5262_:
+    ld hl,$01BC
+    jp _LABEL_59BA_
+
+; 102nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5268_:
+    ld hl,$01BE
+    jp _LABEL_59BA_
+
+; 103rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_526E_:
+    ld hl,$01C4
+    jp _LABEL_59BA_
+
+; 104th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5274_:
+    ld hl,$01C8
+    jp _LABEL_59BA_
+
+; 105th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_527A_:
+    ld hl,$01CA
+    jp _LABEL_59BA_
+
+; 106th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5280_:
+    ld hl,$01CC
+    jp _LABEL_59BA_
+
+; 107th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5286_:
+    ld hl,$01D0
+    jp _LABEL_59BA_
+
+; 108th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_528C_:
+    ld hl,$01D6
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$01DA
+    jr z,+
+    ld hl,$01D8
++:  jp _LABEL_59BA_
+
+; 109th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_52A0_:
+    ld hl,$01DC
+    jp _LABEL_59BA_
+
+; 110th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_52A6_:
+    ld hl,$01DE
+    jp _LABEL_59BA_
+
+; 111th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_52AC_:
+    ld hl,$000A
+    ld (NumberToShowInText),hl
+    ld hl,$01E0
+    jp _LABEL_59BA_
+
+; 112th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_52B8_:
+    ld hl,$01E2
+    jp _LABEL_59BA_
+
+; 113th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_52BE_:
+    ld hl,$01E4
+    jp _LABEL_59BA_
+
+; 114th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_52C4_:
+    ld hl,$01E6
+    jp _LABEL_59BA_
+
+; 115th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_52CA_:
+    ld hl,$01E8
+    jp _LABEL_59BA_
+
+; 116th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_52D0_:
+    ld hl,$0190
+    ld (NumberToShowInText),hl
+    ld hl,$01EA
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$01F0
+    jp _LABEL_59BA_
+
++:  ld de,$0190
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$01F2
+    jp _LABEL_59BA_
+
++:  ld (Meseta),hl
+    ld a,$01
+    ld (PerseusShieldIsUnhidden),a
+    ld hl,$01F4
+    jp _LABEL_59BA_
+
+; 117th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5306_:
+    ld hl,$01FA
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$01FC
+    jr z,+
+    ld hl,$01FE
++:  jp _LABEL_59BA_
+
+; 118th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_531A_:
+    ld hl,$0200
+    jp _LABEL_59BA_
+
+; 119th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5320_:
+    ld hl,$0202
+    jp _LABEL_59BA_
+
+; 120th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5326_:
+    ld hl,$0204
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$0206
+    jr z,+
+    ld hl,$0208
++:  jp _LABEL_59BA_
+
+; 121st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_533A_:
+    ld hl,$00BA
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$020C
+    jp _LABEL_59BA_
+
++:  ld a,$24
+    call _LABEL_298A_
+    jr nz,+
+    call _LABEL_28DB_
+    ld hl,$020A
+    jp _LABEL_59BA_
+
++:  ld hl,$020E
+    jp _LABEL_59BA_
+
+; 122nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5361_:
+    ld hl,$0210
+    jp _LABEL_59BA_
+
+; 123rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5367_:
+    ld hl,$026A
+    jp _LABEL_59BA_
+
+; 124th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_536D_:
+    ld hl,$0118
+    ld (NumberToShowInText),hl
+    ld hl,$024A
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,_DATA_B163_
+    jp TextBox20x6
+
++:  ld de,$0118
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,_DATA_B65C_
+    jp TextBox20x6
+
++:  ld a,(InventoryCount)
+    cp $18
+    jr c,+
+    ld hl,_DATA_B18F_
+    jp TextBox20x6
+
++:  ld (Meseta),hl
+    ld hl,$020A
+    call _LABEL_59BA_
+    ld a,$36
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    ret z
+    jp _LABEL_28FB_
+
+; 125th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_53B7_:
+    ld a,$08
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld a,(PartySize)
+    cp $03
+    ld hl,$00AC
+    jr nz,+
+    ld hl,$00B2
++:  jp _LABEL_59BA_
+
+; 126th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_53CF_:
+    ld a,(PartySize)
+    cp $03
+    jp nc,_LABEL_49C5_
+    ld a,$3B
+    call _LABEL_63F9_
+    call SpriteHandler
+    ld hl,$00AE
+    call _LABEL_59BA_
+    ld a,$37
+    call _LABEL_298A_
+    ret nz
+    call _LABEL_28DB_
+    pop hl
+    call Close20x6TextBox
+    call MenuWaitForButton
+    ld a,$01
+    ld (HaveLutz),a
+    ld iy,CharacterStatsLutz
+    ld (iy+10),$01
+    ld (iy+11),$11
+    call InitialiseCharacterStats
+    ld a,$03
+    ld (PartySize),a
+    jp _LABEL_46C8_
+
+; 127th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5411_:
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp $02
+    jp nc,_LABEL_49C5_
+    ld a,$10
+    call _LABEL_63F9_
+    call SpriteHandler
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp $01
+    ld de,$00DC
+    jr nz,+
+    ld (hl),$02
+    ld de,$00F6
++:  ex de,hl
+    jp _LABEL_59BA_
+
+; 128th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5436_:
+    ld hl,$00F8
+    jp _LABEL_59BA_
+
+; 129th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_543C_:
+    ld a,(LuvenoState)
+    or a
+    jp nz,_LABEL_49C5_
+    ld a,$34
+    call _LABEL_63F9_
+    call SpriteHandler
+    ld hl,LuvenoPrisonVisitCounter
+    ld a,(hl)
+    or a
+    jr nz,+
+    inc (hl)
+    ld hl,$00DE
+    jp _LABEL_59BA_
+
++:  cp $01
+    jr nz,+
+    inc (hl)
+    ld hl,$00E0
+    jp _LABEL_59BA_
+
++:  ld hl,$00E2
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$00D4
+    jr nz,+
+    ld hl,LuvenoState
+    ld (hl),$01
+    ld hl,$00E4
++:  jp _LABEL_59BA_
+
+; 130th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_547D_:
+    ld a,$2E
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld hl,$00E6
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,+
+    ld a,$33
+    call _LABEL_298A_
+    jr nz,+
+    ld hl,$0024
+    jp _LABEL_59BA_
+
++:  ld hl,$00E8
+    call _LABEL_59BA_
+    call Close20x6TextBox
+    jp _LABEL_55E9_
+
+; 131st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_54A9_:
+    ld hl,$00BA
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$00C2
+    jp _LABEL_59BA_
+
++:  ld a,$24
+    call _LABEL_298A_
+    jr nz,+
+    call _LABEL_28DB_
+    ld hl,$00EA
+    jp _LABEL_59BA_
+
++:  ld hl,$00CE
+    jp _LABEL_59BA_
+
+; 132nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_54D0_:
+    ld hl,$00EC
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$013C
+    jr z,+
+    ld hl,$0124
++:  jp _LABEL_59BA_
+
+; 133rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_54E4_:
+    ld hl,$00EE
+    jp _LABEL_59BA_
+
+; 134th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_54EA_:
+    ld hl,$00F0
+    jp _LABEL_59BA_
+
+; 135th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_54F0_:
+    ld hl,$00F2
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$014C
+    jr z,+
+    ld hl,$013C
++:  jp _LABEL_59BA_
+
+; 136th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5504_:
+    ld a,$16
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld hl,$00F4
+    jp _LABEL_59BA_
+
+; 137th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5512_:
+    ld hl,$00FC
+    jp _LABEL_59BA_
+
+; 138th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5518_:
+    ld hl,$00FE
+    jp _LABEL_59BA_
+
+; 139th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_551E_:
+    ld hl,$0100
+    jp _LABEL_59BA_
+
+; 140th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5524_:
+    ld hl,$010A
+    jp _LABEL_59BA_
+
+; 141st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_552A_:
+    ld hl,$021A
+    jp _LABEL_59BA_
+
+; 142nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5530_:
+    ld hl,$0148
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+_LABEL_553B_:
+    ld hl,$0152
+    jp _LABEL_59BA_
+
++:  ld hl,$014E
+    call _LABEL_59BA_
+    ld hl,$0150
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,_LABEL_553B_
+    ld hl,$014E
+    call _LABEL_59BA_
+    ld hl,$0154
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,_LABEL_553B_
+    ld hl,$014E
+    call _LABEL_59BA_
+    ld hl,$0156
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,+
+    ld hl,$0158
+    jp _LABEL_59BA_
+
++:  ld hl,$015A
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,_LABEL_553B_
+    ld hl,$015C
+    call _LABEL_59BA_
+    ld a,$3C
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    ret z
+    jp _LABEL_28FB_
+
+; 143rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5597_:
+    ld hl,$0160
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$0162
+    jr z,+
+    ld hl,$0164
++:  jp _LABEL_59BA_
+
+; 147th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_55AB_:
+    ld a,$2E
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld hl,$021C
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr nz,+
+    ld a,$33
+    call _LABEL_298A_
+    jr nz,+
+    ld hl,$021E
+    call _LABEL_59BA_
+    call Close20x6TextBox
+    pop hl
+    ld hl,$159C
+    ld (_RAM_C30C_),hl
+    ld a,$01
+    ld (_RAM_C30A_),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$0A
+    ret
+
++:  ld hl,$00E8
+    call _LABEL_59BA_
+    call Close20x6TextBox
+_LABEL_55E9_:
+    call _LABEL_116B_
+    ld a,(CharacterSpriteAttributes)
+    or a
+    call nz,_LABEL_1D3D_
+    pop hl
+    ret
+
+; 148th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_55F5_:
+    ld hl,$0222
+    jp _LABEL_59BA_
+
+; 149th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_55FB_:
+    ld hl,$0224
+    jp _LABEL_59BA_
+
+; 150th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5601_:
+    ld hl,$0226
+    jp _LABEL_59BA_
+
+; 151st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5607_:
+    ld hl,$022E
+    jp _LABEL_59BA_
+
+; 152nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_560D_:
+    ld hl,$0232
+    jp _LABEL_59BA_
+
+; 153rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5613_:
+    ld hl,$0218
+    jp _LABEL_59BA_
+
+; 154th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5619_:
+    ld hl,$0214
+    jp _LABEL_59BA_
+
+; 155th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_561F_:
+    ld a,$2E
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld hl,$009C
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$00A2
+    call _LABEL_59BA_
+    jr ++
+
++:  ld a,$36
+    call _LABEL_298A_
+    jr nz,+
+    push bc
+    call _LABEL_28DB_
+    pop bc
+    ld a,$FF
+    ld (HaveGivenShortcake),a
+    ld hl,$009E
+    jp _LABEL_59BA_
+
++:  ld hl,$00A0
+    call _LABEL_59BA_
+++:  pop hl
+    call Close20x6TextBox
+    call _LABEL_1738_
+    jp _LABEL_6B2F_
+
+; 156th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5661_:
+    ld hl,$023E
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$0246
+    jp _LABEL_59BA_
+
++:  ld a,$3A
+    call _LABEL_298A_
+    jr nz,+
+    call _LABEL_28DB_
+    ld a,$2F
+    ld (ItemTableIndex),a
+    call _LABEL_28FB_
+    ld hl,$0244
+    jp _LABEL_59BA_
+
++:  ld hl,$0248
+    jp _LABEL_59BA_
+
+; 157th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5690_:
+    ld a,$31
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld a,(CharacterStatsLutz.Armour)
+    ld b,a
+    ld a,$18
+    cp b
+    jr z,+
+    call _LABEL_298A_
+    jr nz,++
++:  ld hl,$0258
+    jp _LABEL_59BA_
+
+++:  ld a,(PartySize)
+    cp $03
+    jr nc,++
+    ld hl,$025A
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$025E
+    jr z,+
+    ld hl,$0260
++:  jp _LABEL_59BA_
+
+++:  ld hl,$024C
+    call _LABEL_59BA_
+    ld a,(CharacterStatsLutz)
+    or a
+    jr nz,+
+    ld hl,$02A8
+    jp _LABEL_59BA_
+
++:  ld hl,$024E
+    call _LABEL_59BA_
+    call Close20x6TextBox
+    ld a,(CharacterStatsLutz.HP)
+    push af
+    ld a,(CharacterStatsAlis)
+    push af
+    ld a,(CharacterStatsMyau)
+    push af
+    ld a,(CharacterStatsOdin)
+    push af
+    xor a
+    ld (CharacterStatsAlis),a
+    ld (CharacterStatsMyau),a
+    ld (CharacterStatsOdin),a
+    call _LABEL_116B_
+    pop af
+    ld (CharacterStatsOdin),a
+    pop af
+    ld (CharacterStatsMyau),a
+    pop af
+    ld (CharacterStatsAlis),a
+    pop af
+    ld b,a
+    ld a,(CharacterStatsLutz.HP)
+    or a
+    jr nz,+
+    ld a,b
+    ld (CharacterStatsLutz.HP),a
+    ld a,$01
+    ld (CharacterStatsLutz),a
+    ld hl,$0256
+    jp _LABEL_59BA_
+
++:  ld hl,$0250
+    call _LABEL_59BA_
+    ld a,$18
+    ld (ItemTableIndex),a
+    jp _LABEL_28FB_
+
+; 158th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5730_:
+    ld a,$3E
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld hl,$0262
+    call _LABEL_59BA_
+    call Close20x6TextBox
+    call _LABEL_574F_
+    ld a,$FF
+    ld (HaveBeatenShadow),a
+    ld hl,$0266
+    jp _LABEL_59BA_
+
+_LABEL_574F_:
+    call _LABEL_116B_
+    ld a,(FunctionLookupIndex)
+    cp $02
+    ret nz
+    pop hl
+    pop hl
+    ret
+
+; 159th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_575B_:
+    ld a,(HaveBeatenLaShiec)
+    or a
+    jp nz,_LABEL_49C5_
+    ld a,$48
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld hl,$026C
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$026E
+    jr z,+
+    ld hl,$0270
++:  call _LABEL_59BA_
+    call Close20x6TextBox
+    call _LABEL_574F_
+    ld a,$01
+    ld (HaveBeatenLaShiec),a
+    ld hl,$02AA
+    jp _LABEL_59BA_
+
+; 160th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_578F_:
+    ld hl,_DATA_B132_
+    jp TextBox20x6
+
+; 161st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5795_:
+    call MenuWaitForButton
+; 163rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5798_:
+    call _LABEL_1D3D_
+    pop hl
+    ret
+
+_LABEL_579D_:
+    ld hl,_DATA_AF1E_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+_LABEL_57A6_:
+    ld a,$32
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    jr z,_LABEL_579D_
+    call Close20x6TextBox
+    ld hl,_RAM_C801_
+    inc (hl)
+    call SpriteHandler
+    call MenuWaitForButton
+    ld hl,$012C
+    call _LABEL_59BA_
+    jp _LABEL_28FB_
+
+_LABEL_57C6_:
+    ld a,(FlowMoverIsUnhidden)
+    or a
+    jr z,_LABEL_579D_
+    ld a,$32
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    jr nz,_LABEL_579D_
+    ld a,$22
+    ld (ItemTableIndex),a
+    call _LABEL_298A_
+    jr z,_LABEL_579D_
+    ld hl,$0178
+    call _LABEL_59BA_
+    call Close20x6TextBox
+    jp _LABEL_28FB_
+
+_LABEL_57EC_:
+    ld hl,$00FA
+    call _LABEL_59BA_
+    jp Close20x6TextBox
+
+; 164th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_57F5_:
+    ld a,$2B
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld hl,$0234
+    jp _LABEL_59BA_
+
+; 165th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5803_:
+    ld hl,$0234
+    jp _LABEL_59BA_
+
+; 166th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5809_:
+    ld a,$1B
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    xor a
+    ld (_RAM_CBC3_),a
+    ld hl,$0238
+    jp _LABEL_59BA_
+
+; 167th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_581B_:
+    ld a,$26
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    pop hl
+    ld hl,$0000
+    ld (EnemyMoney),hl
+    jp _LABEL_116B_
+
+; 168th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_582D_:
+    ld hl,$0228
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$022C
+    jr z,+
+    ld hl,$022A
++:  jp _LABEL_59BA_
+
+; 169th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5841_:
+    ld a,$08
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    ld hl,$0212
+    jp _LABEL_59BA_
+
+; 170th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_584F_:
+    ld a,(LuvenoState)
+    cp $07
+    jr nc,+
+    ld hl,$0282
+    jp _LABEL_59BA_
+
++:  ld hl,$0284
+    call _LABEL_59BA_
+    ld a,(HLocation)
+    cp $40
+    ld hl,_DATA_5873_
+    jr nc,+
+    ld hl,_DATA_5876_
++:  call _LABEL_7B1E_
+    ret
+
+; Data from 5873 to 5875 (3 bytes)
+_DATA_5873_:
+.db $07 $1B $1B
+
+; Data from 5876 to 5878 (3 bytes)
+_DATA_5876_:
+.db $07 $1B $1D
+
+; 171st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5879_:
+    ld a,$93
+    ld (NewMusic),a
+    call Pause256Frames
+    ld a,$1F
+    ld (SceneType),a
+    call LoadSceneData
+    ld hl,Frame2Paging
+    ld (hl),$13
+    ld hl,_DATA_4C000_
+    ld de,TargetPalette+16
+    ld bc,$0010
+    ldir
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$49
+    ld (EnemyNumber),a
+    call _LABEL_627A_
+    call MenuWaitHalfSecond
+    ld a,$20
+    ld (SceneType),a
+    call _LABEL_574F_
+    call Close20x6TextBox
+    ld a,(CharacterStatsAlis)
+    or a
+    jr nz,_LABEL_58C6_
+    ld hl,_DATA_B85A_
+    call TextBox20x6
+    call Close20x6TextBox
+; 172nd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_58C6_:
+    call FadeOutFullPalette
+    ld a,$1D
+    ld (SceneType),a
+    call LoadSceneData
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$35
+    call _LABEL_63F9_
+    call SpriteHandler
+    ld hl,$0272
+    call _LABEL_59BA_
+    call DoYesNoMenu
+    ld hl,$0212
+    jr z,+
+    ld hl,$0230
++:  call _LABEL_59BA_
+    call Close20x6TextBox
+    pop hl
+    jp _LABEL_47B5_
+
+; 173rd entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_58FC_:
+    ld hl,$02A4
+    jp _LABEL_59BA_
+
+; 174th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5902_:
+    ld a,(_RAM_C2F0_)
+    ld d,a
+    ld e,$00
+-:  ld a,e
+    ld (TextCharacterNumber),a
+    rr d
+    push de
+    ld hl,_DATA_B07B_
+    call c,TextBox20x6
+    pop de
+    inc e
+    ld a,e
+    cp $04
+    jr nz,-
+    ld b,$04
+-:  ld a,b
+    dec a
+    call _LABEL_19D9_
+    jr nz,+
+    djnz -
+    jp _LABEL_175E_
+
++:  jp Close20x6TextBox
+
+; 177th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_592D_:
+    ld hl,$023A
+    jp _LABEL_59BA_
+
+; 178th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5933_:
+    ld hl,$027A
+    jp _LABEL_59BA_
+
+; 179th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5939_:
+    ld hl,_DATA_B6C6_
+    call TextBox20x6
+    call DoYesNoMenu
+    ret nz
+    ld a,$81
+    ld (_RAM_C2E9_),a
+    ret
+
+; 180th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5949_:
+    ld hl,_DATA_B6D7_
+    call TextBox20x6
+    call DoYesNoMenu
+    ret nz
+    ld a,$82
+    ld (_RAM_C2E9_),a
+    ret
+
+; 181st entry of Jump Table from 49D3 (indexed by RoomIndex)
+_LABEL_5959_:
+    ld hl,_DATA_B0A8_
+    call TextBox20x6
+    push bc
+    call _LABEL_3B4B_
+    bit 4,c
+    pop bc
+    ret nz
+    ld d,a
+    ld a,(_RAM_C309_)
+    rrca
+    rrca
+    rrca
+    and $03
+    ld e,a
+    cp d
+    jr nz,++
+    or a
+    ld hl,_DATA_B11E_
+    jr z,+
+    dec a
+    ld hl,_DATA_B112_
+    jr z,+
+    ld hl,_DATA_B106_
++:  call TextBox20x6
+    jr _LABEL_5959_
+
+++:  ld a,d
+    or a
+    ld hl,_DATA_B0EB_
+    jr z,+
+    dec a
+    ld hl,_DATA_B0CF_
+    jr z,+
+    ld hl,_DATA_B0B3_
++:  push de
+    call TextBox20x6
+    call DoYesNoMenu
+    pop de
+    jr nz,_LABEL_5959_
+    ld a,e
+    add a,a
+    add a,e
+    add a,d
+    ld d,$00
+    ld e,a
+    ld hl,_DATA_59B2_
+    add hl,de
+    ld a,(hl)
+    ld (_RAM_C2E9_),a
+    ret
+
+; Data from 59B2 to 59B9 (8 bytes)
+_DATA_59B2_:
+.db $81 $83 $84 $85 $82 $86 $87 $88
+
+_LABEL_59BA_:
+    ld a,$02
+    ld (Frame2Paging),a
+    ld de,$80B0
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp TextBox20x6
+
+_LABEL_59CA_:
+    ld hl,_DATA_59D3_
+    call TextBox20x6
+    jp Close20x6TextBox
+
+; Data from 59D3 to 59E5 (19 bytes)
+_DATA_59D3_:
+.db $1F $3D $00 $49 $2B $35 $27 $21 $33 $00 $40 $07 $13 $02 $1F $0E
+.db $2E $4C $58
+
+SpriteHandler:
+    ld hl,_RAM_C289_
+    ld (_RAM_C287_),hl
+    ld de,$C28B
+    ld bc,$000E
+    ld (hl),$00
+    inc hl
+    ld (hl),$FF
+    dec hl
+    ldir
+    ld hl,SpriteTable
+    ld (NextSpriteY),hl
+    ld hl,SpriteTable.XNs
+    ld (NextSpriteX),hl
+    ld iy,CharacterSpriteAttributes
+    ld bc,$0800
+-:  ld a,(iy+0)
+    and $7F
+    jr z,+
+    push bc
+    ld hl,_DATA_5AA3_ - 2
+    call FunctionLookup
+    pop bc
+    or a
+    jp z,+
+    ld hl,(_RAM_C287_)
+    ld a,(iy+2)
+    ld (hl),a
+    inc hl
+    ld (hl),c
+    inc hl
+    ld (_RAM_C287_),hl
++:  ld de,$0020
+    add iy,de
+    inc c
+    djnz -
+    ld de,_RAM_C289_
+    ld b,$03
+--:  push bc
+    ld l,e
+    ld h,d
+    inc hl
+    inc hl
+-:  ld a,(de)
+    cp (hl)
+    jr nc,+
+    ld c,a
+    ld a,(hl)
+    ld (hl),c
+    ld (de),a
+    inc hl
+    inc de
+    ld a,(de)
+    ld c,a
+    ld a,(hl)
+    ld (hl),c
+    ld (de),a
+    dec hl
+    dec de
++:  inc hl
+    inc hl
+    djnz -
+    inc de
+    inc de
+    pop bc
+    djnz --
+    ld hl,SceneType
+    ld b,$08
+-:  ld a,(hl)
+    cp $FF
+    jr z,++
+    push bc
+    push hl
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld de,CharacterSpriteAttributes
+    add hl,de
+    push hl
+    pop iy
+    cp $04
+    ld a,$03
+    ld bc,$96F4
+    jr c,+
+    ld a,$15
+    ld bc,$8000
++:  ld (Frame2Paging),a
+    call _LABEL_5ACF_
+    pop hl
+    pop bc
+++:  inc hl
+    inc hl
+    djnz -
+    ld hl,(NextSpriteY)
+    ld (hl),$D0
+    ret
+
+_LABEL_5A94_:
+    push iy
+    pop hl
+    inc hl
+    ld e,l
+    ld d,h
+    inc de
+    xor a
+    ld (hl),a
+    ld bc,$001E
+    ldir
+    ret
+
+; Jump Table from 5AA3 to 5ACE (22 entries,indexed by CharacterSpriteAttributes)
+_DATA_5AA3_:
+.dw _LABEL_5C1B_ _LABEL_5C50_ _LABEL_5C5C_ _LABEL_5C61_ _LABEL_5C6D_ _LABEL_5C72_ _LABEL_5C7E_ _LABEL_5C83_
+.dw _LABEL_5CCB_ _LABEL_5CEC_ _LABEL_5E03_ _LABEL_5E4A_ _LABEL_5EDF_ _LABEL_5F15_ _LABEL_601C_ _LABEL_60A7_
+.dw _LABEL_60AA_ _LABEL_60EE_ _LABEL_612A_ _LABEL_6166_ _LABEL_5FAC_ _LABEL_5FD7_
+
+_LABEL_5ACF_:
+    ld l,(iy+1)
+    ld h,$00
+    add hl,hl
+    add hl,bc
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld b,(hl)
+    push bc
+    inc hl
+    ld de,(NextSpriteY)
+    ld c,(iy+2)
+-:  ld a,(hl)
+    add a,c
+    ld (de),a
+    inc de
+    inc hl
+    djnz -
+    ld (NextSpriteY),de
+    pop bc
+    ld de,(NextSpriteX)
+    ld c,(iy+4)
+-:  ld a,(hl)
+    add a,c
+    ld (de),a
+    inc de
+    inc hl
+    ld a,(hl)
+    ld (de),a
+    inc hl
+    inc de
+    djnz -
+    ld (NextSpriteX),de
+    ret
+
+UpdateSpriteTable:
+    ld hl,SpriteTable
+    ld de,$7F00
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    call _LABEL_5B9A_
+    ld hl,SpriteTable.XNs
+    ld de,$7F80
+    rst SetVRAMAddressToDE
+outi128:
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+_LABEL_5B9A_:
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+outi32:
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    outi
+    ret
+
+; 1st entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5C1B_:
+    ld b,$01
+_LABEL_5C1D_:
+    push bc
+    call _LABEL_5A94_
+    inc (iy+0)
+    pop bc
+    ld (iy+2),$60
+    ld a,(_RAM_C2EA_)
+    and $03
+    ld a,$84
+    jr nz,+
+    ld a,$80
++:  ld (iy+4),a
+    ld (iy+18),$01
+    ld (iy+1),b
+    ld (iy+17),$01
+    ld a,c
+    or a
+    ld a,$00
+    jr nz,+
+    ld a,$03
++:  ld (iy+10),a
+    ld a,$FF
+    ret
+
+; 2nd entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5C50_:
+    ld de,_DATA_5C8F_
+    ld hl,_DATA_5C93_
+    call _LABEL_5D14_
+    ld a,$FF
+    ret
+
+; 3rd entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5C5C_:
+    ld b,$02
+    jp _LABEL_5C1D_
+
+; 4th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5C61_:
+    ld de,$5CA3
+    ld hl,_DATA_5CA7_
+    call _LABEL_5D14_
+    ld a,$FF
+    ret
+
+; 5th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5C6D_:
+    ld b,$03
+    jp _LABEL_5C1D_
+
+; 6th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5C72_:
+    ld de,$5C8F
+    ld hl,_DATA_5C93_
+    call _LABEL_5D14_
+    ld a,$FF
+    ret
+
+; 7th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5C7E_:
+    ld b,$04
+    jp _LABEL_5C1D_
+
+; 8th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5C83_:
+    ld de,$5CB7
+    ld hl,_DATA_5CBB_
+    call _LABEL_5D14_
+    ld a,$FF
+    ret
+
+; Data from 5C8F to 5C92 (4 bytes)
+_DATA_5C8F_:
+.db $01 $00 $09 $0C
+
+; Data from 5C93 to 5CA6 (20 bytes)
+_DATA_5C93_:
+.db $05 $06 $07 $06 $02 $03 $04 $03 $08 $09 $0A $09 $0B $0C $0D $0C
+.db $05 $00 $08 $0B
+
+; Data from 5CA7 to 5CBA (20 bytes)
+_DATA_5CA7_:
+.db $04 $05 $06 $05 $01 $02 $03 $02 $07 $08 $09 $08 $0A $0B $0C $0B
+.db $01 $00 $0E $0F
+
+; Data from 5CBB to 5CCA (16 bytes)
+_DATA_5CBB_:
+.db $05 $06 $07 $06 $02 $03 $04 $03 $08 $09 $0A $0A $0B $0C $0D $0D
+
+; 9th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5CCB_:
+    call _LABEL_5A94_
+    inc (iy+0)
+    ld (iy+2),$60
+    ld (iy+4),$80
+    ld (iy+1),$05
+    ld a,(VehicleMovementFlags)
+    sub $04
+    ld (iy+16),a
+    ld (iy+17),$01
+    ld a,$FF
+    ret
+
+; 10th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5CEC_:
+    call +
+    ld a,$FF
+    ret
+
++:  call _LABEL_73E6_
+    ld a,(ScrollDirection)
+    and $0F
+    ret z
+    ld c,$FF
+-:  rrca
+    inc c
+    jp nc,-
+    ld hl,$5D10
+    ld b,$00
+    add hl,bc
+    ld a,(VehicleMovementFlags)
+    add a,(hl)
+    ld (iy+16),a
+    ret
+
+; Data from 5D10 to 5D13 (4 bytes)
+.db $FC $FE $FF $FD
+
+_LABEL_5D14_:
+    ld a,c
+    or a
+    call z,_LABEL_73E6_
+    ld a,(PaletteRotateEnabled)
+    or a
+    jp z,_LABEL_5D78_
+    cp $0F
+    jp nz,_LABEL_5DAC_
+    ld a,c
+    or a
+    jp nz,+
+    ld a,(iy+18)
+    ld (iy+19),a
+    ld a,(ScrollDirection)
+    and $0F
+    jp z,_LABEL_5D78_
+    ld b,$FF
+-:  rrca
+    inc b
+    jp nc,-
+    ld (iy+18),b
+    jp _LABEL_5DAC_
+
++:  bit 0,(iy+10)
+    jr z,+
+    set 1,(iy+10)
++:  ld a,(iy-28)
+    cp (iy+4)
+    jr nz,+
+    ld a,(iy-30)
+    cp (iy+2)
+    jr z,++
++:  bit 1,(iy-22)
+    jr z,++
+    set 0,(iy+10)
+++:  ld a,(iy+18)
+    ld (iy+19),a
+    ld a,(iy-13)
+    ld (iy+18),a
+    jp _LABEL_5DAC_
+
+_LABEL_5D78_:
+    ld a,(ScrollDirection)
+    and $0F
+    jp nz,_LABEL_5DAC_
+--:  ld a,(iy+18)
+    ld (iy+19),a
+    ld a,c
+    or a
+    jr nz,+
+    ld a,(ControlsNew)
+    and $0F
+    jr z,+
+    ld l,$FF
+-:  rrca
+    inc l
+    jp nc,-
+    jr ++
+
++:  ld a,c
+    or a
+    ld l,(iy+18)
+    jr z,++
+    ld l,(iy-13)
+++:  ld h,$00
+    add hl,de
+    ld a,(hl)
+    ld (iy+16),a
+    ret
+
+_LABEL_5DAC_:
+    ld a,c
+    or a
+    call nz,+
+    ld a,(_RAM_C2E9_)
+    or a
+    jr nz,--
+    dec (iy+14)
+    ret p
+    ld (iy+14),$07
+    ld a,(iy+18)
+    add a,a
+    add a,a
+    ld b,a
+    ld a,(iy+13)
+    inc a
+    and $03
+    ld (iy+13),a
+    add a,b
+    ld e,a
+    ld d,$00
+    add hl,de
+    ld a,(hl)
+    ld (iy+16),a
+    ret
+
++:  bit 0,(iy+10)
+    ld a,(iy+18)
+    call nz,+
+    ld a,(_RAM_C812_)
+    xor $01
++:  cp $02
+    jp nc,++
+    or a
+    jr nz,+
+    dec a
++:  add a,(iy+2)
+    ld (iy+2),a
+    ret
+
+++:  sub $02
+    jr nz,+
+    dec a
++:  add a,(iy+4)
+    ld (iy+4),a
+    ret
+
+; 11th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5E03_:
+    ld a,(iy+10)
+    push af
+    call _LABEL_5A94_
+    pop af
+    inc (iy+0)
+    ld hl,Frame2Paging
+    ld (hl),$12
+    add a,a
+    ld e,a
+    add a,a
+    add a,e
+    ld e,a
+    ld d,$00
+    ld hl,_DATA_5E6D_
+    add hl,de
+    ld a,(hl)
+    ld (NewMusic),a
+    inc hl
+    ld a,(hl)
+    ld (iy+24),a
+    inc hl
+    ld a,(hl)
+    ld (iy+1),a
+    inc hl
+    ld a,(hl)
+    ld (iy+15),a
+    inc hl
+    ld a,(_RAM_C894_)
+    ld (iy+2),a
+    ld a,(_RAM_C895_)
+    ld (iy+4),a
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld de,$7400
+    call LoadTiles4BitRLE
+    xor a
+    ret
+
+; 12th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5E4A_:
+    call +
+    ld a,$FF
+    ret
+
++:  dec (iy+14)
+    ret p
+    ld a,(iy+24)
+    ld (iy+14),a
+    ld a,(iy+1)
+    inc a
+    cp (iy+15)
+    jr nc,+
+    ld (iy+1),a
+    ret
+
++:  xor a
+    ld (iy+0),a
+    pop hl
+    ret
+
+; Data from 5E6D to 5EDE (114 bytes)
+_DATA_5E6D_:
+.db $A2 $03 $66 $6B $2A $AD $A2 $03 $05 $0A $00 $9C $A2 $03 $05 $0A
+.db $00 $9C $A2 $03 $05 $0A $00 $9C $A2 $03 $05 $0A $00 $9C $A2 $03
+.db $6A $72 $91 $AF $A2 $03 $71 $76 $77 $B1 $A2 $03 $05 $0A $00 $9C
+.db $A2 $03 $05 $0A $00 $9C $A7 $03 $18 $21 $70 $A2 $A2 $03 $6A $72
+.db $91 $AF $A6 $03 $11 $19 $36 $A0 $A3 $03 $5E $63 $C0 $AA $A5 $03
+.db $09 $12 $D7 $9D $A4 $03 $62 $67 $9D $AB $A4 $03 $75 $7A $44 $B2
+.db $A8 $03 $20 $29 $BC $A3 $A9 $03 $28 $32 $E0 $A5 $AA $03 $31 $3A
+.db $FD $A7
+
+; 13th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5EDF_:
+    call _LABEL_5A94_
+    inc (iy+0)
+    ld (iy+2),$58
+    ld (iy+4),$60
+    ld (iy+1),$3A
+    ld (iy+14),$07
+    call GetRandomNumber
+    ld b,a
+    ld c,$3D
+    ld a,(_RAM_C2E0_)
+    or a
+    jr z,++
+    cp $F0
+    jr nc,+
+    cp b
+    jr c,++
++:  rrca
+    ld c,$3E
+    jr nc,++
+    ld c,$43
+++:  ld (iy+15),c
+    ld a,$FF
+    ret
+
+; 14th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5F15_:
+    call +
+    ld a,$FF
+    ret
+
++:  bit 0,(iy+10)
+    ret z
+    bit 1,(iy+10)
+    jr nz,+
+    dec (iy+14)
+    ret p
+    ld (iy+14),$07
+    ld a,(iy+1)
+    inc a
+    ld (iy+1),a
+    cp $3D
+    ret nz
+    ld (iy+14),$17
+    set 1,(iy+10)
+    ret
+
++:  bit 2,(iy+10)
+    jr nz,++
+    dec (iy+14)
+    ret p
+    ld (iy+14),$03
+    ld a,(iy+15)
+    ld (iy+1),a
+    set 2,(iy+10)
+    cp $3D
+    jr nz,+
+    ld (iy+0),$00
+    ret
+
++:  cp $3E
+    ld a,$B1
+    jr z,+
+    inc a
++:  ld (NewMusic),a
+    ret
+
+++:  dec (iy+14)
+    ret p
+    ld (iy+14),$03
+    ld a,(iy+15)
+    cp $3E
+    jr nz,+
+    ld a,(iy+1)
+    inc a
+    ld (iy+1),a
+    push af
+    cp $42
+    call z,_LABEL_7E67_
+    pop af
+    cp $43
+    ret c
+    ld (iy+1),$3D
+    ld (iy+0),$00
+    ret
+
++:  ld a,(iy+1)
+    inc a
+    ld (iy+1),a
+    cp $47
+    ret c
+    call _LABEL_7E67_
+    ld (iy+1),$3D
+    ld (iy+0),$00
+    ret
+
+; 21st entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5FAC_:
+    call _LABEL_5A94_
+    inc (iy+0)
+    ld a,(_RAM_C309_)
+    cp $17
+    ld a,$84
+    ld de,$88D0
+    jr nz,+
+    ld a,$88
+    ld de,$3050
++:  ld (iy+2),d
+    ld (iy+4),e
+    ld (iy+1),a
+    ld (iy+15),a
+    ld a,$B9
+    ld (NewMusic),a
+    ld a,$FF
+    ret
+
+; 22nd entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_5FD7_:
+    call +
+    ld a,$FF
+    ret
+
++:  dec (iy+14)
+    ret p
+    ld (iy+14),$07
+    ld a,(iy+13)
+    inc (iy+13)
+    and $03
+    add a,(iy+15)
+    ld (iy+1),a
+    ld a,(_RAM_C309_)
+    cp $17
+    jr z,+
+    dec (iy+4)
+    dec (iy+2)
+    ld a,(iy+4)
+    cp $90
+    ret nz
+-:  ld (iy+0),$00
+    ret
+
++:  inc (iy+2)
+    ld a,(iy+2)
+    cp $78
+    jr z,-
+    and $07
+    ret nz
+    dec (iy+4)
+    ret
+
+; 15th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_601C_:
+    call +
+    ld a,(iy+1)
+    ret
+
++:  ld a,(_RAM_C29F_)
+    or a
+    ret z
+    ld a,(CharacterSpriteAttributes)
+    or a
+    ret nz
+_LABEL_602D_:
+    dec (iy+14)
+    ret p
+    ld a,(iy+24)
+    ld (iy+14),a
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld c,(iy+13)
+    ld l,c
+    ld h,$00
+    bit 7,(iy+10)
+    ld e,(iy+27)
+    ld d,(iy+28)
+    jr nz,_LABEL_6054_
+    ld e,(iy+25)
+    ld d,(iy+26)
+_LABEL_6054_:
+    add hl,de
+    ld a,(hl)
+    or a
+    jr nz,+
+    bit 0,(iy+10)
+    jr z,++
+    ld (_RAM_C29F_),a
+    ld (iy+10),a
+    ld (_RAM_C2ED_),a
+    ld c,a
+    ld a,(de)
++:  inc c
+    ld (iy+13),c
+    ld (iy+1),a
+    ret
+
+++:  set 0,(iy+10)
+    inc c
+    ld (iy+13),c
+    bit 7,(iy+10)
+    jr z,+
+    ld a,(EnemyNumber)
+    cp $48
+    jr z,_LABEL_6099_
+    ld a,$11
+    ld (CharacterSpriteAttributes),a
+    ret
+
++:  ld a,(_RAM_C2ED_)
+    or a
+    jr nz,_LABEL_6099_
+    ld a,$BB
+    ld (NewMusic),a
+    ret
+
+_LABEL_6099_:
+    ld a,$AE
+    ld (NewMusic),a
+    call _LABEL_7E67_
+    ld a,(_RAM_C2EE_)
+    jp _LABEL_3109_
+
+; 16th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_60A7_:
+    ld a,$FF
+    ret
+
+; 17th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_60AA_:
+    call _LABEL_5A94_
+    inc (iy+0)
+    ld hl,Frame2Paging
+    ld (hl),$0B
+    ld a,(_RAM_C88A_)
+    bit 6,a
+    ld hl,_DATA_611E_
+    jr z,+
+    ld hl,_DATA_6124_
++:  ld a,(hl)
+    ld (NewMusic),a
+    inc hl
+    ld a,(hl)
+    ld (iy+24),a
+    inc hl
+    ld a,(hl)
+    ld (iy+1),a
+    inc hl
+    ld a,(hl)
+    ld (iy+15),a
+    inc hl
+    ld a,(_RAM_C896_)
+    ld (iy+2),a
+    ld a,(_RAM_C897_)
+    ld (iy+4),a
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld de,$7400
+    call LoadTiles4BitRLE
+    xor a
+    ret
+
+; 18th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_60EE_:
+    call +
+    ld a,$FF
+    ret
+
++:  dec (iy+14)
+    ret p
+    ld a,(iy+24)
+    ld (iy+14),a
+    ld a,(iy+1)
+    inc a
+    cp (iy+15)
+    jr nc,+
+    ld (iy+1),a
+    ret
+
++:  xor a
+    ld (iy+0),a
+    pop hl
+    ld a,(_RAM_C2EF_)
+    and $80
+    jp z,_LABEL_6099_
+    ld a,$BB
+    ld (NewMusic),a
+    ret
+
+; Data from 611E to 6123 (6 bytes)
+_DATA_611E_:
+.db $A8 $03 $46 $4F $01 $99
+
+; Data from 6124 to 6129 (6 bytes)
+_DATA_6124_:
+.db $A9 $03 $79 $82 $F0 $9A
+
+; 19th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_612A_:
+    call +
+    ld a,(iy+1)
+    ret
+
++:  ld a,(_RAM_C29F_)
+    or a
+    ret z
+    dec (iy+14)
+    ret p
+    ld a,(iy+24)
+    ld (iy+14),a
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld a,(_RAM_C2EE_)
+    or a
+    ld de,_DATA_D4F6_
+    jr z,+
+    dec a
+    ld de,_DATA_D506_
+    jr z,+
+    dec a
+    ld de,$9511
+    jr z,+
+    ld de,$951C
++:  ld c,(iy+13)
+    ld l,c
+    ld h,$00
+    jp _LABEL_6054_
+
+; 20th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+_LABEL_6166_:
+    call +
+    ld a,(iy+1)
+    ret
+
++:  ld a,(_RAM_C29F_)
+    or a
+    ret z
+    ld a,(iy+12)
+    cp $02
+    jr nc,+
+    dec (iy+11)
+    ret p
+    ld (iy+11),$07
+    inc (iy+12)
+    or a
+    ld hl,_DATA_63F50_
+    jr z,_LABEL_618D_
+    ld hl,_DATA_63F80_
+_LABEL_618D_:
+    ld a,$18
+    ld (Frame2Paging),a
+    ld de,$7A5C
+    ld bc,$0608
+    di
+    call OutputTilemapRawDataBox
+    ei
+    ret
+
++:  cp $03
+    jr nc,++
+    call _LABEL_602D_
+    ld a,(iy+13)
+    cp $13
+    jr nz,+
+    ld (iy+2),$47
++:  ld a,(_RAM_C29F_)
+    or a
+    ret nz
+    dec a
+    ld (_RAM_C29F_),a
+    inc (iy+12)
+    ld (iy+2),$4F
+    ret
+
+++:  dec (iy+11)
+    ret p
+    ld (iy+11),$07
+    inc (iy+12)
+    cp $04
+    ld hl,_DATA_63F50_
+    jr nz,_LABEL_618D_
+    xor a
+    ld (iy+12),a
+    ld (_RAM_C29F_),a
+    ld hl,_DATA_63F20_
+    jr _LABEL_618D_
+
+_LABEL_61DF_:
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld a,(_RAM_C308_)
+    cp $03
+    jp nc,_LABEL_6275_
+    ld h,a
+    ld l,$00
+    srl h
+    rr l
+    ld de,_DATA_C000_
+    add hl,de
+    ld de,(VLocation)
+    ld a,e
+    add a,$60
+    jr c,+
+    cp $C0
+    ccf
++:  ld a,$00
+    adc a,d
+    and $07
+    add a,a
+    add a,a
+    add a,a
+    ld c,a
+    ld de,(HLocation)
+    ld a,e
+    add a,$80
+    ld a,$00
+    adc a,d
+    and $07
+    add a,c
+    add a,a
+    ld d,$00
+    ld e,a
+    add hl,de
+    ld b,(hl)
+    ld a,(VehicleMovementFlags)
+    or a
+    jr z,+
+    srl b
+    srl b
++:  call GetRandomNumber
+    cp b
+    jp nc,_LABEL_6275_
+    inc hl
+    ld b,$00
+    ld c,(hl)
+    ld a,(_RAM_C2E5_)
+    ld l,a
+    ld h,$00
+    ld de,_DATA_C5A0_
+    add hl,de
+    ld a,(_RAM_C308_)
+    or a
+    jr z,+
+    ld a,$0A
++:  add a,(hl)
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld de,_DATA_C470_
+    add hl,de
+    add hl,bc
+    ld a,(hl)
+_LABEL_6254_:
+    or a
+    ret z
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld de,_DATA_C178_
+    add hl,de
+    call GetRandomNumber
+    and $07
+    ld e,a
+    ld d,$00
+    add hl,de
+    ld a,(hl)
+    ld (EnemyNumber),a
+    ld a,$FF
+    ret
+
+_LABEL_6275_:
+    xor a
+    ld (_RAM_C29D_),a
+    ret
+
+_LABEL_627A_:
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    ld hl,CharacterStatsEnemies
+    ld de,CharacterStatsEnemies + 1
+    ld bc,$007F
+    ld (hl),$00
+    ldir
+    ld a,(EnemyNumber)
+    ld a,a
+    and $7F
+    ret z
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld de,_DATA_C67F_
+    add hl,de
+    ld de,EnemyName
+    ld bc,$0008
+    ldir
+    ld de,TargetPalette+16+8
+    ld bc,$0008
+    ldir
+    ld b,(hl)
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    ld a,b
+    ld (Frame2Paging),a
+    ld de,$6000
+    call LoadTiles4BitRLE
+    pop hl
+    inc hl
+    ld a,$03
+    ld (Frame2Paging),a
+    ld a,(hl)
+    push hl
+    call _LABEL_6379_
+    pop hl
+    inc hl
+    ld a,$03
+    ld (Frame2Paging),a
+    ld a,(hl)
+    bit 7,a
+    jr nz,+
+    and $0F
+    ld b,a
+    ld a,(PartySize)
+    inc a
+    add a,a
+    cp b
+    jr nc,_LABEL_62F1_
+    ld b,a
+_LABEL_62F1_:
+    call GetRandomNumber
+    and $07
+    cp b
+    jp nc,_LABEL_62F1_
+    inc a
++:  and $0F
+    ld b,a
+    ld (NumEnemies),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld e,(hl)
+    inc hl
+    push hl
+    ex de,hl
+    ld ix,CharacterStatsEnemies
+    ld de,$0010
+-:  ld (ix+0),$01
+    ld (ix+1),a
+    ld (ix+6),a
+    ld (ix+8),h
+    ld (ix+9),l
+    add ix,de
+    djnz -
+    pop hl
+    ld a,(hl)
+    ld (_RAM_C2DF_),a
+    inc hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    push hl
+    ld a,(NumEnemies)
+    ld c,a
+    ld b,$00
+    call Multiply16
+    ld (EnemyMoney),hl
+    pop hl
+    inc hl
+    ld a,(hl)
+    ld (_RAM_C2E0_),a
+    inc hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    push hl
+    ld a,(NumEnemies)
+    ld c,a
+    ld b,$00
+    call Multiply16
+    ld (_RAM_C2D0_),hl
+    pop hl
+    inc hl
+    ld a,(hl)
+    ld (_RAM_C2E8_),a
+    inc hl
+    ld a,(hl)
+    ld (_RAM_C2E7_),a
+    ld hl,_RAM_C500_
+    ld (_RAM_C2E1_),hl
+    call SpriteHandler
+    call SpriteHandler
+    ld hl,TargetPalette
+    ld de,ActualPalette
+    ld bc,$0020
+    ldir
+    ld a,$10
+    jp ExecuteFunctionIndexAInNextVBlank
+
+_LABEL_6379_:
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld e,l
+    ld d,h
+    add hl,hl
+    add hl,de
+    ld de,_DATA_CFC7_
+    add hl,de
+    ld de,_RAM_C880_
+    ld bc,$0003
+    ldir
+    inc de
+    ldi
+    ld de,_RAM_C894_
+    ld bc,$0009
+    ldir
+    ld a,(_RAM_C898_)
+    ld (_RAM_C88E_),a
+    ld a,$01
+    ld (_RAM_C88D_),a
+    ld c,(hl)
+    inc hl
+    ld b,(hl)
+    inc hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,c
+    ld c,a
+    ld a,h
+    ld h,b
+    ld b,a
+    or c
+    ld a,$18
+    ld (Frame2Paging),a
+    call nz,_LABEL_63D6_
+    pop hl
+    inc hl
+    ld a,$03
+    ld (Frame2Paging),a
+    ld de,_RAM_C8A0_
+    ld bc,$0003
+    ldir
+    inc de
+    ldi
+    ld a,(hl)
+    ld (_RAM_C2F1_),a
+    ret
+
+_LABEL_63D6_:
+    push bc
+    push de
+    ld c,$FF
+--:  ld a,(hl)
+    or a
+    jp z,+
+    ldi
+    ldi
+-:  djnz --
+    pop de
+    ex de,hl
+    ld bc,$0040
+    add hl,bc
+    ex de,hl
+    pop bc
+    dec c
+    jp nz,_LABEL_63D6_
+    ret
+
++:  inc hl
+    inc de
+    inc hl
+    inc de
+    jp -
+
+_LABEL_63F9_:
+    or a
+    ret z
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    ld hl,CharacterStatsEnemies
+    ld de,CharacterStatsEnemies + 1
+    ld bc,$007F
+    ld (hl),$00
+    ldir
+    ld l,a
+    ld h,$00
+    add hl,hl
+    ld de,_DATA_D540_
+    add hl,de
+    ld a,(hl)
+    push hl
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld de,_DATA_D5BC_
+    add hl,de
+    push hl
+    ld de,TargetPalette+16+8
+    ld bc,$0008
+    ldir
+    pop hl
+    ld de,ActualPalette+16+8
+    ld bc,$0008
+    ldir
+    pop hl
+    inc hl
+    ld a,(hl)
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld de,_DATA_D66C_
+    add hl,de
+    ld de,CharacterSpriteAttributes
+    ld bc,$0003
+    ldir
+    inc de
+    ldi
+    inc hl
+    ld b,(hl)
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,b
+    ld (Frame2Paging),a
+    ld de,$6000
+    call LoadTiles4BitRLE
+    call SpriteHandler
+    ld a,$16
+    jp ExecuteFunctionIndexAInNextVBlank
+
+AnimCharacterSprites:
+    ld hl,Frame2Paging
+    ld (hl),$1C
+    ld ix,CharacterSpriteAttributes
+    ld b,$04
+-:  ld a,(ix+16)
+    cp (ix+17)
+    jp z,+
+    ld (ix+17),a
+    ld d,a
+    ld a,(ix+1)
+    or a
+    ld hl,_DATA_649B_ - 2
+    jp nz,FunctionLookup
++:  ld de,$0020
+    add ix,de
+    djnz -
+    ret
+
+; Jump Table from 649B to 64A4 (5 entries,indexed by _RAM_C821_)
+_DATA_649B_:
+.dw _LABEL_64A5_ _LABEL_64C2_ _LABEL_64DF_ _LABEL_64FC_ _LABEL_650F_
+
+; 1st entry of Jump Table from 649B (indexed by _RAM_C821_)
+_LABEL_64A5_:
+    ld e,$00
+    srl d
+    rr e
+    ld l,e
+    ld h,d
+    srl d
+    rr e
+    add hl,de
+    ld de,_DATA_70000_
+    add hl,de
+    ld de,$7540
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    call outi128
+    jp _LABEL_5B9A_
+
+; 2nd entry of Jump Table from 649B (indexed by _RAM_C821_)
+_LABEL_64C2_:
+    ld e,$00
+    srl d
+    rr e
+    ld l,e
+    ld h,d
+    srl d
+    rr e
+    add hl,de
+    ld de,_DATA_70A80_
+    add hl,de
+    ld de,$7600
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    call outi128
+    jp _LABEL_5B9A_
+
+; 3rd entry of Jump Table from 649B (indexed by _RAM_C821_)
+_LABEL_64DF_:
+    ld e,$00
+    srl d
+    rr e
+    ld l,e
+    ld h,d
+    srl d
+    rr e
+    add hl,de
+    ld de,_DATA_71440_
+    add hl,de
+    ld de,$76C0
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    call outi128
+    jp _LABEL_5B9A_
+
+; 4th entry of Jump Table from 649B (indexed by _RAM_C821_)
+_LABEL_64FC_:
+    ld e,$00
+    srl d
+    rr e
+    ld hl,_DATA_71EC0_
+    add hl,de
+    ld de,$7780
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    jp outi128
+
+; 5th entry of Jump Table from 649B (indexed by _RAM_C821_)
+_LABEL_650F_:
+    ld a,(FunctionLookupIndex)
+    cp $05
+    jr z,+
+    cp $09
+    ret nz
++:  ld hl,Frame2Paging
+    ld (hl),$12
+    ld l,$00
+    ld h,d
+    add hl,hl
+    ld de,_DATA_48000_
+    add hl,de
+    ld de,$7540
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    call outi128
+    call outi128
+    call outi128
+    jp outi128
+
+OutsideSceneTileAnimations:
+    ld hl,Frame2Paging
+    ld (hl),$0E
+    ld hl,OutsideAnimCounters.1
+    ld de,_DATA_65C1_
+    ld bc,$0C10
+    call _LABEL_6586_
+    ld hl,OutsideAnimCounters.2
+    ld de,_DATA_65D1_
+    ld bc,$0340
+    call _LABEL_6586_
+    ld hl,OutsideAnimCounters.3
+    ld de,_DATA_65E1_
+    ld bc,$044C
+    call _LABEL_6586_
+    ld hl,OutsideAnimCounters.4
+    ld de,_DATA_65F1_
+    ld bc,$065C
+    call _LABEL_6586_
+    ld hl,OutsideAnimCounters.5
+    ld de,_DATA_6601_
+    ld bc,$0874
+    call _LABEL_6586_
+    ld hl,OutsideAnimCounters.6
+    ld de,_DATA_6611_
+    ld bc,$1094
+    call _LABEL_6586_
+    ret
+
+_LABEL_6586_:
+    ld a,(hl)
+    or a
+    ret z
+    inc hl
+    ld a,(hl)
+    inc hl
+    dec (hl)
+    ret p
+    ld (hl),a
+    inc hl
+    ld a,(_RAM_C2E9_)
+    cp $04
+    jr c,+
+    dec (hl)
+    jr ++
+
++:  inc (hl)
+++:  ld a,(hl)
+    and $07
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ex de,hl
+    ld l,c
+    ld h,$08
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ex de,hl
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    ld a,b
+--:  ld b,$20
+-:  outi
+    nop
+    jp nz,-
+    dec a
+    jp nz,--
+    pop hl
+    ret
+
+; Pointer Table from 65C1 to 65D0 (8 entries,indexed by _RAM_C272_)
+_DATA_65C1_:
+.dw _DATA_3A3E8_ _DATA_3A3E8_ _DATA_3A568_ _DATA_3A6E8_ _DATA_3A6E8_ _DATA_3A568_ _DATA_3A868_ _DATA_3A9E8_
+
+; Pointer Table from 65D1 to 65E0 (8 entries,indexed by _RAM_C276_)
+_DATA_65D1_:
+.dw _DATA_3AB68_ _DATA_3AB68_ _DATA_3ABC8_ _DATA_3ABC8_ _DATA_3AC28_ _DATA_3AC28_ _DATA_3AC88_ _DATA_3AC88_
+
+; Pointer Table from 65E1 to 65F0 (8 entries,indexed by _RAM_C27A_)
+_DATA_65E1_:
+.dw _DATA_3BAE8_ _DATA_3BAE8_ _DATA_3BB68_ _DATA_3BB68_ _DATA_3BBE8_ _DATA_3BBE8_ _DATA_3BB68_ _DATA_3BB68_
+
+; Pointer Table from 65F1 to 6600 (8 entries,indexed by _RAM_C27E_)
+_DATA_65F1_:
+.dw _DATA_3ACE8_ _DATA_3ACE8_ _DATA_3ADA8_ _DATA_3ADA8_ _DATA_3AE68_ _DATA_3AE68_ _DATA_3AF28_ _DATA_3AF28_
+
+; Pointer Table from 6601 to 6610 (8 entries,indexed by _RAM_C282_)
+_DATA_6601_:
+.dw _DATA_3AFE8_ _DATA_3AFE8_ _DATA_3B0E8_ _DATA_3B0E8_ _DATA_3B1E8_ _DATA_3B1E8_ _DATA_3B0E8_ _DATA_3B0E8_
+
+; Pointer Table from 6611 to 6620 (8 entries,indexed by _RAM_C286_)
+_DATA_6611_:
+.dw _DATA_3B4E8_ _DATA_3B4E8_ _DATA_3B4E8_ _DATA_3B4E8_ _DATA_3B4E8_ _DATA_3B6E8_ _DATA_3B8E8_ _DATA_3B2E8_
+
+EnemySceneTileAnimation:
+    ld a,(SceneAnimEnabled)
+    or a
+    ret z
+    ld a,(SceneType)
+    or a
+    ret z
+    ld hl,_DATA_6631_ - 2
+    jp FunctionLookup
+
+; Jump Table from 6631 to 6670 (32 entries,indexed by SceneType)
+_DATA_6631_:
+.dw _LABEL_6671_ _LABEL_6671_ _LABEL_6672_ _LABEL_6699_ _LABEL_6671_ _LABEL_6671_ _LABEL_66E5_ _LABEL_6671_
+.dw _LABEL_6671_ _LABEL_6671_ _LABEL_6772_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_
+.dw _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_
+.dw _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_
+
+; 1st entry of Jump Table from 6631 (indexed by SceneType)
+_LABEL_6671_:
+    ret
+
+; 3rd entry of Jump Table from 6631 (indexed by SceneType)
+_LABEL_6672_:
+    call _LABEL_6746_
+    ld hl,AnimDelayCounter
+    dec (hl)
+    ret p
+    ld (hl),$0B
+    inc hl
+    ld a,(hl)
+    inc a
+    cp $09
+    jr c,+
+    xor a
++:  ld (hl),a
+    ld hl,Frame2Paging
+    ld (hl),$10
+    ld hl,_DATA_67A9_
+    add a,a
+    add a,a
+    add a,a
+    ld e,a
+    ld d,$00
+    add hl,de
+    ld b,$04
+    jp _LABEL_66BE_
+
+; 4th entry of Jump Table from 6631 (indexed by SceneType)
+_LABEL_6699_:
+    call _LABEL_6746_
+    ld hl,AnimDelayCounter
+    dec (hl)
+    ret p
+    ld (hl),$0F
+    inc hl
+    ld a,(hl)
+    inc a
+    cp $0E
+    jr c,+
+    xor a
++:  ld (hl),a
+    ld hl,Frame2Paging
+    ld (hl),$10
+    ld hl,_DATA_67F1_
+    add a,a
+    ld e,a
+    add a,a
+    add a,e
+    ld e,a
+    ld d,$00
+    add hl,de
+    ld b,$03
+_LABEL_66BE_:
+    push bc
+    ld e,(hl)
+    ld d,$02
+    ex de,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ex de,hl
+    rst SetVRAMAddressToDE
+    inc hl
+    ld d,(hl)
+    inc hl
+    push hl
+    ld e,$00
+    srl d
+    rr e
+    ld hl,_DATA_428F6_
+    add hl,de
+    ld bc, $8000 | VDPData
+-:  outi
+    jp nz,-
+    pop hl
+    pop bc
+    djnz _LABEL_66BE_
+    ret
+
+; 7th entry of Jump Table from 6631 (indexed by SceneType)
+_LABEL_66E5_:
+    ld hl,AnimDelayCounter
+    dec (hl)
+    ret p
+    ld (hl),$0F
+    inc hl
+    ld a,(hl)
+    inc a
+    cp $06
+    jr c,+
+    xor a
++:  ld (hl),a
+    ld hl,Frame2Paging
+    ld (hl),$11
+    add a,a
+    ld b,a
+    add a,a
+    add a,b
+    ld e,a
+    ld d,$00
+    ld hl,_DATA_6845_
+    add hl,de
+    ld de,$4020
+    rst SetVRAMAddressToDE
+    ld b,$04
+--:  push bc
+    ld d,(hl)
+    inc hl
+    ld e,$00
+    srl d
+    rr e
+    ld bc,_DATA_44000_
+    ex de,hl
+    add hl,bc
+    ld bc, $8000 | VDPData
+-:  outi
+    jp nz,-
+    pop bc
+    ex de,hl
+    djnz --
+    ld b,$02
+--:  push bc
+    ld d,(hl)
+    inc hl
+    ld e,$00
+    srl d
+    rr e
+    srl d
+    rr e
+    ld bc,_DATA_44000_
+    ex de,hl
+    add hl,bc
+    ld bc, $4000 | VDPData
+-:  outi
+    jp nz,-
+    pop bc
+    ex de,hl
+    djnz --
+    ret
+
+_LABEL_6746_:
+    ld a,(PaletteFadeControl)
+    or a
+    ret nz
+    ld a,(FunctionLookupIndex)
+    cp $0D
+    ret nz
+    ld hl,PaletteMoveDelay
+    dec (hl)
+    ret p
+    ld (hl),$1F
+    ld de,$C00D
+    rst SetVRAMAddressToDE
+    inc hl
+    ld a,(hl)
+    inc a
+    and $03
+    ld (hl),a
+    ld e,a
+    ld d,$00
+    ld hl,_DATA_6869_
+    add hl,de
+    ld bc, $0300 | VDPData
+-:  outi
+    jp nz,-
+    ret
+
+; 11th entry of Jump Table from 6631 (indexed by SceneType)
+_LABEL_6772_:
+    ld a,(PaletteFadeControl)
+    or a
+    ret nz
+    ld a,(FunctionLookupIndex)
+    cp $0D
+    ret nz
+    ld hl,PaletteMoveDelay
+    dec (hl)
+    ret p
+    ld (hl),$07
+    ld de,$C008
+    rst SetVRAMAddressToDE
+    inc hl
+    ld a,(hl)
+    dec a
+    and $0F
+    ld (hl),a
+    ld e,a
+    ld d,$00
+    ld hl,_DATA_6871_
+    add hl,de
+    ld bc, $0400 | VDPData
+-:  outi
+    jp nz,-
+    ld hl,_DATA_6879_
+    add hl,de
+    ld b,$04
+-:  outi
+    jp nz,-
+    ret
+
+; Data from 67A9 to 67F0 (72 bytes)
+_DATA_67A9_:
+.db $01 $15 $25 $09 $29 $0A $29 $0A $01 $00 $05 $0B $01 $00 $05 $0B
+.db $05 $01 $09 $0D $05 $01 $09 $0D $09 $02 $0D $0D $09 $02 $0D $0D
+.db $0D $03 $11 $0E $0D $03 $11 $0E $11 $04 $15 $0E $11 $04 $15 $0E
+.db $15 $05 $19 $0F $15 $05 $19 $0F $19 $06 $21 $0F $19 $06 $21 $0F
+.db $21 $08 $01 $10 $25 $0C $29 $11
+
+; Data from 67F1 to 6844 (84 bytes)
+_DATA_67F1_:
+.db $25 $09 $29 $0A $29 $0A $25 $09 $29 $0A $29 $0A $25 $09 $29 $0C
+.db $29 $0C $21 $08 $25 $0F $29 $14 $21 $0F $25 $13 $29 $14 $19 $06
+.db $1D $0F $21 $12 $15 $05 $19 $0E $1D $12 $15 $0E $19 $12 $19 $12
+.db $15 $0E $19 $12 $19 $12 $15 $05 $19 $0E $1D $12 $19 $06 $1D $0F
+.db $21 $12 $1D $07 $21 $0F $25 $13 $21 $08 $25 $0C $29 $11 $25 $09
+.db $29 $0C $29 $0C
+
+; Data from 6845 to 6868 (36 bytes)
+_DATA_6845_:
+.db $00 $02 $05 $08 $15 $18 $00 $03 $06 $09 $16 $14 $01 $04 $07 $05
+.db $17 $14 $02 $00 $08 $05 $18 $15 $03 $00 $09 $06 $14 $16 $04 $01
+.db $05 $07 $14 $17
+
+; Data from 6869 to 6870 (8 bytes)
+_DATA_6869_:
+.db $3F $3C $38 $38 $3F $3C $38 $38
+
+; Data from 6871 to 6878 (8 bytes)
+_DATA_6871_:
+.db $06 $06 $06 $06 $06 $06 $06 $06
+
+; Data from 6879 to 6890 (24 bytes)
+_DATA_6879_:
+.db $06 $06 $06 $06 $25 $2A $3E $3F
+.dsb 16,$06
+
+_LABEL_6891_:
+    ld a,(_RAM_C30C_)
+    ld l,a
+    ld h,$CB
+    ld a,(hl)
+    cp $08
+    jp nz,_LABEL_6984_
+    ld c,l
+    ld a,(_RAM_C30D_)
+    ld b,a
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_EF5C_
+    ld de,$0006
+-:  ld a,(hl)
+    cp $FF
+    jr z,_LABEL_68BF_
+    inc hl
+    cp b
+    jr nz,+
+    ld a,(hl)
+    cp c
+    jp z,_LABEL_6984_
++:  add hl,de
+    jp -
+
+_LABEL_68BF_:
+    ld de,$7E00
+    ld hl,$00C0
+    ld bc,$0080
+    di
+    call FillVRAMWithHL
+    ei
+    ld a,$C0
+    ld (NewMusic),a
+    xor a
+    ld (VScroll),a
+    ld b,$0C
+-:  push bc
+    ld a,(VScroll)
+    add a,$10
+    ld (VScroll),a
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,b
+    sub $0C
+    neg
+    ld c,$00
+    ld b,a
+    srl b
+    rr c
+    ld hl,$7800
+    add hl,bc
+    ex de,hl
+    ld hl,$00C0
+    ld bc,$0040
+    di
+    call FillVRAMWithHL
+    ei
+    pop bc
+    djnz -
+    ld a,(_RAM_C30D_)
+    sub $01
+    jr nc,+
+    xor a
++:  ld (_RAM_C30D_),a
+    call _LABEL_6FF9_
+    xor a
+    call _LABEL_6D90_
+    ld hl,TargetPalette
+    ld de,ActualPalette
+    ld bc,$0020
+    ldir
+    ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,$10
+    ld (VScroll),a
+    ld b,$0C
+-:  push bc
+    ld a,(VScroll)
+    add a,$10
+    ld (VScroll),a
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,b
+    sub $0C
+    neg
+    ld c,$00
+    ld b,a
+    srl b
+    rr c
+    ld hl,$7800
+    add hl,bc
+    ex de,hl
+    ld hl,TileMapData
+    add hl,bc
+    ld bc,$0080
+    di
+    call OutputToVRAM
+    ei
+    pop bc
+    djnz -
+    ld b,$05
+-:  ld a,(VScroll)
+    or a
+    ld a,$D8
+    jr z,+
+    xor a
++:  ld (VScroll),a
+    ld a,$08
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    ld hl,Frame2Paging
+    ld (hl),$10
+    ld hl,TilesExtraFont
+    ld de,$7E00
+    call LoadTiles4BitRLE
+    ld b,$01
+    jp _LABEL_6C06_
+
+_LABEL_6984_:
+    ld a,(ControlsNew)
+    and $0F
+    jp z,_LABEL_6AA5_
+    ld c,a
+    bit 0,c
+    jp z,_LABEL_6A1D_
+    ld b,$01
+    call _LABEL_6E8C_
+    ld b,a
+    and $07
+    jp z,_LABEL_69FB_
+    sub $02
+    jp c,_LABEL_6A1D_
+    cp $05
+    jp z,_LABEL_69F8_
+    cp $02
+    jp nc,++
+    ld c,a
+    ld a,$C3
+    ld (NewMusic),a
+    ld a,c
+    bit 3,b
+    jp nz,_LABEL_6B5F_
+    or a
+    ld b,$01
+    jr z,+
+    ld b,$FF
++:  ld a,(_RAM_C30D_)
+    add a,b
+    ld (_RAM_C30D_),a
+    call _LABEL_6FF9_
+    jp +++
+
+++:  bit 7,(hl)
+    ret z
+    bit 3,b
+    jp nz,_LABEL_6B5F_
++++:  call FadeOutFullPalette
+    ld a,(_RAM_C30A_)
+    and $03
+    ld hl,_DATA_6D84_ - 2
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(_RAM_C30C_)
+    add a,(hl)
+    add a,(hl)
+    ld (_RAM_C30C_),a
+    xor a
+    call _LABEL_6D88_
+    call FadeInWholePalette
+    ld b,$01
+    jp _LABEL_6C06_
+
+_LABEL_69F8_:
+    call _LABEL_69FB_
+_LABEL_69FB_:
+    ld a,$00
+    call _LABEL_6CFB_
+    ld a,(_RAM_C30A_)
+    and $03
+    ld hl,_DATA_6D84_ - 2
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(_RAM_C30C_)
+    add a,(hl)
+    ld (_RAM_C30C_),a
+    xor a
+    call _LABEL_6D88_
+    ld b,$01
+    jp _LABEL_6C06_
+
+_LABEL_6A1D_:
+    bit 1,c
+    jr z,+
+    ld b,$0B
+    call _LABEL_6E6D_
+    jr nz,+
+    call _LABEL_6A35_
+    ld b,$01
+    call _LABEL_6C06_
+    ld b,$0B
+    jp _LABEL_6C06_
+
+_LABEL_6A35_:
+    ld a,(_RAM_C30A_)
+    and $03
+    ld hl,_DATA_6D84_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(_RAM_C30C_)
+    add a,(hl)
+    ld (_RAM_C30C_),a
+    ld a,$01
+    jp _LABEL_6CFB_
+
++:  bit 2,c
+    jr z,++
+    call _LABEL_6A5A_
+    ld b,$01
+    jp _LABEL_6C06_
+
+_LABEL_6A5A_:
+    ld a,(_RAM_C30A_)
+    dec a
+    and $03
+    ld (_RAM_C30A_),a
+    ld h,$02
+    ld b,$0D
+    call _LABEL_6E6D_
+    jr z,+
+    inc h
+    inc h
++:  ld b,$01
+    call _LABEL_6E6D_
+    jr z,+
+    inc h
++:  ld a,h
+    jp _LABEL_6CFB_
+
+++:  bit 3,c
+    ret z
+    call _LABEL_6A85_
+    ld b,$01
+    jp _LABEL_6C06_
+
+_LABEL_6A85_:
+    ld a,(_RAM_C30A_)
+    inc a
+    and $03
+    ld (_RAM_C30A_),a
+    ld h,$06
+    ld b,$0C
+    call _LABEL_6E6D_
+    jr z,+
+    inc h
+    inc h
++:  ld b,$01
+    call _LABEL_6E6D_
+    jr z,+
+    inc h
++:  ld a,h
+    jp _LABEL_6CFB_
+
+_LABEL_6AA5_:
+    ld a,(Controls)
+    and $30
+    ret z
+    ld b,$01
+    call _LABEL_6E6D_
+    cp $04
+    jr nz,+
+    ld c,$02
+    call _LABEL_6ABE_
+    ret z
++:  call _LABEL_1D3D_
+    ret
+
+_LABEL_6ABE_:
+    ld b,$01
+    call _LABEL_6E8C_
+    bit 7,(hl)
+    ret nz
+    set 7,(hl)
+    ld a,$BD
+    ld (NewMusic),a
+    ld h,c
+    ld l,$00
+    ld b,$03
+--:  push bc
+-:  push hl
+    ld a,h
+    call _LABEL_70EF_
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    pop hl
+    ld a,h
+    ld bc,$0040
+    add hl,bc
+    cp h
+    jr z,-
+    inc h
+    inc h
+    pop bc
+    djnz --
+    xor a
+    ret
+
+_LABEL_6AED_:
+    ld b,$01
+    call _LABEL_6E8C_
+    cp $08
+    jr nz,++
+    ld c,l
+    ld a,(_RAM_C30D_)
+    ld b,a
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_EF5C_
+    ld de,$0006
+-:  ld a,(hl)
+    cp $FF
+    jr z,+++
+    inc hl
+    cp b
+    jr nz,+
+    ld a,(hl)
+    cp c
+    jr z,++
++:  add hl,de
+    jp -
+
+++:  xor a
+    ret
+
++++:  ld a,$FF
+    or a
+    ret
+
+_LABEL_6B1D_:
+    ld b,$0B
+    call _LABEL_6E6D_
+    ret z
+    ld b,$0C
+    call _LABEL_6E6D_
+    ret z
+    ld b,$0D
+    call _LABEL_6E6D_
+    ret
+
+_LABEL_6B2F_:
+    ld b,$0B
+    call _LABEL_6E6D_
+    jr z,+++
+    ld b,$0C
+    call _LABEL_6E6D_
+    jr nz,++
+    ld b,$0D
+    call _LABEL_6E6D_
+    jr nz,+
+    call GetRandomNumber
+    rrca
+    jr nc,++
++:  call _LABEL_6A85_
+    jr +++
+
+++:  call _LABEL_6A5A_
++++:  call _LABEL_6A35_
+    ld b,$01
+    call _LABEL_6C06_
+    ld b,$0B
+    jp _LABEL_6C06_
+
+_LABEL_6B5F_:
+    ld b,$01
+    call _LABEL_6E8C_
+    and $08
+    ret z
+    ld c,l
+    ld a,(_RAM_C30D_)
+    ld b,a
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_F473_
+    ld de,$0004
+-:  ld a,(hl)
+    cp $FF
+    jr z,++
+    inc hl
+    cp b
+    jr nz,+
+    ld a,(hl)
+    cp c
+    jr z,+++
++:  add hl,de
+    jp -
+
+; Data from 6B88 to 6B88 (1 bytes)
+.db $C9
+
+++:  ld hl,FunctionLookupIndex
+    ld (hl),$08
+    ret
+
++++:  inc hl
+    ld a,(hl)
+    ld d,a
+    dec hl
+    cp $80
+    ld a,$08
+    jp c,_LABEL_7B1A_
+    ld a,d
+    cp $FF
+    jr nz,_LABEL_6BEA_
+    push hl
+    call FadeOutFullPalette
+    ld hl,Frame2Paging
+    ld (hl),$09
+    ld hl,_DATA_27471_
+    ld de,$4000
+    call LoadTiles4BitRLE
+    ld hl,_DATA_27130_
+    call DecompressToTileMapData
+    ld a,$0F
+    ld (SceneType),a
+    xor a
+    ld (TargetPalette+16),a
+_LABEL_6BC0_:
+    ld a,$0C
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+-:  ld hl,Frame2Paging
+    ld (hl),$03
+    pop hl
+    inc hl
+    inc hl
+    call _LABEL_6CD2_
+    ld a,(FunctionLookupIndex)
+    cp $0B
+    ret nz
+    call FadeOutFullPalette
+    xor a
+    call _LABEL_6D88_
+    call _LABEL_7022_
+    call _LABEL_7085_
+    call FadeInWholePalette
+    ret
+
+_LABEL_6BEA_:
+    push hl
+    push af
+    call FadeOutFullPalette
+    pop af
+    ld c,$0D
+    cp $FE
+    jr z,+
+    ld c,$1E
+    cp $FD
+    jr nz,-
++:  ld a,c
+    ld (SceneType),a
+    call LoadSceneData
+    jp _LABEL_6BC0_
+
+_LABEL_6C06_:
+    call _LABEL_6E8C_
+    cp $08
+    ret nz
+    ld c,l
+    push bc
+    ld a,(_RAM_C30D_)
+    ld b,a
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_EF5C_
+    ld de,$0006
+-:  ld a,(hl)
+    cp $FF
+    jp z,++
+    inc hl
+    cp b
+    jr nz,+
+    ld a,(hl)
+    cp c
+    jr z,+++
++:  add hl,de
+    jp -
+
+++:  pop bc
+    ret
+
++++:  pop bc
+    inc hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    ld a,(de)
+    cp $FF
+    ret z
+    ld (_RAM_C2E1_),de
+    ld a,$FF
+    ld (MovementInProgress),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    or a
+    jr nz,+
+    ld a,(hl)
+    ld (_RAM_C2DF_),a
+    inc hl
+    ld a,(hl)
+    ld (_RAM_C2E0_),a
+    ld hl,$0000
+    ld (EnemyMoney),hl
+    jp ++
+
++:  cp $01
+    jr nz,+++
+    xor a
+    ld (_RAM_C2DF_),a
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld (EnemyMoney),hl
+++:  ld a,b
+    cp $01
+    ret nz
+    ld hl,_DATA_B688_
+    call TextBox20x6
+    push bc
+    call _LABEL_180E_
+    pop bc
+    call _LABEL_2A37_
+    ld a,(CharacterSpriteAttributes)
+    or a
+    ret z
+    jp _LABEL_1D3D_
+
++++:  cp $02
+    jr nz,++
+    ld a,b
+    cp $01
+    jr z,+
+    push hl
+    call _LABEL_6A5A_
+    call _LABEL_6A5A_
+    ld hl,Frame2Paging
+    ld (hl),$03
+    pop hl
++:  ld a,(hl)
+    ld (EnemyNumber),a
+    or a
+    ret z
+    inc hl
+    ld a,(hl)
+    push af
+    ld hl,(_RAM_C2E1_)
+    push hl
+    call _LABEL_627A_
+    pop hl
+    ld (_RAM_C2E1_),hl
+    pop af
+    ld (_RAM_C2DF_),a
+    call _LABEL_116B_
+    ld a,(CharacterSpriteAttributes)
+    or a
+    ret z
+    jp _LABEL_1D3D_
+
+++:  cp $03
+    ret nz
+    ld a,b
+    cp $01
+    jr z,_LABEL_6CD2_
+    push hl
+    call _LABEL_6A85_
+    call _LABEL_6A85_
+    ld hl,Frame2Paging
+    ld (hl),$03
+    pop hl
+_LABEL_6CD2_:
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld (RoomIndex),hl
+    ld a,(_RAM_C2DC_)
+    call _LABEL_63F9_
+    call _LABEL_49A6_
+    ld a,$D0
+    ld (SpriteTable),a
+    xor a
+    ld (CharacterSpriteAttributes),a
+    ld (_RAM_C29D_),a
+    ld (SceneType),a
+    ld (_RAM_C2D5_),a
+    ld hl,$0000
+    ld (RoomIndex),hl
+    ret
+
+_LABEL_6CFB_:
+    ld l,a
+    ld h,$00
+    add hl,hl
+    ld de,_DATA_6D19_
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,$FF
+    ld (MovementInProgress),a
+-:  ld a,(hl)
+    cp $FF
+    ret z
+    push hl
+    call _LABEL_6D88_
+    pop hl
+    inc hl
+    jp -
+
+; Data from 6D19 to 6D83 (107 bytes)
+_DATA_6D19_:
+.db $2D $6D $33 $6D $3A $6D $43 $6D $4C $6D $55 $6D $5E $6D $67 $6D
+.db $70 $6D $79 $6D $01 $02 $03 $04 $05 $FF $05 $04 $03 $02 $01 $00
+.db $FF $07 $08 $09 $0A $0B $0C $0D $00 $FF $17 $18 $19 $1A $1B $1C
+.db $1D $00 $FF $1F $20 $21 $22 $23 $24 $25 $00 $FF $0F $10 $11 $12
+.db $13 $14 $15 $00 $FF $0D $0C $0B $0A $09 $08 $07 $00 $FF $25 $24
+.db $23 $22 $21 $20 $1F $00 $FF $1D $1C $1B $1A $19 $18 $17 $00 $FF
+.db $15 $14 $13 $12 $11 $10 $0F $00 $FF $F0 $01
+
+; Data from 6D84 to 6D87 (4 bytes)
+_DATA_6D84_:
+.db $10 $FF $F0 $01
+
+_LABEL_6D88_:
+    call _LABEL_6D90_
+    ld a,$0C
+    jp ExecuteFunctionIndexAInNextVBlank
+
+_LABEL_6D90_:
+    and $3F
+    jr nz,+
+    ld b,$01
+    call _LABEL_6E6D_
+    ld a,$00
+    jr z,+
+    ld a,$06
++:  ld c,a
+    add a,a
+    ld b,a
+    add a,a
+    add a,b
+    ld hl,_DATA_7302_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    push bc
+    ld a,(hl)
+    ld (Frame2Paging),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    rr c
+    ld d,$40
+    jr nc,+
+    ld d,$60
++:  di
+    xor a
+    out (VDPAddress),a
+    ld a,d
+    out (VDPAddress),a
+    ei
+    call _LABEL_6E31_
+    pop hl
+    inc hl
+    ld a,(hl)
+    ld (Frame2Paging),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    call DecompressToTileMapData
+    pop bc
+    call _LABEL_6EE9_
+    ret
+
+_LABEL_6DDD_:
+    ld b,$01
+    call _LABEL_6E6D_
+    ld a,$00
+    jr z,+
+    ld a,$06
++:  ld c,a
+    add a,a
+    ld e,a
+    add a,a
+    add a,e
+    ld e,a
+    ld d,$00
+    ld hl,_DATA_7305_
+    add hl,de
+    push bc
+    ld a,(hl)
+    ld (Frame2Paging),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    call DecompressToTileMapData
+    pop bc
+    jp _LABEL_6EE9_
+
+DecompressToTileMapData:
+    ld b,$00
+    ld de,TileMapData
+    call _LABEL_6E11_
+    inc hl
+    ld de,TileMapData+1
+_LABEL_6E11_:
+    ld a,(hl)
+    or a
+    ret z
+    jp m,+
+    ld c,a
+    inc hl
+-:  ldi
+    dec hl
+    inc de
+    jp pe,-
+    inc hl
+    jp _LABEL_6E11_
+
++:  and $7F
+    ld c,a
+    inc hl
+-:  ldi
+    inc de
+    jp pe,-
+    jp _LABEL_6E11_
+
+_LABEL_6E31_:
+    ld c,VDPData
+--:  ld a,(hl)
+    or a
+    ret z
+    jp m,+
+    ld b,a
+    inc hl
+-:  ld a,(hl)
+    outi
+    inc b
+    or (hl)
+    outi
+    inc b
+    or (hl)
+    outi
+    dec hl
+    dec hl
+    dec hl
+    out (VDPData),a
+    jp nz,-
+    inc hl
+    inc hl
+    inc hl
+    jp --
+
++:  and $7F
+    ld b,a
+    inc hl
+-:  ld a,(hl)
+    outi
+    inc b
+    or (hl)
+    outi
+    inc b
+    or (hl)
+    outi
+    push af
+    pop af
+    out (VDPData),a
+    jp nz,-
+    jp --
+
+_LABEL_6E6D_:
+    push hl
+    ld a,(_RAM_C30A_)
+    and $03
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld e,a
+    ld d,$00
+    ld hl,_DATA_6EAA_ - 1
+    add hl,de
+    ld e,b
+    add hl,de
+    ld a,(_RAM_C30C_)
+    add a,(hl)
+    ld h,$CB
+    ld l,a
+    ld a,(hl)
+    and $07
+    pop hl
+    ret
+
+_LABEL_6E8C_:
+    ld a,(_RAM_C30A_)
+    and $03
+    add a,a
+    add a,a
+    add a,a
+    add a,a
+    ld e,a
+    ld d,$00
+    ld hl,$6EA9
+    add hl,de
+    ld e,b
+    add hl,de
+    ld a,(_RAM_C30C_)
+    add a,(hl)
+    ld h,$CB
+    ld l,a
+    ld a,(hl)
+    and $7F
+    ret
+
+; Data from 6EA9 to 6EA9 (1 bytes)
+.db $00
+
+; Data from 6EAA to 6EAA (1 bytes)
+_DATA_6EAA_:
+.db $F0
+
+; Pointer Table from 6EAB to 6EB4 (5 entries,indexed by _RAM_C30A_)
+.dw _RAM_F1EF_ _RAM_DFE0_ _RAM_D0E1_ _RAM_D1CF_ $10C0
+
+; Data from 6EB5 to 6EE8 (52 bytes)
+.db $FF $01 $00 $00 $00 $01 $F1 $11 $02 $F2 $12 $03 $F3 $13 $04 $FF
+.db $F0 $10 $00 $00 $00 $10 $11 $0F $20 $21 $1F $30 $31 $2F $40 $F0
+.db $01 $FF $00 $00 $00 $FF $0F $EF $FE $0E $EE $FD $0D $ED $FC $01
+.db $10 $F0 $00 $00
+
+_LABEL_6EE9_:
+    ld a,c
+    cp $06
+    jp z,_LABEL_70DB_
+    ret nc
+    ld hl,Frame2Paging
+    ld (hl),$06
+    add a,a
+    ld l,a
+    add a,a
+    add a,a
+    ld h,a
+    add a,a
+    add a,h
+    add a,l
+    ld l,a
+    ld h,$00
+    ld e,l
+    ld d,h
+    add hl,hl
+    add hl,de
+    ld de,_DATA_712E_
+    add hl,de
+    ld b,$04
+    call _LABEL_6E6D_
+    jr z,+
+    call _LABEL_6FB6_
+    ld b,$02
+    call _LABEL_6E6D_
+    ld b,(hl)
+    inc hl
+    ld c,(hl)
+    inc hl
+    push bc
+    call _LABEL_6FD7_
+    ld b,$03
+    call _LABEL_6E6D_
+    pop bc
+    jp _LABEL_6FD7_
+
++:  ld de,$000C
+    add hl,de
+    ld b,$02
+    call _LABEL_6E6D_
+    ld b,(hl)
+    inc hl
+    ld c,(hl)
+    inc hl
+    push bc
+    call _LABEL_6FE8_
+    ld b,$03
+    call _LABEL_6E6D_
+    pop bc
+    call _LABEL_6FE8_
+    ld b,$07
+    call _LABEL_6E6D_
+    jr z,+
+    call _LABEL_6FB6_
+    ld b,$05
+    call _LABEL_6E6D_
+    ld b,(hl)
+    inc hl
+    ld c,(hl)
+    inc hl
+    push bc
+    call _LABEL_6FD7_
+    ld b,$06
+    call _LABEL_6E6D_
+    pop bc
+    jp _LABEL_6FD7_
+
++:  ld de,$000C
+    add hl,de
+    ld b,$05
+    call _LABEL_6E6D_
+    ld b,(hl)
+    inc hl
+    ld c,(hl)
+    inc hl
+    push bc
+    call _LABEL_6FE8_
+    ld b,$06
+    call _LABEL_6E6D_
+    pop bc
+    call _LABEL_6FE8_
+    ld b,$0A
+    call _LABEL_6E6D_
+    jr z,+
+    call _LABEL_6FB6_
+    ld b,$08
+    call _LABEL_6E6D_
+    ld b,(hl)
+    inc hl
+    ld c,(hl)
+    inc hl
+    push bc
+    call _LABEL_6FD7_
+    ld b,$09
+    call _LABEL_6E6D_
+    pop bc
+    jp _LABEL_6FD7_
+
++:  ld de,$000C
+    add hl,de
+    ld b,$08
+    call _LABEL_6E6D_
+    ld b,(hl)
+    inc hl
+    ld c,(hl)
+    inc hl
+    push bc
+    call _LABEL_6FE8_
+    ld b,$09
+    call _LABEL_6E6D_
+    pop bc
+    jp _LABEL_6FE8_
+
+_LABEL_6FB6_:
+    push af
+    call +
+    pop af
+    cp $07
+    jr z,+
+    cp $01
+    jr nc,+
+    xor a
++:  ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld b,(hl)
+    inc hl
+    ld c,(hl)
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    call nz,_LABEL_7107_
+    pop hl
+    inc hl
+    ret
+
+_LABEL_6FD7_:
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    inc hl
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    call z,_LABEL_7107_
+    pop hl
+    inc hl
+    ret
+
+_LABEL_6FE8_:
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    call z,_LABEL_7107_
+    pop hl
+    inc hl
+    inc hl
+    inc hl
+    ret
+
+_LABEL_6FF9_:
+    ld hl,Frame2Paging
+    ld (hl),$0F
+    
+    ld a,(_RAM_C30D_)   ; Dungeon offset?
+    ld h,a
+    ld l,$00
+    srl h               ; Divide by 2 to get a multiple of 128
+    rr l
+    ld de,_DATA_3DF6E_  ; Table?
+    add hl,de
+    
+    ld de,DungeonMap
+    ld b,$80 ; Byte count
+-:  ld a,(hl)
+    ; High nibble...
+    rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    ld (de),a
+    inc de
+    ; ...then low nibble
+    ld a,(hl)
+    and $0F
+    ld (de),a
+    inc de
+    inc hl
+    djnz -
+    
+_LABEL_7022_:
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_709A_
+    ld de,TargetPalette+16+1
+    ld bc,$0007
+    ldir
+    ld a,(_RAM_C30D_)
+    add a,a
+    add a,a
+    ld l,a
+    ld h,$00
+    ld de,_DATA_F619_
+    add hl,de
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    ld (BattleProbability),de
+    inc hl
+    ld a,(_RAM_C315_)
+    or a
+    ld a,(hl)
+    jr nz,+
+    ld e,a
+    ld a,(_RAM_C30D_)
+    ld hl,$70A1
+    ld bc,$0006
+    cpir
+    ld a,e
+    jr z,+
+    ld a,$FF
++:  inc a
+    ld (_RAM_C315_),a
+    add a,a
+    add a,a
+    add a,a
+    ld l,a
+    ld h,$00
+    ld de,_DATA_F5B9_
+    add hl,de
+    ld a,(hl)
+    ld (TargetPalette),a
+    ld de,TargetPalette+8
+    ld bc,$0008
+    ldir
+    ld a,(TargetPalette+9)
+    ld (TargetPalette+8),a
+    ld a,(TargetPalette+13)
+    ld (TargetPalette+16),a
+    ret
+
+_LABEL_7085_:
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld a,(_RAM_C30D_)
+    add a,a
+    add a,a
+    ld l,a
+    ld h,$00
+    ld de,_DATA_F61C_
+    add hl,de
+    ld a,(hl)
+    jp CheckMusic
+
+; Data from 709A to 70A6 (13 bytes)
+_DATA_709A_:
+.db $00 $3F $30 $38 $03 $0B $0F $01 $02 $14 $15 $16 $21
+
+---:  ld a,(_RAM_C2F5_)
+    or a
+    ret z
+    inc a
+    ld (_RAM_C2F5_),a
+    ld hl,Frame2Paging
+    ld (hl),$14
+    ld h,$00
+    ld l,a
+    add hl,hl
+    ld de,$BDB8
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld b,(hl)
+    inc hl
+--:  push bc
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld b,(hl)
+    inc hl
+-:  ld a,(hl)
+    add a,$80
+    cp $C0
+    jr c,+
+    ld (de),a
++:  inc de
+    inc de
+    inc hl
+    djnz -
+    pop bc
+    djnz --
+    ret
+
+_LABEL_70DB_:
+    ld b,$01
+    call _LABEL_6E8C_
+    and $07
+    cp $07
+    jr z,---
+    sub $02
+    ret c
+    bit 7,(hl)
+    jr z,_LABEL_70EF_
+    add a,$06
+_LABEL_70EF_:
+    ld hl,Frame2Paging
+    ld (hl),$06
+    add a,a
+    ld hl,_DATA_7118_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld de,_RAM_D114_
+    ld bc,$1218
+_LABEL_7107_:
+    push bc
+    push de
+    ld b,$00
+    ldir
+    ex de,hl
+    pop hl
+    ld bc,$0040
+    add hl,bc
+    ex de,hl
+    pop bc
+    djnz _LABEL_7107_
+    ret
+
+; Pointer Table from 7118 to 712D (11 entries,indexed by DungeonMap)
+_DATA_7118_:
+.dw _DATA_1AC50_ _DATA_1AE00_ _DATA_1AFB0_ _DATA_1B160_ _DATA_1B670_ _DATA_1B310_ _DATA_1B310_ _DATA_1B820_
+.dw _DATA_1B4C0_ _DATA_1B4C0_ _DATA_1B9D0_
+
+; Data from 712E to 7301 (468 bytes)
+_DATA_712E_:
+.db $D4 $D1 $08 $18 $90 $80 $1C $D2 $07 $08 $F4 $82 $0C $06 $50 $D1
+.db $A0 $81 $30 $82 $6A $D1 $E8 $81 $78 $82 $18 $D2 $06 $10 $30 $80
+.db $5C $D2 $05 $08 $CC $82 $06 $02 $18 $D2 $70 $81 $88 $81 $26 $D2
+.db $7C $81 $94 $81 $5A $D2 $04 $0C $00 $80 $9E $D2 $03 $04 $C0 $82
+.db $04 $02 $5A $D2 $50 $81 $60 $81 $64 $D2 $58 $81 $68 $81 $94 $D1
+.db $0A $18 $BC $83 $1A $D2 $08 $0C $B0 $87 $0E $0A $0C $D1 $4C $85
+.db $64 $86 $2A $D1 $D8 $85 $F0 $86 $18 $D2 $06 $10 $5C $83 $5C $D2
+.db $05 $08 $88 $87 $08 $04 $D6 $D1 $CC $84 $0C $85 $E6 $D1 $EC $84
+.db $2C $85 $5A $D2 $04 $0C $2C $83 $9E $D2 $03 $04 $7C $87 $04 $02
+.db $5A $D2 $AC $84 $BC $84 $64 $D2 $B4 $84 $C4 $84 $92 $D1 $0A $1C
+.db $A0 $88 $1A $D2 $08 $0C $EC $8D $12 $0C $88 $D0 $58 $8A $08 $8C
+.db $AC $D0 $30 $8B $E0 $8C $18 $D2 $06 $10 $40 $88 $5C $D2 $05 $08
+.db $C4 $8D $08 $04 $D6 $D1 $D8 $89 $18 $8A $E6 $D1 $F8 $89 $38 $8A
+.db $5A $D2 $04 $0C $10 $88 $9E $D2 $03 $04 $B8 $8D $04 $02 $5A $D2
+.db $B8 $89 $C8 $89 $64 $D2 $C0 $89 $D0 $89 $50 $D1 $0C $20 $DC $8E
+.db $DA $D1 $0A $0C $E0 $97 $16 $12 $00 $D0 $7C $91 $20 $96 $2E $D0
+.db $08 $93 $94 $94 $18 $D2 $06 $10 $7C $8E $5C $D2 $05 $08 $B8 $97
+.db $08 $06 $D4 $D1 $BC $90 $1C $91 $E6 $D1 $EC $90 $4C $91 $5A $D2
+.db $04 $0C $4C $8E $9E $D2 $03 $04 $AC $97 $06 $04 $18 $D2 $5C $90
+.db $8C $90 $24 $D2 $74 $90 $A4 $90 $0C $D1 $0E $28 $00 $99 $D8 $D1
+.db $0B $10 $28 $A1 $16 $0E $00 $D0 $10 $9C $78 $9E $32 $D0 $44 $9D
+.db $AC $9F $16 $D2 $06 $14 $88 $98 $5C $D2 $05 $08 $00 $A1 $08 $04
+.db $D4 $D1 $90 $9B $D0 $9B $E8 $D1 $B0 $9B $F0 $9B $5A $D2 $04 $0C
+.db $58 $98 $5C $D2 $04 $08 $E0 $A0 $06 $04 $18 $D2 $30 $9B $60 $9B
+.db $24 $D2 $48 $9B $78 $9B $88 $D0 $12 $30 $C0 $A2 $96 $D1 $0E $14
+.db $38 $AB $16 $0A $00 $D0 $70 $A7 $28 $A9 $36 $D0 $4C $A8 $04 $AA
+.db $D6 $D1 $08 $14 $20 $A2 $5C $D2 $06 $08 $08 $AB $0A $06 $92 $D1
+.db $80 $A6 $F8 $A6 $A8 $D1 $BC $A6 $34 $A7 $1A $D2 $06 $0C $D8 $A1
+.db $5C $D2 $05 $08 $E0 $AA $06 $04 $18 $D2 $20 $A6 $50 $A6 $24 $D2
+.db $38 $A6 $68 $A6
+
+; Data from 7302 to 7304 (3 bytes)
+_DATA_7302_:
+.db $07 $00 $80
+
+; Data from 7305 to 7305 (1 bytes)
+_DATA_7305_:
+.db $04
+
+; Pointer Table from 7306 to 7307 (1 entries,indexed by unknown)
+.dw _DATA_10B0F_
+
+; Data from 7308 to 73E5 (222 bytes)
+.db $07 $4B $8A $04 $D4 $8E $07 $1E $95 $04 $A4 $92 $07 $6B $9F $04
+.db $73 $96 $07 $13 $AA $04 $34 $9A $08 $00 $80 $04 $02 $9E $08 $ED
+.db $89 $04 $06 $89 $08 $23 $A4 $04 $D3 $A1 $09 $D1 $83 $04 $35 $A5
+.db $07 $22 $B4 $04 $80 $A8 $05 $AF $B1 $04 $A6 $AB $07 $22 $B4 $04
+.db $5B $AF $09 $D1 $83 $04 $3D $B3 $08 $23 $A4 $04 $6C $B7 $08 $ED
+.db $89 $04 $06 $89 $08 $3F $96 $1C $C0 $A6 $08 $06 $9D $1C $35 $A9
+.db $05 $27 $AA $1C $D0 $AB $09 $00 $80 $1C $C9 $AE $05 $27 $AA $1C
+.db $0C $B2 $08 $06 $9D $1C $C2 $B5 $08 $3F $96 $1C $5A $B9 $08 $ED
+.db $89 $04 $06 $89 $09 $4A $8F $05 $00 $80 $09 $BD $9A $05 $67 $83
+.db $09 $0D $A6 $05 $95 $86 $08 $75 $AF $05 $7A $89 $04 $00 $80 $05
+.db $62 $8C $05 $30 $B8 $05 $18 $8F $08 $26 $B9 $05 $8F $91 $08 $ED
+.db $89 $04 $06 $89 $08 $26 $B9 $05 $C6 $93 $05 $30 $B8 $05 $2E $97
+.db $04 $00 $80 $05 $AD $9A $08 $75 $AF $05 $7E $9E $09 $0D $A6 $05
+.db $48 $A2 $09 $BD $9A $05 $12 $A6 $09 $4A $8F $04 $BE $BB
+
+_LABEL_73E6_:
+    push bc
+    push de
+    push hl
+    call +
+    pop hl
+    pop de
+    pop bc
+    ret
+
++:  ld hl,PaletteRotateEnabled
+    ld a,(hl)
+    dec (hl)
+    jp m,+
+    ld a,(ScrollDirection)
+    ld c,a
+    jp ++
+
++:  ld (hl),$00
+    ld a,(ControlsNew)
+    and $0F
+    or $80
+    ld c,a
+    ld a,(VehicleMovementFlags)
+    or a
+    ld a,$0F
+    jr z,+
+    ld a,$07
++:  ld (PaletteRotateEnabled),a
+++:  ld de,$0001
+    ld a,(VehicleMovementFlags)
+    or a
+    jr z,+
+    inc e
++:  ld a,(VScroll)
+    ld d,a
+    ld hl,(VLocation)
+    ld b,h
+    bit 0,c
+    jr z,++
+    ld a,$02
+    bit 7,c
+    call nz,_LABEL_7787_
+    jr nz,++
+    ld a,d
+    sub e
+    cp $E0
+    jr c,+
+    sub $20
++:  ld d,a
+    ld a,l
+    sub e
+    cp $C0
+    jr c,+
+    sub $40
+    dec h
++:  ld l,a
+    ld a,$01
+    jp +++
+
+++:  bit 1,c
+    jr z,++++
+    ld a,$04
+    bit 7,c
+    call nz,_LABEL_7787_
+    jr nz,++++
+    ld a,d
+    add a,e
+    cp $E0
+    jr c,+
+    add a,$20
++:  ld d,a
+    ld a,l
+    add a,e
+    cp $C0
+    jr c,+
+    add a,$40
+    inc h
++:  ld l,a
+    ld a,$02
++++:  ld (ScrollDirection),a
+    ld a,$FF
+    ld (MovementInProgress),a
+    ld a,d
+    ld (VScroll),a
+    ld a,h
+    and $07
+    ld h,a
+    ld (VLocation),hl
+    cp b
+    call nz,DecompressScrollingTilemapData
+    jp _LABEL_75DD_
+
+++++:  ld d,$00
+    ld hl,(HLocation)
+    ld b,h
+    bit 2,c
+    jr z,+
+    ld a,$06
+    bit 7,c
+    call nz,_LABEL_7787_
+    jr nz,+
+    or a
+    sbc hl,de
+    ld a,$04
+    jp ++
+
++:  bit 3,c
+    jr z,+++
+    ld a,$08
+    bit 7,c
+    call nz,_LABEL_7787_
+    jr nz,+++
+    add hl,de
+    ld a,$08
+++:  ld (ScrollDirection),a
+    ld a,$FF
+    ld (MovementInProgress),a
+    ld a,l
+    neg
+    ld (HScroll),a
+    ld a,h
+    and $07
+    ld h,a
+    ld (HLocation),hl
+    cp b
+    jp nz,DecompressScrollingTilemapData
+    jp _LABEL_7549_
+
++++:  ld a,$D6
+    ld (NewMusic),a
+    xor a
+    ld (MovementInProgress),a
+    ld (ScrollDirection),a
+    ld (PaletteRotateEnabled),a
+    ret
+
+DecompressScrollingTilemapData:
+    ld a,(_RAM_C262_)
+    ld (Frame2Paging),a
+    ld a,(VLocation+1)
+    add a,a
+    ld e,a
+    add a,a
+    add a,a
+    add a,a
+    add a,e
+    ld e,a
+    ld a,(HLocation+1)
+    add a,a
+    add a,e
+    ld e,a
+    ld d,$00
+    ld hl,(_RAM_C260_)
+    add hl,de
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    ld de,_RAM_CC00_
+    call +
+    pop hl
+    push hl
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld de,_RAM_CD00_
+    call +
+    pop hl
+    ld de,_DATA_12_ - 1
+    add hl,de
+    ld a,(hl)
+    inc hl
+    push hl
+    ld h,(hl)
+    ld l,a
+    ld de,_RAM_CE00_
+    call +
+    pop hl
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld de,_RAM_CF00_
++:  ld b,$00
+--:  ld a,(hl)
+    or a
+    ret z
+    jp m,+
+    ld b,a
+    inc hl
+    ld a,(hl)
+-:  ld (de),a
+    inc de
+    djnz -
+    inc hl
+    jp --
+
++:  and $7F
+    ld c,a
+    inc hl
+    ldir
+    jp --
+
+_LABEL_7549_:
+    ld a,(ScrollDirection)
+    and $0C
+    ret z
+    ld b,a
+    ld a,(_RAM_C263_)
+    ld (Frame2Paging),a
+    ld c,$00
+    ld a,(HLocation)
+    and $07
+    jr z,+
+    ld a,b
+    and $08
+    jr nz,+
+    ld c,$08
++:  ld a,(VScroll)
+    and $F0
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld a,(HLocation)
+    add a,c
+    rrca
+    rrca
+    and $3C
+    add a,l
+    ld e,a
+    ld a,h
+    add a,$D0
+    ld d,a
+    ld h,$CC
+    ld a,(VLocation)
+    and $F0
+    ld l,a
+    ld a,(HLocation)
+    add a,c
+    jr nc,+
+    inc h
++:  rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    add a,l
+    ld l,a
+    ld a,b
+    and $08
+    jr z,+
+    inc h
++:  ld b,$0E
+-:  push bc
+    push hl
+    ld l,(hl)
+    ld h,$10
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ldi
+    ldi
+    ldi
+    ldi
+    ld a,$3C
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+    ldi
+    ldi
+    ldi
+    ldi
+    pop hl
+    ld a,$10
+    add a,l
+    cp $C0
+    jr c,+
+    sub $C0
+    inc h
+    inc h
++:  ld l,a
+    ld a,$3C
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    sub $D7
+    jr nc,+
+    add a,$07
++:  add a,$D0
+    ld d,a
+    pop bc
+    djnz -
+    ret
+
+_LABEL_75DD_:
+    ld a,(ScrollDirection)
+    and $03
+    ret z
+    ld b,a
+    and $01
+    ld a,(_RAM_C263_)
+    ld (Frame2Paging),a
+    ld a,(VScroll)
+    ld b,$00
+    jr nz,++
+    cp $20
+    jr c,+
+    add a,$20
++:  ld b,$C0
+    add a,b
+++:  and $F0
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld a,(HLocation)
+    rrca
+    rrca
+    and $3C
+    add a,l
+    ld e,a
+    ld a,h
+    add a,$D0
+    ld d,a
+    ld a,(VLocation)
+    and $F0
+    add a,b
+    ld l,a
+    adc a,$00
+    sub l
+    ld h,a
+    ld a,(HLocation)
+    rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    add a,l
+    ld l,a
+    ld bc,$00C0
+    or a
+    sbc hl,bc
+    ld a,$CE
+    jr nc,+
+    add hl,bc
+    ld a,$CC
++:  ld h,a
+    ld b,$10
+-:  push bc
+    push hl
+    ld l,(hl)
+    ld h,$10
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ldi
+    ldi
+    ldi
+    ldi
+    push de
+    ld a,$3C
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+    ldi
+    ldi
+    ldi
+    ldi
+    pop de
+    ld a,e
+    and $3F
+    jr nz,+
+    ld a,e
+    sub $40
+    ld e,a
++:  pop hl
+    ld a,l
+    and $F0
+    ld b,a
+    inc l
+    ld a,l
+    and $F0
+    cp b
+    jr z,+
+    inc h
+    ld l,b
++:  pop bc
+    djnz -
+    ret
+
+UpdateScrollingTilemap:
+    ld a,(ScrollDirection)
+    and $0F
+    ret z
+    ld b,a
+    and $03
+    ld a,(_RAM_C263_)
+    ld (Frame2Paging),a
+    jp nz,++
+    ld c,$00
+    ld a,(HLocation)
+    and $07
+    jr z,+
+    ld a,b
+    and $08
+    jr nz,+
+    ld c,$08
++:  ld a,(HLocation)
+    add a,c
+    rrca
+    rrca
+    and $3E
+    ld e,a
+    ld l,a
+    ld d,$78
+    ld h,$D0
+    ld bc, $1C00 | VDPData
+-:  push bc
+    rst SetVRAMAddressToDE
+    nop
+    nop
+    nop
+    outi
+    nop
+    nop
+    nop
+    outi
+    ld bc,$003E
+    add hl,bc
+    ex de,hl
+    ld c,$40
+    add hl,bc
+    ex de,hl
+    pop bc
+    djnz -
+    ret
+
+++:  ld a,b
+    and $01
+    ld a,(VScroll)
+    ld b,$00
+    jr nz,++
+    cp $20
+    jr c,+
+    add a,$20
++:  ld b,$C0
+    add a,b
+++:  and $F8
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld a,h
+    add a,$78
+    ld d,a
+    ld e,l
+    rst SetVRAMAddressToDE
+    ld a,h
+    add a,$D0
+    ld h,a
+    ld bc, $4000 | VDPData
+-:  outi
+    nop
+    jp nz,-
+    ret
+
+FillTilemap:
+    call _LABEL_78A5_
+    ld a,(_RAM_C263_)
+    ld (Frame2Paging),a
+    ld a,(VScroll)
+    and $F0
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld a,(HLocation)
+    rrca
+    rrca
+    and $3C
+    add a,l
+    ld e,a
+    ld a,h
+    add a,$D0
+    ld d,a
+    ld a,(VLocation)
+    and $F0
+    ld l,a
+    ld a,(HLocation)
+    rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    add a,l
+    ld l,a
+    ld h,$CC
+    ld b,$0C
+_LABEL_7724_:
+    push bc
+    push hl
+    ld b,$10
+-:  push bc
+    push hl
+    ld l,(hl)
+    ld h,$10
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ldi
+    ldi
+    ldi
+    ldi
+    push de
+    ld a,$3C
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    ld d,a
+    ldi
+    ldi
+    ldi
+    ldi
+    pop de
+    ld a,e
+    and $3F
+    jr nz,+
+    ld a,e
+    sub $40
+    ld e,a
++:  pop hl
+    ld a,l
+    and $F0
+    ld b,a
+    inc l
+    ld a,l
+    and $F0
+    cp b
+    jr z,+
+    inc h
+    ld l,b
++:  pop bc
+    djnz -
+    ld a,$80
+    add a,e
+    ld e,a
+    adc a,d
+    sub e
+    sub $D7
+    jr nc,+
+    add a,$07
++:  add a,$D0
+    ld d,a
+    pop hl
+    ld a,$10
+    add a,l
+    cp $C0
+    jr c,+
+    sub $C0
+    inc h
+    inc h
++:  ld l,a
+    pop bc
+    djnz _LABEL_7724_
+    ld a,$12
+    jp ExecuteFunctionIndexAInNextVBlank
+
+_LABEL_7787_:
+    push bc
+    push hl
+    ld c,a
+    ld a,(_RAM_C2E9_)
+    or a
+    jr nz,+
+    ld a,(VehicleMovementFlags)
+    or a
+    jr nz,++
+    ld b,$00
+    ld hl,_DATA_7CC6_ - 2
+    add hl,bc
+    ld a,(hl)
+    call GetLocationUnknownData
+    and $01
+    pop hl
+    pop bc
+    ret
+
++:  xor a
+    pop hl
+    pop bc
+    ret
+
+++:  cp $04
+    jr nz,++
+    push de
+    ld b,$00
+    ld hl,$7CCE
+    add hl,bc
+    ex de,hl
+    ld a,(de)
+    call GetLocationUnknownData
+    and $01
+    jr nz,+
+    inc de
+    ld a,(de)
+    call GetLocationUnknownData
+    and $01
++:  pop de
+    pop hl
+    pop bc
+    ret
+
+++:  cp $08
+    jr nz,++
+    push de
+    ld b,$00
+    ld hl,$7CCE
+    add hl,bc
+    ex de,hl
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0A
+    jr nz,+
+    inc de
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0A
++:  pop de
+    pop hl
+    pop bc
+    ret
+
+++:  push de
+    ld b,$00
+    ld hl,$7CCE
+    add hl,bc
+    ld e,b
+    ld a,(hl)
+    inc hl
+    ld d,(hl)
+    call ++
+    and $01
+    ld c,a
+    ld a,d
+    ld d,c
+    call ++
+    and $01
+    or d
+    push af
+    ld a,e
+    or a
+    jr z,+
+    ld a,$B7
+    ld (NewMusic),a
++:  pop af
+    pop de
+    pop hl
+    pop bc
+    ret
+
+++:  ld hl,$7D30
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld c,(hl)
+    inc hl
+    ld b,(hl)
+    ld h,$CC
+    ld a,(VLocation)
+    add a,c
+    jr c,+
+    cp $C0
+    jr c,++
++:  add a,$40
+    inc h
+    inc h
+++:  and $F0
+    ld l,a
+    ld a,(HLocation)
+    add a,b
+    jr nc,+
+    inc h
++:  rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    add a,l
+    ld l,a
+    ld a,(hl)
+    cp $D8
+    jr c,_LABEL_788B_
+    cp $E0
+    jr nc,_LABEL_788B_
+    ld (hl),$D7
+    push de
+    ld a,(VScroll)
+    add a,c
+    jr nc,+
+    add a,$20
++:  cp $E0
+    jr c,+
+    add a,$20
++:  and $F0
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld a,(HLocation)
+    add a,b
+    rrca
+    rrca
+    and $3C
+    add a,l
+    ld e,a
+    ld a,h
+    add a,$78
+    ld d,a
+    ld hl,_DATA_7D5C_
+    di
+    ld bc, $0200 | VDPData
+--:  push bc
+    rst SetVRAMAddressToDE
+    ld b,$04
+-:  outi
+    nop
+    jp nz,-
+    ex de,hl
+    ld bc,$0040
+    add hl,bc
+    ex de,hl
+    pop bc
+    djnz --
+    ei
+    pop de
+    ld a,$D7
+    ld e,a
+_LABEL_788B_:
+    ld (_RAM_C2E5_),a
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_FC6F_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(_RAM_C308_)
+    cp $04
+    jr c,+
+    inc h
++:  ld a,(hl)
+    ret
+
+_LABEL_78A5_:
+    ld a,(_RAM_C308_)
+    cp $02
+    ret nz
+    ld a,(VehicleMovementFlags)
+    cp $0C
+    ret nz
+    ld a,$0A
+    call +
+    ld a,$0C
+    call +
+    ld a,$12
+    call +
+    ld a,$14
++:  ld hl,$7D30
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld c,(hl)
+    inc hl
+    ld b,(hl)
+    ld h,$CC
+    ld a,(VLocation)
+    add a,c
+    jr c,+
+    cp $C0
+    jr c,++
++:  add a,$40
+    inc h
+    inc h
+++:  and $F0
+    ld l,a
+    ld a,(HLocation)
+    add a,b
+    jr nc,+
+    inc h
++:  rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    add a,l
+    ld l,a
+    ld a,(hl)
+    cp $D8
+    ret c
+    cp $E0
+    ret nc
+    ld (hl),$D7
+    ret
+
+_LABEL_78F9_:
+    ld bc,$0400
+-:  push bc
+    ld b,$00
+    ld hl,_DATA_7CD8_
+    add hl,bc
+    ex de,hl
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0D
+    jr nz,+
+    inc de
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0D
+    jr nz,+
+    inc de
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0D
+    jr nz,+
+    inc de
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0D
+    jr z,++
++:  pop bc
+    ld a,c
+    add a,$04
+    ld c,a
+    djnz -
+    ld a,$FF
+    or a
+    ret
+
+++:  pop bc
+    ld a,c
+    or a
+    ret z
+    ld de,$0010
+    cp $04
+    jr z,++
+    cp $08
+    jr nz,+
+    ld de,$0000
++:  ld hl,(VLocation)
+    ld a,l
+    add a,$10
+    cp $C0
+    jr c,+
+    add a,$40
+    inc h
++:  ld l,a
+    ld (VLocation),hl
+    ld (_RAM_C311_),hl
+++:  ld hl,(HLocation)
+    add hl,de
+    ld (HLocation),hl
+    ld (_RAM_C313_),hl
+    xor a
+    ret
+
+_LABEL_7964_:
+    ld bc,$0800
+-:  push bc
+    ld b,$00
+    ld hl,_DATA_7CE8_
+    add hl,bc
+    ex de,hl
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0A
+    jr nz,+
+    inc de
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0A
+    jr nz,+
+    inc de
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0A
+    jr nz,+
+    inc de
+    ld a,(de)
+    call GetLocationUnknownData
+    and $0A
+    jr z,++
++:  pop bc
+    ld a,c
+    add a,$06
+    ld c,a
+    djnz -
+    ld a,$FF
+    or a
+    ret
+
+++:  ld hl,$7CEC
+_LABEL_79A0_:
+    pop bc
+    ld b,$00
+    add hl,bc
+    ld de,(VLocation)
+    ld a,e
+    add a,(hl)
+    cp $C0
+    jr c,++
+    bit 7,(hl)
+    jr nz,+
+    add a,$40
+    inc d
+    jr ++
+
++:  sub $40
+    dec d
+++:  ld e,a
+    ld (VLocation),de
+    ld (_RAM_C311_),de
+    inc hl
+    ld a,(hl)
+    ld e,a
+    rlca
+    sbc a,a
+    ld d,a
+    ld hl,(HLocation)
+    add hl,de
+    ld (HLocation),hl
+    ld (_RAM_C313_),hl
+    xor a
+    ret
+
+_LABEL_79D5_:
+    ld a,(_RAM_C2D7_)
+    and $03
+    ld c,a
+    add a,a
+    add a,c
+    add a,a
+    ld c,a
+    ld b,$08
+-:  push bc
+    ld b,$00
+    ld hl,_DATA_7D18_
+    add hl,bc
+    ld a,(hl)
+    call GetLocationUnknownData
+    and $0D
+    jr z,++
+    pop bc
+    ld a,c
+    add a,$03
+    cp $18
+    jr c,+
+    sub $18
++:  ld c,a
+    djnz -
+    ld a,$FF
+    or a
+    ret
+
+++:  ld hl,_DATA_7D18_ + 1
+    jp _LABEL_79A0_
+
+GetLocationUnknownData:
+    ld hl,_DATA_7D30_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld c,(hl)
+    inc hl
+    ld b,(hl)
+    ld h,$CC
+    ld a,(VLocation)
+    add a,c
+    jr c,+
+    cp $C0
+    jr c,++
++:  add a,$40
+    inc h
+    inc h
+++:  and $F0
+    ld l,a
+    ld a,(HLocation)
+    add a,b
+    jr nc,+
+    inc h
++:  rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    add a,l
+    ld l,a
+    ld a,(hl)
+    ld (_RAM_C2E5_),a
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_FC6F_
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld a,(_RAM_C308_)
+    cp $04
+    jr c,+
+    inc h
++:  ld a,(hl)
+    ret
+
+_LABEL_7A4F_:
+    ld hl,_RAM_C2D5_
+    ld a,(PaletteRotateEnabled)
+    or a
+    jp z,+
+    ld (hl),$00
+    ret
+
++:  ld a,(hl)
+    or a
+    ret nz
+    ld (hl),$FF
+    ld a,$14
+    ld e,a
+    call GetLocationUnknownData
+    ld b,a
+    rrca
+    rrca
+    rrca
+    rrca
+    and $0F
+    ld (SceneType),a
+    ld a,b
+    and $08
+    jr nz,++
+    ld a,b
+    and $04
+    jp nz,_LABEL_7BCD_
+    ld a,(VehicleMovementFlags)
+    or a
+    jr z,+
+    ld a,$12
+    ld e,a
+    call GetLocationUnknownData
+    and $08
+    jr nz,++
+    ld a,$0A
+    ld e,a
+    call GetLocationUnknownData
+    and $08
+    jr nz,++
+    ld a,$0C
+    ld e,a
+    call GetLocationUnknownData
+    and $08
+    jr nz,++
+    ld a,$14
+    ld e,a
+    call GetLocationUnknownData
++:  ld hl,(VLocation)
+    ld (_RAM_C311_),hl
+    ld hl,(HLocation)
+    ld (_RAM_C313_),hl
+    ret
+
+++:  ld a,e
+    ld hl,$7D30
+    add a,l
+    ld l,a
+    adc a,h
+    sub l
+    ld h,a
+    ld de,(VLocation)
+    ld a,e
+    add a,(hl)
+    jr c,+
+    cp $C0
+    jr c,++
++:  add a,$40
+    inc d
+++:  ld e,a
+    ex de,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ex de,hl
+    inc hl
+    ld c,(hl)
+    ld b,$00
+    ld hl,(HLocation)
+    add hl,bc
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld e,h
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,(_RAM_C2D9_)
+-:  ld a,(hl)
+    cp $FF
+    ret z
+    push hl
+    ld a,(hl)
+    cp d
+    jr z,++
+    inc a
+    ld b,a
+    and $0F
+    cp $0C
+    ld a,b
+    jr c,+
+    add a,$10
+    and $70
++:  cp d
+    jr nz,+++
+++:  inc hl
+    ld a,(hl)
+    cp e
+    jr z,++++
+    inc a
+    cp e
+    jr z,++++
++++:  pop hl
+    ld bc,$0006
+    add hl,bc
+    jp -
+
+++++:  pop hl
+    inc hl
+    inc hl
+    ld a,(hl)
+    cp $08
+    jp nz,_LABEL_7B60_
+_LABEL_7B1A_:
+    ld (FunctionLookupIndex),a
+    inc hl
+_LABEL_7B1E_:
+    ld a,(hl)
+    ld (_RAM_C308_),a
+    ld (_RAM_C309_),a
+    inc hl
+    ld e,(hl)
+    ld d,$00
+    ex de,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld a,l
+    sub $60
+    jr c,+
+    cp $C0
+    jr c,++
++:  sub $40
+    dec h
+++:  ld l,a
+    ld a,h
+    and $07
+    ld h,a
+    ld (VLocation),hl
+    ld (_RAM_C311_),hl
+    ex de,hl
+    inc hl
+    ld a,(hl)
+    sub $08
+    and $7F
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    add hl,hl
+    ld (HLocation),hl
+    ld (_RAM_C313_),hl
+    xor a
+    ld (VehicleMovementFlags),a
+    jp _LABEL_7BAB_
+
+_LABEL_7B60_:
+    cp $0A
+    jp nz,+
+    ld (FunctionLookupIndex),a
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld e,(hl)
+    ld (_RAM_C30C_),de
+    inc hl
+    ld a,(hl)
+    ld (_RAM_C30A_),a
+    ld hl,(_RAM_C311_)
+    ld (VLocation),hl
+    ld hl,(_RAM_C313_)
+    ld (HLocation),hl
+    xor a
+    ld (VehicleMovementFlags),a
+    jp _LABEL_7BAB_
+
++:  cp $0C
+    ret nz
+    ld (FunctionLookupIndex),a
+    inc hl
+    ld a,(hl)
+    ld (SceneType),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld (RoomIndex),hl
+    xor a
+    ld (_RAM_C29D_),a
+    ld hl,(_RAM_C311_)
+    ld (VLocation),hl
+    ld hl,(_RAM_C313_)
+    ld (HLocation),hl
+_LABEL_7BAB_:
+    ld a,(_RAM_C810_)
+    ld (_RAM_C2D7_),a
+    ld hl,OutsideAnimCounters.1
+    ld de,OutsideAnimCounters.1 + 1
+    ld bc,$0017
+    ld (hl),$00
+    ldir
+    ld hl,CharacterSpriteAttributes
+    ld de,CharacterSpriteAttributes + 1
+    ld bc,$00FF
+    ld (hl),$00
+    ldir
+    pop hl
+    ret
+
+_LABEL_7BCD_:
+    ld a,(_RAM_C2E5_)
+    cp $4C
+    jp nz,+
+    ld a,(_RAM_C309_)
+    cp $05
+    ret nz
+    ld a,(HaveLutz)
+    or a
+    ret z
+    ld a,$0A
+    ld (FunctionLookupIndex),a
+    ld hl,$00DE
+    ld (_RAM_C30C_),hl
+    ld a,$00
+    ld (_RAM_C30A_),a
+    ld hl,(_RAM_C311_)
+    ld (VLocation),hl
+    ld hl,(_RAM_C313_)
+    ld (HLocation),hl
+    jp _LABEL_7BAB_
+
++:  cp $5E
+    jp nz,+
+    ld a,(VehicleMovementFlags)
+    or a
+    ret nz
+    ld a,$35
+    call _LABEL_298A_
+    ret z
+    ld hl,$00A0
+    ld (RoomIndex),hl
+_LABEL_7C15_:
+    ld a,$0C
+    ld (FunctionLookupIndex),a
+    ld hl,(_RAM_C311_)
+    ld (VLocation),hl
+    ld hl,(_RAM_C313_)
+    ld (HLocation),hl
+    jp _LABEL_7BAB_
+
++:  cp $5F
+    ret c
+    cp $64
+    jp nc,+
+    ld a,(VehicleMovementFlags)
+    cp $08
+    ret z
+    call _LABEL_7E67_
+    ld c,$02
+    jp _LABEL_7C85_
+
++:  cp $AD
+    jp nz,+
+    ld a,(_RAM_C309_)
+    sub $04
+    ret c
+    ld l,a
+    ld h,$00
+    ld e,l
+    ld d,h
+    add hl,hl
+    add hl,de
+    ld de,$7D63
+    add hl,de
+    ld a,$08
+    jp _LABEL_7B1A_
+
++:  cp $C3
+    ret c
+    cp $C7
+    jp nc,+
+    ld a,(VehicleMovementFlags)
+    or a
+    ret nz
+    ld a,$FF
+    ld (_RAM_C29D_),a
+    ld a,$19
+    ld (EnemyNumber),a
+    jp _LABEL_7C15_
+
++:  cp $C7
+    ret c
+    cp $D2
+    ret nc
+    ld a,$3B
+    call _LABEL_298A_
+    ret z
+    call _LABEL_7E67_
+    ld c,$1E
+_LABEL_7C85_:
+    ld b,$00
+    ld a,$03
+    call +
+    ld a,$02
+    call +
+    ld a,$01
+    call +
+    ld a,$00
+    call +
+    ld a,b
+    or a
+    ret z
+    ld (_RAM_C2F0_),a
+    ld hl,$00AE
+    ld (RoomIndex),hl
+    ld a,$0C
+    ld (FunctionLookupIndex),a
+    jp _LABEL_7BAB_
+
++:  call _LABEL_19D9_
+    jr z,++
+    inc hl
+    ld a,(hl)
+    sub c
+    jr nc,+
+    xor a
++:  ld (hl),a
+    jr nz,++
+    dec hl
+    ld (hl),a
+    sub $01
+++:  rl b
+    ret
+
+; Data from 7CC4 to 7CC5 (2 bytes)
+.db $14 $14
+
+; Data from 7CC6 to 7CD7 (18 bytes)
+_DATA_7CC6_:
+.db $0C $0C $1C $1C $12 $12 $16 $16 $0A $14 $02 $04 $1A $1C $08 $10
+.db $0E $16
+
+; Data from 7CD8 to 7CE7 (16 bytes)
+_DATA_7CD8_:
+.db $0A $0C $12 $14 $0C $0E $14 $16 $12 $14 $1A $1C $14 $16 $1C $1E
+
+; Data from 7CE8 to 7D17 (48 bytes)
+_DATA_7CE8_:
+.db $02 $04 $0A $0C $F0 $00 $04 $06 $0C $0E $F0 $10 $0E $26 $16 $28
+.db $00 $20 $16 $28 $1E $2A $10 $20 $1C $1E $22 $24 $20 $10 $1A $1C
+.db $20 $22 $20 $00 $10 $12 $18 $1A $10 $F0 $08 $0A $10 $12 $00 $F0
+
+; Data from 7D18 to 7D2F (24 bytes)
+_DATA_7D18_:
+.db $02 $E0 $F0 $04 $E0 $00 $0E $F0 $10 $16 $00 $10 $1C $10 $00 $1A
+.db $10 $F0 $10 $00 $E0 $08 $F0 $E0
+
+; Data from 7D30 to 7D5B (44 bytes)
+_DATA_7D30_:
+.db $40 $60 $40 $70 $40 $80 $40 $90 $50 $60 $50 $70 $50 $80 $50 $90
+.db $60 $60 $60 $70 $60 $80 $60 $90 $70 $60 $70 $70 $70 $80 $70 $90
+.db $80 $70 $80 $80 $80 $90 $50 $A0 $60 $A0 $70 $A0
+
+; Data from 7D5C to 7D9F (68 bytes)
+_DATA_7D5C_:
+.db $91 $01 $92 $01 $93 $01 $94 $01 $00 $39 $55 $00 $39 $55 $00 $48
+.db $49 $00 $47 $38 $00 $66 $55 $00 $25 $42 $00 $14 $0F $00 $41 $1A
+.db $00 $66 $75 $00 $38 $66 $01 $27 $64 $01 $53 $73 $01 $27 $64 $01
+.db $71 $5A $01 $26 $29 $02 $5B $2C $02 $38 $49 $02 $5B $2C $02 $38
+.db $49 $00 $16 $6A
+
+_LABEL_7DA0_:
+    ld hl,$1009
+    ld (PaletteFadeControl),hl
+    jr _LABEL_7DAE_
+
+FadeOutFullPalette:
+    ld hl,$2009
+    ld (PaletteFadeControl),hl
+_LABEL_7DAE_:
+    ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(PaletteFadeControl)
+    or a
+    jp nz,_LABEL_7DAE_
+    ret
+
+_LABEL_7DBB_:
+    ld hl,$1089
+    ld (PaletteFadeControl),hl
+    jr _LABEL_7DD6_
+
+FadeInWholePalette:
+    ld hl,$2089
+    ld (PaletteFadeControl),hl
+    ld hl,ActualPalette
+    ld de,ActualPalette + 1
+    ld bc,$001F
+    ld (hl),$00
+    ldir
+_LABEL_7DD6_:
+    ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(PaletteFadeControl)
+    or a
+    jp nz,_LABEL_7DD6_
+    ret
+
+FadePaletteInRAM:
+    ld hl,PaletteFadeFrameCounter
+    dec (hl)
+    ret p
+    ld (hl),$03
+    ld hl,PaletteFadeControl
+    ld a,(hl)
+    bit 7,a
+    jp nz,++
+    or a
+    ret z
+    dec (hl)
+    inc hl
+    ld b,(hl)
+    ld hl,ActualPalette
+-:  call +
+    inc hl
+    djnz -
+    ret
+
++:  ld a,(hl)
+    or a
+    ret z
+    and $03
+    jr z,+
+    dec (hl)
+    ret
+
++:  ld a,(hl)
+    and $0C
+    jr z,+
+    ld a,(hl)
+    sub $04
+    ld (hl),a
+    ret
+
++:  ld a,(hl)
+    and $30
+    ret z
+    sub $10
+    ld (hl),a
+    ret
+
+++:  cp $80
+    jr nz,+
+    ld (hl),$00
+    ret
+
++:  dec (hl)
+    inc hl
+    ld b,(hl)
+    ld hl,$C240
+    ld de,ActualPalette
+-:  call +
+    inc hl
+    inc de
+    djnz -
+    ret
+
++:  ld a,(de)
+    cp (hl)
+    ret z
+    add a,$10
+    cp (hl)
+    jr z,+
+    jr nc,++
++:  ld (de),a
+    ret
+
+++:  ld a,(de)
+    add a,$04
+    cp (hl)
+    jr z,+
+    jr nc,++
++:  ld (de),a
+    ret
+
+++:  ex de,hl
+    inc (hl)
+    ex de,hl
+    ret
+
+_LABEL_7E4F_:
+    ld a,$0A
+    ld (PaletteFlashFrames),a
+    ld hl,$0D13
+    ld (PaletteFlashCount),hl
+-:  ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(PaletteFlashFrames)
+    or a
+    jp nz,-
+    ret
+
+_LABEL_7E67_:
+    ld a,$0A
+    ld (PaletteFlashFrames),a
+    ld hl,$0E03
+    ld a,(EnemyNumber)
+    cp $46
+    jr z,+
+    cp $49
+    jr z,+
+    cp $4A
+    jr z,+
+    ld hl,$0D03
++:  ld (PaletteFlashCount),hl
+-:  ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(PaletteFlashFrames)
+    or a
+    jp nz,-
+    ret
+
+FlashPaletteInRAM:
+    ld a,(PaletteFlashFrames)
+    or a
+    ret z
+    dec a
+    ld (PaletteFlashFrames),a
+    rrca
+    jp c,+
+    ld hl,TargetPalette
+    ld de,ActualPalette
+    ld bc,$0020
+    ldir
+    ret
+
++:  ld hl,(PaletteFlashCount)
+    ld b,h
+    ld a,l
+    ld hl,$C220
+    add a,l
+    ld l,a
+    ld a,$3F
+-:  ld (hl),a
+    inc hl
+    djnz -
+    ret
+
+PaletteRotate:
+    ld a,(VehicleMovementFlags)
+    or a
+    ret z
+    cp $10
+    jp z,_LABEL_7F1C_
+    cp $11
+    jp z,_LABEL_7F1C_
+    cp $0E
+    ret nc
+    ld b,a
+    ld c,$D1
+    cp $08
+    jp z,+
+    ld c,$D0
+    ld a,(PaletteRotateEnabled)
+    or a
+    ret z
++:  ld hl,PaletteRotateCounter
+    dec (hl)
+    ret p
+    ld (hl),$03
+    dec hl
+    ld a,c
+    ld (NewMusic),a
+    ld a,(hl)
+    inc a
+    cp $03
+    jr c,+
+    xor a
++:  ld (hl),a
+    ld c,a
+    ld a,b
+    cp $08
+    ld hl,_DATA_7F10_
+    ld de,$C01D
+    jp nz,+
+    ld hl,_DATA_7F16_
+    ld de,$C017
++:  ld b,$00
+    add hl,bc
+    rst SetVRAMAddressToDE
+    ld bc, $0300 | VDPData
+-:  outi
+    jp nz,-
+    ret
+
+; Data from 7F10 to 7F15 (6 bytes)
+_DATA_7F10_:
+.db $2F $2A $25 $2F $2A $25
+
+; Data from 7F16 to 7F1B (6 bytes)
+_DATA_7F16_:
+.db $3C $2F $2A $3C $2F $2A
+
+_LABEL_7F1C_:
+    ld hl,ActualPalette
+    ld de,$C000
+    rst SetVRAMAddressToDE
+    ld c,VDPData
+    jp outi32
+
+_LABEL_7F28_:
+    ld hl,_DATA_7FB5_
+    ld a,$6F
+-:  push af
+    and $0F
+    ld de,ActualPalette+16+8
+    ld bc,$0008
+    jr nz,+
+    ldir
++:  ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    pop af
+    dec a
+    jr nz,-
+    ret
+
+_LABEL_7F44_:
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_FE1D_
+    ld de,ActualPalette+16+11
+    ld bc,$0005
+    ldir
+    ld a,$16
+    jp ExecuteFunctionIndexAInNextVBlank
+
+_LABEL_7F59_:
+    ld hl,Frame2Paging
+    ld (hl),$03
+    call +
+    call +
+    call +
+    ld hl,_DATA_FE52_
+    ld b,$0D
+--:  push bc
+    ld de,ActualPalette+10
+    ld bc,$0006
+    ldir
+    ld b,$08
+-:  ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    pop bc
+    djnz --
+    ret
+
+_LABEL_7F82_:
+    ld hl,Frame2Paging
+    ld (hl),$03
+    ld hl,_DATA_FEA0_
+    ld bc,$0918
+    jr _LABEL_7F95_
+
++:  ld hl,_DATA_FE22_
+    ld bc,$1803
+_LABEL_7F95_:
+    push bc
+    ld a,(hl)
+    ld (ActualPalette),a
+    ld b,$06
+    ld de,ActualPalette+10
+-:  ld (de),a
+    inc de
+    djnz -
+    inc hl
+    ld a,(hl)
+    ld (ActualPalette+7),a
+    inc hl
+    ld b,c
+-:  ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+    djnz -
+    pop bc
+    djnz _LABEL_7F95_
+    ret
+
+; Data from 7FB5 to 7FEF (59 bytes)
+_DATA_7FB5_:
+.db $3C $38 $3C $3C $3F $3C $38 $38 $3E $3C $3E $3E $3F $3E $3C $3C
+.db $3F $3E $3F $3F $3F $3F $3E $3E $3F $2B $0F $2F $2F $3E $3C $0F
+.db $2F $06 $0B $1F $0F $3C $38 $0B $2B $01 $06 $0F $0B $2A $25 $06
+.dsb 11,$FF
+
+.BANK 1 SLOT 1
+.ORG $0000
+
+; Data from 7FF0 to 7FFF (16 bytes)
+.db $54 $4D $52 $20 $53 $45 $47 $41 $FF $FF $6B $2C $00 $95 $00 $40
+
+.BANK 2
+.ORG $0000
+
+; Data from 8000 to AB1E (11039 bytes)
+TileNumberLookup:
+.incbin "Phantasy Star (Japan)TileNumberLookup.inc"
+
+; Data from AB1F to AB30 (18 bytes)
+_DATA_AB1F_:
+.db $50 $1A $00 $4F $19 $54 $0A $03 $36 $07 $2D $00 $06 $2C $0C $10
+.db $4C $57
+
+; Data from AB31 to AB42 (18 bytes)
+_DATA_AB31_:
+.db $4F $1A $00 $50 $19 $54 $0A $03 $36 $07 $2D $00 $06 $2C $0C $10
+.db $4C $57
+
+; Data from AB43 to AB4D (11 bytes)
+_DATA_AB43_:
+.db $4F $1A $00 $1A $15 $0C $06 $09 $10 $4C $56
+
+; Data from AB4E to AB56 (9 bytes)
+_DATA_AB4E_:
+.db $50 $1A $00 $0A $10 $04 $10 $4C $57
+
+; Data from AB57 to AB5F (9 bytes)
+_DATA_AB57_:
+.db $12 $03 $39 $15 $06 $2F $10 $4C $57
+
+; Data from AB60 to AB71 (18 bytes)
+_DATA_AB60_:
+.db $50 $1A $00 $16 $36 $20 $11 $16 $54 $10 $11 $1C $0B $33 $2F $10
+.db $4C $57
+
+; Data from AB72 to AB99 (40 bytes)
+_DATA_AB72_:
+.db $4F $19 $00 $1F $39 $2F $08 $1A $54 $0A $03 $06 $33 $00 $15 $06
+.db $2F $10 $4C $57 $50 $19 $00 $1F $39 $2F $08 $1A $54 $0A $03 $06
+.db $33 $00 $15 $06 $2F $10 $4C $57
+
+; Data from AB9A to ABB2 (25 bytes)
+_DATA_AB9A_:
+.db $22 $19 $1F $04 $16 $00 $20 $04 $15 $02 $00 $1F $1E $03 $19 $54
+.db $06 $45 $33 $00 $40 $07 $10 $4C $57
+
+; Data from ABB3 to ABCD (27 bytes)
+_DATA_ABB3_:
+.db $50 $19 $00 $0A $03 $36 $07 $1A $54 $1F $1E $03 $19 $00 $06 $45
+.db $16 $00 $1A $18 $06 $04 $0B $2A $10 $4C $57
+
+; Data from ABCE to ABE8 (27 bytes)
+_DATA_ABCE_:
+.db $50 $19 $00 $1F $39 $2F $08 $1A $54 $1F $1E $03 $19 $00 $06 $45
+.db $16 $00 $1A $18 $06 $04 $0B $2A $10 $4C $57
+
+; Data from ABE9 to ABFD (21 bytes)
+_DATA_ABE9_:
+.db $20 $04 $15 $02 $00 $06 $45 $19 $00 $0A $03 $06 $33 $54 $15 $08
+.db $15 $2F $10 $4C $57
+
+; Data from ABFE to AC0F (18 bytes)
+_DATA_ABFE_:
+.db $4F $19 $00 $10 $02 $28 $32 $08 $33 $54 $06 $02 $1C $08 $0C $10
+.db $4C $57
+
+; Data from AC10 to AC21 (18 bytes)
+_DATA_AC10_:
+.db $50 $19 $00 $10 $02 $28 $32 $08 $33 $54 $06 $02 $1C $08 $0C $10
+.db $4C $57
+
+; Data from AC22 to AC2E (13 bytes)
+_DATA_AC22_:
+.db $50 $2D $54 $06 $15 $0C $42 $28 $16 $0C $10 $4C $57
+
+; Data from AC2F to AC3D (15 bytes)
+_DATA_AC2F_:
+.db $4F $1A $00 $06 $15 $0C $42 $28 $16 $00 $01 $2F $10 $4C $57
+
+; Data from AC3E to AC47 (10 bytes)
+_DATA_AC3E_:
+.db $4F $1A $00 $03 $37 $09 $15 $02 $4C $57
+
+; Data from AC48 to AC51 (10 bytes)
+_DATA_AC48_:
+.db $50 $1A $00 $03 $37 $09 $15 $02 $4C $57
+
+; Data from AC52 to AC60 (15 bytes)
+_DATA_AC52_:
+.db $4F $1A $00 $06 $15 $0C $42 $28 $33 $00 $14 $09 $10 $4C $57
+
+; Data from AC61 to AC6F (15 bytes)
+_DATA_AC61_:
+.db $50 $1A $54 $06 $15 $0C $42 $28 $33 $00 $14 $09 $10 $4C $57
+
+; Data from AC70 to AC89 (26 bytes)
+_DATA_AC70_:
+.db $4F $1A $00 $06 $27 $3D $16 $00 $11 $06 $27 $33 $54 $20 $15 $34
+.db $29 $19 $2D $00 $06 $2E $39 $10 $4C $57
+
+; Data from AC8A to AC9B (18 bytes)
+_DATA_AC8A_:
+.db $50 $1A $00 $0A $2C $08 $15 $2F $13 $54 $0C $28 $37 $20 $0C $10
+.db $4C $57
+
+; Data from AC9C to ACB0 (21 bytes)
+_DATA_AC9C_:
+.db $50 $1A $00 $16 $36 $01 $0C $19 $54 $1A $24 $0B $16 $00 $05 $41
+.db $2B $02 $10 $4C $57
+
+; Data from ACB1 to ACBA (10 bytes)
+_DATA_ACB1_:
+.db $2C $15 $39 $30 $15 $06 $2F $10 $4C $58
+
+; Data from ACBB to ACD9 (31 bytes)
+_DATA_ACBB_:
+.db $01 $44 $15 $02 $00 $14 $0A $2B $3D $2F $10 $4C $4F $1A $54 $2C
+.db $15 $2D $00 $20 $24 $44 $2F $13 $00 $1A $3A $0C $10 $4C $58
+
+; Data from ACDA to ACE5 (12 bytes)
+_DATA_ACDA_:
+.db $4F $1A $00 $51 $2D $54 $12 $06 $2F $10 $4C $57
+
+; Data from ACE6 to ACF2 (13 bytes)
+_DATA_ACE6_:
+.db $4F $1A $00 $51 $2D $54 $0F $03 $43 $0C $10 $4C $56
+
+; Data from ACF3 to AD01 (15 bytes)
+_DATA_ACF3_:
+.db $4F $1A $00 $51 $2D $54 $0D $13 $13 $0C $1F $2F $10 $4C $58
+
+; Data from AD02 to AD10 (15 bytes)
+_DATA_AD02_:
+.db $0C $06 $0C $00 $0A $03 $06 $1A $00 $15 $06 $2F $10 $4C $57
+
+; Data from AD11 to AD25 (21 bytes)
+_DATA_AD11_:
+.db $0C $06 $0C $00 $0A $0A $40 $00 $51 $1A $54 $24 $08 $16 $00 $10
+.db $10 $15 $02 $4C $58
+
+; Data from AD26 to AD37 (18 bytes)
+_DATA_AD26_:
+.db $0A $0A $40 $00 $05 $28 $29 $2C $09 $16 $1A $00 $02 $06 $15 $02
+.db $4C $58
+
+; Data from AD38 to AD41 (10 bytes)
+_DATA_AD38_:
+.db $51 $16 $00 $19 $28 $0A $2E $3D $4C $57
+
+; Data from AD42 to AD4C (11 bytes)
+_DATA_AD42_:
+.db $51 $06 $27 $00 $14 $43 $05 $28 $10 $4C $57
+
+; Data from AD4D to AD5C (16 bytes)
+_DATA_AD4D_:
+.db $0C $06 $0C $00 $15 $16 $23 $00 $05 $07 $15 $06 $2F $10 $4C $57
+
+; Data from AD5D to AD7F (35 bytes)
+_DATA_AD5D_:
+.db $50 $1A $00 $1C $04 $19 $18 $2D $54 $07 $02 $13 $00 $05 $14 $15
+.db $0C $08 $15 $2F $10 $4C $57 $50 $1A $00 $22 $33 $00 $03 $12 $2B
+.db $3D $4C $57
+
+; Data from AD80 to AD9F (32 bytes)
+_DATA_AD80_:
+.db $0C $06 $0C $00 $02 $1F $1A $00 $0F $2E $15 $0A $14 $2D $54 $0C
+.db $13 $02 $29 $42 $01 $02 $39 $30 $00 $15 $02 $26 $03 $3D $4C $57
+
+; Data from ADA0 to ADAC (13 bytes)
+_DATA_ADA0_:
+.db $4F $1A $00 $51 $2D $54 $14 $28 $3D $0C $10 $4C $57
+
+; Data from ADAD to ADBB (15 bytes)
+_DATA_ADAD_:
+.db $45 $12 $16 $00 $0A $2C $2A $13 $15 $02 $26 $03 $3D $4C $58
+
+; Data from ADBC to ADCE (19 bytes)
+_DATA_ADBC_:
+.db $1F $2F $08 $27 $40 $00 $0D $0D $21 $0A $14 $33 $00 $40 $07 $15
+.db $02 $4C $58
+
+; Data from ADCF to ADE9 (27 bytes)
+_DATA_ADCF_:
+.db $0F $0C $13 $00 $43 $2E $19 $00 $1C $10 $2D $00 $01 $09 $13 $54
+.db $0C $3A $06 $16 $00 $10 $27 $0C $10 $4C $57
+
+; Data from ADEA to AE09 (32 bytes)
+_DATA_ADEA_:
+.db $0C $06 $0C $00 $20 $30 $03 $1A $00 $43 $2E $19 $00 $1C $10 $2D
+.db $54 $01 $09 $29 $0A $14 $33 $00 $40 $07 $15 $06 $2F $10 $4C $58
+
+; Data from AE0A to AE20 (23 bytes)
+_DATA_AE0A_:
+.db $02 $12 $00 $06 $02 $40 $20 $13 $23 $00 $02 $24 $15 $54 $16 $05
+.db $02 $33 $00 $0D $29 $4C $58
+
+; Data from AE21 to AE33 (19 bytes)
+_DATA_AE21_:
+.db $4F $1A $00 $14 $13 $23 $54 $02 $24 $15 $00 $26 $06 $2E $33 $0C
+.db $10 $4C $58
+
+; Data from AE34 to AE43 (16 bytes)
+_DATA_AE34_:
+.db $4F $1A $00 $15 $16 $23 $00 $06 $2E $39 $15 $06 $2F $10 $4C $58
+
+; Data from AE44 to AE5A (23 bytes)
+_DATA_AE44_:
+.db $50 $1A $00 $01 $06 $02 $00 $1E $15 $05 $2D $54 $20 $13 $00 $05
+.db $39 $09 $3A $02 $10 $4C $57
+
+; Data from AE5B to AE6A (16 bytes)
+_DATA_AE5B_:
+.db $4F $1A $00 $51 $2D $54 $13 $2E $16 $00 $06 $38 $0C $10 $4C $57
+
+; Data from AE6B to AE89 (31 bytes)
+_DATA_AE6B_:
+.db $4F $1A $00 $27 $04 $29 $1F $45 $28 $4D $2D $00 $14 $2F $13 $54
+.db $27 $0A $16 $01 $2E $4B $2F $14 $16 $00 $02 $2A $10 $4C $58
+
+; Data from AE8A to AEAC (35 bytes)
+_DATA_AE8A_:
+.db $27 $04 $29 $1F $45 $28 $4D $2D $00 $14 $2F $13 $20 $10 $33 $54
+.db $0C $42 $27 $08 $0D $29 $14 $00 $1B $06 $27 $43 $13 $0C $1F $2F
+.db $10 $4C $58
+
+; Data from AEAD to AECE (34 bytes)
+_DATA_AEAD_:
+.db $1F $46 $2B $0C $19 $00 $04 $01 $2B $07 $30 $2F $0D $29 $33 $54
+.db $05 $05 $3C $27 $16 $00 $0D $33 $10 $2D $00 $01 $27 $2C $0C $10
+.db $4C $58
+
+; Data from AECF to AEE7 (25 bytes)
+_DATA_AECF_:
+.db $05 $15 $06 $33 $00 $0D $02 $13 $15 $06 $2F $10 $19 $40 $54 $23
+.db $14 $16 $00 $23 $41 $0C $10 $4C $58
+
+; Data from AEE8 to AEF7 (16 bytes)
+_DATA_AEE8_:
+.db $1A $49 $0D $43 $4D $1A $00 $02 $24 $02 $24 $2D $0C $10 $4C $58
+
+; Data from AEF8 to AF08 (17 bytes)
+_DATA_AEF8_:
+.db $1A $49 $0D $43 $4D $19 $00 $01 $10 $1F $1A $00 $06 $10 $02 $4C
+.db $58
+
+; Data from AF09 to AF1D (21 bytes)
+_DATA_AF09_:
+.db $0F $2A $1A $00 $12 $06 $2C $15 $08 $13 $23 $54 $07 $07 $22 $33
+.db $00 $01 $29 $4C $58
+
+; Data from AF1E to AF31 (20 bytes)
+_DATA_AF1E_:
+.db $14 $08 $16 $00 $06 $2C $2F $10 $14 $0A $2B $1A $54 $15 $02 $26
+.db $03 $3D $4C $58
+
+; Data from AF32 to AF3A (9 bytes)
+_DATA_AF32_:
+.db $51 $2D $00 $20 $12 $09 $10 $4C $58
+
+; Data from AF3B to AF4C (18 bytes)
+_DATA_AF3B_:
+.db $15 $2E $3D $06 $00 $06 $27 $3D $33 $00 $06 $29 $08 $15 $2F $10
+.db $4C $57
+
+; Data from AF4D to AF5D (17 bytes)
+_DATA_AF4D_:
+.db $4F $19 $00 $10 $1F $0C $02 $1A $54 $26 $20 $33 $04 $2F $10 $4C
+.db $58
+
+; Data from AF5E to AF70 (19 bytes)
+_DATA_AF5E_:
+.db $10 $02 $2B $2E $1A $00 $1F $39 $2F $08 $2D $00 $12 $06 $04 $15
+.db $02 $4C $57
+
+; Data from AF71 to AF85 (21 bytes)
+_DATA_AF71_:
+.db $4F $1A $00 $1F $3D $00 $1F $39 $2F $08 $2D $54 $05 $46 $04 $13
+.db $02 $15 $02 $4C $57
+
+; Data from AF86 to AF95 (16 bytes)
+_DATA_AF86_:
+.db $4F $1A $00 $51 $2D $54 $0F $03 $43 $00 $40 $07 $15 $02 $4C $58
+
+; Data from AF96 to AFA5 (16 bytes)
+_DATA_AF96_:
+.db $0F $2A $1A $00 $0F $03 $43 $0C $15 $08 $13 $23 $02 $02 $4C $58
+
+; Data from AFA6 to AFB8 (19 bytes)
+_DATA_AFA6_:
+.db $09 $02 $09 $2E $11 $33 $00 $52 $4B $02 $2E $14 $54 $01 $33 $2F
+.db $10 $4C $58
+
+; Data from AFB9 to AFC5 (13 bytes)
+_DATA_AFB9_:
+.db $4F $1A $00 $2A $45 $29 $01 $2F $49 $0C $10 $4C $58
+
+; Data from AFC6 to AFD9 (20 bytes)
+_DATA_AFC6_:
+.db $4F $1A $00 $1F $39 $2F $08 $2D $54 $1B $14 $12 $00 $20 $16 $12
+.db $09 $10 $4C $58
+
+; Data from AFDA to AFE6 (13 bytes)
+_DATA_AFDA_:
+.db $52 $22 $0E $10 $00 $1A $02 $2F $13 $02 $10 $4C $58
+
+; Data from AFE7 to AFEE (8 bytes)
+_DATA_AFE7_:
+.db $01 $09 $13 $20 $29 $06 $4C $56
+
+; Data from AFEF to AFF7 (9 bytes)
+_DATA_AFEF_:
+.db $06 $27 $2F $4B $3D $2F $10 $4C $58
+
+; Data from AFF8 to B012 (27 bytes)
+_DATA_AFF8_:
+.db $0A $2A $02 $39 $32 $03 $00 $23 $19 $2D $00 $23 $13 $15 $02 $54
+.db $15 $16 $06 $2D $00 $0D $13 $29 $06 $4C $56
+
+; Data from B013 to B01C (10 bytes)
+_DATA_B013_:
+.db $41 $2A $2D $00 $0D $13 $29 $06 $4C $56
+
+; Data from B01D to B023 (7 bytes)
+_DATA_B01D_:
+.db $51 $2D $00 $0D $13 $13 $58
+
+; Data from B024 to B02D (10 bytes)
+_DATA_B024_:
+.db $51 $2D $00 $13 $16 $02 $2A $10 $4C $58
+
+; Data from B02E to B038 (11 bytes)
+_DATA_B02E_:
+.db $51 $1A $00 $02 $27 $15 $02 $19 $06 $4C $56
+
+; Data from B039 to B042 (10 bytes)
+_DATA_B039_:
+.db $51 $2D $00 $01 $07 $27 $22 $10 $4C $58
+
+; Data from B043 to B053 (17 bytes)
+_DATA_B043_:
+.db $51 $2D $54 $0D $13 $29 $2C $09 $16 $1A $00 $02 $06 $15 $02 $4C
+.db $58
+
+; Data from B054 to B063 (16 bytes)
+_DATA_B054_:
+.db $1F $39 $2F $08 $4B $02 $2E $14 $33 $00 $10 $28 $15 $02 $4C $57
+
+; Data from B064 to B070 (13 bytes)
+_DATA_B064_:
+.db $4F $1A $00 $1F $3D $00 $02 $07 $13 $02 $29 $4C $57
+
+; Data from B071 to B07A (10 bytes)
+_DATA_B071_:
+.db $50 $2D $00 $24 $2F $12 $09 $10 $4C $58
+
+; Data from B07B to B086 (12 bytes)
+_DATA_B07B_:
+.db $4F $1A $00 $0C $2E $40 $0C $1F $2F $10 $4C $57
+
+; Data from B087 to B093 (13 bytes)
+_DATA_B087_:
+.db $4F $1A $00 $23 $03 $00 $0C $2E $40 $02 $29 $4C $57
+
+; Data from B094 to B0A7 (20 bytes)
+_DATA_B094_:
+.db $20 $30 $03 $1A $00 $27 $04 $29 $1F $45 $28 $4D $2D $54 $06 $39
+.db $2F $10 $4C $58
+
+; Data from B0A8 to B0B2 (11 bytes)
+_DATA_B0A8_:
+.db $41 $0A $1D $00 $02 $07 $1F $0D $06 $4C $56
+
+; Data from B0B3 to B0CE (28 bytes)
+_DATA_B0B3_:
+.db $40 $3C $28 $0D $0E $02 $19 $00 $0D $08 $2A $19 $1F $11 $1D $54
+.db $02 $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
+
+; Data from B0CF to B0EA (28 bytes)
+_DATA_B0CF_:
+.db $23 $10 $43 $01 $0E $02 $19 $00 $03 $4D $3C $19 $21 $27 $1D $54
+.db $02 $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
+
+; Data from B0EB to B105 (27 bytes)
+_DATA_B0EB_:
+.db $47 $29 $1F $0E $02 $19 $00 $33 $0C $0A $19 $21 $27 $1D $54 $02
+.db $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
+
+; Data from B106 to B111 (12 bytes)
+_DATA_B106_:
+.db $0A $0A $1A $00 $0D $08 $2A $00 $40 $0D $4C $56
+
+; Data from B112 to B11D (12 bytes)
+_DATA_B112_:
+.db $0A $0A $1A $00 $03 $4D $3C $00 $40 $0D $4C $56
+
+; Data from B11E to B131 (20 bytes)
+_DATA_B11E_:
+.db $0A $0A $1A $00 $33 $0C $0A $00 $40 $0D $4C $56 $0C $31 $2F $47
+.db $4D $12 $4C $57
+
+; Data from B132 to B147 (22 bytes)
+_DATA_B132_:
+.db $23 $28 $19 $15 $06 $40 $00 $20 $11 $16 $00 $1F $26 $2F $13 $54
+.db $0C $1F $2F $10 $4C $58
+
+; Data from B148 to B162 (27 bytes)
+_DATA_B148_:
+.db $0A $0A $1A $00 $01 $4D $1F $4D $0C $32 $2F $49 $40 $0D $4C $54
+.db $15 $16 $06 $00 $06 $02 $1F $0D $06 $4C $56
+
+; Data from B163 to B172 (16 bytes)
+_DATA_B163_:
+.db $0F $03 $40 $0D $06 $4C $1F $10 $07 $13 $08 $3D $0B $02 $4C $58
+
+; Data from B173 to B17D (11 bytes)
+_DATA_B173_:
+.db $41 $2A $2D $00 $06 $02 $1F $0D $06 $4C $56
+
+; Data from B17E to B18E (17 bytes)
+_DATA_B17E_:
+.db $01 $28 $33 $14 $03 $4C $23 $2F $14 $00 $06 $02 $1F $0D $06 $4C
+.db $56
+
+; Data from B18F to B1AA (28 bytes)
+_DATA_B18F_:
+.db $0F $2A $02 $39 $32 $03 $00 $23 $13 $15 $02 $26 $03 $40 $0D $18
+.db $4C $54 $1F $10 $07 $13 $08 $3D $0B $02 $4C $58
+
+; Data from B1AB to B1C4 (26 bytes)
+_DATA_B1AB_:
+.db $0A $0A $1A $00 $41 $27 $2F $35 $0D $14 $01 $40 $0D $4C $54 $15
+.db $16 $06 $00 $06 $02 $1F $0D $06 $4C $56
+
+; Data from B1C5 to B1DF (27 bytes)
+_DATA_B1C5_:
+.db $0A $0A $1A $00 $12 $4D $29 $0C $32 $2F $49 $40 $0D $4C $54 $41
+.db $2E $15 $00 $37 $26 $03 $40 $0D $06 $4C $56
+
+; Data from B1E0 to B1EA (11 bytes)
+_DATA_B1E0_:
+.db $41 $2A $2D $00 $03 $28 $1F $0D $06 $4C $56
+
+; Data from B1EB to B1FD (19 bytes)
+_DATA_B1EB_:
+.db $51 $40 $0D $18 $4C $54 $52 $22 $0E $10 $40 $00 $02 $02 $40 $0D
+.db $06 $4C $56
+
+; Data from B1FE to B20D (16 bytes)
+_DATA_B1FE_:
+.db $01 $28 $33 $14 $03 $00 $23 $2F $14 $03 $28 $1F $0D $06 $4C $56
+
+; Data from B20E to B227 (26 bytes)
+_DATA_B20E_:
+.db $0A $0A $1A $00 $1E $0D $48 $10 $29 $40 $0D $4C $54 $11 $28 $32
+.db $03 $2D $00 $03 $09 $1F $0D $06 $4C $56
+
+; Data from B228 to B243 (28 bytes)
+_DATA_B228_:
+.db $0C $2E $0B $12 $14 $00 $11 $28 $32 $03 $1B $54 $52 $22 $0E $10
+.db $40 $0D $4C $26 $2B $0C $02 $40 $0D $06 $4C $56
+
+; Data from B244 to B25B (24 bytes)
+_DATA_B244_:
+.db $1E $06 $16 $00 $11 $28 $32 $03 $2D $00 $03 $09 $10 $02 $06 $10
+.db $1A $54 $02 $1F $0D $06 $4C $56
+
+; Data from B25C to B26D (18 bytes)
+_DATA_B25C_:
+.db $41 $15 $10 $33 $00 $11 $28 $32 $03 $2D $00 $03 $09 $1F $0D $06
+.db $4C $56
+
+; Data from B26E to B281 (20 bytes)
+_DATA_B26E_:
+.db $05 $1F $11 $41 $03 $0B $1F $4C $54 $41 $03 $3C $00 $05 $3D $02
+.db $39 $16 $4C $58
+
+; Data from B282 to B299 (24 bytes)
+_DATA_B282_:
+.db $0F $03 $40 $0D $06 $00 $05 $13 $12 $3D $02 $40 $07 $15 $08 $13
+.db $54 $38 $2E $18 $2E $40 $0D $4C
+
+; Data from B29A to B2A4 (11 bytes)
+_DATA_B29A_:
+.db $40 $1A $00 $05 $07 $2D $12 $09 $13 $4C $58
+
+; Data from B2A5 to B2B6 (18 bytes)
+_DATA_B2A5_:
+.db $4F $0B $2E $1A $00 $02 $39 $26 $03 $54 $01 $28 $1F $0E $2E $18
+.db $4C $58
+
+; Data from B2B7 to B2F1 (59 bytes)
+_DATA_B2B7_:
+.db $0A $0A $1A $00 $07 $32 $03 $06 $02 $40 $0D $4C $00 $3D $2A $06
+.db $19 $54 $10 $1F $0C $02 $2D $00 $26 $43 $23 $41 $0B $2A $1F $0D
+.db $06 $4C $56 $40 $1A $00 $01 $15 $10 $19 $10 $22 $16 $54 $05 $02
+.db $19 $28 $2D $00 $0B $0B $36 $1F $0D $4C $58
+
+; Data from B2F2 to B303 (18 bytes)
+_DATA_B2F2_:
+.db $0F $2A $40 $1A $00 $39 $31 $23 $2E $2D $00 $14 $15 $04 $1F $0D
+.db $4C $57
+
+; Data from B304 to B31D (26 bytes)
+_DATA_B304_:
+.db $01 $29 $13 $21 $1A $21 $27 $21 $00 $01 $29 $13 $21 $1A $21 $1A
+.db $21 $54 $0D $14 $27 $14 $4B $2E $4C $57
+
+; Data from B31E to B32C (15 bytes)
+_DATA_B31E_:
+.db $41 $15 $10 $19 $00 $10 $1F $0C $02 $40 $0C $32 $03 $4C $56
+
+; Data from B32D to B33B (15 bytes)
+_DATA_B32D_:
+.db $1E $06 $19 $06 $10 $1A $00 $02 $06 $33 $40 $0D $06 $4C $56
+
+; Data from B33C to B350 (21 bytes)
+_DATA_B33C_:
+.db $52 $22 $0E $10 $00 $06 $06 $28 $1F $0D $33 $54 $26 $2B $0C $02
+.db $40 $0D $06 $4C $56
+
+; Data from B351 to B362 (18 bytes)
+_DATA_B351_:
+.db $0A $2A $06 $27 $00 $2A $45 $29 $01 $2F $49 $0D $29 $10 $22 $16
+.db $1A $58
+
+; Data from B363 to B373 (17 bytes)
+_DATA_B363_:
+.db $4F $1A $00 $52 $4B $02 $2E $14 $54 $1B $12 $26 $03 $40 $0D $4C
+.db $58
+
+; Data from B374 to B392 (31 bytes)
+_DATA_B374_:
+.db $01 $15 $10 $33 $10 $19 $00 $25 $08 $0D $04 $16 $54 $06 $20 $19
+.db $00 $22 $35 $20 $33 $00 $01 $28 $1F $0D $26 $03 $16 $4C $58
+
+; Data from B393 to B39E (12 bytes)
+_DATA_B393_:
+.db $4F $1A $00 $02 $07 $13 $02 $1F $0D $26 $4C $56
+
+; Data from B39F to B3BB (29 bytes)
+_DATA_B39F_:
+.db $0E $4D $44 $2D $00 $05 $0A $15 $02 $1F $0D $4C $54 $42 $2E $37
+.db $03 $2D $00 $04 $27 $2E $40 $08 $3D $0B $02 $4C $56
+
+; Data from B3BC to B3C7 (12 bytes)
+TextConfirmSlotSelection:
+.stringmap script "$#バンデ　イイデスカ。$0"
+
+; Data from B3C8 to B3D7 (16 bytes)
+_DATA_B3C8_:
+.db $40 $1A $00 $52 $42 $2E $16 $00 $0E $4D $44 $0C $1F $0D $4C $57
+
+; Data from B3D8 to B3DF (8 bytes)
+_DATA_B3D8_:
+.db $05 $2C $28 $1F $0C $10 $4C $58
+
+; 1st entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B3E0 to B3FB (28 bytes)
+_DATA_B3E0_:
+.db $2C $10 $0C $10 $11 $1A $00 $47 $29 $1F $19 $00 $1B $14 $10 $11
+.db $14 $54 $15 $06 $26 $08 $00 $0C $10 $02 $4C $58
+
+; 2nd entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B3FC to B40C (17 bytes)
+_DATA_B3FC_:
+.db $27 $04 $29 $1F $45 $28 $4D $33 $00 $10 $45 $10 $02 $15 $01 $4C
+.db $58
+
+; 3rd entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B40D to B424 (24 bytes)
+_DATA_B40D_:
+.db $27 $0C $4D $08 $0B $1F $16 $1A $54 $0B $06 $27 $2C $15 $02 $1E
+.db $03 $33 $00 $02 $02 $26 $4C $58
+
+; 4th entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B425 to B43B (23 bytes)
+_DATA_B425_:
+.db $05 $2F $4C $2C $10 $0C $10 $11 $19 $00 $0A $14 $42 $33 $54 $2C
+.db $06 $29 $2E $3D $18 $4C $58
+
+; 5th entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B43C to B441 (6 bytes)
+_DATA_B43C_:
+.db $24 $2F $1E $4D $4C $58
+
+; 6th entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B442 to B458 (23 bytes)
+_DATA_B442_:
+.db $3D $2E $39 $32 $2E $40 $1A $00 $05 $14 $0C $01 $15 $16 $54 $07
+.db $2D $12 $09 $15 $26 $4C $58
+
+; 7th entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B459 to B471 (25 bytes)
+_DATA_B459_:
+.db $10 $06 $27 $42 $0A $1A $00 $21 $24 $20 $16 $54 $01 $09 $29 $14
+.db $00 $09 $33 $2D $0D $29 $26 $4C $58
+
+; 8th entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B472 to B47D (12 bytes)
+_DATA_B472_:
+.db $0A $19 $00 $05 $02 $1A $34 $24 $2B $03 $4C $58
+
+; 9th entry of Pointer Table from 1AE6 (indexed by unknown)
+; Data from B47E to B492 (21 bytes)
+_DATA_B47E_:
+.db $2C $10 $0C $10 $11 $1A $00 $41 $03 $0E $54 $16 $08 $1F $2A $23
+.db $19 $3D $26 $4C $58
+
+; 1st entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B493 to B4A6 (20 bytes)
+_DATA_B493_:
+.db $0D $4D $3A $1C $29 $4D $14 $19 $00 $18 $02 $2B $1A $54 $02 $02
+.db $15 $01 $4C $58
+
+; 2nd entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B4A7 to B4C7 (33 bytes)
+_DATA_B4A7_:
+.db $01 $02 $0D $40 $2F $06 $4D $00 $14 $02 $03 $00 $19 $28 $23 $19
+.db $1A $54 $0A $05 $28 $23 $00 $09 $3A $2A $29 $2E $3D $2F $13 $4C
+.db $58
+
+; 3rd entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B4C8 to B4E0 (25 bytes)
+_DATA_B4C8_:
+.db $27 $0C $4D $08 $0B $1F $1A $00 $0F $27 $19 $03 $04 $16 $54 $02
+.db $27 $2F $0C $30 $29 $2E $3D $4C $58
+
+; 4th entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B4E1 to B501 (33 bytes)
+_DATA_B4E1_:
+.db $01 $43 $05 $2E $19 $00 $1F $2F $41 $41 $08 $10 $4D $33 $54 $27
+.db $0D $0A $16 $01 $2E $4B $2F $14 $2D $00 $23 $2F $13 $10 $3B $4C
+.db $58
+
+; 5th entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B502 to B520 (31 bytes)
+_DATA_B502_:
+.db $0F $27 $19 $00 $03 $04 $16 $1A $00 $03 $11 $31 $03 $0E $2E $40
+.db $23 $54 $02 $09 $15 $02 $14 $0A $2B $33 $01 $29 $3B $4C $58
+
+; 6th entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B521 to B53F (31 bytes)
+_DATA_B521_:
+.db $27 $04 $29 $1F $45 $28 $4D $2D $00 $20 $19 $27 $0E $29 $10 $22
+.db $16 $1A $01 $29 $23 $19 $33 $00 $1B $12 $26 $03 $3D $4C $58
+
+; 7th entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B540 to B55B (28 bytes)
+_DATA_B540_:
+.db $3D $2E $39 $32 $2E $19 $00 $22 $02 $2B $16 $1A $54 $06 $08 $0C
+.db $14 $43 $27 $33 $00 $01 $29 $2E $3D $3B $4C $58
+
+; 8th entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B55C to B579 (30 bytes)
+_DATA_B55C_:
+.db $20 $27 $08 $29 $07 $4D $1A $00 $1F $1E $03 $19 $41 $01 $40 $23
+.db $54 $01 $09 $29 $0A $14 $33 $00 $40 $07 $29 $3C $4C $58
+
+; 9th entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B57A to B593 (26 bytes)
+_DATA_B57A_:
+.db $40 $3C $28 $01 $2E $16 $1A $00 $03 $0F $12 $07 $23 $00 $02 $29
+.db $06 $27 $07 $2D $12 $09 $15 $26 $4C $58
+
+; 10th entry of Pointer Table from 1CCF (indexed by unknown)
+; Data from B594 to B5B3 (32 bytes)
+_DATA_B594_:
+.db $2C $10 $0C $16 $00 $1A $15 $0C $06 $09 $29 $14 $1A $54 $25 $03
+.db $07 $33 $00 $01 $29 $18 $04 $4C $00 $33 $2E $42 $2A $26 $4C $58
+
+; Data from B5B4 to B5CC (25 bytes)
+_DATA_B5B4_:
+.db $50 $1A $00 $06 $27 $3D $16 $54 $11 $06 $27 $33 $00 $20 $15 $34
+.db $29 $19 $2D $06 $2E $39 $10 $4C $57
+
+; Data from B5CD to B5DD (17 bytes)
+_DATA_B5CD_:
+.db $50 $1A $00 $10 $06 $27 $42 $0A $2D $54 $23 $2F $13 $02 $10 $4C
+.db $56
+
+; Data from B5DE to B5EB (14 bytes)
+_DATA_B5DE_:
+.db $02 $1F $00 $1B $33 $0C $2D $21 $02 $13 $02 $29 $4C $58
+
+; Data from B5EC to B5F9 (14 bytes)
+_DATA_B5EC_:
+.db $02 $1F $00 $16 $0C $2D $00 $21 $02 $13 $02 $29 $4C $58
+
+; Data from B5FA to B607 (14 bytes)
+_DATA_B5FA_:
+.db $02 $1F $00 $07 $10 $2D $00 $21 $02 $13 $02 $29 $4C $58
+
+; Data from B608 to B616 (15 bytes)
+_DATA_B608_:
+.db $02 $1F $00 $20 $15 $20 $2D $00 $21 $02 $13 $02 $29 $4C $58
+
+; Data from B617 to B625 (15 bytes)
+_DATA_B617_:
+.db $01 $28 $0B $10 $11 $1A $00 $3B $2E $22 $12 $0C $10 $4C $58
+
+; Data from B626 to B65B (54 bytes)
+_DATA_B626_:
+.db $01 $28 $0B $19 $00 $18 $33 $02 $1A $00 $27 $0C $4D $08 $19 $54
+.db $24 $46 $03 $19 $00 $1F $04 $16 $55 $21 $15 $0C $08 $00 $07 $04
+.db $0B $2F $10 $4C $54 $0A $0A $40 $00 $46 $03 $09 $2E $1A $00 $05
+.db $2C $28 $40 $0D $4C $58
+
+; Data from B65C to B675 (26 bytes)
+_DATA_B65C_:
+.db $05 $06 $18 $33 $00 $10 $28 $15 $02 $26 $03 $40 $0D $18 $4C $54
+.db $1F $10 $07 $13 $08 $3D $0B $02 $4C $58
+
+; Data from B676 to B687 (18 bytes)
+_DATA_B676_:
+.db $0F $2A $1A $00 $01 $14 $40 $00 $24 $08 $16 $10 $11 $1F $0D $26
+.db $4C $58
+
+; Data from B688 to B694 (13 bytes)
+_DATA_B688_:
+.db $10 $06 $27 $42 $0A $2D $00 $20 $12 $09 $10 $4C $56
+
+; Data from B695 to B6C5 (49 bytes)
+_DATA_B695_:
+.db $01 $29 $13 $21 $1A $21 $27 $21 $00 $01 $00 $03 $2F $4C $54 $37
+.db $1E $2F $4C $37 $1E $2F $4C $55 $37 $22 $2E $15 $0B $02 $4C $54
+.db $41 $03 $24 $27 $00 $0C $2F $47 $02 $0C $10 $26 $03 $40 $0D $4C
+.db $58
+
+; Data from B6C6 to B6D6 (17 bytes)
+_DATA_B6C6_:
+.db $23 $10 $43 $01 $00 $25 $07 $40 $0D $4C $19 $28 $1F $0D $06 $4C
+.db $56
+
+; Data from B6D7 to B6E6 (16 bytes)
+_DATA_B6D7_:
+.db $47 $29 $1F $00 $25 $07 $40 $0D $4C $19 $28 $1F $0D $06 $4C $56
+
+; Data from B6E7 to B6F7 (17 bytes)
+_DATA_B6E7_:
+.db $4F $1A $00 $23 $03 $54 $11 $06 $27 $02 $2F $47 $02 $40 $0D $4C
+.db $58
+
+; Data from B6F8 to B717 (32 bytes)
+TextChooseWhichToContinue:
+.stringmap script "ゲ-ムノ　ツヅキヲ　ヤリマス。\n"
+.stringmap script "バンゴウヲ　エランデクダサイ。$0"
+
+; Data from B718 to B749 (50 bytes)
+TextContinuingGameX:
+.stringmap script "デハ　$#バンノゲ-ムヲ　ハジメマス。$1"
+.stringmap script "パスワ-ドガ　チガイマス。\n"
+.stringmap script "モウイチド　タシカメテクダサイ。$2"
+
+; Data from B74A to B76E (37 bytes)
+TextContinueOrDelete:
+.stringmap script "ゲ-ムノツヅキヲ　ヤル。--　ハイ\n"
+.stringmap script "ゲ-ムヲ　ケス。------　イイエ$0"
+
+; Data from B76F to B786 (24 bytes)
+TextConfirmDelete:
+.stringmap script "セ-ブシタ　ゲ-ムヲ　ケシマス。\n"
+.stringmap script "イイデスカ。$0"
+
+; Data from B787 to B798 (18 bytes)
+TextChooseWhichToDelete:
+.stringmap script "ナンバンノ　ゲ-ムヲ　ケシマスカ。$0"
+
+; Data from B799 to B7A9 (17 bytes)
+TextGameXHasBeenDeleted:
+.stringmap script "$#バンノ　ゲ-ムヲ　ケシマシタ。$2"
+
+; Data from B7AA to B7B9 (16 bytes)
+_DATA_B7AA_:
+.stringmap script "$Nハ　イシニ　ナッテシマッタ。$2"
+
+; Data from B7BA to B7CE (21 bytes)
+_DATA_B7BA_:
+.stringmap script "$Iハ　イマ　ダレカガ\n"
+.stringmap script "ツカッテシマッタ。$2"
+
+; Data from B7CF to B7F3 (37 bytes)
+_DATA_B7CF_:
+.stringmap script "シダイニ　ソラガ　アカルクナッテイキ"
+.stringmap script "ヒトビトモ　ヘイワヲ　トリモドシタ。$0"
+
+; Data from B7F4 to B812 (31 bytes)
+_DATA_B7F4_:
+.stringmap script "イマ　バヤマ-レハ　サワヤカナ\n"
+.stringmap script "ソヨカゼニ　ツツマレテイル。$0"
+
+; Data from B813 to B836 (36 bytes)
+_DATA_B813_:
+.db $06 $2A $27 $19 $00 $15 $33 $08 $00 $08 $29 $0C $06 $2F $10 $10
+.db $43 $2D $0F $26 $06 $3B $1A $00 $0C $2F $13 $02 $29 $19 $3D $2B
+.db $03 $06 $4C $56
+
+; Data from B837 to B859 (35 bytes)
+_DATA_B837_:
+.db $20 $30 $03 $16 $00 $19 $2F $13 $02 $10 $00 $01 $28 $0B $10 $11
+.db $1A $54 $0F $27 $16 $00 $1E $03 $28 $3D $0B $2A $13 $0C $1F $2F
+.db $10 $4C $58
+
+; Data from B85A to B8A6 (77 bytes)
+_DATA_B85A_:
+.db $0F $19 $14 $07 $00 $01 $28 $0B $19 $00 $10 $1F $0C $02 $1A $54
+.db $18 $2B $19 $0A $04 $2D $00 $07 $02 $10 $4C $55 $05 $1F $04 $1A
+.db $00 $1C $10 $10 $43 $00 $02 $07 $13 $54 $1D $02 $2C $19 $10 $22
+.db $16 $00 $12 $08 $0D $33 $02 $02 $4C $55 $01 $28 $0B $19 $00 $10
+.db $1F $0C $02 $1A $00 $26 $20 $33 $04 $2F $10 $4C $58
+
+; Data from B8A7 to B8BE (24 bytes)
+_DATA_B8A7_:
+.db $0A $0A $2B $33 $00 $15 $37 $21 $26 $03 $15 $54 $03 $12 $08 $0C
+.db $02 $00 $18 $02 $2B $3D $4C $58
+
+; Pointer Table from B8BF to B8C0 (1 entries,indexed by unknown)
+_DATA_B8BF_:
+.dw _DATA_C27_
+
+; Data from B8C1 to B90E (78 bytes)
+.db $4D $08 $0B $1F $19 $00 $0A $14 $2D $00 $0A $0F $0A $0F $14 $54
+.db $06 $34 $1F $2C $28 $24 $33 $2F $13 $4C $54 $0A $2A $06 $27 $1A
+.db $00 $0E $02 $3B $02 $00 $05 $14 $15 $0C $08 $54 $0C $13 $02 $29
+.db $0A $14 $3D $15 $4C $55 $16 $02 $0B $2E $4C $54 $15 $16 $33 $00
+.db $01 $2F $10 $19 $4C $54 $0C $2F $06 $28 $0C $13 $4C $58
+
+; Data from B90F to BA07 (249 bytes)
+_DATA_B90F_:
+.db $01 $28 $0B $4C $07 $02 $13 $08 $2A $4C $54 $27 $0C $4D $08 $1A
+.db $00 $0A $19 $1E $0C $16 $00 $07 $32 $3D $02 $15 $54 $2C $38 $2C
+.db $02 $2D $00 $1F $18 $02 $13 $0C $1F $2F $10 $4C $54 $0E $06 $02
+.db $1A $00 $1A $22 $12 $16 $00 $21 $06 $2F $13 $02 $29 $4C $55 $05
+.db $2A $1A $00 $27 $0C $4D $08 $33 $00 $15 $16 $2D $00 $10 $08 $27
+.db $2E $40 $54 $02 $29 $19 $06 $00 $0B $35 $2F $13 $02 $10 $2E $3D
+.db $4C $54 $09 $41 $00 $05 $2A $1B $14 $28 $40 $1A $00 $41 $03 $0D
+.db $29 $0A $14 $23 $54 $40 $07 $15 $06 $2F $10 $4C $55 $10 $43 $19
+.db $00 $14 $11 $31 $03 $00 $10 $02 $2B $2E $00 $14 $02 $03 $54 $12
+.db $26 $02 $00 $05 $14 $0A $19 $00 $03 $2C $0B $2D $00 $07 $02 $10
+.db $4C $54 $06 $2A $14 $00 $02 $2F $0C $32 $15 $27 $00 $27 $0C $4D
+.db $08 $2D $00 $10 $05 $0C $54 $1D $02 $2C $2D $00 $14 $28 $23 $41
+.db $0D $0A $14 $33 $40 $07 $29 $3D $2B $03 $4C $55 $01 $28 $0B $4C
+.db $54 $05 $2A $1A $00 $23 $03 $00 $3D $22 $3D $4C $54 $05 $1F $04
+.db $00 $1B $14 $28 $2D $00 $19 $0A $0C $13 $02 $08 $00 $05 $2A $2D
+.db $54 $25 $29 $0C $13 $08 $2A $4C $58
+
+; Data from BA08 to BA42 (59 bytes)
+_DATA_BA08_:
+.db $01 $28 $0B $1A $00 $16 $02 $0B $2E $19 $00 $02 $19 $11 $2D $00
+.db $21 $3D $16 $54 $0C $15 $02 $10 $22 $16 $00 $10 $10 $06 $02 $16
+.db $00 $02 $07 $1F $0D $4C $54 $07 $2F $14 $00 $20 $1F $23 $2F $13
+.db $02 $13 $18 $4C $54 $16 $02 $0B $2E $4C $58
+
+; Data from BA43 to BA68 (38 bytes)
+_DATA_BA43_:
+.db $07 $32 $03 $06 $27 $00 $15 $06 $1F $18 $4C $54 $2C $10 $0C $1A
+.db $00 $01 $28 $0B $4C $54 $01 $15 $10 $19 $00 $15 $1F $04 $2D $00
+.db $05 $0C $04 $13 $4C $58
+
+; Data from BA69 to BA6D (5 bytes)
+_DATA_BA69_:
+.db $20 $30 $03 $4C $58
+
+; Data from BA6E to BA95 (40 bytes)
+_DATA_BA6E_:
+.db $18 $04 $00 $20 $30 $03 $4C $54 $10 $02 $2B $2E $19 $00 $0A $14
+.db $00 $15 $2E $3D $09 $41 $00 $15 $16 $06 $54 $0C $2F $13 $02 $10
+.db $27 $00 $05 $0C $04 $13 $4C $58
+
+; Data from BA96 to BAD1 (60 bytes)
+_DATA_BA96_:
+.db $10 $02 $2B $2E $00 $02 $0C $16 $00 $15 $2F $11 $30 $2F $10 $19
+.db $4C $54 $0A $19 $00 $08 $0D $28 $00 $06 $09 $2A $42 $00 $15 $05
+.db $29 $2E $3D $4C $54 $09 $41 $00 $20 $30 $03 $00 $43 $2E $19 $00
+.db $1C $10 $54 $01 $09 $27 $2A $15 $02 $19 $4C $58
+
+; Data from BAD2 to BAF2 (33 bytes)
+_DATA_BAD2_:
+.db $0F $2F $06 $4C $54 $39 $30 $00 $02 $2F $0C $32 $16 $00 $10 $02
+.db $2B $2E $2D $54 $10 $0D $09 $16 $00 $02 $07 $1F $0C $32 $03 $4C
+.db $58
+
+; Data from BAF3 to BB28 (54 bytes)
+_DATA_BAF3_:
+.db $01 $28 $33 $14 $03 $4C $10 $0D $06 $2F $10 $26 $4C $54 $0C $06
+.db $0C $00 $22 $40 $31 $4D $0B $16 $54 $0C $13 $24 $27 $2A $29 $26
+.db $03 $40 $1A $00 $27 $0C $4D $08 $1A $54 $10 $05 $0E $0F $03 $16
+.db $00 $15 $02 $15 $4C $58
+
+; Data from BB29 to BB63 (59 bytes)
+_DATA_BB29_:
+.db $2C $10 $0C $19 $00 $16 $02 $0B $2E $23 $00 $27 $0C $4D $08 $2D
+.db $54 $10 $05 $0F $03 $14 $0C $13 $00 $0C $2E $40 $0C $1F $2F $10
+.db $2C $4C $54 $0C $17 $1F $04 $16 $00 $01 $15 $10 $19 $00 $15 $1F
+.db $04 $2D $54 $02 $02 $19 $0A $0C $13 $4C $58
+
+; Data from BB64 to BB94 (49 bytes)
+_DATA_BB64_:
+.db $0F $03 $3D $2F $10 $19 $06 $4C $54 $26 $0C $00 $07 $20 $19 $00
+.db $16 $02 $0B $2E $19 $00 $10 $22 $16 $23 $54 $11 $06 $27 $2D $00
+.db $01 $2C $0E $13 $00 $27 $0C $4D $08 $2D $54 $10 $05 $0F $03 $4C
+.db $58
+
+; Data from BB95 to BBAE (26 bytes)
+_DATA_BB95_:
+.db $0F $2A $26 $28 $00 $15 $3B $00 $22 $40 $31 $4D $0B $2D $54 $10
+.db $05 $0F $03 $14 $00 $0C $10 $19 $4C $58
+
+; Pointer Table from BBAF to BBB0 (1 entries,indexed by unknown)
+_DATA_BBAF_:
+.dw _DATA_4022_
+
+; Data from BBB1 to BC17 (103 bytes)
+.db $31 $4D $0B $33 $00 $23 $2F $13 $02 $29 $00 $40 $2E $0E $12 $19
+.db $54 $05 $19 $33 $00 $1E $0C $06 $2F $10 $2E $3D $09 $41 $54 $16
+.db $36 $27 $2A $11 $1F $2F $10 $4C $54 $08 $24 $0C $02 $15 $01 $4C
+.db $55 $0F $03 $02 $04 $42 $00 $05 $2A $00 $0A $19 $00 $41 $03 $08
+.db $12 $19 $54 $02 $07 $41 $1F $28 $16 $00 $0A $2E $47 $0D $2D $54
+.db $06 $08 $0C $13 $05 $02 $10 $2E $3D $2F $09 $4C $54 $14 $28 $16
+.db $00 $02 $0A $03 $3B $4C $58
+
+; Data from BC18 to BC3D (38 bytes)
+_DATA_BC18_:
+.db $0F $03 $14 $08 $06 $27 $19 $00 $13 $33 $20 $2D $00 $01 $3A $06
+.db $2F $13 $54 $07 $1F $0C $10 $4C $54 $26 $2E $40 $02 $10 $3D $09
+.db $1F $0E $2E $06 $4C $58
+
+; Data from BC3E to BCA7 (106 bytes)
+_DATA_BC3E_:
+.db $2C $06 $28 $1F $0C $10 $4C $54 $20 $2E $15 $40 $00 $0A $19 $00
+.db $01 $29 $37 $29 $10 $02 $26 $03 $09 $02 $2D $54 $01 $08 $19 $00
+.db $13 $06 $27 $00 $1F $23 $28 $1F $0C $32 $03 $4C $55 $0F $19 $10
+.db $22 $16 $1A $00 $1F $3A $33 $0C $0A $19 $00 $23 $28 $1D $54 $02
+.db $2F $13 $00 $29 $45 $19 $1A $06 $0E $16 $00 $01 $02 $10 $02 $4C
+.db $54 $10 $0C $06 $00 $1F $2E $1E $4D $29 $2D $00 $14 $05 $2F $13
+.db $54 $02 $09 $10 $1A $3A $40 $0D $4C $58
+
+; Data from BCA8 to BCD7 (48 bytes)
+_DATA_BCA8_:
+.db $27 $04 $29 $1F $45 $28 $4D $2D $00 $06 $39 $29 $14 $54 $20 $30
+.db $03 $19 $00 $06 $27 $3D $1A $00 $18 $12 $2D $00 $05 $43 $54 $1F
+.db $42 $25 $02 $00 $1B $06 $28 $16 $00 $12 $12 $1F $2A $10 $4C $58
+
+; Data from BCD8 to BD24 (77 bytes)
+_DATA_BCD8_:
+.db $0F $0C $13 $00 $20 $29 $20 $29 $00 $03 $11 $16 $00 $20 $30 $03
+.db $1A $54 $05 $05 $07 $15 $00 $12 $42 $0B $2D $00 $23 $2F $10 $00
+.db $03 $12 $08 $0C $02 $54 $09 $23 $19 $1D $14 $00 $06 $2C $2F $10
+.db $4C $55 $20 $30 $03 $1A $00 $14 $08 $02 $0F $03 $16 $00 $1B $14
+.db $12 $54 $1A $42 $13 $02 $13 $00 $20 $0E $10 $4C $58
+
+; Data from BD25 to BD2F (11 bytes)
+_DATA_BD25_:
+.db $00 $54 $00 $00 $00 $00 $00 $01 $28 $0B $57
+
+; Data from BD30 to BD3B (12 bytes)
+_DATA_BD30_:
+.db $00 $54 $00 $00 $00 $00 $00 $10 $02 $2B $2E $57
+
+; Data from BD3C to BD45 (10 bytes)
+_DATA_BD3C_:
+.db $00 $54 $00 $00 $00 $00 $00 $29 $12 $57
+
+; Data from BD46 to BD54 (15 bytes)
+_DATA_BD46_:
+.db $00 $54 $00 $00 $00 $00 $00 $0F $0C $13 $00 $20 $30 $03 $57
+
+; Data from BD55 to BD93 (63 bytes)
+_DATA_BD55_:
+.db $00 $00 $00 $00 $24 $20 $19 $00 $07 $05 $08 $33 $00 $07 $04 $13
+.db $23 $54 $00 $00 $00 $00 $06 $2A $27 $19 $00 $15 $1F $04 $1A $54
+.db $00 $00 $00 $00 $1B $14 $43 $14 $19 $00 $0A $0A $2B $16 $54 $00
+.db $00 $00 $00 $19 $0A $28 $12 $3F $09 $29 $3D $2B $03 $4C $57
+
+; Data from BD94 to BF9B (520 bytes)
+ItemTextTable:
+.db $00 $00 $00 $00 $00 $00 $00 $00 $03 $2F $41 $09 $02 $2E $58 $00
+.db $0C $32 $4D $14 $0F $4D $41 $58 $01 $02 $01 $2E $0F $4D $41 $58
+.db $0B $02 $0A $03 $05 $2E $41 $58 $0C $29 $42 $4D $10 $0D $08 $58
+.db $01 $02 $01 $2E $01 $08 $0D $58 $11 $10 $16 $03 $21 $0F $4D $41
+.db $0E $27 $20 $2F $08 $0F $4D $41 $16 $4D $41 $29 $33 $2E $58 $00
+.db $0B $4D $45 $29 $08 $2B $4D $58 $1B $4D $14 $33 $2E $58 $00 $00
+.db $27 $02 $14 $0E $02 $42 $4D $58 $2A $4D $38 $4D $33 $2E $58 $00
+.db $27 $0A $16 $01 $2E $0F $4D $41 $27 $0A $16 $01 $2E $01 $08 $0D
+.db $2A $38 $4D $08 $2B $0D $58 $00 $1E $2C $02 $14 $1F $2E $14 $58
+.db $27 $02 $14 $0D $4D $12 $58 $00 $01 $02 $01 $2E $01 $4D $1F $4D
+.db $14 $36 $28 $0D $19 $09 $33 $2C $39 $29 $0A $16 $01 $22 $02 $29
+.db $3D $02 $24 $19 $26 $2B $02 $58 $27 $0A $16 $01 $01 $4D $1F $4D
+.db $1C $27 $4D $41 $1F $2E $14 $58 $2A $38 $4D $0C $4D $29 $41 $58
+.db $01 $02 $01 $2E $0C $4D $29 $41 $46 $2B $2E $0C $4D $29 $41 $58
+.db $0E $27 $20 $2F $08 $19 $10 $13 $01 $16 $1F $29 $35 $27 $44 $58
+.db $2A $4D $38 $4D $42 $28 $01 $58 $4A $29 $0E $03 $0D $19 $10 $13
+.db $27 $0A $16 $01 $0C $4D $29 $41 $27 $2E $41 $1F $0D $10 $4D $58
+.db $1C $2B $4D $21 $4D $42 $4D $58 $01 $02 $0D $40 $2F $06 $4D $58
+.db $4A $2B $28 $4D $22 $02 $14 $58 $29 $05 $34 $16 $2E $58 $00 $00
+.db $0D $4D $3A $1C $29 $4D $14 $58 $0B $4D $11 $27 $02 $14 $58 $00
+.db $04 $0D $09 $4D $49 $08 $2B $0D $14 $27 $2E $06 $4D $4A $2F $14
+.db $1F $39 $2F $08 $1A $2F $14 $58 $01 $29 $0C $31 $28 $2E $58 $00
+.db $4B $28 $22 $13 $27 $4D $29 $58 $3D $2E $39 $32 $2E $07 $4D $58
+.db $13 $2A $47 $0C $4D $46 $4D $29 $02 $08 $28 $49 $0D $14 $4D $11
+.db $04 $01 $2B $49 $28 $3A $21 $58 $27 $04 $29 $1F $45 $28 $4D $58
+.db $1A $49 $0D $43 $4D $58 $00 $00 $2B $4D $41 $47 $0D $58 $00 $00
+.db $47 $0D $4B $4D $14 $58 $00 $00 $0A $2E $47 $0D $58 $00 $00 $00
+.db $0C $32 $4D $14 $09 $4D $07 $58 $0F $03 $14 $08 $19 $13 $33 $20
+.db $27 $0A $16 $01 $2E $4B $2F $14 $27 $02 $14 $4A $2E $3D $2E $14
+.db $06 $4D $42 $2E $08 $29 $01 $02 $33 $0D $08 $28 $01 $58 $00 $00
+.db $3D $23 $01 $08 $28 $0D $10 $29 $1F $0D $10 $4D $0C $0D $13 $21
+.db $20 $27 $08 $29 $07 $4D $58 $00 $39 $28 $05 $2E $58 $00 $00 $00
+.db $1B $20 $12 $19 $23 $19 $58 $00
+
+; Data from BF9C to BFFF (100 bytes)
+_DATA_BF9C_:
+.db $00 $D0 $D0 $50 $D0 $20 $40 $50 $50 $40 $20 $40 $50 $40 $50 $40
+.db $51 $81 $51 $41 $21 $51 $51 $41 $81 $52 $42 $52 $52 $22 $D2 $46
+.db $52 $04 $04 $04 $00 $00 $00 $00 $00 $00 $00 $04 $00 $04 $00 $04
+.db $04 $04 $04 $04 $00 $04 $00 $04 $04 $00 $04 $00 $00 $00 $04 $00
+.dsb 36,$FF
+
+.BANK 3
+.ORG $0000
+
+; Data from C000 to C177 (376 bytes)
+_DATA_C000_:
+.db $10 $0C $10 $0C $10 $0C $10 $0B $10 $0B $10 $05 $10 $05 $10 $0F
+.db $10 $0C $10 $0C $10 $0B $10 $0B $10 $0B $10 $04 $10 $0F $10 $0E
+.db $10 $0A $10 $0A $10 $0A $10 $0B $10 $0B $10 $01 $10 $01 $10 $0E
+.db $10 $0D $10 $0A $10 $0A $10 $07 $10 $00 $10 $00 $10 $01 $10 $06
+.db $10 $0A $10 $0A $10 $0A $10 $07 $10 $00 $10 $00 $10 $01 $10 $06
+.db $10 $09 $10 $09 $10 $08 $10 $07 $10 $02 $10 $02 $10 $01 $10 $06
+.db $10 $09 $10 $09 $10 $08 $10 $08 $10 $03 $10 $03 $10 $06 $10 $0B
+.db $10 $0A $10 $09 $10 $08 $10 $08 $10 $03 $10 $03 $10 $0B $10 $0D
+.db $10 $09 $10 $09 $10 $08 $10 $03 $10 $03 $10 $06 $10 $06 $10 $06
+.db $10 $09 $10 $0E $10 $0E $10 $0E $10 $02 $10 $02 $10 $02 $10 $02
+.db $10 $08 $10 $0E $10 $0F $10 $0E $10 $0D $10 $01 $10 $01 $10 $05
+.db $10 $08 $10 $0C $10 $0C $10 $0D $10 $0D $10 $00 $10 $00 $10 $05
+.db $10 $08 $10 $0A $10 $0B $10 $0B $10 $07 $10 $00 $10 $01 $10 $04
+.db $10 $08 $10 $09 $10 $0B $10 $0A $10 $07 $10 $05 $10 $04 $10 $04
+.db $10 $08 $10 $09 $10 $0A $10 $0A $10 $07 $10 $05 $10 $05 $10 $05
+.db $10 $09 $10 $09 $10 $08 $10 $08 $10 $07 $10 $06 $10 $06 $10 $06
+.db $10 $0F $10 $0F $10 $0D $10 $0C $10 $0E $10 $0E $10 $0F $10 $0F
+.db $10 $0F $10 $0D $10 $0D $10 $0C $10 $0B $10 $0B $10 $0C $10 $0F
+.db $10 $0D $10 $0D $10 $0D $10 $0C $10 $0B $10 $0A $10 $09 $10 $09
+.db $10 $04 $10 $06 $10 $06 $10 $03 $10 $07 $10 $08 $10 $08 $10 $04
+.db $10 $04 $10 $05 $10 $03 $10 $01 $10 $0D $10 $08 $10 $06 $10 $04
+.db $10 $03 $10 $03 $10 $00 $10 $00 $10 $0D $10 $08 $10 $04 $10 $03
+.db $10 $03 $10 $03 $10 $00 $10 $00 $10 $0D $10 $0D $10 $04 $10 $03
+.db $10 $0F $10 $02 $10 $02 $10 $01
+
+; Data from C178 to C46F (760 bytes)
+_DATA_C178_:
+.db $10 $0D $10 $0D $10 $0F $10 $0F $01 $01 $01 $01 $01 $05 $05 $05
+.db $01 $01 $04 $04 $05 $05 $05 $05 $01 $01 $01 $04 $04 $04 $04 $15
+.db $01 $01 $09 $09 $09 $09 $09 $15 $01 $06 $06 $06 $0A $0A $0A $0A
+.db $04 $0A $0A $0A $0A $15 $15 $17 $01 $01 $06 $06 $0A $0A $0A $17
+.db $0D $0D $15 $15 $15 $1E $1E $30 $05 $0B $0B $17 $17 $18 $18 $18
+.db $09 $09 $09 $10 $10 $22 $22 $35 $36 $36 $40 $40 $40 $40 $40 $40
+.db $03 $03 $03 $03 $03 $03 $03 $16 $16 $16 $16 $1D $1D $23 $23 $23
+.db $03 $03 $25 $25 $25 $25 $25 $25 $16 $16 $1D $1D $1D $35 $35 $35
+.db $01 $01 $01 $09 $09 $09 $09 $09 $01 $01 $05 $05 $05 $05 $0A $0A
+.db $03 $03 $03 $12 $12 $12 $12 $12 $15 $15 $15 $15 $16 $16 $16 $16
+.db $09 $09 $10 $10 $16 $16 $18 $1D $09 $09 $1F $1F $1F $1F $1F $1F
+.db $15 $15 $1F $1F $23 $23 $25 $25 $26 $26 $26 $26 $26 $26 $26 $26
+.db $1D $1D $1D $1D $25 $25 $25 $25 $03 $0A $0A $10 $10 $16 $18 $18
+.db $1D $23 $26 $2D $32 $32 $32 $32 $09 $41 $41 $41 $41 $41 $41 $41
+.db $0A $42 $42 $42 $42 $42 $42 $42 $01 $01 $01 $01 $01 $01 $01 $01
+.db $14 $14 $14 $14 $14 $14 $14 $14 $15 $15 $15 $15 $15 $15 $15 $15
+.db $29 $29 $29 $29 $29 $29 $29 $29 $26 $26 $26 $26 $26 $26 $26 $26
+.db $24 $24 $24 $24 $24 $24 $24 $24 $36 $36 $36 $36 $36 $36 $36 $36
+.db $14 $14 $14 $14 $14 $14 $14 $14 $13 $13 $13 $13 $13 $13 $13 $13
+.db $20 $20 $20 $20 $20 $20 $20 $20 $29 $29 $29 $29 $29 $29 $29 $29
+.db $30 $30 $30 $30 $30 $30 $30 $30 $0D $1A $1A $1A $1A $26 $26 $26
+.db $34 $34 $36 $36 $36 $36 $36 $36 $13 $13 $20 $20 $22 $22 $22 $22
+.db $22 $22 $24 $24 $24 $36 $36 $36 $17 $17 $22 $22 $2C $2C $2F $37
+.db $19 $19 $19 $19 $19 $19 $19 $19 $05 $05 $05 $05 $06 $06 $08 $0C
+.db $0E $0E $0E $0E $0E $0E $0F $0F $10 $10 $1C $1C $1C $1C $1C $1C
+.db $0C $0C $16 $16 $17 $17 $23 $23 $20 $27 $27 $27 $27 $27 $27 $27
+.db $20 $20 $20 $20 $20 $20 $20 $20 $27 $27 $2F $2F $2F $2F $30 $30
+.db $0F $30 $32 $32 $32 $32 $32 $32 $08 $08 $10 $10 $39 $39 $39 $39
+.db $05 $05 $1C $1C $1C $1C $3B $3B $30 $30 $39 $39 $3B $3B $3B $3B
+.db $07 $07 $0B $0B $0D $0D $1B $1B $0B $0B $1B $1B $21 $21 $24 $24
+.db $1B $1B $1B $1B $1D $1D $25 $25 $21 $21 $21 $25 $25 $28 $28 $2A
+.db $0D $24 $24 $2A $2A $2A $2D $2D $1D $1D $1D $1D $28 $28 $28 $39
+.db $2B $2B $2B $2B $2B $2B $36 $36 $25 $25 $25 $36 $36 $36 $38 $38
+.db $07 $07 $3F $3F $3F $3F $3F $3F $2A $2A $3A $3A $3A $3A $3A $3A
+.db $2B $2B $2D $2D $2D $41 $41 $41 $0D $0D $3A $3A $41 $41 $41 $41
+.db $1D $1D $1D $1D $28 $28 $2A $2A $25 $25 $2D $2D $38 $38 $38 $38
+.db $39 $39 $39 $41 $41 $41 $41 $41 $44 $44 $44 $44 $44 $44 $44 $44
+.db $02 $02 $03 $03 $0B $0B $0D $0D $09 $09 $0C $0C $11 $11 $16 $16
+.db $07 $07 $10 $10 $12 $12 $2B $2B $15 $15 $18 $18 $1D $1D $1F $1F
+.db $17 $17 $28 $28 $2A $2A $2C $2C $22 $22 $25 $25 $26 $26 $2D $2D
+.db $0B $0B $0B $0B $0D $0D $0D $1F $2C $2C $2C $2C $2C $2C $2C $2C
+.db $18 $18 $1D $1D $3B $3B $3C $3C $25 $25 $2A $2A $3D $3D $41 $41
+.db $38 $38 $3F $3F $40 $40 $42 $42 $11 $11 $37 $37 $37 $37 $37 $37
+.db $2F $2F $2F $2F $40 $40 $42 $42 $33 $33 $36 $36 $38 $38 $39 $39
+.db $33 $33 $35 $35 $3C $3C $3C $3C $2A $2A $3A $3A $3F $3F
+.dsb 10,$44
+.db $02 $02 $02 $02 $03 $03 $03 $03 $10 $10 $10 $12 $12 $12 $15 $15
+.db $25 $25 $25 $30 $30 $30 $33 $33 $09 $09 $12 $12 $41 $41 $41 $41
+
+; Data from C470 to C59F (304 bytes)
+_DATA_C470_:
+.db $01 $02 $02 $03 $04 $05 $05 $06 $07 $07 $08 $09 $0A $0A $06 $0B
+.db $01 $02 $02 $03 $04 $05 $05 $06 $07 $07 $08 $09 $0A $0A $06 $0B
+.dsb 16,$00
+.db $0C $0C $0C $0D $0E $0E $0E $0E $0E $0E $0E $0F $0F $0F $0F $0F
+.db $10 $10 $11 $12 $13 $13 $14 $14 $17 $15 $16 $18 $19 $1A $1B $1C
+.db $10 $10 $11 $12 $13 $13 $14 $14 $17 $15 $16 $18 $19 $1A $1B $1C
+.db $1D $1D $1D $1E $1E $1F $1F $20 $20 $21 $21 $20 $22 $22 $23 $23
+.db $24 $24 $24 $24 $25 $25 $25 $26 $26 $26 $26 $27 $28 $28 $28 $28
+.db $24 $24 $24 $24 $25 $25 $25 $26 $26 $26 $26 $27 $28 $28 $28 $28
+.db $29 $29 $29 $29 $29 $2A $29 $29 $29 $29 $29 $29 $29 $29 $2A $2A
+.db $2F $2F $30 $31 $32 $30 $32 $33 $32 $35 $36 $38 $37 $34 $39 $37
+.dsb 16,$2E
+.db $3A $3B $3C $3D $3E $3E $3F $40 $41 $42 $42 $41 $43 $42 $44 $45
+.db $46 $46 $46 $46 $46 $46 $47 $47 $47 $47 $47 $48 $48 $48 $48 $49
+.dsb 16,$00
+.dsb 16,$2D
+.db $2C $2C $2C $2C $2B $2B $2B $2B $2C $2C $2C $2C $2C $2C $2C $2C
+.db $2F $2F $30 $31 $32 $30 $32 $33 $32 $35 $36 $38 $37 $34 $39 $37
+.db $25 $26 $24 $24 $27 $27 $28 $28 $27 $26 $28 $27 $27 $26 $27 $28
+
+; Data from C5A0 to C67E (223 bytes)
+_DATA_C5A0_:
+.db $00 $00 $03 $03 $03 $03 $03 $04 $04 $00 $00 $00 $00 $00 $04
+.dsb 9,$00
+.dsb 9,$07
+.db $00 $00 $00 $00 $05
+.dsb 17,$00
+.db $08 $08 $08 $08
+.dsb 10,$06
+.db $07 $07 $07 $07
+.dsb 9,$06
+.dsb 9,$02
+.db $01 $02 $05 $04 $09 $09 $09 $09 $09
+.dsb 10,$00
+.db $02 $02 $02 $02
+.dsb 80,$00
+.db $02 $01 $01 $01 $01 $05 $02 $02 $02 $02 $02 $02 $05 $05 $05 $05
+.db $00 $00 $00 $00 $00 $02 $02 $02 $02 $02 $02 $02 $02
+
+; Data from C67F to CFC6 (2376 bytes)
+_DATA_C67F_:
+.incbin "Phantasy Star (Japan)_DATA_C67F_.inc"
+
+; Data from CFC7 to D4F5 (1327 bytes)
+_DATA_CFC7_:
+.incbin "Phantasy Star (Japan)_DATA_CFC7_.inc"
+
+; Data from D4F6 to D505 (16 bytes)
+_DATA_D4F6_:
+.db $00 $EC $ED $EE $ED $EE $EF $F0 $F1 $F2 $F3 $F4 $F5 $00 $F6 $00
+
+; Data from D506 to D53F (58 bytes)
+_DATA_D506_:
+.db $00 $EF $F0 $F1 $F7 $F8 $F9 $FA $00 $FB $00 $00 $EF $F0 $F1 $FC
+.db $FD $FE $FF $00 $10 $00 $00 $EF $F0 $F1 $11 $12 $B3 $46 $00 $8E
+.db $00 $00 $13 $13 $14 $3D $3E $76 $3D $3E $76 $3D $3E $76 $3D $77
+.db $77 $88 $89 $8A $8B $8C $CC $00 $CD $00
+
+; Data from D540 to D5BB (124 bytes)
+_DATA_D540_:
+.db $00 $00 $00 $00 $01 $00 $02 $00 $03 $00 $04 $00 $05 $00 $06 $00
+.db $07 $00 $08 $00 $09 $00 $0A $00 $0B $00 $00 $01 $01 $01 $02 $01
+.db $03 $01 $04 $01 $05 $01 $06 $01 $07 $01 $08 $01 $09 $01 $0A $01
+.db $0B $01 $00 $02 $01 $02 $02 $02 $03 $02 $04 $02 $05 $02 $06 $02
+.db $07 $02 $08 $02 $09 $02 $0A $02 $0B $02 $00 $03 $01 $03 $02 $03
+.db $03 $03 $04 $03 $05 $03 $06 $03 $07 $03 $08 $03 $09 $03 $0A $03
+.db $0B $03 $0C $04 $0D $05 $0C $06 $0E $07 $0F $08 $10 $09 $10 $0A
+.db $11 $0B $12 $0C $13 $0D $14 $0E $15 $0F $15 $10
+
+; Data from D5BC to D66B (176 bytes)
+_DATA_D5BC_:
+.db $2B $0B $06 $2A $25 $03 $02 $0F $2B $0B $06 $2A $25 $0C $08 $0F
+.db $2B $0B $06 $2A $25 $3C $38 $0F $2B $0B $06 $2A $25 $3F $3C $0F
+.db $2B $00 $06 $2A $25 $03 $02 $25 $2B $00 $06 $2A $25 $0C $08 $25
+.db $2B $00 $06 $2A $25 $3C $38 $25 $2B $00 $06 $2A $25 $3F $3C $25
+.db $2B $34 $06 $2A $25 $03 $02 $38 $2B $34 $06 $2A $25 $0C $08 $38
+.db $2B $34 $06 $2A $25 $3C $38 $38 $2B $34 $06 $2A $25 $3F $3C $38
+.db $2B $0B $06 $2A $25 $03 $02 $0F $2B $0B $06 $2A $25 $01 $02 $0F
+.db $2B $0B $06 $2A $25 $0A $05 $0F $2B $0B $06 $2A $25 $3C $20 $02
+.db $2B $0B $06 $2A $25 $3E $3C $02 $04 $01 $06 $3F $3E $3C $3E $3F
+.db $2B $0B $06 $2A $3E $21 $02 $36 $2A $25 $2A $2A $3F $2A $25 $25
+.db $2B $3E $06 $2A $25 $3C $00 $00 $02 $3C $0A $04 $2C $01 $08 $2F
+
+; Data from D66C to D6F3 (136 bytes)
+_DATA_D66C_:
+.db $10 $50 $4F $70 $00 $1B $00 $80 $10 $51 $4F $70 $00 $1B $00 $80
+.db $10 $52 $4F $70 $00 $1B $00 $80 $10 $53 $4F $70 $00 $1B $00 $80
+.db $10 $54 $4F $68 $00 $1B $19 $8E $10 $55 $4F $70 $00 $1B $19 $8E
+.db $10 $56 $4F $70 $00 $1B $19 $8E $10 $57 $4F $70 $00 $06 $80 $BB
+.db $10 $58 $4F $68 $00 $1B $79 $99 $10 $59 $6F $64 $00 $1B $26 $9F
+.db $10 $5A $6F $6C $00 $1B $26 $9F $10 $5B $4F $70 $00 $1B $5E $A7
+.db $10 $5C $4F $70 $00 $1B $04 $AB $10 $5D $4F $6C $00 $1B $6C $AE
+.db $10 $5E $4F $68 $00 $15 $97 $BA $10 $82 $4F $74 $00 $13 $ED $96
+.db $10 $83 $4F $74 $00 $13 $ED $96
+
+; Pointer Table from D6F4 to D80B (140 entries,indexed by CharacterSpriteAttributes)
+_DATA_D6F4_:
+.dw _DATA_D80C_ _DATA_D80C_ _DATA_D81F_ _DATA_D832_ _DATA_D845_ _DATA_D852_ _DATA_D883_ _DATA_D890_
+.dw _DATA_D89D_ _DATA_D8B3_ _DATA_D8C6_ _DATA_D8CD_ _DATA_D8DA_ _DATA_D8F3_ _DATA_D909_ _DATA_D910_
+.dw _DATA_D917_ _DATA_D91B_ _DATA_D925_ _DATA_D92C_ _DATA_D939_ _DATA_D952_ _DATA_D965_ _DATA_D972_
+.dw _DATA_D976_ _DATA_D97A_ _DATA_D981_ _DATA_D98E_ _DATA_D99B_ _DATA_D9A2_ _DATA_D9A6_ _DATA_D9AA_
+.dw _DATA_D9AE_ _DATA_D9B2_ _DATA_D9B9_ _DATA_D9C6_ _DATA_D9DF_ _DATA_D9EC_ _DATA_D9F3_ _DATA_D9F7_
+.dw _DATA_D9FE_ _DATA_DA05_ _DATA_DA0C_ _DATA_DA19_ _DATA_DA2F_ _DATA_DA3F_ _DATA_DA52_ _DATA_DA5C_
+.dw _DATA_DA60_ _DATA_DA64_ _DATA_DA68_ _DATA_DA6F_ _DATA_DA7C_ _DATA_DA95_ _DATA_DAAE_ _DATA_DABB_
+.dw _DATA_DABF_ _DATA_DAC6_ _DATA_DD5C_ _DATA_DDA2_ _DATA_DDE8_ _DATA_DE3D_ _DATA_DE80_ _DATA_DEC3_
+.dw _DATA_DF06_ _DATA_DF55_ _DATA_DFC8_ _DATA_E011_ _DATA_E054_ _DATA_E097_ _DATA_E0E0_ _DATA_DC9B_
+.dw _DATA_DCA2_ _DATA_DCA9_ _DATA_DCB0_ _DATA_DCBA_ _DATA_DCCD_ _DATA_DCDA_ _DATA_DCE1_ _DATA_DCE1_
+.dw _DATA_E13B_ _DATA_E199_ _DATA_E1FD_ _DATA_E26D_ _DATA_E2D7_ _DATA_E34D_ _DATA_E3B7_ _DATA_E41E_
+.dw _DATA_E49D_ _DATA_E58F_ _DATA_E53A_ _DATA_E60B_ _DATA_E681_ _DATA_E6F7_ _DATA_E788_ _DATA_DACA_
+.dw _DATA_DAD7_ _DATA_DAEA_ _DATA_DB03_ _DATA_DB13_ _DATA_DB20_ _DATA_DB33_ _DATA_DB4C_ _DATA_DB62_
+.dw _DATA_DB7B_ _DATA_DB8E_ _DATA_DBA7_ _DATA_DBB4_ _DATA_DBC1_ _DATA_DBC8_ _DATA_DBDB_ _DATA_DBF1_
+.dw _DATA_DBF8_ _DATA_DC0B_ _DATA_DC15_ _DATA_DC22_ _DATA_DC2F_ _DATA_DC3F_ _DATA_DC4C_ _DATA_DC5F_
+.dw _DATA_DC78_ _DATA_DC8E_ _DATA_DCEE_ _DATA_DCF5_ _DATA_DCFC_ _DATA_DD09_ _DATA_DD1C_ _DATA_DD3B_
+.dw _DATA_DD48_ _DATA_DD4F_ _DATA_E816_ _DATA_E874_ _DATA_E8D2_ _DATA_E8E2_ _DATA_E8F2_ _DATA_E8E2_
+.dw _DATA_E902_ _DATA_E912_ _DATA_E922_ _DATA_E912_
+
+; 1st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D80C to D81E (19 bytes)
+_DATA_D80C_:
+.db $06 $F7 $F7 $FF $FF $07 $07 $00 $AA $08 $AB $00 $AC $08 $AD $00
+.db $AE $08 $AF
+
+; 3rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D81F to D831 (19 bytes)
+_DATA_D81F_:
+.db $06 $F7 $F7 $FF $FF $07 $07 $00 $B0 $08 $B1 $00 $B2 $08 $B3 $00
+.db $B4 $08 $B5
+
+; 4th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D832 to D844 (19 bytes)
+_DATA_D832_:
+.db $06 $F7 $F7 $FF $FF $07 $07 $00 $B6 $08 $B7 $00 $B8 $08 $B9 $00
+.db $BA $08 $BB
+
+; 5th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D845 to D851 (13 bytes)
+_DATA_D845_:
+.db $04 $FF $FF $07 $07 $00 $BC $08 $BD $00 $BE $08 $BF
+
+; 6th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D852 to D882 (49 bytes)
+_DATA_D852_:
+.db $10 $EF $EF $EF $EF $F7 $F7 $F7 $F7 $FF $FF $FF $FF $07 $07 $07
+.db $07 $F0 $AA $F8 $AB $00 $AC $08 $AD $F0 $AE $F8 $AF $00 $B0 $08
+.db $B1 $F0 $B2 $F8 $B3 $00 $B4 $08 $B5 $F0 $B6 $F8 $B7 $00 $B8 $08
+.db $B9
+
+; 7th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D883 to D88F (13 bytes)
+_DATA_D883_:
+.db $04 $DC $E4 $EC $F4 $14 $A0 $0F $A1 $0B $A2 $07 $A3
+
+; 8th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D890 to D89C (13 bytes)
+_DATA_D890_:
+.db $04 $FC $FC $04 $04 $00 $A4 $08 $A5 $FF $A6 $07 $A7
+
+; 9th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D89D to D8B2 (22 bytes)
+_DATA_D89D_:
+.db $07 $FC $FC $04 $0C $14 $1C $24 $00 $A8 $08 $A9 $01 $AA $FB $AB
+.db $F8 $AC $F4 $AD $F0 $A0
+
+; 10th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D8B3 to D8C5 (19 bytes)
+_DATA_D8B3_:
+.db $06 $FC $FC $04 $14 $1C $24 $00 $AE $0D $AF $03 $B0 $F8 $B1 $F4
+.db $B2 $F0 $B3
+
+; 11th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D8C6 to D8CC (7 bytes)
+_DATA_D8C6_:
+.db $02 $60 $68 $2D $A0 $2D $A1
+
+; 12th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D8CD to D8D9 (13 bytes)
+_DATA_D8CD_:
+.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+
+; 13th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D8DA to D8F2 (25 bytes)
+_DATA_D8DA_:
+.db $08 $48 $48 $50 $50 $58 $58 $60 $60 $23 $A6 $2B $A7 $24 $A8 $2C
+.db $A9 $27 $AA $2F $AB $2A $AC $32 $AD
+
+; 14th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D8F3 to D908 (22 bytes)
+_DATA_D8F3_:
+.db $07 $28 $30 $30 $38 $38 $40 $40 $15 $AE $17 $AF $1F $A7 $1A $B0
+.db $22 $B1 $1D $B2 $25 $B3
+
+; 15th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D909 to D90F (7 bytes)
+_DATA_D909_:
+.db $02 $18 $20 $0E $B4 $10 $B5
+
+; 16th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D910 to D916 (7 bytes)
+_DATA_D910_:
+.db $02 $08 $10 $08 $B6 $0A $B7
+
+; 17th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D917 to D91A (4 bytes)
+_DATA_D917_:
+.db $01 $08 $05 $B8
+
+; 18th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D91B to D924 (10 bytes)
+_DATA_D91B_:
+.db $03 $00 $08 $08 $04 $B9 $02 $BA $0A $BB
+
+; 19th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D925 to D92B (7 bytes)
+_DATA_D925_:
+.db $02 $60 $68 $2C $A0 $2C $A1
+
+; 20th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D92C to D938 (13 bytes)
+_DATA_D92C_:
+.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+
+; 21st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D939 to D951 (25 bytes)
+_DATA_D939_:
+.db $08 $38 $40 $48 $50 $50 $58 $58 $60 $1A $A6 $1E $A7 $20 $A8 $23
+.db $A9 $2B $AA $26 $AB $2E $AC $2C $AD
+
+; 22nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D952 to D964 (19 bytes)
+_DATA_D952_:
+.db $06 $18 $20 $28 $28 $30 $38 $0D $AE $11 $AF $13 $B0 $1B $B1 $16
+.db $B2 $1B $B3
+
+; 23rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D965 to D971 (13 bytes)
+_DATA_D965_:
+.db $04 $00 $08 $10 $18 $06 $B4 $07 $B5 $0A $B6 $10 $B7
+
+; 24th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D972 to D975 (4 bytes)
+_DATA_D972_:
+.db $01 $00 $02 $B8
+
+; 25th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D976 to D979 (4 bytes)
+_DATA_D976_:
+.db $01 $00 $00 $B9
+
+; 26th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D97A to D980 (7 bytes)
+_DATA_D97A_:
+.db $02 $60 $68 $2D $A0 $2E $A1
+
+; 27th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D981 to D98D (13 bytes)
+_DATA_D981_:
+.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $2A $A4 $32 $A5
+
+; 28th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D98E to D99A (13 bytes)
+_DATA_D98E_:
+.db $04 $48 $48 $50 $50 $22 $A6 $2A $A7 $24 $A8 $2C $A9
+
+; 29th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D99B to D9A1 (7 bytes)
+_DATA_D99B_:
+.db $02 $28 $28 $13 $AA $1B $AB
+
+; 30th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9A2 to D9A5 (4 bytes)
+_DATA_D9A2_:
+.db $01 $10 $0A $AC
+
+; 31st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9A6 to D9A9 (4 bytes)
+_DATA_D9A6_:
+.db $01 $00 $05 $AD
+
+; 32nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9AA to D9AD (4 bytes)
+_DATA_D9AA_:
+.db $01 $00 $02 $AE
+
+; 33rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9AE to D9B1 (4 bytes)
+_DATA_D9AE_:
+.db $01 $00 $00 $AF
+
+; 34th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9B2 to D9B8 (7 bytes)
+_DATA_D9B2_:
+.db $02 $60 $68 $2C $A0 $2C $A1
+
+; 35th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9B9 to D9C5 (13 bytes)
+_DATA_D9B9_:
+.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+
+; 36th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9C6 to D9DE (25 bytes)
+_DATA_D9C6_:
+.db $08 $38 $38 $40 $40 $48 $50 $50 $58 $18 $A6 $20 $A7 $19 $A8 $21
+.db $A9 $20 $AA $23 $AB $2B $AC $29 $AD
+
+; 37th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9DF to D9EB (13 bytes)
+_DATA_D9DF_:
+.db $04 $18 $18 $20 $28 $0D $AE $16 $AF $10 $B0 $13 $B1
+
+; 38th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9EC to D9F2 (7 bytes)
+_DATA_D9EC_:
+.db $02 $08 $10 $07 $B2 $0C $B3
+
+; 39th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9F3 to D9F6 (4 bytes)
+_DATA_D9F3_:
+.db $01 $00 $02 $B4
+
+; 40th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9F7 to D9FD (7 bytes)
+_DATA_D9F7_:
+.db $02 $00 $00 $00 $B5 $08 $B6
+
+; 41st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from D9FE to DA04 (7 bytes)
+_DATA_D9FE_:
+.db $02 $00 $08 $02 $B7 $00 $B8
+
+; 42nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA05 to DA0B (7 bytes)
+_DATA_DA05_:
+.db $02 $60 $68 $2C $A0 $2C $A1
+
+; 43rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA0C to DA18 (13 bytes)
+_DATA_DA0C_:
+.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+
+; 44th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA19 to DA2E (22 bytes)
+_DATA_DA19_:
+.db $07 $38 $40 $48 $50 $58 $60 $60 $22 $A6 $28 $A7 $29 $A8 $28 $A9
+.db $28 $AA $29 $AB $31 $AC
+
+; 45th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA2F to DA3E (16 bytes)
+_DATA_DA2F_:
+.db $05 $18 $20 $28 $30 $38 $20 $AD $20 $AE $20 $AF $21 $B0 $22 $B1
+
+; 46th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA3F to DA51 (19 bytes)
+_DATA_DA3F_:
+.db $06 $00 $00 $08 $08 $10 $18 $10 $B2 $18 $B3 $10 $B4 $18 $B5 $1B
+.db $B6 $20 $B7
+
+; 47th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA52 to DA5B (10 bytes)
+_DATA_DA52_:
+.db $03 $00 $00 $08 $03 $B8 $0B $B9 $08 $BA
+
+; 48th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA5C to DA5F (4 bytes)
+_DATA_DA5C_:
+.db $01 $00 $02 $BB
+
+; 49th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA60 to DA63 (4 bytes)
+_DATA_DA60_:
+.db $01 $00 $00 $BC
+
+; 50th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA64 to DA67 (4 bytes)
+_DATA_DA64_:
+.db $01 $00 $00 $BD
+
+; 51st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA68 to DA6E (7 bytes)
+_DATA_DA68_:
+.db $02 $60 $68 $2C $A0 $2C $A1
+
+; 52nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA6F to DA7B (13 bytes)
+_DATA_DA6F_:
+.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+
+; 53rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA7C to DA94 (25 bytes)
+_DATA_DA7C_:
+.db $08 $40 $40 $48 $48 $50 $50 $58 $58 $1D $A6 $25 $A7 $1D $A8 $25
+.db $A9 $1F $AA $27 $AB $20 $AC $28 $AD
+
+; 54th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DA95 to DAAD (25 bytes)
+_DATA_DA95_:
+.db $08 $20 $20 $28 $28 $30 $30 $38 $38 $11 $AE $19 $AF $13 $B0 $1B
+.db $B1 $15 $B2 $1D $B3 $17 $B4 $1F $B5
+
+; 55th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DAAE to DABA (13 bytes)
+_DATA_DAAE_:
+.db $04 $08 $10 $10 $18 $09 $B6 $09 $B7 $11 $B8 $0D $B9
+
+; 56th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DABB to DABE (4 bytes)
+_DATA_DABB_:
+.db $01 $00 $06 $BA
+
+; 57th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DABF to DAC5 (7 bytes)
+_DATA_DABF_:
+.db $02 $00 $00 $00 $BB $08 $BC
+
+; 58th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DAC6 to DAC9 (4 bytes)
+_DATA_DAC6_:
+.db $01 $00 $04 $BD
+
+; 96th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DACA to DAD6 (13 bytes)
+_DATA_DACA_:
+.db $04 $DC $E4 $EC $F4 $12 $A0 $0E $A1 $0A $A1 $06 $A1
+
+; 97th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DAD7 to DAE9 (19 bytes)
+_DATA_DAD7_:
+.db $06 $EC $F4 $FC $FC $04 $04 $0C $A2 $07 $A3 $FC $A4 $04 $A5 $FE
+.db $A6 $06 $A7
+
+; 98th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DAEA to DB02 (25 bytes)
+_DATA_DAEA_:
+.db $08 $FC $FC $04 $04 $0C $14 $1C $24 $01 $A8 $09 $A9 $FB $AA $03
+.db $AB $FA $A1 $F6 $A1 $F2 $A1 $F2 $AC
+
+; 99th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DB03 to DB12 (16 bytes)
+_DATA_DB03_:
+.db $05 $FC $04 $14 $1C $24 $03 $AD $00 $AD $F8 $AE $F4 $AF $F0 $B0
+
+; 100th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DB13 to DB1F (13 bytes)
+_DATA_DB13_:
+.db $04 $DC $E4 $EC $F4 $13 $A0 $0F $A1 $09 $A2 $06 $A3
+
+; 101st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DB20 to DB32 (19 bytes)
+_DATA_DB20_:
+.db $06 $F4 $FC $FC $04 $04 $0C $05 $A4 $FF $A5 $07 $A6 $FC $A7 $04
+.db $A8 $FB $A9
+
+; 102nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DB33 to DB4B (25 bytes)
+_DATA_DB33_:
+.db $08 $FC $FC $04 $04 $0C $14 $1C $24 $FD $AA $05 $AB $00 $AC $08
+.db $AD $FA $AE $F7 $AF $F3 $A1 $F1 $B0
+
+; 103rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DB4C to DB61 (22 bytes)
+_DATA_DB4C_:
+.db $07 $F4 $FC $04 $0C $14 $1C $24 $03 $B1 $03 $B2 $FD $B3 $04 $B1
+.db $F7 $B4 $F4 $B4 $F0 $B5
+
+; 104th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DB62 to DB7A (25 bytes)
+_DATA_DB62_:
+.db $08 $D8 $E0 $E0 $E8 $E8 $F0 $F0 $F8 $10 $A0 $0C $A1 $14 $A2 $07
+.db $A3 $0F $A4 $05 $A5 $0D $A6 $07 $A7
+
+; 105th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DB7B to DB8D (19 bytes)
+_DATA_DB7B_:
+.db $06 $F0 $F8 $F8 $00 $00 $08 $03 $A8 $FF $A9 $07 $AA $FD $AB $05
+.db $AC $01 $AD
+
+; 106th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DB8E to DBA6 (25 bytes)
+_DATA_DB8E_:
+.db $08 $00 $00 $08 $08 $10 $10 $18 $18 $FB $AE $03 $AF $F8 $B0 $00
+.db $B1 $F4 $B2 $FC $B3 $F2 $B4 $FA $B5
+
+; 107th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DBA7 to DBB3 (13 bytes)
+_DATA_DBA7_:
+.db $04 $08 $18 $18 $20 $FA $B6 $F0 $B7 $F8 $B8 $F0 $B9
+
+; 108th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DBB4 to DBC0 (13 bytes)
+_DATA_DBB4_:
+.db $04 $DC $E4 $EC $F4 $12 $A0 $0E $A1 $0A $A1 $08 $A2
+
+; 109th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DBC1 to DBC7 (7 bytes)
+_DATA_DBC1_:
+.db $02 $FC $04 $02 $A3 $00 $A2
+
+; 110th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DBC8 to DBDA (19 bytes)
+_DATA_DBC8_:
+.db $06 $FC $04 $0C $14 $1C $24 $00 $A4 $00 $A5 $FA $A3 $F6 $A1 $F2
+.db $A1 $F0 $A6
+
+; 111th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DBDB to DBF0 (22 bytes)
+_DATA_DBDB_:
+.db $07 $DC $E4 $EC $F4 $14 $1C $24 $F0 $A7 $F2 $A8 $F6 $A8 $FA $A9
+.db $F9 $AA $F4 $AB $F0 $AC
+
+; 112th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DBF1 to DBF7 (7 bytes)
+_DATA_DBF1_:
+.db $02 $FC $04 $00 $AD $02 $A9
+
+; 113th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DBF8 to DC0A (19 bytes)
+_DATA_DBF8_:
+.db $06 $FC $04 $0C $14 $1C $24 $00 $AE $00 $AF $08 $AD $0A $A8 $0E
+.db $A8 $12 $B0
+
+; 114th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC0B to DC14 (10 bytes)
+_DATA_DC0B_:
+.db $03 $14 $1C $24 $0D $B1 $0F $B2 $12 $B3
+
+; 115th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC15 to DC21 (13 bytes)
+_DATA_DC15_:
+.db $04 $DC $E4 $EC $F4 $F0 $A0 $F4 $A1 $F6 $A2 $FA $A2
+
+; 116th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC22 to DC2E (13 bytes)
+_DATA_DC22_:
+.db $04 $F4 $FC $04 $0C $FC $A1 $FE $A2 $02 $A2 $06 $A3
+
+; 117th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC2F to DC3E (16 bytes)
+_DATA_DC2F_:
+.db $05 $FC $04 $0C $14 $1C $00 $A4 $00 $A5 $06 $A2 $0A $A2 $0E $A3
+
+; 118th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC3F to DC4B (13 bytes)
+_DATA_DC3F_:
+.db $04 $FC $04 $1C $24 $03 $A6 $FD $A6 $10 $A7 $14 $A8
+
+; 119th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC4C to DC5E (19 bytes)
+_DATA_DC4C_:
+.db $06 $DC $E4 $EC $EC $F4 $F4 $F0 $A0 $F4 $A1 $F6 $A2 $FE $A3 $F8
+.db $A4 $00 $A5
+
+; 120th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC5F to DC77 (25 bytes)
+_DATA_DC5F_:
+.db $08 $F4 $F4 $FC $FC $04 $04 $0C $0C $F8 $A4 $00 $A5 $FD $A6 $05
+.db $A7 $00 $A8 $08 $A7 $04 $A9 $0C $AA
+
+; 121st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC78 to DC8D (22 bytes)
+_DATA_DC78_:
+.db $07 $FC $04 $0C $0C $14 $14 $1C $00 $AB $00 $AC $04 $A9 $0C $AA
+.db $08 $AD $10 $A3 $0E $AE
+
+; 122nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC8E to DC9A (13 bytes)
+_DATA_DC8E_:
+.db $04 $FC $04 $1C $24 $04 $AF $FC $AF $0E $B0 $14 $B1
+
+; 72nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DC9B to DCA1 (7 bytes)
+_DATA_DC9B_:
+.db $02 $FC $04 $02 $A0 $02 $A1
+
+; 73rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCA2 to DCA8 (7 bytes)
+_DATA_DCA2_:
+.db $02 $FC $04 $00 $A2 $00 $A3
+
+; 74th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCA9 to DCAF (7 bytes)
+_DATA_DCA9_:
+.db $02 $04 $0C $04 $A4 $03 $A5
+
+; 75th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCB0 to DCB9 (10 bytes)
+_DATA_DCB0_:
+.db $03 $0C $14 $1C $01 $A6 $FF $A7 $FD $A8
+
+; 76th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCBA to DCCC (19 bytes)
+_DATA_DCBA_:
+.db $06 $2C $34 $3C $3C $44 $44 $02 $A9 $01 $AA $FD $AB $05 $AC $FD
+.db $AD $05 $AE
+
+; 77th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCCD to DCD9 (13 bytes)
+_DATA_DCCD_:
+.db $04 $44 $44 $4C $4C $FD $AF $05 $B0 $FC $B1 $04 $B2
+
+; 78th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCDA to DCE0 (7 bytes)
+_DATA_DCDA_:
+.db $02 $44 $4C $00 $A2 $00 $A3
+
+; 79th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCE1 to DCED (13 bytes)
+_DATA_DCE1_:
+.db $04 $44 $44 $4C $4C $FC $B3 $04 $B4 $FC $B5 $04 $B6
+
+; 123rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCEE to DCF4 (7 bytes)
+_DATA_DCEE_:
+.db $02 $FC $04 $02 $A0 $02 $A1
+
+; 124th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCF5 to DCFB (7 bytes)
+_DATA_DCF5_:
+.db $02 $FC $04 $00 $A2 $00 $A3
+
+; 125th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DCFC to DD08 (13 bytes)
+_DATA_DCFC_:
+.db $04 $FC $04 $04 $0C $02 $A0 $02 $A4 $0A $A5 $03 $A6
+
+; 126th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DD09 to DD1B (19 bytes)
+_DATA_DD09_:
+.db $06 $04 $0C $14 $1C $1C $24 $FC $A7 $FC $A8 $FC $A9 $FD $AA $05
+.db $AB $02 $AC
+
+; 127th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DD1C to DD3A (31 bytes)
+_DATA_DD1C_:
+.db $0A $0C $14 $14 $1C $24 $2C $2C $34 $3C $44 $03 $AD $FF $AE $07
+.db $AF $FE $B0 $03 $B0 $FE $B1 $06 $B2 $FD $B3 $00 $B4 $00 $A3
+
+; 128th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DD3B to DD47 (13 bytes)
+_DATA_DD3B_:
+.db $04 $44 $44 $4C $4C $FD $B5 $05 $B6 $FC $B7 $04 $B8
+
+; 129th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DD48 to DD4E (7 bytes)
+_DATA_DD48_:
+.db $02 $44 $4C $00 $A2 $00 $A3
+
+; 130th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DD4F to DD5B (13 bytes)
+_DATA_DD4F_:
+.db $04 $44 $44 $4C $4C $FC $B9 $04 $BA $FC $BB $04 $BC
+
+; 59th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DD5C to DDA1 (70 bytes)
+_DATA_DD5C_:
+.db $17 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20
+.db $20 $20 $28 $28 $28 $28 $28 $28 $0C $00 $14 $01 $1C $02 $24 $03
+.db $2C $04 $0A $05 $12 $06 $1A $07 $22 $08 $2A $09 $32 $0A $0B $0B
+.db $13 $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13
+.db $20 $13 $28 $14 $30 $15
+
+; 60th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DDA2 to DDE7 (70 bytes)
+_DATA_DDA2_:
+.db $17 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20
+.db $20 $20 $28 $28 $28 $28 $28 $28 $0C $16 $14 $17 $1C $18 $24 $19
+.db $2C $1A $0B $1B $13 $1C $1B $1D $23 $1E $2B $1F $33 $20 $0B $0B
+.db $13 $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13
+.db $20 $13 $28 $14 $30 $15
+
+; 61st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DDE8 to DE3C (85 bytes)
+_DATA_DDE8_:
+.db $1C $08 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18
+.db $18 $20 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $0F $21 $17
+.db $22 $1F $22 $27 $23 $2F $24 $0F $25 $17 $26 $1F $26 $27 $27 $2F
+.db $28 $0B $29 $13 $2A $1B $1D $23 $1E $2B $2B $33 $20 $0B $0B $13
+.db $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13 $20
+.db $13 $28 $14 $30 $15
+
+; 62nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DE3D to DE7F (67 bytes)
+_DATA_DE3D_:
+.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $28 $10 $2C $18 $2D $20 $2D $28 $2E $0B
+.db $29 $13 $2A $1B $1D $23 $1E $2B $2B $33 $20 $0B $0B $13 $0C $1B
+.db $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13 $20 $13 $28
+.db $14 $30 $15
+
+; 63rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DE80 to DEC2 (67 bytes)
+_DATA_DE80_:
+.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $28 $10 $2C $18 $2D $20 $2D $28 $2E $0B
+.db $29 $13 $2A $1B $2F $23 $30 $2B $2B $33 $20 $0B $0B $13 $0C $1B
+.db $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13 $20 $13 $28
+.db $14 $30 $15
+
+; 64th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DEC3 to DF05 (67 bytes)
+_DATA_DEC3_:
+.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $28 $10 $31 $18 $32 $20 $33 $28 $34 $0B
+.db $35 $13 $36 $1B $37 $23 $38 $2B $39 $33 $3A $0B $3B $13 $3C $1B
+.db $3D $23 $3E $2B $3F $33 $40 $08 $41 $10 $42 $18 $43 $20 $43 $28
+.db $44 $30 $45
+
+; 65th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DF06 to DF54 (79 bytes)
+_DATA_DF06_:
+.db $1A $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $18 $46 $20 $47 $28
+.db $48 $10 $49 $18 $4A $20 $4B $28 $4C $30 $4D $0B $4E $13 $4F $1B
+.db $50 $23 $51 $2B $52 $33 $53 $08 $54 $10 $55 $18 $56 $20 $57 $28
+.db $58 $30 $59 $08 $5A $10 $5B $18 $5C $20 $5D $28 $5E $30 $5F
+
+; 66th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DF55 to DFC7 (115 bytes)
+_DATA_DF55_:
+.db $26 $00 $00 $00 $00 $08 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10
+.db $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20 $20 $20 $20 $28
+.db $28 $28 $28 $28 $28 $28 $28 $0D $60 $15 $61 $23 $62 $2B $63 $09
+.db $64 $11 $65 $19 $66 $21 $67 $29 $68 $31 $69 $08 $6A $10 $6B $18
+.db $6C $20 $6D $28 $6E $30 $6F $08 $70 $10 $71 $18 $72 $20 $73 $28
+.db $74 $30 $75 $01 $76 $09 $77 $11 $78 $19 $79 $21 $7A $29 $7B $31
+.db $7C $39 $7D $00 $7E $08 $7F $10 $80 $18 $81 $20 $82 $28 $83 $30
+.db $84 $38 $85
+
+; 67th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from DFC8 to E010 (73 bytes)
+_DATA_DFC8_:
+.db $18 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $18 $20 $20 $20
+.db $20 $20 $20 $28 $28 $28 $28 $28 $28 $08 $86 $10 $2C $18 $2D $20
+.db $2D $28 $2E $0B $29 $13 $87 $1B $88 $23 $1E $2B $2B $33 $89 $3B
+.db $8A $0B $0B $13 $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10
+.db $12 $18 $13 $20 $13 $28 $14 $30 $15
+
+; 68th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E011 to E053 (67 bytes)
+_DATA_E011_:
+.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $28 $10 $2C $18 $2D $20 $2D $28 $2E $0B
+.db $29 $13 $2A $1B $8B $23 $8C $2B $2B $33 $20 $0B $0B $13 $0C $1B
+.db $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13 $20 $13 $28
+.db $14 $30 $15
+
+; 69th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E054 to E096 (67 bytes)
+_DATA_E054_:
+.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $28 $10 $2C $18 $2D $20 $2D $28 $2E $0B
+.db $29 $13 $2A $1B $8D $23 $1E $2B $2B $33 $20 $0B $0B $13 $0C $1B
+.db $8E $23 $8F $2B $0F $33 $10 $08 $11 $10 $12 $18 $90 $20 $91 $28
+.db $14 $30 $15
+
+; 70th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E097 to E0DF (73 bytes)
+_DATA_E097_:
+.db $18 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $28 $30 $30 $10 $2C $18 $2D $20 $2D $28
+.db $2E $0B $29 $13 $2A $1B $1D $23 $1E $2B $2B $33 $20 $0B $0B $13
+.db $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $92 $20
+.db $93 $28 $14 $30 $15 $18 $94 $20 $95
+
+; 71st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E0E0 to E13A (91 bytes)
+_DATA_E0E0_:
+.db $1E $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $28 $30 $30 $38 $38 $38 $38 $40 $40 $10
+.db $2C $18 $2D $20 $2D $28 $2E $0B $29 $13 $2A $1B $1D $23 $1E $2B
+.db $2B $33 $20 $0B $0B $13 $0C $1B $0D $23 $0E $2B $0F $33 $10 $08
+.db $11 $10 $12 $18 $96 $20 $97 $28 $14 $30 $15 $1A $98 $22 $99 $13
+.db $9A $1B $9B $23 $9C $2B $9D $18 $9E $20 $9F
+
+; 81st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E13B to E198 (94 bytes)
+_DATA_E13B_:
+.db $1F $00 $00 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
+.db $28 $28 $28 $28 $30 $30 $30 $38 $38 $40 $40 $48 $48 $50 $50 $50
+.db $0A $00 $12 $01 $08 $02 $10 $03 $06 $04 $0E $05 $16 $06 $04 $07
+.db $0C $08 $14 $09 $1C $0A $02 $0B $0A $0C $12 $0D $1A $0E $00 $0F
+.db $08 $10 $10 $11 $18 $12 $00 $13 $08 $14 $10 $15 $09 $16 $11 $17
+.db $0A $18 $12 $19 $0A $1A $12 $1B $04 $1C $0C $1D $14 $1E
+
+; 82nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E199 to E1FC (100 bytes)
+_DATA_E199_:
+.db $21 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $48 $48 $48 $50 $50
+.db $50 $50 $09 $1F $11 $20 $09 $21 $11 $22 $03 $23 $0B $24 $13 $25
+.db $1B $26 $03 $27 $0B $28 $13 $29 $1B $2A $05 $2B $0D $2C $15 $2D
+.db $06 $2E $0E $2F $16 $30 $06 $31 $0E $32 $16 $33 $06 $34 $11 $35
+.db $19 $36 $06 $37 $12 $38 $06 $39 $13 $3A $1B $3B $00 $3C $08 $3D
+.db $10 $3E $18 $3F
+
+; 83rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E1FD to E26C (112 bytes)
+_DATA_E1FD_:
+.db $25 $00 $00 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
+.db $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40 $40 $48 $48
+.db $48 $48 $50 $50 $50 $50 $0A $40 $12 $01 $08 $41 $10 $42 $06 $43
+.db $0E $44 $16 $45 $03 $46 $0B $47 $13 $48 $1B $49 $02 $4A $0A $4B
+.db $12 $4C $1A $4D $00 $4E $08 $4F $10 $50 $00 $51 $08 $52 $10 $53
+.db $18 $54 $04 $55 $0C $56 $14 $57 $01 $58 $09 $59 $11 $5A $19 $5B
+.db $02 $5C $0A $5D $12 $5E $1A $5F $03 $60 $0B $61 $13 $62 $1B $63
+
+; 84th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E26D to E2D6 (106 bytes)
+_DATA_E26D_:
+.db $23 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $40 $48 $48
+.db $50 $50 $50 $50 $09 $64 $11 $65 $09 $66 $11 $67 $02 $68 $0A $69
+.db $12 $6A $1A $6B $00 $6C $08 $6D $10 $6E $18 $6F $00 $70 $08 $71
+.db $10 $72 $18 $73 $03 $74 $0B $75 $13 $76 $1B $77 $06 $78 $0E $79
+.db $16 $7A $05 $7B $0D $7C $15 $7D $04 $7E $0C $7F $14 $80 $03 $81
+.db $14 $82 $00 $83 $08 $84 $10 $85 $18 $86
+
+; 85th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E2D7 to E34C (118 bytes)
+_DATA_E2D7_:
+.db $27 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18
+.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38
+.db $40 $40 $48 $48 $50 $50 $50 $50 $0B $00 $13 $01 $1B $02 $0A $03
+.db $12 $04 $1A $05 $22 $06 $08 $07 $10 $08 $18 $09 $20 $0A $08 $0B
+.db $10 $0C $18 $0D $20 $0E $06 $0F $0E $10 $16 $11 $1E $12 $26 $13
+.db $06 $14 $0E $15 $16 $16 $1E $17 $08 $18 $10 $19 $18 $1A $20 $1B
+.db $0C $1C $14 $1D $1C $1E $0C $1F $1B $20 $0B $21 $1C $22 $08 $23
+.db $10 $24 $18 $25 $20 $26
+
+; 86th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E34D to E3B6 (106 bytes)
+_DATA_E34D_:
+.db $23 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20 $28
+.db $28 $28 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40 $40 $48 $48 $48
+.db $50 $50 $50 $50 $0A $27 $12 $28 $03 $29 $0B $2A $13 $2B $1B $2C
+.db $02 $2D $0A $2E $12 $2F $1A $30 $02 $31 $0A $32 $12 $33 $1A $34
+.db $05 $35 $0D $36 $15 $37 $03 $38 $0B $39 $13 $3A $02 $3B $0A $3C
+.db $12 $3D $1A $3E $02 $3F $0A $40 $12 $41 $1A $42 $04 $43 $0C $44
+.db $14 $45 $00 $46 $08 $47 $10 $48 $18 $49
+
+; 87th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E3B7 to E41D (103 bytes)
+_DATA_E3B7_:
+.db $22 $00 $00 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
+.db $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $40 $48 $48 $48 $50
+.db $50 $50 $50 $0B $4A $13 $4B $08 $4C $10 $4D $04 $4E $0C $4F $14
+.db $50 $02 $51 $0A $52 $12 $53 $1A $54 $02 $55 $0A $56 $12 $57 $1A
+.db $58 $04 $59 $0C $5A $14 $5B $04 $5C $0C $5D $14 $5E $05 $5F $0D
+.db $60 $15 $61 $06 $62 $0E $63 $16 $64 $05 $65 $0D $66 $15 $67 $04
+.db $68 $0C $69 $14 $6A $1C $6B
+
+; 88th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E41E to E49C (127 bytes)
+_DATA_E41E_:
+.db $2A $00 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40
+.db $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50 $05 $00 $0D $01 $15
+.db $02 $06 $03 $0E $04 $16 $05 $01 $06 $09 $07 $11 $08 $19 $09 $00
+.db $0A $08 $0B $10 $0C $18 $0D $00 $0E $08 $0F $10 $10 $18 $11 $02
+.db $12 $0A $13 $12 $14 $1A $15 $02 $16 $0A $17 $12 $18 $1A $19 $01
+.db $1A $09 $1B $11 $1C $19 $1D $01 $1E $09 $1F $11 $20 $19 $21 $03
+.db $22 $0B $23 $13 $24 $1B $25 $00 $26 $08 $27 $10 $28 $18 $29
+
+; 89th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E49D to E539 (157 bytes)
+_DATA_E49D_:
+.db $34 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30 $30 $30 $30
+.db $30 $38 $38 $38 $38 $38 $40 $40 $40 $40 $40 $48 $48 $48 $48 $48
+.db $50 $50 $50 $50 $50 $0B $00 $13 $01 $1B $02 $23 $03 $0B $04 $13
+.db $05 $1B $06 $23 $07 $0B $08 $13 $09 $1B $0A $23 $07 $0A $0B $12
+.db $0C $1A $0D $22 $0E $0A $0F $12 $10 $1A $11 $22 $12 $03 $13 $0B
+.db $14 $13 $15 $1B $16 $23 $17 $2B $18 $02 $19 $0A $1A $12 $1B $1A
+.db $1C $22 $1D $2A $1E $05 $1F $0D $20 $15 $21 $1D $22 $25 $23 $04
+.db $24 $0C $25 $14 $26 $1C $27 $24 $28 $04 $29 $0C $2A $14 $2B $1C
+.db $2C $24 $2D $04 $2E $0C $2F $14 $30 $1C $31 $24 $32
+
+; 91st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E53A to E58E (85 bytes)
+_DATA_E53A_:
+.db $1C $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18
+.db $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $30 $09 $00 $11
+.db $01 $19 $02 $04 $03 $0C $04 $14 $05 $1C $06 $04 $07 $0C $08 $14
+.db $09 $1C $0A $05 $0B $0D $0C $15 $0D $1D $0E $04 $0F $0C $10 $14
+.db $11 $1C $12 $04 $13 $0C $14 $14 $15 $1C $16 $02 $17 $0A $18 $12
+.db $19 $1A $1A $22 $1B
+
+; 90th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E58F to E60A (124 bytes)
+_DATA_E58F_:
+.db $29 $00 $00 $00 $00 $08 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10
+.db $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20 $28 $28 $28 $28
+.db $28 $28 $28 $30 $30 $30 $30 $30 $30 $30 $10 $1C $18 $1D $20 $1E
+.db $28 $1F $08 $20 $10 $21 $18 $22 $20 $23 $28 $24 $30 $25 $08 $26
+.db $10 $27 $18 $28 $20 $29 $28 $2A $30 $2B $01 $2C $09 $2D $11 $2E
+.db $19 $2F $21 $30 $29 $31 $08 $32 $10 $33 $18 $34 $20 $35 $28 $36
+.db $00 $37 $08 $38 $10 $39 $18 $3A $20 $3B $28 $3C $30 $3D $00 $3E
+.db $08 $3F $10 $40 $18 $41 $20 $42 $28 $43 $30 $44
+
+; 92nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E60B to E680 (118 bytes)
+_DATA_E60B_:
+.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40 $40
+.db $40 $40 $48 $48 $50 $50 $50 $50 $08 $00 $10 $01 $05 $02 $0D $03
+.db $15 $04 $04 $05 $0C $06 $14 $07 $1C $08 $01 $09 $09 $0A $11 $0B
+.db $19 $0C $00 $0D $08 $0E $10 $0F $18 $10 $01 $11 $09 $12 $11 $13
+.db $19 $14 $00 $0D $08 $0E $10 $0F $18 $10 $01 $11 $09 $12 $11 $13
+.db $19 $14 $01 $15 $09 $16 $11 $17 $19 $18 $08 $19 $10 $1A $00 $1B
+.db $08 $1C $10 $1D $18 $1E
+
+; 93rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E681 to E6F6 (118 bytes)
+_DATA_E681_:
+.db $27 $00 $00 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
+.db $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40 $40
+.db $48 $48 $48 $48 $50 $50 $50 $50 $0A $00 $12 $01 $0A $02 $12 $03
+.db $05 $04 $0D $05 $15 $06 $00 $07 $08 $08 $10 $09 $18 $0A $00 $0B
+.db $08 $0C $10 $0D $18 $0E $00 $0F $08 $10 $10 $11 $18 $12 $00 $13
+.db $08 $14 $10 $15 $18 $16 $00 $17 $08 $18 $10 $19 $18 $1A $00 $1B
+.db $08 $18 $10 $1C $18 $1D $00 $1E $08 $18 $10 $19 $18 $1F $00 $20
+.db $08 $21 $10 $22 $18 $23
+
+; 94th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E6F7 to E787 (145 bytes)
+_DATA_E6F7_:
+.db $30 $00 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18
+.db $18 $18 $18 $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30
+.db $38 $38 $38 $38 $40 $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50
+.db $50 $0E $00 $16 $01 $1E $02 $01 $03 $09 $04 $11 $05 $19 $06 $21
+.db $07 $01 $08 $09 $09 $11 $0A $19 $0B $21 $0C $00 $0D $08 $0E $10
+.db $0F $18 $10 $20 $11 $00 $12 $0A $13 $12 $14 $1A $15 $22 $16 $01
+.db $17 $09 $18 $11 $19 $19 $1A $06 $1B $0E $1C $16 $1D $1E $1E $04
+.db $1F $0C $20 $17 $21 $1F $22 $02 $23 $0A $24 $17 $25 $1F $26 $02
+.db $27 $0A $28 $18 $29 $20 $2A $00 $2B $08 $2C $10 $2D $18 $2E $20
+.db $2F
+
+; 95th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E788 to E815 (142 bytes)
+_DATA_E788_:
+.db $2F $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $38 $40
+.db $40 $40 $40 $40 $48 $48 $48 $48 $48 $48 $50 $50 $50 $50 $50 $50
+.db $12 $00 $1A $01 $0F $02 $17 $03 $1F $04 $0C $05 $14 $06 $1C $07
+.db $24 $08 $0A $09 $12 $0A $1A $0B $22 $0C $0A $0D $12 $0E $1A $0F
+.db $22 $10 $0A $11 $12 $12 $1A $13 $22 $14 $0A $15 $12 $16 $1A $17
+.db $22 $18 $07 $19 $0F $1A $17 $1B $1F $1C $27 $1D $04 $1E $0C $1F
+.db $14 $20 $1C $21 $24 $22 $02 $23 $0A $24 $12 $25 $1A $26 $22 $27
+.db $2A $28 $02 $29 $0A $2A $12 $2B $1A $2C $22 $2D $2A $2E
+
+; 131st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E816 to E873 (94 bytes)
+_DATA_E816_:
+.db $1F $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $28 $28 $30 $30
+.db $30 $38 $38 $38 $40 $40 $48 $48 $50 $50 $50 $08 $10 $18 $20 $28
+.db $08 $00 $10 $01 $06 $02 $0E $03 $08 $04 $10 $05 $08 $06 $10 $07
+.db $08 $08 $10 $09 $05 $0A $0D $0B $15 $0C $04 $0D $0C $0E $14 $0F
+.db $05 $10 $0D $11 $15 $12 $05 $13 $0D $14 $06 $15 $0E $16 $00 $17
+.db $08 $18 $10 $19 $01 $1A $00 $1B $00 $1C $00 $1D $02 $1E
+
+; 132nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E874 to E8D1 (94 bytes)
+_DATA_E874_:
+.db $1F $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $28 $28 $30 $30
+.db $30 $38 $38 $38 $40 $40 $48 $48 $50 $50 $50 $08 $10 $18 $20 $28
+.db $08 $00 $10 $01 $06 $02 $0E $03 $08 $04 $10 $05 $08 $06 $10 $07
+.db $08 $08 $10 $09 $05 $0A $0D $0B $15 $0C $04 $0D $0C $0E $14 $0F
+.db $05 $10 $0D $11 $15 $12 $05 $13 $0D $14 $06 $15 $0E $16 $00 $17
+.db $08 $18 $10 $19 $02 $2E $02 $2F $01 $30 $00 $29 $02 $1E
+
+; 133rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E8D2 to E8E1 (16 bytes)
+_DATA_E8D2_:
+.db $05 $00 $00 $00 $08 $08 $00 $00 $08 $01 $10 $02 $08 $03 $10 $04
+
+; 134th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E8E2 to E8F1 (16 bytes)
+_DATA_E8E2_:
+.db $05 $00 $00 $08 $08 $08 $04 $05 $0C $06 $00 $07 $08 $08 $10 $09
+
+; 135th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E8F2 to E901 (16 bytes)
+_DATA_E8F2_:
+.db $05 $00 $00 $08 $08 $08 $06 $0A $0E $0B $02 $0C $0A $0D $12 $0E
+
+; 137th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E902 to E911 (16 bytes)
+_DATA_E902_:
+.db $05 $00 $08 $08 $08 $10 $0B $0F $01 $10 $09 $11 $11 $12 $08 $13
+
+; 138th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E912 to E921 (16 bytes)
+_DATA_E912_:
+.db $05 $00 $08 $08 $08 $10 $0B $0F $01 $14 $09 $15 $11 $16 $08 $13
+
+; 139th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
+; Data from E922 to EF5B (1594 bytes)
+_DATA_E922_:
+.incbin "Phantasy Star (Japan)_DATA_E922_.inc"
+
+; Data from EF5C to F472 (1303 bytes)
+_DATA_EF5C_:
+.incbin "Phantasy Star (Japan)_DATA_EF5C_.inc"
+
+; Data from F473 to F5B8 (326 bytes)
+_DATA_F473_:
+.db $00 $EE $05 $27 $12 $00 $5C $FF $7F $00 $00 $1E $07 $14 $2D $00
+.db $EC $00 $54 $4E $00 $6A $00 $12 $79 $00 $14 $00 $07 $74 $01 $34
+.db $FF $84 $33 $01 $75 $FF $85 $33 $01 $79 $FF $81 $00 $01 $87 $FF
+.db $86 $33 $01 $8C $FF $87 $33 $01 $C5 $FF $83 $33 $02 $11 $0A $51
+.db $13 $02 $EE $0A $51 $21 $04 $E8 $00 $65 $22 $04 $DA $FF $89 $32
+.db $06 $43 $FF $8A $32 $07 $A8 $FF $8B $32 $08 $81 $FF $8F $32 $08
+.db $8C $FF $01 $00 $0B $C9 $00 $19 $69 $0F $C5 $FF $8E $32 $0F $1D
+.db $FE $B0 $00 $10 $65 $FF $7C $2F $13 $3C $FF $80 $33 $14 $11 $00
+.db $26 $68 $14 $DB $00 $29 $69 $14 $49 $FF $94 $33 $14 $4D $FF $95
+.db $33 $14 $63 $FF $99 $17 $14 $79 $FF $A8 $3C $14 $7D $FF $97 $33
+.db $14 $83 $FF $98 $33 $14 $A4 $FF $96 $1B $15 $3E $FF $92 $0F $15
+.db $CC $FF $9A $32 $16 $11 $00 $30 $18 $16 $1D $FF $8C $33 $16 $EE
+.db $00 $3A $1B $19 $2E $FF $8D $32 $1D $78 $FF $7E $00 $1F $CE $FC
+.db $AB $00 $21 $51 $0E $18 $1D $21 $E4 $0E $23 $22 $27 $E3 $01 $79
+.db $5D $27 $EC $11 $44 $54 $28 $13 $13 $15 $13 $28 $5B $15 $14 $60
+.db $28 $97 $16 $24 $20 $28 $ED $14 $17 $39 $2B $76 $FF $A5 $3C $2B
+.db $98 $FF $B1 $3C $2E $3D $FF $9C $3D $2F $D1 $02 $75 $23 $2F $DE
+.db $02 $75 $35 $30 $1E $02 $2B $5F $30 $77 $02 $63 $17 $30 $89 $02
+.db $38 $5F $30 $EE $02 $70 $20 $31 $1D $02 $38 $43 $31 $E1 $02 $3B
+.db $2B $32 $49 $02 $49 $10 $32 $EB $02 $58 $11 $39 $CB $FD $9F $00
+.db $3A $98 $FF $B2 $1D $FF
+
+; Data from F5B9 to F618 (96 bytes)
+_DATA_F5B9_:
+.db $00 $00 $00 $00 $00 $00 $00 $00 $07 $0B $00 $02 $1F $03 $07 $0B
+.db $18 $1C $00 $14 $2E $19 $1D $2E $34 $38 $00 $20 $3C $30 $34 $38
+.db $30 $34 $00 $10 $38 $10 $20 $30 $25 $2A $00 $10 $3F $20 $25 $2A
+.db $0B $0F $00 $06 $3F $0B $0F $3F $1B $1F $00 $06 $3F $17 $1B $1F
+.db $02 $03 $00 $01 $07 $01 $02 $03 $38 $3C $00 $00 $3F $00 $00 $00
+.db $38 $3C $00 $30 $3F $34 $38 $3C $08 $0C $00 $04 $3F $04 $08 $0C
+
+; Data from F619 to F61B (3 bytes)
+_DATA_F619_:
+.db $19 $5B $03
+
+; Data from F61C to F716 (251 bytes)
+_DATA_F61C_:
+.db $86 $00 $00 $04 $86 $00 $00 $01 $86 $19 $56 $00 $91 $19 $53 $00
+.db $91 $19 $5E $00 $91 $19 $53 $00 $91 $19 $55 $00 $91 $19 $57 $00
+.db $91 $19 $57 $00 $91 $19 $53 $00 $91 $19 $56 $00 $91 $19 $56 $00
+.db $91 $19 $55 $00 $91 $19 $57 $00 $91 $00 $00 $00 $91 $19 $5C $03
+.db $86 $19 $5C $03 $86 $19 $5C $03 $86 $19 $5C $03 $86 $00 $00 $02
+.db $86 $00 $00 $02 $86 $19 $4D $03 $86 $19 $4D $01 $91 $19 $5D $01
+.db $91 $19 $5D $01 $91 $19 $5E $01 $91 $19 $53 $01 $91 $19 $4B $06
+.db $86 $19 $4B $06 $86 $19 $4B $06 $86 $19 $54 $05 $85 $19 $58 $05
+.db $85 $00 $00 $05 $85 $19 $52 $06 $86 $19 $4F $06 $86 $19 $4B $06
+.db $86 $19 $50 $06 $86 $19 $50 $06 $86 $19 $4B $06 $86 $19 $4C $09
+.db $86 $19 $51 $09 $86 $19 $51 $09 $86 $19 $52 $07 $91 $19 $4F $07
+.db $91 $19 $4F $07 $91 $19 $56 $07 $91 $19 $50 $08 $86 $19 $51 $08
+.db $86 $19 $4F $08 $86 $19 $5A $08 $86 $19 $59 $08 $86 $19 $59 $08
+.db $86 $19 $55 $05 $91 $19 $53 $05 $91 $19 $57 $05 $91 $19 $57 $05
+.db $91 $19 $58 $05 $91 $19 $59 $09 $86 $19 $01 $0A $91 $19 $01 $02
+.db $91
+.dsb 10,$00
+
+; Data from F717 to F832 (284 bytes)
+_DATA_F717_:
+.db $02 $19 $1E $00 $1B $08 $02 $1C $78 $05 $02 $27 $14 $00 $28 $0A
+.db $00 $29 $30 $00 $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $03
+.db $4B $00 $07 $40 $01 $08 $60 $04 $02 $27 $14 $00 $28 $0A $00 $39
+.db $78 $05 $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $10 $1C $00
+.db $12 $22 $01 $15 $E8 $03 $02 $27 $14 $00 $29 $30 $00 $40 $C8
+.dsb 11,$00
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $27 $14 $00 $28 $0A
+.db $00 $34 $64 $00 $02 $02 $1E $00 $14 $76 $02 $16 $98 $3A
+.dsb 10,$00
+.db $02 $06 $40 $00 $09 $90 $01 $1A $36 $01 $02 $27 $14 $00 $29 $30
+.db $00 $39 $78 $05 $02 $11 $4E $00 $0B $04 $06 $0A $54 $06 $02 $01
+.db $19 $00 $13 $54 $00 $1E $C0 $12 $02 $27 $14 $00 $2A $14 $00 $39
+.db $78 $05 $02 $24 $0A $00 $25 $28 $00 $2C $40 $06 $01 $24 $0A $00
+.db $25 $28 $00 $00 $00 $00 $02 $0B $04 $06 $0C $A4 $0B $1C $78 $05
+.db $02 $27 $14 $00 $29 $30 $00 $2E $1E $00 $00 $21 $50 $14 $00 $00
+.db $00 $00 $00 $00 $02 $04 $B0 $04 $0D $18 $10 $1D $E4 $0C $02 $27
+.db $14 $00 $2A $14 $00 $2E $1E $00 $01 $24 $0A $00 $25 $28 $00 $00
+.db $00 $00 $00 $23 $E0 $2E $00 $00 $00 $00 $00 $00 $02 $27 $14 $00
+.db $28 $0A $00 $29 $30 $00 $00 $00 $0C $00
+
+; Pointer Table from F833 to F836 (2 entries,indexed by ItemTableIndex)
+_DATA_F833_:
+.dw _DATA_F_ _DATA_25_
+
+; Data from F837 to F8A6 (112 bytes)
+.db $58 $02 $5E $01 $20 $00 $A0 $00 $30 $02 $C8 $00 $2A $03 $02 $03
+.db $D2 $05 $0C $08 $F4 $01 $86 $01 $0E $00 $27 $00 $91 $00 $2A $00
+.db $3B $01 $F4 $01 $4C $1D $EA $01 $A4 $01 $0F $00 $9B $00 $04 $01
+.db $BC $02 $72 $06 $60 $09 $00 $00 $9A $01 $00 $00 $00 $00 $70 $17
+.db $05 $00 $14 $00 $A0 $00 $0A $00 $05 $00 $18 $00 $0A $00 $00 $00
+.db $20 $03 $00 $00 $0F
+.dsb 11,$00
+.db $32 $00 $00 $00 $8C $00 $00 $00 $00 $00 $BC $02 $00 $00 $F4 $01
+
+LevelStats:
+;    ,,------------------------------ Max HP
+;    ||  ,,-------------------------- Attack boost
+;    ||  ||  ,,---------------------- Defence boost
+;    ||  ||  ||  ,,------------------ Max MP
+;    ||  ||  ||  ||  ,,-------------- ?
+;    ||  ||  ||  ||  ||  ,,---------- ?
+;    ||  ||  ||  ||  ||  ||  ,,------ Magics known
+;    ||  ||  ||  ||  ||  ||  ||  ,,-- ?
+LevelStatsAlis:
+.db $00,$00,$00,$00,$00,$00,$00,$00
+.db $10,$08,$08,$00,$00,$00,$00,$00
+.db $14,$0a,$0b,$00,$14,$00,$00,$00
+.db $19,$0c,$0f,$00,$32,$00,$00,$00
+.db $22,$0e,$14,$04,$64,$00,$01,$01
+.db $2d,$0f,$18,$06,$e6,$00,$02,$01
+.db $36,$12,$1b,$08,$4a,$01,$03,$01
+.db $42,$15,$1e,$0a,$c2,$01,$03,$01
+.db $4c,$17,$21,$0c,$58,$02,$03,$01
+.db $51,$18,$28,$0d,$20,$03,$03,$01
+.db $5d,$19,$33,$0e,$1a,$04,$03,$01
+.db $63,$1b,$3c,$0f,$14,$05,$03,$01
+.db $6f,$1e,$40,$10,$a4,$06,$04,$01
+.db $7b,$1f,$44,$12,$98,$08,$04,$01
+.db $84,$22,$4b,$14,$f0,$0a,$05,$01
+.db $8c,$24,$50,$16,$ac,$0d,$05,$01
+.db $99,$26,$55,$16,$04,$10,$05,$02
+.db $9f,$28,$5a,$18,$88,$13,$05,$02
+.db $a6,$29,$60,$18,$70,$17,$05,$02
+.db $ad,$2b,$64,$19,$20,$1c,$05,$02
+.db $b6,$2c,$6b,$19,$34,$21,$05,$02
+.db $bb,$2e,$6e,$1a,$10,$27,$05,$02
+.db $c0,$30,$70,$1a,$e0,$2e,$05,$02
+.db $c8,$31,$71,$1b,$a4,$38,$05,$02
+.db $cc,$32,$72,$1c,$5c,$44,$05,$02
+.db $d0,$33,$73,$1d,$d8,$59,$05,$02
+.db $d2,$34,$77,$1d,$30,$75,$05,$02
+.db $d4,$35,$75,$1e,$70,$94,$05,$02
+.db $d6,$36,$76,$1e,$c8,$af,$05,$02
+.db $d8,$37,$77,$20,$20,$cb,$05,$02
+.db $da,$38,$78,$20,$18,$f6,$05,$02
+LevelStatsMyau:
+.db $16,$12,$16,$00,$00,$00,$00,$00
+.db $1e,$15,$1a,$00,$32,$00,$00,$00
+.db $26,$19,$1f,$00,$78,$00,$00,$00
+.db $2a,$1c,$22,$00,$dc,$00,$00,$00
+.db $2c,$1f,$26,$00,$5e,$01,$00,$00
+.db $36,$23,$29,$0c,$a8,$02,$01,$01
+.db $3c,$27,$2d,$0f,$b6,$03,$01,$01
+.db $40,$2a,$35,$11,$7e,$04,$01,$01
+.db $46,$2d,$37,$13,$78,$05,$02,$01
+.db $4e,$30,$3c,$15,$a4,$06,$02,$01
+.db $54,$32,$3f,$16,$34,$08,$02,$01
+.db $5a,$33,$44,$17,$28,$0a,$03,$01
+.db $74,$34,$47,$19,$80,$0c,$03,$01
+.db $76,$38,$4a,$1b,$3c,$0f,$03,$01
+.db $79,$3b,$50,$1e,$94,$11,$03,$02
+.db $84,$3d,$55,$22,$50,$14,$03,$02
+.db $8e,$3f,$59,$24,$d4,$17,$03,$03
+.db $96,$43,$5f,$26,$58,$1b,$03,$03
+.db $9b,$46,$64,$28,$08,$20,$03,$03
+.db $a2,$49,$66,$2c,$1c,$25,$04,$03
+.db $af,$4c,$68,$2e,$04,$29,$04,$03
+.db $b7,$4d,$6a,$2f,$c8,$32,$04,$03
+.db $c1,$4f,$6c,$30,$98,$3a,$04,$03
+.db $ca,$50,$70,$31,$50,$46,$04,$03
+.db $d0,$51,$71,$32,$f0,$55,$04,$03
+.db $d2,$52,$72,$33,$30,$75,$04,$03
+.db $d3,$53,$73,$34,$a0,$8c,$04,$03
+.db $d4,$54,$74,$35,$10,$a4,$04,$03
+.db $d5,$55,$75,$36,$50,$c3,$04,$03
+.db $d6,$24,$76,$37,$60,$ea,$04,$03 ; Bug in attack stat here
+LevelStatsOdin:
+.db $2a,$0d,$0d,$00,$00,$00,$00,$00
+.db $2f,$0f,$0f,$00,$50,$00,$00,$00
+.db $34,$11,$11,$00,$a0,$00,$00,$00
+.db $39,$12,$13,$00,$fa,$00,$00,$00
+.db $3c,$13,$15,$00,$5e,$01,$00,$00
+.db $3f,$14,$17,$00,$e0,$01,$00,$00
+.db $43,$15,$19,$00,$76,$02,$00,$00
+.db $4b,$17,$1b,$00,$52,$03,$00,$00
+.db $52,$18,$1d,$00,$4c,$04,$00,$00
+.db $5e,$19,$1f,$00,$78,$05,$00,$00
+.db $64,$1a,$22,$00,$08,$07,$00,$00
+.db $6b,$1b,$25,$00,$fc,$08,$00,$00
+.db $74,$1c,$28,$00,$b8,$0b,$00,$00
+.db $81,$1e,$2b,$00,$d8,$0e,$00,$00
+.db $83,$1f,$2d,$00,$04,$10,$00,$00
+.db $87,$20,$2f,$00,$88,$13,$00,$00
+.db $8c,$21,$31,$00,$70,$17,$00,$00
+.db $93,$23,$35,$00,$e8,$1c,$00,$00
+.db $96,$24,$38,$00,$28,$23,$00,$00
+.db $9c,$25,$3d,$00,$04,$29,$00,$00
+.db $a2,$26,$41,$00,$e0,$2e,$00,$00
+.db $a9,$27,$42,$00,$bc,$34,$00,$00
+.db $af,$28,$43,$00,$8c,$3c,$00,$00
+.db $b3,$29,$44,$00,$5c,$44,$00,$00
+.db $bb,$2a,$45,$00,$20,$4e,$00,$00
+.db $bc,$2b,$46,$00,$60,$6d,$00,$00
+.db $bd,$2c,$47,$00,$b8,$88,$00,$00
+.db $be,$2d,$48,$00,$28,$a0,$00,$00
+.db $bf,$2e,$49,$00,$50,$c3,$00,$00
+.db $c0,$2f,$4a,$00,$60,$ea,$00,$00
+LevelStatsLutz:
+.db $2d,$12,$1e,$0c,$00,$00,$01,$01
+.db $31,$16,$24,$12,$46,$00,$01,$01
+.db $36,$17,$29,$16,$96,$00,$01,$01
+.db $39,$1a,$2f,$19,$fa,$00,$01,$01
+.db $3d,$1d,$35,$1c,$7c,$01,$01,$01
+.db $41,$1e,$3c,$20,$08,$02,$01,$02
+.db $47,$20,$41,$24,$bc,$02,$01,$02
+.db $4f,$22,$47,$24,$20,$03,$02,$03
+.db $53,$24,$4b,$29,$84,$03,$02,$03
+.db $59,$26,$52,$2b,$4c,$04,$02,$03
+.db $5f,$28,$55,$2e,$78,$05,$02,$03
+.db $65,$29,$58,$30,$6c,$07,$03,$03
+.db $6b,$2b,$5c,$31,$c4,$09,$03,$03
+.db $70,$2d,$60,$32,$e4,$0c,$04,$03
+.db $76,$2f,$63,$34,$68,$10,$04,$03
+.db $7c,$30,$64,$36,$b4,$14,$04,$03
+.db $83,$32,$67,$3a,$64,$19,$04,$04
+.db $89,$35,$6a,$3e,$60,$22,$05,$04
+.db $8f,$39,$6c,$42,$10,$27,$05,$04
+.db $9b,$3c,$6e,$46,$e0,$2e,$05,$05
+.db $a1,$3e,$70,$48,$b0,$36,$05,$05
+.db $a8,$40,$73,$4b,$b8,$3d,$05,$05
+.db $ac,$42,$74,$4c,$50,$46,$05,$05
+.db $ba,$44,$75,$4d,$2c,$4c,$05,$05
+.db $be,$46,$76,$4e,$08,$52,$05,$05
+.db $bf,$47,$77,$4f,$a8,$61,$05,$05
+.db $c0,$48,$78,$50,$30,$75,$05,$05
+.db $c1,$49,$79,$51,$70,$94,$05,$05
+.db $c2,$4a,$7a,$52,$c8,$af,$05,$05
+
+; Data from FC6F to FE1C (430 bytes)
+_DATA_FC6F_:
+.db $12 $12 $12 $12 $12 $12 $12 $22 $22 $12 $8A $8A $8A $8A $22 $13
+.db $13 $13 $13 $13 $13 $13 $13
+.dsb 10,$52
+.db $12 $12 $12 $12 $B2 $52 $9A $9A $9A $9A
+.dsb 10,$13
+.db $1A $13 $40 $40 $40 $40 $41 $41 $41 $41 $41 $41 $41 $41 $31 $31
+.db $52 $52 $52 $52
+.dsb 9,$32
+.dsb 9,$1A
+.db $12 $12 $22 $26 $74 $74 $74 $74 $74 $13 $13 $13 $13 $13 $13 $53
+.db $53 $5A $5A $63 $63 $6A $6A $13 $13 $13 $13 $9A $9A $9A $9A $1A
+.db $1A $1A $1A $1A $1A $1A $1A
+.dsb 56,$12
+.db $13 $13 $13 $13 $13 $13 $13 $13 $62 $56 $56 $56 $56 $B6 $12 $12
+.db $12 $12 $12 $12 $B6 $B6 $B6 $B6 $43 $42 $42 $42 $42 $66 $63 $63
+.db $63 $63 $63 $63 $63 $63 $12 $12 $12 $12 $12 $12 $12 $12 $1A $1A
+.db $1A $1A $12 $12 $12 $62 $C2 $12 $43 $43 $43 $43 $6A
+.dsb 9,$10
+.db $82 $82
+.dsb 10,$83
+.db $8A $8A $83 $83 $8A $8A $83 $83 $8A $8A $83 $83 $8A $8A $83 $83
+.db $8A $8A $83 $83 $8A $8A
+.dsb 9,$83
+.db $82 $82
+.dsb 25,$83
+.db $8A $83 $8A $82 $82 $82 $A4 $A3 $A3 $A3 $A3 $A3 $A3 $AA $AA $AA
+.db $AA $A2 $A2 $A2 $A2 $12 $A3 $A2 $AA $A2 $83 $83 $8A $8A $83 $8A
+.db $83
+.dsb 16,$93
+.db $92 $93 $93 $9A $9A $93 $93 $9A $9A $93 $93 $9A $9A $93 $93 $9A
+.db $9A $93 $93 $9A $9A $93 $9A $93 $9A $93 $9A $A2 $A3 $A2 $AA $83
+.db $83 $83 $83 $1A $1A $1A $1A $83 $83 $83 $83 $83 $8A $8A $83 $83
+.db $A2 $A2 $A2 $92 $92 $92 $16
+
+; Data from FE1D to FE21 (5 bytes)
+_DATA_FE1D_:
+.db $0C $08 $04 $03 $0B
+
+; Data from FE22 to FE51 (48 bytes)
+_DATA_FE22_:
+.db $34 $38 $35 $3C $38 $3E $3C $3E $3D $3E $2C $3E $1E $3E $0C $3E
+.db $0E $3E $0F $3E $1B $3E $0B $3E $07 $3E $27 $3E $37 $3E $3B $3E
+.db $3A $3E $36 $3E $35 $3E $34 $3E $38 $3E $35 $3C $34 $38 $30 $2A
+
+; Data from FE52 to FE9F (78 bytes)
+_DATA_FE52_:
+.db $34 $34 $34 $34 $34 $34 $35 $35 $35 $35 $35 $35
+.dsb 10,$38
+.db $3C $38 $38 $3C $38 $3C $3E $38 $38 $3E $3C $3E $3F $38 $3C $3F
+.db $3E $3F $3F $3C $3E $3F $3F $3F $3F $3E $3F $3F $3F $3F $3F $3F
+.db $2F $3F $2F $3F $3F $3D $1F $2F $0F $2F $3F $2C $1A $0F $0B $1F
+.db $2F $2C $15 $0B $06 $1A $2F $28
+
+; Data from FEA0 to FEB1 (18 bytes)
+_DATA_FEA0_:
+.db $30 $2A $34 $38 $38 $3E $3C $3E $3E $3F $3F $3F $3E $3F $3C $3E
+.db $38 $3E
+
+; Data from FEB2 to FF01 (80 bytes)
+_DATA_FEB2_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $FD $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $D0 $10 $D6 $10 $D4 $10 $F3 $13 $F3 $11
+.db $C0 $10 $C0 $10 $FD $10 $F3 $13 $F3 $11 $CD $10 $FF $10 $D9 $10
+.db $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $D7 $10
+.db $D2 $10 $F4 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+
+; Data from FF02 to FF97 (150 bytes)
+_DATA_FF02_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11
+.db $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11
+.db $B8 $10 $B9 $10 $C0 $10 $C4 $10 $C5 $10 $C3 $10 $BA $10 $C0 $10
+.db $BB $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $FE $10
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $E4 $10 $F3 $10
+.db $E9 $10 $BC $10 $C0 $10 $D0 $10 $EA $10 $E0 $10 $FF $10 $DE $10
+.db $BD $10 $BE $10 $BF $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F2 $15 $F1 $17
+
+; Data from FF98 to FFFF (104 bytes)
+_DATA_FF98_:
+.db $01 $01 $01 $0F $08 $01 $01 $01 $0F $04 $01 $01 $08 $01 $0F $04
+.db $04 $01 $08 $01 $01 $0F $04 $01 $01 $08 $01 $0F $02 $02 $00 $08
+.db $01 $01 $0F $04 $01 $01 $01 $01 $02 $04 $0F $02 $02 $02 $08 $01
+.db $01 $01 $01 $04 $0F $08 $08 $0F $08 $01 $01 $08 $01 $01 $01 $01
+.db $01 $01 $01 $08 $02 $02 $04 $0F $04 $01 $01 $00 $0F $04 $04 $01
+.db $01 $08 $01 $0F $02 $02 $02 $02 $08 $0F $02 $04 $04 $01 $01 $01
+.db $08 $01 $01 $01 $01 $0F $FF $FF
+
+.BANK 4
+.ORG $0000
+
+; Data from 10000 to 10B0E (2831 bytes)
+.incbin "Phantasy Star (Japan)_DATA_10000_.inc"
+
+; 1st entry of Pointer Table from 7306 (indexed by unknown)
+; Data from 10B0F to 13FFF (13553 bytes)
+_DATA_10B0F_:
+.incbin "Phantasy Star (Japan)_DATA_10B0F_.inc"
+
+.BANK 5
+.ORG $0000
+
+; Data from 14000 to 17FFF (16384 bytes)
+.incbin "Phantasy Star (Japan)_DATA_14000_.inc"
+
+.BANK 6
+.ORG $0000
+
+; Data from 18000 to 1AC4F (11344 bytes)
+.incbin "Phantasy Star (Japan)_DATA_18000_.inc"
+
+; 1st entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1AC50 to 1ADFF (432 bytes)
+_DATA_1AC50_:
+.db $2F $00 $30 $00 $30 $00 $30 $00 $30 $00 $30 $00 $30 $00 $30 $00
+.db $30 $00 $30 $00 $30 $00 $2F $02 $31 $00 $32 $00 $33 $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $33 $02 $32 $02 $31 $02
+.db $31 $00 $32 $00 $33 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $33 $02 $32 $02 $31 $02 $31 $00 $32 $00 $33 $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $33 $02 $32 $02 $31 $02
+.db $35 $00 $36 $00 $33 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $33 $02 $36 $02 $35 $02 $31 $00 $37 $00 $38 $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $38 $02 $37 $02 $31 $02
+.db $31 $00 $32 $00 $33 $00 $34 $00 $39 $00 $3A $00 $3A $00 $39 $02
+.db $34 $00 $33 $02 $32 $02 $31 $02 $31 $04 $32 $04 $33 $04 $3B $00
+.db $3C $00 $3C $00 $3C $00 $3C $00 $3B $02 $33 $06 $32 $06 $31 $06
+.db $31 $04 $37 $04 $38 $04 $3D
+.dsb 9,$00
+.db $3D $02 $38 $06 $37 $06 $31 $06 $35 $04 $36 $04 $3E $00 $3F $00
+.db $40 $00 $40 $00 $40 $00 $40 $00 $3F $02 $3E $02 $36 $06 $35 $06
+.db $31 $04 $32 $04 $41 $00 $42 $00 $42 $00 $42 $00 $42 $00 $42 $00
+.db $42 $00 $41 $02 $32 $06 $31 $06 $31 $04 $43 $00 $44 $00 $45 $00
+.db $45 $00 $45 $00 $45 $00 $45 $00 $45 $00 $44 $02 $43 $02 $31 $06
+.db $31 $04 $46 $00 $47 $00 $48 $00 $48 $00 $48 $00 $48 $00 $48 $00
+.db $48 $00 $47 $02 $46 $02 $31 $06 $49 $00 $32 $04 $4A
+.dsb 13,$00
+.db $4A $02 $32 $06 $49 $02 $31 $04 $32 $04 $4B $00 $4C $00 $4C $00
+.db $4C $00 $4C $00 $4C $00 $4C $00 $4B $02 $32 $06 $31 $06 $31 $04
+.db $4D
+.dsb 17,$00
+.db $4D $02 $31 $06 $31 $04 $4E
+.dsb 17,$00
+.db $4E $02 $31 $06 $4F $00 $42 $04 $42 $04 $42 $04 $42 $04 $42 $04
+.db $42 $04 $42 $04 $42 $04 $42 $04 $42 $04 $4F $02
+
+; 2nd entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1AE00 to 1AFAF (432 bytes)
+_DATA_1AE00_:
+.db $2F $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00
+.db $50 $00 $50 $00 $50 $00 $2F $02 $31 $00 $51 $00 $52 $00 $52 $00
+.db $52 $00 $52 $00 $52 $02 $52 $02 $52 $02 $52 $02 $51 $02 $31 $02
+.db $31 $00 $43 $04 $53 $00 $54 $00 $54 $00 $54 $00 $54 $00 $54 $00
+.db $54 $00 $53 $02 $43 $06 $31 $02 $31 $00 $32 $00 $55 $00 $56 $00
+.db $57 $00 $57 $00 $57 $02 $57 $02 $56 $02 $55 $02 $32 $02 $31 $02
+.db $58 $00 $36 $00 $33 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $33 $02 $36 $02 $58 $02 $31 $00 $37 $00 $38 $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $38 $02 $37 $02 $31 $02
+.db $31 $00 $32 $00 $33 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $33 $02 $32 $02 $31 $02 $31 $04 $32 $04 $33 $04 $34 $00
+.db $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $33 $06 $32 $06 $31 $06
+.db $31 $04 $37 $04 $38 $04 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $38 $06 $37 $06 $31 $06 $58 $04 $36 $04 $33 $04 $34 $00
+.db $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $33 $06 $36 $06 $58 $06
+.db $31 $04 $32 $04 $59 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $59 $02 $32 $06 $31 $06 $31 $04 $43 $00 $5A $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $5A $02 $43 $02 $31 $06
+.db $31 $04 $46 $00 $33 $04 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $33 $06 $46 $02 $31 $06 $49 $00 $32 $04 $5B $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $5B $02 $32 $06 $49 $02
+.db $31 $04 $32 $04 $5C $00 $5D $00 $5E $00 $5F $00 $5F $00 $5E $02
+.db $5D $02 $5C $02 $32 $06 $31 $06 $31 $04 $4D
+.dsb 17,$00
+.db $4D $02 $31 $06 $31 $04 $4E
+.dsb 17,$00
+.db $4E $02 $31 $06 $4F $00 $42 $04 $42 $04 $42 $04 $42 $04 $42 $04
+.db $42 $04 $42 $04 $42 $04 $42 $04 $42 $04 $4F $02
+
+; 3rd entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1AFB0 to 1B15F (432 bytes)
+_DATA_1AFB0_:
+.db $60 $00 $61 $00 $61 $00 $61 $00 $61 $00 $62 $00 $62 $02 $61 $00
+.db $61 $00 $61 $00 $61 $00 $60 $02 $63 $00 $64 $00 $65 $00 $65 $00
+.db $65 $00 $66 $00 $66 $02 $65 $00 $65 $00 $65 $00 $64 $02 $63 $02
+.db $63 $00 $67 $00 $10 $00 $10 $00 $10 $00 $68 $00 $68 $02 $10 $00
+.db $10 $00 $10 $00 $67 $02 $63 $02 $63 $00 $67 $00 $10 $00 $10 $00
+.db $10 $00 $68 $00 $68 $02 $10 $00 $10 $00 $10 $00 $67 $02 $63 $02
+.db $69 $00 $6A $00 $6B $00 $6B $00 $6C $00 $68 $00 $68 $02 $6C $02
+.db $6B $00 $6B $00 $6A $02 $69 $02 $63 $00 $6D $00 $6E $00 $6E $00
+.db $6F $00 $68 $00 $68 $02 $6F $02 $6E $02 $6E $02 $6D $02 $63 $02
+.db $63 $00 $70 $00 $10 $00 $10 $00 $10 $00 $68 $00 $68 $02 $10 $00
+.db $10 $00 $10 $00 $70 $02 $63 $02 $63 $00 $67 $00 $10 $00 $10 $00
+.db $10 $00 $68 $00 $68 $02 $10 $00 $10 $00 $10 $00 $67 $02 $63 $02
+.db $63 $00 $67 $00 $10 $00 $10 $00 $71 $00 $68 $00 $68 $02 $71 $02
+.db $10 $00 $10 $00 $67 $02 $63 $02 $69 $04 $67 $00 $10 $00 $10 $00
+.db $71 $04 $68 $00 $68 $02 $71 $06 $10 $00 $10 $00 $67 $02 $69 $06
+.db $63 $00 $67 $00 $10 $00 $10 $00 $10 $00 $68 $00 $68 $02 $10 $00
+.db $10 $00 $10 $00 $67 $02 $63 $02 $63 $00 $6A $00 $6B $00 $6B $00
+.db $6C $00 $68 $00 $68 $02 $6C $02 $6B $00 $6B $00 $6A $02 $63 $02
+.db $63 $00 $6D $00 $6E $00 $6E $00 $6F $00 $68 $00 $68 $02 $6F $02
+.db $6E $02 $6E $02 $6D $02 $63 $02 $75 $00 $70 $00 $10 $00 $10 $00
+.db $10 $00 $68 $00 $68 $02 $10 $00 $10 $00 $10 $00 $70 $02 $75 $02
+.db $63 $00 $67 $00 $10 $00 $10 $00 $10 $00 $68 $00 $68 $02 $10 $00
+.db $10 $00 $10 $00 $67 $02 $63 $02 $63 $00 $67 $00 $10 $00 $10 $00
+.db $10 $00 $68 $00 $68 $02 $10 $00 $10 $00 $10 $00 $67 $02 $63 $02
+.db $63 $00 $64 $04 $65 $04 $65 $04 $65 $04 $66 $04 $66 $06 $65 $04
+.db $65 $04 $65 $04 $64 $06 $63 $02 $76 $00 $77 $00 $77 $00 $77 $00
+.db $77 $00 $78 $00 $78 $02 $77 $00 $77 $00 $77 $00 $77 $00 $76 $02
+
+; 4th entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1B160 to 1B30F (432 bytes)
+_DATA_1B160_:
+.db $60 $00 $61 $00 $61 $00 $61 $00 $61 $00 $62 $00 $62 $02 $61 $00
+.db $61 $00 $61 $00 $61 $00 $60 $02 $63 $00 $64 $00 $65 $00 $65 $00
+.db $65 $00 $66 $00 $66 $02 $65 $00 $65 $00 $65 $00 $64 $02 $63 $02
+.db $63 $00 $67 $00 $10 $00 $10 $00 $10 $00 $68 $00 $68 $02 $10 $00
+.db $10 $00 $10 $00 $67 $02 $63 $02 $63 $00 $67 $00 $10 $00 $10 $00
+.db $10 $00 $68 $00 $68 $02 $10 $00 $10 $00 $10 $00 $67 $02 $63 $02
+.db $69 $00 $6A $00 $6B $00 $6B $00 $6C $00 $68 $00 $68 $02 $6C $02
+.db $6B $00 $6B $00 $6A $02 $69 $02 $63 $00 $6D $00 $6E $00 $6E $00
+.db $6F $00 $68 $00 $68 $02 $6F $02 $6E $02 $6E $02 $6D $02 $63 $02
+.db $63 $00 $70 $00 $10 $00 $10 $00 $10 $00 $68 $00 $68 $02 $10 $00
+.db $10 $00 $10 $00 $70 $02 $63 $02 $63 $00 $67 $00 $10 $00 $10 $00
+.db $10 $00 $68 $00 $68 $02 $10 $00 $10 $00 $10 $00 $67 $02 $63 $02
+.db $63 $00 $67 $00 $10 $00 $10 $00 $71 $00 $68 $00 $68 $02 $71 $02
+.db $10 $00 $10 $00 $67 $02 $63 $02 $69 $04 $67 $00 $10 $00 $10 $00
+.db $71 $04 $72 $00 $72 $02 $71 $06 $10 $00 $10 $00 $67 $02 $69 $06
+.db $63 $00 $67 $00 $10 $00 $10 $00 $10 $00 $73 $00 $73 $02 $10 $00
+.db $10 $00 $10 $00 $67 $02 $63 $02 $63 $00 $6A $00 $6B $00 $6B $00
+.db $6C $00 $74 $00 $74 $02 $6C $02 $6B $00 $6B $00 $6A $02 $63 $02
+.db $63 $00 $6D $00 $6E $00 $6E $00 $6F $00 $68 $00 $68 $02 $6F $02
+.db $6E $02 $6E $02 $6D $02 $63 $02 $75 $00 $70 $00 $10 $00 $10 $00
+.db $10 $00 $68 $00 $68 $02 $10 $00 $10 $00 $10 $00 $70 $02 $75 $02
+.db $63 $00 $67 $00 $10 $00 $10 $00 $10 $00 $68 $00 $68 $02 $10 $00
+.db $10 $00 $10 $00 $67 $02 $63 $02 $63 $00 $67 $00 $10 $00 $10 $00
+.db $10 $00 $68 $00 $68 $02 $10 $00 $10 $00 $10 $00 $67 $02 $63 $02
+.db $63 $00 $64 $04 $65 $04 $65 $04 $65 $04 $66 $04 $66 $06 $65 $04
+.db $65 $04 $65 $04 $64 $06 $63 $02 $76 $00 $77 $00 $77 $00 $77 $00
+.db $77 $00 $78 $00 $78 $02 $77 $00 $77 $00 $77 $00 $77 $00 $76 $02
+
+; 6th entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1B310 to 1B4BF (432 bytes)
+_DATA_1B310_:
+.db $60 $00 $79 $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00
+.db $50 $00 $50 $00 $79 $02 $60 $02 $63 $00 $7A $00 $7B
+.dsb 13,$00
+.db $7B $02 $7A $02 $63 $02 $63 $00 $7C $00 $7D $00 $7E $00 $7F $00
+.db $52 $00 $52 $02 $7F $02 $7E $02 $7D $02 $7C $02 $63 $02 $63 $00
+.db $7C $00 $00 $00 $80 $00 $81 $00 $54 $00 $54 $00 $81 $02 $80 $02
+.db $00 $00 $7C $02 $63 $02 $69 $00 $82 $00 $00 $00 $80 $00 $83 $00
+.db $57 $00 $57 $02 $83 $02 $80 $02 $00 $00 $82 $02 $69 $02 $63 $00
+.db $84 $00 $85 $00 $80 $00 $86 $00 $34 $00 $34 $00 $86 $02 $80 $02
+.db $85 $02 $84 $02 $63 $02 $63 $00 $87 $00 $88 $00 $80 $00 $86 $00
+.db $34 $00 $34 $00 $86 $02 $80 $02 $88 $02 $87 $02 $63 $02 $63 $00
+.db $7C $00 $00 $00 $80 $00 $86 $00 $34 $00 $34 $00 $86 $02 $80 $02
+.db $00 $00 $7C $02 $63 $02 $63 $00 $7C $00 $00 $00 $89 $00 $86 $00
+.db $34 $00 $34 $00 $86 $02 $89 $02 $00 $00 $7C $02 $63 $02 $69 $04
+.db $7C $00 $00 $00 $89 $04 $86 $00 $34 $00 $34 $00 $86 $02 $89 $06
+.db $00 $00 $7C $02 $69 $06 $63 $00 $7C $00 $00 $00 $80 $00 $86 $00
+.db $34 $00 $34 $00 $86 $02 $80 $02 $00 $00 $7C $02 $63 $02 $63 $00
+.db $87 $04 $88 $04 $80 $00 $86 $00 $34 $00 $34 $00 $86 $02 $80 $02
+.db $88 $06 $87 $06 $63 $02 $63 $00 $84 $04 $85 $04 $80 $00 $86 $00
+.db $34 $00 $34 $00 $86 $02 $80 $02 $85 $06 $84 $06 $63 $02 $75 $00
+.db $82 $04 $00 $00 $80 $00 $83 $04 $57 $04 $57 $06 $83 $06 $80 $02
+.db $00 $00 $82 $06 $75 $02 $63 $00 $7C $00 $00 $00 $80 $00 $81 $00
+.db $54 $00 $54 $00 $81 $02 $80 $02 $00 $00 $7C $02 $63 $02 $63 $00
+.db $7C $00 $7D $04 $7E $04 $7F $04 $52 $04 $52 $06 $7F $06 $7E $06
+.db $7D $06 $7C $02 $63 $02 $63 $00 $7A $04 $7B $04
+.dsb 12,$00
+.db $7B $06 $7A $06 $63 $02 $76 $00 $8A $00 $42 $04 $42 $04 $42 $04
+.db $42 $04 $42 $04 $42 $04 $42 $04 $42 $04 $8A $02 $76 $02
+
+; 9th entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1B4C0 to 1B66F (432 bytes)
+_DATA_1B4C0_:
+.db $60 $00 $8B $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00
+.db $50 $00 $50 $00 $8B $02 $60 $02 $63 $00 $8C
+.dsb 17,$00
+.db $8C $02 $63 $02 $63 $00 $8D $00 $8E $00 $52 $00 $52 $00 $52 $00
+.db $52 $02 $52 $02 $52 $02 $8E $02 $8D $02 $63 $02 $63 $00 $8F $00
+.db $90 $00 $54 $00 $54 $00 $54 $00 $54 $00 $54 $00 $54 $00 $90 $02
+.db $8F $02 $63 $02 $69 $00 $91 $00 $92 $00 $57 $00 $57 $00 $57 $00
+.db $57 $02 $57 $02 $57 $02 $92 $02 $91 $02 $69 $02 $63 $00 $93 $00
+.db $94 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $94 $02
+.db $93 $02 $63 $02 $63 $00 $95 $00 $94 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $94 $02 $95 $02 $63 $02 $63 $00 $8F $00
+.db $94 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $94 $02
+.db $8F $02 $63 $02 $63 $00 $8F $00 $94 $00 $34 $00 $34 $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $94 $02 $8F $02 $63 $02 $69 $04 $8F $00
+.db $94 $04 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $94 $06
+.db $8F $02 $69 $06 $63 $00 $8F $00 $94 $04 $34 $00 $34 $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $94 $06 $8F $02 $63 $02 $63 $00 $95 $04
+.db $94 $04 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $34 $00 $94 $06
+.db $95 $06 $63 $02 $63 $00 $93 $04 $94 $04 $34 $00 $34 $00 $34 $00
+.db $34 $00 $34 $00 $34 $00 $94 $06 $93 $06 $63 $02 $75 $00 $91 $04
+.db $92 $04 $57 $04 $57 $04 $57 $04 $57 $06 $57 $06 $57 $06 $92 $06
+.db $91 $06 $75 $02 $63 $00 $8F $00 $90 $04 $54 $00 $54 $00 $54 $00
+.db $54 $00 $54 $00 $54 $00 $90 $06 $8F $02 $63 $02 $63 $00 $8D $04
+.db $8E $04 $52 $04 $52 $04 $52 $04 $52 $06 $52 $06 $52 $06 $8E $06
+.db $8D $06 $63 $02 $63 $00 $8C $04
+.dsb 16,$00
+.db $8C $06 $63 $02 $76 $00 $96 $00 $42 $04 $42 $04 $42 $04 $42 $04
+.db $42 $04 $42 $04 $42 $04 $42 $04 $96 $02 $76 $02
+
+; 5th entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1B670 to 1B81F (432 bytes)
+_DATA_1B670_:
+.db $60 $00 $61 $00 $61 $00 $61 $00 $61 $00 $62 $00 $62 $02 $61 $00
+.db $61 $00 $61 $00 $61 $00 $60 $02 $63 $00 $97 $00 $98 $00 $99 $00
+.db $98 $02 $9A $00 $9A $02 $98 $00 $99 $00 $98 $02 $97 $02 $63 $02
+.db $63 $00 $9B $00 $10 $00 $10 $00 $10 $00 $9C $00 $9C $02 $10 $00
+.db $10 $00 $10 $00 $9B $02 $63 $02 $63 $00 $9D $00 $10 $00 $10 $00
+.db $10 $00 $9E $00 $9E $02 $10 $00 $10 $00 $10 $00 $9D $02 $63 $02
+.db $69 $00 $9D $00 $10 $00 $10 $00 $10 $00 $9E $00 $9E $02 $10 $00
+.db $10 $00 $10 $00 $9D $02 $69 $02 $63 $00 $9D $00 $9F $00 $A0 $00
+.db $A1 $00 $9E $00 $9E $02 $A1 $02 $A0 $02 $9F $02 $9D $02 $63 $02
+.db $63 $00 $9D $00 $A2 $00 $A3 $00 $A4 $00 $9E $00 $9E $02 $A4 $02
+.db $A3 $02 $A2 $02 $9D $02 $63 $02 $63 $00 $9D $00 $A5 $00 $A6 $00
+.db $A7 $00 $9E $00 $9E $02 $A7 $02 $A6 $02 $A5 $02 $9D $02 $63 $02
+.db $63 $00 $9D $00 $10 $00 $10 $00 $A8 $00 $A9 $00 $A9 $02 $A8 $02
+.db $10 $00 $10 $00 $9D $02 $63 $02 $69 $04 $9D $00 $10 $00 $10 $00
+.db $A8 $04 $A9 $04 $A9 $06 $A8 $06 $10 $00 $10 $00 $9D $02 $69 $06
+.db $63 $00 $9D $00 $10 $00 $10 $00 $10 $00 $9E $00 $9E $02 $10 $00
+.db $10 $00 $10 $00 $9D $02 $63 $02 $63 $00 $9D $00 $10 $00 $10 $00
+.db $10 $00 $9E $00 $9E $02 $10 $00 $10 $00 $10 $00 $9D $02 $63 $02
+.db $63 $00 $9D $00 $10 $00 $10 $00 $10 $00 $9E $00 $9E $02 $10 $00
+.db $10 $00 $10 $00 $9D $02 $63 $02 $75 $00 $9D $00 $10 $00 $10 $00
+.db $10 $00 $9E $00 $9E $02 $10 $00 $10 $00 $10 $00 $9D $02 $75 $02
+.db $63 $00 $9D $00 $10 $00 $10 $00 $10 $00 $9E $00 $9E $02 $10 $00
+.db $10 $00 $10 $00 $9D $02 $63 $02 $63 $00 $9B $04 $10 $00 $10 $00
+.db $10 $00 $9C $04 $9C $06 $10 $00 $10 $00 $10 $00 $9B $06 $63 $02
+.db $63 $00 $97 $04 $98 $04 $99 $04 $98 $06 $9A $04 $9A $06 $98 $04
+.db $99 $04 $98 $06 $97 $06 $63 $02 $76 $00 $77 $00 $77 $00 $77 $00
+.db $77 $00 $78 $00 $78 $02 $77 $00 $77 $00 $77 $00 $77 $00 $76 $02
+
+; 8th entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1B820 to 1B9CF (432 bytes)
+_DATA_1B820_:
+.db $60 $00 $79 $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00 $50 $00
+.db $50 $00 $50 $00 $79 $02 $60 $02 $63 $00 $AA $00 $AB
+.dsb 13,$00
+.db $AB $02 $AA $02 $63 $02 $63 $00 $AC $00 $AD $00 $AE $00 $7F $00
+.db $52 $00 $52 $02 $7F $02 $AE $02 $AD $02 $AC $02 $63 $02 $63 $00
+.db $AF $00 $00 $00 $B0 $00 $81 $00 $54 $00 $54 $00 $81 $02 $B0 $02
+.db $00 $00 $AF $02 $63 $02 $69 $00 $AF $00 $00 $00 $B1 $00 $83 $00
+.db $57 $00 $57 $02 $83 $02 $B1 $02 $00 $00 $AF $02 $69 $02 $63 $00
+.db $AF $00 $B2 $00 $B3 $00 $86 $00 $34 $00 $34 $00 $86 $02 $B3 $02
+.db $B2 $02 $AF $02 $63 $02 $63 $00 $AF $00 $B4 $00 $B5 $00 $86 $00
+.db $34 $00 $34 $00 $86 $02 $B5 $02 $B4 $02 $AF $02 $63 $02 $63 $00
+.db $AF $00 $B6 $00 $B7 $00 $86 $00 $34 $00 $34 $00 $86 $02 $B7 $02
+.db $B6 $02 $AF $02 $63 $02 $63 $00 $AF $00 $00 $00 $B8 $00 $86 $00
+.db $34 $00 $34 $00 $86 $02 $B8 $02 $00 $00 $AF $02 $63 $02 $69 $04
+.db $AF $00 $00 $00 $B8 $04 $86 $00 $34 $00 $34 $00 $86 $02 $B8 $06
+.db $00 $00 $AF $02 $69 $06 $63 $00 $AF $00 $00 $00 $B1 $00 $86 $00
+.db $34 $00 $34 $00 $86 $02 $B1 $02 $00 $00 $AF $02 $63 $02 $63 $00
+.db $AF $00 $00 $00 $B1 $00 $86 $00 $34 $00 $34 $00 $86 $02 $B1 $02
+.db $00 $00 $AF $02 $63 $02 $63 $00 $AF $00 $00 $00 $B1 $00 $86 $00
+.db $34 $00 $34 $00 $86 $02 $B1 $02 $00 $00 $AF $02 $63 $02 $75 $00
+.db $AF $00 $00 $00 $B1 $00 $83 $04 $57 $04 $57 $06 $83 $06 $B1 $02
+.db $00 $00 $AF $02 $75 $02 $63 $00 $AF $00 $00 $00 $B0 $04 $81 $00
+.db $54 $00 $54 $00 $81 $02 $B0 $06 $00 $00 $AF $02 $63 $02 $63 $00
+.db $AC $04 $AD $04 $AE $04 $7F $04 $52 $04 $52 $06 $7F $06 $AE $06
+.db $AD $06 $AC $06 $63 $02 $63 $00 $AA $04 $AB $04
+.dsb 12,$00
+.db $AB $06 $AA $06 $63 $02 $76 $00 $8A $00 $42 $04 $42 $04 $42 $04
+.db $42 $04 $42 $04 $42 $04 $42 $04 $42 $04 $8A $02 $76 $02
+
+; 11th entry of Pointer Table from 7118 (indexed by DungeonMap)
+; Data from 1B9D0 to 1BFFF (1584 bytes)
+_DATA_1B9D0_:
+.incbin "Phantasy Star (Japan)_DATA_1B9D0_.inc"
+
+.BANK 7
+.ORG $0000
+
+; Data from 1C000 to 1FFFF (16384 bytes)
+.incbin "Phantasy Star (Japan)_DATA_1C000_.inc"
+
+.BANK 8
+.ORG $0000
+
+; Data from 20000 to 23FFF (16384 bytes)
+.incbin "Phantasy Star (Japan)_DATA_20000_.inc"
+
+.BANK 9
+.ORG $0000
+
+; Data from 24000 to 2712F (12592 bytes)
+.incbin "Phantasy Star (Japan)_DATA_24000_.inc"
+
+; Data from 27130 to 27470 (833 bytes)
+_DATA_27130_:
+.db $9F $01 $02 $03 $04 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
+.db $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $04 $03 $02
+.db $03 $01 $9C $09 $04 $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C
+.db $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $04 $09 $04
+.db $01 $9C $0E $0F $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06
+.db $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $04 $0E $04 $01
+.db $9C $10 $04 $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C
+.db $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $04 $10 $05 $01 $9A
+.db $04 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
+.db $08 $05 $06 $07 $08 $05 $06 $07 $08 $04 $06 $01 $9A $04 $0A $0B
+.db $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B
+.db $0C $0D $0A $0B $0C $0D $04 $06 $01 $9A $04 $07 $08 $05 $06 $07
+.db $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
+.db $08 $05 $06 $04 $06 $01 $9A $04 $0C $0D $0A $0B $0C $0D $0A $0B
+.db $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B
+.db $04 $06 $01 $9A $04 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
+.db $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $04 $06 $01
+.db $9A $04 $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B
+.db $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $04 $06 $01 $9A $04 $07
+.db $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
+.db $08 $05 $06 $07 $08 $05 $06 $04 $06 $01 $9A $04 $0C $0D $0A $0B
+.db $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B
+.db $0C $0D $0A $0B $04 $06 $01 $9A $04 $05 $06 $07 $08 $05 $06 $07
+.db $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
+.db $08 $04 $05 $01 $9C $10 $04 $0A $0B $0C $0D $0A $0B $0C $0D $0A
+.db $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $04
+.db $10 $04 $01 $9C $0E $04 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08
+.db $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $04 $0E
+.db $04 $01 $9C $09 $04 $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A
+.db $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $04 $09 $03
+.db $01 $E7 $02 $03 $04 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
+.db $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $04 $03 $02
+.db $01 $01 $11 $12 $04 $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C
+.db $0D $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C $0D $04 $12 $11
+.db $01 $13 $14 $00 $04 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05
+.db $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $04 $00 $14
+.db $13 $15 $16 $17 $18 $19 $19 $1A $1B $05 $19 $81 $1C $04 $19 $81
+.db $1C $05 $19 $8A $1B $1A $19 $19 $2D $17 $16 $15 $1D $1E $04 $1F
+.db $81 $20 $05 $1F $82 $21 $22 $04 $1F $82 $22 $21 $05 $1F $81 $20
+.db $04 $1F $82 $1E $1D $04 $23 $82 $24 $25 $06 $23 $81 $26 $06 $23
+.db $81 $26 $06 $23 $82 $25 $24 $04 $23 $03 $27 $82 $28 $29 $07 $27
+.db $81 $2A $06 $27 $81 $2A $07 $27 $82 $29 $28 $05 $27 $82 $28 $29
+.db $07 $27 $82 $2B $2C $06 $27 $82 $2C $2B $07 $27 $82 $29 $28 $02
+.db $27 $00 $1C $00 $03 $02 $1D $00 $02 $02 $1E $00 $02 $02 $1E $00
+.db $02 $02 $1E $00 $81 $02 $1F $00 $81 $02 $1F $00 $81 $02 $1F $00
+.db $81 $02 $1F $00 $81 $02 $1F $00 $81 $02 $1F $00 $81 $02 $1F $00
+.db $81 $02 $1F $00 $81 $02 $05 $00 $81 $04 $19 $00 $82 $02 $06 $04
+.db $00 $81 $04 $19 $00 $82 $02 $06 $04 $00 $81 $04 $19 $00 $82 $02
+.db $06 $03 $00 $02 $04 $19 $00 $81 $02 $02 $06 $1D $00 $03 $02 $1D
+.db $00 $82 $02 $00 $02 $02 $12 $00 $81 $02 $05 $00 $02 $02 $03 $00
+.db $03 $02 $10 $00 $10 $02 $13 $00 $81 $02 $06 $00 $02 $02 $17 $00
+.db $81 $02 $07 $00 $02 $02 $16 $00 $02 $02 $07 $00 $02 $02 $02 $00
+.db $00
+
+; Data from 27471 to 27FFF (2959 bytes)
+_DATA_27471_:
+.incbin "Phantasy Star (Japan)_DATA_27471_.inc"
+
+.BANK 10
+.ORG $0000
+
+; Data from 28000 to 2BFFF (16384 bytes)
+.incbin "Phantasy Star (Japan)_DATA_28000_.inc"
+
+.BANK 11
+.ORG $0000
+
+; Data from 2C000 to 2FFFF (16384 bytes)
+_DATA_2C000_:
+.incbin "Phantasy Star (Japan)_DATA_2C000_.inc"
+
+.BANK 12
+.ORG $0000
+
+SoundInitialise:
+    push hl
+    push de
+    push bc
+    call _LABEL_3003C_
+    ld b,$0F
+    ld hl,_RAM_C00E_
+    xor a
+-:  ld (hl),a
+    ld de,$0018
+    add hl,de
+    ld (hl),a
+    inc hl
+    ld (hl),a
+    inc hl
+    ld (hl),a
+    ld de,$0006
+    add hl,de
+    djnz -
+    pop bc
+    pop de
+    pop hl
+SilencePSGandFM:
+    push hl
+    push bc
+    ld hl,_DATA_3004A_
+    ld c,Port_PSG
+    ld b,$08
+    otir
+    pop bc
+    pop hl
+_LABEL_3002C_:
+    push bc
+    push de
+    ld b,$06
+    ld d,$20
+-:  ld a,d
+    inc d
+    call _LABEL_30272_
+    djnz -
+    pop de
+    pop bc
+    ret
+
+_LABEL_3003C_:
+    xor a
+    ld hl,_RAM_C003_
+    ld (hl),a
+    ld de,_RAM_C003_ + 1
+    ld bc,$000A
+    ldir
+    ret
+
+; Data from 3004A to 30051 (8 bytes)
+_DATA_3004A_:
+.db $80 $00 $A0 $00 $C0 $00 $E5 $FF
+
+_LABEL_30052_:
+    ld a,(HasFM)
+    or a
+    ex af,af'
+    ld hl,_RAM_C00C_
+    exx
+    call _LABEL_30135_
+    call _LABEL_3015C_
+    call _LABEL_30466_
+    call _LABEL_30110_
+    ld a,(HasFM)
+    or a
+    jp z,_LABEL_300BF_
+    ld a,(_RAM_C002_)
+    or a
+    jp m,++
+    ld ix,_RAM_C00E_
+    ld b,$0A
+--:  push bc
+    ld a,$04
+    cp b
+    jr z,+
+    bit 7,(ix+0)
+    call nz,_LABEL_30664_
+-:  ld de,$0020
+    add ix,de
+    pop bc
+    djnz --
+    ret
+
++:  bit 7,(ix+0)
+    call nz,_LABEL_30608_
+    jr -
+
+++:  ld ix,_RAM_C0EE_
+    ld b,$08
+--:  push bc
+    ld a,$01
+    cp b
+    jr z,+
+    bit 7,(ix+0)
+    call nz,_LABEL_30664_
+-:  ld de,$0020
+    add ix,de
+    pop bc
+    djnz --
+    ret
+
++:  bit 7,(ix+0)
+    call nz,_LABEL_30608_
+    jr -
+
+_LABEL_300BF_:
+    ld a,(_RAM_C002_)
+    or a
+    jp m,++
+    ld ix,_RAM_C06E_
+    ld b,$07
+--:  push bc
+    ld a,$04
+    cp b
+    jr z,+
+    bit 7,(ix+0)
+    call nz,_LABEL_30BD9_
+-:  ld de,$0020
+    add ix,de
+    pop bc
+    djnz --
+    ret
+
++:  bit 7,(ix+0)
+    call nz,_LABEL_30B37_
+    jr -
+
+++:  ld ix,_RAM_C0EE_
+    ld b,$08
+--:  push bc
+    ld a,$01
+    cp b
+    jr z,+
+    bit 7,(ix+0)
+    call nz,_LABEL_30BD9_
+-:  ld de,$0020
+    add ix,de
+    pop bc
+    djnz --
+    ret
+
++:  bit 7,(ix+0)
+    call nz,_LABEL_30B37_
+    jr -
+
+_LABEL_30110_:
+    ld hl,_RAM_C12E_
+    bit 7,(hl)
+    ret z
+    ld a,(_RAM_C10E_)
+    or a
+    jp m,++
+    bit 6,(hl)
+    jr z,+
+    inc hl
+    ld a,(hl)
+    cp $E0
+    jr nz,+
+    ld hl,_RAM_C06E_
+    set 2,(hl)
++:  ld hl,_RAM_C0AE_
+    set 2,(hl)
+    ret
+
+++:  set 2,(hl)
+    ret
+
+_LABEL_30135_:
+    ld hl,_RAM_C001_
+    ld a,(hl)
+    or a
+    ret z
+    dec (hl)
+    ret nz
+    ld a,(_RAM_C002_)
+    or a
+    res 7,a
+    ld (hl),a
+    ld hl,_RAM_C018_
+    ld de,$0020
+    ld b,$07
+    jp m,_LABEL_30157_
+    ld hl,_RAM_C158_
+    ld de,$0020
+    ld b,$05
+_LABEL_30157_:
+    inc (hl)
+    add hl,de
+    djnz _LABEL_30157_
+    ret
+
+_LABEL_3015C_:
+    ld a,(_RAM_C00A_)
+    or a
+    ret z
+    jp m,_LABEL_301D0_
+    ld a,(_RAM_C00B_)
+    dec a
+    jr z,+
+    ld (_RAM_C00B_),a
+    ret
+
++:  ld a,(_RAM_C009_)
+    ld (_RAM_C00B_),a
+    ld a,(_RAM_C00A_)
+    inc a
+    cp $0C
+    ld (_RAM_C00A_),a
+    jr nz,++
+    xor a
+    ld (_RAM_C00A_),a
+    ld a,(_RAM_C002_)
+    cp $7F
+    jr nz,+
+    ld a,$85
+    jp _LABEL_304AD_
+
++:  or a
+    jp p,SoundInitialise
+    ld a,(_RAM_C006_)
+    or a
+    ret z
+    jp _LABEL_30218_
+
+++:  ld ix,_RAM_C00E_
+    ld de,$0020
+    ld b,$06
+    ld a,(_RAM_C002_)
+    or a
+    jp p,_LABEL_301B1_
+    ld ix,_RAM_C14E_
+    ld b,$04
+_LABEL_301B1_:
+    ld a,(ix+8)
+    inc a
+    cp $10
+    jr z,+
+    ld (ix+8),a
+    ld a,(HasFM)
+    or a
+    call nz,++
++:  add ix,de
+    djnz _LABEL_301B1_
+    ret
+
+++:  bit 2,(ix+0)
+    ret nz
+    jp _LABEL_30748_
+
+_LABEL_301D0_:
+    ld a,(_RAM_C00B_)
+    dec a
+    jr z,+
+    ld (_RAM_C00B_),a
+    ret
+
++:  ld a,$0A
+    ld (_RAM_C00B_),a
+    ld a,(_RAM_C00A_)
+    inc a
+    cp $8B
+    ld (_RAM_C00A_),a
+    jr nz,+
+    xor a
+    ld (_RAM_C00A_),a
+    ld hl,_RAM_C0CE_
+    res 2,(hl)
+    ret
+
++:  ld ix,_RAM_C00E_
+    ld de,$0020
+    ld b,$06
+-:  ld a,(ix+8)
+    dec a
+    jp m,+
+    cp (ix+23)
+    jr c,+
+    ld (ix+8),a
+    ld a,(HasFM)
+    or a
+    call nz,_LABEL_30748_
++:  add ix,de
+    djnz -
+    ret
+
+; 5th entry of Jump Table from 3045C (indexed by NewMusic)
+_LABEL_30218_:
+    call SilencePSGandFM
+    ld a,(_RAM_C005_)
+    ld (_RAM_C002_),a
+    ld a,$80
+    ld (_RAM_C00A_),a
+    ld a,$0A
+    ld (_RAM_C00B_),a
+    ld hl,_RAM_C0CE_
+    set 2,(hl)
+    push ix
+    ld ix,_RAM_C00E_
+    ld b,$06
+    ld de,$0020
+-:  ld a,(ix+8)
+    ld (ix+23),a
+    ld a,$09
+    ld (ix+8),a
+    add ix,de
+    djnz -
+    pop ix
+    jp _LABEL_305F9_
+
+; 3rd entry of Jump Table from 3045C (indexed by NewMusic)
+_LABEL_3024F_:
+    ld a,$0A
+    ld (_RAM_C00B_),a
+    ld (_RAM_C009_),a
+_LABEL_30257_:
+    ld a,$03
+    ld (_RAM_C00A_),a
+    ld a,(_RAM_C002_)
+    or a
+    jp m,+
+    xor a
+    ld (_RAM_C0CE_),a
++:  ld a,$FF
+    out (Port_PSG),a
+    xor a
+    ld (_RAM_C1CE_),a
+    jp _LABEL_305F9_
+
+_LABEL_30272_:
+    out (FMAddress),a
+    call _LABEL_30B34_
+    xor a
+    out (FMData),a
+    ret
+
+; 2nd entry of Jump Table from 3045C (indexed by NewMusic)
+_LABEL_3027B_:
+    xor a
+    ld (_RAM_C12E_),a
+    ld a,$DF
+    out (Port_PSG),a
+    ld a,$FF
+    out (Port_PSG),a
+    ld a,$25
+    out (FMAddress),a
+    call _LABEL_30B34_
+    xor a
+    out (FMData),a
+    ret
+
+_LABEL_30292_:
+    push bc
+    ld b,$12
+    ld hl,_DATA_30312_
+    ld c,FMData
+-:  dec c
+    outi
+    inc c
+    call _LABEL_30B34_
+    outi
+    call _LABEL_30B34_
+    jr nz,-
+    pop bc
+    ret
+
+; 4th entry of Jump Table from 3045C (indexed by NewMusic)
+_LABEL_302AA_:
+    ld a,(_RAM_C002_)
+    cp $7F
+    jp z,_LABEL_3024F_
+    ld a,$80
+    ld (_RAM_C006_),a
+    jp _LABEL_3024F_
+
+; 1st entry of Jump Table from 3045C (indexed by NewMusic)
+_LABEL_302BA_:
+    xor a
+    ld (_RAM_C10E_),a
+    ld (_RAM_C0EE_),a
+    ld hl,_RAM_C08E_
+    call _LABEL_30307_
+    ld hl,_RAM_C1AE_
+    call _LABEL_30307_
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld hl,_DATA_3004A_
+    ld c,Port_PSG
+    ld b,$08
+    otir
+    jp _LABEL_305F9_
+
++:  ex af,af'
+    ld a,$25
+    call _LABEL_30272_
+    call _LABEL_30B34_
+    ld a,$24
+    call _LABEL_30272_
+    ld a,(_RAM_C002_)
+    or a
+    jp m,_LABEL_305F9_
+    push ix
+    ld ix,_RAM_C08E_
+    call _LABEL_30748_
+    ld ix,_RAM_C0AE_
+    call _LABEL_30748_
+    pop ix
+    jp _LABEL_305F9_
+
+_LABEL_30307_:
+    ld de,$0020
+    ld b,$03
+-:  res 2,(hl)
+    add hl,de
+    djnz -
+    ret
+
+; Data from 30312 to 30323 (18 bytes)
+_DATA_30312_:
+.db $16 $20 $17 $B0 $18 $01 $26 $05 $27 $01 $28 $01 $36 $00 $37 $51
+.db $38 $02
+
+; Data from 30324 to 30337 (20 bytes)
+_DATA_30324_:
+.db $00 $00 $00 $00 $00 $00 $03 $00 $80 $80 $00 $00 $80 $80 $00 $00
+.db $00 $7F $7F $00
+
+; Data from 30338 to 3035F (40 bytes)
+_DATA_30338_:
+.db $A6 $A3 $0B $A4 $70 $A4 $D5 $A4 $3A $A5 $9F $A5 $FB $A5 $57 $A6
+.db $AA $A6 $06 $A7 $74 $A7 $D9 $A7 $2C $A8 $88 $A8 $F6 $A8 $5B $A9
+.db $5B $A9 $C0 $A9 $25 $AA $81 $AA
+
+; Pointer Table from 30360 to 303BF (48 entries,indexed by NewMusic)
+_DATA_30360_:
+.dw _DATA_32AA8_ _DATA_32ADF_ _DATA_32B1A_ _DATA_32B63_ _DATA_32BC0_ _DATA_32C23_ _DATA_32C6C_ _DATA_32CD1_
+.dw _DATA_32C6C_ _DATA_32D1F_ _DATA_32D81_ _DATA_32DBE_ _DATA_32DED_ _DATA_32E1B_ _DATA_32E74_ _DATA_32EC3_
+.dw _DATA_32F23_ _DATA_32F59_ _DATA_32FBB_ _DATA_32FE5_ _DATA_3300A_ _DATA_33027_ _DATA_3303C_ _DATA_33046_
+.dw _DATA_3308F_ _DATA_33127_ _DATA_3316A_ _DATA_33191_ _DATA_331B7_ _DATA_331F9_ _DATA_33226_ _DATA_33247_
+.dw _DATA_3327B_ _DATA_332B4_ _DATA_332E5_ _DATA_3331C_ _DATA_3331C_ _DATA_33354_ _DATA_33386_ _DATA_333DF_
+.dw _DATA_33450_ _DATA_334C8_ _DATA_33559_ _DATA_335A3_ _DATA_33606_ _DATA_33671_ _DATA_336BE_ _DATA_33715_
+
+; Pointer Table from 303C0 to 303F1 (25 entries,indexed by NewMusic)
+_DATA_303C0_:
+.dw _DATA_3300A_ _DATA_33027_ _DATA_3303C_ _DATA_33046_ _DATA_33046_ _DATA_32366_ _DATA_323CB_ _DATA_32430_
+.dw _DATA_32495_ _DATA_324FA_ _DATA_3255F_ _DATA_325C4_ _DATA_32617_ _DATA_3267C_ _DATA_326D8_ _DATA_32734_
+.dw _DATA_32799_ _DATA_327FE_ _DATA_3285A_ _DATA_328B6_ _DATA_3291B_ _DATA_3291B_ _DATA_32980_ _DATA_329E5_
+.dw _DATA_32A4A_
+
+; Pointer Table from 303F2 to 30451 (48 entries,indexed by NewMusic)
+_DATA_303F2_:
+.dw _DATA_32A9E_ _DATA_32ACC_ _DATA_32B07_ _DATA_32B50_ _DATA_32BAD_ _DATA_32C10_ _DATA_32C59_ _DATA_32CC7_
+.dw _DATA_32C59_ _DATA_32D0C_ _DATA_32D6E_ _DATA_32DAB_ _DATA_32DDA_ _DATA_32E08_ _DATA_32E61_ _DATA_32EB0_
+.dw _DATA_32F10_ _DATA_32F46_ _DATA_32FB1_ _DATA_32FD2_ _DATA_33000_ _DATA_3301D_ _DATA_3303C_ _DATA_3303C_
+.dw _DATA_33073_ _DATA_33114_ _DATA_33157_ _DATA_33187_ _DATA_331A4_ _DATA_331E6_ _DATA_3321C_ _DATA_33234_
+.dw _DATA_33268_ _DATA_332A1_ _DATA_332D2_ _DATA_33312_ _DATA_33312_ _DATA_33341_ _DATA_33373_ _DATA_333CC_
+.dw _DATA_3343D_ _DATA_334B5_ _DATA_33546_ _DATA_33590_ _DATA_335F3_ _DATA_3365E_ _DATA_336AB_ _DATA_33702_
+
+; Pointer Table from 30452 to 3045B (5 entries,indexed by NewMusic)
+_DATA_30452_:
+.dw _DATA_33000_ _DATA_3301D_ _DATA_3303C_ _DATA_3303C_ _DATA_3303C_
+
+; Jump Table from 3045C to 30465 (5 entries,indexed by NewMusic)
+_DATA_3045C_:
+.dw _LABEL_302BA_ _LABEL_3027B_ _LABEL_3024F_ _LABEL_302AA_ _LABEL_30218_
+
+_LABEL_30466_:
+    ld a,(NewMusic)
+    bit 7,a
+    jp z,SoundInitialise
+    cp $A0
+    jr c,_LABEL_304AD_
+    cp $D0
+    jp c,_LABEL_30524_
+    cp $D5
+    jp c,+
+    cp $DA
+    jp nc,SoundInitialise
+    sub $D5
+    add a,a
+    ld c,a
+    ld b,$00
+    ld hl,_DATA_3045C_
+    add hl,bc
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp (hl)
+
++:  ld hl,_DATA_30452_
+    sub $D0
+    ex af,af'
+    jr nz,+
+    ld hl,_DATA_303C0_
++:  ex af,af'
+    call _LABEL_305FF_
+    ld de,_RAM_C12E_
+    ld a,$FF
+    out (Port_PSG),a
+    ld a,$DF
+    out (Port_PSG),a
+    jp _LABEL_305C6_
+
+_LABEL_304AD_:
+    cp $95
+    jp nc,_LABEL_305F9_
+    sub $81
+    ret m
+    ld b,$00
+    ld c,a
+    ld hl,_DATA_30324_
+    add hl,bc
+    push af
+    ld a,(_RAM_C002_)
+    and $7F
+    ld (_RAM_C005_),a
+    ld a,(hl)
+    ld (_RAM_C001_),a
+    ld (_RAM_C002_),a
+    push af
+    ld a,(_RAM_C00A_)
+    or a
+    jp p,+
+    ld ix,_RAM_C00E_
+    ld de,$0020
+    ld b,$06
+-:  ld a,(ix+23)
+    ld (ix+8),a
+    add ix,de
+    djnz -
++:  call _LABEL_3003C_
+    call SilencePSGandFM
+    pop af
+    ex af,af'
+    jr nz,++
+    ex af,af'
+    ld de,_RAM_C14E_
+    or a
+    jp m,+
+    call SoundInitialise
+    ld de,$C06E
++:  ld hl,_DATA_30338_
+    jr +++
+
+++:  ex af,af'
+    call _LABEL_30292_
+    ld de,_RAM_C14E_
+    or a
+    jp m,+
+    ld de,_RAM_C00E_
+    call SoundInitialise
+    jr ++
+
++:  call _LABEL_3002C_
+++:  ld hl,$83CA
++++:  pop af
+    call _LABEL_305FF_
+    jp _LABEL_305C6_
+
+_LABEL_30524_:
+    sub $A0
+    ld hl,_DATA_30360_
+    ex af,af'
+    jr z,+
+    ld hl,_DATA_303F2_
++:  ex af,af'
+    call _LABEL_305FF_
+    ld h,b
+    ld l,c
+    inc hl
+    inc hl
+    ld a,(hl)
+    ex af,af'
+    jr z,++++
+    ex af,af'
+    cp $10
+    jr z,+
+    cp $14
+    jr z,++
+    ld de,_RAM_C10E_
+    ld a,$25
+    jr +++
+
++:  call SoundInitialise
+    ld de,_RAM_C00E_
+    jr _LABEL_305C6_
+
+++:  ld de,_RAM_C0EE_
+    ld a,$24
+    ld hl,_RAM_C08E_
+    set 2,(hl)
++++:  ld hl,_RAM_C0AE_
+    set 2,(hl)
+    call _LABEL_30272_
+    jr _LABEL_305C6_
+
+++++:  ex af,af'
+    cp $C0
+    jr z,++
+    cp $E0
+    jr z,+
+    cp $A0
+    jr z,+++
+    push bc
+    call SoundInitialise
+    pop bc
+    ld de,_RAM_C06E_
+    jr _LABEL_305C6_
+
++:  ld a,$DF
+    out (Port_PSG),a
+    ld hl,_RAM_C0CE_
+    set 2,(hl)
+    ld a,$E7
+    out (Port_PSG),a
+++:  ld de,_RAM_C10E_
+    jr ++++
+
++++:  ld de,$0009
+    add hl,de
+    ld a,(hl)
+    cp $E0
+    jr nz,+
+    ld a,$E7
+    out (Port_PSG),a
+    ld hl,_RAM_C0CE_
+    set 2,(hl)
+    ld hl,_RAM_C1CE_
+    set 2,(hl)
+    ld a,$DF
+    out (Port_PSG),a
++:  ld de,_RAM_C0EE_
+    ld hl,_RAM_C08E_
+    set 2,(hl)
+    ld hl,_RAM_C18E_
+    set 2,(hl)
+++++:  ld a,$FF
+    out (Port_PSG),a
+    ld hl,_RAM_C0AE_
+    set 2,(hl)
+    ld hl,_RAM_C1AE_
+    set 2,(hl)
+_LABEL_305C6_:
+    ld h,b
+    ld l,c
+    ld b,(hl)
+    inc hl
+-:  push bc
+    push hl
+    pop ix
+    ld bc,$0009
+    ldir
+    ld a,$20
+    ld (de),a
+    inc de
+    ld a,$01
+    ld (de),a
+    inc de
+    xor a
+    ld (de),a
+    inc de
+    ld (de),a
+    inc de
+    ld (de),a
+    push hl
+    ld hl,$0013
+    add hl,de
+    ex de,hl
+    pop hl
+    ld bc,+  ; Overriding return address
+    push bc
+    ld a,(HasFM)
+    or a
+    jp nz,_LABEL_30748_
+    jp _LABEL_30CCE_
+
++:  pop bc
+    djnz -
+_LABEL_305F9_:
+    ld a,$80
+    ld (NewMusic),a
+    ret
+
+_LABEL_305FF_:
+    add a,a
+    ld b,$00
+    ld c,a
+    add hl,bc
+    ld c,(hl)
+    inc hl
+    ld b,(hl)
+    ret
+
+_LABEL_30608_:
+    inc (ix+11)
+    ld a,(ix+10)
+    sub (ix+11)
+    jr nz,+
+    call ++
+    bit 2,(ix+0)
+    ret nz
+    ld a,$0E
+    out (FMAddress),a
+    ld a,(ix+16)
+    or $20
+    out (FMData),a
+    ret
+
++:  cp $02
+    ret nz
+    ld a,$0E
+    out (FMAddress),a
+    call _LABEL_30B34_
+    ld a,$20
+    out (FMData),a
+    ret
+
+++:  ld e,(ix+3)
+    ld d,(ix+4)
+-:  ld a,(de)
+    inc de
+    cp $E0
+    jp nc,++
+    cp $7F
+    jp c,_LABEL_3080B_
+    bit 5,a
+    jr z,+
+    or $01
++:  bit 2,a
+    jr z,+
+    or $10
++:  ld (ix+16),a
+    jp _LABEL_307FD_
+
+++:  ld hl,+  ; Overriding return address
+    jp _LABEL_308AE_
+
++:  inc de
+    jp -
+
+_LABEL_30664_:
+    inc (ix+11)
+    ld a,(ix+10)
+    sub (ix+11)
+    call z,_LABEL_307B9_
+    ld (_RAM_C00C_),a
+    cp $80
+    jp z,_LABEL_306CD_
+    bit 5,(ix+0)
+    jp z,_LABEL_306CD_
+    exx
+    ld (hl),$80
+    exx
+    bit 3,(ix+0)
+    jp nz,++
+    ld a,(ix+17)
+    bit 7,a
+    jr z,+
+    add a,(ix+14)
+    jr c,++++
+    dec (ix+15)
+    dec (ix+15)
+    jp +++
+
++:  add a,(ix+14)
+    jr nc,++++
+    inc (ix+15)
+    inc (ix+15)
+    jp +++
+
+++:  ld a,(ix+17)
+    bit 7,a
+    jr z,+
+    add a,(ix+14)
+    jr c,++++
+    dec (ix+15)
+    jr +++
+
++:  add a,(ix+14)
+    jr nc,++++
+    inc (ix+15)
++++:  set 1,(ix+7)
+++++:  ld (ix+14),a
+_LABEL_306CD_:
+    bit 2,(ix+0)
+    ret nz
+    ld a,(ix+19)
+    cp $1F
+    ret z
+    ld a,(_RAM_C00C_)
+    bit 0,(ix+7)
+    jr nz,+
+    cp $02
+    jp c,_LABEL_3075E_
++:  or a
+    jp m,+
+    bit 7,(ix+20)
+    ret nz
+    ld a,(ix+6)
+    dec a
+    jp p,++
+    ret
+
++:  ld a,(ix+6)
+    dec a
+++:  ld l,(ix+14)
+    ld h,(ix+15)
+    jp m,+
+    ex de,hl
+    ld hl,_DATA_33805_
+    call _LABEL_3076B_
+    call _LABEL_30778_
++:  bit 3,(ix+0)
+    call nz,_LABEL_30855_
+    ld c,FMData
+    ld a,(ix+1)
+    out (FMAddress),a
+    add a,$10
+    call _LABEL_30B34_
+    out (c),l
+    call _LABEL_30B34_
+    exx
+    bit 7,(hl)
+    exx
+    out (FMAddress),a
+    jr nz,+
+    bit 0,(ix+7)
+    jr z,+
+    bit 1,(ix+7)
+    ret z
+    res 1,(ix+7)
++:  bit 2,(ix+7)
+    jr z,+
+    set 5,h
++:  out (c),h
+    ret
+
+_LABEL_30748_:
+    ld a,(ix+1)
+    add a,$20
+    out (FMAddress),a
+    ld a,(ix+7)
+    and $F0
+    ld c,a
+    ld a,(ix+8)
+    and $0F
+    or c
+    out (FMData),a
+    ret
+
+_LABEL_3075E_:
+    ld a,(ix+1)
+    add a,$10
+    call _LABEL_30272_
+    ld (ix+19),$1F
+    ret
+
+_LABEL_3076B_:
+    ld c,a
+    ld b,$00
+    add hl,bc
+    add hl,bc
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ret
+
+-:  ld (ix+13),a
+_LABEL_30778_:
+    push hl
+    ld c,(ix+13)
+    ld b,$00
+    add hl,bc
+    ld c,l
+    ld b,h
+    pop hl
+    ld a,(bc)
+    bit 7,a
+    jp z,+++
+    cp $83
+    jr z,+
+    cp $80
+    jr z,++
+    ld a,$FF
+    ld (ix+20),a
+    pop hl
+    ret
+
++:  inc bc
+    ld a,(bc)
+    jr -
+
+++:  xor a
+    jr -
+
++++:  inc (ix+13)
+    ld l,a
+    ld h,$00
+    add hl,de
+    ld a,(HasFM)
+    or a
+    jr z,+
+    ld a,h
+    cp (ix+16)
+    jr z,+
+    set 1,(ix+7)
++:  ld (ix+16),a
+    ret
+
+_LABEL_307B9_:
+    ld e,(ix+3)
+    ld d,(ix+4)
+_LABEL_307BF_:
+    ld a,(de)
+    inc de
+    cp $E0
+    jp nc,_LABEL_308AB_
+    bit 3,(ix+0)
+    jp nz,_LABEL_30834_
+    cp $80
+    jp c,_LABEL_3080B_
+    jr nz,+
++:  call _LABEL_30894_
+    ld a,(hl)
+    ld (ix+14),a
+    inc hl
+    ld a,(hl)
+    ld (ix+15),a
+_LABEL_307E0_:
+    bit 5,(ix+0)
+    jp z,_LABEL_307FD_
+    ld a,(de)
+    inc de
+    ld (ix+18),a
+    ld (ix+17),a
+    bit 3,(ix+0)
+    ld a,(de)
+    jr nz,+
+    ld (ix+17),a
+    inc de
+    ld a,(de)
+    jr +
+
+_LABEL_307FD_:
+    ld a,(de)
+    or a
+    jp p,+
+    ld a,(ix+21)
+    ld (ix+10),a
+    jr _LABEL_3081B_
+
++:  inc de
+_LABEL_3080B_:
+    ld b,(ix+2)
+    dec b
+    jr z,+
+    ld c,a
+-:  add a,c
+    djnz -
++:  ld (ix+10),a
+    ld (ix+21),a
+_LABEL_3081B_:
+    xor a
+    ld (ix+12),a
+    ld (ix+13),a
+    ld (ix+11),a
+    ld (ix+19),a
+    ld (ix+20),a
+    ld (ix+3),e
+    ld (ix+4),d
+    ld a,$80
+    ret
+
+_LABEL_30834_:
+    ld h,a
+    ld a,(de)
+    inc de
+    ld l,a
+    ld a,(ix+5)
+    or a
+    jr z,+++
+    jp p,+
+    add a,l
+    jr c,++
+    dec h
+    jr ++
+
++:  add a,l
+    jr nc,++
+    inc h
+++:  ld l,a
++++:  ld (ix+14),l
+    ld (ix+15),h
+    jp _LABEL_307E0_
+
+_LABEL_30855_:
+    push de
+    ld a,h
+    or a
+    jr z,+
+    cp $02
+    ld a,$12
+    jr c,++
+    srl h
+    rr l
+    ld a,$10
+    jr ++
+
++:  ld a,l
+    or a
+    jp z,+++
+    ld bc,$0400
+-:  rlca
+    inc c
+    jr c,+
+    djnz -
++:  ld b,c
+    ld a,$12
+-:  inc a
+    inc a
+    sla l
+    rl h
+    djnz -
+++:  ld de,$0757
+    ex de,hl
+    or a
+    sbc hl,de
+    bit 1,h
+    jr z,+
+    set 0,h
++:  ld d,a
+    ld e,$00
+    add hl,de
++++:  pop de
+    ret
+
+_LABEL_30894_:
+    sub $80
+    jr z,+
+    add a,(ix+5)
++:  ld hl,$8CDB
+    ex af,af'
+    jr z,+
+    ld hl,_DATA_30D6D_
++:  ex af,af'
+    ld c,a
+    ld b,$00
+    add hl,bc
+    add hl,bc
+    ret
+
+_LABEL_308AB_:
+    ld hl,+  ; Overriding return address
+_LABEL_308AE_:
+    push hl
+    sub $EE
+    ld hl,_DATA_308C2_
+    add a,a
+    ld c,a
+    ld b,$00
+    add hl,bc
+    ld c,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,c
+    jp (hl)
+
++:  inc de
+    jp _LABEL_307BF_
+
+; Jump Table from 308C2 to 308E5 (18 entries,indexed by unknown)
+_DATA_308C2_:
+.dw _LABEL_308F0_ _LABEL_30921_ _LABEL_30939_ _LABEL_308E6_ _LABEL_30A38_ _LABEL_30977_ _LABEL_309A9_ _LABEL_3098B_
+.dw _LABEL_309C6_ _LABEL_30B1C_ _LABEL_30AEE_ _LABEL_30B09_ _LABEL_30961_ _LABEL_30950_ _LABEL_309CC_ _LABEL_30A29_
+.dw _LABEL_3091C_ _LABEL_308F8_
+
+; 4th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_308E6_:
+    ld a,(de)
+    ld (_RAM_C009_),a
+    ld (_RAM_C00B_),a
+    jp _LABEL_30257_
+
+; 1st entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_308F0_:
+    ld a,(de)
+    add a,(ix+2)
+    ld (ix+2),a
+    ret
+
+; 18th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_308F8_:
+    ld a,(ix+1)
+    add a,$10
+    out (FMAddress),a
+    call _LABEL_30B34_
+    xor a
+    out (FMData),a
+    call _LABEL_30B34_
+    ld h,d
+    ld l,e
+    ld b,$08
+    ld c,FMData
+-:  out (FMAddress),a
+    inc a
+    call _LABEL_30B34_
+    outi
+    jr nz,-
+    ld d,h
+    ld e,l
+    dec de
+    ret
+
+; 17th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_3091C_:
+    ld a,(HasFM)
+    or a
+    ret z
+; 2nd entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30921_:
+    ld a,(_RAM_C00A_)
+    or a
+    jp m,+
+    ld a,(de)
+    add a,(ix+8)
+    jp +++
+
++:  ld a,(de)
+    add a,(ix+23)
+    and $0F
+    ld (ix+23),a
+    ret
+
+; 3rd entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30939_:
+    ld a,(de)
+    cp $01
+    jr z,+
+    res 0,(ix+7)
+    res 1,(ix+7)
+    ret
+
++:  set 0,(ix+7)
+    set 1,(ix+7)
+    ret
+
+; 14th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30950_:
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(de)
+    inc de
+    jr ++
+
++:  inc de
+    ld a,(de)
+++:  add a,(ix+5)
+    ld (ix+5),a
+    ret
+
+; 13th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30961_:
+    ld a,(de)
+    ld (ix+2),a
+    ret
+
++++:  and $0F
+    ld (ix+8),a
+    ex af,af'
+    jp nz,+
+    ex af,af'
+    jp _LABEL_30CCE_
+
++:  ex af,af'
+    jp _LABEL_30748_
+
+; 6th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30977_:
+    ld a,(de)
+    or $E0
+    out (Port_PSG),a
+    or $FC
+    inc a
+    jr nz,+
+    res 6,(ix+0)
+    ret
+
++:  set 6,(ix+0)
+    ret
+
+; 8th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_3098B_:
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(de)
+    inc de
+    cp $80
+    ret z
+    ld (ix+7),a
+    ret
+
++:  ex af,af'
+    inc de
+    ld a,(de)
+    cp $04
+    ret z
+    ld (ix+7),a
+    ld a,(_RAM_C00A_)
+    or a
+    ret nz
+    jp _LABEL_30748_
+
+; 7th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_309A9_:
+    ld a,(de)
+    ld (ix+6),a
+    ret
+
+; Data from 309AE to 309C5 (24 bytes)
+.db $06 $00 $0E $1C $DD $E5 $E1 $09 $7E $B7 $20 $06 $1A $3D $77 $13
+.db $13 $C9 $13 $35 $28 $02 $13 $C9
+
+; 9th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_309C6_:
+    ex de,hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    dec de
+    ret
+
+; 15th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_309CC_:
+    ld a,(de)
+    cp $01
+    jr nz,++
+    set 5,(ix+0)
+    ld a,(ix+1)
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(ix+8)
+    or a
+    ret z
+    dec (ix+8)
+    dec (ix+8)
+    ret
+
++:  ex af,af'
+    cp $13
+    ret nc
+    dec (ix+8)
+    dec (ix+8)
+    ld a,(ix+7)
+    ld (ix+22),a
+    ld (ix+7),$53
+    jp _LABEL_30748_
+
+++:  res 5,(ix+0)
+    ld a,(ix+1)
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(ix+8)
+    or a
+    ret z
+    inc (ix+8)
+    inc (ix+8)
+    ret
+
++:  ex af,af'
+    cp $13
+    ret nc
+    inc (ix+8)
+    inc (ix+8)
+    ld a,(ix+22)
+    ld (ix+7),a
+    jp _LABEL_30748_
+
+; 16th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30A29_:
+    ld a,(de)
+    cp $01
+    jr nz,+
+    set 3,(ix+0)
+    ret
+
++:  res 3,(ix+0)
+    ret
+
+; 5th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30A38_:
+    ld hl,_RAM_C12E_
+    res 2,(hl)
+    xor a
+    ld (_RAM_C008_),a
+    ld (ix+0),a
+    ex af,af'
+    jp nz,_LABEL_30A9D_
+    ex af,af'
+    ld a,(ix+1)
+    add a,$1F
+    out (Port_PSG),a
+    ld a,$E5
+    out (Port_PSG),a
+    ld a,(_RAM_C08E_)
+    and $80
+    jr z,+
+    ld hl,_RAM_C09C_
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,(_RAM_C08F_)
+    call _LABEL_30C79_
+    ld hl,_RAM_C08E_
+    res 2,(hl)
++:  ld hl,_RAM_C18E_
+    res 2,(hl)
+    ld hl,_RAM_C1CE_
+    res 2,(hl)
+    ld hl,_RAM_C0CE_
+    res 2,(hl)
+    ld a,(_RAM_C0AE_)
+    and $80
+    jr z,+
+    ld hl,_RAM_C0BC_
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,(_RAM_C0AF_)
+    call _LABEL_30C79_
+    ld hl,_RAM_C0AE_
+    res 2,(hl)
++:  ld hl,_RAM_C1AE_
+    res 2,(hl)
+_LABEL_30A9A_:
+    pop hl
+    pop hl
+    ret
+
+_LABEL_30A9D_:
+    ex af,af'
+    ld a,(ix+1)
+    push af
+    add a,$10
+    out (FMAddress),a
+    call _LABEL_30B34_
+    xor a
+    out (FMData),a
+    pop af
+    cp $15
+    jr z,+
+    call _LABEL_30B34_
+    ld hl,_RAM_C08E_
+    res 2,(hl)
+    ld a,$34
+    out (FMAddress),a
+    ld hl,_RAM_C095_
+    call ++
+    jp _LABEL_30A9A_
+
++:  ld hl,_RAM_C0AE_
+    res 2,(hl)
+    ld a,(_RAM_C12E_)
+    or a
+    ld hl,_RAM_C0B5_
+    jp p,+
+    ld hl,_RAM_C135_
++:  ld a,$35
+    out (FMAddress),a
+    call ++
+    jp _LABEL_30A9A_
+
+++:  ld a,(hl)
+    and $F0
+    ld c,a
+    inc hl
+    ld a,(hl)
+    and $0F
+    or c
+    out (FMData),a
+    ret
+
+; 11th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30AEE_:
+    ld a,(de)
+    ld c,a
+    inc de
+    ld a,(de)
+    ld b,a
+    push bc
+    push ix
+    pop hl
+    dec (ix+9)
+    ld c,(ix+9)
+    dec (ix+9)
+    ld b,$00
+    add hl,bc
+    ld (hl),d
+    dec hl
+    ld (hl),e
+    pop de
+    dec de
+    ret
+
+; 12th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30B09_:
+    push ix
+    pop hl
+    ld c,(ix+9)
+    ld b,$00
+    add hl,bc
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc (ix+9)
+    inc (ix+9)
+    ret
+
+; 10th entry of Jump Table from 308C2 (indexed by unknown)
+_LABEL_30B1C_:
+    ld a,(de)
+    inc de
+    add a,$18
+    ld c,a
+    ld b,$00
+    push ix
+    pop hl
+    add hl,bc
+    ld a,(hl)
+    or a
+    jr nz,+
+    ld a,(de)
+    ld (hl),a
++:  inc de
+    dec (hl)
+    jp nz,_LABEL_309C6_
+    inc de
+    ret
+
+_LABEL_30B34_:
+    push hl
+    pop hl
+    ret
+
+_LABEL_30B37_:
+    inc (ix+11)
+    ld a,(ix+10)
+    sub (ix+11)
+    call z,+
+    bit 2,(ix+0)
+    ret nz
+    bit 4,(ix+19)
+    ret nz
+    ld a,(ix+7)
+    dec a
+    ret m
+    ld hl,_DATA_33766_
+    call _LABEL_3076B_
+    call _LABEL_30C8E_
+    or $F0
+    out (Port_PSG),a
+    ret
+
++:  ld e,(ix+3)
+    ld d,(ix+4)
+-:  ld a,(de)
+    inc de
+    cp $E0
+    jp nc,+
+    cp $80
+    jp c,_LABEL_3080B_
+    call ++
+    ld a,(de)
+    inc de
+    cp $80
+    jp c,_LABEL_3080B_
+    dec de
+    ld a,(ix+21)
+    ld (ix+10),a
+    jp _LABEL_3081B_
+
+; Data from 30B86 to 30B89 (4 bytes)
+.db $1B $C3 $1B $88
+
++:  ld hl,+  ; Overriding return address
+    jp _LABEL_308AE_
+
++:  inc de
+    jp -
+
+++:  bit 3,a
+    jr nz,+
+    bit 5,a
+    jr nz,++
+    bit 1,a
+    jr nz,++
+    bit 0,a
+    jr nz,+++
+    bit 2,a
+    jr nz,+++
+    ld (ix+7),$00
+    ld a,$FF
+    out (Port_PSG),a
+    ret
+
++:  ex af,af'
+    ld a,$02
+    ld b,$04
+    jr ++++
+
+++:  ld c,$04
+    bit 0,a
+    jr nz,+
+    ld c,$03
++:  ex af,af'
+    ld a,c
+    ld b,$05
+    jr ++++
+
++++:  ex af,af'
+    ld a,$01
+    ld b,$06
+++++:  ld (ix+7),a
+    ex af,af'
+    bit 2,a
+    jr z,+
+    dec b
+    dec b
++:  ld (ix+8),b
+    ret
+
+_LABEL_30BD9_:
+    inc (ix+11)
+    ld a,(ix+10)
+    sub (ix+11)
+    call z,_LABEL_307B9_
+    ld (_RAM_C00C_),a
+    cp $80
+    jp z,+++
+    bit 5,(ix+0)
+    jp z,+++
+    exx
+    ld (hl),$80
+    exx
+    ld a,(ix+18)
+    bit 7,a
+    jr z,+
+    add a,(ix+14)
+    jr c,++
+    dec (ix+15)
+    jr ++
+
++:  add a,(ix+14)
+    jr nc,++
+    inc (ix+15)
+++:  ld (ix+14),a
++++:  bit 2,(ix+0)
+    ret nz
+    ld a,(ix+19)
+    cp $1F
+    ret z
+    jr nz,+
++:  ld a,(ix+19)
+    cp $FF
+    jp z,+
+    ld a,(ix+7)
+    dec a
+    jp m,+
+    ld hl,_DATA_33766_
+    call _LABEL_3076B_
+    call _LABEL_30C8E_
+    or (ix+1)
+    add a,$10
+    out (Port_PSG),a
++:  ld a,(_RAM_C00C_)
+    or a
+    jp m,+
+    bit 7,(ix+20)
+    ret nz
+    ld a,(ix+6)
+    dec a
+    jp p,++
+    ret
+
++:  ld a,(ix+6)
+    dec a
+++:  ld l,(ix+14)
+    ld h,(ix+15)
+    jp m,+
+    ex de,hl
+    ld hl,_DATA_33805_
+    call _LABEL_3076B_
+    call _LABEL_30778_
++:  bit 6,(ix+0)
+    ret nz
+    ld a,(ix+1)
+    cp $E0
+    jr nz,_LABEL_30C79_
+    ld a,$C0
+_LABEL_30C79_:
+    ld c,a
+    ld a,l
+    and $0F
+    or c
+    out (Port_PSG),a
+    ld a,l
+    and $F0
+    or h
+    rrca
+    rrca
+    rrca
+    rrca
+    out (Port_PSG),a
+    ret
+
+-:  ld (ix+12),a
+_LABEL_30C8E_:
+    push hl
+    ld c,(ix+12)
+    ld b,$00
+    add hl,bc
+    ld c,l
+    ld b,h
+    pop hl
+    ld a,(bc)
+    bit 7,a
+    jr z,++++
+    cp $82
+    jr z,+
+    cp $81
+    jr z,+++
+    cp $80
+    jr z,++
+    inc bc
+    ld a,(bc)
+    jr -
+
++:  pop hl
+    ld a,$1F
+    ld (ix+19),a
+    add a,(ix+1)
+    out (Port_PSG),a
+    ret
+
+++:  xor a
+    jr -
+
++++:  ld (ix+19),$FF
+    pop hl
+    ret
+
+++++:  inc (ix+12)
+    add a,(ix+8)
+    bit 4,a
+    ret z
+    ld a,$0F
+    ret
+
+_LABEL_30CCE_:
+    ld a,(ix+8)
+    and $0F
+    or (ix+1)
+    add a,$10
+    out (Port_PSG),a
+    ret
+
+; Data from 30CDB to 30D6C (146 bytes)
+.db $00 $00 $FF $03 $C7 $03 $90 $03 $5D $03 $2D $03 $FF $02 $D4 $02
+.db $AB $02 $85 $02 $61 $02 $3F $02 $1E $02 $00 $02 $E3 $01 $C8 $01
+.db $AF $01 $96 $01 $80 $01 $6A $01 $56 $01 $43 $01 $30 $01 $1F $01
+.db $0F $01 $00 $01 $F2 $00 $E4 $00 $D7 $00 $CB $00 $C0 $00 $B5 $00
+.db $AB $00 $A1 $00 $98 $00 $90 $00 $88 $00 $80 $00 $79 $00 $72 $00
+.db $6C $00 $66 $00 $60 $00 $5B $00 $55 $00 $51 $00 $4C $00 $48 $00
+.db $44 $00 $40 $00 $3C $00 $39 $00 $36 $00 $33 $00 $30 $00 $2D $00
+.db $2B $00 $28 $00 $26 $00 $24 $00 $22 $00 $20 $00 $1E $00 $1C $00
+.db $1B $00 $19 $00 $18 $00 $16 $00 $15 $00 $14 $00 $13 $00 $12 $00
+.db $11 $00
+
+; Data from 30D6D to 32365 (5625 bytes)
+_DATA_30D6D_:
+.incbin "Phantasy Star (Japan)_DATA_30D6D_.inc"
+
+; 6th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 32366 to 323CA (101 bytes)
+_DATA_32366_:
+.db $07 $80 $10 $02 $02 $8E $FC $01 $C0 $01 $80 $11 $02 $6C $8E $FC
+.db $00 $E0 $03 $80 $12 $02 $CB $8E $FC $00 $30 $04 $80 $13 $02 $01
+.db $8E $FC $00 $80 $04 $80 $14 $02 $6C $8E $FC $00 $80 $04 $80 $15
+.db $02 $CA $8E $FC $00 $B0 $04 $C0 $00 $02 $5E $B8 $00 $00 $00 $0F
+.db $04 $80 $80 $02 $02 $8E $F8 $01 $05 $01 $80 $A0 $02 $6C $8E $F8
+.db $00 $05 $04 $80 $C0 $02 $CB $8E $F8 $00 $09 $05 $C0 $E0 $02 $5E
+.db $B8 $00 $00 $00 $00
+
+; 7th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 323CB to 3242F (101 bytes)
+_DATA_323CB_:
+.db $07 $80 $10 $02 $1E $8F $FC $01 $50 $02 $80 $11 $02 $8C $8F $F0
+.db $04 $E0 $03 $80 $12 $02 $0D $90 $FC $00 $80 $04 $80 $13 $02 $52
+.db $90 $FC $00 $80 $04 $80 $14 $02 $9B $90 $FC $00 $80 $04 $80 $15
+.db $02 $1D $8F $FC $00 $80 $04 $C0 $00 $02 $E3 $B8 $00 $00 $00 $00
+.db $04 $80 $80 $02 $1E $8F $E8 $01 $06 $01 $80 $A0 $02 $8C $8F $F4
+.db $00 $06 $04 $80 $C0 $02 $0D $90 $E8 $00 $09 $05 $C0 $E0 $02 $E3
+.db $B8 $00 $00 $00 $00
+
+; 8th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 32430 to 32494 (101 bytes)
+_DATA_32430_:
+.db $07 $80 $10 $02 $E1 $90 $FA $01 $B0 $00 $80 $11 $02 $6A $91 $FA
+.db $00 $E0 $03 $80 $12 $02 $0D $92 $FA $00 $A0 $03 $80 $13 $02 $9C
+.db $92 $FA $00 $C0 $02 $80 $14 $02 $FD $92 $FA $00 $C0 $02 $80 $15
+.db $02 $E0 $90 $FA $00 $A0 $04 $C0 $00 $02 $4F $B9 $00 $00 $00 $00
+.db $04 $80 $80 $02 $E1 $90 $EA $01 $05 $02 $80 $A0 $02 $6A $91 $F6
+.db $00 $04 $04 $80 $C0 $02 $0D $92 $EA $00 $06 $05 $C0 $E0 $02 $4F
+.db $B9 $00 $00 $00 $00
+
+; 9th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 32495 to 324F9 (101 bytes)
+_DATA_32495_:
+.db $07 $80 $10 $02 $6B $93 $FC $02 $B0 $01 $80 $11 $02 $C0 $93 $F0
+.db $00 $F0 $03 $80 $12 $02 $01 $94 $FC $00 $40 $04 $80 $13 $02 $C0
+.db $93 $FC $01 $80 $03 $80 $14 $02 $6B $93 $FC $00 $90 $04 $80 $15
+.db $02 $01 $94 $FC $00 $C0 $04 $C0 $00 $02 $F8 $B9 $00 $00 $09 $02
+.db $04 $80 $80 $02 $6B $93 $E4 $01 $07 $02 $80 $A0 $02 $C0 $93 $F0
+.db $00 $04 $04 $80 $C0 $02 $01 $94 $E4 $00 $06 $05 $C0 $E0 $02 $F8
+.db $B9 $00 $00 $00 $00
+
+; 10th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 324FA to 3255E (101 bytes)
+_DATA_324FA_:
+.db $07 $80 $10 $02 $33 $94 $FC $02 $B0 $02 $80 $11 $02 $91 $94 $FC
+.db $00 $F0 $03 $80 $12 $02 $E0 $94 $FC $00 $40 $04 $80 $13 $02 $91
+.db $94 $FC $00 $80 $04 $80 $14 $02 $32 $94 $FC $00 $90 $04 $80 $15
+.db $02 $DF $94 $FC $00 $C0 $04 $C0 $00 $02 $73 $BA $00 $00 $09 $02
+.db $04 $80 $80 $02 $33 $94 $EC $01 $05 $02 $80 $A0 $02 $91 $94 $F8
+.db $00 $05 $04 $80 $C0 $02 $E0 $94 $EC $00 $09 $04 $C0 $E0 $02 $73
+.db $BA $00 $00 $00 $00
+
+; 11th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 3255F to 325C3 (101 bytes)
+_DATA_3255F_:
+.db $07 $80 $10 $02 $2B $95 $FC $00 $70 $02 $80 $11 $02 $B1 $95 $F0
+.db $00 $E0 $03 $80 $12 $02 $F3 $95 $FC $00 $70 $04 $80 $13 $02 $B1
+.db $95 $FC $00 $F0 $04 $80 $14 $02 $24 $95 $FC $00 $C0 $04 $80 $15
+.db $02 $F2 $95 $FC $00 $C0 $04 $C0 $00 $02 $CB $BA $00 $00 $00 $00
+.db $04 $80 $80 $02 $19 $95 $E8 $01 $05 $02 $80 $A0 $02 $B1 $95 $F4
+.db $00 $05 $04 $80 $C0 $02 $F3 $95 $E8 $00 $09 $05 $C0 $E0 $02 $CB
+.db $BA $00 $00 $00 $00
+
+; 12th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 325C4 to 32616 (83 bytes)
+_DATA_325C4_:
+.db $06 $80 $10 $03 $A5 $96 $F8 $01 $30 $02 $80 $11 $03 $04 $97 $F8
+.db $00 $80 $03 $80 $12 $03 $A4 $96 $F8 $00 $80 $04 $80 $13 $03 $04
+.db $97 $F8 $00 $30 $04 $80 $14 $03 $A3 $96 $F8 $00 $30 $04 $80 $15
+.db $03 $A2 $96 $F8 $00 $30 $04 $03 $80 $80 $03 $A5 $96 $E0 $01 $05
+.db $01 $80 $A0 $03 $04 $97 $F8 $00 $04 $04 $80 $C0 $03 $A4 $96 $EC
+.db $00 $09 $05
+
+; 13th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 32617 to 3267B (101 bytes)
+_DATA_32617_:
+.db $07 $80 $10 $02 $54 $97 $FC $01 $70 $02 $80 $11 $02 $85 $97 $FC
+.db $00 $E0 $03 $80 $12 $02 $BB $97 $FC $00 $B0 $02 $80 $13 $02 $85
+.db $97 $FC $00 $80 $04 $80 $14 $02 $53 $97 $FC $00 $60 $04 $80 $15
+.db $02 $BA $97 $FC $00 $80 $04 $C0 $00 $02 $85 $BB $00 $00 $00 $00
+.db $04 $80 $80 $02 $54 $97 $F0 $01 $06 $02 $80 $A0 $02 $85 $97 $FC
+.db $00 $05 $04 $80 $C0 $02 $BB $97 $F0 $00 $09 $05 $C0 $E0 $02 $85
+.db $BB $00 $00 $00 $00
+
+; 14th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 3267C to 326D7 (92 bytes)
+_DATA_3267C_:
+.db $05 $80 $10 $02 $D8 $97 $08 $01 $80 $02 $80 $11 $02 $EB $98 $FC
+.db $00 $F0 $03 $80 $12 $02 $4E $99 $08 $00 $80 $02 $80 $13 $02 $D7
+.db $97 $FC $00 $D0 $04 $C0 $00 $02 $A6 $BB $00 $00 $00 $00 $05 $00
+.db $80 $02 $D8 $97 $EC $01 $06 $FF $80 $80 $02 $D8 $97 $EC $01 $06
+.db $02 $80 $A0 $02 $EB $98 $F8 $00 $05 $04 $80 $C0 $02 $4E $99 $EC
+.db $00 $06 $05 $C0 $E0 $02 $A6 $BB $00 $00 $00 $00
+
+; 15th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 326D8 to 32733 (92 bytes)
+_DATA_326D8_:
+.db $05 $80 $10 $02 $9F $99 $F4 $01 $80 $02 $80 $11 $02 $C3 $99 $F4
+.db $00 $E0 $03 $80 $12 $02 $E5 $99 $F4 $00 $40 $04 $80 $13 $02 $C3
+.db $99 $F4 $00 $30 $04 $C0 $00 $02 $22 $BC $00 $00 $00 $00 $05 $00
+.db $80 $02 $65 $9C $F0 $00 $09 $FF $80 $80 $02 $9F $99 $F4 $01 $09
+.db $02 $80 $A0 $02 $C3 $99 $F4 $00 $05 $04 $80 $C0 $02 $E5 $99 $F4
+.db $00 $06 $05 $C0 $E0 $02 $22 $BC $00 $00 $00 $00
+
+; 16th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 32734 to 32798 (101 bytes)
+_DATA_32734_:
+.db $07 $80 $10 $03 $06 $9A $F4 $01 $80 $02 $80 $11 $03 $85 $9A $F4
+.db $00 $E0 $03 $80 $12 $03 $14 $9B $F4 $00 $40 $04 $80 $13 $03 $85
+.db $9A $F4 $00 $30 $04 $80 $14 $03 $05 $9A $F4 $00 $30 $04 $80 $15
+.db $03 $13 $9B $F4 $00 $30 $04 $C0 $00 $03 $63 $BC $00 $00 $00 $00
+.db $04 $80 $80 $03 $06 $9A $EE $01 $05 $01 $80 $A0 $03 $85 $9A $FA
+.db $00 $05 $04 $80 $C0 $03 $14 $9B $EE $00 $09 $05 $C0 $E0 $03 $63
+.db $BC $00 $00 $00 $00
+
+; 17th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 32799 to 327FD (101 bytes)
+_DATA_32799_:
+.db $07 $80 $10 $02 $82 $9B $F4 $01 $80 $02 $80 $11 $02 $DF $9B $F4
+.db $00 $E0 $03 $80 $12 $02 $16 $9C $F4 $00 $40 $04 $80 $13 $02 $DF
+.db $9B $F4 $00 $30 $04 $80 $14 $02 $81 $9B $F4 $00 $30 $04 $80 $15
+.db $02 $15 $9C $F4 $00 $30 $04 $C0 $00 $02 $06 $BD $00 $00 $00 $00
+.db $04 $80 $80 $02 $82 $9B $EE $01 $05 $01 $80 $A0 $02 $DF $9B $FA
+.db $00 $05 $04 $80 $C0 $02 $16 $9C $EE $00 $09 $05 $C0 $E0 $02 $06
+.db $BD $00 $00 $00 $00
+
+; 18th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 327FE to 32859 (92 bytes)
+_DATA_327FE_:
+.db $05 $80 $10 $02 $65 $9C $F4 $01 $80 $02 $80 $11 $02 $A6 $9C $F4
+.db $00 $E0 $03 $80 $12 $02 $C7 $9C $F4 $00 $40 $04 $80 $13 $02 $A6
+.db $9C $F4 $00 $30 $04 $C0 $00 $02 $58 $BD $00 $00 $00 $00 $05 $00
+.db $80 $02 $65 $9C $F0 $00 $09 $01 $80 $80 $02 $65 $9C $F0 $00 $09
+.db $01 $80 $A0 $02 $A6 $9C $F0 $00 $05 $04 $80 $C0 $02 $C7 $9C $F0
+.db $00 $06 $05 $C0 $E0 $02 $58 $BD $00 $00 $00 $00
+
+; 19th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 3285A to 328B5 (92 bytes)
+_DATA_3285A_:
+.db $05 $80 $10 $02 $F5 $9C $F4 $01 $80 $02 $80 $11 $02 $27 $9D $F4
+.db $00 $E0 $03 $80 $12 $02 $64 $9D $F4 $00 $40 $04 $80 $13 $02 $27
+.db $9D $F4 $00 $30 $04 $C0 $00 $02 $8D $BD $00 $00 $09 $02 $05 $00
+.db $80 $02 $F5 $9C $F4 $01 $06 $FF $80 $80 $02 $F5 $9C $F4 $01 $06
+.db $01 $80 $A0 $02 $27 $9D $F4 $00 $05 $04 $80 $C0 $02 $64 $9D $F4
+.db $00 $06 $03 $C0 $E0 $02 $8D $BD $00 $00 $00 $00
+
+; 20th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 328B6 to 3291A (101 bytes)
+_DATA_328B6_:
+.db $07 $80 $10 $02 $8A $9D $F4 $01 $80 $03 $80 $11 $02 $EB $9D $F4
+.db $00 $E0 $03 $80 $12 $02 $73 $9E $F4 $00 $80 $02 $80 $13 $02 $C7
+.db $9E $F4 $00 $80 $02 $80 $14 $02 $EB $9D $F4 $00 $F0 $04 $80 $15
+.db $02 $89 $9D $F4 $00 $30 $04 $C0 $00 $02 $CD $BD $00 $00 $00 $00
+.db $04 $80 $80 $02 $8A $9D $E6 $01 $05 $02 $80 $A0 $02 $EB $9D $F2
+.db $00 $05 $04 $80 $C0 $02 $73 $9E $E6 $00 $05 $02 $C0 $E0 $02 $CD
+.db $BD $00 $00 $00 $00
+
+; 21st entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 3291B to 3297F (101 bytes)
+_DATA_3291B_:
+.db $07 $80 $10 $02 $24 $9F $F4 $01 $70 $02 $80 $11 $02 $D3 $9F $F4
+.db $00 $F0 $03 $80 $12 $02 $3B $A0 $F4 $00 $70 $04 $80 $13 $02 $D3
+.db $9F $F4 $00 $A0 $04 $80 $14 $02 $23 $9F $F4 $00 $80 $04 $80 $15
+.db $02 $3A $A0 $F4 $00 $A0 $04 $C0 $00 $02 $46 $BE $00 $00 $00 $00
+.db $04 $80 $80 $02 $24 $9F $EE $00 $06 $01 $80 $A0 $02 $D3 $9F $FA
+.db $00 $04 $04 $80 $C0 $02 $3B $A0 $EE $00 $06 $05 $C0 $E0 $02 $46
+.db $BE $00 $00 $00 $00
+
+; 23rd entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 32980 to 329E4 (101 bytes)
+_DATA_32980_:
+.db $07 $80 $10 $02 $CF $A0 $F4 $01 $70 $02 $80 $11 $02 $56 $A1 $F4
+.db $00 $F0 $03 $80 $12 $02 $C8 $A1 $F4 $00 $60 $04 $80 $13 $02 $CE
+.db $A0 $F4 $00 $F0 $04 $80 $14 $02 $56 $A1 $F4 $00 $50 $04 $80 $15
+.db $02 $C7 $A1 $F4 $00 $30 $04 $C0 $00 $02 $E0 $BE $00 $00 $00 $00
+.db $04 $80 $80 $02 $CF $A0 $E8 $01 $06 $01 $80 $A0 $02 $56 $A1 $F4
+.db $00 $05 $04 $80 $C0 $02 $C8 $A1 $E8 $00 $06 $05 $C0 $E0 $02 $E0
+.db $BE $00 $00 $00 $0F
+
+; 24th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 329E5 to 32A49 (101 bytes)
+_DATA_329E5_:
+.db $07 $80 $10 $02 $18 $A2 $F4 $01 $60 $02 $80 $11 $02 $69 $A2 $F4
+.db $00 $F0 $03 $80 $12 $02 $CB $A2 $F4 $00 $70 $04 $80 $13 $02 $17
+.db $A2 $F4 $00 $B0 $02 $80 $14 $02 $69 $A2 $F4 $00 $60 $04 $80 $15
+.db $02 $CA $A2 $F4 $00 $B0 $04 $C0 $00 $02 $49 $BF $00 $00 $00 $00
+.db $04 $80 $80 $02 $18 $A2 $E8 $01 $09 $01 $80 $A0 $02 $69 $A2 $F4
+.db $00 $06 $04 $80 $C0 $02 $CB $A2 $E8 $00 $06 $05 $C0 $E0 $02 $49
+.db $BF $00 $00 $00 $00
+
+; 25th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 32A4A to 32A9D (84 bytes)
+_DATA_32A4A_:
+.db $06 $80 $10 $02 $31 $A3 $F8 $01 $C0 $02 $80 $11 $02 $43 $A3 $F8
+.db $00 $E0 $03 $80 $12 $02 $55 $A3 $F8 $00 $C0 $04 $80 $13 $02 $30
+.db $A3 $F8 $00 $30 $04 $80 $14 $02 $43 $A3 $F8 $00 $30 $04 $80 $15
+.db $02 $54 $A3 $F8 $00 $30 $04 $03 $80 $80 $02 $31 $A3 $EC $00 $05
+.db $01 $80 $A0 $02 $43 $A3 $EC $00 $05 $04 $80 $C0 $02 $55 $A3 $EC
+.db $00 $06 $05 $FF
+
+; 1st entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32A9E to 32AA1 (4 bytes)
+_DATA_32A9E_:
+.db $01 $88 $15 $01
+
+; Pointer Table from 32AA2 to 32AA3 (1 entries,indexed by unknown)
+.dw _DATA_32AC0_
+
+; Data from 32AA4 to 32AA7 (4 bytes)
+.db $00 $00 $B0 $00
+
+; 1st entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32AA8 to 32AAB (4 bytes)
+_DATA_32AA8_:
+.db $01 $88 $E0 $01
+
+; Pointer Table from 32AAC to 32AAD (1 entries,indexed by unknown)
+.dw _DATA_32AB2_
+
+; Data from 32AAE to 32AB1 (4 bytes)
+.db $00 $00 $01 $00
+
+; 1st entry of Pointer Table from 32AAC (indexed by unknown)
+; Data from 32AB2 to 32ABF (14 bytes)
+_DATA_32AB2_:
+.db $F3 $07 $00 $20 $01 $00 $00 $20 $F7 $00 $04 $B4 $AA $F2
+
+; Data from 32AC0 to 32ACB (12 bytes)
+_DATA_32AC0_:
+.db $05 $00 $02 $00 $00 $20 $F7 $00 $04 $C0 $AA $F2
+
+; 2nd entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32ACC to 32ACF (4 bytes)
+_DATA_32ACC_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32AD0 to 32AD3 (2 entries,indexed by unknown)
+.dw _DATA_32AF2_ $00F0
+
+; Data from 32AD4 to 32ADE (11 bytes)
+.db $43 $00 $A8 $15 $01 $F2 $AA $E0 $00 $F3 $00
+
+; 2nd entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32ADF to 32AE2 (4 bytes)
+_DATA_32ADF_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32AE3 to 32AE4 (1 entries,indexed by unknown)
+.dw _DATA_32AF2_
+
+; Data from 32AE5 to 32AF1 (13 bytes)
+.db $00 $00 $00 $00 $A8 $C0 $01 $F2 $AA $08 $02 $05 $00
+
+; 1st entry of Pointer Table from 32AE3 (indexed by unknown)
+; Data from 32AF2 to 32B06 (21 bytes)
+_DATA_32AF2_:
+.db $02 $00 $15 $04 $02 $40 $E0 $06 $FB $F2 $04 $F7 $00 $04 $F2 $AA
+.db $01 $50 $F8 $14 $F2
+
+; 3rd entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32B07 to 32B0A (4 bytes)
+_DATA_32B07_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32B0B to 32B0E (2 entries,indexed by unknown)
+.dw _DATA_32B36_ _DATA_30_
+
+; Data from 32B0F to 32B19 (11 bytes)
+.db $63 $01 $A8 $15 $01 $2D $AB $00 $00 $03 $00
+
+; 3rd entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32B1A to 32B1D (4 bytes)
+_DATA_32B1A_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32B1E to 32B21 (2 entries,indexed by unknown)
+.dw _DATA_32B43_ _DATA_100_
+
+; Data from 32B22 to 32B35 (20 bytes)
+.db $04 $00 $A8 $C0 $01 $43 $AB $F0 $01 $04 $00 $FF $F8 $32 $0B $07
+.db $B2 $F0 $A8 $FC
+
+; Data from 32B36 to 32B42 (13 bytes)
+_DATA_32B36_:
+.db $01 $80 $E0 $02 $01 $60 $0A $04 $02 $00 $F7 $0E $F2
+
+; 1st entry of Pointer Table from 32B1E (indexed by unknown)
+; Data from 32B43 to 32B4F (13 bytes)
+_DATA_32B43_:
+.db $03 $FF $F0 $02 $00 $60 $0A $01 $02 $00 $E0 $18 $F2
+
+; 4th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32B50 to 32B53 (4 bytes)
+_DATA_32B50_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32B54 to 32B55 (1 entries,indexed by unknown)
+.dw _DATA_32B76_
+
+; Data from 32B56 to 32B62 (13 bytes)
+.db $00 $00 $53 $01 $A8 $15 $01 $94 $AB $00 $00 $03 $00
+
+; 4th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32B63 to 32B66 (4 bytes)
+_DATA_32B63_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32B67 to 32B68 (1 entries,indexed by unknown)
+.dw _DATA_32B7F_
+
+; Data from 32B69 to 32B75 (13 bytes)
+.db $00 $00 $04 $00 $A8 $E0 $01 $A1 $AB $00 $00 $04 $00
+
+; Data from 32B76 to 32B7E (9 bytes)
+_DATA_32B76_:
+.db $FF $F7 $31 $0B $07 $92 $F0 $28 $FB
+
+; 1st entry of Pointer Table from 32B67 (indexed by unknown)
+; Data from 32B7F to 32BAC (46 bytes)
+_DATA_32B7F_:
+.db $03 $F0 $A0 $06 $03 $D0 $E7 $06 $03 $00 $8F $05 $FB $14 $14 $F7
+.db $00 $05 $87 $AB $F2 $03 $00 $33 $06 $04 $00 $B7 $08 $04 $00 $0B
+.db $17 $F2 $00 $20 $13 $06 $F5 $04 $04 $00 $20 $05 $14 $F2
+
+; 5th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32BAD to 32BB0 (4 bytes)
+_DATA_32BAD_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32BB1 to 32BB2 (1 entries,indexed by unknown)
+.dw _DATA_32BD3_
+
+; Data from 32BB3 to 32BBF (13 bytes)
+.db $00 $00 $03 $00 $88 $15 $01 $E0 $AB $00 $00 $03 $00
+
+; 5th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32BC0 to 32BC3 (4 bytes)
+_DATA_32BC0_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32BC4 to 32BC5 (1 entries,indexed by unknown)
+.dw _DATA_32BD3_
+
+; Data from 32BC6 to 32BD2 (13 bytes)
+.db $00 $00 $00 $00 $A8 $E0 $01 $03 $AC $00 $00 $00 $00
+
+; Data from 32BD3 to 32C0F (61 bytes)
+_DATA_32BD3_:
+.db $03 $F0 $90 $04 $03 $FF $DC $08 $03 $20 $E9 $14 $F2 $FF $FA $31
+.db $0B $07 $60 $F1 $2F $FF $05 $00 $03 $FB $06 $FF $F7 $00 $06 $E9
+.db $AB $05 $00 $02 $FB $00 $10 $F7 $00 $05 $F4 $AB $05 $00 $02 $F2
+.db $00 $10 $25 $04 $00 $40 $15 $04 $00 $80 $FB $14 $F2
+
+; 6th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32C10 to 32C13 (4 bytes)
+_DATA_32C10_:
+.db $02 $88 $14 $01
+
+; Pointer Table from 32C14 to 32C15 (1 entries,indexed by unknown)
+.dw _DATA_32C36_
+
+; Data from 32C16 to 32C22 (13 bytes)
+.db $FF $06 $03 $00 $88 $15 $01 $3F $AC $00 $06 $03 $00
+
+; 6th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32C23 to 32C26 (4 bytes)
+_DATA_32C23_:
+.db $02 $88 $A0 $01
+
+; Pointer Table from 32C27 to 32C28 (1 entries,indexed by unknown)
+.dw _DATA_32C3F_
+
+; Data from 32C29 to 32C35 (13 bytes)
+.db $00 $00 $00 $00 $88 $C0 $01 $3F $AC $F6 $00 $00 $00
+
+; Data from 32C36 to 32C3E (9 bytes)
+_DATA_32C36_:
+.db $FF $F1 $75 $07 $0B $80 $51 $C8 $AC
+
+; 1st entry of Pointer Table from 32C27 (indexed by unknown)
+; Data from 32C3F to 32C58 (26 bytes)
+_DATA_32C3F_:
+.db $01 $60 $01 $FB $F2 $04 $F7 $00 $02 $3F $AC $00 $60 $01 $FB $F6
+.db $FC $F7 $00 $04 $4A $AC $00 $60 $14 $F2
+
+; 7th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32C59 to 32C5C (4 bytes)
+_DATA_32C59_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32C5D to 32C5E (1 entries,indexed by unknown)
+.dw _DATA_32C7F_
+
+; Data from 32C5F to 32C6B (13 bytes)
+.db $40 $00 $D3 $00 $A8 $15 $01 $98 $AC $00 $00 $03 $00
+
+; 7th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32C6C to 32C6F (4 bytes)
+_DATA_32C6C_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32C70 to 32C73 (2 entries,indexed by unknown)
+.dw _DATA_32C7F_ _DATA_103_
+
+; Data from 32C74 to 32C7E (11 bytes)
+.db $00 $00 $A8 $E0 $01 $BA $AC $03 $01 $00 $00
+
+; Data from 32C7F to 32CC6 (72 bytes)
+_DATA_32C7F_:
+.db $03 $80 $09 $06 $03 $FF $FC $08 $F5 $01 $04 $FC $00 $03 $FF $03
+.db $FB $F4 $FC $F7 $00 $0A $8C $AC $F2 $FF $36 $32 $07 $07 $5D $8C
+.db $0B $06 $05 $00 $33 $06 $05 $F0 $FE $08 $FC $00 $08 $00 $03 $FB
+.db $00 $FC $F7 $00 $08 $AB $AC $08 $00 $06 $F2 $00 $30 $20 $03 $00
+.db $F0 $FE $08 $00 $78 $FE $14 $F2
+
+; 8th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32CC7 to 32CCA (4 bytes)
+_DATA_32CC7_:
+.db $01 $A8 $15 $01
+
+; Pointer Table from 32CCB to 32CCC (1 entries,indexed by unknown)
+.dw _DATA_32CDB_
+
+; Data from 32CCD to 32CD0 (4 bytes)
+.db $F0 $03 $03 $00
+
+; 8th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32CD1 to 32CD4 (4 bytes)
+_DATA_32CD1_:
+.db $01 $A8 $E0 $01
+
+; Pointer Table from 32CD5 to 32CD6 (1 entries,indexed by unknown)
+.dw _DATA_32CF9_
+
+; Data from 32CD7 to 32CDA (4 bytes)
+.db $00 $00 $00 $00
+
+; Data from 32CDB to 32CF8 (30 bytes)
+_DATA_32CDB_:
+.db $FF $F5 $EE $4B $07 $F3 $F4 $F4 $F9 $02 $F0 $20 $06 $FC $00 $02
+.db $00 $02 $FB $00 $F0 $F7 $00 $0A $EA $AC $01 $30 $04 $F2
+
+; 1st entry of Pointer Table from 32CD5 (indexed by unknown)
+; Data from 32CF9 to 32D0B (19 bytes)
+_DATA_32CF9_:
+.db $F3 $03 $00 $10 $10 $04 $00 $80 $FD $0A $F5 $04 $04 $00 $60 $F8
+.db $0A $F2 $F2
+
+; 10th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32D0C to 32D0F (4 bytes)
+_DATA_32D0C_:
+.db $02 $88 $14 $01
+
+; Pointer Table from 32D10 to 32D13 (2 entries,indexed by unknown)
+.dw _DATA_32D32_ $00EC
+
+; Data from 32D14 to 32D1E (11 bytes)
+.db $03 $00 $88 $15 $01 $3E $AD $00 $00 $03 $00
+
+; 10th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32D1F to 32D22 (4 bytes)
+_DATA_32D1F_:
+.db $02 $88 $A0 $01
+
+; Pointer Table from 32D23 to 32D24 (1 entries,indexed by unknown)
+.dw _DATA_32D32_
+
+; Data from 32D25 to 32D31 (13 bytes)
+.db $00 $00 $02 $00 $88 $E0 $01 $59 $AD $00 $00 $02 $00
+
+; 1st entry of Pointer Table from 32D23 (indexed by unknown)
+; Data from 32D32 to 32D6D (60 bytes)
+_DATA_32D32_:
+.db $03 $F0 $02 $00 $10 $02 $F7 $00 $0C $32 $AD $F2 $FF $F3 $31 $0B
+.db $07 $E2 $B1 $F2 $F7 $03 $00 $04 $04 $10 $04 $F7 $00 $04 $47 $AD
+.db $FC $01 $05 $00 $EF $10 $F2 $00 $20 $02 $00 $10 $04 $F7 $00 $05
+.db $59 $AD $F5 $00 $04 $FC $01 $00 $A3 $F7 $12 $F2
+
+; 11th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32D6E to 32D71 (4 bytes)
+_DATA_32D6E_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32D72 to 32D75 (2 entries,indexed by unknown)
+.dw _DATA_32D94_ $00FA
+
+; Data from 32D76 to 32D80 (11 bytes)
+.db $63 $04 $A8 $15 $01 $94 $AD $00 $00 $63 $04
+
+; 11th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32D81 to 32D84 (4 bytes)
+_DATA_32D81_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32D85 to 32D88 (2 entries,indexed by unknown)
+.dw _DATA_32D94_ _DATA_10_
+
+; Data from 32D89 to 32D93 (11 bytes)
+.db $00 $04 $A8 $C0 $01 $94 $AD $00 $00 $00 $04
+
+; Data from 32D94 to 32DAA (23 bytes)
+_DATA_32D94_:
+.db $01 $40 $15 $04 $01 $80 $EE $08 $EF $FF $FB $0A $14 $F7 $00 $04
+.db $94 $AD $01 $80 $FA $14 $F2
+
+; 12th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32DAB to 32DAE (4 bytes)
+_DATA_32DAB_:
+.db $02 $80 $14 $01
+
+; Pointer Table from 32DAF to 32DB4 (3 entries,indexed by unknown)
+.dw _DATA_32DD1_ _DATA_103_ _DATA_33_
+
+; Data from 32DB5 to 32DBD (9 bytes)
+.db $80 $15 $01 $D1 $AD $16 $00 $C3 $00
+
+; 12th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32DBE to 32DC1 (4 bytes)
+_DATA_32DBE_:
+.db $02 $80 $A0 $01
+
+; Pointer Table from 32DC2 to 32DC5 (2 entries,indexed by unknown)
+.dw _DATA_32DD1_ _DATA_103_
+
+; Data from 32DC6 to 32DD0 (11 bytes)
+.db $09 $00 $80 $C0 $01 $D1 $AD $03 $00 $09 $00
+
+; 1st entry of Pointer Table from 32DC2 (indexed by unknown)
+; Data from 32DD1 to 32DD9 (9 bytes)
+_DATA_32DD1_:
+.db $A2 $02 $A5 $A9 $AB $AC $AE $18 $F2
+
+; 13th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32DDA to 32DDD (4 bytes)
+_DATA_32DDA_:
+.db $02 $80 $14 $01
+
+; Pointer Table from 32DDE to 32DE1 (2 entries,indexed by unknown)
+.dw _DATA_32E00_ _DATA_110_
+
+; Data from 32DE2 to 32DEC (11 bytes)
+.db $50 $02 $80 $15 $01 $00 $AE $10 $00 $50 $02
+
+; 13th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32DED to 32DF0 (4 bytes)
+_DATA_32DED_:
+.db $02 $80 $A0 $01
+
+; Pointer Table from 32DF1 to 32DF4 (2 entries,indexed by unknown)
+.dw _DATA_32E00_ _DATA_103_
+
+; Data from 32DF5 to 32DFF (11 bytes)
+.db $09 $00 $80 $C0 $01 $00 $AE $03 $00 $09 $00
+
+; Data from 32E00 to 32E07 (8 bytes)
+_DATA_32E00_:
+.db $B1 $0C $99 $AA $A7 $F6 $00 $AE
+
+; 14th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32E08 to 32E0B (4 bytes)
+_DATA_32E08_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32E0C to 32E0D (1 entries,indexed by unknown)
+.dw _DATA_32E2E_
+
+; Data from 32E0E to 32E1A (13 bytes)
+.db $00 $00 $03 $00 $A8 $15 $01 $3C $AE $00 $00 $03 $00
+
+; 14th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32E1B to 32E1E (4 bytes)
+_DATA_32E1B_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32E1F to 32E22 (2 entries,indexed by unknown)
+.dw _DATA_32E2E_ _DATA_103_
+
+; Data from 32E23 to 32E2D (11 bytes)
+.db $00 $00 $A8 $E0 $01 $53 $AE $03 $01 $00 $00
+
+; Data from 32E2E to 32E60 (51 bytes)
+_DATA_32E2E_:
+.db $03 $FF $C1 $03 $F7 $00 $03 $2E $AE $03 $80 $12 $08 $F2 $FF $F5
+.db $30 $0B $07 $F4 $82 $54 $F6 $05 $00 $50 $03 $F7 $00 $03 $45 $AE
+.db $04 $80 $FA $08 $F2 $00 $10 $38 $03 $F7 $00 $03 $53 $AE $00 $40
+.db $FA $08 $F2
+
+; 15th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32E61 to 32E64 (4 bytes)
+_DATA_32E61_:
+.db $02 $88 $14 $01
+
+; Pointer Table from 32E65 to 32E66 (1 entries,indexed by unknown)
+.dw _DATA_32E87_
+
+; Data from 32E67 to 32E73 (13 bytes)
+.db $41 $00 $03 $00 $88 $15 $01 $91 $AE $00 $00 $03 $00
+
+; 15th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32E74 to 32E77 (4 bytes)
+_DATA_32E74_:
+.db $02 $88 $A0 $01
+
+; Pointer Table from 32E78 to 32E79 (1 entries,indexed by unknown)
+.dw _DATA_32E87_
+
+; Data from 32E7A to 32E86 (13 bytes)
+.db $00 $00 $00 $00 $88 $E0 $01 $A4 $AE $00 $00 $00 $00
+
+; Data from 32E87 to 32EAF (41 bytes)
+_DATA_32E87_:
+.db $02 $80 $03 $01 $20 $04 $03 $80 $08 $F2 $FF $F1 $33 $0B $07 $C2
+.db $F2 $BA $F8 $05 $00 $03 $04 $80 $04 $05 $80 $08 $F2 $F3 $03 $00
+.db $10 $03 $00 $80 $04 $00 $20 $08 $F2
+
+; 16th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32EB0 to 32EB3 (4 bytes)
+_DATA_32EB0_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32EB4 to 32EB5 (1 entries,indexed by unknown)
+.dw _DATA_32ED6_
+
+; Data from 32EB6 to 32EC2 (13 bytes)
+.db $00 $00 $03 $00 $A8 $15 $01 $DF $AE $00 $00 $03 $00
+
+; 16th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32EC3 to 32EC6 (4 bytes)
+_DATA_32EC3_:
+.db $02 $88 $A0 $01
+
+; Pointer Table from 32EC7 to 32ECA (2 entries,indexed by unknown)
+.dw _DATA_32EF9_ _DATA_100_
+
+; Data from 32ECB to 32ED5 (11 bytes)
+.db $00 $00 $88 $C0 $01 $F9 $AE $30 $01 $00 $00
+
+; Data from 32ED6 to 32EF8 (35 bytes)
+_DATA_32ED6_:
+.db $FF $C3 $34 $0B $07 $B2 $A2 $F5 $F4 $05 $20 $40 $1F $FC $00 $05
+.db $A0 $04 $08 $20 $04 $05 $00 $02 $FB $10 $10 $EF $01 $F7 $02 $03
+.db $E5 $AE $F2
+
+; 1st entry of Pointer Table from 32EC7 (indexed by unknown)
+; Data from 32EF9 to 32F0F (23 bytes)
+_DATA_32EF9_:
+.db $01 $80 $01 $00 $A0 $01 $02 $20 $01 $01 $00 $01 $FB $10 $10 $EF
+.db $01 $F7 $02 $08 $F9 $AE $F2
+
+; 17th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32F10 to 32F13 (4 bytes)
+_DATA_32F10_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32F14 to 32F19 (3 entries,indexed by unknown)
+.dw _DATA_32F36_ _DATA_30_ _DATA_63_
+
+; Data from 32F1A to 32F22 (9 bytes)
+.db $A8 $15 $01 $36 $AF $33 $00 $D3 $00
+
+; 17th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32F23 to 32F26 (4 bytes)
+_DATA_32F23_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32F27 to 32F28 (1 entries,indexed by unknown)
+.dw _DATA_32F36_
+
+; Data from 32F29 to 32F35 (13 bytes)
+.db $00 $04 $01 $00 $A8 $C0 $01 $36 $AF $F6 $04 $01 $00
+
+; 1st entry of Pointer Table from 32F27 (indexed by unknown)
+; Data from 32F36 to 32F45 (16 bytes)
+_DATA_32F36_:
+.db $01 $70 $05 $04 $01 $80 $FB $03 $F5 $02 $04 $01 $10 $DD $0A $F2
+
+; 18th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32F46 to 32F49 (4 bytes)
+_DATA_32F46_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 32F4A to 32F4B (1 entries,indexed by unknown)
+.dw _DATA_32F6C_
+
+; Data from 32F4C to 32F58 (13 bytes)
+.db $00 $00 $53 $00 $A8 $15 $01 $82 $AF $00 $00 $53 $00
+
+; 18th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32F59 to 32F5C (4 bytes)
+_DATA_32F59_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 32F5D to 32F5E (1 entries,indexed by unknown)
+.dw _DATA_32F6C_
+
+; Data from 32F5F to 32F6B (13 bytes)
+.db $00 $00 $05 $00 $A8 $E0 $01 $9E $AF $00 $00 $00 $00
+
+; Data from 32F6C to 32FB0 (69 bytes)
+_DATA_32F6C_:
+.db $00 $80 $73 $06 $F5 $09 $04 $00 $40 $76 $06 $FB $1A $0A $EF $01
+.db $F7 $00 $08 $73 $AF $F2 $FF $F6 $31 $0B $07 $F9 $A2 $39 $F6 $05
+.db $30 $0C $06 $05 $40 $F4 $06 $FB $02 $02 $EF $01 $F7 $00 $08 $8F
+.db $AF $F2 $00 $30 $0C $06 $00 $40 $26 $06 $FB $02 $02 $EF $01 $F7
+.db $00 $08 $A2 $AF $F2
+
+; 19th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32FB1 to 32FB4 (4 bytes)
+_DATA_32FB1_:
+.db $01 $A8 $15 $01
+
+; Pointer Table from 32FB5 to 32FB6 (1 entries,indexed by unknown)
+.dw _DATA_32FC5_
+
+; Data from 32FB7 to 32FBA (4 bytes)
+.db $00 $00 $63 $00
+
+; 19th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32FBB to 32FBE (4 bytes)
+_DATA_32FBB_:
+.db $01 $A8 $C0 $01
+
+; Pointer Table from 32FBF to 32FC0 (1 entries,indexed by unknown)
+.dw _DATA_32FC5_
+
+; Data from 32FC1 to 32FC4 (4 bytes)
+.db $00 $00 $00 $00
+
+; Data from 32FC5 to 32FD1 (13 bytes)
+_DATA_32FC5_:
+.db $01 $00 $33 $03 $01 $A0 $F6 $02 $00 $60 $10 $0A $F2
+
+; 20th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 32FD2 to 32FD5 (4 bytes)
+_DATA_32FD2_:
+.db $02 $80 $14 $01
+
+; Pointer Table from 32FD6 to 32FD7 (1 entries,indexed by unknown)
+.dw _DATA_32FF8_
+
+; Data from 32FD8 to 32FE4 (13 bytes)
+.db $18 $01 $C0 $00 $80 $15 $01 $F9 $AF $18 $00 $C0 $00
+
+; 20th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 32FE5 to 32FE8 (4 bytes)
+_DATA_32FE5_:
+.db $02 $80 $A0 $01
+
+; Pointer Table from 32FE9 to 32FEC (2 entries,indexed by unknown)
+.dw _DATA_32FF8_ _DATA_103_
+
+; Data from 32FED to 32FF7 (11 bytes)
+.db $04 $00 $80 $C0 $01 $F9 $AF $03 $00 $04 $00
+
+; Data from 32FF8 to 32FFF (8 bytes)
+_DATA_32FF8_:
+.db $04 $A5 $06 $9E $A7 $A5 $18 $F2
+
+; 1st entry of Pointer Table from 30452 (indexed by NewMusic)
+; Data from 33000 to 33009 (10 bytes)
+_DATA_33000_:
+.db $01 $88 $15 $01 $14 $B0 $00 $00 $A0 $00
+
+; 1st entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 3300A to 3301C (19 bytes)
+_DATA_3300A_:
+.db $01 $88 $C0 $01 $14 $B0 $00 $00 $01 $00 $03 $00 $03 $03 $F0 $03
+.db $F6 $14 $B0
+
+; 2nd entry of Pointer Table from 30452 (indexed by NewMusic)
+; Data from 3301D to 33026 (10 bytes)
+_DATA_3301D_:
+.db $01 $A8 $15 $01 $31 $B0 $00 $00 $53 $02
+
+; 2nd entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 33027 to 3303B (21 bytes)
+_DATA_33027_:
+.db $01 $A8 $C0 $01 $31 $B0 $00 $00 $00 $03 $02 $00 $E7 $06 $01 $80
+.db $0E $0A $F6 $31 $B0
+
+; 3rd entry of Pointer Table from 30452 (indexed by NewMusic)
+; Data from 3303C to 33045 (10 bytes)
+_DATA_3303C_:
+.db $01 $88 $15 $01 $50 $B0 $FA $00 $00 $00
+
+; 4th entry of Pointer Table from 303C0 (indexed by NewMusic)
+; Data from 33046 to 33072 (45 bytes)
+_DATA_33046_:
+.db $01 $88 $E0 $01 $66 $B0 $FA $03 $04 $00 $FF $F1 $30 $0B $07 $F1
+.db $F5 $F9 $FC $05 $00 $06 $04 $00 $04 $03 $00 $03 $04 $80 $03 $F2
+.db $00 $A0 $01 $00 $10 $01 $00 $80 $02 $00 $28 $03 $F2
+
+; 25th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33073 to 33076 (4 bytes)
+_DATA_33073_:
+.db $03 $88 $10 $01
+
+; Pointer Table from 33077 to 33078 (1 entries,indexed by unknown)
+.dw _DATA_330CE_
+
+; Data from 33079 to 3308E (22 bytes)
+.db $44 $00 $03 $00 $88 $11 $01 $CE $B0 $40 $01 $03 $00 $88 $12 $01
+.db $CE $B0 $3F $01 $03 $00
+
+; 25th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 3308F to 33092 (4 bytes)
+_DATA_3308F_:
+.db $03 $88 $80 $01
+
+; Pointer Table from 33093 to 33094 (1 entries,indexed by unknown)
+.dw _DATA_330AB_
+
+; Data from 33095 to 330AA (22 bytes)
+.db $FF $01 $00 $05 $88 $A0 $01 $AB $B0 $00 $01 $00 $05 $88 $E0 $01
+.db $F1 $B0 $FF $01 $00 $00
+
+; 1st entry of Pointer Table from 33093 (indexed by unknown)
+; Data from 330AB to 330CD (35 bytes)
+_DATA_330AB_:
+.db $02 $00 $04 $FB $FF $02 $F7 $00 $14 $AB $B0 $02 $00 $08 $FB $FE
+.db $02 $F7 $00 $08 $B6 $B0 $F5 $00 $04 $02 $00 $50 $FC $01 $02 $00
+.db $FF $50 $F2
+
+; Data from 330CE to 33113 (70 bytes)
+_DATA_330CE_:
+.db $FF $33 $30 $0E $07 $70 $80 $F5 $F6 $04 $00 $04 $FB $FF $FD $F7
+.db $00 $14 $D7 $B0 $04 $00 $03 $FB $FF $FE $F7 $00 $38 $E2 $B0 $04
+.db $00 $70 $F2 $00 $80 $04 $FB $FF $FE $F7 $00 $14 $F1 $B0 $00 $80
+.db $08 $FB $FF $FE $F7 $00 $08 $FC $B0 $F5 $05 $04 $00 $80 $50 $FC
+.db $01 $00 $80 $FF $50 $F2
+
+; 26th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33114 to 33117 (4 bytes)
+_DATA_33114_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 33118 to 33119 (1 entries,indexed by unknown)
+.dw _DATA_3313A_
+
+; Data from 3311A to 33126 (13 bytes)
+.db $00 $00 $33 $00 $A8 $15 $01 $3A $B1 $00 $00 $33 $00
+
+; 26th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33127 to 3312A (4 bytes)
+_DATA_33127_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 3312B to 3312C (1 entries,indexed by unknown)
+.dw _DATA_3313A_
+
+; Data from 3312D to 33139 (13 bytes)
+.db $00 $00 $00 $00 $A8 $C0 $01 $3A $B1 $00 $00 $00 $00
+
+; Data from 3313A to 33156 (29 bytes)
+_DATA_3313A_:
+.db $02 $00 $F6 $0A $FB $F8 $F6 $F7 $00 $08 $3A $B1 $02 $00 $A0 $02
+.db $EE $01 $EF $01 $FB $0C $12 $F7 $00 $0A $46 $B1 $F2
+
+; 27th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33157 to 3315A (4 bytes)
+_DATA_33157_:
+.db $02 $80 $14 $01
+
+; Pointer Table from 3315B to 3315C (1 entries,indexed by unknown)
+.dw _DATA_3317D_
+
+; Data from 3315D to 33169 (13 bytes)
+.db $00 $00 $C3 $00 $80 $15 $01 $7E $B1 $00 $00 $C3 $00
+
+; 27th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 3316A to 3316D (4 bytes)
+_DATA_3316A_:
+.db $02 $80 $A0 $01
+
+; Pointer Table from 3316E to 33171 (2 entries,indexed by unknown)
+.dw _DATA_3317D_ _DATA_100_
+
+; Data from 33172 to 3317C (11 bytes)
+.db $04 $00 $80 $C0 $01 $7E $B1 $04 $00 $04 $00
+
+; Data from 3317D to 33186 (10 bytes)
+_DATA_3317D_:
+.db $02 $A5 $03 $A9 $AB $AC $AE $B0 $30 $F2
+
+; 28th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33187 to 3318A (4 bytes)
+_DATA_33187_:
+.db $01 $A8 $15 $01
+
+; Pointer Table from 3318B to 33190 (3 entries,indexed by unknown)
+.dw _DATA_3319B_ _DATA_103_ $00F3
+
+; 28th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33191 to 33194 (4 bytes)
+_DATA_33191_:
+.db $01 $A8 $C0 $01
+
+; Pointer Table from 33195 to 33198 (2 entries,indexed by unknown)
+.dw _DATA_3319B_ _DATA_103_
+
+; Data from 33199 to 3319A (2 bytes)
+.db $09 $00
+
+; 1st entry of Pointer Table from 33195 (indexed by unknown)
+; Data from 3319B to 331A3 (9 bytes)
+_DATA_3319B_:
+.db $01 $00 $DA $04 $00 $10 $0B $0E $F2
+
+; 29th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 331A4 to 331A7 (4 bytes)
+_DATA_331A4_:
+.db $02 $88 $14 $01
+
+; Pointer Table from 331A8 to 331A9 (1 entries,indexed by unknown)
+.dw _DATA_331CA_
+
+; Data from 331AA to 331B6 (13 bytes)
+.db $0C $00 $00 $02 $88 $15 $01 $D3 $B1 $00 $00 $00 $00
+
+; 29th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 331B7 to 331BA (4 bytes)
+_DATA_331B7_:
+.db $02 $88 $A0 $01
+
+; Pointer Table from 331BB to 331BC (1 entries,indexed by unknown)
+.dw _DATA_331D3_
+
+; Data from 331BD to 331C9 (13 bytes)
+.db $00 $00 $01 $04 $88 $E0 $01 $DC $B1 $00 $00 $01 $00
+
+; Data from 331CA to 331D2 (9 bytes)
+_DATA_331CA_:
+.db $FF $F1 $52 $0B $07 $F5 $F7 $FE $FA
+
+; 1st entry of Pointer Table from 331BB (indexed by unknown)
+; Data from 331D3 to 331E5 (19 bytes)
+_DATA_331D3_:
+.db $04 $50 $06 $F7 $00 $09 $D3 $B1 $F2 $00 $40 $08 $F7 $00 $09 $DC
+.db $B1 $F2 $F2
+
+; 30th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 331E6 to 331E9 (4 bytes)
+_DATA_331E6_:
+.db $02 $88 $14 $01
+
+; Pointer Table from 331EA to 331EB (1 entries,indexed by unknown)
+.dw _DATA_3320C_
+
+; Data from 331EC to 331F8 (13 bytes)
+.db $DF $00 $B0 $00 $88 $15 $01 $0C $B2 $DB $00 $D0 $00
+
+; 30th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 331F9 to 331FC (4 bytes)
+_DATA_331F9_:
+.db $02 $88 $A0 $02
+
+; Pointer Table from 331FD to 331FE (1 entries,indexed by unknown)
+.dw _DATA_3320C_
+
+; Data from 331FF to 3320B (13 bytes)
+.db $00 $00 $02 $00 $88 $E0 $02 $13 $B2 $00 $00 $02 $00
+
+; Data from 3320C to 3321B (16 bytes)
+_DATA_3320C_:
+.db $03 $40 $06 $03 $00 $08 $F2 $F3 $03 $00 $80 $06 $00 $60 $08 $F2
+
+; 31st entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 3321C to 3321F (4 bytes)
+_DATA_3321C_:
+.db $01 $88 $15 $02
+
+; Pointer Table from 33220 to 33221 (1 entries,indexed by unknown)
+.dw _DATA_33230_
+
+; Data from 33222 to 33225 (4 bytes)
+.db $03 $00 $53 $00
+
+; 31st entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33226 to 33229 (4 bytes)
+_DATA_33226_:
+.db $01 $88 $C0 $02
+
+; Pointer Table from 3322A to 3322B (1 entries,indexed by unknown)
+.dw _DATA_33230_
+
+; Data from 3322C to 3322F (4 bytes)
+.db $03 $00 $02 $00
+
+; Data from 33230 to 33233 (4 bytes)
+_DATA_33230_:
+.db $01 $00 $03 $F2
+
+; 32nd entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33234 to 33237 (4 bytes)
+_DATA_33234_:
+.db $02 $80 $14 $01
+
+; Pointer Table from 33238 to 33239 (1 entries,indexed by unknown)
+.dw _DATA_3325B_
+
+; Data from 3323A to 33246 (13 bytes)
+.db $18 $01 $C3 $00 $80 $15 $01 $5A $B2 $18 $01 $C3 $00
+
+; 32nd entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33247 to 3324A (4 bytes)
+_DATA_33247_:
+.db $02 $80 $A0 $01
+
+; Pointer Table from 3324B to 3324E (2 entries,indexed by unknown)
+.dw _DATA_3325B_ _DATA_103_
+
+; Data from 3324F to 3325A (12 bytes)
+.db $00 $00 $80 $C0 $01 $5A $B2 $03 $00 $04 $00 $02
+
+; Data from 3325B to 33267 (13 bytes)
+_DATA_3325B_:
+.db $99 $02 $FB $01 $02 $F7 $00 $10 $5B $B2 $99 $30 $F2
+
+; 33rd entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33268 to 3326B (4 bytes)
+_DATA_33268_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 3326C to 3326D (1 entries,indexed by unknown)
+.dw _DATA_3328E_
+
+; Data from 3326E to 3327A (13 bytes)
+.db $0E $00 $53 $00 $A8 $15 $01 $8E $B2 $0E $00 $53 $00
+
+; 33rd entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 3327B to 3327E (4 bytes)
+_DATA_3327B_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 3327F to 33280 (1 entries,indexed by unknown)
+.dw _DATA_3328E_
+
+; Data from 33281 to 3328D (13 bytes)
+.db $17 $04 $00 $00 $A8 $C0 $01 $8E $B2 $00 $01 $00 $00
+
+; Data from 3328E to 332A0 (19 bytes)
+_DATA_3328E_:
+.db $02 $80 $1D $06 $02 $80 $29 $06 $FB $0A $0A $EF $01 $F7 $00 $04
+.db $92 $B2 $F2
+
+; 34th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 332A1 to 332A4 (4 bytes)
+_DATA_332A1_:
+.db $02 $80 $14 $01
+
+; Pointer Table from 332A5 to 332A6 (1 entries,indexed by unknown)
+.dw _DATA_332C7_
+
+; Data from 332A7 to 332B3 (13 bytes)
+.db $17 $01 $80 $00 $80 $15 $01 $C7 $B2 $14 $00 $C0 $00
+
+; 34th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 332B4 to 332B7 (4 bytes)
+_DATA_332B4_:
+.db $02 $80 $A0 $01
+
+; Pointer Table from 332B8 to 332BB (2 entries,indexed by unknown)
+.dw _DATA_332C7_ _DATA_104_
+
+; Data from 332BC to 332C6 (11 bytes)
+.db $02 $00 $80 $C0 $01 $C7 $B2 $0A $00 $03 $00
+
+; Data from 332C7 to 332D1 (11 bytes)
+_DATA_332C7_:
+.db $99 $04 $FB $01 $01 $F7 $00 $12 $C7 $B2 $F2
+
+; 35th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 332D2 to 332D5 (4 bytes)
+_DATA_332D2_:
+.db $02 $80 $14 $03
+
+; Pointer Table from 332D6 to 332D9 (2 entries,indexed by unknown)
+.dw _DATA_332F9_ _DATA_100_
+
+; Data from 332DA to 332E4 (11 bytes)
+.db $43 $00 $80 $15 $03 $F8 $B2 $00 $00 $43 $00
+
+; 35th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 332E5 to 332E8 (4 bytes)
+_DATA_332E5_:
+.db $02 $80 $A0 $03
+
+; Pointer Table from 332E9 to 332EC (2 entries,indexed by unknown)
+.dw _DATA_332F9_ _DATA_100_
+
+; Data from 332ED to 332F8 (12 bytes)
+.db $0A $00 $80 $C0 $03 $F8 $B2 $00 $00 $0A $00 $02
+
+; Data from 332F9 to 33311 (25 bytes)
+_DATA_332F9_:
+.db $B5 $12 $B1 $06 $30 $B8 $06 $B6 $0C $B5 $06 $B3 $09 $B5 $B1 $06
+.db $B1 $B5 $0C $B3 $AC $06 $AC $24 $F2
+
+; 36th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33312 to 33315 (4 bytes)
+_DATA_33312_:
+.db $01 $88 $15 $01
+
+; Pointer Table from 33316 to 33317 (1 entries,indexed by unknown)
+.dw _DATA_33326_
+
+; Data from 33318 to 3331B (4 bytes)
+.db $00 $00 $00 $00
+
+; 36th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 3331C to 3331F (4 bytes)
+_DATA_3331C_:
+.db $01 $88 $E0 $01
+
+; Pointer Table from 33320 to 33321 (1 entries,indexed by unknown)
+.dw _DATA_33338_
+
+; Data from 33322 to 33325 (4 bytes)
+.db $00 $00 $01 $00
+
+; Data from 33326 to 33337 (18 bytes)
+_DATA_33326_:
+.db $FF $F0 $31 $0B $07 $F6 $E6 $FB $FA $03 $00 $14 $F7 $00 $03 $2F
+.db $B3 $F2
+
+; 1st entry of Pointer Table from 33320 (indexed by unknown)
+; Data from 33338 to 33340 (9 bytes)
+_DATA_33338_:
+.db $00 $40 $0E $F7 $00 $03 $38 $B3 $F2
+
+; 38th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33341 to 33344 (4 bytes)
+_DATA_33341_:
+.db $02 $80 $14 $01
+
+; Pointer Table from 33345 to 33348 (2 entries,indexed by unknown)
+.dw _DATA_33368_ _DATA_100_
+
+; Data from 33349 to 33353 (11 bytes)
+.db $80 $00 $80 $15 $01 $67 $B3 $00 $00 $80 $00
+
+; 38th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33354 to 33357 (4 bytes)
+_DATA_33354_:
+.db $02 $80 $A0 $01
+
+; Pointer Table from 33358 to 3335B (2 entries,indexed by unknown)
+.dw _DATA_33368_ _DATA_100_
+
+; Data from 3335C to 33367 (12 bytes)
+.db $05 $00 $80 $C0 $01 $67 $B3 $00 $01 $05 $00 $02
+
+; Data from 33368 to 33372 (11 bytes)
+_DATA_33368_:
+.db $A9 $0C $B0 $B1 $B0 $B1 $B3 $B0 $B5 $20 $F2
+
+; 39th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33373 to 33376 (4 bytes)
+_DATA_33373_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 33377 to 33378 (1 entries,indexed by unknown)
+.dw _DATA_33399_
+
+; Data from 33379 to 33385 (13 bytes)
+.db $00 $00 $03 $00 $A8 $15 $01 $A7 $B3 $00 $00 $03 $00
+
+; 39th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33386 to 33389 (4 bytes)
+_DATA_33386_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 3338A to 3338B (1 entries,indexed by unknown)
+.dw _DATA_33399_
+
+; Data from 3338C to 33398 (13 bytes)
+.db $03 $00 $04 $00 $A8 $E0 $01 $BE $B3 $03 $00 $04 $00
+
+; Data from 33399 to 333CB (51 bytes)
+_DATA_33399_:
+.db $03 $00 $33 $06 $F7 $00 $03 $B0 $B3 $03 $FF $F3 $14 $F2 $FF $61
+.db $31 $0B $07 $F4 $F1 $66 $F6 $03 $00 $33 $06 $F7 $00 $03 $B0 $B3
+.db $03 $FF $F3 $14 $F2 $00 $20 $06 $06 $F7 $00 $03 $BE $B3 $00 $FF
+.db $F4 $14 $F2
+
+; 40th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 333CC to 333CF (4 bytes)
+_DATA_333CC_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 333D0 to 333D1 (1 entries,indexed by unknown)
+.dw _DATA_3341D_
+
+; Data from 333D2 to 333DE (13 bytes)
+.db $00 $00 $F3 $00 $A8 $15 $01 $1D $B4 $00 $00 $D3 $00
+
+; 40th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 333DF to 333E2 (4 bytes)
+_DATA_333DF_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 333E3 to 333E6 (2 entries,indexed by unknown)
+.dw _DATA_333F2_ _DATA_30_
+
+; Data from 333E7 to 333F1 (11 bytes)
+.db $00 $04 $A8 $E0 $01 $06 $B4 $00 $00 $00 $00
+
+; 1st entry of Pointer Table from 333E3 (indexed by unknown)
+; Data from 333F2 to 3341C (43 bytes)
+_DATA_333F2_:
+.db $02 $00 $F8 $03 $01 $F0 $1C $0A $FC $00 $04 $00 $06 $03 $00 $06
+.db $02 $00 $08 $F2 $00 $40 $E8 $03 $00 $10 $18 $0A $FC $00 $F5 $02
+.db $04 $00 $40 $06 $00 $10 $06 $00 $30 $08 $F2
+
+; Data from 3341D to 3343C (32 bytes)
+_DATA_3341D_:
+.db $02 $00 $F8 $03 $01 $F0 $1C $0A $F5 $00 $03 $FC $00 $FF $72 $31
+.db $06 $07 $D2 $F2 $78 $FB $04 $00 $06 $01 $00 $03 $04 $00 $08 $F2
+
+; 41st entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 3343D to 33440 (4 bytes)
+_DATA_3343D_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 33441 to 33442 (1 entries,indexed by unknown)
+.dw _DATA_33463_
+
+; Data from 33443 to 3344F (13 bytes)
+.db $00 $00 $13 $00 $A8 $15 $01 $7A $B4 $00 $00 $73 $00
+
+; 41st entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33450 to 33453 (4 bytes)
+_DATA_33450_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 33454 to 33455 (1 entries,indexed by unknown)
+.dw _DATA_33463_
+
+; Data from 33456 to 33462 (13 bytes)
+.db $00 $00 $07 $00 $A8 $E0 $01 $9A $B4 $00 $00 $07 $00
+
+; Data from 33463 to 334B4 (82 bytes)
+_DATA_33463_:
+.db $03 $40 $0C $06 $F5 $00 $04 $00 $10 $07 $10 $FC $00 $03 $40 $04
+.db $03 $20 $06 $03 $60 $06 $F2 $05 $40 $E0 $06 $03 $10 $57 $10 $F5
+.db $00 $03 $FC $00 $FF $F1 $61 $0B $07 $F0 $B0 $84 $F6 $03 $40 $05
+.db $05 $20 $06 $04 $60 $06 $F2 $F3 $03 $00 $40 $F7 $06 $F5 $00 $04
+.db $00 $10 $07 $10 $F3 $07 $FC $00 $00 $40 $05 $00 $20 $06 $00 $60
+.db $06 $F2
+
+; 42nd entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 334B5 to 334B8 (4 bytes)
+_DATA_334B5_:
+.db $02 $88 $14 $01
+
+; Pointer Table from 334B9 to 334BA (1 entries,indexed by unknown)
+.dw _DATA_334DB_
+
+; Data from 334BB to 334C7 (13 bytes)
+.db $00 $00 $03 $00 $88 $15 $01 $F8 $B4 $00 $00 $03 $00
+
+; 42nd entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 334C8 to 334CB (4 bytes)
+_DATA_334C8_:
+.db $02 $88 $A0 $01
+
+; Pointer Table from 334CC to 334CD (1 entries,indexed by unknown)
+.dw _DATA_334DB_
+
+; Data from 334CE to 334DA (13 bytes)
+.db $0E $09 $00 $00 $88 $E0 $01 $29 $B5 $0F $0A $00 $02
+
+; Data from 334DB to 33545 (107 bytes)
+_DATA_334DB_:
+.db $03 $00 $06 $02 $40 $05 $F7 $00 $03 $DB $B4 $01 $00 $0A $FC $01
+.db $03 $00 $12 $08 $FB $0A $0A $F7 $00 $04 $EB $B4 $F2 $FF $FF $33
+.db $0B $07 $B1 $F2 $F8 $F7 $03 $00 $06 $02 $40 $05 $F7 $00 $03 $01
+.db $B5 $FC $00 $01 $00 $0A $F5 $00 $00 $00 $00 $02 $FC $01 $F5 $00
+.db $03 $03 $00 $12 $08 $FB $0A $0A $F7 $00 $04 $1C $B5 $F2 $03 $00
+.db $06 $02 $40 $05 $F7 $00 $03 $DB $B4 $01 $00 $0A $FC $01 $03 $00
+.db $12 $08 $FB $0A $0A $F7 $00 $04 $39 $B5 $F2
+
+; 43rd entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33546 to 33549 (4 bytes)
+_DATA_33546_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 3354A to 3354B (1 entries,indexed by unknown)
+.dw _DATA_3357E_
+
+; Data from 3354C to 33558 (13 bytes)
+.db $00 $00 $03 $00 $A8 $15 $01 $7E $B5 $40 $00 $03 $00
+
+; 43rd entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33559 to 3355C (4 bytes)
+_DATA_33559_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 3355D to 3355E (1 entries,indexed by unknown)
+.dw _DATA_3356C_
+
+; Data from 3355F to 3356B (13 bytes)
+.db $00 $00 $00 $00 $A8 $E0 $01 $75 $B5 $00 $00 $00 $00
+
+; 1st entry of Pointer Table from 3355D (indexed by unknown)
+; Data from 3356C to 3357D (18 bytes)
+_DATA_3356C_:
+.db $03 $10 $F8 $08 $00 $FF $41 $0A $F2 $00 $20 $F8 $05 $00 $20 $0C
+.db $0A $F2
+
+; Data from 3357E to 3358F (18 bytes)
+_DATA_3357E_:
+.db $FF $F4 $23 $0B $07 $D2 $F2 $A5 $F5 $06 $00 $0A $08 $06 $00 $EC
+.db $0F $F2
+
+; 44th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33590 to 33593 (4 bytes)
+_DATA_33590_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 33594 to 33595 (1 entries,indexed by unknown)
+.dw _DATA_335D0_
+
+; Data from 33596 to 335A2 (13 bytes)
+.db $03 $00 $03 $00 $A8 $15 $01 $E6 $B5 $03 $00 $03 $00
+
+; 44th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 335A3 to 335A6 (4 bytes)
+_DATA_335A3_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 335A7 to 335A8 (1 entries,indexed by unknown)
+.dw _DATA_335B6_
+
+; Data from 335A9 to 335B5 (13 bytes)
+.db $00 $04 $09 $00 $A8 $E0 $01 $C3 $B5 $00 $00 $09 $00
+
+; 1st entry of Pointer Table from 335A7 (indexed by unknown)
+; Data from 335B6 to 335CF (26 bytes)
+_DATA_335B6_:
+.db $01 $00 $7A $08 $03 $80 $B3 $04 $00 $20 $00 $0E $F2 $00 $30 $04
+.db $08 $00 $30 $04 $04 $00 $40 $F8 $0E $F2
+
+; Data from 335D0 to 335F2 (35 bytes)
+_DATA_335D0_:
+.db $FF $F9 $3E $0B $07 $F2 $72 $F8 $FF $03 $00 $0A $08 $01 $80 $FE
+.db $04 $00 $40 $00 $1E $F2 $01 $30 $04 $08 $04 $30 $04 $04 $01 $40
+.db $F8 $1E $F2
+
+; 45th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 335F3 to 335F6 (4 bytes)
+_DATA_335F3_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 335F7 to 335F8 (1 entries,indexed by unknown)
+.dw _DATA_33633_
+
+; Data from 335F9 to 33605 (13 bytes)
+.db $00 $00 $03 $00 $A8 $15 $01 $44 $B6 $00 $00 $03 $00
+
+; 45th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33606 to 33609 (4 bytes)
+_DATA_33606_:
+.db $02 $88 $A0 $01
+
+; Pointer Table from 3360A to 3360B (1 entries,indexed by unknown)
+.dw _DATA_33619_
+
+; Data from 3360C to 33618 (13 bytes)
+.db $00 $00 $00 $00 $88 $E0 $01 $26 $B6 $00 $00 $00 $00
+
+; 1st entry of Pointer Table from 3360A (indexed by unknown)
+; Data from 33619 to 33632 (26 bytes)
+_DATA_33619_:
+.db $00 $80 $01 $03 $FF $04 $03 $80 $04 $03 $FF $06 $F2 $00 $20 $01
+.db $00 $2F $04 $00 $10 $04 $00 $80 $06 $F2
+
+; Data from 33633 to 3365D (43 bytes)
+_DATA_33633_:
+.db $04 $80 $08 $06 $04 $FF $FC $04 $04 $80 $FC $0A $04 $80 $F6 $0A
+.db $F2 $FF $F1 $57 $0B $0A $F4 $D2 $F3 $F7 $06 $60 $20 $05 $05 $9F
+.db $70 $04 $05 $80 $00 $02 $05 $80 $50 $0B $F2
+
+; 46th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 3365E to 33661 (4 bytes)
+_DATA_3365E_:
+.db $02 $88 $14 $01
+
+; Pointer Table from 33662 to 33663 (1 entries,indexed by unknown)
+.dw _DATA_33695_
+
+; Data from 33664 to 33670 (13 bytes)
+.db $00 $00 $03 $00 $88 $15 $01 $95 $B6 $00 $00 $03 $00
+
+; 46th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33671 to 33674 (4 bytes)
+_DATA_33671_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 33675 to 33676 (1 entries,indexed by unknown)
+.dw _DATA_33684_
+
+; Data from 33677 to 33683 (13 bytes)
+.db $00 $00 $00 $00 $A8 $C0 $01 $84 $B6 $03 $01 $00 $00
+
+; 1st entry of Pointer Table from 33675 (indexed by unknown)
+; Data from 33684 to 33694 (17 bytes)
+_DATA_33684_:
+.db $04 $80 $08 $06 $04 $FF $FC $04 $04 $80 $FC $0A $04 $80 $F6 $0A
+.db $F2
+
+; Data from 33695 to 336AA (22 bytes)
+_DATA_33695_:
+.db $FF $FF $33 $05 $07 $B9 $F5 $F8 $F7 $05 $60 $03 $05 $FF $04 $05
+.db $80 $02 $05 $80 $0B $F2
+
+; 47th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 336AB to 336AE (4 bytes)
+_DATA_336AB_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 336AF to 336B0 (1 entries,indexed by unknown)
+.dw _DATA_336EC_
+
+; Data from 336B1 to 336BD (13 bytes)
+.db $00 $00 $03 $00 $A8 $15 $01 $F5 $B6 $0E $00 $03 $00
+
+; 47th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 336BE to 336C1 (4 bytes)
+_DATA_336BE_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 336C2 to 336C3 (1 entries,indexed by unknown)
+.dw _DATA_336D1_
+
+; Data from 336C4 to 336D0 (13 bytes)
+.db $00 $00 $00 $00 $A8 $E0 $01 $DA $B6 $00 $00 $00 $00
+
+; 1st entry of Pointer Table from 336C2 (indexed by unknown)
+; Data from 336D1 to 336EB (27 bytes)
+_DATA_336D1_:
+.db $00 $70 $2E $08 $03 $B0 $92 $06 $F2 $F3 $03 $00 $01 $03 $04 $00
+.db $01 $2A $06 $F5 $04 $04 $00 $40 $06 $06 $F2
+
+; Data from 336EC to 33701 (22 bytes)
+_DATA_336EC_:
+.db $FF $FD $3A $0B $07 $B1 $F2 $F8 $F7 $05 $20 $FE $08 $04 $20 $02
+.db $06 $05 $40 $06 $06 $F2
+
+; 48th entry of Pointer Table from 303F2 (indexed by NewMusic)
+; Data from 33702 to 33705 (4 bytes)
+_DATA_33702_:
+.db $02 $A8 $14 $01
+
+; Pointer Table from 33706 to 33707 (1 entries,indexed by unknown)
+.dw _DATA_3374C_
+
+; Data from 33708 to 33714 (13 bytes)
+.db $00 $00 $03 $00 $A8 $15 $01 $4C $B7 $18 $00 $03 $00
+
+; 48th entry of Pointer Table from 30360 (indexed by NewMusic)
+; Data from 33715 to 33718 (4 bytes)
+_DATA_33715_:
+.db $02 $A8 $A0 $01
+
+; Pointer Table from 33719 to 3371A (1 entries,indexed by unknown)
+.dw _DATA_33728_
+
+; Data from 3371B to 33727 (13 bytes)
+.db $00 $00 $00 $00 $A8 $E0 $01 $39 $B7 $00 $00 $00 $00
+
+; 1st entry of Pointer Table from 33719 (indexed by unknown)
+; Data from 33728 to 3374B (36 bytes)
+_DATA_33728_:
+.db $00 $10 $4A $04 $03 $40 $06 $05 $03 $00 $FC $06 $03 $F0 $BA $05
+.db $F2 $F3 $03 $00 $01 $0A $04 $00 $02 $06 $05 $00 $01 $0C $03 $00
+.db $01 $0A $06 $F2
+
+; Data from 3374C to 33765 (26 bytes)
+_DATA_3374C_:
+.db $FF $FA $39 $0B $07 $B1 $C2 $78 $A7 $05 $F0 $AA $08 $05 $40 $06
+.db $08 $05 $00 $FC $06 $05 $40 $0A $0A $F2
+
+; Pointer Table from 33766 to 3377B (11 entries,indexed by _RAM_C0F5_)
+_DATA_33766_:
+.dw _DATA_3377C_ _DATA_3377F_ _DATA_3378C_ _DATA_33795_ _DATA_3379E_ _DATA_337A9_ _DATA_337C8_ _DATA_337D3_
+.dw _DATA_337E4_ _DATA_337F0_ _DATA_337FA_
+
+; 1st entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 3377C to 3377E (3 bytes)
+_DATA_3377C_:
+.db $00 $00 $82
+
+; 2nd entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 3377F to 3378B (13 bytes)
+_DATA_3377F_:
+.db $00 $00 $01 $02 $02 $03 $03 $04 $04 $05 $05 $06 $82
+
+; 3rd entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 3378C to 33794 (9 bytes)
+_DATA_3378C_:
+.db $01 $00 $01 $01 $03 $04 $07 $0A $82
+
+; 4th entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 33795 to 3379D (9 bytes)
+_DATA_33795_:
+.db $01 $00 $00 $00 $00 $00 $01 $01 $82
+
+; 5th entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 3379E to 337A8 (11 bytes)
+_DATA_3379E_:
+.db $02 $01 $00 $01 $02 $02 $03 $03 $04 $04 $81
+
+; 6th entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 337A9 to 337C7 (31 bytes)
+_DATA_337A9_:
+.db $00 $00 $01 $01 $01 $01 $02 $02 $02 $02 $03 $03 $03 $03 $04 $04
+.db $04 $04 $05 $05 $05 $05 $06 $06 $06 $06 $07 $07 $07 $08 $81
+
+; 7th entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 337C8 to 337D2 (11 bytes)
+_DATA_337C8_:
+.db $04 $04 $03 $03 $02 $02 $01 $01 $02 $02 $81
+
+; 8th entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 337D3 to 337E3 (17 bytes)
+_DATA_337D3_:
+.db $00 $00 $00 $00 $00 $00 $04 $05 $06 $07 $08 $09 $0A $0B $0E $0F
+.db $82
+
+; 9th entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 337E4 to 337EF (12 bytes)
+_DATA_337E4_:
+.db $00 $00 $01 $01 $03 $03 $04 $05 $05 $05 $83 $04
+
+; 10th entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 337F0 to 337F9 (10 bytes)
+_DATA_337F0_:
+.db $02 $02 $03 $03 $02 $02 $01 $01 $00 $00
+
+; 11th entry of Pointer Table from 33766 (indexed by _RAM_C0F5_)
+; Data from 337FA to 33804 (11 bytes)
+_DATA_337FA_:
+.db $02 $01 $00 $00 $01 $01 $02 $03 $04 $05 $81
+
+; Pointer Table from 33805 to 3380E (5 entries,indexed by _RAM_C114_)
+_DATA_33805_:
+.dw _DATA_3380F_ _DATA_33825_ _DATA_33841_ _DATA_33858_ _DATA_33858_
+
+; 1st entry of Pointer Table from 33805 (indexed by _RAM_C114_)
+; Data from 3380F to 33824 (22 bytes)
+_DATA_3380F_:
+.dsb 10,$01
+.db $00 $00 $01 $01 $02 $02 $01 $00 $01 $01 $02 $02
+
+; 2nd entry of Pointer Table from 33805 (indexed by _RAM_C114_)
+; Data from 33825 to 33840 (28 bytes)
+_DATA_33825_:
+.db $01 $00 $00 $01 $02 $03 $03 $02 $01 $00 $00 $01 $02 $03 $03 $02
+.db $02 $01 $00 $00 $00 $01 $02 $03 $04 $03 $02 $01
+
+; 3rd entry of Pointer Table from 33805 (indexed by _RAM_C114_)
+; Data from 33841 to 33857 (23 bytes)
+_DATA_33841_:
+.db $00 $01 $02 $04 $05 $04 $03 $02 $01 $00 $01 $02 $03 $04 $05 $04
+.db $03 $02 $01 $00 $01 $01 $81
+
+; 4th entry of Pointer Table from 33805 (indexed by _RAM_C114_)
+; Data from 33858 to 33FFF (1960 bytes)
+_DATA_33858_:
+.incbin "Phantasy Star (Japan)_DATA_33858_.inc"
+
+.BANK 13
+.ORG $0000
+
+; Data from 34000 to 37FFF (16384 bytes)
+.incbin "Phantasy Star (Japan)_DATA_34000_.inc"
+
+.BANK 14
+.ORG $0000
+
+; Data from 38000 to 3A3E7 (9192 bytes)
+.incbin "Phantasy Star (Japan)_DATA_38000_.inc"
+
+; 1st entry of Pointer Table from 65C1 (indexed by _RAM_C272_)
+; Data from 3A3E8 to 3A567 (384 bytes)
+_DATA_3A3E8_:
+.db $FF $7F $FF $00 $FF $7F $FF $00 $FF $1F $FF $00 $7F $9F $7F $00
+.db $3F $C7 $3F $80 $3F $CB $3F $40 $1F $E1 $9F $80 $1F $E3 $1F $00
+.db $9F $60 $1F $80 $0F $F0 $0F $A0 $07 $F8 $87 $C0 $41 $BE $81 $E0
+.db $20 $DF $80 $F4 $10 $EF $C0 $D0 $19 $E6 $E0 $FD $04 $FB $F8 $FE
+.db $FF $BF $FF $00 $FF $7F $FF $00 $FF $1F $FF $00 $FF $3F $FF $00
+.db $FF $07 $FF $00 $7F $87 $7F $00 $1F $E3 $1F $00 $07 $F8 $07 $A0
+.db $07 $F8 $07 $80 $83 $7C $03 $E0 $61 $9E $81 $E8 $C0 $3F $00 $D4
+.db $10 $EF $A0 $FA $24 $DB $D0 $FC $16 $E9 $E8 $FE $00 $FF $FE $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $40 $BF $BF $FF $10 $EF $EF $FF
+.db $89 $76 $76 $FF $6A $95 $95 $FF $15 $EA $C0 $FF $85 $7A $00 $FF
+.db $00 $FF $FF $FF $02 $FD $FD $FF $80 $7F $7F $FF $12 $ED $ED $FF
+.db $40 $BF $BF $FF $EA $15 $11 $FF $BD $42 $02 $FF $22 $DD $11 $FF
+.db $00 $FF $00 $DC $00 $FF $00 $02 $00 $FF $00 $00 $25 $DA $25 $00
+.db $FF $00 $FF $00 $FF $00 $FF $00 $FF $49 $FF $00 $FF $ED $FF $00
+.db $00 $FF $00 $57 $00 $FF $00 $04 $00 $FF $00 $00 $52 $AD $52 $00
+.db $FF $00 $FF $00 $FF $00 $FF $00 $FF $21 $FF $00 $FF $7B $FF $00
+.db $09 $F6 $F6 $FF $24 $DB $DA $FF $04 $FB $F8 $FF $12 $ED $EC $FF
+.db $0C $F3 $F0 $FF $03 $FC $FC $FF $04 $FB $F8 $FF $0B $F4 $F4 $FF
+.db $0F $F1 $0F $80 $0F $F3 $0F $80 $1F $E1 $1F $00 $0F $F0 $0F $80
+.db $0F $F3 $0F $80 $1F $E1 $1F $80 $0F $F0 $0F $40 $1F $E3 $1F $00
+.db $26 $D9 $D8 $FF $0C $F3 $F0 $FF $07 $F8 $F8 $FF $12 $ED $ED $FF
+.db $06 $F9 $F8 $FF $02 $FD $F8 $FF $55 $AA $AA $FF $02 $FD $FD $FF
+.db $0F $F0 $0F $00 $1F $E1 $1F $80 $0F $F3 $0F $00 $1F $E1 $1F $80
+.db $0F $F1 $0F $00 $0F $F0 $0F $C0 $1F $E1 $1F $80 $0F $F3 $0F $80
+
+; 3rd entry of Pointer Table from 65C1 (indexed by _RAM_C272_)
+; Data from 3A568 to 3A6E7 (384 bytes)
+_DATA_3A568_:
+.db $FF $7F $FF $00 $7F $FF $7F $00 $1F $FF $1F $00 $0F $FF $0F $40
+.db $87 $7F $07 $C0 $03 $FF $83 $90 $03 $FD $83 $C8 $01 $FF $C1 $E0
+.db $60 $9F $80 $F4 $50 $AF $80 $F8 $20 $DF $D0 $F4 $40 $BF $B0 $F4
+.db $12 $ED $E8 $FE $09 $F6 $F4 $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $FF $BF $FF $00 $FF $7F $FF $00 $7F $9F $7F $00 $1F $FF $1F $00
+.db $87 $7F $07 $80 $07 $FF $07 $E0 $43 $BF $03 $50 $03 $FC $E3 $E8
+.db $01 $FE $C1 $F0 $11 $EE $E1 $F8 $30 $CF $C0 $FC $08 $F7 $F4 $FE
+.db $10 $EF $EA $FF $02 $FD $FD $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $44 $BB $BB $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $40 $BF $BF $FF
+.db $AE $51 $51 $FF $35 $CA $00 $FF $00 $FF $00 $2A $00 $FF $00 $01
+.db $00 $FF $00 $00 $51 $AE $51 $00 $FB $4D $FB $00 $FF $ED $FF $00
+.db $EA $15 $14 $FF $14 $EB $80 $FF $00 $FF $00 $BA $00 $FF $00 $44
+.db $00 $FF $00 $00 $10 $EF $10 $00 $FF $21 $FF $00 $FF $7B $FF $00
+.db $00 $FF $FF $FF $01 $FE $FE $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $01 $FE $FE $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $83 $7D $03 $C0 $07 $FB $87 $C0 $C3 $3D $03 $E0 $47 $B8 $87 $C0
+.db $83 $7F $03 $E0 $C1 $3F $01 $C0 $83 $7C $03 $E0 $47 $BB $87 $D0
+.db $00 $FF $FF $FF $01 $FE $FE $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $83 $7C $43 $E0 $83 $7D $03 $D0 $83 $7F $03 $E0 $47 $B9 $87 $E0
+.db $83 $7D $03 $E0 $43 $BC $83 $D0 $83 $7D $03 $E0 $03 $FF $03 $C0
+
+; 4th entry of Pointer Table from 65C1 (indexed by _RAM_C272_)
+; Data from 3A6E8 to 3A867 (384 bytes)
+_DATA_3A6E8_:
+.db $3F $FF $3F $80 $0F $FF $0F $00 $07 $FF $87 $C0 $03 $FF $03 $A0
+.db $01 $FF $81 $E8 $01 $FF $E1 $F0 $30 $CF $C0 $F8 $00 $FF $F0 $F2
+.db $00 $FF $A8 $FC $00 $FF $F8 $FA $00 $FF $EC $FF $02 $FD $FC $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $17 $FF $17 $00 $0B $FF $0B $80 $07 $FF $07 $A0 $83 $7F $03 $C0
+.db $83 $7F $43 $F8 $20 $DF $80 $E8 $09 $F7 $E1 $F8 $08 $F7 $F0 $FD
+.db $08 $F7 $F0 $FC $14 $EB $E8 $FE $00 $FF $F4 $FF $01 $FE $FE $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $02 $FD $FD $FF $51 $AE $AE $FF $4D $B2 $90 $FF
+.db $8A $75 $00 $DF $00 $FF $00 $AE $00 $FF $00 $80 $00 $FF $00 $00
+.db $00 $FF $FF $FF $21 $DE $DE $FF $4B $B4 $B4 $FF $6C $93 $12 $FF
+.db $8A $75 $00 $FE $00 $FF $00 $99 $00 $FF $00 $02 $00 $FF $00 $00
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $08 $F7 $F0 $FE $30 $CF $C0 $F8 $00 $FF $E0 $F4 $20 $DF $D0 $F8
+.db $18 $E7 $E0 $FC $10 $EF $E0 $FC $48 $B7 $A0 $FC $30 $CF $C0 $F8
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $08 $F7 $E0 $FC $30 $CF $C0 $F8 $50 $AF $A0 $F8 $00 $FF $F0 $FC
+.db $38 $C7 $C0 $FC $10 $EF $E0 $F8 $28 $D7 $D0 $FA $60 $9F $80 $F4
+
+; 7th entry of Pointer Table from 65C1 (indexed by _RAM_C272_)
+; Data from 3A868 to 3A9E7 (384 bytes)
+_DATA_3A868_:
+.db $FF $7F $FF $00 $FF $7F $FF $00 $7F $9F $7F $00 $3F $DF $3F $00
+.db $9F $67 $1F $80 $1F $E3 $1F $80 $0F $F1 $0F $40 $87 $7B $07 $90
+.db $03 $FC $83 $80 $53 $AC $03 $D0 $00 $FF $C0 $D0 $40 $BF $A0 $F8
+.db $12 $ED $C0 $F6 $08 $F7 $F0 $FC $00 $FF $F4 $FF $00 $FF $FF $FF
+.db $FF $BF $FF $00 $FF $7F $FF $00 $FF $1F $FF $00 $7F $BF $7F $00
+.db $3F $C7 $3F $00 $1F $E7 $1F $80 $07 $FB $07 $00 $03 $FC $23 $E0
+.db $03 $FC $C3 $D0 $61 $9E $81 $F0 $10 $EF $E0 $F8 $30 $CF $C8 $FE
+.db $1A $E5 $E4 $FE $02 $FD $FD $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $04 $FB $FB $FF $11 $EE $EE $FF $B2 $4D $4D $FF $44 $BB $22 $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $4A $B5 $B5 $FF $90 $6F $6F $FF $46 $B9 $A9 $FF
+.db $9A $65 $40 $FF $10 $EF $00 $52 $00 $FF $00 $28 $00 $FF $00 $01
+.db $11 $EE $11 $00 $4C $B3 $4C $00 $FF $49 $FF $00 $FF $ED $FF $00
+.db $BA $45 $04 $FF $14 $EB $00 $5C $00 $FF $00 $A2 $00 $FF $00 $44
+.db $10 $EF $10 $00 $B6 $49 $B6 $00 $FF $21 $FF $00 $FF $7B $FF $00
+.db $02 $FD $FC $FF $01 $FE $FE $FF $02 $FD $FD $FF $06 $F9 $F8 $FF
+.db $00 $FF $FE $FF $09 $F6 $F6 $FF $02 $FD $FD $FF $04 $FB $FA $FF
+.db $83 $7D $03 $80 $07 $FB $87 $C0 $03 $FD $03 $A0 $CB $34 $0B $C0
+.db $87 $7B $07 $A0 $07 $F9 $07 $80 $83 $7C $03 $C0 $0B $F7 $0B $90
+.db $02 $FD $FD $FF $05 $FA $FA $FF $00 $FF $FF $FF $02 $FD $FC $FF
+.db $04 $FB $FB $FF $01 $FE $FE $FF $05 $FA $FA $FF $00 $FF $FF $FF
+.db $87 $78 $07 $A0 $03 $FD $03 $D0 $87 $7B $07 $A0 $CF $31 $0F $C0
+.db $83 $7D $03 $C0 $47 $B8 $87 $D0 $87 $79 $07 $A0 $03 $FF $03 $80
+
+; 8th entry of Pointer Table from 65C1 (indexed by _RAM_C272_)
+; Data from 3A9E8 to 3AB67 (384 bytes)
+_DATA_3A9E8_:
+.db $FF $7F $FF $00 $FF $7F $FF $00 $7F $9F $7F $00 $7F $9F $7F $00
+.db $BF $47 $3F $80 $3F $C3 $3F $80 $1F $E1 $1F $40 $8F $73 $0F $80
+.db $07 $F8 $87 $90 $47 $B8 $07 $C0 $03 $FC $43 $D0 $40 $BF $A0 $F8
+.db $10 $EF $C0 $F6 $08 $F7 $D0 $FC $00 $FF $F4 $FF $00 $FF $FD $FF
+.db $FF $BF $FF $00 $FF $7F $FF $00 $FF $1F $FF $00 $FF $3F $FF $00
+.db $FF $07 $FF $00 $3F $C7 $3F $00 $0F $F3 $0F $00 $03 $FC $03 $C0
+.db $07 $F8 $C7 $C0 $21 $DE $81 $F0 $01 $FE $C1 $E0 $40 $BF $90 $F8
+.db $08 $F7 $E0 $FE $08 $F7 $F4 $FD $04 $FB $FB $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $08 $F7 $F7 $FF
+.db $20 $DF $DF $FF $15 $EA $EA $FF $66 $99 $99 $FF $D1 $2E $20 $FB
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $88 $77 $77 $FF
+.db $20 $DF $DF $FF $52 $AD $AD $FF $AC $53 $53 $FF $1A $E5 $A5 $FF
+.db $00 $FF $50 $DB $00 $FF $00 $95 $00 $FF $00 $00 $00 $FF $00 $00
+.db $59 $A6 $59 $00 $FF $00 $FF $00 $FF $49 $FF $00 $FF $ED $FF $00
+.db $04 $FB $00 $2F $00 $FF $00 $49 $00 $FF $00 $00 $10 $EF $10 $00
+.db $75 $8A $75 $00 $FF $00 $FF $00 $FF $21 $FF $00 $FF $7B $FF $00
+.db $01 $FE $FE $FF $03 $FC $FC $FF $0A $F5 $F5 $FF $05 $FA $FA $FF
+.db $10 $EF $EE $FF $06 $F9 $F8 $FE $02 $FD $FC $FF $05 $FA $FA $FF
+.db $07 $F9 $07 $C0 $0F $F3 $8F $80 $07 $F9 $07 $00 $0F $F0 $8F $C0
+.db $0F $F3 $0F $80 $07 $F9 $07 $40 $07 $F8 $07 $80 $0F $F3 $0F $C0
+.db $12 $ED $ED $FF $04 $FB $FA $FF $0A $F5 $F5 $FF $05 $FA $FA $FF
+.db $13 $EC $EC $FF $02 $FD $FD $FF $05 $FA $FA $FF $00 $FF $FF $FF
+.db $07 $F8 $07 $00 $0F $F1 $0F $40 $0F $F3 $0F $80 $1F $E1 $1F $00
+.db $07 $F9 $07 $C0 $8F $70 $0F $80 $07 $F9 $07 $80 $0F $F3 $0F $C0
+
+; 1st entry of Pointer Table from 65D1 (indexed by _RAM_C276_)
+; Data from 3AB68 to 3ABC7 (96 bytes)
+_DATA_3AB68_:
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $20 $DF $C7 $EF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $08 $F7 $C7 $DF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $C0 $3F $1F $DF $00 $FF $FF $FF $00 $FF $FF $FF
+
+; 3rd entry of Pointer Table from 65D1 (indexed by _RAM_C276_)
+; Data from 3ABC8 to 3AC27 (96 bytes)
+_DATA_3ABC8_:
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $08 $F7 $C7 $DF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $18 $E7 $C7 $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $80 $7F $1F $BF $00 $FF $FF $FF $00 $FF $FF $FF
+
+; 5th entry of Pointer Table from 65D1 (indexed by _RAM_C276_)
+; Data from 3AC28 to 3AC87 (96 bytes)
+_DATA_3AC28_:
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $18 $E7 $C7 $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $30 $CF $C7 $F7
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $20 $DF $1F $7F $00 $FF $FF $FF $00 $FF $FF $FF
+
+; 7th entry of Pointer Table from 65D1 (indexed by _RAM_C276_)
+; Data from 3AC88 to 3ACE7 (96 bytes)
+_DATA_3AC88_:
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $30 $CF $C7 $F7
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $20 $DF $C7 $EF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF $00 $FF $FF $FF
+.db $00 $FF $FF $FF $60 $9F $1F $FF $00 $FF $FF $FF $00 $FF $FF $FF
+
+; 1st entry of Pointer Table from 65F1 (indexed by _RAM_C27E_)
+; Data from 3ACE8 to 3ADA7 (192 bytes)
+_DATA_3ACE8_:
+.db $1F $E3 $00 $B3 $0C $F4 $13 $B7 $0C $F4 $13 $B7 $0C $F4 $13 $B7
+.db $10 $E3 $0C $BC $08 $F8 $17 $BB $0C $FC $13 $BF $08 $F8 $17 $BB
+.db $FF $FF $00 $FF $00 $00 $FF $FF $00 $00 $FF $FF $00 $00 $FF $FF
+.db $00 $FF $00 $00 $00 $00 $FF $FF $00 $00 $FF $FF $00 $00 $FF $FF
+.db $F1 $FE $00 $FB $10 $1F $E1 $FB $10 $1F $E1 $FB $10 $1F $E1 $FB
+.db $01 $FE $00 $0B $00 $0F $F1 $DB $00 $0F $F1 $FB $00 $0F $F1 $DB
+.db $00 $FF $00 $FF $00 $FF $00 $00 $00 $FF $00 $FF $88 $77 $77 $FF
+.db $DF $1C $20 $3C $CB $C9 $34 $E9 $02 $22 $DD $DF $02 $22 $DD $DF
+.db $02 $22 $DD $DF $02 $22 $DD $DF $02 $22 $DD $DF $02 $22 $DD $DF
+.db $02 $22 $DD $DF $02 $22 $DD $DF $02 $22 $DD $DF $02 $22 $DD $DF
+.db $02 $22 $DD $DF $02 $22 $DD $DF $02 $22 $DD $CB $C3 $E3 $1C $DF
+.db $00 $FF $00 $FF $00 $FF $00 $00 $00 $FF $00 $FF $88 $77 $77 $FF
+
+; 3rd entry of Pointer Table from 65F1 (indexed by _RAM_C27E_)
+; Data from 3ADA8 to 3AE67 (192 bytes)
+_DATA_3ADA8_:
+.db $1C $E4 $03 $B7 $0C $F4 $13 $B7 $00 $F3 $1C $BC $08 $F8 $17 $BB
+.db $1C $EC $03 $BF $08 $F8 $17 $BB $0F $F3 $10 $B3 $0C $F4 $13 $B7
+.db $00 $00 $FF $FF $00 $00 $FF $FF $00 $FF $00 $00 $00 $00 $FF $FF
+.db $00 $00 $FF $FF $00 $00 $FF $FF $FF $FF $00 $FF $00 $00 $FF $FF
+.db $11 $1E $E0 $FB $10 $1F $E1 $FB $00 $FF $01 $0B $00 $0F $F1 $DB
+.db $01 $0E $F0 $FB $00 $0F $F1 $DB $F0 $FF $01 $FB $10 $1F $E1 $FB
+.db $00 $FF $00 $FF $00 $FF $00 $00 $00 $FF $00 $FF $88 $77 $77 $FF
+.db $7F $70 $80 $F0 $2F $27 $D0 $A7 $08 $88 $77 $7F $08 $88 $77 $7F
+.db $08 $88 $77 $7F $08 $88 $77 $7F $08 $88 $77 $7F $08 $88 $77 $7F
+.db $08 $88 $77 $7F $08 $88 $77 $7F $08 $88 $77 $7F $08 $88 $77 $7F
+.db $08 $88 $77 $7F $08 $88 $77 $7F $08 $88 $77 $2F $0F $8F $70 $7F
+.db $00 $FF $00 $FF $00 $FF $00 $00 $00 $FF $00 $FF $88 $77 $77 $FF
+
+; 5th entry of Pointer Table from 65F1 (indexed by _RAM_C27E_)
+; Data from 3AE68 to 3AF27 (192 bytes)
+_DATA_3AE68_:
+.db $10 $E3 $0C $BC $08 $F8 $17 $BB $0C $FC $13 $BF $08 $F8 $17 $BB
+.db $1F $E3 $00 $B3 $0C $F4 $13 $B7 $0C $F4 $13 $B7 $0C $F4 $13 $B7
+.db $00 $FF $00 $00 $00 $00 $FF $FF $00 $00 $FF $FF $00 $00 $FF $FF
+.db $FF $FF $00 $FF $00 $00 $FF $FF $00 $00 $FF $FF $00 $00 $FF $FF
+.db $01 $FE $00 $0B $00 $0F $F1 $DB $00 $0F $F1 $FB $00 $0F $F1 $DB
+.db $F1 $FE $00 $FB $10 $1F $E1 $FB $10 $1F $E1 $FB $10 $1F $E1 $FB
+.db $00 $FF $00 $FF $00 $FF $00 $00 $00 $FF $00 $FF $88 $77 $77 $FF
+.db $FD $C1 $02 $C3 $BC $9C $43 $9E $20 $22 $DD $FD $20 $22 $DD $FD
+.db $20 $22 $DD $FD $20 $22 $DD $FD $20 $22 $DD $FD $20 $22 $DD $FD
+.db $20 $22 $DD $FD $20 $22 $DD $FD $20 $22 $DD $FD $20 $22 $DD $FD
+.db $20 $22 $DD $FD $20 $22 $DD $FD $20 $22 $DD $BC $3C $3E $C1 $FD
+.db $00 $FF $00 $FF $00 $FF $00 $00 $00 $FF $00 $FF $88 $77 $77 $FF
+
+; 7th entry of Pointer Table from 65F1 (indexed by _RAM_C27E_)
+; Data from 3AF28 to 3AFE7 (192 bytes)
+_DATA_3AF28_:
+.db $1C $EC $03 $BF $08 $F8 $17 $BB $0F $F3 $10 $B3 $0C $F4 $13 $B7
+.db $1C $E4 $03 $B7 $0C $F4 $13 $B7 $00 $F3 $1C $BC $08 $F8 $17 $BB
+.db $00 $00 $FF $FF $00 $00 $FF $FF $FF $FF $00 $FF $00 $00 $FF $FF
+.db $00 $00 $FF $FF $00 $00 $FF $FF $00 $FF $00 $00 $00 $00 $FF $FF
+.db $01 $0E $F0 $FB $00 $0F $F1 $DB $F0 $FF $01 $FB $10 $1F $E1 $FB
+.db $11 $1E $E0 $FB $10 $1F $E1 $FB $00 $FF $01 $0B $00 $0F $F1 $DB
+.db $00 $FF $00 $FF $00 $FF $00 $00 $00 $FF $00 $FF $88 $77 $77 $FF
+.db $F7 $07 $08 $0F $F2 $72 $0D $7A $80 $88 $77 $F7 $80 $88 $77 $F7
+.db $80 $88 $77 $F7 $80 $88 $77 $F7 $80 $88 $77 $F7 $80 $88 $77 $F7
+.db $80 $88 $77 $F7 $80 $88 $77 $F7 $80 $88 $77 $F7 $80 $88 $77 $F7
+.db $80 $88 $77 $F7 $80 $88 $77 $F7 $80 $88 $77 $F2 $F0 $F8 $07 $F7
+.db $00 $FF $00 $FF $00 $FF $00 $00 $00 $FF $00 $FF $88 $77 $77 $FF
+
+; 1st entry of Pointer Table from 6601 (indexed by _RAM_C282_)
+; Data from 3AFE8 to 3B0E7 (256 bytes)
+_DATA_3AFE8_:
+.db $75 $34 $41 $CB $7D $55 $28 $AA $DF $D9 $06 $26 $63 $43 $20 $BC
+.db $FF $D9 $26 $26 $FF $AE $51 $51 $6D $44 $29 $BB $FD $59 $A4 $A6
+.db $7C $78 $04 $87 $EE $6C $82 $93 $BF $06 $B9 $F9 $F7 $F7 $00 $08
+.db $5D $10 $4D $EF $FF $FB $04 $04 $FD $9D $60 $62 $BF $BB $04 $44
+.db $FF $FE $01 $01 $E5 $60 $85 $9F $BB $A2 $19 $5D $F7 $96 $61 $69
+.db $9A $9A $00 $65 $7F $4F $30 $B0 $FD $49 $B4 $B6 $66 $62 $04 $9D
+.db $F6 $16 $E0 $E9 $FA $DA $20 $25 $3D $31 $0C $CE $F6 $92 $64 $6D
+.db $DF $57 $88 $A8 $DA $9A $40 $65 $BF $B1 $0E $4E $74 $74 $00 $8B
+.db $00 $00 $00 $00 $01 $01 $00 $02 $07 $01 $06 $06 $03 $03 $00 $0C
+.db $3F $19 $26 $26 $3F $2E $11 $11 $6D $44 $29 $3B $7D $59 $24 $26
+.db $00 $00 $00 $00 $E0 $60 $80 $80 $B8 $00 $B8 $F8 $F0 $F0 $00 $08
+.db $5C $10 $4C $EC $FE $FA $04 $04 $FC $9C $60 $62 $BE $BA $04 $44
+.db $7F $7E $01 $01 $65 $60 $05 $1F $3B $22 $19 $1D $37 $16 $21 $29
+.db $1A $1A $00 $05 $0F $0F $00 $00 $01 $01 $00 $02 $00 $00 $00 $00
+.db $F6 $16 $E0 $E8 $FA $DA $20 $24 $3C $30 $0C $CC $F4 $90 $64 $6C
+.db $D8 $50 $88 $A8 $D0 $90 $40 $60 $80 $80 $00 $40 $00 $00 $00 $00
+
+; 3rd entry of Pointer Table from 6601 (indexed by _RAM_C282_)
+; Data from 3B0E8 to 3B1E7 (256 bytes)
+_DATA_3B0E8_:
+.db $FA $DA $20 $25 $BE $AA $14 $55 $EF $ED $02 $12 $B3 $83 $30 $7C
+.db $FF $6C $93 $93 $FF $D7 $28 $28 $B5 $B1 $04 $4E $F6 $B6 $40 $49
+.db $BE $3E $80 $C1 $FD $FC $01 $03 $BF $A3 $1C $5C $DB $5B $80 $A4
+.db $DE $D8 $06 $27 $7F $7D $02 $82 $FE $4E $B0 $B1 $DF $DD $02 $22
+.db $6F $6F $00 $90 $F2 $B2 $40 $4D $DD $D1 $0C $2E $7B $4B $30 $B4
+.db $DD $DD $00 $22 $7F $77 $08 $88 $F6 $A4 $52 $5B $BB $BB $00 $44
+.db $BB $0B $B0 $F4 $7E $6E $10 $91 $D7 $51 $86 $AE $59 $49 $10 $B6
+.db $FB $BB $40 $44 $ED $ED $00 $12 $DF $D9 $06 $26 $BA $BA $00 $45
+.db $00 $00 $00 $00 $02 $02 $00 $01 $07 $05 $02 $02 $03 $03 $00 $0C
+.db $3F $2C $13 $13 $3F $17 $28 $28 $35 $31 $04 $4E $76 $36 $40 $49
+.db $00 $00 $00 $00 $E0 $E0 $00 $00 $B8 $A0 $18 $58 $D8 $58 $80 $A0
+.db $DC $D8 $04 $24 $7E $7C $02 $82 $FE $4E $B0 $B0 $DE $DC $02 $22
+.db $6F $6F $00 $10 $72 $32 $40 $4D $1D $11 $0C $2E $3B $0B $30 $34
+.db $1D $1D $00 $02 $0F $07 $08 $08 $02 $00 $02 $03 $00 $00 $00 $00
+.db $BA $0A $B0 $F4 $7E $6E $10 $90 $D4 $50 $84 $AC $58 $48 $10 $B4
+.db $F8 $B8 $40 $40 $E0 $E0 $00 $10 $C0 $C0 $00 $00 $00 $00 $00 $00
+
+; 5th entry of Pointer Table from 6601 (indexed by _RAM_C282_)
+; Data from 3B1E8 to 3B2E7 (256 bytes)
+_DATA_3B1E8_:
+.db $7D $6D $10 $92 $DF $54 $8B $AB $EA $EA $00 $15 $FD $E5 $18 $1A
+.db $77 $36 $41 $C9 $DB $CB $10 $34 $BE $BC $02 $43 $FB $DB $20 $24
+.db $5F $1F $40 $E0 $5E $5E $00 $A1 $EB $E1 $0A $1E $ED $AD $40 $52
+.db $F3 $72 $81 $8D $BF $BE $01 $41 $FE $FE $00 $01 $66 $66 $00 $99
+.db $D6 $D6 $00 $29 $BD $99 $24 $66 $D8 $D8 $00 $27 $B7 $B5 $02 $4A
+.db $EE $EE $00 $11 $B7 $B7 $00 $48 $7B $5A $21 $A5 $BD $BD $00 $42
+.db $FD $BD $40 $42 $3E $36 $08 $C9 $EB $A9 $42 $56 $AF $A7 $08 $58
+.db $FD $DD $20 $22 $BF $BF $00 $40 $6F $6C $03 $93 $DC $DC $00 $23
+.db $00 $00 $00 $00 $03 $00 $03 $03 $02 $02 $00 $05 $0D $05 $08 $0A
+.db $37 $36 $01 $09 $1B $0B $10 $34 $3E $3C $02 $43 $7B $5B $20 $24
+.db $00 $00 $00 $00 $40 $40 $00 $A0 $E8 $E0 $08 $18 $E8 $A8 $40 $50
+.db $F0 $70 $80 $8C $BE $BE $00 $40 $FE $FE $00 $00 $66 $66 $00 $98
+.db $56 $56 $00 $29 $3D $19 $24 $66 $18 $18 $00 $27 $37 $35 $02 $0A
+.db $0E $0E $00 $11 $07 $07 $00 $08 $03 $02 $01 $01 $00 $00 $00 $00
+.db $FC $BC $40 $42 $3E $36 $08 $C8 $E8 $A8 $40 $54 $AC $A4 $08 $58
+.db $F8 $D8 $20 $20 $B0 $B0 $00 $40 $40 $40 $00 $80 $00 $00 $00 $00
+
+; 8th entry of Pointer Table from 6611 (indexed by _RAM_C286_)
+; Data from 3B2E8 to 3B4E7 (512 bytes)
+_DATA_3B2E8_:
+.db $FF $FF $FF $00 $FF $FF $FF $00 $FE $FF $FE $00 $FF $FD $FE $00
+.db $FA $FE $F8 $01 $FD $F5 $F8 $02 $EF $FF $E0 $00 $D7 $F7 $C0 $08
+.db $F5 $EA $F5 $00 $A0 $D0 $A0 $0F $82 $02 $80 $7D $78 $78 $00 $87
+.db $E2 $E2 $00 $1D $DC $DC $00 $23 $B2 $B2 $00 $4D $68 $68 $00 $97
+.db $FD $DD $E0 $02 $FF $BB $C0 $00 $FF $BF $C0 $00 $FF $BF $C0 $00
+.db $7F $F6 $00 $00 $7F $FF $00 $00 $FF $7F $80 $00 $7F $FD $00 $00
+.db $66 $66 $00 $99 $E8 $E8 $00 $17 $DC $DC $00 $23 $F8 $F8 $00 $07
+.db $5B $5B $00 $A4 $FC $AC $03 $00 $F2 $C0 $0D $01 $EB $E4 $10 $00
+.db $BF $4F $BF $00 $5F $01 $5F $A0 $05 $00 $05 $FA $23 $00 $23 $DC
+.db $01 $00 $01 $FE $00 $00 $00 $FF $81 $80 $01 $7E $10 $10 $00 $EF
+.db $FF $FF $FF $00 $FF $FF $FF $00 $FF $7F $FF $00 $7F $3F $7F $80
+.db $FF $9F $FF $00 $BF $0F $BF $40 $FF $37 $FF $00 $5F $0B $5F $A0
+.db $00 $00 $00 $FF $02 $00 $02 $FD $01 $00 $01 $FE $10 $00 $10 $EF
+.db $CA $C0 $0A $35 $32 $30 $C2 $0D $8D $48 $35 $02 $D1 $00 $29 $26
+.db $FF $0B $FF $00 $FF $15 $FF $00 $DF $09 $DF $20 $7F $0D $7F $80
+.db $3F $02 $3F $C0 $6F $05 $6F $90 $3F $02 $3F $C0 $7B $01 $7B $84
+.db $FF $6F $80 $00 $FF $7F $80 $00 $7F $FF $00 $00 $7F $FF $00 $00
+.db $FF $BF $C0 $00 $FF $BF $C0 $00 $BD $FD $80 $02 $FF $DF $E0 $00
+.db $EF $C0 $11 $00 $E6 $C8 $12 $09 $F5 $E2 $0D $00 $F8 $E0 $07 $00
+.db $FF $FF $00 $00 $FC $FC $00 $03 $FC $FC $00 $03 $DF $DF $00 $20
+.db $DD $FD $C0 $02 $EF $FF $E0 $00 $FB $F3 $F8 $04 $FA $FE $F8 $01
+.db $FF $FD $FE $00 $FF $FE $FF $00 $FF $FF $FF $00 $FF $FF $FF $00
+.db $AF $AF $00 $50 $56 $56 $00 $A9 $E8 $E8 $00 $17 $7A $7A $00 $85
+.db $AF $AF $00 $50 $1A $9A $00 $65 $E9 $99 $E0 $06 $FB $F4 $FB $00
+.db $F2 $00 $8A $05 $63 $10 $4B $94 $48 $28 $D0 $87 $10 $10 $E0 $0F
+.db $F7 $F4 $03 $08 $45 $44 $01 $BA $2D $0C $01 $D2 $52 $50 $02 $AD
+.db $6F $02 $6F $90 $FF $05 $FF $00 $BF $02 $BF $40 $DF $04 $DF $20
+.db $DF $01 $DF $20 $DF $01 $DF $20 $AF $05 $AF $50 $3F $0B $3F $C0
+.db $D0 $D0 $00 $2F $A0 $A0 $00 $5F $03 $00 $03 $FC $A4 $A0 $04 $5B
+.db $00 $00 $00 $FF $D1 $D0 $01 $2E $0F $01 $0F $F0 $6F $9F $6F $00
+.db $7F $23 $7F $80 $AF $07 $AF $50 $DF $07 $DF $20 $3F $1F $3F $C0
+.db $7F $1F $7F $80 $FF $7F $FF $00 $FF $FF $FF $00 $FF $FF $FF $00
+
+; 1st entry of Pointer Table from 6611 (indexed by _RAM_C286_)
+; Data from 3B4E8 to 3B6E7 (512 bytes)
+_DATA_3B4E8_:
+.db $FF $FF $FF $00 $FF $FF $FF $00 $FE $FF $FE $00 $FF $FD $FE $00
+.db $FA $FF $F9 $00 $FC $F4 $F8 $03 $ED $FD $E0 $02 $DF $FF $D0 $00
+.db $F5 $EA $F5 $00 $A4 $D0 $A4 $0B $80 $00 $80 $7F $02 $02 $00 $FD
+.db $70 $70 $00 $8F $EA $EA $00 $15 $DC $DC $00 $23 $B2 $B2 $00 $4D
+.db $F7 $D7 $E0 $08 $FE $BA $C0 $01 $EF $BF $D0 $00 $FF $BF $C0 $00
+.db $3F $F6 $40 $00 $7F $9F $60 $00 $FF $7F $80 $00 $7F $FD $00 $00
+.db $B4 $B4 $00 $4B $F6 $F6 $00 $09 $E8 $E8 $00 $17 $FC $FC $00 $03
+.db $5A $5A $00 $A5 $FF $AD $00 $00 $FF $C9 $00 $00 $FC $E0 $03 $00
+.db $BF $4F $BF $00 $1F $01 $1F $E0 $4F $00 $4F $B0 $03 $00 $03 $FC
+.db $2B $00 $2B $D4 $00 $00 $00 $FF $01 $00 $01 $FE $80 $80 $00 $7F
+.db $FF $FF $FF $00 $FF $FF $FF $00 $FF $7F $FF $00 $7F $3F $7F $80
+.db $FF $9F $FF $00 $BF $0F $BF $40 $FF $3F $FF $00 $5F $0B $5F $A0
+.db $10 $10 $00 $EF $06 $00 $06 $F9 $01 $00 $01 $FE $10 $00 $10 $EF
+.db $8A $80 $0A $75 $62 $60 $02 $9D $F5 $F0 $05 $0A $31 $30 $C1 $0E
+.db $FF $0B $FF $00 $FF $15 $FF $00 $BF $09 $BF $40 $FF $0D $FF $00
+.db $7F $02 $7F $80 $EF $05 $EF $10 $3F $02 $3F $C0 $7B $01 $7B $84
+.db $FF $6F $80 $00 $FF $2F $D0 $00 $7F $FF $00 $00 $3F $D7 $68 $00
+.db $FF $BF $C0 $00 $FE $BE $C0 $01 $BF $FF $80 $00 $FE $DE $E0 $01
+.db $FA $90 $05 $01 $F8 $D0 $07 $00 $FF $E1 $00 $00 $FE $E2 $00 $01
+.db $FF $FF $00 $00 $FC $FC $00 $03 $FF $FF $00 $00 $EF $EF $00 $10
+.db $DF $FF $C0 $00 $EF $FF $E0 $00 $FB $F3 $F8 $04 $FA $FE $F8 $01
+.db $FF $FD $FE $00 $FF $FE $FF $00 $FF $FF $FF $00 $FF $FF $FF $00
+.db $D6 $D6 $00 $29 $68 $68 $00 $97 $F2 $F2 $00 $0D $7F $7F $00 $80
+.db $AF $AF $00 $50 $12 $9A $08 $65 $E9 $99 $E0 $06 $FB $F4 $FB $00
+.db $52 $90 $22 $8D $13 $10 $E3 $0C $F0 $F0 $00 $0F $C0 $C0 $00 $3F
+.db $97 $94 $03 $68 $45 $44 $01 $BA $2D $0C $01 $D2 $52 $50 $02 $AD
+.db $6F $02 $6F $90 $FF $05 $FF $00 $7F $02 $7F $80 $BF $04 $BF $40
+.db $BF $01 $BF $40 $BF $01 $BF $40 $3F $09 $3F $C0 $7F $53 $7F $80
+.db $10 $10 $00 $EF $A1 $A0 $01 $5E $07 $00 $07 $F8 $E0 $E0 $00 $1F
+.db $00 $00 $00 $FF $D1 $D0 $01 $2E $0F $01 $0F $F0 $6F $9F $6F $00
+.db $EF $03 $EF $10 $9F $0F $9F $60 $3F $07 $3F $C0 $7F $3F $7F $80
+.db $FF $1F $FF $00 $FF $7F $FF $00 $FF $FF $FF $00 $FF $FF $FF $00
+
+; 6th entry of Pointer Table from 6611 (indexed by _RAM_C286_)
+; Data from 3B6E8 to 3B8E7 (512 bytes)
+_DATA_3B6E8_:
+.db $FF $FF $FF $00 $FF $FF $FF $00 $FE $FF $FE $00 $FE $FC $FE $01
+.db $F9 $FD $F8 $02 $FA $F2 $F8 $05 $EC $FD $E1 $02 $DD $FD $D0 $02
+.db $F5 $EA $F5 $00 $A4 $D4 $A4 $0B $80 $00 $80 $7F $C2 $C2 $00 $3D
+.db $10 $10 $00 $EF $78 $78 $00 $87 $EE $EE $00 $11 $DC $DC $00 $23
+.db $F7 $D7 $E0 $08 $FE $BA $C0 $01 $FF $AF $D0 $00 $FB $BF $C4 $00
+.db $3F $F6 $40 $00 $7F $EF $10 $00 $FF $7F $80 $00 $7F $FD $00 $00
+.db $B3 $B3 $00 $4C $F4 $F4 $00 $0B $EC $EC $00 $13 $FC $FC $00 $03
+.db $5B $5B $00 $A4 $FC $A4 $03 $00 $F2 $C0 $0D $01 $EB $C4 $10 $00
+.db $BF $4F $BF $00 $BF $01 $BF $40 $0F $00 $0F $F0 $47 $00 $47 $B8
+.db $07 $00 $07 $F8 $53 $00 $53 $AC $05 $00 $05 $FA $80 $80 $00 $7F
+.db $FF $FF $FF $00 $FF $FF $FF $00 $FF $7F $FF $00 $FF $3F $FF $00
+.db $7F $1F $7F $80 $BF $8F $BF $40 $FF $3F $FF $00 $DF $0B $DF $20
+.db $11 $10 $01 $EE $85 $80 $05 $7A $0B $00 $0B $F4 $10 $00 $10 $EF
+.db $FA $F0 $0A $05 $3A $38 $C2 $05 $8D $48 $35 $02 $D1 $00 $29 $26
+.db $FF $0B $FF $00 $FF $15 $FF $00 $BF $09 $BF $40 $FF $0D $FF $00
+.db $7F $02 $7F $80 $DF $05 $DF $20 $7F $02 $7F $80 $77 $01 $77 $88
+.db $FF $6F $80 $00 $FF $77 $88 $00 $7F $FF $00 $00 $2F $FD $52 $00
+.db $FF $BF $C0 $00 $FF $BF $C0 $00 $BF $FF $80 $00 $FF $DF $E0 $00
+.db $EF $80 $11 $00 $E6 $C8 $12 $09 $F5 $E2 $8D $00 $F8 $E0 $07 $00
+.db $BF $BF $00 $40 $FD $FD $00 $02 $EF $EF $00 $10 $57 $57 $00 $A8
+.db $DF $FF $C0 $00 $EF $FF $E0 $00 $FA $F2 $F8 $05 $FB $FF $F9 $00
+.db $FF $FD $FE $00 $FF $FE $FF $00 $FF $FF $FF $00 $FF $FF $FF $00
+.db $E8 $E8 $00 $17 $F4 $F4 $00 $0B $72 $7A $08 $85 $BF $BF $00 $40
+.db $EF $EF $00 $10 $1A $9A $00 $65 $E9 $99 $E0 $06 $FB $F4 $FB $00
+.db $F0 $00 $88 $07 $63 $10 $4B $94 $48 $28 $D0 $87 $18 $18 $E0 $07
+.db $F7 $F4 $03 $08 $C5 $C4 $01 $3A $2C $0C $00 $D3 $52 $50 $02 $AD
+.db $DF $02 $DF $20 $FF $05 $FF $00 $7F $02 $7F $80 $7F $04 $7F $80
+.db $7F $01 $7F $80 $5F $01 $5F $A0 $5F $15 $5F $A0 $DF $03 $DF $20
+.db $11 $10 $01 $EE $A3 $A0 $03 $5C $06 $00 $06 $F9 $E0 $E0 $00 $1F
+.db $01 $00 $01 $FE $D3 $D0 $03 $2C $0F $01 $0F $F0 $6F $9F $6F $00
+.db $BF $03 $BF $40 $3F $0F $3F $C0 $7F $07 $7F $80 $FF $3F $FF $00
+.db $FF $1F $FF $00 $FF $7F $FF $00 $FF $FF $FF $00 $FF $FF $FF $00
+
+; 7th entry of Pointer Table from 6611 (indexed by _RAM_C286_)
+; Data from 3B8E8 to 3BAE7 (512 bytes)
+_DATA_3B8E8_:
+.db $FF $FF $FF $00 $FF $FF $FF $00 $FE $FF $FE $00 $FE $FC $FE $01
+.db $F9 $FD $F8 $02 $FB $F3 $F8 $04 $E7 $F7 $E0 $08 $D6 $F6 $D0 $09
+.db $F5 $EA $F5 $00 $A4 $D4 $A4 $0B $81 $01 $81 $7E $00 $00 $00 $FF
+.db $C2 $C2 $00 $3D $10 $10 $00 $EF $78 $78 $00 $87 $EE $EE $00 $11
+.db $F5 $D5 $E0 $0A $FE $BA $C0 $01 $FF $BF $C0 $00 $FF $BB $C4 $00
+.db $3E $F7 $41 $00 $7F $FF $00 $00 $FF $7F $80 $00 $7F $FD $00 $00
+.db $BC $BC $00 $43 $B3 $B3 $00 $4C $AC $EC $40 $13 $FF $FF $00 $00
+.db $5C $5C $03 $A0 $FA $A1 $04 $00 $F2 $C5 $08 $00 $EB $44 $90 $00
+.db $BF $4F $BF $00 $7F $01 $7F $80 $1F $00 $1F $E0 $0F $00 $0F $F0
+.db $06 $00 $06 $F9 $42 $00 $42 $BD $03 $00 $03 $FC $51 $00 $51 $AE
+.db $FF $FF $FF $00 $FF $FF $FF $00 $FF $7F $FF $00 $FF $3F $FF $00
+.db $FF $9F $FF $00 $FF $2F $FF $00 $7F $3F $7F $80 $DF $0B $DF $20
+.db $01 $00 $01 $FE $91 $90 $01 $6E $4E $40 $0E $B1 $C1 $C0 $01 $3E
+.db $34 $30 $C4 $0B $99 $18 $61 $46 $8A $28 $52 $45 $D4 $24 $08 $03
+.db $FF $0B $FF $00 $FF $15 $FF $00 $BF $09 $BF $40 $FF $0D $FF $00
+.db $EF $12 $FF $00 $BF $05 $BF $40 $FF $02 $FF $00 $EF $01 $EF $10
+.db $FF $6F $82 $00 $FF $7F $80 $00 $77 $FE $09 $00 $7F $BF $40 $00
+.db $FF $BF $C0 $00 $FF $BF $C0 $00 $BF $FF $80 $00 $FF $DF $E0 $00
+.db $EE $80 $10 $01 $E6 $88 $52 $09 $E5 $EA $15 $08 $F5 $E2 $0D $00
+.db $B8 $98 $27 $40 $EF $EF $00 $10 $D3 $D7 $04 $28 $68 $68 $00 $97
+.db $DF $FF $C0 $00 $EF $FF $E0 $00 $FA $F2 $F8 $05 $FB $FF $F9 $00
+.db $FF $FD $FE $00 $FF $FE $FF $00 $FF $FF $FF $00 $FF $FF $FF $00
+.db $F4 $F4 $00 $0B $F8 $F8 $00 $07 $7E $7E $00 $81 $BF $BF $00 $40
+.db $EF $EF $00 $10 $1A $9A $00 $65 $E9 $99 $E0 $06 $FB $F4 $FB $00
+.db $F5 $04 $89 $02 $67 $14 $4B $90 $45 $34 $C9 $92 $C8 $A8 $50 $87
+.db $16 $14 $E2 $09 $E6 $E4 $02 $19 $2C $0C $00 $D3 $51 $50 $01 $AE
+.db $BF $04 $BF $40 $FF $09 $FF $00 $FF $02 $FF $00 $FF $04 $FF $00
+.db $FF $01 $FF $00 $BF $01 $BF $40 $BF $15 $BF $40 $BF $03 $BF $40
+.db $13 $10 $03 $EC $A6 $A0 $06 $59 $0C $00 $0C $F3 $E1 $E0 $01 $1E
+.db $01 $00 $01 $FE $D7 $D0 $07 $28 $0F $01 $0F $F0 $6F $9F $6F $00
+.db $2F $03 $2F $D0 $5F $17 $5F $A0 $BF $07 $BF $40 $FF $3F $FF $00
+.db $FF $1F $FF $00 $FF $7F $FF $00 $FF $FF $FF $00 $FF $FF $FF $00
+
+; 1st entry of Pointer Table from 65E1 (indexed by _RAM_C27A_)
+; Data from 3BAE8 to 3BB67 (128 bytes)
+_DATA_3BAE8_:
+.db $00 $00 $00 $00 $00 $02 $00 $00 $00 $10 $00 $00 $00 $08 $20 $20
+.db $00 $11 $44 $44 $00 $00 $08 $08 $00 $41 $00 $00 $00 $0A $20 $20
+.db $00 $00 $00 $00 $00 $20 $00 $00 $00 $00 $10 $10 $00 $80 $22 $22
+.db $00 $40 $11 $11 $00 $22 $00 $00 $00 $40 $04 $04 $00 $08 $00 $00
+.db $00 $05 $00 $00 $00 $08 $02 $02 $00 $04 $40 $40 $00 $08 $00 $00
+.db $00 $01 $10 $10 $00 $02 $00 $00 $00 $01 $10 $10 $00 $00 $02 $02
+.db $00 $40 $00 $00 $00 $A8 $00 $00 $00 $04 $10 $10 $00 $0A $80 $80
+.db $00 $44 $10 $10 $00 $00 $00 $00 $00 $40 $04 $04 $00 $00 $80 $80
+
+; 3rd entry of Pointer Table from 65E1 (indexed by _RAM_C27A_)
+; Data from 3BB68 to 3BBE7 (128 bytes)
+_DATA_3BB68_:
+.db $00 $00 $00 $00 $00 $04 $01 $01 $00 $00 $28 $28 $00 $11 $40 $40
+.db $00 $20 $02 $02 $00 $00 $10 $10 $00 $02 $00 $00 $00 $04 $10 $10
+.db $00 $00 $20 $20 $00 $40 $00 $00 $00 $00 $28 $28 $00 $00 $00 $00
+.db $00 $80 $20 $20 $00 $04 $40 $40 $00 $80 $08 $08 $00 $10 $00 $00
+.db $00 $02 $88 $88 $00 $11 $04 $04 $00 $08 $00 $00 $00 $00 $11 $11
+.db $00 $02 $20 $20 $00 $00 $04 $04 $00 $02 $00 $00 $00 $00 $05 $05
+.db $00 $80 $00 $00 $00 $10 $40 $40 $00 $00 $2A $2A $00 $14 $00 $00
+.db $00 $00 $8A $8A $00 $00 $00 $00 $00 $80 $10 $10 $00 $00 $00 $00
+
+; 5th entry of Pointer Table from 65E1 (indexed by _RAM_C27A_)
+; Data from 3BBE8 to 3BC67 (128 bytes)
+_DATA_3BBE8_:
+.db $00 $00 $00 $00 $00 $00 $0A $0A $00 $00 $00 $00 $00 $02 $20 $20
+.db $00 $40 $05 $05 $00 $00 $00 $00 $00 $01 $04 $04 $00 $28 $00 $00
+.db $00 $00 $00 $00 $00 $80 $08 $08 $00 $00 $40 $40
+.dsb 10,$00
+.db $0A $0A $00 $00 $10 $10 $00 $00 $22 $22 $00 $04 $11 $11 $00 $00
+.db $22 $22 $00 $00 $10 $10 $00 $00 $00 $00 $00 $00 $05 $05 $00 $00
+.db $08 $08 $00 $04 $01 $01
+.dsb 9,$00
+.db $20 $00 $00 $00 $00 $10 $10 $00 $20 $08 $08 $00 $00 $10 $10
+.dsb 12,$00
+
+; Data from 3BC68 to 3BFFF (920 bytes)
+_DATA_3BC68_:
+.db $86 $01 $02 $01 $02 $00 $01 $06 $00 $88 $01 $00 $00 $01 $00 $00
+.db $01 $02 $03 $00 $8D $01 $00 $00 $49 $00 $01 $03 $00 $00 $03 $00
+.db $03 $01 $04 $00 $84 $01 $02 $00 $01 $03 $00 $93 $02 $01 $00 $03
+.db $01 $00 $4A $4B $4C $4D $4E $4F $50 $00 $00 $02 $00 $00 $02 $03
+.db $00 $81 $04 $07 $00 $84 $02 $01 $01 $03 $04 $00 $89 $51 $52 $53
+.db $54 $55 $56 $57 $00 $03 $03 $00 $87 $01 $03 $00 $00 $05 $06 $07
+.db $05 $00 $85 $01 $03 $00 $00 $01 $03 $00 $8A $58 $59 $5A $5B $5C
+.db $5D $5E $01 $00 $01 $06 $00 $88 $08 $09 $0A $0B $00 $00 $0C $0D
+.db $05 $00 $8C $5F $60 $61 $62 $63 $64 $65 $66 $67 $00 $00 $02 $05
+.db $00 $9F $01 $00 $0E $0F $10 $11 $12 $13 $14 $15 $16 $17 $18 $68
+.db $69 $6A $6B $6C $6D $6E $6F $70 $71 $72 $73 $03 $02 $00 $00 $01
+.db $02 $03 $00 $B7 $19 $1A $1B $1C $1D $1E $1F $20 $21 $22 $23 $74
+.db $75 $76 $77 $78 $79 $7A $7B $7C $7D $7E $7F $00 $01 $03 $00 $03
+.db $02 $01 $00 $00 $24 $00 $25 $26 $27 $28 $29 $2A $2B $2C $2D $80
+.db $81 $82 $83 $84 $85 $86 $87 $88 $89 $8A $8B $05 $00 $9E $01 $03
+.db $01 $2E $2F $00 $30 $31 $32 $33 $34 $35 $36 $37 $38 $8C $8D $8E
+.db $8F $00 $90 $91 $92 $93 $94 $95 $96 $97 $00 $01 $04 $00 $82 $03
+.db $39 $03 $00 $89 $3A $3B $3C $16 $17 $18 $3D $3E $98 $04 $00 $8A
+.db $99 $9A $9B $9C $9D $9E $00 $9F $A0 $A1 $03 $00 $81 $01 $03 $00
+.db $8E $03 $00 $3F $40 $41 $21 $22 $23 $42 $43 $A2 $00 $00 $01 $03
+.db $00 $8A $A3 $A4 $A5 $A6 $A7 $A8 $A9 $AA $00 $03 $05 $00 $99 $01
+.db $00 $44 $45 $46 $2B $2C $2D $47 $48 $AB $00 $AC $00 $00 $02 $AD
+.db $AE $AF $B0 $B1 $B2 $00 $00 $02 $03 $00 $9C $01 $02 $00 $03 $00
+.db $B3 $B4 $B5 $B6 $36 $37 $38 $B7 $B8 $CF $D0 $D1 $00 $03 $01 $D2
+.db $D3 $D4 $D5 $D6 $D7 $00 $01 $03 $00 $82 $01 $02 $04 $00 $84 $B9
+.db $BA $BB $BC $04 $00 $81 $03 $06 $00 $8E $D8 $D9 $DA $DB $DC $DD
+.db $DE $03 $01 $00 $00 $03 $00 $01 $03 $00 $87 $BD $BE $BF $C0 $00
+.db $00 $01 $06 $00 $89 $01 $00 $DF $E0 $E1 $E2 $E3 $E3 $E4 $06 $00
+.db $85 $03 $00 $00 $01 $02 $0A $00 $8B $01 $02 $00 $00 $E5 $E6 $E7
+.db $E8 $E9 $E3 $EA $09 $00 $8E $03 $01 $00 $00 $C1 $C2 $C3 $C4 $C2
+.db $00 $01 $00 $03 $01 $04 $00 $85 $EB $EC $ED $EE $03 $18 $00 $81
+.db $02 $03 $00 $86 $EF $F0 $F1 $00 $01 $02 $03 $00 $84 $02 $00 $01
+.db $02 $04 $00 $92 $C5 $C6 $C7 $C2 $C8 $C7 $F2 $CC $00 $00 $02 $01
+.db $00 $00 $02 $00 $F3 $F4 $04 $00 $88 $02 $01 $01 $00 $03 $00 $00
+.db $01 $0C $00 $8E $01 $03 $01 $03 $01 $00 $F5 $F6 $00 $03 $00 $00
+.db $01 $03 $04 $00 $81 $02 $03 $00 $81 $01 $03 $00 $84 $03 $00 $00
+.db $02 $04 $00 $81 $03 $03 $00 $82 $F8 $F9 $09 $00 $83 $01 $00 $03
+.db $0D $00 $81 $02 $03 $00 $89 $01 $FA $FB $00 $00 $01 $00 $00 $01
+.db $03 $00 $92 $03 $00 $00 $CB $00 $C1 $CC $CD $C3 $00 $CE $FC $FD
+.db $FE $00 $00 $01 $03 $07 $00 $81 $02 $03 $00 $81 $03 $03 $00 $82
+.db $03 $01 $09 $00 $82 $03 $01 $05 $00 $87 $01 $00 $03 $00 $00 $03
+.db $01 $81 $00 $00 $1C $00 $02 $02 $11 $00 $02 $02 $10 $00 $81 $02
+.db $0B $00 $04 $02 $10 $00 $02 $02 $0A $00 $02 $02 $0F $00 $81 $04
+.db $3E $00 $81 $02 $1F $00 $02 $02 $02 $00 $02 $02 $1E $00 $02 $02
+.db $7B $00 $81 $02 $7F $00 $40 $00 $81 $02 $15 $00 $02 $02 $0A $00
+.db $02 $02 $12 $00 $02 $02 $0A $00 $02 $02 $04 $00 $81 $02 $20 $00
+.db $81 $02 $0D $00 $81 $02 $12 $00 $82 $08 $00 $04 $08 $81 $00 $04
+.db $08 $02 $00 $02 $02 $29 $00 $00
+.dsb 160,$FF
+
+.BANK 15
+.ORG $0000
+
+; Data from 3C000 to 3DF6D (8046 bytes)
+.incbin "Phantasy Star (Japan)_DATA_3C000_.inc"
+
+; Data from 3DF6E to 3FDED (7808 bytes)
+_DATA_3DF6E_:
+.incbin "Phantasy Star (Japan)_DATA_3DF6E_.inc"
+
+; Data from 3FDEE to 3FFFF (530 bytes)
+_DATA_3FDEE_:
+.db $7F $00 $51 $00 $00 $8B $0E $06 $0A $12 $3E $22 $42 $00 $78 $44
+.db $7C $03 $42 $84 $7C $00 $1E $22 $03 $40 $85 $22 $1E $00 $78 $44
+.db $03 $42 $8F $44 $78 $00 $1E $20 $40 $7E $40 $20 $1E $00 $1E $20
+.db $40 $7E $03 $40 $8D $00 $1E $22 $40 $4E $42 $22 $1E $00 $62 $22
+.db $22 $7E $03 $42 $82 $00 $1C $05 $08 $83 $1C $00 $3E $05 $04 $8A
+.db $18 $00 $42 $44 $78 $48 $44 $42 $42 $00 $06 $40 $83 $7E $00 $36
+.db $06 $49 $83 $00 $58 $64 $02 $42 $02 $44 $83 $46 $00 $7E $04 $42
+.db $87 $24 $18 $00 $7C $42 $4C $70 $03 $40 $82 $00 $7E $03 $42 $96
+.db $4A $24 $1A $00 $7C $42 $4C $78 $44 $42 $42 $00 $3C $40 $78 $04
+.db $02 $44 $38 $00 $7E $08 $04 $10 $84 $08 $00 $62 $22 $03 $42 $83
+.db $26 $1A $00 $03 $42 $03 $24 $82 $18 $00 $06 $49 $9A $36 $00 $42
+.db $42 $24 $18 $24 $42 $42 $00 $42 $22 $14 $08 $08 $10 $20 $00 $3C
+.db $04 $28 $10 $28 $40 $7E $00 $00 $9A $10 $08 $14 $2C $40 $5C $A4
+.db $46 $80 $B8 $80 $BC $84 $84 $80 $FC $20 $5C $A2 $80 $80 $44 $20
+.db $1E $80 $B8 $03 $84 $A5 $8A $84 $78 $00 $1E $A0 $80 $BE $40 $20
+.db $1E $20 $5E $A0 $80 $BE $80 $80 $40 $20 $5C $A2 $90 $8C $44 $20
+.db $1E $84 $44 $44 $80 $BC $84 $84 $42 $20 $14 $04 $10 $84 $20 $1C
+.db $40 $3A $04 $08 $8A $24 $18 $80 $82 $84 $B0 $88 $84 $84 $42 $07
+.db $80 $83 $7E $48 $B6 $05 $92 $85 $4B $A0 $98 $A4 $84 $03 $88 $83
+.db $46 $80 $BC $03 $84 $A5 $48 $20 $18 $80 $BC $92 $8C $B0 $80 $80
+.db $40 $80 $BC $84 $84 $94 $48 $24 $1A $80 $BC $92 $84 $B8 $84 $84
+.db $42 $40 $BC $80 $78 $04 $8A $44 $38 $80 $76 $04 $20 $8A $10 $08
+.db $84 $44 $A4 $84 $84 $48 $24 $1A $03 $84 $03 $48 $82 $24 $18 $06
+.db $92 $9A $49 $36 $84 $84 $4A $24 $58 $A4 $84 $42 $84 $44 $2A $14
+.db $10 $28 $50 $20 $40 $38 $54 $28 $50 $A8 $80 $7E $00 $7F $FF $51
+.db $FF $00
+.dsb 128,$FF
+
+.BANK 16
+.ORG $0000
+
+; Data from 40000 to 428F5 (10486 bytes)
+.incbin "Phantasy Star (Japan)_DATA_40000_.inc"
+
+; Data from 428F6 to 43AD7 (4578 bytes)
+_DATA_428F6_:
+.incbin "Phantasy Star (Japan)_DATA_428F6_.inc"
+
+; Data from 43AD8 to 43EBD (998 bytes)
+TilesFont:
+.db $08 $FF $8A $83 $79 $75 $6D $5D $3D $83 $FF $CF $AF $04 $EF $AD
+.db $83 $FF $83 $7D $7D $F3 $CF $BF $01 $FF $83 $7D $FD $C3 $FD $7D
+.db $83 $FF $F3 $EB $DB $BB $7B $01 $FB $FF $01 $7F $7F $03 $FD $7D
+.db $83 $FF $83 $7D $7F $03 $7D $7D $83 $FF $01 $7D $7B $02 $F7 $02
+.db $EF $9D $FF $83 $7D $7D $83 $7D $7D $83 $FF $83 $7D $7D $81 $FD
+.db $FD $83 $FF $FF $01 $FD $EB $E7 $EF $EF $DF $FB $F7 $CF $2F $06
+.db $EF $88 $01 $7D $7D $FD $FB $E7 $FF $83 $05 $EF $8B $01 $F7 $01
+.db $F7 $E7 $E7 $D7 $37 $F7 $EF $81 $02 $ED $02 $DD $87 $BD $FB $EF
+.db $83 $EF $EF $01 $03 $EF $92 $FF $81 $BD $7D $FB $FB $F7 $CF $BF
+.db $81 $BB $7B $FB $FB $F7 $CF $FF $81 $05 $FD $B5 $81 $BB $BB $01
+.db $BB $BB $FB $F7 $CF $FF $8D $FD $8D $FD $FD $FB $87 $FF $03 $FB
+.db $F7 $EF $D7 $BB $7D $FF $BF $01 $BB $B7 $BF $BF $C1 $FF $BD $DD
+.db $ED $FB $FB $F7 $CF $FF $81 $BD $8D $73 $FB $F7 $CF $F3 $C7 $F7
+.db $01 $03 $F7 $82 $CF $FF $03 $AD $02 $FB $86 $F7 $CF $FF $83 $FF
+.db $01 $03 $F7 $81 $CF $03 $BF $82 $8F $B3 $03 $BF $02 $F7 $81 $01
+.db $03 $F7 $84 $EF $9F $FF $83 $05 $FF $92 $01 $FF $03 $FB $FB $D7
+.db $EF $D7 $3B $EF $03 $F7 $EF $C7 $AB $6D $EF $FF $03 $FD $02 $FB
+.db $83 $F7 $8F $FF $02 $D7 $03 $BB $02 $7D $02 $BF $81 $81 $04 $BF
+.db $83 $C1 $FF $81 $04 $FD $8C $FB $E7 $FF $FF $DF $AF $77 $FB $FD
+.db $FF $EF $01 $02 $EF $02 $AB $99 $6D $EF $FF $01 $FD $FB $D7 $EF
+.db $F7 $FB $8F $F3 $FF $8F $F3 $FF $8F $F3 $EF $DF $DF $BF $BB $7B
+.db $01 $03 $FD $8A $DB $EB $F7 $EB $DD $BF $FF $83 $DF $01 $03 $DF
+.db $85 $E1 $BF $01 $BD $DB $02 $DF $02 $EF $82 $FF $87 $05 $F7 $92
+.db $01 $FF $81 $FD $FD $81 $FD $FD $81 $FF $83 $FF $01 $FD $FD $FB
+.db $C7 $FF $04 $BD $84 $FD $FB $E7 $FF $03 $B7 $85 $B5 $75 $75 $73
+.db $FF $03 $BF $02 $BD $84 $B3 $8F $FF $01 $05 $7D $83 $01 $FF $01
+.db $02 $7D $02 $FD $92 $FB $C7 $FF $81 $FD $81 $FD $FD $FB $C7 $FF
+.db $FD $1D $FD $FB $FB $F7 $0F $02 $FF $02 $AB $89 $FB $F7 $EF $FF
+.db $FF $DF $81 $ED $EB $02 $F7 $03 $FF $81 $C3 $03 $FB $81 $81 $03
+.db $FF $85 $83 $FB $83 $FB $83 $06 $FF $02 $FA $06 $FF $83 $F1 $F5
+.db $F1 $03 $FF $81 $83 $04 $FF $00 $08 $00 $8A $7C $86 $8A $92 $A2
+.db $C2 $7C $00 $30 $50 $04 $10 $AD $7C $00 $7C $82 $82 $0C $30 $40
+.db $FE $00 $7C $82 $02 $3C $02 $82 $7C $00 $0C $14 $24 $44 $84 $FE
+.db $04 $00 $FE $80 $80 $FC $02 $82 $7C $00 $7C $82 $80 $FC $82 $82
+.db $7C $00 $FE $82 $84 $02 $08 $02 $10 $9D $00 $7C $82 $82 $7C $82
+.db $82 $7C $00 $7C $82 $82 $7E $02 $02 $7C $00 $00 $FE $02 $14 $18
+.db $10 $10 $20 $04 $08 $30 $D0 $06 $10 $88 $FE $82 $82 $02 $04 $18
+.db $00 $7C $05 $10 $8B $FE $08 $FE $08 $18 $18 $28 $C8 $08 $10 $7E
+.db $02 $12 $02 $22 $87 $42 $04 $10 $7C $10 $10 $FE $03 $10 $92 $00
+.db $7E $42 $82 $04 $04 $08 $30 $40 $7E $44 $84 $04 $04 $08 $30 $00
+.db $7E $05 $02 $B5 $7E $44 $44 $FE $44 $44 $04 $08 $30 $00 $72 $02
+.db $72 $02 $02 $04 $78 $00 $FC $04 $08 $10 $28 $44 $82 $00 $40 $FE
+.db $44 $48 $40 $40 $3E $00 $42 $22 $12 $04 $04 $08 $30 $00 $7E $42
+.db $72 $8C $04 $08 $30 $0C $38 $08 $FE $03 $08 $82 $30 $00 $03 $52
+.db $02 $04 $86 $08 $30 $00 $7C $00 $FE $03 $08 $81 $30 $03 $40 $82
+.db $70 $4C $03 $40 $02 $08 $81 $FE $03 $08 $84 $10 $60 $00 $7C $05
+.db $00 $92 $FE $00 $FC $04 $04 $28 $10 $28 $C4 $10 $FC $08 $10 $38
+.db $54 $92 $10 $00 $03 $02 $02 $04 $83 $08 $70 $00 $02 $28 $03 $44
+.db $02 $82 $02 $40 $81 $7E $04 $40 $83 $3E $00 $7E $04 $02 $8C $04
+.db $18 $00 $00 $20 $50 $88 $04 $02 $00 $10 $FE $02 $10 $02 $54 $99
+.db $92 $10 $00 $FE $02 $04 $28 $10 $08 $04 $70 $0C $00 $70 $0C $00
+.db $70 $0C $10 $20 $20 $40 $44 $84 $FE $03 $02 $8A $24 $14 $08 $14
+.db $22 $40 $00 $7C $20 $FE $03 $20 $85 $1E $40 $FE $42 $24 $02 $20
+.db $02 $10 $82 $00 $78 $05 $08 $92 $FE $00 $7E $02 $02 $7E $02 $02
+.db $7E $00 $7C $00 $FE $02 $02 $04 $38 $00 $04 $42 $84 $02 $04 $18
+.db $00 $03 $48 $85 $4A $8A $8A $8C $00 $03 $40 $02 $42 $84 $4C $70
+.db $00 $FE $05 $82 $83 $FE $00 $FE $02 $82 $02 $02 $92 $04 $38 $00
+.db $7E $02 $7E $02 $02 $04 $38 $00 $02 $E2 $02 $04 $04 $08 $F0 $02
+.db $00 $02 $54 $89 $04 $08 $10 $00 $00 $20 $7E $12 $14 $02 $08 $03
+.db $00 $81 $3C $03 $04 $81 $7E $03 $00 $85 $7C $04 $7C $04 $7C $06
+.db $00 $02 $05 $06 $00 $83 $0E $0A $0E $03 $00 $81 $7C $04 $00 $00
+.db $7F $00 $7F $00 $7F $00 $7F $00 $04 $00 $00 $7F $00 $7F $00 $7F
+.db $00 $7F $00 $04 $00 $00
+
+; Data from 43EBE to 43F5D (160 bytes)
+TilesExtraFont:
+.db $8C $9F $97 $93 $91 $93 $97 $9F $9F $FF $E0 $C0 $8F $04 $9F $81
+.db $FF $02 $00 $05 $FF $08 $9F $03 $7D $81 $01 $03 $7D $85 $FF $03
+.db $7D $7D $03 $03 $7F $85 $FF $7D $39 $55 $6D $03 $7D $8A $FF $01
+.db $7F $7F $01 $7F $7F $01 $FF $D0 $0F $F0 $06 $7F $82 $01 $FF $02
+.db $7D $02 $BB $02 $D7 $82 $EF $FF $00 $8C $60 $68 $6C $6E $6C $68
+.db $60 $60 $00 $1F $3F $70 $04 $60 $81 $00 $02 $FF $05 $00 $08 $60
+.db $03 $82 $81 $FE $03 $82 $85 $00 $FC $82 $82 $FC $03 $80 $85 $00
+.db $82 $C6 $AA $92 $03 $82 $89 $00 $FE $80 $80 $FE $80 $80 $FE $00
+.db $10 $F0 $06 $80 $82 $FE $00 $02 $82 $02 $44 $02 $28 $81 $10 $81
+.db $00 $00 $40 $00 $10 $F0 $10 $00 $00 $40 $00 $10 $F0 $10 $00 $00
+
+; Data from 43F5E to 43FFF (162 bytes)
+_DATA_43F5E_:
+.db $88 $C7 $D7 $BB $BB $01 $7D $7D $FF $05 $6D $93 $AB $93 $FF $BF
+.db $81 $77 $C1 $D7 $80 $F7 $F7 $EF $83 $C7 $01 $D7 $83 $55 $C7 $03
+.db $C1 $9D $B7 $81 $41 $F7 $80 $81 $BD $81 $B7 $81 $77 $41 $41 $DB
+.db $A0 $3B $BB $A0 $BB $BB $A0 $81 $BF $BB $AB $B7 $AB $BF $81 $00
+.db $88 $38 $28 $44 $44 $FE $82 $82 $00 $05 $92 $93 $54 $6C $00 $40
+.db $7E $88 $3E $28 $7F $08 $08 $10 $7C $38 $FE $28 $7C $AA $38 $03
+.db $3E $9D $48 $7E $BE $08 $7F $7E $42 $7E $48 $7E $88 $BE $BE $24
+.db $5F $C4 $44 $5F $44 $44 $5F $7E $40 $44 $54 $48 $54 $40 $7E $00
+.db $40 $00 $00 $40 $00 $00
+.dsb 28,$FF
+
+.BANK 17
+.ORG $0000
+
+; Data from 44000 to 47FFF (16384 bytes)
+_DATA_44000_:
+.incbin "Phantasy Star (Japan)_DATA_44000_.inc"
+
+.BANK 18
+.ORG $0000
+
+; Data from 48000 to 4BFFF (16384 bytes)
+_DATA_48000_:
+.incbin "Phantasy Star (Japan)_DATA_48000_.inc"
+
+.BANK 19
+.ORG $0000
+
+; Data from 4C000 to 4FFFF (16384 bytes)
+_DATA_4C000_:
+.incbin "Phantasy Star (Japan)_DATA_4C000_.inc"
+
+.BANK 20
+.ORG $0000
+
+; Data from 50000 to 50007 (8 bytes)
+_DATA_50000_:
+.db $12 $06 $1A $01 $25 $2F $2A $02
+
+; Data from 50008 to 53DBB (15796 bytes)
+_DATA_50008_:
+.incbin "Phantasy Star (Japan)_DATA_50008_.inc"
+
+; Pointer Table from 53DBC to 53DD7 (14 entries,indexed by _RAM_C2F5_)
+_DATA_53DBC_:
+.dw _DATA_53DD8_ _DATA_53DE1_ _DATA_53E04_ _DATA_53E1D_ _DATA_53E41_ _DATA_53E79_ _DATA_53E97_ _DATA_53EB9_
+.dw _DATA_53EDD_ _DATA_53F07_ _DATA_53F15_ _DATA_53F31_ _DATA_53F66_ _DATA_53F83_
+
+; 1st entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53DD8 to 53DE0 (9 bytes)
+_DATA_53DD8_:
+.db $01 $9A $D2 $05 $53 $54 $41 $46 $46
+
+; 2nd entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53DE1 to 53E03 (35 bytes)
+_DATA_53DE1_:
+.db $03 $4A $D1 $05 $54 $4F $54 $41 $4C $CC $D1 $08 $50 $4C $41 $4E
+.db $4E $49 $4E $47 $A2 $D1 $0C $4F $53 $53 $41 $4C $45 $20 $4B $4F
+.db $48 $54 $41
+
+; 3rd entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53E04 to 53E1C (25 bytes)
+_DATA_53E04_:
+.db $02 $CC $D3 $08 $53 $54 $4F $52 $59 $20 $42 $59 $E2 $D3 $0A $41
+.db $50 $52 $49 $4C $20 $46 $4F $4F $4C
+
+; 4th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53E1D to 53E40 (36 bytes)
+_DATA_53E1D_:
+.db $03 $4C $D1 $08 $53 $43 $45 $4E $41 $52 $49 $4F $CE $D1 $06 $57
+.db $52 $49 $54 $45 $52 $A2 $D1 $0C $4F $53 $53 $41 $4C $45 $20 $4B
+.db $4F $48 $54 $41
+
+; 5th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53E41 to 53E78 (56 bytes)
+_DATA_53E41_:
+.db $04 $92 $D2 $09 $41 $53 $53 $49 $53 $54 $41 $4E $54 $14 $D3 $0C
+.db $43 $4F $4F $52 $44 $49 $4E $41 $54 $4F $52 $53 $C4 $D3 $0C $4F
+.db $54 $45 $47 $41 $4D $49 $20 $43 $48 $49 $45 $E4 $D3 $0A $47 $41
+.db $4D $45 $52 $20 $4D $49 $4B $49
+
+; 6th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53E79 to 53E96 (30 bytes)
+_DATA_53E79_:
+.db $02 $86 $D1 $0C $54 $4F $54 $41 $4C $20 $44 $45 $53 $49 $47 $4E
+.db $A4 $D1 $0B $50 $48 $4F $45 $48 $49 $58 $20 $52 $49 $45
+
+; 7th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53E97 to 53EB8 (34 bytes)
+_DATA_53E97_:
+.db $03 $8A $D3 $07 $4D $4F $4E $53 $54 $45 $52 $0A $D4 $06 $44 $45
+.db $53 $49 $47 $4E $E2 $D3 $0B $43 $48 $41 $4F $54 $49 $43 $20 $4B
+.db $41 $5A
+
+; 8th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53EB9 to 53EDC (36 bytes)
+_DATA_53EB9_:
+.db $03 $90 $D1 $06 $44 $45 $53 $49 $47 $4E $92 $D2 $0A $52 $4F $43
+.db $4B $48 $59 $20 $4E $41 $4F $E2 $D3 $0A $53 $41 $44 $41 $4D $4F
+.db $52 $49 $41 $4E
+
+; 9th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53EDD to 53F06 (42 bytes)
+_DATA_53EDD_:
+.db $04 $90 $D1 $06 $44 $45 $53 $49 $47 $4E $92 $D2 $0A $4D $59 $41
+.db $55 $20 $43 $48 $4F $4B $4F $E2 $D3 $06 $47 $20 $43 $48 $49 $45
+.db $D2 $D4 $07 $59 $4F $4E $45 $53 $41 $4E
+
+; 10th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53F07 to 53F14 (14 bytes)
+_DATA_53F07_:
+.db $02 $92 $D1 $05 $53 $4F $55 $4E $44 $A4 $D1 $02 $42 $4F
+
+; 11th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53F15 to 53F30 (28 bytes)
+_DATA_53F15_:
+.db $02 $C6 $D3 $0A $53 $4F $46 $54 $20 $43 $48 $45 $43 $4B $E4 $D3
+.db $0B $57 $4F $52 $4B $53 $20 $4E $49 $53 $48 $49
+
+; 12th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53F31 to 53F65 (53 bytes)
+_DATA_53F31_:
+.db $05 $46 $D1 $09 $41 $53 $53 $49 $53 $54 $41 $4E $54 $C8 $D1 $0B
+.db $50 $52 $4F $47 $52 $41 $4D $4D $45 $52 $53 $92 $D2 $08 $43 $4F
+.db $4D $20 $42 $4C $55 $45 $C8 $D3 $06 $4D $20 $57 $41 $4B $41 $E6
+.db $D3 $03 $41 $53 $49
+
+; 13th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53F66 to 53F82 (29 bytes)
+_DATA_53F66_:
+.db $02 $84 $D1 $0C $4D $41 $49 $4E $20 $50 $52 $4F $47 $52 $41 $4D
+.db $A2 $D1 $0A $4D $55 $55 $55 $55 $20 $59 $55 $4A $49
+
+; 14th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
+; Data from 53F83 to 53FFF (125 bytes)
+_DATA_53F83_:
+.db $02 $C6 $D3 $0C $50 $52 $45 $53 $45 $4E $54 $45 $44 $20 $42 $59
+.db $E4 $D3 $04 $53 $45 $47 $41
+.dsb 102,$FF
+
+.BANK 21
+.ORG $0000
+
+; Pointer Table from 54000 to 541FF (256 entries,indexed by CharacterSpriteAttributes)
+_DATA_54000_:
+.dw _DATA_54200_ _DATA_54204_ _DATA_5429E_ _DATA_542AE_ _DATA_542BE_ _DATA_542D4_ _DATA_542FC_ _DATA_54321_
+.dw _DATA_54349_ _DATA_5436B_ _DATA_54384_ _DATA_5439D_ _DATA_543BC_ _DATA_543EA_ _DATA_5441E_ _DATA_54452_
+.dw _DATA_576C9_ _DATA_576D6_ _DATA_576EF_ _DATA_577A2_ _DATA_577AF_ _DATA_54486_ _DATA_544F3_ _DATA_5450C_
+.dw _DATA_5452B_ _DATA_54544_ _DATA_54569_ _DATA_5458B_ _DATA_545BF_ _DATA_5463B_ _DATA_546C9_ _DATA_54745_
+.dw _DATA_547B8_ _DATA_54834_ _DATA_548AD_ _DATA_54923_ _DATA_54999_ _DATA_549CD_ _DATA_54A19_ _DATA_54A65_
+.dw _DATA_54AB1_ _DATA_54B27_ _DATA_54B9D_ _DATA_54C13_ _DATA_54C89_ _DATA_54CD2_ _DATA_54CEB_ _DATA_54D07_
+.dw _DATA_54D1D_ _DATA_54D3C_ _DATA_54D52_ _DATA_54D65_ _DATA_54D9F_ _DATA_54DD0_ _DATA_54DF2_ _DATA_54E14_
+.dw _DATA_54E36_ _DATA_54E58_ _DATA_54E7A_ _DATA_54E9F_ _DATA_54ED0_ _DATA_577BC_ _DATA_577C9_ _DATA_54F72_
+.dw _DATA_54FC1_ _DATA_54FD1_ _DATA_54FDE_ _DATA_54FEE_ _DATA_54FFB_ _DATA_5500E_ _DATA_5772A_ _DATA_5501E_
+.dw _DATA_55085_ _DATA_550EC_ _DATA_55153_ _DATA_5516C_ _DATA_5518E_ _DATA_551A7_ _DATA_551B4_ _DATA_551D0_
+.dw _DATA_551EC_ _DATA_5523B_ _DATA_55287_ _DATA_552D0_ _DATA_5533D_ _DATA_5535C_ _DATA_5537B_ _DATA_5539A_
+.dw _DATA_553B9_ _DATA_553DE_ _DATA_5541E_ _DATA_5545E_ _DATA_5549E_ _DATA_554CF_ _DATA_554FA_ _DATA_55522_
+.dw _DATA_5554A_ _DATA_55575_ _DATA_555A0_ _DATA_555CE_ _DATA_55605_ _DATA_5563F_ _DATA_556A0_ _DATA_556DA_
+.dw _DATA_5571A_ _DATA_5574E_ _DATA_557C4_ _DATA_5583A_ _DATA_558B0_ _DATA_55926_ _DATA_5599C_ _DATA_55A12_
+.dw _DATA_55A88_ _DATA_55B10_ _DATA_55B98_ _DATA_55C1D_ _DATA_55CA2_ _DATA_55D2A_ _DATA_577D6_ _DATA_577E3_
+.dw _DATA_55DB5_ _DATA_55E28_ _DATA_55E4A_ _DATA_55E66_ _DATA_55E7F_ _DATA_55E98_ _DATA_55EB1_ _DATA_55ED0_
+.dw _DATA_55EF2_ _DATA_55F11_ _DATA_55F4E_ _DATA_55F67_ _DATA_55F80_ _DATA_55F99_ _DATA_55FB2_ _DATA_55FCB_
+.dw _DATA_577EA_ _DATA_5780F_ _DATA_578A6_ _DATA_5792B_ _DATA_5798F_ _DATA_55FE4_ _DATA_57737_ _DATA_56039_
+.dw _DATA_56046_ _DATA_56053_ _DATA_56060_ _DATA_56070_ _DATA_56083_ _DATA_560A5_ _DATA_560E8_ _DATA_56143_
+.dw _DATA_5619B_ _DATA_561F6_ _DATA_56203_ _DATA_56210_ _DATA_56226_ _DATA_56233_ _DATA_56240_ _DATA_5624D_
+.dw _DATA_5625A_ _DATA_5626A_ _DATA_56280_ _DATA_56299_ _DATA_562D9_ _DATA_56328_ _DATA_56389_ _DATA_563CF_
+.dw _DATA_56418_ _DATA_56461_ _DATA_564AD_ _DATA_564F0_ _DATA_56536_ _DATA_565AF_ _DATA_565E0_ _DATA_56617_
+.dw _DATA_56648_ _DATA_5667C_ _DATA_566B3_ _DATA_57723_ _DATA_566DB_ _DATA_56721_ _DATA_5677C_ _DATA_567D4_
+.dw _DATA_56823_ _DATA_56860_ _DATA_568AF_ _DATA_5692B_ _DATA_56944_ _DATA_56954_ _DATA_56964_ _DATA_5699E_
+.dw _DATA_56A02_ _DATA_56A09_ _DATA_56A16_ _DATA_56A29_ _DATA_56A87_ _DATA_56AA0_ _DATA_56ADD_ _DATA_56B1A_
+.dw _DATA_56B39_ _DATA_56B5E_ _DATA_56B80_ _DATA_57744_ _DATA_57A1A_ _DATA_57A81_ _DATA_56B90_ _DATA_56BB8_
+.dw _DATA_56BF5_ _DATA_56C56_ _DATA_56CDB_ _DATA_56D63_ _DATA_56DA3_ _DATA_56DE0_ _DATA_56E17_ _DATA_56E54_
+.dw _DATA_56EBB_ _DATA_56F64_ _DATA_56FC5_ _DATA_5702C_ _DATA_57069_ _DATA_570A6_ _DATA_570E3_ _DATA_5714A_
+.dw _DATA_57151_ _DATA_57158_ _DATA_5715F_ _DATA_5716F_ _DATA_571BB_ _DATA_57207_ _DATA_57253_ _DATA_5729F_
+.dw _DATA_572F1_ _DATA_57352_ _DATA_573C2_ _DATA_5747A_ _DATA_57532_ _DATA_57542_ _DATA_5756A_ _DATA_5758F_
+.dw _DATA_5759F_ _DATA_575AF_ _DATA_575BF_ _DATA_575D8_ _DATA_57603_ _DATA_5760A_ _DATA_57617_ _DATA_57624_
+.dw _DATA_57646_ _DATA_5765F_ _DATA_57666_ _DATA_57673_ _DATA_57680_ _DATA_57690_ _DATA_576B5_ _DATA_576BC_
+
+; 1st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54200 to 54203 (4 bytes)
+_DATA_54200_:
+.db $01 $FF $00 $F0
+
+; 2nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54204 to 5429D (154 bytes)
+_DATA_54204_:
+.db $33 $00 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $18 $18 $20 $20
+.db $20 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40 $40
+.db $40 $48 $48 $48 $50 $50 $50 $50 $50 $58 $58 $60 $60 $60 $60 $68
+.db $68 $68 $68 $68 $15 $38 $1D $39 $25 $3A $33 $3B $3B $3C $13 $3D
+.db $28 $3E $30 $3F $40 $40 $11 $41 $40 $42 $0B $43 $40 $44 $02 $45
+.db $0A $46 $48 $47 $00 $48 $08 $49 $48 $4A $0B $4B $28 $4C $30 $4D
+.db $48 $4E $0B $4F $28 $50 $38 $51 $48 $52 $0B $53 $13 $54 $30 $55
+.db $40 $56 $48 $57 $0B $58 $30 $59 $48 $5A $09 $5B $30 $5C $38 $5D
+.db $40 $5E $4B $5F $09 $60 $18 $61 $0C $62 $14 $63 $1C $64 $40 $65
+.db $08 $66 $10 $67 $18 $68 $20 $69 $38 $6A
+
+; 3rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5429E to 542AD (16 bytes)
+_DATA_5429E_:
+.db $05 $20 $28 $28 $30 $30 $18 $6B $10 $6C $18 $6D $10 $6E $18 $6F
+
+; 4th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 542AE to 542BD (16 bytes)
+_DATA_542AE_:
+.db $05 $20 $28 $28 $30 $30 $18 $70 $10 $71 $18 $72 $10 $73 $18 $74
+
+; 5th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 542BE to 542D3 (22 bytes)
+_DATA_542BE_:
+.db $07 $20 $28 $28 $30 $30 $38 $38 $18 $70 $10 $75 $18 $76 $10 $77
+.db $18 $78 $0C $79 $14 $7A
+
+; 6th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 542D4 to 542FB (40 bytes)
+_DATA_542D4_:
+.db $0D $20 $28 $28 $30 $30 $38 $40 $40 $48 $48 $50 $50 $50 $18 $70
+.db $10 $75 $18 $76 $10 $7B $18 $7C $10 $7D $08 $7E $10 $7F $08 $80
+.db $10 $81 $02 $82 $0A $83 $12 $84
+
+; 7th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 542FC to 54320 (37 bytes)
+_DATA_542FC_:
+.db $0C $20 $28 $28 $30 $30 $50 $58 $58 $60 $60 $68 $68 $18 $70 $10
+.db $71 $18 $72 $10 $73 $18 $74 $07 $85 $02 $86 $0A $87 $FD $88 $05
+.db $89 $FC $8A $04 $8B
+
+; 8th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54321 to 54348 (40 bytes)
+_DATA_54321_:
+.db $0D $20 $28 $28 $30 $30 $68 $70 $70 $70 $78 $78 $78 $78 $18 $70
+.db $10 $71 $18 $72 $10 $73 $18 $74 $FF $8C $F6 $8D $FE $8E $06 $8F
+.db $F0 $90 $F8 $91 $00 $92 $08 $93
+
+; 9th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54349 to 5436A (34 bytes)
+_DATA_54349_:
+.db $0B $20 $28 $28 $30 $30 $70 $70 $78 $78 $78 $78 $18 $70 $10 $71
+.db $18 $72 $10 $73 $18 $74 $E8 $94 $10 $95 $E8 $96 $F0 $97 $09 $98
+.db $11 $99
+
+; 10th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5436B to 54383 (25 bytes)
+_DATA_5436B_:
+.db $08 $14 $14 $14 $14 $1C $1C $1C $1C $09 $00 $11 $01 $19 $02 $21
+.db $03 $08 $04 $10 $05 $18 $06 $20 $07
+
+; 11th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54384 to 5439C (25 bytes)
+_DATA_54384_:
+.db $08 $14 $14 $14 $14 $1C $1C $1C $1C $08 $08 $10 $09 $18 $0A $20
+.db $0B $08 $0C $10 $0D $18 $0E $20 $0F
+
+; 12th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5439D to 543BB (31 bytes)
+_DATA_5439D_:
+.db $0A $00 $00 $00 $08 $08 $08 $10 $10 $28 $28 $0F $10 $17 $11 $1F
+.db $12 $0E $13 $16 $14 $1E $15 $11 $16 $19 $17 $10 $18 $18 $19
+
+; 13th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 543BC to 543E9 (46 bytes)
+_DATA_543BC_:
+.db $0F $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $30 $30 $30
+.db $10 $1A $18 $1B $0C $1C $14 $1D $1C $1E $0B $1F $13 $20 $1B $21
+.db $23 $22 $0D $23 $15 $24 $1D $25 $0C $26 $14 $27 $1C $28
+
+; 14th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 543EA to 5441D (52 bytes)
+_DATA_543EA_:
+.db $11 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30 $30 $30
+.db $30 $30 $06 $29 $0E $2A $16 $2B $1E $2C $26 $2D $02 $2E $0A $2F
+.db $12 $30 $1A $31 $22 $32 $2A $33 $01 $34 $09 $35 $11 $36 $19 $37
+.db $21 $38 $29 $39
+
+; 15th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5441E to 54451 (52 bytes)
+_DATA_5441E_:
+.db $11 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30 $30 $30
+.db $30 $30 $03 $3A $0B $3B $13 $3C $1B $3D $23 $3E $01 $3F $09 $40
+.db $11 $41 $19 $42 $21 $43 $29 $44 $01 $45 $09 $46 $11 $47 $19 $48
+.db $21 $49 $29 $4A
+
+; 16th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54452 to 54485 (52 bytes)
+_DATA_54452_:
+.db $11 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30 $30 $30
+.db $30 $30 $08 $4B $10 $4C $18 $4D $20 $4E $28 $4F $02 $50 $0A $51
+.db $12 $30 $1A $52 $22 $53 $2A $54 $01 $55 $09 $56 $11 $36 $19 $57
+.db $21 $58 $29 $59
+
+; 22nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54486 to 544F2 (109 bytes)
+_DATA_54486_:
+.db $24 $00 $00 $00 $08 $08 $08 $10 $10 $10 $10 $10 $10 $18 $18 $20
+.db $20 $28 $28 $28 $30 $38 $38 $38 $40 $40 $40 $48 $48 $50 $50 $50
+.db $50 $50 $58 $58 $58 $21 $33 $29 $34 $31 $35 $1A $36 $30 $37 $38
+.db $38 $01 $39 $09 $3A $11 $3B $38 $3C $40 $3D $48 $3E $09 $3F $40
+.db $40 $09 $41 $40 $42 $08 $43 $10 $44 $40 $45 $08 $46 $0B $47 $20
+.db $48 $48 $49 $0A $4A $20 $4B $40 $4C $09 $4D $40 $4E $06 $4F $28
+.db $50 $30 $51 $38 $52 $40 $53 $09 $54 $11 $55 $19 $56
+
+; 23rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 544F3 to 5450B (25 bytes)
+_DATA_544F3_:
+.db $08 $28 $28 $30 $30 $38 $38 $40 $40 $08 $57 $10 $58 $08 $59 $10
+.db $5A $09 $5B $11 $5C $0A $5D $12 $5E
+
+; 24th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5450C to 5452A (31 bytes)
+_DATA_5450C_:
+.db $0A $20 $20 $28 $28 $28 $30 $30 $30 $38 $38 $08 $5F $10 $60 $06
+.db $61 $0E $62 $16 $63 $06 $64 $0E $65 $16 $66 $09 $67 $11 $68
+
+; 25th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5452B to 54543 (25 bytes)
+_DATA_5452B_:
+.db $08 $10 $10 $18 $18 $20 $20 $28 $28 $0A $69 $12 $6A $09 $6B $11
+.db $6C $08 $6D $10 $6E $08 $6F $10 $70
+
+; 26th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54544 to 54568 (37 bytes)
+_DATA_54544_:
+.db $0C $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $28 $0B $71 $13
+.db $72 $0A $73 $12 $74 $0A $75 $12 $76 $09 $77 $11 $78 $08 $79 $10
+.db $7A $09 $7B $11 $7C
+
+; 27th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54569 to 5458A (34 bytes)
+_DATA_54569_:
+.db $0B $20 $20 $28 $28 $28 $30 $30 $30 $38 $38 $38 $08 $7D $10 $7E
+.db $07 $7F $0F $80 $17 $81 $05 $82 $0D $83 $15 $84 $05 $85 $0D $86
+.db $15 $87
+
+; 28th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5458B to 545BE (52 bytes)
+_DATA_5458B_:
+.db $11 $20 $20 $28 $28 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40 $40
+.db $48 $48 $08 $88 $10 $89 $08 $8A $10 $8B $05 $8C $0D $8D $15 $8E
+.db $01 $8F $09 $90 $11 $91 $19 $92 $01 $93 $09 $94 $11 $95 $19 $96
+.db $01 $97 $1B $98
+
+; 29th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 545BF to 5463A (124 bytes)
+_DATA_545BF_:
+.db $29 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18
+.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $30 $30 $30 $38 $38 $38
+.db $40 $40 $40 $48 $48 $48 $50 $50 $50 $50 $16 $11 $1E $12 $05 $13
+.db $0F $14 $17 $15 $20 $16 $28 $17 $06 $18 $0E $19 $28 $1A $30 $1B
+.db $09 $1C $11 $1D $28 $1E $30 $1F $0C $20 $14 $21 $20 $22 $28 $23
+.db $30 $24 $0D $25 $15 $26 $20 $27 $28 $28 $30 $29 $10 $2A $28 $2B
+.db $30 $2C $10 $2D $28 $2E $30 $2F $10 $30 $28 $31 $30 $32 $0A $33
+.db $12 $34 $28 $35 $19 $36 $21 $37 $29 $38 $31 $39
+
+; 30th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5463B to 546C8 (142 bytes)
+_DATA_5463B_:
+.db $2F $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18
+.db $18 $20 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30 $30
+.db $30 $38 $38 $38 $38 $40 $40 $40 $40 $48 $48 $48 $50 $50 $50 $50
+.db $07 $3A $0F $3B $17 $3C $1F $3D $09 $3E $11 $3F $20 $16 $28 $17
+.db $08 $40 $28 $1A $30 $1B $06 $41 $0E $42 $16 $43 $28 $1E $30 $1F
+.db $06 $44 $0E $45 $16 $46 $20 $22 $28 $23 $30 $24 $07 $47 $0F $48
+.db $17 $49 $20 $27 $28 $28 $30 $29 $0A $4A $12 $4B $28 $2B $30 $2C
+.db $0A $4C $12 $4D $28 $2E $30 $2F $0A $4E $12 $4F $28 $31 $30 $32
+.db $0A $33 $12 $34 $28 $35 $19 $36 $21 $37 $29 $38 $31 $39
+
+; 31st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 546C9 to 54744 (124 bytes)
+_DATA_546C9_:
+.db $29 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $20 $28 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38
+.db $40 $40 $40 $48 $48 $48 $50 $50 $50 $50 $16 $11 $1E $12 $0F $14
+.db $17 $15 $20 $16 $28 $17 $08 $50 $28 $1A $30 $1B $08 $51 $10 $52
+.db $28 $1E $30 $1F $08 $53 $10 $54 $20 $22 $28 $23 $30 $24 $09 $55
+.db $11 $56 $20 $27 $28 $28 $30 $29 $0A $57 $12 $58 $28 $2B $30 $2C
+.db $0C $59 $14 $5A $28 $2E $30 $2F $10 $30 $28 $31 $30 $32 $0A $33
+.db $12 $34 $28 $35 $19 $36 $21 $37 $29 $38 $31 $39
+
+; 32nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54745 to 547B7 (115 bytes)
+_DATA_54745_:
+.db $26 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18
+.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $30 $30 $38 $38 $40 $40
+.db $48 $48 $48 $50 $50 $50 $50 $16 $11 $1E $12 $05 $13 $0F $14 $17
+.db $15 $20 $16 $28 $17 $06 $18 $0E $19 $28 $5B $30 $1B $09 $1C $11
+.db $1D $28 $5C $30 $5D $0C $20 $14 $21 $20 $5E $28 $5F $30 $60 $0D
+.db $25 $15 $26 $20 $61 $28 $62 $30 $63 $10 $2A $28 $64 $10 $2D $28
+.db $65 $10 $30 $28 $31 $0A $33 $12 $34 $28 $35 $19 $36 $21 $37 $29
+.db $38 $31 $39
+
+; 33rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 547B8 to 54833 (124 bytes)
+_DATA_547B8_:
+.db $29 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $38 $38
+.db $40 $40 $40 $40 $40 $48 $48 $48 $48 $48 $0C $11 $14 $12 $1C $13
+.db $24 $14 $0B $15 $13 $16 $1B $17 $23 $18 $0A $19 $12 $1A $1A $1B
+.db $22 $1C $0B $1D $13 $1E $1B $1F $23 $20 $2F $21 $10 $22 $18 $23
+.db $20 $24 $28 $25 $30 $26 $09 $27 $11 $28 $19 $29 $30 $2A $04 $2B
+.db $30 $2C $38 $2D $01 $2E $38 $2F $02 $30 $18 $31 $28 $32 $30 $33
+.db $38 $34 $05 $35 $0D $36 $15 $37 $20 $38 $28 $39
+
+; 34th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54834 to 548AC (121 bytes)
+_DATA_54834_:
+.db $28 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18
+.db $18 $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $40
+.db $40 $40 $40 $40 $48 $48 $48 $48 $48 $0D $3A $15 $3B $1D $3C $0D
+.db $3D $15 $3E $1D $3F $25 $40 $0D $41 $15 $42 $1D $43 $25 $44 $0E
+.db $45 $16 $46 $1E $47 $26 $48 $2E $49 $10 $4A $18 $4B $20 $4C $28
+.db $4D $30 $14 $09 $27 $11 $4E $19 $4F $30 $2A $02 $50 $30 $2C $38
+.db $2D $00 $51 $38 $52 $02 $53 $18 $54 $28 $55 $30 $56 $38 $57 $05
+.db $58 $0D $59 $15 $5A $20 $5B $28 $39
+
+; 35th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 548AD to 54922 (118 bytes)
+_DATA_548AD_:
+.db $27 $00 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18
+.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $40 $40
+.db $40 $40 $40 $48 $48 $48 $48 $48 $10 $5C $18 $5D $20 $5E $0F $5F
+.db $17 $60 $1F $61 $0D $62 $15 $63 $1D $64 $25 $65 $0E $66 $16 $67
+.db $1E $68 $26 $69 $2F $21 $10 $6A $18 $6B $20 $6C $28 $6D $30 $26
+.db $09 $27 $11 $4E $19 $4F $30 $2A $04 $2B $30 $2C $38 $2D $01 $2E
+.db $38 $2F $02 $30 $18 $31 $28 $32 $30 $33 $38 $34 $05 $35 $0D $36
+.db $15 $37 $20 $38 $28 $39
+
+; 36th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54923 to 54998 (118 bytes)
+_DATA_54923_:
+.db $27 $00 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18
+.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $40 $40
+.db $40 $40 $40 $48 $48 $48 $48 $48 $10 $6E $18 $6F $20 $70 $0F $71
+.db $17 $72 $1F $73 $0D $74 $15 $75 $1D $76 $25 $77 $0E $78 $16 $79
+.db $1E $7A $26 $7B $31 $7C $10 $7D $18 $7E $20 $7F $28 $80 $30 $81
+.db $09 $27 $11 $82 $19 $83 $30 $2A $02 $50 $30 $2C $38 $2D $00 $51
+.db $38 $52 $02 $53 $18 $54 $28 $55 $30 $56 $38 $57 $05 $58 $0D $59
+.db $15 $5A $20 $5B $28 $39
+
+; 37th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54999 to 549CC (52 bytes)
+_DATA_54999_:
+.db $11 $00 $08 $08 $08 $10 $10 $18 $18 $18 $20 $20 $28 $28 $30 $30
+.db $38 $38 $16 $0D $10 $0E $18 $0F $20 $10 $0E $11 $20 $12 $09 $13
+.db $11 $14 $20 $15 $09 $16 $20 $17 $0A $18 $20 $19 $0B $1A $20 $1B
+.db $0A $1C $20 $1D
+
+; 38th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 549CD to 54A18 (76 bytes)
+_DATA_549CD_:
+.db $19 $00 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
+.db $28 $28 $28 $28 $30 $30 $30 $38 $38 $38 $16 $0D $10 $0E $18 $0F
+.db $20 $10 $04 $1E $0E $11 $20 $12 $04 $1F $0C $20 $20 $21 $28 $22
+.db $06 $23 $0E $24 $20 $25 $28 $26 $07 $27 $0F $28 $20 $29 $28 $2A
+.db $07 $2B $0F $2C $20 $1B $07 $2D $0F $2E $20 $2F
+
+; 39th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54A19 to 54A64 (76 bytes)
+_DATA_54A19_:
+.db $19 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $16 $0D $10 $0E $18 $0F
+.db $20 $10 $01 $30 $09 $31 $20 $12 $29 $32 $01 $33 $09 $34 $20 $35
+.db $28 $36 $04 $37 $0C $38 $20 $39 $28 $3A $04 $3B $0C $3C $20 $3D
+.db $28 $3E $04 $3F $0C $40 $20 $1B $0A $41 $20 $2F
+
+; 40th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54A65 to 54AB0 (76 bytes)
+_DATA_54A65_:
+.db $19 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $16 $0D $10 $0E $18 $0F
+.db $20 $10 $01 $42 $09 $31 $20 $12 $29 $32 $01 $43 $09 $34 $20 $35
+.db $28 $36 $04 $44 $0C $38 $20 $39 $28 $3A $04 $45 $0C $3C $20 $3D
+.db $28 $3E $04 $46 $0C $40 $20 $1B $0A $41 $20 $2F
+
+; 41st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54AB1 to 54B26 (118 bytes)
+_DATA_54AB1_:
+.db $27 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $20 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30
+.db $30 $30 $30 $38 $38 $38 $38 $38 $09 $09 $11 $0A $21 $0B $08 $0C
+.db $18 $0D $20 $0E $28 $0F $01 $10 $09 $11 $11 $12 $19 $13 $28 $14
+.db $02 $15 $0A $16 $18 $17 $28 $18 $30 $19 $03 $1A $0B $1B $13 $1C
+.db $20 $1D $28 $1E $30 $1F $02 $20 $0A $21 $12 $22 $20 $23 $28 $24
+.db $30 $25 $00 $26 $08 $27 $20 $28 $28 $29 $30 $2A $00 $2B $08 $2C
+.db $10 $2D $18 $2E $20 $2F
+
+; 42nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54B27 to 54B9C (118 bytes)
+_DATA_54B27_:
+.db $27 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $20 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30
+.db $30 $30 $30 $38 $38 $38 $38 $38 $09 $09 $11 $0A $21 $0B $08 $0C
+.db $18 $0D $20 $0E $28 $0F $01 $10 $09 $30 $11 $31 $19 $13 $28 $14
+.db $02 $15 $0A $32 $18 $17 $28 $18 $30 $19 $03 $1A $0B $1B $13 $1C
+.db $20 $1D $28 $33 $30 $34 $02 $20 $0A $21 $12 $22 $20 $23 $28 $35
+.db $30 $36 $00 $37 $08 $38 $20 $39 $29 $3A $31 $3B $00 $3C $08 $3D
+.db $10 $3E $18 $3F $20 $40
+
+; 43rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54B9D to 54C12 (118 bytes)
+_DATA_54B9D_:
+.db $27 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $20 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30
+.db $30 $30 $30 $38 $38 $38 $38 $38 $09 $09 $11 $0A $21 $0B $08 $0C
+.db $18 $0D $20 $0E $28 $0F $01 $10 $09 $41 $11 $42 $19 $43 $28 $14
+.db $02 $15 $0A $16 $18 $44 $28 $18 $30 $19 $03 $1A $0B $1B $13 $1C
+.db $20 $1D $28 $1E $30 $1F $02 $20 $0A $21 $12 $22 $20 $23 $28 $45
+.db $30 $25 $00 $26 $08 $27 $20 $28 $29 $46 $31 $47 $00 $48 $08 $2C
+.db $10 $2D $18 $2E $20 $2F
+
+; 44th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54C13 to 54C88 (118 bytes)
+_DATA_54C13_:
+.db $27 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $20 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30
+.db $30 $30 $30 $38 $38 $38 $38 $38 $09 $09 $11 $0A $21 $0B $08 $0C
+.db $18 $0D $20 $0E $28 $0F $01 $10 $09 $49 $11 $31 $19 $13 $28 $14
+.db $02 $4A $0A $4B $18 $17 $28 $18 $30 $19 $03 $4C $0B $4D $13 $4E
+.db $20 $1D $28 $1E $30 $1F $02 $4F $0A $50 $12 $51 $20 $52 $28 $53
+.db $30 $54 $00 $37 $08 $38 $20 $55 $28 $56 $30 $57 $00 $3C $08 $3D
+.db $10 $3E $18 $3F $20 $40
+
+; 45th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54C89 to 54CD1 (73 bytes)
+_DATA_54C89_:
+.db $18 $00 $00 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18
+.db $18 $18 $18 $20 $20 $20 $20 $28 $28 $06 $00 $0E $01 $16 $02 $1E
+.db $03 $02 $04 $0A $05 $12 $06 $1A $07 $22 $08 $02 $09 $0A $0A $12
+.db $0B $1A $0C $22 $0D $04 $0E $0C $0F $14 $10 $1C $11 $05 $12 $0D
+.db $13 $15 $14 $1D $15 $0C $16 $14 $17
+
+; 46th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54CD2 to 54CEA (25 bytes)
+_DATA_54CD2_:
+.db $08 $00 $08 $10 $10 $18 $18 $20 $20 $11 $18 $13 $19 $0F $1A $17
+.db $1B $0C $1C $14 $1D $0C $1E $15 $1F
+
+; 47th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54CEB to 54D06 (28 bytes)
+_DATA_54CEB_:
+.db $09 $00 $08 $10 $10 $18 $18 $18 $20 $20 $11 $18 $13 $19 $0D $20
+.db $15 $21 $09 $22 $11 $23 $19 $24 $0A $25 $1A $26
+
+; 48th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54D07 to 54D1C (22 bytes)
+_DATA_54D07_:
+.db $07 $00 $08 $10 $18 $18 $20 $20 $11 $18 $13 $19 $11 $27 $0C $28
+.db $14 $29 $0D $2A $15 $2B
+
+; 49th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54D1D to 54D3B (31 bytes)
+_DATA_54D1D_:
+.db $0A $00 $08 $10 $18 $18 $20 $20 $20 $28 $28 $11 $18 $13 $19 $13
+.db $19 $0D $20 $15 $21 $09 $22 $11 $23 $19 $24 $0A $25 $1A $26
+
+; 50th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54D3C to 54D51 (22 bytes)
+_DATA_54D3C_:
+.db $07 $00 $08 $10 $10 $18 $18 $20 $11 $18 $13 $2C $0D $2D $15 $2E
+.db $0C $2F $14 $30 $0C $31
+
+; 51st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54D52 to 54D64 (19 bytes)
+_DATA_54D52_:
+.db $06 $00 $08 $08 $10 $10 $18 $11 $32 $11 $33 $19 $34 $10 $35 $18
+.db $36 $18 $37
+
+; 52nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54D65 to 54D9E (58 bytes)
+_DATA_54D65_:
+.db $13 $00 $08 $08 $10 $10 $18 $18 $18 $20 $20 $20 $20 $28 $28 $28
+.db $28 $30 $30 $30 $11 $18 $11 $38 $19 $39 $11 $3A $19 $3B $07 $3C
+.db $0F $3D $17 $3E $01 $3F $09 $40 $11 $41 $19 $42 $02 $43 $0A $44
+.db $12 $45 $1A $46 $09 $47 $11 $48 $19 $49
+
+; 53rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54D9F to 54DCF (49 bytes)
+_DATA_54D9F_:
+.db $10 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $20 $28
+.db $28 $05 $00 $0D $01 $15 $02 $05 $03 $0D $04 $15 $05 $1D $06 $02
+.db $07 $0A $08 $12 $09 $1A $0A $22 $0B $20 $0C $20 $0D $18 $0E $20
+.db $0F
+
+; 54th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54DD0 to 54DF1 (34 bytes)
+_DATA_54DD0_:
+.db $0B $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $02 $10 $0A $11
+.db $12 $12 $1A $13 $03 $14 $0B $15 $13 $16 $1B $17 $06 $18 $0E $19
+.db $16 $1A
+
+; 55th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54DF2 to 54E13 (34 bytes)
+_DATA_54DF2_:
+.db $0B $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $02 $1B $0A $1C
+.db $12 $1D $1A $1E $02 $1F $0A $20 $12 $21 $1A $22 $06 $18 $0E $19
+.db $16 $1A
+
+; 56th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54E14 to 54E35 (34 bytes)
+_DATA_54E14_:
+.db $0B $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $02 $23 $0A $24
+.db $12 $25 $1A $1E $00 $26 $08 $27 $10 $28 $18 $29 $04 $2A $0C $2B
+.db $14 $2C
+
+; 57th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54E36 to 54E57 (34 bytes)
+_DATA_54E36_:
+.db $0B $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $02 $23 $0A $2D
+.db $12 $25 $1A $1E $00 $26 $08 $2E $10 $2F $18 $29 $04 $2A $0C $2B
+.db $14 $2C
+
+; 58th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54E58 to 54E79 (34 bytes)
+_DATA_54E58_:
+.db $0B $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $02 $23 $0A $24
+.db $12 $25 $1A $1E $00 $30 $08 $31 $10 $28 $18 $29 $04 $32 $0C $33
+.db $14 $2C
+
+; 59th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54E7A to 54E9E (37 bytes)
+_DATA_54E7A_:
+.db $0C $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $02 $23 $0A
+.db $24 $12 $25 $1A $1E $00 $30 $08 $34 $10 $28 $18 $29 $04 $35 $0C
+.db $36 $14 $2C $08 $37
+
+; 60th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54E9F to 54ECF (49 bytes)
+_DATA_54E9F_:
+.db $10 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $20 $28 $28 $30
+.db $30 $02 $23 $0A $24 $12 $25 $1A $38 $00 $30 $08 $39 $10 $28 $18
+.db $3A $04 $2A $0C $3B $14 $2C $08 $3C $06 $3D $0E $3E $06 $3F $0E
+.db $40
+
+; 61st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54ED0 to 54F71 (162 bytes)
+_DATA_54ED0_:
+.db $15 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $40 $40 $48 $48
+.db $48 $50 $50 $50 $58 $58 $02 $23 $0A $24 $12 $25 $1A $1E $00 $30
+.db $08 $39 $10 $28 $18 $29 $04 $2A $0C $3B $14 $2C $05 $41 $0D $42
+.db $03 $43 $0B $44 $13 $45 $03 $46 $0B $47 $13 $48 $04 $49 $0C $4A
+.db $10 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $20 $28
+.db $28 $05 $00 $0D $01 $15 $02 $05 $03 $0D $04 $15 $05 $1D $06 $02
+.db $07 $0A $08 $12 $09 $1A $0A $22 $0B $20 $0C $20 $0D $18 $0E $20
+.db $0F $10 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $20
+.db $28 $28 $05 $00 $0D $01 $15 $02 $05 $03 $0D $04 $15 $05 $1D $06
+.db $02 $07 $0A $08 $12 $09 $1A $0A $22 $0B $20 $0C $20 $0D $18 $0E
+.db $20 $0F
+
+; 64th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54F72 to 54FC0 (79 bytes)
+_DATA_54F72_:
+.db $1A $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $28 $28 $30 $30
+.db $30 $38 $38 $38 $40 $40 $48 $48 $50 $50 $50 $08 $00 $10 $01 $06
+.db $02 $0E $03 $08 $04 $10 $05 $08 $06 $10 $07 $08 $08 $10 $09 $05
+.db $0A $0D $0B $15 $0C $04 $0D $0C $0E $14 $0F $05 $10 $0D $11 $15
+.db $12 $05 $13 $0D $14 $06 $15 $0E $16 $00 $17 $08 $18 $10 $19
+
+; 65th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54FC1 to 54FD0 (16 bytes)
+_DATA_54FC1_:
+.db $05 $08 $10 $18 $20 $28 $01 $1A $00 $1B $00 $1C $00 $1D $02 $1E
+
+; 66th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54FD1 to 54FDD (13 bytes)
+_DATA_54FD1_:
+.db $04 $08 $10 $18 $20 $01 $1F $00 $20 $00 $21 $02 $22
+
+; 67th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54FDE to 54FED (16 bytes)
+_DATA_54FDE_:
+.db $05 $08 $10 $18 $20 $28 $01 $23 $00 $24 $00 $25 $00 $26 $02 $1E
+
+; 68th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54FEE to 54FFA (13 bytes)
+_DATA_54FEE_:
+.db $04 $10 $18 $20 $28 $02 $27 $01 $28 $00 $29 $02 $1E
+
+; 69th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 54FFB to 5500D (19 bytes)
+_DATA_54FFB_:
+.db $06 $10 $10 $18 $18 $20 $28 $00 $2A $08 $2B $00 $2C $08 $2D $00
+.db $29 $02 $1E
+
+; 70th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5500E to 5501D (16 bytes)
+_DATA_5500E_:
+.db $05 $08 $10 $18 $20 $28 $02 $2E $02 $2F $01 $30 $00 $29 $02 $1E
+
+; 72nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5501E to 55084 (103 bytes)
+_DATA_5501E_:
+.db $22 $08 $08 $10 $10 $18 $18 $18 $20 $20 $20 $20 $28 $28 $28 $28
+.db $30 $30 $30 $30 $38 $38 $38 $40 $40 $48 $48 $50 $50 $58 $58 $58
+.db $58 $58 $58 $13 $00 $1B $01 $12 $02 $1A $03 $10 $04 $18 $05 $20
+.db $06 $10 $07 $18 $08 $20 $09 $28 $0A $10 $0B $18 $0C $20 $0D $28
+.db $0E $10 $0F $18 $10 $20 $11 $28 $12 $0D $13 $1C $14 $24 $15 $0C
+.db $16 $1F $17 $0B $18 $20 $19 $08 $1A $22 $1B $01 $1C $09 $1D $11
+.db $1E $19 $1F $21 $20 $29 $21
+
+; 73rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55085 to 550EB (103 bytes)
+_DATA_55085_:
+.db $22 $08 $08 $10 $10 $18 $18 $18 $20 $20 $20 $20 $28 $28 $28 $28
+.db $30 $30 $30 $30 $38 $38 $38 $40 $40 $48 $48 $50 $50 $58 $58 $58
+.db $58 $58 $58 $13 $00 $1B $01 $12 $02 $1A $03 $10 $04 $18 $05 $20
+.db $06 $10 $07 $18 $22 $20 $23 $28 $0A $10 $0B $18 $24 $20 $25 $28
+.db $0E $10 $0F $18 $26 $20 $27 $28 $12 $0D $13 $1C $14 $24 $15 $0C
+.db $16 $1F $17 $0B $18 $20 $19 $08 $1A $22 $1B $01 $1C $09 $1D $11
+.db $1E $19 $1F $21 $20 $29 $21
+
+; 74th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 550EC to 55152 (103 bytes)
+_DATA_550EC_:
+.db $22 $08 $08 $10 $10 $18 $18 $18 $20 $20 $20 $20 $28 $28 $28 $28
+.db $30 $30 $30 $30 $38 $38 $38 $40 $40 $48 $48 $50 $50 $58 $58 $58
+.db $58 $58 $58 $13 $00 $1B $01 $12 $02 $1A $03 $10 $04 $18 $05 $20
+.db $06 $10 $07 $18 $28 $20 $29 $28 $0A $10 $0B $18 $2A $20 $2B $28
+.db $0E $10 $0F $18 $2C $20 $2D $28 $12 $0D $13 $1C $14 $24 $15 $0C
+.db $16 $1F $17 $0B $18 $20 $19 $08 $1A $22 $1B $01 $1C $09 $1D $11
+.db $1E $19 $1F $21 $20 $29 $21
+
+; 75th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55153 to 5516B (25 bytes)
+_DATA_55153_:
+.db $08 $18 $20 $28 $30 $38 $40 $48 $50 $0D $2E $0B $2F $0A $30 $08
+.db $31 $06 $32 $06 $33 $04 $34 $01 $35
+
+; 76th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5516C to 5518D (34 bytes)
+_DATA_5516C_:
+.db $0B $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $0E $36 $16 $37
+.db $08 $38 $10 $39 $1E $0A $06 $3A $0E $3B $1E $3C $26 $0A $0B $3D
+.db $23 $3E
+
+; 77th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5518E to 551A6 (25 bytes)
+_DATA_5518E_:
+.db $08 $00 $08 $08 $10 $10 $10 $18 $18 $0E $3F $08 $40 $10 $41 $04
+.db $42 $0C $3B $1D $43 $08 $44 $20 $45
+
+; 78th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 551A7 to 551B3 (13 bytes)
+_DATA_551A7_:
+.db $04 $00 $08 $10 $18 $0B $46 $08 $47 $08 $48 $08 $49
+
+; 79th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 551B4 to 551CF (28 bytes)
+_DATA_551B4_:
+.db $09 $18 $18 $20 $20 $28 $28 $30 $30 $38 $0D $4A $15 $0A $12 $4B
+.db $1A $4C $19 $4D $21 $4E $1E $4F $26 $50 $29 $51
+
+; 80th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 551D0 to 551EB (28 bytes)
+_DATA_551D0_:
+.db $09 $18 $20 $28 $28 $30 $30 $30 $38 $38 $0D $52 $0E $53 $0F $54
+.db $17 $55 $17 $56 $1F $57 $27 $0A $22 $58 $2A $59
+
+; 81st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 551EC to 5523A (79 bytes)
+_DATA_551EC_:
+.db $1A $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18
+.db $18 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $11 $00 $19 $01 $10
+.db $02 $18 $03 $20 $04 $28 $05 $0F $06 $17 $07 $1F $08 $27 $09 $00
+.db $0A $08 $0B $10 $0C $18 $0D $20 $0E $28 $0F $00 $10 $08 $11 $10
+.db $12 $18 $13 $20 $14 $03 $15 $0B $16 $13 $17 $1B $18 $23 $19
+
+; 82nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5523B to 55286 (76 bytes)
+_DATA_5523B_:
+.db $19 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18
+.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $00 $1A $18 $1B $20 $1C
+.db $28 $1D $01 $1E $09 $1F $16 $20 $1E $21 $26 $22 $00 $0A $08 $23
+.db $10 $24 $18 $25 $20 $0E $28 $0F $00 $26 $08 $27 $10 $28 $18 $13
+.db $20 $14 $03 $29 $0B $2A $13 $17 $1B $18 $23 $19
+
+; 83rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55287 to 552CF (73 bytes)
+_DATA_55287_:
+.db $18 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $28 $28 $28 $28 $28 $18 $1B $20 $04 $28 $05 $00
+.db $2B $08 $2C $19 $2D $21 $2E $29 $2F $00 $30 $08 $31 $10 $32 $18
+.db $33 $20 $34 $28 $0F $00 $10 $08 $11 $10 $12 $18 $13 $20 $14 $03
+.db $15 $0B $16 $13 $17 $1B $18 $23 $19
+
+; 84th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 552D0 to 5533C (109 bytes)
+_DATA_552D0_:
+.db $24 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18
+.db $20 $20 $28 $28 $30 $30 $30 $38 $38 $40 $40 $40 $48 $48 $48 $48
+.db $50 $50 $50 $50 $50 $32 $11 $3A $12 $03 $13 $0B $14 $22 $15 $2A
+.db $16 $38 $17 $08 $18 $10 $19 $18 $1A $21 $1B $30 $1C $0A $1D $20
+.db $1E $30 $1F $28 $20 $30 $21 $20 $22 $28 $23 $01 $24 $20 $25 $28
+.db $26 $00 $27 $28 $28 $02 $29 $28 $2A $30 $2B $04 $2C $20 $2D $28
+.db $2E $30 $2F $08 $30 $10 $31 $18 $32 $20 $33 $30 $34
+
+; 85th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5533D to 5535B (31 bytes)
+_DATA_5533D_:
+.db $0A $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $09 $35 $11 $36 $08
+.db $37 $10 $38 $08 $39 $10 $3A $08 $3B $10 $3C $08 $3D $10 $3E
+
+; 86th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5535C to 5537A (31 bytes)
+_DATA_5535C_:
+.db $0A $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $09 $3F $11 $40 $08
+.db $41 $10 $42 $08 $43 $10 $44 $08 $45 $10 $46 $08 $47 $10 $48
+
+; 87th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5537B to 55399 (31 bytes)
+_DATA_5537B_:
+.db $0A $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $09 $49 $11 $4A $08
+.db $4B $10 $4C $08 $4D $10 $4E $08 $4F $10 $50 $08 $51 $10 $52
+
+; 88th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5539A to 553B8 (31 bytes)
+_DATA_5539A_:
+.db $0A $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $09 $49 $11 $4A $08
+.db $4B $10 $4C $08 $53 $10 $54 $08 $55 $10 $56 $08 $51 $10 $52
+
+; 89th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 553B9 to 553DD (37 bytes)
+_DATA_553B9_:
+.db $0C $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $28 $09 $49 $11
+.db $4A $08 $4B $10 $4C $08 $53 $10 $54 $08 $57 $10 $58 $08 $59 $10
+.db $5A $08 $5B $10 $5C
+
+; 90th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 553DE to 5541D (64 bytes)
+_DATA_553DE_:
+.db $15 $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $30 $30 $38 $38
+.db $38 $38 $40 $40 $40 $40 $09 $49 $11 $4A $08 $4B $10 $4C $08 $5D
+.db $10 $5E $08 $5F $10 $60 $08 $61 $10 $62 $0D $63 $08 $64 $10 $65
+.db $00 $66 $09 $67 $11 $68 $19 $69 $00 $6A $08 $6B $10 $6C $1B $6D
+
+; 91st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5541E to 5545D (64 bytes)
+_DATA_5541E_:
+.db $15 $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $30 $30 $38 $38
+.db $38 $38 $40 $40 $40 $40 $09 $49 $11 $4A $08 $4B $10 $4C $08 $6E
+.db $10 $5E $08 $6F $10 $70 $08 $71 $10 $72 $0D $73 $0B $74 $13 $75
+.db $01 $76 $09 $77 $11 $78 $19 $79 $02 $7A $0A $7B $12 $7C $1A $7D
+
+; 92nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5545E to 5549D (64 bytes)
+_DATA_5545E_:
+.db $15 $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $30 $30 $38 $38
+.db $38 $38 $40 $40 $40 $40 $09 $49 $11 $4A $08 $4B $10 $4C $08 $6E
+.db $10 $5E $08 $7E $10 $7F $08 $80 $10 $81 $0D $82 $08 $83 $10 $84
+.db $00 $85 $08 $86 $10 $87 $18 $88 $01 $89 $09 $8A $11 $8B $19 $8C
+
+; 93rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5549E to 554CE (49 bytes)
+_DATA_5549E_:
+.db $10 $00 $00 $00 $00 $08 $08 $08 $08 $08 $08 $18 $18 $28 $28 $30
+.db $30 $04 $17 $0C $18 $30 $19 $38 $1A $01 $1B $10 $1C $18 $1D $20
+.db $1E $28 $1F $38 $20 $08 $21 $30 $22 $00 $23 $38 $24 $02 $25 $38
+.db $26
+
+; 94th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 554CF to 554F9 (43 bytes)
+_DATA_554CF_:
+.db $0E $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $18 $18 $18 $18 $0B
+.db $27 $13 $28 $1B $29 $23 $2A $09 $2B $11 $2C $19 $2D $22 $2E $0A
+.db $2F $23 $30 $00 $31 $08 $32 $20 $32 $28 $33
+
+; 95th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 554FA to 55521 (40 bytes)
+_DATA_554FA_:
+.db $0D $00 $00 $00 $00 $08 $08 $08 $08 $10 $18 $18 $18 $18 $09 $34
+.db $11 $35 $19 $36 $22 $37 $09 $38 $11 $2C $19 $39 $21 $3A $1E $3B
+.db $00 $31 $08 $32 $20 $32 $28 $33
+
+; 96th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55522 to 55549 (40 bytes)
+_DATA_55522_:
+.db $0D $00 $00 $00 $00 $08 $08 $08 $08 $10 $18 $18 $18 $18 $0D $3C
+.db $15 $3D $1D $3E $25 $3F $0A $40 $12 $41 $1A $42 $22 $43 $0B $44
+.db $00 $31 $08 $32 $20 $32 $28 $33
+
+; 97th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5554A to 55574 (43 bytes)
+_DATA_5554A_:
+.db $0E $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $18 $18 $18 $18 $0B
+.db $45 $13 $46 $1B $47 $23 $2A $09 $48 $11 $49 $19 $4A $22 $2E $0A
+.db $2F $23 $30 $00 $31 $08 $32 $20 $32 $28 $33
+
+; 98th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55575 to 5559F (43 bytes)
+_DATA_55575_:
+.db $0E $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $18 $18 $18 $18 $0B
+.db $45 $13 $46 $1B $47 $23 $2A $09 $48 $11 $4B $19 $4C $22 $2E $0A
+.db $2F $23 $30 $00 $31 $08 $32 $20 $32 $28 $33
+
+; 99th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 555A0 to 555CD (46 bytes)
+_DATA_555A0_:
+.db $0F $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18
+.db $0B $45 $13 $46 $1B $47 $23 $2A $09 $48 $11 $4D $19 $4A $22 $2E
+.db $0A $2F $16 $4E $23 $30 $00 $31 $08 $32 $20 $32 $28 $33
+
+; 100th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 555CE to 55604 (55 bytes)
+_DATA_555CE_:
+.db $12 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $18 $0B $45 $13 $46 $1B $47 $23 $2A $09 $48 $11 $4F $19
+.db $50 $22 $2E $0A $2F $12 $51 $1A $52 $23 $30 $00 $31 $08 $32 $12
+.db $53 $1D $54 $25 $55 $2D $56
+
+; 101st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55605 to 5563E (58 bytes)
+_DATA_55605_:
+.db $13 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $18 $20 $0B $45 $13 $57 $1B $47 $23 $2A $09 $58 $11 $59
+.db $19 $5A $21 $5B $0A $5C $12 $5D $1A $5E $22 $5F $00 $31 $08 $60
+.db $10 $61 $18 $62 $20 $63 $28 $33 $15 $64
+
+; 102nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5563F to 5569F (97 bytes)
+_DATA_5563F_:
+.db $20 $00 $00 $00 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10
+.db $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20 $28 $28 $28 $28
+.db $28 $07 $65 $0F $66 $17 $67 $1F $68 $28 $69 $06 $6A $0E $6B $16
+.db $6C $1E $6D $26 $6E $01 $6F $09 $70 $11 $71 $19 $72 $21 $73 $29
+.db $74 $00 $75 $08 $76 $10 $77 $18 $78 $20 $79 $28 $7A $06 $7B $0E
+.db $7C $16 $7D $1E $7E $26 $7F $04 $80 $0D $81 $15 $82 $1D $83 $29
+.db $84
+
+; 103rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 556A0 to 556D9 (58 bytes)
+_DATA_556A0_:
+.db $13 $08 $08 $08 $08 $10 $10 $10 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $00 $00 $08 $01 $21 $02 $29 $03 $03 $04 $0B $05
+.db $13 $06 $1B $07 $23 $08 $2B $09 $09 $0A $11 $0B $19 $0C $21 $0D
+.db $0A $0E $12 $0F $1A $10 $22 $11 $14 $12
+
+; 104th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 556DA to 55719 (64 bytes)
+_DATA_556DA_:
+.db $15 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $08 $13 $22 $14 $07 $15 $0F $16 $1E $17
+.db $26 $18 $0A $19 $12 $1A $1A $1B $22 $1C $09 $1D $11 $1E $19 $1F
+.db $21 $20 $0A $21 $12 $22 $1A $23 $22 $24 $0C $25 $14 $26 $1E $25
+
+; 105th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5571A to 5574D (52 bytes)
+_DATA_5571A_:
+.db $11 $10 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $00 $27 $08 $28 $10 $29 $18 $2A $20 $2B $28 $2C $00 $2D
+.db $08 $2E $10 $2F $18 $30 $20 $31 $28 $32 $0A $33 $12 $34 $1A $35
+.db $22 $36 $14 $37
+
+; 106th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5574E to 557C3 (118 bytes)
+_DATA_5574E_:
+.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40
+.db $48 $48 $48 $48 $50 $50 $50 $50 $0B $00 $13 $01 $02 $02 $0A $03
+.db $12 $04 $02 $05 $0A $06 $12 $07 $1A $08 $01 $09 $09 $0A $11 $0B
+.db $19 $0C $01 $0D $0A $0E $12 $0F $1A $10 $01 $11 $09 $12 $11 $13
+.db $19 $14 $05 $15 $0D $16 $15 $17 $1D $18 $05 $19 $0D $1A $15 $1B
+.db $06 $1C $0E $1D $16 $1E $04 $1F $0C $20 $14 $21 $1C $22 $02 $23
+.db $0A $24 $12 $25 $1A $26
+
+; 107th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 557C4 to 55839 (118 bytes)
+_DATA_557C4_:
+.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40
+.db $48 $48 $48 $48 $50 $50 $50 $50 $0C $27 $14 $01 $0B $28 $13 $29
+.db $1B $2A $03 $2B $0B $2C $13 $2D $1B $2E $04 $2F $0C $30 $14 $31
+.db $1C $32 $03 $33 $0B $34 $13 $35 $1B $36 $03 $37 $0B $38 $13 $39
+.db $1B $3A $03 $3B $0B $3C $13 $3D $1B $3E $09 $3F $11 $40 $19 $41
+.db $06 $1C $0E $1D $16 $1E $04 $1F $0C $20 $14 $21 $1C $22 $02 $23
+.db $0A $24 $12 $25 $1A $26
+
+; 108th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5583A to 558AF (118 bytes)
+_DATA_5583A_:
+.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40
+.db $48 $48 $48 $48 $50 $50 $50 $50 $0B $42 $13 $43 $02 $44 $0A $45
+.db $12 $46 $02 $05 $0A $47 $12 $48 $1A $08 $01 $09 $09 $0A $11 $0B
+.db $19 $0C $01 $0D $0A $0E $12 $0F $1A $10 $01 $11 $09 $12 $11 $13
+.db $19 $14 $05 $15 $0D $16 $15 $17 $1D $18 $05 $19 $0D $1A $15 $1B
+.db $06 $1C $0E $1D $16 $1E $04 $1F $0C $20 $14 $21 $1C $22 $02 $23
+.db $0A $24 $12 $25 $1A $26
+
+; 109th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 558B0 to 55925 (118 bytes)
+_DATA_558B0_:
+.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40
+.db $48 $48 $48 $48 $50 $50 $50 $50 $0B $49 $13 $4A $02 $02 $0A $4B
+.db $12 $4C $02 $05 $0A $4D $12 $4E $1A $08 $01 $09 $09 $4F $11 $50
+.db $19 $0C $01 $0D $0A $0E $12 $51 $1A $10 $01 $11 $09 $12 $11 $13
+.db $19 $14 $05 $15 $0D $16 $15 $17 $1D $18 $05 $19 $0D $1A $15 $1B
+.db $06 $1C $0E $1D $16 $1E $04 $1F $0C $20 $14 $21 $1C $22 $02 $23
+.db $0A $24 $12 $25 $1A $26
+
+; 110th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55926 to 5599B (118 bytes)
+_DATA_55926_:
+.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40
+.db $48 $48 $48 $48 $50 $50 $50 $50 $0B $52 $13 $53 $02 $02 $0A $54
+.db $12 $55 $02 $05 $0A $56 $12 $57 $1A $08 $01 $09 $09 $58 $11 $59
+.db $19 $0C $01 $0D $0A $5A $12 $5B $1A $10 $01 $11 $09 $12 $11 $13
+.db $19 $14 $05 $15 $0D $16 $15 $17 $1D $18 $05 $19 $0D $1A $15 $1B
+.db $06 $1C $0E $1D $16 $1E $04 $1F $0C $20 $14 $21 $1C $22 $02 $23
+.db $0A $24 $12 $25 $1A $26
+
+; 111th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5599C to 55A11 (118 bytes)
+_DATA_5599C_:
+.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40
+.db $48 $48 $48 $48 $50 $50 $50 $50 $0C $5C $14 $5D $02 $02 $0A $5E
+.db $12 $5F $02 $05 $0A $60 $12 $61 $1A $08 $01 $09 $09 $62 $11 $63
+.db $19 $0C $01 $0D $0A $64 $12 $65 $1A $10 $01 $11 $09 $66 $11 $67
+.db $19 $14 $05 $15 $0D $68 $15 $17 $1D $18 $05 $19 $0D $69 $15 $1B
+.db $06 $1C $0E $6A $16 $1E $04 $1F $0C $20 $14 $21 $1C $22 $02 $23
+.db $0A $24 $12 $25 $1A $26
+
+; 112th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55A12 to 55A87 (118 bytes)
+_DATA_55A12_:
+.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40
+.db $48 $48 $48 $48 $50 $50 $50 $50 $0C $5C $14 $5D $02 $02 $0A $5E
+.db $12 $5F $02 $05 $0A $60 $12 $61 $1A $08 $01 $09 $09 $62 $11 $6B
+.db $19 $0C $01 $0D $0A $6C $12 $6D $1A $10 $01 $11 $09 $66 $11 $6E
+.db $19 $14 $05 $15 $0D $6F $15 $17 $1D $18 $05 $19 $0D $70 $15 $1B
+.db $06 $1C $0E $71 $16 $1E $04 $1F $0C $72 $14 $21 $1C $22 $02 $23
+.db $0A $73 $12 $25 $1A $26
+
+; 113th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55A88 to 55B0F (136 bytes)
+_DATA_55A88_:
+.db $2D $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $28 $28 $28 $30 $30 $30 $38 $38 $38 $38 $40 $40
+.db $40 $40 $40 $40 $48 $48 $48 $48 $48 $50 $50 $50 $50 $50 $01 $0B
+.db $26 $0C $2E $0D $05 $0E $0D $0F $1F $10 $27 $11 $0A $12 $1B $13
+.db $23 $14 $0A $15 $12 $16 $1A $17 $22 $18 $03 $19 $0B $1A $13 $1B
+.db $1B $1C $23 $1D $00 $1E $20 $1F $28 $20 $00 $21 $08 $22 $28 $23
+.db $01 $24 $09 $25 $28 $26 $31 $27 $04 $28 $0C $29 $14 $2A $20 $2B
+.db $28 $2C $30 $2D $09 $2E $11 $2F $19 $30 $21 $31 $29 $32 $06 $33
+.db $0E $34 $16 $35 $1E $36 $26 $37
+
+; 114th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55B10 to 55B97 (136 bytes)
+_DATA_55B10_:
+.db $2D $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $28 $28 $28 $30 $30 $30 $38 $38 $38 $38 $40 $40
+.db $40 $40 $40 $40 $48 $48 $48 $48 $48 $50 $50 $50 $50 $50 $01 $0B
+.db $26 $0C $2E $0D $05 $0E $0D $0F $1F $10 $27 $11 $0A $12 $1B $13
+.db $23 $14 $0A $15 $12 $16 $1A $17 $22 $18 $03 $19 $0B $1A $13 $1B
+.db $1B $1C $23 $1D $00 $1E $20 $38 $28 $39 $00 $3A $08 $3B $28 $3C
+.db $01 $3D $09 $3E $28 $3F $30 $40 $04 $28 $0C $29 $14 $2A $20 $2B
+.db $28 $41 $30 $42 $09 $2E $11 $2F $19 $30 $21 $31 $29 $32 $06 $33
+.db $0E $34 $16 $35 $1E $36 $26 $37
+
+; 115th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55B98 to 55C1C (133 bytes)
+_DATA_55B98_:
+.db $2C $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $20 $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40
+.db $40 $40 $40 $48 $48 $48 $48 $48 $50 $50 $50 $50 $50 $01 $0B $26
+.db $0C $2E $0D $05 $0E $0D $0F $1F $10 $27 $11 $0A $12 $1B $13 $23
+.db $14 $0A $15 $12 $16 $1A $17 $22 $18 $03 $19 $0B $1A $13 $1B $1B
+.db $1C $23 $43 $2B $44 $00 $1E $20 $45 $28 $46 $00 $47 $08 $48 $28
+.db $49 $01 $4A $09 $4B $28 $4C $04 $28 $0C $29 $14 $2A $20 $2B $28
+.db $4D $09 $2E $11 $2F $19 $30 $21 $31 $29 $32 $06 $33 $0E $34 $16
+.db $35 $1E $36 $26 $37
+
+; 116th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55C1D to 55CA1 (133 bytes)
+_DATA_55C1D_:
+.db $2C $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18 $18
+.db $20 $20 $20 $20 $20 $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40
+.db $40 $40 $40 $48 $48 $48 $48 $48 $50 $50 $50 $50 $50 $01 $0B $26
+.db $0C $2E $0D $05 $0E $0D $0F $1F $10 $27 $11 $0A $12 $1B $13 $23
+.db $14 $0A $15 $12 $16 $1A $17 $22 $4E $2A $4F $03 $19 $0B $1A $13
+.db $1B $1B $1C $23 $50 $00 $1E $20 $51 $28 $52 $00 $53 $08 $54 $28
+.db $55 $01 $56 $09 $57 $28 $4C $04 $28 $0C $29 $14 $2A $20 $2B $28
+.db $4D $09 $2E $11 $2F $19 $30 $21 $31 $29 $32 $06 $33 $0E $34 $16
+.db $35 $1E $36 $26 $37
+
+; 117th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55CA2 to 55D29 (136 bytes)
+_DATA_55CA2_:
+.db $2D $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40
+.db $40 $40 $40 $40 $48 $48 $48 $48 $48 $50 $50 $50 $50 $50 $01 $0B
+.db $26 $0C $2E $0D $05 $0E $0D $0F $1F $10 $27 $11 $0A $12 $1B $13
+.db $23 $14 $0A $15 $12 $16 $1A $17 $22 $18 $03 $19 $0B $1A $13 $1B
+.db $1B $58 $23 $59 $00 $1E $1C $5A $24 $5B $00 $5C $08 $5D $1B $5E
+.db $28 $49 $01 $5F $09 $60 $1C $61 $28 $4C $04 $62 $0C $29 $14 $2A
+.db $20 $2B $28 $4D $09 $2E $11 $2F $19 $30 $21 $31 $29 $32 $06 $33
+.db $0E $34 $16 $35 $1E $36 $26 $37
+
+; 118th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55D2A to 55DB4 (139 bytes)
+_DATA_55D2A_:
+.db $2E $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $38
+.db $40 $40 $40 $40 $40 $48 $48 $48 $48 $48 $50 $50 $50 $50 $50 $01
+.db $0B $26 $0C $2E $0D $05 $0E $0D $0F $1F $10 $27 $11 $0A $12 $1B
+.db $13 $23 $14 $0A $15 $12 $16 $1A $17 $22 $18 $03 $19 $0B $1A $13
+.db $1B $1B $63 $23 $64 $00 $1E $1C $65 $24 $66 $00 $5C $08 $5D $1A
+.db $67 $28 $68 $01 $5F $09 $60 $19 $69 $21 $6A $29 $6B $04 $62 $0C
+.db $29 $14 $6C $1C $6D $24 $6E $09 $2E $11 $2F $19 $30 $21 $31 $29
+.db $32 $06 $33 $0E $34 $16 $35 $1E $36 $26 $37
+
+; 121st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55DB5 to 55E27 (115 bytes)
+_DATA_55DB5_:
+.db $26 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40
+.db $40 $40 $48 $48 $48 $48 $48 $0D $00 $15 $01 $04 $02 $0C $03 $14
+.db $04 $1C $05 $03 $06 $0B $07 $13 $08 $1B $09 $03 $0A $0B $0B $13
+.db $0C $1B $0D $03 $0E $0B $0F $13 $10 $1B $11 $03 $12 $0B $13 $13
+.db $14 $1B $15 $03 $16 $0B $17 $15 $18 $1D $19 $04 $1A $0C $1B $15
+.db $1C $1D $1D $08 $1E $10 $1F $18 $20 $02 $21 $0A $22 $12 $23 $1A
+.db $24 $22 $25
+
+; 122nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55E28 to 55E49 (34 bytes)
+_DATA_55E28_:
+.db $0B $00 $08 $08 $10 $10 $18 $18 $20 $28 $30 $38 $08 $26 $03 $27
+.db $0B $28 $04 $29 $0C $2A $04 $2B $0C $2C $06 $2D $06 $2E $06 $2F
+.db $07 $30
+
+; 123rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55E4A to 55E65 (28 bytes)
+_DATA_55E4A_:
+.db $09 $08 $08 $10 $10 $18 $18 $20 $20 $28 $03 $31 $0B $32 $04 $33
+.db $0C $34 $04 $35 $0C $36 $06 $37 $0E $38 $06 $39
+
+; 124th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55E66 to 55E7E (25 bytes)
+_DATA_55E66_:
+.db $08 $08 $08 $10 $10 $18 $18 $20 $20 $03 $3A $0B $3B $04 $3C $0C
+.db $3D $04 $3E $0C $3F $05 $40 $0D $41
+
+; 125th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55E7F to 55E97 (25 bytes)
+_DATA_55E7F_:
+.db $08 $08 $08 $10 $10 $18 $18 $20 $20 $03 $3A $0B $3B $04 $3C $0C
+.db $3D $04 $42 $0C $3F $05 $40 $0D $41
+
+; 126th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55E98 to 55EB0 (25 bytes)
+_DATA_55E98_:
+.db $08 $08 $08 $10 $10 $18 $18 $20 $20 $03 $3A $0B $3B $04 $3C $0C
+.db $3D $04 $43 $0C $44 $05 $45 $0D $41
+
+; 127th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55EB1 to 55ECF (31 bytes)
+_DATA_55EB1_:
+.db $0A $08 $08 $10 $10 $10 $18 $18 $20 $20 $20 $03 $3A $0B $3B $01
+.db $46 $09 $47 $11 $48 $02 $49 $0A $4A $01 $4B $09 $4C $11 $4D
+
+; 128th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55ED0 to 55EF1 (34 bytes)
+_DATA_55ED0_:
+.db $0B $08 $08 $10 $10 $10 $18 $18 $18 $20 $20 $20 $03 $3A $0B $3B
+.db $01 $4E $09 $4F $11 $48 $00 $50 $08 $51 $10 $52 $00 $53 $08 $54
+.db $10 $55
+
+; 129th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55EF2 to 55F10 (31 bytes)
+_DATA_55EF2_:
+.db $0A $08 $08 $10 $10 $18 $18 $18 $20 $20 $20 $03 $3A $0B $3B $03
+.db $56 $0B $57 $00 $58 $08 $59 $10 $5A $00 $5B $08 $5C $10 $5D
+
+; 130th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55F11 to 55F4D (61 bytes)
+_DATA_55F11_:
+.db $14 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $20 $20 $28 $28 $01 $00 $09 $01 $21 $02 $29 $03 $0A $04 $12
+.db $05 $1A $06 $22 $07 $00 $08 $08 $09 $20 $0A $28 $0B $01 $0C $09
+.db $0D $20 $0E $28 $0F $0C $10 $20 $11 $09 $12 $20 $13
+
+; 131st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55F4E to 55F66 (25 bytes)
+_DATA_55F4E_:
+.db $08 $00 $00 $08 $08 $10 $10 $18 $18 $00 $14 $08 $15 $00 $16 $08
+.db $17 $00 $18 $08 $19 $00 $1A $08 $1B
+
+; 132nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55F67 to 55F7F (25 bytes)
+_DATA_55F67_:
+.db $08 $00 $00 $08 $08 $10 $10 $18 $18 $00 $1C $08 $1D $00 $1E $08
+.db $1F $00 $18 $08 $19 $00 $1A $08 $1B
+
+; 133rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55F80 to 55F98 (25 bytes)
+_DATA_55F80_:
+.db $08 $00 $00 $08 $08 $10 $10 $18 $18 $00 $20 $08 $21 $00 $22 $08
+.db $23 $00 $18 $08 $19 $00 $1A $08 $1B
+
+; 134th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55F99 to 55FB1 (25 bytes)
+_DATA_55F99_:
+.db $08 $00 $00 $08 $08 $10 $10 $18 $18 $00 $20 $08 $21 $00 $24 $08
+.db $25 $00 $26 $08 $27 $00 $1A $08 $1B
+
+; 135th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55FB2 to 55FCA (25 bytes)
+_DATA_55FB2_:
+.db $08 $00 $00 $08 $08 $10 $10 $18 $18 $00 $20 $08 $21 $00 $28 $08
+.db $29 $00 $2A $08 $2B $00 $2C $08 $2D
+
+; 136th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55FCB to 55FE3 (25 bytes)
+_DATA_55FCB_:
+.db $08 $00 $00 $08 $08 $10 $10 $18 $18 $00 $20 $08 $21 $00 $2E $08
+.db $2F $00 $30 $08 $31 $00 $32 $08 $33
+
+; 142nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 55FE4 to 56038 (85 bytes)
+_DATA_55FE4_:
+.db $1C $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $20 $20 $28 $28 $28
+.db $28 $30 $30 $30 $30 $38 $38 $40 $40 $40 $40 $48 $48 $11 $0E $19
+.db $0F $08 $10 $20 $11 $07 $12 $28 $12 $07 $13 $28 $13 $07 $14 $0F
+.db $15 $20 $16 $28 $17 $05 $18 $0D $19 $20 $1A $28 $1B $05 $1C $0D
+.db $1D $20 $1E $28 $1F $0B $20 $20 $21 $0B $22 $13 $23 $1B $24 $23
+.db $25 $08 $26 $20 $27
+
+; 144th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56039 to 56045 (13 bytes)
+_DATA_56039_:
+.db $04 $08 $08 $10 $10 $10 $28 $18 $29 $10 $2A $18 $2B
+
+; 145th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56046 to 56052 (13 bytes)
+_DATA_56046_:
+.db $04 $08 $08 $10 $10 $10 $2C $18 $2D $10 $2E $18 $2F
+
+; 146th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56053 to 5605F (13 bytes)
+_DATA_56053_:
+.db $04 $08 $08 $10 $10 $10 $30 $18 $31 $10 $32 $18 $33
+
+; 147th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56060 to 5606F (16 bytes)
+_DATA_56060_:
+.db $05 $08 $08 $10 $10 $18 $10 $34 $18 $35 $10 $36 $18 $37 $17 $38
+
+; 148th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56070 to 56082 (19 bytes)
+_DATA_56070_:
+.db $06 $08 $08 $10 $10 $18 $18 $10 $39 $18 $3A $10 $3B $18 $3C $12
+.db $3D $1A $3E
+
+; 149th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56083 to 560A4 (34 bytes)
+_DATA_56083_:
+.db $0B $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18 $0E $3F $16 $40
+.db $1E $41 $06 $42 $0E $43 $16 $44 $1E $45 $26 $46 $0E $47 $16 $48
+.db $1E $49
+
+; 150th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 560A5 to 560E7 (67 bytes)
+_DATA_560A5_:
+.db $16 $00 $00 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18
+.db $18 $18 $18 $20 $20 $20 $20 $0F $4A $17 $4B $1F $4C $2C $4D $09
+.db $4E $11 $4F $19 $50 $21 $51 $29 $52 $08 $53 $10 $54 $18 $55 $20
+.db $56 $00 $57 $08 $58 $10 $59 $18 $5A $20 $5B $00 $5C $0F $5D $17
+.db $5E $1F $5F
+
+; 151st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 560E8 to 56142 (91 bytes)
+_DATA_560E8_:
+.db $1E $00 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $38 $38 $38 $0E
+.db $00 $16 $01 $1E $02 $0D $03 $15 $04 $1D $05 $0A $06 $12 $07 $1A
+.db $08 $22 $09 $0C $0A $14 $0B $1C $0C $24 $0D $0D $0E $15 $0F $1D
+.db $10 $25 $11 $0B $12 $13 $13 $1B $14 $23 $15 $0D $16 $15 $17 $1D
+.db $18 $07 $19 $0F $1A $17 $1B $1F $1C $27 $1D
+
+; 152nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56143 to 5619A (88 bytes)
+_DATA_56143_:
+.db $1D $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $38 $38 $38 $0E $1E
+.db $1A $1F $0D $20 $15 $21 $1D $22 $0A $23 $12 $24 $1A $25 $22 $26
+.db $0C $0A $14 $0B $1C $0C $24 $0D $0D $0E $15 $0F $1D $10 $25 $11
+.db $0B $12 $13 $13 $1B $14 $23 $15 $0D $16 $15 $17 $1D $18 $07 $19
+.db $0F $1A $17 $1B $1F $1C $27 $1D
+
+; 153rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5619B to 561F5 (91 bytes)
+_DATA_5619B_:
+.db $1E $00 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $38 $38 $38 $0E
+.db $00 $16 $01 $1E $02 $0D $03 $15 $27 $1D $05 $0A $06 $12 $28 $1A
+.db $29 $22 $2A $0C $0A $14 $0B $1C $0C $24 $0D $0D $0E $15 $0F $1D
+.db $10 $25 $11 $0B $12 $13 $13 $1B $14 $23 $15 $0D $16 $15 $17 $1D
+.db $18 $07 $19 $0F $1A $17 $1B $1F $1C $27 $1D
+
+; 154th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 561F6 to 56202 (13 bytes)
+_DATA_561F6_:
+.db $04 $18 $20 $28 $30 $09 $2B $08 $2C $07 $2D $06 $2E
+
+; 155th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56203 to 5620F (13 bytes)
+_DATA_56203_:
+.db $04 $18 $20 $20 $28 $08 $2F $02 $30 $0A $31 $06 $32
+
+; 156th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56210 to 56225 (22 bytes)
+_DATA_56210_:
+.db $07 $00 $08 $08 $10 $10 $18 $18 $07 $33 $03 $34 $0B $35 $02 $36
+.db $0A $37 $04 $38 $0C $39
+
+; 157th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56226 to 56232 (13 bytes)
+_DATA_56226_:
+.db $04 $10 $18 $20 $28 $06 $3A $02 $3B $02 $3C $07 $3D
+
+; 158th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56233 to 5623F (13 bytes)
+_DATA_56233_:
+.db $04 $18 $20 $28 $30 $09 $3E $08 $3F $07 $40 $07 $41
+
+; 159th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56240 to 5624C (13 bytes)
+_DATA_56240_:
+.db $04 $18 $20 $20 $28 $08 $42 $07 $43 $0F $44 $06 $45
+
+; 160th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5624D to 56259 (13 bytes)
+_DATA_5624D_:
+.db $04 $18 $20 $20 $28 $08 $46 $06 $47 $0E $48 $06 $49
+
+; 161st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5625A to 56269 (16 bytes)
+_DATA_5625A_:
+.db $05 $18 $18 $20 $20 $28 $06 $4A $0E $4B $04 $4C $0C $4D $06 $4E
+
+; 162nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5626A to 5627F (22 bytes)
+_DATA_5626A_:
+.db $07 $18 $18 $20 $20 $20 $28 $28 $02 $4F $0A $50 $01 $51 $09 $52
+.db $11 $53 $02 $54 $0A $55
+
+; 163rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56280 to 56298 (25 bytes)
+_DATA_56280_:
+.db $08 $18 $18 $18 $20 $20 $28 $28 $28 $00 $56 $08 $46 $10 $57 $06
+.db $47 $0E $48 $00 $58 $08 $59 $10 $5A
+
+; 164th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56299 to 562D8 (64 bytes)
+_DATA_56299_:
+.db $15 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $28 $28 $28 $28 $30 $30 $18 $0D $20 $0E $15 $0F $1D $10 $25 $11
+.db $0C $12 $14 $13 $28 $14 $30 $15 $0D $16 $15 $17 $28 $18 $30 $19
+.db $11 $1A $28 $1B $10 $1C $18 $1D $20 $1E $28 $1F $15 $20 $28 $21
+
+; 165th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 562D9 to 56327 (79 bytes)
+_DATA_562D9_:
+.db $1A $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $28 $28 $28 $28 $28 $30 $30 $18 $0D $20 $0E $15
+.db $0F $1D $10 $25 $11 $0C $12 $14 $13 $28 $14 $30 $15 $0D $22 $15
+.db $23 $1D $24 $25 $25 $2D $26 $0B $27 $13 $28 $1B $29 $23 $2A $2B
+.db $2B $0D $2C $15 $2D $1D $2E $25 $2F $2D $30 $15 $20 $28 $21
+
+; 166th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56328 to 56388 (97 bytes)
+_DATA_56328_:
+.db $20 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18 $20
+.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $28 $28 $30 $30 $30
+.db $30 $18 $0D $20 $0E $15 $0F $1D $10 $25 $11 $0C $12 $14 $13 $28
+.db $14 $30 $15 $0D $31 $15 $32 $1D $24 $25 $33 $2D $34 $09 $35 $11
+.db $36 $19 $37 $21 $38 $29 $39 $31 $3A $02 $3B $0A $3C $12 $3D $1A
+.db $3E $22 $3F $2C $40 $34 $41 $3C $42 $00 $43 $15 $20 $28 $21 $37
+.db $44
+
+; 167th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56389 to 563CE (70 bytes)
+_DATA_56389_:
+.db $17 $00 $00 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18
+.db $20 $20 $28 $28 $28 $28 $30 $30 $18 $0D $20 $0E $15 $0F $1D $10
+.db $25 $11 $0C $12 $14 $13 $1F $45 $28 $14 $30 $15 $0D $16 $15 $46
+.db $1D $47 $25 $48 $2D $49 $11 $1A $28 $1B $10 $1C $18 $1D $20 $1E
+.db $28 $1F $15 $20 $28 $21
+
+; 168th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 563CF to 56417 (73 bytes)
+_DATA_563CF_:
+.db $18 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $28 $30 $30 $18 $0D $20 $0E $15 $0F $1D
+.db $10 $25 $11 $0C $12 $14 $13 $28 $14 $30 $15 $0D $16 $15 $4A $1D
+.db $4B $28 $18 $30 $19 $11 $1A $19 $4C $21 $4D $29 $4E $10 $1C $18
+.db $1D $20 $1E $28 $1F $15 $20 $28 $21
+
+; 169th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56418 to 56460 (73 bytes)
+_DATA_56418_:
+.db $18 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $28 $30 $30 $18 $0D $20 $0E $15 $0F $1D
+.db $10 $25 $11 $0C $12 $14 $13 $28 $14 $30 $15 $0D $16 $15 $4F $1E
+.db $50 $28 $18 $30 $19 $11 $1A $1A $51 $22 $52 $2A $53 $10 $54 $18
+.db $55 $20 $56 $28 $57 $15 $20 $28 $21
+
+; 170th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56461 to 564AC (76 bytes)
+_DATA_56461_:
+.db $19 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $18 $0D $20 $0E $15 $0F
+.db $1D $10 $25 $11 $0C $12 $14 $13 $28 $14 $30 $15 $0D $16 $15 $17
+.db $1D $58 $28 $18 $30 $19 $11 $1A $1B $59 $23 $5A $2B $5B $10 $5C
+.db $18 $5D $20 $5E $28 $5F $14 $60 $1C $61 $24 $62
+
+; 171st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 564AD to 564EF (67 bytes)
+_DATA_564AD_:
+.db $16 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
+.db $28 $28 $28 $28 $30 $30 $30 $18 $0D $20 $0E $15 $0F $1D $10 $25
+.db $11 $0C $12 $14 $13 $28 $14 $30 $15 $0D $16 $15 $17 $28 $18 $30
+.db $19 $11 $1A $28 $1B $10 $63 $18 $64 $20 $65 $28 $66 $14 $67 $1C
+.db $68 $24 $69
+
+; 172nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 564F0 to 56535 (70 bytes)
+_DATA_564F0_:
+.db $17 $00 $00 $08 $08 $08 $08 $10 $10 $10 $18 $18 $18 $20 $20 $20
+.db $28 $28 $28 $28 $30 $30 $30 $30 $11 $6A $28 $6B $12 $6C $1A $6D
+.db $22 $6E $2A $6F $15 $70 $1D $71 $25 $72 $15 $73 $1D $74 $25 $75
+.db $14 $76 $1C $77 $24 $78 $12 $79 $1A $7A $22 $7B $2A $7C $0D $7D
+.db $15 $7E $28 $7F $30 $80
+
+; 173rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56536 to 565AE (121 bytes)
+_DATA_56536_:
+.db $28 $00 $00 $08 $08 $10 $10 $10 $18 $18 $20 $20 $28 $28 $28 $30
+.db $30 $38 $38 $40 $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50 $58
+.db $58 $58 $58 $58 $60 $60 $60 $60 $60 $17 $0E $22 $0F $17 $10 $1F
+.db $11 $15 $12 $20 $13 $28 $14 $15 $15 $28 $16 $14 $17 $20 $18 $16
+.db $19 $20 $1A $28 $1B $13 $1C $30 $1D $12 $1E $30 $1F $11 $20 $19
+.db $21 $28 $22 $30 $23 $11 $24 $20 $25 $28 $26 $30 $27 $10 $28 $1E
+.db $29 $26 $2A $30 $2B $0C $2C $16 $2D $1E $2E $28 $2F $30 $30 $0A
+.db $31 $12 $32 $1A $33 $22 $34 $2A $35
+
+; 174th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 565AF to 565DF (49 bytes)
+_DATA_565AF_:
+.db $10 $10 $18 $18 $18 $20 $20 $28 $28 $30 $30 $38 $38 $40 $48 $50
+.db $58 $0F $36 $0D $37 $15 $38 $28 $39 $0E $3A $27 $3B $0C $3C $29
+.db $3D $0B $3E $2A $3F $0C $40 $2A $41 $0A $42 $09 $43 $07 $44 $07
+.db $45
+
+; 175th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 565E0 to 56616 (55 bytes)
+_DATA_565E0_:
+.db $12 $10 $18 $18 $18 $20 $20 $20 $28 $28 $28 $30 $30 $30 $38 $40
+.db $48 $50 $58 $0F $36 $0D $37 $15 $38 $28 $46 $0E $3A $26 $47 $2E
+.db $48 $0C $3C $26 $49 $2E $4A $0B $3E $26 $4B $2E $4C $0C $40 $0A
+.db $42 $09 $43 $07 $44 $07 $45
+
+; 176th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56617 to 56647 (49 bytes)
+_DATA_56617_:
+.db $10 $10 $18 $18 $18 $20 $20 $20 $28 $28 $28 $30 $38 $40 $48 $50
+.db $58 $0F $36 $0D $37 $15 $38 $28 $4D $0E $3A $25 $4E $2D $4F $0C
+.db $3C $25 $50 $2D $51 $0B $3E $0C $40 $0A $42 $09 $43 $07 $44 $07
+.db $45
+
+; 177th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56648 to 5667B (52 bytes)
+_DATA_56648_:
+.db $11 $10 $18 $18 $18 $20 $20 $20 $20 $28 $28 $28 $28 $28 $30 $30
+.db $30 $38 $0F $36 $0D $52 $15 $53 $28 $39 $10 $54 $18 $55 $26 $56
+.db $2E $57 $14 $58 $1C $59 $24 $5A $2C $5B $34 $5C $1C $5D $24 $5E
+.db $2C $5F $2A $41
+
+; 178th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5667C to 566B2 (55 bytes)
+_DATA_5667C_:
+.db $12 $00 $08 $10 $10 $10 $18 $18 $18 $18 $18 $20 $20 $20 $20 $28
+.db $28 $30 $38 $2A $60 $28 $61 $0F $36 $23 $62 $2B $63 $0D $64 $15
+.db $65 $1D $66 $25 $67 $2D $68 $10 $69 $18 $6A $20 $6B $28 $6C $1A
+.db $6D $29 $3D $2A $3F $2A $41
+
+; 179th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 566B3 to 566DA (40 bytes)
+_DATA_566B3_:
+.db $0D $10 $10 $18 $18 $18 $18 $20 $20 $28 $28 $30 $30 $38 $0E $6E
+.db $25 $6F $0E $70 $16 $71 $22 $72 $2A $73 $20 $74 $28 $6C $1E $75
+.db $29 $3D $1A $76 $2A $3F $2A $41
+
+; 181st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 566DB to 56720 (70 bytes)
+_DATA_566DB_:
+.db $17 $28 $28 $30 $30 $30 $38 $38 $40 $40 $48 $48 $48 $50 $50 $58
+.db $58 $58 $58 $58 $60 $60 $60 $60 $14 $1C $30 $1D $0D $1E $15 $1F
+.db $30 $20 $08 $21 $30 $22 $00 $23 $30 $24 $08 $25 $10 $26 $30 $27
+.db $15 $28 $30 $29 $13 $2A $1B $2B $23 $2C $2B $2D $33 $2E $0D $2F
+.db $15 $30 $30 $31 $38 $32
+
+; 182nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56721 to 5677B (91 bytes)
+_DATA_56721_:
+.db $1E $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20
+.db $20 $20 $20 $28 $28 $28 $28 $28 $30 $30 $30 $30 $30 $38 $38 $1C
+.db $33 $24 $34 $2C $35 $00 $36 $08 $37 $19 $38 $28 $39 $01 $3A $09
+.db $3B $12 $3C $1A $3D $28 $3E $30 $3F $02 $40 $0A $41 $12 $42 $1A
+.db $43 $30 $44 $10 $45 $18 $46 $20 $47 $28 $48 $30 $49 $11 $4A $19
+.db $4B $21 $4C $29 $4D $31 $4E $2A $4F $32 $50
+
+; 183rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5677C to 567D3 (88 bytes)
+_DATA_5677C_:
+.db $1D $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20 $28 $00
+.db $08 $10 $18 $18 $20 $20 $20 $20 $28 $28 $28 $30 $30 $38 $1B $51
+.db $23 $52 $19 $53 $21 $54 $29 $55 $17 $56 $1F $57 $27 $58 $2F $59
+.db $16 $5A $1E $5B $26 $5C $2E $5D $20 $5E $15 $5F $13 $60 $15 $61
+.db $10 $62 $18 $63 $11 $64 $19 $65 $21 $66 $29 $67 $14 $68 $1C $69
+.db $24 $6A $15 $6B $1F $6C $15 $6D
+
+; 184th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 567D4 to 56822 (79 bytes)
+_DATA_567D4_:
+.db $1A $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20 $28 $08
+.db $10 $18 $20 $20 $28 $28 $28 $28 $30 $30 $30 $1B $51 $23 $52 $19
+.db $53 $21 $54 $29 $55 $17 $56 $1F $57 $27 $58 $2F $59 $16 $5A $1E
+.db $5B $26 $5C $2E $5D $20 $5E $0C $6E $08 $6F $06 $70 $06 $71 $10
+.db $72 $07 $73 $11 $74 $19 $75 $21 $76 $08 $77 $14 $78 $1C $79
+
+; 185th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56823 to 5685F (61 bytes)
+_DATA_56823_:
+.db $14 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20 $28 $28
+.db $28 $30 $38 $40 $40 $1E $7A $26 $7B $19 $7C $21 $7D $29 $7E $16
+.db $7F $1E $80 $26 $81 $2E $82 $16 $83 $1E $84 $26 $85 $2E $86 $20
+.db $87 $18 $88 $25 $89 $16 $8A $0B $8B $12 $8C $1A $8D
+
+; 186th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56860 to 568AE (79 bytes)
+_DATA_56860_:
+.db $1A $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20 $28 $20
+.db $20 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $1E $7A $26 $7B $19
+.db $7C $21 $7D $29 $7E $16 $7F $1E $80 $26 $81 $2E $82 $16 $83 $1E
+.db $84 $26 $85 $2E $86 $20 $87 $19 $8E $21 $8F $1C $90 $24 $91 $2C
+.db $92 $25 $93 $2D $94 $35 $95 $3D $35 $2B $96 $33 $97 $3B $98
+
+; 187th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 568AF to 5692A (124 bytes)
+_DATA_568AF_:
+.db $29 $00 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $20 $20 $28 $30
+.db $38 $38 $40 $40 $48 $48 $48 $50 $50 $50 $50 $50 $58 $58 $58 $58
+.db $58 $60 $60 $60 $60 $68 $68 $68 $68 $68 $16 $31 $1E $32 $26 $33
+.db $10 $34 $28 $35 $06 $36 $0E $37 $30 $38 $38 $39 $04 $3A $38 $3B
+.db $04 $3C $38 $3D $05 $3E $05 $3F $04 $40 $30 $41 $04 $42 $30 $43
+.db $07 $44 $0F $45 $38 $46 $08 $47 $18 $48 $22 $49 $2A $4A $38 $4B
+.db $07 $4C $18 $4D $28 $4E $30 $4F $38 $50 $06 $51 $0E $52 $18 $53
+.db $30 $54 $05 $55 $18 $56 $20 $57 $28 $58 $30 $59
+
+; 188th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5692B to 56943 (25 bytes)
+_DATA_5692B_:
+.db $08 $28 $28 $30 $30 $30 $38 $38 $38 $30 $5A $38 $5B $2E $5C $36
+.db $5D $3E $5E $2E $5F $36 $60 $3E $61
+
+; 189th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56944 to 56953 (16 bytes)
+_DATA_56944_:
+.db $05 $28 $28 $30 $30 $38 $30 $62 $38 $63 $2E $64 $36 $65 $37 $66
+
+; 190th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56954 to 56963 (16 bytes)
+_DATA_56954_:
+.db $05 $20 $28 $28 $30 $30 $33 $67 $30 $68 $38 $69 $30 $6A $38 $6B
+
+; 191st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56964 to 5699D (58 bytes)
+_DATA_56964_:
+.db $13 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40 $40
+.db $48 $48 $48 $48 $2D $6C $35 $6D $3D $6E $26 $6F $2E $70 $36 $71
+.db $3E $72 $22 $73 $2A $74 $32 $75 $3A $76 $21 $77 $29 $78 $31 $79
+.db $39 $7A $22 $7B $2A $7C $32 $7D $3A $7E
+
+; 192nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5699E to 56A01 (100 bytes)
+_DATA_5699E_:
+.db $21 $00 $00 $00 $08 $08 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
+.db $28 $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $48 $48 $50 $50
+.db $58 $58 $13 $19 $1B $1A $23 $1B $10 $1C $20 $1D $0E $1E $28 $1F
+.db $0E $20 $16 $21 $20 $22 $28 $23 $09 $24 $11 $25 $20 $26 $28 $27
+.db $09 $28 $11 $29 $20 $2A $28 $2B $0A $2C $12 $2D $28 $2E $0B $2F
+.db $28 $30 $34 $31 $0B $32 $30 $33 $0D $34 $30 $35 $12 $36 $28 $37
+.db $13 $38 $28 $39
+
+; 193rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56A02 to 56A08 (7 bytes)
+_DATA_56A02_:
+.db $02 $08 $10 $19 $3A $19 $3B
+
+; 194th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56A09 to 56A15 (13 bytes)
+_DATA_56A09_:
+.db $04 $08 $08 $10 $10 $18 $3C $20 $3D $17 $3E $1F $3F
+
+; 195th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56A16 to 56A28 (19 bytes)
+_DATA_56A16_:
+.db $06 $08 $08 $08 $10 $10 $10 $14 $40 $1C $41 $24 $42 $14 $43 $1C
+.db $44 $24 $45
+
+; 196th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56A29 to 56A86 (94 bytes)
+_DATA_56A29_:
+.db $1F $08 $08 $10 $10 $18 $18 $20 $20 $28 $28 $30 $30 $38 $38 $38
+.db $40 $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50 $58 $58 $58 $58
+.db $18 $3C $20 $3D $17 $46 $1F $47 $16 $48 $1E $49 $13 $4A $1F $4B
+.db $11 $4C $21 $4D $0F $4E $23 $4F $0C $50 $25 $51 $2D $3D $09 $52
+.db $11 $53 $25 $54 $2D $55 $06 $56 $0E $57 $27 $58 $2F $59 $03 $5A
+.db $0B $5B $29 $5C $31 $5D $01 $5E $09 $5F $2A $60 $32 $61
+
+; 197th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56A87 to 56A9F (25 bytes)
+_DATA_56A87_:
+.db $08 $58 $58 $58 $58 $60 $60 $60 $60 $00 $62 $08 $63 $2A $62 $32
+.db $63 $00 $64 $08 $65 $2A $64 $32 $65
+
+; 198th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56AA0 to 56ADC (61 bytes)
+_DATA_56AA0_:
+.db $14 $50 $50 $50 $50 $58 $58 $58 $58 $58 $58 $60 $60 $60 $60 $60
+.db $60 $68 $68 $68 $68 $00 $66 $08 $67 $29 $66 $31 $67 $FC $68 $04
+.db $69 $0C $6A $25 $68 $2D $69 $35 $6A $FC $6B $04 $69 $0C $6C $25
+.db $6B $2D $69 $35 $6C $00 $6D $08 $6E $29 $6D $31 $6E
+
+; 199th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56ADD to 56B19 (61 bytes)
+_DATA_56ADD_:
+.db $14 $08 $08 $10 $10 $10 $18 $18 $20 $20 $28 $30 $30 $38 $38 $38
+.db $40 $40 $48 $50 $58 $1A $0A $22 $0B $10 $0C $18 $0D $20 $0E $10
+.db $0F $28 $10 $11 $11 $28 $12 $11 $13 $12 $14 $28 $15 $18 $16 $20
+.db $17 $28 $18 $1A $19 $22 $1A $1A $1B $1A $1C $18 $1D
+
+; 200th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56B1A to 56B38 (31 bytes)
+_DATA_56B1A_:
+.db $0A $00 $00 $00 $08 $08 $08 $10 $18 $28 $30 $00 $1E $08 $1F $28
+.db $20 $01 $21 $09 $22 $27 $23 $27 $24 $16 $25 $13 $26 $15 $27
+
+; 201st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56B39 to 56B5D (37 bytes)
+_DATA_56B39_:
+.db $0C $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $20 $28 $03 $28 $0D
+.db $29 $22 $2A $03 $2B $0B $2C $1C $2D $24 $2E $0C $2F $14 $30 $1C
+.db $31 $14 $32 $17 $33
+
+; 202nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56B5E to 56B7F (34 bytes)
+_DATA_56B5E_:
+.db $0B $08 $08 $10 $10 $10 $18 $18 $18 $20 $20 $28 $08 $34 $1B $35
+.db $0B $36 $13 $37 $1B $38 $0D $39 $15 $3A $1D $3B $10 $3C $18 $3D
+.db $10 $3E
+
+; 203rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56B80 to 56B8F (16 bytes)
+_DATA_56B80_:
+.db $05 $10 $10 $18 $18 $20 $11 $3F $1D $40 $13 $41 $1B $42 $15 $43
+
+; 207th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56B90 to 56BB7 (40 bytes)
+_DATA_56B90_:
+.db $0D $38 $38 $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50 $08 $00
+.db $10 $01 $04 $02 $0C $03 $14 $04 $00 $05 $08 $06 $10 $07 $18 $08
+.db $01 $09 $09 $0A $11 $0B $19 $0C
+
+; 208th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56BB8 to 56BF4 (61 bytes)
+_DATA_56BB8_:
+.db $14 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $40 $40 $48 $48 $48
+.db $48 $50 $50 $50 $50 $04 $0D $0C $0E $03 $0F $0B $10 $13 $11 $04
+.db $12 $0C $13 $14 $14 $01 $15 $09 $16 $11 $17 $19 $18 $00 $19 $08
+.db $1A $10 $1B $18 $1C $01 $1D $09 $1E $11 $1F $19 $20
+
+; 209th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56BF5 to 56C55 (97 bytes)
+_DATA_56BF5_:
+.db $20 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20 $28 $28 $28 $28 $30
+.db $30 $30 $38 $38 $38 $40 $40 $40 $40 $48 $48 $48 $48 $50 $50 $50
+.db $50 $09 $21 $11 $22 $03 $23 $0B $24 $13 $25 $1B $26 $01 $27 $09
+.db $28 $11 $29 $19 $2A $01 $2B $09 $2C $11 $2D $19 $2E $01 $2F $09
+.db $30 $11 $31 $02 $32 $0A $33 $12 $34 $01 $35 $09 $36 $11 $37 $19
+.db $38 $00 $39 $08 $3A $10 $3B $18 $3C $02 $3D $0A $3E $12 $3F $1A
+.db $40
+
+; 210th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56C56 to 56CDA (133 bytes)
+_DATA_56C56_:
+.db $2C $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $38 $38
+.db $38 $40 $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50 $0C $41 $14
+.db $42 $1C $43 $06 $44 $0E $45 $16 $46 $1E $47 $04 $48 $0C $49 $14
+.db $4A $1C $4B $24 $4C $02 $4D $0A $4E $12 $4F $1A $50 $22 $51 $01
+.db $52 $09 $53 $11 $54 $19 $55 $21 $56 $01 $57 $09 $58 $11 $59 $19
+.db $5A $01 $5B $09 $5C $11 $5D $02 $5E $0A $5F $12 $60 $02 $61 $0A
+.db $62 $12 $63 $1B $64 $00 $65 $08 $66 $10 $67 $18 $68 $00 $69 $08
+.db $6A $10 $6B $18 $6C
+
+; 211th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56CDB to 56D62 (136 bytes)
+_DATA_56CDB_:
+.db $2D $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38
+.db $38 $38 $40 $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50 $0C $6D
+.db $14 $6E $1C $6F $06 $70 $0E $71 $16 $72 $1E $73 $04 $74 $0C $49
+.db $14 $75 $1C $76 $24 $4C $02 $77 $0A $78 $12 $79 $1A $46 $22 $7A
+.db $01 $7B $09 $7C $11 $7D $19 $7E $21 $7F $01 $80 $09 $81 $11 $82
+.db $19 $83 $01 $84 $09 $85 $11 $86 $19 $87 $02 $88 $0A $89 $12 $8A
+.db $03 $8B $0B $8C $13 $8D $1D $8E $00 $8F $08 $90 $10 $91 $18 $92
+.db $00 $93 $08 $94 $10 $95 $18 $96
+
+; 212th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56D63 to 56DA2 (64 bytes)
+_DATA_56D63_:
+.db $15 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $18
+.db $20 $20 $20 $28 $28 $28 $0E $00 $25 $01 $0C $02 $14 $03 $22 $04
+.db $2A $05 $0A $06 $12 $07 $1F $08 $27 $09 $0B $0A $13 $0B $1B $0C
+.db $23 $0D $2B $0E $10 $0F $18 $10 $20 $11 $13 $12 $1B $13 $23 $14
+
+; 213th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56DA3 to 56DDF (61 bytes)
+_DATA_56DA3_:
+.db $14 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $10 $10 $18 $18 $18
+.db $18 $18 $20 $20 $20 $00 $15 $30 $16 $02 $17 $0A $18 $27 $19 $2F
+.db $1A $04 $1B $0C $1C $16 $1D $1E $1E $26 $1F $2E $20 $0B $21 $13
+.db $22 $1B $23 $23 $24 $2B $25 $13 $26 $1B $27 $23 $28
+
+; 214th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56DE0 to 56E16 (55 bytes)
+_DATA_56DE0_:
+.db $12 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20 $20 $28 $28 $28 $28
+.db $28 $30 $30 $0B $29 $13 $2A $1B $2B $23 $2C $2B $2D $04 $2E $0C
+.db $2F $14 $30 $1C $31 $24 $32 $2C $33 $02 $34 $0A $35 $18 $36 $27
+.db $37 $2F $38 $00 $39 $30 $3A
+
+; 215th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56E17 to 56E53 (61 bytes)
+_DATA_56E17_:
+.db $14 $08 $08 $10 $10 $10 $18 $18 $18 $18 $18 $20 $20 $20 $20 $28
+.db $28 $28 $28 $30 $30 $16 $1D $1E $3B $10 $3C $18 $3D $20 $3E $0B
+.db $3F $13 $40 $1B $41 $23 $42 $2B $43 $0A $44 $12 $45 $1F $46 $27
+.db $47 $0C $48 $14 $49 $22 $4A $2A $4B $0E $4C $25 $4D
+
+; 216th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56E54 to 56EBA (103 bytes)
+_DATA_56E54_:
+.db $22 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40
+.db $40 $40 $40 $48 $48 $48 $50 $50 $50 $58 $58 $58 $58 $60 $60 $68
+.db $68 $68 $68 $18 $00 $20 $01 $12 $02 $1A $03 $22 $04 $2A $05 $10
+.db $06 $18 $07 $20 $08 $28 $09 $10 $0A $18 $0B $20 $0C $28 $0D $13
+.db $0E $1B $0F $23 $10 $2B $11 $14 $12 $1C $13 $24 $14 $14 $15 $1C
+.db $16 $24 $17 $13 $18 $1B $19 $23 $1A $2B $1B $13 $1C $26 $1D $11
+.db $1E $19 $1F $24 $20 $2C $21
+
+; 217th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56EBB to 56F63 (169 bytes)
+_DATA_56EBB_:
+.db $38 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $28 $28 $30 $30 $30
+.db $30 $30 $30 $30 $30 $38 $38 $38 $38 $38 $38 $38 $38 $40 $40 $40
+.db $40 $40 $40 $40 $40 $48 $48 $48 $48 $48 $48 $50 $50 $50 $50 $58
+.db $58 $58 $58 $60 $60 $68 $68 $68 $68 $00 $22 $18 $00 $20 $01 $39
+.db $22 $00 $23 $08 $24 $10 $25 $18 $26 $20 $27 $28 $28 $30 $29 $38
+.db $2A $00 $2B $08 $2C $10 $2D $18 $2E $20 $2F $28 $30 $30 $31 $38
+.db $32 $03 $33 $0B $34 $13 $35 $1B $36 $23 $37 $2B $38 $33 $39 $3B
+.db $3A $02 $3B $0A $3C $12 $3D $1A $3E $22 $3F $2A $40 $32 $41 $3A
+.db $42 $08 $43 $10 $44 $18 $45 $20 $46 $28 $47 $30 $48 $10 $49 $18
+.db $4A $21 $4B $29 $4C $12 $4D $1A $4E $23 $4F $2B $50 $13 $1C $26
+.db $1D $11 $1E $19 $1F $24 $20 $2C $21
+
+; 218th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56F64 to 56FC4 (97 bytes)
+_DATA_56F64_:
+.db $20 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40 $40 $48
+.db $48 $48 $48 $50 $50 $50 $58 $58 $58 $60 $60 $60 $60 $68 $68 $68
+.db $68 $18 $00 $20 $01 $12 $02 $1A $03 $22 $04 $2A $05 $10 $06 $18
+.db $07 $20 $08 $28 $09 $10 $0A $18 $51 $20 $0C $28 $0D $13 $0E $1B
+.db $0F $23 $10 $2B $11 $14 $12 $1C $13 $24 $14 $14 $15 $1C $16 $24
+.db $17 $13 $52 $1B $19 $23 $53 $2B $54 $11 $1E $19 $1F $24 $20 $2C
+.db $21
+
+; 219th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 56FC5 to 5702B (103 bytes)
+_DATA_56FC5_:
+.db $22 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $20 $20 $20 $28 $28 $28 $30 $30 $30 $30 $38 $38 $40 $40 $48
+.db $48 $48 $48 $12 $55 $1A $56 $22 $57 $2A $05 $10 $06 $18 $58 $20
+.db $59 $28 $09 $10 $0A $18 $5A $20 $5B $28 $0D $13 $0E $1B $0F $23
+.db $10 $2B $11 $14 $12 $1C $13 $24 $14 $14 $15 $1C $16 $24 $17 $13
+.db $18 $1B $19 $23 $1A $2B $1B $13 $1C $26 $1D $12 $5C $26 $5D $11
+.db $5E $19 $5F $24 $60 $2C $61
+
+; 220th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5702C to 57068 (61 bytes)
+_DATA_5702C_:
+.db $14 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $20 $20 $20 $20 $11 $62 $19 $63 $21 $64 $29 $65 $11 $66 $19
+.db $67 $21 $68 $29 $69 $11 $6A $19 $6B $21 $6C $29 $6D $11 $6E $19
+.db $6F $21 $70 $29 $71 $11 $72 $19 $73 $21 $74 $29 $75
+
+; 221st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57069 to 570A5 (61 bytes)
+_DATA_57069_:
+.db $14 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $20 $20 $20 $20 $11 $76 $19 $77 $21 $78 $29 $79 $11 $7A $19
+.db $7B $21 $7C $29 $7D $11 $7E $19 $7F $21 $80 $29 $81 $11 $82 $19
+.db $83 $21 $84 $29 $85 $11 $86 $19 $87 $21 $88 $29 $89
+
+; 222nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 570A6 to 570E2 (61 bytes)
+_DATA_570A6_:
+.db $14 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
+.db $18 $20 $20 $20 $20 $11 $8A $19 $8B $21 $8C $29 $8D $11 $8E $19
+.db $8F $21 $8F $29 $90 $11 $91 $19 $92 $21 $93 $29 $94 $11 $95 $19
+.db $96 $21 $97 $29 $98 $11 $99 $19 $9A $21 $9B $29 $9C
+
+; 223rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 570E3 to 57149 (103 bytes)
+_DATA_570E3_:
+.db $22 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $30 $30 $30 $38 $38 $38 $38 $40 $40 $48 $48 $50
+.db $50 $50 $50 $12 $55 $1A $56 $22 $57 $2A $05 $10 $06 $18 $58 $20
+.db $59 $28 $09 $10 $0A $18 $5A $20 $5B $28 $0D $13 $0E $1B $0F $23
+.db $10 $2B $11 $14 $12 $1C $13 $24 $14 $14 $15 $1C $16 $24 $17 $13
+.db $18 $1B $19 $23 $1A $2B $1B $13 $1C $26 $1D $12 $5C $26 $5D $11
+.db $5E $19 $5F $24 $60 $2C $61
+
+; 224th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5714A to 57150 (7 bytes)
+_DATA_5714A_:
+.db $02 $0B $0B $07 $0D $14 $0D
+
+; 225th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57151 to 57157 (7 bytes)
+_DATA_57151_:
+.db $02 $0B $0B $07 $0E $14 $0E
+
+; 226th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57158 to 5715E (7 bytes)
+_DATA_57158_:
+.db $02 $0B $0B $06 $0F $13 $0F
+
+; 227th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5715F to 5716E (16 bytes)
+_DATA_5715F_:
+.db $05 $08 $08 $08 $10 $10 $04 $10 $0C $11 $14 $12 $06 $13 $13 $13
+
+; 228th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5716F to 571BA (76 bytes)
+_DATA_5716F_:
+.db $19 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20
+.db $20 $20 $20 $28 $28 $28 $30 $30 $38 $38 $12 $00 $29 $01 $12 $02
+.db $1A $03 $23 $04 $2B $05 $12 $06 $1A $07 $22 $08 $2A $09 $12 $0A
+.db $1A $0B $22 $0C $2A $0D $13 $0E $1B $0F $23 $10 $2B $11 $14 $12
+.db $1C $13 $24 $14 $18 $15 $20 $16 $1B $17 $23 $18
+
+; 229th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 571BB to 57206 (76 bytes)
+_DATA_571BB_:
+.db $19 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $30 $30 $38 $38 $40 $40 $12 $19 $2A $19 $12 $1A
+.db $25 $1B $12 $1C $1A $1D $22 $1E $2A $1F $12 $20 $1A $21 $22 $22
+.db $2A $23 $13 $24 $1B $25 $23 $26 $2B $18 $14 $27 $1C $28 $24 $29
+.db $18 $2A $20 $2B $1A $2C $22 $2D $1B $2E $23 $11
+
+; 230th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57207 to 57252 (76 bytes)
+_DATA_57207_:
+.db $19 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $30 $30 $38 $38 $40 $40 $12 $19 $2A $19 $12 $1A
+.db $25 $1B $12 $1C $1A $1D $22 $1E $2A $1F $12 $20 $1A $21 $22 $22
+.db $2A $23 $13 $24 $1B $25 $23 $26 $2B $18 $14 $27 $1C $2F $24 $29
+.db $18 $30 $20 $31 $1A $2C $22 $2D $1B $2E $23 $11
+
+; 231st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57253 to 5729E (76 bytes)
+_DATA_57253_:
+.db $19 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $30 $30 $38 $38 $40 $40 $12 $19 $2A $19 $12 $1A
+.db $25 $1B $12 $1C $1A $1D $22 $1E $2A $1F $12 $20 $1A $21 $22 $22
+.db $2A $23 $13 $24 $1B $25 $23 $26 $2B $18 $14 $32 $1C $33 $24 $34
+.db $18 $35 $20 $36 $19 $37 $21 $38 $1B $2E $23 $11
+
+; 232nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5729F to 572F0 (82 bytes)
+_DATA_5729F_:
+.db $1B $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $12 $19 $2A $19
+.db $12 $1A $25 $1B $12 $1C $1A $1D $22 $1E $2A $1F $12 $20 $1A $21
+.db $22 $22 $2A $23 $13 $24 $1B $25 $23 $26 $2B $18 $14 $39 $1C $3A
+.db $24 $3B $14 $3C $1C $3D $24 $3E $14 $3F $1C $40 $24 $41 $1B $2E
+.db $23 $11
+
+; 233rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 572F1 to 57351 (97 bytes)
+_DATA_572F1_:
+.db $20 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40
+.db $40 $12 $19 $2A $19 $12 $1A $25 $1B $12 $1C $1A $1D $22 $1E $2A
+.db $1F $12 $20 $1A $21 $22 $22 $2A $23 $13 $24 $1B $25 $23 $26 $2B
+.db $18 $10 $42 $18 $43 $20 $44 $28 $45 $10 $46 $18 $47 $20 $48 $28
+.db $49 $10 $4A $18 $4B $20 $4C $28 $3E $10 $4D $18 $4E $20 $4F $28
+.db $41
+
+; 234th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57352 to 573C1 (112 bytes)
+_DATA_57352_:
+.db $25 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $30 $30 $30 $30 $30 $38 $38 $38 $38 $38 $40 $40
+.db $40 $40 $40 $48 $48 $48 $12 $19 $2A $19 $12 $1A $25 $1B $12 $1C
+.db $1A $1D $22 $1E $2A $1F $12 $20 $1A $21 $22 $22 $2A $23 $13 $24
+.db $1B $25 $23 $26 $2B $18 $14 $50 $1C $51 $24 $3B $0C $52 $14 $53
+.db $1C $54 $24 $55 $2C $56 $0C $4A $14 $57 $1C $58 $24 $59 $2C $49
+.db $0D $5A $15 $5B $1D $5C $25 $5D $2D $5E $14 $4D $1C $4F $24 $5F
+
+; 235th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 573C2 to 57479 (184 bytes)
+_DATA_573C2_:
+.db $3D $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $30 $30 $30 $30 $30 $30 $30 $38 $38 $38
+.db $38 $38 $38 $38 $40 $40 $40 $40 $40 $40 $40 $48 $48 $48 $48 $48
+.db $48 $48 $50 $50 $50 $50 $50 $50 $50 $58 $58 $58 $58 $58 $12 $19
+.db $2A $19 $12 $1A $25 $1B $12 $1C $1A $1D $22 $1E $2A $1F $12 $20
+.db $1A $21 $22 $22 $2A $23 $13 $24 $1B $25 $23 $26 $2B $18 $0C $60
+.db $14 $61 $1C $3A $24 $62 $2C $63 $04 $52 $0C $64 $14 $65 $1C $3D
+.db $24 $66 $2C $67 $34 $56 $04 $4A $0C $68 $14 $47 $1C $54 $24 $48
+.db $2C $69 $34 $6A $04 $46 $0C $6B $14 $57 $1C $6C $24 $59 $2C $6D
+.db $34 $3E $05 $6E $0D $6F $15 $70 $1D $71 $25 $72 $2D $73 $35 $74
+.db $05 $75 $0D $76 $15 $77 $1D $78 $25 $79 $2D $7A $35 $7B $0C $7C
+.db $14 $4F $1C $4E $24 $7D $2C $5F
+
+; 236th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5747A to 57531 (184 bytes)
+_DATA_5747A_:
+.db $3D $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
+.db $20 $28 $28 $28 $28 $28 $30 $30 $30 $30 $30 $30 $30 $38 $38 $38
+.db $38 $38 $38 $38 $40 $40 $40 $40 $40 $40 $40 $48 $48 $48 $48 $48
+.db $48 $48 $50 $50 $50 $50 $50 $50 $50 $58 $58 $58 $58 $58 $12 $19
+.db $2A $19 $12 $1A $25 $1B $12 $1C $1A $1D $22 $1E $2A $1F $12 $20
+.db $1A $21 $22 $22 $2A $23 $13 $24 $1B $25 $23 $26 $2B $18 $0C $52
+.db $14 $7E $1C $7F $24 $80 $2C $60 $05 $81 $0D $82 $15 $83 $1D $84
+.db $25 $85 $2D $86 $35 $87 $04 $46 $0C $6B $14 $54 $1C $48 $24 $59
+.db $2C $88 $34 $49 $05 $89 $0D $8A $15 $8B $1D $8C $25 $72 $2D $8D
+.db $35 $8E $04 $4A $0C $8F $14 $57 $1C $4B $24 $90 $2C $6D $34 $3E
+.db $04 $4D $0C $4B $14 $91 $1C $92 $24 $93 $2C $4C $34 $56 $0C $5F
+.db $14 $4E $1C $7D $24 $4F $2C $41
+
+; 237th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57532 to 57541 (16 bytes)
+_DATA_57532_:
+.db $05 $00 $08 $10 $18 $20 $09 $1F $09 $20 $08 $21 $0A $22 $08 $23
+
+; 238th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57542 to 57569 (40 bytes)
+_DATA_57542_:
+.db $0D $00 $00 $08 $10 $18 $20 $28 $30 $38 $38 $40 $40 $40 $00 $24
+.db $08 $25 $03 $26 $04 $27 $03 $28 $03 $29 $03 $2A $03 $2B $02 $2C
+.db $0A $2D $00 $2E $08 $2F $10 $30
+
+; 239th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5756A to 5758E (37 bytes)
+_DATA_5756A_:
+.db $0C $00 $08 $10 $18 $20 $28 $30 $38 $38 $40 $40 $40 $05 $31 $03
+.db $32 $03 $33 $03 $34 $04 $35 $06 $36 $06 $37 $02 $38 $0A $39 $00
+.db $3A $08 $3B $10 $3C
+
+; 240th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5758F to 5759E (16 bytes)
+_DATA_5758F_:
+.db $05 $38 $38 $40 $40 $40 $02 $3D $0A $3E $00 $3F $08 $40 $10 $41
+
+; 241st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5759F to 575AE (16 bytes)
+_DATA_5759F_:
+.db $05 $38 $38 $40 $40 $40 $02 $42 $0A $43 $00 $44 $08 $45 $10 $41
+
+; 242nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 575AF to 575BE (16 bytes)
+_DATA_575AF_:
+.db $05 $38 $38 $40 $40 $40 $02 $46 $0A $47 $00 $48 $08 $49 $10 $4A
+
+; 243rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 575BF to 575D7 (25 bytes)
+_DATA_575BF_:
+.db $08 $48 $48 $50 $50 $50 $58 $58 $58 $F8 $4B $00 $4C $EC $4D $F4
+.db $4E $FC $4F $E6 $50 $EE $51 $F6 $52
+
+; 244th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 575D8 to 57602 (43 bytes)
+_DATA_575D8_:
+.db $0E $58 $60 $60 $68 $70 $70 $70 $70 $78 $78 $80 $80 $88 $88 $E6
+.db $53 $D8 $54 $E0 $55 $D5 $56 $BC $57 $C4 $58 $CC $59 $D4 $5A $B0
+.db $5B $B8 $5C $A5 $5D $AD $5E $98 $5F $A0 $60
+
+; 245th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57603 to 57609 (7 bytes)
+_DATA_57603_:
+.db $02 $88 $88 $99 $61 $A1 $62
+
+; 246th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5760A to 57616 (13 bytes)
+_DATA_5760A_:
+.db $04 $80 $88 $88 $88 $9C $63 $96 $64 $9E $65 $A6 $66
+
+; 247th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57617 to 57623 (13 bytes)
+_DATA_57617_:
+.db $04 $80 $88 $88 $88 $9D $67 $95 $68 $9E $69 $A6 $6A
+
+; 248th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57624 to 57645 (34 bytes)
+_DATA_57624_:
+.db $0B $38 $38 $40 $48 $48 $50 $50 $50 $58 $58 $58 $F6 $6B $FE $6C
+.db $F3 $56 $F1 $6D $F9 $6E $E8 $6F $F0 $70 $F8 $71 $E2 $50 $EA $51
+.db $F2 $52
+
+; 249th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57646 to 5765E (25 bytes)
+_DATA_57646_:
+.db $08 $60 $68 $70 $70 $78 $80 $88 $88 $E1 $72 $E3 $73 $D8 $74 $E0
+.db $75 $D6 $76 $D8 $77 $D2 $78 $DA $79
+
+; 250th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5765F to 57665 (7 bytes)
+_DATA_5765F_:
+.db $02 $88 $88 $D2 $61 $DA $62
+
+; 251st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57666 to 57672 (13 bytes)
+_DATA_57666_:
+.db $04 $80 $88 $88 $88 $D5 $63 $CF $64 $D7 $65 $DF $66
+
+; 252nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57673 to 5767F (13 bytes)
+_DATA_57673_:
+.db $04 $80 $88 $88 $88 $D5 $67 $CD $68 $D6 $69 $DE $6A
+
+; 253rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57680 to 5768F (16 bytes)
+_DATA_57680_:
+.db $05 $48 $50 $50 $58 $58 $0B $7B $0B $6D $13 $6E $0B $7C $13 $7D
+
+; 254th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57690 to 576B4 (37 bytes)
+_DATA_57690_:
+.db $0C $58 $60 $60 $68 $70 $70 $78 $78 $80 $80 $88 $88 $11 $7E $0A
+.db $7F $12 $80 $0A $73 $09 $81 $11 $82 $08 $83 $10 $84 $05 $85 $0D
+.db $86 $0A $87 $12 $88
+
+; 255th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 576B5 to 576BB (7 bytes)
+_DATA_576B5_:
+.db $02 $88 $88 $0B $61 $13 $62
+
+; 256th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 576BC to 576C8 (13 bytes)
+_DATA_576BC_:
+.db $04 $80 $88 $88 $88 $0E $63 $08 $64 $10 $65 $18 $66
+
+; 17th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 576C9 to 576D5 (13 bytes)
+_DATA_576C9_:
+.db $04 $80 $88 $88 $88 $0F $67 $07 $68 $10 $69 $18 $6A
+
+; 18th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 576D6 to 576EE (25 bytes)
+_DATA_576D6_:
+.db $08 $38 $38 $40 $48 $48 $50 $50 $50 $13 $89 $1B $8A $19 $8B $1A
+.db $8C $22 $8D $1F $8E $27 $8F $2F $90
+
+; 19th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 576EF to 57722 (52 bytes)
+_DATA_576EF_:
+.db $11 $50 $58 $58 $58 $60 $60 $60 $68 $70 $70 $78 $78 $80 $80 $80
+.db $88 $88 $2C $91 $25 $4D $2D $4E $35 $4F $25 $92 $2D $93 $35 $94
+.db $2C $95 $2C $96 $34 $97 $30 $98 $38 $99 $31 $9A $39 $9B $41 $9C
+.db $36 $9D $3E $9E
+
+; 180th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57723 to 57729 (7 bytes)
+_DATA_57723_:
+.db $02 $88 $88 $3C $61 $44 $62
+
+; 71st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5772A to 57736 (13 bytes)
+_DATA_5772A_:
+.db $04 $80 $88 $88 $88 $3F $63 $39 $64 $41 $65 $49 $66
+
+; 143rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57737 to 57743 (13 bytes)
+_DATA_57737_:
+.db $04 $80 $88 $88 $88 $40 $67 $38 $68 $41 $69 $49 $6A
+
+; 204th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57744 to 577A1 (94 bytes)
+_DATA_57744_:
+.db $1F $38 $38 $40 $40 $40 $40 $40 $40 $48 $48 $48 $48 $48 $50 $58
+.db $60 $68 $70 $78 $80 $88 $88 $90 $90 $90 $98 $98 $A0 $A0 $A0 $A0
+.db $28 $00 $30 $01 $0A $02 $12 $03 $1A $04 $22 $05 $2A $06 $32 $07
+.db $0B $08 $13 $09 $1B $0A $23 $0B $2B $0C $03 $0D $06 $0E $05 $0F
+.db $04 $10 $04 $11 $05 $12 $04 $13 $04 $14 $28 $15 $04 $16 $28 $17
+.db $30 $18 $04 $19 $20 $1A $02 $1B $0A $1C $20 $1D $28 $1E
+
+; 20th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 577A2 to 577AE (13 bytes)
+_DATA_577A2_:
+.db $04 $08 $08 $10 $10 $09 $00 $11 $01 $08 $02 $10 $03
+
+; 21st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 577AF to 577BB (13 bytes)
+_DATA_577AF_:
+.db $04 $08 $08 $10 $10 $0A $04 $12 $05 $0A $06 $12 $07
+
+; 62nd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 577BC to 577C8 (13 bytes)
+_DATA_577BC_:
+.db $04 $08 $08 $10 $10 $0B $08 $13 $09 $0B $0A $13 $0B
+
+; 63rd entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 577C9 to 577D5 (13 bytes)
+_DATA_577C9_:
+.db $04 $08 $08 $10 $10 $0A $0C $12 $0D $08 $0E $10 $0F
+
+; 119th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 577D6 to 577E2 (13 bytes)
+_DATA_577D6_:
+.db $04 $08 $08 $10 $10 $0A $10 $12 $11 $0A $12 $12 $13
+
+; 120th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 577E3 to 577E9 (7 bytes)
+_DATA_577E3_:
+.db $02 $08 $10 $0D $14 $0D $15
+
+; 137th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 577EA to 5780E (37 bytes)
+_DATA_577EA_:
+.db $0C $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $18 $06 $16 $0E
+.db $17 $16 $18 $04 $19 $0C $1A $14 $1B $05 $1C $0D $1D $15 $1E $08
+.db $1F $10 $20 $18 $21
+
+; 138th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5780F to 578A5 (151 bytes)
+_DATA_5780F_:
+.db $32 $D8 $D8 $D8 $E0 $E0 $E0 $E8 $E8 $E8 $E8 $E8 $E8 $F0 $F0 $F0
+.db $F0 $F8 $F8 $F8 $F8 $F8 $00 $00 $08 $08 $08 $08 $08 $08 $10 $10
+.db $10 $10 $10 $10 $18 $18 $18 $18 $18 $20 $28 $28 $28 $30 $30 $30
+.db $38 $38 $38 $F3 $22 $FB $23 $03 $24 $F2 $25 $FA $26 $02 $27 $F0
+.db $28 $F8 $29 $00 $2A $22 $2B $2A $2C $32 $2D $00 $2E $20 $2F $28
+.db $30 $30 $31 $05 $32 $1C $33 $24 $34 $2C $35 $34 $36 $05 $37 $18
+.db $38 $EA $2B $F2 $2C $FA $39 $02 $3A $0A $3B $12 $3C $E8 $2F $F0
+.db $30 $F8 $31 $02 $3D $0A $3E $12 $3F $EA $40 $F2 $41 $FA $42 $03
+.db $43 $18 $44 $1C $45 $1B $22 $23 $23 $2B $24 $1A $25 $22 $26 $2A
+.db $27 $18 $28 $20 $29 $28 $2A
+
+; 139th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 578A6 to 5792A (133 bytes)
+_DATA_578A6_:
+.db $2C $D0 $D0 $D0 $D8 $D8 $D8 $E0 $E0 $E0 $E8 $F0 $00 $00 $00 $00
+.db $00 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10 $10 $10 $18
+.db $18 $18 $28 $30 $38 $38 $38 $40 $40 $40 $48 $48 $48 $02 $2B $0A
+.db $2C $12 $2D $00 $2F $08 $30 $10 $31 $02 $40 $0A $41 $12 $42 $04
+.db $46 $00 $47 $DB $22 $E3 $23 $EB $24 $20 $48 $28 $49 $36 $4A $3E
+.db $4B $DA $25 $E2 $26 $EA $27 $34 $4C $3C $4D $D8 $28 $E0 $29 $E8
+.db $2A $F0 $4E $0D $14 $36 $4F $3E $50 $F4 $51 $FD $52 $0D $15 $19
+.db $53 $15 $54 $0A $2B $12 $2C $1A $2D $08 $2F $10 $30 $18 $31 $0A
+.db $40 $12 $41 $1A $42
+
+; 140th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5792B to 5798E (100 bytes)
+_DATA_5792B_:
+.db $21 $D8 $D8 $D8 $E0 $E0 $E0 $E8 $E8 $E8 $F0 $F0 $F8 $F8 $00 $00
+.db $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $40 $48 $48 $48 $50
+.db $50 $50 $23 $22 $2B $23 $33 $24 $22 $25 $2A $26 $32 $27 $20 $28
+.db $28 $29 $30 $2A $D5 $4A $DD $4B $D3 $4C $DB $4D $D5 $4F $DD $50
+.db $3B $22 $43 $23 $4B $24 $3A $25 $42 $26 $4A $27 $38 $28 $40 $29
+.db $48 $2A $EB $22 $F3 $23 $FB $24 $EA $25 $F2 $26 $FA $27 $E8 $28
+.db $F0 $29 $F8 $2A
+
+; 141st entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 5798F to 57A19 (139 bytes)
+_DATA_5798F_:
+.db $2E $B8 $B8 $B8 $B8 $C0 $C0 $C0 $C8 $C8 $D0 $D8 $D8 $D8 $E0 $E0
+.db $E0 $E8 $E8 $E8 $20 $20 $20 $28 $28 $28 $30 $30 $30 $40 $48 $50
+.db $50 $50 $58 $58 $60 $60 $68 $68 $68 $68 $70 $70 $70 $70 $70 $48
+.db $55 $50 $56 $58 $57 $60 $58 $40 $59 $48 $5A $50 $5B $38 $5C $40
+.db $5D $31 $5E $CB $22 $D3 $23 $DB $24 $CA $25 $D2 $26 $DA $27 $C8
+.db $28 $D0 $29 $D8 $2A $3A $2B $42 $2C $4A $2D $38 $2F $40 $30 $48
+.db $31 $3A $40 $42 $41 $4A $42 $E8 $5F $E3 $60 $D8 $61 $E0 $62 $60
+.db $63 $D0 $64 $D8 $65 $CE $66 $D6 $67 $C5 $68 $CD $69 $D5 $6A $48
+.db $6B $B8 $6C $C0 $6D $C8 $6E $D0 $6F $50 $70
+
+; 205th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57A1A to 57A80 (103 bytes)
+_DATA_57A1A_:
+.db $22 $B8 $B8 $B8 $B8 $B8 $C0 $C0 $C0 $C8 $C8 $C8 $D0 $D0 $D8 $30
+.db $38 $40 $48 $48 $50 $58 $58 $60 $60 $60 $68 $68 $68 $68 $70 $70
+.db $70 $70 $70 $96 $71 $9E $72 $A6 $73 $50 $74 $58 $75 $A4 $76 $AC
+.db $77 $49 $78 $AC $79 $B4 $7A $BC $7B $BE $7C $C6 $7D $C8 $7E $43
+.db $7F $48 $80 $49 $81 $4A $82 $52 $83 $51 $84 $50 $85 $58 $86 $D4
+.db $87 $56 $88 $5E $89 $CE $8A $58 $8B $60 $8C $68 $8D $C1 $8E $C9
+.db $8F $5D $90 $65 $91 $6D $92
+
+; 206th entry of Pointer Table from 54000 (indexed by CharacterSpriteAttributes)
+; Data from 57A81 to 57FFF (1407 bytes)
+_DATA_57A81_:
+.incbin "Phantasy Star (Japan)_DATA_57A81_.inc"
+
+.BANK 22
+.ORG $0000
+
+; Data from 58000 to 5856F (1392 bytes)
+.incbin "Phantasy Star (Japan)_DATA_58000_.inc"
+
+; Data from 58570 to 5B9D7 (13416 bytes)
+TilesTown:
+.incbin "Phantasy Star (Japan)TilesTown.inc"
+
+; Data from 5B9D8 to 5B9E6 (15 bytes)
+_DATA_5B9D8_:
+.db $3F $00 $38 $1F $0B $06 $3E $00 $00 $00 $00 $00 $00 $00 $00
+
+; Data from 5B9E7 to 5BFFF (1561 bytes)
+_DATA_5B9E7_:
+.incbin "Phantasy Star (Japan)_DATA_5B9E7_.inc"
+
+.BANK 23
+.ORG $0000
+
+; Data from 5C000 to 5F766 (14183 bytes)
+.incbin "Phantasy Star (Japan)_DATA_5C000_.inc"
+
+; Data from 5F767 to 5F777 (17 bytes)
+PaletteSpace:
+.db $10 $3F $3E $38 $34 $30 $20 $04 $3C $20 $00 $00 $00 $00 $00 $00
+.db $10
+
+; Data from 5F778 to 5FFFF (2184 bytes)
+TilesSpace:
+.incbin "Phantasy Star (Japan)TilesSpace.inc"
+
+.BANK 24
+.ORG $0000
+
+; Data from 60000 to 62483 (9348 bytes)
+.incbin "Phantasy Star (Japan)_DATA_60000_.inc"
+
+; Data from 62484 to 62579 (246 bytes)
+_DATA_62484_:
+.db $45 $00 $81 $01 $14 $02 $81 $01 $0A $00 $81 $03 $14 $00 $81 $03
+.db $0A $00 $81 $03 $14 $00 $81 $03 $0A $00 $81 $03 $14 $00 $81 $03
+.db $0A $00 $81 $03 $14 $00 $81 $03 $0A $00 $81 $03 $14 $00 $81 $03
+.db $0A $00 $81 $03 $14 $00 $81 $03 $0A $00 $81 $03 $14 $00 $81 $03
+.db $0A $00 $81 $03 $14 $00 $81 $03 $0A $00 $81 $03 $14 $00 $81 $03
+.db $0A $00 $81 $03 $14 $00 $81 $03 $0A $00 $81 $03 $14 $00 $81 $03
+.db $0A $00 $81 $03 $14 $00 $81 $03 $0A $00 $81 $01 $14 $02 $81 $01
+.db $7F $00 $7F $00 $07 $00 $00 $47 $08 $92 $0A $08 $0A $08 $0A $08
+.db $0A $08 $0A $08 $0A $08 $0A $08 $0A $08 $0A $08 $02 $0A $1F $08
+.db $81 $0A $0A $08 $81 $0C $14 $08 $81 $0E $1F $08 $81 $0A $0A $08
+.db $81 $0C $14 $08 $81 $0E $1F $08 $81 $0A $0A $08 $81 $0C $14 $08
+.db $81 $0E $1F $08 $81 $0A $0A $08 $81 $0C $14 $08 $81 $0E $1F $08
+.db $81 $0A $0A $08 $81 $0C $14 $08 $81 $0E $1F $08 $81 $0A $0A $08
+.db $81 $0C $14 $08 $81 $0E $0A $08 $96 $0C $08 $0A $08 $0A $08 $0A
+.db $08 $0A $08 $0A $08 $0A $08 $0A $08 $0A $08 $0A $08 $0A $0E $7F
+.db $08 $7F $08 $07 $08 $00
+
+; Data from 6257A to 62589 (16 bytes)
+_DATA_6257A_:
+.db $00 $00 $3F $0F $0B $06 $01
+.dsb 9,$00
+
+; Data from 6258A to 625DF (86 bytes)
+_DATA_6258A_:
+.db $08 $00 $98 $0F $35 $4E $54 $A6 $F9 $A9 $C7 $FF $88 $25 $12 $26
+.db $49 $94 $FF $C3 $85 $A9 $93 $C5 $AB $99 $A5 $00 $08 $00 $98 $0F
+.db $3F $5A $6D $F2 $D5 $EA $D5 $FF $DD $AE $53 $AE $7A $B9 $FF $EB
+.db $D5 $AF $D7 $EF $E9 $BD $D3 $00 $09 $00 $97 $0A $35 $33 $4D $2A
+.db $57 $3A $00 $36 $DB $EC $D9 $97 $6E $00 $3C $3A $52 $6C $3A $56
+.db $66 $2C $00 $20 $00 $00
+
+; Data from 625E0 to 62781 (418 bytes)
+_DATA_625E0_:
+.dsb 12,$00
+.db $01 $00 $02 $00 $01 $02
+.dsb 16,$00
+.db $03 $00 $04 $00 $05 $00 $00 $00 $00 $00 $00 $00 $06 $00 $07 $00
+.db $00 $00 $00 $00 $00 $00 $08 $00 $09 $00 $0A $00 $00 $00 $00 $00
+.db $00 $00 $0B $00 $0C $00 $0D $00 $00 $00 $0E $00 $0F $00 $10 $00
+.db $11 $00 $12 $00 $00 $00 $00 $00 $13 $00 $14 $00 $15 $00 $16 $00
+.db $17 $00 $18 $00 $19 $00 $1A $00 $1B $00 $1C $00 $1D $00 $1E $00
+.db $1F $00 $20 $00 $21 $00 $22 $00 $23 $00 $24 $00 $25 $00 $26 $00
+.db $27 $00 $1D $04 $28 $00 $29 $00 $2A $00 $2B $00 $2C $00 $2D $00
+.db $2E $00 $2F $00 $30 $00 $31 $00 $00 $00 $32 $00 $33 $00 $34 $00
+.db $35 $00 $36 $00 $37 $00 $38 $00 $39 $00 $3A $00 $3B $00 $00 $00
+.db $3C $00 $3D $00 $3E $00 $3F $00 $40 $00 $41 $00 $42 $00 $43 $00
+.db $00 $00 $00 $00 $00 $00 $44 $00 $45 $00 $46 $00 $47 $00 $48 $00
+.db $49 $00 $4A $00 $4B $00 $00 $00 $00 $00 $00 $00 $4C $00 $4D $00
+.db $4E $00 $4F $00 $50 $00 $51 $00 $52 $00 $53 $00 $00 $00 $00 $00
+.db $54 $00 $55 $00 $56 $00 $57 $00 $58 $00 $59 $00 $5A $00 $5B $00
+.db $5C $00 $00 $00 $00 $00 $5D $00 $5E $00 $5F $00 $60 $00 $61 $00
+.db $62 $00 $63 $00 $64 $00 $65 $00 $66 $00 $00 $00 $67 $00 $68 $00
+.db $69 $00 $6A $00 $6B $00 $6C $00 $6D $00 $6E $00 $6F $00 $70 $00
+.db $00 $00 $71 $00 $72 $00 $73 $00 $74 $00 $75 $00 $76 $00 $77 $00
+.db $78 $00 $79 $00 $7A $00 $00 $00 $70 $02 $7B $00 $7C $00 $7D $00
+.db $7E $00 $7F $00 $80 $00 $81 $00 $82 $00 $83 $00 $00 $00 $84 $00
+.db $85 $00 $86 $00 $87 $00 $88 $00 $89 $00 $8A $00 $8B $00 $8C $00
+.db $8D $00 $00 $00 $8E $00 $8F $00 $90 $00 $91 $00 $92 $00 $93 $00
+.db $94 $00 $95 $00 $96 $00 $97
+.dsb 9,$00
+.db $98 $00 $99 $00 $9A $00 $9B $00 $9C $00 $9D $00 $9E $00 $00 $00
+
+; Data from 62782 to 627A7 (38 bytes)
+_DATA_62782_:
+.db $01 $02 $01 $02 $01 $02 $03 $04 $00 $05 $06 $03 $04 $07 $08 $09
+.db $0A $0B $0C $0D $0E $0F $10 $11 $12 $13 $14 $00 $15 $16 $13 $14
+.db $17 $18 $19 $1A $1B $1C
+
+; Data from 627A8 to 63F1F (6008 bytes)
+_DATA_627A8_:
+.incbin "Phantasy Star (Japan)_DATA_627A8_.inc"
+
+; Data from 63F20 to 63F4F (48 bytes)
+_DATA_63F20_:
+.db $2F $08 $30 $08 $30 $0A $2F $0A $39 $08 $3A $08 $3A $0A $39 $0A
+.db $43 $08 $44 $08 $44 $0A $43 $0A $4C $08 $4D $08 $4D $0A $4C $0A
+.db $55 $08 $56 $08 $56 $0A $55 $0A $5D $08 $5E $08 $5E $0A $5D $0A
+
+; Data from 63F50 to 63F7F (48 bytes)
+_DATA_63F50_:
+.db $92 $08 $93 $08 $93 $0A $92 $0A $94 $08 $95 $08 $95 $0A $94 $0A
+.db $96 $08 $97 $08 $97 $0A $96 $0A $98 $08 $99 $08 $99 $0A $98 $0A
+.db $55 $08 $9A $08 $9A $0A $55 $0A $5D $08 $5E $08 $5E $0A $5D $0A
+
+; Data from 63F80 to 63FFF (128 bytes)
+_DATA_63F80_:
+.db $9B $08 $9C $08 $9C $0A $9B $0A $9D $08 $9E $08 $9E $0A $9D $0A
+.db $96 $08 $9F $08 $9F $0A $96 $0A $A0 $08 $A1 $08 $A1 $0A $A0 $0A
+.db $55 $08 $A2 $08 $A2 $0A $55 $0A $5D $08 $A3 $08 $A3 $0A $5D $0A
+.dsb 80,$FF
+
+.BANK 25
+.ORG $0000
+
+; Data from 64000 to 67FFF (16384 bytes)
+.incbin "Phantasy Star (Japan)_DATA_64000_.inc"
+
+.BANK 26
+.ORG $0000
+
+; Data from 68000 to 6BFFF (16384 bytes)
+.incbin "Phantasy Star (Japan)_DATA_68000_.inc"
+
+.BANK 27
+.ORG $0000
+
+; Data from 6C000 to 6F40A (13323 bytes)
+.incbin "Phantasy Star (Japan)_DATA_6C000_.inc"
+
+; Data from 6F40B to 6F49A (144 bytes)
+_DATA_6F40B_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $CB $10
+.db $F2 $10 $D5 $10 $C0 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F1 $17 $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13
+.db $F3 $11 $EA $10 $FA $10 $CD $10 $C0 $10 $F3 $13 $F1 $15 $F2 $15
+.db $F2 $15 $F2 $15 $F2 $15 $F1 $17 $F1 $11 $F2 $11 $F2 $11 $F2 $11
+.db $F2 $11 $F1 $13 $F3 $11 $DA $10 $CC $10 $F5 $10 $F8 $10 $F3 $13
+.db $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17 $F1 $11 $F2 $11
+.db $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $F3 $10 $DC $10 $C0 $10
+.db $C0 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6F49B to 6F4AA (16 bytes)
+MenuBox8Bottom:
+.db $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6F4AB to 6F4DA (48 bytes)
+MenuBox8Top:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13
+.db $F3 $11 $C0 $10 $CB $10 $F2 $10 $D5 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+
+; Data from 6F4DB to 6F50A (48 bytes)
+_DATA_6F4DB_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13
+.db $F3 $11 $C0 $10 $EA $10 $FA $10 $CD $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+
+; Data from 6F50B to 6F53A (48 bytes)
+_DATA_6F50B_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13
+.db $F3 $11 $C0 $10 $DA $10 $CC $10 $F5 $10 $F8 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+
+; Data from 6F53B to 6F56A (48 bytes)
+_DATA_6F53B_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13
+.db $F3 $11 $C0 $10 $C0 $10 $F3 $10 $DC $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+
+; Data from 6F56B to 6F5EE (132 bytes)
+MenuCombat:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $DA $10
+.db $DA $10 $D0 $10 $CD $10 $F3 $13 $F3 $11 $C0 $10 $FD $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $E9 $10 $D6 $10 $F9 $10 $D2 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $CB $10
+.db $CC $10 $DD $10 $EB $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $E4 $10 $DF $10 $D7 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $FD $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $E0 $10
+.db $D3 $10 $F3 $10 $C0 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F1 $17
+
+; Data from 6F5EF to 6F618 (42 bytes)
+MenuBox20x6:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11
+.db $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11
+.db $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11
+
+; Data from 6F619 to 6F6DE (198 bytes)
+Menu18Blanks:
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F1 $15
+.db $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6F6DF to 6FA3E (864 bytes)
+_DATA_6F6DF_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $E5 $10 $FF $10 $F3 $10
+.db $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $F1 $10 $D2 $10 $D7 $10 $DA $10 $F3 $13 $F3 $11 $FE $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $E7 $10 $EE $10 $F1 $10
+.db $D2 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $E6 $10 $F4 $10 $CE $10 $F2 $10 $F3 $13 $F3 $11 $FD $10
+.db $C0 $10 $FD $10 $C0 $10 $F3 $13 $F3 $11 $E5 $10 $F8 $10 $DE $10
+.db $F6 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $FD $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $DE $10 $E5 $10 $FF $10
+.db $F3 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $DD $10 $F3 $10 $F3 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $F6 $10 $FF $10 $F1 $10
+.db $C0 $10 $F3 $13 $F3 $11 $FE $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $E4 $10 $CD $10 $E9 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $E6 $10 $F4 $10 $CE $10
+.db $F2 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $FE $10 $C0 $10 $F3 $13
+.db $F3 $11 $DD $10 $F4 $10 $E4 $10 $D7 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $E5 $10 $FB $10 $FF $10
+.db $F8 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $EB $10 $F6 $10 $FF $10 $F1 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $FD $10 $C0 $10 $F3 $13 $F3 $11 $DA $10 $F8 $10 $DE $10
+.db $F4 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $E5 $10 $FF $10 $F3 $10
+.db $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $FE $10 $F3 $13
+.db $F3 $11 $DE $10 $F3 $10 $FF $10 $E4 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $FD $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $DE $10 $E5 $10 $FF $10
+.db $F3 $10 $F3 $13 $F3 $11 $C0 $10 $FE $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $F1 $10 $E6 $10 $F9 $10 $DE $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $D7 $10 $F3 $10 $DE $10
+.db $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $FD $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $DE $10 $E5 $10 $FF $10
+.db $F3 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $D7 $10 $F3 $10 $DE $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $FE $10 $C0 $10 $F3 $13 $F3 $11 $DD $10 $F4 $10 $E4 $10
+.db $D7 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $FD $10 $F3 $13
+.db $F3 $11 $EB $10 $CF $10 $FF $10 $DD $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $FD $10 $C0 $10 $F3 $13 $F3 $11 $F2 $10 $FF $10 $E4 $10
+.db $D7 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6FA3F to 6FACE (144 bytes)
+_DATA_6FA3F_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6FACF to 6FAE2 (20 bytes)
+Menu10Top:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11
+.db $F2 $11 $F1 $13
+
+; Data from 6FAE3 to 6FAF6 (20 bytes)
+Menu10Bottom:
+.db $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F1 $17
+
+; Data from 6FAF7 to 6FB1E (40 bytes)
+_DATA_6FAF7_:
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $E8 $10 $D0 $10 $E3 $10 $C0 $10 $ED $10
+.db $DB $10 $ED $10 $E3 $10 $F3 $13
+
+; Data from 6FB1F to 6FB7E (96 bytes)
+_DATA_6FB1F_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $CB $10
+.db $F2 $10 $D5 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $EA $10 $FA $10 $CD $10 $C0 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $DA $10
+.db $CC $10 $F5 $10 $F8 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $F3 $10 $DC $10 $C0 $10 $C0 $10 $F3 $13
+
+; Data from 6FB7F to 6FB8A (12 bytes)
+_DATA_6FB7F_:
+.db $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6FB8B to 6FC0E (132 bytes)
+_DATA_6FB8B_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $DC $10
+.db $F0 $10 $D5 $10 $C0 $10 $F3 $13 $F3 $11 $C0 $10 $FD $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $E9 $10 $D6 $10 $F9 $10 $D2 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $CB $10
+.db $CC $10 $DD $10 $EB $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $FD $10
+.db $C0 $10 $F3 $13 $F3 $11 $D6 $10 $F1 $10 $E7 $10 $F3 $10 $F3 $13
+.db $F3 $11 $C0 $10 $C0 $10 $FD $10 $C0 $10 $F3 $13 $F3 $11 $D8 $10
+.db $FF $10 $E6 $10 $C0 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F1 $17
+
+; Data from 6FC0F to 6FC54 (70 bytes)
+_DATA_6FC0F_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $DC $10 $D0 $10
+.db $CD $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $FD $10 $F3 $13 $F3 $11
+.db $D9 $10 $CD $10 $E5 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $F3 $13 $F3 $11 $D7 $10 $DD $10 $F3 $10 $F3 $13 $F1 $15 $F2 $15
+.db $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6FC55 to 6FC90 (60 bytes)
+_DATA_6FC55_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $D0 $10
+.db $CC $10 $DA $10 $CC $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $F3 $13 $F3 $11 $CD $10 $F2 $10 $DA $10 $CC $10 $F3 $13
+.db $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6FC91 to 6FCC2 (50 bytes)
+MenuYesNo:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $E4 $10 $CC $10
+.db $C0 $10 $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11
+.db $CC $10 $CC $10 $CE $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F1 $17
+
+; Data from 6FCC3 to 6FCDA (24 bytes)
+_DATA_6FCC3_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11
+.db $F2 $11 $F2 $11 $F2 $11 $F1 $13
+
+; Data from 6FCDB to 6FCF2 (24 bytes)
+_DATA_6FCDB_:
+.db $F3 $11 $C0 $10 $C0 $10 $FD $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13
+
+; Data from 6FCF3 to 6FD0A (24 bytes)
+_DATA_6FCF3_:
+.db $F3 $11 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
+.db $C0 $10 $C0 $10 $C0 $10 $F3 $13
+
+; Data from 6FD0B to 6FD22 (24 bytes)
+_DATA_6FD0B_:
+.db $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F2 $15 $F2 $15 $F1 $17
+
+; Data from 6FD23 to 6FD42 (32 bytes)
+_DATA_6FD23_:
+.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11
+.db $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13
+
+; Data from 6FD43 to 6FFFF (701 bytes)
+_DATA_6FD43_:
+.db $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15
+.db $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
+.db $02 $00 $83 $01 $02 $03 $16 $00 $83 $03 $02 $01 $04 $00 $83 $01
+.db $02 $03 $16 $00 $83 $03 $02 $01 $04 $00 $83 $01 $02 $03 $16 $00
+.db $83 $03 $02 $01 $04 $00 $83 $01 $02 $03 $16 $00 $83 $03 $02 $01
+.db $04 $00 $83 $01 $02 $03 $16 $00 $83 $03 $02 $01 $04 $00 $83 $01
+.db $02 $03 $16 $00 $83 $03 $02 $01 $04 $00 $83 $01 $02 $03 $16 $00
+.db $83 $03 $02 $01 $04 $00 $83 $01 $02 $03 $16 $00 $83 $03 $02 $01
+.db $04 $00 $83 $01 $02 $03 $16 $00 $83 $03 $02 $01 $04 $00 $83 $01
+.db $02 $03 $16 $00 $83 $03 $02 $01 $04 $00 $83 $01 $02 $03 $16 $00
+.db $83 $03 $02 $01 $04 $00 $83 $01 $02 $03 $16 $00 $83 $03 $02 $01
+.db $04 $00 $83 $01 $02 $03 $16 $00 $83 $03 $02 $01 $04 $00 $83 $01
+.db $02 $03 $04 $00 $83 $04 $05 $06 $08 $00 $83 $06 $05 $04 $04 $00
+.db $83 $03 $02 $01 $04 $00 $83 $01 $02 $03 $04 $00 $83 $07 $08 $09
+.db $08 $00 $83 $09 $08 $07 $04 $00 $83 $03 $02 $01 $04 $00 $83 $01
+.db $02 $03 $03 $00 $90 $0A $0B $0C $0D $0E $0F $0E $0F $0F $0E $0F
+.db $0E $0D $0C $0B $0A $03 $00 $83 $03 $02 $01 $04 $00 $83 $01 $02
+.db $03 $03 $00 $85 $10 $11 $12 $13 $14 $06 $15 $85 $14 $13 $12 $11
+.db $10 $03 $00 $83 $03 $02 $01 $02 $00 $02 $16 $9C $01 $02 $03 $17
+.db $18 $18 $19 $1A $1B $1C $1D $1E $1D $1E $1E $1D $1E $1D $1C $1B
+.db $1A $19 $18 $18 $17 $03 $02 $01 $02 $16 $02 $1F $83 $01 $02 $03
+.db $03 $20 $90 $21 $22 $23 $24 $25 $26 $25 $26 $26 $25 $26 $25 $24
+.db $23 $22 $21 $03 $20 $8D $03 $02 $01 $1F $1F $20 $27 $28 $29 $2A
+.db $2B $2C $2D $05 $20 $81 $2E $04 $2B $81 $2E $05 $20 $8A $2D $2C
+.db $2B $2A $29 $28 $27 $20 $2F $30 $04 $31 $81 $32 $06 $20 $81 $33
+.db $04 $31 $81 $33 $06 $20 $81 $32 $04 $31 $82 $30 $2F $04 $20 $82
+.db $34 $35 $06 $36 $81 $37 $06 $20 $81 $37 $06 $36 $82 $35 $34 $07
+.db $20 $82 $34 $35 $07 $38 $81 $39 $06 $20 $81 $39 $07 $38 $82 $35
+.db $34 $05 $20 $82 $34 $35 $07 $38 $81 $3A $08 $20 $81 $3A $07 $38
+.db $B4 $35 $34 $20 $20 $3B $3C $3D $3E $3F $40 $41 $42 $43 $44 $45
+.db $46 $47 $48 $49 $4A $4B $4C $4D $49 $4E $4F $50 $51 $49 $52 $53
+.db $20 $54 $49 $55 $53 $20 $56 $49 $57 $53 $20 $58 $00 $59 $53 $20
+.db $5A $00 $5B $5C $5D $03 $00 $82 $5E $5F $02 $00 $00 $1B $00 $03
+.db $02 $1D $00 $03 $02 $1D $00 $03 $02 $1D $00 $03 $02 $1D $00 $03
+.db $02 $1D $00 $03 $02 $1D $00 $03 $02 $1D $00 $03 $02 $1D $00 $03
+.db $02 $1D $00 $03 $02 $1D $00 $03 $02 $1D $00 $03 $02 $1D $00 $03
+.db $02 $16 $00 $03 $02 $04 $00 $03 $02 $16 $00 $03 $02 $04 $00 $03
+.db $02 $12 $00 $08 $02 $03 $00 $03 $02 $12 $00 $08 $02 $03 $00 $03
+.db $02 $12 $00 $08 $02 $02 $00 $04 $02 $12 $00 $08 $02 $03 $00 $03
+.db $02 $14 $00 $81 $02 $05 $00 $02 $02 $81 $00 $04 $02 $11 $00 $03
+.db $02 $06 $00 $07 $02 $13 $00 $81 $02 $06 $00 $02 $02 $17 $00 $81
+.db $02 $07 $00 $02 $02 $17 $00 $81 $02 $07 $00 $02 $02 $39 $00 $00
+.dsb 29,$FF
+
+.BANK 28
+.ORG $0000
+
+; Data from 70000 to 70A7F (2688 bytes)
+_DATA_70000_:
+.incbin "Phantasy Star (Japan)_DATA_70000_.inc"
+
+; Data from 70A80 to 7143F (2496 bytes)
+_DATA_70A80_:
+.incbin "Phantasy Star (Japan)_DATA_70A80_.inc"
+
+; Data from 71440 to 71EBF (2688 bytes)
+_DATA_71440_:
+.incbin "Phantasy Star (Japan)_DATA_71440_.inc"
+
+; Data from 71EC0 to 73CFF (7744 bytes)
+_DATA_71EC0_:
+.incbin "Phantasy Star (Japan)_DATA_71EC0_.inc"
+
+; Data from 73D00 to 73DFF (256 bytes)
+_DATA_73D00_:
+.db $82 $00 $01 $03 $00 $97 $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A
+.db $0B $40 $41 $42 $43 $44 $45 $46 $47 $48 $49 $00 $01 $03 $00 $84
+.db $01 $00 $00 $0C $04 $00 $92 $0D $0E $0F $10 $11 $12 $13 $14 $15
+.db $4A $4B $4C $4D $4E $10 $0F $0E $0D $0B $00 $95 $01 $00 $00 $16
+.db $17 $18 $19 $1A $1B $1C $1D $1E $4F $50 $51 $52 $1A $19 $18 $17
+.db $16 $04 $00 $81 $01 $07 $00 $93 $0C $00 $00 $1F $20 $21 $22 $23
+.db $24 $25 $26 $53 $54 $55 $56 $22 $21 $20 $1F $09 $00 $81 $01 $06
+.db $00 $90 $27 $28 $29 $2A $2B $2C $2D $2E $57 $58 $2C $2B $2A $29
+.db $28 $27 $06 $00 $81 $01 $03 $00 $81 $0C $06 $00 $91 $2F $30 $31
+.db $32 $33 $34 $35 $59 $5A $33 $32 $31 $30 $2F $00 $00 $01 $10 $00
+.db $8C $36 $37 $38 $39 $3A $3B $5B $5C $5D $5E $37 $36 $05 $00 $81
+.db $0C $08 $00 $81 $01 $07 $00 $88 $3C $3D $3E $3F $5F $60 $61 $3C
+.db $0D $00 $81 $01 $05 $00 $81 $01 $10 $00 $81 $01 $24 $00 $81 $01
+.db $17 $00 $81 $01 $0F $00 $81 $0C $05 $00 $81 $0C $14 $00 $00 $35
+.db $00 $04 $02 $1B $00 $05 $02 $1B $00 $04 $02 $1A $00 $06 $02 $1A
+.db $00 $05 $02 $1D $00 $02 $02 $1D $00 $81 $02 $7F $00 $0D $00 $00
+
+; Data from 73E00 to 73E87 (136 bytes)
+TilemapSpace:
+.db $10 $00 $81 $01 $04 $00 $81 $01 $16 $00 $81 $01 $06 $00 $81 $0C
+.db $04 $00 $81 $01 $03 $00 $81 $0C $03 $00 $81 $01 $07 $00 $81 $01
+.db $0D $00 $81 $0C $0D $00 $81 $01 $04 $00 $81 $0C $08 $00 $81 $01
+.db $06 $00 $81 $01 $27 $00 $81 $0C $0A $00 $81 $01 $06 $00 $81 $01
+.db $07 $00 $81 $01 $13 $00 $81 $0C $07 $00 $81 $0C $26 $00 $81 $0C
+.db $04 $00 $81 $0C $14 $00 $81 $01 $0D $00 $81 $01 $0B $00 $81 $01
+.db $06 $00 $81 $0C $06 $00 $81 $01 $0B $00 $81 $0C $0F $00 $81 $01
+.db $07 $00 $81 $01 $04 $00 $81 $01 $0B $00 $81 $01 $0A $00 $00 $7F
+.db $00 $7F $00 $7F $00 $03 $00 $00
+
+; Data from 73E88 to 73FFF (376 bytes)
+TilemapBottomPlanet:
+.db $10 $00 $81 $01 $1B $00 $81 $01 $06 $00 $81 $0C $04 $00 $81 $01
+.db $03 $00 $81 $0C $03 $00 $81 $01 $15 $00 $81 $0C $0D $00 $81 $0C
+.db $04 $00 $81 $0C $22 $00 $88 $3C $3D $3E $3F $5F $60 $61 $3C $03
+.db $00 $81 $01 $03 $00 $81 $01 $0A $00 $81 $01 $03 $00 $8C $36 $37
+.db $38 $39 $3A $3B $5B $5C $5D $5E $37 $36 $11 $00 $90 $01 $00 $2F
+.db $30 $31 $32 $33 $34 $35 $59 $5A $33 $32 $31 $30 $2F $0A $00 $81
+.db $01 $06 $00 $90 $27 $28 $29 $2A $2B $2C $2D $2E $57 $58 $2C $2B
+.db $2A $29 $28 $27 $06 $00 $81 $01 $09 $00 $90 $1F $20 $21 $22 $23
+.db $24 $25 $26 $53 $54 $55 $56 $22 $21 $20 $1F $0C $00 $97 $01 $00
+.db $00 $16 $17 $18 $19 $1A $1B $1C $1D $1E $4F $50 $51 $52 $1A $19
+.db $18 $17 $16 $00 $01 $0C $00 $92 $0D $0E $0F $10 $11 $12 $13 $14
+.db $15 $4A $4B $4C $4D $4E $10 $0F $0E $0D $09 $00 $81 $0C $03 $00
+.db $97 $02 $03 $04 $05 $06 $07 $08 $09 $0A $0B $40 $41 $42 $43 $44
+.db $45 $46 $47 $48 $49 $00 $00 $0C $03 $00 $00 $7F $00 $0D $00 $07
+.db $04 $81 $06 $16 $00 $0A $04 $02 $06 $13 $00 $09 $04 $05 $06 $11
+.db $00 $0A $04 $06 $06 $10 $00 $0C $04 $04 $06 $0F $00 $0D $04 $05
+.db $06 $0E $00 $0E $04 $04 $06 $0D $00 $14 $04 $06 $00 $00
+.dsb 106,$FF
+
+.BANK 29
+.ORG $0000
+
+; Data from 74000 to 747B7 (1976 bytes)
+.incbin "Phantasy Star (Japan)_DATA_74000_.inc"
+
+; Data from 747B8 to 77FFF (14408 bytes)
+TilesOutside:
+.incbin "Phantasy Star (Japan)TilesOutside.inc"
+
+.BANK 30
+.ORG $0000
+
+; Data from 78000 to 7BFFF (16384 bytes)
+.incbin "Phantasy Star (Japan)_DATA_78000_.inc"
+
+.BANK 31
+.ORG $0000
+
+; Data from 7C000 to 7D675 (5750 bytes)
+.incbin "Phantasy Star (Japan)_DATA_7C000_.inc"
+
+; Data from 7D676 to 7D686 (17 bytes)
+_DATA_7D676_:
+.db $30 $00 $3F $38 $3E $27 $01 $0F $2B $0B $06 $2A $25 $2F $3B $3C
+.db $30
+
+; Data from 7D687 to 7E8BC (4662 bytes)
+_DATA_7D687_:
+.incbin "Phantasy Star (Japan)_DATA_7D687_.inc"
+
+; Data from 7E8BD to 7FFFF (5955 bytes)
+_DATA_7E8BD_:
+.incbin "Phantasy Star (Japan)_DATA_7E8BD_.inc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

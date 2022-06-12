@@ -266,7 +266,7 @@ BANKS 30
 ;=======================================================================================================
 ; SRAM:
 ;=======================================================================================================
-.define SRAMIdent                 $8000     ; 64 bytes Marker for checking for SRAM corruption
+.define SaveMenuTilemap                 $8000     ; 64 bytes Marker for checking for SRAM corruption
 
 .define SaveMenuTilemap           $8100     ; 216 bytes - menu tilemap
 
@@ -550,7 +550,7 @@ Enemy_Nightmare       db ; $4A
 .define PSG             $7f ; w
 .define FMAddress       $f0 ; w
 .define FMData          $f1 ; w
-.define FMDetect        $f2 ; r/w
+.define AudioControl        $f2 ; r/w
 .define MemoryControl   $3e ; w
 .define IOControl       $3f ; w
 .define IOPort1         $dc ; r/w
@@ -1253,9 +1253,9 @@ FMDetection:           ; $03a4
     ldbc 7,0           ; Counter (7 -> b), plus 0 -> c
   -:ld a,b
     and $01
-    out (FMDetect),a   ; Output 0/1 lots of times
+    out (AudioControl),a   ; Output 0/1 lots of times
     ld e,a
-    in a,(FMDetect)
+    in a,(AudioControl)
     and $07            ; Mask off high bits
     cp e               ; Compare to what was written
     jr nz,+
@@ -1266,7 +1266,7 @@ FMDetection:           ; $03a4
     jr z,+
     xor a              ; 0 -> a
   +:and $01            ; Strip to bit 0
-    out (FMDetect),a   ; Output $01 if YM2413 and $00 otherwise
+    out (AudioControl),a   ; Output $01 if YM2413 and $00 otherwise
     ld (HasFM),a       ; Store that in HasFM
     ld a,(Port3EVal)
     out (MemoryControl),a  ; Turn IO chip back on
@@ -1542,29 +1542,6 @@ Multiply8:             ; $4e2
     add hl,de          ; if a bit is carried then add de (== add e to the total)
   +:add hl,hl          ; repeat for 8 bits
 .endr
-/* ie:
-    jr nc,+
-    add hl,de          ; if a bit is carried then add de
-  +:add hl,hl          ; repeat for 8 bits
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-*/
     ret nc
     add hl,de
     ret
@@ -2391,7 +2368,7 @@ fn0bd0:
     ld (ScrollDirection),a ; Up
     ret
 
-_WorldData: ; $0c12
+_WorldData: ; $0c1b
 ;    ,,--------------------------------- World number - space?
 ;    ||  ,,----------------------------- VLocation
 ;    ||  ||  ,,------------------------- HLocation
@@ -4004,7 +3981,7 @@ _SceneData:            ; $3ec2+8 = $3eca
  SceneDataStruct AirCastle         ,AirCastle          ,AirCastle         ; 0d
  SceneDataStruct GoldDragon        ,GoldDragon         ,GoldDragon        ; 0e
 ; The original rom is a bit odd here... the palette is in an unpaged area but a page number
-; must be given as part of the data structure... so they out $16. My macro puts 0, so I have
+; must be given as part of the data structure... so they put $16. My macro puts 0, so I have
 ; to do the data structure explicitly; the macro works 100% though.
 ; SceneDataStruct AirCastleFull     ,AirCastle          ,AirCastle         ; 0f
 .db $16
