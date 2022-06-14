@@ -237,7 +237,7 @@ _RAM_C2DF_ db
 _RAM_C2E0_ db
 _RAM_C2E1_ dw
 BattleProbability db          ; Chance of an enemy encounter (*255)
-_RAM_C2E4_ db
+DungeonMonsterPoolIndex db
 _RAM_C2E5_ db
 EnemyNumber db                ; Enemy number - index into EnemyData
 _RAM_C2E7_ db
@@ -273,15 +273,15 @@ _RAM_C30A_ db
 .ende
 
 .enum $C30C export
-_RAM_C30C_ db               
-_RAM_C30D_ db
+DungeonPosition db               
+DungeonNumber db
 VehicleMovementFlags db       ; ??? used by palette rotation but could be more
                                 ; Zero if not in a vehicle,else flags for terrain that can be passed?
 PaletteRotatePos db           ; Palette rotation position
 PaletteRotateCounter db       ; Palette rotation delay counter
 _RAM_C311_ dw
 _RAM_C313_ dw
-_RAM_C315_ db
+DungeonPaletteIndex db
 _RAM_C316_ db
 _RAM_C317_ db
 .ende
@@ -761,6 +761,27 @@ Enemy_Nightmare       db ; $4A
 .define TextPauseEnd   $57
 .define TextButtonEnd  $58
 
+
+;=======================================================================================================
+; Macros:
+;=======================================================================================================
+
+.macro TileAddressDE ; sets de to the VRAM address of tile n
+  ld de,$4000 + (\1*32)
+.endm
+
+.macro TileMapAddressDE ; sets de to the VRAM tilemap address of tile x,y
+  ld de,TileMapAddress+(32*\2+\1)*2
+.endm
+
+.macro TileMapAddressHL ; sets hl to the VRAM tilemap address of tile x,y
+  ld hl,TileMapAddress+(32*\2+\1)*2
+.endm
+
+.macro TileMapAreaBC ; sets b to y and c to 2*x for use with InputTilemapRect
+  ld bc,(\2*256) + (\1*2)
+.endm
+
 ;=======================================================================================================
 ; SMS-specific stuff:
 ;=======================================================================================================
@@ -823,6 +844,7 @@ VDPRegLineInt            db
 ; Outputs de to VRAM address port
 ; rst $08 / rst 08h
 SetVRAMAddressToDE:
+SetVDPRegisterDToE:
     ld a,e
     out (VDPAddress),a
     ld a,d
@@ -852,7 +874,7 @@ TurnOnDisplay:
 +:ld (VDPReg1),a
     ld e,a
     ld d,VDPReg_1
-    rst SetVRAMAddressToDE
+    rst SetVDPRegisterDToE
     ret
 .ends
 ; followed by
@@ -950,18 +972,18 @@ FunctionLookupTable:
 .dw FadeInMarkIIILogoAndPause ; 1 $0689
 .dw StartTitleScreen          ; 2 $08b7
 .dw TitleScreen               ; 3 $073f --+  // and intro
-.dw fn0bb8                    ; 4         |
-.dw fn9cb                     ; 5 *       |
+.dw _LABEL_BB8_               ; 4         |
+.dw _LABEL_9CB_               ; 5 *       |
 .dw DoNothing                 ; 6         |
 .dw DoNothing                 ; 7         |
 .dw LoadScene                 ; 8       <-+
-.dw fn0c64                    ; 9 *
-.dw $10d9                     ; a
-.dw $1098                     ; b *
-.dw $3d76                     ; c
-.dw $3cc0                     ; d *
-.dw $1033                     ; e
-.dw $0fe7                     ; f
+.dw _LABEL_C64_               ; 9 *
+.dw _LABEL_10D9_              ; a
+.dw _LABEL_1098_              ; b * Dungeon
+.dw _LABEL_3D76_              ; c
+.dw _LABEL_3CC0_              ; d *
+.dw _LABEL_1033_              ; e
+.dw _LABEL_FE7_               ; f
 .dw LoadNameEntryScreen       ; 10 $4183
 .dw HandleNameEntry           ; 11 $3fdd
 .dw FadeToPictureFrame        ; 12
@@ -1251,7 +1273,7 @@ VBlankFunction_10:
     ; Update palette
     ld hl,ActualPalette
     ld de,PaletteAddress
-    SetVRAMAddressToDE
+    rst SetVRAMAddressToDE
     ld c,VDPData
     call outi32        ; output to palette
 
@@ -1289,7 +1311,7 @@ VBlankFunction_12:
     ; Update palette
     ld hl,ActualPalette
     ld de,PaletteAddress
-    SetVRAMAddressToDE
+    rst SetVRAMAddressToDE
     ld c,VDPData
     call outi32        ; output to palette
 
@@ -1636,7 +1658,7 @@ LoadTiles4BitRLENoDI:
     ld a,c             ; set z flag if high   |
     and $80            ; bit = 0              |
                        ;                      |
-  -:SetVRAMAddressToDE ; <------------------+ |
+  -:rst SetVRAMAddressToDE ; <--------------+ |
     ld a,(hl)          ; Get data byte in a | |
     out (VDPData),a    ; Write it to VRAM   | |
     jp z,+             ; If z flag then  -+ | |
@@ -1677,8 +1699,8 @@ LoadTiles4BitRLE:      ; $04b3   Same as NoDI only with a di/ei around the VRAM 
     ld a,c
     and $80            ; z flag = high bit
 -:  di
-      SetVRAMAddressToDE
-    ld a,(hl)
+      rst SetVRAMAddressToDE
+      ld a,(hl)
       out (VDPData),a    ; output data
     ei
     jp z,+             ; if z flag then don't move to next data byte
@@ -1790,111 +1812,135 @@ GetRandomNumber:
     ret                ; return random number in a
 .ends
 ; 2nd entry of Jump Table from EA (indexed by FunctionLookupIndex)
+.orga $689
+.section "Startup functions" overwrite
 FadeInMarkIIILogoAndPause:
-    ld a,$02
+    ld a,$02           ; VBlankFunction_MarkIIIFadeIn
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and $30
-    jr nz,_LABEL_69A_
+    and P11 | P12      ; Button 1 or 2
+    jr nz,_f           ; If button pressed then skip to function 2 = StartTitleScreen
     ld a,(MarkIIILogoDelay)
     or a
-    ret nz
-_LABEL_69A_:
-    ld hl,FunctionLookupIndex
-    ld (hl),$02
+    ret nz             ; Keep doing this function until MarkIIILogoDelay is zero
+ __:ld hl,FunctionLookupIndex ; This bit used by more than one function
+    ld (hl),2          ; Set FunctionLookupIndex to 2 (StartTitleScreen)
     ret
 
 ; 1st entry of Jump Table from EA (indexed by FunctionLookupIndex)
 LoadMarkIIILogo:
     ld a,(IsJapanese)
     or a
-    jr nz,_LABEL_69A_
+    jr nz,_b            ; if IsJapanese==0 then skip to function 2 = StartTitleScreen
+
     ld hl,FunctionLookupIndex
-    inc (hl)
+    inc (hl)           ; Set FunctionLookupIndex to the next in sequence (FadeInMarkIIILogoAndPause)
     di
-    ld hl,$0078
+
+    ld hl,120          ; Number of frames to show logo for (2s)
     ld (MarkIIILogoDelay),hl
+
     ld hl,TileMapHighByte
     ld (hl),$01
+
     call TurnOffDisplay
     call SoundInit
     call ClearTileMap
-    ld de,$4000
-    ld bc,$0010
-    ld hl,$0000
+
+    ; Clear tile 0
+    TileAddressDE 0    ; Tile 0
+    ld bc,16           ; 16 words = 1 tile
+    ld hl,$0000        ; What to fill with
     call FillVRAMWithHL
+
+    ; Load tiles
     ld hl,Frame2Paging
-    ld (hl),$18
-    ld hl,_DATA_627A8_
-    ld de,$6000
-    ld bc,$00E8
-    ld a,$01
+    ld (hl),:MarkIIILogo1bpp
+    ld hl,MarkIIILogo1bpp
+    TileAddressDE 256  ; Target tile
+    ld bc,_sizeof_MarkIIILogo1bpp ; Count /bytes
+    ld a,$01           ; Output mask (what to set 1s to)
     call Output1BitGraphics
+
+    ; Load tilemap
     ld a,$01
     ld (TileMapHighByte),a
-    ld hl,_DATA_62782_
-    ld de,$7A8E
-    ld bc,$0213
+    ld hl,MarkIIILogoTilemap
+    TileMapAddressDE 7,10 ; x,y
+    ldbc 2,19        ; Size (h,w)
     call OutputTilemapRawBxC
-    ld de,$C000
-    ld bc,$0010
-    ld hl,$3838
+
+    ; Fill palette with colour $38 = blue
+    ld de,PaletteAddress
+    ld bc,16           ; 16 words = 32 bytes = full palette
+    ld hl,$3838        ; should be $0000 to stop startup flash :P
     call FillVRAMWithHL
+
+    ; Fill TargetPalette (32 bytes) with $38 = blue
     ld hl,TargetPalette
     ld de,TargetPalette + 1
-    ld bc,$001F
+    ld bc,32-1
     ld (hl),$38
     ldir
+
     ld a,$FF
     ld (_RAM_DF01_),a
     ld hl,$0000
-    ld (PaletteMoveDelay),hl
-    ei
-    jp ClearSpriteTableAndFadeInWholePalette
+    ld (PaletteMoveDelay),hl ; $00 -> PaletteMoveDelay, PaletteMovePos
 
+    ei
+    jp ClearSpriteTableAndFadeInWholePalette ; and ret
+.ends
+; followed by
+.section "Fade in Mark III logo" overwrite
 MarkIIIFadeIn:
     ld hl,PaletteMoveDelay
     dec (hl)
-    ret p
-    ld (hl),$07
+    ret p              ; Do nothing while PaletteMoveDelay is >=0
+    ld (hl),$07        ; Put 7 in there (so it runs every 8 calls)
     inc hl
-    ld a,(hl)
-    cp $08
-    ret nc
-    inc (hl)
+    ld a,(hl)          ; PaletteMovePos
+    cp _ColoursEnd-_Colours
+    ret nc             ; Do nothing if >=8
+    inc (hl)           ; otherwise increment
     ld e,a
-    ld d,$00
-    ld hl,_DATA_737_
+    ld d,$00           ; de = PaletteMovePos (before increment)
+    ld hl,_Colours     ; Look up in colour table
     add hl,de
     ld a,(hl)
-    ld de,$C001
+    ld de,PaletteAddress+1 ; Palette index 1
     push af
-    rst SetVRAMAddressToDE
-    ex (sp),hl
-    ex (sp),hl
+        rst SetVRAMAddressToDE
+        ex (sp),hl     ; delay
+        ex (sp),hl
     pop af
     out (VDPData),a
     ret
 
-; Data from 737 to 73E (8 bytes)
-_DATA_737_:
-.db $38 $38 $38 $39 $3A $3B $3E $3F
+_Colours:              ; $737
+.db $38,$38,$38,$39,$3A,$3B,$3E,$3F    ; Stupid palette fade :P should choose better colours?
 
+.ends
 ; 4th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+.section "Title screen" overwrite
+; Title screen menu / intro
 TitleScreen:
-    ld hl,$7C12
+    TileMapAddressHL 9,16
     ld (CursorTileMapAddress),hl
+
     ld a,$01
     ld (CursorMax),a
+
     call WaitForMenuSelection
-    or a
+    or a               ; examine returned value
     jp nz,TitleScreenContinue
+
 NewGame:
-    ld hl,HScroll
-    ld de,HScroll + 1
-    ld bc,$03FF
+    ld hl,GameData
+    ld de,GameData+1
+    ld bc,$400-1
     ld (hl),$00
-    ldir
+    ldir               ; zero GameData
     
     ld iy,CharacterStatsAlis
     ld (iy+CharacterStats.Weapon),Item_Weapon_ShortSword
@@ -1905,7 +1951,7 @@ NewGame:
     ld (hl),$FF
     ld hl,DungeonKeyIsHidden
     ld (hl),$FF
-    ld hl,$0404
+    ld hl,$0404        ; Set "world" to 4 (type 4)
     ld (_RAM_C308_),hl
     ld hl,$0610
     ld (HLocation),hl
@@ -1917,39 +1963,47 @@ NewGame:
     ld (Meseta),hl
     
     call IntroSequence
+
     ld hl,FunctionLookupIndex
     ld (hl),$08 ; LoadScene
     ret
-
+.ends
+; followed by
+.section "Continue selected on title screen" overwrite
 TitleScreenContinue:
     ld a,SRAMPagingOn
     ld (SRAMPaging),a
     ld hl,SRAMSlotsUsed
-    ld b,$05
+    ld b,5             ; number of slots
 -:  ld a,(hl)
-    or a
-    jr nz,+
+    or a               ; Look for any used slots
+    jr nz,_UsedSlotFound
     inc hl
     djnz -
     ld a,SRAMPagingOff
     ld (SRAMPaging),a
-    jp NewGame
+    jp NewGame         ; Start new game if none found
 
-+:  ld a,SRAMPagingOff
+_UsedSlotFound:
+    ld a,SRAMPagingOff
     ld (SRAMPaging),a
+
     call FadeOutFullPalette
+
     di
     call ClearTileMap
     ei
+
     ld hl,FunctionLookupIndex
-    ld (hl),$08
+    ld (hl),$08        ; LoadScene
     ld hl,Frame2Paging
     ld (hl),:TilesFont
+
     ld hl,TilesFont
-    ld de,$5800
+    TileAddressDE $c0
     call LoadTiles4BitRLE
     ld hl,TilesExtraFont
-    ld de,$7E00
+    TileAddressDE $1f0
     call LoadTiles4BitRLE
     call ClearSpriteTableAndFadeInWholePalette
     
@@ -1958,6 +2012,7 @@ _ContinueOrDeleteMenu:
     call TextBox20x6
     call DoYesNoMenu
     jr nz,_Delete
+    ; Continue chosen
     ld hl,TextChooseWhichToContinue
     call TextBox20x6
 -:  push bc
@@ -1976,46 +2031,48 @@ _ContinueOrDeleteMenu:
     ld l,$00
     add hl,hl
     add hl,hl
-    set 7,h
-    ld de,HScroll
-    ld bc,$0400
-    ldir
-    ld a,$80
+    set 7,h            ; hl = $8000 + $400*a = slot a game data ($400 bytes)
+    ld de,GameData
+    ld bc,$400         ; 1024 bytes
+    ldir               ; Copy
+    ld a,SRAMPagingOff
     ld (SRAMPaging),a
     ld a,(_RAM_C316_)
-    cp $0B
-    ret nz
+    cp 11
+    ret nz             ; if == 11
     ld hl,FunctionLookupIndex
-    ld (hl),$0A
+    ld (hl),$0a        ; ???
     ret
 
 _Delete:
     ld hl,TextConfirmDelete
     call TextBox20x6
     call DoYesNoMenu
-    jr nz,_ContinueOrDeleteMenu
---:  ld hl,TextChooseWhichToDelete
+    jr nz,_ContinueOrDeleteMenu ; No -> back to start
+--: ld hl,TextChooseWhichToDelete
     call TextBox20x6
 -:  push bc
       call GetSavegameSelection
-    bit 4,c
+      bit 4,c        ; z set if button 1 pressed
     pop bc
-    jr nz,_Delete
+    jr nz,_Delete      ; repeat if button 2 pressed(?)
     call IsSlotUsed
-    jr z,-
+    jr z,-             ; wait for a valid selection
     ld hl,TextConfirmSlotSelection
     call TextBox20x6
     call DoYesNoMenu
     jr nz,--
     ld hl,TextGameXHasBeenDeleted
     call TextBox20x6
-    ld a,$08
+
+    ld a,SRAMPagingOn  ; Delete game
     ld (SRAMPaging),a
     ld a,(NumberToShowInText)
     ld h,$82
-    ld l,a
-    ld (hl),$00
-    dec a
+    ld l,a             ; hl = 820n -> SRAMSlotsUsed
+    ld (hl),$00        ; Mark as not there
+
+    dec a              ; a = 0-based index of game
     add a,a
     ld e,a
     add a,a
@@ -2025,21 +2082,22 @@ _Delete:
     add a,a
     add a,$18
     ld e,a
-    ld d,$81
+    ld d,$81           ; de = SaveMenuTilemap + $16 + 66*a
     ld hl,_5Blanks
-    ld bc,$000A
-    ldir
+    ld bc,10
+    ldir               ; Blank top line of name in SRAM tilemap
     ex de,hl
-    ld bc,$0008
+    ld bc,$0008        ; Add 8 to get to next row
     add hl,bc
     ex de,hl
     ld hl,_5Blanks
-    ld bc,$000A
-    ldir
-    ld a,$80
+    ld bc,10
+    ldir               ; Blank bottom line of name
+
+    ld a,SRAMPagingOff
     ld (SRAMPaging),a
     ld hl,FunctionLookupIndex
-    ld (hl),$02
+    ld (hl),2          ; StartTitleScreen
     ret
 
 ; Data from 89A to 8A3 (10 bytes)
@@ -2047,81 +2105,91 @@ _5Blanks:
 .dsw 5 $10c0           ; Blank tile in front of sprites
 
 IsSlotUsed:
-    ld a,$08
+    ld a,SRAMPagingOn
     ld (SRAMPaging),a
     ld a,(NumberToShowInText)
     ld l,a
-    ld h,$82
-    ld a,(hl)
+    ld h,$82           ; hl = 82nn -> SRAMSlotsUsed
+    ld a,(hl)          ; Set z if slot not used
     or a
-    ld a,$80
+    ld a,SRAMPagingOff
     ld (SRAMPaging),a
     ret
-
+.ends
 ; 3rd entry of Jump Table from EA (indexed by FunctionLookupIndex)
-StartTitleScreen:
+.section "Start title screen" overwrite
+StartTitleScreen:      ; $08b7
     call FadeOutFullPalette
     di
     call TurnOffDisplay
     call SoundInit
     call ClearTileMap
+
     ld hl,FunctionLookupIndex
-    inc (hl)
-    ld hl,$0258
-    ld (MarkIIILogoDelay),hl
+      inc (hl)           ; TitleScreen
+
+      ld hl,600
+      ld (MarkIIILogoDelay),hl ; ??? ##############
+
     ld hl,_TitleScreenPalette
     ld de,TargetPalette
     ld bc,_sizeof__TitleScreenPalette
-    ldir
+      ldir               ; load palette
     ld hl,_RAM_C260_
     ld de,_RAM_C260_ + 1
-    ld bc,$009F
+      ld bc,$9f
     ld (hl),$00
-    ldir
+      ldir               ; zero $c260-$c2ff
+
     ld hl,CharacterSpriteAttributes
     ld de,CharacterSpriteAttributes + 1
     ld bc,$00FF
     ld (hl),$00
-    ldir
+      ldir               ; zero $c800-$c8ff
     ld hl,Frame2Paging
     ld (hl),:TilesTitleScreen
     ld hl,TilesTitleScreen
-    ld de,$4000
+      TileAddressDE 0    ; tile number 0
     call LoadTiles4BitRLENoDI
     ld hl,Frame2Paging
     ld (hl),:TitleScreenTilemap
     ld hl,TitleScreenTilemap
     call DecompressToTileMapData
+
     xor a
     ld (VScroll),a
-    ld (HScroll),a
-    ld a,$81
-    ld (NewMusic),a
-    ld de,$8006
-    rst SetVRAMAddressToDE
+      ld (HScroll),a     ; Reset scroll registers
+
+      ld a,MusicTitle
+      ld (NewMusic),a ; Start music
+
+      ld de,$8006        ; Output %00000110 to VDP register 0 - enable stretch screen, no scroll lock/column mask/line int/desync
+      rst SetVDPRegisterDToE
     ei
-    ld a,$0C
+    ld a,$0c           ; VBlankFunction_UpdateTilemap
     call ExecuteFunctionIndexAInNextVBlank
-    jp ClearSpriteTableAndFadeInWholePalette
+    jp ClearSpriteTableAndFadeInWholePalette ; and ret
 
 ; Data from 925 to 944 (32 bytes)
 _TitleScreenPalette:
-.db $00 $00 $3F $0F $0B $06 $2B $2A $25 $27 $3B $01 $3C $34 $2F $3C
-.db $00 $00 $3C $0F $0B $06 $2B $2A $25 $27 $3B $01 $3C $34 $2F $3C
-
+.db $00,$00,$3F,$0F,$0B,$06,$2B,$2A,$25,$27,$3B,$01,$3C,$34,$2F,$3C
+.db $00,$00,$3C,$0F,$0B,$06,$2B,$2A,$25,$27,$3B,$01,$3C,$34,$2F,$3C
+.ends
+; followed by
+.section "SRAM check" overwrite
 SRAMCheck:
-    ld a,$08
-    ld (SRAMPaging),a
+    ld a,SRAMPagingOn
+    ld (SRAMPaging),a  ; Page in SRAM
     ld hl,SRAMIdent
     ld de,_SRAMIdentData
     ld bc,_sizeof__SRAMIdentData
 -:  ld a,(de)
     inc de
-    cpi
-    jr nz,_InitSRAM
-    jp pe,-
-    ld a,$80
-    ld (SRAMPaging),a
+    cpi                ; check if first $40 bytes of SRAM are the same as the marker
+    jr nz,_InitSRAM    ; If not, initialise SRAM
+    jp pe,-            ; Loop - p flag indicates when bc underflows
+    ld a,SRAMPagingOff
+    ld (SRAMPaging),a  ; page out SRAM
     ret
 
 ; Data from 962 to 9A1 (64 bytes)
@@ -2136,111 +2204,136 @@ _InitSRAM:
     ld de,SRAMIdent + 1
     ld bc,$1FFB
     ld (hl),$00
-    ldir
+    ldir               ; Zero first $1ffc bytes of SRAM
+
     ld hl,DefaultSRAMData
     ld de,SaveMenuTilemap
     ld bc,_sizeof_DefaultSRAMData
-    ldir
-    ld hl,_SRAMIdentData
-    ld de,SaveMenuTilemap
-    ld bc,_sizeof__SRAMIdentData
-    ldir
-    ld a,$80
-    ld (SRAMPaging),a
-    ret
+    ldir               ; Fill from SaveMenuTilemap with default data
 
+    ld hl,_SRAMIdentData
+    ld de,SRAMIdent
+    ld bc,_sizeof__SRAMIdentData
+    ldir               ; Put in the identifier
+
+    ld a,SRAMPagingOff
+    ld (SRAMPaging),a  ; Page out SRAM
+    ret
+.ends
 ; 6th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+.orga $9cb
+.section "unprocessed code" overwrite
 _LABEL_9CB_:
-    ld hl,$2009
+    ld hl,$2009        ; Fade out, 32 colours
     ld (PaletteFadeControl),hl
+
 -:  ld a,(PauseFlag)
     or a
-    call nz,DoPause
-    ld a,$0E
+    call nz,DoPause    ; Pause if flagged
+
+    ld a,$0e           ; VBlankFunction_OutsideScrolling
     call ExecuteFunctionIndexAInNextVBlank
+
     ld a,(Controls)
-    and $30
-    jr nz,_LABEL_9F6_
+    and P11 | P12
+    jr nz,_f
+
     call _LABEL_AF4_
     ld hl,(_RAM_C2F2_)
-    ld de,$0008
+    ld de,8
     add hl,de
     ld (_RAM_C2F2_),hl
     ld a,h
-    cp $08
+    cp $08             ; Loop until h = $8 = 4096 frames = 68.2s?
     jr c,-
-_LABEL_9F6_:
-    ld a,$16
+
+ __:ld a,$16           ; VBlankFunction_PaletteEffects
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(PaletteFadeControl)
-    or a
-    jr nz,_LABEL_9F6_
-    jr +
+    or a               ; repeat until palette is faded out
+    jr nz,_b
 
+    jr +               ; ####################
 +:  ld hl,Frame2Paging
+
     ld (hl),:PaletteSpace
     ld hl,PaletteSpace
     ld de,TargetPalette
     ld bc,_sizeof_PaletteSpace
-    ldir
+    ldir               ; Load palette
     call _LoadPlanetPalette
+
     ld hl,TilesSpace
-    ld de,$4000
-    call LoadTiles4BitRLE
+    TileAddressDE 0
+    call LoadTiles4BitRLE ; load tiles
+
     ld hl,Frame2Paging
     ld (hl),:TilemapBottomPlanet
     ld hl,TilemapBottomPlanet
     call DecompressToTileMapData
+
     ld hl,TileMapData
     ld de,TileMapData+12*32*2
-    ld bc,$0300
-    ldir
+    ld bc,$300
+    ldir               ; duplicate tilemap data
     ld hl,TileMapData
-    ld bc,$0100
-    ldir
+    ld bc,$100         ; 4 rows
+    ldir               ; a bit more...
+
     ld hl,TilemapSpace
     call DecompressToTileMapData
-    xor a
+
+    xor a              ; Zero:
     ld (HScroll),a
     ld (VScroll),a
+
     ld hl,TileMapData
-    ld de,$7800
-    ld bc,$0700
+    TileMapAddressDE 0,0
+    ld bc,32*28*2      ; full tilemap update
     di
     call OutputToVRAM
     ei
+
     ld hl,TileMapData
     ld de,TileMapData+12*32*2
     ld bc,$0300
-    ldir
-    ld a,$8F
+    ldir               ; ############# again?
+
+    ld a,MusicVehicle
     ld (NewMusic),a
+
     call FadeInWholePalette
-    ld hl,$0000
+
+    ld hl,0
     ld (_RAM_C2F2_),hl
-    ld a,$08
+
+    ld a,8
     ld (ScrollScreens),a
+
 -:  ld a,(PauseFlag)
     or a
-    call nz,DoPause
-    ld a,$0E
+    call nz,DoPause    ; check for pause
+    ld a,$0e           ; VBlankFunction_OutsideScrolling
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and $30
-    jr nz,+
+    and P11 | P12
+    jr nz,+            ; if no button pressed:
     call _ScrollToTopPlanet
     ld a,(ScrollScreens)
-    or a
+    or a               ; Loop until ScrollScreens==0
     jr nz,-
+
 +:  ld hl,FunctionLookupIndex
-    ld (hl),$04
+    ld (hl),4
+
     call _LABEL_BD0_
+
     ld hl,$0800
     ld (_RAM_C2F2_),hl
 -:  ld a,(PauseFlag)
     or a
     call nz,DoPause
-    ld a,$0E
+    ld a,$0e           ; VBlankFunction_OutsideScrolling
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
     and $30
@@ -2324,42 +2417,48 @@ _LABEL_AF4_:
     ret
 
 _ScrollToTopPlanet:
-    ld de,$0002
+    ld de,2
     ld a,(VScroll)
-    sub e
-    cp $E0
+    sub e              ; Scroll up by 2 lines
+    cp 224
     jr c,+
-    ld d,$01
-    sub $20
+    ld d,1             ; When it is >= 224
+    sub 32             ; make it jump by 32 to scroll smoothly
 +:  ld (VScroll),a
+
     ld a,(ScrollScreens)
-    sub d
+    sub d              ; dec ScrollScreens for each screenful scrolled
     ld (ScrollScreens),a
-    cp $01
-    ret nz
+
+    cp $1
+    ret nz             ; exit if ScrollScreens!=1
     ld a,d
     or a
-    ret z
+    ret z              ; or d==0
+
+    ; When we have got to the last screen to scroll:
     ld a,(_RAM_C2E9_)
-    and $7F
+    and $7f            ; strip high bit
     ld l,a
     add a,a
     add a,a
     add a,a
     add a,l
     ld l,a
-    ld h,$00
-    ld de,$0C15
+    ld h,$00           ; hl = xc2e9*9
+    ld de,_WorldData-9+3 ; get xc2e9th data
     add hl,de
     ld a,(hl)
     ld (_RAM_C308_),a
     call _LoadPlanetPalette
+
     ld hl,TargetPalette
     ld de,ActualPalette
-    ld bc,$0020
-    ldir
-    ld hl,_DATA_73D00_
-    jp DecompressToTileMapData
+    ld bc,32
+    ldir               ; load palette
+
+    ld hl,TilemapTopPlanet ; load top planet
+    jp DecompressToTileMapData ; and ret
 
 _LoadPlanetPalette:
     ld a,(_RAM_C308_)
@@ -2367,14 +2466,14 @@ _LoadPlanetPalette:
     add a,a
     ld l,a
     add a,a
-    add a,l
+    add a,l            ; a*=6
     ld d,$00
     ld e,a
     ld hl,PaletteSpacePlanets
     add hl,de
     ld de,TargetPalette+2
-    ld bc,$0006
-    ldir
+    ld bc,6
+    ldir               ; load planet palette
     ret
 
 ; Data from BA6 to BB7 (18 bytes)
@@ -2393,9 +2492,10 @@ _LABEL_BB8_:
     add a,a
     add a,l
     ld l,a
-    ld h,$00
-    ld de,$0C12
+    ld h,0             ; hl = xc2e9*9
+    ld de,_WorldData-9
     add hl,de
+
     ld de,$0BE8
     push de
     call _LABEL_7B1E_
@@ -2408,32 +2508,38 @@ _LABEL_BD0_:
     add a,a
     add a,l
     ld l,a
-    ld h,$00
-    ld de,$0C15
+    ld h,0
+    ld de,_WorldData-9+3
     add hl,de
+
     ld de,+  ; Overriding return address
     push de
     call _LABEL_7B1E_
 +:  xor a
     ld (ControlsNew),a
     ld (ScrollDirection),a
+
     ld a,(_RAM_C2E9_)
-    cp $83
+    cp $83             ; ???
     ld a,$10
     jr c,+
     inc a
 +:  ld (VehicleMovementFlags),a
-    ld hl,$0000
+    ld hl,0
     ld (_RAM_C2F2_),hl
+
     call LoadScene
-    ld hl,OutsideAnimCounters.1
-    ld de,OutsideAnimCounters.1 + 1
-    ld bc,$0017
-    ld (hl),$00
+
+    ld hl,OutsideAnimCounters ; zero OutsideAnimCounters
+    ld de,OutsideAnimCounters + 1
+    ld bc,24-1
+    ld (hl),0
     ldir
+
     call SpriteHandler
-    ld a,$01
-    ld (ScrollDirection),a
+
+    ld a,1
+    ld (ScrollDirection),a ; Up
     ret
 
 _WorldData: ; $0c1b
@@ -2461,102 +2567,111 @@ DoNothing:
 
 ; 10th entry of Jump Table from EA (indexed by FunctionLookupIndex)
 _LABEL_C64_:
+    ; check for Pause
     ld a,(PauseFlag)
     or a
     call nz,DoPause
-    ld a,$0E
+    ld a,$0e           ; VBlankFunction_OutsideScrolling
     call ExecuteFunctionIndexAInNextVBlank
     call SpriteHandler
     call _LABEL_7A4F_
     ld a,(PaletteRotateEnabled)
     or a
-    jr nz,+
-    ld a,(MovementInProgress)
-    or a
-    jr z,+
-    xor a
-    ld (MovementInProgress),a
+    jr nz,+            ; if PaletteRotateEnabled then skip -+
+    ld a,(MovementInProgress) ; ??? Read MovementInProgress |
+    or a               ;                                    |
+    jr z,+             ; if MovementInProgress==0 then skip-+
+    xor a              ; Invert bits                        |
+    ld (MovementInProgress),a ; and write back              |
     call _LABEL_61DF_
-    or a
-    jr z,+
-    ld a,$FF
-    jp ++
+    or a               ; check result                       |
+    jr z,+             ; if zero then skip -----------------+
+    ld a,$ff           ; else set all bits in a             |
+    jp ++              ; and skip onwards ------------------|-+
+  +:ld a,(ControlsNew) ; Check controls  <------------------+ |
+    and P11 | P12      ; Is a button pressed?                 |
+    ret z              ; exit if not                          |
+    ld a,(PaletteRotateEnabled) ;                             |
+    or a               ;                                      |
+    ret nz             ; exit if PaletteRotateEnabled         |
+    xor a              ; zero a                               |
+++:  ld (_RAM_C29D_),a ; Save to xc29d <----------------------+
 
-+:  ld a,(ControlsNew)
-    and $30
-    ret z
-    ld a,(PaletteRotateEnabled)
-    or a
-    ret nz
-    xor a
-++:  ld (_RAM_C29D_),a
     ld hl,FunctionLookupIndex
-    ld (hl),$0C
+    ld (hl),$0c        ; Set FunctionLookupIndex to 0c (???)
+
     ld a,(_RAM_C810_)
     ld (_RAM_C2D7_),a
-    ld hl,OutsideAnimCounters.1
-    ld de,OutsideAnimCounters.1 + 1
-    ld bc,$0017
+
+    ld hl,OutsideAnimCounters
+    ld de,OutsideAnimCounters+1
+    ld bc,23
     ld (hl),$00
-    ldir
+    ldir               ; Zero OutsideAnimCounters structure
+
     ld hl,CharacterSpriteAttributes
     ld de,CharacterSpriteAttributes + 1
-    ld bc,$00FF
+    ld bc,$ff
     ld (hl),$00
-    ldir
+    ldir               ; Zero CharacterSpriteAttributes
     ret
-
+.ends
 ; 9th entry of Jump Table from EA (indexed by FunctionLookupIndex)
+.orga $cc6
+.section "Load scene" overwrite
 LoadScene:
     call FadeOutFullPalette
     di
     call TurnOffDisplay
     ei
     ld hl,FunctionLookupIndex
-    inc (hl)
-    xor a
+    inc (hl)           ; -> 9 = ???
+    xor a              ; Set to 0:
     ld (SceneAnimEnabled),a
-    ld (_RAM_C315_),a
-    inc a
+    ld (DungeonPaletteIndex),a
+    inc a              ; Set to 1:
     ld (_RAM_C2D5_),a
     ld a,(_RAM_C308_)
-    cp $04
+    cp 4
     jr nc,+
+    ; load non-town tileset
     ld hl,Frame2Paging
     ld (hl),:TilesOutside
     ld hl,TilesOutside
-    ld de,$4000
+    TileAddressDE 0
     call LoadTiles4BitRLE
     jr ++
 
-+:  ld hl,Frame2Paging
++:  ; Otherwise, load non-Palma tileset
+    ld hl,Frame2Paging
     ld (hl),:TilesTown
     ld hl,TilesTown
-    ld de,$4000
+    TileAddressDE 0    ; could save doing this twice? ############
     call LoadTiles4BitRLE
+
 ++:  call _ResetCharacterSpriteAttributes
     call SpriteHandler
-    ld b,$04
+    ld b,4
 -:  push bc
-    ld a,$0A
+        ld a,$0a       ; VBlankFunction_Enemy
     call ExecuteFunctionIndexAInNextVBlank
     di
     call AnimCharacterSprites
     ei
     pop bc
     djnz -
-    ld a,(HLocation)
+    ld a,(HLocation)   ; low byte only
     neg
-    ld (HScroll),a
-    ld a,(VLocation)
+    ld (HScroll),a     ; HScroll = - Hlocation (because HScroll is the opposite direction)
+    ld a,(VLocation)   ; low byte only
     ld (VScroll),a
     ld a,(_RAM_C309_)
     ld e,a
     ld d,$00
     ld hl,WorldDataLookup1
-    add hl,de
+    add hl,de          ; hl = WorldDataLookup1 + _RAM_c309_
     ld a,(hl)
-    ld (_RAM_C308_),a
+    ld (_RAM_c308_),a       ; _RAM_c308_ = (hl) = world type
     add a,a
     ld h,a
     add a,a
@@ -2567,112 +2682,112 @@ LoadScene:
     ld l,a
     ld h,$00
     ld de,WorldDataLookup2
-    add hl,de
+    add hl,de          ; hl = WorldDataLookup2 + 14*_RAM_c308_
     ld e,(hl)
     inc hl
     ld d,(hl)
     inc hl
-    ld (_RAM_C260_),de
+    ld (_RAM_c260_),de      ; _RAM_c260_ = word there
     ld a,(hl)
-    ld (_RAM_C262_),a
+    ld (_RAM_c262_),a       ; _RAM_c262_ = byte after it
     inc hl
     ld e,(hl)
     ld d,$1F
-    ld (OutsideAnimCounters.1),de
+    ld (OutsideAnimCounters.1),de ; = reset $1f, enabled (next byte)
     inc hl
     ld e,(hl)
     ld d,$0F
-    ld (OutsideAnimCounters.2),de
+    ld (OutsideAnimCounters.2),de ; = reset $f, enabled (next byte)
     inc hl
     ld e,(hl)
     ld d,$0F
-    ld (OutsideAnimCounters.3),de
+    ld (OutsideAnimCounters.3),de ; = reset $f, enabled (next byte)
     inc hl
     ld e,(hl)
     ld d,$03
-    ld (OutsideAnimCounters.4),de
+    ld (OutsideAnimCounters.4),de ; = reset 3, enabled (next byte)
     inc hl
     ld e,(hl)
     ld d,$0F
-    ld (OutsideAnimCounters.5),de
+    ld (OutsideAnimCounters.5),de ; = reset $f, enabled (next byte)
     inc hl
     ld e,(hl)
     ld d,$07
-    ld (OutsideAnimCounters.6),de
+    ld (OutsideAnimCounters.6),de ; = reset 7, enabled (next byte)
     inc hl
     ld a,(hl)
-    ld (_RAM_C263_),a
+    ld (_RAM_c263_),a       ; _RAM_c263_ = next byte
     inc hl
     ld a,(hl)
     inc hl
     push hl
     ld h,(hl)
-    ld l,a
+        ld l,a         ; hl = next word = palette location
     ld de,TargetPalette
-    ld bc,$0011
-    ldir
+        ld bc,17
+        ldir           ; Load start of palette
     ld a,(VehicleMovementFlags)
     or a
     jr nz,+
     push hl
     ld hl,SpritePalette1
-    ld bc,$000D
-    ldir
+            ld bc,13
+            ldir       ; Load rest of palette
     pop hl
-    ldi
+        ldi            ; last 2 palette entries from end of palette location
     ldi
     jp ++
-
 +:  ld hl,SpritePalette2
-    ld bc,$000F
-    ldir
+        ld bc,15
+        ldir           ; Load different palette
 ++:  pop hl
     inc hl
     ld a,(hl)
     inc hl
     ld h,(hl)
-    ld l,a
+    ld l,a             ; hl = next word = ???
     ld (_RAM_C2D9_),hl
     call DecompressScrollingTilemapData
     call FillTilemap
     ld a,$14
     call GetLocationUnknownData
+    rrca               ; divide result by 16
     rrca
     rrca
     rrca
-    rrca
-    and $0F
-    ld (SceneType),a
+    and $f             ; trim to low nibble
+    ld (SceneType),a   ; set SceneType accordingly (???)
+
     ld a,(VehicleMovementFlags)
-    cp $10
-    ld c,$B8
+    cp $10             ; if _RAM_c30e_>16
+    ld c,$b8           ; then c=$b8 (?)
     jr nc,+
     or a
-    ld c,$8F
-    jr nz,+
-    ld a,(_RAM_C309_)
+    ld c,MusicVehicle  ; else c=MusicVehicle
+    jr nz,+            ; if _RAM_c30e_==0
+    ld a,(_RAM_c309_)       ; then:
     ld e,a
     ld d,$00
     ld hl,WorldMusics
-    add hl,de
-    ld c,(hl)
+    add hl,de          ; de = WorldMusics+_RAM_c309_
+    ld c,(hl)          ; c = (de) = music number
 +:  ld a,c
     call CheckMusic
+
     ld de,$8026
     di
-    rst SetVRAMAddressToDE
+      rst SetVDPRegisterDToE ; output %00100110 to VDP register 0 - ???
     ei
-    jp ClearSpriteTableAndFadeInWholePalette
+    jp ClearSpriteTableAndFadeInWholePalette ; and ret
 
-CheckMusic:
+CheckMusic:           ; $df3
     push hl
       ld hl,CurrentlyPlayingMusic
-      cp (hl)
+        cp (hl)        ; if a!=CurrentlyPlayingMusic
       jr nz,+
     pop hl
     ret
-
-+:    ld (NewMusic),a
+      +:ld (NewMusic),a ; then set NewMusic to a
       ld (hl),a
     pop hl
     ret
@@ -2682,17 +2797,17 @@ _ResetCharacterSpriteAttributes:
     ld de,CharacterSpriteAttributes + 1
     ld bc,$FF
     ld (hl),$00
-    ldir
+    ldir               ; Zero $100 bytes (all of CharacterSpriteAttributes)
     ld a,(VehicleMovementFlags)
-    or a
+    or a               ; If zero,
     jp z,_InitialiseCharacterSpriteAttributes
     ld hl,CharacterSpriteAttributes
-    ld (hl),$09
+    ld (hl),$09        ; else set CharacterSpriteAttributes+00 to 9 (???)
     ret
 
 _InitialiseCharacterSpriteAttributes:
     ld de,CharacterSpriteAttributes
-    ld bc,$0020
+    ld bc,32           ; size of each entry in CharacterSpriteAttributes
     ld hl,CharacterStatsAlis
     ld a,$01
     call +
@@ -2704,15 +2819,19 @@ _InitialiseCharacterSpriteAttributes:
     call +
     ld hl,CharacterStatsMyau
     ld a,$07
-+:  bit 0,(hl)
+    ; fall through
+  +:                   ; $e3f
+    bit 0,(hl)         ; exit if low bit of (hl) = IsAlive is not set
     ret z
-    ld (de),a
+    ld (de),a          ; copy a to (de) = CharacterSpriteAttributes+0 ???
     ex de,hl
-    add hl,bc
+    add hl,bc          ; add bc to de to get to next entry
     ex de,hl
     ret
-
+.ends
+; followed by
 ; Data from E47 to EFE (184 bytes)
+.section "Scrolling area palettes" overwrite
 Palettee47:            ; $e47
 .db $08,$00,$3f,$01,$03,$0b,$0f,$2f,$06,$38,$3c,$25,$2a,$04,$30,$0c,$08
 Palettee58:            ; $e58
@@ -2733,32 +2852,33 @@ Paletteed9:            ; $ed9
 .db $00,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$08,$00,$00,$00
 Paletteeec:            ; $eec
 .db $3c,$00,$3f,$06,$2f,$0b,$0c,$04,$2a,$25,$3c,$38,$30,$03,$02,$08,$3c,$3c,$3c
-
+.ends
+; followed by
 ; Data from EFF to F0D (15 bytes)
-SpritePalette1:
-.db $00 $3F $2B $0B $2F $37 $0F $38 $34 $06 $01 $2A $25 $00 $00
+.section "Sprite palettes" overwrite
+SpritePalette1:        ; $eff ; last 2 entries are dependent on something else (?)
+.db $00,$3f,$2b,$0b,$2f,$37,$0f,$38,$34,$06,$01,$2a,$25,$00,$00
 
 ; Data from F0E to F1C (15 bytes)
-SpritePalette2:
-.db $00 $3F $02 $03 $0B $0F $20 $38 $34 $2F $2A $25 $2F $2A $25
-
-; Data from F1D to F34 (24 bytes)
-WorldDataLookup1:
-.db $00 $01 $02 $03 $04 $04 $04 $05 $05 $05 $05 $05 $06 $06 $07 $07
-.db $07 $07 $07 $08 $08 $09 $09 $0A
-
-; Data from F35 to F4C (24 bytes)
-WorldMusics:
+SpritePalette2:        ; $fe0
+.db $00,$3f,$02,$03,$0b,$0f,$20,$38,$34,$2f,$2a,$25,$2f,$2a,$25
+.ends
+; followed by
+.orga $f1d
+.section "World data" overwrite
+WorldDataLookup1: ; which "world" to load data for for each value of _RAM_c309_
+.db $00,$01,$02,$03,$04,$04,$04,$05,$05,$05,$05,$05,$06,$06,$07,$07,$07,$07,$07,$08,$08,$09,$09,$0A
+WorldMusics: ; Music for each value of _RAM_c309_
 .db MusicPalma,MusicMotabia,MusicDezoris,MusicDezoris,MusicTown,MusicTown,MusicTown,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicTown,MusicTown,MusicTown,MusicVillage,MusicTown,MusicVillage,MusicVillage,MusicDezoris,MusicDezoris,MusicVillage,MusicVillage,MusicBossDungeon
-
+WorldDataLookup2: ; "World" data
 ; Data from F4D to F57 (11 bytes)
 WorldDataLookup2:
-;    ,,--,,-------------------------------------- Offset  xc260 \ Scrolling tilemap data?
-;    ||  ||  ,,---------------------------------- Page    xc262 /
+;    ,,--,,-------------------------------------- Offset  _RAM_c260_ \ Scrolling tilemap data?
+;    ||  ||  ,,---------------------------------- Page    _RAM_c262_ /
 ;    ||  ||  || ,-,-,-,-,-,---------------------- various tile animation enables
-;    ||  ||  || | | | | | |  ,,------------------ xc263 ??? page?
+;    ||  ||  || | | | | | |  ,,------------------ _RAM_c263_ ??? page?
 ;    ||  ||  || | | | | | |  ||  ,,--,,---------- Palette offset
-;    ||  ||  || | | | | | |  ||  ||  ||  ,,--,,-- xc2d9 ??? offset?
+;    ||  ||  || | | | | | |  ||  ||  ||  ,,--,,-- _RAM_c2d9_ ??? offset?
 .db $00,$80,$0d,1,1,0,1,1,0,$1d,$47,$0e,$35,$a9 ; Palma
 .db $76,$a2,$0d,0,0,1,1,0,1,$1d,$58,$0e,$b9,$a9 ; Motabia
 .db $00,$80,$0e,0,0,0,0,0,0,$1d,$69,$0e,$e3,$a9 ; Dezoris
@@ -2770,8 +2890,10 @@ WorldDataLookup2:
 .db $07,$9c,$18,0,0,0,0,0,0,$16,$c6,$0e,$5f,$ae ; ???
 .db $8b,$9d,$18,0,0,0,0,0,0,$16,$d9,$0e,$71,$ae ; ??? town
 .db $50,$a2,$18,0,0,0,0,0,0,$16,$ec,$0e,$37,$af ; Air Castle
+.ends
+.orga $fe7
 
-; Unknown code?
+_LABEL_FE7_:
     ld a,(PauseFlag)
     or a
     call nz,DoPause
@@ -2809,6 +2931,7 @@ WorldDataLookup2:
     ret
 
 ; Data from 1033 to 107C (74 bytes)
+_LABEL_1033_:
 .db $3A $E9 $C2 $87 $87 $87 $6F $26 $00 $11 $60 $10 $19 $7E $32 $EA
 .db $C2 $23 $7E $32 $EB $C2 $23 $11 $51 $10 $D5 $CD $1E $7B $CD $C6
 .db $0C $21 $6F $C2 $11 $70 $C2 $01 $17 $00 $36 $00 $ED $B0 $21 $01
@@ -2824,7 +2947,7 @@ _LABEL_1098_:
     ld a,(PauseFlag)
     or a
     call nz,DoPause
-    ld a,$08
+    ld a,$08 ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     call _LABEL_6891_
     ld a,(MovementInProgress)
@@ -2843,11 +2966,11 @@ _LABEL_1098_:
     xor a
 _LABEL_10C0_:
     ld (MovementInProgress),a
-    ld a,(_RAM_C2E4_)
-    call _LABEL_6254_
+    ld a,(DungeonMonsterPoolIndex)
+    call _LABEL_6254_SelectMonsterFromPool
     or a
     ret z
-    call _LABEL_627A_
+    call LoadEnemy
     call _LABEL_116B_
     ld a,(CharacterSpriteAttributes)
     or a
@@ -2869,10 +2992,10 @@ _LABEL_10D9_:
     ld de,$7E00
     call LoadTiles4BitRLE
     ld a,$39
-    call _LABEL_298A_
+    call HaveItem
     jr nz,+
     ld a,$FF
-    ld (_RAM_C315_),a
+    ld (DungeonPaletteIndex),a
 +:  call _LABEL_114F_
     xor a
     ld (VScroll),a
@@ -2882,24 +3005,24 @@ _LABEL_10D9_:
     ld (TextBox20x6Open),a
     ld de,$8006
     di
-    rst SetVRAMAddressToDE
+      rst SetVDPRegisterDToE
     ei
     call ClearSpriteTableAndFadeInWholePalette
     ld b,$01
     call _LABEL_6C06_
-    ld a,(_RAM_C315_)
+    ld a,(DungeonPaletteIndex)
     or a
     ret nz
     ld hl,_DATA_ADBC_
     call TextBox20x6
     call Close20x6TextBox
     call _LABEL_1D3D_
-    ld a,(_RAM_C315_)
+    ld a,(DungeonPaletteIndex)
     or a
     jr z,+
     ld a,$FF
-    ld (_RAM_C315_),a
-    call _LABEL_7022_
+    ld (DungeonPaletteIndex),a
+    call LoadDungeonData
     jp FadeInWholePalette
 
 +:  ld hl,FunctionLookupIndex
@@ -2914,10 +3037,10 @@ _LABEL_114F_:
     ldir
     ld a,$D0
     ld (SpriteTable),a
-    call _LABEL_6FF9_
+    call LoadDungeonMap
     xor a
     ld (SceneType),a
-    jp _LABEL_6D88_
+    jp DungeonScriptItem
 
 _LABEL_116B_:
     ld a,(EnemyNumber)
@@ -2942,7 +3065,7 @@ _LABEL_116B_:
     ld b,$04
 -:  ld a,b
     dec a
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jp nz,_LABEL_119F_
     djnz -
     jp _LABEL_17B2_
@@ -2951,7 +3074,7 @@ _LABEL_119F_:
     ld b,$04
 -:  ld a,b
     dec a
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     inc hl
     ld a,(hl)
     or a
@@ -3138,7 +3261,7 @@ _LABEL_12A4_:
 -:  call GetRandomNumber
     and $07
     add a,$04
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jp z,-
     push hl
     pop ix
@@ -3151,8 +3274,9 @@ _LABEL_12A4_:
 ++:  ld d,$F6
     jr ++++
 
-+++:  ld d,$EC
-++++:  ld e,a
++++:ld d,$EC
+++++:
+    ld e,a
     call _LABEL_204A_
     jp _LABEL_1367_
 
@@ -3173,7 +3297,7 @@ _LABEL_1338_:
     ld (TextCharacterNumber),a
     ld a,b
     ld (ItemTableIndex),a
-    call _LABEL_298A_
+    call HaveItem
     jr nz,+
     ld (_RAM_C29B_),hl
     call _LABEL_235D_
@@ -3251,7 +3375,7 @@ _LABEL_13D5_:
     ret
 
 _LABEL_13E8_:
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     ret z
     push hl
     pop iy
@@ -3317,7 +3441,7 @@ _LABEL_1461_:
     call nz,_LABEL_1430_
 -:  call GetRandomNumber
     and $03
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jp z,-
     ld (TextCharacterNumber),a
     push hl
@@ -3340,9 +3464,9 @@ _LABEL_1461_:
 +:  call TextBox20x6
     call Close20x6TextBox
 ++:  pop af
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr nz,++
-    ld hl,_DATA_B07B_
+    ld hl,TextPlayerDied
     call TextBox20x6
     ld a,(EnemyNumber)
     cp $46
@@ -3388,7 +3512,7 @@ _LABEL_14E2_:
 _LABEL_1502_:
     call GetRandomNumber
     and $03
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr z,_LABEL_1502_
     ld (TextCharacterNumber),a
     ld a,$0D
@@ -3456,7 +3580,7 @@ _LABEL_157D_:
 -:  ld a,b
     sub $04
     neg
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr nz,_LABEL_159F_
     djnz -
     ret
@@ -3464,7 +3588,7 @@ _LABEL_157D_:
 _LABEL_159F_:
     call GetRandomNumber
     and $03
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jp z,_LABEL_159F_
     ld (TextCharacterNumber),a
     ld (_RAM_C2EE_),a
@@ -3487,9 +3611,9 @@ _LABEL_159F_:
     call TextBox20x6
     call Close20x6TextBox
 +:  ld a,(TextCharacterNumber)
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr nz,+
-    ld hl,_DATA_B07B_
+    ld hl,TextPlayerDied
     call TextBox20x6
     call Close20x6TextBox
 +:  ld b,$04
@@ -3516,7 +3640,7 @@ _LABEL_1605_:
     ld a,b
     sub $04
     neg
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr z,_LABEL_165D_
     ld (TextCharacterNumber),a
     ld (_RAM_C2EE_),a
@@ -3534,9 +3658,9 @@ _LABEL_1605_:
     call TextBox20x6
     call Close20x6TextBox
 +:  ld a,(TextCharacterNumber)
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr nz,+
-    ld hl,_DATA_B07B_
+    ld hl,TextPlayerDied
     call TextBox20x6
     call Close20x6TextBox
 +:  ld b,$04
@@ -3573,7 +3697,7 @@ _LABEL_1676_:
     call nz,_LABEL_1430_
 -:  call GetRandomNumber
     and $03
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jp z,-
     ld (TextCharacterNumber),a
     ld (_RAM_C2EE_),a
@@ -3598,7 +3722,7 @@ _LABEL_1676_:
 _LABEL_16BD_:
     ld a,$3C
     ld (ItemTableIndex),a
-    call _LABEL_298A_
+    call HaveItem
     ld c,$01
     jp nz,_LABEL_1603_
     ld c,$FF
@@ -3792,18 +3916,21 @@ _LABEL_180E_:
     ld a,$16
     call ExecuteFunctionIndexAInNextVBlank
     ret
-
+.orga $184d
+.section "Initialise character stats in iy" overwrite
 InitialiseCharacterStats:
-    ld (iy+0),$01
-    ld (iy+5),$01
+    ld (iy+0),$01      ; alive
+    ld (iy+5),$01      ; LV
     push iy
     call CharacterStatsUpdate
     pop iy
-    ld a,(iy+6)
+    ld a,(iy+6)        ; copy Max HP and Max MP to HP and MP
     ld (iy+1),a
     ld a,(iy+7)
     ld (iy+2),a
     ret
+.ends
+.orga $1869
 
 _LABEL_1869_:
     ld hl,(_RAM_C2D0_)
@@ -3879,20 +4006,28 @@ _LABEL_1869_:
 +:  ld hl,_DATA_AFC6_
     jp TextBox20x6
 
+.orga $1916
+.section "Characters item/level stats update" overwrite
 CharacterStatsUpdate:
     ld hl,Frame2Paging
     ld (hl),:LevelStats
+
     ld iy,CharacterStatsAlis
     ld de,LevelStatsAlis
     call +
+
     ld iy,CharacterStatsMyau
-    ld de,LevelStatsMyau-8
+    ld de,LevelStatsMyau-8 ; -8 because other characters start at level 1
     call +
+
     ld iy,CharacterStatsOdin
     ld de,LevelStatsOdin-8
     call +
+
     ld iy,CharacterStatsLutz
     ld de,LevelStatsLutz-8
+    ; fall through
+
 +:  bit 0,(iy+CharacterStats.IsAlive)
     ret z
     ld (iy+CharacterStats.IsAlive),$01
@@ -3904,16 +4039,19 @@ CharacterStatsUpdate:
     add hl,hl
     add hl,de
     push hl
-    pop ix
+    pop ix             ; ix = de + LV*8
+
     ld a,(ix+0)
-    ld (iy+6),a
+    ld (iy+6),a        ; Max HP
+
     ld l,(iy+10)
     ld h,$00
     ld de,_ItemStrengths
     add hl,de
     ld a,(hl)
     add a,(ix+1)
-    ld (iy+8),a
+    ld (iy+8),a        ; Attack = (_ItemStrengths + Weapon) + level bonus
+
     ld l,(iy+11)
     ld h,$00
     add hl,de
@@ -3923,25 +4061,29 @@ CharacterStatsUpdate:
     add hl,de
     add a,(hl)
     add a,(ix+2)
-    ld (iy+9),a
+    ld (iy+9),a        ; Defence = (_ItemStrengths + Armour) + (_ItemStrengths + Shield) + level bonus
+
     ld a,(ix+3)
-    ld (iy+7),a
+    ld (iy+7),a        ; Max MP
+
     ld a,(ix+6)
-    ld (iy+14),a
+    ld (iy+14),a       ; Number of magics known
+
     ld a,(ix+7)
-    ld (iy+15),a
+    ld (iy+15),a       ; ??? = ix+7
     ret
 
-; Data from 1996 to 19D5 (64 bytes)
 _ItemStrengths:
 .db  0,3,4,12,10,10,10,21,31,18,30,30,46,50,60,80 ; weapons
 .db  5,5,15,20,30,30,60,80,40                      ; armour - splits not certain ???
 .db  3,8,15,23,40,30,40,50                         ; shields
 .dsb 31,0                                          ; 31 0s at the end -> 64 bytes total ##############
+.ends
+.orga $19d6
 
 _LABEL_19D6_:
     ld a,(_RAM_C267_)
-_LABEL_19D9_:
+PointHLToCharacterInA:
     push af
     add a,a
     add a,a
@@ -3959,7 +4101,7 @@ _LABEL_19D9_:
 
 _LABEL_19EA_:
     push hl
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     pop hl
     ret nz
     push af
@@ -4524,7 +4666,7 @@ _LABEL_1DFD_:
     call _LABEL_35E3_
 ++:  call _LABEL_39DE_
     call _LABEL_386A_
-+++:  jp _LABEL_37D8_
++++:jp _LABEL_37D8_
 
 ; 5th entry of Jump Table from 1DF3 (indexed by CursorPos)
 _LABEL_1E3B_:
@@ -4728,7 +4870,7 @@ _LABEL_1FBB_:
     ld a,$C1
     ld (NewMusic),a
     ld a,(TextCharacterNumber)
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     push hl
     pop ix
     ld b,(ix+6)
@@ -4773,7 +4915,7 @@ _LABEL_200E_:
 -:  ld a,b
     sub $0C
     neg
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr nz,+
     djnz -
     ret
@@ -4784,7 +4926,7 @@ _LABEL_200E_:
 -:  call GetRandomNumber
     and $07
     add a,$04
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jp z,-
     push hl
     pop ix
@@ -4810,7 +4952,7 @@ _LABEL_204A_:
     ld a,b
     sub $0C
     neg
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jp z,++
     push hl
     pop ix
@@ -4835,7 +4977,7 @@ _LABEL_204A_:
     djnz -
     ret
 
-+++:  pop bc
++++:pop bc
     ret
 
 ; 8th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
@@ -4873,7 +5015,7 @@ _LABEL_2092_:
 -:  ld a,b
     sub $0C
     neg
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr z,+
     add hl,de
     ld a,(hl)
@@ -4883,9 +5025,10 @@ _LABEL_2092_:
 ++:  ld hl,_DATA_AB72_
     jr ++++
 
-+++:  ld (hl),c
++++:ld (hl),c
     ld hl,_DATA_AC22_
-++++:  call TextBox20x6
+++++:
+    call TextBox20x6
     jp Close20x6TextBox
 
 ; 10th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
@@ -4931,7 +5074,7 @@ _LABEL_211C_:
     ld a,(TextCharacterNumber)
     call _LABEL_19EA_
     ret z
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     set 7,(hl)
     ld hl,_DATA_AC70_
     call TextBox20x6
@@ -4956,7 +5099,7 @@ _LABEL_213B_:
 -:  ld a,b
     sub $0C
     neg
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr z,+
     bit 6,(hl)
     jr z,+++
@@ -4964,9 +5107,10 @@ _LABEL_213B_:
 ++:  ld hl,_DATA_AB72_
     jr ++++
 
-+++:  set 6,(hl)
++++:set 6,(hl)
     ld hl,_DATA_AC8A_
-++++:  call TextBox20x6
+++++:
+    call TextBox20x6
     jp Close20x6TextBox
 
 ; 13th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
@@ -5065,7 +5209,7 @@ _LABEL_221B_:
     ld (NewMusic),a
     pop af
     ld (TextCharacterNumber),a
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr z,+
     ld hl,_DATA_B064_
     jr ++
@@ -5082,7 +5226,7 @@ _LABEL_221B_:
     ld hl,_DATA_AF4D_
 ++:  call TextBox20x6
     call Close20x6TextBox
-+++:  jp _LABEL_37E9_
++++:jp _LABEL_37E9_
 
 ; 17th entry of Jump Table from 1F5A (indexed by unknown)
 _LABEL_2254_:
@@ -5187,11 +5331,11 @@ _LABEL_22C4_:
     call Close20x6TextBox
     jp _LABEL_2351_
 
-+++:  ld b,$04
++++:ld b,$04
 -:  ld a,b
     sub $04
     neg
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jp nz,+
     djnz -
     jp _LABEL_2351_
@@ -5393,7 +5537,7 @@ _LABEL_24F9_:
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld a,(_RAM_C315_)
++:  ld a,(DungeonPaletteIndex)
     or a
     jr nz,-
     ld hl,_DATA_ACDA_
@@ -5401,7 +5545,7 @@ _LABEL_24F9_:
     call Close20x6TextBox
     call _LABEL_28D8_
     ld a,$FF
-    ld (_RAM_C315_),a
+    ld (DungeonPaletteIndex),a
     ld (_RAM_C2D8_),a
     ret
 
@@ -5526,7 +5670,7 @@ _LABEL_261A_:
 +:  ld hl,_DATA_ADCF_
     call TextBox20x6
     call _LABEL_28D8_
-    call _LABEL_57A6_
+    call GetHapsby
     jp Close20x6TextBox
 
 ; 46th entry of Jump Table from 2366 (indexed by ItemTableIndex)
@@ -5590,7 +5734,7 @@ _LABEL_2693_:
     call _LABEL_7F44_
     pop bc
     ld a,$38
-    call _LABEL_298A_
+    call HaveItem
     jr z,+
     ld hl,_DATA_AE8A_
     call TextBox20x6
@@ -5602,7 +5746,7 @@ _LABEL_2693_:
     call Close20x6TextBox
     ld a,$31
     ld (ItemTableIndex),a
-    call _LABEL_298A_
+    call HaveItem
     ret z
     jp _LABEL_28FB_
 
@@ -5665,7 +5809,7 @@ _LABEL_2733_:
     ld (_RAM_C2D8_),a
     ret
 
-+++:  ld a,(SceneType)
++++:ld a,(SceneType)
     or a
     jr z,_LABEL_2733_
     ld a,(_RAM_C29D_)
@@ -5865,7 +6009,7 @@ _LABEL_28AE_:
 
 _LABEL_28D8_:
     ld hl,(_RAM_C29B_)
-_LABEL_28DB_:
+RemoveItemFromInventory:
     push bc
     ld e,l
     ld d,h
@@ -5957,7 +6101,7 @@ _LABEL_2934_:
     ld (ItemTableIndex),a
     jp _LABEL_2918_
 
-_LABEL_298A_:
+HaveItem:
     ld hl,$C4C0
     ld b,$18
 -:  cp (hl)
@@ -6035,7 +6179,7 @@ _LABEL_2995_:
     cp b
     jr z,_LABEL_2A21_
 ++:  ld (ItemTableIndex),a
-    call _LABEL_298A_
+    call HaveItem
     jr z,_LABEL_2A21_
     ld hl,_DATA_AF32_
     call TextBox20x6
@@ -6047,7 +6191,7 @@ _LABEL_2A21_:
     cp $A2
     jp z,_LABEL_57C6_
     cp $A3
-    jp z,_LABEL_57EC_
+    jp z,FindTairon
     ld hl,_DATA_AF1E_
     call TextBox20x6
     jp Close20x6TextBox
@@ -6119,7 +6263,7 @@ _LABEL_2AAC_:
 
 +:  call GetRandomNumber
     and $03
-++:  call _LABEL_19D9_
+++:  call PointHLToCharacterInA
     ret z
     inc hl
     push hl
@@ -6161,7 +6305,7 @@ _LABEL_2AF5_:
     bit 4,c
     jp nz,_LABEL_2BAE_
     ld (TextCharacterNumber),a
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr nz,+
     ld hl,_DATA_B087_
     call TextBox20x6
@@ -6247,7 +6391,7 @@ _LABEL_2BC9_:
     ld bc,$04FF
 -:  ld a,b
     dec a
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr z,+
     ld a,$06
     add a,l
@@ -6277,7 +6421,7 @@ _LABEL_2BF4_:
     call _LABEL_3782_
     bit 4,c
     jp nz,_LABEL_2C9F_
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr nz,_LABEL_2C8D_
     ld (TextCharacterNumber),a
     push hl
@@ -6442,7 +6586,7 @@ _LABEL_2D38_:
     jr c,+
     cp $24
     jr nc,+
-    call _LABEL_298A_
+    call HaveItem
     jr z,++
 +:  call _LABEL_28FB_
 ++:  ld hl,_DATA_B17E_
@@ -6474,7 +6618,7 @@ _LABEL_2DA2_:
     ld hl,$0144
 +:  inc a
     ld (_RAM_C2EC_),a
-    call _LABEL_59BA_
+    call DrawText20x6
     call _LABEL_3B3C_
     call _LABEL_3AC3_
     jp Close20x6TextBox
@@ -6484,14 +6628,14 @@ _LABEL_2DA2_:
     push hl
     ld a,$33
     ld (ItemTableIndex),a
-    call _LABEL_298A_
+    call HaveItem
     pop hl
     jr z,_LABEL_2DA2_
     ld (Meseta),hl
     call _LABEL_3B21_
     call _LABEL_28FB_
     ld hl,$0146
-    call _LABEL_59BA_
+    call DrawText20x6
     call _LABEL_3B3C_
     call _LABEL_3AC3_
     jp Close20x6TextBox
@@ -6565,6 +6709,8 @@ _LABEL_2E46_:
     jp z,_LABEL_2E0D_
     jp _LABEL_2E46_
 
+.orga $2e75
+.section "Do yes/no menu" overwrite
 DoYesNoMenu:
     push bc
     call ShowMenuYesNo
@@ -6572,85 +6718,103 @@ DoYesNoMenu:
     call HideMenuYesNo
     pop af
     pop bc
-    or a
+    or a               ; set flag z = yes
     ret
-
+.ends
+; followed by
+.orga $2e81
+.section "Pause until button press with VBlankFunction_Menu" overwrite
 MenuWaitForButton:
-    ld a,$08
+    ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and $30
+    and P11 | P12
     jp z,MenuWaitForButton
     ret
-
+.ends
+; followed by
+.orga $2e8f
+.section "Wait 0.5s unless button pressed" overwrite
 MenuWaitHalfSecond:
-    ld b,$1E
--:  ld a,$08
+    ld b,30            ; 30 frames
+  -:ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and $30
-    ret nz
+    and P11 | P12
+    ret nz             ; return if button pressed
     djnz -
     ret
-
+.ends
+; followed by
+.orga $2e9f
+.section "Pause 3 seconds (180 frames) with VBlankFunction_Menu" overwrite
 Pause3Seconds:
-    ld b,$B4
--:  ld a,$08
+    ld b,3*60
+  -:ld a,8             ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and $30
-    ret nz
+    and P11 | P12
+    ret nz             ; stop if button pressed
     djnz -
     ret
-
+.ends
+; followed by
+.orga $2eaf
+.section "Pause 256 frames with VBlankFunction_Menu" overwrite
 Pause256Frames:
-    ld b,$00
+    ld b,0           ; Frames to wait (0 = 256 = 4.3s)
 PauseBFrames:
--:  ld a,$08
+  -:ld a,8           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
     ret
-
+.ends
+; followed by
+.orga $2eb9
+.section "Wait for menu selection" overwrite
+; returns menu selection (0-based) in a
 WaitForMenuSelection:
     ld a,$FF
-    ld (CursorEnabled),a
+    ld (CursorEnabled),a  ; Enable cursor
     ld hl,$0000
-    ld (CursorPos),hl
+    ld (CursorPos),hl  ; 0 -> CursorPos, OldCursorPos
     xor a
-    ld (CursorCounter),a
--:  ld a,$08
+    ld (CursorCounter),a ; zero CursorCounter
+  -:ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
-    and $03
-    jp z,++
-    ld c,a
+    and P1U | P1D      ; if U or D not pressed
+    jp z,++            ; then skip this bit
+    ld c,a             ; -> c
     ld hl,CursorMax
     ld a,(CursorPos)
     bit 0,c
     jr z,+
-    sub $01
-    jr nc,+
-    ld a,(hl)
+    sub $01            ; if D then decrease CursorPos
+    jr nc,+            ; if <0
+    ld a,(hl)          ; then replace with CursorMax
 +:  bit 1,c
     jr z,+
-    inc a
-    cp (hl)
-    jr c,+
-    jr z,+
-    xor a
-+:  ld (CursorPos),a
+    inc a              ; if U then increase CursorPos
+    cp (hl)            ; compare to CursorMax
+    jr c,+             ; if greater
+    jr z,+             ; or equal
+    xor a              ; then zero it
+  +:ld (CursorPos),a   ; save in CursorPos
 ++:  ld a,(Controls)
-    and $30
-    jp z,-
-    ld c,a
+    and P11 | P12      ; button 1 or 2
+    jp z,-             ; repeat until button is pressed
+    ld c,a             ; remember button pressed in c
     xor a
-    ld (CursorCounter),a
-    ld a,$08
+    ld (CursorCounter),a ; zero CursorCounter -> get rid of cursor
+    ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     xor a
-    ld (CursorEnabled),a
+    ld (CursorEnabled),a ; turn off cursor
     ld a,(CursorPos)
-    ret
+    ret                ; return a = CursorPos - 0 or 1; c = button pressed
+.ends
+.orga $2f0d
 
 _LABEL_2F0D_:
     ld a,$FF
@@ -6703,7 +6867,7 @@ _LABEL_2F12_:
 ++:  ld (_RAM_C299_),a
     jr ++++
 
-+++:  ld a,c
++++:ld a,c
     and $30
     jr z,_LABEL_2F12_
     xor a
@@ -6731,7 +6895,8 @@ _LABEL_2F12_:
     jr z,+
     xor a
 +:  ld (_RAM_C299_),a
-++++:  xor a
+++++:
+    xor a
     ld (CursorEnabled),a
     call _LABEL_3647_
     ld a,(_RAM_C299_)
@@ -6757,46 +6922,53 @@ _LABEL_2F12_:
     ld (CursorPos),hl
     jp _LABEL_2F0D_
 
+.orga $2fca
+.section "Flash cursor" overwrite
 FlashCursor:
-    ld a,(CursorEnabled)
+    ld a,(CursorEnabled) ; Check CursorEnabled
     or a
-    ret z
+    ret z              ; Continue if non-zero
     ld a,(FunctionLookupIndex)
-    cp $03
-    ld bc,$F0F3
+    cp 3               ; if FunctionLookupIndex<>3 (TitleScreen)
+    ld bc,$f0f3        ; then b=$f0, c=$f3 (in-game cursor tile #s, actually $1xx)
     jr nz,+
-    ld bc,$FF00
-+:  ld hl,(CursorTileMapAddress)
-    ld a,(OldCursorPos)
+    ld bc,$ff00        ; else b=$ff, c=$00 (title screen cursor tile #s)
+  +:ld hl,(CursorTileMapAddress) ; Load CursorTilemapAddress
+    ld a,(OldCursorPos) ; and OldCursorPos
     srl a
     ld e,$00
     rr e
-    ld d,a
+    ld d,a             ; de = _RAM_c26c_ * 128 (128 bytes = 2 rows of tiles)
     add hl,de
-    ex de,hl
+    ex de,hl           ; de = CursorTilemapAddress + _RAM_c26c_ * 128
     rst SetVRAMAddressToDE
-    ld a,c
-    out (VDPData),a
+
+    ld a,c             ; $00 or $f3 ("off" cursor)
+    out (VDPData),a    ; Write tile
+
     ld hl,(CursorTileMapAddress)
-    ld a,(CursorPos)
+    ld a,(CursorPos)   ; Copy CursorPos to OldCursorPos
     ld (OldCursorPos),a
     srl a
     ld e,$00
     rr e
-    ld d,a
+    ld d,a             ; de = CursorPos * 128
     add hl,de
-    ex de,hl
+    ex de,hl           ; de = CursorTilemapAddress + CursorPos * 128
     rst SetVRAMAddressToDE
+
     ld a,(CursorCounter)
     dec a
     and $0F
-    ld (CursorCounter),a
-    bit 3,a
-    ld a,b
+    ld (CursorCounter),a ; decrement CursorCounter, limit to $f-$0
+    bit 3,a            ; if bit 3 is 0
+    ld a,b             ; then output b ($f0 or $ff) ("on" cursor)
     jr nz,+
-    ld a,c
+    ld a,c             ; else output c ($f3 or $00) ("off" cursor)
 +:  out (VDPData),a
     ret
+.ends
+.orga $3014
 
 _LABEL_3014_:
     ld hl,_RAM_D700_
@@ -6918,68 +7090,84 @@ _LABEL_3109_:
     ld ix,CharacterStatsLutz
     jp _LABEL_3083_
 
+.orga $3140
+.section "Output chars plus number plus right |" overwrite
+; outputs 8/16 bytes = 4/5 chars at (hl), then 3-digit number in a, then write | to VRAM address de
+; Then does VBlankFunction_Enemy in VBlank to keep tile animations going
 Output4CharsPlusStatWide:
     di
     push de
-    push af
-    rst SetVRAMAddressToDE
-    ld b,$10
-    jp _LABEL_314F_
+      push af
+        rst SetVRAMAddressToDE
+        ld b,16
+        jp _f
 
 Output4CharsPlusStat:
     di
     push de
-    push af
-    rst SetVRAMAddressToDE
-    ld b,$08
-_LABEL_314F_:
-    ld a,(hl)
-    out (VDPData),a
-    inc hl
-    djnz _LABEL_314F_
-    pop af
-    ld bc,$C010
+      push af
+        rst SetVRAMAddressToDE
+        ld b,$08   ; counter
+
+
+__:     ld a,(hl)
+        out (VDPData),a ; output 8 bytes from hl to de
+        inc hl
+        djnz _b
+      pop af
+
+        ld bc,$c010    ; tile c0 for leading blanks
+
     ld d,$FF
--:  sub $64
+      -:sub 100        ; d = 100s digit in a
     inc d
     jr nc,-
-    add a,$64
-    ld l,a
+        add a,100
+
+        ld l,a         ; backup a
     ld a,d
     call OutputDigit
-    ld d,$FF
-    ld a,l
--:  sub $0A
-    inc d
-    jr nc,-
-    add a,$0A
-    ld l,a
-    ld a,d
-    call OutputDigit
+
     ld d,$FF
     ld a,l
--:  sub $01
+      -:sub 10         ; d = 10s digit in a
+    inc d
+    jr nc,-
+        add a,10
+
+        ld l,a         ; same as before
+    ld a,d
+    call OutputDigit
+
+    ld d,$FF
+    ld a,l
+      -:sub 1          ; d = 1s digit in a
     inc d
     jr nc,-
     ld a,d
-    ld bc,$C110
+
+        ld bc,$c110    ; tile c1 for a final 0 if zero
     call OutputDigit
-    push af
+
+        push af        ; delay
     pop af
-    ld a,$F3
+
+        ld a,$f3       ; output right |
     out (VDPData),a
     push af
     pop af
     ld a,$13
     out (VDPData),a
     pop de
-    ld hl,$0040
+    ld hl,32*2
     add hl,de
-    ex de,hl
+    ex de,hl           ; de = next row down
     ei
-    ld a,$0A
+    ld a,$0a           ; VBlankFunction_Enemy
     call ExecuteFunctionIndexAInNextVBlank
     ret
+.ends
+.orga $319e
 
 _LABEL_319E_:
     di
@@ -7049,99 +7237,135 @@ _LABEL_319E_:
     call ExecuteFunctionIndexAInNextVBlank
     ret
 
+.orga $320f
+.section "Tilemaps for HM and MP display" overwrite
 ; Data from 320F to 3216 (8 bytes)
 TilesHP:
 .dw $11f3 $11f4 $11f5 $10c0 ; "|HP "
 TilesMP:
 .dw $11F3 $11F6 $11F5 $10C0 ; "|MP "
-
+.ends
+; followed by
+.orga $321f
+.section "Output _RAM_d724_ tilemap data to bottom of screen" overwrite
 _LABEL_321F_:
     ld hl,_RAM_D724_
-    ld de,$7C80
-    ld bc,$0640
-    jp OutputTilemapBoxWipePaging
-
+    TileMapAddressDE 0,18
+    TileMapAreaBC 32,6
+    jp OutputTilemapBoxWipePaging ; and ret
+.ends
+; followed by
+.orga $322b
+.section "Show combat menu" overwrite
 ShowCombatMenu:
     ld hl,OldTileMapMenu
-    ld de,$7842
-    ld bc,$0B0C
-    call InputTilemapRect
+    TileMapAddressDE 1,1
+    TileMapAreaBC 6,11
+    call InputTilemapRect ; backup tilemap
     ld hl,MenuCombat
-    jp OutputTilemapBoxWipePaging
-
+    jp OutputTilemapBoxWipePaging ; and ret
+.ends
+; followed by
+.orga $323d
+.section "Refresh combat menu" overwrite
 RefreshCombatMenu:
     ld hl,MenuCombat
-    ld de,$7842
-    ld bc,$0B0C
-    jp OutputTilemapRect
-
-CloseMenu:
+    TileMapAddressDE 1,1
+    TileMapAreaBC 6,11
+    jp OutputTilemapRect ; and ret
+.ends
+; followed by
+.orga $3249
+.section "Close menu" overwrite
+CloseMenu:             ; $3249
     ld hl,OldTileMapMenu
-    ld de,$7842
-    ld bc,$0B0C
-    jp OutputTilemapBoxWipePaging
-
-ShowEnemyData:
+    TileMapAddressDE 1,1
+    TileMapAreaBC 6,11
+    jp OutputTilemapBoxWipePaging ; and ret
+.ends
+; followed by
+.orga $3255
+.section "Show enemy name and stats" overwrite
+ShowEnemyData:         ; $3255
+; displays EnemyName and stats for however many are "there"
     ld hl,OldTileMapEnemyName10x4
-    ld de,$781C
-    ld bc,$0414
+    TileMapAddressDE 14,0
+    TileMapAreaBC 10 4
     call InputTilemapRect
+
     ld hl,OldTileMapEnemyStats8x10
-    ld de,$7830
-    ld bc,$0A10
+    TileMapAddressDE 24,0
+    TileMapAreaBC 8,10
     call InputTilemapRect
 _LABEL_326D_:
-    ld hl,Menu10Top
-    ld de,$781C
-    ld bc,$0114
+    ld hl,Menu10Top    ; tilemap data for menu top?
+    TileMapAddressDE 14,0
+    TileMapAreaBC 10,1
     call OutputTilemapRect
+
     ld hl,Frame2Paging
     ld (hl),$02
+
     ld hl,EnemyName
     ld c,$00
     call Output8CharMenuLine
     ld c,$01
     call Output8CharMenuLine
-    ld hl,Menu10Bottom
-    ld bc,$0114
+
+    ld hl,Menu10Bottom ; tilemap data for menu bottom
+    TileMapAreaBC 10,1
     call OutputTilemapRect
+
     ld a,(EnemyNumber)
-    cp $49
-    ret z
+    cp Enemy_DarkForce
+    ret z              ; end if EnemyNumber = Dark Force
+
     ld hl,MenuBox8Top
-    ld de,$7830
-    ld bc,$0110
+    TileMapAddressDE 24,0
+    TileMapAreaBC 8,1
     call OutputTilemapBoxWipePaging
-    ld ix,CharacterStatsEnemies
+
+    ld ix,CharacterStatsEnemies ; Enemy stats
     ld a,(NumEnemies)
-    ld b,a
+    ld b,a             ; b = number of enemies
 -:  push bc
     ld hl,TilesHP
-    ld a,(ix+1)
+        ld a,(ix+$01)  ; HP
     call Output4CharsPlusStat
-    ld bc,$0010
+        ld bc,$10      ; Next enemy's stats
     add ix,bc
     pop bc
     djnz -
-    ld hl,MenuBox8Bottom
-    ld bc,$0110
-    jp OutputTilemapBoxWipePaging
 
-Output8CharMenuLine:
+    ld hl,MenuBox8Bottom
+    TileMapAreaBC 8,1
+    jp OutputTilemapBoxWipePaging ; and ret
+.ends
+; followed by
+.orga $32c9
+.section "Output 8 char menu line" overwrite
+Output8CharMenuLine:   ; $32c9
+; outputs |item----| to tilemap
+; where item---- is an 8 letter string pointed to by hl
+; call once with c=0 and once with c=1
+; Needs character lookup paged in
     di
     push bc
     push hl
     push de
     rst SetVRAMAddressToDE
-    push af
+            push af    ; delay
     pop af
-    ld a,$F3
+
+            ld a,$f3   ; Output tile 1f3 = | (high priority)
     out (VDPData),a
     push af
     pop af
     ld a,$11
     out (VDPData),a
-    ld b,$08
+
+            ld b,$08   ; b=8 = counter for 8 chars
+
 -:  ld a,(hl)
     add a,a
     add a,c
@@ -7150,16 +7374,17 @@ Output8CharMenuLine:
     ld e,a
     adc a,d
     sub e
-    ld d,a
+            ld d,a     ; de=$8000 + (hl)*2+c
     ld a,(de)
-    out (VDPData),a
+            out (VDPData),a ; output tile number found there with high priority
     push af
     pop af
     ld a,$10
     out (VDPData),a
     inc hl
     djnz -
-    push af
+
+            push af    ; output right |
     pop af
     ld a,$F3
     out (VDPData),a
@@ -7168,58 +7393,72 @@ Output8CharMenuLine:
     ld a,$13
     out (VDPData),a
     pop de
-    ld hl,$0040
+        ld hl,32*2
     add hl,de
-    ex de,hl
+        ex de,hl       ; move de to next row
     pop hl
     pop bc
     ei
     ret
-
-HideEnemyData:
+.ends
+; followed by
+.orga $3309
+.section "Restore tilemap after killing enemy" overwrite
+HideEnemyData:         ; $3309
     ld hl,OldTileMapEnemyStats8x10
-    ld de,$7830
-    ld bc,$0A10
+    TileMapAddressDE 24,0
+    TileMapAreaBC 8,10
     ld a,(EnemyNumber)
-    cp $49
-    call nz,OutputTilemapBoxWipePaging
-    ld hl,OldTileMapEnemyName10x4
-    ld de,$781C
-    ld bc,$0414
-    jp OutputTilemapBoxWipePaging
+    cp Enemy_DarkForce
+    call nz,OutputTilemapBoxWipePaging ; restore tilemap if EnemyNumber!=73=Dark Force
 
+    ld hl,OldTileMapEnemyName10x4
+    TileMapAddressDE 14,0
+    TileMapAreaBC 10,4
+    jp OutputTilemapBoxWipePaging ; and ret
+.ends
+; followed by
+.orga $3326
 ; Data from 3326 to 3335 (16 bytes)
+.section "20x6 text box at bottom of screen" overwrite
 _CharacterNames:
 .stringmap script "アリサ$2"
 .stringmap script "ミャウ$2"
 .stringmap script "タイロン"
 .stringmap script "ルツ$2　"
 
--:  dec hl
-    jp _NextLine
-
-TextBox20x6:
-    ld a,:DialogueText
-    ld (Frame2Paging),a
-    ld a,(TextBox20x6Open)
-    or a
-    jp nz,-
-    ld a,$FF
-    ld (TextBox20x6Open),a
-    push hl
-    ld hl,OldTileMap20x6
-    ld de,$7C8C
-    ld bc,$0628
-    call InputTilemapRect
-    ld hl,MenuBox20x6
-    call OutputTilemapBoxWipePaging
-    pop hl
--:
-_ResetCursor:
-    ld de,$7CCE
-    ld bc,$1200
-_ReadData:
-    ld a,(hl)
+  -:dec hl             ; move pointer back <-+
+    jp _NextLine       ; ------------------------------------------+
+                       ;                     |                     |
+TextBox20x6:           ; $333a               |                     |
+; Draws 20x6 text box to screen with text at |                     |
+; (hl) in it                                 |                     |
+; Supports several text codes                |                     |
+; Parameters:                                |                     |
+; hl = pointer to text                       |                     |
+    ld a,:DialogueText ;                     |                     |
+    ld (Frame2Paging),a ;                    |                     |
+                       ;                     |                     |
+    ld a,(TextBox20x6Open) ;                 |                     |
+    or a               ;                     |                     |
+    jp nz,-            ; if non-zero --------+                     |
+                       ;                                           |
+    ld a,$ff           ;                                           |
+    ld (TextBox20x6Open),a ; set TextBox20x6Open                   |
+    push hl            ;                                           |
+        ld hl,OldTileMap20x6  ; Read existing tilemap into buffer  |
+        TileMapAddressDE 6,18 ;                                    |
+        TileMapAreaBC 20,6    ;                                    |
+        call InputTilemapRect ;                                    |
+        ld hl,MenuBox20x6     ;                                    |
+        call OutputTilemapBoxWipePaging ; Draw empty 20x6 box      |
+    pop hl             ;                                           |
+-:                     ;                                           |
+_ResetCursor:          ; $335f                                     |
+    TileMapAddressDE 7,19 ; inside box                             |
+    ld bc,$1200        ; b = 18 , c = 0 (x, y)                     |
+_ReadData:             ; $3365 <-----------------------------------|--+
+    ld a,(hl)          ; Get data                                  |  |
 ;                                                                  |  |
 ; $4f Insert character name                                        |  |
 ; $50 Insert enemy name                                            |  |
@@ -7232,354 +7471,379 @@ _ReadData:
 ; $57 ExitAfterPause (256 frames in intro,30 in menu)             |  |
 ; $58 ExitAfterButton/text end marker                              |  |
 ;                                                                  |  |
-    cp $58
-    jp nc,MenuWaitForButton
-    cp $56
-    ret z
-    cp $57
-    jp z,MenuWaitHalfSecond
-    cp $55
-    jr nz,+
-    call MenuWaitForButton
-    jp _NextLine
+    cp TextButtonEnd   ;                                           |  |
+    jp nc,MenuWaitForButton ; and ret                              |  |
+    cp TextEnd         ;                                           |  |
+    ret z              ;                                           |  |
+    cp TextPauseEnd    ;                                           |  |
+    jp z,MenuWaitHalfSecond ; and ret                              |  |
+    cp TextButton      ;                                           |  |
+    jr nz,+            ; if none of the above ---+                 |  |
+    call MenuWaitForButton ;                     |                 |  |
+    jp _NextLine       ; ------------------------|-----------------+  |
+                       ;                         |                 |  |
++:                     ; $337d               <---+                 |  |
+    cp $53             ; Blanks text box                           |  |
+    jr nz,+            ; not $53 ----------------+                 |  |
+    ; fall through                               |                 |  |
+;_BlankTextBox:         ; $3381                  |                 |  |
+    push hl            ;                         |                 |  |
+        ld hl,MenuBox20x6      ;                 |                 |  |
+        TileMapAddressDE 6,18  ;                 |                 |  |
+        ld bc,$0628            ; 20x6            |                 |  |
+        call OutputTilemapRect ;                 |                 |  |
+    pop hl             ;                         |                 |  |
+    inc hl             ; Next data               |                 |  |
+    jp _ResetCursor    ;                         |                 |  |
+                       ;                         |                 |  |
++:                     ; $3393       <-----------+                 |  |
+    cp TextNewLine     ;                                           |  |
+    jr nz,+            ; ------------------------+                 |  |
+    ; fall through                               |                 |  |
+_NextLine:             ; $3397                <--------------------+  |
+    ld a,c             ; if not on first row     |                    |
+    or a               ; then scroll text up     |                    |
+    call nz,_ScrollTextBoxUp2Lines ;             |                    |
+    TileMapAddressDE 7,21 ; move "cursor"        |                    |
+    ld bc,$1201        ; reset b = 18, c = 1     |                    |
+    inc hl             ; next data               |                    |
+    jp _ReadData       ;                         |                    |
+                       ;                         |                    |
++:                     ; $33a6             <-----+                    |
+    cp TextCharacterName ; Draw TextCharacterNumberth 4 letters from _CharacterNames
+    jr nz,+            ;                    -----+                    |
+    push hl            ;                         |                    |
+        ld a,(TextCharacterNumber) ;             |                    |
+        and $03        ; just low 2 bits         |                    |
+        add a,a        ; multiply by 4           |                    |
+        add a,a        ;                         |                    |
+        ld hl,_CharacterNames ;                  |                    |
+        add a,l        ;                         |                    |
+        ld l,a         ;                         |                    |
+        adc a,h        ;                         |                    |
+        sub l          ; hl = _CharacterNames    |                    |
+        ld h,a         ; + 4*TextCharacterNumber |                    |
+        ld a,4         ;                         |                    |
+        call _DrawALetters ;                     |                    |
+    pop hl             ;                         |                    |
+    inc hl             ; next data               |                    |
+    jp _ReadData       ;                         |                    |
+                       ;                         |                    |
++:                     ; $33c4           <-------+                    |
+    cp TextEnemyName   ;                                              |
+    jr nz,+            ; ------------------------+                    |
+    push hl            ;                         |                    |
+        ld hl,EnemyName;                         |                    |
+        ld a,8         ;                         |                    |
+        call _DrawALetters ;                     |                    |
+    pop hl             ;                         |                    |
+    inc hl             ; next data               |                    |
+    jp _ReadData       ;                         |                    |
+                       ;                         |                    |
++:                     ; $33d6      <------------+                    |
+    cp TextItem        ; Draws ItemTableIndexth text from ItemTextTable
+    jr nz,+            ; ------------------------+                    |
+    push hl            ;                         |                    |
+        ld a,(ItemTableIndex) ;                  |                    |
+        ld l,a         ;                         |                    |
+        ld h,$00       ;                         |                    |
+        add hl,hl      ;                         |                    |
+        add hl,hl      ;                         |                    |
+        add hl,hl      ;                         |                    |
+        push bc        ;                         |                    |
+            ld bc,ItemTextTable ;                |                    |
+            add hl,bc  ; hl = ItemTextTable      |                    |
+        pop bc         ;    + ItemTableIndex * 8 |                    |
+        ld a,8         ;                         |                    |
+        call _DrawALetters ;                     |                    |
+    pop hl             ;                         |                    |
+    inc hl             ;                         |                    |
+    jp _ReadData       ;                         |                    |
+                       ;                         |                    |
++:                     ; $33f4  <----------------+                    |
+    cp TextNumber                                                     |
+    jr nz,+            ; ------------------------+                    |
+    push hl            ;                         |                    |
+        push bc        ;                         |                    |
+            push de    ;                         |                    |
+                ld hl,(NumberToShowInText);      |                    |
+                ld de,10000  ;                   |                    |
+                xor a        ; reset carry and a |                    |
+                ld c,a       ; c = 0             |                    |
+                dec a        ; a = -1            |                    |
+              -:sbc hl,de    ;                   |                    |
+                inc a        ; a = hl/10000      |                    |
+                jr nc,-      ;                   |                    |
+                add hl,de    ; hl = remainder    |                    |
+            pop de           ;                   |                    |
+            call _OutputDigitA ;                 |                    |
+            push de          ;                   |                    |
+                ld de,1000   ;                   |                    |
+                ld a,-1      ;                   |                    |
+              -:sbc hl,de    ;                   |                    |
+                inc a        ; a = hl/1000       |                    |
+                jr nc,-      ;                   |                    |
+                add hl,de    ; hl = remainder    |                    |
+            pop de           ;                   |                    |
+            call _OutputDigitA ;                 |                    |
+            push de          ;                   |                    |
+                ld de,100    ;                   |                    |
+                ld a,-1      ;                   |                    |
+              -:sbc hl,de    ;                   |                    |
+                inc a        ; a = hl/100        |                    |
+                jr nc,-      ;                   |                    |
+                add hl,de    ; l = remainder     |                    |
+            pop de           ;                   |                    |
+            call _OutputDigitA ;                 |                    |
+            push de          ;                   |                    |
+                ld d,-1      ;                   |                    |
+                ld a,l       ;                   |                    |
+              -:sub 10       ;                   |                    |
+                inc d        ; d = l/10          |                    |
+                jr nc,-      ;                   |                    |
+                add a,10     ;                   |                    |
+                ld l,a       ; l = remainder     |                    |
+                ld a,d       ;                   |                    |
+            pop de           ;                   |                    |
+            call _OutputDigitA ;                 |                    |
+            push de          ;                   |                    |
+                ld d,-1      ;                   |                    |
+                ld a,l       ;                   |                    |
+              -:sub 1        ;                   |                    |
+                inc d        ; d = l/1 (??? why?)|                    |
+                jr nc,-      ;                   |                    |
+                ld a,d       ;                   |                    |
+                ld c,1       ; Force output if 0 |                    |
+            pop de           ;                   |                    |
+            call _OutputDigitA ;                 |                    |
+            ld a,b     ; preserve digit counter  |                    |
+        pop bc         ; through pop          |                    |
+        ld b,a         ;                         |                    |
+    pop hl             ;                         |                    |
+    inc hl             ; next data               |                    |
+    jp _ReadData       ;                         |                    |
+                       ;                         |                    |
++:                     ; $3457 <-----------------+                    |
+    call _DrawLetter   ; Finally... a normal letter.                  |
+    jp _ReadData       ; ---------------------------------------------+
 
-+:  cp $53
-    jr nz,+
-    push hl
-    ld hl,MenuBox20x6
-    ld de,$7C8C
-    ld bc,$0628
-    call OutputTilemapRect
-    pop hl
-    inc hl
-    jp -
+_OutputDigitA:         ; $345d
+; Only outputs 0 when low bit of c is set
+; Decrements b to count how many digits have been displayed
+    or a               ; if a!=0
+    jp nz,+            ; then don't check c
+    bit 0,c            ; else check that low bit of c is set
+    ret z              ; return if not
+  +:ld c,$01           ; Set low bit of c to signify that zeroes should be displayed after this digit
+    di                 ;
+    push de            ;
+        push af        ;
+            SetVRAMAddressToDE
+            push af    ; delay
+            pop af     ;
+            ld a,$c0   ; space
+            out (VDPData),a ;
+            push af    ;
+            pop af     ;
+            ld a,$10   ;
+            out (VDPData),a ;
+            ld a,$40   ; add $40 = 1 line to de
+            add a,e    ;
+            ld e,a     ;
+            adc a,d    ;
+            sub e      ;
+            ld d,a     ;
+            SetVRAMAddressToDE
+        pop af         ; retrieve parameter a
+        add a,$c1      ; add $c1 = '0'
+        out (VDPData),a ;
+        push af        ;
+        pop af         ;
+        ld a,$10       ;
+        out (VDPData),a ;
+    pop de             ;
+    inc de             ; Move to next location in tilemap
+    inc de             ;
+    ei                 ;
+    ld a,$0a           ; VBlankFunction_Enemy
+    call ExecuteFunctionIndexAInNextVBlank ;
+    dec b              ;
+    ret                ;
+                       ;
+_DrawALetters:         ; $3494
+; Draws a letters of text from hl
+    push af            ;
+        call _DrawLetter ; moves hl
+        ld a,(hl)      ; peek at next data
+        cp $58         ; ExitAfterButton -> no return
+        jr z,+         ; ------------------------+
+    pop af             ;                         |
+    dec a              ; dec counter             |
+    jp nz,_DrawALetters; repeat until a=0        |
+    ret                ;                         |
++:  pop af             ; <-----------------------+
+    ret                ; return
 
-+:  cp $54
-    jr nz,+
-_NextLine:
-    ld a,c
-    or a
-    call nz,_ScrollTextBoxUp2Lines
-    ld de,$7D4E
-    ld bc,$1201
-    inc hl
-    jp _ReadData
 
-+:  cp $4F
-    jr nz,+
-    push hl
-    ld a,(TextCharacterNumber)
-    and $03
-    add a,a
-    add a,a
-    ld hl,_CharacterNames
-    add a,l
-    ld l,a
-    adc a,h
-    sub l
-    ld h,a
-    ld a,$04
-    call _DrawALetters
-    pop hl
-    inc hl
-    jp _ReadData
-
-+:  cp $50
-    jr nz,+
-    push hl
-    ld hl,EnemyName
-    ld a,$08
-    call _DrawALetters
-    pop hl
-    inc hl
-    jp _ReadData
-
-+:  cp $51
-    jr nz,+
-    push hl
-    ld a,(ItemTableIndex)
-    ld l,a
-    ld h,$00
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    push bc
-    ld bc,ItemTextTable
-    add hl,bc
-    pop bc
-    ld a,$08
-    call _DrawALetters
-    pop hl
-    inc hl
-    jp _ReadData
-
-+:  cp $52
-    jr nz,+
-    push hl
-    push bc
-    push de
-    ld hl,(NumberToShowInText)
-    ld de,10000
-    xor a
-    ld c,a
-    dec a
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    pop de
-    call _OutputDigitA
-    push de
-    ld de,$03E8
-    ld a,$FF
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    pop de
-    call _OutputDigitA
-    push de
-    ld de,$0064
-    ld a,$FF
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    pop de
-    call _OutputDigitA
-    push de
-    ld d,$FF
-    ld a,l
--:  sub $0A
-    inc d
-    jr nc,-
-    add a,$0A
-    ld l,a
-    ld a,d
-    pop de
-    call _OutputDigitA
-    push de
-    ld d,$FF
-    ld a,l
--:  sub $01
-    inc d
-    jr nc,-
-    ld a,d
-    ld c,$01
-    pop de
-    call _OutputDigitA
-    ld a,b
-    pop bc
-    ld b,a
-    pop hl
-    inc hl
-    jp _ReadData
-
-+:  call _DrawLetter
-    jp _ReadData
-
-_OutputDigitA:
-    or a
-    jp nz,+
-    bit 0,c
-    ret z
-+:  ld c,$01
-    di
-    push de
-    push af
-    rst SetVRAMAddressToDE
-    push af
-    pop af
-    ld a,$C0
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$10
-    out (VDPData),a
-    ld a,$40
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-    ld d,a
-    rst SetVRAMAddressToDE
-    pop af
-    add a,$C1
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$10
-    out (VDPData),a
-    pop de
-    inc de
-    inc de
-    ei
-    ld a,$0A
-    call ExecuteFunctionIndexAInNextVBlank
-    dec b
-    ret
-
-_DrawALetters:
-    push af
-    call _DrawLetter
-    ld a,(hl)
-    cp $58
-    jr z,+
-    pop af
-    dec a
-    jp nz,_DrawALetters
-    ret
-
-+:  pop af
-    ret
-
-ShowNarrativeText:
-    ld a,$02
+ShowNarrativeText:      ; $34a5
+    ld a,:DialogueText
     ld (Frame2Paging),a
-    ld de,$7C0C
-    ld bc,$0000
---:  push de
--:  call _DrawLetter
-    ld a,(hl)
-    cp $57
+
+    TileMapAddressDE 6,16 ; where to start drawing text from
+    ld bc,$0000        ; reset b & c
+--: push de
+      -:call _DrawLetter ; modifies b and c sometimes for its own re-use
+        ld a,(hl)      ; check for special bytes
+        cp TextPauseEnd
     jr z,_ExitAfterPause
     cp $58
     jr z,_ExitAfterButton
-    cp $55
+        cp TextButton
     jr z,_BlankTextAfterButton
-    cp $54
+        cp TextNewLine
     jr nz,-
-    inc hl
+        inc hl         ; next data
     ex de,hl
     pop hl
-    ld bc,$0080
+    ld bc,32*2*2       ; 2 lines down
     add hl,bc
     ex de,hl
     jp --
 
-_BlankTextAfterButton:
-    pop de
-    inc hl
+_BlankTextAfterButton: ; $34d0
+    pop de             ; don't need it
+    inc hl             ; move to next data
     push hl
     call MenuWaitForButton
-    ld de,$7C00
-    ld bc,$0100
-    ld hl,$0800
+
+        TileMapAddressDE 0,16
+        ld bc,8*32     ; 8 rows
+        ld hl,$0800    ; Tile 0, sprite palette
     di
     call FillVRAMWithHL
     ei
     pop hl
-    jp ShowNarrativeText
+    jp ShowNarrativeText ; repeat
 
-_ExitAfterButton:
+_ExitAfterButton:      ; $34e8
     call MenuWaitForButton
-    pop de
-    ret
+    pop de             ; don't need it
+    ret                ; exit
 
-_ExitAfterPause:
+_ExitAfterPause:       ; $34ed
     call Pause256Frames
-    pop de
-    ret
+    pop de             ; don't need it
+    ret                ; exit
 
-_DrawLetter:
+_DrawLetter:           ; $34f2
     di
     push bc
     push de
     rst SetVRAMAddressToDE
-    ld a,(hl)
+        ld a,(hl)      ; Get data (upper half of letter)
     add a,a
     ld bc,TileNumberLookup
     add a,c
     ld c,a
     adc a,b
     sub c
-    ld b,a
-    ld a,(bc)
+        ld b,a         ; bc = TileNumberLookup + 2*a
+        ld a,(bc)      ; get tile number corresponding to a from there
     out (VDPData),a
-    push af
+        push af        ; delay
     pop af
-    ld a,$10
+        ld a,$10       ; in front of sprites
     out (VDPData),a
     ex de,hl
-    ld bc,$0040
+        ld bc,$40      ; add $40 to de (1 row)
     add hl,bc
     ex de,hl
-    rst SetVRAMAddressToDE
-    ld a,(hl)
+        SetVRAMAddressToDE
+        ld a,(hl)      ; get data (lower half of letter)
     add a,a
     ld bc,TileNumberLookup + 1
     add a,c
     ld c,a
     adc a,b
     sub c
-    ld b,a
-    ld a,(bc)
+        ld b,a         ; bc = TileNumberLookup+1 + 2*a
+        ld a,(bc)      ; get tile number corresponding to a from there
     out (VDPData),a
-    push af
+        push af        ; delay
     pop af
-    cp $FE
-    ld a,$12
+        cp $fe         ; should the lower half be reversed? (tile $fe = . also acts as a dot above a letter the other way round)
+        ld a,$12       ; if so, in front of sprite + horizontal mirror
     jr z,+
-    ld a,$10
+        ld a,$10       ; else in front of sprites
 +:  out (VDPData),a
-    inc hl
+        inc hl         ; move to next data
     pop de
     inc de
     inc de
     pop bc
     ei
-    ld a,$0A
+    ld a,$0a           ; VBlankFunction_Enemy (I have to fix these labels...)
     call ExecuteFunctionIndexAInNextVBlank
-    dec b
-    ret nz
-    ld a,(hl)
+    dec b              ; dec b
+    ret nz             ; return if non-zero -> only do next bit when b=1 at start
+
+    ld a,(hl)          ; peek at next data
     cp $53
-    ret nc
-    ld a,c
-    or a
+    ret nc             ; if >=$53 (control codes)
+    ld a,c             ; get c
+    or a               ; if non-zero,
     call nz,_ScrollTextBoxUp2Lines
-    ld de,$7D4E
-    ld bc,$1201
+    TileMapAddressDE 7,21
+    ld bc,$1201        ; reset b=1, c=$12
     ret
 
-_ScrollTextBoxUp2Lines:
+_ScrollTextBoxUp2Lines: ; $3546
     push bc
     push de
     push hl
-    call +
-    call +
+        call _ScrollTextBoxUp1Line
+        call _ScrollTextBoxUp1Line
     pop hl
     pop de
     pop bc
     ret
 
-+:  ld hl,OldTileMap20x6Scroll
-    ld de,$7D0E
-    ld bc,$0324
-    call InputTilemapRect
+_ScrollTextBoxUp1Line: ; $3553
     ld hl,OldTileMap20x6Scroll
-    ld de,$7CCE
-    ld bc,$0324
+    TileMapAddressDE 7,20
+    ld bc,$0324        ; input 18x3 rect (108 bytes)
+    call InputTilemapRect
+
+    ld hl,OldTileMap20x6Scroll
+    TileMapAddressDE 7,19
+    ld bc,$0324        ; output it 1 line higher
     call OutputTilemapRect
+
     ld hl,Menu18Blanks
-    ld bc,$0124
+    ld bc,$0124        ; output 18 blank tiles 1 line lower
     call OutputTilemapRect
-    ld b,$04
--:  ld a,$0A
+
+    ld b,4             ; wait 4 frames
+  -:ld a,$0a           ; VBlankFunction_Enemy
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
     ret
-
-Close20x6TextBox:
+.ends
+; followed by
+.orga $357e
+.section "Close 20x6 text box" overwrite
+Close20x6TextBox:      ; $357e
     ld hl,TextBox20x6Open
     ld a,(hl)
     or a
-    ret z
-    ld (hl),$00
+    ret z              ; return if TextBox20x6Open==0
+    ld (hl),$00        ; TextBox20x6Open = 0
     ld hl,OldTileMap20x6
-    ld de,$7C8C
-    ld bc,$0628
-    jp OutputTilemapBoxWipePaging
+    TileMapAddressDE 6,18
+    ld bc,$0628        ; 20x6
+    jp OutputTilemapBoxWipePaging ; and ret
+.ends
+.orga $3592
 
 _LABEL_3592_:
     push af
@@ -7852,17 +8116,23 @@ _LABEL_373D_:
 _DATA_3756_:
 .db $F3 $11 $EC $10 $D8 $10 $DA $10 $C0 $10 $C0 $10
 
-OutputDigit:
-    and $0F
-    jp z,+
-    ld bc,$C110
-+:  add a,b
+.orga $3762
+.section "Output digit in a" overwrite
+OutputDigit:           ; $3762
+; outputs digit in a to VRAM (address already set)
+; unless a=0 when the value in bc determines which tile is output
+    and $0f            ; cut a down to a single digit
+    jp z,+             ; if non-zero,
+    ld bc,$c110        ; add to $c1 = index of tile '0'
+  +:add a,b            ; else add to whatever bc was already
     out (VDPData),a
     push af
     pop af
     ld a,c
-    out (VDPData),a
+    out (VDPData),a    ; output
     ret
+.ends
+.orga $3773
 
 _LABEL_3773_:
     push bc
@@ -8027,24 +8297,33 @@ _LABEL_38B4_:
     ld bc,$050C
     jp OutputTilemapBoxWipePaging
 
-ShowMenuYesNo:
+.orga $38c0
+.section "Show yes/no menu" overwrite
+ShowMenuYesNo:         ; $38c0
     ld hl,OldTileMap5x5
-    ld de,$7B6A
-    ld bc,$050A
+    TileMapAddressDE 21,13
+    ld bc,$050a        ; 5x5 (50 bytes)
     call InputTilemapRect
+
     ld hl,MenuYesNo
     call OutputTilemapBoxWipePaging
-    ld hl,$7BAA
-    ld (CursorTileMapAddress),hl
-    ld a,$01
-    ld (CursorMax),a
-    jp WaitForMenuSelection
 
+    TileMapAddressHL 21,14
+    ld (CursorTileMapAddress),hl
+    ld a,1
+    ld (CursorMax),a
+    jp WaitForMenuSelection ; and ret, return selection
+.ends
+; followed by
+.orga $38e0
+.section "Hide yes/no menu" overwrite
 HideMenuYesNo:
     ld hl,OldTileMap5x5
-    ld de,$7B6A
-    ld bc,$050A
-    jp OutputTilemapBoxWipePaging
+    TileMapAddressDE 21,13
+    ld bc,$050a        ; 5x5
+    jp OutputTilemapBoxWipePaging ; and ret - could do non-paging version?
+.ends
+.orga $38ec
 
 _LABEL_38EC_:
     add a,a
@@ -8282,25 +8561,32 @@ _LABEL_3ACF_:
     ld de,$786E
     ld bc,$0C12
     call InputTilemapRect
-GetSavegameSelection:
-    ld a,$08
+
+.orga $3adb
+.section "Show savegame list and get selection" overwrite
+GetSavegameSelection:  ; $3adb
+    ld a,SRAMPagingOn  ; Draw menu from tilemap in SRAM
     ld (SRAMPaging),a
     ld hl,SaveMenuTilemap
-    ld de,$786E
-    ld bc,$0C12
+    TileMapAddressDE 23,1
+    ld bc,$0c12        ; 6x12
     call OutputTilemapBoxWipe
-    ld a,$80
+    ld a,SRAMPagingOff
     ld (SRAMPaging),a
-    ld hl,$78EE
+
+    TileMapAddressHL 23,3 ; Show cursor and get selection
     ld (CursorTileMapAddress),hl
-    ld a,$04
+    ld a,4
     ld (CursorMax),a
     call WaitForMenuSelection
-    ld l,a
+
+    ld l,a             ; Put number (1-based) in NumberToShowInText
     inc l
     ld h,$00
     ld (NumberToShowInText),hl
-    ret
+    ret                ; returns 0-based in a, button pressed from WaitForMenuSelection in c
+.ends
+.orga $3b07
 
 _LABEL_3B07_:
     ld hl,OldTileMapEnemyName10x4
@@ -8361,80 +8647,108 @@ _LABEL_3B4B_:
     pop af
     ret
 
-OutputTilemapBoxWipePaging:
+.orga $3b81
+.section "Output box of tilemap (vertical wipe) (with paging handler)" overwrite
+OutputTilemapBoxWipePaging: ; $3b81
+; Sets page for MenuTilemaps, calls OutputTilemapBoxWipe, sets page for DialogueText
     ld a,:MenuTilemaps
     ld (Frame2Paging),a
     call OutputTilemapBoxWipe
     ld a,:DialogueText
     ld (Frame2Paging),a
     ret
-
-OutputTilemapBoxWipe:
-    push bc
+.ends
+; followed by
+.orga $3b8f
+.section "Output box of tilemap (vertical wipe)" overwrite
+OutputTilemapBoxWipe:      ; $3b8f
+; Outputs c/2 x b block of tilemap data from hl to de
+; with 1 frame delay between rows
+ --:push bc
     di
-    rst SetVRAMAddressToDE
+        SetVRAMAddressToDE
     ld b,c
     ld c,VDPData
--:  outi
+      -:outi           ; output c bytes
     jp nz,-
     ex de,hl
-    ld bc,$0040
+        ld bc,32*2
     add hl,bc
-    ex de,hl
+        ex de,hl       ; add 32*2 = 1 row to de
     ei
-    ld a,$0A
+        ld a,$0a       ; VBlankFunction_Enemy (why?)
     call ExecuteFunctionIndexAInNextVBlank
     pop bc
-    djnz OutputTilemapBoxWipe
+    djnz --
     ret
-
-OutputTilemapRect:
-    ld a,$1B
+.ends
+; followed by
+.orga $3baa
+.section "Output rect of tilemap data" overwrite
+; output c bytes from hl to VRAM address de
+; then move down 1 row
+; repeat b times
+; so:
+; output (c/2) x b rectangle from hl with top-left de
+; hl must be in page $1b (TilemapBox)
+OutputTilemapRect:     ; $3baa
+    ld a,:MenuTilemaps
     ld (Frame2Paging),a
     di
---:  push bc
+--: push bc
     rst SetVRAMAddressToDE
     ld b,c
     ld c,VDPData
--:  outi
+      -:outi           ; output
     jp nz,-
     ex de,hl
-    ld bc,$0040
+        ld bc,$40
     add hl,bc
-    ex de,hl
+        ex de,hl       ; add $40 = 1 row to de
     pop bc
     djnz --
     ei
-    ld a,$02
+    ld a,:DialogueText
     ld (Frame2Paging),a
     ret
-
+.ends
+; followed by
+.orga $3bca
+.section "Input rect of tilemap data" overwrite
+; INPUT c bytes TO hl FROM VRAM address de
+; then move down 1 row
+; repeat b times
+; so:
+; INPUT (c/2) x b rectangle with top-left de TO hl
 InputTilemapRect:
     di
     push bc
     push de
-    res 6,d
---:  push bc
-    rst SetVRAMAddressToDE
+        res 6,d        ; unset VRAM write bit in de
+--: push bc
+            SetVRAMAddressToDE (for reading)
     ld b,c
     ld c,VDPData
--:  ini
-    push af
+          -:ini        ; input from VRAM
+            push af    ; delay
     pop af
     jp nz,-
     ex de,hl
     ld bc,$0040
     add hl,bc
-    ex de,hl
+            ex de,hl   ; add $40 = 1 row to de
     pop bc
     djnz --
     pop de
     pop bc
     ei
     ret
-
+.ends
+; followed by
+.orga $3be8
+.section "Default SRAM data for initialisation" overwrite
 ; Data from 3BE8 to 3CBF (216 bytes)
-DefaultSRAMData:
+DefaultSRAMData: ; Default data for SRAM
 ; TODO: to stringmap
 .dw $11f1,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$13f1
 .dw $11f3,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
@@ -8448,6 +8762,8 @@ DefaultSRAMData:
 .dw $11f3,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
 .dw $11f3,$10c6,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
 .dw $15f1,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$17f1
+.ends
+.orga $3cc0
 
 
 _LABEL_3CC0_:
@@ -8512,7 +8828,7 @@ _LABEL_3CE9_:
     ret
 
 _LABEL_3D3E_:
-    call _LABEL_627A_
+    call LoadEnemy
     call _LABEL_116B_
     ld a,(CharacterSpriteAttributes)
     or a
@@ -8521,9 +8837,9 @@ _LABEL_3D3E_:
 
 ; Jump Table from 3D4E to 3D75 (20 entries,indexed by SceneType)
 _DATA_3D4E_:
-.dw _LABEL_49A6_ _LABEL_49A6_ _LABEL_2AE9_ _LABEL_2AE9_ _LABEL_2BE1_ _LABEL_2BE1_ _LABEL_2D1C_ _LABEL_2D1C_
-.dw _LABEL_2DEB_ _LABEL_2DEB_ _LABEL_2DF4_ _LABEL_2DF4_ _LABEL_49A6_ _LABEL_49A6_ _LABEL_49A6_ _LABEL_49A6_
-.dw _LABEL_49A6_ _LABEL_49A6_ _LABEL_49A6_ _LABEL_49A6_
+.dw DoRoomScript DoRoomScript _LABEL_2AE9_ _LABEL_2AE9_ _LABEL_2BE1_ _LABEL_2BE1_ _LABEL_2D1C_ _LABEL_2D1C_
+.dw _LABEL_2DEB_ _LABEL_2DEB_ _LABEL_2DF4_ _LABEL_2DF4_ DoRoomScript DoRoomScript DoRoomScript DoRoomScript
+.dw DoRoomScript DoRoomScript DoRoomScript DoRoomScript
 
 _LABEL_3D76_:
     ld a,$D6
@@ -8622,9 +8938,13 @@ _LABEL_3DD1_:
     call ExecuteFunctionIndexAInNextVBlank
     jp ClearSpriteTableAndFadeInWholePalette
 
+.orga $3e41
+.section "Sprite palette(s) (?)" overwrite
 ; Data from 3E41 to 3E48 (8 bytes)
 SpritePaletteStart:
-.db $00 $00 $3F $30 $38 $03 $0B $0F
+.db $00,$00,$3F,$30,$38,$03,$0B,$0F
+.ends
+.orga $3e49
 
 ; Data from 3E49 to 3E49 (1 bytes)
 _DATA_3E49_:
@@ -8646,66 +8966,70 @@ _LABEL_3E5A_:
     add hl,de
     jp _LABEL_3EBA_
 
-LoadSceneData:
+.orga $3e6b
+.section "Scene data loader" overwrite
+LoadSceneData:         ; $3e6b
     ld a,(SceneType)
-    cp $20
-    jr c,_LoadSceneData
+    cp 32
+    jr c,_LoadSceneData ; if SceneType<32 then load data
+
 +:  ld hl,TileMapData
     ld de,TileMapData+2
-    ld bc,$05FE
+    ld bc,$5fe
     ld (hl),$00
     inc hl
     ld (hl),$08
     dec hl
-    ldir
+    ldir               ; fill 24 rows of TileMapData with $0800 = tile 0, sprite palette
+
     xor a
-    ld (TextBox20x6Open),a
+    ld (TextBox20x6Open),a ; zero TextBox20x6Open
     ret
 
-_LoadSceneData:
+_LoadSceneData:        ; $3e88
     add a,a
     add a,a
-    add a,a
+    add a,a            ; multiply SceneType by 8
     ld l,a
     ld h,$00
-    ld de,_SceneData-8
+    ld de,_SceneData-8 ; -8 because SceneType>0
     add hl,de
-    ld a,(hl)
+    ld a,(hl)          ; +0: page
     ld (Frame2Paging),a
     inc hl
-    ld a,(hl)
+    ld a,(hl)          ; +1-2: palette offset
     inc hl
     push hl
     ld h,(hl)
-    ld l,a
+        ld l,a         ; hl = offset
     ld de,TargetPalette
-    ld bc,$0010
-    ldir
+        ld bc,16
+        ldir           ; load palette
     ld hl,SpritePaletteStart
-    ld c,$08
+        ld c,8         ; and sprite palette
     ldir
     pop hl
     inc hl
-    ld a,(hl)
+    ld a,(hl)          ; +3-4: tiles
     inc hl
     push hl
     ld h,(hl)
-    ld l,a
-    ld de,$4000
+        ld l,a         ; hl = offset
+        TileAddressDE 0
     call LoadTiles4BitRLE
     pop hl
     inc hl
 _LABEL_3EBA_:
     xor a
-    ld (TextBox20x6Open),a
-    ld a,(hl)
+    ld (TextBox20x6Open),a ; zero TextBox20x6Open
+    ld a,(hl)          ; +5: page
     ld (Frame2Paging),a
     inc hl
-    ld a,(hl)
+    ld a,(hl)          ; +6-7: tilemap
     inc hl
     ld h,(hl)
     ld l,a
-    jp DecompressToTileMapData
+    jp DecompressToTileMapData ; and ret
 
 ; Pointer Table from 3ECA to 3ECB (1 entries,indexed by SceneType)
 _SceneData:
@@ -8755,12 +9079,20 @@ _SceneData:
  SceneDataStruct Mansion           ,Mansion            ,Mansion           ; 1d
  SceneDataStruct LassicRoom        ,LassicRoom         ,LassicRoom        ; 1e
  SceneDataStruct DarkForce         ,DarkForce          ,DarkForce         ; 1f
-PaletteAirCastleFull:
-.db $30 $00 $3F $0B $06 $1A $2F $2A $08 $15 $15 $0B $06
+.ends
+; followed by
+.orga $3fc2
+.section "Sky castle full palette" overwrite
+PaletteAirCastleFull:  ; $3fc2
+.db $30,$00,$3f,$0b,$06,$1a,$2f,$2a,$08,$15,$15,$0b,$06,$1a,$2f,$28
+.ends
+.orga $3fd2
 .db $1A $2F $28 
 
 .db $A6 $8B $17 $EF $AA $6F $AB $17 $8E $8F $17 
 
+.orga $3fdd
+.section "Name entry screens (FunctionLookupTable $10, $11)" overwrite
 HandleNameEntry: ; 3fdd
     ld a,(PauseFlag)             ; 003FDD 3A 12 C2
     or a                         ; 003FE0 B7
@@ -8900,7 +9232,7 @@ _OKSelected_NameEntry:
     ld a,SRAMPagingOff           ; 0040AA 3E 80      ; page out SRAM
     ld (SRAMPaging),a            ; 0040AC 32 FC FF
 
-    ld a,(xc316)                 ; 0040AF 3A 16 C3   ; ???
+    ld a,(_RAM_c316_)                 ; 0040AF 3A 16 C3   ; ???
     cp $0b                       ; 0040B2 FE 0B
     ld a,$0a                     ; 0040B4 3E 0A      ; $10d9
     jr z,+                       ; 0040B6 28 02
@@ -9389,150 +9721,201 @@ NameEntryCharValues: ; 448c
 .db $15 $16 $17 $18 $19 $00 $00 $00 $30 $31 $32 $2F $4D $00 $00 $00 $47 $48 $49 $4A $4B
 .db $1A $1B $1C $1D $1E $00 $00 $00 $4E $4E $4E $4E $4E $00 $4F $4F $4F $4F $50 $50 $50
 
+.ends
+
+.orga $450a
+.section "Intro sequence" overwrite
+; stops music, fades out, loads space graphics, scolls down to planet, pauses, fades out, loads
+; Palma town scene, shows text box, ...
 IntroSequence:
-    ld a,$D7
+    ld a,MusicStop
     ld (NewMusic),a
+
     call FadeOutFullPalette
     ld hl,Frame2Paging
-    ld (hl),$17
+    ld (hl),:PaletteSpace
     ld hl,PaletteSpace
     ld de,TargetPalette
-    ld bc,$0011
-    ldir
+    ld bc,_sizeof_PaletteSpace
+    ldir               ; Load palette
+
     ld hl,TilesSpace
-    ld de,$4000
+    TileAddressDE 0    ; tile 0
     call LoadTiles4BitRLE
     ld hl,Frame2Paging
-    ld (hl),$1C
-    ld hl,TilemapSpace
+    ld (hl),:TilemapSpace
+    ld hl,TilemapSpace ; 12 rows
     call DecompressToTileMapData
+
     ld hl,TileMapData
-    ld de,TileMapData+12*32*2
-    ld bc,12*32*2
-    ldir
+    ld de,TileMapData+32*2*12 ; 12 rows
+    ld bc,32*2*12
+    ldir               ; duplicate tilemap
+
     ld hl,TileMapData
-    ld bc,4*32*2
-    ldir
+    ld bc,$0100        ; 4 rows
+    ldir               ; duplicate tilemap -> 28 rows filled
+
     xor a
-    ld (HScroll),a
+    ld (HScroll),a     ; zero HScroll
     ld a,$80
-    ld (VScroll),a
+    ld (VScroll),a     ; $80 = 128 -> VScroll
+
     ld hl,TileMapData
-    ld de,$7800
-    ld bc,$0700
+    ld de,TileMapAddress
+    ld bc,32*2*28      ; full tilemap
     di
-    call OutputToVRAM
+    call OutputToVRAM  ; output
     ei
-    ld a,$8C
-    ld (NewMusic),a
+
+    ld a,MusicIntro
+    ld (NewMusic),a    ; set music
+
     call FadeInWholePalette
-    ld a,$02
+
+    ld a,%00000010     ; down
     ld (ScrollDirection),a
+
     ld a,$02
     ld (ScrollScreens),a
--:  ld a,$0E
+
+  -:ld a,$0e           ; VBlankFunction_OutsideScrolling
     call ExecuteFunctionIndexAInNextVBlank
+
     ld a,(Controls)
-    and $30
-    jr nz,+
-    call _LABEL_4611_
+    and P11 | P12
+    jr nz,+            ; if button pressed then skip next bit
+
+    call IntroScrollDown
+
     ld a,(ScrollScreens)
     cp $01
-    jr nz,-
+    jr nz,-            ; repeat until ScrollScreens = 1
+
     ld a,(VScroll)
     cp $80
-    jr nz,-
+    jr nz,-            ; and VScroll = 128
+
     call Pause3Seconds
-+:  xor a
+
+  +:xor a              ; zero ScrollDirection and ScrollScreens
     ld (ScrollDirection),a
     ld (ScrollScreens),a
     call FadeOutFullPalette
     ld a,$08
-    ld (SceneType),a
+    ld (SceneType),a    ; Palma Town
     call LoadSceneData
-    ld hl,Frame2Paging
-    ld (hl),$10
+
+    ld (hl),:TilesFont
+
     ld hl,TilesFont
-    ld de,$5800
+    TileAddressDE $c0
     call LoadTiles4BitRLE
     ld hl,TilesExtraFont
-    ld de,$7E00
+    TileAddressDE $1f0
     call LoadTiles4BitRLE
-    ld hl,_DATA_43F5E_
-    ld de,$5700
+    ld hl,TilesExtraFont2
+    TileAddressDE $b8
     call LoadTiles4BitRLE
-    xor a
+
+    xor a              ; zero VScroll and HScroll
     ld (VScroll),a
     ld (HScroll),a
-    ld a,$0C
+
+    ld a,$0c           ; VBlankFunction_UpdateTilemap
     call ExecuteFunctionIndexAInNextVBlank
+
     call FadeInWholePalette
     ld hl,Frame2Paging
-    ld (hl),$03
-    ld hl,_DATA_FF02_
-    ld de,$7886
-    ld bc,$051E
+    ld (hl),:IntroBox1
+    ld hl,IntroBox1
+    TileMapAddressDE 3,2
+    ld bc,IntroBox1Dimensions
     call OutputTilemapBoxWipe
+
     call Pause3Seconds
-    call _LABEL_48D7_
+    call FadeToPictureFrame
+
     ld a,$00
-    call _LABEL_492C_
-    ld hl,_DATA_B8BF_
-    call ShowNarrativeText
+    call FadeToNarrativePicture
+
+    ld hl,TextIntro1      ; You little bastard - poking your nose into LaShiec's business like that!
+    call ShowNarrativeText ; Maybe from now on you'll try to mind your manners!
+                          ; Nero! What happened?! Hang on!
+
     ld a,$01
-    call _LABEL_492C_
-    ld hl,_DATA_B90F_
-    call ShowNarrativeText
+    call FadeToNarrativePicture
+
+    ld hl,TextIntro2      ; ...Alisa... listen...
+    call ShowNarrativeText ; ...LaShiec has brought an enormous calamity upon our world...
+                          ; ...The world is facing ruin...
+                          ; ...I tried to find out what LaShiec is planning...
+                          ; ...But by myself, I wasn't able to do anything...
+                          ; ...I heard rumors of a mighty warrior named 'Tairon' during my journey...
+                          ; ...If you combine forces, you might be able to defeat LaShiec... and restore peace...
+                          ; ...Alisa...
+                          ; ...It’s too late for me...
+                          ; ...Please forgive me... for leaving you alone...
+
     ld a,$02
-    call _LABEL_492C_
-    ld hl,_DATA_BA08_
-    call ShowNarrativeText
-    ld a,$D7
+    call FadeToNarrativePicture
+
+    ld hl,TextIntro3      ; I will go and fight to ensure that my brother did not die in vain!
+    call ShowNarrativeText ; I know he will be watching over me...
+
+    ld a,MusicStop
     ld (NewMusic),a
     ret
-
-_LABEL_4611_:
-    ld de,$0001
+.ends
+; followed by
+.orga $4611
+.section "Intro: scroll down, decompressing planet tilemap when necessary" overwrite
+IntroScrollDown:
+    ld de,$0001        ; d = 0, e = 1
     ld a,(VScroll)
-    add a,e
-    cp $E0
+    add a,e            ; scroll down
+    cp 224             ; if it's >224
     jr c,+
-    ld d,$01
-    add a,$20
+    ld d,$01           ; d = 1
+    add a,$20          ; e = 0 (smooth scroll)
 +:  ld (VScroll),a
     ld a,(ScrollScreens)
     sub d
-    ld (ScrollScreens),a
+    ld (ScrollScreens),a ; dec ScrollScreens if scroll has passed 224
     cp $01
-    ret nz
+    ret nz             ; return if it's not 1
+
     ld a,d
     or a
-    ret z
+    ret z              ; return if we didn't just decrease it
+
     ld hl,TilemapBottomPlanet
-    jp DecompressToTileMapData
+    jp DecompressToTileMapData ; and ret
+.ends
+.orga $4636
 
 _LABEL_4636_:
-    call _LABEL_48D7_
+    call FadeToPictureFrame
     ld a,$8A
     ld (NewMusic),a
     ld a,$03
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BA43_
     call ShowNarrativeText
     ld a,$04
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BA69_
     call ShowNarrativeText
     ld a,$03
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BA6E_
     call ShowNarrativeText
     ld a,$04
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BA96_
     call ShowNarrativeText
     ld a,$03
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BAD2_
     call ShowNarrativeText
     ld a,$D8
@@ -9540,27 +9923,27 @@ _LABEL_4636_:
     ret
 
 _LABEL_467B_:
-    call _LABEL_48D7_
+    call FadeToPictureFrame
     ld a,$8A
     ld (NewMusic),a
     ld a,$05
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BAF3_
     call ShowNarrativeText
     ld a,$03
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BB29_
     call ShowNarrativeText
     ld a,$05
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BB64_
     call ShowNarrativeText
     ld a,$03
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BB95_
     call ShowNarrativeText
     ld a,$05
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BBAF_
     call ShowNarrativeText
     call FadeOutFullPalette
@@ -9570,7 +9953,7 @@ _LABEL_467B_:
     jp FadeInWholePalette
 
 _LABEL_46C8_:
-    call _LABEL_48D7_
+    call FadeToPictureFrame
     ld a,$8A
     ld (NewMusic),a
     ld a,$03
@@ -9582,11 +9965,11 @@ _LABEL_46C8_:
     bit 0,(hl)
     jr nz,+
     ld a,$04
-+:  call _LABEL_492C_
++:  call FadeToNarrativePicture
     ld hl,_DATA_BC18_
     call ShowNarrativeText
     ld a,$06
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BC3E_
     call ShowNarrativeText
     ld a,$D8
@@ -9601,15 +9984,15 @@ _LABEL_46FE_:
     ld hl,_DATA_477B_
     jp _LABEL_4770_
 
-+:  call _LABEL_48D7_
++:  call FadeToPictureFrame
     ld a,$8A
     ld (NewMusic),a
     ld a,$07
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BCA8_
     call ShowNarrativeText
     ld a,$08
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BCD8_
     call ShowNarrativeText
     call _LABEL_477E_
@@ -9633,7 +10016,7 @@ _LABEL_46FE_:
     ldir
     ld a,$46
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     call _LABEL_116B_
     ld a,(FunctionLookupIndex)
     cp $02
@@ -9699,25 +10082,25 @@ _LABEL_47B5_:
     call TextBox20x6
     call Pause256Frames
     call Close20x6TextBox
-    call _LABEL_48D7_
+    call FadeToPictureFrame
     ld a,$03
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BD25_
     call ShowNarrativeText
     ld a,$05
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BD30_
     call ShowNarrativeText
     ld a,$06
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BD3C_
     call ShowNarrativeText
     ld a,$04
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BD46_
     call ShowNarrativeText
     ld a,$03
-    call _LABEL_492C_
+    call FadeToNarrativePicture
     ld hl,_DATA_BD55_
     call ShowNarrativeText
     call FadeOutFullPalette
@@ -9747,10 +10130,10 @@ _LABEL_47B5_:
     call Pause256Frames
     call Pause256Frames
     ld hl,$3DF7
-    ld (_RAM_C30C_),hl
+    ld (DungeonPosition),hl
     xor a
     ld (_RAM_C30A_),a
-    call _LABEL_68BF_
+    call _PitFall
     ld hl,Frame2Paging
     ld (hl),$0F
     ld hl,_DATA_3FDEE_
@@ -9790,108 +10173,140 @@ _LABEL_47B5_:
     ld (FunctionLookupIndex),a
     ret
 
-_LABEL_48D7_:
+.orga $48d7
+.section "Load picture frame" overwrite
+FadeToPictureFrame:      ; $48d7
     call FadeOutFullPalette
     ld hl,Frame2Paging
-    ld (hl),$10
+    ld (hl),:TilesFont
     ld hl,TilesFont
-    ld de,$5800
+    TileAddressDE $c0
     call LoadTiles4BitRLE
+
     ld hl,TilesExtraFont
-    ld de,$7E00
+    TileAddressDE $1f0
     call LoadTiles4BitRLE
     ld hl,Frame2Paging
-    ld (hl),$18
+    ld (hl),:PaletteFrame
+
     ld hl,TargetPalette
     ld de,TargetPalette + 1
     ld (hl),$00
-    ld bc,$000F
-    ldir
-    ld hl,_DATA_6257A_
-    ld bc,$0010
-    ldir
-    ld hl,_DATA_6258A_
-    ld de,$4000
+    ld bc,15
+    ldir               ; blank tile palette
+
+    ld hl,PaletteFrame
+    ld bc,16
+    ldir               ; load frame palette into sprite half
+
+    ld hl,TilesFrame
+    TileAddressDE 0
     call LoadTiles4BitRLE
-    ld hl,_DATA_62484_
+
+    ld hl,TilemapFrame
     call DecompressToTileMapData
-    xor a
+
+    xor a              ; zero stuff
     ld (VScroll),a
     ld (HScroll),a
     ld (TextBox20x6Open),a
-    ld a,$0C
+
+    ld a,$0c           ; VBlankFunction_UpdateTilemap
     call ExecuteFunctionIndexAInNextVBlank
     jp ClearSpriteTableAndFadeInWholePalette
-
-_LABEL_492C_:
+.ends
+; followed by
+.orga $492c
+.section "Fade to narrative picture" overwrite
+; parameter: a = which picture to load and fade in
+FadeToNarrativePicture: ; $492c
     push af
-    call _LABEL_7DA0_
+    call FadeOutTilePalette
     pop af
+
     ld l,a
     add a,a
     add a,a
     add a,l
     ld l,a
     ld h,$00
-    ld de,_DATA_4979_
+    ld de,_NarrativeGraphicsLookup
     add hl,de
-    ld a,(hl)
-    ld (Frame2Paging),a
+    ld a,(hl)          ; look up (a*5)th value in _NarrativeGraphicsLookup
+
+    ld (Frame2Paging),a ; +0: page
     inc hl
     ld e,(hl)
     inc hl
-    ld d,(hl)
+    ld d,(hl)          ; +1-2: palette offset
     inc hl
     push hl
     ex de,hl
     ld de,TargetPalette
-    ld bc,$0010
-    ldir
-    ld de,$6000
-    call LoadTiles4BitRLE
+        ld bc,16
+        ldir           ; load palette
+        TileAddressDE $100
+        call LoadTiles4BitRLE ; and tiles after it
+
     ld hl,Frame2Paging
-    ld (hl),$18
+    ld (hl),NarrativeTilemaps
     pop hl
-    ld a,(hl)
+    ld a,(hl)          ; +3-4: Tilemap offset
     inc hl
     ld h,(hl)
     ld l,a
-    ld de,$78CC
-    ld bc,$0C28
+    TileMapAddressDE 6,3
+    ld bc,$0c28        ; height $0c = 12, width $28/2 = 20
     di
     call OutputTilemapRawDataBox
-    ld de,$7C00
-    ld bc,$0100
-    ld hl,$0800
-    call FillVRAMWithHL
+
+    TileMapAddressDE 0,16
+    ld bc,8*32         ; 8 rows
+    ld hl,$0800        ; Tile 0, sprite palette
+    call FillVRAMWithHL ; Fills bc words of VRAM from de with hl
+
     ei
-    jp _LABEL_7DBB_
+    jp FadeInTilePalette ; and ret
 
-; Data from 4979 to 49A5 (45 bytes)
-_DATA_4979_:
-.db $1F $00 $80 $90 $A8 $1E $00 $80 $70 $AA $1E $62 $8F $50 $AC $1E
-.db $2B $9C $30 $AE $1F $DB $8A $10 $B0 $1D $2A $B6 $F0 $B1 $12 $88
-.db $B3 $D0 $B3 $1E $4E $AA $B0 $B5 $1E $0C $B3 $90 $B7
-
-_LABEL_49A6_:
+_NarrativeGraphicsLookup:
+; page, palette+tiles offset, raw tiles offset
+ NarrativeGraphicsData IntroNero1
+ NarrativeGraphicsData IntroNero2
+ NarrativeGraphicsData IntroAlis
+ NarrativeGraphicsData Alis
+ NarrativeGraphicsData Myau
+ NarrativeGraphicsData Odin
+ NarrativeGraphicsData Lutz
+ NarrativeGraphicsData MyauWings1
+ NarrativeGraphicsData MyauWings2
+.ends
+; followed by
+.section "Room script handling" force
+DoRoomScript:
+    ; Exit if room is 0
     ld a,(RoomIndex)
     or a
     jp z,_LABEL_1D3D_
     cp $B7
-    jp nc,_LABEL_59CA_
-    ld de,_DATA_49D3_ - 2
-    call +
+    jp nc,BadScriptIndex
+    ; Look up
+    ld de,_RoomScriptTable - 2
+    call _RoomScriptDispatcher
+
     ld a,(SceneType)
     or a
-    jp nz,Close20x6TextBox
+    jp nz,Close20x6TextBox ; close and return
+    ; else
     call Close20x6TextBox
     jp _LABEL_1738_
 
-_LABEL_49C5_:
+_ScriptEnd:
     pop hl
-    jp MenuWaitForButton
+    jp MenuWaitForButton ; end end
 
-+:  ld l,a
+_RoomScriptDispatcher: ; $49c9
+    ; Same functionality as FunctionLookup except using de as the base
+    ld l,a
     ld h,$00
     add hl,hl
     add hl,de
@@ -9902,129 +10317,310 @@ _LABEL_49C5_:
     jp (hl)
 
 ; Jump Table from 49D3 to 4B3E (182 entries,indexed by RoomIndex)
-_DATA_49D3_:
-.dw _LABEL_4B3F_ _LABEL_4B5C_ _LABEL_4B82_ _LABEL_4B88_ _LABEL_4B8E_ _LABEL_4B94_ _LABEL_4B9A_ _LABEL_4BA0_
-.dw _LABEL_4BBA_ _LABEL_4BC0_ _LABEL_4BC6_ _LABEL_4BD3_ _LABEL_4BF1_ _LABEL_4BF7_ _LABEL_4BFD_ _LABEL_4C03_
-.dw _LABEL_4C09_ _LABEL_4C0F_ _LABEL_4C15_ _LABEL_4C15_ _LABEL_4C40_ _LABEL_4C46_ _LABEL_4C9E_ _LABEL_4CA4_
-.dw _LABEL_4CAA_ _LABEL_4CB0_ _LABEL_4D09_ _LABEL_4D1E_ _LABEL_4D33_ _LABEL_4DA3_ _LABEL_4DB2_ _LABEL_4DC1_
-.dw _LABEL_4DC7_ _LABEL_4DCD_ _LABEL_4DD3_ _LABEL_4DD9_ _LABEL_4DDF_ _LABEL_4DE5_ _LABEL_4DEB_ _LABEL_4DF1_
-.dw _LABEL_4DF7_ _LABEL_4DFD_ _LABEL_4E1D_ _LABEL_4E31_ _LABEL_4E37_ _LABEL_4E3D_ _LABEL_4E43_ _LABEL_4E49_
-.dw _LABEL_4E4F_ _LABEL_4E55_ _LABEL_4E5B_ _LABEL_4E61_ _LABEL_4E67_ _LABEL_4E6D_ _LABEL_4ED0_ _LABEL_4FD4_
-.dw _LABEL_4FDA_ _LABEL_4FFF_ _LABEL_5005_ _LABEL_500B_ _LABEL_5034_ _LABEL_505B_ _LABEL_50FC_ _LABEL_5113_
-.dw _LABEL_5119_ _LABEL_511F_ _LABEL_5125_ _LABEL_5139_ _LABEL_513F_ _LABEL_5145_ _LABEL_514B_ _LABEL_5151_
-.dw _LABEL_5157_ _LABEL_515D_ _LABEL_5163_ _LABEL_5169_ _LABEL_516F_ _LABEL_5175_ _LABEL_5194_ _LABEL_519A_
-.dw _LABEL_51A0_ _LABEL_51A6_ _LABEL_51AC_ _LABEL_51B2_ _LABEL_51B8_ _LABEL_51D1_ _LABEL_51D7_ _LABEL_51DD_
-.dw _LABEL_51E3_ _LABEL_51E9_ _LABEL_51EF_ _LABEL_51F5_ _LABEL_51FB_ _LABEL_5238_ _LABEL_523E_ _LABEL_5244_
-.dw _LABEL_524A_ _LABEL_5250_ _LABEL_5256_ _LABEL_525C_ _LABEL_5262_ _LABEL_5268_ _LABEL_526E_ _LABEL_5274_
-.dw _LABEL_527A_ _LABEL_5280_ _LABEL_5286_ _LABEL_528C_ _LABEL_52A0_ _LABEL_52A6_ _LABEL_52AC_ _LABEL_52B8_
-.dw _LABEL_52BE_ _LABEL_52C4_ _LABEL_52CA_ _LABEL_52D0_ _LABEL_5306_ _LABEL_531A_ _LABEL_5320_ _LABEL_5326_
-.dw _LABEL_533A_ _LABEL_5361_ _LABEL_5367_ _LABEL_536D_ _LABEL_53B7_ _LABEL_53CF_ _LABEL_5411_ _LABEL_5436_
-.dw _LABEL_543C_ _LABEL_547D_ _LABEL_54A9_ _LABEL_54D0_ _LABEL_54E4_ _LABEL_54EA_ _LABEL_54F0_ _LABEL_5504_
-.dw _LABEL_5512_ _LABEL_5518_ _LABEL_551E_ _LABEL_5524_ _LABEL_552A_ _LABEL_5530_ _LABEL_5597_ _LABEL_51EF_
-.dw _LABEL_51F5_ _LABEL_51FB_ _LABEL_55AB_ _LABEL_55F5_ _LABEL_55FB_ _LABEL_5601_ _LABEL_5607_ _LABEL_560D_
-.dw _LABEL_5613_ _LABEL_5619_ _LABEL_561F_ _LABEL_5661_ _LABEL_5690_ _LABEL_5730_ _LABEL_575B_ _LABEL_578F_
-.dw _LABEL_5795_ _LABEL_5795_ _LABEL_5798_ _LABEL_57F5_ _LABEL_5803_ _LABEL_5809_ _LABEL_581B_ _LABEL_582D_
-.dw _LABEL_5841_ _LABEL_584F_ _LABEL_5879_ _LABEL_58C6_ _LABEL_58FC_ _LABEL_5902_ _LABEL_5795_ _LABEL_5795_
-.dw _LABEL_592D_ _LABEL_5933_ _LABEL_5939_ _LABEL_5949_ _LABEL_5959_ _LABEL_5795_
+_RoomScriptTable:
+; Room index => handler lookup
+.dw _room_00_Suelo
+.dw _room_01_Nekise
+.dw _room_02_CamineetMan1
+.dw _room_03_CamineetMan2
+.dw _room_04_CamineetMan3
+.dw _room_05_CamineetMan4
+.dw _room_06_CamineetMan5
+.dw _room_07_Camineet_AlgolMan:
+.dw _room_08_CamineetGuard1
+.dw _room_09_CamineetGuard2
+.dw _room_0a_CamineetGuard3
+.dw _room_0b_CamineetGuard4
+.dw _room_0c_ParolitWoman1
+.dw _room_0d_ParolitMan1
+.dw _room_0e_ParolitMan2
+.dw _room_0f_ParolitMan3
+.dw _room_10_ParolitMan4
+.dw _room_11_ParolitMan5
+.dw _room_12_AirStripGuard
+.dw _room_13_AirStripGuard
+.dw _room_14_Shion_Man1
+.dw _room_15_MadDoctor
+.dw _room_16_PalmaSpaceportLuggageHandler1
+.dw _room_17_PalmaSpaceportLuggageHandler2
+.dw _room_18_PalmaSpaceportLuggageHandler3
+.dw _room_19_AirStripGuard
+.dw _room_1a_RoadGuard
+.dw _room_1b_RoadGuard
+.dw _room_1c_PassportOffice
+.dw _room_1d_Shion_Man1
+.dw _room_1e_Shion_Man2
+.dw _room_1f_ShionMan3
+.dw _room_20_ShionMan4
+.dw _room_21_ShionMan5
+.dw _room_22_ShionMan6
+.dw _room_23_ShionMan7
+.dw _room_24_ShionMan8
+.dw _room_25_EppiMan1
+.dw _room_26_EppiMan2
+.dw _room_27_EppiMan3
+.dw _room_28_EppiMan4
+.dw _room_29_EppiMan5
+.dw _room_2a_EppiMan6
+.dw _room_2b_PaseoSpaceportLuggageHandler1
+.dw _room_2c_PaseoSpaceportLuggageHandler2
+.dw _room_2d_PaseoSpaceport3
+.dw _room_2e_Paseo1
+.dw _room_2f_Paseo2
+.dw _room_30_Paseo3
+.dw _room_31_Paseo4
+.dw _room_32_Paseo5
+.dw _room_33_Paseo6
+.dw _room_34_Paseo7
+.dw _room_35_PaseoMyauSeller
+.dw _room_36_GovernorGeneral
+.dw _room_37_MansionGuard1
+.dw _room_38_GuestHouseLady
+.dw _room_39_BartevoVillager1
+.dw _room_3a_Bartevo Villager2
+.dw _room_3b_GothicWoods1
+.dw _room_3c_GothicWoods2
+.dw _room_3d_DrLuveno
+.dw _room_3e_50FC
+.dw _room_3f_LoreVillager1
+.dw _room_40_LoreVillager2
+.dw _room_41_511F
+.dw _room_42_LoreVillager4
+.dw _room_43_LoreVillager5
+.dw _room_44_AbionVillager1
+.dw _room_45_AbionVillager2
+.dw _room_46_AbionVillager3
+.dw _room_47_AbionVillager4
+.dw _room_48_AbionVillager5
+.dw _room_49_UzoVillager1
+.dw _room_4a_UzoVillager2
+.dw _room_4b_UzoVillager3
+.dw _room_4c_UzoVillager4
+.dw _room_4d_UzoVillager5
+.dw _room_4e_UzoVillager6
+.dw _room_4f_CasbaVillager1
+.dw _room_50_CasbaVillager2
+.dw _room_51_AeroCastle1
+.dw _room_52_CasbaVillager3
+.dw _room_53_CasbaVillager4
+.dw _room_54_CasbaVillager5
+.dw _room_55_Drasgo1
+.dw _room_56_Drasgo2
+.dw _room_57_Drasgo3
+.dw _room_58_Drasgo4
+.dw _room_59_ChokoOneesan
+.dw _room_5a_DrasgoCave1
+.dw _room_5b_DrasgoCave2
+.dw _room_5c_DrasgoGasClearSeller
+.dw _room_5d_Skray1
+.dw _room_5e_Skray2
+.dw _room_5f_Skray3
+.dw _room_60_Skray4
+.dw _room_61_Skray5
+.dw _room_62_Skray6
+.dw _room_63_Skray7
+.dw _room_64_Skray8
+.dw _room_65_Skray9
+.dw _room_66_Skray10
+.dw _room_67_HonestDezorian1
+.dw _room_68_HonestDezorian2
+.dw _room_69_HonestDezorian3
+.dw _room_6a_HonestDezorian4
+.dw _room_6b_HonestDezorian5
+.dw _room_6c_HonestDezorian6
+.dw _room_6d_DishonestDezorian1
+.dw _room_6e_DishonestDezorian2
+.dw _room_6f_DishonestDezorian3
+.dw _room_70_DishonestDezorian4
+.dw _room_71_DishonestDezorian5
+.dw _room_72_DishonestDezorian6
+.dw _room_73_SopiaVillageChief
+.dw _room_74_GamerMikiChan
+.dw _room_75_Sopia1
+.dw _room_76_Sopia2
+.dw _room_77_Sopia3
+.dw _room_78_Sopia4
+.dw _room_79_AeroCastle2
+.dw _room_7a_AeroCastle3
+.dw _room_7b_ShortcakeShop
+.dw _room_7c_MahalCaveMotavianPeasant
+.dw _room_7d_Lutz
+.dw _room_7e_LuvenosAssistant
+.dw _room_7f_5436
+.dw _room_80_Luveno_Prison
+.dw _room_81_TriadaPrisonGuard1
+.dw _room_82_TriadaPrisoner1
+.dw _room_83_TriadaPrisoner2
+.dw _room_84_TriadaPrisoner3
+.dw _room_85_TriadaPrisoner4
+.dw _room_86_TriadaPrisoner5
+.dw _room_87_TriadaPrisoner6
+.dw _room_88_MedusasTower1
+.dw _room_89_MedusasTower2
+.dw _room_8a_MedusasTower3
+.dw _room_8b_BartevoCave
+.dw _room_8c_AvionTower
+.dw _room_8d_5530
+.dw _room_8e_5597
+; Unused repeats?
+.dw _room_8f_DrasgoCave1
+.dw _room_90_DrasgoCave2
+.dw _room_91_DrasgoGasClearSeller
+.dw _room_92_55AB
+.dw _room_93_55F5
+.dw _room_94_55FB
+.dw _room_95_5601
+.dw _room_96_5607
+.dw _room_97_560D
+.dw _room_98_5613
+.dw _room_99_5619
+.dw _room_9a_561F
+.dw _room_9b_TorchBearer
+.dw _room_9c_Tajim
+.dw _room_9d_5730
+.dw _room_9e_LaShiec
+.dw _room_9f_578F
+.dw _room_a0_5795
+.dw _room_a1_5795
+.dw _room_a2_5798
+.dw _room_a3_CoronoTowerDezorian1
+.dw _room_a4_GuaranMorgue
+.dw _room_a5_CoronaDungeonDihonstDezorian: ; $5809
+.dw _room_a6_581B
+.dw _room_a7_BayaMarlayPrisoner: ; $582D
+.dw _room_a8_BuggyUnused: ; $5841
+.dw _room_a9_LuvenoGuard: ; $584F
+.dw _room_aa_DarkForce: ; $5879
+.dw _room_ab_58C6
+.dw _room_ac_58FC
+.dw _room_ad_5902
+.dw _room_ae_5795
+.dw _room_af_5795
+.dw _room_b0_592D
+.dw _room_b1_OtegamiChieChan: ; $5933
+.dw _room_b2_FlightToMotavia: ; $5939
+.dw _room_b3_FlightToPalma: ; $5949
+.dw _room_b4_HapsbyTravel: ; $5959
+.dw _room_b5_5795
 
-; 1st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4B3F_:
+_room_00_Suelo: ; $4B3F
     ld hl,HaveVisitedSuelo
     ld a,(hl)
     or a
     jr nz,+
-    ld (hl),$01
+    ; First time
+    ld (hl),1
     ld hl,$0002
-    call _LABEL_59BA_
+    ; Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+    ; I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
+    ; If you ever get hurt, come back here to heal.<wait more>
+    ; We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
+    call DrawText20x6
 +:  ld hl,$0006
-    call _LABEL_59BA_
-    ld a,$C1
+    ; Please get some rest.<wait more>
+    ; Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+    call DrawText20x6
+    ld a,SFX_Heal
     ld (NewMusic),a
     jp _LABEL_2BC9_
 
-; 2nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4B5C_:
+_room_01_Nekise: ; $4b5c
     ld a,(HaveGotPotfromNekise)
     or a
     jr nz,+
+    ; First visit
     ld hl,$0008
-    call _LABEL_59BA_
-    ld a,$38
+    ; My name is Nekise.<line><line>
+    ; I was sorry to hear about your loss.<wait more>
+    ; Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
+    ; The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
+    ; Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
+    ; It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
+    call DrawText20x6
+    ld a,Item_LaconianPot
     ld (ItemTableIndex),a
-    call _LABEL_28FB_
-    ld a,$38
-    call _LABEL_298A_
+    call AddItemToInventory
+    ld a,Item_LaconianPot
+    call HaveItem
     jr nz,+
-    ld a,$01
+    ld a,1
     ld (HaveGotPotfromNekise),a
 +:  ld hl,$0010
-    jp _LABEL_59BA_
+    ; Forgive me, but there is nothing more I can do. May you[r journey] be safe.
+    jp DrawText20x6 ; and ret
 
-; 3rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4B82_:
+_room_02_CamineetMan1: ; $4B82
     ld hl,$0012
-    jp _LABEL_59BA_
+    ; The Camineet residential district is under martial law.
+    jp DrawText20x6 ; and ret
 
-; 4th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4B88_:
+_room_03_CamineetMan2: ; $4B88
     ld hl,$0014
-    jp _LABEL_59BA_
+    ; You need a ‘Dungeon Key’ to open locked doors.
+    jp DrawText20x6 ; and ret
 
-; 5th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4B8E_:
+_room_04_CamineetMan3 ; $4B8E
     ld hl,$0016
-    jp _LABEL_59BA_
+    ; You will not be able to advance through certain dungeons if you don't have a light.
+    jp DrawText20x6 ; and ret
 
-; 6th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4B94_:
+_room_05_CamineetMan4 ; $4B94:
     ld hl,$0018
-    jp _LABEL_59BA_
+    ; West of Camineet? That's the Spaceport.
+    jp DrawText20x6 ; and ret
 
-; 7th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4B9A_:
+_room_06_CamineetMan5 ; $4B9A:
     ld hl,$001A
-    jp _LABEL_59BA_
+    ; They say that all sorts of business goes on in the port town.
+    jp DrawText20x6 ; and ret
 
-; 8th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4BA0_:
+_room_07_Camineet_AlgolMan: ; $4BA0:
     ld hl,$0062
-    call _LABEL_59BA_
+    ; Do you know the planets in the Algol Solar System?
+    call DrawText20x6
     call DoYesNoMenu
-    ld hl,$0060
+    ld hl,$0060 ; If yes
+    ; I see. Never mind.
     jr z,+
-    ld hl,$0003
+    ld hl,3 ; If no
     ld (NumberToShowInText),hl
     ld hl,$0064
-+:  jp _LABEL_59BA_
+    ; There are three planets: Palma, Motabia, and Dezoris.
+    ; Palma is a planet of greenery.
+    ; Motavia is a planet of sand.
+    ; Dezoris is a planet of ice.
+    ; There is a crisis drawing near to Algol...
++:  jp DrawText20x6 ; and ret
 
-; 9th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4BBA_:
+_room_08_CamineetGuard1 ; $4BBA
     ld hl,$001C
-    jp _LABEL_59BA_
+    ; Stay inside the residential area if you know what's good for you.
+    jp DrawText20x6 ; and ret
 
-; 10th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4BC0_:
+_room_09_CamineetGuard2: ; $4BC0
     ld hl,$001E
-    jp _LABEL_59BA_
+    ; Want to stay alive?  Then stay here!
+    jp DrawText20x6 ; and ret
 
-; 11th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4BC6_:
-    ld a,$33
-    call _LABEL_298A_
+_room_0a_CamineetGuard3: ; $4BC6:
+    ld a,Item_RoadPass
+    call HaveItem
     jr z,+
     ld hl,$0020
-    jp _LABEL_59BA_
+    ; I can’t just let you pass through here!
+    jp DrawText20x6 ; and ret
 
-; 12th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4BD3_:
-    ld a,$33
-    call _LABEL_298A_
+_room_0b_CamineetGuard4: ; $4BD3:
+    ld a,Item_RoadPass
+    call HaveItem
     jr z,+
     ld hl,$0022
-    jp _LABEL_59BA_
-
+    ; Nobody gets through here without a 'Roadpass'.
+    jp DrawText20x6 ; and ret
 +:  ld hl,$0024
-    call _LABEL_59BA_
+    ; Okay, you may pass.
+    call DrawText20x6
+    ; Copy something from _RAM_c309_ to _RAM_c2e9_ TODO what is this?
     ld a,(_RAM_C309_)
     rrca
     dec a
@@ -10032,152 +10628,169 @@ _LABEL_4BD3_:
     ld (_RAM_C2E9_),a
     ret
 
-; 13th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4BF1_:
+_room_0c_ParolitWoman1: ; $4BF1:
     ld hl,$0026
-    jp _LABEL_59BA_
+    ; This is Parolit residential district.
+    jp DrawText20x6 ; and ret
 
-; 14th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4BF7_:
+_room_0d_ParolitMan1: ; $4BF7:
     ld hl,$0028
-    jp _LABEL_59BA_
+    ; When you're in the forest, you need to be especially cautious.
+    jp DrawText20x6 ; and ret
 
-; 15th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4BFD_:
+_room_0e_ParolitMan2: ; $4BFD:
     ld hl,$002A
-    jp _LABEL_59BA_
+    ; I hear that the monster Medusa has returned to the cave South of the city. They say if you look at it, you'll turn to stone!
+    jp DrawText20x6 ; and ret
 
-; 16th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4C03_:
+_room_0f_ParolitMan3: ; $4C03:
     ld hl,$002E
-    jp _LABEL_59BA_
+    ; If you travel East, you will reach the port town of Shion.
+    jp DrawText20x6 ; and ret
 
-; 17th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4C09_:
+_room_10_ParolitMan4: ; $4C09:
     ld hl,$0030
-    jp _LABEL_59BA_
+    ; You can travel to Paseo, on the planet Motavia, from the spaceport.
+    jp DrawText20x6 ; and ret
 
-; 18th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4C0F_:
+_room_11_ParolitMan5: ; 4C0F:
     ld hl,$0032
-    jp _LABEL_59BA_
+    ; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
+    jp DrawText20x6 ; and ret
 
-; 19th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4C15_:
+_room_12_AirStripGuard: ; $4C15:
+_room_13_AirStripGuard: ; $4C15:
     ld a,(LuvenoState)
     cp $07
-    jp nc,_LABEL_4CEC_
+    jp nc,SpacePortsAreClosed
     ld hl,$0070
-    call _LABEL_59BA_
+    ; Do you have a passport?
+    call DrawText20x6
     call DoYesNoMenu
     ld hl,$0020
+    ; I can’t just let you pass through here!
     jr nz,+
-    ld a,$34
-    call _LABEL_298A_
+    ld a,Item_Passport
+    call HaveItem
     ld hl,$00CE
+    ; Well? Let’s see it.
     jr nz,+
     ld a,$06
-    ld (_RAM_C2E9_),a
+    ld (_RAM_c2e9_),a ; ???
     ld hl,$0024
-+:  jp _LABEL_59BA_
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
 
-; 21st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4C40_:
+_room_14_Shion_Man1: ; $4C40:
     ld hl,$0286
-    jp _LABEL_59BA_
+    ; On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
+    jp DrawText20x6 ; and ret
 
-; 22nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4C46_:
-    ld a,$47
+_room_15_MadDoctor: ; $4C46:
+    ld a,Enemy_MadDoctor
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld a,(CharacterStatsMyau)
     or a
     jr z,+
     ld hl,$0296
-    call _LABEL_59BA_
+    ; Hey, cat! C'mere!
+    call DrawText20x6
     call DoYesNoMenu
     jr nz,+
-    ld a,$AE
+    ; Kill Myau
+    ld a,SFX_Death
     ld (NewMusic),a
-    ld a,$01
+    ld a,Player_Myau
     ld (TextCharacterNumber),a
-    ld hl,_DATA_B07B_
+    ld hl,TextPlayerDied
+    ; <player> died.<delay>
     call TextBox20x6
     ld hl,$0000
     ld (CharacterStatsMyau),hl
     ld hl,$0298
+    ; Hee hee hee! You guys wanna die too?
     jr ++
-
-+:  ld hl,$029A
-++:  call _LABEL_59BA_
++:  ; Myau is dead or refuses to "come here"
+    ld hl,$029a
+    ; I will kill anything that gets in my way!
+++:  call DrawText20x6
     call Close20x6TextBox
     ld a,(PartySize)
     or a
+    jr z,+ ; No Myau yet
+    ld a,Item_LaconianPot
+    call HaveItem
     jr z,+
-    ld a,$38
-    call _LABEL_298A_
-    jr z,+
+    ; Don't have a Laconian Pot
     ld hl,$C518
     ld (_RAM_C2E1_),hl
-    ld a,$38
+    ld a,Item_LaconianPot
     ld (_RAM_C2DF_),a
 +:  jp _LABEL_55E9_
 
-; 23rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4C9E_:
+_room_16_PalmaSpaceportLuggageHandler1: ; $4C9E:
     ld hl,$006A
-    jp _LABEL_59BA_
+    ; This is Palma Spaceport. You can go to Paseo, on the planet Motavia.
+    jp DrawText20x6 ; and ret
 
-; 24th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4CA4_:
+_room_17_PalmaSpaceportLuggageHandler2: ; $4CA4:
     ld hl,$006C
-    jp _LABEL_59BA_
+    ; The Governor-General lives in Paseo. He rules all of Motavia.
+    jp DrawText20x6 ; and ret
 
-; 25th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4CAA_:
+_room_18_PalmaSpaceportLuggageHandler3: ; $4CAA:
     ld hl,$006E
-    jp _LABEL_59BA_
+    ; Rumor has it that the Gothic Laboratory was once used to build spaceships. Back in the old days, ships like these were built at the laboratory in Gothic.<wait>
+    jp DrawText20x6 ; and ret
 
-; 26th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4CB0_:
+_room_19_AirStripGuard: ; $4CB0:
     ld a,(LuvenoState)
     cp $07
-    jr nc,_LABEL_4CEC_
+    jr nc,SpacePortsAreClosed
     ld hl,$0070
-    call _LABEL_59BA_
+    ; Do you have a passport?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$0020
-    jp _LABEL_59BA_
-
-+:  ld a,$34
-    call _LABEL_298A_
+    ; I can’t just let you pass through here!
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld a,Item_Passport
+    call HaveItem
     jr z,+
+    ; Don't have one
     ld hl,$00CE
-    jp _LABEL_59BA_
-
-+:  ld hl,$0024
-    call _LABEL_59BA_
+    ; Well? Let’s see it.
+    jp DrawText20x6 ; and ret
++:  ; Have one
+    ld hl,$0024
+    ; Okay, you may pass.
+    call DrawText20x6
+    ; Warp position?
     ld a,(VLocation)
     cp $60
-    ld hl,_DATA_4D03_
+    ld hl,_4d03
     jr nz,+
-    ld hl,_DATA_4D06_
+    ld hl,_4d06
 +:  call _LABEL_7B1E_
     ret
 
-_LABEL_4CEC_:
+SpacePortsAreClosed:
     ld hl,$019E
-    call _LABEL_59BA_
-    ld a,$34
-    call _LABEL_298A_
+    ; Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
+    call DrawText20x6
+    ld a,Item_Passport
+    call HaveItem
     ret nz
     push bc
-    call _LABEL_28DB_
+    call RemoveItemFromInventory
     pop bc
     ld hl,$01A0
-    jp _LABEL_59BA_
+    ; WE ARE CONFISCATING YOUR PASSPORT.<end>
+    jp DrawText20x6 ; and ret
 
 ; Data from 4D03 to 4D05 (3 bytes)
 _DATA_4D03_:
@@ -10187,333 +10800,374 @@ _DATA_4D03_:
 _DATA_4D06_:
 .db $05 $21 $15
 
-; 27th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4D09_:
-    ld a,$33
-    call _LABEL_298A_
+_room_1a_RoadGuard: ; $4D09:
+    ld a,Item_RoadPass
+    call HaveItem
     ld hl,$0020
+    ; I can’t just let you pass through here!
     jr nz,+
     ld a,$04
     ld (_RAM_C2E9_),a
     ld hl,$0024
-+:  jp _LABEL_59BA_
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
 
-; 28th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4D1E_:
-    ld a,$33
-    call _LABEL_298A_
+_room_1b_RoadGuard: ; $4D1E:
+    ld a,Item_RoadPass
+    call HaveItem
     ld hl,$0022
+    ; Nobody gets through here without a 'Roadpass'.
     jr nz,+
     ld a,$05
     ld (_RAM_C2E9_),a
-    ld hl,$0024
-+:  jp _LABEL_59BA_
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
 
-; 29th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4D33_:
+_room_1c_PassportOffice: ; $4D33:
     ld hl,$0072
-    call _LABEL_59BA_
+    ; You can apply for a ‘passport’ here. Would you like to apply?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$007C
-    jp _LABEL_59BA_
-
-+:  ld hl,$0074
-    call _LABEL_59BA_
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld hl,$0074
+    ; Up to today, have you ever done any bad things?
+    call DrawText20x6
     call DoYesNoMenu
     jr nz,+
+    ; Yes
     ld hl,$007E
-    jp _LABEL_59BA_
-
-+:  ld hl,$0076
-    call _LABEL_59BA_
+    ; That's too bad. Please come back some other time.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,$0076
+    ; Are you suffering from an illness right now?
+    call DrawText20x6
     call DoYesNoMenu
     jr nz,+
+    ; Yes
     ld hl,$007E
-    jp _LABEL_59BA_
-
-+:  ld hl,_DATA_64_
+    ; That's too bad. Please come back some other time.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,100
     ld (NumberToShowInText),hl
     ld hl,$0078
-    call _LABEL_59BA_
+    ; The fee is 100 mesetas. Is that agreeable?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$007C
-    jp _LABEL_59BA_
-
-+:  ld de,$0064
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld de,100
     ld hl,(Meseta)
     or a
     sbc hl,de
     jr nc,+
-    ld hl,_DATA_B65C_
-    jp TextBox20x6
-
-+:  ld (Meseta),hl
+    ld hl,$b65c
+    ; It looks like you don’t have enough money.<line>
+    ; Please come back later.<wait>
+    jp TextBox20x6 ; and ret
++:  ; Have enough money; pay it
+    ld (Meseta),hl
     ld hl,$007A
-    call _LABEL_59BA_
-    ld a,$34
+    ; Well then, we will issue you a passport. Here you go.
+    call DrawText20x6
+    ld a,Item_Passport
     ld (ItemTableIndex),a
-    call _LABEL_298A_
+    call HaveItem
     ret z
-    jp _LABEL_28FB_
+    jp AddItemToInventory ; and ret
 
-; 30th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DA3_:
+_room_1d_Shion_Man1: ; $4DA3:
     ld a,(PartySize)
     or a
+    ; No Myau yet
     ld hl,$0034
+    ; Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
     jr z,+
+    ; Have found Myau
     ld hl,$003A
-+:  jp _LABEL_59BA_
+    ; You’re on a quest to defeat LaShiec, huh? Well, good luck!
++:  jp DrawText20x6 ; and ret
 
-; 31st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DB2_:
+_room_1e_Shion_Man2: ; $4DB2:
     ld a,(PartySize)
     or a
+    ; No Myau yet
     ld hl,$003C
+    ; I found a talking animal in Medusa’s Cave earlier, see? Then I sold it off to a trader in Paseo and made a bundle! Heh, heh, heh!
     jr z,+
+    ; Have found Myau
     ld hl,$0040
-+:  jp _LABEL_59BA_
+    ; Times have been rough lately, don’t you think? I wonder if there’s anywhere I can go to make money.
++:  jp DrawText20x6 ; and ret
 
-; 32nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DC1_:
+_room_1f_ShionMan3: ; $4DC1:
     ld hl,$0042
-    jp _LABEL_59BA_
+    ; On the peninsula South of Shion, you will find Iala Cave.
+    jp DrawText20x6 ; and ret
 
-; 33rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DC7_:
+_room_20_ShionMan4: ; $4DC7:
     ld hl,$0044
-    jp _LABEL_59BA_
+    ; This is the port town of Shion. This place used to be busy with trade.
+    jp DrawText20x6 ; and ret
 
-; 34th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DCD_:
+_room_21_ShionMan5: ; $4DCD:
     ld hl,$0046
-    jp _LABEL_59BA_
+    ; The Eppi Woods are confusing. You need a ‘Compass’ just to pass through them.
+    jp DrawText20x6 ; and ret
 
-; 35th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DD3_:
+_room_22_ShionMan6: ; $4DD3:
     ld hl,$0048
-    jp _LABEL_59BA_
+    ; Magically-sealed doors can be opened only with magic.
+    jp DrawText20x6 ; and ret
 
-; 36th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DD9_:
+_room_23_ShionMan7: ; $4DD9:
     ld hl,$004A
-    jp _LABEL_59BA_
+    ; If you go North from this town you will reach the hill of Baya Mahrey. However, we aren’t able to get near to it.
+    jp DrawText20x6 ; and ret
 
-; 37th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DDF_:
+_room_24_ShionMan8: ; $4DDF:
     ld hl,$004C
-    jp _LABEL_59BA_
+    ; On the beach North of Baya Mahrey, you will find Naula Cave.
+    jp DrawText20x6 ; and ret
 
-; 38th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DE5_:
+_room_25_EppiMan1: ; $4DE5:
     ld hl,$004E
-    jp _LABEL_59BA_
+    ; I wonder if Motabia’s Governor-general might aid you in your quest.
+    jp DrawText20x6 ; and ret
 
-; 39th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DEB_:
+_room_26_EppiMan2: ; $4DEB:
     ld hl,$0050
-    jp _LABEL_59BA_
+    ; On Motabia live the great ‘Espers’.
+    jp DrawText20x6 ; and ret
 
-; 40th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DF1_:
+_room_27_EppiMan3: ; $4DF1:
     ld hl,$0052
-    jp _LABEL_59BA_
+    ; A doctor named ‘Luveno’ used to have a laboratory in Gothic Forest.
+    jp DrawText20x6 ; and ret
 
-; 41st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DF7_:
+_room_28_EppiMan4: ; $4DF7:
     ld hl,$0054
-    jp _LABEL_59BA_
+    ; Welcome to Eppi Village!<wait more>
+    ; We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
+    jp DrawText20x6 ; and ret
 
-; 42nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4DFD_:
+_room_29_EppiMan5: ; $4DFD:
     ld hl,$0056
-    call _LABEL_59BA_
+    ; Are you by any chance searching for the ‘Dungeon Key’?
+    call DrawText20x6
     call DoYesNoMenu
+    ; No
     ld hl,$0060
-    jr nz,++
-    ld a,$2D
-    call _LABEL_298A_
-    jr z,+
+    ; I see. Never mind.
+    jr nz,+
+    ; Yes
+    ld a,Item_DungeonKey
+    call HaveItem
+    jr z,++
     ld hl,DungeonKeyIsHidden
-    ld (hl),$00
-+:  ld hl,$0058
-++:  jp _LABEL_59BA_
+    ld (hl),0
+++: ld hl,$0058
+    ; I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on the outskirts of Camineet residential area.
++:  jp DrawText20x6  ; and ret
 
-; 43rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E1D_:
+_room_2a_EppiMan6: ; $4E1D:
     ld hl,$005C
-    call _LABEL_59BA_
+    ; Do you know what the hardest, strongest material in the world is?
+    call DrawText20x6
     call DoYesNoMenu
     ld hl,$0060
+    ; I see. Never mind.
     jr z,+
     ld hl,$005E
-+:  jp _LABEL_59BA_
+    ; It’s ‘Laconia’! Laconian weapons are the strongest [in the solar system].
++:  jp DrawText20x6 ; and ret
 
-; 44th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E31_:
+_room_2b_PaseoSpaceportLuggageHandler1: ; $4E31:
     ld hl,$0080
-    jp _LABEL_59BA_
+    ; This is Paseo spaceport, on the planet Motabia.
+    jp DrawText20x6 ; and ret
 
-; 45th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E37_:
+_room_2c_PaseoSpaceportLuggageHandler2: ; $4E37:
     ld hl,$0082
-    jp _LABEL_59BA_
+    ; I’ve heard rumors that there are vicious ‘Ant-lions’ in the desert!
+    jp DrawText20x6 ; and ret
 
-; 46th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E3D_:
+_room_2d_PaseoSpaceport3: ; $4E3D:
     ld hl,$0084
-    jp _LABEL_59BA_
+    ; THERE IS A CAKE SHOP IN THE CAVE CALLED NAULA ON PALMA!
+    jp DrawText20x6 ; and ret
 
-; 47th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E43_:
+_room_2e_Paseo1: ; $4E43:
     ld hl,$0086
-    jp _LABEL_59BA_
+    ; ..Actually, the Governor-General seems to be on very bad terms with LaShiec!
+    jp DrawText20x6 ; and ret
 
-; 48th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E49_:
+_room_2f_Paseo2: ; $4E49:
     ld hl,$0088
-    jp _LABEL_59BA_
+    ; You need to have a gift in order to meet with the Governor-General.
+    jp DrawText20x6 ; and ret
 
-; 49th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E4F_:
+_room_30_Paseo3: ; $4E4F:
     ld hl,$008A
-    jp _LABEL_59BA_
+    ; The Governor-General loves sweets.
+    jp DrawText20x6 ; and ret
 
-; 50th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E55_:
+_room_31_Paseo4: ; $4E55:
     ld hl,$008C
-    jp _LABEL_59BA_
+    ; Maharu Cave is located in the mountains to the north of Paseo.
+    jp DrawText20x6 ; and ret
 
-; 51st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E5B_:
+_room_32_Paseo5: ; $4E5B:
     ld hl,$008E
-    jp _LABEL_59BA_
+    ; This is Paseo, capital of Motabia.
+    jp DrawText20x6 ; and ret
 
-; 52nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E61_:
+_room_33_Paseo6: ; $4E61:
     ld hl,$0090
-    jp _LABEL_59BA_
+    ; There’s no way to pass over those ant lions on FOOT, [but...].
+    jp DrawText20x6 ; and ret
 
-; 53rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E67_:
+_room_34_Paseo7: ; $4E67:
     ld hl,$0288
-    jp _LABEL_59BA_
+    ; I hear that intelligent monsters have monster languages.
+    jp DrawText20x6 ; and ret
 
-; 54th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4E6D_:
+_room_35_PaseoMyauSeller: ; $4E6D:
     ld a,(PartySize)
     or a
     jr z,+
+    ; Have found Myau
     ld hl,$028A
-    jp _LABEL_59BA_
-
-+:  ld hl,$000A
+    ; That laconian pot was worth a fortune! Thanks a bundle!
+    jp DrawText20x6 ; and ret
++:  ; No Myau yet
+    ld hl,10
     ld (NumberToShowInText),hl
     ld hl,$0092
-    call _LABEL_59BA_
+    ; I gotta real rare animal here. You can have it fer a billion mesetas. Whuddayuhsay?
+    call DrawText20x6
     call DoYesNoMenu
-    jr nz,+
+    jr nz,
     ld hl,$0094
-    jp _LABEL_59BA_
-
+    ; Yeah, right. You gotta be kiddin’ me!
+    jp DrawText20x6 ; and ret
 +:  ld a,$38
-    call _LABEL_298A_
+    call HaveItem
     jr nz,+
     push hl
     ld hl,$0096
-    call _LABEL_59BA_
+      ; Say... That’s a real unusual pot you got there... ...is 'dat a ‘Laconian Pot’?! How ‘bout I give you da animal, you give me the pot? Whuddayuhsay?
+    call DrawText20x6
     call DoYesNoMenu
     pop hl
     jr nz,+
     push bc
-    call _LABEL_28DB_
+      call $28db; RemoveItemFromInventory
     pop bc
     ld hl,$009A
-    call _LABEL_59BA_
+    ; Alri---ght, there yuh go. Take good care uv‘im.
+    call DrawText20x6
     call Close20x6TextBox
     pop hl
+    ; Bring Myau to life
     ld iy,CharacterStatsMyau
     call InitialiseCharacterStats
-    ld a,$01
+    ld a,1
     ld (PartySize),a
-    ld a,$2B
+    ; Get some Alsuline
+    ld a,Item_Alsuline
     ld (ItemTableIndex),a
-    call _LABEL_28FB_
+    call AddItemToInventory
     jp _LABEL_4636_
-
 +:  ld hl,$007C
-    jp _LABEL_59BA_
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
 
-; 55th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4ED0_:
+_room_36_GovernorGeneral: ; $4ED0:
     ld a,(HaveBeatenLaShiec)
     or a
     jr z,+
     ld hl,$02A6
-    call _LABEL_59BA_
+    ; Hey. That’s weird... Where’d the Governor-General go?
+    call DrawText20x6
     call Close20x6TextBox
     pop hl
     ld hl,$22E6
-    ld (_RAM_C30C_),hl
+    ld ($c30c),hl
     xor a
-    ld (_RAM_C30A_),a
+    ld ($c30a),a
     ld hl,FunctionLookupIndex
     ld (hl),$0B
-    call _LABEL_68BF_
-    ld a,$85
-    jp CheckMusic
-
+    call $68bf
+    ld a,MusicBossDungeon
+    jp CheckMusic ; and ret
 +:  ld a,$35
     call _LABEL_63F9_
     call SpriteHandler
     ld a,(PartySize)
-    cp $03
+    cp 3
     jr nc,+
-    ld a,$37
-    call _LABEL_298A_
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
     jr nz,++
-+:  ld hl,$029E
-    call _LABEL_59BA_
++:  ; No Lutz yet, or have the letter
+    ld hl,$029e
+    ; There’s no time to lose! Have faith in yourself. I’ll be praying for your safety.
+    call DrawText20x6
     ld hl,$00AA
-    jp _LABEL_59BA_
-
+    ; I am absolutely certain that you will defeat LaShiec and return here.
+    jp DrawText20x6 ; and ret
 ++:  ld hl,$00A4
-    call _LABEL_59BA_
+    ; I am the Governor-General of this planet. I understand you are on a quest to defeat LaShiec. I commend you for your courage. In Maharu Cave you will find an Esper named Lutz (pronounced 'roots'). Please take this letter to him. I am absolutely certain that you will defeat LaShiec and return here.
+    call DrawText20x6
+    ; Get the letter
     push bc
-    ld a,$37
+      ld a,Item_GovernorGeneralsLetter
     ld (ItemTableIndex),a
-    call _LABEL_28FB_
+      call AddItemToInventory
     pop bc
-    ld a,$37
-    call _LABEL_298A_
-    ret nz
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
+    ret nz ; Inventory full -> kick out?
     ld hl,$029C
-    call _LABEL_59BA_
+    ; You must be tired from your long journey. You should relax here for a while.
+    call DrawText20x6
     call FadeOutFullPalette
     call Close20x6TextBox
     ld a,$20
     ld (SceneType),a
     call LoadSceneData
+    ; Turn off sprites
     ld a,$D0
     ld (SpriteTable),a
-    ld a,$0C
+    ld a,$0c ; VBlankFunction_UpdateTilemap
     call ExecuteFunctionIndexAInNextVBlank
-    ld hl,_DATA_4FCC_
+    ld hl,_GovernorGeneralPalette
     ld de,TargetPalette
-    ld bc,$0008
+    ld bc,_sizeof__GovernorGeneralPalette
     ldir
     call FadeInWholePalette
     ld hl,$02A0
-    call _LABEL_59BA_
+    ; You enter into a deep sleep...
+    call DrawText20x6
     call Close20x6TextBox
     ld a,$A0
     ld (NewMusic),a
     call Pause256Frames
-    ld a,$4A
+    ld a,Enemy_Nightmare
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
+    ; Preserve all stats as it's just a dream...
     ld a,(CharacterStatsAlis)
     push af
     ld a,(CharacterStatsMyau)
@@ -10535,7 +11189,8 @@ _LABEL_4ED0_:
     call ExecuteFunctionIndexAInNextVBlank
     call FadeInWholePalette
     ld hl,$02A2
-    call _LABEL_59BA_
+    ; What a frightening dream!
+    call DrawText20x6
     call FadeOutFullPalette
     ld a,$1D
     ld (SceneType),a
@@ -10548,21 +11203,21 @@ _LABEL_4ED0_:
     call _LABEL_63F9_
     call SpriteHandler
     ld hl,$00AA
-    jp _LABEL_59BA_
+    ; I am absolutely certain that you will defeat LaShiec and return here.
+    jp DrawText20x6 ; and ret
 
-; Data from 4FCC to 4FD3 (8 bytes)
-_DATA_4FCC_:
-.db $00 $00 $3F $00 $00 $00 $00 $00
+_GovernorGeneralPalette:
+.db $00 $00 $3F $00 $00 $00 $00 $00 ; Blacks with one white
 
-; 56th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4FD4_:
+_room_37_MansionGuard1: ; $4FD4:
     ld hl,$00B4
-    jp _LABEL_59BA_
+    ; zzz... zzz...
+    jp DrawText20x6 ; and ret
 
-; 57th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4FDA_:
+_room_38_GuestHouseLady: ; $4FDA:
     ld hl,$00B6
-    call _LABEL_59BA_
+    ; Please rest before you go.
+    call DrawText20x6
     call FadeOutFullPalette
     call Close20x6TextBox
     ld a,$A0
@@ -10573,641 +11228,693 @@ _LABEL_4FDA_:
     ld (NewMusic),a
     call FadeInWholePalette
     ld hl,$00B8
-    jp _LABEL_59BA_
+    ; I AM PRAYING FOR YOUR SAFETY.<end>
+    jp DrawText20x6 ; and ret
 
-; 58th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_4FFF_:
+_room_39_BartevoVillager1: ; $4FFF:
     ld hl,$0102
-    jp _LABEL_59BA_
+    ; Bartevo is my territory. Don’t be screwin’ around!
+    jp DrawText20x6 ; and ret
 
-; 59th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5005_:
+_room_3a_BartevoVillager2: ; $5005:
     ld hl,$0106
-    jp _LABEL_59BA_
+    ; I heard that a high-performance robot got dumped inside one of these scrap piles. I wonder if it’s true?
+    jp DrawText20x6 ; and ret
 
 ; 60th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_500B_:
     ld hl,$00BA
-    call _LABEL_59BA_
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$00C2
-    jp _LABEL_59BA_
-
-+:  ld a,$24
-    call _LABEL_298A_
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
     jr nz,+
+    ; Have one
     push bc
-    call _LABEL_28DB_
+    call RemoveItemFromInventory
     pop bc
     ld hl,$00BC
-    jp _LABEL_59BA_
-
+    ; Thanks. This place used to be the lab of a scientist named ‘Luveno’. But he turned crazy, see, and got locked up in Toriada, the prison to the South of this village.
+    jp DrawText20x6 ; and ret
 +:  ld hl,$020E
-    jp _LABEL_59BA_
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
 
-; 61st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5034_:
+_room_3c_GothicWoods2:
     ld hl,$00BA
-    call _LABEL_59BA_
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$00C2
-    jp _LABEL_59BA_
-
-+:  ld a,$24
-    call _LABEL_298A_
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
     jr nz,+
-    call _LABEL_28DB_
+    ; Have one
+    call RemoveItemFromInventory
     ld hl,$00C4
-    jp _LABEL_59BA_
-
+    ; In the heart of the mountains, there's a tower that can be reached by one of the roads leading out of Gothic. Inside the tower, they say, there's a freaky monster that, if you just LOOK at it, will turn yuh tuh stone!
+    jp DrawText20x6 ; and ret
 +:  ld hl,$020E
-    jp _LABEL_59BA_
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
 
-; 62nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_505B_:
+_room_3d_DrLuveno: ; $505B:
     ld a,(LuvenoState)
     or a
-    jp z,_LABEL_49C5_
+    jp z,_ScriptEnd
     ld a,$34
     call _LABEL_63F9_
     call SpriteHandler
     ld a,(LuvenoState)
     cp $07
     jr c,+
+    ; Have the Luveno
     ld hl,$00D8
-    jp _LABEL_59BA_
-
+    ; How’s the ‘Luveno’ holding up? Please be careful with it.
+    jp DrawText20x6 ; and ret
 +:  cp $02
     jr nc,+
+    ; Didn't talk to assistant yet
     ld hl,$00CA
-    jp _LABEL_59BA_
-
+    ; Ahh, you’re late! Quickly! Do me a favor and bring my assistant back here. He’s probably hiding in that underground tunnel. It really irritates me shy a person he is.
+    jp DrawText20x6 ; and ret
 +:  cp $03
-    jr nc,++
-    ld hl,$04B0
+    jr nc
+    ; Have assistant but haven't paid
+    ld hl,1200
     ld (NumberToShowInText),hl
     ld hl,$028C
-    call _LABEL_59BA_
+    ; Okay, it looks like my staff is assembled. Manufacturing expenses come to 1200 meseta. Will you please give it to me?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$00DA
-    jp _LABEL_59BA_
-
-+:  ld de,$04B0
+    ; What a shame. So your journey ends here, I suppose...
+    jp DrawText20x6 ; and ret
++:  ld de,1200
     ld hl,(Meseta)
     or a
     sbc hl,de
-    jr nc,+
+    jr nc,+;
     ld hl,$00D0
-    jp _LABEL_59BA_
-
+    ; You don’t have enough? I’m sorry, but must get some more money.
+    jp DrawText20x6 ; and ret
 +:  ld (Meseta),hl
     ld a,$03
     ld (LuvenoState),a
     ld hl,$0290
-    jp _LABEL_59BA_
-
+    ; Thanks. Now then, let’s begin construction, shall we? Please wait for a little while.
+    jp DrawText20x6
 ++:  cp $05
     jr nc,+
+    ; Next two visits
     inc a
-    ld (LuvenoState),a
+    ld (LuvenoState),a ; increment to 4, 5
     ld hl,$0292
-    jp _LABEL_59BA_
-
+    ; IT CANNOT BE HURRIED! PLEASE SHOW A BIT MORE PATIENCE!
+    jp DrawText20x6 ; and ret
 +:  cp $06
     jr nc,+
+    ; Third visit
     inc a
-    ld (LuvenoState),a
+    ld (LuvenoState),a ; i.e. 6
     ld hl,$00D2
-    call _LABEL_59BA_
-    ld a,$32
-    call _LABEL_298A_
+    ; At last, the spaceship is finished!  I’m pleased to present to you, the ‘Luveno’!
+    call DrawText20x6
+    ld a,Item_Hapsby
+    call HaveItem
     jr z,++
+    ; No Hapsby
     ld hl,$00D6
-    call _LABEL_59BA_
-+:  ld a,$32
-    call _LABEL_298A_
+    ; But you won’t be able to pilot the spaceship yourself.
+    call DrawText20x6
++:  ld a,Item_Hapsby
+    call HaveItem
     jr z,++
+    ; No Hapsby
     ld hl,$0104
-    jp _LABEL_59BA_
-
-++:  ld a,$07
-    ld (LuvenoState),a
+    ; YOU MUST FIND A ROBOT NAMED HAPSBY. HE CAN FLY A SPACESHIP.
+    jp DrawText20x6 ; and ret
+++: ld a,7
+    ld (LuvenoState),a ; Final state
     ld hl,$0294
-    jp _LABEL_59BA_
+    ; Now then, you can use the Luveno to fly through space. Go outside the village and take a look. It’s a brilliant piece of work.
+    jp DrawText20x6 ; and ret
 
-; 63rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_50FC_:
+_room_3e_50FC:
     ld hl,LuvenoState
     ld a,(hl)
-    cp $02
-    jp c,_LABEL_49C5_
+    cp 2
+    jp c,_ScriptEnd
+    ; Nothing if Luveno is in progress or done
     ld a,$10
-    call _LABEL_63F9_
+    call $63f9
     call SpriteHandler
     ld hl,$00DC
-    jp _LABEL_59BA_
+    ; I’m busy right now, so please don’t interrupt.
+    jp DrawText20x6 ; and ret
 
-; 64th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5113_:
+_room_3f_LoreVillager1: ; $5113:
     ld hl,$0118
-    jp _LABEL_59BA_
+    ; Huh? You’re going to defeat LaShiec? Awesome!
+    jp DrawText20x6 ; and ret
 
-; 65th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5119_:
+_room_40_LoreVillager2: ; $5119:
     ld hl,$010E
-    jp _LABEL_59BA_
+    ; Do you know of a jewel called the ‘Carbuncle Eye’? Rumor has it that it’s being held by the Casba Dragon.
+    jp DrawText20x6 ; and ret
 
-; 66th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_511F_:
+_room_41_LoreVillager3: ; $511F:
     ld hl,$0112
-    jp _LABEL_59BA_
+    ; On the West end of this island, there is a village called Abion.
+    jp DrawText20x6 ; and ret
 
-; 67th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5125_:
+_room_42_LoreVillager4: ; $5125:
     ld hl,$0114
-    call _LABEL_59BA_
+    ; Do you know about the ‘Laerma Tree?'
+    call DrawText20x6
     call DoYesNoMenu
+    ; No
     ld hl,$0116
+    ; I hear the Altiplano Plateau on Dezoris is totally covered by them.
     jr nz,+
     ld hl,$013C
-+:  jp _LABEL_59BA_
+    ; Really? What a bore!
++:  jp DrawText20x6 ; and ret
 
-; 68th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5139_:
+_room_43_LoreVillager5: ; $5139:
     ld hl,$010C
-    jp _LABEL_59BA_
+    ; _room_43_5139
+    jp DrawText20x6 ; and ret
 
-; 69th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_513F_:
+_room_44_AbionVillager1: ; $513F:
     ld hl,$011C
-    jp _LABEL_59BA_
+    ; This village is called Abion.
+    jp DrawText20x6 ; and ret
 
-; 70th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5145_:
+_room_45_AbionVillager2: ; $5145:
     ld hl,$011E
-    jp _LABEL_59BA_
+    ; The evil hand of LaShiec has extended to this village as well! Please help us!
+    jp DrawText20x6 ; and ret
 
-; 71st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_514B_:
+_room_46_AbionVillager3: ; $514B:
     ld hl,$0120
-    jp _LABEL_59BA_
+    ; Some weird freak just moved to this village, and he was carrying a jar or something. It seems he’s been doing experiments on animals. I gotta bad feeling about that guy.
+    jp DrawText20x6 ; and ret
 
-; 72nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5151_:
+_room_47_AbionVillager4: ; $5151:
     ld hl,$0126
-    jp _LABEL_59BA_
+    ; I want to try and travel the stars.
+    jp DrawText20x6 ; and ret
 
-; 73rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5157_:
+_room_48_AbionVillager5: ; $5157:
     ld hl,$0128
-    jp _LABEL_59BA_
+    ; They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly! Weird, huh?
+    jp DrawText20x6 ; and ret
 
-; 74th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_515D_:
+_room_49_UzoVillager1: ; $515D:
     ld hl,$012E
-    jp _LABEL_59BA_
+    ; This is Uzo Village, on the planet Motavia.
+    jp DrawText20x6 ; and ret
 
-; 75th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5163_:
+_room_4a_UzoVillager2: ; $5163:
     ld hl,$0130
-    jp _LABEL_59BA_
+    ; You can pass over antlions if you have a ‘LandMaster.’
+    jp DrawText20x6 ; and ret
 
-; 76th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5169_:
+_room_4b_UzoVillager3: ; $5169:
     ld hl,$0132
-    jp _LABEL_59BA_
+    ; To the South of Uzo, there is a village called Casba.
+    jp DrawText20x6 ; and ret
 
-; 77th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_516F_:
+_room_4c_UzoVillager4: ; $516F:
     ld hl,$0134
-    jp _LABEL_59BA_
+    ; It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in its head!
+    jp DrawText20x6 ; and ret
 
-; 78th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5175_:
+_room_4d_UzoVillager5: ; $5175:
     ld hl,$013A
-    call _LABEL_59BA_
+    ; Do you know about the ‘Soothe Flute?’
+    call DrawText20x6
     call DoYesNoMenu
     ld hl,$013C
-    jr z,++
+    ; Really? What a bore!
+    jr z,+
     ld a,(SootheFluteIsUnhidden)
     or a
-    jr nz,+
-    ld a,$01
+    jr nz,++
+    ld a,1
     ld (SootheFluteIsUnhidden),a
-+:  ld hl,$013E
-++:  jp _LABEL_59BA_
+++: ld hl,$013e
+    ; Well, this is a secret, but when I went to Palma, I buried it on the outskirts of Gothic Village. Don’t tell anybody!
++:  jp DrawText20x6 ; and ret
 
-; 79th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5194_:
+_room_4e_UzoVillager6: ; $5194:
     ld hl,$0136
-    jp _LABEL_59BA_
+    ; Have you heard of the ‘Frad Cloak?' They say it’s light in weight, but has superb defensive power.
+    jp DrawText20x6 ; and ret
 
-; 80th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_519A_:
+_room_4f_CasbaVillager1: ; $519A:
     ld hl,$0166
-    jp _LABEL_59BA_
+    ; This is Casba Village.
+    jp DrawText20x6 ; and ret
 
-; 81st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51A0_:
+_room_50_CasbaVillager2: ; $51A0:
     ld hl,$0168
-    jp _LABEL_59BA_
+    ; There’s a dragon living in Casba Cave! I’m so scared!
+    jp DrawText20x6 ; and ret
 
-; 82nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51A6_:
+_room_51_AeroCastle1: ; $51A6:
     ld hl,$016A
-    jp _LABEL_59BA_
+    ; You can't always trust your eyes in dungeons.
+    jp DrawText20x6 ; and ret
 
-; 83rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51AC_:
+_room_52_CasbaVillager3: ; $51AC:
     ld hl,$016C
-    jp _LABEL_59BA_
+    ; The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, [a man named] Perseus used that shield to confront a monster.
+    jp DrawText20x6 ; and ret
 
-; 84th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51B2_:
+_room_53_CasbaVillager4: ; $51B2:
     ld hl,$0170
-    jp _LABEL_59BA_
+    ; One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!
+    jp DrawText20x6 ; and ret
 
-; 85th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51B8_:
+_room_54_CasbaVillager5: ; $51B8:
     ld hl,$0172
-    call _LABEL_59BA_
+    ; Do you know about the ‘FlowMover’?
+    call DrawText20x6
     call DoYesNoMenu
+    ; No
     ld hl,$017C
+    ; With a FlowMover, you can glide smoothly across the the top of the water. They can really come in handy!
     jr nz,+
-    ld a,$01
+    ; Yes
+    ld a,1
     ld (FlowMoverIsUnhidden),a
     ld hl,$0174
-+:  jp _LABEL_59BA_
+    ; Well, I bought one on Palma, in the town of Shion, but it turned out to be broken, so I ditched it in Bartevo. What a waste!
++:  jp DrawText20x6 ; and ret
 
-; 86th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51D1_:
+_room_55_Drasgo1 ; $51D1:
     ld hl,$017E
-    jp _LABEL_59BA_
+    ; This is Drasgo, a tiny town on the sea.
+    jp DrawText20x6 ; and ret
 
-; 87th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51D7_:
+_room_56_Drasgo2: ; $51D7:
     ld hl,$0180
-    jp _LABEL_59BA_
+    ; Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!
+    jp DrawText20x6 ; and ret
 
-; 88th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51DD_:
+_room_57_Drasgo3: ; $51DD:
     ld hl,$0184
-    jp _LABEL_59BA_
+    ; I hear that there's an enchanted sword in Abion Tower.
+    jp DrawText20x6 ; and ret
 
-; 89th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51E3_:
+_room_58_Drasgo4: ; $51E3:
     ld hl,$0186
-    jp _LABEL_59BA_
+    ; I once saw a huge floating rock in the sky!
+    jp DrawText20x6 ; and ret
 
-; 90th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51E9_:
+_room_59_ChokoOneesan: ; $51E9:
     ld hl,$0188
-    jp _LABEL_59BA_
+    ; It's me, Choko Oneesan! Be brave and strong as you continue your quest!
+    jp DrawText20x6 ; and ret
 
-; 91st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51EF_:
+_room_5a_DrasgoCave1; $51EF:
+_room_8f_DrasgoCave1; $51EF:
     ld hl,$018C
-    jp _LABEL_59BA_
+    ; I heard that a store in this city sells an apparatus called a ‘GasClear’, which protects the body against poison gas. The only thing is, I can’t find the damn store! Sheesh!
+    jp DrawText20x6 ; and ret
 
-; 92nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51F5_:
+_room_5b_DrasgoCave2: ; $51F5:
+_room_90_DrasgoCave2: ; $51F5:
     ld hl,$0190
-    jp _LABEL_59BA_
+    ; This is an item shop. What can I do for you? Haah haah! Sorry, I’m just kidding! Please forgive me.
+    jp DrawText20x6 ; and ret
 
-; 93rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_51FB_:
-    ld hl,$03E8
+_room_5c_DrasgoGasClearSeller: ; 51FB
+_room_91_DrasgoGasClearSeller:
+    ld hl,1000
     ld (NumberToShowInText),hl
     ld hl,$0194
-    call _LABEL_59BA_
+    ; You must be pretty shocked to see a store in a place like this, huh? ‘GasClears’ are 1000 mesetas. Pretty cheap, no? You wanna buy one?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$019C
-    jp _LABEL_59BA_
-
-+:  ld de,$03E8
+    ; Hey, what the hell?! I’m not selling you ANYTHING!
+    jp DrawText20x6 ; and ret
++:  ld de,1000
     ld hl,(Meseta)
     or a
     sbc hl,de
     jr nc,+
     ld hl,$019A
-    jp _LABEL_59BA_
-
+    ; Huh? You don’t have enough money? What the hell?! I’m not selling you ANYTHING!
+    jp DrawText20x6 ; and ret
 +:  ld (Meseta),hl
     ld hl,$0198
-    call _LABEL_59BA_
-    ld a,$3B
+    ; Thank you. Please come again.
+    call DrawText20x6
+    ld a,Item_GasClear
     ld (ItemTableIndex),a
-    call _LABEL_298A_
-    ret z
-    jp _LABEL_28FB_
+    call HaveItem
+    ret z ; You can only have one... even if you pay twice
+    jp AddItemToInventory
 
-; 94th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5238_:
+_room_5d_Skray1: ; $5238:
     ld hl,$01A2
-    jp _LABEL_59BA_
+    ; This is Skray, on the planet Dezoris. Pretty cold outside, wasn’t it?
+    jp DrawText20x6 ; and ret
 
-; 95th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_523E_:
+_room_5e_Skray2: ; $523E:
     ld hl,$01A4
-    jp _LABEL_59BA_
+    ; Nearly all of the Palman immigrants live in this town.
+    jp DrawText20x6 ; and ret
 
-; 96th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5244_:
+_room_5f_Skray3: ; $5244:
     ld hl,$01A6
-    jp _LABEL_59BA_
+    ; I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the the northern mountains.
+    jp DrawText20x6 ; and ret
 
-; 97th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_524A_:
+_room_60_Skray4: ; $524A:
     ld hl,$01AA
-    jp _LABEL_59BA_
+    ; What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.
+    jp DrawText20x6 ; and ret
 
-; 98th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5250_:
+_room_61_Skray5: ; $5250:
     ld hl,$01B2
-    jp _LABEL_59BA_
+    ; Weapons made from laconia conceal holy powers, y’know. I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.
+    jp DrawText20x6 ; and ret
 
-; 99th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5256_:
+_room_62_Skray6: ; $5256:
     ld hl,$01B8
-    jp _LABEL_59BA_
+    ; Planet Dezoris is made of ice.
+    jp DrawText20x6 ; and ret
 
-; 100th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_525C_:
+_room_63_Skray7: ; $525C:
     ld hl,$01BA
-    jp _LABEL_59BA_
+    ; There are places inside the ice mountains that can be easily broken.
+    jp DrawText20x6 ; and ret
 
-; 101st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5262_:
+_room_64_Skray8: ; $5262:
     ld hl,$01BC
-    jp _LABEL_59BA_
+    ; The area around the Altiplano Plateau is encircled by mountains of ice.
+    jp DrawText20x6 ; and ret
 
-; 102nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5268_:
+_room_65_Skray9: ; $5268:
     ld hl,$01BE
-    jp _LABEL_59BA_
+    ; This planet has a solar eclipse once every hundred years. There is a flame lit at this time called an ‘Eclipse Torch’. It is regarded by the Dezorians as sacred.
+    jp DrawText20x6 ; and ret
 
-; 103rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_526E_:
+_room_66_Skray10: ; $526E:
     ld hl,$01C4
-    jp _LABEL_59BA_
+    ; I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!
+    jp DrawText20x6 ; and ret
 
-; 104th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5274_:
+_room_67_HonestDezorian1: ;
     ld hl,$01C8
-    jp _LABEL_59BA_
+    ; Those guys in the village next to us are all a bunch of liars. Be careful, eh.
+    jp DrawText20x6 ; and ret
 
-; 105th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_527A_:
+_room_68_HonestDezorian2: ;
     ld hl,$01CA
-    jp _LABEL_59BA_
+    ; Corona Tower lies on the other side of the mountains to the North of this village, eh.
+    jp DrawText20x6 ; and ret
 
-; 106th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5280_:
+_room_69_HonestDezorian3: ; $5280:
     ld hl,$01CC
-    jp _LABEL_59BA_
+    ; To the West of Corona Tower is Dezoris Cave, eh. Please send my regards to our comrades there, eh.
+    jp DrawText20x6 ; and ret
 
-; 107th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5286_:
+_room_6a_HonestDezorian4: ; $5286:
     ld hl,$01D0
-    jp _LABEL_59BA_
+    ; Laerma trees make berries called ‘Laerma Berries’, eh. Those berries are real tasty, eh. We wanna use them for food, eh, but if we don’t put them into a ‘Laconian Pot’, they just get all shriveled up, eh.
+    jp DrawText20x6 ; and ret
 
-; 108th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_528C_:
+_room_6b_HonestDezorian5: ; $528C:
     ld hl,$01D6
-    call _LABEL_59BA_
+    ; Do you know about the ‘Aeroprism’?
+    call DrawText20x6
     call DoYesNoMenu
+    ; No
     ld hl,$01DA
+    ; I hear you can use it to look at other worlds, eh.
     jr z,+
+    ; Yes
     ld hl,$01D8
-+:  jp _LABEL_59BA_
+    ; I’d really like to see it at least once, eh.
++:  jp DrawText20x6 ; and ret
 
-; 109th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_52A0_:
+_room_6c_HonestDezorian6: ; $52A0:
     ld hl,$01DC
-    jp _LABEL_59BA_
+    ; All the people in this village hate those Palmans, eh.
+    jp DrawText20x6 ; and ret
 
-; 110th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_52A6_:
+_room_6d_DishonestDezorian1: ; $52A6:
     ld hl,$01DE
-    jp _LABEL_59BA_
+    ; There's a Life Spring/Fountain of Youth in Corona Tower, y’know.
+    jp DrawText20x6 ; and ret
 
-; 111th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_52AC_:
-    ld hl,$000A
+_room_6e_DishonestDezorian2: ; $52AC:
+    ld hl,10
     ld (NumberToShowInText),hl
     ld hl,$01E0
-    jp _LABEL_59BA_
+    ; There's a warp on the 10th underground floor of Dezoris cave, y’know.
+    jp DrawText20x6 ; and ret
 
-; 112th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_52B8_:
+_room_6f_DishonestDezorian3: ; $52B8:
     ld hl,$01E2
-    jp _LABEL_59BA_
+    ; Laerma Berries are colored blue. We use them as a dye, y’know.
+    jp DrawText20x6 ; and ret
 
-; 113th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_52BE_:
+_room_70_DishonestDezorian4: ; $52BE:
     ld hl,$01E4
-    jp _LABEL_59BA_
+    ; If you use a crystal in front of the Laerma Tree, berries will grow, y’know.
+    jp DrawText20x6 ; and ret
 
-; 114th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_52C4_:
+_room_71_DishonestDezorian5: ; $52C4:
     ld hl,$01E6
-    jp _LABEL_59BA_
+    ; This village welcomes Palmans.
+    jp DrawText20x6 ; and ret
 
-; 115th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_52CA_:
+_room_72_DishonestDezorian6: ; $52CA:
+    ; This seems to be a bug in the original - it uses a line from elsewhere.
     ld hl,$01E8
-    jp _LABEL_59BA_
+    ; This village is called Sopia. I’m glad that you were able to brave your way through the poison gas.
+    jp DrawText20x6 ; and ret
 
-; 116th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_52D0_:
+_room_73_SopiaVillageChief: ; $52D0:
     ld hl,$0190
     ld (NumberToShowInText),hl
     ld hl,$01EA
-    call _LABEL_59BA_
+    ; I am the chief of this village. Due to the gas, Sopia is cut off from other towns and villages, and is therefore very poor. Could you by any chance offer a contribution of 400 mesetas?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
     ld hl,$01F0
-    jp _LABEL_59BA_
-
-+:  ld de,$0190
+    ; I see. What a pity. Hmmm...
+    jp DrawText20x6 ; and ret
++:  ld de,400
     ld hl,(Meseta)
     or a
     sbc hl,de
     jr nc,+
     ld hl,$01F2
-    jp _LABEL_59BA_
-
+    ; You are poor as well, eh? What a sad world in which we live.
+    jp DrawText20x6 ; and ret
 +:  ld (Meseta),hl
     ld a,$01
     ld (PerseusShieldIsUnhidden),a
     ld hl,$01F4
-    jp _LABEL_59BA_
+    ; Thank you. According to local legend, the shield that Perseus used when he defeated Medusa is buried under a cactus on the island in the middle of the lake.
+    jp DrawText20x6 ; and ret
 
-; 117th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5306_:
+_room_74_GamerMikiChan: ; $5306:
     ld hl,$01FA
-    call _LABEL_59BA_
+    ; I'm Gamer Miki-chan! Do you own a Master System?
+    call DrawText20x6
     call DoYesNoMenu
+    ; Yes
     ld hl,$01FC
+    ; Wow! I guess we game the same! After all, the FM sound system is way cool, huh?
     jr z,+
     ld hl,$01FE
-+:  jp _LABEL_59BA_
+    ; Aawww! That’s no good! Hurry up and buy one! Hmph!
++:  jp DrawText20x6 ; and ret
 
-; 118th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_531A_:
+_room_75_Sopia1: ; $531A:
     ld hl,$0200
-    jp _LABEL_59BA_
+    ; Before LaShiec’s powerful grasp, this village was very wealthy.
+    jp DrawText20x6 ; and ret
 
-; 119th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5320_:
+_room_76_Sopia2: ; $5320:
     ld hl,$0202
-    jp _LABEL_59BA_
+    ; There’s a monk named Tajimu living in the mountains South of the lake.
+    jp DrawText20x6 ; and ret
 
-; 120th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5326_:
+_room_77_Sopia3: ; $5326:
     ld hl,$0204
-    call _LABEL_59BA_
+    ; I heard that Palma is a very beautiful planet. Is it really true?
+    call DrawText20x6
     call DoYesNoMenu
     ld hl,$0206
+    ; Ooh, I want to go there soo bad!
     jr z,+
     ld hl,$0208
-+:  jp _LABEL_59BA_
+    ; Oh, I see. I want to go to a place with cleaner air.
++:  jp DrawText20x6 ; and ret
 
-; 121st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_533A_:
+_room_78_Sopia4: ; 533A:
     ld hl,$00BA
-    call _LABEL_59BA_
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
     ld hl,$020C
-    jp _LABEL_59BA_
-
-+:  ld a,$24
-    call _LABEL_298A_
+    ; Cheapskate!
+    jp DrawText20x6
++:  ld a,Item_PelorieMate
+    call HaveItem
     jr nz,+
-    call _LABEL_28DB_
+    call $28db ; RemoveItemFromInventory
     ld hl,$020A
-    jp _LABEL_59BA_
-
+    ; Thanks. Please come again.
+    jp DrawText20x6 ; and ret
 +:  ld hl,$020E
-    jp _LABEL_59BA_
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
 
-; 122nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5361_:
+_room_79_AeroCastle2: ; $5361:
     ld hl,$0210
-    jp _LABEL_59BA_
+    ; ...........
+    jp DrawText20x6 ; and ret
 
-; 123rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5367_:
+_room_7a_AeroCastle3: ; $5367:
     ld hl,$026A
-    jp _LABEL_59BA_
+    ; Do not defy the great LaShiec.
+    jp DrawText20x6 ; and ret
 
-; 124th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_536D_:
-    ld hl,$0118
+_room_7b_ShortcakeShop: ; $536D:
+    ld hl,280
     ld (NumberToShowInText),hl
     ld hl,$024A
-    call _LABEL_59BA_
+    ; I’m sorry for having a store in a place like this. Shortcakes are 280 meseta. Would you like one?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
-    ld hl,_DATA_B163_
-    jp TextBox20x6
-
-+:  ld de,$0118
+    ; No
+    ld hl,$b163
+    ; Take care, come back and see us soon.<wait>
+    jp TextBox20x6 ; and ret
++:  ld de,280
     ld hl,(Meseta)
     or a
     sbc hl,de
     jr nc,+
-    ld hl,_DATA_B65C_
-    jp TextBox20x6
-
+    ld hl,$b65c
+    ; It looks like you don’t have enough money.<line>
+    ; Please come back later.<wait>
+    jp TextBox20x6 ; and ret
 +:  ld a,(InventoryCount)
     cp $18
     jr c,+
-    ld hl,_DATA_B18F_
-    jp TextBox20x6
-
+    ld hl,$b18f
+    ; You can’t carry any more. Come back when you can.<wait>
+    jp TextBox20x6 ; and ret
 +:  ld (Meseta),hl
     ld hl,$020A
-    call _LABEL_59BA_
-    ld a,$36
+    ; Thank you!<wait>
+    call DrawText20x6
+    ld a,Item_Shortcake
     ld (ItemTableIndex),a
-    call _LABEL_298A_
-    ret z
-    jp _LABEL_28FB_
+    call HaveItem
+    ret z ; You can't have two
+    jp AddItemToInventory ; and ret
 
-; 125th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_53B7_:
-    ld a,$08
+_room_7c_MahalCaveMotavianPeasant: ; $53B7:
+    ld a,Enemy_MotavianPeasant
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld a,(PartySize)
-    cp $03
+    cp 3
+    ; No Lutz yet
     ld hl,$00AC
+    ; Since the orders are from the Governor-General, Lutz will probably listen.
     jr nz,+
+    ; Have Lutz
     ld hl,$00B2
-+:  jp _LABEL_59BA_
+    ; Yahoo!
++:  jp DrawText20x6 ; and ret
 
-; 126th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_53CF_:
+_room_7d_Lutz: ; $53CF:
     ld a,(PartySize)
-    cp $03
-    jp nc,_LABEL_49C5_
+    cp 3
+    jp nc,_ScriptEnd
+    ; No Lutz yet
     ld a,$3B
     call _LABEL_63F9_
     call SpriteHandler
     ld hl,$00AE
-    call _LABEL_59BA_
-    ld a,$37
-    call _LABEL_298A_
+    ; Who are you? I'm in the middle of training right now. Please don’t interrupt.
+    call DrawText20x6
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
     ret nz
-    call _LABEL_28DB_
+    call RemoveItemFromInventory
     pop hl
     call Close20x6TextBox
     call MenuWaitForButton
-    ld a,$01
+    ld a,1
     ld (HaveLutz),a
     ld iy,CharacterStatsLutz
-    ld (iy+10),$01
-    ld (iy+11),$11
+    ld (iy+$0a),$01
+    ld (iy+$0b),$11
     call InitialiseCharacterStats
-    ld a,$03
+    ld a,3
     ld (PartySize),a
     jp _LABEL_46C8_
 
-; 127th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5411_:
+_room_7e_LuvenosAssistant: ; $5411:
     ld hl,LuvenoState
     ld a,(hl)
-    cp $02
-    jp nc,_LABEL_49C5_
+    cp 2
+    jp nc,_ScriptEnd ; Nothing if we haven't been to Luveno yet
     ld a,$10
     call _LABEL_63F9_
     call SpriteHandler
     ld hl,LuvenoState
     ld a,(hl)
-    cp $01
+    cp 1
     ld de,$00DC
+    ; I’m busy right now, so please don’t interrupt.
     jr nz,+
-    ld (hl),$02
+    ld (hl),2 ; Progress LuvenoState
     ld de,$00F6
+    ; Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice [but to help]. I’ll go there right away.
 +:  ex de,hl
-    jp _LABEL_59BA_
+    jp DrawText20x6 ; and ret
 
-; 128th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5436_:
+_room_7f_5436:
     ld hl,$00F8
-    jp _LABEL_59BA_
+    ; NO MAN THAT GOES INTO THE ROOM INTHE FAR CORNER HAS EVER COME OUT ALIVE! AHA-HA-HA!
+    jp DrawText20x6 ; and ret
 
-; 129th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_543C_:
+_room_80_Luveno_Prison: ; $543C:
     ld a,(LuvenoState)
     or a
-    jp nz,_LABEL_49C5_
+    jp nz,_ScriptEnd ; Nothing if he is not in prison any more
     ld a,$34
     call _LABEL_63F9_
     call SpriteHandler
@@ -11215,199 +11922,234 @@ _LABEL_543C_:
     ld a,(hl)
     or a
     jr nz,+
+    ; First visit
     inc (hl)
     ld hl,$00DE
-    jp _LABEL_59BA_
-
-+:  cp $01
+    ; I’m Luveno. You came here to rescue me? That’s not really necessary. You should go home.
+    jp DrawText20x6 ; and ret
++:  cp 1
     jr nz,+
+    ; Second visit
     inc (hl)
     ld hl,$00E0
-    jp _LABEL_59BA_
-
-+:  ld hl,$00E2
-    call _LABEL_59BA_
+    ; What? Did you say 'build a spaceship?' [BAKA MO YASUMIYASUMI IE.]  Do you think I want to be responsible for something like that?
+    jp DrawText20x6 ; and ret
++:  ; Third visit
+    ld hl,$00e2
+    ; Hmmm... Didn’t I tell you to-- Aah, I give up! You must promise to do whatever I ask. Agreed?
+    call DrawText20x6
     call DoYesNoMenu
     ld hl,$00D4
+    ; Well, if you won’t promise, then I’m afraid I can’t help you.
     jr nz,+
     ld hl,LuvenoState
-    ld (hl),$01
+    ld (hl),1 ; Freed
     ld hl,$00E4
-+:  jp _LABEL_59BA_
+    ; Good. Well then, I’m going to go to Gothic Village and make the proper arrangements. Meet me there later. Oh, don’t worry. I can make it there myself.
++:  jp DrawText20x6 ; and ret
 
-; 130th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_547D_:
-    ld a,$2E
+_room_81_TriadaPrisonGuard1: ; $547D:
+    ld a,Enemy_RobotPolice
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld hl,$00E6
-    call _LABEL_59BA_
+    ; Do you have a Roadpass?
+    call DrawText20x6
     call DoYesNoMenu
     jr nz,+
-    ld a,$33
-    call _LABEL_298A_
+    ; Yes
+    ld a,Item_RoadPass
+    call HaveItem
     jr nz,+
     ld hl,$0024
-    jp _LABEL_59BA_
-
+    ; Okay, you may pass.
+    jp DrawText20x6 ; and ret
 +:  ld hl,$00E8
-    call _LABEL_59BA_
+    ; You are very brave. Please allow me to kill you...
+    call DrawText20x6
     call Close20x6TextBox
     jp _LABEL_55E9_
 
-; 131st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_54A9_:
+_room_82_TriadaPrisoner1: ; $54A9:
     ld hl,$00BA
-    call _LABEL_59BA_
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
     ld hl,$00C2
-    jp _LABEL_59BA_
-
-+:  ld a,$24
-    call _LABEL_298A_
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
     jr nz,+
-    call _LABEL_28DB_
+    call $28db ; RemoveItemFromInventory
     ld hl,$00EA
-    jp _LABEL_59BA_
-
+    ; Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.
+    jp DrawText20x6 ; and ret
 +:  ld hl,$00CE
-    jp _LABEL_59BA_
+    ; Well? Let's see it.
+    jp DrawText20x6 ; and ret
 
-; 132nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_54D0_:
+_room_83_TriadaPrisoner2: ; $54D0:
     ld hl,$00EC
-    call _LABEL_59BA_
+    ; Do you know of a robot called ‘Hapsby’?
+    call DrawText20x6
     call DoYesNoMenu
+    ; Yes
     ld hl,$013C
+    ; Really? What a bore!
     jr z,+
     ld hl,$0124
-+:  jp _LABEL_59BA_
+    ; It’s a robot made out of laconia! But it seems to have been dumped into a scrap heap!
++:  jp DrawText20x6 ; and ret
 
-; 133rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_54E4_:
+_room_84_TriadaPrisoner3: ; $54E4:
     ld hl,$00EE
-    jp _LABEL_59BA_
+    ; I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.
+    jp DrawText20x6 ; and ret
 
-; 134th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_54EA_:
+_room_85_TriadaPrisoner4: ; $54EA:
     ld hl,$00F0
-    jp _LABEL_59BA_
+    ; The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’
+    jp DrawText20x6 ; and ret
 
-; 135th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_54F0_:
+_room_86_TriadaPrisoner5: ; $54F0:
     ld hl,$00F2
-    call _LABEL_59BA_
+    ; Whassup? I haven’t seen any people in a long time! Let’s talk!
+    call DrawText20x6
     call DoYesNoMenu
+    ; Yes
     ld hl,$014C
+    ; Y’know, I’ve got a friend in Bartevo. But those lava pools are making things real tough right now, I guess. If you see my friend, could you tell him I said ‘hi?’
     jr z,+
+    ; No
     ld hl,$013C
-+:  jp _LABEL_59BA_
+    ; Really? What a bore!
++:  jp DrawText20x6 ; and ret
 
-; 136th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5504_:
-    ld a,$16
+_room_87_TriadaPrisoner6: ; $5504:
+    ld a,Enemy_Tarantula
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld hl,$00F4
-    jp _LABEL_59BA_
+    ; There’s this chemical called ‘Polymeteral’ that they say will dissolve any material except laconia.
+    jp DrawText20x6 ; and ret
 
-; 137th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5512_:
+_room_88_MedusasTower1: ; $5512:
     ld hl,$00FC
-    jp _LABEL_59BA_
+    ; You’ve gotten far. Soon you will know the truth.
+    jp DrawText20x6 ; and ret
 
-; 138th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5518_:
+_room_89_MedusasTower2: ; $5518:
     ld hl,$00FE
-    jp _LABEL_59BA_
+    ; Get out of here while you're still breathing! You don’t know what you’re up against!
+    jp DrawText20x6 ; and ret
 
-; 139th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_551E_:
+_room_8a_MedusasTower3: ; $551E:
     ld hl,$0100
-    jp _LABEL_59BA_
+    ; Oh, what a brave young lady you are! Beware of traps.<wait>
+    jp DrawText20x6 ; and ret
 
-; 140th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5524_:
+_room_8b_BartevoCave: ; $5524:
     ld hl,$010A
-    jp _LABEL_59BA_
+    ; The drug store in Abion sells Polymeteral, I hear.
+    jp DrawText20x6 ; and ret
 
-; 141st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_552A_:
+_room_8c_AvionTower: ; $552A:
     ld hl,$021A
-    jp _LABEL_59BA_
+    ; Leaving? Better do it now.
+    jp DrawText20x6 ; and ret
 
-; 142nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5530_:
+_room_8d_5530:
     ld hl,$0148
-    call _LABEL_59BA_
+    ; I am the World’s Greatest Fortune Teller, Damoa! Do you believe in my amazing powers?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
-_LABEL_553B_:
-    ld hl,$0152
-    jp _LABEL_59BA_
-
-+:  ld hl,$014E
-    call _LABEL_59BA_
+    ; No
+-:  ld hl,$0152
+    ; What did you say? You are very disobedient. I think you should leave.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld hl,$014e
+    ; Good. Good.
+    call DrawText20x6
     ld hl,$0150
-    call _LABEL_59BA_
+    ; I sense that you are looking for something, yes?
+    call DrawText20x6
     call DoYesNoMenu
-    jr nz,_LABEL_553B_
+    jr nz,-
+    ; Yes
     ld hl,$014E
-    call _LABEL_59BA_
+    ; Good. Good.
+    call DrawText20x6
     ld hl,$0154
-    call _LABEL_59BA_
+    ; I see that you are looking for Alex Ossale, yes?
+    call DrawText20x6
     call DoYesNoMenu
-    jr nz,_LABEL_553B_
+    jr nz,-
+    ; Yes
     ld hl,$014E
-    call _LABEL_59BA_
+    ; Good. Good.
+    call DrawText20x6
     ld hl,$0156
-    call _LABEL_59BA_
+    ; Everything I say is correct. Understand?
+    call DrawText20x6
     call DoYesNoMenu
     jr nz,+
+    ; Yes
     ld hl,$0158
-    jp _LABEL_59BA_
-
-+:  ld hl,$015A
-    call _LABEL_59BA_
+    ; In that case, perhaps you should come back later.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,$015a
+    ; Do you oppose me?
+    call DrawText20x6
     call DoYesNoMenu
-    jr z,_LABEL_553B_
+    jr z,-
+    ; No
     ld hl,$015C
-    call _LABEL_59BA_
-    ld a,$3C
+    ; Is that so... You show considerable promise. I shall give you this crystal as a reward.
+    call DrawText20x6
+    ld a,Item_DamoasCrystal
     ld (ItemTableIndex),a
-    call _LABEL_298A_
-    ret z
-    jp _LABEL_28FB_
+    call HaveItem
+    ret z ; You can't have two
+    jp AddItemToInventory ; and ret
 
-; 143rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5597_:
+_room_8e_5597:
     ld hl,$0160
-    call _LABEL_59BA_
+    ; Did you come here seeking Baya Marlay tower?
+    call DrawText20x6
     call DoYesNoMenu
+    ; Yes
     ld hl,$0162
+    ; Then you will be destroyed!
     jr z,+
+    ; No
     ld hl,$0164
-+:  jp _LABEL_59BA_
+    ; Then you should turn back.
+    jp DrawText20x6 ; and ret
 
-; 147th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_55AB_:
-    ld a,$2E
+_room_92_55AB:
+    ld a,Enemy_RobotPolice
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld hl,$021C
-    call _LABEL_59BA_
+    ; Do you have a Roadpass?
+    call DrawText20x6
     call DoYesNoMenu
     jr nz,+
-    ld a,$33
-    call _LABEL_298A_
+    ld a,Item_RoadPass
+    call HaveItem
     jr nz,+
     ld hl,$021E
-    call _LABEL_59BA_
+    ; Let me see here... Hm? This is a fake! Don't think you can fool me just because I'm a robot! Let me show you to your cell.
+    call DrawText20x6
     call Close20x6TextBox
     pop hl
     ld hl,$159C
-    ld (_RAM_C30C_),hl
+    ld (DungeonPosition),hl
     ld a,$01
     ld (_RAM_C30A_),a
     ld hl,FunctionLookupIndex
@@ -11415,7 +12157,8 @@ _LABEL_55AB_:
     ret
 
 +:  ld hl,$00E8
-    call _LABEL_59BA_
+    ; You are very brave. Please allow me to kill you...
+    call DrawText20x6
     call Close20x6TextBox
 _LABEL_55E9_:
     call _LABEL_116B_
@@ -11425,132 +12168,147 @@ _LABEL_55E9_:
     pop hl
     ret
 
-; 148th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_55F5_:
+_room_93_55F5:
     ld hl,$0222
-    jp _LABEL_59BA_
+    ; I wonder if you could help me escape from this place, but it’s hopeless.
+    jp DrawText20x6 ; and ret
 
-; 149th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_55FB_:
+_room_94_55FB:
     ld hl,$0224
-    jp _LABEL_59BA_
+    ; Defeat LaShiec?! That’s nonsense!
+    jp DrawText20x6 ; and ret
 
-; 150th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5601_:
+_room_95_5601:
     ld hl,$0226
-    jp _LABEL_59BA_
+    ; We will all be sacrificed in the name of LaShiec! Agh!
+    jp DrawText20x6 ; and ret
 
-; 151st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5607_:
+_room_96_5607:
     ld hl,$022E
-    jp _LABEL_59BA_
+    ; All those who have gone up against LaShiec have had their souls taken by his magic.
+    jp DrawText20x6 ; and ret
 
-; 152nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_560D_:
+_room_97_560D:
     ld hl,$0232
-    jp _LABEL_59BA_
+    ; There is a tower on top of Baya Mahrey knoll. There must be secrets hidden inside.
+    jp DrawText20x6 ; and ret
 
-; 153rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5613_:
+_room_98_5613:
     ld hl,$0218
-    jp _LABEL_59BA_
+    ; You’d better not go any further, ‘cuz there’s a guard station up there.
+    jp DrawText20x6 ; and ret
 
-; 154th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5619_:
+_room_99_5619:
     ld hl,$0214
-    jp _LABEL_59BA_
+    ; Oh! So you’re locked up in here as well? How tragic. There IS a way to get outside, but I'D rather stay here where it's nice and cozy.
+    jp DrawText20x6 ; and ret
 
-; 155th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_561F_:
-    ld a,$2E
+_room_9a_561F:
+    ld a,Enemy_RobotPolice
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld hl,$009C
-    call _LABEL_59BA_
+    ; Did you bring a present for the Governor-General?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$00A2
-    call _LABEL_59BA_
+    ; Leave at once!
+    call DrawText20x6
     jr ++
-
-+:  ld a,$36
-    call _LABEL_298A_
++:  ld a,Item_Shortcake
+    call HaveItem
     jr nz,+
     push bc
-    call _LABEL_28DB_
+    call RemoveItemFromInventory
     pop bc
     ld a,$FF
     ld (HaveGivenShortcake),a
     ld hl,$009E
-    jp _LABEL_59BA_
-
+    ; Well then, I’ll look after this ‘Shortcake’.
+    jp DrawText20x6 ; and ret
 +:  ld hl,$00A0
-    call _LABEL_59BA_
+    ; That is NOT a suitable gift.
+    call DrawText20x6
 ++:  pop hl
     call Close20x6TextBox
     call _LABEL_1738_
     jp _LABEL_6B2F_
 
-; 156th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5661_:
+_room_9b_TorchBearer: ; $5661:
     ld hl,$023E
-    call _LABEL_59BA_
+    ; This flame is lit during each centennial solar eclipse. If you give me a dragon’s jewel, however, I’ll share the flame with you. Do we have an agreement?
+    call DrawText20x6
     call DoYesNoMenu
     jr z,+
+    ; No
     ld hl,$0246
-    jp _LABEL_59BA_
-
-+:  ld a,$3A
-    call _LABEL_298A_
+    ; You don’t want it?! Then, ah, for what did you come here?
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld a,Item_CarbuncleEye
+    call HaveItem
     jr nz,+
-    call _LABEL_28DB_
-    ld a,$2F
+    call RemoveItemFromInventory
+    ld a,Item_EclipseTorch
     ld (ItemTableIndex),a
-    call _LABEL_28FB_
+    call AddItemToInventory
+    ; No need to check for space as we just removed the Carbuncle Eye
     ld hl,$0244
-    jp _LABEL_59BA_
-
+    ; Well then, please accept this ‘Eclipse Torch’.
+    jp DrawText20x6 ; and ret
 +:  ld hl,$0248
-    jp _LABEL_59BA_
+    ; You mean to say you don’t have the jewel?! Don’t toy with me!
+    jp DrawText20x6 ; and ret
 
-; 157th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5690_:
-    ld a,$31
+_room_9c_Tajim: ; $5690:
+    ld a,Enemy_Tajim
     ld (EnemyNumber),a
-    call _LABEL_627A_
-    ld a,(CharacterStatsLutz.Armour)
+    call LoadEnemy
+    ld a,($c43b)
     ld b,a
-    ld a,$18
+    ld a,Item_Armour_FradMantle ; ???
     cp b
     jr z,+
-    call _LABEL_298A_
+    call HaveItem
     jr nz,++
 +:  ld hl,$0258
-    jp _LABEL_59BA_
-
-++:  ld a,(PartySize)
-    cp $03
+    ; There is nothing more I can teach you.
+    jp DrawText20x6 ; and ret
+++: ; Check if Lutz has joined the party
+    ld a,(PartySize)
+    cp 3
     jr nc,++
+    ; No Lutz
     ld hl,$025A
-    call _LABEL_59BA_
+    ; Who, may I ask, are you? I have a student, Lutz, in the Cave of Magic. Do you know him?
+    call DrawText20x6
     call DoYesNoMenu
+    ; Yes
     ld hl,$025E
+    ; There is something I must tell Lutz. Would you please escort him to me?
     jr z,+
+    ; No
     ld hl,$0260
-+:  jp _LABEL_59BA_
-
+    ; I see. In that case, I guess it’s pointless for us to talk.
++:  jp DrawText20x6 ; and ret
 ++:  ld hl,$024C
-    call _LABEL_59BA_
+    ; Ah. My student, Lutz! I see you are finally on your way to defeating LaShiec.
+    call DrawText20x6
+    ; Check if Lutz is dead
     ld a,(CharacterStatsLutz)
     or a
     jr nz,+
     ld hl,$02A8
-    jp _LABEL_59BA_
-
+    ; ...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.
+    jp DrawText20x6 ; and ret
 +:  ld hl,$024E
-    call _LABEL_59BA_
+    ; That being the case, I'll give you your final test: a duel with me!
+    call DrawText20x6
     call Close20x6TextBox
-    ld a,(CharacterStatsLutz.HP)
+    ; Preserve Lutz' HP but everyone else's IsAlive, to make a Lutz-only fight
+    ld a,(CharacterStatsLutz+1) ; HP
     push af
     ld a,(CharacterStatsAlis)
     push af
@@ -11570,36 +12328,41 @@ _LABEL_5690_:
     pop af
     ld (CharacterStatsAlis),a
     pop af
-    ld b,a
-    ld a,(CharacterStatsLutz.HP)
+    ld b,a ; Lutz' HP before
+    ld a,(CharacterStatsLutz+1) ; Lutz' HP now
     or a
     jr nz,+
+    ; Lutz' HP s 0
+    ; Restore it (and bring him back to life)
     ld a,b
     ld (CharacterStatsLutz.HP),a
-    ld a,$01
-    ld (CharacterStatsLutz),a
+    ld a,1
+    ld (CharacterStatsLutz.IsAlive),a
     ld hl,$0256
-    jp _LABEL_59BA_
-
-+:  ld hl,$0250
-    call _LABEL_59BA_
-    ld a,$18
+    ; You still haven’t trained enough. You should come back later.
+    jp DrawText20x6 ; and ret
++:  ; Lutz won
+    ld hl,$0250
+    ; You’ve become strong, my boy! You have all the power you’ll ever need. Please use this Frad Cloak. It is my gift to you. It will protect your body from harm. Well then, you’d best be on your way.
+    call DrawText20x6
+    ld a,Item_Armour_FradMantle
     ld (ItemTableIndex),a
-    jp _LABEL_28FB_
+    jp AddItemToInventory
 
-; 158th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5730_:
-    ld a,$3E
+_room_9d_5730:
+    ld a,Enemy_FakeLaShiec
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld hl,$0262
-    call _LABEL_59BA_
+    ; Make your move, fools. I can see right through you.
+    call DrawText20x6
     call Close20x6TextBox
     call _LABEL_574F_
     ld a,$FF
     ld (HaveBeatenShadow),a
     ld hl,$0266
-    jp _LABEL_59BA_
+    ; I am King LaShiec’s shadow warrior. You have gained nothing by defeating me! Hee hee hee!
+    jp DrawText20x6 ; and ret
 
 _LABEL_574F_:
     call _LABEL_116B_
@@ -11610,144 +12373,162 @@ _LABEL_574F_:
     pop hl
     ret
 
-; 159th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_575B_:
+_room_9e_LaShiec: ; $575B:
     ld a,(HaveBeatenLaShiec)
     or a
-    jp nz,_LABEL_49C5_
-    ld a,$48
+    jp nz,_ScriptEnd
+    ld a,Enemy_LaShiec
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld hl,$026C
-    call _LABEL_59BA_
+    ; And so you finally arrive. How fortunate you are. Do you really wish to defeat me?
+    call DrawText20x6
     call DoYesNoMenu
+    ; Yes
     ld hl,$026E
+    ; I see. Then perhaps I should show you the error in your judgment!
     jr z,+
     ld hl,$0270
-+:  call _LABEL_59BA_
+    ; You have already wasted too much of my time. I shall make you regret it!
++:  call DrawText20x6
     call Close20x6TextBox
     call _LABEL_574F_
-    ld a,$01
+    ld a,1
     ld (HaveBeatenLaShiec),a
     ld hl,$02AA
-    jp _LABEL_59BA_
+    ; What?! Could it be that I die? What a disgrace. I shall live again!
+    ; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
+    jp DrawText20x6 ; and ret
 
-; 160th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_578F_:
+_room_9f_578F:
     ld hl,_DATA_B132_
-    jp TextBox20x6
+    jp TextBox20x6 ; and ret
 
-; 161st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5795_:
+_room_a0_5795:
+_room_a1_5795:
+_room_ae_5795:
+_room_af_5795:
+_room_b5_5795:
     call MenuWaitForButton
-; 163rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5798_:
+_room_a2_5798:
     call _LABEL_1D3D_
     pop hl
     ret
 
-_LABEL_579D_:
-    ld hl,_DATA_AF1E_
+_NothingInterestingHere:
+    ld hl,$af1e
+    ; There doesn’t seem to be anything particularly unusual here.
     call TextBox20x6
-    jp Close20x6TextBox
+    jp Close20x6TextBox ; and ret
 
-_LABEL_57A6_:
-    ld a,$32
+
+GetHapsby:
+    ld a,Item_Hapsby
     ld (ItemTableIndex),a
-    call _LABEL_298A_
-    jr z,_LABEL_579D_
+    call HaveItem
+    jr z,fn579d_NothingInterestingHere
     call Close20x6TextBox
     ld hl,_RAM_C801_
     inc (hl)
     call SpriteHandler
     call MenuWaitForButton
     ld hl,$012C
-    call _LABEL_59BA_
-    jp _LABEL_28FB_
+    ; I am Hapsby. Thanks for getting me out of that scrap heap. Let me pilot the ‘Luveno’ for you, okay?
+    call DrawText20x6
+    jp AddItemToInventory ; and ret
 
-_LABEL_57C6_:
+CheckFlowMover:
+    ; Is it unhidden?
     ld a,(FlowMoverIsUnhidden)
     or a
-    jr z,_LABEL_579D_
-    ld a,$32
+    jr z,fn579d_NothingInterestingHere
+    ; Do we have Hapsby?
+    ld a,Item_Hapsby
     ld (ItemTableIndex),a
-    call _LABEL_298A_
-    jr nz,_LABEL_579D_
-    ld a,$22
+    call HaveItem
+    jr nz,_NothingInterstingHere
+    ; Do we have it already?
+    ld a,Item_Vehicle_FlowMover
     ld (ItemTableIndex),a
-    call _LABEL_298A_
-    jr z,_LABEL_579D_
+    call HaveItem
+    jr z,_NothingInterstingHere
     ld hl,$0178
-    call _LABEL_59BA_
+    ; You found the ‘FlowMover’! Hapsby fixed the areas that were damaged, so you can use it now!
+    call DrawText20x6
     call Close20x6TextBox
-    jp _LABEL_28FB_
+    jp AddItemToInventory ; and ret
 
-_LABEL_57EC_:
+FindTairon:
     ld hl,$00FA
-    call _LABEL_59BA_
-    jp Close20x6TextBox
+    ; It seems that something turned this person into stone! Maybe he can be returned to normal...
+    call DrawText20x6
+    jp Close20x6TextBox ; and ret
 
-; 164th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_57F5_:
-    ld a,$2B
+_room_a3_CoronoTowerDezorian1: ; 57F5:
+    ld a,Enemy_DezorianHead
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld hl,$0234
-    jp _LABEL_59BA_
+    ; What is your business here? Don’t cause any trouble!
+    jp DrawText20x6 ; and ret
 
-; 165th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5803_:
+_room_a4_GuaranMorgue: ; $5803:
     ld hl,$0234
-    jp _LABEL_59BA_
+    ; What is your business here? Don’t cause any trouble!
+    jp DrawText20x6 ; and ret
 
-; 166th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5809_:
-    ld a,$1B
+_room_a5_CoronaDungeonDihonstDezorian: ; $5809:
+    ld a,Enemy_Dezorian
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     xor a
     ld (_RAM_CBC3_),a
     ld hl,$0238
-    jp _LABEL_59BA_
+    ; Be careful up ahead. You should turn left at the fork in the path.<wait>
+    jp DrawText20x6 ; and ret
 
-; 167th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_581B_:
-    ld a,$26
+_room_a6_581B:
+    ld a,Enemy_Serpent
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     pop hl
+    ; Make it drop no money
     ld hl,$0000
     ld (EnemyMoney),hl
     jp _LABEL_116B_
 
-; 168th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_582D_:
+_room_a7_BayaMarlayPrisoner: ; $582D:
     ld hl,$0228
-    call _LABEL_59BA_
+    ; Have you gotten the armor from Guaran?
+    call DrawText20x6
     call DoYesNoMenu
+    ; Yes
     ld hl,$022C
+    ; Damn! You’re pretty cool!
     jr z,+
     ld hl,$022A
-+:  jp _LABEL_59BA_
+    ; It’s on the other side of a pitfall!
++:  jp DrawText20x6 ; and ret
 
-; 169th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5841_:
-    ld a,$08
+_room_a8_BuggyUnused: ; $5841:
+    ; Presumably unused...
+    ld a,Enemy_MotavianPeasant
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     ld hl,$0212
-    jp _LABEL_59BA_
+    ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
+    jp DrawText20x6 ; and ret
 
-; 170th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_584F_:
+_room_a9_LuvenoGuard: ; $584F:
     ld a,(LuvenoState)
     cp $07
     jr nc,+
     ld hl,$0282
-    jp _LABEL_59BA_
-
+    ; Hey! Keep outta my turf!<wait>
+    jp DrawText20x6 ; and ret
 +:  ld hl,$0284
-    call _LABEL_59BA_
+    ; I guess I’ve got to do what Dr. Luveno says. Go on through.<wait>
+    call DrawText20x6
     ld a,(HLocation)
     cp $40
     ld hl,_DATA_5873_
@@ -11764,8 +12545,7 @@ _DATA_5873_:
 _DATA_5876_:
 .db $07 $1B $1D
 
-; 171st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5879_:
+_room_aa_DarkForce: ; $5879:
     ld a,$93
     ld (NewMusic),a
     call Pause256Frames
@@ -11773,31 +12553,33 @@ _LABEL_5879_:
     ld (SceneType),a
     call LoadSceneData
     ld hl,Frame2Paging
-    ld (hl),$13
-    ld hl,_DATA_4C000_
-    ld de,TargetPalette+16
+    ld (hl),:DarkForceSpritePalette
+    ld hl,DarkForceSpritePalette
+    ld de,TargetPalette+16 ; sprite palette
     ld bc,$0010
     ldir
     ld a,$0C
     call ExecuteFunctionIndexAInNextVBlank
     call FadeInWholePalette
-    ld a,$49
+    ld a,Enemy_DarkForce
     ld (EnemyNumber),a
-    call _LABEL_627A_
+    call LoadEnemy
     call MenuWaitHalfSecond
     ld a,$20
     ld (SceneType),a
     call _LABEL_574F_
     call Close20x6TextBox
+    ; Did we win?
     ld a,(CharacterStatsAlis)
     or a
-    jr nz,_LABEL_58C6_
+    jr nz,+
+    ; No
     ld hl,_DATA_B85A_
     call TextBox20x6
     call Close20x6TextBox
-; 172nd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_58C6_:
-    call FadeOutFullPalette
+
+_room_ab_58C6:
++:  call FadeOutFullPalette
     ld a,$1D
     ld (SceneType),a
     call LoadSceneData
@@ -11808,60 +12590,69 @@ _LABEL_58C6_:
     call _LABEL_63F9_
     call SpriteHandler
     ld hl,$0272
-    call _LABEL_59BA_
+    ; Oh! My friends, please forgive me. My mind and body seem to have been enchanted by some sort of evil force.
+    ; Well done! You have saved the world! If you had taken any longer, terrible events might have come to pass. I extend you my utmost appreciation.
+    ; And now, Alisa, I have something I wish to tell you:
+    ; The truth is, your father was once the King of Algol.
+    ; Now that the demon’s fortress has been destroyed, and LaShiec is no more, will be your father’s successor and become the Queen of Algol?
+    call DrawText20x6
     call DoYesNoMenu
+    ; Yes
     ld hl,$0212
+    ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
     jr z,+
+    ; No
     ld hl,$0230
-+:  call _LABEL_59BA_
+    ; I see. [You must do as you wish]. You are welcome to return at anytime.
++:  call DrawText20x6
     call Close20x6TextBox
     pop hl
     jp _LABEL_47B5_
 
-; 173rd entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_58FC_:
+_room_ac_58FC:
     ld hl,$02A4
-    jp _LABEL_59BA_
+    ; This is Alisa’s house. Nobody is here.
+    jp DrawText20x6 ; and ret
 
-; 174th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5902_:
+_room_ad_5902:
     ld a,(_RAM_C2F0_)
     ld d,a
-    ld e,$00
+    ld e,0 ; Character number
 -:  ld a,e
     ld (TextCharacterNumber),a
     rr d
     push de
-    ld hl,_DATA_B07B_
-    call c,TextBox20x6
+      ld hl,TextPlayerDied
+      ; <player> died.
+      call c,TextBox20x6
     pop de
     inc e
     ld a,e
     cp $04
     jr nz,-
-    ld b,$04
--:  ld a,b
+    ld b,4
+--: ld a,b
     dec a
-    call _LABEL_19D9_
+    call PointHLToCharacterInA
     jr nz,+
-    djnz -
+    djnz --
     jp _LABEL_175E_
 
-+:  jp Close20x6TextBox
++:  jp Close20x6TextBox ; and ret
 
-; 177th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_592D_:
+_room_b0_592D:
     ld hl,$023A
-    jp _LABEL_59BA_
+    ; Don’t let this get out, but there's a fortune-teller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.
+    jp DrawText20x6 ; and ret
 
-; 178th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5933_:
+_room_b1_OtegamiChieChan: ; $5933:
     ld hl,$027A
-    jp _LABEL_59BA_
+    ; I am 'Otegami Chie-chan!’ Thanks for all your letters. Please tell us how you feel about this game. We’ll be waiting.
+    jp DrawText20x6 ; and ret
 
-; 179th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5939_:
-    ld hl,_DATA_B6C6_
+_room_b2_FlightToMotavia: ; $5939:
+    ld hl,TextBoundForMotavia
+    ; BOUND FOR MOTAVIA. GETTING ON?
     call TextBox20x6
     call DoYesNoMenu
     ret nz
@@ -11869,9 +12660,9 @@ _LABEL_5939_:
     ld (_RAM_C2E9_),a
     ret
 
-; 180th entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5949_:
-    ld hl,_DATA_B6D7_
+_room_b3_FlightToPalma: ; $5949:
+    ld hl,TextBoundForPalma
+    ; BOUND FOR PALMA. GETTING ON?
     call TextBox20x6
     call DoYesNoMenu
     ret nz
@@ -11879,16 +12670,18 @@ _LABEL_5949_:
     ld (_RAM_C2E9_),a
     ret
 
-; 181st entry of Jump Table from 49D3 (indexed by RoomIndex)
-_LABEL_5959_:
-    ld hl,_DATA_B0A8_
+_room_b4_HapsbyTravel: ; $5959:
+-:  ld hl,TextWhereWouldYouLikeToGo
+    ; Where would you like to go?
     call TextBox20x6
+    ; Select a planet
     push bc
     call _LABEL_3B4B_
     bit 4,c
     pop bc
     ret nz
     ld d,a
+    ; Are we already there?
     ld a,(_RAM_C309_)
     rrca
     rrca
@@ -11896,136 +12689,159 @@ _LABEL_5959_:
     and $03
     ld e,a
     cp d
-    jr nz,++
+    jr nz,+
+    ; Print the error
     or a
-    ld hl,_DATA_B11E_
-    jr z,+
+    ld hl,TextThisIsGothic
+    ; This IS Gothic.
+    jr z,++
     dec a
-    ld hl,_DATA_B112_
-    jr z,+
-    ld hl,_DATA_B106_
-+:  call TextBox20x6
-    jr _LABEL_5959_
+    ld hl,TextThisIsUzo
+    ; This IS Uzo.
+    jr z,++
+    ld hl,TextThisIsSkray
+    ; This IS Skray.
+++: call TextBox20x6
+    jr -
 
-++:  ld a,d
++:  ld a,d
     or a
-    ld hl,_DATA_B0EB_
+    ld hl,TextDestinationGothic
+    ; Destination: Gothic, on Palma. Confirm?
     jr z,+
     dec a
-    ld hl,_DATA_B0CF_
+    ld hl,TextDestinationUzo
+    ; Destination: Uzo, on Motabia. Confirm?
     jr z,+
-    ld hl,_DATA_B0B3_
+    ld hl,TextDestinationSkray
+    ; Destination: Skray, on Dezoris. Confirm?
 +:  push de
     call TextBox20x6
     call DoYesNoMenu
     pop de
-    jr nz,_LABEL_5959_
+    jr nz,-
+    ; Current * 3 + next
     ld a,e
     add a,a
     add a,e
     add a,d
     ld d,$00
     ld e,a
-    ld hl,_DATA_59B2_
+    ld hl,_table
     add hl,de
     ld a,(hl)
     ld (_RAM_C2E9_),a
     ret
-
-; Data from 59B2 to 59B9 (8 bytes)
-_DATA_59B2_:
-.db $81 $83 $84 $85 $82 $86 $87 $88
-
-_LABEL_59BA_:
-    ld a,$02
+_table:
+.db $81 $83 $84
+.db $85 $82 $86
+.db $87 $88
+.ends
+; followed by
+.orga $59ba
+.section "Draw text 20x6" overwrite
+; de = 1-based table offset * 2
+DrawText20x6:          ; $59ba
+    ld a,:ScriptLookup ; Page in script
     ld (Frame2Paging),a
-    ld de,$80B0
+    ld de,ScriptLookup-2
     add hl,de
     ld a,(hl)
     inc hl
     ld h,(hl)
-    ld l,a
-    jp TextBox20x6
-
-_LABEL_59CA_:
-    ld hl,_DATA_59D3_
+    ld l,a             ; look up text
+    jp TextBox20x6     ; Draw text and ret
+.ends
+; followed by
+.orga $59ca
+.section "Say something and close 20x8 box" overwrite
+_badScriptIndex:                ; $59ca
+    ld hl,_text        ; see below
     call TextBox20x6
     jp Close20x6TextBox
-
-; Data from 59D3 to 59E5 (19 bytes)
-_DATA_59D3_:
-.db $1F $3D $00 $49 $2B $35 $27 $21 $33 $00 $40 $07 $13 $02 $1F $0E
-.db $2E $4C $58
-
-SpriteHandler:
+_text:
+.db $1f $3d $00 $49 $2b $35 $27 $21 $33 $00 $40 $07 $13 $02 $1f $0e $2e $4c $58
+; マダ プロ グラムガ デキテイマセン.
+; MaDa PuRoGuRaMuGa DeKiTeIMaSeN.[Exit after button press]
+; The program is not made yet.
+; or
+; This feature hasn't been coded yet.
+.ends
+; followed by
+.orga $59e6
+.section "Sort sprite entity table and update sprite table" overwrite
+SpriteHandler:         ; $59e6
     ld hl,_RAM_C289_
     ld (_RAM_C287_),hl
-    ld de,$C28B
-    ld bc,$000E
+    ld de,_RAM_c289_+2
+    ld bc,$e
     ld (hl),$00
     inc hl
     ld (hl),$FF
     dec hl
-    ldir
+    ldir               ; Fill _RAM_c289_ with $00, $ff
+
     ld hl,SpriteTable
-    ld (NextSpriteY),hl
+    ld (NextSpriteY),hl ; Set NextSpriteY to first entry
     ld hl,SpriteTable.XNs
-    ld (NextSpriteX),hl
+    ld (NextSpriteX),hl ; Set NextSpriteX to first entry
     ld iy,CharacterSpriteAttributes
-    ld bc,$0800
--:  ld a,(iy+0)
-    and $7F
-    jr z,+
-    push bc
+    ld bc,$0800        ; b = 8, c = 0
+  -:ld a,(iy+$00)      ; CharacterSpriteAttributes+00 = ???
+    and $7f            ; strip high bit
+    jr z,+             ; if rest is 0 then skip -------------------------+
+    push bc            ;                                                 |
     ld hl,_DATA_5AA3_ - 2
-    call FunctionLookup
-    pop bc
-    or a
-    jp z,+
+        call FunctionLookup ;                                            |
+    pop bc             ;                                                 |
+    or a               ; if result == 0 then skip again -----------------+
+    jp z,+             ;                                                 |
     ld hl,(_RAM_C287_)
-    ld a,(iy+2)
-    ld (hl),a
-    inc hl
-    ld (hl),c
-    inc hl
+    ld a,(iy+2)        ; CharacterSpriteAttributes+2 = ???               |
+    ld (hl),a          ; Copy to hl                                      |
+    inc hl             ;                                                 |
+    ld (hl),c          ; 0?                                              |
+    inc hl             ;                                                 |
     ld (_RAM_C287_),hl
-+:  ld de,$0020
-    add iy,de
-    inc c
-    djnz -
-    ld de,_RAM_C289_
-    ld b,$03
---:  push bc
-    ld l,e
-    ld h,d
-    inc hl
-    inc hl
--:  ld a,(de)
-    cp (hl)
-    jr nc,+
-    ld c,a
-    ld a,(hl)
-    ld (hl),c
-    ld (de),a
-    inc hl
-    inc de
-    ld a,(de)
-    ld c,a
-    ld a,(hl)
-    ld (hl),c
-    ld (de),a
-    dec hl
-    dec de
-+:  inc hl
-    inc hl
-    djnz -
-    inc de
-    inc de
-    pop bc
-    djnz --
+  +:ld de,32           ;                                 <---------------+
+    add iy,de          ; Move iy to next CharacterSpriteAttributes
+    inc c              ; and inc c
+    djnz -             ; repeat 8 times???
+    
+    ld de,_RAM_c289_        ; Sort _RAM_c289_ into increasing numerical order by 1st byte in each entry (?)
+    ld b,3             ; counter
+ --:push bc            ; <-----------------------------+
+        ld l,e         ; hl = de                       |
+        ld h,d         ;                               |
+        inc hl         ; hl = de+2                     |
+        inc hl         ;                               |
+      -:ld a,(de)      ; <---------------------------+ |
+        cp (hl)        ;                             | |
+        jr nc,+        ; if lowbyte(de)<lowbyte(hl): | |
+        ld c,a         ;                             | |
+        ld a,(hl)      ;                             | |
+        ld (hl),c      ; Swap words (de) and (hl)    | |
+        ld (de),a      ;                             | |
+        inc hl         ;                             | |
+        inc de         ;                             | |
+        ld a,(de)      ;                             | |
+        ld c,a         ;                             | |
+        ld a,(hl)      ;                             | |
+        ld (hl),c      ;                             | |
+        ld (de),a      ;                             | |
+        dec hl         ;                             | |
+        dec de         ;                             | |
+      +:inc hl         ; move hl forward 1 word      | |
+        inc hl         ;                             | |
+        djnz -         ; repeat 3 times -------------+ |
+        inc de         ; then move de forward 1 word   |
+        inc de         ;                               |
+    pop bc             ;                               |
+    djnz --            ; and repeat 3 times -----------+
+
     ld hl,SceneType
-    ld b,$08
--:  ld a,(hl)
+    ld b,8             ; counter (number of entries in _RAM_c289_)
+  -:ld a,(hl)          ; If (hl)==$ff then skip:
     cp $FF
     jr z,++
     push bc
@@ -12040,25 +12856,28 @@ SpriteHandler:
     ld de,CharacterSpriteAttributes
     add hl,de
     push hl
-    pop iy
-    cp $04
-    ld a,$03
-    ld bc,$96F4
-    jr c,+
-    ld a,$15
-    ld bc,$8000
-+:  ld (Frame2Paging),a
-    call _LABEL_5ACF_
+        pop iy         ; iy = CharacterSpriteAttributes + value*32
+        cp 4           ; Compare value to 4
+        ld a,:CharacterSpriteData
+        ld bc,CharacterSpriteData
+        jr c,+         ; if value>=4:
+        ld a,:EnemySpriteDataTable
+        ld bc,EnemySpriteDataTable
+      +:ld (Frame2Paging),a ; Set page
+        call UpdateSprites
     pop hl
     pop bc
-++:  inc hl
+ ++:inc hl             ; Move to next entry in _RAM_c289_
     inc hl
-    djnz -
+    djnz -             ; and repeat
     ld hl,(NextSpriteY)
-    ld (hl),$D0
+    ld (hl),208        ; Set last sprite y to 208 = no more sprites
     ret
-
-_LABEL_5A94_:
+.ends
+; followed by
+.orga $5a94
+.section "Zero iy structure +1 to +31" overwrite
+ZeroIYStruct:
     push iy
     pop hl
     inc hl
@@ -12067,221 +12886,118 @@ _LABEL_5A94_:
     inc de
     xor a
     ld (hl),a
-    ld bc,$001E
-    ldir
+    ld bc,$1e
+    ldir               ; Zero (iy+1) to (iy+31)
     ret
-
+.ends
 ; Jump Table from 5AA3 to 5ACE (22 entries,indexed by CharacterSpriteAttributes)
 _DATA_5AA3_:
 .dw _LABEL_5C1B_ _LABEL_5C50_ _LABEL_5C5C_ _LABEL_5C61_ _LABEL_5C6D_ _LABEL_5C72_ _LABEL_5C7E_ _LABEL_5C83_
 .dw _LABEL_5CCB_ _LABEL_5CEC_ _LABEL_5E03_ _LABEL_5E4A_ _LABEL_5EDF_ _LABEL_5F15_ _LABEL_601C_ _LABEL_60A7_
 .dw _LABEL_60AA_ _LABEL_60EE_ _LABEL_612A_ _LABEL_6166_ _LABEL_5FAC_ _LABEL_5FD7_
-
-_LABEL_5ACF_:
-    ld l,(iy+1)
+.ends
+; followed by
+.orga $5acf
+.section "Update character sprites" overwrite
+UpdateSprites:         ; $5acf
+    ld l,(iy+1)        ; hl = CharacterSpriteAttributes+1 = character number
     ld h,$00
-    add hl,hl
-    add hl,bc
+    add hl,hl          ; Double
+    add hl,bc          ; and add bc = offset
     ld a,(hl)
     inc hl
     ld h,(hl)
-    ld l,a
-    ld b,(hl)
+    ld l,a             ; hl = data there = pointer to byte
+    ld b,(hl)          ; b = that byte = count
     push bc
     inc hl
     ld de,(NextSpriteY)
-    ld c,(iy+2)
+        ld c,(iy+2)    ; Character sprites base Y position
 -:  ld a,(hl)
     add a,c
-    ld (de),a
+        ld (de),a      ; set (de) to next byte + sprite base y
     inc de
     inc hl
-    djnz -
-    ld (NextSpriteY),de
+        djnz -         ; repeat
+        ld (NextSpriteY),de  ; Update NextSpriteY
     pop bc
     ld de,(NextSpriteX)
-    ld c,(iy+4)
--:  ld a,(hl)
+    ld c,(iy+4)        ; Character sprites base X position
+  -:ld a,(hl)          ; repeat with x positions and tile numbers of sprites
     add a,c
-    ld (de),a
+    ld (de),a          ; x position
     inc de
     inc hl
     ld a,(hl)
-    ld (de),a
+    ld (de),a          ; tile number
     inc hl
     inc de
     djnz -
     ld (NextSpriteX),de
     ret
-
+.ends
+; followed by
+.orga $5b07
+.section "Output sprite table from RAM to VDP" overwrite
 UpdateSpriteTable:
     ld hl,SpriteTable
-    ld de,$7F00
+    ld de,SpriteTableAddress
     rst SetVRAMAddressToDE
     ld c,VDPData
-    call _LABEL_5B9A_
+    call outi64
     ld hl,SpriteTable.XNs
-    ld de,$7F80
+    ld de,SpriteTableAddress+$80
     rst SetVRAMAddressToDE
+    ; fall through
+.ends
+; depends on being followed by
+.orga $5b1a
+.section "outi block" overwrite
+; outi instruction 128/64/32 times to output 128/64/32 bytes
 outi128:
+.rept 64
     outi
+.endr
+outi64:                ; $5b9a
+.rept 32
     outi
+.endr
+outi32:                ; $5bda
+.rept 32
     outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-_LABEL_5B9A_:
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-outi32:
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
-    outi
+.endr
     ret
-
-; 1st entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
+.ends
+; followed by
+.orga $5c1b
+.section "Sprite handler lookup functions" overwrite
 _LABEL_5C1B_:
     ld b,$01
 _LABEL_5C1D_:
     push bc
-    call _LABEL_5A94_
+    call ZeroIYStruct
     inc (iy+0)
     pop bc
-    ld (iy+2),$60
+    ld (iy+2),$60      ; ???
     ld a,(_RAM_C2EA_)
-    and $03
-    ld a,$84
+    and $03            ; if _RAM_c2ea_ is a multiple of 4
+    ld a,$84           ; then a=$84
     jr nz,+
-    ld a,$80
-+:  ld (iy+4),a
-    ld (iy+18),$01
-    ld (iy+1),b
-    ld (iy+17),$01
+    ld a,$80           ; else a=$80
+  +:ld (iy+$04),a
+    ld (iy+$12),$01
+    ld (iy+$01),b      ; depends on lookup function
+    ld (iy+$11),$01
     ld a,c
     or a
     ld a,$00
     jr nz,+
     ld a,$03
-+:  ld (iy+10),a
+  +:ld (iy+$0a),a
     ld a,$FF
     ret
+.ends
+.orga $5c50
 
 ; 2nd entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_5C50_:
@@ -12350,7 +13066,7 @@ _DATA_5CBB_:
 
 ; 9th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_5CCB_:
-    call _LABEL_5A94_
+    call ZeroIYStruct
     inc (iy+0)
     ld (iy+2),$60
     ld (iy+4),$80
@@ -12433,7 +13149,7 @@ _LABEL_5D78_:
     ld a,(ScrollDirection)
     and $0F
     jp nz,_LABEL_5DAC_
---:  ld a,(iy+18)
+--: ld a,(iy+18)
     ld (iy+19),a
     ld a,c
     or a
@@ -12509,7 +13225,7 @@ _LABEL_5DAC_:
 _LABEL_5E03_:
     ld a,(iy+10)
     push af
-    call _LABEL_5A94_
+    call ZeroIYStruct
     pop af
     inc (iy+0)
     ld hl,Frame2Paging
@@ -12582,7 +13298,7 @@ _DATA_5E6D_:
 
 ; 13th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_5EDF_:
-    call _LABEL_5A94_
+    call ZeroIYStruct
     inc (iy+0)
     ld (iy+2),$58
     ld (iy+4),$60
@@ -12679,7 +13395,7 @@ _LABEL_5F15_:
 
 ; 21st entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_5FAC_:
-    call _LABEL_5A94_
+    call ZeroIYStruct
     inc (iy+0)
     ld a,(_RAM_C309_)
     cp $17
@@ -12809,7 +13525,7 @@ _LABEL_60A7_:
 
 ; 17th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_60AA_:
-    call _LABEL_5A94_
+    call ZeroIYStruct
     inc (iy+0)
     ld hl,Frame2Paging
     ld (hl),$0B
@@ -12970,10 +13686,11 @@ _LABEL_618D_:
 
 _LABEL_61DF_:
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),: 
     ld a,(_RAM_C308_)
     cp $03
     jp nc,_LABEL_6275_
+    ; Look up a*128
     ld h,a
     ld l,$00
     srl h
@@ -13036,18 +13753,21 @@ _LABEL_61DF_:
     add hl,de
     add hl,bc
     ld a,(hl)
-_LABEL_6254_:
+_LABEL_6254_SelectMonsterFromPool:
+    ; Return if 0
     or a
     ret z
+    ; Else look up in _DATA_C180_MonsterPools
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:_DATA_C180_MonsterPools
     ld l,a
     ld h,$00
+    add hl,hl ; x8
     add hl,hl
     add hl,hl
-    add hl,hl
-    ld de,_DATA_C178_
+    ld de,_DATA_C180_MonsterPools-8 ; it's 1-indexes
     add hl,de
+    ; Then randomly +0-7
     call GetRandomNumber
     and $07
     ld e,a
@@ -13063,102 +13783,111 @@ _LABEL_6275_:
     ld (_RAM_C29D_),a
     ret
 
-_LABEL_627A_:
+.orga $627a
+.section "Enemy data loader" overwrite
+LoadEnemy:
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),$03        ; for enemy data
+
     ld hl,CharacterSpriteAttributes
     ld de,CharacterSpriteAttributes + 1
-    ld bc,$00FF
+    ld bc,255
     ld (hl),$00
-    ldir
+    ldir               ; blank CharacterSpriteAttributes
+
     ld hl,CharacterStatsEnemies
     ld de,CharacterStatsEnemies + 1
-    ld bc,$007F
+    ld bc,127
     ld (hl),$00
-    ldir
+    ldir               ; blank CharacterStatsEnemies (128 bytes)
+
     ld a,(EnemyNumber)
-    ld a,a
+    ld a,a             ; ################
     and $7F
-    ret z
+    ret z              ; Return if no value
+
     ld l,a
     ld h,$00
     add hl,hl
     add hl,hl
     add hl,hl
     add hl,hl
-    add hl,hl
-    ld de,_DATA_C67F_
-    add hl,de
+    add hl,hl          ; hl = EnemyNumber*32
+
+    ld de,EnemyData-32
+    add hl,de          ; hl = (EnemyData-32) + EnemyNumber*32
+
     ld de,EnemyName
-    ld bc,$0008
-    ldir
+    ld bc,8
+    ldir               ; Load name
+
     ld de,TargetPalette+16+8
-    ld bc,$0008
-    ldir
-    ld b,(hl)
+    ld bc,8
+    ldir               ; Load palette
+
+    ld b,(hl)          ; Next byte = page
     inc hl
     ld a,(hl)
     inc hl
     push hl
     ld h,(hl)
-    ld l,a
+        ld l,a         ; hl = next word = offset
     ld a,b
     ld (Frame2Paging),a
-    ld de,$6000
-    call LoadTiles4BitRLE
+        TileAddressDE $100
+        call LoadTiles4BitRLE ; load enemy tiles
     pop hl
     inc hl
     ld a,$03
     ld (Frame2Paging),a
-    ld a,(hl)
+    ld a,(hl)          ; a = next byte
     push hl
     call _LABEL_6379_
     pop hl
     inc hl
-    ld a,$03
+    ld a,:EnemyData    ; reset paging
     ld (Frame2Paging),a
-    ld a,(hl)
-    bit 7,a
-    jr nz,+
-    and $0F
-    ld b,a
-    ld a,(PartySize)
-    inc a
-    add a,a
-    cp b
-    jr nc,_LABEL_62F1_
-    ld b,a
-_LABEL_62F1_:
-    call GetRandomNumber
-    and $07
-    cp b
-    jp nc,_LABEL_62F1_
-    inc a
-+:  and $0F
-    ld b,a
-    ld (NumEnemies),a
+    ld a,(hl)          ; a = next byte
+    bit 7,a            ; if bit 7 set then skip next block
+    jr nz,+            ; ------------------------------+
+    and $f             ;                               |
+    ld b,a             ; low nibble -> b               |
+    ld a,(PartySize)   ;                               |
+    inc a              ; add 1                         |
+    add a,a            ; and double                    |
+    cp b               ;                               |
+    jr nc,_f           ;                               |
+    ld b,a             ; if (PartySize+1)*2<b then b=that  |
+ __:call GetRandomNumber ;                             |
+    and 7              ;                               |
+    cp b               ;                               |
+    jp nc,_b           ; get a random number <b        |
+    inc a              ; add 1                         |
+  +:and $f             ; <-----------------------------+
+    ld b,a             ; put it in b = number of enemies
+    ld (NumEnemies),a  ; and in NumEnemies
     inc hl
-    ld a,(hl)
+    ld a,(hl)          ; HP
     inc hl
-    ld d,(hl)
+    ld d,(hl)          ; Attack
     inc hl
-    ld e,(hl)
+    ld e,(hl)          ; Defence
     inc hl
     push hl
-    ex de,hl
+        ex de,hl       ; de -> hl
     ld ix,CharacterStatsEnemies
-    ld de,$0010
--:  ld (ix+0),$01
-    ld (ix+1),a
-    ld (ix+6),a
-    ld (ix+8),h
-    ld (ix+9),l
-    add ix,de
+        ld de,16       ; size of stats (16 bytes)
+      -:ld (ix+0),1    ; alive = 1
+        ld (ix+1),a    ; HP = a
+        ld (ix+6),a    ; Max HP = a
+        ld (ix+8),h    ; Attack = h
+        ld (ix+9),l    ; Defence = l
+        add ix,de      ; repeat for each enemy
     djnz -
     pop hl
     ld a,(hl)
     ld (_RAM_C2DF_),a
-    inc hl
+    inc hl             ; next word in de = money per enemy
     ld e,(hl)
     inc hl
     ld d,(hl)
@@ -13167,7 +13896,7 @@ _LABEL_62F1_:
     ld c,a
     ld b,$00
     call Multiply16
-    ld (EnemyMoney),hl
+        ld (EnemyMoney),hl  ; EnemyMoney = NumEnemies*de
     pop hl
     inc hl
     ld a,(hl)
@@ -13262,7 +13991,7 @@ _LABEL_63D6_:
     push bc
     push de
     ld c,$FF
---:  ld a,(hl)
+--: ld a,(hl)
     or a
     jp z,+
     ldi
@@ -13390,7 +14119,7 @@ _LABEL_64A5_:
     rst SetVRAMAddressToDE
     ld c,VDPData
     call outi128
-    jp _LABEL_5B9A_
+    jp outi64
 
 ; 2nd entry of Jump Table from 649B (indexed by _RAM_C821_)
 _LABEL_64C2_:
@@ -13408,7 +14137,7 @@ _LABEL_64C2_:
     rst SetVRAMAddressToDE
     ld c,VDPData
     call outi128
-    jp _LABEL_5B9A_
+    jp outi64
 
 ; 3rd entry of Jump Table from 649B (indexed by _RAM_C821_)
 _LABEL_64DF_:
@@ -13426,7 +14155,7 @@ _LABEL_64DF_:
     rst SetVRAMAddressToDE
     ld c,VDPData
     call outi128
-    jp _LABEL_5B9A_
+    jp outi64
 
 ; 4th entry of Jump Table from 649B (indexed by _RAM_C821_)
 _LABEL_64FC_:
@@ -13529,7 +14258,7 @@ _LABEL_6586_:
     rst SetVRAMAddressToDE
     ld c,VDPData
     ld a,b
---:  ld b,$20
+--: ld b,$20
 -:  outi
     nop
     jp nz,-
@@ -13689,7 +14418,7 @@ _LABEL_66E5_:
     ld de,$4020
     rst SetVRAMAddressToDE
     ld b,$04
---:  push bc
+--: push bc
     ld d,(hl)
     inc hl
     ld e,$00
@@ -13705,7 +14434,7 @@ _LABEL_66E5_:
     ex de,hl
     djnz --
     ld b,$02
---:  push bc
+--: push bc
     ld d,(hl)
     inc hl
     ld e,$00
@@ -13821,32 +14550,36 @@ _DATA_6879_:
 .dsb 16,$06
 
 _LABEL_6891_:
-    ld a,(_RAM_C30C_)
+    ld a,(DungeonPosition)
     ld l,a
-    ld h,$CB
+    ld h,>DungeonMap
     ld a,(hl)
     cp $08
     jp nz,_LABEL_6984_
+    ; It is 8
     ld c,l
-    ld a,(_RAM_C30D_)
+    ld a,(DungeonNumber)
     ld b,a
     ld hl,Frame2Paging
-    ld (hl),$03
-    ld hl,_DATA_EF5C_
+    ld (hl),:DungeonObjects
+    ld hl,DungeonObjects
     ld de,$0006
 -:  ld a,(hl)
+    ; IF we reach the end of the list, it's a pitfall
     cp $FF
-    jr z,_LABEL_68BF_
+    jr z,_PitFall
     inc hl
+    ; Else check if it matches our dungeon
     cp b
     jr nz,+
+    ; And our location
     ld a,(hl)
     cp c
     jp z,_LABEL_6984_
 +:  add hl,de
     jp -
 
-_LABEL_68BF_:
+_PitFall:
     ld de,$7E00
     ld hl,$00C0
     ld bc,$0080
@@ -13881,12 +14614,14 @@ _LABEL_68BF_:
     ei
     pop bc
     djnz -
-    ld a,(_RAM_C30D_)
-    sub $01
+    ; Move down a floor
+    ld a,(DungeonNumber)
+    sub 1
     jr nc,+
     xor a
-+:  ld (_RAM_C30D_),a
-    call _LABEL_6FF9_
++:  ld (DungeonNumber),a
+    call LoadDungeonMap
+    ; Scroll in the new dungeon
     xor a
     call _LABEL_6D90_
     ld hl,TargetPalette
@@ -13964,35 +14699,36 @@ _LABEL_6984_:
     ld a,c
     bit 3,b
     jp nz,_LABEL_6B5F_
+    ; Is it a stair up or down?
     or a
-    ld b,$01
+    ld b,+1
     jr z,+
-    ld b,$FF
-+:  ld a,(_RAM_C30D_)
+    ld b,-1
++:  ld a,(DungeonNumber)
     add a,b
-    ld (_RAM_C30D_),a
-    call _LABEL_6FF9_
+    ld (DungeonNumber),a
+    call LoadDungeonMap
     jp +++
 
 ++:  bit 7,(hl)
     ret z
     bit 3,b
     jp nz,_LABEL_6B5F_
-+++:  call FadeOutFullPalette
++++:call FadeOutFullPalette
     ld a,(_RAM_C30A_)
     and $03
-    ld hl,_DATA_6D84_ - 2
+    ld hl,_DATA_6D82_
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
-    ld a,(_RAM_C30C_)
+    ld a,(DungeonPosition)
     add a,(hl)
     add a,(hl)
-    ld (_RAM_C30C_),a
+    ld (DungeonPosition),a
     xor a
-    call _LABEL_6D88_
+    call DungeonScriptItem
     call FadeInWholePalette
     ld b,$01
     jp _LABEL_6C06_
@@ -14001,20 +14737,20 @@ _LABEL_69F8_:
     call _LABEL_69FB_
 _LABEL_69FB_:
     ld a,$00
-    call _LABEL_6CFB_
+    call DungeonAnimation
     ld a,(_RAM_C30A_)
     and $03
-    ld hl,_DATA_6D84_ - 2
+    ld hl,_DATA_6D82_
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
-    ld a,(_RAM_C30C_)
+    ld a,(DungeonPosition)
     add a,(hl)
-    ld (_RAM_C30C_),a
+    ld (DungeonPosition),a
     xor a
-    call _LABEL_6D88_
+    call DungeonScriptItem
     ld b,$01
     jp _LABEL_6C06_
 
@@ -14033,17 +14769,17 @@ _LABEL_6A1D_:
 _LABEL_6A35_:
     ld a,(_RAM_C30A_)
     and $03
-    ld hl,_DATA_6D84_
+    ld hl,_DATA_6D82_ + 2
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
-    ld a,(_RAM_C30C_)
+    ld a,(DungeonPosition)
     add a,(hl)
-    ld (_RAM_C30C_),a
+    ld (DungeonPosition),a
     ld a,$01
-    jp _LABEL_6CFB_
+    jp DungeonAnimation
 
 +:  bit 2,c
     jr z,++
@@ -14067,7 +14803,7 @@ _LABEL_6A5A_:
     jr z,+
     inc h
 +:  ld a,h
-    jp _LABEL_6CFB_
+    jp DungeonAnimation
 
 ++:  bit 3,c
     ret z
@@ -14091,7 +14827,7 @@ _LABEL_6A85_:
     jr z,+
     inc h
 +:  ld a,h
-    jp _LABEL_6CFB_
+    jp DungeonAnimation
 
 _LABEL_6AA5_:
     ld a,(Controls)
@@ -14118,7 +14854,7 @@ _LABEL_6ABE_:
     ld h,c
     ld l,$00
     ld b,$03
---:  push bc
+--: push bc
 -:  push hl
     ld a,h
     call _LABEL_70EF_
@@ -14143,11 +14879,11 @@ _LABEL_6AED_:
     cp $08
     jr nz,++
     ld c,l
-    ld a,(_RAM_C30D_)
+    ld a,(DungeonNumber)
     ld b,a
     ld hl,Frame2Paging
     ld (hl),$03
-    ld hl,_DATA_EF5C_
+    ld hl,DungeonObjects
     ld de,$0006
 -:  ld a,(hl)
     cp $FF
@@ -14164,7 +14900,7 @@ _LABEL_6AED_:
 ++:  xor a
     ret
 
-+++:  ld a,$FF
++++:ld a,$FF
     or a
     ret
 
@@ -14196,7 +14932,7 @@ _LABEL_6B2F_:
     jr +++
 
 ++:  call _LABEL_6A5A_
-+++:  call _LABEL_6A35_
++++:call _LABEL_6A35_
     ld b,$01
     call _LABEL_6C06_
     ld b,$0B
@@ -14208,7 +14944,7 @@ _LABEL_6B5F_:
     and $08
     ret z
     ld c,l
-    ld a,(_RAM_C30D_)
+    ld a,(DungeonNumber)
     ld b,a
     ld hl,Frame2Paging
     ld (hl),$03
@@ -14233,7 +14969,7 @@ _LABEL_6B5F_:
     ld (hl),$08
     ret
 
-+++:  inc hl
++++:inc hl
     ld a,(hl)
     ld d,a
     dec hl
@@ -14271,8 +15007,8 @@ _LABEL_6BC0_:
     ret nz
     call FadeOutFullPalette
     xor a
-    call _LABEL_6D88_
-    call _LABEL_7022_
+    call DungeonScriptItem
+    call LoadDungeonData
     call _LABEL_7085_
     call FadeInWholePalette
     ret
@@ -14299,11 +15035,11 @@ _LABEL_6C06_:
     ret nz
     ld c,l
     push bc
-    ld a,(_RAM_C30D_)
+    ld a,(DungeonNumber)
     ld b,a
     ld hl,Frame2Paging
     ld (hl),$03
-    ld hl,_DATA_EF5C_
+    ld hl,DungeonObjects
     ld de,$0006
 -:  ld a,(hl)
     cp $FF
@@ -14320,7 +15056,7 @@ _LABEL_6C06_:
 ++:  pop bc
     ret
 
-+++:  pop bc
++++:pop bc
     inc hl
     ld e,(hl)
     inc hl
@@ -14368,7 +15104,7 @@ _LABEL_6C06_:
     ret z
     jp _LABEL_1D3D_
 
-+++:  cp $02
++++:cp $02
     jr nz,++
     ld a,b
     cp $01
@@ -14388,7 +15124,7 @@ _LABEL_6C06_:
     push af
     ld hl,(_RAM_C2E1_)
     push hl
-    call _LABEL_627A_
+    call LoadEnemy
     pop hl
     ld (_RAM_C2E1_),hl
     pop af
@@ -14418,7 +15154,7 @@ _LABEL_6CD2_:
     ld (RoomIndex),hl
     ld a,(_RAM_C2DC_)
     call _LABEL_63F9_
-    call _LABEL_49A6_
+    call DoRoomScript
     ld a,$D0
     ld (SpriteTable),a
     xor a
@@ -14430,11 +15166,12 @@ _LABEL_6CD2_:
     ld (RoomIndex),hl
     ret
 
-_LABEL_6CFB_:
+DungeonAnimation: ; $6CFB
+    ; Look up in _DATA_6D19_
     ld l,a
     ld h,$00
     add hl,hl
-    ld de,_DATA_6D19_
+    ld de,_table
     add hl,de
     ld a,(hl)
     inc hl
@@ -14446,28 +15183,31 @@ _LABEL_6CFB_:
     cp $FF
     ret z
     push hl
-    call _LABEL_6D88_
+      call DungeonScriptItem
     pop hl
     inc hl
     jp -
 
 ; Data from 6D19 to 6D83 (107 bytes)
-_DATA_6D19_:
-.db $2D $6D $33 $6D $3A $6D $43 $6D $4C $6D $55 $6D $5E $6D $67 $6D
-.db $70 $6D $79 $6D $01 $02 $03 $04 $05 $FF $05 $04 $03 $02 $01 $00
-.db $FF $07 $08 $09 $0A $0B $0C $0D $00 $FF $17 $18 $19 $1A $1B $1C
-.db $1D $00 $FF $1F $20 $21 $22 $23 $24 $25 $00 $FF $0F $10 $11 $12
-.db $13 $14 $15 $00 $FF $0D $0C $0B $0A $09 $08 $07 $00 $FF $25 $24
-.db $23 $22 $21 $20 $1F $00 $FF $1D $1C $1B $1A $19 $18 $17 $00 $FF
-.db $15 $14 $13 $12 $11 $10 $0F $00 $FF $F0 $01
+_table:
+.dw _table0 _table1 _table2 _table3 _table4 _table5 _table6 _table7 _table8 _table9 
+_table0: .db $01 $02 $03 $04 $05 $FF              ; 0 = Forward
+_table1: .db $05 $04 $03 $02 $01 $00 $FF          ; 1 = Backward
+_table2: .db $07 $08 $09 $0A $0B $0C $0D $00 $FF  ; 2 = turn corridor to corridor (left)
+_table3: .db $17 $18 $19 $1A $1B $1C $1D $00 $FF  ; 3 = turn corridor to wall (left)
+_table4: .db $1F $20 $21 $22 $23 $24 $25 $00 $FF  ; 4 = turn wall to corridor (left)
+_table5: .db $0F $10 $11 $12 $13 $14 $15 $00 $FF  ; 5 = turn wall to wall (left)
+_table6: .db $0D $0C $0B $0A $09 $08 $07 $00 $FF  ; 6 = turn corridor to corridor (right)
+_table7: .db $25 $24 $23 $22 $21 $20 $1F $00 $FF  ; 7 = turn corridor to wall (right)
+_table8: .db $1D $1C $1B $1A $19 $18 $17 $00 $FF  ; 8 = turn wall to corridor (right)
+_table9:.db $15 $14 $13 $12 $11 $10 $0F $00 $FF   ; 9 = turn wall to wall (right)
 
-; Data from 6D84 to 6D87 (4 bytes)
-_DATA_6D84_:
-.db $10 $FF $F0 $01
+_DATA_6D82_:
+.db $F0 $01 $10 $FF $F0 $01
 
-_LABEL_6D88_:
+DungeonScriptItem:
     call _LABEL_6D90_
-    ld a,$0C
+    ld a,$0C ; VBlankFunction_UpdateTilemap
     jp ExecuteFunctionIndexAInNextVBlank
 
 _LABEL_6D90_:
@@ -14478,47 +15218,53 @@ _LABEL_6D90_:
     ld a,$00
     jr z,+
     ld a,$06
-+:  ld c,a
-    add a,a
++:  ld c,a                    ; Take a copy of the table entry number
+    add a,a                   ; multiply by 6 
     ld b,a
     add a,a
     add a,b
-    ld hl,_DATA_7302_
+    ld hl,DungeonTilesTable   ; look up in table
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
     push bc
-    ld a,(hl)
-    ld (Frame2Paging),a
-    inc hl
-    ld a,(hl)
-    inc hl
-    push hl
-    ld h,(hl)
-    ld l,a
-    rr c
-    ld d,$40
-    jr nc,+
-    ld d,$60
-+:  di
-    xor a
-    out (VDPAddress),a
-    ld a,d
-    out (VDPAddress),a
-    ei
-    call _LABEL_6E31_
-    pop hl
-    inc hl
-    ld a,(hl)
-    ld (Frame2Paging),a
-    inc hl
-    ld a,(hl)
-    inc hl
-    ld h,(hl)
-    ld l,a
-    call DecompressToTileMapData
+      ; Byte 1: page
+      ld a,(hl)
+      ld (Frame2Paging),a
+      inc hl
+      ld a,(hl)
+      inc hl
+      push hl
+        ; Following word: address
+        ld h,(hl)
+        ld l,a
+        rr c
+        ; Even entry numbers go to $40xx (bottom tileset)
+        ld d,$40
+        jr nc,+
+        ; Odd entry numbers go to $60xx (top tileset)
+        ld d,$60
++:      di
+          ; Set VRAM address (could do rst SetVRAMAddressToDE)
+          xor a
+          out (VDPAddress),a
+          ld a,d
+          out (VDPAddress),a
+        ei
+        call DungeonTilesDecode
+      pop hl
+      inc hl
+      ; Repeat for the next entry for the tilemap
+      ld a,(hl)
+      ld (Frame2Paging),a
+      inc hl
+      ld a,(hl)
+      inc hl
+      ld h,(hl)
+      ld l,a
+      call DecompressToTileMapData
     pop bc
     call _LABEL_6EE9_
     ret
@@ -14551,52 +15297,74 @@ _LABEL_6DDD_:
     jp _LABEL_6EE9_
 
 DecompressToTileMapData:
-    ld b,$00
+; Copies data from (hl) to TileMapData
+; with RLE decompression and 2-interleaving
+; data format:
+; Header: $fccccccc
+;   f = flag: 1 = not RLE, 0 = RLE
+;   ccccccc = count
+; Then [count] bytes are copied to even bytes starting at TileMapData
+; Then the process is repeated for the odd bytes
+    ld b,$00           ; b=0
     ld de,TileMapData
-    call _LABEL_6E11_
-    inc hl
-    ld de,TileMapData+1
-_LABEL_6E11_:
-    ld a,(hl)
-    or a
-    ret z
-    jp m,+
-    ld c,a
-    inc hl
--:  ldi
-    dec hl
-    inc de
-    jp pe,-
-    inc hl
-    jp _LABEL_6E11_
+    call _f            ; Process even bytes first -------------+
+    inc hl             ; and odd bytes second                  |
+    ld de,TileMapData+1 ;                                      |
+ __:ld a,(hl)          ; Get data count in a <-----------------+
+    or a               ; \ return                              |
+    ret z              ; / if zero                             |
+    jp m,_raw          ; if bit 8 is set then ---------------+ |
+_rle:                  ; else:                               | |
+    ld c,a             ; put it in c -> bc = data count      | |
+    inc hl             ; move hl pointer to next byte (data) | |
+  -:ldi                ; copy 1 byte from hl to de, <------+ | |
+                       ; inc hl, inc de, dec bc            | | |
+    dec hl             ; move hl pointer back (RLE)        | | |
+    inc de             ; skip dest byte                    | | |
+    jp pe,-            ; if bc!=0 then repeat -------------+ | |
+    inc hl             ; move past RLE'd byte                | |
+    jp _b              ; repeat -----------------------------|-+
+_raw:                  ;                                     | |
+  +:and $7f            ; (if bit 8 is set:) unset it <-------+ |
+    ld c,a             ; put it in c -> bc = data count        |
+    inc hl             ; move hl pointer to next byte (data)   |
+  -:ldi                ; copy 1 byte from hl to de, <--------+ |
+                       ; inc hl, inc de, dec bc              | |
+    inc de             ; skip dest byte                      | |
+    jp pe,-            ; if bc!=0 then repeat ---------------+ |
+    jp _b              ; repeat -------------------------------+
 
-+:  and $7F
-    ld c,a
-    inc hl
--:  ldi
-    inc de
-    jp pe,-
-    jp _LABEL_6E11_
-
-_LABEL_6E31_:
+DungeonTilesDecode:
     ld c,VDPData
---:  ld a,(hl)
+--: ; Read byte
+    ld a,(hl)                 
     or a
-    ret z
-    jp m,+
+    ; 0 = end
+    ret z                     
+    ; high bit -> raw
+    jp m,_raw                 
+
+    ; else RLE
+_rle:
+    ; byte = count
     ld b,a
     inc hl
--:  ld a,(hl)
+-:  ; Accumulate the first three bytes as we go
+    ld a,(hl)
+    ; Emit to VRAM
     outi
+    ; Undo decrement from outi
     inc b
     or (hl)
     outi
     inc b
     or (hl)
     outi
+    ; Repeat
     dec hl
     dec hl
     dec hl
+    ; and emit ORed value as the fourth
     out (VDPData),a
     jp nz,-
     inc hl
@@ -14604,7 +15372,13 @@ _LABEL_6E31_:
     inc hl
     jp --
 
-+:  and $7F
+_raw:
+    ; cc: count
+    ; dd * cc * 3: data
+    ; fourth byte is generated again
+    
+    ; clear high bit
+    and $7F
     ld b,a
     inc hl
 -:  ld a,(hl)
@@ -14615,6 +15389,7 @@ _LABEL_6E31_:
     inc b
     or (hl)
     outi
+    ; delay
     push af
     pop af
     out (VDPData),a
@@ -14635,7 +15410,7 @@ _LABEL_6E6D_:
     add hl,de
     ld e,b
     add hl,de
-    ld a,(_RAM_C30C_)
+    ld a,(DungeonPosition)
     add a,(hl)
     ld h,$CB
     ld l,a
@@ -14657,7 +15432,7 @@ _LABEL_6E8C_:
     add hl,de
     ld e,b
     add hl,de
-    ld a,(_RAM_C30C_)
+    ld a,(DungeonPosition)
     add a,(hl)
     ld h,$CB
     ld l,a
@@ -14859,16 +15634,16 @@ _LABEL_6FE8_:
     inc hl
     ret
 
-_LABEL_6FF9_:
+LoadDungeonMap:
     ld hl,Frame2Paging
-    ld (hl),$0F
+    ld (hl),:DungeonsData
     
-    ld a,(_RAM_C30D_)   ; Dungeon offset?
+    ld a,(DungeonNumber)
     ld h,a
-    ld l,$00
+    ld l,0
     srl h               ; Divide by 2 to get a multiple of 128
     rr l
-    ld de,_DATA_3DF6E_  ; Table?
+    ld de,DungeonsData  ; Table
     add hl,de
     
     ld de,DungeonMap
@@ -14889,52 +15664,56 @@ _LABEL_6FF9_:
     inc de
     inc hl
     djnz -
+    ; fall through
     
-_LABEL_7022_:
+LoadDungeonData:
+    ; Sprite palette
     ld hl,Frame2Paging
-    ld (hl),$03
-    ld hl,_DATA_709A_
+    ld (hl),:DungeonSpritePalette
+    ld hl,DungeonSpritePalette
     ld de,TargetPalette+16+1
-    ld bc,$0007
+    ld bc,7
     ldir
-    ld a,(_RAM_C30D_)
+    
+    ld a,(DungeonNumber)
     add a,a
-    add a,a
+    add a,a                   ; x4
     ld l,a
-    ld h,$00
-    ld de,_DATA_F619_
+    ld h,0
+    ld de,DungeonData1
     add hl,de
-    ld e,(hl)
+    ld e,(hl) ; First byte = battle probability
     inc hl
-    ld d,(hl)
-    ld (BattleProbability),de
+    ld d,(hl) ; Second byte = DungeonMonsterPoolIndex
+    ld (BattleProbability),de ; also DungeonMonsterPoolIndex
     inc hl
-    ld a,(_RAM_C315_)
+    ld a,(DungeonPaletteIndex)
     or a
-    ld a,(hl)
+    ld a,(hl) ; Third byte = palette index - 1, if DungeonPaletteIndex is >0
     jr nz,+
     ld e,a
-    ld a,(_RAM_C30D_)
-    ld hl,$70A1
-    ld bc,$0006
+    ld a,(DungeonNumber)
+    ld hl,_70a1
+    ld bc,_sizeof__70a1 ; 6
     cpir
-    ld a,e
+    ld a,e ; If found, use n+1
     jr z,+
-    ld a,$FF
+    ld a,-1 ; Else use index 0 = black
 +:  inc a
-    ld (_RAM_C315_),a
-    add a,a
+    ld (DungeonPaletteIndex),a ; And store it in DungeonPaletteIndex
+    add a,a ; Multiply by 8
     add a,a
     add a,a
     ld l,a
     ld h,$00
-    ld de,_DATA_F5B9_
+    ld de,DungeonPalettes
     add hl,de
     ld a,(hl)
     ld (TargetPalette),a
     ld de,TargetPalette+8
-    ld bc,$0008
-    ldir
+    ld bc,8
+    ldir ; Load it
+    ; Clone a couple of colours
     ld a,(TargetPalette+9)
     ld (TargetPalette+8),a
     ld a,(TargetPalette+13)
@@ -14944,21 +15723,23 @@ _LABEL_7022_:
 _LABEL_7085_:
     ld hl,Frame2Paging
     ld (hl),$03
-    ld a,(_RAM_C30D_)
+    ld a,(DungeonNumber)
     add a,a
     add a,a
     ld l,a
     ld h,$00
-    ld de,_DATA_F61C_
+    ld de,DungeonData1+DungeonData.Music
     add hl,de
     ld a,(hl)
     jp CheckMusic
 
 ; Data from 709A to 70A6 (13 bytes)
-_DATA_709A_:
-.db $00 $3F $30 $38 $03 $0B $0F $01 $02 $14 $15 $16 $21
+DungeonSpritePalette:
+.db $00 $3F $30 $38 $03 $0B $0F 
+_70a1:
+.db $01 $02 $14 $15 $16 $21
 
----:  ld a,(_RAM_C2F5_)
+---: ld a,(_RAM_C2F5_)
     or a
     ret z
     inc a
@@ -14976,7 +15757,7 @@ _DATA_709A_:
     ld l,a
     ld b,(hl)
     inc hl
---:  push bc
+--: push bc
     ld e,(hl)
     inc hl
     ld d,(hl)
@@ -15076,7 +15857,7 @@ _DATA_712E_:
 .db $38 $A6 $68 $A6
 
 ; Data from 7302 to 7304 (3 bytes)
-_DATA_7302_:
+DungeonTilesTable:
 .db $07 $00 $80
 
 ; Data from 7305 to 7305 (1 bytes)
@@ -15182,7 +15963,7 @@ _LABEL_73E6_:
     inc h
 +:  ld l,a
     ld a,$02
-+++:  ld (ScrollDirection),a
++++:ld (ScrollDirection),a
     ld a,$FF
     ld (MovementInProgress),a
     ld a,d
@@ -15195,7 +15976,8 @@ _LABEL_73E6_:
     call nz,DecompressScrollingTilemapData
     jp _LABEL_75DD_
 
-++++:  ld d,$00
+++++:
+    ld d,$00
     ld hl,(HLocation)
     ld b,h
     bit 2,c
@@ -15231,7 +16013,7 @@ _LABEL_73E6_:
     jp nz,DecompressScrollingTilemapData
     jp _LABEL_7549_
 
-+++:  ld a,$D6
++++:ld a,$D6
     ld (NewMusic),a
     xor a
     ld (MovementInProgress),a
@@ -15291,7 +16073,7 @@ DecompressScrollingTilemapData:
     ld l,a
     ld de,_RAM_CF00_
 +:  ld b,$00
---:  ld a,(hl)
+--: ld a,(hl)
     or a
     ret z
     jp m,+
@@ -15842,7 +16624,7 @@ _LABEL_7787_:
     ld hl,_DATA_7D5C_
     di
     ld bc, $0200 | VDPData
---:  push bc
+--: push bc
     rst SetVRAMAddressToDE
     ld b,$04
 -:  outi
@@ -16254,17 +17036,19 @@ _LABEL_7A4F_:
     inc a
     cp e
     jr z,++++
-+++:  pop hl
++++:pop hl
     ld bc,$0006
     add hl,bc
     jp -
 
-++++:  pop hl
+++++:
+    pop hl
     inc hl
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; Get byte
     cp $08
     jp nz,_LABEL_7B60_
+    ; $08
 _LABEL_7B1A_:
     ld (FunctionLookupIndex),a
     inc hl
@@ -16313,13 +17097,17 @@ _LABEL_7B1E_:
 _LABEL_7B60_:
     cp $0A
     jp nz,+
+    ; $0a = dungeon
     ld (FunctionLookupIndex),a
     inc hl
+    ; Next byte = dungeon number
     ld d,(hl)
     inc hl
+    ; Next byte = dungeon position
     ld e,(hl)
-    ld (_RAM_C30C_),de
+    ld (DungeonPosition),de ; Set DungeonPosition and DungeonNumber
     inc hl
+    ; Next byte = _RAM_C30A_
     ld a,(hl)
     ld (_RAM_C30A_),a
     ld hl,(_RAM_C311_)
@@ -16377,7 +17165,7 @@ _LABEL_7BCD_:
     ld a,$0A
     ld (FunctionLookupIndex),a
     ld hl,$00DE
-    ld (_RAM_C30C_),hl
+    ld (DungeonPosition),hl
     ld a,$00
     ld (_RAM_C30A_),a
     ld hl,(_RAM_C311_)
@@ -16392,7 +17180,7 @@ _LABEL_7BCD_:
     or a
     ret nz
     ld a,$35
-    call _LABEL_298A_
+    call HaveItem
     ret z
     ld hl,$00A0
     ld (RoomIndex),hl
@@ -16450,7 +17238,7 @@ _LABEL_7C15_:
     cp $D2
     ret nc
     ld a,$3B
-    call _LABEL_298A_
+    call HaveItem
     ret z
     call _LABEL_7E67_
     ld c,$1E
@@ -16474,7 +17262,7 @@ _LABEL_7C85_:
     ld (FunctionLookupIndex),a
     jp _LABEL_7BAB_
 
-+:  call _LABEL_19D9_
++:  call PointHLToCharacterInA
     jr z,++
     inc hl
     ld a,(hl)
@@ -16526,7 +17314,7 @@ _DATA_7D5C_:
 .db $71 $5A $01 $26 $29 $02 $5B $2C $02 $38 $49 $02 $5B $2C $02 $38
 .db $49 $00 $16 $6A
 
-_LABEL_7DA0_:
+FadeOutTilePalette:
     ld hl,$1009
     ld (PaletteFadeControl),hl
     jr _LABEL_7DAE_
@@ -16542,7 +17330,7 @@ _LABEL_7DAE_:
     jp nz,_LABEL_7DAE_
     ret
 
-_LABEL_7DBB_:
+FadeInTilePalette:
     ld hl,$1089
     ld (PaletteFadeControl),hl
     jr _LABEL_7DD6_
@@ -16799,7 +17587,7 @@ _LABEL_7F59_:
     call +
     ld hl,_DATA_FE52_
     ld b,$0D
---:  push bc
+--: push bc
     ld de,ActualPalette+10
     ld bc,$0006
     ldir
@@ -16860,6 +17648,7 @@ _DATA_7FB5_:
 ; Data from 8000 to AB1E (11039 bytes)
 TileNumberLookup:
 .incbin "Phantasy Star (Japan)TileNumberLookup.inc"
+; Also town layouts?
 
 ; Data from AB1F to AB30 (18 bytes)
 _DATA_AB1F_:
@@ -17209,7 +17998,7 @@ _DATA_B071_:
 .db $50 $2D $00 $24 $2F $12 $09 $10 $4C $58
 
 ; Data from B07B to B086 (12 bytes)
-_DATA_B07B_:
+TextPlayerDied:
 .db $4F $1A $00 $0C $2E $40 $0C $1F $2F $10 $4C $57
 
 ; Data from B087 to B093 (13 bytes)
@@ -17222,34 +18011,34 @@ _DATA_B094_:
 .db $2F $10 $4C $58
 
 ; Data from B0A8 to B0B2 (11 bytes)
-_DATA_B0A8_:
+TextWhereWouldYouLikeToGo:
 .db $41 $0A $1D $00 $02 $07 $1F $0D $06 $4C $56
 
 ; Data from B0B3 to B0CE (28 bytes)
-_DATA_B0B3_:
+TextDestinationSkray:
 .db $40 $3C $28 $0D $0E $02 $19 $00 $0D $08 $2A $19 $1F $11 $1D $54
 .db $02 $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
 
 ; Data from B0CF to B0EA (28 bytes)
-_DATA_B0CF_:
+TextDestinationUzo:
 .db $23 $10 $43 $01 $0E $02 $19 $00 $03 $4D $3C $19 $21 $27 $1D $54
 .db $02 $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
 
 ; Data from B0EB to B105 (27 bytes)
-_DATA_B0EB_:
+TextDestinationGothic:
 .db $47 $29 $1F $0E $02 $19 $00 $33 $0C $0A $19 $21 $27 $1D $54 $02
 .db $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
 
 ; Data from B106 to B111 (12 bytes)
-_DATA_B106_:
+TextThisIsSkray:
 .db $0A $0A $1A $00 $0D $08 $2A $00 $40 $0D $4C $56
 
 ; Data from B112 to B11D (12 bytes)
-_DATA_B112_:
+TextThisIsUzo:
 .db $0A $0A $1A $00 $03 $4D $3C $00 $40 $0D $4C $56
 
 ; Data from B11E to B131 (20 bytes)
-_DATA_B11E_:
+TextThisIsGothic:
 .db $0A $0A $1A $00 $33 $0C $0A $00 $40 $0D $4C $56 $0C $31 $2F $47
 .db $4D $12 $4C $57
 
@@ -17582,12 +18371,12 @@ _DATA_B695_:
 .db $58
 
 ; Data from B6C6 to B6D6 (17 bytes)
-_DATA_B6C6_:
+TextBoundForMotavia:
 .db $23 $10 $43 $01 $00 $25 $07 $40 $0D $4C $19 $28 $1F $0D $06 $4C
 .db $56
 
 ; Data from B6D7 to B6E6 (16 bytes)
-_DATA_B6D7_:
+TextBoundForPalma:
 .db $47 $29 $1F $00 $25 $07 $40 $0D $4C $19 $28 $1F $0D $06 $4C $56
 
 ; Data from B6E7 to B6F7 (17 bytes)
@@ -17669,7 +18458,7 @@ _DATA_B8A7_:
 .db $02 $00 $18 $02 $2B $3D $4C $58
 
 ; Pointer Table from B8BF to B8C0 (1 entries,indexed by unknown)
-_DATA_B8BF_:
+TextIntro1:
 .dw _DATA_C27_
 
 ; Data from B8C1 to B90E (78 bytes)
@@ -17680,7 +18469,7 @@ _DATA_B8BF_:
 .db $01 $2F $10 $19 $4C $54 $0C $2F $06 $28 $0C $13 $4C $58
 
 ; Data from B90F to BA07 (249 bytes)
-_DATA_B90F_:
+TextIntro2:
 .db $01 $28 $0B $4C $07 $02 $13 $08 $2A $4C $54 $27 $0C $4D $08 $1A
 .db $00 $0A $19 $1E $0C $16 $00 $07 $32 $3D $02 $15 $54 $2C $38 $2C
 .db $02 $2D $00 $1F $18 $02 $13 $0C $1F $2F $10 $4C $54 $0E $06 $02
@@ -17699,7 +18488,7 @@ _DATA_B90F_:
 .db $54 $25 $29 $0C $13 $08 $2A $4C $58
 
 ; Data from BA08 to BA42 (59 bytes)
-_DATA_BA08_:
+TextIntro3:
 .db $01 $28 $0B $1A $00 $16 $02 $0B $2E $19 $00 $02 $19 $11 $2D $00
 .db $21 $3D $16 $54 $0C $15 $02 $10 $22 $16 $00 $10 $10 $06 $02 $16
 .db $00 $02 $07 $1F $0D $4C $54 $07 $2F $14 $00 $20 $1F $23 $2F $13
@@ -17898,58 +18687,104 @@ _DATA_C000_:
 .db $10 $04 $10 $05 $10 $03 $10 $01 $10 $0D $10 $08 $10 $06 $10 $04
 .db $10 $03 $10 $03 $10 $00 $10 $00 $10 $0D $10 $08 $10 $04 $10 $03
 .db $10 $03 $10 $03 $10 $00 $10 $00 $10 $0D $10 $0D $10 $04 $10 $03
-.db $10 $0F $10 $02 $10 $02 $10 $01
+.db $10 $0F $10 $02 $10 $02 $10 $01 $10 $0D $10 $0D $10 $0F $10 $0F
 
 ; Data from C178 to C46F (760 bytes)
-_DATA_C178_:
-.db $10 $0D $10 $0D $10 $0F $10 $0F $01 $01 $01 $01 $01 $05 $05 $05
-.db $01 $01 $04 $04 $05 $05 $05 $05 $01 $01 $01 $04 $04 $04 $04 $15
-.db $01 $01 $09 $09 $09 $09 $09 $15 $01 $06 $06 $06 $0A $0A $0A $0A
-.db $04 $0A $0A $0A $0A $15 $15 $17 $01 $01 $06 $06 $0A $0A $0A $17
-.db $0D $0D $15 $15 $15 $1E $1E $30 $05 $0B $0B $17 $17 $18 $18 $18
-.db $09 $09 $09 $10 $10 $22 $22 $35 $36 $36 $40 $40 $40 $40 $40 $40
-.db $03 $03 $03 $03 $03 $03 $03 $16 $16 $16 $16 $1D $1D $23 $23 $23
-.db $03 $03 $25 $25 $25 $25 $25 $25 $16 $16 $1D $1D $1D $35 $35 $35
-.db $01 $01 $01 $09 $09 $09 $09 $09 $01 $01 $05 $05 $05 $05 $0A $0A
-.db $03 $03 $03 $12 $12 $12 $12 $12 $15 $15 $15 $15 $16 $16 $16 $16
-.db $09 $09 $10 $10 $16 $16 $18 $1D $09 $09 $1F $1F $1F $1F $1F $1F
-.db $15 $15 $1F $1F $23 $23 $25 $25 $26 $26 $26 $26 $26 $26 $26 $26
-.db $1D $1D $1D $1D $25 $25 $25 $25 $03 $0A $0A $10 $10 $16 $18 $18
-.db $1D $23 $26 $2D $32 $32 $32 $32 $09 $41 $41 $41 $41 $41 $41 $41
-.db $0A $42 $42 $42 $42 $42 $42 $42 $01 $01 $01 $01 $01 $01 $01 $01
-.db $14 $14 $14 $14 $14 $14 $14 $14 $15 $15 $15 $15 $15 $15 $15 $15
-.db $29 $29 $29 $29 $29 $29 $29 $29 $26 $26 $26 $26 $26 $26 $26 $26
-.db $24 $24 $24 $24 $24 $24 $24 $24 $36 $36 $36 $36 $36 $36 $36 $36
-.db $14 $14 $14 $14 $14 $14 $14 $14 $13 $13 $13 $13 $13 $13 $13 $13
-.db $20 $20 $20 $20 $20 $20 $20 $20 $29 $29 $29 $29 $29 $29 $29 $29
-.db $30 $30 $30 $30 $30 $30 $30 $30 $0D $1A $1A $1A $1A $26 $26 $26
-.db $34 $34 $36 $36 $36 $36 $36 $36 $13 $13 $20 $20 $22 $22 $22 $22
-.db $22 $22 $24 $24 $24 $36 $36 $36 $17 $17 $22 $22 $2C $2C $2F $37
-.db $19 $19 $19 $19 $19 $19 $19 $19 $05 $05 $05 $05 $06 $06 $08 $0C
-.db $0E $0E $0E $0E $0E $0E $0F $0F $10 $10 $1C $1C $1C $1C $1C $1C
-.db $0C $0C $16 $16 $17 $17 $23 $23 $20 $27 $27 $27 $27 $27 $27 $27
-.db $20 $20 $20 $20 $20 $20 $20 $20 $27 $27 $2F $2F $2F $2F $30 $30
-.db $0F $30 $32 $32 $32 $32 $32 $32 $08 $08 $10 $10 $39 $39 $39 $39
-.db $05 $05 $1C $1C $1C $1C $3B $3B $30 $30 $39 $39 $3B $3B $3B $3B
-.db $07 $07 $0B $0B $0D $0D $1B $1B $0B $0B $1B $1B $21 $21 $24 $24
-.db $1B $1B $1B $1B $1D $1D $25 $25 $21 $21 $21 $25 $25 $28 $28 $2A
-.db $0D $24 $24 $2A $2A $2A $2D $2D $1D $1D $1D $1D $28 $28 $28 $39
-.db $2B $2B $2B $2B $2B $2B $36 $36 $25 $25 $25 $36 $36 $36 $38 $38
-.db $07 $07 $3F $3F $3F $3F $3F $3F $2A $2A $3A $3A $3A $3A $3A $3A
-.db $2B $2B $2D $2D $2D $41 $41 $41 $0D $0D $3A $3A $41 $41 $41 $41
-.db $1D $1D $1D $1D $28 $28 $2A $2A $25 $25 $2D $2D $38 $38 $38 $38
-.db $39 $39 $39 $41 $41 $41 $41 $41 $44 $44 $44 $44 $44 $44 $44 $44
-.db $02 $02 $03 $03 $0B $0B $0D $0D $09 $09 $0C $0C $11 $11 $16 $16
-.db $07 $07 $10 $10 $12 $12 $2B $2B $15 $15 $18 $18 $1D $1D $1F $1F
-.db $17 $17 $28 $28 $2A $2A $2C $2C $22 $22 $25 $25 $26 $26 $2D $2D
-.db $0B $0B $0B $0B $0D $0D $0D $1F $2C $2C $2C $2C $2C $2C $2C $2C
-.db $18 $18 $1D $1D $3B $3B $3C $3C $25 $25 $2A $2A $3D $3D $41 $41
-.db $38 $38 $3F $3F $40 $40 $42 $42 $11 $11 $37 $37 $37 $37 $37 $37
-.db $2F $2F $2F $2F $40 $40 $42 $42 $33 $33 $36 $36 $38 $38 $39 $39
-.db $33 $33 $35 $35 $3C $3C $3C $3C $2A $2A $3A $3A $3F $3F
-.dsb 10,$44
-.db $02 $02 $02 $02 $03 $03 $03 $03 $10 $10 $10 $12 $12 $12 $15 $15
-.db $25 $25 $25 $30 $30 $30 $33 $33 $09 $09 $12 $12 $41 $41 $41 $41
+_DATA_C180_MonsterPools:
+.db $01 $01 $01 $01 $01 $05 $05 $05
+.db $01 $01 $04 $04 $05 $05 $05 $05
+.db $01 $01 $01 $04 $04 $04 $04 $15
+.db $01 $01 $09 $09 $09 $09 $09 $15
+.db $01 $06 $06 $06 $0A $0A $0A $0A
+.db $04 $0A $0A $0A $0A $15 $15 $17
+.db $01 $01 $06 $06 $0A $0A $0A $17
+.db $0D $0D $15 $15 $15 $1E $1E $30
+.db $05 $0B $0B $17 $17 $18 $18 $18
+.db $09 $09 $09 $10 $10 $22 $22 $35
+.db $36 $36 $40 $40 $40 $40 $40 $40
+.db $03 $03 $03 $03 $03 $03 $03 $16
+.db $16 $16 $16 $1D $1D $23 $23 $23
+.db $03 $03 $25 $25 $25 $25 $25 $25
+.db $16 $16 $1D $1D $1D $35 $35 $35
+.db $01 $01 $01 $09 $09 $09 $09 $09 ; $10
+.db $01 $01 $05 $05 $05 $05 $0A $0A
+.db $03 $03 $03 $12 $12 $12 $12 $12
+.db $15 $15 $15 $15 $16 $16 $16 $16
+.db $09 $09 $10 $10 $16 $16 $18 $1D
+.db $09 $09 $1F $1F $1F $1F $1F $1F
+.db $15 $15 $1F $1F $23 $23 $25 $25
+.db $26 $26 $26 $26 $26 $26 $26 $26
+.db $1D $1D $1D $1D $25 $25 $25 $25
+.db $03 $0A $0A $10 $10 $16 $18 $18
+.db $1D $23 $26 $2D $32 $32 $32 $32
+.db $09 $41 $41 $41 $41 $41 $41 $41
+.db $0A $42 $42 $42 $42 $42 $42 $42
+.db $01 $01 $01 $01 $01 $01 $01 $01
+.db $14 $14 $14 $14 $14 $14 $14 $14
+.db $15 $15 $15 $15 $15 $15 $15 $15
+.db $29 $29 $29 $29 $29 $29 $29 $29 ; $20
+.db $26 $26 $26 $26 $26 $26 $26 $26
+.db $24 $24 $24 $24 $24 $24 $24 $24
+.db $36 $36 $36 $36 $36 $36 $36 $36
+.db $14 $14 $14 $14 $14 $14 $14 $14
+.db $13 $13 $13 $13 $13 $13 $13 $13
+.db $20 $20 $20 $20 $20 $20 $20 $20
+.db $29 $29 $29 $29 $29 $29 $29 $29
+.db $30 $30 $30 $30 $30 $30 $30 $30
+.db $0D $1A $1A $1A $1A $26 $26 $26
+.db $34 $34 $36 $36 $36 $36 $36 $36
+.db $13 $13 $20 $20 $22 $22 $22 $22
+.db $22 $22 $24 $24 $24 $36 $36 $36
+.db $17 $17 $22 $22 $2C $2C $2F $37
+.db $19 $19 $19 $19 $19 $19 $19 $19
+.db $05 $05 $05 $05 $06 $06 $08 $0C
+.db $0E $0E $0E $0E $0E $0E $0F $0F ; $30
+.db $10 $10 $1C $1C $1C $1C $1C $1C
+.db $0C $0C $16 $16 $17 $17 $23 $23
+.db $20 $27 $27 $27 $27 $27 $27 $27
+.db $20 $20 $20 $20 $20 $20 $20 $20
+.db $27 $27 $2F $2F $2F $2F $30 $30
+.db $0F $30 $32 $32 $32 $32 $32 $32
+.db $08 $08 $10 $10 $39 $39 $39 $39
+.db $05 $05 $1C $1C $1C $1C $3B $3B
+.db $30 $30 $39 $39 $3B $3B $3B $3B
+.db $07 $07 $0B $0B $0D $0D $1B $1B
+.db $0B $0B $1B $1B $21 $21 $24 $24
+.db $1B $1B $1B $1B $1D $1D $25 $25
+.db $21 $21 $21 $25 $25 $28 $28 $2A
+.db $0D $24 $24 $2A $2A $2A $2D $2D
+.db $1D $1D $1D $1D $28 $28 $28 $39
+.db $2B $2B $2B $2B $2B $2B $36 $36 ; $40
+.db $25 $25 $25 $36 $36 $36 $38 $38
+.db $07 $07 $3F $3F $3F $3F $3F $3F
+.db $2A $2A $3A $3A $3A $3A $3A $3A
+.db $2B $2B $2D $2D $2D $41 $41 $41
+.db $0D $0D $3A $3A $41 $41 $41 $41
+.db $1D $1D $1D $1D $28 $28 $2A $2A
+.db $25 $25 $2D $2D $38 $38 $38 $38
+.db $39 $39 $39 $41 $41 $41 $41 $41
+.db $44 $44 $44 $44 $44 $44 $44 $44
+.db $02 $02 $03 $03 $0B $0B $0D $0D
+.db $09 $09 $0C $0C $11 $11 $16 $16
+.db $07 $07 $10 $10 $12 $12 $2B $2B
+.db $15 $15 $18 $18 $1D $1D $1F $1F
+.db $17 $17 $28 $28 $2A $2A $2C $2C
+.db $22 $22 $25 $25 $26 $26 $2D $2D
+.db $0B $0B $0B $0B $0D $0D $0D $1F ; $50
+.db $2C $2C $2C $2C $2C $2C $2C $2C
+.db $18 $18 $1D $1D $3B $3B $3C $3C
+.db $25 $25 $2A $2A $3D $3D $41 $41
+.db $38 $38 $3F $3F $40 $40 $42 $42
+.db $11 $11 $37 $37 $37 $37 $37 $37
+.db $2F $2F $2F $2F $40 $40 $42 $42
+.db $33 $33 $36 $36 $38 $38 $39 $39
+.db $33 $33 $35 $35 $3C $3C $3C $3C
+.db $2A $2A $3A $3A $3F $3F $44 $44
+.db $44 $44 $44 $44 $44 $44 $44 $44
+.db $02 $02 $02 $02 $03 $03 $03 $03
+.db $10 $10 $10 $12 $12 $12 $15 $15 ; $5b
+.db $25 $25 $25 $30 $30 $30 $33 $33
+.db $09 $09 $12 $12 $41 $41 $41 $41
 
 ; Data from C470 to C59F (304 bytes)
 _DATA_C470_:
@@ -17993,8 +18828,8 @@ _DATA_C5A0_:
 .db $00 $00 $00 $00 $00 $02 $02 $02 $02 $02 $02 $02 $02
 
 ; Data from C67F to CFC6 (2376 bytes)
-_DATA_C67F_:
-.incbin "Phantasy Star (Japan)_DATA_C67F_.inc"
+EnemyData-32:
+.incbin "Phantasy Star (Japan)EnemyData-32.inc"
 
 ; Data from CFC7 to D4F5 (1327 bytes)
 _DATA_CFC7_:
@@ -18952,8 +19787,8 @@ _DATA_E922_:
 .incbin "Phantasy Star (Japan)_DATA_E922_.inc"
 
 ; Data from EF5C to F472 (1303 bytes)
-_DATA_EF5C_:
-.incbin "Phantasy Star (Japan)_DATA_EF5C_.inc"
+DungeonObjects:
+.incbin "Phantasy Star (Japan)DungeonObjects.inc"
 
 ; Data from F473 to F5B8 (326 bytes)
 _DATA_F473_:
@@ -18977,39 +19812,96 @@ _DATA_F473_:
 .db $02 $75 $35 $30 $1E $02 $2B $5F $30 $77 $02 $63 $17 $30 $89 $02
 .db $38 $5F $30 $EE $02 $70 $20 $31 $1D $02 $38 $43 $31 $E1 $02 $3B
 .db $2B $32 $49 $02 $49 $10 $32 $EB $02 $58 $11 $39 $CB $FD $9F $00
+
+; "-1"th palette?
 .db $3A $98 $FF $B2 $1D $FF
 
 ; Data from F5B9 to F618 (96 bytes)
-_DATA_F5B9_:
-.db $00 $00 $00 $00 $00 $00 $00 $00 $07 $0B $00 $02 $1F $03 $07 $0B
-.db $18 $1C $00 $14 $2E $19 $1D $2E $34 $38 $00 $20 $3C $30 $34 $38
-.db $30 $34 $00 $10 $38 $10 $20 $30 $25 $2A $00 $10 $3F $20 $25 $2A
-.db $0B $0F $00 $06 $3F $0B $0F $3F $1B $1F $00 $06 $3F $17 $1B $1F
-.db $02 $03 $00 $01 $07 $01 $02 $03 $38 $3C $00 $00 $3F $00 $00 $00
-.db $38 $3C $00 $30 $3F $34 $38 $3C $08 $0C $00 $04 $3F $04 $08 $0C
+DungeonPalettes:
+.db $00 $00 $00 $00 $00 $00 $00 $00
+.db $07 $0B $00 $02 $1F $03 $07 $0B
+.db $18 $1C $00 $14 $2E $19 $1D $2E
+.db $34 $38 $00 $20 $3C $30 $34 $38
+.db $30 $34 $00 $10 $38 $10 $20 $30
+.db $25 $2A $00 $10 $3F $20 $25 $2A
+.db $0B $0F $00 $06 $3F $0B $0F $3F
+.db $1B $1F $00 $06 $3F $17 $1B $1F
+.db $02 $03 $00 $01 $07 $01 $02 $03
+.db $38 $3C $00 $00 $3F $00 $00 $00
+.db $38 $3C $00 $30 $3F $34 $38 $3C
+.db $08 $0C $00 $04 $3F $04 $08 $0C
 
 ; Data from F619 to F61B (3 bytes)
-_DATA_F619_:
-.db $19 $5B $03
+.struct DungeonData
+  BattleProbability db
+  DungeonMonsterPoolIndex db
+  PaletteNumber db
+  Music db
+.ends
+DungeonData1:
+.dstruct foo instanceof DungeonData data $19 $5B $03 $86 ; 0
+.dstruct foo instanceof DungeonData data $00 $00 $04 $86
+.dstruct foo instanceof DungeonData data $00 $00 $01 $86
+.dstruct foo instanceof DungeonData data $19 $56 $00 $91
+.dstruct foo instanceof DungeonData data $19 $53 $00 $91
+.dstruct foo instanceof DungeonData data $19 $5E $00 $91
+.dstruct foo instanceof DungeonData data $19 $53 $00 $91
+.dstruct foo instanceof DungeonData data $19 $55 $00 $91
+.dstruct foo instanceof DungeonData data $19 $57 $00 $91
+.dstruct foo instanceof DungeonData data $19 $57 $00 $91
+.dstruct foo instanceof DungeonData data $19 $53 $00 $91 ; 10
+.dstruct foo instanceof DungeonData data $19 $56 $00 $91
+.dstruct foo instanceof DungeonData data $19 $56 $00 $91
+.dstruct foo instanceof DungeonData data $19 $55 $00 $91
+.dstruct foo instanceof DungeonData data $19 $57 $00 $91
+.dstruct foo instanceof DungeonData data $00 $00 $00 $91
+.dstruct foo instanceof DungeonData data $19 $5C $03 $86
+.dstruct foo instanceof DungeonData data $19 $5C $03 $86
+.dstruct foo instanceof DungeonData data $19 $5C $03 $86
+.dstruct foo instanceof DungeonData data $19 $5C $03 $86
+.dstruct foo instanceof DungeonData data $00 $00 $02 $86 ; 20
+.dstruct foo instanceof DungeonData data $00 $00 $02 $86
+.dstruct foo instanceof DungeonData data $19 $4D $03 $86
+.dstruct foo instanceof DungeonData data $19 $4D $01 $91
+.dstruct foo instanceof DungeonData data $19 $5D $01 $91
+.dstruct foo instanceof DungeonData data $19 $5D $01 $91
+.dstruct foo instanceof DungeonData data $19 $5E $01 $91
+.dstruct foo instanceof DungeonData data $19 $53 $01 $91
+.dstruct foo instanceof DungeonData data $19 $4B $06 $86
+.dstruct foo instanceof DungeonData data $19 $4B $06 $86
+.dstruct foo instanceof DungeonData data $19 $4B $06 $86 ; 30
+.dstruct foo instanceof DungeonData data $19 $54 $05 $85
+.dstruct foo instanceof DungeonData data $19 $58 $05 $85
+.dstruct foo instanceof DungeonData data $00 $00 $05 $85
+.dstruct foo instanceof DungeonData data $19 $52 $06 $86
+.dstruct foo instanceof DungeonData data $19 $4F $06 $86
+.dstruct foo instanceof DungeonData data $19 $4B $06 $86
+.dstruct foo instanceof DungeonData data $19 $50 $06 $86
+.dstruct foo instanceof DungeonData data $19 $50 $06 $86
+.dstruct foo instanceof DungeonData data $19 $4B $06 $86
+.dstruct foo instanceof DungeonData data $19 $4C $09 $86 ; 40
+.dstruct foo instanceof DungeonData data $19 $51 $09 $86
+.dstruct foo instanceof DungeonData data $19 $51 $09 $86
+.dstruct foo instanceof DungeonData data $19 $52 $07 $91
+.dstruct foo instanceof DungeonData data $19 $4F $07 $91
+.dstruct foo instanceof DungeonData data $19 $4F $07 $91
+.dstruct foo instanceof DungeonData data $19 $56 $07 $91
+.dstruct foo instanceof DungeonData data $19 $50 $08 $86
+.dstruct foo instanceof DungeonData data $19 $51 $08 $86
+.dstruct foo instanceof DungeonData data $19 $4F $08 $86
+.dstruct foo instanceof DungeonData data $19 $5A $08 $86 ; 50
+.dstruct foo instanceof DungeonData data $19 $59 $08 $86
+.dstruct foo instanceof DungeonData data $19 $59 $08 $86
+.dstruct foo instanceof DungeonData data $19 $55 $05 $91
+.dstruct foo instanceof DungeonData data $19 $53 $05 $91
+.dstruct foo instanceof DungeonData data $19 $57 $05 $91
+.dstruct foo instanceof DungeonData data $19 $57 $05 $91
+.dstruct foo instanceof DungeonData data $19 $58 $05 $91
+.dstruct foo instanceof DungeonData data $19 $59 $09 $86
+.dstruct foo instanceof DungeonData data $19 $01 $0A $91
+.dstruct foo instanceof DungeonData data $19 $01 $02 $91 ; 60
 
-; Data from F61C to F716 (251 bytes)
-_DATA_F61C_:
-.db $86 $00 $00 $04 $86 $00 $00 $01 $86 $19 $56 $00 $91 $19 $53 $00
-.db $91 $19 $5E $00 $91 $19 $53 $00 $91 $19 $55 $00 $91 $19 $57 $00
-.db $91 $19 $57 $00 $91 $19 $53 $00 $91 $19 $56 $00 $91 $19 $56 $00
-.db $91 $19 $55 $00 $91 $19 $57 $00 $91 $00 $00 $00 $91 $19 $5C $03
-.db $86 $19 $5C $03 $86 $19 $5C $03 $86 $19 $5C $03 $86 $00 $00 $02
-.db $86 $00 $00 $02 $86 $19 $4D $03 $86 $19 $4D $01 $91 $19 $5D $01
-.db $91 $19 $5D $01 $91 $19 $5E $01 $91 $19 $53 $01 $91 $19 $4B $06
-.db $86 $19 $4B $06 $86 $19 $4B $06 $86 $19 $54 $05 $85 $19 $58 $05
-.db $85 $00 $00 $05 $85 $19 $52 $06 $86 $19 $4F $06 $86 $19 $4B $06
-.db $86 $19 $50 $06 $86 $19 $50 $06 $86 $19 $4B $06 $86 $19 $4C $09
-.db $86 $19 $51 $09 $86 $19 $51 $09 $86 $19 $52 $07 $91 $19 $4F $07
-.db $91 $19 $4F $07 $91 $19 $56 $07 $91 $19 $50 $08 $86 $19 $51 $08
-.db $86 $19 $4F $08 $86 $19 $5A $08 $86 $19 $59 $08 $86 $19 $59 $08
-.db $86 $19 $55 $05 $91 $19 $53 $05 $91 $19 $57 $05 $91 $19 $57 $05
-.db $91 $19 $58 $05 $91 $19 $59 $09 $86 $19 $01 $0A $91 $19 $01 $02
-.db $91
+
 .dsb 10,$00
 
 ; Data from F717 to F832 (284 bytes)
@@ -19251,7 +20143,7 @@ _DATA_FEB2_:
 .db $D2 $10 $F4 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
 
 ; Data from FF02 to FF97 (150 bytes)
-_DATA_FF02_:
+IntroBox1:
 .db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11
 .db $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11
 .db $B8 $10 $B9 $10 $C0 $10 $C4 $10 $C5 $10 $C3 $10 $BA $10 $C0 $10
@@ -19725,7 +20617,7 @@ _LABEL_30052_:
     jp m,++
     ld ix,_RAM_C00E_
     ld b,$0A
---:  push bc
+--: push bc
     ld a,$04
     cp b
     jr z,+
@@ -19743,7 +20635,7 @@ _LABEL_30052_:
 
 ++:  ld ix,_RAM_C0EE_
     ld b,$08
---:  push bc
+--: push bc
     ld a,$01
     cp b
     jr z,+
@@ -19765,7 +20657,7 @@ _LABEL_300BF_:
     jp m,++
     ld ix,_RAM_C06E_
     ld b,$07
---:  push bc
+--: push bc
     ld a,$04
     cp b
     jr z,+
@@ -19783,7 +20675,7 @@ _LABEL_300BF_:
 
 ++:  ld ix,_RAM_C0EE_
     ld b,$08
---:  push bc
+--: push bc
     ld a,$01
     cp b
     jr z,+
@@ -20210,7 +21102,7 @@ _LABEL_304AD_:
 
 +:  call _LABEL_3002C_
 ++:  ld hl,$83CA
-+++:  pop af
++++:pop af
     call _LABEL_305FF_
     jp _LABEL_305C6_
 
@@ -20246,12 +21138,13 @@ _LABEL_30524_:
     ld a,$24
     ld hl,_RAM_C08E_
     set 2,(hl)
-+++:  ld hl,_RAM_C0AE_
++++:ld hl,_RAM_C0AE_
     set 2,(hl)
     call _LABEL_30272_
     jr _LABEL_305C6_
 
-++++:  ex af,af'
+++++:
+    ex af,af'
     cp $C0
     jr z,++
     cp $E0
@@ -20273,7 +21166,7 @@ _LABEL_30524_:
 ++:  ld de,_RAM_C10E_
     jr ++++
 
-+++:  ld de,$0009
++++:ld de,$0009
     add hl,de
     ld a,(hl)
     cp $E0
@@ -20291,7 +21184,8 @@ _LABEL_30524_:
     set 2,(hl)
     ld hl,_RAM_C18E_
     set 2,(hl)
-++++:  ld a,$FF
+++++:
+    ld a,$FF
     out (Port_PSG),a
     ld hl,_RAM_C0AE_
     set 2,(hl)
@@ -20436,8 +21330,9 @@ _LABEL_30664_:
 +:  add a,(ix+14)
     jr nc,++++
     inc (ix+15)
-+++:  set 1,(ix+7)
-++++:  ld (ix+14),a
++++:set 1,(ix+7)
+++++:
+    ld (ix+14),a
 _LABEL_306CD_:
     bit 2,(ix+0)
     ret nz
@@ -20551,7 +21446,7 @@ _LABEL_30778_:
 ++:  xor a
     jr -
 
-+++:  inc (ix+13)
++++:inc (ix+13)
     ld l,a
     ld h,$00
     add hl,de
@@ -20647,7 +21542,7 @@ _LABEL_30834_:
     jr nc,++
     inc h
 ++:  ld l,a
-+++:  ld (ix+14),l
++++:ld (ix+14),l
     ld (ix+15),h
     jp _LABEL_307E0_
 
@@ -20689,7 +21584,7 @@ _LABEL_30855_:
 +:  ld d,a
     ld e,$00
     add hl,de
-+++:  pop de
++++:pop de
     ret
 
 _LABEL_30894_:
@@ -20823,7 +21718,7 @@ _LABEL_30961_:
     ld (ix+2),a
     ret
 
-+++:  and $0F
++++:and $0F
     ld (ix+8),a
     ex af,af'
     jp nz,+
@@ -21180,10 +22075,11 @@ _LABEL_30B37_:
     ld b,$05
     jr ++++
 
-+++:  ex af,af'
++++:ex af,af'
     ld a,$01
     ld b,$06
-++++:  ld (ix+7),a
+++++:
+    ld (ix+7),a
     ex af,af'
     bit 2,a
     jr z,+
@@ -21217,7 +22113,7 @@ _LABEL_30BD9_:
     jr nc,++
     inc (ix+15)
 ++:  ld (ix+14),a
-+++:  bit 2,(ix+0)
++++:bit 2,(ix+0)
     ret nz
     ld a,(ix+19)
     cp $1F
@@ -21308,11 +22204,12 @@ _LABEL_30C8E_:
 ++:  xor a
     jr -
 
-+++:  ld (ix+19),$FF
++++:ld (ix+19),$FF
     pop hl
     ret
 
-++++:  inc (ix+12)
+++++:
+    inc (ix+12)
     add a,(ix+8)
     bit 4,a
     ret z
@@ -23475,8 +24372,8 @@ _DATA_3BC68_:
 .incbin "Phantasy Star (Japan)_DATA_3C000_.inc"
 
 ; Data from 3DF6E to 3FDED (7808 bytes)
-_DATA_3DF6E_:
-.incbin "Phantasy Star (Japan)_DATA_3DF6E_.inc"
+DungeonsData:
+.incbin "Phantasy Star (Japan)DungeonsData.inc"
 
 ; Data from 3FDEE to 3FFFF (530 bytes)
 _DATA_3FDEE_:
@@ -23598,7 +24495,7 @@ TilesExtraFont:
 .db $00 $00 $40 $00 $10 $F0 $10 $00 $00 $40 $00 $10 $F0 $10 $00 $00
 
 ; Data from 43F5E to 43FFF (162 bytes)
-_DATA_43F5E_:
+TilesExtraFont2:
 .db $88 $C7 $D7 $BB $BB $01 $7D $7D $FF $05 $6D $93 $AB $93 $FF $BF
 .db $81 $77 $C1 $D7 $80 $F7 $F7 $EF $83 $C7 $01 $D7 $83 $55 $C7 $03
 .db $C1 $9D $B7 $81 $41 $F7 $80 $81 $BD $81 $B7 $81 $77 $41 $41 $DB
@@ -23628,8 +24525,8 @@ _DATA_48000_:
 .ORG $0000
 
 ; Data from 4C000 to 4FFFF (16384 bytes)
-_DATA_4C000_:
-.incbin "Phantasy Star (Japan)_DATA_4C000_.inc"
+DarkForceSpritePalette:
+.incbin "Phantasy Star (Japan)DarkForceSpritePalette.inc"
 
 .BANK 20
 .ORG $0000
@@ -25855,7 +26752,7 @@ TilesSpace:
 .incbin "Phantasy Star (Japan)_DATA_60000_.inc"
 
 ; Data from 62484 to 62579 (246 bytes)
-_DATA_62484_:
+TilemapFrame:
 .db $45 $00 $81 $01 $14 $02 $81 $01 $0A $00 $81 $03 $14 $00 $81 $03
 .db $0A $00 $81 $03 $14 $00 $81 $03 $0A $00 $81 $03 $14 $00 $81 $03
 .db $0A $00 $81 $03 $14 $00 $81 $03 $0A $00 $81 $03 $14 $00 $81 $03
@@ -25874,12 +26771,12 @@ _DATA_62484_:
 .db $08 $7F $08 $07 $08 $00
 
 ; Data from 6257A to 62589 (16 bytes)
-_DATA_6257A_:
+PaletteFrame:
 .db $00 $00 $3F $0F $0B $06 $01
 .dsb 9,$00
 
 ; Data from 6258A to 625DF (86 bytes)
-_DATA_6258A_:
+TilesFrame:
 .db $08 $00 $98 $0F $35 $4E $54 $A6 $F9 $A9 $C7 $FF $88 $25 $12 $26
 .db $49 $94 $FF $C3 $85 $A9 $93 $C5 $AB $99 $A5 $00 $08 $00 $98 $0F
 .db $3F $5A $6D $F2 $D5 $EA $D5 $FF $DD $AE $53 $AE $7A $B9 $FF $EB
@@ -25925,8 +26822,8 @@ _DATA_62782_:
 .db $17 $18 $19 $1A $1B $1C
 
 ; Data from 627A8 to 63F1F (6008 bytes)
-_DATA_627A8_:
-.incbin "Phantasy Star (Japan)_DATA_627A8_.inc"
+MarkIIILogo1bpp:
+.incbin "Phantasy Star (Japan)MarkIIILogo1bpp.inc"
 
 ; Data from 63F20 to 63F4F (48 bytes)
 _DATA_63F20_:
@@ -26262,7 +27159,7 @@ _DATA_71EC0_:
 .incbin "Phantasy Star (Japan)_DATA_71EC0_.inc"
 
 ; Data from 73D00 to 73DFF (256 bytes)
-_DATA_73D00_:
+TilemapTopPlanet:
 .db $82 $00 $01 $03 $00 $97 $01 $02 $03 $04 $05 $06 $07 $08 $09 $0A
 .db $0B $40 $41 $42 $43 $44 $45 $46 $47 $48 $49 $00 $01 $03 $00 $84
 .db $01 $00 $00 $0C $04 $00 $92 $0D $0E $0F $10 $11 $12 $13 $14 $15

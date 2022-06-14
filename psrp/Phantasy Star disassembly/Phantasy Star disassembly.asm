@@ -82,11 +82,11 @@ BANKS 30
 .define ActualPalette             $c220     ; 32 bytes Actual palette (when fading)
 .define TargetPalette             $c240     ; 32 bytes Target palette
 
-.define xc258                     $c258     ; 8 bytes? ??? RAM re-used for enemy scenes as well as scrolling scenes?
+.define _RAM_c258_                     $c258     ; 8 bytes? ??? RAM re-used for enemy scenes as well as scrolling scenes?
 
-.define xc260                     $c260     ; w ???
-.define xc262                     $c262     ; b ??? Page
-.define xc263                     $c263     ; b ??? Scrollingtilemap data page(?)
+.define _RAM_c260_                     $c260     ; w ???
+.define _RAM_c262_                     $c262     ; b ??? Page
+.define _RAM_c263_                     $c263     ; b ??? Scrollingtilemap data page(?)
 .define ScrollDirection           $c264     ; b Scroll direction; %----RLDU
 .define PaletteRotateEnabled      $c265     ; b Palette rotation enabled if non-zero
 .define WalkingMovementCounter    $c265     ; b Counter for movement
@@ -102,13 +102,13 @@ BANKS 30
                                             ; +1: ResetValue  Reset value of counter
                                             ; +2: CountDown   Counted down to 0 and then reset
                                             ; +3: Counter     Counted up or down at each reset
-.define xc289Pointer              $c287     ; w Pointer into following
-.define xc289                     $c289     ; 16 (2*8) bytes -> c299, array of 2-byte entries - list of multi-sprite "entities"?
+.define _RAM_c289_Pointer              $c287     ; w Pointer into following
+.define _RAM_c289_                     $c289     ; 16 (2*8) bytes -> c299, array of 2-byte entries - list of multi-sprite "entities"?
 
 .define SceneType                 $c29e     ; b Scene characteristics; controls which animation to do (? and others)
                                             ;   1-32
 
-.define xc29d                     $c29d     ; b ???
+.define _RAM_c29d_                     $c29d     ; b ???
 
 .define AnimDelayCounter          $c2bc     ; b Counter for tile animation effects - delay between frames - must be followed by:
 .define AnimFrameCounter          $c2bd     ; b Counter for tile animation effects - frame #
@@ -123,34 +123,34 @@ BANKS 30
 .define NumEnemies                $c2c7     ; b counter for number of enemies
 .define EnemyName                 $c2c8     ; 8 bytes -> $c2d0 8 character enemy name
 
-.define xc2d0                     $c2d0     ; w ??? result of NumEnemies*(something)
+.define _RAM_c2d0_                     $c2d0     ; w ??? result of NumEnemies*(something)
 .define MovementInProgress        $c2d2     ; b $ff when doing a block movement
 .define TextBox20x6Open           $c2d3     ; b 20x6 text box open
 
-.define xc2d5                     $c2d5     ; b ???
+.define _RAM_c2d5_                     $c2d5     ; b ???
 .define SceneAnimEnabled          $c2d6     ; b Enemy scene animations only happen when non-zero
-.define xc2d7                     $c2d7     ; b ???
+.define _RAM_c2d7_                     $c2d7     ; b ???
 
-.define xc2d9                     $c2d9     ; w ???
+.define _RAM_c2d9_                     $c2d9     ; w ???
 
 .define RoomIndex                 $c2db     ; b Room index to table at $49d1
 
 .define EnemyMoney                $c2dd     ; w Monster money drop - result of numenemies*(something)
-.define xc2df                     $c2df     ; b ???
-.define xc2e0                     $c2e0     ; b ???
-.define xc2e1                     $c2e1     ; w ??? might be 2*b
+.define _RAM_c2df_                     $c2df     ; b ???
+.define _RAM_c2e0_                     $c2e0     ; b ???
+.define _RAM_c2e1_                     $c2e1     ; w ??? might be 2*b
 
 .define BattleProbability         $c2e3     ; b Chance of an enemy encounter (*255)
 
-.define xc2e5                     $c2e5     ; b ???
+.define _RAM_c2e5_                     $c2e5     ; b ???
 .define EnemyNumber               $c2e6     ; b Enemy number - index into EnemyData
-.define xc2e7                     $c2e7     ; b ???
-.define xc2e8                     $c2e8     ; b ???
-.define xc2e9                     $c2e9     ; b ???
-.define xc2ea                     $c2ea     ; b ???
-.define xc2eb                     $c2eb     ; b ???
+.define _RAM_c2e7_                     $c2e7     ; b ???
+.define _RAM_c2e8_                     $c2e8     ; b ???
+.define _RAM_c2e9_                     $c2e9     ; b ???
+.define _RAM_c2ea_                     $c2ea     ; b ???
+.define _RAM_c2eb_                     $c2eb     ; b ???
 
-.define xc2f2                     $c2f2     ; w ???
+.define _RAM_c2f2_                     $c2f2     ; w ???
 .define CurrentlyPlayingMusic     $c2f4     ; b Currently playing music number
 
 .define GameData                  $c300     ; 1024 bytes -> $c700 All data saved/loaded from SRAM
@@ -161,19 +161,19 @@ BANKS 30
 .define VLocation                 $c305     ; w Vertical location on map - skips parts
 
 .define ScrollScreens             $c307     ; b Counted down when scrolling between planets/in intro
-.define xc308                     $c308     ; b Type of current "world"???
-.define xc309                     $c309     ; b Current "world"???
+.define _RAM_c308_                     $c308     ; b Type of current "world"???
+.define _RAM_c309_                     $c309     ; b Current "world"???
 
 
-.define xc30e                     $c30e     ; b ??? used by palette rotation but could be more
+.define _RAM_c30e_                     $c30e     ; b ??? used by palette rotation but could be more
 .define VehicleMovementFlags      $c30e     ; b Zero if not in a vehicle, else flags for terrain that can be passed?
 
 .define PaletteRotatePos          $c30f     ; b Palette rotation position
 .define PaletteRotateCounter      $c310     ; b Palette rotation delay counter
-.define xc311                     $c311     ; w ??? Related to VLocation
-.define xc313                     $c313     ; w ??? Related to HLocation
-.define xc315                     $c315     ; b ???
-.define xc316                     $c316     ; b Backup of FunctionLookupIndex?
+.define _RAM_c311_                     $c311     ; w ??? Related to VLocation
+.define _RAM_c313_                     $c313     ; w ??? Related to HLocation
+.define _RAM_c315_                     $c315     ; b ???
+.define _RAM_c316_                     $c316     ; b Backup of FunctionLookupIndex?
 
 .define CharacterStats            $c400     ; 192 (12 x 16) bytes -> $c4c0 Character attributes:
                                             ; +0: b alive (bit 0), power boost active (bit 7)
@@ -213,7 +213,7 @@ BANKS 30
 .define HaveGivenShortcake        $c511     ; $ff if yes
 .define HaveBeatenLaShiec         $c516     ; 1 if yes
 .define HaveBeatenShadow          $c517     ; $ff if yes
-.define xc600                     $c600     ; ?
+.define _RAM_c600_                     $c600     ; ?
 
 .define DungeonKeyIsHidden        $c604     ; $ff at start of game, 0 when villager tells you about it
 
@@ -243,14 +243,14 @@ BANKS 30
 
 .define SpriteTable               $c900     ; 256 bytes -> $ca00 , copy of sprite table for rapid writing to VDP
 
-.define xcc00                     $cc00     ; 192 bytes? Areas for decompression of data
-.define xcd00                     $cd00     ;
-.define xce00                     $ce00     ;
-.define xcf00                     $cf00     ;
+.define _RAM_cc00_                     $cc00     ; 192 bytes? Areas for decompression of data
+.define _RAM_cd00_                     $cd00     ;
+.define _RAM_ce00_                     $ce00     ;
+.define _RAM_cf00_                     $cf00     ;
 
 .define TileMapData               $d000     ; 1792 bytes -> $d700 RAM copy of the tilemap
 
-.define xd724                     $d724     ;  384 bytes -> $d8a4 RAM copy of old tilemap for ???
+.define _RAM_d724_                     $d724     ;  384 bytes -> $d8a4 RAM copy of old tilemap for ???
 .define OldTileMapMenu            $d8a4     ;  132 bytes -> $d928 RAM copy of old tilemap for menu
 .define OldTileMapEnemyName10x4   $d928     ;   80 bytes -> $d978 RAM copy of old tilemap for 10x4 box for enemy name
 .define OldTileMapEnemyStats8x10  $d978     ;  160 bytes -> $d9c8 RAM copy of old tilemap for 8x10 box for enemy stats
@@ -261,7 +261,7 @@ BANKS 30
 .define OldTileMap5x5             $de64     ;   50 bytes -> $de96  RAM copy of old tilemap for 5x5 box
 
 .define Port3EVal                 $df00     ; b Last value written to port $3e (IO control)
-.define xdf01                     $df01     ; b ???
+.define _RAM_df01_                     $df01     ; b ???
 
 ;=======================================================================================================
 ; SRAM:
@@ -1226,7 +1226,7 @@ CountryDetection:      ; $035f
 .section "NTSC detection" overwrite
 NTSCDetection:         ; $0383
     ld hl,$0000
-  -:in a,(VDPStatus)   ; Check VDP status      ; 000386 DB BF
+  -:in a,(VDPStatus)   ; Check VDP status
     or a
     jp p,-             ; Wait for bit 7 (VSync) to be 0
   -:in a,(VDPStatus)
@@ -1711,7 +1711,7 @@ LoadMarkIIILogo:       ; $6a0
     ldir
 
     ld a,$ff
-    ld (xdf01),a       ; $ff ->
+    ld (_RAM_df01_),a       ; $ff ->
 
     ld hl,$0000
     ld (PaletteMoveDelay),hl ; $00 -> PaletteMoveDelay, PaletteMovePos
@@ -1774,18 +1774,18 @@ NewGame:
     ld (iy+11),$10     ; Armour $10
     call InitialiseCharacterStats
 
-    ld hl,xc600        ; ???
+    ld hl,_RAM_c600_        ; ???
     ld (hl),$ff
     ld hl,DungeonKeyIsHidden
     ld (hl),$ff
     ld hl,$0404        ; Set "world" to 4 (type 4)
-    ld (xc308),hl      ;
+    ld (_RAM_c308_),hl      ;
     ld hl,$0610        ;
     ld (HLocation),hl
-    ld (xc313),hl      ; ???
+    ld (_RAM_c313_),hl      ; ???
     ld hl,$0100        ;
     ld (VLocation),hl
-    ld (xc311),hl      ; ???
+    ld (_RAM_c311_),hl      ; ???
     ld hl,$0000        ;
     ld (Meseta),hl      ; ???
 
@@ -1864,7 +1864,7 @@ _ContinueOrDeleteMenu: ; $7e3
     ldir               ; Copy
     ld a,SRAMPagingOff
     ld (SRAMPaging),a
-    ld a,(xc316)       ; Check xc316
+    ld a,(_RAM_c316_)       ; Check _RAM_c316_
     cp 11
     ret nz             ; if == 11
     ld hl,FunctionLookupIndex
@@ -2064,10 +2064,10 @@ fn9cb: ; Interplanetary flight?
     jr nz,_f
 
     call _fnaf4        ; if no button pressed:
-    ld hl,(xc2f2)
+    ld hl,(_RAM_c2f2_)
     ld de,8
     add hl,de
-    ld (xc2f2),hl      ; Add 8 to xc2f2
+    ld (_RAM_c2f2_),hl      ; Add 8 to _RAM_c2f2_
     ld a,h
     cp $08             ; Loop until h = $8 = 4096 frames = 68.2s?
     jr c,-
@@ -2130,7 +2130,7 @@ fn9cb: ; Interplanetary flight?
     call FadeInWholePalette
 
     ld hl,0
-    ld (xc2f2),hl
+    ld (_RAM_c2f2_),hl
 
     ld a,8
     ld (ScrollScreens),a
@@ -2154,92 +2154,92 @@ fn9cb: ; Interplanetary flight?
     call fn0bd0
 
     ld hl,$0800
-    ld ($c2f2),hl      ; 000A9D 22 F2 C2
+    ld ($c2f2),hl
   -:ld a,(PauseFlag)
     or a
     call nz,DoPause
     ld a,$0e           ; VBlankFunction_OutsideScrolling
     call ExecuteFunctionIndexAInNextVBlank
-    ld a,($c205)       ; 000AAC 3A 05 C2
-    and $30             ; 000AAF E6 30
+    ld a,($c205)
+    and $30
     jr nz,+
-    call _fnaf4           ; 000AB3 CD F4 0A
-    ld hl,($c2f2)      ; 000AB6 2A F2 C2
-    ld de,$0008        ; 000AB9 11 08 00
-    or a               ; 000ABC B7
-    sbc hl,de           ; 000ABD ED 52
-    ld ($c2f2),hl      ; 000ABF 22 F2 C2
+    call _fnaf4
+    ld hl,($c2f2)
+    ld de,$0008
+    or a
+    sbc hl,de
+    ld ($c2f2),hl
     jr nc,-
   +:ld hl,$0000
-    ld ($c2f2),hl      ; 000AC7 22 F2 C2
+    ld ($c2f2),hl
     ld hl,FunctionLookupIndex
-    ld (hl),$08        ; 000ACD 36 08
-    ld a,(xc2e9)       ; 000ACF 3A E9 C2
-    and $7f             ; 000AD2 E6 7F
-    ld l,a             ; 000AD4 6F
-    add a,a             ; 000AD5 87
-    add a,a             ; 000AD6 87
-    add a,a             ; 000AD7 87
-    add a,l             ; 000AD8 85
-    ld l,a             ; 000AD9 6F
-    ld h,$00           ; 000ADA 26 00
-    ld de,$0c18        ; 000ADC 11 18 0C
-    add hl,de           ; 000ADF 19
-    xor a               ; 000AE0 AF
-    ld (PaletteRotateEnabled),a       ; 000AE1 32 65 C2
-    ld ($c264),a       ; 000AE4 32 64 C2
-    ld (xc2e9),a       ; 000AE7 32 E9 C2
-    ld ($c30e),a       ; 000AEA 32 0E C3
-    ld ($c307),a       ; 000AED 32 07 C3
+    ld (hl),$08
+    ld a,(_RAM_c2e9_)
+    and $7f
+    ld l,a
+    add a,a
+    add a,a
+    add a,a
+    add a,l
+    ld l,a
+    ld h,$00
+    ld de,$0c18
+    add hl,de
+    xor a
+    ld (PaletteRotateEnabled),a
+    ld ($c264),a
+    ld (_RAM_c2e9_),a
+    ld ($c30e),a
+    ld ($c307),a
     call fn7b1e
     ret
 
 _fnaf4:
-    ld de,($c2f2)      ; 000AF4 ED 5B F2 C2
-    ld a,($c304)       ; 000AF8 3A 04 C3
-    ld h,a             ; 000AFB 67
-    ld b,a             ; 000AFC 47
-    ld a,($c307)       ; 000AFD 3A 07 C3
-    ld l,a             ; 000B00 6F
-    or a               ; 000B01 B7
-    sbc hl,de           ; 000B02 ED 52
-    ld a,h             ; 000B04 7C
-    cp $e0             ; 000B05 FE E0
+    ld de,($c2f2)
+    ld a,($c304)
+    ld h,a
+    ld b,a
+    ld a,($c307)
+    ld l,a
+    or a
+    sbc hl,de
+    ld a,h
+    cp $e0
     jr c,+
-    sub $20             ; 000B09 D6 20
-  +:ld h,a             ; 000B0B 67
-    ld ($c304),a       ; 000B0C 32 04 C3
-    ld a,l             ; 000B0F 7D
-    ld ($c307),a       ; 000B10 32 07 C3
-    ld a,b             ; 000B13 78
-    sub h               ; 000B14 94
-    and $0f             ; 000B15 E6 0F
-    ret z               ; 000B17 C8
-    ld e,a             ; 000B18 5F
-    ld d,$00           ; 000B19 16 00
-    ld hl,($c305)      ; 000B1B 2A 05 C3
-    ld b,h             ; 000B1E 44
-    ld a,l             ; 000B1F 7D
-    sub e               ; 000B20 93
-    cp $c0             ; 000B21 FE C0
+    sub $20
+  +:ld h,a
+    ld ($c304),a
+    ld a,l
+    ld ($c307),a
+    ld a,b
+    sub h
+    and $0f
+    ret z
+    ld e,a
+    ld d,$00
+    ld hl,($c305)
+    ld b,h
+    ld a,l
+    sub e
+    cp $c0
     jr c,+
-    sub $40             ; 000B25 D6 40
-    dec h               ; 000B27 25
-  +:ld l,a             ; 000B28 6F
-    ld a,h             ; 000B29 7C
-    and $07             ; 000B2A E6 07
-    ld h,a             ; 000B2C 67
-    ld ($c305),hl      ; 000B2D 22 05 C3
-    cp b               ; 000B30 B8
-    call nz,$74e0        ; 000B31 C4 E0 74
-    call $75dd           ; 000B34 CD DD 75
-    ld a,($c2f3)       ; 000B37 3A F3 C2
-    cp $07             ; 000B3A FE 07
-    ret nz              ; 000B3C C0
-    ld a,(PaletteFadeControl)       ; 000B3D 3A 1B C2
-    or a               ; 000B40 B7
-    call nz,$7de3        ; 000B41 C4 E3 7D
-    ret                    ; 000B44 C9
+    sub $40
+    dec h
+  +:ld l,a
+    ld a,h
+    and $07
+    ld h,a
+    ld ($c305),hl
+    cp b
+    call nz,$74e0
+    call $75dd
+    ld a,($c2f3)
+    cp $07
+    ret nz
+    ld a,(PaletteFadeControl)
+    or a
+    call nz,$7de3
+    ret
 
 _ScrollToTopPlanet:    ; $0b45
     ld de,2
@@ -2262,7 +2262,7 @@ _ScrollToTopPlanet:    ; $0b45
     ret z              ; or d==0
 
     ; When we have got to the last screen to scroll:
-    ld a,(xc2e9)       ; get xc2e9
+    ld a,(_RAM_c2e9_)       ; get _RAM_c2e9_
     and $7f            ; strip high bit
     ld l,a
     add a,a
@@ -2270,11 +2270,11 @@ _ScrollToTopPlanet:    ; $0b45
     add a,a
     add a,l
     ld l,a
-    ld h,$00           ; hl = xc2e9*9
-    ld de,_WorldData-9+3 ; get xc2e9th data
+    ld h,$00           ; hl = _RAM_c2e9_*9
+    ld de,_WorldData-9+3 ; get _RAM_c2e9_th data
     add hl,de
     ld a,(hl)
-    ld (xc308),a
+    ld (_RAM_c308_),a
     call _LoadPlanetPalette
 
     ld hl,TargetPalette
@@ -2286,7 +2286,7 @@ _ScrollToTopPlanet:    ; $0b45
     jp DecompressToTileMapData ; and ret
 
 _LoadPlanetPalette:    ; $0b8d
-    ld a,(xc308)
+    ld a,(_RAM_c308_)
     and $03
     add a,a
     ld l,a
@@ -2307,7 +2307,7 @@ PaletteSpacePlanets:   ; $0ba6
 .db cl333 cl333 cl233 cl033 cl123 cl023 ;$3F $3F $3E $3C $39 $38 ; Motavia
 
 fn0bb8: ; $0bb8
-    ld a,(xc2e9)
+    ld a,(_RAM_c2e9_)
     and $7f
     ld l,a
     add a,a
@@ -2315,7 +2315,7 @@ fn0bb8: ; $0bb8
     add a,a
     add a,l
     ld l,a
-    ld h,0             ; hl = xc2e9*9
+    ld h,0             ; hl = _RAM_c2e9_*9
     ld de,_WorldData-9
     add hl,de
 
@@ -2324,7 +2324,7 @@ fn0bb8: ; $0bb8
     call fn7b1e
 
 fn0bd0:
-    ld a,(xc2e9)       ; ??? again at +3?
+    ld a,(_RAM_c2e9_)       ; ??? again at +3?
     and $7f
     ld l,a
     add a,a
@@ -2344,15 +2344,15 @@ fn0bd0:
     ld (ControlsNew),a
     ld (ScrollDirection),a
 
-    ld a,(xc2e9)
+    ld a,(_RAM_c2e9_)
     cp $83             ; ???
     ld a,$10
     jr c,+
     inc a
-  +:ld (xc30e),a       ; xc30e = $10 or $11 if xc2e9==$83
+  +:ld (_RAM_c30e_),a       ; _RAM_c30e_ = $10 or $11 if _RAM_c2e9_==$83
 
     ld hl,0
-    ld (xc2f2),hl
+    ld (_RAM_c2f2_),hl
 
     call LoadScene
 
@@ -2419,13 +2419,13 @@ fn0c64: ; $0c64
     or a               ;                                      |
     ret nz             ; exit if PaletteRotateEnabled         |
     xor a           ; zero a                               |
- ++:ld (xc29d),a       ; Save to xc29d <----------------------+
+ ++:ld (_RAM_c29d_),a       ; Save to _RAM_c29d_ <----------------------+
 
     ld hl,FunctionLookupIndex
     ld (hl),$0c        ; Set FunctionLookupIndex to 0c (???)
 
     ld a,($c810)       ; Copy CharacterSpriteAttributes[0].currentanimframe
-    ld (xc2d7),a       ; to xc2d7
+    ld (_RAM_c2d7_),a       ; to _RAM_c2d7_
 
     ld hl,OutsideAnimCounters
     ld de,OutsideAnimCounters+1
@@ -2452,14 +2452,14 @@ LoadScene:             ; $0cc6
     inc (hl)           ; -> 9 = ???
     xor a              ; Set to 0:
     ld (SceneAnimEnabled),a
-    ld (xc315),a
+    ld (_RAM_c315_),a
     inc a              ; Set to 1:
-    ld (xc2d5),a
-    ld a,(xc308)
+    ld (_RAM_c2d5_),a
+    ld a,(_RAM_c308_)
     cp 4
     jr nc,+
 
-    SetPage TilesOutside ; If xc308 is <=4:
+    SetPage TilesOutside ; If _RAM_c308_ is <=4:
     ld hl,TilesOutside ; load non-town tileset
     TileAddressDE 0
     call LoadTiles4BitRLE
@@ -2486,13 +2486,13 @@ LoadScene:             ; $0cc6
     ld (HScroll),a     ; HScroll = - Hlocation (because HScroll is the opposite direction)
     ld a,(VLocation)   ; low byte only
     ld (VScroll),a
-    ld a,(xc309)
+    ld a,(_RAM_c309_)
     ld e,a
     ld d,$00
     ld hl,WorldDataLookup1
-    add hl,de          ; hl = WorldDataLookup1 + xc309
+    add hl,de          ; hl = WorldDataLookup1 + _RAM_c309_
     ld a,(hl)
-    ld (xc308),a       ; xc308 = (hl) = world type
+    ld (_RAM_c308_),a       ; _RAM_c308_ = (hl) = world type
     add a,a
     ld h,a
     add a,a
@@ -2503,14 +2503,14 @@ LoadScene:             ; $0cc6
     ld l,a
     ld h,$00
     ld de,WorldDataLookup2
-    add hl,de          ; hl = WorldDataLookup2 + 14*xc308
+    add hl,de          ; hl = WorldDataLookup2 + 14*_RAM_c308_
     ld e,(hl)
     inc hl
     ld d,(hl)
     inc hl
-    ld (xc260),de      ; xc260 = word there
+    ld (_RAM_c260_),de      ; _RAM_c260_ = word there
     ld a,(hl)
-    ld (xc262),a       ; xc262 = byte after it
+    ld (_RAM_c262_),a       ; _RAM_c262_ = byte after it
     inc hl
     ld e,(hl)
     ld d,$1f
@@ -2537,7 +2537,7 @@ LoadScene:             ; $0cc6
     ld (OutsideAnimCounters+4*5),de ; OutsideAnimCounters[5] = reset 7, enabled (next byte)
     inc hl
     ld a,(hl)
-    ld (xc263),a       ; xc263 = next byte
+    ld (_RAM_c263_),a       ; _RAM_c263_ = next byte
     inc hl
     ld a,(hl)
     inc hl
@@ -2547,17 +2547,17 @@ LoadScene:             ; $0cc6
         ld de,TargetPalette
         ld bc,17
         ldir           ; Load start of palette
-        ld a,(xc30e)
+        ld a,(_RAM_c30e_)
         or a
         jr nz,+
-        push hl        ; if xc30e=0:
+        push hl        ; if _RAM_c30e_=0:
             ld hl,SpritePalette1
             ld bc,13
             ldir       ; Load rest of palette
         pop hl
         ldi            ; last 2 palette entries from end of palette location
         ldi
-        jp ++          ; if xc30e!=0:
+        jp ++          ; if _RAM_c30e_!=0:
       +:ld hl,SpritePalette2
         ld bc,15
         ldir           ; Load different palette
@@ -2567,7 +2567,7 @@ LoadScene:             ; $0cc6
     inc hl
     ld h,(hl)
     ld l,a             ; hl = next word = ???
-    ld (xc2d9),hl
+    ld (_RAM_c2d9_),hl
     call DecompressScrollingTilemapData
     call FillTilemap
     ld a,$14
@@ -2579,18 +2579,18 @@ LoadScene:             ; $0cc6
     and $f             ; trim to low nibble
     ld (SceneType),a   ; set SceneType accordingly (???)
 
-    ld a,(xc30e)
-    cp $10             ; if xc30e>16
+    ld a,(_RAM_c30e_)
+    cp $10             ; if _RAM_c30e_>16
     ld c,$b8           ; then c=$b8 (?)
     jr nc,+
     or a
     ld c,MusicVehicle  ; else c=MusicVehicle
-    jr nz,+            ; if xc30e==0
-    ld a,(xc309)       ; then:
+    jr nz,+            ; if _RAM_c30e_==0
+    ld a,(_RAM_c309_)       ; then:
     ld e,a
     ld d,$00
     ld hl,WorldMusics
-    add hl,de          ; de = WorldMusics+xc309
+    add hl,de          ; de = WorldMusics+_RAM_c309_
     ld c,(hl)          ; c = (de) = music number
   +:ld a,c
     call CheckMusic
@@ -2619,7 +2619,7 @@ _ResetCharacterSpriteAttributes: ; $e02
     ld bc,$ff
     ld (hl),$00
     ldir               ; Zero $100 bytes (all of CharacterSpriteAttributes)
-    ld a,(xc30e)       ; Check xc30e
+    ld a,(_RAM_c30e_)       ; Check _RAM_c30e_
     or a               ; If zero,
     jp z,_InitialiseCharacterSpriteAttributes
     ld hl,CharacterSpriteAttributes
@@ -2685,9 +2685,9 @@ SpritePalette2:        ; $fe0
 ; followed by
 .orga $f1d
 .section "World data" overwrite
-WorldDataLookup1: ; which "world" to load data for for each value of xc309
+WorldDataLookup1: ; which "world" to load data for for each value of _RAM_c309_
 .db $00,$01,$02,$03,$04,$04,$04,$05,$05,$05,$05,$05,$06,$06,$07,$07,$07,$07,$07,$08,$08,$09,$09,$0A
-WorldMusics: ; Music for each value of xc309
+WorldMusics: ; Music for each value of _RAM_c309_
 .db MusicPalma,MusicMotabia,MusicDezoris,MusicDezoris,MusicTown,MusicTown,MusicTown,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicTown,MusicTown,MusicTown,MusicVillage,MusicTown,MusicVillage,MusicVillage,MusicDezoris,MusicDezoris,MusicVillage,MusicVillage,MusicBossDungeon
 WorldDataLookup2: ; "World" data
 /*
@@ -2696,11 +2696,11 @@ WorldDataLookup2: ; "World" data
 .db :\1 \2 \3 \4 \5 \6 \7 \8
 .dw \9 \10
 .endm
-;          ,,,,----------------------------------- Offset xc260 Points to a table of pointers to tilemap data?
+;          ,,,,----------------------------------- Offset _RAM_c260_ Points to a table of pointers to tilemap data?
 ;          ||||      ,-,-,-,-,-,------------------ various tile animation enables
-;          ||||      | | | | | |  ,,-------------- xc263 ??? page?
+;          ||||      | | | | | |  ,,-------------- _RAM_c263_ ??? page?
 ;          ||||      | | | | | |  ||  ,,,,-------- Palette offset
-;          ||||      | | | | | |  ||  |||| -,,,,-- xc2d9 ??? offset?
+;          ||||      | | | | | |  ||  |||| -,,,,-- _RAM_c2d9_ ??? offset?
 WorldData WorldData1,1,1,0,1,1,0,$1d,$0e47,$a935 ; Palma
 WorldData WorldData2,0,0,1,1,0,1,$1d,$0e58,$a9b9 ; Motabia
 WorldData WorldData3,0,0,0,0,0,0,$1d,$0e69,$a9e3 ; Dezoris
@@ -2713,12 +2713,12 @@ WorldData $9c07,0,0,0,0,0,0,$16,$0ec6,$ae5f ; ???
 WorldData $9d8b,0,0,0,0,0,0,$16,$0ed9,$ae71 ; ??? town
 WorldData $a250,0,0,0,0,0,0,$16,$0eec,$af37 ; Air Castle
 */
-;    ,,--,,-------------------------------------- Offset  xc260 \ Scrolling tilemap data?
-;    ||  ||  ,,---------------------------------- Page    xc262 /
+;    ,,--,,-------------------------------------- Offset  _RAM_c260_ \ Scrolling tilemap data?
+;    ||  ||  ,,---------------------------------- Page    _RAM_c262_ /
 ;    ||  ||  || ,-,-,-,-,-,---------------------- various tile animation enables
-;    ||  ||  || | | | | | |  ,,------------------ xc263 ??? page?
+;    ||  ||  || | | | | | |  ,,------------------ _RAM_c263_ ??? page?
 ;    ||  ||  || | | | | | |  ||  ,,--,,---------- Palette offset
-;    ||  ||  || | | | | | |  ||  ||  ||  ,,--,,-- xc2d9 ??? offset?
+;    ||  ||  || | | | | | |  ||  ||  ||  ,,--,,-- _RAM_c2d9_ ??? offset?
 .db $00,$80,$0d,1,1,0,1,1,0,$1d,$47,$0e,$35,$a9 ; Palma
 .db $76,$a2,$0d,0,0,1,1,0,1,$1d,$58,$0e,$b9,$a9 ; Motabia
 .db $00,$80,$0e,0,0,0,0,0,0,$1d,$69,$0e,$e3,$a9 ; Dezoris
@@ -2964,9 +2964,9 @@ FlashCursor:           ; $2fca
     srl a
     ld e,$00
     rr e
-    ld d,a             ; de = xc26c * 128 (128 bytes = 2 rows of tiles)
+    ld d,a             ; de = _RAM_c26c_ * 128 (128 bytes = 2 rows of tiles)
     add hl,de
-    ex de,hl           ; de = CursorTilemapAddress + xc26c * 128
+    ex de,hl           ; de = CursorTilemapAddress + _RAM_c26c_ * 128
     SetVRAMAddressToDE
 
     ld a,c             ; $00 or $f3 ("off" cursor)
@@ -3005,12 +3005,12 @@ FlashCursor:           ; $2fca
 ; outputs 8/16 bytes = 4/5 chars at (hl), then 3-digit number in a, then write | to VRAM address de
 ; Then does VBlankFunction_Enemy in VBlank to keep tile animations going
 Output4CharsPlusStatWide:  ; $3140
-    di                           ; 003140 F3
-    push de                      ; 003141 D5
-        push af                  ; 003142 F5
-            SetVRAMAddressToDE   ; 003143 CF
-            ld b,16              ; 003144 06 10
-            jp _f                ; 003146 C3 4F 31
+    di
+    push de
+        push af
+            SetVRAMAddressToDE
+            ld b,16
+            jp _f
 
 Output4CharsPlusStat:  ; $3149
     di
@@ -3092,9 +3092,9 @@ TilesMP:
 .ends
 ; followed by
 .orga $321f
-.section "Output xd724 tilemap data to bottom of screen" overwrite
+.section "Output _RAM_d724_ tilemap data to bottom of screen" overwrite
 fn321f:                ; $321f
-    ld hl,xd724
+    ld hl,_RAM_d724_
     TileMapAddressDE 0,18
     TileMapAreaBC 32,6
     jp OutputTilemapBoxWipePaging ; and ret
@@ -4019,222 +4019,222 @@ PaletteAirCastleFull:  ; $3fc2
 .orga $3fdd
 .section "Name entry screens (FunctionLookupTable $10, $11)" overwrite
 HandleNameEntry: ; 3fdd
-    ld a,(PauseFlag)             ; 003FDD 3A 12 C2
-    or a                         ; 003FE0 B7
-    call nz,DoPause              ; 003FE1 C4 1D 01
+    ld a,(PauseFlag)
+    or a
+    call nz,DoPause
 
-    ld ix,NameEntryCursorX       ; 003FE4 DD 21 84 C7
+    ld ix,NameEntryCursorX
     ld a,$08                     ; 003FE8 3E 08         ; VBlankFunction_Menu
-    call ExecuteFunctionIndexAInNextVBlank ; 003FEA CD 56 00
-    call _DrawCursorSprites      ; 003FED CD 26 42
-    ld a,(Controls)              ; 003FF0 3A 05 C2
+    call ExecuteFunctionIndexAInNextVBlank
+    call _DrawCursorSprites
+    ld a,(Controls)
 
-    and P11 | P12                ; 003FF3 E6 30
+    and P11 | P12
     jp z,_NameEntryNoButtonPressed ;03FF5 CA C8 40      ; not a button
 
     and P11                      ; 003FF8 E6 10         ; which button?
-    jp nz,_Button1Pressed        ; 003FFA C2 3E 40
+    jp nz,_Button1Pressed
 
 _Button2Pressed:
     ld a,(NameEntryCurrentlyPointed);3FFD 3A 88 C7      ; what is pointed?
     cp $4e                       ; 004000 FE 4E         ; = Next
-    jr z,_MoveToNextChar         ; 004002 28 12
+    jr z,_MoveToNextChar
     jr nc,_ControlChar           ; 004004 30 22         ; some other control char
 
     ld de,(NameEntryCharIndex)   ; 004006 ED 5B 81 C7   ; else, it's a char. Get the address to write to (this opcode could have been ld e,(NameEntryCharIndex))
-    ld d,$c7                     ; 00400A 16 C7
-    ld (de),a                    ; 00400C 12
-    call _GetTileMapDataAddressForCharAInHL ; 00400D CD 78 42
+    ld d,$c7
+    ld (de),a
+    call _GetTileMapDataAddressForCharAInHL
     ld a,(de)                    ; 004010 1A            ; retrieve value since the function killed it
-    di                           ; 004011 F3
-    call _WriteCharAToTileMapAndTileMapDataAtHL ; 004012 CD B5 42
-    ei                           ; 004015 FB
+    di
+    call _WriteCharAToTileMapAndTileMapDataAtHL
+    ei
 
 _MoveToNextChar:
-+:  ld a,(NameEntryMode)         ; 004016 3A 80 C7
++:  ld a,(NameEntryMode)
     ld c,$37                     ; 004019 0E 37         ; max = $37 for password
-    rra                          ; 00401B 1F
-    jr c,+                       ; 00401C 38 02
+    rra
+    jr c,+
     ld c,$25                     ; 00401E 0E 25         ; max = $25 nor name entry
 +:  ld hl,NameEntryCharIndex
-    ld a,(hl)                    ; 004023 7E
-    cp c                         ; 004024 B9
-    ret z                        ; 004025 C8
+    ld a,(hl)
+    cp c
+    ret z
     inc (hl)                     ; 004026 34            ; increment index if < max
-    ret                          ; 004027 C9
+    ret
 
 _ControlChar: ; 4028
     cp $50                       ; 004028 FE 50         ; = OK
-    jr z,_OKSelected             ; 00402A 28 27
+    jr z,_OKSelected
 
 _PrevSelected:
     ld a,(NameEntryMode)         ; 00402C 3A 80 C7      ; name entry or password?
     ld c,$00                     ; 00402F 0E 00         ; min = $00 for password
-    rra                          ; 004031 1F
-    jr c,+                       ; 004032 38 02
+    rra
+    jr c,+
     ld c,$21                     ; 004034 0E 21         ; min = $21 for name entry
 +:  ld hl,NameEntryCharIndex     ; 004036 21 81 C7      ; decrement NameEntryCharIndex if > min
-    ld a,(hl)                    ; 004039 7E
-    cp c                         ; 00403A B9
-    ret z                        ; 00403B C8
-    dec (hl)                     ; 00403C 35
-    ret                          ; 00403D C9
+    ld a,(hl)
+    cp c
+    ret z
+    dec (hl)
+    ret
 
 _Button1Pressed: ; 403e
 ; delete current char and move cursor back
     ld de,(NameEntryCharIndex)   ; 00403E ED 5B 81 C7   ; get pointed char
-    ld d,$c7                     ; 004042 16 C7
-    ld a,$00                     ; 004044 3E 00
+    ld d,$c7
+    ld a,$00
     ld (de),a                    ; 004046 12            ; zero it
-    call _GetTileMapDataAddressForCharAInHL ; 004047 CD 78 42
-    ld a,(de)                    ; 00404A 1A
-    di                           ; 00404B F3
-      call _WriteCharAToTileMapAndTileMapDataAtHL ; 00404C CD B5 42
-    ei                           ; 00404F FB
-    jp _PrevSelected             ; 004050 C3 2C 40
+    call _GetTileMapDataAddressForCharAInHL
+    ld a,(de)
+    di
+      call _WriteCharAToTileMapAndTileMapDataAtHL
+    ei
+    jp _PrevSelected
 
 _OKSelected:
-    ld a,(NameEntryMode)         ; 004053 3A 80 C7
-    rra                          ; 004056 1F
-    jr nc,_OKSelected_NameEntry  ; 004057 30 22
+    ld a,(NameEntryMode)
+    rra
+    jr nc,_OKSelected_NameEntry
 
 _OKSelected_Password:            ; ####################### this section is unused
     ld de,_PasswordLookupData    ; 004059 11 96 43   ; data
-    exx                          ; 00405C D9
-    ld b,$38                     ; 00405D 06 38
+    exx
+    ld b,$38
     ld hl,$c700
-    ld de,$c740                  ; 004062 11 40 C7
+    ld de,$c740
 -:  ld a,(hl)                    ; 004065 7E         ; read byte
-    or a                         ; 004066 B7
-    jr z,+                       ; 004067 28 07
+    or a
+    jr z,+
 
     exx                          ; 004069 D9         ; if non-zero, look up corresponding byte in the table
-    ld l,a                       ; 00406A 6F
-    ld h,$00                     ; 00406B 26 00
-    add hl,de                    ; 00406D 19
-    ld a,(hl)                    ; 00406E 7E
-    exx                          ; 00406F D9
+    ld l,a
+    ld h,$00
+    add hl,de
+    ld a,(hl)
+    exx
 
 +:  ld (de),a                    ; 004070 12         ; write byte to de
-    inc hl                       ; 004071 23
-    inc de                       ; 004072 13
+    inc hl
+    inc de
     djnz -                       ; 004073 10 F0      ; repeat for $38 bytes
 
     ld hl,FunctionLookupIndex
     ld (hl),$0c                  ; 004078 36 0C      ; $3d76
-    ret                          ; 00407A C9
+    ret
 
 _OKSelected_NameEntry:
     ld hl,$c721                  ; 00407B 21 21 C7   ; copy entered name
     ld de,$c778                  ; 00407E 11 78 C7   ; (why???)
-    ld bc,$0005                  ; 004081 01 05 00
-    ldir                         ; 004084 ED B0
+    ld bc,$0005
+    ldir
 
     ld hl,(NumberToShowInText)   ; 004086 2A C5 C2   ; still contains the slot number (1-5)
-    add hl,hl                    ; 004089 29
+    add hl,hl
     ld de,_SaveSlotNameTileAddresses-2 ; 00408A 11 BC 40   ; because it's a 1-based index
-    add hl,de                    ; 00408D 19
-    ld e,(hl)                    ; 00408E 5E
-    inc hl                       ; 00408F 23
+    add hl,de
+    ld e,(hl)
+    inc hl
     ld d,(hl)                    ; 004090 56         ; de = slot address
 
     ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
     ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
 
-    ld a,SRAMPagingOn            ; 004097 3E 08
+    ld a,SRAMPagingOn
     ld (SRAMPaging),a            ; 004099 32 FC FF   ; page in SRAM
     ldir                         ; 00409C ED B0      ; copy tiles to SRAM name section
 
     ld c,$08                     ; 00409E 0E 08      ; move dest 8 bytes on
-    ex de,hl                     ; 0040A0 EB
-    add hl,bc                    ; 0040A1 09
-    ex de,hl                     ; 0040A2 EB
+    ex de,hl
+    add hl,bc
+    ex de,hl
     ld c,$36                     ; 0040A3 0E 36      ; move src 54 bytes on (bottom row of name)
-    add hl,bc                    ; 0040A5 09
+    add hl,bc
     ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
-    ldir                         ; 0040A8 ED B0
+    ldir
 
     ld a,SRAMPagingOff           ; 0040AA 3E 80      ; page out SRAM
-    ld (SRAMPaging),a            ; 0040AC 32 FC FF
+    ld (SRAMPaging),a
 
-    ld a,(xc316)                 ; 0040AF 3A 16 C3   ; ???
-    cp $0b                       ; 0040B2 FE 0B
+    ld a,(_RAM_c316_)                 ; 0040AF 3A 16 C3   ; ???
+    cp $0b
     ld a,$0a                     ; 0040B4 3E 0A      ; $10d9
-    jr z,+                       ; 0040B6 28 02
+    jr z,+
     ld a,$0c                     ; 0040B8 3E 0C      ; $3d76
 +:  ld (FunctionLookupIndex),a   ; 0040BA 32 02 C2   ; continue on to there
-    ret                          ; 0040BD C9
+    ret
 
 _SaveSlotNameTileAddresses: ; $40be
 .dw $8118 $813c $8160 $8184 $81a8
 
 _NameEntryNoButtonPressed: ; 40c8
-    ld a,(Controls)              ; 0040C8 3A 05 C2
-    rra                          ; 0040CB 1F
-    jr c,_UpHeld            ; 0040CC 38 3E
-    rra                          ; 0040CE 1F
-    jr c,_DownHeld          ; 0040CF 38 52
-    rra                          ; 0040D1 1F
-    jr c,_LeftHeld          ; 0040D2 38 66
-    rra                          ; 0040D4 1F
-    jr c,_RightHeld         ; 0040D5 38 1E
-    ld a,(ControlsNew)           ; 0040D7 3A 04 C2
-    rra                          ; 0040DA 1F
-    jr c,_UpNew                  ; 0040DB 38 1F
-    rra                          ; 0040DD 1F
-    jr c,_DownNew                ; 0040DE 38 33
-    rra                          ; 0040E0 1F
-    jr c,_LeftNew                ; 0040E1 38 47
-    rra                          ; 0040E3 1F
-    ret nc                       ; 0040E4 D0
+    ld a,(Controls)
+    rra
+    jr c,_UpHeld
+    rra
+    jr c,_DownHeld
+    rra
+    jr c,_LeftHeld
+    rra
+    jr c,_RightHeld
+    ld a,(ControlsNew)
+    rra
+    jr c,_UpNew
+    rra
+    jr c,_DownNew
+    rra
+    jr c,_LeftNew
+    rra
+    ret nc
 
 _RightNew:
     call _DecrementKeyRepeatCounter ;40E5 CD 7B 41
-    ret nz                       ; 0040E8 C0
+    ret nz
 -:  ldbc $c8,+8                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
     ld de,+2                     ; 0040EC 11 02 00      ; delta for tilemap address
     ld iy,NameEntryCursorX       ; 0040EF FD 21 84 C7   ; which cursor sprite coordinate to change
     jr _NameEntryDirectionPressed
 _RightHeld:
-    ld a,24                      ; 0040F5 3E 18
+    ld a,24
     ld (NameEntryKeyRepeatCounter),a
-    jr -                         ; 0040FA 18 ED
+    jr -
 
 _UpNew:
     call _DecrementKeyRepeatCounter ;40FC CD 7B 41
-    ret nz                       ; 0040FF C0
--:  ldbc $68,-16                 ; 004100 01 F0 68
-    ld de,-$80                   ; 004103 11 80 FF
-    ld iy,NameEntryCursorY       ; 004106 FD 21 85 C7
+    ret nz
+-:  ldbc $68,-16
+    ld de,-$80
+    ld iy,NameEntryCursorY
     jr _NameEntryDirectionPressed
 _UpHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
-    jr -                         ; 004111 18 ED
+    jr -
 
 _DownNew:
     call _DecrementKeyRepeatCounter ;4113 CD 7B 41
-    ret nz                       ; 004116 C0
--:  ldbc $b8,+16                 ; 004117 01 10 B8
-    ld de,+$80                   ; 00411A 11 80 00
-    ld iy,NameEntryCursorY       ; 00411D FD 21 85 C7
+    ret nz
+-:  ldbc $b8,+16
+    ld de,+$80
+    ld iy,NameEntryCursorY
     jr _NameEntryDirectionPressed
 _DownHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
-    jr -                         ; 004128 18 ED
+    jr -
 
 _LeftNew:
     call _DecrementKeyRepeatCounter ;412A CD 7B 41
-    ret nz                       ; 00412D C0
--:  ldbc $28,-8                  ; 00412E 01 F8 28
-    ld de,-2                     ; 004131 11 FE FF
-    ld iy,NameEntryCursorX       ; 004134 FD 21 84 C7
+    ret nz
+-:  ldbc $28,-8
+    ld de,-2
+    ld iy,NameEntryCursorX
     jr _NameEntryDirectionPressed
 _LeftHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
-    jr -                         ; 00413F 18 ED
+    jr -
 
 
     ; b = "stop" value
@@ -4242,18 +4242,18 @@ _LeftHeld:
     ; de = delta VRAM address
     ; iy = address of sprite coordinate to modify
 _NameEntryDirectionPressed:
-    ld a,(iy+$00)                ; 004141 FD 7E 00
+    ld a,(iy+$00)
     cp b                         ; 004144 B8         ; compare coordinate to "stop" value
     ret z                        ; 004145 C8         ; do nothing if equal
-    add a,c                      ; 004146 81
+    add a,c
     ld (iy+$00),a                ; 004147 FD 77 00   ; else add c
 
     ld hl,(NameEntryCursorTileMapDataAddress)        ; add delta to value array pointer
-    add hl,de                    ; 00414D 19
+    add hl,de
     ld (NameEntryCursorTileMapDataAddress),hl
 
-    ld a,(hl)                    ; 004151 7E
-    or a                         ; 004152 B7
+    ld a,(hl)
+    or a
     jr z,_NameEntryDirectionPressed         ; repeat if a zero was pointed to -> cursor will snap to next valid position
 
     cp (ix+$04)                  ; 004155 DD BE 04   ; or if it's equal to the existing value -> cursor will skip past control code selections
@@ -4262,115 +4262,115 @@ _NameEntryDirectionPressed:
     ld (NameEntryCurrentlyPointed),a;415A 32 88 C7   ; save value pointed
 
     cp $4e                       ; 00415D FE 4E      ; check if it was a control char, in which case snap to its left char
-    ret c                        ; 00415F D8
+    ret c
 
 
     ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
     ld hl,$d5a2
-    jr z,+                       ; 004165 28 0C
-    cp $4f                       ; 004167 FE 4F
+    jr z,+
+    cp $4f
     ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
-    ld c,$a8                     ; 00416B 0E A8
-    jr z,+                       ; 00416D 28 04
+    ld c,$a8
+    jr z,+
     ld c,$c8                     ; 00416F 0E C8      ; default: jump to Save
-    ld l,$b2                     ; 004171 2E B2
+    ld l,$b2
 
 +:  ld (NameEntryCursorTileMapDataAddress),hl
-    ld a,c                       ; 004176 79
-    ld (NameEntryCursorX),a      ; 004177 32 84 C7
-    ret                          ; 00417A C9
+    ld a,c
+    ld (NameEntryCursorX),a
+    ret
 
 
 ; decrement keypress repeat counter, set to 5 if zero
 _DecrementKeyRepeatCounter: ; 417b
     ld hl,$c789
-    dec (hl)                     ; 00417E 35
-    ret nz                       ; 00417F C0
-    ld (hl),$05                  ; 004180 36 05
-    ret                          ; 004182 C9
+    dec (hl)
+    ret nz
+    ld (hl),$05
+    ret
 
 LoadNameEntryScreen: ; $4183
     call FadeOutFullPalette      ; 004183 CD A8 7D   ; go to name entry screen
 
     TileMapAddressDE 0,0         ; 004186 11 00 78   ; clear name table
-    ld bc,$0300                  ; 004189 01 00 03
+    ld bc,$0300
     ld hl,$0000
-    di                           ; 00418F F3
-      call FillVRAMWithHL        ; 004190 CD FB 03
-    ei                           ; 004193 FB
+    di
+      call FillVRAMWithHL
+    ei
 
     ld hl,FunctionLookupIndex    ; 004194 21 02 C2   ; increment FunctionLookupIndex do it'll do the right thing after this function finishes
-    inc (hl)                     ; 004197 34
+    inc (hl)
 
     ld hl,NameEntryData          ; 004198 21 81 C7   ; blank NameEntryData block
-    ld (hl),$00                  ; 00419B 36 00
-    ld de,NameEntryData+1        ; 00419D 11 82 C7
-    ld bc,$007e                  ; 0041A0 01 7E 00
-    ldir                         ; 0041A3 ED B0
+    ld (hl),$00
+    ld de,NameEntryData+1
+    ld bc,$007e
+    ldir
 
     ld hl,TileMapData            ; 0041A5 21 00 D0   ; blank TileMapData
-    ld de,TileMapData+1          ; 0041A8 11 01 D0
-    ld bc,$0600                  ; 0041AB 01 00 06
-    ld (hl),$00                  ; 0041AE 36 00
-    ldir                         ; 0041B0 ED B0
+    ld de,TileMapData+1
+    ld bc,$0600
+    ld (hl),$00
+    ldir
 
-    call DecompressNameEntryTilemapData ; 0041B2 CD CC 42
+    call DecompressNameEntryTilemapData
 
     ld hl,$c700                  ; 0041B5 21 00 C7   ; blank $c700-$c738
-    ld de,$c701                  ; 0041B8 11 01 C7
-    ld bc,$0037                  ; 0041BB 01 37 00
-    ld (hl),$00                  ; 0041BE 36 00
-    ldir                         ; 0041C0 ED B0
+    ld de,$c701
+    ld bc,$0037
+    ld (hl),$00
+    ldir
 
     ld a,$21                     ; 0041C2 3E 21      ; starting point for name entry (see after next opcode)
 
     ld hl,EnterYourNameRawTilemapData ; 041C4 21 E6 43   ; tilemap data
 
-    ld (NameEntryCharIndex),a    ; 0041C7 32 81 C7
+    ld (NameEntryCharIndex),a
 
     ldbc 2,16                    ; 0041CA 01 10 02   ; ld bc,$0210
-    xor a                        ; 0041CD AF
+    xor a
     ld (TileMapHighByte),a       ; 0041CE 32 10 C2   ; TileMapHighByte = 0
     TileMapAddressDE 8,0         ; 0041D1 11 10 78   ; ld de,$7810
-    di                           ; 0041D4 F3
-      call OutputTilemapRawBxC   ; 0041D5 CD 0F 04
-    ei                           ; 0041D8 FB
+    di
+      call OutputTilemapRawBxC
+    ei
 
     TileMapAddressDE 0,3         ; 0041D9 11 C0 78   ; ld de,$78c0
     ld hl,$d0c0                  ; 0041DC 21 C0 D0   ; offset in TileMapData for (0,3)
     ld bc,$0540                  ; 0041DF 01 40 05   ; amount of data to copy
-    di                           ; 0041E2 F3
-      call OutputToVRAM          ; 0041E3 CD DE 03
-    ei                           ; 0041E6 FB
+    di
+      call OutputToVRAM
+    ei
 
-    call _LoadTileMapDataWithCharValues ; 0041E7 CD 3B 43
+    call _LoadTileMapDataWithCharValues
 
     ld hl,_NameEntryPalette      ; 0041EA 21 56 43   ; load wanted palette
-    ld de,TargetPalette          ; 0041ED 11 40 C2
-    ld bc,32                     ; 0041F0 01 20 00
-    ldir                         ; 0041F3 ED B0
+    ld de,TargetPalette
+    ld bc,32
+    ldir
 
     TileAddressDE $100           ; 0041F5 11 00 60   ; ld de,$6000
     ld hl,_NameEntryCursorSprite
     ld bc,32                     ; 0041FB 01 20 00   ; load cursor sprite
-    di                           ; 0041FE F3
-      call OutputToVRAM          ; 0041FF CD DE 03
-    ei                           ; 004202 FB
+    di
+      call OutputToVRAM
+    ei
 
-    ld de,NameEntryCursorX       ; 004203 11 84 C7
+    ld de,NameEntryCursorX
     ld hl,_NameEntryCursorInitialValues
     ld bc,_NameEntryCursorInitialValuesEnd-_NameEntryCursorInitialValues ; load cursor initial values
-    ldir                         ; 00420C ED B0
+    ldir
 
     xor a                        ; 00420E AF         ; zero some stuff
-    ld (VScroll),a               ; 00420F 32 04 C3
-    ld (HScroll),a               ; 004212 32 00 C3
-    ld (TextBox20x6Open),a       ; 004215 32 D3 C2
+    ld (VScroll),a
+    ld (HScroll),a
+    ld (TextBox20x6Open),a
 
-    ld de,$8006                  ; 004218 11 06 80
-    di                           ; 00421B F3
-    SetVRAMAddressToDE           ; 00421C CF
-    ei                           ; 00421D FB
+    ld de,$8006
+    di
+    SetVRAMAddressToDE
+    ei
     jp ClearSpriteTableAndFadeInWholePalette         ; and ret
 
 
@@ -4388,127 +4388,127 @@ _DrawCursorSprites: ; 4226
     call _GetTileMapDataAddressForCharAInHL          ; get address of editing char tile for "current tile" indicator
     ld de,$3040                  ; 004229 11 40 30   ; $3000 means it'll wipe out the $D000 prefix, $40 is because we want a constant offset of 1 row (the cursor is exactly below the relevant tile)
     add hl,de                    ; 00422C 19         ; add them on and multiply by 4 to get h = row number + 1, l = pixel x coordinate
-    add hl,hl                    ; 00422D 29
-    add hl,hl                    ; 00422E 29
-    ld de,SpriteTable            ; 00422F 11 00 C9
+    add hl,hl
+    add hl,hl
+    ld de,SpriteTable
     ld a,h                       ; 004232 7C         ; now a = row number in tilemap, but for a sprite it's a pixel count -> multiply by 8
-    add a,a                      ; 004233 87
-    add a,a                      ; 004234 87
-    add a,a                      ; 004235 87
+    add a,a
+    add a,a
+    add a,a
     ld (de),a                    ; 004236 12         ; set y coordinate of first sprite to that
 
     ld a,(NameEntryCurrentlyPointed);4237 3A 88 C7
     cp $4e                       ; 00423A FE 4E      ; is it a control char?
 
-    ld a,(NameEntryCursorY)      ; 00423C 3A 85 C7
-    inc de                       ; 00423F 13
+    ld a,(NameEntryCursorY)
+    inc de
     ld (de),a                    ; 004240 12         ; set y coordinate for selection cursor
     jr c,+                       ; 004241 38 04      ; and another 2 if it's a control code since they're 3 chars wide
-    inc e                        ; 004243 1C
-    ld (de),a                    ; 004244 12
-    inc e                        ; 004245 1C
-    ld (de),a                    ; 004246 12
-+:  inc e                        ; 004247 1C
+    inc e
+    ld (de),a
+    inc e
+    ld (de),a
++:  inc e
     ld a,208                     ; 004248 3E D0      ; terminate sprites
-    ld (de),a                    ; 00424A 12
+    ld (de),a
 
     ld e,$80                     ; 00424B 1E 80      ; move to x coordinates
-    ex de,hl                     ; 00424D EB
+    ex de,hl
     ld a,e                       ; 00424E 7B         ; current char x coordinate
     ld bc,$0300                  ; 00424F 01 00 03   ; b = maximum width of cursor (3), c = sprite number for cursor (0)
     ld (hl),a                    ; 004252 77         ; set current char sprite x
-    inc l                        ; 004253 2C
+    inc l
     ld (hl),c                    ; 004254 71         ; set sprite tile
     ld a,(NameEntryCursorX)      ; 004255 3A 84 C7   ; load cursor x
--:  inc l                        ; 004258 2C
+-:  inc l
     ld (hl),a                    ; 004259 77         ; set sprite x,
-    inc l                        ; 00425A 2C
+    inc l
     ld (hl),c                    ; 00425B 71         ; tile number
-    sub $08                      ; 00425C D6 08
+    sub $08
     djnz -                                           ; repeat for full-width cursor
-    ret                          ; 004260 C9
+    ret
 
 
 _DrawEntirePassword: ; $4261
 ; Orphaned code to draw the 56-char password on-screen ###############
     ld hl,NameEntryCharIndex
     ld (hl),$38                  ; 004264 36 38      ; past end of password
-    ld d,$c7                     ; 004266 16 C7
+    ld d,$c7
 -:  dec (hl)                     ; 004268 35         ; so now it's the end of the password
     ret m                        ; 004269 F8         ; quit when we get to offset -1
     ld e,(hl)                    ; 00426A 5E         ; de = current char in TileMapData
-    push hl                      ; 00426B E5
-      call _GetTileMapDataAddressForCharAInHL ; 00426C CD 78 42
-      ld a,(de)                  ; 00426F 1A
-      push de                    ; 004270 D5
-        call _WriteCharAToTileMapDataAtHL ; 004271 CD 9B 42
-      pop de                     ; 004274 D1
-    pop hl                       ; 004275 E1
-    jr -                         ; 004276 18 F0
+    push hl
+      call _GetTileMapDataAddressForCharAInHL
+      ld a,(de)
+      push de
+        call _WriteCharAToTileMapDataAtHL
+      pop de
+    pop hl
+    jr -
 
 
 
 _GetTileMapDataAddressForCharAInHL: ; 4278
     ld a,(NameEntryCharIndex)    ; 004278 3A 81 C7   ; current editing char
     ld hl,$d146                  ; 00427B 21 46 D1   ; a < 24 -> hl = $d146 = (3,5)
-    sub $18                      ; 00427E D6 18
-    jr c,+                       ; 004280 38 0B
+    sub $18
+    jr c,+
     ld l,$c6                     ; 004282 2E C6      ; 25 < a < 48 -> hl = $d1c6 = (3,7)
-    sub $18                      ; 004284 D6 18
-    jr c,+                       ; 004286 38 05
+    sub $18
+    jr c,+
     ld hl,$d246                  ; 004288 21 46 D2   ; a > 49 -> hl = $d246 = (3,9)
-    sub $18                      ; 00428B D6 18
+    sub $18
 +:  add a,$18                    ; 00428D C6 18      ; a = x position in this row
-    ld c,a                       ; 00428F 4F
-    add a,a                      ; 004290 87
-    add a,l                      ; 004291 85
+    ld c,a
+    add a,a
+    add a,l
     ld l,a                       ; 004292 6F         ; hl += a*2, now points to TileMapData address for currently editing char
 
-    ld a,c                       ; 004293 79
-    rra                          ; 004294 1F
+    ld a,c
+    rra
     rra                          ; 004295 1F         ; a /= 4
     and $06                      ; 004296 E6 06      ; now it'll be 0, 2 or 4 for each of the 3 sections of the row
     add a,l                      ; 004298 85         ; add that on -> 1 char gap every 8 chars
-    ld l,a                       ; 004299 6F
-    ret                          ; 00429A C9
+    ld l,a
+    ret
 
 _WriteCharAToTileMapDataAtHL: ; 429b
-    push hl                      ; 00429B E5
+    push hl
       ex de,hl                   ; 00429C EB         ; save hl
       ld hl,Frame2Paging         ; 00429D 21 FF FF   ; map in bank 2
-      ld (hl),2                  ; 0042A0 36 02
+      ld (hl),2
       ld hl,TileNumberLookup     ; 0042A2 21 00 80   ; look up tilemap data for char a
-      ld c,a                     ; 0042A5 4F
-      ld b,$00                   ; 0042A6 06 00
-      add hl,bc                  ; 0042A8 09
-      add hl,bc                  ; 0042A9 09
-      ld c,(hl)                  ; 0042AA 4E
-      inc hl                     ; 0042AB 23
-      ld a,(hl)                  ; 0042AC 7E
+      ld c,a
+      ld b,$00
+      add hl,bc
+      add hl,bc
+      ld c,(hl)
+      inc hl
+      ld a,(hl)
       ld (de),a                  ; 0042AD 12         ; write lower char to de
       ld hl,-$40
       add hl,de                  ; 0042B1 19         ; write upper char 1 row above
-      ld (hl),c                  ; 0042B2 71
-    pop hl                       ; 0042B3 E1
-    ret                          ; 0042B4 C9
+      ld (hl),c
+    pop hl
+    ret
 
 _WriteCharAToTileMapAndTileMapDataAtHL: ; 42b5
-    call _WriteCharAToTileMapDataAtHL ; 0042B5 CD 9B 42
-    ld b,a                       ; 0042B8 47
+    call _WriteCharAToTileMapDataAtHL
+    ld b,a
     ld a,h                       ; 0042B9 7C         ; convert hl to the corresponding tilemap address
-    sub $58                      ; 0042BA D6 58
-    ld h,a                       ; 0042BC 67
-    ex de,hl                     ; 0042BD EB
-    SetVRAMAddressToDE           ; 0042BE CF
-    ld a,b                       ; 0042BF 78
+    sub $58
+    ld h,a
+    ex de,hl
+    SetVRAMAddressToDE
+    ld a,b
     out (VDPData),a              ; 0042C0 D3 BE      ; write lower part
     ld hl,-$40
-    add hl,de                    ; 0042C5 19
-    ex de,hl                     ; 0042C6 EB
-    SetVRAMAddressToDE           ; 0042C7 CF
-    ld a,c                       ; 0042C8 79
+    add hl,de
+    ex de,hl
+    SetVRAMAddressToDE
+    ld a,c
     out (VDPData),a              ; 0042C9 D3 BE      ; write upper part
-    ret                          ; 0042CB C9
+    ret
 
 ; Decompress data from NameEntryTilemapData to TileMapData(0,6)
 DecompressNameEntryTilemapData: ; $42cc
@@ -4516,78 +4516,78 @@ DecompressNameEntryTilemapData: ; $42cc
     ld de,TileMapData+32*6       ; 0042CF 11 C0 D0   ; location 0,6
 
 --: ld a,(hl)                    ; 0042D2 7E         ; read byte n
-    inc hl                       ; 0042D3 23
-    or a                         ; 0042D4 B7
+    inc hl
+    or a
     jr z,+++                     ; 0042D5 28 2B      ; zero = end
     jp p,++                      ; 0042D7 F2 F8 42   ; bit 7 unset = RLE
-    bit 6,a                      ; 0042DA CB 77
+    bit 6,a
     jr nz,+                      ; 0042DC 20 0D      ; bit 6 set = raw data
 
     and $3f                      ; 0042DE E6 3F      ; else RLE incrementing series
-    ld b,a                       ; 0042E0 47
+    ld b,a
     ld a,(hl)                    ; 0042E1 7E         ; write (next byte) up to (next byte + n&$3f)
--:  ld (de),a                    ; 0042E2 12
+-:  ld (de),a
     inc de                       ; 0042E3 13         ; skip 1 byte
-    inc de                       ; 0042E4 13
+    inc de
     inc a                        ; 0042E5 3C         ; increment value
     djnz -                       ; 0042E6 10 FA      ; repeat
-    inc hl                       ; 0042E8 23
-    jr --                        ; 0042E9 18 E7
+    inc hl
+    jr --
 
 +:  and $3f                      ; 0042EB E6 3F      ; raw
     ld c,a                       ; 0042ED 4F         ; n&$3f = count
-    ld b,$00                     ; 0042EE 06 00
+    ld b,$00
 -:  ldi                          ; 0042F0 ED A0      ; write data
-    inc de                       ; 0042F2 13
+    inc de
     jp pe,-                      ; 0042F3 EA F0 42   ; repeat until bc == -1
-    jr --                        ; 0042F6 18 DA
+    jr --
 
-++: ld b,a                       ; 0042F8 47
+++: ld b,a
     ld a,(hl)                    ; 0042F9 7E         ; write (next byte) n times
--:  ld (de),a                    ; 0042FA 12
-    inc de                       ; 0042FB 13
-    inc de                       ; 0042FC 13
-    djnz -                       ; 0042FD 10 FB
-    inc hl                       ; 0042FF 23
-    jr --                        ; 004300 18 D0
+-:  ld (de),a
+    inc de
+    inc de
+    djnz -
+    inc hl
+    jr --
 
 +++:ld hl,$d102                  ; 004302 21 02 D1   ; where to write to (1,4)
     ld de,$f301                  ; 004305 11 01 F3   ; tile data to write (vertical bar, left)
-    call _DrawVerticalLine       ; 004308 CD 28 43
+    call _DrawVerticalLine
 
-    inc hl                       ; 00430B 23
+    inc hl
     ldbc $1d,5                   ; 00430C 01 05 1D   ; flip bottom edge vertically
-    call _SetLineFlip            ; 00430F CD 35 43
+    call _SetLineFlip
 
     ld (hl),$07                  ; 004312 36 07      ; flip bottom-right corner
     ld hl,$d0fd                  ; 004314 21 FD D0   ; (30,3)
     ld (hl),$03                  ; 004317 36 03      ; flip top-right corner
     ld hl,$d0c3                  ; 004319 21 C3 D0   ; (1,3)
     ldbc $1d,1                   ; 00431C 01 01 1D   ; no flip on top edge, but it's still the high tileset
-    call _SetLineFlip            ; 00431F CD 35 43
+    call _SetLineFlip
     ld hl,$d13c                  ; 004322 21 3C D1   ; (1,7)
     ld de,$f303                  ; 004325 11 03 F3   ; vertical bar, right
     ; fall through
 
 _DrawVerticalLine: ; 4328
 ; draws data de to address hl every 32 words, for a rows
-    ld a,$13                     ; 004328 3E 13
+    ld a,$13
     ld bc,$003f                  ; 00432A 01 3F 00   ; amount to jump in between (draw every 32nd tile)
--:  ld (hl),d                    ; 00432D 72
-    inc l                        ; 00432E 2C
-    ld (hl),e                    ; 00432F 73
-    add hl,bc                    ; 004330 09
-    dec a                        ; 004331 3D
-    jr nz,-                      ; 004332 20 F9
-    ret                          ; 004334 C9
+-:  ld (hl),d
+    inc l
+    ld (hl),e
+    add hl,bc
+    dec a
+    jr nz,-
+    ret
 
 _SetLineFlip: ; 4335
 ; draws tile flipping data c to hl for b tiles (skipping tile numbers in-between)
-    ld (hl),c                    ; 004335 71
-    inc l                        ; 004336 2C
-    inc l                        ; 004337 2C
-    djnz _SetLineFlip            ; 004338 10 FB
-    ret                          ; 00433A C9
+    ld (hl),c
+    inc l
+    inc l
+    djnz _SetLineFlip
+    ret
 
 _LoadTileMapDataWithCharValues: ; 433b
     ld hl,NameEntryCharValues    ; 00433B 21 8C 44   ; data
@@ -4597,13 +4597,13 @@ _LoadTileMapDataWithCharValues: ; 433b
 -:  ldi                          ; 004346 ED A0      ; output
     inc de                       ; 004348 13         ; skip 1
     jp pe,-                      ; 004349 EA 46 43   ; repeat
-    ex de,hl                     ; 00434C EB
+    ex de,hl
     ld bc,$0056                  ; 00434D 01 56 00   ; skip on by 86 bytes so we're at the start of the next row
-    add hl,bc                    ; 004350 09
-    ex de,hl                     ; 004351 EB
-    dec a                        ; 004352 3D
+    add hl,bc
+    ex de,hl
+    dec a
     jr nz,--                     ; 004353 20 EE      ; repeat for all rows
-    ret                          ; 004355 C9
+    ret
 
 _NameEntryPalette: ; 4356
 .db $00 $00 $3F $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
@@ -4917,7 +4917,8 @@ FadeToNarrativePicture: ; $492c
     ei
     jp FadeInTilePalette ; and ret
 
-_NarrativeGraphicsLookup: ; page, palette+tiles offset, raw tiles offset
+_NarrativeGraphicsLookup: 
+; page, palette+tiles offset, raw tiles offset
  NarrativeGraphicsData IntroNero1
  NarrativeGraphicsData IntroNero2
  NarrativeGraphicsData IntroAlis
@@ -5163,17 +5164,16 @@ _room_00_Suelo: ; $4B3F
     ; I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
     ; If you ever get hurt, come back here to heal.<wait more>
     ; We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
-    call DrawText20x6           ; 004B4B CD BA 59
+    call DrawText20x6
 +:  ld hl,$0006
     ; Please get some rest.<wait more>
     ; Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
-    call DrawText20x6           ; 004B51 CD BA 59
+    call DrawText20x6
     ld a,SFX_Heal
     ld (NewMusic),a
     jp $2bc9
 
 _room_01_Nekise: ; $4b5c
-    ld a,(HaveGotPotfromNekise)
     ld a,(HaveGotPotfromNekise)
     or a
     jr nz,+
@@ -5269,12 +5269,12 @@ _room_0b_CamineetGuard4: ; $4BD3:
 +:  ld hl,$0024
     ; Okay, you may pass.
     call DrawText20x6
-    ; Copy something from xc309 to xc2e9 TODO what is this?
-    ld a,(xc309)
+    ; Copy something from _RAM_c309_ to _RAM_c2e9_ TODO what is this?
+    ld a,(_RAM_c309_)
     rrca
     dec a
     and $03
-    ld (xc2e9),a
+    ld (_RAM_c2e9_),a
     ret
 
 _room_0c_ParolitWoman1: ; $4BF1:
@@ -5325,7 +5325,7 @@ _room_13_AirStripGuard: ; $4C15:
     ; Well? Let’s see it.
     jr nz,+
     ld a,$06
-    ld (xc2e9),a ; ???
+    ld (_RAM_c2e9_),a ; ???
     ld hl,$0024
     ; Okay, you may pass.
 +:  jp DrawText20x6 ; and ret
@@ -5373,9 +5373,9 @@ _room_15_MadDoctor: ; $4C46:
     jr z,+
     ; Don't have a Laconian Pot
     ld hl,$c518
-    ld (xc2e1),hl      ; ???
+    ld (_RAM_c2e1_),hl      ; ???
     ld a,Item_LaconianPot
-    ld (xc2df),a
+    ld (_RAM_c2df_),a
 +:  jp _55e9_fight ; ???
 
 _room_16_PalmaSpaceportLuggageHandler1: ; $4C9E:
@@ -5453,7 +5453,7 @@ _room_1a_RoadGuard: ; $4D09:
     ; I can’t just let you pass through here!
     jr nz,+
     ld a,$04
-    ld (xc2e9),a
+    ld (_RAM_c2e9_),a
     ld hl,$0024
     ; Okay, you may pass.
 +:  jp DrawText20x6 ; and ret
@@ -5465,7 +5465,7 @@ _room_1b_RoadGuard: ; $4D1E:
     ; Nobody gets through here without a 'Roadpass'.
     jr nz,+
     ld a,$05
-    ld (xc2e9),a
+    ld (_RAM_c2e9_),a
     ; Okay, you may pass.
 +:  jp DrawText20x6 ; and ret
 
@@ -5887,7 +5887,7 @@ _room_3a_BartevoVillager2: ; $5005:
     ; I heard that a high-performance robot got dumped inside one of these scrap piles. I wonder if it’s true?
     jp DrawText20x6 ; and ret
 
-_room_3b_GothicWoods1: ; B:
+_room_3b_GothicWoods1: ; $500B
     ld hl,$00ba
     ; Hey, you mind if I bum a ‘Perolimate’?
     call DrawText20x6
@@ -6406,7 +6406,7 @@ _room_75_Sopia1: ; $531A:
     jp DrawText20x6 ; and ret
 
 _room_76_Sopia2: ; $5320:
-    ld hl,$0202;
+    ld hl,$0202
     ; There’s a monk named Tajimu living in the mountains South of the lake.
     jp DrawText20x6 ; and ret
 
@@ -6443,7 +6443,6 @@ _room_78_Sopia4: ; 533A:
     jp DrawText20x6 ; and ret
 
 _room_79_AeroCastle2: ; $5361:
-    ld hl,$0210
     ld hl,$0210
     ; ...........
     jp DrawText20x6 ; and ret
@@ -7238,7 +7237,7 @@ _room_ab_58C6:
     ; The truth is, your father was once the King of Algol.
     ; Now that the demon’s fortress has been destroyed, and LaShiec is no more, will be your father’s successor and become the Queen of Algol?
     call DrawText20x6
-    call DoYesNoMenu           ; 0058E7 CD 75 2E
+    call DoYesNoMenu
     ; Yes
     ld hl,$0212
     ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
@@ -7298,7 +7297,7 @@ _room_b2_FlightToMotavia: ; $5939:
     call DoYesNoMenu
     ret nz
     ld a,$81
-    ld (xc2e9),a
+    ld (_RAM_c2e9_),a
     ret
 
 _room_b3_FlightToPalma: ; $5949:
@@ -7308,7 +7307,7 @@ _room_b3_FlightToPalma: ; $5949:
     call DoYesNoMenu
     ret nz
     ld a,$82
-    ld (xc2e9),a
+    ld (_RAM_c2e9_),a
     ret
 
 _room_b4_HapsbyTravel: ; $5959:
@@ -7323,7 +7322,7 @@ _room_b4_HapsbyTravel: ; $5959:
     ret nz
     ld d,a
     ; Are we alredy there?
-    ld a,(xc309)
+    ld a,(_RAM_c309_)
     rrca
     rrca
     rrca
@@ -7371,7 +7370,7 @@ _room_b4_HapsbyTravel: ; $5959:
     ld hl,_table
     add hl,de
     ld a,(hl)
-    ld (xc2e9),a
+    ld (_RAM_c2e9_),a
     ret
 _table:
 .db $81 $83 $84
@@ -7412,15 +7411,15 @@ _text:
 .orga $59e6
 .section "Sort sprite entity table and update sprite table" overwrite
 SpriteHandler:         ; $59e6
-    ld hl,xc289
-    ld (xc289Pointer),hl ; Set xc289Pointer to xc289 (first entry)
-    ld de,xc289+2
+    ld hl,_RAM_c289_
+    ld (_RAM_c289_Pointer),hl ; Set _RAM_c289_Pointer to _RAM_c289_ (first entry)
+    ld de,_RAM_c289_+2
     ld bc,$e
     ld (hl),$00
     inc hl
     ld (hl),$ff
     dec hl
-    ldir               ; Fill xc289 with $00, $ff
+    ldir               ; Fill _RAM_c289_ with $00, $ff
 
     ld hl,SpriteTable
     ld (NextSpriteY),hl ; Set NextSpriteY to first entry
@@ -7437,19 +7436,19 @@ SpriteHandler:         ; $59e6
     pop bc             ;                                                 |
     or a               ; if result == 0 then skip again -----------------+
     jp z,+             ;                                                 |
-    ld hl,(xc289Pointer) ;                                               |
+    ld hl,(_RAM_c289_Pointer) ;                                               |
     ld a,(iy+2)        ; CharacterSpriteAttributes+2 = ???               |
     ld (hl),a          ; Copy to hl                                      |
     inc hl             ;                                                 |
     ld (hl),c          ; 0?                                              |
     inc hl             ;                                                 |
-    ld (xc289Pointer),hl ; Update xc289Pointer                           |
+    ld (_RAM_c289_Pointer),hl ; Update _RAM_c289_Pointer                           |
   +:ld de,32           ;                                 <---------------+
     add iy,de          ; Move iy to next CharacterSpriteAttributes
     inc c              ; and inc c
     djnz -             ; repeat 8 times???
 
-    ld de,xc289        ; Sort xc289 into increasing numerical order by 1st byte in each entry (?)
+    ld de,_RAM_c289_        ; Sort _RAM_c289_ into increasing numerical order by 1st byte in each entry (?)
     ld b,3             ; counter
  --:push bc            ; <-----------------------------+
         ld l,e         ; hl = de                       |
@@ -7480,8 +7479,8 @@ SpriteHandler:         ; $59e6
     pop bc             ;                               |
     djnz --            ; and repeat 3 times -----------+
 
-    ld hl,xc289+1      ; second byte in xc289 entry 0
-    ld b,8             ; counter (number of entries in xc289)
+    ld hl,_RAM_c289_+1      ; second byte in _RAM_c289_ entry 0
+    ld b,8             ; counter (number of entries in _RAM_c289_)
   -:ld a,(hl)          ; If (hl)==$ff then skip:
     cp $ff
     jr z,++
@@ -7508,7 +7507,7 @@ SpriteHandler:         ; $59e6
         call UpdateSprites
     pop hl
     pop bc
- ++:inc hl             ; Move to next entry in xc289
+ ++:inc hl             ; Move to next entry in _RAM_c289_
     inc hl
     djnz -             ; and repeat
     ld hl,(NextSpriteY)
@@ -7640,8 +7639,8 @@ _5c1d:
         inc (iy+0)
     pop bc
     ld (iy+2),$60      ; ???
-    ld a,(xc2ea)
-    and $03            ; if xc2ea is a multiple of 4
+    ld a,(_RAM_c2ea_)
+    and $03            ; if _RAM_c2ea_ is a multiple of 4
     ld a,$84           ; then a=$84
     jr nz,+
     ld a,$80           ; else a=$80
@@ -7649,14 +7648,14 @@ _5c1d:
     ld (iy+$12),$01
     ld (iy+$01),b      ; depends on lookup function
     ld (iy+$11),$01
-    ld a,c             ; 005C42 79
-    or a               ; 005C43 B7
-    ld a,$00           ; 005C44 3E 00
+    ld a,c
+    or a
+    ld a,$00
     jr nz,+
-    ld a,$03           ; 005C48 3E 03
-  +:ld (iy+$0a),a      ; 005C4A FD 77 0A
-    ld a,$ff           ; 005C4D 3E FF
-    ret                ; 005C4F C9
+    ld a,$03
+  +:ld (iy+$0a),a
+    ld a,$ff
+    ret
 .ends
 .orga $5c50
 
@@ -7668,7 +7667,7 @@ _5c1d:
 .section "Enemy data loader" overwrite
 LoadEnemy:             ; $627a
     ld hl,Frame2Paging
-    ld (hl),$03        ; for enemy data
+    ld (hl),:EnemyData
 
     ld hl,CharacterSpriteAttributes
     ld de,CharacterSpriteAttributes+1
@@ -7702,9 +7701,9 @@ LoadEnemy:             ; $627a
     ld bc,8
     ldir               ; Load name
 
-    ld de,xc258
+    ld de,_RAM_c258_
     ld bc,8
-    ldir               ; Next 8 bytes -> xc258
+    ldir               ; Next 8 bytes -> _RAM_c258_
 
     ld b,(hl)          ; Next byte = page
     inc hl
@@ -7766,8 +7765,8 @@ LoadEnemy:             ; $627a
         add ix,de      ; repeat for each enemy
         djnz -
     pop hl
-    ld a,(hl)          ; next byte in xc2df
-    ld (xc2df),a
+    ld a,(hl)          ; next byte in _RAM_c2df_
+    ld (_RAM_c2df_),a
     inc hl             ; next word in de = money per enemy
     ld e,(hl)
     inc hl
@@ -7780,8 +7779,8 @@ LoadEnemy:             ; $627a
         ld (EnemyMoney),hl  ; EnemyMoney = NumEnemies*de
     pop hl
     inc hl
-    ld a,(hl)          ; Next byte in xc2e0
-    ld (xc2e0),a
+    ld a,(hl)          ; Next byte in _RAM_c2e0_
+    ld (_RAM_c2e0_),a
     inc hl             ; next word in de
     ld e,(hl)
     inc hl
@@ -7791,17 +7790,17 @@ LoadEnemy:             ; $627a
         ld c,a
         ld b,$00
         call Multiply16
-        ld (xc2d0),hl  ; xc2d0 = NumEnemies*de
+        ld (_RAM_c2d0_),hl  ; _RAM_c2d0_ = NumEnemies*de
     pop hl
     inc hl
     ld a,(hl)
-    ld (xc2e8),a       ; Next byte in xc2e8
+    ld (_RAM_c2e8_),a       ; Next byte in _RAM_c2e8_
     inc hl
     ld a,(hl)
-    ld (xc2e7),a       ; Next byte in xc2e7
+    ld (_RAM_c2e7_),a       ; Next byte in _RAM_c2e7_
 
     ld hl,$c500
-    ld (xc2e1),hl      ; $c500 -> xc2e1
+    ld (_RAM_c2e1_),hl      ; $c500 -> _RAM_c2e1_
 
     call SpriteHandler
     call SpriteHandler
@@ -8085,8 +8084,8 @@ _CountAndAnimate:      ; $6586
     ret p              ; exit if >=0
     ld (hl),a          ; else reset
     inc hl             ; Counter
-    ld a,(xc2e9)
-    cp $04             ; if xc2e9>=4
+    ld a,(_RAM_c2e9_)
+    cp $04             ; if _RAM_c2e9_>=4
     jr c,+
     dec (hl)           ; then decrement Counter
     jr ++
@@ -8508,9 +8507,9 @@ DecompressToTileMapData:
 ; ---------------------------------------------------------------------------------------
 
 .orga $74e0
-.section "Decompress (scrolling tilemap?) data to xcc00-xcfff" overwrite
+.section "Decompress (scrolling tilemap?) data to _RAM_cc00_-_RAM_cfff_" overwrite
 DecompressScrollingTilemapData: ; $74e0
-    ld a,(xc262)
+    ld a,(_RAM_c262_)
     ld (Frame2Paging),a
 
     ld a,(VLocation+1)
@@ -8526,14 +8525,14 @@ DecompressScrollingTilemapData: ; $74e0
     add a,e
     ld e,a
     ld d,$00
-    ld hl,(xc260)
-    add hl,de          ; hl = xc260 + VLocation high byte * 18 + HLocation high byte * 2
+    ld hl,(_RAM_c260_)
+    add hl,de          ; hl = _RAM_c260_ + VLocation high byte * 18 + HLocation high byte * 2
     ld a,(hl)          ;    = pos
     inc hl
     push hl
         ld h,(hl)
         ld l,a         ; hl = word there (pos+0,1) = compressed data offset
-        ld de,xcc00
+        ld de,_RAM_cc00_
         call _DecompressToDE
     pop hl
     push hl
@@ -8542,7 +8541,7 @@ DecompressScrollingTilemapData: ; $74e0
         inc hl
         ld h,(hl)
         ld l,a         ; hl = next word (pos+2,3) = next compressed data offset
-        ld de,xcd00
+        ld de,_RAM_cd00_
         call _DecompressToDE
     pop hl
     ld de,17
@@ -8552,7 +8551,7 @@ DecompressScrollingTilemapData: ; $74e0
     push hl
         ld h,(hl)
         ld l,a         ; hl = 17 bytes later = pos+20,21
-        ld de,xce00
+        ld de,_RAM_ce00_
         call _DecompressToDE
     pop hl
     inc hl
@@ -8560,7 +8559,7 @@ DecompressScrollingTilemapData: ; $74e0
     inc hl
     ld h,(hl)
     ld l,a             ; hl = next word = pos+22,23
-    ld de,xcf00
+    ld de,_RAM_cf00_
     ; fall through
 _DecompressToDE:
     ld b,$00
@@ -8597,8 +8596,8 @@ UpdateScrollingTilemap: ; $7673
     ret z              ; return if not scrolling
     ld b,a             ; b = ScrollDirection
     and $03
-    ld a,(xc263)
-    ld (Frame2Paging),a ; Set to page xc263 - why?
+    ld a,(_RAM_c263_)
+    ld (Frame2Paging),a ; Set to page _RAM_c263_ - why?
     jp nz,_Vertical    ; if ScrollDirection==U or D then handle differently
 _Horizontal:
 ; Updates column of tiles in tilemap
@@ -8676,7 +8675,7 @@ _Vertical:
 .section "Fill tilemap from compressed data? Not understood :(" overwrite
 FillTilemap:          ; $76ee
     call fn78a5       ; ???
-    ld a,(xc263)
+    ld a,(_RAM_c263_)
     ld (Frame2Paging),a
     ld a,(VScroll)
     and $f0            ; strip to high nibble
@@ -8768,7 +8767,7 @@ FillTilemap:          ; $76ee
         pop hl
         ld a,$10       ; add 16 to l
         add a,l
-        cp $c0         ; when it exceeds 192
+        cp $c0         ; when it e_RAM_ceed_s 192
         jr c,+
         sub $c0        ; subtract 192
         inc h          ; and add 2 to h
@@ -8788,11 +8787,11 @@ FillTilemap:          ; $76ee
 .orga $78a5
 .section "fn78a5 (???)" overwrite
 fn78a5:                ; $78a5
-    ld a,(xc308)
+    ld a,(_RAM_c308_)
     cp $02
-    ret nz             ; Only do this if xc308==2
-    ld a,(xc30e)
-    cp $0c             ; and xc30e==$c
+    ret nz             ; Only do this if _RAM_c308_==2
+    ld a,(_RAM_c30e_)
+    cp $0c             ; and _RAM_c30e_==$c
     ret nz
     ld a,$0a
     call +
@@ -8882,7 +8881,7 @@ GetLocationUnknownData: ; $7a07
     add a,l            ; put in l
     ld l,a
     ld a,(hl)          ; get data
-    ld (xc2e5),a       ; put that in xc2e5
+    ld (_RAM_c2e5_),a       ; put that in _RAM_c2e5_
     ld hl,Frame2Paging
     ld (hl),$03        ; ???
     ld hl,$bc6f        ; table
@@ -8891,10 +8890,10 @@ GetLocationUnknownData: ; $7a07
     adc a,h
     sub l
     ld h,a             ; hl = bc6f + a
-    ld a,(xc308)
+    ld a,(_RAM_c308_)
     cp 4
     jr c,+
-    inc h              ; if xc308>=4 then inc h (add 256)
+    inc h              ; if _RAM_c308_>=4 then inc h (add 256)
   +:ld a,(hl)          ; get data in a
     ret
 .ends
@@ -8908,8 +8907,8 @@ GetLocationUnknownData: ; $7a07
 .section "???" overwrite
 fn7b1e: ; $7b1e
     ld a,(hl)          ; get byte at hl (eg 01)
-    ld (xc308),a       ; save in xc308 and xc309
-    ld (xc309),a
+    ld (_RAM_c308_),a       ; save in _RAM_c308_ and _RAM_c309_
+    ld (_RAM_c309_),a
     inc hl             ; next byte hhhhllll in de (eg 8b)
     ld e,(hl)
     ld d,$00
@@ -8930,7 +8929,7 @@ fn7b1e: ; $7b1e
     and $07            ; trim to 00000hhh
     ld h,a
     ld (VLocation),hl
-    ld (xc311),hl
+    ld (_RAM_c311_),hl
     ex de,hl           ; get hl back
     inc hl
     ld a,(hl)          ; get next byte (eg 69)
@@ -8943,51 +8942,51 @@ fn7b1e: ; $7b1e
     add hl,hl
     add hl,hl          ; multiply by 16
     ld (HLocation),hl
-    ld (xc313),hl
-    xor a              ; zero xc30e
-    ld (xc30e),a
+    ld (_RAM_c313_),hl
+    xor a              ; zero _RAM_c30e_
+    ld (_RAM_c30e_),a
     jp +++
 
 fn7b60:
-    cp $0a             ; 007B60 FE 0A
+    cp $0a
     jp nz,+
-    ld (FunctionLookupIndex),a       ; 007B65 32 02 C2
-    inc hl              ; 007B68 23
-    ld d,(hl)          ; 007B69 56
-    inc hl              ; 007B6A 23
-    ld e,(hl)          ; 007B6B 5E
-    ld ($c30c),de      ; 007B6C ED 53 0C C3
-    inc hl              ; 007B70 23
-    ld a,(hl)          ; 007B71 7E
-    ld ($c30a),a       ; 007B72 32 0A C3
-    ld hl,($c311)      ; 007B75 2A 11 C3
-    ld ($c305),hl      ; 007B78 22 05 C3
-    ld hl,($c313)      ; 007B7B 2A 13 C3
-    ld ($c301),hl      ; 007B7E 22 01 C3
-    xor a               ; 007B81 AF
-    ld ($c30e),a       ; 007B82 32 0E C3
+    ld (FunctionLookupIndex),a
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld e,(hl)
+    ld ($c30c),de
+    inc hl
+    ld a,(hl)
+    ld ($c30a),a
+    ld hl,($c311)
+    ld ($c305),hl
+    ld hl,($c313)
+    ld ($c301),hl
+    xor a
+    ld ($c30e),a
     jp +++
-  +:cp $0c             ; 007B88 FE 0C
-    ret nz              ; 007B8A C0
-    ld (FunctionLookupIndex),a       ; 007B8B 32 02 C2
-    inc hl              ; 007B8E 23
-    ld a,(hl)          ; 007B8F 7E
-    ld (SceneType),a       ; 007B90 32 9E C2
-    inc hl              ; 007B93 23
-    ld a,(hl)          ; 007B94 7E
-    inc hl              ; 007B95 23
-    ld h,(hl)          ; 007B96 66
-    ld l,a             ; 007B97 6F
-    ld (RoomIndex),hl      ; 007B98 22 DB C2
-    xor a               ; 007B9B AF
-    ld ($c29d),a       ; 007B9C 32 9D C2
-    ld hl,($c311)      ; 007B9F 2A 11 C3
-    ld ($c305),hl      ; 007BA2 22 05 C3
-    ld hl,($c313)      ; 007BA5 2A 13 C3
-    ld ($c301),hl      ; 007BA8 22 01 C3
+  +:cp $0c
+    ret nz
+    ld (FunctionLookupIndex),a
+    inc hl
+    ld a,(hl)
+    ld (SceneType),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld (RoomIndex),hl
+    xor a
+    ld ($c29d),a
+    ld hl,($c311)
+    ld ($c305),hl
+    ld hl,($c313)
+    ld ($c301),hl
 
 +++:ld a,(CharacterSpriteAttributes+16) ; CharacterSpriteAttributes[0].currentanimframe
-    ld (xc2d7),a
+    ld (_RAM_c2d7_),a
 
     ld hl,OutsideAnimCounters ; Zero OutsideAnimCounters
     ld de,OutsideAnimCounters+1
@@ -9194,7 +9193,7 @@ FlashPaletteInRAM:
 .orga $7ebb
 .section "Palette rotation" overwrite
 PaletteRotate:
-    ld a,(xc30e)       ; Check xc30e
+    ld a,(_RAM_c30e_)       ; Check _RAM_c30e_
     or a
     ret z
     cp $10             ; Handle values 16 and 17 specially
@@ -9203,7 +9202,7 @@ PaletteRotate:
     jp z,_ResetPalette
     cp $0e             ; Do nothing if >=14
     ret nc
-    ld b,a             ; still xc30e
+    ld b,a             ; still _RAM_c30e_
     ld c,$d1           ;
     cp $08             ; if it's 8...
     jp z,+             ; skip this bit:
@@ -9226,7 +9225,7 @@ PaletteRotate:
   +:ld (hl),a          ; put back in PaletteRotatePos
     ld c,a
     ld a,b
-    cp $08             ; if xc30e==8 then
+    cp $08             ; if _RAM_c30e_==8 then
     ld hl,_Palette1    ; this palette data
     ld de,PaletteAddress+29 ; palette entries 29-31
     jp nz,+            ; else
@@ -9557,7 +9556,7 @@ ItemMetadata:
 .section "Enemy data" overwrite
 ; Structure:
 ; 8 bytes = name
-; 8 bytes = ??? xc258
+; 8 bytes = ??? _RAM_c258_
 ; 1 byte = sprite tiles page
 ; 1 word = sprite tiles offset
 ; 1 byte = index into data8fdf for ???
@@ -10792,94 +10791,94 @@ _SilencePSGDataEnd:
 SoundUpdate:           ; 0e/8052
     ld a,(HasFM)
     or a
-    ex af,af'          ; 030056 08
+    ex af,af'
     ld hl,$c00c
-    exx                ; 03005A D9
-    call Sound8135     ; 03005B CD 35 81
-    call Sound815c     ; 03005E CD 5C 81
-    call $8466         ; 030061 CD 66 84
-    call Sound8110     ; 030064 CD 10 81
+    exx
+    call Sound8135
+    call Sound815c
+    call $8466
+    call Sound8110
     ld a,(HasFM)
     or a
     jp z,SoundUpdatePSG
     ; FM music:
-    ld a,($c002)       ; 03006E 3A 02 C0
-    or a               ; 030071 B7
-    jp m,++            ; 030072 FA 9A 80
-    ld ix,$c00e        ; 030075 DD 21 0E C0
-    ld b,$0a           ; 030079 06 0A
-  -:push bc            ; 03007B C5
-      ld a,$04         ; 03007C 3E 04
-      cp b             ; 03007E B8
-      jr z,+           ; 03007F 28 10
-      bit 7,(ix+$00)   ; 030081 DD CB 00 7E
-      call nz,$8664    ; 030085 C4 64 86
---:   ld de,$0020      ; 030088 11 20 00
-      add ix,de        ; 03008B DD 19
-    pop bc             ; 03008D C1
-    djnz -             ; 03008E 10 EB
-    ret                ; 030090 C9
+    ld a,($c002)
+    or a
+    jp m,++
+    ld ix,$c00e
+    ld b,$0a
+  -:push bc
+      ld a,$04
+      cp b
+      jr z,+
+      bit 7,(ix+$00)
+      call nz,$8664
+--:   ld de,$0020
+      add ix,de
+    pop bc
+    djnz -
+    ret
 
-+:  bit 7,(ix+$00)               ; 030091 DD CB 00 7E
-    call nz,$8608                ; 030095 C4 08 86
-    jr --                        ; 030098 18 EE
++:  bit 7,(ix+$00)
+    call nz,$8608
+    jr --
 
-++: ld ix,$c0ee                  ; 03009A DD 21 EE C0
-    ld b,$08                     ; 03009E 06 08
--:  push bc                      ; 0300A0 C5
-      ld a,$01                   ; 0300A1 3E 01
-      cp b                       ; 0300A3 B8
-      jr z,+                     ; 0300A4 28 10
-      bit 7,(ix+$00)             ; 0300A6 DD CB 00 7E
-      call nz,$8664              ; 0300AA C4 64 86
---:   ld de,$0020                ; 0300AD 11 20 00
-      add ix,de                  ; 0300B0 DD 19
-    pop bc                       ; 0300B2 C1
-    djnz -                       ; 0300B3 10 EB
-    ret                          ; 0300B5 C9
+++: ld ix,$c0ee
+    ld b,$08
+-:  push bc
+      ld a,$01
+      cp b
+      jr z,+
+      bit 7,(ix+$00)
+      call nz,$8664
+--:   ld de,$0020
+      add ix,de
+    pop bc
+    djnz -
+    ret
 
-+:  bit 7,(ix+$00)               ; 0300B6 DD CB 00 7E
-    call nz,$8608                ; 0300BA C4 08 86
-    jr --                        ; 0300BD 18 EE
++:  bit 7,(ix+$00)
+    call nz,$8608
+    jr --
 
 SoundUpdatePSG:
-    ld a,($c002)                 ; 0300BF 3A 02 C0
-    or a                         ; 0300C2 B7
-    jp m,++                      ; 0300C3 FA EB 80
-    ld ix,$c06e                  ; 0300C6 DD 21 6E C0
-    ld b,$07                     ; 0300CA 06 07
--:  push bc                      ; 0300CC C5
-      ld a,$04                   ; 0300CD 3E 04
-      cp b                       ; 0300CF B8
-      jr z,+                     ; 0300D0 28 10
-      bit 7,(ix+$00)             ; 0300D2 DD CB 00 7E
-      call nz,$8bd9              ; 0300D6 C4 D9 8B
---:   ld de,$0020                ; 0300D9 11 20 00
-      add ix,de                  ; 0300DC DD 19
-    pop bc                       ; 0300DE C1
-    djnz -                       ; 0300DF 10 EB
-    ret                          ; 0300E1 C9
+    ld a,($c002)
+    or a
+    jp m,++
+    ld ix,$c06e
+    ld b,$07
+-:  push bc
+      ld a,$04
+      cp b
+      jr z,+
+      bit 7,(ix+$00)
+      call nz,$8bd9
+--:   ld de,$0020
+      add ix,de
+    pop bc
+    djnz -
+    ret
 
-+:  bit 7,(ix+$00)               ; 0300E2 DD CB 00 7E
-    call nz,$8b37                ; 0300E6 C4 37 8B
-    jr --                        ; 0300E9 18 EE
-++: ld ix,$c0ee                  ; 0300EB DD 21 EE C0
-    ld b,$08                     ; 0300EF 06 08
--:  push bc                      ; 0300F1 C5
-      ld a,$01                   ; 0300F2 3E 01
-      cp b                       ; 0300F4 B8
-      jr z,+                     ; 0300F5 28 10
-      bit 7,(ix+$00)             ; 0300F7 DD CB 00 7E
-      call nz,$8bd9              ; 0300FB C4 D9 8B
---:   ld de,$0020                ; 0300FE 11 20 00
-      add ix,de                  ; 030101 DD 19
-    pop bc                       ; 030103 C1
-    djnz -                       ; 030104 10 EB
-    ret                          ; 030106 C9
++:  bit 7,(ix+$00)
+    call nz,$8b37
+    jr --
+++: ld ix,$c0ee
+    ld b,$08
+-:  push bc
+      ld a,$01
+      cp b
+      jr z,+
+      bit 7,(ix+$00)
+      call nz,$8bd9
+--:   ld de,$0020
+      add ix,de
+    pop bc
+    djnz -
+    ret
 
-+:  bit 7,(ix+$00)               ; 030107 DD CB 00 7E
-    call nz,$8b37                ; 03010B C4 37 8B
-    jr --                        ; 03010E 18 EE
++:  bit 7,(ix+$00)
+    call nz,$8b37
+    jr --
 
 .ends
 ; followed by
@@ -10887,178 +10886,178 @@ SoundUpdatePSG:
 .section "More music code" overwrite
 Sound8110:
     ld hl,$c12e
-    bit 7,(hl)                   ; 030113 CB 7E
-    ret z                        ; 030115 C8
-    ld a,($c10e)                 ; 030116 3A 0E C1
-    or a                         ; 030119 B7
-    jp m,++                      ; 03011A FA 32 81
-    bit 6,(hl)                   ; 03011D CB 76
-    jr z,+                       ; 03011F 28 0B
+    bit 7,(hl)
+    ret z
+    ld a,($c10e)
+    or a
+    jp m,++
+    bit 6,(hl)
+    jr z,+
 
-    inc hl                       ; 030121 23
-    ld a,(hl)                    ; 030122 7E
-    cp $e0                       ; 030123 FE E0
-    jr nz,+                      ; 030125 20 05
+    inc hl
+    ld a,(hl)
+    cp $e0
+    jr nz,+
     ld hl,$c06e
-    set 2,(hl)                   ; 03012A CB D6
+    set 2,(hl)
 
 +:  ld hl,$c0ae
-    set 2,(hl)                   ; 03012F CB D6
-    ret                          ; 030131 C9
+    set 2,(hl)
+    ret
 
-++: set 2,(hl)                   ; 030132 CB D6
-    ret                          ; 030134 C9
+++: set 2,(hl)
+    ret
 
 Sound8135:
     ld hl,$c001
-    ld a,(hl)                    ; 030138 7E
-    or a                         ; 030139 B7
-    ret z                        ; 03013A C8
-    dec (hl)                     ; 03013B 35
-    ret nz                       ; 03013C C0
-    ld a,($c002)                 ; 03013D 3A 02 C0
-    or a                         ; 030140 B7
-    res 7,a                      ; 030141 CB BF
-    ld (hl),a                    ; 030143 77
+    ld a,(hl)
+    or a
+    ret z
+    dec (hl)
+    ret nz
+    ld a,($c002)
+    or a
+    res 7,a
+    ld (hl),a
     ld hl,$c018
-    ld de,$0020                  ; 030147 11 20 00
-    ld b,$07                     ; 03014A 06 07
-    jp m,+                       ; 03014C FA 57 81
+    ld de,$0020
+    ld b,$07
+    jp m,+
     ld hl,$c158
-    ld de,$0020                  ; 030152 11 20 00
-    ld b,$05                     ; 030155 06 05
+    ld de,$0020
+    ld b,$05
 +:
--:  inc (hl)                     ; 030157 34
-    add hl,de                    ; 030158 19
-    djnz -                       ; 030159 10 FC
-    ret                          ; 03015B C9
+-:  inc (hl)
+    add hl,de
+    djnz -
+    ret
 
 Sound815c:
-    ld a,($c00a)                 ; 03015C 3A 0A C0
-    or a                         ; 03015F B7
-    ret z                        ; 030160 C8
-    jp m,+++                     ; 030161 FA D0 81
-    ld a,($c00b)                 ; 030164 3A 0B C0
-    dec a                        ; 030167 3D
-    jr z,+                       ; 030168 28 04
+    ld a,($c00a)
+    or a
+    ret z
+    jp m,+++
+    ld a,($c00b)
+    dec a
+    jr z,+
 
-    ld ($c00b),a                 ; 03016A 32 0B C0
-    ret                          ; 03016D C9
+    ld ($c00b),a
+    ret
 
-+:  ld a,($c009)                 ; 03016E 3A 09 C0
-    ld ($c00b),a                 ; 030171 32 0B C0
-    ld a,($c00a)                 ; 030174 3A 0A C0
-    inc a                        ; 030177 3C
-    cp $0c                       ; 030178 FE 0C
-    ld ($c00a),a                 ; 03017A 32 0A C0
-    jr nz,++                     ; 03017D 20 1C
-    xor a                        ; 03017F AF
-    ld ($c00a),a                 ; 030180 32 0A C0
-    ld a,($c002)                 ; 030183 3A 02 C0
-    cp $7f                       ; 030186 FE 7F
-    jr nz,+                      ; 030188 20 05
-    ld a,$85                     ; 03018A 3E 85
-    jp $84ad                     ; 03018C C3 AD 84
-+:  or a                         ; 03018F B7
-    jp p,SoundInitialise         ; 030190 F2 00 80
-    ld a,($c006)                 ; 030193 3A 06 C0
-    or a                         ; 030196 B7
-    ret z                        ; 030197 C8
-    jp $8218                     ; 030198 C3 18 82
++:  ld a,($c009)
+    ld ($c00b),a
+    ld a,($c00a)
+    inc a
+    cp $0c
+    ld ($c00a),a
+    jr nz,++
+    xor a
+    ld ($c00a),a
+    ld a,($c002)
+    cp $7f
+    jr nz,+
+    ld a,$85
+    jp $84ad
++:  or a
+    jp p,SoundInitialise
+    ld a,($c006)
+    or a
+    ret z
+    jp $8218
 
-++: ld ix,$c00e                  ; 03019B DD 21 0E C0
-    ld de,$0020                  ; 03019F 11 20 00
-    ld b,$06                     ; 0301A2 06 06
-    ld a,($c002)                 ; 0301A4 3A 02 C0
-    or a                         ; 0301A7 B7
-    jp p,$81b1                   ; 0301A8 F2 B1 81
-    ld ix,$c14e                  ; 0301AB DD 21 4E C1
-    ld b,$04                     ; 0301AF 06 04
--:  ld a,(ix+$08)                ; 0301B1 DD 7E 08
-    inc a                        ; 0301B4 3C
-    cp $10                       ; 0301B5 FE 10
-    jr z,++                      ; 0301B7 28 0A
-    ld (ix+$08),a                ; 0301B9 DD 77 08
-    ld a,($c000)                 ; 0301BC 3A 00 C0
-    or a                         ; 0301BF B7
-    call nz,+                    ; 0301C0 C4 C8 81
-++: add ix,de                    ; 0301C3 DD 19
-    djnz -                       ; 0301C5 10 EA
-    ret                          ; 0301C7 C9
+++: ld ix,$c00e
+    ld de,$0020
+    ld b,$06
+    ld a,($c002)
+    or a
+    jp p,$81b1
+    ld ix,$c14e
+    ld b,$04
+-:  ld a,(ix+$08)
+    inc a
+    cp $10
+    jr z,++
+    ld (ix+$08),a
+    ld a,($c000)
+    or a
+    call nz,+
+++: add ix,de
+    djnz -
+    ret
 
 +:
-    bit 2,(ix+$00)               ; 0301C8 DD CB 00 56
-    ret nz                       ; 0301CC C0
-    jp $8748                     ; 0301CD C3 48 87
-+++:ld a,($c00b)                 ; 0301D0 3A 0B C0
-    dec a                        ; 0301D3 3D
-    jr z,+                       ; 0301D4 28 04
-    ld ($c00b),a                 ; 0301D6 32 0B C0
-    ret                          ; 0301D9 C9
-+:  ld a,$0a                     ; 0301DA 3E 0A
-    ld ($c00b),a                 ; 0301DC 32 0B C0
-    ld a,($c00a)                 ; 0301DF 3A 0A C0
-    inc a                        ; 0301E2 3C
-    cp $8b                       ; 0301E3 FE 8B
-    ld ($c00a),a                 ; 0301E5 32 0A C0
-    jr nz,+                      ; 0301E8 20 0A
-    xor a                        ; 0301EA AF
-    ld ($c00a),a                 ; 0301EB 32 0A C0
+    bit 2,(ix+$00)
+    ret nz
+    jp $8748
++++:ld a,($c00b)
+    dec a
+    jr z,+
+    ld ($c00b),a
+    ret
++:  ld a,$0a
+    ld ($c00b),a
+    ld a,($c00a)
+    inc a
+    cp $8b
+    ld ($c00a),a
+    jr nz,+
+    xor a
+    ld ($c00a),a
     ld hl,$c0ce
-    res 2,(hl)                   ; 0301F1 CB 96
-    ret                          ; 0301F3 C9
-+:  ld ix,$c00e                  ; 0301F4 DD 21 0E C0
-    ld de,$0020                  ; 0301F8 11 20 00
-    ld b,$06                     ; 0301FB 06 06
--:  ld a,(ix+$08)                ; 0301FD DD 7E 08
-    dec a                        ; 030200 3D
-    jp m,$8213                   ; 030201 FA 13 82
-    cp (ix+$17)                  ; 030204 DD BE 17
-    jr c,+                       ; 030207 38 0A
-    ld (ix+$08),a                ; 030209 DD 77 08
-    ld a,($c000)                 ; 03020C 3A 00 C0
-    or a                         ; 03020F B7
-    call nz,$8748                ; 030210 C4 48 87
-+:  add ix,de                    ; 030213 DD 19
-    djnz -                       ; 030215 10 E6
-    ret                          ; 030217 C9
+    res 2,(hl)
+    ret
++:  ld ix,$c00e
+    ld de,$0020
+    ld b,$06
+-:  ld a,(ix+$08)
+    dec a
+    jp m,$8213
+    cp (ix+$17)
+    jr c,+
+    ld (ix+$08),a
+    ld a,($c000)
+    or a
+    call nz,$8748
++:  add ix,de
+    djnz -
+    ret
 
-    call SilencePSGandFM         ; 030218 CD 1F 80
-    ld a,($c005)                 ; 03021B 3A 05 C0
-    ld ($c002),a                 ; 03021E 32 02 C0
-    ld a,$80                     ; 030221 3E 80
-    ld ($c00a),a                 ; 030223 32 0A C0
-    ld a,$0a                     ; 030226 3E 0A
-    ld ($c00b),a                 ; 030228 32 0B C0
+    call SilencePSGandFM
+    ld a,($c005)
+    ld ($c002),a
+    ld a,$80
+    ld ($c00a),a
+    ld a,$0a
+    ld ($c00b),a
     ld hl,$c0ce
-    set 2,(hl)                   ; 03022E CB D6
-    push ix                      ; 030230 DD E5
-      ld ix,$c00e                ; 030232 DD 21 0E C0
-      ld b,$06                   ; 030236 06 06
-      ld de,$0020                ; 030238 11 20 00
--:    ld a,(ix+$08)              ; 03023B DD 7E 08
-      ld (ix+$17),a              ; 03023E DD 77 17
-      ld a,$09                   ; 030241 3E 09
-      ld (ix+$08),a              ; 030243 DD 77 08
-      add ix,de                  ; 030246 DD 19
-      djnz -                     ; 030248 10 F1
-    pop ix                       ; 03024A DD E1
-    jp $85f9                     ; 03024C C3 F9 85
-    ld a,$0a                     ; 03024F 3E 0A
-    ld ($c00b),a                 ; 030251 32 0B C0
-    ld ($c009),a                 ; 030254 32 09 C0
-    ld a,$03                     ; 030257 3E 03
-    ld ($c00a),a                 ; 030259 32 0A C0
-    ld a,($c002)                 ; 03025C 3A 02 C0
-    or a                         ; 03025F B7
-    jp m,$8267                   ; 030260 FA 67 82
-    xor a                        ; 030263 AF
-    ld ($c0ce),a                 ; 030264 32 CE C0
-    ld a,$ff                     ; 030267 3E FF
-    out ($7f),a                  ; 030269 D3 7F
-    xor a                        ; 03026B AF
-    ld ($c1ce),a                 ; 03026C 32 CE C1
-    jp $85f9                     ; 03026F C3 F9 85
+    set 2,(hl)
+    push ix
+      ld ix,$c00e
+      ld b,$06
+      ld de,$0020
+-:    ld a,(ix+$08)
+      ld (ix+$17),a
+      ld a,$09
+      ld (ix+$08),a
+      add ix,de
+      djnz -
+    pop ix
+    jp $85f9
+    ld a,$0a
+    ld ($c00b),a
+    ld ($c009),a
+    ld a,$03
+    ld ($c00a),a
+    ld a,($c002)
+    or a
+    jp m,$8267
+    xor a
+    ld ($c0ce),a
+    ld a,$ff
+    out ($7f),a
+    xor a
+    ld ($c1ce),a
+    jp $85f9
 .ends
 .section "Output 0 to YM2413 channel in a" overwrite
 ZeroYM2413Channel: ; $8272
@@ -11070,75 +11069,75 @@ ZeroYM2413Channel: ; $8272
 .ends
 .org $3027b-$30000
 .section "Yet more music code" overwrite
-    xor a                        ; 03027B AF
-    ld ($c12e),a                 ; 03027C 32 2E C1
-    ld a,$df                     ; 03027F 3E DF
-    out ($7f),a                  ; 030281 D3 7F
-    ld a,$ff                     ; 030283 3E FF
-    out ($7f),a                  ; 030285 D3 7F
-    ld a,$25                     ; 030287 3E 25
-    out ($f0),a                  ; 030289 D3 F0
-    call $8b34                   ; 03028B CD 34 8B
-    xor a                        ; 03028E AF
-    out ($f1),a                  ; 03028F D3 F1
-    ret                          ; 030291 C9
+    xor a
+    ld ($c12e),a
+    ld a,$df
+    out ($7f),a
+    ld a,$ff
+    out ($7f),a
+    ld a,$25
+    out ($f0),a
+    call $8b34
+    xor a
+    out ($f1),a
+    ret
 
-    push bc                      ; 030292 C5
-      ld b,$12                   ; 030293 06 12
+    push bc
+      ld b,$12
       ld hl,$8312
-      ld c,$f1                   ; 030298 0E F1
-    -:dec c                      ; 03029A 0D
-      outi                       ; 03029B ED A3
-      inc c                      ; 03029D 0C
-      call $8b34                 ; 03029E CD 34 8B
-      outi                       ; 0302A1 ED A3
-      call $8b34                 ; 0302A3 CD 34 8B
-      jr nz,-                    ; 0302A6 20 F2
-    pop bc                       ; 0302A8 C1
-    ret                          ; 0302A9 C9
-    ld a,($c002)                 ; 0302AA 3A 02 C0
-    cp $7f                       ; 0302AD FE 7F
-    jp z,$824f                   ; 0302AF CA 4F 82
-    ld a,$80                     ; 0302B2 3E 80
-    ld ($c006),a                 ; 0302B4 32 06 C0
-    jp $824f                     ; 0302B7 C3 4F 82
-    xor a                        ; 0302BA AF
-    ld ($c10e),a                 ; 0302BB 32 0E C1
-    ld ($c0ee),a                 ; 0302BE 32 EE C0
+      ld c,$f1
+    -:dec c
+      outi
+      inc c
+      call $8b34
+      outi
+      call $8b34
+      jr nz,-
+    pop bc
+    ret
+    ld a,($c002)
+    cp $7f
+    jp z,$824f
+    ld a,$80
+    ld ($c006),a
+    jp $824f
+    xor a
+    ld ($c10e),a
+    ld ($c0ee),a
     ld hl,$c08e
-    call $8307                   ; 0302C4 CD 07 83
+    call $8307
     ld hl,$c1ae
-    call $8307                   ; 0302CA CD 07 83
-    ex af,af'                    ; 0302CD 08
-    jr nz,+                      ; 0302CE 20 0D
-    ex af,af'                    ; 0302D0 08
+    call $8307
+    ex af,af'
+    jr nz,+
+    ex af,af'
     ld hl,$804a
-    ld c,$7f                     ; 0302D4 0E 7F
-    ld b,$08                     ; 0302D6 06 08
-    otir                         ; 0302D8 ED B3
-    jp $85f9                     ; 0302DA C3 F9 85
-+:  ex af,af'                    ; 0302DD 08
-    ld a,$25                     ; 0302DE 3E 25
-    call ZeroYM2413Channel       ; 0302E0 CD 72 82
-    call $8b34                   ; 0302E3 CD 34 8B
-    ld a,$24                     ; 0302E6 3E 24
-    call ZeroYM2413Channel       ; 0302E8 CD 72 82
-    ld a,($c002)                 ; 0302EB 3A 02 C0
-    or a                         ; 0302EE B7
-    jp m,$85f9                   ; 0302EF FA F9 85
-    push ix                      ; 0302F2 DD E5
-      ld ix,$c08e                ; 0302F4 DD 21 8E C0
-      call $8748                 ; 0302F8 CD 48 87
-      ld ix,$c0ae                ; 0302FB DD 21 AE C0
-      call $8748                 ; 0302FF CD 48 87
-    pop ix                       ; 030302 DD E1
-    jp $85f9                     ; 030304 C3 F9 85
-    ld de,$0020                  ; 030307 11 20 00
-    ld b,$03                     ; 03030A 06 03
--:  res 2,(hl)                   ; 03030C CB 96
-    add hl,de                    ; 03030E 19
-    djnz -                       ; 03030F 10 FB
-    ret                          ; 030311 C9
+    ld c,$7f
+    ld b,$08
+    otir
+    jp $85f9
++:  ex af,af'
+    ld a,$25
+    call ZeroYM2413Channel
+    call $8b34
+    ld a,$24
+    call ZeroYM2413Channel
+    ld a,($c002)
+    or a
+    jp m,$85f9
+    push ix
+      ld ix,$c08e
+      call $8748
+      ld ix,$c0ae
+      call $8748
+    pop ix
+    jp $85f9
+    ld de,$0020
+    ld b,$03
+-:  res 2,(hl)
+    add hl,de
+    djnz -
+    ret
 .ends
 .org $30312-$30000
 
@@ -11146,912 +11145,912 @@ ZeroYM2413Channel: ; $8272
 
 .org $30466-$30000
 .section "more sound code again" overwrite
-    ld a,($c004)                 ; 030466 3A 04 C0
-    bit 7,a                      ; 030469 CB 7F
-    jp z,$8000                   ; 03046B CA 00 80
-    cp $a0                       ; 03046E FE A0
-    jr c,++                      ; 030470 38 3B
-    cp $d0                       ; 030472 FE D0
-    jp c,$8524                   ; 030474 DA 24 85
-    cp $d5                       ; 030477 FE D5
-    jp c,$8490                   ; 030479 DA 90 84
-    cp $da                       ; 03047C FE DA
-    jp nc,$8000                  ; 03047E D2 00 80
-    sub $d5                      ; 030481 D6 D5
-    add a,a                      ; 030483 87
-    ld c,a                       ; 030484 4F
-    ld b,$00                     ; 030485 06 00
+    ld a,($c004)
+    bit 7,a
+    jp z,$8000
+    cp $a0
+    jr c,++
+    cp $d0
+    jp c,$8524
+    cp $d5
+    jp c,$8490
+    cp $da
+    jp nc,$8000
+    sub $d5
+    add a,a
+    ld c,a
+    ld b,$00
     ld hl,$845c
-    add hl,bc                    ; 03048A 09
-    ld a,(hl)                    ; 03048B 7E
-    inc hl                       ; 03048C 23
-    ld h,(hl)                    ; 03048D 66
-    ld l,a                       ; 03048E 6F
-    jp (hl)                      ; 03048F E9
+    add hl,bc
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp (hl)
     ld hl,$8452
-    sub $d0                      ; 030493 D6 D0
-    ex af,af'                    ; 030495 08
-    jr nz,+                      ; 030496 20 03
+    sub $d0
+    ex af,af'
+    jr nz,+
     ld hl,$83c0
-+:  ex af,af'                    ; 03049B 08
-    call $85ff                   ; 03049C CD FF 85
-    ld de,$c12e                  ; 03049F 11 2E C1
-    ld a,$ff                     ; 0304A2 3E FF
-    out ($7f),a                  ; 0304A4 D3 7F
-    ld a,$df                     ; 0304A6 3E DF
-    out ($7f),a                  ; 0304A8 D3 7F
-    jp $85c6                     ; 0304AA C3 C6 85
-++: cp $95                       ; 0304AD FE 95
-    jp nc,$85f9                  ; 0304AF D2 F9 85
-    sub $81                      ; 0304B2 D6 81
-    ret m                        ; 0304B4 F8
-    ld b,$00                     ; 0304B5 06 00
-    ld c,a                       ; 0304B7 4F
++:  ex af,af'
+    call $85ff
+    ld de,$c12e
+    ld a,$ff
+    out ($7f),a
+    ld a,$df
+    out ($7f),a
+    jp $85c6
+++: cp $95
+    jp nc,$85f9
+    sub $81
+    ret m
+    ld b,$00
+    ld c,a
     ld hl,$8324
-    add hl,bc                    ; 0304BB 09
-    push af                      ; 0304BC F5
-    ld a,($c002)                 ; 0304BD 3A 02 C0
-    and $7f                      ; 0304C0 E6 7F
-    ld ($c005),a                 ; 0304C2 32 05 C0
-    ld a,(hl)                    ; 0304C5 7E
-    ld ($c001),a                 ; 0304C6 32 01 C0
-    ld ($c002),a                 ; 0304C9 32 02 C0
-    push af                      ; 0304CC F5
-    ld a,($c00a)                 ; 0304CD 3A 0A C0
-    or a                         ; 0304D0 B7
-    jp p,$84e7                   ; 0304D1 F2 E7 84
-    ld ix,$c00e                  ; 0304D4 DD 21 0E C0
-    ld de,$0020                  ; 0304D8 11 20 00
-    ld b,$06                     ; 0304DB 06 06
--:  ld a,(ix+$17)                ; 0304DD DD 7E 17
-    ld (ix+$08),a                ; 0304E0 DD 77 08
-    add ix,de                    ; 0304E3 DD 19
-    djnz -                       ; 0304E5 10 F6
-    call $803c                   ; 0304E7 CD 3C 80
-    call $801f                   ; 0304EA CD 1F 80
-    pop af                       ; 0304ED F1
-    ex af,af'                    ; 0304EE 08
-    jr nz,+                      ; 0304EF 20 13
-    ex af,af'                    ; 0304F1 08
-    ld de,$c14e                  ; 0304F2 11 4E C1
-    or a                         ; 0304F5 B7
-    jp m,$84ff                   ; 0304F6 FA FF 84
-    call $8000                   ; 0304F9 CD 00 80
-    ld de,$c06e                  ; 0304FC 11 6E C0
+    add hl,bc
+    push af
+    ld a,($c002)
+    and $7f
+    ld ($c005),a
+    ld a,(hl)
+    ld ($c001),a
+    ld ($c002),a
+    push af
+    ld a,($c00a)
+    or a
+    jp p,$84e7
+    ld ix,$c00e
+    ld de,$0020
+    ld b,$06
+-:  ld a,(ix+$17)
+    ld (ix+$08),a
+    add ix,de
+    djnz -
+    call $803c
+    call $801f
+    pop af
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld de,$c14e
+    or a
+    jp m,$84ff
+    call $8000
+    ld de,$c06e
     ld hl,$8338
-    jr ++                        ; 030502 18 19
-+:  ex af,af'                    ; 030504 08
-    call $8292                   ; 030505 CD 92 82
-    ld de,$c14e                  ; 030508 11 4E C1
-    or a                         ; 03050B B7
-    jp m,$8517                   ; 03050C FA 17 85
-    ld de,$c00e                  ; 03050F 11 0E C0
-    call $8000                   ; 030512 CD 00 80
-    jr +                         ; 030515 18 03
-    call $802c                   ; 030517 CD 2C 80
+    jr ++
++:  ex af,af'
+    call $8292
+    ld de,$c14e
+    or a
+    jp m,$8517
+    ld de,$c00e
+    call $8000
+    jr +
+    call $802c
 +:  ld hl,$83ca
-++: pop af                       ; 03051D F1
-    call $85ff                   ; 03051E CD FF 85
-    jp $85c6                     ; 030521 C3 C6 85
-    sub $a0                      ; 030524 D6 A0
+++: pop af
+    call $85ff
+    jp $85c6
+    sub $a0
     ld hl,$8360
-    ex af,af'                    ; 030529 08
-    jr z,+                       ; 03052A 28 03
+    ex af,af'
+    jr z,+
     ld hl,$83f2
-+:  ex af,af'                    ; 03052F 08
-    call $85ff                   ; 030530 CD FF 85
-    ld h,b                       ; 030533 60
-    ld l,c                       ; 030534 69
-    inc hl                       ; 030535 23
-    inc hl                       ; 030536 23
-    ld a,(hl)                    ; 030537 7E
-    ex af,af'                    ; 030538 08
-    jr z,+++                     ; 030539 28 2C
-    ex af,af'                    ; 03053B 08
-    cp $10                       ; 03053C FE 10
-    jr z,+                       ; 03053E 28 0B
-    cp $14                       ; 030540 FE 14
-    jr z,++                      ; 030542 28 0F
-    ld de,$c10e                  ; 030544 11 0E C1
-    ld a,$25                     ; 030547 3E 25
-    jr ++++                      ; 030549 18 12
-+:  call $8000                   ; 03054B CD 00 80
-    ld de,$c00e                  ; 03054E 11 0E C0
-    jr _05c6                     ; 030551 18 73
-++: ld de,$c0ee                  ; 030553 11 EE C0
-    ld a,$24                     ; 030556 3E 24
++:  ex af,af'
+    call $85ff
+    ld h,b
+    ld l,c
+    inc hl
+    inc hl
+    ld a,(hl)
+    ex af,af'
+    jr z,+++
+    ex af,af'
+    cp $10
+    jr z,+
+    cp $14
+    jr z,++
+    ld de,$c10e
+    ld a,$25
+    jr ++++
++:  call $8000
+    ld de,$c00e
+    jr _05c6
+++: ld de,$c0ee
+    ld a,$24
     ld hl,$c08e
-    set 2,(hl)                   ; 03055B CB D6
+    set 2,(hl)
 ++++:
     ld hl,$c0ae
-    set 2,(hl)                   ; 030560 CB D6
-    call ZeroYM2413Channel       ; 030562 CD 72 82
-    jr _05c6                     ; 030565 18 5F
+    set 2,(hl)
+    call ZeroYM2413Channel
+    jr _05c6
 
-+++:ex af,af'                    ; 030567 08
-    cp $c0                       ; 030568 FE C0
-    jr z,+                       ; 03056A 28 1F
-    cp $e0                       ; 03056C FE E0
-    jr z,++                      ; 03056E 28 0E
-    cp $a0                       ; 030570 FE A0
-    jr z,+++                     ; 030572 28 1C
-    push bc                      ; 030574 C5
-    call $8000                   ; 030575 CD 00 80
-    pop bc                       ; 030578 C1
-    ld de,$c06e                  ; 030579 11 6E C0
-    jr _05c6                     ; 03057C 18 48
++++:ex af,af'
+    cp $c0
+    jr z,+
+    cp $e0
+    jr z,++
+    cp $a0
+    jr z,+++
+    push bc
+    call $8000
+    pop bc
+    ld de,$c06e
+    jr _05c6
 
-++: ld a,$df                     ; 03057E 3E DF
-    out ($7f),a                  ; 030580 D3 7F
+++: ld a,$df
+    out ($7f),a
     ld hl,$c0ce
-    set 2,(hl)                   ; 030585 CB D6
-    ld a,$e7                     ; 030587 3E E7
-    out ($7f),a                  ; 030589 D3 7F
-+:  ld de,$c10e                  ; 03058B 11 0E C1
-    jr +                         ; 03058E 18 28
-+++:ld de,$0009                  ; 030590 11 09 00
-    add hl,de                    ; 030593 19
-    ld a,(hl)                    ; 030594 7E
-    cp $e0                       ; 030595 FE E0
-    jr nz,++                     ; 030597 20 12
-    ld a,$e7                     ; 030599 3E E7
-    out ($7f),a                  ; 03059B D3 7F
+    set 2,(hl)
+    ld a,$e7
+    out ($7f),a
++:  ld de,$c10e
+    jr +
++++:ld de,$0009
+    add hl,de
+    ld a,(hl)
+    cp $e0
+    jr nz,++
+    ld a,$e7
+    out ($7f),a
     ld hl,$c0ce
-    set 2,(hl)                   ; 0305A0 CB D6
+    set 2,(hl)
     ld hl,$c1ce
-    set 2,(hl)                   ; 0305A5 CB D6
-    ld a,$df                     ; 0305A7 3E DF
-    out ($7f),a                  ; 0305A9 D3 7F
-++: ld de,$c0ee                  ; 0305AB 11 EE C0
+    set 2,(hl)
+    ld a,$df
+    out ($7f),a
+++: ld de,$c0ee
     ld hl,$c08e
-    set 2,(hl)                   ; 0305B1 CB D6
+    set 2,(hl)
     ld hl,$c18e
-    set 2,(hl)                   ; 0305B6 CB D6
-+:  ld a,$ff                     ; 0305B8 3E FF
-    out ($7f),a                  ; 0305BA D3 7F
+    set 2,(hl)
++:  ld a,$ff
+    out ($7f),a
     ld hl,$c0ae
-    set 2,(hl)                   ; 0305BF CB D6
+    set 2,(hl)
     ld hl,$c1ae
-    set 2,(hl)                   ; 0305C4 CB D6
+    set 2,(hl)
 _05c6:
-    ld h,b                       ; 0305C6 60
-    ld l,c                       ; 0305C7 69
-    ld b,(hl)                    ; 0305C8 46
-    inc hl                       ; 0305C9 23
--:  push bc                      ; 0305CA C5
-    push hl                      ; 0305CB E5
-    pop ix                       ; 0305CC DD E1
-    ld bc,$0009                  ; 0305CE 01 09 00
-    ldir                         ; 0305D1 ED B0
-    ld a,$20                     ; 0305D3 3E 20
-    ld (de),a                    ; 0305D5 12
-    inc de                       ; 0305D6 13
-    ld a,$01                     ; 0305D7 3E 01
-    ld (de),a                    ; 0305D9 12
-    inc de                       ; 0305DA 13
-    xor a                        ; 0305DB AF
-    ld (de),a                    ; 0305DC 12
-    inc de                       ; 0305DD 13
-    ld (de),a                    ; 0305DE 12
-    inc de                       ; 0305DF 13
-    ld (de),a                    ; 0305E0 12
-    push hl                      ; 0305E1 E5
+    ld h,b
+    ld l,c
+    ld b,(hl)
+    inc hl
+-:  push bc
+    push hl
+    pop ix
+    ld bc,$0009
+    ldir
+    ld a,$20
+    ld (de),a
+    inc de
+    ld a,$01
+    ld (de),a
+    inc de
+    xor a
+    ld (de),a
+    inc de
+    ld (de),a
+    inc de
+    ld (de),a
+    push hl
     ld hl,$0013
-    add hl,de                    ; 0305E5 19
-    ex de,hl                     ; 0305E6 EB
-    pop hl                       ; 0305E7 E1
-    ld bc,$85f6                  ; 0305E8 01 F6 85
-    push bc                      ; 0305EB C5
-    ld a,($c000)                 ; 0305EC 3A 00 C0
-    or a                         ; 0305EF B7
-    jp nz,$8748                  ; 0305F0 C2 48 87
-    jp $8cce                     ; 0305F3 C3 CE 8C
-    pop bc                       ; 0305F6 C1
-    djnz -                       ; 0305F7 10 D1
-    ld a,$80                     ; 0305F9 3E 80
-    ld ($c004),a                 ; 0305FB 32 04 C0
-    ret                          ; 0305FE C9
-    add a,a                      ; 0305FF 87
-    ld b,$00                     ; 030600 06 00
-    ld c,a                       ; 030602 4F
-    add hl,bc                    ; 030603 09
-    ld c,(hl)                    ; 030604 4E
-    inc hl                       ; 030605 23
-    ld b,(hl)                    ; 030606 46
-    ret                          ; 030607 C9
-    inc (ix+$0b)                 ; 030608 DD 34 0B
-    ld a,(ix+$0a)                ; 03060B DD 7E 0A
-    sub (ix+$0b)                 ; 03060E DD 96 0B
-    jr nz,+                      ; 030611 20 14
-    call $8636                   ; 030613 CD 36 86
-    bit 2,(ix+$00)               ; 030616 DD CB 00 56
-    ret nz                       ; 03061A C0
-    ld a,$0e                     ; 03061B 3E 0E
-    out ($f0),a                  ; 03061D D3 F0
-    ld a,(ix+$10)                ; 03061F DD 7E 10
-    or $20                       ; 030622 F6 20
-    out ($f1),a                  ; 030624 D3 F1
-    ret                          ; 030626 C9
+    add hl,de
+    ex de,hl
+    pop hl
+    ld bc,$85f6
+    push bc
+    ld a,($c000)
+    or a
+    jp nz,$8748
+    jp $8cce
+    pop bc
+    djnz -
+    ld a,$80
+    ld ($c004),a
+    ret
+    add a,a
+    ld b,$00
+    ld c,a
+    add hl,bc
+    ld c,(hl)
+    inc hl
+    ld b,(hl)
+    ret
+    inc (ix+$0b)
+    ld a,(ix+$0a)
+    sub (ix+$0b)
+    jr nz,+
+    call $8636
+    bit 2,(ix+$00)
+    ret nz
+    ld a,$0e
+    out ($f0),a
+    ld a,(ix+$10)
+    or $20
+    out ($f1),a
+    ret
 
-+:  cp $02                       ; 030627 FE 02
-    ret nz                       ; 030629 C0
-    ld a,$0e                     ; 03062A 3E 0E
-    out ($f0),a                  ; 03062C D3 F0
-    call $8b34                   ; 03062E CD 34 8B
-    ld a,$20                     ; 030631 3E 20
-    out ($f1),a                  ; 030633 D3 F1
-    ret                          ; 030635 C9
-    ld e,(ix+$03)                ; 030636 DD 5E 03
-    ld d,(ix+$04)                ; 030639 DD 56 04
-    ld a,(de)                    ; 03063C 1A
-    inc de                       ; 03063D 13
-    cp $e0                       ; 03063E FE E0
-    jp nc,$865a                  ; 030640 D2 5A 86
-    cp $7f                       ; 030643 FE 7F
-    jp c,$880b                   ; 030645 DA 0B 88
-    bit 5,a                      ; 030648 CB 6F
-    jr z,+                       ; 03064A 28 02
-    or $01                       ; 03064C F6 01
-+:  bit 2,a                      ; 03064E CB 57
-    jr z,+                       ; 030650 28 02
-    or $10                       ; 030652 F6 10
-+:  ld (ix+$10),a                ; 030654 DD 77 10
-    jp $87fd                     ; 030657 C3 FD 87
++:  cp $02
+    ret nz
+    ld a,$0e
+    out ($f0),a
+    call $8b34
+    ld a,$20
+    out ($f1),a
+    ret
+    ld e,(ix+$03)
+    ld d,(ix+$04)
+    ld a,(de)
+    inc de
+    cp $e0
+    jp nc,$865a
+    cp $7f
+    jp c,$880b
+    bit 5,a
+    jr z,+
+    or $01
++:  bit 2,a
+    jr z,+
+    or $10
++:  ld (ix+$10),a
+    jp $87fd
     ld hl,$8660
-    jp $88ae                     ; 03065D C3 AE 88
-    inc de                       ; 030660 13
-    jp $863c                     ; 030661 C3 3C 86
-    inc (ix+$0b)                 ; 030664 DD 34 0B
-    ld a,(ix+$0a)                ; 030667 DD 7E 0A
-    sub (ix+$0b)                 ; 03066A DD 96 0B
-    call z,$87b9                 ; 03066D CC B9 87
-    ld ($c00c),a                 ; 030670 32 0C C0
-    cp $80                       ; 030673 FE 80
-    jp z,$86cd                   ; 030675 CA CD 86
-    bit 5,(ix+$00)               ; 030678 DD CB 00 6E
-    jp z,$86cd                   ; 03067C CA CD 86
-    exx                          ; 03067F D9
-    ld (hl),$80                  ; 030680 36 80
-    exx                          ; 030682 D9
-    bit 3,(ix+$00)               ; 030683 DD CB 00 5E
-    jp nz,$86ad                  ; 030687 C2 AD 86
-    ld a,(ix+$11)                ; 03068A DD 7E 11
-    bit 7,a                      ; 03068D CB 7F
-    jr z,+                       ; 03068F 28 0E
-    add a,(ix+$0e)               ; 030691 DD 86 0E
-    jr c,++                      ; 030694 38 34
-    dec (ix+$0f)                 ; 030696 DD 35 0F
-    dec (ix+$0f)                 ; 030699 DD 35 0F
-    jp $86c6                     ; 03069C C3 C6 86
-+:  add a,(ix+$0e)               ; 03069F DD 86 0E
-    jr nc,++                     ; 0306A2 30 26
-    inc (ix+$0f)                 ; 0306A4 DD 34 0F
-    inc (ix+$0f)                 ; 0306A7 DD 34 0F
-    jp $86c6                     ; 0306AA C3 C6 86
-    ld a,(ix+$11)                ; 0306AD DD 7E 11
-    bit 7,a                      ; 0306B0 CB 7F
-    jr z,+                       ; 0306B2 28 0A
-    add a,(ix+$0e)               ; 0306B4 DD 86 0E
-    jr c,++                      ; 0306B7 38 11
-    dec (ix+$0f)                 ; 0306B9 DD 35 0F
-    jr +++                       ; 0306BC 18 08
-+:  add a,(ix+$0e)               ; 0306BE DD 86 0E
-    jr nc,++                     ; 0306C1 30 07
-    inc (ix+$0f)                 ; 0306C3 DD 34 0F
-+++:set 1,(ix+$07)               ; 0306C6 DD CB 07 CE
-++: ld (ix+$0e),a                ; 0306CA DD 77 0E
-    bit 2,(ix+$00)               ; 0306CD DD CB 00 56
-    ret nz                       ; 0306D1 C0
-    ld a,(ix+$13)                ; 0306D2 DD 7E 13
-    cp $1f                       ; 0306D5 FE 1F
-    ret z                        ; 0306D7 C8
-    ld a,($c00c)                 ; 0306D8 3A 0C C0
-    bit 0,(ix+$07)               ; 0306DB DD CB 07 46
-    jr nz,+                      ; 0306DF 20 05
-    cp $02                       ; 0306E1 FE 02
-    jp c,$875e                   ; 0306E3 DA 5E 87
-+:  or a                         ; 0306E6 B7
-    jp m,$86f7                   ; 0306E7 FA F7 86
-    bit 7,(ix+$14)               ; 0306EA DD CB 14 7E
-    ret nz                       ; 0306EE C0
-    ld a,(ix+$06)                ; 0306EF DD 7E 06
-    dec a                        ; 0306F2 3D
-    jp p,$86fb                   ; 0306F3 F2 FB 86
-    ret                          ; 0306F6 C9
-    ld a,(ix+$06)                ; 0306F7 DD 7E 06
-    dec a                        ; 0306FA 3D
-    ld l,(ix+$0e)                ; 0306FB DD 6E 0E
-    ld h,(ix+$0f)                ; 0306FE DD 66 0F
-    jp m,$870e                   ; 030701 FA 0E 87
-    ex de,hl                     ; 030704 EB
+    jp $88ae
+    inc de
+    jp $863c
+    inc (ix+$0b)
+    ld a,(ix+$0a)
+    sub (ix+$0b)
+    call z,$87b9
+    ld ($c00c),a
+    cp $80
+    jp z,$86cd
+    bit 5,(ix+$00)
+    jp z,$86cd
+    exx
+    ld (hl),$80
+    exx
+    bit 3,(ix+$00)
+    jp nz,$86ad
+    ld a,(ix+$11)
+    bit 7,a
+    jr z,+
+    add a,(ix+$0e)
+    jr c,++
+    dec (ix+$0f)
+    dec (ix+$0f)
+    jp $86c6
++:  add a,(ix+$0e)
+    jr nc,++
+    inc (ix+$0f)
+    inc (ix+$0f)
+    jp $86c6
+    ld a,(ix+$11)
+    bit 7,a
+    jr z,+
+    add a,(ix+$0e)
+    jr c,++
+    dec (ix+$0f)
+    jr +++
++:  add a,(ix+$0e)
+    jr nc,++
+    inc (ix+$0f)
++++:set 1,(ix+$07)
+++: ld (ix+$0e),a
+    bit 2,(ix+$00)
+    ret nz
+    ld a,(ix+$13)
+    cp $1f
+    ret z
+    ld a,($c00c)
+    bit 0,(ix+$07)
+    jr nz,+
+    cp $02
+    jp c,$875e
++:  or a
+    jp m,$86f7
+    bit 7,(ix+$14)
+    ret nz
+    ld a,(ix+$06)
+    dec a
+    jp p,$86fb
+    ret
+    ld a,(ix+$06)
+    dec a
+    ld l,(ix+$0e)
+    ld h,(ix+$0f)
+    jp m,$870e
+    ex de,hl
     ld hl,$b805
-    call $876b                   ; 030708 CD 6B 87
-    call $8778                   ; 03070B CD 78 87
-    bit 3,(ix+$00)               ; 03070E DD CB 00 5E
-    call nz,$8855                ; 030712 C4 55 88
-    ld c,$f1                     ; 030715 0E F1
-    ld a,(ix+$01)                ; 030717 DD 7E 01
-    out ($f0),a                  ; 03071A D3 F0
-    add a,$10                    ; 03071C C6 10
-    call $8b34                   ; 03071E CD 34 8B
-    out (c),l                    ; 030721 ED 69
-    call $8b34                   ; 030723 CD 34 8B
-    exx                          ; 030726 D9
-    bit 7,(hl)                   ; 030727 CB 7E
-    exx                          ; 030729 D9
-    out ($f0),a                  ; 03072A D3 F0
-    jr nz,+                      ; 03072C 20 0F
-    bit 0,(ix+$07)               ; 03072E DD CB 07 46
-    jr z,+                       ; 030732 28 09
-    bit 1,(ix+$07)               ; 030734 DD CB 07 4E
-    ret z                        ; 030738 C8
-    res 1,(ix+$07)               ; 030739 DD CB 07 8E
-+:  bit 2,(ix+$07)               ; 03073D DD CB 07 56
-    jr z,+                       ; 030741 28 02
-    set 5,h                      ; 030743 CB EC
-+:  out (c),h                    ; 030745 ED 61
-    ret                          ; 030747 C9
+    call $876b
+    call $8778
+    bit 3,(ix+$00)
+    call nz,$8855
+    ld c,$f1
+    ld a,(ix+$01)
+    out ($f0),a
+    add a,$10
+    call $8b34
+    out (c),l
+    call $8b34
+    exx
+    bit 7,(hl)
+    exx
+    out ($f0),a
+    jr nz,+
+    bit 0,(ix+$07)
+    jr z,+
+    bit 1,(ix+$07)
+    ret z
+    res 1,(ix+$07)
++:  bit 2,(ix+$07)
+    jr z,+
+    set 5,h
++:  out (c),h
+    ret
 
-    ld a,(ix+$01)                ; 030748 DD 7E 01
-    add a,$20                    ; 03074B C6 20
-    out ($f0),a                  ; 03074D D3 F0
-    ld a,(ix+$07)                ; 03074F DD 7E 07
-    and $f0                      ; 030752 E6 F0
-    ld c,a                       ; 030754 4F
-    ld a,(ix+$08)                ; 030755 DD 7E 08
-    and $0f                      ; 030758 E6 0F
-    or c                         ; 03075A B1
-    out ($f1),a                  ; 03075B D3 F1
-    ret                          ; 03075D C9
-    ld a,(ix+$01)                ; 03075E DD 7E 01
-    add a,$10                    ; 030761 C6 10
-    call ZeroYM2413Channel       ; 030763 CD 72 82
-    ld (ix+$13),$1f              ; 030766 DD 36 13 1F
-    ret                          ; 03076A C9
-    ld c,a                       ; 03076B 4F
-    ld b,$00                     ; 03076C 06 00
-    add hl,bc                    ; 03076E 09
-    add hl,bc                    ; 03076F 09
-    ld a,(hl)                    ; 030770 7E
-    inc hl                       ; 030771 23
-    ld h,(hl)                    ; 030772 66
-    ld l,a                       ; 030773 6F
-    ret                          ; 030774 C9
+    ld a,(ix+$01)
+    add a,$20
+    out ($f0),a
+    ld a,(ix+$07)
+    and $f0
+    ld c,a
+    ld a,(ix+$08)
+    and $0f
+    or c
+    out ($f1),a
+    ret
+    ld a,(ix+$01)
+    add a,$10
+    call ZeroYM2413Channel
+    ld (ix+$13),$1f
+    ret
+    ld c,a
+    ld b,$00
+    add hl,bc
+    add hl,bc
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ret
 
--:  ld (ix+$0d),a                ; 030775 DD 77 0D
-    push hl                      ; 030778 E5
-    ld c,(ix+$0d)                ; 030779 DD 4E 0D
-    ld b,$00                     ; 03077C 06 00
-    add hl,bc                    ; 03077E 09
-    ld c,l                       ; 03077F 4D
-    ld b,h                       ; 030780 44
-    pop hl                       ; 030781 E1
-    ld a,(bc)                    ; 030782 0A
-    bit 7,a                      ; 030783 CB 7F
-    jp z,$879e                   ; 030785 CA 9E 87
-    cp $83                       ; 030788 FE 83
-    jr z,+                       ; 03078A 28 0B
-    cp $80                       ; 03078C FE 80
-    jr z,++                      ; 03078E 28 0B
-    ld a,$ff                     ; 030790 3E FF
-    ld (ix+$14),a                ; 030792 DD 77 14
-    pop hl                       ; 030795 E1
-    ret                          ; 030796 C9
+-:  ld (ix+$0d),a
+    push hl
+    ld c,(ix+$0d)
+    ld b,$00
+    add hl,bc
+    ld c,l
+    ld b,h
+    pop hl
+    ld a,(bc)
+    bit 7,a
+    jp z,$879e
+    cp $83
+    jr z,+
+    cp $80
+    jr z,++
+    ld a,$ff
+    ld (ix+$14),a
+    pop hl
+    ret
 
-+:  inc bc                       ; 030797 03
-    ld a,(bc)                    ; 030798 0A
-    jr -                         ; 030799 18 DA
-++: xor a                        ; 03079B AF
-    jr -                         ; 03079C 18 D7
-    inc (ix+$0d)                 ; 03079E DD 34 0D
-    ld l,a                       ; 0307A1 6F
-    ld h,$00                     ; 0307A2 26 00
-    add hl,de                    ; 0307A4 19
-    ld a,($c000)                 ; 0307A5 3A 00 C0
-    or a                         ; 0307A8 B7
-    jr z,+                       ; 0307A9 28 0A
-    ld a,h                       ; 0307AB 7C
-    cp (ix+$10)                  ; 0307AC DD BE 10
-    jr z,+                       ; 0307AF 28 04
-    set 1,(ix+$07)               ; 0307B1 DD CB 07 CE
-+:  ld (ix+$10),a                ; 0307B5 DD 77 10
-    ret                          ; 0307B8 C9
-    ld e,(ix+$03)                ; 0307B9 DD 5E 03
-    ld d,(ix+$04)                ; 0307BC DD 56 04
-    ld a,(de)                    ; 0307BF 1A
-    inc de                       ; 0307C0 13
-    cp $e0                       ; 0307C1 FE E0
-    jp nc,$88ab                  ; 0307C3 D2 AB 88
-    bit 3,(ix+$00)               ; 0307C6 DD CB 00 5E
-    jp nz,$8834                  ; 0307CA C2 34 88
-    cp $80                       ; 0307CD FE 80
-    jp c,$880b                   ; 0307CF DA 0B 88
++:  inc bc
+    ld a,(bc)
+    jr -
+++: xor a
+    jr -
+    inc (ix+$0d)
+    ld l,a
+    ld h,$00
+    add hl,de
+    ld a,($c000)
+    or a
+    jr z,+
+    ld a,h
+    cp (ix+$10)
+    jr z,+
+    set 1,(ix+$07)
++:  ld (ix+$10),a
+    ret
+    ld e,(ix+$03)
+    ld d,(ix+$04)
+    ld a,(de)
+    inc de
+    cp $e0
+    jp nc,$88ab
+    bit 3,(ix+$00)
+    jp nz,$8834
+    cp $80
+    jp c,$880b
     jr nz,+                      ; 0307D2 20 00        ; does nothing
-+:  call $8894                   ; 0307D4 CD 94 88
-    ld a,(hl)                    ; 0307D7 7E
-    ld (ix+$0e),a                ; 0307D8 DD 77 0E
-    inc hl                       ; 0307DB 23
-    ld a,(hl)                    ; 0307DC 7E
-    ld (ix+$0f),a                ; 0307DD DD 77 0F
-    bit 5,(ix+$00)               ; 0307E0 DD CB 00 6E
-    jp z,$87fd                   ; 0307E4 CA FD 87
-    ld a,(de)                    ; 0307E7 1A
-    inc de                       ; 0307E8 13
-    ld (ix+$12),a                ; 0307E9 DD 77 12
-    ld (ix+$11),a                ; 0307EC DD 77 11
-    bit 3,(ix+$00)               ; 0307EF DD CB 00 5E
-    ld a,(de)                    ; 0307F3 1A
-    jr nz,+                      ; 0307F4 20 14
-    ld (ix+$11),a                ; 0307F6 DD 77 11
-    inc de                       ; 0307F9 13
-    ld a,(de)                    ; 0307FA 1A
-    jr +                         ; 0307FB 18 0D
-    ld a,(de)                    ; 0307FD 1A
-    or a                         ; 0307FE B7
-    jp p,$880a                   ; 0307FF F2 0A 88
-    ld a,(ix+$15)                ; 030802 DD 7E 15
-    ld (ix+$0a),a                ; 030805 DD 77 0A
-    jr ++                        ; 030808 18 11
-+:  inc de                       ; 03080A 13
-    ld b,(ix+$02)                ; 03080B DD 46 02
-    dec b                        ; 03080E 05
-    jr z,+                       ; 03080F 28 04
-    ld c,a                       ; 030811 4F
--:  add a,c                      ; 030812 81
-    djnz -                       ; 030813 10 FD
-+:  ld (ix+$0a),a                ; 030815 DD 77 0A
-    ld (ix+$15),a                ; 030818 DD 77 15
-++: xor a                        ; 03081B AF
-    ld (ix+$0c),a                ; 03081C DD 77 0C
-    ld (ix+$0d),a                ; 03081F DD 77 0D
-    ld (ix+$0b),a                ; 030822 DD 77 0B
-    ld (ix+$13),a                ; 030825 DD 77 13
-    ld (ix+$14),a                ; 030828 DD 77 14
-    ld (ix+$03),e                ; 03082B DD 73 03
-    ld (ix+$04),d                ; 03082E DD 72 04
-    ld a,$80                     ; 030831 3E 80
-    ret                          ; 030833 C9
-    ld h,a                       ; 030834 67
-    ld a,(de)                    ; 030835 1A
-    inc de                       ; 030836 13
-    ld l,a                       ; 030837 6F
-    ld a,(ix+$05)                ; 030838 DD 7E 05
-    or a                         ; 03083B B7
-    jr z,+                       ; 03083C 28 0E
-    jp p,$8847                   ; 03083E F2 47 88
-    add a,l                      ; 030841 85
-    jr c,++                      ; 030842 38 07
-    dec h                        ; 030844 25
-    jr ++                        ; 030845 18 04
-    add a,l                      ; 030847 85
-    jr nc,++                     ; 030848 30 01
-    inc h                        ; 03084A 24
-++: ld l,a                       ; 03084B 6F
-+:  ld (ix+$0e),l                ; 03084C DD 75 0E
-    ld (ix+$0f),h                ; 03084F DD 74 0F
-    jp $87e0                     ; 030852 C3 E0 87
-    push de                      ; 030855 D5
++:  call $8894
+    ld a,(hl)
+    ld (ix+$0e),a
+    inc hl
+    ld a,(hl)
+    ld (ix+$0f),a
+    bit 5,(ix+$00)
+    jp z,$87fd
+    ld a,(de)
+    inc de
+    ld (ix+$12),a
+    ld (ix+$11),a
+    bit 3,(ix+$00)
+    ld a,(de)
+    jr nz,+
+    ld (ix+$11),a
+    inc de
+    ld a,(de)
+    jr +
+    ld a,(de)
+    or a
+    jp p,$880a
+    ld a,(ix+$15)
+    ld (ix+$0a),a
+    jr ++
++:  inc de
+    ld b,(ix+$02)
+    dec b
+    jr z,+
+    ld c,a
+-:  add a,c
+    djnz -
++:  ld (ix+$0a),a
+    ld (ix+$15),a
+++: xor a
+    ld (ix+$0c),a
+    ld (ix+$0d),a
+    ld (ix+$0b),a
+    ld (ix+$13),a
+    ld (ix+$14),a
+    ld (ix+$03),e
+    ld (ix+$04),d
+    ld a,$80
+    ret
+    ld h,a
+    ld a,(de)
+    inc de
+    ld l,a
+    ld a,(ix+$05)
+    or a
+    jr z,+
+    jp p,$8847
+    add a,l
+    jr c,++
+    dec h
+    jr ++
+    add a,l
+    jr nc,++
+    inc h
+++: ld l,a
++:  ld (ix+$0e),l
+    ld (ix+$0f),h
+    jp $87e0
+    push de
 _0856:
-    ld a,h                       ; 030856 7C
-    or a                         ; 030857 B7
-    jr z,+                       ; 030858 28 0E
-    cp $02                       ; 03085A FE 02
-    ld a,$12                     ; 03085C 3E 12
-    jr c,++                      ; 03085E 38 21
-    srl h                        ; 030860 CB 3C
-    rr l                         ; 030862 CB 1D
-    ld a,$10                     ; 030864 3E 10
-    jr ++                        ; 030866 18 19
-+:  ld a,l                       ; 030868 7D
-    or a                         ; 030869 B7
-    jp z,$8892                   ; 03086A CA 92 88
-    ld bc,$0400                  ; 03086D 01 00 04
--:  rlca                         ; 030870 07
-    inc c                        ; 030871 0C
-    jr c,+                       ; 030872 38 02
-    djnz -                       ; 030874 10 FA
-+:  ld b,c                       ; 030876 41
-    ld a,$12                     ; 030877 3E 12
--:  inc a                        ; 030879 3C
-    inc a                        ; 03087A 3C
-    sla l                        ; 03087B CB 25
-    rl h                         ; 03087D CB 14
-    djnz -                       ; 03087F 10 F8
-++: ld de,$0757                  ; 030881 11 57 07
-    ex de,hl                     ; 030884 EB
-    or a                         ; 030885 B7
-    sbc hl,de                    ; 030886 ED 52
-    bit 1,h                      ; 030888 CB 4C
-    jr z,+                       ; 03088A 28 02
-    set 0,h                      ; 03088C CB C4
-+:  ld d,a                       ; 03088E 57
-    ld e,$00                     ; 03088F 1E 00
-    add hl,de                    ; 030891 19
-    pop de                       ; 030892 D1
-    ret                          ; 030893 C9
-    sub $80                      ; 030894 D6 80
-    jr z,+                       ; 030896 28 03
-    add a,(ix+$05)               ; 030898 DD 86 05
+    ld a,h
+    or a
+    jr z,+
+    cp $02
+    ld a,$12
+    jr c,++
+    srl h
+    rr l
+    ld a,$10
+    jr ++
++:  ld a,l
+    or a
+    jp z,$8892
+    ld bc,$0400
+-:  rlca
+    inc c
+    jr c,+
+    djnz -
++:  ld b,c
+    ld a,$12
+-:  inc a
+    inc a
+    sla l
+    rl h
+    djnz -
+++: ld de,$0757
+    ex de,hl
+    or a
+    sbc hl,de
+    bit 1,h
+    jr z,+
+    set 0,h
++:  ld d,a
+    ld e,$00
+    add hl,de
+    pop de
+    ret
+    sub $80
+    jr z,+
+    add a,(ix+$05)
 +:  ld hl,$8cdb
-    ex af,af'                    ; 03089E 08
-    jr z,+                       ; 03089F 28 03
+    ex af,af'
+    jr z,+
     ld hl,$8d6d
-+:  ex af,af'                    ; 0308A4 08
-    ld c,a                       ; 0308A5 4F
-    ld b,$00                     ; 0308A6 06 00
-    add hl,bc                    ; 0308A8 09
-    add hl,bc                    ; 0308A9 09
-    ret                          ; 0308AA C9
++:  ex af,af'
+    ld c,a
+    ld b,$00
+    add hl,bc
+    add hl,bc
+    ret
     ld hl,$88be
-    push hl                      ; 0308AE E5
-    sub $ee                      ; 0308AF D6 EE
+    push hl
+    sub $ee
     ld hl,$88c2
-    add a,a                      ; 0308B4 87
-    ld c,a                       ; 0308B5 4F
-    ld b,$00                     ; 0308B6 06 00
-    add hl,bc                    ; 0308B8 09
-    ld c,(hl)                    ; 0308B9 4E
-    inc hl                       ; 0308BA 23
-    ld h,(hl)                    ; 0308BB 66
-    ld l,c                       ; 0308BC 69
-    jp (hl)                      ; 0308BD E9
-    inc de                       ; 0308BE 13
-    jp $87bf                     ; 0308BF C3 BF 87
-    ret p                        ; 0308C2 F0
-    adc a,b                      ; 0308C3 88
+    add a,a
+    ld c,a
+    ld b,$00
+    add hl,bc
+    ld c,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,c
+    jp (hl)
+    inc de
+    jp $87bf
+    ret p
+    adc a,b
     ld hl,$3989
-    adc a,c                      ; 0308C7 89
-    and $88                      ; 0308C8 E6 88
-    jr c,_0856                   ; 0308CA 38 8A
-    ld (hl),a                    ; 0308CC 77
-    adc a,c                      ; 0308CD 89
-    xor c                        ; 0308CE A9
-    adc a,c                      ; 0308CF 89
-    adc a,e                      ; 0308D0 8B
-    adc a,c                      ; 0308D1 89
-    add a,$89                    ; 0308D2 C6 89
-    inc e                        ; 0308D4 1C
-    adc a,e                      ; 0308D5 8B
-    xor $8a                      ; 0308D6 EE 8A
-    add hl,bc                    ; 0308D8 09
-    adc a,e                      ; 0308D9 8B
-    ld h,c                       ; 0308DA 61
-    adc a,c                      ; 0308DB 89
-    ld d,b                       ; 0308DC 50
-    adc a,c                      ; 0308DD 89
-    call z,$2989                 ; 0308DE CC 89 29
-    adc a,d                      ; 0308E1 8A
-    inc e                        ; 0308E2 1C
-    adc a,c                      ; 0308E3 89
-    ret m                        ; 0308E4 F8
-    adc a,b                      ; 0308E5 88
-    ld a,(de)                    ; 0308E6 1A
-    ld ($c009),a                 ; 0308E7 32 09 C0
-    ld ($c00b),a                 ; 0308EA 32 0B C0
-    jp $8257                     ; 0308ED C3 57 82
-    ld a,(de)                    ; 0308F0 1A
-    add a,(ix+$02)               ; 0308F1 DD 86 02
-    ld (ix+$02),a                ; 0308F4 DD 77 02
-    ret                          ; 0308F7 C9
-    ld a,(ix+$01)                ; 0308F8 DD 7E 01
-    add a,$10                    ; 0308FB C6 10
-    out ($f0),a                  ; 0308FD D3 F0
-    call $8b34                   ; 0308FF CD 34 8B
-    xor a                        ; 030902 AF
-    out ($f1),a                  ; 030903 D3 F1
-    call $8b34                   ; 030905 CD 34 8B
-    ld h,d                       ; 030908 62
-    ld l,e                       ; 030909 6B
-    ld b,$08                     ; 03090A 06 08
-    ld c,$f1                     ; 03090C 0E F1
--:  out ($f0),a                  ; 03090E D3 F0
-    inc a                        ; 030910 3C
-    call $8b34                   ; 030911 CD 34 8B
-    outi                         ; 030914 ED A3
-    jr nz,-                      ; 030916 20 F6
-    ld d,h                       ; 030918 54
-    ld e,l                       ; 030919 5D
-    dec de                       ; 03091A 1B
-    ret                          ; 03091B C9
-    ld a,($c000)                 ; 03091C 3A 00 C0
-    or a                         ; 03091F B7
-    ret z                        ; 030920 C8
-    ld a,($c00a)                 ; 030921 3A 0A C0
-    or a                         ; 030924 B7
-    jp m,$892f                   ; 030925 FA 2F 89
-    ld a,(de)                    ; 030928 1A
-    add a,(ix+$08)               ; 030929 DD 86 08
-    jp $8966                     ; 03092C C3 66 89
-    ld a,(de)                    ; 03092F 1A
-    add a,(ix+$17)               ; 030930 DD 86 17
-    and $0f                      ; 030933 E6 0F
-    ld (ix+$17),a                ; 030935 DD 77 17
-    ret                          ; 030938 C9
-    ld a,(de)                    ; 030939 1A
-    cp $01                       ; 03093A FE 01
-    jr z,+                       ; 03093C 28 09
-    res 0,(ix+$07)               ; 03093E DD CB 07 86
-    res 1,(ix+$07)               ; 030942 DD CB 07 8E
-    ret                          ; 030946 C9
+    adc a,c
+    and $88
+    jr c,_0856
+    ld (hl),a
+    adc a,c
+    xor c
+    adc a,c
+    adc a,e
+    adc a,c
+    add a,$89
+    inc e
+    adc a,e
+    xor $8a
+    add hl,bc
+    adc a,e
+    ld h,c
+    adc a,c
+    ld d,b
+    adc a,c
+    call z,$2989
+    adc a,d
+    inc e
+    adc a,c
+    ret m
+    adc a,b
+    ld a,(de)
+    ld ($c009),a
+    ld ($c00b),a
+    jp $8257
+    ld a,(de)
+    add a,(ix+$02)
+    ld (ix+$02),a
+    ret
+    ld a,(ix+$01)
+    add a,$10
+    out ($f0),a
+    call $8b34
+    xor a
+    out ($f1),a
+    call $8b34
+    ld h,d
+    ld l,e
+    ld b,$08
+    ld c,$f1
+-:  out ($f0),a
+    inc a
+    call $8b34
+    outi
+    jr nz,-
+    ld d,h
+    ld e,l
+    dec de
+    ret
+    ld a,($c000)
+    or a
+    ret z
+    ld a,($c00a)
+    or a
+    jp m,$892f
+    ld a,(de)
+    add a,(ix+$08)
+    jp $8966
+    ld a,(de)
+    add a,(ix+$17)
+    and $0f
+    ld (ix+$17),a
+    ret
+    ld a,(de)
+    cp $01
+    jr z,+
+    res 0,(ix+$07)
+    res 1,(ix+$07)
+    ret
 
-+:  set 0,(ix+$07)               ; 030947 DD CB 07 C6
-    set 1,(ix+$07)               ; 03094B DD CB 07 CE
-    ret                          ; 03094F C9
-    ex af,af'                    ; 030950 08
-    jr nz,+                      ; 030951 20 05
-    ex af,af'                    ; 030953 08
-    ld a,(de)                    ; 030954 1A
-    inc de                       ; 030955 13
-    jr ++                        ; 030956 18 02
-+:  inc de                       ; 030958 13
-    ld a,(de)                    ; 030959 1A
-++: add a,(ix+$05)               ; 03095A DD 86 05
-    ld (ix+$05),a                ; 03095D DD 77 05
-    ret                          ; 030960 C9
-    ld a,(de)                    ; 030961 1A
-    ld (ix+$02),a                ; 030962 DD 77 02
-    ret                          ; 030965 C9
-    and $0f                      ; 030966 E6 0F
-    ld (ix+$08),a                ; 030968 DD 77 08
-    ex af,af'                    ; 03096B 08
-    jp nz,$8973                  ; 03096C C2 73 89
-    ex af,af'                    ; 03096F 08
-    jp $8cce                     ; 030970 C3 CE 8C
-    ex af,af'                    ; 030973 08
-    jp $8748                     ; 030974 C3 48 87
-    ld a,(de)                    ; 030977 1A
-    or $e0                       ; 030978 F6 E0
-    out ($7f),a                  ; 03097A D3 7F
-    or $fc                       ; 03097C F6 FC
-    inc a                        ; 03097E 3C
-    jr nz,+                      ; 03097F 20 05
-    res 6,(ix+$00)               ; 030981 DD CB 00 B6
-    ret                          ; 030985 C9
++:  set 0,(ix+$07)
+    set 1,(ix+$07)
+    ret
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(de)
+    inc de
+    jr ++
++:  inc de
+    ld a,(de)
+++: add a,(ix+$05)
+    ld (ix+$05),a
+    ret
+    ld a,(de)
+    ld (ix+$02),a
+    ret
+    and $0f
+    ld (ix+$08),a
+    ex af,af'
+    jp nz,$8973
+    ex af,af'
+    jp $8cce
+    ex af,af'
+    jp $8748
+    ld a,(de)
+    or $e0
+    out ($7f),a
+    or $fc
+    inc a
+    jr nz,+
+    res 6,(ix+$00)
+    ret
 
-+:  set 6,(ix+$00)               ; 030986 DD CB 00 F6
-    ret                          ; 03098A C9
++:  set 6,(ix+$00)
+    ret
 
-    ex af,af'                    ; 03098B 08
-    jr nz,+                      ; 03098C 20 0A
-    ex af,af'                    ; 03098E 08
-    ld a,(de)                    ; 03098F 1A
-    inc de                       ; 030990 13
-    cp $80                       ; 030991 FE 80
-    ret z                        ; 030993 C8
-    ld (ix+$07),a                ; 030994 DD 77 07
-    ret                          ; 030997 C9
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(de)
+    inc de
+    cp $80
+    ret z
+    ld (ix+$07),a
+    ret
 
-+:  ex af,af'                    ; 030998 08
-    inc de                       ; 030999 13
-    ld a,(de)                    ; 03099A 1A
-    cp $04                       ; 03099B FE 04
-    ret z                        ; 03099D C8
-    ld (ix+$07),a                ; 03099E DD 77 07
-    ld a,($c00a)                 ; 0309A1 3A 0A C0
-    or a                         ; 0309A4 B7
-    ret nz                       ; 0309A5 C0
-    jp $8748                     ; 0309A6 C3 48 87
-    ld a,(de)                    ; 0309A9 1A
-    ld (ix+$06),a                ; 0309AA DD 77 06
-    ret                          ; 0309AD C9
-    ld b,$00                     ; 0309AE 06 00
-    ld c,$1c                     ; 0309B0 0E 1C
-    push ix                      ; 0309B2 DD E5
-    pop hl                       ; 0309B4 E1
-    add hl,bc                    ; 0309B5 09
-    ld a,(hl)                    ; 0309B6 7E
-    or a                         ; 0309B7 B7
-    jr nz,+                      ; 0309B8 20 06
-    ld a,(de)                    ; 0309BA 1A
-    dec a                        ; 0309BB 3D
-    ld (hl),a                    ; 0309BC 77
-    inc de                       ; 0309BD 13
-    inc de                       ; 0309BE 13
-    ret                          ; 0309BF C9
++:  ex af,af'
+    inc de
+    ld a,(de)
+    cp $04
+    ret z
+    ld (ix+$07),a
+    ld a,($c00a)
+    or a
+    ret nz
+    jp $8748
+    ld a,(de)
+    ld (ix+$06),a
+    ret
+    ld b,$00
+    ld c,$1c
+    push ix
+    pop hl
+    add hl,bc
+    ld a,(hl)
+    or a
+    jr nz,+
+    ld a,(de)
+    dec a
+    ld (hl),a
+    inc de
+    inc de
+    ret
 
-+:  inc de                       ; 0309C0 13
-    dec (hl)                     ; 0309C1 35
-    jr z,+                       ; 0309C2 28 02
-    inc de                       ; 0309C4 13
-    ret                          ; 0309C5 C9
++:  inc de
+    dec (hl)
+    jr z,+
+    inc de
+    ret
 
-+:  ex de,hl                     ; 0309C6 EB
-    ld e,(hl)                    ; 0309C7 5E
-    inc hl                       ; 0309C8 23
-    ld d,(hl)                    ; 0309C9 56
-    dec de                       ; 0309CA 1B
-    ret                          ; 0309CB C9
-    ld a,(de)                    ; 0309CC 1A
-    cp $01                       ; 0309CD FE 01
-    jr nz,++                     ; 0309CF 20 2E
-    set 5,(ix+$00)               ; 0309D1 DD CB 00 EE
-    ld a,(ix+$01)                ; 0309D5 DD 7E 01
-    ex af,af'                    ; 0309D8 08
-    jr nz,+                      ; 0309D9 20 0D
-    ex af,af'                    ; 0309DB 08
-    ld a,(ix+$08)                ; 0309DC DD 7E 08
-    or a                         ; 0309DF B7
-    ret z                        ; 0309E0 C8
-    dec (ix+$08)                 ; 0309E1 DD 35 08
-    dec (ix+$08)                 ; 0309E4 DD 35 08
-    ret                          ; 0309E7 C9
++:  ex de,hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    dec de
+    ret
+    ld a,(de)
+    cp $01
+    jr nz,++
+    set 5,(ix+$00)
+    ld a,(ix+$01)
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(ix+$08)
+    or a
+    ret z
+    dec (ix+$08)
+    dec (ix+$08)
+    ret
 
-+:  ex af,af'                    ; 0309E8 08
-    cp $13                       ; 0309E9 FE 13
-    ret nc                       ; 0309EB D0
-    dec (ix+$08)                 ; 0309EC DD 35 08
-    dec (ix+$08)                 ; 0309EF DD 35 08
-    ld a,(ix+$07)                ; 0309F2 DD 7E 07
-    ld (ix+$16),a                ; 0309F5 DD 77 16
-    ld (ix+$07),$53              ; 0309F8 DD 36 07 53
-    jp $8748                     ; 0309FC C3 48 87
++:  ex af,af'
+    cp $13
+    ret nc
+    dec (ix+$08)
+    dec (ix+$08)
+    ld a,(ix+$07)
+    ld (ix+$16),a
+    ld (ix+$07),$53
+    jp $8748
 
 ++:
-    res 5,(ix+$00)               ; 0309FF DD CB 00 AE
-    ld a,(ix+$01)                ; 030A03 DD 7E 01
-    ex af,af'                    ; 030A06 08
-    jr nz,+                      ; 030A07 20 0D
-    ex af,af'                    ; 030A09 08
-    ld a,(ix+$08)                ; 030A0A DD 7E 08
-    or a                         ; 030A0D B7
-    ret z                        ; 030A0E C8
-    inc (ix+$08)                 ; 030A0F DD 34 08
-    inc (ix+$08)                 ; 030A12 DD 34 08
-    ret                          ; 030A15 C9
+    res 5,(ix+$00)
+    ld a,(ix+$01)
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(ix+$08)
+    or a
+    ret z
+    inc (ix+$08)
+    inc (ix+$08)
+    ret
 
 +:
-    ex af,af'                    ; 030A16 08
-    cp $13                       ; 030A17 FE 13
-    ret nc                       ; 030A19 D0
-    inc (ix+$08)                 ; 030A1A DD 34 08
-    inc (ix+$08)                 ; 030A1D DD 34 08
-    ld a,(ix+$16)                ; 030A20 DD 7E 16
-    ld (ix+$07),a                ; 030A23 DD 77 07
-    jp $8748                     ; 030A26 C3 48 87
-    ld a,(de)                    ; 030A29 1A
-    cp $01                       ; 030A2A FE 01
-    jr nz,+                      ; 030A2C 20 05
-    set 3,(ix+$00)               ; 030A2E DD CB 00 DE
-    ret                          ; 030A32 C9
+    ex af,af'
+    cp $13
+    ret nc
+    inc (ix+$08)
+    inc (ix+$08)
+    ld a,(ix+$16)
+    ld (ix+$07),a
+    jp $8748
+    ld a,(de)
+    cp $01
+    jr nz,+
+    set 3,(ix+$00)
+    ret
 
-+:  res 3,(ix+$00)               ; 030A33 DD CB 00 9E
-    ret                          ; 030A37 C9
++:  res 3,(ix+$00)
+    ret
     ld hl,$c12e
-    res 2,(hl)                   ; 030A3B CB 96
-    xor a                        ; 030A3D AF
-    ld ($c008),a                 ; 030A3E 32 08 C0
-    ld (ix+$00),a                ; 030A41 DD 77 00
-    ex af,af'                    ; 030A44 08
-    jp nz,$8a9d                  ; 030A45 C2 9D 8A
-    ex af,af'                    ; 030A48 08
-    ld a,(ix+$01)                ; 030A49 DD 7E 01
-    add a,$1f                    ; 030A4C C6 1F
-    out ($7f),a                  ; 030A4E D3 7F
-    ld a,$e5                     ; 030A50 3E E5
-    out ($7f),a                  ; 030A52 D3 7F
-    ld a,($c08e)                 ; 030A54 3A 8E C0
-    and $80                      ; 030A57 E6 80
-    jr z,+                       ; 030A59 28 12
+    res 2,(hl)
+    xor a
+    ld ($c008),a
+    ld (ix+$00),a
+    ex af,af'
+    jp nz,$8a9d
+    ex af,af'
+    ld a,(ix+$01)
+    add a,$1f
+    out ($7f),a
+    ld a,$e5
+    out ($7f),a
+    ld a,($c08e)
+    and $80
+    jr z,+
     ld hl,$c09c
-    ld a,(hl)                    ; 030A5E 7E
-    inc hl                       ; 030A5F 23
-    ld h,(hl)                    ; 030A60 66
-    ld l,a                       ; 030A61 6F
-    ld a,($c08f)                 ; 030A62 3A 8F C0
-    call $8c79                   ; 030A65 CD 79 8C
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,($c08f)
+    call $8c79
     ld hl,$c08e
-    res 2,(hl)                   ; 030A6B CB 96
+    res 2,(hl)
 
 +:  ld hl,$c18e
-    res 2,(hl)                   ; 030A70 CB 96
+    res 2,(hl)
     ld hl,$c1ce
-    res 2,(hl)                   ; 030A75 CB 96
+    res 2,(hl)
     ld hl,$c0ce
-    res 2,(hl)                   ; 030A7A CB 96
-    ld a,($c0ae)                 ; 030A7C 3A AE C0
-    and $80                      ; 030A7F E6 80
-    jr z,+                       ; 030A81 28 12
+    res 2,(hl)
+    ld a,($c0ae)
+    and $80
+    jr z,+
     ld hl,$c0bc
-    ld a,(hl)                    ; 030A86 7E
-    inc hl                       ; 030A87 23
-    ld h,(hl)                    ; 030A88 66
-    ld l,a                       ; 030A89 6F
-    ld a,($c0af)                 ; 030A8A 3A AF C0
-    call $8c79                   ; 030A8D CD 79 8C
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,($c0af)
+    call $8c79
     ld hl,$c0ae
-    res 2,(hl)                   ; 030A93 CB 96
+    res 2,(hl)
 +:  ld hl,$c1ae
-    res 2,(hl)                   ; 030A98 CB 96
-    pop hl                       ; 030A9A E1
-    pop hl                       ; 030A9B E1
-    ret                          ; 030A9C C9
-    ex af,af'                    ; 030A9D 08
-    ld a,(ix+$01)                ; 030A9E DD 7E 01
-    push af                      ; 030AA1 F5
-    add a,$10                    ; 030AA2 C6 10
-    out ($f0),a                  ; 030AA4 D3 F0
-    call $8b34                   ; 030AA6 CD 34 8B
-    xor a                        ; 030AA9 AF
-    out ($f1),a                  ; 030AAA D3 F1
-    pop af                       ; 030AAC F1
-    cp $15                       ; 030AAD FE 15
-    jr z,+                       ; 030AAF 28 15
-    call $8b34                   ; 030AB1 CD 34 8B
+    res 2,(hl)
+    pop hl
+    pop hl
+    ret
+    ex af,af'
+    ld a,(ix+$01)
+    push af
+    add a,$10
+    out ($f0),a
+    call $8b34
+    xor a
+    out ($f1),a
+    pop af
+    cp $15
+    jr z,+
+    call $8b34
     ld hl,$c08e
-    res 2,(hl)                   ; 030AB7 CB 96
-    ld a,$34                     ; 030AB9 3E 34
-    out ($f0),a                  ; 030ABB D3 F0
+    res 2,(hl)
+    ld a,$34
+    out ($f0),a
     ld hl,$c095
-    call $8ae2                   ; 030AC0 CD E2 8A
-    jp $8a9a                     ; 030AC3 C3 9A 8A
+    call $8ae2
+    jp $8a9a
 +:  ld hl,$c0ae
-    res 2,(hl)                   ; 030AC9 CB 96
-    ld a,($c12e)                 ; 030ACB 3A 2E C1
-    or a                         ; 030ACE B7
+    res 2,(hl)
+    ld a,($c12e)
+    or a
     ld hl,$c0b5
-    jp p,$8ad8                   ; 030AD2 F2 D8 8A
+    jp p,$8ad8
     ld hl,$c135
-    ld a,$35                     ; 030AD8 3E 35
-    out ($f0),a                  ; 030ADA D3 F0
-    call $8ae2                   ; 030ADC CD E2 8A
-    jp $8a9a                     ; 030ADF C3 9A 8A
-    ld a,(hl)                    ; 030AE2 7E
-    and $f0                      ; 030AE3 E6 F0
-    ld c,a                       ; 030AE5 4F
-    inc hl                       ; 030AE6 23
-    ld a,(hl)                    ; 030AE7 7E
-    and $0f                      ; 030AE8 E6 0F
-    or c                         ; 030AEA B1
-    out ($f1),a                  ; 030AEB D3 F1
-    ret                          ; 030AED C9
-    ld a,(de)                    ; 030AEE 1A
-    ld c,a                       ; 030AEF 4F
-    inc de                       ; 030AF0 13
-    ld a,(de)                    ; 030AF1 1A
-    ld b,a                       ; 030AF2 47
-    push bc                      ; 030AF3 C5
-    push ix                      ; 030AF4 DD E5
-    pop hl                       ; 030AF6 E1
-    dec (ix+$09)                 ; 030AF7 DD 35 09
-    ld c,(ix+$09)                ; 030AFA DD 4E 09
-    dec (ix+$09)                 ; 030AFD DD 35 09
-    ld b,$00                     ; 030B00 06 00
-    add hl,bc                    ; 030B02 09
-    ld (hl),d                    ; 030B03 72
-    dec hl                       ; 030B04 2B
-    ld (hl),e                    ; 030B05 73
-    pop de                       ; 030B06 D1
-    dec de                       ; 030B07 1B
-    ret                          ; 030B08 C9
-    push ix                      ; 030B09 DD E5
-    pop hl                       ; 030B0B E1
-    ld c,(ix+$09)                ; 030B0C DD 4E 09
-    ld b,$00                     ; 030B0F 06 00
-    add hl,bc                    ; 030B11 09
-    ld e,(hl)                    ; 030B12 5E
-    inc hl                       ; 030B13 23
-    ld d,(hl)                    ; 030B14 56
-    inc (ix+$09)                 ; 030B15 DD 34 09
-    inc (ix+$09)                 ; 030B18 DD 34 09
-    ret                          ; 030B1B C9
-    ld a,(de)                    ; 030B1C 1A
-    inc de                       ; 030B1D 13
-    add a,$18                    ; 030B1E C6 18
-    ld c,a                       ; 030B20 4F
-    ld b,$00                     ; 030B21 06 00
-    push ix                      ; 030B23 DD E5
-    pop hl                       ; 030B25 E1
-    add hl,bc                    ; 030B26 09
-    ld a,(hl)                    ; 030B27 7E
-    or a                         ; 030B28 B7
-    jr nz,+                      ; 030B29 20 02
-    ld a,(de)                    ; 030B2B 1A
-    ld (hl),a                    ; 030B2C 77
-+:  inc de                       ; 030B2D 13
-    dec (hl)                     ; 030B2E 35
-    jp nz,$89c6                  ; 030B2F C2 C6 89
-    inc de                       ; 030B32 13
-    ret                          ; 030B33 C9
+    ld a,$35
+    out ($f0),a
+    call $8ae2
+    jp $8a9a
+    ld a,(hl)
+    and $f0
+    ld c,a
+    inc hl
+    ld a,(hl)
+    and $0f
+    or c
+    out ($f1),a
+    ret
+    ld a,(de)
+    ld c,a
+    inc de
+    ld a,(de)
+    ld b,a
+    push bc
+    push ix
+    pop hl
+    dec (ix+$09)
+    ld c,(ix+$09)
+    dec (ix+$09)
+    ld b,$00
+    add hl,bc
+    ld (hl),d
+    dec hl
+    ld (hl),e
+    pop de
+    dec de
+    ret
+    push ix
+    pop hl
+    ld c,(ix+$09)
+    ld b,$00
+    add hl,bc
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc (ix+$09)
+    inc (ix+$09)
+    ret
+    ld a,(de)
+    inc de
+    add a,$18
+    ld c,a
+    ld b,$00
+    push ix
+    pop hl
+    add hl,bc
+    ld a,(hl)
+    or a
+    jr nz,+
+    ld a,(de)
+    ld (hl),a
++:  inc de
+    dec (hl)
+    jp nz,$89c6
+    inc de
+    ret
 .ends
 
 .org $30b34-$30000
@@ -12063,216 +12062,216 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
 .ends
 .org $30b37-$30000
 .section "and more sound code" overwrite
-    inc (ix+$0b)                 ; 030B37 DD 34 0B
-    ld a,(ix+$0a)                ; 030B3A DD 7E 0A
-    sub (ix+$0b)                 ; 030B3D DD 96 0B
-    call z,$8b60                 ; 030B40 CC 60 8B
-    bit 2,(ix+$00)               ; 030B43 DD CB 00 56
-    ret nz                       ; 030B47 C0
-    bit 4,(ix+$13)               ; 030B48 DD CB 13 66
-    ret nz                       ; 030B4C C0
-    ld a,(ix+$07)                ; 030B4D DD 7E 07
-    dec a                        ; 030B50 3D
-    ret m                        ; 030B51 F8
+    inc (ix+$0b)
+    ld a,(ix+$0a)
+    sub (ix+$0b)
+    call z,$8b60
+    bit 2,(ix+$00)
+    ret nz
+    bit 4,(ix+$13)
+    ret nz
+    ld a,(ix+$07)
+    dec a
+    ret m
     ld hl,$b766
-    call $876b                   ; 030B55 CD 6B 87
-    call $8c8e                   ; 030B58 CD 8E 8C
-    or $f0                       ; 030B5B F6 F0
-    out ($7f),a                  ; 030B5D D3 7F
-    ret                          ; 030B5F C9
-    ld e,(ix+$03)                ; 030B60 DD 5E 03
-    ld d,(ix+$04)                ; 030B63 DD 56 04
-    ld a,(de)                    ; 030B66 1A
-    inc de                       ; 030B67 13
-    cp $e0                       ; 030B68 FE E0
-    jp nc,$8b8a                  ; 030B6A D2 8A 8B
-    cp $80                       ; 030B6D FE 80
-    jp c,$880b                   ; 030B6F DA 0B 88
-    call $8b94                   ; 030B72 CD 94 8B
-    ld a,(de)                    ; 030B75 1A
-    inc de                       ; 030B76 13
-    cp $80                       ; 030B77 FE 80
-    jp c,$880b                   ; 030B79 DA 0B 88
-    dec de                       ; 030B7C 1B
-    ld a,(ix+$15)                ; 030B7D DD 7E 15
-    ld (ix+$0a),a                ; 030B80 DD 77 0A
-    jp $881b                     ; 030B83 C3 1B 88
-    dec de                       ; 030B86 1B
-    jp $881b                     ; 030B87 C3 1B 88
+    call $876b
+    call $8c8e
+    or $f0
+    out ($7f),a
+    ret
+    ld e,(ix+$03)
+    ld d,(ix+$04)
+    ld a,(de)
+    inc de
+    cp $e0
+    jp nc,$8b8a
+    cp $80
+    jp c,$880b
+    call $8b94
+    ld a,(de)
+    inc de
+    cp $80
+    jp c,$880b
+    dec de
+    ld a,(ix+$15)
+    ld (ix+$0a),a
+    jp $881b
+    dec de
+    jp $881b
     ld hl,$8b90
-    jp $88ae                     ; 030B8D C3 AE 88
-    inc de                       ; 030B90 13
-    jp $8b66                     ; 030B91 C3 66 8B
-    bit 3,a                      ; 030B94 CB 5F
-    jr nz,+                      ; 030B96 20 19
-    bit 5,a                      ; 030B98 CB 6F
-    jr nz,++                     ; 030B9A 20 1C
-    bit 1,a                      ; 030B9C CB 4F
-    jr nz,++                     ; 030B9E 20 18
-    bit 0,a                      ; 030BA0 CB 47
-    jr nz,+++                    ; 030BA2 20 22
-    bit 2,a                      ; 030BA4 CB 57
-    jr nz,+++                    ; 030BA6 20 1E
-    ld (ix+$07),$00              ; 030BA8 DD 36 07 00
-    ld a,$ff                     ; 030BAC 3E FF
-    out ($7f),a                  ; 030BAE D3 7F
-    ret                          ; 030BB0 C9
+    jp $88ae
+    inc de
+    jp $8b66
+    bit 3,a
+    jr nz,+
+    bit 5,a
+    jr nz,++
+    bit 1,a
+    jr nz,++
+    bit 0,a
+    jr nz,+++
+    bit 2,a
+    jr nz,+++
+    ld (ix+$07),$00
+    ld a,$ff
+    out ($7f),a
+    ret
 
-+:  ex af,af'                    ; 030BB1 08
-    ld a,$02                     ; 030BB2 3E 02
-    ld b,$04                     ; 030BB4 06 04
-    jr +                         ; 030BB6 18 13
++:  ex af,af'
+    ld a,$02
+    ld b,$04
+    jr +
 
-++: ld c,$04                     ; 030BB8 0E 04
-    bit 0,a                      ; 030BBA CB 47
-    jr nz,++                     ; 030BBC 20 02
-    ld c,$03                     ; 030BBE 0E 03
-++: ex af,af'                    ; 030BC0 08
-    ld a,c                       ; 030BC1 79
-    ld b,$05                     ; 030BC2 06 05
-    jr +                         ; 030BC4 18 05
+++: ld c,$04
+    bit 0,a
+    jr nz,++
+    ld c,$03
+++: ex af,af'
+    ld a,c
+    ld b,$05
+    jr +
 
-+++:ex af,af'                    ; 030BC6 08
-    ld a,$01                     ; 030BC7 3E 01
-    ld b,$06                     ; 030BC9 06 06
-+:  ld (ix+$07),a                ; 030BCB DD 77 07
-    ex af,af'                    ; 030BCE 08
-    bit 2,a                      ; 030BCF CB 57
-    jr z,+                       ; 030BD1 28 02
-    dec b                        ; 030BD3 05
-    dec b                        ; 030BD4 05
-+:  ld (ix+$08),b                ; 030BD5 DD 70 08
-    ret                          ; 030BD8 C9
++++:ex af,af'
+    ld a,$01
+    ld b,$06
++:  ld (ix+$07),a
+    ex af,af'
+    bit 2,a
+    jr z,+
+    dec b
+    dec b
++:  ld (ix+$08),b
+    ret
 
 _8bd9: ; $30bd9, $8bd9
-    inc (ix+$0b)                 ; 030BD9 DD 34 0B
-    ld a,(ix+$0a)                ; 030BDC DD 7E 0A
-    sub (ix+$0b)                 ; 030BDF DD 96 0B
-    call z,$87b9                 ; 030BE2 CC B9 87
-    ld ($c00c),a                 ; 030BE5 32 0C C0
-    cp $80                       ; 030BE8 FE 80
-    jp z,$8c14                   ; 030BEA CA 14 8C
-    bit 5,(ix+$00)               ; 030BED DD CB 00 6E
-    jp z,$8c14                   ; 030BF1 CA 14 8C
-    exx                          ; 030BF4 D9
-    ld (hl),$80                  ; 030BF5 36 80
-    exx                          ; 030BF7 D9
-    ld a,(ix+$12)                ; 030BF8 DD 7E 12
-    bit 7,a                      ; 030BFB CB 7F
-    jr z,+                       ; 030BFD 28 0A
-    add a,(ix+$0e)               ; 030BFF DD 86 0E
-    jr c,++                      ; 030C02 38 0D
-    dec (ix+$0f)                 ; 030C04 DD 35 0F
-    jr ++                        ; 030C07 18 08
-+:  add a,(ix+$0e)               ; 030C09 DD 86 0E
-    jr nc,++                     ; 030C0C 30 03
-    inc (ix+$0f)                 ; 030C0E DD 34 0F
-++: ld (ix+$0e),a                ; 030C11 DD 77 0E
-    bit 2,(ix+$00)               ; 030C14 DD CB 00 56
-    ret nz                       ; 030C18 C0
-    ld a,(ix+$13)                ; 030C19 DD 7E 13
-    cp $1f                       ; 030C1C FE 1F
-    ret z                        ; 030C1E C8
+    inc (ix+$0b)
+    ld a,(ix+$0a)
+    sub (ix+$0b)
+    call z,$87b9
+    ld ($c00c),a
+    cp $80
+    jp z,$8c14
+    bit 5,(ix+$00)
+    jp z,$8c14
+    exx
+    ld (hl),$80
+    exx
+    ld a,(ix+$12)
+    bit 7,a
+    jr z,+
+    add a,(ix+$0e)
+    jr c,++
+    dec (ix+$0f)
+    jr ++
++:  add a,(ix+$0e)
+    jr nc,++
+    inc (ix+$0f)
+++: ld (ix+$0e),a
+    bit 2,(ix+$00)
+    ret nz
+    ld a,(ix+$13)
+    cp $1f
+    ret z
     jr nz,+                      ; 030C1F 20 00       ; does nothing
-+:  ld a,(ix+$13)                ; 030C21 DD 7E 13
-    cp $ff                       ; 030C24 FE FF
-    jp z,$8c40                   ; 030C26 CA 40 8C
-    ld a,(ix+$07)                ; 030C29 DD 7E 07
-    dec a                        ; 030C2C 3D
-    jp m,$8c40                   ; 030C2D FA 40 8C
++:  ld a,(ix+$13)
+    cp $ff
+    jp z,$8c40
+    ld a,(ix+$07)
+    dec a
+    jp m,$8c40
     ld hl,$b766
-    call $876b                   ; 030C33 CD 6B 87
-    call $8c8e                   ; 030C36 CD 8E 8C
-    or (ix+$01)                  ; 030C39 DD B6 01
-    add a,$10                    ; 030C3C C6 10
-    out ($7f),a                  ; 030C3E D3 7F
-    ld a,($c00c)                 ; 030C40 3A 0C C0
-    or a                         ; 030C43 B7
-    jp m,$8c54                   ; 030C44 FA 54 8C
-    bit 7,(ix+$14)               ; 030C47 DD CB 14 7E
-    ret nz                       ; 030C4B C0
-    ld a,(ix+$06)                ; 030C4C DD 7E 06
-    dec a                        ; 030C4F 3D
-    jp p,$8c58                   ; 030C50 F2 58 8C
-    ret                          ; 030C53 C9
-    ld a,(ix+$06)                ; 030C54 DD 7E 06
-    dec a                        ; 030C57 3D
-    ld l,(ix+$0e)                ; 030C58 DD 6E 0E
-    ld h,(ix+$0f)                ; 030C5B DD 66 0F
-    jp m,$8c6b                   ; 030C5E FA 6B 8C
-    ex de,hl                     ; 030C61 EB
+    call $876b
+    call $8c8e
+    or (ix+$01)
+    add a,$10
+    out ($7f),a
+    ld a,($c00c)
+    or a
+    jp m,$8c54
+    bit 7,(ix+$14)
+    ret nz
+    ld a,(ix+$06)
+    dec a
+    jp p,$8c58
+    ret
+    ld a,(ix+$06)
+    dec a
+    ld l,(ix+$0e)
+    ld h,(ix+$0f)
+    jp m,$8c6b
+    ex de,hl
     ld hl,$b805
-    call $876b                   ; 030C65 CD 6B 87
-    call $8778                   ; 030C68 CD 78 87
-    bit 6,(ix+$00)               ; 030C6B DD CB 00 76
-    ret nz                       ; 030C6F C0
-    ld a,(ix+$01)                ; 030C70 DD 7E 01
-    cp $e0                       ; 030C73 FE E0
-    jr nz,+                      ; 030C75 20 02
-    ld a,$c0                     ; 030C77 3E C0
-+:  ld c,a                       ; 030C79 4F
-    ld a,l                       ; 030C7A 7D
-    and $0f                      ; 030C7B E6 0F
-    or c                         ; 030C7D B1
-    out ($7f),a                  ; 030C7E D3 7F
-    ld a,l                       ; 030C80 7D
-    and $f0                      ; 030C81 E6 F0
-    or h                         ; 030C83 B4
-    rrca                         ; 030C84 0F
-    rrca                         ; 030C85 0F
-    rrca                         ; 030C86 0F
-    rrca                         ; 030C87 0F
-    out ($7f),a                  ; 030C88 D3 7F
-    ret                          ; 030C8A C9
+    call $876b
+    call $8778
+    bit 6,(ix+$00)
+    ret nz
+    ld a,(ix+$01)
+    cp $e0
+    jr nz,+
+    ld a,$c0
++:  ld c,a
+    ld a,l
+    and $0f
+    or c
+    out ($7f),a
+    ld a,l
+    and $f0
+    or h
+    rrca
+    rrca
+    rrca
+    rrca
+    out ($7f),a
+    ret
 
--:  ld (ix+$0c),a                ; 030C8B DD 77 0C
-    push hl                      ; 030C8E E5
-    ld c,(ix+$0c)                ; 030C8F DD 4E 0C
-    ld b,$00                     ; 030C92 06 00
-    add hl,bc                    ; 030C94 09
-    ld c,l                       ; 030C95 4D
-    ld b,h                       ; 030C96 44
-    pop hl                       ; 030C97 E1
-    ld a,(bc)                    ; 030C98 0A
-    bit 7,a                      ; 030C99 CB 7F
-    jr z,+                       ; 030C9B 28 25
-    cp $82                       ; 030C9D FE 82
-    jr z,++                      ; 030C9F 28 0C
-    cp $81                       ; 030CA1 FE 81
-    jr z,+++                     ; 030CA3 28 17
-    cp $80                       ; 030CA5 FE 80
-    jr z,++++                    ; 030CA7 28 10
-    inc bc                       ; 030CA9 03
-    ld a,(bc)                    ; 030CAA 0A
-    jr -                         ; 030CAB 18 DE
+-:  ld (ix+$0c),a
+    push hl
+    ld c,(ix+$0c)
+    ld b,$00
+    add hl,bc
+    ld c,l
+    ld b,h
+    pop hl
+    ld a,(bc)
+    bit 7,a
+    jr z,+
+    cp $82
+    jr z,++
+    cp $81
+    jr z,+++
+    cp $80
+    jr z,++++
+    inc bc
+    ld a,(bc)
+    jr -
 
-++: pop hl                       ; 030CAD E1
-    ld a,$1f                     ; 030CAE 3E 1F
-    ld (ix+$13),a                ; 030CB0 DD 77 13
-    add a,(ix+$01)               ; 030CB3 DD 86 01
-    out ($7f),a                  ; 030CB6 D3 7F
-    ret                          ; 030CB8 C9
+++: pop hl
+    ld a,$1f
+    ld (ix+$13),a
+    add a,(ix+$01)
+    out ($7f),a
+    ret
 
 ++++:
-    xor a                        ; 030CB9 AF
-    jr -                         ; 030CBA 18 CF
+    xor a
+    jr -
 
-+++:ld (ix+$13),$ff              ; 030CBC DD 36 13 FF
-    pop hl                       ; 030CC0 E1
-    ret                          ; 030CC1 C9
++++:ld (ix+$13),$ff
+    pop hl
+    ret
 
-+:  inc (ix+$0c)                 ; 030CC2 DD 34 0C
-    add a,(ix+$08)               ; 030CC5 DD 86 08
-    bit 4,a                      ; 030CC8 CB 67
-    ret z                        ; 030CCA C8
-    ld a,$0f                     ; 030CCB 3E 0F
-    ret                          ; 030CCD C9
-    ld a,(ix+$08)                ; 030CCE DD 7E 08
-    and $0f                      ; 030CD1 E6 0F
-    or (ix+$01)                  ; 030CD3 DD B6 01
-    add a,$10                    ; 030CD6 C6 10
-    out ($7f),a                  ; 030CD8 D3 7F
-    ret                          ; 030CDA C9
++:  inc (ix+$0c)
+    add a,(ix+$08)
+    bit 4,a
+    ret z
+    ld a,$0f
+    ret
+    ld a,(ix+$08)
+    and $0f
+    or (ix+$01)
+    add a,$10
+    out ($7f),a
+    ret
 .ends
 .org $30cdb-$30000
 
