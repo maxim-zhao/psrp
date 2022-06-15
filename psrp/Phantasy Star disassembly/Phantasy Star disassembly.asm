@@ -660,7 +660,7 @@ cl333 db
 .section "Boot handler" overwrite
     di
     im 1
-    ld sp,$cb00
+    ld sp,_RAM_cb00_
     jr Start
 .ends
 ; followed by
@@ -742,8 +742,8 @@ Start:                 ; $0087
     inc hl
     ld (hl),$02
 
-    ld hl,$df00        ; Zero $df00-$dffb inclusive
-    ld de,$df00+1
+    ld hl,_RAM_df00_        ; Zero $df00-$dffb inclusive
+    ld de,_RAM_df00_+1
     ld bc,$fb
     ld (hl),$00
     ldir
@@ -753,10 +753,10 @@ Start:                 ; $0087
 
 ResetPoint:
     di                 ; Already did these at boot
-    ld sp,$cb00        ; but reset comes here (things done prior are one-time)
+    ld sp,_RAM_cb00_        ; but reset comes here (things done prior are one-time)
 
-    ld hl,$c000        ; Zero $c000-$deff inclusive
-    ld de,$c000+1
+    ld hl,_RAM_c000_        ; Zero $c000-$deff inclusive
+    ld de,_RAM_c000_+1
     ld bc,$1eff
     ld (hl),$00
     ldir
@@ -1962,14 +1962,14 @@ StartTitleScreen:      ; $08b7
       ld bc,32
       ldir               ; load palette
 
-      ld hl,$c260
-      ld de,$c260+1
+      ld hl,_RAM_c260_
+      ld de,_RAM_c260_+1
       ld bc,$9f
       ld (hl),$00
       ldir               ; zero $c260-$c2ff
 
-      ld hl,$c800
-      ld de,$c801
+      ld hl,_RAM_c800_
+      ld de,_RAM_c801_
       ld bc,$00ff
       ld (hl),$00
       ldir               ; zero $c800-$c8ff
@@ -3026,7 +3026,7 @@ Output4CharsPlusStat:  ; $3149
             djnz _b
         pop af
 
-        ld bc,$c010    ; tile c0 for leading blanks
+        ld bc,_RAM_c010_    ; tile c0 for leading blanks
 
         ld d,$ff
       -:sub 100        ; d = 100s digit in a
@@ -3056,7 +3056,7 @@ Output4CharsPlusStat:  ; $3149
         jr nc,-
         ld a,d
 
-        ld bc,$c110    ; tile c1 for a final 0 if zero
+        ld bc,_RAM_c110_    ; tile c1 for a final 0 if zero
         call OutputDigit
 
         push af        ; delay
@@ -3700,7 +3700,7 @@ OutputDigit:           ; $3762
 ; unless a=0 when the value in bc determines which tile is output
     and $0f            ; cut a down to a single digit
     jp z,+             ; if non-zero,
-    ld bc,$c110        ; add to $c1 = index of tile '0'
+    ld bc,_RAM_c110_        ; add to $c1 = index of tile '0'
   +:add a,b            ; else add to whatever bc was already
     out (VDPData),a
     push af
@@ -4102,8 +4102,8 @@ _OKSelected_Password:            ; ####################### this section is unuse
     ld de,_PasswordLookupData    ; 004059 11 96 43   ; data
     exx
     ld b,$38
-    ld hl,$c700
-    ld de,$c740
+    ld hl,_RAM_c700_
+    ld de,_RAM_c740_
 -:  ld a,(hl)                    ; 004065 7E         ; read byte
     or a
     jr z,+
@@ -4125,8 +4125,8 @@ _OKSelected_Password:            ; ####################### this section is unuse
     ret
 
 _OKSelected_NameEntry:
-    ld hl,$c721                  ; 00407B 21 21 C7   ; copy entered name
-    ld de,$c778                  ; 00407E 11 78 C7   ; (why???)
+    ld hl,_RAM_c721_                  ; 00407B 21 21 C7   ; copy entered name
+    ld de,_RAM_c778_                  ; 00407E 11 78 C7   ; (why???)
     ld bc,$0005
     ldir
 
@@ -4138,7 +4138,7 @@ _OKSelected_NameEntry:
     inc hl
     ld d,(hl)                    ; 004090 56         ; de = slot address
 
-    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
+    ld hl,_RAM_d19a_                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
     ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
 
     ld a,SRAMPagingOn
@@ -4266,7 +4266,7 @@ _NameEntryDirectionPressed:
 
 
     ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
-    ld hl,$d5a2
+    ld hl,_RAM_d5a2_
     jr z,+
     cp $4f
     ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
@@ -4283,7 +4283,7 @@ _NameEntryDirectionPressed:
 
 ; decrement keypress repeat counter, set to 5 if zero
 _DecrementKeyRepeatCounter: ; 417b
-    ld hl,$c789
+    ld hl,_RAM_c789_
     dec (hl)
     ret nz
     ld (hl),$05
@@ -4316,8 +4316,8 @@ LoadNameEntryScreen: ; $4183
 
     call DecompressNameEntryTilemapData
 
-    ld hl,$c700                  ; 0041B5 21 00 C7   ; blank $c700-$c738
-    ld de,$c701
+    ld hl,_RAM_c700_                  ; 0041B5 21 00 C7   ; blank $c700-$c738
+    ld de,_RAM_c701_
     ld bc,$0037
     ld (hl),$00
     ldir
@@ -4337,7 +4337,7 @@ LoadNameEntryScreen: ; $4183
     ei
 
     TileMapAddressDE 0,3         ; 0041D9 11 C0 78   ; ld de,$78c0
-    ld hl,$d0c0                  ; 0041DC 21 C0 D0   ; offset in TileMapData for (0,3)
+    ld hl,_RAM_d0c0_                  ; 0041DC 21 C0 D0   ; offset in TileMapData for (0,3)
     ld bc,$0540                  ; 0041DF 01 40 05   ; amount of data to copy
     di
       call OutputToVRAM
@@ -4450,13 +4450,13 @@ _DrawEntirePassword: ; $4261
 
 _GetTileMapDataAddressForCharAInHL: ; 4278
     ld a,(NameEntryCharIndex)    ; 004278 3A 81 C7   ; current editing char
-    ld hl,$d146                  ; 00427B 21 46 D1   ; a < 24 -> hl = $d146 = (3,5)
+    ld hl,_RAM_d146_                  ; 00427B 21 46 D1   ; a < 24 -> hl = $d146 = (3,5)
     sub $18
     jr c,+
     ld l,$c6                     ; 004282 2E C6      ; 25 < a < 48 -> hl = $d1c6 = (3,7)
     sub $18
     jr c,+
-    ld hl,$d246                  ; 004288 21 46 D2   ; a > 49 -> hl = $d246 = (3,9)
+    ld hl,_RAM_d246_                  ; 004288 21 46 D2   ; a > 49 -> hl = $d246 = (3,9)
     sub $18
 +:  add a,$18                    ; 00428D C6 18      ; a = x position in this row
     ld c,a
@@ -4551,7 +4551,7 @@ DecompressNameEntryTilemapData: ; $42cc
     inc hl
     jr --
 
-+++:ld hl,$d102                  ; 004302 21 02 D1   ; where to write to (1,4)
++++:ld hl,_RAM_d102_                  ; 004302 21 02 D1   ; where to write to (1,4)
     ld de,$f301                  ; 004305 11 01 F3   ; tile data to write (vertical bar, left)
     call _DrawVerticalLine
 
@@ -4560,12 +4560,12 @@ DecompressNameEntryTilemapData: ; $42cc
     call _SetLineFlip
 
     ld (hl),$07                  ; 004312 36 07      ; flip bottom-right corner
-    ld hl,$d0fd                  ; 004314 21 FD D0   ; (30,3)
+    ld hl,_RAM_d0fd_                  ; 004314 21 FD D0   ; (30,3)
     ld (hl),$03                  ; 004317 36 03      ; flip top-right corner
-    ld hl,$d0c3                  ; 004319 21 C3 D0   ; (1,3)
+    ld hl,_RAM_d0c3_                  ; 004319 21 C3 D0   ; (1,3)
     ldbc $1d,1                   ; 00431C 01 01 1D   ; no flip on top edge, but it's still the high tileset
     call _SetLineFlip
-    ld hl,$d13c                  ; 004322 21 3C D1   ; (1,7)
+    ld hl,_RAM_d13c_                  ; 004322 21 3C D1   ; (1,7)
     ld de,$f303                  ; 004325 11 03 F3   ; vertical bar, right
     ; fall through
 
@@ -4591,7 +4591,7 @@ _SetLineFlip: ; 4335
 
 _LoadTileMapDataWithCharValues: ; 433b
     ld hl,NameEntryCharValues    ; 00433B 21 8C 44   ; data
-    ld de,$d30a                  ; 00433E 11 0A D3   ; location in RAM tilemap copy (5,12)
+    ld de,_RAM_d30a_                  ; 00433E 11 0A D3   ; location in RAM tilemap copy (5,12)
     ld a,$06                     ; 004341 3E 06      ; number of rows
 --: ld bc,21                     ; 004343 01 15 00   ; write out 21 bytes
 -:  ldi                          ; 004346 ED A0      ; output
@@ -5372,7 +5372,7 @@ _room_15_MadDoctor: ; $4C46:
     call HaveItem
     jr z,+
     ; Don't have a Laconian Pot
-    ld hl,$c518
+    ld hl,_RAM_c518_
     ld (_RAM_c2e1_),hl      ; ???
     ld a,Item_LaconianPot
     ld (_RAM_c2df_),a
@@ -7074,7 +7074,7 @@ GetHapsby:
     call HaveItem
     jr z,fn579d_NothingInterestingHere
     call Close20x6TextBox
-    ld hl,$c801
+    ld hl,_RAM_c801_
     inc (hl)
     call SpriteHandler
     call MenuWaitForButton
@@ -7799,7 +7799,7 @@ LoadEnemy:             ; $627a
     ld a,(hl)
     ld (_RAM_c2e7_),a       ; Next byte in _RAM_c2e7_
 
-    ld hl,$c500
+    ld hl,_RAM_c500_
     ld (_RAM_c2e1_),hl      ; $c500 -> _RAM_c2e1_
 
     call SpriteHandler
@@ -7830,14 +7830,14 @@ fndata8fdfloader:      ; $6379
     ld de,data8fdf-24
     add hl,de          ; hl = $8fc7 + a*24
 
-    ld de,$c880
+    ld de,_RAM_c880_
     ld bc,3
     ldir               ; Copy 3 bytes from there to $c880
 
     inc de             ; skip 1 byte
     ldi                ; and copy 1 more
 
-    ld de,$c894
+    ld de,_RAM_c894_
     ld bc,9
     ldir               ; next 9 to $c894
 
@@ -7875,7 +7875,7 @@ fndata8fdfloader:      ; $6379
     ld a,$03           ; Reset paging
     ld (Frame2Paging),a
 
-    ld de,$c8a0
+    ld de,_RAM_c8a0_
     ld bc,3
     ldir               ; Next 3 bytes -> $ca80
     inc de             ; skip 1
@@ -11296,7 +11296,7 @@ SoundInitialise:       ; 0e/8000
     push bc
         call _ZeroC003toC00D
         ld b,$0f       ; counter (15 columns below)
-        ld hl,$c00e    ; start
+        ld hl,_RAM_c00e_    ; start
         xor a          ; 0 -> a
       -:ld (hl),a      ; 0 -> c00e,c02e,c04e ... c1ee
         ld de,$0018
@@ -11338,9 +11338,9 @@ SilenceFM:             ; 0e/802c
 
 _ZeroC003toC00D:       ; Zero $c003-$c00d
     xor a
-    ld hl,$c003
+    ld hl,_RAM_c003_
     ld (hl),a
-    ld de,$c004
+    ld de,_RAM_C003_ + 1
     ld bc,$000a
     ldir
     ret
@@ -11359,7 +11359,7 @@ SoundUpdate:           ; 0e/8052
     ld a,(HasFM)
     or a
     ex af,af'
-    ld hl,$c00c
+    ld hl,_RAM_c00c_
     exx
     call Sound8135
     call Sound815c
@@ -11372,7 +11372,7 @@ SoundUpdate:           ; 0e/8052
     ld a,($c002)
     or a
     jp m,++
-    ld ix,$c00e
+    ld ix,_RAM_c00e_
     ld b,$0a
   -:push bc
       ld a,$04
@@ -11390,7 +11390,7 @@ SoundUpdate:           ; 0e/8052
     call nz,$8608
     jr --
 
-++: ld ix,$c0ee
+++: ld ix,_RAM_c0ee_
     ld b,$08
 -:  push bc
       ld a,$01
@@ -11412,7 +11412,7 @@ SoundUpdatePSG:
     ld a,($c002)
     or a
     jp m,++
-    ld ix,$c06e
+    ld ix,_RAM_c06e_
     ld b,$07
 -:  push bc
       ld a,$04
@@ -11429,7 +11429,7 @@ SoundUpdatePSG:
 +:  bit 7,(ix+$00)
     call nz,$8b37
     jr --
-++: ld ix,$c0ee
+++: ld ix,_RAM_c0ee_
     ld b,$08
 -:  push bc
       ld a,$01
@@ -11452,7 +11452,7 @@ SoundUpdatePSG:
 .orga $8110
 .section "More music code" overwrite
 Sound8110:
-    ld hl,$c12e
+    ld hl,_RAM_c12e_
     bit 7,(hl)
     ret z
     ld a,($c10e)
@@ -11465,10 +11465,10 @@ Sound8110:
     ld a,(hl)
     cp $e0
     jr nz,+
-    ld hl,$c06e
+    ld hl,_RAM_c06e_
     set 2,(hl)
 
-+:  ld hl,$c0ae
++:  ld hl,_RAM_c0ae_
     set 2,(hl)
     ret
 
@@ -11476,7 +11476,7 @@ Sound8110:
     ret
 
 Sound8135:
-    ld hl,$c001
+    ld hl,_RAM_c001_
     ld a,(hl)
     or a
     ret z
@@ -11486,11 +11486,11 @@ Sound8135:
     or a
     res 7,a
     ld (hl),a
-    ld hl,$c018
+    ld hl,_RAM_c018_
     ld de,$0020
     ld b,$07
     jp m,+
-    ld hl,$c158
+    ld hl,_RAM_c158_
     ld de,$0020
     ld b,$05
 +:
@@ -11532,13 +11532,13 @@ Sound815c:
     ret z
     jp $8218
 
-++: ld ix,$c00e
+++: ld ix,_RAM_c00e_
     ld de,$0020
     ld b,$06
     ld a,($c002)
     or a
     jp p,$81b1
-    ld ix,$c14e
+    ld ix,_RAM_c14e_
     ld b,$04
 -:  ld a,(ix+$08)
     inc a
@@ -11570,10 +11570,10 @@ Sound815c:
     jr nz,+
     xor a
     ld ($c00a),a
-    ld hl,$c0ce
+    ld hl,_RAM_c0ce_
     res 2,(hl)
     ret
-+:  ld ix,$c00e
++:  ld ix,_RAM_c00e_
     ld de,$0020
     ld b,$06
 -:  ld a,(ix+$08)
@@ -11596,10 +11596,10 @@ Sound815c:
     ld ($c00a),a
     ld a,$0a
     ld ($c00b),a
-    ld hl,$c0ce
+    ld hl,_RAM_c0ce_
     set 2,(hl)
     push ix
-      ld ix,$c00e
+      ld ix,_RAM_c00e_
       ld b,$06
       ld de,$0020
 -:    ld a,(ix+$08)
@@ -11671,9 +11671,9 @@ ZeroYM2413Channel: ; $8272
     xor a
     ld ($c10e),a
     ld ($c0ee),a
-    ld hl,$c08e
+    ld hl,_RAM_c08e_
     call $8307
-    ld hl,$c1ae
+    ld hl,_RAM_c1ae_
     call $8307
     ex af,af'
     jr nz,+
@@ -11693,9 +11693,9 @@ ZeroYM2413Channel: ; $8272
     or a
     jp m,$85f9
     push ix
-      ld ix,$c08e
+      ld ix,_RAM_c08e_
       call $8748
-      ld ix,$c0ae
+      ld ix,_RAM_c0ae_
       call $8748
     pop ix
     jp $85f9
@@ -11741,7 +11741,7 @@ ZeroYM2413Channel: ; $8272
     ld hl,$83c0
 +:  ex af,af'
     call $85ff
-    ld de,$c12e
+    ld de,_RAM_c12e_
     ld a,$ff
     out ($7f),a
     ld a,$df
@@ -11766,7 +11766,7 @@ ZeroYM2413Channel: ; $8272
     ld a,($c00a)
     or a
     jp p,$84e7
-    ld ix,$c00e
+    ld ix,_RAM_c00e_
     ld de,$0020
     ld b,$06
 -:  ld a,(ix+$17)
@@ -11779,19 +11779,19 @@ ZeroYM2413Channel: ; $8272
     ex af,af'
     jr nz,+
     ex af,af'
-    ld de,$c14e
+    ld de,_RAM_c14e_
     or a
     jp m,$84ff
     call $8000
-    ld de,$c06e
+    ld de,_RAM_c06e_
     ld hl,$8338
     jr ++
 +:  ex af,af'
     call $8292
-    ld de,$c14e
+    ld de,_RAM_c14e_
     or a
     jp m,$8517
-    ld de,$c00e
+    ld de,_RAM_c00e_
     call $8000
     jr +
     call $802c
@@ -11818,18 +11818,18 @@ ZeroYM2413Channel: ; $8272
     jr z,+
     cp $14
     jr z,++
-    ld de,$c10e
+    ld de,_RAM_c10e_
     ld a,$25
     jr ++++
 +:  call $8000
-    ld de,$c00e
+    ld de,_RAM_c00e_
     jr _05c6
-++: ld de,$c0ee
+++: ld de,_RAM_c0ee_
     ld a,$24
-    ld hl,$c08e
+    ld hl,_RAM_c08e_
     set 2,(hl)
 ++++:
-    ld hl,$c0ae
+    ld hl,_RAM_c0ae_
     set 2,(hl)
     call ZeroYM2413Channel
     jr _05c6
@@ -11844,16 +11844,16 @@ ZeroYM2413Channel: ; $8272
     push bc
     call $8000
     pop bc
-    ld de,$c06e
+    ld de,_RAM_c06e_
     jr _05c6
 
 ++: ld a,$df
     out ($7f),a
-    ld hl,$c0ce
+    ld hl,_RAM_c0ce_
     set 2,(hl)
     ld a,$e7
     out ($7f),a
-+:  ld de,$c10e
++:  ld de,_RAM_c10e_
     jr +
 +++:ld de,$0009
     add hl,de
@@ -11862,22 +11862,22 @@ ZeroYM2413Channel: ; $8272
     jr nz,++
     ld a,$e7
     out ($7f),a
-    ld hl,$c0ce
+    ld hl,_RAM_c0ce_
     set 2,(hl)
-    ld hl,$c1ce
+    ld hl,_RAM_c1ce_
     set 2,(hl)
     ld a,$df
     out ($7f),a
-++: ld de,$c0ee
-    ld hl,$c08e
+++: ld de,_RAM_c0ee_
+    ld hl,_RAM_c08e_
     set 2,(hl)
-    ld hl,$c18e
+    ld hl,_RAM_c18e_
     set 2,(hl)
 +:  ld a,$ff
     out ($7f),a
-    ld hl,$c0ae
+    ld hl,_RAM_c0ae_
     set 2,(hl)
-    ld hl,$c1ae
+    ld hl,_RAM_c1ae_
     set 2,(hl)
 _05c6:
     ld h,b
@@ -12482,7 +12482,7 @@ _0856:
 
 +:  res 3,(ix+$00)
     ret
-    ld hl,$c12e
+    ld hl,_RAM_c12e_
     res 2,(hl)
     xor a
     ld ($c008),a
@@ -12498,35 +12498,35 @@ _0856:
     ld a,($c08e)
     and $80
     jr z,+
-    ld hl,$c09c
+    ld hl,_RAM_c09c_
     ld a,(hl)
     inc hl
     ld h,(hl)
     ld l,a
     ld a,($c08f)
     call $8c79
-    ld hl,$c08e
+    ld hl,_RAM_c08e_
     res 2,(hl)
 
-+:  ld hl,$c18e
++:  ld hl,_RAM_c18e_
     res 2,(hl)
-    ld hl,$c1ce
+    ld hl,_RAM_c1ce_
     res 2,(hl)
-    ld hl,$c0ce
+    ld hl,_RAM_c0ce_
     res 2,(hl)
     ld a,($c0ae)
     and $80
     jr z,+
-    ld hl,$c0bc
+    ld hl,_RAM_c0bc_
     ld a,(hl)
     inc hl
     ld h,(hl)
     ld l,a
     ld a,($c0af)
     call $8c79
-    ld hl,$c0ae
+    ld hl,_RAM_c0ae_
     res 2,(hl)
-+:  ld hl,$c1ae
++:  ld hl,_RAM_c1ae_
     res 2,(hl)
     pop hl
     pop hl
@@ -12543,20 +12543,20 @@ _0856:
     cp $15
     jr z,+
     call $8b34
-    ld hl,$c08e
+    ld hl,_RAM_c08e_
     res 2,(hl)
     ld a,$34
     out ($f0),a
-    ld hl,$c095
+    ld hl,_RAM_c095_
     call $8ae2
     jp $8a9a
-+:  ld hl,$c0ae
++:  ld hl,_RAM_c0ae_
     res 2,(hl)
     ld a,($c12e)
     or a
-    ld hl,$c0b5
+    ld hl,_RAM_c0b5_
     jp p,$8ad8
-    ld hl,$c135
+    ld hl,_RAM_c135_
     ld a,$35
     out ($f0),a
     call $8ae2
@@ -12852,103 +12852,180 @@ _8bd9: ; $30bd9, $8bd9
 .orga $8000
 .section "WorldData1" overwrite
 WorldData1:
-.dw $80a2,$80e8,$8118,$8141,$818d,$81dc,$824a,$82d6
-.dw $80a2,$8371,$8404,$84a6,$8548,$85da,$8672,$8718
-.dw $87d5,$8371,$8887,$8906,$89b2,$8a43,$8aee,$8ba8
-.dw $8c2c,$8cda,$8887,$8d57,$8dbd,$8e69,$8f02,$8fb5
-.dw $9049,$90ea,$917b,$8d57,$91c8,$91ff,$9299,$9302
-.dw $93bd,$9453,$94d6,$9595,$91c8,$963c,$968d,$9731
-.dw $97df,$9895,$9934,$99e1,$9a80,$963c,$9add,$9b1d
-.dw $9bd1,$9c93,$9d4f,$9e11,$9ec5,$9f0c,$9add,$9f6c
-.dw $9fb2,$a03d,$a0cb,$a15a,$a1aa,$a204,$a23d,$9f6c
-.dw $80a2,$80e8,$8118,$8141,$818d,$81dc,$824a,$82d6
-.dw $80a2
-; All of this data is wrong! It's not 2-byte interleaved, it's 1, so there should be twice as many.
-.incbin "Tilemaps\340A2tilemap.dat"
-.incbin "Tilemaps\34118tilemap.dat"
-.incbin "Tilemaps\3418Dtilemap.dat"
-.incbin "Tilemaps\3424Atilemap.dat"
-.incbin "Tilemaps\34371tilemap.dat"
-.incbin "Tilemaps\344A6tilemap.dat"
-.incbin "Tilemaps\345DAtilemap.dat"
-.incbin "Tilemaps\34718tilemap.dat"
-.incbin "Tilemaps\34887tilemap.dat"
-.incbin "Tilemaps\349B2tilemap.dat"
-.incbin "Tilemaps\34AEEtilemap.dat"
-.incbin "Tilemaps\34C2Ctilemap.dat"
-.incbin "Tilemaps\34D57tilemap.dat"
-.incbin "Tilemaps\34E69tilemap.dat"
-.incbin "Tilemaps\34FB5tilemap.dat"
-.incbin "Tilemaps\350EAtilemap.dat"
-.incbin "Tilemaps\351C8tilemap.dat"
-.incbin "Tilemaps\35299tilemap.dat"
-.incbin "Tilemaps\353BDtilemap.dat"
-.incbin "Tilemaps\354D6tilemap.dat"
-.incbin "Tilemaps\3563Ctilemap.dat"
-.incbin "Tilemaps\35731tilemap.dat"
-.incbin "Tilemaps\35895tilemap.dat"
-.incbin "Tilemaps\359e1tilemap.dat"
-.incbin "Tilemaps\35ADDtilemap.dat"
-.incbin "Tilemaps\35BD1tilemap.dat"
-.incbin "Tilemaps\35D4Ftilemap.dat"
-.incbin "Tilemaps\35ec5tilemap.dat"
-.incbin "Tilemaps\35F6Ctilemap.dat"
-.incbin "Tilemaps\3603Dtilemap.dat"
-.incbin "Tilemaps\3615Atilemap.dat"
-.incbin "Tilemaps\36204tilemap.dat"
+.dw _d00 _d01 _d02 _d03 _d04 _d05 _d06 _d07 _d08 _d09 _d10 _d11 _d12 _d13 _d14 _d15 _d16 _d17 _d18 _d19 _d20 _d21 _d22 _d23 _d24 _d25 _d26 _d27 _d28 _d29 _d30 _d31 _d32 _d33 _d34 _d35 _d36 _d37 _d38 _d39 _d40 _d41 _d42 _d43 _d44 _d45 _d46 _d47 _d48 _d49 _d50 _d51 _d52 _d53 _d54 _d55 _d56 _d57 _d58 _d59 _d60 _d61 _d62 _d63 _d64 _d65 _d66 _d67 _d68 _d69 _d70 _d71 _d72 _d73 _d74 _d75 _d76 _d77 _d78 _d79 _d80
+
+_d00: .incbin "Tilemaps\80a2map.bin"
+_d01: .incbin "Tilemaps\80e8map.bin"
+_d02: .incbin "Tilemaps\8118map.bin"
+_d03: .incbin "Tilemaps\8141map.bin"
+_d04: .incbin "Tilemaps\818dmap.bin"
+_d05: .incbin "Tilemaps\81dcmap.bin"
+_d06: .incbin "Tilemaps\824amap.bin"
+_d07: .incbin "Tilemaps\82d6map.bin"
+_d08: .incbin "Tilemaps\80a2map.bin"
+_d09: .incbin "Tilemaps\8371map.bin"
+_d10: .incbin "Tilemaps\8404map.bin"
+_d11: .incbin "Tilemaps\84a6map.bin"
+_d12: .incbin "Tilemaps\8548map.bin"
+_d13: .incbin "Tilemaps\85damap.bin"
+_d14: .incbin "Tilemaps\8672map.bin"
+_d15: .incbin "Tilemaps\8718map.bin"
+_d16: .incbin "Tilemaps\87d5map.bin"
+_d17: .incbin "Tilemaps\8371map.bin"
+_d18: .incbin "Tilemaps\8887map.bin"
+_d19: .incbin "Tilemaps\8906map.bin"
+_d20: .incbin "Tilemaps\89b2map.bin"
+_d21: .incbin "Tilemaps\8a43map.bin"
+_d22: .incbin "Tilemaps\8aeemap.bin"
+_d23: .incbin "Tilemaps\8ba8map.bin"
+_d24: .incbin "Tilemaps\8c2cmap.bin"
+_d25: .incbin "Tilemaps\8cdamap.bin"
+_d26: .incbin "Tilemaps\8887map.bin"
+_d27: .incbin "Tilemaps\8d57map.bin"
+_d28: .incbin "Tilemaps\8dbdmap.bin"
+_d29: .incbin "Tilemaps\8e69map.bin"
+_d30: .incbin "Tilemaps\8f02map.bin"
+_d31: .incbin "Tilemaps\8fb5map.bin"
+_d32: .incbin "Tilemaps\9049map.bin"
+_d33: .incbin "Tilemaps\90eamap.bin"
+_d34: .incbin "Tilemaps\917bmap.bin"
+_d35: .incbin "Tilemaps\8d57map.bin"
+_d36: .incbin "Tilemaps\91c8map.bin"
+_d37: .incbin "Tilemaps\91ffmap.bin"
+_d38: .incbin "Tilemaps\9299map.bin"
+_d39: .incbin "Tilemaps\9302map.bin"
+_d40: .incbin "Tilemaps\93bdmap.bin"
+_d41: .incbin "Tilemaps\9453map.bin"
+_d42: .incbin "Tilemaps\94d6map.bin"
+_d43: .incbin "Tilemaps\9595map.bin"
+_d44: .incbin "Tilemaps\91c8map.bin"
+_d45: .incbin "Tilemaps\963cmap.bin"
+_d46: .incbin "Tilemaps\968dmap.bin"
+_d47: .incbin "Tilemaps\9731map.bin"
+_d48: .incbin "Tilemaps\97dfmap.bin"
+_d49: .incbin "Tilemaps\9895map.bin"
+_d50: .incbin "Tilemaps\9934map.bin"
+_d51: .incbin "Tilemaps\99e1map.bin"
+_d52: .incbin "Tilemaps\9a80map.bin"
+_d53: .incbin "Tilemaps\963cmap.bin"
+_d54: .incbin "Tilemaps\9addmap.bin"
+_d55: .incbin "Tilemaps\9b1dmap.bin"
+_d56: .incbin "Tilemaps\9bd1map.bin"
+_d57: .incbin "Tilemaps\9c93map.bin"
+_d58: .incbin "Tilemaps\9d4fmap.bin"
+_d59: .incbin "Tilemaps\9e11map.bin"
+_d60: .incbin "Tilemaps\9ec5map.bin"
+_d61: .incbin "Tilemaps\9f0cmap.bin"
+_d62: .incbin "Tilemaps\9addmap.bin"
+_d63: .incbin "Tilemaps\9f6cmap.bin"
+_d64: .incbin "Tilemaps\9fb2map.bin"
+_d65: .incbin "Tilemaps\a03dmap.bin"
+_d66: .incbin "Tilemaps\a0cbmap.bin"
+_d67: .incbin "Tilemaps\a15amap.bin"
+_d68: .incbin "Tilemaps\a1aamap.bin"
+_d69: .incbin "Tilemaps\a204map.bin"
+_d70: .incbin "Tilemaps\a23dmap.bin"
+_d71: .incbin "Tilemaps\9f6cmap.bin"
+_d72: .incbin "Tilemaps\80a2map.bin"
+_d73: .incbin "Tilemaps\80e8map.bin"
+_d74: .incbin "Tilemaps\8118map.bin"
+_d75: .incbin "Tilemaps\8141map.bin"
+_d76: .incbin "Tilemaps\818dmap.bin"
+_d77: .incbin "Tilemaps\81dcmap.bin"
+_d78: .incbin "Tilemaps\824amap.bin"
+_d79: .incbin "Tilemaps\82d6map.bin"
+_d80: .incbin "Tilemaps\80a2map.bin"
+
 .ends
 ; followed by
 .org $36276-$34000
 .section "WorldData2" overwrite
 ; Another table referring to compressed data after it
 WorldData2:
-.dw $a318 $a32f $a357 $a3b4 $a46e $a523 $a5b1 $a619
-.dw $a318 $a66b $a682 $a6b8 $a745 $a7f9 $a8a5 $a958
-.dw $aa01 $a66b $aac2 $ab1b $ab6b $abbc $ac51 $ac9d
-.dw $acff $ad8c $aac2 $ae4d $ae6a $aebe $af33 $af52
-.dw $af75 $affc $b05b $ae4d $b108 $b138 $b1a0 $b222
-.dw $b2d7 $b34f $b409 $b4b1 $b108 $b570 $b5b7 $b623
-.dw $b6c8 $b781 $b7e1 $b7fc $b82a $b570 $b86d $b8a3
-.dw $b8f5 $b9a1 $ba43 $babf $baf6 $bb22 $b86d $bb4d
-.dw $bb7c $bba7 $bc08 $bc80 $bcd0 $bd3a $bd78 $bb4d
-.dw $a318 $a32f $a357 $a3b4 $a46e $a523 $a5b1 $a619
-.dw $a318
-; All of this data is wrong! It's not 2-byte interleaved, it's 1, so there should be twice as many.
-_d01:.incbin "Tilemaps\36318tilemap.dat"
-_d02:.incbin "Tilemaps\36357tilemap.dat"
-_d03:.incbin "Tilemaps\3646Etilemap.dat"
-_d04:.incbin "Tilemaps\365B1tilemap.dat"
-_d05:.incbin "Tilemaps\3666Btilemap.dat"
-_d06:.incbin "Tilemaps\366B8tilemap.dat"
-_d07:.incbin "Tilemaps\367F9tilemap.dat"
-_d08:.incbin "Tilemaps\36958tilemap.dat"
-_d09:.incbin "Tilemaps\36AC2tilemap.dat"
-_d10:.incbin "Tilemaps\36B6Btilemap.dat"
-_d11:.incbin "Tilemaps\36C51tilemap.dat"
-_d12:.incbin "Tilemaps\36CFFtilemap.dat"
-_d13:.incbin "Tilemaps\36E4Dtilemap.dat"
-_d14:.incbin "Tilemaps\36EBEtilemap.dat"
-_d15:.incbin "Tilemaps\36F52tilemap.dat"
-_d16:.incbin "Tilemaps\36FFCtilemap.dat"
-_d17:.incbin "Tilemaps\37108tilemap.dat"
-_d18:.incbin "Tilemaps\371A0tilemap.dat"
-_d19:.incbin "Tilemaps\372D7tilemap.dat"
-_d20:.incbin "Tilemaps\37409tilemap.dat"
-_d21:.incbin "Tilemaps\37570tilemap.dat"
-_d22:.incbin "Tilemaps\37623tilemap.dat"
-_d23:.incbin "Tilemaps\37781tilemap.dat"
-_d24:.incbin "Tilemaps\377FCtilemap.dat"
-_d25:.incbin "Tilemaps\3786Dtilemap.dat"
-_d26:.incbin "Tilemaps\378F5tilemap.dat"
-_d27:.incbin "Tilemaps\37A43tilemap.dat"
-_d28:.incbin "Tilemaps\37AF6tilemap.dat"
-_d29:.incbin "Tilemaps\37B4Dtilemap.dat"
-_d30:.incbin "Tilemaps\37BA7tilemap.dat"
-_d31:.incbin "Tilemaps\37C80tilemap.dat"
-_d32:.incbin "Tilemaps\37D3Atilemap.dat"
-; 768 tiles
-TilemapDarkForce:
-.incbin "Tilemaps\37DB1tilemap.dat" ; Dark Force
+.dw _d00 _d01 _d02 _d03 _d04 _d05 _d06 _d07 _d08 _d09 _d10 _d11 _d12 _d13 _d14 _d15 _d16 _d17 _d18 _d19 _d20 _d21 _d22 _d23 _d24 _d25 _d26 _d27 _d28 _d29 _d30 _d31 _d32 _d33 _d34 _d35 _d36 _d37 _d38 _d39 _d40 _d41 _d42 _d43 _d44 _d45 _d46 _d47 _d48 _d49 _d50 _d51 _d52 _d53 _d54 _d55 _d56 _d57 _d58 _d59 _d60 _d61 _d62 _d63 _d64 _d65 _d66 _d67 _d68 _d69 _d70 _d71 _d72 _d73 _d74 _d75 _d76 _d77 _d78 _d79 _d80
+
+_d00: .incbin "Tilemaps\a318map.bin"
+_d01: .incbin "Tilemaps\a32fmap.bin"
+_d02: .incbin "Tilemaps\a357map.bin"
+_d03: .incbin "Tilemaps\a3b4map.bin"
+_d04: .incbin "Tilemaps\a46emap.bin"
+_d05: .incbin "Tilemaps\a523map.bin"
+_d06: .incbin "Tilemaps\a5b1map.bin"
+_d07: .incbin "Tilemaps\a619map.bin"
+_d08: .incbin "Tilemaps\a318map.bin"
+_d09: .incbin "Tilemaps\a66bmap.bin"
+_d10: .incbin "Tilemaps\a682map.bin"
+_d11: .incbin "Tilemaps\a6b8map.bin"
+_d12: .incbin "Tilemaps\a745map.bin"
+_d13: .incbin "Tilemaps\a7f9map.bin"
+_d14: .incbin "Tilemaps\a8a5map.bin"
+_d15: .incbin "Tilemaps\a958map.bin"
+_d16: .incbin "Tilemaps\aa01map.bin"
+_d17: .incbin "Tilemaps\a66bmap.bin"
+_d18: .incbin "Tilemaps\aac2map.bin"
+_d19: .incbin "Tilemaps\ab1bmap.bin"
+_d20: .incbin "Tilemaps\ab6bmap.bin"
+_d21: .incbin "Tilemaps\abbcmap.bin"
+_d22: .incbin "Tilemaps\ac51map.bin"
+_d23: .incbin "Tilemaps\ac9dmap.bin"
+_d24: .incbin "Tilemaps\acffmap.bin"
+_d25: .incbin "Tilemaps\ad8cmap.bin"
+_d26: .incbin "Tilemaps\aac2map.bin"
+_d27: .incbin "Tilemaps\ae4dmap.bin"
+_d28: .incbin "Tilemaps\ae6amap.bin"
+_d29: .incbin "Tilemaps\aebemap.bin"
+_d30: .incbin "Tilemaps\af33map.bin"
+_d31: .incbin "Tilemaps\af52map.bin"
+_d32: .incbin "Tilemaps\af75map.bin"
+_d33: .incbin "Tilemaps\affcmap.bin"
+_d34: .incbin "Tilemaps\b05bmap.bin"
+_d35: .incbin "Tilemaps\ae4dmap.bin"
+_d36: .incbin "Tilemaps\b108map.bin"
+_d37: .incbin "Tilemaps\b138map.bin"
+_d38: .incbin "Tilemaps\b1a0map.bin"
+_d39: .incbin "Tilemaps\b222map.bin"
+_d40: .incbin "Tilemaps\b2d7map.bin"
+_d41: .incbin "Tilemaps\b34fmap.bin"
+_d42: .incbin "Tilemaps\b409map.bin"
+_d43: .incbin "Tilemaps\b4b1map.bin"
+_d44: .incbin "Tilemaps\b108map.bin"
+_d45: .incbin "Tilemaps\b570map.bin"
+_d46: .incbin "Tilemaps\b5b7map.bin"
+_d47: .incbin "Tilemaps\b623map.bin"
+_d48: .incbin "Tilemaps\b6c8map.bin"
+_d49: .incbin "Tilemaps\b781map.bin"
+_d50: .incbin "Tilemaps\b7e1map.bin"
+_d51: .incbin "Tilemaps\b7fcmap.bin"
+_d52: .incbin "Tilemaps\b82amap.bin"
+_d53: .incbin "Tilemaps\b570map.bin"
+_d54: .incbin "Tilemaps\b86dmap.bin"
+_d55: .incbin "Tilemaps\b8a3map.bin"
+_d56: .incbin "Tilemaps\b8f5map.bin"
+_d57: .incbin "Tilemaps\b9a1map.bin"
+_d58: .incbin "Tilemaps\ba43map.bin"
+_d59: .incbin "Tilemaps\babfmap.bin"
+_d60: .incbin "Tilemaps\baf6map.bin"
+_d61: .incbin "Tilemaps\bb22map.bin"
+_d62: .incbin "Tilemaps\b86dmap.bin"
+_d63: .incbin "Tilemaps\bb4dmap.bin"
+_d64: .incbin "Tilemaps\bb7cmap.bin"
+_d65: .incbin "Tilemaps\bba7map.bin"
+_d66: .incbin "Tilemaps\bc08map.bin"
+_d67: .incbin "Tilemaps\bc80map.bin"
+_d68: .incbin "Tilemaps\bcd0map.bin"
+_d69: .incbin "Tilemaps\bd3amap.bin"
+_d70: .incbin "Tilemaps\bd78map.bin"
+_d71: .incbin "Tilemaps\bb4dmap.bin"
+_d72: .incbin "Tilemaps\a318map.bin"
+_d73: .incbin "Tilemaps\a32fmap.bin"
+_d74: .incbin "Tilemaps\a357map.bin"
+_d75: .incbin "Tilemaps\a3b4map.bin"
+_d76: .incbin "Tilemaps\a46emap.bin"
+_d77: .incbin "Tilemaps\a523map.bin"
+_d78: .incbin "Tilemaps\a5b1map.bin"
+_d79: .incbin "Tilemaps\a619map.bin"
+_d80: .incbin "Tilemaps\a318map.bin"
+
 .ends
 ;.org 37fda
 ; Blank until end of bank
@@ -12960,49 +13037,89 @@ TilemapDarkForce:
 .orga $8000
 .section "WorldData3" overwrite
 WorldData3:
-.dw $80a2 $80cd $8176 $8239 $82f7 $83ba $8431 $84f0
-.dw $80a2 $8521 $85aa $8618 $8680 $86b7 $8715 $87b4
-.dw $8819 $8521 $88bd $896b $89d7 $8a35 $8a62 $8ade
-.dw $8b45 $8bf2 $88bd $8c77 $8d2c $8ddd $8e6a $8f2d
-.dw $8fd1 $907d $90de $8c77 $9123 $91b2 $9216 $92bc
-.dw $936b $942e $9487 $948c $9123 $94a1 $9533 $95ea
-.dw $9679 $973e $9801 $98ab $98b2 $94a1 $992b $99e8
-.dw $9a98 $9b2f $9beb $9cae $9d71 $9e29 $992b $9ee3
-.dw $9f2d $9fe6 $a09d $a161 $a21e $a2e1 $a3a3 $9ee3
-.dw $80a2 $80cd $8176 $8239 $82f7 $83ba $8431 $84f0
-.dw $80a2
-.incbin "Tilemaps\380a2tilemap.dat"
-.incbin "Tilemaps\38176tilemap.dat"
-.incbin "Tilemaps\382F7tilemap.dat"
-.incbin "Tilemaps\38431tilemap.dat"
-.incbin "Tilemaps\38521tilemap.dat"
-.incbin "Tilemaps\38618tilemap.dat"
-.incbin "Tilemaps\386B7tilemap.dat"
-.incbin "Tilemaps\387B4tilemap.dat"
-.incbin "Tilemaps\388BDtilemap.dat"
-.incbin "Tilemaps\389D7tilemap.dat"
-.incbin "Tilemaps\38A62tilemap.dat"
-.incbin "Tilemaps\38B45tilemap.dat"
-.incbin "Tilemaps\38C77tilemap.dat"
-.incbin "Tilemaps\38DDDtilemap.dat"
-.incbin "Tilemaps\38F2Dtilemap.dat"
-.incbin "Tilemaps\3907Dtilemap.dat"
-.incbin "Tilemaps\39123tilemap.dat"
-.incbin "Tilemaps\39216tilemap.dat"
-.incbin "Tilemaps\3936Btilemap.dat"
-.incbin "Tilemaps\39487tilemap.dat"
-.incbin "Tilemaps\394A1tilemap.dat"
-.incbin "Tilemaps\395EAtilemap.dat"
-.incbin "Tilemaps\3973Etilemap.dat"
-.incbin "Tilemaps\398ABtilemap.dat"
-.incbin "Tilemaps\3992Btilemap.dat"
-.incbin "Tilemaps\39A98tilemap.dat"
-.incbin "Tilemaps\39BEBtilemap.dat"
-.incbin "Tilemaps\39D71tilemap.dat"
-.incbin "Tilemaps\39EE3tilemap.dat"
-.incbin "Tilemaps\39FE6tilemap.dat"
-.incbin "Tilemaps\3A161tilemap.dat"
-.incbin "Tilemaps\3A2E1tilemap.dat"
+.dw _d00 _d01 _d02 _d03 _d04 _d05 _d06 _d07 _d08 _d09 _d10 _d11 _d12 _d13 _d14 _d15 _d16 _d17 _d18 _d19 _d20 _d21 _d22 _d23 _d24 _d25 _d26 _d27 _d28 _d29 _d30 _d31 _d32 _d33 _d34 _d35 _d36 _d37 _d38 _d39 _d40 _d41 _d42 _d43 _d44 _d45 _d46 _d47 _d48 _d49 _d50 _d51 _d52 _d53 _d54 _d55 _d56 _d57 _d58 _d59 _d60 _d61 _d62 _d63 _d64 _d65 _d66 _d67 _d68 _d69 _d70 _d71 _d72 _d73 _d74 _d75 _d76 _d77 _d78 _d79 _d80
+
+_d00: .incbin "Tilemaps\80a2map.bin"
+_d01: .incbin "Tilemaps\80cdmap.bin"
+_d02: .incbin "Tilemaps\8176map.bin"
+_d03: .incbin "Tilemaps\8239map.bin"
+_d04: .incbin "Tilemaps\82f7map.bin"
+_d05: .incbin "Tilemaps\83bamap.bin"
+_d06: .incbin "Tilemaps\8431map.bin"
+_d07: .incbin "Tilemaps\84f0map.bin"
+_d08: .incbin "Tilemaps\80a2map.bin"
+_d09: .incbin "Tilemaps\8521map.bin"
+_d10: .incbin "Tilemaps\85aamap.bin"
+_d11: .incbin "Tilemaps\8618map.bin"
+_d12: .incbin "Tilemaps\8680map.bin"
+_d13: .incbin "Tilemaps\86b7map.bin"
+_d14: .incbin "Tilemaps\8715map.bin"
+_d15: .incbin "Tilemaps\87b4map.bin"
+_d16: .incbin "Tilemaps\8819map.bin"
+_d17: .incbin "Tilemaps\8521map.bin"
+_d18: .incbin "Tilemaps\88bdmap.bin"
+_d19: .incbin "Tilemaps\896bmap.bin"
+_d20: .incbin "Tilemaps\89d7map.bin"
+_d21: .incbin "Tilemaps\8a35map.bin"
+_d22: .incbin "Tilemaps\8a62map.bin"
+_d23: .incbin "Tilemaps\8ademap.bin"
+_d24: .incbin "Tilemaps\8b45map.bin"
+_d25: .incbin "Tilemaps\8bf2map.bin"
+_d26: .incbin "Tilemaps\88bdmap.bin"
+_d27: .incbin "Tilemaps\8c77map.bin"
+_d28: .incbin "Tilemaps\8d2cmap.bin"
+_d29: .incbin "Tilemaps\8dddmap.bin"
+_d30: .incbin "Tilemaps\8e6amap.bin"
+_d31: .incbin "Tilemaps\8f2dmap.bin"
+_d32: .incbin "Tilemaps\8fd1map.bin"
+_d33: .incbin "Tilemaps\907dmap.bin"
+_d34: .incbin "Tilemaps\90demap.bin"
+_d35: .incbin "Tilemaps\8c77map.bin"
+_d36: .incbin "Tilemaps\9123map.bin"
+_d37: .incbin "Tilemaps\91b2map.bin"
+_d38: .incbin "Tilemaps\9216map.bin"
+_d39: .incbin "Tilemaps\92bcmap.bin"
+_d40: .incbin "Tilemaps\936bmap.bin"
+_d41: .incbin "Tilemaps\942emap.bin"
+_d42: .incbin "Tilemaps\9487map.bin"
+_d43: .incbin "Tilemaps\948cmap.bin"
+_d44: .incbin "Tilemaps\9123map.bin"
+_d45: .incbin "Tilemaps\94a1map.bin"
+_d46: .incbin "Tilemaps\9533map.bin"
+_d47: .incbin "Tilemaps\95eamap.bin"
+_d48: .incbin "Tilemaps\9679map.bin"
+_d49: .incbin "Tilemaps\973emap.bin"
+_d50: .incbin "Tilemaps\9801map.bin"
+_d51: .incbin "Tilemaps\98abmap.bin"
+_d52: .incbin "Tilemaps\98b2map.bin"
+_d53: .incbin "Tilemaps\94a1map.bin"
+_d54: .incbin "Tilemaps\992bmap.bin"
+_d55: .incbin "Tilemaps\99e8map.bin"
+_d56: .incbin "Tilemaps\9a98map.bin"
+_d57: .incbin "Tilemaps\9b2fmap.bin"
+_d58: .incbin "Tilemaps\9bebmap.bin"
+_d59: .incbin "Tilemaps\9caemap.bin"
+_d60: .incbin "Tilemaps\9d71map.bin"
+_d61: .incbin "Tilemaps\9e29map.bin"
+_d62: .incbin "Tilemaps\992bmap.bin"
+_d63: .incbin "Tilemaps\9ee3map.bin"
+_d64: .incbin "Tilemaps\9f2dmap.bin"
+_d65: .incbin "Tilemaps\9fe6map.bin"
+_d66: .incbin "Tilemaps\a09dmap.bin"
+_d67: .incbin "Tilemaps\a161map.bin"
+_d68: .incbin "Tilemaps\a21emap.bin"
+_d69: .incbin "Tilemaps\a2e1map.bin"
+_d70: .incbin "Tilemaps\a3a3map.bin"
+_d71: .incbin "Tilemaps\9ee3map.bin" ; These are not right, we have reused bins
+_d72: .incbin "Tilemaps\80a2map.bin"
+_d73: .incbin "Tilemaps\80cdmap.bin"
+_d74: .incbin "Tilemaps\8176map.bin"
+_d75: .incbin "Tilemaps\8239map.bin"
+_d76: .incbin "Tilemaps\82f7map.bin"
+_d77: .incbin "Tilemaps\83bamap.bin"
+_d78: .incbin "Tilemaps\8431map.bin"
+_d79: .incbin "Tilemaps\84f0map.bin"
+_d80: .incbin "Tilemaps\80a2map.bin"
 .ends
 ; followed by
 .orga $a3e8
@@ -13352,7 +13469,6 @@ TilesBuilding:
 PaletteSpace:          ; $5f767
 .db $10,$3F,$3E,$38,$34,$30,$20,$04,$3C,$20,$00,$00,$00,$00,$00,$00 ; palette
 .db $10                                                             ; end empty for target planet (?)
-PaletteSpaceEnd:       ; must be followed by
 TilesSpace:            ; $5f778
 .incbin "Tiles\5f778compr.dat" ; 98
 .ends
