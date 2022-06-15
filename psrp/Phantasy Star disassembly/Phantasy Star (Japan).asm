@@ -5909,7 +5909,7 @@ _LABEL_2824_:
     ld hl,Frame2Paging
     ld (hl),$02
     ld a,(ItemTableIndex)
-    ld hl,_DATA_BF9C_
+    ld hl,ItemMetadata
     add a,l
     ld l,a
     adc a,h
@@ -5989,7 +5989,7 @@ _LABEL_28AE_:
     ld hl,Frame2Paging
     ld (hl),$02
     ld a,(ItemTableIndex)
-    ld hl,_DATA_BF9C_
+    ld hl,ItemMetadata
     add a,l
     ld l,a
     adc a,h
@@ -6071,7 +6071,7 @@ _LABEL_2934_:
     ld hl,Frame2Paging
     ld (hl),$02
     ld a,(ItemTableIndex)
-    ld hl,_DATA_BF9C_
+    ld hl,ItemMetadata
     add a,l
     ld l,a
     adc a,h
@@ -13899,9 +13899,9 @@ LoadEnemy:
         ld (EnemyMoney),hl  ; EnemyMoney = NumEnemies*de
     pop hl
     inc hl
-    ld a,(hl)
+    ld a,(hl)          ; Next byte in _RAM_c2e0_
     ld (_RAM_C2E0_),a
-    inc hl
+    inc hl             ; next word in de
     ld e,(hl)
     inc hl
     ld d,(hl)
@@ -13910,26 +13910,34 @@ LoadEnemy:
     ld c,a
     ld b,$00
     call Multiply16
-    ld (_RAM_C2D0_),hl
+        ld (_RAM_c2d0_),hl  ; _RAM_c2d0_ = NumEnemies*de
     pop hl
     inc hl
     ld a,(hl)
-    ld (_RAM_C2E8_),a
+    ld (_RAM_c2e8_),a       ; Next byte in _RAM_c2e8_
     inc hl
     ld a,(hl)
-    ld (_RAM_C2E7_),a
+    ld (_RAM_c2e7_),a       ; Next byte in _RAM_c2e7_
+
     ld hl,_RAM_C500_
-    ld (_RAM_C2E1_),hl
+    ld (_RAM_c2e1_),hl      ; $c500 -> _RAM_c2e1_
+
     call SpriteHandler
     call SpriteHandler
+
     ld hl,TargetPalette
     ld de,ActualPalette
-    ld bc,$0020
-    ldir
-    ld a,$10
-    jp ExecuteFunctionIndexAInNextVBlank
+    ld bc,32
+    ldir               ; update palette
 
+    ld a,$10           ; VBlankFunction_10
+    jp ExecuteFunctionIndexAInNextVBlank ; and ret
+.ends
+; followed by
+.orga $6379
+.section "Load data from data8fdf" overwrite
 _LABEL_6379_:
+; loads ath data from structures at data8fdf
     ld l,a
     ld h,$00
     add hl,hl
@@ -13940,78 +13948,95 @@ _LABEL_6379_:
     add hl,hl
     add hl,de
     ld de,_DATA_CFC7_
-    add hl,de
+    add hl,de          ; hl = $8fc7 + a*24
+
     ld de,_RAM_C880_
-    ld bc,$0003
-    ldir
-    inc de
-    ldi
+    ld bc,3
+    ldir               ; Copy 3 bytes from there to $c880
+
+    inc de             ; skip 1 byte
+    ldi                ; and copy 1 more
+
     ld de,_RAM_C894_
-    ld bc,$0009
-    ldir
+    ld bc,9
+    ldir               ; next 9 to $c894
+
     ld a,(_RAM_C898_)
     ld (_RAM_C88E_),a
+
     ld a,$01
-    ld (_RAM_C88D_),a
+    ld ($c88d),a       ; set $c88d = 1
+
     ld c,(hl)
     inc hl
-    ld b,(hl)
+    ld b,(hl)          ; bc = next word
     inc hl
     ld e,(hl)
     inc hl
-    ld d,(hl)
+    ld d,(hl)          ; de = next werd
     inc hl
-    ld a,(hl)
+    ld a,(hl)          ; ah = next word
     inc hl
     push hl
-    ld h,(hl)
-    ld l,c
-    ld c,a
-    ld a,h
-    ld h,b
-    ld b,a
-    or c
-    ld a,$18
+        ld h,(hl)      ; data: cbedah
+        ld l,c         ;       l
+        ld c,a         ;           c
+        ld a,h         ;            a
+        ld h,b         ;        h
+        ld b,a         ;            b
+                       ; hl = bc; bc = ah
+        or c           ; test c
+        ld a,$18       ; page for ???
     ld (Frame2Paging),a
-    call nz,_LABEL_63D6_
+        call nz,_DataCopier ; if c!=0 then call _DataCopier
     pop hl
     inc hl
-    ld a,$03
+
+    ld a,$03           ; Reset paging
     ld (Frame2Paging),a
+
     ld de,_RAM_C8A0_
-    ld bc,$0003
-    ldir
-    inc de
-    ldi
+    ld bc,3
+    ldir               ; Next 3 bytes -> $ca80
+    inc de             ; skip 1
+    ldi                ; copy 1
     ld a,(hl)
     ld (_RAM_C2F1_),a
     ret
 
-_LABEL_63D6_:
-    push bc
+_DataCopier:           ; $63d6
+; Copies data from hl to de
+; data format: fdd
+; if f=0 then dd is skipped
+; parses b data blocks (? does ldi dec b?)
+; then adds 64 to original value of de
+; repeats c times
+ --:push bc
     push de
     ld c,$FF
---: ld a,(hl)
+          -:ld a,(hl)
     or a
-    jp z,+
+            jp z,_skip
+            ldi        ; copy 2 bytes
     ldi
-    ldi
--:  djnz --
+   _loopend:djnz -
     pop de
     ex de,hl
-    ld bc,$0040
+        ld bc,64
     add hl,bc
-    ex de,hl
+        ex de,hl       ; de = de + 64
     pop bc
-    dec c
-    jp nz,_LABEL_63D6_
+    dec c              ; repeat c times
+    jp nz,--
     ret
-
-+:  inc hl
+_skip:
+    inc hl             ; skip 2 bytes
     inc de
     inc hl
     inc de
-    jp -
+    jp _loopend
+.ends
+.orga $63f2
 
 _LABEL_63F9_:
     or a
@@ -14080,31 +14105,35 @@ _LABEL_63F9_:
     ld a,$16
     jp ExecuteFunctionIndexAInNextVBlank
 
-AnimCharacterSprites:
+.orga $6471
+.section "Load character animation tiles" overwrite
+; Load raw character animation tiles from ROM
+AnimCharacterSprites:  ; $6471
     ld hl,Frame2Paging
-    ld (hl),$1C
+    ld (hl),:CharacterSprites
     ld ix,CharacterSpriteAttributes
-    ld b,$04
--:  ld a,(ix+16)
-    cp (ix+17)
-    jp z,+
-    ld (ix+17),a
-    ld d,a
-    ld a,(ix+1)
-    or a
-    ld hl,_DATA_649B_ - 2
+    ld b,4             ; counter - only first 4
+  -:ld a,(ix+16)       ; if 16 bytes after (currentanimframe)
+    cp (ix+17)         ; != 17 bytes after (lastanimframe)
+    jp z,+             ; then:
+    ld (ix+17),a           ; make it equal
+    ld d,a                 ; save in d
+    ld a,(ix+$01)          ; get 1 byte after = character number
+    or a                   ; check for zero
+    ld hl,_FunctionTable-2 ; -2 because 0 is not used
     jp nz,FunctionLookup
-+:  ld de,$0020
+  +:ld de,32           ; move to next data
     add ix,de
     djnz -
     ret
+_FunctionTable:
+.dw _Alis
+.dw _Lutz
+.dw _Odin
+.dw _Myau
+.dw _Vehicle
 
-; Jump Table from 649B to 64A4 (5 entries,indexed by _RAM_C821_)
-_DATA_649B_:
-.dw _LABEL_64A5_ _LABEL_64C2_ _LABEL_64DF_ _LABEL_64FC_ _LABEL_650F_
-
-; 1st entry of Jump Table from 649B (indexed by _RAM_C821_)
-_LABEL_64A5_:
+_Alis:                 ; $64a5
     ld e,$00
     srl d
     rr e
@@ -14113,16 +14142,15 @@ _LABEL_64A5_:
     srl d
     rr e
     add hl,de
-    ld de,_DATA_70000_
-    add hl,de
-    ld de,$7540
-    rst SetVRAMAddressToDE
+    ld de,AlisSprites
+    add hl,de          ; hl = AlisSprites + (ix+$10)*192 = where to
+    TileAddressDE $1aa
+    SetVRAMAddressToDE
     ld c,VDPData
-    call outi128
-    jp outi64
+    call outi128       ; output 192 bytes = 6 tiles
+    jp outi64          ; and ret
 
-; 2nd entry of Jump Table from 649B (indexed by _RAM_C821_)
-_LABEL_64C2_:
+_Lutz:                 ; $64c2
     ld e,$00
     srl d
     rr e
@@ -14131,16 +14159,15 @@ _LABEL_64C2_:
     srl d
     rr e
     add hl,de
-    ld de,_DATA_70A80_
-    add hl,de
-    ld de,$7600
-    rst SetVRAMAddressToDE
+    ld de,LutzSprites
+    add hl,de          ; hl = LutzSprites + (ix+$10)*192
+    TileAddressDE $1b0
+    SetVRAMAddressToDE
     ld c,VDPData
-    call outi128
-    jp outi64
+    call outi128       ; output 192 bytes = 6 tiles
+    jp outi64          ; and ret
 
-; 3rd entry of Jump Table from 649B (indexed by _RAM_C821_)
-_LABEL_64DF_:
+_Odin:                 ; $64df
     ld e,$00
     srl d
     rr e
@@ -14149,405 +14176,487 @@ _LABEL_64DF_:
     srl d
     rr e
     add hl,de
-    ld de,_DATA_71440_
-    add hl,de
-    ld de,$76C0
-    rst SetVRAMAddressToDE
+    ld de,OdinSprites
+    add hl,de          ; hl = LutzSprites + (ix+$10)*192
+    TileAddressDE $1b6
+    SetVRAMAddressToDE
     ld c,VDPData
-    call outi128
-    jp outi64
+    call outi128       ; output 192 bytes = 6 tiles
+    jp outi64          ; and ret
 
-; 4th entry of Jump Table from 649B (indexed by _RAM_C821_)
-_LABEL_64FC_:
+_Myau:                 ; $64fc
     ld e,$00
     srl d
     rr e
-    ld hl,_DATA_71EC0_
-    add hl,de
-    ld de,$7780
-    rst SetVRAMAddressToDE
+    ld hl,MyauSprites
+    add hl,de          ; hl = MyauSprite + (ix+$10)*128
+    TileAddressDE $1bc
+    SetVRAMAddressToDE
     ld c,VDPData
-    jp outi128
+    jp outi128         ; output 128 bytes = 4 tiles and ret
 
-; 5th entry of Jump Table from 649B (indexed by _RAM_C821_)
-_LABEL_650F_:
+_Vehicle:              ; $650f
     ld a,(FunctionLookupIndex)
-    cp $05
+    cp $05             ; if FunctionLookupIndex==5 or 9 then pass
     jr z,+
     cp $09
     ret nz
 +:  ld hl,Frame2Paging
-    ld (hl),$12
+    ld (hl),:VehicleSprites
     ld l,$00
     ld h,d
     add hl,hl
-    ld de,_DATA_48000_
-    add hl,de
-    ld de,$7540
-    rst SetVRAMAddressToDE
+    ld de,VehicleSprites
+    add hl,de          ; hl = VehicleSprites + (ix+$10)*512
+    ld de,$7540        ; tile $1aa
+    SetVRAMAddressToDE
     ld c,VDPData
     call outi128
     call outi128
     call outi128
-    jp outi128
-
-OutsideSceneTileAnimations:
+    jp outi128         ; output 512 bytes = 16 tiles
+.ends
+; followed by
+.orga $6538
+.section "Outside scene tile animations" overwrite
+OutsideSceneTileAnimations: ; $6538
     ld hl,Frame2Paging
-    ld (hl),$0E
+    ld (hl),:TilesOutsideAnimation
+
     ld hl,OutsideAnimCounters.1
-    ld de,_DATA_65C1_
-    ld bc,$0C10
-    call _LABEL_6586_
+    ld de,_AnimSeaShoreFrames
+    ld bc,(12 << 8) | ($04*4) ; 12 tiles, tile $04
+    call _CountAndAnimate
+
     ld hl,OutsideAnimCounters.2
-    ld de,_DATA_65D1_
-    ld bc,$0340
-    call _LABEL_6586_
+    ld de,_AnimSeaFrames
+    ld bc,( 3 << 8) | ($10*4) ; 3 tiles, tile $10
+    call _CountAndAnimate
+
     ld hl,OutsideAnimCounters.3
-    ld de,_DATA_65E1_
-    ld bc,$044C
-    call _LABEL_6586_
+    ld de,_AnimSmokeFrames
+    ld bc,( 4 << 8) | ($13*4) ; 4 tiles, tile $13
+    call _CountAndAnimate
+
     ld hl,OutsideAnimCounters.4
-    ld de,_DATA_65F1_
-    ld bc,$065C
-    call _LABEL_6586_
+    ld de,_AnimRoadwayFrames
+    ld bc,( 6 << 8) | ($17*4) ; 6 tiles, tile $17
+    call _CountAndAnimate
+
     ld hl,OutsideAnimCounters.5
-    ld de,_DATA_6601_
-    ld bc,$0874
-    call _LABEL_6586_
+    ld de,_AnimLavaPitFrames
+    ld bc,( 8 << 8) | ($1d*4) ; 8 tiles, tile $1d
+    call _CountAndAnimate
+
     ld hl,OutsideAnimCounters.6
-    ld de,_DATA_6611_
-    ld bc,$1094
-    call _LABEL_6586_
+    ld de,_AnimAntlionHillFrames
+    ld bc,(16 << 8) | ($25*4) ; 16 tiles, tile $25
+    call _CountAndAnimate ; could jp and save the ret?
     ret
 
-_LABEL_6586_:
-    ld a,(hl)
-    or a
-    ret z
+_CountAndAnimate:      ; $6586
+; data structure at hl:
+; b Enabled     00/01
+; b ResetValue  Reset value of counter
+; b CountDown   Counted down to 0 and then reset
+; b Counter     Counted up or down at each reset
+    ld a,(hl)          ; Enabled                              ; hl = $c26f (RAM) = counter structure
+    or a                                                      ; de = $65c1 (ROM) = tile data
+    ret z              ; exit if zero                         ; b = $0c = no. of tiles
+    inc hl                                                    ; c = $10 = tile number * 4
+    ld a,(hl)          ; get ResetValue
     inc hl
-    ld a,(hl)
-    inc hl
-    dec (hl)
-    ret p
-    ld (hl),a
-    inc hl
+    dec (hl)           ; decrement CountDown
+    ret p              ; exit if >=0
+    ld (hl),a          ; else reset
+    inc hl             ; Counter
     ld a,(_RAM_C2E9_)
-    cp $04
+    cp $04             ; if _RAM_c2e9_>=4
     jr c,+
-    dec (hl)
+    dec (hl)           ; then decrement Counter
     jr ++
-
-+:  inc (hl)
+  +:inc (hl)           ; else increment Counter
 ++:  ld a,(hl)
-    and $07
+    and %00000111
     ld l,a
-    ld h,$00
+    ld h,$00           ; hl = 0-7 (low 3 bits of Counter)
     add hl,hl
     add hl,de
     ld a,(hl)
     inc hl
     ld h,(hl)
     ld l,a
-    ex de,hl
+    ex de,hl           ; de = word at (counterlowbits*2+de)
     ld l,c
-    ld h,$08
+    ld h,$08           ; hl = $08cc
     add hl,hl
     add hl,hl
     add hl,hl
-    ex de,hl
+    ex de,hl           ; de = ($08cc)*8 = VRAM address of tile (cc/4), hl = word at (counterlowbits*2+de)
     rst SetVRAMAddressToDE
     ld c,VDPData
-    ld a,b
---: ld b,$20
--:  outi
-    nop
+    ld a,b             ; counter = b = number of tiles
+ --:ld b,$20           ; counter = 32 bytes = 1 tile
+  -:outi               ; output from hl to (c)
+    nop                ; delay
     jp nz,-
     dec a
     jp nz,--
-    pop hl
+    pop hl             ; why?
     ret
 
 ; Pointer Table from 65C1 to 65D0 (8 entries,indexed by _RAM_C272_)
-_DATA_65C1_:
-.dw _DATA_3A3E8_ _DATA_3A3E8_ _DATA_3A568_ _DATA_3A6E8_ _DATA_3A6E8_ _DATA_3A568_ _DATA_3A868_ _DATA_3A9E8_
+_AnimSeaShoreFrames:
+_AnimSeaShoreFrames:   ; $65c1
+.dw TilesOutsideSeaShore+12*32*0 ; 12 tiles x 32 bytes per tile x frame number
+.dw TilesOutsideSeaShore+12*32*0
+.dw TilesOutsideSeaShore+12*32*1
+.dw TilesOutsideSeaShore+12*32*2
+.dw TilesOutsideSeaShore+12*32*2
+.dw TilesOutsideSeaShore+12*32*1
+.dw TilesOutsideSeaShore+12*32*3
+.dw TilesOutsideSeaShore+12*32*4
 
 ; Pointer Table from 65D1 to 65E0 (8 entries,indexed by _RAM_C276_)
-_DATA_65D1_:
-.dw _DATA_3AB68_ _DATA_3AB68_ _DATA_3ABC8_ _DATA_3ABC8_ _DATA_3AC28_ _DATA_3AC28_ _DATA_3AC88_ _DATA_3AC88_
+_AnimSeaFrames:
+.dw TilesOutsideSea+3*32*0 ; 3 tiles x 32 bytes per tile x frame number
+.dw TilesOutsideSea+3*32*0
+.dw TilesOutsideSea+3*32*1
+.dw TilesOutsideSea+3*32*1
+.dw TilesOutsideSea+3*32*2
+.dw TilesOutsideSea+3*32*2
+.dw TilesOutsideSea+3*32*3
+.dw TilesOutsideSea+3*32*3
 
 ; Pointer Table from 65E1 to 65F0 (8 entries,indexed by _RAM_C27A_)
-_DATA_65E1_:
-.dw _DATA_3BAE8_ _DATA_3BAE8_ _DATA_3BB68_ _DATA_3BB68_ _DATA_3BBE8_ _DATA_3BBE8_ _DATA_3BB68_ _DATA_3BB68_
+_AnimSmokeFrames:
+.dw TilesSmoke+4*32*0  ; 4 tiles x 32 bytes per tile x frame number
+.dw TilesSmoke+4*32*0
+.dw TilesSmoke+4*32*1
+.dw TilesSmoke+4*32*1
+.dw TilesSmoke+4*32*2
+.dw TilesSmoke+4*32*2
+.dw TilesSmoke+4*32*1
+.dw TilesSmoke+4*32*1
 
 ; Pointer Table from 65F1 to 6600 (8 entries,indexed by _RAM_C27E_)
-_DATA_65F1_:
-.dw _DATA_3ACE8_ _DATA_3ACE8_ _DATA_3ADA8_ _DATA_3ADA8_ _DATA_3AE68_ _DATA_3AE68_ _DATA_3AF28_ _DATA_3AF28_
+_AnimRoadwayFrames:
+.dw TilesRoadway+6*32*0 ; 6 tiles x 32 bytes per tiles x frame number
+.dw TilesRoadway+6*32*0
+.dw TilesRoadway+6*32*1
+.dw TilesRoadway+6*32*1
+.dw TilesRoadway+6*32*2
+.dw TilesRoadway+6*32*2
+.dw TilesRoadway+6*32*3
+.dw TilesRoadway+6*32*3
 
 ; Pointer Table from 6601 to 6610 (8 entries,indexed by _RAM_C282_)
-_DATA_6601_:
-.dw _DATA_3AFE8_ _DATA_3AFE8_ _DATA_3B0E8_ _DATA_3B0E8_ _DATA_3B1E8_ _DATA_3B1E8_ _DATA_3B0E8_ _DATA_3B0E8_
+_AnimLavaPitFrames:
+.dw TilesLavaPit+8*32*0 ; 8 tiles x 32 bytes per tile x frame number
+.dw TilesLavaPit+8*32*0
+.dw TilesLavaPit+8*32*1
+.dw TilesLavaPit+8*32*1
+.dw TilesLavaPit+8*32*2
+.dw TilesLavaPit+8*32*2
+.dw TilesLavaPit+8*32*1
+.dw TilesLavaPit+8*32*1
 
 ; Pointer Table from 6611 to 6620 (8 entries,indexed by _RAM_C286_)
-_DATA_6611_:
-.dw _DATA_3B4E8_ _DATA_3B4E8_ _DATA_3B4E8_ _DATA_3B4E8_ _DATA_3B4E8_ _DATA_3B6E8_ _DATA_3B8E8_ _DATA_3B2E8_
-
-EnemySceneTileAnimation:
+_AnimAntlionHillFrames:
+.dw TilesAntlionHill+16*32*1
+.dw TilesAntlionHill+16*32*1
+.dw TilesAntlionHill+16*32*1
+.dw TilesAntlionHill+16*32*1
+.dw TilesAntlionHill+16*32*1
+.dw TilesAntlionHill+16*32*2
+.dw TilesAntlionHill+16*32*3
+.dw TilesAntlionHill+16*32*0
+.ends
+; followed by
+.orga $6621
+.section "Enemy scene tile animations" overwrite
+EnemySceneTileAnimation: ; $6621
     ld a,(SceneAnimEnabled)
     or a
-    ret z
+    ret z              ; if AnimEnabled!=0
     ld a,(SceneType)
     or a
-    ret z
-    ld hl,_DATA_6631_ - 2
-    jp FunctionLookup
+    ret z              ; and SceneType!=0
+    ld hl,_AnimationFunctions-2 ; -2 because 0 is excluded
+    jp FunctionLookup  ; look up (SceneType)th function in _AnimationFunctions and jump to it
 
-; Jump Table from 6631 to 6670 (32 entries,indexed by SceneType)
-_DATA_6631_:
-.dw _LABEL_6671_ _LABEL_6671_ _LABEL_6672_ _LABEL_6699_ _LABEL_6671_ _LABEL_6671_ _LABEL_66E5_ _LABEL_6671_
-.dw _LABEL_6671_ _LABEL_6671_ _LABEL_6772_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_
-.dw _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_
-.dw _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_ _LABEL_6671_
+_AnimationFunctions:   ; $6631
+.dsw 2 _nothing        ; 1,2
+.dw _AnimSeaWaveIn     ; 3
+.dw _AnimSeaInOut      ; 4
+.dsw 2 _nothing        ; 5,6
+.dw _AnimLavaPit       ; 7
+.dsw 3 _nothing        ; 8-9
+.dw _AnimateUnknownPalette ; 10
+.dsw 21 _nothing       ; 11-32
 
-; 1st entry of Jump Table from 6631 (indexed by SceneType)
-_LABEL_6671_:
+_nothing:              ; $6671
     ret
-
-; 3rd entry of Jump Table from 6631 (indexed by SceneType)
-_LABEL_6672_:
-    call _LABEL_6746_
-    ld hl,AnimDelayCounter
+_AnimSeaWaveIn:        ; $6672       12 frame delay, 9 "frames" x 4x4 tiles
+    call _AnimateWaterPalette
+    ld hl,AnimDelayCounter ; Count down AnimDelayCounter
     dec (hl)
-    ret p
-    ld (hl),$0B
+    ret p              ; proceed when it's 0
+    ld (hl),$0b        ; and reset to 11 -> 1 in 12 calls
     inc hl
-    ld a,(hl)
-    inc a
+    ld a,(hl)          ; AnimFrameCounter
+    inc a              ; count up
     cp $09
-    jr c,+
-    xor a
+    jr c,+             ; if not <9
+    xor a              ; then zero -> 0-8
 +:  ld (hl),a
     ld hl,Frame2Paging
-    ld (hl),$10
-    ld hl,_DATA_67A9_
-    add a,a
+    ld (hl),:TilesAnimSea
+    ld hl,AnimSeaWaveInFrames
+    add a,a            ; (AnimFrameCounter)*8 - could shl?
     add a,a
     add a,a
     ld e,a
     ld d,$00
-    add hl,de
+    add hl,de          ; AnimSeaWaveInFrames + 8*(AnimFrameCounter)
     ld b,$04
-    jp _LABEL_66BE_
+    jp _DoAnimation
 
-; 4th entry of Jump Table from 6631 (indexed by SceneType)
-_LABEL_6699_:
-    call _LABEL_6746_
-    ld hl,AnimDelayCounter
+_AnimSeaInOut:         ; $6699       16 frame delay, 14 "frames" x 3x4 tiles
+    call _AnimateWaterPalette
+    ld hl,AnimDelayCounter ; Count down AnimDelayCounter
     dec (hl)
-    ret p
-    ld (hl),$0F
+    ret p              ; proceed when it's 0
+    ld (hl),$0f        ; and reset to 15 -> 1 in 16 calls
     inc hl
-    ld a,(hl)
-    inc a
+    ld a,(hl)          ; AnimFrameCounter
+    inc a              ; count up
     cp $0E
-    jr c,+
-    xor a
+    jr c,+             ; if not <14
+    xor a              ; then zero -> 0-13
 +:  ld (hl),a
     ld hl,Frame2Paging
-    ld (hl),$10
-    ld hl,_DATA_67F1_
-    add a,a
+    ld (hl),:TilesAnimSea
+    ld hl,AnimSeaInOutFrames
+    add a,a            ; (AnimFrameCounter)*6
     ld e,a
     add a,a
     add a,e
     ld e,a
     ld d,$00
-    add hl,de
-    ld b,$03
-_LABEL_66BE_:
+    add hl,de          ; AnimSeaInOutFrames + 6*(AnimFrameCounter)
+    ld b,$03           ; Number of sets of 4 tiles to draw
+    ; fall through
+_DoAnimation:          ; $66be  hl = tile information looked up in table, b = number of 4 tile groups per frame
     push bc
-    ld e,(hl)
-    ld d,$02
+        ld e,(hl)      ; Get what was looked up = xx
+        ld d,$02       ; $02xx
     ex de,hl
     add hl,hl
     add hl,hl
     add hl,hl
     add hl,hl
     add hl,hl
-    ex de,hl
+        ex de,hl       ; multiply by 32 -> VRAM address of tile number xx
     rst SetVRAMAddressToDE
     inc hl
-    ld d,(hl)
+        ld d,(hl)      ; Get next data byte yy
     inc hl
     push hl
     ld e,$00
-    srl d
+            srl d      ; yy*128
     rr e
-    ld hl,_DATA_428F6_
-    add hl,de
-    ld bc, $8000 | VDPData
--:  outi
+            ld hl,TilesAnimSea ; raw tile data
+            add hl,de  ; TilesAnimSea + 128*yy
+            ld bc,$80be; b = $80 = 128 bytes; c = VDPData
+          -:outi       ; Output 128 bytes from table to VDPData (4 tiles)
     jp nz,-
     pop hl
     pop bc
-    djnz _LABEL_66BE_
+    djnz _DoAnimation
     ret
 
-; 7th entry of Jump Table from 6631 (indexed by SceneType)
-_LABEL_66E5_:
-    ld hl,AnimDelayCounter
+_AnimLavaPit:          ; $66e5        16 frame delay, 6 "frames" x (4x4 + 2x2) tiles
+    ld hl,AnimDelayCounter ; Count down AnimDelayCounter
     dec (hl)
-    ret p
-    ld (hl),$0F
+    ret p              ; proceed when it's 0
+    ld (hl),$0f        ; and reset to 15 -> 1 in 16 calls
     inc hl
-    ld a,(hl)
-    inc a
+    ld a,(hl)          ; AnimFrameCounter
+    inc a              ; count up
     cp $06
-    jr c,+
-    xor a
+    jr c,+             ; if not <6
+    xor a              ; then zero -> 0-5
 +:  ld (hl),a
     ld hl,Frame2Paging
-    ld (hl),$11
+    ld (hl),:TilesBubblingStuff
     add a,a
     ld b,a
     add a,a
     add a,b
-    ld e,a
+    ld e,a             ; AnimFrameCounter*6
     ld d,$00
-    ld hl,_DATA_6845_
-    add hl,de
-    ld de,$4020
+    ld hl,AnimLavaPitFrames
+    add hl,de          ; AnimLavaPitFrames + AnimFrameCounter*6
+    ld de,$4020        ; tile 1
     rst SetVRAMAddressToDE
-    ld b,$04
+    ld b,$04           ; number of sets of tiles
 --: push bc
-    ld d,(hl)
+        ld d,(hl)      ; get word which was looked up
+    inc hl
+    ld e,$00
+    srl d
+        rr e           ; Multiply by 128
+    ld bc,TilesBubblingStuff
+    ex de,hl
+    add hl,bc
+        ld bc,$80be    ; output 128 bytes (4 tiles) to VDPData
+-:  outi
+    jp nz,-
+    pop bc
+    ex de,hl           ; get back hl = offset
+    djnz --            ; loop
+    ld b,$02           ; and 2 more seta of tiles...
+--: push bc
+        ld d,(hl)      ; get word which was looked up
     inc hl
     ld e,$00
     srl d
     rr e
-    ld bc,_DATA_44000_
+    srl d
+        rr e           ; multiply by 64
+        ld bc,TilesBubblingStuff ; add to BubblingStuffTiles
     ex de,hl
     add hl,bc
-    ld bc, $8000 | VDPData
+        ld bc,$40be    ; output 64 bytes = 2 tiles
 -:  outi
     jp nz,-
     pop bc
-    ex de,hl
-    djnz --
-    ld b,$02
---: push bc
-    ld d,(hl)
-    inc hl
-    ld e,$00
-    srl d
-    rr e
-    srl d
-    rr e
-    ld bc,_DATA_44000_
-    ex de,hl
-    add hl,bc
-    ld bc, $4000 | VDPData
--:  outi
-    jp nz,-
-    pop bc
-    ex de,hl
+    ex de,hl           ; get back hl = offset
     djnz --
     ret
 
-_LABEL_6746_:
+_AnimateWaterPalette:  ; $6746
     ld a,(PaletteFadeControl)
     or a
-    ret nz
+    ret nz             ; if PaletteFadeControl!=0
     ld a,(FunctionLookupIndex)
-    cp $0D
-    ret nz
+    cp $d
+    ret nz             ; and FunctionLookupIndex!=13
     ld hl,PaletteMoveDelay
     dec (hl)
-    ret p
-    ld (hl),$1F
-    ld de,$C00D
+    ret p              ; if PaletteMoveDelay<0
+    ld (hl),$1f        ; reset to 31 and continue
+    ld de,PaletteAddress+13
     rst SetVRAMAddressToDE
     inc hl
-    ld a,(hl)
+    ld a,(hl)          ; PaletteMovePos
     inc a
-    and $03
+    and $03            ; 0-3
     ld (hl),a
     ld e,a
     ld d,$00
-    ld hl,_DATA_6869_
-    add hl,de
-    ld bc, $0300 | VDPData
--:  outi
+    ld hl,WaterPalette
+    add hl,de          ; add to WaterPalette
+    ld bc,$03be        ; counter = 3, VDPData
+  -:outi               ; output
     jp nz,-
     ret
 
-; 11th entry of Jump Table from 6631 (indexed by SceneType)
-_LABEL_6772_:
+_AnimateUnknownPalette:; $6772
     ld a,(PaletteFadeControl)
     or a
-    ret nz
+    ret nz             ; if PaletteFadeControl!=0
     ld a,(FunctionLookupIndex)
-    cp $0D
-    ret nz
+    cp $d
+    ret nz             ; and FunctionLookupIndex!=13
     ld hl,PaletteMoveDelay
     dec (hl)
-    ret p
-    ld (hl),$07
-    ld de,$C008
+    ret p              ; if PaletteMoveDelay<0
+    ld (hl),$07        ; reset to 7 and continue
+    ld de,PaletteAddress+8
     rst SetVRAMAddressToDE
     inc hl
-    ld a,(hl)
+    ld a,(hl)          ; PaletteMovePos
     dec a
-    and $0F
+    and $0f            ; 0-15
     ld (hl),a
     ld e,a
     ld d,$00
-    ld hl,_DATA_6871_
-    add hl,de
-    ld bc, $0400 | VDPData
--:  outi
+    ld hl,UnknownPalette
+    add hl,de          ; add to UnknownPalette
+    ld bc,$04be        ; counter = 4, VDPData
+  -:outi               ; output
     jp nz,-
-    ld hl,_DATA_6879_
-    add hl,de
+    ld hl,UnknownPalette+8
+    add hl,de          ; and again (?)
     ld b,$04
 -:  outi
     jp nz,-
     ret
-
-; Data from 67A9 to 67F0 (72 bytes)
-_DATA_67A9_:
-.db $01 $15 $25 $09 $29 $0A $29 $0A $01 $00 $05 $0B $01 $00 $05 $0B
-.db $05 $01 $09 $0D $05 $01 $09 $0D $09 $02 $0D $0D $09 $02 $0D $0D
-.db $0D $03 $11 $0E $0D $03 $11 $0E $11 $04 $15 $0E $11 $04 $15 $0E
-.db $15 $05 $19 $0F $15 $05 $19 $0F $19 $06 $21 $0F $19 $06 $21 $0F
-.db $21 $08 $01 $10 $25 $0C $29 $11
-
-; Data from 67F1 to 6844 (84 bytes)
-_DATA_67F1_:
-.db $25 $09 $29 $0A $29 $0A $25 $09 $29 $0A $29 $0A $25 $09 $29 $0C
-.db $29 $0C $21 $08 $25 $0F $29 $14 $21 $0F $25 $13 $29 $14 $19 $06
-.db $1D $0F $21 $12 $15 $05 $19 $0E $1D $12 $15 $0E $19 $12 $19 $12
-.db $15 $0E $19 $12 $19 $12 $15 $05 $19 $0E $1D $12 $19 $06 $1D $0F
-.db $21 $12 $1D $07 $21 $0F $25 $13 $21 $08 $25 $0C $29 $11 $25 $09
-.db $29 $0C $29 $0C
-
-; Data from 6845 to 6868 (36 bytes)
-_DATA_6845_:
-.db $00 $02 $05 $08 $15 $18 $00 $03 $06 $09 $16 $14 $01 $04 $07 $05
-.db $17 $14 $02 $00 $08 $05 $18 $15 $03 $00 $09 $06 $14 $16 $04 $01
-.db $05 $07 $14 $17
-
-; Data from 6869 to 6870 (8 bytes)
-_DATA_6869_:
-.db $3F $3C $38 $38 $3F $3C $38 $38
-
-; Data from 6871 to 6878 (8 bytes)
-_DATA_6871_:
-.db $06 $06 $06 $06 $06 $06 $06 $06
-
-; Data from 6879 to 6890 (24 bytes)
-_DATA_6879_:
-.db $06 $06 $06 $06 $25 $2A $3E $3F
-.dsb 16,$06
+.ends
+; followed by
+.orga $67a9
+.section "Sea animations lookup table" overwrite
+AnimSeaWaveInFrames:   ; $67a9
+;     ,,-----,,------,,------,,------ Tile number to write 4 tiles from
+;    ||  ,,--||--,,--||--,,--||--,,-- nnx128 byte offset into data to load from
+.db $01,$15,$25,$09,$29,$0a,$29,$0a ; 0
+.db $01,$00,$05,$0b,$01,$00,$05,$0b ; 1
+.db $05,$01,$09,$0d,$05,$01,$09,$0d ; 2
+.db $09,$02,$0d,$0d,$09,$02,$0d,$0d ; 3
+.db $0d,$03,$11,$0e,$0d,$03,$11,$0e ; 4
+.db $11,$04,$15,$0e,$11,$04,$15,$0e ; 5
+.db $15,$05,$19,$0f,$15,$05,$19,$0f ; 6
+.db $19,$06,$21,$0f,$19,$06,$21,$0f ; 7
+.db $21,$08,$01,$10,$25,$0c,$29,$11 ; 8
+AnimSeaInOutFrames:    ; $67f1
+;     ,,-----,,------,,------ Tile number to write 4 tiles from
+;    ||  ,,--||--,,--||--,,-- nnx128KB offset into data to load from
+.db $25,$09,$29,$0a,$29,$0a ; 0
+.db $25,$09,$29,$0a,$29,$0a ; 1
+.db $25,$09,$29,$0c,$29,$0c ; 2
+.db $21,$08,$25,$0f,$29,$14 ; 3
+.db $21,$0f,$25,$13,$29,$14 ; 4
+.db $19,$06,$1d,$0f,$21,$12 ; 5
+.db $15,$05,$19,$0e,$1d,$12 ; 6
+.db $15,$0e,$19,$12,$19,$12 ; 7
+.db $15,$0e,$19,$12,$19,$12 ; 8
+.db $15,$05,$19,$0e,$1d,$12 ; 9
+.db $19,$06,$1d,$0f,$21,$12 ; 10
+.db $1d,$07,$21,$0f,$25,$13 ; 11
+.db $21,$08,$25,$0c,$29,$11 ; 12
+.db $25,$09,$29,$0c,$29,$0c ; 13
+.ends
+; followed by
+.orga $6845
+.section "Lava pit animation lookup table" overwrite
+AnimLavaPitFrames:     ; $6845
+;    ,,--,,--,,--,,---------- nnx128KB offset into data to load from (4 tiles, foreground)
+;    ||  ||  ||  ||  ,,--,,-- nnx64KB offset into data to load from (2 tiles, background)
+.db $00,$02,$05,$08,$15,$18 ; 0
+.db $00,$03,$06,$09,$16,$14 ; 1
+.db $01,$04,$07,$05,$17,$14 ; 2
+.db $02,$00,$08,$05,$18,$15 ; 3
+.db $03,$00,$09,$06,$14,$16 ; 4
+.db $04,$01,$05,$07,$14,$17 ; 5
+.ends
+; followed by
+.orga $6869
+.section "Water palette animation palette" overwrite
+WaterPalette:
+.db $3f,$3c,$38,$38
+.db $3f,$3c,$38,$38 ; last 2 bytes not needed ###############
+.ends
+.orga $6871
+.section "Unknown palette animation palette" overwrite
+UnknownPalette:
+.db $06,$06,$06,$06,$06,$06,$06,$06
+.db $06,$06,$06,$06,$25,$2A,$3E,$3F
+.db $06,$06,$06,$06,$06,$06,$06,$06
+.db $06,$06,$06,$06,$06,$06,$06,$06 ; can probably lose some of these too
+.ends
+.orga $6891
 
 _LABEL_6891_:
     ld a,(DungeonPosition)
@@ -15296,7 +15405,9 @@ _LABEL_6DDD_:
     pop bc
     jp _LABEL_6EE9_
 
-DecompressToTileMapData:
+
+.orga $6e05
+.section "Decompress to TileMapData" overwrite
 ; Copies data from (hl) to TileMapData
 ; with RLE decompression and 2-interleaving
 ; data format:
@@ -15305,6 +15416,7 @@ DecompressToTileMapData:
 ;   ccccccc = count
 ; Then [count] bytes are copied to even bytes starting at TileMapData
 ; Then the process is repeated for the odd bytes
+DecompressToTileMapData:
     ld b,$00           ; b=0
     ld de,TileMapData
     call _f            ; Process even bytes first -------------+
@@ -15333,6 +15445,8 @@ _raw:                  ;                                     | |
     inc de             ; skip dest byte                      | |
     jp pe,-            ; if bc!=0 then repeat ---------------+ |
     jp _b              ; repeat -------------------------------+
+.ends
+.orga $6e31
 
 DungeonTilesDecode:
     ld c,VDPData
@@ -16021,9 +16135,12 @@ _LABEL_73E6_:
     ld (PaletteRotateEnabled),a
     ret
 
+.orga $74e0
+.section "Decompress (scrolling tilemap?) data to _RAM_cc00_-_RAM_cfff_" overwrite
 DecompressScrollingTilemapData:
     ld a,(_RAM_C262_)
     ld (Frame2Paging),a
+
     ld a,(VLocation+1)
     add a,a
     ld e,a
@@ -16038,59 +16155,62 @@ DecompressScrollingTilemapData:
     ld e,a
     ld d,$00
     ld hl,(_RAM_C260_)
-    add hl,de
-    ld a,(hl)
+    add hl,de          ; hl = _RAM_c260_ + VLocation high byte * 18 + HLocation high byte * 2
+    ld a,(hl)          ;    = pos
     inc hl
     push hl
     ld h,(hl)
-    ld l,a
+        ld l,a         ; hl = word there (pos+0,1) = compressed data offset
     ld de,_RAM_CC00_
-    call +
+        call _DecompressToDE
     pop hl
     push hl
     inc hl
     ld a,(hl)
     inc hl
     ld h,(hl)
-    ld l,a
+        ld l,a         ; hl = next word (pos+2,3) = next compressed data offset
     ld de,_RAM_CD00_
-    call +
+        call _DecompressToDE
     pop hl
-    ld de,_DATA_12_ - 1
+    ld de,17
     add hl,de
     ld a,(hl)
     inc hl
     push hl
     ld h,(hl)
-    ld l,a
+        ld l,a         ; hl = 17 bytes later = pos+20,21
     ld de,_RAM_CE00_
-    call +
+        call _DecompressToDE
     pop hl
     inc hl
     ld a,(hl)
     inc hl
     ld h,(hl)
-    ld l,a
+    ld l,a             ; hl = next word = pos+22,23
     ld de,_RAM_CF00_
-+:  ld b,$00
---: ld a,(hl)
-    or a
-    ret z
-    jp m,+
-    ld b,a
-    inc hl
-    ld a,(hl)
--:  ld (de),a
-    inc de
-    djnz -
-    inc hl
-    jp --
-
-+:  and $7F
-    ld c,a
-    inc hl
-    ldir
-    jp --
+    ; fall through
+_DecompressToDE:
+    ld b,$00
+ --:ld a,(hl)          ; get header <--------------------------+
+    or a               ;                                       |
+    ret z              ; exit when zero                        |
+    jp m,+             ; If high bit is set ----------------+  |
+    ld b,a             ; b = count                          |  |
+    inc hl             ;                                    |  |
+    ld a,(hl)          ; get data                           |  |
+  -:ld (de),a          ; copy to de  <-----------+          |  |
+    inc de             ; (RLE)                   |          |  |
+    djnz -             ; repeat b times ---------+          |  |
+    inc hl             ; move to next header                |  |
+    jp --              ; -----------------------------------|--+
+  +:and $7f            ; Strip high bit --------------------+  |
+    ld c,a             ; c = count                             |
+    inc hl             ; next data                             |
+    ldir               ; copy c bytes to de (not RLE)          |
+    jp --              ; --------------------------------------+
+.ends
+.orga $7549
 
 _LABEL_7549_:
     ld a,(ScrollDirection)
@@ -16287,103 +16407,113 @@ _LABEL_75DD_:
     djnz -
     ret
 
-UpdateScrollingTilemap:
-    ld a,(ScrollDirection)
+.orga $7673
+.section "Update scrolling tilemap" overwrite
+; Update scrolling tilemap
+UpdateScrollingTilemap: ; $7673
+    ld a,(ScrollDirection) ; check ScrollDirection (%----RLDU)
     and $0F
-    ret z
-    ld b,a
+    ret z              ; return if not scrolling
+    ld b,a             ; b = ScrollDirection
     and $03
     ld a,(_RAM_C263_)
-    ld (Frame2Paging),a
-    jp nz,++
-    ld c,$00
-    ld a,(HLocation)
+    ld (Frame2Paging),a ; Set to page _RAM_c263_ - why?
+    jp nz,_Vertical    ; if ScrollDirection==U or D then handle differently
+_Horizontal:
+; Updates column of tiles in tilemap
+    ld c,$00           ; c = $00
+    ld a,(HLocation)   ; a = low byte of HLocation
     and $07
-    jr z,+
-    ld a,b
+    jr z,+             ; if HLocation is not a multiple of 8:
+    ld a,b                 ; if ScrollDirection==R
     and $08
     jr nz,+
-    ld c,$08
+    ld c,$08               ; then c=8
 +:  ld a,(HLocation)
-    add a,c
+    add a,c            ; a = low HLocation + c (0 or 8)
+    rrca               ; shift right by 2 (ie. divide by 4)
     rrca
-    rrca
-    and $3E
+    and %00111110
     ld e,a
     ld l,a
-    ld d,$78
-    ld h,$D0
-    ld bc, $1C00 | VDPData
+    ld d,$78           ; de = tilemap     + (low HLocation + c)/4
+    ld h,$d0           ; hl = TileMapData + (low HLocation+ c)/4
+    ld bc,$1cbe        ; counter = $1c = 28 rows; c = VDPData
 -:  push bc
     rst SetVRAMAddressToDE
+        nop            ; delay
     nop
     nop
+        outi           ; output byte
+        nop            ; delay
     nop
-    outi
     nop
-    nop
-    nop
-    outi
-    ld bc,$003E
+        outi           ; output second byte
+        ld bc,31*2     ; add 62 = 31 tiles to hl (tilemap in RAM)
     add hl,bc
-    ex de,hl
-    ld c,$40
+        ex de,hl       ; add 64 = 32 tiles to de (tilemap in VDP)
+        ld c,32*2
     add hl,bc
     ex de,hl
     pop bc
     djnz -
     ret
-
-++:  ld a,b
-    and $01
+_Vertical:
+; updates row of tiles in tilemap
+    ld a,b
+    and $01            ; z = ScrollDirection==U
     ld a,(VScroll)
-    ld b,$00
-    jr nz,++
-    cp $20
+    ld b,$00           ; b = $00
+    jr nz,++           ; if ScrollDirection==D
+    cp $20             ; if VScroll>=$20
     jr c,+
-    add a,$20
-+:  ld b,$C0
-    add a,b
-++:  and $F8
-    ld l,a
+    add a,$20          ; then a+=$20
+  +:ld b,$c0           ; b = $c0
+    add a,b            ; a = VScroll + $c0 + ($20 if VScroll>=$20)
+ ++:and %11111000      ; zero low 3 bits -> now it's the offset into the RAM tilemap
+    ld l,a             ; put in hl
     ld h,$00
-    add hl,hl
+    add hl,hl          ; multiply by 8
     add hl,hl
     add hl,hl
     ld a,h
     add a,$78
-    ld d,a
+    ld d,a             ; de = tilemap + a*8
     ld e,l
     rst SetVRAMAddressToDE
     ld a,h
     add a,$D0
-    ld h,a
-    ld bc, $4000 | VDPData
--:  outi
-    nop
+    ld h,a             ; hl = TileMapData + a*8
+    ld bc,$40be        ; counter = $40 = 64 bytes = 32 tiles; c = VDPData
+  -:outi               ; output byte
+    nop                ; delay
     jp nz,-
     ret
-
-FillTilemap:
+.ends
+; followed by
+.orga $76ee
+.section "Fill tilemap from compressed data? Not understood :(" overwrite
+FillTilemap:          ; $76ee
     call _LABEL_78A5_
     ld a,(_RAM_C263_)
     ld (Frame2Paging),a
     ld a,(VScroll)
-    and $F0
+    and $f0            ; strip to high nibble
     ld l,a
-    ld h,$00
+    ld h,$00           ; hl = 00v0
     add hl,hl
     add hl,hl
-    add hl,hl
+    add hl,hl          ; hl = hl * 8
     ld a,(HLocation)
     rrca
     rrca
-    and $3C
-    add a,l
+    and $3c            ; a = HLocation/4
+    add a,l            ; add that to hl
     ld e,a
     ld a,h
     add a,$D0
-    ld d,a
+    ld d,a             ; de = $d000+hl
+
     ld a,(VLocation)
     and $F0
     ld l,a
@@ -16395,12 +16525,12 @@ FillTilemap:
     and $0F
     add a,l
     ld l,a
-    ld h,$CC
-    ld b,$0C
-_LABEL_7724_:
-    push bc
+    ld h,$cc           ; hl = $ccyn where y = high nibble of y location, x = high nibble of x location
+
+    ld b,$0c           ; counter (12)
+ --:push bc
     push hl
-    ld b,$10
+            ld b,$10   ; counter (16)
 -:  push bc
     push hl
     ld l,(hl)
@@ -16411,61 +16541,64 @@ _LABEL_7724_:
     ldi
     ldi
     ldi
-    ldi
+                    ldi                ; copy 4 bytes from $8000 + 8*(hl) to de
     push de
-    ld a,$3C
+                        ld a,$3c       ; 60
     add a,e
     ld e,a
     adc a,d
     sub e
-    ld d,a
+                        ld d,a         ; de = de + 60
     ldi
     ldi
     ldi
-    ldi
+                        ldi            ; Copy another 4 bytes to there
     pop de
     ld a,e
     and $3F
-    jr nz,+
+                    jr nz,+            ; If e is a multiple of $40
     ld a,e
-    sub $40
+                    sub $40            ; then subtract $40
     ld e,a
 +:  pop hl
     ld a,l
     and $F0
-    ld b,a
+                ld b,a                 ; b = high nibble of l
     inc l
     ld a,l
     and $F0
-    cp b
+                cp b                   ; if adding 1 doesn't change the high nibble (so low=$f???)
     jr z,+
-    inc h
-    ld l,b
+                inc h                  ; inc h
+                ld l,b                 ; and strip l to high nibble
 +:  pop bc
-    djnz -
+            djnz -     ; repeat 16 times
+
     ld a,$80
     add a,e
     ld e,a
     adc a,d
-    sub e
-    sub $D7
+            sub e      ; de = de + $80
+            sub $d7    ; if de < $d700
     jr nc,+
-    add a,$07
-+:  add a,$D0
+            add a,$07  ; then subtract $d000
+          +:add a,$d0  ; else subtract $0700
     ld d,a
     pop hl
-    ld a,$10
+        ld a,$10       ; add 16 to l
     add a,l
-    cp $C0
+        cp $c0         ; when it e_RAM_ceed_s 192
     jr c,+
-    sub $C0
-    inc h
+        sub $c0        ; subtract 192
+        inc h          ; and add 2 to h
     inc h
 +:  ld l,a
     pop bc
-    djnz _LABEL_7724_
-    ld a,$12
-    jp ExecuteFunctionIndexAInNextVBlank
+    djnz --            ; repeat 12 times
+    ld a,$12           ; refresh full tilemap
+    jp ExecuteFunctionIndexAInNextVBlank ; and ret
+.ends
+.orga $7787
 
 _LABEL_7787_:
     push bc
@@ -16560,7 +16693,7 @@ _LABEL_7787_:
     pop bc
     ret
 
-++:  ld hl,$7D30
+++:  ld hl,_DATA_7D30_
     add a,l
     ld l,a
     adc a,h
@@ -16671,7 +16804,8 @@ _LABEL_78A5_:
     ld a,$12
     call +
     ld a,$14
-+:  ld hl,$7D30
+    ; fall through
++:  ld hl,_DATA_7D30_
     add a,l
     ld l,a
     adc a,h
@@ -16679,36 +16813,38 @@ _LABEL_78A5_:
     ld h,a
     ld c,(hl)
     inc hl
-    ld b,(hl)
+    ld b,(hl)          ; bc = (hl) = x,y to add?
     ld h,$CC
     ld a,(VLocation)
-    add a,c
+    add a,c            ; a=lo(VLocation)+c
     jr c,+
-    cp $C0
+    cp $c0             ; if a is between $c0 and $ff then it's OK (?)
     jr c,++
-+:  add a,$40
+  +:add a,$40          ; if a is >=$100 (borrow) then add $40
     inc h
-    inc h
-++:  and $F0
-    ld l,a
+    inc h              ; and add 2 to h -> $ce
+ ++:and $f0            ; Strip a to high nibble
+    ld l,a             ; -> l
     ld a,(HLocation)
-    add a,b
+    add a,b            ; Add b to lo(HLocation)
     jr nc,+
-    inc h
+    inc h              ; if it's over $100 then hl++
 +:  rrca
     rrca
     rrca
     rrca
-    and $0F
-    add a,l
+    and $0f            ; divide by 16
+    add a,l            ; add to l = nibble of VLocation
     ld l,a
-    ld a,(hl)
-    cp $D8
+    ld a,(hl)          ; so now we have an offset into the decompressed data. Get the byte
+    cp $d8             ; if it's >$d8=216
     ret c
-    cp $E0
+    cp $e0             ; and <=$e0=224
     ret nc
-    ld (hl),$D7
+    ld (hl),$d7        ; then set it to $d7=215
     ret
+.ends
+.orga $78f9
 
 _LABEL_78F9_:
     ld bc,$0400
@@ -16873,7 +17009,9 @@ _LABEL_79D5_:
 ++:  ld hl,_DATA_7D18_ + 1
     jp _LABEL_79A0_
 
-GetLocationUnknownData:
+.orga $7a07
+.section "Get data from a table based on the current H/VLocation" overwrite
+GetLocationUnknownData: ; $7a07
     ld hl,_DATA_7D30_
     add a,l
     ld l,a
@@ -16882,45 +17020,47 @@ GetLocationUnknownData:
     ld h,a
     ld c,(hl)
     inc hl
-    ld b,(hl)
+    ld b,(hl)          ; bc = word there
     ld h,$CC
-    ld a,(VLocation)
+    ld a,(VLocation)   ; a = c + lo(VLocation)
     add a,c
-    jr c,+
+    jr c,+             ; if a>$ff
     cp $C0
-    jr c,++
-+:  add a,$40
+    jr c,++            ; or <=$c0
+  +:add a,$40          ; then add $40
+    inc h              ; and add 2 to h -> $ce
     inc h
-    inc h
-++:  and $F0
-    ld l,a
-    ld a,(HLocation)
+ ++:and $f0            ; strip to high nibble
+    ld l,a             ; and keep in l
+    ld a,(HLocation)   ; Add b to lo(HLocation)
     add a,b
-    jr nc,+
-    inc h
+    jr nc,+            ; if >$ff
+    inc h              ; then inc h
 +:  rrca
     rrca
     rrca
     rrca
-    and $0F
-    add a,l
+    and $0f            ; divide by 16
+    add a,l            ; put in l
     ld l,a
-    ld a,(hl)
-    ld (_RAM_C2E5_),a
+    ld a,(hl)          ; get data
+    ld (_RAM_c2e5_),a       ; put that in _RAM_c2e5_
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),$03        ; ???
     ld hl,_DATA_FC6F_
     add a,l
     ld l,a
     adc a,h
     sub l
-    ld h,a
+    ld h,a             ; hl = bc6f + a
     ld a,(_RAM_C308_)
-    cp $04
+    cp 4
     jr c,+
-    inc h
-+:  ld a,(hl)
+    inc h              ; if _RAM_c308_>=4 then inc h (add 256)
+  +:ld a,(hl)          ; get data in a
     ret
+.ends
+.orga $7a4f
 
 _LABEL_7A4F_:
     ld hl,_RAM_C2D5_
@@ -17052,45 +17192,48 @@ _LABEL_7A4F_:
 _LABEL_7B1A_:
     ld (FunctionLookupIndex),a
     inc hl
+    
+.orga $7b1e
+.section "???" overwrite
 _LABEL_7B1E_:
-    ld a,(hl)
-    ld (_RAM_C308_),a
+    ld a,(hl)          ; get byte at hl (eg 01)
+    ld (_RAM_c308_),a       ; save in _RAM_c308_ and _RAM_c309_
     ld (_RAM_C309_),a
-    inc hl
+    inc hl             ; next byte hhhhllll in de (eg 8b)
     ld e,(hl)
     ld d,$00
     ex de,hl
     add hl,hl
     add hl,hl
     add hl,hl
-    add hl,hl
+    add hl,hl          ; *16 -> 0000hhhhllll0000
     ld a,l
-    sub $60
+    sub $60            ; Subtract $60 from llll0000
     jr c,+
-    cp $C0
+    cp $c0             ; If it's positive and <$c0 then skip:
     jr c,++
-+:  sub $40
-    dec h
-++:  ld l,a
+  +:sub $40            ; subtract $40
+    dec h              ; and take 1 from h
+ ++:ld l,a             ; Put it back in hl
     ld a,h
-    and $07
+    and $07            ; trim to 00000hhh
     ld h,a
     ld (VLocation),hl
     ld (_RAM_C311_),hl
-    ex de,hl
+    ex de,hl           ; get hl back
     inc hl
-    ld a,(hl)
-    sub $08
-    and $7F
+    ld a,(hl)          ; get next byte (eg 69)
+    sub $08            ; subtract 8
+    and $7f            ; strip high bit
     ld l,a
-    ld h,$00
+    ld h,$00           ; put in hl
     add hl,hl
     add hl,hl
     add hl,hl
-    add hl,hl
+    add hl,hl          ; multiply by 16
     ld (HLocation),hl
     ld (_RAM_C313_),hl
-    xor a
+    xor a              ; zero _RAM_c30e_
     ld (VehicleMovementFlags),a
     jp _LABEL_7BAB_
 
@@ -17137,20 +17280,25 @@ _LABEL_7B60_:
     ld hl,(_RAM_C313_)
     ld (HLocation),hl
 _LABEL_7BAB_:
-    ld a,(_RAM_C810_)
++++:ld a,(CharacterSpriteAttributes+16) ; CharacterSpriteAttributes[0].currentanimframe
     ld (_RAM_C2D7_),a
-    ld hl,OutsideAnimCounters.1
-    ld de,OutsideAnimCounters.1 + 1
-    ld bc,$0017
-    ld (hl),$00
+
+    ld hl,OutsideAnimCounters ; Zero OutsideAnimCounters
+    ld de,OutsideAnimCounters+1
+    ld bc,24-1
+    ld (hl),0
     ldir
-    ld hl,CharacterSpriteAttributes
+
+    ld hl,CharacterSpriteAttributes ; Zero CharacterSpriteAttributes
     ld de,CharacterSpriteAttributes + 1
-    ld bc,$00FF
-    ld (hl),$00
+    ld bc,$100-1
+    ld (hl),0
     ldir
-    pop hl
+
+    pop hl              ; pop number pushed before call into hl
     ret
+.ends
+.org $7bcd
 
 _LABEL_7BCD_:
     ld a,(_RAM_C2E5_)
@@ -17300,11 +17448,14 @@ _DATA_7D18_:
 .db $02 $E0 $F0 $04 $E0 $00 $0E $F0 $10 $16 $00 $10 $1C $10 $00 $1A
 .db $10 $F0 $10 $00 $E0 $08 $F0 $E0
 
+.orga $7d30
+.section "Lookup table $7d30" overwrite
 ; Data from 7D30 to 7D5B (44 bytes)
 _DATA_7D30_:
-.db $40 $60 $40 $70 $40 $80 $40 $90 $50 $60 $50 $70 $50 $80 $50 $90
-.db $60 $60 $60 $70 $60 $80 $60 $90 $70 $60 $70 $70 $70 $80 $70 $90
-.db $80 $70 $80 $80 $80 $90 $50 $A0 $60 $A0 $70 $A0
+; Pairs of y,x amounts???
+.db $40,$60,$40,$70,$40,$80,$40,$90,$50,$60,$50,$70,$50,$80,$50,$90
+.db $60,$60,$60,$70,$60,$80,$60,$90,$70,$60,$70,$70,$70,$80,$70,$90
+.db $80,$70,$80,$80,$80,$90,$50,$a0,$60,$a0,$70,/*stop???*/$a0
 
 ; Data from 7D5C to 7D9F (68 bytes)
 _DATA_7D5C_:
@@ -17314,124 +17465,141 @@ _DATA_7D5C_:
 .db $71 $5A $01 $26 $29 $02 $5B $2C $02 $38 $49 $02 $5B $2C $02 $38
 .db $49 $00 $16 $6A
 
-FadeOutTilePalette:
+.ends
+; followed by
+.orga $7da0
+.section "Fade out full palette (and wait)" overwrite
+FadeOutTilePalette:   ; $7da0
     ld hl,$1009
-    ld (PaletteFadeControl),hl
-    jr _LABEL_7DAE_
+    ld (PaletteFadeControl),hl ; PaletteFadeControl = fade out/counter=9; PaletteSize=16
+    jr _FadeOutPalette
 
-FadeOutFullPalette:
+FadeOutFullPalette:   ; $7da8
     ld hl,$2009
-    ld (PaletteFadeControl),hl
-_LABEL_7DAE_:
-    ld a,$16
+    ld (PaletteFadeControl),hl ; PaletteFadeControl = fade out/counter=9; PaletteSize=32
+
+_FadeOutPalette:
+    ld a,$16           ; VBlankFunction_PaletteEffects
     call ExecuteFunctionIndexAInNextVBlank
-    ld a,(PaletteFadeControl)
+    ld a,(PaletteFadeControl)       ; wait for palette to fade out
     or a
-    jp nz,_LABEL_7DAE_
+    jp nz,_FadeOutPalette
     ret
-
-FadeInTilePalette:
-    ld hl,$1089
+.ends
+; followed by
+.orga $7dbb
+.section "Palette fading" overwrite
+FadeInTilePalette:     ; $7dbb
+    ld hl,$1089        ; Set PaletteFadeControl to fade in ($89) the tile palette ($10)
     ld (PaletteFadeControl),hl
-    jr _LABEL_7DD6_
+    jr _DoFade         ; doesn't blank ActualPalette first
 
-FadeInWholePalette:
-    ld hl,$2089
+FadeInWholePalette:    ; $7dc3
+    ld hl,$2089        ; Set PaletteFadeControl to fade in ($89) the whole palette ($20)
     ld (PaletteFadeControl),hl
+
     ld hl,ActualPalette
     ld de,ActualPalette + 1
-    ld bc,$001F
+    ld bc,31
     ld (hl),$00
-    ldir
-_LABEL_7DD6_:
-    ld a,$16
+    ldir               ; Fill ActualPalette with black
+
+_DoFade:
+    ld a,$16           ; VBlankFunction_18b
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(PaletteFadeControl)
     or a
-    jp nz,_LABEL_7DD6_
+    jp nz,_DoFade      ; Repeat until palette fade finished
     ret
-
-FadePaletteInRAM:
-    ld hl,PaletteFadeFrameCounter
+.ends
+; followed by
+.orga $7de3
+.section "Fade palette in RAM" overwrite
+; Main function body only runs every 4 calls (using PaletteFadeFrameCounter as a counter)
+; Checks PaletteFadeControl - bit 7 = fade in, rest = counter
+; PaletteSize tells it how many palette entries to fade
+; TargetPalette and ActualPalette are referred to
+FadePaletteInRAM:      ; 7de3
+    ld hl,PaletteFadeFrameCounter ; Decrement PaletteFadeFrameCounter
     dec (hl)
-    ret p
-    ld (hl),$03
-    ld hl,PaletteFadeControl
+    ret p              ; return if >=0
+    ld (hl),$03        ; otherwise set to 3 and continue (so only do this part every 4 calls)
+    ld hl,PaletteFadeControl ; Check PaletteFadeControl
     ld a,(hl)
-    bit 7,a
-    jp nz,++
-    or a
-    ret z
-    dec (hl)
+    bit 7,a            ; if bit 7 is set
+    jp nz,_FadeIn      ; then fade in
+    or a               ; If PaletteFadeControl==0
+    ret z              ; then return
+    dec (hl)           ; Otherwise, decrement PaletteFadeControl
     inc hl
-    ld b,(hl)
+    ld b,(hl)          ; PaletteSize
     ld hl,ActualPalette
--:  call +
+  -:call _FadeOut      ; process PaletteSize bytes from ActualPalette
     inc hl
     djnz -
     ret
 
-+:  ld a,(hl)
+_FadeOut:
+    ld a,(hl)
     or a
-    ret z
-    and $03
+    ret z              ; zero = black = no fade to do
+    and %00000011      ; check red
     jr z,+
-    dec (hl)
+    dec (hl)           ; If non-zero, decrement
     ret
-
 +:  ld a,(hl)
-    and $0C
+    and %00001100      ; check green
     jr z,+
     ld a,(hl)
-    sub $04
+    sub $04            ; If non-zero, decrement
     ld (hl),a
     ret
-
 +:  ld a,(hl)
-    and $30
+    and $30            ; check blue
     ret z
-    sub $10
+    sub $10            ; If non-zero, decrement
     ld (hl),a
     ret
 
-++:  cp $80
-    jr nz,+
-    ld (hl),$00
+_FadeIn:
+    cp $80             ; Is only bit 7 set?
+    jr nz,+            ; If not, handle that
+    ld (hl),$00        ; Otherwise, zero it (PaletteFadeControl)
     ret
-
-+:  dec (hl)
+  +:dec (hl)           ; Decrement it (PaletteFadeControl)
     inc hl
-    ld b,(hl)
-    ld hl,$C240
+    ld b,(hl)          ; PaletteSize
+    ld hl,TargetPalette
     ld de,ActualPalette
--:  call +
+  -:call _FadePaletteEntry ; compare PaletteSize bytes from ActualPalette
     inc hl
     inc de
     djnz -
     ret
 
-+:  ld a,(de)
+_FadePaletteEntry:
+    ld a,(de)          ; If (de)==(hl) then leave it
     cp (hl)
     ret z
-    add a,$10
+    add a,%00010000    ; increment blue
     cp (hl)
     jr z,+
-    jr nc,++
-+:  ld (de),a
+    jr nc,++           ; if it's too far then try green
+  +:ld (de),a          ; else save that
     ret
-
 ++:  ld a,(de)
-    add a,$04
+    add a,%00000100    ; increment green
     cp (hl)
     jr z,+
-    jr nc,++
-+:  ld (de),a
+    jr nc,++           ; if it's too far then try red
+  +:ld (de),a          ; else save that
     ret
-
 ++:  ex de,hl
-    inc (hl)
+    inc (hl)           ; increment red
     ex de,hl
     ret
+.ends
+.orga $7e4f
 
 _LABEL_7E4F_:
     ld a,$0A
@@ -17465,134 +17633,150 @@ _LABEL_7E67_:
     jp nz,-
     ret
 
+.orga $7e91
+.section "Flash palette" overwrite
+; if PaletteFlashFrames is non-zero then it is counted down, each time setting palette entries
+; PaletteFlashStart to PaletteFlashCount alternately to white or their original colours.
 FlashPaletteInRAM:
-    ld a,(PaletteFlashFrames)
+    ld a,(PaletteFlashFrames) ; check PaletteFlashFrames
     or a
-    ret z
-    dec a
+    ret z              ; Do nothing if zero
+    dec a              ; else decrement
     ld (PaletteFlashFrames),a
-    rrca
+    rrca               ; If low bit is zero
     jp c,+
     ld hl,TargetPalette
     ld de,ActualPalette
-    ld bc,$0020
-    ldir
+    ld bc,32
+    ldir               ; then copy target to actual palette
     ret
-
-+:  ld hl,(PaletteFlashCount)
-    ld b,h
-    ld a,l
-    ld hl,$C220
+  +:ld hl,(PaletteFlashCount) ; else set palette entries to white
+    ld b,h             ; b = PaletteFlashCount
+    ld a,l             ; a = PaletteFlashStart
+    ld hl,ActualPalette
     add a,l
-    ld l,a
-    ld a,$3F
--:  ld (hl),a
+    ld l,a             ; hl = [PaletteFlashStart]th palette entry
+    ld a,$3f           ; White
+  -:ld (hl),a          ; Set palette entry to white
     inc hl
     djnz -
     ret
-
+.ends
+; followed by
+.orga $7ebb
+.section "Palette rotation" overwrite
 PaletteRotate:
     ld a,(VehicleMovementFlags)
     or a
     ret z
-    cp $10
-    jp z,_LABEL_7F1C_
+    cp $10             ; Handle values 16 and 17 specially
+    jp z,_ResetPalette
     cp $11
-    jp z,_LABEL_7F1C_
-    cp $0E
+    jp z,_ResetPalette
+    cp $0e             ; Do nothing if >=14
     ret nc
-    ld b,a
-    ld c,$D1
-    cp $08
-    jp z,+
-    ld c,$D0
-    ld a,(PaletteRotateEnabled)
+    ld b,a             ; still VehicleMovementFlags
+    ld c,$d1           ;
+    cp $08             ; if it's 8...
+    jp z,+             ; skip this bit:
+    ld c,$d0           ; change c
+    ld a,(PaletteRotateEnabled) ; check PaletteRotateEnabled is not zero
     or a
-    ret z
+    ret z              ; if it is, exit
 +:  ld hl,PaletteRotateCounter
-    dec (hl)
-    ret p
-    ld (hl),$03
-    dec hl
-    ld a,c
+    dec (hl)           ; decrement PaletteRotateCounter
+    ret p              ; exit while >= 0
+    ld (hl),$03        ; reset to 3 -> pass 1 call in 4 -> 15 per second
+    dec hl             ; hl = PaletteRotatePos
+    ld a,c             ; $d1 or $d0
     ld (NewMusic),a
-    ld a,(hl)
-    inc a
-    cp $03
+    ld a,(hl)          ; check (PaletteRotatePos)
+    inc a              ; increment
+    cp $03             ; if >=3
     jr c,+
-    xor a
-+:  ld (hl),a
+    xor a              ; then zero -> 0-2
+  +:ld (hl),a          ; put back in PaletteRotatePos
     ld c,a
     ld a,b
-    cp $08
-    ld hl,_DATA_7F10_
-    ld de,$C01D
-    jp nz,+
-    ld hl,_DATA_7F16_
-    ld de,$C017
+    cp $08             ; if _RAM_c30e_==8 then
+    ld hl,_Palette1    ; this palette data
+    ld de,PaletteAddress+29 ; palette entries 29-31
+    jp nz,+            ; else
+    ld hl,_Palette2    ; this palette data
+    ld de,PaletteAddress+23 ; palette entry 23-25
 +:  ld b,$00
-    add hl,bc
+    add hl,bc          ; add PaletteRotatePos to hl -> rotate palette left
     rst SetVRAMAddressToDE
-    ld bc, $0300 | VDPData
+    ld bc,$03be        ; count 3 bytes, output to VDPData
 -:  outi
     jp nz,-
     ret
 
-; Data from 7F10 to 7F15 (6 bytes)
-_DATA_7F10_:
-.db $2F $2A $25 $2F $2A $25
+_Palette1:             ; $7f10
+.db $2F $2A $25
+.db $2F $2A $25
 
-; Data from 7F16 to 7F1B (6 bytes)
-_DATA_7F16_:
-.db $3C $2F $2A $3C $2F $2A
+_Palette2:             ; $7f16
+.db $3C $2F $2A
+.db $3C $2F $2A
+; Palettes are repeated to allow shifting to achieve a circular effect
 
-_LABEL_7F1C_:
+_ResetPalette:
     ld hl,ActualPalette
-    ld de,$C000
+    ld de,PaletteAddress
     rst SetVRAMAddressToDE
     ld c,VDPData
-    jp outi32
-
+    jp outi32          ; and ret
+.ends
+; followed by
+.orga $7f28
+.section "Flash palette 1" overwrite
 _LABEL_7F28_:
     ld hl,_DATA_7FB5_
-    ld a,$6F
+    ld a,$6f           ; counter - when low nibble is 0, it changes the palette (so 7 palettes total); and stops when it's all counted down.
 -:  push af
     and $0F
-    ld de,ActualPalette+16+8
-    ld bc,$0008
+        ld de,ActualPalette+32-8
+        ld bc,8
     jr nz,+
-    ldir
-+:  ld a,$16
+        ldir           ; copy 8 colours to palette
+      +:ld a,$16       ; VBlankFunction_PaletteEffects
     call ExecuteFunctionIndexAInNextVBlank
     pop af
     dec a
     jr nz,-
     ret
-
+.ends
+; followed by
+.orga $7f44
+.section "Palette animation 1" overwrite
 _LABEL_7F44_:
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:_DATA_FE1D_
     ld hl,_DATA_FE1D_
-    ld de,ActualPalette+16+11
-    ld bc,$0005
+    ld de,ActualPalette+32-5
+    ld bc,5
     ldir
-    ld a,$16
-    jp ExecuteFunctionIndexAInNextVBlank
-
+    ld a,$16           ; VBlankFunction_PaletteEffects
+    jp ExecuteFunctionIndexAInNextVBlank ; and ret
+.ends
+; followed by
+.orga $7f59
+.section "Palette animation 2" overwrite
 _LABEL_7F59_:
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:_DATA_FE52_
     call +
     call +
     call +
     ld hl,_DATA_FE52_
-    ld b,$0D
+    ld b,13            ; animation steps
 --: push bc
     ld de,ActualPalette+10
-    ld bc,$0006
+        ld bc,6        ; # of colours
     ldir
-    ld b,$08
--:  ld a,$16
+        ld b,8         ; frames to delay
+      -:ld a,$16       ; VBlankFunction_PaletteEffects
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
     pop bc
@@ -17601,54 +17785,159 @@ _LABEL_7F59_:
 
 _LABEL_7F82_:
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:_DATA_FEA0_
     ld hl,_DATA_FEA0_
     ld bc,$0918
-    jr _LABEL_7F95_
+    jr _f
 
 +:  ld hl,_DATA_FE22_
-    ld bc,$1803
-_LABEL_7F95_:
-    push bc
-    ld a,(hl)
-    ld (ActualPalette),a
-    ld b,$06
+    ld bc,$1803        ; b = $18 = 24 steps of palette animation; c = 3 = number of frames to delay
+ __:push bc
+        ld a,(hl)      ; get colour
+        ld (ActualPalette+0),a ; put it in colour 0
+        ld b,6
     ld de,ActualPalette+10
--:  ld (de),a
+      -:ld (de),a      ; and 10-16
     inc de
     djnz -
-    inc hl
+        inc hl         ; get next colour
     ld a,(hl)
-    ld (ActualPalette+7),a
-    inc hl
+        ld (ActualPalette+7),a ; put it in colour 7
+        inc hl         ; move to next colour
     ld b,c
--:  ld a,$16
+      -:ld a,$16       ; VBlankFunction_PaletteEffects
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
     pop bc
-    djnz _LABEL_7F95_
+    djnz _b
     ret
-
+.ends
+; followed by
+.orga $7fb5
+.section "Palette animation 1 data" overwrite
 ; Data from 7FB5 to 7FEF (59 bytes)
+; Palette fade cyan/blue/white-white-various
 _DATA_7FB5_:
 .db $3C $38 $3C $3C $3F $3C $38 $38 $3E $3C $3E $3E $3F $3E $3C $3C
 .db $3F $3E $3F $3F $3F $3F $3E $3E $3F $2B $0F $2F $2F $3E $3C $0F
 .db $2F $06 $0B $1F $0F $3C $38 $0B $2B $01 $06 $0F $0B $2A $25 $06
-.dsb 11,$FF
+.ends
+; blank until end of slot
 
+;=======================================================================================================
+; Bank 1: $7ff0 - $7fff - rom header
+;=======================================================================================================
 .BANK 1 SLOT 1
 .ORG $0000
-
 ; Data from 7FF0 to 7FFF (16 bytes)
-.db $54 $4D $52 $20 $53 $45 $47 $41 $FF $FF $6B $2C $00 $95 $00 $40
+.db "TMR SEGA" $FF $FF $6B $2C $00 $95 $00 $40
 
-.BANK 2
-.ORG $0000
-
-; Data from 8000 to AB1E (11039 bytes)
-TileNumberLookup:
-.incbin "Phantasy Star (Japan)TileNumberLookup.inc"
-; Also town layouts?
+;=======================================================================================================
+; Bank 2: $8000 - $bfff
+;=======================================================================================================
+.bank 2 slot 2
+.orga $8000
+.section "Dialogue text and text to tile conversion table" overwrite
+DialogueText:          ; label for page with script, lookup table
+TileNumberLookup:      ; $8000
+; Table of top & bottom tile numbers for different letters
+; 89 entries (?)
+; TODO .stringmap here
+.db $c0,$c0 ; blank        00
+.db $c0,$cb ; A  ァ        01
+.db $c0,$cc ; I  イ        02
+.db $c0,$cd ; U  ウ        03
+.db $c0,$ce ; E  エ        04
+.db $c0,$cf ; O  オ        05
+.db $c0,$d0 ; Ka カ        06
+.db $c0,$d1 ; Ki キ        07
+.db $c0,$d2 ; Ku ク        08
+.db $c0,$d3 ; Ke ケ        09
+.db $c0,$d4 ; Ko コ        0a
+.db $c0,$d5 ; Sa サ        0b
+.db $c0,$d6 ; Si シ        0c
+.db $c0,$d7 ; Su ス        0d
+.db $c0,$d8 ; Se セ        0e
+.db $c0,$d9 ; So ソ        0f
+.db $c0,$da ; Ta タ        10
+.db $c0,$db ; Ti チ        11
+.db $c0,$dc ; Tu ツ        12
+.db $c0,$dd ; Te テ        13
+.db $c0,$de ; To ト        14
+.db $c0,$df ; Na ナ        15
+.db $c0,$e0 ; Ni ニ        16
+.db $c0,$e1 ; Nu ヌ        17
+.db $c0,$e2 ; Ne ネ        18
+.db $c0,$e3 ; No ノ        19
+.db $c0,$e4 ; Ha ハ        1a
+.db $c0,$e5 ; Hi ヒ        1b
+.db $c0,$e6 ; Hu フ        1c
+.db $c0,$e7 ; He ヘ        1d
+.db $c0,$e8 ; Ho ホ        1e
+.db $c0,$e9 ; Ma マ        1f
+.db $c0,$ea ; Mi ミ        20
+.db $c0,$eb ; Mu ム        21
+.db $c0,$ec ; Me メ        22
+.db $c0,$ed ; Mo モ        23
+.db $c0,$ee ; Ya ヤ        24
+.db $c0,$ef ; Yu ユ        25
+.db $c0,$f0 ; Yo ヨ        26
+.db $c0,$f1 ; Ra ラ        27
+.db $c0,$f2 ; Ri リ        28      Unused?
+.db $c0,$f3 ; Ru ル        29      Wiヰ
+.db $c0,$f4 ; Re レ        2a      Weヱ
+.db $c0,$f5 ; Ro ロ        2b      Vuヴ
+.db $c0,$f6 ; Wa ワ        2c
+.db $c0,$f7 ; Wo ヲ        2d
+.db $c0,$f8 ; N  ン        2e
+.db $c0,$f9 ; Small Tu ッ  2f
+.db $c0,$fa ; Small Ya ャ  30
+.db $c0,$fb ; Small Yu ュ  31
+.db $c0,$fc ; Small Yo ョ  32
+.db $fd,$d0 ; Ga ガ        33
+.db $fd,$d1 ; Gi ギ        34
+.db $fd,$d2 ; Gu グ        35
+.db $fd,$d3 ; Ge ゲ        36
+.db $fd,$d4 ; Go ゴ        37
+.db $fd,$d5 ; Za ザ        38
+.db $fd,$d6 ; Zi ジ        39
+.db $fd,$d7 ; Zu ズ        3a
+.db $fd,$d8 ; Ze ゼ        3b
+.db $fd,$d9 ; Zo ゾ        3c
+.db $fd,$da ; Da ダ        3d
+.db $fd,$db ; Di ヂ        3e
+.db $fd,$dc ; Du ヅ        3f
+.db $fd,$dd ; De デ        40
+.db $fd,$de ; Do ド        41
+.db $fd,$e4 ; Ba バ        42
+.db $fd,$e5 ; Bi ビ        43
+.db $fd,$e6 ; Bu ブ        44
+.db $fd,$e7 ; Be ベ        45
+.db $fd,$e8 ; Bo ボ        46
+.db $fe,$e4 ; Pa パ        47
+.db $fe,$e5 ; Pi ピ        48
+.db $fe,$e6 ; Pu プ        49
+.db $fe,$e7 ; Pe ペ        4a
+.db $fe,$e8 ; Po ポ        4b
+.db $c0,$fe ; .            4c
+.db $c0,$ff ; -            4d
+.db $c0,$a4 ; ???          4e    a4 is normally graphics, 1a4 is in the tilemap...
+.db $c0,$c0 ; Blank        4f
+.db $c0,$c0 ; Blank        50
+.db $c0,$c0 ; Blank        51
+.db $c0,$c0 ; Blank        52
+.db $c0,$c0 ; Blank        53
+.db $c0,$c0 ; Blank        54
+.db $c0,$c0 ; Blank        55
+.db $c0,$c0 ; Blank        56
+.db $c0,$c0 ; Blank        57
+.db $c0,$c0 ; Blank        58
+.ends
+; followed by
+.orga $80b2
+.section "Script" overwrite
+.include "text\text1.inc" ; TODO inline with .stringmap
+.ends
 
 ; Data from AB1F to AB30 (18 bytes)
 _DATA_AB1F_:
@@ -18651,16 +18940,93 @@ ItemTextTable:
 .db $20 $27 $08 $29 $07 $4D $58 $00 $39 $28 $05 $2E $58 $00 $00 $00
 .db $1B $20 $12 $19 $23 $19 $58 $00
 
+.orga $bf9c
+.section "Item metadata" overwrite
 ; Data from BF9C to BFFF (100 bytes)
-_DATA_BF9C_:
-.db $00 $D0 $D0 $50 $D0 $20 $40 $50 $50 $40 $20 $40 $50 $40 $50 $40
-.db $51 $81 $51 $41 $21 $51 $51 $41 $81 $52 $42 $52 $52 $22 $D2 $46
-.db $52 $04 $04 $04 $00 $00 $00 $00 $00 $00 $00 $04 $00 $04 $00 $04
-.db $04 $04 $04 $04 $00 $04 $00 $04 $04 $00 $04 $00 $00 $00 $04 $00
-.dsb 36,$FF
+ItemMetadata:
+; %765432tt
+;  |||| |``- Item type: 0 = weapon, 1 = armour, 2 = shield
+;  |||| `--- Equippable item
+;  ````----- Equippable by player bits. Zero if equippable. Lutz - Odin - Myau - Alis
 
-.BANK 3
-.ORG $0000
+.define ItemMetadata_Weapon %00
+.define ItemMetadata_Armour %01
+.define ItemMetadata_Shield %10
+.db $00 ; blank
+; Weapons
+.db %11010000 ; Wood Cane - Myau?
+.db %11010000
+.db %01010000
+.db %11010000
+.db %00100000
+.db %01000000
+.db %01010000
+.db %01010000
+.db %01000000
+.db %00100000
+.db %01000000
+.db %01010000
+.db %01000000
+.db %01010000
+.db %01000000
+; Armour
+.db %01010001
+.db %10000001
+.db %01010001
+.db %01000001
+.db %00100001
+.db %01010001
+.db %01010001
+.db %01000001
+.db %10000001
+; Shields
+.db %01010010
+.db %01000010
+.db %01010010
+.db %01010010
+.db %00100010
+.db %11010010
+.db %01000110
+.db %01010010
+; Vehicles
+.db $04
+.db $04
+.db $04
+; Items
+.db $00
+.db $00
+.db $00
+.db $00
+.db $00
+.db $00
+.db $00
+.db $04 ; Polymeteral
+.db $00
+.db $04 ; Telepathy Ball
+.db $00
+.db $04
+.db $04
+.db $04
+.db $04
+.db $04
+.db $00
+.db $04
+.db $00
+.db $04
+.db $04
+.db $00
+.db $04
+.db $00
+.db $00
+.db $00
+.db $04
+.db $00
+.ends
+
+;=======================================================================================================
+; Bank 3: $c000 - $ffff
+;=======================================================================================================
+.bank 3 slot 2
 
 ; Data from C000 to C177 (376 bytes)
 _DATA_C000_:
@@ -18827,9 +19193,739 @@ _DATA_C5A0_:
 .db $02 $01 $01 $01 $01 $05 $02 $02 $02 $02 $02 $02 $05 $05 $05 $05
 .db $00 $00 $00 $00 $00 $02 $02 $02 $02 $02 $02 $02 $02
 
-; Data from C67F to CFC6 (2376 bytes)
-EnemyData-32:
-.incbin "Phantasy Star (Japan)EnemyData-32.inc"
+; TODO 16B missing here from C67F
+
+.orga $869f
+.section "Enemy data" overwrite
+; Structure:
+; 8 bytes = name
+; 8 bytes = ??? _RAM_c258_
+; 1 byte = sprite tiles page
+; 1 word = sprite tiles offset
+; 1 byte = index into data8fdf for ???
+; 3 bytes = HP, AP, DP
+EnemyData:
+.db $23 $2e $0d $10 $4d $1c $27 $02 ; 1 MoNSuTa-HuRaI = Monster Fly? (Sworm)
+.db $2a $25 $05 $0a $08 $04 $0c $2f
+ PageAndOffset TilesFly
+.db $12 $08 $08,$0d,$09 $00
+.dw $0003
+.db $0c
+.dw $0002
+.db $38 $ff
+
+.db $35 $28 $4d $2e $0d $27 $02 $21 ; 2 GuRi-NSuRaIMu = Green Slime
+.db $10 $04 $0c $0e $00 $00 $00 $00
+ PageAndOffset TilesSlime
+.db $02 $06 $12,$12,$0d $00
+.dw $0008
+.db $0c
+.dw $0004
+.db $30 $cc
+
+.db $03 $02 $2e $35 $01 $02 $58 $00 ; 3 UINGuAI = Wing Eye
+.db $00 $3e $00 $3e $3c $34 $30 $00
+ PageAndOffset TilesWingEye
+.db $23 $06 $0b,$0c,$0a $00
+.dw $0006
+.db $0f
+.dw $0002
+.db $38 $7f
+
+.db $1f $2e $02 $4d $10 $4d $58 $00 ; 4 MaNI-Ta- = Man-eater
+.db $00 $00 $05 $0a $33 $21 $37 $00
+ PageAndOffset TilesManEater
+.db $17 $05 $10,$0c,$0a $00
+.dw $000d
+.db $0f
+.dw $0003
+.db $30 $ff
+
+.db $0d $0a $4d $48 $27 $0d $58 $00 ; 5 SuKo-PiRaSu = Scorpion
+.db $2a $25 $02 $03 $08 $00 $00 $37
+ PageAndOffset TilesScorpion
+.db $0f $04 $0c,$0e,$0c $00
+.dw $000d
+.db $0f
+.dw $0004
+.db $38 $cc
+
+.db $27 $4d $39 $24 $4d $37 $58 $00 ; 6 Ra-ZiYa-Go = ??? (G. Scorpion)
+.db $2a $25 $05 $0a $08 $00 $00 $2f
+ PageAndOffset TilesScorpion
+.db $0f $04 $14,$14,$11 $00
+.dw $000b
+.db $99
+.dw $0005
+.db $38 $7f
+
+.db $44 $29 $4d $0d $27 $02 $21 $58 ; 7 BuRu-SuRaIMu = Blue Slime
+.db $20 $30 $38 $3c $00 $00 $00 $00
+ PageAndOffset TilesSlime
+.db $02 $06 $28,$1a,$14 $00
+.dw $0013
+.db $0f
+.dw $0005
+.db $32 $99
+
+.db $23 $10 $43 $01 $2e $19 $4d $1c ; 8 MoTaBiANNo-Hu = North Motabian (North Farmer)
+.db $20 $30 $34 $38 $01 $06 $0a $0f
+ PageAndOffset TilesFarmer
+.db $19 $05 $26,$25,$25 $24
+.dw $0008
+.db $00
+.dw $0005
+.db $f0 $b2
+
+.db $40 $43 $29 $42 $2f $14 $58 $00 ; 9 DeBiRuBatuTo = ??? (Owl Bear)
+.db $00 $0f $00 $0b $07 $03 $01 $00
+ PageAndOffset TilesWingEye
+.db $23 $04 $12,$16,$12 $00
+.dw $000c
+.db $0c
+.dw $0005
+.db $38 $99
+
+.db $07 $27 $4d $49 $27 $2e $14 $58 ; 10 KiRa-PuRaNTo = Killer Plant (Dead Tree)
+.db $00 $00 $02 $03 $0c $08 $2e $00
+ PageAndOffset TilesManEater
+.db $17 $03 $17,$17,$19 $00
+.dw $0015
+.db $28
+.dw $0004
+.db $30 $cc
+
+.db $42 $02 $10 $4d $1c $27 $02 $58 ; 11 BaITa-HuRaI = ??? (Scorpius)
+.db $0c $08 $24 $25 $08 $00 $00 $2a
+ PageAndOffset TilesScorpion
+.db $0f $05 $16,$19,$14 $00
+.dw $001b
+.db $0f
+.dw $0008
+.db $39 $66
+
+.db $23 $10 $43 $01 $2e $02 $43 $29 ; 12 MoTaBiANIBiRu = East Motabian (East Farmer)
+.db $20 $30 $34 $38 $01 $03 $07 $0f
+ PageAndOffset TilesFarmer
+.db $1b $05 $2a,$1b,$28 $00
+.dw $001e
+.db $0f
+.dw $0009
+.db $f0 $cc
+
+.db $1d $2a $2f $08 $0d $58 $00 $00 ; 13 HeRetuKuSu = ??? (Giant Fly)
+.db $2a $25 $02 $03 $02 $01 $03 $0b
+ PageAndOffset TilesFly
+.db $12 $04 $19,$1e,$15 $00
+.dw $0020
+.db $0f
+.dw $0007
+.db $3c $66
+
+.db $0b $2e $41 $2c $4d $21 $58 $00 ; 14 SaNDoWa-Mu = Sandworm (Crawler)
+.db $02 $06 $0a $0e $01 $03 $2f $00
+ PageAndOffset TilesSandWorm
+.db $22 $03 $28,$1f,$20 $00
+.dw $001e
+.db $0f
+.dw $0009
+.db $30 $7f
+
+.db $23 $10 $43 $01 $2e $1f $16 $01 ; 15 MoTaBiANMaNiA = Motabian ??? (Barbarian)
+.db $20 $30 $34 $38 $04 $08 $0c $0f
+ PageAndOffset TilesFarmer
+.db $1a $08 $36,$23,$32 $24
+.dw $0059
+.db $14
+.dw $000a
+.db $f0 $4c
+
+.db $37 $4d $29 $41 $2a $2e $3a $58 ; 16 Go-RuDoReNZu = Goldlens
+.db $00 $2a $00 $2f $0a $06 $01 $00
+ PageAndOffset TilesWingEye
+.db $23 $04 $1c,$24,$23 $00
+.dw $0018
+.db $0f
+.dw $0009
+.db $38 $7f
+
+.db $2a $2f $41 $0d $27 $02 $21 $58 ; 17 RetuDoSuRaIMu = Red Slime
+.db $01 $13 $33 $3a $00 $00 $00 $00
+ PageAndOffset TilesSlime
+.db $02 $03 $1d,$25,$19 $00
+.dw $001f
+.db $0f
+.dw $000b
+.db $31 $99
+
+.db $42 $2f $14 $1f $2e $58 $00 $00 ; 18 BatuToMaN = Bat Man (Were Bat)
+.db $20 $34 $38 $3c $03 $02 $00 $00
+ PageAndOffset TilesBat
+.db $24 $04 $32,$25,$23 $00
+.dw $003f
+.db $0f
+.dw $000b
+.db $3b $7f
+
+.db $06 $44 $14 $33 $16 $58 $00 $00 ; 19 KaBuToGaNi = ??? (Big Club)
+.db $01 $02 $03 $07 $0b $00 $00 $00
+ PageAndOffset TilesClub
+.db $08 $02 $2e,$28,$24 $00
+.dw $0028
+.db $0f
+.dw $0009
+.db $30 $cc
+
+.db $0c $30 $4d $07 $2e $58 $00 $00 ; 20 Siya-KiN = ??? (Fishman)
+.db $05 $39 $0a $13 $33 $0f $3f $00
+ PageAndOffset TilesFishMan
+.db $07 $05 $2a,$2a,$28 $00
+.dw $002a
+.db $0f
+.dw $000b
+.db $30 $99
+
+.db $28 $2f $11 $58 $00 $00 $00 $00 ; 21 RituTi = ??? (Evil Dead)
+.db $02 $03 $34 $01 $04 $08 $0e $38
+ PageAndOffset TilesEvilDead
+.db $21 $03 $1e,$2b,$24 $00
+.dw $0008
+.db $0c
+.dw $000e
+.db $30 $e5
+
+.db $10 $27 $2e $11 $31 $27 $58 $00 ; 22 TaRaNTiyuRa = Tarantula
+.db $2a $01 $2a $05 $08 $04 $0c $2f
+ PageAndOffset TilesTarantula
+.db $11 $02 $32,$32,$2b $00
+.dw $0033
+.db $26
+.dw $000a
+.db $71 $99
+
+.db $1f $2e $11 $0a $01 $58 $00 $00 ; 23 MaNTiKoA = Manticor
+.db $01 $03 $07 $0b $28 $2d $2f $20
+ PageAndOffset TilesManticor
+.db $14 $03 $3c,$35,$2c $00
+.dw $0031
+.db $0f
+.dw $000f
+.db $5c $99
+
+.db $0d $09 $29 $14 $2e $58 $00 $00 ; 24 SuKeRuToN = Skeleton
+.db $3f $2f $2a $25 $20 $3c $00 $00
+ PageAndOffset TilesSkeleton
+.db $0c $05 $35,$3a,$29 $00
+.dw $0019
+.db $0f
+.dw $000d
+.db $30 $cc
+
+.db $01 $28 $39 $37 $08 $58 $00 $00 ; 25 ARiZiGoKu = ??? (Antlion)
+.db $2a $00 $25 $00 $06 $01 $0a $2f
+ PageAndOffset TilesTarantula
+.db $11 $01 $42,$3b,$34 $00
+.dw $0007
+.db $0c
+.dw $0008
+.db $31 $b2
+
+.db $1f $4d $0c $4d $3a $58 $00 $00 ; 26 Ma-Si-Zu = ??? (Merman)
+.db $21 $3c $36 $04 $2c $3a $07 $00
+ PageAndOffset TilesFishMan
+.db $07 $06 $3a,$43,$32 $00
+.dw $002b
+.db $0f
+.dw $000e
+.db $30 $7f
+
+.db $40 $3c $28 $01 $2e $58 $00 $00 ; 27 DeZoRiAN = Dezorian
+.db $02 $3c $0a $04 $2c $01 $08 $2f
+ PageAndOffset TilesDezorian
+.db $0a $05 $4c,$4d,$3f $00
+.dw $0069
+.db $0c
+.dw $0012
+.db $f0 $7f
+
+.db $40 $38 $4d $14 $28 $4d $11 $58 ; 28 DeZa-ToRi-Ti = ??? (Leech)
+.db $08 $22 $33 $37 $04 $0c $2f $06
+ PageAndOffset TilesSandWorm
+.db $22 $04 $46,$43,$2f $00
+.dw $002f
+.db $0c
+.dw $000f
+.db $33 $a5
+
+.db $08 $27 $02 $05 $2e $58 $00 $00 ; 29 KuRaION = ??? (Vampire)
+.db $01 $06 $0a $2f $2a $25 $00 $2a
+ PageAndOffset TilesBat
+.db $24 $02 $43,$44,$2e $27
+.dw $0047
+.db $0c
+.dw $000f
+.db $38 $cc
+
+.db $43 $2f $35 $19 $4d $3a $58 $00 ; 30 BituGuNo-Zu = Big-nose (Elephant)
+.db $22 $33 $37 $3b $2d $2f $2a $0c
+ PageAndOffset TilesElephant
+.db $03 $05 $56,$3e,$30 $00
+.dw $0026
+.db $0c
+.dw $0011
+.db $20 $cc
+
+.db $35 $4d $29 $58 $00 $00 $00 $00 ; 31 Gu-Ru = Ghoul
+.db $0b $03 $34 $38 $37 $33 $31 $3c
+ PageAndOffset TilesGhoul
+.db $13 $03 $44,$40,$2f $00
+.dw $001a
+.db $0c
+.dw $0010
+.db $30 $b2
+
+.db $01 $2e $23 $15 $02 $14 $58 $00 ; 32 ANMoNaITo = Ammonite (Shellfish)
+.db $03 $3a $2b $22 $33 $0f $07 $3f
+ PageAndOffset TilesAmmonite
+.db $09 $03 $3e,$4d,$34 $00
+.dw $002e
+.db $14
+.dw $0010
+.db $30 $e5
+
+.db $04 $35 $3b $07 $31 $4d $14 $58 ; 33 EGuZeKiyu-To = Executer
+.db $01 $04 $08 $0c $0f $00 $00 $00
+ PageAndOffset TilesClub
+.db $08 $03 $3e,$49,$32 $00
+.dw $003f
+.db $35
+.dw $000c
+.db $30 $66
+
+.db $2c $02 $14 $58 $00 $00 $00 $00 ; 34 WaITo = Wight
+.db $08 $0c $03 $04 $02 $03 $07 $0f
+ PageAndOffset TilesEvilDead
+.db $21 $03 $32,$40,$30 $00
+.dw $0028
+.db $0c
+.dw $0012
+.db $31 $b2
+
+.db $0d $06 $29 $0f $29 $39 $30 $4d ; 35 SuKaRuSoRuZiya- = ??? (Skull-en)
+.db $3f $0f $0d $06 $00 $0c $00 $00
+ PageAndOffset TilesSkeleton
+.db $0d $03 $39,$4b,$35 $00
+.dw $0025
+.db $0c
+.dw $0012
+.db $30 $b2
+
+.db $1f $02 $1f $02 $58 $00 $00 $00 ; 36 MaIMaI = ??? (Ammonite)
+.db $04 $3e $0c $38 $3c $0f $08 $3f
+ PageAndOffset TilesAmmonite
+.db $09 $02 $5a,$58,$3c $00
+.dw $0047
+.db $3f
+.dw $0013
+.db $30 $99
+
+.db $1f $2e $11 $0a $4d $14 $58 $00 ; 37 MaNTiKo-To = ??? (Sphinx)
+.db $01 $03 $07 $0b $0a $0f $2f $20
+ PageAndOffset TilesManticor
+.db $14 $04 $4e,$50,$41 $27
+.dw $003a
+.db $0c
+.dw $0015
+.db $58 $cc
+
+.db $0b $4d $4a $2e $14 $58 $00 $00 ; 38 Sa-PeNTo = Serpent
+.db $22 $32 $33 $37 $3b $00 $00 $00
+ PageAndOffset TilesSnake
+.db $10 $01 $50,$64,$42 $00
+.dw $0060
+.db $0f
+.dw $0017
+.db $38 $b2
+
+.db $28 $42 $02 $01 $0b $2e $58 $00 ; 39 RiBaIASaN = ??? (Sandworm)
+.db $0a $34 $38 $3c $05 $0f $2f $06
+ PageAndOffset TilesSandWorm
+.db $22 $03 $52,$6b,$3f $00
+.dw $0081
+.db $0f
+.dw $0014
+.db $30 $99
+
+.db $41 $29 $4d $39 $31 $58 $00 $00 ; 40 DoRu-Ziyu = ??? (Lich)
+.db $31 $35 $08 $21 $23 $33 $37 $0e
+ PageAndOffset TilesEvilDead
+.db $21 $02 $3c,$54,$3e $00
+.dw $0021
+.db $0c
+.dw $0016
+.db $31 $cc
+
+.db $05 $08 $14 $47 $0d $58 $00 $00 ; 41 OKuToPaSu = Octopus
+.db $02 $00 $00 $22 $33 $01 $00 $3f
+ PageAndOffset TilesOctopus
+.db $05 $01 $5a,$55,$44 $00
+.dw $0040
+.db $0c
+.dw $0014
+.db $30 $bf
+
+.db $1f $2f $41 $0d $14 $4d $06 $4d ; 42 MatuDoSuTo-Ka- = Mad Stalker
+.db $3f $3d $37 $33 $00 $0f $00 $00
+ PageAndOffset TilesSkeleton
+.db $0e $04 $4f,$5a,$4b $00
+.dw $0057
+.db $0f
+.dw $0016
+.db $30 $e5
+
+.db $40 $3c $28 $01 $2e $1d $2f $41 ; 43 DeZoRiANHetuDo = Dezorian ??? (EvilDead)
+.db $02 $3c $03 $04 $2c $01 $08 $07
+ PageAndOffset TilesDezorian
+.db $0a $03 $56,$76,$4d $00
+.dw $0088
+.db $0f
+.dw $0014
+.db $f0 $7f
+
+.db $3c $2e $43 $58 $00 $00 $00 $00 ; 44 ZoNBi = Zombie
+.db $2a $25 $05 $0a $08 $08 $0c $2f
+ PageAndOffset TilesGhoul
+.db $13 $04 $57,$6c,$3a $00
+.dw $001b
+.db $0f
+.dw $0014
+.db $30 $99
+
+.db $43 $31 $4d $14 $58 $00 $00 $00 ; 45 Biyu-To = ??? (Battalion)
+.db $03 $02 $25 $2a $03 $02 $07 $03
+ PageAndOffset TilesGhoul
+.db $13 $03 $64,$70,$40 $00
+.dw $003b
+.db $0c
+.dw $0015
+.db $30 $cc
+
+.db $2b $46 $2f $14 $4b $28 $0d $58 ; 46 RoBotuToPoRiSu = Robot Police (RobotCop)
+.db $25 $2a $2f $3f $03 $26 $20 $00
+ PageAndOffset TilesRobotCop
+.db $15 $01 $6e,$87,$5a $00
+.dw $009c
+.db $0f
+.dw $0019
+.db $00 $66
+
+.db $0b $02 $46 $4d $35 $22 $02 $39 ; 47 SaIBo-GuMeIZ = ??? (Sorceror)
+.db $01 $31 $35 $39 $3d $03 $23 $02
+ PageAndOffset TilesSorceror
+.db $04 $02 $6e,$79,$4a $00
+.dw $0078
+.db $33
+.dw $001a
+.db $34 $cc
+
+.db $1c $2a $4d $21 $28 $38 $4d $41 ; 48 HuRe-MuRiZa-Do = ??? (Nessie)
+.db $04 $08 $0c $2f $3f $00 $00 $00
+ PageAndOffset TilesSnake
+.db $10 $02 $5d,$7e,$4d $00
+.dw $0065
+.db $0c
+.dw $001c
+.db $38 $cc
+
+.db $10 $39 $21 $58 $00 $00 $00 $00 ; 49 TaZiMu = Tarzimal
+.db $2b $20 $06 $2a $25 $3e $01 $0f
+ PageAndOffset TilesTarzimal
+.db $06 $01 $7d,$78,$64 $00
+.dw $0000
+.db $0c
+.dw $0000
+.db $14 $00
+
+.db $33 $02 $01 $58 $00 $00 $00 $00 ; 50 GaIA = ??? (Golem)
+.db $01 $02 $03 $34 $30 $00 $00 $00
+ PageAndOffset TilesGolem
+.db $1f $02 $8c,$79,$60 $00
+.dw $0096
+.db $0c
+.dw $0018
+.db $20 $b2
+
+.db $1f $0c $4d $2e $33 $4d $3d $4d ; 51 MaSi-NGa-Da- = Machine Guard? (AndroCop)
+.db $02 $03 $07 $3f $3c $03 $02 $00
+ PageAndOffset TilesRobotCop
+.db $15 $02 $78,$91,$59 $00
+.dw $007b
+.db $0c
+.dw $001d
+.db $00 $7f
+
+.db $43 $2f $35 $02 $4d $10 $4d $58 ; 52 BituGuI-Ta- = ??? (Tentacle)
+.db $00 $00 $00 $20 $25 $30 $00 $0b
+ PageAndOffset TilesOctopus
+.db $05 $01 $76,$76,$57 $00
+.dw $0062
+.db $0c
+.dw $001b
+.db $30 $b2
+
+.db $10 $2b $0d $58 $00 $00 $00 $00 ; 53 TaRoSu = ??? (Giant)
+.db $04 $08 $0c $03 $02 $00 $00 $00
+ PageAndOffset TilesGolem
+.db $1f $02 $78,$7a,$58 $00
+.dw $0077
+.db $0c
+.dw $001e
+.db $20 $7f
+
+.db $0d $18 $4d $08 $2b $4d $41 $58 ; 54 SuNe-KuRo-Do = Snake ??? (Wyvern)
+.db $01 $05 $1a $2f $3f $00 $00 $00
+ PageAndOffset TilesSnake
+.db $10 $01 $6e,$7b,$54 $00
+.dw $007d
+.db $0c
+.dw $001a
+.db $38 $7f
+
+.db $40 $0d $45 $01 $27 $4d $58 $00 ; 55 DeSuBeARa- = ??? (Reaper)
+.db $20 $25 $2a $2f $3f $02 $01 $30
+ PageAndOffset TilesReaper
+.db $1e $01 $b9,$87,$66 $00
+.dw $00fe
+.db $33
+.dw $001e
+.db $23 $cc
+
+.db $06 $05 $0d $0f $4d $0b $27 $4d ; 56 KaOSuSo-SaRa- = ??? Sorceror (Magician)
+.db $00 $25 $25 $2a $2f $08 $0c $04
+ PageAndOffset TilesSorceror
+.db $04 $01 $8a,$91,$5a $00
+.dw $00bb
+.db $0c
+.dw $0020
+.db $35 $7f
+
+.db $0e $2e $14 $4d $29 $58 $00 $00 ; 57 SeNTo-Ru = Centaur (HorseMan)
+.db $20 $30 $34 $38 $3c $10 $0c $2f
+ PageAndOffset TilesCentaur
+.db $1d $02 $82,$7e,$59 $27
+.dw $0094
+.db $00
+.dw $001e
+.db $44 $59
+
+.db $01 $02 $0d $1f $2e $58 $00 $00 ; 58 AISuMaN = Ice-man (FrostMan)
+.db $20 $30 $34 $38 $3c $3f $3a $3e
+ PageAndOffset TilesIceMan
+.db $1c $01 $8c,$8a,$62 $00
+.dw $0080
+.db $14
+.dw $0024
+.db $10 $bf
+
+.db $42 $29 $06 $2e $58 $00 $00 $00 ; 59 BaRuKaN = ??? (Amundsen)
+.db $01 $02 $03 $07 $0b $0f $0b $0f
+ PageAndOffset TilesIceMan
+.db $1c $01 $85,$8c,$62 $00
+.dw $0078
+.db $0c
+.dw $0020
+.db $10 $b2
+
+.db $2a $2f $41 $41 $27 $37 $2e $58 ; 60 RetuDoDoRaGoN = Red Dragon?
+.db $01 $20 $34 $02 $03 $07 $30 $38
+ PageAndOffset TilesDragon
+.db $01 $01 $af,$a0,$69 $00
+.dw $00c1
+.db $0f
+.dw $0041
+.db $58 $7f
+
+.db $35 $28 $4d $2e $41 $27 $37 $2e ; 61 GuRi-NDoRaGoN = Green Dragon
+.db $04 $03 $0b $08 $0c $0e $07 $0f
+ PageAndOffset TilesDragon
+.db $01 $01 $a0,$91,$5f $00
+.dw $00b0
+.db $0c
+.dw $0035
+.db $58 $99
+
+.db $27 $0c $4d $08 $58 $00 $00 $00 ; 62 RaSi-Ku = ??? (Shadow)
+.db $20 $30 $34 $38 $25 $2a $2f $00
+ PageAndOffset TilesShadow
+.db $18 $01 $a5,$ac,$68 $00
+.dw $0000
+.db $0c
+.dw $003c
+.db $30 $7f
+
+.db $1f $2e $23 $0d $58 $00 $00 $00 ; 63 MaNMoSu = Mammoth
+.db $31 $35 $39 $3d $23 $2f $2a $02
+ PageAndOffset TilesElephant
+.db $03 $05 $b4,$9a,$64 $00
+.dw $007d
+.db $0f
+.dw $0028
+.db $20 $b2
+
+.db $07 $2e $35 $0e $02 $42 $4d $58 ; 64 KiNGuSeIBa- = ??? (Centaur)
+.db $06 $07 $0b $0f $2f $03 $0b $0f
+ PageAndOffset TilesCentaur
+.db $1d $01 $be,$9b,$64 $00
+.dw $0085
+.db $28
+.dw $001f
+.db $41 $7f
+
+.db $3d $4d $08 $1f $2b $4d $3d $4d ; 65 Da-KuMaRo-Da- = Dark Marauder (Marauder)
+.db $10 $20 $30 $34 $38 $03 $02 $00
+ PageAndOffset TilesReaper
+.db $1e $01 $87,$86,$58 $00
+.dw $00ad
+.db $0f
+.dw $001e
+.db $25 $b2
+
+.db $37 $4d $2a $21 $58 $00 $00 $00 ; 66 Go-ReMu = Golem(Titan)
+.db $01 $06 $0a $2a $25 $00 $00 $00
+ PageAndOffset TilesGolem
+.db $1f $02 $be,$92,$61 $00
+.dw $008a
+.db $21
+.dw $0020
+.db $20 $7f
+
+.db $22 $40 $31 $4d $0b $58 $00 $00 ; 67 MeDeyu-Sa = Medusa
+.db $01 $12 $37 $2b $32 $02 $22 $10
+ PageAndOffset TilesMedusa
+.db $20 $01 $c8,$a6,$67 $27
+.dw $00c2
+.db $00
+.dw $0032
+.db $26 $99
+
+.db $1c $2b $0d $14 $41 $27 $37 $2e ; 68 HuRoSuToDoRaGoN = ??? Dragon (White Dragon)
+.db $34 $3c $3f $38 $3c $2f $3f $3f
+ PageAndOffset TilesDragon
+.db $01 $01 $c8,$b4,$68 $00
+.dw $00ea
+.db $0f
+.dw $004b
+.db $48 $99
+
+.db $41 $27 $37 $2e $2c $02 $3a $58 ; 69 DoRaGoNWaIZu = Dragon ??? (Blue Dragon)
+.db $20 $3e $3f $25 $2a $2f $3f $3f
+ PageAndOffset TilesDragon
+.db $01 $01 $d2,$9b,$5a $00
+.dw $00b2
+.db $0c
+.dw $0058
+.db $48 $99
+
+.db $37 $4d $29 $41 $41 $2a $02 $08 ; 70 Go-RuDoDoReIKu = Gold Dragon
+.db $03 $07 $0b $0f $25 $2a $2f $00
+ PageAndOffset TilesGoldDragonHead
+.db $16 $01 $aa,$c8,$62 $00
+.dw $0000
+.db $00
+.dw $0064
+.db $0a $00
+
+.db $1f $2f $41 $41 $08 $10 $4d $58 ; 71 MatuDoDoKuTa- = Mad? Doctor (Dr. Mad)
+.db $38 $3c $3e $3f $25 $2a $2f $00
+ PageAndOffset TilesShadow
+.db $18 $01 $e9,$b4,$55 $00
+.dw $008c
+.db $00
+.dw $0019
+.db $30 $66
+
+.db $27 $0c $4d $08 $58 $00 $00 $00 ; 72 RaSi-Ku = Lassic
+.db $01 $06 $34 $30 $2f $0f $0b $02
+ PageAndOffset TilesLassic
+.db $26 $01 $ee,$e6,$b4 $00
+.dw $0000
+.db $00
+.dw $0000
+.db $07 $00
+
+.db $3d $4d $08 $1c $4e $29 $0d $58 ; 73 Da-KuHu[4E]RuSu = Dark Force
+.db $20 $30 $34 $38 $3c $02 $03 $01
+ PageAndOffset TilesDarkForceFlame
+.db $27 $82 $ff,$ff,$96 $00
+.dw $0000
+.db $00
+.dw $0000
+.db $00 $00
+
+.db $15 $02 $14 $22 $01 $58 $00 $00 ; 74 NaIToMeA = Nightmare? (Succubus)
+.db $20 $25 $2a $2f $3f $02 $03 $01
+ PageAndOffset TilesSuccubus
+.db $25 $01 $ff,$96,$fa $00
+.dw $0000
+.db $00
+.dw $000a
+.db $01 $00
+
+.ends
+; followed by
+.orga $8fdf
+.section "data8fdf data" overwrite
+data8fdf:
+; WLA DX won't let me have a macro for this :( it only allows 16 parameters to a macro.
+;    ,,--,,--,,-------------------------------------------------------------------------------------- 3 bytes to $c880
+;    ||  ||  ||  ,,---------------------------------------------------------------------------------- 1 byte  to $c884
+;    ||  ||  ||  ||  ,,--,,--,,--,,--,,--,,--,,--,,--,,---------------------------------------------- 9 bytes to $c894
+;    ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ,,--,,--,,--,,------------------------------ dest, src (words)
+;    ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ,,--,,---------------------- outer, inner count
+;    ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ,,--,,--,,---------- 3 bytes to $ca80
+;    ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ,,------ 1 byte  to $ca84
+;    ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ||  ,,-- 1 byte  to $c2f1
+.db $0f,$02,$27,$60,$57,$80,$57,$80,$03,$87,$93,$87,$93,$70,$b9,$5c,$d1,$0d,$07,$10,$01,$1f,$60,$ca
+.db $0f,$09,$57,$68,$6f,$7c,$6f,$7c,$07,$90,$93,$90,$93,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$c7
+.db $0f,$16,$2f,$70,$4b,$80,$4b,$80,$07,$9f,$93,$9f,$93,$26,$ba,$d8,$d1,$0a,$08,$10,$15,$2f,$58,$c7
+.db $0f,$1c,$37,$60,$57,$78,$5c,$86,$0f,$a8,$93,$ae,$93,$c6,$ba,$1c,$d2,$09,$03,$00,$00,$00,$00,$c7
+.db $0f,$20,$3f,$68,$57,$80,$57,$80,$07,$b2,$93,$b2,$93,$fc,$ba,$5c,$d3,$04,$06,$00,$00,$00,$00,$c8
+.db $0f,$24,$4f,$68,$67,$7e,$5f,$6a,$07,$ba,$93,$ba,$93,$2c,$bb,$1e,$d3,$06,$02,$00,$00,$00,$00,$c6
+.db $0f,$28,$4f,$68,$57,$74,$57,$74,$07,$c4,$93,$c4,$93,$44,$bb,$de,$d2,$06,$03,$00,$00,$00,$00,$c8
+.db $0f,$2d,$57,$6c,$3f,$7c,$3f,$7c,$07,$cc,$93,$cc,$93,$00,$00,$00,$00,$00,$00,$10,$2c,$27,$6c,$c6
+.db $0f,$35,$47,$70,$4f,$80,$4f,$80,$07,$d6,$93,$d6,$93,$00,$00,$00,$00,$00,$00,$10,$34,$2f,$70,$c6
+.db $0f,$40,$37,$74,$4f,$7c,$4f,$7c,$07,$e1,$93,$e1,$93,$00,$00,$00,$00,$00,$00,$10,$3f,$37,$74,$cb
+.db $0f,$45,$37,$74,$4f,$7c,$4f,$7c,$07,$e1,$93,$e1,$93,$00,$00,$00,$00,$00,$00,$10,$3f,$37,$74,$00
+.db $0f,$4a,$2f,$68,$47,$7c,$47,$7c,$07,$ea,$93,$ea,$93,$00,$00,$00,$00,$00,$00,$10,$47,$2f,$68,$cb
+.db $0f,$4a,$2f,$68,$47,$7c,$47,$7c,$07,$ea,$93,$ea,$93,$00,$00,$00,$00,$00,$00,$10,$48,$2f,$68,$cb
+.db $0f,$4a,$2f,$68,$47,$7c,$47,$7c,$07,$ea,$93,$ea,$93,$00,$00,$00,$00,$00,$00,$10,$49,$2f,$68,$cb
+.db $0f,$50,$4f,$68,$6f,$74,$6f,$74,$01,$f2,$93,$f2,$93,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$c9
+.db $0f,$54,$47,$68,$5f,$74,$5f,$74,$03,$fd,$93,$fd,$93,$68,$bb,$9c,$d1,$09,$06,$10,$53,$27,$68,$ca
+.db $0f,$5d,$6f,$68,$77,$7c,$77,$7c,$07,$0c,$94,$0c,$94,$d4,$bb,$18,$d3,$06,$08,$10,$5c,$57,$60,$c6
+.db $0f,$66,$3f,$68,$57,$7c,$5f,$7c,$01,$17,$94,$17,$94,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$c9
+.db $0f,$69,$37,$70,$47,$7c,$47,$7c,$0b,$22,$94,$22,$94,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$c8
+.db $0f,$70,$37,$68,$67,$70,$6f,$6e,$05,$31,$94,$31,$94,$34,$bc,$1c,$d3,$04,$04,$00,$00,$00,$00,$c7
+.db $0f,$79,$47,$84,$4f,$7c,$4f,$7c,$03,$3c,$94,$3c,$94,$00,$00,$00,$00,$00,$00,$10,$78,$3f,$6c,$c6
+.db $0f,$e3,$27,$60,$3f,$7c,$3f,$7c,$03,$48,$94,$48,$94,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$ca
+.db $0f,$82,$6f,$78,$6f,$7c,$6f,$7c,$03,$5a,$94,$5a,$94,$00,$00,$00,$00,$00,$00,$10,$81,$5f,$68,$c8
+.db $0f,$00,$4f,$68,$4f,$78,$4f,$78,$03,$66,$94,$66,$94,$54,$bc,$5c,$d2,$09,$04,$10,$8d,$3f,$68,$c6
+.db $0f,$99,$4f,$68,$5f,$7c,$5f,$7c,$03,$73,$94,$73,$94,$00,$00,$00,$00,$00,$00,$10,$96,$4f,$68,$cb
+.db $0f,$9d,$4f,$68,$5f,$7c,$5f,$7c,$03,$7a,$94,$7a,$94,$00,$00,$00,$00,$00,$00,$10,$97,$4f,$68,$c6
+.db $0f,$99,$4f,$68,$5f,$7c,$5f,$7c,$03,$73,$94,$73,$94,$00,$00,$00,$00,$00,$00,$10,$98,$4f,$68,$cb
+.db $0f,$a3,$1f,$60,$37,$7c,$37,$7c,$07,$84,$94,$84,$94,$9c,$bc,$9e,$d1,$0c,$02,$10,$ab,$57,$60,$ca
+.db $0f,$ad,$27,$60,$3f,$7c,$4b,$86,$07,$92,$94,$9a,$94,$cc,$bc,$de,$d1,$0a,$03,$10,$ac,$27,$60,$cb
+.db $0f,$b5,$27,$60,$3f,$80,$43,$81,$05,$a0,$94,$a9,$94,$08,$bd,$da,$d1,$0b,$05,$10,$b4,$27,$60,$cc
+.db $0f,$bb,$1f,$60,$3f,$80,$3f,$80,$07,$ac,$94,$ac,$94,$76,$bd,$5a,$d1,$0d,$06,$10,$ba,$1f,$60,$c7
+.db $0f,$c0,$2f,$60,$3f,$78,$3f,$78,$03,$b2,$94,$b2,$94,$12,$be,$dc,$d1,$0b,$04,$10,$bf,$2f,$60,$c6
+.db $0f,$00,$27,$60,$4f,$7c,$4f,$7c,$07,$bb,$94,$bb,$94,$6a,$be,$1e,$d2,$04,$03,$10,$c6,$27,$60,$c9
+.db $0f,$ce,$37,$70,$77,$7c,$77,$7c,$07,$c6,$94,$c6,$94,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$c8
+.db $0f,$d3,$2f,$64,$4f,$77,$4f,$77,$05,$d0,$94,$d0,$94,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$c9
+.db $0f,$d7,$1f,$60,$47,$7c,$47,$7c,$03,$dd,$94,$dd,$94,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$c9
+.db $0f,$df,$47,$70,$57,$7c,$57,$7c,$07,$ee,$94,$ee,$94,$82,$be,$5c,$d2,$06,$04,$00,$00,$00,$00,$c6
+.db $13,$00,$ff,$8d,$4f,$7c,$4f,$7c,$03,$f6,$94,$f6,$94,$b2,$be,$9c,$d2,$0b,$05,$10,$cb,$ff,$68,$a9
+.db $14,$00,$4f,$70,$47,$7c,$47,$7c,$05,$27,$95,$27,$95,$20,$bf,$5c,$d2,$06,$04,$00,$00,$00,$00,$a9
+.ends
+.orga $9387
 
 ; Data from CFC7 to D4F5 (1327 bytes)
 _DATA_CFC7_:
@@ -18883,8 +19979,15 @@ _DATA_D66C_:
 .db $10 $5E $4F $68 $00 $15 $97 $BA $10 $82 $4F $74 $00 $13 $ED $96
 .db $10 $83 $4F $74 $00 $13 $ED $96
 
+.orga $96f4
+.section "Character sprite data table" overwrite
 ; Pointer Table from D6F4 to D80B (140 entries,indexed by CharacterSpriteAttributes)
-_DATA_D6F4_:
+CharacterSpriteData:   ; $96f4
+; Sprite data 1
+; Table of structures, followed by structures themselves, for various sprites
+; giving their y, x and tile numbers
+; for use when updating the sprite table in RAM and then VRAM
+
 .dw _DATA_D80C_ _DATA_D80C_ _DATA_D81F_ _DATA_D832_ _DATA_D845_ _DATA_D852_ _DATA_D883_ _DATA_D890_
 .dw _DATA_D89D_ _DATA_D8B3_ _DATA_D8C6_ _DATA_D8CD_ _DATA_D8DA_ _DATA_D8F3_ _DATA_D909_ _DATA_D910_
 .dw _DATA_D917_ _DATA_D91B_ _DATA_D925_ _DATA_D92C_ _DATA_D939_ _DATA_D952_ _DATA_D965_ _DATA_D972_
@@ -18907,884 +20010,955 @@ _DATA_D6F4_:
 ; 1st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D80C to D81E (19 bytes)
 _DATA_D80C_:
-.db $06 $F7 $F7 $FF $FF $07 $07 $00 $AA $08 $AB $00 $AC $08 $AD $00
-.db $AE $08 $AF
+.db 6 ; count
+.db  -9    , -9    , -1    , -1    ,  7    ,  7     ; y positions
+.db   0,$AA,  8,$AB,  0,$AC,  8,$AD,  0,$AE,  8,$AF ; x positions/tile numbers
 
 ; 3rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D81F to D831 (19 bytes)
 _DATA_D81F_:
-.db $06 $F7 $F7 $FF $FF $07 $07 $00 $B0 $08 $B1 $00 $B2 $08 $B3 $00
-.db $B4 $08 $B5
+.db 6 ; count
+.db  -9    , -9    , -1    , -1    ,  7    ,  7     ; y positions
+.db   0,$B0,  8,$B1,  0,$B2,  8,$B3,  0,$B4,  8,$B5 ; x positions/tile numbers
 
 ; 4th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D832 to D844 (19 bytes)
 _DATA_D832_:
-.db $06 $F7 $F7 $FF $FF $07 $07 $00 $B6 $08 $B7 $00 $B8 $08 $B9 $00
-.db $BA $08 $BB
+.db 6 ; count
+.db  -9    , -9    , -1    , -1    ,  7    ,  7     ; y positions
+.db   0,$B6,  8,$B7,  0,$B8,  8,$B9,  0,$BA,  8,$BB ; x positions/tile numbers
 
 ; 5th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D845 to D851 (13 bytes)
 _DATA_D845_:
-.db $04 $FF $FF $07 $07 $00 $BC $08 $BD $00 $BE $08 $BF
+.db 4 ; count
+.db  -1    , -1    ,  7    ,  7     ; y positions
+.db   0,$BC,  8,$BD,  0,$BE,  8,$BF ; x positions/tile numbers
 
 ; 6th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D852 to D882 (49 bytes)
 _DATA_D852_:
-.db $10 $EF $EF $EF $EF $F7 $F7 $F7 $F7 $FF $FF $FF $FF $07 $07 $07
-.db $07 $F0 $AA $F8 $AB $00 $AC $08 $AD $F0 $AE $F8 $AF $00 $B0 $08
-.db $B1 $F0 $B2 $F8 $B3 $00 $B4 $08 $B5 $F0 $B6 $F8 $B7 $00 $B8 $08
-.db $B9
+.db 16 ; count
+.db -17    ,-17    ,-17    ,-17    , -9    , -9    , -9    , -9    , -1    , -1    , -1    , -1    ,  7    ,  7    ,  7    ,  7     ; y positions
+.db -16,$AA, -8,$AB,  0,$AC,  8,$AD,-16,$AE, -8,$AF,  0,$B0,  8,$B1,-16,$B2, -8,$B3,  0,$B4,  8,$B5,-16,$B6, -8,$B7,  0,$B8,  8,$B9 ; x positions/tile numbers
 
 ; 7th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D883 to D88F (13 bytes)
 _DATA_D883_:
-.db $04 $DC $E4 $EC $F4 $14 $A0 $0F $A1 $0B $A2 $07 $A3
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db  20,$A0, 15,$A1, 11,$A2,  7,$A3 ; x positions/tile numbers
 
 ; 8th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D890 to D89C (13 bytes)
 _DATA_D890_:
-.db $04 $FC $FC $04 $04 $00 $A4 $08 $A5 $FF $A6 $07 $A7
+.db  -4    , -4    ,  4    ,  4     ; y positions
+.db   0,$A4,  8,$A5, -1,$A6,  7,$A7 ; x positions/tile numbers
 
 ; 9th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D89D to D8B2 (22 bytes)
 _DATA_D89D_:
-.db $07 $FC $FC $04 $0C $14 $1C $24 $00 $A8 $08 $A9 $01 $AA $FB $AB
-.db $F8 $AC $F4 $AD $F0 $A0
+.db 7 ; count
+.db  -4    , -4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   0,$A8,  8,$A9,  1,$AA, -5,$AB, -8,$AC,-12,$AD,-16,$A0 ; x positions/tile numbers
 
 ; 10th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D8B3 to D8C5 (19 bytes)
 _DATA_D8B3_:
-.db $06 $FC $FC $04 $14 $1C $24 $00 $AE $0D $AF $03 $B0 $F8 $B1 $F4
-.db $B2 $F0 $B3
+.db 6 ; count
+.db  -4    , -4    ,  4    , 20    , 28    , 36     ; y positions
+.db   0,$AE, 13,$AF,  3,$B0, -8,$B1,-12,$B2,-16,$B3 ; x positions/tile numbers
 
 ; 11th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D8C6 to D8CC (7 bytes)
 _DATA_D8C6_:
-.db $02 $60 $68 $2D $A0 $2D $A1
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  45,$A0, 45,$A1 ; x positions/tile numbers
 
 ; 12th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D8CD to D8D9 (13 bytes)
 _DATA_D8CD_:
-.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
 
 ; 13th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D8DA to D8F2 (25 bytes)
 _DATA_D8DA_:
-.db $08 $48 $48 $50 $50 $58 $58 $60 $60 $23 $A6 $2B $A7 $24 $A8 $2C
-.db $A9 $27 $AA $2F $AB $2A $AC $32 $AD
+.db 8 ; count
+.db  72    , 72    , 80    , 80    , 88    , 88    , 96    , 96     ; y positions
+.db  35,$A6, 43,$A7, 36,$A8, 44,$A9, 39,$AA, 47,$AB, 42,$AC, 50,$AD ; x positions/tile numbers
 
 ; 14th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D8F3 to D908 (22 bytes)
 _DATA_D8F3_:
-.db $07 $28 $30 $30 $38 $38 $40 $40 $15 $AE $17 $AF $1F $A7 $1A $B0
-.db $22 $B1 $1D $B2 $25 $B3
+.db 7 ; count
+.db  40    , 48    , 48    , 56    , 56    , 64    , 64     ; y positions
+.db  21,$AE, 23,$AF, 31,$A7, 26,$B0, 34,$B1, 29,$B2, 37,$B3 ; x positions/tile numbers
 
 ; 15th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D909 to D90F (7 bytes)
 _DATA_D909_:
-.db $02 $18 $20 $0E $B4 $10 $B5
+.db 2 ; count
+.db  24    , 32     ; y positions
+.db  14,$B4, 16,$B5 ; x positions/tile numbers
 
 ; 16th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D910 to D916 (7 bytes)
 _DATA_D910_:
-.db $02 $08 $10 $08 $B6 $0A $B7
+.db 2 ; count
+.db   8    , 16     ; y positions
+.db   8,$B6, 10,$B7 ; x positions/tile numbers
 
 ; 17th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D917 to D91A (4 bytes)
 _DATA_D917_:
-.db $01 $08 $05 $B8
+.db 1 ; count
+.db   8     ; y positions
+.db   5,$B8 ; x positions/tile numbers
 
 ; 18th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D91B to D924 (10 bytes)
 _DATA_D91B_:
-.db $03 $00 $08 $08 $04 $B9 $02 $BA $0A $BB
+.db 3 ; count
+.db   0    ,  8    ,  8     ; y positions
+.db   4,$B9,  2,$BA, 10,$BB ; x positions/tile numbers
 
 ; 19th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D925 to D92B (7 bytes)
 _DATA_D925_:
-.db $02 $60 $68 $2C $A0 $2C $A1
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  44,$A0, 44,$A1 ; x positions/tile numbers
 
 ; 20th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D92C to D938 (13 bytes)
 _DATA_D92C_:
-.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
 
 ; 21st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D939 to D951 (25 bytes)
 _DATA_D939_:
-.db $08 $38 $40 $48 $50 $50 $58 $58 $60 $1A $A6 $1E $A7 $20 $A8 $23
-.db $A9 $2B $AA $26 $AB $2E $AC $2C $AD
+.db 8 ; count
+.db  56    , 64    , 72    , 80    , 80    , 88    , 88    , 96     ; y positions
+.db  26,$A6, 30,$A7, 32,$A8, 35,$A9, 43,$AA, 38,$AB, 46,$AC, 44,$AD ; x positions/tile numbers
 
 ; 22nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D952 to D964 (19 bytes)
 _DATA_D952_:
-.db $06 $18 $20 $28 $28 $30 $38 $0D $AE $11 $AF $13 $B0 $1B $B1 $16
-.db $B2 $1B $B3
+.db 6 ; count
+.db  24    , 32    , 40    , 40    , 48    , 56     ; y positions
+.db  13,$AE, 17,$AF, 19,$B0, 27,$B1, 22,$B2, 27,$B3 ; x positions/tile numbers
 
 ; 23rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D965 to D971 (13 bytes)
 _DATA_D965_:
-.db $04 $00 $08 $10 $18 $06 $B4 $07 $B5 $0A $B6 $10 $B7
+.db 4 ; count
+.db   0    ,  8    , 16    , 24     ; y positions
+.db   6,$B4,  7,$B5, 10,$B6, 16,$B7 ; x positions/tile numbers
 
 ; 24th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D972 to D975 (4 bytes)
 _DATA_D972_:
-.db $01 $00 $02 $B8
+.db 1 ; count
+.db   0     ; y positions
+.db   2,$B8 ; x positions/tile numbers
 
 ; 25th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D976 to D979 (4 bytes)
 _DATA_D976_:
-.db $01 $00 $00 $B9
+.db 1 ; count
+.db   0     ; y positions
+.db   0,$B9 ; x positions/tile numbers
 
 ; 26th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D97A to D980 (7 bytes)
 _DATA_D97A_:
-.db $02 $60 $68 $2D $A0 $2E $A1
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  45,$A0, 46,$A1 ; x positions/tile numbers
 
 ; 27th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D981 to D98D (13 bytes)
 _DATA_D981_:
-.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $2A $A4 $32 $A5
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 42,$A4, 50,$A5 ; x positions/tile numbers
 
 ; 28th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D98E to D99A (13 bytes)
 _DATA_D98E_:
-.db $04 $48 $48 $50 $50 $22 $A6 $2A $A7 $24 $A8 $2C $A9
+.db 4 ; count
+.db  72    , 72    , 80    , 80     ; y positions
+.db  34,$A6, 42,$A7, 36,$A8, 44,$A9 ; x positions/tile numbers
 
 ; 29th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D99B to D9A1 (7 bytes)
 _DATA_D99B_:
-.db $02 $28 $28 $13 $AA $1B $AB
+.db 2 ; count
+.db  40    , 40     ; y positions
+.db  19,$AA, 27,$AB ; x positions/tile numbers
 
 ; 30th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9A2 to D9A5 (4 bytes)
 _DATA_D9A2_:
-.db $01 $10 $0A $AC
+.db 1 ; count
+.db  16     ; y positions
+.db  10,$AC ; x positions/tile numbers
 
 ; 31st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9A6 to D9A9 (4 bytes)
 _DATA_D9A6_:
-.db $01 $00 $05 $AD
+.db 1 ; count
+.db   0     ; y positions
+.db   5,$AD ; x positions/tile numbers
 
 ; 32nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9AA to D9AD (4 bytes)
 _DATA_D9AA_:
-.db $01 $00 $02 $AE
+.db 1 ; count
+.db   0     ; y positions
+.db   2,$AE ; x positions/tile numbers
 
 ; 33rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9AE to D9B1 (4 bytes)
 _DATA_D9AE_:
-.db $01 $00 $00 $AF
+.db 1 ; count
+.db   0     ; y positions
+.db   0,$AF ; x positions/tile numbers
 
 ; 34th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9B2 to D9B8 (7 bytes)
 _DATA_D9B2_:
-.db $02 $60 $68 $2C $A0 $2C $A1
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  44,$A0, 44,$A1 ; x positions/tile numbers
 
 ; 35th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9B9 to D9C5 (13 bytes)
 _DATA_D9B9_:
-.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
 
 ; 36th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9C6 to D9DE (25 bytes)
 _DATA_D9C6_:
-.db $08 $38 $38 $40 $40 $48 $50 $50 $58 $18 $A6 $20 $A7 $19 $A8 $21
-.db $A9 $20 $AA $23 $AB $2B $AC $29 $AD
+.db 8 ; count
+.db  56    , 56    , 64    , 64    , 72    , 80    , 80    , 88     ; y positions
+.db  24,$A6, 32,$A7, 25,$A8, 33,$A9, 32,$AA, 35,$AB, 43,$AC, 41,$AD ; x positions/tile numbers
 
 ; 37th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9DF to D9EB (13 bytes)
 _DATA_D9DF_:
-.db $04 $18 $18 $20 $28 $0D $AE $16 $AF $10 $B0 $13 $B1
+.db 4 ; count
+.db  24    , 24    , 32    , 40     ; y positions
+.db  13,$AE, 22,$AF, 16,$B0, 19,$B1 ; x positions/tile numbers
 
 ; 38th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9EC to D9F2 (7 bytes)
 _DATA_D9EC_:
-.db $02 $08 $10 $07 $B2 $0C $B3
+.db 2 ; count
+.db   8    , 16     ; y positions
+.db   7,$B2, 12,$B3 ; x positions/tile numbers
 
 ; 39th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9F3 to D9F6 (4 bytes)
 _DATA_D9F3_:
-.db $01 $00 $02 $B4
+.db 1 ; count
+.db   0     ; y positions
+.db   2,$B4 ; x positions/tile numbers
 
 ; 40th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9F7 to D9FD (7 bytes)
 _DATA_D9F7_:
-.db $02 $00 $00 $00 $B5 $08 $B6
+.db 2 ; count
+.db   0    ,  0     ; y positions
+.db   0,$B5,  8,$B6 ; x positions/tile numbers
 
 ; 41st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from D9FE to DA04 (7 bytes)
 _DATA_D9FE_:
-.db $02 $00 $08 $02 $B7 $00 $B8
+.db 2 ; count
+.db   0    ,  8     ; y positions
+.db   2,$B7,  0,$B8 ; x positions/tile numbers
 
 ; 42nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA05 to DA0B (7 bytes)
 _DATA_DA05_:
-.db $02 $60 $68 $2C $A0 $2C $A1
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  44,$A0, 44,$A1 ; x positions/tile numbers
 
 ; 43rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA0C to DA18 (13 bytes)
 _DATA_DA0C_:
-.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
 
 ; 44th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA19 to DA2E (22 bytes)
 _DATA_DA19_:
-.db $07 $38 $40 $48 $50 $58 $60 $60 $22 $A6 $28 $A7 $29 $A8 $28 $A9
-.db $28 $AA $29 $AB $31 $AC
+.db 7 ; count
+.db  56    , 64    , 72    , 80    , 88    , 96    , 96     ; y positions
+.db  34,$A6, 40,$A7, 41,$A8, 40,$A9, 40,$AA, 41,$AB, 49,$AC ; x positions/tile numbers
 
 ; 45th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA2F to DA3E (16 bytes)
 _DATA_DA2F_:
-.db $05 $18 $20 $28 $30 $38 $20 $AD $20 $AE $20 $AF $21 $B0 $22 $B1
+.db 5 ; count
+.db  24    , 32    , 40    , 48    , 56     ; y positions
+.db  32,$AD, 32,$AE, 32,$AF, 33,$B0, 34,$B1 ; x positions/tile numbers
 
 ; 46th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA3F to DA51 (19 bytes)
 _DATA_DA3F_:
-.db $06 $00 $00 $08 $08 $10 $18 $10 $B2 $18 $B3 $10 $B4 $18 $B5 $1B
-.db $B6 $20 $B7
+.db 6 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 24     ; y positions
+.db  16,$B2, 24,$B3, 16,$B4, 24,$B5, 27,$B6, 32,$B7 ; x positions/tile numbers
 
 ; 47th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA52 to DA5B (10 bytes)
 _DATA_DA52_:
-.db $03 $00 $00 $08 $03 $B8 $0B $B9 $08 $BA
+.db 3 ; count
+.db   0    ,  0    ,  8     ; y positions
+.db   3,$B8, 11,$B9,  8,$BA ; x positions/tile numbers
 
 ; 48th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA5C to DA5F (4 bytes)
 _DATA_DA5C_:
-.db $01 $00 $02 $BB
+.db 1 ; count
+.db   0     ; y positions
+.db   2,$BB ; x positions/tile numbers
 
 ; 49th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA60 to DA63 (4 bytes)
 _DATA_DA60_:
-.db $01 $00 $00 $BC
+.db 1 ; count
+.db   0     ; y positions
+.db   0,$BC ; x positions/tile numbers
 
 ; 50th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA64 to DA67 (4 bytes)
 _DATA_DA64_:
-.db $01 $00 $00 $BD
+.db 1 ; count
+.db   0     ; y positions
+.db   0,$BD ; x positions/tile numbers
 
 ; 51st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA68 to DA6E (7 bytes)
 _DATA_DA68_:
-.db $02 $60 $68 $2C $A0 $2C $A1
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  44,$A0, 44,$A1 ; x positions/tile numbers
 
 ; 52nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA6F to DA7B (13 bytes)
 _DATA_DA6F_:
-.db $04 $60 $60 $68 $68 $28 $A2 $30 $A3 $28 $A4 $30 $A5
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
 
 ; 53rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA7C to DA94 (25 bytes)
 _DATA_DA7C_:
-.db $08 $40 $40 $48 $48 $50 $50 $58 $58 $1D $A6 $25 $A7 $1D $A8 $25
-.db $A9 $1F $AA $27 $AB $20 $AC $28 $AD
+.db 8 ; count
+.db  64    , 64    , 72    , 72    , 80    , 80    , 88    , 88     ; y positions
+.db  29,$A6, 37,$A7, 29,$A8, 37,$A9, 31,$AA, 39,$AB, 32,$AC, 40,$AD ; x positions/tile numbers
 
 ; 54th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DA95 to DAAD (25 bytes)
 _DATA_DA95_:
-.db $08 $20 $20 $28 $28 $30 $30 $38 $38 $11 $AE $19 $AF $13 $B0 $1B
-.db $B1 $15 $B2 $1D $B3 $17 $B4 $1F $B5
+.db 8 ; count
+.db  32    , 32    , 40    , 40    , 48    , 48    , 56    , 56     ; y positions
+.db  17,$AE, 25,$AF, 19,$B0, 27,$B1, 21,$B2, 29,$B3, 23,$B4, 31,$B5 ; x positions/tile numbers
 
 ; 55th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DAAE to DABA (13 bytes)
 _DATA_DAAE_:
-.db $04 $08 $10 $10 $18 $09 $B6 $09 $B7 $11 $B8 $0D $B9
+.db 4 ; count
+.db   8    , 16    , 16    , 24     ; y positions
+.db   9,$B6,  9,$B7, 17,$B8, 13,$B9 ; x positions/tile numbers
 
 ; 56th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DABB to DABE (4 bytes)
 _DATA_DABB_:
-.db $01 $00 $06 $BA
+.db 1 ; count
+.db   0     ; y positions
+.db   6,$BA ; x positions/tile numbers
 
 ; 57th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DABF to DAC5 (7 bytes)
 _DATA_DABF_:
-.db $02 $00 $00 $00 $BB $08 $BC
+.db 2 ; count
+.db   0    ,  0     ; y positions
+.db   0,$BB,  8,$BC ; x positions/tile numbers
 
 ; 58th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DAC6 to DAC9 (4 bytes)
 _DATA_DAC6_:
-.db $01 $00 $04 $BD
+.db 1 ; count
+.db   0     ; y positions
+.db   4,$BD ; x positions/tile numbers
 
 ; 96th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DACA to DAD6 (13 bytes)
 _DATA_DACA_:
-.db $04 $DC $E4 $EC $F4 $12 $A0 $0E $A1 $0A $A1 $06 $A1
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db  18,$A0, 14,$A1, 10,$A1,  6,$A1 ; x positions/tile numbers
 
 ; 97th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DAD7 to DAE9 (19 bytes)
 _DATA_DAD7_:
-.db $06 $EC $F4 $FC $FC $04 $04 $0C $A2 $07 $A3 $FC $A4 $04 $A5 $FE
-.db $A6 $06 $A7
+.db 6 ; count
+.db -20    ,-12    , -4    , -4    ,  4    ,  4     ; y positions
+.db  12,$A2,  7,$A3, -4,$A4,  4,$A5, -2,$A6,  6,$A7 ; x positions/tile numbers
 
 ; 98th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DAEA to DB02 (25 bytes)
 _DATA_DAEA_:
-.db $08 $FC $FC $04 $04 $0C $14 $1C $24 $01 $A8 $09 $A9 $FB $AA $03
-.db $AB $FA $A1 $F6 $A1 $F2 $A1 $F2 $AC
+.db 8 ; count
+.db  -4    , -4    ,  4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   1,$A8,  9,$A9, -5,$AA,  3,$AB, -6,$A1,-10,$A1,-14,$A1,-14,$AC ; x positions/tile numbers
 
 ; 99th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DB03 to DB12 (16 bytes)
 _DATA_DB03_:
-.db $05 $FC $04 $14 $1C $24 $03 $AD $00 $AD $F8 $AE $F4 $AF $F0 $B0
+.db 5 ; count
+.db  -4    ,  4    , 20    , 28    , 36     ; y positions
+.db   3,$AD,  0,$AD, -8,$AE,-12,$AF,-16,$B0 ; x positions/tile numbers
 
 ; 100th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DB13 to DB1F (13 bytes)
 _DATA_DB13_:
-.db $04 $DC $E4 $EC $F4 $13 $A0 $0F $A1 $09 $A2 $06 $A3
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db  19,$A0, 15,$A1,  9,$A2,  6,$A3 ; x positions/tile numbers
 
 ; 101st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DB20 to DB32 (19 bytes)
 _DATA_DB20_:
-.db $06 $F4 $FC $FC $04 $04 $0C $05 $A4 $FF $A5 $07 $A6 $FC $A7 $04
-.db $A8 $FB $A9
+.db 6 ; count
+.db -12    , -4    , -4    ,  4    ,  4    , 12     ; y positions
+.db   5,$A4, -1,$A5,  7,$A6, -4,$A7,  4,$A8, -5,$A9 ; x positions/tile numbers
 
 ; 102nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DB33 to DB4B (25 bytes)
 _DATA_DB33_:
-.db $08 $FC $FC $04 $04 $0C $14 $1C $24 $FD $AA $05 $AB $00 $AC $08
-.db $AD $FA $AE $F7 $AF $F3 $A1 $F1 $B0
+.db 8 ; count
+.db  -4    , -4    ,  4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db  -3,$AA,  5,$AB,  0,$AC,  8,$AD, -6,$AE, -9,$AF,-13,$A1,-15,$B0 ; x positions/tile numbers
 
 ; 103rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DB4C to DB61 (22 bytes)
 _DATA_DB4C_:
-.db $07 $F4 $FC $04 $0C $14 $1C $24 $03 $B1 $03 $B2 $FD $B3 $04 $B1
-.db $F7 $B4 $F4 $B4 $F0 $B5
+.db 7 ; count
+.db -12    , -4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   3,$B1,  3,$B2, -3,$B3,  4,$B1, -9,$B4,-12,$B4,-16,$B5 ; x positions/tile numbers
 
 ; 104th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DB62 to DB7A (25 bytes)
 _DATA_DB62_:
-.db $08 $D8 $E0 $E0 $E8 $E8 $F0 $F0 $F8 $10 $A0 $0C $A1 $14 $A2 $07
-.db $A3 $0F $A4 $05 $A5 $0D $A6 $07 $A7
+.db 8 ; count
+.db -40    ,-32    ,-32    ,-24    ,-24    ,-16    ,-16    , -8     ; y positions
+.db  16,$A0, 12,$A1, 20,$A2,  7,$A3, 15,$A4,  5,$A5, 13,$A6,  7,$A7 ; x positions/tile numbers
 
 ; 105th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DB7B to DB8D (19 bytes)
 _DATA_DB7B_:
-.db $06 $F0 $F8 $F8 $00 $00 $08 $03 $A8 $FF $A9 $07 $AA $FD $AB $05
-.db $AC $01 $AD
+.db 6 ; count
+.db -16    , -8    , -8    ,  0    ,  0    ,  8     ; y positions
+.db   3,$A8, -1,$A9,  7,$AA, -3,$AB,  5,$AC,  1,$AD ; x positions/tile numbers
 
 ; 106th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DB8E to DBA6 (25 bytes)
 _DATA_DB8E_:
-.db $08 $00 $00 $08 $08 $10 $10 $18 $18 $FB $AE $03 $AF $F8 $B0 $00
-.db $B1 $F4 $B2 $FC $B3 $F2 $B4 $FA $B5
+.db 8 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 24    , 24     ; y positions
+.db  -5,$AE,  3,$AF, -8,$B0,  0,$B1,-12,$B2, -4,$B3,-14,$B4, -6,$B5 ; x positions/tile numbers
 
 ; 107th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DBA7 to DBB3 (13 bytes)
 _DATA_DBA7_:
-.db $04 $08 $18 $18 $20 $FA $B6 $F0 $B7 $F8 $B8 $F0 $B9
+.db 4 ; count
+.db   8    , 24    , 24    , 32     ; y positions
+.db  -6,$B6,-16,$B7, -8,$B8,-16,$B9 ; x positions/tile numbers
 
 ; 108th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DBB4 to DBC0 (13 bytes)
 _DATA_DBB4_:
-.db $04 $DC $E4 $EC $F4 $12 $A0 $0E $A1 $0A $A1 $08 $A2
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db  18,$A0, 14,$A1, 10,$A1,  8,$A2 ; x positions/tile numbers
 
 ; 109th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DBC1 to DBC7 (7 bytes)
 _DATA_DBC1_:
-.db $02 $FC $04 $02 $A3 $00 $A2
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   2,$A3,  0,$A2 ; x positions/tile numbers
 
-; 110th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DBC8 to DBDA (19 bytes)
 _DATA_DBC8_:
-.db $06 $FC $04 $0C $14 $1C $24 $00 $A4 $00 $A5 $FA $A3 $F6 $A1 $F2
-.db $A1 $F0 $A6
+.db 6 ; count
+.db  -4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   0,$A4,  0,$A5, -6,$A3,-10,$A1,-14,$A1,-16,$A6 ; x positions/tile numbers
 
 ; 111th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DBDB to DBF0 (22 bytes)
 _DATA_DBDB_:
-.db $07 $DC $E4 $EC $F4 $14 $1C $24 $F0 $A7 $F2 $A8 $F6 $A8 $FA $A9
-.db $F9 $AA $F4 $AB $F0 $AC
+.db 7 ; count
+.db -36    ,-28    ,-20    ,-12    , 20    , 28    , 36     ; y positions
+.db -16,$A7,-14,$A8,-10,$A8, -6,$A9, -7,$AA,-12,$AB,-16,$AC ; x positions/tile numbers
 
 ; 112th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DBF1 to DBF7 (7 bytes)
 _DATA_DBF1_:
-.db $02 $FC $04 $00 $AD $02 $A9
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   0,$AD,  2,$A9 ; x positions/tile numbers
 
 ; 113th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DBF8 to DC0A (19 bytes)
 _DATA_DBF8_:
-.db $06 $FC $04 $0C $14 $1C $24 $00 $AE $00 $AF $08 $AD $0A $A8 $0E
-.db $A8 $12 $B0
+.db 6 ; count
+.db  -4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   0,$AE,  0,$AF,  8,$AD, 10,$A8, 14,$A8, 18,$B0 ; x positions/tile numbers
 
 ; 114th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC0B to DC14 (10 bytes)
 _DATA_DC0B_:
-.db $03 $14 $1C $24 $0D $B1 $0F $B2 $12 $B3
+.db 3 ; count
+.db  20    , 28    , 36     ; y positions
+.db  13,$B1, 15,$B2, 18,$B3 ; x positions/tile numbers
 
 ; 115th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC15 to DC21 (13 bytes)
 _DATA_DC15_:
-.db $04 $DC $E4 $EC $F4 $F0 $A0 $F4 $A1 $F6 $A2 $FA $A2
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db -16,$A0,-12,$A1,-10,$A2, -6,$A2 ; x positions/tile numbers
 
 ; 116th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC22 to DC2E (13 bytes)
 _DATA_DC22_:
-.db $04 $F4 $FC $04 $0C $FC $A1 $FE $A2 $02 $A2 $06 $A3
+.db 4 ; count
+.db -12    , -4    ,  4    , 12     ; y positions
+.db  -4,$A1, -2,$A2,  2,$A2,  6,$A3 ; x positions/tile numbers
 
 ; 117th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC2F to DC3E (16 bytes)
 _DATA_DC2F_:
-.db $05 $FC $04 $0C $14 $1C $00 $A4 $00 $A5 $06 $A2 $0A $A2 $0E $A3
+.db 5 ; count
+.db  -4    ,  4    , 12    , 20    , 28     ; y positions
+.db   0,$A4,  0,$A5,  6,$A2, 10,$A2, 14,$A3 ; x positions/tile numbers
 
 ; 118th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC3F to DC4B (13 bytes)
 _DATA_DC3F_:
-.db $04 $FC $04 $1C $24 $03 $A6 $FD $A6 $10 $A7 $14 $A8
+.db 4 ; count
+.db  -4    ,  4    , 28    , 36     ; y positions
+.db   3,$A6, -3,$A6, 16,$A7, 20,$A8 ; x positions/tile numbers
 
 ; 119th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC4C to DC5E (19 bytes)
 _DATA_DC4C_:
-.db $06 $DC $E4 $EC $EC $F4 $F4 $F0 $A0 $F4 $A1 $F6 $A2 $FE $A3 $F8
-.db $A4 $00 $A5
+.db 6 ; count
+.db -36    ,-28    ,-20    ,-20    ,-12    ,-12     ; y positions
+.db -16,$A0,-12,$A1,-10,$A2, -2,$A3, -8,$A4,  0,$A5 ; x positions/tile numbers
 
 ; 120th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC5F to DC77 (25 bytes)
 _DATA_DC5F_:
-.db $08 $F4 $F4 $FC $FC $04 $04 $0C $0C $F8 $A4 $00 $A5 $FD $A6 $05
-.db $A7 $00 $A8 $08 $A7 $04 $A9 $0C $AA
+.db 8 ; count
+.db -12    ,-12    , -4    , -4    ,  4    ,  4    , 12    , 12     ; y positions
+.db  -8,$A4,  0,$A5, -3,$A6,  5,$A7,  0,$A8,  8,$A7,  4,$A9, 12,$AA ; x positions/tile numbers
 
 ; 121st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC78 to DC8D (22 bytes)
 _DATA_DC78_:
-.db $07 $FC $04 $0C $0C $14 $14 $1C $00 $AB $00 $AC $04 $A9 $0C $AA
-.db $08 $AD $10 $A3 $0E $AE
+.db 7 ; count
+.db  -4    ,  4    , 12    , 12    , 20    , 20    , 28     ; y positions
+.db   0,$AB,  0,$AC,  4,$A9, 12,$AA,  8,$AD, 16,$A3, 14,$AE ; x positions/tile numbers
 
 ; 122nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC8E to DC9A (13 bytes)
 _DATA_DC8E_:
-.db $04 $FC $04 $1C $24 $04 $AF $FC $AF $0E $B0 $14 $B1
+.db 4 ; count
+.db  -4    ,  4    , 28    , 36     ; y positions
+.db   4,$AF, -4,$AF, 14,$B0, 20,$B1 ; x positions/tile numbers
 
 ; 72nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DC9B to DCA1 (7 bytes)
 _DATA_DC9B_:
-.db $02 $FC $04 $02 $A0 $02 $A1
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   2,$A0,  2,$A1 ; x positions/tile numbers
 
 ; 73rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCA2 to DCA8 (7 bytes)
 _DATA_DCA2_:
-.db $02 $FC $04 $00 $A2 $00 $A3
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   0,$A2,  0,$A3 ; x positions/tile numbers
 
 ; 74th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCA9 to DCAF (7 bytes)
 _DATA_DCA9_:
-.db $02 $04 $0C $04 $A4 $03 $A5
+.db 2 ; count
+.db   4    , 12     ; y positions
+.db   4,$A4,  3,$A5 ; x positions/tile numbers
 
 ; 75th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCB0 to DCB9 (10 bytes)
 _DATA_DCB0_:
-.db $03 $0C $14 $1C $01 $A6 $FF $A7 $FD $A8
+.db 3 ; count
+.db  12    , 20    , 28     ; y positions
+.db   1,$A6, -1,$A7, -3,$A8 ; x positions/tile numbers
 
 ; 76th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCBA to DCCC (19 bytes)
 _DATA_DCBA_:
-.db $06 $2C $34 $3C $3C $44 $44 $02 $A9 $01 $AA $FD $AB $05 $AC $FD
-.db $AD $05 $AE
+.db 6 ; count
+.db  44    , 52    , 60    , 60    , 68    , 68     ; y positions
+.db   2,$A9,  1,$AA, -3,$AB,  5,$AC, -3,$AD,  5,$AE ; x positions/tile numbers
 
 ; 77th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCCD to DCD9 (13 bytes)
 _DATA_DCCD_:
-.db $04 $44 $44 $4C $4C $FD $AF $05 $B0 $FC $B1 $04 $B2
+.db 4 ; count
+.db  68    , 68    , 76    , 76     ; y positions
+.db  -3,$AF,  5,$B0, -4,$B1,  4,$B2 ; x positions/tile numbers
 
 ; 78th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCDA to DCE0 (7 bytes)
 _DATA_DCDA_:
-.db $02 $44 $4C $00 $A2 $00 $A3
+.db 2 ; count
+.db  68    , 76     ; y positions
+.db   0,$A2,  0,$A3 ; x positions/tile numbers
 
 ; 79th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCE1 to DCED (13 bytes)
 _DATA_DCE1_:
-.db $04 $44 $44 $4C $4C $FC $B3 $04 $B4 $FC $B5 $04 $B6
+.db 4 ; count
+.db  68    , 68    , 76    , 76     ; y positions
+.db  -4,$B3,  4,$B4, -4,$B5,  4,$B6 ; x positions/tile numbers
 
 ; 123rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCEE to DCF4 (7 bytes)
 _DATA_DCEE_:
-.db $02 $FC $04 $02 $A0 $02 $A1
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   2,$A0,  2,$A1 ; x positions/tile numbers
 
 ; 124th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCF5 to DCFB (7 bytes)
 _DATA_DCF5_:
-.db $02 $FC $04 $00 $A2 $00 $A3
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   0,$A2,  0,$A3 ; x positions/tile numbers
 
 ; 125th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DCFC to DD08 (13 bytes)
 _DATA_DCFC_:
-.db $04 $FC $04 $04 $0C $02 $A0 $02 $A4 $0A $A5 $03 $A6
+.db 4 ; count
+.db  -4    ,  4    ,  4    , 12     ; y positions
+.db   2,$A0,  2,$A4, 10,$A5,  3,$A6 ; x positions/tile numbers
 
 ; 126th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DD09 to DD1B (19 bytes)
 _DATA_DD09_:
-.db $06 $04 $0C $14 $1C $1C $24 $FC $A7 $FC $A8 $FC $A9 $FD $AA $05
-.db $AB $02 $AC
+.db 6 ; count
+.db   4    , 12    , 20    , 28    , 28    , 36     ; y positions
+.db  -4,$A7, -4,$A8, -4,$A9, -3,$AA,  5,$AB,  2,$AC ; x positions/tile numbers
 
 ; 127th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DD1C to DD3A (31 bytes)
 _DATA_DD1C_:
-.db $0A $0C $14 $14 $1C $24 $2C $2C $34 $3C $44 $03 $AD $FF $AE $07
-.db $AF $FE $B0 $03 $B0 $FE $B1 $06 $B2 $FD $B3 $00 $B4 $00 $A3
+.db 10 ; count
+.db  12    , 20    , 20    , 28    , 36    , 44    , 44    , 52    , 60    , 68     ; y positions
+.db   3,$AD, -1,$AE,  7,$AF, -2,$B0,  3,$B0, -2,$B1,  6,$B2, -3,$B3,  0,$B4,  0,$A3 ; x positions/tile numbers
 
 ; 128th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DD3B to DD47 (13 bytes)
 _DATA_DD3B_:
-.db $04 $44 $44 $4C $4C $FD $B5 $05 $B6 $FC $B7 $04 $B8
+.db 4 ; count
+.db  68    , 68    , 76    , 76     ; y positions
+.db  -3,$B5,  5,$B6, -4,$B7,  4,$B8 ; x positions/tile numbers
 
 ; 129th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DD48 to DD4E (7 bytes)
 _DATA_DD48_:
-.db $02 $44 $4C $00 $A2 $00 $A3
+.db 2 ; count
+.db  68    , 76     ; y positions
+.db   0,$A2,  0,$A3 ; x positions/tile numbers
 
 ; 130th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DD4F to DD5B (13 bytes)
 _DATA_DD4F_:
-.db $04 $44 $44 $4C $4C $FC $B9 $04 $BA $FC $BB $04 $BC
+.db 4 ; count
+.db  68    , 68    , 76    , 76     ; y positions
+.db  -4,$B9,  4,$BA, -4,$BB,  4,$BC ; x positions/tile numbers
 
 ; 59th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DD5C to DDA1 (70 bytes)
 _DATA_DD5C_:
-.db $17 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20
-.db $20 $20 $28 $28 $28 $28 $28 $28 $0C $00 $14 $01 $1C $02 $24 $03
-.db $2C $04 $0A $05 $12 $06 $1A $07 $22 $08 $2A $09 $32 $0A $0B $0B
-.db $13 $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13
-.db $20 $13 $28 $14 $30 $15
+.db 23 ; count
+.db  16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  12,$00, 20,$01, 28,$02, 36,$03, 44,$04, 10,$05, 18,$06, 26,$07, 34,$08, 42,$09, 50,$0A, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
 
 ; 60th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DDA2 to DDE7 (70 bytes)
 _DATA_DDA2_:
-.db $17 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20
-.db $20 $20 $28 $28 $28 $28 $28 $28 $0C $16 $14 $17 $1C $18 $24 $19
-.db $2C $1A $0B $1B $13 $1C $1B $1D $23 $1E $2B $1F $33 $20 $0B $0B
-.db $13 $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13
-.db $20 $13 $28 $14 $30 $15
+.db 23 ; count
+.db  16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  12,$16, 20,$17, 28,$18, 36,$19, 44,$1A, 11,$1B, 19,$1C, 27,$1D, 35,$1E, 43,$1F, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
 
 ; 61st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DDE8 to DE3C (85 bytes)
 _DATA_DDE8_:
-.db $1C $08 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18
-.db $18 $20 $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $0F $21 $17
-.db $22 $1F $22 $27 $23 $2F $24 $0F $25 $17 $26 $1F $26 $27 $27 $2F
-.db $28 $0B $29 $13 $2A $1B $1D $23 $1E $2B $2B $33 $20 $0B $0B $13
-.db $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13 $20
-.db $13 $28 $14 $30 $15
+.db 28 ; count
+.db   8    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  15,$21, 23,$22, 31,$22, 39,$23, 47,$24, 15,$25, 23,$26, 31,$26, 39,$27, 47,$28, 11,$29, 19,$2A, 27,$1D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
 
 ; 62nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DE3D to DE7F (67 bytes)
 _DATA_DE3D_:
-.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
-.db $20 $28 $28 $28 $28 $28 $28 $10 $2C $18 $2D $20 $2D $28 $2E $0B
-.db $29 $13 $2A $1B $1D $23 $1E $2B $2B $33 $20 $0B $0B $13 $0C $1B
-.db $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13 $20 $13 $28
-.db $14 $30 $15
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$1D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
 
 ; 63rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DE80 to DEC2 (67 bytes)
 _DATA_DE80_:
-.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
-.db $20 $28 $28 $28 $28 $28 $28 $10 $2C $18 $2D $20 $2D $28 $2E $0B
-.db $29 $13 $2A $1B $2F $23 $30 $2B $2B $33 $20 $0B $0B $13 $0C $1B
-.db $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13 $20 $13 $28
-.db $14 $30 $15
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$2F, 35,$30, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
 
 ; 64th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DEC3 to DF05 (67 bytes)
 _DATA_DEC3_:
-.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
-.db $20 $28 $28 $28 $28 $28 $28 $10 $31 $18 $32 $20 $33 $28 $34 $0B
-.db $35 $13 $36 $1B $37 $23 $38 $2B $39 $33 $3A $0B $3B $13 $3C $1B
-.db $3D $23 $3E $2B $3F $33 $40 $08 $41 $10 $42 $18 $43 $20 $43 $28
-.db $44 $30 $45
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$31, 24,$32, 32,$33, 40,$34, 11,$35, 19,$36, 27,$37, 35,$38, 43,$39, 51,$3A, 11,$3B, 19,$3C, 27,$3D, 35,$3E, 43,$3F, 51,$40,  8,$41, 16,$42, 24,$43, 32,$43, 40,$44, 48,$45 ; x positions/tile numbers
 
 ; 65th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DF06 to DF54 (79 bytes)
 _DATA_DF06_:
-.db $1A $08 $08 $08 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20
-.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $18 $46 $20 $47 $28
-.db $48 $10 $49 $18 $4A $20 $4B $28 $4C $30 $4D $0B $4E $13 $4F $1B
-.db $50 $23 $51 $2B $52 $33 $53 $08 $54 $10 $55 $18 $56 $20 $57 $28
-.db $58 $30 $59 $08 $5A $10 $5B $18 $5C $20 $5D $28 $5E $30 $5F
+.db 26 ; count
+.db   8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  24,$46, 32,$47, 40,$48, 16,$49, 24,$4A, 32,$4B, 40,$4C, 48,$4D, 11,$4E, 19,$4F, 27,$50, 35,$51, 43,$52, 51,$53,  8,$54, 16,$55, 24,$56, 32,$57, 40,$58, 48,$59,  8,$5A, 16,$5B, 24,$5C, 32,$5D, 40,$5E, 48,$5F ; x positions/tile numbers
 
 ; 66th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DF55 to DFC7 (115 bytes)
 _DATA_DF55_:
-.db $26 $00 $00 $00 $00 $08 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10
-.db $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20 $20 $20 $20 $28
-.db $28 $28 $28 $28 $28 $28 $28 $0D $60 $15 $61 $23 $62 $2B $63 $09
-.db $64 $11 $65 $19 $66 $21 $67 $29 $68 $31 $69 $08 $6A $10 $6B $18
-.db $6C $20 $6D $28 $6E $30 $6F $08 $70 $10 $71 $18 $72 $20 $73 $28
-.db $74 $30 $75 $01 $76 $09 $77 $11 $78 $19 $79 $21 $7A $29 $7B $31
-.db $7C $39 $7D $00 $7E $08 $7F $10 $80 $18 $81 $20 $82 $28 $83 $30
-.db $84 $38 $85
+.db 38 ; count
+.db   0    ,  0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  13,$60, 21,$61, 35,$62, 43,$63,  9,$64, 17,$65, 25,$66, 33,$67, 41,$68, 49,$69,  8,$6A, 16,$6B, 24,$6C, 32,$6D, 40,$6E, 48,$6F,  8,$70, 16,$71, 24,$72, 32,$73, 40,$74, 48,$75,  1,$76,  9,$77, 17,$78, 25,$79, 33,$7A, 41,$7B, 49,$7C, 57,$7D,  0,$7E,  8,$7F, 16,$80, 24,$81, 32,$82, 40,$83, 48,$84, 56,$85 ; x positions/tile numbers
 
 ; 67th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from DFC8 to E010 (73 bytes)
 _DATA_DFC8_:
-.db $18 $10 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $18 $20 $20 $20
-.db $20 $20 $20 $28 $28 $28 $28 $28 $28 $08 $86 $10 $2C $18 $2D $20
-.db $2D $28 $2E $0B $29 $13 $87 $1B $88 $23 $1E $2B $2B $33 $89 $3B
-.db $8A $0B $0B $13 $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10
-.db $12 $18 $13 $20 $13 $28 $14 $30 $15
+.db 24 ; count
+.db  16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db   8,$86, 16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$87, 27,$88, 35,$1E, 43,$2B, 51,$89, 59,$8A, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
 
 ; 68th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E011 to E053 (67 bytes)
 _DATA_E011_:
-.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
-.db $20 $28 $28 $28 $28 $28 $28 $10 $2C $18 $2D $20 $2D $28 $2E $0B
-.db $29 $13 $2A $1B $8B $23 $8C $2B $2B $33 $20 $0B $0B $13 $0C $1B
-.db $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $13 $20 $13 $28
-.db $14 $30 $15
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$8B, 35,$8C, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
 
 ; 69th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E054 to E096 (67 bytes)
 _DATA_E054_:
-.db $16 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
-.db $20 $28 $28 $28 $28 $28 $28 $10 $2C $18 $2D $20 $2D $28 $2E $0B
-.db $29 $13 $2A $1B $8D $23 $1E $2B $2B $33 $20 $0B $0B $13 $0C $1B
-.db $8E $23 $8F $2B $0F $33 $10 $08 $11 $10 $12 $18 $90 $20 $91 $28
-.db $14 $30 $15
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$8D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$8E, 35,$8F, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$90, 32,$91, 40,$14, 48,$15 ; x positions/tile numbers
 
 ; 70th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E097 to E0DF (73 bytes)
 _DATA_E097_:
-.db $18 $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
-.db $20 $28 $28 $28 $28 $28 $28 $30 $30 $10 $2C $18 $2D $20 $2D $28
-.db $2E $0B $29 $13 $2A $1B $1D $23 $1E $2B $2B $33 $20 $0B $0B $13
-.db $0C $1B $0D $23 $0E $2B $0F $33 $10 $08 $11 $10 $12 $18 $92 $20
-.db $93 $28 $14 $30 $15 $18 $94 $20 $95
+.db 24 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 48    , 48     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$1D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$92, 32,$93, 40,$14, 48,$15, 24,$94, 32,$95 ; x positions/tile numbers
 
 ; 71st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E0E0 to E13A (91 bytes)
 _DATA_E0E0_:
-.db $1E $10 $10 $10 $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20
-.db $20 $28 $28 $28 $28 $28 $28 $30 $30 $38 $38 $38 $38 $40 $40 $10
-.db $2C $18 $2D $20 $2D $28 $2E $0B $29 $13 $2A $1B $1D $23 $1E $2B
-.db $2B $33 $20 $0B $0B $13 $0C $1B $0D $23 $0E $2B $0F $33 $10 $08
-.db $11 $10 $12 $18 $96 $20 $97 $28 $14 $30 $15 $1A $98 $22 $99 $13
-.db $9A $1B $9B $23 $9C $2B $9D $18 $9E $20 $9F
+.db 30 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$1D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$96, 32,$97, 40,$14, 48,$15, 26,$98, 34,$99, 19,$9A, 27,$9B, 35,$9C, 43,$9D, 24,$9E, 32,$9F ; x positions/tile numbers
 
 ; 81st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E13B to E198 (94 bytes)
 _DATA_E13B_:
-.db $1F $00 $00 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
-.db $28 $28 $28 $28 $30 $30 $30 $38 $38 $40 $40 $48 $48 $50 $50 $50
-.db $0A $00 $12 $01 $08 $02 $10 $03 $06 $04 $0E $05 $16 $06 $04 $07
-.db $0C $08 $14 $09 $1C $0A $02 $0B $0A $0C $12 $0D $1A $0E $00 $0F
-.db $08 $10 $10 $11 $18 $12 $00 $13 $08 $14 $10 $15 $09 $16 $11 $17
-.db $0A $18 $12 $19 $0A $1A $12 $1B $04 $1C $0C $1D $14 $1E
+.db 31 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 64    , 64    , 72    , 72    , 80    , 80    , 80     ; y positions
+.db  10,$00, 18,$01,  8,$02, 16,$03,  6,$04, 14,$05, 22,$06,  4,$07, 12,$08, 20,$09, 28,$0A,  2,$0B, 10,$0C, 18,$0D, 26,$0E,  0,$0F,  8,$10, 16,$11, 24,$12,  0,$13,  8,$14, 16,$15,  9,$16, 17,$17, 10,$18, 18,$19, 10,$1A, 18,$1B,  4,$1C, 12,$1D, 20,$1E ; x positions/tile numbers
 
 ; 82nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E199 to E1FC (100 bytes)
 _DATA_E199_:
-.db $21 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
-.db $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $48 $48 $48 $50 $50
-.db $50 $50 $09 $1F $11 $20 $09 $21 $11 $22 $03 $23 $0B $24 $13 $25
-.db $1B $26 $03 $27 $0B $28 $13 $29 $1B $2A $05 $2B $0D $2C $15 $2D
-.db $06 $2E $0E $2F $16 $30 $06 $31 $0E $32 $16 $33 $06 $34 $11 $35
-.db $19 $36 $06 $37 $12 $38 $06 $39 $13 $3A $1B $3B $00 $3C $08 $3D
-.db $10 $3E $18 $3F
+.db 33 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db   9,$1F, 17,$20,  9,$21, 17,$22,  3,$23, 11,$24, 19,$25, 27,$26,  3,$27, 11,$28, 19,$29, 27,$2A,  5,$2B, 13,$2C, 21,$2D,  6,$2E, 14,$2F, 22,$30,  6,$31, 14,$32, 22,$33,  6,$34, 17,$35, 25,$36,  6,$37, 18,$38,  6,$39, 19,$3A, 27,$3B,  0,$3C,  8,$3D, 16,$3E, 24,$3F ; x positions/tile numbers
 
 ; 83rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E1FD to E26C (112 bytes)
 _DATA_E1FD_:
-.db $25 $00 $00 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
-.db $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $40 $40 $40 $40 $48 $48
-.db $48 $48 $50 $50 $50 $50 $0A $40 $12 $01 $08 $41 $10 $42 $06 $43
-.db $0E $44 $16 $45 $03 $46 $0B $47 $13 $48 $1B $49 $02 $4A $0A $4B
-.db $12 $4C $1A $4D $00 $4E $08 $4F $10 $50 $00 $51 $08 $52 $10 $53
-.db $18 $54 $04 $55 $0C $56 $14 $57 $01 $58 $09 $59 $11 $5A $19 $5B
-.db $02 $5C $0A $5D $12 $5E $1A $5F $03 $60 $0B $61 $13 $62 $1B $63
+.db 37 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  10,$40, 18,$01,  8,$41, 16,$42,  6,$43, 14,$44, 22,$45,  3,$46, 11,$47, 19,$48, 27,$49,  2,$4A, 10,$4B, 18,$4C, 26,$4D,  0,$4E,  8,$4F, 16,$50,  0,$51,  8,$52, 16,$53, 24,$54,  4,$55, 12,$56, 20,$57,  1,$58,  9,$59, 17,$5A, 25,$5B,  2,$5C, 10,$5D, 18,$5E, 26,$5F,  3,$60, 11,$61, 19,$62, 27,$63 ; x positions/tile numbers
 
 ; 84th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E26D to E2D6 (106 bytes)
 _DATA_E26D_:
-.db $23 $00 $00 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20
-.db $20 $28 $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $40 $48 $48
-.db $50 $50 $50 $50 $09 $64 $11 $65 $09 $66 $11 $67 $02 $68 $0A $69
-.db $12 $6A $1A $6B $00 $6C $08 $6D $10 $6E $18 $6F $00 $70 $08 $71
-.db $10 $72 $18 $73 $03 $74 $0B $75 $13 $76 $1B $77 $06 $78 $0E $79
-.db $16 $7A $05 $7B $0D $7C $15 $7D $04 $7E $0C $7F $14 $80 $03 $81
-.db $14 $82 $00 $83 $08 $84 $10 $85 $18 $86
+.db 35 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 64    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db   9,$64, 17,$65,  9,$66, 17,$67,  2,$68, 10,$69, 18,$6A, 26,$6B,  0,$6C,  8,$6D, 16,$6E, 24,$6F,  0,$70,  8,$71, 16,$72, 24,$73,  3,$74, 11,$75, 19,$76, 27,$77,  6,$78, 14,$79, 22,$7A,  5,$7B, 13,$7C, 21,$7D,  4,$7E, 12,$7F, 20,$80,  3,$81, 20,$82,  0,$83,  8,$84, 16,$85, 24,$86 ; x positions/tile numbers
 
 ; 85th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E2D7 to E34C (118 bytes)
 _DATA_E2D7_:
-.db $27 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18
-.db $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38
-.db $40 $40 $48 $48 $50 $50 $50 $50 $0B $00 $13 $01 $1B $02 $0A $03
-.db $12 $04 $1A $05 $22 $06 $08 $07 $10 $08 $18 $09 $20 $0A $08 $0B
-.db $10 $0C $18 $0D $20 $0E $06 $0F $0E $10 $16 $11 $1E $12 $26 $13
-.db $06 $14 $0E $15 $16 $16 $1E $17 $08 $18 $10 $19 $18 $1A $20 $1B
-.db $0C $1C $14 $1D $1C $1E $0C $1F $1B $20 $0B $21 $1C $22 $08 $23
-.db $10 $24 $18 $25 $20 $26
+.db 39 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  11,$00, 19,$01, 27,$02, 10,$03, 18,$04, 26,$05, 34,$06,  8,$07, 16,$08, 24,$09, 32,$0A,  8,$0B, 16,$0C, 24,$0D, 32,$0E,  6,$0F, 14,$10, 22,$11, 30,$12, 38,$13,  6,$14, 14,$15, 22,$16, 30,$17,  8,$18, 16,$19, 24,$1A, 32,$1B, 12,$1C, 20,$1D, 28,$1E, 12,$1F, 27,$20, 11,$21, 28,$22,  8,$23, 16,$24, 24,$25, 32,$26 ; x positions/tile numbers
 
 ; 86th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E34D to E3B6 (106 bytes)
 _DATA_E34D_:
-.db $23 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20 $28
-.db $28 $28 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40 $40 $48 $48 $48
-.db $50 $50 $50 $50 $0A $27 $12 $28 $03 $29 $0B $2A $13 $2B $1B $2C
-.db $02 $2D $0A $2E $12 $2F $1A $30 $02 $31 $0A $32 $12 $33 $1A $34
-.db $05 $35 $0D $36 $15 $37 $03 $38 $0B $39 $13 $3A $02 $3B $0A $3C
-.db $12 $3D $1A $3E $02 $3F $0A $40 $12 $41 $1A $42 $04 $43 $0C $44
-.db $14 $45 $00 $46 $08 $47 $10 $48 $18 $49
+.db 35 ; count
+.db   8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  10,$27, 18,$28,  3,$29, 11,$2A, 19,$2B, 27,$2C,  2,$2D, 10,$2E, 18,$2F, 26,$30,  2,$31, 10,$32, 18,$33, 26,$34,  5,$35, 13,$36, 21,$37,  3,$38, 11,$39, 19,$3A,  2,$3B, 10,$3C, 18,$3D, 26,$3E,  2,$3F, 10,$40, 18,$41, 26,$42,  4,$43, 12,$44, 20,$45,  0,$46,  8,$47, 16,$48, 24,$49 ; x positions/tile numbers
 
 ; 87th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E3B7 to E41D (103 bytes)
 _DATA_E3B7_:
-.db $22 $00 $00 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
-.db $28 $28 $28 $30 $30 $30 $38 $38 $38 $40 $40 $40 $48 $48 $48 $50
-.db $50 $50 $50 $0B $4A $13 $4B $08 $4C $10 $4D $04 $4E $0C $4F $14
-.db $50 $02 $51 $0A $52 $12 $53 $1A $54 $02 $55 $0A $56 $12 $57 $1A
-.db $58 $04 $59 $0C $5A $14 $5B $04 $5C $0C $5D $14 $5E $05 $5F $0D
-.db $60 $15 $61 $06 $62 $0E $63 $16 $64 $05 $65 $0D $66 $15 $67 $04
-.db $68 $0C $69 $14 $6A $1C $6B
+.db 34 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 64    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  11,$4A, 19,$4B,  8,$4C, 16,$4D,  4,$4E, 12,$4F, 20,$50,  2,$51, 10,$52, 18,$53, 26,$54,  2,$55, 10,$56, 18,$57, 26,$58,  4,$59, 12,$5A, 20,$5B,  4,$5C, 12,$5D, 20,$5E,  5,$5F, 13,$60, 21,$61,  6,$62, 14,$63, 22,$64,  5,$65, 13,$66, 21,$67,  4,$68, 12,$69, 20,$6A, 28,$6B ; x positions/tile numbers
 
 ; 88th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E41E to E49C (127 bytes)
 _DATA_E41E_:
-.db $2A $00 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20
-.db $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40
-.db $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50 $05 $00 $0D $01 $15
-.db $02 $06 $03 $0E $04 $16 $05 $01 $06 $09 $07 $11 $08 $19 $09 $00
-.db $0A $08 $0B $10 $0C $18 $0D $00 $0E $08 $0F $10 $10 $18 $11 $02
-.db $12 $0A $13 $12 $14 $1A $15 $02 $16 $0A $17 $12 $18 $1A $19 $01
-.db $1A $09 $1B $11 $1C $19 $1D $01 $1E $09 $1F $11 $20 $19 $21 $03
-.db $22 $0B $23 $13 $24 $1B $25 $00 $26 $08 $27 $10 $28 $18 $29
+.db 42 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db   5,$00, 13,$01, 21,$02,  6,$03, 14,$04, 22,$05,  1,$06,  9,$07, 17,$08, 25,$09,  0,$0A,  8,$0B, 16,$0C, 24,$0D,  0,$0E,  8,$0F, 16,$10, 24,$11,  2,$12, 10,$13, 18,$14, 26,$15,  2,$16, 10,$17, 18,$18, 26,$19,  1,$1A,  9,$1B, 17,$1C, 25,$1D,  1,$1E,  9,$1F, 17,$20, 25,$21,  3,$22, 11,$23, 19,$24, 27,$25,  0,$26,  8,$27, 16,$28, 24,$29 ; x positions/tile numbers
 
 ; 89th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E49D to E539 (157 bytes)
 _DATA_E49D_:
-.db $34 $00 $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18
-.db $18 $20 $20 $20 $20 $28 $28 $28 $28 $28 $28 $30 $30 $30 $30 $30
-.db $30 $38 $38 $38 $38 $38 $40 $40 $40 $40 $40 $48 $48 $48 $48 $48
-.db $50 $50 $50 $50 $50 $0B $00 $13 $01 $1B $02 $23 $03 $0B $04 $13
-.db $05 $1B $06 $23 $07 $0B $08 $13 $09 $1B $0A $23 $07 $0A $0B $12
-.db $0C $1A $0D $22 $0E $0A $0F $12 $10 $1A $11 $22 $12 $03 $13 $0B
-.db $14 $13 $15 $1B $16 $23 $17 $2B $18 $02 $19 $0A $1A $12 $1B $1A
-.db $1C $22 $1D $2A $1E $05 $1F $0D $20 $15 $21 $1D $22 $25 $23 $04
-.db $24 $0C $25 $14 $26 $1C $27 $24 $28 $04 $29 $0C $2A $14 $2B $1C
-.db $2C $24 $2D $04 $2E $0C $2F $14 $30 $1C $31 $24 $32
+.db 52 ; count
+.db   0    ,  0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80    , 80     ; y positions
+.db  11,$00, 19,$01, 27,$02, 35,$03, 11,$04, 19,$05, 27,$06, 35,$07, 11,$08, 19,$09, 27,$0A, 35,$07, 10,$0B, 18,$0C, 26,$0D, 34,$0E, 10,$0F, 18,$10, 26,$11, 34,$12,  3,$13, 11,$14, 19,$15, 27,$16, 35,$17, 43,$18,  2,$19, 10,$1A, 18,$1B, 26,$1C, 34,$1D, 42,$1E,  5,$1F, 13,$20, 21,$21, 29,$22, 37,$23,  4,$24, 12,$25, 20,$26, 28,$27, 36,$28,  4,$29, 12,$2A, 20,$2B, 28,$2C, 36,$2D,  4,$2E, 12,$2F, 20,$30, 28,$31, 36,$32 ; x positions/tile numbers
 
 ; 91st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E53A to E58E (85 bytes)
 _DATA_E53A_:
-.db $1C $00 $00 $00 $08 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18
-.db $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $30 $09 $00 $11
-.db $01 $19 $02 $04 $03 $0C $04 $14 $05 $1C $06 $04 $07 $0C $08 $14
-.db $09 $1C $0A $05 $0B $0D $0C $15 $0D $1D $0E $04 $0F $0C $10 $14
-.db $11 $1C $12 $04 $13 $0C $14 $14 $15 $1C $16 $02 $17 $0A $18 $12
-.db $19 $1A $1A $22 $1B
+.db 28 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 48     ; y positions
+.db   9,$00, 17,$01, 25,$02,  4,$03, 12,$04, 20,$05, 28,$06,  4,$07, 12,$08, 20,$09, 28,$0A,  5,$0B, 13,$0C, 21,$0D, 29,$0E,  4,$0F, 12,$10, 20,$11, 28,$12,  4,$13, 12,$14, 20,$15, 28,$16,  2,$17, 10,$18, 18,$19, 26,$1A, 34,$1B ; x positions/tile numbers
 
 ; 90th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E58F to E60A (124 bytes)
 _DATA_E58F_:
-.db $29 $00 $00 $00 $00 $08 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10
-.db $10 $18 $18 $18 $18 $18 $18 $20 $20 $20 $20 $20 $28 $28 $28 $28
-.db $28 $28 $28 $30 $30 $30 $30 $30 $30 $30 $10 $1C $18 $1D $20 $1E
-.db $28 $1F $08 $20 $10 $21 $18 $22 $20 $23 $28 $24 $30 $25 $08 $26
-.db $10 $27 $18 $28 $20 $29 $28 $2A $30 $2B $01 $2C $09 $2D $11 $2E
-.db $19 $2F $21 $30 $29 $31 $08 $32 $10 $33 $18 $34 $20 $35 $28 $36
-.db $00 $37 $08 $38 $10 $39 $18 $3A $20 $3B $28 $3C $30 $3D $00 $3E
-.db $08 $3F $10 $40 $18 $41 $20 $42 $28 $43 $30 $44
+.db 41 ; count
+.db   0    ,  0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 48    , 48    , 48     ; y positions
+.db  16,$1C, 24,$1D, 32,$1E, 40,$1F,  8,$20, 16,$21, 24,$22, 32,$23, 40,$24, 48,$25,  8,$26, 16,$27, 24,$28, 32,$29, 40,$2A, 48,$2B,  1,$2C,  9,$2D, 17,$2E, 25,$2F, 33,$30, 41,$31,  8,$32, 16,$33, 24,$34, 32,$35, 40,$36,  0,$37,  8,$38, 16,$39, 24,$3A, 32,$3B, 40,$3C, 48,$3D,  0,$3E,  8,$3F, 16,$40, 24,$41, 32,$42, 40,$43, 48,$44 ; x positions/tile numbers
 
 ; 92nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E60B to E680 (118 bytes)
 _DATA_E60B_:
-.db $27 $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
-.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40 $40
-.db $40 $40 $48 $48 $50 $50 $50 $50 $08 $00 $10 $01 $05 $02 $0D $03
-.db $15 $04 $04 $05 $0C $06 $14 $07 $1C $08 $01 $09 $09 $0A $11 $0B
-.db $19 $0C $00 $0D $08 $0E $10 $0F $18 $10 $01 $11 $09 $12 $11 $13
-.db $19 $14 $00 $0D $08 $0E $10 $0F $18 $10 $01 $11 $09 $12 $11 $13
-.db $19 $14 $01 $15 $09 $16 $11 $17 $19 $18 $08 $19 $10 $1A $00 $1B
-.db $08 $1C $10 $1D $18 $1E
+.db 39 ; count
+.db   0    ,  0    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db   8,$00, 16,$01,  5,$02, 13,$03, 21,$04,  4,$05, 12,$06, 20,$07, 28,$08,  1,$09,  9,$0A, 17,$0B, 25,$0C,  0,$0D,  8,$0E, 16,$0F, 24,$10,  1,$11,  9,$12, 17,$13, 25,$14,  0,$0D,  8,$0E, 16,$0F, 24,$10,  1,$11,  9,$12, 17,$13, 25,$14,  1,$15,  9,$16, 17,$17, 25,$18,  8,$19, 16,$1A,  0,$1B,  8,$1C, 16,$1D, 24,$1E ; x positions/tile numbers
 
 ; 93rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E681 to E6F6 (118 bytes)
 _DATA_E681_:
-.db $27 $00 $00 $08 $08 $10 $10 $10 $18 $18 $18 $18 $20 $20 $20 $20
-.db $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $40 $40 $40 $40
-.db $48 $48 $48 $48 $50 $50 $50 $50 $0A $00 $12 $01 $0A $02 $12 $03
-.db $05 $04 $0D $05 $15 $06 $00 $07 $08 $08 $10 $09 $18 $0A $00 $0B
-.db $08 $0C $10 $0D $18 $0E $00 $0F $08 $10 $10 $11 $18 $12 $00 $13
-.db $08 $14 $10 $15 $18 $16 $00 $17 $08 $18 $10 $19 $18 $1A $00 $1B
-.db $08 $18 $10 $1C $18 $1D $00 $1E $08 $18 $10 $19 $18 $1F $00 $20
-.db $08 $21 $10 $22 $18 $23
+.db 39 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  10,$00, 18,$01, 10,$02, 18,$03,  5,$04, 13,$05, 21,$06,  0,$07,  8,$08, 16,$09, 24,$0A,  0,$0B,  8,$0C, 16,$0D, 24,$0E,  0,$0F,  8,$10, 16,$11, 24,$12,  0,$13,  8,$14, 16,$15, 24,$16,  0,$17,  8,$18, 16,$19, 24,$1A,  0,$1B,  8,$18, 16,$1C, 24,$1D,  0,$1E,  8,$18, 16,$19, 24,$1F,  0,$20,  8,$21, 16,$22, 24,$23 ; x positions/tile numbers
 
 ; 94th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E6F7 to E787 (145 bytes)
 _DATA_E6F7_:
-.db $30 $00 $00 $00 $08 $08 $08 $08 $08 $10 $10 $10 $10 $10 $18 $18
-.db $18 $18 $18 $20 $20 $20 $20 $20 $28 $28 $28 $28 $30 $30 $30 $30
-.db $38 $38 $38 $38 $40 $40 $40 $40 $48 $48 $48 $48 $50 $50 $50 $50
-.db $50 $0E $00 $16 $01 $1E $02 $01 $03 $09 $04 $11 $05 $19 $06 $21
-.db $07 $01 $08 $09 $09 $11 $0A $19 $0B $21 $0C $00 $0D $08 $0E $10
-.db $0F $18 $10 $20 $11 $00 $12 $0A $13 $12 $14 $1A $15 $22 $16 $01
-.db $17 $09 $18 $11 $19 $19 $1A $06 $1B $0E $1C $16 $1D $1E $1E $04
-.db $1F $0C $20 $17 $21 $1F $22 $02 $23 $0A $24 $17 $25 $1F $26 $02
-.db $27 $0A $28 $18 $29 $20 $2A $00 $2B $08 $2C $10 $2D $18 $2E $20
-.db $2F
+.db 48 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80    , 80     ; y positions
+.db  14,$00, 22,$01, 30,$02,  1,$03,  9,$04, 17,$05, 25,$06, 33,$07,  1,$08,  9,$09, 17,$0A, 25,$0B, 33,$0C,  0,$0D,  8,$0E, 16,$0F, 24,$10, 32,$11,  0,$12, 10,$13, 18,$14, 26,$15, 34,$16,  1,$17,  9,$18, 17,$19, 25,$1A,  6,$1B, 14,$1C, 22,$1D, 30,$1E,  4,$1F, 12,$20, 23,$21, 31,$22,  2,$23, 10,$24, 23,$25, 31,$26,  2,$27, 10,$28, 24,$29, 32,$2A,  0,$2B,  8,$2C, 16,$2D, 24,$2E, 32,$2F ; x positions/tile numbers
 
 ; 95th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E788 to E815 (142 bytes)
 _DATA_E788_:
-.db $2F $00 $00 $08 $08 $08 $10 $10 $10 $10 $18 $18 $18 $18 $20 $20
-.db $20 $20 $28 $28 $28 $28 $30 $30 $30 $30 $38 $38 $38 $38 $38 $40
-.db $40 $40 $40 $40 $48 $48 $48 $48 $48 $48 $50 $50 $50 $50 $50 $50
-.db $12 $00 $1A $01 $0F $02 $17 $03 $1F $04 $0C $05 $14 $06 $1C $07
-.db $24 $08 $0A $09 $12 $0A $1A $0B $22 $0C $0A $0D $12 $0E $1A $0F
-.db $22 $10 $0A $11 $12 $12 $1A $13 $22 $14 $0A $15 $12 $16 $1A $17
-.db $22 $18 $07 $19 $0F $1A $17 $1B $1F $1C $27 $1D $04 $1E $0C $1F
-.db $14 $20 $1C $21 $24 $22 $02 $23 $0A $24 $12 $25 $1A $26 $22 $27
-.db $2A $28 $02 $29 $0A $2A $12 $2B $1A $2C $22 $2D $2A $2E
+.db 47 ; count
+.db   0    ,  0    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80    , 80    , 80     ; y positions
+.db  18,$00, 26,$01, 15,$02, 23,$03, 31,$04, 12,$05, 20,$06, 28,$07, 36,$08, 10,$09, 18,$0A, 26,$0B, 34,$0C, 10,$0D, 18,$0E, 26,$0F, 34,$10, 10,$11, 18,$12, 26,$13, 34,$14, 10,$15, 18,$16, 26,$17, 34,$18,  7,$19, 15,$1A, 23,$1B, 31,$1C, 39,$1D,  4,$1E, 12,$1F, 20,$20, 28,$21, 36,$22,  2,$23, 10,$24, 18,$25, 26,$26, 34,$27, 42,$28,  2,$29, 10,$2A, 18,$2B, 26,$2C, 34,$2D, 42,$2E ; x positions/tile numbers
 
 ; 131st entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E816 to E873 (94 bytes)
 _DATA_E816_:
-.db $1F $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $28 $28 $30 $30
-.db $30 $38 $38 $38 $40 $40 $48 $48 $50 $50 $50 $08 $10 $18 $20 $28
-.db $08 $00 $10 $01 $06 $02 $0E $03 $08 $04 $10 $05 $08 $06 $10 $07
-.db $08 $08 $10 $09 $05 $0A $0D $0B $15 $0C $04 $0D $0C $0E $14 $0F
-.db $05 $10 $0D $11 $15 $12 $05 $13 $0D $14 $06 $15 $0E $16 $00 $17
-.db $08 $18 $10 $19 $01 $1A $00 $1B $00 $1C $00 $1D $02 $1E
+.db 31 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 24    , 24    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 72    , 72    , 80    , 80    , 80    ,  8    , 16    , 24    , 32    , 40     ; y positions
+.db   8,$00, 16,$01,  6,$02, 14,$03,  8,$04, 16,$05,  8,$06, 16,$07,  8,$08, 16,$09,  5,$0A, 13,$0B, 21,$0C,  4,$0D, 12,$0E, 20,$0F,  5,$10, 13,$11, 21,$12,  5,$13, 13,$14,  6,$15, 14,$16,  0,$17,  8,$18, 16,$19,  1,$1A,  0,$1B,  0,$1C,  0,$1D,  2,$1E ; x positions/tile numbers
 
 ; 132nd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E874 to E8D1 (94 bytes)
 _DATA_E874_:
-.db $1F $00 $00 $08 $08 $10 $10 $18 $18 $20 $20 $28 $28 $28 $30 $30
-.db $30 $38 $38 $38 $40 $40 $48 $48 $50 $50 $50 $08 $10 $18 $20 $28
-.db $08 $00 $10 $01 $06 $02 $0E $03 $08 $04 $10 $05 $08 $06 $10 $07
-.db $08 $08 $10 $09 $05 $0A $0D $0B $15 $0C $04 $0D $0C $0E $14 $0F
-.db $05 $10 $0D $11 $15 $12 $05 $13 $0D $14 $06 $15 $0E $16 $00 $17
-.db $08 $18 $10 $19 $02 $2E $02 $2F $01 $30 $00 $29 $02 $1E
+.db 31 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 24    , 24    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 72    , 72    , 80    , 80    , 80    ,  8    , 16    , 24    , 32    , 40     ; y positions
+.db   8,$00, 16,$01,  6,$02, 14,$03,  8,$04, 16,$05,  8,$06, 16,$07,  8,$08, 16,$09,  5,$0A, 13,$0B, 21,$0C,  4,$0D, 12,$0E, 20,$0F,  5,$10, 13,$11, 21,$12,  5,$13, 13,$14,  6,$15, 14,$16,  0,$17,  8,$18, 16,$19,  2,$2E,  2,$2F,  1,$30,  0,$29,  2,$1E ; x positions/tile numbers
 
 ; 133rd entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E8D2 to E8E1 (16 bytes)
 _DATA_E8D2_:
-.db $05 $00 $00 $00 $08 $08 $00 $00 $08 $01 $10 $02 $08 $03 $10 $04
+.db 5 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8     ; y positions
+.db   0,$00,  8,$01, 16,$02,  8,$03, 16,$04 ; x positions/tile numbers
 
 ; 134th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E8E2 to E8F1 (16 bytes)
 _DATA_E8E2_:
-.db $05 $00 $00 $08 $08 $08 $04 $05 $0C $06 $00 $07 $08 $08 $10 $09
+.db 5 ; count
+.db   0    ,  0    ,  8    ,  8    ,  8     ; y positions
+.db   4,$05, 12,$06,  0,$07,  8,$08, 16,$09 ; x positions/tile numbers
 
 ; 135th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E8F2 to E901 (16 bytes)
 _DATA_E8F2_:
-.db $05 $00 $00 $08 $08 $08 $06 $0A $0E $0B $02 $0C $0A $0D $12 $0E
+.db 5 ; count
+.db   0    ,  0    ,  8    ,  8    ,  8     ; y positions
+.db   6,$0A, 14,$0B,  2,$0C, 10,$0D, 18,$0E ; x positions/tile numbers
 
 ; 137th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E902 to E911 (16 bytes)
 _DATA_E902_:
-.db $05 $00 $08 $08 $08 $10 $0B $0F $01 $10 $09 $11 $11 $12 $08 $13
+.db 5 ; count
+.db   0    ,  8    ,  8    ,  8    , 16     ; y positions
+.db  11,$0F,  1,$10,  9,$11, 17,$12,  8,$13 ; x positions/tile numbers
 
 ; 138th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E912 to E921 (16 bytes)
 _DATA_E912_:
-.db $05 $00 $08 $08 $08 $10 $0B $0F $01 $14 $09 $15 $11 $16 $08 $13
+.db 5 ; count
+.db   0    ,  8    ,  8    ,  8    , 16     ; y positions
+.db  11,$0F,  1,$14,  9,$15, 17,$16,  8,$13 ; x positions/tile numbers
 
 ; 139th entry of Pointer Table from D6F4 (indexed by CharacterSpriteAttributes)
 ; Data from E922 to EF5B (1594 bytes)
 _DATA_E922_:
-.incbin "Phantasy Star (Japan)_DATA_E922_.inc"
+.db 6 ; count
+.db   4    ,  0    ,  0    ,  8    ,  8    , 16     ; y positions
+.db  16,$17,  2,$18, 11,$0F,  3,$19, 11,$1A,  8,$13 ; x positions/tile numbers
+
+.ends
+.orga $a935
 
 ; Data from EF5C to F472 (1303 bytes)
 DungeonObjects:
@@ -19940,6 +21114,8 @@ _DATA_F833_:
 .dsb 11,$00
 .db $32 $00 $00 $00 $8C $00 $00 $00 $00 $00 $BC $02 $00 $00 $F4 $01
 
+.orga $b8a7
+.section "Character level stats" overwrite
 LevelStats:
 ;    ,,------------------------------ Max HP
 ;    ||  ,,-------------------------- Attack boost
@@ -20073,7 +21249,11 @@ LevelStatsLutz:
 .db $c0,$48,$78,$50,$30,$75,$05,$05
 .db $c1,$49,$79,$51,$70,$94,$05,$05
 .db $c2,$4a,$7a,$52,$c8,$af,$05,$05
-
+.db $c3,$4b,$7b,$53,$50,$c3,$05,$05
+.ends
+; followed by
+.orga $bc6f
+.section "Unknown data 2" overwrite
 ; Data from FC6F to FE1C (430 bytes)
 _DATA_FC6F_:
 .db $12 $12 $12 $12 $12 $12 $12 $22 $22 $12 $8A $8A $8A $8A $22 $13
@@ -20109,19 +21289,19 @@ _DATA_FC6F_:
 .db $9A $93 $93 $9A $9A $93 $9A $93 $9A $93 $9A $A2 $A3 $A2 $AA $83
 .db $83 $83 $83 $1A $1A $1A $1A $83 $83 $83 $83 $83 $8A $8A $83 $83
 .db $A2 $A2 $A2 $92 $92 $92 $16
-
+; followed by
 ; Data from FE1D to FE21 (5 bytes)
 _DATA_FE1D_:
-.db $0C $08 $04 $03 $0B
-
+.db $0C $08 $04 $03 $0B ; Green darkening fade, red, orange
+; followed by
 ; Data from FE22 to FE51 (48 bytes)
-_DATA_FE22_:
+_DATA_FE22_: ; $fe22 Palette cycle for two colours - blue-green-yellow-red-purple-blue and blue-cyan-blue
 .db $34 $38 $35 $3C $38 $3E $3C $3E $3D $3E $2C $3E $1E $3E $0C $3E
 .db $0E $3E $0F $3E $1B $3E $0B $3E $07 $3E $27 $3E $37 $3E $3B $3E
 .db $3A $3E $36 $3E $35 $3E $34 $3E $38 $3E $35 $3C $34 $38 $30 $2A
 
 ; Data from FE52 to FE9F (78 bytes)
-_DATA_FE52_:
+_DATA_FE52_: ; $fe52 Palette fade - blue-white-various
 .db $34 $34 $34 $34 $34 $34 $35 $35 $35 $35 $35 $35
 .dsb 10,$38
 .db $3C $38 $38 $3C $38 $3C $3E $38 $38 $3E $3C $3E $3F $38 $3C $3F
@@ -20130,31 +21310,43 @@ _DATA_FE52_:
 .db $2F $2C $15 $0B $06 $1A $2F $28
 
 ; Data from FEA0 to FEB1 (18 bytes)
-_DATA_FEA0_:
+_DATA_FEA0_: ; $fea0 Palette cycle for two colours - blue-cyan-white-cyan-blue and grey + cyan-white-cyan
 .db $30 $2A $34 $38 $38 $3E $3C $3E $3E $3F $3F $3F $3E $3F $3C $3E
 .db $38 $3E
-
+.ends
+; followed by
+.orga $beb2            ; $feb2
+.section "Hapsby travel menu" overwrite
+; raw tilemap data
 ; Data from FEB2 to FF01 (80 bytes)
 _DATA_FEB2_:
-.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11 $FD $10 $C0 $10
-.db $C0 $10 $F3 $13 $F3 $11 $D0 $10 $D6 $10 $D4 $10 $F3 $13 $F3 $11
-.db $C0 $10 $C0 $10 $FD $10 $F3 $13 $F3 $11 $CD $10 $FF $10 $D9 $10
-.db $F3 $13 $F3 $11 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $D7 $10
-.db $D2 $10 $F4 $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15 $F1 $17
-
+; TODO stringmap like menus.yml
+.dw $11f1,$11f2,$11f2,$11f2,$13f1
+.dw $11f3,$10fd,$10c0,$10c0,$13f3
+.dw $11f3,$10d0,$10d6,$10d4,$13f3
+.dw $11f3,$10c0,$10c0,$10fd,$13f3
+.dw $11f3,$10cd,$10ff,$10d9,$13f3
+.dw $11f3,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10d7,$10d2,$10f4,$13f3
+.dw $15f1,$15f2,$15f2,$15f2,$17f1
+; Dimensions $080a ; 5x8
+.ends
+.orga $bf02            ; $ff02
+.section "Intro box 1" overwrite
+; raw tilemap data
+IntroBox1: ; Spring, AW 342
+; Camineet Residential District on the planet Palma
 ; Data from FF02 to FF97 (150 bytes)
-IntroBox1:
-.db $F1 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11
-.db $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F2 $11 $F1 $13 $F3 $11
-.db $B8 $10 $B9 $10 $C0 $10 $C4 $10 $C5 $10 $C3 $10 $BA $10 $C0 $10
-.db $BB $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $FE $10
-.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10 $C0 $10
-.db $C0 $10 $C0 $10 $C0 $10 $C0 $10 $F3 $13 $F3 $11 $E4 $10 $F3 $10
-.db $E9 $10 $BC $10 $C0 $10 $D0 $10 $EA $10 $E0 $10 $FF $10 $DE $10
-.db $BD $10 $BE $10 $BF $10 $F3 $13 $F1 $15 $F2 $15 $F2 $15 $F2 $15
-.db $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15 $F2 $15
-.db $F2 $15 $F2 $15 $F1 $17
-
+.dw $11f1,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$11f2,$13f1
+.dw $11f3,$10b8,$10b9,$10c0,$10c4,$10c5,$10c3,$10ba,$10c0,$10bb,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10fe,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$10c0,$13f3
+.dw $11f3,$10e4,$10f3,$10e9,$10bc,$10c0,$10d0,$10ea,$10e0,$10ff,$10de,$10bd,$10be,$10bf,$13f3
+.dw $15f1,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$15f2,$17f1
+.define IntroBox1Dimensions $051e ; 30x5
+.ends
+; followed by
+.orga $bf98
+.section "More unknown data" overwrite
 ; Data from FF98 to FFFF (104 bytes)
 _DATA_FF98_:
 .db $01 $01 $01 $0F $08 $01 $01 $01 $0F $04 $01 $01 $08 $01 $0F $04
@@ -20164,8 +21356,12 @@ _DATA_FF98_:
 .db $01 $01 $01 $08 $02 $02 $04 $0F $04 $01 $01 $00 $0F $04 $04 $01
 .db $01 $08 $01 $0F $02 $02 $02 $02 $08 $0F $02 $04 $04 $01 $01 $01
 .db $08 $01 $01 $01 $01 $0F $FF $FF
+.ends
 
-.BANK 4
+;=======================================================================================================
+; Bank 4: $10000 - $13fff
+;=======================================================================================================
+.bank 4 slot 2
 .ORG $0000
 
 ; Data from 10000 to 10B0E (2831 bytes)
@@ -24412,8 +25608,8 @@ _DATA_3FDEE_:
 .incbin "Phantasy Star (Japan)_DATA_40000_.inc"
 
 ; Data from 428F6 to 43AD7 (4578 bytes)
-_DATA_428F6_:
-.incbin "Phantasy Star (Japan)_DATA_428F6_.inc"
+TilesAnimSea:
+.incbin "Phantasy Star (Japan)TilesAnimSea.inc"
 
 ; Data from 43AD8 to 43EBD (998 bytes)
 TilesFont:
@@ -24511,15 +25707,15 @@ TilesExtraFont2:
 .ORG $0000
 
 ; Data from 44000 to 47FFF (16384 bytes)
-_DATA_44000_:
-.incbin "Phantasy Star (Japan)_DATA_44000_.inc"
+TilesBubblingStuff:
+.incbin "Phantasy Star (Japan)TilesBubblingStuff.inc"
 
 .BANK 18
 .ORG $0000
 
 ; Data from 48000 to 4BFFF (16384 bytes)
-_DATA_48000_:
-.incbin "Phantasy Star (Japan)_DATA_48000_.inc"
+VehicleSprites:
+.incbin "Phantasy Star (Japan)VehicleSprites.inc"
 
 .BANK 19
 .ORG $0000
@@ -27143,20 +28339,20 @@ _DATA_6FD43_:
 .ORG $0000
 
 ; Data from 70000 to 70A7F (2688 bytes)
-_DATA_70000_:
-.incbin "Phantasy Star (Japan)_DATA_70000_.inc"
+AlisSprites:
+.incbin "Phantasy Star (Japan)AlisSprites.inc"
 
 ; Data from 70A80 to 7143F (2496 bytes)
-_DATA_70A80_:
-.incbin "Phantasy Star (Japan)_DATA_70A80_.inc"
+LutzSprites:
+.incbin "Phantasy Star (Japan)LutzSprites.inc"
 
 ; Data from 71440 to 71EBF (2688 bytes)
-_DATA_71440_:
-.incbin "Phantasy Star (Japan)_DATA_71440_.inc"
+OdinSprites:
+.incbin "Phantasy Star (Japan)OdinSprites.inc"
 
 ; Data from 71EC0 to 73CFF (7744 bytes)
-_DATA_71EC0_:
-.incbin "Phantasy Star (Japan)_DATA_71EC0_.inc"
+MyauSprites:
+.incbin "Phantasy Star (Japan)MyauSprites.inc"
 
 ; Data from 73D00 to 73DFF (256 bytes)
 TilemapTopPlanet:
