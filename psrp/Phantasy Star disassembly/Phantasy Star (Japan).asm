@@ -3050,15 +3050,15 @@ _LABEL_114F_:
 
 _LABEL_116B_:
     ld a,(EnemyNumber)
-    cp $48
+    cp Enemy_LaShiec
     ld c,$92
     jr z,+
-    cp $49
+    cp Enemy_DarkForce
     jr z,++
     ld c,$89
 +:  ld a,c
     ld (NewMusic),a
-++:  ld hl,_RAM_C2AB_
+++: ld hl,_RAM_C2AB_
     ld b,$0C
 -:  ld a,b
     dec a
@@ -3240,8 +3240,8 @@ _LABEL_12A4_:
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++:  call _LABEL_3014_
-    call _LABEL_1D2A_
+++: call _LABEL_3014_
+    call _LABEL_1D2A_ ; Look up data from _RAM_C2AC_
     cp $01
     jp nz,_LABEL_1338_
     ld a,(_RAM_C267_)
@@ -3257,11 +3257,11 @@ _LABEL_12A4_:
     sub l
     ld h,a
     ld a,(hl)
-    cp $09
+    cp Item_Weapon_NeedleGun
     jr z,+
-    cp $0B
+    cp Item_Weapon_HeatGun
     jr z,++
-    cp $0D
+    cp Item_Weapon_LaserGun
     jr z,+++
     call _LABEL_1A05_
 -:  call GetRandomNumber
@@ -3277,7 +3277,7 @@ _LABEL_12A4_:
 +:  ld d,$FB
     jr ++++
 
-++:  ld d,$F6
+++: ld d,$F6
     jr ++++
 
 +++:ld d,$EC
@@ -3475,7 +3475,7 @@ _LABEL_1461_:
     ld hl,textPlayerDied
     call TextBox20x6
     ld a,(EnemyNumber)
-    cp $46
+    cp Enemy_GoldDrake
     jr nz,+
     ld a,(TextCharacterNumber)
     cp $01
@@ -3814,15 +3814,15 @@ _LABEL_1738_:
 
 _LABEL_175E_:
     ld a,(EnemyNumber)
-    cp $31
+    cp Enemy_Tajim
     jr z,+
-    cp $4A
+    cp Enemy_Nightmare
     jr nz,++
 +:  ld a,$D8
     ld (NewMusic),a
     ret
 
-++:  cp $46
+++: cp Enemy_GoldDrake
     jr nz,+
     ld hl,ActualPalette+16
     ld b,$10
@@ -3857,13 +3857,13 @@ _LABEL_179A_:
 
 _LABEL_17B2_:
     ld a,(EnemyNumber)
-    cp $31
+    cp Enemy_Tajim
     jr nz,+
     ld a,$D8
     ld (NewMusic),a
     ret
 
-+:  cp $46
++:  cp Enemy_GoldDrake
     jr nz,+
     ld hl,ActualPalette+16
     ld b,$10
@@ -3874,13 +3874,13 @@ _LABEL_17B2_:
     ld (NewMusic),a
     call _LABEL_1735_
     ld a,(EnemyNumber)
-    cp $48
+    cp Enemy_LaShiec
     jr z,+
-    cp $49
+    cp Enemy_DarkForce
     jr nz,++
 +:  ld b,$B4
     call PauseBFrames
-++:  ld a,$D8
+++: ld a,$D8
     ld (NewMusic),a
     ld hl,textMonsterKilled
     call TextBox20x6
@@ -4541,14 +4541,17 @@ _LABEL_1D15_:
 
 _LABEL_1D2A_:
     ld a,(_RAM_C267_)
+    ; multiply by 4
     add a,a
     add a,a
+    ; index into _RAM_C2AC_
     ld hl,_RAM_C2AC_
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
+    ; Read into a, b, c
     ld a,(hl)
     inc hl
     ld b,(hl)
@@ -4955,31 +4958,31 @@ _LABEL_2042_:
 _LABEL_204A_:
     ld b,$08
 -:  push bc
-    ld a,b
-    sub $0C
-    neg
-    call PointHLToCharacterInA
-    jp z,++
-    push hl
-    pop ix
-    push de
-    ld a,e
-    call _LABEL_1A05_
-    pop de
-    push de
-    ld a,d
-    cp $D8
-    jr nz,+
-    call GetRandomNumber
-    and $0F
-    add a,d
-+:  call _LABEL_13BA_
-    call _LABEL_326D_
-    pop de
-    ld a,(EnemyNumber)
-    cp $49
-    jr z,+++
-++:  pop bc
+      ld a,b
+      sub $0C
+      neg
+      call PointHLToCharacterInA
+      jp z,++
+      push hl
+      pop ix
+      push de
+        ld a,e
+        call _LABEL_1A05_
+      pop de
+      push de
+        ld a,d
+        cp $D8
+        jr nz,+
+        call GetRandomNumber
+        and $0F
+        add a,d
++:      call _LABEL_13BA_
+        call _LABEL_326D_
+      pop de
+      ld a,(EnemyNumber)
+      cp Enemy_DarkForce
+      jr z,+++
+++: pop bc
     djnz -
     ret
 
@@ -10086,7 +10089,7 @@ _LABEL_46FE_:
     ld de,TargetPalette+16
     ld bc,$0008
     ldir
-    ld a,$46
+    ld a,Enemy_GoldDrake
     ld (EnemyNumber),a
     call LoadEnemy
     call _LABEL_116B_
@@ -13575,7 +13578,7 @@ _LABEL_6054_:
     bit 7,(iy+10)
     jr z,+
     ld a,(EnemyNumber)
-    cp $48
+    cp Enemy_LaShiec
     jr z,_LABEL_6099_
     ld a,$11
     ld (CharacterSpriteAttributes),a
@@ -17483,7 +17486,7 @@ _LABEL_7C15_:
     ret nz
     ld a,$FF
     ld (_RAM_C29D_InBattle),a
-    ld a,$19
+    ld a,Enemy_Antlion
     ld (EnemyNumber),a
     jp _LABEL_7C15_
 
@@ -17724,11 +17727,11 @@ _LABEL_7E67_:
     ld (PaletteFlashFrames),a
     ld hl,$0E03
     ld a,(EnemyNumber)
-    cp $46
+    cp Enemy_GoldDrake
     jr z,+
-    cp $49
+    cp Enemy_DarkForce
     jr z,+
-    cp $4A
+    cp Enemy_Nightmare
     jr z,+
     ld hl,$0D03
 +:  ld (PaletteFlashCount),hl
@@ -18229,100 +18232,100 @@ _DATA_C000_:
 
 ; Data from C178 to C46F (760 bytes)
 _DATA_C180_MonsterPools:
-.db $01 $01 $01 $01 $01 $05 $05 $05
-.db $01 $01 $04 $04 $05 $05 $05 $05
-.db $01 $01 $01 $04 $04 $04 $04 $15
-.db $01 $01 $09 $09 $09 $09 $09 $15
-.db $01 $06 $06 $06 $0A $0A $0A $0A
-.db $04 $0A $0A $0A $0A $15 $15 $17
-.db $01 $01 $06 $06 $0A $0A $0A $17
-.db $0D $0D $15 $15 $15 $1E $1E $30
-.db $05 $0B $0B $17 $17 $18 $18 $18
-.db $09 $09 $09 $10 $10 $22 $22 $35
-.db $36 $36 $40 $40 $40 $40 $40 $40
-.db $03 $03 $03 $03 $03 $03 $03 $16
-.db $16 $16 $16 $1D $1D $23 $23 $23
-.db $03 $03 $25 $25 $25 $25 $25 $25
-.db $16 $16 $1D $1D $1D $35 $35 $35
-.db $01 $01 $01 $09 $09 $09 $09 $09 ; $10
-.db $01 $01 $05 $05 $05 $05 $0A $0A
-.db $03 $03 $03 $12 $12 $12 $12 $12
-.db $15 $15 $15 $15 $16 $16 $16 $16
-.db $09 $09 $10 $10 $16 $16 $18 $1D
-.db $09 $09 $1F $1F $1F $1F $1F $1F
-.db $15 $15 $1F $1F $23 $23 $25 $25
-.db $26 $26 $26 $26 $26 $26 $26 $26
-.db $1D $1D $1D $1D $25 $25 $25 $25
-.db $03 $0A $0A $10 $10 $16 $18 $18
-.db $1D $23 $26 $2D $32 $32 $32 $32
-.db $09 $41 $41 $41 $41 $41 $41 $41
-.db $0A $42 $42 $42 $42 $42 $42 $42
-.db $01 $01 $01 $01 $01 $01 $01 $01
-.db $14 $14 $14 $14 $14 $14 $14 $14
-.db $15 $15 $15 $15 $15 $15 $15 $15
-.db $29 $29 $29 $29 $29 $29 $29 $29 ; $20
-.db $26 $26 $26 $26 $26 $26 $26 $26
-.db $24 $24 $24 $24 $24 $24 $24 $24
-.db $36 $36 $36 $36 $36 $36 $36 $36
-.db $14 $14 $14 $14 $14 $14 $14 $14
-.db $13 $13 $13 $13 $13 $13 $13 $13
-.db $20 $20 $20 $20 $20 $20 $20 $20
-.db $29 $29 $29 $29 $29 $29 $29 $29
-.db $30 $30 $30 $30 $30 $30 $30 $30
-.db $0D $1A $1A $1A $1A $26 $26 $26
-.db $34 $34 $36 $36 $36 $36 $36 $36
-.db $13 $13 $20 $20 $22 $22 $22 $22
-.db $22 $22 $24 $24 $24 $36 $36 $36
-.db $17 $17 $22 $22 $2C $2C $2F $37
-.db $19 $19 $19 $19 $19 $19 $19 $19
-.db $05 $05 $05 $05 $06 $06 $08 $0C
-.db $0E $0E $0E $0E $0E $0E $0F $0F ; $30
-.db $10 $10 $1C $1C $1C $1C $1C $1C
-.db $0C $0C $16 $16 $17 $17 $23 $23
-.db $20 $27 $27 $27 $27 $27 $27 $27
-.db $20 $20 $20 $20 $20 $20 $20 $20
-.db $27 $27 $2F $2F $2F $2F $30 $30
-.db $0F $30 $32 $32 $32 $32 $32 $32
-.db $08 $08 $10 $10 $39 $39 $39 $39
-.db $05 $05 $1C $1C $1C $1C $3B $3B
-.db $30 $30 $39 $39 $3B $3B $3B $3B
-.db $07 $07 $0B $0B $0D $0D $1B $1B
-.db $0B $0B $1B $1B $21 $21 $24 $24
-.db $1B $1B $1B $1B $1D $1D $25 $25
-.db $21 $21 $21 $25 $25 $28 $28 $2A
-.db $0D $24 $24 $2A $2A $2A $2D $2D
-.db $1D $1D $1D $1D $28 $28 $28 $39
-.db $2B $2B $2B $2B $2B $2B $36 $36 ; $40
-.db $25 $25 $25 $36 $36 $36 $38 $38
-.db $07 $07 $3F $3F $3F $3F $3F $3F
-.db $2A $2A $3A $3A $3A $3A $3A $3A
-.db $2B $2B $2D $2D $2D $41 $41 $41
-.db $0D $0D $3A $3A $41 $41 $41 $41
-.db $1D $1D $1D $1D $28 $28 $2A $2A
-.db $25 $25 $2D $2D $38 $38 $38 $38
-.db $39 $39 $39 $41 $41 $41 $41 $41
-.db $44 $44 $44 $44 $44 $44 $44 $44
-.db $02 $02 $03 $03 $0B $0B $0D $0D
-.db $09 $09 $0C $0C $11 $11 $16 $16
-.db $07 $07 $10 $10 $12 $12 $2B $2B
-.db $15 $15 $18 $18 $1D $1D $1F $1F
-.db $17 $17 $28 $28 $2A $2A $2C $2C
-.db $22 $22 $25 $25 $26 $26 $2D $2D
-.db $0B $0B $0B $0B $0D $0D $0D $1F ; $50
-.db $2C $2C $2C $2C $2C $2C $2C $2C
-.db $18 $18 $1D $1D $3B $3B $3C $3C
-.db $25 $25 $2A $2A $3D $3D $41 $41
-.db $38 $38 $3F $3F $40 $40 $42 $42
-.db $11 $11 $37 $37 $37 $37 $37 $37
-.db $2F $2F $2F $2F $40 $40 $42 $42
-.db $33 $33 $36 $36 $38 $38 $39 $39
-.db $33 $33 $35 $35 $3C $3C $3C $3C
-.db $2A $2A $3A $3A $3F $3F $44 $44
-.db $44 $44 $44 $44 $44 $44 $44 $44
-.db $02 $02 $02 $02 $03 $03 $03 $03
-.db $10 $10 $10 $12 $12 $12 $15 $15 ; $5b
-.db $25 $25 $25 $30 $30 $30 $33 $33
-.db $09 $09 $12 $12 $41 $41 $41 $41
+.dsb 5 Enemy_MonsterFly \ .dsb 3 Enemy_Scorpius
+.dsb 2 Enemy_MonsterFly \ .dsb 2 Enemy_Maneater \ .dsb 4 Enemy_Scorpius
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_Maneater Enemy_Maneater Enemy_Maneater Enemy_Maneater Enemy_Lich
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_Lich
+.db Enemy_MonsterFly Enemy_GiantNaiad Enemy_GiantNaiad Enemy_GiantNaiad Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant
+.db Enemy_Maneater Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_Lich Enemy_Lich Enemy_Manticort
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_GiantNaiad Enemy_GiantNaiad Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_Manticort
+.db Enemy_Herex Enemy_Herex Enemy_Lich Enemy_Lich Enemy_Lich Enemy_BigNose Enemy_BigNose Enemy_FlameLizard
+.db Enemy_Scorpius Enemy_BitingFly Enemy_BitingFly Enemy_Manticort Enemy_Manticort Enemy_Skeleton Enemy_Skeleton Enemy_Skeleton
+.db Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_GoldLens Enemy_GoldLens Enemy_Wight Enemy_Wight Enemy_Talos
+.db Enemy_SnakeLord Enemy_SnakeLord Enemy_KingSaber Enemy_KingSaber Enemy_KingSaber Enemy_KingSaber Enemy_KingSaber Enemy_KingSaber
+.db Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_Tarantula
+.db Enemy_Tarantula Enemy_Tarantula Enemy_Tarantula Enemy_Cryon Enemy_Cryon Enemy_SkullSoldier Enemy_SkullSoldier Enemy_SkullSoldier
+.db Enemy_WingEye Enemy_WingEye Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_Manticore
+.db Enemy_Tarantula Enemy_Tarantula Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Talos Enemy_Talos Enemy_Talos
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat ; $10
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_Scorpius Enemy_Scorpius Enemy_Scorpius Enemy_Scorpius Enemy_KillerPlant Enemy_KillerPlant
+.db Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_BatMan Enemy_BatMan Enemy_BatMan Enemy_BatMan Enemy_BatMan
+.db Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Tarantula Enemy_Tarantula Enemy_Tarantula Enemy_Tarantula
+.db Enemy_DevilBat Enemy_DevilBat Enemy_GoldLens Enemy_GoldLens Enemy_Tarantula Enemy_Tarantula Enemy_Skeleton Enemy_Cryon
+.db Enemy_DevilBat Enemy_DevilBat Enemy_Ghoul Enemy_Ghoul Enemy_Ghoul Enemy_Ghoul Enemy_Ghoul Enemy_Ghoul
+.db Enemy_Lich Enemy_Lich Enemy_Ghoul Enemy_Ghoul Enemy_SkullSoldier Enemy_SkullSoldier Enemy_Manticore Enemy_Manticore
+.db Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent
+.db Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_Manticore
+.db Enemy_WingEye Enemy_KillerPlant Enemy_KillerPlant Enemy_GoldLens Enemy_GoldLens Enemy_Tarantula Enemy_Skeleton Enemy_Skeleton
+.db Enemy_Cryon Enemy_SkullSoldier Enemy_Serpent Enemy_LivingDead Enemy_Gaia Enemy_Gaia Enemy_Gaia Enemy_Gaia
+.db Enemy_DevilBat Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_KillerPlant Enemy_Golem Enemy_Golem Enemy_Golem Enemy_Golem Enemy_Golem Enemy_Golem Enemy_Golem
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly
+.db Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing
+.db Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich
+.db Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus ; $20
+.db Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent
+.db Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail
+.db Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord
+.db Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing
+.db Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab
+.db Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite
+.db Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus
+.db Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard
+.db Enemy_Herex Enemy_Marshes Enemy_Marshes Enemy_Marshes Enemy_Marshes Enemy_Serpent Enemy_Serpent Enemy_Serpent
+.db Enemy_BigEater Enemy_BigEater Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord
+.db Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_Ammonite Enemy_Ammonite Enemy_Wight Enemy_Wight Enemy_Wight Enemy_Wight
+.db Enemy_Wight Enemy_Wight Enemy_Snail Enemy_Snail Enemy_Snail Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord
+.db Enemy_Manticort Enemy_Manticort Enemy_Wight Enemy_Wight Enemy_Zombie Enemy_Zombie Enemy_CyborgMage Enemy_DeathBearer
+.db Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion
+.db Enemy_Scorpius Enemy_Scorpius Enemy_Scorpius Enemy_Scorpius Enemy_GiantNaiad Enemy_GiantNaiad Enemy_MotavianPeasant Enemy_MotavianTeaser
+.db Enemy_Sandworm Enemy_Sandworm Enemy_Sandworm Enemy_Sandworm Enemy_Sandworm Enemy_Sandworm Enemy_MotavianManiac Enemy_MotavianManiac ; $30
+.db Enemy_GoldLens Enemy_GoldLens Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech
+.db Enemy_MotavianTeaser Enemy_MotavianTeaser Enemy_Tarantula Enemy_Tarantula Enemy_Manticort Enemy_Manticort Enemy_SkullSoldier Enemy_SkullSoldier
+.db Enemy_Ammonite Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan
+.db Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite
+.db Enemy_Leviathan Enemy_Leviathan Enemy_CyborgMage Enemy_CyborgMage Enemy_CyborgMage Enemy_CyborgMage Enemy_FlameLizard Enemy_FlameLizard
+.db Enemy_MotavianManiac Enemy_FlameLizard Enemy_Gaia Enemy_Gaia Enemy_Gaia Enemy_Gaia Enemy_Gaia Enemy_Gaia
+.db Enemy_MotavianPeasant Enemy_MotavianPeasant Enemy_GoldLens Enemy_GoldLens Enemy_Centaur Enemy_Centaur Enemy_Centaur Enemy_Centaur
+.db Enemy_Scorpius Enemy_Scorpius Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_Vulcan Enemy_Vulcan
+.db Enemy_FlameLizard Enemy_FlameLizard Enemy_Centaur Enemy_Centaur Enemy_Vulcan Enemy_Vulcan Enemy_Vulcan Enemy_Vulcan
+.db Enemy_BlueSlime Enemy_BlueSlime Enemy_BitingFly Enemy_BitingFly Enemy_Herex Enemy_Herex Enemy_Dezorian Enemy_Dezorian
+.db Enemy_BitingFly Enemy_BitingFly Enemy_Dezorian Enemy_Dezorian Enemy_Executor Enemy_Executor Enemy_Snail Enemy_Snail
+.db Enemy_Dezorian Enemy_Dezorian Enemy_Dezorian Enemy_Dezorian Enemy_Cryon Enemy_Cryon Enemy_Manticore Enemy_Manticore
+.db Enemy_Executor Enemy_Executor Enemy_Executor Enemy_Manticore Enemy_Manticore Enemy_Dorouge Enemy_Dorouge Enemy_MadStalker
+.db Enemy_Herex Enemy_Snail Enemy_Snail Enemy_MadStalker Enemy_MadStalker Enemy_MadStalker Enemy_LivingDead Enemy_LivingDead
+.db Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Dorouge Enemy_Dorouge Enemy_Dorouge Enemy_Centaur
+.db Enemy_DezorianHead Enemy_DezorianHead Enemy_DezorianHead Enemy_DezorianHead Enemy_DezorianHead Enemy_DezorianHead Enemy_SnakeLord Enemy_SnakeLord ; $40
+.db Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_ChaosSorcerer Enemy_ChaosSorcerer
+.db Enemy_BlueSlime Enemy_BlueSlime Enemy_Mammoth Enemy_Mammoth Enemy_Mammoth Enemy_Mammoth Enemy_Mammoth Enemy_Mammoth
+.db Enemy_MadStalker Enemy_MadStalker Enemy_IceMan Enemy_IceMan Enemy_IceMan Enemy_IceMan Enemy_IceMan Enemy_IceMan
+.db Enemy_DezorianHead Enemy_DezorianHead Enemy_LivingDead Enemy_LivingDead Enemy_LivingDead Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_Herex Enemy_Herex Enemy_IceMan Enemy_IceMan Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Dorouge Enemy_Dorouge Enemy_MadStalker Enemy_MadStalker
+.db Enemy_Manticore Enemy_Manticore Enemy_LivingDead Enemy_LivingDead Enemy_ChaosSorcerer Enemy_ChaosSorcerer Enemy_ChaosSorcerer Enemy_ChaosSorcerer
+.db Enemy_Centaur Enemy_Centaur Enemy_Centaur Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon
+.db Enemy_GreenSlime Enemy_GreenSlime Enemy_WingEye Enemy_WingEye Enemy_BitingFly Enemy_BitingFly Enemy_Herex Enemy_Herex
+.db Enemy_DevilBat Enemy_DevilBat Enemy_MotavianTeaser Enemy_MotavianTeaser Enemy_RedSlime Enemy_RedSlime Enemy_Tarantula Enemy_Tarantula
+.db Enemy_BlueSlime Enemy_BlueSlime Enemy_GoldLens Enemy_GoldLens Enemy_BatMan Enemy_BatMan Enemy_DezorianHead Enemy_DezorianHead
+.db Enemy_Lich Enemy_Lich Enemy_Skeleton Enemy_Skeleton Enemy_Cryon Enemy_Cryon Enemy_Ghoul Enemy_Ghoul
+.db Enemy_Manticort Enemy_Manticort Enemy_Dorouge Enemy_Dorouge Enemy_MadStalker Enemy_MadStalker Enemy_Zombie Enemy_Zombie
+.db Enemy_Wight Enemy_Wight Enemy_Manticore Enemy_Manticore Enemy_Serpent Enemy_Serpent Enemy_LivingDead Enemy_LivingDead
+.db Enemy_BitingFly Enemy_BitingFly Enemy_BitingFly Enemy_BitingFly Enemy_Herex Enemy_Herex Enemy_Herex Enemy_Ghoul ; $50
+.db Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie
+.db Enemy_Skeleton Enemy_Skeleton Enemy_Cryon Enemy_Cryon Enemy_Vulcan Enemy_Vulcan Enemy_RedDragon Enemy_RedDragon
+.db Enemy_Manticore Enemy_Manticore Enemy_MadStalker Enemy_MadStalker Enemy_GreenDragon Enemy_GreenDragon Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_ChaosSorcerer Enemy_ChaosSorcerer Enemy_Mammoth Enemy_Mammoth Enemy_KingSaber Enemy_KingSaber Enemy_Golem Enemy_Golem
+.db Enemy_RedSlime Enemy_RedSlime Enemy_DeathBearer Enemy_DeathBearer Enemy_DeathBearer Enemy_DeathBearer Enemy_DeathBearer Enemy_DeathBearer
+.db Enemy_CyborgMage Enemy_CyborgMage Enemy_CyborgMage Enemy_CyborgMage Enemy_KingSaber Enemy_KingSaber Enemy_Golem Enemy_Golem
+.db Enemy_MachineGuard Enemy_MachineGuard Enemy_SnakeLord Enemy_SnakeLord Enemy_ChaosSorcerer Enemy_ChaosSorcerer Enemy_Centaur Enemy_Centaur
+.db Enemy_MachineGuard Enemy_MachineGuard Enemy_Talos Enemy_Talos Enemy_RedDragon Enemy_RedDragon Enemy_RedDragon Enemy_RedDragon
+.db Enemy_MadStalker Enemy_MadStalker Enemy_IceMan Enemy_IceMan Enemy_Mammoth Enemy_Mammoth Enemy_FrostDragon Enemy_FrostDragon
+.db Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon
+.db Enemy_GreenSlime Enemy_GreenSlime Enemy_GreenSlime Enemy_GreenSlime Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye
+.db Enemy_GoldLens Enemy_GoldLens Enemy_GoldLens Enemy_BatMan Enemy_BatMan Enemy_BatMan Enemy_Lich Enemy_Lich ; $5b
+.db Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_MachineGuard Enemy_MachineGuard
+.db Enemy_DevilBat Enemy_DevilBat Enemy_BatMan Enemy_BatMan Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
 
 ; Data from C470 to C59F (304 bytes)
 _DATA_C470_:
