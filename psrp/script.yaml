@@ -8964,7 +8964,11 @@
   de: <player> holt <acc><item> raus.<delay>
 
 - offsets: 251a,279d,25aa,2651
-  # We add 25aa, 2651 here instead of "always equipped", TODO why?
+  # 251a = use SearchLight when not in a dungeon (or a battle)
+  # 279d = use Compass when not in a dungeon (or a battle)
+  # We add 25aa, 2651 here:
+  # 25aa = use Alsuline in the wrong place, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
   indices: adad
   ja: ベツニ　コワレテナイヨウダ。<wait>
   us: |
@@ -9110,7 +9114,13 @@
   de: Dieses Objekt muss nicht benutzt werden, da es immer aktiv ist.<wait>
 
 - offsets: 218d,2195,299f,2a2e,579d
-  # TODO 25aa, 2651 changed to index adad, why?
+  # 218d = untrap not in dungeon
+  # 2195 = untrap wth no object
+  # 25aa = use Alsuline in the wrong place, changed to adad
+  # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
+  # 299f = search (from menu)
+  # 2a2e = search (?)
+  # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
   indices: af1e
   ja: |
     トクニ　カワッタトコロハ<line>
