@@ -5137,7 +5137,7 @@ _LABEL_2178_:
     ld hl,textNothingUnusualHere
     jr z,+
     ld l,c
-    ld h,$CB
+    ld h,>DungeonMap
     ld (hl),$00
     ld hl,textTrapDisarmed
 +:  call TextBox20x6
@@ -5664,7 +5664,7 @@ UseItem_Alsuline:
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
-    cp $A3 ; Tairon turned to stone
+    cp $A3 ; Tairon turned to stone ; _room_a3_TaironStone
     jr z,++
     call IsAnyoneOtherThanMyauAlive
     ld hl,textNothingUnusualHere ; changed to textNoNeedNow in retranslation
@@ -5705,7 +5705,7 @@ UseItem_Polymeteral:
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
-    cp $A1
+    cp $A1 ; _room_a1_HapsbyScrapHeap
     jr z,++
     call IsAnyoneOtherThanMyauAlive
     ld hl,textMyauCantOpenBottle
@@ -5788,7 +5788,7 @@ UseItem_EclipseTorch:
     jp Close20x6TextBox ; and ret
 
 +:  ld a,(RoomIndex)
-    cp $AF ; Laerma tree
+    cp $AF ; Laerma tree ; _room_af_LaermaTree
     jr z,+
     ld hl,textNothingHappened
     call TextBox20x6
@@ -5826,7 +5826,7 @@ UseItem_AeroPrism:
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
-    cp $B0
+    cp $B0 ; _room_b0_TopOfBayaMarlay
     jr z,+
 -:  ld hl,textNothingHappened
     call TextBox20x6
@@ -5850,7 +5850,7 @@ UseItem_LaermaBerries:
     cp $17
     jr z,+++
     ld a,(RoomIndex)
-    cp $B0
+    cp $B0 ; _room_b0_TopOfBayaMarlay
     jr z,++
 _LABEL_2733_:
     ld hl,textPlayerTakesOutItem
@@ -6254,9 +6254,9 @@ _LABEL_2995_:
 
 _LABEL_2A21_:
     ld a,(RoomIndex)
-    cp $A2
+    cp $A2 ; _room_a2_5795 ???
     jp z,_LABEL_57C6_
-    cp $A3
+    cp $A3 ; _room_a3_TaironStone
     jp z,FindTairon
     ld hl,textNothingUnusualHere
     call TextBox20x6
@@ -8493,46 +8493,49 @@ _LABEL_39F6_:
     ld bc,$0120
     call OutputTilemapBoxWipePaging
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:_DATA_F717_
     ld a,(RoomIndex)
     and $1F
+    ; Multiply by 10
     ld l,a
-    ld h,$00
+    ld h,0
     add hl,hl
     ld c,l
     ld b,h
     add hl,hl
     add hl,hl
     add hl,bc
-    ld bc,$B70D
+    ; Look up (1-based)
+    ld bc,_DATA_F717_ - 10
     add hl,bc
+    ; First byte is menu size
     ld a,(hl)
     ld (CursorMax),a
     inc hl
     push hl
-    ld b,$03
--:  push bc
-    ld c,$00
-    push hl
-    call +
-    pop hl
-    ld c,$01
-    push hl
-    call +
-    pop hl
-    inc hl
-    inc hl
-    inc hl
-    pop bc
-    djnz -
-    ld hl,_DATA_6FD43_
-    ld bc,$0120
-    call OutputTilemapBoxWipePaging
-    ld hl,$788C
-    ld (CursorTileMapAddress),hl
-    call WaitForMenuSelection
-    ld hl,Frame2Paging
-    ld (hl),$03
+      ld b,$03
+-:    push bc
+        ld c,$00
+        push hl
+          call +
+        pop hl
+        ld c,$01
+        push hl
+          call +
+        pop hl
+        inc hl
+        inc hl
+        inc hl
+      pop bc
+      djnz -
+      ld hl,_DATA_6FD43_
+      ld bc,$0120
+      call OutputTilemapBoxWipePaging
+      ld hl,$788C
+      ld (CursorTileMapAddress),hl
+      call WaitForMenuSelection
+      ld hl,Frame2Paging
+      ld (hl),$03
     pop hl
     ld b,a
     add a,a
@@ -8547,65 +8550,65 @@ _LABEL_39F6_:
 +:  di
     push de
     push hl
-    rst SetVRAMAddressToDE
-    ld a,$03
-    ld (Frame2Paging),a
-    ld a,(hl)
-    or a
-    jr nz,+
-    ld c,$00
-+:  ld l,a
-    ld h,$00
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ld de,$BD94
-    add hl,de
-    push af
-    pop af
-    ld a,$F3
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$11
-    out (VDPData),a
-    ld a,$02
-    ld (Frame2Paging),a
-    ld b,$08
--:  ld a,(hl)
-    add a,a
-    add a,c
-    ld de,$8000
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-    ld d,a
-    ld a,(de)
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$10
-    out (VDPData),a
-    inc hl
-    djnz -
-    ld a,c
-    or a
-    ld b,$01
-    jr nz,_LABEL_3AA2_
-    ld b,$06
-_LABEL_3AA2_:
-    push af
-    pop af
-    ld a,$C0
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$10
-    out (VDPData),a
-    djnz _LABEL_3AA2_
-    ld hl,Frame2Paging
-    ld (hl),$03
+      rst SetVRAMAddressToDE
+      ld a,$03
+      ld (Frame2Paging),a
+      ld a,(hl)
+      or a
+      jr nz,+
+      ld c,$00
++:    ld l,a
+      ld h,$00
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      ld de,$BD94
+      add hl,de
+      push af
+      pop af
+      ld a,$F3
+      out (VDPData),a
+      push af
+      pop af
+      ld a,$11
+      out (VDPData),a
+      ld a,$02
+      ld (Frame2Paging),a
+      ld b,$08
+-:    ld a,(hl)
+      add a,a
+      add a,c
+      ld de,$8000
+      add a,e
+      ld e,a
+      adc a,d
+      sub e
+      ld d,a
+      ld a,(de)
+      out (VDPData),a
+      push af
+      pop af
+      ld a,$10
+      out (VDPData),a
+      inc hl
+      djnz -
+      ld a,c
+      or a
+      ld b,$01
+      jr nz,+
+      ld b,$06
++:
+-:    push af
+      pop af
+      ld a,$C0
+      out (VDPData),a
+      push af
+      pop af
+      ld a,$10
+      out (VDPData),a
+      djnz -
+      ld hl,Frame2Paging
+      ld (hl),$03
     pop hl
     inc hl
     ld a,(hl)
@@ -10535,7 +10538,7 @@ _RoomScriptTable:
 .dw _room_8d_AvionTower
 .dw _room_8e_5530
 .dw _room_8f_5597
-; Unused repeats?
+; Repeats?
 .dw _room_90_DrasgoCave1
 .dw _room_91_DrasgoCave2
 .dw _room_92_DrasgoGasClearSeller
@@ -10552,10 +10555,10 @@ _RoomScriptTable:
 .dw _room_9d_Tajim
 .dw _room_9e_ShadowWarrior
 .dw _room_9f_LaShiec
-.dw _room_a0_578F
-.dw _room_a1_5795
+.dw _room_a0_EppiWoodsNoCompass
+.dw _room_a1_HapsbyScrapHeap
 .dw _room_a2_5795
-.dw _room_a3_5798
+.dw _room_a3_TaironStone
 .dw _room_a4_CoronoTowerDezorian1
 .dw _room_a5_GuaranMorgue
 .dw _room_a6_CoronaDungeonDishonestDezorian: ; $5809
@@ -10567,8 +10570,8 @@ _RoomScriptTable:
 .dw _room_ac_58C6
 .dw _room_ad_58FC
 .dw _room_ae_5902
-.dw _room_af_5795
-.dw _room_b0_5795
+.dw _room_af_LaermaTree
+.dw _room_b0_TopOfBayaMarlay
 .dw _room_b1_592D
 .dw _room_b2_OtegamiChieChan: ; $5933
 .dw _room_b3_FlightToMotavia: ; $5939
@@ -12474,17 +12477,17 @@ _room_9f_LaShiec: ; $575B:
     ; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
     jp DrawText20x6 ; and ret
 
-_room_a0_578F:
+_room_a0_EppiWoodsNoCompass:
     ld hl,textEppiWoodsCantPass
     jp TextBox20x6 ; and ret
 
-_room_a1_5795:
+_room_a1_HapsbyScrapHeap:
 _room_a2_5795:
-_room_af_5795:
-_room_b0_5795:
+_room_af_LaermaTree:
+_room_b0_TopOfBayaMarlay:
 _room_b6_5795:
     call MenuWaitForButton
-_room_a3_5798:
+_room_a3_TaironStone:
     call _LABEL_1D3D_
     pop hl
     ret
@@ -14866,7 +14869,7 @@ _PitFall:
 
 _NotPitFall:
     ld a,(ControlsNew)
-    and $0F ; Mask to dircetions
+    and $0F ; Mask to directions
     jp z,_NotMoving
     ; Check movememnt direction
     ld c,a
@@ -15616,24 +15619,24 @@ _raw:
 
 _LABEL_6E6D_:
     push hl
-    ld a,(DungeonFacingDirection)
-    and $03
-    add a,a
-    add a,a
-    add a,a
-    add a,a
-    ld e,a
-    ld d,$00
-    ld hl,_RelativeSquareOffsets
-    add hl,de
-    ld e,b
-    add hl,de
-    ld a,(DungeonPosition)
-    add a,(hl)
-    ld h,$CB
-    ld l,a
-    ld a,(hl)
-    and $07
+      ld a,(DungeonFacingDirection)
+      and $03
+      add a,a
+      add a,a
+      add a,a
+      add a,a
+      ld e,a
+      ld d,$00
+      ld hl,_RelativeSquareOffsets
+      add hl,de
+      ld e,b
+      add hl,de
+      ld a,(DungeonPosition)
+      add a,(hl)
+      ld h,>DungeonMap
+      ld l,a
+      ld a,(hl)
+      and $07
     pop hl
     ret
 
@@ -17430,10 +17433,10 @@ _LABEL_7BCD_:
     ld a,(VehicleMovementFlags)
     or a
     ret nz
-    ld a,$35
+    ld a,Item_Compass
     call HaveItem
     ret z
-    ld hl,$00A0
+    ld hl,$00A0 ; _room_a0_EppiWoodsNoCompass
     ld (RoomIndex),hl
 _LABEL_7C15_:
     ld a,$0C
@@ -17508,7 +17511,7 @@ _LABEL_7C85_:
     ret z
     ld (_RAM_C2F0_),a
     ld hl,$00AE
-    ld (RoomIndex),hl
+    ld (RoomIndex),hl ; _room_ae_5902
     ld a,$0C
     ld (FunctionLookupIndex),a
     jp _LABEL_7BAB_
@@ -20354,7 +20357,7 @@ DungeonObjects:
   AddDungeonObject_Item     $00, $36, $c600, Item_Compass, 0
   AddDungeonObject_Meseta   $00, $E0, $c601, 20
   AddDungeonObject_Battle   $00, $53, $C6C0, Enemy_MadDoctor, Item_Empty
-  AddDungeonObject_Dialogue $00, $E3, $C50A, $A3, $3A ; _room_a3_5798 ???
+  AddDungeonObject_Dialogue $00, $E3, $C50A, $A3, $3A ; _room_a3_TaironStone ???
   AddDungeonObject_Meseta   $00, $7C, $C602, 10
   AddDungeonObject_Item     $01, $17, $C603, Item_Empty, $FC
   AddDungeonObject_Battle   $01, $5D, $C6C1, Enemy_Skeleton, Item_Empty
@@ -20580,7 +20583,6 @@ DungeonPalettes:
 .db $38 $3C $00 $30 $3F $34 $38 $3C
 .db $08 $0C $00 $04 $3F $04 $08 $0C
 
-; Data from F619 to F61B (3 bytes)
 .struct DungeonData
   BattleProbability db
   DungeonMonsterPoolIndex db
@@ -20654,26 +20656,35 @@ DungeonData1:
 .dsb 10,$00
 
 ; Data from F717 to F832 (284 bytes)
-_DATA_F717_:
-.db $02 $19 $1E $00 $1B $08 $02 $1C $78 $05 $02 $27 $14 $00 $28 $0A
-.db $00 $29 $30 $00 $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $03
-.db $4B $00 $07 $40 $01 $08 $60 $04 $02 $27 $14 $00 $28 $0A $00 $39
-.db $78 $05 $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $10 $1C $00
-.db $12 $22 $01 $15 $E8 $03 $02 $27 $14 $00 $29 $30 $00 $40 $C8
-.dsb 11,$00
-.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $27 $14 $00 $28 $0A
-.db $00 $34 $64 $00 $02 $02 $1E $00 $14 $76 $02 $16 $98 $3A
-.dsb 10,$00
-.db $02 $06 $40 $00 $09 $90 $01 $1A $36 $01 $02 $27 $14 $00 $29 $30
-.db $00 $39 $78 $05 $02 $11 $4E $00 $0B $04 $06 $0A $54 $06 $02 $01
-.db $19 $00 $13 $54 $00 $1E $C0 $12 $02 $27 $14 $00 $2A $14 $00 $39
-.db $78 $05 $02 $24 $0A $00 $25 $28 $00 $2C $40 $06 $01 $24 $0A $00
-.db $25 $28 $00 $00 $00 $00 $02 $0B $04 $06 $0C $A4 $0B $1C $78 $05
-.db $02 $27 $14 $00 $29 $30 $00 $2E $1E $00 $00 $21 $50 $14 $00 $00
-.db $00 $00 $00 $00 $02 $04 $B0 $04 $0D $18 $10 $1D $E4 $0C $02 $27
-.db $14 $00 $2A $14 $00 $2E $1E $00 $01 $24 $0A $00 $25 $28 $00 $00
-.db $00 $00 $00 $23 $E0 $2E $00 $00 $00 $00 $00 $00 $02 $27 $14 $00
-.db $28 $0A $00 $29 $30 $00
+_DATA_F717_: ; 10B per entry, indexed by RoomIndex, only up to index $1c
+.db $02 $19 $1E $00 $1B $08 $02 $1C $78 $05 
+.db $02 $27 $14 $00 $28 $0A $00 $29 $30 $00
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $02 $03 $4B $00 $07 $40 $01 $08 $60 $04
+.db $02 $27 $14 $00 $28 $0A $00 $39 $78 $05
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $02 $10 $1C $00 $12 $22 $01 $15 $E8 $03
+.db $02 $27 $14 $00 $29 $30 $00 $40 $C8 $00
+.db $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $02 $27 $14 $00 $28 $0A $00 $34 $64 $00
+.db $02 $02 $1E $00 $14 $76 $02 $16 $98 $3A
+.db $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+.db $02 $06 $40 $00 $09 $90 $01 $1A $36 $01
+.db $02 $27 $14 $00 $29 $30 $00 $39 $78 $05
+.db $02 $11 $4E $00 $0B $04 $06 $0A $54 $06
+.db $02 $01 $19 $00 $13 $54 $00 $1E $C0 $12
+.db $02 $27 $14 $00 $2A $14 $00 $39 $78 $05
+.db $02 $24 $0A $00 $25 $28 $00 $2C $40 $06
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $02 $0B $04 $06 $0C $A4 $0B $1C $78 $05
+.db $02 $27 $14 $00 $29 $30 $00 $2E $1E $00
+.db $00 $21 $50 $14 $00 $00 $00 $00 $00 $00
+.db $02 $04 $B0 $04 $0D $18 $10 $1D $E4 $0C
+.db $02 $27 $14 $00 $2A $14 $00 $2E $1E $00
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $00 $23 $E0 $2E $00 $00 $00 $00 $00 $00
+.db $02 $27 $14 $00 $28 $0A $00 $29 $30 $00
 
 _DATA_B82F_ItemSellingPrices:
 ; 0 means you can't sell it

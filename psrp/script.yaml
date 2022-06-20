@@ -2250,7 +2250,9 @@
   de: Sieht wie ein versteinerter Mann aus. Vielleicht kann man ihm helfen...<wait>
 
 - offsets: 25bd,2636
-  # Using "Alsuline"
+  # 25bd = using Alsuline
+  # 2636 = using Polymeteral
+  # When using Polymeteral, Alisa may be dead?
   indices: adcf
   ja: |
     ソシテ　ビンノ　フタヲ　アケテ<line>
@@ -3412,7 +3414,9 @@
   # Villager x2 (no to previous question)
   # Triada prisoner
   indices: 0C2
-  ja: アンタニ　ハナスコトハ　ナイ。<line>
+  ja: |
+    アンタニ　ハナスコトハ　ナイ。<line>
+    ドコカヘ　キエナ。<wait>
   translated: I ain’t talking to you, then. Get the hell away from me.
   us: |
     I GOT NOTHIN' TO<line>
@@ -3429,9 +3433,11 @@
   indices: 0C4,0C6,0C8
   ja: |
     ガシコノモリカラ　ヤマヘ　ツウジル<line>
-    イッポンミチノ　オクニアル　トウニハ<wait　more>
-    チカヅクナ。ソコニハ　スガタヲ　ミタダケデ　カラダガ　イシニナッテシマウ<wait　more>
-    トイウ　オソロシイ　マモノガ　スンデイルラシイ。<wait>
+    イッポンミチノ　オクニアル　トウニハ<wait more>
+    チカヅクナ。ソコニハ　スガタヲ　ミタ
+    ダケデ　カラダガ　イシニナッテシマウ<wait more>
+    トイウ　オソロシイ　マモノガ　スン
+    デイルラシイ。<wait>
   translated: In the heart of the mountains, there's a tower that can be reached by one of the roads leading out of Gothic. Inside the tower, they say, there's a freaky monster that, if you just LOOK at it, will turn yuh tuh stone!
   us: |
     DON'T GO NEAR THE <line>
@@ -9117,7 +9123,7 @@
   # 218d = untrap not in dungeon
   # 2195 = untrap wth no object
   # 25aa = use Alsuline in the wrong place, changed to adad
-  # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
+  # 2651 = use Dungeon/Miracle Key outside dungeon, also changed to adad
   # 299f = search (from menu)
   # 2a2e = search (?)
   # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
