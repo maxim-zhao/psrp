@@ -82,11 +82,11 @@ BANKS 30
 .define ActualPalette             $c220     ; 32 bytes Actual palette (when fading)
 .define TargetPalette             $c240     ; 32 bytes Target palette
 
-.define xc258                     $c258     ; 8 bytes? ??? RAM re-used for enemy scenes as well as scrolling scenes?
+.define _RAM_c258_                     $c258     ; 8 bytes? ??? RAM re-used for enemy scenes as well as scrolling scenes?
 
-.define xc260                     $c260     ; w ???
-.define xc262                     $c262     ; b ??? Page
-.define xc263                     $c263     ; b ??? Scrollingtilemap data page(?)
+.define _RAM_c260_                     $c260     ; w ???
+.define _RAM_c262_                     $c262     ; b ??? Page
+.define _RAM_c263_                     $c263     ; b ??? Scrollingtilemap data page(?)
 .define ScrollDirection           $c264     ; b Scroll direction; %----RLDU
 .define PaletteRotateEnabled      $c265     ; b Palette rotation enabled if non-zero
 .define WalkingMovementCounter    $c265     ; b Counter for movement
@@ -102,13 +102,13 @@ BANKS 30
                                             ; +1: ResetValue  Reset value of counter
                                             ; +2: CountDown   Counted down to 0 and then reset
                                             ; +3: Counter     Counted up or down at each reset
-.define xc289Pointer              $c287     ; w Pointer into following
-.define xc289                     $c289     ; 16 (2*8) bytes -> c299, array of 2-byte entries - list of multi-sprite "entities"?
+.define _RAM_c289_Pointer              $c287     ; w Pointer into following
+.define _RAM_c289_                     $c289     ; 16 (2*8) bytes -> c299, array of 2-byte entries - list of multi-sprite "entities"?
 
 .define SceneType                 $c29e     ; b Scene characteristics; controls which animation to do (? and others)
                                             ;   1-32
 
-.define xc29d                     $c29d     ; b ???
+.define _RAM_c29d_                     $c29d     ; b ???
 
 .define AnimDelayCounter          $c2bc     ; b Counter for tile animation effects - delay between frames - must be followed by:
 .define AnimFrameCounter          $c2bd     ; b Counter for tile animation effects - frame #
@@ -119,38 +119,38 @@ BANKS 30
 .define TextCharacterNumber       $c2c2     ; b Which number character (0-3) to write the name of when encountering text code $4f
 
 .define ItemTableIndex            $c2c4     ; b Index into item table for text display
-.define NumberToShowInText        $c2c5     ; w 16-bit int to output for text code TextNumber=$52
+.define NumberToShowInText        NumberToShowInText     ; w 16-bit int to output for text code TextNumber=$52
 .define NumEnemies                $c2c7     ; b counter for number of enemies
 .define EnemyName                 $c2c8     ; 8 bytes -> $c2d0 8 character enemy name
 
-.define xc2d0                     $c2d0     ; w ??? result of NumEnemies*(something)
+.define _RAM_c2d0_                     $c2d0     ; w ??? result of NumEnemies*(something)
 .define MovementInProgress        $c2d2     ; b $ff when doing a block movement
 .define TextBox20x6Open           $c2d3     ; b 20x6 text box open
 
-.define xc2d5                     $c2d5     ; b ???
+.define _RAM_c2d5_                     $c2d5     ; b ???
 .define SceneAnimEnabled          $c2d6     ; b Enemy scene animations only happen when non-zero
-.define xc2d7                     $c2d7     ; b ???
+.define _RAM_c2d7_                     $c2d7     ; b ???
 
-.define xc2d9                     $c2d9     ; w ???
+.define _RAM_c2d9_                     $c2d9     ; w ???
 
 .define RoomIndex                 $c2db     ; b Room index to table at $49d1
 
 .define EnemyMoney                $c2dd     ; w Monster money drop - result of numenemies*(something)
-.define xc2df                     $c2df     ; b ???
-.define xc2e0                     $c2e0     ; b ???
-.define xc2e1                     $c2e1     ; w ??? might be 2*b
+.define _RAM_c2df_                     $c2df     ; b ???
+.define _RAM_c2e0_                     $c2e0     ; b ???
+.define _RAM_c2e1_                     $c2e1     ; w ??? might be 2*b
 
 .define BattleProbability         $c2e3     ; b Chance of an enemy encounter (*255)
 
-.define xc2e5                     $c2e5     ; b ???
+.define _RAM_c2e5_                     $c2e5     ; b ???
 .define EnemyNumber               $c2e6     ; b Enemy number - index into EnemyData
-.define xc2e7                     $c2e7     ; b ???
-.define xc2e8                     $c2e8     ; b ???
-.define xc2e9                     $c2e9     ; b ???
-.define xc2ea                     $c2ea     ; b ???
-.define xc2eb                     $c2eb     ; b ???
+.define _RAM_c2e7_                     $c2e7     ; b ???
+.define _RAM_c2e8_                     $c2e8     ; b ???
+.define _RAM_c2e9_                     $c2e9     ; b ???
+.define _RAM_c2ea_                     $c2ea     ; b ???
+.define _RAM_c2eb_                     $c2eb     ; b ???
 
-.define xc2f2                     $c2f2     ; w ???
+.define _RAM_c2f2_                     $c2f2     ; w ???
 .define CurrentlyPlayingMusic     $c2f4     ; b Currently playing music number
 
 .define GameData                  $c300     ; 1024 bytes -> $c700 All data saved/loaded from SRAM
@@ -161,19 +161,19 @@ BANKS 30
 .define VLocation                 $c305     ; w Vertical location on map - skips parts
 
 .define ScrollScreens             $c307     ; b Counted down when scrolling between planets/in intro
-.define xc308                     $c308     ; b Type of current "world"???
-.define xc309                     $c309     ; b Current "world"???
+.define _RAM_c308_                     $c308     ; b Type of current "world"???
+.define _RAM_c309_                     $c309     ; b Current "world"???
 
 
-.define xc30e                     $c30e     ; b ??? used by palette rotation but could be more
+.define _RAM_c30e_                     $c30e     ; b ??? used by palette rotation but could be more
 .define VehicleMovementFlags      $c30e     ; b Zero if not in a vehicle, else flags for terrain that can be passed?
 
 .define PaletteRotatePos          $c30f     ; b Palette rotation position
 .define PaletteRotateCounter      $c310     ; b Palette rotation delay counter
-.define xc311                     $c311     ; w ??? Related to VLocation
-.define xc313                     $c313     ; w ??? Related to HLocation
-.define xc315                     $c315     ; b ???
-.define xc316                     $c316     ; b Backup of FunctionLookupIndex?
+.define _RAM_c311_                     $c311     ; w ??? Related to VLocation
+.define _RAM_c313_                     $c313     ; w ??? Related to HLocation
+.define _RAM_c315_                     $c315     ; b ???
+.define _RAM_c316_                     $c316     ; b Backup of FunctionLookupIndex?
 
 .define CharacterStats            $c400     ; 192 (12 x 16) bytes -> $c4c0 Character attributes:
                                             ; +0: b alive (bit 0), power boost active (bit 7)
@@ -194,17 +194,28 @@ BANKS 30
 .define CharacterStatsAlis        $c400
 .define CharacterStatsMyau        $c410
 .define CharacterStatsOdin        $c420
-.define CharacterStatsNoah        $c430
+.define CharacterStatsLutz        $c430
 .define CharacterStatsEnemies     $c440     ; Enemy character stats x 8
 
 .define Inventory                 $c4c0     ; 32 bytes, item indices
 .define Meseta                    $c4e0     ; w Current money
 .define InventoryCount            $c4e2     ; Number of items in Inventory
-.define xc4f0                     $c4f0     ; ?
 
-.define xc600                     $c600     ; ?
+.define PartySize                 $c4f0     ; 0-3 based on how many player characters have been unlocked
+.define HaveVisitedSuelo          $c501     ; 1 if you have been there
+.define HaveGotPotfromNekise      $c502     ; 1 if you have
+.define LuvenoPrisonVisitCounter  $c503     ; 0 on first visit, 1 after
+.define LuvenoState               $c504     ; 0 -> in prison, 1 -> waiting for assistant, 2 -> have found assistant, 3 -> paid, 4..5 -> waiting, 6 -> built but no Hapsby, 7 -> all done
+.define HaveLutz                  $c506     ; 0 -> not joined yet, 1 -> has joined party (but may be dead)
+.define SootheFluteIsUnhidden     $c507     ; 0 -> hidden, 1 -> can find it
+.define FlowMoverIsUnhidden       $c508     ; 0 -> hidden, 1 -> can find it
+.define PerseusShieldIsUnhidden   $c509     ; 0 -> hidden, 1 -> can find it
+.define HaveGivenShortcake        $c511     ; $ff if yes
+.define HaveBeatenLaShiec         $c516     ; 1 if yes
+.define HaveBeatenShadow          $c517     ; $ff if yes
+.define _RAM_c600_                     $c600     ; ?
 
-.define xc604                     $c604     ; ?
+.define DungeonKeyIsHidden        $c604     ; $ff at start of game, 0 when villager tells you about it
 
 .define NameEntryMode             $c780     ; b 0 = name entry, 1 = password entry (not used)
 .define NameEntryData             $c781     ; nn bytes: block used for name entry
@@ -218,7 +229,7 @@ BANKS 30
 
 .define CharacterSpriteAttributes $c800     ; 256 (8 x 32) bytes -> $c8ff Character sprite attributes:
                                             ; +0: character number? Affects +1
-                                            ; +1: character number? - 0 = empty, 1 = Alis, 2 = Noah, 3 = Odin, 4 = Myau, 5 = vehicle
+                                            ; +1: character number? - 0 = empty, 1 = Alis, 2 = Lutz, 3 = Odin, 4 = Myau, 5 = vehicle
                                             ; +2: sprite base y
                                             ; +4: sprite base x
                                             ; +10 ($0a): ???
@@ -232,14 +243,14 @@ BANKS 30
 
 .define SpriteTable               $c900     ; 256 bytes -> $ca00 , copy of sprite table for rapid writing to VDP
 
-.define xcc00                     $cc00     ; 192 bytes? Areas for decompression of data
-.define xcd00                     $cd00     ;
-.define xce00                     $ce00     ;
-.define xcf00                     $cf00     ;
+.define _RAM_cc00_                     $cc00     ; 192 bytes? Areas for decompression of data
+.define _RAM_cd00_                     $cd00     ;
+.define _RAM_ce00_                     $ce00     ;
+.define _RAM_cf00_                     $cf00     ;
 
 .define TileMapData               $d000     ; 1792 bytes -> $d700 RAM copy of the tilemap
 
-.define xd724                     $d724     ;  384 bytes -> $d8a4 RAM copy of old tilemap for ???
+.define _RAM_d724_                     $d724     ;  384 bytes -> $d8a4 RAM copy of old tilemap for ???
 .define OldTileMapMenu            $d8a4     ;  132 bytes -> $d928 RAM copy of old tilemap for menu
 .define OldTileMapEnemyName10x4   $d928     ;   80 bytes -> $d978 RAM copy of old tilemap for 10x4 box for enemy name
 .define OldTileMapEnemyStats8x10  $d978     ;  160 bytes -> $d9c8 RAM copy of old tilemap for 8x10 box for enemy stats
@@ -250,12 +261,12 @@ BANKS 30
 .define OldTileMap5x5             $de64     ;   50 bytes -> $de96  RAM copy of old tilemap for 5x5 box
 
 .define Port3EVal                 $df00     ; b Last value written to port $3e (IO control)
-.define xdf01                     $df01     ; b ???
+.define _RAM_df01_                     $df01     ; b ???
 
 ;=======================================================================================================
 ; SRAM:
 ;=======================================================================================================
-.define SRAMIdent                 $8000     ; 64 bytes Marker for checking for SRAM corruption
+.define SaveMenuTilemap                 $8000     ; 64 bytes Marker for checking for SRAM corruption
 
 .define SaveMenuTilemap           $8100     ; 216 bytes - menu tilemap
 
@@ -289,8 +300,182 @@ MusicLassic      db ; 91
 MusicDarkForce   db ; 92
 MusicGameOver    db ; 93
 .ende
+.enum $ae
+SFX_Death        db ; ae
+SFX_af           db ; af
+SFX_b0           db ; b0
+SFX_b1           db ; b1
+SFX_b2           db ; b2
+SFX_b3           db ; b3
+SFX_b4           db ; b4
+SFX_b5           db ; b5
+SFX_b6           db ; b6
+SFX_b7           db ; b7
+SFX_b8           db ; b8
+SFX_b9           db ; b9
+SFX_ba           db ; ba
+SFX_bb           db ; bb
+SFX_bc           db ; bc
+SFX_bd           db ; bd
+SFX_be           db ; be
+SFX_bf           db ; bf
+SFX_c0           db ; c0
+SFX_Heal         db ; c1
+.ende
 .define MusicStop $d7
-; $b8 = ?
+
+.enum 0
+Item_Empty                    db ; $00
+Item_Weapon_WoodCane          db ; $01
+Item_Weapon_ShortSword        db ; $02
+Item_Weapon_IronSword         db ; $03
+Item_Weapon_PsychoWand        db ; $04
+Item_Weapon_SilverTusk        db ; $05
+Item_Weapon_IronAxe           db ; $06
+Item_Weapon_TitaniumSword     db ; $07
+Item_Weapon_CeramicSword      db ; $08
+Item_Weapon_NeedleGun         db ; $09
+Item_Weapon_SaberClaw         db ; $0a
+Item_Weapon_HeatGun           db ; $0b
+Item_Weapon_LightSaber        db ; $0c
+Item_Weapon_LaserGun          db ; $0d
+Item_Weapon_LaconianSword     db ; $0e
+Item_Weapon_LaconianAxe       db ; $0f
+Item_Armour_LeatherClothes    db ; $10
+Item_Armour_WhiteMantle       db ; $11
+Item_Armour_LightSuit         db ; $12
+Item_Armour_IronArmor         db ; $13
+Item_Armour_SpikySquirrelFur  db ; $14
+Item_Armour_ZirconiaMail      db ; $15
+Item_Armour_DiamondArmor      db ; $16
+Item_Armour_LaconianArmor     db ; $17
+Item_Armour_FradMantle        db ; $18
+Item_Shield_LeatherShield     db ; $19
+Item_Shield_IronShield        db ; $1a
+Item_Shield_BronzeShield      db ; $1b
+Item_Shield_CeramicShield     db ; $1c
+Item_Shield_AnimalGlove       db ; $1d
+Item_Shield_LaserBarrier      db ; $1e
+Item_Shield_ShieldOfPerseus   db ; $1f
+Item_Shield_LaconianShield    db ; $20
+Item_Vehicle_LandMaster       db ; $21
+Item_Vehicle_FlowMover        db ; $22
+Item_Vehicle_IceDecker        db ; $23
+Item_PelorieMate              db ; $24
+Item_Ruoginin                 db ; $25
+Item_SootheFlute              db ; $26
+Item_Searchlight              db ; $27
+Item_EscapeCloth              db ; $28
+Item_TranCarpet               db ; $29
+Item_MagicHat                 db ; $2a
+Item_Alsuline                 db ; $2b
+Item_Polymeteral              db ; $2c
+Item_DungeonKey               db ; $2d
+Item_TelepathyBall            db ; $2e
+Item_EclipseTorch             db ; $2f
+Item_Aeroprism                db ; $30
+Item_LaermaBerries            db ; $31
+Item_Hapsby                   db ; $32
+Item_RoadPass                 db ; $33
+Item_Passport                 db ; $34
+Item_Compass                  db ; $35
+Item_Shortcake                db ; $36
+Item_GovernorGeneralsLetter   db ; $37
+Item_LaconianPot              db ; $38
+Item_LightPendant             db ; $39
+Item_CarbuncleEye             db ; $3a
+Item_GasClear                 db ; $3b
+Item_DamoasCrystal            db ; $3c
+Item_MasterSystem             db ; $3d
+Item_MiracleKey               db ; $3e
+Item_Zillion                  db ; $3f
+Item_SecretThing              db ; $40
+.ende
+
+.enum 0
+Player_Alisa  db ; 0
+Player_Myau   db ; 1
+Player_Tylon  db ; 2
+Player_Lutz   db ; 3
+.ende
+
+.enum 0
+Enemy_Empty           db ; $00
+Enemy_MonsterFly      db ; $01
+Enemy_GreenSlime      db ; $02
+Enemy_Wing Eye        db ; $03
+Enemy_Maneater        db ; $04
+Enemy_Scorpius        db ; $05
+Enemy_GiantNaiad      db ; $06
+Enemy_BlueSlime       db ; $07
+Enemy_MotavianPeasant db ; $08
+Enemy_DevilBat        db ; $09
+Enemy_KillerPlant     db ; $0A
+Enemy_BitingFly       db ; $0B
+Enemy_MotavianTeaser  db ; $0C
+Enemy_Herex           db ; $0D
+Enemy_Sandworm        db ; $0E
+Enemy_MotavianManiac  db ; $0F
+Enemy_GoldLens        db ; $10
+Enemy_RedSlime        db ; $11
+Enemy_BatMan          db ; $12
+Enemy_HorseshoeCrab   db ; $13
+Enemy_SharkKing       db ; $14
+Enemy_Lich            db ; $15
+Enemy_Tarantula       db ; $16
+Enemy_Manticort       db ; $17
+Enemy_Skeleton        db ; $18
+Enemy_Antlion         db ; $19
+Enemy_Marshes         db ; $1A
+Enemy_Dezorian        db ; $1B
+Enemy_DesertLeech     db ; $1C
+Enemy_Cryon           db ; $1D
+Enemy_BigNose         db ; $1E
+Enemy_Ghoul           db ; $1F
+Enemy_Ammonite        db ; $20
+Enemy_Executor        db ; $21
+Enemy_Wight           db ; $22
+Enemy_SkullSoldier    db ; $23
+Enemy_Snail           db ; $24
+Enemy_Manticore       db ; $25
+Enemy_Serpent         db ; $26
+Enemy_Leviathan       db ; $27
+Enemy_Dorouge         db ; $28
+Enemy_Octopus         db ; $29
+Enemy_Mad Stalker     db ; $2A
+Enemy_DezorianHead    db ; $2B
+Enemy_Zombie          db ; $2C
+Enemy_LivingDead      db ; $2D
+Enemy_RobotPolice     db ; $2E
+Enemy_CyborgMage      db ; $2F
+Enemy_FlameLizard     db ; $30
+Enemy_Tajim           db ; $31
+Enemy_Gaia            db ; $32
+Enemy_MachineGuard    db ; $33
+Enemy_BigEater        db ; $34
+Enemy_Talos           db ; $35
+Enemy_SnakeLord       db ; $36
+Enemy_DeathBearer     db ; $37
+Enemy_ChaosSorcerer   db ; $38
+Enemy_Centaur         db ; $39
+Enemy_IceMan          db ; $3A
+Enemy_Vulcan          db ; $3B
+Enemy_RedDragon       db ; $3C
+Enemy_GreenDragon     db ; $3D
+Enemy_FakeLaShiec     db ; $3E
+Enemy_Mammoth         db ; $3F
+Enemy_KingSaber       db ; $40
+Enemy_DarkMarauder    db ; $41
+Enemy_Golem           db ; $42
+Enemy_Medusa          db ; $43
+Enemy_FrostDragon     db ; $44
+Enemy_DragonWise      db ; $45
+Enemy_GoldDrake       db ; $46
+Enemy_MadDoctor       db ; $47
+Enemy_LaShiec         db ; $48
+Enemy_DarkForce       db ; $49
+Enemy_Nightmare       db ; $4A
+.ende
 
 ; Text special characters
 .define TextCharacterName $4f
@@ -365,7 +550,7 @@ MusicGameOver    db ; 93
 .define PSG             $7f ; w
 .define FMAddress       $f0 ; w
 .define FMData          $f1 ; w
-.define FMDetect        $f2 ; r/w
+.define AudioControl        $f2 ; r/w
 .define MemoryControl   $3e ; w
 .define IOControl       $3f ; w
 .define IOPort1         $dc ; r/w
@@ -475,7 +660,7 @@ cl333 db
 .section "Boot handler" overwrite
     di
     im 1
-    ld sp,$cb00
+    ld sp,_RAM_cb00_
     jr Start
 .ends
 ; followed by
@@ -557,8 +742,8 @@ Start:                 ; $0087
     inc hl
     ld (hl),$02
 
-    ld hl,$df00        ; Zero $df00-$dffb inclusive
-    ld de,$df00+1
+    ld hl,_RAM_df00_        ; Zero $df00-$dffb inclusive
+    ld de,_RAM_df00_+1
     ld bc,$fb
     ld (hl),$00
     ldir
@@ -568,10 +753,10 @@ Start:                 ; $0087
 
 ResetPoint:
     di                 ; Already did these at boot
-    ld sp,$cb00        ; but reset comes here (things done prior are one-time)
+    ld sp,_RAM_cb00_        ; but reset comes here (things done prior are one-time)
 
-    ld hl,$c000        ; Zero $c000-$deff inclusive
-    ld de,$c000+1
+    ld hl,_RAM_c000_        ; Zero $c000-$deff inclusive
+    ld de,_RAM_c000_+1
     ld bc,$1eff
     ld (hl),$00
     ldir
@@ -1041,7 +1226,7 @@ CountryDetection:      ; $035f
 .section "NTSC detection" overwrite
 NTSCDetection:         ; $0383
     ld hl,$0000
-  -:in a,(VDPStatus)   ; Check VDP status      ; 000386 DB BF
+  -:in a,(VDPStatus)   ; Check VDP status
     or a
     jp p,-             ; Wait for bit 7 (VSync) to be 0
   -:in a,(VDPStatus)
@@ -1068,9 +1253,9 @@ FMDetection:           ; $03a4
     ldbc 7,0           ; Counter (7 -> b), plus 0 -> c
   -:ld a,b
     and $01
-    out (FMDetect),a   ; Output 0/1 lots of times
+    out (AudioControl),a   ; Output 0/1 lots of times
     ld e,a
-    in a,(FMDetect)
+    in a,(AudioControl)
     and $07            ; Mask off high bits
     cp e               ; Compare to what was written
     jr nz,+
@@ -1081,7 +1266,7 @@ FMDetection:           ; $03a4
     jr z,+
     xor a              ; 0 -> a
   +:and $01            ; Strip to bit 0
-    out (FMDetect),a   ; Output $01 if YM2413 and $00 otherwise
+    out (AudioControl),a   ; Output $01 if YM2413 and $00 otherwise
     ld (HasFM),a       ; Store that in HasFM
     ld a,(Port3EVal)
     out (MemoryControl),a  ; Turn IO chip back on
@@ -1089,7 +1274,7 @@ FMDetection:           ; $03a4
 .ends
 ; followed by
 .section "Get controller input" overwrite
-GetControllerInput:    ; $03d1  
+GetControllerInput:    ; $03d1
     in a,(IOPort1)     ; Get controls
     ld hl,ControlsNew
     cpl                ; Invert so 1 = pressed
@@ -1262,7 +1447,7 @@ _VDPDataEnd:
 ; followed by
 .section "Tile loader (4 bpp RLE, no di/ei)" overwrite
 ; Decompresses tile data from hl to VRAM address de
-LoadTiles4BitRLENoDI:  ; $0486  
+LoadTiles4BitRLENoDI:  ; $0486
     ld b,$04
   -:push bc
         push de
@@ -1357,29 +1542,6 @@ Multiply8:             ; $4e2
     add hl,de          ; if a bit is carried then add de (== add e to the total)
   +:add hl,hl          ; repeat for 8 bits
 .endr
-/* ie:
-    jr nc,+
-    add hl,de          ; if a bit is carried then add de
-  +:add hl,hl          ; repeat for 8 bits
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-    jr nc,+
-    add hl,de
-  +:add hl,hl
-*/
     ret nc
     add hl,de
     ret
@@ -1549,7 +1711,7 @@ LoadMarkIIILogo:       ; $6a0
     ldir
 
     ld a,$ff
-    ld (xdf01),a       ; $ff ->
+    ld (_RAM_df01_),a       ; $ff ->
 
     ld hl,$0000
     ld (PaletteMoveDelay),hl ; $00 -> PaletteMoveDelay, PaletteMovePos
@@ -1612,18 +1774,18 @@ NewGame:
     ld (iy+11),$10     ; Armour $10
     call InitialiseCharacterStats
 
-    ld hl,xc600        ; ???
+    ld hl,_RAM_c600_        ; ???
     ld (hl),$ff
-    ld hl,xc604        ; ???
+    ld hl,DungeonKeyIsHidden
     ld (hl),$ff
     ld hl,$0404        ; Set "world" to 4 (type 4)
-    ld (xc308),hl      ;
+    ld (_RAM_c308_),hl      ;
     ld hl,$0610        ;
     ld (HLocation),hl
-    ld (xc313),hl      ; ???
+    ld (_RAM_c313_),hl      ; ???
     ld hl,$0100        ;
     ld (VLocation),hl
-    ld (xc311),hl      ; ???
+    ld (_RAM_c311_),hl      ; ???
     ld hl,$0000        ;
     ld (Meseta),hl      ; ???
 
@@ -1680,7 +1842,7 @@ _ContinueOrDeleteMenu: ; $7e3
     ; Continue chosen
     ld hl,TextChooseWhichToContinue
     call TextBox20x6
-  -:push bc            
+  -:push bc
       call GetSavegameSelection
     pop bc
     call IsSlotUsed
@@ -1702,7 +1864,7 @@ _ContinueOrDeleteMenu: ; $7e3
     ldir               ; Copy
     ld a,SRAMPagingOff
     ld (SRAMPaging),a
-    ld a,(xc316)       ; Check xc316
+    ld a,(_RAM_c316_)       ; Check _RAM_c316_
     cp 11
     ret nz             ; if == 11
     ld hl,FunctionLookupIndex
@@ -1800,14 +1962,14 @@ StartTitleScreen:      ; $08b7
       ld bc,32
       ldir               ; load palette
 
-      ld hl,$c260
-      ld de,$c260+1
+      ld hl,_RAM_c260_
+      ld de,_RAM_c260_+1
       ld bc,$9f
       ld (hl),$00
       ldir               ; zero $c260-$c2ff
 
-      ld hl,$c800
-      ld de,$c801
+      ld hl,_RAM_c800_
+      ld de,_RAM_c801_
       ld bc,$00ff
       ld (hl),$00
       ldir               ; zero $c800-$c8ff
@@ -1816,18 +1978,18 @@ StartTitleScreen:      ; $08b7
       ld hl,TilesTitleScreen
       TileAddressDE 0    ; tile number 0
       call LoadTiles4BitRLENoDI
-  
+
       SetPage TitleScreenTilemap
       ld hl,TitleScreenTilemap
       call DecompressToTileMapData
-  
+
       xor a
       ld (VScroll),a
       ld (HScroll),a     ; Reset scroll registers
-  
+
       ld a,MusicTitle
       ld (NewMusic),a ; Start music
-  
+
       ld de,$8006        ; Output %00000110 to VDP register 0 - enable stretch screen, no scroll lock/column mask/line int/desync
       SetVRAMAddressToDE
 
@@ -1902,10 +2064,10 @@ fn9cb: ; Interplanetary flight?
     jr nz,_f
 
     call _fnaf4        ; if no button pressed:
-    ld hl,(xc2f2)
+    ld hl,(_RAM_c2f2_)
     ld de,8
     add hl,de
-    ld (xc2f2),hl      ; Add 8 to xc2f2
+    ld (_RAM_c2f2_),hl      ; Add 8 to _RAM_c2f2_
     ld a,h
     cp $08             ; Loop until h = $8 = 4096 frames = 68.2s?
     jr c,-
@@ -1918,7 +2080,7 @@ fn9cb: ; Interplanetary flight?
 
     jr +               ; ####################
   +:ld hl,Frame2Paging
-  
+
     ld (hl),:PaletteSpace
     ld hl,PaletteSpace
     ld de,TargetPalette
@@ -1949,7 +2111,7 @@ fn9cb: ; Interplanetary flight?
     xor a              ; Zero:
     ld (HScroll),a
     ld (VScroll),a
-    
+
     ld hl,TileMapData
     TileMapAddressDE 0,0
     ld bc,32*28*2      ; full tilemap update
@@ -1968,7 +2130,7 @@ fn9cb: ; Interplanetary flight?
     call FadeInWholePalette
 
     ld hl,0
-    ld (xc2f2),hl
+    ld (_RAM_c2f2_),hl
 
     ld a,8
     ld (ScrollScreens),a
@@ -1991,99 +2153,99 @@ fn9cb: ; Interplanetary flight?
 
     call fn0bd0
 
-    ld hl,$0800        ; 000A9A 21 00 08
-    ld ($c2f2),hl      ; 000A9D 22 F2 C2
+    ld hl,$0800
+    ld ($c2f2),hl
   -:ld a,(PauseFlag)
     or a
     call nz,DoPause
     ld a,$0e           ; VBlankFunction_OutsideScrolling
     call ExecuteFunctionIndexAInNextVBlank
-    ld a,($c205)       ; 000AAC 3A 05 C2
-    and $30             ; 000AAF E6 30
+    ld a,($c205)
+    and $30
     jr nz,+
-    call _fnaf4           ; 000AB3 CD F4 0A
-    ld hl,($c2f2)      ; 000AB6 2A F2 C2
-    ld de,$0008        ; 000AB9 11 08 00
-    or a               ; 000ABC B7
-    sbc hl,de           ; 000ABD ED 52
-    ld ($c2f2),hl      ; 000ABF 22 F2 C2
+    call _fnaf4
+    ld hl,($c2f2)
+    ld de,$0008
+    or a
+    sbc hl,de
+    ld ($c2f2),hl
     jr nc,-
-  +:ld hl,$0000        ; 000AC4 21 00 00
-    ld ($c2f2),hl      ; 000AC7 22 F2 C2
-    ld hl,FunctionLookupIndex        ; 000ACA 21 02 C2
-    ld (hl),$08        ; 000ACD 36 08
-    ld a,($c2e9)       ; 000ACF 3A E9 C2
-    and $7f             ; 000AD2 E6 7F
-    ld l,a             ; 000AD4 6F
-    add a,a             ; 000AD5 87
-    add a,a             ; 000AD6 87
-    add a,a             ; 000AD7 87
-    add a,l             ; 000AD8 85
-    ld l,a             ; 000AD9 6F
-    ld h,$00           ; 000ADA 26 00
-    ld de,$0c18        ; 000ADC 11 18 0C
-    add hl,de           ; 000ADF 19
-    xor a               ; 000AE0 AF
-    ld (PaletteRotateEnabled),a       ; 000AE1 32 65 C2
-    ld ($c264),a       ; 000AE4 32 64 C2
-    ld ($c2e9),a       ; 000AE7 32 E9 C2
-    ld ($c30e),a       ; 000AEA 32 0E C3
-    ld ($c307),a       ; 000AED 32 07 C3
+  +:ld hl,$0000
+    ld ($c2f2),hl
+    ld hl,FunctionLookupIndex
+    ld (hl),$08
+    ld a,(_RAM_c2e9_)
+    and $7f
+    ld l,a
+    add a,a
+    add a,a
+    add a,a
+    add a,l
+    ld l,a
+    ld h,$00
+    ld de,$0c18
+    add hl,de
+    xor a
+    ld (PaletteRotateEnabled),a
+    ld ($c264),a
+    ld (_RAM_c2e9_),a
+    ld ($c30e),a
+    ld ($c307),a
     call fn7b1e
     ret
 
 _fnaf4:
-    ld de,($c2f2)      ; 000AF4 ED 5B F2 C2
-    ld a,($c304)       ; 000AF8 3A 04 C3
-    ld h,a             ; 000AFB 67
-    ld b,a             ; 000AFC 47
-    ld a,($c307)       ; 000AFD 3A 07 C3
-    ld l,a             ; 000B00 6F
-    or a               ; 000B01 B7
-    sbc hl,de           ; 000B02 ED 52
-    ld a,h             ; 000B04 7C
-    cp $e0             ; 000B05 FE E0
+    ld de,($c2f2)
+    ld a,($c304)
+    ld h,a
+    ld b,a
+    ld a,($c307)
+    ld l,a
+    or a
+    sbc hl,de
+    ld a,h
+    cp $e0
     jr c,+
-    sub $20             ; 000B09 D6 20
-  +:ld h,a             ; 000B0B 67
-    ld ($c304),a       ; 000B0C 32 04 C3
-    ld a,l             ; 000B0F 7D
-    ld ($c307),a       ; 000B10 32 07 C3
-    ld a,b             ; 000B13 78
-    sub h               ; 000B14 94
-    and $0f             ; 000B15 E6 0F
-    ret z               ; 000B17 C8
-    ld e,a             ; 000B18 5F
-    ld d,$00           ; 000B19 16 00
-    ld hl,($c305)      ; 000B1B 2A 05 C3
-    ld b,h             ; 000B1E 44
-    ld a,l             ; 000B1F 7D
-    sub e               ; 000B20 93
-    cp $c0             ; 000B21 FE C0
+    sub $20
+  +:ld h,a
+    ld ($c304),a
+    ld a,l
+    ld ($c307),a
+    ld a,b
+    sub h
+    and $0f
+    ret z
+    ld e,a
+    ld d,$00
+    ld hl,($c305)
+    ld b,h
+    ld a,l
+    sub e
+    cp $c0
     jr c,+
-    sub $40             ; 000B25 D6 40
-    dec h               ; 000B27 25
-  +:ld l,a             ; 000B28 6F
-    ld a,h             ; 000B29 7C
-    and $07             ; 000B2A E6 07
-    ld h,a             ; 000B2C 67
-    ld ($c305),hl      ; 000B2D 22 05 C3
-    cp b               ; 000B30 B8
-    call nz,$74e0        ; 000B31 C4 E0 74
-    call $75dd           ; 000B34 CD DD 75
-    ld a,($c2f3)       ; 000B37 3A F3 C2
-    cp $07             ; 000B3A FE 07
-    ret nz              ; 000B3C C0
-    ld a,(PaletteFadeControl)       ; 000B3D 3A 1B C2
-    or a               ; 000B40 B7
-    call nz,$7de3        ; 000B41 C4 E3 7D
-    ret                    ; 000B44 C9
+    sub $40
+    dec h
+  +:ld l,a
+    ld a,h
+    and $07
+    ld h,a
+    ld ($c305),hl
+    cp b
+    call nz,$74e0
+    call $75dd
+    ld a,($c2f3)
+    cp $07
+    ret nz
+    ld a,(PaletteFadeControl)
+    or a
+    call nz,$7de3
+    ret
 
 _ScrollToTopPlanet:    ; $0b45
     ld de,2
     ld a,(VScroll)
     sub e              ; Scroll up by 2 lines
-    cp 224             
+    cp 224
     jr c,+
     ld d,1             ; When it is >= 224
     sub 32             ; make it jump by 32 to scroll smoothly
@@ -2100,7 +2262,7 @@ _ScrollToTopPlanet:    ; $0b45
     ret z              ; or d==0
 
     ; When we have got to the last screen to scroll:
-    ld a,(xc2e9)       ; get xc2e9
+    ld a,(_RAM_c2e9_)       ; get _RAM_c2e9_
     and $7f            ; strip high bit
     ld l,a
     add a,a
@@ -2108,11 +2270,11 @@ _ScrollToTopPlanet:    ; $0b45
     add a,a
     add a,l
     ld l,a
-    ld h,$00           ; hl = xc2e9*9
-    ld de,_WorldData-9+3 ; get xc2e9th data
+    ld h,$00           ; hl = _RAM_c2e9_*9
+    ld de,_WorldData-9+3 ; get _RAM_c2e9_th data
     add hl,de
     ld a,(hl)
-    ld (xc308),a
+    ld (_RAM_c308_),a
     call _LoadPlanetPalette
 
     ld hl,TargetPalette
@@ -2124,7 +2286,7 @@ _ScrollToTopPlanet:    ; $0b45
     jp DecompressToTileMapData ; and ret
 
 _LoadPlanetPalette:    ; $0b8d
-    ld a,(xc308)
+    ld a,(_RAM_c308_)
     and $03
     add a,a
     ld l,a
@@ -2145,7 +2307,7 @@ PaletteSpacePlanets:   ; $0ba6
 .db cl333 cl333 cl233 cl033 cl123 cl023 ;$3F $3F $3E $3C $39 $38 ; Motavia
 
 fn0bb8: ; $0bb8
-    ld a,(xc2e9)
+    ld a,(_RAM_c2e9_)
     and $7f
     ld l,a
     add a,a
@@ -2153,7 +2315,7 @@ fn0bb8: ; $0bb8
     add a,a
     add a,l
     ld l,a
-    ld h,0             ; hl = xc2e9*9
+    ld h,0             ; hl = _RAM_c2e9_*9
     ld de,_WorldData-9
     add hl,de
 
@@ -2162,7 +2324,7 @@ fn0bb8: ; $0bb8
     call fn7b1e
 
 fn0bd0:
-    ld a,(xc2e9)       ; ??? again at +3?
+    ld a,(_RAM_c2e9_)       ; ??? again at +3?
     and $7f
     ld l,a
     add a,a
@@ -2182,15 +2344,15 @@ fn0bd0:
     ld (ControlsNew),a
     ld (ScrollDirection),a
 
-    ld a,(xc2e9)
+    ld a,(_RAM_c2e9_)
     cp $83             ; ???
     ld a,$10
     jr c,+
     inc a
-  +:ld (xc30e),a       ; xc30e = $10 or $11 if xc2e9==$83
+  +:ld (_RAM_c30e_),a       ; _RAM_c30e_ = $10 or $11 if _RAM_c2e9_==$83
 
     ld hl,0
-    ld (xc2f2),hl
+    ld (_RAM_c2f2_),hl
 
     call LoadScene
 
@@ -2206,7 +2368,7 @@ fn0bd0:
     ld (ScrollDirection),a ; Up
     ret
 
-_WorldData: ; $0c12
+_WorldData: ; $0c1b
 ;    ,,--------------------------------- World number - space?
 ;    ||  ,,----------------------------- VLocation
 ;    ||  ||  ,,------------------------- HLocation
@@ -2256,14 +2418,14 @@ fn0c64: ; $0c64
     ld a,(PaletteRotateEnabled) ;                             |
     or a               ;                                      |
     ret nz             ; exit if PaletteRotateEnabled         |
-    xor    a           ; zero a                               |
- ++:ld (xc29d),a       ; Save to xc29d <----------------------+
+    xor a           ; zero a                               |
+ ++:ld (_RAM_c29d_),a       ; Save to _RAM_c29d_ <----------------------+
 
     ld hl,FunctionLookupIndex
     ld (hl),$0c        ; Set FunctionLookupIndex to 0c (???)
 
     ld a,($c810)       ; Copy CharacterSpriteAttributes[0].currentanimframe
-    ld (xc2d7),a       ; to xc2d7
+    ld (_RAM_c2d7_),a       ; to _RAM_c2d7_
 
     ld hl,OutsideAnimCounters
     ld de,OutsideAnimCounters+1
@@ -2290,14 +2452,14 @@ LoadScene:             ; $0cc6
     inc (hl)           ; -> 9 = ???
     xor a              ; Set to 0:
     ld (SceneAnimEnabled),a
-    ld (xc315),a
+    ld (_RAM_c315_),a
     inc a              ; Set to 1:
-    ld (xc2d5),a
-    ld a,(xc308)
+    ld (_RAM_c2d5_),a
+    ld a,(_RAM_c308_)
     cp 4
     jr nc,+
 
-    SetPage TilesOutside ; If xc308 is <=4:
+    SetPage TilesOutside ; If _RAM_c308_ is <=4:
     ld hl,TilesOutside ; load non-town tileset
     TileAddressDE 0
     call LoadTiles4BitRLE
@@ -2324,13 +2486,13 @@ LoadScene:             ; $0cc6
     ld (HScroll),a     ; HScroll = - Hlocation (because HScroll is the opposite direction)
     ld a,(VLocation)   ; low byte only
     ld (VScroll),a
-    ld a,(xc309)
+    ld a,(_RAM_c309_)
     ld e,a
     ld d,$00
     ld hl,WorldDataLookup1
-    add hl,de          ; hl = WorldDataLookup1 + xc309
+    add hl,de          ; hl = WorldDataLookup1 + _RAM_c309_
     ld a,(hl)
-    ld (xc308),a       ; xc308 = (hl) = world type
+    ld (_RAM_c308_),a       ; _RAM_c308_ = (hl) = world type
     add a,a
     ld h,a
     add a,a
@@ -2341,14 +2503,14 @@ LoadScene:             ; $0cc6
     ld l,a
     ld h,$00
     ld de,WorldDataLookup2
-    add hl,de          ; hl = WorldDataLookup2 + 14*xc308
+    add hl,de          ; hl = WorldDataLookup2 + 14*_RAM_c308_
     ld e,(hl)
     inc hl
     ld d,(hl)
     inc hl
-    ld (xc260),de      ; xc260 = word there
+    ld (_RAM_c260_),de      ; _RAM_c260_ = word there
     ld a,(hl)
-    ld (xc262),a       ; xc262 = byte after it
+    ld (_RAM_c262_),a       ; _RAM_c262_ = byte after it
     inc hl
     ld e,(hl)
     ld d,$1f
@@ -2375,8 +2537,8 @@ LoadScene:             ; $0cc6
     ld (OutsideAnimCounters+4*5),de ; OutsideAnimCounters[5] = reset 7, enabled (next byte)
     inc hl
     ld a,(hl)
-    ld (xc263),a       ; xc263 = next byte
-    inc hl             
+    ld (_RAM_c263_),a       ; _RAM_c263_ = next byte
+    inc hl
     ld a,(hl)
     inc hl
     push hl
@@ -2385,30 +2547,30 @@ LoadScene:             ; $0cc6
         ld de,TargetPalette
         ld bc,17
         ldir           ; Load start of palette
-        ld a,(xc30e)
+        ld a,(_RAM_c30e_)
         or a
         jr nz,+
-        push hl        ; if xc30e=0:
+        push hl        ; if _RAM_c30e_=0:
             ld hl,SpritePalette1
             ld bc,13
             ldir       ; Load rest of palette
         pop hl
         ldi            ; last 2 palette entries from end of palette location
         ldi
-        jp ++          ; if xc30e!=0:
+        jp ++          ; if _RAM_c30e_!=0:
       +:ld hl,SpritePalette2
         ld bc,15
         ldir           ; Load different palette
  ++:pop hl
     inc hl
-    ld a,(hl)          
+    ld a,(hl)
     inc hl
     ld h,(hl)
     ld l,a             ; hl = next word = ???
-    ld (xc2d9),hl
+    ld (_RAM_c2d9_),hl
     call DecompressScrollingTilemapData
     call FillTilemap
-    ld a,$14           
+    ld a,$14
     call GetLocationUnknownData
     rrca               ; divide result by 16
     rrca
@@ -2417,18 +2579,18 @@ LoadScene:             ; $0cc6
     and $f             ; trim to low nibble
     ld (SceneType),a   ; set SceneType accordingly (???)
 
-    ld a,(xc30e)
-    cp $10             ; if xc30e>16
+    ld a,(_RAM_c30e_)
+    cp $10             ; if _RAM_c30e_>16
     ld c,$b8           ; then c=$b8 (?)
     jr nc,+
     or a
     ld c,MusicVehicle  ; else c=MusicVehicle
-    jr nz,+            ; if xc30e==0
-    ld a,(xc309)       ; then:
+    jr nz,+            ; if _RAM_c30e_==0
+    ld a,(_RAM_c309_)       ; then:
     ld e,a
     ld d,$00
     ld hl,WorldMusics
-    add hl,de          ; de = WorldMusics+xc309
+    add hl,de          ; de = WorldMusics+_RAM_c309_
     ld c,(hl)          ; c = (de) = music number
   +:ld a,c
     call CheckMusic
@@ -2457,7 +2619,7 @@ _ResetCharacterSpriteAttributes: ; $e02
     ld bc,$ff
     ld (hl),$00
     ldir               ; Zero $100 bytes (all of CharacterSpriteAttributes)
-    ld a,(xc30e)       ; Check xc30e
+    ld a,(_RAM_c30e_)       ; Check _RAM_c30e_
     or a               ; If zero,
     jp z,_InitialiseCharacterSpriteAttributes
     ld hl,CharacterSpriteAttributes
@@ -2470,7 +2632,7 @@ _InitialiseCharacterSpriteAttributes: ; $e1c
     ld hl,CharacterStatsAlis
     ld a,$01
     call +
-    ld hl,CharacterStatsNoah
+    ld hl,CharacterStatsLutz
     ld a,$03
     call +
     ld hl,CharacterStatsOdin
@@ -2523,9 +2685,9 @@ SpritePalette2:        ; $fe0
 ; followed by
 .orga $f1d
 .section "World data" overwrite
-WorldDataLookup1: ; which "world" to load data for for each value of xc309
+WorldDataLookup1: ; which "world" to load data for for each value of _RAM_c309_
 .db $00,$01,$02,$03,$04,$04,$04,$05,$05,$05,$05,$05,$06,$06,$07,$07,$07,$07,$07,$08,$08,$09,$09,$0A
-WorldMusics: ; Music for each value of xc309
+WorldMusics: ; Music for each value of _RAM_c309_
 .db MusicPalma,MusicMotabia,MusicDezoris,MusicDezoris,MusicTown,MusicTown,MusicTown,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicTown,MusicTown,MusicTown,MusicVillage,MusicTown,MusicVillage,MusicVillage,MusicDezoris,MusicDezoris,MusicVillage,MusicVillage,MusicBossDungeon
 WorldDataLookup2: ; "World" data
 /*
@@ -2534,11 +2696,11 @@ WorldDataLookup2: ; "World" data
 .db :\1 \2 \3 \4 \5 \6 \7 \8
 .dw \9 \10
 .endm
-;          ,,,,----------------------------------- Offset xc260 Points to a table of pointers to tilemap data?
+;          ,,,,----------------------------------- Offset _RAM_c260_ Points to a table of pointers to tilemap data?
 ;          ||||      ,-,-,-,-,-,------------------ various tile animation enables
-;          ||||      | | | | | |  ,,-------------- xc263 ??? page?
+;          ||||      | | | | | |  ,,-------------- _RAM_c263_ ??? page?
 ;          ||||      | | | | | |  ||  ,,,,-------- Palette offset
-;          ||||      | | | | | |  ||  |||| -,,,,-- xc2d9 ??? offset?
+;          ||||      | | | | | |  ||  |||| -,,,,-- _RAM_c2d9_ ??? offset?
 WorldData WorldData1,1,1,0,1,1,0,$1d,$0e47,$a935 ; Palma
 WorldData WorldData2,0,0,1,1,0,1,$1d,$0e58,$a9b9 ; Motabia
 WorldData WorldData3,0,0,0,0,0,0,$1d,$0e69,$a9e3 ; Dezoris
@@ -2551,12 +2713,12 @@ WorldData $9c07,0,0,0,0,0,0,$16,$0ec6,$ae5f ; ???
 WorldData $9d8b,0,0,0,0,0,0,$16,$0ed9,$ae71 ; ??? town
 WorldData $a250,0,0,0,0,0,0,$16,$0eec,$af37 ; Air Castle
 */
-;    ,,--,,-------------------------------------- Offset  xc260 \ Scrolling tilemap data?
-;    ||  ||  ,,---------------------------------- Page    xc262 /
+;    ,,--,,-------------------------------------- Offset  _RAM_c260_ \ Scrolling tilemap data?
+;    ||  ||  ,,---------------------------------- Page    _RAM_c262_ /
 ;    ||  ||  || ,-,-,-,-,-,---------------------- various tile animation enables
-;    ||  ||  || | | | | | |  ,,------------------ xc263 ??? page?
+;    ||  ||  || | | | | | |  ,,------------------ _RAM_c263_ ??? page?
 ;    ||  ||  || | | | | | |  ||  ,,--,,---------- Palette offset
-;    ||  ||  || | | | | | |  ||  ||  ||  ,,--,,-- xc2d9 ??? offset?
+;    ||  ||  || | | | | | |  ||  ||  ||  ,,--,,-- _RAM_c2d9_ ??? offset?
 .db $00,$80,$0d,1,1,0,1,1,0,$1d,$47,$0e,$35,$a9 ; Palma
 .db $76,$a2,$0d,0,0,1,1,0,1,$1d,$58,$0e,$b9,$a9 ; Motabia
 .db $00,$80,$0e,0,0,0,0,0,0,$1d,$69,$0e,$e3,$a9 ; Dezoris
@@ -2612,8 +2774,8 @@ CharacterStatsUpdate:  ; $1916
     ld de,LevelStatsOdin-8
     call +
 
-    ld iy,CharacterStatsNoah
-    ld de,LevelStatsNoah-8
+    ld iy,CharacterStatsLutz
+    ld de,LevelStatsLutz-8
     ; fall through
 
   +:bit 0,(iy+0)       ; if alive...
@@ -2684,7 +2846,7 @@ DoYesNoMenu:           ; $2e75
         pop af
     pop bc
     or a               ; set flag z = yes
-    ret 
+    ret
 .ends
 ; followed by
 .orga $2e81
@@ -2730,7 +2892,7 @@ Pause256Frames:      ; $2eaf
     ld b,0           ; Frames to wait (0 = 256 = 4.3s)
   -:ld a,8           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
-    djnz -      
+    djnz -
     ret
 .ends
 ; followed by
@@ -2802,9 +2964,9 @@ FlashCursor:           ; $2fca
     srl a
     ld e,$00
     rr e
-    ld d,a             ; de = xc26c * 128 (128 bytes = 2 rows of tiles)
+    ld d,a             ; de = _RAM_c26c_ * 128 (128 bytes = 2 rows of tiles)
     add hl,de
-    ex de,hl           ; de = CursorTilemapAddress + xc26c * 128
+    ex de,hl           ; de = CursorTilemapAddress + _RAM_c26c_ * 128
     SetVRAMAddressToDE
 
     ld a,c             ; $00 or $f3 ("off" cursor)
@@ -2843,12 +3005,12 @@ FlashCursor:           ; $2fca
 ; outputs 8/16 bytes = 4/5 chars at (hl), then 3-digit number in a, then write | to VRAM address de
 ; Then does VBlankFunction_Enemy in VBlank to keep tile animations going
 Output4CharsPlusStatWide:  ; $3140
-    di                           ; 003140 F3
-    push de                      ; 003141 D5
-        push af                  ; 003142 F5
-            SetVRAMAddressToDE   ; 003143 CF
-            ld b,16              ; 003144 06 10
-            jp _f                ; 003146 C3 4F 31
+    di
+    push de
+        push af
+            SetVRAMAddressToDE
+            ld b,16
+            jp _f
 
 Output4CharsPlusStat:  ; $3149
     di
@@ -2856,7 +3018,7 @@ Output4CharsPlusStat:  ; $3149
         push af
             SetVRAMAddressToDE
             ld b,$08   ; counter
-            
+
 
          __:ld a,(hl)
             out (VDPData),a ; output 8 bytes from hl to de
@@ -2864,7 +3026,7 @@ Output4CharsPlusStat:  ; $3149
             djnz _b
         pop af
 
-        ld bc,$c010    ; tile c0 for leading blanks
+        ld bc,_RAM_c010_    ; tile c0 for leading blanks
 
         ld d,$ff
       -:sub 100        ; d = 100s digit in a
@@ -2894,7 +3056,7 @@ Output4CharsPlusStat:  ; $3149
         jr nc,-
         ld a,d
 
-        ld bc,$c110    ; tile c1 for a final 0 if zero
+        ld bc,_RAM_c110_    ; tile c1 for a final 0 if zero
         call OutputDigit
 
         push af        ; delay
@@ -2930,9 +3092,9 @@ TilesMP:
 .ends
 ; followed by
 .orga $321f
-.section "Output xd724 tilemap data to bottom of screen" overwrite
+.section "Output _RAM_d724_ tilemap data to bottom of screen" overwrite
 fn321f:                ; $321f
-    ld hl,xd724
+    ld hl,_RAM_d724_
     TileMapAddressDE 0,18
     TileMapAreaBC 32,6
     jp OutputTilemapBoxWipePaging ; and ret
@@ -3000,8 +3162,8 @@ ShowEnemyData:         ; $3255
     call OutputTilemapRect
 
     ld a,(EnemyNumber)
-    cp 73
-    ret z              ; end if EnemyNumber = 73 = Dark Force
+    cp Enemy_DarkForce
+    ret z              ; end if EnemyNumber = Dark Force
 
     ld hl,MenuBox8Top
     TileMapAddressDE 24,0
@@ -3092,7 +3254,7 @@ HideEnemyData:         ; $3309
     TileMapAddressDE 24,0
     TileMapAreaBC 8,10
     ld a,(EnemyNumber)
-    cp 73
+    cp Enemy_DarkForce
     call nz,OutputTilemapBoxWipePaging ; restore tilemap if EnemyNumber!=73=Dark Force
 
     ld hl,OldTileMapEnemyName10x4
@@ -3299,7 +3461,7 @@ _NextLine:             ; $3397                <--------------------+  |
             pop de           ;                   |                    |
             call _OutputDigitA ;                 |                    |
             ld a,b     ; preserve digit counter  |                    |
-        pop bc         ; through pop             |                    |
+        pop bc         ; through pop          |                    |
         ld b,a         ;                         |                    |
     pop hl             ;                         |                    |
     inc hl             ; next data               |                    |
@@ -3308,8 +3470,8 @@ _NextLine:             ; $3397                <--------------------+  |
 +:                     ; $3457 <-----------------+                    |
     call _DrawLetter   ; Finally... a normal letter.                  |
     jp _ReadData       ; ---------------------------------------------+
-                                                                      
-_OutputDigitA:         ; $345d                                        
+
+_OutputDigitA:         ; $345d
 ; Only outputs 0 when low bit of c is set
 ; Decrements b to count how many digits have been displayed
     or a               ; if a!=0
@@ -3349,7 +3511,7 @@ _OutputDigitA:         ; $345d
     ei                 ;
     ld a,$0a           ; VBlankFunction_Enemy
     call ExecuteFunctionIndexAInNextVBlank ;
-    dec b              ; 
+    dec b              ;
     ret                ;
                        ;
 _DrawALetters:         ; $3494
@@ -3538,7 +3700,7 @@ OutputDigit:           ; $3762
 ; unless a=0 when the value in bc determines which tile is output
     and $0f            ; cut a down to a single digit
     jp z,+             ; if non-zero,
-    ld bc,$c110        ; add to $c1 = index of tile '0'
+    ld bc,_RAM_c110_        ; add to $c1 = index of tile '0'
   +:add a,b            ; else add to whatever bc was already
     out (VDPData),a
     push af
@@ -3709,8 +3871,8 @@ InputTilemapRect:
         djnz --
     pop de
     pop bc
-    ei                  
-    ret                 
+    ei
+    ret
 .ends
 ; followed by
 .orga $3be8
@@ -3819,7 +3981,7 @@ _SceneData:            ; $3ec2+8 = $3eca
  SceneDataStruct AirCastle         ,AirCastle          ,AirCastle         ; 0d
  SceneDataStruct GoldDragon        ,GoldDragon         ,GoldDragon        ; 0e
 ; The original rom is a bit odd here... the palette is in an unpaged area but a page number
-; must be given as part of the data structure... so they out $16. My macro puts 0, so I have
+; must be given as part of the data structure... so they put $16. My macro puts 0, so I have
 ; to do the data structure explicitly; the macro works 100% though.
 ; SceneDataStruct AirCastleFull     ,AirCastle          ,AirCastle         ; 0f
 .db $16
@@ -3857,222 +4019,222 @@ PaletteAirCastleFull:  ; $3fc2
 .orga $3fdd
 .section "Name entry screens (FunctionLookupTable $10, $11)" overwrite
 HandleNameEntry: ; 3fdd
-    ld a,(PauseFlag)             ; 003FDD 3A 12 C2
-    or a                         ; 003FE0 B7
-    call nz,DoPause              ; 003FE1 C4 1D 01
+    ld a,(PauseFlag)
+    or a
+    call nz,DoPause
 
-    ld ix,NameEntryCursorX       ; 003FE4 DD 21 84 C7
+    ld ix,NameEntryCursorX
     ld a,$08                     ; 003FE8 3E 08         ; VBlankFunction_Menu
-    call ExecuteFunctionIndexAInNextVBlank ; 003FEA CD 56 00
-    call _DrawCursorSprites      ; 003FED CD 26 42
-    ld a,(Controls)              ; 003FF0 3A 05 C2
+    call ExecuteFunctionIndexAInNextVBlank
+    call _DrawCursorSprites
+    ld a,(Controls)
 
-    and P11 | P12                ; 003FF3 E6 30
+    and P11 | P12
     jp z,_NameEntryNoButtonPressed ;03FF5 CA C8 40      ; not a button
 
     and P11                      ; 003FF8 E6 10         ; which button?
-    jp nz,_Button1Pressed        ; 003FFA C2 3E 40
+    jp nz,_Button1Pressed
 
 _Button2Pressed:
     ld a,(NameEntryCurrentlyPointed);3FFD 3A 88 C7      ; what is pointed?
     cp $4e                       ; 004000 FE 4E         ; = Next
-    jr z,_MoveToNextChar         ; 004002 28 12
+    jr z,_MoveToNextChar
     jr nc,_ControlChar           ; 004004 30 22         ; some other control char
 
     ld de,(NameEntryCharIndex)   ; 004006 ED 5B 81 C7   ; else, it's a char. Get the address to write to (this opcode could have been ld e,(NameEntryCharIndex))
-    ld d,$c7                     ; 00400A 16 C7
-    ld (de),a                    ; 00400C 12
-    call _GetTileMapDataAddressForCharAInHL ; 00400D CD 78 42
+    ld d,$c7
+    ld (de),a
+    call _GetTileMapDataAddressForCharAInHL
     ld a,(de)                    ; 004010 1A            ; retrieve value since the function killed it
-    di                           ; 004011 F3
-    call _WriteCharAToTileMapAndTileMapDataAtHL ; 004012 CD B5 42
-    ei                           ; 004015 FB
+    di
+    call _WriteCharAToTileMapAndTileMapDataAtHL
+    ei
 
 _MoveToNextChar:
-+:  ld a,(NameEntryMode)         ; 004016 3A 80 C7
++:  ld a,(NameEntryMode)
     ld c,$37                     ; 004019 0E 37         ; max = $37 for password
-    rra                          ; 00401B 1F
-    jr c,+                       ; 00401C 38 02
+    rra
+    jr c,+
     ld c,$25                     ; 00401E 0E 25         ; max = $25 nor name entry
-+:  ld hl,NameEntryCharIndex     ; 004020 21 81 C7
-    ld a,(hl)                    ; 004023 7E
-    cp c                         ; 004024 B9
-    ret z                        ; 004025 C8
++:  ld hl,NameEntryCharIndex
+    ld a,(hl)
+    cp c
+    ret z
     inc (hl)                     ; 004026 34            ; increment index if < max
-    ret                          ; 004027 C9
+    ret
 
 _ControlChar: ; 4028
     cp $50                       ; 004028 FE 50         ; = OK
-    jr z,_OKSelected             ; 00402A 28 27
+    jr z,_OKSelected
 
 _PrevSelected:
     ld a,(NameEntryMode)         ; 00402C 3A 80 C7      ; name entry or password?
     ld c,$00                     ; 00402F 0E 00         ; min = $00 for password
-    rra                          ; 004031 1F
-    jr c,+                       ; 004032 38 02
+    rra
+    jr c,+
     ld c,$21                     ; 004034 0E 21         ; min = $21 for name entry
 +:  ld hl,NameEntryCharIndex     ; 004036 21 81 C7      ; decrement NameEntryCharIndex if > min
-    ld a,(hl)                    ; 004039 7E
-    cp c                         ; 00403A B9
-    ret z                        ; 00403B C8
-    dec (hl)                     ; 00403C 35
-    ret                          ; 00403D C9
+    ld a,(hl)
+    cp c
+    ret z
+    dec (hl)
+    ret
 
 _Button1Pressed: ; 403e
 ; delete current char and move cursor back
     ld de,(NameEntryCharIndex)   ; 00403E ED 5B 81 C7   ; get pointed char
-    ld d,$c7                     ; 004042 16 C7
-    ld a,$00                     ; 004044 3E 00
+    ld d,$c7
+    ld a,$00
     ld (de),a                    ; 004046 12            ; zero it
-    call _GetTileMapDataAddressForCharAInHL ; 004047 CD 78 42
-    ld a,(de)                    ; 00404A 1A
-    di                           ; 00404B F3
-      call _WriteCharAToTileMapAndTileMapDataAtHL ; 00404C CD B5 42
-    ei                           ; 00404F FB
-    jp _PrevSelected             ; 004050 C3 2C 40
+    call _GetTileMapDataAddressForCharAInHL
+    ld a,(de)
+    di
+      call _WriteCharAToTileMapAndTileMapDataAtHL
+    ei
+    jp _PrevSelected
 
 _OKSelected:
-    ld a,(NameEntryMode)         ; 004053 3A 80 C7
-    rra                          ; 004056 1F
-    jr nc,_OKSelected_NameEntry  ; 004057 30 22
+    ld a,(NameEntryMode)
+    rra
+    jr nc,_OKSelected_NameEntry
 
 _OKSelected_Password:            ; ####################### this section is unused
     ld de,_PasswordLookupData    ; 004059 11 96 43   ; data
-    exx                          ; 00405C D9
-    ld b,$38                     ; 00405D 06 38
-    ld hl,$c700                  ; 00405F 21 00 C7
-    ld de,$c740                  ; 004062 11 40 C7
+    exx
+    ld b,$38
+    ld hl,_RAM_c700_
+    ld de,_RAM_c740_
 -:  ld a,(hl)                    ; 004065 7E         ; read byte
-    or a                         ; 004066 B7
-    jr z,+                       ; 004067 28 07
+    or a
+    jr z,+
 
     exx                          ; 004069 D9         ; if non-zero, look up corresponding byte in the table
-    ld l,a                       ; 00406A 6F
-    ld h,$00                     ; 00406B 26 00
-    add hl,de                    ; 00406D 19
-    ld a,(hl)                    ; 00406E 7E
-    exx                          ; 00406F D9
+    ld l,a
+    ld h,$00
+    add hl,de
+    ld a,(hl)
+    exx
 
 +:  ld (de),a                    ; 004070 12         ; write byte to de
-    inc hl                       ; 004071 23
-    inc de                       ; 004072 13
+    inc hl
+    inc de
     djnz -                       ; 004073 10 F0      ; repeat for $38 bytes
 
-    ld hl,FunctionLookupIndex    ; 004075 21 02 C2
+    ld hl,FunctionLookupIndex
     ld (hl),$0c                  ; 004078 36 0C      ; $3d76
-    ret                          ; 00407A C9
+    ret
 
 _OKSelected_NameEntry:
-    ld hl,$c721                  ; 00407B 21 21 C7   ; copy entered name
-    ld de,$c778                  ; 00407E 11 78 C7   ; (why???)
-    ld bc,$0005                  ; 004081 01 05 00
-    ldir                         ; 004084 ED B0
+    ld hl,_RAM_c721_                  ; 00407B 21 21 C7   ; copy entered name
+    ld de,_RAM_c778_                  ; 00407E 11 78 C7   ; (why???)
+    ld bc,$0005
+    ldir
 
     ld hl,(NumberToShowInText)   ; 004086 2A C5 C2   ; still contains the slot number (1-5)
-    add hl,hl                    ; 004089 29
+    add hl,hl
     ld de,_SaveSlotNameTileAddresses-2 ; 00408A 11 BC 40   ; because it's a 1-based index
-    add hl,de                    ; 00408D 19
-    ld e,(hl)                    ; 00408E 5E
-    inc hl                       ; 00408F 23
+    add hl,de
+    ld e,(hl)
+    inc hl
     ld d,(hl)                    ; 004090 56         ; de = slot address
 
-    ld hl,$d19a                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
+    ld hl,_RAM_d19a_                  ; 004091 21 9A D1   ; TileMapData location of (13,6) (top row of name)
     ld bc,$000a                  ; 004094 01 0A 00   ; 10 bytes
 
-    ld a,SRAMPagingOn            ; 004097 3E 08
+    ld a,SRAMPagingOn
     ld (SRAMPaging),a            ; 004099 32 FC FF   ; page in SRAM
     ldir                         ; 00409C ED B0      ; copy tiles to SRAM name section
 
     ld c,$08                     ; 00409E 0E 08      ; move dest 8 bytes on
-    ex de,hl                     ; 0040A0 EB
-    add hl,bc                    ; 0040A1 09
-    ex de,hl                     ; 0040A2 EB
+    ex de,hl
+    add hl,bc
+    ex de,hl
     ld c,$36                     ; 0040A3 0E 36      ; move src 54 bytes on (bottom row of name)
-    add hl,bc                    ; 0040A5 09
+    add hl,bc
     ld c,$0a                     ; 0040A6 0E 0A      ; copy another 10 bytes
-    ldir                         ; 0040A8 ED B0
+    ldir
 
     ld a,SRAMPagingOff           ; 0040AA 3E 80      ; page out SRAM
-    ld (SRAMPaging),a            ; 0040AC 32 FC FF
+    ld (SRAMPaging),a
 
-    ld a,(xc316)                 ; 0040AF 3A 16 C3   ; ???
-    cp $0b                       ; 0040B2 FE 0B
+    ld a,(_RAM_c316_)                 ; 0040AF 3A 16 C3   ; ???
+    cp $0b
     ld a,$0a                     ; 0040B4 3E 0A      ; $10d9
-    jr z,+                       ; 0040B6 28 02
+    jr z,+
     ld a,$0c                     ; 0040B8 3E 0C      ; $3d76
 +:  ld (FunctionLookupIndex),a   ; 0040BA 32 02 C2   ; continue on to there
-    ret                          ; 0040BD C9
+    ret
 
 _SaveSlotNameTileAddresses: ; $40be
 .dw $8118 $813c $8160 $8184 $81a8
 
 _NameEntryNoButtonPressed: ; 40c8
-    ld a,(Controls)              ; 0040C8 3A 05 C2
-    rra                          ; 0040CB 1F
-    jr c,_UpHeld                 ; 0040CC 38 3E
-    rra                          ; 0040CE 1F
-    jr c,_DownHeld               ; 0040CF 38 52
-    rra                          ; 0040D1 1F
-    jr c,_LeftHeld               ; 0040D2 38 66
-    rra                          ; 0040D4 1F
-    jr c,_RightHeld              ; 0040D5 38 1E
-    ld a,(ControlsNew)           ; 0040D7 3A 04 C2
-    rra                          ; 0040DA 1F
-    jr c,_UpNew                  ; 0040DB 38 1F
-    rra                          ; 0040DD 1F
-    jr c,_DownNew                ; 0040DE 38 33
-    rra                          ; 0040E0 1F
-    jr c,_LeftNew                ; 0040E1 38 47
-    rra                          ; 0040E3 1F
-    ret nc                       ; 0040E4 D0
+    ld a,(Controls)
+    rra
+    jr c,_UpHeld
+    rra
+    jr c,_DownHeld
+    rra
+    jr c,_LeftHeld
+    rra
+    jr c,_RightHeld
+    ld a,(ControlsNew)
+    rra
+    jr c,_UpNew
+    rra
+    jr c,_DownNew
+    rra
+    jr c,_LeftNew
+    rra
+    ret nc
 
 _RightNew:
     call _DecrementKeyRepeatCounter ;40E5 CD 7B 41
-    ret nz                       ; 0040E8 C0
+    ret nz
 -:  ldbc $c8,+8                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
     ld de,+2                     ; 0040EC 11 02 00      ; delta for tilemap address
     ld iy,NameEntryCursorX       ; 0040EF FD 21 84 C7   ; which cursor sprite coordinate to change
     jr _NameEntryDirectionPressed
 _RightHeld:
-    ld a,24                      ; 0040F5 3E 18
+    ld a,24
     ld (NameEntryKeyRepeatCounter),a
-    jr -                         ; 0040FA 18 ED
+    jr -
 
 _UpNew:
     call _DecrementKeyRepeatCounter ;40FC CD 7B 41
-    ret nz                       ; 0040FF C0
--:  ldbc $68,-16                 ; 004100 01 F0 68
-    ld de,-$80                   ; 004103 11 80 FF
-    ld iy,NameEntryCursorY       ; 004106 FD 21 85 C7
+    ret nz
+-:  ldbc $68,-16
+    ld de,-$80
+    ld iy,NameEntryCursorY
     jr _NameEntryDirectionPressed
 _UpHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
-    jr -                         ; 004111 18 ED
+    jr -
 
 _DownNew:
     call _DecrementKeyRepeatCounter ;4113 CD 7B 41
-    ret nz                       ; 004116 C0
--:  ldbc $b8,+16                 ; 004117 01 10 B8
-    ld de,+$80                   ; 00411A 11 80 00
-    ld iy,NameEntryCursorY       ; 00411D FD 21 85 C7
+    ret nz
+-:  ldbc $b8,+16
+    ld de,+$80
+    ld iy,NameEntryCursorY
     jr _NameEntryDirectionPressed
 _DownHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
-    jr -                         ; 004128 18 ED
+    jr -
 
 _LeftNew:
     call _DecrementKeyRepeatCounter ;412A CD 7B 41
-    ret nz                       ; 00412D C0
--:  ldbc $28,-8                  ; 00412E 01 F8 28
-    ld de,-2                     ; 004131 11 FE FF
-    ld iy,NameEntryCursorX       ; 004134 FD 21 84 C7
+    ret nz
+-:  ldbc $28,-8
+    ld de,-2
+    ld iy,NameEntryCursorX
     jr _NameEntryDirectionPressed
 _LeftHeld:
     ld a,24
     ld (NameEntryKeyRepeatCounter),a
-    jr -                         ; 00413F 18 ED
+    jr -
 
 
     ; b = "stop" value
@@ -4080,18 +4242,18 @@ _LeftHeld:
     ; de = delta VRAM address
     ; iy = address of sprite coordinate to modify
 _NameEntryDirectionPressed:
-    ld a,(iy+$00)                ; 004141 FD 7E 00
+    ld a,(iy+$00)
     cp b                         ; 004144 B8         ; compare coordinate to "stop" value
     ret z                        ; 004145 C8         ; do nothing if equal
-    add a,c                      ; 004146 81
+    add a,c
     ld (iy+$00),a                ; 004147 FD 77 00   ; else add c
 
     ld hl,(NameEntryCursorTileMapDataAddress)        ; add delta to value array pointer
-    add hl,de                    ; 00414D 19
+    add hl,de
     ld (NameEntryCursorTileMapDataAddress),hl
 
-    ld a,(hl)                    ; 004151 7E
-    or a                         ; 004152 B7
+    ld a,(hl)
+    or a
     jr z,_NameEntryDirectionPressed         ; repeat if a zero was pointed to -> cursor will snap to next valid position
 
     cp (ix+$04)                  ; 004155 DD BE 04   ; or if it's equal to the existing value -> cursor will skip past control code selections
@@ -4100,115 +4262,115 @@ _NameEntryDirectionPressed:
     ld (NameEntryCurrentlyPointed),a;415A 32 88 C7   ; save value pointed
 
     cp $4e                       ; 00415D FE 4E      ; check if it was a control char, in which case snap to its left char
-    ret c                        ; 00415F D8
+    ret c
 
 
     ld c,$88                     ; 004160 0E 88      ; values for jump to Next ($4e)
-    ld hl,$d5a2                  ; 004162 21 A2 D5
-    jr z,+                       ; 004165 28 0C
-    cp $4f                       ; 004167 FE 4F
+    ld hl,_RAM_d5a2_
+    jr z,+
+    cp $4f
     ld l,$aa                     ; 004169 2E AA      ; values for jump to Prev ($4f)
-    ld c,$a8                     ; 00416B 0E A8
-    jr z,+                       ; 00416D 28 04
+    ld c,$a8
+    jr z,+
     ld c,$c8                     ; 00416F 0E C8      ; default: jump to Save
-    ld l,$b2                     ; 004171 2E B2
+    ld l,$b2
 
 +:  ld (NameEntryCursorTileMapDataAddress),hl
-    ld a,c                       ; 004176 79
-    ld (NameEntryCursorX),a      ; 004177 32 84 C7
-    ret                          ; 00417A C9
+    ld a,c
+    ld (NameEntryCursorX),a
+    ret
 
 
 ; decrement keypress repeat counter, set to 5 if zero
 _DecrementKeyRepeatCounter: ; 417b
-    ld hl,$c789                  ; 00417B 21 89 C7
-    dec (hl)                     ; 00417E 35
-    ret nz                       ; 00417F C0
-    ld (hl),$05                  ; 004180 36 05
-    ret                          ; 004182 C9
+    ld hl,_RAM_c789_
+    dec (hl)
+    ret nz
+    ld (hl),$05
+    ret
 
 LoadNameEntryScreen: ; $4183
     call FadeOutFullPalette      ; 004183 CD A8 7D   ; go to name entry screen
 
     TileMapAddressDE 0,0         ; 004186 11 00 78   ; clear name table
-    ld bc,$0300                  ; 004189 01 00 03
-    ld hl,$0000                  ; 00418C 21 00 00
-    di                           ; 00418F F3
-      call FillVRAMWithHL        ; 004190 CD FB 03
-    ei                           ; 004193 FB
+    ld bc,$0300
+    ld hl,$0000
+    di
+      call FillVRAMWithHL
+    ei
 
     ld hl,FunctionLookupIndex    ; 004194 21 02 C2   ; increment FunctionLookupIndex do it'll do the right thing after this function finishes
-    inc (hl)                     ; 004197 34
+    inc (hl)
 
     ld hl,NameEntryData          ; 004198 21 81 C7   ; blank NameEntryData block
-    ld (hl),$00                  ; 00419B 36 00
-    ld de,NameEntryData+1        ; 00419D 11 82 C7
-    ld bc,$007e                  ; 0041A0 01 7E 00
-    ldir                         ; 0041A3 ED B0
+    ld (hl),$00
+    ld de,NameEntryData+1
+    ld bc,$007e
+    ldir
 
     ld hl,TileMapData            ; 0041A5 21 00 D0   ; blank TileMapData
-    ld de,TileMapData+1          ; 0041A8 11 01 D0
-    ld bc,$0600                  ; 0041AB 01 00 06
-    ld (hl),$00                  ; 0041AE 36 00
-    ldir                         ; 0041B0 ED B0
+    ld de,TileMapData+1
+    ld bc,$0600
+    ld (hl),$00
+    ldir
 
-    call DecompressNameEntryTilemapData ; 0041B2 CD CC 42
+    call DecompressNameEntryTilemapData
 
-    ld hl,$c700                  ; 0041B5 21 00 C7   ; blank $c700-$c738
-    ld de,$c701                  ; 0041B8 11 01 C7
-    ld bc,$0037                  ; 0041BB 01 37 00
-    ld (hl),$00                  ; 0041BE 36 00
-    ldir                         ; 0041C0 ED B0
+    ld hl,_RAM_c700_                  ; 0041B5 21 00 C7   ; blank $c700-$c738
+    ld de,_RAM_c701_
+    ld bc,$0037
+    ld (hl),$00
+    ldir
 
     ld a,$21                     ; 0041C2 3E 21      ; starting point for name entry (see after next opcode)
 
     ld hl,EnterYourNameRawTilemapData ; 041C4 21 E6 43   ; tilemap data
 
-    ld (NameEntryCharIndex),a    ; 0041C7 32 81 C7
+    ld (NameEntryCharIndex),a
 
     ldbc 2,16                    ; 0041CA 01 10 02   ; ld bc,$0210
-    xor a                        ; 0041CD AF
+    xor a
     ld (TileMapHighByte),a       ; 0041CE 32 10 C2   ; TileMapHighByte = 0
     TileMapAddressDE 8,0         ; 0041D1 11 10 78   ; ld de,$7810
-    di                           ; 0041D4 F3
-      call OutputTilemapRawBxC   ; 0041D5 CD 0F 04
-    ei                           ; 0041D8 FB
+    di
+      call OutputTilemapRawBxC
+    ei
 
     TileMapAddressDE 0,3         ; 0041D9 11 C0 78   ; ld de,$78c0
-    ld hl,$d0c0                  ; 0041DC 21 C0 D0   ; offset in TileMapData for (0,3)
+    ld hl,_RAM_d0c0_                  ; 0041DC 21 C0 D0   ; offset in TileMapData for (0,3)
     ld bc,$0540                  ; 0041DF 01 40 05   ; amount of data to copy
-    di                           ; 0041E2 F3
-      call OutputToVRAM          ; 0041E3 CD DE 03
-    ei                           ; 0041E6 FB
+    di
+      call OutputToVRAM
+    ei
 
-    call _LoadTileMapDataWithCharValues ; 0041E7 CD 3B 43
+    call _LoadTileMapDataWithCharValues
 
     ld hl,_NameEntryPalette      ; 0041EA 21 56 43   ; load wanted palette
-    ld de,TargetPalette          ; 0041ED 11 40 C2
-    ld bc,32                     ; 0041F0 01 20 00
-    ldir                         ; 0041F3 ED B0
+    ld de,TargetPalette
+    ld bc,32
+    ldir
 
     TileAddressDE $100           ; 0041F5 11 00 60   ; ld de,$6000
-    ld hl,_NameEntryCursorSprite ; 0041F8 21 76 43
+    ld hl,_NameEntryCursorSprite
     ld bc,32                     ; 0041FB 01 20 00   ; load cursor sprite
-    di                           ; 0041FE F3
-      call OutputToVRAM          ; 0041FF CD DE 03
-    ei                           ; 004202 FB
+    di
+      call OutputToVRAM
+    ei
 
-    ld de,NameEntryCursorX       ; 004203 11 84 C7
-    ld hl,_NameEntryCursorInitialValues ; 004206 21 21 42
+    ld de,NameEntryCursorX
+    ld hl,_NameEntryCursorInitialValues
     ld bc,_NameEntryCursorInitialValuesEnd-_NameEntryCursorInitialValues ; load cursor initial values
-    ldir                         ; 00420C ED B0
+    ldir
 
     xor a                        ; 00420E AF         ; zero some stuff
-    ld (VScroll),a               ; 00420F 32 04 C3
-    ld (HScroll),a               ; 004212 32 00 C3
-    ld (TextBox20x6Open),a       ; 004215 32 D3 C2
+    ld (VScroll),a
+    ld (HScroll),a
+    ld (TextBox20x6Open),a
 
-    ld de,$8006                  ; 004218 11 06 80
-    di                           ; 00421B F3
-    SetVRAMAddressToDE           ; 00421C CF
-    ei                           ; 00421D FB
+    ld de,$8006
+    di
+    SetVRAMAddressToDE
+    ei
     jp ClearSpriteTableAndFadeInWholePalette         ; and ret
 
 
@@ -4226,222 +4388,222 @@ _DrawCursorSprites: ; 4226
     call _GetTileMapDataAddressForCharAInHL          ; get address of editing char tile for "current tile" indicator
     ld de,$3040                  ; 004229 11 40 30   ; $3000 means it'll wipe out the $D000 prefix, $40 is because we want a constant offset of 1 row (the cursor is exactly below the relevant tile)
     add hl,de                    ; 00422C 19         ; add them on and multiply by 4 to get h = row number + 1, l = pixel x coordinate
-    add hl,hl                    ; 00422D 29
-    add hl,hl                    ; 00422E 29
-    ld de,SpriteTable            ; 00422F 11 00 C9
+    add hl,hl
+    add hl,hl
+    ld de,SpriteTable
     ld a,h                       ; 004232 7C         ; now a = row number in tilemap, but for a sprite it's a pixel count -> multiply by 8
-    add a,a                      ; 004233 87
-    add a,a                      ; 004234 87
-    add a,a                      ; 004235 87
+    add a,a
+    add a,a
+    add a,a
     ld (de),a                    ; 004236 12         ; set y coordinate of first sprite to that
 
     ld a,(NameEntryCurrentlyPointed);4237 3A 88 C7
     cp $4e                       ; 00423A FE 4E      ; is it a control char?
 
-    ld a,(NameEntryCursorY)      ; 00423C 3A 85 C7
-    inc de                       ; 00423F 13
+    ld a,(NameEntryCursorY)
+    inc de
     ld (de),a                    ; 004240 12         ; set y coordinate for selection cursor
     jr c,+                       ; 004241 38 04      ; and another 2 if it's a control code since they're 3 chars wide
-    inc e                        ; 004243 1C
-    ld (de),a                    ; 004244 12
-    inc e                        ; 004245 1C
-    ld (de),a                    ; 004246 12
-+:  inc e                        ; 004247 1C
+    inc e
+    ld (de),a
+    inc e
+    ld (de),a
++:  inc e
     ld a,208                     ; 004248 3E D0      ; terminate sprites
-    ld (de),a                    ; 00424A 12
+    ld (de),a
 
     ld e,$80                     ; 00424B 1E 80      ; move to x coordinates
-    ex de,hl                     ; 00424D EB
+    ex de,hl
     ld a,e                       ; 00424E 7B         ; current char x coordinate
     ld bc,$0300                  ; 00424F 01 00 03   ; b = maximum width of cursor (3), c = sprite number for cursor (0)
     ld (hl),a                    ; 004252 77         ; set current char sprite x
-    inc l                        ; 004253 2C
+    inc l
     ld (hl),c                    ; 004254 71         ; set sprite tile
     ld a,(NameEntryCursorX)      ; 004255 3A 84 C7   ; load cursor x
--:  inc l                        ; 004258 2C
+-:  inc l
     ld (hl),a                    ; 004259 77         ; set sprite x,
-    inc l                        ; 00425A 2C
+    inc l
     ld (hl),c                    ; 00425B 71         ; tile number
-    sub $08                      ; 00425C D6 08
+    sub $08
     djnz -                                           ; repeat for full-width cursor
-    ret                          ; 004260 C9
+    ret
 
 
 _DrawEntirePassword: ; $4261
 ; Orphaned code to draw the 56-char password on-screen ###############
-    ld hl,NameEntryCharIndex     ; 004261 21 81 C7
+    ld hl,NameEntryCharIndex
     ld (hl),$38                  ; 004264 36 38      ; past end of password
-    ld d,$c7                     ; 004266 16 C7
+    ld d,$c7
 -:  dec (hl)                     ; 004268 35         ; so now it's the end of the password
     ret m                        ; 004269 F8         ; quit when we get to offset -1
     ld e,(hl)                    ; 00426A 5E         ; de = current char in TileMapData
-    push hl                      ; 00426B E5
-      call _GetTileMapDataAddressForCharAInHL ; 00426C CD 78 42
-      ld a,(de)                  ; 00426F 1A
-      push de                    ; 004270 D5
-        call _WriteCharAToTileMapDataAtHL ; 004271 CD 9B 42
-      pop de                     ; 004274 D1
-    pop hl                       ; 004275 E1
-    jr -                         ; 004276 18 F0
+    push hl
+      call _GetTileMapDataAddressForCharAInHL
+      ld a,(de)
+      push de
+        call _WriteCharAToTileMapDataAtHL
+      pop de
+    pop hl
+    jr -
 
 
 
 _GetTileMapDataAddressForCharAInHL: ; 4278
     ld a,(NameEntryCharIndex)    ; 004278 3A 81 C7   ; current editing char
-    ld hl,$d146                  ; 00427B 21 46 D1   ; a < 24 -> hl = $d146 = (3,5)
-    sub $18                      ; 00427E D6 18
-    jr c,+                       ; 004280 38 0B
+    ld hl,_RAM_d146_                  ; 00427B 21 46 D1   ; a < 24 -> hl = $d146 = (3,5)
+    sub $18
+    jr c,+
     ld l,$c6                     ; 004282 2E C6      ; 25 < a < 48 -> hl = $d1c6 = (3,7)
-    sub $18                      ; 004284 D6 18
-    jr c,+                       ; 004286 38 05
-    ld hl,$d246                  ; 004288 21 46 D2   ; a > 49 -> hl = $d246 = (3,9)
-    sub $18                      ; 00428B D6 18
+    sub $18
+    jr c,+
+    ld hl,_RAM_d246_                  ; 004288 21 46 D2   ; a > 49 -> hl = $d246 = (3,9)
+    sub $18
 +:  add a,$18                    ; 00428D C6 18      ; a = x position in this row
-    ld c,a                       ; 00428F 4F
-    add a,a                      ; 004290 87
-    add a,l                      ; 004291 85
+    ld c,a
+    add a,a
+    add a,l
     ld l,a                       ; 004292 6F         ; hl += a*2, now points to TileMapData address for currently editing char
 
-    ld a,c                       ; 004293 79
-    rra                          ; 004294 1F
+    ld a,c
+    rra
     rra                          ; 004295 1F         ; a /= 4
     and $06                      ; 004296 E6 06      ; now it'll be 0, 2 or 4 for each of the 3 sections of the row
     add a,l                      ; 004298 85         ; add that on -> 1 char gap every 8 chars
-    ld l,a                       ; 004299 6F
-    ret                          ; 00429A C9
+    ld l,a
+    ret
 
 _WriteCharAToTileMapDataAtHL: ; 429b
-    push hl                      ; 00429B E5
+    push hl
       ex de,hl                   ; 00429C EB         ; save hl
       ld hl,Frame2Paging         ; 00429D 21 FF FF   ; map in bank 2
-      ld (hl),2                  ; 0042A0 36 02
+      ld (hl),2
       ld hl,TileNumberLookup     ; 0042A2 21 00 80   ; look up tilemap data for char a
-      ld c,a                     ; 0042A5 4F
-      ld b,$00                   ; 0042A6 06 00
-      add hl,bc                  ; 0042A8 09
-      add hl,bc                  ; 0042A9 09
-      ld c,(hl)                  ; 0042AA 4E
-      inc hl                     ; 0042AB 23
-      ld a,(hl)                  ; 0042AC 7E
+      ld c,a
+      ld b,$00
+      add hl,bc
+      add hl,bc
+      ld c,(hl)
+      inc hl
+      ld a,(hl)
       ld (de),a                  ; 0042AD 12         ; write lower char to de
-      ld hl,-$40                 ; 0042AE 21 C0 FF
+      ld hl,-$40
       add hl,de                  ; 0042B1 19         ; write upper char 1 row above
-      ld (hl),c                  ; 0042B2 71
-    pop hl                       ; 0042B3 E1
-    ret                          ; 0042B4 C9
+      ld (hl),c
+    pop hl
+    ret
 
 _WriteCharAToTileMapAndTileMapDataAtHL: ; 42b5
-    call _WriteCharAToTileMapDataAtHL ; 0042B5 CD 9B 42
-    ld b,a                       ; 0042B8 47
+    call _WriteCharAToTileMapDataAtHL
+    ld b,a
     ld a,h                       ; 0042B9 7C         ; convert hl to the corresponding tilemap address
-    sub $58                      ; 0042BA D6 58
-    ld h,a                       ; 0042BC 67
-    ex de,hl                     ; 0042BD EB
-    SetVRAMAddressToDE           ; 0042BE CF
-    ld a,b                       ; 0042BF 78
+    sub $58
+    ld h,a
+    ex de,hl
+    SetVRAMAddressToDE
+    ld a,b
     out (VDPData),a              ; 0042C0 D3 BE      ; write lower part
-    ld hl,-$40                   ; 0042C2 21 C0 FF
-    add hl,de                    ; 0042C5 19
-    ex de,hl                     ; 0042C6 EB
-    SetVRAMAddressToDE           ; 0042C7 CF
-    ld a,c                       ; 0042C8 79
+    ld hl,-$40
+    add hl,de
+    ex de,hl
+    SetVRAMAddressToDE
+    ld a,c
     out (VDPData),a              ; 0042C9 D3 BE      ; write upper part
-    ret                          ; 0042CB C9
+    ret
 
 ; Decompress data from NameEntryTilemapData to TileMapData(0,6)
 DecompressNameEntryTilemapData: ; $42cc
-    ld hl,NameEntryTilemapData   ; 0042CC 21 06 44
+    ld hl,NameEntryTilemapData
     ld de,TileMapData+32*6       ; 0042CF 11 C0 D0   ; location 0,6
 
 --: ld a,(hl)                    ; 0042D2 7E         ; read byte n
-    inc hl                       ; 0042D3 23
-    or a                         ; 0042D4 B7
+    inc hl
+    or a
     jr z,+++                     ; 0042D5 28 2B      ; zero = end
     jp p,++                      ; 0042D7 F2 F8 42   ; bit 7 unset = RLE
-    bit 6,a                      ; 0042DA CB 77
+    bit 6,a
     jr nz,+                      ; 0042DC 20 0D      ; bit 6 set = raw data
 
     and $3f                      ; 0042DE E6 3F      ; else RLE incrementing series
-    ld b,a                       ; 0042E0 47
+    ld b,a
     ld a,(hl)                    ; 0042E1 7E         ; write (next byte) up to (next byte + n&$3f)
--:  ld (de),a                    ; 0042E2 12
+-:  ld (de),a
     inc de                       ; 0042E3 13         ; skip 1 byte
-    inc de                       ; 0042E4 13
+    inc de
     inc a                        ; 0042E5 3C         ; increment value
     djnz -                       ; 0042E6 10 FA      ; repeat
-    inc hl                       ; 0042E8 23
-    jr --                        ; 0042E9 18 E7
+    inc hl
+    jr --
 
 +:  and $3f                      ; 0042EB E6 3F      ; raw
     ld c,a                       ; 0042ED 4F         ; n&$3f = count
-    ld b,$00                     ; 0042EE 06 00
+    ld b,$00
 -:  ldi                          ; 0042F0 ED A0      ; write data
-    inc de                       ; 0042F2 13
+    inc de
     jp pe,-                      ; 0042F3 EA F0 42   ; repeat until bc == -1
-    jr --                        ; 0042F6 18 DA
+    jr --
 
-++: ld b,a                       ; 0042F8 47
+++: ld b,a
     ld a,(hl)                    ; 0042F9 7E         ; write (next byte) n times
--:  ld (de),a                    ; 0042FA 12
-    inc de                       ; 0042FB 13
-    inc de                       ; 0042FC 13
-    djnz -                       ; 0042FD 10 FB
-    inc hl                       ; 0042FF 23
-    jr --                        ; 004300 18 D0
+-:  ld (de),a
+    inc de
+    inc de
+    djnz -
+    inc hl
+    jr --
 
-+++:ld hl,$d102                  ; 004302 21 02 D1   ; where to write to (1,4)
++++:ld hl,_RAM_d102_                  ; 004302 21 02 D1   ; where to write to (1,4)
     ld de,$f301                  ; 004305 11 01 F3   ; tile data to write (vertical bar, left)
-    call _DrawVerticalLine       ; 004308 CD 28 43
+    call _DrawVerticalLine
 
-    inc hl                       ; 00430B 23
+    inc hl
     ldbc $1d,5                   ; 00430C 01 05 1D   ; flip bottom edge vertically
-    call _SetLineFlip            ; 00430F CD 35 43
+    call _SetLineFlip
 
     ld (hl),$07                  ; 004312 36 07      ; flip bottom-right corner
-    ld hl,$d0fd                  ; 004314 21 FD D0   ; (30,3)
+    ld hl,_RAM_d0fd_                  ; 004314 21 FD D0   ; (30,3)
     ld (hl),$03                  ; 004317 36 03      ; flip top-right corner
-    ld hl,$d0c3                  ; 004319 21 C3 D0   ; (1,3)
+    ld hl,_RAM_d0c3_                  ; 004319 21 C3 D0   ; (1,3)
     ldbc $1d,1                   ; 00431C 01 01 1D   ; no flip on top edge, but it's still the high tileset
-    call _SetLineFlip            ; 00431F CD 35 43
-    ld hl,$d13c                  ; 004322 21 3C D1   ; (1,7)
+    call _SetLineFlip
+    ld hl,_RAM_d13c_                  ; 004322 21 3C D1   ; (1,7)
     ld de,$f303                  ; 004325 11 03 F3   ; vertical bar, right
     ; fall through
 
 _DrawVerticalLine: ; 4328
 ; draws data de to address hl every 32 words, for a rows
-    ld a,$13                     ; 004328 3E 13
+    ld a,$13
     ld bc,$003f                  ; 00432A 01 3F 00   ; amount to jump in between (draw every 32nd tile)
--:  ld (hl),d                    ; 00432D 72
-    inc l                        ; 00432E 2C
-    ld (hl),e                    ; 00432F 73
-    add hl,bc                    ; 004330 09
-    dec a                        ; 004331 3D
-    jr nz,-                      ; 004332 20 F9
-    ret                          ; 004334 C9
+-:  ld (hl),d
+    inc l
+    ld (hl),e
+    add hl,bc
+    dec a
+    jr nz,-
+    ret
 
 _SetLineFlip: ; 4335
 ; draws tile flipping data c to hl for b tiles (skipping tile numbers in-between)
-    ld (hl),c                    ; 004335 71
-    inc l                        ; 004336 2C
-    inc l                        ; 004337 2C
-    djnz _SetLineFlip            ; 004338 10 FB
-    ret                          ; 00433A C9
+    ld (hl),c
+    inc l
+    inc l
+    djnz _SetLineFlip
+    ret
 
 _LoadTileMapDataWithCharValues: ; 433b
     ld hl,NameEntryCharValues    ; 00433B 21 8C 44   ; data
-    ld de,$d30a                  ; 00433E 11 0A D3   ; location in RAM tilemap copy (5,12)
+    ld de,_RAM_d30a_                  ; 00433E 11 0A D3   ; location in RAM tilemap copy (5,12)
     ld a,$06                     ; 004341 3E 06      ; number of rows
 --: ld bc,21                     ; 004343 01 15 00   ; write out 21 bytes
 -:  ldi                          ; 004346 ED A0      ; output
     inc de                       ; 004348 13         ; skip 1
     jp pe,-                      ; 004349 EA 46 43   ; repeat
-    ex de,hl                     ; 00434C EB
+    ex de,hl
     ld bc,$0056                  ; 00434D 01 56 00   ; skip on by 86 bytes so we're at the start of the next row
-    add hl,bc                    ; 004350 09
-    ex de,hl                     ; 004351 EB
-    dec a                        ; 004352 3D
+    add hl,bc
+    ex de,hl
+    dec a
     jr nz,--                     ; 004353 20 EE      ; repeat for all rows
-    ret                          ; 004355 C9
+    ret
 
 _NameEntryPalette: ; 4356
 .db $00 $00 $3F $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
@@ -4518,7 +4680,7 @@ IntroSequence:
     ld hl,TileMapData
     ld bc,$0100        ; 4 rows
     ldir               ; duplicate tilemap -> 28 rows filled
-    
+
     xor a
     ld (HScroll),a     ; zero HScroll
     ld a,$80
@@ -4655,7 +4817,7 @@ IntroScrollDown:
     ld hl,TilemapBottomPlanet
     jp DecompressToTileMapData ; and ret
 .ends
-.orga $467b
+.orga $4636
 
 ; ---------------------------------------------------------------------------------------
 ;                    A r e a   n o t   y e t   p r o c e s s e d
@@ -4755,23 +4917,2467 @@ FadeToNarrativePicture: ; $492c
     ei
     jp FadeInTilePalette ; and ret
 
-_NarrativeGraphicsLookup: ; page, palette+tiles offset, raw tiles offset
+_NarrativeGraphicsLookup: 
+; page, palette+tiles offset, raw tiles offset
  NarrativeGraphicsData IntroNero1
  NarrativeGraphicsData IntroNero2
  NarrativeGraphicsData IntroAlis
  NarrativeGraphicsData Alis
  NarrativeGraphicsData Myau
  NarrativeGraphicsData Odin
- NarrativeGraphicsData Noah
+ NarrativeGraphicsData Lutz
  NarrativeGraphicsData MyauWings1
  NarrativeGraphicsData MyauWings2
 .ends
-.orga $49a6
+; followed by
+.section "Room script handling" force
+DoRoomScript:
+    ; Exit if room is 0
+    ld a,(RoomIndex)
+    or a
+    jp z,$1d3d
+    ; Check it is in range
+    cp $b7
+    jp nc,BadScriptIndex
+    ; Look up
+    ld de,_RoomScriptTable
+    call _RoomScriptDispatcher
 
-; ---------------------------------------------------------------------------------------
-;                    A r e a   n o t   y e t   p r o c e s s e d
-; ---------------------------------------------------------------------------------------
+    ld a,(SceneType)
+    or a
+    jp nz,Close20x6TextBox ; close and return
+    ; else
+    call Close20x6TextBox
+    jp $1738
 
+_ScriptEnd:
+    pop hl
+    jp MenuWaitForButton ; end end
+
+_RoomScriptDispatcher: ; $49c9
+    ; Same functionality as FunctionLookup except using de as the base
+    ld l,a
+    ld h,$00
+    add hl,hl
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp (hl)
+
+_RoomScriptTable:
+; Room index => handler lookup
+.dw _room_00_Suelo
+.dw _room_01_Nekise
+.dw _room_02_CamineetMan1
+.dw _room_03_CamineetMan2
+.dw _room_04_CamineetMan3
+.dw _room_05_CamineetMan4
+.dw _room_06_CamineetMan5
+.dw _room_07_Camineet_AlgolMan:
+.dw _room_08_CamineetGuard1
+.dw _room_09_CamineetGuard2
+.dw _room_0a_CamineetGuard3
+.dw _room_0b_CamineetGuard4
+.dw _room_0c_ParolitWoman1
+.dw _room_0d_ParolitMan1
+.dw _room_0e_ParolitMan2
+.dw _room_0f_ParolitMan3
+.dw _room_10_ParolitMan4
+.dw _room_11_ParolitMan5
+.dw _room_12_AirStripGuard
+.dw _room_13_AirStripGuard
+.dw _room_14_Shion_Man1
+.dw _room_15_MadDoctor
+.dw _room_16_PalmaSpaceportLuggageHandler1
+.dw _room_17_PalmaSpaceportLuggageHandler2
+.dw _room_18_PalmaSpaceportLuggageHandler3
+.dw _room_19_AirStripGuard
+.dw _room_1a_RoadGuard
+.dw _room_1b_RoadGuard
+.dw _room_1c_PassportOffice
+.dw _room_1d_Shion_Man1
+.dw _room_1e_Shion_Man2
+.dw _room_1f_ShionMan3
+.dw _room_20_ShionMan4
+.dw _room_21_ShionMan5
+.dw _room_22_ShionMan6
+.dw _room_23_ShionMan7
+.dw _room_24_ShionMan8
+.dw _room_25_EppiMan1
+.dw _room_26_EppiMan2
+.dw _room_27_EppiMan3
+.dw _room_28_EppiMan4
+.dw _room_29_EppiMan5
+.dw _room_2a_EppiMan6
+.dw _room_2b_PaseoSpaceportLuggageHandler1
+.dw _room_2c_PaseoSpaceportLuggageHandler2
+.dw _room_2d_PaseoSpaceport3
+.dw _room_2e_Paseo1
+.dw _room_2f_Paseo2
+.dw _room_30_Paseo3
+.dw _room_31_Paseo4
+.dw _room_32_Paseo5
+.dw _room_33_Paseo6
+.dw _room_34_Paseo7
+.dw _room_35_PaseoMyauSeller
+.dw _room_36_GovernorGeneral
+.dw _room_37_MansionGuard1
+.dw _room_38_GuestHouseLady
+.dw _room_39_BartevoVillager1
+.dw _room_3a_Bartevo Villager2
+.dw _room_3b_GothicWoods1
+.dw _room_3c_GothicWoods2
+.dw _room_3d_DrLuveno
+.dw _room_3e_50FC
+.dw _room_3f_LoreVillager1
+.dw _room_40_LoreVillager2
+.dw _room_41_511F
+.dw _room_42_LoreVillager4
+.dw _room_43_LoreVillager5
+.dw _room_44_AbionVillager1
+.dw _room_45_AbionVillager2
+.dw _room_46_AbionVillager3
+.dw _room_47_AbionVillager4
+.dw _room_48_AbionVillager5
+.dw _room_49_UzoVillager1
+.dw _room_4a_UzoVillager2
+.dw _room_4b_UzoVillager3
+.dw _room_4c_UzoVillager4
+.dw _room_4d_UzoVillager5
+.dw _room_4e_UzoVillager6
+.dw _room_4f_CasbaVillager1
+.dw _room_50_CasbaVillager2
+.dw _room_51_AeroCastle1
+.dw _room_52_CasbaVillager3
+.dw _room_53_CasbaVillager4
+.dw _room_54_CasbaVillager5
+.dw _room_55_Drasgo1
+.dw _room_56_Drasgo2
+.dw _room_57_Drasgo3
+.dw _room_58_Drasgo4
+.dw _room_59_ChokoOneesan
+.dw _room_5a_DrasgoCave1
+.dw _room_5b_DrasgoCave2
+.dw _room_5c_DrasgoGasClearSeller
+.dw _room_5d_Skray1
+.dw _room_5e_Skray2
+.dw _room_5f_Skray3
+.dw _room_60_Skray4
+.dw _room_61_Skray5
+.dw _room_62_Skray6
+.dw _room_63_Skray7
+.dw _room_64_Skray8
+.dw _room_65_Skray9
+.dw _room_66_Skray10
+.dw _room_67_HonestDezorian1
+.dw _room_68_HonestDezorian2
+.dw _room_69_HonestDezorian3
+.dw _room_6a_HonestDezorian4
+.dw _room_6b_HonestDezorian5
+.dw _room_6c_HonestDezorian6
+.dw _room_6d_DishonestDezorian1
+.dw _room_6e_DishonestDezorian2
+.dw _room_6f_DishonestDezorian3
+.dw _room_70_DishonestDezorian4
+.dw _room_71_DishonestDezorian5
+.dw _room_72_DishonestDezorian6
+.dw _room_73_SopiaVillageChief
+.dw _room_74_GamerMikiChan
+.dw _room_75_Sopia1
+.dw _room_76_Sopia2
+.dw _room_77_Sopia3
+.dw _room_78_Sopia4
+.dw _room_79_AeroCastle2
+.dw _room_7a_AeroCastle3
+.dw _room_7b_ShortcakeShop
+.dw _room_7c_MahalCaveMotavianPeasant
+.dw _room_7d_Lutz
+.dw _room_7e_LuvenosAssistant
+.dw _room_7f_5436
+.dw _room_80_Luveno_Prison
+.dw _room_81_TriadaPrisonGuard1
+.dw _room_82_TriadaPrisoner1
+.dw _room_83_TriadaPrisoner2
+.dw _room_84_TriadaPrisoner3
+.dw _room_85_TriadaPrisoner4
+.dw _room_86_TriadaPrisoner5
+.dw _room_87_TriadaPrisoner6
+.dw _room_88_MedusasTower1
+.dw _room_89_MedusasTower2
+.dw _room_8a_MedusasTower3
+.dw _room_8b_BartevoCave
+.dw _room_8c_AvionTower
+.dw _room_8d_5530
+.dw _room_8e_5597
+; Unused repeats?
+.dw _room_8f_DrasgoCave1
+.dw _room_90_DrasgoCave2
+.dw _room_91_DrasgoGasClearSeller
+.dw _room_92_55AB
+.dw _room_93_55F5
+.dw _room_94_55FB
+.dw _room_95_5601
+.dw _room_96_5607
+.dw _room_97_560D
+.dw _room_98_5613
+.dw _room_99_5619
+.dw _room_9a_561F
+.dw _room_9b_TorchBearer
+.dw _room_9c_Tajim
+.dw _room_9d_5730
+.dw _room_9e_LaShiec
+.dw _room_9f_578F
+.dw _room_a0_5795
+.dw _room_a1_5795
+.dw _room_a2_5798
+.dw _room_a3_CoronoTowerDezorian1
+.dw _room_a4_GuaranMorgue
+.dw _room_a5_CoronaDungeonDihonstDezorian: ; $5809
+.dw _room_a6_581B
+.dw _room_a7_BayaMarlayPrisoner: ; $582D
+.dw _room_a8_BuggyUnused: ; $5841
+.dw _room_a9_LuvenoGuard: ; $584F
+.dw _room_aa_DarkForce: ; $5879
+.dw _room_ab_58C6
+.dw _room_ac_58FC
+.dw _room_ad_5902
+.dw _room_ae_5795
+.dw _room_af_5795
+.dw _room_b0_592D
+.dw _room_b1_OtegamiChieChan: ; $5933
+.dw _room_b2_FlightToMotavia: ; $5939
+.dw _room_b3_FlightToPalma: ; $5949
+.dw _room_b4_HapsbyTravel: ; $5959
+.dw _room_b5_5795
+
+_room_00_Suelo: ; $4B3F
+    ld hl,HaveVisitedSuelo
+    ld a,(hl)
+    or a
+    jr nz,+
+    ; First time
+    ld (hl),1
+    ld hl,$0002
+    ; Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+    ; I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
+    ; If you ever get hurt, come back here to heal.<wait more>
+    ; We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
+    call DrawText20x6
++:  ld hl,$0006
+    ; Please get some rest.<wait more>
+    ; Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+    call DrawText20x6
+    ld a,SFX_Heal
+    ld (NewMusic),a
+    jp $2bc9
+
+_room_01_Nekise: ; $4b5c
+    ld a,(HaveGotPotfromNekise)
+    or a
+    jr nz,+
+    ; First visit
+    ld hl,$0008
+    ; My name is Nekise.<line><line>
+    ; I was sorry to hear about your loss.<wait more>
+    ; Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
+    ; The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
+    ; Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
+    ; It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
+    call DrawText20x6
+    ld a,Item_LaconianPot
+    ld (ItemTableIndex),a
+    call AddItemToInventory
+    ld a,Item_LaconianPot
+    call HaveItem ; Must be true (=z)?
+    jr nz,+
+    ld a,1
+    ld (HaveGotPotfromNekise),a
++:  ld hl,$0010
+    ; Forgive me, but there is nothing more I can do. May you[r journey] be safe.
+    jp DrawText20x6 ; and ret
+
+_room_02_CamineetMan1: ; $4B82
+    ld hl,$0012
+    ; The Camineet residential district is under martial law.
+    jp DrawText20x6 ; and ret
+
+_room_03_CamineetMan2: ; $4B88
+    ld hl,$0014
+    ; You need a ‘Dungeon Key’ to open locked doors.
+    jp DrawText20x6 ; and ret
+
+_room_04_CamineetMan3 ; $4B8E
+    ld hl,$0016
+    ; You will not be able to advance through certain dungeons if you don't have a light.
+    jp DrawText20x6 ; and ret
+
+_room_05_CamineetMan4 ; $4B94:
+    ld hl,$0018
+    ; West of Camineet? That's the Spaceport.
+    jp DrawText20x6 ; and ret
+
+_room_06_CamineetMan5 ; $4B9A:
+    ld hl,$001a
+    ; They say that all sorts of business goes on in the port town.
+    jp DrawText20x6 ; and ret
+
+_room_07_Camineet_AlgolMan: ; $4BA0:
+    ld hl,$0062
+    ; Do you know the planets in the Algol Solar System?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$0060 ; If yes
+    ; I see. Never mind.
+    jr z,+
+    ld hl,3 ; If no
+    ld (NumberToShowInText),hl
+    ld hl,$0064
+    ; There are three planets: Palma, Motabia, and Dezoris.
+    ; Palma is a planet of greenery.
+    ; Motavia is a planet of sand.
+    ; Dezoris is a planet of ice.
+    ; There is a crisis drawing near to Algol...
++:  jp DrawText20x6 ; and ret
+
+_room_08_CamineetGuard1 ; $4BBA
+    ld hl,$001c
+    ; Stay inside the residential area if you know what's good for you.
+    jp DrawText20x6 ; and ret
+
+_room_09_CamineetGuard2: ; $4BC0
+    ld hl,$001e
+    ; Want to stay alive?  Then stay here!
+    jp DrawText20x6 ; and ret
+
+_room_0a_CamineetGuard3: ; $4BC6:
+    ld a,Item_RoadPass
+    call HaveItem
+    jr z,+
+    ld hl,$0020
+    ; I can’t just let you pass through here!
+    jp DrawText20x6 ; and ret
+
+_room_0b_CamineetGuard4: ; $4BD3:
+    ld a,Item_RoadPass
+    call HaveItem
+    jr z,+
+    ld hl,$0022
+    ; Nobody gets through here without a 'Roadpass'.
+    jp DrawText20x6 ; and ret
++:  ld hl,$0024
+    ; Okay, you may pass.
+    call DrawText20x6
+    ; Copy something from _RAM_c309_ to _RAM_c2e9_ TODO what is this?
+    ld a,(_RAM_c309_)
+    rrca
+    dec a
+    and $03
+    ld (_RAM_c2e9_),a
+    ret
+
+_room_0c_ParolitWoman1: ; $4BF1:
+    ld hl,$0026
+    ; This is Parolit residential district.
+    jp DrawText20x6 ; and ret
+
+_room_0d_ParolitMan1: ; $4BF7:
+    ld hl,$0028
+    ; When you're in the forest, you need to be especially cautious.
+    jp DrawText20x6 ; and ret
+
+_room_0e_ParolitMan2: ; $4BFD:
+    ld hl,$002a
+    ; I hear that the monster Medusa has returned to the cave South of the city. They say if you look at it, you'll turn to stone!
+    jp DrawText20x6 ; and ret
+
+_room_0f_ParolitMan3: ; $4C03:
+    ld hl,$002e
+    ; If you travel East, you will reach the port town of Shion.
+    jp DrawText20x6 ; and ret
+
+_room_10_ParolitMan4: ; $4C09:
+    ld hl,$0030
+    ; You can travel to Paseo, on the planet Motavia, from the spaceport.
+    jp DrawText20x6 ; and ret
+
+_room_11_ParolitMan5: ; 4C0F:
+    ld hl,$0032
+    ; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
+    jp DrawText20x6 ; and ret
+
+_room_12_AirStripGuard: ; $4C15:
+_room_13_AirStripGuard: ; $4C15:
+    ld a,(LuvenoState)
+    cp $07
+    jp nc,SpacePortsAreClosed
+    ld hl,$0070
+    ; Do you have a passport?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$0020
+    ; I can’t just let you pass through here!
+    jr nz,+
+    ld a,Item_Passport
+    call HaveItem
+    ld hl,$00ce
+    ; Well? Let’s see it.
+    jr nz,+
+    ld a,$06
+    ld (_RAM_c2e9_),a ; ???
+    ld hl,$0024
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
+
+_room_14_Shion_Man1: ; $4C40:
+    ld hl,$0286
+    ; On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
+    jp DrawText20x6 ; and ret
+
+_room_15_MadDoctor: ; $4C46:
+    ld a,Enemy_MadDoctor
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld a,(CharacterStatsMyau)
+    or a
+    jr z,+
+    ld hl,$0296
+    ; Hey, cat! C'mere!
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ; Kill Myau
+    ld a,SFX_Death
+    ld (NewMusic),a
+    ld a,Player_Myau
+    ld (TextCharacterNumber),a
+    ld hl,$b07b
+    ; <player> died.<delay>
+    call TextBox20x6
+    ld hl,$0000
+    ld (CharacterStatsMyau),hl
+    ld hl,$0298
+    ; Hee hee hee! You guys wanna die too?
+    jr ++
++:  ; Myau is dead or refuses to "come here"
+    ld hl,$029a
+    ; I will kill anything that gets in my way!
+++: call DrawText20x6
+    call Close20x6TextBox
+    ld a,(PartySize)
+    or a
+    jr z,+ ; No Myau yet
+    ld a,Item_LaconianPot
+    call HaveItem
+    jr z,+
+    ; Don't have a Laconian Pot
+    ld hl,_RAM_c518_
+    ld (_RAM_c2e1_),hl      ; ???
+    ld a,Item_LaconianPot
+    ld (_RAM_c2df_),a
++:  jp _55e9_fight ; ???
+
+_room_16_PalmaSpaceportLuggageHandler1: ; $4C9E:
+    ld hl,$006a
+    ; This is Palma Spaceport. You can go to Paseo, on the planet Motavia.
+    jp DrawText20x6 ; and ret
+
+_room_17_PalmaSpaceportLuggageHandler2: ; $4CA4:
+    ld hl,$006c
+    ; The Governor-General lives in Paseo. He rules all of Motavia.
+    jp DrawText20x6 ; and ret
+
+_room_18_PalmaSpaceportLuggageHandler3: ; $4CAA:
+    ld hl,$006e
+    ; Rumor has it that the Gothic Laboratory was once used to build spaceships. Back in the old days, ships like these were built at the laboratory in Gothic.<wait>
+    jp DrawText20x6 ; and ret
+
+_room_19_AirStripGuard: ; $4CB0:
+    ld a,(LuvenoState)
+    cp $07
+    jr nc,SpacePortsAreClosed
+    ld hl,$0070
+    ; Do you have a passport?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$0020
+    ; I can’t just let you pass through here!
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld a,Item_Passport
+    call HaveItem
+    jr z,+
+    ; Don't have one
+    ld hl,$00ce
+    ; Well? Let’s see it.
+    jp DrawText20x6 ; and ret
++:  ; Have one
+    ld hl,$0024
+    ; Okay, you may pass.
+    call DrawText20x6
+    ; Warp position?
+    ld a,(VLocation)
+    cp $60
+    ld hl,_4d03
+    jr nz,+
+    ld hl,_4d06
++:  call fn7b1e
+    ret
+
+SpacePortsAreClosed:
+    ld hl,$019e
+    ; Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
+    call DrawText20x6
+    ld a,Item_Passport
+    call HaveItem
+    ret nz
+    push bc
+      call $28db ; RemoveItemFromInventory
+    pop bc
+    ld hl,$01a0
+    ; WE ARE CONFISCATING YOUR PASSPORT.<end>
+    jp DrawText20x6 ; and ret
+
+_4d03:
+.db $05, $20, $17
+_4d06:
+,db $05, $21, $15
+
+_room_1a_RoadGuard: ; $4D09:
+    ld a,Item_RoadPass
+    call HaveItem
+    ld hl,$0020
+    ; I can’t just let you pass through here!
+    jr nz,+
+    ld a,$04
+    ld (_RAM_c2e9_),a
+    ld hl,$0024
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
+
+_room_1b_RoadGuard: ; $4D1E:
+    ld a,Item_RoadPass
+    call HaveItem
+    ld hl,$0022
+    ; Nobody gets through here without a 'Roadpass'.
+    jr nz,+
+    ld a,$05
+    ld (_RAM_c2e9_),a
+    ; Okay, you may pass.
++:  jp DrawText20x6 ; and ret
+
+_room_1c_PassportOffice: ; $4D33:
+    ld hl,$0072
+    ; You can apply for a ‘passport’ here. Would you like to apply?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$007c
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld hl,$0074
+    ; Up to today, have you ever done any bad things?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ; Yes
+    ld hl,$007e
+    ; That's too bad. Please come back some other time.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,$0076
+    ; Are you suffering from an illness right now?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+:
+    ; Yes
+    ld hl,$007e
+    ; That's too bad. Please come back some other time.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,100
+    ld (NumberToShowInText),hl
+    ld hl,$0078
+    ; The fee is 100 mesetas. Is that agreeable?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$007c
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld de,100
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$b65c
+    ; It looks like you don’t have enough money.<line>
+    ; Please come back later.<wait>
+    jp TextBox20x6 ; and ret
++:  ; Have enough money; pay it
+    ld (Meseta),hl
+    ld hl,$007a
+    ; Well then, we will issue you a passport. Here you go.
+    call DrawText20x6
+    ld a,Item_Passport
+    ld (ItemTableIndex),a
+    call HaveItem
+    ret z
+    jp AddItemToInventory ; and ret
+
+_room_1d_Shion_Man1: ; $4DA3:
+    ld a,(PartySize)
+    or a
+    ; No Myau yet
+    ld hl,$0034
+    ; Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal -- it had a bottle of medicine around it's neck. I wonder if it has any special purpose?
+    jr z,+
+    ; Have found Myau
+    ld hl,$003a
+    ; You’re on a quest to defeat LaShiec, huh? Well, good luck!
++:  jp DrawText20x6 ; and ret
+
+_room_1e_Shion_Man2: ; $4DB2:
+    ld a,(PartySize)
+    or a
+    ; No Myau yet
+    ld hl,$003c
+    ; I found a talking animal in Medusa’s Cave earlier, see? Then I sold it off to a trader in Paseo and made a bundle! Heh, heh, heh!
+    jr z,_
+    ; Have found Myau
+    ld hl,$0040
+    ; Times have been rough lately, don’t you think? I wonder if there’s anywhere I can go to make money.
++:  jp DrawText20x6 ; and ret
+
+_room_1f_ShionMan3: ; $4DC1:
+    ld hl,$0042
+    ; On the peninsula South of Shion, you will find Iala Cave.
+    jp DrawText20x6 ; and ret
+
+_room_20_ShionMan4: ; $4DC7:
+    ld hl,$0044
+    ; This is the port town of Shion. This place used to be busy with trade.
+    jp DrawText20x6 ; and ret
+
+_room_21_ShionMan5: ; $4DCD:
+    ld hl,$0046
+    ; The Eppi Woods are confusing. You need a ‘Compass’ just to pass through them.
+    jp DrawText20x6 ; and ret
+
+_room_22_ShionMan6: ; $4DD3:
+    ld hl,$0048
+    ; Magically-sealed doors can be opened only with magic.
+    jp DrawText20x6 ; and ret
+
+_room_23_ShionMan7: ; $4DD9:
+    ld hl,$004a
+    ; If you go North from this town you will reach the hill of Baya Mahrey. However, we aren’t able to get near to it.
+    jp DrawText20x6 ; and ret
+
+_room_24_ShionMan8: ; $4DDF:
+    ld hl,$004c
+    ; On the beach North of Baya Mahrey, you will find Naula Cave.
+    jp DrawText20x6 ; and ret
+
+_room_25_EppiMan1: ; $4DE5:
+    ld hl,$004e
+    ; I wonder if Motabia’s Governor-general might aid you in your quest.
+    jp DrawText20x6 ; and ret
+
+_room_26_EppiMan2: ; $4DEB:
+    ld hl,$0050
+    ; On Motabia live the great ‘Espers’.
+    jp DrawText20x6 ; and ret
+
+_room_27_EppiMan3: ; $4DF1:
+    ld hl,$0052
+    ; A doctor named ‘Luveno’ used to have a laboratory in Gothic Forest.
+    jp DrawText20x6 ; and ret
+
+_room_28_EppiMan4: ; $4DF7:
+    ld hl,$0054
+    ; Welcome to Eppi Village!<wait more>
+    ; We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
+    jp DrawText20x6 ; and ret
+
+_room_29_EppiMan5: ; $4DFD:
+    ld hl,$0056
+    ; Are you by any chance searching for the ‘Dungeon Key’?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; No
+    ld hl,$0060
+    ; I see. Never mind.
+    jr nz,+
+    ; Yes
+    ld a,Item_DungeonKey
+    call HaveItem
+    jr z,++
+    ld hl,DungeonKeyIsHidden
+    ld (hl),0
+++: ld hl,$0058
+    ; I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on the outskirts of Camineet residential area.
++:  jp DrawText20x6  ; and ret
+
+_room_2a_EppiMan6: ; $4E1D:
+    ld hl,$005c
+    ; Do you know what the hardest, strongest material in the world is?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$0060
+    ; I see. Never mind.
+    jr z,+
+    ld hl,$005e
+    ; It’s ‘Laconia’! Laconian weapons are the strongest [in the solar system].
++:  jp DrawText20x6 ; and ret
+
+_room_2b_PaseoSpaceportLuggageHandler1: ; $4E31:
+    ld hl,$0080
+    ; This is Paseo spaceport, on the planet Motabia.
+    jp DrawText20x6 ; and ret
+
+_room_2c_PaseoSpaceportLuggageHandler2: ; $4E37:
+    ld hl,$0082
+    ; I’ve heard rumors that there are vicious ‘Ant-lions’ in the desert!
+    jp DrawText20x6 ; and ret
+
+_room_2d_PaseoSpaceport3: ; $4E3D:
+    ld hl,$0084
+    ; THERE IS A CAKE SHOP IN THE CAVE CALLED NAULA ON PALMA!
+    jp DrawText20x6 ; and ret
+
+_room_2e_Paseo1: ; $4E43:
+    ld hl,$0086
+    ; ..Actually, the Governor-General seems to be on very bad terms with LaShiec!
+    jp DrawText20x6 ; and ret
+
+_room_2f_Paseo2: ; $4E49:
+    ld hl,$0088
+    ; You need to have a gift in order to meet with the Governor-General.
+    jp DrawText20x6 ; and ret
+
+_room_30_Paseo3: ; $4E4F:
+    ld hl,$008a
+    ; The Governor-General loves sweets.
+    jp DrawText20x6 ; and ret
+
+_room_31_Paseo4: ; $4E55:
+    ld hl,$008c
+    ; Maharu Cave is located in the mountains to the north of Paseo.
+    jp DrawText20x6 ; and ret
+
+_room_32_Paseo5: ; $4E5B:
+    ld hl,$008e
+    ; This is Paseo, capital of Motabia.
+    jp DrawText20x6 ; and ret
+
+_room_33_Paseo6: ; $4E61:
+    ld hl,$0090
+    ; There’s no way to pass over those ant lions on FOOT, [but...].
+    jp DrawText20x6 ; and ret
+
+_room_34_Paseo7: ; $4E67:
+    ld hl,$0288
+    ; I hear that intelligent monsters have monster languages.
+    jp DrawText20x6 ; and ret
+
+_room_35_PaseoMyauSeller: ; $4E6D:
+    ld a,(PartySize)
+    or a
+    jr z,+
+    ; Have found Myau
+    ld hl,$028a
+    ; That laconian pot was worth a fortune! Thanks a bundle!
+    jp DrawText20x6 ; and ret
++:  ; No Myau yet
+    ld hl,10
+    ld (NumberToShowInText),hl
+    ld hl,$0092
+    ; I gotta real rare animal here. You can have it fer a billion mesetas. Whuddayuhsay?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,
+    ld hl,$0094
+    ; Yeah, right. You gotta be kiddin’ me!
+    jp DrawText20x6 ; and ret
++:  ld a,Item_LaconianPot
+    call HaveItem
+    jr nz,+
+    push hl
+      ld hl,$0096
+      ; Say... That’s a real unusual pot you got there... ...is 'dat a ‘Laconian Pot’?! How ‘bout I give you da animal, you give me the pot? Whuddayuhsay?
+      call DrawText20x6
+      call DoYesNoMenu
+    pop hl
+    jr nz,+
+    push bc
+      call $28db; RemoveItemFromInventory
+    pop bc
+    ld hl,$009a
+    ; Alri---ght, there yuh go. Take good care uv‘im.
+    call DrawText20x6
+    call Close20x6TextBox
+    pop hl
+    ; Bring Myau to life
+    ld iy,CharacterStatsMyau
+    call InitialiseCharacterStats
+    ld a,1
+    ld (PartySize),a
+    ; Get some Alsuline
+    ld a,Item_Alsuline
+    ld (ItemTableIndex),a
+    call AddItemToInventory
+    jp $4636 ; ShowCharacterIntro?
++:  ld hl,$007c
+    ; I see. Well then, take care.
+    jp DrawText20x6 ; and ret
+
+_room_36_GovernorGeneral: ; $4ED0:
+    ld a,(HaveBeatenLaShiec)
+    or a
+    jr z,+
+    ld hl,$02a6
+    ; Hey. That’s weird... Where’d the Governor-General go?
+    call DrawText20x6
+    call Close20x6TextBox
+    pop hl
+    ld hl,$22e6
+    ld ($c30c),hl
+    xor a
+    ld ($c30a),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$0b
+    call $68bf
+    ld a,MusicBossDungeon
+    jp CheckMusic ; and ret
++:  ld a,$35
+    call $63f9
+    call SpriteHandler
+    ld a,(PartySize)
+    cp 3
+    jr nc,+
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
+    jr nz,++
++:  ; No Lutz yet, or have the letter
+    ld hl,$029e
+    ; There’s no time to lose! Have faith in yourself. I’ll be praying for your safety.
+    call DrawText20x6
+    ld hl,$00aa
+    ; I am absolutely certain that you will defeat LaShiec and return here.
+    jp DrawText20x6 ; and ret
+++: ld hl,$00a4
+    ; I am the Governor-General of this planet. I understand you are on a quest to defeat LaShiec. I commend you for your courage. In Maharu Cave you will find an Esper named Lutz (pronounced 'roots'). Please take this letter to him. I am absolutely certain that you will defeat LaShiec and return here.
+    call DrawText20x6
+    ; Get the letter
+    push bc
+      ld a,Item_GovernorGeneralsLetter
+      ld (ItemTableIndex),a
+      call AddItemToInventory
+    pop bc
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
+    ret nz ; Inventory full -> kick out?
+    ld hl,$029c
+    ; You must be tired from your long journey. You should relax here for a while.
+    call DrawText20x6
+    call FadeOutFullPalette
+    call Close20x6TextBox
+    ld a,$20
+    ld (SceneType),a
+    call LoadSceneData
+    ; Turn off sprites
+    ld a,$d0
+    ld (SpriteTable),a
+    ld a,$0c ; VBlankFunction_UpdateTilemap
+    call ExecuteFunctionIndexAInNextVBlank
+    ld hl,_GovernorGeneralPalette
+    ld de,TargetPalette
+    ld bc,_sizeof__GovernorGeneralPalette
+    ldir
+    call FadeInWholePalette
+    ld hl,$02a0
+    ; You enter into a deep sleep...
+    call DrawText20x6
+    call Close20x6TextBox
+    ld a,$a0
+    ld (NewMusic),a
+    call Pause256Frames
+    ld a,Enemy_Nightmare
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ; Preserve all stats as it's just a dream...
+    ld a,(CharacterStatsAlis)
+    push af
+      ld a,(CharacterStatsMyau)
+      push af
+        ld a,(CharacterStatsOdin)
+        push af
+          call fn116b_Fight
+        pop af
+        ld (CharacterStatsOdin),a
+      pop af
+      ld (CharacterStatsMyau),a
+    pop af
+    ld (CharacterStatsAlis),a
+    call FadeOutFullPalette
+    call LoadSceneData
+    ld a,$d0
+    ld (SpriteTable),a
+    ld a,$0c
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld hl,$02a2
+    ; What a frightening dream!
+    call DrawText20x6
+    call FadeOutFullPalette
+    ld a,$1d
+    ld (SceneType),a
+    call LoadSceneData
+    call $2bc9
+    ld a,$0c
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$35
+    call $63f9
+    call SpriteHandler
+    ld hl,$00aa
+    ; I am absolutely certain that you will defeat LaShiec and return here.
+    jp DrawText20x6 ; and ret
+
+_GovernorGeneralPalette:
+.db $00 $00 $3F $00 $00 $00 $00 $00 ; Blacks with one white
+
+_room_37_MansionGuard1: ; $4FD4:
+    ld hl,$00b4
+    ; zzz... zzz...
+    jp DrawText20x6 ; and ret
+
+_room_38_GuestHouseLady: ; $4FDA:
+    ld hl,$00b6
+    ; Please rest before you go.
+    call DrawText20x6
+    call FadeOutFullPalette
+    call Close20x6TextBox
+    ld a,$a0
+    ld (NewMusic),a
+    call Pause256Frames
+    call $2bc9
+    ld a,$c1
+    ld (NewMusic),a
+    call FadeInWholePalette
+    ld hl,$00b8
+    ; I AM PRAYING FOR YOUR SAFETY.<end>
+    jp DrawText20x6 ; and ret
+
+_room_39_BartevoVillager1: ; $4FFF:
+    ld hl,$0102
+    ; Bartevo is my territory. Don’t be screwin’ around!
+    jp DrawText20x6 ; and ret
+
+_room_3a_BartevoVillager2: ; $5005:
+    ld hl,$0106
+    ; I heard that a high-performance robot got dumped inside one of these scrap piles. I wonder if it’s true?
+    jp DrawText20x6 ; and ret
+
+_room_3b_GothicWoods1: ; $500B
+    ld hl,$00ba
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$00c2
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
+    jr nz,+
+    ; Have one
+    push bc
+      call $28db ; RemoveItemFromInventory
+    pop bc
+    ld hl,$00bc
+    ; Thanks. This place used to be the lab of a scientist named ‘Luveno’. But he turned crazy, see, and got locked up in Toriada, the prison to the South of this village.
+    jp DrawText20x6 ; and ret
++:  ld hl,$020e
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
+
+_room_3c_GothicWoods2:
+    ld hl,$00ba
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$00c2
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
+    jr nz,+
+    ; Have one
+    call $28db ; RemoveItemFromInventory
+    ld hl,$00c4
+    ; In the heart of the mountains, there's a tower that can be reached by one of the roads leading out of Gothic. Inside the tower, they say, there's a freaky monster that, if you just LOOK at it, will turn yuh tuh stone!
+    jp DrawText20x6 ; and ret
++:  ld hl,$020e
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
+
+_room_3d_DrLuveno: ; $505B:
+    ld a,(LuvenoState)
+    or a
+    jp z,_ScriptEnd
+    ld a,$34
+    call $63f9
+    call SpriteHandler
+    ld a,(LuvenoState)
+    cp $07
+    jr c,+
+    ; Have the Luveno
+    ld hl,$00d8
+    ; How’s the ‘Luveno’ holding up? Please be careful with it.
+    jp DrawText20x6 ; and ret
++:  cp $02
+    jr nc,+
+    ; Didn't talk to assistant yet
+    ld hl,$00ca
+    ; Ahh, you’re late! Quickly! Do me a favor and bring my assistant back here. He’s probably hiding in that underground tunnel. It really irritates me shy a person he is.
+    jp DrawText20x6 ; and ret
++:  cp $03
+    jr nc
+    ; Have assistant but haven't paid
+    ld hl,1200
+    ld (NumberToShowInText),hl
+    ld hl,$028c
+    ; Okay, it looks like my staff is assembled. Manufacturing expenses come to 1200 meseta. Will you please give it to me?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$00da
+    ; What a shame. So your journey ends here, I suppose...
+    jp DrawText20x6 ; and ret
++:  ld de,1200
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+;
+    ld hl,$00d0
+    ; You don’t have enough? I’m sorry, but must get some more money.
+    jp DrawText20x6 ; and ret
++:  ld (Meseta),hl
+    ld a,$03
+    ld (LuvenoState),a
+    ld hl,$0290
+    ; Thanks. Now then, let’s begin construction, shall we? Please wait for a little while.
+    jp DrawText20x6
+++: cp $05
+    jr nc,+
+    ; Next two visits
+    inc a
+    ld (LuvenoState),a ; increment to 4, 5
+    ld hl,$0292
+    ; IT CANNOT BE HURRIED! PLEASE SHOW A BIT MORE PATIENCE!
+    jp DrawText20x6 ; and ret
++:  cp $06
+    jr nc,+
+    ; Third visit
+    inc a
+    ld (LuvenoState),a ; i.e. 6
+    ld hl,$00d2
+    ; At last, the spaceship is finished!  I’m pleased to present to you, the ‘Luveno’!
+    call DrawText20x6
+    ld a,Item_Hapsby
+    call HaveItem
+    jr z,++
+    ; No Hapsby
+    ld hl,$00d6
+    ; But you won’t be able to pilot the spaceship yourself.
+    call DrawText20x6
++:  ld a,Item_Hapsby
+    call HaveItem
+    jr z,++
+    ; No Hapsby
+    ld hl,$0104
+    ; YOU MUST FIND A ROBOT NAMED HAPSBY. HE CAN FLY A SPACESHIP.
+    jp DrawText20x6 ; and ret
+++: ld a,7
+    ld (LuvenoState),a ; Final state
+    ld hl,$0294
+    ; Now then, you can use the Luveno to fly through space. Go outside the village and take a look. It’s a brilliant piece of work.
+    jp DrawText20x6 ; and ret
+
+_room_3e_50FC:
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp 2
+    jp c,_ScriptEnd
+    ; Nothing if Luveno is in progress or done
+    ld a,$10
+    call $63f9
+    call SpriteHandler
+    ld hl,$00dc
+    ; I’m busy right now, so please don’t interrupt.
+    jp DrawText20x6 ; and ret
+
+_room_3f_LoreVillager1: ; $5113:
+    ld hl,$0118
+    ; Huh? You’re going to defeat LaShiec? Awesome!
+    jp DrawText20x6 ; and ret
+
+_room_40_LoreVillager2: ; $5119:
+    ld hl,$010e
+    ; Do you know of a jewel called the ‘Carbuncle Eye’? Rumor has it that it’s being held by the Casba Dragon.
+    jp DrawText20x6 ; and ret
+
+_room_41_LoreVillager3: ; $511F:
+    ld hl,$0112
+    ; On the West end of this island, there is a village called Abion.
+    jp DrawText20x6 ; and ret
+
+_room_42_LoreVillager4: ; $5125:
+    ld hl,$0114
+    ; Do you know about the ‘Laerma Tree?'
+    call DrawText20x6
+    call DoYesNoMenu
+    ; No
+    ld hl,$0116
+    ; I hear the Altiplano Plateau on Dezoris is totally covered by them.
+    jr nz,+
+    ld hl,$013c
+    ; Really? What a bore!
++:  jp DrawText20x6 ; and ret
+
+_room_43_LoreVillager5: ; $5139:
+    ld hl,$010c
+    ; _room_43_5139
+    jp DrawText20x6 ; and ret
+
+_room_44_AbionVillager1: ; $513F:
+    ld hl,$011c
+    ; This village is called Abion.
+    jp DrawText20x6 ; and ret
+
+_room_45_AbionVillager2: ; $5145:
+    ld hl,$011e
+    ; The evil hand of LaShiec has extended to this village as well! Please help us!
+    jp DrawText20x6 ; and ret
+
+_room_46_AbionVillager3: ; $514B:
+    ld hl,$0120
+    ; Some weird freak just moved to this village, and he was carrying a jar or something. It seems he’s been doing experiments on animals. I gotta bad feeling about that guy.
+    jp DrawText20x6 ; and ret
+
+_room_47_AbionVillager4: ; $5151:
+    ld hl,$0126
+    ; I want to try and travel the stars.
+    jp DrawText20x6 ; and ret
+
+_room_48_AbionVillager5: ; $5157:
+    ld hl,$0128
+    ; They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly! Weird, huh?
+    jp DrawText20x6 ; and ret
+
+_room_49_UzoVillager1: ; $515D:
+    ld hl,$012e
+    ; This is Uzo Village, on the planet Motavia.
+    jp DrawText20x6 ; and ret
+
+_room_4a_UzoVillager2: ; $5163:
+    ld hl,$0130
+    ; You can pass over antlions if you have a ‘LandMaster.’
+    jp DrawText20x6 ; and ret
+
+_room_4b_UzoVillager3: ; $5169:
+    ld hl,$0132
+    ; To the South of Uzo, there is a village called Casba.
+    jp DrawText20x6 ; and ret
+
+_room_4c_UzoVillager4: ; $516F:
+    ld hl,$0134
+    ; It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in its head!
+    jp DrawText20x6 ; and ret
+
+_room_4d_UzoVillager5: ; $5175:
+    ld hl,$013a
+    ; Do you know about the ‘Soothe Flute?’
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$013c
+    ; Really? What a bore!
+    jr z,+
+    ld a,(SootheFluteIsUnhidden)
+    or a
+    jr nz,++
+    ld a,1
+    ld (SootheFluteIsUnhidden),a
+++: ld hl,$013e
+    ; Well, this is a secret, but when I went to Palma, I buried it on the outskirts of Gothic Village. Don’t tell anybody!
++:  jp DrawText20x6 ; and ret
+
+_room_4e_UzoVillager6: ; $5194:
+    ld hl,$0136
+    ; Have you heard of the ‘Frad Cloak?' They say it’s light in weight, but has superb defensive power.
+    jp DrawText20x6 ; and ret
+
+_room_4f_CasbaVillager1: ; $519A:
+    ld hl,$0166
+    ; This is Casba Village.
+    jp DrawText20x6 ; and ret
+
+_room_50_CasbaVillager2: ; $51A0:
+    ld hl,$0168
+    ; There’s a dragon living in Casba Cave! I’m so scared!
+    jp DrawText20x6 ; and ret
+
+_room_51_AeroCastle1: ; $51A6:
+    ld hl,$016a
+    ; You can't always trust your eyes in dungeons.
+    jp DrawText20x6 ; and ret
+
+_room_52_CasbaVillager3: ; $51AC:
+    ld hl,$016c
+    ; The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, [a man named] Perseus used that shield to confront a monster.
+    jp DrawText20x6 ; and ret
+
+_room_53_CasbaVillager4: ; $51B2:
+    ld hl,$0170
+    ; One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!
+    jp DrawText20x6 ; and ret
+
+_room_54_CasbaVillager5: ; $51B8:
+    ld hl,$0172
+    ; Do you know about the ‘FlowMover’?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; No
+    ld hl,$017c
+    ; With a FlowMover, you can glide smoothly across the the top of the water. They can really come in handy!
+    jr nz,+
+    ; Yes
+    ld a,1
+    ld (FlowMoverIsUnhidden),a
+    ld hl,$0174
+    ; Well, I bought one on Palma, in the town of Shion, but it turned out to be broken, so I ditched it in Bartevo. What a waste!
++:  jp DrawText20x6 ; and ret
+
+_room_55_Drasgo1 ; $51D1:
+    ld hl,$017e
+    ; This is Drasgo, a tiny town on the sea.
+    jp DrawText20x6 ; and ret
+
+_room_56_Drasgo2: ; $51D7:
+    ld hl,$0180
+    ; Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!
+    jp DrawText20x6 ; and ret
+
+_room_57_Drasgo3: ; $51DD:
+    ld hl,$0184
+    ; I hear that there's an enchanted sword in Abion Tower.
+    jp DrawText20x6 ; and ret
+
+_room_58_Drasgo4: ; $51E3:
+    ld hl,$0186
+    ; I once saw a huge floating rock in the sky!
+    jp DrawText20x6 ; and ret
+
+_room_59_ChokoOneesan: ; $51E9:
+    ld hl,$0188
+    ; It's me, Choko Oneesan! Be brave and strong as you continue your quest!
+    jp DrawText20x6 ; and ret
+
+_room_5a_DrasgoCave1; $51EF:
+_room_8f_DrasgoCave1; $51EF:
+    ld hl,$018c
+    ; I heard that a store in this city sells an apparatus called a ‘GasClear’, which protects the body against poison gas. The only thing is, I can’t find the damn store! Sheesh!
+    jp DrawText20x6 ; and ret
+
+_room_5b_DrasgoCave2: ; $51F5:
+_room_90_DrasgoCave2: ; $51F5:
+    ld hl,$0190
+    ; This is an item shop. What can I do for you? Haah haah! Sorry, I’m just kidding! Please forgive me.
+    jp DrawText20x6 ; and ret
+
+_room_5c_DrasgoGasClearSeller: ; 51FB
+_room_91_DrasgoGasClearSeller:
+    ld hl,1000
+    ld (NumberToShowInText),hl
+    ld hl,$0194
+    ; You must be pretty shocked to see a store in a place like this, huh? ‘GasClears’ are 1000 mesetas. Pretty cheap, no? You wanna buy one?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$019c
+    ; Hey, what the hell?! I’m not selling you ANYTHING!
+    jp DrawText20x6 ; and ret
++:  ld de,1000
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$019a
+    ; Huh? You don’t have enough money? What the hell?! I’m not selling you ANYTHING!
+    jp DrawText20x6 ; and ret
++:  ld (Meseta),hl
+    ld hl,$0198
+    ; Thank you. Please come again.
+    call DrawText20x6
+    ld a,Item_GasClear
+    ld (ItemTableIndex),a
+    call HaveItem
+    ret z ; You can only have one... even if you pay twice
+    jp AddItemToInventory
+
+_room_5d_Skray1: ; $5238:
+    ld hl,$01a2
+    ; This is Skray, on the planet Dezoris. Pretty cold outside, wasn’t it?
+    jp DrawText20x6 ; and ret
+
+_room_5e_Skray2: ; $523E:
+    ld hl,$01a4
+    ; Nearly all of the Palman immigrants live in this town.
+    jp DrawText20x6 ; and ret
+
+_room_5f_Skray3: ; $5244:
+    ld hl,$01a6
+    ; I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the the northern mountains.
+    jp DrawText20x6 ; and ret
+
+_room_60_Skray4: ; $524A:
+    ld hl,$01aa
+    ; What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.
+    jp DrawText20x6 ; and ret
+
+_room_61_Skray5: ; $5250:
+    ld hl,$01b2
+    ; Weapons made from laconia conceal holy powers, y’know. I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.
+    jp DrawText20x6 ; and ret
+
+_room_62_Skray6: ; $5256:
+    ld hl,$01b8
+    ; Planet Dezoris is made of ice.
+    jp DrawText20x6 ; and ret
+
+_room_63_Skray7: ; $525C:
+    ld hl,$01ba
+    ; There are places inside the ice mountains that can be easily broken.
+    jp DrawText20x6 ; and ret
+
+_room_64_Skray8: ; $5262:
+    ld hl,$01bc
+    ; The area around the Altiplano Plateau is encircled by mountains of ice.
+    jp DrawText20x6 ; and ret
+
+_room_65_Skray9: ; $5268:
+    ld hl,$01be
+    ; This planet has a solar eclipse once every hundred years. There is a flame lit at this time called an ‘Eclipse Torch’. It is regarded by the Dezorians as sacred.
+    jp DrawText20x6 ; and ret
+
+_room_66_Skray10: ; $526E:
+    ld hl,$01c4
+    ; I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!
+    jp DrawText20x6 ; and ret
+
+_room_67_HonestDezorian1: ;
+    ld hl,$01c8
+    ; Those guys in the village next to us are all a bunch of liars. Be careful, eh.
+    jp DrawText20x6 ; and ret
+
+_room_68_HonestDezorian2: ;
+    ld hl,$01ca
+    ; Corona Tower lies on the other side of the mountains to the North of this village, eh.
+    jp DrawText20x6 ; and ret
+
+_room_69_HonestDezorian3: ; $5280:
+    ld hl,$01cc
+    ; To the West of Corona Tower is Dezoris Cave, eh. Please send my regards to our comrades there, eh.
+    jp DrawText20x6 ; and ret
+
+_room_6a_HonestDezorian4: ; $5286:
+    ld hl,$01d0
+    ; Laerma trees make berries called ‘Laerma Berries’, eh. Those berries are real tasty, eh. We wanna use them for food, eh, but if we don’t put them into a ‘Laconian Pot’, they just get all shriveled up, eh.
+    jp DrawText20x6 ; and ret
+
+_room_6b_HonestDezorian5: ; $528C:
+    ld hl,$01d6
+    ; Do you know about the ‘Aeroprism’?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; No
+    ld hl,$01da
+    ; I hear you can use it to look at other worlds, eh.
+    jr z,+
+    ; Yes
+    ld hl,$01d8
+    ; I’d really like to see it at least once, eh.
++:  jp DrawText20x6 ; and ret
+
+_room_6c_HonestDezorian6: ; $52A0:
+    ld hl,$01dc
+    ; All the people in this village hate those Palmans, eh.
+    jp DrawText20x6 ; and ret
+
+_room_6d_DishonestDezorian1: ; $52A6:
+    ld hl,$01de
+    ; There's a Life Spring/Fountain of Youth in Corona Tower, y’know.
+    jp DrawText20x6 ; and ret
+
+_room_6e_DishonestDezorian2: ; $52AC:
+    ld hl,10
+    ld (NumberToShowInText),hl
+    ld hl,$01e0
+    ; There's a warp on the 10th underground floor of Dezoris cave, y’know.
+    jp DrawText20x6 ; and ret
+
+_room_6f_DishonestDezorian3: ; $52B8:
+    ld hl,$01e2
+    ; Laerma Berries are colored blue. We use them as a dye, y’know.
+    jp DrawText20x6 ; and ret
+
+_room_70_DishonestDezorian4: ; $52BE:
+    ld hl,$01e4
+    ; If you use a crystal in front of the Laerma Tree, berries will grow, y’know.
+    jp DrawText20x6 ; and ret
+
+_room_71_DishonestDezorian5: ; $52C4:
+    ld hl,$01e6
+    ; This village welcomes Palmans.
+    jp DrawText20x6 ; and ret
+
+_room_72_DishonestDezorian6: ; $52CA:
+    ; This seems to be a bug in the original - it uses a line from elsewhere.
+    ld hl,$01e8
+    ; This village is called Sopia. I’m glad that you were able to brave your way through the poison gas.
+    jp DrawText20x6 ; and ret
+
+_room_73_SopiaVillageChief: ; $52D0:
+    ld hl,400
+    ld (NumberToShowInText),hl
+    ld hl,$01ea
+    ; I am the chief of this village. Due to the gas, Sopia is cut off from other towns and villages, and is therefore very poor. Could you by any chance offer a contribution of 400 mesetas?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$01f0
+    ; I see. What a pity. Hmmm...
+    jp DrawText20x6 ; and ret
++:  ld de,400
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$01f2
+    ; You are poor as well, eh? What a sad world in which we live.
+    jp DrawText20x6 ; and ret
++:  ld (Meseta),hl
+    ld a,$01
+    ld (PerseusShieldIsUnhidden),a
+    ld hl,$01f4
+    ; Thank you. According to local legend, the shield that Perseus used when he defeated Medusa is buried under a cactus on the island in the middle of the lake.
+    jp DrawText20x6 ; and ret
+
+_room_74_GamerMikiChan: ; $5306:
+    ld hl,$01fa
+    ; I'm Gamer Miki-chan! Do you own a Master System?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$01fc
+    ; Wow! I guess we game the same! After all, the FM sound system is way cool, huh?
+    jr z,+
+    ld hl,$01fe
+    ; Aawww! That’s no good! Hurry up and buy one! Hmph!
++:  jp DrawText20x6 ; and ret
+
+_room_75_Sopia1: ; $531A:
+    ld hl,$0200
+    ; Before LaShiec’s powerful grasp, this village was very wealthy.
+    jp DrawText20x6 ; and ret
+
+_room_76_Sopia2: ; $5320:
+    ld hl,$0202
+    ; There’s a monk named Tajimu living in the mountains South of the lake.
+    jp DrawText20x6 ; and ret
+
+_room_77_Sopia3: ; $5326:
+    ld hl,$0204
+    ; I heard that Palma is a very beautiful planet. Is it really true?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$0206
+    ; Ooh, I want to go there soo bad!
+    jr z,+
+    ld hl,$0208
+    ; Oh, I see. I want to go to a place with cleaner air.
++:  jp DrawText20x6 ; and ret
+
+_room_78_Sopia4: ; 533A:
+    ld hl,$00ba
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$020c
+    ; Cheapskate!
+    jp DrawText20x6
++:  ld a,Item_PelorieMate
+    call HaveItem
+    jr nz,+
+    call $28db ; RemoveItemFromInventory
+    ld hl,$020a
+    ; Thanks. Please come again.
+    jp DrawText20x6 ; and ret
++:  ld hl,$020e
+    ; Don’t f--- with me!
+    jp DrawText20x6 ; and ret
+
+_room_79_AeroCastle2: ; $5361:
+    ld hl,$0210
+    ; ...........
+    jp DrawText20x6 ; and ret
+
+_room_7a_AeroCastle3: ; $5367:
+    ld hl,$026a
+    ; Do not defy the great LaShiec.
+    jp DrawText20x6 ; and ret
+
+_room_7b_ShortcakeShop: ; $536D:
+    ld hl,280
+    ld (NumberToShowInText),hl
+    ld hl,$024a
+    ; I’m sorry for having a store in a place like this. Shortcakes are 280 meseta. Would you like one?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$b163
+    ; Take care, come back and see us soon.<wait>
+    jp TextBox20x6 ; and ret
++:  ld de,280
+    ld hl,(Meseta)
+    or a
+    sbc hl,de
+    jr nc,+
+    ld hl,$b65c
+    ; It looks like you don’t have enough money.<line>
+    ; Please come back later.<wait>
+    jp TextBox20x6 ; and ret
++:  ld a,(InventoryCount)
+    cp $18
+    jr c,+
+    ld hl,$b18f
+    ; You can’t carry any more. Come back when you can.<wait>
+    jp TextBox20x6 ; and ret
++:  ld (Meseta),hl
+    ld hl,$020a
+    ; Thank you!<wait>
+    call DrawText20x6
+    ld a,Item_Shortcake
+    ld (ItemTableIndex),a
+    call HaveItem
+    ret z ; You can't have two
+    jp AddItemToInventory ; and ret
+
+_room_7c_MahalCaveMotavianPeasant: ; $53B7:
+    ld a,Enemy_MotavianPeasant
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld a,(PartySize)
+    cp 3
+    ; No Lutz yet
+    ld hl,$00ac
+    ; Since the orders are from the Governor-General, Lutz will probably listen.
+    jr nz,+
+    ; Have Lutz
+    ld hl,$00b2
+    ; Yahoo!
++:  jp DrawText20x6 ; and ret
+
+_room_7d_Lutz: ; $53CF:
+    ld a,(PartySize)
+    cp 3
+    jp nc,_ScriptEnd
+    ; No Lutz yet
+    ld a,$3b
+    call $63f9
+    call SpriteHandler
+    ld hl,$00ae
+    ; Who are you? I'm in the middle of training right now. Please don’t interrupt.
+    call DrawText20x6
+    ld a,Item_GovernorGeneralsLetter
+    call HaveItem
+    ret nz
+    call $28db ; RemoveItemFromInventory
+    pop hl
+    call Close20x6TextBox
+    call MenuWaitForButton
+    ld a,1
+    ld (HaveLutz),a
+    ld iy,CharacterStatsLutz
+    ld (iy+$0a),$01
+    ld (iy+$0b),$11
+    call InitialiseCharacterStats
+    ld a,3
+    ld (PartySize),a
+    jp $46c8
+
+_room_7e_LuvenosAssistant: ; $5411:
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp 2
+    jp nc,_ScriptEnd ; Nothing if we haven't been to Luveno yet
+    ld a,$10
+    call $63f9
+    call SpriteHandler
+    ld hl,LuvenoState
+    ld a,(hl)
+    cp 1
+    ld de,$00dc
+    ; I’m busy right now, so please don’t interrupt.
+    jr nz,+
+    ld (hl),2 ; Progress LuvenoState
+    ld de,$00f6
+    ; Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice [but to help]. I’ll go there right away.
++:  ex de,hl
+    jp DrawText20x6 ; and ret
+
+_room_7f_5436:
+    ld hl,$00f8
+    ; NO MAN THAT GOES INTO THE ROOM INTHE FAR CORNER HAS EVER COME OUT ALIVE! AHA-HA-HA!
+    jp DrawText20x6 ; and ret
+
+_room_80_Luveno_Prison: ; $543C:
+    ld a,(LuvenoState)
+    or a
+    jp nz,_ScriptEnd ; Nothing if he is not in prison any more
+    ld a,$34
+    call $63f9
+    call SpriteHandler
+    ld hl,LuvenoPrisonVisitCounter
+    ld a,(hl)
+    or a
+    jr nz,+
+    ; First visit
+    inc (hl)
+    ld hl,$00de
+    ; I’m Luveno. You came here to rescue me? That’s not really necessary. You should go home.
+    jp DrawText20x6 ; and ret
++:  cp 1
+    jr nz,+
+    ; Second visit
+    inc (hl)
+    ld hl,$00e0
+    ; What? Did you say 'build a spaceship?' [BAKA MO YASUMIYASUMI IE.]  Do you think I want to be responsible for something like that?
+    jp DrawText20x6 ; and ret
++:  ; Third visit
+    ld hl,$00e2
+    ; Hmmm... Didn’t I tell you to-- Aah, I give up! You must promise to do whatever I ask. Agreed?
+    call DrawText20x6
+    call DoYesNoMenu
+    ld hl,$00d4
+    ; Well, if you won’t promise, then I’m afraid I can’t help you.
+    jr nz,+
+    ld hl,LuvenoState
+    ld (hl),1 ; Freed
+    ld hl,$00e4
+    ; Good. Well then, I’m going to go to Gothic Village and make the proper arrangements. Meet me there later. Oh, don’t worry. I can make it there myself.
++:  jp DrawText20x6 ; and ret
+
+_room_81_TriadaPrisonGuard1: ; $547D:
+    ld a,Enemy_RobotPolice
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$00e6
+    ; Do you have a Roadpass?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ; Yes
+    ld a,Item_RoadPass
+    call HaveItem
+    jr nz,+
+    ld hl,$0024
+    ; Okay, you may pass.
+    jp DrawText20x6 ; and ret
++:  ld hl,$00e8
+    ; You are very brave. Please allow me to kill you...
+    call DrawText20x6
+    call Close20x6TextBox
+    jp _55e9_fight
+
+_room_82_TriadaPrisoner1: ; $54A9:
+    ld hl,$00ba
+    ; Hey, you mind if I bum a ‘Perolimate’?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ld hl,$00c2
+    ; I ain’t talking to you, then. Get the hell away from me.
+    jp DrawText20x6 ; and ret
++:  ld a,Item_PelorieMate
+    call HaveItem
+    jr nz,+
+    call $28db ; RemoveItemFromInventory
+    ld hl,$00ea
+    ; Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.
+    jp DrawText20x6 ; and ret
++:  ld hl,$00ce
+    ; Well? Let's see it.
+    jp DrawText20x6 ; and ret
+
+_room_83_TriadaPrisoner2: ; $54D0:
+    ld hl,$00ec
+    ; Do you know of a robot called ‘Hapsby’?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$013c
+    ; Really? What a bore!
+    jr z,+
+    ld hl,$0124
+    ; It’s a robot made out of laconia! But it seems to have been dumped into a scrap heap!
++:  jp DrawText20x6 ; and ret
+
+_room_84_TriadaPrisoner3: ; $54E4:
+    ld hl,$00ee
+    ; I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.
+    jp DrawText20x6 ; and ret
+
+_room_85_TriadaPrisoner4: ; $54EA:
+    ld hl,$00f0
+    ; The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’
+    jp DrawText20x6 ; and ret
+
+_room_86_TriadaPrisoner5: ; $54F0:
+    ld hl,$00f2
+    ; Whassup? I haven’t seen any people in a long time! Let’s talk!
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$014c
+    ; Y’know, I’ve got a friend in Bartevo. But those lava pools are making things real tough right now, I guess. If you see my friend, could you tell him I said ‘hi?’
+    jr z,+
+    ; No
+    ld hl,$013c
+    ; Really? What a bore!
++:  jp DrawText20x6 ; and ret
+
+_room_87_TriadaPrisoner6: ; $5504:
+    ld a,Enemy_Tarantula
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$00f4
+    ; There’s this chemical called ‘Polymeteral’ that they say will dissolve any material except laconia.
+    jp DrawText20x6 ; and ret
+
+_room_88_MedusasTower1: ; $5512:
+    ld hl,$00fc
+    ; You’ve gotten far. Soon you will know the truth.
+    jp DrawText20x6 ; and ret
+
+_room_89_MedusasTower2: ; $5518:
+    ld hl,$00fe
+    ; Get out of here while you're still breathing! You don’t know what you’re up against!
+    jp DrawText20x6 ; and ret
+
+_room_8a_MedusasTower3: ; $551E:
+    ld hl,$0100
+    ; Oh, what a brave young lady you are! Beware of traps.<wait>
+    jp DrawText20x6 ; and ret
+
+_room_8b_BartevoCave: ; $5524:
+    ld hl,$010a
+    ; The drug store in Abion sells Polymeteral, I hear.
+    jp DrawText20x6 ; and ret
+
+_room_8c_AvionTower: ; $552A:
+    ld hl,$021a
+    ; Leaving? Better do it now.
+    jp DrawText20x6 ; and ret
+
+_room_8d_5530:
+    ld hl,$0148
+    ; I am the World’s Greatest Fortune Teller, Damoa! Do you believe in my amazing powers?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+-:  ld hl,$0152
+    ; What did you say? You are very disobedient. I think you should leave.
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld hl,$014e
+    ; Good. Good.
+    call DrawText20x6
+    ld hl,$0150
+    ; I sense that you are looking for something, yes?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,-
+    ; Yes
+    ld hl,$014e
+    ; Good. Good.
+    call DrawText20x6
+    ld hl,$0154
+    ; I see that you are looking for Alex Ossale, yes?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,-
+    ; Yes
+    ld hl,$014e
+    ; Good. Good.
+    call DrawText20x6
+    ld hl,$0156
+    ; Everything I say is correct. Understand?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ; Yes
+    ld hl,$0158
+    ; In that case, perhaps you should come back later.
+    jp DrawText20x6 ; and ret
++:  ; No
+    ld hl,$015a
+    ; Do you oppose me?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,-
+    ; No
+    ld hl,$015c
+    ; Is that so... You show considerable promise. I shall give you this crystal as a reward.
+    call DrawText20x6
+    ld a,Item_DamoasCrystal
+    ld (ItemTableIndex),a
+    call HaveItem
+    ret z ; You can't have two
+    jp AddItemToInventory ; and ret
+
+_room_8e_5597:
+    ld hl,$0160
+    ; Did you come here seeking Baya Marlay tower?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$0162
+    ; Then you will be destroyed!
+    jr z,+
+    ; No
+    ld hl,$0164
+    ; Then you should turn back.
+    jp DrawText20x6 ; and ret
+
+_room_92_55AB:
+    ld a,Enemy_RobotPolice
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$021c
+    ; Do you have a Roadpass?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr nz,+
+    ld a,Item_RoadPass
+    call HaveItem
+    jr nz,+
+    ld hl,$021e
+    ; Let me see here... Hm? This is a fake! Don't think you can fool me just because I'm a robot! Let me show you to your cell.
+    call DrawText20x6
+    call Close20x6TextBox
+    pop hl
+    ld hl,$159c
+    ld ($c30c),hl
+    ld a,$01
+    ld ($c30a),a
+    ld hl,FunctionLookupIndex
+    ld (hl),$0a
+    ret
+
++:  ld hl,$00e8
+    ; You are very brave. Please allow me to kill you...
+    call DrawText20x6
+    call Close20x6TextBox
+_55e9_fight:
+    call fn116b_Fight
+    ld a,(CharacterSpriteAttributes)
+    or a
+    call nz,fn1d3d
+    pop hl
+    ret
+
+_room_93_55F5:
+    ld hl,$0222
+    ; I wonder if you could help me escape from this place, but it’s hopeless.
+    jp DrawText20x6 ; and ret
+
+_room_94_55FB:
+    ld hl,$0224
+    ; Defeat LaShiec?! That’s nonsense!
+    jp DrawText20x6 ; and ret
+
+_room_95_5601:
+    ld hl,$0226
+    ; We will all be sacrificed in the name of LaShiec! Agh!
+    jp DrawText20x6 ; and ret
+
+_room_96_5607:
+    ld hl,$022e
+    ; All those who have gone up against LaShiec have had their souls taken by his magic.
+    jp DrawText20x6 ; and ret
+
+_room_97_560D:
+    ld hl,$0232
+    ; There is a tower on top of Baya Mahrey knoll. There must be secrets hidden inside.
+    jp DrawText20x6 ; and ret
+
+_room_98_5613:
+    ld hl,$0218
+    ; You’d better not go any further, ‘cuz there’s a guard station up there.
+    jp DrawText20x6 ; and ret
+
+_room_99_5619:
+    ld hl,$0214
+    ; Oh! So you’re locked up in here as well? How tragic. There IS a way to get outside, but I'D rather stay here where it's nice and cozy.
+    jp DrawText20x6 ; and ret
+
+_room_9a_561F:
+    ld a,Enemy_RobotPolice
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$009c
+    ; Did you bring a present for the Governor-General?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$00a2
+    ; Leave at once!
+    call DrawText20x6
+    jr ++
++:  ld a,Item_Shortcake
+    call HaveItem
+    jr nz,+
+    push bc
+      call $28db ; RemoveItemFromInventory
+    pop bc
+    ld a,$ff
+    ld (HaveGivenShortcake),a
+    ld hl,$009e
+    ; Well then, I’ll look after this ‘Shortcake’.
+    jp DrawText20x6 ; and ret
++:  ld hl,$00a0
+    ; That is NOT a suitable gift.
+    call DrawText20x6
+++: pop hl
+    call Close20x6TextBox
+    call $1738
+    jp $6b2f
+
+_room_9b_TorchBearer: ; $5661:
+    ld hl,$023e
+    ; This flame is lit during each centennial solar eclipse. If you give me a dragon’s jewel, however, I’ll share the flame with you. Do we have an agreement?
+    call DrawText20x6
+    call DoYesNoMenu
+    jr z,+
+    ; No
+    ld hl,$0246
+    ; You don’t want it?! Then, ah, for what did you come here?
+    jp DrawText20x6 ; and ret
++:  ; Yes
+    ld a,Item_CarbuncleEye
+    call HaveItem
+    jr nz,+
+    call $28db ; RemoveItemFromInventory
+    ld a,Item_EclipseTorch
+    ld (ItemTableIndex),a
+    call AddItemToInventory
+    ; No need to check for space as we just removed the Carbuncle Eye
+    ld hl,$0244
+    ; Well then, please accept this ‘Eclipse Torch’.
+    jp DrawText20x6 ; and ret
++:  ld hl,$0248
+    ; You mean to say you don’t have the jewel?! Don’t toy with me!
+    jp DrawText20x6 ; and ret
+
+_room_9c_Tajim: ; $5690:
+    ld a,Enemy_Tajim
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld a,($c43b)
+    ld b,a
+    ld a,Item_Armour_FradMantle ; ???
+    cp b
+    jr z,+
+    call HaveItem
+    jr nz,++
++:  ld hl,$0258
+    ; There is nothing more I can teach you.
+    jp DrawText20x6 ; and ret
+++: ; Check if Lutz has joined the party
+    ld a,(PartySize)
+    cp 3
+    jr nc,++
+    ; No Lutz
+    ld hl,$025a
+    ; Who, may I ask, are you? I have a student, Lutz, in the Cave of Magic. Do you know him?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$025e
+    ; There is something I must tell Lutz. Would you please escort him to me?
+    jr z,+
+    ; No
+    ld hl,$0260
+    ; I see. In that case, I guess it’s pointless for us to talk.
++:  jp DrawText20x6 ; and ret
+++: ld hl,$024c
+    ; Ah. My student, Lutz! I see you are finally on your way to defeating LaShiec.
+    call DrawText20x6
+    ; Check if Lutz is dead
+    ld a,(CharacterStatsLutz)
+    or a
+    jr nz,+
+    ld hl,$02a8
+    ; ...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.
+    jp DrawText20x6 ; and ret
++:  ld hl,$024e
+    ; That being the case, I'll give you your final test: a duel with me!
+    call DrawText20x6
+    call Close20x6TextBox
+    ; Preserve Lutz' HP but everyone else's IsAlive, to make a Lutz-only fight
+    ld a,(CharacterStatsLutz+1) ; HP
+    push af
+      ld a,(CharacterStatsAlis)
+      push af
+        ld a,(CharacterStatsMyau)
+        push af
+          ld a,(CharacterStatsOdin)
+          push af
+            xor a
+            ld (CharacterStatsAlis),a
+            ld (CharacterStatsMyau),a
+            ld (CharacterStatsOdin),a
+            call fn116b_Fight
+          pop af
+          ld (CharacterStatsOdin),a
+        pop af
+        ld (CharacterStatsMyau),a
+      pop af
+      ld (CharacterStatsAlis),a
+    pop af
+    ld b,a ; Lutz' HP before
+    ld a,(CharacterStatsLutz+1) ; Lutz' HP now
+    or a
+    jr nz,+
+    ; Lutz' HP s 0
+    ; Restore it (and bring him back to life)
+    ld a,b
+    ld (CharacterStatsLutz+1),a
+    ld a,1
+    ld (CharacterStatsLutz+0),a
+    ld hl,$0256
+    ; You still haven’t trained enough. You should come back later.
+    jp DrawText20x6 ; and ret
++:  ; Lutz won
+    ld hl,$0250
+    ; You’ve become strong, my boy! You have all the power you’ll ever need. Please use this Frad Cloak. It is my gift to you. It will protect your body from harm. Well then, you’d best be on your way.
+    call DrawText20x6
+    ld a,Item_Armour_FradMantle
+    ld (ItemTableIndex),a
+    jp AddItemToInventory;$28fb
+
+_room_9d_5730:
+    ld a,Enemy_FakeLaShiec
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$0262
+    ; Make your move, fools. I can see right through you.
+    call DrawText20x6
+    call Close20x6TextBox
+    call fn574f_fight
+    ld a,$ff
+    ld (HaveBeatenShadow),a
+    ld hl,$0266
+    ; I am King LaShiec’s shadow warrior. You have gained nothing by defeating me! Hee hee hee!
+    jp DrawText20x6 ; and ret
+
+fn574f_fight:
+    call fn116b_Fight
+    ld a,(FunctionLookupIndex)
+    cp $02
+    ret    nz
+    pop hl
+    pop hl
+    ret
+
+_room_9e_LaShiec: ; $575B:
+    ld a,(HaveBeatenLaShiec)
+    or a
+    jp nz,_ScriptEnd
+    ld a,Enemy_LaShiec
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$026c
+    ; And so you finally arrive. How fortunate you are. Do you really wish to defeat me?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$026e
+    ; I see. Then perhaps I should show you the error in your judgment!
+    jr z,+
+    ld hl,$0270
+    ; You have already wasted too much of my time. I shall make you regret it!
++:  call DrawText20x6
+    call Close20x6TextBox
+    call fn574f_fight
+    ld a,1
+    ld (HaveBeatenLaShiec),a
+    ld hl,$02aa
+    ; What?! Could it be that I die? What a disgrace. I shall live again!
+    ; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
+    jp DrawText20x6 ; and ret
+
+_room_9f_578F:
+    ld hl,$b132
+    jp TextBox20x6 ; and ret
+
+_room_a0_5795:
+_room_a1_5795:
+_room_ae_5795:
+_room_af_5795:
+_room_b5_5795:
+    call MenuWaitForButton
+_room_a2_5798:
+    call fn1d3d
+    pop hl
+    ret
+
+fn579d_NothingInterestingHere:
+    ld hl,$af1e
+    ; There doesn’t seem to be anything particularly unusual here.
+    call TextBox20x6
+    jp Close20x6TextBox ; and ret
+
+
+GetHapsby:
+    ld a,Item_Hapsby
+    ld (ItemTableIndex),a
+    call HaveItem
+    jr z,fn579d_NothingInterestingHere
+    call Close20x6TextBox
+    ld hl,_RAM_c801_
+    inc (hl)
+    call SpriteHandler
+    call MenuWaitForButton
+    ld hl,$012c
+    ; I am Hapsby. Thanks for getting me out of that scrap heap. Let me pilot the ‘Luveno’ for you, okay?
+    call DrawText20x6
+    jp AddItemToInventory ; and ret
+
+CheckFlowMover:
+    ; Is it unhidden?
+    ld a,(FlowMoverIsUnhidden)
+    or a
+    jr z,fn579d_NothingInterestingHere
+    ; Do we have Hapsby?
+    ld a,Item_Hapsby
+    ld (ItemTableIndex),a
+    call HaveItem
+    jr nz,fn579d_NothingInterestingHere
+    ; Do we have it already?
+    ld a,Item_Vehicle_FlowMover
+    ld (ItemTableIndex),a
+    call HaveItem
+    jr z,fn579d_NothingInterestingHere
+    ld hl,$0178
+    ; You found the ‘FlowMover’! Hapsby fixed the areas that were damaged, so you can use it now!
+    call DrawText20x6
+    call Close20x6TextBox
+    jp AddItemToInventory ; and ret
+
+FindTairon:
+    ld hl,$00fa
+    ; It seems that something turned this person into stone! Maybe he can be returned to normal...
+    call DrawText20x6
+    jp Close20x6TextBox ; and ret
+
+_room_a3_CoronoTowerDezorian1: ; 57F5:
+    ld a,Enemy_DezorianHead
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$0234
+    ; What is your business here? Don’t cause any trouble!
+    jp DrawText20x6 ; and ret
+
+_room_a4_GuaranMorgue: ; $5803:
+    ld hl,$0234
+    ; What is your business here? Don’t cause any trouble!
+    jp DrawText20x6 ; and ret
+
+_room_a5_CoronaDungeonDihonstDezorian: ; $5809:
+    ld a,Enemy_Dezorian
+    ld (EnemyNumber),a
+    call LoadEnemy
+    xor a
+    ld ($cbc3),a
+    ld hl,$0238
+    ; Be careful up ahead. You should turn left at the fork in the path.<wait>
+    jp DrawText20x6 ; and ret
+
+_room_a6_581B:
+    ld a,Enemy_Serpent
+    ld (EnemyNumber),a
+    call LoadEnemy
+    pop hl
+    ; Make it drop no money
+    ld hl,$0000
+    ld (EnemyMoney),hl
+    jp fn116b_Fight
+
+_room_a7_BayaMarlayPrisoner: ; $582D:
+    ld hl,$0228
+    ; Have you gotten the armor from Guaran?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$022c
+    ; Damn! You’re pretty cool!
+    jr z,+
+    ld hl,$022a
+    ; It’s on the other side of a pitfall!
++:  jp DrawText20x6 ; and ret
+
+_room_a8_BuggyUnused: ; $5841:
+    ; Presumably unused...
+    ld a,Enemy_MotavianPeasant
+    ld (EnemyNumber),a
+    call LoadEnemy
+    ld hl,$0212
+    ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
+    jp DrawText20x6 ; and ret
+
+_room_a9_LuvenoGuard: ; $584F:
+    ld a,(LuvenoState)
+    cp $07
+    jr nc,+
+    ld hl,$0282
+    ; Hey! Keep outta my turf!<wait>
+    jp DrawText20x6 ; and ret
++:  ld hl,$0284
+    ; I guess I’ve got to do what Dr. Luveno says. Go on through.<wait>
+    call DrawText20x6
+    ld a,(HLocation)
+    cp $40
+    ld hl,_5873
+    jr nc,+;
+    ld hl,_5876
++:  call fn7b1e
+    ret
+
+_5873: .db $07 $1B $1B
+_5876: .db $07 $1B $1D
+
+_room_aa_DarkForce: ; $5879:
+    ld a,$93
+    ld (NewMusic),a
+    call Pause256Frames
+    ld a,$1f
+    ld (SceneType),a
+    call LoadSceneData
+    ld hl,$ffff
+    ld (hl),$13
+    ld hl,$8000
+    ld de,TargetPalette+16 ; sprite palette
+    ld bc,$0010
+    ldir
+    ld a,$0c
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,Enemy_DarkForce
+    ld (EnemyNumber),a
+    call LoadEnemy
+    call MenuWaitHalfSecond
+    ld a,$20
+    ld (SceneType),a
+    call fn574f_fight
+    call Close20x6TextBox
+    ; Did we win?
+    ld a,(CharacterStatsAlis)
+    or a
+    jr nz,+
+    ; No
+    ld hl,$b85a
+    call TextBox20x6
+    call Close20x6TextBox
+
+_room_ab_58C6:
++:  call FadeOutFullPalette
+    ld a,$1d
+    ld (SceneType),a
+    call LoadSceneData
+    ld a,$0c
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$35
+    call $63f9
+    call SpriteHandler
+    ld hl,$0272
+    ; Oh! My friends, please forgive me. My mind and body seem to have been enchanted by some sort of evil force.
+    ; Well done! You have saved the world! If you had taken any longer, terrible events might have come to pass. I extend you my utmost appreciation.
+    ; And now, Alisa, I have something I wish to tell you:
+    ; The truth is, your father was once the King of Algol.
+    ; Now that the demon’s fortress has been destroyed, and LaShiec is no more, will be your father’s successor and become the Queen of Algol?
+    call DrawText20x6
+    call DoYesNoMenu
+    ; Yes
+    ld hl,$0212
+    ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
+    jr z,+
+    ; No
+    ld hl,$0230
+    ; I see. [You must do as you wish]. You are welcome to return at anytime.
++:  call DrawText20x6
+    call Close20x6TextBox
+    pop hl
+    jp $47b5
+
+_room_ac_58FC:
+    ld hl,$02a4
+    ; This is Alisa’s house. Nobody is here.
+    jp DrawText20x6 ; and ret
+
+_room_ad_5902:
+    ld a,($c2f0)
+    ld d,a
+    ld e,0 ; Character number
+-:  ld a,e
+    ld (TextCharacterNumber),a
+    rr d
+    push de
+      ld hl,$b07b
+      ; <player> died.
+      call c,TextBox20x6
+    pop de
+    inc e
+    ld a,e
+    cp $04
+    jr nz,-
+    ld b,4
+--: ld a,b
+    dec a
+    call fb19d9_PointHLToCharacterInA
+    jr nz,+
+    djnz --
+    jp $175e
++:  jp Close20x6TextBox ; and ret
+
+_room_b0_592D:
+    ld hl,$023a
+    ; Don’t let this get out, but there's a fortune-teller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.
+    jp DrawText20x6 ; and ret
+
+_room_b1_OtegamiChieChan: ; $5933:
+    ld hl,$027a
+    ; I am 'Otegami Chie-chan!’ Thanks for all your letters. Please tell us how you feel about this game. We’ll be waiting.
+    jp DrawText20x6 ; and ret
+
+_room_b2_FlightToMotavia: ; $5939:
+    ld hl,$b6c6
+    ; BOUND FOR MOTAVIA. GETTING ON?
+    call TextBox20x6
+    call DoYesNoMenu
+    ret nz
+    ld a,$81
+    ld (_RAM_c2e9_),a
+    ret
+
+_room_b3_FlightToPalma: ; $5949:
+    ld hl,$b6d7
+    ; BOUND FOR PALMA. GETTING ON?
+    call TextBox20x6
+    call DoYesNoMenu
+    ret nz
+    ld a,$82
+    ld (_RAM_c2e9_),a
+    ret
+
+_room_b4_HapsbyTravel: ; $5959:
+-:  ld hl,$b0a8
+    ; Where would you like to go?
+    call TextBox20x6
+    ; Select a planet
+    push bc
+      call $3b4b
+      bit    4,c
+    pop bc
+    ret nz
+    ld d,a
+    ; Are we alredy there?
+    ld a,(_RAM_c309_)
+    rrca
+    rrca
+    rrca
+    and $03
+    ld e,a
+    cp d
+    jr nz,+
+    ; Print the error
+    or a
+    ld hl,$b11e
+    ; This IS Gothic.
+    jr z,++
+    dec a
+    ld hl,$b112
+    ; This IS Uzo.
+    jr z,++
+    ld hl,$b106
+    ; This IS Skray.
+++: call TextBox20x6
+    jr -
+
++:  ld a,d
+    or a
+    ld hl,$b0eb
+    ; Destination: Gothic, on Palma. Confirm?
+    jr z,+
+    dec a
+    ld hl,$b0cf
+    ; Destination: Uzo, on Motabia. Confirm?
+    jr z,+
+    ld hl,$b0b3
+    ; Destination: Skray, on Dezoris. Confirm?
++:  push de
+      call TextBox20x6
+      call DoYesNoMenu
+    pop de
+    jr nz,-
+    ; Current * 3 + next
+    ld a,e
+    add a,a
+    add a,e
+    add a,d
+    ld d,$00
+    ld e,a
+    ld hl,_table
+    add hl,de
+    ld a,(hl)
+    ld (_RAM_c2e9_),a
+    ret
+_table:
+.db $81 $83 $84
+.db $85 $82 $86
+.db $87 $88
+.ends
+; followed by
 .orga $59ba
 .section "Draw text 20x6" overwrite
 ; de = 1-based table offset * 2
@@ -4789,12 +7395,13 @@ DrawText20x6:          ; $59ba
 ; followed by
 .orga $59ca
 .section "Say something and close 20x8 box" overwrite
-fn59ca:                ; $59ca
+_badScriptIndex:                ; $59ca
     ld hl,_text        ; see below
     call TextBox20x6
     jp Close20x6TextBox
 _text:
 .db $1f $3d $00 $49 $2b $35 $27 $21 $33 $00 $40 $07 $13 $02 $1f $0e $2e $4c $58
+; マダ プロ グラムガ デキテイマセン.
 ; MaDa PuRoGuRaMuGa DeKiTeIMaSeN.[Exit after button press]
 ; The program is not made yet.
 ; or
@@ -4804,15 +7411,15 @@ _text:
 .orga $59e6
 .section "Sort sprite entity table and update sprite table" overwrite
 SpriteHandler:         ; $59e6
-    ld hl,xc289
-    ld (xc289Pointer),hl ; Set xc289Pointer to xc289 (first entry)
-    ld de,xc289+2
+    ld hl,_RAM_c289_
+    ld (_RAM_c289_Pointer),hl ; Set _RAM_c289_Pointer to _RAM_c289_ (first entry)
+    ld de,_RAM_c289_+2
     ld bc,$e
     ld (hl),$00
     inc hl
     ld (hl),$ff
     dec hl
-    ldir               ; Fill xc289 with $00, $ff
+    ldir               ; Fill _RAM_c289_ with $00, $ff
 
     ld hl,SpriteTable
     ld (NextSpriteY),hl ; Set NextSpriteY to first entry
@@ -4829,19 +7436,19 @@ SpriteHandler:         ; $59e6
     pop bc             ;                                                 |
     or a               ; if result == 0 then skip again -----------------+
     jp z,+             ;                                                 |
-    ld hl,(xc289Pointer) ;                                               |
+    ld hl,(_RAM_c289_Pointer) ;                                               |
     ld a,(iy+2)        ; CharacterSpriteAttributes+2 = ???               |
     ld (hl),a          ; Copy to hl                                      |
     inc hl             ;                                                 |
     ld (hl),c          ; 0?                                              |
     inc hl             ;                                                 |
-    ld (xc289Pointer),hl ; Update xc289Pointer                           |
+    ld (_RAM_c289_Pointer),hl ; Update _RAM_c289_Pointer                           |
   +:ld de,32           ;                                 <---------------+
     add iy,de          ; Move iy to next CharacterSpriteAttributes
     inc c              ; and inc c
     djnz -             ; repeat 8 times???
 
-    ld de,xc289        ; Sort xc289 into increasing numerical order by 1st byte in each entry (?)
+    ld de,_RAM_c289_        ; Sort _RAM_c289_ into increasing numerical order by 1st byte in each entry (?)
     ld b,3             ; counter
  --:push bc            ; <-----------------------------+
         ld l,e         ; hl = de                       |
@@ -4872,8 +7479,8 @@ SpriteHandler:         ; $59e6
     pop bc             ;                               |
     djnz --            ; and repeat 3 times -----------+
 
-    ld hl,xc289+1      ; second byte in xc289 entry 0
-    ld b,8             ; counter (number of entries in xc289)
+    ld hl,_RAM_c289_+1      ; second byte in _RAM_c289_ entry 0
+    ld b,8             ; counter (number of entries in _RAM_c289_)
   -:ld a,(hl)          ; If (hl)==$ff then skip:
     cp $ff
     jr z,++
@@ -4900,7 +7507,7 @@ SpriteHandler:         ; $59e6
         call UpdateSprites
     pop hl
     pop bc
- ++:inc hl             ; Move to next entry in xc289
+ ++:inc hl             ; Move to next entry in _RAM_c289_
     inc hl
     djnz -             ; and repeat
     ld hl,(NextSpriteY)
@@ -5032,8 +7639,8 @@ _5c1d:
         inc (iy+0)
     pop bc
     ld (iy+2),$60      ; ???
-    ld a,(xc2ea)
-    and $03            ; if xc2ea is a multiple of 4
+    ld a,(_RAM_c2ea_)
+    and $03            ; if _RAM_c2ea_ is a multiple of 4
     ld a,$84           ; then a=$84
     jr nz,+
     ld a,$80           ; else a=$80
@@ -5041,14 +7648,14 @@ _5c1d:
     ld (iy+$12),$01
     ld (iy+$01),b      ; depends on lookup function
     ld (iy+$11),$01
-    ld a,c             ; 005C42 79
-    or a               ; 005C43 B7
-    ld a,$00           ; 005C44 3E 00
+    ld a,c
+    or a
+    ld a,$00
     jr nz,+
-    ld a,$03           ; 005C48 3E 03
-  +:ld (iy+$0a),a      ; 005C4A FD 77 0A
-    ld a,$ff           ; 005C4D 3E FF
-    ret                ; 005C4F C9
+    ld a,$03
+  +:ld (iy+$0a),a
+    ld a,$ff
+    ret
 .ends
 .orga $5c50
 
@@ -5060,7 +7667,7 @@ _5c1d:
 .section "Enemy data loader" overwrite
 LoadEnemy:             ; $627a
     ld hl,Frame2Paging
-    ld (hl),$03        ; for enemy data
+    ld (hl),:EnemyData
 
     ld hl,CharacterSpriteAttributes
     ld de,CharacterSpriteAttributes+1
@@ -5094,9 +7701,9 @@ LoadEnemy:             ; $627a
     ld bc,8
     ldir               ; Load name
 
-    ld de,xc258
+    ld de,_RAM_c258_
     ld bc,8
-    ldir               ; Next 8 bytes -> xc258
+    ldir               ; Next 8 bytes -> _RAM_c258_
 
     ld b,(hl)          ; Next byte = page
     inc hl
@@ -5125,12 +7732,12 @@ LoadEnemy:             ; $627a
     jr nz,+            ; ------------------------------+
     and $f             ;                               |
     ld b,a             ; low nibble -> b               |
-    ld a,(xc4f0)       ; get xcf40                     |
+    ld a,(PartySize)   ;                               |
     inc a              ; add 1                         |
     add a,a            ; and double                    |
     cp b               ;                               |
     jr nc,_f           ;                               |
-    ld b,a             ; if (xc4f0+1)*2<b then b=that  |
+    ld b,a             ; if (PartySize+1)*2<b then b=that  |
  __:call GetRandomNumber ;                             |
     and 7              ;                               |
     cp b               ;                               |
@@ -5158,8 +7765,8 @@ LoadEnemy:             ; $627a
         add ix,de      ; repeat for each enemy
         djnz -
     pop hl
-    ld a,(hl)          ; next byte in xc2df
-    ld (xc2df),a
+    ld a,(hl)          ; next byte in _RAM_c2df_
+    ld (_RAM_c2df_),a
     inc hl             ; next word in de = money per enemy
     ld e,(hl)
     inc hl
@@ -5172,8 +7779,8 @@ LoadEnemy:             ; $627a
         ld (EnemyMoney),hl  ; EnemyMoney = NumEnemies*de
     pop hl
     inc hl
-    ld a,(hl)          ; Next byte in xc2e0
-    ld (xc2e0),a
+    ld a,(hl)          ; Next byte in _RAM_c2e0_
+    ld (_RAM_c2e0_),a
     inc hl             ; next word in de
     ld e,(hl)
     inc hl
@@ -5183,17 +7790,17 @@ LoadEnemy:             ; $627a
         ld c,a
         ld b,$00
         call Multiply16
-        ld (xc2d0),hl  ; xc2d0 = NumEnemies*de
+        ld (_RAM_c2d0_),hl  ; _RAM_c2d0_ = NumEnemies*de
     pop hl
     inc hl
     ld a,(hl)
-    ld (xc2e8),a       ; Next byte in xc2e8
+    ld (_RAM_c2e8_),a       ; Next byte in _RAM_c2e8_
     inc hl
     ld a,(hl)
-    ld (xc2e7),a       ; Next byte in xc2e7
+    ld (_RAM_c2e7_),a       ; Next byte in _RAM_c2e7_
 
-    ld hl,$c500
-    ld ($c2e1),hl      ; $c500 -> xc2e1
+    ld hl,_RAM_c500_
+    ld (_RAM_c2e1_),hl      ; $c500 -> _RAM_c2e1_
 
     call SpriteHandler
     call SpriteHandler
@@ -5223,14 +7830,14 @@ fndata8fdfloader:      ; $6379
     ld de,data8fdf-24
     add hl,de          ; hl = $8fc7 + a*24
 
-    ld de,$c880
+    ld de,_RAM_c880_
     ld bc,3
     ldir               ; Copy 3 bytes from there to $c880
 
     inc de             ; skip 1 byte
     ldi                ; and copy 1 more
 
-    ld de,$c894
+    ld de,_RAM_c894_
     ld bc,9
     ldir               ; next 9 to $c894
 
@@ -5268,7 +7875,7 @@ fndata8fdfloader:      ; $6379
     ld a,$03           ; Reset paging
     ld (Frame2Paging),a
 
-    ld de,$c8a0
+    ld de,_RAM_c8a0_
     ld bc,3
     ldir               ; Next 3 bytes -> $ca80
     inc de             ; skip 1
@@ -5337,7 +7944,7 @@ AnimCharacterSprites:  ; $6471
     ret
 _FunctionTable:
 .dw _Alis
-.dw _Noah
+.dw _Lutz
 .dw _Odin
 .dw _Myau
 .dw _Vehicle
@@ -5359,7 +7966,7 @@ _Alis:                 ; $64a5
     call outi128       ; output 192 bytes = 6 tiles
     jp outi64          ; and ret
 
-_Noah:                 ; $64c2
+_Lutz:                 ; $64c2
     ld e,$00
     srl d
     rr e
@@ -5368,8 +7975,8 @@ _Noah:                 ; $64c2
     srl d
     rr e
     add hl,de
-    ld de,NoahSprites
-    add hl,de          ; hl = NoahSprites + (ix+$10)*192
+    ld de,LutzSprites
+    add hl,de          ; hl = LutzSprites + (ix+$10)*192
     TileAddressDE $1b0
     SetVRAMAddressToDE
     ld c,VDPData
@@ -5386,7 +7993,7 @@ _Odin:                 ; $64df
     rr e
     add hl,de
     ld de,OdinSprites
-    add hl,de          ; hl = NoahSprites + (ix+$10)*192
+    add hl,de          ; hl = LutzSprites + (ix+$10)*192
     TileAddressDE $1b6
     SetVRAMAddressToDE
     ld c,VDPData
@@ -5413,7 +8020,7 @@ _Vehicle:              ; $650f
   +:SetPage VehicleSprites
     ld l,$00
     ld h,d
-    add hl,hl          
+    add hl,hl
     ld de,VehicleSprites
     add hl,de          ; hl = VehicleSprites + (ix+$10)*512
     ld de,$7540        ; tile $1aa
@@ -5477,8 +8084,8 @@ _CountAndAnimate:      ; $6586
     ret p              ; exit if >=0
     ld (hl),a          ; else reset
     inc hl             ; Counter
-    ld a,(xc2e9)
-    cp $04             ; if xc2e9>=4
+    ld a,(_RAM_c2e9_)
+    cp $04             ; if _RAM_c2e9_>=4
     jr c,+
     dec (hl)           ; then decrement Counter
     jr ++
@@ -5900,9 +8507,9 @@ DecompressToTileMapData:
 ; ---------------------------------------------------------------------------------------
 
 .orga $74e0
-.section "Decompress (scrolling tilemap?) data to xcc00-xcfff" overwrite
-DecompressScrollingTilemapData: ; $74e0
-    ld a,(xc262)
+.section "Decompress (scrolling tilemap?) data to _RAM_cc00_-_RAM_cfff_" overwrite
+DecompressScrollingTilemapData:
+    ld a,(_RAM_c262_)
     ld (Frame2Paging),a
 
     ld a,(VLocation+1)
@@ -5918,14 +8525,14 @@ DecompressScrollingTilemapData: ; $74e0
     add a,e
     ld e,a
     ld d,$00
-    ld hl,(xc260)
-    add hl,de          ; hl = xc260 + VLocation high byte * 18 + HLocation high byte * 2
+    ld hl,(_RAM_c260_)
+    add hl,de          ; hl = _RAM_c260_ + VLocation high byte * 18 + HLocation high byte * 2
     ld a,(hl)          ;    = pos
     inc hl
     push hl
         ld h,(hl)
         ld l,a         ; hl = word there (pos+0,1) = compressed data offset
-        ld de,xcc00
+        ld de,_RAM_cc00_
         call _DecompressToDE
     pop hl
     push hl
@@ -5934,7 +8541,7 @@ DecompressScrollingTilemapData: ; $74e0
         inc hl
         ld h,(hl)
         ld l,a         ; hl = next word (pos+2,3) = next compressed data offset
-        ld de,xcd00
+        ld de,_RAM_cd00_
         call _DecompressToDE
     pop hl
     ld de,17
@@ -5944,7 +8551,7 @@ DecompressScrollingTilemapData: ; $74e0
     push hl
         ld h,(hl)
         ld l,a         ; hl = 17 bytes later = pos+20,21
-        ld de,xce00
+        ld de,_RAM_ce00_
         call _DecompressToDE
     pop hl
     inc hl
@@ -5952,7 +8559,7 @@ DecompressScrollingTilemapData: ; $74e0
     inc hl
     ld h,(hl)
     ld l,a             ; hl = next word = pos+22,23
-    ld de,xcf00
+    ld de,_RAM_cf00_
     ; fall through
 _DecompressToDE:
     ld b,$00
@@ -5989,8 +8596,8 @@ UpdateScrollingTilemap: ; $7673
     ret z              ; return if not scrolling
     ld b,a             ; b = ScrollDirection
     and $03
-    ld a,(xc263)
-    ld (Frame2Paging),a ; Set to page xc263 - why?
+    ld a,(_RAM_c263_)
+    ld (Frame2Paging),a ; Set to page _RAM_c263_ - why?
     jp nz,_Vertical    ; if ScrollDirection==U or D then handle differently
 _Horizontal:
 ; Updates column of tiles in tilemap
@@ -6068,7 +8675,7 @@ _Vertical:
 .section "Fill tilemap from compressed data? Not understood :(" overwrite
 FillTilemap:          ; $76ee
     call fn78a5       ; ???
-    ld a,(xc263)
+    ld a,(_RAM_c263_)
     ld (Frame2Paging),a
     ld a,(VScroll)
     and $f0            ; strip to high nibble
@@ -6088,7 +8695,7 @@ FillTilemap:          ; $76ee
     ld d,a             ; de = $d000+hl
 
     ld a,(VLocation)
-    and $f0            
+    and $f0
     ld l,a
     ld a,(HLocation)
     rrca
@@ -6122,31 +8729,31 @@ FillTilemap:          ; $76ee
                         adc a,d
                         sub e
                         ld d,a         ; de = de + 60
-                        ldi            
-                        ldi            
-                        ldi            
+                        ldi
+                        ldi
+                        ldi
                         ldi            ; Copy another 4 bytes to there
-                    pop de             
+                    pop de
                     ld a,e
                     and $3f
                     jr nz,+            ; If e is a multiple of $40
-                    ld a,e             
+                    ld a,e
                     sub $40            ; then subtract $40
                     ld e,a
               +:pop hl
                 ld a,l
-                and $f0                
+                and $f0
                 ld b,a                 ; b = high nibble of l
-                inc l                  
-                ld a,l                 
-                and $f0                
+                inc l
+                ld a,l
+                and $f0
                 cp b                   ; if adding 1 doesn't change the high nibble (so low=$f???)
                 jr z,+
                 inc h                  ; inc h
                 ld l,b                 ; and strip l to high nibble
-          +:pop bc     
+          +:pop bc
             djnz -     ; repeat 16 times
-            
+
             ld a,$80
             add a,e
             ld e,a
@@ -6160,13 +8767,13 @@ FillTilemap:          ; $76ee
         pop hl
         ld a,$10       ; add 16 to l
         add a,l
-        cp $c0         ; when it exceeds 192
+        cp $c0         ; when it e_RAM_ceed_s 192
         jr c,+
         sub $c0        ; subtract 192
         inc h          ; and add 2 to h
         inc h
       +:ld l,a
-    pop bc             
+    pop bc
     djnz --            ; repeat 12 times
     ld a,$12           ; refresh full tilemap
     jp ExecuteFunctionIndexAInNextVBlank ; and ret
@@ -6180,11 +8787,11 @@ FillTilemap:          ; $76ee
 .orga $78a5
 .section "fn78a5 (???)" overwrite
 fn78a5:                ; $78a5
-    ld a,(xc308)
+    ld a,(_RAM_c308_)
     cp $02
-    ret nz             ; Only do this if xc308==2
-    ld a,(xc30e)
-    cp $0c             ; and xc30e==$c
+    ret nz             ; Only do this if _RAM_c308_==2
+    ld a,(_RAM_c30e_)
+    cp $0c             ; and _RAM_c30e_==$c
     ret nz
     ld a,$0a
     call +
@@ -6224,14 +8831,14 @@ fn78a5:                ; $78a5
     rrca
     and $0f            ; divide by 16
     add a,l            ; add to l = nibble of VLocation
-    ld l,a             
+    ld l,a
     ld a,(hl)          ; so now we have an offset into the decompressed data. Get the byte
     cp $d8             ; if it's >$d8=216
     ret c
     cp $e0             ; and <=$e0=224
-    ret nc             
+    ret nc
     ld (hl),$d7        ; then set it to $d7=215
-    ret                
+    ret
 .ends
 .orga $78f9
 
@@ -6274,7 +8881,7 @@ GetLocationUnknownData: ; $7a07
     add a,l            ; put in l
     ld l,a
     ld a,(hl)          ; get data
-    ld (xc2e5),a       ; put that in xc2e5
+    ld (_RAM_c2e5_),a       ; put that in _RAM_c2e5_
     ld hl,Frame2Paging
     ld (hl),$03        ; ???
     ld hl,$bc6f        ; table
@@ -6283,10 +8890,10 @@ GetLocationUnknownData: ; $7a07
     adc a,h
     sub l
     ld h,a             ; hl = bc6f + a
-    ld a,(xc308)
+    ld a,(_RAM_c308_)
     cp 4
     jr c,+
-    inc h              ; if xc308>=4 then inc h (add 256)
+    inc h              ; if _RAM_c308_>=4 then inc h (add 256)
   +:ld a,(hl)          ; get data in a
     ret
 .ends
@@ -6300,8 +8907,8 @@ GetLocationUnknownData: ; $7a07
 .section "???" overwrite
 fn7b1e: ; $7b1e
     ld a,(hl)          ; get byte at hl (eg 01)
-    ld (xc308),a       ; save in xc308 nd xc309
-    ld (xc309),a
+    ld (_RAM_c308_),a       ; save in _RAM_c308_ and _RAM_c309_
+    ld (_RAM_c309_),a
     inc hl             ; next byte hhhhllll in de (eg 8b)
     ld e,(hl)
     ld d,$00
@@ -6322,7 +8929,7 @@ fn7b1e: ; $7b1e
     and $07            ; trim to 00000hhh
     ld h,a
     ld (VLocation),hl
-    ld (xc311),hl
+    ld (_RAM_c311_),hl
     ex de,hl           ; get hl back
     inc hl
     ld a,(hl)          ; get next byte (eg 69)
@@ -6335,51 +8942,51 @@ fn7b1e: ; $7b1e
     add hl,hl
     add hl,hl          ; multiply by 16
     ld (HLocation),hl
-    ld (xc313),hl
-    xor a              ; zero xc30e
-    ld (xc30e),a
+    ld (_RAM_c313_),hl
+    xor a              ; zero _RAM_c30e_
+    ld (_RAM_c30e_),a
     jp +++
 
 fn7b60:
-    cp $0a             ; 007B60 FE 0A
+    cp $0a
     jp nz,+
-    ld (FunctionLookupIndex),a       ; 007B65 32 02 C2
-    inc hl              ; 007B68 23
-    ld d,(hl)          ; 007B69 56
-    inc hl              ; 007B6A 23
-    ld e,(hl)          ; 007B6B 5E
-    ld ($c30c),de      ; 007B6C ED 53 0C C3
-    inc hl              ; 007B70 23
-    ld a,(hl)          ; 007B71 7E
-    ld ($c30a),a       ; 007B72 32 0A C3
-    ld hl,($c311)      ; 007B75 2A 11 C3
-    ld ($c305),hl      ; 007B78 22 05 C3
-    ld hl,($c313)      ; 007B7B 2A 13 C3
-    ld ($c301),hl      ; 007B7E 22 01 C3
-    xor a               ; 007B81 AF
-    ld ($c30e),a       ; 007B82 32 0E C3
+    ld (FunctionLookupIndex),a
+    inc hl
+    ld d,(hl)
+    inc hl
+    ld e,(hl)
+    ld ($c30c),de
+    inc hl
+    ld a,(hl)
+    ld ($c30a),a
+    ld hl,($c311)
+    ld ($c305),hl
+    ld hl,($c313)
+    ld ($c301),hl
+    xor a
+    ld ($c30e),a
     jp +++
-  +:cp $0c             ; 007B88 FE 0C
-    ret nz              ; 007B8A C0
-    ld (FunctionLookupIndex),a       ; 007B8B 32 02 C2
-    inc hl              ; 007B8E 23
-    ld a,(hl)          ; 007B8F 7E
-    ld ($c29e),a       ; 007B90 32 9E C2
-    inc hl              ; 007B93 23
-    ld a,(hl)          ; 007B94 7E
-    inc hl              ; 007B95 23
-    ld h,(hl)          ; 007B96 66
-    ld l,a             ; 007B97 6F
-    ld (RoomIndex),hl      ; 007B98 22 DB C2
-    xor a               ; 007B9B AF
-    ld ($c29d),a       ; 007B9C 32 9D C2
-    ld hl,($c311)      ; 007B9F 2A 11 C3
-    ld ($c305),hl      ; 007BA2 22 05 C3
-    ld hl,($c313)      ; 007BA5 2A 13 C3
-    ld ($c301),hl      ; 007BA8 22 01 C3
+  +:cp $0c
+    ret nz
+    ld (FunctionLookupIndex),a
+    inc hl
+    ld a,(hl)
+    ld (SceneType),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld (RoomIndex),hl
+    xor a
+    ld ($c29d),a
+    ld hl,($c311)
+    ld ($c305),hl
+    ld hl,($c313)
+    ld ($c301),hl
 
 +++:ld a,(CharacterSpriteAttributes+16) ; CharacterSpriteAttributes[0].currentanimframe
-    ld (xc2d7),a
+    ld (_RAM_c2d7_),a
 
     ld hl,OutsideAnimCounters ; Zero OutsideAnimCounters
     ld de,OutsideAnimCounters+1
@@ -6586,7 +9193,7 @@ FlashPaletteInRAM:
 .orga $7ebb
 .section "Palette rotation" overwrite
 PaletteRotate:
-    ld a,(xc30e)       ; Check xc30e
+    ld a,(_RAM_c30e_)       ; Check _RAM_c30e_
     or a
     ret z
     cp $10             ; Handle values 16 and 17 specially
@@ -6595,7 +9202,7 @@ PaletteRotate:
     jp z,_ResetPalette
     cp $0e             ; Do nothing if >=14
     ret nc
-    ld b,a             ; still xc30e
+    ld b,a             ; still _RAM_c30e_
     ld c,$d1           ;
     cp $08             ; if it's 8...
     jp z,+             ; skip this bit:
@@ -6618,7 +9225,7 @@ PaletteRotate:
   +:ld (hl),a          ; put back in PaletteRotatePos
     ld c,a
     ld a,b
-    cp $08             ; if xc30e==8 then
+    cp $08             ; if _RAM_c30e_==8 then
     ld hl,_Palette1    ; this palette data
     ld de,PaletteAddress+29 ; palette entries 29-31
     jp nz,+            ; else
@@ -6657,7 +9264,7 @@ fn7f28:
         and $0f
         ld de,ActualPalette+32-8
         ld bc,8
-        jr nz,+       
+        jr nz,+
         ldir           ; copy 8 colours to palette
       +:ld a,$16       ; VBlankFunction_PaletteEffects
         call ExecuteFunctionIndexAInNextVBlank
@@ -6863,7 +9470,7 @@ ItemMetadata:
 ; %765432tt
 ;  |||| |``- Item type: 0 = weapon, 1 = armour, 2 = shield
 ;  |||| `--- Equippable item
-;  ````----- Equippable by player bits. Zero if equippable. Noah - Odin - Myau - Alis
+;  ````----- Equippable by player bits. Zero if equippable. Lutz - Odin - Myau - Alis
 
 .define ItemMetadata_Weapon %00
 .define ItemMetadata_Armour %01
@@ -6871,7 +9478,7 @@ ItemMetadata:
 .db $00 ; blank
 ; Weapons
 .db %11010000 ; Wood Cane - Myau?
-.db %11010000 
+.db %11010000
 .db %01010000
 .db %11010000
 .db %00100000
@@ -6949,7 +9556,7 @@ ItemMetadata:
 .section "Enemy data" overwrite
 ; Structure:
 ; 8 bytes = name
-; 8 bytes = ??? xc258
+; 8 bytes = ??? _RAM_c258_
 ; 1 byte = sprite tiles page
 ; 1 word = sprite tiles offset
 ; 1 byte = index into data8fdf for ???
@@ -7684,7 +10291,574 @@ data8fdf:
 .orga $96f4
 .section "Character sprite data table" overwrite
 CharacterSpriteData:   ; $96f4
-.include "Other data\Sprite data 1.inc"
+; Sprite data 1
+; Table of structures, followed by structures themselves, for various sprites
+; giving their y, x and tile numbers
+; for use when updating the sprite table in RAM and then VRAM
+
+.dw _980c,_980c,_981f,_9832,_9845,_9852,_9883,_9890
+.dw _989d,_98b3,_98c6,_98cd,_98da,_98f3,_9909,_9910
+.dw _9917,_991b,_9925,_992c,_9939,_9952,_9965,_9972
+.dw _9976,_997a,_9981,_998e,_999b,_99a2,_99a6,_99aa
+.dw _99ae,_99b2,_99b9,_99c6,_99df,_99ec,_99f3,_99f7
+.dw _99fe,_9a05,_9a0c,_9a19,_9a2f,_9a3f,_9a52,_9a5c
+.dw _9a60,_9a64,_9a68,_9a6f,_9a7c,_9a95,_9aae,_9abb
+.dw _9abf,_9ac6,_9d5c,_9da2,_9de8,_9e3d,_9e80,_9ec3
+.dw _9f06,_9f55,_9fc8,_a011,_a054,_a097,_a0e0,_9c9b
+.dw _9ca2,_9ca9,_9cb0,_9cba,_9ccd,_9cda,_9ce1,_9ce1
+.dw _a13b,_a199,_a1fd,_a26d,_a2d7,_a34d,_a3b7,_a41e
+.dw _a49d,_a58f,_a53a,_a60b,_a681,_a6f7,_a788,_9aca
+.dw _9ad7,_9aea,_9b03,_9b13,_9b20,_9b33,_9b4c,_9b62
+.dw _9b7b,_9b8e,_9ba7,_9bb4,_9bc1,_9bc8,_9bdb,_9bf1
+.dw _9bf8,_9c0b,_9c15,_9c22,_9c2f,_9c3f,_9c4c,_9c5f
+.dw _9c78,_9c8e,_9cee,_9cf5,_9cfc,_9d09,_9d1c,_9d3b
+.dw _9d48,_9d4f,_a816,_a874,_a8d2,_a8e2,_a8f2,_a8e2
+.dw _a902,_a912,_a922,_a912
+_DATA_D80c_:
+.db 6 ; count
+.db  -9    , -9    , -1    , -1    ,  7    ,  7     ; y positions
+.db   0,$AA,  8,$AB,  0,$AC,  8,$AD,  0,$AE,  8,$AF ; x positions/tile numbers
+_DATA_d81f_:
+.db 6 ; count
+.db  -9    , -9    , -1    , -1    ,  7    ,  7     ; y positions
+.db   0,$B0,  8,$B1,  0,$B2,  8,$B3,  0,$B4,  8,$B5 ; x positions/tile numbers
+_DATA_D832_:
+.db 6 ; count
+.db  -9    , -9    , -1    , -1    ,  7    ,  7     ; y positions
+.db   0,$B6,  8,$B7,  0,$B8,  8,$B9,  0,$BA,  8,$BB ; x positions/tile numbers
+_DATA_9845:
+.db 4 ; count
+.db  -1    , -1    ,  7    ,  7     ; y positions
+.db   0,$BC,  8,$BD,  0,$BE,  8,$BF ; x positions/tile numbers
+_DATA_9852:
+.db 16 ; count
+.db -17    ,-17    ,-17    ,-17    , -9    , -9    , -9    , -9    , -1    , -1    , -1    , -1    ,  7    ,  7    ,  7    ,  7     ; y positions
+.db -16,$AA, -8,$AB,  0,$AC,  8,$AD,-16,$AE, -8,$AF,  0,$B0,  8,$B1,-16,$B2, -8,$B3,  0,$B4,  8,$B5,-16,$B6, -8,$B7,  0,$B8,  8,$B9 ; x positions/tile numbers
+_DATA_9883:
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db  20,$A0, 15,$A1, 11,$A2,  7,$A3 ; x positions/tile numbers
+_DATA_D890_:
+.db 4 ; count
+.db  -4    , -4    ,  4    ,  4     ; y positions
+.db   0,$A4,  8,$A5, -1,$A6,  7,$A7 ; x positions/tile numbers
+_DATA_D89d_:
+.db 7 ; count
+.db  -4    , -4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   0,$A8,  8,$A9,  1,$AA, -5,$AB, -8,$AC,-12,$AD,-16,$A0 ; x positions/tile numbers
+_DATA_D8b3_:
+.db 6 ; count
+.db  -4    , -4    ,  4    , 20    , 28    , 36     ; y positions
+.db   0,$AE, 13,$AF,  3,$B0, -8,$B1,-12,$B2,-16,$B3 ; x positions/tile numbers
+_DATA_D8c6_:
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  45,$A0, 45,$A1 ; x positions/tile numbers
+_DATA_D8cd_:
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
+_DATA_D8da_:
+.db 8 ; count
+.db  72    , 72    , 80    , 80    , 88    , 88    , 96    , 96     ; y positions
+.db  35,$A6, 43,$A7, 36,$A8, 44,$A9, 39,$AA, 47,$AB, 42,$AC, 50,$AD ; x positions/tile numbers
+_DATA_D8f3_:
+.db 7 ; count
+.db  40    , 48    , 48    , 56    , 56    , 64    , 64     ; y positions
+.db  21,$AE, 23,$AF, 31,$A7, 26,$B0, 34,$B1, 29,$B2, 37,$B3 ; x positions/tile numbers
+_DATA_D909_:
+.db 2 ; count
+.db  24    , 32     ; y positions
+.db  14,$B4, 16,$B5 ; x positions/tile numbers
+_DATA_D910_:
+.db 2 ; count
+.db   8    , 16     ; y positions
+.db   8,$B6, 10,$B7 ; x positions/tile numbers
+_DATA_D917_:
+.db 1 ; count
+.db   8     ; y positions
+.db   5,$B8 ; x positions/tile numbers
+_DATA_D91b_:
+.db 3 ; count
+.db   0    ,  8    ,  8     ; y positions
+.db   4,$B9,  2,$BA, 10,$BB ; x positions/tile numbers
+_DATA_D925_:
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  44,$A0, 44,$A1 ; x positions/tile numbers
+_DATA_D92c_:
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
+_DATA_D939_:
+.db 8 ; count
+.db  56    , 64    , 72    , 80    , 80    , 88    , 88    , 96     ; y positions
+.db  26,$A6, 30,$A7, 32,$A8, 35,$A9, 43,$AA, 38,$AB, 46,$AC, 44,$AD ; x positions/tile numbers
+_DATA_D952_:
+.db 6 ; count
+.db  24    , 32    , 40    , 40    , 48    , 56     ; y positions
+.db  13,$AE, 17,$AF, 19,$B0, 27,$B1, 22,$B2, 27,$B3 ; x positions/tile numbers
+_DATA_D965_:
+.db 4 ; count
+.db   0    ,  8    , 16    , 24     ; y positions
+.db   6,$B4,  7,$B5, 10,$B6, 16,$B7 ; x positions/tile numbers
+_DATA_D972_:
+.db 1 ; count
+.db   0     ; y positions
+.db   2,$B8 ; x positions/tile numbers
+_DATA_D976_:
+.db 1 ; count
+.db   0     ; y positions
+.db   0,$B9 ; x positions/tile numbers
+_DATA_D97a_:
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  45,$A0, 46,$A1 ; x positions/tile numbers
+_DATA_D981_:
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 42,$A4, 50,$A5 ; x positions/tile numbers
+_DATA_D98e_:
+.db 4 ; count
+.db  72    , 72    , 80    , 80     ; y positions
+.db  34,$A6, 42,$A7, 36,$A8, 44,$A9 ; x positions/tile numbers
+_DATA_D99b_:
+.db 2 ; count
+.db  40    , 40     ; y positions
+.db  19,$AA, 27,$AB ; x positions/tile numbers
+_DATA_D9a2_:
+.db 1 ; count
+.db  16     ; y positions
+.db  10,$AC ; x positions/tile numbers
+_DATA_D9a6_:
+.db 1 ; count
+.db   0     ; y positions
+.db   5,$AD ; x positions/tile numbers
+_DATA_D9aa_:
+.db 1 ; count
+.db   0     ; y positions
+.db   2,$AE ; x positions/tile numbers
+_DATA_D9ae_:
+.db 1 ; count
+.db   0     ; y positions
+.db   0,$AF ; x positions/tile numbers
+_DATA_D9b2_:
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  44,$A0, 44,$A1 ; x positions/tile numbers
+_DATA_D9b9_:
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
+_DATA_D9c6_:
+.db 8 ; count
+.db  56    , 56    , 64    , 64    , 72    , 80    , 80    , 88     ; y positions
+.db  24,$A6, 32,$A7, 25,$A8, 33,$A9, 32,$AA, 35,$AB, 43,$AC, 41,$AD ; x positions/tile numbers
+_DATA_D9df_:
+.db 4 ; count
+.db  24    , 24    , 32    , 40     ; y positions
+.db  13,$AE, 22,$AF, 16,$B0, 19,$B1 ; x positions/tile numbers
+_DATA_D9ec_:
+.db 2 ; count
+.db   8    , 16     ; y positions
+.db   7,$B2, 12,$B3 ; x positions/tile numbers
+_DATA_D9f3_:
+.db 1 ; count
+.db   0     ; y positions
+.db   2,$B4 ; x positions/tile numbers
+_DATA_D9f7_:
+.db 2 ; count
+.db   0    ,  0     ; y positions
+.db   0,$B5,  8,$B6 ; x positions/tile numbers
+_DATA_D9fe_:
+.db 2 ; count
+.db   0    ,  8     ; y positions
+.db   2,$B7,  0,$B8 ; x positions/tile numbers
+_DATA_Da05_:
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  44,$A0, 44,$A1 ; x positions/tile numbers
+_DATA_Da0c_:
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
+_DATA_Da19_:
+.db 7 ; count
+.db  56    , 64    , 72    , 80    , 88    , 96    , 96     ; y positions
+.db  34,$A6, 40,$A7, 41,$A8, 40,$A9, 40,$AA, 41,$AB, 49,$AC ; x positions/tile numbers
+_DATA_Da2f_:
+.db 5 ; count
+.db  24    , 32    , 40    , 48    , 56     ; y positions
+.db  32,$AD, 32,$AE, 32,$AF, 33,$B0, 34,$B1 ; x positions/tile numbers
+_DATA_Da3f_:
+.db 6 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 24     ; y positions
+.db  16,$B2, 24,$B3, 16,$B4, 24,$B5, 27,$B6, 32,$B7 ; x positions/tile numbers
+_DATA_Da52_:
+.db 3 ; count
+.db   0    ,  0    ,  8     ; y positions
+.db   3,$B8, 11,$B9,  8,$BA ; x positions/tile numbers
+_DATA_Da5c_:
+.db 1 ; count
+.db   0     ; y positions
+.db   2,$BB ; x positions/tile numbers
+_DATA_Da60_:
+.db 1 ; count
+.db   0     ; y positions
+.db   0,$BC ; x positions/tile numbers
+_DATA_Da64_:
+.db 1 ; count
+.db   0     ; y positions
+.db   0,$BD ; x positions/tile numbers
+_DATA_Da68_:
+.db 2 ; count
+.db  96    ,104     ; y positions
+.db  44,$A0, 44,$A1 ; x positions/tile numbers
+_DATA_Da6f_:
+.db 4 ; count
+.db  96    , 96    ,104    ,104     ; y positions
+.db  40,$A2, 48,$A3, 40,$A4, 48,$A5 ; x positions/tile numbers
+_DATA_Da7c_:
+.db 8 ; count
+.db  64    , 64    , 72    , 72    , 80    , 80    , 88    , 88     ; y positions
+.db  29,$A6, 37,$A7, 29,$A8, 37,$A9, 31,$AA, 39,$AB, 32,$AC, 40,$AD ; x positions/tile numbers
+_DATA_Da95_:
+.db 8 ; count
+.db  32    , 32    , 40    , 40    , 48    , 48    , 56    , 56     ; y positions
+.db  17,$AE, 25,$AF, 19,$B0, 27,$B1, 21,$B2, 29,$B3, 23,$B4, 31,$B5 ; x positions/tile numbers
+_DATA_Daae_:
+.db 4 ; count
+.db   8    , 16    , 16    , 24     ; y positions
+.db   9,$B6,  9,$B7, 17,$B8, 13,$B9 ; x positions/tile numbers
+_DATA_Dabb_:
+.db 1 ; count
+.db   0     ; y positions
+.db   6,$BA ; x positions/tile numbers
+_DATA_Dabf_:
+.db 2 ; count
+.db   0    ,  0     ; y positions
+.db   0,$BB,  8,$BC ; x positions/tile numbers
+_DATA_Dac6_:
+.db 1 ; count
+.db   0     ; y positions
+.db   4,$BD ; x positions/tile numbers
+_DATA_Daca_:
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db  18,$A0, 14,$A1, 10,$A1,  6,$A1 ; x positions/tile numbers
+_DATA_Dad7_:
+.db 6 ; count
+.db -20    ,-12    , -4    , -4    ,  4    ,  4     ; y positions
+.db  12,$A2,  7,$A3, -4,$A4,  4,$A5, -2,$A6,  6,$A7 ; x positions/tile numbers
+_DATA_Daea_:
+.db 8 ; count
+.db  -4    , -4    ,  4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   1,$A8,  9,$A9, -5,$AA,  3,$AB, -6,$A1,-10,$A1,-14,$A1,-14,$AC ; x positions/tile numbers
+_DATA_Db03_:
+.db 5 ; count
+.db  -4    ,  4    , 20    , 28    , 36     ; y positions
+.db   3,$AD,  0,$AD, -8,$AE,-12,$AF,-16,$B0 ; x positions/tile numbers
+_DATA_Db13_:
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db  19,$A0, 15,$A1,  9,$A2,  6,$A3 ; x positions/tile numbers
+_DATA_Db20_:
+.db 6 ; count
+.db -12    , -4    , -4    ,  4    ,  4    , 12     ; y positions
+.db   5,$A4, -1,$A5,  7,$A6, -4,$A7,  4,$A8, -5,$A9 ; x positions/tile numbers
+_DATA_Db33_:
+.db 8 ; count
+.db  -4    , -4    ,  4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db  -3,$AA,  5,$AB,  0,$AC,  8,$AD, -6,$AE, -9,$AF,-13,$A1,-15,$B0 ; x positions/tile numbers
+_DATA_Db4c_:
+.db 7 ; count
+.db -12    , -4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   3,$B1,  3,$B2, -3,$B3,  4,$B1, -9,$B4,-12,$B4,-16,$B5 ; x positions/tile numbers
+_DATA_Db62_:
+.db 8 ; count
+.db -40    ,-32    ,-32    ,-24    ,-24    ,-16    ,-16    , -8     ; y positions
+.db  16,$A0, 12,$A1, 20,$A2,  7,$A3, 15,$A4,  5,$A5, 13,$A6,  7,$A7 ; x positions/tile numbers
+_DATA_Db7b_:
+.db 6 ; count
+.db -16    , -8    , -8    ,  0    ,  0    ,  8     ; y positions
+.db   3,$A8, -1,$A9,  7,$AA, -3,$AB,  5,$AC,  1,$AD ; x positions/tile numbers
+_DATA_Db8e_:
+.db 8 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 24    , 24     ; y positions
+.db  -5,$AE,  3,$AF, -8,$B0,  0,$B1,-12,$B2, -4,$B3,-14,$B4, -6,$B5 ; x positions/tile numbers
+_DATA_Dba7_:
+.db 4 ; count
+.db   8    , 24    , 24    , 32     ; y positions
+.db  -6,$B6,-16,$B7, -8,$B8,-16,$B9 ; x positions/tile numbers
+_DATA_Dbb4_:
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db  18,$A0, 14,$A1, 10,$A1,  8,$A2 ; x positions/tile numbers
+_DATA_Dbc1_:
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   2,$A3,  0,$A2 ; x positions/tile numbers
+_DATA_Dbc8_:
+.db 6 ; count
+.db  -4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   0,$A4,  0,$A5, -6,$A3,-10,$A1,-14,$A1,-16,$A6 ; x positions/tile numbers
+_DATA_Dbdb_:
+.db 7 ; count
+.db -36    ,-28    ,-20    ,-12    , 20    , 28    , 36     ; y positions
+.db -16,$A7,-14,$A8,-10,$A8, -6,$A9, -7,$AA,-12,$AB,-16,$AC ; x positions/tile numbers
+_DATA_Dbf1_:
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   0,$AD,  2,$A9 ; x positions/tile numbers
+_DATA_Dbf8_:
+.db 6 ; count
+.db  -4    ,  4    , 12    , 20    , 28    , 36     ; y positions
+.db   0,$AE,  0,$AF,  8,$AD, 10,$A8, 14,$A8, 18,$B0 ; x positions/tile numbers
+_DATA_Dc0b_:
+.db 3 ; count
+.db  20    , 28    , 36     ; y positions
+.db  13,$B1, 15,$B2, 18,$B3 ; x positions/tile numbers
+_DATA_Dc15_:
+.db 4 ; count
+.db -36    ,-28    ,-20    ,-12     ; y positions
+.db -16,$A0,-12,$A1,-10,$A2, -6,$A2 ; x positions/tile numbers
+_DATA_Dc22_:
+.db 4 ; count
+.db -12    , -4    ,  4    , 12     ; y positions
+.db  -4,$A1, -2,$A2,  2,$A2,  6,$A3 ; x positions/tile numbers
+_DATA_Dc2f_:
+.db 5 ; count
+.db  -4    ,  4    , 12    , 20    , 28     ; y positions
+.db   0,$A4,  0,$A5,  6,$A2, 10,$A2, 14,$A3 ; x positions/tile numbers
+_DATA_Dc3f_:
+.db 4 ; count
+.db  -4    ,  4    , 28    , 36     ; y positions
+.db   3,$A6, -3,$A6, 16,$A7, 20,$A8 ; x positions/tile numbers
+_DATA_Dc4c_:
+.db 6 ; count
+.db -36    ,-28    ,-20    ,-20    ,-12    ,-12     ; y positions
+.db -16,$A0,-12,$A1,-10,$A2, -2,$A3, -8,$A4,  0,$A5 ; x positions/tile numbers
+_DATA_Dc5f_:
+.db 8 ; count
+.db -12    ,-12    , -4    , -4    ,  4    ,  4    , 12    , 12     ; y positions
+.db  -8,$A4,  0,$A5, -3,$A6,  5,$A7,  0,$A8,  8,$A7,  4,$A9, 12,$AA ; x positions/tile numbers
+_DATA_Dc78_:
+.db 7 ; count
+.db  -4    ,  4    , 12    , 12    , 20    , 20    , 28     ; y positions
+.db   0,$AB,  0,$AC,  4,$A9, 12,$AA,  8,$AD, 16,$A3, 14,$AE ; x positions/tile numbers
+_DATA_Dc8e_:
+.db 4 ; count
+.db  -4    ,  4    , 28    , 36     ; y positions
+.db   4,$AF, -4,$AF, 14,$B0, 20,$B1 ; x positions/tile numbers
+_DATA_Dc9b_:
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   2,$A0,  2,$A1 ; x positions/tile numbers
+_DATA_Dca2_:
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   0,$A2,  0,$A3 ; x positions/tile numbers
+_DATA_Dca9_:
+.db 2 ; count
+.db   4    , 12     ; y positions
+.db   4,$A4,  3,$A5 ; x positions/tile numbers
+_DATA_Dcb0_:
+.db 3 ; count
+.db  12    , 20    , 28     ; y positions
+.db   1,$A6, -1,$A7, -3,$A8 ; x positions/tile numbers
+_DATA_Dcba_:
+.db 6 ; count
+.db  44    , 52    , 60    , 60    , 68    , 68     ; y positions
+.db   2,$A9,  1,$AA, -3,$AB,  5,$AC, -3,$AD,  5,$AE ; x positions/tile numbers
+_DATA_Dccd_:
+.db 4 ; count
+.db  68    , 68    , 76    , 76     ; y positions
+.db  -3,$AF,  5,$B0, -4,$B1,  4,$B2 ; x positions/tile numbers
+_DATA_Dcda_:
+.db 2 ; count
+.db  68    , 76     ; y positions
+.db   0,$A2,  0,$A3 ; x positions/tile numbers
+_DATA_Dce1_:
+.db 4 ; count
+.db  68    , 68    , 76    , 76     ; y positions
+.db  -4,$B3,  4,$B4, -4,$B5,  4,$B6 ; x positions/tile numbers
+_DATA_Dcee_:
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   2,$A0,  2,$A1 ; x positions/tile numbers
+_DATA_Dcf5_:
+.db 2 ; count
+.db  -4    ,  4     ; y positions
+.db   0,$A2,  0,$A3 ; x positions/tile numbers
+_DATA_Dcfc_:
+.db 4 ; count
+.db  -4    ,  4    ,  4    , 12     ; y positions
+.db   2,$A0,  2,$A4, 10,$A5,  3,$A6 ; x positions/tile numbers
+_DATA_Dd09_:
+.db 6 ; count
+.db   4    , 12    , 20    , 28    , 28    , 36     ; y positions
+.db  -4,$A7, -4,$A8, -4,$A9, -3,$AA,  5,$AB,  2,$AC ; x positions/tile numbers
+_DATA_Dd1c_:
+.db 10 ; count
+.db  12    , 20    , 20    , 28    , 36    , 44    , 44    , 52    , 60    , 68     ; y positions
+.db   3,$AD, -1,$AE,  7,$AF, -2,$B0,  3,$B0, -2,$B1,  6,$B2, -3,$B3,  0,$B4,  0,$A3 ; x positions/tile numbers
+_DATA_Dd3b_:
+.db 4 ; count
+.db  68    , 68    , 76    , 76     ; y positions
+.db  -3,$B5,  5,$B6, -4,$B7,  4,$B8 ; x positions/tile numbers
+_DATA_Dd48_:
+.db 2 ; count
+.db  68    , 76     ; y positions
+.db   0,$A2,  0,$A3 ; x positions/tile numbers
+_DATA_Dd4f_:
+.db 4 ; count
+.db  68    , 68    , 76    , 76     ; y positions
+.db  -4,$B9,  4,$BA, -4,$BB,  4,$BC ; x positions/tile numbers
+_DATA_Dd5c_:
+.db 23 ; count
+.db  16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  12,$00, 20,$01, 28,$02, 36,$03, 44,$04, 10,$05, 18,$06, 26,$07, 34,$08, 42,$09, 50,$0A, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
+_DATA_Dda2_:
+.db 23 ; count
+.db  16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  12,$16, 20,$17, 28,$18, 36,$19, 44,$1A, 11,$1B, 19,$1C, 27,$1D, 35,$1E, 43,$1F, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
+_DATA_Dde8_:
+.db 28 ; count
+.db   8    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  15,$21, 23,$22, 31,$22, 39,$23, 47,$24, 15,$25, 23,$26, 31,$26, 39,$27, 47,$28, 11,$29, 19,$2A, 27,$1D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
+_DATA_De3d_:
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$1D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
+_DATA_De80_:
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$2F, 35,$30, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
+_DATA_Dec3_:
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$31, 24,$32, 32,$33, 40,$34, 11,$35, 19,$36, 27,$37, 35,$38, 43,$39, 51,$3A, 11,$3B, 19,$3C, 27,$3D, 35,$3E, 43,$3F, 51,$40,  8,$41, 16,$42, 24,$43, 32,$43, 40,$44, 48,$45 ; x positions/tile numbers
+_DATA_Df06_:
+.db 26 ; count
+.db   8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  24,$46, 32,$47, 40,$48, 16,$49, 24,$4A, 32,$4B, 40,$4C, 48,$4D, 11,$4E, 19,$4F, 27,$50, 35,$51, 43,$52, 51,$53,  8,$54, 16,$55, 24,$56, 32,$57, 40,$58, 48,$59,  8,$5A, 16,$5B, 24,$5C, 32,$5D, 40,$5E, 48,$5F ; x positions/tile numbers
+_DATA_Df55_:
+.db 38 ; count
+.db   0    ,  0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  13,$60, 21,$61, 35,$62, 43,$63,  9,$64, 17,$65, 25,$66, 33,$67, 41,$68, 49,$69,  8,$6A, 16,$6B, 24,$6C, 32,$6D, 40,$6E, 48,$6F,  8,$70, 16,$71, 24,$72, 32,$73, 40,$74, 48,$75,  1,$76,  9,$77, 17,$78, 25,$79, 33,$7A, 41,$7B, 49,$7C, 57,$7D,  0,$7E,  8,$7F, 16,$80, 24,$81, 32,$82, 40,$83, 48,$84, 56,$85 ; x positions/tile numbers
+_DATA_Dfc8_:
+.db 24 ; count
+.db  16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db   8,$86, 16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$87, 27,$88, 35,$1E, 43,$2B, 51,$89, 59,$8A, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
+_DATA_E011_:
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$8B, 35,$8C, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$13, 32,$13, 40,$14, 48,$15 ; x positions/tile numbers
+_DATA_E054_:
+.db 22 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$8D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$8E, 35,$8F, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$90, 32,$91, 40,$14, 48,$15 ; x positions/tile numbers
+_DATA_E097_:
+.db 24 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 48    , 48     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$1D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$92, 32,$93, 40,$14, 48,$15, 24,$94, 32,$95 ; x positions/tile numbers
+_DATA_E0e0_:
+.db 30 ; count
+.db  16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64     ; y positions
+.db  16,$2C, 24,$2D, 32,$2D, 40,$2E, 11,$29, 19,$2A, 27,$1D, 35,$1E, 43,$2B, 51,$20, 11,$0B, 19,$0C, 27,$0D, 35,$0E, 43,$0F, 51,$10,  8,$11, 16,$12, 24,$96, 32,$97, 40,$14, 48,$15, 26,$98, 34,$99, 19,$9A, 27,$9B, 35,$9C, 43,$9D, 24,$9E, 32,$9F ; x positions/tile numbers
+_DATA_E13b_:
+.db 31 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 64    , 64    , 72    , 72    , 80    , 80    , 80     ; y positions
+.db  10,$00, 18,$01,  8,$02, 16,$03,  6,$04, 14,$05, 22,$06,  4,$07, 12,$08, 20,$09, 28,$0A,  2,$0B, 10,$0C, 18,$0D, 26,$0E,  0,$0F,  8,$10, 16,$11, 24,$12,  0,$13,  8,$14, 16,$15,  9,$16, 17,$17, 10,$18, 18,$19, 10,$1A, 18,$1B,  4,$1C, 12,$1D, 20,$1E ; x positions/tile numbers
+_DATA_E199_:
+.db 33 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db   9,$1F, 17,$20,  9,$21, 17,$22,  3,$23, 11,$24, 19,$25, 27,$26,  3,$27, 11,$28, 19,$29, 27,$2A,  5,$2B, 13,$2C, 21,$2D,  6,$2E, 14,$2F, 22,$30,  6,$31, 14,$32, 22,$33,  6,$34, 17,$35, 25,$36,  6,$37, 18,$38,  6,$39, 19,$3A, 27,$3B,  0,$3C,  8,$3D, 16,$3E, 24,$3F ; x positions/tile numbers
+_DATA_E1fd_:
+.db 37 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  10,$40, 18,$01,  8,$41, 16,$42,  6,$43, 14,$44, 22,$45,  3,$46, 11,$47, 19,$48, 27,$49,  2,$4A, 10,$4B, 18,$4C, 26,$4D,  0,$4E,  8,$4F, 16,$50,  0,$51,  8,$52, 16,$53, 24,$54,  4,$55, 12,$56, 20,$57,  1,$58,  9,$59, 17,$5A, 25,$5B,  2,$5C, 10,$5D, 18,$5E, 26,$5F,  3,$60, 11,$61, 19,$62, 27,$63 ; x positions/tile numbers
+_DATA_E26d_:
+.db 35 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 64    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db   9,$64, 17,$65,  9,$66, 17,$67,  2,$68, 10,$69, 18,$6A, 26,$6B,  0,$6C,  8,$6D, 16,$6E, 24,$6F,  0,$70,  8,$71, 16,$72, 24,$73,  3,$74, 11,$75, 19,$76, 27,$77,  6,$78, 14,$79, 22,$7A,  5,$7B, 13,$7C, 21,$7D,  4,$7E, 12,$7F, 20,$80,  3,$81, 20,$82,  0,$83,  8,$84, 16,$85, 24,$86 ; x positions/tile numbers
+_DATA_E2d7_:
+.db 39 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  11,$00, 19,$01, 27,$02, 10,$03, 18,$04, 26,$05, 34,$06,  8,$07, 16,$08, 24,$09, 32,$0A,  8,$0B, 16,$0C, 24,$0D, 32,$0E,  6,$0F, 14,$10, 22,$11, 30,$12, 38,$13,  6,$14, 14,$15, 22,$16, 30,$17,  8,$18, 16,$19, 24,$1A, 32,$1B, 12,$1C, 20,$1D, 28,$1E, 12,$1F, 27,$20, 11,$21, 28,$22,  8,$23, 16,$24, 24,$25, 32,$26 ; x positions/tile numbers
+_DATA_E34d_:
+.db 35 ; count
+.db   8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  10,$27, 18,$28,  3,$29, 11,$2A, 19,$2B, 27,$2C,  2,$2D, 10,$2E, 18,$2F, 26,$30,  2,$31, 10,$32, 18,$33, 26,$34,  5,$35, 13,$36, 21,$37,  3,$38, 11,$39, 19,$3A,  2,$3B, 10,$3C, 18,$3D, 26,$3E,  2,$3F, 10,$40, 18,$41, 26,$42,  4,$43, 12,$44, 20,$45,  0,$46,  8,$47, 16,$48, 24,$49 ; x positions/tile numbers
+_DATA_E3b7_:
+.db 34 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 64    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  11,$4A, 19,$4B,  8,$4C, 16,$4D,  4,$4E, 12,$4F, 20,$50,  2,$51, 10,$52, 18,$53, 26,$54,  2,$55, 10,$56, 18,$57, 26,$58,  4,$59, 12,$5A, 20,$5B,  4,$5C, 12,$5D, 20,$5E,  5,$5F, 13,$60, 21,$61,  6,$62, 14,$63, 22,$64,  5,$65, 13,$66, 21,$67,  4,$68, 12,$69, 20,$6A, 28,$6B ; x positions/tile numbers
+_DATA_E41e_:
+.db 42 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db   5,$00, 13,$01, 21,$02,  6,$03, 14,$04, 22,$05,  1,$06,  9,$07, 17,$08, 25,$09,  0,$0A,  8,$0B, 16,$0C, 24,$0D,  0,$0E,  8,$0F, 16,$10, 24,$11,  2,$12, 10,$13, 18,$14, 26,$15,  2,$16, 10,$17, 18,$18, 26,$19,  1,$1A,  9,$1B, 17,$1C, 25,$1D,  1,$1E,  9,$1F, 17,$20, 25,$21,  3,$22, 11,$23, 19,$24, 27,$25,  0,$26,  8,$27, 16,$28, 24,$29 ; x positions/tile numbers
+_DATA_E49d_:
+.db 52 ; count
+.db   0    ,  0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80    , 80     ; y positions
+.db  11,$00, 19,$01, 27,$02, 35,$03, 11,$04, 19,$05, 27,$06, 35,$07, 11,$08, 19,$09, 27,$0A, 35,$07, 10,$0B, 18,$0C, 26,$0D, 34,$0E, 10,$0F, 18,$10, 26,$11, 34,$12,  3,$13, 11,$14, 19,$15, 27,$16, 35,$17, 43,$18,  2,$19, 10,$1A, 18,$1B, 26,$1C, 34,$1D, 42,$1E,  5,$1F, 13,$20, 21,$21, 29,$22, 37,$23,  4,$24, 12,$25, 20,$26, 28,$27, 36,$28,  4,$29, 12,$2A, 20,$2B, 28,$2C, 36,$2D,  4,$2E, 12,$2F, 20,$30, 28,$31, 36,$32 ; x positions/tile numbers
+_DATA_E53a_:
+.db 28 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 48     ; y positions
+.db   9,$00, 17,$01, 25,$02,  4,$03, 12,$04, 20,$05, 28,$06,  4,$07, 12,$08, 20,$09, 28,$0A,  5,$0B, 13,$0C, 21,$0D, 29,$0E,  4,$0F, 12,$10, 20,$11, 28,$12,  4,$13, 12,$14, 20,$15, 28,$16,  2,$17, 10,$18, 18,$19, 26,$1A, 34,$1B ; x positions/tile numbers
+_DATA_E58f_:
+.db 41 ; count
+.db   0    ,  0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 48    , 48    , 48     ; y positions
+.db  16,$1C, 24,$1D, 32,$1E, 40,$1F,  8,$20, 16,$21, 24,$22, 32,$23, 40,$24, 48,$25,  8,$26, 16,$27, 24,$28, 32,$29, 40,$2A, 48,$2B,  1,$2C,  9,$2D, 17,$2E, 25,$2F, 33,$30, 41,$31,  8,$32, 16,$33, 24,$34, 32,$35, 40,$36,  0,$37,  8,$38, 16,$39, 24,$3A, 32,$3B, 40,$3C, 48,$3D,  0,$3E,  8,$3F, 16,$40, 24,$41, 32,$42, 40,$43, 48,$44 ; x positions/tile numbers
+_DATA_E60b_:
+.db 39 ; count
+.db   0    ,  0    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db   8,$00, 16,$01,  5,$02, 13,$03, 21,$04,  4,$05, 12,$06, 20,$07, 28,$08,  1,$09,  9,$0A, 17,$0B, 25,$0C,  0,$0D,  8,$0E, 16,$0F, 24,$10,  1,$11,  9,$12, 17,$13, 25,$14,  0,$0D,  8,$0E, 16,$0F, 24,$10,  1,$11,  9,$12, 17,$13, 25,$14,  1,$15,  9,$16, 17,$17, 25,$18,  8,$19, 16,$1A,  0,$1B,  8,$1C, 16,$1D, 24,$1E ; x positions/tile numbers
+_DATA_E681_:
+.db 39 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80     ; y positions
+.db  10,$00, 18,$01, 10,$02, 18,$03,  5,$04, 13,$05, 21,$06,  0,$07,  8,$08, 16,$09, 24,$0A,  0,$0B,  8,$0C, 16,$0D, 24,$0E,  0,$0F,  8,$10, 16,$11, 24,$12,  0,$13,  8,$14, 16,$15, 24,$16,  0,$17,  8,$18, 16,$19, 24,$1A,  0,$1B,  8,$18, 16,$1C, 24,$1D,  0,$1E,  8,$18, 16,$19, 24,$1F,  0,$20,  8,$21, 16,$22, 24,$23 ; x positions/tile numbers
+_DATA_E6f7_:
+.db 48 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80    , 80     ; y positions
+.db  14,$00, 22,$01, 30,$02,  1,$03,  9,$04, 17,$05, 25,$06, 33,$07,  1,$08,  9,$09, 17,$0A, 25,$0B, 33,$0C,  0,$0D,  8,$0E, 16,$0F, 24,$10, 32,$11,  0,$12, 10,$13, 18,$14, 26,$15, 34,$16,  1,$17,  9,$18, 17,$19, 25,$1A,  6,$1B, 14,$1C, 22,$1D, 30,$1E,  4,$1F, 12,$20, 23,$21, 31,$22,  2,$23, 10,$24, 23,$25, 31,$26,  2,$27, 10,$28, 24,$29, 32,$2A,  0,$2B,  8,$2C, 16,$2D, 24,$2E, 32,$2F ; x positions/tile numbers
+_DATA_E788_:
+.db 47 ; count
+.db   0    ,  0    ,  8    ,  8    ,  8    , 16    , 16    , 16    , 16    , 24    , 24    , 24    , 24    , 32    , 32    , 32    , 32    , 40    , 40    , 40    , 40    , 48    , 48    , 48    , 48    , 56    , 56    , 56    , 56    , 56    , 64    , 64    , 64    , 64    , 64    , 72    , 72    , 72    , 72    , 72    , 72    , 80    , 80    , 80    , 80    , 80    , 80     ; y positions
+.db  18,$00, 26,$01, 15,$02, 23,$03, 31,$04, 12,$05, 20,$06, 28,$07, 36,$08, 10,$09, 18,$0A, 26,$0B, 34,$0C, 10,$0D, 18,$0E, 26,$0F, 34,$10, 10,$11, 18,$12, 26,$13, 34,$14, 10,$15, 18,$16, 26,$17, 34,$18,  7,$19, 15,$1A, 23,$1B, 31,$1C, 39,$1D,  4,$1E, 12,$1F, 20,$20, 28,$21, 36,$22,  2,$23, 10,$24, 18,$25, 26,$26, 34,$27, 42,$28,  2,$29, 10,$2A, 18,$2B, 26,$2C, 34,$2D, 42,$2E ; x positions/tile numbers
+_DATA_E816_:
+.db 31 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 24    , 24    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 72    , 72    , 80    , 80    , 80    ,  8    , 16    , 24    , 32    , 40     ; y positions
+.db   8,$00, 16,$01,  6,$02, 14,$03,  8,$04, 16,$05,  8,$06, 16,$07,  8,$08, 16,$09,  5,$0A, 13,$0B, 21,$0C,  4,$0D, 12,$0E, 20,$0F,  5,$10, 13,$11, 21,$12,  5,$13, 13,$14,  6,$15, 14,$16,  0,$17,  8,$18, 16,$19,  1,$1A,  0,$1B,  0,$1C,  0,$1D,  2,$1E ; x positions/tile numbers
+_DATA_E874_:
+.db 31 ; count
+.db   0    ,  0    ,  8    ,  8    , 16    , 16    , 24    , 24    , 32    , 32    , 40    , 40    , 40    , 48    , 48    , 48    , 56    , 56    , 56    , 64    , 64    , 72    , 72    , 80    , 80    , 80    ,  8    , 16    , 24    , 32    , 40     ; y positions
+.db   8,$00, 16,$01,  6,$02, 14,$03,  8,$04, 16,$05,  8,$06, 16,$07,  8,$08, 16,$09,  5,$0A, 13,$0B, 21,$0C,  4,$0D, 12,$0E, 20,$0F,  5,$10, 13,$11, 21,$12,  5,$13, 13,$14,  6,$15, 14,$16,  0,$17,  8,$18, 16,$19,  2,$2E,  2,$2F,  1,$30,  0,$29,  2,$1E ; x positions/tile numbers
+_DATA_E8d2_:
+.db 5 ; count
+.db   0    ,  0    ,  0    ,  8    ,  8     ; y positions
+.db   0,$00,  8,$01, 16,$02,  8,$03, 16,$04 ; x positions/tile numbers
+_DATA_E8e2_:
+.db 5 ; count
+.db   0    ,  0    ,  8    ,  8    ,  8     ; y positions
+.db   4,$05, 12,$06,  0,$07,  8,$08, 16,$09 ; x positions/tile numbers
+_DATA_E8f2_:
+.db 5 ; count
+.db   0    ,  0    ,  8    ,  8    ,  8     ; y positions
+.db   6,$0A, 14,$0B,  2,$0C, 10,$0D, 18,$0E ; x positions/tile numbers
+_DATA_E902_:
+.db 5 ; count
+.db   0    ,  8    ,  8    ,  8    , 16     ; y positions
+.db  11,$0F,  1,$10,  9,$11, 17,$12,  8,$13 ; x positions/tile numbers
+_DATA_E912_:
+.db 5 ; count
+.db   0    ,  8    ,  8    ,  8    , 16     ; y positions
+.db  11,$0F,  1,$14,  9,$15, 17,$16,  8,$13 ; x positions/tile numbers
+_DATA_E922_:
+.db 6 ; count
+.db   4    ,  0    ,  0    ,  8    ,  8    , 16     ; y positions
+.db  16,$17,  2,$18, 11,$0F,  3,$19, 11,$1A,  8,$13 ; x positions/tile numbers
+
 .ends
 .orga $a935
 
@@ -7797,7 +10971,7 @@ LevelStatsOdin:
 .db $be,$2d,$48,$00,$28,$a0,$00,$00
 .db $bf,$2e,$49,$00,$50,$c3,$00,$00
 .db $c0,$2f,$4a,$00,$60,$ea,$00,$00
-LevelStatsNoah:
+LevelStatsLutz:
 .db $2d,$12,$1e,$0c,$00,$00,$01,$01
 .db $31,$16,$24,$12,$46,$00,$01,$01
 .db $36,$17,$29,$16,$96,$00,$01,$01
@@ -8122,7 +11296,7 @@ SoundInitialise:       ; 0e/8000
     push bc
         call _ZeroC003toC00D
         ld b,$0f       ; counter (15 columns below)
-        ld hl,$c00e    ; start
+        ld hl,_RAM_c00e_    ; start
         xor a          ; 0 -> a
       -:ld (hl),a      ; 0 -> c00e,c02e,c04e ... c1ee
         ld de,$0018
@@ -8164,9 +11338,9 @@ SilenceFM:             ; 0e/802c
 
 _ZeroC003toC00D:       ; Zero $c003-$c00d
     xor a
-    ld hl,$c003
+    ld hl,_RAM_c003_
     ld (hl),a
-    ld de,$c004
+    ld de,_RAM_C003_ + 1
     ld bc,$000a
     ldir
     ret
@@ -8184,273 +11358,273 @@ _SilencePSGDataEnd:
 SoundUpdate:           ; 0e/8052
     ld a,(HasFM)
     or a
-    ex af,af'          ; 030056 08
-    ld hl,$c00c        ; 030057 21 0C C0
-    exx                ; 03005A D9
-    call Sound8135     ; 03005B CD 35 81
-    call Sound815c     ; 03005E CD 5C 81
-    call $8466         ; 030061 CD 66 84
-    call Sound8110     ; 030064 CD 10 81
+    ex af,af'
+    ld hl,_RAM_c00c_
+    exx
+    call Sound8135
+    call Sound815c
+    call $8466
+    call Sound8110
     ld a,(HasFM)
     or a
     jp z,SoundUpdatePSG
     ; FM music:
-    ld a,($c002)       ; 03006E 3A 02 C0
-    or a               ; 030071 B7
-    jp m,++            ; 030072 FA 9A 80
-    ld ix,$c00e        ; 030075 DD 21 0E C0
-    ld b,$0a           ; 030079 06 0A
-  -:push bc            ; 03007B C5
-      ld a,$04         ; 03007C 3E 04
-      cp b             ; 03007E B8
-      jr z,+           ; 03007F 28 10
-      bit 7,(ix+$00)   ; 030081 DD CB 00 7E
-      call nz,$8664    ; 030085 C4 64 86
---:   ld de,$0020      ; 030088 11 20 00
-      add ix,de        ; 03008B DD 19
-    pop bc             ; 03008D C1
-    djnz -             ; 03008E 10 EB
-    ret                ; 030090 C9
+    ld a,($c002)
+    or a
+    jp m,++
+    ld ix,_RAM_c00e_
+    ld b,$0a
+  -:push bc
+      ld a,$04
+      cp b
+      jr z,+
+      bit 7,(ix+$00)
+      call nz,$8664
+--:   ld de,$0020
+      add ix,de
+    pop bc
+    djnz -
+    ret
 
-+:  bit 7,(ix+$00)               ; 030091 DD CB 00 7E
-    call nz,$8608                ; 030095 C4 08 86
-    jr --                        ; 030098 18 EE
++:  bit 7,(ix+$00)
+    call nz,$8608
+    jr --
 
-++: ld ix,$c0ee                  ; 03009A DD 21 EE C0
-    ld b,$08                     ; 03009E 06 08
--:  push bc                      ; 0300A0 C5
-      ld a,$01                   ; 0300A1 3E 01
-      cp b                       ; 0300A3 B8
-      jr z,+                     ; 0300A4 28 10
-      bit 7,(ix+$00)             ; 0300A6 DD CB 00 7E
-      call nz,$8664              ; 0300AA C4 64 86
---:   ld de,$0020                ; 0300AD 11 20 00
-      add ix,de                  ; 0300B0 DD 19
-    pop bc                       ; 0300B2 C1
-    djnz -                       ; 0300B3 10 EB
-    ret                          ; 0300B5 C9
+++: ld ix,_RAM_c0ee_
+    ld b,$08
+-:  push bc
+      ld a,$01
+      cp b
+      jr z,+
+      bit 7,(ix+$00)
+      call nz,$8664
+--:   ld de,$0020
+      add ix,de
+    pop bc
+    djnz -
+    ret
 
-+:  bit 7,(ix+$00)               ; 0300B6 DD CB 00 7E
-    call nz,$8608                ; 0300BA C4 08 86
-    jr --                        ; 0300BD 18 EE
++:  bit 7,(ix+$00)
+    call nz,$8608
+    jr --
 
 SoundUpdatePSG:
-    ld a,($c002)                 ; 0300BF 3A 02 C0
-    or a                         ; 0300C2 B7
-    jp m,++                      ; 0300C3 FA EB 80
-    ld ix,$c06e                  ; 0300C6 DD 21 6E C0
-    ld b,$07                     ; 0300CA 06 07
--:  push bc                      ; 0300CC C5
-      ld a,$04                   ; 0300CD 3E 04
-      cp b                       ; 0300CF B8
-      jr z,+                     ; 0300D0 28 10
-      bit 7,(ix+$00)             ; 0300D2 DD CB 00 7E
-      call nz,$8bd9              ; 0300D6 C4 D9 8B
---:   ld de,$0020                ; 0300D9 11 20 00
-      add ix,de                  ; 0300DC DD 19
-    pop bc                       ; 0300DE C1
-    djnz -                       ; 0300DF 10 EB
-    ret                          ; 0300E1 C9
+    ld a,($c002)
+    or a
+    jp m,++
+    ld ix,_RAM_c06e_
+    ld b,$07
+-:  push bc
+      ld a,$04
+      cp b
+      jr z,+
+      bit 7,(ix+$00)
+      call nz,$8bd9
+--:   ld de,$0020
+      add ix,de
+    pop bc
+    djnz -
+    ret
 
-+:  bit 7,(ix+$00)               ; 0300E2 DD CB 00 7E
-    call nz,$8b37                ; 0300E6 C4 37 8B
-    jr --                        ; 0300E9 18 EE
-++: ld ix,$c0ee                  ; 0300EB DD 21 EE C0
-    ld b,$08                     ; 0300EF 06 08
--:  push bc                      ; 0300F1 C5
-      ld a,$01                   ; 0300F2 3E 01
-      cp b                       ; 0300F4 B8
-      jr z,+                     ; 0300F5 28 10
-      bit 7,(ix+$00)             ; 0300F7 DD CB 00 7E
-      call nz,$8bd9              ; 0300FB C4 D9 8B
---:   ld de,$0020                ; 0300FE 11 20 00
-      add ix,de                  ; 030101 DD 19
-    pop bc                       ; 030103 C1
-    djnz -                       ; 030104 10 EB
-    ret                          ; 030106 C9
++:  bit 7,(ix+$00)
+    call nz,$8b37
+    jr --
+++: ld ix,_RAM_c0ee_
+    ld b,$08
+-:  push bc
+      ld a,$01
+      cp b
+      jr z,+
+      bit 7,(ix+$00)
+      call nz,$8bd9
+--:   ld de,$0020
+      add ix,de
+    pop bc
+    djnz -
+    ret
 
-+:  bit 7,(ix+$00)               ; 030107 DD CB 00 7E
-    call nz,$8b37                ; 03010B C4 37 8B
-    jr --                        ; 03010E 18 EE
++:  bit 7,(ix+$00)
+    call nz,$8b37
+    jr --
 
 .ends
 ; followed by
 .orga $8110
 .section "More music code" overwrite
 Sound8110:
-    ld hl,$c12e                  ; 030110 21 2E C1
-    bit 7,(hl)                   ; 030113 CB 7E
-    ret z                        ; 030115 C8
-    ld a,($c10e)                 ; 030116 3A 0E C1
-    or a                         ; 030119 B7
-    jp m,++                      ; 03011A FA 32 81
-    bit 6,(hl)                   ; 03011D CB 76
-    jr z,+                       ; 03011F 28 0B
+    ld hl,_RAM_c12e_
+    bit 7,(hl)
+    ret z
+    ld a,($c10e)
+    or a
+    jp m,++
+    bit 6,(hl)
+    jr z,+
 
-    inc hl                       ; 030121 23
-    ld a,(hl)                    ; 030122 7E
-    cp $e0                       ; 030123 FE E0
-    jr nz,+                      ; 030125 20 05
-    ld hl,$c06e                  ; 030127 21 6E C0
-    set 2,(hl)                   ; 03012A CB D6
+    inc hl
+    ld a,(hl)
+    cp $e0
+    jr nz,+
+    ld hl,_RAM_c06e_
+    set 2,(hl)
 
-+:  ld hl,$c0ae                  ; 03012C 21 AE C0
-    set 2,(hl)                   ; 03012F CB D6
-    ret                          ; 030131 C9
++:  ld hl,_RAM_c0ae_
+    set 2,(hl)
+    ret
 
-++: set 2,(hl)                   ; 030132 CB D6
-    ret                          ; 030134 C9
+++: set 2,(hl)
+    ret
 
 Sound8135:
-    ld hl,$c001                  ; 030135 21 01 C0
-    ld a,(hl)                    ; 030138 7E
-    or a                         ; 030139 B7
-    ret z                        ; 03013A C8
-    dec (hl)                     ; 03013B 35
-    ret nz                       ; 03013C C0
-    ld a,($c002)                 ; 03013D 3A 02 C0
-    or a                         ; 030140 B7
-    res 7,a                      ; 030141 CB BF
-    ld (hl),a                    ; 030143 77
-    ld hl,$c018                  ; 030144 21 18 C0
-    ld de,$0020                  ; 030147 11 20 00
-    ld b,$07                     ; 03014A 06 07
-    jp m,+                       ; 03014C FA 57 81
-    ld hl,$c158                  ; 03014F 21 58 C1
-    ld de,$0020                  ; 030152 11 20 00
-    ld b,$05                     ; 030155 06 05
+    ld hl,_RAM_c001_
+    ld a,(hl)
+    or a
+    ret z
+    dec (hl)
+    ret nz
+    ld a,($c002)
+    or a
+    res 7,a
+    ld (hl),a
+    ld hl,_RAM_c018_
+    ld de,$0020
+    ld b,$07
+    jp m,+
+    ld hl,_RAM_c158_
+    ld de,$0020
+    ld b,$05
 +:
--:  inc (hl)                     ; 030157 34
-    add hl,de                    ; 030158 19
-    djnz -                       ; 030159 10 FC
-    ret                          ; 03015B C9
+-:  inc (hl)
+    add hl,de
+    djnz -
+    ret
 
 Sound815c:
-    ld a,($c00a)                 ; 03015C 3A 0A C0
-    or a                         ; 03015F B7
-    ret z                        ; 030160 C8
-    jp m,+++                     ; 030161 FA D0 81
-    ld a,($c00b)                 ; 030164 3A 0B C0
-    dec a                        ; 030167 3D
-    jr z,+                       ; 030168 28 04
+    ld a,($c00a)
+    or a
+    ret z
+    jp m,+++
+    ld a,($c00b)
+    dec a
+    jr z,+
 
-    ld ($c00b),a                 ; 03016A 32 0B C0
-    ret                          ; 03016D C9
+    ld ($c00b),a
+    ret
 
-+:  ld a,($c009)                 ; 03016E 3A 09 C0
-    ld ($c00b),a                 ; 030171 32 0B C0
-    ld a,($c00a)                 ; 030174 3A 0A C0
-    inc a                        ; 030177 3C
-    cp $0c                       ; 030178 FE 0C
-    ld ($c00a),a                 ; 03017A 32 0A C0
-    jr nz,++                     ; 03017D 20 1C
-    xor a                        ; 03017F AF
-    ld ($c00a),a                 ; 030180 32 0A C0
-    ld a,($c002)                 ; 030183 3A 02 C0
-    cp $7f                       ; 030186 FE 7F
-    jr nz,+                      ; 030188 20 05
-    ld a,$85                     ; 03018A 3E 85
-    jp $84ad                     ; 03018C C3 AD 84
-+:  or a                         ; 03018F B7
-    jp p,SoundInitialise         ; 030190 F2 00 80
-    ld a,($c006)                 ; 030193 3A 06 C0
-    or a                         ; 030196 B7
-    ret z                        ; 030197 C8
-    jp $8218                     ; 030198 C3 18 82
++:  ld a,($c009)
+    ld ($c00b),a
+    ld a,($c00a)
+    inc a
+    cp $0c
+    ld ($c00a),a
+    jr nz,++
+    xor a
+    ld ($c00a),a
+    ld a,($c002)
+    cp $7f
+    jr nz,+
+    ld a,$85
+    jp $84ad
++:  or a
+    jp p,SoundInitialise
+    ld a,($c006)
+    or a
+    ret z
+    jp $8218
 
-++: ld ix,$c00e                  ; 03019B DD 21 0E C0
-    ld de,$0020                  ; 03019F 11 20 00
-    ld b,$06                     ; 0301A2 06 06
-    ld a,($c002)                 ; 0301A4 3A 02 C0
-    or a                         ; 0301A7 B7
-    jp p,$81b1                   ; 0301A8 F2 B1 81
-    ld ix,$c14e                  ; 0301AB DD 21 4E C1
-    ld b,$04                     ; 0301AF 06 04
--:  ld a,(ix+$08)                ; 0301B1 DD 7E 08
-    inc a                        ; 0301B4 3C
-    cp $10                       ; 0301B5 FE 10
-    jr z,++                      ; 0301B7 28 0A
-    ld (ix+$08),a                ; 0301B9 DD 77 08
-    ld a,($c000)                 ; 0301BC 3A 00 C0
-    or a                         ; 0301BF B7
-    call nz,+                    ; 0301C0 C4 C8 81
-++: add ix,de                    ; 0301C3 DD 19
-    djnz -                       ; 0301C5 10 EA
-    ret                          ; 0301C7 C9
+++: ld ix,_RAM_c00e_
+    ld de,$0020
+    ld b,$06
+    ld a,($c002)
+    or a
+    jp p,$81b1
+    ld ix,_RAM_c14e_
+    ld b,$04
+-:  ld a,(ix+$08)
+    inc a
+    cp $10
+    jr z,++
+    ld (ix+$08),a
+    ld a,($c000)
+    or a
+    call nz,+
+++: add ix,de
+    djnz -
+    ret
 
 +:
-    bit 2,(ix+$00)               ; 0301C8 DD CB 00 56
-    ret nz                       ; 0301CC C0
-    jp $8748                     ; 0301CD C3 48 87
-+++:ld a,($c00b)                 ; 0301D0 3A 0B C0
-    dec a                        ; 0301D3 3D
-    jr z,+                       ; 0301D4 28 04
-    ld ($c00b),a                 ; 0301D6 32 0B C0
-    ret                          ; 0301D9 C9
-+:  ld a,$0a                     ; 0301DA 3E 0A
-    ld ($c00b),a                 ; 0301DC 32 0B C0
-    ld a,($c00a)                 ; 0301DF 3A 0A C0
-    inc a                        ; 0301E2 3C
-    cp $8b                       ; 0301E3 FE 8B
-    ld ($c00a),a                 ; 0301E5 32 0A C0
-    jr nz,+                      ; 0301E8 20 0A
-    xor a                        ; 0301EA AF
-    ld ($c00a),a                 ; 0301EB 32 0A C0
-    ld hl,$c0ce                  ; 0301EE 21 CE C0
-    res 2,(hl)                   ; 0301F1 CB 96
-    ret                          ; 0301F3 C9
-+:  ld ix,$c00e                  ; 0301F4 DD 21 0E C0
-    ld de,$0020                  ; 0301F8 11 20 00
-    ld b,$06                     ; 0301FB 06 06
--:  ld a,(ix+$08)                ; 0301FD DD 7E 08
-    dec a                        ; 030200 3D
-    jp m,$8213                   ; 030201 FA 13 82
-    cp (ix+$17)                  ; 030204 DD BE 17
-    jr c,+                       ; 030207 38 0A
-    ld (ix+$08),a                ; 030209 DD 77 08
-    ld a,($c000)                 ; 03020C 3A 00 C0
-    or a                         ; 03020F B7
-    call nz,$8748                ; 030210 C4 48 87
-+:  add ix,de                    ; 030213 DD 19
-    djnz -                       ; 030215 10 E6
-    ret                          ; 030217 C9
-    
-    call SilencePSGandFM         ; 030218 CD 1F 80
-    ld a,($c005)                 ; 03021B 3A 05 C0
-    ld ($c002),a                 ; 03021E 32 02 C0
-    ld a,$80                     ; 030221 3E 80
-    ld ($c00a),a                 ; 030223 32 0A C0
-    ld a,$0a                     ; 030226 3E 0A
-    ld ($c00b),a                 ; 030228 32 0B C0
-    ld hl,$c0ce                  ; 03022B 21 CE C0
-    set 2,(hl)                   ; 03022E CB D6
-    push ix                      ; 030230 DD E5
-      ld ix,$c00e                ; 030232 DD 21 0E C0
-      ld b,$06                   ; 030236 06 06
-      ld de,$0020                ; 030238 11 20 00
--:    ld a,(ix+$08)              ; 03023B DD 7E 08
-      ld (ix+$17),a              ; 03023E DD 77 17
-      ld a,$09                   ; 030241 3E 09
-      ld (ix+$08),a              ; 030243 DD 77 08
-      add ix,de                  ; 030246 DD 19
-      djnz -                     ; 030248 10 F1
-    pop ix                       ; 03024A DD E1
-    jp $85f9                     ; 03024C C3 F9 85
-    ld a,$0a                     ; 03024F 3E 0A
-    ld ($c00b),a                 ; 030251 32 0B C0
-    ld ($c009),a                 ; 030254 32 09 C0
-    ld a,$03                     ; 030257 3E 03
-    ld ($c00a),a                 ; 030259 32 0A C0
-    ld a,($c002)                 ; 03025C 3A 02 C0
-    or a                         ; 03025F B7
-    jp m,$8267                   ; 030260 FA 67 82
-    xor a                        ; 030263 AF
-    ld ($c0ce),a                 ; 030264 32 CE C0
-    ld a,$ff                     ; 030267 3E FF
-    out ($7f),a                  ; 030269 D3 7F
-    xor a                        ; 03026B AF
-    ld ($c1ce),a                 ; 03026C 32 CE C1
-    jp $85f9                     ; 03026F C3 F9 85
+    bit 2,(ix+$00)
+    ret nz
+    jp $8748
++++:ld a,($c00b)
+    dec a
+    jr z,+
+    ld ($c00b),a
+    ret
++:  ld a,$0a
+    ld ($c00b),a
+    ld a,($c00a)
+    inc a
+    cp $8b
+    ld ($c00a),a
+    jr nz,+
+    xor a
+    ld ($c00a),a
+    ld hl,_RAM_c0ce_
+    res 2,(hl)
+    ret
++:  ld ix,_RAM_c00e_
+    ld de,$0020
+    ld b,$06
+-:  ld a,(ix+$08)
+    dec a
+    jp m,$8213
+    cp (ix+$17)
+    jr c,+
+    ld (ix+$08),a
+    ld a,($c000)
+    or a
+    call nz,$8748
++:  add ix,de
+    djnz -
+    ret
+
+    call SilencePSGandFM
+    ld a,($c005)
+    ld ($c002),a
+    ld a,$80
+    ld ($c00a),a
+    ld a,$0a
+    ld ($c00b),a
+    ld hl,_RAM_c0ce_
+    set 2,(hl)
+    push ix
+      ld ix,_RAM_c00e_
+      ld b,$06
+      ld de,$0020
+-:    ld a,(ix+$08)
+      ld (ix+$17),a
+      ld a,$09
+      ld (ix+$08),a
+      add ix,de
+      djnz -
+    pop ix
+    jp $85f9
+    ld a,$0a
+    ld ($c00b),a
+    ld ($c009),a
+    ld a,$03
+    ld ($c00a),a
+    ld a,($c002)
+    or a
+    jp m,$8267
+    xor a
+    ld ($c0ce),a
+    ld a,$ff
+    out ($7f),a
+    xor a
+    ld ($c1ce),a
+    jp $85f9
 .ends
 .section "Output 0 to YM2413 channel in a" overwrite
 ZeroYM2413Channel: ; $8272
@@ -8462,75 +11636,75 @@ ZeroYM2413Channel: ; $8272
 .ends
 .org $3027b-$30000
 .section "Yet more music code" overwrite
-    xor a                        ; 03027B AF
-    ld ($c12e),a                 ; 03027C 32 2E C1
-    ld a,$df                     ; 03027F 3E DF
-    out ($7f),a                  ; 030281 D3 7F
-    ld a,$ff                     ; 030283 3E FF
-    out ($7f),a                  ; 030285 D3 7F
-    ld a,$25                     ; 030287 3E 25
-    out ($f0),a                  ; 030289 D3 F0
-    call $8b34                   ; 03028B CD 34 8B
-    xor a                        ; 03028E AF
-    out ($f1),a                  ; 03028F D3 F1
-    ret                          ; 030291 C9
+    xor a
+    ld ($c12e),a
+    ld a,$df
+    out ($7f),a
+    ld a,$ff
+    out ($7f),a
+    ld a,$25
+    out ($f0),a
+    call $8b34
+    xor a
+    out ($f1),a
+    ret
 
-    push bc                      ; 030292 C5
-      ld b,$12                   ; 030293 06 12
-      ld hl,$8312                ; 030295 21 12 83
-      ld c,$f1                   ; 030298 0E F1
-    -:dec c                      ; 03029A 0D
-      outi                       ; 03029B ED A3
-      inc c                      ; 03029D 0C
-      call $8b34                 ; 03029E CD 34 8B
-      outi                       ; 0302A1 ED A3
-      call $8b34                 ; 0302A3 CD 34 8B
-      jr nz,-                    ; 0302A6 20 F2
-    pop bc                       ; 0302A8 C1
-    ret                          ; 0302A9 C9
-    ld a,($c002)                 ; 0302AA 3A 02 C0
-    cp $7f                       ; 0302AD FE 7F
-    jp z,$824f                   ; 0302AF CA 4F 82
-    ld a,$80                     ; 0302B2 3E 80
-    ld ($c006),a                 ; 0302B4 32 06 C0
-    jp $824f                     ; 0302B7 C3 4F 82
-    xor a                        ; 0302BA AF
-    ld ($c10e),a                 ; 0302BB 32 0E C1
-    ld ($c0ee),a                 ; 0302BE 32 EE C0
-    ld hl,$c08e                  ; 0302C1 21 8E C0
-    call $8307                   ; 0302C4 CD 07 83
-    ld hl,$c1ae                  ; 0302C7 21 AE C1
-    call $8307                   ; 0302CA CD 07 83
-    ex af,af'                    ; 0302CD 08
-    jr nz,+                      ; 0302CE 20 0D
-    ex af,af'                    ; 0302D0 08
-    ld hl,$804a                  ; 0302D1 21 4A 80
-    ld c,$7f                     ; 0302D4 0E 7F
-    ld b,$08                     ; 0302D6 06 08
-    otir                         ; 0302D8 ED B3
-    jp $85f9                     ; 0302DA C3 F9 85
-+:  ex af,af'                    ; 0302DD 08
-    ld a,$25                     ; 0302DE 3E 25
-    call ZeroYM2413Channel       ; 0302E0 CD 72 82
-    call $8b34                   ; 0302E3 CD 34 8B
-    ld a,$24                     ; 0302E6 3E 24
-    call ZeroYM2413Channel       ; 0302E8 CD 72 82
-    ld a,($c002)                 ; 0302EB 3A 02 C0
-    or a                         ; 0302EE B7
-    jp m,$85f9                   ; 0302EF FA F9 85
-    push ix                      ; 0302F2 DD E5
-      ld ix,$c08e                ; 0302F4 DD 21 8E C0
-      call $8748                 ; 0302F8 CD 48 87
-      ld ix,$c0ae                ; 0302FB DD 21 AE C0
-      call $8748                 ; 0302FF CD 48 87
-    pop ix                       ; 030302 DD E1
-    jp $85f9                     ; 030304 C3 F9 85
-    ld de,$0020                  ; 030307 11 20 00
-    ld b,$03                     ; 03030A 06 03
--:  res 2,(hl)                   ; 03030C CB 96
-    add hl,de                    ; 03030E 19
-    djnz -                       ; 03030F 10 FB
-    ret                          ; 030311 C9
+    push bc
+      ld b,$12
+      ld hl,$8312
+      ld c,$f1
+    -:dec c
+      outi
+      inc c
+      call $8b34
+      outi
+      call $8b34
+      jr nz,-
+    pop bc
+    ret
+    ld a,($c002)
+    cp $7f
+    jp z,$824f
+    ld a,$80
+    ld ($c006),a
+    jp $824f
+    xor a
+    ld ($c10e),a
+    ld ($c0ee),a
+    ld hl,_RAM_c08e_
+    call $8307
+    ld hl,_RAM_c1ae_
+    call $8307
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld hl,$804a
+    ld c,$7f
+    ld b,$08
+    otir
+    jp $85f9
++:  ex af,af'
+    ld a,$25
+    call ZeroYM2413Channel
+    call $8b34
+    ld a,$24
+    call ZeroYM2413Channel
+    ld a,($c002)
+    or a
+    jp m,$85f9
+    push ix
+      ld ix,_RAM_c08e_
+      call $8748
+      ld ix,_RAM_c0ae_
+      call $8748
+    pop ix
+    jp $85f9
+    ld de,$0020
+    ld b,$03
+-:  res 2,(hl)
+    add hl,de
+    djnz -
+    ret
 .ends
 .org $30312-$30000
 
@@ -8538,912 +11712,912 @@ ZeroYM2413Channel: ; $8272
 
 .org $30466-$30000
 .section "more sound code again" overwrite
-    ld a,($c004)                 ; 030466 3A 04 C0
-    bit 7,a                      ; 030469 CB 7F
-    jp z,$8000                   ; 03046B CA 00 80
-    cp $a0                       ; 03046E FE A0
-    jr c,++                      ; 030470 38 3B
-    cp $d0                       ; 030472 FE D0
-    jp c,$8524                   ; 030474 DA 24 85
-    cp $d5                       ; 030477 FE D5
-    jp c,$8490                   ; 030479 DA 90 84
-    cp $da                       ; 03047C FE DA
-    jp nc,$8000                  ; 03047E D2 00 80
-    sub $d5                      ; 030481 D6 D5
-    add a,a                      ; 030483 87
-    ld c,a                       ; 030484 4F
-    ld b,$00                     ; 030485 06 00
-    ld hl,$845c                  ; 030487 21 5C 84
-    add hl,bc                    ; 03048A 09
-    ld a,(hl)                    ; 03048B 7E
-    inc hl                       ; 03048C 23
-    ld h,(hl)                    ; 03048D 66
-    ld l,a                       ; 03048E 6F
-    jp (hl)                      ; 03048F E9
-    ld hl,$8452                  ; 030490 21 52 84
-    sub $d0                      ; 030493 D6 D0
-    ex af,af'                    ; 030495 08
-    jr nz,+                      ; 030496 20 03
-    ld hl,$83c0                  ; 030498 21 C0 83
-+:  ex af,af'                    ; 03049B 08
-    call $85ff                   ; 03049C CD FF 85
-    ld de,$c12e                  ; 03049F 11 2E C1
-    ld a,$ff                     ; 0304A2 3E FF
-    out ($7f),a                  ; 0304A4 D3 7F
-    ld a,$df                     ; 0304A6 3E DF
-    out ($7f),a                  ; 0304A8 D3 7F
-    jp $85c6                     ; 0304AA C3 C6 85
-++: cp $95                       ; 0304AD FE 95
-    jp nc,$85f9                  ; 0304AF D2 F9 85
-    sub $81                      ; 0304B2 D6 81
-    ret m                        ; 0304B4 F8
-    ld b,$00                     ; 0304B5 06 00
-    ld c,a                       ; 0304B7 4F
-    ld hl,$8324                  ; 0304B8 21 24 83
-    add hl,bc                    ; 0304BB 09
-    push af                      ; 0304BC F5
-    ld a,($c002)                 ; 0304BD 3A 02 C0
-    and $7f                      ; 0304C0 E6 7F
-    ld ($c005),a                 ; 0304C2 32 05 C0
-    ld a,(hl)                    ; 0304C5 7E
-    ld ($c001),a                 ; 0304C6 32 01 C0
-    ld ($c002),a                 ; 0304C9 32 02 C0
-    push af                      ; 0304CC F5
-    ld a,($c00a)                 ; 0304CD 3A 0A C0
-    or a                         ; 0304D0 B7
-    jp p,$84e7                   ; 0304D1 F2 E7 84
-    ld ix,$c00e                  ; 0304D4 DD 21 0E C0
-    ld de,$0020                  ; 0304D8 11 20 00
-    ld b,$06                     ; 0304DB 06 06
--:  ld a,(ix+$17)                ; 0304DD DD 7E 17
-    ld (ix+$08),a                ; 0304E0 DD 77 08
-    add ix,de                    ; 0304E3 DD 19
-    djnz -                       ; 0304E5 10 F6
-    call $803c                   ; 0304E7 CD 3C 80
-    call $801f                   ; 0304EA CD 1F 80
-    pop af                       ; 0304ED F1
-    ex af,af'                    ; 0304EE 08
-    jr nz,+                      ; 0304EF 20 13
-    ex af,af'                    ; 0304F1 08
-    ld de,$c14e                  ; 0304F2 11 4E C1
-    or a                         ; 0304F5 B7
-    jp m,$84ff                   ; 0304F6 FA FF 84
-    call $8000                   ; 0304F9 CD 00 80
-    ld de,$c06e                  ; 0304FC 11 6E C0
-    ld hl,$8338                  ; 0304FF 21 38 83
-    jr ++                        ; 030502 18 19
-+:  ex af,af'                    ; 030504 08
-    call $8292                   ; 030505 CD 92 82
-    ld de,$c14e                  ; 030508 11 4E C1
-    or a                         ; 03050B B7
-    jp m,$8517                   ; 03050C FA 17 85
-    ld de,$c00e                  ; 03050F 11 0E C0
-    call $8000                   ; 030512 CD 00 80
-    jr +                         ; 030515 18 03
-    call $802c                   ; 030517 CD 2C 80
-+:  ld hl,$83ca                  ; 03051A 21 CA 83
-++: pop af                       ; 03051D F1
-    call $85ff                   ; 03051E CD FF 85
-    jp $85c6                     ; 030521 C3 C6 85
-    sub $a0                      ; 030524 D6 A0
-    ld hl,$8360                  ; 030526 21 60 83
-    ex af,af'                    ; 030529 08
-    jr z,+                       ; 03052A 28 03
-    ld hl,$83f2                  ; 03052C 21 F2 83
-+:  ex af,af'                    ; 03052F 08
-    call $85ff                   ; 030530 CD FF 85
-    ld h,b                       ; 030533 60
-    ld l,c                       ; 030534 69
-    inc hl                       ; 030535 23
-    inc hl                       ; 030536 23
-    ld a,(hl)                    ; 030537 7E
-    ex af,af'                    ; 030538 08
-    jr z,+++                     ; 030539 28 2C
-    ex af,af'                    ; 03053B 08
-    cp $10                       ; 03053C FE 10
-    jr z,+                       ; 03053E 28 0B
-    cp $14                       ; 030540 FE 14
-    jr z,++                      ; 030542 28 0F
-    ld de,$c10e                  ; 030544 11 0E C1
-    ld a,$25                     ; 030547 3E 25
-    jr ++++                      ; 030549 18 12
-+:  call $8000                   ; 03054B CD 00 80
-    ld de,$c00e                  ; 03054E 11 0E C0
-    jr _05c6                     ; 030551 18 73
-++: ld de,$c0ee                  ; 030553 11 EE C0
-    ld a,$24                     ; 030556 3E 24
-    ld hl,$c08e                  ; 030558 21 8E C0
-    set 2,(hl)                   ; 03055B CB D6
+    ld a,($c004)
+    bit 7,a
+    jp z,$8000
+    cp $a0
+    jr c,++
+    cp $d0
+    jp c,$8524
+    cp $d5
+    jp c,$8490
+    cp $da
+    jp nc,$8000
+    sub $d5
+    add a,a
+    ld c,a
+    ld b,$00
+    ld hl,$845c
+    add hl,bc
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    jp (hl)
+    ld hl,$8452
+    sub $d0
+    ex af,af'
+    jr nz,+
+    ld hl,$83c0
++:  ex af,af'
+    call $85ff
+    ld de,_RAM_c12e_
+    ld a,$ff
+    out ($7f),a
+    ld a,$df
+    out ($7f),a
+    jp $85c6
+++: cp $95
+    jp nc,$85f9
+    sub $81
+    ret m
+    ld b,$00
+    ld c,a
+    ld hl,$8324
+    add hl,bc
+    push af
+    ld a,($c002)
+    and $7f
+    ld ($c005),a
+    ld a,(hl)
+    ld ($c001),a
+    ld ($c002),a
+    push af
+    ld a,($c00a)
+    or a
+    jp p,$84e7
+    ld ix,_RAM_c00e_
+    ld de,$0020
+    ld b,$06
+-:  ld a,(ix+$17)
+    ld (ix+$08),a
+    add ix,de
+    djnz -
+    call $803c
+    call $801f
+    pop af
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld de,_RAM_c14e_
+    or a
+    jp m,$84ff
+    call $8000
+    ld de,_RAM_c06e_
+    ld hl,$8338
+    jr ++
++:  ex af,af'
+    call $8292
+    ld de,_RAM_c14e_
+    or a
+    jp m,$8517
+    ld de,_RAM_c00e_
+    call $8000
+    jr +
+    call $802c
++:  ld hl,$83ca
+++: pop af
+    call $85ff
+    jp $85c6
+    sub $a0
+    ld hl,$8360
+    ex af,af'
+    jr z,+
+    ld hl,$83f2
++:  ex af,af'
+    call $85ff
+    ld h,b
+    ld l,c
+    inc hl
+    inc hl
+    ld a,(hl)
+    ex af,af'
+    jr z,+++
+    ex af,af'
+    cp $10
+    jr z,+
+    cp $14
+    jr z,++
+    ld de,_RAM_c10e_
+    ld a,$25
+    jr ++++
++:  call $8000
+    ld de,_RAM_c00e_
+    jr _05c6
+++: ld de,_RAM_c0ee_
+    ld a,$24
+    ld hl,_RAM_c08e_
+    set 2,(hl)
 ++++:
-    ld hl,$c0ae                  ; 03055D 21 AE C0
-    set 2,(hl)                   ; 030560 CB D6
-    call ZeroYM2413Channel       ; 030562 CD 72 82
-    jr _05c6                     ; 030565 18 5F
+    ld hl,_RAM_c0ae_
+    set 2,(hl)
+    call ZeroYM2413Channel
+    jr _05c6
 
-+++:ex af,af'                    ; 030567 08
-    cp $c0                       ; 030568 FE C0
-    jr z,+                       ; 03056A 28 1F
-    cp $e0                       ; 03056C FE E0
-    jr z,++                      ; 03056E 28 0E
-    cp $a0                       ; 030570 FE A0
-    jr z,+++                     ; 030572 28 1C
-    push bc                      ; 030574 C5
-    call $8000                   ; 030575 CD 00 80
-    pop bc                       ; 030578 C1
-    ld de,$c06e                  ; 030579 11 6E C0
-    jr _05c6                     ; 03057C 18 48
++++:ex af,af'
+    cp $c0
+    jr z,+
+    cp $e0
+    jr z,++
+    cp $a0
+    jr z,+++
+    push bc
+    call $8000
+    pop bc
+    ld de,_RAM_c06e_
+    jr _05c6
 
-++: ld a,$df                     ; 03057E 3E DF
-    out ($7f),a                  ; 030580 D3 7F
-    ld hl,$c0ce                  ; 030582 21 CE C0
-    set 2,(hl)                   ; 030585 CB D6
-    ld a,$e7                     ; 030587 3E E7
-    out ($7f),a                  ; 030589 D3 7F
-+:  ld de,$c10e                  ; 03058B 11 0E C1
-    jr +                         ; 03058E 18 28
-+++:ld de,$0009                  ; 030590 11 09 00
-    add hl,de                    ; 030593 19
-    ld a,(hl)                    ; 030594 7E
-    cp $e0                       ; 030595 FE E0
-    jr nz,++                     ; 030597 20 12
-    ld a,$e7                     ; 030599 3E E7
-    out ($7f),a                  ; 03059B D3 7F
-    ld hl,$c0ce                  ; 03059D 21 CE C0
-    set 2,(hl)                   ; 0305A0 CB D6
-    ld hl,$c1ce                  ; 0305A2 21 CE C1
-    set 2,(hl)                   ; 0305A5 CB D6
-    ld a,$df                     ; 0305A7 3E DF
-    out ($7f),a                  ; 0305A9 D3 7F
-++: ld de,$c0ee                  ; 0305AB 11 EE C0
-    ld hl,$c08e                  ; 0305AE 21 8E C0
-    set 2,(hl)                   ; 0305B1 CB D6
-    ld hl,$c18e                  ; 0305B3 21 8E C1
-    set 2,(hl)                   ; 0305B6 CB D6
-+:  ld a,$ff                     ; 0305B8 3E FF
-    out ($7f),a                  ; 0305BA D3 7F
-    ld hl,$c0ae                  ; 0305BC 21 AE C0
-    set 2,(hl)                   ; 0305BF CB D6
-    ld hl,$c1ae                  ; 0305C1 21 AE C1
-    set 2,(hl)                   ; 0305C4 CB D6
+++: ld a,$df
+    out ($7f),a
+    ld hl,_RAM_c0ce_
+    set 2,(hl)
+    ld a,$e7
+    out ($7f),a
++:  ld de,_RAM_c10e_
+    jr +
++++:ld de,$0009
+    add hl,de
+    ld a,(hl)
+    cp $e0
+    jr nz,++
+    ld a,$e7
+    out ($7f),a
+    ld hl,_RAM_c0ce_
+    set 2,(hl)
+    ld hl,_RAM_c1ce_
+    set 2,(hl)
+    ld a,$df
+    out ($7f),a
+++: ld de,_RAM_c0ee_
+    ld hl,_RAM_c08e_
+    set 2,(hl)
+    ld hl,_RAM_c18e_
+    set 2,(hl)
++:  ld a,$ff
+    out ($7f),a
+    ld hl,_RAM_c0ae_
+    set 2,(hl)
+    ld hl,_RAM_c1ae_
+    set 2,(hl)
 _05c6:
-    ld h,b                       ; 0305C6 60
-    ld l,c                       ; 0305C7 69
-    ld b,(hl)                    ; 0305C8 46
-    inc hl                       ; 0305C9 23
--:  push bc                      ; 0305CA C5
-    push hl                      ; 0305CB E5
-    pop ix                       ; 0305CC DD E1
-    ld bc,$0009                  ; 0305CE 01 09 00
-    ldir                         ; 0305D1 ED B0
-    ld a,$20                     ; 0305D3 3E 20
-    ld (de),a                    ; 0305D5 12
-    inc de                       ; 0305D6 13
-    ld a,$01                     ; 0305D7 3E 01
-    ld (de),a                    ; 0305D9 12
-    inc de                       ; 0305DA 13
-    xor a                        ; 0305DB AF
-    ld (de),a                    ; 0305DC 12
-    inc de                       ; 0305DD 13
-    ld (de),a                    ; 0305DE 12
-    inc de                       ; 0305DF 13
-    ld (de),a                    ; 0305E0 12
-    push hl                      ; 0305E1 E5
-    ld hl,$0013                  ; 0305E2 21 13 00
-    add hl,de                    ; 0305E5 19
-    ex de,hl                     ; 0305E6 EB
-    pop hl                       ; 0305E7 E1
-    ld bc,$85f6                  ; 0305E8 01 F6 85
-    push bc                      ; 0305EB C5
-    ld a,($c000)                 ; 0305EC 3A 00 C0
-    or a                         ; 0305EF B7
-    jp nz,$8748                  ; 0305F0 C2 48 87
-    jp $8cce                     ; 0305F3 C3 CE 8C
-    pop bc                       ; 0305F6 C1
-    djnz -                       ; 0305F7 10 D1
-    ld a,$80                     ; 0305F9 3E 80
-    ld ($c004),a                 ; 0305FB 32 04 C0
-    ret                          ; 0305FE C9
-    add a,a                      ; 0305FF 87
-    ld b,$00                     ; 030600 06 00
-    ld c,a                       ; 030602 4F
-    add hl,bc                    ; 030603 09
-    ld c,(hl)                    ; 030604 4E
-    inc hl                       ; 030605 23
-    ld b,(hl)                    ; 030606 46
-    ret                          ; 030607 C9
-    inc (ix+$0b)                 ; 030608 DD 34 0B
-    ld a,(ix+$0a)                ; 03060B DD 7E 0A
-    sub (ix+$0b)                 ; 03060E DD 96 0B
-    jr nz,+                      ; 030611 20 14
-    call $8636                   ; 030613 CD 36 86
-    bit 2,(ix+$00)               ; 030616 DD CB 00 56
-    ret nz                       ; 03061A C0
-    ld a,$0e                     ; 03061B 3E 0E
-    out ($f0),a                  ; 03061D D3 F0
-    ld a,(ix+$10)                ; 03061F DD 7E 10
-    or $20                       ; 030622 F6 20
-    out ($f1),a                  ; 030624 D3 F1
-    ret                          ; 030626 C9
+    ld h,b
+    ld l,c
+    ld b,(hl)
+    inc hl
+-:  push bc
+    push hl
+    pop ix
+    ld bc,$0009
+    ldir
+    ld a,$20
+    ld (de),a
+    inc de
+    ld a,$01
+    ld (de),a
+    inc de
+    xor a
+    ld (de),a
+    inc de
+    ld (de),a
+    inc de
+    ld (de),a
+    push hl
+    ld hl,$0013
+    add hl,de
+    ex de,hl
+    pop hl
+    ld bc,$85f6
+    push bc
+    ld a,($c000)
+    or a
+    jp nz,$8748
+    jp $8cce
+    pop bc
+    djnz -
+    ld a,$80
+    ld ($c004),a
+    ret
+    add a,a
+    ld b,$00
+    ld c,a
+    add hl,bc
+    ld c,(hl)
+    inc hl
+    ld b,(hl)
+    ret
+    inc (ix+$0b)
+    ld a,(ix+$0a)
+    sub (ix+$0b)
+    jr nz,+
+    call $8636
+    bit 2,(ix+$00)
+    ret nz
+    ld a,$0e
+    out ($f0),a
+    ld a,(ix+$10)
+    or $20
+    out ($f1),a
+    ret
 
-+:  cp $02                       ; 030627 FE 02
-    ret nz                       ; 030629 C0
-    ld a,$0e                     ; 03062A 3E 0E
-    out ($f0),a                  ; 03062C D3 F0
-    call $8b34                   ; 03062E CD 34 8B
-    ld a,$20                     ; 030631 3E 20
-    out ($f1),a                  ; 030633 D3 F1
-    ret                          ; 030635 C9
-    ld e,(ix+$03)                ; 030636 DD 5E 03
-    ld d,(ix+$04)                ; 030639 DD 56 04
-    ld a,(de)                    ; 03063C 1A
-    inc de                       ; 03063D 13
-    cp $e0                       ; 03063E FE E0
-    jp nc,$865a                  ; 030640 D2 5A 86
-    cp $7f                       ; 030643 FE 7F
-    jp c,$880b                   ; 030645 DA 0B 88
-    bit 5,a                      ; 030648 CB 6F
-    jr z,+                       ; 03064A 28 02
-    or $01                       ; 03064C F6 01
-+:  bit 2,a                      ; 03064E CB 57
-    jr z,+                       ; 030650 28 02
-    or $10                       ; 030652 F6 10
-+:  ld (ix+$10),a                ; 030654 DD 77 10
-    jp $87fd                     ; 030657 C3 FD 87
-    ld hl,$8660                  ; 03065A 21 60 86
-    jp $88ae                     ; 03065D C3 AE 88
-    inc de                       ; 030660 13
-    jp $863c                     ; 030661 C3 3C 86
-    inc (ix+$0b)                 ; 030664 DD 34 0B
-    ld a,(ix+$0a)                ; 030667 DD 7E 0A
-    sub (ix+$0b)                 ; 03066A DD 96 0B
-    call z,$87b9                 ; 03066D CC B9 87
-    ld ($c00c),a                 ; 030670 32 0C C0
-    cp $80                       ; 030673 FE 80
-    jp z,$86cd                   ; 030675 CA CD 86
-    bit 5,(ix+$00)               ; 030678 DD CB 00 6E
-    jp z,$86cd                   ; 03067C CA CD 86
-    exx                          ; 03067F D9
-    ld (hl),$80                  ; 030680 36 80
-    exx                          ; 030682 D9
-    bit 3,(ix+$00)               ; 030683 DD CB 00 5E
-    jp nz,$86ad                  ; 030687 C2 AD 86
-    ld a,(ix+$11)                ; 03068A DD 7E 11
-    bit 7,a                      ; 03068D CB 7F
-    jr z,+                       ; 03068F 28 0E
-    add a,(ix+$0e)               ; 030691 DD 86 0E
-    jr c,++                      ; 030694 38 34
-    dec (ix+$0f)                 ; 030696 DD 35 0F
-    dec (ix+$0f)                 ; 030699 DD 35 0F
-    jp $86c6                     ; 03069C C3 C6 86
-+:  add a,(ix+$0e)               ; 03069F DD 86 0E
-    jr nc,++                     ; 0306A2 30 26
-    inc (ix+$0f)                 ; 0306A4 DD 34 0F
-    inc (ix+$0f)                 ; 0306A7 DD 34 0F
-    jp $86c6                     ; 0306AA C3 C6 86
-    ld a,(ix+$11)                ; 0306AD DD 7E 11
-    bit 7,a                      ; 0306B0 CB 7F
-    jr z,+                       ; 0306B2 28 0A
-    add a,(ix+$0e)               ; 0306B4 DD 86 0E
-    jr c,++                      ; 0306B7 38 11
-    dec (ix+$0f)                 ; 0306B9 DD 35 0F
-    jr +++                       ; 0306BC 18 08
-+:  add a,(ix+$0e)               ; 0306BE DD 86 0E
-    jr nc,++                     ; 0306C1 30 07
-    inc (ix+$0f)                 ; 0306C3 DD 34 0F
-+++:set 1,(ix+$07)               ; 0306C6 DD CB 07 CE
-++: ld (ix+$0e),a                ; 0306CA DD 77 0E
-    bit 2,(ix+$00)               ; 0306CD DD CB 00 56
-    ret nz                       ; 0306D1 C0
-    ld a,(ix+$13)                ; 0306D2 DD 7E 13
-    cp $1f                       ; 0306D5 FE 1F
-    ret z                        ; 0306D7 C8
-    ld a,($c00c)                 ; 0306D8 3A 0C C0
-    bit 0,(ix+$07)               ; 0306DB DD CB 07 46
-    jr nz,+                      ; 0306DF 20 05
-    cp $02                       ; 0306E1 FE 02
-    jp c,$875e                   ; 0306E3 DA 5E 87
-+:  or a                         ; 0306E6 B7
-    jp m,$86f7                   ; 0306E7 FA F7 86
-    bit 7,(ix+$14)               ; 0306EA DD CB 14 7E
-    ret nz                       ; 0306EE C0
-    ld a,(ix+$06)                ; 0306EF DD 7E 06
-    dec a                        ; 0306F2 3D
-    jp p,$86fb                   ; 0306F3 F2 FB 86
-    ret                          ; 0306F6 C9
-    ld a,(ix+$06)                ; 0306F7 DD 7E 06
-    dec a                        ; 0306FA 3D
-    ld l,(ix+$0e)                ; 0306FB DD 6E 0E
-    ld h,(ix+$0f)                ; 0306FE DD 66 0F
-    jp m,$870e                   ; 030701 FA 0E 87
-    ex de,hl                     ; 030704 EB
-    ld hl,$b805                  ; 030705 21 05 B8
-    call $876b                   ; 030708 CD 6B 87
-    call $8778                   ; 03070B CD 78 87
-    bit 3,(ix+$00)               ; 03070E DD CB 00 5E
-    call nz,$8855                ; 030712 C4 55 88
-    ld c,$f1                     ; 030715 0E F1
-    ld a,(ix+$01)                ; 030717 DD 7E 01
-    out ($f0),a                  ; 03071A D3 F0
-    add a,$10                    ; 03071C C6 10
-    call $8b34                   ; 03071E CD 34 8B
-    out (c),l                    ; 030721 ED 69
-    call $8b34                   ; 030723 CD 34 8B
-    exx                          ; 030726 D9
-    bit 7,(hl)                   ; 030727 CB 7E
-    exx                          ; 030729 D9
-    out ($f0),a                  ; 03072A D3 F0
-    jr nz,+                      ; 03072C 20 0F
-    bit 0,(ix+$07)               ; 03072E DD CB 07 46
-    jr z,+                       ; 030732 28 09
-    bit 1,(ix+$07)               ; 030734 DD CB 07 4E
-    ret z                        ; 030738 C8
-    res 1,(ix+$07)               ; 030739 DD CB 07 8E
-+:  bit 2,(ix+$07)               ; 03073D DD CB 07 56
-    jr z,+                       ; 030741 28 02
-    set 5,h                      ; 030743 CB EC
-+:  out (c),h                    ; 030745 ED 61
-    ret                          ; 030747 C9
++:  cp $02
+    ret nz
+    ld a,$0e
+    out ($f0),a
+    call $8b34
+    ld a,$20
+    out ($f1),a
+    ret
+    ld e,(ix+$03)
+    ld d,(ix+$04)
+    ld a,(de)
+    inc de
+    cp $e0
+    jp nc,$865a
+    cp $7f
+    jp c,$880b
+    bit 5,a
+    jr z,+
+    or $01
++:  bit 2,a
+    jr z,+
+    or $10
++:  ld (ix+$10),a
+    jp $87fd
+    ld hl,$8660
+    jp $88ae
+    inc de
+    jp $863c
+    inc (ix+$0b)
+    ld a,(ix+$0a)
+    sub (ix+$0b)
+    call z,$87b9
+    ld ($c00c),a
+    cp $80
+    jp z,$86cd
+    bit 5,(ix+$00)
+    jp z,$86cd
+    exx
+    ld (hl),$80
+    exx
+    bit 3,(ix+$00)
+    jp nz,$86ad
+    ld a,(ix+$11)
+    bit 7,a
+    jr z,+
+    add a,(ix+$0e)
+    jr c,++
+    dec (ix+$0f)
+    dec (ix+$0f)
+    jp $86c6
++:  add a,(ix+$0e)
+    jr nc,++
+    inc (ix+$0f)
+    inc (ix+$0f)
+    jp $86c6
+    ld a,(ix+$11)
+    bit 7,a
+    jr z,+
+    add a,(ix+$0e)
+    jr c,++
+    dec (ix+$0f)
+    jr +++
++:  add a,(ix+$0e)
+    jr nc,++
+    inc (ix+$0f)
++++:set 1,(ix+$07)
+++: ld (ix+$0e),a
+    bit 2,(ix+$00)
+    ret nz
+    ld a,(ix+$13)
+    cp $1f
+    ret z
+    ld a,($c00c)
+    bit 0,(ix+$07)
+    jr nz,+
+    cp $02
+    jp c,$875e
++:  or a
+    jp m,$86f7
+    bit 7,(ix+$14)
+    ret nz
+    ld a,(ix+$06)
+    dec a
+    jp p,$86fb
+    ret
+    ld a,(ix+$06)
+    dec a
+    ld l,(ix+$0e)
+    ld h,(ix+$0f)
+    jp m,$870e
+    ex de,hl
+    ld hl,$b805
+    call $876b
+    call $8778
+    bit 3,(ix+$00)
+    call nz,$8855
+    ld c,$f1
+    ld a,(ix+$01)
+    out ($f0),a
+    add a,$10
+    call $8b34
+    out (c),l
+    call $8b34
+    exx
+    bit 7,(hl)
+    exx
+    out ($f0),a
+    jr nz,+
+    bit 0,(ix+$07)
+    jr z,+
+    bit 1,(ix+$07)
+    ret z
+    res 1,(ix+$07)
++:  bit 2,(ix+$07)
+    jr z,+
+    set 5,h
++:  out (c),h
+    ret
 
-    ld a,(ix+$01)                ; 030748 DD 7E 01
-    add a,$20                    ; 03074B C6 20
-    out ($f0),a                  ; 03074D D3 F0
-    ld a,(ix+$07)                ; 03074F DD 7E 07
-    and $f0                      ; 030752 E6 F0
-    ld c,a                       ; 030754 4F
-    ld a,(ix+$08)                ; 030755 DD 7E 08
-    and $0f                      ; 030758 E6 0F
-    or c                         ; 03075A B1
-    out ($f1),a                  ; 03075B D3 F1
-    ret                          ; 03075D C9
-    ld a,(ix+$01)                ; 03075E DD 7E 01
-    add a,$10                    ; 030761 C6 10
-    call ZeroYM2413Channel       ; 030763 CD 72 82
-    ld (ix+$13),$1f              ; 030766 DD 36 13 1F
-    ret                          ; 03076A C9
-    ld c,a                       ; 03076B 4F
-    ld b,$00                     ; 03076C 06 00
-    add hl,bc                    ; 03076E 09
-    add hl,bc                    ; 03076F 09
-    ld a,(hl)                    ; 030770 7E
-    inc hl                       ; 030771 23
-    ld h,(hl)                    ; 030772 66
-    ld l,a                       ; 030773 6F
-    ret                          ; 030774 C9
+    ld a,(ix+$01)
+    add a,$20
+    out ($f0),a
+    ld a,(ix+$07)
+    and $f0
+    ld c,a
+    ld a,(ix+$08)
+    and $0f
+    or c
+    out ($f1),a
+    ret
+    ld a,(ix+$01)
+    add a,$10
+    call ZeroYM2413Channel
+    ld (ix+$13),$1f
+    ret
+    ld c,a
+    ld b,$00
+    add hl,bc
+    add hl,bc
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ret
 
--:  ld (ix+$0d),a                ; 030775 DD 77 0D
-    push hl                      ; 030778 E5
-    ld c,(ix+$0d)                ; 030779 DD 4E 0D
-    ld b,$00                     ; 03077C 06 00
-    add hl,bc                    ; 03077E 09
-    ld c,l                       ; 03077F 4D
-    ld b,h                       ; 030780 44
-    pop hl                       ; 030781 E1
-    ld a,(bc)                    ; 030782 0A
-    bit 7,a                      ; 030783 CB 7F
-    jp z,$879e                   ; 030785 CA 9E 87
-    cp $83                       ; 030788 FE 83
-    jr z,+                       ; 03078A 28 0B
-    cp $80                       ; 03078C FE 80
-    jr z,++                      ; 03078E 28 0B
-    ld a,$ff                     ; 030790 3E FF
-    ld (ix+$14),a                ; 030792 DD 77 14
-    pop hl                       ; 030795 E1
-    ret                          ; 030796 C9
+-:  ld (ix+$0d),a
+    push hl
+    ld c,(ix+$0d)
+    ld b,$00
+    add hl,bc
+    ld c,l
+    ld b,h
+    pop hl
+    ld a,(bc)
+    bit 7,a
+    jp z,$879e
+    cp $83
+    jr z,+
+    cp $80
+    jr z,++
+    ld a,$ff
+    ld (ix+$14),a
+    pop hl
+    ret
 
-+:  inc bc                       ; 030797 03
-    ld a,(bc)                    ; 030798 0A
-    jr -                         ; 030799 18 DA
-++: xor a                        ; 03079B AF
-    jr -                         ; 03079C 18 D7
-    inc (ix+$0d)                 ; 03079E DD 34 0D
-    ld l,a                       ; 0307A1 6F
-    ld h,$00                     ; 0307A2 26 00
-    add hl,de                    ; 0307A4 19
-    ld a,($c000)                 ; 0307A5 3A 00 C0
-    or a                         ; 0307A8 B7
-    jr z,+                       ; 0307A9 28 0A
-    ld a,h                       ; 0307AB 7C
-    cp (ix+$10)                  ; 0307AC DD BE 10
-    jr z,+                       ; 0307AF 28 04
-    set 1,(ix+$07)               ; 0307B1 DD CB 07 CE
-+:  ld (ix+$10),a                ; 0307B5 DD 77 10
-    ret                          ; 0307B8 C9
-    ld e,(ix+$03)                ; 0307B9 DD 5E 03
-    ld d,(ix+$04)                ; 0307BC DD 56 04
-    ld a,(de)                    ; 0307BF 1A
-    inc de                       ; 0307C0 13
-    cp $e0                       ; 0307C1 FE E0
-    jp nc,$88ab                  ; 0307C3 D2 AB 88
-    bit 3,(ix+$00)               ; 0307C6 DD CB 00 5E
-    jp nz,$8834                  ; 0307CA C2 34 88
-    cp $80                       ; 0307CD FE 80
-    jp c,$880b                   ; 0307CF DA 0B 88
++:  inc bc
+    ld a,(bc)
+    jr -
+++: xor a
+    jr -
+    inc (ix+$0d)
+    ld l,a
+    ld h,$00
+    add hl,de
+    ld a,($c000)
+    or a
+    jr z,+
+    ld a,h
+    cp (ix+$10)
+    jr z,+
+    set 1,(ix+$07)
++:  ld (ix+$10),a
+    ret
+    ld e,(ix+$03)
+    ld d,(ix+$04)
+    ld a,(de)
+    inc de
+    cp $e0
+    jp nc,$88ab
+    bit 3,(ix+$00)
+    jp nz,$8834
+    cp $80
+    jp c,$880b
     jr nz,+                      ; 0307D2 20 00        ; does nothing
-+:  call $8894                   ; 0307D4 CD 94 88
-    ld a,(hl)                    ; 0307D7 7E
-    ld (ix+$0e),a                ; 0307D8 DD 77 0E
-    inc hl                       ; 0307DB 23
-    ld a,(hl)                    ; 0307DC 7E
-    ld (ix+$0f),a                ; 0307DD DD 77 0F
-    bit 5,(ix+$00)               ; 0307E0 DD CB 00 6E
-    jp z,$87fd                   ; 0307E4 CA FD 87
-    ld a,(de)                    ; 0307E7 1A
-    inc de                       ; 0307E8 13
-    ld (ix+$12),a                ; 0307E9 DD 77 12
-    ld (ix+$11),a                ; 0307EC DD 77 11
-    bit 3,(ix+$00)               ; 0307EF DD CB 00 5E
-    ld a,(de)                    ; 0307F3 1A
-    jr nz,+                      ; 0307F4 20 14
-    ld (ix+$11),a                ; 0307F6 DD 77 11
-    inc de                       ; 0307F9 13
-    ld a,(de)                    ; 0307FA 1A
-    jr +                         ; 0307FB 18 0D
-    ld a,(de)                    ; 0307FD 1A
-    or a                         ; 0307FE B7
-    jp p,$880a                   ; 0307FF F2 0A 88
-    ld a,(ix+$15)                ; 030802 DD 7E 15
-    ld (ix+$0a),a                ; 030805 DD 77 0A
-    jr ++                        ; 030808 18 11
-+:  inc de                       ; 03080A 13
-    ld b,(ix+$02)                ; 03080B DD 46 02
-    dec b                        ; 03080E 05
-    jr z,+                       ; 03080F 28 04
-    ld c,a                       ; 030811 4F
--:  add a,c                      ; 030812 81
-    djnz -                       ; 030813 10 FD
-+:  ld (ix+$0a),a                ; 030815 DD 77 0A
-    ld (ix+$15),a                ; 030818 DD 77 15
-++: xor a                        ; 03081B AF
-    ld (ix+$0c),a                ; 03081C DD 77 0C
-    ld (ix+$0d),a                ; 03081F DD 77 0D
-    ld (ix+$0b),a                ; 030822 DD 77 0B
-    ld (ix+$13),a                ; 030825 DD 77 13
-    ld (ix+$14),a                ; 030828 DD 77 14
-    ld (ix+$03),e                ; 03082B DD 73 03
-    ld (ix+$04),d                ; 03082E DD 72 04
-    ld a,$80                     ; 030831 3E 80
-    ret                          ; 030833 C9
-    ld h,a                       ; 030834 67
-    ld a,(de)                    ; 030835 1A
-    inc de                       ; 030836 13
-    ld l,a                       ; 030837 6F
-    ld a,(ix+$05)                ; 030838 DD 7E 05
-    or a                         ; 03083B B7
-    jr z,+                       ; 03083C 28 0E
-    jp p,$8847                   ; 03083E F2 47 88
-    add a,l                      ; 030841 85
-    jr c,++                      ; 030842 38 07
-    dec h                        ; 030844 25
-    jr ++                        ; 030845 18 04
-    add a,l                      ; 030847 85
-    jr nc,++                     ; 030848 30 01
-    inc h                        ; 03084A 24
-++: ld l,a                       ; 03084B 6F
-+:  ld (ix+$0e),l                ; 03084C DD 75 0E
-    ld (ix+$0f),h                ; 03084F DD 74 0F
-    jp $87e0                     ; 030852 C3 E0 87
-    push de                      ; 030855 D5
++:  call $8894
+    ld a,(hl)
+    ld (ix+$0e),a
+    inc hl
+    ld a,(hl)
+    ld (ix+$0f),a
+    bit 5,(ix+$00)
+    jp z,$87fd
+    ld a,(de)
+    inc de
+    ld (ix+$12),a
+    ld (ix+$11),a
+    bit 3,(ix+$00)
+    ld a,(de)
+    jr nz,+
+    ld (ix+$11),a
+    inc de
+    ld a,(de)
+    jr +
+    ld a,(de)
+    or a
+    jp p,$880a
+    ld a,(ix+$15)
+    ld (ix+$0a),a
+    jr ++
++:  inc de
+    ld b,(ix+$02)
+    dec b
+    jr z,+
+    ld c,a
+-:  add a,c
+    djnz -
++:  ld (ix+$0a),a
+    ld (ix+$15),a
+++: xor a
+    ld (ix+$0c),a
+    ld (ix+$0d),a
+    ld (ix+$0b),a
+    ld (ix+$13),a
+    ld (ix+$14),a
+    ld (ix+$03),e
+    ld (ix+$04),d
+    ld a,$80
+    ret
+    ld h,a
+    ld a,(de)
+    inc de
+    ld l,a
+    ld a,(ix+$05)
+    or a
+    jr z,+
+    jp p,$8847
+    add a,l
+    jr c,++
+    dec h
+    jr ++
+    add a,l
+    jr nc,++
+    inc h
+++: ld l,a
++:  ld (ix+$0e),l
+    ld (ix+$0f),h
+    jp $87e0
+    push de
 _0856:
-    ld a,h                       ; 030856 7C
-    or a                         ; 030857 B7
-    jr z,+                       ; 030858 28 0E
-    cp $02                       ; 03085A FE 02
-    ld a,$12                     ; 03085C 3E 12
-    jr c,++                      ; 03085E 38 21
-    srl h                        ; 030860 CB 3C
-    rr l                         ; 030862 CB 1D
-    ld a,$10                     ; 030864 3E 10
-    jr ++                        ; 030866 18 19
-+:  ld a,l                       ; 030868 7D
-    or a                         ; 030869 B7
-    jp z,$8892                   ; 03086A CA 92 88
-    ld bc,$0400                  ; 03086D 01 00 04
--:  rlca                         ; 030870 07
-    inc c                        ; 030871 0C
-    jr c,+                       ; 030872 38 02
-    djnz -                       ; 030874 10 FA
-+:  ld b,c                       ; 030876 41
-    ld a,$12                     ; 030877 3E 12
--:  inc a                        ; 030879 3C
-    inc a                        ; 03087A 3C
-    sla l                        ; 03087B CB 25
-    rl h                         ; 03087D CB 14
-    djnz -                       ; 03087F 10 F8
-++: ld de,$0757                  ; 030881 11 57 07
-    ex de,hl                     ; 030884 EB
-    or a                         ; 030885 B7
-    sbc hl,de                    ; 030886 ED 52
-    bit 1,h                      ; 030888 CB 4C
-    jr z,+                       ; 03088A 28 02
-    set 0,h                      ; 03088C CB C4
-+:  ld d,a                       ; 03088E 57
-    ld e,$00                     ; 03088F 1E 00
-    add hl,de                    ; 030891 19
-    pop de                       ; 030892 D1
-    ret                          ; 030893 C9
-    sub $80                      ; 030894 D6 80
-    jr z,+                       ; 030896 28 03
-    add a,(ix+$05)               ; 030898 DD 86 05
-+:  ld hl,$8cdb                  ; 03089B 21 DB 8C
-    ex af,af'                    ; 03089E 08
-    jr z,+                       ; 03089F 28 03
-    ld hl,$8d6d                  ; 0308A1 21 6D 8D
-+:  ex af,af'                    ; 0308A4 08
-    ld c,a                       ; 0308A5 4F
-    ld b,$00                     ; 0308A6 06 00
-    add hl,bc                    ; 0308A8 09
-    add hl,bc                    ; 0308A9 09
-    ret                          ; 0308AA C9
-    ld hl,$88be                  ; 0308AB 21 BE 88
-    push hl                      ; 0308AE E5
-    sub $ee                      ; 0308AF D6 EE
-    ld hl,$88c2                  ; 0308B1 21 C2 88
-    add a,a                      ; 0308B4 87
-    ld c,a                       ; 0308B5 4F
-    ld b,$00                     ; 0308B6 06 00
-    add hl,bc                    ; 0308B8 09
-    ld c,(hl)                    ; 0308B9 4E
-    inc hl                       ; 0308BA 23
-    ld h,(hl)                    ; 0308BB 66
-    ld l,c                       ; 0308BC 69
-    jp (hl)                      ; 0308BD E9
-    inc de                       ; 0308BE 13
-    jp $87bf                     ; 0308BF C3 BF 87
-    ret p                        ; 0308C2 F0
-    adc a,b                      ; 0308C3 88
-    ld hl,$3989                  ; 0308C4 21 89 39
-    adc a,c                      ; 0308C7 89
-    and $88                      ; 0308C8 E6 88
-    jr c,_0856                   ; 0308CA 38 8A
-    ld (hl),a                    ; 0308CC 77
-    adc a,c                      ; 0308CD 89
-    xor c                        ; 0308CE A9
-    adc a,c                      ; 0308CF 89
-    adc a,e                      ; 0308D0 8B
-    adc a,c                      ; 0308D1 89
-    add a,$89                    ; 0308D2 C6 89
-    inc e                        ; 0308D4 1C
-    adc a,e                      ; 0308D5 8B
-    xor $8a                      ; 0308D6 EE 8A
-    add hl,bc                    ; 0308D8 09
-    adc a,e                      ; 0308D9 8B
-    ld h,c                       ; 0308DA 61
-    adc a,c                      ; 0308DB 89
-    ld d,b                       ; 0308DC 50
-    adc a,c                      ; 0308DD 89
-    call z,$2989                 ; 0308DE CC 89 29
-    adc a,d                      ; 0308E1 8A
-    inc e                        ; 0308E2 1C
-    adc a,c                      ; 0308E3 89
-    ret m                        ; 0308E4 F8
-    adc a,b                      ; 0308E5 88
-    ld a,(de)                    ; 0308E6 1A
-    ld ($c009),a                 ; 0308E7 32 09 C0
-    ld ($c00b),a                 ; 0308EA 32 0B C0
-    jp $8257                     ; 0308ED C3 57 82
-    ld a,(de)                    ; 0308F0 1A
-    add a,(ix+$02)               ; 0308F1 DD 86 02
-    ld (ix+$02),a                ; 0308F4 DD 77 02
-    ret                          ; 0308F7 C9
-    ld a,(ix+$01)                ; 0308F8 DD 7E 01
-    add a,$10                    ; 0308FB C6 10
-    out ($f0),a                  ; 0308FD D3 F0
-    call $8b34                   ; 0308FF CD 34 8B
-    xor a                        ; 030902 AF
-    out ($f1),a                  ; 030903 D3 F1
-    call $8b34                   ; 030905 CD 34 8B
-    ld h,d                       ; 030908 62
-    ld l,e                       ; 030909 6B
-    ld b,$08                     ; 03090A 06 08
-    ld c,$f1                     ; 03090C 0E F1
--:  out ($f0),a                  ; 03090E D3 F0
-    inc a                        ; 030910 3C
-    call $8b34                   ; 030911 CD 34 8B
-    outi                         ; 030914 ED A3
-    jr nz,-                      ; 030916 20 F6
-    ld d,h                       ; 030918 54
-    ld e,l                       ; 030919 5D
-    dec de                       ; 03091A 1B
-    ret                          ; 03091B C9
-    ld a,($c000)                 ; 03091C 3A 00 C0
-    or a                         ; 03091F B7
-    ret z                        ; 030920 C8
-    ld a,($c00a)                 ; 030921 3A 0A C0
-    or a                         ; 030924 B7
-    jp m,$892f                   ; 030925 FA 2F 89
-    ld a,(de)                    ; 030928 1A
-    add a,(ix+$08)               ; 030929 DD 86 08
-    jp $8966                     ; 03092C C3 66 89
-    ld a,(de)                    ; 03092F 1A
-    add a,(ix+$17)               ; 030930 DD 86 17
-    and $0f                      ; 030933 E6 0F
-    ld (ix+$17),a                ; 030935 DD 77 17
-    ret                          ; 030938 C9
-    ld a,(de)                    ; 030939 1A
-    cp $01                       ; 03093A FE 01
-    jr z,+                       ; 03093C 28 09
-    res 0,(ix+$07)               ; 03093E DD CB 07 86
-    res 1,(ix+$07)               ; 030942 DD CB 07 8E
-    ret                          ; 030946 C9
+    ld a,h
+    or a
+    jr z,+
+    cp $02
+    ld a,$12
+    jr c,++
+    srl h
+    rr l
+    ld a,$10
+    jr ++
++:  ld a,l
+    or a
+    jp z,$8892
+    ld bc,$0400
+-:  rlca
+    inc c
+    jr c,+
+    djnz -
++:  ld b,c
+    ld a,$12
+-:  inc a
+    inc a
+    sla l
+    rl h
+    djnz -
+++: ld de,$0757
+    ex de,hl
+    or a
+    sbc hl,de
+    bit 1,h
+    jr z,+
+    set 0,h
++:  ld d,a
+    ld e,$00
+    add hl,de
+    pop de
+    ret
+    sub $80
+    jr z,+
+    add a,(ix+$05)
++:  ld hl,$8cdb
+    ex af,af'
+    jr z,+
+    ld hl,$8d6d
++:  ex af,af'
+    ld c,a
+    ld b,$00
+    add hl,bc
+    add hl,bc
+    ret
+    ld hl,$88be
+    push hl
+    sub $ee
+    ld hl,$88c2
+    add a,a
+    ld c,a
+    ld b,$00
+    add hl,bc
+    ld c,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,c
+    jp (hl)
+    inc de
+    jp $87bf
+    ret p
+    adc a,b
+    ld hl,$3989
+    adc a,c
+    and $88
+    jr c,_0856
+    ld (hl),a
+    adc a,c
+    xor c
+    adc a,c
+    adc a,e
+    adc a,c
+    add a,$89
+    inc e
+    adc a,e
+    xor $8a
+    add hl,bc
+    adc a,e
+    ld h,c
+    adc a,c
+    ld d,b
+    adc a,c
+    call z,$2989
+    adc a,d
+    inc e
+    adc a,c
+    ret m
+    adc a,b
+    ld a,(de)
+    ld ($c009),a
+    ld ($c00b),a
+    jp $8257
+    ld a,(de)
+    add a,(ix+$02)
+    ld (ix+$02),a
+    ret
+    ld a,(ix+$01)
+    add a,$10
+    out ($f0),a
+    call $8b34
+    xor a
+    out ($f1),a
+    call $8b34
+    ld h,d
+    ld l,e
+    ld b,$08
+    ld c,$f1
+-:  out ($f0),a
+    inc a
+    call $8b34
+    outi
+    jr nz,-
+    ld d,h
+    ld e,l
+    dec de
+    ret
+    ld a,($c000)
+    or a
+    ret z
+    ld a,($c00a)
+    or a
+    jp m,$892f
+    ld a,(de)
+    add a,(ix+$08)
+    jp $8966
+    ld a,(de)
+    add a,(ix+$17)
+    and $0f
+    ld (ix+$17),a
+    ret
+    ld a,(de)
+    cp $01
+    jr z,+
+    res 0,(ix+$07)
+    res 1,(ix+$07)
+    ret
 
-+:  set 0,(ix+$07)               ; 030947 DD CB 07 C6
-    set 1,(ix+$07)               ; 03094B DD CB 07 CE
-    ret                          ; 03094F C9
-    ex af,af'                    ; 030950 08
-    jr nz,+                      ; 030951 20 05
-    ex af,af'                    ; 030953 08
-    ld a,(de)                    ; 030954 1A
-    inc de                       ; 030955 13
-    jr ++                        ; 030956 18 02
-+:  inc de                       ; 030958 13
-    ld a,(de)                    ; 030959 1A
-++: add a,(ix+$05)               ; 03095A DD 86 05
-    ld (ix+$05),a                ; 03095D DD 77 05
-    ret                          ; 030960 C9
-    ld a,(de)                    ; 030961 1A
-    ld (ix+$02),a                ; 030962 DD 77 02
-    ret                          ; 030965 C9
-    and $0f                      ; 030966 E6 0F
-    ld (ix+$08),a                ; 030968 DD 77 08
-    ex af,af'                    ; 03096B 08
-    jp nz,$8973                  ; 03096C C2 73 89
-    ex af,af'                    ; 03096F 08
-    jp $8cce                     ; 030970 C3 CE 8C
-    ex af,af'                    ; 030973 08
-    jp $8748                     ; 030974 C3 48 87
-    ld a,(de)                    ; 030977 1A
-    or $e0                       ; 030978 F6 E0
-    out ($7f),a                  ; 03097A D3 7F
-    or $fc                       ; 03097C F6 FC
-    inc a                        ; 03097E 3C
-    jr nz,+                      ; 03097F 20 05
-    res 6,(ix+$00)               ; 030981 DD CB 00 B6
-    ret                          ; 030985 C9
++:  set 0,(ix+$07)
+    set 1,(ix+$07)
+    ret
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(de)
+    inc de
+    jr ++
++:  inc de
+    ld a,(de)
+++: add a,(ix+$05)
+    ld (ix+$05),a
+    ret
+    ld a,(de)
+    ld (ix+$02),a
+    ret
+    and $0f
+    ld (ix+$08),a
+    ex af,af'
+    jp nz,$8973
+    ex af,af'
+    jp $8cce
+    ex af,af'
+    jp $8748
+    ld a,(de)
+    or $e0
+    out ($7f),a
+    or $fc
+    inc a
+    jr nz,+
+    res 6,(ix+$00)
+    ret
 
-+:  set 6,(ix+$00)               ; 030986 DD CB 00 F6
-    ret                          ; 03098A C9
++:  set 6,(ix+$00)
+    ret
 
-    ex af,af'                    ; 03098B 08
-    jr nz,+                      ; 03098C 20 0A
-    ex af,af'                    ; 03098E 08
-    ld a,(de)                    ; 03098F 1A
-    inc de                       ; 030990 13
-    cp $80                       ; 030991 FE 80
-    ret z                        ; 030993 C8
-    ld (ix+$07),a                ; 030994 DD 77 07
-    ret                          ; 030997 C9
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(de)
+    inc de
+    cp $80
+    ret z
+    ld (ix+$07),a
+    ret
 
-+:  ex af,af'                    ; 030998 08
-    inc de                       ; 030999 13
-    ld a,(de)                    ; 03099A 1A
-    cp $04                       ; 03099B FE 04
-    ret z                        ; 03099D C8
-    ld (ix+$07),a                ; 03099E DD 77 07
-    ld a,($c00a)                 ; 0309A1 3A 0A C0
-    or a                         ; 0309A4 B7
-    ret nz                       ; 0309A5 C0
-    jp $8748                     ; 0309A6 C3 48 87
-    ld a,(de)                    ; 0309A9 1A
-    ld (ix+$06),a                ; 0309AA DD 77 06
-    ret                          ; 0309AD C9
-    ld b,$00                     ; 0309AE 06 00
-    ld c,$1c                     ; 0309B0 0E 1C
-    push ix                      ; 0309B2 DD E5
-    pop hl                       ; 0309B4 E1
-    add hl,bc                    ; 0309B5 09
-    ld a,(hl)                    ; 0309B6 7E
-    or a                         ; 0309B7 B7
-    jr nz,+                      ; 0309B8 20 06
-    ld a,(de)                    ; 0309BA 1A
-    dec a                        ; 0309BB 3D
-    ld (hl),a                    ; 0309BC 77
-    inc de                       ; 0309BD 13
-    inc de                       ; 0309BE 13
-    ret                          ; 0309BF C9
++:  ex af,af'
+    inc de
+    ld a,(de)
+    cp $04
+    ret z
+    ld (ix+$07),a
+    ld a,($c00a)
+    or a
+    ret nz
+    jp $8748
+    ld a,(de)
+    ld (ix+$06),a
+    ret
+    ld b,$00
+    ld c,$1c
+    push ix
+    pop hl
+    add hl,bc
+    ld a,(hl)
+    or a
+    jr nz,+
+    ld a,(de)
+    dec a
+    ld (hl),a
+    inc de
+    inc de
+    ret
 
-+:  inc de                       ; 0309C0 13
-    dec (hl)                     ; 0309C1 35
-    jr z,+                       ; 0309C2 28 02
-    inc de                       ; 0309C4 13
-    ret                          ; 0309C5 C9
++:  inc de
+    dec (hl)
+    jr z,+
+    inc de
+    ret
 
-+:  ex de,hl                     ; 0309C6 EB
-    ld e,(hl)                    ; 0309C7 5E
-    inc hl                       ; 0309C8 23
-    ld d,(hl)                    ; 0309C9 56
-    dec de                       ; 0309CA 1B
-    ret                          ; 0309CB C9
-    ld a,(de)                    ; 0309CC 1A
-    cp $01                       ; 0309CD FE 01
-    jr nz,++                     ; 0309CF 20 2E
-    set 5,(ix+$00)               ; 0309D1 DD CB 00 EE
-    ld a,(ix+$01)                ; 0309D5 DD 7E 01
-    ex af,af'                    ; 0309D8 08
-    jr nz,+                      ; 0309D9 20 0D
-    ex af,af'                    ; 0309DB 08
-    ld a,(ix+$08)                ; 0309DC DD 7E 08
-    or a                         ; 0309DF B7
-    ret z                        ; 0309E0 C8
-    dec (ix+$08)                 ; 0309E1 DD 35 08
-    dec (ix+$08)                 ; 0309E4 DD 35 08
-    ret                          ; 0309E7 C9
++:  ex de,hl
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    dec de
+    ret
+    ld a,(de)
+    cp $01
+    jr nz,++
+    set 5,(ix+$00)
+    ld a,(ix+$01)
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(ix+$08)
+    or a
+    ret z
+    dec (ix+$08)
+    dec (ix+$08)
+    ret
 
-+:  ex af,af'                    ; 0309E8 08
-    cp $13                       ; 0309E9 FE 13
-    ret nc                       ; 0309EB D0
-    dec (ix+$08)                 ; 0309EC DD 35 08
-    dec (ix+$08)                 ; 0309EF DD 35 08
-    ld a,(ix+$07)                ; 0309F2 DD 7E 07
-    ld (ix+$16),a                ; 0309F5 DD 77 16
-    ld (ix+$07),$53              ; 0309F8 DD 36 07 53
-    jp $8748                     ; 0309FC C3 48 87
++:  ex af,af'
+    cp $13
+    ret nc
+    dec (ix+$08)
+    dec (ix+$08)
+    ld a,(ix+$07)
+    ld (ix+$16),a
+    ld (ix+$07),$53
+    jp $8748
 
 ++:
-    res 5,(ix+$00)               ; 0309FF DD CB 00 AE
-    ld a,(ix+$01)                ; 030A03 DD 7E 01
-    ex af,af'                    ; 030A06 08
-    jr nz,+                      ; 030A07 20 0D
-    ex af,af'                    ; 030A09 08
-    ld a,(ix+$08)                ; 030A0A DD 7E 08
-    or a                         ; 030A0D B7
-    ret z                        ; 030A0E C8
-    inc (ix+$08)                 ; 030A0F DD 34 08
-    inc (ix+$08)                 ; 030A12 DD 34 08
-    ret                          ; 030A15 C9
+    res 5,(ix+$00)
+    ld a,(ix+$01)
+    ex af,af'
+    jr nz,+
+    ex af,af'
+    ld a,(ix+$08)
+    or a
+    ret z
+    inc (ix+$08)
+    inc (ix+$08)
+    ret
 
 +:
-    ex af,af'                    ; 030A16 08
-    cp $13                       ; 030A17 FE 13
-    ret nc                       ; 030A19 D0
-    inc (ix+$08)                 ; 030A1A DD 34 08
-    inc (ix+$08)                 ; 030A1D DD 34 08
-    ld a,(ix+$16)                ; 030A20 DD 7E 16
-    ld (ix+$07),a                ; 030A23 DD 77 07
-    jp $8748                     ; 030A26 C3 48 87
-    ld a,(de)                    ; 030A29 1A
-    cp $01                       ; 030A2A FE 01
-    jr nz,+                      ; 030A2C 20 05
-    set 3,(ix+$00)               ; 030A2E DD CB 00 DE
-    ret                          ; 030A32 C9
+    ex af,af'
+    cp $13
+    ret nc
+    inc (ix+$08)
+    inc (ix+$08)
+    ld a,(ix+$16)
+    ld (ix+$07),a
+    jp $8748
+    ld a,(de)
+    cp $01
+    jr nz,+
+    set 3,(ix+$00)
+    ret
 
-+:  res 3,(ix+$00)               ; 030A33 DD CB 00 9E
-    ret                          ; 030A37 C9
-    ld hl,$c12e                  ; 030A38 21 2E C1
-    res 2,(hl)                   ; 030A3B CB 96
-    xor a                        ; 030A3D AF
-    ld ($c008),a                 ; 030A3E 32 08 C0
-    ld (ix+$00),a                ; 030A41 DD 77 00
-    ex af,af'                    ; 030A44 08
-    jp nz,$8a9d                  ; 030A45 C2 9D 8A
-    ex af,af'                    ; 030A48 08
-    ld a,(ix+$01)                ; 030A49 DD 7E 01
-    add a,$1f                    ; 030A4C C6 1F
-    out ($7f),a                  ; 030A4E D3 7F
-    ld a,$e5                     ; 030A50 3E E5
-    out ($7f),a                  ; 030A52 D3 7F
-    ld a,($c08e)                 ; 030A54 3A 8E C0
-    and $80                      ; 030A57 E6 80
-    jr z,+                       ; 030A59 28 12
-    ld hl,$c09c                  ; 030A5B 21 9C C0
-    ld a,(hl)                    ; 030A5E 7E
-    inc hl                       ; 030A5F 23
-    ld h,(hl)                    ; 030A60 66
-    ld l,a                       ; 030A61 6F
-    ld a,($c08f)                 ; 030A62 3A 8F C0
-    call $8c79                   ; 030A65 CD 79 8C
-    ld hl,$c08e                  ; 030A68 21 8E C0
-    res 2,(hl)                   ; 030A6B CB 96
++:  res 3,(ix+$00)
+    ret
+    ld hl,_RAM_c12e_
+    res 2,(hl)
+    xor a
+    ld ($c008),a
+    ld (ix+$00),a
+    ex af,af'
+    jp nz,$8a9d
+    ex af,af'
+    ld a,(ix+$01)
+    add a,$1f
+    out ($7f),a
+    ld a,$e5
+    out ($7f),a
+    ld a,($c08e)
+    and $80
+    jr z,+
+    ld hl,_RAM_c09c_
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,($c08f)
+    call $8c79
+    ld hl,_RAM_c08e_
+    res 2,(hl)
 
-+:  ld hl,$c18e                  ; 030A6D 21 8E C1
-    res 2,(hl)                   ; 030A70 CB 96
-    ld hl,$c1ce                  ; 030A72 21 CE C1
-    res 2,(hl)                   ; 030A75 CB 96
-    ld hl,$c0ce                  ; 030A77 21 CE C0
-    res 2,(hl)                   ; 030A7A CB 96
-    ld a,($c0ae)                 ; 030A7C 3A AE C0
-    and $80                      ; 030A7F E6 80
-    jr z,+                       ; 030A81 28 12
-    ld hl,$c0bc                  ; 030A83 21 BC C0
-    ld a,(hl)                    ; 030A86 7E
-    inc hl                       ; 030A87 23
-    ld h,(hl)                    ; 030A88 66
-    ld l,a                       ; 030A89 6F
-    ld a,($c0af)                 ; 030A8A 3A AF C0
-    call $8c79                   ; 030A8D CD 79 8C
-    ld hl,$c0ae                  ; 030A90 21 AE C0
-    res 2,(hl)                   ; 030A93 CB 96
-+:  ld hl,$c1ae                  ; 030A95 21 AE C1
-    res 2,(hl)                   ; 030A98 CB 96
-    pop hl                       ; 030A9A E1
-    pop hl                       ; 030A9B E1
-    ret                          ; 030A9C C9
-    ex af,af'                    ; 030A9D 08
-    ld a,(ix+$01)                ; 030A9E DD 7E 01
-    push af                      ; 030AA1 F5
-    add a,$10                    ; 030AA2 C6 10
-    out ($f0),a                  ; 030AA4 D3 F0
-    call $8b34                   ; 030AA6 CD 34 8B
-    xor a                        ; 030AA9 AF
-    out ($f1),a                  ; 030AAA D3 F1
-    pop af                       ; 030AAC F1
-    cp $15                       ; 030AAD FE 15
-    jr z,+                       ; 030AAF 28 15
-    call $8b34                   ; 030AB1 CD 34 8B
-    ld hl,$c08e                  ; 030AB4 21 8E C0
-    res 2,(hl)                   ; 030AB7 CB 96
-    ld a,$34                     ; 030AB9 3E 34
-    out ($f0),a                  ; 030ABB D3 F0
-    ld hl,$c095                  ; 030ABD 21 95 C0
-    call $8ae2                   ; 030AC0 CD E2 8A
-    jp $8a9a                     ; 030AC3 C3 9A 8A
-+:  ld hl,$c0ae                  ; 030AC6 21 AE C0
-    res 2,(hl)                   ; 030AC9 CB 96
-    ld a,($c12e)                 ; 030ACB 3A 2E C1
-    or a                         ; 030ACE B7
-    ld hl,$c0b5                  ; 030ACF 21 B5 C0
-    jp p,$8ad8                   ; 030AD2 F2 D8 8A
-    ld hl,$c135                  ; 030AD5 21 35 C1
-    ld a,$35                     ; 030AD8 3E 35
-    out ($f0),a                  ; 030ADA D3 F0
-    call $8ae2                   ; 030ADC CD E2 8A
-    jp $8a9a                     ; 030ADF C3 9A 8A
-    ld a,(hl)                    ; 030AE2 7E
-    and $f0                      ; 030AE3 E6 F0
-    ld c,a                       ; 030AE5 4F
-    inc hl                       ; 030AE6 23
-    ld a,(hl)                    ; 030AE7 7E
-    and $0f                      ; 030AE8 E6 0F
-    or c                         ; 030AEA B1
-    out ($f1),a                  ; 030AEB D3 F1
-    ret                          ; 030AED C9
-    ld a,(de)                    ; 030AEE 1A
-    ld c,a                       ; 030AEF 4F
-    inc de                       ; 030AF0 13
-    ld a,(de)                    ; 030AF1 1A
-    ld b,a                       ; 030AF2 47
-    push bc                      ; 030AF3 C5
-    push ix                      ; 030AF4 DD E5
-    pop hl                       ; 030AF6 E1
-    dec (ix+$09)                 ; 030AF7 DD 35 09
-    ld c,(ix+$09)                ; 030AFA DD 4E 09
-    dec (ix+$09)                 ; 030AFD DD 35 09
-    ld b,$00                     ; 030B00 06 00
-    add hl,bc                    ; 030B02 09
-    ld (hl),d                    ; 030B03 72
-    dec hl                       ; 030B04 2B
-    ld (hl),e                    ; 030B05 73
-    pop de                       ; 030B06 D1
-    dec de                       ; 030B07 1B
-    ret                          ; 030B08 C9
-    push ix                      ; 030B09 DD E5
-    pop hl                       ; 030B0B E1
-    ld c,(ix+$09)                ; 030B0C DD 4E 09
-    ld b,$00                     ; 030B0F 06 00
-    add hl,bc                    ; 030B11 09
-    ld e,(hl)                    ; 030B12 5E
-    inc hl                       ; 030B13 23
-    ld d,(hl)                    ; 030B14 56
-    inc (ix+$09)                 ; 030B15 DD 34 09
-    inc (ix+$09)                 ; 030B18 DD 34 09
-    ret                          ; 030B1B C9
-    ld a,(de)                    ; 030B1C 1A
-    inc de                       ; 030B1D 13
-    add a,$18                    ; 030B1E C6 18
-    ld c,a                       ; 030B20 4F
-    ld b,$00                     ; 030B21 06 00
-    push ix                      ; 030B23 DD E5
-    pop hl                       ; 030B25 E1
-    add hl,bc                    ; 030B26 09
-    ld a,(hl)                    ; 030B27 7E
-    or a                         ; 030B28 B7
-    jr nz,+                      ; 030B29 20 02
-    ld a,(de)                    ; 030B2B 1A
-    ld (hl),a                    ; 030B2C 77
-+:  inc de                       ; 030B2D 13
-    dec (hl)                     ; 030B2E 35
-    jp nz,$89c6                  ; 030B2F C2 C6 89
-    inc de                       ; 030B32 13
-    ret                          ; 030B33 C9
++:  ld hl,_RAM_c18e_
+    res 2,(hl)
+    ld hl,_RAM_c1ce_
+    res 2,(hl)
+    ld hl,_RAM_c0ce_
+    res 2,(hl)
+    ld a,($c0ae)
+    and $80
+    jr z,+
+    ld hl,_RAM_c0bc_
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld a,($c0af)
+    call $8c79
+    ld hl,_RAM_c0ae_
+    res 2,(hl)
++:  ld hl,_RAM_c1ae_
+    res 2,(hl)
+    pop hl
+    pop hl
+    ret
+    ex af,af'
+    ld a,(ix+$01)
+    push af
+    add a,$10
+    out ($f0),a
+    call $8b34
+    xor a
+    out ($f1),a
+    pop af
+    cp $15
+    jr z,+
+    call $8b34
+    ld hl,_RAM_c08e_
+    res 2,(hl)
+    ld a,$34
+    out ($f0),a
+    ld hl,_RAM_c095_
+    call $8ae2
+    jp $8a9a
++:  ld hl,_RAM_c0ae_
+    res 2,(hl)
+    ld a,($c12e)
+    or a
+    ld hl,_RAM_c0b5_
+    jp p,$8ad8
+    ld hl,_RAM_c135_
+    ld a,$35
+    out ($f0),a
+    call $8ae2
+    jp $8a9a
+    ld a,(hl)
+    and $f0
+    ld c,a
+    inc hl
+    ld a,(hl)
+    and $0f
+    or c
+    out ($f1),a
+    ret
+    ld a,(de)
+    ld c,a
+    inc de
+    ld a,(de)
+    ld b,a
+    push bc
+    push ix
+    pop hl
+    dec (ix+$09)
+    ld c,(ix+$09)
+    dec (ix+$09)
+    ld b,$00
+    add hl,bc
+    ld (hl),d
+    dec hl
+    ld (hl),e
+    pop de
+    dec de
+    ret
+    push ix
+    pop hl
+    ld c,(ix+$09)
+    ld b,$00
+    add hl,bc
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    inc (ix+$09)
+    inc (ix+$09)
+    ret
+    ld a,(de)
+    inc de
+    add a,$18
+    ld c,a
+    ld b,$00
+    push ix
+    pop hl
+    add hl,bc
+    ld a,(hl)
+    or a
+    jr nz,+
+    ld a,(de)
+    ld (hl),a
++:  inc de
+    dec (hl)
+    jp nz,$89c6
+    inc de
+    ret
 .ends
 
 .org $30b34-$30000
@@ -9455,216 +12629,216 @@ SoundFMDelay:                    ; Delay for use between YM2413 writes
 .ends
 .org $30b37-$30000
 .section "and more sound code" overwrite
-    inc (ix+$0b)                 ; 030B37 DD 34 0B
-    ld a,(ix+$0a)                ; 030B3A DD 7E 0A
-    sub (ix+$0b)                 ; 030B3D DD 96 0B
-    call z,$8b60                 ; 030B40 CC 60 8B
-    bit 2,(ix+$00)               ; 030B43 DD CB 00 56
-    ret nz                       ; 030B47 C0
-    bit 4,(ix+$13)               ; 030B48 DD CB 13 66
-    ret nz                       ; 030B4C C0
-    ld a,(ix+$07)                ; 030B4D DD 7E 07
-    dec a                        ; 030B50 3D
-    ret m                        ; 030B51 F8
-    ld hl,$b766                  ; 030B52 21 66 B7
-    call $876b                   ; 030B55 CD 6B 87
-    call $8c8e                   ; 030B58 CD 8E 8C
-    or $f0                       ; 030B5B F6 F0
-    out ($7f),a                  ; 030B5D D3 7F
-    ret                          ; 030B5F C9
-    ld e,(ix+$03)                ; 030B60 DD 5E 03
-    ld d,(ix+$04)                ; 030B63 DD 56 04
-    ld a,(de)                    ; 030B66 1A
-    inc de                       ; 030B67 13
-    cp $e0                       ; 030B68 FE E0
-    jp nc,$8b8a                  ; 030B6A D2 8A 8B
-    cp $80                       ; 030B6D FE 80
-    jp c,$880b                   ; 030B6F DA 0B 88
-    call $8b94                   ; 030B72 CD 94 8B
-    ld a,(de)                    ; 030B75 1A
-    inc de                       ; 030B76 13
-    cp $80                       ; 030B77 FE 80
-    jp c,$880b                   ; 030B79 DA 0B 88
-    dec de                       ; 030B7C 1B
-    ld a,(ix+$15)                ; 030B7D DD 7E 15
-    ld (ix+$0a),a                ; 030B80 DD 77 0A
-    jp $881b                     ; 030B83 C3 1B 88
-    dec de                       ; 030B86 1B
-    jp $881b                     ; 030B87 C3 1B 88
-    ld hl,$8b90                  ; 030B8A 21 90 8B
-    jp $88ae                     ; 030B8D C3 AE 88
-    inc de                       ; 030B90 13
-    jp $8b66                     ; 030B91 C3 66 8B
-    bit 3,a                      ; 030B94 CB 5F
-    jr nz,+                      ; 030B96 20 19
-    bit 5,a                      ; 030B98 CB 6F
-    jr nz,++                     ; 030B9A 20 1C
-    bit 1,a                      ; 030B9C CB 4F
-    jr nz,++                     ; 030B9E 20 18
-    bit 0,a                      ; 030BA0 CB 47
-    jr nz,+++                    ; 030BA2 20 22
-    bit 2,a                      ; 030BA4 CB 57
-    jr nz,+++                    ; 030BA6 20 1E
-    ld (ix+$07),$00              ; 030BA8 DD 36 07 00
-    ld a,$ff                     ; 030BAC 3E FF
-    out ($7f),a                  ; 030BAE D3 7F
-    ret                          ; 030BB0 C9
+    inc (ix+$0b)
+    ld a,(ix+$0a)
+    sub (ix+$0b)
+    call z,$8b60
+    bit 2,(ix+$00)
+    ret nz
+    bit 4,(ix+$13)
+    ret nz
+    ld a,(ix+$07)
+    dec a
+    ret m
+    ld hl,$b766
+    call $876b
+    call $8c8e
+    or $f0
+    out ($7f),a
+    ret
+    ld e,(ix+$03)
+    ld d,(ix+$04)
+    ld a,(de)
+    inc de
+    cp $e0
+    jp nc,$8b8a
+    cp $80
+    jp c,$880b
+    call $8b94
+    ld a,(de)
+    inc de
+    cp $80
+    jp c,$880b
+    dec de
+    ld a,(ix+$15)
+    ld (ix+$0a),a
+    jp $881b
+    dec de
+    jp $881b
+    ld hl,$8b90
+    jp $88ae
+    inc de
+    jp $8b66
+    bit 3,a
+    jr nz,+
+    bit 5,a
+    jr nz,++
+    bit 1,a
+    jr nz,++
+    bit 0,a
+    jr nz,+++
+    bit 2,a
+    jr nz,+++
+    ld (ix+$07),$00
+    ld a,$ff
+    out ($7f),a
+    ret
 
-+:  ex af,af'                    ; 030BB1 08
-    ld a,$02                     ; 030BB2 3E 02
-    ld b,$04                     ; 030BB4 06 04
-    jr +                         ; 030BB6 18 13
++:  ex af,af'
+    ld a,$02
+    ld b,$04
+    jr +
 
-++: ld c,$04                     ; 030BB8 0E 04
-    bit 0,a                      ; 030BBA CB 47
-    jr nz,++                     ; 030BBC 20 02
-    ld c,$03                     ; 030BBE 0E 03
-++: ex af,af'                    ; 030BC0 08
-    ld a,c                       ; 030BC1 79
-    ld b,$05                     ; 030BC2 06 05
-    jr +                         ; 030BC4 18 05
+++: ld c,$04
+    bit 0,a
+    jr nz,++
+    ld c,$03
+++: ex af,af'
+    ld a,c
+    ld b,$05
+    jr +
 
-+++:ex af,af'                    ; 030BC6 08
-    ld a,$01                     ; 030BC7 3E 01
-    ld b,$06                     ; 030BC9 06 06
-+:  ld (ix+$07),a                ; 030BCB DD 77 07
-    ex af,af'                    ; 030BCE 08
-    bit 2,a                      ; 030BCF CB 57
-    jr z,+                       ; 030BD1 28 02
-    dec b                        ; 030BD3 05
-    dec b                        ; 030BD4 05
-+:  ld (ix+$08),b                ; 030BD5 DD 70 08
-    ret                          ; 030BD8 C9
++++:ex af,af'
+    ld a,$01
+    ld b,$06
++:  ld (ix+$07),a
+    ex af,af'
+    bit 2,a
+    jr z,+
+    dec b
+    dec b
++:  ld (ix+$08),b
+    ret
 
 _8bd9: ; $30bd9, $8bd9
-    inc (ix+$0b)                 ; 030BD9 DD 34 0B
-    ld a,(ix+$0a)                ; 030BDC DD 7E 0A
-    sub (ix+$0b)                 ; 030BDF DD 96 0B
-    call z,$87b9                 ; 030BE2 CC B9 87
-    ld ($c00c),a                 ; 030BE5 32 0C C0
-    cp $80                       ; 030BE8 FE 80
-    jp z,$8c14                   ; 030BEA CA 14 8C
-    bit 5,(ix+$00)               ; 030BED DD CB 00 6E
-    jp z,$8c14                   ; 030BF1 CA 14 8C
-    exx                          ; 030BF4 D9
-    ld (hl),$80                  ; 030BF5 36 80
-    exx                          ; 030BF7 D9
-    ld a,(ix+$12)                ; 030BF8 DD 7E 12
-    bit 7,a                      ; 030BFB CB 7F
-    jr z,+                       ; 030BFD 28 0A
-    add a,(ix+$0e)               ; 030BFF DD 86 0E
-    jr c,++                      ; 030C02 38 0D
-    dec (ix+$0f)                 ; 030C04 DD 35 0F
-    jr ++                        ; 030C07 18 08
-+:  add a,(ix+$0e)               ; 030C09 DD 86 0E
-    jr nc,++                     ; 030C0C 30 03
-    inc (ix+$0f)                 ; 030C0E DD 34 0F
-++: ld (ix+$0e),a                ; 030C11 DD 77 0E
-    bit 2,(ix+$00)               ; 030C14 DD CB 00 56
-    ret nz                       ; 030C18 C0
-    ld a,(ix+$13)                ; 030C19 DD 7E 13
-    cp $1f                       ; 030C1C FE 1F
-    ret z                        ; 030C1E C8
+    inc (ix+$0b)
+    ld a,(ix+$0a)
+    sub (ix+$0b)
+    call z,$87b9
+    ld ($c00c),a
+    cp $80
+    jp z,$8c14
+    bit 5,(ix+$00)
+    jp z,$8c14
+    exx
+    ld (hl),$80
+    exx
+    ld a,(ix+$12)
+    bit 7,a
+    jr z,+
+    add a,(ix+$0e)
+    jr c,++
+    dec (ix+$0f)
+    jr ++
++:  add a,(ix+$0e)
+    jr nc,++
+    inc (ix+$0f)
+++: ld (ix+$0e),a
+    bit 2,(ix+$00)
+    ret nz
+    ld a,(ix+$13)
+    cp $1f
+    ret z
     jr nz,+                      ; 030C1F 20 00       ; does nothing
-+:  ld a,(ix+$13)                ; 030C21 DD 7E 13
-    cp $ff                       ; 030C24 FE FF
-    jp z,$8c40                   ; 030C26 CA 40 8C
-    ld a,(ix+$07)                ; 030C29 DD 7E 07
-    dec a                        ; 030C2C 3D
-    jp m,$8c40                   ; 030C2D FA 40 8C
-    ld hl,$b766                  ; 030C30 21 66 B7
-    call $876b                   ; 030C33 CD 6B 87
-    call $8c8e                   ; 030C36 CD 8E 8C
-    or (ix+$01)                  ; 030C39 DD B6 01
-    add a,$10                    ; 030C3C C6 10
-    out ($7f),a                  ; 030C3E D3 7F
-    ld a,($c00c)                 ; 030C40 3A 0C C0
-    or a                         ; 030C43 B7
-    jp m,$8c54                   ; 030C44 FA 54 8C
-    bit 7,(ix+$14)               ; 030C47 DD CB 14 7E
-    ret nz                       ; 030C4B C0
-    ld a,(ix+$06)                ; 030C4C DD 7E 06
-    dec a                        ; 030C4F 3D
-    jp p,$8c58                   ; 030C50 F2 58 8C
-    ret                          ; 030C53 C9
-    ld a,(ix+$06)                ; 030C54 DD 7E 06
-    dec a                        ; 030C57 3D
-    ld l,(ix+$0e)                ; 030C58 DD 6E 0E
-    ld h,(ix+$0f)                ; 030C5B DD 66 0F
-    jp m,$8c6b                   ; 030C5E FA 6B 8C
-    ex de,hl                     ; 030C61 EB
-    ld hl,$b805                  ; 030C62 21 05 B8
-    call $876b                   ; 030C65 CD 6B 87
-    call $8778                   ; 030C68 CD 78 87
-    bit 6,(ix+$00)               ; 030C6B DD CB 00 76
-    ret nz                       ; 030C6F C0
-    ld a,(ix+$01)                ; 030C70 DD 7E 01
-    cp $e0                       ; 030C73 FE E0
-    jr nz,+                      ; 030C75 20 02
-    ld a,$c0                     ; 030C77 3E C0
-+:  ld c,a                       ; 030C79 4F
-    ld a,l                       ; 030C7A 7D
-    and $0f                      ; 030C7B E6 0F
-    or c                         ; 030C7D B1
-    out ($7f),a                  ; 030C7E D3 7F
-    ld a,l                       ; 030C80 7D
-    and $f0                      ; 030C81 E6 F0
-    or h                         ; 030C83 B4
-    rrca                         ; 030C84 0F
-    rrca                         ; 030C85 0F
-    rrca                         ; 030C86 0F
-    rrca                         ; 030C87 0F
-    out ($7f),a                  ; 030C88 D3 7F
-    ret                          ; 030C8A C9
++:  ld a,(ix+$13)
+    cp $ff
+    jp z,$8c40
+    ld a,(ix+$07)
+    dec a
+    jp m,$8c40
+    ld hl,$b766
+    call $876b
+    call $8c8e
+    or (ix+$01)
+    add a,$10
+    out ($7f),a
+    ld a,($c00c)
+    or a
+    jp m,$8c54
+    bit 7,(ix+$14)
+    ret nz
+    ld a,(ix+$06)
+    dec a
+    jp p,$8c58
+    ret
+    ld a,(ix+$06)
+    dec a
+    ld l,(ix+$0e)
+    ld h,(ix+$0f)
+    jp m,$8c6b
+    ex de,hl
+    ld hl,$b805
+    call $876b
+    call $8778
+    bit 6,(ix+$00)
+    ret nz
+    ld a,(ix+$01)
+    cp $e0
+    jr nz,+
+    ld a,$c0
++:  ld c,a
+    ld a,l
+    and $0f
+    or c
+    out ($7f),a
+    ld a,l
+    and $f0
+    or h
+    rrca
+    rrca
+    rrca
+    rrca
+    out ($7f),a
+    ret
 
--:  ld (ix+$0c),a                ; 030C8B DD 77 0C
-    push hl                      ; 030C8E E5
-    ld c,(ix+$0c)                ; 030C8F DD 4E 0C
-    ld b,$00                     ; 030C92 06 00
-    add hl,bc                    ; 030C94 09
-    ld c,l                       ; 030C95 4D
-    ld b,h                       ; 030C96 44
-    pop hl                       ; 030C97 E1
-    ld a,(bc)                    ; 030C98 0A
-    bit 7,a                      ; 030C99 CB 7F
-    jr z,+                       ; 030C9B 28 25
-    cp $82                       ; 030C9D FE 82
-    jr z,++                      ; 030C9F 28 0C
-    cp $81                       ; 030CA1 FE 81
-    jr z,+++                     ; 030CA3 28 17
-    cp $80                       ; 030CA5 FE 80
-    jr z,++++                    ; 030CA7 28 10
-    inc bc                       ; 030CA9 03
-    ld a,(bc)                    ; 030CAA 0A
-    jr -                         ; 030CAB 18 DE
+-:  ld (ix+$0c),a
+    push hl
+    ld c,(ix+$0c)
+    ld b,$00
+    add hl,bc
+    ld c,l
+    ld b,h
+    pop hl
+    ld a,(bc)
+    bit 7,a
+    jr z,+
+    cp $82
+    jr z,++
+    cp $81
+    jr z,+++
+    cp $80
+    jr z,++++
+    inc bc
+    ld a,(bc)
+    jr -
 
-++: pop hl                       ; 030CAD E1
-    ld a,$1f                     ; 030CAE 3E 1F
-    ld (ix+$13),a                ; 030CB0 DD 77 13
-    add a,(ix+$01)               ; 030CB3 DD 86 01
-    out ($7f),a                  ; 030CB6 D3 7F
-    ret                          ; 030CB8 C9
+++: pop hl
+    ld a,$1f
+    ld (ix+$13),a
+    add a,(ix+$01)
+    out ($7f),a
+    ret
 
 ++++:
-    xor a                        ; 030CB9 AF
-    jr -                         ; 030CBA 18 CF
+    xor a
+    jr -
 
-+++:ld (ix+$13),$ff              ; 030CBC DD 36 13 FF
-    pop hl                       ; 030CC0 E1
-    ret                          ; 030CC1 C9
++++:ld (ix+$13),$ff
+    pop hl
+    ret
 
-+:  inc (ix+$0c)                 ; 030CC2 DD 34 0C
-    add a,(ix+$08)               ; 030CC5 DD 86 08
-    bit 4,a                      ; 030CC8 CB 67
-    ret z                        ; 030CCA C8
-    ld a,$0f                     ; 030CCB 3E 0F
-    ret                          ; 030CCD C9
-    ld a,(ix+$08)                ; 030CCE DD 7E 08
-    and $0f                      ; 030CD1 E6 0F
-    or (ix+$01)                  ; 030CD3 DD B6 01
-    add a,$10                    ; 030CD6 C6 10
-    out ($7f),a                  ; 030CD8 D3 7F
-    ret                          ; 030CDA C9
++:  inc (ix+$0c)
+    add a,(ix+$08)
+    bit 4,a
+    ret z
+    ld a,$0f
+    ret
+    ld a,(ix+$08)
+    and $0f
+    or (ix+$01)
+    add a,$10
+    out ($7f),a
+    ret
 .ends
 .org $30cdb-$30000
 
@@ -9678,103 +12852,180 @@ _8bd9: ; $30bd9, $8bd9
 .orga $8000
 .section "WorldData1" overwrite
 WorldData1:
-.dw $80a2,$80e8,$8118,$8141,$818d,$81dc,$824a,$82d6
-.dw $80a2,$8371,$8404,$84a6,$8548,$85da,$8672,$8718
-.dw $87d5,$8371,$8887,$8906,$89b2,$8a43,$8aee,$8ba8
-.dw $8c2c,$8cda,$8887,$8d57,$8dbd,$8e69,$8f02,$8fb5
-.dw $9049,$90ea,$917b,$8d57,$91c8,$91ff,$9299,$9302
-.dw $93bd,$9453,$94d6,$9595,$91c8,$963c,$968d,$9731
-.dw $97df,$9895,$9934,$99e1,$9a80,$963c,$9add,$9b1d
-.dw $9bd1,$9c93,$9d4f,$9e11,$9ec5,$9f0c,$9add,$9f6c
-.dw $9fb2,$a03d,$a0cb,$a15a,$a1aa,$a204,$a23d,$9f6c
-.dw $80a2,$80e8,$8118,$8141,$818d,$81dc,$824a,$82d6
-.dw $80a2
-; All of this data is wrong! It's not 2-byte interleaved, it's 1, so there should be twice as many.
-.incbin "Tilemaps\340A2tilemap.dat"
-.incbin "Tilemaps\34118tilemap.dat"
-.incbin "Tilemaps\3418Dtilemap.dat"
-.incbin "Tilemaps\3424Atilemap.dat"
-.incbin "Tilemaps\34371tilemap.dat"
-.incbin "Tilemaps\344A6tilemap.dat"
-.incbin "Tilemaps\345DAtilemap.dat"
-.incbin "Tilemaps\34718tilemap.dat"
-.incbin "Tilemaps\34887tilemap.dat"
-.incbin "Tilemaps\349B2tilemap.dat"
-.incbin "Tilemaps\34AEEtilemap.dat"
-.incbin "Tilemaps\34C2Ctilemap.dat"
-.incbin "Tilemaps\34D57tilemap.dat"
-.incbin "Tilemaps\34E69tilemap.dat"
-.incbin "Tilemaps\34FB5tilemap.dat"
-.incbin "Tilemaps\350EAtilemap.dat"
-.incbin "Tilemaps\351C8tilemap.dat"
-.incbin "Tilemaps\35299tilemap.dat"
-.incbin "Tilemaps\353BDtilemap.dat"
-.incbin "Tilemaps\354D6tilemap.dat"
-.incbin "Tilemaps\3563Ctilemap.dat"
-.incbin "Tilemaps\35731tilemap.dat"
-.incbin "Tilemaps\35895tilemap.dat"
-.incbin "Tilemaps\359e1tilemap.dat"
-.incbin "Tilemaps\35ADDtilemap.dat"
-.incbin "Tilemaps\35BD1tilemap.dat"
-.incbin "Tilemaps\35D4Ftilemap.dat"
-.incbin "Tilemaps\35ec5tilemap.dat"
-.incbin "Tilemaps\35F6Ctilemap.dat"
-.incbin "Tilemaps\3603Dtilemap.dat"
-.incbin "Tilemaps\3615Atilemap.dat"
-.incbin "Tilemaps\36204tilemap.dat"
+.dw _d00 _d01 _d02 _d03 _d04 _d05 _d06 _d07 _d08 _d09 _d10 _d11 _d12 _d13 _d14 _d15 _d16 _d17 _d18 _d19 _d20 _d21 _d22 _d23 _d24 _d25 _d26 _d27 _d28 _d29 _d30 _d31 _d32 _d33 _d34 _d35 _d36 _d37 _d38 _d39 _d40 _d41 _d42 _d43 _d44 _d45 _d46 _d47 _d48 _d49 _d50 _d51 _d52 _d53 _d54 _d55 _d56 _d57 _d58 _d59 _d60 _d61 _d62 _d63 _d64 _d65 _d66 _d67 _d68 _d69 _d70 _d71 _d72 _d73 _d74 _d75 _d76 _d77 _d78 _d79 _d80
+
+_d00: .incbin "Tilemaps\80a2map.bin"
+_d01: .incbin "Tilemaps\80e8map.bin"
+_d02: .incbin "Tilemaps\8118map.bin"
+_d03: .incbin "Tilemaps\8141map.bin"
+_d04: .incbin "Tilemaps\818dmap.bin"
+_d05: .incbin "Tilemaps\81dcmap.bin"
+_d06: .incbin "Tilemaps\824amap.bin"
+_d07: .incbin "Tilemaps\82d6map.bin"
+_d08: .incbin "Tilemaps\80a2map.bin"
+_d09: .incbin "Tilemaps\8371map.bin"
+_d10: .incbin "Tilemaps\8404map.bin"
+_d11: .incbin "Tilemaps\84a6map.bin"
+_d12: .incbin "Tilemaps\8548map.bin"
+_d13: .incbin "Tilemaps\85damap.bin"
+_d14: .incbin "Tilemaps\8672map.bin"
+_d15: .incbin "Tilemaps\8718map.bin"
+_d16: .incbin "Tilemaps\87d5map.bin"
+_d17: .incbin "Tilemaps\8371map.bin"
+_d18: .incbin "Tilemaps\8887map.bin"
+_d19: .incbin "Tilemaps\8906map.bin"
+_d20: .incbin "Tilemaps\89b2map.bin"
+_d21: .incbin "Tilemaps\8a43map.bin"
+_d22: .incbin "Tilemaps\8aeemap.bin"
+_d23: .incbin "Tilemaps\8ba8map.bin"
+_d24: .incbin "Tilemaps\8c2cmap.bin"
+_d25: .incbin "Tilemaps\8cdamap.bin"
+_d26: .incbin "Tilemaps\8887map.bin"
+_d27: .incbin "Tilemaps\8d57map.bin"
+_d28: .incbin "Tilemaps\8dbdmap.bin"
+_d29: .incbin "Tilemaps\8e69map.bin"
+_d30: .incbin "Tilemaps\8f02map.bin"
+_d31: .incbin "Tilemaps\8fb5map.bin"
+_d32: .incbin "Tilemaps\9049map.bin"
+_d33: .incbin "Tilemaps\90eamap.bin"
+_d34: .incbin "Tilemaps\917bmap.bin"
+_d35: .incbin "Tilemaps\8d57map.bin"
+_d36: .incbin "Tilemaps\91c8map.bin"
+_d37: .incbin "Tilemaps\91ffmap.bin"
+_d38: .incbin "Tilemaps\9299map.bin"
+_d39: .incbin "Tilemaps\9302map.bin"
+_d40: .incbin "Tilemaps\93bdmap.bin"
+_d41: .incbin "Tilemaps\9453map.bin"
+_d42: .incbin "Tilemaps\94d6map.bin"
+_d43: .incbin "Tilemaps\9595map.bin"
+_d44: .incbin "Tilemaps\91c8map.bin"
+_d45: .incbin "Tilemaps\963cmap.bin"
+_d46: .incbin "Tilemaps\968dmap.bin"
+_d47: .incbin "Tilemaps\9731map.bin"
+_d48: .incbin "Tilemaps\97dfmap.bin"
+_d49: .incbin "Tilemaps\9895map.bin"
+_d50: .incbin "Tilemaps\9934map.bin"
+_d51: .incbin "Tilemaps\99e1map.bin"
+_d52: .incbin "Tilemaps\9a80map.bin"
+_d53: .incbin "Tilemaps\963cmap.bin"
+_d54: .incbin "Tilemaps\9addmap.bin"
+_d55: .incbin "Tilemaps\9b1dmap.bin"
+_d56: .incbin "Tilemaps\9bd1map.bin"
+_d57: .incbin "Tilemaps\9c93map.bin"
+_d58: .incbin "Tilemaps\9d4fmap.bin"
+_d59: .incbin "Tilemaps\9e11map.bin"
+_d60: .incbin "Tilemaps\9ec5map.bin"
+_d61: .incbin "Tilemaps\9f0cmap.bin"
+_d62: .incbin "Tilemaps\9addmap.bin"
+_d63: .incbin "Tilemaps\9f6cmap.bin"
+_d64: .incbin "Tilemaps\9fb2map.bin"
+_d65: .incbin "Tilemaps\a03dmap.bin"
+_d66: .incbin "Tilemaps\a0cbmap.bin"
+_d67: .incbin "Tilemaps\a15amap.bin"
+_d68: .incbin "Tilemaps\a1aamap.bin"
+_d69: .incbin "Tilemaps\a204map.bin"
+_d70: .incbin "Tilemaps\a23dmap.bin"
+_d71: .incbin "Tilemaps\9f6cmap.bin"
+_d72: .incbin "Tilemaps\80a2map.bin"
+_d73: .incbin "Tilemaps\80e8map.bin"
+_d74: .incbin "Tilemaps\8118map.bin"
+_d75: .incbin "Tilemaps\8141map.bin"
+_d76: .incbin "Tilemaps\818dmap.bin"
+_d77: .incbin "Tilemaps\81dcmap.bin"
+_d78: .incbin "Tilemaps\824amap.bin"
+_d79: .incbin "Tilemaps\82d6map.bin"
+_d80: .incbin "Tilemaps\80a2map.bin"
+
 .ends
 ; followed by
 .org $36276-$34000
 .section "WorldData2" overwrite
 ; Another table referring to compressed data after it
 WorldData2:
-.dw $a318 $a32f $a357 $a3b4 $a46e $a523 $a5b1 $a619
-.dw $a318 $a66b $a682 $a6b8 $a745 $a7f9 $a8a5 $a958
-.dw $aa01 $a66b $aac2 $ab1b $ab6b $abbc $ac51 $ac9d
-.dw $acff $ad8c $aac2 $ae4d $ae6a $aebe $af33 $af52
-.dw $af75 $affc $b05b $ae4d $b108 $b138 $b1a0 $b222
-.dw $b2d7 $b34f $b409 $b4b1 $b108 $b570 $b5b7 $b623
-.dw $b6c8 $b781 $b7e1 $b7fc $b82a $b570 $b86d $b8a3
-.dw $b8f5 $b9a1 $ba43 $babf $baf6 $bb22 $b86d $bb4d
-.dw $bb7c $bba7 $bc08 $bc80 $bcd0 $bd3a $bd78 $bb4d
-.dw $a318 $a32f $a357 $a3b4 $a46e $a523 $a5b1 $a619
-.dw $a318
-; All of this data is wrong! It's not 2-byte interleaved, it's 1, so there should be twice as many.
-_d01:.incbin "Tilemaps\36318tilemap.dat"
-_d02:.incbin "Tilemaps\36357tilemap.dat"
-_d03:.incbin "Tilemaps\3646Etilemap.dat"
-_d04:.incbin "Tilemaps\365B1tilemap.dat"
-_d05:.incbin "Tilemaps\3666Btilemap.dat"
-_d06:.incbin "Tilemaps\366B8tilemap.dat"
-_d07:.incbin "Tilemaps\367F9tilemap.dat"
-_d08:.incbin "Tilemaps\36958tilemap.dat"
-_d09:.incbin "Tilemaps\36AC2tilemap.dat"
-_d10:.incbin "Tilemaps\36B6Btilemap.dat"
-_d11:.incbin "Tilemaps\36C51tilemap.dat"
-_d12:.incbin "Tilemaps\36CFFtilemap.dat"
-_d13:.incbin "Tilemaps\36E4Dtilemap.dat"
-_d14:.incbin "Tilemaps\36EBEtilemap.dat"
-_d15:.incbin "Tilemaps\36F52tilemap.dat"
-_d16:.incbin "Tilemaps\36FFCtilemap.dat"
-_d17:.incbin "Tilemaps\37108tilemap.dat"
-_d18:.incbin "Tilemaps\371A0tilemap.dat"
-_d19:.incbin "Tilemaps\372D7tilemap.dat"
-_d20:.incbin "Tilemaps\37409tilemap.dat"
-_d21:.incbin "Tilemaps\37570tilemap.dat"
-_d22:.incbin "Tilemaps\37623tilemap.dat"
-_d23:.incbin "Tilemaps\37781tilemap.dat"
-_d24:.incbin "Tilemaps\377FCtilemap.dat"
-_d25:.incbin "Tilemaps\3786Dtilemap.dat"
-_d26:.incbin "Tilemaps\378F5tilemap.dat"
-_d27:.incbin "Tilemaps\37A43tilemap.dat"
-_d28:.incbin "Tilemaps\37AF6tilemap.dat"
-_d29:.incbin "Tilemaps\37B4Dtilemap.dat"
-_d30:.incbin "Tilemaps\37BA7tilemap.dat"
-_d31:.incbin "Tilemaps\37C80tilemap.dat"
-_d32:.incbin "Tilemaps\37D3Atilemap.dat"
-; 768 tiles
-TilemapDarkForce:
-.incbin "Tilemaps\37DB1tilemap.dat" ; Dark Force
+.dw _d00 _d01 _d02 _d03 _d04 _d05 _d06 _d07 _d08 _d09 _d10 _d11 _d12 _d13 _d14 _d15 _d16 _d17 _d18 _d19 _d20 _d21 _d22 _d23 _d24 _d25 _d26 _d27 _d28 _d29 _d30 _d31 _d32 _d33 _d34 _d35 _d36 _d37 _d38 _d39 _d40 _d41 _d42 _d43 _d44 _d45 _d46 _d47 _d48 _d49 _d50 _d51 _d52 _d53 _d54 _d55 _d56 _d57 _d58 _d59 _d60 _d61 _d62 _d63 _d64 _d65 _d66 _d67 _d68 _d69 _d70 _d71 _d72 _d73 _d74 _d75 _d76 _d77 _d78 _d79 _d80
+
+_d00: .incbin "Tilemaps\a318map.bin"
+_d01: .incbin "Tilemaps\a32fmap.bin"
+_d02: .incbin "Tilemaps\a357map.bin"
+_d03: .incbin "Tilemaps\a3b4map.bin"
+_d04: .incbin "Tilemaps\a46emap.bin"
+_d05: .incbin "Tilemaps\a523map.bin"
+_d06: .incbin "Tilemaps\a5b1map.bin"
+_d07: .incbin "Tilemaps\a619map.bin"
+_d08: .incbin "Tilemaps\a318map.bin"
+_d09: .incbin "Tilemaps\a66bmap.bin"
+_d10: .incbin "Tilemaps\a682map.bin"
+_d11: .incbin "Tilemaps\a6b8map.bin"
+_d12: .incbin "Tilemaps\a745map.bin"
+_d13: .incbin "Tilemaps\a7f9map.bin"
+_d14: .incbin "Tilemaps\a8a5map.bin"
+_d15: .incbin "Tilemaps\a958map.bin"
+_d16: .incbin "Tilemaps\aa01map.bin"
+_d17: .incbin "Tilemaps\a66bmap.bin"
+_d18: .incbin "Tilemaps\aac2map.bin"
+_d19: .incbin "Tilemaps\ab1bmap.bin"
+_d20: .incbin "Tilemaps\ab6bmap.bin"
+_d21: .incbin "Tilemaps\abbcmap.bin"
+_d22: .incbin "Tilemaps\ac51map.bin"
+_d23: .incbin "Tilemaps\ac9dmap.bin"
+_d24: .incbin "Tilemaps\acffmap.bin"
+_d25: .incbin "Tilemaps\ad8cmap.bin"
+_d26: .incbin "Tilemaps\aac2map.bin"
+_d27: .incbin "Tilemaps\ae4dmap.bin"
+_d28: .incbin "Tilemaps\ae6amap.bin"
+_d29: .incbin "Tilemaps\aebemap.bin"
+_d30: .incbin "Tilemaps\af33map.bin"
+_d31: .incbin "Tilemaps\af52map.bin"
+_d32: .incbin "Tilemaps\af75map.bin"
+_d33: .incbin "Tilemaps\affcmap.bin"
+_d34: .incbin "Tilemaps\b05bmap.bin"
+_d35: .incbin "Tilemaps\ae4dmap.bin"
+_d36: .incbin "Tilemaps\b108map.bin"
+_d37: .incbin "Tilemaps\b138map.bin"
+_d38: .incbin "Tilemaps\b1a0map.bin"
+_d39: .incbin "Tilemaps\b222map.bin"
+_d40: .incbin "Tilemaps\b2d7map.bin"
+_d41: .incbin "Tilemaps\b34fmap.bin"
+_d42: .incbin "Tilemaps\b409map.bin"
+_d43: .incbin "Tilemaps\b4b1map.bin"
+_d44: .incbin "Tilemaps\b108map.bin"
+_d45: .incbin "Tilemaps\b570map.bin"
+_d46: .incbin "Tilemaps\b5b7map.bin"
+_d47: .incbin "Tilemaps\b623map.bin"
+_d48: .incbin "Tilemaps\b6c8map.bin"
+_d49: .incbin "Tilemaps\b781map.bin"
+_d50: .incbin "Tilemaps\b7e1map.bin"
+_d51: .incbin "Tilemaps\b7fcmap.bin"
+_d52: .incbin "Tilemaps\b82amap.bin"
+_d53: .incbin "Tilemaps\b570map.bin"
+_d54: .incbin "Tilemaps\b86dmap.bin"
+_d55: .incbin "Tilemaps\b8a3map.bin"
+_d56: .incbin "Tilemaps\b8f5map.bin"
+_d57: .incbin "Tilemaps\b9a1map.bin"
+_d58: .incbin "Tilemaps\ba43map.bin"
+_d59: .incbin "Tilemaps\babfmap.bin"
+_d60: .incbin "Tilemaps\baf6map.bin"
+_d61: .incbin "Tilemaps\bb22map.bin"
+_d62: .incbin "Tilemaps\b86dmap.bin"
+_d63: .incbin "Tilemaps\bb4dmap.bin"
+_d64: .incbin "Tilemaps\bb7cmap.bin"
+_d65: .incbin "Tilemaps\bba7map.bin"
+_d66: .incbin "Tilemaps\bc08map.bin"
+_d67: .incbin "Tilemaps\bc80map.bin"
+_d68: .incbin "Tilemaps\bcd0map.bin"
+_d69: .incbin "Tilemaps\bd3amap.bin"
+_d70: .incbin "Tilemaps\bd78map.bin"
+_d71: .incbin "Tilemaps\bb4dmap.bin"
+_d72: .incbin "Tilemaps\a318map.bin"
+_d73: .incbin "Tilemaps\a32fmap.bin"
+_d74: .incbin "Tilemaps\a357map.bin"
+_d75: .incbin "Tilemaps\a3b4map.bin"
+_d76: .incbin "Tilemaps\a46emap.bin"
+_d77: .incbin "Tilemaps\a523map.bin"
+_d78: .incbin "Tilemaps\a5b1map.bin"
+_d79: .incbin "Tilemaps\a619map.bin"
+_d80: .incbin "Tilemaps\a318map.bin"
+
 .ends
 ;.org 37fda
 ; Blank until end of bank
@@ -9786,49 +13037,89 @@ TilemapDarkForce:
 .orga $8000
 .section "WorldData3" overwrite
 WorldData3:
-.dw $80a2 $80cd $8176 $8239 $82f7 $83ba $8431 $84f0
-.dw $80a2 $8521 $85aa $8618 $8680 $86b7 $8715 $87b4
-.dw $8819 $8521 $88bd $896b $89d7 $8a35 $8a62 $8ade
-.dw $8b45 $8bf2 $88bd $8c77 $8d2c $8ddd $8e6a $8f2d
-.dw $8fd1 $907d $90de $8c77 $9123 $91b2 $9216 $92bc
-.dw $936b $942e $9487 $948c $9123 $94a1 $9533 $95ea
-.dw $9679 $973e $9801 $98ab $98b2 $94a1 $992b $99e8
-.dw $9a98 $9b2f $9beb $9cae $9d71 $9e29 $992b $9ee3
-.dw $9f2d $9fe6 $a09d $a161 $a21e $a2e1 $a3a3 $9ee3
-.dw $80a2 $80cd $8176 $8239 $82f7 $83ba $8431 $84f0
-.dw $80a2
-.incbin "Tilemaps\380a2tilemap.dat"
-.incbin "Tilemaps\38176tilemap.dat"
-.incbin "Tilemaps\382F7tilemap.dat"
-.incbin "Tilemaps\38431tilemap.dat"
-.incbin "Tilemaps\38521tilemap.dat"
-.incbin "Tilemaps\38618tilemap.dat"
-.incbin "Tilemaps\386B7tilemap.dat"
-.incbin "Tilemaps\387B4tilemap.dat"
-.incbin "Tilemaps\388BDtilemap.dat"
-.incbin "Tilemaps\389D7tilemap.dat"
-.incbin "Tilemaps\38A62tilemap.dat"
-.incbin "Tilemaps\38B45tilemap.dat"
-.incbin "Tilemaps\38C77tilemap.dat"
-.incbin "Tilemaps\38DDDtilemap.dat"
-.incbin "Tilemaps\38F2Dtilemap.dat"
-.incbin "Tilemaps\3907Dtilemap.dat"
-.incbin "Tilemaps\39123tilemap.dat"
-.incbin "Tilemaps\39216tilemap.dat"
-.incbin "Tilemaps\3936Btilemap.dat"
-.incbin "Tilemaps\39487tilemap.dat"
-.incbin "Tilemaps\394A1tilemap.dat"
-.incbin "Tilemaps\395EAtilemap.dat"
-.incbin "Tilemaps\3973Etilemap.dat"
-.incbin "Tilemaps\398ABtilemap.dat"
-.incbin "Tilemaps\3992Btilemap.dat"
-.incbin "Tilemaps\39A98tilemap.dat"
-.incbin "Tilemaps\39BEBtilemap.dat"
-.incbin "Tilemaps\39D71tilemap.dat"
-.incbin "Tilemaps\39EE3tilemap.dat"
-.incbin "Tilemaps\39FE6tilemap.dat"
-.incbin "Tilemaps\3A161tilemap.dat"
-.incbin "Tilemaps\3A2E1tilemap.dat"
+.dw _d00 _d01 _d02 _d03 _d04 _d05 _d06 _d07 _d08 _d09 _d10 _d11 _d12 _d13 _d14 _d15 _d16 _d17 _d18 _d19 _d20 _d21 _d22 _d23 _d24 _d25 _d26 _d27 _d28 _d29 _d30 _d31 _d32 _d33 _d34 _d35 _d36 _d37 _d38 _d39 _d40 _d41 _d42 _d43 _d44 _d45 _d46 _d47 _d48 _d49 _d50 _d51 _d52 _d53 _d54 _d55 _d56 _d57 _d58 _d59 _d60 _d61 _d62 _d63 _d64 _d65 _d66 _d67 _d68 _d69 _d70 _d71 _d72 _d73 _d74 _d75 _d76 _d77 _d78 _d79 _d80
+
+_d00: .incbin "Tilemaps\80a2map.bin"
+_d01: .incbin "Tilemaps\80cdmap.bin"
+_d02: .incbin "Tilemaps\8176map.bin"
+_d03: .incbin "Tilemaps\8239map.bin"
+_d04: .incbin "Tilemaps\82f7map.bin"
+_d05: .incbin "Tilemaps\83bamap.bin"
+_d06: .incbin "Tilemaps\8431map.bin"
+_d07: .incbin "Tilemaps\84f0map.bin"
+_d08: .incbin "Tilemaps\80a2map.bin"
+_d09: .incbin "Tilemaps\8521map.bin"
+_d10: .incbin "Tilemaps\85aamap.bin"
+_d11: .incbin "Tilemaps\8618map.bin"
+_d12: .incbin "Tilemaps\8680map.bin"
+_d13: .incbin "Tilemaps\86b7map.bin"
+_d14: .incbin "Tilemaps\8715map.bin"
+_d15: .incbin "Tilemaps\87b4map.bin"
+_d16: .incbin "Tilemaps\8819map.bin"
+_d17: .incbin "Tilemaps\8521map.bin"
+_d18: .incbin "Tilemaps\88bdmap.bin"
+_d19: .incbin "Tilemaps\896bmap.bin"
+_d20: .incbin "Tilemaps\89d7map.bin"
+_d21: .incbin "Tilemaps\8a35map.bin"
+_d22: .incbin "Tilemaps\8a62map.bin"
+_d23: .incbin "Tilemaps\8ademap.bin"
+_d24: .incbin "Tilemaps\8b45map.bin"
+_d25: .incbin "Tilemaps\8bf2map.bin"
+_d26: .incbin "Tilemaps\88bdmap.bin"
+_d27: .incbin "Tilemaps\8c77map.bin"
+_d28: .incbin "Tilemaps\8d2cmap.bin"
+_d29: .incbin "Tilemaps\8dddmap.bin"
+_d30: .incbin "Tilemaps\8e6amap.bin"
+_d31: .incbin "Tilemaps\8f2dmap.bin"
+_d32: .incbin "Tilemaps\8fd1map.bin"
+_d33: .incbin "Tilemaps\907dmap.bin"
+_d34: .incbin "Tilemaps\90demap.bin"
+_d35: .incbin "Tilemaps\8c77map.bin"
+_d36: .incbin "Tilemaps\9123map.bin"
+_d37: .incbin "Tilemaps\91b2map.bin"
+_d38: .incbin "Tilemaps\9216map.bin"
+_d39: .incbin "Tilemaps\92bcmap.bin"
+_d40: .incbin "Tilemaps\936bmap.bin"
+_d41: .incbin "Tilemaps\942emap.bin"
+_d42: .incbin "Tilemaps\9487map.bin"
+_d43: .incbin "Tilemaps\948cmap.bin"
+_d44: .incbin "Tilemaps\9123map.bin"
+_d45: .incbin "Tilemaps\94a1map.bin"
+_d46: .incbin "Tilemaps\9533map.bin"
+_d47: .incbin "Tilemaps\95eamap.bin"
+_d48: .incbin "Tilemaps\9679map.bin"
+_d49: .incbin "Tilemaps\973emap.bin"
+_d50: .incbin "Tilemaps\9801map.bin"
+_d51: .incbin "Tilemaps\98abmap.bin"
+_d52: .incbin "Tilemaps\98b2map.bin"
+_d53: .incbin "Tilemaps\94a1map.bin"
+_d54: .incbin "Tilemaps\992bmap.bin"
+_d55: .incbin "Tilemaps\99e8map.bin"
+_d56: .incbin "Tilemaps\9a98map.bin"
+_d57: .incbin "Tilemaps\9b2fmap.bin"
+_d58: .incbin "Tilemaps\9bebmap.bin"
+_d59: .incbin "Tilemaps\9caemap.bin"
+_d60: .incbin "Tilemaps\9d71map.bin"
+_d61: .incbin "Tilemaps\9e29map.bin"
+_d62: .incbin "Tilemaps\992bmap.bin"
+_d63: .incbin "Tilemaps\9ee3map.bin"
+_d64: .incbin "Tilemaps\9f2dmap.bin"
+_d65: .incbin "Tilemaps\9fe6map.bin"
+_d66: .incbin "Tilemaps\a09dmap.bin"
+_d67: .incbin "Tilemaps\a161map.bin"
+_d68: .incbin "Tilemaps\a21emap.bin"
+_d69: .incbin "Tilemaps\a2e1map.bin"
+_d70: .incbin "Tilemaps\a3a3map.bin"
+_d71: .incbin "Tilemaps\9ee3map.bin" ; These are not right, we have reused bins
+_d72: .incbin "Tilemaps\80a2map.bin"
+_d73: .incbin "Tilemaps\80cdmap.bin"
+_d74: .incbin "Tilemaps\8176map.bin"
+_d75: .incbin "Tilemaps\8239map.bin"
+_d76: .incbin "Tilemaps\82f7map.bin"
+_d77: .incbin "Tilemaps\83bamap.bin"
+_d78: .incbin "Tilemaps\8431map.bin"
+_d79: .incbin "Tilemaps\84f0map.bin"
+_d80: .incbin "Tilemaps\80a2map.bin"
 .ends
 ; followed by
 .orga $a3e8
@@ -9999,7 +13290,7 @@ VehicleSprites:
 .incbin "Tiles\4af91compr.dat"
 .incbin "Tiles\4b177compr.dat"
 .incbin "Tiles\4b244compr.dat"
-NarrativeGraphicsNoah:
+NarrativeGraphicsLutz:
 .db $00,$00,$3F,$38,$3C,$03,$01,$0F,$2B,$0B,$06,$31,$3E,$2F,$36,$20 ; palette
 .incbin "Tiles\4b398compr.dat"
 .ends
@@ -10178,7 +13469,6 @@ TilesBuilding:
 PaletteSpace:          ; $5f767
 .db $10,$3F,$3E,$38,$34,$30,$20,$04,$3C,$20,$00,$00,$00,$00,$00,$00 ; palette
 .db $10                                                             ; end empty for target planet (?)
-PaletteSpaceEnd:       ; must be followed by 
 TilesSpace:            ; $5f778
 .incbin "Tiles\5f778compr.dat" ; 98
 .ends
@@ -10319,8 +13609,8 @@ TilemapLassicRoom:
 CharacterSprites:
 AlisSprites:
 .include "Tiles\70000 Alis sprites.inc"
-NoahSprites:
-.include "Tiles\70a80 Noah sprites.inc"
+LutzSprites:
+.include "Tiles\70a80 Lutz sprites.inc"
 OdinSprites:
 .include "Tiles\71440 Odin sprites.inc"
 MyauSprites:
