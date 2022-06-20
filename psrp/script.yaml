@@ -8964,7 +8964,7 @@
   de: <player> holt <acc><item> raus.<delay>
 
 - offsets: 251a,279d,25aa,2651
-  # We add 25aa,2651 here instead of "always equipped", TODO why?
+  # We add 25aa, 2651 here instead of "always equipped", TODO why?
   indices: adad
   ja: ベツニ　コワレテナイヨウダ。<wait>
   us: |
@@ -9110,7 +9110,7 @@
   de: Dieses Objekt muss nicht benutzt werden, da es immer aktiv ist.<wait>
 
 - offsets: 218d,2195,299f,2a2e,579d
-  # TODO 25aa changed to index adad, why?
+  # TODO 25aa, 2651 changed to index adad, why?
   indices: af1e
   ja: |
     トクニ　カワッタトコロハ<line>
@@ -9858,20 +9858,20 @@
     Danke fürs Warten, und gute Besserung.<wait>
 
 - offsets: 2bb1
-  # Falls through to the following entry
   indices: b282
   ja: |
     ソウデスカ　オテツダイデキナクテ<line>
-    ザンネンデス。
+    ザンネンデス。デハ　オキヲツケテ。<wait>
   us: |
     I'M SORRY I COULD<line>
     NOT HELP.<wait more>
-  en: I'm sorry I couldn't help.<wait>
-  fr: Je suis désolé de ne pas avoir pu aider.<wait>
-  pt-br: Sinto muito não ter podido ajudar.<wait>
-  ca: Em sap greu no haver pogut ajudar.<wait>
-  es: Siento no haber podido ayudar.<wait>
-  de: Es tut mir leid, dass ich nicht helfen konnte.<wait>
+    PLEASE BE CAREFUL.<end>
+  en: I'm sorry I couldn't help. Be safe out there.<wait>
+  fr: Je suis désolé de ne pas avoir pu aider. Prenez garde à vous dehors.<wait>
+  pt-br: Sinto muito não ter podido ajudar. Tome cuidado lá fora.<wait>
+  ca: Em sap greu no haver pogut ajudar. Aneu amb compte allà fora.<wait>
+  es: Siento no haber podido ayudar. Id con cuidad ahí fuera.<wait>
+  de: Es tut mir leid, dass ich nicht helfen konnte. Dann passen Sie bitte auf sich auf.<wait>
 
 - offsets: 2b37
   indices: b29a
