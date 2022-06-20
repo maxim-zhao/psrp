@@ -71,3 +71,4 @@ Release
 /tools/
 /psrp/generated/
 make_de.bat
+*.bak
