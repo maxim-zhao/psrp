@@ -51,9 +51,9 @@ _RAM_C009_ db
 _RAM_C00A_ db
 _RAM_C00B_ db
 _RAM_C00C_ db
-unusedC00D
+unusedC00D db
 _RAM_C00E_ dsb $9
-unusedC017
+unusedC017 db
 _RAM_C018_ db
 .ende
 
@@ -197,7 +197,7 @@ SceneType db                  ; Scene characteristics; controls which animation 
 _RAM_C299_ dw
 _RAM_C29B_ dw
 _RAM_C29D_ db
-SceneType db
+SceneType2 db
 _RAM_C29F_ db
 _RAM_C2A0_ db
 .ende
@@ -233,9 +233,9 @@ _RAM_C2D9_ dw
 RoomIndex db                  ; Room index to table at $49d1
 _RAM_C2DC_ db
 EnemyMoney dw                 ; Monster money drop
-_RAM_C2DF_ db
-_RAM_C2E0_ db
-_RAM_C2E1_ dw
+DungeonObjectItemIndex db
+DungeonObjectItemTrapped db
+DungeonObjectFlagAddress dw
 BattleProbability db          ; Chance of an enemy encounter (*255)
 DungeonMonsterPoolIndex db
 _RAM_C2E5_ db
@@ -269,7 +269,7 @@ VLocation dw                  ; Vertical location on map - skips parts
 ScrollScreens db              ; Counted down when scrolling between planets/in intro
 _RAM_C308_ db                 ; Type of current "world"???  
 _RAM_C309_ db                 ; Current "world"???
-_RAM_C30A_ db
+DungeonFacingDirection db
 .ende
 
 .enum $C30C export
@@ -301,16 +301,19 @@ Armour db       ; +11  | from the same list.
 Shield db       ; +12 /
 Unknown1 db     ; +13
 MagicCount db   ; +14 Number of magics known (?) <5
-Unknown2 db     ; +15
+BattleMagicCount db     ; +15 Number of battle magics known
 .endst
 
 .enum $C400 export
-CharacterStats    .instanceof Character 12
+.union
+CharacterStats     instanceof Character 12
+.nextu
 CharacterStatsAlis instanceof Character
 CharacterStatsMyau instanceof Character
 CharacterStatsOdin instanceof Character
 CharacterStatsLutz instanceof Character
 CharacterStatsEnemies instanceof Character 8
+.endu
 Inventory dsb 32              ; Item indices
 Meseta dw                     ; Current money
 InventoryCount db             ; Number of items in Inventory
@@ -346,7 +349,7 @@ HaveBeatenShadow db           ; $ff if yes
 .ende
 
 .enum $C600 export
-_RAM_C600_ db
+_RAM_C600_ db ; Dialogue flags
 .ende
 
 .enum $C604 export
@@ -359,7 +362,7 @@ NameEntryData .db             ; nn bytes: block used for name entry
 NameEntryCharIndex db         ; current char is $c7nn
 .ende
 
-.enum C784 export
+.enum $C784 export
 NameEntryCursorX db           ; sprite X coordinate for char selection cursor
 NameEntryCursorY db           ; sprite Y coordinate for char selection cursor
 NameEntryCursorTileMapDataAddress dw ; address of TileMapData byte corresponding to the current cursor position
@@ -423,7 +426,7 @@ _RAM_C8A0_ dsb $3
     Ys dsb 64
     Gap dsb 64
     XNs dsw 64
-.ends
+.endst
 
 .enum $C900 export
 SpriteTable instanceof SpriteTableStruct ; copy of sprite table for rapid writing to VDP
@@ -554,10 +557,10 @@ SRAMSlotsUsed db
 .enum $81
 MusicTitle       db ; 81
 MusicPalma       db ; 82
-MusicMotabia     db ; 83
+MusicMotavia     db ; 83
 MusicDezoris     db ; 84
-MusicBossDungeon db ; 85
-MusicCave        db ; 86
+MusicFinalDungeon db ; 85
+MusicDungeon     db ; 86
 MusicTown        db ; 87
 MusicVillage     db ; 88
 MusicBattle      db ; 89
@@ -567,10 +570,11 @@ MusicIntro       db ; 8c
 MusicChurch      db ; 8d
 MusicShop        db ; 8e
 MusicVehicle     db ; 8f
-MusicMedusa      db ; 90
-MusicLassic      db ; 91
-MusicDarkForce   db ; 92
-MusicGameOver    db ; 93
+MusicTower_      db ; 90 ; Unused? Same as $91
+MusicTower       db ; 91
+MusicLassic      db ; 92
+MusicDarkForce   db ; 93
+MusicGameOver    db ; 94
 .ende
 .enum $ae
 SFX_Death        db ; ae
@@ -593,6 +597,8 @@ SFX_be           db ; be
 SFX_bf           db ; bf
 SFX_c0           db ; c0
 SFX_Heal         db ; c1
+SFX_c2           db ; c2
+SFX_c3           db ; c3
 .ende
 .define MusicStop $d7
 
@@ -675,7 +681,7 @@ Player_Lutz   db ; 3
 Enemy_Empty           db ; $00
 Enemy_MonsterFly      db ; $01
 Enemy_GreenSlime      db ; $02
-Enemy_Wing Eye        db ; $03
+Enemy_WingEye         db ; $03
 Enemy_Maneater        db ; $04
 Enemy_Scorpius        db ; $05
 Enemy_GiantNaiad      db ; $06
@@ -714,7 +720,7 @@ Enemy_Serpent         db ; $26
 Enemy_Leviathan       db ; $27
 Enemy_Dorouge         db ; $28
 Enemy_Octopus         db ; $29
-Enemy_Mad Stalker     db ; $2A
+Enemy_MadStalker      db ; $2A
 Enemy_DezorianHead    db ; $2B
 Enemy_Zombie          db ; $2C
 Enemy_LivingDead      db ; $2D
@@ -1437,7 +1443,7 @@ FMDetection:
     ld a,(Port3EVal)
     or $04             ; Disable IO chip
     out (MemoryControl),a
-    ldbc 7,0           ; Counter (7 -> b), plus 0 -> c
+    ld bc, (7<<8)|0           ; Counter (7 -> b), plus 0 -> c
 -:  ld a,b
     and $01
     out (AudioControl),a   ; Output 0/1 lots of times
@@ -1867,7 +1873,7 @@ LoadMarkIIILogo:
     ld (TileMapHighByte),a
     ld hl,MarkIIILogoTilemap
     TileMapAddressDE 7,10 ; x,y
-    ldbc 2,19        ; Size (h,w)
+    ld bc,(2<<8)|19        ; Size (h<<8)|w)
     call OutputTilemapRawBxC
 
     ; Fill palette with colour $38 = blue
@@ -2008,19 +2014,19 @@ _UsedSlotFound:
     call ClearSpriteTableAndFadeInWholePalette
     
 _ContinueOrDeleteMenu:
-    ld hl,TextContinueOrDelete
+    ld hl,textContinueOrDelete
     call TextBox20x6
     call DoYesNoMenu
     jr nz,_Delete
     ; Continue chosen
-    ld hl,TextChooseWhichToContinue
+    ld hl,textChooseSlotToContinue
     call TextBox20x6
 -:  push bc
       call GetSavegameSelection
     pop bc
     call IsSlotUsed
     jr z,-
-    ld hl,TextContinuingGameX
+    ld hl,textContinuingGameX
     call TextBox20x6
     call Close20x6TextBox
     
@@ -2045,11 +2051,11 @@ _ContinueOrDeleteMenu:
     ret
 
 _Delete:
-    ld hl,TextConfirmDelete
+    ld hl,textConfirmDelete
     call TextBox20x6
     call DoYesNoMenu
     jr nz,_ContinueOrDeleteMenu ; No -> back to start
---: ld hl,TextChooseWhichToDelete
+--: ld hl,textChooseWhichToDelete
     call TextBox20x6
 -:  push bc
       call GetSavegameSelection
@@ -2058,11 +2064,11 @@ _Delete:
     jr nz,_Delete      ; repeat if button 2 pressed(?)
     call IsSlotUsed
     jr z,-             ; wait for a valid selection
-    ld hl,TextConfirmSlotSelection
+    ld hl,textSaveDeleteConfirmSlot
     call TextBox20x6
     call DoYesNoMenu
     jr nz,--
-    ld hl,TextGameXHasBeenDeleted
+    ld hl,textGameXHasBeenDeleted
     call TextBox20x6
 
     ld a,SRAMPagingOn  ; Delete game
@@ -2869,7 +2875,7 @@ SpritePalette2:        ; $fe0
 WorldDataLookup1: ; which "world" to load data for for each value of _RAM_c309_
 .db $00,$01,$02,$03,$04,$04,$04,$05,$05,$05,$05,$05,$06,$06,$07,$07,$07,$07,$07,$08,$08,$09,$09,$0A
 WorldMusics: ; Music for each value of _RAM_c309_
-.db MusicPalma,MusicMotabia,MusicDezoris,MusicDezoris,MusicTown,MusicTown,MusicTown,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicTown,MusicTown,MusicTown,MusicVillage,MusicTown,MusicVillage,MusicVillage,MusicDezoris,MusicDezoris,MusicVillage,MusicVillage,MusicBossDungeon
+.db MusicPalma,MusicMotavia,MusicDezoris,MusicDezoris,MusicTown,MusicTown,MusicTown,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicTown,MusicTown,MusicTown,MusicVillage,MusicTown,MusicVillage,MusicVillage,MusicDezoris,MusicDezoris,MusicVillage,MusicVillage,MusicFinalDungeon
 WorldDataLookup2: ; "World" data
 ; Data from F4D to F57 (11 bytes)
 WorldDataLookup2:
@@ -2980,7 +2986,7 @@ _LABEL_10C0_:
 ; 11th entry of Jump Table from EA (indexed by FunctionLookupIndex)
 _LABEL_10D9_:
     call FadeOutFullPalette
-    call _LABEL_7085_
+    call CheckDungeonMusic
     ld hl,FunctionLookupIndex
     inc (hl)
     ld hl,Frame2Paging
@@ -3013,7 +3019,7 @@ _LABEL_10D9_:
     ld a,(DungeonPaletteIndex)
     or a
     ret nz
-    ld hl,_DATA_ADBC_
+    ld hl,textTooDarkToMove
     call TextBox20x6
     call Close20x6TextBox
     call _LABEL_1D3D_
@@ -3228,9 +3234,9 @@ _LABEL_12A4_:
     xor a
 +:  ld (iy+13),a
     or a
-    ld hl,_DATA_AC52_
+    ld hl,textPlayerRemovedBindings
     jr z,+
-    ld hl,_DATA_AC3E_
+    ld hl,textPlayerCantMove
 +:  call TextBox20x6
     jp Close20x6TextBox
 
@@ -3306,7 +3312,7 @@ _LABEL_1367_:
     call _LABEL_3035_
     ret
 
-+:  ld hl,_DATA_B7BA_
++:  ld hl,textItemUsedUp
     call TextBox20x6
     call Close20x6TextBox
     jr _LABEL_1367_
@@ -3333,7 +3339,7 @@ _LABEL_1379_:
     jr c,_LABEL_13AD_
     ld a,$BB
     ld (NewMusic),a
-    ld hl,_DATA_AB1F_
+    ld hl,textMonsterDodgesPlayersAttack
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -3392,9 +3398,9 @@ _LABEL_13E8_:
     xor a
 +:  ld (iy+13),a
     or a
-    ld hl,_DATA_AC61_
+    ld hl,textMonsterRemovedBindings
     jr z,+
-    ld hl,_DATA_AC48_
+    ld hl,textMonsterCantMove
 +:  call TextBox20x6
     jp Close20x6TextBox
 
@@ -3430,7 +3436,7 @@ _LABEL_1430_:
 
 ++:  xor a
     ld (_RAM_C2EF_),a
-    ld hl,_DATA_ABE9_
+    ld hl,textMagicWallEnd
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -3458,15 +3464,15 @@ _LABEL_1461_:
     jr nz,++
     ld a,(_RAM_C2EF_)
     or a
-    ld hl,_DATA_ABB3_
+    ld hl,textMagicWallDeflectsMonstersAttack
     jr nz,+
-    ld hl,_DATA_AB31_
+    ld hl,textPlayerDodgesMonstersAttack
 +:  call TextBox20x6
     call Close20x6TextBox
 ++:  pop af
     call PointHLToCharacterInA
     jr nz,++
-    ld hl,TextPlayerDied
+    ld hl,textPlayerDied
     call TextBox20x6
     ld a,(EnemyNumber)
     cp $46
@@ -3484,7 +3490,7 @@ _LABEL_1461_:
     djnz -
     or a
     jr z,+
-    ld hl,_DATA_B837_
+    ld hl,textMyauDiesWhileFlying
     call TextBox20x6
 +:  call Close20x6TextBox
 ++:  ld b,$04
@@ -3505,7 +3511,7 @@ _LABEL_14E2_:
     ld a,(_RAM_C2EF_)
     and $80
     jr z,_LABEL_1502_
-    ld hl,_DATA_ABCE_
+    ld hl,textMagicWallDeflectsMonstersMagic
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -3524,7 +3530,7 @@ _LABEL_1502_:
     ld (hl),$03
     ld a,$A1
     ld (NewMusic),a
-    ld hl,_DATA_AC2F_
+    ld hl,textPlayerTiedUp
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -3548,7 +3554,7 @@ _LABEL_1528_:
     ld a,$A1
     ld (NewMusic),a
     call _LABEL_326D_
-    ld hl,_DATA_AC10_
+    ld hl,textMonsterHealed
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -3563,7 +3569,7 @@ _LABEL_155B_:
     set 7,(iy+0)
     ld a,$A1
     ld (NewMusic),a
-    ld hl,_DATA_B5B4_
+    ld hl,textMonsterStrengthBoost
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -3607,13 +3613,13 @@ _LABEL_159F_:
     ld a,(_RAM_C2EF_)
     and $80
     jr z,+
-    ld hl,_DATA_ABCE_
+    ld hl,textMagicWallDeflectsMonstersMagic
     call TextBox20x6
     call Close20x6TextBox
 +:  ld a,(TextCharacterNumber)
     call PointHLToCharacterInA
     jr nz,+
-    ld hl,TextPlayerDied
+    ld hl,textPlayerDied
     call TextBox20x6
     call Close20x6TextBox
 +:  ld b,$04
@@ -3654,13 +3660,13 @@ _LABEL_1605_:
     ld a,(_RAM_C2EF_)
     and $80
     jr z,+
-    ld hl,_DATA_ABCE_
+    ld hl,textMagicWallDeflectsMonstersMagic
     call TextBox20x6
     call Close20x6TextBox
 +:  ld a,(TextCharacterNumber)
     call PointHLToCharacterInA
     jr nz,+
-    ld hl,TextPlayerDied
+    ld hl,textPlayerDied
     call TextBox20x6
     call Close20x6TextBox
 +:  ld b,$04
@@ -3709,7 +3715,7 @@ _LABEL_1676_:
     inc hl
     ld (hl),a
     call _LABEL_1A2A_
-    ld hl,_DATA_B7AA_
+    ld hl,textPlayerTurnedToStone
     call TextBox20x6
     call Close20x6TextBox
     ld b,$04
@@ -3827,9 +3833,9 @@ _LABEL_175E_:
     ld (NewMusic),a
     ld a,(PartySize)
     or a
-    ld hl,_DATA_B617_
+    ld hl,textAllDead
     call nz,TextBox20x6
-    ld hl,_DATA_B626_
+    ld hl,textGameOver
     call TextBox20x6
     ld hl,FunctionLookupIndex
     ld (hl),$02
@@ -3876,31 +3882,31 @@ _LABEL_17B2_:
     call PauseBFrames
 ++:  ld a,$D8
     ld (NewMusic),a
-    ld hl,_DATA_B071_
+    ld hl,textMonsterKilled
     call TextBox20x6
     call _LABEL_1869_
     call CharacterStatsUpdate
     ld hl,(EnemyMoney)
-    ld a,(_RAM_C2DF_)
+    ld a,(DungeonObjectItemIndex)
     or l
     or h
     ret z
-    ld hl,_DATA_B5CD_
+    ld hl,textMonsterHadATreasureChest
     call TextBox20x6
-    call _LABEL_180E_
+    call ShowTreasureChest
     call MenuWaitForButton
     jp _LABEL_2A37_
 
-_LABEL_180E_:
+ShowTreasureChest:
     ld hl,Frame2Paging
-    ld (hl),$14
-    ld hl,_DATA_50000_
+    ld (hl),:Palette_TreasureChest
+    ld hl,Palette_TreasureChest
     ld de,TargetPalette+16+8
-    ld bc,$0008
+    ld bc,_sizeof_Palette_TreasureChest
     ldir
     ld hl,TargetPalette
     ld de,ActualPalette
-    ld bc,$0020
+    ld bc,32
     ldir
     ld hl,TilesTreasureChest
     ld de,$6000
@@ -3938,7 +3944,7 @@ _LABEL_1869_:
     ld a,l
     or h
     ret z
-    ld hl,_DATA_AFA6_
+    ld hl,textGainedExperience
     call TextBox20x6
     ld iy,CharacterStatsAlis
     ld de,$B8AF
@@ -4003,7 +4009,7 @@ _LABEL_1869_:
     ld a,(ix+7)
     cp (iy+15)
     ret z
-+:  ld hl,_DATA_AFC6_
++:  ld hl,textPlayerLearnedASpell
     jp TextBox20x6
 
 .orga $1916
@@ -4101,17 +4107,17 @@ PointHLToCharacterInA:
 
 _LABEL_19EA_:
     push hl
-    call PointHLToCharacterInA
+      call PointHLToCharacterInA
     pop hl
     ret nz
     push af
     push bc
     push de
     push hl
-    ld (TextCharacterNumber),a
-    ld hl,_DATA_B087_
-    call TextBox20x6
-    call Close20x6TextBox
+      ld (TextCharacterNumber),a
+      ld hl,textPlayerAlreadyDead
+      call TextBox20x6
+      call Close20x6TextBox
     pop hl
     pop de
     pop bc
@@ -4198,7 +4204,7 @@ _LABEL_1A87_:
     call CloseMenu
     ld a,(_RAM_C267_)
     ld (TextCharacterNumber),a
-    ld hl,_DATA_AB43_
+    ld hl,textPlayerSpeaks
     call TextBox20x6
     ld a,(_RAM_C2E8_)
     and $80
@@ -4213,13 +4219,14 @@ _LABEL_1AAD_:
     ld (_RAM_C267_),a
     ld a,$FF
     ld (_RAM_C2D4_),a
-    ld hl,_DATA_AB57_
+    ld hl,textMonsterDoesntUnderstand
     call TextBox20x6
     jp Close20x6TextBox
 
 _LABEL_1AC0_:
-    ld hl,_DATA_AB4E_
+    ld hl,textMonsterAnswers
     call TextBox20x6
+    ; Pick a random entry
 -:  call GetRandomNumber
     and $0F
     cp $09
@@ -4227,7 +4234,7 @@ _LABEL_1AC0_:
     ld l,a
     ld h,$00
     add hl,hl
-    ld de,_DATA_1AE6_
+    ld de,_MonsterDialogue
     add hl,de
     ld a,(hl)
     inc hl
@@ -4238,10 +4245,9 @@ _LABEL_1AC0_:
     ld (_RAM_C267_),a
     jp Close20x6TextBox
 
-; Pointer Table from 1AE6 to 1AF7 (9 entries,indexed by unknown)
-_DATA_1AE6_:
-.dw _DATA_B3E0_ _DATA_B3FC_ _DATA_B40D_ _DATA_B425_ _DATA_B43C_ _DATA_B442_ _DATA_B459_ _DATA_B472_
-.dw _DATA_B47E_
+; Pointer Table from 1AE6 to 1AF7 (9 entries,indexed by random number)
+_MonsterDialogue:
+.dw textMonster1 textMonster2 textMonster3 textMonster4 textMonster5 textMonster6 textMonster7 textMonster8 textMonster9
 
 ; 5th entry of Jump Table from 1A6E (indexed by CursorPos)
 _LABEL_1AF8_:
@@ -4266,7 +4272,7 @@ _LABEL_1AF8_:
 
 ++:  ld a,(_RAM_C267_)
     ld (TextCharacterNumber),a
-    ld hl,_DATA_AB60_
+    ld hl,textMonsterBlocksRetreat
     call TextBox20x6
     ld a,$04
     ld (_RAM_C267_),a
@@ -4278,23 +4284,23 @@ _LABEL_1AF8_:
 _LABEL_1B3A_:
     ld a,(_RAM_C267_)
     ld (TextCharacterNumber),a
-    cp $02
+    cp Player_Tylon
     jp nz,+
-    ld hl,_DATA_AF5E_
+    ld hl,textTaironCantUseMagic
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld c,a
-    add a,a
+    add a,a ; x16
     add a,a
     add a,a
     add a,a
     ld hl,CharacterStatsAlis.MagicCount
     add a,l
     ld l,a
-    ld a,(hl)
+    ld a,(hl) ; Get player magic count
     or a
-    jp z,_LABEL_1B9E_
+    jp z,_noMagicYet
     ld b,a
     ld a,c
     cp $03
@@ -4333,12 +4339,12 @@ _LABEL_1B3A_:
     call FunctionLookup
 +:  jp _LABEL_35E3_
 
-_LABEL_1B9E_:
-    ld hl,_DATA_AF71_
+_noMagicYet:
+    ld hl,textPlayerHasNoMagicYet
     call TextBox20x6
     jp Close20x6TextBox
 
-++:  ld hl,_DATA_B054_
+++:  ld hl,textNotEnoughMagicPoints
     call TextBox20x6
     call Close20x6TextBox
     jp _LABEL_35E3_
@@ -4452,8 +4458,9 @@ _LABEL_1C92_:
     jp z,_LABEL_1AC0_
 +:  ld a,$AC
     ld (NewMusic),a
-    ld hl,_DATA_AB4E_
+    ld hl,textMonsterAnswers
     call TextBox20x6
+    ; Pick a random answer
 -:  call GetRandomNumber
     and $0F
     cp $0A
@@ -4461,7 +4468,7 @@ _LABEL_1C92_:
     ld l,a
     ld h,$00
     add hl,hl
-    ld de,_DATA_1CCF_
+    ld de,_monsterDialogue2
     add hl,de
     ld a,(hl)
     inc hl
@@ -4475,9 +4482,8 @@ _LABEL_1C92_:
     jp Close20x6TextBox
 
 ; Pointer Table from 1CCF to 1CE2 (10 entries,indexed by unknown)
-_DATA_1CCF_:
-.dw _DATA_B493_ _DATA_B4A7_ _DATA_B4C8_ _DATA_B4E1_ _DATA_B502_ _DATA_B521_ _DATA_B540_ _DATA_B55C_
-.dw _DATA_B57A_ _DATA_B594_
+_monsterDialogue2:
+.dw textMonster10, textMonster11, textMonster12, textMonster13, textMonster14, textMonster15, textMonster16, textMonster17, textMonster18, textMonster19
 
 _LABEL_1CE3_:
     ld hl,_DATA_1F38_
@@ -4670,16 +4676,16 @@ _LABEL_1DFD_:
 
 ; 5th entry of Jump Table from 1DF3 (indexed by CursorPos)
 _LABEL_1E3B_:
-    ld hl,_DATA_B39F_
+    ld hl,textSaveSelectSlot
     call TextBox20x6
     call _LABEL_3ACF_
-    ld hl,TextConfirmSlotSelection
+    ld hl,textSaveDeleteConfirmSlot
     call TextBox20x6
     call DoYesNoMenu
     jr nz,_LABEL_1E97_
     ld a,(FunctionLookupIndex)
     ld (_RAM_C316_),a
-    ld hl,_DATA_B3C8_
+    ld hl,textSavingToSlot
     call TextBox20x6
     push bc
     ld a,(NumberToShowInText)
@@ -4709,7 +4715,7 @@ _LABEL_1E3B_:
     ld (SRAMPaging),a
     pop bc
     jr z,+
-    ld hl,_DATA_B3D8_
+    ld hl,textSavingComplete
     call TextBox20x6
 _LABEL_1E97_:
     call _LABEL_3B07_
@@ -4739,12 +4745,12 @@ _LABEL_1EA9_:
     add a,a
     add a,a
     add a,a
-    ld hl,CharacterStatsAlis.Unknown2
+    ld hl,CharacterStatsAlis.BattleMagicCount
     add a,l
     ld l,a
     ld a,(hl)
     or a
-    jp z,_LABEL_1F1C_
+    jp z,_noMagicYet
     ld b,a
     ld a,c
     cp $03
@@ -4789,17 +4795,17 @@ _LABEL_1F16_:
     call _LABEL_37D8_
     jp _LABEL_30A4_
 
-_LABEL_1F1C_:
-    ld hl,_DATA_AF71_
+_noMagicYet:
+    ld hl,textPlayerHasNoMagicYet
     jr +
 
 _LABEL_1F21_:
-    ld hl,_DATA_AF5E_
+    ld hl,textTaironCantUseMagic
 +:  call TextBox20x6
     call Close20x6TextBox
     jp _LABEL_37D8_
 
-++:  ld hl,_DATA_B054_
+++:  ld hl,textNotEnoughMagicPoints
     call TextBox20x6
     call Close20x6TextBox
     jr _LABEL_1F13_
@@ -4864,7 +4870,7 @@ _LABEL_1FA6_:
     pop de
 _LABEL_1FBB_:
     push de
-    ld hl,_DATA_ABFE_
+    ld hl,textPlayerHealed
     call TextBox20x6
     pop de
     ld a,$C1
@@ -4899,7 +4905,7 @@ _LABEL_1FEA_:
     ld (NewMusic),a
     ld a,c
     ld (_RAM_C2EF_),a
-    ld hl,_DATA_AB9A_
+    ld hl,textMagicWall
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -5022,11 +5028,11 @@ _LABEL_2092_:
     or a
     jr z,+++
 +:  djnz -
-++:  ld hl,_DATA_AB72_
+++: ld hl,textPlayersSpellHadNoEffect
     jr ++++
 
 +++:ld (hl),c
-    ld hl,_DATA_AC22_
+    ld hl,textMonsterTiedUp
 ++++:
     call TextBox20x6
     jp Close20x6TextBox
@@ -5049,15 +5055,15 @@ _LABEL_20E5_:
     jr z,++
 +:  ld a,(ItemTableIndex)
     or a
-    ld hl,_DATA_AB72_
+    ld hl,textPlayersSpellHadNoEffect
     jr z,+
-    ld hl,_DATA_AD02_
+    ld hl,textNoEffect
 +:  call TextBox20x6
     jp Close20x6TextBox
 
 ++:  ld a,$BC
     ld (NewMusic),a
-    ld hl,_DATA_AC9C_
+    ld hl,textPartyRanAway
     call TextBox20x6
     call Close20x6TextBox
     ld a,$05
@@ -5076,7 +5082,7 @@ _LABEL_211C_:
     ret z
     call PointHLToCharacterInA
     set 7,(hl)
-    ld hl,_DATA_AC70_
+    ld hl,textPlayerEnergyBoost
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -5104,11 +5110,11 @@ _LABEL_213B_:
     bit 6,(hl)
     jr z,+++
 +:  djnz -
-++:  ld hl,_DATA_AB72_
+++: ld hl,textPlayersSpellHadNoEffect
     jr ++++
 
 +++:set 6,(hl)
-    ld hl,_DATA_AC8A_
+    ld hl,textMonsterRanAway
 ++++:
     call TextBox20x6
     jp Close20x6TextBox
@@ -5125,23 +5131,23 @@ _LABEL_2178_:
     jr z,++
     ld a,(SceneType)
     or a
-    ld hl,_DATA_AF1E_
+    ld hl,textNothingUnusualHere
     jr nz,+
-    call _LABEL_6AED_
-    ld hl,_DATA_AF1E_
+    call _SquareInFrontOfPlayerContainsObject
+    ld hl,textNothingUnusualHere
     jr z,+
     ld l,c
     ld h,$CB
     ld (hl),$00
-    ld hl,_DATA_ACBB_
+    ld hl,textTrapDisarmed
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++:  ld a,(_RAM_C80F_)
+++: ld a,(_RAM_C80F_)
     cp $3D
-    ld hl,_DATA_ACB1_
+    ld hl,textNoTrap
     jr z,+
-    ld hl,_DATA_ACBB_
+    ld hl,textTrapDisarmed
 +:  call TextBox20x6
     ld a,$3D
     ld (_RAM_C80F_),a
@@ -5155,14 +5161,14 @@ _LABEL_21C0_:
     ld a,(SceneType)
     or a
     jr z,_LABEL_21D4_
-    ld hl,_DATA_AB72_
+    ld hl,textPlayersSpellHadNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
 _LABEL_21D4_:
     ld a,$BF
     ld (NewMusic),a
-    ld hl,_DATA_AF3B_
+    ld hl,textYouBecomeLight
     call TextBox20x6
     call Close20x6TextBox
     ld a,$FF
@@ -5181,12 +5187,12 @@ _LABEL_21ED_:
     ld a,(SceneType)
     or a
     jr z,+
--:  ld hl,_DATA_AB72_
+-:  ld hl,textPlayersSpellHadNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld b,$01
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     and $07
     cp $06
     jr nz,-
@@ -5211,7 +5217,7 @@ _LABEL_221B_:
     ld (TextCharacterNumber),a
     call PointHLToCharacterInA
     jr z,+
-    ld hl,_DATA_B064_
+    ld hl,textPlayerIsNotDead
     jr ++
 
 +:  ld (hl),$01
@@ -5223,8 +5229,8 @@ _LABEL_221B_:
     inc de
     ldi
     ldi
-    ld hl,_DATA_AF4D_
-++:  call TextBox20x6
+    ld hl,textPlayerRevived
+++: call TextBox20x6
     call Close20x6TextBox
 +++:jp _LABEL_37E9_
 
@@ -5241,22 +5247,22 @@ _LABEL_225E_:
     jr z,++
     ld a,(SceneType)
     or a
-    ld hl,_DATA_AE34_
+    ld hl,textPlayerNoPremonition
     jr nz,+
-    call _LABEL_6AED_
-    ld hl,_DATA_AE34_
+    call _SquareInFrontOfPlayerContainsObject
+    ld hl,textPlayerNoPremonition
     jr z,+
-    ld hl,_DATA_AE21_
+    ld hl,textPlayerPremonition
 +:  call TextBox20x6
     ld a,$D5
     ld (NewMusic),a
     jp Close20x6TextBox
 
-++:  ld a,(_RAM_C80F_)
+++: ld a,(_RAM_C80F_)
     cp $3D
-    ld hl,_DATA_AE34_
+    ld hl,textPlayerNoPremonition
     jr z,+
-    ld hl,_DATA_AE21_
+    ld hl,textPlayerPremonition
 +:  call TextBox20x6
     ld a,$D5
     ld (NewMusic),a
@@ -5272,12 +5278,12 @@ _LABEL_229C_:
     ld a,(SceneType)
     or a
     jr nz,_LABEL_22B5_
-    ld hl,_DATA_AB72_
+    ld hl,textPlayersSpellHadNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
 _LABEL_22B5_:
-    ld hl,_DATA_AF3B_
+    ld hl,textYouBecomeLight
     call TextBox20x6
     call Close20x6TextBox
     ld a,$08
@@ -5320,13 +5326,13 @@ _LABEL_22C4_:
 +:  push bc
     call _LABEL_79D5_
     pop bc
-++:  ld hl,_DATA_AD26_
+++: ld hl,textCantDisembark
     jr nz,+
     xor a
     ld (VehicleMovementFlags),a
     dec a
     ld (_RAM_C2D8_),a
-    ld hl,_DATA_AD42_
+    ld hl,textDisembarkedVehicle
 +:  call TextBox20x6
     call Close20x6TextBox
     jp _LABEL_2351_
@@ -5358,7 +5364,7 @@ _LABEL_2351_:
 
 ; Jump Table from 2357 to 235C (3 entries,indexed by CursorPos)
 _DATA_2357_:
-.dw _LABEL_235D_ _LABEL_2824_ _LABEL_28AE_
+.dw _LABEL_235D_ _LABEL_2824_ _LABEL_28AE_DropItem
 
 ; 1st entry of Jump Table from 2357 (indexed by CursorPos)
 _LABEL_235D_:
@@ -5374,37 +5380,37 @@ _DATA_2366_:
 .dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
 .dw _LABEL_23E6_ _LABEL_240B_ _LABEL_2441_ _LABEL_2476_ _LABEL_248F_ _LABEL_2493_ _LABEL_24C5_ _LABEL_24F9_
 .dw _LABEL_253E_ _LABEL_2548_ _LABEL_2572_ _LABEL_258B_ _LABEL_25ED_ _LABEL_2645_ _LABEL_2680_ _LABEL_2693_
-.dw _LABEL_26E5_ _LABEL_271F_ _LABEL_276F_ _LABEL_280C_ _LABEL_280C_ _LABEL_278D_ _LABEL_280C_ _LABEL_280C_
+.dw _LABEL_26E5_ _LABEL_271F_ _LABEL_276F_ _LABEL_280C_ _LABEL_280C_ _LABEL_278D_Compass _LABEL_280C_ _LABEL_280C_
 .dw _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_27D8_ _LABEL_280C_
 
 ; 1st entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_23E6_:
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld hl,_DATA_AD02_
+    ld hl,textNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
 ; 5th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_23F5_:
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
     jp nz,_LABEL_20E5_
-    ld hl,_DATA_AD4D_
+    ld hl,textNothingHappened
     call TextBox20x6
     jp Close20x6TextBox
 
 ; 34th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_240B_:
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld e,$04
 _LABEL_2413_:
     ld a,(_RAM_C308_)
     cp $04
-    ld hl,_DATA_AD11_
+    ld hl,textItemNoUseHere
     jr nc,+
     ld a,(SceneType)
     or a
@@ -5414,23 +5420,23 @@ _LABEL_2413_:
     call _LABEL_78F9_
     pop de
     pop bc
-    ld hl,_DATA_AD11_
+    ld hl,textItemNoUseHere
     jr nz,+
     ld a,e
     ld (VehicleMovementFlags),a
     ld a,$FF
     ld (_RAM_C2D8_),a
-    ld hl,_DATA_AD38_
+    ld hl,textBoardedVehicle
 +:  call TextBox20x6
     jp Close20x6TextBox
 
 ; 35th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_2441_:
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C308_)
     cp $04
-    ld hl,_DATA_AD11_
+    ld hl,textItemNoUseHere
     jr nc,+
     ld a,(SceneType)
     or a
@@ -5440,25 +5446,25 @@ _LABEL_2441_:
     call _LABEL_7964_
     pop de
     pop bc
-    ld hl,_DATA_AD11_
+    ld hl,textItemNoUseHere
     jr nz,+
     ld a,$08
     ld (VehicleMovementFlags),a
     ld a,$FF
     ld (_RAM_C2D8_),a
-    ld hl,_DATA_AD38_
+    ld hl,textBoardedVehicle
 +:  call TextBox20x6
     jp Close20x6TextBox
 
 ; 36th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_2476_:
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C308_)
     cp $02
     ld e,$0C
     jp z,_LABEL_2413_
-    ld hl,_DATA_AD11_
+    ld hl,textItemNoUseHere
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -5483,11 +5489,11 @@ _LABEL_2493_:
     call _LABEL_19EA_
     jr z,++
     push de
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     pop de
     call _LABEL_1FBB_
-    call _LABEL_28D8_
+    call _LABEL_28D8_RemoveItemFromInventory
 ++:  ld a,(_RAM_C29D_)
     or a
     ret nz
@@ -5495,14 +5501,14 @@ _LABEL_2493_:
 
 ; 39th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_24C5_:
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,$C2
     ld (NewMusic),a
     ld a,(_RAM_C29D_)
     or a
     jr nz,+
-    ld hl,_DATA_B8A7_
+    ld hl,textSoothFlute
     call TextBox20x6
     ld a,$D5
     ld (NewMusic),a
@@ -5511,7 +5517,7 @@ _LABEL_24C5_:
     jp z,_LABEL_21D4_
     jp Close20x6TextBox
 
-+:  ld hl,_DATA_AD5D_
++:  ld hl,textSootheFluteCalmedMonster
     call TextBox20x6
     ld a,$D5
     ld (NewMusic),a
@@ -5522,28 +5528,28 @@ _LABEL_24F9_:
     ld a,(_RAM_C29D_)
     or a
     jr z,+
-    ld hl,_DATA_ADA0_
+    ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld hl,_DATA_AD80_
+    ld hl,textCantDoThatNow
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld a,(SceneType)
     or a
     jr z,+
--:  ld hl,_DATA_ADA0_
+-:  ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld hl,_DATA_ADAD_
+    ld hl,textNoNeedNow
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld a,(DungeonPaletteIndex)
     or a
     jr nz,-
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     call Close20x6TextBox
-    call _LABEL_28D8_
+    call _LABEL_28D8_RemoveItemFromInventory
     ld a,$FF
     ld (DungeonPaletteIndex),a
     ld (_RAM_C2D8_),a
@@ -5553,69 +5559,69 @@ _LABEL_24F9_:
 _LABEL_253E_:
     ld a,(_RAM_C29D_)
     or a
-    call nz,_LABEL_28D8_
+    call nz,_LABEL_28D8_RemoveItemFromInventory
     jp _LABEL_23F5_
 
 ; 42nd entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_2548_:
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
     jr z,+
-    ld hl,_DATA_AD02_
+    ld hl,textNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld a,(SceneType)
     or a
     push af
-    call nz,_LABEL_28D8_
+    call nz,_LABEL_28D8_RemoveItemFromInventory
     pop af
     jp nz,_LABEL_22B5_
-    ld hl,_DATA_AD4D_
+    ld hl,textNothingHappened
     call TextBox20x6
     jp Close20x6TextBox
 
 ; 43rd entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_2572_:
-    call _LABEL_28D8_
-    ld hl,_DATA_ACDA_
+    call _LABEL_28D8_RemoveItemFromInventory
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
     jp nz,_LABEL_1C73_
-    ld hl,_DATA_AD02_
+    ld hl,textNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
 ; 44th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_258B_:
-    ld hl,_DATA_ADA0_
+    ld hl,textPlayerTakesOutItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
     jr z,+
-    ld hl,_DATA_AD80_
+    ld hl,textCantDoThatNow
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
     cp $A3
     jr z,++
-    call _LABEL_261A_
-    ld hl,_DATA_AF1E_
+    call IsAnyoneOtherThanMyauAlive
+    ld hl,textNothingUnusualHere
     jr nz,+
--:  ld hl,_DATA_ADEA_
+-:  ld hl,textMyauCantOpenBottle
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++:  call _LABEL_261A_
+++:  call IsAnyoneOtherThanMyauAlive
     jr z,-
-    ld hl,_DATA_ADCF_
+    ld hl,textAlisPourBottle
     call TextBox20x6
     call Close20x6TextBox
-    call _LABEL_28D8_
+    call _LABEL_28D8_RemoveItemFromInventory
     ld iy,CharacterStatsOdin
     ld (iy+10),$06
     ld (iy+11),$13
@@ -5632,26 +5638,27 @@ _LABEL_258B_:
 
 ; 45th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_25ED_:
-    ld hl,_DATA_ADA0_
+    ld hl,textPlayerTakesOutItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
     jr z,+
-    ld hl,_DATA_AD80_
+    ld hl,textCantDoThatNow
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
     cp $A1
     jr z,++
-    call _LABEL_261A_
-    ld hl,_DATA_ADEA_
+    call IsAnyoneOtherThanMyauAlive
+    ld hl,textMyauCantOpenBottle
     jr z,+
-    ld hl,_DATA_AE0A_
+    ld hl,textItStinks
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-_LABEL_261A_:
+IsAnyoneOtherThanMyauAlive:
+    ; Returns z is they are all dead or not found yet
     ld a,(CharacterStatsAlis)
     ld d,a
     ld a,(CharacterStatsOdin)
@@ -5661,15 +5668,15 @@ _LABEL_261A_:
     or e
     ret
 
-++:  call _LABEL_261A_
+++:  call IsAnyoneOtherThanMyauAlive
     jr nz,+
-    ld hl,_DATA_ADEA_
+    ld hl,textMyauCantOpenBottle
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld hl,_DATA_ADCF_
++:  ld hl,textAlisPourBottle
     call TextBox20x6
-    call _LABEL_28D8_
+    call _LABEL_28D8_RemoveItemFromInventory
     call GetHapsby
     jp Close20x6TextBox
 
@@ -5679,16 +5686,16 @@ _LABEL_2645_:
     or a
     jr z,+
 _LABEL_264B_:
-    ld hl,_DATA_ADA0_
+    ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld hl,_DATA_AF1E_
+    ld hl,textNothingUnusualHere
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld hl,_DATA_ACDA_
++:  ld hl,textPlayerUsedItem
     call TextBox20x6
     ld b,$01
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     and $07
     cp $05
     jr nz,+
@@ -5698,14 +5705,14 @@ _LABEL_264B_:
     ld (_RAM_C2D8_),a
     jp Close20x6TextBox
 
-+:  ld hl,_DATA_AD02_
++:  ld hl,textNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
 ; 47th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_2680_:
-    call _LABEL_28D8_
-    ld hl,_DATA_ACDA_
+    call _LABEL_28D8_RemoveItemFromInventory
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
@@ -5714,34 +5721,34 @@ _LABEL_2680_:
 
 ; 48th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_2693_:
-    ld hl,_DATA_AE5B_
+    ld hl,textPlayerHeldItemUp
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
     jr z,+
-    ld hl,_DATA_AE44_
+    ld hl,textMonsterAfraidOfFlame
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
-    cp $AF
+    cp $AF ; Laerma tree
     jr z,+
-    ld hl,_DATA_AD4D_
+    ld hl,textNothingHappened
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  push bc
-    call _LABEL_7F44_
+      call _LABEL_7F44_PaletteAnimation
     pop bc
-    ld a,$38
+    ld a,Item_LaconianPot
     call HaveItem
     jr z,+
-    ld hl,_DATA_AE8A_
+    ld hl,textLaermaBerriesShriveledUp
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  call _LABEL_28D8_
-    ld hl,_DATA_AE6B_
++:  call _LABEL_28D8_RemoveItemFromInventory
+    ld hl,textPlayerPutLaermaBerriesInLaconianPot
     call TextBox20x6
     call Close20x6TextBox
     ld a,$31
@@ -5752,26 +5759,26 @@ _LABEL_2693_:
 
 ; 49th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_26E5_:
-    ld hl,_DATA_AE5B_
+    ld hl,textPlayerHeldItemUp
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
     jr z,+
-    ld hl,_DATA_AD80_
+    ld hl,textCantDoThatNow
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
     cp $B0
     jr z,+
--:  ld hl,_DATA_AD4D_
+-:  ld hl,textNothingHappened
     call TextBox20x6
     jp Close20x6TextBox
 
 +:  ld a,(_RAM_C2DC_)
     cp $FF
     jr z,-
-    ld hl,_DATA_AEAD_
+    ld hl,textAerocastleAppeared
     call TextBox20x6
     ld a,$06
     ld (_RAM_C2D8_),a
@@ -5789,20 +5796,20 @@ _LABEL_271F_:
     cp $B0
     jr z,++
 _LABEL_2733_:
-    ld hl,_DATA_ADA0_
+    ld hl,textPlayerTakesOutItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
-    ld hl,_DATA_AECF_
+    ld hl,textNobodyHungry
     jr z,+
-    ld hl,_DATA_AD80_
+    ld hl,textCantDoThatNow
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++:  ld a,(_RAM_C2DC_)
+++: ld a,(_RAM_C2DC_)
     cp $FF
     jr nz,_LABEL_2733_
--:  ld hl,_DATA_B094_
+-:  ld hl,textMyauAteLaermaBerry
     call TextBox20x6
     call Close20x6TextBox
     ld a,$07
@@ -5822,47 +5829,47 @@ _LABEL_276F_:
     ld a,(_RAM_C29D_)
     or a
     jr z,+
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld hl,_DATA_AEE8_
+    ld hl,textHapsbySaysNo
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld hl,_DATA_AEF8_
++:  ld hl,textHapsbyHardHead
     call TextBox20x6
     jp Close20x6TextBox
 
 ; 54th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_278D_:
+_LABEL_278D_Compass:
     ld a,(SceneType)
     or a
     jr z,++
--:  ld hl,_DATA_ADA0_
+-:  ld hl,textPlayerTakesOutItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
-    ld hl,_DATA_ADAD_
+    ld hl,textNoNeedNow
     jr z,+
-    ld hl,_DATA_AD80_
+    ld hl,textCantDoThatNow
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++:  ld a,(_RAM_C29D_)
+++: ld a,(_RAM_C29D_)
     or a
     jr nz,-
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C30A_)
+    ld a,(DungeonFacingDirection)
     and $03
-    ld hl,_DATA_B5FA_
+    ld hl,textCompassNorth
     jr z,+
     cp $01
-    ld hl,_DATA_B5DE_
+    ld hl,textCompassEast
     jr z,+
     cp $02
-    ld hl,_DATA_B608_
+    ld hl,textCompassSouth
     jr z,+
-    ld hl,_DATA_B5EC_
+    ld hl,textCompassWest
 +:  call TextBox20x6
     jp Close20x6TextBox
 
@@ -5871,10 +5878,10 @@ _LABEL_27D8_:
     ld a,(SceneType)
     or a
     jp nz,_LABEL_264B_
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld b,$01
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     bit 7,(hl)
     jr nz,++
     and $07
@@ -5888,19 +5895,19 @@ _LABEL_27D8_:
     ld (_RAM_C2D8_),a
     jp Close20x6TextBox
 
-++:  ld hl,_DATA_AD02_
+++:  ld hl,textNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
 ; 52nd entry of Jump Table from 2366 (indexed by ItemTableIndex)
 _LABEL_280C_:
-    ld hl,_DATA_ACDA_
+    ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C29D_)
     or a
-    ld hl,_DATA_AD4D_
+    ld hl,textNothingHappened
     jr nz,+
-    ld hl,_DATA_AF09_
+    ld hl,textItemAlwaysActive
 +:  call TextBox20x6
     jp Close20x6TextBox
 
@@ -5922,7 +5929,7 @@ _LABEL_2824_:
     rrca
     and $0F
     jp nz,+
-    ld hl,_DATA_AF96_
+    ld hl,textNoNeedToEquipItem
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -5965,7 +5972,7 @@ _LABEL_2824_:
     push af
     ld a,(ItemTableIndex)
     ld (de),a
-    ld hl,_DATA_ACE6_
+    ld hl,textPlayerEquippedItem
     call TextBox20x6
     ld a,(TextCharacterNumber)
     call _LABEL_3824_
@@ -5974,20 +5981,20 @@ _LABEL_2824_:
     call Close20x6TextBox
     pop af
     or a
-    call z,_LABEL_28D8_
+    call z,_LABEL_28D8_RemoveItemFromInventory
 _LABEL_289D_:
     call CharacterStatsUpdate
     jp _LABEL_37D8_
 
-+:  ld hl,_DATA_AF86_
++:  ld hl,textPlayerCantEquipItem
     call TextBox20x6
     call Close20x6TextBox
     jr _LABEL_289D_
 
 ; 3rd entry of Jump Table from 2357 (indexed by CursorPos)
-_LABEL_28AE_:
+_LABEL_28AE_DropItem:
     ld hl,Frame2Paging
-    ld (hl),$02
+    ld (hl),:ItemMetadata
     ld a,(ItemTableIndex)
     ld hl,ItemMetadata
     add a,l
@@ -5998,16 +6005,16 @@ _LABEL_28AE_:
     ld a,(hl)
     and $04
     jr z,+
-    ld hl,_DATA_B043_
+    ld hl,textCantDropItem
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld hl,_DATA_ACF3_
++:  ld hl,textPlayerDroppedItem
     call TextBox20x6
-    call _LABEL_28D8_
+    call _LABEL_28D8_RemoveItemFromInventory
     jp Close20x6TextBox
 
-_LABEL_28D8_:
+_LABEL_28D8_RemoveItemFromInventory:
     ld hl,(_RAM_C29B_)
 RemoveItemFromInventory:
     push bc
@@ -6048,15 +6055,15 @@ _LABEL_28FB_:
     ret
 
 _LABEL_2918_:
-    ld hl,_DATA_AFF8_
+    ld hl,textInventoryFull
     call TextBox20x6
     call DoYesNoMenu
     jr z,_LABEL_2934_
-    ld hl,_DATA_B02E_
+    ld hl,textConfirmDropItem
     call TextBox20x6
     call DoYesNoMenu
     jr nz,_LABEL_2934_
-    ld hl,_DATA_B039_
+    ld hl,textDropItem
     jp TextBox20x6
 
 _LABEL_2934_:
@@ -6080,13 +6087,13 @@ _LABEL_2934_:
     ld a,(hl)
     and $04
     jr z,+
-    ld hl,_DATA_B043_
+    ld hl,textCantDropItem
     call TextBox20x6
     pop af
     ld (ItemTableIndex),a
     jp _LABEL_2934_
 
-+:  ld hl,_DATA_B01D_
++:  ld hl,textDropItemToGetItem
     call TextBox20x6
     pop af
     ld (ItemTableIndex),a
@@ -6094,7 +6101,7 @@ _LABEL_2934_:
     ld (hl),a
     ld a,$B3
     ld (NewMusic),a
-    ld hl,_DATA_B024_
+    ld hl,textAndGetItem
     jp TextBox20x6
 
 ++:  pop af
@@ -6116,7 +6123,7 @@ _LABEL_2995_:
     cp $0E
     jr nz,+
     call _LABEL_321F_
-    ld hl,_DATA_AF1E_
+    ld hl,textNothingUnusualHere
     call TextBox20x6
     call _LABEL_2A37_
     jp _LABEL_3041_
@@ -6181,7 +6188,7 @@ _LABEL_2995_:
 ++:  ld (ItemTableIndex),a
     call HaveItem
     jr z,_LABEL_2A21_
-    ld hl,_DATA_AF32_
+    ld hl,textFoundItem
     call TextBox20x6
     call _LABEL_28FB_
     jp Close20x6TextBox
@@ -6192,12 +6199,12 @@ _LABEL_2A21_:
     jp z,_LABEL_57C6_
     cp $A3
     jp z,FindTairon
-    ld hl,_DATA_AF1E_
+    ld hl,textNothingUnusualHere
     call TextBox20x6
     jp Close20x6TextBox
 
 _LABEL_2A37_:
-    ld hl,_DATA_AFE7_
+    ld hl,textDoYouWantToOpenIt
     call TextBox20x6
     call ShowMenuYesNo
     push af
@@ -6207,14 +6214,15 @@ _LABEL_2A37_:
     or a
     ret nz
 _LABEL_2A4A_:
-    ld a,$B0
+    ld a,SFX_b0
     ld (NewMusic),a
-    ld hl,(_RAM_C2E1_)
+    ; Set ibject flag to $ff so we don't see it again
+    ld hl,(DungeonObjectFlagAddress)
     ld (hl),$FF
     ld a,$01
     ld (_RAM_C80A_),a
     push bc
-    call _LABEL_1A15_
+      call _LABEL_1A15_
     pop bc
     ld a,(_RAM_C80F_)
     cp $3D
@@ -6223,10 +6231,10 @@ _LABEL_2A4A_:
     ld a,h
     or l
     jr nz,+
-    ld a,(_RAM_C2DF_)
+    ld a,(DungeonObjectItemIndex)
     or a
     jr nz,+
-    ld hl,_DATA_AFEF_
+    ld hl,textItsEmpty
     call TextBox20x6
     ld a,$D0
     ld (SpriteTable),a
@@ -6234,16 +6242,16 @@ _LABEL_2A4A_:
 
 +:  ld hl,(EnemyMoney)
     ld (NumberToShowInText),hl
-    call _LABEL_2AD6_
+    call _addDEMesetas
     ld a,h
     or l
-    ld hl,_DATA_AFDA_
+    ld hl,textMesetasInside
     call nz,TextBox20x6
-    ld a,(_RAM_C2DF_)
+    ld a,(DungeonObjectItemIndex)
     ld (ItemTableIndex),a
     or a
     jr z,+
-    ld hl,_DATA_AF32_
+    ld hl,textFoundItem
     call TextBox20x6
     call _LABEL_28FB_
 +:  ld a,$D0
@@ -6278,13 +6286,13 @@ _LABEL_2AAC_:
     ld (hl),a
     ret
 
-_LABEL_2AD6_:
+_addDEMesetas:
     ex de,hl
-    ld hl,(Meseta)
-    add hl,de
-    jr nc,+
-    ld hl,$FFFF
-+:  ld (Meseta),hl
+      ld hl,(Meseta)
+      add hl,de
+      jr nc,+
+      ld hl,$FFFF ; Max 64K
++:    ld (Meseta),hl
     ex de,hl
     ret
 
@@ -6292,14 +6300,14 @@ _LABEL_2AD6_:
 .db $CD $81 $2E $C9
 
 _LABEL_2AE9_:
-    ld hl,_DATA_B20E_
+    ld hl,textHospital
     call TextBox20x6
     call DoYesNoMenu
     jp nz,_LABEL_2BB1_
 _LABEL_2AF5_:
     ld a,(PartySize)
     or a
-    ld hl,_DATA_B25C_
+    ld hl,textHospitalWho
     call nz,TextBox20x6
     call _LABEL_3782_
     bit 4,c
@@ -6307,7 +6315,7 @@ _LABEL_2AF5_:
     ld (TextCharacterNumber),a
     call PointHLToCharacterInA
     jr nz,+
-    ld hl,_DATA_B087_
+    ld hl,textPlayerAlreadyDead
     call TextBox20x6
     jp _LABEL_2BA4_
 
@@ -6319,12 +6327,12 @@ _LABEL_2AF5_:
     ld a,(iy+2)
     cp (iy+7)
     jr nz,+
-    ld hl,_DATA_B2A5_
+    ld hl,textHospitalNoNeedToHealPlayer
     call TextBox20x6
     ld a,(PartySize)
     or a
     jr nz,_LABEL_2BA4_
-    ld hl,_DATA_B29A_
+    ld hl,textHospitalPleaseBeCareful
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -6337,7 +6345,7 @@ _LABEL_2AF5_:
     ld l,a
     ld h,$00
     ld (NumberToShowInText),hl
-    ld hl,_DATA_B228_
+    ld hl,textHospitalFee
     call TextBox20x6
     call _LABEL_3B13_
     call DoYesNoMenu
@@ -6358,13 +6366,13 @@ _LABEL_2AF5_:
     ld (iy+1),a
     ld a,(iy+7)
     ld (iy+2),a
-    ld hl,_DATA_B26E_
+    ld hl,textHospitalThankYouForWaiting
     call TextBox20x6
     call _LABEL_3B3C_
     ld a,(PartySize)
     or a
     jr z,+
-    ld hl,_DATA_B244_
+    ld hl,textHospitalAnyoneElse
     call TextBox20x6
     call DoYesNoMenu
     jr nz,_LABEL_2BAE_
@@ -6376,14 +6384,14 @@ _LABEL_2BA4_:
 _LABEL_2BAE_:
     call _LABEL_37D8_
 _LABEL_2BB1_:
-    ld hl,_DATA_B282_
+    ld hl,textHospitalCouldNotHelp
     call TextBox20x6
     jp Close20x6TextBox
 
 _LABEL_2BBA_:
     call _LABEL_3B3C_
     call _LABEL_37D8_
-    ld hl,_DATA_B65C_
+    ld hl,textShopNotEnoughMoney
     call TextBox20x6
 +:  jp Close20x6TextBox
 
@@ -6407,7 +6415,7 @@ _LABEL_2BC9_:
 _LABEL_2BE1_:
     ld a,(RoomIndex)
     ld (_RAM_C317_),a
-    ld hl,_DATA_B2B7_
+    ld hl,textChurch
     call TextBox20x6
     call DoYesNoMenu
     or a
@@ -6416,7 +6424,7 @@ _LABEL_2BF4_:
     ld a,(PartySize)
     or a
     jp z,_LABEL_2C8D_
-    ld hl,_DATA_B31E_
+    ld hl,textChurchWho
     call TextBox20x6
     call _LABEL_3782_
     bit 4,c
@@ -6437,7 +6445,7 @@ _LABEL_2BF4_:
     add hl,hl
     add hl,de
     ld (NumberToShowInText),hl
-    ld hl,_DATA_B33C_
+    ld hl,textChurchPrice
     call TextBox20x6
     call _LABEL_3B13_
     call DoYesNoMenu
@@ -6445,7 +6453,7 @@ _LABEL_2BF4_:
     call nz,_LABEL_3B3C_
     pop af
     jr nz,_LABEL_2C71_
-    ld hl,_DATA_B2F2_
+    ld hl,textChurchIncantation1
     call TextBox20x6
     ld de,(NumberToShowInText)
     ld hl,(Meseta)
@@ -6459,28 +6467,28 @@ _LABEL_2BF4_:
     ld (iy+1),a
     ld a,(iy+7)
     ld (iy+2),a
-    ld hl,_DATA_B304_
+    ld hl,textChurchIncantation2
     call TextBox20x6
     ld a,$C5
     ld (NewMusic),a
     call MenuWaitHalfSecond
     call _LABEL_3B3C_
 _LABEL_2C71_:
-    ld hl,_DATA_B32D_
+    ld hl,textChurchAnyoneElse
     call TextBox20x6
     call DoYesNoMenu
     jr nz,_LABEL_2C9F_
     call _LABEL_37D8_
     jp _LABEL_2BF4_
 
-+:  ld hl,_DATA_B695_
++:  ld hl,textChurchNotEnoughMoney
     call TextBox20x6
     call _LABEL_3B3C_
     jr _LABEL_2C71_
 
 _LABEL_2C8D_:
     ld (TextCharacterNumber),a
-    ld hl,_DATA_B393_
+    ld hl,textChurchPlayerNotDead
     call TextBox20x6
     ld a,(PartySize)
     or a
@@ -6489,9 +6497,9 @@ _LABEL_2C8D_:
 _LABEL_2C9F_:
     call _LABEL_37D8_
 _LABEL_2CA2_:
-    ld hl,_DATA_B374_
+    ld hl,textChurchEnd
     call TextBox20x6
-    ld hl,_DATA_B351_
+    ld hl,textChurchToLevelUp
     call TextBox20x6
     call +
     jp Close20x6TextBox
@@ -6537,16 +6545,16 @@ _LABEL_2CA2_:
     or a
     sbc hl,de
     ld (NumberToShowInText),hl
-    ld hl,_DATA_B363_
+    ld hl,textChurchPlayerNeedsExperiencePoints
     jp TextBox20x6
 
 _LABEL_2D1C_:
-    ld hl,_DATA_B148_
+    ld hl,textArmory
     call TextBox20x6
-_LABEL_2D22_:
+_LABEL_2D22_ShopMenus:
     call DoYesNoMenu
     jr z,_LABEL_2D30_
-    ld hl,_DATA_B163_
+    ld hl,textShopComeAgain
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -6556,7 +6564,7 @@ _LABEL_2D30_:
     call _LABEL_3B13_
     pop bc
 _LABEL_2D38_:
-    ld hl,_DATA_B173_
+    ld hl,textShopWhatDoYouWant
     call TextBox20x6
     push bc
     call _LABEL_39F6_
@@ -6589,23 +6597,23 @@ _LABEL_2D38_:
     call HaveItem
     jr z,++
 +:  call _LABEL_28FB_
-++:  ld hl,_DATA_B17E_
+++: ld hl,textShopBuyItem
     call TextBox20x6
     call DoYesNoMenu
     jr z,_LABEL_2D38_
 _LABEL_2D89_:
-    ld hl,_DATA_B163_
+    ld hl,textShopComeAgain
 -:  call TextBox20x6
     call _LABEL_3B3C_
     call _LABEL_3AC3_
     jp Close20x6TextBox
 
 _LABEL_2D98_:
-    ld hl,_DATA_B18F_
+    ld hl,textShopInventoryFull
     jr -
 
 _LABEL_2D9D_:
-    ld hl,_DATA_B65C_
+    ld hl,textShopNotEnoughMoney
     jr -
 
 _LABEL_2DA2_:
@@ -6641,17 +6649,17 @@ _LABEL_2DA2_:
     jp Close20x6TextBox
 
 _LABEL_2DEB_:
-    ld hl,_DATA_B1AB_
+    ld hl,textPharmacy
     call TextBox20x6
-    jp _LABEL_2D22_
+    jp _LABEL_2D22_ShopMenus ; Share code with Armory
 
 _LABEL_2DF4_:
-    ld hl,_DATA_B1C5_
+    ld hl,textToolShop
     call TextBox20x6
     call _LABEL_3894_
     push af
     push bc
-    call _LABEL_38B4_
+      call _LABEL_38B4_
     pop bc
     pop af
     bit 4,c
@@ -6659,7 +6667,7 @@ _LABEL_2DF4_:
     or a
     jp z,_LABEL_2D30_
 _LABEL_2E0D_:
-    ld hl,_DATA_B1E0_
+    ld hl,textToolShop_WhatToSell
     call TextBox20x6
     call _LABEL_35EF_
     bit 4,c
@@ -6685,25 +6693,25 @@ _LABEL_2E0D_:
     ld (NumberToShowInText),hl
     or h
     jr nz,+
-    ld hl,_DATA_B676_
+    ld hl,textHandyLater
     call TextBox20x6
     jp _LABEL_2E0D_
 
 _LABEL_2E46_:
-    ld hl,_DATA_B163_
+    ld hl,textShopComeAgain
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld hl,_DATA_B1EB_
++:  ld hl,textToolShop_SellPriceOffer
     call TextBox20x6
     call DoYesNoMenu
     jr z,+
     jp _LABEL_2E0D_
 
-+:  call _LABEL_28D8_
++:  call _LABEL_28D8_RemoveItemFromInventory
     ld hl,(NumberToShowInText)
-    call _LABEL_2AD6_
-    ld hl,_DATA_B1FE_
+    call _addDEMesetas
+    ld hl,textToolShop_SoldItem
     call TextBox20x6
     call DoYesNoMenu
     jp z,_LABEL_2E0D_
@@ -7422,8 +7430,8 @@ HideEnemyData:         ; $3309
 ; Data from 3326 to 3335 (16 bytes)
 .section "20x6 text box at bottom of screen" overwrite
 _CharacterNames:
-.stringmap script "アリサ$2"
-.stringmap script "ミャウ$2"
+.stringmap script "アリサ<wait>"
+.stringmap script "ミャウ<wait>"
 .stringmap script "タイロン"
 .stringmap script "ルツ$2　"
 
@@ -7561,7 +7569,7 @@ _NextLine:             ; $3397                <--------------------+  |
     jp _ReadData       ;                         |                    |
                        ;                         |                    |
 +:                     ; $33f4  <----------------+                    |
-    cp TextNumber                                                     |
+    cp TextNumber      ;                                              |
     jr nz,+            ; ------------------------+                    |
     push hl            ;                         |                    |
         push bc        ;                         |                    |
@@ -7638,7 +7646,7 @@ _OutputDigitA:         ; $345d
     di                 ;
     push de            ;
         push af        ;
-            SetVRAMAddressToDE
+            rst SetVRAMAddressToDE
             push af    ; delay
             pop af     ;
             ld a,$c0   ; space
@@ -7653,7 +7661,7 @@ _OutputDigitA:         ; $345d
             adc a,d    ;
             sub e      ;
             ld d,a     ;
-            SetVRAMAddressToDE
+            rst SetVRAMAddressToDE
         pop af         ; retrieve parameter a
         add a,$c1      ; add $c1 = '0'
         out (VDPData),a ;
@@ -7758,7 +7766,7 @@ _DrawLetter:           ; $34f2
         ld bc,$40      ; add $40 to de (1 row)
     add hl,bc
     ex de,hl
-        SetVRAMAddressToDE
+        rst SetVRAMAddressToDE
         ld a,(hl)      ; get data (lower half of letter)
     add a,a
     ld bc,TileNumberLookup + 1
@@ -8666,7 +8674,7 @@ OutputTilemapBoxWipe:      ; $3b8f
 ; with 1 frame delay between rows
  --:push bc
     di
-        SetVRAMAddressToDE
+        rst SetVRAMAddressToDE
     ld b,c
     ld c,VDPData
       -:outi           ; output c bytes
@@ -8726,7 +8734,7 @@ InputTilemapRect:
     push de
         res 6,d        ; unset VRAM write bit in de
 --: push bc
-            SetVRAMAddressToDE (for reading)
+            rst SetVRAMAddressToDE ; (for reading)
     ld b,c
     ld c,VDPData
           -:ini        ; input from VRAM
@@ -8776,7 +8784,7 @@ _LABEL_3CC0_:
     or a
     jp nz,_LABEL_3D3E_
     ld a,(_RAM_C2DC_)
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     ld a,(SceneType)
     sub $10
     jr nc,+
@@ -9062,7 +9070,8 @@ _SceneData:
 ; SceneDataStruct AirCastleFull     ,AirCastle          ,AirCastle         ; 0f
 .db $16
 .dw PaletteAirCastleFull,TilesAirCastle
- PageAndOffset TilemapAirCastle
+.db :TilemapAirCastle
+.dw TilemapAirCastle
  SceneDataStruct BuildingEmpty     ,Building           ,BuildingEmpty     ; 10
  SceneDataStruct BuildingWindows   ,Building           ,BuildingWindows   ; 11
  SceneDataStruct BuildingHospital1 ,Building           ,BuildingHospital1 ; 12
@@ -9266,7 +9275,7 @@ _NameEntryNoButtonPressed: ; 40c8
 _RightNew:
     call _DecrementKeyRepeatCounter ;40E5 CD 7B 41
     ret nz                       ; 0040E8 C0
--:  ldbc $c8,+8                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
+-:  ld bc,($c8<<8)|(+8)                  ; 0040E9 01 08 C8      ; stop/delta for cursor sprite coordinate
     ld de,+2                     ; 0040EC 11 02 00      ; delta for tilemap address
     ld iy,NameEntryCursorX       ; 0040EF FD 21 84 C7   ; which cursor sprite coordinate to change
     jr _NameEntryDirectionPressed
@@ -9278,7 +9287,7 @@ _RightHeld:
 _UpNew:
     call _DecrementKeyRepeatCounter ;40FC CD 7B 41
     ret nz                       ; 0040FF C0
--:  ldbc $68,-16                 ; 004100 01 F0 68
+-:  ld bc,($68<<8)|(-16 & $ff)                 ; 004100 01 F0 68
     ld de,-$80                   ; 004103 11 80 FF
     ld iy,NameEntryCursorY       ; 004106 FD 21 85 C7
     jr _NameEntryDirectionPressed
@@ -9290,7 +9299,7 @@ _UpHeld:
 _DownNew:
     call _DecrementKeyRepeatCounter ;4113 CD 7B 41
     ret nz                       ; 004116 C0
--:  ldbc $b8,+16                 ; 004117 01 10 B8
+-:  ld bc,($b8<<8)|(+16)                 ; 004117 01 10 B8
     ld de,+$80                   ; 00411A 11 80 00
     ld iy,NameEntryCursorY       ; 00411D FD 21 85 C7
     jr _NameEntryDirectionPressed
@@ -9302,7 +9311,7 @@ _DownHeld:
 _LeftNew:
     call _DecrementKeyRepeatCounter ;412A CD 7B 41
     ret nz                       ; 00412D C0
--:  ldbc $28,-8                  ; 00412E 01 F8 28
+-:  ld bc,($28<<8)|(-8 & $ff)                  ; 00412E 01 F8 28
     ld de,-2                     ; 004131 11 FE FF
     ld iy,NameEntryCursorX       ; 004134 FD 21 84 C7
     jr _NameEntryDirectionPressed
@@ -9403,7 +9412,7 @@ LoadNameEntryScreen: ; $4183
 
     ld (NameEntryCharIndex),a    ; 0041C7 32 81 C7
 
-    ldbc 2,16                    ; 0041CA 01 10 02   ; ld bc,$0210
+    ld bc,(2<<8)|16                    ; 0041CA 01 10 02   ; ld bc<<8)|$0210
     xor a                        ; 0041CD AF
     ld (TileMapHighByte),a       ; 0041CE 32 10 C2   ; TileMapHighByte = 0
     TileMapAddressDE 8,0         ; 0041D1 11 10 78   ; ld de,$7810
@@ -9444,7 +9453,7 @@ LoadNameEntryScreen: ; $4183
 
     ld de,$8006                  ; 004218 11 06 80
     di                           ; 00421B F3
-    SetVRAMAddressToDE           ; 00421C CF
+    rst SetVRAMAddressToDE           ; 00421C CF
     ei                           ; 00421D FB
     jp ClearSpriteTableAndFadeInWholePalette         ; and ret
 
@@ -9574,13 +9583,13 @@ _WriteCharAToTileMapAndTileMapDataAtHL: ; 42b5
     sub $58                      ; 0042BA D6 58
     ld h,a                       ; 0042BC 67
     ex de,hl                     ; 0042BD EB
-    SetVRAMAddressToDE           ; 0042BE CF
+    rst SetVRAMAddressToDE           ; 0042BE CF
     ld a,b                       ; 0042BF 78
     out (VDPData),a              ; 0042C0 D3 BE      ; write lower part
     ld hl,-$40
     add hl,de                    ; 0042C5 19
     ex de,hl                     ; 0042C6 EB
-    SetVRAMAddressToDE           ; 0042C7 CF
+    rst SetVRAMAddressToDE           ; 0042C7 CF
     ld a,c                       ; 0042C8 79
     out (VDPData),a              ; 0042C9 D3 BE      ; write upper part
     ret                          ; 0042CB C9
@@ -9631,14 +9640,14 @@ DecompressNameEntryTilemapData: ; $42cc
     call _DrawVerticalLine       ; 004308 CD 28 43
 
     inc hl                       ; 00430B 23
-    ldbc $1d,5                   ; 00430C 01 05 1D   ; flip bottom edge vertically
+    ld bc,($1d<<8)|5                   ; 00430C 01 05 1D   ; flip bottom edge vertically
     call _SetLineFlip            ; 00430F CD 35 43
 
     ld (hl),$07                  ; 004312 36 07      ; flip bottom-right corner
     ld hl,$d0fd                  ; 004314 21 FD D0   ; (30,3)
     ld (hl),$03                  ; 004317 36 03      ; flip top-right corner
     ld hl,$d0c3                  ; 004319 21 C3 D0   ; (1,3)
-    ldbc $1d,1                   ; 00431C 01 01 1D   ; no flip on top edge,but it's still the high tileset
+    ld bc,($1d<<8)|1                   ; 00431C 01 01 1D   ; no flip on top edge<<8)|but it's still the high tileset
     call _SetLineFlip            ; 00431F CD 35 43
     ld hl,$d13c                  ; 004322 21 3C D1   ; (1,7)
     ld de,$f303                  ; 004325 11 03 F3   ; vertical bar,right
@@ -9839,14 +9848,14 @@ IntroSequence:
     ld a,$00
     call FadeToNarrativePicture
 
-    ld hl,TextIntro1      ; You little bastard - poking your nose into LaShiec's business like that!
+    ld hl,textIntro1      ; You little bastard - poking your nose into LaShiec's business like that!
     call ShowNarrativeText ; Maybe from now on you'll try to mind your manners!
                           ; Nero! What happened?! Hang on!
 
     ld a,$01
     call FadeToNarrativePicture
 
-    ld hl,TextIntro2      ; ...Alisa... listen...
+    ld hl,textIntro2      ; ...Alisa... listen...
     call ShowNarrativeText ; ...LaShiec has brought an enormous calamity upon our world...
                           ; ...The world is facing ruin...
                           ; ...I tried to find out what LaShiec is planning...
@@ -9860,7 +9869,7 @@ IntroSequence:
     ld a,$02
     call FadeToNarrativePicture
 
-    ld hl,TextIntro3      ; I will go and fight to ensure that my brother did not die in vain!
+    ld hl,textIntro3      ; I will go and fight to ensure that my brother did not die in vain!
     call ShowNarrativeText ; I know he will be watching over me...
 
     ld a,MusicStop
@@ -9894,29 +9903,29 @@ IntroScrollDown:
 .ends
 .orga $4636
 
-_LABEL_4636_:
+_LABEL_4636_MyauIntro:
     call FadeToPictureFrame
     ld a,$8A
     ld (NewMusic),a
     ld a,$03
     call FadeToNarrativePicture
-    ld hl,_DATA_BA43_
+    ld hl,textMyauIntro1
     call ShowNarrativeText
     ld a,$04
     call FadeToNarrativePicture
-    ld hl,_DATA_BA69_
+    ld hl,textMyauIntro2
     call ShowNarrativeText
     ld a,$03
     call FadeToNarrativePicture
-    ld hl,_DATA_BA6E_
+    ld hl,textMyauIntro3
     call ShowNarrativeText
     ld a,$04
     call FadeToNarrativePicture
-    ld hl,_DATA_BA96_
+    ld hl,textMyauIntro4
     call ShowNarrativeText
     ld a,$03
     call FadeToNarrativePicture
-    ld hl,_DATA_BAD2_
+    ld hl,textMyauIntro5
     call ShowNarrativeText
     ld a,$D8
     ld (NewMusic),a
@@ -9928,23 +9937,23 @@ _LABEL_467B_:
     ld (NewMusic),a
     ld a,$05
     call FadeToNarrativePicture
-    ld hl,_DATA_BAF3_
+    ld hl,textTylonIntro1
     call ShowNarrativeText
     ld a,$03
     call FadeToNarrativePicture
-    ld hl,_DATA_BB29_
+    ld hl,textTylonIntro2
     call ShowNarrativeText
     ld a,$05
     call FadeToNarrativePicture
-    ld hl,_DATA_BB64_
+    ld hl,textTylonIntro3
     call ShowNarrativeText
     ld a,$03
     call FadeToNarrativePicture
-    ld hl,_DATA_BB95_
+    ld hl,textTylonIntro4
     call ShowNarrativeText
     ld a,$05
     call FadeToNarrativePicture
-    ld hl,_DATA_BBAF_
+    ld hl,textTylonIntro5
     call ShowNarrativeText
     call FadeOutFullPalette
     call _LABEL_114F_
@@ -9956,6 +9965,7 @@ _LABEL_46C8_:
     call FadeToPictureFrame
     ld a,$8A
     ld (NewMusic),a
+    ; Pick an alive character to show
     ld a,$03
     ld hl,CharacterStatsAlis
     bit 0,(hl)
@@ -9966,7 +9976,7 @@ _LABEL_46C8_:
     jr nz,+
     ld a,$04
 +:  call FadeToNarrativePicture
-    ld hl,_DATA_BC18_
+    ld hl,textLutzIntro1
     call ShowNarrativeText
     ld a,$06
     call FadeToNarrativePicture
@@ -9989,7 +9999,7 @@ _LABEL_46FE_:
     ld (NewMusic),a
     ld a,$07
     call FadeToNarrativePicture
-    ld hl,_DATA_BCA8_
+    ld hl,textMyausTransformation1
     call ShowNarrativeText
     ld a,$08
     call FadeToNarrativePicture
@@ -10072,36 +10082,36 @@ _LABEL_47B5_:
     ld b,$00
     call PauseBFrames
     call _LABEL_7F82_
-    ld hl,_DATA_B7CF_
+    ld hl,textEnding1
     call TextBox20x6
     call Pause256Frames
-    ld hl,_DATA_B7F4_
+    ld hl,textEnding2
     call TextBox20x6
     call Pause256Frames
-    ld hl,_DATA_B813_
+    ld hl,textEnding3
     call TextBox20x6
     call Pause256Frames
     call Close20x6TextBox
     call FadeToPictureFrame
     ld a,$03
     call FadeToNarrativePicture
-    ld hl,_DATA_BD25_
+    ld hl,textEndingAlisa
     call ShowNarrativeText
     ld a,$05
     call FadeToNarrativePicture
-    ld hl,_DATA_BD30_
+    ld hl,textEndingTylon
     call ShowNarrativeText
     ld a,$06
     call FadeToNarrativePicture
-    ld hl,_DATA_BD3C_
+    ld hl,textEndingLutz
     call ShowNarrativeText
     ld a,$04
     call FadeToNarrativePicture
-    ld hl,_DATA_BD46_
+    ld hl,textEndingMyau
     call ShowNarrativeText
     ld a,$03
     call FadeToNarrativePicture
-    ld hl,_DATA_BD55_
+    ld hl,textEndingEnd
     call ShowNarrativeText
     call FadeOutFullPalette
     ld hl,Frame2Paging
@@ -10132,7 +10142,7 @@ _LABEL_47B5_:
     ld hl,$3DF7
     ld (DungeonPosition),hl
     xor a
-    ld (_RAM_C30A_),a
+    ld (DungeonFacingDirection),a
     call _PitFall
     ld hl,Frame2Paging
     ld (hl),$0F
@@ -10270,6 +10280,10 @@ FadeToNarrativePicture: ; $492c
 
 _NarrativeGraphicsLookup:
 ; page, palette+tiles offset, raw tiles offset
+.macro NarrativeGraphicsData
+.db :NarrativeGraphics\1
+.dw NarrativeGraphics\1,NarrativeTilemap\1
+.endm
  NarrativeGraphicsData IntroNero1
  NarrativeGraphicsData IntroNero2
  NarrativeGraphicsData IntroAlis
@@ -10289,7 +10303,7 @@ DoRoomScript:
     jp z,_LABEL_1D3D_
     cp $B7
     jp nc,BadScriptIndex
-    ; Look up
+    ; Look up. It's 1-based
     ld de,_RoomScriptTable - 2
     call _RoomScriptDispatcher
 
@@ -10319,191 +10333,191 @@ _RoomScriptDispatcher: ; $49c9
 ; Jump Table from 49D3 to 4B3E (182 entries,indexed by RoomIndex)
 _RoomScriptTable:
 ; Room index => handler lookup
-.dw _room_00_Suelo
-.dw _room_01_Nekise
-.dw _room_02_CamineetMan1
-.dw _room_03_CamineetMan2
-.dw _room_04_CamineetMan3
-.dw _room_05_CamineetMan4
-.dw _room_06_CamineetMan5
-.dw _room_07_Camineet_AlgolMan:
-.dw _room_08_CamineetGuard1
-.dw _room_09_CamineetGuard2
-.dw _room_0a_CamineetGuard3
-.dw _room_0b_CamineetGuard4
-.dw _room_0c_ParolitWoman1
-.dw _room_0d_ParolitMan1
-.dw _room_0e_ParolitMan2
-.dw _room_0f_ParolitMan3
-.dw _room_10_ParolitMan4
-.dw _room_11_ParolitMan5
-.dw _room_12_AirStripGuard
+.dw _room_01_Suelo
+.dw _room_02_Nekise
+.dw _room_03_CamineetMan1
+.dw _room_04_CamineetMan2
+.dw _room_05_CamineetMan3
+.dw _room_06_CamineetMan4
+.dw _room_07_CamineetMan5
+.dw _room_08_Camineet_AlgolMan:
+.dw _room_09_CamineetGuard1
+.dw _room_0a_CamineetGuard2
+.dw _room_0b_CamineetGuard3
+.dw _room_0c_CamineetGuard4
+.dw _room_0d_ParolitWoman1
+.dw _room_0e_ParolitMan1
+.dw _room_0f_ParolitMan2
+.dw _room_10_ParolitMan3
+.dw _room_11_ParolitMan4
+.dw _room_12_ParolitMan5
 .dw _room_13_AirStripGuard
-.dw _room_14_Shion_Man1
-.dw _room_15_MadDoctor
-.dw _room_16_PalmaSpaceportLuggageHandler1
-.dw _room_17_PalmaSpaceportLuggageHandler2
-.dw _room_18_PalmaSpaceportLuggageHandler3
-.dw _room_19_AirStripGuard
-.dw _room_1a_RoadGuard
+.dw _room_14_AirStripGuard
+.dw _room_15_Shion_Man1
+.dw _room_16_MadDoctor
+.dw _room_17_PalmaSpaceportLuggageHandler1
+.dw _room_18_PalmaSpaceportLuggageHandler2
+.dw _room_19_PalmaSpaceportLuggageHandler3
+.dw _room_1a_AirStripGuard
 .dw _room_1b_RoadGuard
-.dw _room_1c_PassportOffice
-.dw _room_1d_Shion_Man1
-.dw _room_1e_Shion_Man2
-.dw _room_1f_ShionMan3
-.dw _room_20_ShionMan4
-.dw _room_21_ShionMan5
-.dw _room_22_ShionMan6
-.dw _room_23_ShionMan7
-.dw _room_24_ShionMan8
-.dw _room_25_EppiMan1
-.dw _room_26_EppiMan2
-.dw _room_27_EppiMan3
-.dw _room_28_EppiMan4
-.dw _room_29_EppiMan5
-.dw _room_2a_EppiMan6
-.dw _room_2b_PaseoSpaceportLuggageHandler1
-.dw _room_2c_PaseoSpaceportLuggageHandler2
-.dw _room_2d_PaseoSpaceport3
-.dw _room_2e_Paseo1
-.dw _room_2f_Paseo2
-.dw _room_30_Paseo3
-.dw _room_31_Paseo4
-.dw _room_32_Paseo5
-.dw _room_33_Paseo6
-.dw _room_34_Paseo7
-.dw _room_35_PaseoMyauSeller
-.dw _room_36_GovernorGeneral
-.dw _room_37_MansionGuard1
-.dw _room_38_GuestHouseLady
-.dw _room_39_BartevoVillager1
-.dw _room_3a_Bartevo Villager2
-.dw _room_3b_GothicWoods1
-.dw _room_3c_GothicWoods2
-.dw _room_3d_DrLuveno
-.dw _room_3e_50FC
-.dw _room_3f_LoreVillager1
-.dw _room_40_LoreVillager2
-.dw _room_41_511F
-.dw _room_42_LoreVillager4
-.dw _room_43_LoreVillager5
-.dw _room_44_AbionVillager1
-.dw _room_45_AbionVillager2
-.dw _room_46_AbionVillager3
-.dw _room_47_AbionVillager4
-.dw _room_48_AbionVillager5
-.dw _room_49_UzoVillager1
-.dw _room_4a_UzoVillager2
-.dw _room_4b_UzoVillager3
-.dw _room_4c_UzoVillager4
-.dw _room_4d_UzoVillager5
-.dw _room_4e_UzoVillager6
-.dw _room_4f_CasbaVillager1
-.dw _room_50_CasbaVillager2
-.dw _room_51_AeroCastle1
-.dw _room_52_CasbaVillager3
-.dw _room_53_CasbaVillager4
-.dw _room_54_CasbaVillager5
-.dw _room_55_Drasgo1
-.dw _room_56_Drasgo2
-.dw _room_57_Drasgo3
-.dw _room_58_Drasgo4
-.dw _room_59_ChokoOneesan
-.dw _room_5a_DrasgoCave1
-.dw _room_5b_DrasgoCave2
-.dw _room_5c_DrasgoGasClearSeller
-.dw _room_5d_Skray1
-.dw _room_5e_Skray2
-.dw _room_5f_Skray3
-.dw _room_60_Skray4
-.dw _room_61_Skray5
-.dw _room_62_Skray6
-.dw _room_63_Skray7
-.dw _room_64_Skray8
-.dw _room_65_Skray9
-.dw _room_66_Skray10
-.dw _room_67_HonestDezorian1
-.dw _room_68_HonestDezorian2
-.dw _room_69_HonestDezorian3
-.dw _room_6a_HonestDezorian4
-.dw _room_6b_HonestDezorian5
-.dw _room_6c_HonestDezorian6
-.dw _room_6d_DishonestDezorian1
-.dw _room_6e_DishonestDezorian2
-.dw _room_6f_DishonestDezorian3
-.dw _room_70_DishonestDezorian4
-.dw _room_71_DishonestDezorian5
-.dw _room_72_DishonestDezorian6
-.dw _room_73_SopiaVillageChief
-.dw _room_74_GamerMikiChan
-.dw _room_75_Sopia1
-.dw _room_76_Sopia2
-.dw _room_77_Sopia3
-.dw _room_78_Sopia4
-.dw _room_79_AeroCastle2
-.dw _room_7a_AeroCastle3
-.dw _room_7b_ShortcakeShop
-.dw _room_7c_MahalCaveMotavianPeasant
-.dw _room_7d_Lutz
-.dw _room_7e_LuvenosAssistant
-.dw _room_7f_5436
-.dw _room_80_Luveno_Prison
-.dw _room_81_TriadaPrisonGuard1
-.dw _room_82_TriadaPrisoner1
-.dw _room_83_TriadaPrisoner2
-.dw _room_84_TriadaPrisoner3
-.dw _room_85_TriadaPrisoner4
-.dw _room_86_TriadaPrisoner5
-.dw _room_87_TriadaPrisoner6
-.dw _room_88_MedusasTower1
-.dw _room_89_MedusasTower2
-.dw _room_8a_MedusasTower3
-.dw _room_8b_BartevoCave
-.dw _room_8c_AvionTower
-.dw _room_8d_5530
-.dw _room_8e_5597
+.dw _room_1c_RoadGuard
+.dw _room_1d_PassportOffice
+.dw _room_1e_Shion_Man1
+.dw _room_1f_Shion_Man2
+.dw _room_20_ShionMan3
+.dw _room_21_ShionMan4
+.dw _room_22_ShionMan5
+.dw _room_23_ShionMan6
+.dw _room_24_ShionMan7
+.dw _room_25_ShionMan8
+.dw _room_26_EppiMan1
+.dw _room_27_EppiMan2
+.dw _room_28_EppiMan3
+.dw _room_29_EppiMan4
+.dw _room_2a_EppiMan5
+.dw _room_2b_EppiMan6
+.dw _room_2c_PaseoSpaceportLuggageHandler1
+.dw _room_2d_PaseoSpaceportLuggageHandler2
+.dw _room_2e_PaseoSpaceport3
+.dw _room_2f_Paseo1
+.dw _room_30_Paseo2
+.dw _room_31_Paseo3
+.dw _room_32_Paseo4
+.dw _room_33_Paseo5
+.dw _room_34_Paseo6
+.dw _room_35_Paseo7
+.dw _room_36_PaseoMyauSeller
+.dw _room_37_GovernorGeneral
+.dw _room_38_MansionGuard1
+.dw _room_39_GuestHouseLady
+.dw _room_3a_BartevoVillager1
+.dw _room_3b_BartevoVillager2
+.dw _room_3c_GothicWoods1
+.dw _room_3d_GothicWoods2
+.dw _room_3e_DrLuveno
+.dw _room_3f_50FC
+.dw _room_40_LoreVillager1
+.dw _room_41_LoreVillager2
+.dw _room_42_511F
+.dw _room_43_LoreVillager4
+.dw _room_44_LoreVillager5
+.dw _room_45_AbionVillager1
+.dw _room_46_AbionVillager2
+.dw _room_47_AbionVillager3
+.dw _room_48_AbionVillager4
+.dw _room_49_AbionVillager5
+.dw _room_4a_UzoVillager1
+.dw _room_4b_UzoVillager2
+.dw _room_4c_UzoVillager3
+.dw _room_4d_UzoVillager4
+.dw _room_4e_UzoVillager5
+.dw _room_4f_UzoVillager6
+.dw _room_50_CasbaVillager1
+.dw _room_51_CasbaVillager2
+.dw _room_52_AeroCastle1
+.dw _room_53_CasbaVillager3
+.dw _room_54_CasbaVillager4
+.dw _room_55_CasbaVillager5
+.dw _room_56_Drasgo1
+.dw _room_57_Drasgo2
+.dw _room_58_Drasgo3
+.dw _room_59_Drasgo4
+.dw _room_5a_ChokoOneesan
+.dw _room_5b_DrasgoCave1
+.dw _room_5c_DrasgoCave2
+.dw _room_5d_DrasgoGasClearSeller
+.dw _room_5e_Skray1
+.dw _room_5f_Skray2
+.dw _room_60_Skray3
+.dw _room_61_Skray4
+.dw _room_62_Skray5
+.dw _room_63_Skray6
+.dw _room_64_Skray7
+.dw _room_65_Skray8
+.dw _room_66_Skray9
+.dw _room_67_Skray10
+.dw _room_68_HonestDezorian1
+.dw _room_69_HonestDezorian2
+.dw _room_6a_HonestDezorian3
+.dw _room_6b_HonestDezorian4
+.dw _room_6c_HonestDezorian5
+.dw _room_6d_HonestDezorian6
+.dw _room_6e_DishonestDezorian1
+.dw _room_6f_DishonestDezorian2
+.dw _room_70_DishonestDezorian3
+.dw _room_71_DishonestDezorian4
+.dw _room_72_DishonestDezorian5
+.dw _room_73_DishonestDezorian6
+.dw _room_74_SopiaVillageChief
+.dw _room_75_GamerMikiChan
+.dw _room_76_Sopia1
+.dw _room_77_Sopia2
+.dw _room_78_Sopia3
+.dw _room_79_Sopia4
+.dw _room_7a_AeroCastle2
+.dw _room_7b_AeroCastle3
+.dw _room_7c_ShortcakeShop
+.dw _room_7d_MahalCaveMotavianPeasant
+.dw _room_7e_Lutz
+.dw _room_7f_LuvenosAssistant
+.dw _room_80_5436
+.dw _room_81_Luveno_Prison
+.dw _room_82_TriadaPrisonGuard1
+.dw _room_83_TriadaPrisoner1
+.dw _room_84_TriadaPrisoner2
+.dw _room_85_TriadaPrisoner3
+.dw _room_86_TriadaPrisoner4
+.dw _room_87_TriadaPrisoner5
+.dw _room_88_TriadaPrisoner6
+.dw _room_89_MedusasTower1
+.dw _room_8a_MedusasTower2
+.dw _room_8b_MedusasTower3
+.dw _room_8c_BartevoCave
+.dw _room_8d_AvionTower
+.dw _room_8e_5530
+.dw _room_8f_5597
 ; Unused repeats?
-.dw _room_8f_DrasgoCave1
-.dw _room_90_DrasgoCave2
-.dw _room_91_DrasgoGasClearSeller
-.dw _room_92_55AB
-.dw _room_93_55F5
-.dw _room_94_55FB
-.dw _room_95_5601
-.dw _room_96_5607
-.dw _room_97_560D
-.dw _room_98_5613
-.dw _room_99_5619
-.dw _room_9a_561F
-.dw _room_9b_TorchBearer
-.dw _room_9c_Tajim
-.dw _room_9d_5730
-.dw _room_9e_LaShiec
-.dw _room_9f_578F
-.dw _room_a0_5795
+.dw _room_90_DrasgoCave1
+.dw _room_91_DrasgoCave2
+.dw _room_92_DrasgoGasClearSeller
+.dw _room_93_55AB
+.dw _room_94_55F5
+.dw _room_95_55FB
+.dw _room_96_5601
+.dw _room_97_5607
+.dw _room_98_560D
+.dw _room_99_5613
+.dw _room_9a_5619
+.dw _room_9b_561F
+.dw _room_9c_TorchBearer
+.dw _room_9d_Tajim
+.dw _room_9e_ShadowWarrior
+.dw _room_9f_LaShiec
+.dw _room_a0_578F
 .dw _room_a1_5795
-.dw _room_a2_5798
-.dw _room_a3_CoronoTowerDezorian1
-.dw _room_a4_GuaranMorgue
-.dw _room_a5_CoronaDungeonDihonstDezorian: ; $5809
-.dw _room_a6_581B
-.dw _room_a7_BayaMarlayPrisoner: ; $582D
-.dw _room_a8_BuggyUnused: ; $5841
-.dw _room_a9_LuvenoGuard: ; $584F
-.dw _room_aa_DarkForce: ; $5879
-.dw _room_ab_58C6
-.dw _room_ac_58FC
-.dw _room_ad_5902
-.dw _room_ae_5795
+.dw _room_a2_5795
+.dw _room_a3_5798
+.dw _room_a4_CoronoTowerDezorian1
+.dw _room_a5_GuaranMorgue
+.dw _room_a6_CoronaDungeonDishonestDezorian: ; $5809
+.dw _room_a7_581B
+.dw _room_a8_BayaMarlayPrisoner: ; $582D
+.dw _room_a9_BuggyUnused: ; $5841
+.dw _room_aa_LuvenoGuard: ; $584F
+.dw _room_ab_DarkForce: ; $5879
+.dw _room_ac_58C6
+.dw _room_ad_58FC
+.dw _room_ae_5902
 .dw _room_af_5795
-.dw _room_b0_592D
-.dw _room_b1_OtegamiChieChan: ; $5933
-.dw _room_b2_FlightToMotavia: ; $5939
-.dw _room_b3_FlightToPalma: ; $5949
-.dw _room_b4_HapsbyTravel: ; $5959
-.dw _room_b5_5795
+.dw _room_b0_5795
+.dw _room_b1_592D
+.dw _room_b2_OtegamiChieChan: ; $5933
+.dw _room_b3_FlightToMotavia: ; $5939
+.dw _room_b4_FlightToPalma: ; $5949
+.dw _room_b5_HapsbyTravel: ; $5959
+.dw _room_b6_5795
 
-_room_00_Suelo: ; $4B3F
+_room_01_Suelo: ; $4B3F
     ld hl,HaveVisitedSuelo
     ld a,(hl)
     or a
@@ -10524,7 +10538,7 @@ _room_00_Suelo: ; $4B3F
     ld (NewMusic),a
     jp _LABEL_2BC9_
 
-_room_01_Nekise: ; $4b5c
+_room_02_Nekise: ; $4b5c
     ld a,(HaveGotPotfromNekise)
     or a
     jr nz,+
@@ -10549,32 +10563,32 @@ _room_01_Nekise: ; $4b5c
     ; Forgive me, but there is nothing more I can do. May you[r journey] be safe.
     jp DrawText20x6 ; and ret
 
-_room_02_CamineetMan1: ; $4B82
+_room_03_CamineetMan1: ; $4B82
     ld hl,$0012
     ; The Camineet residential district is under martial law.
     jp DrawText20x6 ; and ret
 
-_room_03_CamineetMan2: ; $4B88
+_room_04_CamineetMan2: ; $4B88
     ld hl,$0014
     ; You need a ‘Dungeon Key’ to open locked doors.
     jp DrawText20x6 ; and ret
 
-_room_04_CamineetMan3 ; $4B8E
+_room_05_CamineetMan3 ; $4B8E
     ld hl,$0016
     ; You will not be able to advance through certain dungeons if you don't have a light.
     jp DrawText20x6 ; and ret
 
-_room_05_CamineetMan4 ; $4B94:
+_room_06_CamineetMan4 ; $4B94:
     ld hl,$0018
     ; West of Camineet? That's the Spaceport.
     jp DrawText20x6 ; and ret
 
-_room_06_CamineetMan5 ; $4B9A:
+_room_07_CamineetMan5 ; $4B9A:
     ld hl,$001A
     ; They say that all sorts of business goes on in the port town.
     jp DrawText20x6 ; and ret
 
-_room_07_Camineet_AlgolMan: ; $4BA0:
+_room_08_Camineet_AlgolMan: ; $4BA0:
     ld hl,$0062
     ; Do you know the planets in the Algol Solar System?
     call DrawText20x6
@@ -10592,17 +10606,17 @@ _room_07_Camineet_AlgolMan: ; $4BA0:
     ; There is a crisis drawing near to Algol...
 +:  jp DrawText20x6 ; and ret
 
-_room_08_CamineetGuard1 ; $4BBA
+_room_09_CamineetGuard1 ; $4BBA
     ld hl,$001C
     ; Stay inside the residential area if you know what's good for you.
     jp DrawText20x6 ; and ret
 
-_room_09_CamineetGuard2: ; $4BC0
+_room_0a_CamineetGuard2: ; $4BC0
     ld hl,$001E
     ; Want to stay alive?  Then stay here!
     jp DrawText20x6 ; and ret
 
-_room_0a_CamineetGuard3: ; $4BC6:
+_room_0b_CamineetGuard3: ; $4BC6:
     ld a,Item_RoadPass
     call HaveItem
     jr z,+
@@ -10610,7 +10624,7 @@ _room_0a_CamineetGuard3: ; $4BC6:
     ; I can’t just let you pass through here!
     jp DrawText20x6 ; and ret
 
-_room_0b_CamineetGuard4: ; $4BD3:
+_room_0c_CamineetGuard4: ; $4BD3:
     ld a,Item_RoadPass
     call HaveItem
     jr z,+
@@ -10628,38 +10642,38 @@ _room_0b_CamineetGuard4: ; $4BD3:
     ld (_RAM_C2E9_),a
     ret
 
-_room_0c_ParolitWoman1: ; $4BF1:
+_room_0d_ParolitWoman1: ; $4BF1:
     ld hl,$0026
     ; This is Parolit residential district.
     jp DrawText20x6 ; and ret
 
-_room_0d_ParolitMan1: ; $4BF7:
+_room_0e_ParolitMan1: ; $4BF7:
     ld hl,$0028
     ; When you're in the forest, you need to be especially cautious.
     jp DrawText20x6 ; and ret
 
-_room_0e_ParolitMan2: ; $4BFD:
+_room_0f_ParolitMan2: ; $4BFD:
     ld hl,$002A
     ; I hear that the monster Medusa has returned to the cave South of the city. They say if you look at it, you'll turn to stone!
     jp DrawText20x6 ; and ret
 
-_room_0f_ParolitMan3: ; $4C03:
+_room_10_ParolitMan3: ; $4C03:
     ld hl,$002E
     ; If you travel East, you will reach the port town of Shion.
     jp DrawText20x6 ; and ret
 
-_room_10_ParolitMan4: ; $4C09:
+_room_11_ParolitMan4: ; $4C09:
     ld hl,$0030
     ; You can travel to Paseo, on the planet Motavia, from the spaceport.
     jp DrawText20x6 ; and ret
 
-_room_11_ParolitMan5: ; 4C0F:
+_room_12_ParolitMan5: ; 4C0F:
     ld hl,$0032
     ; I hear you can get to the Gothic Forest -- which is West of Parolit -- through an underground passageway.
     jp DrawText20x6 ; and ret
 
-_room_12_AirStripGuard: ; $4C15:
 _room_13_AirStripGuard: ; $4C15:
+_room_14_AirStripGuard: ; $4C15:
     ld a,(LuvenoState)
     cp $07
     jp nc,SpacePortsAreClosed
@@ -10672,6 +10686,7 @@ _room_13_AirStripGuard: ; $4C15:
     jr nz,+
     ld a,Item_Passport
     call HaveItem
+    ; Don't have one
     ld hl,$00CE
     ; Well? Let’s see it.
     jr nz,+
@@ -10681,12 +10696,12 @@ _room_13_AirStripGuard: ; $4C15:
     ; Okay, you may pass.
 +:  jp DrawText20x6 ; and ret
 
-_room_14_Shion_Man1: ; $4C40:
+_room_15_Shion_Man1: ; $4C40:
     ld hl,$0286
     ; On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.
     jp DrawText20x6 ; and ret
 
-_room_15_MadDoctor: ; $4C46:
+_room_16_MadDoctor: ; $4C46:
     ld a,Enemy_MadDoctor
     ld (EnemyNumber),a
     call LoadEnemy
@@ -10703,7 +10718,7 @@ _room_15_MadDoctor: ; $4C46:
     ld (NewMusic),a
     ld a,Player_Myau
     ld (TextCharacterNumber),a
-    ld hl,TextPlayerDied
+    ld hl,textPlayerDied
     ; <player> died.<delay>
     call TextBox20x6
     ld hl,$0000
@@ -10724,27 +10739,27 @@ _room_15_MadDoctor: ; $4C46:
     jr z,+
     ; Don't have a Laconian Pot
     ld hl,$C518
-    ld (_RAM_C2E1_),hl
+    ld (DungeonObjectFlagAddress),hl
     ld a,Item_LaconianPot
-    ld (_RAM_C2DF_),a
+    ld (DungeonObjectItemIndex),a
 +:  jp _LABEL_55E9_
 
-_room_16_PalmaSpaceportLuggageHandler1: ; $4C9E:
+_room_17_PalmaSpaceportLuggageHandler1: ; $4C9E:
     ld hl,$006A
     ; This is Palma Spaceport. You can go to Paseo, on the planet Motavia.
     jp DrawText20x6 ; and ret
 
-_room_17_PalmaSpaceportLuggageHandler2: ; $4CA4:
+_room_18_PalmaSpaceportLuggageHandler2: ; $4CA4:
     ld hl,$006C
     ; The Governor-General lives in Paseo. He rules all of Motavia.
     jp DrawText20x6 ; and ret
 
-_room_18_PalmaSpaceportLuggageHandler3: ; $4CAA:
+_room_19_PalmaSpaceportLuggageHandler3: ; $4CAA:
     ld hl,$006E
     ; Rumor has it that the Gothic Laboratory was once used to build spaceships. Back in the old days, ships like these were built at the laboratory in Gothic.<wait>
     jp DrawText20x6 ; and ret
 
-_room_19_AirStripGuard: ; $4CB0:
+_room_1a_AirStripGuard: ; $4CB0:
     ld a,(LuvenoState)
     cp $07
     jr nc,SpacePortsAreClosed
@@ -10800,7 +10815,7 @@ _DATA_4D03_:
 _DATA_4D06_:
 .db $05 $21 $15
 
-_room_1a_RoadGuard: ; $4D09:
+_room_1b_RoadGuard: ; $4D09:
     ld a,Item_RoadPass
     call HaveItem
     ld hl,$0020
@@ -10812,7 +10827,7 @@ _room_1a_RoadGuard: ; $4D09:
     ; Okay, you may pass.
 +:  jp DrawText20x6 ; and ret
 
-_room_1b_RoadGuard: ; $4D1E:
+_room_1c_RoadGuard: ; $4D1E:
     ld a,Item_RoadPass
     call HaveItem
     ld hl,$0022
@@ -10823,7 +10838,7 @@ _room_1b_RoadGuard: ; $4D1E:
     ; Okay, you may pass.
 +:  jp DrawText20x6 ; and ret
 
-_room_1c_PassportOffice: ; $4D33:
+_room_1d_PassportOffice: ; $4D33:
     ld hl,$0072
     ; You can apply for a ‘passport’ here. Would you like to apply?
     call DrawText20x6
@@ -10871,7 +10886,7 @@ _room_1c_PassportOffice: ; $4D33:
     or a
     sbc hl,de
     jr nc,+
-    ld hl,$b65c
+    ld hl,textShopNotEnoughMoney
     ; It looks like you don’t have enough money.<line>
     ; Please come back later.<wait>
     jp TextBox20x6 ; and ret
@@ -10886,7 +10901,7 @@ _room_1c_PassportOffice: ; $4D33:
     ret z
     jp AddItemToInventory ; and ret
 
-_room_1d_Shion_Man1: ; $4DA3:
+_room_1e_Shion_Man1: ; $4DA3:
     ld a,(PartySize)
     or a
     ; No Myau yet
@@ -10898,7 +10913,7 @@ _room_1d_Shion_Man1: ; $4DA3:
     ; You’re on a quest to defeat LaShiec, huh? Well, good luck!
 +:  jp DrawText20x6 ; and ret
 
-_room_1e_Shion_Man2: ; $4DB2:
+_room_1f_Shion_Man2: ; $4DB2:
     ld a,(PartySize)
     or a
     ; No Myau yet
@@ -10910,58 +10925,58 @@ _room_1e_Shion_Man2: ; $4DB2:
     ; Times have been rough lately, don’t you think? I wonder if there’s anywhere I can go to make money.
 +:  jp DrawText20x6 ; and ret
 
-_room_1f_ShionMan3: ; $4DC1:
+_room_20_ShionMan3: ; $4DC1:
     ld hl,$0042
     ; On the peninsula South of Shion, you will find Iala Cave.
     jp DrawText20x6 ; and ret
 
-_room_20_ShionMan4: ; $4DC7:
+_room_21_ShionMan4: ; $4DC7:
     ld hl,$0044
     ; This is the port town of Shion. This place used to be busy with trade.
     jp DrawText20x6 ; and ret
 
-_room_21_ShionMan5: ; $4DCD:
+_room_22_ShionMan5: ; $4DCD:
     ld hl,$0046
     ; The Eppi Woods are confusing. You need a ‘Compass’ just to pass through them.
     jp DrawText20x6 ; and ret
 
-_room_22_ShionMan6: ; $4DD3:
+_room_23_ShionMan6: ; $4DD3:
     ld hl,$0048
     ; Magically-sealed doors can be opened only with magic.
     jp DrawText20x6 ; and ret
 
-_room_23_ShionMan7: ; $4DD9:
+_room_24_ShionMan7: ; $4DD9:
     ld hl,$004A
     ; If you go North from this town you will reach the hill of Baya Mahrey. However, we aren’t able to get near to it.
     jp DrawText20x6 ; and ret
 
-_room_24_ShionMan8: ; $4DDF:
+_room_25_ShionMan8: ; $4DDF:
     ld hl,$004C
     ; On the beach North of Baya Mahrey, you will find Naula Cave.
     jp DrawText20x6 ; and ret
 
-_room_25_EppiMan1: ; $4DE5:
+_room_26_EppiMan1: ; $4DE5:
     ld hl,$004E
     ; I wonder if Motabia’s Governor-general might aid you in your quest.
     jp DrawText20x6 ; and ret
 
-_room_26_EppiMan2: ; $4DEB:
+_room_27_EppiMan2: ; $4DEB:
     ld hl,$0050
     ; On Motabia live the great ‘Espers’.
     jp DrawText20x6 ; and ret
 
-_room_27_EppiMan3: ; $4DF1:
+_room_28_EppiMan3: ; $4DF1:
     ld hl,$0052
     ; A doctor named ‘Luveno’ used to have a laboratory in Gothic Forest.
     jp DrawText20x6 ; and ret
 
-_room_28_EppiMan4: ; $4DF7:
+_room_29_EppiMan4: ; $4DF7:
     ld hl,$0054
     ; Welcome to Eppi Village!<wait more>
     ; We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
     jp DrawText20x6 ; and ret
 
-_room_29_EppiMan5: ; $4DFD:
+_room_2a_EppiMan5: ; $4DFD:
     ld hl,$0056
     ; Are you by any chance searching for the ‘Dungeon Key’?
     call DrawText20x6
@@ -10980,7 +10995,7 @@ _room_29_EppiMan5: ; $4DFD:
     ; I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on the outskirts of Camineet residential area.
 +:  jp DrawText20x6  ; and ret
 
-_room_2a_EppiMan6: ; $4E1D:
+_room_2b_EppiMan6: ; $4E1D:
     ld hl,$005C
     ; Do you know what the hardest, strongest material in the world is?
     call DrawText20x6
@@ -10992,57 +11007,57 @@ _room_2a_EppiMan6: ; $4E1D:
     ; It’s ‘Laconia’! Laconian weapons are the strongest [in the solar system].
 +:  jp DrawText20x6 ; and ret
 
-_room_2b_PaseoSpaceportLuggageHandler1: ; $4E31:
+_room_2c_PaseoSpaceportLuggageHandler1: ; $4E31:
     ld hl,$0080
     ; This is Paseo spaceport, on the planet Motabia.
     jp DrawText20x6 ; and ret
 
-_room_2c_PaseoSpaceportLuggageHandler2: ; $4E37:
+_room_2d_PaseoSpaceportLuggageHandler2: ; $4E37:
     ld hl,$0082
     ; I’ve heard rumors that there are vicious ‘Ant-lions’ in the desert!
     jp DrawText20x6 ; and ret
 
-_room_2d_PaseoSpaceport3: ; $4E3D:
+_room_2e_PaseoSpaceport3: ; $4E3D:
     ld hl,$0084
     ; THERE IS A CAKE SHOP IN THE CAVE CALLED NAULA ON PALMA!
     jp DrawText20x6 ; and ret
 
-_room_2e_Paseo1: ; $4E43:
+_room_2f_Paseo1: ; $4E43:
     ld hl,$0086
     ; ..Actually, the Governor-General seems to be on very bad terms with LaShiec!
     jp DrawText20x6 ; and ret
 
-_room_2f_Paseo2: ; $4E49:
+_room_30_Paseo2: ; $4E49:
     ld hl,$0088
     ; You need to have a gift in order to meet with the Governor-General.
     jp DrawText20x6 ; and ret
 
-_room_30_Paseo3: ; $4E4F:
+_room_31_Paseo3: ; $4E4F:
     ld hl,$008A
     ; The Governor-General loves sweets.
     jp DrawText20x6 ; and ret
 
-_room_31_Paseo4: ; $4E55:
+_room_32_Paseo4: ; $4E55:
     ld hl,$008C
     ; Maharu Cave is located in the mountains to the north of Paseo.
     jp DrawText20x6 ; and ret
 
-_room_32_Paseo5: ; $4E5B:
+_room_33_Paseo5: ; $4E5B:
     ld hl,$008E
     ; This is Paseo, capital of Motabia.
     jp DrawText20x6 ; and ret
 
-_room_33_Paseo6: ; $4E61:
+_room_34_Paseo6: ; $4E61:
     ld hl,$0090
     ; There’s no way to pass over those ant lions on FOOT, [but...].
     jp DrawText20x6 ; and ret
 
-_room_34_Paseo7: ; $4E67:
+_room_35_Paseo7: ; $4E67:
     ld hl,$0288
     ; I hear that intelligent monsters have monster languages.
     jp DrawText20x6 ; and ret
 
-_room_35_PaseoMyauSeller: ; $4E6D:
+_room_36_PaseoMyauSeller: ; $4E6D:
     ld a,(PartySize)
     or a
     jr z,+
@@ -11057,7 +11072,7 @@ _room_35_PaseoMyauSeller: ; $4E6D:
     ; I gotta real rare animal here. You can have it fer a billion mesetas. Whuddayuhsay?
     call DrawText20x6
     call DoYesNoMenu
-    jr nz,
+    jr nz,+
     ld hl,$0094
     ; Yeah, right. You gotta be kiddin’ me!
     jp DrawText20x6 ; and ret
@@ -11088,12 +11103,12 @@ _room_35_PaseoMyauSeller: ; $4E6D:
     ld a,Item_Alsuline
     ld (ItemTableIndex),a
     call AddItemToInventory
-    jp _LABEL_4636_
+    jp _LABEL_4636_MyauIntro
 +:  ld hl,$007C
     ; I see. Well then, take care.
     jp DrawText20x6 ; and ret
 
-_room_36_GovernorGeneral: ; $4ED0:
+_room_37_GovernorGeneral: ; $4ED0:
     ld a,(HaveBeatenLaShiec)
     or a
     jr z,+
@@ -11109,10 +11124,10 @@ _room_36_GovernorGeneral: ; $4ED0:
     ld hl,FunctionLookupIndex
     ld (hl),$0B
     call $68bf
-    ld a,MusicBossDungeon
+    ld a,MusicFinalDungeon
     jp CheckMusic ; and ret
 +:  ld a,$35
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     call SpriteHandler
     ld a,(PartySize)
     cp 3
@@ -11200,7 +11215,7 @@ _room_36_GovernorGeneral: ; $4ED0:
     call ExecuteFunctionIndexAInNextVBlank
     call FadeInWholePalette
     ld a,$35
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     call SpriteHandler
     ld hl,$00AA
     ; I am absolutely certain that you will defeat LaShiec and return here.
@@ -11209,12 +11224,12 @@ _room_36_GovernorGeneral: ; $4ED0:
 _GovernorGeneralPalette:
 .db $00 $00 $3F $00 $00 $00 $00 $00 ; Blacks with one white
 
-_room_37_MansionGuard1: ; $4FD4:
+_room_38_MansionGuard1: ; $4FD4:
     ld hl,$00B4
     ; zzz... zzz...
     jp DrawText20x6 ; and ret
 
-_room_38_GuestHouseLady: ; $4FDA:
+_room_39_GuestHouseLady: ; $4FDA:
     ld hl,$00B6
     ; Please rest before you go.
     call DrawText20x6
@@ -11231,19 +11246,19 @@ _room_38_GuestHouseLady: ; $4FDA:
     ; I AM PRAYING FOR YOUR SAFETY.<end>
     jp DrawText20x6 ; and ret
 
-_room_39_BartevoVillager1: ; $4FFF:
+_room_3a_BartevoVillager1: ; $4FFF:
     ld hl,$0102
     ; Bartevo is my territory. Don’t be screwin’ around!
     jp DrawText20x6 ; and ret
 
-_room_3a_BartevoVillager2: ; $5005:
+_room_3b_BartevoVillager2: ; $5005:
     ld hl,$0106
     ; I heard that a high-performance robot got dumped inside one of these scrap piles. I wonder if it’s true?
     jp DrawText20x6 ; and ret
 
-; 60th entry of Jump Table from 49D3 (indexed by RoomIndex)
+_room_3c_GothicWoods1:
     ld hl,$00BA
-    ; Hey, you mind if I bum a ‘Perolimate’?
+    ; Hey, you mind if I bum a ‘PelorieMate’?
     call DrawText20x6
     call DoYesNoMenu
     jr z,+
@@ -11265,9 +11280,9 @@ _room_3a_BartevoVillager2: ; $5005:
     ; Don’t f--- with me!
     jp DrawText20x6 ; and ret
 
-_room_3c_GothicWoods2:
+_room_3d_GothicWoods2:
     ld hl,$00BA
-    ; Hey, you mind if I bum a ‘Perolimate’?
+    ; Hey, you mind if I bum a ‘PelorieMate’?
     call DrawText20x6
     call DoYesNoMenu
     jr z,+
@@ -11287,12 +11302,12 @@ _room_3c_GothicWoods2:
     ; Don’t f--- with me!
     jp DrawText20x6 ; and ret
 
-_room_3d_DrLuveno: ; $505B:
+_room_3e_DrLuveno: ; $505B:
     ld a,(LuvenoState)
     or a
     jp z,_ScriptEnd
     ld a,$34
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     call SpriteHandler
     ld a,(LuvenoState)
     cp $07
@@ -11371,7 +11386,7 @@ _room_3d_DrLuveno: ; $505B:
     ; Now then, you can use the Luveno to fly through space. Go outside the village and take a look. It’s a brilliant piece of work.
     jp DrawText20x6 ; and ret
 
-_room_3e_50FC:
+_room_3f_50FC:
     ld hl,LuvenoState
     ld a,(hl)
     cp 2
@@ -11384,22 +11399,22 @@ _room_3e_50FC:
     ; I’m busy right now, so please don’t interrupt.
     jp DrawText20x6 ; and ret
 
-_room_3f_LoreVillager1: ; $5113:
+_room_40_LoreVillager1: ; $5113:
     ld hl,$0118
     ; Huh? You’re going to defeat LaShiec? Awesome!
     jp DrawText20x6 ; and ret
 
-_room_40_LoreVillager2: ; $5119:
+_room_41_LoreVillager2: ; $5119:
     ld hl,$010E
     ; Do you know of a jewel called the ‘Carbuncle Eye’? Rumor has it that it’s being held by the Casba Dragon.
     jp DrawText20x6 ; and ret
 
-_room_41_LoreVillager3: ; $511F:
+_room_42_LoreVillager3: ; $511F:
     ld hl,$0112
     ; On the West end of this island, there is a village called Abion.
     jp DrawText20x6 ; and ret
 
-_room_42_LoreVillager4: ; $5125:
+_room_43_LoreVillager4: ; $5125:
     ld hl,$0114
     ; Do you know about the ‘Laerma Tree?'
     call DrawText20x6
@@ -11412,57 +11427,57 @@ _room_42_LoreVillager4: ; $5125:
     ; Really? What a bore!
 +:  jp DrawText20x6 ; and ret
 
-_room_43_LoreVillager5: ; $5139:
+_room_44_LoreVillager5: ; $5139:
     ld hl,$010C
-    ; _room_43_5139
+    ; This is the Village of Lore. Thanks to LaShiec, it’s become a wasteland.
     jp DrawText20x6 ; and ret
 
-_room_44_AbionVillager1: ; $513F:
+_room_45_AbionVillager1: ; $513F:
     ld hl,$011C
     ; This village is called Abion.
     jp DrawText20x6 ; and ret
 
-_room_45_AbionVillager2: ; $5145:
+_room_46_AbionVillager2: ; $5145:
     ld hl,$011E
     ; The evil hand of LaShiec has extended to this village as well! Please help us!
     jp DrawText20x6 ; and ret
 
-_room_46_AbionVillager3: ; $514B:
+_room_47_AbionVillager3: ; $514B:
     ld hl,$0120
     ; Some weird freak just moved to this village, and he was carrying a jar or something. It seems he’s been doing experiments on animals. I gotta bad feeling about that guy.
     jp DrawText20x6 ; and ret
 
-_room_47_AbionVillager4: ; $5151:
+_room_48_AbionVillager4: ; $5151:
     ld hl,$0126
     ; I want to try and travel the stars.
     jp DrawText20x6 ; and ret
 
-_room_48_AbionVillager5: ; $5157:
+_room_49_AbionVillager5: ; $5157:
     ld hl,$0128
     ; They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly! Weird, huh?
     jp DrawText20x6 ; and ret
 
-_room_49_UzoVillager1: ; $515D:
+_room_4a_UzoVillager1: ; $515D:
     ld hl,$012E
     ; This is Uzo Village, on the planet Motavia.
     jp DrawText20x6 ; and ret
 
-_room_4a_UzoVillager2: ; $5163:
+_room_4b_UzoVillager2: ; $5163:
     ld hl,$0130
     ; You can pass over antlions if you have a ‘LandMaster.’
     jp DrawText20x6 ; and ret
 
-_room_4b_UzoVillager3: ; $5169:
+_room_4c_UzoVillager3: ; $5169:
     ld hl,$0132
     ; To the South of Uzo, there is a village called Casba.
     jp DrawText20x6 ; and ret
 
-_room_4c_UzoVillager4: ; $516F:
+_room_4d_UzoVillager4: ; $516F:
     ld hl,$0134
     ; It seems that a dragon has settled in Casba Cave! That dragon has a jewel or something embedded in its head!
     jp DrawText20x6 ; and ret
 
-_room_4d_UzoVillager5: ; $5175:
+_room_4e_UzoVillager5: ; $5175:
     ld hl,$013A
     ; Do you know about the ‘Soothe Flute?’
     call DrawText20x6
@@ -11479,37 +11494,37 @@ _room_4d_UzoVillager5: ; $5175:
     ; Well, this is a secret, but when I went to Palma, I buried it on the outskirts of Gothic Village. Don’t tell anybody!
 +:  jp DrawText20x6 ; and ret
 
-_room_4e_UzoVillager6: ; $5194:
+_room_4f_UzoVillager6: ; $5194:
     ld hl,$0136
     ; Have you heard of the ‘Frad Cloak?' They say it’s light in weight, but has superb defensive power.
     jp DrawText20x6 ; and ret
 
-_room_4f_CasbaVillager1: ; $519A:
+_room_50_CasbaVillager1: ; $519A:
     ld hl,$0166
     ; This is Casba Village.
     jp DrawText20x6 ; and ret
 
-_room_50_CasbaVillager2: ; $51A0:
+_room_51_CasbaVillager2: ; $51A0:
     ld hl,$0168
     ; There’s a dragon living in Casba Cave! I’m so scared!
     jp DrawText20x6 ; and ret
 
-_room_51_AeroCastle1: ; $51A6:
+_room_52_AeroCastle1: ; $51A6:
     ld hl,$016A
     ; You can't always trust your eyes in dungeons.
     jp DrawText20x6 ; and ret
 
-_room_52_CasbaVillager3: ; $51AC:
+_room_53_CasbaVillager3: ; $51AC:
     ld hl,$016C
     ; The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, [a man named] Perseus used that shield to confront a monster.
     jp DrawText20x6 ; and ret
 
-_room_53_CasbaVillager4: ; $51B2:
+_room_54_CasbaVillager4: ; $51B2:
     ld hl,$0170
     ; One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over! Whatever you do, stay away from there!
     jp DrawText20x6 ; and ret
 
-_room_54_CasbaVillager5: ; $51B8:
+_room_55_CasbaVillager5: ; $51B8:
     ld hl,$0172
     ; Do you know about the ‘FlowMover’?
     call DrawText20x6
@@ -11525,45 +11540,45 @@ _room_54_CasbaVillager5: ; $51B8:
     ; Well, I bought one on Palma, in the town of Shion, but it turned out to be broken, so I ditched it in Bartevo. What a waste!
 +:  jp DrawText20x6 ; and ret
 
-_room_55_Drasgo1 ; $51D1:
+_room_56_Drasgo1 ; $51D1:
     ld hl,$017E
     ; This is Drasgo, a tiny town on the sea.
     jp DrawText20x6 ; and ret
 
-_room_56_Drasgo2: ; $51D7:
+_room_57_Drasgo2: ; $51D7:
     ld hl,$0180
     ; Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!
     jp DrawText20x6 ; and ret
 
-_room_57_Drasgo3: ; $51DD:
+_room_58_Drasgo3: ; $51DD:
     ld hl,$0184
     ; I hear that there's an enchanted sword in Abion Tower.
     jp DrawText20x6 ; and ret
 
-_room_58_Drasgo4: ; $51E3:
+_room_59_Drasgo4: ; $51E3:
     ld hl,$0186
     ; I once saw a huge floating rock in the sky!
     jp DrawText20x6 ; and ret
 
-_room_59_ChokoOneesan: ; $51E9:
+_room_5a_ChokoOneesan: ; $51E9:
     ld hl,$0188
     ; It's me, Choko Oneesan! Be brave and strong as you continue your quest!
     jp DrawText20x6 ; and ret
 
-_room_5a_DrasgoCave1; $51EF:
-_room_8f_DrasgoCave1; $51EF:
+_room_5b_DrasgoCave1; $51EF:
+_room_90_DrasgoCave1; $51EF:
     ld hl,$018C
     ; I heard that a store in this city sells an apparatus called a ‘GasClear’, which protects the body against poison gas. The only thing is, I can’t find the damn store! Sheesh!
     jp DrawText20x6 ; and ret
 
-_room_5b_DrasgoCave2: ; $51F5:
-_room_90_DrasgoCave2: ; $51F5:
+_room_5c_DrasgoCave2: ; $51F5:
+_room_91_DrasgoCave2: ; $51F5:
     ld hl,$0190
     ; This is an item shop. What can I do for you? Haah haah! Sorry, I’m just kidding! Please forgive me.
     jp DrawText20x6 ; and ret
 
-_room_5c_DrasgoGasClearSeller: ; 51FB
-_room_91_DrasgoGasClearSeller:
+_room_5d_DrasgoGasClearSeller: ; 51FB
+_room_92_DrasgoGasClearSeller:
     ld hl,1000
     ld (NumberToShowInText),hl
     ld hl,$0194
@@ -11593,77 +11608,77 @@ _room_91_DrasgoGasClearSeller:
     ret z ; You can only have one... even if you pay twice
     jp AddItemToInventory
 
-_room_5d_Skray1: ; $5238:
+_room_5e_Skray1: ; $5238:
     ld hl,$01A2
     ; This is Skray, on the planet Dezoris. Pretty cold outside, wasn’t it?
     jp DrawText20x6 ; and ret
 
-_room_5e_Skray2: ; $523E:
+_room_5f_Skray2: ; $523E:
     ld hl,$01A4
     ; Nearly all of the Palman immigrants live in this town.
     jp DrawText20x6 ; and ret
 
-_room_5f_Skray3: ; $5244:
+_room_60_Skray3: ; $5244:
     ld hl,$01A6
     ; I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the the northern mountains.
     jp DrawText20x6 ; and ret
 
-_room_60_Skray4: ; $524A:
+_room_61_Skray4: ; $524A:
     ld hl,$01AA
     ; What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.
     jp DrawText20x6 ; and ret
 
-_room_61_Skray5: ; $5250:
+_room_62_Skray5: ; $5250:
     ld hl,$01B2
     ; Weapons made from laconia conceal holy powers, y’know. I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.
     jp DrawText20x6 ; and ret
 
-_room_62_Skray6: ; $5256:
+_room_63_Skray6: ; $5256:
     ld hl,$01B8
     ; Planet Dezoris is made of ice.
     jp DrawText20x6 ; and ret
 
-_room_63_Skray7: ; $525C:
+_room_64_Skray7: ; $525C:
     ld hl,$01BA
     ; There are places inside the ice mountains that can be easily broken.
     jp DrawText20x6 ; and ret
 
-_room_64_Skray8: ; $5262:
+_room_65_Skray8: ; $5262:
     ld hl,$01BC
     ; The area around the Altiplano Plateau is encircled by mountains of ice.
     jp DrawText20x6 ; and ret
 
-_room_65_Skray9: ; $5268:
+_room_66_Skray9: ; $5268:
     ld hl,$01BE
     ; This planet has a solar eclipse once every hundred years. There is a flame lit at this time called an ‘Eclipse Torch’. It is regarded by the Dezorians as sacred.
     jp DrawText20x6 ; and ret
 
-_room_66_Skray10: ; $526E:
+_room_67_Skray10: ; $526E:
     ld hl,$01C4
     ; I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!
     jp DrawText20x6 ; and ret
 
-_room_67_HonestDezorian1: ;
+_room_68_HonestDezorian1: ;
     ld hl,$01C8
     ; Those guys in the village next to us are all a bunch of liars. Be careful, eh.
     jp DrawText20x6 ; and ret
 
-_room_68_HonestDezorian2: ;
+_room_69_HonestDezorian2: ;
     ld hl,$01CA
     ; Corona Tower lies on the other side of the mountains to the North of this village, eh.
     jp DrawText20x6 ; and ret
 
-_room_69_HonestDezorian3: ; $5280:
+_room_6a_HonestDezorian3: ; $5280:
     ld hl,$01CC
     ; To the West of Corona Tower is Dezoris Cave, eh. Please send my regards to our comrades there, eh.
     jp DrawText20x6 ; and ret
 
-_room_6a_HonestDezorian4: ; $5286:
+_room_6b_HonestDezorian4: ; $5286:
     ld hl,$01D0
     ; Laerma trees make berries called ‘Laerma Berries’, eh. Those berries are real tasty, eh. We wanna use them for food, eh, but if we don’t put them into a ‘Laconian Pot’, they just get all shriveled up, eh.
     jp DrawText20x6 ; and ret
 
-_room_6b_HonestDezorian5: ; $528C:
+_room_6c_HonestDezorian5: ; $528C:
     ld hl,$01D6
     ; Do you know about the ‘Aeroprism’?
     call DrawText20x6
@@ -11677,45 +11692,45 @@ _room_6b_HonestDezorian5: ; $528C:
     ; I’d really like to see it at least once, eh.
 +:  jp DrawText20x6 ; and ret
 
-_room_6c_HonestDezorian6: ; $52A0:
+_room_6d_HonestDezorian6: ; $52A0:
     ld hl,$01DC
     ; All the people in this village hate those Palmans, eh.
     jp DrawText20x6 ; and ret
 
-_room_6d_DishonestDezorian1: ; $52A6:
+_room_6e_DishonestDezorian1: ; $52A6:
     ld hl,$01DE
     ; There's a Life Spring/Fountain of Youth in Corona Tower, y’know.
     jp DrawText20x6 ; and ret
 
-_room_6e_DishonestDezorian2: ; $52AC:
+_room_6f_DishonestDezorian2: ; $52AC:
     ld hl,10
     ld (NumberToShowInText),hl
     ld hl,$01E0
     ; There's a warp on the 10th underground floor of Dezoris cave, y’know.
     jp DrawText20x6 ; and ret
 
-_room_6f_DishonestDezorian3: ; $52B8:
+_room_70_DishonestDezorian3: ; $52B8:
     ld hl,$01E2
     ; Laerma Berries are colored blue. We use them as a dye, y’know.
     jp DrawText20x6 ; and ret
 
-_room_70_DishonestDezorian4: ; $52BE:
+_room_71_DishonestDezorian4: ; $52BE:
     ld hl,$01E4
     ; If you use a crystal in front of the Laerma Tree, berries will grow, y’know.
     jp DrawText20x6 ; and ret
 
-_room_71_DishonestDezorian5: ; $52C4:
+_room_72_DishonestDezorian5: ; $52C4:
     ld hl,$01E6
     ; This village welcomes Palmans.
     jp DrawText20x6 ; and ret
 
-_room_72_DishonestDezorian6: ; $52CA:
+_room_73_DishonestDezorian6: ; $52CA:
     ; This seems to be a bug in the original - it uses a line from elsewhere.
     ld hl,$01E8
     ; This village is called Sopia. I’m glad that you were able to brave your way through the poison gas.
     jp DrawText20x6 ; and ret
 
-_room_73_SopiaVillageChief: ; $52D0:
+_room_74_SopiaVillageChief: ; $52D0:
     ld hl,$0190
     ld (NumberToShowInText),hl
     ld hl,$01EA
@@ -11741,7 +11756,7 @@ _room_73_SopiaVillageChief: ; $52D0:
     ; Thank you. According to local legend, the shield that Perseus used when he defeated Medusa is buried under a cactus on the island in the middle of the lake.
     jp DrawText20x6 ; and ret
 
-_room_74_GamerMikiChan: ; $5306:
+_room_75_GamerMikiChan: ; $5306:
     ld hl,$01FA
     ; I'm Gamer Miki-chan! Do you own a Master System?
     call DrawText20x6
@@ -11754,17 +11769,17 @@ _room_74_GamerMikiChan: ; $5306:
     ; Aawww! That’s no good! Hurry up and buy one! Hmph!
 +:  jp DrawText20x6 ; and ret
 
-_room_75_Sopia1: ; $531A:
+_room_76_Sopia1: ; $531A:
     ld hl,$0200
     ; Before LaShiec’s powerful grasp, this village was very wealthy.
     jp DrawText20x6 ; and ret
 
-_room_76_Sopia2: ; $5320:
+_room_77_Sopia2: ; $5320:
     ld hl,$0202
     ; There’s a monk named Tajimu living in the mountains South of the lake.
     jp DrawText20x6 ; and ret
 
-_room_77_Sopia3: ; $5326:
+_room_78_Sopia3: ; $5326:
     ld hl,$0204
     ; I heard that Palma is a very beautiful planet. Is it really true?
     call DrawText20x6
@@ -11776,9 +11791,9 @@ _room_77_Sopia3: ; $5326:
     ; Oh, I see. I want to go to a place with cleaner air.
 +:  jp DrawText20x6 ; and ret
 
-_room_78_Sopia4: ; 533A:
+_room_79_Sopia4: ; 533A:
     ld hl,$00BA
-    ; Hey, you mind if I bum a ‘Perolimate’?
+    ; Hey, you mind if I bum a ‘PelorieMate’?
     call DrawText20x6
     call DoYesNoMenu
     jr z,+
@@ -11796,17 +11811,17 @@ _room_78_Sopia4: ; 533A:
     ; Don’t f--- with me!
     jp DrawText20x6 ; and ret
 
-_room_79_AeroCastle2: ; $5361:
+_room_7a_AeroCastle2: ; $5361:
     ld hl,$0210
     ; ...........
     jp DrawText20x6 ; and ret
 
-_room_7a_AeroCastle3: ; $5367:
+_room_7b_AeroCastle3: ; $5367:
     ld hl,$026A
     ; Do not defy the great LaShiec.
     jp DrawText20x6 ; and ret
 
-_room_7b_ShortcakeShop: ; $536D:
+_room_7c_ShortcakeShop: ; $536D:
     ld hl,280
     ld (NumberToShowInText),hl
     ld hl,$024A
@@ -11815,7 +11830,7 @@ _room_7b_ShortcakeShop: ; $536D:
     call DoYesNoMenu
     jr z,+
     ; No
-    ld hl,$b163
+    ld hl,textShopComeAgain
     ; Take care, come back and see us soon.<wait>
     jp TextBox20x6 ; and ret
 +:  ld de,280
@@ -11823,14 +11838,14 @@ _room_7b_ShortcakeShop: ; $536D:
     or a
     sbc hl,de
     jr nc,+
-    ld hl,$b65c
+    ld hl,textShopNotEnoughMoney
     ; It looks like you don’t have enough money.<line>
     ; Please come back later.<wait>
     jp TextBox20x6 ; and ret
 +:  ld a,(InventoryCount)
     cp $18
     jr c,+
-    ld hl,$b18f
+    ld hl,textShopInventoryFull
     ; You can’t carry any more. Come back when you can.<wait>
     jp TextBox20x6 ; and ret
 +:  ld (Meseta),hl
@@ -11843,7 +11858,7 @@ _room_7b_ShortcakeShop: ; $536D:
     ret z ; You can't have two
     jp AddItemToInventory ; and ret
 
-_room_7c_MahalCaveMotavianPeasant: ; $53B7:
+_room_7d_MahalCaveMotavianPeasant: ; $53B7:
     ld a,Enemy_MotavianPeasant
     ld (EnemyNumber),a
     call LoadEnemy
@@ -11858,13 +11873,13 @@ _room_7c_MahalCaveMotavianPeasant: ; $53B7:
     ; Yahoo!
 +:  jp DrawText20x6 ; and ret
 
-_room_7d_Lutz: ; $53CF:
+_room_7e_Lutz: ; $53CF:
     ld a,(PartySize)
     cp 3
     jp nc,_ScriptEnd
     ; No Lutz yet
     ld a,$3B
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     call SpriteHandler
     ld hl,$00AE
     ; Who are you? I'm in the middle of training right now. Please don’t interrupt.
@@ -11886,13 +11901,13 @@ _room_7d_Lutz: ; $53CF:
     ld (PartySize),a
     jp _LABEL_46C8_
 
-_room_7e_LuvenosAssistant: ; $5411:
+_room_7f_LuvenosAssistant: ; $5411:
     ld hl,LuvenoState
     ld a,(hl)
     cp 2
     jp nc,_ScriptEnd ; Nothing if we haven't been to Luveno yet
     ld a,$10
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     call SpriteHandler
     ld hl,LuvenoState
     ld a,(hl)
@@ -11906,17 +11921,17 @@ _room_7e_LuvenosAssistant: ; $5411:
 +:  ex de,hl
     jp DrawText20x6 ; and ret
 
-_room_7f_5436:
+_room_80_5436:
     ld hl,$00F8
     ; NO MAN THAT GOES INTO THE ROOM INTHE FAR CORNER HAS EVER COME OUT ALIVE! AHA-HA-HA!
     jp DrawText20x6 ; and ret
 
-_room_80_Luveno_Prison: ; $543C:
+_room_81_Luveno_Prison: ; $543C:
     ld a,(LuvenoState)
     or a
     jp nz,_ScriptEnd ; Nothing if he is not in prison any more
     ld a,$34
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     call SpriteHandler
     ld hl,LuvenoPrisonVisitCounter
     ld a,(hl)
@@ -11948,7 +11963,7 @@ _room_80_Luveno_Prison: ; $543C:
     ; Good. Well then, I’m going to go to Gothic Village and make the proper arrangements. Meet me there later. Oh, don’t worry. I can make it there myself.
 +:  jp DrawText20x6 ; and ret
 
-_room_81_TriadaPrisonGuard1: ; $547D:
+_room_82_TriadaPrisonGuard1: ; $547D:
     ld a,Enemy_RobotPolice
     ld (EnemyNumber),a
     call LoadEnemy
@@ -11970,9 +11985,9 @@ _room_81_TriadaPrisonGuard1: ; $547D:
     call Close20x6TextBox
     jp _LABEL_55E9_
 
-_room_82_TriadaPrisoner1: ; $54A9:
+_room_83_TriadaPrisoner1: ; $54A9:
     ld hl,$00BA
-    ; Hey, you mind if I bum a ‘Perolimate’?
+    ; Hey, you mind if I bum a ‘PelorieMate’?
     call DrawText20x6
     call DoYesNoMenu
     jr z,+
@@ -11990,7 +12005,7 @@ _room_82_TriadaPrisoner1: ; $54A9:
     ; Well? Let's see it.
     jp DrawText20x6 ; and ret
 
-_room_83_TriadaPrisoner2: ; $54D0:
+_room_84_TriadaPrisoner2: ; $54D0:
     ld hl,$00EC
     ; Do you know of a robot called ‘Hapsby’?
     call DrawText20x6
@@ -12003,17 +12018,17 @@ _room_83_TriadaPrisoner2: ; $54D0:
     ; It’s a robot made out of laconia! But it seems to have been dumped into a scrap heap!
 +:  jp DrawText20x6 ; and ret
 
-_room_84_TriadaPrisoner3: ; $54E4:
+_room_85_TriadaPrisoner3: ; $54E4:
     ld hl,$00EE
     ; I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.
     jp DrawText20x6 ; and ret
 
-_room_85_TriadaPrisoner4: ; $54EA:
+_room_86_TriadaPrisoner4: ; $54EA:
     ld hl,$00F0
     ; The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’
     jp DrawText20x6 ; and ret
 
-_room_86_TriadaPrisoner5: ; $54F0:
+_room_87_TriadaPrisoner5: ; $54F0:
     ld hl,$00F2
     ; Whassup? I haven’t seen any people in a long time! Let’s talk!
     call DrawText20x6
@@ -12027,7 +12042,7 @@ _room_86_TriadaPrisoner5: ; $54F0:
     ; Really? What a bore!
 +:  jp DrawText20x6 ; and ret
 
-_room_87_TriadaPrisoner6: ; $5504:
+_room_88_TriadaPrisoner6: ; $5504:
     ld a,Enemy_Tarantula
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12035,32 +12050,32 @@ _room_87_TriadaPrisoner6: ; $5504:
     ; There’s this chemical called ‘Polymeteral’ that they say will dissolve any material except laconia.
     jp DrawText20x6 ; and ret
 
-_room_88_MedusasTower1: ; $5512:
+_room_89_MedusasTower1: ; $5512:
     ld hl,$00FC
     ; You’ve gotten far. Soon you will know the truth.
     jp DrawText20x6 ; and ret
 
-_room_89_MedusasTower2: ; $5518:
+_room_8a_MedusasTower2: ; $5518:
     ld hl,$00FE
     ; Get out of here while you're still breathing! You don’t know what you’re up against!
     jp DrawText20x6 ; and ret
 
-_room_8a_MedusasTower3: ; $551E:
+_room_8b_MedusasTower3: ; $551E:
     ld hl,$0100
     ; Oh, what a brave young lady you are! Beware of traps.<wait>
     jp DrawText20x6 ; and ret
 
-_room_8b_BartevoCave: ; $5524:
+_room_8c_BartevoCave: ; $5524:
     ld hl,$010A
     ; The drug store in Abion sells Polymeteral, I hear.
     jp DrawText20x6 ; and ret
 
-_room_8c_AvionTower: ; $552A:
+_room_8d_AvionTower: ; $552A:
     ld hl,$021A
     ; Leaving? Better do it now.
     jp DrawText20x6 ; and ret
 
-_room_8d_5530:
+_room_8e_5530:
     ld hl,$0148
     ; I am the World’s Greatest Fortune Teller, Damoa! Do you believe in my amazing powers?
     call DrawText20x6
@@ -12117,7 +12132,7 @@ _room_8d_5530:
     ret z ; You can't have two
     jp AddItemToInventory ; and ret
 
-_room_8e_5597:
+_room_8f_5597:
     ld hl,$0160
     ; Did you come here seeking Baya Marlay tower?
     call DrawText20x6
@@ -12131,7 +12146,7 @@ _room_8e_5597:
     ; Then you should turn back.
     jp DrawText20x6 ; and ret
 
-_room_92_55AB:
+_room_93_55AB:
     ld a,Enemy_RobotPolice
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12151,7 +12166,7 @@ _room_92_55AB:
     ld hl,$159C
     ld (DungeonPosition),hl
     ld a,$01
-    ld (_RAM_C30A_),a
+    ld (DungeonFacingDirection),a
     ld hl,FunctionLookupIndex
     ld (hl),$0A
     ret
@@ -12168,42 +12183,42 @@ _LABEL_55E9_:
     pop hl
     ret
 
-_room_93_55F5:
+_room_94_55F5:
     ld hl,$0222
     ; I wonder if you could help me escape from this place, but it’s hopeless.
     jp DrawText20x6 ; and ret
 
-_room_94_55FB:
+_room_95_55FB:
     ld hl,$0224
     ; Defeat LaShiec?! That’s nonsense!
     jp DrawText20x6 ; and ret
 
-_room_95_5601:
+_room_96_5601:
     ld hl,$0226
     ; We will all be sacrificed in the name of LaShiec! Agh!
     jp DrawText20x6 ; and ret
 
-_room_96_5607:
+_room_97_5607:
     ld hl,$022E
     ; All those who have gone up against LaShiec have had their souls taken by his magic.
     jp DrawText20x6 ; and ret
 
-_room_97_560D:
+_room_98_560D:
     ld hl,$0232
     ; There is a tower on top of Baya Mahrey knoll. There must be secrets hidden inside.
     jp DrawText20x6 ; and ret
 
-_room_98_5613:
+_room_99_5613:
     ld hl,$0218
     ; You’d better not go any further, ‘cuz there’s a guard station up there.
     jp DrawText20x6 ; and ret
 
-_room_99_5619:
+_room_9a_5619:
     ld hl,$0214
     ; Oh! So you’re locked up in here as well? How tragic. There IS a way to get outside, but I'D rather stay here where it's nice and cozy.
     jp DrawText20x6 ; and ret
 
-_room_9a_561F:
+_room_9b_561F:
     ld a,Enemy_RobotPolice
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12236,7 +12251,7 @@ _room_9a_561F:
     call _LABEL_1738_
     jp _LABEL_6B2F_
 
-_room_9b_TorchBearer: ; $5661:
+_room_9c_TorchBearer: ; $5661:
     ld hl,$023E
     ; This flame is lit during each centennial solar eclipse. If you give me a dragon’s jewel, however, I’ll share the flame with you. Do we have an agreement?
     call DrawText20x6
@@ -12262,7 +12277,7 @@ _room_9b_TorchBearer: ; $5661:
     ; You mean to say you don’t have the jewel?! Don’t toy with me!
     jp DrawText20x6 ; and ret
 
-_room_9c_Tajim: ; $5690:
+_room_9d_Tajim: ; $5690:
     ld a,Enemy_Tajim
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12349,7 +12364,7 @@ _room_9c_Tajim: ; $5690:
     ld (ItemTableIndex),a
     jp AddItemToInventory
 
-_room_9d_5730:
+_room_9e_ShadowWarrior:
     ld a,Enemy_FakeLaShiec
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12373,7 +12388,7 @@ _LABEL_574F_:
     pop hl
     ret
 
-_room_9e_LaShiec: ; $575B:
+_room_9f_LaShiec: ; $575B:
     ld a,(HaveBeatenLaShiec)
     or a
     jp nz,_ScriptEnd
@@ -12400,17 +12415,17 @@ _room_9e_LaShiec: ; $575B:
     ; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
     jp DrawText20x6 ; and ret
 
-_room_9f_578F:
-    ld hl,_DATA_B132_
+_room_a0_578F:
+    ld hl,textEppiWoodsCantPass
     jp TextBox20x6 ; and ret
 
-_room_a0_5795:
 _room_a1_5795:
-_room_ae_5795:
+_room_a2_5795:
 _room_af_5795:
-_room_b5_5795:
+_room_b0_5795:
+_room_b6_5795:
     call MenuWaitForButton
-_room_a2_5798:
+_room_a3_5798:
     call _LABEL_1D3D_
     pop hl
     ret
@@ -12464,7 +12479,7 @@ FindTairon:
     call DrawText20x6
     jp Close20x6TextBox ; and ret
 
-_room_a3_CoronoTowerDezorian1: ; 57F5:
+_room_a4_CoronoTowerDezorian1: ; 57F5:
     ld a,Enemy_DezorianHead
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12472,12 +12487,12 @@ _room_a3_CoronoTowerDezorian1: ; 57F5:
     ; What is your business here? Don’t cause any trouble!
     jp DrawText20x6 ; and ret
 
-_room_a4_GuaranMorgue: ; $5803:
+_room_a5_GuaranMorgue: ; $5803:
     ld hl,$0234
     ; What is your business here? Don’t cause any trouble!
     jp DrawText20x6 ; and ret
 
-_room_a5_CoronaDungeonDihonstDezorian: ; $5809:
+_room_a6_CoronaDungeonDishonestDezorian: ; $5809:
     ld a,Enemy_Dezorian
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12487,7 +12502,7 @@ _room_a5_CoronaDungeonDihonstDezorian: ; $5809:
     ; Be careful up ahead. You should turn left at the fork in the path.<wait>
     jp DrawText20x6 ; and ret
 
-_room_a6_581B:
+_room_a7_581B:
     ld a,Enemy_Serpent
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12497,7 +12512,7 @@ _room_a6_581B:
     ld (EnemyMoney),hl
     jp _LABEL_116B_
 
-_room_a7_BayaMarlayPrisoner: ; $582D:
+_room_a8_BayaMarlayPrisoner: ; $582D:
     ld hl,$0228
     ; Have you gotten the armor from Guaran?
     call DrawText20x6
@@ -12510,7 +12525,7 @@ _room_a7_BayaMarlayPrisoner: ; $582D:
     ; It’s on the other side of a pitfall!
 +:  jp DrawText20x6 ; and ret
 
-_room_a8_BuggyUnused: ; $5841:
+_room_a9_BuggyUnused: ; $5841:
     ; Presumably unused...
     ld a,Enemy_MotavianPeasant
     ld (EnemyNumber),a
@@ -12519,7 +12534,7 @@ _room_a8_BuggyUnused: ; $5841:
     ; I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].
     jp DrawText20x6 ; and ret
 
-_room_a9_LuvenoGuard: ; $584F:
+_room_aa_LuvenoGuard: ; $584F:
     ld a,(LuvenoState)
     cp $07
     jr nc,+
@@ -12545,7 +12560,7 @@ _DATA_5873_:
 _DATA_5876_:
 .db $07 $1B $1D
 
-_room_aa_DarkForce: ; $5879:
+_room_ab_DarkForce: ; $5879:
     ld a,$93
     ld (NewMusic),a
     call Pause256Frames
@@ -12574,11 +12589,11 @@ _room_aa_DarkForce: ; $5879:
     or a
     jr nz,+
     ; No
-    ld hl,_DATA_B85A_
+    ld hl,textDarkForceResurrection
     call TextBox20x6
     call Close20x6TextBox
 
-_room_ab_58C6:
+_room_ac_58C6:
 +:  call FadeOutFullPalette
     ld a,$1D
     ld (SceneType),a
@@ -12587,7 +12602,7 @@ _room_ab_58C6:
     call ExecuteFunctionIndexAInNextVBlank
     call FadeInWholePalette
     ld a,$35
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     call SpriteHandler
     ld hl,$0272
     ; Oh! My friends, please forgive me. My mind and body seem to have been enchanted by some sort of evil force.
@@ -12609,12 +12624,12 @@ _room_ab_58C6:
     pop hl
     jp _LABEL_47B5_
 
-_room_ac_58FC:
+_room_ad_58FC:
     ld hl,$02A4
     ; This is Alisa’s house. Nobody is here.
     jp DrawText20x6 ; and ret
 
-_room_ad_5902:
+_room_ae_5902:
     ld a,(_RAM_C2F0_)
     ld d,a
     ld e,0 ; Character number
@@ -12622,7 +12637,7 @@ _room_ad_5902:
     ld (TextCharacterNumber),a
     rr d
     push de
-      ld hl,TextPlayerDied
+      ld hl,textPlayerDied
       ; <player> died.
       call c,TextBox20x6
     pop de
@@ -12640,18 +12655,18 @@ _room_ad_5902:
 
 +:  jp Close20x6TextBox ; and ret
 
-_room_b0_592D:
+_room_b1_592D:
     ld hl,$023A
     ; Don’t let this get out, but there's a fortune-teller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.
     jp DrawText20x6 ; and ret
 
-_room_b1_OtegamiChieChan: ; $5933:
+_room_b2_OtegamiChieChan: ; $5933:
     ld hl,$027A
     ; I am 'Otegami Chie-chan!’ Thanks for all your letters. Please tell us how you feel about this game. We’ll be waiting.
     jp DrawText20x6 ; and ret
 
-_room_b2_FlightToMotavia: ; $5939:
-    ld hl,TextBoundForMotavia
+_room_b3_FlightToMotavia: ; $5939:
+    ld hl,textBoundForMotavia
     ; BOUND FOR MOTAVIA. GETTING ON?
     call TextBox20x6
     call DoYesNoMenu
@@ -12660,8 +12675,8 @@ _room_b2_FlightToMotavia: ; $5939:
     ld (_RAM_C2E9_),a
     ret
 
-_room_b3_FlightToPalma: ; $5949:
-    ld hl,TextBoundForPalma
+_room_b4_FlightToPalma: ; $5949:
+    ld hl,textBoundForPalma
     ; BOUND FOR PALMA. GETTING ON?
     call TextBox20x6
     call DoYesNoMenu
@@ -12670,8 +12685,8 @@ _room_b3_FlightToPalma: ; $5949:
     ld (_RAM_C2E9_),a
     ret
 
-_room_b4_HapsbyTravel: ; $5959:
--:  ld hl,TextWhereWouldYouLikeToGo
+_room_b5_HapsbyTravel: ; $5959:
+-:  ld hl,textHapsby_ChooseDestination
     ; Where would you like to go?
     call TextBox20x6
     ; Select a planet
@@ -12692,28 +12707,28 @@ _room_b4_HapsbyTravel: ; $5959:
     jr nz,+
     ; Print the error
     or a
-    ld hl,TextThisIsGothic
+    ld hl,textHapsby_ThisIsGothic
     ; This IS Gothic.
     jr z,++
     dec a
-    ld hl,TextThisIsUzo
+    ld hl,textHapsby_ThisIsUzo
     ; This IS Uzo.
     jr z,++
-    ld hl,TextThisIsSkray
+    ld hl,textHapsby_ThisIsSkray
     ; This IS Skray.
 ++: call TextBox20x6
     jr -
 
 +:  ld a,d
     or a
-    ld hl,TextDestinationGothic
+    ld hl,textHapsby_DestinationGothic
     ; Destination: Gothic, on Palma. Confirm?
     jr z,+
     dec a
-    ld hl,TextDestinationUzo
+    ld hl,textHapsby_DestinationUzo
     ; Destination: Uzo, on Motabia. Confirm?
     jr z,+
-    ld hl,TextDestinationSkray
+    ld hl,textHapsby_DestinationSkray
     ; Destination: Skray, on Dezoris. Confirm?
 +:  push de
     call TextBox20x6
@@ -12895,7 +12910,7 @@ _DATA_5AA3_:
 .dw _LABEL_5C1B_ _LABEL_5C50_ _LABEL_5C5C_ _LABEL_5C61_ _LABEL_5C6D_ _LABEL_5C72_ _LABEL_5C7E_ _LABEL_5C83_
 .dw _LABEL_5CCB_ _LABEL_5CEC_ _LABEL_5E03_ _LABEL_5E4A_ _LABEL_5EDF_ _LABEL_5F15_ _LABEL_601C_ _LABEL_60A7_
 .dw _LABEL_60AA_ _LABEL_60EE_ _LABEL_612A_ _LABEL_6166_ _LABEL_5FAC_ _LABEL_5FD7_
-.ends
+;.ends
 ; followed by
 .orga $5acf
 .section "Update character sprites" overwrite
@@ -13307,7 +13322,7 @@ _LABEL_5EDF_:
     call GetRandomNumber
     ld b,a
     ld c,$3D
-    ld a,(_RAM_C2E0_)
+    ld a,(DungeonObjectItemTrapped)
     or a
     jr z,++
     cp $F0
@@ -13886,7 +13901,7 @@ LoadEnemy:
     djnz -
     pop hl
     ld a,(hl)
-    ld (_RAM_C2DF_),a
+    ld (DungeonObjectItemIndex),a
     inc hl             ; next word in de = money per enemy
     ld e,(hl)
     inc hl
@@ -13899,8 +13914,8 @@ LoadEnemy:
         ld (EnemyMoney),hl  ; EnemyMoney = NumEnemies*de
     pop hl
     inc hl
-    ld a,(hl)          ; Next byte in _RAM_c2e0_
-    ld (_RAM_C2E0_),a
+    ld a,(hl)          ; Next byte in DungeonObjectItemTrapped
+    ld (DungeonObjectItemTrapped),a
     inc hl             ; next word in de
     ld e,(hl)
     inc hl
@@ -13920,7 +13935,7 @@ LoadEnemy:
     ld (_RAM_c2e7_),a       ; Next byte in _RAM_c2e7_
 
     ld hl,_RAM_C500_
-    ld (_RAM_c2e1_),hl      ; $c500 -> _RAM_c2e1_
+    ld (DungeonObjectFlagAddress),hl      ; $c500 -> DungeonObjectFlagAddress
 
     call SpriteHandler
     call SpriteHandler
@@ -14038,55 +14053,60 @@ _skip:
 .ends
 .orga $63f2
 
-_LABEL_63F9_:
+LoadDialogueSprite:
     or a
     ret z
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:DialogueSpritePaletteIndices
+    ; Blank CharacterSpriteAttributes
     ld hl,CharacterSpriteAttributes
     ld de,CharacterSpriteAttributes + 1
     ld bc,$00FF
     ld (hl),$00
     ldir
+    ; Blank CharacterStatsEnemies
     ld hl,CharacterStatsEnemies
     ld de,CharacterStatsEnemies + 1
     ld bc,$007F
     ld (hl),$00
     ldir
+    ; Look up in DialogueSpritePaletteIndices
     ld l,a
     ld h,$00
     add hl,hl
-    ld de,_DATA_D540_
+    ld de,DialogueSpritePaletteIndices
     add hl,de
     ld a,(hl)
     push hl
-    ld l,a
-    ld h,$00
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ld de,_DATA_D5BC_
-    add hl,de
-    push hl
-    ld de,TargetPalette+16+8
-    ld bc,$0008
-    ldir
-    pop hl
-    ld de,ActualPalette+16+8
-    ld bc,$0008
-    ldir
+      ; Look up in DialogueSpritePalettes and load palette
+      ld l,a
+      ld h,$00
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      ld de,DialogueSpritePalettes
+      add hl,de
+      push hl
+        ld de,TargetPalette+16+8
+        ld bc,$0008
+        ldir
+      pop hl
+      ld de,ActualPalette+16+8
+      ld bc,$0008
+      ldir
     pop hl
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; Second byte from DialogueSpritePaletteIndices entry
     ld l,a
     ld h,$00
     add hl,hl
     add hl,hl
     add hl,hl
-    ld de,_DATA_D66C_
+    ld de,DialogueSprites ; Look up in DialogueSprites
     add hl,de
+    ; Copy into CharacterSpriteAttributes
     ld de,CharacterSpriteAttributes
-    ld bc,$0003
+    ld bc,3
     ldir
     inc de
     ldi
@@ -14145,7 +14165,7 @@ _Alis:                 ; $64a5
     ld de,AlisSprites
     add hl,de          ; hl = AlisSprites + (ix+$10)*192 = where to
     TileAddressDE $1aa
-    SetVRAMAddressToDE
+    rst SetVRAMAddressToDE
     ld c,VDPData
     call outi128       ; output 192 bytes = 6 tiles
     jp outi64          ; and ret
@@ -14162,7 +14182,7 @@ _Lutz:                 ; $64c2
     ld de,LutzSprites
     add hl,de          ; hl = LutzSprites + (ix+$10)*192
     TileAddressDE $1b0
-    SetVRAMAddressToDE
+    rst SetVRAMAddressToDE
     ld c,VDPData
     call outi128       ; output 192 bytes = 6 tiles
     jp outi64          ; and ret
@@ -14179,7 +14199,7 @@ _Odin:                 ; $64df
     ld de,OdinSprites
     add hl,de          ; hl = LutzSprites + (ix+$10)*192
     TileAddressDE $1b6
-    SetVRAMAddressToDE
+    rst SetVRAMAddressToDE
     ld c,VDPData
     call outi128       ; output 192 bytes = 6 tiles
     jp outi64          ; and ret
@@ -14191,7 +14211,7 @@ _Myau:                 ; $64fc
     ld hl,MyauSprites
     add hl,de          ; hl = MyauSprite + (ix+$10)*128
     TileAddressDE $1bc
-    SetVRAMAddressToDE
+    rst SetVRAMAddressToDE
     ld c,VDPData
     jp outi128         ; output 128 bytes = 4 tiles and ret
 
@@ -14209,7 +14229,7 @@ _Vehicle:              ; $650f
     ld de,VehicleSprites
     add hl,de          ; hl = VehicleSprites + (ix+$10)*512
     ld de,$7540        ; tile $1aa
-    SetVRAMAddressToDE
+    rst SetVRAMAddressToDE
     ld c,VDPData
     call outi128
     call outi128
@@ -14663,8 +14683,8 @@ _LABEL_6891_:
     ld l,a
     ld h,>DungeonMap
     ld a,(hl)
-    cp $08
-    jp nz,_LABEL_6984_
+    cp $08 ; Object or pitfall
+    jp nz,_NotPitFall
     ; It is 8
     ld c,l
     ld a,(DungeonNumber)
@@ -14684,7 +14704,7 @@ _LABEL_6891_:
     ; And our location
     ld a,(hl)
     cp c
-    jp z,_LABEL_6984_
+    jp z,_NotPitFall
 +:  add hl,de
     jp -
 
@@ -14776,34 +14796,38 @@ _PitFall:
     ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
+    ; Restore the font as we used its area for scrolling
     ld hl,Frame2Paging
-    ld (hl),$10
+    ld (hl),:TilesExtraFont
     ld hl,TilesExtraFont
     ld de,$7E00
     call LoadTiles4BitRLE
     ld b,$01
     jp _LABEL_6C06_
 
-_LABEL_6984_:
+_NotPitFall:
     ld a,(ControlsNew)
-    and $0F
-    jp z,_LABEL_6AA5_
+    and $0F ; Mask to dircetions
+    jp z,_NotMoving
+    ; Check movememnt direction
     ld c,a
-    bit 0,c
-    jp z,_LABEL_6A1D_
+    bit 0,c ; Up -> forwards
+    jp z,_NotForwards
+    ; See what's in front
     ld b,$01
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     ld b,a
     and $07
+    ; Zero -> 
     jp z,_LABEL_69FB_
     sub $02
-    jp c,_LABEL_6A1D_
+    jp c,_NotForwards
     cp $05
     jp z,_LABEL_69F8_
     cp $02
     jp nc,++
     ld c,a
-    ld a,$C3
+    ld a,SFX_c3
     ld (NewMusic),a
     ld a,c
     bit 3,b
@@ -14819,12 +14843,12 @@ _LABEL_6984_:
     call LoadDungeonMap
     jp +++
 
-++:  bit 7,(hl)
+++: bit 7,(hl)
     ret z
     bit 3,b
     jp nz,_LABEL_6B5F_
 +++:call FadeOutFullPalette
-    ld a,(_RAM_C30A_)
+    ld a,(DungeonFacingDirection)
     and $03
     ld hl,_DATA_6D82_
     add a,l
@@ -14847,7 +14871,7 @@ _LABEL_69F8_:
 _LABEL_69FB_:
     ld a,$00
     call DungeonAnimation
-    ld a,(_RAM_C30A_)
+    ld a,(DungeonFacingDirection)
     and $03
     ld hl,_DATA_6D82_
     add a,l
@@ -14863,7 +14887,8 @@ _LABEL_69FB_:
     ld b,$01
     jp _LABEL_6C06_
 
-_LABEL_6A1D_:
+_NotForwards:
+    ; Down -> backwards
     bit 1,c
     jr z,+
     ld b,$0B
@@ -14876,7 +14901,7 @@ _LABEL_6A1D_:
     jp _LABEL_6C06_
 
 _LABEL_6A35_:
-    ld a,(_RAM_C30A_)
+    ld a,(DungeonFacingDirection)
     and $03
     ld hl,_DATA_6D82_ + 2
     add a,l
@@ -14890,17 +14915,18 @@ _LABEL_6A35_:
     ld a,$01
     jp DungeonAnimation
 
-+:  bit 2,c
++:  ; Left -> turn left
+    bit 2,c
     jr z,++
-    call _LABEL_6A5A_
+    call _TurnLeft
     ld b,$01
     jp _LABEL_6C06_
 
-_LABEL_6A5A_:
-    ld a,(_RAM_C30A_)
+_TurnLeft:
+    ld a,(DungeonFacingDirection)
     dec a
     and $03
-    ld (_RAM_C30A_),a
+    ld (DungeonFacingDirection),a
     ld h,$02
     ld b,$0D
     call _LABEL_6E6D_
@@ -14914,17 +14940,18 @@ _LABEL_6A5A_:
 +:  ld a,h
     jp DungeonAnimation
 
-++:  bit 3,c
+++: ; Right -> turn right
+    bit 3,c
     ret z
-    call _LABEL_6A85_
+    call _TurnRight
     ld b,$01
     jp _LABEL_6C06_
 
-_LABEL_6A85_:
-    ld a,(_RAM_C30A_)
+_TurnRight:
+    ld a,(DungeonFacingDirection)
     inc a
     and $03
-    ld (_RAM_C30A_),a
+    ld (DungeonFacingDirection),a
     ld h,$06
     ld b,$0C
     call _LABEL_6E6D_
@@ -14938,7 +14965,7 @@ _LABEL_6A85_:
 +:  ld a,h
     jp DungeonAnimation
 
-_LABEL_6AA5_:
+_NotMoving:
     ld a,(Controls)
     and $30
     ret z
@@ -14954,7 +14981,7 @@ _LABEL_6AA5_:
 
 _LABEL_6ABE_:
     ld b,$01
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     bit 7,(hl)
     ret nz
     set 7,(hl)
@@ -14982,9 +15009,9 @@ _LABEL_6ABE_:
     xor a
     ret
 
-_LABEL_6AED_:
+_SquareInFrontOfPlayerContainsObject:
     ld b,$01
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     cp $08
     jr nz,++
     ld c,l
@@ -15006,10 +15033,10 @@ _LABEL_6AED_:
 +:  add hl,de
     jp -
 
-++:  xor a
+++: xor a ; item found -> return 0
     ret
 
-+++:ld a,$FF
++++:ld a,$FF ; Item not found
     or a
     ret
 
@@ -15034,13 +15061,13 @@ _LABEL_6B2F_:
     ld b,$0D
     call _LABEL_6E6D_
     jr nz,+
+    ; Randomly turn left or right
     call GetRandomNumber
     rrca
     jr nc,++
-+:  call _LABEL_6A85_
++:  call _TurnRight
     jr +++
-
-++:  call _LABEL_6A5A_
+++: call _TurnLeft
 +++:call _LABEL_6A35_
     ld b,$01
     call _LABEL_6C06_
@@ -15049,7 +15076,7 @@ _LABEL_6B2F_:
 
 _LABEL_6B5F_:
     ld b,$01
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     and $08
     ret z
     ld c,l
@@ -15118,7 +15145,7 @@ _LABEL_6BC0_:
     xor a
     call DungeonScriptItem
     call LoadDungeonData
-    call _LABEL_7085_
+    call CheckDungeonMusic
     call FadeInWholePalette
     ret
 
@@ -15139,73 +15166,82 @@ _LABEL_6BEA_:
     jp _LABEL_6BC0_
 
 _LABEL_6C06_:
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     cp $08
     ret nz
     ld c,l
+    ; Check if the pointed square has an object
     push bc
-    ld a,(DungeonNumber)
-    ld b,a
-    ld hl,Frame2Paging
-    ld (hl),:DungeonObjects
-    ld hl,DungeonObjects
-    ld de,$0006
--:  ld a,(hl)
-    cp $FF
-    jp z,++
-    inc hl
-    cp b
-    jr nz,+
-    ld a,(hl)
-    cp c
-    jr z,+++
-+:  add hl,de
-    jp -
-
-++:  pop bc
+      ld a,(DungeonNumber)
+      ld b,a
+      ld hl,Frame2Paging
+      ld (hl),:DungeonObjects
+      ld hl,DungeonObjects
+      ld de,6
+-:    ld a,(hl)
+      cp $FF
+      jp z,++
+      inc hl
+      cp b
+      jr nz,+
+      ld a,(hl)
+      cp c
+      jr z,+++
++:    add hl,de
+      jp -
+++: pop bc
     ret
 
 +++:pop bc
+    ; Object found, hl points to its second byte
     inc hl
-    ld e,(hl)
+    ld e,(hl) ; Read flag address to de
     inc hl
     ld d,(hl)
     ld a,(de)
     cp $FF
-    ret z
-    ld (_RAM_C2E1_),de
+    ret z ; Do nothing if it is $ff
+    ; Remember it
+    ld (DungeonObjectFlagAddress),de
+    
     ld a,$FF
     ld (MovementInProgress),a
+    
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; Read object type
     inc hl
     or a
     jr nz,+
-    ld a,(hl)
-    ld (_RAM_C2DF_),a
+    ; Type 0: item
+    ld a,(hl) ; Read item type
+    ld (DungeonObjectItemIndex),a
     inc hl
-    ld a,(hl)
-    ld (_RAM_C2E0_),a
-    ld hl,$0000
+    ld a,(hl) ; And trapped byte
+    ld (DungeonObjectItemTrapped),a
+    ld hl,0
     ld (EnemyMoney),hl
     jp ++
 
-+:  cp $01
++:  cp DungeonObject_Meseta
     jr nz,+++
+    ; Type 1: money
     xor a
-    ld (_RAM_C2DF_),a
+    ld (DungeonObjectItemIndex),a
     ld a,(hl)
     inc hl
     ld h,(hl)
     ld l,a
     ld (EnemyMoney),hl
-++:  ld a,b
+    ; fall through
+    
+++: ; Treasure chest for item or money
+    ld a,b ; relative square index?
     cp $01
-    ret nz
-    ld hl,_DATA_B688_
+    ret nz ; Nothing if not in front
+    ld hl,textFoundTreasureChest
     call TextBox20x6
     push bc
-    call _LABEL_180E_
+      call ShowTreasureChest
     pop bc
     call _LABEL_2A37_
     ld a,(CharacterSpriteAttributes)
@@ -15213,66 +15249,75 @@ _LABEL_6C06_:
     ret z
     jp _LABEL_1D3D_
 
-+++:cp $02
++++:cp DungeonObject_Battle
     jr nz,++
+    ; Type 2: battle
     ld a,b
     cp $01
     jr z,+
+    ; Direction is not 1, so turn around
     push hl
-    call _LABEL_6A5A_
-    call _LABEL_6A5A_
-    ld hl,Frame2Paging
-    ld (hl),$03
+      ; Turn around 180 degrees
+      call _TurnLeft
+      call _TurnLeft
+      ld hl,Frame2Paging
+      ld (hl),$03
     pop hl
 +:  ld a,(hl)
     ld (EnemyNumber),a
     or a
-    ret z
+    ret z ; Should not be possible
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; Enemy item drop
     push af
-    ld hl,(_RAM_C2E1_)
-    push hl
-    call LoadEnemy
-    pop hl
-    ld (_RAM_C2E1_),hl
+      ld hl,(DungeonObjectFlagAddress)
+      push hl
+        call LoadEnemy
+      pop hl
+      ld (DungeonObjectFlagAddress),hl
     pop af
-    ld (_RAM_C2DF_),a
+    ld (DungeonObjectItemIndex),a
     call _LABEL_116B_
     ld a,(CharacterSpriteAttributes)
     or a
     ret z
     jp _LABEL_1D3D_
 
-++:  cp $03
+++: cp DungeonObject_Dialogue
     ret nz
+    ; Type 3: dialogue
     ld a,b
     cp $01
-    jr z,_LABEL_6CD2_
+    jr z,+
     push hl
-    call _LABEL_6A85_
-    call _LABEL_6A85_
-    ld hl,Frame2Paging
-    ld (hl),$03
+      ; turn around 180 degrees
+      call _TurnRight
+      call _TurnRight
+      ld hl,Frame2Paging
+      ld (hl),$03 ; ???
     pop hl
++:
 _LABEL_6CD2_:
+    ; Load word into RoomIndex
     ld a,(hl)
     inc hl
     ld h,(hl)
     ld l,a
-    ld (RoomIndex),hl
+    ld (RoomIndex),hl ; also writing to _RAM_C2DC_
     ld a,(_RAM_C2DC_)
-    call _LABEL_63F9_
+    call LoadDialogueSprite
     call DoRoomScript
+    ; Turn off sprites
     ld a,$D0
     ld (SpriteTable),a
+    ; Clear other stuff
     xor a
     ld (CharacterSpriteAttributes),a
     ld (_RAM_C29D_),a
     ld (SceneType),a
     ld (_RAM_C2D5_),a
-    ld hl,$0000
-    ld (RoomIndex),hl
+    ld hl,0
+    ld (RoomIndex),hl ; and _RAM_C2DC_
     ret
 
 DungeonAnimation: ; $6CFB
@@ -15512,7 +15557,7 @@ _raw:
 
 _LABEL_6E6D_:
     push hl
-    ld a,(_RAM_C30A_)
+    ld a,(DungeonFacingDirection)
     and $03
     add a,a
     add a,a
@@ -15520,7 +15565,7 @@ _LABEL_6E6D_:
     add a,a
     ld e,a
     ld d,$00
-    ld hl,_DATA_6EAA_ - 1
+    ld hl,_RelativeSquareOffsets
     add hl,de
     ld e,b
     add hl,de
@@ -15533,42 +15578,40 @@ _LABEL_6E6D_:
     pop hl
     ret
 
-_LABEL_6E8C_:
-    ld a,(_RAM_C30A_)
-    and $03
-    add a,a
+DungeonGetRelativeSquare:
+    ld a,(DungeonFacingDirection)
+    and $03 ; 0-3
+    add a,a ; Multiply by 16
     add a,a
     add a,a
     add a,a
     ld e,a
     ld d,$00
-    ld hl,$6EA9
+    ld hl,_RelativeSquareOffsets ; Look up in table
     add hl,de
+    ; Then offset by b
     ld e,b
     add hl,de
-    ld a,(DungeonPosition)
+    ld a,(DungeonPosition) ; Add pointed value to DungeonPosition
     add a,(hl)
-    ld h,$CB
+    ld h,>DungeonMap ; Look up in DungeonMap
     ld l,a
-    ld a,(hl)
-    and $7F
+    ld a,(hl) ; Read byte
+    and $7F ; Reset high bit and return it
     ret
 
-; Data from 6EA9 to 6EA9 (1 bytes)
-.db $00
-
-; Data from 6EAA to 6EAA (1 bytes)
-_DATA_6EAA_:
-.db $F0
-
-; Pointer Table from 6EAB to 6EB4 (5 entries,indexed by _RAM_C30A_)
-.dw _RAM_F1EF_ _RAM_DFE0_ _RAM_D0E1_ _RAM_D1CF_ $10C0
-
-; Data from 6EB5 to 6EE8 (52 bytes)
-.db $FF $01 $00 $00 $00 $01 $F1 $11 $02 $F2 $12 $03 $F3 $13 $04 $FF
-.db $F0 $10 $00 $00 $00 $10 $11 $0F $20 $21 $1F $30 $31 $2F $40 $F0
-.db $01 $FF $00 $00 $00 $FF $0F $EF $FE $0E $EE $FD $0D $ED $FC $01
-.db $10 $F0 $00 $00
+_RelativeSquareOffsets:
+; Offsets of tile a certain distance away in the map. For a player at X facing right:
+;
+;  $0b $0c $02 $05 $07
+;      [X] $01 $04 $08 $0a
+;      $0d $03 $06 $09
+;
+;         1   2   3   4   5   6   7   8   9   a   b   c   d   e   f
+.db $00 $F0 $EF $F1 $E0 $DF $E1 $D0 $CF $D1 $C0 $10 $FF $01 $00 $00 ; Up
+.db $00 $01 $F1 $11 $02 $F2 $12 $03 $F3 $13 $04 $FF $F0 $10 $00 $00 ; Right
+.db $00 $10 $11 $0F $20 $21 $1F $30 $31 $2F $40 $F0 $01 $FF $00 $00 ; Down
+.db $00 $FF $0F $EF $FE $0E $EE $FD $0D $ED $FC $01 $10 $F0 $00 $00 ; Left
 
 _LABEL_6EE9_:
     ld a,c
@@ -15834,14 +15877,15 @@ LoadDungeonData:
     ld (TargetPalette+16),a
     ret
 
-_LABEL_7085_:
+CheckDungeonMusic:
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:DungeonData1
+    ; Index into table by DungeonNumber
     ld a,(DungeonNumber)
     add a,a
     add a,a
     ld l,a
-    ld h,$00
+    ld h,0
     ld de,DungeonData1+DungeonData.Music
     add hl,de
     ld a,(hl)
@@ -15893,7 +15937,7 @@ _70a1:
 
 _LABEL_70DB_:
     ld b,$01
-    call _LABEL_6E8C_
+    call DungeonGetRelativeSquare
     and $07
     cp $07
     jr z,---
@@ -16843,7 +16887,7 @@ _LABEL_78A5_:
     ret nc
     ld (hl),$d7        ; then set it to $d7=215
     ret
-.ends
+;.ends
 .orga $78f9
 
 _LABEL_78F9_:
@@ -17250,9 +17294,9 @@ _LABEL_7B60_:
     ld e,(hl)
     ld (DungeonPosition),de ; Set DungeonPosition and DungeonNumber
     inc hl
-    ; Next byte = _RAM_C30A_
+    ; Next byte = DungeonFacingDirection
     ld a,(hl)
-    ld (_RAM_C30A_),a
+    ld (DungeonFacingDirection),a
     ld hl,(_RAM_C311_)
     ld (VLocation),hl
     ld hl,(_RAM_C313_)
@@ -17315,7 +17359,7 @@ _LABEL_7BCD_:
     ld hl,$00DE
     ld (DungeonPosition),hl
     ld a,$00
-    ld (_RAM_C30A_),a
+    ld (DungeonFacingDirection),a
     ld hl,(_RAM_C311_)
     ld (VLocation),hl
     ld hl,(_RAM_C313_)
@@ -17750,7 +17794,7 @@ _LABEL_7F28_:
 ; followed by
 .orga $7f44
 .section "Palette animation 1" overwrite
-_LABEL_7F44_:
+_LABEL_7F44_PaletteAnimation:
     ld hl,Frame2Paging
     ld (hl),:_DATA_FE1D_
     ld hl,_DATA_FE1D_
@@ -17939,1014 +17983,80 @@ TileNumberLookup:      ; $8000
 .include "text\text1.inc" ; TODO inline with .stringmap
 .ends
 
-; Data from AB1F to AB30 (18 bytes)
-_DATA_AB1F_:
-.db $50 $1A $00 $4F $19 $54 $0A $03 $36 $07 $2D $00 $06 $2C $0C $10
-.db $4C $57
-
-; Data from AB31 to AB42 (18 bytes)
-_DATA_AB31_:
-.db $4F $1A $00 $50 $19 $54 $0A $03 $36 $07 $2D $00 $06 $2C $0C $10
-.db $4C $57
-
-; Data from AB43 to AB4D (11 bytes)
-_DATA_AB43_:
-.db $4F $1A $00 $1A $15 $0C $06 $09 $10 $4C $56
-
-; Data from AB4E to AB56 (9 bytes)
-_DATA_AB4E_:
-.db $50 $1A $00 $0A $10 $04 $10 $4C $57
-
-; Data from AB57 to AB5F (9 bytes)
-_DATA_AB57_:
-.db $12 $03 $39 $15 $06 $2F $10 $4C $57
-
-; Data from AB60 to AB71 (18 bytes)
-_DATA_AB60_:
-.db $50 $1A $00 $16 $36 $20 $11 $16 $54 $10 $11 $1C $0B $33 $2F $10
-.db $4C $57
-
-; Data from AB72 to AB99 (40 bytes)
-_DATA_AB72_:
-.db $4F $19 $00 $1F $39 $2F $08 $1A $54 $0A $03 $06 $33 $00 $15 $06
-.db $2F $10 $4C $57 $50 $19 $00 $1F $39 $2F $08 $1A $54 $0A $03 $06
-.db $33 $00 $15 $06 $2F $10 $4C $57
-
-; Data from AB9A to ABB2 (25 bytes)
-_DATA_AB9A_:
-.db $22 $19 $1F $04 $16 $00 $20 $04 $15 $02 $00 $1F $1E $03 $19 $54
-.db $06 $45 $33 $00 $40 $07 $10 $4C $57
-
-; Data from ABB3 to ABCD (27 bytes)
-_DATA_ABB3_:
-.db $50 $19 $00 $0A $03 $36 $07 $1A $54 $1F $1E $03 $19 $00 $06 $45
-.db $16 $00 $1A $18 $06 $04 $0B $2A $10 $4C $57
-
-; Data from ABCE to ABE8 (27 bytes)
-_DATA_ABCE_:
-.db $50 $19 $00 $1F $39 $2F $08 $1A $54 $1F $1E $03 $19 $00 $06 $45
-.db $16 $00 $1A $18 $06 $04 $0B $2A $10 $4C $57
-
-; Data from ABE9 to ABFD (21 bytes)
-_DATA_ABE9_:
-.db $20 $04 $15 $02 $00 $06 $45 $19 $00 $0A $03 $06 $33 $54 $15 $08
-.db $15 $2F $10 $4C $57
-
-; Data from ABFE to AC0F (18 bytes)
-_DATA_ABFE_:
-.db $4F $19 $00 $10 $02 $28 $32 $08 $33 $54 $06 $02 $1C $08 $0C $10
-.db $4C $57
-
-; Data from AC10 to AC21 (18 bytes)
-_DATA_AC10_:
-.db $50 $19 $00 $10 $02 $28 $32 $08 $33 $54 $06 $02 $1C $08 $0C $10
-.db $4C $57
-
-; Data from AC22 to AC2E (13 bytes)
-_DATA_AC22_:
-.db $50 $2D $54 $06 $15 $0C $42 $28 $16 $0C $10 $4C $57
-
-; Data from AC2F to AC3D (15 bytes)
-_DATA_AC2F_:
-.db $4F $1A $00 $06 $15 $0C $42 $28 $16 $00 $01 $2F $10 $4C $57
-
-; Data from AC3E to AC47 (10 bytes)
-_DATA_AC3E_:
-.db $4F $1A $00 $03 $37 $09 $15 $02 $4C $57
-
-; Data from AC48 to AC51 (10 bytes)
-_DATA_AC48_:
-.db $50 $1A $00 $03 $37 $09 $15 $02 $4C $57
-
-; Data from AC52 to AC60 (15 bytes)
-_DATA_AC52_:
-.db $4F $1A $00 $06 $15 $0C $42 $28 $33 $00 $14 $09 $10 $4C $57
-
-; Data from AC61 to AC6F (15 bytes)
-_DATA_AC61_:
-.db $50 $1A $54 $06 $15 $0C $42 $28 $33 $00 $14 $09 $10 $4C $57
-
-; Data from AC70 to AC89 (26 bytes)
-_DATA_AC70_:
-.db $4F $1A $00 $06 $27 $3D $16 $00 $11 $06 $27 $33 $54 $20 $15 $34
-.db $29 $19 $2D $00 $06 $2E $39 $10 $4C $57
-
-; Data from AC8A to AC9B (18 bytes)
-_DATA_AC8A_:
-.db $50 $1A $00 $0A $2C $08 $15 $2F $13 $54 $0C $28 $37 $20 $0C $10
-.db $4C $57
-
-; Data from AC9C to ACB0 (21 bytes)
-_DATA_AC9C_:
-.db $50 $1A $00 $16 $36 $01 $0C $19 $54 $1A $24 $0B $16 $00 $05 $41
-.db $2B $02 $10 $4C $57
-
-; Data from ACB1 to ACBA (10 bytes)
-_DATA_ACB1_:
-.db $2C $15 $39 $30 $15 $06 $2F $10 $4C $58
-
-; Data from ACBB to ACD9 (31 bytes)
-_DATA_ACBB_:
-.db $01 $44 $15 $02 $00 $14 $0A $2B $3D $2F $10 $4C $4F $1A $54 $2C
-.db $15 $2D $00 $20 $24 $44 $2F $13 $00 $1A $3A $0C $10 $4C $58
-
-; Data from ACDA to ACE5 (12 bytes)
-_DATA_ACDA_:
-.db $4F $1A $00 $51 $2D $54 $12 $06 $2F $10 $4C $57
-
-; Data from ACE6 to ACF2 (13 bytes)
-_DATA_ACE6_:
-.db $4F $1A $00 $51 $2D $54 $0F $03 $43 $0C $10 $4C $56
-
-; Data from ACF3 to AD01 (15 bytes)
-_DATA_ACF3_:
-.db $4F $1A $00 $51 $2D $54 $0D $13 $13 $0C $1F $2F $10 $4C $58
-
-; Data from AD02 to AD10 (15 bytes)
-_DATA_AD02_:
-.db $0C $06 $0C $00 $0A $03 $06 $1A $00 $15 $06 $2F $10 $4C $57
-
-; Data from AD11 to AD25 (21 bytes)
-_DATA_AD11_:
-.db $0C $06 $0C $00 $0A $0A $40 $00 $51 $1A $54 $24 $08 $16 $00 $10
-.db $10 $15 $02 $4C $58
-
-; Data from AD26 to AD37 (18 bytes)
-_DATA_AD26_:
-.db $0A $0A $40 $00 $05 $28 $29 $2C $09 $16 $1A $00 $02 $06 $15 $02
-.db $4C $58
-
-; Data from AD38 to AD41 (10 bytes)
-_DATA_AD38_:
-.db $51 $16 $00 $19 $28 $0A $2E $3D $4C $57
-
-; Data from AD42 to AD4C (11 bytes)
-_DATA_AD42_:
-.db $51 $06 $27 $00 $14 $43 $05 $28 $10 $4C $57
-
-; Data from AD4D to AD5C (16 bytes)
-_DATA_AD4D_:
-.db $0C $06 $0C $00 $15 $16 $23 $00 $05 $07 $15 $06 $2F $10 $4C $57
-
-; Data from AD5D to AD7F (35 bytes)
-_DATA_AD5D_:
-.db $50 $1A $00 $1C $04 $19 $18 $2D $54 $07 $02 $13 $00 $05 $14 $15
-.db $0C $08 $15 $2F $10 $4C $57 $50 $1A $00 $22 $33 $00 $03 $12 $2B
-.db $3D $4C $57
-
-; Data from AD80 to AD9F (32 bytes)
-_DATA_AD80_:
-.db $0C $06 $0C $00 $02 $1F $1A $00 $0F $2E $15 $0A $14 $2D $54 $0C
-.db $13 $02 $29 $42 $01 $02 $39 $30 $00 $15 $02 $26 $03 $3D $4C $57
-
-; Data from ADA0 to ADAC (13 bytes)
-_DATA_ADA0_:
-.db $4F $1A $00 $51 $2D $54 $14 $28 $3D $0C $10 $4C $57
-
-; Data from ADAD to ADBB (15 bytes)
-_DATA_ADAD_:
-.db $45 $12 $16 $00 $0A $2C $2A $13 $15 $02 $26 $03 $3D $4C $58
-
-; Data from ADBC to ADCE (19 bytes)
-_DATA_ADBC_:
-.db $1F $2F $08 $27 $40 $00 $0D $0D $21 $0A $14 $33 $00 $40 $07 $15
-.db $02 $4C $58
-
-; Data from ADCF to ADE9 (27 bytes)
-_DATA_ADCF_:
-.db $0F $0C $13 $00 $43 $2E $19 $00 $1C $10 $2D $00 $01 $09 $13 $54
-.db $0C $3A $06 $16 $00 $10 $27 $0C $10 $4C $57
-
-; Data from ADEA to AE09 (32 bytes)
-_DATA_ADEA_:
-.db $0C $06 $0C $00 $20 $30 $03 $1A $00 $43 $2E $19 $00 $1C $10 $2D
-.db $54 $01 $09 $29 $0A $14 $33 $00 $40 $07 $15 $06 $2F $10 $4C $58
-
-; Data from AE0A to AE20 (23 bytes)
-_DATA_AE0A_:
-.db $02 $12 $00 $06 $02 $40 $20 $13 $23 $00 $02 $24 $15 $54 $16 $05
-.db $02 $33 $00 $0D $29 $4C $58
-
-; Data from AE21 to AE33 (19 bytes)
-_DATA_AE21_:
-.db $4F $1A $00 $14 $13 $23 $54 $02 $24 $15 $00 $26 $06 $2E $33 $0C
-.db $10 $4C $58
-
-; Data from AE34 to AE43 (16 bytes)
-_DATA_AE34_:
-.db $4F $1A $00 $15 $16 $23 $00 $06 $2E $39 $15 $06 $2F $10 $4C $58
-
-; Data from AE44 to AE5A (23 bytes)
-_DATA_AE44_:
-.db $50 $1A $00 $01 $06 $02 $00 $1E $15 $05 $2D $54 $20 $13 $00 $05
-.db $39 $09 $3A $02 $10 $4C $57
-
-; Data from AE5B to AE6A (16 bytes)
-_DATA_AE5B_:
-.db $4F $1A $00 $51 $2D $54 $13 $2E $16 $00 $06 $38 $0C $10 $4C $57
-
-; Data from AE6B to AE89 (31 bytes)
-_DATA_AE6B_:
-.db $4F $1A $00 $27 $04 $29 $1F $45 $28 $4D $2D $00 $14 $2F $13 $54
-.db $27 $0A $16 $01 $2E $4B $2F $14 $16 $00 $02 $2A $10 $4C $58
-
-; Data from AE8A to AEAC (35 bytes)
-_DATA_AE8A_:
-.db $27 $04 $29 $1F $45 $28 $4D $2D $00 $14 $2F $13 $20 $10 $33 $54
-.db $0C $42 $27 $08 $0D $29 $14 $00 $1B $06 $27 $43 $13 $0C $1F $2F
-.db $10 $4C $58
-
-; Data from AEAD to AECE (34 bytes)
-_DATA_AEAD_:
-.db $1F $46 $2B $0C $19 $00 $04 $01 $2B $07 $30 $2F $0D $29 $33 $54
-.db $05 $05 $3C $27 $16 $00 $0D $33 $10 $2D $00 $01 $27 $2C $0C $10
-.db $4C $58
-
-; Data from AECF to AEE7 (25 bytes)
-_DATA_AECF_:
-.db $05 $15 $06 $33 $00 $0D $02 $13 $15 $06 $2F $10 $19 $40 $54 $23
-.db $14 $16 $00 $23 $41 $0C $10 $4C $58
-
-; Data from AEE8 to AEF7 (16 bytes)
-_DATA_AEE8_:
-.db $1A $49 $0D $43 $4D $1A $00 $02 $24 $02 $24 $2D $0C $10 $4C $58
-
-; Data from AEF8 to AF08 (17 bytes)
-_DATA_AEF8_:
-.db $1A $49 $0D $43 $4D $19 $00 $01 $10 $1F $1A $00 $06 $10 $02 $4C
-.db $58
-
-; Data from AF09 to AF1D (21 bytes)
-_DATA_AF09_:
-.db $0F $2A $1A $00 $12 $06 $2C $15 $08 $13 $23 $54 $07 $07 $22 $33
-.db $00 $01 $29 $4C $58
-
-; Data from AF1E to AF31 (20 bytes)
-_DATA_AF1E_:
-.db $14 $08 $16 $00 $06 $2C $2F $10 $14 $0A $2B $1A $54 $15 $02 $26
-.db $03 $3D $4C $58
-
-; Data from AF32 to AF3A (9 bytes)
-_DATA_AF32_:
-.db $51 $2D $00 $20 $12 $09 $10 $4C $58
-
-; Data from AF3B to AF4C (18 bytes)
-_DATA_AF3B_:
-.db $15 $2E $3D $06 $00 $06 $27 $3D $33 $00 $06 $29 $08 $15 $2F $10
-.db $4C $57
-
-; Data from AF4D to AF5D (17 bytes)
-_DATA_AF4D_:
-.db $4F $19 $00 $10 $1F $0C $02 $1A $54 $26 $20 $33 $04 $2F $10 $4C
-.db $58
-
-; Data from AF5E to AF70 (19 bytes)
-_DATA_AF5E_:
-.db $10 $02 $2B $2E $1A $00 $1F $39 $2F $08 $2D $00 $12 $06 $04 $15
-.db $02 $4C $57
-
-; Data from AF71 to AF85 (21 bytes)
-_DATA_AF71_:
-.db $4F $1A $00 $1F $3D $00 $1F $39 $2F $08 $2D $54 $05 $46 $04 $13
-.db $02 $15 $02 $4C $57
-
-; Data from AF86 to AF95 (16 bytes)
-_DATA_AF86_:
-.db $4F $1A $00 $51 $2D $54 $0F $03 $43 $00 $40 $07 $15 $02 $4C $58
-
-; Data from AF96 to AFA5 (16 bytes)
-_DATA_AF96_:
-.db $0F $2A $1A $00 $0F $03 $43 $0C $15 $08 $13 $23 $02 $02 $4C $58
-
-; Data from AFA6 to AFB8 (19 bytes)
-_DATA_AFA6_:
-.db $09 $02 $09 $2E $11 $33 $00 $52 $4B $02 $2E $14 $54 $01 $33 $2F
-.db $10 $4C $58
-
-; Data from AFB9 to AFC5 (13 bytes)
-_DATA_AFB9_:
-.db $4F $1A $00 $2A $45 $29 $01 $2F $49 $0C $10 $4C $58
-
-; Data from AFC6 to AFD9 (20 bytes)
-_DATA_AFC6_:
-.db $4F $1A $00 $1F $39 $2F $08 $2D $54 $1B $14 $12 $00 $20 $16 $12
-.db $09 $10 $4C $58
-
-; Data from AFDA to AFE6 (13 bytes)
-_DATA_AFDA_:
-.db $52 $22 $0E $10 $00 $1A $02 $2F $13 $02 $10 $4C $58
-
-; Data from AFE7 to AFEE (8 bytes)
-_DATA_AFE7_:
-.db $01 $09 $13 $20 $29 $06 $4C $56
-
-; Data from AFEF to AFF7 (9 bytes)
-_DATA_AFEF_:
-.db $06 $27 $2F $4B $3D $2F $10 $4C $58
-
-; Data from AFF8 to B012 (27 bytes)
-_DATA_AFF8_:
-.db $0A $2A $02 $39 $32 $03 $00 $23 $19 $2D $00 $23 $13 $15 $02 $54
-.db $15 $16 $06 $2D $00 $0D $13 $29 $06 $4C $56
-
-; Data from B013 to B01C (10 bytes)
-_DATA_B013_:
-.db $41 $2A $2D $00 $0D $13 $29 $06 $4C $56
-
-; Data from B01D to B023 (7 bytes)
-_DATA_B01D_:
-.db $51 $2D $00 $0D $13 $13 $58
-
-; Data from B024 to B02D (10 bytes)
-_DATA_B024_:
-.db $51 $2D $00 $13 $16 $02 $2A $10 $4C $58
-
-; Data from B02E to B038 (11 bytes)
-_DATA_B02E_:
-.db $51 $1A $00 $02 $27 $15 $02 $19 $06 $4C $56
-
-; Data from B039 to B042 (10 bytes)
-_DATA_B039_:
-.db $51 $2D $00 $01 $07 $27 $22 $10 $4C $58
-
-; Data from B043 to B053 (17 bytes)
-_DATA_B043_:
-.db $51 $2D $54 $0D $13 $29 $2C $09 $16 $1A $00 $02 $06 $15 $02 $4C
-.db $58
-
-; Data from B054 to B063 (16 bytes)
-_DATA_B054_:
-.db $1F $39 $2F $08 $4B $02 $2E $14 $33 $00 $10 $28 $15 $02 $4C $57
-
-; Data from B064 to B070 (13 bytes)
-_DATA_B064_:
-.db $4F $1A $00 $1F $3D $00 $02 $07 $13 $02 $29 $4C $57
-
-; Data from B071 to B07A (10 bytes)
-_DATA_B071_:
-.db $50 $2D $00 $24 $2F $12 $09 $10 $4C $58
-
-; Data from B07B to B086 (12 bytes)
-TextPlayerDied:
-.db $4F $1A $00 $0C $2E $40 $0C $1F $2F $10 $4C $57
-
-; Data from B087 to B093 (13 bytes)
-_DATA_B087_:
-.db $4F $1A $00 $23 $03 $00 $0C $2E $40 $02 $29 $4C $57
-
-; Data from B094 to B0A7 (20 bytes)
-_DATA_B094_:
-.db $20 $30 $03 $1A $00 $27 $04 $29 $1F $45 $28 $4D $2D $54 $06 $39
-.db $2F $10 $4C $58
-
-; Data from B0A8 to B0B2 (11 bytes)
-TextWhereWouldYouLikeToGo:
-.db $41 $0A $1D $00 $02 $07 $1F $0D $06 $4C $56
-
-; Data from B0B3 to B0CE (28 bytes)
-TextDestinationSkray:
-.db $40 $3C $28 $0D $0E $02 $19 $00 $0D $08 $2A $19 $1F $11 $1D $54
-.db $02 $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
-
-; Data from B0CF to B0EA (28 bytes)
-TextDestinationUzo:
-.db $23 $10 $43 $01 $0E $02 $19 $00 $03 $4D $3C $19 $21 $27 $1D $54
-.db $02 $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
-
-; Data from B0EB to B105 (27 bytes)
-TextDestinationGothic:
-.db $47 $29 $1F $0E $02 $19 $00 $33 $0C $0A $19 $21 $27 $1D $54 $02
-.db $07 $1F $0D $4C $02 $02 $40 $0D $06 $4C $56
-
-; Data from B106 to B111 (12 bytes)
-TextThisIsSkray:
-.db $0A $0A $1A $00 $0D $08 $2A $00 $40 $0D $4C $56
-
-; Data from B112 to B11D (12 bytes)
-TextThisIsUzo:
-.db $0A $0A $1A $00 $03 $4D $3C $00 $40 $0D $4C $56
-
-; Data from B11E to B131 (20 bytes)
-TextThisIsGothic:
-.db $0A $0A $1A $00 $33 $0C $0A $00 $40 $0D $4C $56 $0C $31 $2F $47
-.db $4D $12 $4C $57
-
-; Data from B132 to B147 (22 bytes)
-_DATA_B132_:
-.db $23 $28 $19 $15 $06 $40 $00 $20 $11 $16 $00 $1F $26 $2F $13 $54
-.db $0C $1F $2F $10 $4C $58
-
-; Data from B148 to B162 (27 bytes)
-_DATA_B148_:
-.db $0A $0A $1A $00 $01 $4D $1F $4D $0C $32 $2F $49 $40 $0D $4C $54
-.db $15 $16 $06 $00 $06 $02 $1F $0D $06 $4C $56
-
-; Data from B163 to B172 (16 bytes)
-_DATA_B163_:
-.db $0F $03 $40 $0D $06 $4C $1F $10 $07 $13 $08 $3D $0B $02 $4C $58
-
-; Data from B173 to B17D (11 bytes)
-_DATA_B173_:
-.db $41 $2A $2D $00 $06 $02 $1F $0D $06 $4C $56
-
-; Data from B17E to B18E (17 bytes)
-_DATA_B17E_:
-.db $01 $28 $33 $14 $03 $4C $23 $2F $14 $00 $06 $02 $1F $0D $06 $4C
-.db $56
-
-; Data from B18F to B1AA (28 bytes)
-_DATA_B18F_:
-.db $0F $2A $02 $39 $32 $03 $00 $23 $13 $15 $02 $26 $03 $40 $0D $18
-.db $4C $54 $1F $10 $07 $13 $08 $3D $0B $02 $4C $58
-
-; Data from B1AB to B1C4 (26 bytes)
-_DATA_B1AB_:
-.db $0A $0A $1A $00 $41 $27 $2F $35 $0D $14 $01 $40 $0D $4C $54 $15
-.db $16 $06 $00 $06 $02 $1F $0D $06 $4C $56
-
-; Data from B1C5 to B1DF (27 bytes)
-_DATA_B1C5_:
-.db $0A $0A $1A $00 $12 $4D $29 $0C $32 $2F $49 $40 $0D $4C $54 $41
-.db $2E $15 $00 $37 $26 $03 $40 $0D $06 $4C $56
-
-; Data from B1E0 to B1EA (11 bytes)
-_DATA_B1E0_:
-.db $41 $2A $2D $00 $03 $28 $1F $0D $06 $4C $56
-
-; Data from B1EB to B1FD (19 bytes)
-_DATA_B1EB_:
-.db $51 $40 $0D $18 $4C $54 $52 $22 $0E $10 $40 $00 $02 $02 $40 $0D
-.db $06 $4C $56
-
-; Data from B1FE to B20D (16 bytes)
-_DATA_B1FE_:
-.db $01 $28 $33 $14 $03 $00 $23 $2F $14 $03 $28 $1F $0D $06 $4C $56
-
-; Data from B20E to B227 (26 bytes)
-_DATA_B20E_:
-.db $0A $0A $1A $00 $1E $0D $48 $10 $29 $40 $0D $4C $54 $11 $28 $32
-.db $03 $2D $00 $03 $09 $1F $0D $06 $4C $56
-
-; Data from B228 to B243 (28 bytes)
-_DATA_B228_:
-.db $0C $2E $0B $12 $14 $00 $11 $28 $32 $03 $1B $54 $52 $22 $0E $10
-.db $40 $0D $4C $26 $2B $0C $02 $40 $0D $06 $4C $56
-
-; Data from B244 to B25B (24 bytes)
-_DATA_B244_:
-.db $1E $06 $16 $00 $11 $28 $32 $03 $2D $00 $03 $09 $10 $02 $06 $10
-.db $1A $54 $02 $1F $0D $06 $4C $56
-
-; Data from B25C to B26D (18 bytes)
-_DATA_B25C_:
-.db $41 $15 $10 $33 $00 $11 $28 $32 $03 $2D $00 $03 $09 $1F $0D $06
-.db $4C $56
-
-; Data from B26E to B281 (20 bytes)
-_DATA_B26E_:
-.db $05 $1F $11 $41 $03 $0B $1F $4C $54 $41 $03 $3C $00 $05 $3D $02
-.db $39 $16 $4C $58
-
-; Data from B282 to B299 (24 bytes)
-_DATA_B282_:
-.db $0F $03 $40 $0D $06 $00 $05 $13 $12 $3D $02 $40 $07 $15 $08 $13
-.db $54 $38 $2E $18 $2E $40 $0D $4C
-
-; Data from B29A to B2A4 (11 bytes)
-_DATA_B29A_:
-.db $40 $1A $00 $05 $07 $2D $12 $09 $13 $4C $58
-
-; Data from B2A5 to B2B6 (18 bytes)
-_DATA_B2A5_:
-.db $4F $0B $2E $1A $00 $02 $39 $26 $03 $54 $01 $28 $1F $0E $2E $18
-.db $4C $58
-
-; Data from B2B7 to B2F1 (59 bytes)
-_DATA_B2B7_:
-.db $0A $0A $1A $00 $07 $32 $03 $06 $02 $40 $0D $4C $00 $3D $2A $06
-.db $19 $54 $10 $1F $0C $02 $2D $00 $26 $43 $23 $41 $0B $2A $1F $0D
-.db $06 $4C $56 $40 $1A $00 $01 $15 $10 $19 $10 $22 $16 $54 $05 $02
-.db $19 $28 $2D $00 $0B $0B $36 $1F $0D $4C $58
-
-; Data from B2F2 to B303 (18 bytes)
-_DATA_B2F2_:
-.db $0F $2A $40 $1A $00 $39 $31 $23 $2E $2D $00 $14 $15 $04 $1F $0D
-.db $4C $57
-
-; Data from B304 to B31D (26 bytes)
-_DATA_B304_:
-.db $01 $29 $13 $21 $1A $21 $27 $21 $00 $01 $29 $13 $21 $1A $21 $1A
-.db $21 $54 $0D $14 $27 $14 $4B $2E $4C $57
-
-; Data from B31E to B32C (15 bytes)
-_DATA_B31E_:
-.db $41 $15 $10 $19 $00 $10 $1F $0C $02 $40 $0C $32 $03 $4C $56
-
-; Data from B32D to B33B (15 bytes)
-_DATA_B32D_:
-.db $1E $06 $19 $06 $10 $1A $00 $02 $06 $33 $40 $0D $06 $4C $56
-
-; Data from B33C to B350 (21 bytes)
-_DATA_B33C_:
-.db $52 $22 $0E $10 $00 $06 $06 $28 $1F $0D $33 $54 $26 $2B $0C $02
-.db $40 $0D $06 $4C $56
-
-; Data from B351 to B362 (18 bytes)
-_DATA_B351_:
-.db $0A $2A $06 $27 $00 $2A $45 $29 $01 $2F $49 $0D $29 $10 $22 $16
-.db $1A $58
-
-; Data from B363 to B373 (17 bytes)
-_DATA_B363_:
-.db $4F $1A $00 $52 $4B $02 $2E $14 $54 $1B $12 $26 $03 $40 $0D $4C
-.db $58
-
-; Data from B374 to B392 (31 bytes)
-_DATA_B374_:
-.db $01 $15 $10 $33 $10 $19 $00 $25 $08 $0D $04 $16 $54 $06 $20 $19
-.db $00 $22 $35 $20 $33 $00 $01 $28 $1F $0D $26 $03 $16 $4C $58
-
-; Data from B393 to B39E (12 bytes)
-_DATA_B393_:
-.db $4F $1A $00 $02 $07 $13 $02 $1F $0D $26 $4C $56
-
-; Data from B39F to B3BB (29 bytes)
-_DATA_B39F_:
-.db $0E $4D $44 $2D $00 $05 $0A $15 $02 $1F $0D $4C $54 $42 $2E $37
-.db $03 $2D $00 $04 $27 $2E $40 $08 $3D $0B $02 $4C $56
-
-; Data from B3BC to B3C7 (12 bytes)
-TextConfirmSlotSelection:
-.stringmap script "$#バンデ　イイデスカ。$0"
-
-; Data from B3C8 to B3D7 (16 bytes)
-_DATA_B3C8_:
-.db $40 $1A $00 $52 $42 $2E $16 $00 $0E $4D $44 $0C $1F $0D $4C $57
-
-; Data from B3D8 to B3DF (8 bytes)
-_DATA_B3D8_:
-.db $05 $2C $28 $1F $0C $10 $4C $58
-
-; 1st entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B3E0 to B3FB (28 bytes)
-_DATA_B3E0_:
-.db $2C $10 $0C $10 $11 $1A $00 $47 $29 $1F $19 $00 $1B $14 $10 $11
-.db $14 $54 $15 $06 $26 $08 $00 $0C $10 $02 $4C $58
-
-; 2nd entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B3FC to B40C (17 bytes)
-_DATA_B3FC_:
-.db $27 $04 $29 $1F $45 $28 $4D $33 $00 $10 $45 $10 $02 $15 $01 $4C
-.db $58
-
-; 3rd entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B40D to B424 (24 bytes)
-_DATA_B40D_:
-.db $27 $0C $4D $08 $0B $1F $16 $1A $54 $0B $06 $27 $2C $15 $02 $1E
-.db $03 $33 $00 $02 $02 $26 $4C $58
-
-; 4th entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B425 to B43B (23 bytes)
-_DATA_B425_:
-.db $05 $2F $4C $2C $10 $0C $10 $11 $19 $00 $0A $14 $42 $33 $54 $2C
-.db $06 $29 $2E $3D $18 $4C $58
-
-; 5th entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B43C to B441 (6 bytes)
-_DATA_B43C_:
-.db $24 $2F $1E $4D $4C $58
-
-; 6th entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B442 to B458 (23 bytes)
-_DATA_B442_:
-.db $3D $2E $39 $32 $2E $40 $1A $00 $05 $14 $0C $01 $15 $16 $54 $07
-.db $2D $12 $09 $15 $26 $4C $58
-
-; 7th entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B459 to B471 (25 bytes)
-_DATA_B459_:
-.db $10 $06 $27 $42 $0A $1A $00 $21 $24 $20 $16 $54 $01 $09 $29 $14
-.db $00 $09 $33 $2D $0D $29 $26 $4C $58
-
-; 8th entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B472 to B47D (12 bytes)
-_DATA_B472_:
-.db $0A $19 $00 $05 $02 $1A $34 $24 $2B $03 $4C $58
-
-; 9th entry of Pointer Table from 1AE6 (indexed by unknown)
-; Data from B47E to B492 (21 bytes)
-_DATA_B47E_:
-.db $2C $10 $0C $10 $11 $1A $00 $41 $03 $0E $54 $16 $08 $1F $2A $23
-.db $19 $3D $26 $4C $58
-
-; 1st entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B493 to B4A6 (20 bytes)
-_DATA_B493_:
-.db $0D $4D $3A $1C $29 $4D $14 $19 $00 $18 $02 $2B $1A $54 $02 $02
-.db $15 $01 $4C $58
-
-; 2nd entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B4A7 to B4C7 (33 bytes)
-_DATA_B4A7_:
-.db $01 $02 $0D $40 $2F $06 $4D $00 $14 $02 $03 $00 $19 $28 $23 $19
-.db $1A $54 $0A $05 $28 $23 $00 $09 $3A $2A $29 $2E $3D $2F $13 $4C
-.db $58
-
-; 3rd entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B4C8 to B4E0 (25 bytes)
-_DATA_B4C8_:
-.db $27 $0C $4D $08 $0B $1F $1A $00 $0F $27 $19 $03 $04 $16 $54 $02
-.db $27 $2F $0C $30 $29 $2E $3D $4C $58
-
-; 4th entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B4E1 to B501 (33 bytes)
-_DATA_B4E1_:
-.db $01 $43 $05 $2E $19 $00 $1F $2F $41 $41 $08 $10 $4D $33 $54 $27
-.db $0D $0A $16 $01 $2E $4B $2F $14 $2D $00 $23 $2F $13 $10 $3B $4C
-.db $58
-
-; 5th entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B502 to B520 (31 bytes)
-_DATA_B502_:
-.db $0F $27 $19 $00 $03 $04 $16 $1A $00 $03 $11 $31 $03 $0E $2E $40
-.db $23 $54 $02 $09 $15 $02 $14 $0A $2B $33 $01 $29 $3B $4C $58
-
-; 6th entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B521 to B53F (31 bytes)
-_DATA_B521_:
-.db $27 $04 $29 $1F $45 $28 $4D $2D $00 $20 $19 $27 $0E $29 $10 $22
-.db $16 $1A $01 $29 $23 $19 $33 $00 $1B $12 $26 $03 $3D $4C $58
-
-; 7th entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B540 to B55B (28 bytes)
-_DATA_B540_:
-.db $3D $2E $39 $32 $2E $19 $00 $22 $02 $2B $16 $1A $54 $06 $08 $0C
-.db $14 $43 $27 $33 $00 $01 $29 $2E $3D $3B $4C $58
-
-; 8th entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B55C to B579 (30 bytes)
-_DATA_B55C_:
-.db $20 $27 $08 $29 $07 $4D $1A $00 $1F $1E $03 $19 $41 $01 $40 $23
-.db $54 $01 $09 $29 $0A $14 $33 $00 $40 $07 $29 $3C $4C $58
-
-; 9th entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B57A to B593 (26 bytes)
-_DATA_B57A_:
-.db $40 $3C $28 $01 $2E $16 $1A $00 $03 $0F $12 $07 $23 $00 $02 $29
-.db $06 $27 $07 $2D $12 $09 $15 $26 $4C $58
-
-; 10th entry of Pointer Table from 1CCF (indexed by unknown)
-; Data from B594 to B5B3 (32 bytes)
-_DATA_B594_:
-.db $2C $10 $0C $16 $00 $1A $15 $0C $06 $09 $29 $14 $1A $54 $25 $03
-.db $07 $33 $00 $01 $29 $18 $04 $4C $00 $33 $2E $42 $2A $26 $4C $58
-
-; Data from B5B4 to B5CC (25 bytes)
-_DATA_B5B4_:
-.db $50 $1A $00 $06 $27 $3D $16 $54 $11 $06 $27 $33 $00 $20 $15 $34
-.db $29 $19 $2D $06 $2E $39 $10 $4C $57
-
-; Data from B5CD to B5DD (17 bytes)
-_DATA_B5CD_:
-.db $50 $1A $00 $10 $06 $27 $42 $0A $2D $54 $23 $2F $13 $02 $10 $4C
-.db $56
-
-; Data from B5DE to B5EB (14 bytes)
-_DATA_B5DE_:
-.db $02 $1F $00 $1B $33 $0C $2D $21 $02 $13 $02 $29 $4C $58
-
-; Data from B5EC to B5F9 (14 bytes)
-_DATA_B5EC_:
-.db $02 $1F $00 $16 $0C $2D $00 $21 $02 $13 $02 $29 $4C $58
-
-; Data from B5FA to B607 (14 bytes)
-_DATA_B5FA_:
-.db $02 $1F $00 $07 $10 $2D $00 $21 $02 $13 $02 $29 $4C $58
-
-; Data from B608 to B616 (15 bytes)
-_DATA_B608_:
-.db $02 $1F $00 $20 $15 $20 $2D $00 $21 $02 $13 $02 $29 $4C $58
-
-; Data from B617 to B625 (15 bytes)
-_DATA_B617_:
-.db $01 $28 $0B $10 $11 $1A $00 $3B $2E $22 $12 $0C $10 $4C $58
-
-; Data from B626 to B65B (54 bytes)
-_DATA_B626_:
-.db $01 $28 $0B $19 $00 $18 $33 $02 $1A $00 $27 $0C $4D $08 $19 $54
-.db $24 $46 $03 $19 $00 $1F $04 $16 $55 $21 $15 $0C $08 $00 $07 $04
-.db $0B $2F $10 $4C $54 $0A $0A $40 $00 $46 $03 $09 $2E $1A $00 $05
-.db $2C $28 $40 $0D $4C $58
-
-; Data from B65C to B675 (26 bytes)
-_DATA_B65C_:
-.db $05 $06 $18 $33 $00 $10 $28 $15 $02 $26 $03 $40 $0D $18 $4C $54
-.db $1F $10 $07 $13 $08 $3D $0B $02 $4C $58
-
-; Data from B676 to B687 (18 bytes)
-_DATA_B676_:
-.db $0F $2A $1A $00 $01 $14 $40 $00 $24 $08 $16 $10 $11 $1F $0D $26
-.db $4C $58
-
-; Data from B688 to B694 (13 bytes)
-_DATA_B688_:
-.db $10 $06 $27 $42 $0A $2D $00 $20 $12 $09 $10 $4C $56
-
-; Data from B695 to B6C5 (49 bytes)
-_DATA_B695_:
-.db $01 $29 $13 $21 $1A $21 $27 $21 $00 $01 $00 $03 $2F $4C $54 $37
-.db $1E $2F $4C $37 $1E $2F $4C $55 $37 $22 $2E $15 $0B $02 $4C $54
-.db $41 $03 $24 $27 $00 $0C $2F $47 $02 $0C $10 $26 $03 $40 $0D $4C
-.db $58
-
-; Data from B6C6 to B6D6 (17 bytes)
-TextBoundForMotavia:
-.db $23 $10 $43 $01 $00 $25 $07 $40 $0D $4C $19 $28 $1F $0D $06 $4C
-.db $56
-
-; Data from B6D7 to B6E6 (16 bytes)
-TextBoundForPalma:
-.db $47 $29 $1F $00 $25 $07 $40 $0D $4C $19 $28 $1F $0D $06 $4C $56
-
-; Data from B6E7 to B6F7 (17 bytes)
-_DATA_B6E7_:
-.db $4F $1A $00 $23 $03 $54 $11 $06 $27 $02 $2F $47 $02 $40 $0D $4C
-.db $58
-
-; Data from B6F8 to B717 (32 bytes)
-TextChooseWhichToContinue:
-.stringmap script "ゲ-ムノ　ツヅキヲ　ヤリマス。\n"
-.stringmap script "バンゴウヲ　エランデクダサイ。$0"
-
-; Data from B718 to B749 (50 bytes)
-TextContinuingGameX:
-.stringmap script "デハ　$#バンノゲ-ムヲ　ハジメマス。$1"
-.stringmap script "パスワ-ドガ　チガイマス。\n"
-.stringmap script "モウイチド　タシカメテクダサイ。$2"
-
-; Data from B74A to B76E (37 bytes)
-TextContinueOrDelete:
-.stringmap script "ゲ-ムノツヅキヲ　ヤル。--　ハイ\n"
-.stringmap script "ゲ-ムヲ　ケス。------　イイエ$0"
-
-; Data from B76F to B786 (24 bytes)
-TextConfirmDelete:
-.stringmap script "セ-ブシタ　ゲ-ムヲ　ケシマス。\n"
-.stringmap script "イイデスカ。$0"
-
-; Data from B787 to B798 (18 bytes)
-TextChooseWhichToDelete:
-.stringmap script "ナンバンノ　ゲ-ムヲ　ケシマスカ。$0"
-
-; Data from B799 to B7A9 (17 bytes)
-TextGameXHasBeenDeleted:
-.stringmap script "$#バンノ　ゲ-ムヲ　ケシマシタ。$2"
-
-; Data from B7AA to B7B9 (16 bytes)
-_DATA_B7AA_:
-.stringmap script "$Nハ　イシニ　ナッテシマッタ。$2"
-
-; Data from B7BA to B7CE (21 bytes)
-_DATA_B7BA_:
-.stringmap script "$Iハ　イマ　ダレカガ\n"
-.stringmap script "ツカッテシマッタ。$2"
-
-; Data from B7CF to B7F3 (37 bytes)
-_DATA_B7CF_:
-.stringmap script "シダイニ　ソラガ　アカルクナッテイキ"
-.stringmap script "ヒトビトモ　ヘイワヲ　トリモドシタ。$0"
-
-; Data from B7F4 to B812 (31 bytes)
-_DATA_B7F4_:
-.stringmap script "イマ　バヤマ-レハ　サワヤカナ\n"
-.stringmap script "ソヨカゼニ　ツツマレテイル。$0"
-
-; Data from B813 to B836 (36 bytes)
-_DATA_B813_:
-.db $06 $2A $27 $19 $00 $15 $33 $08 $00 $08 $29 $0C $06 $2F $10 $10
-.db $43 $2D $0F $26 $06 $3B $1A $00 $0C $2F $13 $02 $29 $19 $3D $2B
-.db $03 $06 $4C $56
-
-; Data from B837 to B859 (35 bytes)
-_DATA_B837_:
-.db $20 $30 $03 $16 $00 $19 $2F $13 $02 $10 $00 $01 $28 $0B $10 $11
-.db $1A $54 $0F $27 $16 $00 $1E $03 $28 $3D $0B $2A $13 $0C $1F $2F
-.db $10 $4C $58
-
-; Data from B85A to B8A6 (77 bytes)
-_DATA_B85A_:
-.db $0F $19 $14 $07 $00 $01 $28 $0B $19 $00 $10 $1F $0C $02 $1A $54
-.db $18 $2B $19 $0A $04 $2D $00 $07 $02 $10 $4C $55 $05 $1F $04 $1A
-.db $00 $1C $10 $10 $43 $00 $02 $07 $13 $54 $1D $02 $2C $19 $10 $22
-.db $16 $00 $12 $08 $0D $33 $02 $02 $4C $55 $01 $28 $0B $19 $00 $10
-.db $1F $0C $02 $1A $00 $26 $20 $33 $04 $2F $10 $4C $58
-
-; Data from B8A7 to B8BE (24 bytes)
-_DATA_B8A7_:
-.db $0A $0A $2B $33 $00 $15 $37 $21 $26 $03 $15 $54 $03 $12 $08 $0C
-.db $02 $00 $18 $02 $2B $3D $4C $58
-
-; Pointer Table from B8BF to B8C0 (1 entries,indexed by unknown)
-TextIntro1:
-.dw _DATA_C27_
-
-; Data from B8C1 to B90E (78 bytes)
-.db $4D $08 $0B $1F $19 $00 $0A $14 $2D $00 $0A $0F $0A $0F $14 $54
-.db $06 $34 $1F $2C $28 $24 $33 $2F $13 $4C $54 $0A $2A $06 $27 $1A
-.db $00 $0E $02 $3B $02 $00 $05 $14 $15 $0C $08 $54 $0C $13 $02 $29
-.db $0A $14 $3D $15 $4C $55 $16 $02 $0B $2E $4C $54 $15 $16 $33 $00
-.db $01 $2F $10 $19 $4C $54 $0C $2F $06 $28 $0C $13 $4C $58
-
-; Data from B90F to BA07 (249 bytes)
-TextIntro2:
-.db $01 $28 $0B $4C $07 $02 $13 $08 $2A $4C $54 $27 $0C $4D $08 $1A
-.db $00 $0A $19 $1E $0C $16 $00 $07 $32 $3D $02 $15 $54 $2C $38 $2C
-.db $02 $2D $00 $1F $18 $02 $13 $0C $1F $2F $10 $4C $54 $0E $06 $02
-.db $1A $00 $1A $22 $12 $16 $00 $21 $06 $2F $13 $02 $29 $4C $55 $05
-.db $2A $1A $00 $27 $0C $4D $08 $33 $00 $15 $16 $2D $00 $10 $08 $27
-.db $2E $40 $54 $02 $29 $19 $06 $00 $0B $35 $2F $13 $02 $10 $2E $3D
-.db $4C $54 $09 $41 $00 $05 $2A $1B $14 $28 $40 $1A $00 $41 $03 $0D
-.db $29 $0A $14 $23 $54 $40 $07 $15 $06 $2F $10 $4C $55 $10 $43 $19
-.db $00 $14 $11 $31 $03 $00 $10 $02 $2B $2E $00 $14 $02 $03 $54 $12
-.db $26 $02 $00 $05 $14 $0A $19 $00 $03 $2C $0B $2D $00 $07 $02 $10
-.db $4C $54 $06 $2A $14 $00 $02 $2F $0C $32 $15 $27 $00 $27 $0C $4D
-.db $08 $2D $00 $10 $05 $0C $54 $1D $02 $2C $2D $00 $14 $28 $23 $41
-.db $0D $0A $14 $33 $40 $07 $29 $3D $2B $03 $4C $55 $01 $28 $0B $4C
-.db $54 $05 $2A $1A $00 $23 $03 $00 $3D $22 $3D $4C $54 $05 $1F $04
-.db $00 $1B $14 $28 $2D $00 $19 $0A $0C $13 $02 $08 $00 $05 $2A $2D
-.db $54 $25 $29 $0C $13 $08 $2A $4C $58
-
-; Data from BA08 to BA42 (59 bytes)
-TextIntro3:
-.db $01 $28 $0B $1A $00 $16 $02 $0B $2E $19 $00 $02 $19 $11 $2D $00
-.db $21 $3D $16 $54 $0C $15 $02 $10 $22 $16 $00 $10 $10 $06 $02 $16
-.db $00 $02 $07 $1F $0D $4C $54 $07 $2F $14 $00 $20 $1F $23 $2F $13
-.db $02 $13 $18 $4C $54 $16 $02 $0B $2E $4C $58
-
-; Data from BA43 to BA68 (38 bytes)
-_DATA_BA43_:
-.db $07 $32 $03 $06 $27 $00 $15 $06 $1F $18 $4C $54 $2C $10 $0C $1A
-.db $00 $01 $28 $0B $4C $54 $01 $15 $10 $19 $00 $15 $1F $04 $2D $00
-.db $05 $0C $04 $13 $4C $58
-
-; Data from BA69 to BA6D (5 bytes)
-_DATA_BA69_:
-.db $20 $30 $03 $4C $58
-
-; Data from BA6E to BA95 (40 bytes)
-_DATA_BA6E_:
-.db $18 $04 $00 $20 $30 $03 $4C $54 $10 $02 $2B $2E $19 $00 $0A $14
-.db $00 $15 $2E $3D $09 $41 $00 $15 $16 $06 $54 $0C $2F $13 $02 $10
-.db $27 $00 $05 $0C $04 $13 $4C $58
-
-; Data from BA96 to BAD1 (60 bytes)
-_DATA_BA96_:
-.db $10 $02 $2B $2E $00 $02 $0C $16 $00 $15 $2F $11 $30 $2F $10 $19
-.db $4C $54 $0A $19 $00 $08 $0D $28 $00 $06 $09 $2A $42 $00 $15 $05
-.db $29 $2E $3D $4C $54 $09 $41 $00 $20 $30 $03 $00 $43 $2E $19 $00
-.db $1C $10 $54 $01 $09 $27 $2A $15 $02 $19 $4C $58
-
-; Data from BAD2 to BAF2 (33 bytes)
-_DATA_BAD2_:
-.db $0F $2F $06 $4C $54 $39 $30 $00 $02 $2F $0C $32 $16 $00 $10 $02
-.db $2B $2E $2D $54 $10 $0D $09 $16 $00 $02 $07 $1F $0C $32 $03 $4C
-.db $58
-
-; Data from BAF3 to BB28 (54 bytes)
-_DATA_BAF3_:
-.db $01 $28 $33 $14 $03 $4C $10 $0D $06 $2F $10 $26 $4C $54 $0C $06
-.db $0C $00 $22 $40 $31 $4D $0B $16 $54 $0C $13 $24 $27 $2A $29 $26
-.db $03 $40 $1A $00 $27 $0C $4D $08 $1A $54 $10 $05 $0E $0F $03 $16
-.db $00 $15 $02 $15 $4C $58
-
-; Data from BB29 to BB63 (59 bytes)
-_DATA_BB29_:
-.db $2C $10 $0C $19 $00 $16 $02 $0B $2E $23 $00 $27 $0C $4D $08 $2D
-.db $54 $10 $05 $0F $03 $14 $0C $13 $00 $0C $2E $40 $0C $1F $2F $10
-.db $2C $4C $54 $0C $17 $1F $04 $16 $00 $01 $15 $10 $19 $00 $15 $1F
-.db $04 $2D $54 $02 $02 $19 $0A $0C $13 $4C $58
-
-; Data from BB64 to BB94 (49 bytes)
-_DATA_BB64_:
-.db $0F $03 $3D $2F $10 $19 $06 $4C $54 $26 $0C $00 $07 $20 $19 $00
-.db $16 $02 $0B $2E $19 $00 $10 $22 $16 $23 $54 $11 $06 $27 $2D $00
-.db $01 $2C $0E $13 $00 $27 $0C $4D $08 $2D $54 $10 $05 $0F $03 $4C
-.db $58
-
-; Data from BB95 to BBAE (26 bytes)
-_DATA_BB95_:
-.db $0F $2A $26 $28 $00 $15 $3B $00 $22 $40 $31 $4D $0B $2D $54 $10
-.db $05 $0F $03 $14 $00 $0C $10 $19 $4C $58
-
-; Pointer Table from BBAF to BBB0 (1 entries,indexed by unknown)
-_DATA_BBAF_:
-.dw _DATA_4022_
-
-; Data from BBB1 to BC17 (103 bytes)
-.db $31 $4D $0B $33 $00 $23 $2F $13 $02 $29 $00 $40 $2E $0E $12 $19
-.db $54 $05 $19 $33 $00 $1E $0C $06 $2F $10 $2E $3D $09 $41 $54 $16
-.db $36 $27 $2A $11 $1F $2F $10 $4C $54 $08 $24 $0C $02 $15 $01 $4C
-.db $55 $0F $03 $02 $04 $42 $00 $05 $2A $00 $0A $19 $00 $41 $03 $08
-.db $12 $19 $54 $02 $07 $41 $1F $28 $16 $00 $0A $2E $47 $0D $2D $54
-.db $06 $08 $0C $13 $05 $02 $10 $2E $3D $2F $09 $4C $54 $14 $28 $16
-.db $00 $02 $0A $03 $3B $4C $58
-
-; Data from BC18 to BC3D (38 bytes)
-_DATA_BC18_:
-.db $0F $03 $14 $08 $06 $27 $19 $00 $13 $33 $20 $2D $00 $01 $3A $06
-.db $2F $13 $54 $07 $1F $0C $10 $4C $54 $26 $2E $40 $02 $10 $3D $09
-.db $1F $0E $2E $06 $4C $58
-
-; Data from BC3E to BCA7 (106 bytes)
-_DATA_BC3E_:
-.db $2C $06 $28 $1F $0C $10 $4C $54 $20 $2E $15 $40 $00 $0A $19 $00
-.db $01 $29 $37 $29 $10 $02 $26 $03 $09 $02 $2D $54 $01 $08 $19 $00
-.db $13 $06 $27 $00 $1F $23 $28 $1F $0C $32 $03 $4C $55 $0F $19 $10
-.db $22 $16 $1A $00 $1F $3A $33 $0C $0A $19 $00 $23 $28 $1D $54 $02
-.db $2F $13 $00 $29 $45 $19 $1A $06 $0E $16 $00 $01 $02 $10 $02 $4C
-.db $54 $10 $0C $06 $00 $1F $2E $1E $4D $29 $2D $00 $14 $05 $2F $13
-.db $54 $02 $09 $10 $1A $3A $40 $0D $4C $58
-
-; Data from BCA8 to BCD7 (48 bytes)
-_DATA_BCA8_:
-.db $27 $04 $29 $1F $45 $28 $4D $2D $00 $06 $39 $29 $14 $54 $20 $30
-.db $03 $19 $00 $06 $27 $3D $1A $00 $18 $12 $2D $00 $05 $43 $54 $1F
-.db $42 $25 $02 $00 $1B $06 $28 $16 $00 $12 $12 $1F $2A $10 $4C $58
-
-; Data from BCD8 to BD24 (77 bytes)
-_DATA_BCD8_:
-.db $0F $0C $13 $00 $20 $29 $20 $29 $00 $03 $11 $16 $00 $20 $30 $03
-.db $1A $54 $05 $05 $07 $15 $00 $12 $42 $0B $2D $00 $23 $2F $10 $00
-.db $03 $12 $08 $0C $02 $54 $09 $23 $19 $1D $14 $00 $06 $2C $2F $10
-.db $4C $55 $20 $30 $03 $1A $00 $14 $08 $02 $0F $03 $16 $00 $1B $14
-.db $12 $54 $1A $42 $13 $02 $13 $00 $20 $0E $10 $4C $58
-
-; Data from BD25 to BD2F (11 bytes)
-_DATA_BD25_:
-.db $00 $54 $00 $00 $00 $00 $00 $01 $28 $0B $57
-
-; Data from BD30 to BD3B (12 bytes)
-_DATA_BD30_:
-.db $00 $54 $00 $00 $00 $00 $00 $10 $02 $2B $2E $57
-
-; Data from BD3C to BD45 (10 bytes)
-_DATA_BD3C_:
-.db $00 $54 $00 $00 $00 $00 $00 $29 $12 $57
-
-; Data from BD46 to BD54 (15 bytes)
-_DATA_BD46_:
-.db $00 $54 $00 $00 $00 $00 $00 $0F $0C $13 $00 $20 $30 $03 $57
-
-; Data from BD55 to BD93 (63 bytes)
-_DATA_BD55_:
-.db $00 $00 $00 $00 $24 $20 $19 $00 $07 $05 $08 $33 $00 $07 $04 $13
-.db $23 $54 $00 $00 $00 $00 $06 $2A $27 $19 $00 $15 $1F $04 $1A $54
-.db $00 $00 $00 $00 $1B $14 $43 $14 $19 $00 $0A $0A $2B $16 $54 $00
-.db $00 $00 $00 $19 $0A $28 $12 $3F $09 $29 $3D $2B $03 $4C $57
-
 ; Data from BD94 to BF9B (520 bytes)
 ItemTextTable:
-.db $00 $00 $00 $00 $00 $00 $00 $00 $03 $2F $41 $09 $02 $2E $58 $00
-.db $0C $32 $4D $14 $0F $4D $41 $58 $01 $02 $01 $2E $0F $4D $41 $58
-.db $0B $02 $0A $03 $05 $2E $41 $58 $0C $29 $42 $4D $10 $0D $08 $58
-.db $01 $02 $01 $2E $01 $08 $0D $58 $11 $10 $16 $03 $21 $0F $4D $41
-.db $0E $27 $20 $2F $08 $0F $4D $41 $16 $4D $41 $29 $33 $2E $58 $00
-.db $0B $4D $45 $29 $08 $2B $4D $58 $1B $4D $14 $33 $2E $58 $00 $00
-.db $27 $02 $14 $0E $02 $42 $4D $58 $2A $4D $38 $4D $33 $2E $58 $00
-.db $27 $0A $16 $01 $2E $0F $4D $41 $27 $0A $16 $01 $2E $01 $08 $0D
-.db $2A $38 $4D $08 $2B $0D $58 $00 $1E $2C $02 $14 $1F $2E $14 $58
-.db $27 $02 $14 $0D $4D $12 $58 $00 $01 $02 $01 $2E $01 $4D $1F $4D
-.db $14 $36 $28 $0D $19 $09 $33 $2C $39 $29 $0A $16 $01 $22 $02 $29
-.db $3D $02 $24 $19 $26 $2B $02 $58 $27 $0A $16 $01 $01 $4D $1F $4D
-.db $1C $27 $4D $41 $1F $2E $14 $58 $2A $38 $4D $0C $4D $29 $41 $58
-.db $01 $02 $01 $2E $0C $4D $29 $41 $46 $2B $2E $0C $4D $29 $41 $58
-.db $0E $27 $20 $2F $08 $19 $10 $13 $01 $16 $1F $29 $35 $27 $44 $58
-.db $2A $4D $38 $4D $42 $28 $01 $58 $4A $29 $0E $03 $0D $19 $10 $13
-.db $27 $0A $16 $01 $0C $4D $29 $41 $27 $2E $41 $1F $0D $10 $4D $58
-.db $1C $2B $4D $21 $4D $42 $4D $58 $01 $02 $0D $40 $2F $06 $4D $58
-.db $4A $2B $28 $4D $22 $02 $14 $58 $29 $05 $34 $16 $2E $58 $00 $00
-.db $0D $4D $3A $1C $29 $4D $14 $58 $0B $4D $11 $27 $02 $14 $58 $00
-.db $04 $0D $09 $4D $49 $08 $2B $0D $14 $27 $2E $06 $4D $4A $2F $14
-.db $1F $39 $2F $08 $1A $2F $14 $58 $01 $29 $0C $31 $28 $2E $58 $00
-.db $4B $28 $22 $13 $27 $4D $29 $58 $3D $2E $39 $32 $2E $07 $4D $58
-.db $13 $2A $47 $0C $4D $46 $4D $29 $02 $08 $28 $49 $0D $14 $4D $11
-.db $04 $01 $2B $49 $28 $3A $21 $58 $27 $04 $29 $1F $45 $28 $4D $58
-.db $1A $49 $0D $43 $4D $58 $00 $00 $2B $4D $41 $47 $0D $58 $00 $00
-.db $47 $0D $4B $4D $14 $58 $00 $00 $0A $2E $47 $0D $58 $00 $00 $00
-.db $0C $32 $4D $14 $09 $4D $07 $58 $0F $03 $14 $08 $19 $13 $33 $20
-.db $27 $0A $16 $01 $2E $4B $2F $14 $27 $02 $14 $4A $2E $3D $2E $14
-.db $06 $4D $42 $2E $08 $29 $01 $02 $33 $0D $08 $28 $01 $58 $00 $00
-.db $3D $23 $01 $08 $28 $0D $10 $29 $1F $0D $10 $4D $0C $0D $13 $21
-.db $20 $27 $08 $29 $07 $4D $58 $00 $39 $28 $05 $2E $58 $00 $00 $00
-.db $1B $20 $12 $19 $23 $19 $58 $00
-
+.stringmap script "　　　　　　　　"
+.stringmap script "ウッドケイン<wait>　"
+.stringmap script "ショートソード<wait>"
+.stringmap script "アイアンソード<wait>"
+.stringmap script "サイコウオンド<wait>"
+.stringmap script "シルバータスク<wait>"
+.stringmap script "アイアンアクス<wait>"
+.stringmap script "チタニウムソード"
+.stringmap script "セラミックソード"
+.stringmap script "ニードルガン<wait>　"
+.stringmap script "サーベルクロー<wait>"
+.stringmap script "ヒートガン<wait>　　"
+.stringmap script "ライトセイバー<wait>"
+.stringmap script "レーザーガン<wait>　"
+.stringmap script "ラコニアンソード"
+.stringmap script "ラコニアンアクス"
+.stringmap script "レザークロス<wait>　"
+.stringmap script "ホワイトマント<wait>"
+.stringmap script "ライトスーツ<wait>　"
+.stringmap script "アイアンアーマー"
+.stringmap script "トゲリスノケガワ"
+.stringmap script "ジルコニアメイル"
+.stringmap script "ダイヤノヨロイ<wait>"
+.stringmap script "ラコニアアーマー"
+.stringmap script "フラードマント<wait>"
+.stringmap script "レザーシールド<wait>"
+.stringmap script "アイアンシールド"
+.stringmap script "ボロンシールド<wait>"
+.stringmap script "セラミックノタテ"
+.stringmap script "アニマルグラブ<wait>"
+.stringmap script "レーザーバリア<wait>"
+.stringmap script "ペルセウスノタテ"
+.stringmap script "ラコニアシールド"
+.stringmap script "ランドマスター<wait>"
+.stringmap script "フロームーバー<wait>"
+.stringmap script "アイスデッカー<wait>"
+.stringmap script "ペロリーメイト<wait>"
+.stringmap script "ルオギニン<wait>　　"
+.stringmap script "スーズフルート<wait>"
+.stringmap script "サーチライト<wait>　"
+.stringmap script "エスケープクロス"
+.stringmap script "トランカーペット"
+.stringmap script "マジックハット<wait>"
+.stringmap script "アルシュリン<wait>　"
+.stringmap script "ポリメテラール<wait>"
+.stringmap script "ダンジョンキー<wait>"
+.stringmap script "テレパシーボール"
+.stringmap script "イクリプストーチ"
+.stringmap script "エアロプリズム<wait>"
+.stringmap script "ラエルマベリー<wait>"
+.stringmap script "ハプスビー<wait>　　"
+.stringmap script "ロードパス<wait>　　"
+.stringmap script "パスポート<wait>　　"
+.stringmap script "コンパス<wait>　　　"
+.stringmap script "ショートケーキ<wait>"
+.stringmap script "ソウトクノテガミ"
+.stringmap script "ラコニアンポット"
+.stringmap script "ライトペンダント"
+.stringmap script "カーバンクルアイ"
+.stringmap script "ガスクリア<wait>　　"
+.stringmap script "ダモアクリスタル"
+.stringmap script "マスターシステム"
+.stringmap script "ミラクルキー<wait>　"
+.stringmap script "ジリオン<wait>　　　"
+.stringmap script "ヒミツノモノ<wait>　"
 .orga $bf9c
 .section "Item metadata" overwrite
 ; Data from BF9C to BFFF (100 bytes)
 ItemMetadata:
 ; %765432tt
 ;  |||| |``- Item type: 0 = weapon, 1 = armour, 2 = shield
-;  |||| `--- Equippable item
+;  |||| `--- Undroppable item
 ;  ````----- Equippable by player bits. Zero if equippable. Lutz - Odin - Myau - Alis
 
 .define ItemMetadata_Weapon %00
@@ -18989,9 +18099,9 @@ ItemMetadata:
 .db %01000110
 .db %01010010
 ; Vehicles
-.db $04
-.db $04
-.db $04
+.db %00000100 ; Undroppale
+.db %00000100 ; Undroppale
+.db %00000100 ; Undroppale
 ; Items
 .db $00
 .db $00
@@ -19000,26 +18110,26 @@ ItemMetadata:
 .db $00
 .db $00
 .db $00
-.db $04 ; Polymeteral
+.db $04 ; Polymeteral is undroppable
 .db $00
-.db $04 ; Telepathy Ball
+.db $04 ; Telepathy Ball is undroppable
 .db $00
-.db $04
-.db $04
-.db $04
-.db $04
-.db $04
+.db $04 ; undroppable
+.db $04 ; undroppable
+.db $04 ; undroppable
+.db $04 ; undroppable
+.db $04 ; undroppable
 .db $00
-.db $04
+.db $04 ; undroppable
 .db $00
-.db $04
-.db $04
+.db $04 ; undroppable
+.db $04 ; undroppable
 .db $00
-.db $04
+.db $04 ; undroppable
 .db $00
 .db $00
 .db $00
-.db $04
+.db $04 ; undroppable
 .db $00
 .ends
 
@@ -19207,7 +18317,8 @@ _DATA_C5A0_:
 EnemyData:
 .db $23 $2e $0d $10 $4d $1c $27 $02 ; 1 MoNSuTa-HuRaI = Monster Fly? (Sworm)
 .db $2a $25 $05 $0a $08 $04 $0c $2f
- PageAndOffset TilesFly
+.db :TilesFly
+.dw TilesFly
 .db $12 $08 $08,$0d,$09 $00
 .dw $0003
 .db $0c
@@ -19216,7 +18327,8 @@ EnemyData:
 
 .db $35 $28 $4d $2e $0d $27 $02 $21 ; 2 GuRi-NSuRaIMu = Green Slime
 .db $10 $04 $0c $0e $00 $00 $00 $00
- PageAndOffset TilesSlime
+.db :TilesSlime
+.dw TilesSlime
 .db $02 $06 $12,$12,$0d $00
 .dw $0008
 .db $0c
@@ -19225,7 +18337,8 @@ EnemyData:
 
 .db $03 $02 $2e $35 $01 $02 $58 $00 ; 3 UINGuAI = Wing Eye
 .db $00 $3e $00 $3e $3c $34 $30 $00
- PageAndOffset TilesWingEye
+.db :TilesWingEye
+.dw TilesWingEye
 .db $23 $06 $0b,$0c,$0a $00
 .dw $0006
 .db $0f
@@ -19234,7 +18347,8 @@ EnemyData:
 
 .db $1f $2e $02 $4d $10 $4d $58 $00 ; 4 MaNI-Ta- = Man-eater
 .db $00 $00 $05 $0a $33 $21 $37 $00
- PageAndOffset TilesManEater
+.db :TilesManEater
+.dw TilesManEater
 .db $17 $05 $10,$0c,$0a $00
 .dw $000d
 .db $0f
@@ -19243,7 +18357,8 @@ EnemyData:
 
 .db $0d $0a $4d $48 $27 $0d $58 $00 ; 5 SuKo-PiRaSu = Scorpion
 .db $2a $25 $02 $03 $08 $00 $00 $37
- PageAndOffset TilesScorpion
+.db :TilesScorpion
+.dw TilesScorpion
 .db $0f $04 $0c,$0e,$0c $00
 .dw $000d
 .db $0f
@@ -19252,7 +18367,8 @@ EnemyData:
 
 .db $27 $4d $39 $24 $4d $37 $58 $00 ; 6 Ra-ZiYa-Go = ??? (G. Scorpion)
 .db $2a $25 $05 $0a $08 $00 $00 $2f
- PageAndOffset TilesScorpion
+.db :TilesScorpion
+.dw TilesScorpion
 .db $0f $04 $14,$14,$11 $00
 .dw $000b
 .db $99
@@ -19261,7 +18377,8 @@ EnemyData:
 
 .db $44 $29 $4d $0d $27 $02 $21 $58 ; 7 BuRu-SuRaIMu = Blue Slime
 .db $20 $30 $38 $3c $00 $00 $00 $00
- PageAndOffset TilesSlime
+.db :TilesSlime
+.dw TilesSlime
 .db $02 $06 $28,$1a,$14 $00
 .dw $0013
 .db $0f
@@ -19270,7 +18387,8 @@ EnemyData:
 
 .db $23 $10 $43 $01 $2e $19 $4d $1c ; 8 MoTaBiANNo-Hu = North Motabian (North Farmer)
 .db $20 $30 $34 $38 $01 $06 $0a $0f
- PageAndOffset TilesFarmer
+.db :TilesFarmer
+.dw TilesFarmer
 .db $19 $05 $26,$25,$25 $24
 .dw $0008
 .db $00
@@ -19279,7 +18397,8 @@ EnemyData:
 
 .db $40 $43 $29 $42 $2f $14 $58 $00 ; 9 DeBiRuBatuTo = ??? (Owl Bear)
 .db $00 $0f $00 $0b $07 $03 $01 $00
- PageAndOffset TilesWingEye
+.db :TilesWingEye
+.dw TilesWingEye
 .db $23 $04 $12,$16,$12 $00
 .dw $000c
 .db $0c
@@ -19288,7 +18407,8 @@ EnemyData:
 
 .db $07 $27 $4d $49 $27 $2e $14 $58 ; 10 KiRa-PuRaNTo = Killer Plant (Dead Tree)
 .db $00 $00 $02 $03 $0c $08 $2e $00
- PageAndOffset TilesManEater
+.db :TilesManEater
+.dw TilesManEater
 .db $17 $03 $17,$17,$19 $00
 .dw $0015
 .db $28
@@ -19297,7 +18417,8 @@ EnemyData:
 
 .db $42 $02 $10 $4d $1c $27 $02 $58 ; 11 BaITa-HuRaI = ??? (Scorpius)
 .db $0c $08 $24 $25 $08 $00 $00 $2a
- PageAndOffset TilesScorpion
+.db :TilesScorpion
+.dw TilesScorpion
 .db $0f $05 $16,$19,$14 $00
 .dw $001b
 .db $0f
@@ -19306,7 +18427,8 @@ EnemyData:
 
 .db $23 $10 $43 $01 $2e $02 $43 $29 ; 12 MoTaBiANIBiRu = East Motabian (East Farmer)
 .db $20 $30 $34 $38 $01 $03 $07 $0f
- PageAndOffset TilesFarmer
+.db :TilesFarmer
+.dw TilesFarmer
 .db $1b $05 $2a,$1b,$28 $00
 .dw $001e
 .db $0f
@@ -19315,7 +18437,8 @@ EnemyData:
 
 .db $1d $2a $2f $08 $0d $58 $00 $00 ; 13 HeRetuKuSu = ??? (Giant Fly)
 .db $2a $25 $02 $03 $02 $01 $03 $0b
- PageAndOffset TilesFly
+.db :TilesFly
+.dw TilesFly
 .db $12 $04 $19,$1e,$15 $00
 .dw $0020
 .db $0f
@@ -19324,7 +18447,8 @@ EnemyData:
 
 .db $0b $2e $41 $2c $4d $21 $58 $00 ; 14 SaNDoWa-Mu = Sandworm (Crawler)
 .db $02 $06 $0a $0e $01 $03 $2f $00
- PageAndOffset TilesSandWorm
+.db :TilesSandWorm
+.dw TilesSandWorm
 .db $22 $03 $28,$1f,$20 $00
 .dw $001e
 .db $0f
@@ -19333,7 +18457,8 @@ EnemyData:
 
 .db $23 $10 $43 $01 $2e $1f $16 $01 ; 15 MoTaBiANMaNiA = Motabian ??? (Barbarian)
 .db $20 $30 $34 $38 $04 $08 $0c $0f
- PageAndOffset TilesFarmer
+.db :TilesFarmer
+.dw TilesFarmer
 .db $1a $08 $36,$23,$32 $24
 .dw $0059
 .db $14
@@ -19342,7 +18467,8 @@ EnemyData:
 
 .db $37 $4d $29 $41 $2a $2e $3a $58 ; 16 Go-RuDoReNZu = Goldlens
 .db $00 $2a $00 $2f $0a $06 $01 $00
- PageAndOffset TilesWingEye
+.db :TilesWingEye
+.dw TilesWingEye
 .db $23 $04 $1c,$24,$23 $00
 .dw $0018
 .db $0f
@@ -19351,7 +18477,8 @@ EnemyData:
 
 .db $2a $2f $41 $0d $27 $02 $21 $58 ; 17 RetuDoSuRaIMu = Red Slime
 .db $01 $13 $33 $3a $00 $00 $00 $00
- PageAndOffset TilesSlime
+.db :TilesSlime
+.dw TilesSlime
 .db $02 $03 $1d,$25,$19 $00
 .dw $001f
 .db $0f
@@ -19360,7 +18487,8 @@ EnemyData:
 
 .db $42 $2f $14 $1f $2e $58 $00 $00 ; 18 BatuToMaN = Bat Man (Were Bat)
 .db $20 $34 $38 $3c $03 $02 $00 $00
- PageAndOffset TilesBat
+.db :TilesBat
+.dw TilesBat
 .db $24 $04 $32,$25,$23 $00
 .dw $003f
 .db $0f
@@ -19369,7 +18497,8 @@ EnemyData:
 
 .db $06 $44 $14 $33 $16 $58 $00 $00 ; 19 KaBuToGaNi = ??? (Big Club)
 .db $01 $02 $03 $07 $0b $00 $00 $00
- PageAndOffset TilesClub
+.db :TilesClub
+.dw TilesClub
 .db $08 $02 $2e,$28,$24 $00
 .dw $0028
 .db $0f
@@ -19378,7 +18507,8 @@ EnemyData:
 
 .db $0c $30 $4d $07 $2e $58 $00 $00 ; 20 Siya-KiN = ??? (Fishman)
 .db $05 $39 $0a $13 $33 $0f $3f $00
- PageAndOffset TilesFishMan
+.db :TilesFishMan
+.dw TilesFishMan
 .db $07 $05 $2a,$2a,$28 $00
 .dw $002a
 .db $0f
@@ -19387,7 +18517,8 @@ EnemyData:
 
 .db $28 $2f $11 $58 $00 $00 $00 $00 ; 21 RituTi = ??? (Evil Dead)
 .db $02 $03 $34 $01 $04 $08 $0e $38
- PageAndOffset TilesEvilDead
+.db :TilesEvilDead
+.dw TilesEvilDead
 .db $21 $03 $1e,$2b,$24 $00
 .dw $0008
 .db $0c
@@ -19396,7 +18527,8 @@ EnemyData:
 
 .db $10 $27 $2e $11 $31 $27 $58 $00 ; 22 TaRaNTiyuRa = Tarantula
 .db $2a $01 $2a $05 $08 $04 $0c $2f
- PageAndOffset TilesTarantula
+.db :TilesTarantula
+.dw TilesTarantula
 .db $11 $02 $32,$32,$2b $00
 .dw $0033
 .db $26
@@ -19405,7 +18537,8 @@ EnemyData:
 
 .db $1f $2e $11 $0a $01 $58 $00 $00 ; 23 MaNTiKoA = Manticor
 .db $01 $03 $07 $0b $28 $2d $2f $20
- PageAndOffset TilesManticor
+.db :TilesManticor
+.dw TilesManticor
 .db $14 $03 $3c,$35,$2c $00
 .dw $0031
 .db $0f
@@ -19414,7 +18547,8 @@ EnemyData:
 
 .db $0d $09 $29 $14 $2e $58 $00 $00 ; 24 SuKeRuToN = Skeleton
 .db $3f $2f $2a $25 $20 $3c $00 $00
- PageAndOffset TilesSkeleton
+.db :TilesSkeleton
+.dw TilesSkeleton
 .db $0c $05 $35,$3a,$29 $00
 .dw $0019
 .db $0f
@@ -19423,7 +18557,8 @@ EnemyData:
 
 .db $01 $28 $39 $37 $08 $58 $00 $00 ; 25 ARiZiGoKu = ??? (Antlion)
 .db $2a $00 $25 $00 $06 $01 $0a $2f
- PageAndOffset TilesTarantula
+.db :TilesTarantula
+.dw TilesTarantula
 .db $11 $01 $42,$3b,$34 $00
 .dw $0007
 .db $0c
@@ -19432,7 +18567,8 @@ EnemyData:
 
 .db $1f $4d $0c $4d $3a $58 $00 $00 ; 26 Ma-Si-Zu = ??? (Merman)
 .db $21 $3c $36 $04 $2c $3a $07 $00
- PageAndOffset TilesFishMan
+.db :TilesFishMan
+.dw TilesFishMan
 .db $07 $06 $3a,$43,$32 $00
 .dw $002b
 .db $0f
@@ -19441,7 +18577,8 @@ EnemyData:
 
 .db $40 $3c $28 $01 $2e $58 $00 $00 ; 27 DeZoRiAN = Dezorian
 .db $02 $3c $0a $04 $2c $01 $08 $2f
- PageAndOffset TilesDezorian
+.db :TilesDezorian
+.dw TilesDezorian
 .db $0a $05 $4c,$4d,$3f $00
 .dw $0069
 .db $0c
@@ -19450,7 +18587,8 @@ EnemyData:
 
 .db $40 $38 $4d $14 $28 $4d $11 $58 ; 28 DeZa-ToRi-Ti = ??? (Leech)
 .db $08 $22 $33 $37 $04 $0c $2f $06
- PageAndOffset TilesSandWorm
+.db :TilesSandWorm
+.dw TilesSandWorm
 .db $22 $04 $46,$43,$2f $00
 .dw $002f
 .db $0c
@@ -19459,7 +18597,8 @@ EnemyData:
 
 .db $08 $27 $02 $05 $2e $58 $00 $00 ; 29 KuRaION = ??? (Vampire)
 .db $01 $06 $0a $2f $2a $25 $00 $2a
- PageAndOffset TilesBat
+.db :TilesBat
+.dw TilesBat
 .db $24 $02 $43,$44,$2e $27
 .dw $0047
 .db $0c
@@ -19468,7 +18607,8 @@ EnemyData:
 
 .db $43 $2f $35 $19 $4d $3a $58 $00 ; 30 BituGuNo-Zu = Big-nose (Elephant)
 .db $22 $33 $37 $3b $2d $2f $2a $0c
- PageAndOffset TilesElephant
+.db :TilesElephant
+.dw TilesElephant
 .db $03 $05 $56,$3e,$30 $00
 .dw $0026
 .db $0c
@@ -19477,7 +18617,8 @@ EnemyData:
 
 .db $35 $4d $29 $58 $00 $00 $00 $00 ; 31 Gu-Ru = Ghoul
 .db $0b $03 $34 $38 $37 $33 $31 $3c
- PageAndOffset TilesGhoul
+.db :TilesGhoul
+.dw TilesGhoul
 .db $13 $03 $44,$40,$2f $00
 .dw $001a
 .db $0c
@@ -19486,7 +18627,8 @@ EnemyData:
 
 .db $01 $2e $23 $15 $02 $14 $58 $00 ; 32 ANMoNaITo = Ammonite (Shellfish)
 .db $03 $3a $2b $22 $33 $0f $07 $3f
- PageAndOffset TilesAmmonite
+.db :TilesAmmonite
+.dw TilesAmmonite
 .db $09 $03 $3e,$4d,$34 $00
 .dw $002e
 .db $14
@@ -19495,7 +18637,8 @@ EnemyData:
 
 .db $04 $35 $3b $07 $31 $4d $14 $58 ; 33 EGuZeKiyu-To = Executer
 .db $01 $04 $08 $0c $0f $00 $00 $00
- PageAndOffset TilesClub
+.db :TilesClub
+.dw TilesClub
 .db $08 $03 $3e,$49,$32 $00
 .dw $003f
 .db $35
@@ -19504,7 +18647,8 @@ EnemyData:
 
 .db $2c $02 $14 $58 $00 $00 $00 $00 ; 34 WaITo = Wight
 .db $08 $0c $03 $04 $02 $03 $07 $0f
- PageAndOffset TilesEvilDead
+.db :TilesEvilDead
+.dw TilesEvilDead
 .db $21 $03 $32,$40,$30 $00
 .dw $0028
 .db $0c
@@ -19513,7 +18657,8 @@ EnemyData:
 
 .db $0d $06 $29 $0f $29 $39 $30 $4d ; 35 SuKaRuSoRuZiya- = ??? (Skull-en)
 .db $3f $0f $0d $06 $00 $0c $00 $00
- PageAndOffset TilesSkeleton
+.db :TilesSkeleton
+.dw TilesSkeleton
 .db $0d $03 $39,$4b,$35 $00
 .dw $0025
 .db $0c
@@ -19522,7 +18667,8 @@ EnemyData:
 
 .db $1f $02 $1f $02 $58 $00 $00 $00 ; 36 MaIMaI = ??? (Ammonite)
 .db $04 $3e $0c $38 $3c $0f $08 $3f
- PageAndOffset TilesAmmonite
+.db :TilesAmmonite
+.dw TilesAmmonite
 .db $09 $02 $5a,$58,$3c $00
 .dw $0047
 .db $3f
@@ -19531,7 +18677,8 @@ EnemyData:
 
 .db $1f $2e $11 $0a $4d $14 $58 $00 ; 37 MaNTiKo-To = ??? (Sphinx)
 .db $01 $03 $07 $0b $0a $0f $2f $20
- PageAndOffset TilesManticor
+.db :TilesManticor
+.dw TilesManticor
 .db $14 $04 $4e,$50,$41 $27
 .dw $003a
 .db $0c
@@ -19540,7 +18687,8 @@ EnemyData:
 
 .db $0b $4d $4a $2e $14 $58 $00 $00 ; 38 Sa-PeNTo = Serpent
 .db $22 $32 $33 $37 $3b $00 $00 $00
- PageAndOffset TilesSnake
+.db :TilesSnake
+.dw TilesSnake
 .db $10 $01 $50,$64,$42 $00
 .dw $0060
 .db $0f
@@ -19549,7 +18697,8 @@ EnemyData:
 
 .db $28 $42 $02 $01 $0b $2e $58 $00 ; 39 RiBaIASaN = ??? (Sandworm)
 .db $0a $34 $38 $3c $05 $0f $2f $06
- PageAndOffset TilesSandWorm
+.db :TilesSandWorm
+.dw TilesSandWorm
 .db $22 $03 $52,$6b,$3f $00
 .dw $0081
 .db $0f
@@ -19558,7 +18707,8 @@ EnemyData:
 
 .db $41 $29 $4d $39 $31 $58 $00 $00 ; 40 DoRu-Ziyu = ??? (Lich)
 .db $31 $35 $08 $21 $23 $33 $37 $0e
- PageAndOffset TilesEvilDead
+.db :TilesEvilDead
+.dw TilesEvilDead
 .db $21 $02 $3c,$54,$3e $00
 .dw $0021
 .db $0c
@@ -19567,7 +18717,8 @@ EnemyData:
 
 .db $05 $08 $14 $47 $0d $58 $00 $00 ; 41 OKuToPaSu = Octopus
 .db $02 $00 $00 $22 $33 $01 $00 $3f
- PageAndOffset TilesOctopus
+.db :TilesOctopus
+.dw TilesOctopus
 .db $05 $01 $5a,$55,$44 $00
 .dw $0040
 .db $0c
@@ -19576,7 +18727,8 @@ EnemyData:
 
 .db $1f $2f $41 $0d $14 $4d $06 $4d ; 42 MatuDoSuTo-Ka- = Mad Stalker
 .db $3f $3d $37 $33 $00 $0f $00 $00
- PageAndOffset TilesSkeleton
+.db :TilesSkeleton
+.dw TilesSkeleton
 .db $0e $04 $4f,$5a,$4b $00
 .dw $0057
 .db $0f
@@ -19585,7 +18737,8 @@ EnemyData:
 
 .db $40 $3c $28 $01 $2e $1d $2f $41 ; 43 DeZoRiANHetuDo = Dezorian ??? (EvilDead)
 .db $02 $3c $03 $04 $2c $01 $08 $07
- PageAndOffset TilesDezorian
+.db :TilesDezorian
+.dw TilesDezorian
 .db $0a $03 $56,$76,$4d $00
 .dw $0088
 .db $0f
@@ -19594,7 +18747,8 @@ EnemyData:
 
 .db $3c $2e $43 $58 $00 $00 $00 $00 ; 44 ZoNBi = Zombie
 .db $2a $25 $05 $0a $08 $08 $0c $2f
- PageAndOffset TilesGhoul
+.db :TilesGhoul
+.dw TilesGhoul
 .db $13 $04 $57,$6c,$3a $00
 .dw $001b
 .db $0f
@@ -19603,7 +18757,8 @@ EnemyData:
 
 .db $43 $31 $4d $14 $58 $00 $00 $00 ; 45 Biyu-To = ??? (Battalion)
 .db $03 $02 $25 $2a $03 $02 $07 $03
- PageAndOffset TilesGhoul
+.db :TilesGhoul
+.dw TilesGhoul
 .db $13 $03 $64,$70,$40 $00
 .dw $003b
 .db $0c
@@ -19612,7 +18767,8 @@ EnemyData:
 
 .db $2b $46 $2f $14 $4b $28 $0d $58 ; 46 RoBotuToPoRiSu = Robot Police (RobotCop)
 .db $25 $2a $2f $3f $03 $26 $20 $00
- PageAndOffset TilesRobotCop
+.db :TilesRobotCop
+.dw TilesRobotCop
 .db $15 $01 $6e,$87,$5a $00
 .dw $009c
 .db $0f
@@ -19621,7 +18777,8 @@ EnemyData:
 
 .db $0b $02 $46 $4d $35 $22 $02 $39 ; 47 SaIBo-GuMeIZ = ??? (Sorceror)
 .db $01 $31 $35 $39 $3d $03 $23 $02
- PageAndOffset TilesSorceror
+.db :TilesSorceror
+.dw TilesSorceror
 .db $04 $02 $6e,$79,$4a $00
 .dw $0078
 .db $33
@@ -19630,7 +18787,8 @@ EnemyData:
 
 .db $1c $2a $4d $21 $28 $38 $4d $41 ; 48 HuRe-MuRiZa-Do = ??? (Nessie)
 .db $04 $08 $0c $2f $3f $00 $00 $00
- PageAndOffset TilesSnake
+.db :TilesSnake
+.dw TilesSnake
 .db $10 $02 $5d,$7e,$4d $00
 .dw $0065
 .db $0c
@@ -19639,7 +18797,8 @@ EnemyData:
 
 .db $10 $39 $21 $58 $00 $00 $00 $00 ; 49 TaZiMu = Tarzimal
 .db $2b $20 $06 $2a $25 $3e $01 $0f
- PageAndOffset TilesTarzimal
+.db :TilesTarzimal
+.dw TilesTarzimal
 .db $06 $01 $7d,$78,$64 $00
 .dw $0000
 .db $0c
@@ -19648,7 +18807,8 @@ EnemyData:
 
 .db $33 $02 $01 $58 $00 $00 $00 $00 ; 50 GaIA = ??? (Golem)
 .db $01 $02 $03 $34 $30 $00 $00 $00
- PageAndOffset TilesGolem
+.db :TilesGolem
+.dw TilesGolem
 .db $1f $02 $8c,$79,$60 $00
 .dw $0096
 .db $0c
@@ -19657,7 +18817,8 @@ EnemyData:
 
 .db $1f $0c $4d $2e $33 $4d $3d $4d ; 51 MaSi-NGa-Da- = Machine Guard? (AndroCop)
 .db $02 $03 $07 $3f $3c $03 $02 $00
- PageAndOffset TilesRobotCop
+.db :TilesRobotCop
+.dw TilesRobotCop
 .db $15 $02 $78,$91,$59 $00
 .dw $007b
 .db $0c
@@ -19666,7 +18827,8 @@ EnemyData:
 
 .db $43 $2f $35 $02 $4d $10 $4d $58 ; 52 BituGuI-Ta- = ??? (Tentacle)
 .db $00 $00 $00 $20 $25 $30 $00 $0b
- PageAndOffset TilesOctopus
+.db :TilesOctopus
+.dw TilesOctopus
 .db $05 $01 $76,$76,$57 $00
 .dw $0062
 .db $0c
@@ -19675,7 +18837,8 @@ EnemyData:
 
 .db $10 $2b $0d $58 $00 $00 $00 $00 ; 53 TaRoSu = ??? (Giant)
 .db $04 $08 $0c $03 $02 $00 $00 $00
- PageAndOffset TilesGolem
+.db :TilesGolem
+.dw TilesGolem
 .db $1f $02 $78,$7a,$58 $00
 .dw $0077
 .db $0c
@@ -19684,7 +18847,8 @@ EnemyData:
 
 .db $0d $18 $4d $08 $2b $4d $41 $58 ; 54 SuNe-KuRo-Do = Snake ??? (Wyvern)
 .db $01 $05 $1a $2f $3f $00 $00 $00
- PageAndOffset TilesSnake
+.db :TilesSnake
+.dw TilesSnake
 .db $10 $01 $6e,$7b,$54 $00
 .dw $007d
 .db $0c
@@ -19693,7 +18857,8 @@ EnemyData:
 
 .db $40 $0d $45 $01 $27 $4d $58 $00 ; 55 DeSuBeARa- = ??? (Reaper)
 .db $20 $25 $2a $2f $3f $02 $01 $30
- PageAndOffset TilesReaper
+.db :TilesReaper
+.dw TilesReaper
 .db $1e $01 $b9,$87,$66 $00
 .dw $00fe
 .db $33
@@ -19702,7 +18867,8 @@ EnemyData:
 
 .db $06 $05 $0d $0f $4d $0b $27 $4d ; 56 KaOSuSo-SaRa- = ??? Sorceror (Magician)
 .db $00 $25 $25 $2a $2f $08 $0c $04
- PageAndOffset TilesSorceror
+.db :TilesSorceror
+.dw TilesSorceror
 .db $04 $01 $8a,$91,$5a $00
 .dw $00bb
 .db $0c
@@ -19711,7 +18877,8 @@ EnemyData:
 
 .db $0e $2e $14 $4d $29 $58 $00 $00 ; 57 SeNTo-Ru = Centaur (HorseMan)
 .db $20 $30 $34 $38 $3c $10 $0c $2f
- PageAndOffset TilesCentaur
+.db :TilesCentaur
+.dw TilesCentaur
 .db $1d $02 $82,$7e,$59 $27
 .dw $0094
 .db $00
@@ -19720,7 +18887,8 @@ EnemyData:
 
 .db $01 $02 $0d $1f $2e $58 $00 $00 ; 58 AISuMaN = Ice-man (FrostMan)
 .db $20 $30 $34 $38 $3c $3f $3a $3e
- PageAndOffset TilesIceMan
+.db :TilesIceMan
+.dw TilesIceMan
 .db $1c $01 $8c,$8a,$62 $00
 .dw $0080
 .db $14
@@ -19729,7 +18897,8 @@ EnemyData:
 
 .db $42 $29 $06 $2e $58 $00 $00 $00 ; 59 BaRuKaN = ??? (Amundsen)
 .db $01 $02 $03 $07 $0b $0f $0b $0f
- PageAndOffset TilesIceMan
+.db :TilesIceMan
+.dw TilesIceMan
 .db $1c $01 $85,$8c,$62 $00
 .dw $0078
 .db $0c
@@ -19738,7 +18907,8 @@ EnemyData:
 
 .db $2a $2f $41 $41 $27 $37 $2e $58 ; 60 RetuDoDoRaGoN = Red Dragon?
 .db $01 $20 $34 $02 $03 $07 $30 $38
- PageAndOffset TilesDragon
+.db :TilesDragon
+.dw TilesDragon
 .db $01 $01 $af,$a0,$69 $00
 .dw $00c1
 .db $0f
@@ -19747,7 +18917,8 @@ EnemyData:
 
 .db $35 $28 $4d $2e $41 $27 $37 $2e ; 61 GuRi-NDoRaGoN = Green Dragon
 .db $04 $03 $0b $08 $0c $0e $07 $0f
- PageAndOffset TilesDragon
+.db :TilesDragon
+.dw TilesDragon
 .db $01 $01 $a0,$91,$5f $00
 .dw $00b0
 .db $0c
@@ -19756,7 +18927,8 @@ EnemyData:
 
 .db $27 $0c $4d $08 $58 $00 $00 $00 ; 62 RaSi-Ku = ??? (Shadow)
 .db $20 $30 $34 $38 $25 $2a $2f $00
- PageAndOffset TilesShadow
+.db :TilesShadow
+.dw TilesShadow
 .db $18 $01 $a5,$ac,$68 $00
 .dw $0000
 .db $0c
@@ -19765,7 +18937,8 @@ EnemyData:
 
 .db $1f $2e $23 $0d $58 $00 $00 $00 ; 63 MaNMoSu = Mammoth
 .db $31 $35 $39 $3d $23 $2f $2a $02
- PageAndOffset TilesElephant
+.db :TilesElephant
+.dw TilesElephant
 .db $03 $05 $b4,$9a,$64 $00
 .dw $007d
 .db $0f
@@ -19774,7 +18947,8 @@ EnemyData:
 
 .db $07 $2e $35 $0e $02 $42 $4d $58 ; 64 KiNGuSeIBa- = ??? (Centaur)
 .db $06 $07 $0b $0f $2f $03 $0b $0f
- PageAndOffset TilesCentaur
+.db :TilesCentaur
+.dw TilesCentaur
 .db $1d $01 $be,$9b,$64 $00
 .dw $0085
 .db $28
@@ -19783,7 +18957,8 @@ EnemyData:
 
 .db $3d $4d $08 $1f $2b $4d $3d $4d ; 65 Da-KuMaRo-Da- = Dark Marauder (Marauder)
 .db $10 $20 $30 $34 $38 $03 $02 $00
- PageAndOffset TilesReaper
+.db :TilesReaper
+.dw TilesReaper
 .db $1e $01 $87,$86,$58 $00
 .dw $00ad
 .db $0f
@@ -19792,7 +18967,8 @@ EnemyData:
 
 .db $37 $4d $2a $21 $58 $00 $00 $00 ; 66 Go-ReMu = Golem(Titan)
 .db $01 $06 $0a $2a $25 $00 $00 $00
- PageAndOffset TilesGolem
+.db :TilesGolem
+.dw TilesGolem
 .db $1f $02 $be,$92,$61 $00
 .dw $008a
 .db $21
@@ -19801,7 +18977,8 @@ EnemyData:
 
 .db $22 $40 $31 $4d $0b $58 $00 $00 ; 67 MeDeyu-Sa = Medusa
 .db $01 $12 $37 $2b $32 $02 $22 $10
- PageAndOffset TilesMedusa
+.db :TilesMedusa
+.dw TilesMedusa
 .db $20 $01 $c8,$a6,$67 $27
 .dw $00c2
 .db $00
@@ -19810,7 +18987,8 @@ EnemyData:
 
 .db $1c $2b $0d $14 $41 $27 $37 $2e ; 68 HuRoSuToDoRaGoN = ??? Dragon (White Dragon)
 .db $34 $3c $3f $38 $3c $2f $3f $3f
- PageAndOffset TilesDragon
+.db :TilesDragon
+.dw TilesDragon
 .db $01 $01 $c8,$b4,$68 $00
 .dw $00ea
 .db $0f
@@ -19819,7 +18997,8 @@ EnemyData:
 
 .db $41 $27 $37 $2e $2c $02 $3a $58 ; 69 DoRaGoNWaIZu = Dragon ??? (Blue Dragon)
 .db $20 $3e $3f $25 $2a $2f $3f $3f
- PageAndOffset TilesDragon
+.db :TilesDragon
+.dw TilesDragon
 .db $01 $01 $d2,$9b,$5a $00
 .dw $00b2
 .db $0c
@@ -19828,7 +19007,8 @@ EnemyData:
 
 .db $37 $4d $29 $41 $41 $2a $02 $08 ; 70 Go-RuDoDoReIKu = Gold Dragon
 .db $03 $07 $0b $0f $25 $2a $2f $00
- PageAndOffset TilesGoldDragonHead
+.db :TilesGoldDragonHead
+.dw TilesGoldDragonHead
 .db $16 $01 $aa,$c8,$62 $00
 .dw $0000
 .db $00
@@ -19837,7 +19017,8 @@ EnemyData:
 
 .db $1f $2f $41 $41 $08 $10 $4d $58 ; 71 MatuDoDoKuTa- = Mad? Doctor (Dr. Mad)
 .db $38 $3c $3e $3f $25 $2a $2f $00
- PageAndOffset TilesShadow
+.db :TilesShadow
+.dw TilesShadow
 .db $18 $01 $e9,$b4,$55 $00
 .dw $008c
 .db $00
@@ -19846,7 +19027,8 @@ EnemyData:
 
 .db $27 $0c $4d $08 $58 $00 $00 $00 ; 72 RaSi-Ku = Lassic
 .db $01 $06 $34 $30 $2f $0f $0b $02
- PageAndOffset TilesLassic
+.db :TilesLassic
+.dw TilesLassic
 .db $26 $01 $ee,$e6,$b4 $00
 .dw $0000
 .db $00
@@ -19855,7 +19037,8 @@ EnemyData:
 
 .db $3d $4d $08 $1c $4e $29 $0d $58 ; 73 Da-KuHu[4E]RuSu = Dark Force
 .db $20 $30 $34 $38 $3c $02 $03 $01
- PageAndOffset TilesDarkForceFlame
+.db :TilesDarkForceFlame
+.dw TilesDarkForceFlame
 .db $27 $82 $ff,$ff,$96 $00
 .dw $0000
 .db $00
@@ -19864,7 +19047,8 @@ EnemyData:
 
 .db $15 $02 $14 $22 $01 $58 $00 $00 ; 74 NaIToMeA = Nightmare? (Succubus)
 .db $20 $25 $2a $2f $3f $02 $03 $01
- PageAndOffset TilesSuccubus
+.db :TilesSuccubus
+.dw TilesSuccubus
 .db $25 $01 $ff,$96,$fa $00
 .dw $0000
 .db $00
@@ -19928,9 +19112,63 @@ data8fdf:
 .orga $9387
 
 ; Data from CFC7 to D4F5 (1327 bytes)
-_DATA_CFC7_:
-.incbin "Phantasy Star (Japan)_DATA_CFC7_.inc"
-
+_DATA_CFC7_: ; 24 bytes per entry
+.db $20 $25 $2A $2F $3F $02 $03 $01 $13 $83 $BD $25 $01 $FF $96 $FA $00 $00 $00 $00 $0A $00 $01 $00
+.db $0F $02 $27 $60 $57 $80 $57 $80 $03 $87 $93 $87 $93 $70 $B9 $5C $D1 $0D $07 $10 $01 $1F $60 $CA
+.db $0F $09 $57 $68 $6F $7C $6F $7C $07 $90 $93 $90 $93 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $C7
+.db $0F $16 $2F $70 $4B $80 $4B $80 $07 $9F $93 $9F $93 $26 $BA $D8 $D1 $0A $08 $10 $15 $2F $58 $C7
+.db $0F $1C $37 $60 $57 $78 $5C $86 $0F $A8 $93 $AE $93 $C6 $BA $1C $D2 $09 $03 $00 $00 $00 $00 $C7
+.db $0F $20 $3F $68 $57 $80 $57 $80 $07 $B2 $93 $B2 $93 $FC $BA $5C $D3 $04 $06 $00 $00 $00 $00 $C8
+.db $0F $24 $4F $68 $67 $7E $5F $6A $07 $BA $93 $BA $93 $2C $BB $1E $D3 $06 $02 $00 $00 $00 $00 $C6
+.db $0F $28 $4F $68 $57 $74 $57 $74 $07 $C4 $93 $C4 $93 $44 $BB $DE $D2 $06 $03 $00 $00 $00 $00 $C8
+.db $0F $2D $57 $6C $3F $7C $3F $7C $07 $CC $93 $CC $93 $00 $00 $00 $00 $00 $00 $10 $2C $27 $6C $C6
+.db $0F $35 $47 $70 $4F $80 $4F $80 $07 $D6 $93 $D6 $93 $00 $00 $00 $00 $00 $00 $10 $34 $2F $70 $C6
+.db $0F $40 $37 $74 $4F $7C $4F $7C $07 $E1 $93 $E1 $93 $00 $00 $00 $00 $00 $00 $10 $3F $37 $74 $CB
+.db $0F $45 $37 $74 $4F $7C $4F $7C $07 $E1 $93 $E1 $93 $00 $00 $00 $00 $00 $00 $10 $3F $37 $74 $00
+.db $0F $4A $2F $68 $47 $7C $47 $7C $07 $EA $93 $EA $93 $00 $00 $00 $00 $00 $00 $10 $47 $2F $68 $CB
+.db $0F $4A $2F $68 $47 $7C $47 $7C $07 $EA $93 $EA $93 $00 $00 $00 $00 $00 $00 $10 $48 $2F $68 $CB
+.db $0F $4A $2F $68 $47 $7C $47 $7C $07 $EA $93 $EA $93 $00 $00 $00 $00 $00 $00 $10 $49 $2F $68 $CB
+.db $0F $50 $4F $68 $6F $74 $6F $74 $01 $F2 $93 $F2 $93 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $C9
+.db $0F $54 $47 $68 $5F $74 $5F $74 $03 $FD $93 $FD $93 $68 $BB $9C $D1 $09 $06 $10 $53 $27 $68 $CA
+.db $0F $5D $6F $68 $77 $7C $77 $7C $07 $0C $94 $0C $94 $D4 $BB $18 $D3 $06 $08 $10 $5C $57 $60 $C6
+.db $0F $66 $3F $68 $57 $7C $5F $7C $01 $17 $94 $17 $94 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $C9
+.db $0F $69 $37 $70 $47 $7C $47 $7C $0B $22 $94 $22 $94 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $C8
+.db $0F $70 $37 $68 $67 $70 $6F $6E $05 $31 $94 $31 $94 $34 $BC $1C $D3 $04 $04 $00 $00 $00 $00 $C7
+.db $0F $79 $47 $84 $4F $7C $4F $7C $03 $3C $94 $3C $94 $00 $00 $00 $00 $00 $00 $10 $78 $3F $6C $C6
+.db $0F $E3 $27 $60 $3F $7C $3F $7C $03 $48 $94 $48 $94 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $CA
+.db $0F $82 $6F $78 $6F $7C $6F $7C $03 $5A $94 $5A $94 $00 $00 $00 $00 $00 $00 $10 $81 $5F $68 $C8
+.db $0F $00 $4F $68 $4F $78 $4F $78 $03 $66 $94 $66 $94 $54 $BC $5C $D2 $09 $04 $10 $8D $3F $68 $C6
+.db $0F $99 $4F $68 $5F $7C $5F $7C $03 $73 $94 $73 $94 $00 $00 $00 $00 $00 $00 $10 $96 $4F $68 $CB
+.db $0F $9D $4F $68 $5F $7C $5F $7C $03 $7A $94 $7A $94 $00 $00 $00 $00 $00 $00 $10 $97 $4F $68 $C6
+.db $0F $99 $4F $68 $5F $7C $5F $7C $03 $73 $94 $73 $94 $00 $00 $00 $00 $00 $00 $10 $98 $4F $68 $CB
+.db $0F $A3 $1F $60 $37 $7C $37 $7C $07 $84 $94 $84 $94 $9C $BC $9E $D1 $0C $02 $10 $AB $57 $60 $CA
+.db $0F $AD $27 $60 $3F $7C $4B $86 $07 $92 $94 $9A $94 $CC $BC $DE $D1 $0A $03 $10 $AC $27 $60 $CB
+.db $0F $B5 $27 $60 $3F $80 $43 $81 $05 $A0 $94 $A9 $94 $08 $BD $DA $D1 $0B $05 $10 $B4 $27 $60 $CC
+.db $0F $BB $1F $60 $3F $80 $3F $80 $07 $AC $94 $AC $94 $76 $BD $5A $D1 $0D $06 $10 $BA $1F $60 $C7
+.db $0F $C0 $2F $60 $3F $78 $3F $78 $03 $B2 $94 $B2 $94 $12 $BE $DC $D1 $0B $04 $10 $BF $2F $60 $C6
+.db $0F $00 $27 $60 $4F $7C $4F $7C $07 $BB $94 $BB $94 $6A $BE $1E $D2 $04 $03 $10 $C6 $27 $60 $C9
+.db $0F $CE $37 $70 $77 $7C $77 $7C $07 $C6 $94 $C6 $94 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $C8
+.db $0F $D3 $2F $64 $4F $77 $4F $77 $05 $D0 $94 $D0 $94 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $C9
+.db $0F $D7 $1F $60 $47 $7C $47 $7C $03 $DD $94 $DD $94 $00 $00 $00 $00 $00 $00 $00 $00 $00 $00 $C9
+.db $0F $DF $47 $70 $57 $7C $57 $7C $07 $EE $94 $EE $94 $82 $BE $5C $D2 $06 $04 $00 $00 $00 $00 $C6
+.db $13 $00 $FF $8D $4F $7C $4F $7C $03 $F6 $94 $F6 $94 $B2 $BE $9C $D2 $0B $05 $10 $CB $FF $68 $A9
+.db $14 $00 $4F $70 $47 $7C $47 $7C $05 $27 $95 $27 $95 $20 $BF $5C $D2 $06 $04 $00 $00 $00 $00 $A9
+.db $02 $03 $04 $05 $06 $07 $08 $00 $00 $09 $0A $0B $0C $0D $0D $0E $0F $0E $0F $0D $00 $0C $0B $00
+.db $16 $17 $18 $19 $1A $1B $00 $1A $00 $1C $1D $1E $00 $1D $00 $1C $1F $00 $00 $20 $21 $22 $23 $00
+.db $22 $21 $00 $24 $25 $26 $27 $26 $27 $00 $26 $25 $00 $28 $29 $2A $2B $00 $2A $29 $00 $2D $2E $2F
+.db $30 $31 $32 $33 $00 $31 $00 $35 $36 $37 $38 $39 $3A $3B $3C $00 $36 $00 $40 $41 $42 $43 $44 $00
+.db $43 $42 $00 $4A $4B $4C $4D $4E $00 $4F $00 $50 $51 $52 $51 $50 $51 $52 $51 $50 $00 $00 $54 $55
+.db $56 $56 $57 $58 $59 $5A $5B $59 $5A $5B $00 $56 $00 $5D $5E $5F $60 $61 $62 $63 $64 $65 $00 $00
+.db $66 $67 $66 $68 $66 $67 $66 $68 $66 $00 $00 $69 $6A $69 $6A $6B $6C $6D $6E $6F $00 $6E $6D $6C
+.db $6B $00 $70 $71 $72 $72 $73 $74 $75 $00 $74 $73 $00 $79 $7A $7B $7B $7C $7D $7E $7F $80 $00 $7B
+.db $00 $E3 $E4 $E4 $E5 $E5 $E6 $E7 $E8 $E9 $EA $EB $EA $EB $EA $EB $00 $E4 $00 $82 $83 $84 $85 $86
+.db $87 $00 $86 $85 $84 $83 $00 $00 $8F $90 $90 $91 $91 $92 $93 $94 $95 $00 $8F $00 $99 $9A $9B $9B
+.db $9C $00 $00 $9D $9E $9F $9F $A0 $A1 $00 $A2 $9F $00 $A3 $A4 $A5 $A5 $A4 $A3 $A6 $A6 $A7 $A8 $A9
+.db $AA $00 $00 $AD $B0 $B1 $B1 $B2 $AD $00 $00 $AD $AE $AF $00 $AE $00 $B5 $B6 $B6 $B7 $B8 $B9 $00
+.db $B9 $00 $B5 $00 $00 $BB $BC $BD $BE $00 $00 $C0 $C1 $C2 $C3 $C4 $C5 $C0 $00 $00 $00 $C7 $C8 $C9
+.db $CA $C7 $C8 $C9 $CA $00 $00 $CE $CF $D0 $D1 $D2 $00 $D1 $D0 $CF $00 $D3 $D4 $D5 $D6 $D4 $D3 $D4
+.db $D5 $D6 $D4 $D3 $00 $00 $D7 $D8 $D8 $D9 $D9 $DA $DB $DC $DD $DB $DC $00 $DD $DE $D9 $D9 $00 $DF
+.db $E0 $E1 $E2 $E1 $E2 $00 $00
 ; Data from D4F6 to D505 (16 bytes)
 _DATA_D4F6_:
 .db $00 $EC $ED $EE $ED $EE $EF $F0 $F1 $F2 $F3 $F4 $F5 $00 $F6 $00
@@ -19943,7 +19181,11 @@ _DATA_D506_:
 .db $77 $88 $89 $8A $8B $8C $CC $00 $CD $00
 
 ; Data from D540 to D5BB (124 bytes)
-_DATA_D540_:
+DialogueSpritePaletteIndices:
+; Pair of
+; * Index into DialogueSpritePalettes
+; * ???
+; for each dialogue
 .db $00 $00 $00 $00 $01 $00 $02 $00 $03 $00 $04 $00 $05 $00 $06 $00
 .db $07 $00 $08 $00 $09 $00 $0A $00 $0B $00 $00 $01 $01 $01 $02 $01
 .db $03 $01 $04 $01 $05 $01 $06 $01 $07 $01 $08 $01 $09 $01 $0A $01
@@ -19954,29 +19196,49 @@ _DATA_D540_:
 .db $11 $0B $12 $0C $13 $0D $14 $0E $15 $0F $15 $10
 
 ; Data from D5BC to D66B (176 bytes)
-_DATA_D5BC_:
-.db $2B $0B $06 $2A $25 $03 $02 $0F $2B $0B $06 $2A $25 $0C $08 $0F
-.db $2B $0B $06 $2A $25 $3C $38 $0F $2B $0B $06 $2A $25 $3F $3C $0F
-.db $2B $00 $06 $2A $25 $03 $02 $25 $2B $00 $06 $2A $25 $0C $08 $25
-.db $2B $00 $06 $2A $25 $3C $38 $25 $2B $00 $06 $2A $25 $3F $3C $25
-.db $2B $34 $06 $2A $25 $03 $02 $38 $2B $34 $06 $2A $25 $0C $08 $38
-.db $2B $34 $06 $2A $25 $3C $38 $38 $2B $34 $06 $2A $25 $3F $3C $38
-.db $2B $0B $06 $2A $25 $03 $02 $0F $2B $0B $06 $2A $25 $01 $02 $0F
-.db $2B $0B $06 $2A $25 $0A $05 $0F $2B $0B $06 $2A $25 $3C $20 $02
-.db $2B $0B $06 $2A $25 $3E $3C $02 $04 $01 $06 $3F $3E $3C $3E $3F
-.db $2B $0B $06 $2A $3E $21 $02 $36 $2A $25 $2A $2A $3F $2A $25 $25
-.db $2B $3E $06 $2A $25 $3C $00 $00 $02 $3C $0A $04 $2C $01 $08 $2F
+DialogueSpritePalettes:
+.db $2B $0B $06 $2A $25 $03 $02 $0F
+.db $2B $0B $06 $2A $25 $0C $08 $0F
+.db $2B $0B $06 $2A $25 $3C $38 $0F
+.db $2B $0B $06 $2A $25 $3F $3C $0F
+.db $2B $00 $06 $2A $25 $03 $02 $25
+.db $2B $00 $06 $2A $25 $0C $08 $25
+.db $2B $00 $06 $2A $25 $3C $38 $25
+.db $2B $00 $06 $2A $25 $3F $3C $25
+.db $2B $34 $06 $2A $25 $03 $02 $38
+.db $2B $34 $06 $2A $25 $0C $08 $38
+.db $2B $34 $06 $2A $25 $3C $38 $38
+.db $2B $34 $06 $2A $25 $3F $3C $38
+.db $2B $0B $06 $2A $25 $03 $02 $0F
+.db $2B $0B $06 $2A $25 $01 $02 $0F
+.db $2B $0B $06 $2A $25 $0A $05 $0F
+.db $2B $0B $06 $2A $25 $3C $20 $02
+.db $2B $0B $06 $2A $25 $3E $3C $02
+.db $04 $01 $06 $3F $3E $3C $3E $3F
+.db $2B $0B $06 $2A $3E $21 $02 $36
+.db $2A $25 $2A $2A $3F $2A $25 $25
+.db $2B $3E $06 $2A $25 $3C $00 $00
+.db $02 $3C $0A $04 $2C $01 $08 $2F
 
 ; Data from D66C to D6F3 (136 bytes)
-_DATA_D66C_:
-.db $10 $50 $4F $70 $00 $1B $00 $80 $10 $51 $4F $70 $00 $1B $00 $80
-.db $10 $52 $4F $70 $00 $1B $00 $80 $10 $53 $4F $70 $00 $1B $00 $80
-.db $10 $54 $4F $68 $00 $1B $19 $8E $10 $55 $4F $70 $00 $1B $19 $8E
-.db $10 $56 $4F $70 $00 $1B $19 $8E $10 $57 $4F $70 $00 $06 $80 $BB
-.db $10 $58 $4F $68 $00 $1B $79 $99 $10 $59 $6F $64 $00 $1B $26 $9F
-.db $10 $5A $6F $6C $00 $1B $26 $9F $10 $5B $4F $70 $00 $1B $5E $A7
-.db $10 $5C $4F $70 $00 $1B $04 $AB $10 $5D $4F $6C $00 $1B $6C $AE
-.db $10 $5E $4F $68 $00 $15 $97 $BA $10 $82 $4F $74 $00 $13 $ED $96
+DialogueSprites:
+;   Attributes         Page  Offset
+.db $10 $50 $4F $70 $00 $1B $00 $80
+.db $10 $51 $4F $70 $00 $1B $00 $80
+.db $10 $52 $4F $70 $00 $1B $00 $80
+.db $10 $53 $4F $70 $00 $1B $00 $80
+.db $10 $54 $4F $68 $00 $1B $19 $8E
+.db $10 $55 $4F $70 $00 $1B $19 $8E
+.db $10 $56 $4F $70 $00 $1B $19 $8E
+.db $10 $57 $4F $70 $00 $06 $80 $BB
+.db $10 $58 $4F $68 $00 $1B $79 $99
+.db $10 $59 $6F $64 $00 $1B $26 $9F
+.db $10 $5A $6F $6C $00 $1B $26 $9F
+.db $10 $5B $4F $70 $00 $1B $5E $A7
+.db $10 $5C $4F $70 $00 $1B $04 $AB
+.db $10 $5D $4F $6C $00 $1B $6C $AE
+.db $10 $5E $4F $68 $00 $15 $97 $BA
+.db $10 $82 $4F $74 $00 $13 $ED $96
 .db $10 $83 $4F $74 $00 $13 $ED $96
 
 .orga $96f4
@@ -20963,15 +20225,15 @@ _DATA_E922_:
 ; Data from EF5C to F472 (1303 bytes)
 DungeonObjects:
 .enum 0
-  DungeonObject_Item
-  DungeonObject_Meseta
-  DungeonObject_Battle
-  DungeonObject_Dialogue
+  DungeonObject_Item db
+  DungeonObject_Meseta db
+  DungeonObject_Battle db
+  DungeonObject_Dialogue db
 .ende
 .struct DungeonObject
   DungeonNumber db
   DungeonPosition db ; YX
-  FlagAddress db ; to ensure you only get it once
+  FlagAddress db ; to ensure you only get it once. Object triggers if RAM value is not $ff.
   ObjectType db ; see DungeonObject_ enum
   .union
     ItemID db
@@ -20982,219 +20244,240 @@ DungeonObjects:
     EnemyID db
     DroppedItemID db
   .nextu
-    DialogueID dw
+    CharacterID db
+    RoomID db
   .endu
 .endst
 .macro AddDungeonObject_Item
 .dstruct instanceof DungeonObject values 
-  DungeonNumber: \1
-  DungeonPosition: \2
-  FlagAddress: \3, 
-  ObjectType: DungeonObject_Item,   
-  ItemID: \4, 
-  IsTrapped: \5
+  DungeonNumber:    .db \1,
+  DungeonPosition:  .db \2,
+  FlagAddress:      .dw \3, 
+  ObjectType:       .db DungeonObject_Item,
+  ItemID:           .db \4, 
+  IsTrapped:        .db \5
 .endst
 .endm
 .macro AddDungeonObject_Meseta
 .dstruct instanceof DungeonObject values 
-  DungeonNumber: \1
-  DungeonPosition: \2
-  FlagAddress: \3, 
-  ObjectType: DungeonObject_Item,   
-  MesetaValue: \4
+  DungeonNumber:    .db \1,
+  DungeonPosition:  .db \2,
+  FlagAddress:      .dw \3, 
+  ObjectType:       .db DungeonObject_Item,
+  MesetaValue:      .dw \4
 .endst
 .endm
-;                          ,,-------------------------- DungeonNumber
-;                          ||   ,,---------------------- Y, X
-;                          ||   ||   ,,,,--------------- RAM address to flag for object so you see it only once
-;                          ||   ||   ||||
-;                          ||   ||   ||||
-  AddDungeonObject_Item   $00, $36, $c600, Item_Compass, 0
-  AddDungeonObject_Meseta $00, $E0, $c601, 20
-.db $00 $53 $C6C0 $02 $47 $00
-.db $00 $E3 $C50A $03 $A3 $3A
-.db $00 $7C $C602 $01 $0A $00
-.db $01 $17 $C603 $00 $00 $FC
-.db $01 $5D $C6C1 $02 $18 $00
-.db $01 $B2 $C50C $03 $82 $00
-.db $01 $E9 $C50B $03 $88 $00
-.db $02 $17 $C604 $00 $2D $00
-.db $02 $67 $C605 $01 $32 $00
-.db $02 $3A $C606 $01 $1E $00
-.db $02 $63 $C607 $01 $14 $00
-.db $03 $9C $C608 $00 $00 $FC
-.db $03 $9E $C609 $00 $25 $00
-.db $03 $E1 $C60A $01 $0A $00
-.db $03 $E8 $C60B $00 $25 $00
-.db $03 $E1 $C60C $01 $64 $00
-.db $03 $56 $C60D $00 $28 $00
-.db $03 $58 $C60E $00 $27 $00
-.db $04 $13 $C60F $01 $14 $00
-.db $04 $E5 $C610 $00 $24 $00
-.db $04 $13 $C611 $01 $64 $00
-.db $04 $1D $C612 $00 $00 $FC
-.db $05 $5B $C613 $01 $0A $00
-.db $05 $A1 $C614 $01 $05 $00
-.db $05 $A3 $C615 $00 $00 $FF
-.db $05 $DD $C616 $00 $25 $00
-.db $05 $5B $C617 $01 $64 $00
-.db $05 $A1 $C618 $01 $32 $00
-.db $06 $55 $C619 $01 $23 $00
-.db $06 $93 $C61A $00 $00 $FC
-.db $06 $55 $C61B $01 $64 $00
-.db $06 $29 $C61C $01 $0A $00
-.db $07 $65 $C61D $00 $25 $00
-.db $07 $AC $C61E $01 $64 $00
-.db $07 $AC $C61F $01 $F4 $01
-.db $07 $89 $C620 $00 $00 $FF
-.db $08 $29 $C6C2 $02 $23 $00
-.db $08 $65 $C6C3 $02 $0D $00
-.db $08 $C3 $C621 $00 $25 $00
-.db $08 $C5 $C622 $01 $32 $00
-.db $08 $EE $C623 $00 $00 $FF
-.db $09 $64 $C624 $00 $24 $00
-.db $09 $EE $C625 $00 $25 $00
-.db $09 $91 $C626 $00 $39 $00
-.db $0A $48 $C6C4 $02 $0B $00
-.db $0A $61 $C627 $00 $00 $FF
-.db $0A $67 $C6C5 $02 $43 $0F
-.db $0A $EE $C628 $00 $24 $00
-.db $0A $17 $C629 $01 $F4 $01
-.db $0A $E3 $C62A $01 $F4 $01
-.db $0A $A9 $C62B $00 $28 $00
-.db $0A $AB $C62C $00 $00 $FC
-.db $0B $71 $C62D $00 $02 $00
-.db $0B $ED $C62E $00 $0C $00
-.db $0B $1C $C62F $00 $25 $00
-.db $0B $63 $C630 $00 $03 $00
-.db $0C $11 $C631 $00 $3E $FC
-.db $0C $2B $C632 $01 $14 $00
-.db $0C $39 $C6C6 $02 $12 $00
-.db $0C $85 $C6C7 $02 $2A $00
-.db $0C $A9 $C6C8 $02 $2A $00
-.db $0C $A5 $C633 $00 $25 $00
-.db $0D $68 $C634 $01 $64 $00
-.db $0D $EB $C635 $00 $06 $00
-.db $0D $EE $C636 $00 $00 $FC
-.db $0D $68 $C637 $01 $64 $00
-.db $0D $E8 $C638 $00 $00 $FF
-.db $0E $11 $C639 $00 $25 $00
-.db $0E $41 $C63A $00 $00 $FF
-.db $0E $AC $C63B $00 $25 $00
-.db $0E $E9 $C63C $00 $00 $FC
-.db $0F $EE $C63D $00 $25 $00
-.db $10 $1E $C63E $00 $24 $00
-.db $10 $8B $C63F $00 $00 $FC
-.db $10 $61 $C640 $00 $27 $00
-.db $10 $9C $C641 $00 $27 $00
-.db $10 $C7 $C6C9 $02 $18 $05
-.db $10 $D1 $C642 $00 $25 $00
-.db $11 $26 $C643 $01 $0A $00
-.db $11 $5E $C644 $01 $32 $00
-.db $11 $71 $C645 $01 $14 $00
-.db $11 $7D $C646 $01 $14 $00
-.db $11 $26 $C647 $01 $14 $00
-.db $12 $19 $C648 $00 $00 $FC
-.db $12 $1E $C649 $00 $24 $00
-.db $12 $CC $C64A $00 $27 $00
-.db $12 $77 $C64B $00 $02 $00
-.db $12 $92 $C64C $01 $14 $00
-.db $12 $94 $C64D $00 $00 $FF
-.db $13 $1E $C64E $00 $24 $00
-.db $13 $33 $C64F $01 $14 $00
-.db $13 $A5 $C650 $00 $00 $00
-.db $13 $EC $C651 $00 $00 $7F
-.db $13 $EC $C652 $01 $14 $00
-.db $14 $41 $C50D $03 $93 $00
-.db $15 $55 $C50E $03 $91 $0F
-.db $15 $A1 $C50F $03 $90 $29
-.db $15 $C8 $C518 $03 $16 $00
-.db $16 $3E $C653 $01 $64 $00
-.db $16 $5E $C654 $00 $00 $FC
-.db $16 $81 $C655 $00 $27 $00
-.db $16 $C8 $C656 $00 $28 $00
-.db $17 $AA $C657 $01 $14 $00
-.db $17 $AA $C658 $01 $C8 $00
-.db $18 $16 $C659 $00 $00 $FF
-.db $18 $1C $C6CA $02 $11 $00
-.db $19 $1A $C65A $00 $25 $00
-.db $19 $B9 $C65B $00 $00 $FF
-.db $19 $35 $C65C $01 $64 $00
-.db $19 $C3 $C65D $01 $01 $00
-.db $19 $74 $C65E $00 $25 $00
-.db $19 $A3 $C65F $00 $00 $FC
-.db $1A $1E $C660 $00 $00 $FC
-.db $1A $33 $C661 $01 $14 $00
-.db $1A $51 $C662 $00 $25 $00
-.db $1A $CB $C663 $00 $00 $00
-.db $1B $5A $C6CB $02 $3C $0E
-.db $1B $E1 $C664 $00 $25 $00
-.db $1C $1E $C6CC $02 $3C $00
-.db $1C $31 $C665 $01 $D0 $07
-.db $1D $1B $C666 $00 $27 $00
-.db $1D $21 $C667 $00 $25 $00
-.db $1D $41 $C668 $00 $25 $FC
-.db $1D $8C $C669 $00 $27 $00
-.db $1D $CA $C66A $01 $32 $00
-.db $1D $B1 $C6CD $02 $08 $00
-.db $1E $1E $C66B $00 $24 $00
-.db $1E $11 $C66C $01 $14 $00
-.db $21 $94 $C511 $03 $9B $00
-.db $22 $11 $C66D $01 $F4 $01
-.db $22 $24 $C512 $03 $9D $00
-.db $22 $6E $C66E $00 $00 $FC
-.db $22 $91 $C66F $00 $00 $FF
-.db $22 $EA $C670 $00 $07 $00
-.db $22 $EE $C671 $00 $00 $FF
-.db $22 $E3 $C672 $01 $F4 $01
-.db $23 $79 $C673 $00 $27 $00
-.db $23 $91 $C674 $00 $00 $FC
-.db $23 $C1 $C675 $00 $25 $00
-.db $24 $47 $C676 $01 $B8 $0B
-.db $24 $11 $C677 $00 $11 $00
-.db $24 $1E $C678 $00 $01 $00
-.db $24 $EE $C679 $00 $24 $00
-.db $25 $1D $C6CE $02 $45 $3A
-.db $25 $86 $C67A $01 $64 $00
-.db $25 $8A $C67B $00 $00 $FC
-.db $25 $3E $C67C $01 $64 $00
-.db $26 $7B $C67D $01 $88 $13
-.db $27 $9E $C6CF $02 $3C $0C
-.db $27 $71 $C67E $01 $F4 $01
-.db $28 $D1 $C67F $01 $F4 $01
-.db $29 $67 $C6D0 $02 $2C $00
-.db $29 $79 $C6D1 $02 $2C $00
-.db $29 $99 $C680 $00 $25 $00
-.db $29 $A4 $C6D2 $02 $22 $00
-.db $29 $D5 $C6D3 $02 $2C $00
-.db $2A $53 $C6D4 $02 $2C $00
-.db $2A $73 $C6D5 $02 $2C $00
-.db $2A $B1 $C6D6 $02 $2C $00
-.db $2A $DB $C513 $03 $A4 $00
-.db $2A $99 $C681 $00 $17 $7F
-.db $2B $79 $C682 $00 $28 $00
-.db $2C $45 $C683 $00 $00 $FC
-.db $2C $ED $C684 $00 $25 $00
-.db $2C $4B $C685 $01 $F4 $01
-.db $2D $18 $C686 $01 $14 $00
-.db $2D $83 $C687 $00 $24 $00
-.db $2D $AD $C688 $00 $27 $00
-.db $2D $E3 $C689 $01 $14 $00
-.db $2D $A3 $C68A $00 $00 $FF
-.db $2F $11 $C68B $00 $20 $7F
-.db $2F $2B $C68C $00 $00 $FF
-.db $2F $73 $C68D $00 $00 $FC
-.db $2F $D6 $C68E $01 $64 $00
-.db $32 $3B $C68F $00 $00 $FC
-.db $33 $19 $C690 $00 $00 $FF
-.db $33 $D9 $C6D7 $02 $0B $00
-.db $34 $16 $C691 $01 $32 $00
-.db $34 $1E $C692 $00 $2A $00
-.db $34 $EE $C693 $00 $1C $00
-.db $34 $C3 $C514 $03 $A6 $00
-.db $35 $C2 $C517 $03 $9E $00
-.db $3A $79 $C6D8 $02 $42 $30
-.db $3A $82 $C694 $00 $2A $00
+.macro AddDungeonObject_Battle
+.dstruct instanceof DungeonObject values 
+  DungeonNumber:    .db \1,
+  DungeonPosition:  .db \2,
+  FlagAddress:      .dw \3, 
+  ObjectType:       .db DungeonObject_Battle,
+  EnemyID:          .db \4,
+  ItemID:           .db \5,
+.endst
+.endm
+.macro AddDungeonObject_Dialogue
+.dstruct instanceof DungeonObject values 
+  DungeonNumber:    .db \1,
+  DungeonPosition:  .db \2,
+  FlagAddress:      .dw \3, 
+  ObjectType:       .db DungeonObject_Dialogue,
+  CharacterID:      .db \4,
+  RoomID:           .db \5
+.endst
+.endm
+;                            ,,-------------------------- DungeonNumber
+;                            ||   ,,---------------------- Y, X
+;                            ||   ||   ,,,,--------------- RAM address to flag for object so you see it only once
+;                            ||   ||   ||||
+;                            ||   ||   ||||
+  AddDungeonObject_Item     $00, $36, $c600, Item_Compass, 0
+  AddDungeonObject_Meseta   $00, $E0, $c601, 20
+  AddDungeonObject_Battle   $00, $53, $C6C0, Enemy_MadDoctor, Item_Empty
+  AddDungeonObject_Dialogue $00, $E3, $C50A, $A3, $3A ; _room_a3_5798 ???
+  AddDungeonObject_Meseta   $00, $7C, $C602, 10
+  AddDungeonObject_Item     $01, $17, $C603, Item_Empty, $FC
+  AddDungeonObject_Battle   $01, $5D, $C6C1, Enemy_Skeleton, Item_Empty
+  AddDungeonObject_Dialogue $01, $B2, $C50C, $82, $00 ; _room_82_TriadaPrisonGuard1
+  AddDungeonObject_Dialogue $01, $E9, $C50B, $88, $00 ; _room_88_TriadaPrisoner6
+  AddDungeonObject_Item     $02, $17, $C604, Item_DungeonKey, $00
+  AddDungeonObject_Meseta   $02, $67, $C605, 50
+  AddDungeonObject_Meseta   $02, $3A, $C606, 30
+  AddDungeonObject_Meseta   $02, $63, $C607, 20
+  AddDungeonObject_Item     $03, $9C, $C608, Item_Empty, $FC
+  AddDungeonObject_Item     $03, $9E, $C609, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $03, $E1, $C60A, 10
+  AddDungeonObject_Item     $03, $E8, $C60B, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $03, $E1, $C60C, 100
+  AddDungeonObject_Item     $03, $56, $C60D, Item_EscapeCloth, $00
+  AddDungeonObject_Item     $03, $58, $C60E, Item_Searchlight, $00
+  AddDungeonObject_Meseta   $04, $13, $C60F, 20
+  AddDungeonObject_Item     $04, $E5, $C610, Item_PelorieMate, $00
+  AddDungeonObject_Meseta   $04, $13, $C611, 100
+  AddDungeonObject_Item     $04, $1D, $C612, Item_Empty, $FC
+  AddDungeonObject_Meseta   $05, $5B, $C613, 10
+  AddDungeonObject_Meseta   $05, $A1, $C614, 5
+  AddDungeonObject_Item     $05, $A3, $C615, Item_Empty, $FF
+  AddDungeonObject_Item     $05, $DD, $C616, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $05, $5B, $C617, 100
+  AddDungeonObject_Meseta   $05, $A1, $C618, 50
+  AddDungeonObject_Meseta   $06, $55, $C619, 35
+  AddDungeonObject_Item     $06, $93, $C61A, Item_Empty, $FC
+  AddDungeonObject_Meseta   $06, $55, $C61B, 100
+  AddDungeonObject_Meseta   $06, $29, $C61C, 10
+  AddDungeonObject_Item     $07, $65, $C61D, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $07, $AC, $C61E, 100
+  AddDungeonObject_Meseta   $07, $AC, $C61F, 500
+  AddDungeonObject_Item     $07, $89, $C620, Item_Empty, $FF
+  AddDungeonObject_Battle   $08, $29, $C6C2, Enemy_SkullSoldier, Item_Empty
+  AddDungeonObject_Battle   $08, $65, $C6C3, Enemy_Herex, Item_Empty
+  AddDungeonObject_Item     $08, $C3, $C621, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $08, $C5, $C622, 50
+  AddDungeonObject_Item     $08, $EE, $C623, Item_Empty, $FF
+  AddDungeonObject_Item     $09, $64, $C624, Item_PelorieMate, $00
+  AddDungeonObject_Item     $09, $EE, $C625, Item_Ruoginin, $00
+  AddDungeonObject_Item     $09, $91, $C626, Item_LightPendant, $00
+  AddDungeonObject_Battle   $0A, $48, $C6C4, Enemy_BitingFly, Item_Empty
+  AddDungeonObject_Item     $0A, $61, $C627, Item_Empty, $FF
+  AddDungeonObject_Battle   $0A, $67, $C6C5, Enemy_Medusa, Item_Weapon_LaconianAxe
+  AddDungeonObject_Item     $0A, $EE, $C628, Item_PelorieMate, $00
+  AddDungeonObject_Meseta   $0A, $17, $C629, 500
+  AddDungeonObject_Meseta   $0A, $E3, $C62A, 500
+  AddDungeonObject_Item     $0A, $A9, $C62B, Item_EscapeCloth, $00
+  AddDungeonObject_Item     $0A, $AB, $C62C, Item_Empty, $FC
+  AddDungeonObject_Item     $0B, $71, $C62D, Item_Weapon_ShortSword, $00
+  AddDungeonObject_Item     $0B, $ED, $C62E, Item_Weapon_LightSaber, $00
+  AddDungeonObject_Item     $0B, $1C, $C62F, Item_Ruoginin, $00
+  AddDungeonObject_Item     $0B, $63, $C630, Item_Weapon_IronSword, $00
+  AddDungeonObject_Item     $0C, $11, $C631, Item_MiracleKey, $FC
+  AddDungeonObject_Meseta   $0C, $2B, $C632, 20
+  AddDungeonObject_Battle   $0C, $39, $C6C6, Enemy_BatMan, Item_Empty
+  AddDungeonObject_Battle   $0C, $85, $C6C7, Enemy_MadStalker, Item_Empty
+  AddDungeonObject_Battle   $0C, $A9, $C6C8, Enemy_MadStalker, Item_Empty
+  AddDungeonObject_Item     $0C, $A5, $C633, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $0D, $68, $C634, 100
+  AddDungeonObject_Item     $0D, $EB, $C635, Item_Weapon_IronAxe, $00
+  AddDungeonObject_Item     $0D, $EE, $C636, Item_Empty, $FC
+  AddDungeonObject_Meseta   $0D, $68, $C637, 100
+  AddDungeonObject_Item     $0D, $E8, $C638, Item_Empty, $FF
+  AddDungeonObject_Item     $0E, $11, $C639, Item_Ruoginin, $00
+  AddDungeonObject_Item     $0E, $41, $C63A, Item_Empty, $FF
+  AddDungeonObject_Item     $0E, $AC, $C63B, Item_Ruoginin, $00
+  AddDungeonObject_Item     $0E, $E9, $C63C, Item_Empty, $FC
+  AddDungeonObject_Item     $0F, $EE, $C63D, Item_Ruoginin, $00
+  AddDungeonObject_Item     $10, $1E, $C63E, Item_PelorieMate, $00
+  AddDungeonObject_Item     $10, $8B, $C63F, Item_Empty, $FC
+  AddDungeonObject_Item     $10, $61, $C640, Item_Searchlight, $00
+  AddDungeonObject_Item     $10, $9C, $C641, Item_Searchlight, $00
+  AddDungeonObject_Battle   $10, $C7, $C6C9, Enemy_Skeleton, Item_Weapon_SilverTusk
+  AddDungeonObject_Item     $10, $D1, $C642, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $11, $26, $C643, 10
+  AddDungeonObject_Meseta   $11, $5E, $C644, 50
+  AddDungeonObject_Meseta   $11, $71, $C645, 20
+  AddDungeonObject_Meseta   $11, $7D, $C646, 20
+  AddDungeonObject_Meseta   $11, $26, $C647, 20
+  AddDungeonObject_Item     $12, $19, $C648, Item_Empty, $FC
+  AddDungeonObject_Item     $12, $1E, $C649, Item_PelorieMate, $00
+  AddDungeonObject_Item     $12, $CC, $C64A, Item_Searchlight, $00
+  AddDungeonObject_Item     $12, $77, $C64B, Item_Weapon_ShortSword, $00
+  AddDungeonObject_Meseta   $12, $92, $C64C, 20
+  AddDungeonObject_Item     $12, $94, $C64D, Item_Empty, $FF
+  AddDungeonObject_Item     $13, $1E, $C64E, Item_PelorieMate, $00
+  AddDungeonObject_Meseta   $13, $33, $C64F, 20
+  AddDungeonObject_Item     $13, $A5, $C650, Item_Empty, $00
+  AddDungeonObject_Item     $13, $EC, $C651, Item_Empty, $7F
+  AddDungeonObject_Meseta   $13, $EC, $C652, 20
+  AddDungeonObject_Dialogue $14, $41, $C50D, $93, $00 ; _room_93_55AB
+  AddDungeonObject_Dialogue $15, $55, $C50E, $91, $0F ; _room_91_DrasgoCave2
+  AddDungeonObject_Dialogue $15, $A1, $C50F, $90, $29 ; _room_90_DrasgoCave1
+  AddDungeonObject_Dialogue $15, $C8, $C518, $16, $00 ; _room_16_MadDoctor
+  AddDungeonObject_Meseta   $16, $3E, $C653, 100
+  AddDungeonObject_Item     $16, $5E, $C654, Item_Empty, $FC
+  AddDungeonObject_Item     $16, $81, $C655, Item_Searchlight, $00
+  AddDungeonObject_Item     $16, $C8, $C656, Item_EscapeCloth, $00
+  AddDungeonObject_Meseta   $17, $AA, $C657, 20
+  AddDungeonObject_Meseta   $17, $AA, $C658, 200
+  AddDungeonObject_Item     $18, $16, $C659, Item_Empty, $FF
+  AddDungeonObject_Battle   $18, $1C, $C6CA, Enemy_RedSlime, Item_Empty
+  AddDungeonObject_Item     $19, $1A, $C65A, Item_Ruoginin, $00
+  AddDungeonObject_Item     $19, $B9, $C65B, Item_Empty, $FF
+  AddDungeonObject_Meseta   $19, $35, $C65C, 100
+  AddDungeonObject_Meseta   $19, $C3, $C65D, 1
+  AddDungeonObject_Item     $19, $74, $C65E, Item_Ruoginin, $00
+  AddDungeonObject_Item     $19, $A3, $C65F, Item_Empty, $FC
+  AddDungeonObject_Item     $1A, $1E, $C660, Item_Empty, $FC
+  AddDungeonObject_Meseta   $1A, $33, $C661, 20
+  AddDungeonObject_Item     $1A, $51, $C662, Item_Ruoginin, $00
+  AddDungeonObject_Item     $1A, $CB, $C663, Item_Empty, $00
+  AddDungeonObject_Battle   $1B, $5A, $C6CB, Enemy_RedDragon, Item_Weapon_LaconianSword
+  AddDungeonObject_Item     $1B, $E1, $C664, Item_Ruoginin, $00
+  AddDungeonObject_Battle   $1C, $1E, $C6CC, Enemy_RedDragon, Item_Empty
+  AddDungeonObject_Meseta   $1C, $31, $C665, 2000
+  AddDungeonObject_Item     $1D, $1B, $C666, Item_Searchlight, $00
+  AddDungeonObject_Item     $1D, $21, $C667, Item_Ruoginin, $00
+  AddDungeonObject_Item     $1D, $41, $C668, Item_Ruoginin, $FC
+  AddDungeonObject_Item     $1D, $8C, $C669, Item_Searchlight, $00
+  AddDungeonObject_Meseta   $1D, $CA, $C66A, 50
+  AddDungeonObject_Battle   $1D, $B1, $C6CD, Enemy_MotavianPeasant, Item_Empty
+  AddDungeonObject_Item     $1E, $1E, $C66B, Item_PelorieMate, $00
+  AddDungeonObject_Meseta   $1E, $11, $C66C, 20
+  AddDungeonObject_Dialogue $21, $94, $C511, $9B, $00 ; _room_9b_561F
+  AddDungeonObject_Meseta   $22, $11, $C66D, 500
+  AddDungeonObject_Dialogue $22, $24, $C512, $9D, $00 ; _room_9d_Tajim
+  AddDungeonObject_Item     $22, $6E, $C66E, Item_Empty, $FC
+  AddDungeonObject_Item     $22, $91, $C66F, Item_Empty, $FF
+  AddDungeonObject_Item     $22, $EA, $C670, Item_Weapon_TitaniumSword, $00
+  AddDungeonObject_Item     $22, $EE, $C671, Item_Empty, $FF
+  AddDungeonObject_Meseta   $22, $E3, $C672, 500
+  AddDungeonObject_Item     $23, $79, $C673, Item_Searchlight, $00
+  AddDungeonObject_Item     $23, $91, $C674, Item_Empty, $FC
+  AddDungeonObject_Item     $23, $C1, $C675, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $24, $47, $C676, 3000
+  AddDungeonObject_Item     $24, $11, $C677, Item_Armour_WhiteMantle, $00
+  AddDungeonObject_Item     $24, $1E, $C678, Item_Weapon_WoodCane, $00
+  AddDungeonObject_Item     $24, $EE, $C679, Item_PelorieMate, $00
+  AddDungeonObject_Battle   $25, $1D, $C6CE, Enemy_DragonWise, Item_CarbuncleEye
+  AddDungeonObject_Meseta   $25, $86, $C67A, 100
+  AddDungeonObject_Item     $25, $8A, $C67B, Item_Empty, $FC
+  AddDungeonObject_Meseta   $25, $3E, $C67C, 100
+  AddDungeonObject_Meseta   $26, $7B, $C67D, 5000
+  AddDungeonObject_Battle   $27, $9E, $C6CF, Enemy_RedDragon, Item_Weapon_LightSaber
+  AddDungeonObject_Meseta   $27, $71, $C67E, 500
+  AddDungeonObject_Meseta   $28, $D1, $C67F, 500
+  AddDungeonObject_Battle   $29, $67, $C6D0, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Battle   $29, $79, $C6D1, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Item     $29, $99, $C680, Item_Ruoginin, $00
+  AddDungeonObject_Battle   $29, $A4, $C6D2, Enemy_Wight, Item_Empty
+  AddDungeonObject_Battle   $29, $D5, $C6D3, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Battle   $2A, $53, $C6D4, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Battle   $2A, $73, $C6D5, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Battle   $2A, $B1, $C6D6, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Dialogue $2A, $DB, $C513, $A4, $00 ; _room_a4_CoronoTowerDezorian1
+  AddDungeonObject_Item     $2A, $99, $C681, Item_Armour_LaconianArmor, $7F
+  AddDungeonObject_Item     $2B, $79, $C682, Item_EscapeCloth, $00
+  AddDungeonObject_Item     $2C, $45, $C683, Item_Empty, $FC
+  AddDungeonObject_Item     $2C, $ED, $C684, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $2C, $4B, $C685, 500
+  AddDungeonObject_Meseta   $2D, $18, $C686, 20
+  AddDungeonObject_Item     $2D, $83, $C687, Item_PelorieMate, $00
+  AddDungeonObject_Item     $2D, $AD, $C688, Item_Searchlight, $00
+  AddDungeonObject_Meseta   $2D, $E3, $C689, 20
+  AddDungeonObject_Item     $2D, $A3, $C68A, Item_Empty, $FF
+  AddDungeonObject_Item     $2F, $11, $C68B, Item_Shield_LaconianShield, $7F
+  AddDungeonObject_Item     $2F, $2B, $C68C, Item_Empty, $FF
+  AddDungeonObject_Item     $2F, $73, $C68D, Item_Empty, $FC
+  AddDungeonObject_Meseta   $2F, $D6, $C68E, 100
+  AddDungeonObject_Item     $32, $3B, $C68F, Item_Empty, $FC
+  AddDungeonObject_Item     $33, $19, $C690, Item_Empty, $FF
+  AddDungeonObject_Battle   $33, $D9, $C6D7, $0B, Item_Empty
+  AddDungeonObject_Meseta   $34, $16, $C691, 50
+  AddDungeonObject_Item     $34, $1E, $C692, Item_MagicHat, $00
+  AddDungeonObject_Item     $34, $EE, $C693, Item_Shield_CeramicShield, $00
+  AddDungeonObject_Dialogue $34, $C3, $C514, $A6, $00 ; _room_a6_CoronaDungeonDishonestDezorian
+  AddDungeonObject_Dialogue $35, $C2, $C517, $9E, $00 ; _room_9e_ShadowWarrior
+  AddDungeonObject_Battle   $3A, $79, $C6D8, Enemy_Golem, Item_Aeroprism
+  AddDungeonObject_Item     $3A, $82, $C694, Item_MagicHat, $00
 .db $FF
 
 ; Data from F473 to F5B8 (326 bytes)
@@ -21244,69 +20527,69 @@ DungeonPalettes:
   DungeonMonsterPoolIndex db
   PaletteNumber db
   Music db
-.ends
+.endst
 DungeonData1:
-.dstruct foo instanceof DungeonData data $19 $5B $03 $86 ; 0
-.dstruct foo instanceof DungeonData data $00 $00 $04 $86
-.dstruct foo instanceof DungeonData data $00 $00 $01 $86
-.dstruct foo instanceof DungeonData data $19 $56 $00 $91
-.dstruct foo instanceof DungeonData data $19 $53 $00 $91
-.dstruct foo instanceof DungeonData data $19 $5E $00 $91
-.dstruct foo instanceof DungeonData data $19 $53 $00 $91
-.dstruct foo instanceof DungeonData data $19 $55 $00 $91
-.dstruct foo instanceof DungeonData data $19 $57 $00 $91
-.dstruct foo instanceof DungeonData data $19 $57 $00 $91
-.dstruct foo instanceof DungeonData data $19 $53 $00 $91 ; 10
-.dstruct foo instanceof DungeonData data $19 $56 $00 $91
-.dstruct foo instanceof DungeonData data $19 $56 $00 $91
-.dstruct foo instanceof DungeonData data $19 $55 $00 $91
-.dstruct foo instanceof DungeonData data $19 $57 $00 $91
-.dstruct foo instanceof DungeonData data $00 $00 $00 $91
-.dstruct foo instanceof DungeonData data $19 $5C $03 $86
-.dstruct foo instanceof DungeonData data $19 $5C $03 $86
-.dstruct foo instanceof DungeonData data $19 $5C $03 $86
-.dstruct foo instanceof DungeonData data $19 $5C $03 $86
-.dstruct foo instanceof DungeonData data $00 $00 $02 $86 ; 20
-.dstruct foo instanceof DungeonData data $00 $00 $02 $86
-.dstruct foo instanceof DungeonData data $19 $4D $03 $86
-.dstruct foo instanceof DungeonData data $19 $4D $01 $91
-.dstruct foo instanceof DungeonData data $19 $5D $01 $91
-.dstruct foo instanceof DungeonData data $19 $5D $01 $91
-.dstruct foo instanceof DungeonData data $19 $5E $01 $91
-.dstruct foo instanceof DungeonData data $19 $53 $01 $91
-.dstruct foo instanceof DungeonData data $19 $4B $06 $86
-.dstruct foo instanceof DungeonData data $19 $4B $06 $86
-.dstruct foo instanceof DungeonData data $19 $4B $06 $86 ; 30
-.dstruct foo instanceof DungeonData data $19 $54 $05 $85
-.dstruct foo instanceof DungeonData data $19 $58 $05 $85
-.dstruct foo instanceof DungeonData data $00 $00 $05 $85
-.dstruct foo instanceof DungeonData data $19 $52 $06 $86
-.dstruct foo instanceof DungeonData data $19 $4F $06 $86
-.dstruct foo instanceof DungeonData data $19 $4B $06 $86
-.dstruct foo instanceof DungeonData data $19 $50 $06 $86
-.dstruct foo instanceof DungeonData data $19 $50 $06 $86
-.dstruct foo instanceof DungeonData data $19 $4B $06 $86
-.dstruct foo instanceof DungeonData data $19 $4C $09 $86 ; 40
-.dstruct foo instanceof DungeonData data $19 $51 $09 $86
-.dstruct foo instanceof DungeonData data $19 $51 $09 $86
-.dstruct foo instanceof DungeonData data $19 $52 $07 $91
-.dstruct foo instanceof DungeonData data $19 $4F $07 $91
-.dstruct foo instanceof DungeonData data $19 $4F $07 $91
-.dstruct foo instanceof DungeonData data $19 $56 $07 $91
-.dstruct foo instanceof DungeonData data $19 $50 $08 $86
-.dstruct foo instanceof DungeonData data $19 $51 $08 $86
-.dstruct foo instanceof DungeonData data $19 $4F $08 $86
-.dstruct foo instanceof DungeonData data $19 $5A $08 $86 ; 50
-.dstruct foo instanceof DungeonData data $19 $59 $08 $86
-.dstruct foo instanceof DungeonData data $19 $59 $08 $86
-.dstruct foo instanceof DungeonData data $19 $55 $05 $91
-.dstruct foo instanceof DungeonData data $19 $53 $05 $91
-.dstruct foo instanceof DungeonData data $19 $57 $05 $91
-.dstruct foo instanceof DungeonData data $19 $57 $05 $91
-.dstruct foo instanceof DungeonData data $19 $58 $05 $91
-.dstruct foo instanceof DungeonData data $19 $59 $09 $86
-.dstruct foo instanceof DungeonData data $19 $01 $0A $91
-.dstruct foo instanceof DungeonData data $19 $01 $02 $91 ; 60
+.dstruct instanceof DungeonData data $19 $5B $03 MusicDungeon ; 0
+.dstruct instanceof DungeonData data $00 $00 $04 MusicDungeon
+.dstruct instanceof DungeonData data $00 $00 $01 MusicDungeon
+.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $53 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $5E $00 MusicTower
+.dstruct instanceof DungeonData data $19 $53 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $55 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $53 $00 MusicTower ; 10
+.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $55 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
+.dstruct instanceof DungeonData data $00 $00 $00 MusicTower
+.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
+.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
+.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
+.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
+.dstruct instanceof DungeonData data $00 $00 $02 MusicDungeon ; 20
+.dstruct instanceof DungeonData data $00 $00 $02 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4D $03 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4D $01 MusicTower
+.dstruct instanceof DungeonData data $19 $5D $01 MusicTower
+.dstruct instanceof DungeonData data $19 $5D $01 MusicTower
+.dstruct instanceof DungeonData data $19 $5E $01 MusicTower
+.dstruct instanceof DungeonData data $19 $53 $01 MusicTower
+.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon ; 30
+.dstruct instanceof DungeonData data $19 $54 $05 MusicFinalDungeon
+.dstruct instanceof DungeonData data $19 $58 $05 MusicFinalDungeon
+.dstruct instanceof DungeonData data $00 $00 $05 MusicFinalDungeon
+.dstruct instanceof DungeonData data $19 $52 $06 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4F $06 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
+.dstruct instanceof DungeonData data $19 $50 $06 MusicDungeon
+.dstruct instanceof DungeonData data $19 $50 $06 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4C $09 MusicDungeon ; 40
+.dstruct instanceof DungeonData data $19 $51 $09 MusicDungeon
+.dstruct instanceof DungeonData data $19 $51 $09 MusicDungeon
+.dstruct instanceof DungeonData data $19 $52 $07 MusicTower
+.dstruct instanceof DungeonData data $19 $4F $07 MusicTower
+.dstruct instanceof DungeonData data $19 $4F $07 MusicTower
+.dstruct instanceof DungeonData data $19 $56 $07 MusicTower
+.dstruct instanceof DungeonData data $19 $50 $08 MusicDungeon
+.dstruct instanceof DungeonData data $19 $51 $08 MusicDungeon
+.dstruct instanceof DungeonData data $19 $4F $08 MusicDungeon
+.dstruct instanceof DungeonData data $19 $5A $08 MusicDungeon ; 50
+.dstruct instanceof DungeonData data $19 $59 $08 MusicDungeon
+.dstruct instanceof DungeonData data $19 $59 $08 MusicDungeon
+.dstruct instanceof DungeonData data $19 $55 $05 MusicTower
+.dstruct instanceof DungeonData data $19 $53 $05 MusicTower
+.dstruct instanceof DungeonData data $19 $57 $05 MusicTower
+.dstruct instanceof DungeonData data $19 $57 $05 MusicTower
+.dstruct instanceof DungeonData data $19 $58 $05 MusicTower
+.dstruct instanceof DungeonData data $19 $59 $09 MusicDungeon
+.dstruct instanceof DungeonData data $19 $01 $0A MusicTower
+.dstruct instanceof DungeonData data $19 $01 $02 MusicTower ; 60
 
 
 .dsb 10,$00
@@ -21331,13 +20614,11 @@ _DATA_F717_:
 .db $00 $00 $00 $00 $02 $04 $B0 $04 $0D $18 $10 $1D $E4 $0C $02 $27
 .db $14 $00 $2A $14 $00 $2E $1E $00 $01 $24 $0A $00 $25 $28 $00 $00
 .db $00 $00 $00 $23 $E0 $2E $00 $00 $00 $00 $00 $00 $02 $27 $14 $00
-.db $28 $0A $00 $29 $30 $00 $00 $00 $0C $00
+.db $28 $0A $00 $29 $30 $00 
 
-; Pointer Table from F833 to F836 (2 entries,indexed by ItemTableIndex)
-_DATA_F833_:
-.dw _DATA_F_ _DATA_25_
-
-; Data from F837 to F8A6 (112 bytes)
+_DATA_B82F_ItemSellingPrices:
+; 0 means you can't sell it
+.dw $0000 $000C $000f $0025
 .db $58 $02 $5E $01 $20 $00 $A0 $00 $30 $02 $C8 $00 $2A $03 $02 $03
 .db $D2 $05 $0C $08 $F4 $01 $86 $01 $0E $00 $27 $00 $91 $00 $2A $00
 .db $3B $01 $F4 $01 $4C $1D $EA $01 $A4 $01 $0F $00 $9B $00 $04 $01
@@ -26341,7 +25622,7 @@ TilesSuccubus:
 .org $0
 
 ; Data from 50000 to 50007 (8 bytes)
-_DATA_50000_:
+Palette_TreasureChest:
 .db $12 $06 $1A $01 $25 $2F $2A $02
 
 ; Data from 50008 to 53DBB (15796 bytes)

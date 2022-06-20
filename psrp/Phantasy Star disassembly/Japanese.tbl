@@ -75,17 +75,16 @@
 4a=ペ
 4b=ポ
 4c=。
-4d=-
+4d=ー
 
-4f=$N
-50=$E
-51=$I
-52=$#
-53=$$
-54=\n
-55=$B
-56=$0
-57=$1
-58=$2
-
-
+; Scripting codes
+4f=<player>
+50=<monster>
+51=<item>
+52=<number>
+53=<blank>
+54=<line>
+55=<wait more>
+56=<end>
+57=<delay>
+58=<wait>
