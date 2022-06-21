@@ -3480,7 +3480,10 @@
 - offsets: 5856
   # Villager guarding open field (no Luveno/Hapsby)
   indices: 282
-  ja: ラ　サキハ　ボクノ<line>
+  # Also pointed to by indices 27c, 27e, 280 but these aren't used.
+  ja: |
+    ココカラ　サキハ　ボクノ<line>
+    ナワバリダカラ　トオセナイヨーダ。<wait>
   translated: The area beyond here is my territory, so stay the hell out!
   us: |
     YOU CANNOT COME<line>
@@ -3498,7 +3501,9 @@
 - offsets: 585c
   # Villager guarding open field (have Luveno/Hapsby)
   indices: 284
-  ja: ルベノハカセガ　イウノダッタラ<line>
+  ja: |
+    ルベノハカセガ　イウノダッタラ<line>
+    ショウガナイ。　トオッテモイイヨ。<wait>
   translated: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.
   us: |
     WELL,IF DR.LUVENO<line>
@@ -8104,40 +8109,6 @@
     Alisa hat ihre Aufgabe und somit auch Neros Sterbens-<line>wunsch erfüllt. Ein neues Zeitalter kann nun beginnen.<wait more>
     Alles, was jetzt noch zu tun ist, ist, dem General-<line>gouverneur in Paseo davon zu berichten!<wait>
 
-- offsets: # Unreachable?
-  indices: 27c,27e,280,282
-  ja: |
-    ココカラ　サキハ　ボクノ<line>
-    ナワバリダカラ　トオセナイヨーダ。<wait>
-  translated: (missing)
-  us: |
-    ALRIGHT! YOU SAVED
-    ALL OF Algol!<end>
-
-- offsets: # Unreachable?
-  indices: 284
-  ja: |
-    ルベノハカセガ　イウノダッタラ<line>
-    ショウガナイ。　トオッテモイイヨ。<wait>
-  translated: (missing)
-  us: |
-    WE ARE  ALL<line>
-    THANKFUL FOR YOUR <wait more>
-    BRAVE DEEDS! WE<line>
-    LOVE YOU !<end>
-
-- offsets: # Unreachable?
-  indices: 280
-  ja: |
-    モタビアセイニハ　モタビアン<line>
-    デゾリスセイニハ　デゾリアン　トイウ<wait more>
-    セイジンガ　スンデイルソウダヨ。<line>
-    イチド　アッテ　ハナシテミタイナ。<wait>
-  translated: (missing)
-  us: |
-    REPORT QUICKLY TO<line>
-    THE GOVERNOR!<end>
-
 
 # **************
 # *** Ending ***
@@ -10901,3 +10872,25 @@
     In diesem Moment hörte Alisa Neros Stimme von weit weg.<wait more>
     „Gib noch nicht auf. Die Leute brauchen dich!“<wait more>
     Alisa lebt wieder.<wait>
+
+# There are a few unused script entries in the US script that are not present at all in the Japanese version:
+
+- offsets: # Unused
+  indices: 27C
+  us: |
+    ALRIGHT! YOU SAVED
+    ALL OF Algol!<end>
+
+- offsets: # Unused
+  indices: 27E
+  us: |
+    WE ARE  ALL<line>
+    THANKFUL FOR YOUR<wait more>
+    BRAVE DEEDS! WE<line>
+    LOVE YOU!<end>
+
+- offsets: # Unused
+  indices: 280
+  us: |
+    REPORT QUICKLY TO<line>
+    THE GOVERNOR!<end>
