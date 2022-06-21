@@ -7495,7 +7495,7 @@ _CharacterNames:
 .stringmap script "アリサ<wait>"
 .stringmap script "ミャウ<wait>"
 .stringmap script "タイロン"
-.stringmap script "ルツ$2　"
+.stringmap script "ルツ<wait>　"
 
   -:dec hl             ; move pointer back <-+
     jp _NextLine       ; ------------------------------------------+
@@ -18232,8 +18232,13 @@ _DATA_C000_:
 
 ; Data from C178 to C46F (760 bytes)
 _DATA_C180_MonsterPools:
-.dsb 5 Enemy_MonsterFly \ .dsb 3 Enemy_Scorpius
-.dsb 2 Enemy_MonsterFly \ .dsb 2 Enemy_Maneater \ .dsb 4 Enemy_Scorpius
+.dsb 5 Enemy_MonsterFly
+.dsb 3 Enemy_Scorpius
+
+.dsb 2 Enemy_MonsterFly
+.dsb 2 Enemy_Maneater
+.dsb 4 Enemy_Scorpius
+
 .db Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_Maneater Enemy_Maneater Enemy_Maneater Enemy_Maneater Enemy_Lich
 .db Enemy_MonsterFly Enemy_MonsterFly Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_Lich
 .db Enemy_MonsterFly Enemy_GiantNaiad Enemy_GiantNaiad Enemy_GiantNaiad Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant
@@ -20592,68 +20597,76 @@ DungeonPalettes:
   PaletteNumber db
   Music db
 .endst
+.macro AddDungeonData
+.dstruct instanceof DungeonData values
+  BattleProbability:       .db \1
+  DungeonMonsterPoolIndex: .db \2
+  PaletteNumber:           .db \3
+  Music:                   .db \4
+.endst
+.endm
 DungeonData1:
-.dstruct instanceof DungeonData data $19 $5B $03 MusicDungeon ; 0
-.dstruct instanceof DungeonData data $00 $00 $04 MusicDungeon
-.dstruct instanceof DungeonData data $00 $00 $01 MusicDungeon
-.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $5E $00 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $55 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $00 MusicTower ; 10
-.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $55 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
-.dstruct instanceof DungeonData data $00 $00 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
-.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
-.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
-.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
-.dstruct instanceof DungeonData data $00 $00 $02 MusicDungeon ; 20
-.dstruct instanceof DungeonData data $00 $00 $02 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4D $03 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4D $01 MusicTower
-.dstruct instanceof DungeonData data $19 $5D $01 MusicTower
-.dstruct instanceof DungeonData data $19 $5D $01 MusicTower
-.dstruct instanceof DungeonData data $19 $5E $01 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $01 MusicTower
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon ; 30
-.dstruct instanceof DungeonData data $19 $54 $05 MusicFinalDungeon
-.dstruct instanceof DungeonData data $19 $58 $05 MusicFinalDungeon
-.dstruct instanceof DungeonData data $00 $00 $05 MusicFinalDungeon
-.dstruct instanceof DungeonData data $19 $52 $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4F $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $50 $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $50 $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4C $09 MusicDungeon ; 40
-.dstruct instanceof DungeonData data $19 $51 $09 MusicDungeon
-.dstruct instanceof DungeonData data $19 $51 $09 MusicDungeon
-.dstruct instanceof DungeonData data $19 $52 $07 MusicTower
-.dstruct instanceof DungeonData data $19 $4F $07 MusicTower
-.dstruct instanceof DungeonData data $19 $4F $07 MusicTower
-.dstruct instanceof DungeonData data $19 $56 $07 MusicTower
-.dstruct instanceof DungeonData data $19 $50 $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $51 $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4F $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $5A $08 MusicDungeon ; 50
-.dstruct instanceof DungeonData data $19 $59 $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $59 $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $55 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $58 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $59 $09 MusicDungeon
-.dstruct instanceof DungeonData data $19 $01 $0A MusicTower
-.dstruct instanceof DungeonData data $19 $01 $02 MusicTower ; 60
+  AddDungeonData $19 $5B $03 MusicDungeon ; 0
+  AddDungeonData $00 $00 $04 MusicDungeon
+  AddDungeonData $00 $00 $01 MusicDungeon
+  AddDungeonData $19 $56 $00 MusicTower
+  AddDungeonData $19 $53 $00 MusicTower
+  AddDungeonData $19 $5E $00 MusicTower
+  AddDungeonData $19 $53 $00 MusicTower
+  AddDungeonData $19 $55 $00 MusicTower
+  AddDungeonData $19 $57 $00 MusicTower
+  AddDungeonData $19 $57 $00 MusicTower
+  AddDungeonData $19 $53 $00 MusicTower ; 10
+  AddDungeonData $19 $56 $00 MusicTower
+  AddDungeonData $19 $56 $00 MusicTower
+  AddDungeonData $19 $55 $00 MusicTower
+  AddDungeonData $19 $57 $00 MusicTower
+  AddDungeonData $00 $00 $00 MusicTower
+  AddDungeonData $19 $5C $03 MusicDungeon
+  AddDungeonData $19 $5C $03 MusicDungeon
+  AddDungeonData $19 $5C $03 MusicDungeon
+  AddDungeonData $19 $5C $03 MusicDungeon
+  AddDungeonData $00 $00 $02 MusicDungeon ; 20
+  AddDungeonData $00 $00 $02 MusicDungeon
+  AddDungeonData $19 $4D $03 MusicDungeon
+  AddDungeonData $19 $4D $01 MusicTower
+  AddDungeonData $19 $5D $01 MusicTower
+  AddDungeonData $19 $5D $01 MusicTower
+  AddDungeonData $19 $5E $01 MusicTower
+  AddDungeonData $19 $53 $01 MusicTower
+  AddDungeonData $19 $4B $06 MusicDungeon
+  AddDungeonData $19 $4B $06 MusicDungeon
+  AddDungeonData $19 $4B $06 MusicDungeon ; 30
+  AddDungeonData $19 $54 $05 MusicFinalDungeon
+  AddDungeonData $19 $58 $05 MusicFinalDungeon
+  AddDungeonData $00 $00 $05 MusicFinalDungeon
+  AddDungeonData $19 $52 $06 MusicDungeon
+  AddDungeonData $19 $4F $06 MusicDungeon
+  AddDungeonData $19 $4B $06 MusicDungeon
+  AddDungeonData $19 $50 $06 MusicDungeon
+  AddDungeonData $19 $50 $06 MusicDungeon
+  AddDungeonData $19 $4B $06 MusicDungeon
+  AddDungeonData $19 $4C $09 MusicDungeon ; 40
+  AddDungeonData $19 $51 $09 MusicDungeon
+  AddDungeonData $19 $51 $09 MusicDungeon
+  AddDungeonData $19 $52 $07 MusicTower
+  AddDungeonData $19 $4F $07 MusicTower
+  AddDungeonData $19 $4F $07 MusicTower
+  AddDungeonData $19 $56 $07 MusicTower
+  AddDungeonData $19 $50 $08 MusicDungeon
+  AddDungeonData $19 $51 $08 MusicDungeon
+  AddDungeonData $19 $4F $08 MusicDungeon
+  AddDungeonData $19 $5A $08 MusicDungeon ; 50
+  AddDungeonData $19 $59 $08 MusicDungeon
+  AddDungeonData $19 $59 $08 MusicDungeon
+  AddDungeonData $19 $55 $05 MusicTower
+  AddDungeonData $19 $53 $05 MusicTower
+  AddDungeonData $19 $57 $05 MusicTower
+  AddDungeonData $19 $57 $05 MusicTower
+  AddDungeonData $19 $58 $05 MusicTower
+  AddDungeonData $19 $59 $09 MusicDungeon
+  AddDungeonData $19 $01 $0A MusicTower
+  AddDungeonData $19 $01 $02 MusicTower ; 60
 
 
 .dsb 10,$00
