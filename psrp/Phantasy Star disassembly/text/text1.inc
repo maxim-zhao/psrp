@@ -1645,7 +1645,7 @@ textPlayersSpellHadNoEffect:
 .stringmap script "<player>ノ　マジックハ<line>"
 .stringmap script "コウカガ　ナカッタ。<delay>"
 
-textUnused5:
+textUnused3:
 .stringmap script "<monster>ノ　マジックハ<line>"
 .stringmap script "コウカガ　ナカッタ。<delay>"
 ; Monster's spell had no effect
@@ -1748,7 +1748,7 @@ textSootheFluteCalmedMonster:
 .stringmap script "<monster>ハ　フエノネヲ<line>"
 .stringmap script "キイテ　オトナシクナッタ。<delay>"
 
-textUnused6:
+textUnused4:
 .stringmap script "<monster>ハ　メガ　ウツロダ。<delay>"
 ; Monster's eyes looked vacant
 
@@ -1933,7 +1933,7 @@ textHapsby_ThisIsUzo:
 textHapsby_ThisIsGothic:
 .stringmap script "ココハ　ガシコ　デス。<end>"
 
-textUnused7:
+textUnused5:
 .stringmap script "シュッパーツ。<delay>"
 ; Let's go! (in context of Hapsby flying Luveno)
 
@@ -2010,7 +2010,7 @@ textChurch:
 .stringmap script "ココハ　キョウカイデス。　ダレカノ<line>"
 .stringmap script "タマシイヲ　ヨビモドサレマスカ。<end>"
 
-textUnused8:
+textUnused6:
 .stringmap script "デハ　アナタノタメニ<line>"
 .stringmap script "オイノリヲ　ササゲマス。<wait>"
 ; I shall pray for you
@@ -2194,7 +2194,7 @@ textChooseSlotToContinue:
 textContinuingGameX:
 .stringmap script "デハ　<number>バンノゲームヲ　ハジメマス。<delay>"
 
-textUnused9:
+textUnused7:
 .stringmap script "パスワードガ　チガイマス。<line>"
 .stringmap script "モウイチド　タシカメテクダサイ。<wait>"
 ; That password is incorrect. Please try again.

@@ -180,7 +180,7 @@ _RAM_C263_ db                 ; Scrollingtilemap data page(?)
 ScrollDirection db            ; Scroll direction; %----RLDU
 PaletteRotateEnabled .db      ; Palette rotation enabled if non-zero
 WalkingMovementCounter db     ; Counter for movement
-_RAM_C267_ db
+_RAM_C267_MagicPlayer db
 CursorEnabled db              ; $ff if cursor showing,$00 otherwise
 CursorTileMapAddress dw       ; Address of low byte of top cursor position in tilemap
 CursorPos db                  ; How many rows to shift cursor down
@@ -3096,7 +3096,7 @@ _LABEL_119F_:
     ld a,$FF
     ld (_RAM_C29D_InBattle),a
     xor a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ld (_RAM_C2D4_),a
     call ShowCombatMenu
     call _LABEL_3041_
@@ -3108,9 +3108,9 @@ _LABEL_11D0_:
     or a
     jp nz,+
 _LABEL_11DC_:
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     jp ++
 
 +:  ld de,$000C
@@ -3131,13 +3131,13 @@ _LABEL_11DC_:
     ld hl,_DATA_1A6E_
     call FunctionLookup
     call _LABEL_3035_
-++:  ld a,(_RAM_C267_)
+++:  ld a,(_RAM_C267_MagicPlayer)
     cp $04
     jp c,_LABEL_11D0_
     cp $05
     jp nc,_LABEL_179A_
     xor a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     call _LABEL_321F_
     call CloseMenu
     call _LABEL_1A4E_
@@ -3180,7 +3180,7 @@ _LABEL_1232_:
 +:  pop hl
     pop bc
     inc hl
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     cp $05
     jp z,_LABEL_179A_
     djnz _LABEL_1232_
@@ -3188,11 +3188,11 @@ _LABEL_1232_:
 
 _LABEL_127D_:
     call _LABEL_3035_
--:  ld a,(_RAM_C267_)
+-:  ld a,(_RAM_C267_MagicPlayer)
     or a
     jr z,+
     dec a
-+:  ld (_RAM_C267_),a
++:  ld (_RAM_C267_MagicPlayer),a
     jp z,_LABEL_11D0_
     call _LABEL_19D6_
     jp z,-
@@ -3208,7 +3208,7 @@ _LABEL_127D_:
     jp _LABEL_11D0_
 
 _LABEL_12A4_:
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     call _LABEL_19D6_
     ret z
     ld a,(_RAM_C2D4_)
@@ -3222,7 +3222,7 @@ _LABEL_12A4_:
     ld a,(iy+13)
     or a
     jr z,++
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     call GetRandomNumber
     and $01
@@ -3244,7 +3244,7 @@ _LABEL_12A4_:
     call _LABEL_1D2A_ ; Look up data from _RAM_C2AC_
     cp $01
     jp nz,_LABEL_1338_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     add a,a
     add a,a
@@ -3299,7 +3299,7 @@ _LABEL_1338_:
 
 +:  cp $04
     jp nz,_LABEL_1367_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     ld a,b
     ld (ItemTableIndex),a
@@ -4088,7 +4088,7 @@ _ItemStrengths:
 .orga $19d6
 
 _LABEL_19D6_:
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
 PointHLToCharacterInA:
     push af
     add a,a
@@ -4192,9 +4192,9 @@ _LABEL_1A78_:
     ld bc,$0001
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 ; 4th entry of Jump Table from 1A6E (indexed by CursorPos)
@@ -4202,7 +4202,7 @@ _LABEL_1A87_:
     call _LABEL_3035_
     call _LABEL_321F_
     call CloseMenu
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     ld hl,textPlayerSpeaks
     call TextBox20x6
@@ -4216,7 +4216,7 @@ _LABEL_1A87_:
     jr nc,_LABEL_1AC0_
 _LABEL_1AAD_:
     ld a,$04
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ld a,$FF
     ld (_RAM_C2D4_),a
     ld hl,textMonsterDoesntUnderstand
@@ -4242,7 +4242,7 @@ _LABEL_1AC0_:
     ld l,a
     call TextBox20x6
     ld a,$06
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     jp Close20x6TextBox
 
 ; Pointer Table from 1AE6 to 1AF7 (9 entries,indexed by random number)
@@ -4267,22 +4267,22 @@ _LABEL_1AF8_:
 +:  ld a,$BC
     ld (NewMusic),a
     ld a,$05
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
-++:  ld a,(_RAM_C267_)
+++:  ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     ld hl,textMonsterBlocksRetreat
     call TextBox20x6
     ld a,$04
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ld a,$FF
     ld (_RAM_C2D4_),a
     jp Close20x6TextBox
 
 ; 2nd entry of Jump Table from 1A6E (indexed by CursorPos)
 _LABEL_1B3A_:
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     cp Player_Tylon
     jp nz,+
@@ -4332,7 +4332,7 @@ _LABEL_1B3A_:
     ld a,(hl)
     and $1F
     ld b,a
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     jr c,++
     ld a,b
     ld hl,_DATA_1BC2_
@@ -4357,13 +4357,13 @@ _DATA_1BB3_:
 _DATA_1BC2_:
 .dw _LABEL_1C0A_ _LABEL_1C0D_ _LABEL_1C0D_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C2C_ _LABEL_1C2C_ _LABEL_1C2C_
 .dw _LABEL_1C2C_ _LABEL_1C59_ _LABEL_1C3A_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_
-.dw _LABEL_1C69_ _LABEL_1C8D_
+.dw _Magic10 _LABEL_1C8D_
 
 ; Jump Table from 1BE6 to 1C09 (18 entries,indexed by _RAM_C2AD_)
 _DATA_1BE6_:
-.dw _LABEL_1F80_ _LABEL_1FA2_ _LABEL_1FA6_ _LABEL_1FE6_ _LABEL_1FEA_ _LABEL_2003_ _LABEL_2042_ _LABEL_2081_
-.dw _LABEL_2092_ _LABEL_20DC_ _LABEL_211C_ _LABEL_213B_ _LABEL_2178_ _LABEL_21C0_ _LABEL_21ED_ _LABEL_221B_
-.dw _LABEL_1C69_ _LABEL_1C8D_
+.dw _InvalidMagicFunction _LABEL_1FA2_ _LABEL_1FA6_ _Magic03 _Magic04 _Magic05 _Magic06 _Magic07
+.dw _Magic08 _Magic09 _Magic0a _Magic0b _Magic0c_Untrap _Magic0d_Bypass _Magic0e _Magic0f
+.dw _Magic10 _LABEL_1C8D_
 
 ; 1st entry of Jump Table from 1BC2 (indexed by unknown)
 _LABEL_1C0A_:
@@ -4381,9 +4381,9 @@ _LABEL_1C0D_:
     ld c,$03
     ld b,d
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
 +:  call _LABEL_37E9_
     ret
 
@@ -4392,9 +4392,9 @@ _LABEL_1C2C_:
     ld c,$03
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 ; 11th entry of Jump Table from 1BC2 (indexed by unknown)
@@ -4409,9 +4409,9 @@ _LABEL_1C3A_:
     ld c,$03
     ld b,d
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
 +:  call _LABEL_37E9_
     ret
 
@@ -4420,15 +4420,15 @@ _LABEL_1C59_:
     ld c,$03
     ld a,(TextCharacterNumber)
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 ; 17th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1C69_:
+_Magic10:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -4448,7 +4448,7 @@ _LABEL_1C73_:
 ; 18th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
 _LABEL_1C8D_:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
 _LABEL_1C92_:
     ld a,(_RAM_C2E8_)
@@ -4476,7 +4476,7 @@ _LABEL_1C92_:
     ld l,a
     call TextBox20x6
     ld a,$06
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ld a,$D5
     ld (NewMusic),a
     jp Close20x6TextBox
@@ -4485,14 +4485,16 @@ _LABEL_1C92_:
 _monsterDialogue2:
 .dw textMonster10, textMonster11, textMonster12, textMonster13, textMonster14, textMonster15, textMonster16, textMonster17, textMonster18, textMonster19
 
-_LABEL_1CE3_:
-    ld hl,_DATA_1F38_
+CheckIfEnoughMP:
+    ; Look up a'th entry in MagicMPCosts
+    ld hl,MagicMPCosts
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
-    ld a,(_RAM_C267_)
+    ; Look up MP of the player
+    ld a,(_RAM_C267_MagicPlayer)
     add a,a
     add a,a
     add a,a
@@ -4501,6 +4503,7 @@ _LABEL_1CE3_:
     add a,e
     ld e,a
     ld a,(de)
+    ; Check if we have enough
     sub (hl)
     ret
 
@@ -4515,14 +4518,14 @@ _LABEL_1CFA_:
     ld c,$04
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 _LABEL_1D15_:
     push af
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     add a,a
     add a,a
     ld hl,$C2AC
@@ -4540,7 +4543,7 @@ _LABEL_1D15_:
     ret
 
 _LABEL_1D2A_:
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ; multiply by 4
     add a,a
     add a,a
@@ -4739,11 +4742,12 @@ _LABEL_1EA9_:
     jp nz,_LABEL_1F16_
     call ShowMessageIfDead
     jp z,_LABEL_1F16_
-    cp $02
-    jp z,_LABEL_1F21_
+    cp Player_Tylon
+    jp z,_LABEL_1F21_TaironNoMagic
     ld c,a
     ld (TextCharacterNumber),a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
+    ; Multiply by 16 to look up player's battle magic count
     add a,a
     add a,a
     add a,a
@@ -4751,46 +4755,46 @@ _LABEL_1EA9_:
     ld hl,CharacterStatsAlis.BattleMagicCount
     add a,l
     ld l,a
-    ld a,(hl)
+    ld a,(hl) ; Player's magic count
     or a
     jp z,_noMagicYet
     ld b,a
-    ld a,c
+    ld a,c ; Convert to c a magic player index (0-2)
     cp $03
     jr nz,+
     dec a
 +:  ld c,a
-    add a,$03
+    add a,$03 ; Add 3 to magic count to make a line count
     push bc
-    push hl
-    call _LABEL_3592_
-    ld hl,$7A8C
-    ld (CursorTileMapAddress),hl
-    pop hl
-    ld a,(hl)
-    dec a
-    ld (CursorMax),a
-    call WaitForMenuSelection
+      push hl
+        call _LABEL_3592_ ; Show magic menu
+        ld hl,$7A8C
+        ld (CursorTileMapAddress),hl
+      pop hl
+      ld a,(hl) ; Get magic count again
+      dec a
+      ld (CursorMax),a
+      call WaitForMenuSelection
     pop hl
     bit 4,c
     jp nz,_LABEL_1F13_
-    ld h,a
-    ld a,l
+    ld h,a ; Chosen magic index (0-based)
+    ld a,l ; l is the value from c earlier, i.e. the "magic player index"
     add a,a
     add a,a
-    add a,l
+    add a,l ; CursorMax*5+selection?
     add a,h
     ld l,a
     ld h,$00
-    ld de,_DATA_1F4B_
+    ld de,_OverworldMagicIndicesByPlayer
     add hl,de
     ld a,(hl)
     and $1F
-    ld b,a
-    call _LABEL_1CE3_
+    ld b,a ; preserve magic index
+    call CheckIfEnoughMP
     jp c,++
-    ld a,b
-    ld hl,_DATA_1F5A_
+    ld a,b ; loop up magic index in MagicFunctions
+    ld hl,MagicFunctions
     call FunctionLookup
 _LABEL_1F13_:
     call _LABEL_35E3_
@@ -4802,7 +4806,7 @@ _noMagicYet:
     ld hl,textPlayerHasNoMagicYet
     jr +
 
-_LABEL_1F21_:
+_LABEL_1F21_TaironNoMagic:
     ld hl,textTaironCantUseMagic
 +:  call TextBox20x6
     call Close20x6TextBox
@@ -4814,31 +4818,37 @@ _LABEL_1F21_:
     jr _LABEL_1F13_
 
 ; Data from 1F38 to 1F4A (19 bytes)
-_DATA_1F38_:
-.db $00 $02 $06 $06 $0A $04 $10 $0C $04 $02 $0A $02 $02 $04 $04 $0C
+MagicMPCosts: ; indexed by "magix index" (see below)
+.db $00 
+.db $02 $06 $06 $0A $04
+.db $10 $0C $04 $02 $0A 
+.db $02 $02 $04 $04 $0C
 .db $02 $04 $08
 
 ; Data from 1F4B to 1F59 (15 bytes)
-_DATA_1F4B_:
-.db $01 $12 $00 $00 $00 $02 $0C $0D $00 $00 $02 $0D $11 $0E $0F
+_OverworldMagicIndicesByPlayer:
+.db $01 $12 $00 $00 $00 ; Alisa - Heal, Troop
+.db $02 $0C $0D $00 $00 ; Myau - Super Heal, Untrap, Bypass
+.db $02 $0D $11 $0E $0F ; Lutz - Super Heal, Bypass, Telepathy, Magic Unseal, Rebirth
 
 ; Jump Table from 1F5A to 1F7F (19 entries,indexed by unknown)
-_DATA_1F5A_:
-.dw _LABEL_1F80_ _LABEL_1F83_ _LABEL_1F87_ _LABEL_1FE6_ _LABEL_1FEA_ _LABEL_2003_ _LABEL_2042_ _LABEL_2081_
-.dw _LABEL_2092_ _LABEL_20DC_ _LABEL_211C_ _LABEL_213B_ _LABEL_2178_ _LABEL_21C0_ _LABEL_21ED_ _LABEL_221B_
-.dw _LABEL_2254_ _LABEL_2254_ _LABEL_229C_
+MagicFunctions:
+.dw _InvalidMagicFunction 
+.dw _Magic01_Heal _Magic02_SuperHeal _Magic03 _Magic04 _Magic05 _Magic06 _Magic07 _Magic08
+.dw _Magic09 _Magic0a _Magic0b _Magic0c_Untrap _Magic0d_Bypass _Magic0e _Magic0f
+.dw _Magic11_Telepathy _Magic11_Telepathy _Magic12_Troop ; Note: index $10 points to _Magic_11
 
 ; 1st entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1F80_:
-    jp _LABEL_1F80_
+_InvalidMagicFunction:
+    jp _InvalidMagicFunction ; Lock up the game, invalid index!
 
 ; 2nd entry of Jump Table from 1F5A (indexed by unknown)
-_LABEL_1F83_:
+_Magic01_Heal:
     ld d,$14
     jr +
 
 ; 3rd entry of Jump Table from 1F5A (indexed by unknown)
-_LABEL_1F87_:
+_Magic02_SuperHeal:
     ld d,$50
 +:  push bc
     push de
@@ -4866,7 +4876,7 @@ _LABEL_1FA6_:
     ret z
 ++:  push de
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -4894,15 +4904,15 @@ _LABEL_1FBB_:
     jp Close20x6TextBox
 
 ; 4th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1FE6_:
+_Magic03:
     ld c,$06
     jr +
 
 ; 5th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1FEA_:
+_Magic04:
     ld c,$86
 +:  ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -4913,9 +4923,9 @@ _LABEL_1FEA_:
     jp Close20x6TextBox
 
 ; 6th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2003_:
+_Magic05:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld de,$F610
     call _LABEL_200E_
@@ -4950,9 +4960,9 @@ _LABEL_200E_:
     ret
 
 ; 7th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2042_:
+_Magic06:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld de,$D811
 _LABEL_204A_:
@@ -4990,9 +5000,9 @@ _LABEL_204A_:
     ret
 
 ; 8th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2081_:
+_Magic07:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld de,$F412
     call _LABEL_200E_
@@ -5000,9 +5010,9 @@ _LABEL_2081_:
     jp _LABEL_200E_
 
 ; 9th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2092_:
+_Magic08:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5041,9 +5051,9 @@ _LABEL_2092_:
     jp Close20x6TextBox
 
 ; 10th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_20DC_:
+_Magic09:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     xor a
     ld (ItemTableIndex),a
@@ -5070,13 +5080,13 @@ _LABEL_20E5_:
     call TextBox20x6
     call Close20x6TextBox
     ld a,$05
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 ; 11th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_211C_:
+_Magic0a:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5090,9 +5100,9 @@ _LABEL_211C_:
     jp Close20x6TextBox
 
 ; 12th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_213B_:
+_Magic0b:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5123,9 +5133,9 @@ _LABEL_213B_:
     jp Close20x6TextBox
 
 ; 13th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2178_:
+_Magic0c_Untrap:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5157,9 +5167,9 @@ _LABEL_2178_:
     jp _LABEL_2A4A_
 
 ; 14th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_21C0_:
+_Magic0d_Bypass:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,(SceneType)
     or a
@@ -5181,9 +5191,9 @@ _LABEL_21D4_:
     ret
 
 ; 15th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_21ED_:
+_Magic0e:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5206,9 +5216,9 @@ _LABEL_21ED_:
     ret
 
 ; 16th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_221B_:
+_Magic0f:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     call _LABEL_379F_
     bit 4,c
@@ -5238,21 +5248,23 @@ _LABEL_221B_:
 +++:jp _LABEL_37E9_
 
 ; 17th entry of Jump Table from 1F5A (indexed by unknown)
-_LABEL_2254_:
+_Magic11_Telepathy:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AC
     ld (NewMusic),a
-_LABEL_225E_:
+DoTelepathy:
     ld a,(CharacterSpriteAttributes)
     cp $0E
     jr z,++
     ld a,(SceneType)
     or a
     ld hl,textPlayerNoPremonition
+    ; Only works in dungeons
     jr nz,+
     call _SquareInFrontOfPlayerContainsObject
+    ; Say whether there's an object in front of you
     ld hl,textPlayerNoPremonition
     jr z,+
     ld hl,textPlayerPremonition
@@ -5272,9 +5284,9 @@ _LABEL_225E_:
     jp _LABEL_2A37_
 
 ; 19th entry of Jump Table from 1F5A (indexed by unknown)
-_LABEL_229C_:
+_Magic12_Troop:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5538,7 +5550,7 @@ UseItem_Ruoginin:
     ld d,40 ; HP boost
 +:  ld a,(_RAM_C29D_InBattle)
     or a
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     jr nz,+
     push de
       call ShowCharacterSelectMenu
@@ -5777,7 +5789,7 @@ UseItem_TelepathyBall:
     ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_1C92_
-    jp _LABEL_225E_
+    jp DoTelepathy
 
 ; 48th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 UseItem_EclipseTorch:
@@ -7045,7 +7057,7 @@ _LABEL_3014_:
     ld de,$7B02
     ld bc,$030C
     call InputTilemapRect
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     add a,a
     add a,a
     ld l,a
