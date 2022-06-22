@@ -180,7 +180,7 @@ _RAM_C263_ db                 ; Scrollingtilemap data page(?)
 ScrollDirection db            ; Scroll direction; %----RLDU
 PaletteRotateEnabled .db      ; Palette rotation enabled if non-zero
 WalkingMovementCounter db     ; Counter for movement
-_RAM_C267_ db
+_RAM_C267_MagicPlayer db
 CursorEnabled db              ; $ff if cursor showing,$00 otherwise
 CursorTileMapAddress dw       ; Address of low byte of top cursor position in tilemap
 CursorPos db                  ; How many rows to shift cursor down
@@ -196,7 +196,7 @@ SceneType db                  ; Scene characteristics; controls which animation 
 .enum $C299 export
 _RAM_C299_ dw
 _RAM_C29B_ dw
-_RAM_C29D_ db
+_RAM_C29D_InBattle db
 SceneType2 db
 _RAM_C29F_ db
 _RAM_C2A0_ db
@@ -267,13 +267,13 @@ HLocation dw                  ; Horizontal location in map
 VScroll db                    ; Vertical scroll
 VLocation dw                  ; Vertical location on map - skips parts
 ScrollScreens db              ; Counted down when scrolling between planets/in intro
-_RAM_C308_ db                 ; Type of current "world"???  
+_RAM_C308_ db                 ; Type of current "world"???
 _RAM_C309_ db                 ; Current "world"???
 DungeonFacingDirection db
 .ende
 
 .enum $C30C export
-DungeonPosition db               
+DungeonPosition db
 DungeonNumber db
 VehicleMovementFlags db       ; ??? used by palette rotation but could be more
                                 ; Zero if not in a vehicle,else flags for terrain that can be passed?
@@ -324,7 +324,7 @@ PartySize db                  ; 0-3 based on how many player characters have bee
 .ende
 
 .enum $C500 export
-_RAM_C500_ db                 
+_RAM_C500_ db
 HaveVisitedSuelo db           ; 1 if you have been there
 HaveGotPotfromNekise db       ; 1 if you have
 LuvenoPrisonVisitCounter db   ; 0 on first visit,1 after
@@ -641,31 +641,31 @@ Item_Vehicle_FlowMover        db ; $22
 Item_Vehicle_IceDecker        db ; $23
 Item_PelorieMate              db ; $24
 Item_Ruoginin                 db ; $25
-Item_SootheFlute              db ; $26
-Item_Searchlight              db ; $27
-Item_EscapeCloth              db ; $28
-Item_TranCarpet               db ; $29
-Item_MagicHat                 db ; $2a
-Item_Alsuline                 db ; $2b
-Item_Polymeteral              db ; $2c
-Item_DungeonKey               db ; $2d
-Item_TelepathyBall            db ; $2e
-Item_EclipseTorch             db ; $2f
-Item_Aeroprism                db ; $30
-Item_LaermaBerries            db ; $31
-Item_Hapsby                   db ; $32
-Item_RoadPass                 db ; $33
-Item_Passport                 db ; $34
-Item_Compass                  db ; $35
-Item_Shortcake                db ; $36
-Item_GovernorGeneralsLetter   db ; $37
-Item_LaconianPot              db ; $38
-Item_LightPendant             db ; $39
-Item_CarbuncleEye             db ; $3a
-Item_GasClear                 db ; $3b
-Item_DamoasCrystal            db ; $3c
-Item_MasterSystem             db ; $3d
-Item_MiracleKey               db ; $3e
+Item_SootheFlute              db ; $26 39
+Item_Searchlight              db ; $27 40
+Item_EscapeCloth              db ; $28 41
+Item_TranCarpet               db ; $29 42
+Item_MagicHat                 db ; $2a 43
+Item_Alsuline                 db ; $2b 44
+Item_Polymeteral              db ; $2c 45
+Item_DungeonKey               db ; $2d 46
+Item_TelepathyBall            db ; $2e 47
+Item_EclipseTorch             db ; $2f 48
+Item_Aeroprism                db ; $30 49
+Item_LaermaBerries            db ; $31 50
+Item_Hapsby                   db ; $32 51
+Item_RoadPass                 db ; $33 52
+Item_Passport                 db ; $34 53
+Item_Compass                  db ; $35 54
+Item_Shortcake                db ; $36 55
+Item_GovernorGeneralsLetter   db ; $37 56
+Item_LaconianPot              db ; $38 57
+Item_LightPendant             db ; $39 58
+Item_CarbuncleEye             db ; $3a 59
+Item_GasClear                 db ; $3b 60
+Item_DamoasCrystal            db ; $3c 61
+Item_MasterSystem             db ; $3d 62
+Item_MiracleKey               db ; $3e 63
 Item_Zillion                  db ; $3f
 Item_SecretThing              db ; $40
 .ende
@@ -945,7 +945,7 @@ ResetPoint:
     ld bc,$1EFF
     ld (hl),$00
     ldir
-    
+
     call CountryDetection
     or a               ; is it export?
     jr nz,+            ; if so,skip next bit
@@ -1947,12 +1947,12 @@ NewGame:
     ld bc,$400-1
     ld (hl),$00
     ldir               ; zero GameData
-    
+
     ld iy,CharacterStatsAlis
     ld (iy+CharacterStats.Weapon),Item_Weapon_ShortSword
     ld (iy+CharacterStats.Armour),Item_Armour_LeatherClothes
     call InitialiseCharacterStats
-    
+
     ld hl,_RAM_C600_
     ld (hl),$FF
     ld hl,DungeonKeyIsHidden
@@ -1967,7 +1967,7 @@ NewGame:
     ld (_RAM_C311_),hl
     ld hl,$0000
     ld (Meseta),hl
-    
+
     call IntroSequence
 
     ld hl,FunctionLookupIndex
@@ -2012,7 +2012,7 @@ _UsedSlotFound:
     TileAddressDE $1f0
     call LoadTiles4BitRLE
     call ClearSpriteTableAndFadeInWholePalette
-    
+
 _ContinueOrDeleteMenu:
     ld hl,textContinueOrDelete
     call TextBox20x6
@@ -2029,7 +2029,7 @@ _ContinueOrDeleteMenu:
     ld hl,textContinuingGameX
     call TextBox20x6
     call Close20x6TextBox
-    
+
     ld a,SRAMPagingOn  ; Load game
     ld (SRAMPaging),a
     ld a,(NumberToShowInText)
@@ -2601,7 +2601,7 @@ _LABEL_C64_:
     or a               ;                                      |
     ret nz             ; exit if PaletteRotateEnabled         |
     xor a              ; zero a                               |
-++:  ld (_RAM_C29D_),a ; Save to xc29d <----------------------+
+++:  ld (_RAM_C29D_InBattle),a ; Save to xc29d <----------------------+
 
     ld hl,FunctionLookupIndex
     ld (hl),$0c        ; Set FunctionLookupIndex to 0c (???)
@@ -3050,15 +3050,15 @@ _LABEL_114F_:
 
 _LABEL_116B_:
     ld a,(EnemyNumber)
-    cp $48
+    cp Enemy_LaShiec
     ld c,$92
     jr z,+
-    cp $49
+    cp Enemy_DarkForce
     jr z,++
     ld c,$89
 +:  ld a,c
     ld (NewMusic),a
-++:  ld hl,_RAM_C2AB_
+++: ld hl,_RAM_C2AB_
     ld b,$0C
 -:  ld a,b
     dec a
@@ -3094,9 +3094,9 @@ _LABEL_119F_:
     ld (hl),$00
     ldir
     ld a,$FF
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     xor a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ld (_RAM_C2D4_),a
     call ShowCombatMenu
     call _LABEL_3041_
@@ -3108,9 +3108,9 @@ _LABEL_11D0_:
     or a
     jp nz,+
 _LABEL_11DC_:
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     jp ++
 
 +:  ld de,$000C
@@ -3131,13 +3131,13 @@ _LABEL_11DC_:
     ld hl,_DATA_1A6E_
     call FunctionLookup
     call _LABEL_3035_
-++:  ld a,(_RAM_C267_)
+++:  ld a,(_RAM_C267_MagicPlayer)
     cp $04
     jp c,_LABEL_11D0_
     cp $05
     jp nc,_LABEL_179A_
     xor a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     call _LABEL_321F_
     call CloseMenu
     call _LABEL_1A4E_
@@ -3180,7 +3180,7 @@ _LABEL_1232_:
 +:  pop hl
     pop bc
     inc hl
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     cp $05
     jp z,_LABEL_179A_
     djnz _LABEL_1232_
@@ -3188,11 +3188,11 @@ _LABEL_1232_:
 
 _LABEL_127D_:
     call _LABEL_3035_
--:  ld a,(_RAM_C267_)
+-:  ld a,(_RAM_C267_MagicPlayer)
     or a
     jr z,+
     dec a
-+:  ld (_RAM_C267_),a
++:  ld (_RAM_C267_MagicPlayer),a
     jp z,_LABEL_11D0_
     call _LABEL_19D6_
     jp z,-
@@ -3208,7 +3208,7 @@ _LABEL_127D_:
     jp _LABEL_11D0_
 
 _LABEL_12A4_:
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     call _LABEL_19D6_
     ret z
     ld a,(_RAM_C2D4_)
@@ -3222,7 +3222,7 @@ _LABEL_12A4_:
     ld a,(iy+13)
     or a
     jr z,++
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     call GetRandomNumber
     and $01
@@ -3240,11 +3240,11 @@ _LABEL_12A4_:
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++:  call _LABEL_3014_
-    call _LABEL_1D2A_
+++: call _LABEL_3014_
+    call _LABEL_1D2A_ ; Look up data from _RAM_C2AC_
     cp $01
     jp nz,_LABEL_1338_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     add a,a
     add a,a
@@ -3257,11 +3257,11 @@ _LABEL_12A4_:
     sub l
     ld h,a
     ld a,(hl)
-    cp $09
+    cp Item_Weapon_NeedleGun
     jr z,+
-    cp $0B
+    cp Item_Weapon_HeatGun
     jr z,++
-    cp $0D
+    cp Item_Weapon_LaserGun
     jr z,+++
     call _LABEL_1A05_
 -:  call GetRandomNumber
@@ -3277,7 +3277,7 @@ _LABEL_12A4_:
 +:  ld d,$FB
     jr ++++
 
-++:  ld d,$F6
+++: ld d,$F6
     jr ++++
 
 +++:ld d,$EC
@@ -3299,14 +3299,14 @@ _LABEL_1338_:
 
 +:  cp $04
     jp nz,_LABEL_1367_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     ld a,b
     ld (ItemTableIndex),a
     call HaveItem
     jr nz,+
     ld (_RAM_C29B_),hl
-    call _LABEL_235D_
+    call UseItem
 _LABEL_1367_:
     call _LABEL_326D_
     call _LABEL_3035_
@@ -3475,7 +3475,7 @@ _LABEL_1461_:
     ld hl,textPlayerDied
     call TextBox20x6
     ld a,(EnemyNumber)
-    cp $46
+    cp Enemy_GoldDrake
     jr nz,+
     ld a,(TextCharacterNumber)
     cp $01
@@ -3814,15 +3814,15 @@ _LABEL_1738_:
 
 _LABEL_175E_:
     ld a,(EnemyNumber)
-    cp $31
+    cp Enemy_Tajim
     jr z,+
-    cp $4A
+    cp Enemy_Nightmare
     jr nz,++
 +:  ld a,$D8
     ld (NewMusic),a
     ret
 
-++:  cp $46
+++: cp Enemy_GoldDrake
     jr nz,+
     ld hl,ActualPalette+16
     ld b,$10
@@ -3857,13 +3857,13 @@ _LABEL_179A_:
 
 _LABEL_17B2_:
     ld a,(EnemyNumber)
-    cp $31
+    cp Enemy_Tajim
     jr nz,+
     ld a,$D8
     ld (NewMusic),a
     ret
 
-+:  cp $46
++:  cp Enemy_GoldDrake
     jr nz,+
     ld hl,ActualPalette+16
     ld b,$10
@@ -3874,13 +3874,13 @@ _LABEL_17B2_:
     ld (NewMusic),a
     call _LABEL_1735_
     ld a,(EnemyNumber)
-    cp $48
+    cp Enemy_LaShiec
     jr z,+
-    cp $49
+    cp Enemy_DarkForce
     jr nz,++
 +:  ld b,$B4
     call PauseBFrames
-++:  ld a,$D8
+++: ld a,$D8
     ld (NewMusic),a
     ld hl,textMonsterKilled
     call TextBox20x6
@@ -4088,7 +4088,7 @@ _ItemStrengths:
 .orga $19d6
 
 _LABEL_19D6_:
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
 PointHLToCharacterInA:
     push af
     add a,a
@@ -4105,7 +4105,7 @@ PointHLToCharacterInA:
     bit 0,(hl)
     ret
 
-_LABEL_19EA_:
+ShowMessageIfDead:
     push hl
       call PointHLToCharacterInA
     pop hl
@@ -4192,9 +4192,9 @@ _LABEL_1A78_:
     ld bc,$0001
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 ; 4th entry of Jump Table from 1A6E (indexed by CursorPos)
@@ -4202,7 +4202,7 @@ _LABEL_1A87_:
     call _LABEL_3035_
     call _LABEL_321F_
     call CloseMenu
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     ld hl,textPlayerSpeaks
     call TextBox20x6
@@ -4216,7 +4216,7 @@ _LABEL_1A87_:
     jr nc,_LABEL_1AC0_
 _LABEL_1AAD_:
     ld a,$04
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ld a,$FF
     ld (_RAM_C2D4_),a
     ld hl,textMonsterDoesntUnderstand
@@ -4242,7 +4242,7 @@ _LABEL_1AC0_:
     ld l,a
     call TextBox20x6
     ld a,$06
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     jp Close20x6TextBox
 
 ; Pointer Table from 1AE6 to 1AF7 (9 entries,indexed by random number)
@@ -4267,22 +4267,22 @@ _LABEL_1AF8_:
 +:  ld a,$BC
     ld (NewMusic),a
     ld a,$05
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
-++:  ld a,(_RAM_C267_)
+++:  ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     ld hl,textMonsterBlocksRetreat
     call TextBox20x6
     ld a,$04
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ld a,$FF
     ld (_RAM_C2D4_),a
     jp Close20x6TextBox
 
 ; 2nd entry of Jump Table from 1A6E (indexed by CursorPos)
 _LABEL_1B3A_:
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     ld (TextCharacterNumber),a
     cp Player_Tylon
     jp nz,+
@@ -4332,7 +4332,7 @@ _LABEL_1B3A_:
     ld a,(hl)
     and $1F
     ld b,a
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     jr c,++
     ld a,b
     ld hl,_DATA_1BC2_
@@ -4357,13 +4357,13 @@ _DATA_1BB3_:
 _DATA_1BC2_:
 .dw _LABEL_1C0A_ _LABEL_1C0D_ _LABEL_1C0D_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C2C_ _LABEL_1C2C_ _LABEL_1C2C_
 .dw _LABEL_1C2C_ _LABEL_1C59_ _LABEL_1C3A_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_
-.dw _LABEL_1C69_ _LABEL_1C8D_
+.dw _Magic10 _LABEL_1C8D_
 
 ; Jump Table from 1BE6 to 1C09 (18 entries,indexed by _RAM_C2AD_)
 _DATA_1BE6_:
-.dw _LABEL_1F80_ _LABEL_1FA2_ _LABEL_1FA6_ _LABEL_1FE6_ _LABEL_1FEA_ _LABEL_2003_ _LABEL_2042_ _LABEL_2081_
-.dw _LABEL_2092_ _LABEL_20DC_ _LABEL_211C_ _LABEL_213B_ _LABEL_2178_ _LABEL_21C0_ _LABEL_21ED_ _LABEL_221B_
-.dw _LABEL_1C69_ _LABEL_1C8D_
+.dw _InvalidMagicFunction _LABEL_1FA2_ _LABEL_1FA6_ _Magic03 _Magic04 _Magic05 _Magic06 _Magic07
+.dw _Magic08 _Magic09 _Magic0a _Magic0b _Magic0c_Untrap _Magic0d_Bypass _Magic0e _Magic0f
+.dw _Magic10 _LABEL_1C8D_
 
 ; 1st entry of Jump Table from 1BC2 (indexed by unknown)
 _LABEL_1C0A_:
@@ -4376,14 +4376,14 @@ _LABEL_1C0D_:
     pop de
     bit 4,c
     jr nz,+
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,+
     ld c,$03
     ld b,d
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
 +:  call _LABEL_37E9_
     ret
 
@@ -4392,9 +4392,9 @@ _LABEL_1C2C_:
     ld c,$03
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 ; 11th entry of Jump Table from 1BC2 (indexed by unknown)
@@ -4404,14 +4404,14 @@ _LABEL_1C3A_:
     pop de
     bit 4,c
     jr nz,+
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,+
     ld c,$03
     ld b,d
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
 +:  call _LABEL_37E9_
     ret
 
@@ -4420,15 +4420,15 @@ _LABEL_1C59_:
     ld c,$03
     ld a,(TextCharacterNumber)
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 ; 17th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1C69_:
+_Magic10:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -4448,7 +4448,7 @@ _LABEL_1C73_:
 ; 18th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
 _LABEL_1C8D_:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
 _LABEL_1C92_:
     ld a,(_RAM_C2E8_)
@@ -4476,7 +4476,7 @@ _LABEL_1C92_:
     ld l,a
     call TextBox20x6
     ld a,$06
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ld a,$D5
     ld (NewMusic),a
     jp Close20x6TextBox
@@ -4485,14 +4485,16 @@ _LABEL_1C92_:
 _monsterDialogue2:
 .dw textMonster10, textMonster11, textMonster12, textMonster13, textMonster14, textMonster15, textMonster16, textMonster17, textMonster18, textMonster19
 
-_LABEL_1CE3_:
-    ld hl,_DATA_1F38_
+CheckIfEnoughMP:
+    ; Look up a'th entry in MagicMPCosts
+    ld hl,MagicMPCosts
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
-    ld a,(_RAM_C267_)
+    ; Look up MP of the player
+    ld a,(_RAM_C267_MagicPlayer)
     add a,a
     add a,a
     add a,a
@@ -4501,6 +4503,7 @@ _LABEL_1CE3_:
     add a,e
     ld e,a
     ld a,(de)
+    ; Check if we have enough
     sub (hl)
     ret
 
@@ -4515,14 +4518,14 @@ _LABEL_1CFA_:
     ld c,$04
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     inc a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 _LABEL_1D15_:
     push af
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     add a,a
     add a,a
     ld hl,$C2AC
@@ -4540,15 +4543,18 @@ _LABEL_1D15_:
     ret
 
 _LABEL_1D2A_:
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
+    ; multiply by 4
     add a,a
     add a,a
+    ; index into _RAM_C2AC_
     ld hl,_RAM_C2AC_
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
+    ; Read into a, b, c
     ld a,(hl)
     inc hl
     ld b,(hl)
@@ -4558,7 +4564,7 @@ _LABEL_1D2A_:
 
 _LABEL_1D3D_:
     xor a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld (_RAM_C2D8_),a
     call _LABEL_37FA_
     call _LABEL_3041_
@@ -4641,10 +4647,10 @@ _DATA_1DF3_:
 
 ; 1st entry of Jump Table from 1DF3 (indexed by CursorPos)
 _LABEL_1DFD_:
-    call _LABEL_3782_
+    call ShowCharacterSelectMenu
     bit 4,c
     jr nz,+++
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,+++
     push af
     call _LABEL_3824_
@@ -4731,16 +4737,17 @@ _LABEL_1E97_:
 
 ; 2nd entry of Jump Table from 1DF3 (indexed by CursorPos)
 _LABEL_1EA9_:
-    call _LABEL_3782_
+    call ShowCharacterSelectMenu
     bit 4,c
     jp nz,_LABEL_1F16_
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jp z,_LABEL_1F16_
-    cp $02
-    jp z,_LABEL_1F21_
+    cp Player_Tylon
+    jp z,_LABEL_1F21_TaironNoMagic
     ld c,a
     ld (TextCharacterNumber),a
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
+    ; Multiply by 16 to look up player's battle magic count
     add a,a
     add a,a
     add a,a
@@ -4748,46 +4755,46 @@ _LABEL_1EA9_:
     ld hl,CharacterStatsAlis.BattleMagicCount
     add a,l
     ld l,a
-    ld a,(hl)
+    ld a,(hl) ; Player's magic count
     or a
     jp z,_noMagicYet
     ld b,a
-    ld a,c
+    ld a,c ; Convert to c a magic player index (0-2)
     cp $03
     jr nz,+
     dec a
 +:  ld c,a
-    add a,$03
+    add a,$03 ; Add 3 to magic count to make a line count
     push bc
-    push hl
-    call _LABEL_3592_
-    ld hl,$7A8C
-    ld (CursorTileMapAddress),hl
-    pop hl
-    ld a,(hl)
-    dec a
-    ld (CursorMax),a
-    call WaitForMenuSelection
+      push hl
+        call _LABEL_3592_ ; Show magic menu
+        ld hl,$7A8C
+        ld (CursorTileMapAddress),hl
+      pop hl
+      ld a,(hl) ; Get magic count again
+      dec a
+      ld (CursorMax),a
+      call WaitForMenuSelection
     pop hl
     bit 4,c
     jp nz,_LABEL_1F13_
-    ld h,a
-    ld a,l
+    ld h,a ; Chosen magic index (0-based)
+    ld a,l ; l is the value from c earlier, i.e. the "magic player index"
     add a,a
     add a,a
-    add a,l
+    add a,l ; CursorMax*5+selection?
     add a,h
     ld l,a
     ld h,$00
-    ld de,_DATA_1F4B_
+    ld de,_OverworldMagicIndicesByPlayer
     add hl,de
     ld a,(hl)
     and $1F
-    ld b,a
-    call _LABEL_1CE3_
+    ld b,a ; preserve magic index
+    call CheckIfEnoughMP
     jp c,++
-    ld a,b
-    ld hl,_DATA_1F5A_
+    ld a,b ; loop up magic index in MagicFunctions
+    ld hl,MagicFunctions
     call FunctionLookup
 _LABEL_1F13_:
     call _LABEL_35E3_
@@ -4799,7 +4806,7 @@ _noMagicYet:
     ld hl,textPlayerHasNoMagicYet
     jr +
 
-_LABEL_1F21_:
+_LABEL_1F21_TaironNoMagic:
     ld hl,textTaironCantUseMagic
 +:  call TextBox20x6
     call Close20x6TextBox
@@ -4811,31 +4818,37 @@ _LABEL_1F21_:
     jr _LABEL_1F13_
 
 ; Data from 1F38 to 1F4A (19 bytes)
-_DATA_1F38_:
-.db $00 $02 $06 $06 $0A $04 $10 $0C $04 $02 $0A $02 $02 $04 $04 $0C
+MagicMPCosts: ; indexed by "magix index" (see below)
+.db $00 
+.db $02 $06 $06 $0A $04
+.db $10 $0C $04 $02 $0A 
+.db $02 $02 $04 $04 $0C
 .db $02 $04 $08
 
 ; Data from 1F4B to 1F59 (15 bytes)
-_DATA_1F4B_:
-.db $01 $12 $00 $00 $00 $02 $0C $0D $00 $00 $02 $0D $11 $0E $0F
+_OverworldMagicIndicesByPlayer:
+.db $01 $12 $00 $00 $00 ; Alisa - Heal, Troop
+.db $02 $0C $0D $00 $00 ; Myau - Super Heal, Untrap, Bypass
+.db $02 $0D $11 $0E $0F ; Lutz - Super Heal, Bypass, Telepathy, Magic Unseal, Rebirth
 
 ; Jump Table from 1F5A to 1F7F (19 entries,indexed by unknown)
-_DATA_1F5A_:
-.dw _LABEL_1F80_ _LABEL_1F83_ _LABEL_1F87_ _LABEL_1FE6_ _LABEL_1FEA_ _LABEL_2003_ _LABEL_2042_ _LABEL_2081_
-.dw _LABEL_2092_ _LABEL_20DC_ _LABEL_211C_ _LABEL_213B_ _LABEL_2178_ _LABEL_21C0_ _LABEL_21ED_ _LABEL_221B_
-.dw _LABEL_2254_ _LABEL_2254_ _LABEL_229C_
+MagicFunctions:
+.dw _InvalidMagicFunction 
+.dw _Magic01_Heal _Magic02_SuperHeal _Magic03 _Magic04 _Magic05 _Magic06 _Magic07 _Magic08
+.dw _Magic09 _Magic0a _Magic0b _Magic0c_Untrap _Magic0d_Bypass _Magic0e _Magic0f
+.dw _Magic11_Telepathy _Magic11_Telepathy _Magic12_Troop ; Note: index $10 points to _Magic_11
 
 ; 1st entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1F80_:
-    jp _LABEL_1F80_
+_InvalidMagicFunction:
+    jp _InvalidMagicFunction ; Lock up the game, invalid index!
 
 ; 2nd entry of Jump Table from 1F5A (indexed by unknown)
-_LABEL_1F83_:
+_Magic01_Heal:
     ld d,$14
     jr +
 
 ; 3rd entry of Jump Table from 1F5A (indexed by unknown)
-_LABEL_1F87_:
+_Magic02_SuperHeal:
     ld d,$50
 +:  push bc
     push de
@@ -4845,7 +4858,7 @@ _LABEL_1F87_:
     pop bc
     jr nz,+
     ld (TextCharacterNumber),a
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,+
     call ++
 +:  jp _LABEL_37E9_
@@ -4859,11 +4872,11 @@ _LABEL_1FA2_:
 _LABEL_1FA6_:
     ld d,$50
 +:  ld a,(TextCharacterNumber)
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     ret z
 ++:  push de
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -4891,15 +4904,15 @@ _LABEL_1FBB_:
     jp Close20x6TextBox
 
 ; 4th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1FE6_:
+_Magic03:
     ld c,$06
     jr +
 
 ; 5th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1FEA_:
+_Magic04:
     ld c,$86
 +:  ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -4910,9 +4923,9 @@ _LABEL_1FEA_:
     jp Close20x6TextBox
 
 ; 6th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2003_:
+_Magic05:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld de,$F610
     call _LABEL_200E_
@@ -4947,39 +4960,39 @@ _LABEL_200E_:
     ret
 
 ; 7th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2042_:
+_Magic06:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld de,$D811
 _LABEL_204A_:
     ld b,$08
 -:  push bc
-    ld a,b
-    sub $0C
-    neg
-    call PointHLToCharacterInA
-    jp z,++
-    push hl
-    pop ix
-    push de
-    ld a,e
-    call _LABEL_1A05_
-    pop de
-    push de
-    ld a,d
-    cp $D8
-    jr nz,+
-    call GetRandomNumber
-    and $0F
-    add a,d
-+:  call _LABEL_13BA_
-    call _LABEL_326D_
-    pop de
-    ld a,(EnemyNumber)
-    cp $49
-    jr z,+++
-++:  pop bc
+      ld a,b
+      sub $0C
+      neg
+      call PointHLToCharacterInA
+      jp z,++
+      push hl
+      pop ix
+      push de
+        ld a,e
+        call _LABEL_1A05_
+      pop de
+      push de
+        ld a,d
+        cp $D8
+        jr nz,+
+        call GetRandomNumber
+        and $0F
+        add a,d
++:      call _LABEL_13BA_
+        call _LABEL_326D_
+      pop de
+      ld a,(EnemyNumber)
+      cp Enemy_DarkForce
+      jr z,+++
+++: pop bc
     djnz -
     ret
 
@@ -4987,9 +5000,9 @@ _LABEL_204A_:
     ret
 
 ; 8th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2081_:
+_Magic07:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld de,$F412
     call _LABEL_200E_
@@ -4997,9 +5010,9 @@ _LABEL_2081_:
     jp _LABEL_200E_
 
 ; 9th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2092_:
+_Magic08:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5038,9 +5051,9 @@ _LABEL_2092_:
     jp Close20x6TextBox
 
 ; 10th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_20DC_:
+_Magic09:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     xor a
     ld (ItemTableIndex),a
@@ -5067,18 +5080,18 @@ _LABEL_20E5_:
     call TextBox20x6
     call Close20x6TextBox
     ld a,$05
-    ld (_RAM_C267_),a
+    ld (_RAM_C267_MagicPlayer),a
     ret
 
 ; 11th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_211C_:
+_Magic0a:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
     ld a,(TextCharacterNumber)
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     ret z
     call PointHLToCharacterInA
     set 7,(hl)
@@ -5087,9 +5100,9 @@ _LABEL_211C_:
     jp Close20x6TextBox
 
 ; 12th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_213B_:
+_Magic0b:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5120,9 +5133,9 @@ _LABEL_213B_:
     jp Close20x6TextBox
 
 ; 13th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_2178_:
+_Magic0c_Untrap:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5137,7 +5150,7 @@ _LABEL_2178_:
     ld hl,textNothingUnusualHere
     jr z,+
     ld l,c
-    ld h,$CB
+    ld h,>DungeonMap
     ld (hl),$00
     ld hl,textTrapDisarmed
 +:  call TextBox20x6
@@ -5154,9 +5167,9 @@ _LABEL_2178_:
     jp _LABEL_2A4A_
 
 ; 14th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_21C0_:
+_Magic0d_Bypass:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,(SceneType)
     or a
@@ -5178,9 +5191,9 @@ _LABEL_21D4_:
     ret
 
 ; 15th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_21ED_:
+_Magic0e:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5203,9 +5216,9 @@ _LABEL_21ED_:
     ret
 
 ; 16th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_221B_:
+_Magic0f:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     call _LABEL_379F_
     bit 4,c
@@ -5235,21 +5248,23 @@ _LABEL_221B_:
 +++:jp _LABEL_37E9_
 
 ; 17th entry of Jump Table from 1F5A (indexed by unknown)
-_LABEL_2254_:
+_Magic11_Telepathy:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AC
     ld (NewMusic),a
-_LABEL_225E_:
+DoTelepathy:
     ld a,(CharacterSpriteAttributes)
     cp $0E
     jr z,++
     ld a,(SceneType)
     or a
     ld hl,textPlayerNoPremonition
+    ; Only works in dungeons
     jr nz,+
     call _SquareInFrontOfPlayerContainsObject
+    ; Say whether there's an object in front of you
     ld hl,textPlayerNoPremonition
     jr z,+
     ld hl,textPlayerPremonition
@@ -5269,9 +5284,9 @@ _LABEL_225E_:
     jp _LABEL_2A37_
 
 ; 19th entry of Jump Table from 1F5A (indexed by unknown)
-_LABEL_229C_:
+_Magic12_Troop:
     ld a,b
-    call _LABEL_1CE3_
+    call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
@@ -5355,7 +5370,7 @@ _LABEL_22C4_:
     call WaitForMenuSelection
     bit 4,c
     jp nz,+
-    ld hl,_DATA_2357_
+    ld hl,UseEquipDropHandlers
     call FunctionLookup
 +:  call _LABEL_3888_
 _LABEL_2351_:
@@ -5363,28 +5378,85 @@ _LABEL_2351_:
     jp _LABEL_30A4_
 
 ; Jump Table from 2357 to 235C (3 entries,indexed by CursorPos)
-_DATA_2357_:
-.dw _LABEL_235D_ _LABEL_2824_ _LABEL_28AE_DropItem
+UseEquipDropHandlers:
+.dw UseItem EquipItem DropItem
 
 ; 1st entry of Jump Table from 2357 (indexed by CursorPos)
-_LABEL_235D_:
+UseItem:
     ld a,(ItemTableIndex)
-    ld hl,_DATA_2366_
+    ld hl,_UseItemTable
     jp FunctionLookup
 
 ; Jump Table from 2366 to 23E5 (64 entries,indexed by ItemTableIndex)
-_DATA_2366_:
-.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23F5_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
-.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
-.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
-.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
-.dw _LABEL_23E6_ _LABEL_240B_ _LABEL_2441_ _LABEL_2476_ _LABEL_248F_ _LABEL_2493_ _LABEL_24C5_ _LABEL_24F9_
-.dw _LABEL_253E_ _LABEL_2548_ _LABEL_2572_ _LABEL_258B_ _LABEL_25ED_ _LABEL_2645_ _LABEL_2680_ _LABEL_2693_
-.dw _LABEL_26E5_ _LABEL_271F_ _LABEL_276F_ _LABEL_280C_ _LABEL_280C_ _LABEL_278D_Compass _LABEL_280C_ _LABEL_280C_
-.dw _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_27D8_ _LABEL_280C_
+_UseItemTable:
+.dw UseItem_NoEffect ; Index 0 is never used
+.dw UseItem_NoEffect ; Weapons
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_PsychoWand
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect ; Armour
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect ; Shields
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_LandMaster ; Vehicles
+.dw UseItem_FlowMover
+.dw UseItem_IceDecker
+.dw UseItem_PelorieMate ; Items
+.dw UseItem_Ruoginin
+.dw UseItem_SootheFlute
+.dw UseItem_Searchlight
+.dw UseItem_EscapeCloth
+.dw UseItem_TranCarpet
+.dw UseItem_MagicHat
+.dw UseItem_Alsuline
+.dw UseItem_Polymeteral
+.dw UseItem_DungeonKey
+.dw UseItem_TelepathyBall
+.dw UseItem_EclipseTorch
+.dw UseItem_AeroPrism
+.dw UseItem_LaermaBerries
+.dw UseItem_Hapsby
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_Compass
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_MiracleKey
+.dw UseItem_AlwaysActive
+; No entry for Secret Thing
 
 ; 1st entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_23E6_:
+UseItem_NoEffect:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld hl,textNoEffect
@@ -5392,10 +5464,10 @@ _LABEL_23E6_:
     jp Close20x6TextBox
 
 ; 5th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_23F5_:
+UseItem_PsychoWand:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_20E5_
     ld hl,textNothingHappened
@@ -5403,7 +5475,7 @@ _LABEL_23F5_:
     jp Close20x6TextBox
 
 ; 34th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_240B_:
+UseItem_LandMaster:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld e,$04
@@ -5431,7 +5503,7 @@ _LABEL_2413_:
     jp Close20x6TextBox
 
 ; 35th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2441_:
+UseItem_FlowMover:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C308_)
@@ -5457,7 +5529,7 @@ _LABEL_2441_:
     jp Close20x6TextBox
 
 ; 36th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2476_:
+UseItem_IceDecker:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C308_)
@@ -5469,24 +5541,24 @@ _LABEL_2476_:
     jp Close20x6TextBox
 
 ; 37th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_248F_:
-    ld d,$0A
+UseItem_PelorieMate:
+    ld d,10 ; HP boost
     jr +
 
 ; 38th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2493_:
-    ld d,$28
-+:  ld a,(_RAM_C29D_)
+UseItem_Ruoginin:
+    ld d,40 ; HP boost
++:  ld a,(_RAM_C29D_InBattle)
     or a
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     jr nz,+
     push de
-    call _LABEL_3782_
+      call ShowCharacterSelectMenu
     pop de
     bit 4,c
     jr nz,++
 +:  ld (TextCharacterNumber),a
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,++
     push de
     ld hl,textPlayerUsedItem
@@ -5494,18 +5566,18 @@ _LABEL_2493_:
     pop de
     call _LABEL_1FBB_
     call _LABEL_28D8_RemoveItemFromInventory
-++:  ld a,(_RAM_C29D_)
+++:  ld a,(_RAM_C29D_InBattle)
     or a
     ret nz
     jp _LABEL_37D8_
 
 ; 39th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_24C5_:
+UseItem_SootheFlute:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,$C2
     ld (NewMusic),a
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr nz,+
     ld hl,textSoothFlute
@@ -5524,8 +5596,8 @@ _LABEL_24C5_:
     jp Close20x6TextBox
 
 ; 40th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_24F9_:
-    ld a,(_RAM_C29D_)
+UseItem_Searchlight:
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textPlayerTakesOutItem
@@ -5556,17 +5628,17 @@ _LABEL_24F9_:
     ret
 
 ; 41st entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_253E_:
-    ld a,(_RAM_C29D_)
+UseItem_EscapeCloth:
+    ld a,(_RAM_C29D_InBattle)
     or a
     call nz,_LABEL_28D8_RemoveItemFromInventory
-    jp _LABEL_23F5_
+    jp UseItem_PsychoWand
 
 ; 42nd entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2548_:
+UseItem_TranCarpet:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textNoEffect
@@ -5576,7 +5648,7 @@ _LABEL_2548_:
 +:  ld a,(SceneType)
     or a
     push af
-    call nz,_LABEL_28D8_RemoveItemFromInventory
+      call nz,_LABEL_28D8_RemoveItemFromInventory
     pop af
     jp nz,_LABEL_22B5_
     ld hl,textNothingHappened
@@ -5584,11 +5656,11 @@ _LABEL_2548_:
     jp Close20x6TextBox
 
 ; 43rd entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2572_:
+UseItem_MagicHat:
     call _LABEL_28D8_RemoveItemFromInventory
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_1C73_
     ld hl,textNoEffect
@@ -5596,10 +5668,10 @@ _LABEL_2572_:
     jp Close20x6TextBox
 
 ; 44th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_258B_:
+UseItem_Alsuline:
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textCantDoThatNow
@@ -5607,10 +5679,10 @@ _LABEL_258B_:
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
-    cp $A3
+    cp $A3 ; Tairon turned to stone ; _room_a3_TaironStone
     jr z,++
     call IsAnyoneOtherThanMyauAlive
-    ld hl,textNothingUnusualHere
+    ld hl,textNothingUnusualHere ; changed to textNoNeedNow in retranslation
     jr nz,+
 -:  ld hl,textMyauCantOpenBottle
 +:  call TextBox20x6
@@ -5637,10 +5709,10 @@ _LABEL_258B_:
     ret
 
 ; 45th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_25ED_:
+UseItem_Polymeteral:
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textCantDoThatNow
@@ -5648,7 +5720,7 @@ _LABEL_25ED_:
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
-    cp $A1
+    cp $A1 ; _room_a1_HapsbyScrapHeap
     jr z,++
     call IsAnyoneOtherThanMyauAlive
     ld hl,textMyauCantOpenBottle
@@ -5668,7 +5740,7 @@ IsAnyoneOtherThanMyauAlive:
     or e
     ret
 
-++:  call IsAnyoneOtherThanMyauAlive
+++: call IsAnyoneOtherThanMyauAlive
     jr nz,+
     ld hl,textMyauCantOpenBottle
     call TextBox20x6
@@ -5681,14 +5753,14 @@ IsAnyoneOtherThanMyauAlive:
     jp Close20x6TextBox
 
 ; 46th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2645_:
+UseItem_DungeonKey:
     ld a,(SceneType)
     or a
     jr z,+
-_LABEL_264B_:
+UseKeyNotInDungeon: ; shared with Miracle Key
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld hl,textNothingUnusualHere
+    ld hl,textNothingUnusualHere ; changed to textNoNeedNow in retranslation
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -5710,28 +5782,28 @@ _LABEL_264B_:
     jp Close20x6TextBox
 
 ; 47th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2680_:
+UseItem_TelepathyBall:
     call _LABEL_28D8_RemoveItemFromInventory
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_1C92_
-    jp _LABEL_225E_
+    jp DoTelepathy
 
 ; 48th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2693_:
+UseItem_EclipseTorch:
     ld hl,textPlayerHeldItemUp
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textMonsterAfraidOfFlame
     call TextBox20x6
-    jp Close20x6TextBox
+    jp Close20x6TextBox ; and ret
 
 +:  ld a,(RoomIndex)
-    cp $AF ; Laerma tree
+    cp $AF ; Laerma tree ; _room_af_LaermaTree
     jr z,+
     ld hl,textNothingHappened
     call TextBox20x6
@@ -5758,10 +5830,10 @@ _LABEL_2693_:
     jp _LABEL_28FB_
 
 ; 49th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_26E5_:
+UseItem_AeroPrism:
     ld hl,textPlayerHeldItemUp
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textCantDoThatNow
@@ -5769,7 +5841,7 @@ _LABEL_26E5_:
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
-    cp $B0
+    cp $B0 ; _room_b0_TopOfBayaMarlay
     jr z,+
 -:  ld hl,textNothingHappened
     call TextBox20x6
@@ -5785,7 +5857,7 @@ _LABEL_26E5_:
     jp Close20x6TextBox
 
 ; 50th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_271F_:
+UseItem_LaermaBerries:
     ld a,(CharacterStatsMyau)
     or a
     jr z,_LABEL_2733_
@@ -5793,12 +5865,12 @@ _LABEL_271F_:
     cp $17
     jr z,+++
     ld a,(RoomIndex)
-    cp $B0
+    cp $B0 ; _room_b0_TopOfBayaMarlay
     jr z,++
 _LABEL_2733_:
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     ld hl,textNobodyHungry
     jr z,+
@@ -5819,14 +5891,14 @@ _LABEL_2733_:
 +++:ld a,(SceneType)
     or a
     jr z,_LABEL_2733_
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr nz,_LABEL_2733_
     jr -
 
 ; 51st entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_276F_:
-    ld a,(_RAM_C29D_)
+UseItem_Hapsby:
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textPlayerUsedItem
@@ -5840,13 +5912,14 @@ _LABEL_276F_:
     jp Close20x6TextBox
 
 ; 54th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_278D_Compass:
+UseItem_Compass:
     ld a,(SceneType)
     or a
     jr z,++
+    ; Not in a dungeon
 -:  ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     ld hl,textNoNeedNow
     jr z,+
@@ -5854,7 +5927,7 @@ _LABEL_278D_Compass:
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++: ld a,(_RAM_C29D_)
+++: ld a,(_RAM_C29D_InBattle)
     or a
     jr nz,-
     ld hl,textPlayerUsedItem
@@ -5874,10 +5947,10 @@ _LABEL_278D_Compass:
     jp Close20x6TextBox
 
 ; 63rd entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_27D8_:
+UseItem_MiracleKey:
     ld a,(SceneType)
     or a
-    jp nz,_LABEL_264B_
+    jp nz,UseKeyNotInDungeon
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld b,$01
@@ -5900,10 +5973,10 @@ _LABEL_27D8_:
     jp Close20x6TextBox
 
 ; 52nd entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_280C_:
+UseItem_AlwaysActive:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     ld hl,textNothingHappened
     jr nz,+
@@ -5912,9 +5985,9 @@ _LABEL_280C_:
     jp Close20x6TextBox
 
 ; 2nd entry of Jump Table from 2357 (indexed by CursorPos)
-_LABEL_2824_:
+EquipItem:
     ld hl,Frame2Paging
-    ld (hl),$02
+    ld (hl),:ItemMetadata
     ld a,(ItemTableIndex)
     ld hl,ItemMetadata
     add a,l
@@ -5929,6 +6002,7 @@ _LABEL_2824_:
     rrca
     and $0F
     jp nz,+
+    ; Item is not eqippable by anyone
     ld hl,textNoNeedToEquipItem
     call TextBox20x6
     jp Close20x6TextBox
@@ -5936,12 +6010,12 @@ _LABEL_2824_:
 +:  ld d,a
     push de
     push hl
-    call _LABEL_3782_
+      call ShowCharacterSelectMenu
     pop hl
     pop de
     bit 4,c
     jp nz,_LABEL_289D_
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jp z,_LABEL_289D_
     ld (TextCharacterNumber),a
     ld c,a
@@ -5992,7 +6066,7 @@ _LABEL_289D_:
     jr _LABEL_289D_
 
 ; 3rd entry of Jump Table from 2357 (indexed by CursorPos)
-_LABEL_28AE_DropItem:
+DropItem:
     ld hl,Frame2Paging
     ld (hl),:ItemMetadata
     ld a,(ItemTableIndex)
@@ -6195,9 +6269,9 @@ _LABEL_2995_:
 
 _LABEL_2A21_:
     ld a,(RoomIndex)
-    cp $A2
+    cp $A2 ; _room_a2_5795 ???
     jp z,_LABEL_57C6_
-    cp $A3
+    cp $A3 ; _room_a3_TaironStone
     jp z,FindTairon
     ld hl,textNothingUnusualHere
     call TextBox20x6
@@ -6309,7 +6383,7 @@ _LABEL_2AF5_:
     or a
     ld hl,textHospitalWho
     call nz,TextBox20x6
-    call _LABEL_3782_
+    call ShowCharacterSelectMenu
     bit 4,c
     jp nz,_LABEL_2BAE_
     ld (TextCharacterNumber),a
@@ -6426,7 +6500,7 @@ _LABEL_2BF4_:
     jp z,_LABEL_2C8D_
     ld hl,textChurchWho
     call TextBox20x6
-    call _LABEL_3782_
+    call ShowCharacterSelectMenu
     bit 4,c
     jp nz,_LABEL_2C9F_
     call PointHLToCharacterInA
@@ -6983,7 +7057,7 @@ _LABEL_3014_:
     ld de,$7B02
     ld bc,$030C
     call InputTilemapRect
-    ld a,(_RAM_C267_)
+    ld a,(_RAM_C267_MagicPlayer)
     add a,a
     add a,a
     ld l,a
@@ -7433,7 +7507,7 @@ _CharacterNames:
 .stringmap script "アリサ<wait>"
 .stringmap script "ミャウ<wait>"
 .stringmap script "タイロン"
-.stringmap script "ルツ$2　"
+.stringmap script "ルツ<wait>　"
 
   -:dec hl             ; move pointer back <-+
     jp _NextLine       ; ------------------------------------------+
@@ -8151,7 +8225,7 @@ _LABEL_3773_:
     pop bc
     ret
 
-_LABEL_3782_:
+ShowCharacterSelectMenu:
     ld a,(PartySize)
     or a
     ret z
@@ -8434,46 +8508,49 @@ _LABEL_39F6_:
     ld bc,$0120
     call OutputTilemapBoxWipePaging
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:_DATA_F717_
     ld a,(RoomIndex)
     and $1F
+    ; Multiply by 10
     ld l,a
-    ld h,$00
+    ld h,0
     add hl,hl
     ld c,l
     ld b,h
     add hl,hl
     add hl,hl
     add hl,bc
-    ld bc,$B70D
+    ; Look up (1-based)
+    ld bc,_DATA_F717_ - 10
     add hl,bc
+    ; First byte is menu size
     ld a,(hl)
     ld (CursorMax),a
     inc hl
     push hl
-    ld b,$03
--:  push bc
-    ld c,$00
-    push hl
-    call +
-    pop hl
-    ld c,$01
-    push hl
-    call +
-    pop hl
-    inc hl
-    inc hl
-    inc hl
-    pop bc
-    djnz -
-    ld hl,_DATA_6FD43_
-    ld bc,$0120
-    call OutputTilemapBoxWipePaging
-    ld hl,$788C
-    ld (CursorTileMapAddress),hl
-    call WaitForMenuSelection
-    ld hl,Frame2Paging
-    ld (hl),$03
+      ld b,$03
+-:    push bc
+        ld c,$00
+        push hl
+          call +
+        pop hl
+        ld c,$01
+        push hl
+          call +
+        pop hl
+        inc hl
+        inc hl
+        inc hl
+      pop bc
+      djnz -
+      ld hl,_DATA_6FD43_
+      ld bc,$0120
+      call OutputTilemapBoxWipePaging
+      ld hl,$788C
+      ld (CursorTileMapAddress),hl
+      call WaitForMenuSelection
+      ld hl,Frame2Paging
+      ld (hl),$03
     pop hl
     ld b,a
     add a,a
@@ -8488,65 +8565,65 @@ _LABEL_39F6_:
 +:  di
     push de
     push hl
-    rst SetVRAMAddressToDE
-    ld a,$03
-    ld (Frame2Paging),a
-    ld a,(hl)
-    or a
-    jr nz,+
-    ld c,$00
-+:  ld l,a
-    ld h,$00
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ld de,$BD94
-    add hl,de
-    push af
-    pop af
-    ld a,$F3
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$11
-    out (VDPData),a
-    ld a,$02
-    ld (Frame2Paging),a
-    ld b,$08
--:  ld a,(hl)
-    add a,a
-    add a,c
-    ld de,$8000
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-    ld d,a
-    ld a,(de)
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$10
-    out (VDPData),a
-    inc hl
-    djnz -
-    ld a,c
-    or a
-    ld b,$01
-    jr nz,_LABEL_3AA2_
-    ld b,$06
-_LABEL_3AA2_:
-    push af
-    pop af
-    ld a,$C0
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$10
-    out (VDPData),a
-    djnz _LABEL_3AA2_
-    ld hl,Frame2Paging
-    ld (hl),$03
+      rst SetVRAMAddressToDE
+      ld a,$03
+      ld (Frame2Paging),a
+      ld a,(hl)
+      or a
+      jr nz,+
+      ld c,$00
++:    ld l,a
+      ld h,$00
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      ld de,$BD94
+      add hl,de
+      push af
+      pop af
+      ld a,$F3
+      out (VDPData),a
+      push af
+      pop af
+      ld a,$11
+      out (VDPData),a
+      ld a,$02
+      ld (Frame2Paging),a
+      ld b,$08
+-:    ld a,(hl)
+      add a,a
+      add a,c
+      ld de,$8000
+      add a,e
+      ld e,a
+      adc a,d
+      sub e
+      ld d,a
+      ld a,(de)
+      out (VDPData),a
+      push af
+      pop af
+      ld a,$10
+      out (VDPData),a
+      inc hl
+      djnz -
+      ld a,c
+      or a
+      ld b,$01
+      jr nz,+
+      ld b,$06
++:
+-:    push af
+      pop af
+      ld a,$C0
+      out (VDPData),a
+      push af
+      pop af
+      ld a,$10
+      out (VDPData),a
+      djnz -
+      ld hl,Frame2Paging
+      ld (hl),$03
     pop hl
     inc hl
     ld a,(hl)
@@ -8780,7 +8857,7 @@ _LABEL_3CC0_:
     call nz,DoPause
     ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_3D3E_
     ld a,(_RAM_C2DC_)
@@ -8808,7 +8885,7 @@ _LABEL_3CE9_:
     ld a,$D8
     ld (NewMusic),a
 +:  xor a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld (SceneType),a
     ld (_RAM_C2D5_),a
     ld hl,$0000
@@ -9096,9 +9173,9 @@ PaletteAirCastleFull:  ; $3fc2
 .db $30,$00,$3f,$0b,$06,$1a,$2f,$2a,$08,$15,$15,$0b,$06,$1a,$2f,$28
 .ends
 .orga $3fd2
-.db $1A $2F $28 
+.db $1A $2F $28
 
-.db $A6 $8B $17 $EF $AA $6F $AB $17 $8E $8F $17 
+.db $A6 $8B $17 $EF $AA $6F $AB $17 $8E $8F $17
 
 .orga $3fdd
 .section "Name entry screens (FunctionLookupTable $10, $11)" overwrite
@@ -10024,7 +10101,7 @@ _LABEL_46FE_:
     ld de,TargetPalette+16
     ld bc,$0008
     ldir
-    ld a,$46
+    ld a,Enemy_GoldDrake
     ld (EnemyNumber),a
     call LoadEnemy
     call _LABEL_116B_
@@ -10476,7 +10553,7 @@ _RoomScriptTable:
 .dw _room_8d_AvionTower
 .dw _room_8e_5530
 .dw _room_8f_5597
-; Unused repeats?
+; Repeats?
 .dw _room_90_DrasgoCave1
 .dw _room_91_DrasgoCave2
 .dw _room_92_DrasgoGasClearSeller
@@ -10493,10 +10570,10 @@ _RoomScriptTable:
 .dw _room_9d_Tajim
 .dw _room_9e_ShadowWarrior
 .dw _room_9f_LaShiec
-.dw _room_a0_578F
-.dw _room_a1_5795
+.dw _room_a0_EppiWoodsNoCompass
+.dw _room_a1_HapsbyScrapHeap
 .dw _room_a2_5795
-.dw _room_a3_5798
+.dw _room_a3_TaironStone
 .dw _room_a4_CoronoTowerDezorian1
 .dw _room_a5_GuaranMorgue
 .dw _room_a6_CoronaDungeonDishonestDezorian: ; $5809
@@ -10508,8 +10585,8 @@ _RoomScriptTable:
 .dw _room_ac_58C6
 .dw _room_ad_58FC
 .dw _room_ae_5902
-.dw _room_af_5795
-.dw _room_b0_5795
+.dw _room_af_LaermaTree
+.dw _room_b0_TopOfBayaMarlay
 .dw _room_b1_592D
 .dw _room_b2_OtegamiChieChan: ; $5933
 .dw _room_b3_FlightToMotavia: ; $5939
@@ -12415,23 +12492,23 @@ _room_9f_LaShiec: ; $575B:
     ; LaShiec has fallen. Alisa’s wish has come true. Surely even Nero will be rejoicing in heaven. Now let's hurry back to Paseo and see the Governor-General!
     jp DrawText20x6 ; and ret
 
-_room_a0_578F:
+_room_a0_EppiWoodsNoCompass:
     ld hl,textEppiWoodsCantPass
     jp TextBox20x6 ; and ret
 
-_room_a1_5795:
+_room_a1_HapsbyScrapHeap:
 _room_a2_5795:
-_room_af_5795:
-_room_b0_5795:
+_room_af_LaermaTree:
+_room_b0_TopOfBayaMarlay:
 _room_b6_5795:
     call MenuWaitForButton
-_room_a3_5798:
+_room_a3_TaironStone:
     call _LABEL_1D3D_
     pop hl
     ret
 
 _NothingInterestingHere:
-    ld hl,$af1e
+    ld hl,textNothingUnusualHere
     ; There doesn’t seem to be anything particularly unusual here.
     call TextBox20x6
     jp Close20x6TextBox ; and ret
@@ -12441,7 +12518,7 @@ GetHapsby:
     ld a,Item_Hapsby
     ld (ItemTableIndex),a
     call HaveItem
-    jr z,fn579d_NothingInterestingHere
+    jr z,_NothingInterestingHere
     call Close20x6TextBox
     ld hl,_RAM_C801_
     inc (hl)
@@ -12456,7 +12533,7 @@ CheckFlowMover:
     ; Is it unhidden?
     ld a,(FlowMoverIsUnhidden)
     or a
-    jr z,fn579d_NothingInterestingHere
+    jr z,_NothingInterestingHere
     ; Do we have Hapsby?
     ld a,Item_Hapsby
     ld (ItemTableIndex),a
@@ -12822,7 +12899,7 @@ SpriteHandler:         ; $59e6
     add iy,de          ; Move iy to next CharacterSpriteAttributes
     inc c              ; and inc c
     djnz -             ; repeat 8 times???
-    
+
     ld de,_RAM_c289_        ; Sort _RAM_c289_ into increasing numerical order by 1st byte in each entry (?)
     ld b,3             ; counter
  --:push bc            ; <-----------------------------+
@@ -13513,7 +13590,7 @@ _LABEL_6054_:
     bit 7,(iy+10)
     jr z,+
     ld a,(EnemyNumber)
-    cp $48
+    cp Enemy_LaShiec
     jr z,_LABEL_6099_
     ld a,$11
     ld (CharacterSpriteAttributes),a
@@ -13701,7 +13778,7 @@ _LABEL_618D_:
 
 _LABEL_61DF_:
     ld hl,Frame2Paging
-    ld (hl),: 
+    ld (hl),:
     ld a,(_RAM_C308_)
     cp $03
     jp nc,_LABEL_6275_
@@ -13795,7 +13872,7 @@ _LABEL_6254_SelectMonsterFromPool:
 
 _LABEL_6275_:
     xor a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ret
 
 .orga $627a
@@ -14807,7 +14884,7 @@ _PitFall:
 
 _NotPitFall:
     ld a,(ControlsNew)
-    and $0F ; Mask to dircetions
+    and $0F ; Mask to directions
     jp z,_NotMoving
     ; Check movememnt direction
     ld c,a
@@ -14818,7 +14895,7 @@ _NotPitFall:
     call DungeonGetRelativeSquare
     ld b,a
     and $07
-    ; Zero -> 
+    ; Zero ->
     jp z,_LABEL_69FB_
     sub $02
     jp c,_NotForwards
@@ -15203,10 +15280,10 @@ _LABEL_6C06_:
     ret z ; Do nothing if it is $ff
     ; Remember it
     ld (DungeonObjectFlagAddress),de
-    
+
     ld a,$FF
     ld (MovementInProgress),a
-    
+
     inc hl
     ld a,(hl) ; Read object type
     inc hl
@@ -15233,7 +15310,7 @@ _LABEL_6C06_:
     ld l,a
     ld (EnemyMoney),hl
     ; fall through
-    
+
 ++: ; Treasure chest for item or money
     ld a,b ; relative square index?
     cp $01
@@ -15313,7 +15390,7 @@ _LABEL_6CD2_:
     ; Clear other stuff
     xor a
     ld (CharacterSpriteAttributes),a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld (SceneType),a
     ld (_RAM_C2D5_),a
     ld hl,0
@@ -15344,7 +15421,7 @@ DungeonAnimation: ; $6CFB
 
 ; Data from 6D19 to 6D83 (107 bytes)
 _table:
-.dw _table0 _table1 _table2 _table3 _table4 _table5 _table6 _table7 _table8 _table9 
+.dw _table0 _table1 _table2 _table3 _table4 _table5 _table6 _table7 _table8 _table9
 _table0: .db $01 $02 $03 $04 $05 $FF              ; 0 = Forward
 _table1: .db $05 $04 $03 $02 $01 $00 $FF          ; 1 = Backward
 _table2: .db $07 $08 $09 $0A $0B $0C $0D $00 $FF  ; 2 = turn corridor to corridor (left)
@@ -15373,7 +15450,7 @@ _LABEL_6D90_:
     jr z,+
     ld a,$06
 +:  ld c,a                    ; Take a copy of the table entry number
-    add a,a                   ; multiply by 6 
+    add a,a                   ; multiply by 6
     ld b,a
     add a,a
     add a,b
@@ -15496,12 +15573,12 @@ _raw:                  ;                                     | |
 DungeonTilesDecode:
     ld c,VDPData
 --: ; Read byte
-    ld a,(hl)                 
+    ld a,(hl)
     or a
     ; 0 = end
-    ret z                     
+    ret z
     ; high bit -> raw
-    jp m,_raw                 
+    jp m,_raw
 
     ; else RLE
 _rle:
@@ -15535,7 +15612,7 @@ _raw:
     ; cc: count
     ; dd * cc * 3: data
     ; fourth byte is generated again
-    
+
     ; clear high bit
     and $7F
     ld b,a
@@ -15557,24 +15634,24 @@ _raw:
 
 _LABEL_6E6D_:
     push hl
-    ld a,(DungeonFacingDirection)
-    and $03
-    add a,a
-    add a,a
-    add a,a
-    add a,a
-    ld e,a
-    ld d,$00
-    ld hl,_RelativeSquareOffsets
-    add hl,de
-    ld e,b
-    add hl,de
-    ld a,(DungeonPosition)
-    add a,(hl)
-    ld h,$CB
-    ld l,a
-    ld a,(hl)
-    and $07
+      ld a,(DungeonFacingDirection)
+      and $03
+      add a,a
+      add a,a
+      add a,a
+      add a,a
+      ld e,a
+      ld d,$00
+      ld hl,_RelativeSquareOffsets
+      add hl,de
+      ld e,b
+      add hl,de
+      ld a,(DungeonPosition)
+      add a,(hl)
+      ld h,>DungeonMap
+      ld l,a
+      ld a,(hl)
+      and $07
     pop hl
     ret
 
@@ -15794,7 +15871,7 @@ _LABEL_6FE8_:
 LoadDungeonMap:
     ld hl,Frame2Paging
     ld (hl),:DungeonsData
-    
+
     ld a,(DungeonNumber)
     ld h,a
     ld l,0
@@ -15802,7 +15879,7 @@ LoadDungeonMap:
     rr l
     ld de,DungeonsData  ; Table
     add hl,de
-    
+
     ld de,DungeonMap
     ld b,$80 ; Byte count
 -:  ld a,(hl)
@@ -15822,7 +15899,7 @@ LoadDungeonMap:
     inc hl
     djnz -
     ; fall through
-    
+
 LoadDungeonData:
     ; Sprite palette
     ld hl,Frame2Paging
@@ -15831,7 +15908,7 @@ LoadDungeonData:
     ld de,TargetPalette+16+1
     ld bc,7
     ldir
-    
+
     ld a,(DungeonNumber)
     add a,a
     add a,a                   ; x4
@@ -15893,7 +15970,7 @@ CheckDungeonMusic:
 
 ; Data from 709A to 70A6 (13 bytes)
 DungeonSpritePalette:
-.db $00 $3F $30 $38 $03 $0B $0F 
+.db $00 $3F $30 $38 $03 $0B $0F
 _70a1:
 .db $01 $02 $14 $15 $16 $21
 
@@ -17236,7 +17313,7 @@ _LABEL_7A4F_:
 _LABEL_7B1A_:
     ld (FunctionLookupIndex),a
     inc hl
-    
+
 .orga $7b1e
 .section "???" overwrite
 _LABEL_7B1E_:
@@ -17318,7 +17395,7 @@ _LABEL_7B60_:
     ld l,a
     ld (RoomIndex),hl
     xor a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld hl,(_RAM_C311_)
     ld (VLocation),hl
     ld hl,(_RAM_C313_)
@@ -17371,10 +17448,10 @@ _LABEL_7BCD_:
     ld a,(VehicleMovementFlags)
     or a
     ret nz
-    ld a,$35
+    ld a,Item_Compass
     call HaveItem
     ret z
-    ld hl,$00A0
+    ld hl,$00A0 ; _room_a0_EppiWoodsNoCompass
     ld (RoomIndex),hl
 _LABEL_7C15_:
     ld a,$0C
@@ -17420,8 +17497,8 @@ _LABEL_7C15_:
     or a
     ret nz
     ld a,$FF
-    ld (_RAM_C29D_),a
-    ld a,$19
+    ld (_RAM_C29D_InBattle),a
+    ld a,Enemy_Antlion
     ld (EnemyNumber),a
     jp _LABEL_7C15_
 
@@ -17449,7 +17526,7 @@ _LABEL_7C85_:
     ret z
     ld (_RAM_C2F0_),a
     ld hl,$00AE
-    ld (RoomIndex),hl
+    ld (RoomIndex),hl ; _room_ae_5902
     ld a,$0C
     ld (FunctionLookupIndex),a
     jp _LABEL_7BAB_
@@ -17662,11 +17739,11 @@ _LABEL_7E67_:
     ld (PaletteFlashFrames),a
     ld hl,$0E03
     ld a,(EnemyNumber)
-    cp $46
+    cp Enemy_GoldDrake
     jr z,+
-    cp $49
+    cp Enemy_DarkForce
     jr z,+
-    cp $4A
+    cp Enemy_Nightmare
     jr z,+
     ld hl,$0D03
 +:  ld (PaletteFlashCount),hl
@@ -18099,10 +18176,10 @@ ItemMetadata:
 .db %01000110
 .db %01010010
 ; Vehicles
-.db %00000100 ; Undroppale
-.db %00000100 ; Undroppale
-.db %00000100 ; Undroppale
-; Items
+.db %00000100 ; Undroppable
+.db %00000100 ; Undroppable
+.db %00000100 ; Undroppable
+; Items. $04 means undroppable:
 .db $00
 .db $00
 .db $00
@@ -18110,26 +18187,26 @@ ItemMetadata:
 .db $00
 .db $00
 .db $00
-.db $04 ; Polymeteral is undroppable
+.db $04 ; Item_Alsuline
 .db $00
-.db $04 ; Telepathy Ball is undroppable
+.db $04 ; Item_DungeonKey
 .db $00
-.db $04 ; undroppable
-.db $04 ; undroppable
-.db $04 ; undroppable
-.db $04 ; undroppable
-.db $04 ; undroppable
+.db $04 ; Item_EclipseTorch
+.db $04 ; Item_Aeroprism
+.db $04 ; Item_LaermaBerries
+.db $04 ; Item_Hapsby
+.db $04 ; Item_RoadPass
 .db $00
-.db $04 ; undroppable
+.db $04 ; Item_Compass
 .db $00
-.db $04 ; undroppable
-.db $04 ; undroppable
+.db $04 ; Item_GovernorGeneralsLetter
+.db $04 ; Item_LaconianPot
 .db $00
-.db $04 ; undroppable
+.db $04 ; Item_CarbuncleEye
 .db $00
 .db $00
 .db $00
-.db $04 ; undroppable
+.db $04 ; Item_MiracleKey
 .db $00
 .ends
 
@@ -18167,100 +18244,105 @@ _DATA_C000_:
 
 ; Data from C178 to C46F (760 bytes)
 _DATA_C180_MonsterPools:
-.db $01 $01 $01 $01 $01 $05 $05 $05
-.db $01 $01 $04 $04 $05 $05 $05 $05
-.db $01 $01 $01 $04 $04 $04 $04 $15
-.db $01 $01 $09 $09 $09 $09 $09 $15
-.db $01 $06 $06 $06 $0A $0A $0A $0A
-.db $04 $0A $0A $0A $0A $15 $15 $17
-.db $01 $01 $06 $06 $0A $0A $0A $17
-.db $0D $0D $15 $15 $15 $1E $1E $30
-.db $05 $0B $0B $17 $17 $18 $18 $18
-.db $09 $09 $09 $10 $10 $22 $22 $35
-.db $36 $36 $40 $40 $40 $40 $40 $40
-.db $03 $03 $03 $03 $03 $03 $03 $16
-.db $16 $16 $16 $1D $1D $23 $23 $23
-.db $03 $03 $25 $25 $25 $25 $25 $25
-.db $16 $16 $1D $1D $1D $35 $35 $35
-.db $01 $01 $01 $09 $09 $09 $09 $09 ; $10
-.db $01 $01 $05 $05 $05 $05 $0A $0A
-.db $03 $03 $03 $12 $12 $12 $12 $12
-.db $15 $15 $15 $15 $16 $16 $16 $16
-.db $09 $09 $10 $10 $16 $16 $18 $1D
-.db $09 $09 $1F $1F $1F $1F $1F $1F
-.db $15 $15 $1F $1F $23 $23 $25 $25
-.db $26 $26 $26 $26 $26 $26 $26 $26
-.db $1D $1D $1D $1D $25 $25 $25 $25
-.db $03 $0A $0A $10 $10 $16 $18 $18
-.db $1D $23 $26 $2D $32 $32 $32 $32
-.db $09 $41 $41 $41 $41 $41 $41 $41
-.db $0A $42 $42 $42 $42 $42 $42 $42
-.db $01 $01 $01 $01 $01 $01 $01 $01
-.db $14 $14 $14 $14 $14 $14 $14 $14
-.db $15 $15 $15 $15 $15 $15 $15 $15
-.db $29 $29 $29 $29 $29 $29 $29 $29 ; $20
-.db $26 $26 $26 $26 $26 $26 $26 $26
-.db $24 $24 $24 $24 $24 $24 $24 $24
-.db $36 $36 $36 $36 $36 $36 $36 $36
-.db $14 $14 $14 $14 $14 $14 $14 $14
-.db $13 $13 $13 $13 $13 $13 $13 $13
-.db $20 $20 $20 $20 $20 $20 $20 $20
-.db $29 $29 $29 $29 $29 $29 $29 $29
-.db $30 $30 $30 $30 $30 $30 $30 $30
-.db $0D $1A $1A $1A $1A $26 $26 $26
-.db $34 $34 $36 $36 $36 $36 $36 $36
-.db $13 $13 $20 $20 $22 $22 $22 $22
-.db $22 $22 $24 $24 $24 $36 $36 $36
-.db $17 $17 $22 $22 $2C $2C $2F $37
-.db $19 $19 $19 $19 $19 $19 $19 $19
-.db $05 $05 $05 $05 $06 $06 $08 $0C
-.db $0E $0E $0E $0E $0E $0E $0F $0F ; $30
-.db $10 $10 $1C $1C $1C $1C $1C $1C
-.db $0C $0C $16 $16 $17 $17 $23 $23
-.db $20 $27 $27 $27 $27 $27 $27 $27
-.db $20 $20 $20 $20 $20 $20 $20 $20
-.db $27 $27 $2F $2F $2F $2F $30 $30
-.db $0F $30 $32 $32 $32 $32 $32 $32
-.db $08 $08 $10 $10 $39 $39 $39 $39
-.db $05 $05 $1C $1C $1C $1C $3B $3B
-.db $30 $30 $39 $39 $3B $3B $3B $3B
-.db $07 $07 $0B $0B $0D $0D $1B $1B
-.db $0B $0B $1B $1B $21 $21 $24 $24
-.db $1B $1B $1B $1B $1D $1D $25 $25
-.db $21 $21 $21 $25 $25 $28 $28 $2A
-.db $0D $24 $24 $2A $2A $2A $2D $2D
-.db $1D $1D $1D $1D $28 $28 $28 $39
-.db $2B $2B $2B $2B $2B $2B $36 $36 ; $40
-.db $25 $25 $25 $36 $36 $36 $38 $38
-.db $07 $07 $3F $3F $3F $3F $3F $3F
-.db $2A $2A $3A $3A $3A $3A $3A $3A
-.db $2B $2B $2D $2D $2D $41 $41 $41
-.db $0D $0D $3A $3A $41 $41 $41 $41
-.db $1D $1D $1D $1D $28 $28 $2A $2A
-.db $25 $25 $2D $2D $38 $38 $38 $38
-.db $39 $39 $39 $41 $41 $41 $41 $41
-.db $44 $44 $44 $44 $44 $44 $44 $44
-.db $02 $02 $03 $03 $0B $0B $0D $0D
-.db $09 $09 $0C $0C $11 $11 $16 $16
-.db $07 $07 $10 $10 $12 $12 $2B $2B
-.db $15 $15 $18 $18 $1D $1D $1F $1F
-.db $17 $17 $28 $28 $2A $2A $2C $2C
-.db $22 $22 $25 $25 $26 $26 $2D $2D
-.db $0B $0B $0B $0B $0D $0D $0D $1F ; $50
-.db $2C $2C $2C $2C $2C $2C $2C $2C
-.db $18 $18 $1D $1D $3B $3B $3C $3C
-.db $25 $25 $2A $2A $3D $3D $41 $41
-.db $38 $38 $3F $3F $40 $40 $42 $42
-.db $11 $11 $37 $37 $37 $37 $37 $37
-.db $2F $2F $2F $2F $40 $40 $42 $42
-.db $33 $33 $36 $36 $38 $38 $39 $39
-.db $33 $33 $35 $35 $3C $3C $3C $3C
-.db $2A $2A $3A $3A $3F $3F $44 $44
-.db $44 $44 $44 $44 $44 $44 $44 $44
-.db $02 $02 $02 $02 $03 $03 $03 $03
-.db $10 $10 $10 $12 $12 $12 $15 $15 ; $5b
-.db $25 $25 $25 $30 $30 $30 $33 $33
-.db $09 $09 $12 $12 $41 $41 $41 $41
+.dsb 5 Enemy_MonsterFly
+.dsb 3 Enemy_Scorpius
+
+.dsb 2 Enemy_MonsterFly
+.dsb 2 Enemy_Maneater
+.dsb 4 Enemy_Scorpius
+
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_Maneater Enemy_Maneater Enemy_Maneater Enemy_Maneater Enemy_Lich
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_Lich
+.db Enemy_MonsterFly Enemy_GiantNaiad Enemy_GiantNaiad Enemy_GiantNaiad Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant
+.db Enemy_Maneater Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_Lich Enemy_Lich Enemy_Manticort
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_GiantNaiad Enemy_GiantNaiad Enemy_KillerPlant Enemy_KillerPlant Enemy_KillerPlant Enemy_Manticort
+.db Enemy_Herex Enemy_Herex Enemy_Lich Enemy_Lich Enemy_Lich Enemy_BigNose Enemy_BigNose Enemy_FlameLizard
+.db Enemy_Scorpius Enemy_BitingFly Enemy_BitingFly Enemy_Manticort Enemy_Manticort Enemy_Skeleton Enemy_Skeleton Enemy_Skeleton
+.db Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_GoldLens Enemy_GoldLens Enemy_Wight Enemy_Wight Enemy_Talos
+.db Enemy_SnakeLord Enemy_SnakeLord Enemy_KingSaber Enemy_KingSaber Enemy_KingSaber Enemy_KingSaber Enemy_KingSaber Enemy_KingSaber
+.db Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_Tarantula
+.db Enemy_Tarantula Enemy_Tarantula Enemy_Tarantula Enemy_Cryon Enemy_Cryon Enemy_SkullSoldier Enemy_SkullSoldier Enemy_SkullSoldier
+.db Enemy_WingEye Enemy_WingEye Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_Manticore
+.db Enemy_Tarantula Enemy_Tarantula Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Talos Enemy_Talos Enemy_Talos
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat Enemy_DevilBat ; $10
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_Scorpius Enemy_Scorpius Enemy_Scorpius Enemy_Scorpius Enemy_KillerPlant Enemy_KillerPlant
+.db Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_BatMan Enemy_BatMan Enemy_BatMan Enemy_BatMan Enemy_BatMan
+.db Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Tarantula Enemy_Tarantula Enemy_Tarantula Enemy_Tarantula
+.db Enemy_DevilBat Enemy_DevilBat Enemy_GoldLens Enemy_GoldLens Enemy_Tarantula Enemy_Tarantula Enemy_Skeleton Enemy_Cryon
+.db Enemy_DevilBat Enemy_DevilBat Enemy_Ghoul Enemy_Ghoul Enemy_Ghoul Enemy_Ghoul Enemy_Ghoul Enemy_Ghoul
+.db Enemy_Lich Enemy_Lich Enemy_Ghoul Enemy_Ghoul Enemy_SkullSoldier Enemy_SkullSoldier Enemy_Manticore Enemy_Manticore
+.db Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent
+.db Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_Manticore
+.db Enemy_WingEye Enemy_KillerPlant Enemy_KillerPlant Enemy_GoldLens Enemy_GoldLens Enemy_Tarantula Enemy_Skeleton Enemy_Skeleton
+.db Enemy_Cryon Enemy_SkullSoldier Enemy_Serpent Enemy_LivingDead Enemy_Gaia Enemy_Gaia Enemy_Gaia Enemy_Gaia
+.db Enemy_DevilBat Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_KillerPlant Enemy_Golem Enemy_Golem Enemy_Golem Enemy_Golem Enemy_Golem Enemy_Golem Enemy_Golem
+.db Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly Enemy_MonsterFly
+.db Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing
+.db Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich Enemy_Lich
+.db Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus ; $20
+.db Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent Enemy_Serpent
+.db Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail Enemy_Snail
+.db Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord
+.db Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing Enemy_SharkKing
+.db Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_HorseshoeCrab
+.db Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite
+.db Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus Enemy_Octopus
+.db Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard
+.db Enemy_Herex Enemy_Marshes Enemy_Marshes Enemy_Marshes Enemy_Marshes Enemy_Serpent Enemy_Serpent Enemy_Serpent
+.db Enemy_BigEater Enemy_BigEater Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord
+.db Enemy_HorseshoeCrab Enemy_HorseshoeCrab Enemy_Ammonite Enemy_Ammonite Enemy_Wight Enemy_Wight Enemy_Wight Enemy_Wight
+.db Enemy_Wight Enemy_Wight Enemy_Snail Enemy_Snail Enemy_Snail Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord
+.db Enemy_Manticort Enemy_Manticort Enemy_Wight Enemy_Wight Enemy_Zombie Enemy_Zombie Enemy_CyborgMage Enemy_DeathBearer
+.db Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion Enemy_Antlion
+.db Enemy_Scorpius Enemy_Scorpius Enemy_Scorpius Enemy_Scorpius Enemy_GiantNaiad Enemy_GiantNaiad Enemy_MotavianPeasant Enemy_MotavianTeaser
+.db Enemy_Sandworm Enemy_Sandworm Enemy_Sandworm Enemy_Sandworm Enemy_Sandworm Enemy_Sandworm Enemy_MotavianManiac Enemy_MotavianManiac ; $30
+.db Enemy_GoldLens Enemy_GoldLens Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech
+.db Enemy_MotavianTeaser Enemy_MotavianTeaser Enemy_Tarantula Enemy_Tarantula Enemy_Manticort Enemy_Manticort Enemy_SkullSoldier Enemy_SkullSoldier
+.db Enemy_Ammonite Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan Enemy_Leviathan
+.db Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite Enemy_Ammonite
+.db Enemy_Leviathan Enemy_Leviathan Enemy_CyborgMage Enemy_CyborgMage Enemy_CyborgMage Enemy_CyborgMage Enemy_FlameLizard Enemy_FlameLizard
+.db Enemy_MotavianManiac Enemy_FlameLizard Enemy_Gaia Enemy_Gaia Enemy_Gaia Enemy_Gaia Enemy_Gaia Enemy_Gaia
+.db Enemy_MotavianPeasant Enemy_MotavianPeasant Enemy_GoldLens Enemy_GoldLens Enemy_Centaur Enemy_Centaur Enemy_Centaur Enemy_Centaur
+.db Enemy_Scorpius Enemy_Scorpius Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_DesertLeech Enemy_Vulcan Enemy_Vulcan
+.db Enemy_FlameLizard Enemy_FlameLizard Enemy_Centaur Enemy_Centaur Enemy_Vulcan Enemy_Vulcan Enemy_Vulcan Enemy_Vulcan
+.db Enemy_BlueSlime Enemy_BlueSlime Enemy_BitingFly Enemy_BitingFly Enemy_Herex Enemy_Herex Enemy_Dezorian Enemy_Dezorian
+.db Enemy_BitingFly Enemy_BitingFly Enemy_Dezorian Enemy_Dezorian Enemy_Executor Enemy_Executor Enemy_Snail Enemy_Snail
+.db Enemy_Dezorian Enemy_Dezorian Enemy_Dezorian Enemy_Dezorian Enemy_Cryon Enemy_Cryon Enemy_Manticore Enemy_Manticore
+.db Enemy_Executor Enemy_Executor Enemy_Executor Enemy_Manticore Enemy_Manticore Enemy_Dorouge Enemy_Dorouge Enemy_MadStalker
+.db Enemy_Herex Enemy_Snail Enemy_Snail Enemy_MadStalker Enemy_MadStalker Enemy_MadStalker Enemy_LivingDead Enemy_LivingDead
+.db Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Dorouge Enemy_Dorouge Enemy_Dorouge Enemy_Centaur
+.db Enemy_DezorianHead Enemy_DezorianHead Enemy_DezorianHead Enemy_DezorianHead Enemy_DezorianHead Enemy_DezorianHead Enemy_SnakeLord Enemy_SnakeLord ; $40
+.db Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_SnakeLord Enemy_SnakeLord Enemy_SnakeLord Enemy_ChaosSorcerer Enemy_ChaosSorcerer
+.db Enemy_BlueSlime Enemy_BlueSlime Enemy_Mammoth Enemy_Mammoth Enemy_Mammoth Enemy_Mammoth Enemy_Mammoth Enemy_Mammoth
+.db Enemy_MadStalker Enemy_MadStalker Enemy_IceMan Enemy_IceMan Enemy_IceMan Enemy_IceMan Enemy_IceMan Enemy_IceMan
+.db Enemy_DezorianHead Enemy_DezorianHead Enemy_LivingDead Enemy_LivingDead Enemy_LivingDead Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_Herex Enemy_Herex Enemy_IceMan Enemy_IceMan Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Cryon Enemy_Dorouge Enemy_Dorouge Enemy_MadStalker Enemy_MadStalker
+.db Enemy_Manticore Enemy_Manticore Enemy_LivingDead Enemy_LivingDead Enemy_ChaosSorcerer Enemy_ChaosSorcerer Enemy_ChaosSorcerer Enemy_ChaosSorcerer
+.db Enemy_Centaur Enemy_Centaur Enemy_Centaur Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon
+.db Enemy_GreenSlime Enemy_GreenSlime Enemy_WingEye Enemy_WingEye Enemy_BitingFly Enemy_BitingFly Enemy_Herex Enemy_Herex
+.db Enemy_DevilBat Enemy_DevilBat Enemy_MotavianTeaser Enemy_MotavianTeaser Enemy_RedSlime Enemy_RedSlime Enemy_Tarantula Enemy_Tarantula
+.db Enemy_BlueSlime Enemy_BlueSlime Enemy_GoldLens Enemy_GoldLens Enemy_BatMan Enemy_BatMan Enemy_DezorianHead Enemy_DezorianHead
+.db Enemy_Lich Enemy_Lich Enemy_Skeleton Enemy_Skeleton Enemy_Cryon Enemy_Cryon Enemy_Ghoul Enemy_Ghoul
+.db Enemy_Manticort Enemy_Manticort Enemy_Dorouge Enemy_Dorouge Enemy_MadStalker Enemy_MadStalker Enemy_Zombie Enemy_Zombie
+.db Enemy_Wight Enemy_Wight Enemy_Manticore Enemy_Manticore Enemy_Serpent Enemy_Serpent Enemy_LivingDead Enemy_LivingDead
+.db Enemy_BitingFly Enemy_BitingFly Enemy_BitingFly Enemy_BitingFly Enemy_Herex Enemy_Herex Enemy_Herex Enemy_Ghoul ; $50
+.db Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie Enemy_Zombie
+.db Enemy_Skeleton Enemy_Skeleton Enemy_Cryon Enemy_Cryon Enemy_Vulcan Enemy_Vulcan Enemy_RedDragon Enemy_RedDragon
+.db Enemy_Manticore Enemy_Manticore Enemy_MadStalker Enemy_MadStalker Enemy_GreenDragon Enemy_GreenDragon Enemy_DarkMarauder Enemy_DarkMarauder
+.db Enemy_ChaosSorcerer Enemy_ChaosSorcerer Enemy_Mammoth Enemy_Mammoth Enemy_KingSaber Enemy_KingSaber Enemy_Golem Enemy_Golem
+.db Enemy_RedSlime Enemy_RedSlime Enemy_DeathBearer Enemy_DeathBearer Enemy_DeathBearer Enemy_DeathBearer Enemy_DeathBearer Enemy_DeathBearer
+.db Enemy_CyborgMage Enemy_CyborgMage Enemy_CyborgMage Enemy_CyborgMage Enemy_KingSaber Enemy_KingSaber Enemy_Golem Enemy_Golem
+.db Enemy_MachineGuard Enemy_MachineGuard Enemy_SnakeLord Enemy_SnakeLord Enemy_ChaosSorcerer Enemy_ChaosSorcerer Enemy_Centaur Enemy_Centaur
+.db Enemy_MachineGuard Enemy_MachineGuard Enemy_Talos Enemy_Talos Enemy_RedDragon Enemy_RedDragon Enemy_RedDragon Enemy_RedDragon
+.db Enemy_MadStalker Enemy_MadStalker Enemy_IceMan Enemy_IceMan Enemy_Mammoth Enemy_Mammoth Enemy_FrostDragon Enemy_FrostDragon
+.db Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon Enemy_FrostDragon
+.db Enemy_GreenSlime Enemy_GreenSlime Enemy_GreenSlime Enemy_GreenSlime Enemy_WingEye Enemy_WingEye Enemy_WingEye Enemy_WingEye
+.db Enemy_GoldLens Enemy_GoldLens Enemy_GoldLens Enemy_BatMan Enemy_BatMan Enemy_BatMan Enemy_Lich Enemy_Lich ; $5b
+.db Enemy_Manticore Enemy_Manticore Enemy_Manticore Enemy_FlameLizard Enemy_FlameLizard Enemy_FlameLizard Enemy_MachineGuard Enemy_MachineGuard
+.db Enemy_DevilBat Enemy_DevilBat Enemy_BatMan Enemy_BatMan Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
 
 ; Data from C470 to C59F (304 bytes)
 _DATA_C470_:
@@ -20249,39 +20331,39 @@ DungeonObjects:
   .endu
 .endst
 .macro AddDungeonObject_Item
-.dstruct instanceof DungeonObject values 
+.dstruct instanceof DungeonObject values
   DungeonNumber:    .db \1,
   DungeonPosition:  .db \2,
-  FlagAddress:      .dw \3, 
+  FlagAddress:      .dw \3,
   ObjectType:       .db DungeonObject_Item,
-  ItemID:           .db \4, 
+  ItemID:           .db \4,
   IsTrapped:        .db \5
 .endst
 .endm
 .macro AddDungeonObject_Meseta
-.dstruct instanceof DungeonObject values 
+.dstruct instanceof DungeonObject values
   DungeonNumber:    .db \1,
   DungeonPosition:  .db \2,
-  FlagAddress:      .dw \3, 
+  FlagAddress:      .dw \3,
   ObjectType:       .db DungeonObject_Item,
   MesetaValue:      .dw \4
 .endst
 .endm
 .macro AddDungeonObject_Battle
-.dstruct instanceof DungeonObject values 
+.dstruct instanceof DungeonObject values
   DungeonNumber:    .db \1,
   DungeonPosition:  .db \2,
-  FlagAddress:      .dw \3, 
+  FlagAddress:      .dw \3,
   ObjectType:       .db DungeonObject_Battle,
   EnemyID:          .db \4,
   ItemID:           .db \5,
 .endst
 .endm
 .macro AddDungeonObject_Dialogue
-.dstruct instanceof DungeonObject values 
+.dstruct instanceof DungeonObject values
   DungeonNumber:    .db \1,
   DungeonPosition:  .db \2,
-  FlagAddress:      .dw \3, 
+  FlagAddress:      .dw \3,
   ObjectType:       .db DungeonObject_Dialogue,
   CharacterID:      .db \4,
   RoomID:           .db \5
@@ -20295,7 +20377,7 @@ DungeonObjects:
   AddDungeonObject_Item     $00, $36, $c600, Item_Compass, 0
   AddDungeonObject_Meseta   $00, $E0, $c601, 20
   AddDungeonObject_Battle   $00, $53, $C6C0, Enemy_MadDoctor, Item_Empty
-  AddDungeonObject_Dialogue $00, $E3, $C50A, $A3, $3A ; _room_a3_5798 ???
+  AddDungeonObject_Dialogue $00, $E3, $C50A, $A3, $3A ; _room_a3_TaironStone ???
   AddDungeonObject_Meseta   $00, $7C, $C602, 10
   AddDungeonObject_Item     $01, $17, $C603, Item_Empty, $FC
   AddDungeonObject_Battle   $01, $5D, $C6C1, Enemy_Skeleton, Item_Empty
@@ -20521,100 +20603,116 @@ DungeonPalettes:
 .db $38 $3C $00 $30 $3F $34 $38 $3C
 .db $08 $0C $00 $04 $3F $04 $08 $0C
 
-; Data from F619 to F61B (3 bytes)
 .struct DungeonData
   BattleProbability db
   DungeonMonsterPoolIndex db
   PaletteNumber db
   Music db
 .endst
+.macro AddDungeonData
+.dstruct instanceof DungeonData values
+  BattleProbability:       .db \1
+  DungeonMonsterPoolIndex: .db \2
+  PaletteNumber:           .db \3
+  Music:                   .db \4
+.endst
+.endm
 DungeonData1:
-.dstruct instanceof DungeonData data $19 $5B $03 MusicDungeon ; 0
-.dstruct instanceof DungeonData data $00 $00 $04 MusicDungeon
-.dstruct instanceof DungeonData data $00 $00 $01 MusicDungeon
-.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $5E $00 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $55 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $00 MusicTower ; 10
-.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $56 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $55 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $00 MusicTower
-.dstruct instanceof DungeonData data $00 $00 $00 MusicTower
-.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
-.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
-.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
-.dstruct instanceof DungeonData data $19 $5C $03 MusicDungeon
-.dstruct instanceof DungeonData data $00 $00 $02 MusicDungeon ; 20
-.dstruct instanceof DungeonData data $00 $00 $02 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4D $03 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4D $01 MusicTower
-.dstruct instanceof DungeonData data $19 $5D $01 MusicTower
-.dstruct instanceof DungeonData data $19 $5D $01 MusicTower
-.dstruct instanceof DungeonData data $19 $5E $01 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $01 MusicTower
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon ; 30
-.dstruct instanceof DungeonData data $19 $54 $05 MusicFinalDungeon
-.dstruct instanceof DungeonData data $19 $58 $05 MusicFinalDungeon
-.dstruct instanceof DungeonData data $00 $00 $05 MusicFinalDungeon
-.dstruct instanceof DungeonData data $19 $52 $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4F $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $50 $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $50 $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4B $06 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4C $09 MusicDungeon ; 40
-.dstruct instanceof DungeonData data $19 $51 $09 MusicDungeon
-.dstruct instanceof DungeonData data $19 $51 $09 MusicDungeon
-.dstruct instanceof DungeonData data $19 $52 $07 MusicTower
-.dstruct instanceof DungeonData data $19 $4F $07 MusicTower
-.dstruct instanceof DungeonData data $19 $4F $07 MusicTower
-.dstruct instanceof DungeonData data $19 $56 $07 MusicTower
-.dstruct instanceof DungeonData data $19 $50 $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $51 $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $4F $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $5A $08 MusicDungeon ; 50
-.dstruct instanceof DungeonData data $19 $59 $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $59 $08 MusicDungeon
-.dstruct instanceof DungeonData data $19 $55 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $53 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $57 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $58 $05 MusicTower
-.dstruct instanceof DungeonData data $19 $59 $09 MusicDungeon
-.dstruct instanceof DungeonData data $19 $01 $0A MusicTower
-.dstruct instanceof DungeonData data $19 $01 $02 MusicTower ; 60
+  AddDungeonData $19 $5B $03 MusicDungeon ; 0
+  AddDungeonData $00 $00 $04 MusicDungeon
+  AddDungeonData $00 $00 $01 MusicDungeon
+  AddDungeonData $19 $56 $00 MusicTower
+  AddDungeonData $19 $53 $00 MusicTower
+  AddDungeonData $19 $5E $00 MusicTower
+  AddDungeonData $19 $53 $00 MusicTower
+  AddDungeonData $19 $55 $00 MusicTower
+  AddDungeonData $19 $57 $00 MusicTower
+  AddDungeonData $19 $57 $00 MusicTower
+  AddDungeonData $19 $53 $00 MusicTower ; 10
+  AddDungeonData $19 $56 $00 MusicTower
+  AddDungeonData $19 $56 $00 MusicTower
+  AddDungeonData $19 $55 $00 MusicTower
+  AddDungeonData $19 $57 $00 MusicTower
+  AddDungeonData $00 $00 $00 MusicTower
+  AddDungeonData $19 $5C $03 MusicDungeon
+  AddDungeonData $19 $5C $03 MusicDungeon
+  AddDungeonData $19 $5C $03 MusicDungeon
+  AddDungeonData $19 $5C $03 MusicDungeon
+  AddDungeonData $00 $00 $02 MusicDungeon ; 20
+  AddDungeonData $00 $00 $02 MusicDungeon
+  AddDungeonData $19 $4D $03 MusicDungeon
+  AddDungeonData $19 $4D $01 MusicTower
+  AddDungeonData $19 $5D $01 MusicTower
+  AddDungeonData $19 $5D $01 MusicTower
+  AddDungeonData $19 $5E $01 MusicTower
+  AddDungeonData $19 $53 $01 MusicTower
+  AddDungeonData $19 $4B $06 MusicDungeon
+  AddDungeonData $19 $4B $06 MusicDungeon
+  AddDungeonData $19 $4B $06 MusicDungeon ; 30
+  AddDungeonData $19 $54 $05 MusicFinalDungeon
+  AddDungeonData $19 $58 $05 MusicFinalDungeon
+  AddDungeonData $00 $00 $05 MusicFinalDungeon
+  AddDungeonData $19 $52 $06 MusicDungeon
+  AddDungeonData $19 $4F $06 MusicDungeon
+  AddDungeonData $19 $4B $06 MusicDungeon
+  AddDungeonData $19 $50 $06 MusicDungeon
+  AddDungeonData $19 $50 $06 MusicDungeon
+  AddDungeonData $19 $4B $06 MusicDungeon
+  AddDungeonData $19 $4C $09 MusicDungeon ; 40
+  AddDungeonData $19 $51 $09 MusicDungeon
+  AddDungeonData $19 $51 $09 MusicDungeon
+  AddDungeonData $19 $52 $07 MusicTower
+  AddDungeonData $19 $4F $07 MusicTower
+  AddDungeonData $19 $4F $07 MusicTower
+  AddDungeonData $19 $56 $07 MusicTower
+  AddDungeonData $19 $50 $08 MusicDungeon
+  AddDungeonData $19 $51 $08 MusicDungeon
+  AddDungeonData $19 $4F $08 MusicDungeon
+  AddDungeonData $19 $5A $08 MusicDungeon ; 50
+  AddDungeonData $19 $59 $08 MusicDungeon
+  AddDungeonData $19 $59 $08 MusicDungeon
+  AddDungeonData $19 $55 $05 MusicTower
+  AddDungeonData $19 $53 $05 MusicTower
+  AddDungeonData $19 $57 $05 MusicTower
+  AddDungeonData $19 $57 $05 MusicTower
+  AddDungeonData $19 $58 $05 MusicTower
+  AddDungeonData $19 $59 $09 MusicDungeon
+  AddDungeonData $19 $01 $0A MusicTower
+  AddDungeonData $19 $01 $02 MusicTower ; 60
 
 
 .dsb 10,$00
 
 ; Data from F717 to F832 (284 bytes)
-_DATA_F717_:
-.db $02 $19 $1E $00 $1B $08 $02 $1C $78 $05 $02 $27 $14 $00 $28 $0A
-.db $00 $29 $30 $00 $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $03
-.db $4B $00 $07 $40 $01 $08 $60 $04 $02 $27 $14 $00 $28 $0A $00 $39
-.db $78 $05 $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $10 $1C $00
-.db $12 $22 $01 $15 $E8 $03 $02 $27 $14 $00 $29 $30 $00 $40 $C8
-.dsb 11,$00
-.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00 $02 $27 $14 $00 $28 $0A
-.db $00 $34 $64 $00 $02 $02 $1E $00 $14 $76 $02 $16 $98 $3A
-.dsb 10,$00
-.db $02 $06 $40 $00 $09 $90 $01 $1A $36 $01 $02 $27 $14 $00 $29 $30
-.db $00 $39 $78 $05 $02 $11 $4E $00 $0B $04 $06 $0A $54 $06 $02 $01
-.db $19 $00 $13 $54 $00 $1E $C0 $12 $02 $27 $14 $00 $2A $14 $00 $39
-.db $78 $05 $02 $24 $0A $00 $25 $28 $00 $2C $40 $06 $01 $24 $0A $00
-.db $25 $28 $00 $00 $00 $00 $02 $0B $04 $06 $0C $A4 $0B $1C $78 $05
-.db $02 $27 $14 $00 $29 $30 $00 $2E $1E $00 $00 $21 $50 $14 $00 $00
-.db $00 $00 $00 $00 $02 $04 $B0 $04 $0D $18 $10 $1D $E4 $0C $02 $27
-.db $14 $00 $2A $14 $00 $2E $1E $00 $01 $24 $0A $00 $25 $28 $00 $00
-.db $00 $00 $00 $23 $E0 $2E $00 $00 $00 $00 $00 $00 $02 $27 $14 $00
-.db $28 $0A $00 $29 $30 $00 
+_DATA_F717_: ; 10B per entry, indexed by RoomIndex, only up to index $1c
+.db $02 $19 $1E $00 $1B $08 $02 $1C $78 $05 
+.db $02 $27 $14 $00 $28 $0A $00 $29 $30 $00
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $02 $03 $4B $00 $07 $40 $01 $08 $60 $04
+.db $02 $27 $14 $00 $28 $0A $00 $39 $78 $05
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $02 $10 $1C $00 $12 $22 $01 $15 $E8 $03
+.db $02 $27 $14 $00 $29 $30 $00 $40 $C8 $00
+.db $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $02 $27 $14 $00 $28 $0A $00 $34 $64 $00
+.db $02 $02 $1E $00 $14 $76 $02 $16 $98 $3A
+.db $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
+.db $02 $06 $40 $00 $09 $90 $01 $1A $36 $01
+.db $02 $27 $14 $00 $29 $30 $00 $39 $78 $05
+.db $02 $11 $4E $00 $0B $04 $06 $0A $54 $06
+.db $02 $01 $19 $00 $13 $54 $00 $1E $C0 $12
+.db $02 $27 $14 $00 $2A $14 $00 $39 $78 $05
+.db $02 $24 $0A $00 $25 $28 $00 $2C $40 $06
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $02 $0B $04 $06 $0C $A4 $0B $1C $78 $05
+.db $02 $27 $14 $00 $29 $30 $00 $2E $1E $00
+.db $00 $21 $50 $14 $00 $00 $00 $00 $00 $00
+.db $02 $04 $B0 $04 $0D $18 $10 $1D $E4 $0C
+.db $02 $27 $14 $00 $2A $14 $00 $2E $1E $00
+.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
+.db $00 $23 $E0 $2E $00 $00 $00 $00 $00 $00
+.db $02 $27 $14 $00 $28 $0A $00 $29 $30 $00
 
 _DATA_B82F_ItemSellingPrices:
 ; 0 means you can't sell it

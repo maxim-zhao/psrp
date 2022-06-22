@@ -40,8 +40,8 @@ ScriptLookup:
 .dw textCoronaTowerTorchbearer_a,textCoronaTowerTorchbearer_b,textCoronaTowerTorchbearer_Yes,textCoronaTowerTorchbearer_No,textCoronaTowerTorchbearer_Yes_NoCarbuncleEye,textNaulaCaveShortcakeSalesman,textTajim1,textTajim1a
 .dw textTajim_Win,textTajim_Win_a,textTajim_Win_b,textTajim_Lose,textTajim2,textTajim_NoLutzYet,textTajim_NoLutzYet_a,textTajim_NoLutzYet_Yes
 .dw textTajim_NoLutzYet_No,textShadowWarrior,textShadowWarrior_a,textShadowWarrior_Win,textShadowWarrior_Win_a,textAeroCastle3,textLaShiec,textLaShiec_Yes
-.dw textLaShiec_No,textGovernorGeneral2,textGovernorGeneral2a,textGovernorGeneral2b,textGovernorGeneral2c,textOtegamiChieChan,textUnused3,textUnused3
-.dw textUnused3,textUnused3,textUnused4,textShion9,textPaseo6,textPaseoTrader_HaveMyau,textDrLuveno1h,textDrLuveno1i
+.dw textLaShiec_No,textGovernorGeneral2,textGovernorGeneral2a,textGovernorGeneral2b,textGovernorGeneral2c,textOtegamiChieChan,textLuvenoGuard1,textLuvenoGuard1
+.dw textLuvenoGuard1,textLuvenoGuard1,textLuvenoGuard2,textShion9,textPaseo6,textPaseoTrader_HaveMyau,textDrLuveno1h,textDrLuveno1i
 .dw textDrLuveno1j,textDrLuveno1k,textDrLuveno1l,textMadDoctor,textMadDoctor_Yes,textMadDoctor_No,textGovernorGeneral3,textGovernorGeneral4
 .dw textGuestHouse2,textGuestHouse2a,textAlisasHouse,textGovernorGeneral5,textTajim1_LutzDead,textLaShiec_Win
 
@@ -1509,17 +1509,16 @@ textOtegamiChieChan:
 .stringmap script "キカセテネ。　マッテルワ。<wait>"
 ; I am 'Otegami Chie-chan!’ Thanks for all your letters. Please tell us how you feel about this game. We’ll be waiting.
 
-textUnused3:
-; Referenced by indices 27c, 27e, 280, 282
+textLuvenoGuard1:
+; Referenced by unused indices 27c, 27e, 280
 .stringmap script "ココカラ　サキハ　ボクノ<line>"
 .stringmap script "ナワバリダカラ　トオセナイヨーダ。<wait>"
-; ALRIGHT! YOU SAVED ALL OF ALGOL!
+; The area beyond here is my territory, so stay the hell out!
 
-textUnused4:
-; Referenced by index 284
+textLuvenoGuard2:
 .stringmap script "ルベノハカセガ　イウノダッタラ<line>"
 .stringmap script "ショウガナイ。　トオッテモイイヨ。<wait>"
-; WE ARE  ALL THANKFUL FOR YOUR BRAVE DEEDS! WE LOVE YOU !
+; Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.
 
 textShion9:
 .stringmap script "モタビアセイニハ　モタビアン<line>"
@@ -1646,7 +1645,7 @@ textPlayersSpellHadNoEffect:
 .stringmap script "<player>ノ　マジックハ<line>"
 .stringmap script "コウカガ　ナカッタ。<delay>"
 
-textUnused5:
+textUnused3:
 .stringmap script "<monster>ノ　マジックハ<line>"
 .stringmap script "コウカガ　ナカッタ。<delay>"
 ; Monster's spell had no effect
@@ -1749,7 +1748,7 @@ textSootheFluteCalmedMonster:
 .stringmap script "<monster>ハ　フエノネヲ<line>"
 .stringmap script "キイテ　オトナシクナッタ。<delay>"
 
-textUnused6:
+textUnused4:
 .stringmap script "<monster>ハ　メガ　ウツロダ。<delay>"
 ; Monster's eyes looked vacant
 
@@ -1934,7 +1933,7 @@ textHapsby_ThisIsUzo:
 textHapsby_ThisIsGothic:
 .stringmap script "ココハ　ガシコ　デス。<end>"
 
-textUnused7:
+textUnused5:
 .stringmap script "シュッパーツ。<delay>"
 ; Let's go! (in context of Hapsby flying Luveno)
 
@@ -2011,7 +2010,7 @@ textChurch:
 .stringmap script "ココハ　キョウカイデス。　ダレカノ<line>"
 .stringmap script "タマシイヲ　ヨビモドサレマスカ。<end>"
 
-textUnused8:
+textUnused6:
 .stringmap script "デハ　アナタノタメニ<line>"
 .stringmap script "オイノリヲ　ササゲマス。<wait>"
 ; I shall pray for you
@@ -2195,7 +2194,7 @@ textChooseSlotToContinue:
 textContinuingGameX:
 .stringmap script "デハ　<number>バンノゲームヲ　ハジメマス。<delay>"
 
-textUnused9:
+textUnused7:
 .stringmap script "パスワードガ　チガイマス。<line>"
 .stringmap script "モウイチド　タシカメテクダサイ。<wait>"
 ; That password is incorrect. Please try again.

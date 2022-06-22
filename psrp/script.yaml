@@ -12,8 +12,8 @@
 # Each script entry comprises these elements:
 # - offsets: locations in the ROM referring to this script item
 # - indices: indices in the original game's indirection table which correspond to items in this entry. Useful only for correlation with older scripts.
-# - ja: original　Japanese
-# -　translated:　translation of the "ja" text, for information only (incomplete)
+# - ja: original Japanese
+# - translated: translation of the "ja" text, for information only (incomplete)
 # - us: Sega localisation for this item (very incomplete)
 # - en, fr, pt-br, ca, es, de: translations consumed by the code
 # Stuff with ****** around it is an area indicator.
@@ -523,7 +523,7 @@
   de: |
     Komm ruh dich etwas aus.<wait more>
     Versuch nicht, zu viel auf einmal zu machen, OK? Komm jederzeit wieder.<wait>
-
+    
 - offsets: 4b62
   # Nekiseh (first visit)
   indices: 008,00A,00C,00E
@@ -675,8 +675,8 @@
   fr: Certains donjons sont totalement obscurs, tu auras besoin de lumière.<wait>
   pt-br: Alguns calabouços são muito escuros, certifique-se de ter sempre uma fonte de luz com você.<wait>
   ca: Algunes masmorres son totalment fosques, porta sempre un llum a sobre.<wait>
-  es: Algunas mazmorras están totalmente a oscuras, lleva siempre una luz encima.<wait>
-  de: In manchen Höhlen ist es stockduster. Man sollte immer eine Lampe parat haben.<wait>
+  es: Algunas mazmorras están totalmente a oscuras, lleva siempre una luz encima.<wait> 
+  de: In manchen Höhlen ist es stockduster. Man sollte immer eine Lampe parat haben.<wait>  
 
 - offsets: 4b94
   # Camineet resident - man
@@ -1314,7 +1314,7 @@
   us: |
     YOU NEED A COMPASS
     TO PASS THROUGH<wait more>
-    THE EPPI FOREST.<end>
+    THE Eppi FOREST.<end>
   en: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
   fr: Aller dans la forêt d'Eppi sans boussole_? Vous devez être un peu stupide_!<wait>
   pt-br: A Floresta de Eppi é muito confusa de se orientar, você precisará de uma Bússola para atravessá-la.<wait>
@@ -1581,7 +1581,7 @@
   ca: Te vostè un Passaport?<end>
   es: ¿Tiene usted un Pasaporte?<end>
   de: Haben Sie einen Reisepass?<end>
-
+  
 - offsets: 4c30,4ccf,54ca
   # Answering yes to "Do you have a passport" if you don't have one
   # Also Triada prisoner if you don't have a PelorieMate
@@ -1921,7 +1921,7 @@
   fr: Vous ne pouvez pas enjamber les fourmilions_!<wait>
   pt-br: Não há como passar pelas Formigas-Leão a pé, mas ouvi dizer que há outra maneira...<wait>
   ca: No hi ha manera de travessar les Formigues Lleó a peu, però he sentit que hi ha una altra manera...<wait>
-  es: No es posible cruzar las Hormigas León a pie, pero he oído que hay otra manera...<wait>
+  es: No es posible cruzar las Hormigas León a pie, pero he oído que hay otra manera...<wait>  
   de: Zu Fuß lassen sich die Ameisenlöwen nicht überqueren, aber anders vielleicht...<wait>
 
 - offsets: 4e67
@@ -2250,7 +2250,9 @@
   de: Sieht wie ein versteinerter Mann aus. Vielleicht kann man ihm helfen...<wait>
 
 - offsets: 25bd,2636
-  # Using "Alsuline"
+  # 25bd = using Alsuline
+  # 2636 = using Polymeteral
+  # When using Polymeteral, Alisa may be dead?
   indices: adcf
   ja: |
     ソシテ　ビンノ　フタヲ　アケテ<line>
@@ -2766,7 +2768,7 @@
   de: |
     Willkommen in meiner Konditorei! Tur mir leid wegen des Standortes...<wait more>
     Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta! Wollen Sie eins?<end>
-
+    
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
   # Also Sopia villager if you give him a PelorieMate.
@@ -3029,7 +3031,7 @@
   ca: Sembleu esgotats. Per què no descanseu una mica?<wait>
   es: Parecéis agotados. ¿Por qué no descansáis un poco?<wait>
   de: Ihr seht müde aus. Ruht euch doch ein bisschen aus.<wait>
-
+  
 - offsets: 4ff9
   # Lady in Guest House (after resting)
   indices: 0B8
@@ -3155,7 +3157,7 @@
   fr: Les ordres venant du Gouverneur, Lutz les écoûtera peut-être...<wait>
   pt-br: Uma vez que as ordens são do Governador-Geral, Lutz provavelmente vai ouvir.<wait>
   ca: Donat que les ordres son del Governador General, Lutz probablement t'escoltarà.<wait>
-  es: Dado que las órdenes vienen del Gobernador General, Lutz probablemente te escuchará.<wait>
+  es: Dado que las órdenes vienen del Gobernador General, Lutz probablemente te escuchará.<wait> 
   de: Wenn Lutz jemandem gehorcht, dann dem Generalgouverneur.<wait>
 
 - offsets: 53c9
@@ -3412,7 +3414,9 @@
   # Villager x2 (no to previous question)
   # Triada prisoner
   indices: 0C2
-  ja: アンタニ　ハナスコトハ　ナイ。<line>
+  ja: |
+    アンタニ　ハナスコトハ　ナイ。<line>
+    ドコカヘ　キエナ。<wait>
   translated: I ain’t talking to you, then. Get the hell away from me.
   us: |
     I GOT NOTHIN' TO<line>
@@ -3429,9 +3433,11 @@
   indices: 0C4,0C6,0C8
   ja: |
     ガシコノモリカラ　ヤマヘ　ツウジル<line>
-    イッポンミチノ　オクニアル　トウニハ<wait　more>
-    チカヅクナ。ソコニハ　スガタヲ　ミタダケデ　カラダガ　イシニナッテシマウ<wait　more>
-    トイウ　オソロシイ　マモノガ　スンデイルラシイ。<wait>
+    イッポンミチノ　オクニアル　トウニハ<wait more>
+    チカヅクナ。ソコニハ　スガタヲ　ミタ
+    ダケデ　カラダガ　イシニナッテシマウ<wait more>
+    トイウ　オソロシイ　マモノガ　スン
+    デイルラシイ。<wait>
   translated: In the heart of the mountains, there's a tower that can be reached by one of the roads leading out of Gothic. Inside the tower, they say, there's a freaky monster that, if you just LOOK at it, will turn yuh tuh stone!
   us: |
     DON'T GO NEAR THE <line>
@@ -3474,7 +3480,10 @@
 - offsets: 5856
   # Villager guarding open field (no Luveno/Hapsby)
   indices: 282
-  ja: ラ　サキハ　ボクノ<line>
+  # Also pointed to by indices 27c, 27e, 280 but these aren't used.
+  ja: |
+    ココカラ　サキハ　ボクノ<line>
+    ナワバリダカラ　トオセナイヨーダ。<wait>
   translated: The area beyond here is my territory, so stay the hell out!
   us: |
     YOU CANNOT COME<line>
@@ -3492,7 +3501,9 @@
 - offsets: 585c
   # Villager guarding open field (have Luveno/Hapsby)
   indices: 284
-  ja: ルベノハカセガ　イウノダッタラ<line>
+  ja: |
+    ルベノハカセガ　イウノダッタラ<line>
+    ショウガナイ。　トオッテモイイヨ。<wait>
   translated: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.
   us: |
     WELL,IF DR.LUVENO<line>
@@ -3582,7 +3593,7 @@
     est appelée la tour de Médusa.<wait>
   pt-br: A antiga estrutura situada no coração das Montanhas de Gótica é chamada de Torre da Medusa.<wait>
   ca: A l'estructura antiga enmig de les Muntanyes de Gothic l'anomenen La Torre de la Medusa.<wait>
-  es: A la antigua estructura rodeada de las Montañas de Gothic la llaman Torre de la Medusa.<wait>
+  es: A la antigua estructura rodeada de las Montañas de Gothic la llaman Torre de la Medusa.<wait>  
   de: Bei diesem alten Bauwerk im Herzen des Gothic-Gebirges handelt es sich um Medusas Turm.<wait>
 
 - offsets: 550c
@@ -4082,7 +4093,7 @@
   de: |
     Na endlich, da seid ihr ja. Geht mir meinen Assistenten holen.<wait more>
     Er versteckt sich wahrscheinlich im unter-<line>irdischen Tunnel. Nervig, wie schüchtern er ist.<wait>
-
+    
 
 - offsets: 508b
   # Dr Luveno
@@ -6011,11 +6022,8 @@
   de: Bitte? Nicht genug Geld zur Hand?<wait>
 
 - offsets: 520c
-  # GasClear salesman (no to previous question)
-  indices: 19C
-  ja: |
-    オヤ　モッタイナイ。<line>
-    モウ　ウッテアゲナイヨ。<wait>
+  indices: 19C-2
+  ja: モウ ウッテァゲナイヨ.
   translated: Hey, what the hell?! I’m not selling you ANYTHING!
   en: Suit yourself. I’ll be here when you change your mind.<wait>
   fr: Comme vous voulez. Je serai là quand vous aurez changé d'avis.<wait>
@@ -6476,7 +6484,7 @@
     Tu envisages de renverser Lassic, hein_?<wait>
   pt-br: Ah, Lutz, meu aluno! Vejo que você está finalmente cumprindo seu destino de derrotar LaShiec.<wait>
   ca: Ah, Lutz, el meu deixeble! Vec que finalment estàs complint el teu destí i t'enfrontaràs a en LaShiec.<wait>
-  es: Ah, Lutz, ¡mi discípulo! Veo que finalmente estás cumpliendo tu destino y te enfrentarás a Lashiec.<wait>
+  es: Ah, Lutz, ¡mi discípulo! Veo que finalmente estás cumpliendo tu destino y te enfrentarás a Lashiec.<wait>  
   de: Ah, Lutz, mein Lehrling! Du machst dich endlich auf die Reise, um Lashiec zu stürzen?<wait>
 
 - offsets: 56d3
@@ -6584,7 +6592,7 @@
     Reviens quand tu seras prêt. Je t'attendrai.<wait>
   pt-br: Você precisa treinar mais, meu rapaz. Volte quando estiver pronto. Estarei esperando.<wait>
   ca: Necessiteu més entrenament, el meu noi. Torneu quan estigueu preparats. Us estaré esperant.<wait>
-  es: Necesitáis más entrenamiento, mi chico. Volved cuando estéis preparados. Os estaré esperando.<wait>
+  es: Necesitáis más entrenamiento, mi chico. Volved cuando estéis preparados. Os estaré esperando.<wait>  
   de: Du bist doch noch nicht bereit. Trainiere etwas mehr, und suche mich dann wieder auf.<wait>
 
 - offsets: 56a6
@@ -7774,7 +7782,7 @@
     Y entonces, en un instante, ¡se transforma en una bella bestia con alas enormes!<line><line>
     Myau bate las alas majestuosamente para que todos lo vean.<wait>
   de: |
-    Und plötzlich verwandelte er sich in ein geflügeltes, bildschönes, riesiges Tier.<br><br>
+    Und plötzlich verwandelte er sich in ein geflügeltes, bildschönes, riesiges Tier.<line><line>
     Stolz stellte Myau seine Flügel für alle zur Schau.<wait>
 
 
@@ -8036,7 +8044,7 @@
   ca: Aleshores esperem que sigueu un digne sacrifici.<wait>
   es: Entonces esperemos que seaís un digno sacrificio.<wait>
   de: Gut. Dann lasst euch zeigen, wie falsch ihr gedacht habt!<wait>
-
+    
 - offsets: 5778
   # LaShiec (no to previous question)
   indices: 270
@@ -8100,40 +8108,6 @@
     König Lashiec ist tot.<wait more>
     Alisa hat ihre Aufgabe und somit auch Neros Sterbens-<line>wunsch erfüllt. Ein neues Zeitalter kann nun beginnen.<wait more>
     Alles, was jetzt noch zu tun ist, ist, dem General-<line>gouverneur in Paseo davon zu berichten!<wait>
-
-- offsets: # Unreachable?
-  indices: 27c,27e,280,282
-  ja: |
-    ココカラ　サキハ　ボクノ<line>
-    ナワバリダカラ　トオセナイヨーダ。<wait>
-  translated: (missing)
-  us: |
-    ALRIGHT! YOU SAVED
-    ALL OF Algol!<end>
-
-- offsets: # Unreachable?
-  indices: 284
-  ja: |
-    ルベノハカセガ　イウノダッタラ<line>
-    ショウガナイ。　トオッテモイイヨ。<wait>
-  translated: (missing)
-  us: |
-    WE ARE  ALL<line>
-    THANKFUL FOR YOUR <wait more>
-    BRAVE DEEDS! WE<line>
-    LOVE YOU !<end>
-
-- offsets: # Unreachable?
-  indices: 280
-  ja: |
-    モタビアセイニハ　モタビアン<line>
-    デゾリスセイニハ　デゾリアン　トイウ<wait more>
-    セイジンガ　スンデイルソウダヨ。<line>
-    イチド　アッテ　ハナシテミタイナ。<wait>
-  translated: (missing)
-  us: |
-    REPORT QUICKLY TO<line>
-    THE GOVERNOR!<end>
 
 
 # **************
@@ -8967,7 +8941,11 @@
   de: <player> holt <acc><item> raus.<delay>
 
 - offsets: 251a,279d,25aa,2651
-  # We add 25aa,2651 here instead of "always equipped", TODO why?
+  # 251a = use SearchLight when not in a dungeon (or a battle)
+  # 279d = use Compass when not in a dungeon (or a battle)
+  # We add 25aa, 2651 here:
+  # 25aa = use Alsuline in the wrong place, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
   indices: adad
   ja: ベツニ　コワレテナイヨウダ。<wait>
   us: |
@@ -9113,7 +9091,13 @@
   de: Dieses Objekt muss nicht benutzt werden, da es immer aktiv ist.<wait>
 
 - offsets: 218d,2195,299f,2a2e,579d
-  # TODO 25aa changed to index adad, why?
+  # 218d = untrap not in dungeon
+  # 2195 = untrap wth no object
+  # 25aa = use Alsuline in the wrong place, changed to adad
+  # 2651 = use Dungeon/Miracle Key outside dungeon, also changed to adad
+  # 299f = search (from menu)
+  # 2a2e = search (?)
+  # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
   indices: af1e
   ja: |
     トクニ　カワッタトコロハ<line>
@@ -9730,7 +9714,7 @@
   ca: Meravellós! Teniu quelcom més per mí?<end>
   es: ¡Maravilloso! ¿Tenéis algo más para mí?<end>
   de: Großartig! Verkaufen Sie sonst noch etwas?<end>
-
+  
 - offsets: 2bc0,2d9d,4d88,538f
   indices: b65c
   ja: |
@@ -9861,20 +9845,20 @@
     Danke fürs Warten, und gute Besserung.<wait>
 
 - offsets: 2bb1
-  # Falls through to the following entry
   indices: b282
   ja: |
     ソウデスカ　オテツダイデキナクテ<line>
-    ザンネンデス。
+    ザンネンデス。デハ　オキヲツケテ。<wait>
   us: |
     I'M SORRY I COULD<line>
     NOT HELP.<wait more>
-  en: I'm sorry I couldn't help.<wait>
-  fr: Je suis désolé de ne pas avoir pu aider.<wait>
-  pt-br: Sinto muito não ter podido ajudar.<wait>
-  ca: Em sap greu no haver pogut ajudar.<wait>
-  es: Siento no haber podido ayudar.<wait>
-  de: Es tut mir leid, dass ich nicht helfen konnte.<wait>
+    PLEASE BE CAREFUL.<end>
+  en: I'm sorry I couldn't help. Be safe out there.<wait>
+  fr: Je suis désolé de ne pas avoir pu aider. Prenez garde à vous dehors.<wait>
+  pt-br: Sinto muito não ter podido ajudar. Tome cuidado lá fora.<wait>
+  ca: Em sap greu no haver pogut ajudar. Aneu amb compte allà fora.<wait>
+  es: Siento no haber podido ayudar. Id con cuidad ahí fuera.<wait>
+  de: Es tut mir leid, dass ich nicht helfen konnte. Dann passen Sie bitte auf sich auf.<wait>
 
 - offsets: 2b37
   indices: b29a
@@ -10075,7 +10059,7 @@
   ca: a <player> li manquen <number><internal hint 02> punt<s> d'experiència.<wait>
   es: a <player> le faltan <number><internal hint 02> punto<s> de experiéncia.<wait>
   de: <player> <number><internal hint 02> Erfahrungspunkt<s>.<wait>
-
+  
 - offsets: 2cef
   # If a party member is already at max level...
   indices: b6e7
@@ -10888,3 +10872,25 @@
     In diesem Moment hörte Alisa Neros Stimme von weit weg.<wait more>
     „Gib noch nicht auf. Die Leute brauchen dich!“<wait more>
     Alisa lebt wieder.<wait>
+
+# There are a few unused script entries in the US script that are not present at all in the Japanese version:
+
+- offsets: # Unused
+  indices: 27C
+  us: |
+    ALRIGHT! YOU SAVED
+    ALL OF Algol!<end>
+
+- offsets: # Unused
+  indices: 27E
+  us: |
+    WE ARE  ALL<line>
+    THANKFUL FOR YOUR<wait more>
+    BRAVE DEEDS! WE<line>
+    LOVE YOU!<end>
+
+- offsets: # Unused
+  indices: 280
+  us: |
+    REPORT QUICKLY TO<line>
+    THE GOVERNOR!<end>
