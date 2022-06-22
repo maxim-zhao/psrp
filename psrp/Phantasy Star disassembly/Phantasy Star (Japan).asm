@@ -15870,14 +15870,14 @@ _LABEL_6FE8_:
 
 LoadDungeonMap:
     ld hl,Frame2Paging
-    ld (hl),:DungeonsData
+    ld (hl),:DungeonMaps
 
     ld a,(DungeonNumber)
     ld h,a
     ld l,0
     srl h               ; Divide by 2 to get a multiple of 128
     rr l
-    ld de,DungeonsData  ; Table
+    ld de,DungeonMaps  ; Table
     add hl,de
 
     ld de,DungeonMap
@@ -20383,7 +20383,7 @@ DungeonObjects:
   AddDungeonObject_Battle   $01, $5D, $C6C1, Enemy_Skeleton, Item_Empty
   AddDungeonObject_Dialogue $01, $B2, $C50C, $82, $00 ; _room_82_TriadaPrisonGuard1
   AddDungeonObject_Dialogue $01, $E9, $C50B, $88, $00 ; _room_88_TriadaPrisoner6
-  AddDungeonObject_Item     $02, $17, $C604, Item_DungeonKey, $00
+  AddDungeonObject_Item     $02, $17, DungeonKeyIsHidden, Item_DungeonKey, $00
   AddDungeonObject_Meseta   $02, $67, $C605, 50
   AddDungeonObject_Meseta   $02, $3A, $C606, 30
   AddDungeonObject_Meseta   $02, $63, $C607, 20
@@ -25571,7 +25571,7 @@ TilemapDeadTrees:
 ;.org 3df6e
 
 ; Data from 3DF6E to 3FDED (7808 bytes)
-DungeonsData:
+DungeonMaps:
 
 .stringmaptable dungeons "Dungeons.tbl"
 
