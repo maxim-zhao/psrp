@@ -2647,9 +2647,9 @@ Items:
   String "<Ein> Zauberhut"
   String "<Das> Alsulin"
   String "<Das> Polymeteral"
-  String "<Der> Kerkerschlüssel"
+  String "<Der> Generalschlüssel"
   String "<Eine> Telepathiekugel"
-  String "<Die> Sonnenfackel" ; Fackel der Sonnenfinsternis
+  String "<Die> Sonnenfackel"
   String "<Das> Aeroprisma"
   String "<Die> Laermabeeren"
   String "Hapsby"
