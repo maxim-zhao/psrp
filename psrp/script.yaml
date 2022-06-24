@@ -5138,16 +5138,39 @@
     A CERTAIN<wait more>
     CRYSTAL WILL BLOCK<line>
     EVIL MAGIC.<end>
-  en: You're going to bring down LaShiec? It's about time someone did!<wait>
+  en: |
+    You're going to bring down LaShiec? It's about time someone did!<wait more>
+    He’s no pushover, though. His black magic could destroy you.<wait more>
+    I’ve heard certain crystals can protect you against such magic.<wait more>
+    It’s just a rumor, though. Don’t quote me on that.<wait>
   fr: |
     Il serait temps que quelqu'un se dresse contre cette brute.<wait more>
-    Bonne chance.<wait>
-  pt-br: Você vai derrotar LaShiec? Já era hora de alguém fazer isso!<wait>
-  ca: Enderrocareu en Lashiec? Ja era hora que algú ho fés!<wait>
-  es: ¿Derrocaréis a Lashiec? ¡Ya era hora de que alguien lo hiciese!<wait>
-  de: Was, ihr wollt Lashiec stürzen? Endlich nimmt sich ihm einer an!<wait>
+    Bonne chance.<wait more>
+    Mais Lassic n'est pas un tendre. Sa magie noire peut vous tuer.<wait more>
+    Je crois que certains cristaux peuvent vous protéger d'elle.<wait more>
+    C'est une rumeur, alors ne dites à personne que je vous en ai parlé.<wait>
+  pt-br: |
+    Você vai derrotar LaShiec? Já era hora de alguém fazer isso!<wait more>
+    Mas ele não é um novato. Sua magia negra poderia destruí-lo.<wait more>
+    Já ouvi que alguns cristais podem protegê-lo contra tal magia.<wait more>
+    Apesar de tudo, isso é apenas um rumor. Não comente que falei sobre isso.<wait>
+  ca: | 
+    Enderrocareu en Lashiec? Ja era hora que algú ho fés!<wait more>
+    Però no és un passarell. La seva màgia negra et pot destruir.<wait more>
+    He sentit que certs cristalls poden protegir-te contra una màgia així.<wait more>
+    És un rumor, però. No vagis dient que ho dic jo això.<wait>
+  es: |
+    ¿Derrocaréis a Lashiec? ¡Ya era hora de que alguien lo hiciese!<wait more>
+    Pero él no es un don nadie. Su magia negra te puede destruir.<wait more>
+    He oído que ciertos cristales pueden protegerte contra una mágia semejante.<wait more>
+    Es un rumor, eso sí. No vayas diciendo que te lo he dicho yo.<wait>
+  de: |
+    Was, ihr wollt Lashiec stürzen? Super! Ihr seid echt toll!<wait more>
+    Mit Lashiec ist allerdings nicht zu spaßen. Seine Magie ist tödlich!<wait more>
+    Es soll aber einen Kristall geben, der diese Magie erheblich schwächen kann.<wait more>
+    ...So lauten zumindest die Gerüchte.<wait>
 
-- offsets: # unused? index $011a originally
+- offsets: # unused? index $011a originally; combined into the above line
   indices: 11A
   ja: |
     ウワサダケド　アル　クリスタルハ<line>
