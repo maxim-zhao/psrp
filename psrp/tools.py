@@ -13,6 +13,9 @@ def generate_words(tbl_file, asm_file, script_file, language, word_count):
     # dict of word to count
     words = {}
     for entry in script:
+        # Discard unused entries
+        if "offsets" not in entry or entry["offsets"] == "":
+            continue;
         # Check for a missing language
         if language not in entry:
             if "offsets" in entry:
