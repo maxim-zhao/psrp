@@ -23,23 +23,22 @@ LANGUAGE = en
 # for /l %n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%n LANGUAGE=es ps1jert.sms 2>&1 || echo ROM: 0 bytes) | find "ROM: ") >> sizes.txt
 # On 2021-01-06 the optimal value for total size was 91 for English and 54 for French.
 ifeq ("$(LANGUAGE)", "en")
-WORD_COUNT = 91
+WORD_COUNT = 81
 endif
 ifeq ("$(LANGUAGE)", "fr")
-WORD_COUNT = 54
+WORD_COUNT = 48
 endif
 ifeq ("$(LANGUAGE)", "pt-br")
 WORD_COUNT = 48
 endif
 ifeq ("$(LANGUAGE)", "ca")
-WORD_COUNT = 45
+WORD_COUNT = 65
 endif
 ifeq ("$(LANGUAGE)", "es")
-WORD_COUNT = 47
+WORD_COUNT = 46
 endif
 ifeq ("$(LANGUAGE)", "de")
-WORD_COUNT = 45 
-# TODO calibrate this
+WORD_COUNT = 81 
 endif
 
 # Default targets are the patch files for our language
