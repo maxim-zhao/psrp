@@ -512,7 +512,7 @@
     Alisa... das ist verrückt, was du vorhast.<wait more>
     Ich kann dich aber verstehen, und ich will es dir gar nicht erst ausreden.<wait more>
     Versprich mir nur, dass du auf dich Acht gibst, ja?<wait more>
-    Falls du dich verletzen solltest, komm mich besuchen. Und bevor du gehst...<wait more>
+    Falls du dich verletzen solltest, komm mich besuchen. Und bevor du gehst...<wait>
 
 - offsets: 4b4e
   # Suelo (subsequent visits)
@@ -8415,7 +8415,7 @@
     Y entonces, en un instante, ¡se transforma en una bella bestia con alas enormes!<line><line>
     Myau bate las alas majestuosamente para que todos lo vean.<wait>
   de: |
-    Und plötzlich verwandelte er sich in ein geflügeltes, bildschönes, riesiges Tier.<br><br>
+    Und plötzlich verwandelte er sich in ein geflügeltes, bildschönes, riesiges Tier.<line><line>
     Stolz stellte Myau seine Flügel für alle zur Schau.<wait>
 
 
