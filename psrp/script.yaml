@@ -3656,8 +3656,10 @@
   # Villager x2 (no to previous question)
   # Triada prisoner
   indices: 0C2
-  ja: アンタニ　ハナスコトハ　ナイ。<line>
-  kanji: あんたに話す事はない。
+  ja: |
+    アンタニ　ハナスコトハ　ナイ。<line>
+    ドコカヘ　キエナ。<end>
+  kanji: あんたに話す事はない。どこかへ消えな。
   translated: I ain’t talking to you, then. Get the hell away from me.
   us: |
     I GOT NOTHIN' TO<line>
