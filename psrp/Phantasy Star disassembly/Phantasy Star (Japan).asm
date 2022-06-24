@@ -196,7 +196,7 @@ SceneType db                  ; Scene characteristics; controls which animation 
 .enum $C299 export
 _RAM_C299_ dw
 _RAM_C29B_ dw
-_RAM_C29D_ db
+_RAM_C29D_InBattle db
 SceneType2 db
 _RAM_C29F_ db
 _RAM_C2A0_ db
@@ -267,13 +267,13 @@ HLocation dw                  ; Horizontal location in map
 VScroll db                    ; Vertical scroll
 VLocation dw                  ; Vertical location on map - skips parts
 ScrollScreens db              ; Counted down when scrolling between planets/in intro
-_RAM_C308_ db                 ; Type of current "world"???  
+_RAM_C308_ db                 ; Type of current "world"???
 _RAM_C309_ db                 ; Current "world"???
 DungeonFacingDirection db
 .ende
 
 .enum $C30C export
-DungeonPosition db               
+DungeonPosition db
 DungeonNumber db
 VehicleMovementFlags db       ; ??? used by palette rotation but could be more
                                 ; Zero if not in a vehicle,else flags for terrain that can be passed?
@@ -324,7 +324,7 @@ PartySize db                  ; 0-3 based on how many player characters have bee
 .ende
 
 .enum $C500 export
-_RAM_C500_ db                 
+_RAM_C500_ db
 HaveVisitedSuelo db           ; 1 if you have been there
 HaveGotPotfromNekise db       ; 1 if you have
 LuvenoPrisonVisitCounter db   ; 0 on first visit,1 after
@@ -641,31 +641,31 @@ Item_Vehicle_FlowMover        db ; $22
 Item_Vehicle_IceDecker        db ; $23
 Item_PelorieMate              db ; $24
 Item_Ruoginin                 db ; $25
-Item_SootheFlute              db ; $26
-Item_Searchlight              db ; $27
-Item_EscapeCloth              db ; $28
-Item_TranCarpet               db ; $29
-Item_MagicHat                 db ; $2a
-Item_Alsuline                 db ; $2b
-Item_Polymeteral              db ; $2c
-Item_DungeonKey               db ; $2d
-Item_TelepathyBall            db ; $2e
-Item_EclipseTorch             db ; $2f
-Item_Aeroprism                db ; $30
-Item_LaermaBerries            db ; $31
-Item_Hapsby                   db ; $32
-Item_RoadPass                 db ; $33
-Item_Passport                 db ; $34
-Item_Compass                  db ; $35
-Item_Shortcake                db ; $36
-Item_GovernorGeneralsLetter   db ; $37
-Item_LaconianPot              db ; $38
-Item_LightPendant             db ; $39
-Item_CarbuncleEye             db ; $3a
-Item_GasClear                 db ; $3b
-Item_DamoasCrystal            db ; $3c
-Item_MasterSystem             db ; $3d
-Item_MiracleKey               db ; $3e
+Item_SootheFlute              db ; $26 39
+Item_Searchlight              db ; $27 40
+Item_EscapeCloth              db ; $28 41
+Item_TranCarpet               db ; $29 42
+Item_MagicHat                 db ; $2a 43
+Item_Alsuline                 db ; $2b 44
+Item_Polymeteral              db ; $2c 45
+Item_DungeonKey               db ; $2d 46
+Item_TelepathyBall            db ; $2e 47
+Item_EclipseTorch             db ; $2f 48
+Item_Aeroprism                db ; $30 49
+Item_LaermaBerries            db ; $31 50
+Item_Hapsby                   db ; $32 51
+Item_RoadPass                 db ; $33 52
+Item_Passport                 db ; $34 53
+Item_Compass                  db ; $35 54
+Item_Shortcake                db ; $36 55
+Item_GovernorGeneralsLetter   db ; $37 56
+Item_LaconianPot              db ; $38 57
+Item_LightPendant             db ; $39 58
+Item_CarbuncleEye             db ; $3a 59
+Item_GasClear                 db ; $3b 60
+Item_DamoasCrystal            db ; $3c 61
+Item_MasterSystem             db ; $3d 62
+Item_MiracleKey               db ; $3e 63
 Item_Zillion                  db ; $3f
 Item_SecretThing              db ; $40
 .ende
@@ -945,7 +945,7 @@ ResetPoint:
     ld bc,$1EFF
     ld (hl),$00
     ldir
-    
+
     call CountryDetection
     or a               ; is it export?
     jr nz,+            ; if so,skip next bit
@@ -1947,12 +1947,12 @@ NewGame:
     ld bc,$400-1
     ld (hl),$00
     ldir               ; zero GameData
-    
+
     ld iy,CharacterStatsAlis
     ld (iy+CharacterStats.Weapon),Item_Weapon_ShortSword
     ld (iy+CharacterStats.Armour),Item_Armour_LeatherClothes
     call InitialiseCharacterStats
-    
+
     ld hl,_RAM_C600_
     ld (hl),$FF
     ld hl,DungeonKeyIsHidden
@@ -1967,7 +1967,7 @@ NewGame:
     ld (_RAM_C311_),hl
     ld hl,$0000
     ld (Meseta),hl
-    
+
     call IntroSequence
 
     ld hl,FunctionLookupIndex
@@ -2012,7 +2012,7 @@ _UsedSlotFound:
     TileAddressDE $1f0
     call LoadTiles4BitRLE
     call ClearSpriteTableAndFadeInWholePalette
-    
+
 _ContinueOrDeleteMenu:
     ld hl,textContinueOrDelete
     call TextBox20x6
@@ -2029,7 +2029,7 @@ _ContinueOrDeleteMenu:
     ld hl,textContinuingGameX
     call TextBox20x6
     call Close20x6TextBox
-    
+
     ld a,SRAMPagingOn  ; Load game
     ld (SRAMPaging),a
     ld a,(NumberToShowInText)
@@ -2601,7 +2601,7 @@ _LABEL_C64_:
     or a               ;                                      |
     ret nz             ; exit if PaletteRotateEnabled         |
     xor a              ; zero a                               |
-++:  ld (_RAM_C29D_),a ; Save to xc29d <----------------------+
+++:  ld (_RAM_C29D_InBattle),a ; Save to xc29d <----------------------+
 
     ld hl,FunctionLookupIndex
     ld (hl),$0c        ; Set FunctionLookupIndex to 0c (???)
@@ -3094,7 +3094,7 @@ _LABEL_119F_:
     ld (hl),$00
     ldir
     ld a,$FF
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     xor a
     ld (_RAM_C267_),a
     ld (_RAM_C2D4_),a
@@ -3306,7 +3306,7 @@ _LABEL_1338_:
     call HaveItem
     jr nz,+
     ld (_RAM_C29B_),hl
-    call _LABEL_235D_
+    call UseItem
 _LABEL_1367_:
     call _LABEL_326D_
     call _LABEL_3035_
@@ -4105,7 +4105,7 @@ PointHLToCharacterInA:
     bit 0,(hl)
     ret
 
-_LABEL_19EA_:
+ShowMessageIfDead:
     push hl
       call PointHLToCharacterInA
     pop hl
@@ -4376,7 +4376,7 @@ _LABEL_1C0D_:
     pop de
     bit 4,c
     jr nz,+
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,+
     ld c,$03
     ld b,d
@@ -4404,7 +4404,7 @@ _LABEL_1C3A_:
     pop de
     bit 4,c
     jr nz,+
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,+
     ld c,$03
     ld b,d
@@ -4558,7 +4558,7 @@ _LABEL_1D2A_:
 
 _LABEL_1D3D_:
     xor a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld (_RAM_C2D8_),a
     call _LABEL_37FA_
     call _LABEL_3041_
@@ -4641,10 +4641,10 @@ _DATA_1DF3_:
 
 ; 1st entry of Jump Table from 1DF3 (indexed by CursorPos)
 _LABEL_1DFD_:
-    call _LABEL_3782_
+    call ShowCharacterSelectMenu
     bit 4,c
     jr nz,+++
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,+++
     push af
     call _LABEL_3824_
@@ -4731,10 +4731,10 @@ _LABEL_1E97_:
 
 ; 2nd entry of Jump Table from 1DF3 (indexed by CursorPos)
 _LABEL_1EA9_:
-    call _LABEL_3782_
+    call ShowCharacterSelectMenu
     bit 4,c
     jp nz,_LABEL_1F16_
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jp z,_LABEL_1F16_
     cp $02
     jp z,_LABEL_1F21_
@@ -4845,7 +4845,7 @@ _LABEL_1F87_:
     pop bc
     jr nz,+
     ld (TextCharacterNumber),a
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,+
     call ++
 +:  jp _LABEL_37E9_
@@ -4859,7 +4859,7 @@ _LABEL_1FA2_:
 _LABEL_1FA6_:
     ld d,$50
 +:  ld a,(TextCharacterNumber)
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     ret z
 ++:  push de
     ld a,b
@@ -5078,7 +5078,7 @@ _LABEL_211C_:
     ld a,$AB
     ld (NewMusic),a
     ld a,(TextCharacterNumber)
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     ret z
     call PointHLToCharacterInA
     set 7,(hl)
@@ -5355,7 +5355,7 @@ _LABEL_22C4_:
     call WaitForMenuSelection
     bit 4,c
     jp nz,+
-    ld hl,_DATA_2357_
+    ld hl,UseEquipDropHandlers
     call FunctionLookup
 +:  call _LABEL_3888_
 _LABEL_2351_:
@@ -5363,28 +5363,85 @@ _LABEL_2351_:
     jp _LABEL_30A4_
 
 ; Jump Table from 2357 to 235C (3 entries,indexed by CursorPos)
-_DATA_2357_:
-.dw _LABEL_235D_ _LABEL_2824_ _LABEL_28AE_DropItem
+UseEquipDropHandlers:
+.dw UseItem EquipItem DropItem
 
 ; 1st entry of Jump Table from 2357 (indexed by CursorPos)
-_LABEL_235D_:
+UseItem:
     ld a,(ItemTableIndex)
-    ld hl,_DATA_2366_
+    ld hl,_UseItemTable
     jp FunctionLookup
 
 ; Jump Table from 2366 to 23E5 (64 entries,indexed by ItemTableIndex)
-_DATA_2366_:
-.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23F5_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
-.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
-.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
-.dw _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_ _LABEL_23E6_
-.dw _LABEL_23E6_ _LABEL_240B_ _LABEL_2441_ _LABEL_2476_ _LABEL_248F_ _LABEL_2493_ _LABEL_24C5_ _LABEL_24F9_
-.dw _LABEL_253E_ _LABEL_2548_ _LABEL_2572_ _LABEL_258B_ _LABEL_25ED_ _LABEL_2645_ _LABEL_2680_ _LABEL_2693_
-.dw _LABEL_26E5_ _LABEL_271F_ _LABEL_276F_ _LABEL_280C_ _LABEL_280C_ _LABEL_278D_Compass _LABEL_280C_ _LABEL_280C_
-.dw _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_280C_ _LABEL_27D8_ _LABEL_280C_
+_UseItemTable:
+.dw UseItem_NoEffect ; Index 0 is never used
+.dw UseItem_NoEffect ; Weapons
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_PsychoWand
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect ; Armour
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect ; Shields
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_NoEffect
+.dw UseItem_LandMaster ; Vehicles
+.dw UseItem_FlowMover
+.dw UseItem_IceDecker
+.dw UseItem_PelorieMate ; Items
+.dw UseItem_Ruoginin
+.dw UseItem_SootheFlute
+.dw UseItem_Searchlight
+.dw UseItem_EscapeCloth
+.dw UseItem_TranCarpet
+.dw UseItem_MagicHat
+.dw UseItem_Alsuline
+.dw UseItem_Polymeteral
+.dw UseItem_DungeonKey
+.dw UseItem_TelepathyBall
+.dw UseItem_EclipseTorch
+.dw UseItem_AeroPrism
+.dw UseItem_LaermaBerries
+.dw UseItem_Hapsby
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_Compass
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_AlwaysActive
+.dw UseItem_MiracleKey
+.dw UseItem_AlwaysActive
+; No entry for Secret Thing
 
 ; 1st entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_23E6_:
+UseItem_NoEffect:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld hl,textNoEffect
@@ -5392,10 +5449,10 @@ _LABEL_23E6_:
     jp Close20x6TextBox
 
 ; 5th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_23F5_:
+UseItem_PsychoWand:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_20E5_
     ld hl,textNothingHappened
@@ -5403,7 +5460,7 @@ _LABEL_23F5_:
     jp Close20x6TextBox
 
 ; 34th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_240B_:
+UseItem_LandMaster:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld e,$04
@@ -5431,7 +5488,7 @@ _LABEL_2413_:
     jp Close20x6TextBox
 
 ; 35th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2441_:
+UseItem_FlowMover:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C308_)
@@ -5457,7 +5514,7 @@ _LABEL_2441_:
     jp Close20x6TextBox
 
 ; 36th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2476_:
+UseItem_IceDecker:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,(_RAM_C308_)
@@ -5469,24 +5526,24 @@ _LABEL_2476_:
     jp Close20x6TextBox
 
 ; 37th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_248F_:
-    ld d,$0A
+UseItem_PelorieMate:
+    ld d,10 ; HP boost
     jr +
 
 ; 38th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2493_:
-    ld d,$28
-+:  ld a,(_RAM_C29D_)
+UseItem_Ruoginin:
+    ld d,40 ; HP boost
++:  ld a,(_RAM_C29D_InBattle)
     or a
     ld a,(_RAM_C267_)
     jr nz,+
     push de
-    call _LABEL_3782_
+      call ShowCharacterSelectMenu
     pop de
     bit 4,c
     jr nz,++
 +:  ld (TextCharacterNumber),a
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jr z,++
     push de
     ld hl,textPlayerUsedItem
@@ -5494,18 +5551,18 @@ _LABEL_2493_:
     pop de
     call _LABEL_1FBB_
     call _LABEL_28D8_RemoveItemFromInventory
-++:  ld a,(_RAM_C29D_)
+++:  ld a,(_RAM_C29D_InBattle)
     or a
     ret nz
     jp _LABEL_37D8_
 
 ; 39th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_24C5_:
+UseItem_SootheFlute:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld a,$C2
     ld (NewMusic),a
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr nz,+
     ld hl,textSoothFlute
@@ -5524,8 +5581,8 @@ _LABEL_24C5_:
     jp Close20x6TextBox
 
 ; 40th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_24F9_:
-    ld a,(_RAM_C29D_)
+UseItem_Searchlight:
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textPlayerTakesOutItem
@@ -5556,17 +5613,17 @@ _LABEL_24F9_:
     ret
 
 ; 41st entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_253E_:
-    ld a,(_RAM_C29D_)
+UseItem_EscapeCloth:
+    ld a,(_RAM_C29D_InBattle)
     or a
     call nz,_LABEL_28D8_RemoveItemFromInventory
-    jp _LABEL_23F5_
+    jp UseItem_PsychoWand
 
 ; 42nd entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2548_:
+UseItem_TranCarpet:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textNoEffect
@@ -5576,7 +5633,7 @@ _LABEL_2548_:
 +:  ld a,(SceneType)
     or a
     push af
-    call nz,_LABEL_28D8_RemoveItemFromInventory
+      call nz,_LABEL_28D8_RemoveItemFromInventory
     pop af
     jp nz,_LABEL_22B5_
     ld hl,textNothingHappened
@@ -5584,11 +5641,11 @@ _LABEL_2548_:
     jp Close20x6TextBox
 
 ; 43rd entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2572_:
+UseItem_MagicHat:
     call _LABEL_28D8_RemoveItemFromInventory
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_1C73_
     ld hl,textNoEffect
@@ -5596,10 +5653,10 @@ _LABEL_2572_:
     jp Close20x6TextBox
 
 ; 44th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_258B_:
+UseItem_Alsuline:
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textCantDoThatNow
@@ -5607,10 +5664,10 @@ _LABEL_258B_:
     jp Close20x6TextBox
 
 +:  ld a,(RoomIndex)
-    cp $A3
+    cp $A3 ; Tairon turned to stone
     jr z,++
     call IsAnyoneOtherThanMyauAlive
-    ld hl,textNothingUnusualHere
+    ld hl,textNothingUnusualHere ; changed to textNoNeedNow in retranslation
     jr nz,+
 -:  ld hl,textMyauCantOpenBottle
 +:  call TextBox20x6
@@ -5637,10 +5694,10 @@ _LABEL_258B_:
     ret
 
 ; 45th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_25ED_:
+UseItem_Polymeteral:
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textCantDoThatNow
@@ -5668,7 +5725,7 @@ IsAnyoneOtherThanMyauAlive:
     or e
     ret
 
-++:  call IsAnyoneOtherThanMyauAlive
+++: call IsAnyoneOtherThanMyauAlive
     jr nz,+
     ld hl,textMyauCantOpenBottle
     call TextBox20x6
@@ -5681,14 +5738,14 @@ IsAnyoneOtherThanMyauAlive:
     jp Close20x6TextBox
 
 ; 46th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2645_:
+UseItem_DungeonKey:
     ld a,(SceneType)
     or a
     jr z,+
-_LABEL_264B_:
+UseKeyNotInDungeon: ; shared with Miracle Key
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld hl,textNothingUnusualHere
+    ld hl,textNothingUnusualHere ; changed to textNoNeedNow in retranslation
     call TextBox20x6
     jp Close20x6TextBox
 
@@ -5710,25 +5767,25 @@ _LABEL_264B_:
     jp Close20x6TextBox
 
 ; 47th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2680_:
+UseItem_TelepathyBall:
     call _LABEL_28D8_RemoveItemFromInventory
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_1C92_
     jp _LABEL_225E_
 
 ; 48th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_2693_:
+UseItem_EclipseTorch:
     ld hl,textPlayerHeldItemUp
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textMonsterAfraidOfFlame
     call TextBox20x6
-    jp Close20x6TextBox
+    jp Close20x6TextBox ; and ret
 
 +:  ld a,(RoomIndex)
     cp $AF ; Laerma tree
@@ -5758,10 +5815,10 @@ _LABEL_2693_:
     jp _LABEL_28FB_
 
 ; 49th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_26E5_:
+UseItem_AeroPrism:
     ld hl,textPlayerHeldItemUp
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textCantDoThatNow
@@ -5785,7 +5842,7 @@ _LABEL_26E5_:
     jp Close20x6TextBox
 
 ; 50th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_271F_:
+UseItem_LaermaBerries:
     ld a,(CharacterStatsMyau)
     or a
     jr z,_LABEL_2733_
@@ -5798,7 +5855,7 @@ _LABEL_271F_:
 _LABEL_2733_:
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     ld hl,textNobodyHungry
     jr z,+
@@ -5819,14 +5876,14 @@ _LABEL_2733_:
 +++:ld a,(SceneType)
     or a
     jr z,_LABEL_2733_
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr nz,_LABEL_2733_
     jr -
 
 ; 51st entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_276F_:
-    ld a,(_RAM_C29D_)
+UseItem_Hapsby:
+    ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
     ld hl,textPlayerUsedItem
@@ -5840,13 +5897,14 @@ _LABEL_276F_:
     jp Close20x6TextBox
 
 ; 54th entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_278D_Compass:
+UseItem_Compass:
     ld a,(SceneType)
     or a
     jr z,++
+    ; Not in a dungeon
 -:  ld hl,textPlayerTakesOutItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     ld hl,textNoNeedNow
     jr z,+
@@ -5854,7 +5912,7 @@ _LABEL_278D_Compass:
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++: ld a,(_RAM_C29D_)
+++: ld a,(_RAM_C29D_InBattle)
     or a
     jr nz,-
     ld hl,textPlayerUsedItem
@@ -5874,10 +5932,10 @@ _LABEL_278D_Compass:
     jp Close20x6TextBox
 
 ; 63rd entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_27D8_:
+UseItem_MiracleKey:
     ld a,(SceneType)
     or a
-    jp nz,_LABEL_264B_
+    jp nz,UseKeyNotInDungeon
     ld hl,textPlayerUsedItem
     call TextBox20x6
     ld b,$01
@@ -5900,10 +5958,10 @@ _LABEL_27D8_:
     jp Close20x6TextBox
 
 ; 52nd entry of Jump Table from 2366 (indexed by ItemTableIndex)
-_LABEL_280C_:
+UseItem_AlwaysActive:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     ld hl,textNothingHappened
     jr nz,+
@@ -5912,9 +5970,9 @@ _LABEL_280C_:
     jp Close20x6TextBox
 
 ; 2nd entry of Jump Table from 2357 (indexed by CursorPos)
-_LABEL_2824_:
+EquipItem:
     ld hl,Frame2Paging
-    ld (hl),$02
+    ld (hl),:ItemMetadata
     ld a,(ItemTableIndex)
     ld hl,ItemMetadata
     add a,l
@@ -5929,6 +5987,7 @@ _LABEL_2824_:
     rrca
     and $0F
     jp nz,+
+    ; Item is not eqippable by anyone
     ld hl,textNoNeedToEquipItem
     call TextBox20x6
     jp Close20x6TextBox
@@ -5936,12 +5995,12 @@ _LABEL_2824_:
 +:  ld d,a
     push de
     push hl
-    call _LABEL_3782_
+      call ShowCharacterSelectMenu
     pop hl
     pop de
     bit 4,c
     jp nz,_LABEL_289D_
-    call _LABEL_19EA_
+    call ShowMessageIfDead
     jp z,_LABEL_289D_
     ld (TextCharacterNumber),a
     ld c,a
@@ -5992,7 +6051,7 @@ _LABEL_289D_:
     jr _LABEL_289D_
 
 ; 3rd entry of Jump Table from 2357 (indexed by CursorPos)
-_LABEL_28AE_DropItem:
+DropItem:
     ld hl,Frame2Paging
     ld (hl),:ItemMetadata
     ld a,(ItemTableIndex)
@@ -6309,7 +6368,7 @@ _LABEL_2AF5_:
     or a
     ld hl,textHospitalWho
     call nz,TextBox20x6
-    call _LABEL_3782_
+    call ShowCharacterSelectMenu
     bit 4,c
     jp nz,_LABEL_2BAE_
     ld (TextCharacterNumber),a
@@ -6426,7 +6485,7 @@ _LABEL_2BF4_:
     jp z,_LABEL_2C8D_
     ld hl,textChurchWho
     call TextBox20x6
-    call _LABEL_3782_
+    call ShowCharacterSelectMenu
     bit 4,c
     jp nz,_LABEL_2C9F_
     call PointHLToCharacterInA
@@ -8151,7 +8210,7 @@ _LABEL_3773_:
     pop bc
     ret
 
-_LABEL_3782_:
+ShowCharacterSelectMenu:
     ld a,(PartySize)
     or a
     ret z
@@ -8780,7 +8839,7 @@ _LABEL_3CC0_:
     call nz,DoPause
     ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
-    ld a,(_RAM_C29D_)
+    ld a,(_RAM_C29D_InBattle)
     or a
     jp nz,_LABEL_3D3E_
     ld a,(_RAM_C2DC_)
@@ -8808,7 +8867,7 @@ _LABEL_3CE9_:
     ld a,$D8
     ld (NewMusic),a
 +:  xor a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld (SceneType),a
     ld (_RAM_C2D5_),a
     ld hl,$0000
@@ -9096,9 +9155,9 @@ PaletteAirCastleFull:  ; $3fc2
 .db $30,$00,$3f,$0b,$06,$1a,$2f,$2a,$08,$15,$15,$0b,$06,$1a,$2f,$28
 .ends
 .orga $3fd2
-.db $1A $2F $28 
+.db $1A $2F $28
 
-.db $A6 $8B $17 $EF $AA $6F $AB $17 $8E $8F $17 
+.db $A6 $8B $17 $EF $AA $6F $AB $17 $8E $8F $17
 
 .orga $3fdd
 .section "Name entry screens (FunctionLookupTable $10, $11)" overwrite
@@ -12431,7 +12490,7 @@ _room_a3_5798:
     ret
 
 _NothingInterestingHere:
-    ld hl,$af1e
+    ld hl,textNothingUnusualHere
     ; There doesn’t seem to be anything particularly unusual here.
     call TextBox20x6
     jp Close20x6TextBox ; and ret
@@ -12441,7 +12500,7 @@ GetHapsby:
     ld a,Item_Hapsby
     ld (ItemTableIndex),a
     call HaveItem
-    jr z,fn579d_NothingInterestingHere
+    jr z,_NothingInterestingHere
     call Close20x6TextBox
     ld hl,_RAM_C801_
     inc (hl)
@@ -12456,7 +12515,7 @@ CheckFlowMover:
     ; Is it unhidden?
     ld a,(FlowMoverIsUnhidden)
     or a
-    jr z,fn579d_NothingInterestingHere
+    jr z,_NothingInterestingHere
     ; Do we have Hapsby?
     ld a,Item_Hapsby
     ld (ItemTableIndex),a
@@ -12822,7 +12881,7 @@ SpriteHandler:         ; $59e6
     add iy,de          ; Move iy to next CharacterSpriteAttributes
     inc c              ; and inc c
     djnz -             ; repeat 8 times???
-    
+
     ld de,_RAM_c289_        ; Sort _RAM_c289_ into increasing numerical order by 1st byte in each entry (?)
     ld b,3             ; counter
  --:push bc            ; <-----------------------------+
@@ -13701,7 +13760,7 @@ _LABEL_618D_:
 
 _LABEL_61DF_:
     ld hl,Frame2Paging
-    ld (hl),: 
+    ld (hl),:
     ld a,(_RAM_C308_)
     cp $03
     jp nc,_LABEL_6275_
@@ -13795,7 +13854,7 @@ _LABEL_6254_SelectMonsterFromPool:
 
 _LABEL_6275_:
     xor a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ret
 
 .orga $627a
@@ -14818,7 +14877,7 @@ _NotPitFall:
     call DungeonGetRelativeSquare
     ld b,a
     and $07
-    ; Zero -> 
+    ; Zero ->
     jp z,_LABEL_69FB_
     sub $02
     jp c,_NotForwards
@@ -15203,10 +15262,10 @@ _LABEL_6C06_:
     ret z ; Do nothing if it is $ff
     ; Remember it
     ld (DungeonObjectFlagAddress),de
-    
+
     ld a,$FF
     ld (MovementInProgress),a
-    
+
     inc hl
     ld a,(hl) ; Read object type
     inc hl
@@ -15233,7 +15292,7 @@ _LABEL_6C06_:
     ld l,a
     ld (EnemyMoney),hl
     ; fall through
-    
+
 ++: ; Treasure chest for item or money
     ld a,b ; relative square index?
     cp $01
@@ -15313,7 +15372,7 @@ _LABEL_6CD2_:
     ; Clear other stuff
     xor a
     ld (CharacterSpriteAttributes),a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld (SceneType),a
     ld (_RAM_C2D5_),a
     ld hl,0
@@ -15344,7 +15403,7 @@ DungeonAnimation: ; $6CFB
 
 ; Data from 6D19 to 6D83 (107 bytes)
 _table:
-.dw _table0 _table1 _table2 _table3 _table4 _table5 _table6 _table7 _table8 _table9 
+.dw _table0 _table1 _table2 _table3 _table4 _table5 _table6 _table7 _table8 _table9
 _table0: .db $01 $02 $03 $04 $05 $FF              ; 0 = Forward
 _table1: .db $05 $04 $03 $02 $01 $00 $FF          ; 1 = Backward
 _table2: .db $07 $08 $09 $0A $0B $0C $0D $00 $FF  ; 2 = turn corridor to corridor (left)
@@ -15373,7 +15432,7 @@ _LABEL_6D90_:
     jr z,+
     ld a,$06
 +:  ld c,a                    ; Take a copy of the table entry number
-    add a,a                   ; multiply by 6 
+    add a,a                   ; multiply by 6
     ld b,a
     add a,a
     add a,b
@@ -15496,12 +15555,12 @@ _raw:                  ;                                     | |
 DungeonTilesDecode:
     ld c,VDPData
 --: ; Read byte
-    ld a,(hl)                 
+    ld a,(hl)
     or a
     ; 0 = end
-    ret z                     
+    ret z
     ; high bit -> raw
-    jp m,_raw                 
+    jp m,_raw
 
     ; else RLE
 _rle:
@@ -15535,7 +15594,7 @@ _raw:
     ; cc: count
     ; dd * cc * 3: data
     ; fourth byte is generated again
-    
+
     ; clear high bit
     and $7F
     ld b,a
@@ -15794,7 +15853,7 @@ _LABEL_6FE8_:
 LoadDungeonMap:
     ld hl,Frame2Paging
     ld (hl),:DungeonsData
-    
+
     ld a,(DungeonNumber)
     ld h,a
     ld l,0
@@ -15802,7 +15861,7 @@ LoadDungeonMap:
     rr l
     ld de,DungeonsData  ; Table
     add hl,de
-    
+
     ld de,DungeonMap
     ld b,$80 ; Byte count
 -:  ld a,(hl)
@@ -15822,7 +15881,7 @@ LoadDungeonMap:
     inc hl
     djnz -
     ; fall through
-    
+
 LoadDungeonData:
     ; Sprite palette
     ld hl,Frame2Paging
@@ -15831,7 +15890,7 @@ LoadDungeonData:
     ld de,TargetPalette+16+1
     ld bc,7
     ldir
-    
+
     ld a,(DungeonNumber)
     add a,a
     add a,a                   ; x4
@@ -15893,7 +15952,7 @@ CheckDungeonMusic:
 
 ; Data from 709A to 70A6 (13 bytes)
 DungeonSpritePalette:
-.db $00 $3F $30 $38 $03 $0B $0F 
+.db $00 $3F $30 $38 $03 $0B $0F
 _70a1:
 .db $01 $02 $14 $15 $16 $21
 
@@ -17236,7 +17295,7 @@ _LABEL_7A4F_:
 _LABEL_7B1A_:
     ld (FunctionLookupIndex),a
     inc hl
-    
+
 .orga $7b1e
 .section "???" overwrite
 _LABEL_7B1E_:
@@ -17318,7 +17377,7 @@ _LABEL_7B60_:
     ld l,a
     ld (RoomIndex),hl
     xor a
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld hl,(_RAM_C311_)
     ld (VLocation),hl
     ld hl,(_RAM_C313_)
@@ -17420,7 +17479,7 @@ _LABEL_7C15_:
     or a
     ret nz
     ld a,$FF
-    ld (_RAM_C29D_),a
+    ld (_RAM_C29D_InBattle),a
     ld a,$19
     ld (EnemyNumber),a
     jp _LABEL_7C15_
@@ -18099,10 +18158,10 @@ ItemMetadata:
 .db %01000110
 .db %01010010
 ; Vehicles
-.db %00000100 ; Undroppale
-.db %00000100 ; Undroppale
-.db %00000100 ; Undroppale
-; Items
+.db %00000100 ; Undroppable
+.db %00000100 ; Undroppable
+.db %00000100 ; Undroppable
+; Items. $04 means undroppable:
 .db $00
 .db $00
 .db $00
@@ -18110,26 +18169,26 @@ ItemMetadata:
 .db $00
 .db $00
 .db $00
-.db $04 ; Polymeteral is undroppable
+.db $04 ; Item_Alsuline
 .db $00
-.db $04 ; Telepathy Ball is undroppable
+.db $04 ; Item_DungeonKey
 .db $00
-.db $04 ; undroppable
-.db $04 ; undroppable
-.db $04 ; undroppable
-.db $04 ; undroppable
-.db $04 ; undroppable
+.db $04 ; Item_EclipseTorch
+.db $04 ; Item_Aeroprism
+.db $04 ; Item_LaermaBerries
+.db $04 ; Item_Hapsby
+.db $04 ; Item_RoadPass
 .db $00
-.db $04 ; undroppable
+.db $04 ; Item_Compass
 .db $00
-.db $04 ; undroppable
-.db $04 ; undroppable
+.db $04 ; Item_GovernorGeneralsLetter
+.db $04 ; Item_LaconianPot
 .db $00
-.db $04 ; undroppable
+.db $04 ; Item_CarbuncleEye
 .db $00
 .db $00
 .db $00
-.db $04 ; undroppable
+.db $04 ; Item_MiracleKey
 .db $00
 .ends
 
@@ -20249,39 +20308,39 @@ DungeonObjects:
   .endu
 .endst
 .macro AddDungeonObject_Item
-.dstruct instanceof DungeonObject values 
+.dstruct instanceof DungeonObject values
   DungeonNumber:    .db \1,
   DungeonPosition:  .db \2,
-  FlagAddress:      .dw \3, 
+  FlagAddress:      .dw \3,
   ObjectType:       .db DungeonObject_Item,
-  ItemID:           .db \4, 
+  ItemID:           .db \4,
   IsTrapped:        .db \5
 .endst
 .endm
 .macro AddDungeonObject_Meseta
-.dstruct instanceof DungeonObject values 
+.dstruct instanceof DungeonObject values
   DungeonNumber:    .db \1,
   DungeonPosition:  .db \2,
-  FlagAddress:      .dw \3, 
+  FlagAddress:      .dw \3,
   ObjectType:       .db DungeonObject_Item,
   MesetaValue:      .dw \4
 .endst
 .endm
 .macro AddDungeonObject_Battle
-.dstruct instanceof DungeonObject values 
+.dstruct instanceof DungeonObject values
   DungeonNumber:    .db \1,
   DungeonPosition:  .db \2,
-  FlagAddress:      .dw \3, 
+  FlagAddress:      .dw \3,
   ObjectType:       .db DungeonObject_Battle,
   EnemyID:          .db \4,
   ItemID:           .db \5,
 .endst
 .endm
 .macro AddDungeonObject_Dialogue
-.dstruct instanceof DungeonObject values 
+.dstruct instanceof DungeonObject values
   DungeonNumber:    .db \1,
   DungeonPosition:  .db \2,
-  FlagAddress:      .dw \3, 
+  FlagAddress:      .dw \3,
   ObjectType:       .db DungeonObject_Dialogue,
   CharacterID:      .db \4,
   RoomID:           .db \5
@@ -20614,7 +20673,7 @@ _DATA_F717_:
 .db $00 $00 $00 $00 $02 $04 $B0 $04 $0D $18 $10 $1D $E4 $0C $02 $27
 .db $14 $00 $2A $14 $00 $2E $1E $00 $01 $24 $0A $00 $25 $28 $00 $00
 .db $00 $00 $00 $23 $E0 $2E $00 $00 $00 $00 $00 $00 $02 $27 $14 $00
-.db $28 $0A $00 $29 $30 $00 
+.db $28 $0A $00 $29 $30 $00
 
 _DATA_B82F_ItemSellingPrices:
 ; 0 means you can't sell it

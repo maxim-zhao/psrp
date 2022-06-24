@@ -512,7 +512,7 @@
     Alisa... das ist verrückt, was du vorhast.<wait more>
     Ich kann dich aber verstehen, und ich will es dir gar nicht erst ausreden.<wait more>
     Versprich mir nur, dass du auf dich Acht gibst, ja?<wait more>
-    Falls du dich verletzen solltest, komm mich besuchen. Und bevor du gehst...<wait more>
+    Falls du dich verletzen solltest, komm mich besuchen. Und bevor du gehst...<wait>
 
 - offsets: 4b4e
   # Suelo (subsequent visits)
@@ -1255,7 +1255,7 @@
   de: Endlich sagt jemand Lashiec den Kampf an. Viel Erfolg, euch!<wait>
 
 - offsets: 4db6
-  # If you haven't bought Myau yet
+  # If you haven't bought myau yet
   indices: 03C,03E
   ja: |
     コノマエ　メデューサノ　ドウクツデ<line>
@@ -1388,7 +1388,7 @@
   us: |
     YOU NEED A COMPASS
     TO PASS THROUGH<wait more>
-    THE EPPI FOREST.<end>
+    THE Eppi FOREST.<end>
   en: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
   fr: Aller dans la forêt d'Eppi sans boussole_? Vous devez être un peu stupide_!<wait>
   pt-br: A Floresta de Eppi é muito confusa de se orientar, você precisará de uma Bússola para atravessá-la.<wait>
@@ -1675,9 +1675,8 @@
   es: ¿Tiene usted un Pasaporte?<end>
   de: Haben Sie einen Reisepass?<end>
   
-- offsets: 4c30,4ccf,54ca
-  # Answering yes to "Do you have a passport" if you don't have one
-  # Also Triada prisoner if you don't have a PelorieMate
+- offsets: 4c30,4ccf
+  # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
   indices: 0CE
   ja: フザケルナ。<wait>
   kanji: ふざけるな。
@@ -1940,7 +1939,7 @@
   de: |
     Ich hab gehört, es gibt eine Konditorei in der Naula-Höhle auf Palma.<wait more>
     Wie kriegt man bei so einem Standort wohl Kundschaft?<wait>
-    
+
 - offsets: 5949
   indices: b6d7
   ja: パルマ　ユキデス。ノリマスカ。<end>
@@ -3801,6 +3800,21 @@
   es: Intruso detectado. Iniciando secuencia de terminación.<wait>
   de: Sie sind kühn. Leider werden Sie nun dafür sterben.<wait>
 
+- offsets: 54ca
+  # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
+  # Split up to allow different translations from the usage by airstrip guards
+  indices: 0CE
+  ja: フザケルナ。<wait>
+  kanji: ふざけるな。
+  translated: Don't mess with me.
+  us: DON'T BE A FOOL!<end>
+  en: Well? Let’s see it.<wait>
+  fr: Eh bien_? Voyons ca.<wait>
+  pt-br: Certo? Deixe-me ver isso.<wait>
+  ca: De debò? A veure.<wait>
+  es: ¿En serio? A ver.<wait>
+  de: Und? Wo haben Sie ihn?<wait>
+
 - offsets: 54c4
   # Prisoner (if you give PelorieMate)
   indices: 0EA
@@ -4285,7 +4299,7 @@
   de: |
     Es sind viele Leute in den Raum dort hinten gegangen...<wait more>
     Aber niemand ist wiedergekommen! Hahaha!<wait>
-    
+
 # **********************
 # *** Medusa's Tower ***
 # **********************
@@ -4343,7 +4357,7 @@
   ca: Sou molt valents d'haver arribat aquí. Vigileu amb les trampes amagades!<wait>
   es: Sois muy valientes por haber llegado aquí. ¡Vigilad con las trampas escondidas!<wait>
   de: Oho, ihr seid aber mutig. Nehmt euch vor Fallen in Acht!<wait>
-  
+
 - offsets: 16a8
   # Being attacked by Medusa without the Shield of Perseus equipped
   indices: b7aa
@@ -4644,7 +4658,7 @@
   us: |
     YOU MUST FIND A<line>
     ROBOT NAMED <wait more>
-    HAPSBY. HE CAN FLY
+    Hapsby. HE CAN FLY
     A SPACESHIP.<end>
   en: |
     I built a robot named Hapsby years ago, just for this purpose.<wait more>
@@ -5535,7 +5549,7 @@
     IN DIFFERENT<line>
     PLACES IN THE <wait more>
     PLANETS OF THE <line>
-    ALGOL SYSTEM.<end>
+    Algol SYSTEM.<end>
   en: |
     Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
     LaShiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
@@ -8401,7 +8415,7 @@
     Y entonces, en un instante, ¡se transforma en una bella bestia con alas enormes!<line><line>
     Myau bate las alas majestuosamente para que todos lo vean.<wait>
   de: |
-    Und plötzlich verwandelte er sich in ein geflügeltes, bildschönes, riesiges Tier.<br><br>
+    Und plötzlich verwandelte er sich in ein geflügeltes, bildschönes, riesiges Tier.<line><line>
     Stolz stellte Myau seine Flügel für alle zur Schau.<wait>
 
 
@@ -8695,7 +8709,7 @@
   indices: 27c,27e,280,282
   us: |
     ALRIGHT! YOU SAVED
-    ALL OF ALGOL!<end>
+    ALL OF Algol!<end>
 
 - offsets: # Unreachable?
   indices: 284
@@ -9110,7 +9124,7 @@
 
 
 # ****************************
-# *** Battle/Menu Dialogue ***
+# *** Battle/menu dialogue ***
 # ****************************
 
 - width: 29
@@ -9452,7 +9466,7 @@
   ca: <player> sent un gran augment en la seva energia.<delay>
   es: <player> siente un gran incremento de su energia.<delay>
   de: <player> fühlt große Kraft in sich aufwallen.<delay>
-  
+
 - offsets: 1574
   indices: b5b4
   ja: |
@@ -9726,8 +9740,11 @@
   de: <player> holt <acc><item> raus.<delay>
 
 - offsets: 251a,279d,25aa,2651
-  # Trying to use the Compass or a Searchlight outside of a dungeon
-  # We add 25aa, 2651 here instead of "always equipped", TODO why?
+  # 251a = use SearchLight when not in a dungeon (or a battle)
+  # 279d = use Compass when not in a dungeon (or a battle)
+  # We add 25aa, 2651 here:
+  # 25aa = use Alsuline in the wrong place, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
   indices: adad
   ja: ベツニ　コワレテナイヨウダ。<wait>
   kanji: 別に乞われてないようだ。
@@ -9758,7 +9775,7 @@
   ca: Es fosc com la gola del llop. No podem avançar.<wait>
   es: Está oscuro como la panza de un lobo. No podemos avanzar.<wait>
   de: Es ist stockfinster. Weitergehen ist so nicht möglich.<wait>
-  
+
 - offsets: 27c3
   indices: b5de
   ja: イマ　ヒガシヲムイテイル。<wait>
@@ -9956,7 +9973,13 @@
   de: Dieses Objekt muss nicht benutzt werden, da es immer aktiv ist.<wait>
 
 - offsets: 218d,2195,299f,2a2e,579d
-  # TODO 25aa, 2651 changed to index adad, why?
+  # 218d = untrap not in dungeon
+  # 2195 = untrap wth no object
+  # 25aa = use Alsuline in the wrong place, changed to adad
+  # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
+  # 299f = search (from menu)
+  # 2a2e = search (?)
+  # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
   indices: af1e
   ja: |
     トクニ　カワッタトコロハ<line>
@@ -10396,8 +10419,8 @@
   ca: <player> ja es mort.<delay>
   es: <player> ya está muerto.<delay>
   de: <player> ist bereits tot.<delay>
- 
- - offsets: 1786
+
+- offsets: 1786
   indices: b617
   ja: アリサタチハ　ゼンメツシタ。<wait>
   kanji: アリサたちは全滅した。
@@ -10732,7 +10755,7 @@
   ca: Meravellós! Teniu quelcom més per mí?<end>
   es: ¡Maravilloso! ¿Tenéis algo más para mí?<end>
   de: Großartig! Verkaufen Sie sonst noch etwas?<end>
-
+  
 - offsets: 2e3d
   # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
   indices: b676
@@ -11605,7 +11628,7 @@
   ca: ...fet.<wait>
   es: ...hecho.<wait>
   de: ...und fertig.<wait>
-  
+
 
 # ************************
 # *** Loading/Deleting ***
