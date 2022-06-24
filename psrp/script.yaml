@@ -1675,9 +1675,8 @@
   es: ¿Tiene usted un Pasaporte?<end>
   de: Haben Sie einen Reisepass?<end>
   
-- offsets: 4c30,4ccf,54ca
-  # Answering yes to "Do you have a passport" if you don't have one
-  # Also Triada prisoner if you don't have a PelorieMate
+- offsets: 4c30,4ccf
+  # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
   indices: 0CE
   ja: フザケルナ。<wait>
   kanji: ふざけるな。
@@ -3800,6 +3799,21 @@
   ca: Intrús detectat. Iniciant seqüència de terminació.<wait>
   es: Intruso detectado. Iniciando secuencia de terminación.<wait>
   de: Sie sind kühn. Leider werden Sie nun dafür sterben.<wait>
+
+- offsets: 54ca
+  # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
+  # Split up to allow different translations from the usage by airstrip guards
+  indices: 0CE
+  ja: フザケルナ。<wait>
+  kanji: ふざけるな。
+  translated: Don't mess with me.
+  us: DON'T BE A FOOL!<end>
+  en: Well? Let’s see it.<wait>
+  fr: Eh bien_? Voyons ca.<wait>
+  pt-br: Certo? Deixe-me ver isso.<wait>
+  ca: De debò? A veure.<wait>
+  es: ¿En serio? A ver.<wait>
+  de: Und? Wo haben Sie ihn?<wait>
 
 - offsets: 54c4
   # Prisoner (if you give PelorieMate)
@@ -10406,7 +10420,7 @@
   es: <player> ya está muerto.<delay>
   de: <player> ist bereits tot.<delay>
 
- - offsets: 1786
+- offsets: 1786
   indices: b617
   ja: アリサタチハ　ゼンメツシタ。<wait>
   kanji: アリサたちは全滅した。
