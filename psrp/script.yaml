@@ -701,7 +701,7 @@
   ja: |
     アカリガナイト　ススメナイ<line>
     ダンジョンモ　アルヨ。<wait>
-  kanji: 明かりがないと、勧めないダンジョンもあるよ。
+  kanji: 明かりがないと勧めないダンジョンもあるよ。
   translated: You will not be able to advance through certain dungeons if you don't have a light.
   us: |
     IN SOME DUNGEONS<line>
@@ -4226,7 +4226,7 @@
     ショウガネエヤ。スグイクヨ。<wait>
   kanji: |
     えーっ。ルベノ博士が帰って来たのかい。
-    また宇宙船を造るのか。
+    また宇宙船を創るのか。
     しょうがねえや。すぐ行くよ。
   translated: Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice [but to help]. I’ll go there right away.
   us: |
@@ -6487,16 +6487,10 @@
 - offsets: 521d
   # GasClear salesman (yes to previous question, but don't have enough money)
   indices: 19A,19C
-  ja: |
-    オカネガナイノー。　シケテンナー。
-    オヤ　モッタイナイ。<line>
-    モウ　ウッテアゲナイヨ。<wait>
-  kanji: |
-    お金がないのー。しけてんなー。
-    おや、もったいない。
-    もう売ってあげないよ。
   # Note: the last two lines are part of the following script entry. It was corrected in the Mega Drive version to not run into it.
-  translated: Huh? You don’t have enough money? [What the hell?! I’m not selling you ANYTHING!]
+  ja: オカネガナイノー。　シケテンナー。
+  kanji: お金がないのー。時化てんなー。
+  translated: Really, now? You have no money? That's tough, man.
   us: |
     YOU DON'T HAVE <line>
     ENOUGH MONEY!<end>
@@ -6511,9 +6505,11 @@
 
 - offsets: 520c
   indices: 19C-2
-  ja: モウ ウッテァゲナイヨ。
-  kanji: もう売ってあげないよ。
-  translated: Hey, what the hell?! I’m not selling you ANYTHING!
+  ja: |
+    オヤ　モッタイナイ。<line>
+    モウ　ウッテアゲナイヨ。<wait>
+  kanji: おや、もったいない。もう売ってあげないよ。
+  translated: Oh, well that's unfortunate. Guess I won't selling it to you anymore, then!
   en: Suit yourself. I’ll be here when you change your mind.<wait>
   fr: Comme vous voulez. Je serai là quand vous aurez changé d'avis.<wait>
   pt-br: Como quiser. Vou estar aqui quando você mudar de ideia.<wait>
@@ -6733,7 +6729,7 @@
     マア　アタシトオンナジ　ゲーマーネ。
     ヤッパ　エフエムオンゲンハ　グーネ。<wait>
   kanji: まあ、アタシと同じゲーマーね。やっぱエフエム音源はグーね。
-  translated: Wow! I guess we game the same! After all, the FM sound system is way cool, huh?
+  translated: Wow! I guess you're a capital-G Gamer just like me! The FM sound system is way cool, huh?
   us: |
     OF COURSE! SEGA<line>
     GAMES ARE BEST.<end>
@@ -6844,7 +6840,7 @@
   indices: 206
   ja: イッテミタイナー。<wait>
   kanji: 行ってみたいなー。
-  translated: Ooh, I want to go there soo bad!
+  translated: Ooh, I want to go there so bad!
   us: |
     I'D LIKE TO GO<line>
     VISITING SOMEDAY.<end>
