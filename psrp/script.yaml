@@ -5609,7 +5609,7 @@
   us: |
     DEZORIS IS A<line>
     WORLD OF ICE.<end>
-  en: Dezoris is basically a giant ice cube. It's a big change from the green fields of Palma.<wait>
+  en: Dezoris is basically a giant ice ball. It's a big change from the green fields of Palma.<wait>
   fr: |
     La planète Dézoris est totalement couverte de glace,<wait more>
     pas exactement la florissante verdure de Palma, n'est ce pas_?<wait>
@@ -7040,8 +7040,8 @@
     Alors tu te dois de passer un test final.<wait more>
     Battons-nous en duel.<wait>
   pt-br: Eu te ensinei tudo o que sei. Agora é hora de dar a você um teste final, vamos duelar!<wait>
-  ca: "T'he ensenyat tot el que sé. És hora d'una última prova. Un duel contra mí!<wait>"
-  es: "Te he enseñado todo lo que sé. Es la hora de una última prueba. ¡Un duelo contra mí!<wait>"
+  ca: T'he ensenyat tot el que sé. És hora d'una última prova. Un duel contra mí!<wait>
+  es: Te he enseñado todo lo que sé. Es la hora de una última prueba. ¡Un duelo contra mí!<wait>
   de: Ich kann dich nichts mehr lehren, also ist es Zeit für deine letzte Prüfung... Ein Duell gegen mich!<wait>
 
 - offsets: 5722
