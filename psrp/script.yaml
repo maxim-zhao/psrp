@@ -2944,22 +2944,22 @@
     WILL YOU BUY ONE?<prompt>
   en: |
     Hey, a customer! Glad you found us. Sorry about the location...<wait more>
-    My shortcakes are the best in Algol, and a steal at only <number><internal hint 02> meseta<s>. Want one?<end>
+    My shortcakes are the best in Algol, and a steal at only <number> mesetas. Want one?<end>
   fr: |
     Bienvenue dans mon magasin_! Désolé pour l'endroit...<wait more>
     Mais avec ces hausses d'impôts, c'est tout ce que je peux m'offrir.<wait more>
     Vous comprenez.<wait more>
-    Mes fameuses tartes coûtent <number><internal hint 02> meseta<s>.<wait more>
+    Mes fameuses tartes coûtent <number> mesetas.<wait more>
     Je vous en emballe une_?<end>
   pt-br: |
     Ei, um cliente! Que bom que você nos encontrou. Desculpe a localização.<wait more>
-    Meus bolos são famosos em Algol, é um roubo ser apenas <number><internal hint 02> meseta<s>. Quer um?<end>
+    Meus bolos são famosos em Algol, é um roubo ser apenas <number> mesetas. Quer um?<end>
   ca: |
     Apa, un client! M'en alegro que ens hagis trobat. Perdó per la localització...<wait more>
-    Els meus pastissos són els millors d'Algol, i només costen <number><internal hint 02> meseta<s>. En vols un?<end>
+    Els meus pastissos són els millors d'Algol, i només costen <number> mesetas. En vols un?<end>
   es: |
     Anda, ¡un cliente! Me alegro que nos hayas encontrado. Perdon por el emplazamiento...<wait more>
-    Mis pasteles son los mejores de Algol, y solo cuestan <number><internal hint 02> meseta<s>. ¿Quieres uno?<end>
+    Mis pasteles son los mejores de Algol, y solo cuestan <number> mesetas. ¿Quieres uno?<end>
   de: |
     Willkommen in meiner Konditorei! Tur mir leid wegen des Standortes...<wait more>
     Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta! Wollen Sie eins?<end>
@@ -4452,32 +4452,32 @@
     What, you don’t think two people can build a spaceship?<wait more>
     I’ll have you know I’ve been building these since you were in diapers!<wait more>
     Now then, there's the matter of cost. Spaceships aren't free, you know.<wait more>
-    I require <number><internal hint 01> meseta<s> upfront. Can you cover that?<end>
+    I require <number> mesetas upfront. Can you cover that?<end>
   fr: |
     Super_! On dirait que mon équipe est enfin complète.<wait more>
     Quoi, vous pensez que deux personnes ne suffisent pas_?<wait more>
     Sachez que j'en construisais déjà quand vous têtiez encore votre mère!<wait more>
     Bon, l'achat d'un vaisseau, ce n'est pas comme acheter des Vitabarres.<wait more>
     C'est du sérieux, et il vous en coûtera beaucoup d'argent.<wait more>
-    Je demande <number><internal hint 01> meseta<s> d'acompte. Avez-vous cette somme_?<end>
+    Je demande <number> mesetas d'acompte. Avez-vous cette somme_?<end>
   pt-br: |
     Certo. Parece que minha equipe está reunida.<wait more>
     O que, você não acha que duas pessoas podem construir uma nave espacial?<wait more>
     Pois saiba que eu construo estas naves desde que você usava fraldas!<wait more>
     Bem, agora tem a questão do custo. Naves espaciais não são baratas, você sabe.<wait more>
-    Eu preciso de <number><internal hint 01> meseta<s> adiantado. Você pode cobrir isso?<end>
+    Eu preciso de <number> mesetas adiantado. Você pode cobrir isso?<end>
   ca: |
     D'acord. Sembla que hem pogut reunit el meu equip.<wait more>
     Qué, no creieu que dues persones puguin construir una nau espacial?<wait more>
     Sapigueu que en hem estat construint desde que anàveu en bolquers!<wait more>
     Això si, hi ha el tema del cost. Una nau espacial no surt gratis, sabeu?<wait more>
-    Necessito <number><internal hint 01> meseta<s> per avançat. Podeu cobrir això?<end>
+    Necessito <number> mesetas per avançat. Podeu cobrir això?<end>
   es: |
     De acuerdo. Parece que hemos podido reunir a mi equipo.<wait more>
     Que, ¿no crees que dos personas puedan construir una nave espacial?<wait more>
     ¡Que sepáis que ya construíamos naves cuando ibáis en pañales!<wait more>
     Eso si, está el tema del precio. Una nave espacial no sale gratis, ¿sabéis?<wait more>
-    Necesito <number><internal hint 01> meseta<s> por adelantado. ¿Podéis cubrirlo?<end>
+    Necesito <number> mesetas por adelantado. ¿Podéis cubrirlo?<end>
   de: |
     Gut, mein Personal ist vollzählig.<wait more>
     Ja, zwei Leute können sehr wohl zusammen ein Raumschiff bauen.<wait more>
@@ -6450,20 +6450,20 @@
     WILL YOU BUY ONE?<prompt>
   en: |
     I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
-    GasClears are <number><internal hint 01> meseta<s> each. Pretty cheap, no? Want one?<end>
+    GasClears are <number> mesetas each. Pretty cheap, no? Want one?<end>
   fr: |
     Je parie que vous êtes surprise de trouver un magasin ici, hein_?<wait more>
-    Les masques valent <number><internal hint 01> meseta<s> pièce Bon marché, non_?<wait more>
+    Les masques valent <number> mesetas pièce Bon marché, non_?<wait more>
     En voulez-vous un?<end>
   pt-br: |
     Aposto que você está surpreso ao encontrar uma loja em um lugar como esse, hein?<wait more>
-    A Máscara de Gás custa <number><internal hint 01> meseta<s> cada. Muito barata, não? Quer uma?<end>
+    A Máscara de Gás custa <number> mesetas cada. Muito barata, não? Quer uma?<end>
   ca: |
     Estic segur que us heu sorprés de trobar una botiga en un lloc com aquest, eh?<wait more>
-    Les màscares de gas costen <number><internal hint 01> meseta<s> cadascuna. Prou barat, no? En voleu?<end>
+    Les màscares de gas costen <number> mesetas cadascuna. Prou barat, no? En voleu?<end>
   es: |
     Estoy seguro que os habéis sorprendido de encontrar una tienda en un sitio como este, ¿eh?<wait more>
-    Las máscaras de gas cuestan <number><internal hint 01> meseta<s> cada una. Bastante barato, ¿no? ¿Queréis?<end>
+    Las máscaras de gas cuestan <number> mesetas cada una. Bastante barato, ¿no? ¿Queréis?<end>
   de: |
     Tut mir leid wegen des Standortes...<wait more>
     Gasmasken für <number> Meseta das Stück. Ziemlich preisgünstig, nicht? Kaufen Sie eine?<end>
@@ -6590,25 +6590,25 @@
   en: |
     I am the chief of this village.<wait more>
     We in Sopia are very poor. The mist shuts us off from other towns.<wait more>
-    Would you by chance be able to spare <number><internal hint 01> meseta<s> to help us?<end>
+    Would you by chance be able to spare <number> mesetas to help us?<end>
   fr: |
     Je suis le chef de ce village.<wait more>
     Nous autres de Sopia sommes très pauvres.<wait more>
     On nous considère comme des parias,<wait more>
     et la brume nous isole des autres villages.<wait more>
-    Pourriez-vous nous faire un don de <number><internal hint 02> meseta<s>?<end>
+    Pourriez-vous nous faire un don de <number> mesetas?<end>
   pt-br: |
     Eu sou o chefe desta vila.<wait more>
     Nós em Sopia somos muito pobres. A névoa nos desliga de outras cidades.<wait more>
-    Você poderia nos ajudar doando <number><internal hint 01> meseta<s>?<end>
+    Você poderia nos ajudar doando <number> mesetas?<end>
   ca: |
     Soc el cap d'aquesta vila.<wait more>
     A Sopia som molt pobres. La boirina enmetzinada ens aïlla dels altres pobles.<wait more>
-    No ens podríeu donar <number><internal hint 01> meseta<s> per ajudar-nos?<end>
+    No ens podríeu donar <number> mesetas per ajudar-nos?<end>
   es: |
     Soy el cabecilla de esta villa.<wait more>
     A Sopia somos muy pobres. La neblina envenada nos aisla de los otros pueblos.<wait more>
-    ¿No nos podríais dar <number><internal hint 01> meseta<s> para ayudarnos?<end>
+    ¿No nos podríais dar <number> mesetas para ayudarnos?<end>
   de: |
     Ich bin das Dorfoberhaupt.<wait more>
     Wegen des Giftgases sind wir von anderen Städten abgeschottet, und daher recht arm.<wait more>
@@ -7377,7 +7377,7 @@
     DEZORIS,YES.<end>
   en: There's a warp on the tenth underground level of Dezoris Cave. No joke!<wait>
   fr: |
-    Voussa pouvoir être téléportés au 10ème sous-sol de la grotte Dézoris!<wait more>
+    Voussa pouvoir être téléportés au <number>ème sous-sol de la grotte Dézoris!<wait more>
     Pas blague. Noussa pas mentir à voussa.<wait>
   pt-br: Há uma passagem secreta no décimo nível subterrâneo na Caverna de Dezóris. Não estou brincando!<wait>
   ca: Hi ha un passatge secret al desè nivell de sa caverna de Dezoris. No t'ensarrono!<wait>
@@ -10759,11 +10759,12 @@
     SEE.....<wait more>
     HOW ABOUT <number><line>
     MESETAS?<prompt>
-  en: Hmm, <article><item>? How does <number><internal hint 01> meseta<s> sound?<end>
-  fr: <article><item>. Disons <number><internal hint 01> meseta<s>_?<end>
-  pt-br: Hmm, <article><item>? Que tal <number><internal hint 01> meseta<s>?<end>
-  ca: Hmm, <article><item>? Que et sembla <number><internal hint 01> meseta<s>?<end>
-  es: Hmm, ¿<article><item>? ¿Qué te parece <number><internal hint 01> meseta<s>?<end>
+  # No item in the game sells for exactly 1 meseta.
+  en: Hmm, <article><item>? How does <number> mesetas sound?<end>
+  fr: <article><item>. Disons <number> mesetas_?<end>
+  pt-br: Hmm, <article><item>? Que tal <number> mesetas?<end>
+  ca: Hmm, <article><item>? Que et sembla <number> mesetas?<end>
+  es: Hmm, ¿<article><item>? ¿Qué te parece <number> mesetas?<end>
   de: Hmm, <acc><item>? Dafür kann ich Ihnen <number> Meseta anbieten.<end>
 
 - offsets: 2e66
@@ -11141,11 +11142,12 @@
   us: |
     THAT REQUIRES<line>
     <number> MESETAS. O.K.?<prompt>
-  en: Our suggested donation is <number><internal hint 02> meseta<s>.<end>
-  fr: Nous suggérons un don de <number><internal hint 02> meseta<s>.<end>
-  pt-br: Nossa doação sugerida é de <number><internal hint 02> meseta<s>.<end>
-  ca: La donació suggerida és <number><internal hint 02> meseta<s>.<end>
-  es: La donación sugerida es <number><internal hint 02> meseta<s>.<end>
+  # Resurrection costs can never be exactly 1 meseta.
+  en: Our suggested donation is <number> mesetas.<end>
+  fr: Nous suggérons un don de <number> mesetas.<end>
+  pt-br: Nossa doação sugerida é de <number> mesetas.<end>
+  ca: La donació suggerida és <number> mesetas.<end>
+  es: La donación sugerida es <number> mesetas.<end>
   de: Dürfte ich zuvor um eine Spende von <number> Meseta bitten?<end>
 
 - offsets: 2ca8
@@ -11693,11 +11695,11 @@
   kanji: では、<number>番のゲームを始めます。
   translated: Okay, starting the game in number <number>...
   us: CONTINUING GAME <number>.<wait>
-  en: OK. Continuing from slot<internal hint 01> <number>.<delay>
+  en: OK. Continuing from slot <number>.<delay>
   fr: Ok. Continuer à partir de l'emplacement numéro <number>.<delay>
-  pt-br: Ok. Continuando da posição<internal hint 01> <number>.<delay>
-  ca: D'acord. Continuant desde la ranura<internal hint 01> <number>.<delay>
-  es: De acuerdo. Continuando desde la ranura<internal hint 01> <number>.<delay>
+  pt-br: Ok. Continuando da posição <number>.<delay>
+  ca: D'acord. Continuant desde la ranura <number>.<delay>
+  es: De acuerdo. Continuando desde la ranura <number>.<delay>
   de: OK. Spiel in Position <number> wird fortgesetzt.<delay>
 
 - offsets: # Unused
