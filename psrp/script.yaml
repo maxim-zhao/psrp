@@ -862,7 +862,7 @@
   us: |
     DO YOU KNOW ABOUT<line>
     THE PLANETS OF<wait more>
-    THE Algol STAR<line>
+    THE ALGOL STAR<line>
     SYSTEM?<prompt>
   en: Do you know about all the planets in the Algol Solar System?<end>
   fr: Connaissez-vous les planètes d'Algol_?<end>
@@ -903,7 +903,7 @@
     OF SAND.<wait more>
     DEZORIS IS A WORLD<line>
     OF ICE.<wait more>
-    THE Algol STAR<line>
+    THE ALGOL STAR<line>
     SYSTEM IS<wait more>
     CURRENTLY FACING <line>
     A GREAT CRISIS.<end>
@@ -1388,7 +1388,7 @@
   us: |
     YOU NEED A COMPASS
     TO PASS THROUGH<wait more>
-    THE Eppi FOREST.<end>
+    THE EPPI FOREST.<end>
   en: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
   fr: Aller dans la forêt d'Eppi sans boussole_? Vous devez être un peu stupide_!<wait>
   pt-br: A Floresta de Eppi é muito confusa de se orientar, você precisará de uma Bússola para atravessá-la.<wait>
@@ -1404,8 +1404,8 @@
   kanji: 魔法の掛かったドアはマジックを使わないと開きません。
   translated: Magically-sealed doors can be opened only with magic.
   us: |
-    A DOOR LOCKED WITHMAGIC
-    CAN ONLY BE<wait more>
+    A DOOR LOCKED WITH
+    MAGIC CAN ONLY BE<wait more>
     OPENED WITH MAGIC.<end>
   en: The only way to open a door sealed with magic is to cast a spell of your own.<wait>
   fr: La seul moyen de débloquer une porte scellée, est d'y jeter un de vos propres sorts.<wait>
@@ -4660,7 +4660,7 @@
   us: |
     YOU MUST FIND A<line>
     ROBOT NAMED <wait more>
-    Hapsby. HE CAN FLY
+    HAPSBY. HE CAN FLY
     A SPACESHIP.<end>
   en: |
     I built a robot named Hapsby years ago, just for this purpose.<wait more>
@@ -4903,7 +4903,7 @@
     ルベノ号の操縦は任せてね。
   translated: I am Hapsby. Thanks for finding me. Let me pilot the ‘Luveno’ for you, okay?
   us: |
-    I'M Hapsby.<line>
+    I'M HAPSBY.<line>
     THANKS FOR FINDING<wait more>
     ME. I CAN FLY THE <line>
     LUVENO FOR YOU.<end>
@@ -4939,7 +4939,7 @@
   translated: You found the ‘FlowMover’! Hapsby fixed the areas that were damaged, so you can use it now!
   us: |
     YOU FOUND THE <line>
-    HOVERCRAFT.Hapsby<wait more>
+    HOVERCRAFT.HAPSBY<wait more>
     HAS RESTORED IT TO<line>
     WORKING ORDER.<end>
   en: |
@@ -5574,7 +5574,7 @@
     IN DIFFERENT<line>
     PLACES IN THE <wait more>
     PLANETS OF THE <line>
-    Algol SYSTEM.<end>
+    ALGOL SYSTEM.<end>
   en: |
     Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
     LaShiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
@@ -6228,7 +6228,7 @@
   kanji: ここはドラスゴー。海の上の小さな町です。
   translated: This is Drasgo, a tiny town on the sea.
   us: |
-    WELCOME TO Drasgow
+    WELCOME TO DRASGOW
     -- A SMALL TOWN<wait more>
     ON THE OCEAN.<end>
   en: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
@@ -8734,8 +8734,8 @@
   indices: 27c,27e,280,282
   us: |
     ALRIGHT! YOU SAVED
-    ALL OF Algol!<end>
-
+    ALL OF ALGOL!<end>
+    
 - offsets: # Unreachable?
   indices: 284
   us: |
@@ -8873,7 +8873,7 @@
     OF OUR HEARTS.<line>
     ALIS, YOUR FATHER<wait more>
     WAS ONCE KING OF<line>
-    Algol. THE DARK<wait more>
+    ALGOL. THE DARK<wait more>
     CASTLE HAS BEEN<line>
     DESTROYED, LASSIC<wait more>
     KILLED... DO YOU,<line>
@@ -8881,7 +8881,7 @@
     ASCEND YOUR <line>
     FATHER'S THRONE<wait more>
     AND BECOME THE <line>
-    QUEEN OF Algol?<prompt>
+    QUEEN OF ALGOL?<prompt>
   en: |
     Oh, goodness. Please forgive me. My mind and body were controlled by an evil force.<wait more>
     You’ve done it! You’ve saved Algol. History shall repeat your names, always.<wait more>
@@ -9003,7 +9003,7 @@
     CLEARS AND<delay>
     THE PEACE IS<line>
     RETURNED TO THE<delay>
-    Algol SYSTEM.<line>
+    ALGOL SYSTEM.<line>
   en: Gradually, the sky brightened. The monsters retreated. Peace returned.<end>
   fr: Avec le temps, le ciel se clarifia et les monstres disparurent.<end>
   pt-br: Com o tempo, o céu ficou mais brilhante. Os monstros diminuiram. A paz voltou.<end>
@@ -9139,7 +9139,7 @@
     NAMES WILL BE KEPT<wait>
     IN THE HEARTS OF<line>
     THE PEOPLE OF THE <line>
-    Algol FOREVER!!!<wait>
+    ALGOL FOREVER!!!<wait>
   en: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
   fr: Tandis que le souvenir de cette sombre époque s'estompera, ces quatres noms resteront à jamais gravés dans le cœur du peuple d'Algol.<delay>
   pt-br: Apesar das memórias deste tempo sombrio desaparecerem, esses quatro nomes permanecerão nos corações do povo de Algol para sempre.<delay>
@@ -9956,7 +9956,7 @@
   kanji: ハプスビーはイヤイヤをした。
   translated: Hapsby shook his head.
   us: |
-    Hapsby SHAKES HIS<line>
+    HAPSBY SHAKES HIS<line>
     HEAD "NO".<end>
   en: Hapsby shook his head.<wait>
   fr: Hapsby secoue la tête.<wait>
@@ -9971,7 +9971,7 @@
   kanji: ハプスビーの頭は固い。
   translated: Hapsby has a hard head.
   us: |
-    Hapsby IS<line>
+    HAPSBY IS<line>
     HARDHEADED.<end>
   en: Hapbsy’s head is hard.<wait>
   fr: La tête d'Hapsby est dure.<wait>
