@@ -1257,7 +1257,7 @@
   de: Endlich sagt jemand Lashiec den Kampf an. Dann viel Erfolg!<wait>
 
 - offsets: 4db6
-  # If you haven't bought myau yet
+  # If you haven't bought Myau yet
   indices: 03C,03E
   ja: |
     コノマエ　メデューサノ　ドウクツデ<line>
