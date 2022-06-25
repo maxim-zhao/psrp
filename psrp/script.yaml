@@ -6496,8 +6496,6 @@
   us: |
     YOU DON'T HAVE <line>
     ENOUGH MONEY!<end>
-    SORRY, THAT WAS<line>
-    YOUR ONLY CHANCE.<end>
   en: Huh? You don’t have enough money?<wait>
   fr: Quoi_?! Vous n'avez pas d'argent_?<wait>
   pt-br: O quê? Você não tem dinheiro suficiente?<wait>
@@ -6512,6 +6510,9 @@
     モウ　ウッテアゲナイヨ。<wait>
   kanji: おや、もったいない。もう売ってあげないよ。
   translated: Oh, well that's unfortunate. Guess I won't selling it to you anymore, then!
+  us: |
+    SORRY, THAT WAS<line>
+    YOUR ONLY CHANCE.<end>
   en: Suit yourself. I’ll be here when you change your mind.<wait>
   fr: Comme vous voulez. Je serai là quand vous aurez changé d'avis.<wait>
   pt-br: Como quiser. Vou estar aqui quando você mudar de ideia.<wait>
