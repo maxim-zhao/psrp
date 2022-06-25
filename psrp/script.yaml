@@ -1207,6 +1207,7 @@
     FROM ITS NECK, BUT<wait more>
     I DON'T KNOW WHAT<line>
     THAT IS FOR.<end>
+  # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
   en: |
     Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
     He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
@@ -1256,7 +1257,7 @@
   de: Endlich sagt jemand Lashiec den Kampf an. Dann viel Erfolg!<wait>
 
 - offsets: 4db6
-  # If you haven't bought myau yet
+  # If you haven't bought Myau yet
   indices: 03C,03E
   ja: |
     コノマエ　メデューサノ　ドウクツデ<line>
@@ -2420,6 +2421,7 @@
 - offsets: 25bd,2636
   # Using "Alsuline" or "Polymeteral"
   # This comes immediately after the "Alisa took out the item" message.
+  # Since it's used for the Polymeteral, too, avoid pronouns if you can.
   indices: adcf
   ja: |
     ソシテ　ビンノ　フタヲ　アケテ<line>
@@ -3363,7 +3365,7 @@
 # ******************
 
 - offsets: 53c4
-  # If you haven't found Lutz yet
+  # If you haven't found Lutz yet (Unused)
   indices: 0AC
   ja: |
     ルツハ　パセオノ　ソウトクノ<line>
@@ -3383,7 +3385,7 @@
   de: Wenn Lutz jemandem gehorcht, dann dem Generalgouverneur.<wait>
 
 - offsets: 53c9
-  # If you have found Lutz
+  # If you have found Lutz (Unused)
   indices: 0B2
   ja: ヤッホー。<wait>
   kanji: ヤッホー。
@@ -6487,9 +6489,9 @@
 - offsets: 521d
   # GasClear salesman (yes to previous question, but don't have enough money)
   indices: 19A,19C
-  # Note: the last two lines are part of the following script entry. It was corrected in the Mega Drive version to not run into it.
   ja: オカネガナイノー。　シケテンナー。
   kanji: お金がないのー。時化てんなー。
+  # Note: In the Japanese version, this one runs into the line below. It was corrected in the Mega Drive version.
   translated: Really, now? You have no money? That's tough, man.
   us: |
     YOU DON'T HAVE <line>
@@ -8751,6 +8753,7 @@
 # **************
 
 - offsets: 58bd
+  # If Alisa died during the final boss fight
   indices: b85a
   ja: |
     ソノトキ　アリサノ　タマシイハ<line>
