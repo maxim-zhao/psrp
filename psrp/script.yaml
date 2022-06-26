@@ -9938,6 +9938,7 @@
   de: Niemand hat gerade Hunger, also werden sie wieder eingesteckt.<wait>
 
 - offsets: 277b
+  # Trying to use Hapsby in battle
   indices: aee8
   ja: ハプスビーハ　イヤイヤヲシタ。<wait>
   kanji: ハプスビーはイヤイヤをした。
@@ -9953,6 +9954,7 @@
   de: Hapsby schüttelt den Kopf.<wait>
 
 - offsets: 2784
+  # Trying to use Hapsby outside of battle
   indices: aef8
   ja: ハプスビーノ　アタマハ　カタイ。<wait>
   kanji: ハプスビーの頭は固い。
