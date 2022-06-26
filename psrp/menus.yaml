@@ -1096,7 +1096,7 @@
     ┌──────────╖
     │Doheilen  ║
     │Ellaf     ║
-    │Glattraus ║
+    │Ausgang   ║
 
 - name: OverworldSpellsLutz
   jp: |
@@ -1151,7 +1151,7 @@
   de: |
     ┌──────────╖
     │Doheilen  ║
-    │Glattraus ║
+    │Ausgang   ║
     │Telepath  ║
     │Musesam   ║
     │Beleben   ║
@@ -1578,7 +1578,7 @@
     ┌──────╖
     │Gothic║
     │Uzo   ║
-    │Skray ║
+    │Skure ║
     ╘══════╝
 
 - name: SoundTestMenuTop
