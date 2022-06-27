@@ -3138,7 +3138,7 @@ _LABEL_11DC_:
     jp nc,_LABEL_179A_
     xor a
     ld (_RAM_C267_BattleCurrentPlayer),a
-    call _LABEL_321F_
+    call _LABEL_321F_HidePartyStats
     call CloseMenu
     call _LABEL_1A4E_
     ld hl,_RAM_C2A0_
@@ -3407,16 +3407,16 @@ _LABEL_13E8_:
 
 ++: ld a,(_RAM_C2E8_EnemyMagicType)
     and $07
-    ld hl,_DATA_1420_
+    ld hl,EnemyAttackFunctions
     jp FunctionLookup
 
 ; Jump Table from 1420 to 142F (8 entries,indexed by _RAM_C2E8_EnemyMagicType)
-_DATA_1420_:
-.dw _LABEL_1461_RegularEnemyAttack _LABEL_14E2_EnemyMagic_Bind _LABEL_1528_EnemyMagic_Heal80 _LABEL_155B_EnemyMagic_PowerUp _LABEL_157D_EnemyMagicAttack _LABEL_15F9_ _LABEL_1676_ _LABEL_16BD_
+EnemyAttackFunctions:
+.dw _LABEL_1461_RegularEnemyAttack _LABEL_14E2_EnemyMagic_Bind _LABEL_1528_EnemyMagic_Heal80 _LABEL_155B_EnemyMagic_PowerUp _LABEL_157D_EnemyMagicAttack _LABEL_15F9_EnemyMagic_AttackAll40 _LABEL_1676_MedusaAttack _LABEL_16BD_Attack_DamoasCrystal
 
 MaybeRemoveMagicWall:
     ld a,(_RAM_C2E8_EnemyMagicType)
-    and $10
+    and MAGIC_WALL_BREAKER
     jr z,++
     ; Subtract rand(0..3) from its counter
     call GetRandomNumber
@@ -3506,7 +3506,7 @@ _LABEL_1461_RegularEnemyAttack:
 -:  ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
-    call _LABEL_321F_
+    call _LABEL_321F_HidePartyStats
     ret
 
 ; 2nd entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
@@ -3654,12 +3654,12 @@ _LABEL_157D_EnemyMagicAttack:
 -:  ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
-    jp _LABEL_321F_
+    jp _LABEL_321F_HidePartyStats
 
 ; 6th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
-_LABEL_15F9_:
+_LABEL_15F9_EnemyMagic_AttackAll40:
     ; 3/4 chance of a regular attack
-    ; 1/4 chance of 
+    ; 1/4 chance of -40 attack on all players
     call GetRandomNumber
     and $03
     jp nz,_LABEL_1461_RegularEnemyAttack
@@ -3706,7 +3706,7 @@ MagicAttackDamageC:
 -:    ld a,$08
       call ExecuteFunctionIndexAInNextVBlank
       djnz -
-      call _LABEL_321F_
+      call _LABEL_321F_HidePartyStats
 +++:
     pop bc
     djnz --
@@ -3727,13 +3727,16 @@ MagicAttackDamageC:
     jp _LABEL_171E_ReducePlayerHP
 
 ; 7th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
-_LABEL_1676_:
+_LABEL_1676_MedusaAttack:
+    ; Regular attack if Odin has the Shield of Perseus equipped.
+    ; Else turn a random player to stone.
     ld a,(CharacterStatsOdin)
     or a
     jr z,+
     ld a,(CharacterStatsOdin.Shield)
-    cp $1F
+    cp Item_Shield_ShieldOfPerseus
     jp z,_LABEL_1461_RegularEnemyAttack
+    ; If so, normal attack
 +:  ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     or a
     call nz,MaybeRemoveMagicWall
@@ -3744,7 +3747,7 @@ _LABEL_1676_:
     ld (TextCharacterNumber),a
     ld (_RAM_C2EE_PlayerBeingAttacked),a
     push hl
-    call _LABEL_30FB_ShowCharacterStatsBox
+      call _LABEL_30FB_ShowCharacterStatsBox
     pop hl
     xor a
     ld (hl),a
@@ -3758,17 +3761,18 @@ _LABEL_1676_:
 -:  ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
-    jp _LABEL_321F_
+    jp _LABEL_321F_HidePartyStats
 
 ; 8th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
-_LABEL_16BD_:
+_LABEL_16BD_Attack_DamoasCrystal:
+    ; +1 HP if you have Damoa's Crystal?
     ld a,Item_DamoasCrystal
     ld (ItemTableIndex),a
     call HaveItem
-    ld c,$01
-    jp nz,MagicAttackDamageC
-    ld c,$FF
-    jp MagicAttackDamageC
+    ld c,1
+    jp nz,MagicAttackDamageC ; Have it -> +1 HP ?
+    ld c,-1
+    jp MagicAttackDamageC ; -1 signals a random damage
 
 EnemyAttacksPlayer:
     ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
@@ -4245,14 +4249,14 @@ BattleMenu_Fight:
 ; 4th entry of Jump Table from 1A6E (indexed by CursorPos)
 BattleMenu_Talk:
     call _LABEL_3035_
-    call _LABEL_321F_
+    call _LABEL_321F_HidePartyStats
     call CloseMenu
     ld a,(_RAM_C267_BattleCurrentPlayer)
     ld (TextCharacterNumber),a
     ld hl,textPlayerSpeaks
     call TextBox20x6
     ld a,(_RAM_C2E8_EnemyMagicType)
-    and $80
+    and TALK_NORMAL
     jr z,MonsterDoesNotUnderstand
     ld a,(CharacterStatsEnemies.1.Attack)
     ld b,a
@@ -4299,7 +4303,7 @@ _MonsterDialogue:
 ; 5th entry of Jump Table from 1A6E (indexed by CursorPos)
 BattleMenu_RunAway:
     call _LABEL_3035_
-    call _LABEL_321F_
+    call _LABEL_321F_HidePartyStats
     call CloseMenu
     ld a,(RetreatProbability)
     ld b,a
@@ -4483,9 +4487,9 @@ _Magic10_Transrate:
     ld (NewMusic),a
 DoTransrate:
     ld a,(_RAM_C2E8_EnemyMagicType)
-    and $C0
+    and TALK_NORMAL | TALK_MAGIC
     jp z,MonsterDoesNotUnderstand
-    and $40
+    and TALK_MAGIC
     jp z,MonsterTalk
     ld a,(CharacterStatsEnemies.1.Attack)
     ld b,a
@@ -4501,9 +4505,9 @@ _Magic11_Telepathy:
     ld (de),a
 DoTelepathy:
     ld a,(_RAM_C2E8_EnemyMagicType)
-    and $C0
+    and TALK_NORMAL | TALK_MAGIC
     jp z,MonsterDoesNotUnderstand
-    and $40
+    and TALK_MAGIC
     jp z,MonsterTalk
 +:  ld a,$AC
     ld (NewMusic),a
@@ -4640,7 +4644,7 @@ _LABEL_1D3D_:
     ld (CharacterSpriteAttributes),a
     ld a,$D0
     ld (SpriteTable),a
-+:  call _LABEL_321F_
++:  call _LABEL_321F_HidePartyStats
     call _LABEL_3818_
     pop af
     cp $FF
@@ -5066,7 +5070,7 @@ _Magic08_Bind:
     ld a,$AB
     ld (NewMusic),a
     ld a,(_RAM_C2E8_EnemyMagicType)
-    and $20
+    and BIND_PROOF
     jr z,++
     ld a,(CharacterStatsEnemies.1.Attack)
     ld b,a
@@ -6248,7 +6252,7 @@ _LABEL_2995_:
     ld a,(CharacterSpriteAttributes)
     cp $0E
     jr nz,+
-    call _LABEL_321F_
+    call _LABEL_321F_HidePartyStats
     ld hl,textNothingUnusualHere
     call TextBox20x6
     call _LABEL_2A37_
@@ -7386,7 +7390,7 @@ TilesMP:
 ; followed by
 .orga $321f
 .section "Output _RAM_d724_ tilemap data to bottom of screen" overwrite
-_LABEL_321F_:
+_LABEL_321F_HidePartyStats:
     ld hl,_RAM_D724_
     TileMapAddressDE 0,18
     TileMapAreaBC 32,6
@@ -18459,11 +18463,34 @@ _DATA_C5A0_:
   ItemIndex           db
   MoneyDrop           dw
   ChestTrapped        db
-  ExperienceValue     db ; multiplies by number of enemies
-  TalkingAndMagicType  db ; High bit = ability to talk, next bit = ability to talk magically? Low 3 (?) bits are an index into _DATA_1420_ for enemy magic
+  ExperienceValue     dw ; multiplies by number of enemies
+  TalkingAndMagicType db ; bit 7 = ability to talk; bit 6 = ability to talk magically; bit 5 = 1 if enemy is impervious to "bind" magic; bit 4 = 1 if enemy always removes a magic wall; bit 3 = ?; low 3 bits are an index into EnemyAttackFunctions for enemy magic
   RetreatProbability  db ; Relates to ability to run away, higher means less likely to block it. $ff means can always run away, $00 means never can.
 .ends
+.define TALK_NORMAL         %10000000
+.define TALK_MAGIC          %01000000
+.define BIND_PROOF          %00100000
+.define MAGIC_WALL_BREAKER  %00010000
+
 EnemyData:
+.dstruct instanceof EnemyData nolabels values
+  Name:               .dsb 8 $23 $2e $0d $10 $4d $1c $27 $02 ; 1 MoNSuTa-HuRaI = Monster Fly? (Sworm)
+  Palette:            .dsb 8 $2a $25 $05 $0a $08 $04 $0c $2f 
+  SpriteTilesPage:    .db :TilesFly
+  SpriteTilesAddress: .dw TilesFly
+  UnknownIndex        .db $12
+  MaxEnemyCount       .db 8
+  HP                  .db 8
+  AP                  .db 13
+  DP                  .db 9
+  ItemIndex           .db Item_Empty
+  MoneyDrop           .dw 3
+  ChestTrapped        .db %11000000
+  ExperienceValue     .dw 2
+  TalkingAndMagicType .db BIND_PROOF | MAGIC_WALL_BREAKER | 0 ; Regular attack
+  RetreatProbability  .db $ff
+.endst
+/*
 .db $23 $2e $0d $10 $4d $1c $27 $02 ; 1 MoNSuTa-HuRaI = Monster Fly? (Sworm)
 .db $2a $25 $05 $0a $08 $04 $0c $2f
 .db :TilesFly
@@ -18473,7 +18500,7 @@ EnemyData:
 .db $0c
 .dw $0002
 .db $38 $ff
-
+*/
 .db $35 $28 $4d $2e $0d $27 $02 $21 ; 2 GuRi-NSuRaIMu = Green Slime
 .db $10 $04 $0c $0e $00 $00 $00 $00
 .db :TilesSlime
