@@ -245,7 +245,7 @@ _RAM_C2E8_EnemyMagicType db
 _RAM_C2E9_ db
 _RAM_C2EA_ db
 _RAM_C2EB_ db
-_RAM_C2EC_ db
+_RAM_C2EC_SecretThingBuyCount db
 _RAM_C2ED_PlayerWasHurt db
 _RAM_C2EE_PlayerBeingAttacked db
 _RAM_C2EF_MagicWallActiveAndCounter db
@@ -3412,7 +3412,7 @@ _LABEL_13E8_:
 
 ; Jump Table from 1420 to 142F (8 entries,indexed by _RAM_C2E8_EnemyMagicType)
 _DATA_1420_:
-.dw _LABEL_1461_RegularEnemyAttack _LABEL_14E2_EnemyMagic_Bind _LABEL_1528_EnemyMagic_Heal80 _LABEL_155B_EnemyMagic_PowerUp _LABEL_157D_ _LABEL_15F9_ _LABEL_1676_ _LABEL_16BD_
+.dw _LABEL_1461_RegularEnemyAttack _LABEL_14E2_EnemyMagic_Bind _LABEL_1528_EnemyMagic_Heal80 _LABEL_155B_EnemyMagic_PowerUp _LABEL_157D_EnemyMagicAttack _LABEL_15F9_ _LABEL_1676_ _LABEL_16BD_
 
 MaybeRemoveMagicWall:
     ld a,(_RAM_C2E8_EnemyMagicType)
@@ -3596,20 +3596,24 @@ _LABEL_155B_EnemyMagic_PowerUp:
     jp Close20x6TextBox
 
 ; 5th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
-_LABEL_157D_:
+_LABEL_157D_EnemyMagicAttack:
+    ; 3/4 chance of a regular attack
+    ; 1/4 chance to damage between 7 and 10 HP to two random players
     call GetRandomNumber
     and $03
     jp nz,_LABEL_1461_RegularEnemyAttack ; 3/4 chance
+    ; Do all this twice
     call +
 +:  ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     call nz,MaybeRemoveMagicWall
+    ; Not sure why it is iterating from 0-3 this way?
     ld b,$04
 -:  ld a,b
     sub $04
     neg
     call PointHLToCharacterInA
-    jr nz,+
+    jr nz,+ ; Do damage if anyone is alive. Maybe the first attack killed the last player?
     djnz -
     ret
 
@@ -3654,61 +3658,69 @@ _LABEL_157D_:
 
 ; 6th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
 _LABEL_15F9_:
+    ; 3/4 chance of a regular attack
+    ; 1/4 chance of 
     call GetRandomNumber
     and $03
     jp nz,_LABEL_1461_RegularEnemyAttack
-    ld c,$D8
-_LABEL_1603_:
+    ld c,-40 ; $D8
+MagicAttackDamageC:
+    ; Loop over players
     ld b,$04
-_LABEL_1605_:
-    push bc
-    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
-    and $80
-    call nz,MaybeRemoveMagicWall
+--: push bc
+      ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
+      and $80
+      call nz,MaybeRemoveMagicWall
     pop bc
     push bc
-    ld a,b
-    sub $04
-    neg
-    call PointHLToCharacterInA
-    jr z,_LABEL_165D_
-    ld (TextCharacterNumber),a
-    ld (_RAM_C2EE_PlayerBeingAttacked),a
-    push bc
-    call _LABEL_30FB_ShowCharacterStatsBox
+      ld a,b
+      sub $04
+      neg
+      call PointHLToCharacterInA
+      jr z,+++ ; Skip dead players
+      ld (TextCharacterNumber),a
+      ld (_RAM_C2EE_PlayerBeingAttacked),a
+      push bc
+        call _LABEL_30FB_ShowCharacterStatsBox
+      pop bc
+      
+      ; Perform attack using c as the parameter
+      call ++
+      
+      ld a,$C0
+      ld (_RAM_C88A_),a
+      call _LABEL_1A2A_
+      ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
+      and $80
+      jr z,+
+      ld hl,textMagicWallDeflectsMonstersMagic
+      call TextBox20x6
+      call Close20x6TextBox
++:    ld a,(TextCharacterNumber)
+      call PointHLToCharacterInA
+      jr nz,+
+      ld hl,textPlayerDied
+      call TextBox20x6
+      call Close20x6TextBox
++:    ld b,$04
+-:    ld a,$08
+      call ExecuteFunctionIndexAInNextVBlank
+      djnz -
+      call _LABEL_321F_
++++:
     pop bc
-    call ++
-    ld a,$C0
-    ld (_RAM_C88A_),a
-    call _LABEL_1A2A_
-    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
-    and $80
-    jr z,+
-    ld hl,textMagicWallDeflectsMonstersMagic
-    call TextBox20x6
-    call Close20x6TextBox
-+:  ld a,(TextCharacterNumber)
-    call PointHLToCharacterInA
-    jr nz,+
-    ld hl,textPlayerDied
-    call TextBox20x6
-    call Close20x6TextBox
-+:  ld b,$04
--:  ld a,$08
-    call ExecuteFunctionIndexAInNextVBlank
-    djnz -
-    call _LABEL_321F_
-_LABEL_165D_:
-    pop bc
-    djnz _LABEL_1605_
+    djnz --
     ret
 
-++: ld a,c
+++: ; If c is -1, that's the damage
+    ld a,c
     cp $FF
-    jp z,_LABEL_16D5_
+    jp z,EnemyAttacksPlayer_NoMagicWallCheck
+    ; Else if there's a magic wall, do nothing
     ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     ret nz
+    ; Else apply 0..15 damage
     call GetRandomNumber
     and $0F
     add a,c
@@ -3750,19 +3762,19 @@ _LABEL_1676_:
 
 ; 8th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
 _LABEL_16BD_:
-    ld a,$3C
+    ld a,Item_DamoasCrystal
     ld (ItemTableIndex),a
     call HaveItem
     ld c,$01
-    jp nz,_LABEL_1603_
+    jp nz,MagicAttackDamageC
     ld c,$FF
-    jp _LABEL_1603_
+    jp MagicAttackDamageC
 
 EnemyAttacksPlayer:
     ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     or a
     jr nz,++
-_LABEL_16D5_:
+EnemyAttacksPlayer_NoMagicWallCheck:
     ld a,(iy+Character.Attack) ; Enemy attack points?
     bit 7,(iy+Character.IsAlive) ; Check for powered up bit
     jr z,+
@@ -4179,18 +4191,18 @@ _LABEL_1A15_:
 
 _LABEL_1A2A_:
     push iy
-    ld a,$FF
-    ld (_RAM_C29F_),a
-    ld a,(_RAM_C2F1_)
-    ld (NewMusic),a
--:  ld a,$08
-    call ExecuteFunctionIndexAInNextVBlank
-    call SpriteHandler
-    ld a,(_RAM_C29F_)
-    or a
-    jp nz,-
-    ld a,$08
-    call ExecuteFunctionIndexAInNextVBlank
+      ld a,$FF
+      ld (_RAM_C29F_),a
+      ld a,(_RAM_C2F1_)
+      ld (NewMusic),a
+-:    ld a,$08
+      call ExecuteFunctionIndexAInNextVBlank
+      call SpriteHandler
+      ld a,(_RAM_C29F_)
+      or a
+      jp nz,-
+      ld a,$08
+      call ExecuteFunctionIndexAInNextVBlank
     pop iy
     ret
 
@@ -5863,7 +5875,7 @@ UseItem_EclipseTorch:
     ld hl,textPlayerPutLaermaBerriesInLaconianPot
     call TextBox20x6
     call Close20x6TextBox
-    ld a,$31
+    ld a,Item_LaermaBerries
     ld (ItemTableIndex),a
     call HaveItem
     ret z
@@ -6084,15 +6096,15 @@ EquipItem:
     ld hl,(_RAM_C29B_)
     ld (hl),a
     push af
-    ld a,(ItemTableIndex)
-    ld (de),a
-    ld hl,textPlayerEquippedItem
-    call TextBox20x6
-    ld a,(TextCharacterNumber)
-    call _LABEL_3824_
-    call MenuWaitForButton
-    call _LABEL_386A_
-    call Close20x6TextBox
+      ld a,(ItemTableIndex)
+      ld (de),a
+      ld hl,textPlayerEquippedItem
+      call TextBox20x6
+      ld a,(TextCharacterNumber)
+      call _LABEL_3824_
+      call MenuWaitForButton
+      call _LABEL_386A_
+      call Close20x6TextBox
     pop af
     or a
     call z,_LABEL_28D8_RemoveItemFromInventory
@@ -6280,7 +6292,7 @@ _LABEL_2995_:
     jr z,_LABEL_2A21_
     ld a,$FF
     ld (SootheFluteIsUnhidden),a
-    ld a,$26
+    ld a,Item_SootheFlute
     jr ++
 
 +:  cp $01
@@ -6296,10 +6308,10 @@ _LABEL_2995_:
     jr z,_LABEL_2A21_
     ld a,(CharacterStatsOdin.Shield)
     ld b,a
-    ld a,$1F
+    ld a,Item_Shield_ShieldOfPerseus
     cp b
     jr z,_LABEL_2A21_
-++:  ld (ItemTableIndex),a
+++: ld (ItemTableIndex),a
     call HaveItem
     jr z,_LABEL_2A21_
     ld hl,textFoundItem
@@ -6699,15 +6711,16 @@ _LABEL_2D38_:
     sbc hl,de
     jr c,_LABEL_2D9D_
     ld a,(ItemTableIndex)
-    cp $40
+    cp Item_SecretThing
     jr nc,_LABEL_2DA2_
     ld (Meseta),hl
     call _LABEL_3B21_
     ld a,(ItemTableIndex)
-    cp $21
-    jr c,+
-    cp $24
-    jr nc,+
+    cp Item_Vehicle_LandMaster
+    jr c,+ ; Shields, weapons, armour
+    cp Item_PelorieMate
+    jr nc,+ ; Items
+    ; So it must be a vehicle
     call HaveItem
     jr z,++
 +:  call _LABEL_28FB_
@@ -6731,32 +6744,35 @@ _LABEL_2D9D_:
     jr -
 
 _LABEL_2DA2_:
-    ld a,(_RAM_C2EC_)
+    ld a,(_RAM_C2EC_SecretThingBuyCount)
     cp $02
     jr nc,++
     cp $01
     ld hl,$0142
+    ; I don’t know who told you that, but you’d better just forget about it if you know what’s good for you.
     jr c,+
     ld hl,$0144
+    ; Give it up, willya? Now get outta here!
 +:  inc a
-    ld (_RAM_C2EC_),a
+    ld (_RAM_C2EC_SecretThingBuyCount),a
     call DrawText20x6
     call _LABEL_3B3C_
     call _LABEL_3AC3_
     jp Close20x6TextBox
 
-++:  xor a
-    ld (_RAM_C2EC_),a
+++: xor a
+    ld (_RAM_C2EC_SecretThingBuyCount),a
     push hl
-    ld a,$33
-    ld (ItemTableIndex),a
-    call HaveItem
+      ld a,Item_RoadPass
+      ld (ItemTableIndex),a
+      call HaveItem
     pop hl
-    jr z,_LABEL_2DA2_
+    jr z,_LABEL_2DA2_ ; Go back to the start if you already have it
     ld (Meseta),hl
     call _LABEL_3B21_
     call _LABEL_28FB_
     ld hl,$0146
+    ; You just don't quit, do you? If you're gonna keep bugging me, then fine[, take it]. But don't tell anybody.
     call DrawText20x6
     call _LABEL_3B3C_
     call _LABEL_3AC3_
@@ -11266,7 +11282,7 @@ _room_37_GovernorGeneral: ; $4ED0:
     ; Get the letter
     push bc
       ld a,Item_GovernorGeneralsLetter
-    ld (ItemTableIndex),a
+      ld (ItemTableIndex),a
       call AddItemToInventory
     pop bc
     ld a,Item_GovernorGeneralsLetter
