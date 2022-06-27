@@ -180,7 +180,7 @@ _RAM_C263_ db                 ; Scrollingtilemap data page(?)
 ScrollDirection db            ; Scroll direction; %----RLDU
 PaletteRotateEnabled .db      ; Palette rotation enabled if non-zero
 WalkingMovementCounter db     ; Counter for movement
-_RAM_C267_MagicPlayer db
+_RAM_C267_BattleCurrentPlayer db
 CursorEnabled db              ; $ff if cursor showing,$00 otherwise
 CursorTileMapAddress dw       ; Address of low byte of top cursor position in tilemap
 CursorPos db                  ; How many rows to shift cursor down
@@ -221,7 +221,7 @@ ItemTableIndex db             ; Index into item table for text display
 NumberToShowInText dw         ; 16-bit int to output for text code TextNumber=$52
 NumEnemies db                 ; counter for number of enemies
 EnemyName dsb 8               ; 8 character enemy name
-_RAM_C2D0_ dw
+EnemyExperienceValue dw       ; Experience points for beatings
 MovementInProgress db         ; $ff when doing a block movement
 TextBox20x6Open db            ; 20x6 text box open
 _RAM_C2D4_ db
@@ -240,15 +240,15 @@ BattleProbability db          ; Chance of an enemy encounter (*255)
 DungeonMonsterPoolIndex db
 _RAM_C2E5_ db
 EnemyNumber db                ; Enemy number - index into EnemyData
-_RAM_C2E7_ db
-_RAM_C2E8_ db
+RetreatProbability db
+_RAM_C2E8_EnemyMagicType db
 _RAM_C2E9_ db
 _RAM_C2EA_ db
 _RAM_C2EB_ db
 _RAM_C2EC_ db
-_RAM_C2ED_ db
-_RAM_C2EE_ db
-_RAM_C2EF_ db
+_RAM_C2ED_PlayerWasHurt db
+_RAM_C2EE_PlayerBeingAttacked db
+_RAM_C2EF_MagicWallActiveAndCounter db
 _RAM_C2F0_ db
 _RAM_C2F1_ db
 _RAM_C2F2_ db
@@ -299,7 +299,7 @@ Defence db      ;  +9 b Defence
 Weapon db       ; +10 \  These 3 are bytes values
 Armour db       ; +11  | from the same list.
 Shield db       ; +12 /
-Unknown1 db     ; +13
+Unknown1 db     ; +13 : Tied up state?
 MagicCount db   ; +14 Number of magics known (?) <5
 BattleMagicCount db     ; +15 Number of battle magics known
 .endst
@@ -2601,7 +2601,7 @@ _LABEL_C64_:
     or a               ;                                      |
     ret nz             ; exit if PaletteRotateEnabled         |
     xor a              ; zero a                               |
-++:  ld (_RAM_C29D_InBattle),a ; Save to xc29d <----------------------+
+++: ld (_RAM_C29D_InBattle),a ; Save to xc29d <----------------------+
 
     ld hl,FunctionLookupIndex
     ld (hl),$0c        ; Set FunctionLookupIndex to 0c (???)
@@ -2814,16 +2814,16 @@ _ResetCharacterSpriteAttributes:
 _InitialiseCharacterSpriteAttributes:
     ld de,CharacterSpriteAttributes
     ld bc,32           ; size of each entry in CharacterSpriteAttributes
-    ld hl,CharacterStatsAlis
+    ld hl,CharacterStatsAlis.IsAlive
     ld a,$01
     call +
-    ld hl,CharacterStatsLutz
+    ld hl,CharacterStatsLutz.IsAlive
     ld a,$03
     call +
-    ld hl,CharacterStatsOdin
+    ld hl,CharacterStatsOdin.IsAlive
     ld a,$05
     call +
-    ld hl,CharacterStatsMyau
+    ld hl,CharacterStatsMyau.IsAlive
     ld a,$07
     ; fall through
   +:                   ; $e3f
@@ -3066,7 +3066,7 @@ _LABEL_116B_:
     dec hl
     djnz -
     xor a
-    ld (_RAM_C2EF_),a
+    ld (_RAM_C2EF_MagicWallActiveAndCounter),a
     call ShowEnemyData
     ld b,$04
 -:  ld a,b
@@ -3096,21 +3096,21 @@ _LABEL_119F_:
     ld a,$FF
     ld (_RAM_C29D_InBattle),a
     xor a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ld (_RAM_C2D4_),a
     call ShowCombatMenu
-    call _LABEL_3041_
+    call _LABEL_3041_UpdatePartyStats
 _LABEL_11D0_:
-    call _LABEL_19D6_
+    call PointHLToBattleCurrentPlayer
     jp z,_LABEL_11DC_
     inc hl
     ld a,(hl)
     or a
     jp nz,+
 _LABEL_11DC_:
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     jp ++
 
 +:  ld de,$000C
@@ -3118,7 +3118,7 @@ _LABEL_11DC_:
     ld a,(hl)
     or a
     jr nz,_LABEL_11DC_
-    call _LABEL_326D_
+    call _LABEL_326D_UpdateEnemyHP
     call RefreshCombatMenu
     call _LABEL_3014_
     ld hl,$7882
@@ -3131,13 +3131,13 @@ _LABEL_11DC_:
     ld hl,_DATA_1A6E_
     call FunctionLookup
     call _LABEL_3035_
-++:  ld a,(_RAM_C267_MagicPlayer)
+++:  ld a,(_RAM_C267_BattleCurrentPlayer)
     cp $04
     jp c,_LABEL_11D0_
     cp $05
     jp nc,_LABEL_179A_
     xor a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     call _LABEL_321F_
     call CloseMenu
     call _LABEL_1A4E_
@@ -3146,41 +3146,41 @@ _LABEL_11DC_:
 _LABEL_1232_:
     push bc
     push hl
-    ld a,(hl)
-    cp $04
-    jp nc,+
-    call _LABEL_12A4_
-    jp ++
+      ld a,(hl)
+      cp $04
+      jp nc,+
+      call _LABEL_12A4_
+      jp ++
 
-+:  call _LABEL_13E8_
-++:  ld hl,CharacterStatsEnemies.1.HP
-    ld de,$0010
-    ld b,$08
--:  ld a,(hl)
-    or a
-    jp nz,+
-    add hl,de
-    djnz -
++:    call _LABEL_13E8_
+++:   ld hl,CharacterStatsEnemies.1.HP
+      ld de,_sizeof_Character
+      ld b,8
+-:    ld a,(hl)
+      or a
+      jp nz,+
+      add hl,de
+      djnz -
     pop hl
     pop bc
-    jp _LABEL_17B2_
+    jp _LABEL_17B2_ ; Enemies are all dead
 
-+:  ld hl,CharacterStatsAlis
-    ld de,$0010
-    ld b,$04
--:  ld a,(hl)
-    or a
-    jp nz,+
-    add hl,de
-    djnz -
++:    ld hl,CharacterStatsAlis.IsAlive
+      ld de,_sizeof_Character
+      ld b,4
+-:    ld a,(hl)
+      or a
+      jp nz,+
+      add hl,de
+      djnz -
     pop hl
     pop bc
-    jp _LABEL_175E_
+    jp _LABEL_175E_ ; Party is all dead
 
 +:  pop hl
     pop bc
     inc hl
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     cp $05
     jp z,_LABEL_179A_
     djnz _LABEL_1232_
@@ -3188,13 +3188,13 @@ _LABEL_1232_:
 
 _LABEL_127D_:
     call _LABEL_3035_
--:  ld a,(_RAM_C267_MagicPlayer)
+-:  ld a,(_RAM_C267_BattleCurrentPlayer)
     or a
     jr z,+
     dec a
-+:  ld (_RAM_C267_MagicPlayer),a
++:  ld (_RAM_C267_BattleCurrentPlayer),a
     jp z,_LABEL_11D0_
-    call _LABEL_19D6_
+    call PointHLToBattleCurrentPlayer
     jp z,-
     inc hl
     ld a,(hl)
@@ -3208,8 +3208,8 @@ _LABEL_127D_:
     jp _LABEL_11D0_
 
 _LABEL_12A4_:
-    ld (_RAM_C267_MagicPlayer),a
-    call _LABEL_19D6_
+    ld (_RAM_C267_BattleCurrentPlayer),a
+    call PointHLToBattleCurrentPlayer
     ret z
     ld a,(_RAM_C2D4_)
     or a
@@ -3222,7 +3222,7 @@ _LABEL_12A4_:
     ld a,(iy+13)
     or a
     jr z,++
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     ld (TextCharacterNumber),a
     call GetRandomNumber
     and $01
@@ -3244,7 +3244,7 @@ _LABEL_12A4_:
     call _LABEL_1D2A_ ; Look up data from _RAM_C2AC_
     cp $01
     jp nz,_LABEL_1338_
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     ld (TextCharacterNumber),a
     add a,a
     add a,a
@@ -3299,7 +3299,7 @@ _LABEL_1338_:
 
 +:  cp $04
     jp nz,_LABEL_1367_
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     ld (TextCharacterNumber),a
     ld a,b
     ld (ItemTableIndex),a
@@ -3308,7 +3308,7 @@ _LABEL_1338_:
     ld (_RAM_C29B_),hl
     call UseItem
 _LABEL_1367_:
-    call _LABEL_326D_
+    call _LABEL_326D_UpdateEnemyHP
     call _LABEL_3035_
     ret
 
@@ -3327,10 +3327,10 @@ _LABEL_1379_:
     add a,c
     jr nc,+
     ld a,$FF
-+:  call _LABEL_13D5_
++:  call RandomReduce
     ld c,a
     ld a,(ix+9)
-    call _LABEL_13D5_
+    call RandomReduce
     sub c
     jr c,_LABEL_13BA_
     cp $10
@@ -3365,19 +3365,20 @@ _LABEL_13BA_:
     ld (ix+13),a
     ret
 
-_LABEL_13D5_:
+RandomReduce:
+; Multiplies a by a random value between 0.75 and 1
     rrca
     and $7F
-    ld b,a
+    ld b,a ; b = a/2
     rrca
     and $3F
-    ld e,a
+    ld e,a ; e = a/4
     call GetRandomNumber
     ld h,a
-    call Multiply8
-    ld a,e
-    add a,b
-    add a,h
+    call Multiply8 ; hl = rnd() * e
+    ld a,e ; Compute a/4
+    add a,b ; + a/2
+    add a,h ; + (rnd()  * a/4
     ret
 
 _LABEL_13E8_:
@@ -3404,23 +3405,24 @@ _LABEL_13E8_:
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++:  ld a,(_RAM_C2E8_)
+++: ld a,(_RAM_C2E8_EnemyMagicType)
     and $07
     ld hl,_DATA_1420_
     jp FunctionLookup
 
-; Jump Table from 1420 to 142F (8 entries,indexed by _RAM_C2E8_)
+; Jump Table from 1420 to 142F (8 entries,indexed by _RAM_C2E8_EnemyMagicType)
 _DATA_1420_:
-.dw _LABEL_1461_ _LABEL_14E2_ _LABEL_1528_ _LABEL_155B_ _LABEL_157D_ _LABEL_15F9_ _LABEL_1676_ _LABEL_16BD_
+.dw _LABEL_1461_RegularEnemyAttack _LABEL_14E2_EnemyMagic_Bind _LABEL_1528_EnemyMagic_Heal80 _LABEL_155B_EnemyMagic_PowerUp _LABEL_157D_ _LABEL_15F9_ _LABEL_1676_ _LABEL_16BD_
 
-_LABEL_1430_:
-    ld a,(_RAM_C2E8_)
+MaybeRemoveMagicWall:
+    ld a,(_RAM_C2E8_EnemyMagicType)
     and $10
     jr z,++
+    ; Subtract rand(0..3) from its counter
     call GetRandomNumber
     and $03
     ld c,a
-    ld a,(_RAM_C2EF_)
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     ld b,a
     and $7F
     sub c
@@ -3431,21 +3433,23 @@ _LABEL_1430_:
     bit 7,b
     jr z,+
     or $80
-+:  ld (_RAM_C2EF_),a
++:  ld (_RAM_C2EF_MagicWallActiveAndCounter),a
     ret
 
-++:  xor a
-    ld (_RAM_C2EF_),a
+++: xor a
+    ld (_RAM_C2EF_MagicWallActiveAndCounter),a
     ld hl,textMagicWallEnd
     call TextBox20x6
     jp Close20x6TextBox
 
-; 1st entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
-_LABEL_1461_:
-    ld a,(_RAM_C2EF_)
+; 1st entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
+_LABEL_1461_RegularEnemyAttack:
+    ; Regular enemy attack - wears down a magic wall
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     or a
-    call nz,_LABEL_1430_
--:  call GetRandomNumber
+    call nz,MaybeRemoveMagicWall
+-:  ; Pick a player at random
+    call GetRandomNumber
     and $03
     call PointHLToCharacterInA
     jp z,-
@@ -3453,35 +3457,38 @@ _LABEL_1461_:
     push hl
     pop ix
     push af
-    ld (_RAM_C2EE_),a
-    call _LABEL_30FB_
-    call _LABEL_16CF_
-    ld a,(_RAM_C2ED_)
-    or a
-    push af
-    call _LABEL_1A2A_
-    pop af
-    jr nz,++
-    ld a,(_RAM_C2EF_)
-    or a
-    ld hl,textMagicWallDeflectsMonstersAttack
-    jr nz,+
-    ld hl,textPlayerDodgesMonstersAttack
-+:  call TextBox20x6
-    call Close20x6TextBox
-++:  pop af
+      ld (_RAM_C2EE_PlayerBeingAttacked),a
+      call _LABEL_30FB_ShowCharacterStatsBox
+      call EnemyAttacksPlayer
+      ld a,(_RAM_C2ED_PlayerWasHurt)
+      or a
+      push af
+        call _LABEL_1A2A_
+      pop af
+      jr nz,++
+      ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
+      or a
+      ld hl,textMagicWallDeflectsMonstersAttack
+      jr nz,+
+      ld hl,textPlayerDodgesMonstersAttack
++:    call TextBox20x6
+      call Close20x6TextBox
+++: pop af
     call PointHLToCharacterInA
     jr nz,++
+    ; PLayer is now dead
     ld hl,textPlayerDied
     call TextBox20x6
+    ; Check for Gold Drake killing Myau in flight
     ld a,(EnemyNumber)
     cp Enemy_GoldDrake
     jr nz,+
     ld a,(TextCharacterNumber)
-    cp $01
+    cp Player_Myau
     jr nz,+
-    ld hl,CharacterStatsAlis
-    ld de,$0010
+    ; Check if anyone else is alive
+    ld hl,CharacterStats
+    ld de,_sizeof_Character
     xor a
     ld b,$04
 -:  or (hl)
@@ -3490,43 +3497,52 @@ _LABEL_1461_:
     djnz -
     or a
     jr z,+
+    ; Yes: then show text for that
     ld hl,textMyauDiesWhileFlying
     call TextBox20x6
+    ; Else show nothing, we will go to the game over text later
 +:  call Close20x6TextBox
-++:  ld b,$04
+++: ld b,$04
 -:  ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
     call _LABEL_321F_
     ret
 
-; 2nd entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
-_LABEL_14E2_:
+; 2nd entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
+_LABEL_14E2_EnemyMagic_Bind:
+    ; 3/4 chance of a regular attack
+    ; 1/4 chance of casting a bind spell:
+    ; - will wear down a magic wall if present
+    ; - else "ties up" a player
     call GetRandomNumber
     and $03
-    jp nz,_LABEL_1461_
-    ld a,(_RAM_C2EF_)
+    jp nz,_LABEL_1461_RegularEnemyAttack  ; 75% chance
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
-    call nz,_LABEL_1430_
-    ld a,(_RAM_C2EF_)
+    call nz,MaybeRemoveMagicWall
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
-    jr z,_LABEL_1502_
+    jr z,+
+    ; Magic wall still active
     ld hl,textMagicWallDeflectsMonstersMagic
     call TextBox20x6
     jp Close20x6TextBox
 
-_LABEL_1502_:
-    call GetRandomNumber
++:  ; No magic wall
+    ; Pick a random player
+-:  call GetRandomNumber
     and $03
     call PointHLToCharacterInA
-    jr z,_LABEL_1502_
+    jr z,-
     ld (TextCharacterNumber),a
-    ld a,$0D
+    ; hl += $0d -> Unknown1
+    ld a,Character.Unknown1
     add a,l
     ld l,a
     ld a,(hl)
     or a
-    jp nz,_LABEL_1461_
+    jp nz,_LABEL_1461_RegularEnemyAttack
     ld (hl),$03
     ld a,$A1
     ld (NewMusic),a
@@ -3534,83 +3550,91 @@ _LABEL_1502_:
     call TextBox20x6
     jp Close20x6TextBox
 
-; 3rd entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
-_LABEL_1528_:
-    ld a,(iy+1)
-    cp $1E
+; 3rd entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
+_LABEL_1528_EnemyMagic_Heal80:
+    ; If enemy HP is below 30, always heal.
+    ; Else 7/8 chance of a regular attack,
+    ; 1/8 chance of healing by up to 80 HP
+    ld a,(iy+Character.HP)
+    cp 30
     jr c,+
     call GetRandomNumber
     and $07
-    jp nz,_LABEL_1461_
-+:  ld b,(iy+6)
-    ld a,(iy+1)
-    add a,$50
+    jp nz,_LABEL_1461_RegularEnemyAttack ; 7/8 chance
++:  ld b,(iy+Character.MaxHP)
+    ld a,(iy+Character.HP)
+    add a,$50 ; Add 80 HP
     jr nc,+
     ld a,$FF
 +:  cp b
     jr c,+
     ld a,b
-+:  ld (iy+1),a
++:  ld (iy+Character.HP),a
     ld a,$A1
     ld (NewMusic),a
-    call _LABEL_326D_
+    call _LABEL_326D_UpdateEnemyHP
     ld hl,textMonsterHealed
     call TextBox20x6
     jp Close20x6TextBox
 
-; 4th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
-_LABEL_155B_:
+; 4th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
+_LABEL_155B_EnemyMagic_PowerUp:
+    ; 15/16 chance of a regular attack
+    ; 1/16 chance of enemy strength boost
     call GetRandomNumber
     and $0F
-    jp nz,_LABEL_1461_
-    ld a,(iy+0)
-    and $80
-    jp nz,_LABEL_1461_
-    set 7,(iy+0)
+    jp nz,_LABEL_1461_RegularEnemyAttack ; 15/16 chance
+    ld a,(iy+Character.IsAlive)
+    and $80 ; Check if already powered up
+    jp nz,_LABEL_1461_RegularEnemyAttack
+    ; Yes
+    set 7,(iy+Character.IsAlive)
     ld a,$A1
     ld (NewMusic),a
     ld hl,textMonsterStrengthBoost
     call TextBox20x6
     jp Close20x6TextBox
 
-; 5th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+; 5th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
 _LABEL_157D_:
     call GetRandomNumber
     and $03
-    jp nz,_LABEL_1461_
+    jp nz,_LABEL_1461_RegularEnemyAttack ; 3/4 chance
     call +
-+:  ld a,(_RAM_C2EF_)
++:  ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
-    call nz,_LABEL_1430_
+    call nz,MaybeRemoveMagicWall
     ld b,$04
 -:  ld a,b
     sub $04
     neg
     call PointHLToCharacterInA
-    jr nz,_LABEL_159F_
+    jr nz,+
     djnz -
     ret
 
-_LABEL_159F_:
-    call GetRandomNumber
-    and $03
++:  ; Pick a random player
+-:  call GetRandomNumber
+    and 3
     call PointHLToCharacterInA
-    jp z,_LABEL_159F_
+    jp z,-
     ld (TextCharacterNumber),a
-    ld (_RAM_C2EE_),a
-    call _LABEL_30FB_
+    ld (_RAM_C2EE_PlayerBeingAttacked),a
+    call _LABEL_30FB_ShowCharacterStatsBox
+    ; 
     call GetRandomNumber
     and $03
-    add a,$F6
+    add a,-10 ; -> random damage between -10 and -7
     ld b,a
-    ld a,(_RAM_C2EF_)
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     ld a,b
-    call z,_LABEL_171E_
+    call z,_LABEL_171E_ReducePlayerHP
+    ; Magic wall is active
     ld a,$80
     ld (_RAM_C88A_),a
     call _LABEL_1A2A_
-    ld a,(_RAM_C2EF_)
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     jr z,+
     ld hl,textMagicWallDeflectsMonstersMagic
@@ -3628,19 +3652,19 @@ _LABEL_159F_:
     djnz -
     jp _LABEL_321F_
 
-; 6th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+; 6th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
 _LABEL_15F9_:
     call GetRandomNumber
     and $03
-    jp nz,_LABEL_1461_
+    jp nz,_LABEL_1461_RegularEnemyAttack
     ld c,$D8
 _LABEL_1603_:
     ld b,$04
 _LABEL_1605_:
     push bc
-    ld a,(_RAM_C2EF_)
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
-    call nz,_LABEL_1430_
+    call nz,MaybeRemoveMagicWall
     pop bc
     push bc
     ld a,b
@@ -3649,15 +3673,15 @@ _LABEL_1605_:
     call PointHLToCharacterInA
     jr z,_LABEL_165D_
     ld (TextCharacterNumber),a
-    ld (_RAM_C2EE_),a
+    ld (_RAM_C2EE_PlayerBeingAttacked),a
     push bc
-    call _LABEL_30FB_
+    call _LABEL_30FB_ShowCharacterStatsBox
     pop bc
     call ++
     ld a,$C0
     ld (_RAM_C88A_),a
     call _LABEL_1A2A_
-    ld a,(_RAM_C2EF_)
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     jr z,+
     ld hl,textMagicWallDeflectsMonstersMagic
@@ -3679,36 +3703,36 @@ _LABEL_165D_:
     djnz _LABEL_1605_
     ret
 
-++:  ld a,c
+++: ld a,c
     cp $FF
     jp z,_LABEL_16D5_
-    ld a,(_RAM_C2EF_)
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     ret nz
     call GetRandomNumber
     and $0F
     add a,c
-    jp _LABEL_171E_
+    jp _LABEL_171E_ReducePlayerHP
 
-; 7th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+; 7th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
 _LABEL_1676_:
     ld a,(CharacterStatsOdin)
     or a
     jr z,+
     ld a,(CharacterStatsOdin.Shield)
     cp $1F
-    jp z,_LABEL_1461_
-+:  ld a,(_RAM_C2EF_)
+    jp z,_LABEL_1461_RegularEnemyAttack
++:  ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     or a
-    call nz,_LABEL_1430_
+    call nz,MaybeRemoveMagicWall
 -:  call GetRandomNumber
     and $03
     call PointHLToCharacterInA
     jp z,-
     ld (TextCharacterNumber),a
-    ld (_RAM_C2EE_),a
+    ld (_RAM_C2EE_PlayerBeingAttacked),a
     push hl
-    call _LABEL_30FB_
+    call _LABEL_30FB_ShowCharacterStatsBox
     pop hl
     xor a
     ld (hl),a
@@ -3724,7 +3748,7 @@ _LABEL_1676_:
     djnz -
     jp _LABEL_321F_
 
-; 8th entry of Jump Table from 1420 (indexed by _RAM_C2E8_)
+; 8th entry of Jump Table from 1420 (indexed by _RAM_C2E8_EnemyMagicType)
 _LABEL_16BD_:
     ld a,$3C
     ld (ItemTableIndex),a
@@ -3734,62 +3758,71 @@ _LABEL_16BD_:
     ld c,$FF
     jp _LABEL_1603_
 
-_LABEL_16CF_:
-    ld a,(_RAM_C2EF_)
+EnemyAttacksPlayer:
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     or a
     jr nz,++
 _LABEL_16D5_:
-    ld a,(iy+8)
-    bit 7,(iy+0)
+    ld a,(iy+Character.Attack) ; Enemy attack points?
+    bit 7,(iy+Character.IsAlive) ; Check for powered up bit
     jr z,+
-    ld c,a
+    ld c,a ; Attack *= 1.5 if powered up
     rrca
     and $7F
     add a,c
     jr nc,+
     ld a,$FF
-+:  bit 6,(iy+0)
++:  bit 6,(iy+Character.IsAlive) ; Bit 6 = powered down
     jr z,+
-    ld c,a
+    ld c,a ; Attack *= 0.75 if set
     rrca
     rrca
     and $3F
     ld b,a
     ld a,c
     sub b
-+:  call _LABEL_13D5_
++:  call RandomReduce
     ld c,a
-    ld a,(ix+9)
-    call _LABEL_13D5_
-    sub c
-    jr c,_LABEL_171E_
-    cp $10
-    jr c,_LABEL_170E_
+    ld a,(ix+Character.Defence)
+    call RandomReduce
+    sub c ; Calculate modified(defence) - modified(attack)
+    ; If negative, apply that as damage:
+    jr c,_LABEL_171E_ReducePlayerHP
+    ; If <16:
+    cp 16
+    jr c,_LABEL_170E_RandomDamage
+    ; Else if low bit is 1, do random damage
     rrca
-    jr c,_LABEL_170E_
-++:  xor a
-    ld (_RAM_C2ED_),a
+    jr c,_LABEL_170E_RandomDamage
+++: ; else do no damage
+    xor a
+    ld (_RAM_C2ED_PlayerWasHurt),a
     ret
 
-_LABEL_170E_:
-    call GetRandomNumber
+_LABEL_170E_RandomDamage:
+    ; Get a random number between 0 and character's LV
+-:  call GetRandomNumber
     and $1F
-    cp (ix+5)
+    cp (ix+Character.LV)
     jr z,+
-    jr nc,_LABEL_170E_
-+:  rrca
+    jr nc,-
++:  rrca ; Divide by 2
     and $7F
-    cpl
-_LABEL_171E_:
-    add a,(ix+1)
+    cpl ; And invert
+    ; This makes -(rnd() * LV + 1)
+    
+    ; And fall through
+_LABEL_171E_ReducePlayerHP:
+    ; Applies a (a negative number) to player's HP
+    add a,(ix+Character.HP)
     jr c,+
     xor a
-+:  ld (ix+1),a
++:  ld (ix+Character.HP),a
     jr nz,+
-    ld (ix+0),a
-    ld (ix+13),a
+    ld (ix+Character.IsAlive),a
+    ld (ix+Character.Unknown1),a
 +:  ld a,$FF
-    ld (_RAM_C2ED_),a
+    ld (_RAM_C2ED_PlayerWasHurt),a
     ret
 
 _LABEL_1735_:
@@ -3939,7 +3972,7 @@ InitialiseCharacterStats:
 .orga $1869
 
 _LABEL_1869_:
-    ld hl,(_RAM_C2D0_)
+    ld hl,(EnemyExperienceValue)
     ld (NumberToShowInText),hl
     ld a,l
     or h
@@ -3979,7 +4012,7 @@ _LABEL_1869_:
     pop ix
     ld e,(iy+3)
     ld d,(iy+4)
-    ld hl,(_RAM_C2D0_)
+    ld hl,(EnemyExperienceValue)
     add hl,de
     jr nc,+
     ld hl,$FFFF
@@ -4087,20 +4120,20 @@ _ItemStrengths:
 .ends
 .orga $19d6
 
-_LABEL_19D6_:
-    ld a,(_RAM_C267_MagicPlayer)
+PointHLToBattleCurrentPlayer:
+    ld a,(_RAM_C267_BattleCurrentPlayer)
 PointHLToCharacterInA:
     push af
-    add a,a
-    add a,a
-    add a,a
-    add a,a
-    ld hl,CharacterStatsAlis
-    add a,l
-    ld l,a
-    adc a,h
-    sub l
-    ld h,a
+      add a,a
+      add a,a
+      add a,a
+      add a,a
+      ld hl,CharacterStatsAlis
+      add a,l
+      ld l,a
+      adc a,h
+      sub l
+      ld h,a
     pop af
     bit 0,(hl)
     ret
@@ -4185,45 +4218,47 @@ _LABEL_1A4E_:
 
 ; Jump Table from 1A6E to 1A77 (5 entries,indexed by CursorPos)
 _DATA_1A6E_:
-.dw _LABEL_1A78_ _LABEL_1B3A_ _LABEL_1CFA_ _LABEL_1A87_ _LABEL_1AF8_
+.dw BattleMenu_Fight BattleMenu_Magic BattleMenu_Item BattleMenu_Talk BattleMenu_RunAway
 
 ; 1st entry of Jump Table from 1A6E (indexed by CursorPos)
-_LABEL_1A78_:
+BattleMenu_Fight:
     ld bc,$0001
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ret
 
 ; 4th entry of Jump Table from 1A6E (indexed by CursorPos)
-_LABEL_1A87_:
+BattleMenu_Talk:
     call _LABEL_3035_
     call _LABEL_321F_
     call CloseMenu
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     ld (TextCharacterNumber),a
     ld hl,textPlayerSpeaks
     call TextBox20x6
-    ld a,(_RAM_C2E8_)
+    ld a,(_RAM_C2E8_EnemyMagicType)
     and $80
-    jr z,_LABEL_1AAD_
+    jr z,MonsterDoesNotUnderstand
     ld a,(CharacterStatsEnemies.1.Attack)
     ld b,a
     ld a,(CharacterStatsAlis.Attack)
     cp b
-    jr nc,_LABEL_1AC0_
-_LABEL_1AAD_:
-    ld a,$04
-    ld (_RAM_C267_MagicPlayer),a
+    jr nc,MonsterTalk
+    ; else fall through
+
+MonsterDoesNotUnderstand:
+    ld a,4 ; End of battle sequence
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ld a,$FF
     ld (_RAM_C2D4_),a
     ld hl,textMonsterDoesntUnderstand
     call TextBox20x6
     jp Close20x6TextBox
 
-_LABEL_1AC0_:
+MonsterTalk:
     ld hl,textMonsterAnswers
     call TextBox20x6
     ; Pick a random entry
@@ -4242,7 +4277,7 @@ _LABEL_1AC0_:
     ld l,a
     call TextBox20x6
     ld a,$06
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     jp Close20x6TextBox
 
 ; Pointer Table from 1AE6 to 1AF7 (9 entries,indexed by random number)
@@ -4250,11 +4285,11 @@ _MonsterDialogue:
 .dw textMonster1 textMonster2 textMonster3 textMonster4 textMonster5 textMonster6 textMonster7 textMonster8 textMonster9
 
 ; 5th entry of Jump Table from 1A6E (indexed by CursorPos)
-_LABEL_1AF8_:
+BattleMenu_RunAway:
     call _LABEL_3035_
     call _LABEL_321F_
     call CloseMenu
-    ld a,(_RAM_C2E7_)
+    ld a,(RetreatProbability)
     ld b,a
     call GetRandomNumber
     cp b
@@ -4267,22 +4302,22 @@ _LABEL_1AF8_:
 +:  ld a,$BC
     ld (NewMusic),a
     ld a,$05
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ret
 
-++:  ld a,(_RAM_C267_MagicPlayer)
+++: ld a,(_RAM_C267_BattleCurrentPlayer)
     ld (TextCharacterNumber),a
     ld hl,textMonsterBlocksRetreat
     call TextBox20x6
     ld a,$04
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ld a,$FF
     ld (_RAM_C2D4_),a
     jp Close20x6TextBox
 
 ; 2nd entry of Jump Table from 1A6E (indexed by CursorPos)
-_LABEL_1B3A_:
-    ld a,(_RAM_C267_MagicPlayer)
+BattleMenu_Magic:
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     ld (TextCharacterNumber),a
     cp Player_Tylon
     jp nz,+
@@ -4327,7 +4362,7 @@ _LABEL_1B3A_:
     add a,l
     ld l,a
     ld h,$00
-    ld de,_DATA_1BB3_
+    ld de,_DATA_1BB3_BattleMagicIndices
     add hl,de
     ld a,(hl)
     and $1F
@@ -4344,26 +4379,28 @@ _noMagicYet:
     call TextBox20x6
     jp Close20x6TextBox
 
-++:  ld hl,textNotEnoughMagicPoints
+++: ld hl,textNotEnoughMagicPoints
     call TextBox20x6
     call Close20x6TextBox
     jp _LABEL_35E3_
 
 ; Data from 1BB3 to 1BC1 (15 bytes)
-_DATA_1BB3_:
-.db $01 $09 $10 $05 $08 $02 $0B $03 $0A $00 $05 $11 $07 $04 $06
+_DATA_1BB3_BattleMagicIndices:
+.db $01 $09 $10 $05 $08 ; Alisa
+.db $02 $0B $03 $0A $00 ; Myau
+.db $05 $11 $07 $04 $06 ; Lutz
 
 ; Jump Table from 1BC2 to 1BE5 (18 entries,indexed by unknown)
 _DATA_1BC2_:
 .dw _LABEL_1C0A_ _LABEL_1C0D_ _LABEL_1C0D_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C2C_ _LABEL_1C2C_ _LABEL_1C2C_
 .dw _LABEL_1C2C_ _LABEL_1C59_ _LABEL_1C3A_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_
-.dw _Magic10 _LABEL_1C8D_
+.dw _Magic10_Transrate _Magic11_Telepathy
 
 ; Jump Table from 1BE6 to 1C09 (18 entries,indexed by _RAM_C2AD_)
 _DATA_1BE6_:
-.dw _InvalidMagicFunction _LABEL_1FA2_ _LABEL_1FA6_ _Magic03 _Magic04 _Magic05 _Magic06 _Magic07
-.dw _Magic08 _Magic09 _Magic0a _Magic0b _Magic0c_Untrap _Magic0d_Bypass _Magic0e _Magic0f
-.dw _Magic10 _LABEL_1C8D_
+.dw _InvalidMagicFunction _Magic01_Heal_Battle _Magic02_SuperHeal_Battle _Magic03_Waller _Magic04_MagicWaller _Magic05_Fire _Magic06Thunder _Magic07_Wind
+.dw _Magic08_Bind _Magic09_QuickDash _Magic0a_PowerBoost _Magic0b_Terror _Magic0c_Untrap _Magic0d_Bypass _Magic0e_MagicUnseal _Magic0f_Rebirth
+.dw _Magic10_Transrate _Magic11_Telepathy
 
 ; 1st entry of Jump Table from 1BC2 (indexed by unknown)
 _LABEL_1C0A_:
@@ -4372,7 +4409,7 @@ _LABEL_1C0A_:
 ; 2nd entry of Jump Table from 1BC2 (indexed by unknown)
 _LABEL_1C0D_:
     push bc
-    call _LABEL_379F_
+      call _LABEL_379F_ChooseCharacter
     pop de
     bit 4,c
     jr nz,+
@@ -4381,9 +4418,9 @@ _LABEL_1C0D_:
     ld c,$03
     ld b,d
     call _LABEL_1D15_
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
 +:  call _LABEL_37E9_
     ret
 
@@ -4392,15 +4429,15 @@ _LABEL_1C2C_:
     ld c,$03
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ret
 
 ; 11th entry of Jump Table from 1BC2 (indexed by unknown)
 _LABEL_1C3A_:
     push bc
-    call _LABEL_379F_
+      call _LABEL_379F_ChooseCharacter
     pop de
     bit 4,c
     jr nz,+
@@ -4409,9 +4446,9 @@ _LABEL_1C3A_:
     ld c,$03
     ld b,d
     call _LABEL_1D15_
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
 +:  call _LABEL_37E9_
     ret
 
@@ -4420,42 +4457,42 @@ _LABEL_1C59_:
     ld c,$03
     ld a,(TextCharacterNumber)
     call _LABEL_1D15_
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ret
 
 ; 17th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic10:
+_Magic10_Transrate:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
-_LABEL_1C73_:
-    ld a,(_RAM_C2E8_)
+DoTransrate:
+    ld a,(_RAM_C2E8_EnemyMagicType)
     and $C0
-    jp z,_LABEL_1AAD_
+    jp z,MonsterDoesNotUnderstand
     and $40
-    jp z,_LABEL_1AC0_
+    jp z,MonsterTalk
     ld a,(CharacterStatsEnemies.1.Attack)
     ld b,a
     ld a,(CharacterStatsAlis.Attack)
     cp b
     jr nc,+
-    jp _LABEL_1AAD_
+    jp MonsterDoesNotUnderstand
 
 ; 18th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1C8D_:
+_Magic11_Telepathy:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-_LABEL_1C92_:
-    ld a,(_RAM_C2E8_)
+DoTelepathy:
+    ld a,(_RAM_C2E8_EnemyMagicType)
     and $C0
-    jp z,_LABEL_1AAD_
+    jp z,MonsterDoesNotUnderstand
     and $40
-    jp z,_LABEL_1AC0_
+    jp z,MonsterTalk
 +:  ld a,$AC
     ld (NewMusic),a
     ld hl,textMonsterAnswers
@@ -4468,7 +4505,7 @@ _LABEL_1C92_:
     ld l,a
     ld h,$00
     add hl,hl
-    ld de,_monsterDialogue2
+    ld de,_MonsterDialogue2
     add hl,de
     ld a,(hl)
     inc hl
@@ -4476,13 +4513,13 @@ _LABEL_1C92_:
     ld l,a
     call TextBox20x6
     ld a,$06
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ld a,$D5
     ld (NewMusic),a
     jp Close20x6TextBox
 
 ; Pointer Table from 1CCF to 1CE2 (10 entries,indexed by unknown)
-_monsterDialogue2:
+_MonsterDialogue2:
 .dw textMonster10, textMonster11, textMonster12, textMonster13, textMonster14, textMonster15, textMonster16, textMonster17, textMonster18, textMonster19
 
 CheckIfEnoughMP:
@@ -4494,7 +4531,7 @@ CheckIfEnoughMP:
     sub l
     ld h,a
     ; Look up MP of the player
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     add a,a
     add a,a
     add a,a
@@ -4508,7 +4545,7 @@ CheckIfEnoughMP:
     ret
 
 ; 3rd entry of Jump Table from 1A6E (indexed by CursorPos)
-_LABEL_1CFA_:
+BattleMenu_Item:
     call _LABEL_35EF_
     call _LABEL_3773_
     bit 4,c
@@ -4518,22 +4555,22 @@ _LABEL_1CFA_:
     ld c,$04
     xor a
     call _LABEL_1D15_
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ret
 
 _LABEL_1D15_:
     push af
-    ld a,(_RAM_C267_MagicPlayer)
-    add a,a
-    add a,a
-    ld hl,$C2AC
-    add a,l
-    ld l,a
-    adc a,h
-    sub l
-    ld h,a
+      ld a,(_RAM_C267_BattleCurrentPlayer)
+      add a,a
+      add a,a
+      ld hl,$C2AC
+      add a,l
+      ld l,a
+      adc a,h
+      sub l
+      ld h,a
     pop af
     ld (hl),c
     inc hl
@@ -4543,7 +4580,7 @@ _LABEL_1D15_:
     ret
 
 _LABEL_1D2A_:
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     ; multiply by 4
     add a,a
     add a,a
@@ -4567,7 +4604,7 @@ _LABEL_1D3D_:
     ld (_RAM_C29D_InBattle),a
     ld (_RAM_C2D8_),a
     call _LABEL_37FA_
-    call _LABEL_3041_
+    call _LABEL_3041_UpdatePartyStats
 -:  ld a,(_RAM_C2D8_)
     or a
     jr nz,++
@@ -4746,7 +4783,7 @@ _LABEL_1EA9_:
     jp z,_LABEL_1F21_TaironNoMagic
     ld c,a
     ld (TextCharacterNumber),a
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ; Multiply by 16 to look up player's battle magic count
     add a,a
     add a,a
@@ -4819,9 +4856,9 @@ _LABEL_1F21_TaironNoMagic:
 
 ; Data from 1F38 to 1F4A (19 bytes)
 MagicMPCosts: ; indexed by "magix index" (see below)
-.db $00 
+.db $00
 .db $02 $06 $06 $0A $04
-.db $10 $0C $04 $02 $0A 
+.db $10 $0C $04 $02 $0A
 .db $02 $02 $04 $04 $0C
 .db $02 $04 $08
 
@@ -4833,9 +4870,9 @@ _OverworldMagicIndicesByPlayer:
 
 ; Jump Table from 1F5A to 1F7F (19 entries,indexed by unknown)
 MagicFunctions:
-.dw _InvalidMagicFunction 
-.dw _Magic01_Heal _Magic02_SuperHeal _Magic03 _Magic04 _Magic05 _Magic06 _Magic07 _Magic08
-.dw _Magic09 _Magic0a _Magic0b _Magic0c_Untrap _Magic0d_Bypass _Magic0e _Magic0f
+.dw _InvalidMagicFunction
+.dw _Magic01_Heal _Magic02_SuperHeal _Magic03_Waller _Magic04_MagicWaller _Magic05_Fire _Magic06Thunder _Magic07_Wind _Magic08_Bind
+.dw _Magic09_QuickDash _Magic0a_PowerBoost _Magic0b_Terror _Magic0c_Untrap _Magic0d_Bypass _Magic0e_MagicUnseal _Magic0f_Rebirth
 .dw _Magic11_Telepathy _Magic11_Telepathy _Magic12_Troop ; Note: index $10 points to _Magic_11
 
 ; 1st entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
@@ -4852,7 +4889,7 @@ _Magic02_SuperHeal:
     ld d,$50
 +:  push bc
     push de
-    call _LABEL_379F_
+      call _LABEL_379F_ChooseCharacter
     pop de
     bit 4,c
     pop bc
@@ -4864,27 +4901,27 @@ _Magic02_SuperHeal:
 +:  jp _LABEL_37E9_
 
 ; 2nd entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1FA2_:
+_Magic01_Heal_Battle:
     ld d,$14
     jr +
 
 ; 3rd entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_LABEL_1FA6_:
+_Magic02_SuperHeal_Battle:
     ld d,$50
 +:  ld a,(TextCharacterNumber)
     call ShowMessageIfDead
     ret z
-++:  push de
-    ld a,b
-    call CheckIfEnoughMP
-    ld (de),a
-    ld a,$AB
-    ld (NewMusic),a
+++: push de
+      ld a,b
+      call CheckIfEnoughMP
+      ld (de),a
+      ld a,$AB
+      ld (NewMusic),a
     pop de
-_LABEL_1FBB_:
+_LABEL_1FBB_Heal:
     push de
-    ld hl,textPlayerHealed
-    call TextBox20x6
+      ld hl,textPlayerHealed
+      call TextBox20x6
     pop de
     ld a,$C1
     ld (NewMusic),a
@@ -4904,12 +4941,12 @@ _LABEL_1FBB_:
     jp Close20x6TextBox
 
 ; 4th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic03:
+_Magic03_Waller:
     ld c,$06
     jr +
 
 ; 5th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic04:
+_Magic04_MagicWaller:
     ld c,$86
 +:  ld a,b
     call CheckIfEnoughMP
@@ -4917,13 +4954,13 @@ _Magic04:
     ld a,$AB
     ld (NewMusic),a
     ld a,c
-    ld (_RAM_C2EF_),a
+    ld (_RAM_C2EF_MagicWallActiveAndCounter),a
     ld hl,textMagicWall
     call TextBox20x6
     jp Close20x6TextBox
 
 ; 6th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic05:
+_Magic05_Fire:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
@@ -4955,12 +4992,12 @@ _LABEL_200E_:
     and $03
     add a,d
     call _LABEL_13BA_
-    call _LABEL_326D_
+    call _LABEL_326D_UpdateEnemyHP
     pop de
     ret
 
 ; 7th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic06:
+_Magic06Thunder:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
@@ -4987,7 +5024,7 @@ _LABEL_204A_:
         and $0F
         add a,d
 +:      call _LABEL_13BA_
-        call _LABEL_326D_
+        call _LABEL_326D_UpdateEnemyHP
       pop de
       ld a,(EnemyNumber)
       cp Enemy_DarkForce
@@ -5000,7 +5037,7 @@ _LABEL_204A_:
     ret
 
 ; 8th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic07:
+_Magic07_Wind:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
@@ -5010,13 +5047,13 @@ _Magic07:
     jp _LABEL_200E_
 
 ; 9th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic08:
+_Magic08_Bind:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
     ld a,$AB
     ld (NewMusic),a
-    ld a,(_RAM_C2E8_)
+    ld a,(_RAM_C2E8_EnemyMagicType)
     and $20
     jr z,++
     ld a,(CharacterStatsEnemies.1.Attack)
@@ -5051,14 +5088,14 @@ _Magic08:
     jp Close20x6TextBox
 
 ; 10th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic09:
+_Magic09_QuickDash:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
     xor a
     ld (ItemTableIndex),a
-_LABEL_20E5_:
-    ld a,(_RAM_C2E7_)
+DoQuickDash:
+    ld a,(RetreatProbability)
     or a
     jr z,+
     ld a,(SceneType)
@@ -5074,17 +5111,17 @@ _LABEL_20E5_:
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++:  ld a,$BC
+++: ld a,$BC
     ld (NewMusic),a
     ld hl,textPartyRanAway
     call TextBox20x6
     call Close20x6TextBox
     ld a,$05
-    ld (_RAM_C267_MagicPlayer),a
+    ld (_RAM_C267_BattleCurrentPlayer),a
     ret
 
 ; 11th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic0a:
+_Magic0a_PowerBoost:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
@@ -5100,7 +5137,7 @@ _Magic0a:
     jp Close20x6TextBox
 
 ; 12th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic0b:
+_Magic0b_Terror:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
@@ -5191,7 +5228,7 @@ _LABEL_21D4_:
     ret
 
 ; 15th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic0e:
+_Magic0e_MagicUnseal:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
@@ -5207,20 +5244,20 @@ _Magic0e:
 +:  ld b,$01
     call DungeonGetRelativeSquare
     and $07
-    cp $06
+    cp $06 ; Magically locked door
     jr nz,-
-    bit 7,(hl)
+    bit 7,(hl) ; Mark as unlocked
     jr nz,-
     ld a,$04
     ld (_RAM_C2D8_),a
     ret
 
 ; 16th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
-_Magic0f:
+_Magic0f_Rebirth:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    call _LABEL_379F_
+    call _LABEL_379F_ChooseCharacter
     bit 4,c
     jr nz,+++
     push af
@@ -5334,7 +5371,7 @@ _LABEL_22C4_:
     cp $08
     jr z,+
     push bc
-    call _LABEL_78F9_
+      call _LABEL_78F9_
     pop bc
     jr ++
 
@@ -5469,7 +5506,7 @@ UseItem_PsychoWand:
     call TextBox20x6
     ld a,(_RAM_C29D_InBattle)
     or a
-    jp nz,_LABEL_20E5_
+    jp nz,DoQuickDash
     ld hl,textNothingHappened
     call TextBox20x6
     jp Close20x6TextBox
@@ -5489,7 +5526,7 @@ _LABEL_2413_:
     jr z,+
     push bc
     push de
-    call _LABEL_78F9_
+      call _LABEL_78F9_
     pop de
     pop bc
     ld hl,textItemNoUseHere
@@ -5515,7 +5552,7 @@ UseItem_FlowMover:
     jr z,+
     push bc
     push de
-    call _LABEL_7964_
+      call _LABEL_7964_
     pop de
     pop bc
     ld hl,textItemNoUseHere
@@ -5550,7 +5587,7 @@ UseItem_Ruoginin:
     ld d,40 ; HP boost
 +:  ld a,(_RAM_C29D_InBattle)
     or a
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     jr nz,+
     push de
       call ShowCharacterSelectMenu
@@ -5564,9 +5601,9 @@ UseItem_Ruoginin:
     ld hl,textPlayerUsedItem
     call TextBox20x6
     pop de
-    call _LABEL_1FBB_
+    call _LABEL_1FBB_Heal
     call _LABEL_28D8_RemoveItemFromInventory
-++:  ld a,(_RAM_C29D_InBattle)
+++: ld a,(_RAM_C29D_InBattle)
     or a
     ret nz
     jp _LABEL_37D8_
@@ -5600,6 +5637,7 @@ UseItem_Searchlight:
     ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
+    ; In battle
     ld hl,textPlayerTakesOutItem
     call TextBox20x6
     ld hl,textCantDoThatNow
@@ -5609,6 +5647,7 @@ UseItem_Searchlight:
 +:  ld a,(SceneType)
     or a
     jr z,+
+    ; In overworld
 -:  ld hl,textPlayerTakesOutItem
     call TextBox20x6
     ld hl,textNoNeedNow
@@ -5618,11 +5657,12 @@ UseItem_Searchlight:
 +:  ld a,(DungeonPaletteIndex)
     or a
     jr nz,-
+    ; In a dungeon with palette 0
     ld hl,textPlayerUsedItem
     call TextBox20x6
     call Close20x6TextBox
     call _LABEL_28D8_RemoveItemFromInventory
-    ld a,$FF
+    ld a,-1 ; Palette -1 is the lit one
     ld (DungeonPaletteIndex),a
     ld (_RAM_C2D8_),a
     ret
@@ -5662,7 +5702,7 @@ UseItem_MagicHat:
     call TextBox20x6
     ld a,(_RAM_C29D_InBattle)
     or a
-    jp nz,_LABEL_1C73_
+    jp nz,DoTransrate
     ld hl,textNoEffect
     call TextBox20x6
     jp Close20x6TextBox
@@ -5788,7 +5828,7 @@ UseItem_TelepathyBall:
     call TextBox20x6
     ld a,(_RAM_C29D_InBattle)
     or a
-    jp nz,_LABEL_1C92_
+    jp nz,DoTelepathy
     jp DoTelepathy
 
 ; 48th entry of Jump Table from 2366 (indexed by ItemTableIndex)
@@ -6200,7 +6240,7 @@ _LABEL_2995_:
     ld hl,textNothingUnusualHere
     call TextBox20x6
     call _LABEL_2A37_
-    jp _LABEL_3041_
+    jp _LABEL_3041_UpdatePartyStats
 
 +:  ld hl,(VLocation)
     ld a,l
@@ -7057,7 +7097,7 @@ _LABEL_3014_:
     ld de,$7B02
     ld bc,$030C
     call InputTilemapRect
-    ld a,(_RAM_C267_MagicPlayer)
+    ld a,(_RAM_C267_BattleCurrentPlayer)
     add a,a
     add a,a
     ld l,a
@@ -7079,7 +7119,7 @@ _LABEL_3035_:
     ld bc,$030C
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3041_:
+_LABEL_3041_UpdatePartyStats:
     ld hl,_RAM_D724_
     ld de,$7C80
     ld bc,$0640
@@ -7144,12 +7184,12 @@ _LABEL_30A4_:
     ld bc,$0110
     jp OutputTilemapRect
 
-_LABEL_30FB_:
+_LABEL_30FB_ShowCharacterStatsBox:
     push af
-    ld hl,_RAM_D724_
-    ld de,$7C80
-    ld bc,$0640
-    call InputTilemapRect
+      ld hl,_RAM_D724_
+      ld de,$7C80
+      ld bc,$0640
+      call InputTilemapRect
     pop af
 _LABEL_3109_:
     ld hl,MenuBox8Top
@@ -7379,7 +7419,7 @@ ShowEnemyData:         ; $3255
     TileMapAddressDE 24,0
     TileMapAreaBC 8,10
     call InputTilemapRect
-_LABEL_326D_:
+_LABEL_326D_UpdateEnemyHP:
     ld hl,Menu10Top    ; tilemap data for menu top?
     TileMapAddressDE 14,0
     TileMapAreaBC 10,1
@@ -8238,7 +8278,7 @@ ShowCharacterSelectMenu:
     ld (CursorTileMapAddress),hl
     jp WaitForMenuSelection
 
-_LABEL_379F_:
+_LABEL_379F_ChooseCharacter:
     ld a,(PartySize)
     or a
     ret z
@@ -10912,6 +10952,7 @@ _room_1c_RoadGuard: ; $4D1E:
     jr nz,+
     ld a,$05
     ld (_RAM_C2E9_),a
+    ld hl,$0024
     ; Okay, you may pass.
 +:  jp DrawText20x6 ; and ret
 
@@ -13576,7 +13617,7 @@ _LABEL_6054_:
     jr z,++
     ld (_RAM_C29F_),a
     ld (iy+10),a
-    ld (_RAM_C2ED_),a
+    ld (_RAM_C2ED_PlayerWasHurt),a
     ld c,a
     ld a,(de)
 +:  inc c
@@ -13596,7 +13637,7 @@ _LABEL_6054_:
     ld (CharacterSpriteAttributes),a
     ret
 
-+:  ld a,(_RAM_C2ED_)
++:  ld a,(_RAM_C2ED_PlayerWasHurt)
     or a
     jr nz,_LABEL_6099_
     ld a,$BB
@@ -13607,7 +13648,7 @@ _LABEL_6099_:
     ld a,$AE
     ld (NewMusic),a
     call _LABEL_7E67_
-    ld a,(_RAM_C2EE_)
+    ld a,(_RAM_C2EE_PlayerBeingAttacked)
     jp _LABEL_3109_
 
 ; 16th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
@@ -13671,7 +13712,7 @@ _LABEL_60EE_:
 +:  xor a
     ld (iy+0),a
     pop hl
-    ld a,(_RAM_C2EF_)
+    ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     jp z,_LABEL_6099_
     ld a,$BB
@@ -13701,7 +13742,7 @@ _LABEL_612A_:
     ld (iy+14),a
     ld hl,Frame2Paging
     ld (hl),$03
-    ld a,(_RAM_C2EE_)
+    ld a,(_RAM_C2EE_PlayerBeingAttacked)
     or a
     ld de,_DATA_D4F6_
     jr z,+
@@ -13922,19 +13963,19 @@ LoadEnemy:
     ld a,(hl)
     inc hl
     push hl
-    ld h,(hl)
-        ld l,a         ; hl = next word = offset
-    ld a,b
-    ld (Frame2Paging),a
-        TileAddressDE $100
-        call LoadTiles4BitRLE ; load enemy tiles
+      ld h,(hl)
+      ld l,a         ; hl = next word = offset
+      ld a,b
+      ld (Frame2Paging),a
+      TileAddressDE $100
+      call LoadTiles4BitRLE ; load enemy tiles
     pop hl
     inc hl
-    ld a,$03
+    ld a,:EnemyData
     ld (Frame2Paging),a
     ld a,(hl)          ; a = next byte
     push hl
-    call _LABEL_6379_
+      call _LABEL_6379_
     pop hl
     inc hl
     ld a,:EnemyData    ; reset paging
@@ -13966,29 +14007,29 @@ LoadEnemy:
     ld e,(hl)          ; Defence
     inc hl
     push hl
-        ex de,hl       ; de -> hl
-    ld ix,CharacterStatsEnemies
-        ld de,16       ; size of stats (16 bytes)
-      -:ld (ix+0),1    ; alive = 1
-        ld (ix+1),a    ; HP = a
-        ld (ix+6),a    ; Max HP = a
-        ld (ix+8),h    ; Attack = h
-        ld (ix+9),l    ; Defence = l
-        add ix,de      ; repeat for each enemy
+      ex de,hl       ; de -> hl
+      ld ix,CharacterStatsEnemies
+      ld de,16       ; size of stats (16 bytes)
+-:    ld (ix+Character.IsAlive),1   ; alive = 1
+      ld (ix+Character.HP),a        ; HP = a
+      ld (ix+Character.MaxHP),a     ; Max HP = a
+      ld (ix+Character.Attack),h    ; Attack = h
+      ld (ix+Character.Defence),l   ; Defence = l
+      add ix,de      ; repeat for each enemy
     djnz -
     pop hl
-    ld a,(hl)
+    ld a,(hl)           ; Item
     ld (DungeonObjectItemIndex),a
     inc hl             ; next word in de = money per enemy
     ld e,(hl)
     inc hl
     ld d,(hl)
     push hl
-    ld a,(NumEnemies)
-    ld c,a
-    ld b,$00
-    call Multiply16
-        ld (EnemyMoney),hl  ; EnemyMoney = NumEnemies*de
+      ld a,(NumEnemies)
+      ld c,a
+      ld b,0
+      call Multiply16
+      ld (EnemyMoney),hl  ; EnemyMoney = NumEnemies*de
     pop hl
     inc hl
     ld a,(hl)          ; Next byte in DungeonObjectItemTrapped
@@ -13998,18 +14039,18 @@ LoadEnemy:
     inc hl
     ld d,(hl)
     push hl
-    ld a,(NumEnemies)
-    ld c,a
-    ld b,$00
-    call Multiply16
-        ld (_RAM_c2d0_),hl  ; _RAM_c2d0_ = NumEnemies*de
+      ld a,(NumEnemies)
+      ld c,a
+      ld b,0
+      call Multiply16
+      ld (EnemyExperienceValue),hl  ; EnemyExperienceValue = NumEnemies*de
     pop hl
     inc hl
     ld a,(hl)
-    ld (_RAM_c2e8_),a       ; Next byte in _RAM_c2e8_
+    ld (_RAM_C2E8_EnemyMagicType),a       ; Next byte in _RAM_C2E8_EnemyMagicType
     inc hl
     ld a,(hl)
-    ld (_RAM_c2e7_),a       ; Next byte in _RAM_c2e7_
+    ld (RetreatProbability),a       ; Next byte in RetreatProbability
 
     ld hl,_RAM_C500_
     ld (DungeonObjectFlagAddress),hl      ; $c500 -> DungeonObjectFlagAddress
@@ -18389,13 +18430,23 @@ _DATA_C5A0_:
 
 .orga $869f
 .section "Enemy data" overwrite
-; Structure:
-; 8 bytes = name
-; 8 bytes = ??? _RAM_c258_
-; 1 byte = sprite tiles page
-; 1 word = sprite tiles offset
-; 1 byte = index into data8fdf for ???
-; 3 bytes = HP, AP, DP
+.struct EnemyData
+  Name                dsb 8
+  Palette             dsb 8
+  SpriteTilesPage     db
+  SpriteTilesAddress  dw
+  UnknownIndex        db ; index into _DATA_CFC7_
+  MaxEnemyCount       db ; high bit means not random?
+  HP                  db
+  AP                  db
+  DP                  db
+  ItemIndex           db
+  MoneyDrop           dw
+  ChestTrapped        db
+  ExperienceValue     db ; multiplies by number of enemies
+  TalkingAndMagicType  db ; High bit = ability to talk, next bit = ability to talk magically? Low 3 (?) bits are an index into _DATA_1420_ for enemy magic
+  RetreatProbability  db ; Relates to ability to run away, higher means less likely to block it. $ff means can always run away, $00 means never can.
+.ends
 EnemyData:
 .db $23 $2e $0d $10 $4d $1c $27 $02 ; 1 MoNSuTa-HuRaI = Monster Fly? (Sworm)
 .db $2a $25 $05 $0a $08 $04 $0c $2f
@@ -18876,7 +18927,7 @@ EnemyData:
 .db $0c
 .dw $001c
 .db $38 $cc
-
+  
 .db $10 $39 $21 $58 $00 $00 $00 $00 ; 49 TaZiMu = Tarzimal
 .db $2b $20 $06 $2a $25 $3e $01 $0f
 .db :TilesTarzimal
@@ -20685,7 +20736,7 @@ DungeonData1:
 
 ; Data from F717 to F832 (284 bytes)
 _DATA_F717_: ; 10B per entry, indexed by RoomIndex, only up to index $1c
-.db $02 $19 $1E $00 $1B $08 $02 $1C $78 $05 
+.db $02 $19 $1E $00 $1B $08 $02 $1C $78 $05
 .db $02 $27 $14 $00 $28 $0A $00 $29 $30 $00
 .db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
 .db $02 $03 $4B $00 $07 $40 $01 $08 $60 $04
