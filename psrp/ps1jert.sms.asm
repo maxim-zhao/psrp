@@ -5290,18 +5290,17 @@ CreditsScreen2: .db 3
   CreditsEntry 4,5,"KOMPLETTE"
   CreditsEntry 8,7,"PLANUNG"
   CreditsEntry 17,6,"OSSALE KOHTA"
-CreditsScreen3: .db 5
-  CreditsEntry 6,5,"SZENARIO"
+CreditsScreen3: .db 4
+  CreditsEntry 4,6,"SZENARIO"
   CreditsEntry 17,6,"OSSALE KOHTA"
   CreditsEntry 4,15,"HANDLUNG"
   CreditsEntry 17,15,"APRIL FOOL"
 CreditsScreen4: .db 4
-  CreditsEntry 4,5,"ASSISTENZ"
-  CreditsEntry 7,6,"BEI"
-  CreditsEntry 3,7,"KOORDINATION"
+  CreditsEntry 1,5,"KOORDINATIONS-"
+  CreditsEntry 6,7,"ASSISTENZ"
   CreditsEntry 10,11,"OTEGAMI CHIE"
   CreditsEntry 18,15,"GAMER MIKI"
-CreditsScreen5: .db 5
+CreditsScreen5: .db 6
   CreditsEntry 3,5,"KOMPLETTES"
   CreditsEntry 8,7,"DESIGN"
   CreditsEntry 18,6,"PHOENIX RIE"
@@ -5317,44 +5316,45 @@ CreditsScreen7: .db 4
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8: .db 4
+CreditsScreen8: .db 6
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
-  CreditsEntry 4,15,"SOFT CHECK"
+  CreditsEntry 4,14,"SOFTWARE-"
+  CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
+  CreditsEntry 3,15,"¨     ¨"
 CreditsScreen9: .db 5
-  CreditsEntry 3,5,"ASSISTENZ"
-  CreditsEntry 7,6,"BEI"
-  CreditsEntry 1,7,"PROGRAMMIERUNG"
+  CreditsEntry 3,5,"PROGRAMMIER-"
+  CreditsEntry 4,7,"ASSISTENZ"
   CreditsEntry 9,10,"COM BLUE"
   CreditsEntry 4,15,"M WAKA"
   CreditsEntry 19,15,"ASI"
-CreditsScreen10: .db 2
+CreditsScreen10: .db 3
   CreditsEntry 4,5,"HAUPT-"
   CreditsEntry 2,7,"PROGRAMMIERER"
   CreditsEntry 17,6,"MUUUU YUJI"
-CreditsScreen11: .db 1
+CreditsScreen11: .db 6
   CreditsEntry 2,5,"ENGLISCHE"
-  CreditsEntry 4,6,"¨"
   CreditsEntry 1,7,"NEUUBERSETZUNG"
   CreditsEntry 10,10,"PAUL JENSEN"
   CreditsEntry 2,15,"FRANK CIFALDI"
   CreditsEntry 21,15,"SATSU"
+  CreditsEntry 4,6,"¨"
 CreditsScreen12: .db 4
   CreditsEntry 2,5,"DEUTSCHE"
-  CreditsEntry 4,5,"¨"
-  CreditsEntry 4,6,"UBERSETZUNG"
-  CreditsEntry 19,5,"POPFAN"
+  CreditsEntry 4,7,"UBERSETZUNG"
+  CreditsEntry 19,6,"POPFAN"
+  CreditsEntry 4,6,"¨"
 CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
   CreditsEntry 11,10,"Z80 GAIDEN"
   CreditsEntry 9,15,"MAXIM"
-CreditsScreen14: .db 3
-  CreditsEntry 12,10,"¨"
-  CreditsEntry 10,11,"PRASENTIERT"
-  CreditsEntry 15,13,"VON"
+CreditsScreen14: .db 5
+  CreditsEntry 10,10,"PRASENTIERT"
+  CreditsEntry 14,12,"VON"
   CreditsEntry 10,15,"SEGA"
   CreditsEntry 18,15,"SMS POWER!"
+  CreditsEntry 12,9,"¨"
 .endif
 .ends
 
