@@ -9533,7 +9533,7 @@
     アブナイ　トコロダッタ。<player>ハ<line>
     ワナヲ　ミヤブッテ　ハズシタ。<wait>
   kanji: 危ないところだった。<player>は罠を見破って外した。
-  translated: Close call! <player> discovered and disarmed the trap.
+  translated: Close call! <player> saw through and disarmed the trap.
   us: |
     <player> SPOTTED AND<line>
     DISARMED THE TRAP.<end>
@@ -9904,7 +9904,7 @@
   ja: |
     <monster>ハ　アカイ　ホナオヲ<line>
     ミテ　オジケズイタ。<delay>
-  kanji: <monster>は赤い炎を見て怖じけずいた。
+  kanji: <monster>は赤い炎を見て怖じ気付いた。
   translated: <monster> was frightened by the red flame.
   us: |
     <monster> SEES THE <line>
@@ -10159,7 +10159,7 @@
   ja: |
     <player>ハ　マジックヲ<line>
     ヒトツ　ミニツケタ。<wait>
-  kanji: <player>はマジックを一つ身に着けた。
+  kanji: <player>はマジックを一つ身に付けた。
   translated: <player> acquired a spell.
   us: |
     <player> LEARNED<line>
