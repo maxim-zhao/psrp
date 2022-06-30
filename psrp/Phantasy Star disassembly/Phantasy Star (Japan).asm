@@ -554,7 +554,8 @@ SRAMSlotsUsed db
 
 .stringmaptable script "Japanese.tbl"
 
-.enum $81
+.enum $80
+MusicStop        dn ; 80
 MusicTitle       db ; 81
 MusicPalma       db ; 82
 MusicMotavia     db ; 83
@@ -877,7 +878,7 @@ TurnOffDisplay:
 TurnOnDisplay:
     ld a,(VDPReg1)
     or $40             ; Set display enable bit
-+:ld (VDPReg1),a
++:  ld (VDPReg1),a
     ld e,a
     ld d,VDPReg_1
     rst SetVDPRegisterDToE
@@ -888,7 +889,7 @@ TurnOnDisplay:
 ExecuteFunctionIndexAInNextVBlank:
 ; Sets VBlankFunctionIndex to a and waits for it to be processed
     ld (VBlankFunctionIndex),a
--:ld a,(VBlankFunctionIndex)
+-:  ld a,(VBlankFunctionIndex)
     or a               ; Wait for it to be zero
     jr nz,-
     ret
@@ -909,7 +910,7 @@ ExecuteFunctionIndexAInNextVBlank:
       jr z,+
       cp $0D
       jr nz,++
-+:  ld a,(PauseFlag)   ; If FunctionLookupIndex is 5,9,11 or 13 then invert all bits of PauseFlag
++:    ld a,(PauseFlag)   ; If FunctionLookupIndex is 5,9,11 or 13 then invert all bits of PauseFlag
       cpl
       ld (PauseFlag),a
 ++: pop af
@@ -951,28 +952,28 @@ ResetPoint:
     jr nz,+            ; if so,skip next bit
 
     ld b,$02           ; ############# delay by counting down $20000
-  -:ld de,$ffff        ; #############
- --:dec de             ; #############
+-:  ld de,$ffff        ; #############
+--: dec de             ; #############
     ld a,d             ; #############
     or e               ; #############
     jr nz,--           ; #############
     djnz -             ; #############
 
-  +:call SoundInit     ; Initialise sound engine
++:  call SoundInit     ; Initialise sound engine
     call FMDetection   ; FM detection
     call SRAMCheck     ; SRAM check/initialisation
     call VDPInitRegs   ; Initialise VDP registers
     call NTSCDetection ; NTSC detection
     ei
 
-  -:ld hl,FunctionLookupIndex
+-:  ld hl,FunctionLookupIndex
     ld a,(hl)          ; Get value in FunctionLookupIndex (initialised to 0)
     and $1f            ; Strip to low 5 bits
     ld hl,FunctionLookupTable
     call FunctionLookup
     jp -
 
-; Jump Table from EA to FF (11 entries,indexed by FunctionLookupIndex)
+; Jump Table from EA to 111 (11 entries,indexed by FunctionLookupIndex)
 FunctionLookupTable:
 .dw LoadMarkIIILogo           ; 0 $06a0
 .dw FadeInMarkIIILogoAndPause ; 1 $0689
@@ -1015,7 +1016,7 @@ FunctionLookup: ; $0112
 ; Pause loop - silences chips and then sits there waiting to be unpaused
 DoPause:               ; $011d
     call SilenceChips
-  -:ld a,(PauseFlag)
+-:  ld a,(PauseFlag)
     or a
     ret z              ; Wait for PauseFlag=0
     jr -
@@ -1028,7 +1029,7 @@ VBlank:                ; $0127
     push hl
     push ix
     push iy
-        ld a,(SRAMPaging)         ; back up paging registers on stack
+      ld a,(SRAMPaging)         ; back up paging registers on stack
       push af
         ld a,(Frame2Paging)
         push af
@@ -1052,10 +1053,10 @@ VBlank:                ; $0127
           ld a,(IsNTSC)
           or a
           jp nz,+
-          ld b,$00          ; delay if not NTSC (why?) ###########
-        -:djnz -
-        -:djnz -
-        +:ld a,(PauseFlag)
+          ld b,$00          ; delay if not NTSC (why? Maybe to move CRAM dots further from the active area?) ###########
+-:        djnz -
+-:        djnz -
++:        ld a,(PauseFlag)
           or a
           jp nz,VBlank_Paused
 
@@ -1071,7 +1072,7 @@ VBlank:                ; $0127
           inc hl
           ld h,(hl)
           ld l,a
-                jp (hl)           ; jump to looked-up function
+          jp (hl)           ; jump to looked-up function
 
 VBlank_LookupEnd:
           xor a             ; zero
@@ -1232,7 +1233,7 @@ VBlankFunction_UpdateTilemap:
     call outi128       ; output 896 bytes = 14 rows of tile numbers,quickly
     ld a,$03           ; Count $380 = 896 more bytes
     ld b,$80
-  -:outi               ; and output another 14 rows,but more slowly
+-:  outi               ; and output another 14 rows,but more slowly
     jp nz,-
     dec a
     jp nz,-
@@ -1291,7 +1292,7 @@ VBlankFunction_10:
     ld c,VDPData
     ld a,$06           ; count $600 bytes = 24 rows (full screen)
     ld b,$00
-  -:outi               ; output
+-:  outi               ; output
     jp nz,-
     dec a
     jp nz,-
@@ -1329,7 +1330,7 @@ VBlankFunction_12:
     ld c,VDPData
     ld a,$07           ; count $700 bytes = 28 rows (full tilemap)
     ld b,$00
-  -:outi               ; output
+-:  outi               ; output
     jp nz,-
     dec a
     jp nz,-
@@ -1411,7 +1412,7 @@ CountryDetection:
     out (IOControl),a  ; Reset IOControl
     ld (IsJapanese),a  ; Save to RAM ($ff)
     ret
-  +:xor a              ; Export system detected
++:  xor a              ; Export system detected
     ld (IsJapanese),a  ; Save to RAM ($00)
     ret
 .ends
@@ -1419,13 +1420,13 @@ CountryDetection:
 .section "NTSC detection" overwrite
 NTSCDetection:
     ld hl,$0000
-  -:in a,(VDPStatus)   ; Check VDP status      ; 000386 DB BF
+-:  in a,(VDPStatus)   ; Check VDP status      ; 000386 DB BF
     or a
     jp p,-             ; Wait for bit 7 (VSync) to be 0
 -:  in a,(VDPStatus)
     or a
     jp p,-             ; Again
-  -:inc hl             ; Now count up in hl
+-:  inc hl             ; Now count up in hl
     in a,(VDPStatus)
     or a
     jp p,-             ; so hl = number of reads before bit became 1 again
@@ -1458,7 +1459,7 @@ FMDetection:
     cp $07             ; if out==in 7 times then I must have a YM2413!
     jr z,+
     xor a              ; 0 -> a
-  +:and $01            ; Strip to bit 0
++:  and $01            ; Strip to bit 0
     out (AudioControl),a   ; Output $01 if YM2413 and $00 otherwise
     ld (HasFM),a       ; Store that in HasFM
     ld a,(Port3EVal)
@@ -1509,17 +1510,18 @@ FillVRAMWithHL:
     rst SetVRAMAddressToDE
     ld a,c
     or a               ; if c!=0 then inc b to make it loop over the right number
-    jr z,_f
+    jr z,+
     inc b
- __:ld a,l             ; output hl to VDPData
++:
+-:  ld a,l             ; output hl to VDPData
     out (VDPData),a
     push af
     pop af
     ld a,h
     out (VDPData),a
     dec c              ; Decrement counter c
-    jr nz,_b
-    djnz _b
+    jr nz,-
+    djnz -
     ret
 .ends
 ; followed by
@@ -1535,19 +1537,19 @@ FillVRAMWithHL:
 ; c = width /tiles
 ; de = VRAM location
 OutputTilemapRawBxC:
-  -:push bc
-    rst SetVRAMAddressToDE
-    ld b,c
-    ld c,VDPData
-     --:outi           ; out (c),(hl); dec b; inc hl
-    ld a,(TileMapHighByte)
-        nop            ; delay
-    out (c),a
-        jr nz,--
-        ex de,hl       ; add $40 to de
-        ld bc,$40
-    add hl,bc
-    ex de,hl
+-:  push bc
+      rst SetVRAMAddressToDE
+      ld b,c
+      ld c,VDPData
+--:   outi           ; out (c),(hl); dec b; inc hl
+      ld a,(TileMapHighByte)
+      nop            ; delay
+      out (c),a
+      jr nz,--
+      ex de,hl       ; add $40 to de
+      ld bc,$40
+      add hl,bc
+      ex de,hl
     pop bc
     djnz -
     ret
@@ -1565,16 +1567,16 @@ OutputTilemapRawBxC:
 ; c = 2*width /tiles
 ; de = VRAM location
 OutputTilemapRawDataBox:
-  -:push bc
-    rst SetVRAMAddressToDE
-    ld b,c
-    ld c,VDPData
-     --:outi           ; out (c),(hl); dec b; inc hl
-        jp nz,--
-        ex de,hl       ; add $40 to de
-        ld bc,$40
-    add hl,bc
-    ex de,hl
+-:  push bc
+      rst SetVRAMAddressToDE
+      ld b,c
+      ld c,VDPData
+--:   outi           ; out (c),(hl); dec b; inc hl
+      jp nz,--
+      ex de,hl       ; add $40 to de
+      ld bc,$40
+      add hl,bc
+      ex de,hl
     pop bc
     djnz -
     ret
@@ -1592,18 +1594,18 @@ OutputTilemapRawDataBox:
 Output1BitGraphics:
     ld (Mask1BitOutput),a ; a -> Mask1BitOutput
     rst SetVRAMAddressToDE
- --:ld a,(hl)          ; get data at (hl)
+--: ld a,(hl)          ; get data at (hl)
     exx                ; swap bc,de,hl with mirrors
-    ld c,VDPData
-    ld b,$04
-        ld h,a             ; backup data
-        ld a,(Mask1BitOutput) ; get back original a
-      -:rra                ; rotate right through carry
-        ld d,h             ; get data back - could have put it there in the first place ##########
-        jr c,+             ; if rotate went into carry
-        ld d,$00           ; then keep it, else zero
-      +:out (c),d          ; output to VDP
-        djnz -             ; repeat 4 times
+      ld c,VDPData
+      ld b,$04
+      ld h,a             ; backup data
+      ld a,(Mask1BitOutput) ; get back original a
+-:    rra                ; rotate right through carry
+      ld d,h             ; get data back - could have put it there in the first place ##########
+      jr c,+             ; if rotate went into carry
+      ld d,$00           ; then keep it, else zero
++:    out (c),d          ; output to VDP
+      djnz -             ; repeat 4 times
     exx                ; swap back
     inc hl             ; move to next data
     dec bc             ; decrement counter
@@ -1646,14 +1648,14 @@ LoadTiles4BitRLENoDI:
     ld b,$04
 -:  push bc
     push de
-            call + ; called 4 times for 4 bitplanes
+      call + ; called 4 times for 4 bitplanes
     pop de
     inc de
     pop bc
     djnz -
     ret
-  +:
- --:ld a,(hl)          ; read count byte <----+
++:  
+--: ld a,(hl)          ; read count byte <----+
     inc hl             ; increment pointer    |
     or a               ; return if zero       |
     ret z              ;                      |
@@ -1664,14 +1666,14 @@ LoadTiles4BitRLENoDI:
     ld a,c             ; set z flag if high   |
     and $80            ; bit = 0              |
                        ;                      |
-  -:rst SetVRAMAddressToDE ; <--------------+ |
+-:  rst SetVRAMAddressToDE ; <--------------+ |
     ld a,(hl)          ; Get data byte in a | |
     out (VDPData),a    ; Write it to VRAM   | |
     jp z,+             ; If z flag then  -+ | |
                        ; skip inc hl      | | |
     inc hl             ;                  | | |
                        ;                  | | |
-  +:inc de             ; Add 4 to de <----+ | |
++:  inc de             ; Add 4 to de <----+ | |
     inc de             ;                    | |
     inc de             ;                    | |
     inc de             ;                    | |
@@ -1688,14 +1690,14 @@ LoadTiles4BitRLE:      ; $04b3   Same as NoDI only with a di/ei around the VRAM 
     ld b,$04           ; 4 bitplanes
 -:  push bc
     push de
-            call +
+      call +
     pop de
     inc de
     pop bc
     djnz -
     ret
- --:
-  +:ld a,(hl)          ; header byte
+--: 
++:  ld a,(hl)          ; header byte
     inc hl             ; data byte
     or a
     ret z              ; exit at zero terminator
@@ -1711,7 +1713,7 @@ LoadTiles4BitRLE:      ; $04b3   Same as NoDI only with a di/ei around the VRAM 
     ei
     jp z,+             ; if z flag then don't move to next data byte
     inc hl
-  +:inc de             ; move target forward 4 bytes
++:  inc de             ; move target forward 4 bytes
     inc de
     inc de
     inc de
@@ -1758,7 +1760,7 @@ Multiply16:            ; $0505
     add hl,bc          ; if a bit was rotated out then add bc to hl
     jr nc,+
     inc de             ; if hl has overflowed then there's another bit to carry into de
-  +:add hl,hl          ; hl<<=1,carry bit set if it overflowed (will be carried into de by following opcodes)
++:  add hl,hl          ; hl<<=1,carry bit set if it overflowed (will be carried into de by following opcodes)
 .endr
 
     rl e               ; last iteration: rets instead of jrs
@@ -1782,9 +1784,9 @@ _LABEL_5B7_:
     jr c,+             ; if a overflowed
     cp e               ; compare to e
     jr c,++            ; if bigger
-  +:sub e              ; subtract e
++:  sub e              ; subtract e
     or a               ; make carry flag 1
- ++:ccf                ; make carry flag 0
+++: ccf                ; make carry flag 0
     adc hl,hl          ; double hl and add carry bit
 .endr
     ret
@@ -1795,25 +1797,25 @@ _LABEL_5B7_:
 GetRandomNumber:
 ; returns a pseudo-random number in a
     push hl
-    ld hl,(RandomNumberGeneratorWord)
-        ld a,h         ; get high byte
-        rrca           ; rotate right by 2
-    rrca
-        xor h          ; xor with original
-        rrca           ; rotate right by 1
-        xor l          ; xor with low byte
-        rrca           ; rotate right by 4
-    rrca
-    rrca
-    rrca
-        xor l          ; xor again
-        rra            ; rotate right by 1 through carry
-        adc hl,hl      ; add RandomNumberGeneratorWord to itself
-    jr nz,+
-        ld hl,$733c    ; if last xor resulted in zero then re-seed random number generator
-      +:ld a,r         ; r = refresh register = semi-random number
-        xor l          ; xor with l which is fairly random
-    ld (RandomNumberGeneratorWord),hl
+      ld hl,(RandomNumberGeneratorWord)
+      ld a,h         ; get high byte
+      rrca           ; rotate right by 2
+      rrca
+      xor h          ; xor with original
+      rrca           ; rotate right by 1
+      xor l          ; xor with low byte
+      rrca           ; rotate right by 4
+      rrca
+      rrca
+      rrca
+      xor l          ; xor again
+      rra            ; rotate right by 1 through carry
+      adc hl,hl      ; add RandomNumberGeneratorWord to itself
+      jr nz,+
+      ld hl,$733c    ; if last xor resulted in zero then re-seed random number generator
++:    ld a,r         ; r = refresh register = semi-random number
+      xor l          ; xor with l which is fairly random
+      ld (RandomNumberGeneratorWord),hl
     pop hl
     ret                ; return random number in a
 .ends
@@ -1825,11 +1827,12 @@ FadeInMarkIIILogoAndPause:
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
     and P11 | P12      ; Button 1 or 2
-    jr nz,_f           ; If button pressed then skip to function 2 = StartTitleScreen
+    jr nz,+            ; If button pressed then skip to function 2 = StartTitleScreen
     ld a,(MarkIIILogoDelay)
     or a
     ret nz             ; Keep doing this function until MarkIIILogoDelay is zero
- __:ld hl,FunctionLookupIndex ; This bit used by more than one function
++:
+-:  ld hl,FunctionLookupIndex ; This bit used by more than one function
     ld (hl),2          ; Set FunctionLookupIndex to 2 (StartTitleScreen)
     ret
 
@@ -1837,7 +1840,7 @@ FadeInMarkIIILogoAndPause:
 LoadMarkIIILogo:
     ld a,(IsJapanese)
     or a
-    jr nz,_b            ; if IsJapanese==0 then skip to function 2 = StartTitleScreen
+    jr nz,-            ; if IsJapanese==0 then skip to function 2 = StartTitleScreen
 
     ld hl,FunctionLookupIndex
     inc (hl)           ; Set FunctionLookupIndex to the next in sequence (FadeInMarkIIILogoAndPause)
@@ -1916,9 +1919,9 @@ MarkIIIFadeIn:
     ld a,(hl)
     ld de,PaletteAddress+1 ; Palette index 1
     push af
-        rst SetVRAMAddressToDE
-        ex (sp),hl     ; delay
-        ex (sp),hl
+      rst SetVRAMAddressToDE
+      ex (sp),hl     ; delay
+      ex (sp),hl
     pop af
     out (VDPData),a
     ret
@@ -2127,43 +2130,43 @@ IsSlotUsed:
 StartTitleScreen:      ; $08b7
     call FadeOutFullPalette
     di
-    call TurnOffDisplay
-    call SoundInit
-    call ClearTileMap
+      call TurnOffDisplay
+      call SoundInit
+      call ClearTileMap
 
-    ld hl,FunctionLookupIndex
+      ld hl,FunctionLookupIndex
       inc (hl)           ; TitleScreen
 
       ld hl,600
       ld (MarkIIILogoDelay),hl ; ??? ##############
 
-    ld hl,_TitleScreenPalette
-    ld de,TargetPalette
-    ld bc,_sizeof__TitleScreenPalette
+      ld hl,_TitleScreenPalette
+      ld de,TargetPalette
+      ld bc,_sizeof__TitleScreenPalette
       ldir               ; load palette
-    ld hl,_RAM_C260_
-    ld de,_RAM_C260_ + 1
+      ld hl,_RAM_C260_
+      ld de,_RAM_C260_ + 1
       ld bc,$9f
-    ld (hl),$00
+      ld (hl),$00
       ldir               ; zero $c260-$c2ff
 
-    ld hl,CharacterSpriteAttributes
-    ld de,CharacterSpriteAttributes + 1
-    ld bc,$00FF
-    ld (hl),$00
+      ld hl,CharacterSpriteAttributes
+      ld de,CharacterSpriteAttributes + 1
+      ld bc,$00FF
+      ld (hl),$00
       ldir               ; zero $c800-$c8ff
-    ld hl,Frame2Paging
-    ld (hl),:TilesTitleScreen
-    ld hl,TilesTitleScreen
+      ld hl,Frame2Paging
+      ld (hl),:TilesTitleScreen
+      ld hl,TilesTitleScreen
       TileAddressDE 0    ; tile number 0
-    call LoadTiles4BitRLENoDI
-    ld hl,Frame2Paging
-    ld (hl),:TitleScreenTilemap
-    ld hl,TitleScreenTilemap
-    call DecompressToTileMapData
+      call LoadTiles4BitRLENoDI
+      ld hl,Frame2Paging
+      ld (hl),:TitleScreenTilemap
+      ld hl,TitleScreenTilemap
+      call DecompressToTileMapData
 
-    xor a
-    ld (VScroll),a
+      xor a
+      ld (VScroll),a
       ld (HScroll),a     ; Reset scroll registers
 
       ld a,MusicTitle
@@ -2502,9 +2505,10 @@ _LABEL_BB8_:
     ld de,_WorldData-9
     add hl,de
 
-    ld de,$0BE8
-    push de
+    ld de,+
+    push de ; Overriding return address
     call _LABEL_7B1E_
+
 _LABEL_BD0_:
     ld a,(_RAM_C2E9_)
     and $7F
@@ -2521,6 +2525,8 @@ _LABEL_BD0_:
     ld de,+  ; Overriding return address
     push de
     call _LABEL_7B1E_
+
+; Continuing address for two places above
 +:  xor a
     ld (ControlsNew),a
     ld (ScrollDirection),a
@@ -2594,7 +2600,7 @@ _LABEL_C64_:
     jr z,+             ; if zero then skip -----------------+
     ld a,$ff           ; else set all bits in a             |
     jp ++              ; and skip onwards ------------------|-+
-  +:ld a,(ControlsNew) ; Check controls  <------------------+ |
++:  ld a,(ControlsNew) ; Check controls  <------------------+ |
     and P11 | P12      ; Is a button pressed?                 |
     ret z              ; exit if not                          |
     ld a,(PaletteRotateEnabled) ;                             |
@@ -2655,15 +2661,15 @@ LoadScene:
     TileAddressDE 0    ; could save doing this twice? ############
     call LoadTiles4BitRLE
 
-++:  call _ResetCharacterSpriteAttributes
+++: call _ResetCharacterSpriteAttributes
     call SpriteHandler
     ld b,4
 -:  push bc
-        ld a,$0a       ; VBlankFunction_Enemy
-    call ExecuteFunctionIndexAInNextVBlank
-    di
-    call AnimCharacterSprites
-    ei
+      ld a,$0a       ; VBlankFunction_Enemy
+      call ExecuteFunctionIndexAInNextVBlank
+      di
+        call AnimCharacterSprites
+      ei
     pop bc
     djnz -
     ld a,(HLocation)   ; low byte only
@@ -2727,26 +2733,26 @@ LoadScene:
     ld a,(hl)
     inc hl
     push hl
-    ld h,(hl)
-        ld l,a         ; hl = next word = palette location
-    ld de,TargetPalette
-        ld bc,17
-        ldir           ; Load start of palette
-    ld a,(VehicleMovementFlags)
-    or a
-    jr nz,+
-    push hl
-    ld hl,SpritePalette1
-            ld bc,13
-            ldir       ; Load rest of palette
-    pop hl
-        ldi            ; last 2 palette entries from end of palette location
-    ldi
-    jp ++
-+:  ld hl,SpritePalette2
-        ld bc,15
-        ldir           ; Load different palette
-++:  pop hl
+      ld h,(hl)
+      ld l,a         ; hl = next word = palette location
+      ld de,TargetPalette
+      ld bc,17
+      ldir           ; Load start of palette
+      ld a,(VehicleMovementFlags)
+      or a
+      jr nz,+
+      push hl
+        ld hl,SpritePalette1
+        ld bc,13
+        ldir       ; Load rest of palette
+      pop hl
+      ldi            ; last 2 palette entries from end of palette location
+      ldi
+      jp ++
++:    ld hl,SpritePalette2
+      ld bc,15
+      ldir           ; Load different palette
+++: pop hl
     inc hl
     ld a,(hl)
     inc hl
@@ -2789,11 +2795,12 @@ LoadScene:
 CheckMusic:           ; $df3
     push hl
       ld hl,CurrentlyPlayingMusic
-        cp (hl)        ; if a!=CurrentlyPlayingMusic
+      cp (hl)        ; if a!=CurrentlyPlayingMusic
       jr nz,+
     pop hl
     ret
-      +:ld (NewMusic),a ; then set NewMusic to a
+
++:    ld (NewMusic),a ; then set NewMusic to a
       ld (hl),a
     pop hl
     ret
@@ -2826,7 +2833,7 @@ _InitialiseCharacterSpriteAttributes:
     ld hl,CharacterStatsMyau.IsAlive
     ld a,$07
     ; fall through
-  +:                   ; $e3f
++:                     ; $e3f
     bit 0,(hl)         ; exit if low bit of (hl) = IsAlive is not set
     ret z
     ld (de),a          ; copy a to (de) = CharacterSpriteAttributes+0 ???
@@ -2937,17 +2944,42 @@ _LABEL_FE7_:
     ret
 
 ; Data from 1033 to 107C (74 bytes)
-_LABEL_1033_:
-.db $3A $E9 $C2 $87 $87 $87 $6F $26 $00 $11 $60 $10 $19 $7E $32 $EA
-.db $C2 $23 $7E $32 $EB $C2 $23 $11 $51 $10 $D5 $CD $1E $7B $CD $C6
-.db $0C $21 $6F $C2 $11 $70 $C2 $01 $17 $00 $36 $00 $ED $B0 $21 $01
-.db $00 $22 $7B $C2 $C9 $04 $0C $00 $38 $51 $05 $21 $2C $01 $0B $00
-.db $46 $46 $05 $27 $21 $01 $04 $01 $33 $64
+_LABEL_1033_: ; Unreferenced?
+    ld a, (_RAM_C2E9_)
+    ; Find a'th entry in _DATA_1068 (1-based)
+    add a, a
+    add a, a
+    add a, a
+    ld l, a
+    ld h, $00
+    ld de, _DATA_1068 - 8
+    add hl, de
+    ld a, (hl)
+    ld (_RAM_C2EA_), a
+    inc hl
+    ld a, (hl)
+    ld (_RAM_C2EB_), a
+    inc hl
+    ld de, +
+    push de
+    call _LABEL_7B1E_
++:  call _LABEL_CC6_
+    ld hl, _RAM_C26F_
+    ld de, _RAM_C26F_ + 1
+    ld bc, $0017
+    ld (hl), $00
+    ldir
+    ld hl, $0001
+    ld (_RAM_C27B_), hl
+    ret
 
-; Data from 107D to 1097 (27 bytes)
-_DATA_107D_:
-.db $0E $2A $20 $08 $0C $00 $38 $48 $04 $21 $53 $02 $0B $00 $3A $46
-.db $06 $54 $20 $02 $04 $01 $2B $64 $10 $43 $1E
+_DATA_1068:
+.db $04 $0C $00 $38 $51 $05 $21 $2C
+.db $01 $0B $00 $46 $46 $05 $27 $21
+.db $01 $04 $01 $33 $64 $0E $2A $20
+.db $08 $0C $00 $38 $48 $04 $21 $53
+.db $02 $0B $00 $3A $46 $06 $54 $20
+.db $02 $04 $01 $2B $64 $10 $43 $1E
 
 _LABEL_1098_:
     ld a,(PauseFlag)
@@ -3352,9 +3384,9 @@ _LABEL_13AD_:
 +:  cpl
 _LABEL_13BA_:
     push af
-    ld a,$AD
-    ld (NewMusic),a
-    call _LABEL_7E4F_
+      ld a,$AD
+      ld (NewMusic),a
+      call _LABEL_7E4F_
     pop af
     add a,(ix+1)
     jr c,+
@@ -3857,7 +3889,7 @@ _LABEL_1738_:
     jp ++
 
 +:  call _LABEL_3E5A_
-++:  ld a,$10
+++: ld a,$10
     call ExecuteFunctionIndexAInNextVBlank
     ret
 
@@ -3892,10 +3924,10 @@ _LABEL_175E_:
 
 _LABEL_179A_:
     push af
-    call _LABEL_1735_
-    call CharacterStatsUpdate
-    ld a,$D8
-    ld (NewMusic),a
+      call _LABEL_1735_
+      call CharacterStatsUpdate
+      ld a,$D8
+      ld (NewMusic),a
     pop af
     cp $05
     ret nz
@@ -3977,7 +4009,7 @@ InitialiseCharacterStats:
     ld (iy+0),$01      ; alive
     ld (iy+5),$01      ; LV
     push iy
-    call CharacterStatsUpdate
+      call CharacterStatsUpdate
     pop iy
     ld a,(iy+6)        ; copy Max HP and Max MP to HP and MP
     ld (iy+1),a
@@ -4014,11 +4046,11 @@ _LABEL_1869_:
     ld de,LevelStatsLutz
     ld a,$03
     ld (TextCharacterNumber),a
-+:  bit 0,(iy+0)
++:  bit 0,(iy+Character.IsAlive)
     ret z
     ld hl,Frame2Paging
     ld (hl),$03
-    ld l,(iy+5)
+    ld l,(iy+Character.LV)
     ld h,$00
     add hl,hl
     add hl,hl
@@ -4026,16 +4058,16 @@ _LABEL_1869_:
     add hl,de
     push hl
     pop ix
-    ld e,(iy+3)
-    ld d,(iy+4)
+    ld e,(iy+Character.EP)
+    ld d,(iy+Character.EP+1)
     ld hl,(EnemyExperienceValue)
     add hl,de
     jr nc,+
-    ld hl,$FFFF
-+:  ld (iy+3),l
-    ld (iy+4),h
+    ld hl,-1
++:  ld (iy+Character.EP),l
+    ld (iy+Character.EP+1),h
     ret c
-    ld a,(iy+5)
+    ld a,(iy+Character.LV)
     cp $1E
     ret z
     ld a,h
@@ -4051,12 +4083,12 @@ _LABEL_1869_:
     call TextBox20x6
     ld hl,Frame2Paging
     ld (hl),$03
-    inc (iy+5)
+    inc (iy+Character.LV)
     ld a,(ix+6)
-    cp (iy+14)
+    cp (iy+Character.MagicCount)
     jr nz,+
     ld a,(ix+7)
-    cp (iy+15)
+    cp (iy+Character.BattleMagicCount)
     ret z
 +:  ld hl,textPlayerLearnedASpell
     jp TextBox20x6
@@ -4175,10 +4207,10 @@ ShowMessageIfDead:
 
 _LABEL_1A05_:
     push iy
-    ld (_RAM_C80A_),a
-    ld a,$0B
-    ld (CharacterSpriteAttributes),a
-    call _LABEL_1A15_
+      ld (_RAM_C80A_),a
+      ld a,$0B
+      ld (CharacterSpriteAttributes),a
+      call _LABEL_1A15_
     pop iy
     ret
 
@@ -4358,15 +4390,15 @@ BattleMenu_Magic:
     jr nz,+
     dec a
 +:  push af
-    push hl
-    call _LABEL_3592_
-    ld hl,$7A8C
-    ld (CursorTileMapAddress),hl
-    pop hl
-    ld a,(hl)
-    dec a
-    ld (CursorMax),a
-    call WaitForMenuSelection
+      push hl
+        call _LABEL_3592_
+        ld hl,$7A8C
+        ld (CursorTileMapAddress),hl
+      pop hl
+      ld a,(hl)
+      dec a
+      ld (CursorMax),a
+      call WaitForMenuSelection
     pop hl
     bit 4,c
     jp nz,+
@@ -4637,15 +4669,15 @@ _LABEL_1D3D_:
     jp -
 
 +:  ld a,$FF
-++:  push af
-    cp $05
-    jr z,+
-    xor a
-    ld (CharacterSpriteAttributes),a
-    ld a,$D0
-    ld (SpriteTable),a
-+:  call _LABEL_321F_HidePartyStats
-    call _LABEL_3818_
+++: push af
+      cp $05
+      jr z,+
+      xor a
+      ld (CharacterSpriteAttributes),a
+      ld a,$D0
+      ld (SpriteTable),a
++:    call _LABEL_321F_HidePartyStats
+      call _LABEL_3818_
     pop af
     cp $FF
     ret z
@@ -4706,9 +4738,9 @@ _LABEL_1DFD_:
     call ShowMessageIfDead
     jr z,+++
     push af
-    call _LABEL_3824_
-    call _LABEL_38EC_
-    call MenuWaitForButton
+      call _LABEL_3824_
+      call _LABEL_38EC_
+      call MenuWaitForButton
     pop af
     ld c,a
     add a,a
@@ -4747,31 +4779,31 @@ _LABEL_1E3B_:
     ld hl,textSavingToSlot
     call TextBox20x6
     push bc
-    ld a,(NumberToShowInText)
-    ld h,a
-    ld l,$00
-    add hl,hl
-    add hl,hl
-    set 7,h
-    ex de,hl
-    call IsSlotUsed
-    push af
-    push hl
-    ld a,$08
-    ld (SRAMPaging),a
-    ld (hl),$00
-    ld hl,HScroll
-    ld bc,$0400
-    ldir
-    ld a,$80
-    ld (SRAMPaging),a
-    pop hl
-    pop af
-    ld a,$08
-    ld (SRAMPaging),a
-    ld (hl),$01
-    ld a,$80
-    ld (SRAMPaging),a
+      ld a,(NumberToShowInText)
+      ld h,a
+      ld l,$00
+      add hl,hl
+      add hl,hl
+      set 7,h
+      ex de,hl
+      call IsSlotUsed
+      push af
+      push hl
+        ld a,$08
+        ld (SRAMPaging),a
+        ld (hl),$00
+        ld hl,HScroll
+        ld bc,$0400
+        ldir
+        ld a,$80
+        ld (SRAMPaging),a
+      pop hl
+      pop af
+      ld a,$08
+      ld (SRAMPaging),a
+      ld (hl),$01
+      ld a,$80
+      ld (SRAMPaging),a
     pop bc
     jr z,+
     ld hl,textSavingComplete
@@ -4904,10 +4936,10 @@ _Magic01_Heal:
 _Magic02_SuperHeal:
     ld d,$50
 +:  push bc
-    push de
-      call _LABEL_379F_ChooseCharacter
-    pop de
-    bit 4,c
+      push de
+        call _LABEL_379F_ChooseCharacter
+      pop de
+      bit 4,c
     pop bc
     jr nz,+
     ld (TextCharacterNumber),a
@@ -4993,22 +5025,22 @@ _LABEL_200E_:
     ret
 
 +:  push de
-    ld a,e
-    call _LABEL_1A05_
--:  call GetRandomNumber
-    and $07
-    add a,$04
-    call PointHLToCharacterInA
-    jp z,-
-    push hl
-    pop ix
+      ld a,e
+      call _LABEL_1A05_
+  -:  call GetRandomNumber
+      and $07
+      add a,$04
+      call PointHLToCharacterInA
+      jp z,-
+      push hl
+      pop ix
     pop de
     push de
-    call GetRandomNumber
-    and $03
-    add a,d
-    call _LABEL_13BA_
-    call _LABEL_326D_UpdateEnemyHP
+      call GetRandomNumber
+      and $03
+      add a,d
+      call _LABEL_13BA_
+      call _LABEL_326D_UpdateEnemyHP
     pop de
     ret
 
@@ -5277,8 +5309,8 @@ _Magic0f_Rebirth:
     bit 4,c
     jr nz,+++
     push af
-    ld a,$AB
-    ld (NewMusic),a
+      ld a,$AB
+      ld (NewMusic),a
     pop af
     ld (TextCharacterNumber),a
     call PointHLToCharacterInA
@@ -5392,7 +5424,7 @@ _LABEL_22C4_:
     jr ++
 
 +:  push bc
-    call _LABEL_79D5_
+      call _LABEL_79D5_
     pop bc
 ++: ld hl,textCantDisembark
     jr nz,+
@@ -5614,8 +5646,8 @@ UseItem_Ruoginin:
     call ShowMessageIfDead
     jr z,++
     push de
-    ld hl,textPlayerUsedItem
-    call TextBox20x6
+      ld hl,textPlayerUsedItem
+      call TextBox20x6
     pop de
     call _LABEL_1FBB_Heal
     call _LABEL_28D8_RemoveItemFromInventory
@@ -5787,11 +5819,11 @@ UseItem_Polymeteral:
 
 IsAnyoneOtherThanMyauAlive:
     ; Returns z is they are all dead or not found yet
-    ld a,(CharacterStatsAlis)
+    ld a,(CharacterStatsAlis.IsAlive)
     ld d,a
-    ld a,(CharacterStatsOdin)
+    ld a,(CharacterStatsOdin.IsAlive)
     ld e,a
-    ld a,(CharacterStatsLutz)
+    ld a,(CharacterStatsLutz.IsAlive)
     or d
     or e
     ret
@@ -6148,23 +6180,23 @@ _LABEL_28D8_RemoveItemFromInventory:
     ld hl,(_RAM_C29B_)
 RemoveItemFromInventory:
     push bc
-    ld e,l
-    ld d,h
-    inc hl
-    ld a,$D7
-    sub e
-    and $1F
-    jr z,+
-    ld c,a
-    ld b,$00
-    ldir
-+:  ld hl,$C4C0
-    ld a,(InventoryCount)
-    dec a
-    ld (InventoryCount),a
-    add a,l
-    ld l,a
-    ld (hl),$00
+      ld e,l
+      ld d,h
+      inc hl
+      ld a,$D7
+      sub e
+      and $1F
+      jr z,+
+      ld c,a
+      ld b,$00
+      ldir
+  +:  ld hl,$C4C0
+      ld a,(InventoryCount)
+      dec a
+      ld (InventoryCount),a
+      add a,l
+      ld l,a
+      ld (hl),$00
     pop bc
     ret
 
@@ -6199,26 +6231,26 @@ _LABEL_2918_:
 _LABEL_2934_:
     ld a,(ItemTableIndex)
     push af
-    ld hl,_DATA_B013_
-    call TextBox20x6
-    call _LABEL_35EF_
-    call _LABEL_3773_
-    bit 4,c
-    jr nz,++
-    ld hl,Frame2Paging
-    ld (hl),$02
-    ld a,(ItemTableIndex)
-    ld hl,ItemMetadata
-    add a,l
-    ld l,a
-    adc a,h
-    sub l
-    ld h,a
-    ld a,(hl)
-    and $04
-    jr z,+
-    ld hl,textCantDropItem
-    call TextBox20x6
+      ld hl,_DATA_B013_
+      call TextBox20x6
+      call _LABEL_35EF_
+      call _LABEL_3773_
+      bit 4,c
+      jr nz,++
+      ld hl,Frame2Paging
+      ld (hl),$02
+      ld a,(ItemTableIndex)
+      ld hl,ItemMetadata
+      add a,l
+      ld l,a
+      adc a,h
+      sub l
+      ld h,a
+      ld a,(hl)
+      and $04
+      jr z,+
+      ld hl,textCantDropItem
+      call TextBox20x6
     pop af
     ld (ItemTableIndex),a
     jp _LABEL_2934_
@@ -6338,8 +6370,8 @@ _LABEL_2A37_:
     call TextBox20x6
     call ShowMenuYesNo
     push af
-    call HideMenuYesNo
-    call Close20x6TextBox
+      call HideMenuYesNo
+      call Close20x6TextBox
     pop af
     or a
     ret nz
@@ -6405,10 +6437,10 @@ _LABEL_2AAC_:
     ret z
     inc hl
     push hl
-    ld h,(hl)
-    ld l,$00
-    ld e,$03
-    call _LABEL_5B7_
+      ld h,(hl)
+      ld l,$00
+      ld e,$03
+      call _LABEL_5B7_
     pop de
     ex de,hl
     ld a,(hl)
@@ -6480,7 +6512,7 @@ _LABEL_2AF5_:
     call _LABEL_3B13_
     call DoYesNoMenu
     push af
-    call nz,_LABEL_3B3C_
+      call nz,_LABEL_3B3C_
     pop af
     jr nz,_LABEL_2BA4_
     ld de,(NumberToShowInText)
@@ -6580,7 +6612,7 @@ _LABEL_2BF4_:
     call _LABEL_3B13_
     call DoYesNoMenu
     push af
-    call nz,_LABEL_3B3C_
+      call nz,_LABEL_3B3C_
     pop af
     jr nz,_LABEL_2C71_
     ld hl,textChurchIncantation1
@@ -6650,9 +6682,9 @@ _LABEL_2CA2_:
     ld de,$BB7F
     ld a,$03
 +:  ld (TextCharacterNumber),a
-    bit 0,(iy+0)
+    bit 0,(iy+Character.IsAlive)
     ret z
-    ld a,(iy+5)
+    ld a,(iy+Character.LV)
     cp $1E
     jr c,+
     ld hl,_DATA_B6E7_
@@ -6690,15 +6722,15 @@ _LABEL_2D22_ShopMenus:
 
 _LABEL_2D30_:
     push bc
-    call _LABEL_39EA_
-    call _LABEL_3B13_
+      call _LABEL_39EA_
+      call _LABEL_3B13_
     pop bc
 _LABEL_2D38_:
     ld hl,textShopWhatDoYouWant
     call TextBox20x6
     push bc
-    call _LABEL_39F6_
-    bit 4,c
+      call _LABEL_39F6_
+      bit 4,c
     pop bc
     jr nz,_LABEL_2D89_
     ld a,(InventoryCount)
@@ -6806,7 +6838,7 @@ _LABEL_2E0D_:
     call _LABEL_35EF_
     bit 4,c
     push af
-    call _LABEL_3773_
+      call _LABEL_3773_
     pop af
     jp nz,_LABEL_2E46_
     ld hl,Frame2Paging
@@ -6855,10 +6887,10 @@ _LABEL_2E46_:
 .section "Do yes/no menu" overwrite
 DoYesNoMenu:
     push bc
-    call ShowMenuYesNo
-    push af
-    call HideMenuYesNo
-    pop af
+      call ShowMenuYesNo
+      push af
+        call HideMenuYesNo
+      pop af
     pop bc
     or a               ; set flag z = yes
     ret
@@ -6879,7 +6911,7 @@ MenuWaitForButton:
 .section "Wait 0.5s unless button pressed" overwrite
 MenuWaitHalfSecond:
     ld b,30            ; 30 frames
-  -:ld a,$08           ; VBlankFunction_Menu
+-:  ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
     and P11 | P12
@@ -6892,7 +6924,7 @@ MenuWaitHalfSecond:
 .section "Pause 3 seconds (180 frames) with VBlankFunction_Menu" overwrite
 Pause3Seconds:
     ld b,3*60
-  -:ld a,8             ; VBlankFunction_Menu
+-:  ld a,8             ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
     and P11 | P12
@@ -6906,7 +6938,7 @@ Pause3Seconds:
 Pause256Frames:
     ld b,0           ; Frames to wait (0 = 256 = 4.3s)
 PauseBFrames:
-  -:ld a,8           ; VBlankFunction_Menu
+-:  ld a,8           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
     ret
@@ -6922,7 +6954,7 @@ WaitForMenuSelection:
     ld (CursorPos),hl  ; 0 -> CursorPos, OldCursorPos
     xor a
     ld (CursorCounter),a ; zero CursorCounter
-  -:ld a,$08           ; VBlankFunction_Menu
+-:  ld a,$08           ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
     and P1U | P1D      ; if U or D not pressed
@@ -6942,7 +6974,7 @@ WaitForMenuSelection:
     jr c,+             ; if greater
     jr z,+             ; or equal
     xor a              ; then zero it
-  +:ld (CursorPos),a   ; save in CursorPos
++:  ld (CursorPos),a   ; save in CursorPos
 ++:  ld a,(Controls)
     and P11 | P12      ; button 1 or 2
     jp z,-             ; repeat until button is pressed
@@ -7075,7 +7107,7 @@ FlashCursor:
     ld bc,$f0f3        ; then b=$f0, c=$f3 (in-game cursor tile #s, actually $1xx)
     jr nz,+
     ld bc,$ff00        ; else b=$ff, c=$00 (title screen cursor tile #s)
-  +:ld hl,(CursorTileMapAddress) ; Load CursorTilemapAddress
++:  ld hl,(CursorTileMapAddress) ; Load CursorTilemapAddress
     ld a,(OldCursorPos) ; and OldCursorPos
     srl a
     ld e,$00
@@ -7242,68 +7274,68 @@ Output4CharsPlusStatWide:
       push af
         rst SetVRAMAddressToDE
         ld b,16
-        jp _f
+        jp +
 
 Output4CharsPlusStat:
     di
-    push de
-      push af
-        rst SetVRAMAddressToDE
-        ld b,$08   ; counter
+      push de
+        push af
+          rst SetVRAMAddressToDE
+          ld b,8   ; counter
 
-
-__:     ld a,(hl)
-        out (VDPData),a ; output 8 bytes from hl to de
-        inc hl
-        djnz _b
-      pop af
++:
+-:        ld a,(hl)
+          out (VDPData),a ; output 8 bytes from hl to de
+          inc hl
+          djnz -
+        pop af
 
         ld bc,$c010    ; tile c0 for leading blanks
 
-    ld d,$FF
-      -:sub 100        ; d = 100s digit in a
-    inc d
-    jr nc,-
+        ld d,$FF
+-:      sub 100        ; d = 100s digit in a
+        inc d
+        jr nc,-
         add a,100
 
         ld l,a         ; backup a
-    ld a,d
-    call OutputDigit
+        ld a,d
+        call OutputDigit
 
-    ld d,$FF
-    ld a,l
-      -:sub 10         ; d = 10s digit in a
-    inc d
-    jr nc,-
+        ld d,$FF
+        ld a,l
+-:      sub 10         ; d = 10s digit in a
+        inc d
+        jr nc,-
         add a,10
 
         ld l,a         ; same as before
-    ld a,d
-    call OutputDigit
+        ld a,d
+        call OutputDigit
 
-    ld d,$FF
-    ld a,l
-      -:sub 1          ; d = 1s digit in a
-    inc d
-    jr nc,-
-    ld a,d
+        ld d,$FF
+        ld a,l
+-:      sub 1          ; d = 1s digit in a
+        inc d
+        jr nc,-
+        ld a,d
 
         ld bc,$c110    ; tile c1 for a final 0 if zero
-    call OutputDigit
+        call OutputDigit
 
         push af        ; delay
-    pop af
+        pop af
 
         ld a,$f3       ; output right |
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$13
-    out (VDPData),a
-    pop de
-    ld hl,32*2
-    add hl,de
-    ex de,hl           ; de = next row down
+        out (VDPData),a
+        push af
+        pop af
+        ld a,$13
+        out (VDPData),a
+      pop de
+      ld hl,32*2
+      add hl,de
+      ex de,hl           ; de = next row down
     ei
     ld a,$0a           ; VBlankFunction_Enemy
     call ExecuteFunctionIndexAInNextVBlank
@@ -7313,67 +7345,67 @@ __:     ld a,(hl)
 
 _LABEL_319E_:
     di
-    push de
-    push bc
-    rst SetVRAMAddressToDE
-    ld b,$0C
--:  ld a,(hl)
-    out (VDPData),a
-    inc hl
-    djnz -
-    pop hl
-    ld bc,$C010
-    ld de,$2710
-    xor a
-    dec a
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    call OutputDigit
-    ld de,$03E8
-    ld a,$FF
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    call OutputDigit
-    ld de,$0064
-    ld a,$FF
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    call OutputDigit
-    ld d,$FF
-    ld a,l
--:  sub $0A
-    inc d
-    jr nc,-
-    add a,$0A
-    ld l,a
-    ld a,d
-    call OutputDigit
-    ld d,$FF
-    ld a,l
--:  sub $01
-    inc d
-    jr nc,-
-    ld a,d
-    ld bc,$C110
-    call OutputDigit
-    push af
-    pop af
-    ld a,$F3
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$13
-    out (VDPData),a
-    pop de
-    ld hl,$0040
-    add hl,de
-    ex de,hl
+      push de
+        push bc
+          rst SetVRAMAddressToDE
+          ld b,$0C
+-:        ld a,(hl)
+          out (VDPData),a
+          inc hl
+          djnz -
+        pop hl
+        ld bc,$C010
+        ld de,10000
+        xor a
+        dec a
+-:      sbc hl,de
+        inc a
+        jr nc,-
+        add hl,de
+        call OutputDigit
+        ld de,1000
+        ld a,-1
+-:      sbc hl,de
+        inc a
+        jr nc,-
+        add hl,de
+        call OutputDigit
+        ld de,100
+        ld a,-1
+-:      sbc hl,de
+        inc a
+        jr nc,-
+        add hl,de
+        call OutputDigit
+        ld d,-1
+        ld a,l
+-:      sub 10
+        inc d
+        jr nc,-
+        add a,10
+        ld l,a
+        ld a,d
+        call OutputDigit
+        ld d,-1
+        ld a,l
+-:      sub 1
+        inc d
+        jr nc,-
+        ld a,d
+        ld bc,$C110
+        call OutputDigit
+        push af
+        pop af
+        ld a,$F3
+        out (VDPData),a
+        push af
+        pop af
+        ld a,$13
+        out (VDPData),a
+      pop de
+      ld hl,$0040
+      add hl,de
+      ex de,hl
     ei
     ld a,$0A
     call ExecuteFunctionIndexAInNextVBlank
@@ -7471,11 +7503,11 @@ _LABEL_326D_UpdateEnemyHP:
     ld a,(NumEnemies)
     ld b,a             ; b = number of enemies
 -:  push bc
-    ld hl,TilesHP
-        ld a,(ix+$01)  ; HP
-    call Output4CharsPlusStat
-        ld bc,$10      ; Next enemy's stats
-    add ix,bc
+      ld hl,TilesHP
+      ld a,(ix+$01)  ; HP
+      call Output4CharsPlusStat
+      ld bc,$10      ; Next enemy's stats
+      add ix,bc
     pop bc
     djnz -
 
@@ -7494,50 +7526,50 @@ Output8CharMenuLine:   ; $32c9
     di
     push bc
     push hl
-    push de
-    rst SetVRAMAddressToDE
-            push af    ; delay
-    pop af
+      push de
+        rst SetVRAMAddressToDE
+        push af    ; delay
+        pop af
 
-            ld a,$f3   ; Output tile 1f3 = | (high priority)
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$11
-    out (VDPData),a
+        ld a,$f3   ; Output tile 1f3 = | (high priority)
+        out (VDPData),a
+        push af
+        pop af
+        ld a,$11
+        out (VDPData),a
 
-            ld b,$08   ; b=8 = counter for 8 chars
+        ld b,$08   ; b=8 = counter for 8 chars
 
--:  ld a,(hl)
-    add a,a
-    add a,c
-    ld de,$8000
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-            ld d,a     ; de=$8000 + (hl)*2+c
-    ld a,(de)
-            out (VDPData),a ; output tile number found there with high priority
-    push af
-    pop af
-    ld a,$10
-    out (VDPData),a
-    inc hl
-    djnz -
+-:      ld a,(hl)
+        add a,a
+        add a,c
+        ld de,$8000
+        add a,e
+        ld e,a
+        adc a,d
+        sub e
+        ld d,a     ; de=$8000 + (hl)*2+c
+        ld a,(de)
+        out (VDPData),a ; output tile number found there with high priority
+        push af
+        pop af
+        ld a,$10
+        out (VDPData),a
+        inc hl
+        djnz -
 
-            push af    ; output right |
-    pop af
-    ld a,$F3
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$13
-    out (VDPData),a
-    pop de
-        ld hl,32*2
-    add hl,de
-        ex de,hl       ; move de to next row
+        push af    ; output right |
+        pop af
+        ld a,$F3
+        out (VDPData),a
+        push af
+        pop af
+        ld a,$13
+        out (VDPData),a
+      pop de
+      ld hl,32*2
+      add hl,de
+      ex de,hl       ; move de to next row
     pop hl
     pop bc
     ei
@@ -7569,7 +7601,7 @@ _CharacterNames:
 .stringmap script "タイロン"
 .stringmap script "ルツ<wait>　"
 
-  -:dec hl             ; move pointer back <-+
+-:  dec hl             ; move pointer back <-+
     jp _NextLine       ; ------------------------------------------+
                        ;                     |                     |
 TextBox20x6:           ; $333a               |                     |
@@ -7588,12 +7620,12 @@ TextBox20x6:           ; $333a               |                     |
     ld a,$ff           ;                                           |
     ld (TextBox20x6Open),a ; set TextBox20x6Open                   |
     push hl            ;                                           |
-        ld hl,OldTileMap20x6  ; Read existing tilemap into buffer  |
-        TileMapAddressDE 6,18 ;                                    |
-        TileMapAreaBC 20,6    ;                                    |
-        call InputTilemapRect ;                                    |
-        ld hl,MenuBox20x6     ;                                    |
-        call OutputTilemapBoxWipePaging ; Draw empty 20x6 box      |
+      ld hl,OldTileMap20x6  ; Read existing tilemap into buffer    |
+      TileMapAddressDE 6,18 ;                                      |
+      TileMapAreaBC 20,6    ;                                      |
+      call InputTilemapRect ;                                      |
+      ld hl,MenuBox20x6     ;                                      |
+      call OutputTilemapBoxWipePaging ; Draw empty 20x6 box        |
     pop hl             ;                                           |
 -:                     ;                                           |
 _ResetCursor:          ; $335f                                     |
@@ -7630,10 +7662,10 @@ _ReadData:             ; $3365 <-----------------------------------|--+
     ; fall through                               |                 |  |
 ;_BlankTextBox:         ; $3381                  |                 |  |
     push hl            ;                         |                 |  |
-        ld hl,MenuBox20x6      ;                 |                 |  |
-        TileMapAddressDE 6,18  ;                 |                 |  |
-        ld bc,$0628            ; 20x6            |                 |  |
-        call OutputTilemapRect ;                 |                 |  |
+      ld hl,MenuBox20x6      ;                   |                 |  |
+      TileMapAddressDE 6,18  ;                   |                 |  |
+      ld bc,$0628            ; 20x6              |                 |  |
+      call OutputTilemapRect ;                   |                 |  |
     pop hl             ;                         |                 |  |
     inc hl             ; Next data               |                 |  |
     jp _ResetCursor    ;                         |                 |  |
@@ -7655,18 +7687,18 @@ _NextLine:             ; $3397                <--------------------+  |
     cp TextCharacterName ; Draw TextCharacterNumberth 4 letters from _CharacterNames
     jr nz,+            ;                    -----+                    |
     push hl            ;                         |                    |
-        ld a,(TextCharacterNumber) ;             |                    |
-        and $03        ; just low 2 bits         |                    |
-        add a,a        ; multiply by 4           |                    |
-        add a,a        ;                         |                    |
-        ld hl,_CharacterNames ;                  |                    |
-        add a,l        ;                         |                    |
-        ld l,a         ;                         |                    |
-        adc a,h        ;                         |                    |
-        sub l          ; hl = _CharacterNames    |                    |
-        ld h,a         ; + 4*TextCharacterNumber |                    |
-        ld a,4         ;                         |                    |
-        call _DrawALetters ;                     |                    |
+      ld a,(TextCharacterNumber) ;             |                    |
+      and $03          ; just low 2 bits         |                    |
+      add a,a          ; multiply by 4           |                    |
+      add a,a          ;                         |                    |
+      ld hl,_CharacterNames ;                  |                    |
+      add a,l          ;                         |                    |
+      ld l,a           ;                         |                    |
+      adc a,h          ;                         |                    |
+      sub l            ; hl = _CharacterNames    |                    |
+      ld h,a           ; + 4*TextCharacterNumber |                    |
+      ld a,4           ;                         |                    |
+      call _DrawALetters ;                     |                    |
     pop hl             ;                         |                    |
     inc hl             ; next data               |                    |
     jp _ReadData       ;                         |                    |
@@ -7675,9 +7707,9 @@ _NextLine:             ; $3397                <--------------------+  |
     cp TextEnemyName   ;                                              |
     jr nz,+            ; ------------------------+                    |
     push hl            ;                         |                    |
-        ld hl,EnemyName;                         |                    |
-        ld a,8         ;                         |                    |
-        call _DrawALetters ;                     |                    |
+      ld hl,EnemyName  ;                         |                    |
+      ld a,8           ;                         |                    |
+      call _DrawALetters ;                       |                    |
     pop hl             ;                         |                    |
     inc hl             ; next data               |                    |
     jp _ReadData       ;                         |                    |
@@ -7686,18 +7718,18 @@ _NextLine:             ; $3397                <--------------------+  |
     cp TextItem        ; Draws ItemTableIndexth text from ItemTextTable
     jr nz,+            ; ------------------------+                    |
     push hl            ;                         |                    |
-        ld a,(ItemTableIndex) ;                  |                    |
-        ld l,a         ;                         |                    |
-        ld h,$00       ;                         |                    |
-        add hl,hl      ;                         |                    |
-        add hl,hl      ;                         |                    |
-        add hl,hl      ;                         |                    |
-        push bc        ;                         |                    |
-            ld bc,ItemTextTable ;                |                    |
-            add hl,bc  ; hl = ItemTextTable      |                    |
-        pop bc         ;    + ItemTableIndex * 8 |                    |
-        ld a,8         ;                         |                    |
-        call _DrawALetters ;                     |                    |
+      ld a,(ItemTableIndex) ;                    |                    |
+      ld l,a           ;                         |                    |
+      ld h,$00         ;                         |                    |
+      add hl,hl        ;                         |                    |
+      add hl,hl        ;                         |                    |
+      add hl,hl        ;                         |                    |
+      push bc          ;                         |                    |
+        ld bc,ItemTextTable ;                    |                    |
+        add hl,bc      ; hl = ItemTextTable      |                    |
+      pop bc           ;    + ItemTableIndex * 8 |                    |
+      ld a,8           ;                         |                    |
+      call _DrawALetters ;                       |                    |
     pop hl             ;                         |                    |
     inc hl             ;                         |                    |
     jp _ReadData       ;                         |                    |
@@ -7706,61 +7738,61 @@ _NextLine:             ; $3397                <--------------------+  |
     cp TextNumber      ;                                              |
     jr nz,+            ; ------------------------+                    |
     push hl            ;                         |                    |
-        push bc        ;                         |                    |
-            push de    ;                         |                    |
-                ld hl,(NumberToShowInText);      |                    |
-                ld de,10000  ;                   |                    |
-                xor a        ; reset carry and a |                    |
-                ld c,a       ; c = 0             |                    |
-                dec a        ; a = -1            |                    |
-              -:sbc hl,de    ;                   |                    |
-                inc a        ; a = hl/10000      |                    |
-                jr nc,-      ;                   |                    |
-                add hl,de    ; hl = remainder    |                    |
-            pop de           ;                   |                    |
-            call _OutputDigitA ;                 |                    |
-            push de          ;                   |                    |
-                ld de,1000   ;                   |                    |
-                ld a,-1      ;                   |                    |
-              -:sbc hl,de    ;                   |                    |
-                inc a        ; a = hl/1000       |                    |
-                jr nc,-      ;                   |                    |
-                add hl,de    ; hl = remainder    |                    |
-            pop de           ;                   |                    |
-            call _OutputDigitA ;                 |                    |
-            push de          ;                   |                    |
-                ld de,100    ;                   |                    |
-                ld a,-1      ;                   |                    |
-              -:sbc hl,de    ;                   |                    |
-                inc a        ; a = hl/100        |                    |
-                jr nc,-      ;                   |                    |
-                add hl,de    ; l = remainder     |                    |
-            pop de           ;                   |                    |
-            call _OutputDigitA ;                 |                    |
-            push de          ;                   |                    |
-                ld d,-1      ;                   |                    |
-                ld a,l       ;                   |                    |
-              -:sub 10       ;                   |                    |
-                inc d        ; d = l/10          |                    |
-                jr nc,-      ;                   |                    |
-                add a,10     ;                   |                    |
-                ld l,a       ; l = remainder     |                    |
-                ld a,d       ;                   |                    |
-            pop de           ;                   |                    |
-            call _OutputDigitA ;                 |                    |
-            push de          ;                   |                    |
-                ld d,-1      ;                   |                    |
-                ld a,l       ;                   |                    |
-              -:sub 1        ;                   |                    |
-                inc d        ; d = l/1 (??? why?)|                    |
-                jr nc,-      ;                   |                    |
-                ld a,d       ;                   |                    |
-                ld c,1       ; Force output if 0 |                    |
-            pop de           ;                   |                    |
-            call _OutputDigitA ;                 |                    |
-            ld a,b     ; preserve digit counter  |                    |
-        pop bc         ; through pop          |                    |
-        ld b,a         ;                         |                    |
+      push bc          ;                         |                    |
+        push de        ;                         |                    |
+          ld hl,(NumberToShowInText) ;           |                    |
+          ld de,10000  ;                         |                    |
+          xor a        ; reset carry and a       |                    |
+          ld c,a       ; c = 0                   |                    |
+          dec a        ; a = -1                  |                    |
+-:        sbc hl,de    ;                         |                    |
+          inc a        ; a = hl/10000            |                    |
+          jr nc,-      ;                         |                    |
+          add hl,de    ; hl = remainder          |                    |
+        pop de           ;                       |                    |
+        call _OutputDigitA ;                     |                    |
+        push de        ;                         |                    |
+          ld de,1000   ;                         |                    |
+          ld a,-1      ;                         |                    |
+-:        sbc hl,de    ;                         |                    |
+          inc a        ; a = hl/1000             |                    |
+          jr nc,-      ;                         |                    |
+          add hl,de    ; hl = remainder          |                    |
+        pop de           ;                       |                    |
+        call _OutputDigitA ;                     |                    |
+        push de          ;                       |                    |
+          ld de,100    ;                         |                    |
+          ld a,-1      ;                         |                    |
+-:        sbc hl,de    ;                         |                    |
+          inc a        ; a = hl/100              |                    |
+          jr nc,-      ;                         |                    |
+          add hl,de    ; l = remainder           |                    |
+        pop de         ;                         |                    |
+        call _OutputDigitA ;                     |                    |
+        push de        ;                         |                    |
+          ld d,-1      ;                         |                    |
+          ld a,l       ;                         |                    |
+-:        sub 10       ;                         |                    |
+          inc d        ; d = l/10                |                    |
+          jr nc,-      ;                         |                    |
+          add a,10     ;                         |                    |
+          ld l,a       ; l = remainder           |                    |
+          ld a,d       ;                         |                    |
+        pop de           ;                       |                    |
+        call _OutputDigitA ;                     |                    |
+        push de          ;                       |                    |
+          ld d,-1      ;                         |                    |
+          ld a,l       ;                         |                    |
+-:        sub 1        ;                         |                    |
+          inc d        ; d = l/1 (??? why?)      |                    |
+          jr nc,-      ;                         |                    |
+          ld a,d       ;                         |                    |
+          ld c,1       ; Force output if 0       |                    |
+        pop de           ;                       |                    |
+        call _OutputDigitA ;                     |                    |
+        ld a,b         ; preserve digit counter  |                    |
+      pop bc           ; through pop             |                    |
+      ld b,a           ;                         |                    |
     pop hl             ;                         |                    |
     inc hl             ; next data               |                    |
     jp _ReadData       ;                         |                    |
@@ -7776,33 +7808,33 @@ _OutputDigitA:         ; $345d
     jp nz,+            ; then don't check c
     bit 0,c            ; else check that low bit of c is set
     ret z              ; return if not
-  +:ld c,$01           ; Set low bit of c to signify that zeroes should be displayed after this digit
++:  ld c,$01           ; Set low bit of c to signify that zeroes should be displayed after this digit
     di                 ;
     push de            ;
-        push af        ;
-            rst SetVRAMAddressToDE
-            push af    ; delay
-            pop af     ;
-            ld a,$c0   ; space
-            out (VDPData),a ;
-            push af    ;
-            pop af     ;
-            ld a,$10   ;
-            out (VDPData),a ;
-            ld a,$40   ; add $40 = 1 line to de
-            add a,e    ;
-            ld e,a     ;
-            adc a,d    ;
-            sub e      ;
-            ld d,a     ;
-            rst SetVRAMAddressToDE
-        pop af         ; retrieve parameter a
-        add a,$c1      ; add $c1 = '0'
+      push af        ;
+        rst SetVRAMAddressToDE
+        push af    ; delay
+        pop af     ;
+        ld a,$c0   ; space
         out (VDPData),a ;
-        push af        ;
-        pop af         ;
-        ld a,$10       ;
+        push af    ;
+        pop af     ;
+        ld a,$10   ;
         out (VDPData),a ;
+        ld a,$40   ; add $40 = 1 line to de
+        add a,e    ;
+        ld e,a     ;
+        adc a,d    ;
+        sub e      ;
+        ld d,a     ;
+        rst SetVRAMAddressToDE
+      pop af         ; retrieve parameter a
+      add a,$c1      ; add $c1 = '0'
+      out (VDPData),a ;
+      push af        ;
+      pop af         ;
+      ld a,$10       ;
+      out (VDPData),a ;
     pop de             ;
     inc de             ; Move to next location in tilemap
     inc de             ;
@@ -7815,10 +7847,10 @@ _OutputDigitA:         ; $345d
 _DrawALetters:         ; $3494
 ; Draws a letters of text from hl
     push af            ;
-        call _DrawLetter ; moves hl
-        ld a,(hl)      ; peek at next data
-        cp $58         ; ExitAfterButton -> no return
-        jr z,+         ; ------------------------+
+      call _DrawLetter ; moves hl
+      ld a,(hl)        ; peek at next data
+      cp $58           ; ExitAfterButton -> no return
+      jr z,+           ; ------------------------+
     pop af             ;                         |
     dec a              ; dec counter             |
     jp nz,_DrawALetters; repeat until a=0        |
@@ -7834,18 +7866,18 @@ ShowNarrativeText:      ; $34a5
     TileMapAddressDE 6,16 ; where to start drawing text from
     ld bc,$0000        ; reset b & c
 --: push de
-      -:call _DrawLetter ; modifies b and c sometimes for its own re-use
-        ld a,(hl)      ; check for special bytes
-        cp TextPauseEnd
-    jr z,_ExitAfterPause
-    cp $58
-    jr z,_ExitAfterButton
-        cp TextButton
-    jr z,_BlankTextAfterButton
-        cp TextNewLine
-    jr nz,-
-        inc hl         ; next data
-    ex de,hl
+-:    call _DrawLetter ; modifies b and c sometimes for its own re-use
+      ld a,(hl)        ; check for special bytes
+      cp TextPauseEnd
+      jr z,_ExitAfterPause
+      cp $58
+      jr z,_ExitAfterButton
+      cp TextButton
+      jr z,_BlankTextAfterButton
+      cp TextNewLine
+      jr nz,-
+      inc hl         ; next data
+      ex de,hl
     pop hl
     ld bc,32*2*2       ; 2 lines down
     add hl,bc
@@ -7856,14 +7888,14 @@ _BlankTextAfterButton: ; $34d0
     pop de             ; don't need it
     inc hl             ; move to next data
     push hl
-    call MenuWaitForButton
+      call MenuWaitForButton
 
-        TileMapAddressDE 0,16
-        ld bc,8*32     ; 8 rows
-        ld hl,$0800    ; Tile 0, sprite palette
-    di
-    call FillVRAMWithHL
-    ei
+      TileMapAddressDE 0,16
+      ld bc,8*32     ; 8 rows
+      ld hl,$0800    ; Tile 0, sprite palette
+      di
+        call FillVRAMWithHL
+      ei
     pop hl
     jp ShowNarrativeText ; repeat
 
@@ -7880,48 +7912,48 @@ _ExitAfterPause:       ; $34ed
 _DrawLetter:           ; $34f2
     di
     push bc
-    push de
-    rst SetVRAMAddressToDE
+      push de
+        rst SetVRAMAddressToDE
         ld a,(hl)      ; Get data (upper half of letter)
-    add a,a
-    ld bc,TileNumberLookup
-    add a,c
-    ld c,a
-    adc a,b
-    sub c
+        add a,a
+        ld bc,TileNumberLookup
+        add a,c
+        ld c,a
+        adc a,b
+        sub c
         ld b,a         ; bc = TileNumberLookup + 2*a
         ld a,(bc)      ; get tile number corresponding to a from there
-    out (VDPData),a
+        out (VDPData),a
         push af        ; delay
-    pop af
+        pop af
         ld a,$10       ; in front of sprites
-    out (VDPData),a
-    ex de,hl
-        ld bc,$40      ; add $40 to de (1 row)
-    add hl,bc
-    ex de,hl
+        out (VDPData),a
+        ex de,hl
+          ld bc,$40      ; add $40 to de (1 row)
+          add hl,bc
+        ex de,hl
         rst SetVRAMAddressToDE
         ld a,(hl)      ; get data (lower half of letter)
-    add a,a
-    ld bc,TileNumberLookup + 1
-    add a,c
-    ld c,a
-    adc a,b
-    sub c
+        add a,a
+        ld bc,TileNumberLookup + 1
+        add a,c
+        ld c,a
+        adc a,b
+        sub c
         ld b,a         ; bc = TileNumberLookup+1 + 2*a
         ld a,(bc)      ; get tile number corresponding to a from there
-    out (VDPData),a
+        out (VDPData),a
         push af        ; delay
-    pop af
+        pop af
         cp $fe         ; should the lower half be reversed? (tile $fe = . also acts as a dot above a letter the other way round)
         ld a,$12       ; if so, in front of sprite + horizontal mirror
-    jr z,+
+        jr z,+
         ld a,$10       ; else in front of sprites
-+:  out (VDPData),a
++:      out (VDPData),a
         inc hl         ; move to next data
-    pop de
-    inc de
-    inc de
+      pop de
+      inc de
+      inc de
     pop bc
     ei
     ld a,$0a           ; VBlankFunction_Enemy (I have to fix these labels...)
@@ -7943,8 +7975,8 @@ _ScrollTextBoxUp2Lines: ; $3546
     push bc
     push de
     push hl
-        call _ScrollTextBoxUp1Line
-        call _ScrollTextBoxUp1Line
+      call _ScrollTextBoxUp1Line
+      call _ScrollTextBoxUp1Line
     pop hl
     pop de
     pop bc
@@ -7966,7 +7998,7 @@ _ScrollTextBoxUp1Line: ; $3553
     call OutputTilemapRect
 
     ld b,4             ; wait 4 frames
-  -:ld a,$0a           ; VBlankFunction_Enemy
+-:  ld a,$0a           ; VBlankFunction_Enemy
     call ExecuteFunctionIndexAInNextVBlank
     djnz -
     ret
@@ -7990,10 +8022,10 @@ Close20x6TextBox:      ; $357e
 _LABEL_3592_:
     push af
     push bc
-    ld hl,_RAM_DB74_
-    ld de,$7A0C
-    ld bc,$0C0C
-    call InputTilemapRect
+      ld hl,_RAM_DB74_
+      ld de,$7A0C
+      ld bc,$0C0C
+      call InputTilemapRect
     pop bc
     pop af
     add a,a
@@ -8019,7 +8051,7 @@ _LABEL_3592_:
     ld b,a
     ld c,$0C
     push bc
-    call OutputTilemapBoxWipePaging
+      call OutputTilemapBoxWipePaging
     pop bc
     ld a,b
     add a,a
@@ -8124,53 +8156,53 @@ _LABEL_368A_:
     di
     push bc
     push hl
-    push de
-    rst SetVRAMAddressToDE
-    ld l,(hl)
-    ld h,$00
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ld de,ItemTextTable
-    add hl,de
-    push af
-    pop af
-    ld a,$F3
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$11
-    out (VDPData),a
-    ld b,$08
--:  ld a,(hl)
-    add a,a
-    add a,c
-    ld de,$8000
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-    ld d,a
-    ld a,(de)
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$10
-    out (VDPData),a
-    inc hl
-    djnz -
-    push af
-    pop af
-    ld a,$F3
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$13
-    out (VDPData),a
-    pop de
-    ld hl,$0040
-    add hl,de
-    ex de,hl
+      push de
+        rst SetVRAMAddressToDE
+        ld l,(hl)
+        ld h,$00
+        add hl,hl
+        add hl,hl
+        add hl,hl
+        ld de,ItemTextTable
+        add hl,de
+        push af
+        pop af
+        ld a,$F3
+        out (VDPData),a
+        push af
+        pop af
+        ld a,$11
+        out (VDPData),a
+        ld b,$08
+-:      ld a,(hl)
+        add a,a
+        add a,c
+        ld de,$8000
+        add a,e
+        ld e,a
+        adc a,d
+        sub e
+        ld d,a
+        ld a,(de)
+        out (VDPData),a
+        push af
+        pop af
+        ld a,$10
+        out (VDPData),a
+        inc hl
+        djnz -
+        push af
+        pop af
+        ld a,$F3
+        out (VDPData),a
+        push af
+        pop af
+        ld a,$13
+        out (VDPData),a
+      pop de
+      ld hl,$0040
+      add hl,de
+      ex de,hl
     pop hl
     pop bc
     ei
@@ -8181,70 +8213,70 @@ _LABEL_368A_:
 _LABEL_36D9_:
     di
     push de
-    rst SetVRAMAddressToDE
-    ld b,$0C
-    jp +
+      rst SetVRAMAddressToDE
+      ld b,$0C
+      jp +
 
 _LABEL_36E1_:
     di
     push de
-    rst SetVRAMAddressToDE
-    ld b,$08
-+:  ld hl,_DATA_3756_
--:  ld a,(hl)
-    out (VDPData),a
-    inc hl
-    djnz -
-    ld hl,(Meseta)
+      rst SetVRAMAddressToDE
+      ld b,$08
++:    ld hl,_DATA_3756_
+-:    ld a,(hl)
+      out (VDPData),a
+      inc hl
+      djnz -
+      ld hl,(Meseta)
 _LABEL_36F2_:
-    ld bc,$C010
-    ld de,$2710
-    ld a,$FF
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    call OutputDigit
-    ld de,$03E8
-    ld a,$FF
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    call OutputDigit
-    ld de,$0064
-    ld a,$FF
--:  sbc hl,de
-    inc a
-    jr nc,-
-    add hl,de
-    call OutputDigit
-    ld d,$FF
-    ld a,l
--:  sub $0A
-    inc d
-    jr nc,-
-    add a,$0A
-    ld l,a
-    ld a,d
-    call OutputDigit
-    ld d,$FF
-    ld a,l
--:  sub $01
-    inc d
-    jr nc,-
-    ld a,d
-    ld bc,$C110
-    call OutputDigit
+      ld bc,$C010
+      ld de,10000
+      ld a,-1
+-:    sbc hl,de
+      inc a
+      jr nc,-
+      add hl,de
+      call OutputDigit
+      ld de,1000
+      ld a,-1
+-:    sbc hl,de
+      inc a
+      jr nc,-
+      add hl,de
+      call OutputDigit
+      ld de,100
+      ld a,-1
+-:    sbc hl,de
+      inc a
+      jr nc,-
+      add hl,de
+      call OutputDigit
+      ld d,-1
+      ld a,l
+-:    sub 10
+      inc d
+      jr nc,-
+      add a,10
+      ld l,a
+      ld a,d
+      call OutputDigit
+      ld d,-1
+      ld a,l
+-:    sub 1
+      inc d
+      jr nc,-
+      ld a,d
+      ld bc,$C110
+      call OutputDigit
 _LABEL_373D_:
-    push af
-    pop af
-    ld a,$F3
-    out (VDPData),a
-    push af
-    pop af
-    ld a,$13
-    out (VDPData),a
+      push af
+      pop af
+      ld a,$F3
+      out (VDPData),a
+      push af
+      pop af
+      ld a,$13
+      out (VDPData),a
     pop de
     ld hl,$0040
     add hl,de
@@ -8266,7 +8298,7 @@ OutputDigit:           ; $3762
     and $0f            ; cut a down to a single digit
     jp z,+             ; if non-zero,
     ld bc,$c110        ; add to $c1 = index of tile '0'
-  +:add a,b            ; else add to whatever bc was already
++:  add a,b            ; else add to whatever bc was already
     out (VDPData),a
     push af
     pop af
@@ -8278,10 +8310,10 @@ OutputDigit:           ; $3762
 
 _LABEL_3773_:
     push bc
-    ld hl,_RAM_DC04_
-    ld de,$78AC
-    ld bc,$1514
-    call OutputTilemapBoxWipePaging
+      ld hl,_RAM_DC04_
+      ld de,$78AC
+      ld bc,$1514
+      call OutputTilemapBoxWipePaging
     pop bc
     ret
 
@@ -8365,38 +8397,38 @@ _LABEL_3818_:
 
 _LABEL_3824_:
     push af
-    ld hl,OldTileMapEnemyName10x4
-    ld de,$7A8C
-    ld bc,$0814
-    call InputTilemapRect
-    ld hl,Menu10Top
-    ld de,$7A8C
-    ld bc,$0114
-    call OutputTilemapBoxWipePaging
+      ld hl,OldTileMapEnemyName10x4
+      ld de,$7A8C
+      ld bc,$0814
+      call InputTilemapRect
+      ld hl,Menu10Top
+      ld de,$7A8C
+      ld bc,$0114
+      call OutputTilemapBoxWipePaging
     pop af
     push af
-    add a,a
-    add a,a
-    add a,a
-    add a,a
-    ld hl,Frame2Paging
-    ld (hl),$02
-    ld hl,CharacterStatsAlis.Weapon
-    add a,l
-    ld l,a
-    adc a,h
-    sub l
-    ld h,a
-    ld b,$03
--:  ld c,$00
-    call _LABEL_368A_
-    ld c,$01
-    call _LABEL_368A_
-    inc hl
-    djnz -
-    ld hl,Menu10Bottom
-    ld bc,$0114
-    call OutputTilemapBoxWipePaging
+      add a,a
+      add a,a
+      add a,a
+      add a,a
+      ld hl,Frame2Paging
+      ld (hl),$02
+      ld hl,CharacterStatsAlis.Weapon
+      add a,l
+      ld l,a
+      adc a,h
+      sub l
+      ld h,a
+      ld b,$03
+-:    ld c,$00
+      call _LABEL_368A_
+      ld c,$01
+      call _LABEL_368A_
+      inc hl
+      djnz -
+      ld hl,Menu10Bottom
+      ld bc,$0114
+      call OutputTilemapBoxWipePaging
     pop af
     ret
 
@@ -8488,35 +8520,35 @@ _LABEL_38EC_:
     ld bc,$0118
     call OutputTilemapBoxWipePaging
     ld hl,_DATA_3982_
-    ld a,(ix+5)
+    ld a,(ix+Character.LV)
     call Output4CharsPlusStatWide
     ld hl,_DATA_3992_
-    ld c,(ix+3)
-    ld b,(ix+4)
+    ld c,(ix+Character.EP)
+    ld b,(ix+Character.EP+1)
     call _LABEL_319E_
     ld hl,_DATA_6FCDB_
     ld bc,$0118
     call OutputTilemapBoxWipePaging
     ld hl,_DATA_399E_
-    ld a,(ix+8)
+    ld a,(ix+Character.Attack)
     call Output4CharsPlusStatWide
     ld hl,_DATA_6FCDB_
     ld bc,$0118
     call OutputTilemapBoxWipePaging
     ld hl,_DATA_39AE_
-    ld a,(ix+9)
+    ld a,(ix+Character.Defence)
     call Output4CharsPlusStatWide
     ld hl,_DATA_6FCDB_
     ld bc,$0118
     call OutputTilemapBoxWipePaging
     ld hl,_DATA_39BE_
-    ld a,(ix+6)
+    ld a,(ix+Character.MaxHP)
     call Output4CharsPlusStatWide
     ld hl,_DATA_6FCDB_
     ld bc,$0118
     call OutputTilemapBoxWipePaging
     ld hl,_DATA_39CE_
-    ld a,(ix+7)
+    ld a,(ix+Character.MaxMP)
     call Output4CharsPlusStatWide
     ld hl,_DATA_6FCF3_
     ld bc,$0118
@@ -8741,30 +8773,30 @@ _LABEL_3B07_:
 
 _LABEL_3B13_:
     push bc
-    ld hl,_RAM_D700_
-    ld de,$782C
-    ld bc,$0314
-    call InputTilemapRect
+      ld hl,_RAM_D700_
+      ld de,$782C
+      ld bc,$0314
+      call InputTilemapRect
     pop bc
 _LABEL_3B21_:
     push bc
-    ld hl,Menu10Top
-    ld de,$782C
-    ld bc,$0114
-    call OutputTilemapBoxWipePaging
-    call _LABEL_36E1_
-    ld hl,Menu10Bottom
-    ld bc,$0114
-    call OutputTilemapBoxWipePaging
+      ld hl,Menu10Top
+      ld de,$782C
+      ld bc,$0114
+      call OutputTilemapBoxWipePaging
+      call _LABEL_36E1_
+      ld hl,Menu10Bottom
+      ld bc,$0114
+      call OutputTilemapBoxWipePaging
     pop bc
     ret
 
 _LABEL_3B3C_:
     push bc
-    ld hl,_RAM_D700_
-    ld de,$782C
-    ld bc,$0314
-    call OutputTilemapBoxWipePaging
+      ld hl,_RAM_D700_
+      ld de,$782C
+      ld bc,$0314
+      call OutputTilemapBoxWipePaging
     pop bc
     ret
 
@@ -8784,10 +8816,10 @@ _LABEL_3B4B_:
     call WaitForMenuSelection
     push af
     push bc
-    ld hl,_RAM_DE14_
-    ld de,$7AAA
-    ld bc,$080A
-    call OutputTilemapBoxWipePaging
+      ld hl,_RAM_DE14_
+      ld de,$7AAA
+      ld bc,$080A
+      call OutputTilemapBoxWipePaging
     pop bc
     pop af
     ret
@@ -8809,20 +8841,20 @@ OutputTilemapBoxWipePaging: ; $3b81
 OutputTilemapBoxWipe:      ; $3b8f
 ; Outputs c/2 x b block of tilemap data from hl to de
 ; with 1 frame delay between rows
- --:push bc
-    di
+--: push bc
+      di
         rst SetVRAMAddressToDE
-    ld b,c
-    ld c,VDPData
-      -:outi           ; output c bytes
-    jp nz,-
-    ex de,hl
+        ld b,c
+        ld c,VDPData
+-:      outi           ; output c bytes
+        jp nz,-
+        ex de,hl
         ld bc,32*2
-    add hl,bc
+        add hl,bc
         ex de,hl       ; add 32*2 = 1 row to de
-    ei
-        ld a,$0a       ; VBlankFunction_Enemy (why?)
-    call ExecuteFunctionIndexAInNextVBlank
+      ei
+      ld a,$0a       ; VBlankFunction_Enemy (why?)
+      call ExecuteFunctionIndexAInNextVBlank
     pop bc
     djnz --
     ret
@@ -8840,18 +8872,18 @@ OutputTilemapRect:     ; $3baa
     ld a,:MenuTilemaps
     ld (Frame2Paging),a
     di
---: push bc
-    rst SetVRAMAddressToDE
-    ld b,c
-    ld c,VDPData
-      -:outi           ; output
-    jp nz,-
-    ex de,hl
+--:   push bc
+        rst SetVRAMAddressToDE
+        ld b,c
+        ld c,VDPData
+-:      outi           ; output
+        jp nz,-
+        ex de,hl
         ld bc,$40
-    add hl,bc
+        add hl,bc
         ex de,hl       ; add $40 = 1 row to de
-    pop bc
-    djnz --
+      pop bc
+      djnz --
     ei
     ld a,:DialogueText
     ld (Frame2Paging),a
@@ -8869,21 +8901,21 @@ InputTilemapRect:
     di
     push bc
     push de
-        res 6,d        ; unset VRAM write bit in de
---: push bc
-            rst SetVRAMAddressToDE ; (for reading)
-    ld b,c
-    ld c,VDPData
-          -:ini        ; input from VRAM
-            push af    ; delay
-    pop af
-    jp nz,-
-    ex de,hl
-    ld bc,$0040
-    add hl,bc
-            ex de,hl   ; add $40 = 1 row to de
-    pop bc
-    djnz --
+      res 6,d        ; unset VRAM write bit in de
+--:   push bc
+        rst SetVRAMAddressToDE ; (for reading)
+        ld b,c
+        ld c,VDPData
+-:      ini        ; input from VRAM
+        push af    ; delay
+        pop af
+        jp nz,-
+        ex de,hl
+        ld bc,$0040
+        add hl,bc
+        ex de,hl   ; add $40 = 1 row to de
+      pop bc
+      djnz --
     pop de
     pop bc
     ei
@@ -9145,23 +9177,23 @@ _LoadSceneData:        ; $3e88
     ld a,(hl)          ; +1-2: palette offset
     inc hl
     push hl
-    ld h,(hl)
-        ld l,a         ; hl = offset
-    ld de,TargetPalette
-        ld bc,16
-        ldir           ; load palette
-    ld hl,SpritePaletteStart
-        ld c,8         ; and sprite palette
-    ldir
+      ld h,(hl)
+      ld l,a         ; hl = offset
+      ld de,TargetPalette
+      ld bc,16
+      ldir           ; load palette
+      ld hl,SpritePaletteStart
+      ld c,8         ; and sprite palette
+      ldir
     pop hl
     inc hl
     ld a,(hl)          ; +3-4: tiles
     inc hl
     push hl
-    ld h,(hl)
-        ld l,a         ; hl = offset
-        TileAddressDE 0
-    call LoadTiles4BitRLE
+      ld h,(hl)
+      ld l,a         ; hl = offset
+      TileAddressDE 0
+      call LoadTiles4BitRLE
     pop hl
     inc hl
 _LABEL_3EBA_:
@@ -9925,7 +9957,7 @@ IntroSequence:
     ld a,$02
     ld (ScrollScreens),a
 
-  -:ld a,$0e           ; VBlankFunction_OutsideScrolling
+-:  ld a,$0e           ; VBlankFunction_OutsideScrolling
     call ExecuteFunctionIndexAInNextVBlank
 
     ld a,(Controls)
@@ -9944,7 +9976,7 @@ IntroSequence:
 
     call Pause3Seconds
 
-  +:xor a              ; zero ScrollDirection and ScrollScreens
++:  xor a              ; zero ScrollDirection and ScrollScreens
     ld (ScrollDirection),a
     ld (ScrollScreens),a
     call FadeOutFullPalette
@@ -10304,8 +10336,8 @@ _LABEL_47B5_:
     jr -
 
 +:  push hl
-    ld (ControlsNew),a
-    call _LABEL_6891_
+      ld (ControlsNew),a
+      call _LABEL_6891_
     pop hl
     inc hl
     jr -
@@ -10368,7 +10400,7 @@ FadeToPictureFrame:      ; $48d7
 ; parameter: a = which picture to load and fade in
 FadeToNarrativePicture: ; $492c
     push af
-    call FadeOutTilePalette
+      call FadeOutTilePalette
     pop af
 
     ld l,a
@@ -10388,15 +10420,15 @@ FadeToNarrativePicture: ; $492c
     ld d,(hl)          ; +1-2: palette offset
     inc hl
     push hl
-    ex de,hl
-    ld de,TargetPalette
-        ld bc,16
-        ldir           ; load palette
-        TileAddressDE $100
-        call LoadTiles4BitRLE ; and tiles after it
+      ex de,hl
+      ld de,TargetPalette
+      ld bc,16
+      ldir           ; load palette
+      TileAddressDE $100
+      call LoadTiles4BitRLE ; and tiles after it
 
-    ld hl,Frame2Paging
-    ld (hl),NarrativeTilemaps
+      ld hl,Frame2Paging
+      ld (hl),NarrativeTilemaps
     pop hl
     ld a,(hl)          ; +3-4: Tilemap offset
     inc hl
@@ -10938,7 +10970,7 @@ SpacePortsAreClosed:
     call HaveItem
     ret nz
     push bc
-    call RemoveItemFromInventory
+      call RemoveItemFromInventory
     pop bc
     ld hl,$01A0
     ; WE ARE CONFISCATING YOUR PASSPORT.<end>
@@ -11218,14 +11250,14 @@ _room_36_PaseoMyauSeller: ; $4E6D:
     call HaveItem
     jr nz,+
     push hl
-    ld hl,$0096
+      ld hl,$0096
       ; Say... That’s a real unusual pot you got there... ...is 'dat a ‘Laconian Pot’?! How ‘bout I give you da animal, you give me the pot? Whuddayuhsay?
-    call DrawText20x6
-    call DoYesNoMenu
+      call DrawText20x6
+      call DoYesNoMenu
     pop hl
     jr nz,+
     push bc
-      call $28db; RemoveItemFromInventory
+      call RemoveItemFromInventory
     pop bc
     ld hl,$009A
     ; Alri---ght, there yuh go. Take good care uv‘im.
@@ -11323,15 +11355,15 @@ _room_37_GovernorGeneral: ; $4ED0:
     ; Preserve all stats as it's just a dream...
     ld a,(CharacterStatsAlis)
     push af
-    ld a,(CharacterStatsMyau)
-    push af
-    ld a,(CharacterStatsOdin)
-    push af
-    call _LABEL_116B_
-    pop af
-    ld (CharacterStatsOdin),a
-    pop af
-    ld (CharacterStatsMyau),a
+      ld a,(CharacterStatsMyau)
+      push af
+        ld a,(CharacterStatsOdin)
+        push af
+          call _LABEL_116B_
+        pop af
+        ld (CharacterStatsOdin),a
+      pop af
+      ld (CharacterStatsMyau),a
     pop af
     ld (CharacterStatsAlis),a
     call FadeOutFullPalette
@@ -11409,7 +11441,7 @@ _room_3c_GothicWoods1:
     jr nz,+
     ; Have one
     push bc
-    call RemoveItemFromInventory
+      call RemoveItemFromInventory
     pop bc
     ld hl,$00BC
     ; Thanks. This place used to be the lab of a scientist named ‘Luveno’. But he turned crazy, see, and got locked up in Toriada, the prison to the South of this village.
@@ -12374,7 +12406,7 @@ _room_9b_561F:
     call HaveItem
     jr nz,+
     push bc
-    call RemoveItemFromInventory
+      call RemoveItemFromInventory
     pop bc
     ld a,$FF
     ld (HaveGivenShortcake),a
@@ -12450,7 +12482,7 @@ _room_9d_Tajim: ; $5690:
     ; Ah. My student, Lutz! I see you are finally on your way to defeating LaShiec.
     call DrawText20x6
     ; Check if Lutz is dead
-    ld a,(CharacterStatsLutz)
+    ld a,(CharacterStatsLutz.IsAlive)
     or a
     jr nz,+
     ld hl,$02A8
@@ -12461,28 +12493,28 @@ _room_9d_Tajim: ; $5690:
     call DrawText20x6
     call Close20x6TextBox
     ; Preserve Lutz' HP but everyone else's IsAlive, to make a Lutz-only fight
-    ld a,(CharacterStatsLutz+1) ; HP
+    ld a,(CharacterStatsLutz.HP) ; HP
     push af
-    ld a,(CharacterStatsAlis)
-    push af
-    ld a,(CharacterStatsMyau)
-    push af
-    ld a,(CharacterStatsOdin)
-    push af
-    xor a
-    ld (CharacterStatsAlis),a
-    ld (CharacterStatsMyau),a
-    ld (CharacterStatsOdin),a
-    call _LABEL_116B_
-    pop af
-    ld (CharacterStatsOdin),a
-    pop af
-    ld (CharacterStatsMyau),a
-    pop af
-    ld (CharacterStatsAlis),a
+      ld a,(CharacterStatsAlis.IsAlive)
+      push af
+        ld a,(CharacterStatsMyau.IsAlive)
+        push af
+          ld a,(CharacterStatsOdin.IsAlive)
+          push af
+            xor a
+            ld (CharacterStatsAlis.IsAlive),a
+            ld (CharacterStatsMyau.IsAlive),a
+            ld (CharacterStatsOdin.IsAlive),a
+            call _LABEL_116B_
+          pop af
+          ld (CharacterStatsOdin.IsAlive),a
+        pop af
+        ld (CharacterStatsMyau.IsAlive),a
+      pop af
+      ld (CharacterStatsAlis.IsAlive),a
     pop af
     ld b,a ; Lutz' HP before
-    ld a,(CharacterStatsLutz+1) ; Lutz' HP now
+    ld a,(CharacterStatsLutz.HP) ; Lutz' HP now
     or a
     jr nz,+
     ; Lutz' HP s 0
@@ -12940,12 +12972,12 @@ SpriteHandler:         ; $59e6
     ld (NextSpriteX),hl ; Set NextSpriteX to first entry
     ld iy,CharacterSpriteAttributes
     ld bc,$0800        ; b = 8, c = 0
-  -:ld a,(iy+$00)      ; CharacterSpriteAttributes+00 = ???
+-:  ld a,(iy+$00)      ; CharacterSpriteAttributes+00 = ???
     and $7f            ; strip high bit
     jr z,+             ; if rest is 0 then skip -------------------------+
     push bc            ;                                                 |
-    ld hl,_DATA_5AA3_ - 2
-        call FunctionLookup ;                                            |
+      ld hl,_DATA_5AA3_ - 2
+      call FunctionLookup ;                                              |
     pop bc             ;                                                 |
     or a               ; if result == 0 then skip again -----------------+
     jp z,+             ;                                                 |
@@ -12956,19 +12988,19 @@ SpriteHandler:         ; $59e6
     ld (hl),c          ; 0?                                              |
     inc hl             ;                                                 |
     ld (_RAM_C287_),hl
-  +:ld de,32           ;                                 <---------------+
++:  ld de,32           ;                                 <---------------+
     add iy,de          ; Move iy to next CharacterSpriteAttributes
     inc c              ; and inc c
     djnz -             ; repeat 8 times???
 
     ld de,_RAM_c289_        ; Sort _RAM_c289_ into increasing numerical order by 1st byte in each entry (?)
     ld b,3             ; counter
- --:push bc            ; <-----------------------------+
+--: push bc            ; <-----------------------------+
         ld l,e         ; hl = de                       |
         ld h,d         ;                               |
         inc hl         ; hl = de+2                     |
         inc hl         ;                               |
-      -:ld a,(de)      ; <---------------------------+ |
+-:      ld a,(de)      ; <---------------------------+ |
         cp (hl)        ;                             | |
         jr nc,+        ; if lowbyte(de)<lowbyte(hl): | |
         ld c,a         ;                             | |
@@ -12984,7 +13016,7 @@ SpriteHandler:         ; $59e6
         ld (de),a      ;                             | |
         dec hl         ;                             | |
         dec de         ;                             | |
-      +:inc hl         ; move hl forward 1 word      | |
++:      inc hl         ; move hl forward 1 word      | |
         inc hl         ;                             | |
         djnz -         ; repeat 3 times -------------+ |
         inc de         ; then move de forward 1 word   |
@@ -12994,33 +13026,33 @@ SpriteHandler:         ; $59e6
 
     ld hl,SceneType
     ld b,8             ; counter (number of entries in _RAM_c289_)
-  -:ld a,(hl)          ; If (hl)==$ff then skip:
+-:  ld a,(hl)          ; If (hl)==$ff then skip:
     cp $FF
     jr z,++
     push bc
     push hl
-    ld l,a
-    ld h,$00
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ld de,CharacterSpriteAttributes
-    add hl,de
-    push hl
-        pop iy         ; iy = CharacterSpriteAttributes + value*32
-        cp 4           ; Compare value to 4
-        ld a,:CharacterSpriteData
-        ld bc,CharacterSpriteData
-        jr c,+         ; if value>=4:
-        ld a,:EnemySpriteDataTable
-        ld bc,EnemySpriteDataTable
-      +:ld (Frame2Paging),a ; Set page
-        call UpdateSprites
+      ld l,a
+      ld h,$00
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      ld de,CharacterSpriteAttributes
+      add hl,de
+      push hl
+      pop iy         ; iy = CharacterSpriteAttributes + value*32
+      cp 4           ; Compare value to 4
+      ld a,:CharacterSpriteData
+      ld bc,CharacterSpriteData
+      jr c,+         ; if value>=4:
+      ld a,:EnemySpriteDataTable
+      ld bc,EnemySpriteDataTable
++:    ld (Frame2Paging),a ; Set page
+      call UpdateSprites
     pop hl
     pop bc
- ++:inc hl             ; Move to next entry in _RAM_c289_
+++: inc hl             ; Move to next entry in _RAM_c289_
     inc hl
     djnz -             ; and repeat
     ld hl,(NextSpriteY)
@@ -13063,20 +13095,20 @@ UpdateSprites:         ; $5acf
     ld l,a             ; hl = data there = pointer to byte
     ld b,(hl)          ; b = that byte = count
     push bc
-    inc hl
-    ld de,(NextSpriteY)
-        ld c,(iy+2)    ; Character sprites base Y position
--:  ld a,(hl)
-    add a,c
-        ld (de),a      ; set (de) to next byte + sprite base y
-    inc de
-    inc hl
-        djnz -         ; repeat
-        ld (NextSpriteY),de  ; Update NextSpriteY
+      inc hl
+      ld de,(NextSpriteY)
+      ld c,(iy+2)    ; Character sprites base Y position
+-:    ld a,(hl)
+      add a,c
+      ld (de),a      ; set (de) to next byte + sprite base y
+      inc de
+      inc hl
+      djnz -         ; repeat
+      ld (NextSpriteY),de  ; Update NextSpriteY
     pop bc
     ld de,(NextSpriteX)
     ld c,(iy+4)        ; Character sprites base X position
-  -:ld a,(hl)          ; repeat with x positions and tile numbers of sprites
+-:  ld a,(hl)          ; repeat with x positions and tile numbers of sprites
     add a,c
     ld (de),a          ; x position
     inc de
@@ -13128,8 +13160,8 @@ _LABEL_5C1B_:
     ld b,$01
 _LABEL_5C1D_:
     push bc
-    call ZeroIYStruct
-    inc (iy+0)
+      call ZeroIYStruct
+      inc (iy+0)
     pop bc
     ld (iy+2),$60      ; ???
     ld a,(_RAM_C2EA_)
@@ -13137,7 +13169,7 @@ _LABEL_5C1D_:
     ld a,$84           ; then a=$84
     jr nz,+
     ld a,$80           ; else a=$80
-  +:ld (iy+$04),a
++:  ld (iy+$04),a
     ld (iy+$12),$01
     ld (iy+$01),b      ; depends on lookup function
     ld (iy+$11),$01
@@ -13146,7 +13178,7 @@ _LABEL_5C1D_:
     ld a,$00
     jr nz,+
     ld a,$03
-  +:ld (iy+$0a),a
++:  ld (iy+$0a),a
     ld a,$FF
     ret
 .ends
@@ -13378,7 +13410,7 @@ _LABEL_5DAC_:
 _LABEL_5E03_:
     ld a,(iy+10)
     push af
-    call ZeroIYStruct
+      call ZeroIYStruct
     pop af
     inc (iy+0)
     ld hl,Frame2Paging
@@ -13527,8 +13559,8 @@ _LABEL_5F15_:
     inc a
     ld (iy+1),a
     push af
-    cp $42
-    call z,_LABEL_7E67_
+      cp $42
+      call z,_LABEL_7E67_
     pop af
     cp $43
     ret c
@@ -14016,7 +14048,7 @@ LoadEnemy:
     cp b               ;                               |
     jp nc,_b           ; get a random number <b        |
     inc a              ; add 1                         |
-  +:and $f             ; <-----------------------------+
++:  and $f             ; <-----------------------------+
     ld b,a             ; put it in b = number of enemies
     ld (NumEnemies),a  ; and in NumEnemies
     inc hl
@@ -14090,7 +14122,7 @@ LoadEnemy:
 .orga $6379
 .section "Load data from data8fdf" overwrite
 _LABEL_6379_:
-; loads ath data from structures at data8fdf
+; loads ath data from 24-byte structures at data8fdf
     ld l,a
     ld h,$00
     add hl,hl
@@ -14105,7 +14137,7 @@ _LABEL_6379_:
 
     ld de,_RAM_C880_
     ld bc,3
-    ldir               ; Copy 3 bytes from there to $c880
+    ldir               ; Copy 3 bytes from there to $c880 (then never used?)
 
     inc de             ; skip 1 byte
     ldi                ; and copy 1 more
@@ -14131,17 +14163,17 @@ _LABEL_6379_:
     ld a,(hl)          ; ah = next word
     inc hl
     push hl
-        ld h,(hl)      ; data: cbedah
-        ld l,c         ;       l
-        ld c,a         ;           c
-        ld a,h         ;            a
-        ld h,b         ;        h
-        ld b,a         ;            b
+      ld h,(hl)        ; data: cbedah
+      ld l,c           ;       l
+      ld c,a           ;           c
+      ld a,h           ;            a
+      ld h,b           ;        h
+      ld b,a           ;            b
                        ; hl = bc; bc = ah
-        or c           ; test c
-        ld a,$18       ; page for ???
-    ld (Frame2Paging),a
-        call nz,_DataCopier ; if c!=0 then call _DataCopier
+      or c             ; test c
+      ld a,$18         ; page for ???
+      ld (Frame2Paging),a
+      call nz,_DataCopier ; if c!=0 then call _DataCopier
     pop hl
     inc hl
 
@@ -14161,33 +14193,33 @@ _DataCopier:           ; $63d6
 ; Copies data from hl to de
 ; data format: fdd
 ; if f=0 then dd is skipped
-; parses b data blocks (? does ldi dec b?)
+; parses b data blocks
 ; then adds 64 to original value of de
 ; repeats c times
- --:push bc
-    push de
-    ld c,$FF
-          -:ld a,(hl)
-    or a
-            jp z,_skip
-            ldi        ; copy 2 bytes
-    ldi
-   _loopend:djnz -
-    pop de
-    ex de,hl
+--: push bc
+      push de
+        ld c,$FF ; Ensure ldi won't affect b
+-:      ld a,(hl)
+        or a
+        jp z,_skip
+        ldi        ; copy 2 bytes
+        ldi
+_loopend:djnz -
+      pop de
+      ex de,hl
         ld bc,64
-    add hl,bc
-        ex de,hl       ; de = de + 64
+        add hl,bc
+      ex de,hl       ; de = de + 64
     pop bc
     dec c              ; repeat c times
     jp nz,--
     ret
 _skip:
-    inc hl             ; skip 2 bytes
-    inc de
-    inc hl
-    inc de
-    jp _loopend
+        inc hl             ; skip 2 bytes
+        inc de
+        inc hl
+        inc de
+        jp _loopend
 .ends
 .orga $63f2
 
@@ -14271,7 +14303,7 @@ AnimCharacterSprites:  ; $6471
     ld (hl),:CharacterSprites
     ld ix,CharacterSpriteAttributes
     ld b,4             ; counter - only first 4
-  -:ld a,(ix+16)       ; if 16 bytes after (currentanimframe)
+-:  ld a,(ix+16)       ; if 16 bytes after (currentanimframe)
     cp (ix+17)         ; != 17 bytes after (lastanimframe)
     jp z,+             ; then:
     ld (ix+17),a           ; make it equal
@@ -14280,7 +14312,7 @@ AnimCharacterSprites:  ; $6471
     or a                   ; check for zero
     ld hl,_FunctionTable-2 ; -2 because 0 is not used
     jp nz,FunctionLookup
-  +:ld de,32           ; move to next data
++:  ld de,32           ; move to next data
     add ix,de
     djnz -
     ret
@@ -14433,7 +14465,7 @@ _CountAndAnimate:      ; $6586
     jr c,+
     dec (hl)           ; then decrement Counter
     jr ++
-  +:inc (hl)           ; else increment Counter
++:  inc (hl)           ; else increment Counter
 ++:  ld a,(hl)
     and %00000111
     ld l,a
@@ -14454,8 +14486,8 @@ _CountAndAnimate:      ; $6586
     rst SetVRAMAddressToDE
     ld c,VDPData
     ld a,b             ; counter = b = number of tiles
- --:ld b,$20           ; counter = 32 bytes = 1 tile
-  -:outi               ; output from hl to (c)
+--: ld b,$20           ; counter = 32 bytes = 1 tile
+-:  outi               ; output from hl to (c)
     nop                ; delay
     jp nz,-
     dec a
@@ -14607,29 +14639,29 @@ _AnimSeaInOut:         ; $6699       16 frame delay, 14 "frames" x 3x4 tiles
     ; fall through
 _DoAnimation:          ; $66be  hl = tile information looked up in table, b = number of 4 tile groups per frame
     push bc
-        ld e,(hl)      ; Get what was looked up = xx
-        ld d,$02       ; $02xx
-    ex de,hl
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    add hl,hl
-        ex de,hl       ; multiply by 32 -> VRAM address of tile number xx
-    rst SetVRAMAddressToDE
-    inc hl
-        ld d,(hl)      ; Get next data byte yy
-    inc hl
-    push hl
-    ld e,$00
-            srl d      ; yy*128
-    rr e
-            ld hl,TilesAnimSea ; raw tile data
-            add hl,de  ; TilesAnimSea + 128*yy
-            ld bc,$80be; b = $80 = 128 bytes; c = VDPData
-          -:outi       ; Output 128 bytes from table to VDPData (4 tiles)
-    jp nz,-
-    pop hl
+      ld e,(hl)      ; Get what was looked up = xx
+      ld d,$02       ; $02xx
+      ex de,hl
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      ex de,hl       ; multiply by 32 -> VRAM address of tile number xx
+      rst SetVRAMAddressToDE
+      inc hl
+      ld d,(hl)      ; Get next data byte yy
+      inc hl
+      push hl
+        ld e,$00
+        srl d      ; yy*128
+        rr e
+        ld hl,TilesAnimSea ; raw tile data
+        add hl,de  ; TilesAnimSea + 128*yy
+        ld bc,$80be; b = $80 = 128 bytes; c = VDPData
+-:      outi       ; Output 128 bytes from table to VDPData (4 tiles)
+        jp nz,-
+      pop hl
     pop bc
     djnz _DoAnimation
     ret
@@ -14660,35 +14692,35 @@ _AnimLavaPit:          ; $66e5        16 frame delay, 6 "frames" x (4x4 + 2x2) t
     rst SetVRAMAddressToDE
     ld b,$04           ; number of sets of tiles
 --: push bc
-        ld d,(hl)      ; get word which was looked up
-    inc hl
-    ld e,$00
-    srl d
-        rr e           ; Multiply by 128
-    ld bc,TilesBubblingStuff
-    ex de,hl
-    add hl,bc
-        ld bc,$80be    ; output 128 bytes (4 tiles) to VDPData
--:  outi
-    jp nz,-
+      ld d,(hl)      ; get word which was looked up
+      inc hl
+      ld e,$00
+      srl d
+      rr e           ; Multiply by 128
+      ld bc,TilesBubblingStuff
+      ex de,hl
+      add hl,bc
+      ld bc,$80be    ; output 128 bytes (4 tiles) to VDPData
+-:    outi
+      jp nz,-
     pop bc
     ex de,hl           ; get back hl = offset
     djnz --            ; loop
     ld b,$02           ; and 2 more seta of tiles...
 --: push bc
-        ld d,(hl)      ; get word which was looked up
-    inc hl
-    ld e,$00
-    srl d
-    rr e
-    srl d
-        rr e           ; multiply by 64
-        ld bc,TilesBubblingStuff ; add to BubblingStuffTiles
-    ex de,hl
-    add hl,bc
-        ld bc,$40be    ; output 64 bytes = 2 tiles
--:  outi
-    jp nz,-
+      ld d,(hl)      ; get word which was looked up
+      inc hl
+      ld e,$00
+      srl d
+      rr e
+      srl d
+      rr e           ; multiply by 64
+      ld bc,TilesBubblingStuff ; add to BubblingStuffTiles
+      ex de,hl
+      add hl,bc
+      ld bc,$40be    ; output 64 bytes = 2 tiles
+-:    outi
+      jp nz,-
     pop bc
     ex de,hl           ; get back hl = offset
     djnz --
@@ -14717,7 +14749,7 @@ _AnimateWaterPalette:  ; $6746
     ld hl,WaterPalette
     add hl,de          ; add to WaterPalette
     ld bc,$03be        ; counter = 3, VDPData
-  -:outi               ; output
+-:  outi               ; output
     jp nz,-
     ret
 
@@ -14744,7 +14776,7 @@ _AnimateUnknownPalette:; $6772
     ld hl,UnknownPalette
     add hl,de          ; add to UnknownPalette
     ld bc,$04be        ; counter = 4, VDPData
-  -:outi               ; output
+-:  outi               ; output
     jp nz,-
     ld hl,UnknownPalette+8
     add hl,de          ; and again (?)
@@ -14859,26 +14891,26 @@ _PitFall:
     ld (VScroll),a
     ld b,$0C
 -:  push bc
-    ld a,(VScroll)
-    add a,$10
-    ld (VScroll),a
-    ld a,$08
-    call ExecuteFunctionIndexAInNextVBlank
-    ld a,b
-    sub $0C
-    neg
-    ld c,$00
-    ld b,a
-    srl b
-    rr c
-    ld hl,$7800
-    add hl,bc
-    ex de,hl
-    ld hl,$00C0
-    ld bc,$0040
-    di
-    call FillVRAMWithHL
-    ei
+      ld a,(VScroll)
+      add a,$10
+      ld (VScroll),a
+      ld a,$08
+      call ExecuteFunctionIndexAInNextVBlank
+      ld a,b
+      sub $0C
+      neg
+      ld c,$00
+      ld b,a
+      srl b
+      rr c
+      ld hl,$7800
+      add hl,bc
+      ex de,hl
+      ld hl,$00C0
+      ld bc,$0040
+      di
+        call FillVRAMWithHL
+      ei
     pop bc
     djnz -
     ; Move down a floor
@@ -14901,27 +14933,27 @@ _PitFall:
     ld (VScroll),a
     ld b,$0C
 -:  push bc
-    ld a,(VScroll)
-    add a,$10
-    ld (VScroll),a
-    ld a,$08
-    call ExecuteFunctionIndexAInNextVBlank
-    ld a,b
-    sub $0C
-    neg
-    ld c,$00
-    ld b,a
-    srl b
-    rr c
-    ld hl,$7800
-    add hl,bc
-    ex de,hl
-    ld hl,TileMapData
-    add hl,bc
-    ld bc,$0080
-    di
-    call OutputToVRAM
-    ei
+      ld a,(VScroll)
+      add a,$10
+      ld (VScroll),a
+      ld a,$08
+      call ExecuteFunctionIndexAInNextVBlank
+      ld a,b
+      sub $0C
+      neg
+      ld c,$00
+      ld b,a
+      srl b
+      rr c
+      ld hl,$7800
+      add hl,bc
+      ex de,hl
+      ld hl,TileMapData
+      add hl,bc
+      ld bc,$0080
+      di
+        call OutputToVRAM
+      ei
     pop bc
     djnz -
     ld b,$05
@@ -15129,19 +15161,19 @@ _LABEL_6ABE_:
     ld l,$00
     ld b,$03
 --: push bc
--:  push hl
-    ld a,h
-    call _LABEL_70EF_
-    ld a,$0C
-    call ExecuteFunctionIndexAInNextVBlank
-    pop hl
-    ld a,h
-    ld bc,$0040
-    add hl,bc
-    cp h
-    jr z,-
-    inc h
-    inc h
+-:    push hl
+        ld a,h
+        call _LABEL_70EF_
+        ld a,$0C
+        call ExecuteFunctionIndexAInNextVBlank
+      pop hl
+      ld a,h
+      ld bc,$0040
+      add hl,bc
+      cp h
+      jr z,-
+      inc h
+      inc h
     pop bc
     djnz --
     xor a
@@ -15254,24 +15286,24 @@ _LABEL_6B5F_:
     cp $FF
     jr nz,_LABEL_6BEA_
     push hl
-    call FadeOutFullPalette
-    ld hl,Frame2Paging
-    ld (hl),$09
-    ld hl,_DATA_27471_
-    ld de,$4000
-    call LoadTiles4BitRLE
-    ld hl,_DATA_27130_
-    call DecompressToTileMapData
-    ld a,$0F
-    ld (SceneType),a
-    xor a
-    ld (TargetPalette+16),a
+      call FadeOutFullPalette
+      ld hl,Frame2Paging
+      ld (hl),$09
+      ld hl,_DATA_27471_
+      ld de,$4000
+      call LoadTiles4BitRLE
+      ld hl,_DATA_27130_
+      call DecompressToTileMapData
+      ld a,$0F
+      ld (SceneType),a
+      xor a
+      ld (TargetPalette+16),a
 _LABEL_6BC0_:
-    ld a,$0C
-    call ExecuteFunctionIndexAInNextVBlank
-    call FadeInWholePalette
--:  ld hl,Frame2Paging
-    ld (hl),$03
+      ld a,$0C
+      call ExecuteFunctionIndexAInNextVBlank
+      call FadeInWholePalette
+-:    ld hl,Frame2Paging
+      ld (hl),$03
     pop hl
     inc hl
     inc hl
@@ -15289,19 +15321,19 @@ _LABEL_6BC0_:
 
 _LABEL_6BEA_:
     push hl
-    push af
-    call FadeOutFullPalette
-    pop af
-    ld c,$0D
-    cp $FE
-    jr z,+
-    ld c,$1E
-    cp $FD
-    jr nz,-
-+:  ld a,c
-    ld (SceneType),a
-    call LoadSceneData
-    jp _LABEL_6BC0_
+      push af
+        call FadeOutFullPalette
+      pop af
+      ld c,$0D
+      cp $FE
+      jr z,+
+      ld c,$1E
+      cp $FD
+      jr nz,-
++:    ld a,c
+      ld (SceneType),a
+      call LoadSceneData
+      jp _LABEL_6BC0_
 
 _LABEL_6C06_:
     call DungeonGetRelativeSquare
@@ -15577,14 +15609,14 @@ _LABEL_6DDD_:
     ld hl,_DATA_7305_
     add hl,de
     push bc
-    ld a,(hl)
-    ld (Frame2Paging),a
-    inc hl
-    ld a,(hl)
-    inc hl
-    ld h,(hl)
-    ld l,a
-    call DecompressToTileMapData
+      ld a,(hl)
+      ld (Frame2Paging),a
+      inc hl
+      ld a,(hl)
+      inc hl
+      ld h,(hl)
+      ld l,a
+      call DecompressToTileMapData
     pop bc
     jp _LABEL_6EE9_
 
@@ -15612,7 +15644,7 @@ DecompressToTileMapData:
 _rle:                  ; else:                               | |
     ld c,a             ; put it in c -> bc = data count      | |
     inc hl             ; move hl pointer to next byte (data) | |
-  -:ldi                ; copy 1 byte from hl to de, <------+ | |
+-:  ldi                ; copy 1 byte from hl to de, <------+ | |
                        ; inc hl, inc de, dec bc            | | |
     dec hl             ; move hl pointer back (RLE)        | | |
     inc de             ; skip dest byte                    | | |
@@ -15620,10 +15652,10 @@ _rle:                  ; else:                               | |
     inc hl             ; move past RLE'd byte                | |
     jp _b              ; repeat -----------------------------|-+
 _raw:                  ;                                     | |
-  +:and $7f            ; (if bit 8 is set:) unset it <-------+ |
++:  and $7f            ; (if bit 8 is set:) unset it <-------+ |
     ld c,a             ; put it in c -> bc = data count        |
     inc hl             ; move hl pointer to next byte (data)   |
-  -:ldi                ; copy 1 byte from hl to de, <--------+ |
+-:  ldi                ; copy 1 byte from hl to de, <--------+ |
                        ; inc hl, inc de, dec bc              | |
     inc de             ; skip dest byte                      | |
     jp pe,-            ; if bc!=0 then repeat ---------------+ |
@@ -15785,9 +15817,9 @@ _LABEL_6EE9_:
     ld c,(hl)
     inc hl
     push bc
-    call _LABEL_6FD7_
-    ld b,$03
-    call _LABEL_6E6D_
+      call _LABEL_6FD7_
+      ld b,$03
+      call _LABEL_6E6D_
     pop bc
     jp _LABEL_6FD7_
 
@@ -15800,9 +15832,9 @@ _LABEL_6EE9_:
     ld c,(hl)
     inc hl
     push bc
-    call _LABEL_6FE8_
-    ld b,$03
-    call _LABEL_6E6D_
+      call _LABEL_6FE8_
+      ld b,$03
+      call _LABEL_6E6D_
     pop bc
     call _LABEL_6FE8_
     ld b,$07
@@ -15816,9 +15848,9 @@ _LABEL_6EE9_:
     ld c,(hl)
     inc hl
     push bc
-    call _LABEL_6FD7_
-    ld b,$06
-    call _LABEL_6E6D_
+      call _LABEL_6FD7_
+      ld b,$06
+      call _LABEL_6E6D_
     pop bc
     jp _LABEL_6FD7_
 
@@ -15831,9 +15863,9 @@ _LABEL_6EE9_:
     ld c,(hl)
     inc hl
     push bc
-    call _LABEL_6FE8_
-    ld b,$06
-    call _LABEL_6E6D_
+      call _LABEL_6FE8_
+      ld b,$06
+      call _LABEL_6E6D_
     pop bc
     call _LABEL_6FE8_
     ld b,$0A
@@ -15847,9 +15879,9 @@ _LABEL_6EE9_:
     ld c,(hl)
     inc hl
     push bc
-    call _LABEL_6FD7_
-    ld b,$09
-    call _LABEL_6E6D_
+      call _LABEL_6FD7_
+      ld b,$09
+      call _LABEL_6E6D_
     pop bc
     jp _LABEL_6FD7_
 
@@ -15862,15 +15894,15 @@ _LABEL_6EE9_:
     ld c,(hl)
     inc hl
     push bc
-    call _LABEL_6FE8_
-    ld b,$09
-    call _LABEL_6E6D_
+      call _LABEL_6FE8_
+      ld b,$09
+      call _LABEL_6E6D_
     pop bc
     jp _LABEL_6FE8_
 
 _LABEL_6FB6_:
     push af
-    call +
+      call +
     pop af
     cp $07
     jr z,+
@@ -15888,9 +15920,9 @@ _LABEL_6FB6_:
     ld a,(hl)
     inc hl
     push hl
-    ld h,(hl)
-    ld l,a
-    call nz,_LABEL_7107_
+      ld h,(hl)
+      ld l,a
+      call nz,_LABEL_7107_
     pop hl
     inc hl
     ret
@@ -15905,9 +15937,9 @@ _LABEL_6FD7_:
     ld a,(hl)
     inc hl
     push hl
-    ld h,(hl)
-    ld l,a
-    call z,_LABEL_7107_
+      ld h,(hl)
+      ld l,a
+      call z,_LABEL_7107_
     pop hl
     inc hl
     ret
@@ -15920,9 +15952,9 @@ _LABEL_6FE8_:
     ld a,(hl)
     inc hl
     push hl
-    ld h,(hl)
-    ld l,a
-    call z,_LABEL_7107_
+      ld h,(hl)
+      ld l,a
+      call z,_LABEL_7107_
     pop hl
     inc hl
     inc hl
@@ -16054,21 +16086,21 @@ _70a1:
     ld b,(hl)
     inc hl
 --: push bc
-    ld e,(hl)
-    inc hl
-    ld d,(hl)
-    inc hl
-    ld b,(hl)
-    inc hl
--:  ld a,(hl)
-    add a,$80
-    cp $C0
-    jr c,+
-    ld (de),a
-+:  inc de
-    inc de
-    inc hl
-    djnz -
+      ld e,(hl)
+      inc hl
+      ld d,(hl)
+      inc hl
+      ld b,(hl)
+      inc hl
+-:    ld a,(hl)
+      add a,$80
+      cp $C0
+      jr c,+
+      ld (de),a
++:    inc de
+      inc de
+      inc hl
+      djnz -
     pop bc
     djnz --
     ret
@@ -16102,14 +16134,14 @@ _LABEL_70EF_:
     ld bc,$1218
 _LABEL_7107_:
     push bc
-    push de
-    ld b,$00
-    ldir
-    ex de,hl
-    pop hl
-    ld bc,$0040
-    add hl,bc
-    ex de,hl
+      push de
+        ld b,$00
+        ldir
+        ex de,hl
+      pop hl
+      ld bc,$0040
+      add hl,bc
+      ex de,hl
     pop bc
     djnz _LABEL_7107_
     ret
@@ -16183,7 +16215,7 @@ _LABEL_73E6_:
     push bc
     push de
     push hl
-    call +
+      call +
     pop hl
     pop de
     pop bc
@@ -16341,29 +16373,29 @@ DecompressScrollingTilemapData:
     ld a,(hl)          ;    = pos
     inc hl
     push hl
-    ld h,(hl)
-        ld l,a         ; hl = word there (pos+0,1) = compressed data offset
-    ld de,_RAM_CC00_
-        call _DecompressToDE
+      ld h,(hl)
+      ld l,a         ; hl = word there (pos+0,1) = compressed data offset
+      ld de,_RAM_CC00_
+      call _DecompressToDE
     pop hl
     push hl
-    inc hl
-    ld a,(hl)
-    inc hl
-    ld h,(hl)
-        ld l,a         ; hl = next word (pos+2,3) = next compressed data offset
-    ld de,_RAM_CD00_
-        call _DecompressToDE
+      inc hl
+      ld a,(hl)
+      inc hl
+      ld h,(hl)
+      ld l,a         ; hl = next word (pos+2,3) = next compressed data offset
+      ld de,_RAM_CD00_
+      call _DecompressToDE
     pop hl
     ld de,17
     add hl,de
     ld a,(hl)
     inc hl
     push hl
-    ld h,(hl)
-        ld l,a         ; hl = 17 bytes later = pos+20,21
-    ld de,_RAM_CE00_
-        call _DecompressToDE
+      ld h,(hl)
+      ld l,a         ; hl = 17 bytes later = pos+20,21
+      ld de,_RAM_CE00_
+      call _DecompressToDE
     pop hl
     inc hl
     ld a,(hl)
@@ -16374,19 +16406,19 @@ DecompressScrollingTilemapData:
     ; fall through
 _DecompressToDE:
     ld b,$00
- --:ld a,(hl)          ; get header <--------------------------+
+--: ld a,(hl)          ; get header <--------------------------+
     or a               ;                                       |
     ret z              ; exit when zero                        |
     jp m,+             ; If high bit is set ----------------+  |
     ld b,a             ; b = count                          |  |
     inc hl             ;                                    |  |
     ld a,(hl)          ; get data                           |  |
-  -:ld (de),a          ; copy to de  <-----------+          |  |
+-:  ld (de),a          ; copy to de  <-----------+          |  |
     inc de             ; (RLE)                   |          |  |
     djnz -             ; repeat b times ---------+          |  |
     inc hl             ; move to next header                |  |
     jp --              ; -----------------------------------|--+
-  +:and $7f            ; Strip high bit --------------------+  |
++:  and $7f            ; Strip high bit --------------------+  |
     ld c,a             ; c = count                             |
     inc hl             ; next data                             |
     ldir               ; copy c bytes to de (not RLE)          |
@@ -16447,45 +16479,45 @@ _LABEL_7549_:
     inc h
 +:  ld b,$0E
 -:  push bc
-    push hl
-    ld l,(hl)
-    ld h,$10
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ldi
-    ldi
-    ldi
-    ldi
-    ld a,$3C
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-    ld d,a
-    ldi
-    ldi
-    ldi
-    ldi
-    pop hl
-    ld a,$10
-    add a,l
-    cp $C0
-    jr c,+
-    sub $C0
-    inc h
-    inc h
-+:  ld l,a
-    ld a,$3C
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-    sub $D7
-    jr nc,+
-    add a,$07
-+:  add a,$D0
-    ld d,a
+      push hl
+        ld l,(hl)
+        ld h,$10
+        add hl,hl
+        add hl,hl
+        add hl,hl
+        ldi
+        ldi
+        ldi
+        ldi
+        ld a,$3C
+        add a,e
+        ld e,a
+        adc a,d
+        sub e
+        ld d,a
+        ldi
+        ldi
+        ldi
+        ldi
+      pop hl
+      ld a,$10
+      add a,l
+      cp $C0
+      jr c,+
+      sub $C0
+      inc h
+      inc h
++:    ld l,a
+      ld a,$3C
+      add a,e
+      ld e,a
+      adc a,d
+      sub e
+      sub $D7
+      jr nc,+
+      add a,$07
++:    add a,$D0
+      ld d,a
     pop bc
     djnz -
     ret
@@ -16546,45 +16578,45 @@ _LABEL_75DD_:
 +:  ld h,a
     ld b,$10
 -:  push bc
-    push hl
-    ld l,(hl)
-    ld h,$10
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ldi
-    ldi
-    ldi
-    ldi
-    push de
-    ld a,$3C
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-    ld d,a
-    ldi
-    ldi
-    ldi
-    ldi
-    pop de
-    ld a,e
-    and $3F
-    jr nz,+
-    ld a,e
-    sub $40
-    ld e,a
-+:  pop hl
-    ld a,l
-    and $F0
-    ld b,a
-    inc l
-    ld a,l
-    and $F0
-    cp b
-    jr z,+
-    inc h
-    ld l,b
+      push hl
+        ld l,(hl)
+        ld h,$10
+        add hl,hl
+        add hl,hl
+        add hl,hl
+        ldi
+        ldi
+        ldi
+        ldi
+        push de
+          ld a,$3C
+          add a,e
+          ld e,a
+          adc a,d
+          sub e
+          ld d,a
+          ldi
+          ldi
+          ldi
+          ldi
+        pop de
+        ld a,e
+        and $3F
+        jr nz,+
+        ld a,e
+        sub $40
+        ld e,a
++:    pop hl
+      ld a,l
+      and $F0
+      ld b,a
+      inc l
+      ld a,l
+      and $F0
+      cp b
+      jr z,+
+      inc h
+      ld l,b
 +:  pop bc
     djnz -
     ret
@@ -16622,21 +16654,21 @@ _Horizontal:
     ld h,$d0           ; hl = TileMapData + (low HLocation+ c)/4
     ld bc,$1cbe        ; counter = $1c = 28 rows; c = VDPData
 -:  push bc
-    rst SetVRAMAddressToDE
-        nop            ; delay
-    nop
-    nop
-        outi           ; output byte
-        nop            ; delay
-    nop
-    nop
-        outi           ; output second byte
-        ld bc,31*2     ; add 62 = 31 tiles to hl (tilemap in RAM)
-    add hl,bc
-        ex de,hl       ; add 64 = 32 tiles to de (tilemap in VDP)
-        ld c,32*2
-    add hl,bc
-    ex de,hl
+      rst SetVRAMAddressToDE
+      nop            ; delay
+      nop
+      nop
+      outi           ; output byte
+      nop            ; delay
+      nop
+      nop
+      outi           ; output second byte
+      ld bc,31*2     ; add 62 = 31 tiles to hl (tilemap in RAM)
+      add hl,bc
+      ex de,hl       ; add 64 = 32 tiles to de (tilemap in VDP)
+      ld c,32*2
+      add hl,bc
+      ex de,hl
     pop bc
     djnz -
     ret
@@ -16650,9 +16682,9 @@ _Vertical:
     cp $20             ; if VScroll>=$20
     jr c,+
     add a,$20          ; then a+=$20
-  +:ld b,$c0           ; b = $c0
++:  ld b,$c0           ; b = $c0
     add a,b            ; a = VScroll + $c0 + ($20 if VScroll>=$20)
- ++:and %11111000      ; zero low 3 bits -> now it's the offset into the RAM tilemap
+++: and %11111000      ; zero low 3 bits -> now it's the offset into the RAM tilemap
     ld l,a             ; put in hl
     ld h,$00
     add hl,hl          ; multiply by 8
@@ -16667,7 +16699,7 @@ _Vertical:
     add a,$D0
     ld h,a             ; hl = TileMapData + a*8
     ld bc,$40be        ; counter = $40 = 64 bytes = 32 tiles; c = VDPData
-  -:outi               ; output byte
+-:  outi               ; output byte
     nop                ; delay
     jp nz,-
     ret
@@ -16710,71 +16742,71 @@ FillTilemap:          ; $76ee
     ld h,$cc           ; hl = $ccyn where y = high nibble of y location, x = high nibble of x location
 
     ld b,$0c           ; counter (12)
- --:push bc
-    push hl
-            ld b,$10   ; counter (16)
--:  push bc
-    push hl
-    ld l,(hl)
-    ld h,$10
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ldi
-    ldi
-    ldi
-                    ldi                ; copy 4 bytes from $8000 + 8*(hl) to de
-    push de
-                        ld a,$3c       ; 60
-    add a,e
-    ld e,a
-    adc a,d
-    sub e
-                        ld d,a         ; de = de + 60
-    ldi
-    ldi
-    ldi
-                        ldi            ; Copy another 4 bytes to there
-    pop de
-    ld a,e
-    and $3F
-                    jr nz,+            ; If e is a multiple of $40
-    ld a,e
-                    sub $40            ; then subtract $40
-    ld e,a
-+:  pop hl
-    ld a,l
-    and $F0
-                ld b,a                 ; b = high nibble of l
-    inc l
-    ld a,l
-    and $F0
-                cp b                   ; if adding 1 doesn't change the high nibble (so low=$f???)
-    jr z,+
-                inc h                  ; inc h
-                ld l,b                 ; and strip l to high nibble
-+:  pop bc
-            djnz -     ; repeat 16 times
+--: push bc
+      push hl
+        ld b,$10   ; counter (16)
+-:      push bc
+          push hl
+            ld l,(hl)
+            ld h,$10
+            add hl,hl
+            add hl,hl
+            add hl,hl
+            ldi
+            ldi
+            ldi
+            ldi                ; copy 4 bytes from $8000 + 8*(hl) to de
+            push de
+              ld a,$3c       ; 60
+              add a,e
+              ld e,a
+              adc a,d
+              sub e
+              ld d,a         ; de = de + 60
+              ldi
+              ldi
+              ldi
+              ldi            ; Copy another 4 bytes to there
+            pop de
+            ld a,e
+            and $3F
+            jr nz,+            ; If e is a multiple of $40
+            ld a,e
+            sub $40            ; then subtract $40
+            ld e,a
++:        pop hl
+          ld a,l
+          and $F0
+          ld b,a                 ; b = high nibble of l
+          inc l
+          ld a,l
+          and $F0
+          cp b                   ; if adding 1 doesn't change the high nibble (so low=$f???)
+          jr z,+
+          inc h                  ; inc h
+          ld l,b                 ; and strip l to high nibble
++:      pop bc
+        djnz -     ; repeat 16 times
 
-    ld a,$80
-    add a,e
-    ld e,a
-    adc a,d
-            sub e      ; de = de + $80
-            sub $d7    ; if de < $d700
-    jr nc,+
-            add a,$07  ; then subtract $d000
-          +:add a,$d0  ; else subtract $0700
-    ld d,a
-    pop hl
-        ld a,$10       ; add 16 to l
-    add a,l
-        cp $c0         ; when it e_RAM_ceed_s 192
-    jr c,+
-        sub $c0        ; subtract 192
-        inc h          ; and add 2 to h
-    inc h
-+:  ld l,a
+        ld a,$80
+        add a,e
+        ld e,a
+        adc a,d
+        sub e      ; de = de + $80
+        sub $d7    ; if de < $d700
+        jr nc,+
+        add a,$07  ; then subtract $d000
++:      add a,$d0  ; else subtract $0700
+        ld d,a
+      pop hl
+      ld a,$10       ; add 16 to l
+      add a,l
+      cp $c0         ; when it e_RAM_ceed_s 192
+      jr c,+
+      sub $c0        ; subtract 192
+      inc h          ; and add 2 to h
+      inc h
++:    ld l,a
     pop bc
     djnz --            ; repeat 12 times
     ld a,$12           ; refresh full tilemap
@@ -16785,92 +16817,92 @@ FillTilemap:          ; $76ee
 _LABEL_7787_:
     push bc
     push hl
-    ld c,a
-    ld a,(_RAM_C2E9_)
-    or a
-    jr nz,+
-    ld a,(VehicleMovementFlags)
-    or a
-    jr nz,++
-    ld b,$00
-    ld hl,_DATA_7CC6_ - 2
-    add hl,bc
-    ld a,(hl)
-    call GetLocationUnknownData
-    and $01
+      ld c,a
+      ld a,(_RAM_C2E9_)
+      or a
+      jr nz,+
+      ld a,(VehicleMovementFlags)
+      or a
+      jr nz,++
+      ld b,$00
+      ld hl,_DATA_7CC6_ - 2
+      add hl,bc
+      ld a,(hl)
+      call GetLocationUnknownData
+      and $01
     pop hl
     pop bc
     ret
 
-+:  xor a
++:    xor a
     pop hl
     pop bc
     ret
 
-++:  cp $04
-    jr nz,++
-    push de
-    ld b,$00
-    ld hl,$7CCE
-    add hl,bc
-    ex de,hl
-    ld a,(de)
-    call GetLocationUnknownData
-    and $01
-    jr nz,+
-    inc de
-    ld a,(de)
-    call GetLocationUnknownData
-    and $01
-+:  pop de
+++:   cp $04
+      jr nz,++
+      push de
+        ld b,$00
+        ld hl,$7CCE
+        add hl,bc
+        ex de,hl
+        ld a,(de)
+        call GetLocationUnknownData
+        and $01
+        jr nz,+
+        inc de
+        ld a,(de)
+        call GetLocationUnknownData
+        and $01
++:    pop de
     pop hl
     pop bc
     ret
 
-++:  cp $08
-    jr nz,++
-    push de
-    ld b,$00
-    ld hl,$7CCE
-    add hl,bc
-    ex de,hl
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0A
-    jr nz,+
-    inc de
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0A
-+:  pop de
+++:   cp $08
+      jr nz,++
+      push de
+        ld b,$00
+        ld hl,$7CCE
+        add hl,bc
+        ex de,hl
+        ld a,(de)
+        call GetLocationUnknownData
+        and $0A
+        jr nz,+
+        inc de
+        ld a,(de)
+        call GetLocationUnknownData
+        and $0A
++:    pop de
     pop hl
     pop bc
     ret
 
-++:  push de
-    ld b,$00
-    ld hl,$7CCE
-    add hl,bc
-    ld e,b
-    ld a,(hl)
-    inc hl
-    ld d,(hl)
-    call ++
-    and $01
-    ld c,a
-    ld a,d
-    ld d,c
-    call ++
-    and $01
-    or d
-    push af
-    ld a,e
-    or a
-    jr z,+
-    ld a,$B7
-    ld (NewMusic),a
-+:  pop af
-    pop de
+++:   push de
+        ld b,$00
+        ld hl,$7CCE
+        add hl,bc
+        ld e,b
+        ld a,(hl)
+        inc hl
+        ld d,(hl)
+        call ++
+        and $01
+        ld c,a
+        ld a,d
+        ld d,c
+        call ++
+        and $01
+        or d
+        push af
+          ld a,e
+          or a
+          jr z,+
+          ld a,$B7
+          ld (NewMusic),a
++:      pop af
+      pop de
     pop hl
     pop bc
     ret
@@ -16913,45 +16945,45 @@ _LABEL_7787_:
     jr nc,_LABEL_788B_
     ld (hl),$D7
     push de
-    ld a,(VScroll)
-    add a,c
-    jr nc,+
-    add a,$20
-+:  cp $E0
-    jr c,+
-    add a,$20
-+:  and $F0
-    ld l,a
-    ld h,$00
-    add hl,hl
-    add hl,hl
-    add hl,hl
-    ld a,(HLocation)
-    add a,b
-    rrca
-    rrca
-    and $3C
-    add a,l
-    ld e,a
-    ld a,h
-    add a,$78
-    ld d,a
-    ld hl,_DATA_7D5C_
-    di
-    ld bc, $0200 | VDPData
---: push bc
-    rst SetVRAMAddressToDE
-    ld b,$04
--:  outi
-    nop
-    jp nz,-
-    ex de,hl
-    ld bc,$0040
-    add hl,bc
-    ex de,hl
-    pop bc
-    djnz --
-    ei
+      ld a,(VScroll)
+      add a,c
+      jr nc,+
+      add a,$20
++:    cp $E0
+      jr c,+
+      add a,$20
++:    and $F0
+      ld l,a
+      ld h,$00
+      add hl,hl
+      add hl,hl
+      add hl,hl
+      ld a,(HLocation)
+      add a,b
+      rrca
+      rrca
+      and $3C
+      add a,l
+      ld e,a
+      ld a,h
+      add a,$78
+      ld d,a
+      ld hl,_DATA_7D5C_
+      di
+        ld bc, $0200 | VDPData
+--:     push bc
+          rst SetVRAMAddressToDE
+          ld b,$04
+-:        outi
+          nop
+          jp nz,-
+          ex de,hl
+          ld bc,$0040
+          add hl,bc
+          ex de,hl
+        pop bc
+        djnz --
+      ei
     pop de
     ld a,$D7
     ld e,a
@@ -17002,10 +17034,10 @@ _LABEL_78A5_:
     jr c,+
     cp $c0             ; if a is between $c0 and $ff then it's OK (?)
     jr c,++
-  +:add a,$40          ; if a is >=$100 (borrow) then add $40
++:  add a,$40          ; if a is >=$100 (borrow) then add $40
     inc h
     inc h              ; and add 2 to h -> $ce
- ++:and $f0            ; Strip a to high nibble
+++: and $f0            ; Strip a to high nibble
     ld l,a             ; -> l
     ld a,(HLocation)
     add a,b            ; Add b to lo(HLocation)
@@ -17031,29 +17063,29 @@ _LABEL_78A5_:
 _LABEL_78F9_:
     ld bc,$0400
 -:  push bc
-    ld b,$00
-    ld hl,_DATA_7CD8_
-    add hl,bc
-    ex de,hl
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0D
-    jr nz,+
-    inc de
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0D
-    jr nz,+
-    inc de
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0D
-    jr nz,+
-    inc de
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0D
-    jr z,++
+      ld b,$00
+      ld hl,_DATA_7CD8_
+      add hl,bc
+      ex de,hl
+      ld a,(de)
+      call GetLocationUnknownData
+      and $0D
+      jr nz,+
+      inc de
+      ld a,(de)
+      call GetLocationUnknownData
+      and $0D
+      jr nz,+
+      inc de
+      ld a,(de)
+      call GetLocationUnknownData
+      and $0D
+      jr nz,+
+      inc de
+      ld a,(de)
+      call GetLocationUnknownData
+      and $0D
+      jr z,++
 +:  pop bc
     ld a,c
     add a,$04
@@ -17093,29 +17125,29 @@ _LABEL_78F9_:
 _LABEL_7964_:
     ld bc,$0800
 -:  push bc
-    ld b,$00
-    ld hl,_DATA_7CE8_
-    add hl,bc
-    ex de,hl
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0A
-    jr nz,+
-    inc de
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0A
-    jr nz,+
-    inc de
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0A
-    jr nz,+
-    inc de
-    ld a,(de)
-    call GetLocationUnknownData
-    and $0A
-    jr z,++
+      ld b,$00
+      ld hl,_DATA_7CE8_
+      add hl,bc
+      ex de,hl
+      ld a,(de)
+      call GetLocationUnknownData
+      and $0A
+      jr nz,+
+      inc de
+      ld a,(de)
+      call GetLocationUnknownData
+      and $0A
+      jr nz,+
+      inc de
+      ld a,(de)
+      call GetLocationUnknownData
+      and $0A
+      jr nz,+
+      inc de
+      ld a,(de)
+      call GetLocationUnknownData
+      and $0A
+      jr z,++
 +:  pop bc
     ld a,c
     add a,$06
@@ -17169,13 +17201,13 @@ _LABEL_79D5_:
     ld c,a
     ld b,$08
 -:  push bc
-    ld b,$00
-    ld hl,_DATA_7D18_
-    add hl,bc
-    ld a,(hl)
-    call GetLocationUnknownData
-    and $0D
-    jr z,++
+      ld b,$00
+      ld hl,_DATA_7D18_
+      add hl,bc
+      ld a,(hl)
+      call GetLocationUnknownData
+      and $0D
+      jr z,++
     pop bc
     ld a,c
     add a,$03
@@ -17209,10 +17241,10 @@ GetLocationUnknownData: ; $7a07
     jr c,+             ; if a>$ff
     cp $C0
     jr c,++            ; or <=$c0
-  +:add a,$40          ; then add $40
++:  add a,$40          ; then add $40
     inc h              ; and add 2 to h -> $ce
     inc h
- ++:and $f0            ; strip to high nibble
+++: and $f0            ; strip to high nibble
     ld l,a             ; and keep in l
     ld a,(HLocation)   ; Add b to lo(HLocation)
     add a,b
@@ -17239,7 +17271,7 @@ GetLocationUnknownData: ; $7a07
     cp 4
     jr c,+
     inc h              ; if _RAM_c308_>=4 then inc h (add 256)
-  +:ld a,(hl)          ; get data in a
++:  ld a,(hl)          ; get data in a
     ret
 .ends
 .orga $7a4f
@@ -17338,26 +17370,26 @@ _LABEL_7A4F_:
     cp $FF
     ret z
     push hl
-    ld a,(hl)
-    cp d
-    jr z,++
-    inc a
-    ld b,a
-    and $0F
-    cp $0C
-    ld a,b
-    jr c,+
-    add a,$10
-    and $70
-+:  cp d
-    jr nz,+++
-++:  inc hl
-    ld a,(hl)
-    cp e
-    jr z,++++
-    inc a
-    cp e
-    jr z,++++
+      ld a,(hl)
+      cp d
+      jr z,++
+      inc a
+      ld b,a
+      and $0F
+      cp $0C
+      ld a,b
+      jr c,+
+      add a,$10
+      and $70
++:    cp d
+      jr nz,+++
+++:   inc hl
+      ld a,(hl)
+      cp e
+      jr z,++++
+      inc a
+      cp e
+      jr z,++++
 +++:pop hl
     ld bc,$0006
     add hl,bc
@@ -17394,9 +17426,9 @@ _LABEL_7B1E_:
     jr c,+
     cp $c0             ; If it's positive and <$c0 then skip:
     jr c,++
-  +:sub $40            ; subtract $40
++:  sub $40            ; subtract $40
     dec h              ; and take 1 from h
- ++:ld l,a             ; Put it back in hl
+++: ld l,a             ; Put it back in hl
     ld a,h
     and $07            ; trim to 00000hhh
     ld h,a
@@ -17716,7 +17748,7 @@ FadePaletteInRAM:      ; 7de3
     inc hl
     ld b,(hl)          ; PaletteSize
     ld hl,ActualPalette
-  -:call _FadeOut      ; process PaletteSize bytes from ActualPalette
+-:  call _FadeOut      ; process PaletteSize bytes from ActualPalette
     inc hl
     djnz -
     ret
@@ -17748,12 +17780,12 @@ _FadeIn:
     jr nz,+            ; If not, handle that
     ld (hl),$00        ; Otherwise, zero it (PaletteFadeControl)
     ret
-  +:dec (hl)           ; Decrement it (PaletteFadeControl)
++:  dec (hl)           ; Decrement it (PaletteFadeControl)
     inc hl
     ld b,(hl)          ; PaletteSize
     ld hl,TargetPalette
     ld de,ActualPalette
-  -:call _FadePaletteEntry ; compare PaletteSize bytes from ActualPalette
+-:  call _FadePaletteEntry ; compare PaletteSize bytes from ActualPalette
     inc hl
     inc de
     djnz -
@@ -17767,14 +17799,14 @@ _FadePaletteEntry:
     cp (hl)
     jr z,+
     jr nc,++           ; if it's too far then try green
-  +:ld (de),a          ; else save that
++:  ld (de),a          ; else save that
     ret
 ++:  ld a,(de)
     add a,%00000100    ; increment green
     cp (hl)
     jr z,+
     jr nc,++           ; if it's too far then try red
-  +:ld (de),a          ; else save that
++:  ld (de),a          ; else save that
     ret
 ++:  ex de,hl
     inc (hl)           ; increment red
@@ -17832,14 +17864,14 @@ FlashPaletteInRAM:
     ld bc,32
     ldir               ; then copy target to actual palette
     ret
-  +:ld hl,(PaletteFlashCount) ; else set palette entries to white
++:  ld hl,(PaletteFlashCount) ; else set palette entries to white
     ld b,h             ; b = PaletteFlashCount
     ld a,l             ; a = PaletteFlashStart
     ld hl,ActualPalette
     add a,l
     ld l,a             ; hl = [PaletteFlashStart]th palette entry
     ld a,$3f           ; White
-  -:ld (hl),a          ; Set palette entry to white
+-:  ld (hl),a          ; Set palette entry to white
     inc hl
     djnz -
     ret
@@ -17877,7 +17909,7 @@ PaletteRotate:
     cp $03             ; if >=3
     jr c,+
     xor a              ; then zero -> 0-2
-  +:ld (hl),a          ; put back in PaletteRotatePos
++:  ld (hl),a          ; put back in PaletteRotatePos
     ld c,a
     ld a,b
     cp $08             ; if _RAM_c30e_==8 then
@@ -17917,13 +17949,13 @@ _LABEL_7F28_:
     ld hl,_DATA_7FB5_
     ld a,$6f           ; counter - when low nibble is 0, it changes the palette (so 7 palettes total); and stops when it's all counted down.
 -:  push af
-    and $0F
-        ld de,ActualPalette+32-8
-        ld bc,8
-    jr nz,+
-        ldir           ; copy 8 colours to palette
-      +:ld a,$16       ; VBlankFunction_PaletteEffects
-    call ExecuteFunctionIndexAInNextVBlank
+      and $0F
+      ld de,ActualPalette+32-8
+      ld bc,8
+      jr nz,+
+      ldir           ; copy 8 colours to palette
++:    ld a,$16       ; VBlankFunction_PaletteEffects
+      call ExecuteFunctionIndexAInNextVBlank
     pop af
     dec a
     jr nz,-
@@ -17954,13 +17986,13 @@ _LABEL_7F59_:
     ld hl,_DATA_FE52_
     ld b,13            ; animation steps
 --: push bc
-    ld de,ActualPalette+10
-        ld bc,6        ; # of colours
-    ldir
-        ld b,8         ; frames to delay
-      -:ld a,$16       ; VBlankFunction_PaletteEffects
-    call ExecuteFunctionIndexAInNextVBlank
-    djnz -
+      ld de,ActualPalette+10
+      ld bc,6        ; # of colours
+      ldir
+      ld b,8         ; frames to delay
+-:    ld a,$16       ; VBlankFunction_PaletteEffects
+      call ExecuteFunctionIndexAInNextVBlank
+      djnz -
     pop bc
     djnz --
     ret
@@ -17975,21 +18007,21 @@ _LABEL_7F82_:
 +:  ld hl,_DATA_FE22_
     ld bc,$1803        ; b = $18 = 24 steps of palette animation; c = 3 = number of frames to delay
  __:push bc
-        ld a,(hl)      ; get colour
-        ld (ActualPalette+0),a ; put it in colour 0
-        ld b,6
-    ld de,ActualPalette+10
-      -:ld (de),a      ; and 10-16
-    inc de
-    djnz -
-        inc hl         ; get next colour
-    ld a,(hl)
-        ld (ActualPalette+7),a ; put it in colour 7
-        inc hl         ; move to next colour
-    ld b,c
-      -:ld a,$16       ; VBlankFunction_PaletteEffects
-    call ExecuteFunctionIndexAInNextVBlank
-    djnz -
+      ld a,(hl)      ; get colour
+      ld (ActualPalette+0),a ; put it in colour 0
+      ld b,6
+      ld de,ActualPalette+10
+-:    ld (de),a      ; and 10-16
+      inc de
+      djnz -
+      inc hl         ; get next colour
+      ld a,(hl)
+      ld (ActualPalette+7),a ; put it in colour 7
+      inc hl         ; move to next colour
+      ld b,c
+-:    ld a,$16       ; VBlankFunction_PaletteEffects
+      call ExecuteFunctionIndexAInNextVBlank
+      djnz -
     pop bc
     djnz _b
     ret
@@ -18474,8 +18506,8 @@ _DATA_C5A0_:
 
 EnemyData:
 .dstruct instanceof EnemyData nolabels values
-  Name:               .dsb 8 $23 $2e $0d $10 $4d $1c $27 $02 ; 1 MoNSuTa-HuRaI = Monster Fly? (Sworm)
-  Palette:            .dsb 8 $2a $25 $05 $0a $08 $04 $0c $2f 
+  Name:               .db $23 $2e $0d $10 $4d $1c $27 $02 ; 1 MoNSuTa-HuRaI = Monster Fly? (Sworm)
+  Palette:            .db $2a $25 $05 $0a $08 $04 $0c $2f 
   SpriteTilesPage:    .db :TilesFly
   SpriteTilesAddress: .dw TilesFly
   UnknownIndex        .db $12
@@ -22042,21 +22074,21 @@ SoundInitialise:       ; 0e/8000
     push hl
     push de
     push bc
-    call _ZeroC003toC00D
-        ld b,$0f       ; counter (15 columns below)
-        ld hl,_RAM_c00e_    ; start
-        xor a          ; 0 -> a
-      -:ld (hl),a      ; 0 -> c00e,c02e,c04e ... c1ee
-    ld de,$0018
-    add hl,de
-        ld (hl),a      ; 0 -> c026,c046,c066 ... c206
-    inc hl
-        ld (hl),a      ; 0 -> c027,c047,c067 ... c207
-    inc hl
-        ld (hl),a      ; 0 -> c028,c048,c068 ... c208
-    ld de,$0006
-    add hl,de
-    djnz -
+      call _ZeroC003toC00D
+      ld b,$0f       ; counter (15 columns below)
+      ld hl,_RAM_c00e_    ; start
+      xor a          ; 0 -> a
+-:    ld (hl),a      ; 0 -> c00e,c02e,c04e ... c1ee
+      ld de,$0018
+      add hl,de
+      ld (hl),a      ; 0 -> c026,c046,c066 ... c206
+      inc hl
+      ld (hl),a      ; 0 -> c027,c047,c067 ... c207
+      inc hl
+      ld (hl),a      ; 0 -> c028,c048,c068 ... c208
+      ld de,$0006
+      add hl,de
+      djnz -
     pop bc
     pop de
     pop hl
@@ -22064,9 +22096,9 @@ SoundInitialise:       ; 0e/8000
 SilencePSGandFM:       ; 0e/801f
     push hl
     push bc
-    ld hl,_SilencePSGData
-    ld c,Port_PSG
-    ld b,_sizeof__SilencePSGData
+      ld hl,_SilencePSGData
+      ld c,Port_PSG
+      ld b,_sizeof__SilencePSGData
     otir
     pop bc
     pop hl
@@ -22074,12 +22106,12 @@ SilencePSGandFM:       ; 0e/801f
 SilenceFM:
     push bc
     push de
-        ld b,$06       ; 6 channels
-        ld d,$20       ; YM2413 registers $20-$26
--:  ld a,d
-    inc d
-    call ZeroYM2413Channel
-    djnz -
+      ld b,$06       ; 6 channels
+      ld d,$20       ; YM2413 registers $20-$26
+-:    ld a,d
+      inc d
+      call ZeroYM2413Channel
+      djnz -
     pop de
     pop bc
     ret ; from SoundInitialise, SilencePSG or SilenceFM
@@ -22123,13 +22155,13 @@ SoundUpdate:           ; 0e/8052
     ld ix,_RAM_C00E_
     ld b,$0A
 --: push bc
-    ld a,$04
-    cp b
-    jr z,+
-    bit 7,(ix+0)
-    call nz,_LABEL_30664_
--:  ld de,$0020
-    add ix,de
+      ld a,$04
+      cp b
+      jr z,+
+      bit 7,(ix+0)
+      call nz,_LABEL_30664_
+-:    ld de,$0020
+      add ix,de
     pop bc
     djnz --
     ret
@@ -22141,13 +22173,13 @@ SoundUpdate:           ; 0e/8052
 ++:  ld ix,_RAM_C0EE_
     ld b,$08
 --: push bc
-    ld a,$01
-    cp b
-    jr z,+
-    bit 7,(ix+0)
-    call nz,_LABEL_30664_
--:  ld de,$0020
-    add ix,de
+      ld a,$01
+      cp b
+      jr z,+
+      bit 7,(ix+0)
+      call nz,_LABEL_30664_
+-:    ld de,$0020
+      add ix,de
     pop bc
     djnz --
     ret
@@ -22163,13 +22195,13 @@ SoundUpdatePSG:
     ld ix,_RAM_C06E_
     ld b,$07
 --: push bc
-    ld a,$04
-    cp b
-    jr z,+
-    bit 7,(ix+0)
-    call nz,_LABEL_30BD9_
--:  ld de,$0020
-    add ix,de
+      ld a,$04
+      cp b
+      jr z,+
+      bit 7,(ix+0)
+      call nz,_LABEL_30BD9_
+-:    ld de,$0020
+      add ix,de
     pop bc
     djnz --
     ret
@@ -22181,13 +22213,13 @@ SoundUpdatePSG:
 ++:  ld ix,_RAM_C0EE_
     ld b,$08
 --: push bc
-    ld a,$01
-    cp b
-    jr z,+
-    bit 7,(ix+0)
-    call nz,_LABEL_30BD9_
--:  ld de,$0020
-    add ix,de
+      ld a,$01
+      cp b
+      jr z,+
+      bit 7,(ix+0)
+      call nz,_LABEL_30BD9_
+-:    ld de,$0020
+      add ix,de
     pop bc
     djnz --
     ret
@@ -22352,15 +22384,15 @@ _LABEL_30218_:
     ld hl,_RAM_C0CE_
     set 2,(hl)
     push ix
-    ld ix,_RAM_C00E_
-    ld b,$06
-    ld de,$0020
--:  ld a,(ix+8)
-    ld (ix+23),a
-    ld a,$09
-    ld (ix+8),a
-    add ix,de
-    djnz -
+      ld ix,_RAM_C00E_
+      ld b,$06
+      ld de,$0020
+-:    ld a,(ix+8)
+      ld (ix+23),a
+      ld a,$09
+      ld (ix+8),a
+      add ix,de
+      djnz -
     pop ix
     jp _LABEL_305F9_
 
@@ -22409,16 +22441,16 @@ _LABEL_3027B_:
 
 _LABEL_30292_:
     push bc
-    ld b,$12
-    ld hl,_DATA_30312_
-    ld c,FMData
--:  dec c
-    outi
-    inc c
-    call SoundFMDelay
-    outi
-    call SoundFMDelay
-    jr nz,-
+      ld b,$12
+      ld hl,_DATA_30312_
+      ld c,FMData
+-:    dec c
+      outi
+      inc c
+      call SoundFMDelay
+      outi
+      call SoundFMDelay
+      jr nz,-
     pop bc
     ret
 
@@ -22459,10 +22491,10 @@ _LABEL_302BA_:
     or a
     jp m,_LABEL_305F9_
     push ix
-    ld ix,_RAM_C08E_
-    call _LABEL_30748_
-    ld ix,_RAM_C0AE_
-    call _LABEL_30748_
+      ld ix,_RAM_C08E_
+      call _LABEL_30748_
+      ld ix,_RAM_C0AE_
+      call _LABEL_30748_
     pop ix
     jp _LABEL_305F9_
 
@@ -22571,48 +22603,48 @@ _LABEL_304AD_:
     ld hl,_DATA_30324_
     add hl,bc
     push af
-    ld a,(_RAM_C002_)
-    and $7F
-    ld (_RAM_C005_),a
-    ld a,(hl)
-    ld (_RAM_C001_),a
-    ld (_RAM_C002_),a
-    push af
-    ld a,(_RAM_C00A_)
-    or a
-    jp p,+
-    ld ix,_RAM_C00E_
-    ld de,$0020
-    ld b,$06
--:  ld a,(ix+23)
-    ld (ix+8),a
-    add ix,de
-    djnz -
-+:  call _ZeroC003toC00D
-    call SilencePSGandFM
-    pop af
-    ex af,af'
-    jr nz,++
-    ex af,af'
-    ld de,_RAM_C14E_
-    or a
-    jp m,+
-    call SoundInitialise
-    ld de,$C06E
-+:  ld hl,_DATA_30338_
-    jr +++
+      ld a,(_RAM_C002_)
+      and $7F
+      ld (_RAM_C005_),a
+      ld a,(hl)
+      ld (_RAM_C001_),a
+      ld (_RAM_C002_),a
+      push af
+        ld a,(_RAM_C00A_)
+        or a
+        jp p,+
+        ld ix,_RAM_C00E_
+        ld de,$0020
+        ld b,$06
+-:      ld a,(ix+23)
+        ld (ix+8),a
+        add ix,de
+        djnz -
++:      call _ZeroC003toC00D
+        call SilencePSGandFM
+      pop af
+      ex af,af'
+      jr nz,++
+      ex af,af'
+      ld de,_RAM_C14E_
+      or a
+      jp m,+
+      call SoundInitialise
+      ld de,$C06E
++:    ld hl,_DATA_30338_
+      jr +++
 
-++:  ex af,af'
-    call _LABEL_30292_
-    ld de,_RAM_C14E_
-    or a
-    jp m,+
-    ld de,_RAM_C00E_
-    call SoundInitialise
-    jr ++
+++:   ex af,af'
+      call _LABEL_30292_
+      ld de,_RAM_C14E_
+      or a
+      jp m,+
+      ld de,_RAM_C00E_
+      call SoundInitialise
+      jr ++
 
-+:  call SilenceFM
-++:  ld hl,$83CA
++:    call SilenceFM
+++:   ld hl,$83CA
 +++:pop af
     call _LABEL_305FF_
     jp _LABEL_305C6_
@@ -22663,7 +22695,7 @@ _LABEL_30524_:
     cp $A0
     jr z,+++
     push bc
-    call SoundInitialise
+      call SoundInitialise
     pop bc
     ld de,_RAM_C06E_
     jr _LABEL_305C6_
@@ -22708,38 +22740,38 @@ _LABEL_305C6_:
     ld b,(hl)
     inc hl
 -:  push bc
-    push hl
-    pop ix
-    ld bc,$0009
-    ldir
-    ld a,$20
-    ld (de),a
-    inc de
-    ld a,$01
-    ld (de),a
-    inc de
-    xor a
-    ld (de),a
-    inc de
-    ld (de),a
-    inc de
-    ld (de),a
-    push hl
-    ld hl,$0013
-    add hl,de
-    ex de,hl
-    pop hl
-    ld bc,+  ; Overriding return address
-    push bc
-    ld a,(HasFM)
-    or a
-    jp nz,_LABEL_30748_
-    jp _LABEL_30CCE_
+      push hl
+      pop ix
+      ld bc,$0009
+      ldir
+      ld a,$20
+      ld (de),a
+      inc de
+      ld a,$01
+      ld (de),a
+      inc de
+      xor a
+      ld (de),a
+      inc de
+      ld (de),a
+      inc de
+      ld (de),a
+      push hl
+        ld hl,$0013
+        add hl,de
+        ex de,hl
+      pop hl
+      ld bc,+  ; Overriding return address
+      push bc
+      ld a,(HasFM)
+      or a
+      jp nz,_LABEL_30748_
+      jp _LABEL_30CCE_
 
 +:  pop bc
     djnz -
 _LABEL_305F9_:
-    ld a,$80
+    ld a,MusicStop
     ld (NewMusic),a
     ret
 
@@ -22794,7 +22826,7 @@ _LABEL_30608_:
 +:  ld (ix+16),a
     jp _LABEL_307FD_
 
-++:  ld hl,+  ; Overriding return address
+++: ld hl,+  ; Overriding return address
     jp _LABEL_308AE_
 
 +:  inc de
@@ -22929,47 +22961,47 @@ _LABEL_3076B_:
     ld l,a
     ret
 
--:  ld (ix+13),a
+-:    ld (ix+13),a
 _LABEL_30778_:
-    push hl
-    ld c,(ix+13)
-    ld b,$00
-    add hl,bc
-    ld c,l
-    ld b,h
-    pop hl
-    ld a,(bc)
-    bit 7,a
-    jp z,+++
-    cp $83
-    jr z,+
-    cp $80
-    jr z,++
-    ld a,$FF
-    ld (ix+20),a
+      push hl
+        ld c,(ix+13)
+        ld b,$00
+        add hl,bc
+        ld c,l
+        ld b,h
+      pop hl
+      ld a,(bc)
+      bit 7,a
+      jp z,+++
+      cp $83
+      jr z,+
+      cp $80
+      jr z,++
+      ld a,$FF
+      ld (ix+20),a
     pop hl
     ret
 
-+:  inc bc
-    ld a,(bc)
-    jr -
++:    inc bc
+      ld a,(bc)
+      jr -
 
-++:  xor a
-    jr -
+++:   xor a
+      jr -
 
-+++:inc (ix+13)
-    ld l,a
-    ld h,$00
-    add hl,de
-    ld a,(HasFM)
-    or a
-    jr z,+
-    ld a,h
-    cp (ix+16)
-    jr z,+
-    set 1,(ix+7)
-+:  ld (ix+16),a
-    ret
++++:  inc (ix+13)
+      ld l,a
+      ld h,$00
+      add hl,de
+      ld a,(HasFM)
+      or a
+      jr z,+
+      ld a,h
+      cp (ix+16)
+      jr z,+
+      set 1,(ix+7)
++:    ld (ix+16),a
+      ret
 
 _LABEL_307B9_:
     ld e,(ix+3)
@@ -23059,42 +23091,42 @@ _LABEL_30834_:
 
 _LABEL_30855_:
     push de
-    ld a,h
-    or a
-    jr z,+
-    cp $02
-    ld a,$12
-    jr c,++
-    srl h
-    rr l
-    ld a,$10
-    jr ++
+      ld a,h
+      or a
+      jr z,+
+      cp $02
+      ld a,$12
+      jr c,++
+      srl h
+      rr l
+      ld a,$10
+      jr ++
 
-+:  ld a,l
-    or a
-    jp z,+++
-    ld bc,$0400
--:  rlca
-    inc c
-    jr c,+
-    djnz -
-+:  ld b,c
-    ld a,$12
--:  inc a
-    inc a
-    sla l
-    rl h
-    djnz -
-++:  ld de,$0757
-    ex de,hl
-    or a
-    sbc hl,de
-    bit 1,h
-    jr z,+
-    set 0,h
-+:  ld d,a
-    ld e,$00
-    add hl,de
++:    ld a,l
+      or a
+      jp z,+++
+      ld bc,$0400
+-:    rlca
+      inc c
+      jr c,+
+      djnz -
++:    ld b,c
+      ld a,$12
+-:    inc a
+      inc a
+      sla l
+      rl h
+      djnz -
+++:   ld de,$0757
+      ex de,hl
+      or a
+      sbc hl,de
+      bit 1,h
+      jr z,+
+      set 0,h
++:    ld d,a
+      ld e,$00
+      add hl,de
 +++:pop de
     ret
 
@@ -23410,11 +23442,11 @@ _LABEL_30A9D_:
     ex af,af'
     ld a,(ix+1)
     push af
-    add a,$10
-    out (FMAddress),a
-    call SoundFMDelay
-    xor a
-    out (FMData),a
+      add a,$10
+      out (FMAddress),a
+      call SoundFMDelay
+      xor a
+      out (FMData),a
     pop af
     cp $15
     jr z,+
@@ -23457,16 +23489,16 @@ _LABEL_30AEE_:
     ld a,(de)
     ld b,a
     push bc
-    push ix
-    pop hl
-    dec (ix+9)
-    ld c,(ix+9)
-    dec (ix+9)
-    ld b,$00
-    add hl,bc
-    ld (hl),d
-    dec hl
-    ld (hl),e
+      push ix
+      pop hl
+      dec (ix+9)
+      ld c,(ix+9)
+      dec (ix+9)
+      ld b,$00
+      add hl,bc
+      ld (hl),d
+      dec hl
+      ld (hl),e
     pop de
     dec de
     ret
@@ -23654,7 +23686,7 @@ _LABEL_30BD9_:
 
 +:  ld a,(ix+6)
     dec a
-++:  ld l,(ix+14)
+++: ld l,(ix+14)
     ld h,(ix+15)
     jp m,+
     ex de,hl
@@ -23686,11 +23718,11 @@ _LABEL_30C79_:
 -:  ld (ix+12),a
 _LABEL_30C8E_:
     push hl
-    ld c,(ix+12)
-    ld b,$00
-    add hl,bc
-    ld c,l
-    ld b,h
+      ld c,(ix+12)
+      ld b,$00
+      add hl,bc
+      ld c,l
+      ld b,h
     pop hl
     ld a,(bc)
     bit 7,a
