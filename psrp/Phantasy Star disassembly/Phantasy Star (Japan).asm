@@ -1882,56 +1882,56 @@ LoadMarkIIILogo:
     inc (hl)           ; Set FunctionLookupIndex to the next in sequence (FadeInMarkIIILogoAndPause)
     di
 
-    ld hl,120          ; Number of frames to show logo for (2s)
-    ld (MarkIIILogoDelay),hl
+      ld hl,120          ; Number of frames to show logo for (2s)
+      ld (MarkIIILogoDelay),hl
 
-    ld hl,TileMapHighByte
-    ld (hl),$01
+      ld hl,TileMapHighByte
+      ld (hl),$01
 
-    call TurnOffDisplay
-    call SoundInit
-    call ClearTileMap
+      call TurnOffDisplay
+      call SoundInit
+      call ClearTileMap
 
-    ; Clear tile 0
-    TileAddressDE 0    ; Tile 0
-    ld bc,16           ; 16 words = 1 tile
-    ld hl,$0000        ; What to fill with
-    call FillVRAMWithHL
+      ; Clear tile 0
+      TileAddressDE 0    ; Tile 0
+      ld bc,16           ; 16 words = 1 tile
+      ld hl,$0000        ; What to fill with
+      call FillVRAMWithHL
 
-    ; Load tiles
-    ld hl,Frame2Paging
-    ld (hl),:MarkIIILogo1bpp
-    ld hl,MarkIIILogo1bpp
-    TileAddressDE 256  ; Target tile
-    ld bc,_sizeof_MarkIIILogo1bpp ; Count /bytes
-    ld a,$01           ; Output mask (what to set 1s to)
-    call Output1BitGraphics
+      ; Load tiles
+      ld hl,Frame2Paging
+      ld (hl),:MarkIIILogo1bpp
+      ld hl,MarkIIILogo1bpp
+      TileAddressDE 256  ; Target tile
+      ld bc,_sizeof_MarkIIILogo1bpp ; Count /bytes
+      ld a,$01           ; Output mask (what to set 1s to)
+      call Output1BitGraphics
 
-    ; Load tilemap
-    ld a,$01
-    ld (TileMapHighByte),a
-    ld hl,MarkIIILogoTilemap
-    TileMapAddressDE 7,10 ; x,y
-    ld bc,(2<<8)|19        ; Size (h<<8)|w)
-    call OutputTilemapRawBxC
+      ; Load tilemap
+      ld a,$01
+      ld (TileMapHighByte),a
+      ld hl,MarkIIILogoTilemap
+      TileMapAddressDE 7,10 ; x,y
+      ld bc,(2<<8)|19        ; Size (h<<8)|w)
+      call OutputTilemapRawBxC
 
-    ; Fill palette with colour $38 = blue
-    ld de,PaletteAddress
-    ld bc,16           ; 16 words = 32 bytes = full palette
-    ld hl,$3838        ; should be $0000 to stop startup flash :P
-    call FillVRAMWithHL
+      ; Fill palette with colour $38 = blue
+      ld de,PaletteAddress
+      ld bc,16           ; 16 words = 32 bytes = full palette
+      ld hl,$3838        ; should be $0000 to stop startup flash :P
+      call FillVRAMWithHL
 
-    ; Fill TargetPalette (32 bytes) with $38 = blue
-    ld hl,TargetPalette
-    ld de,TargetPalette + 1
-    ld bc,32-1
-    ld (hl),$38
-    ldir
+      ; Fill TargetPalette (32 bytes) with $38 = blue
+      ld hl,TargetPalette
+      ld de,TargetPalette + 1
+      ld bc,32-1
+      ld (hl),$38
+      ldir
 
-    ld a,$FF
-    ld (_RAM_DF01_),a
-    ld hl,$0000
-    ld (PaletteMoveDelay),hl ; $00 -> PaletteMoveDelay, PaletteMovePos
+      ld a,$FF
+      ld (_RAM_DF01_),a
+      ld hl,$0000
+      ld (PaletteMoveDelay),hl ; $00 -> PaletteMoveDelay, PaletteMovePos
 
     ei
     jp ClearSpriteTableAndFadeInWholePalette ; and ret
@@ -2036,7 +2036,7 @@ _UsedSlotFound:
     call FadeOutFullPalette
 
     di
-    call ClearTileMap
+      call ClearTileMap
     ei
 
     ld hl,FunctionLookupIndex
@@ -2336,7 +2336,7 @@ _LABEL_9CB_:
     TileMapAddressDE 0,0
     ld bc,32*28*2      ; full tilemap update
     di
-    call OutputToVRAM
+      call OutputToVRAM
     ei
 
     ld hl,TileMapData
@@ -2670,7 +2670,7 @@ _LABEL_C64_:
 LoadScene:
     call FadeOutFullPalette
     di
-    call TurnOffDisplay
+      call TurnOffDisplay
     ei
     ld hl,FunctionLookupIndex
     inc (hl)           ; -> 9 = ???
@@ -7306,11 +7306,11 @@ _LABEL_3109_:
 ; Then does VBlankFunction_Enemy in VBlank to keep tile animations going
 Output4CharsPlusStatWide:
     di
-    push de
-      push af
-        rst SetVRAMAddressToDE
-        ld b,16
-        jp +
+      push de
+        push af
+          rst SetVRAMAddressToDE
+          ld b,16
+          jp +
 
 Output4CharsPlusStat:
     di
@@ -9126,7 +9126,7 @@ _LABEL_3DD1_:
     ld hl,$FF00
     ld (AnimDelayCounter),hl
     di
-    call EnemySceneTileAnimation
+      call EnemySceneTileAnimation
     ei
     ld a,(SceneType)
     sub $0F
@@ -9144,8 +9144,8 @@ _LABEL_3DD1_:
 +:  ld hl,FunctionLookupIndex
     inc (hl)
     di
-    ld de,$8006
-    rst SetVRAMAddressToDE
+      ld de,$8006
+      rst SetVDPRegisterDToE
     ei
     ld a,$0C
     call ExecuteFunctionIndexAInNextVBlank
@@ -9979,7 +9979,7 @@ IntroSequence:
     ld de,TileMapAddress
     ld bc,32*2*28      ; full tilemap
     di
-    call OutputToVRAM  ; output
+      call OutputToVRAM  ; output
     ei
 
     ld a,MusicIntro
@@ -10473,12 +10473,12 @@ FadeToNarrativePicture: ; $492c
     TileMapAddressDE 6,3
     ld bc,$0c28        ; height $0c = 12, width $28/2 = 20
     di
-    call OutputTilemapRawDataBox
+      call OutputTilemapRawDataBox
 
-    TileMapAddressDE 0,16
-    ld bc,8*32         ; 8 rows
-    ld hl,$0800        ; Tile 0, sprite palette
-    call FillVRAMWithHL ; Fills bc words of VRAM from de with hl
+      TileMapAddressDE 0,16
+      ld bc,8*32         ; 8 rows
+      ld hl,$0800        ; Tile 0, sprite palette
+      call FillVRAMWithHL ; Fills bc words of VRAM from de with hl
 
     ei
     jp FadeInTilePalette ; and ret
@@ -13872,7 +13872,7 @@ _LABEL_618D_:
     ld de,$7A5C
     ld bc,$0608
     di
-    call OutputTilemapRawDataBox
+      call OutputTilemapRawDataBox
     ei
     ret
 
@@ -14919,7 +14919,7 @@ _PitFall:
     ld hl,$00C0
     ld bc,$0080
     di
-    call FillVRAMWithHL
+      call FillVRAMWithHL
     ei
     ld a,SFX_c0
     ld (NewMusic),a
