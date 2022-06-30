@@ -555,7 +555,7 @@ SRAMSlotsUsed db
 .stringmaptable script "Japanese.tbl"
 
 .enum $80
-MusicStop        dn ; 80
+MusicStop        db ; 80
 MusicTitle       db ; 81
 MusicPalma       db ; 82
 MusicMotavia     db ; 83
@@ -576,8 +576,25 @@ MusicTower       db ; 91
 MusicLassic      db ; 92
 MusicDarkForce   db ; 93
 MusicGameOver    db ; 94
-.ende
-.enum $ae
+SFX_95           db ; 95
+SFX_96           db ; 96
+SFX_97           db ; 97
+SFX_98           db ; 98
+SFX_99           db ; 99
+SFX_a0           db ; a0
+SFX_a1           db ; a1
+SFX_a2           db ; a2
+SFX_a3           db ; a3
+SFX_a4           db ; a4
+SFX_a5           db ; a5
+SFX_a6           db ; a6
+SFX_a7           db ; a7
+SFX_a8           db ; a8
+SFX_a9           db ; a9
+SFX_aa           db ; aa
+SFX_ab           db ; ab
+SFX_ac           db ; ac
+SFX_ad           db ; ad
 SFX_Death        db ; ae
 SFX_af           db ; af
 SFX_b0           db ; b0
@@ -600,6 +617,25 @@ SFX_c0           db ; c0
 SFX_Heal         db ; c1
 SFX_c2           db ; c2
 SFX_c3           db ; c3
+SFX_c4           db ; c4
+SFX_c5           db ; c5
+SFX_c6           db ; c6
+SFX_c7           db ; c7
+SFX_c8           db ; c8
+SFX_c9           db ; c9
+SFX_ca           db ; ca
+SFX_cb           db ; cb
+SFX_cc           db ; cc
+SFX_cd           db ; cd
+SFX_ce           db ; ce
+SFX_cf           db ; cf
+SFX_d0           db ; d0
+SFX_d1           db ; d1
+SFX_d2           db ; d2
+SFX_d3           db ; d3
+SFX_d4           db ; d4
+SFX_d5           db ; d5
+SFX_d6           db ; d6
 .ende
 .define MusicStop $d7
 
@@ -3083,11 +3119,11 @@ _LABEL_114F_:
 _LABEL_116B_:
     ld a,(EnemyNumber)
     cp Enemy_LaShiec
-    ld c,$92
+    ld c,MusicLassic
     jr z,+
     cp Enemy_DarkForce
     jr z,++
-    ld c,$89
+    ld c,MusicBattle
 +:  ld a,c
     ld (NewMusic),a
 ++: ld hl,_RAM_C2AB_
@@ -3369,7 +3405,7 @@ _LABEL_1379_:
     jr c,_LABEL_13AD_
     rrca
     jr c,_LABEL_13AD_
-    ld a,$BB
+    ld a,SFX_bb
     ld (NewMusic),a
     ld hl,textMonsterDodgesPlayersAttack
     call TextBox20x6
@@ -3384,7 +3420,7 @@ _LABEL_13AD_:
 +:  cpl
 _LABEL_13BA_:
     push af
-      ld a,$AD
+      ld a,SFX_ad
       ld (NewMusic),a
       call _LABEL_7E4F_
     pop af
@@ -3576,7 +3612,7 @@ _LABEL_14E2_EnemyMagic_Bind:
     or a
     jp nz,_LABEL_1461_RegularEnemyAttack
     ld (hl),$03
-    ld a,$A1
+    ld a,SFX_a1
     ld (NewMusic),a
     ld hl,textPlayerTiedUp
     call TextBox20x6
@@ -3602,7 +3638,7 @@ _LABEL_1528_EnemyMagic_Heal80:
     jr c,+
     ld a,b
 +:  ld (iy+Character.HP),a
-    ld a,$A1
+    ld a,SFX_a1
     ld (NewMusic),a
     call _LABEL_326D_UpdateEnemyHP
     ld hl,textMonsterHealed
@@ -3621,7 +3657,7 @@ _LABEL_155B_EnemyMagic_PowerUp:
     jp nz,_LABEL_1461_RegularEnemyAttack
     ; Yes
     set 7,(iy+Character.IsAlive)
-    ld a,$A1
+    ld a,SFX_a1
     ld (NewMusic),a
     ld hl,textMonsterStrengthBoost
     call TextBox20x6
@@ -3899,18 +3935,18 @@ _LABEL_175E_:
     jr z,+
     cp Enemy_Nightmare
     jr nz,++
-+:  ld a,$D8
++:  ld a,SFX_d8
     ld (NewMusic),a
     ret
 
 ++: cp Enemy_GoldDrake
     jr nz,+
     ld hl,ActualPalette+16
-    ld b,$10
+    ld b,16
 -:  ld (hl),$30
     inc hl
     djnz -
-+:  ld a,$94
++:  ld a,MusicGameOver
     ld (NewMusic),a
     ld a,(PartySize)
     or a
@@ -3926,7 +3962,7 @@ _LABEL_179A_:
     push af
       call _LABEL_1735_
       call CharacterStatsUpdate
-      ld a,$D8
+      ld a,SFX_d8
       ld (NewMusic),a
     pop af
     cp $05
@@ -3940,7 +3976,7 @@ _LABEL_17B2_:
     ld a,(EnemyNumber)
     cp Enemy_Tajim
     jr nz,+
-    ld a,$D8
+    ld a,SFX)d8
     ld (NewMusic),a
     ret
 
@@ -3951,7 +3987,7 @@ _LABEL_17B2_:
 -:  ld (hl),$30
     inc hl
     djnz -
-+:  ld a,$AF
++:  ld a,SFX_af
     ld (NewMusic),a
     call _LABEL_1735_
     ld a,(EnemyNumber)
@@ -3961,7 +3997,7 @@ _LABEL_17B2_:
     jr nz,++
 +:  ld b,$B4
     call PauseBFrames
-++: ld a,$D8
+++: ld a,SFX_d8
     ld (NewMusic),a
     ld hl,textMonsterKilled
     call TextBox20x6
@@ -4077,7 +4113,7 @@ _LABEL_1869_:
     ld a,l
     sub (ix+4)
     ret c
-+:  ld a,$BA
++:  ld a,SFX_ba
     ld (NewMusic),a
     ld hl,_DATA_AFB9_
     call TextBox20x6
@@ -4347,7 +4383,7 @@ BattleMenu_RunAway:
     jr nz,+
     call _LABEL_6B1D_
     jr nz,++
-+:  ld a,$BC
++:  ld a,SFX_bc
     ld (NewMusic),a
     ld a,$05
     ld (_RAM_C267_BattleCurrentPlayer),a
@@ -4515,7 +4551,7 @@ _Magic10_Transrate:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AB
+    ld a,SFX_ab
     ld (NewMusic),a
 DoTransrate:
     ld a,(_RAM_C2E8_EnemyMagicType)
@@ -4541,7 +4577,7 @@ DoTelepathy:
     jp z,MonsterDoesNotUnderstand
     and TALK_MAGIC
     jp z,MonsterTalk
-+:  ld a,$AC
++:  ld a,SFX_ac
     ld (NewMusic),a
     ld hl,textMonsterAnswers
     call TextBox20x6
@@ -4562,7 +4598,7 @@ DoTelepathy:
     call TextBox20x6
     ld a,$06
     ld (_RAM_C267_BattleCurrentPlayer),a
-    ld a,$D5
+    ld a,SFX_d5
     ld (NewMusic),a
     jp Close20x6TextBox
 
@@ -4696,7 +4732,7 @@ _LABEL_1D3D_:
 
 +:  cp $07
     jr nc,+
-    ld a,$85
+    ld a,MusicFinalDungeon
     call CheckMusic
     call _LABEL_7F59_
     ld a,$FF
@@ -4705,7 +4741,7 @@ _LABEL_1D3D_:
 
 +:  cp $08
     jp c,_LABEL_46FE_
-    ld a,$BF
+    ld a,SFX_bf
     ld (NewMusic),a
     ld hl,FunctionLookupIndex
     ld (hl),$08
@@ -4963,7 +4999,7 @@ _Magic02_SuperHeal_Battle:
       ld a,b
       call CheckIfEnoughMP
       ld (de),a
-      ld a,$AB
+      ld a,SFX_ab
       ld (NewMusic),a
     pop de
 _LABEL_1FBB_Heal:
@@ -4971,21 +5007,21 @@ _LABEL_1FBB_Heal:
       ld hl,textPlayerHealed
       call TextBox20x6
     pop de
-    ld a,$C1
+    ld a,SFX_Heal
     ld (NewMusic),a
     ld a,(TextCharacterNumber)
     call PointHLToCharacterInA
     push hl
     pop ix
-    ld b,(ix+6)
-    ld a,(ix+1)
+    ld b,(ix+Character.MaxHP)
+    ld a,(ix+Character.HP)
     add a,d
     jr nc,+
     ld a,$FF
 +:  cp b
     jr c,+
     ld a,b
-+:  ld (ix+1),a
++:  ld (ix+Character.HP),a
     jp Close20x6TextBox
 
 ; 4th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
@@ -4999,7 +5035,7 @@ _Magic04_MagicWaller:
 +:  ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AB
+    ld a,SFX_ab
     ld (NewMusic),a
     ld a,c
     ld (_RAM_C2EF_MagicWallActiveAndCounter),a
@@ -5099,7 +5135,7 @@ _Magic08_Bind:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AB
+    ld a,SFX_ab
     ld (NewMusic),a
     ld a,(_RAM_C2E8_EnemyMagicType)
     and BIND_PROOF
@@ -5159,7 +5195,7 @@ DoQuickDash:
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++: ld a,$BC
+++: ld a,SFX_bc
     ld (NewMusic),a
     ld hl,textPartyRanAway
     call TextBox20x6
@@ -5173,7 +5209,7 @@ _Magic0a_PowerBoost:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AB
+    ld a,SFX_ab
     ld (NewMusic),a
     ld a,(TextCharacterNumber)
     call ShowMessageIfDead
@@ -5189,7 +5225,7 @@ _Magic0b_Terror:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AB
+    ld a,SFX_ab
     ld (NewMusic),a
     ld a,(CharacterStatsEnemies.1.Attack)
     ld b,a
@@ -5222,7 +5258,7 @@ _Magic0c_Untrap:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AB
+    ld a,SFX_ab
     ld (NewMusic),a
     ld a,(CharacterSpriteAttributes)
     cp $0E
@@ -5264,7 +5300,7 @@ _Magic0d_Bypass:
     jp Close20x6TextBox
 
 _LABEL_21D4_:
-    ld a,$BF
+    ld a,SFX_bf
     ld (NewMusic),a
     ld hl,textYouBecomeLight
     call TextBox20x6
@@ -5280,7 +5316,7 @@ _Magic0e_MagicUnseal:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AB
+    ld a,SFX_ab
     ld (NewMusic),a
     ld a,(SceneType)
     or a
@@ -5309,7 +5345,7 @@ _Magic0f_Rebirth:
     bit 4,c
     jr nz,+++
     push af
-      ld a,$AB
+      ld a,SFX_ab
       ld (NewMusic),a
     pop af
     ld (TextCharacterNumber),a
@@ -5337,7 +5373,7 @@ _Magic11_Telepathy:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AC
+    ld a,SFX_ac
     ld (NewMusic),a
 DoTelepathy:
     ld a,(CharacterSpriteAttributes)
@@ -5354,7 +5390,7 @@ DoTelepathy:
     jr z,+
     ld hl,textPlayerPremonition
 +:  call TextBox20x6
-    ld a,$D5
+    ld a,SFX_d5
     ld (NewMusic),a
     jp Close20x6TextBox
 
@@ -5364,7 +5400,7 @@ DoTelepathy:
     jr z,+
     ld hl,textPlayerPremonition
 +:  call TextBox20x6
-    ld a,$D5
+    ld a,SFX_d5
     ld (NewMusic),a
     jp _LABEL_2A37_
 
@@ -5373,7 +5409,7 @@ _Magic12_Troop:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld a,$AB
+    ld a,SFX_ab
     ld (NewMusic),a
     ld a,(SceneType)
     or a
@@ -5660,14 +5696,14 @@ UseItem_Ruoginin:
 UseItem_SootheFlute:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,$C2
+    ld a,SFX_c2
     ld (NewMusic),a
     ld a,(_RAM_C29D_InBattle)
     or a
     jr nz,+
     ld hl,textSoothFlute
     call TextBox20x6
-    ld a,$D5
+    ld a,SFX_d5
     ld (NewMusic),a
     ld a,(SceneType)
     or a
@@ -5676,7 +5712,7 @@ UseItem_SootheFlute:
 
 +:  ld hl,textSootheFluteCalmedMonster
     call TextBox20x6
-    ld a,$D5
+    ld a,SFX_d5
     ld (NewMusic),a
     jp Close20x6TextBox
 
@@ -6212,7 +6248,7 @@ _LABEL_28FB_:
     ld a,(InventoryCount)
     inc a
     ld (InventoryCount),a
-    ld a,$B3
+    ld a,SFX_b3
     ld (NewMusic),a
     ret
 
@@ -6261,7 +6297,7 @@ _LABEL_2934_:
     ld (ItemTableIndex),a
     ld hl,(_RAM_C29B_)
     ld (hl),a
-    ld a,$B3
+    ld a,SFX_b3
     ld (NewMusic),a
     ld hl,textAndGetItem
     jp TextBox20x6
@@ -6522,7 +6558,7 @@ _LABEL_2AF5_:
     jr c,_LABEL_2BBA_
     ld (Meseta),hl
     call _LABEL_3B21_
-    ld a,$C1
+    ld a,SFX_Heal
     ld (NewMusic),a
     ld a,(iy+6)
     ld (iy+1),a
@@ -6631,7 +6667,7 @@ _LABEL_2BF4_:
     ld (iy+2),a
     ld hl,textChurchIncantation2
     call TextBox20x6
-    ld a,$C5
+    ld a,SFX_c5
     ld (NewMusic),a
     call MenuWaitHalfSecond
     call _LABEL_3B3C_
@@ -8974,7 +9010,7 @@ _LABEL_3CE9_:
     ld a,(hl)
     or a
     jr z,+
-    ld a,$D8
+    ld a,SFX_d8
     ld (NewMusic),a
 +:  xor a
     ld (_RAM_C29D_InBattle),a
@@ -9019,7 +9055,7 @@ _DATA_3D4E_:
 .dw DoRoomScript DoRoomScript DoRoomScript DoRoomScript
 
 _LABEL_3D76_:
-    ld a,$D6
+    ld a,SFX_d6
     ld (NewMusic),a
     call FadeOutFullPalette
     ld a,(_RAM_C308_)
@@ -10074,7 +10110,7 @@ IntroScrollDown:
 
 _LABEL_4636_MyauIntro:
     call FadeToPictureFrame
-    ld a,$8A
+    ld a,MusicStory
     ld (NewMusic),a
     ld a,$03
     call FadeToNarrativePicture
@@ -10096,13 +10132,13 @@ _LABEL_4636_MyauIntro:
     call FadeToNarrativePicture
     ld hl,textMyauIntro5
     call ShowNarrativeText
-    ld a,$D8
+    ld a,SFX_d8
     ld (NewMusic),a
     ret
 
 _LABEL_467B_:
     call FadeToPictureFrame
-    ld a,$8A
+    ld a,MusicStory
     ld (NewMusic),a
     ld a,$05
     call FadeToNarrativePicture
@@ -10126,13 +10162,13 @@ _LABEL_467B_:
     call ShowNarrativeText
     call FadeOutFullPalette
     call _LABEL_114F_
-    ld a,$D8
+    ld a,SFX_d8
     ld (NewMusic),a
     jp FadeInWholePalette
 
 _LABEL_46C8_:
     call FadeToPictureFrame
-    ld a,$8A
+    ld a,MusicStory
     ld (NewMusic),a
     ; Pick an alive character to show
     ld a,$03
@@ -10151,7 +10187,7 @@ _LABEL_46C8_:
     call FadeToNarrativePicture
     ld hl,_DATA_BC3E_
     call ShowNarrativeText
-    ld a,$D8
+    ld a,SFX_d8
     ld (NewMusic),a
     ret
 
@@ -10164,7 +10200,7 @@ _LABEL_46FE_:
     jp _LABEL_4770_
 
 +:  call FadeToPictureFrame
-    ld a,$8A
+    ld a,MusicStory
     ld (NewMusic),a
     ld a,$07
     call FadeToNarrativePicture
@@ -10240,7 +10276,7 @@ _LABEL_47B5_:
     call FadeOutFullPalette
     ld a,$D0
     ld (SpriteTable),a
-    ld a,$8B
+    ld a,MusicEnding
     ld (NewMusic),a
     ld a,$0D
     ld (SceneType),a
@@ -10320,7 +10356,7 @@ _LABEL_47B5_:
     call LoadTiles4BitRLE
     ld a,$01
     ld (_RAM_C2F5_),a
-    ld a,$91
+    ld a,MusicTower
     ld (NewMusic),a
     ld hl,_DATA_FF98_
 -:  ld a,$03
@@ -10342,7 +10378,7 @@ _LABEL_47B5_:
     inc hl
     jr -
 
-++:  ld a,$D7
+++:  ld a,SFX_d7
     ld (NewMusic),a
     xor a
     ld (_RAM_C2F5_),a
@@ -11346,7 +11382,7 @@ _room_37_GovernorGeneral: ; $4ED0:
     ; You enter into a deep sleep...
     call DrawText20x6
     call Close20x6TextBox
-    ld a,$A0
+    ld a,SFX_a0
     ld (NewMusic),a
     call Pause256Frames
     ld a,Enemy_Nightmare
@@ -11405,11 +11441,11 @@ _room_39_GuestHouseLady: ; $4FDA:
     call DrawText20x6
     call FadeOutFullPalette
     call Close20x6TextBox
-    ld a,$A0
+    ld a,SFX_a0
     ld (NewMusic),a
     call Pause256Frames
     call _LABEL_2BC9_
-    ld a,$C1
+    ld a,SFX_Heal
     ld (NewMusic),a
     call FadeInWholePalette
     ld hl,$00B8
@@ -12731,7 +12767,7 @@ _DATA_5876_:
 .db $07 $1B $1D
 
 _room_ab_DarkForce: ; $5879:
-    ld a,$93
+    ld a,MusicDarkForce
     ld (NewMusic),a
     call Pause256Frames
     ld a,$1F
@@ -13593,7 +13629,7 @@ _LABEL_5FAC_:
     ld (iy+4),e
     ld (iy+1),a
     ld (iy+15),a
-    ld a,$B9
+    ld a,SFX_b9
     ld (NewMusic),a
     ld a,$FF
     ret
@@ -13692,12 +13728,12 @@ _LABEL_6054_:
 +:  ld a,(_RAM_C2ED_PlayerWasHurt)
     or a
     jr nz,_LABEL_6099_
-    ld a,$BB
+    ld a,SFX_bb
     ld (NewMusic),a
     ret
 
 _LABEL_6099_:
-    ld a,$AE
+    ld a,SFX_Death
     ld (NewMusic),a
     call _LABEL_7E67_
     ld a,(_RAM_C2EE_PlayerBeingAttacked)
@@ -13767,7 +13803,7 @@ _LABEL_60EE_:
     ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     jp z,_LABEL_6099_
-    ld a,$BB
+    ld a,SFX_bb
     ld (NewMusic),a
     ret
 
@@ -14885,7 +14921,7 @@ _PitFall:
     di
     call FillVRAMWithHL
     ei
-    ld a,$C0
+    ld a,SFX_c0
     ld (NewMusic),a
     xor a
     ld (VScroll),a
@@ -15155,7 +15191,7 @@ _LABEL_6ABE_:
     bit 7,(hl)
     ret nz
     set 7,(hl)
-    ld a,$BD
+    ld a,SFX_bd
     ld (NewMusic),a
     ld h,c
     ld l,$00
@@ -16341,7 +16377,7 @@ _LABEL_73E6_:
     jp nz,DecompressScrollingTilemapData
     jp _LABEL_7549_
 
-+++:ld a,$D6
++++:ld a,SFX_d6
     ld (NewMusic),a
     xor a
     ld (MovementInProgress),a
@@ -16899,7 +16935,7 @@ _LABEL_7787_:
           ld a,e
           or a
           jr z,+
-          ld a,$B7
+          ld a,SFX_b7
           ld (NewMusic),a
 +:      pop af
       pop de
