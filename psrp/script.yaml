@@ -744,7 +744,7 @@
     No puedes ni entrar al puerto espacial sin un salvoconducto.<wait more>
     He intentado conseguir uno, pero dicen que puede tardar semanas. ¿Cómo voy a volver a casa?<wait>
   de: |
-    Westlich von hier ist der Weltraumflughafen, aber ohne einen Straßenpass gibt's keinen Zugang.<wait more>
+    Westlich von hier ist der Weltraumbahnhof, aber ohne einen Straßenpass gibt's keinen Zugang.<wait more>
     Ich wollte einen beantragen, aber es hieß, das würde Wochen dauern. Wie soll ich nur nach Hause kommen?<wait>
 
 - offsets: 4b9a
@@ -1094,7 +1094,7 @@
     Nuestro Puerto Espacial conecta directament con Paseo, la capital de Motavia.<wait more>
     Me gustaría ir algún día. ¡Nunca he saludo del planeta!<wait>
   de: |
-    Vom Weltraumflughafen aus kommt man nach Paseo, der Hauptstadt Motavias.<wait more>
+    Vom Weltraumbahnhof aus kommt man nach Paseo, der Hauptstadt Motavias.<wait more>
     Ich war noch nie auf einem anderen Planeten! Wie gerne ich dort hin wöllte...<wait>
 
 - offsets: 4c0f
@@ -1620,7 +1620,7 @@
   pt-br: Esté é o Espaçoporto de Palma. Todas as espaçonaves viajam direto para Paseo, a capital de Motávia.<wait>
   ca: Benvingut al Port Espacial de Palma. Totes les naus volen en sentit a Paseo, la capital de Motavia.<wait>
   es: Bienvenido al Puerto Espacial de Palma. Todas las naves vuelan en dirección a Paseo, la capital de Motavia.<wait>
-  de: Willkommen am Weltraumflug-<line>hafen Palma. Alle Raumschiffe hier fliegen nach Paseo, der Hauptstadt Motavias.<wait>
+  de: Willkommen am Weltraumbahnhof Palma. Alle Raumschiffe hier fliegen nach Paseo, der Hauptstadt Motavias.<wait>
 
 - offsets: 4ca4
   # Luggage handler
@@ -1889,7 +1889,7 @@
   pt-br: Este é Paseo, o único espaçoporto em Motávia.<wait>
   ca: Això es Paseo, l'únic Port Espacial de Motavia.<wait>
   es: Esto es Paseo, el único Puerto Espacial de Motavia.<wait>
-  de: Der Paseo-Weltraumflughafen ist der einzige in ganz Motavia.<wait>
+  de: Der Paseo-Weltraumbahnhof ist der einzige in ganz Motavia.<wait>
 
 - offsets: 4e37
   # Luggage handler
@@ -3556,7 +3556,7 @@
     Tut mir leid, dass ich so brüsk war.<wait more>
     Zusammen müssen wir Algol vor dem Bösen bewahren.<line><line>
     Dafür sollten wir zuerst Dr._Luveno im Gothic-Wald aufsuchen.<wait more>
-    Wenn ich mich recht entsinne, gibt es einen Kontrollschacht am Camineet-Weltraumflug-<line>hafen, der dort hinführt.<line><line>
+    Wenn ich mich recht entsinne, gibt es einen Kontrollschacht am Camineet-Weltraumbahnhof, der dort hinführt.<line><line>
     Gehen wir. Schnell.<wait>
 
 
@@ -4753,7 +4753,7 @@
   de: |
     Ah, Hapsby, mein Kleiner, ich hab dich vermisst!<wait more>
     Gute Arbeit. Hapsby kann euch den Luveno durchs All fliegen.<wait more>
-    Und keinen Moment zu früh. Die Weltraumflughäfen haben vor Kurzem dicht gemacht.<wait more>
+    Und keinen Moment zu früh. Die Weltraumbahnhöfe haben vor Kurzem dicht gemacht.<wait more>
     Der Luveno steht außerhalb des Dorfes. Macht doch mal einen Probeflug!<wait>
 
 - offsets: 5071
@@ -4791,7 +4791,7 @@
   pt-br: No momento, a segurança de Algol está em alerta vermelho. As viagens espaciais estão totalmente proibidas para todos os cidadãos.<wait>
   ca: Algol està en nivell d'alerta vermella. S'han prohibit els viatges espacials a tots els ciutadans.<wait>
   es: Algol está en nivel de alerta roja. Se han prohibido los viajes espaciales a todos los ciudadanos.<wait>
-  de: Der Weltraumflughafen ist gesperrt. Raumfahrten sind für alle Bürger verboten.<wait>
+  de: Der Weltraumbahnhof ist gesperrt. Raumfahrten sind für alle Bürger verboten.<wait>
 
 - offsets: 4cfd
   indices: 1A0
