@@ -1690,7 +1690,7 @@ LoadTiles4BitRLENoDI:
     pop bc
     djnz -
     ret
-+:  
++:
 --: ld a,(hl)          ; read count byte <----+
     inc hl             ; increment pointer    |
     or a               ; return if zero       |
@@ -1732,7 +1732,7 @@ LoadTiles4BitRLE:      ; $04b3   Same as NoDI only with a di/ei around the VRAM 
     pop bc
     djnz -
     ret
---: 
+--:
 +:  ld a,(hl)          ; header byte
     inc hl             ; data byte
     or a
@@ -3693,7 +3693,7 @@ _LABEL_157D_EnemyMagicAttack:
     ld (TextCharacterNumber),a
     ld (_RAM_C2EE_PlayerBeingAttacked),a
     call _LABEL_30FB_ShowCharacterStatsBox
-    ; 
+    ;
     call GetRandomNumber
     and $03
     add a,-10 ; -> random damage between -10 and -7
@@ -3751,10 +3751,10 @@ MagicAttackDamageC:
       push bc
         call _LABEL_30FB_ShowCharacterStatsBox
       pop bc
-      
+
       ; Perform attack using c as the parameter
       call ++
-      
+
       ld a,$C0
       ld (_RAM_C88A_),a
       call _LABEL_1A2A_
@@ -3894,7 +3894,7 @@ _LABEL_170E_RandomDamage:
     and $7F
     cpl ; And invert
     ; This makes -(rnd() * LV + 1)
-    
+
     ; And fall through
 _LABEL_171E_ReducePlayerHP:
     ; Applies a (a negative number) to player's HP
@@ -4136,7 +4136,7 @@ CharacterStatsUpdate:
     ld (hl),:LevelStats
 
     ld iy,CharacterStatsAlis
-    ld de,LevelStatsAlis
+    ld de,LevelStatsAlis-8
     call +
 
     ld iy,CharacterStatsMyau
@@ -6765,7 +6765,7 @@ _LABEL_2D38_:
     ld hl,textShopWhatDoYouWant
     call TextBox20x6
     push bc
-      call _LABEL_39F6_
+      call _LABEL_39F6_Shop
       bit 4,c
     pop bc
     jr nz,_LABEL_2D89_
@@ -6878,11 +6878,11 @@ _LABEL_2E0D_:
     pop af
     jp nz,_LABEL_2E46_
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:
     ld a,(ItemTableIndex)
     and $3F
     add a,a
-    ld hl,$B82F
+    ld hl,_DATA_F82F_ItemSellingPrices
     add a,l
     ld l,a
     adc a,h
@@ -6895,6 +6895,7 @@ _LABEL_2E0D_:
     ld (NumberToShowInText),hl
     or h
     jr nz,+
+    ; Selling price 0 -> can't sell it
     ld hl,textHandyLater
     call TextBox20x6
     jp _LABEL_2E0D_
@@ -8630,13 +8631,15 @@ _LABEL_39EA_:
     ld bc,$0820
     jp InputTilemapRect
 
-_LABEL_39F6_:
-    ld hl,_DATA_6FD23_
+_LABEL_39F6_Shop:
+    ; Draw shop items
+    ; Top border
+    ld hl,_DATA_6FD23_TopBorder16
     ld de,$780C
     ld bc,$0120
     call OutputTilemapBoxWipePaging
     ld hl,Frame2Paging
-    ld (hl),:_DATA_F717_
+    ld (hl),:_DATA_F717_ShopItems
     ld a,(RoomIndex)
     and $1F
     ; Multiply by 10
@@ -8649,7 +8652,7 @@ _LABEL_39F6_:
     add hl,hl
     add hl,bc
     ; Look up (1-based)
-    ld bc,_DATA_F717_ - 10
+    ld bc,_DATA_F717_ShopItems - 10
     add hl,bc
     ; First byte is menu size
     ld a,(hl)
@@ -8694,41 +8697,44 @@ _LABEL_39F6_:
     push de
     push hl
       rst SetVRAMAddressToDE
-      ld a,$03
+      ; Look up item text
+      ld a,:ItemTextTable
       ld (Frame2Paging),a
       ld a,(hl)
       or a
       jr nz,+
-      ld c,$00
+      ld c,$00 ; c is set to 0 if the first byte is zero
 +:    ld l,a
       ld h,$00
       add hl,hl
       add hl,hl
       add hl,hl
-      ld de,$BD94
+      ld de,ItemTextTable
       add hl,de
       push af
       pop af
+      ; Draw left border
       ld a,$F3
       out (VDPData),a
       push af
       pop af
       ld a,$11
       out (VDPData),a
-      ld a,$02
+      ; Unnecessary?
+      ld a,:ItemTextTable
       ld (Frame2Paging),a
-      ld b,$08
+      ld b,$08 ; Length
 -:    ld a,(hl)
       add a,a
       add a,c
-      ld de,$8000
+      ld de,TileNumberLookup ; Look up tilemap data for character
       add a,e
       ld e,a
       adc a,d
       sub e
       ld d,a
       ld a,(de)
-      out (VDPData),a
+      out (VDPData),a ; Write to tilemap
       push af
       pop af
       ld a,$10
@@ -18190,7 +18196,7 @@ TileNumberLookup:      ; $8000
 .ends
 
 ; Data from BD94 to BF9B (520 bytes)
-ItemTextTable:
+ItemTextTable: ; All items are padded to 8 chars, with <wait> at the end
 .stringmap script "　　　　　　　　"
 .stringmap script "ウッドケイン<wait>　"
 .stringmap script "ショートソード<wait>"
@@ -18543,7 +18549,7 @@ _DATA_C5A0_:
 EnemyData:
 .dstruct instanceof EnemyData nolabels values
   Name:               .db $23 $2e $0d $10 $4d $1c $27 $02 ; 1 MoNSuTa-HuRaI = Monster Fly? (Sworm)
-  Palette:            .db $2a $25 $05 $0a $08 $04 $0c $2f 
+  Palette:            .db $2a $25 $05 $0a $08 $04 $0c $2f
   SpriteTilesPage:    .db :TilesFly
   SpriteTilesAddress: .dw TilesFly
   UnknownIndex        .db $12
@@ -19038,7 +19044,7 @@ EnemyData:
 .db $0c
 .dw $001c
 .db $38 $cc
-  
+
 .db $10 $39 $21 $58 $00 $00 $00 $00 ; 49 TaZiMu = Tarzimal
 .db $2b $20 $06 $2a $25 $3e $01 $0f
 .db :TilesTarzimal
@@ -20843,50 +20849,129 @@ DungeonData1:
   AddDungeonData $19 $01 $02 MusicTower ; 60
 
 
-.dsb 10,$00
+.dsb 10,$00 ; blank entry for index 0 in the following table, unnecessary?
 
 ; Data from F717 to F832 (284 bytes)
-_DATA_F717_: ; 10B per entry, indexed by RoomIndex, only up to index $1c
-.db $02 $19 $1E $00 $1B $08 $02 $1C $78 $05
-.db $02 $27 $14 $00 $28 $0A $00 $29 $30 $00
-.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
-.db $02 $03 $4B $00 $07 $40 $01 $08 $60 $04
-.db $02 $27 $14 $00 $28 $0A $00 $39 $78 $05
-.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
-.db $02 $10 $1C $00 $12 $22 $01 $15 $E8 $03
-.db $02 $27 $14 $00 $29 $30 $00 $40 $C8 $00
-.db $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
-.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
-.db $02 $27 $14 $00 $28 $0A $00 $34 $64 $00
-.db $02 $02 $1E $00 $14 $76 $02 $16 $98 $3A
-.db $00 $00 $00 $00 $00 $00 $00 $00 $00 $00
-.db $02 $06 $40 $00 $09 $90 $01 $1A $36 $01
-.db $02 $27 $14 $00 $29 $30 $00 $39 $78 $05
-.db $02 $11 $4E $00 $0B $04 $06 $0A $54 $06
-.db $02 $01 $19 $00 $13 $54 $00 $1E $C0 $12
-.db $02 $27 $14 $00 $2A $14 $00 $39 $78 $05
-.db $02 $24 $0A $00 $25 $28 $00 $2C $40 $06
-.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
-.db $02 $0B $04 $06 $0C $A4 $0B $1C $78 $05
-.db $02 $27 $14 $00 $29 $30 $00 $2E $1E $00
-.db $00 $21 $50 $14 $00 $00 $00 $00 $00 $00
-.db $02 $04 $B0 $04 $0D $18 $10 $1D $E4 $0C
-.db $02 $27 $14 $00 $2A $14 $00 $2E $1E $00
-.db $01 $24 $0A $00 $25 $28 $00 $00 $00 $00
-.db $00 $23 $E0 $2E $00 $00 $00 $00 $00 $00
-.db $02 $27 $14 $00 $28 $0A $00 $29 $30 $00
+_DATA_F717_ShopItems: ; 10B per entry, indexed by RoomIndex, only up to index $1c
+.struct ShopItems
+  MaxIndex db ; = count - 1
+  Item1 db
+  Item1Price  dw
+  Item2 db
+  Item2Price  dw
+  Item3 db
+  Item3Price  dw
+.endst
+.macro ShopItem
+.dstruct instanceof ShopItems data
+  MaxIndex:   .db NARGS/2-1
+  Item1:      .db \1
+  Item1Price: .dw \2
+  .if NARGS > 2
+  Item2:      .db \3
+  Item2Price: .dw \4
+  .endif
+  .if NARGS > 4
+  Item2:      .db \5
+  Item2Price: .dw \6
+  .endif
+.endm
+  ShopItem Item_Shield_LeatherShield  30 Item_Shield_BronzeShield      520 Item_Shield_CeramicShield  1400
+  ShopItem Item_Searchlight           20 Item_EscapeCloth               10 Item_TranCarpet              48
+  ShopItem Item_PelorieMate           10 Item_Ruoginin                  40
+  ShopItem Item_Weapon_IronSword      75 Item_Weapon_TitaniumSword     320 Item_Weapon_CeramicSword   1120
+  ShopItem Item_Searchlight           20 Item_EscapeCloth               10 Item_LightPendant          1400
+  ShopItem Item_PelorieMate           10 Item_Ruoginin                  40
+  ShopItem Item_Armour_LeatherClothes 28 Item_Armour_LightSuit         290 Item_Armour_ZirconiaMail   1000
+  ShopItem Item_Searchlight           20 Item_TranCarpet                48 Item_SecretThing            200
+  .dsb 10 $00 ; no entry
+  ShopItem Item_PelorieMate           10 Item_Ruoginin                  40
+  ShopItem Item_Searchlight           20 Item_EscapeCloth               10 Item_Passport               100
+  ShopItem Item_Weapon_ShortSword     30 Item_Armour_SpikySquirrelFur  630 Item_Armour_DiamondArmor  15000
+  .dsb 10 $00 ; no entry
+  ShopItem Item_Weapon_IronAxe        64 Item_Weapon_NeedleGun         400 Item_Shield_IronShield      310
+  ShopItem Item_Searchlight           20 Item_TranCarpet                48 Item_LightPendant          1400
+  ShopItem Item_Armour_WhiteMantle    78 Item_Weapon_HeatGun          1540 Item_Weapon_SaberClaw      1620
+  ShopItem Item_Weapon_WoodCane       25 Item_Armour_IronArmor          84 Item_Shield_LaserBarrier   4800
+  ShopItem Item_Searchlight           20 Item_MagicHat                  20 Item_LightPendant          1400
+  ShopItem Item_PelorieMate           10 Item_Ruoginin                  40 Item_Polymeteral           1600
+  ShopItem Item_PelorieMate           10 Item_Ruoginin                  40
+  ShopItem Item_Weapon_HeatGun      1540 Item_Weapon_LightSaber       2980 Item_Shield_CeramicShield  1400
+  ShopItem Item_Searchlight           20 Item_TranCarpet                48 Item_TelepathyBall           30
+  ShopItem Item_Vehicle_LandMaster  5200
+  ShopItem Item_Weapon_PsychoWand   1200 Item_Weapon_LaserGun         4120 Item_Shield_AnimalGlove    3300
+  ShopItem Item_Searchlight           20 Item_MagicHat                  20 Item_TelepathyBall           30
+  ShopItem Item_PelorieMate           10 Item_Ruoginin                  40
+  ShopItem Item_Vehicle_IceDecker  12000
+  ShopItem Item_Searchlight           20 Item_EscapeCloth               10 Item_TranCarpet              48
 
-_DATA_B82F_ItemSellingPrices:
+_DATA_F82F_ItemSellingPrices:
 ; 0 means you can't sell it
-.dw $0000 $000C $000f $0025
-.db $58 $02 $5E $01 $20 $00 $A0 $00 $30 $02 $C8 $00 $2A $03 $02 $03
-.db $D2 $05 $0C $08 $F4 $01 $86 $01 $0E $00 $27 $00 $91 $00 $2A $00
-.db $3B $01 $F4 $01 $4C $1D $EA $01 $A4 $01 $0F $00 $9B $00 $04 $01
-.db $BC $02 $72 $06 $60 $09 $00 $00 $9A $01 $00 $00 $00 $00 $70 $17
-.db $05 $00 $14 $00 $A0 $00 $0A $00 $05 $00 $18 $00 $0A $00 $00 $00
-.db $20 $03 $00 $00 $0F
-.dsb 11,$00
-.db $32 $00 $00 $00 $8C $00 $00 $00 $00 $00 $BC $02 $00 $00 $F4 $01
+.dw $0000 ; Item_Empty
+.dw $000C ; Item_Weapon_WoodCane
+.dw $000f ; Item_Weapon_ShortSword
+.dw $0025 ; Item_Weapon_IronSword
+.dw $0258 ; Item_Weapon_PsychoWand
+.dw $015E ; Item_Weapon_SilverTusk
+.dw $0020 ; Item_Weapon_IronAxe
+.dw $00A0 ; Item_Weapon_TitaniumSword
+.dw $0230 ; Item_Weapon_CeramicSword
+.dw $00C8 ; Item_Weapon_NeedleGun
+.dw $032A ; Item_Weapon_SaberClaw
+.dw $0302 ; Item_Weapon_HeatGun
+.dw $05D2 ; Item_Weapon_LightSaber
+.dw $080C ; Item_Weapon_LaserGun
+.dw $01F4 ; Item_Weapon_LaconianSword
+.dw $0186 ; Item_Weapon_LaconianAxe
+.dw $000E ; Item_Armour_LeatherClothes
+.dw $0027 ; Item_Armour_WhiteMantle
+.dw $0091 ; Item_Armour_LightSuit
+.dw $002A ; Item_Armour_IronArmor
+.dw $013B ; Item_Armour_SpikySquirrelFur
+.dw $01F4 ; Item_Armour_ZirconiaMail
+.dw $1D4C ; Item_Armour_DiamondArmor
+.dw $01EA ; Item_Armour_LaconianArmor
+.dw $01A4 ; Item_Armour_FradMantle
+.dw $000F ; Item_Shield_LeatherShield
+.dw $009B ; Item_Shield_IronShield
+.dw $0104 ; Item_Shield_BronzeShield
+.dw $02BC ; Item_Shield_CeramicShield
+.dw $0672 ; Item_Shield_AnimalGlove
+.dw $0960 ; Item_Shield_LaserBarrier
+.dw $0000 ; Item_Shield_ShieldOfPerseus
+.dw $019A ; Item_Shield_LaconianShield
+.dw $0000 ; Item_Vehicle_LandMaster
+.dw $0000 ; Item_Vehicle_FlowMover
+.dw $1770 ; Item_Vehicle_IceDecker
+.dw $0005 ; Item_PelorieMate
+.dw $0014 ; Item_Ruoginin
+.dw $00A0 ; Item_SootheFlute
+.dw $000A ; Item_Searchlight
+.dw $0005 ; Item_EscapeCloth
+.dw $0018 ; Item_TranCarpet
+.dw $000A ; Item_MagicHat
+.dw $0000 ; Item_Alsuline
+.dw $0320 ; Item_Polymeteral
+.dw $0000 ; Item_DungeonKey
+.dw $000f ; Item_TelepathyBall
+.dw $0000 ; Item_EclipseTorch
+.dw $0000 ; Item_Aeroprism
+.dw $0000 ; Item_LaermaBerries
+.dw $0000 ; Item_Hapsby
+.dw $0000 ; Item_RoadPass
+.dw $0032 ; Item_Passport
+.dw $0000 ; Item_Compass
+.dw $008C ; Item_Shortcake
+.dw $0000 ; Item_GovernorGeneralsLetter
+.dw $0000 ; Item_LaconianPot
+.dw $02BC ; Item_LightPendant
+.dw $0000 ; Item_CarbuncleEye
+.dw $01F4 ; Item_GasClear
+.dw $0000 ; Item_DamoasCrystal
+.dw $0000 ; Item_MasterSystem
+.dw $0000 ; Item_MiracleKey
+.dw $0000 ; Item_Zillion
+
 
 .orga $b8a7
 .section "Character level stats" overwrite
@@ -20895,12 +20980,11 @@ LevelStats:
 ;    ||  ,,-------------------------- Attack boost
 ;    ||  ||  ,,---------------------- Defence boost
 ;    ||  ||  ||  ,,------------------ Max MP
-;    ||  ||  ||  ||  ,,-------------- ?
-;    ||  ||  ||  ||  ||  ,,---------- ?
+;    ||  ||  ||  ||  ,,--,,---------- Experience threshold for level
 ;    ||  ||  ||  ||  ||  ||  ,,------ Magics known
-;    ||  ||  ||  ||  ||  ||  ||  ,,-- ?
+;    ||  ||  ||  ||  ||  ||  ||  ,,-- Battle magics known
+.db 0,0,0,0,0,0,0,0
 LevelStatsAlis:
-.db $00,$00,$00,$00,$00,$00,$00,$00
 .db $10,$08,$08,$00,$00,$00,$00,$00
 .db $14,$0a,$0b,$00,$14,$00,$00,$00
 .db $19,$0c,$0f,$00,$32,$00,$00,$00
