@@ -41,6 +41,7 @@ banks 32
   .unbackground $035c5 $035d9 ; Spell menu blank space filling
   .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
+  .unbackground $039f6 $03a98 ; Shop window drawing, leaving number drawing part
   .unbackground $03b22 $03b39 ; Shop MST window drawing
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
@@ -231,6 +232,7 @@ _script\@_end:
 .define CursorMax           $c26e ; b Maximum index for menu selection (0-based)
 .define NameIndex           $c2c2 ; b Index into Names
 .define ItemIndex           $c2c4 ; b Index into Items
+.define RoomIndex           $c2db ; Index for various room-related lookups, notably shops.
 .define NumberToShowInText  $c2c5 ; b Number to show in text
 .define EnemyIndex          $c2e6 ; b Index into Enemies
 .define VehicleType         $c30e ; b Zero when walking
@@ -238,9 +240,10 @@ _script\@_end:
 .define SaveTilemapOld      $8100 ; Tilemap data for save - original
 .define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
+
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
-.enum $dfb0 export
+.enum $dfa0 export
   .union
     PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
   .nextu
@@ -268,6 +271,7 @@ _script\@_end:
   .endu
   HasFM           db   ; copy of FM detection result
   MusicSelection  db ; music test last selected song
+  ShopInventoryWidth db ; for elastic window size
 
   SettingsStart: .db
   
@@ -812,7 +816,7 @@ DictionaryLookup_Substring:
   jr -        ; Keep searching
 
 _Copy:
-  ; TODO: apply bracketed parts skipping here.
+  ; Apply bracketed parts skipping here.
   ; This code is used for all item lookups.
   ; hl = source
   ld de,TEMP_STR ; destination
@@ -2916,7 +2920,7 @@ inventory:
 
     ld hl,TEMP_STR    ; start of text
 
-    call _start_write ; write out 2 lines of text
+    call _start_write ; write out text
     call _wait_vblank
 
   pop hl
@@ -2929,54 +2933,210 @@ inventory:
 ; ________________________________________________________
 
 shop:
-  ld b,3    ; 3 items total
+; We extend this to do all the box drawing
+  ; First we want to decide how wide it is.
+  ; It looks like this:
+  ; ┌──────────────────╖
+  ; │Item 1       Price║
+  ; │Item 2       Price║
+  ; │Item 3       Price║
+  ; ╘══════════════════╝
+  ; Item names are variable length. Price is up to four digits. Item count is 1-3.
+  ; We want to make it have two spaces between the names and items so we don't
+  ; have it super wide if not needed.
+  ; First we need to look up the items for this shop.
+  ; This is all copied from the original game:
+  ld a,3 ; bank for table at $f717
+  ld (PAGING_SLOT_2),a
+  ld a,(RoomIndex)
+  and $1F
+  ; Multiply by 10
+  ld l,a
+  ld h,0
+  add hl,hl
+  ld c,l
+  ld b,h
+  add hl,hl
+  add hl,hl
+  add hl,bc
+  ; Look up (1-based)
+  ld bc,$b717 - 10 ; Shop items table at $f717
+  add hl,bc
+  ; First byte is menu size - 1
+  ld a,(hl)
+  ld (CursorMax),a
+  inc hl
+  push hl ; save this pointer for the end
+    ; Next are tuples of (item ID, price). We want to find the longest named item.
+    push af
+    push hl
+      inc a
+      ld b,a
+      ld c,0 ; longest length seen
+      di
+-:    ld a,(hl) ; Get ID
+      ; skip price
+      inc hl
+      inc hl
+      push hl
+      push bc
+        call _lookUpShopItem
+        call _checkLength
+      pop bc
+      pop hl
+      cp c
+      ; If it carries then c is bigger
+      jr c,+
+      ld c,a
++:    ; check if we have run out of items
+foo:
+      djnz -
+      ei
+      ; So the max must be C. Let's save it to RAM.
+      ld a,c
+      add a,3 ; space for numbers
+      ld (ShopInventoryWidth),a
 
--:push bc
-  push hl
-
-    di
-      ld a,3 ; Shop data bank
-      ld (PAGING_SLOT_2),a
-
-.if LANGUAGE == "de"
-      ; Select [] brackets only
-      ld a,%0001
-.else
-      ; Skip all brackets
-      xor a
-.endif
-      ld (SKIP_BITMASK),a
-
-      ld a,(hl)   ; grab item #
-      ld (FULL_STR),hl  ; save current shop ptr
-      ld hl,Items   ; table start
-
-      push de
-        call DictionaryLookup    ; copy string to RAM
-      pop de
-    ei
-
-    ld hl,TEMP_STR    ; start of text
-
-    call _start_write ; write out 2 lines of text
-
-    push hl     ; hacky workaround
-    push de
-      ld c,$01    ; write out price
-      call _shop_price
-    pop de
+      ; Now let's try to draw the top border.
+      ; First we compute the VRAM address. This is $3800 + (32 - width) / 2 * 2
+      sub 32
+      neg
+      and %11111110
+      ld e,a
+      ld d,0
+      ld hl,$7800
+      add hl,de
+      ex hl,de
+      rst $08 ; Set VRAM address
+      ; Set de to the next row down
+      ld hl,ONE_ROW
+      add hl,de
+      ex hl,de
+      ; Save that as the cursor address
+      ld (CursorTileMapAddress),de
+      ; Draw top border
+      ld a,(ShopInventoryWidth)
+      ld c,a
+      ld hl,BorderTop
+      call _DrawBorder
+      call _wait_vblank
     pop hl
-    ld a,2    ; restore page 2
-    ld (PAGING_SLOT_2),a
-  pop hl      ; restore old parameters
-  pop bc
+    pop af
+    ; Now hl points at the first item, a is the row count, de is the write address
 
-  inc hl      ; next item
-  inc hl
-  inc hl
-  djnz -
+    ld b,3    ; 3 items total
+_itemsLoop:
+    push bc
+    push hl
 
+      di
+        ld a,3 ; Shop data bank
+        ld (PAGING_SLOT_2),a
+        ld a,(hl)   ; grab item #
+        ; save to FULL_STR for later retrieval for drawing the price
+        ld (FULL_STR),hl
+        call _lookUpShopItem
+      ei
+
+      ; Print item text
+      push de
+        rst $08
+        ld hl,BorderSides
+        call _DrawOneTile
+        inc de
+        inc de
+        ; Now for the item name
+        ld hl,TEMP_STR
+        ld a,(LEN)
+        ld b,a
+-:      ld a,(hl)
+        inc hl
+        cp SymbolStart ; don't draw scripting codes
+        jr nc,+
+        call EmitCharacter
+        inc de
+        inc de
++:      djnz -
+        ld (VRAM_PTR),de
+        ld c,$01    ; write out price
+        call _shop_price
+        ld a,2    ; restore page 2
+        ld (PAGING_SLOT_2),a
+      pop de
+      call _wait_vblank
+      ; Next row
+      ld hl,ONE_ROW
+      add hl,de
+      ex hl,de
+      rst $08
+    pop hl      ; restore counter, data pointer
+    pop bc
+
+    inc hl      ; next item
+    inc hl
+    inc hl
+    djnz _itemsLoop
+    ; Clear LEN to stop the item name being drawn later
+    xor a
+    ld (LEN),a
+  
+    ; Bottom border
+    ld a,(ShopInventoryWidth)
+    ld c,a
+    ld hl,BorderBottom
+    call _DrawBorder
+    call _wait_vblank
+
+    call WaitForMenuSelection
+  pop hl
+  ; Point hl to the shop table entry selected
+  ; compute hl = hl + a * 3 = pointer to data for the selected item
+  ld b,a
+  add a,a
+  add a,b
+  add a,l
+  ld l,a
+  adc a,h
+  sub l
+  ld h,a
+  ld a,3
+  ld (PAGING_SLOT_2),a
   ret
+
+_lookUpShopItem:
+  ld hl,Items
+  push af
+.if LANGUAGE == "de"
+    ; Select [] brackets only
+    ld a,%0001
+.else
+    ; Skip all brackets
+    xor a
+.endif
+    ld (SKIP_BITMASK),a
+  pop af
+  push de
+    call DictionaryLookup ; puts length in LEN
+  pop de
+  ret
+  
+_checkLength:
+  ; When we do an item name lookup, the length includes control characters.
+  ; We count the printable ones.
+  ld a,(LEN)
+  ld hl,TEMP_STR
+  ld b,a
+  ld c,0
+-:ld a,(hl)
+  inc hl
+  cp SymbolStart
+  jr nc,+
+  inc c
++:djnz -
+  ; now c is the real name length
+  ld a,c
+  ret
+
 
 enemy:
   ; Enemy name window drawing
@@ -3003,22 +3163,10 @@ enemy:
   ei
 
   ; compute the name length
-  ; LEN contains the length including control symbols
-  ld a,(LEN)
-  ld hl,TEMP_STR
-  ld b,a
-  ld c,0
--:ld a,(hl)
-  inc hl
-  cp SymbolStart
-  jr nc,+
-  inc c
-+:djnz -
-  ; now c is the real name length
+  call _checkLength
 
   ; Compute the VRAM address
   ld hl,$7840 - 4 ; right-aligned, minus space for borders
-  ld a,c
   add a,a
   neg
   ld e,a
@@ -3035,7 +3183,7 @@ enemy:
     call _DrawBorder
   pop de
   ; Next row
-  ld hl,32*2
+  ld hl,ONE_ROW
   add hl,de
   ex de,hl
   push de
@@ -3226,7 +3374,7 @@ _shop_price:
         ld a,3    ; shop data bank
         ld (PAGING_SLOT_2),a
 
-        ld hl,(FULL_STR)  ; shop ptr
+        ld hl,(FULL_STR)  ; shop data pointer
 
         ld a,(hl)   ; check for blank item
         or a
@@ -3253,9 +3401,9 @@ _write_price:
 .endm
 
   TrampolineTo inventory $3671 $3680
-  TrampolineTo shop $3a1f $3a36
   TrampolineTo enemy $326d $3294
   TrampolineTo equipment $3850 $385f
+  ; Shop trampoline is now done manually
 
 ; Extra scripting
 .bank 1 slot 1
@@ -3557,9 +3705,9 @@ DezorianCustomStringCheck:
   PatchWords MENU                   $322c $324a ; Battle menu
   PatchWords MENU                   $37fb $3819 ; Regular world menu
 
-  PatchWords SHOP                   $39eb $3ac4 ; Shop items
-  PatchWords SHOP_VRAM              $39ee $39fa $3ac7
-  PatchW $3a40 SHOP_VRAM + ONE_ROW ; Cursor start location
+;  PatchWords SHOP                   $39eb $3ac4 ; Shop items
+;  PatchWords SHOP_VRAM              $39ee $39fa $3ac7
+;  PatchW $3a40 SHOP_VRAM + ONE_ROW ; Cursor start location
 
   PatchWords CURRENT_ITEMS          $3826 $386b ; Currently equipped items
   PatchWords CURRENT_ITEMS_VRAM     $3835 $3829 $386e
@@ -3672,6 +3820,16 @@ Slot1TrampolineEnd:
   ld a,1
   ld (PAGING_SLOT_1),a
   ret
+.ends
+
+  ROMPosition $39f6
+.section "Shop inventory window" force
+ShopInventory:
+  ; We trampoline to the same area as the stats drawing
+  ld a,:shop
+  ld (PAGING_SLOT_1),a
+  call shop
+  jp Slot1TrampolineEnd
 .ends
 
   ROMPosition $3b22

@@ -8265,7 +8265,7 @@ _LABEL_36E1_:
       inc hl
       djnz -
       ld hl,(Meseta)
-_LABEL_36F2_:
+_LABEL_36F2_DrawLargeNumberAndRightBorder:
       ld bc,$C010
       ld de,10000
       ld a,-1
@@ -8305,7 +8305,7 @@ _LABEL_36F2_:
       ld a,d
       ld bc,$C110
       call OutputDigit
-_LABEL_373D_:
+_LABEL_373D_DrawRightBorder:
       push af
       pop af
       ld a,$F3
@@ -8661,10 +8661,12 @@ _LABEL_39F6_Shop:
     push hl
       ld b,$03
 -:    push bc
+        ; Draw first row of two-line items (i.e. accent markers)
         ld c,$00
         push hl
-          call +
+          call + ; Draw 
         pop hl
+        ; Draw second line (characters and price)
         ld c,$01
         push hl
           call +
@@ -8674,7 +8676,7 @@ _LABEL_39F6_Shop:
         inc hl
       pop bc
       djnz -
-      ld hl,_DATA_6FD43_
+      ld hl,_DATA_6FD43_ ; Bottom border
       ld bc,$0120
       call OutputTilemapBoxWipePaging
       ld hl,$788C
@@ -8683,6 +8685,7 @@ _LABEL_39F6_Shop:
       ld hl,Frame2Paging
       ld (hl),$03
     pop hl
+    ; compute hl = hl + a * 3 = pointer to data for the selected item
     ld b,a
     add a,a
     add a,b
@@ -8703,7 +8706,7 @@ _LABEL_39F6_Shop:
       ld a,(hl)
       or a
       jr nz,+
-      ld c,$00 ; c is set to 0 if the first byte is zero
+      ld c,$00 ; c is set to 0 if the first byte is zero = no items
 +:    ld l,a
       ld h,$00
       add hl,hl
@@ -8737,13 +8740,15 @@ _LABEL_39F6_Shop:
       out (VDPData),a ; Write to tilemap
       push af
       pop af
-      ld a,$10
+      ld a,$10 ; MSB is always $10
       out (VDPData),a
       inc hl
-      djnz -
+      djnz - ; Loop over 8 chars
+      
+      ; check c to determine the space to leave for numbers?
       ld a,c
       or a
-      ld b,$01
+      ld b,$01 ; 1 or 6?
       jr nz,+
       ld b,$06
 +:
@@ -8755,19 +8760,21 @@ _LABEL_39F6_Shop:
       pop af
       ld a,$10
       out (VDPData),a
-      djnz -
+      djnz - ; Draw some spaces
       ld hl,Frame2Paging
       ld (hl),$03
     pop hl
     inc hl
+    ; Read price to hl
     ld a,(hl)
     inc hl
     ld h,(hl)
     ld l,a
+    ; then 
     ld a,c
     or a
-    jp nz,_LABEL_36F2_
-    jp _LABEL_373D_
+    jp nz,_LABEL_36F2_DrawLargeNumberAndRightBorder
+    jp _LABEL_373D_DrawRightBorder
 
 _LABEL_3AC3_:
     ld hl,OldTileMapMenu
