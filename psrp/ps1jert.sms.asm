@@ -3028,7 +3028,9 @@ shop:
     pop af
     ; Now hl points at the first item, a is the row count, de is the write address
 
-    ld b,3    ; 3 items total
+    ld a,(CursorMax)
+    inc a
+    ld b,a ; Only show as many rows as needed
 _itemsLoop:
     push bc
     push hl
@@ -3571,26 +3573,26 @@ DezorianCustomStringCheck:
 ;       | scroll buffer |
 ; $daae +---------------+                   +---------------+ +---------------+
 ;       | Regular menu  |                   | Battle menu   | | Shop items    |
-;       |           (W) |                   |           (B) | | (22x8)        |
+;       |           (W) |                   |           (B) | | (max 32x5)    |
 ; $db1e +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
 ; $db6e | items         | +---------------+ |               | |               | | (22x9)    (W) |
-; $db76 | (16x8)    (W) |                   |               | +---------------+ |               |
-; $db9c |               |                   +---------------+                   |               |
-; $dbe6 +---------------+ +---------------+ | Enemy stats   |                   |               |
-;       | Player select | | Buy/Sell      | | (8x10)    (B) |                   |               |
-;       | (8x9) (B,W)   | | (6x4)     (S) | |               |                   |               |
-; $dc1e |               | +- - - - - - - -+ |               |                   |               |
-;       |               | | (fr:9x4)      | |               |                   |               |
-; $dc2e |               | +---------------+ |               |                   |               |
-; $dc3a +---------------+                   |               |                   |               |
-; $dc3c +---------------+ +---------------+ +---------------+ +---------------+ |               |
-;       | Inventory     | | Spells        |                   | MST in shop   | |               |
-; $dcaa | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
-; $dcb4 |               | |               |                   +---------------+
-; $dd00 |               | +- - - - - - - -+
-;       |               | | (fr: 16x12)   |
+; $db76 | (16x8)    (W) |                   |               | |               | |               |
+; $db9c |               |                   +---------------+ |               | |               |
+; $dbe6 +---------------+ +---------------+ | Enemy stats   | |               | |               |
+; $dbee | Player select | | Buy/Sell      | | (8x10)    (B) | +---------------+ |               |
+;       | (8x9) (B,W)   | | (6x4)     (S) | |               | | MST in shop   | |               |
+; $dc1e |               | +- - - - - - - -+ |               | | (16x3)    (S) | |               |
+;       |               | | (fr:9x4)      | |               | |               | |               |
+; $dc2e |               | +---------------+ |               | |               | |               |
+; $dc3a +---------------+                   |               | |               | |               |
+; $dc3c +---------------+ +---------------+ +---------------+ |               | |               |
+; $dc4e | Inventory     | | Spells        |                   +---------------+ |               |
+; $dcaa | (16x21) (B,W) | | (12x12) (B,W) |                                     +---------------+
+; $dcb4 |               | |               |                   
+; $dd00 |               | +- - - - - - - -+                   
+;       |               | | (fr: 16x12)   |                   
 ; $dd38 |               | +---------------+
 ; $de1c +---------------+ +---------------+ +---------------+
 ;       | Use/Equip/Drop| | Yes/No        | | Active player |
@@ -3679,8 +3681,8 @@ DezorianCustomStringCheck:
   DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                             6                               9                                     8
   DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width              ChoiceMenu_height               29-ChoiceMenu_width                   14
   DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                             3                               1                                     8
-  DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height  (32-ShopInventoryDimensions_width)/2  0
-  DefineWindow SHOP_MST         INVENTORY             StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
+  DefineWindow SHOP             MENU                  32                            5                               0                                     0 ; shop inventory width is dynamic, up to 32
+  DefineWindow SHOP_MST         SHOP_end              StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4             SAVE_SLOT_COUNT+2               27-SAVE_NAME_WIDTH                    1
   DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width           SoundTestMenu_height+2          31-SoundTestMenu_width                0
   DefineWindow OptionsWindow    $d700                 OptionsMenu_width             OptionsMenu_height              32-OptionsMenu_width                  24-OptionsMenu_height
@@ -3722,9 +3724,9 @@ DezorianCustomStringCheck:
   PatchWords MENU                   $322c $324a ; Battle menu
   PatchWords MENU                   $37fb $3819 ; Regular world menu
 
-;  PatchWords SHOP                   $39eb $3ac4 ; Shop items
-;  PatchWords SHOP_VRAM              $39ee $39fa $3ac7
-;  PatchW $3a40 SHOP_VRAM + ONE_ROW ; Cursor start location
+  PatchWords SHOP                   $39eb,$3ac4
+  PatchWords SHOP_VRAM              $39ee,$3ac7
+  PatchWords SHOP_dims              $39f1,$3aca
 
   PatchWords CURRENT_ITEMS          $3826 $386b ; Currently equipped items
   PatchWords CURRENT_ITEMS_VRAM     $3835 $3829 $386e
