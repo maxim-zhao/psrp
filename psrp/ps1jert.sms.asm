@@ -5104,8 +5104,10 @@ SaveDataPatch:
 
 
 ; Changed credits -------------------------
+; Point to maybe relocated data
   PatchB $70b4 :CreditsData
   PatchW $70ba CreditsData-4
+; Code treats values >64 as 
 .slot 2
 .section "Credits" superfree
 CreditsData:
@@ -5115,8 +5117,10 @@ CreditsData:
 
 .macro CreditsEntry args x, y, text
 .dw $d000 + ((y * 32) + x) * 2
-.db text.length
+.db _credits_\@_end - _credits_\@
+_credits_\@:
 .stringmap credits text
+_credits_\@_end:
 .endm
 
 .if LANGUAGE == "en"
@@ -5497,9 +5501,9 @@ CreditsScreen8: .db 6
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,14,"SOFTWARE-"
+  CreditsEntry 3,15,"¨     ¨"
   CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
-  CreditsEntry 3,15,"¨     ¨"
 CreditsScreen9: .db 5
   CreditsEntry 3,5,"PROGRAMMIER-"
   CreditsEntry 4,7,"ASSISTENZ"
@@ -5512,26 +5516,26 @@ CreditsScreen10: .db 3
   CreditsEntry 17,6,"MUUUU YUJI"
 CreditsScreen11: .db 6
   CreditsEntry 2,5,"ENGLISCHE"
+  CreditsEntry 4,6,   "¨"
   CreditsEntry 1,7,"NEUUBERSETZUNG"
   CreditsEntry 10,10,"PAUL JENSEN"
   CreditsEntry 2,15,"FRANK CIFALDI"
   CreditsEntry 21,15,"SATSU"
-  CreditsEntry 4,6,"¨"
 CreditsScreen12: .db 4
   CreditsEntry 2,5,"DEUTSCHE"
+  CreditsEntry 4,6,"¨"
   CreditsEntry 4,7,"UBERSETZUNG"
   CreditsEntry 19,6,"POPFAN"
-  CreditsEntry 4,6,"¨"
 CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
   CreditsEntry 11,10,"Z80 GAIDEN"
   CreditsEntry 9,15,"MAXIM"
 CreditsScreen14: .db 5
+  CreditsEntry 12,9,   "¨"
   CreditsEntry 10,10,"PRASENTIERT"
   CreditsEntry 14,12,"VON"
   CreditsEntry 10,15,"SEGA"
   CreditsEntry 18,15,"SMS POWER!"
-  CreditsEntry 12,9,"¨"
 .endif
 .ends
 
