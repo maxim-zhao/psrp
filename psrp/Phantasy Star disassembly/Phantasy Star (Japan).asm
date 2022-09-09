@@ -7303,7 +7303,7 @@ _LABEL_3109_:
 
 .orga $3140
 .section "Output chars plus number plus right |" overwrite
-; outputs 8/16 bytes = 4/5 chars at (hl), then 3-digit number in a, then write | to VRAM address de
+; outputs 8/16 bytes = 4/8 chars at (hl), then 3-digit number in a, then write | to VRAM address de
 ; Then does VBlankFunction_Enemy in VBlank to keep tile animations going
 Output4CharsPlusStatWide:
     di
@@ -7391,7 +7391,7 @@ _LABEL_319E_:
           inc hl
           djnz -
         pop hl
-        ld bc,$C010
+        ld bc,$C010 ; tile c0 for leading blanks
         ld de,10000
         xor a
         dec a

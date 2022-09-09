@@ -41,7 +41,7 @@ banks 32
   .unbackground $035c5 $035d9 ; Spell menu blank space filling
   .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
-  .unbackground $039f6 $03a98 ; Shop window drawing, leaving number drawing part
+  .unbackground $039f6 $03ac2 ; Shop window drawing
   .unbackground $03b22 $03b39 ; Shop MST window drawing
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
@@ -233,7 +233,7 @@ _script\@_end:
 .define NameIndex           $c2c2 ; b Index into Names
 .define ItemIndex           $c2c4 ; b Index into Items
 .define RoomIndex           $c2db ; Index for various room-related lookups, notably shops.
-.define NumberToShowInText  $c2c5 ; b Number to show in text
+.define NumberToShowInText  $c2c5 ; w Number to show in text. Sometimes assumed to be 8-bit.
 .define EnemyIndex          $c2e6 ; b Index into Enemies
 .define VehicleType         $c30e ; b Zero when walking
 .define IntroState          $c600 ; b $ff when intro starts
@@ -266,11 +266,10 @@ _script\@_end:
     BARREL          db   ; current Huffman encoding barrel
     TREE            db   ; current Huffman tree
     VRAM_PTR        dw   ; VRAM address
-    FULL_STR        dw   ; pointer backup
     SKIP_BITMASK    db   ; for bracket-based skipping. If a skip region's code AND this is 0, we skip it.
   .endu
-  HasFM           db   ; copy of FM detection result
-  MusicSelection  db ; music test last selected song
+  HasFM             db   ; copy of FM detection result
+  MusicSelection    db ; music test last selected song
   ShopInventoryWidth db ; for elastic window size
 
   SettingsStart: .db
@@ -1668,11 +1667,14 @@ NumberLookup:
 ;      stores a flag to tell if it was singular or plural,
 ;      pulls digit calculation out to save space
 ;      105 bytes
-  jr z,_DRAW_NUMBER ; draw number if z
+  jr z,+ ; draw number if z
   call CharacterDrawing ; else draw a regular letter
   jp InGameTextDecoder         ; and loop
++:call DrawNumberToTempStr
+  inc hl      ; Process next script
+  jp InGameTextDecoder
 
-_DRAW_NUMBER:
+DrawNumberToTempStr:
   push hl      ; Save string ptr
   push bc      ; Width, temp
   push ix      ; Temp
@@ -1710,6 +1712,8 @@ _Scan:
     ld a,(hl)    ; load digit
     cp $01      ; check for '0'
     jr nz,_Done
+    xor a       ; blank
+    ld (hl),a
     inc hl      ; bump pointer
     djnz _Scan
 
@@ -1739,9 +1743,7 @@ _Plural:
   pop ix      ; Restore stack
   pop bc
   pop hl
-
-  inc hl      ; Process next script
-  jp InGameTextDecoder
+  ret
 
 _BCD_Digit:
   xor a ; clear carry flag, a = 0
@@ -2974,8 +2976,11 @@ shop:
       ld b,a
       ld c,0 ; longest length seen
       di
--:    ld a,(hl) ; Get ID
-      ; skip price
+-:    ld a,3 ; shop data
+      ld (PAGING_SLOT_2),a
+      ld a,(hl) ; Get item ID
+      ; Move to next item
+      inc hl
       inc hl
       inc hl
       push hl
@@ -2989,17 +2994,16 @@ shop:
       jr c,+
       ld c,a
 +:    ; check if we have run out of items
-foo:
       djnz -
       ei
       ; So the max must be C. Let's save it to RAM.
       ld a,c
-      add a,3 ; space for numbers
+      add a,6 ; space for numbers
       ld (ShopInventoryWidth),a
 
       ; Now let's try to draw the top border.
-      ; First we compute the VRAM address. This is $3800 + (32 - width) / 2 * 2
-      sub 32
+      ; First we compute the VRAM address. This is $3800 + (32 - (width+2)) / 2 * 2
+      sub 30
       neg
       and %11111110
       ld e,a
@@ -3033,8 +3037,15 @@ _itemsLoop:
         ld a,3 ; Shop data bank
         ld (PAGING_SLOT_2),a
         ld a,(hl)   ; grab item #
-        ; save to FULL_STR for later retrieval for drawing the price
-        ld (FULL_STR),hl
+        push af
+          inc hl
+          ; and price
+          ld a,(hl)
+          inc hl
+          ld h,(hl)
+          ld l,a
+          ld (NumberToShowInText),hl
+        pop af
         call _lookUpShopItem
       ei
 
@@ -3049,19 +3060,44 @@ _itemsLoop:
         ld hl,TEMP_STR
         ld a,(LEN)
         ld b,a
+        push bc
+          ld c,0 ; counter for chars written
+-:        ld a,(hl)
+          inc hl
+          cp SymbolStart ; don't draw scripting codes
+          jr nc,+
+          call EmitCharacter
+          inc c
+          inc de
+          inc de
++:        djnz -
+          ld a,c ; written character count
+        pop bc
+        ; Write out blanks
+        ld c,a
+        ld a,(ShopInventoryWidth)
+        sub c
+        sub 5 ; for price
+        jr z,+
+        ld b,a ; we want this many blanks
+-:      xor a ; space
+        call EmitCharacter
+        djnz -
++:
+        ; Write out price
+        call DrawNumberToTempStr
+        ; We called the function used for numbers in the script.
+        ; It has rendered the number to TEMP_STR, and also set some other script state that we don't care about.
+        ld hl,TEMP_STR
+        ld b,5 ; digits
 -:      ld a,(hl)
         inc hl
-        cp SymbolStart ; don't draw scripting codes
-        jr nc,+
         call EmitCharacter
-        inc de
-        inc de
-+:      djnz -
-        ld (VRAM_PTR),de
-        ld c,$01    ; write out price
-        call _shop_price
-        ld a,2    ; restore page 2
-        ld (PAGING_SLOT_2),a
+        djnz -
+        
+        ; Write out right border
+        ld hl,BorderSides+2
+        call _DrawOneTile
       pop de
       call _wait_vblank
       ; Next row
@@ -3366,25 +3402,6 @@ _wait_vblank:
       call ExecuteFunctionIndexAInNextVBlank
       ret
 
-_shop_price:
-      di
-        ld de,(VRAM_PTR)  ; restore VRAM ptr
-        rst $08
-
-        ld a,3    ; shop data bank
-        ld (PAGING_SLOT_2),a
-
-        ld hl,(FULL_STR)  ; shop data pointer
-
-        ld a,(hl)   ; check for blank item
-        or a
-        jr nz,_write_price
-        ld c,0    ; no price
-
-_write_price:
-        push de     ; parameter
-        push hl     ; parameter
-          jp $3a9a    ; write price
 .ends
 
 .macro TrampolineTo args dest, start, end
