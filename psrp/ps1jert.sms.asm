@@ -3010,12 +3010,12 @@ shop:
       ld d,0
       ld hl,$7800
       add hl,de
-      ex hl,de
+      ex de,hl
       rst $08 ; Set VRAM address
       ; Set de to the next row down
       ld hl,ONE_ROW
       add hl,de
-      ex hl,de
+      ex de,hl
       ; Save that as the cursor address
       ld (CursorTileMapAddress),de
       ; Draw top border
@@ -3105,7 +3105,7 @@ _itemsLoop:
       ; Next row
       ld hl,ONE_ROW
       add hl,de
-      ex hl,de
+      ex de,hl
       rst $08
     pop hl      ; restore counter, data pointer
     pop bc
