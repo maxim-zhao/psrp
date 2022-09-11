@@ -5295,9 +5295,9 @@ CreditsScreen8: .db 4
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 7
   CreditsEntry 4,6,"AUXILIAR DE"
-  CreditsEntry 26,5,        "~"
+  CreditsEntry 26,5,         "~"
   CreditsEntry 17,6,"PROGRAMACAO"
-  CreditsEntry 25,7,       "'"
+  CreditsEntry 25,7,        "'"
   CreditsEntry 9,10,"COM BLUE"
   CreditsEntry 4,15,"M WAKA"
   CreditsEntry 19,15,"ASI"
