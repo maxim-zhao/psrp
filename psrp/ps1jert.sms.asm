@@ -41,6 +41,7 @@ banks 32
   .unbackground $035c5 $035d9 ; Spell menu blank space filling
   .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
+  .unbackground $039f6 $03ac2 ; Shop window drawing
   .unbackground $03b22 $03b39 ; Shop MST window drawing
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
@@ -231,16 +232,18 @@ _script\@_end:
 .define CursorMax           $c26e ; b Maximum index for menu selection (0-based)
 .define NameIndex           $c2c2 ; b Index into Names
 .define ItemIndex           $c2c4 ; b Index into Items
-.define NumberToShowInText  $c2c5 ; b Number to show in text
+.define RoomIndex           $c2db ; Index for various room-related lookups, notably shops.
+.define NumberToShowInText  $c2c5 ; w Number to show in text. Sometimes assumed to be 8-bit.
 .define EnemyIndex          $c2e6 ; b Index into Enemies
 .define VehicleType         $c30e ; b Zero when walking
 .define IntroState          $c600 ; b $ff when intro starts
 .define SaveTilemapOld      $8100 ; Tilemap data for save - original
 .define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
+
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
-.enum $dfb0 export
+.enum $dfa0 export
   .union
     PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
   .nextu
@@ -263,11 +266,11 @@ _script\@_end:
     BARREL          db   ; current Huffman encoding barrel
     TREE            db   ; current Huffman tree
     VRAM_PTR        dw   ; VRAM address
-    FULL_STR        dw   ; pointer backup
     SKIP_BITMASK    db   ; for bracket-based skipping. If a skip region's code AND this is 0, we skip it.
   .endu
-  HasFM           db   ; copy of FM detection result
-  MusicSelection  db ; music test last selected song
+  HasFM             db   ; copy of FM detection result
+  MusicSelection    db ; music test last selected song
+  ShopInventoryWidth db ; for elastic window size
 
   SettingsStart: .db
   
@@ -812,7 +815,7 @@ DictionaryLookup_Substring:
   jr -        ; Keep searching
 
 _Copy:
-  ; TODO: apply bracketed parts skipping here.
+  ; Apply bracketed parts skipping here.
   ; This code is used for all item lookups.
   ; hl = source
   ld de,TEMP_STR ; destination
@@ -1664,11 +1667,14 @@ NumberLookup:
 ;      stores a flag to tell if it was singular or plural,
 ;      pulls digit calculation out to save space
 ;      105 bytes
-  jr z,_DRAW_NUMBER ; draw number if z
+  jr z,+ ; draw number if z
   call CharacterDrawing ; else draw a regular letter
   jp InGameTextDecoder         ; and loop
++:call DrawNumberToTempStr
+  inc hl      ; Process next script
+  jp InGameTextDecoder
 
-_DRAW_NUMBER:
+DrawNumberToTempStr:
   push hl      ; Save string ptr
   push bc      ; Width, temp
   push ix      ; Temp
@@ -1706,6 +1712,8 @@ _Scan:
     ld a,(hl)    ; load digit
     cp $01      ; check for '0'
     jr nz,_Done
+    xor a       ; blank
+    ld (hl),a
     inc hl      ; bump pointer
     djnz _Scan
 
@@ -1735,9 +1743,7 @@ _Plural:
   pop ix      ; Restore stack
   pop bc
   pop hl
-
-  inc hl      ; Process next script
-  jp InGameTextDecoder
+  ret
 
 _BCD_Digit:
   xor a ; clear carry flag, a = 0
@@ -2612,27 +2618,27 @@ Items:
   String "<Eine> Heißluftpistole"
   String "<EinN> Lichtschwert"
   String "<Eine> Laserpistole"
-  String "<EinN> Lakoniumschwert"
-  String "<Eine> Lakoniumaxt"
+  String "<Das> Lakoniumschwert"
+  String "<Die> Lakoniumaxt"
 ; armour: 10-18
   String "Lederkleidung"
   String "<Ein> Weiße[r](n) Umhang"
-  String "Leichte Kleidung"
+  String "<Ein> Leichte[r](n) Anzug"
   String "<Eine> Eisenrüstung"
   String "<EinN> Stacheltierfell"
   String "<Ein> Zirkoniumharnisch"
   String "<Eine> Diamantrüstung"
-  String "<Eine> Lakoniumrüstung"
+  String "<Die> Lakoniumrüstung"
   String "<Der> Frahd-Umhang"
 ; shields: 19-20
   String "<Ein> Lederschild"
   String "<Ein> Eisenschild"
   String "<Ein> Bronzeschild"
   String "<Ein> Keramikschild"
-  String "Tierhandschuhe"
+  String "Tierhandschuhe"				; needs -n suffix in dative case
   String "<Eine> Laserbarriere"
   String "<Der> Schild des Perseus"
-  String "<Ein> Lakoniumschild"
+  String "<Der> Lakoniumschild"
 ; vehicles: 21-23
   String "<Der> LandMaster"
   String "<Der> FlowMover"
@@ -2640,26 +2646,26 @@ Items:
 ; items: 24+
   String "<EinN> PelorieMate"
   String "<EinN> Ruoginin"
-  String "<Die> Sanfte Flöte"
+  String "<Die> Sanfte Flöte"			; alt: "<Die> Besänftigungsflöte"
   String "<Ein> Scheinwerfer"
   String "<Ein> Tarnumhang"
-  String "<Ein> Flugteppich"
+  String "<Ein> Fliegende[r](n) Teppich"
   String "<Ein> Zauberhut"
-  String "<Das> Alsulin"
-  String "<Das> Polymeteral"
+  String "<Das> Alsulin"				; alt: "<Die> «Flasche »Alsulin"
+  String "<Das> Polymeteral"			; alt: "<Eine> «Flasche »Polymeteral"
   String "<Der> Generalschlüssel"
   String "<Eine> Telepathiekugel"
   String "<Die> Sonnenfackel"
   String "<Das> Aeroprisma"
   String "<Die> Laermabeeren"
   String "Hapsby"
-  String "<Ein> Straßenpass"
-  String "<Ein> Reisepass"
+  String "<Ein> Straßenpass"			; use definite article?
+  String "<Ein> Reisepass"				; use definite article?
   String "<Der> Kompass"
   String "<EinN> Törtchen"
   String "<Der> Brief vom G«eneralg»ouverneur"
-  String "<Der> Lakoniumtopf"
-  String "<Das> Lichtamulett"
+  String "<Ein> Lakoniumtopf"
+  String "<Ein> Lichtanhänger"
   String "<Das> Karbunkelauge"
   String "<Eine> Gasmaske"
   String "Damoas Kristall"
@@ -2684,14 +2690,14 @@ Enemies:
   String "<Der> Skorpion{s}"
   String "<Der> Goldskorpion{s}"
   String "<Der> Blauschleim{s}"
-  String "<Der> Motavianer-Bauer{s}"
+  String "<Der> Motavische[r]{n}(n) Bauer{s}(n)"
   String "<Die> Teufelsfledermaus"
   String "<Der> Mörderbaum{s}"
   String "<Die> Beißerfliege"
-  String "<Der> Motavianer-Pläger{s}"
+  String "<Der> Motavische[r]{n}(n) Pläger{s}"
   String "<Der> Herex"
   String "<Der> Sandwurm{s}"
-  String "<Der> Motavische[r]{n}(n) Irre[r]{s}(n)"
+  String "<Der> Motavische[r]{n}(n) Irre[r]{n}(n)"
   String "<Die> Goldlinse"
   String "<Der> Rotschleim{s}"
   String "<Der> Fledermausmann{s}"
@@ -2700,26 +2706,26 @@ Enemies:
   String "<Der> Lich{s}"
   String "<Die> Tarantel"
   String "<Der> Mantikor{s}"
-  String "<Das> Skelettt{s}"
-  String "<Der> Ameisenlöwe{n}"
+  String "<Das> Skelett{s}"
+  String "<Der> Ameisenlöwe{n}(n)"
   String "<Der> Morastmann{s}"
   String "<Der> Dezorianer{s}"
   String "<Der> Wüstenegel{s}"
-  String "<Der> Cryon{s}"
+  String "<Der> Cryon{s}"							; think of a different translation
   String "<Der> Riesenrüssel{s}"
   String "<Der> Ghul{s}"
   String "<Der> Ammonit{s}"
   String "<Der> Hinrichter{s}"
   String "<Der> Wicht{s}"
   String "<Der> Schädelsoldat{en}(en)"
-  String "<Die> Schnecke"
+  String "<Die> Schnecke"							; different name, maybe?
   String "<Der> Mantikort{s}"
   String "<Die> Riesenschlange"
   String "<Der> Leviathan{s}"
   String "<Der> Königslich{s}"
-  String "<Der> Octopus"
+  String "<Der> Krake{n}(n)"
   String "<Der> Wilde[r]{n}(n) Jäger{s}"
-  String "<Das> Oberdezorianer{s}"
+  String "<Der> Dezorianer-Häuptling{s}"			; too long
   String "<Der> Zombie{s}"
   String "<Der> Lebende[r]{n}(n) Tote[r]{n}(n)"
   String "<Der> Roboterpolizist{en}(en)"
@@ -2733,8 +2739,8 @@ Enemies:
   String "<Die> Oberschlange"
   String "<Der> Todbringer{s}"
   String "<Der> Chaosmagier{s}"
-  String "<Der> Zentaur{s}"
-  String "<Der> Eismensch{en}"
+  String "<Der> Zentaur{en}(en)"
+  String "<Der> Eismensch{en}(en)"
   String "<Der> Vulcanus"
   String "<Der> Rote[r]{n}(n) Drache{n}(n)"
   String "<Der> Grüne[r]{n}(n) Drache{n}(n)"
@@ -2749,7 +2755,7 @@ Enemies:
   String "<Der> Golddrache{n}(n)"
   String "<Der> Irre[r]{n}(n) Doktor{s}"
   String "Lashiec{s}"
-  String "Dunkle{r} Macht"
+  String "Dunkle{r} Macht"							; with or without article is the question
   String "<Der> Albtraum{s}"
 .endif
 
@@ -2916,7 +2922,7 @@ inventory:
 
     ld hl,TEMP_STR    ; start of text
 
-    call _start_write ; write out 2 lines of text
+    call _start_write ; write out text
     call _wait_vblank
 
   pop hl
@@ -2929,54 +2935,246 @@ inventory:
 ; ________________________________________________________
 
 shop:
-  ld b,3    ; 3 items total
-
--:push bc
-  push hl
-
-    di
-      ld a,3 ; Shop data bank
+; We extend this to do all the box drawing
+  ; First we want to decide how wide it is.
+  ; It looks like this:
+  ; ┌──────────────────╖
+  ; │Item 1       Price║
+  ; │Item 2       Price║
+  ; │Item 3       Price║
+  ; ╘══════════════════╝
+  ; Item names are variable length. Price is up to four digits. Item count is 1-3.
+  ; We want to make it have two spaces between the names and items so we don't
+  ; have it super wide if not needed.
+  ; First we need to look up the items for this shop.
+  ; This is all copied from the original game:
+  ld a,3 ; bank for table at $f717
+  ld (PAGING_SLOT_2),a
+  ld a,(RoomIndex)
+  and $1F
+  ; Multiply by 10
+  ld l,a
+  ld h,0
+  add hl,hl
+  ld c,l
+  ld b,h
+  add hl,hl
+  add hl,hl
+  add hl,bc
+  ; Look up (1-based)
+  ld bc,$b717 - 10 ; Shop items table at $f717
+  add hl,bc
+  ; First byte is menu size - 1
+  ld a,(hl)
+  ld (CursorMax),a
+  inc hl
+  push hl ; save this pointer for the end
+    ; Next are tuples of (item ID, price). We want to find the longest named item.
+    push af
+    push hl
+      inc a
+      ld b,a
+      ld c,0 ; longest length seen
+      di
+-:    ld a,3 ; shop data
       ld (PAGING_SLOT_2),a
+      ld a,(hl) ; Get item ID
+      ; Move to next item
+      inc hl
+      inc hl
+      inc hl
+      push hl
+      push bc
+        call _lookUpShopItem
+        call _checkLength
+      pop bc
+      pop hl
+      cp c
+      ; If it carries then c is bigger
+      jr c,+
+      ld c,a
++:    ; check if we have run out of items
+      djnz -
+      ei
+      ; So the max must be C. Let's save it to RAM.
+      ld a,c
+      add a,6 ; space for numbers
+      ld (ShopInventoryWidth),a
 
-.if LANGUAGE == "de"
-      ; Select [] brackets only
-      ld a,%0001
-.else
-      ; Skip all brackets
-      xor a
-.endif
-      ld (SKIP_BITMASK),a
-
-      ld a,(hl)   ; grab item #
-      ld (FULL_STR),hl  ; save current shop ptr
-      ld hl,Items   ; table start
-
-      push de
-        call DictionaryLookup    ; copy string to RAM
-      pop de
-    ei
-
-    ld hl,TEMP_STR    ; start of text
-
-    call _start_write ; write out 2 lines of text
-
-    push hl     ; hacky workaround
-    push de
-      ld c,$01    ; write out price
-      call _shop_price
-    pop de
+      ; Now let's try to draw the top border.
+      ; First we compute the VRAM address. This is $3800 + (32 - (width+2)) / 2 * 2
+      sub 30
+      neg
+      and %11111110
+      ld e,a
+      ld d,0
+      ld hl,$7800
+      add hl,de
+      ex de,hl
+      rst $08 ; Set VRAM address
+      ; Set de to the next row down
+      ld hl,ONE_ROW
+      add hl,de
+      ex de,hl
+      ; Save that as the cursor address
+      ld (CursorTileMapAddress),de
+      ; Draw top border
+      ld a,(ShopInventoryWidth)
+      ld c,a
+      ld hl,BorderTop
+      call _DrawBorder
+      call _wait_vblank
     pop hl
-    ld a,2    ; restore page 2
-    ld (PAGING_SLOT_2),a
-  pop hl      ; restore old parameters
-  pop bc
+    pop af
+    ; Now hl points at the first item, a is the row count, de is the write address
 
-  inc hl      ; next item
-  inc hl
-  inc hl
-  djnz -
+    ld a,(CursorMax)
+    inc a
+    ld b,a ; Only show as many rows as needed
+_itemsLoop:
+    push bc
+    push hl
 
+      di
+        ld a,3 ; Shop data bank
+        ld (PAGING_SLOT_2),a
+        ld a,(hl)   ; grab item #
+        push af
+          inc hl
+          ; and price
+          ld a,(hl)
+          inc hl
+          ld h,(hl)
+          ld l,a
+          ld (NumberToShowInText),hl
+        pop af
+        call _lookUpShopItem
+      ei
+
+      ; Print item text
+      push de
+        rst $08
+        ld hl,BorderSides
+        call _DrawOneTile
+        inc de
+        inc de
+        ; Now for the item name
+        ld hl,TEMP_STR
+        ld a,(LEN)
+        ld b,a
+        push bc
+          ld c,0 ; counter for chars written
+-:        ld a,(hl)
+          inc hl
+          cp SymbolStart ; don't draw scripting codes
+          jr nc,+
+          call EmitCharacter
+          inc c
+          inc de
+          inc de
++:        djnz -
+          ld a,c ; written character count
+        pop bc
+        ; Write out blanks
+        ld c,a
+        ld a,(ShopInventoryWidth)
+        sub c
+        sub 5 ; for price
+        jr z,+
+        ld b,a ; we want this many blanks
+-:      xor a ; space
+        call EmitCharacter
+        djnz -
++:
+        ; Write out price
+        call DrawNumberToTempStr
+        ; We called the function used for numbers in the script.
+        ; It has rendered the number to TEMP_STR, and also set some other script state that we don't care about.
+        ld hl,TEMP_STR
+        ld b,5 ; digits
+-:      ld a,(hl)
+        inc hl
+        call EmitCharacter
+        djnz -
+        
+        ; Write out right border
+        ld hl,BorderSides+2
+        call _DrawOneTile
+      pop de
+      call _wait_vblank
+      ; Next row
+      ld hl,ONE_ROW
+      add hl,de
+      ex de,hl
+      rst $08
+    pop hl      ; restore counter, data pointer
+    pop bc
+
+    inc hl      ; next item
+    inc hl
+    inc hl
+    djnz _itemsLoop
+    ; Clear LEN to stop the item name being drawn later
+    xor a
+    ld (LEN),a
+  
+    ; Bottom border
+    ld a,(ShopInventoryWidth)
+    ld c,a
+    ld hl,BorderBottom
+    call _DrawBorder
+    call _wait_vblank
+
+    call WaitForMenuSelection
+  pop hl
+  ; Point hl to the shop table entry selected
+  ; compute hl = hl + a * 3 = pointer to data for the selected item
+  ld b,a
+  add a,a
+  add a,b
+  add a,l
+  ld l,a
+  adc a,h
+  sub l
+  ld h,a
+  ld a,3
+  ld (PAGING_SLOT_2),a
   ret
+
+_lookUpShopItem:
+  ld hl,Items
+  push af
+.if LANGUAGE == "de"
+    ; Select [] brackets only
+    ld a,%0001
+.else
+    ; Skip all brackets
+    xor a
+.endif
+    ld (SKIP_BITMASK),a
+  pop af
+  push de
+    call DictionaryLookup ; puts length in LEN
+  pop de
+  ret
+  
+_checkLength:
+  ; When we do an item name lookup, the length includes control characters.
+  ; We count the printable ones.
+  ld a,(LEN)
+  ld hl,TEMP_STR
+  ld b,a
+  ld c,0
+-:ld a,(hl)
+  inc hl
+  cp SymbolStart
+  jr nc,+
+  inc c
++:djnz -
+  ; now c is the real name length
+  ld a,c
+  ret
+
 
 enemy:
   ; Enemy name window drawing
@@ -3003,22 +3201,10 @@ enemy:
   ei
 
   ; compute the name length
-  ; LEN contains the length including control symbols
-  ld a,(LEN)
-  ld hl,TEMP_STR
-  ld b,a
-  ld c,0
--:ld a,(hl)
-  inc hl
-  cp SymbolStart
-  jr nc,+
-  inc c
-+:djnz -
-  ; now c is the real name length
+  call _checkLength
 
   ; Compute the VRAM address
   ld hl,$7840 - 4 ; right-aligned, minus space for borders
-  ld a,c
   add a,a
   neg
   ld e,a
@@ -3035,7 +3221,7 @@ enemy:
     call _DrawBorder
   pop de
   ; Next row
-  ld hl,32*2
+  ld hl,ONE_ROW
   add hl,de
   ex de,hl
   push de
@@ -3218,25 +3404,6 @@ _wait_vblank:
       call ExecuteFunctionIndexAInNextVBlank
       ret
 
-_shop_price:
-      di
-        ld de,(VRAM_PTR)  ; restore VRAM ptr
-        rst $08
-
-        ld a,3    ; shop data bank
-        ld (PAGING_SLOT_2),a
-
-        ld hl,(FULL_STR)  ; shop ptr
-
-        ld a,(hl)   ; check for blank item
-        or a
-        jr nz,_write_price
-        ld c,0    ; no price
-
-_write_price:
-        push de     ; parameter
-        push hl     ; parameter
-          jp $3a9a    ; write price
 .ends
 
 .macro TrampolineTo args dest, start, end
@@ -3253,9 +3420,9 @@ _write_price:
 .endm
 
   TrampolineTo inventory $3671 $3680
-  TrampolineTo shop $3a1f $3a36
   TrampolineTo enemy $326d $3294
   TrampolineTo equipment $3850 $385f
+  ; Shop trampoline is now done manually
 
 ; Extra scripting
 .bank 1 slot 1
@@ -3406,26 +3573,26 @@ DezorianCustomStringCheck:
 ;       | scroll buffer |
 ; $daae +---------------+                   +---------------+ +---------------+
 ;       | Regular menu  |                   | Battle menu   | | Shop items    |
-;       |           (W) |                   |           (B) | | (22x8)        |
+;       |           (W) |                   |           (B) | | (max 32x5)    |
 ; $db1e +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
 ; $db6e | items         | +---------------+ |               | |               | | (22x9)    (W) |
-; $db76 | (16x8)    (W) |                   |               | +---------------+ |               |
-; $db9c |               |                   +---------------+                   |               |
-; $dbe6 +---------------+ +---------------+ | Enemy stats   |                   |               |
-;       | Player select | | Buy/Sell      | | (8x10)    (B) |                   |               |
-;       | (8x9) (B,W)   | | (6x4)     (S) | |               |                   |               |
-; $dc1e |               | +- - - - - - - -+ |               |                   |               |
-;       |               | | (fr:9x4)      | |               |                   |               |
-; $dc2e |               | +---------------+ |               |                   |               |
-; $dc3a +---------------+                   |               |                   |               |
-; $dc3c +---------------+ +---------------+ +---------------+ +---------------+ |               |
-;       | Inventory     | | Spells        |                   | MST in shop   | |               |
-; $dcaa | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
-; $dcb4 |               | |               |                   +---------------+
-; $dd00 |               | +- - - - - - - -+
-;       |               | | (fr: 16x12)   |
+; $db76 | (16x8)    (W) |                   |               | |               | |               |
+; $db9c |               |                   +---------------+ |               | |               |
+; $dbe6 +---------------+ +---------------+ | Enemy stats   | |               | |               |
+; $dbee | Player select | | Buy/Sell      | | (8x10)    (B) | +---------------+ |               |
+;       | (8x9) (B,W)   | | (6x4)     (S) | |               | | MST in shop   | |               |
+; $dc1e |               | +- - - - - - - -+ |               | | (16x3)    (S) | |               |
+;       |               | | (fr:9x4)      | |               | |               | |               |
+; $dc2e |               | +---------------+ |               | |               | |               |
+; $dc3a +---------------+                   |               | |               | |               |
+; $dc3c +---------------+ +---------------+ +---------------+ |               | |               |
+; $dc4e | Inventory     | | Spells        |                   +---------------+ |               |
+; $dcaa | (16x21) (B,W) | | (12x12) (B,W) |                                     +---------------+
+; $dcb4 |               | |               |                   
+; $dd00 |               | +- - - - - - - -+                   
+;       |               | | (fr: 16x12)   |                   
 ; $dd38 |               | +---------------+
 ; $de1c +---------------+ +---------------+ +---------------+
 ;       | Use/Equip/Drop| | Yes/No        | | Active player |
@@ -3514,8 +3681,8 @@ DezorianCustomStringCheck:
   DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                             6                               9                                     8
   DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width              ChoiceMenu_height               29-ChoiceMenu_width                   14
   DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                             3                               1                                     8
-  DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height  (32-ShopInventoryDimensions_width)/2  0
-  DefineWindow SHOP_MST         INVENTORY             StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
+  DefineWindow SHOP             MENU                  32                            5                               0                                     0 ; shop inventory width is dynamic, up to 32
+  DefineWindow SHOP_MST         SHOP_end              StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4             SAVE_SLOT_COUNT+2               27-SAVE_NAME_WIDTH                    1
   DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width           SoundTestMenu_height+2          31-SoundTestMenu_width                0
   DefineWindow OptionsWindow    $d700                 OptionsMenu_width             OptionsMenu_height              32-OptionsMenu_width                  24-OptionsMenu_height
@@ -3557,9 +3724,9 @@ DezorianCustomStringCheck:
   PatchWords MENU                   $322c $324a ; Battle menu
   PatchWords MENU                   $37fb $3819 ; Regular world menu
 
-  PatchWords SHOP                   $39eb $3ac4 ; Shop items
-  PatchWords SHOP_VRAM              $39ee $39fa $3ac7
-  PatchW $3a40 SHOP_VRAM + ONE_ROW ; Cursor start location
+  PatchWords SHOP                   $39eb,$3ac4
+  PatchWords SHOP_VRAM              $39ee,$3ac7
+  PatchWords SHOP_dims              $39f1,$3aca
 
   PatchWords CURRENT_ITEMS          $3826 $386b ; Currently equipped items
   PatchWords CURRENT_ITEMS_VRAM     $3835 $3829 $386e
@@ -3672,6 +3839,16 @@ Slot1TrampolineEnd:
   ld a,1
   ld (PAGING_SLOT_1),a
   ret
+.ends
+
+  ROMPosition $39f6
+.section "Shop inventory window" force
+ShopInventory:
+  ; We trampoline to the same area as the stats drawing
+  ld a,:shop
+  ld (PAGING_SLOT_1),a
+  call shop
+  jp Slot1TrampolineEnd
 .ends
 
   ROMPosition $3b22
@@ -4927,8 +5104,10 @@ SaveDataPatch:
 
 
 ; Changed credits -------------------------
+; Point to maybe relocated data
   PatchB $70b4 :CreditsData
   PatchW $70ba CreditsData-4
+; Code treats values >64 as 
 .slot 2
 .section "Credits" superfree
 CreditsData:
@@ -4938,8 +5117,10 @@ CreditsData:
 
 .macro CreditsEntry args x, y, text
 .dw $d000 + ((y * 32) + x) * 2
-.db text.length
+.db _credits_\@_end - _credits_\@
+_credits_\@:
 .stringmap credits text
+_credits_\@_end:
 .endm
 
 .if LANGUAGE == "en"
@@ -5114,9 +5295,9 @@ CreditsScreen8: .db 4
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 7
   CreditsEntry 4,6,"AUXILIAR DE"
-  CreditsEntry 26,5,        "~"
+  CreditsEntry 26,5,         "~"
   CreditsEntry 17,6,"PROGRAMACAO"
-  CreditsEntry 25,7,       "'"
+  CreditsEntry 25,7,        "'"
   CreditsEntry 9,10,"COM BLUE"
   CreditsEntry 4,15,"M WAKA"
   CreditsEntry 19,15,"ASI"
@@ -5290,18 +5471,17 @@ CreditsScreen2: .db 3
   CreditsEntry 4,5,"KOMPLETTE"
   CreditsEntry 8,7,"PLANUNG"
   CreditsEntry 17,6,"OSSALE KOHTA"
-CreditsScreen3: .db 5
-  CreditsEntry 6,5,"SZENARIO"
+CreditsScreen3: .db 4
+  CreditsEntry 4,6,"SZENARIO"
   CreditsEntry 17,6,"OSSALE KOHTA"
   CreditsEntry 4,15,"HANDLUNG"
   CreditsEntry 17,15,"APRIL FOOL"
 CreditsScreen4: .db 4
-  CreditsEntry 4,5,"ASSISTENZ"
-  CreditsEntry 7,6,"BEI"
-  CreditsEntry 3,7,"KOORDINATION"
+  CreditsEntry 1,5,"KOORDINATIONS-"
+  CreditsEntry 6,7,"ASSISTENZ"
   CreditsEntry 10,11,"OTEGAMI CHIE"
   CreditsEntry 18,15,"GAMER MIKI"
-CreditsScreen5: .db 5
+CreditsScreen5: .db 6
   CreditsEntry 3,5,"KOMPLETTES"
   CreditsEntry 8,7,"DESIGN"
   CreditsEntry 18,6,"PHOENIX RIE"
@@ -5317,42 +5497,43 @@ CreditsScreen7: .db 4
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8: .db 4
+CreditsScreen8: .db 6
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
-  CreditsEntry 4,15,"SOFT CHECK"
+  CreditsEntry 4,14,"SOFTWARE-"
+  CreditsEntry 3,15,"¨     ¨"
+  CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 5
-  CreditsEntry 3,5,"ASSISTENZ"
-  CreditsEntry 7,6,"BEI"
-  CreditsEntry 1,7,"PROGRAMMIERUNG"
+  CreditsEntry 3,5,"PROGRAMMIER-"
+  CreditsEntry 4,7,"ASSISTENZ"
   CreditsEntry 9,10,"COM BLUE"
   CreditsEntry 4,15,"M WAKA"
   CreditsEntry 19,15,"ASI"
-CreditsScreen10: .db 2
+CreditsScreen10: .db 3
   CreditsEntry 4,5,"HAUPT-"
   CreditsEntry 2,7,"PROGRAMMIERER"
   CreditsEntry 17,6,"MUUUU YUJI"
-CreditsScreen11: .db 1
+CreditsScreen11: .db 6
   CreditsEntry 2,5,"ENGLISCHE"
-  CreditsEntry 4,6,"¨"
+  CreditsEntry 4,6,   "¨"
   CreditsEntry 1,7,"NEUUBERSETZUNG"
   CreditsEntry 10,10,"PAUL JENSEN"
   CreditsEntry 2,15,"FRANK CIFALDI"
   CreditsEntry 21,15,"SATSU"
 CreditsScreen12: .db 4
   CreditsEntry 2,5,"DEUTSCHE"
-  CreditsEntry 4,5,"¨"
-  CreditsEntry 4,6,"UBERSETZUNG"
-  CreditsEntry 19,5,"POPFAN"
+  CreditsEntry 4,6,"¨"
+  CreditsEntry 4,7,"UBERSETZUNG"
+  CreditsEntry 19,6,"POPFAN"
 CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
   CreditsEntry 11,10,"Z80 GAIDEN"
   CreditsEntry 9,15,"MAXIM"
-CreditsScreen14: .db 3
-  CreditsEntry 12,10,"¨"
-  CreditsEntry 10,11,"PRASENTIERT"
-  CreditsEntry 15,13,"VON"
+CreditsScreen14: .db 5
+  CreditsEntry 12,9,   "¨"
+  CreditsEntry 10,10,"PRASENTIERT"
+  CreditsEntry 14,12,"VON"
   CreditsEntry 10,15,"SEGA"
   CreditsEntry 18,15,"SMS POWER!"
 .endif
