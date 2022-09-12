@@ -36,7 +36,8 @@
 5E=7
 5F=6
 
-; Accented characters (pt-br, ca, de)
+; Accented characters (pt-br, ca, de, etc)
+; These are manually drawn on the row above rather than try to squash letters down
 60=^
 61='
 62=~
@@ -44,5 +45,7 @@
 64=`
 65=¨
 
-; Hyphen
+; Punctuation
 66=-
+67=(
+68=)
