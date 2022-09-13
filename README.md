@@ -6,6 +6,16 @@ This project is an unofficial retranslation/relocalisation based on that first J
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+- v2.3 releases 2022/12/20
+  - Phantasy Star 35th anniversary!
+  - Added Spanish translation from kusfo
+  - Added German translation from PopFan
+  - Much work on converting the original Katakana script to use Hiragana and Kanji where appropriate, and then re-retranslating in a few areas
+  - Much work on annotating the script with where each line is used/reused
+  - Some shared lines split up to enable better translation
+  - Fixed a mistranslation regarding where the poison fog is
+  - Changed name entry screen to support a cursor on wider words
+  - Quite a lot of work done on the disassembly
 - v2.2 released 2021/12/20
   - Phantasy Star 34th anniversary!
   - Fixed a bug with articles for some languages
@@ -289,6 +299,7 @@ SCENARIO WRITER
 OSSALE KOHTA (Kotaro Hayashida)
 
 ASSISTANT COORDINATORS
+FINOS PATA
 OTEGAMI CHIE (Chieko Aoki)
 GAMER MIKI (Miki Morimoto)
 
@@ -296,7 +307,7 @@ TOTAL DESIGN
 PHOEHIX RIE (Rieko Kodama)
 
 MONSTER DESIGN
-CHAOTIC KAZ
+CHAOTIC KAZ (Kazuyuki Shibata)
 
 DESIGN
 ROCKHY NAO (Naoto Ohshima)
