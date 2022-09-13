@@ -26,7 +26,7 @@ banks 32
   .unbackground $0000f $00037 ; Unused space
   .unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
   .unbackground $00486 $004b2 ; Old tile decoder
-  .unbackground $00745 $00750 ; Title screen menu
+  .unbackground $0073f $00750 ; Title screen menu
   .unbackground $0079e $008a3 ; Continue/Delete screen/menus
   .unbackground $007c9 $007df ; Load game font loader
   .unbackground $008f3 $0090b ; Title screen graphics loading
@@ -155,10 +155,6 @@ LoadPagedTiles\1:
   ld hl,dest
   ld de,address
   call LoadTiles
-.endm
-
-.macro DefineVRAMAddress args name, x, y
-.define \1 $7800 + ((y * 32) + x) * 2
 .endm
 
 .if LANGUAGE == "en"
@@ -332,7 +328,7 @@ LoadTiles:
 .ends
 
 ; New title screen ------------------------
-  PatchB $2fdb $31    ; cursor tile index for title screen
+  PatchB $2fdb $2b    ; cursor tile index for title screen
 
 .slot 2
 .section "Replacement title screen" superfree
@@ -5827,13 +5823,18 @@ CalculateCursorPos:
 .endsms
 
 ; Title screen menu extension
-  ROMPosition $0745
+  ROMPosition $073f
 .section "Title screen extension part 1" force
+;    TileMapAddressHL 9,16
+;    ld (CursorTileMapAddress),hl
 ;    ld     a,$01           ; 000745 3E 01
 ;    ld     (CursorMax),a       ; 000747 32 6E C2
-;    call   $2eb9           ; 00074A CD B9 2E
+;    call   WaitForMenuSelection           ; 00074A CD B9 2E
 ;    or     a               ; 00074D B7
 ;    jp     nz,$079e        ; 00074E C2 9E 07
+.define TitleScreenCursorBase $3800+(15*32+9)*2+$4000
+  ld hl,TitleScreenCursorBase
+  ld (CursorTileMapAddress),hl
   ld a,3 ; 4 options
   ld (CursorMax),a ; CursorMax
   jp TitleScreenModTrampoline
@@ -5951,7 +5952,7 @@ _optionsReturn:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 3
+  ld de,TitleScreenCursorBase + ONE_ROW * 3
   ; fall through
 
 BackToTitle:
@@ -5984,7 +5985,7 @@ _movement:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 3
+  ld de,TitleScreenCursorBase + ONE_ROW * 3
   jp BackToTitle
 
 +:dec a
@@ -6122,7 +6123,7 @@ _continueReturn:
   ld de,ContinueWindow_VRAM
   ld bc,ContinueWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 1
+  ld de,TitleScreenCursorBase + ONE_ROW * 1
   jp BackToTitle
 
 +:ld a,b
@@ -6234,7 +6235,7 @@ _musicReturn:
   call DrawTilemap
 
   ; We need to hide the cursor as it resets to the top...
-  ld de,$7c12 + ONE_ROW * 2
+  ld de,TitleScreenCursorBase + ONE_ROW * 2
   jp BackToTitle
 
 +:ld a,b
