@@ -1176,13 +1176,13 @@ _Substring:
 
 _Start_Art:
       ld a,(bc)   ; Grab index
-      sub $64     ; Remap index range ($64 is the lowest articlee index)
+      sub $64     ; Remap index range ($64 is the lowest article index)
       jr c,_Art_Done ; if there is a letter there, it'll be 0..$40ish. So do nothing.
       add a,a     ; Multiply by two
       add a,e     ; Add offset
-      ld e,a      ; (Could align the tables to avoid the need to carry)
-      ld a,0
-      adc d
+      ld e,a
+      adc a,d
+      sub e
       ld d,a
 
       ld a,(de)   ; Grab final string offset
@@ -1208,6 +1208,7 @@ _Art_Done:
       ld (STR),bc   ; store new text pointer
       xor a
       ld (ARTICLE),a    ; lower flag
+      ld (SKIP_BITMASK),a ; and clear this too
 
 _Art_Exit:
     pop de      ; now proceed normally
@@ -5628,6 +5629,7 @@ DecoderInit:
     ld (FLAG),a   ; No wait flag
     ld (ARTICLE),a    ; No article usage
     ld (SUFFIX),a   ; No suffix flag
+    ld (SKIP_BITMASK),a ; No (){}[] etc
 
   pop af
 
