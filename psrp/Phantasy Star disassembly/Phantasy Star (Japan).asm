@@ -6545,7 +6545,7 @@ _LABEL_2AF5_:
     ld (NumberToShowInText),hl
     ld hl,textHospitalFee
     call TextBox20x6
-    call _LABEL_3B13_
+    call _LABEL_3B13_ShopMesetaWindowDraw
     call DoYesNoMenu
     push af
       call nz,_LABEL_3B3C_
@@ -6645,7 +6645,7 @@ _LABEL_2BF4_:
     ld (NumberToShowInText),hl
     ld hl,textChurchPrice
     call TextBox20x6
-    call _LABEL_3B13_
+    call _LABEL_3B13_ShopMesetaWindowDraw
     call DoYesNoMenu
     push af
       call nz,_LABEL_3B3C_
@@ -6751,17 +6751,17 @@ _LABEL_2D1C_:
     call TextBox20x6
 _LABEL_2D22_ShopMenus:
     call DoYesNoMenu
-    jr z,_LABEL_2D30_
+    jr z,_LABEL_2D30_Buy
     ld hl,textShopComeAgain
     call TextBox20x6
     jp Close20x6TextBox
 
-_LABEL_2D30_:
+_LABEL_2D30_Buy:
     push bc
-      call _LABEL_39EA_
-      call _LABEL_3B13_
+      call _LABEL_39EA_ShopMesetaWindowCopy
+      call _LABEL_3B13_ShopMesetaWindowDraw
     pop bc
-_LABEL_2D38_:
+_LABEL_2D38_BuyLoop:
     ld hl,textShopWhatDoYouWant
     call TextBox20x6
     push bc
@@ -6771,7 +6771,7 @@ _LABEL_2D38_:
     jr nz,_LABEL_2D89_
     ld a,(InventoryCount)
     cp $18
-    jr nc,_LABEL_2D98_
+    jr nc,_LABEL_2D98_InventoryFull
     ld a,(hl)
     ld (ItemTableIndex),a
     inc hl
@@ -6781,10 +6781,10 @@ _LABEL_2D38_:
     ld hl,(Meseta)
     or a
     sbc hl,de
-    jr c,_LABEL_2D9D_
+    jr c,_LABEL_2D9D_NotEnoughMoney
     ld a,(ItemTableIndex)
     cp Item_SecretThing
-    jr nc,_LABEL_2DA2_
+    jr nc,_LABEL_2DA2_BuySecretThing
     ld (Meseta),hl
     call _LABEL_3B21_
     ld a,(ItemTableIndex)
@@ -6799,7 +6799,7 @@ _LABEL_2D38_:
 ++: ld hl,textShopBuyItem
     call TextBox20x6
     call DoYesNoMenu
-    jr z,_LABEL_2D38_
+    jr z,_LABEL_2D38_BuyLoop
 _LABEL_2D89_:
     ld hl,textShopComeAgain
 -:  call TextBox20x6
@@ -6807,15 +6807,15 @@ _LABEL_2D89_:
     call _LABEL_3AC3_
     jp Close20x6TextBox
 
-_LABEL_2D98_:
+_LABEL_2D98_InventoryFull:
     ld hl,textShopInventoryFull
     jr -
 
-_LABEL_2D9D_:
+_LABEL_2D9D_NotEnoughMoney:
     ld hl,textShopNotEnoughMoney
     jr -
 
-_LABEL_2DA2_:
+_LABEL_2DA2_BuySecretThing:
     ld a,(_RAM_C2EC_SecretThingBuyCount)
     cp $02
     jr nc,++
@@ -6839,7 +6839,7 @@ _LABEL_2DA2_:
       ld (ItemTableIndex),a
       call HaveItem
     pop hl
-    jr z,_LABEL_2DA2_ ; Go back to the start if you already have it
+    jr z,_LABEL_2DA2_BuySecretThing ; Go back to the start if you already have it
     ld (Meseta),hl
     call _LABEL_3B21_
     call _LABEL_28FB_
@@ -6858,17 +6858,17 @@ _LABEL_2DEB_:
 _LABEL_2DF4_:
     ld hl,textToolShop
     call TextBox20x6
-    call _LABEL_3894_
+    call _LABEL_3894_BuySellMenu
     push af
     push bc
-      call _LABEL_38B4_
+      call _LABEL_38B4_BuySellMenuClose
     pop bc
     pop af
-    bit 4,c
-    jp nz,_LABEL_2E46_
+    bit 4,c ; Button 1
+    jp nz,_LABEL_2E46_Cancel
     or a
-    jp z,_LABEL_2D30_
-_LABEL_2E0D_:
+    jp z,_LABEL_2D30_Buy
+_LABEL_2E0D_Sell:
     ld hl,textToolShop_WhatToSell
     call TextBox20x6
     call _LABEL_35EF_
@@ -6876,7 +6876,7 @@ _LABEL_2E0D_:
     push af
       call _LABEL_3773_
     pop af
-    jp nz,_LABEL_2E46_
+    jp nz,_LABEL_2E46_Cancel
     ld hl,Frame2Paging
     ld (hl),:
     ld a,(ItemTableIndex)
@@ -6898,9 +6898,9 @@ _LABEL_2E0D_:
     ; Selling price 0 -> can't sell it
     ld hl,textHandyLater
     call TextBox20x6
-    jp _LABEL_2E0D_
+    jp _LABEL_2E0D_Sell
 
-_LABEL_2E46_:
+_LABEL_2E46_Cancel:
     ld hl,textShopComeAgain
     call TextBox20x6
     jp Close20x6TextBox
@@ -6909,7 +6909,7 @@ _LABEL_2E46_:
     call TextBox20x6
     call DoYesNoMenu
     jr z,+
-    jp _LABEL_2E0D_
+    jp _LABEL_2E0D_Sell
 
 +:  call _LABEL_28D8_RemoveItemFromInventory
     ld hl,(NumberToShowInText)
@@ -6917,8 +6917,8 @@ _LABEL_2E46_:
     ld hl,textToolShop_SoldItem
     call TextBox20x6
     call DoYesNoMenu
-    jp z,_LABEL_2E0D_
-    jp _LABEL_2E46_
+    jp z,_LABEL_2E0D_Sell
+    jp _LABEL_2E46_Cancel
 
 .orga $2e75
 .section "Do yes/no menu" overwrite
@@ -7677,9 +7677,9 @@ _ReadData:             ; $3365 <-----------------------------------|--+
 ; $52 OutputNumber (in NumberToShowInText)                         |  |
 ; $53 ??? Also blanks text box                                     |  |
 ; $54 NextLine                                                     |  |
-; $55 BlankTextAfterButton (intro),WaitForButton (menu)           |  |
+; $55 BlankTextAfterButton (intro), WaitForButton (menu)           |  |
 ; $56 ExitImmediately                                              |  |
-; $57 ExitAfterPause (256 frames in intro,30 in menu)             |  |
+; $57 ExitAfterPause (256 frames in intro, 30 in menu)             |  |
 ; $58 ExitAfterButton/text end marker                              |  |
 ;                                                                  |  |
     cp TextButtonEnd   ;                                           |  |
@@ -8489,7 +8489,7 @@ _LABEL_3888_:
     ld bc,$070A
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3894_:
+_LABEL_3894_BuySellMenu:
     ld hl,_RAM_DE14_
     ld de,$7B48
     ld bc,$050C
@@ -8502,7 +8502,7 @@ _LABEL_3894_:
     ld (CursorMax),a
     jp WaitForMenuSelection
 
-_LABEL_38B4_:
+_LABEL_38B4_BuySellMenuClose:
     ld hl,_RAM_DE14_
     ld de,$7B48
     ld bc,$050C
@@ -8625,7 +8625,7 @@ _LABEL_39DE_:
     ld bc,$0E18
     jp OutputTilemapBoxWipePaging
 
-_LABEL_39EA_:
+_LABEL_39EA_ShopMesetaWindowCopy:
     ld hl,OldTileMapMenu
     ld de,$780C
     ld bc,$0820
@@ -8820,7 +8820,7 @@ _LABEL_3B07_:
     ld bc,$0C12
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3B13_:
+_LABEL_3B13_ShopMesetaWindowDraw:
     push bc
       ld hl,_RAM_D700_
       ld de,$782C

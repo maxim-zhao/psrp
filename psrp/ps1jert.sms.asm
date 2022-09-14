@@ -953,8 +953,6 @@ _Decode:
 _Reset_Lines:
   push af
     xor a
-
-_Set_Lines:
     ld (LINE_NUM),a   ; Clear # lines used
   pop af
 
@@ -6627,3 +6625,35 @@ GetItemType:
 ; There is a bug in the Japanese ROM that makes Myau have a low attack stat at level 30.
 ; This "fix" makes it match the export version, with a sensible value.
   PatchB $fa88 $56
+
+; There is another bug that causes the tool shop to lose some state regarding the script winow, when showing the buy/sell window. We patch it here.
+  ROMPosition $2dfa
+.section "Shop bug fix" overwrite size 12
+; Original code:
+;    ld     hl,$b1c5        ; 002DF4 21 C5 B1     ; Welcome to the tool shop. May I help you?<end>
+;    call TextBox20x6           ; 002DF7 CD 3A 33 ; State in C for row index
+;    call   $3894           ; 002DFA CD 94 38 ; Show Buy or Sell window; returns in  A, C
+;    push   af              ; 002DFD F5 
+;    push   bc              ; 002DFE C5 
+;      call   $38b4           ; 002DFF CD B4 38 ; restore tilemap
+;    pop    bc              ; 002E02 C1 
+;    pop    af              ; 002E03 F1 
+;    bit    4,c             ; 002E04 CB 61 
+; Following code assumes C is still valid
+; To preserve BC costs extra code space so we need to jump to a helper...
+  push bc
+    call $3894 ; Show Buy or Sell window; returns in A, C
+    push af
+    push bc
+      call $38b4
+      jp BuySellBugFixHelper
+.ends
+
+.section "Shop bug fix part 2" free
+BuySellBugFixHelper:
+    pop bc
+    pop af
+    bit 4,c
+  pop bc
+  jp $2e06
+.ends
