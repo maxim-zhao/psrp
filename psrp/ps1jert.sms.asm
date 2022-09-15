@@ -5624,9 +5624,9 @@ DecoderInit:
     xor a     ; A = $00
     ld (POST_LEN),a   ; No post hints
     ld (LINE_NUM),a   ; No lines drawn
-    ld (FLAG),a   ; No wait flag
+    ld (FLAG),a       ; No wait flag
     ld (ARTICLE),a    ; No article usage
-    ld (SUFFIX),a   ; No suffix flag
+    ld (SUFFIX),a     ; No suffix flag
     ld (SKIP_BITMASK),a ; No (){}[] etc
 
   pop af
@@ -5653,7 +5653,7 @@ CutsceneClear:
   ld a,4        ; Line count
   ld (VLIMIT),a
   ; Patched-over code
-  ld a,($c2d3)  ; Old code
+  ld a,($c2d3)  ; Old code (checking if the text window is already open)
   or a          ; Done second as the flags from this test are what matters
   ; Call back to patch location
   call InGameNarrativeInitOriginalCode
@@ -6630,8 +6630,8 @@ GetItemType:
   ROMPosition $2dfa
 .section "Shop bug fix" overwrite size 12
 ; Original code:
-;    ld     hl,$b1c5        ; 002DF4 21 C5 B1     ; Welcome to the tool shop. May I help you?<end>
-;    call TextBox20x6           ; 002DF7 CD 3A 33 ; State in C for row index
+;    ld     hl,$b1c5        ; 002DF4 21 C5 B1 ; Welcome to the tool shop. May I help you?<end>
+;    call TextBox20x6       ; 002DF7 CD 3A 33 ; State in BC for text window
 ;    call   $3894           ; 002DFA CD 94 38 ; Show Buy or Sell window; returns in  A, C
 ;    push   af              ; 002DFD F5 
 ;    push   bc              ; 002DFE C5 
@@ -6640,20 +6640,36 @@ GetItemType:
 ;    pop    af              ; 002E03 F1 
 ;    bit    4,c             ; 002E04 CB 61 
 ; Following code assumes C is still valid
-; To preserve BC costs extra code space so we need to jump to a helper...
+; We can fit a fix into the existing space by moving the BC push/pop around.
   push bc
     call $3894 ; Show Buy or Sell window; returns in A, C
+    bit 4,c ; check for button 1
     push af
-    push bc
-      call $38b4
-      jp BuySellBugFixHelper
+      call $38b4 ; restore tilemap
+    pop af
+  pop bc
+.ends
+
+; The same bug happens when picking from the inventory when selling.
+  ROMPosition $2e13
+.section "Shop bug fix 2" overwrite size 5
+; Original code:
+;    ld     hl,$b1e0        ; 002E0D 21 E0 B1 ; What do you have?
+;    call TextBox20x6       ; 002E10 CD 3A 33 ; State in BC for text window
+;    call   $35ef           ; 002E13 CD EF 35 ; Inventory select, returns in A, C
+;    bit    4,c             ; 002E16 CB 61    ; Button 1 -> nz
+; Following code assumes BC is still valid
+; We can't fit this ont into the original space...
+  push bc
+    call ShopSellInventoryFixHelper
+  pop bc
 .ends
 
 .section "Shop bug fix part 2" free
-BuySellBugFixHelper:
-    pop bc
-    pop af
-    bit 4,c
-  pop bc
-  jp $2e06
+ShopSellInventoryFixHelper:
+  call $35ef ; inventory select
+  bit 4,c
+  ret
 .ends
+
+; And when selecting an item to drop from your inventory, when getting an item. This seems to always come when the box is already full, so we don't bother fixing that one.

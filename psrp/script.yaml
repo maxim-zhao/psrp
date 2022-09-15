@@ -10288,12 +10288,12 @@
   us: |
     WHAT DO YOU WANT <line>
     TO DROP?<prompt>
-  en: Which item do you want to drop?<wait>
-  fr: Quel objet voulez-vous jeter_?<wait>
-  pt-br: Qual item você quer descartar?<wait>
-  ca: Quin objecte voleu llençar?<wait>
-  es: ¿Qué objeto queréis tirar?<wait>
-  de: Was möchtest du wegwerfen?<wait>
+  en: Which item do you want to drop?<end>
+  fr: Quel objet voulez-vous jeter_?<end>
+  pt-br: Qual item você quer descartar?<end>
+  ca: Quin objecte voleu llençar?<end>
+  es: ¿Qué objeto queréis tirar?<end>
+  de: Was möchtest du wegwerfen?<end>
 
 - offsets: 296a
   # this runs into the next one...
@@ -10304,12 +10304,12 @@
   us: |
     <item> IS <line>
     DROPPED,<end>
-  en: You dropped <article><item>, and<wait>
-  fr: Vous jetez <article><item>.<wait>
-  pt-br: Você descartou <article><item>, e<wait>
-  ca: Heu llençat <article><item>.<wait>
-  es: Habéis tirado <article><item>.<wait>
-  de: Du wirfst <acc><item> weg<wait>
+  en: You dropped <article><item>...<end>
+  fr: Vous jetez <article><item>.<end>
+  pt-br: Você descartou <article><item>, e<end>
+  ca: Heu llençat <article><item>.<end>
+  es: Habéis tirado <article><item>.<end>
+  de: Du wirfst <acc><item> weg<end>
 
 - offsets: 297d
   indices: b024
@@ -10319,7 +10319,7 @@
   us: |
     AND <item> IS<line>
     PICKED UP.<end>
-  en: you got <article><item>.<wait>
+  en: ...and you got <article><item>.<wait>
   fr: Vous avez <article><item>.<wait>
   pt-br: Você obteve <article><item>.<wait>
   ca: Aconseguiu <article><item>.<wait>
