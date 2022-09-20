@@ -1012,10 +1012,10 @@ _Wait_Clear:
   ld (ARTICLE),a
 .if LANGUAGE == "de"
   ; Set SKIP_BITMASK accordingly
-  ; 1 => %1000 (nominative, select «» brackets only)
-  ; 2 => %1010 (genitive, select «» and {} brackets)
-  ; 3 => %1100 (dative, select «» and () brackets)
-  ; 4 => %1100 (accusative, select «» and () brackets)
+  ; 1 => %01000 (nominative, select «» brackets only)
+  ; 2 => %01010 (genitive, select «» and {} brackets)
+  ; 3 => %11100 (dative, select «», ‹› and () brackets)
+  ; 4 => %01100 (accusative, select «» and () brackets)
   push hl
   push de
   push af
@@ -1029,7 +1029,7 @@ _Wait_Clear:
   pop de
   pop hl
   jp _Decode
-_SkipBitmaskLookup: .db %1000, %1010, %1100, %1100
+_SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
 .else
   ; Select all bracketed parts
   ld a,$ff
