@@ -26,7 +26,7 @@ banks 32
   .unbackground $0000f $00037 ; Unused space
   .unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
   .unbackground $00486 $004b2 ; Old tile decoder
-  .unbackground $00745 $00750 ; Title screen menu
+  .unbackground $0073f $00750 ; Title screen menu
   .unbackground $0079e $008a3 ; Continue/Delete screen/menus
   .unbackground $007c9 $007df ; Load game font loader
   .unbackground $008f3 $0090b ; Title screen graphics loading
@@ -155,10 +155,6 @@ LoadPagedTiles\1:
   ld hl,dest
   ld de,address
   call LoadTiles
-.endm
-
-.macro DefineVRAMAddress args name, x, y
-.define \1 $7800 + ((y * 32) + x) * 2
 .endm
 
 .if LANGUAGE == "en"
@@ -332,7 +328,7 @@ LoadTiles:
 .ends
 
 ; New title screen ------------------------
-  PatchB $2fdb $31    ; cursor tile index for title screen
+  PatchB $2fdb $2b    ; cursor tile index for title screen
 
 .slot 2
 .section "Replacement title screen" superfree
@@ -957,8 +953,6 @@ _Decode:
 _Reset_Lines:
   push af
     xor a
-
-_Set_Lines:
     ld (LINE_NUM),a   ; Clear # lines used
   pop af
 
@@ -1180,13 +1174,13 @@ _Substring:
 
 _Start_Art:
       ld a,(bc)   ; Grab index
-      sub $64     ; Remap index range ($64 is the lowest articlee index)
+      sub $64     ; Remap index range ($64 is the lowest article index)
       jr c,_Art_Done ; if there is a letter there, it'll be 0..$40ish. So do nothing.
       add a,a     ; Multiply by two
       add a,e     ; Add offset
-      ld e,a      ; (Could align the tables to avoid the need to carry)
-      ld a,0
-      adc d
+      ld e,a
+      adc a,d
+      sub e
       ld d,a
 
       ld a,(de)   ; Grab final string offset
@@ -1212,6 +1206,7 @@ _Art_Done:
       ld (STR),bc   ; store new text pointer
       xor a
       ld (ARTICLE),a    ; lower flag
+      ld (SKIP_BITMASK),a ; and clear this too
 
 _Art_Exit:
     pop de      ; now proceed normally
@@ -5629,9 +5624,10 @@ DecoderInit:
     xor a     ; A = $00
     ld (POST_LEN),a   ; No post hints
     ld (LINE_NUM),a   ; No lines drawn
-    ld (FLAG),a   ; No wait flag
+    ld (FLAG),a       ; No wait flag
     ld (ARTICLE),a    ; No article usage
-    ld (SUFFIX),a   ; No suffix flag
+    ld (SUFFIX),a     ; No suffix flag
+    ld (SKIP_BITMASK),a ; No (){}[] etc
 
   pop af
 
@@ -5657,7 +5653,7 @@ CutsceneClear:
   ld a,4        ; Line count
   ld (VLIMIT),a
   ; Patched-over code
-  ld a,($c2d3)  ; Old code
+  ld a,($c2d3)  ; Old code (checking if the text window is already open)
   or a          ; Done second as the flags from this test are what matters
   ; Call back to patch location
   call InGameNarrativeInitOriginalCode
@@ -5827,13 +5823,18 @@ CalculateCursorPos:
 .endsms
 
 ; Title screen menu extension
-  ROMPosition $0745
+  ROMPosition $073f
 .section "Title screen extension part 1" force
+;    TileMapAddressHL 9,16
+;    ld (CursorTileMapAddress),hl
 ;    ld     a,$01           ; 000745 3E 01
 ;    ld     (CursorMax),a       ; 000747 32 6E C2
-;    call   $2eb9           ; 00074A CD B9 2E
+;    call   WaitForMenuSelection           ; 00074A CD B9 2E
 ;    or     a               ; 00074D B7
 ;    jp     nz,$079e        ; 00074E C2 9E 07
+.define TitleScreenCursorBase $3800+(15*32+9)*2+$4000
+  ld hl,TitleScreenCursorBase
+  ld (CursorTileMapAddress),hl
   ld a,3 ; 4 options
   ld (CursorMax),a ; CursorMax
   jp TitleScreenModTrampoline
@@ -5951,7 +5952,7 @@ _optionsReturn:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 3
+  ld de,TitleScreenCursorBase + ONE_ROW * 3
   ; fall through
 
 BackToTitle:
@@ -5984,7 +5985,7 @@ _movement:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 3
+  ld de,TitleScreenCursorBase + ONE_ROW * 3
   jp BackToTitle
 
 +:dec a
@@ -6122,7 +6123,7 @@ _continueReturn:
   ld de,ContinueWindow_VRAM
   ld bc,ContinueWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 1
+  ld de,TitleScreenCursorBase + ONE_ROW * 1
   jp BackToTitle
 
 +:ld a,b
@@ -6234,7 +6235,7 @@ _musicReturn:
   call DrawTilemap
 
   ; We need to hide the cursor as it resets to the top...
-  ld de,$7c12 + ONE_ROW * 2
+  ld de,TitleScreenCursorBase + ONE_ROW * 2
   jp BackToTitle
 
 +:ld a,b
@@ -6624,3 +6625,51 @@ GetItemType:
 ; There is a bug in the Japanese ROM that makes Myau have a low attack stat at level 30.
 ; This "fix" makes it match the export version, with a sensible value.
   PatchB $fa88 $56
+
+; There is another bug that causes the tool shop to lose some state regarding the script winow, when showing the buy/sell window. We patch it here.
+  ROMPosition $2dfa
+.section "Shop bug fix" overwrite size 12
+; Original code:
+;    ld     hl,$b1c5        ; 002DF4 21 C5 B1 ; Welcome to the tool shop. May I help you?<end>
+;    call TextBox20x6       ; 002DF7 CD 3A 33 ; State in BC for text window
+;    call   $3894           ; 002DFA CD 94 38 ; Show Buy or Sell window; returns in  A, C
+;    push   af              ; 002DFD F5 
+;    push   bc              ; 002DFE C5 
+;      call   $38b4           ; 002DFF CD B4 38 ; restore tilemap
+;    pop    bc              ; 002E02 C1 
+;    pop    af              ; 002E03 F1 
+;    bit    4,c             ; 002E04 CB 61 
+; Following code assumes C is still valid
+; We can fit a fix into the existing space by moving the BC push/pop around.
+  push bc
+    call $3894 ; Show Buy or Sell window; returns in A, C
+    bit 4,c ; check for button 1
+    push af
+      call $38b4 ; restore tilemap
+    pop af
+  pop bc
+.ends
+
+; The same bug happens when picking from the inventory when selling.
+  ROMPosition $2e13
+.section "Shop bug fix 2" overwrite size 5
+; Original code:
+;    ld     hl,$b1e0        ; 002E0D 21 E0 B1 ; What do you have?
+;    call TextBox20x6       ; 002E10 CD 3A 33 ; State in BC for text window
+;    call   $35ef           ; 002E13 CD EF 35 ; Inventory select, returns in A, C
+;    bit    4,c             ; 002E16 CB 61    ; Button 1 -> nz
+; Following code assumes BC is still valid
+; We can't fit this ont into the original space...
+  push bc
+    call ShopSellInventoryFixHelper
+  pop bc
+.ends
+
+.section "Shop bug fix part 2" free
+ShopSellInventoryFixHelper:
+  call $35ef ; inventory select
+  bit 4,c
+  ret
+.ends
+
+; And when selecting an item to drop from your inventory, when getting an item. This seems to always come when the box is already full, so we don't bother fixing that one.

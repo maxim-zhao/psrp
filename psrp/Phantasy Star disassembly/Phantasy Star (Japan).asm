@@ -314,7 +314,7 @@ CharacterStatsOdin instanceof Character
 CharacterStatsLutz instanceof Character
 CharacterStatsEnemies instanceof Character 8
 .endu
-Inventory dsb 32              ; Item indices
+Inventory dsb 32              ; Item indices. Space for 32 but limit is 24..?
 Meseta dw                     ; Current money
 InventoryCount db             ; Number of items in Inventory
 .ende
@@ -4630,8 +4630,8 @@ CheckIfEnoughMP:
 
 ; 3rd entry of Jump Table from 1A6E (indexed by CursorPos)
 BattleMenu_Item:
-    call _LABEL_35EF_
-    call _LABEL_3773_
+    call _LABEL_35EF_SelectItemFromInventory
+    call _LABEL_3773_HideInventoryWindow
     bit 4,c
     ret nz
     ld a,(ItemTableIndex)
@@ -5431,17 +5431,19 @@ _LABEL_22C4_:
     ld a,(InventoryCount)
     or a
     jp nz,+
-    call _LABEL_35EF_
-    jp _LABEL_3773_
+    call _LABEL_35EF_SelectItemFromInventory
+    jp _LABEL_3773_HideInventoryWindow
+    ; and fall through to do it again?!?
 
-+:  call _LABEL_35EF_
++:  call _LABEL_35EF_SelectItemFromInventory
     bit 4,c
     jp nz,_LABEL_2351_
     ld a,(ItemTableIndex)
-    cp $21
-    jr c,+++
-    cp $24
-    jr nc,+++
+    cp Item_Vehicle_LandMaster
+    jr c,+++ ; Equipment
+    cp Item_PelorieMate
+    jr nc,+++ ; Items
+    ; It's a vehicle
     sub $21
     add a,a
     add a,a
@@ -5495,7 +5497,7 @@ _LABEL_22C4_:
     call FunctionLookup
 +:  call _LABEL_3888_
 _LABEL_2351_:
-    call _LABEL_3773_
+    call _LABEL_3773_HideInventoryWindow
     jp _LABEL_30A4_
 
 ; Jump Table from 2357 to 235C (3 entries,indexed by CursorPos)
@@ -5951,7 +5953,7 @@ UseItem_EclipseTorch:
     ld (ItemTableIndex),a
     call HaveItem
     ret z
-    jp _LABEL_28FB_
+    jp _LABEL_28FB_AddItemToInventory
 
 ; 49th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 UseItem_AeroPrism:
@@ -6226,7 +6228,7 @@ RemoveItemFromInventory:
       ld c,a
       ld b,$00
       ldir
-  +:  ld hl,$C4C0
+  +:  ld hl,Inventory
       ld a,(InventoryCount)
       dec a
       ld (InventoryCount),a
@@ -6236,11 +6238,11 @@ RemoveItemFromInventory:
     pop bc
     ret
 
-_LABEL_28FB_:
+_LABEL_28FB_AddItemToInventory:
     ld a,(InventoryCount)
     cp $18
-    jr nc,_LABEL_2918_
-    ld hl,$C4C0
+    jr nc,_LABEL_2918_InventoryFull
+    ld hl,Inventory
     add a,l
     ld l,a
     ld a,(ItemTableIndex)
@@ -6252,29 +6254,29 @@ _LABEL_28FB_:
     ld (NewMusic),a
     ret
 
-_LABEL_2918_:
+_LABEL_2918_InventoryFull:
     ld hl,textInventoryFull
     call TextBox20x6
     call DoYesNoMenu
-    jr z,_LABEL_2934_
+    jr z,_LABEL_2934_SelectItemToDrop
     ld hl,textConfirmDropItem
     call TextBox20x6
     call DoYesNoMenu
-    jr nz,_LABEL_2934_
+    jr nz,_LABEL_2934_SelectItemToDrop
     ld hl,textDropItem
     jp TextBox20x6
 
-_LABEL_2934_:
+_LABEL_2934_SelectItemToDrop:
     ld a,(ItemTableIndex)
     push af
       ld hl,_DATA_B013_
       call TextBox20x6
-      call _LABEL_35EF_
-      call _LABEL_3773_
+      call _LABEL_35EF_SelectItemFromInventory
+      call _LABEL_3773_HideInventoryWindow
       bit 4,c
       jr nz,++
       ld hl,Frame2Paging
-      ld (hl),$02
+      ld (hl),:ItemMetadata
       ld a,(ItemTableIndex)
       ld hl,ItemMetadata
       add a,l
@@ -6283,13 +6285,13 @@ _LABEL_2934_:
       sub l
       ld h,a
       ld a,(hl)
-      and $04
+      and $04 ; Droppable flag
       jr z,+
       ld hl,textCantDropItem
       call TextBox20x6
     pop af
     ld (ItemTableIndex),a
-    jp _LABEL_2934_
+    jp _LABEL_2934_SelectItemToDrop
 
 +:  ld hl,textDropItemToGetItem
     call TextBox20x6
@@ -6304,10 +6306,10 @@ _LABEL_2934_:
 
 ++:  pop af
     ld (ItemTableIndex),a
-    jp _LABEL_2918_
+    jp _LABEL_2918_InventoryFull
 
 HaveItem:
-    ld hl,$C4C0
+    ld hl,Inventory
     ld b,$18
 -:  cp (hl)
     ret z
@@ -6388,7 +6390,7 @@ _LABEL_2995_:
     jr z,_LABEL_2A21_
     ld hl,textFoundItem
     call TextBox20x6
-    call _LABEL_28FB_
+    call _LABEL_28FB_AddItemToInventory
     jp Close20x6TextBox
 
 _LABEL_2A21_:
@@ -6451,7 +6453,7 @@ _LABEL_2A4A_:
     jr z,+
     ld hl,textFoundItem
     call TextBox20x6
-    call _LABEL_28FB_
+    call _LABEL_28FB_AddItemToInventory
 +:  ld a,$D0
     ld (SpriteTable),a
     jp Close20x6TextBox
@@ -6545,7 +6547,7 @@ _LABEL_2AF5_:
     ld (NumberToShowInText),hl
     ld hl,textHospitalFee
     call TextBox20x6
-    call _LABEL_3B13_
+    call _LABEL_3B13_ShopMesetaWindowDraw
     call DoYesNoMenu
     push af
       call nz,_LABEL_3B3C_
@@ -6645,7 +6647,7 @@ _LABEL_2BF4_:
     ld (NumberToShowInText),hl
     ld hl,textChurchPrice
     call TextBox20x6
-    call _LABEL_3B13_
+    call _LABEL_3B13_ShopMesetaWindowDraw
     call DoYesNoMenu
     push af
       call nz,_LABEL_3B3C_
@@ -6751,17 +6753,17 @@ _LABEL_2D1C_:
     call TextBox20x6
 _LABEL_2D22_ShopMenus:
     call DoYesNoMenu
-    jr z,_LABEL_2D30_
+    jr z,_LABEL_2D30_Buy
     ld hl,textShopComeAgain
     call TextBox20x6
     jp Close20x6TextBox
 
-_LABEL_2D30_:
+_LABEL_2D30_Buy:
     push bc
-      call _LABEL_39EA_
-      call _LABEL_3B13_
+      call _LABEL_39EA_ShopMesetaWindowCopy
+      call _LABEL_3B13_ShopMesetaWindowDraw
     pop bc
-_LABEL_2D38_:
+_LABEL_2D38_BuyLoop:
     ld hl,textShopWhatDoYouWant
     call TextBox20x6
     push bc
@@ -6771,7 +6773,7 @@ _LABEL_2D38_:
     jr nz,_LABEL_2D89_
     ld a,(InventoryCount)
     cp $18
-    jr nc,_LABEL_2D98_
+    jr nc,_LABEL_2D98_InventoryFull
     ld a,(hl)
     ld (ItemTableIndex),a
     inc hl
@@ -6781,10 +6783,10 @@ _LABEL_2D38_:
     ld hl,(Meseta)
     or a
     sbc hl,de
-    jr c,_LABEL_2D9D_
+    jr c,_LABEL_2D9D_NotEnoughMoney
     ld a,(ItemTableIndex)
     cp Item_SecretThing
-    jr nc,_LABEL_2DA2_
+    jr nc,_LABEL_2DA2_BuySecretThing
     ld (Meseta),hl
     call _LABEL_3B21_
     ld a,(ItemTableIndex)
@@ -6792,14 +6794,14 @@ _LABEL_2D38_:
     jr c,+ ; Shields, weapons, armour
     cp Item_PelorieMate
     jr nc,+ ; Items
-    ; So it must be a vehicle
+    ; So it must be a vehicle. You can't have more than one of these?
     call HaveItem
     jr z,++
-+:  call _LABEL_28FB_
++:  call _LABEL_28FB_AddItemToInventory
 ++: ld hl,textShopBuyItem
     call TextBox20x6
     call DoYesNoMenu
-    jr z,_LABEL_2D38_
+    jr z,_LABEL_2D38_BuyLoop
 _LABEL_2D89_:
     ld hl,textShopComeAgain
 -:  call TextBox20x6
@@ -6807,15 +6809,15 @@ _LABEL_2D89_:
     call _LABEL_3AC3_
     jp Close20x6TextBox
 
-_LABEL_2D98_:
+_LABEL_2D98_InventoryFull:
     ld hl,textShopInventoryFull
     jr -
 
-_LABEL_2D9D_:
+_LABEL_2D9D_NotEnoughMoney:
     ld hl,textShopNotEnoughMoney
     jr -
 
-_LABEL_2DA2_:
+_LABEL_2DA2_BuySecretThing:
     ld a,(_RAM_C2EC_SecretThingBuyCount)
     cp $02
     jr nc,++
@@ -6839,12 +6841,11 @@ _LABEL_2DA2_:
       ld (ItemTableIndex),a
       call HaveItem
     pop hl
-    jr z,_LABEL_2DA2_ ; Go back to the start if you already have it
+    jr z,_LABEL_2DA2_BuySecretThing ; Go back to the start if you already have it
     ld (Meseta),hl
     call _LABEL_3B21_
-    call _LABEL_28FB_
-    ld hl,$0146
-    ; You just don't quit, do you? If you're gonna keep bugging me, then fine[, take it]. But don't tell anybody.
+    call _LABEL_28FB_AddItemToInventory
+    ld hl,$0146 ; You just don't quit, do you? If you're gonna keep bugging me, then fine[, take it]. But don't tell anybody.
     call DrawText20x6
     call _LABEL_3B3C_
     call _LABEL_3AC3_
@@ -6858,27 +6859,27 @@ _LABEL_2DEB_:
 _LABEL_2DF4_:
     ld hl,textToolShop
     call TextBox20x6
-    call _LABEL_3894_
+    call _LABEL_3894_BuySellMenu
     push af
     push bc
-      call _LABEL_38B4_
+      call _LABEL_38B4_BuySellMenuClose
     pop bc
     pop af
-    bit 4,c
-    jp nz,_LABEL_2E46_
+    bit 4,c ; Button 1
+    jp nz,_LABEL_2E46_Cancel
     or a
-    jp z,_LABEL_2D30_
-_LABEL_2E0D_:
+    jp z,_LABEL_2D30_Buy
+_LABEL_2E0D_Sell:
     ld hl,textToolShop_WhatToSell
     call TextBox20x6
-    call _LABEL_35EF_
+    call _LABEL_35EF_SelectItemFromInventory
     bit 4,c
     push af
-      call _LABEL_3773_
+      call _LABEL_3773_HideInventoryWindow
     pop af
-    jp nz,_LABEL_2E46_
+    jp nz,_LABEL_2E46_Cancel
     ld hl,Frame2Paging
-    ld (hl),:
+    ld (hl),:_DATA_F82F_ItemSellingPrices
     ld a,(ItemTableIndex)
     and $3F
     add a,a
@@ -6898,9 +6899,9 @@ _LABEL_2E0D_:
     ; Selling price 0 -> can't sell it
     ld hl,textHandyLater
     call TextBox20x6
-    jp _LABEL_2E0D_
+    jp _LABEL_2E0D_Sell
 
-_LABEL_2E46_:
+_LABEL_2E46_Cancel:
     ld hl,textShopComeAgain
     call TextBox20x6
     jp Close20x6TextBox
@@ -6909,7 +6910,7 @@ _LABEL_2E46_:
     call TextBox20x6
     call DoYesNoMenu
     jr z,+
-    jp _LABEL_2E0D_
+    jp _LABEL_2E0D_Sell
 
 +:  call _LABEL_28D8_RemoveItemFromInventory
     ld hl,(NumberToShowInText)
@@ -6917,8 +6918,8 @@ _LABEL_2E46_:
     ld hl,textToolShop_SoldItem
     call TextBox20x6
     call DoYesNoMenu
-    jp z,_LABEL_2E0D_
-    jp _LABEL_2E46_
+    jp z,_LABEL_2E0D_Sell
+    jp _LABEL_2E46_Cancel
 
 .orga $2e75
 .section "Do yes/no menu" overwrite
@@ -7677,9 +7678,9 @@ _ReadData:             ; $3365 <-----------------------------------|--+
 ; $52 OutputNumber (in NumberToShowInText)                         |  |
 ; $53 ??? Also blanks text box                                     |  |
 ; $54 NextLine                                                     |  |
-; $55 BlankTextAfterButton (intro),WaitForButton (menu)           |  |
+; $55 BlankTextAfterButton (intro), WaitForButton (menu)           |  |
 ; $56 ExitImmediately                                              |  |
-; $57 ExitAfterPause (256 frames in intro,30 in menu)             |  |
+; $57 ExitAfterPause (256 frames in intro, 30 in menu)             |  |
 ; $58 ExitAfterButton/text end marker                              |  |
 ;                                                                  |  |
     cp TextButtonEnd   ;                                           |  |
@@ -8117,7 +8118,7 @@ _LABEL_35E3_:
     ld bc,$0C0C
     jp OutputTilemapBoxWipePaging
 
-_LABEL_35EF_:
+_LABEL_35EF_SelectItemFromInventory:
     ld a,(InventoryCount)
     dec a
     and $18
@@ -8147,7 +8148,7 @@ _LABEL_35EF_:
     ld l,a
     ld a,(_RAM_C299_)
     add a,l
-    ld hl,$C4C0
+    ld hl,Inventory
     add a,l
     ld l,a
     ld (_RAM_C29B_),hl
@@ -8345,7 +8346,7 @@ OutputDigit:           ; $3762
 .ends
 .orga $3773
 
-_LABEL_3773_:
+_LABEL_3773_HideInventoryWindow:
     push bc
       ld hl,_RAM_DC04_
       ld de,$78AC
@@ -8489,7 +8490,7 @@ _LABEL_3888_:
     ld bc,$070A
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3894_:
+_LABEL_3894_BuySellMenu:
     ld hl,_RAM_DE14_
     ld de,$7B48
     ld bc,$050C
@@ -8502,7 +8503,7 @@ _LABEL_3894_:
     ld (CursorMax),a
     jp WaitForMenuSelection
 
-_LABEL_38B4_:
+_LABEL_38B4_BuySellMenuClose:
     ld hl,_RAM_DE14_
     ld de,$7B48
     ld bc,$050C
@@ -8625,7 +8626,7 @@ _LABEL_39DE_:
     ld bc,$0E18
     jp OutputTilemapBoxWipePaging
 
-_LABEL_39EA_:
+_LABEL_39EA_ShopMesetaWindowCopy:
     ld hl,OldTileMapMenu
     ld de,$780C
     ld bc,$0820
@@ -8820,7 +8821,7 @@ _LABEL_3B07_:
     ld bc,$0C12
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3B13_:
+_LABEL_3B13_ShopMesetaWindowDraw:
     push bc
       ld hl,_RAM_D700_
       ld de,$782C
