@@ -6659,7 +6659,7 @@ GetItemType:
 ;    call   $35ef           ; 002E13 CD EF 35 ; Inventory select, returns in A, C
 ;    bit    4,c             ; 002E16 CB 61    ; Button 1 -> nz
 ; Following code assumes BC is still valid
-; We can't fit this ont into the original space...
+; We can't fit this one into the original space...
   push bc
     call ShopSellInventoryFixHelper
   pop bc
@@ -6673,3 +6673,25 @@ ShopSellInventoryFixHelper:
 .ends
 
 ; And when selecting an item to drop from your inventory, when getting an item. This seems to always come when the box is already full, so we don't bother fixing that one.
+
+; We get the same issue in the hospital.
+  ROMPosition $2aff
+.section "Hospital bug fix" overwrite size 5
+; Original code:
+;    ld     hl,$b25c                ; 002AF9 21 5C B2 ; Who will receive treatment?
+;    call   nz,TextBox20x6          ; 002AFC C4 3A 33 
+;    call   ShowCharacterSelectMenu ; 002AFF CD 82 37 ; Returns in A, C
+;    bit    4,c                     ; 002B02 CB 61 
+;    jp     nz,$2bae                ; 002B04 C2 AE 2B 
+; Following code assumes BC is still valid
+  push bc
+    call HospitalFixHelper
+  pop bc
+.ends
+
+.section "Hospital bug fix part 2" free
+HospitalFixHelper:
+  call $3782 ; inventory select
+  bit 4,c
+  ret
+.ends
