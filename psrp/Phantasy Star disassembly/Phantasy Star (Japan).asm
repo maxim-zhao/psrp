@@ -4799,7 +4799,7 @@ _LABEL_1DFD_:
     call _LABEL_35E3_
 ++:  call _LABEL_39DE_
     call _LABEL_386A_
-+++:jp _LABEL_37D8_
++++:jp _LABEL_37D8_ClosePlayerSelect
 
 ; 5th entry of Jump Table from 1DF3 (indexed by CursorPos)
 _LABEL_1E3B_:
@@ -4920,7 +4920,7 @@ _LABEL_1EA9_:
 _LABEL_1F13_:
     call _LABEL_35E3_
 _LABEL_1F16_:
-    call _LABEL_37D8_
+    call _LABEL_37D8_ClosePlayerSelect
     jp _LABEL_30A4_
 
 _noMagicYet:
@@ -4931,7 +4931,7 @@ _LABEL_1F21_TaironNoMagic:
     ld hl,textTaironCantUseMagic
 +:  call TextBox20x6
     call Close20x6TextBox
-    jp _LABEL_37D8_
+    jp _LABEL_37D8_ClosePlayerSelect
 
 ++:  ld hl,textNotEnoughMagicPoints
     call TextBox20x6
@@ -5692,7 +5692,7 @@ UseItem_Ruoginin:
 ++: ld a,(_RAM_C29D_InBattle)
     or a
     ret nz
-    jp _LABEL_37D8_
+    jp _LABEL_37D8_ClosePlayerSelect
 
 ; 39th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 UseItem_SootheFlute:
@@ -6184,7 +6184,7 @@ EquipItem:
     call z,_LABEL_28D8_RemoveItemFromInventory
 _LABEL_289D_:
     call CharacterStatsUpdate
-    jp _LABEL_37D8_
+    jp _LABEL_37D8_ClosePlayerSelect
 
 +:  ld hl,textPlayerCantEquipItem
     call TextBox20x6
@@ -6496,22 +6496,23 @@ _addDEMesetas:
     ex de,hl
     ret
 
-; Data from 2AE5 to 2AE8 (4 bytes)
-.db $CD $81 $2E $C9
+; Orphaned code? $2ae5
+    call MenuWaitForButton
+    ret
 
 _LABEL_2AE9_:
-    ld hl,textHospital
+    ld hl,textHospital ; This is a hospital. Do you require medical care?<end>
     call TextBox20x6
     call DoYesNoMenu
-    jp nz,_LABEL_2BB1_
-_LABEL_2AF5_:
+    jp nz,_LABEL_2BB1_HospitalEnd
+_LABEL_2AF5_HospitalSelectWhoLoop:
     ld a,(PartySize)
     or a
-    ld hl,textHospitalWho
+    ld hl,textHospitalWho ; Who will receive treatment?
     call nz,TextBox20x6
     call ShowCharacterSelectMenu
     bit 4,c
-    jp nz,_LABEL_2BAE_
+    jp nz,_LABEL_2BAE_HospitalClosePlayerSelect
     ld (TextCharacterNumber),a
     call PointHLToCharacterInA
     jr nz,+
@@ -6521,11 +6522,12 @@ _LABEL_2AF5_:
 
 +:  push hl
     pop iy
-    ld a,(iy+1)
-    cp (iy+6)
+    ; Check if at full HP/MP
+    ld a,(iy+Character.HP)
+    cp (iy+Character.MaxHP)
     jr nz,+
-    ld a,(iy+2)
-    cp (iy+7)
+    ld a,(iy+Character.MP)
+    cp (iy+Character.MaxMP)
     jr nz,+
     ld hl,textHospitalNoNeedToHealPlayer
     call TextBox20x6
@@ -6536,11 +6538,12 @@ _LABEL_2AF5_:
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld a,(iy+6)
-    sub (iy+1)
++:  ; Price = 1 MST per HP and MP needed
+    ld a,(iy+Character.MaxHP)
+    sub (iy+Character.HP)
     ld b,a
-    ld a,(iy+7)
-    sub (iy+2)
+    ld a,(iy+Character.MaxMP)
+    sub (iy+Character.MaxMP)
     add a,b
     ld l,a
     ld h,$00
@@ -6562,10 +6565,10 @@ _LABEL_2AF5_:
     call _LABEL_3B21_
     ld a,SFX_Heal
     ld (NewMusic),a
-    ld a,(iy+6)
-    ld (iy+1),a
-    ld a,(iy+7)
-    ld (iy+2),a
+    ld a,(iy+Character.MaxHP)
+    ld (iy+Character.HP),a
+    ld a,(iy+Character.MaxMP)
+    ld (iy+Character.MP),a
     ld hl,textHospitalThankYouForWaiting
     call TextBox20x6
     call _LABEL_3B3C_
@@ -6575,22 +6578,22 @@ _LABEL_2AF5_:
     ld hl,textHospitalAnyoneElse
     call TextBox20x6
     call DoYesNoMenu
-    jr nz,_LABEL_2BAE_
+    jr nz,_LABEL_2BAE_HospitalClosePlayerSelect
 _LABEL_2BA4_:
-    call _LABEL_37D8_
+    call _LABEL_37D8_ClosePlayerSelect
     ld a,(PartySize)
     or a
-    jp nz,_LABEL_2AF5_
-_LABEL_2BAE_:
-    call _LABEL_37D8_
-_LABEL_2BB1_:
+    jp nz,_LABEL_2AF5_HospitalSelectWhoLoop
+_LABEL_2BAE_HospitalClosePlayerSelect:
+    call _LABEL_37D8_ClosePlayerSelect
+_LABEL_2BB1_HospitalEnd:
     ld hl,textHospitalCouldNotHelp
     call TextBox20x6
     jp Close20x6TextBox
 
 _LABEL_2BBA_:
     call _LABEL_3B3C_
-    call _LABEL_37D8_
+    call _LABEL_37D8_ClosePlayerSelect
     ld hl,textShopNotEnoughMoney
     call TextBox20x6
 +:  jp Close20x6TextBox
@@ -6678,7 +6681,7 @@ _LABEL_2C71_:
     call TextBox20x6
     call DoYesNoMenu
     jr nz,_LABEL_2C9F_
-    call _LABEL_37D8_
+    call _LABEL_37D8_ClosePlayerSelect
     jp _LABEL_2BF4_
 
 +:  ld hl,textChurchNotEnoughMoney
@@ -6695,7 +6698,7 @@ _LABEL_2C8D_:
     jr nz,_LABEL_2C71_
     call MenuWaitForButton
 _LABEL_2C9F_:
-    call _LABEL_37D8_
+    call _LABEL_37D8_ClosePlayerSelect
 _LABEL_2CA2_:
     ld hl,textChurchEnd
     call TextBox20x6
@@ -8395,7 +8398,7 @@ _LABEL_379F_ChooseCharacter:
     ld bc,$010C
     jp OutputTilemapBoxWipePaging
 
-_LABEL_37D8_:
+_LABEL_37D8_ClosePlayerSelect:
     ld a,(PartySize)
     or a
     ret z

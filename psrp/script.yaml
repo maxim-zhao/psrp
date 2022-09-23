@@ -10864,20 +10864,15 @@
     MESETAS. IS THAT<line>
     ACCEPTABLE?<prompt>
   en: |
-    Hmm. I can get you good as new for <number><internal hint 02> meseta<s>.<wait more>
-    Shall I proceed?<end>
+    Hmm. I can get you good as new for <number><internal hint 02> meseta<s>. Shall I proceed?<end>
   fr: |
-    Hmm. Les soins coûtent <number><internal hint 02> meseta<s>.<wait more>
-    Puis-je commencer?<end>
+    Hmm. Les soins coûtent <number><internal hint 02> meseta<s>. Puis-je commencer?<end>
   pt-br: |
-    Hmm. Posso te deixar como novo por <number><internal hint 02> meseta<s>.<wait more>
-    Devo proceder?<end>
+    Hmm. Posso te deixar como novo por <number><internal hint 02> meseta<s>. Devo proceder?<end>
   ca: |
-    Hmm. Us puc deixar com nous per <number><internal hint 02> meseta<s>.<wait more>
-    Ho tirem endavant?<end>
+    Hmm. Us puc deixar com nous per <number><internal hint 02> meseta<s>. Ho tirem endavant?<end>
   es: |
-    Hmm. Os puedo dejar como nuevos por <number><internal hint 02> meseta<s>.<wait more>
-    ¿Procedemos?<end>
+    Hmm. Os puedo dejar como nuevos por <number><internal hint 02> meseta<s>. ¿Procedemos?<end>
   de: |
     Die Untersuchungs- und Behandlungskosten betragen <number> Meseta.<line>
     Möchten Sie behandelt werden?<end>
