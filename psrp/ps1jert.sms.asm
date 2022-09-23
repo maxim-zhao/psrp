@@ -803,14 +803,14 @@ DictionaryLookup_Substring:
 
 -:ld c,(hl)   ; Grab string length
   or a        ; Check for zero strings left
-  jr z,_Copy  ; _Stop if found
+  jr z,@Copy  ; _Stop if found
 
   inc hl      ; Bypass length byte
   add hl,bc   ; Bypass physical string
   dec a       ; One less item to look at
   jr -        ; Keep searching
 
-_Copy:
+@Copy:
   ; Apply bracketed parts skipping here.
   ; This code is used for all item lookups.
   ; hl = source
@@ -884,7 +884,8 @@ _bracket:
   SymbolPostHint  db ; $69, ; New codes
   SymbolArticle   db ; $6a,
   SymbolSuffix    db ; $6b,
-  WordListStart   db ; $6c
+  SymbolPronoun   db ; $6c,
+  WordListStart   db ; $6d
 .ende
 
 ; We patch the usages of these codes so we can relocate them.
@@ -1018,14 +1019,12 @@ _Wait_Clear:
   ; 4 => %1100 (accusative, select «» and () brackets)
   push hl
   push de
-  push af
     ld d,0
     ld hl,_SkipBitmaskLookup - 1 ; index 0 is unused
     ld e,a
     add hl,de
     ld a,(hl)
     ld (SKIP_BITMASK),a
-  pop af
   pop de
   pop hl
   jp _Decode
@@ -1045,12 +1044,61 @@ _SkipBitmaskLookup: .db %1000, %1010, %1100, %1100
   jp z,_Decode   ; No 's' needed
 
   ld a,LETTER_S   ; add 's'
+  jr _Done
 
-+:
-
++:cp SymbolPronoun
+  jr z,_Pronoun
+  
 _Done:
   cp SymbolWait ; Old code
   ret     ; Go to remaining text handler
+
+_Pronoun:
+  call SFGDecoder    ; Grab #
+  push hl
+  push de
+  push bc
+    push af
+      ; Look up character
+      ld a,(NameIndex)
+      and 3
+      add a,a
+      ; Look up in table
+      ld hl,_Pronouns
+      ld d,0
+      ld e,a
+      add hl,de
+      ld a,(hl)
+      inc hl
+      ld h,(hl)
+      ld l,a
+    pop af
+    ; Then look up the pronoun index
+    add a,a
+    ld e,a
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ; Finally we want to emit this text. We call into the dictionary lookup code to copy it to RAM and point to it...
+    call DictionaryLookup_Substring@Copy
+  pop bc
+  pop de
+  pop hl
+  ; Then we jump to here. This makes the copy above get drawn before continuing.
+  jp _Start
+  
+_Pronouns: ; Lookup by character index: Alisa, Myau, Tyron, Lutz
+.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+_PronounsF:
+.dw _PronounShe, _PronounHer
+_PronounShe: String "she"
+_PronounHer: String "her"
+_PronounsM:
+.dw _PronounHe, _PronounHim
+_PronounHe: String "he"
+_PronounHim: String "him"
 
 SubstringFormatter:
 ; Needs to be in the same bank as AdditionalScriptingCodes
@@ -2761,7 +2809,7 @@ Enemies:
 ; Note that the number of words we add here has a complicated effect on the data size.
 ; Adding more words costs space here (in a paged bank), but saves space in bank 2.
 ; If our goal is to maximise script space then we should maximise the word count.
-; The limit is 148 ($100 - WordListStart).
+; The limit is 147 ($100 - WordListStart).
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:

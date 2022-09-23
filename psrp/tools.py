@@ -3,7 +3,7 @@ import os
 import re
 import yaml
 
-start_code = 0x6c  # see WordListStart in asm
+start_code = 0x6d  # see WordListStart in asm
 
 
 def generate_words(tbl_file, asm_file, script_file, language, word_count):
@@ -194,7 +194,7 @@ class Table:
 class ScriptingCode:
     # This matches an enum in the assembly code with the same names
     SymbolPlayer, SymbolMonster, SymbolItem, SymbolNumber, SymbolBlank, SymbolNewLine, SymbolWaitMore, SymbolEnd, \
-        SymbolDelay, SymbolWait, SymbolPostHint, SymbolArticle, SymbolSuffix = range(0x5f, 0x6c)
+        SymbolDelay, SymbolWait, SymbolPostHint, SymbolArticle, SymbolSuffix, SymbolPronoun = range(0x5f, 0x6d)
 
 
 def get_word_length(s):
@@ -376,6 +376,16 @@ class ScriptEntry:
             # Accusative (de), no uppercase needed?
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
+            pass
+        elif tag == "he":
+            # Pronoun
+            self.buffer.append(ScriptingCode.SymbolPronoun)
+            self.buffer.append(0)
+            pass
+        elif tag == "his":
+            # Pronoun
+            self.buffer.append(ScriptingCode.SymbolPronoun)
+            self.buffer.append(1)
             pass
         else:
             raise Exception(f"Ignoring tag \"{match.group(0)}\"")
