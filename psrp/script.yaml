@@ -2436,23 +2436,23 @@
     シズカニ　タラシタ。<delay>
   kanji: そして、ビンの蓋を開けて静かに垂らした。
   translated: Then she opened the lid to the bottle, and the contents quietly spilled out.
-  en: |
-    Alisa opened the lid on the bottle and poured out its contents.<wait more>
-    It's working!<delay>
   us: |
     THE BOTTLECAP<line>
     OPENS AND THE <wait more>
     CONTENTS QUIETLY<line>
     LEAK OUT.<wait>
-  fr: Alisa ouvre la bouteille et en verse le contenu.<delay>
+  en: |
+    Then <she> opened the lid on the bottle and poured out its contents.<wait more>
+    It's working!<delay>
+  fr: <player> ouvre la bouteille et en verse le contenu.<delay>
   pt-br: |
-    Alisa abriu a tampa da garrafa e despeja seu conteúdo.<wait more>
+    <player> abriu a tampa da garrafa e despeja seu conteúdo.<wait more>
     Está funcionando!<delay>
   ca: |
-    Alisa obre el tap de l'ampolla i vessa el seu contingut.<wait more>
+    <player> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
     Està funcionant!<delay>
   es: |
-    Alisa abre el tapón del frasco y vierte su contenido.<wait more>
+    <player> abre el tapón del frasco y vierte su contenido.<wait more>
     ¡Está funcionando!<delay>
   de: <player> öffnet die Flasche und leert den Inhalt aus...<delay>
 
@@ -7771,7 +7771,7 @@
     <player> RAISES<line>
     <item> TOWARDS<wait more>
     THE SKY.<wait>
-  en: <player> held <article><item> up towards the sky.<delay>
+  en: <player> held <article><item> up over <his> head, towards the sky.<delay>
   fr: <player> tend <article><item> vers le ciel.<delay>
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
@@ -8474,7 +8474,7 @@
     COMPANY ON MYAU,<wait more>
     ARE TOSSED INTO<line>
     THE SKY.<end>
-  # TODO what is Alisa is dead?
+  # TODO what if Alisa is dead?
   en: Alisa and the others were knocked off of Myau, into the sky.<wait>
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
   pt-br: Alisa e os outros foram derrubados de Myau, lá do céu.<wait>
@@ -9933,7 +9933,7 @@
 
 - offsets: 273d
   # Use Laerma Berries in the wrong place
-  # TODO: don't use pronouns, may not be Alisa?
+  # TODO: use pronouns, may not be Alisa?
   indices: aecf
   ja: |
     オナカガ　スイテナカッタノデ<line>
@@ -9944,7 +9944,7 @@
     MYAU ISN'T HUNGRY,<line>
     SO SHE PUTS THE <wait more>
     FOOD BACK.<end>
-  en: Nobody’s hungry right now, so she put them back.<wait>
+  en: Nobody’s hungry right now, so <she> put them back.<wait>
   fr: Myau n'ayant pas faim, Alisa les range.<wait>
   pt-br: Ninguém está com fome agora, então ela as colocou de volta.<wait>
   ca: Ningú té gana, així que les torna a guardar.<wait>

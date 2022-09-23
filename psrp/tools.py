@@ -377,12 +377,12 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
             pass
-        elif tag == "he":
+        elif tag == "he" or tag == "she":
             # Pronoun
             self.buffer.append(ScriptingCode.SymbolPronoun)
             self.buffer.append(0)
             pass
-        elif tag == "his":
+        elif tag == "his" or tag == "her":
             # Pronoun
             self.buffer.append(ScriptingCode.SymbolPronoun)
             self.buffer.append(1)
