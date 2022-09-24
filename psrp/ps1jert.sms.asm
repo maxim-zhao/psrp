@@ -2630,7 +2630,7 @@ Items:
   String "<Ein> Eisenschild"
   String "<Ein> Bronzeschild"
   String "<Ein> Keramikschild"
-  String "Tierhandschuhe"				; needs -n suffix in dative case
+  String "Tierhandschuhe‹n›"
   String "<Eine> Laserbarriere"
   String "<Der> Schild des Perseus"
   String "<Der> Lakoniumschild"
@@ -3577,19 +3577,20 @@ DezorianCustomStringCheck:
 ; $db9c |               |                   +---------------+ |               | |               |
 ; $dbe6 +---------------+ +---------------+ | Enemy stats   | |               | |               |
 ; $dbee | Player select | | Buy/Sell      | | (8x10)    (B) | +---------------+ |               |
-;       | (8x9) (B,W)   | | (6x4)     (S) | |               | | MST in shop   | |               |
-; $dc1e |               | +- - - - - - - -+ |               | | (16x3)    (S) | |               |
-;       |               | | (fr:9x4)      | |               | |               | |               |
-; $dc2e |               | +---------------+ |               | |               | |               |
-; $dc3a +---------------+                   |               | |               | |               |
-; $dc3c +---------------+ +---------------+ +---------------+ |               | |               |
-; $dc4e | Inventory     | | Spells        |                   +---------------+ |               |
-; $dcaa | (16x21) (B,W) | | (12x12) (B,W) |                                     +---------------+
-; $dcb4 |               | |               |                   
+;       | (8x9) (B,W)   | | (6x4)     (S) | |               |                   |               |
+; $dc1e |               | +- - - - - - - -+ |               |                   |               |
+;       |               | | (fr:9x4)      | |               |                   |               |
+; $dc2e |               | +---------------+ |               |                   |               |
+; $dc3a +---------------+                   |               | +---------------+ |               |
+; $dc3c +---------------+ +---------------+ +---------------+ | MST in shop   | |               |
+; $dc4e | Inventory     | | Spells        |                   | and hospital  | |               |
+;       | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | |               |
+; $dca6 |               | |               |                   +---------------+ |               |
+; $dcaa |               | |               |                                     +---------------+
 ; $dd00 |               | +- - - - - - - -+                   
 ;       |               | | (fr: 16x12)   |                   
-; $dd38 |               | +---------------+
-; $de1c +---------------+ +---------------+ +---------------+
+; $dd38 |               | +---------------+                   
+; $de1c +---------------+ +---------------+ +---------------+ 
 ;       | Use/Equip/Drop| | Yes/No        | | Active player |
 ;       | (7x5)     (W) | | (5x5)         | | (during       |
 ; $de44 |               | +---------------+ | battle)   (B) |
@@ -3677,7 +3678,7 @@ DezorianCustomStringCheck:
   DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width              ChoiceMenu_height               29-ChoiceMenu_width                   14
   DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                             3                               1                                     8
   DefineWindow SHOP             MENU                  32                            5                               0                                     0 ; shop inventory width is dynamic, up to 32
-  DefineWindow SHOP_MST         SHOP_end              StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
+  DefineWindow SHOP_MST         PLAYER_SELECT_end     StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4             SAVE_SLOT_COUNT+2               27-SAVE_NAME_WIDTH                    1
   DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width           SoundTestMenu_height+2          31-SoundTestMenu_width                0
   DefineWindow OptionsWindow    $d700                 OptionsMenu_width             OptionsMenu_height              32-OptionsMenu_width                  24-OptionsMenu_height
@@ -5480,8 +5481,8 @@ CreditsScreen5: .db 6
   CreditsEntry 3,5,"KOMPLETTES"
   CreditsEntry 8,7,"DESIGN"
   CreditsEntry 18,6,"PHOENIX RIE"
-  CreditsEntry 2,14,"DESIGN DER"
-  CreditsEntry 8,16,"MONSTER"
+  CreditsEntry 5,14,"MONSTER-"
+  CreditsEntry 7,16,"DESIGN"
   CreditsEntry 17,15,"CHAOTIC KAZ"
 CreditsScreen6: .db 3
   CreditsEntry 8,6,"DESIGN"
@@ -5492,11 +5493,12 @@ CreditsScreen7: .db 4
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8: .db 6
+CreditsScreen8: .db 7
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,14,"SOFTWARE-"
-  CreditsEntry 3,15,"¨     ¨"
+  CreditsEntry 3,15,"¨"
+  CreditsEntry 9,15,      "¨"
   CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 5
@@ -6659,7 +6661,7 @@ GetItemType:
 ;    call   $35ef           ; 002E13 CD EF 35 ; Inventory select, returns in A, C
 ;    bit    4,c             ; 002E16 CB 61    ; Button 1 -> nz
 ; Following code assumes BC is still valid
-; We can't fit this ont into the original space...
+; We can't fit this one into the original space...
   push bc
     call ShopSellInventoryFixHelper
   pop bc
@@ -6673,3 +6675,25 @@ ShopSellInventoryFixHelper:
 .ends
 
 ; And when selecting an item to drop from your inventory, when getting an item. This seems to always come when the box is already full, so we don't bother fixing that one.
+
+; We get the same issue in the hospital.
+  ROMPosition $2aff
+.section "Hospital bug fix" overwrite size 5
+; Original code:
+;    ld     hl,$b25c                ; 002AF9 21 5C B2 ; Who will receive treatment?
+;    call   nz,TextBox20x6          ; 002AFC C4 3A 33 
+;    call   ShowCharacterSelectMenu ; 002AFF CD 82 37 ; Returns in A, C
+;    bit    4,c                     ; 002B02 CB 61 
+;    jp     nz,$2bae                ; 002B04 C2 AE 2B 
+; Following code assumes BC is still valid
+  push bc
+    call HospitalFixHelper
+  pop bc
+.ends
+
+.section "Hospital bug fix part 2" free
+HospitalFixHelper:
+  call $3782 ; inventory select
+  bit 4,c
+  ret
+.ends
