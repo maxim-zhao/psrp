@@ -1097,9 +1097,9 @@ _PronounsF:
 _PronounShe: String "she"
 _PronounHer: String "her"
 _PronounsM:
-.dw _PronounHe, _PronounHim
+.dw _PronounHe, _PronounHis
 _PronounHe: String "he"
-_PronounHim: String "him"
+_PronounHis: String "his"
 .endif
 .if LANGUAGE == "fr"
 ; No pronouns yet

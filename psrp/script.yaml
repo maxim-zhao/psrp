@@ -53,6 +53,7 @@
 # <de>, <do>, <del> = use possessive+article for an enemy (French, Brazilian Portuguese, Catalan/Spanish respectively)
 # <à> = use directive+article for an enemy or player (French)
 # <nom>, <dat>, <gen>, <acc> = use nominative, dative, genitive and accusative cases (German)
+# <he>, <she>, <his>, <her> = pronouns
 # <player> = player name
 # <monster> = enemy name
 # <item> = item name
