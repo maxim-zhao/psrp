@@ -26,7 +26,7 @@ banks 32
   .unbackground $0000f $00037 ; Unused space
   .unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
   .unbackground $00486 $004b2 ; Old tile decoder
-  .unbackground $00745 $00750 ; Title screen menu
+  .unbackground $0073f $00750 ; Title screen menu
   .unbackground $0079e $008a3 ; Continue/Delete screen/menus
   .unbackground $007c9 $007df ; Load game font loader
   .unbackground $008f3 $0090b ; Title screen graphics loading
@@ -41,6 +41,7 @@ banks 32
   .unbackground $035c5 $035d9 ; Spell menu blank space filling
   .unbackground $03907 $0397f ; Stats window drawing
   .unbackground $03982 $039dd ; Stats window tilemap data
+  .unbackground $039f6 $03ac2 ; Shop window drawing
   .unbackground $03b22 $03b39 ; Shop MST window drawing
   .unbackground $03be8 $03cbf ; Save menu blank tilemap
   .unbackground $03dde $03df4 ; Dungeon font loader
@@ -156,10 +157,6 @@ LoadPagedTiles\1:
   call LoadTiles
 .endm
 
-.macro DefineVRAMAddress args name, x, y
-.define \1 $7800 + ((y * 32) + x) * 2
-.endm
-
 .if LANGUAGE == "en"
 ; This string mapping is for raw (16-bit) tilemap data. It sets the priority bit on every tile.
 .stringmaptable tilemap "tilemap.en.tbl"
@@ -231,16 +228,18 @@ _script\@_end:
 .define CursorMax           $c26e ; b Maximum index for menu selection (0-based)
 .define NameIndex           $c2c2 ; b Index into Names
 .define ItemIndex           $c2c4 ; b Index into Items
-.define NumberToShowInText  $c2c5 ; b Number to show in text
+.define RoomIndex           $c2db ; Index for various room-related lookups, notably shops.
+.define NumberToShowInText  $c2c5 ; w Number to show in text. Sometimes assumed to be 8-bit.
 .define EnemyIndex          $c2e6 ; b Index into Enemies
 .define VehicleType         $c30e ; b Zero when walking
 .define IntroState          $c600 ; b $ff when intro starts
 .define SaveTilemapOld      $8100 ; Tilemap data for save - original
 .define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
 
+
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
-.enum $dfb0 export
+.enum $dfa0 export
   .union
     PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
   .nextu
@@ -263,11 +262,11 @@ _script\@_end:
     BARREL          db   ; current Huffman encoding barrel
     TREE            db   ; current Huffman tree
     VRAM_PTR        dw   ; VRAM address
-    FULL_STR        dw   ; pointer backup
     SKIP_BITMASK    db   ; for bracket-based skipping. If a skip region's code AND this is 0, we skip it.
   .endu
-  HasFM           db   ; copy of FM detection result
-  MusicSelection  db ; music test last selected song
+  HasFM             db   ; copy of FM detection result
+  MusicSelection    db ; music test last selected song
+  ShopInventoryWidth db ; for elastic window size
 
   SettingsStart: .db
   
@@ -329,7 +328,7 @@ LoadTiles:
 .ends
 
 ; New title screen ------------------------
-  PatchB $2fdb $31    ; cursor tile index for title screen
+  PatchB $2fdb $2b    ; cursor tile index for title screen
 
 .slot 2
 .section "Replacement title screen" superfree
@@ -812,7 +811,7 @@ DictionaryLookup_Substring:
   jr -        ; Keep searching
 
 _Copy:
-  ; TODO: apply bracketed parts skipping here.
+  ; Apply bracketed parts skipping here.
   ; This code is used for all item lookups.
   ; hl = source
   ld de,TEMP_STR ; destination
@@ -954,8 +953,6 @@ _Decode:
 _Reset_Lines:
   push af
     xor a
-
-_Set_Lines:
     ld (LINE_NUM),a   ; Clear # lines used
   pop af
 
@@ -1177,13 +1174,13 @@ _Substring:
 
 _Start_Art:
       ld a,(bc)   ; Grab index
-      sub $64     ; Remap index range ($64 is the lowest articlee index)
+      sub $64     ; Remap index range ($64 is the lowest article index)
       jr c,_Art_Done ; if there is a letter there, it'll be 0..$40ish. So do nothing.
       add a,a     ; Multiply by two
       add a,e     ; Add offset
-      ld e,a      ; (Could align the tables to avoid the need to carry)
-      ld a,0
-      adc d
+      ld e,a
+      adc a,d
+      sub e
       ld d,a
 
       ld a,(de)   ; Grab final string offset
@@ -1209,6 +1206,7 @@ _Art_Done:
       ld (STR),bc   ; store new text pointer
       xor a
       ld (ARTICLE),a    ; lower flag
+      ld (SKIP_BITMASK),a ; and clear this too
 
 _Art_Exit:
     pop de      ; now proceed normally
@@ -1664,11 +1662,14 @@ NumberLookup:
 ;      stores a flag to tell if it was singular or plural,
 ;      pulls digit calculation out to save space
 ;      105 bytes
-  jr z,_DRAW_NUMBER ; draw number if z
+  jr z,+ ; draw number if z
   call CharacterDrawing ; else draw a regular letter
   jp InGameTextDecoder         ; and loop
++:call DrawNumberToTempStr
+  inc hl      ; Process next script
+  jp InGameTextDecoder
 
-_DRAW_NUMBER:
+DrawNumberToTempStr:
   push hl      ; Save string ptr
   push bc      ; Width, temp
   push ix      ; Temp
@@ -1706,6 +1707,8 @@ _Scan:
     ld a,(hl)    ; load digit
     cp $01      ; check for '0'
     jr nz,_Done
+    xor a       ; blank
+    ld (hl),a
     inc hl      ; bump pointer
     djnz _Scan
 
@@ -1735,9 +1738,7 @@ _Plural:
   pop ix      ; Restore stack
   pop bc
   pop hl
-
-  inc hl      ; Process next script
-  jp InGameTextDecoder
+  ret
 
 _BCD_Digit:
   xor a ; clear carry flag, a = 0
@@ -2916,7 +2917,7 @@ inventory:
 
     ld hl,TEMP_STR    ; start of text
 
-    call _start_write ; write out 2 lines of text
+    call _start_write ; write out text
     call _wait_vblank
 
   pop hl
@@ -2929,54 +2930,246 @@ inventory:
 ; ________________________________________________________
 
 shop:
-  ld b,3    ; 3 items total
-
--:push bc
-  push hl
-
-    di
-      ld a,3 ; Shop data bank
+; We extend this to do all the box drawing
+  ; First we want to decide how wide it is.
+  ; It looks like this:
+  ; ┌──────────────────╖
+  ; │Item 1       Price║
+  ; │Item 2       Price║
+  ; │Item 3       Price║
+  ; ╘══════════════════╝
+  ; Item names are variable length. Price is up to four digits. Item count is 1-3.
+  ; We want to make it have two spaces between the names and items so we don't
+  ; have it super wide if not needed.
+  ; First we need to look up the items for this shop.
+  ; This is all copied from the original game:
+  ld a,3 ; bank for table at $f717
+  ld (PAGING_SLOT_2),a
+  ld a,(RoomIndex)
+  and $1F
+  ; Multiply by 10
+  ld l,a
+  ld h,0
+  add hl,hl
+  ld c,l
+  ld b,h
+  add hl,hl
+  add hl,hl
+  add hl,bc
+  ; Look up (1-based)
+  ld bc,$b717 - 10 ; Shop items table at $f717
+  add hl,bc
+  ; First byte is menu size - 1
+  ld a,(hl)
+  ld (CursorMax),a
+  inc hl
+  push hl ; save this pointer for the end
+    ; Next are tuples of (item ID, price). We want to find the longest named item.
+    push af
+    push hl
+      inc a
+      ld b,a
+      ld c,0 ; longest length seen
+      di
+-:    ld a,3 ; shop data
       ld (PAGING_SLOT_2),a
+      ld a,(hl) ; Get item ID
+      ; Move to next item
+      inc hl
+      inc hl
+      inc hl
+      push hl
+      push bc
+        call _lookUpShopItem
+        call _checkLength
+      pop bc
+      pop hl
+      cp c
+      ; If it carries then c is bigger
+      jr c,+
+      ld c,a
++:    ; check if we have run out of items
+      djnz -
+      ei
+      ; So the max must be C. Let's save it to RAM.
+      ld a,c
+      add a,6 ; space for numbers
+      ld (ShopInventoryWidth),a
 
-.if LANGUAGE == "de"
-      ; Select [] brackets only
-      ld a,%0001
-.else
-      ; Skip all brackets
-      xor a
-.endif
-      ld (SKIP_BITMASK),a
-
-      ld a,(hl)   ; grab item #
-      ld (FULL_STR),hl  ; save current shop ptr
-      ld hl,Items   ; table start
-
-      push de
-        call DictionaryLookup    ; copy string to RAM
-      pop de
-    ei
-
-    ld hl,TEMP_STR    ; start of text
-
-    call _start_write ; write out 2 lines of text
-
-    push hl     ; hacky workaround
-    push de
-      ld c,$01    ; write out price
-      call _shop_price
-    pop de
+      ; Now let's try to draw the top border.
+      ; First we compute the VRAM address. This is $3800 + (32 - (width+2)) / 2 * 2
+      sub 30
+      neg
+      and %11111110
+      ld e,a
+      ld d,0
+      ld hl,$7800
+      add hl,de
+      ex de,hl
+      rst $08 ; Set VRAM address
+      ; Set de to the next row down
+      ld hl,ONE_ROW
+      add hl,de
+      ex de,hl
+      ; Save that as the cursor address
+      ld (CursorTileMapAddress),de
+      ; Draw top border
+      ld a,(ShopInventoryWidth)
+      ld c,a
+      ld hl,BorderTop
+      call _DrawBorder
+      call _wait_vblank
     pop hl
-    ld a,2    ; restore page 2
-    ld (PAGING_SLOT_2),a
-  pop hl      ; restore old parameters
-  pop bc
+    pop af
+    ; Now hl points at the first item, a is the row count, de is the write address
 
-  inc hl      ; next item
-  inc hl
-  inc hl
-  djnz -
+    ld a,(CursorMax)
+    inc a
+    ld b,a ; Only show as many rows as needed
+_itemsLoop:
+    push bc
+    push hl
 
+      di
+        ld a,3 ; Shop data bank
+        ld (PAGING_SLOT_2),a
+        ld a,(hl)   ; grab item #
+        push af
+          inc hl
+          ; and price
+          ld a,(hl)
+          inc hl
+          ld h,(hl)
+          ld l,a
+          ld (NumberToShowInText),hl
+        pop af
+        call _lookUpShopItem
+      ei
+
+      ; Print item text
+      push de
+        rst $08
+        ld hl,BorderSides
+        call _DrawOneTile
+        inc de
+        inc de
+        ; Now for the item name
+        ld hl,TEMP_STR
+        ld a,(LEN)
+        ld b,a
+        push bc
+          ld c,0 ; counter for chars written
+-:        ld a,(hl)
+          inc hl
+          cp SymbolStart ; don't draw scripting codes
+          jr nc,+
+          call EmitCharacter
+          inc c
+          inc de
+          inc de
++:        djnz -
+          ld a,c ; written character count
+        pop bc
+        ; Write out blanks
+        ld c,a
+        ld a,(ShopInventoryWidth)
+        sub c
+        sub 5 ; for price
+        jr z,+
+        ld b,a ; we want this many blanks
+-:      xor a ; space
+        call EmitCharacter
+        djnz -
++:
+        ; Write out price
+        call DrawNumberToTempStr
+        ; We called the function used for numbers in the script.
+        ; It has rendered the number to TEMP_STR, and also set some other script state that we don't care about.
+        ld hl,TEMP_STR
+        ld b,5 ; digits
+-:      ld a,(hl)
+        inc hl
+        call EmitCharacter
+        djnz -
+        
+        ; Write out right border
+        ld hl,BorderSides+2
+        call _DrawOneTile
+      pop de
+      call _wait_vblank
+      ; Next row
+      ld hl,ONE_ROW
+      add hl,de
+      ex de,hl
+      rst $08
+    pop hl      ; restore counter, data pointer
+    pop bc
+
+    inc hl      ; next item
+    inc hl
+    inc hl
+    djnz _itemsLoop
+    ; Clear LEN to stop the item name being drawn later
+    xor a
+    ld (LEN),a
+  
+    ; Bottom border
+    ld a,(ShopInventoryWidth)
+    ld c,a
+    ld hl,BorderBottom
+    call _DrawBorder
+    call _wait_vblank
+
+    call WaitForMenuSelection
+  pop hl
+  ; Point hl to the shop table entry selected
+  ; compute hl = hl + a * 3 = pointer to data for the selected item
+  ld b,a
+  add a,a
+  add a,b
+  add a,l
+  ld l,a
+  adc a,h
+  sub l
+  ld h,a
+  ld a,3
+  ld (PAGING_SLOT_2),a
   ret
+
+_lookUpShopItem:
+  ld hl,Items
+  push af
+.if LANGUAGE == "de"
+    ; Select [] brackets only
+    ld a,%0001
+.else
+    ; Skip all brackets
+    xor a
+.endif
+    ld (SKIP_BITMASK),a
+  pop af
+  push de
+    call DictionaryLookup ; puts length in LEN
+  pop de
+  ret
+  
+_checkLength:
+  ; When we do an item name lookup, the length includes control characters.
+  ; We count the printable ones.
+  ld a,(LEN)
+  ld hl,TEMP_STR
+  ld b,a
+  ld c,0
+-:ld a,(hl)
+  inc hl
+  cp SymbolStart
+  jr nc,+
+  inc c
++:djnz -
+  ; now c is the real name length
+  ld a,c
+  ret
+
 
 enemy:
   ; Enemy name window drawing
@@ -3003,22 +3196,10 @@ enemy:
   ei
 
   ; compute the name length
-  ; LEN contains the length including control symbols
-  ld a,(LEN)
-  ld hl,TEMP_STR
-  ld b,a
-  ld c,0
--:ld a,(hl)
-  inc hl
-  cp SymbolStart
-  jr nc,+
-  inc c
-+:djnz -
-  ; now c is the real name length
+  call _checkLength
 
   ; Compute the VRAM address
   ld hl,$7840 - 4 ; right-aligned, minus space for borders
-  ld a,c
   add a,a
   neg
   ld e,a
@@ -3035,7 +3216,7 @@ enemy:
     call _DrawBorder
   pop de
   ; Next row
-  ld hl,32*2
+  ld hl,ONE_ROW
   add hl,de
   ex de,hl
   push de
@@ -3218,25 +3399,6 @@ _wait_vblank:
       call ExecuteFunctionIndexAInNextVBlank
       ret
 
-_shop_price:
-      di
-        ld de,(VRAM_PTR)  ; restore VRAM ptr
-        rst $08
-
-        ld a,3    ; shop data bank
-        ld (PAGING_SLOT_2),a
-
-        ld hl,(FULL_STR)  ; shop ptr
-
-        ld a,(hl)   ; check for blank item
-        or a
-        jr nz,_write_price
-        ld c,0    ; no price
-
-_write_price:
-        push de     ; parameter
-        push hl     ; parameter
-          jp $3a9a    ; write price
 .ends
 
 .macro TrampolineTo args dest, start, end
@@ -3253,9 +3415,9 @@ _write_price:
 .endm
 
   TrampolineTo inventory $3671 $3680
-  TrampolineTo shop $3a1f $3a36
   TrampolineTo enemy $326d $3294
   TrampolineTo equipment $3850 $385f
+  ; Shop trampoline is now done manually
 
 ; Extra scripting
 .bank 1 slot 1
@@ -3406,28 +3568,29 @@ DezorianCustomStringCheck:
 ;       | scroll buffer |
 ; $daae +---------------+                   +---------------+ +---------------+
 ;       | Regular menu  |                   | Battle menu   | | Shop items    |
-;       |           (W) |                   |           (B) | | (22x8)        |
+;       |           (W) |                   |           (B) | | (max 32x5)    |
 ; $db1e +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
 ;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
 ;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
 ; $db6e | items         | +---------------+ |               | |               | | (22x9)    (W) |
-; $db76 | (16x8)    (W) |                   |               | +---------------+ |               |
-; $db9c |               |                   +---------------+                   |               |
-; $dbe6 +---------------+ +---------------+ | Enemy stats   |                   |               |
-;       | Player select | | Buy/Sell      | | (8x10)    (B) |                   |               |
+; $db76 | (16x8)    (W) |                   |               | |               | |               |
+; $db9c |               |                   +---------------+ |               | |               |
+; $dbe6 +---------------+ +---------------+ | Enemy stats   | |               | |               |
+; $dbee | Player select | | Buy/Sell      | | (8x10)    (B) | +---------------+ |               |
 ;       | (8x9) (B,W)   | | (6x4)     (S) | |               |                   |               |
 ; $dc1e |               | +- - - - - - - -+ |               |                   |               |
 ;       |               | | (fr:9x4)      | |               |                   |               |
 ; $dc2e |               | +---------------+ |               |                   |               |
-; $dc3a +---------------+                   |               |                   |               |
-; $dc3c +---------------+ +---------------+ +---------------+ +---------------+ |               |
-;       | Inventory     | | Spells        |                   | MST in shop   | |               |
-; $dcaa | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | +---------------+
-; $dcb4 |               | |               |                   +---------------+
-; $dd00 |               | +- - - - - - - -+
-;       |               | | (fr: 16x12)   |
-; $dd38 |               | +---------------+
-; $de1c +---------------+ +---------------+ +---------------+
+; $dc3a +---------------+                   |               | +---------------+ |               |
+; $dc3c +---------------+ +---------------+ +---------------+ | MST in shop   | |               |
+; $dc4e | Inventory     | | Spells        |                   | and hospital  | |               |
+;       | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | |               |
+; $dca6 |               | |               |                   +---------------+ |               |
+; $dcaa |               | |               |                                     +---------------+
+; $dd00 |               | +- - - - - - - -+                   
+;       |               | | (fr: 16x12)   |                   
+; $dd38 |               | +---------------+                   
+; $de1c +---------------+ +---------------+ +---------------+ 
 ;       | Use/Equip/Drop| | Yes/No        | | Active player |
 ;       | (7x5)     (W) | | (5x5)         | | (during       |
 ; $de44 |               | +---------------+ | battle)   (B) |
@@ -3514,8 +3677,8 @@ DezorianCustomStringCheck:
   DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                             6                               9                                     8
   DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width              ChoiceMenu_height               29-ChoiceMenu_width                   14
   DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                             3                               1                                     8
-  DefineWindow SHOP             MENU                  ShopInventoryDimensions_width ShopInventoryDimensions_height  (32-ShopInventoryDimensions_width)/2  0
-  DefineWindow SHOP_MST         INVENTORY             StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
+  DefineWindow SHOP             MENU                  32                            5                               0                                     0 ; shop inventory width is dynamic, up to 32
+  DefineWindow SHOP_MST         PLAYER_SELECT_end     StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4             SAVE_SLOT_COUNT+2               27-SAVE_NAME_WIDTH                    1
   DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width           SoundTestMenu_height+2          31-SoundTestMenu_width                0
   DefineWindow OptionsWindow    $d700                 OptionsMenu_width             OptionsMenu_height              32-OptionsMenu_width                  24-OptionsMenu_height
@@ -3557,9 +3720,9 @@ DezorianCustomStringCheck:
   PatchWords MENU                   $322c $324a ; Battle menu
   PatchWords MENU                   $37fb $3819 ; Regular world menu
 
-  PatchWords SHOP                   $39eb $3ac4 ; Shop items
-  PatchWords SHOP_VRAM              $39ee $39fa $3ac7
-  PatchW $3a40 SHOP_VRAM + ONE_ROW ; Cursor start location
+  PatchWords SHOP                   $39eb,$3ac4
+  PatchWords SHOP_VRAM              $39ee,$3ac7
+  PatchWords SHOP_dims              $39f1,$3aca
 
   PatchWords CURRENT_ITEMS          $3826 $386b ; Currently equipped items
   PatchWords CURRENT_ITEMS_VRAM     $3835 $3829 $386e
@@ -3672,6 +3835,16 @@ Slot1TrampolineEnd:
   ld a,1
   ld (PAGING_SLOT_1),a
   ret
+.ends
+
+  ROMPosition $39f6
+.section "Shop inventory window" force
+ShopInventory:
+  ; We trampoline to the same area as the stats drawing
+  ld a,:shop
+  ld (PAGING_SLOT_1),a
+  call shop
+  jp Slot1TrampolineEnd
 .ends
 
   ROMPosition $3b22
@@ -4927,8 +5100,10 @@ SaveDataPatch:
 
 
 ; Changed credits -------------------------
+; Point to maybe relocated data
   PatchB $70b4 :CreditsData
   PatchW $70ba CreditsData-4
+; Code treats values >64 as 
 .slot 2
 .section "Credits" superfree
 CreditsData:
@@ -4938,8 +5113,10 @@ CreditsData:
 
 .macro CreditsEntry args x, y, text
 .dw $d000 + ((y * 32) + x) * 2
-.db text.length
+.db _credits_\@_end - _credits_\@
+_credits_\@:
 .stringmap credits text
+_credits_\@_end:
 .endm
 
 .if LANGUAGE == "en"
@@ -5114,9 +5291,9 @@ CreditsScreen8: .db 4
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 7
   CreditsEntry 4,6,"AUXILIAR DE"
-  CreditsEntry 26,5,        "~"
+  CreditsEntry 26,5,         "~"
   CreditsEntry 17,6,"PROGRAMACAO"
-  CreditsEntry 25,7,       "'"
+  CreditsEntry 25,7,        "'"
   CreditsEntry 9,10,"COM BLUE"
   CreditsEntry 4,15,"M WAKA"
   CreditsEntry 19,15,"ASI"
@@ -5320,8 +5497,12 @@ CreditsScreen8: .db 7
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,14,"SOFTWARE-"
+<<<<<<< HEAD
   CreditsEntry 3,15,"¨"
   CreditsEntry 9,15,      "¨"
+=======
+  CreditsEntry 3,15,"¨     ¨"
+>>>>>>> e1c9897918b66a3205c5cfe2fcd2da1c1a94ef78
   CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 5
@@ -5449,9 +5630,10 @@ DecoderInit:
     xor a     ; A = $00
     ld (POST_LEN),a   ; No post hints
     ld (LINE_NUM),a   ; No lines drawn
-    ld (FLAG),a   ; No wait flag
+    ld (FLAG),a       ; No wait flag
     ld (ARTICLE),a    ; No article usage
-    ld (SUFFIX),a   ; No suffix flag
+    ld (SUFFIX),a     ; No suffix flag
+    ld (SKIP_BITMASK),a ; No (){}[] etc
 
   pop af
 
@@ -5477,7 +5659,7 @@ CutsceneClear:
   ld a,4        ; Line count
   ld (VLIMIT),a
   ; Patched-over code
-  ld a,($c2d3)  ; Old code
+  ld a,($c2d3)  ; Old code (checking if the text window is already open)
   or a          ; Done second as the flags from this test are what matters
   ; Call back to patch location
   call InGameNarrativeInitOriginalCode
@@ -5647,13 +5829,18 @@ CalculateCursorPos:
 .endsms
 
 ; Title screen menu extension
-  ROMPosition $0745
+  ROMPosition $073f
 .section "Title screen extension part 1" force
+;    TileMapAddressHL 9,16
+;    ld (CursorTileMapAddress),hl
 ;    ld     a,$01           ; 000745 3E 01
 ;    ld     (CursorMax),a       ; 000747 32 6E C2
-;    call   $2eb9           ; 00074A CD B9 2E
+;    call   WaitForMenuSelection           ; 00074A CD B9 2E
 ;    or     a               ; 00074D B7
 ;    jp     nz,$079e        ; 00074E C2 9E 07
+.define TitleScreenCursorBase $3800+(15*32+9)*2+$4000
+  ld hl,TitleScreenCursorBase
+  ld (CursorTileMapAddress),hl
   ld a,3 ; 4 options
   ld (CursorMax),a ; CursorMax
   jp TitleScreenModTrampoline
@@ -5771,7 +5958,7 @@ _optionsReturn:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 3
+  ld de,TitleScreenCursorBase + ONE_ROW * 3
   ; fall through
 
 BackToTitle:
@@ -5804,7 +5991,7 @@ _movement:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 3
+  ld de,TitleScreenCursorBase + ONE_ROW * 3
   jp BackToTitle
 
 +:dec a
@@ -5942,7 +6129,7 @@ _continueReturn:
   ld de,ContinueWindow_VRAM
   ld bc,ContinueWindow_dims
   call DrawTilemap
-  ld de,$7c12 + ONE_ROW * 1
+  ld de,TitleScreenCursorBase + ONE_ROW * 1
   jp BackToTitle
 
 +:ld a,b
@@ -6054,7 +6241,7 @@ _musicReturn:
   call DrawTilemap
 
   ; We need to hide the cursor as it resets to the top...
-  ld de,$7c12 + ONE_ROW * 2
+  ld de,TitleScreenCursorBase + ONE_ROW * 2
   jp BackToTitle
 
 +:ld a,b
@@ -6444,3 +6631,73 @@ GetItemType:
 ; There is a bug in the Japanese ROM that makes Myau have a low attack stat at level 30.
 ; This "fix" makes it match the export version, with a sensible value.
   PatchB $fa88 $56
+
+; There is another bug that causes the tool shop to lose some state regarding the script winow, when showing the buy/sell window. We patch it here.
+  ROMPosition $2dfa
+.section "Shop bug fix" overwrite size 12
+; Original code:
+;    ld     hl,$b1c5        ; 002DF4 21 C5 B1 ; Welcome to the tool shop. May I help you?<end>
+;    call TextBox20x6       ; 002DF7 CD 3A 33 ; State in BC for text window
+;    call   $3894           ; 002DFA CD 94 38 ; Show Buy or Sell window; returns in  A, C
+;    push   af              ; 002DFD F5 
+;    push   bc              ; 002DFE C5 
+;      call   $38b4           ; 002DFF CD B4 38 ; restore tilemap
+;    pop    bc              ; 002E02 C1 
+;    pop    af              ; 002E03 F1 
+;    bit    4,c             ; 002E04 CB 61 
+; Following code assumes C is still valid
+; We can fit a fix into the existing space by moving the BC push/pop around.
+  push bc
+    call $3894 ; Show Buy or Sell window; returns in A, C
+    bit 4,c ; check for button 1
+    push af
+      call $38b4 ; restore tilemap
+    pop af
+  pop bc
+.ends
+
+; The same bug happens when picking from the inventory when selling.
+  ROMPosition $2e13
+.section "Shop bug fix 2" overwrite size 5
+; Original code:
+;    ld     hl,$b1e0        ; 002E0D 21 E0 B1 ; What do you have?
+;    call TextBox20x6       ; 002E10 CD 3A 33 ; State in BC for text window
+;    call   $35ef           ; 002E13 CD EF 35 ; Inventory select, returns in A, C
+;    bit    4,c             ; 002E16 CB 61    ; Button 1 -> nz
+; Following code assumes BC is still valid
+; We can't fit this one into the original space...
+  push bc
+    call ShopSellInventoryFixHelper
+  pop bc
+.ends
+
+.section "Shop bug fix part 2" free
+ShopSellInventoryFixHelper:
+  call $35ef ; inventory select
+  bit 4,c
+  ret
+.ends
+
+; And when selecting an item to drop from your inventory, when getting an item. This seems to always come when the box is already full, so we don't bother fixing that one.
+
+; We get the same issue in the hospital.
+  ROMPosition $2aff
+.section "Hospital bug fix" overwrite size 5
+; Original code:
+;    ld     hl,$b25c                ; 002AF9 21 5C B2 ; Who will receive treatment?
+;    call   nz,TextBox20x6          ; 002AFC C4 3A 33 
+;    call   ShowCharacterSelectMenu ; 002AFF CD 82 37 ; Returns in A, C
+;    bit    4,c                     ; 002B02 CB 61 
+;    jp     nz,$2bae                ; 002B04 C2 AE 2B 
+; Following code assumes BC is still valid
+  push bc
+    call HospitalFixHelper
+  pop bc
+.ends
+
+.section "Hospital bug fix part 2" free
+HospitalFixHelper:
+  call $3782 ; inventory select
+  bit 4,c
+  ret
+.ends

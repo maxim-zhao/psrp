@@ -100,6 +100,7 @@
   height: 6
 
 - offsets: 45ef
+  # Game intro
   # Nero on ground, robot police
   indices: b8bf
   ja: |
@@ -160,6 +161,7 @@
     Was ist passiert?!<wait>
 
 - offsets: 45fa
+  # Game intro
   # Nero, dying
   indices: b90f
   ja: |
@@ -336,6 +338,7 @@
     ...lasse...<wait>
 
 - offsets: 4605
+  # Game intro
   # Alisa
   indices: ba08
   ja: |
@@ -429,6 +432,7 @@
 
 - offsets: 58fc
   indices: 2A4
+  # Camineet
   # Alisa's house
   ja: |
     ココハ　アリサノ　ウチデス。<line>
@@ -460,6 +464,7 @@
     Ohne Nero kommt es ihr viel leerer vor.<wait>
 
 - offsets: 4b48
+  # Camineet
   # Suelo (first visit)
   indices: 002,004
   ja: |
@@ -516,6 +521,7 @@
     Schließlich bin ich deine Nachbarin, Suelo. Mich um dich zu kümmern ist das Mindeste, was ich tun kann.<wait>
 
 - offsets: 4b4e
+  # Camineet
   # Suelo (subsequent visits)
   indices: 006
   ja: |
@@ -552,6 +558,7 @@
     Bitte überarbeite dich nicht, OK? Komm jederzeit wieder.<wait>
     
 - offsets: 4b62
+  # Camineet
   # Nekiseh (first visit)
   indices: 008,00A,00C,00E
   ja: |
@@ -625,6 +632,7 @@
     Hier, nimm ihn mit.<wait>
 
 - offsets: 4b7c
+  # Camineet
   # Nekiseh (subsequent visits)
   indices: 010
   ja: |
@@ -804,8 +812,8 @@
   de: Draußen können wir Ihren Schutz nicht garantieren. Bleiben Sie zu Hause.<wait>
 
 - offsets: 4bcd,4c26,4cc2,4d0e
-  # Road guard (without a Roadpass) - Camineet and Parolit
-  # Spaceport guard (say "no" to question about passport) - Camineet and Parolit
+  # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
+  # Spaceport guard (say "no" to question about passport) - Camineet (4c26) and Parolit (4cc2)
   indices: 020
   ja: ココヲ　トオスワケニハ　イカナイ。<wait>
   kanji: ここを通す訳にはいかない。
@@ -819,7 +827,7 @@
   de: Ohne Befugnis können Sie hier nicht durch.<wait>
 
 - offsets: 4bda,4d23
-  # Road guard (without a Roadpass) - Camineet and Parolit
+  # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
   indices: 022
   ja: |
     ロードパスノ　ナイモノハ　ココヲ<line>
@@ -837,9 +845,9 @@
   de: Ohne Straßenpass kommt hier keiner durch.<wait>
 
 - offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
-  # Road guard (with a Roadpass) - Camineet and Parolit
-  # Spaceport guard (say "yes" with a Passport) - Camineet and Parolit
-  # Triada prison guard (say "yes" with a Roadpass)
+  # Road guard (with a Roadpass) - Camineet (4be0) and Parolit (4d18, 4d2d)
+  # Spaceport guard (say "yes" with a Passport) - Camineet (4cd5) and Parolit (4c3a)
+  # Triada prison guard (say "yes" with a Roadpass) (5497)
   indices: 024
   ja: トオッテ　ヨシ。<wait>
   kanji: 通って良し。
@@ -5970,6 +5978,7 @@
 
 # Soothe Flute stuff
 - offsets: 24d6
+  # Use Soothe Flute outside a battle
   indices: b8a7
   ja: |
     ココロガ　ナゴムヨウナ<line>
@@ -7644,7 +7653,7 @@
     Was sagt dazu, ihr?<end>
 
 - offsets: 5684
-  # Torchbearer (yes to previous question)
+  # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
   indices: 244
   ja: |
     デハ　イクリプストーチヲ<line>
@@ -7770,6 +7779,7 @@
   de: <player> hält <acc><item> hoch.<delay>
 
 - offsets: 26d0
+  # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
   indices: ae6b
   ja: |
     <player>ハ　ラエルマベリーヲ　トッテ<line>
@@ -7789,7 +7799,7 @@
   de: <player> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
 
 - offsets: 26c4
-  # If no Laconian Pot...
+  # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
   indices: ae8a
   ja: |
     ラエルマベリーヲ　トッテミタガ<line>
@@ -8464,6 +8474,7 @@
     COMPANY ON MYAU,<wait more>
     ARE TOSSED INTO<line>
     THE SKY.<end>
+  # TODO what if Alisa is dead?
   en: Alisa and the others were knocked off of Myau, into the sky.<wait>
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
   pt-br: Alisa e os outros foram derrubados de Myau, lá do céu.<wait>
@@ -9126,6 +9137,7 @@
   height: 4
 
 - offsets: 13a4
+  # In battle, enemy dodges attack
   indices: ab1f
   ja: |
     <monster>ハ　<player>ノ<line>
@@ -9143,6 +9155,7 @@
   de: <Nom><monster> weicht <gen><player> Angriff aus.<delay>
 
 - offsets: 1497
+  # In battle, player dodges attack
   indices: ab31
   ja: |
     <player>ハ　<monster>ノ<line>
@@ -9160,6 +9173,7 @@
   de: <player> weicht dem Angriff <gen><monster> aus.<delay>
 
 - offsets: 1a96
+  # In battle, chose "talk"
   indices: ab43
   ja: <player>ハ　ハナシカケタ。<end>
   kanji: <player>は話しかけた。
@@ -10275,12 +10289,12 @@
   us: |
     WHAT DO YOU WANT <line>
     TO DROP?<prompt>
-  en: Which item do you want to drop?<wait>
-  fr: Quel objet voulez-vous jeter_?<wait>
-  pt-br: Qual item você quer descartar?<wait>
-  ca: Quin objecte voleu llençar?<wait>
-  es: ¿Qué objeto queréis tirar?<wait>
-  de: Was möchtest du wegwerfen?<wait>
+  en: Which item do you want to drop?<end>
+  fr: Quel objet voulez-vous jeter_?<end>
+  pt-br: Qual item você quer descartar?<end>
+  ca: Quin objecte voleu llençar?<end>
+  es: ¿Qué objeto queréis tirar?<end>
+  de: Was möchtest du wegwerfen?<end>
 
 - offsets: 296a
   # this runs into the next one...
@@ -10291,12 +10305,12 @@
   us: |
     <item> IS <line>
     DROPPED,<end>
-  en: You dropped <article><item>, and<wait>
-  fr: Vous jetez <article><item>.<wait>
-  pt-br: Você descartou <article><item>, e<wait>
-  ca: Heu llençat <article><item>.<wait>
-  es: Habéis tirado <article><item>.<wait>
-  de: Du wirfst <acc><item> weg<wait>
+  en: You dropped <article><item>...<end>
+  fr: Vous jetez <article><item>.<end>
+  pt-br: Você descartou <article><item>, e<end>
+  ca: Heu llençat <article><item>.<end>
+  es: Habéis tirado <article><item>.<end>
+  de: Du wirfst <acc><item> weg<end>
 
 - offsets: 297d
   indices: b024
@@ -10306,7 +10320,7 @@
   us: |
     AND <item> IS<line>
     PICKED UP.<end>
-  en: you got <article><item>.<wait>
+  en: ...and you got <article><item>.<wait>
   fr: Vous avez <article><item>.<wait>
   pt-br: Você obteve <article><item>.<wait>
   ca: Aconseguiu <article><item>.<wait>
@@ -10850,20 +10864,15 @@
     MESETAS. IS THAT<line>
     ACCEPTABLE?<prompt>
   en: |
-    Hmm. I can get you good as new for <number><internal hint 02> meseta<s>.<wait more>
-    Shall I proceed?<end>
+    Hmm. I can get you good as new for <number><internal hint 02> meseta<s>. Shall I proceed?<end>
   fr: |
-    Hmm. Les soins coûtent <number><internal hint 02> meseta<s>.<wait more>
-    Puis-je commencer?<end>
+    Hmm. Les soins coûtent <number><internal hint 02> meseta<s>. Puis-je commencer?<end>
   pt-br: |
-    Hmm. Posso te deixar como novo por <number><internal hint 02> meseta<s>.<wait more>
-    Devo proceder?<end>
+    Hmm. Posso te deixar como novo por <number><internal hint 02> meseta<s>. Devo proceder?<end>
   ca: |
-    Hmm. Us puc deixar com nous per <number><internal hint 02> meseta<s>.<wait more>
-    Ho tirem endavant?<end>
+    Hmm. Us puc deixar com nous per <number><internal hint 02> meseta<s>. Ho tirem endavant?<end>
   es: |
-    Hmm. Os puedo dejar como nuevos por <number><internal hint 02> meseta<s>.<wait more>
-    ¿Procedemos?<end>
+    Hmm. Os puedo dejar como nuevos por <number><internal hint 02> meseta<s>. ¿Procedemos?<end>
   de: |
     Die Untersuchungs- und Behandlungskosten betragen <number> Meseta.<line>
     Möchten Sie behandelt werden?<end>
@@ -11382,7 +11391,7 @@
   es: ‘La gente nos odia independientemente de lo que hagamos.’<wait>
   de: „Die Leute hassen uns, egal, was wir tun.“<wait>
 
-# The next 10 are in response to magic (TODO - check this)
+# The next 10 are from enemies that you can only talk to with magic.
 
 - offsets: 1cce
   indices: b493
