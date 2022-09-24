@@ -1088,8 +1088,9 @@ _Pronoun:
   pop hl
   ; Then we jump to here. This makes the copy above get drawn before continuing.
   jp _Start
-  
+
 _Pronouns: ; Lookup by character index: Alisa, Myau, Tyron, Lutz
+.if LANGUAGE == "en"
 .dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
 _PronounsF:
 .dw _PronounShe, _PronounHer
@@ -1099,6 +1100,22 @@ _PronounsM:
 .dw _PronounHe, _PronounHim
 _PronounHe: String "he"
 _PronounHim: String "him"
+.endif
+.if LANGUAGE == "fr"
+; No pronouns yet
+.endif
+.if LANGUAGE == "pt-br"
+; No pronouns yet
+.endif
+.if LANGUAGE == "ca"
+; No pronouns yet
+.endif
+.if LANGUAGE == "es"
+; No pronouns yet
+.endif
+.if LANGUAGE == "de"
+; No pronouns yet
+.endif
 
 SubstringFormatter:
 ; Needs to be in the same bank as AdditionalScriptingCodes
@@ -1267,7 +1284,6 @@ _Art_Exit:
   .db SymbolEnd
 .endm
 
-; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
 .if LANGUAGE == "en"
 ; Order is:
 ; - Indefinite (starting with consonant)
