@@ -5304,8 +5304,8 @@ CreditsScreen5: .db 6
   CreditsEntry 3,5,"KOMPLETTES"
   CreditsEntry 8,7,"DESIGN"
   CreditsEntry 18,6,"PHOENIX RIE"
-  CreditsEntry 2,14,"DESIGN DER"
-  CreditsEntry 8,16,"MONSTER"
+  CreditsEntry 5,14,"MONSTER-"
+  CreditsEntry 7,16,"DESIGN"
   CreditsEntry 17,15,"CHAOTIC KAZ"
 CreditsScreen6: .db 3
   CreditsEntry 8,6,"DESIGN"
@@ -5316,13 +5316,14 @@ CreditsScreen7: .db 4
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8: .db 6
+CreditsScreen8: .db 7
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,14,"SOFTWARE-"
+  CreditsEntry 3,15,"¨"
+  CreditsEntry 9,15,      "¨"
   CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
-  CreditsEntry 3,15,"¨     ¨"
 CreditsScreen9: .db 5
   CreditsEntry 3,5,"PROGRAMMIER-"
   CreditsEntry 4,7,"ASSISTENZ"
@@ -5335,26 +5336,26 @@ CreditsScreen10: .db 3
   CreditsEntry 17,6,"MUUUU YUJI"
 CreditsScreen11: .db 6
   CreditsEntry 2,5,"ENGLISCHE"
+  CreditsEntry 4,6,   "¨"
   CreditsEntry 1,7,"NEUUBERSETZUNG"
   CreditsEntry 10,10,"PAUL JENSEN"
   CreditsEntry 2,15,"FRANK CIFALDI"
   CreditsEntry 21,15,"SATSU"
-  CreditsEntry 4,6,"¨"
 CreditsScreen12: .db 4
   CreditsEntry 2,5,"DEUTSCHE"
+  CreditsEntry 4,6,"¨"
   CreditsEntry 4,7,"UBERSETZUNG"
   CreditsEntry 19,6,"POPFAN"
-  CreditsEntry 4,6,"¨"
 CreditsScreen13: .db 3
   CreditsEntry 6,6,"CODE"
   CreditsEntry 11,10,"Z80 GAIDEN"
   CreditsEntry 9,15,"MAXIM"
 CreditsScreen14: .db 5
+  CreditsEntry 12,9,   "¨"
   CreditsEntry 10,10,"PRASENTIERT"
   CreditsEntry 14,12,"VON"
   CreditsEntry 10,15,"SEGA"
   CreditsEntry 18,15,"SMS POWER!"
-  CreditsEntry 12,9,"¨"
 .endif
 .ends
 
