@@ -5497,12 +5497,8 @@ CreditsScreen8: .db 7
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,14,"SOFTWARE-"
-<<<<<<< HEAD
   CreditsEntry 3,15,"¨"
   CreditsEntry 9,15,      "¨"
-=======
-  CreditsEntry 3,15,"¨     ¨"
->>>>>>> e1c9897918b66a3205c5cfe2fcd2da1c1a94ef78
   CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 5
