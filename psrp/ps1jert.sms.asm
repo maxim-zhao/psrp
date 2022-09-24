@@ -2630,7 +2630,7 @@ Items:
   String "<Ein> Eisenschild"
   String "<Ein> Bronzeschild"
   String "<Ein> Keramikschild"
-  String "Tierhandschuhe"				; needs -n suffix in dative case
+  String "Tierhandschuhe‹n›"
   String "<Eine> Laserbarriere"
   String "<Der> Schild des Perseus"
   String "<Der> Lakoniumschild"
