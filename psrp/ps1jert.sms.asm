@@ -1092,6 +1092,9 @@ _Pronoun:
 _Pronouns: ; Lookup by character index: Alisa, Myau, Tyron, Lutz
 .if LANGUAGE == "en"
 .dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = he/she
+; 1 = his/her
 _PronounsF:
 .dw _PronounShe, _PronounHer
 _PronounShe: String "she"
@@ -1114,7 +1117,15 @@ _PronounHis: String "his"
 ; No pronouns yet
 .endif
 .if LANGUAGE == "de"
-; No pronouns yet
+.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = Sie/Er
+_PronounsF:
+.dw _PronounSie
+_PronounSie: String "Sie"
+_PronounsM:
+.dw _PronounEr
+_PronounEr: String "Er"
 .endif
 
 SubstringFormatter:
