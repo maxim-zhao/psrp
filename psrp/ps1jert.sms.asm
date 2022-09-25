@@ -2127,7 +2127,7 @@ Items:
   String  "<um> Machado de Ferro"
   String "<uma> Espada de Titânio"
   String "<uma> Espada de Cerâmica"
-  String "<uma> Pistola de Agulha"
+  String "<uma> Pistola de Agulhas"
   String "<uma> Garra Afiada"
   String "<uma> Pistola de Calor"
   String  "<um> Sabre de Luz"
@@ -2154,7 +2154,7 @@ Items:
   String   "<o> Escudo de Perseu"
   String  "<um> Escudo de Lacônia"
 ; veículos      123456789012345678
-  String   "<o> Mestre-Terra"
+  String   "<o> Rover Terrestre"
   String   "<o> Aerobarco"
   String   "<o> Escavador de Gelo"
 ; objetos       123456789012345678
