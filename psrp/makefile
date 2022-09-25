@@ -25,6 +25,9 @@ LANGUAGE = en
 ifeq ("$(LANGUAGE)", "en")
 WORD_COUNT = 85
 endif
+ifeq ("$(LANGUAGE)", "literal")
+WORD_COUNT = 85
+endif
 ifeq ("$(LANGUAGE)", "fr")
 WORD_COUNT = 49
 endif

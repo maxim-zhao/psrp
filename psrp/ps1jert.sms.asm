@@ -157,7 +157,7 @@ LoadPagedTiles\1:
   call LoadTiles
 .endm
 
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 ; This string mapping is for raw (16-bit) tilemap data. It sets the priority bit on every tile.
 .stringmaptable tilemap "tilemap.en.tbl"
 
@@ -1090,7 +1090,7 @@ _Substring:
       or a
       jr z,_Art_Exit   ; article = none
 
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
       ld de,ArticlesLower
       cp $01      ; article = a,an,the
       jr z,_Start_Art
@@ -1140,7 +1140,7 @@ _Substring:
       ld de,ArticlesPossessive
       ; fall through
 .endif
-.if LANGUAGE == "es" ;TODO: check here 
+.if LANGUAGE == "es"
       ld de,ArticlesLower
       cp $01      ; article = el, la, los, las,
       jr z,_Start_Art
@@ -1220,7 +1220,7 @@ _Art_Exit:
 .endm
 
 ; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 ; Order is:
 ; - Indefinite (starting with consonant)
 ; - Indefinite (starting with vowel)
@@ -1795,7 +1795,7 @@ OriginalVBlankHandlerPatch:
 .section "Enemy, name, item lists" superfree
 Lists:
 
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 ; Order is important!
 Items:
   ; Max width 18 excluding <...> prefix (with space)
@@ -2796,7 +2796,7 @@ MenuData:
 
   ROMPosition $3211
 .section "HP letters" size 4 overwrite ; not movable
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 .stringmap tilemap "HP"
 .endif
 .if LANGUAGE == "fr"
@@ -2818,7 +2818,7 @@ MenuData:
 
   ROMPosition $3219
 .section "MP letters" size 4 overwrite ; not movable
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 .stringmap tilemap "MP"
 .endif
 .if LANGUAGE == "fr"
@@ -3867,7 +3867,7 @@ MST:      .stringmap tilemap "│Meseta         "   ; 5 digit number but also us
 .slot 1
 .section "Stats window drawing" superfree
 ; The width of these is important
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 StatsBorderTop:     .stringmap tilemap "┌────────────────╖"
 Level:              .stringmap tilemap "│Level        " ; 3 digit number
 EXP:                .stringmap tilemap "│Experience "   ; 5 digit number
@@ -4803,7 +4803,7 @@ _NameEntryText\@end:
 .endm
 
 _NameEntryItems:
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 .db 10
   NameEntryText  8,  1, "Enter your name:"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -5119,7 +5119,7 @@ _credits_\@:
 _credits_\@_end:
 .endm
 
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 CreditsScreen1: .db 1 ; entry count
   CreditsEntry 13,10,"STAFF"
 CreditsScreen2: .db 3
@@ -6039,7 +6039,7 @@ _font:
   halt
   jp _OptionsSelect
 
-.if LANGUAGE == "en"
+.if LANGUAGE == "en" || LANGUAGE == "literal"
 _BattlesAll:  .stringmap tilemap " All"
 _BattlesHalf: .stringmap tilemap "Half"
 _Brown: .stringmap tilemap "Brown"

@@ -6,9 +6,13 @@
     │AW 342年 春    ║
     │パルマ星 カミニート居住区║
     ╘═════════════╝
-  translated: |
-    Spring, AW 342
-    Camineet Residential District on the planet Palma.
+  literal: |
+    ┌────────────────────╖
+    │Spring, AW 342      ║
+    │Camineet Residential║
+    │District on the     ║
+    │planet Palma.       ║
+    ╘════════════════════╝
   us: |
     SPACE CENTURY 342,
     CAMINEET ON PALMA
@@ -71,13 +75,19 @@
     │シラベル║
     │セーブ ║
     ╘════╝
-  translated: |
+  kanji:
+    強さ
+    Magic
+    Item
+    調べる
+    Save
+  literal: |
     ┌──────────────╖
-    │Strength/power║ (強さ)
-    │Magic         ║ (Transliteration)
-    │Item          ║ (Transliteration)
-    │Investigate   ║ (調べる)
-    │Save          ║ (Transliteration)
+    │Strength/power║
+    │Magic         ║
+    │Item          ║
+    │Investigate   ║
+    │Save          ║
     ╘══════════════╝
   us: |
     ┌────╖
@@ -144,10 +154,13 @@
     │ハイ ║
     │イイエ║
     ╘═══╝
-  translated: |
+  kanji:
+    はい
+    いいえ
+  literal: |
     ┌───╖
-    │Yes║ (はい)
-    │No ║ (いいえ)
+    │Yes║
+    │No ║
     ╘═══╝
   us: |
     ┌───╖
@@ -188,6 +201,13 @@
 - name: NarrativeBox
   ptrs: 3359
   dims: 3353,358d
+  literal: |
+    ┌─────────────────────────────╖
+    │                             ║
+    │                             ║
+    │                             ║
+    │                             ║
+    ╘═════════════════════════════╝
   en: |
     ┌─────────────────────────────╖
     │                             ║
@@ -242,13 +262,19 @@
     │ハナス ║
     │ニゲル ║
     ╘════╝
-  translated: |
+  kanji: |
+    戦う
+    Magic
+    Item
+    話す
+    逃げる
+  literal: |
     ┌────────╖
-    │Fight   ║ (戦う)
-    │Magic   ║ (Transliteration)
-    │Item    ║ (Transliteration)
-    │Talk    ║ (話す)
-    │Run away║ (逃げる)
+    │Fight   ║
+    │Magic   ║
+    │Item    ║
+    │Talk    ║
+    │Run away║
     ╘════════╝
   us: |
     ┌────╖
@@ -310,6 +336,17 @@
 - name: EnemyHPBox
   emitData: false
   dims: 3268,3310
+  literal: |
+    ┌──────╖
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    │      ║
+    ╘══════╝
   en: |
     ┌──────╖
     │      ║
@@ -380,6 +417,7 @@
 - name: TopBorder6
   ptrs: 329b
   dims: 32a1
+  literal: ┌──────╖
   en: ┌──────╖
   fr: ┌──────╖
   pt-br: ┌──────╖
@@ -390,6 +428,7 @@
 - name: BottomBorder6
   ptrs: 309c,30f3,32c1
   dims: 309f,30f6,32c4
+  literal: ╘══════╝
   en: ╘══════╝
   fr: ╘══════╝
   pt-br: ╘══════╝
@@ -400,7 +439,7 @@
 - name: AllPlayerBoxes
   emitData: false
   dims: 3048,3103,3226
-  fr: |
+  literal: |
     ┌──────╖┌──────╖┌──────╖┌──────╖
     │      ║│      ║│      ║│      ║
     │      ║│      ║│      ║│      ║
@@ -414,7 +453,13 @@
     │      ║│      ║│      ║│      ║
     │      ║│      ║│      ║│      ║
     ╘══════╝╘══════╝╘══════╝╘══════╝
-
+  fr: |
+    ┌──────╖┌──────╖┌──────╖┌──────╖
+    │      ║│      ║│      ║│      ║
+    │      ║│      ║│      ║│      ║
+    │      ║│      ║│      ║│      ║
+    │      ║│      ║│      ║│      ║
+    ╘══════╝╘══════╝╘══════╝╘══════╝
   pt-br: |
     ┌──────╖┌──────╖┌──────╖┌──────╖
     │      ║│      ║│      ║│      ║
@@ -451,6 +496,10 @@
     ┌──────╖
     │ アリサ  ║
     │      ║
+  literal: |
+    ┌──────╖
+    │Alisa ║
+    │      ║
   us: |
     ┌──────╖
     │ ALIS ║
@@ -485,6 +534,10 @@
   jp: |
     ┌──────╖
     │ ミャウ  ║
+    │      ║
+  literal: |
+    ┌──────╖
+    │ Myau ║
     │      ║
   us: |
     ┌──────╖
@@ -521,6 +574,10 @@
     ┌──────╖
     │ タイロン ║
     │------║
+  literal: |
+    ┌──────╖
+    │Tairon║
+    │      ║
   us: |
     ┌──────╖
     │ ODIN ║
@@ -556,6 +613,10 @@
     ┌──────╖
     │  ルツ  ║
     │------║
+  literal: |
+    ┌──────╖
+    │ Lutz ║
+    │      ║
   us: |
     ┌──────╖
     │ NOAH ║
@@ -595,6 +656,12 @@
     │ミャウ ║
     │タイロン║
     │ルツ  ║
+  literal: |
+    ┌──────╖
+    │Alisa ║
+    │Myau  ║
+    │Tairon║
+    │Lutz  ║
   us: |
     ┌────╖
     │ALIS║
@@ -641,6 +708,7 @@
 - name: ChoosePlayerMenuBottom
   ptrs: 37d0
   dims: 37d3
+  literal: ╘══════╝
   en: ╘═════╝
   fr: ╘═════╝
   pt-br: ╘═════╝
@@ -655,6 +723,11 @@
     ┌────╖
     │カイタイ║
     │ウソタイ║
+    ╘════╝
+  literal: |
+    ┌────╖
+    │Buy ║
+    │Sell║
     ╘════╝
   us: |
     ┌────╖
@@ -701,6 +774,12 @@
     │ソウビ║
     │ステル║
     ╘═══╝
+  literal: |
+    ┌─────╖
+    │Use  ║
+    │Equip║
+    │Drop ║
+    ╘═════╝
   us: |
     ┌───╖
     │USE║
@@ -747,6 +826,10 @@
 - name: AlisaActiveBox
   ptrs: 302b
   dims: 301b,303c
+  literal: |
+    ┌──────╖
+    │Alisa ║
+    ╘══════╝
   en: |
     ┌─────╖
     │Alisa║
@@ -775,6 +858,10 @@
 # Next three must follow (and be the same size)
 
 - name: MyauActiveBox
+  literal: |
+    ┌──────╖
+    │Myau  ║
+    ╘══════╝
   en: |
     ┌─────╖
     │Myau ║
@@ -801,6 +888,10 @@
     ╘═════╝
 
 - name: TaironActiveBox
+  literal: |
+    ┌──────╖
+    │Tairon║
+    ╘══════╝
   en: |
     ┌─────╖
     │Tylon║
@@ -827,6 +918,10 @@
     ╘═════╝
 
 - name: LutzActiveBox
+  literal: |
+    ┌──────╖
+    │Lutz  ║
+    ╘══════╝
   en: |
     ┌─────╖
     │Lutz ║
@@ -863,6 +958,13 @@
     │ペヤラク║
     │フレエリ║
     │ビンドワ║
+  literal: |
+    ┌─────────╖
+    │Heal     ║
+    │Rakusuta ║
+    │Peyaraku ║
+    │Fureeri  ║
+    │Bindowa  ║
   us: |
     ┌────╖
     │HEAL║
@@ -921,6 +1023,12 @@
     │テルル ║
     │ワーラ ║
     │パウマ ║
+  literal: |
+    ┌─────────╖
+    │Doheal   ║
+    │Terror   ║
+    │Waller   ║
+    │Powma    ║
   us: |
     ┌────╖
     │CURE║
@@ -972,6 +1080,13 @@
     │ヒューン║
     │ムワーラ║
     │タンドレ║
+  literal: |
+    ┌─────────╖
+    │Fureeri  ║
+    │Telepathy║
+    │Hyuun    ║
+    │Muwaller ║
+    │Thunder  ║
   us: |
     ┌────╖
     │FIRE║
@@ -1027,6 +1142,10 @@
     ┌────╖
     │ヒール ║
     │トルーパ║
+  literal: |
+    ┌─────────╖
+    │Heal     ║
+    │Toruupa  ║
   us: |
     ┌────╖
     │HEAL║
@@ -1062,6 +1181,11 @@
     │ドヒール║
     │ラプット║
     │スルト ║
+  literal: |
+    ┌─────────╖
+    │Doheal   ║
+    │Raputto  ║
+    │Suruto   ║
   us: |
     ┌────╖
     │CURE║
@@ -1106,6 +1230,13 @@
     │テレパス║
     │ムオーデ║
     │リーバス║
+  literal: |
+    ┌─────────╖
+    │Doheal   ║
+    │Suruto   ║
+    │Telepathy║
+    │Muoode   ║
+    │Rebirth  ║
   us: |
     ┌────╖
     │CURE║
@@ -1158,6 +1289,7 @@
 
 - name: SpellMenuBottom
   # referenced in assembly code
+  literal: ╘═════════════╝
   en: ╘════════════╝
   fr: ╘════════════════╝
   pt-br: ╘════════════════╝
@@ -1168,6 +1300,7 @@
 - name: NarrativeBlankLine
   ptrs: 356c
   dims: 356f
+  literal: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   en: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   fr: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   pt-br: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1178,6 +1311,10 @@
 - name: NarrativeBlankScrollDimensions
   emitData: false
   dims: 355a,3566
+  literal: |
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   en: |
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1216,6 +1353,16 @@
     │サイダイMP  255║
     │メセタ   65535║
     ╘═══════════╝
+  literal: |
+    ┌────────────────╖
+    │LV            99║
+    │EP         65535║
+    │Attack       255║
+    │Defense      255║
+    │Maximum HP   255║
+    │Maximum MP   255║
+    │Meseta     65535║
+    ╘════════════════╝
   us: |
     ┌───────────╖
     │LV       99║
@@ -1290,6 +1437,12 @@
 - name: EquimentMenuDimensions
   emitData: false
   dims: 382c,3871
+  literal: |
+    ┌──────────────────╖
+    │                  ║
+    │                  ║
+    │                  ║
+    ╘══════════════════╝
   en: |
     ┌──────────────────╖
     │                  ║
@@ -1343,6 +1496,19 @@
     │Item 7  ║
     │Item 8  ║
     ╘════════╝
+  literal: |
+    ┌──────────────────╖
+    │Meseta       65535║
+    │Next              ║
+    │Item 1            ║
+    │Item 2            ║
+    │Item 3            ║
+    │Item 4            ║
+    │Item 5            ║
+    │Item 6            ║
+    │Item 7            ║
+    │Item 8            ║
+    ╘══════════════════╝
   us: |
     ┌────────╖
     │MST65535║
@@ -1439,6 +1605,7 @@
   # inventory, currently equipped items # Not shop MST any more
   ptrs: 3648,3832 #,3b23
   dims: 364e,3838 #,3b29
+  literal: ┌──────────────────╖
   en: ┌──────────────────╖
   fr: ┌──────────────────╖
   pt-br: ┌────────────────────╖
@@ -1450,6 +1617,7 @@
   # inventory, currently equipped items
   ptrs: 3681,3860 # ,3b32
   dims: 3684,3863 # ,3b35
+  literal: ╘══════════════════╝
   en: ╘══════════════════╝
   fr: ╘══════════════════╝
   pt-br: ╘════════════════════╝
@@ -1460,6 +1628,7 @@
 - name: InventoryNextMenu
   ptrs: 365c
   dims: 365f
+  literal: │Next              ║
   en: │Next              ║
   fr: │Suite             ║
   pt-br: │Próximo             ║
@@ -1476,6 +1645,12 @@
     │ウーゾ║
     │スクレ║
     ╘═══╝
+  literal: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skray ║
+    ╘══════╝
   us: |
     ┌──────╖
     │GOTHIC║
@@ -1520,6 +1695,7 @@
     ╘══════╝
 
 - name: SoundTestMenuTop
+  literal: ┌─────────────╖
   en: ┌─────────────╖
   fr: ┌─────────────╖
   pt-br: ┌───────────────╖
@@ -1528,6 +1704,7 @@
   de: ┌─────────────╖
 
 - name: SoundTestMenuChipPSG
+  literal: │Chip  SN76489║
   en: │Chip  SN76489║
   fr: │Puce  SN76489║
   pt-br: │Chip    SN76489║
@@ -1536,6 +1713,7 @@
   de: │Chip  SN76489║
 
 - name: SoundTestMenuChipYM2413
+  literal: │Chip   YM2413║
   en: │Chip   YM2413║
   fr: │Puce   YM2413║
   pt-br: │Chip     YM2413║
@@ -1544,6 +1722,28 @@
   de: │Chip   YM2413║
 
 - name: SoundTestMenu
+  literal: |
+    │-------------║
+    │Title Screen ║
+    │Intro        ║
+    │Town         ║
+    │Dungeon      ║
+    │Shop         ║
+    │Church       ║
+    │Palma        ║
+    │Battle       ║
+    │Story        ║
+    │Village      ║
+    │Vehicle      ║
+    │Motavia      ║
+    │Dezoris      ║
+    │Tower        ║
+    │Final Dungeon║
+    │LaShiec      ║
+    │Dark Force   ║
+    │Ending       ║
+    │Game Over    ║
+    ╘═════════════╝
   en: |
     │-------------║
     │Title Screen ║
@@ -1678,6 +1878,15 @@
     ╘═════════════╝
 
 - name: OptionsMenu
+  literal: |
+    ┌───────────────────╖
+    │Walk speed       x ║
+    │Experience       x ║
+    │Mesetas          x ║
+    │Battles            ║
+    │Alisa's hair       ║
+    │Font               ║
+    ╘═══════════════════╝
   en: |
     ┌───────────────────╖
     │Walk speed       x ║
@@ -1734,6 +1943,11 @@
     ╘═════════════════════╝
 
 - name: ContinueMenu
+  literal: |
+    ┌──────╖
+    │Load  ║
+    │Delete║
+    ╘══════╝
   en: |
     ┌──────╖
     │Load  ║
