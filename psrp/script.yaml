@@ -2430,13 +2430,13 @@
 - offsets: 25bd,2636
   # Using "Alsuline" or "Polymeteral"
   # This comes immediately after the "Alisa took out the item" message.
-  # Since it's used for the Polymeteral, too, avoid pronouns if you can.
+  # Since it's used for the Polymeteral, too, it may not be Alisa.
   indices: adcf
   ja: |
     ソシテ　ビンノ　フタヲ　アケテ<line>
     シズカニ　タラシタ。<delay>
   kanji: そして、ビンの蓋を開けて静かに垂らした。
-  translated: Then she opened the lid to the bottle, and the contents quietly spilled out.
+  translated: Then he/she opened the lid to the bottle, and the contents quietly spilled out.
   us: |
     THE BOTTLECAP<line>
     OPENS AND THE <wait more>
