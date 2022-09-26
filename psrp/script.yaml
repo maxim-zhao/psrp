@@ -4383,7 +4383,7 @@
   us: |
     <player> HAS BEEN<line>
     TURNED TO STONE.<end>
-  en: <player> turned to stone.<wait>
+  en: <player> was turned to stone.<wait>
   fr: <player> se fait pétrifier_!<wait>
   pt-br: <player> foi transformado em pedra.<wait>
   ca: <player> s'ha convertit en pedra.<wait>
@@ -8463,7 +8463,8 @@
   height: 4
 
 - offsets: 14cc
-  # (If Myau dies in the Gold Dragon battle)
+  # (If Myau dies in the Gold Dragon battle and other characters are still alive)
+  # Note: Alisa may not be alive, and there may be only one other left alive.
   indices: b837
   ja: |
     ミャウニ　ノッテイタ　アリサタチハ<line>
@@ -8475,8 +8476,8 @@
     COMPANY ON MYAU,<wait more>
     ARE TOSSED INTO<line>
     THE SKY.<end>
-  # TODO what if Alisa is dead?
-  en: Alisa and the others were knocked off of Myau, into the sky.<wait>
+  en: Myau's companions were flung from his back, into the sky.<wait>
+  # TODO: rewrite other languages here
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
   pt-br: Alisa e os outros foram derrubados de Myau, lá do céu.<wait>
   ca: Alisa i els altres son arrancats d'en Myau, caient al cel.<wait>
