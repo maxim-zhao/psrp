@@ -53,6 +53,7 @@
 # <de>, <do>, <del> = use possessive+article for an enemy (French, Brazilian Portuguese, Catalan/Spanish respectively)
 # <à> = use directive+article for an enemy or player (French)
 # <nom>, <dat>, <gen>, <acc> = use nominative, dative, genitive and accusative cases (German)
+# <he>, <she>, <his>, <her> = pronouns
 # <player> = player name
 # <monster> = enemy name
 # <item> = item name
@@ -2429,30 +2430,30 @@
 - offsets: 25bd,2636
   # Using "Alsuline" or "Polymeteral"
   # This comes immediately after the "Alisa took out the item" message.
-  # Since it's used for the Polymeteral, too, avoid pronouns if you can.
+  # Since it's used for the Polymeteral, too, it may not be Alisa.
   indices: adcf
   ja: |
     ソシテ　ビンノ　フタヲ　アケテ<line>
     シズカニ　タラシタ。<delay>
   kanji: そして、ビンの蓋を開けて静かに垂らした。
-  translated: Then she opened the lid to the bottle, and the contents quietly spilled out.
-  en: |
-    Alisa opened the lid on the bottle and poured out its contents.<wait more>
-    It's working!<delay>
+  translated: Then he/she opened the lid to the bottle, and the contents quietly spilled out.
   us: |
     THE BOTTLECAP<line>
     OPENS AND THE <wait more>
     CONTENTS QUIETLY<line>
     LEAK OUT.<wait>
-  fr: Alisa ouvre la bouteille et en verse le contenu.<delay>
+  en: |
+    Then <she> opened the lid on the bottle and poured out its contents.<wait more>
+    It's working!<delay>
+  fr: <player> ouvre la bouteille et en verse le contenu.<delay>
   pt-br: |
-    Alisa abriu a tampa da garrafa e despeja seu conteúdo.<wait more>
+    <player> abriu a tampa da garrafa e despeja seu conteúdo.<wait more>
     Está funcionando!<delay>
   ca: |
-    Alisa obre el tap de l'ampolla i vessa el seu contingut.<wait more>
+    <player> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
     Està funcionant!<delay>
   es: |
-    Alisa abre el tapón del frasco y vierte su contenido.<wait more>
+    <player> abre el tapón del frasco y vierte su contenido.<wait more>
     ¡Está funcionando!<delay>
   de: <player> öffnet die Flasche und leert den Inhalt aus...<delay>
 
@@ -7771,7 +7772,7 @@
     <player> RAISES<line>
     <item> TOWARDS<wait more>
     THE SKY.<wait>
-  en: <player> held <article><item> up towards the sky.<delay>
+  en: <player> held <article><item> up over <his> head, towards the sky.<delay>
   fr: <player> tend <article><item> vers le ciel.<delay>
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
@@ -9933,7 +9934,7 @@
 
 - offsets: 273d
   # Use Laerma Berries in the wrong place
-  # TODO: don't use pronouns, may not be Alisa?
+  # TODO: use pronouns, may not be Alisa?
   indices: aecf
   ja: |
     オナカガ　スイテナカッタノデ<line>
@@ -9944,7 +9945,7 @@
     MYAU ISN'T HUNGRY,<line>
     SO SHE PUTS THE <wait more>
     FOOD BACK.<end>
-  en: Nobody’s hungry right now, so she put them back.<wait>
+  en: Nobody’s hungry right now, so <she> put them back.<wait>
   fr: Myau n'ayant pas faim, Alisa les range.<wait>
   pt-br: Ninguém está com fome agora, então ela as colocou de volta.<wait>
   ca: Ningú té gana, així que les torna a guardar.<wait>
