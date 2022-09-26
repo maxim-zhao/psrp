@@ -1219,13 +1219,14 @@
     I DON'T KNOW WHAT<line>
     THAT IS FOR.<end>
   # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
+  # TODO fix south references below
   en: |
-    Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
+    Yeah, Tylon was here. He said he was heading south-west to slay Medusa. I haven't seen him since.<wait more>
     He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
     It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
   fr: |
     Oui, Tylon est passé ici.<wait more>
-    Il disait aller vers le sud pour tuer Médusa.<wait more>
+    Il disait aller vers le sud-ouest pour tuer Médusa.<wait more>
     Un animal parlant avec une fiole autour du cou l'accompagnait_!<wait more>
     Je me demande ce que c'était_?<wait>
   pt-br: |
@@ -1352,8 +1353,9 @@
     CAN BE FOUND ON<wait more>
     THE PENINSULA TO<line>
     THE SOUTH OF SCION<end>
+  # TODO: the peninsula is more south-east than south.
   en: Iala Cave lies on the peninsula south-east of here.<wait>
-  fr: La grotte Iala est située sur la péninsule au sud de la ville.<wait>
+  fr: La grotte Iala est située sur la péninsule au sud-ouest de la ville.<wait>
   pt-br: A Caverna de Iala fica na península ao sul da cidade.<wait>
   ca: La cova d'Iala es troba a la península al sud-est d'aquí.<wait>
   es: La cueva de Iala se encuentra en la península al sureste de aquí.<wait>
@@ -2444,6 +2446,7 @@
     OPENS AND THE <wait more>
     CONTENTS QUIETLY<line>
     LEAK OUT.<wait>
+  # TODO add pronouns to other langauges here?
   en: |
     Then <she> opened the lid on the bottle and poured out its contents.<wait more>
     It's working!<delay>
@@ -2470,10 +2473,11 @@
   us: |
     BUT MYAU CANNOT<line>
     OPEN THE BOTTLE.<end>
-  en: But Myau couldn’t open the lid to the bottle.<wait>
-  fr: Mais Myau ne peut pas ouvrir la bouteille.<wait>
+  # TODO as this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
+  en: But he couldn’t open the lid to the bottle.<wait>
+  fr: Mais il ne peut pas ouvrir la bouteille.<wait>
   pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
-  ca: Però en  Myau no pot obrir el tap de l'ampolla.<wait>
+  ca: Però en Myau no pot obrir el tap de l'ampolla.<wait>
   es: Pero Myau no puede abrir el tapón del frasco.<wait>
   de: Aber er bekam die Flasche nicht auf.<wait>
 
@@ -2488,6 +2492,8 @@
 - offsets: 4688
   indices: baf3
   # Tairon
+  # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
+  # So Tylon can't talk to Myau directly.
   ja: |
     アリガトウ。タスカッタヨ。<line>
     シカシ　メデューサニ<line>
@@ -2506,10 +2512,9 @@
     KILLING LASSIC,<line>
     DO I?<end>
   en: |
-    Ah, Myau, you found help. Thank you.<line><line>
+    Ah, Myau found help. Thank you for rescuing me.<line>
     I don't know if it will do any good though.<wait more>
-    If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<line><line>
-    Who’s your new friend?<wait>
+    If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<wait>
   fr: |
     Ah, Myau, tu as trouvé de l'aide.  Merci.<wait more>
     Médusa était plus forte que je ne le pensais, je n'aurais aucune chance face à Lassic.<wait more>
