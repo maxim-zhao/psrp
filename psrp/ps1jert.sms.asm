@@ -6750,13 +6750,28 @@ ShopSellInventoryFixHelper:
 ;    jp     nz,$2bae                ; 002B04 C2 AE 2B 
 ; Following code assumes BC is still valid
   push bc
-    call HospitalFixHelper
+    call HospitalAndChurchFixHelper
   pop bc
 .ends
 
 .section "Hospital bug fix part 2" free
-HospitalFixHelper:
+HospitalAndChurchFixHelper:
   call $3782 ; inventory select
   bit 4,c
   ret
+.ends
+
+; And in the church.
+  ROMPosition $2c01
+.section "Church bug fix" overwrite size 5
+; Original code:
+;    ld     hl,$b31e                ; 002BFB 21 1E B3 ; Who shall be returned?<end>
+;    call   TextBox20x6             ; 002BFE CD 3A 33 
+;    call   ShowCharacterSelectMenu ; 002C01 CD 82 37 ; CharacterSelect
+;    bit    4,c                     ; 002C04 CB 61    ; Returns in A, C
+;    jp     nz,$2c9f                ; 002C06 C2 9F 2C 
+; Following code assumes BC is still valid
+  push bc
+    call HospitalAndChurchFixHelper
+  pop bc
 .ends
