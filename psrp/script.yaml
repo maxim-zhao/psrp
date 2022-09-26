@@ -7777,7 +7777,7 @@
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
   es: <player> levanta <article><item> hacia el cielo.<delay>
-  de: <player> hält <acc><item> in die Höhe.<delay>
+  de: <player> hält <acc><item> hoch.<delay>
 
 - offsets: 26d0
   # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
@@ -9930,7 +9930,7 @@
   pt-br: <Article><monster> viu a chama vermelha e se encolheu de medo.<delay>
   ca: <Article><monster> veu la flama vermella i la por l'emplena. <delay>
   es: <Article><monster> ve la llama roja y el miedo le invade. <delay>
-  de: <Nom><monster> wird beim Anblick der roten Flamme von Furcht ergriffen.<delay>
+  de: Beim Anblick der roten Flamme ergreift <acc><monster> die Furcht.<delay>
 
 - offsets: 273d
   # Use Laerma Berries in the wrong place
