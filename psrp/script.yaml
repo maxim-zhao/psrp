@@ -546,7 +546,7 @@
     Tu seras toujours la bienvenue ici.<wait>
   pt-br: |
     Por favor, descanse um pouco.<wait more>
-    Seu irmão ficaria orgulhoso de você. Mas não exagere, ok? Volte aqui quando quiser.<wait>
+    Seu irmão ficaria orgulhoso de você. Mas não exagere, está bem? Volte aqui quando quiser.<wait>
   ca: |
     Si us plau reposa una mica.<wait more>
     El teu germà estaria orgullós de tu. Però vés amb compte, d'acord? torna quan vulguis.<wait>
@@ -855,7 +855,7 @@
   us: YOU MAY PROCEED.<end>
   en: Okay, go on through.<wait>
   fr: Accès accordé. Allez-y.<wait>
-  pt-br: Ok, vá em frente.<wait>
+  pt-br: Tudo certo, pode passar.<wait>
   ca: D'acord, endavant.<wait>
   es: De acuerdo, adelante.<wait>
   de: In Ordnung, Sie dürfen hindurch.<wait>
@@ -974,7 +974,7 @@
   us: O.K. GOOD DAY.<end>
   en: Oh. Okay.<wait>
   fr: Oh. Très bien.<wait>
-  pt-br: Ah. Ok.<wait>
+  pt-br: Ah, tudo bem.<wait>
   ca: Oh. D'acord.<wait>
   es: Oh. De acuerdo.<wait>
   de: Oh, na gut.<wait>
@@ -1535,7 +1535,7 @@
     Je l'ai déjà dit, je ne fais pas de contrebande_!<wait more>
     Sortez de mon magasin_!<wait>
   pt-br: |
-    Desista, ok? Já te disse, nosso negócio é legal.<wait more>
+    Desista, entendeu? Já te disse, nosso negócio é legal.<wait more>
     Saia da minha loja.<wait>
   ca: |
     Deixa-ho estar, d'acord? Ja t'ho he dit, som un negoci legal.<wait more>
@@ -11638,7 +11638,7 @@
   us: WELL, SAVING <number>.<wait>
   en: OK. Now saving in slot <number>...<delay>
   fr: Ok. Emplacement numéro <number> en cours de sauvegarde...<delay>
-  pt-br: Ok. Salvando na posição <number>...<delay>
+  pt-br: Certo. Salvando na posição <number>...<delay>
   ca: D'acord, guardant a la ranura <number>...<delay>
   es: De acuerdo, guardando en la ranura <number>...<delay>
   de: OK. Spiel wird in Position <number> gespeichert...<delay>
@@ -11697,7 +11697,7 @@
   us: CONTINUING GAME <number>.<wait>
   en: OK. Continuing from slot <number>.<delay>
   fr: Ok. Continuer à partir de l'emplacement numéro <number>.<delay>
-  pt-br: Ok. Continuando da posição <number>.<delay>
+  pt-br: Certo. Continuando da posição <number>.<delay>
   ca: D'acord. Continuant desde la ranura <number>.<delay>
   es: De acuerdo. Continuando desde la ranura <number>.<delay>
   de: OK. Spiel in Position <number> wird fortgesetzt.<delay>
