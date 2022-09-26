@@ -21,25 +21,13 @@ LANGUAGE = en
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count depends on the script. Iterating through the options can help to find the best value. CMD one-liner:
 # for /l %n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%n LANGUAGE=es ps1jert.sms 2>&1 || echo ROM: 0 bytes) | find "ROM: ") >> sizes.txt
-# On 2021-01-06 the optimal value for total size was 91 for English and 54 for French.
-ifeq ("$(LANGUAGE)", "en")
-WORD_COUNT = 85
-endif
-ifeq ("$(LANGUAGE)", "fr")
-WORD_COUNT = 49
-endif
-ifeq ("$(LANGUAGE)", "pt-br")
-WORD_COUNT = 48
-endif
-ifeq ("$(LANGUAGE)", "ca")
-WORD_COUNT = 65
-endif
-ifeq ("$(LANGUAGE)", "es")
-WORD_COUNT = 42
-endif
-ifeq ("$(LANGUAGE)", "de")
-WORD_COUNT = 90 
-endif
+WORD_COUNT_en = 91
+WORD_COUNT_fr = 49
+WORD_COUNT_pt-br = 48
+WORD_COUNT_ca = 65
+WORD_COUNT_es = 42
+WORD_COUNT_de = 90 
+WORD_COUNT = $(WORD_COUNT_$(LANGUAGE))
 
 # Default targets are the patch files for our language
 DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps

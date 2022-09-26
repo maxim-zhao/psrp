@@ -467,6 +467,8 @@
 - offsets: 4b48
   # Camineet
   # Suelo (first visit)
+  # Note that Alisa may be dead - but it's pretty unlikely 
+  # and the original script assumes she is alive
   indices: 002,004
   ja: |
     ワタシハ　スエロ。アリサノ　キモチハ
@@ -524,6 +526,7 @@
 - offsets: 4b4e
   # Camineet
   # Suelo (subsequent visits)
+  # Note: Alisa may not be alive, so make sure the text here doesn't talk to her directly.
   indices: 006
   ja: |
     ココデ　ユックリ　ヤスンデ　オユキ。<wait more>
@@ -540,20 +543,19 @@
     YOU ARE WELCOME <line>
     HERE AT ANYTIME.<end>
   en: |
-    Please get some rest.<wait more>
-    Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+    Please get some rest. Don't overdo it, okay? You will always be welcome here.<wait>
   fr: |
     Repose-toi un peu, si tu veux.
     Tu seras toujours la bienvenue ici.<wait>
   pt-br: |
     Por favor, descanse um pouco.<wait more>
-    Seu irmão ficaria orgulhoso de você. Mas não exagere, está bem? Volte aqui quando quiser.<wait>
+    Mas não exagere, está bem? Volte aqui quando quiser.<wait>
   ca: |
     Si us plau reposa una mica.<wait more>
-    El teu germà estaria orgullós de tu. Però vés amb compte, d'acord? torna quan vulguis.<wait>
+    Però vés amb compte, d'acord? torna quan vulguis.<wait>
   es: |
     Por favor, descansa un poco.<wait more>
-    Tu hermano estaría orgulloso. Pero ve con cuidado, ¿vale? vuelve cuando quieras.<wait>
+    Pero ve con cuidado, ¿vale? vuelve cuando quieras.<wait>
   de: |
     Ruh dich doch etwas aus.<wait more>
     Bitte überarbeite dich nicht, OK? Komm jederzeit wieder.<wait>
@@ -561,6 +563,7 @@
 - offsets: 4b62
   # Camineet
   # Nekiseh (first visit)
+  # Alisa is not guaranteed to be alive...
   indices: 008,00A,00C,00E
   ja: |
     ボクハ　ネキセ。<line>
@@ -593,7 +596,6 @@
     TASK.<end>
   en: |
     My name is Nekise.<line><line>
-    I was sorry to hear about your loss.<wait more>
     Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
     The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
     Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
@@ -8465,6 +8467,7 @@
 - offsets: 14cc
   # (If Myau dies in the Gold Dragon battle and other characters are still alive)
   # Note: Alisa may not be alive, and there may be only one other left alive.
+  # Previous line will have been "Myau died." so you can assume that context.
   indices: b837
   ja: |
     ミャウニ　ノッテイタ　アリサタチハ<line>
@@ -8476,7 +8479,7 @@
     COMPANY ON MYAU,<wait more>
     ARE TOSSED INTO<line>
     THE SKY.<end>
-  en: Myau's companions were flung from his back, into the sky.<wait>
+  en: His companions were flung from his back, tumbling through the sky towards their death.<wait>
   # TODO: rewrite other languages here
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
   pt-br: Alisa e os outros foram derrubados de Myau, lá do céu.<wait>
@@ -10427,7 +10430,7 @@
   ja: <player>ハ　シンデシマッタ。<delay>
   kanji: <player>は死んでしまった。
   translated: <player> died.
-  us: <player> DIED.<wait>
+  us: <player> DIED.<delay>
   en: <player> died.<delay>
   fr: <player> meurt de ses blessures.<delay>
   pt-br: <player> morreu.<delay>
