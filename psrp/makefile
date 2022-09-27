@@ -19,14 +19,13 @@ LANGUAGE = en
 
 # The dictionary size. Maximum is 164.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
-# The optimal word count depends on the script. Iterating through the options can help to find the best value. CMD one-liner:
-# for /l %n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%n LANGUAGE=es ps1jert.sms 2>&1 || echo ROM: 0 bytes) | find "ROM: ") >> sizes.txt
-WORD_COUNT_en = 91
-WORD_COUNT_fr = 49
-WORD_COUNT_pt-br = 48
+# The optimal word count depends on the script. Iterating through the options can help to find the best value. Use the "sizes" makefile target to do that.
+WORD_COUNT_en = 97
+WORD_COUNT_fr = 50
+WORD_COUNT_pt-br = 31
 WORD_COUNT_ca = 65
 WORD_COUNT_es = 42
-WORD_COUNT_de = 90 
+WORD_COUNT_de = 89
 WORD_COUNT = $(WORD_COUNT_$(LANGUAGE))
 
 # Default targets are the patch files for our language
@@ -117,3 +116,7 @@ ps1jert.$(LANGUAGE).bps: $(PSJ) ps1jert.sms
 
 clean:
 	$(PY) tools.py clean generated
+
+sizes: clean
+	del sizes.txt
+	for /l %%n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%%n LANGUAGE=$(LANGUAGE) ps1jert.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> sizes.txt

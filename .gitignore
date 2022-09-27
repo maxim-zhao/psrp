@@ -72,3 +72,4 @@ Release
 /psrp/generated/
 make_de.bat
 *.bak
+/psrp/sizes.txt

@@ -6703,7 +6703,7 @@ GetItemType:
 ; This "fix" makes it match the export version, with a sensible value.
   PatchB $fa88 $56
 
-; There is another bug that causes the tool shop to lose some state regarding the script winow, when showing the buy/sell window. We patch it here.
+; There is another bug that causes the tool shop to lose some state regarding the script window, when showing the buy/sell window. We patch it here.
   ROMPosition $2dfa
 .section "Shop bug fix" overwrite size 12
 ; Original code:
