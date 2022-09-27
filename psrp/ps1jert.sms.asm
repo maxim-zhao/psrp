@@ -408,7 +408,7 @@ TitleScreenExtra:
 .slot 2
 .section "Outside tiles" superfree
 OutsideTiles:
-.incbin "generated/world1.psgcompr"
+.incbin "generated/747b8.psgcompr"
 .ends
 
 .section "Town tiles" superfree
@@ -502,54 +502,54 @@ SceneData:
 .section "Palma and Dezoris open area graphics" superfree
 PalettePalmaOpen:      CopyFromOriginal $40000 16
 PaletteDezorisOpen:    CopyFromOriginal $40010 16
-TilesPalmaAndDezorisOpen: .incbin "generated/bg1.psgcompr"
+TilesPalmaAndDezorisOpen: .incbin "generated/40020.psgcompr"
 .ends
 
 .section "Forest graphics" superfree
 PalettePalmaForest:    CopyFromOriginal $40f16 16
 PaletteDezorisForest:  CopyFromOriginal $40f26 16
-TilesPalmaForest:     .incbin "generated/bg2.psgcompr"
+TilesPalmaForest:     .incbin "generated/40f36.psgcompr"
 .ends
 
 .section "Palma sea graphics" superfree
 PalettePalmaSea:       CopyFromOriginal $41c72 16
-TilesPalmaSea: .incbin "generated/bg3.psgcompr"
+TilesPalmaSea: .incbin "generated/41c82.psgcompr"
 .ends
 
 .section "Motabia open graphics" superfree
 PaletteMotabiaOpen: CopyFromOriginal $433f6 16
-TilesMotabiaOpen: .incbin "generated/bg5.psgcompr"
+TilesMotabiaOpen: .incbin "generated/43406.psgcompr"
 .ends
 
 .section "Palma town graphics" superfree
 PalettePalmaTown:     CopyFromOriginal $44640 16
-TilesPalmaTown: .incbin "generated/bg8.psgcompr"
+TilesPalmaTown: .incbin "generated/44650.psgcompr"
 .ends
 
 .section "Palma village graphics" superfree
 PalettePalmaVillage:  CopyFromOriginal $457c4 16
-TilesPalmaVillage: .incbin "generated/bg9.psgcompr"
+TilesPalmaVillage: .incbin "generated/457d4.psgcompr"
 .ends
 
 .section "Spaceport graphics" superfree
 PaletteSpaceport:     CopyFromOriginal $464b1 16
-TilesSpaceport: .incbin "generated/bg10.psgcompr"
+TilesSpaceport: .incbin "generated/464c1.psgcompr"
 .ends
 
 .section "Dead trees graphics" superfree
 PaletteDeadTrees:     CopyFromOriginal $46f58 16
-TilesDeadTrees: .incbin "generated/bg11.psgcompr"
+TilesDeadTrees: .incbin "generated/46f68.psgcompr"
 .ends
 
 .section "Air castle graphics" superfree
 PaletteAirCastle:     CopyFromOriginal $5ac7d 16
 PaletteAirCastleFull: CopyFromOriginal $03fc2 16
-TilesAirCastle: .incbin "generated/bg13.psgcompr"
+TilesAirCastle: .incbin "generated/5ac8d.psgcompr"
 .ends
 
 .section "Gold dragon graphics" superfree
 PaletteGoldDragon: CopyFromOriginal $2c000 16
-TilesGoldDragon: .incbin "generated/bg14.psgcompr"
+TilesGoldDragon: .incbin "generated/2c010.psgcompr"
 .ends
 
 .section "Building graphics" superfree
@@ -566,22 +566,22 @@ PaletteBuildingShop2:     CopyFromOriginal $5eb2f 16
 PaletteBuildingShop3:     CopyFromOriginal $5eb3f 16
 PaletteBuildingShop4:     CopyFromOriginal $5eb4f 16
 PaletteBuildingDestroyed: CopyFromOriginal $5eb5f 16
-TilesBuilding: .incbin "generated/bg16.psgcompr"
+TilesBuilding: .incbin "generated/5eb6f.psgcompr"
 .ends
 
 .section "Mansion graphics" superfree
 PaletteMansion: CopyFromOriginal $27b14 16
-TilesMansion: .incbin "generated/bg29.psgcompr"
+TilesMansion: .incbin "generated/27b24.psgcompr"
 .ends
 
 .section "Lassic graphics" superfree
 PaletteLassicRoom: CopyFromOriginal $524da 16
-TilesLassicRoom: .incbin "generated/bg30.psgcompr"
+TilesLassicRoom: .incbin "generated/524ea.psgcompr"
 .ends
 
 .section "Dark Force graphics" superfree
 PaletteDarkForce: CopyFromOriginal $4c000 16
-TilesDarkForce: .incbin "generated/bg31.psgcompr"
+TilesDarkForce: .incbin "generated/4c010.psgcompr"
 .ends
 
   ; We also need the non-relocated tilemap and palette addresses to populate the table...

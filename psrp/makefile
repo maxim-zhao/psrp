@@ -37,27 +37,16 @@ play: ps1jert.sms
 # bitmap_decode
 # Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
 # This is done to free up ROM space.
-generated/bg1.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 40020
-generated/bg2.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 40f36
-generated/bg3.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 41c82
-generated/bg5.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 43406
-generated/bg8.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 44650
-generated/bg9.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 457d4
-generated/bg10.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 464c1
-generated/bg11.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 46f68
-generated/bg13.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 5ac8d
-generated/bg14.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 2c010
-generated/bg16.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 5eb6f
-generated/bg29.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 27b24
-generated/bg30.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 524ea
-generated/bg31.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 4c010
-generated/world1.bin: $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 747b8
 
-# Recompression for the above
+# Decompress bitmaps
+generated/%.bin: $(PSJ) tools.py
+	$(PY) tools.py bitmap_decode $@ $(PSJ) $(basename $(notdir $@))
+
+# Recompress bitmaps
 generated/%.psgcompr: generated/%.bin
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
-# Graphics conversion from PNG
+# Graphics conversion from PNG for ones where we also translate text. Makefile ordering means these take precendence if possible.
 generated/%.psgcompr: new_graphics\%.png
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
