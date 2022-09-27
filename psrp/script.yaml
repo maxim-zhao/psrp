@@ -2626,7 +2626,7 @@
     ソレヨリ　ナゼ　メデューサヲ<line>
     タオソウト　シタノ。<wait>
   kanji: それより、なぜメデューサを倒そうとしたの。
-  translated: Tell me something first -- Why did you try to kill Medusa?
+  translated: Tell me something first - why did you try to kill Medusa?
   us: |
     WHY DID YOU TRY TO<line>
     KILL MEDUSA?<end>
@@ -3381,7 +3381,7 @@
 # ******************
 
 - offsets: 53c4
-  # If you haven't found Lutz yet (Unused)
+  # If you haven't found Lutz yet (unused/impossible?)
   indices: 0AC
   ja: |
     ルツハ　パセオノ　ソウトクノ<line>
@@ -3401,7 +3401,7 @@
   de: Wenn Lutz jemandem gehorcht, dann dem Generalgouverneur.<wait>
 
 - offsets: 53c9
-  # If you have found Lutz (Unused)
+  # If you have found Lutz (unused?)
   indices: 0B2
   ja: ヤッホー。<wait>
   kanji: ヤッホー。
@@ -3459,7 +3459,8 @@
 
 - offsets: 46e7
   # Will show a picture of whichever of the party is alive at this point,
-  # prefering Alis, then Myau, finally Tylon
+  # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
+  # which character it is during this conversation.
   indices: bc18
   ja: |
     ソウトクカラノ　テガミヲ　アズカッテ<line>
@@ -3961,7 +3962,7 @@
   en: |
     I’ve got a friend in Bartevo.<wait more>
     I guess things are pretty bad there right now, what with those pools of lava and all.<wait more>
-    If you see him, could you say ’hi’ to him for me?<wait>
+    If you see him, could you say ‘hi’ to him for me?<wait>
   fr: |
     J'avais un ami à Bortevo.<wait more>
     Les choses vont assez mal là-bas,<wait more>
@@ -4174,7 +4175,7 @@
   us: |
     IF YOU DON'T OBEY<line>
     ME, I CANNOT HELP.<end>
-  en: If you don’t do as I say, there’s no way I can help you.<wait>
+  en: If you won’t do as I say, there’s no way I can help you.<wait>
   fr: Si vous ne faites pas ce que je dis, ca ne marchera jamais.<wait>
   pt-br: Se você não fizer o que eu digo, não há como eu te ajudar.<wait>
   ca: Si no fas el que et dic, no hi ha manera que et pugui ajudar.<wait>
@@ -5143,13 +5144,17 @@
   de: Angeblich wächst ein regelrechter Wald von ihnen auf dem Altiplano-Plateau auf Dezoris.<wait>
 
 - offsets: 5113
-  # Villager
-  indices: 118
+  # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
+  indices: 118, 11A
   ja: |
     エッ　ラシークヲ　タオシニ　イクノ。
     スゴイネエ。<wait>
-  kanji: えっ、ラシークを倒しに行くの。凄いねえ。
-  translated: Huh? You’re going to defeat LaShiec? Awesome!
+    ウワサダケド　アル　クリスタルハ<line>
+    アシキ　マホウヲ　フウジルトカ。<wait>
+  kanji: |
+    えっ、ラシークを倒しに行くの。凄いねえ。
+    噂だけどあるクリスタルは悪しき魔法を封じるとか。
+  translated: Huh? You’re going to defeat LaShiec? Awesome! Now this is just a rumor, but supposedly there are crystals that protect against evil magic.
   us: |
     YOU ARE GOING TO<line>
     TRY TO KILL LASSIC<wait more>
@@ -5190,43 +5195,6 @@
     Mit ihm ist allerdings nicht zu spaßen. Seine Magie ist tödlich!<wait more>
     Es soll einen Kristall geben, der diese Magie erheblich schwächen kann.<wait more>
     ...Hab ich zumindest mal irgendwo gehört.<wait>
-
-- offsets: # unused? index $011a originally; combined into the above line
-  indices: 11A
-  ja: |
-    ウワサダケド　アル　クリスタルハ<line>
-    アシキ　マホウヲ　フウジルトカ。<wait>
-  kanji: 噂だけどあるクリスタルは悪しき魔法を封じるとか。
-  translated: Now this is just a rumor, but supposedly there are crystals that protect against evil magic.
-  us: |
-    I HAVE HEARD THAT<line>
-    A CERTAIN<wait more>
-    CRYSTAL WILL BLOCK<line>
-    EVIL MAGIC.<end>
-  en: |
-    LaShiec’s no pushover. His black magic could destroy you.<wait more>
-    I’ve heard certain crystals can protect you against such magic.<wait more>
-    It’s just a rumor, though. Don’t quote me on that.<wait>
-  fr: |
-    Lassic n'est pas un tendre. Sa magie noire peut vous tuer.<wait more>
-    Je crois que certains cristaux peuvent vous protéger d'elle.<wait more>
-    C'est une rumeur, alors ne dites à personne que je vous en ai parlé.<wait>
-  pt-br: |
-    LaShiec não é um novato. Sua magia negra poderia destruí-lo.<wait more>
-    Já ouvi que alguns cristais podem protegê-lo contra tal magia.<wait more>
-    Apesar de tudo, isso é apenas um rumor. Não comente que falei sobre isso.<wait>
-  ca: |
-    En Lashiec no és un passarell. La seva màgia negra et pot destruir.<wait more>
-    He sentit que certs cristalls poden protegir-te contra una màgia així.<wait more>
-    És un rumor, però. No vagis dient que ho dic jo això.<wait>
-  es: |
-    Lashiec no es un don nadie. Su magia negra te puede destruir.<wait more>
-    He oído que ciertos cristales pueden protegerte contra una mágia semejante.<wait more>
-    Es un rumor, eso sí. No vayas diciendo que te lo he dicho yo.<wait>
-  de: |
-    Mit Lashiec ist nicht zu spaßen. Seine Magie ist tödlich!<wait more>
-    Allerdings soll es einen Kristall geben, der diese Magie erheblich schwächen kann.<wait more>
-    ...So lauten zumindest die Gerüchte.<wait>
 
 # *************
 # *** Abion ***
@@ -5598,7 +5566,7 @@
     ALGOL SYSTEM.<end>
   en: |
     Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
-    LaShiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
+    LaShiec knows this, of course. That's why he's hidden them across the Algol system! He's scared!<wait>
   fr: |
     Le Laconian n'est pas que puissant, il est sacré.<wait more>
     Lassic le sait, bien entendu.<wait more>
@@ -6738,7 +6706,7 @@
     SEGA GAMES?<prompt>
   en: Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
   fr: |
-    Salut, je suis Joe Musashi_!<wait more>
+    Salut, je suis Gamer Miki-chan_!<wait more>
     Possèdes-tu une Master System_?<end>
   pt-br: Oi, eu sou a Jogadora Miki-chan! Você possui um Master System?<end>
   ca: Hola, sóc la Miki-chan, una gamer! Tens una Master System?<end>
@@ -7044,7 +7012,7 @@
   de: ...Lutz? Oh, er ist tot.<line>Ihr da, bringt ihn in einer Kirche wieder zum Leben und kommt dann zurück.<wait>
 
 - offsets: 56d9
-  # Tajim
+  # Tajim (talking to Lutz)
   indices: 24E
   ja: |
     デハ　ソツギョウノ　シケンヲ　シテ<line>
@@ -7055,7 +7023,7 @@
     COME,YOU MUST PASS<line>
     YOUR FINAL TEST---<wait more>
     WE WILL DUEL!<end>
-  en: "I've taught you all that I know. It's time to give you one final test: A duel against me!<wait>"
+  en: "I've taught you all that I know. It's time to give you one final test: a duel against me!<wait>"
   fr: |
     Alors tu te dois de passer un test final.<wait more>
     Battons-nous en duel.<wait>
@@ -7065,7 +7033,7 @@
   de: Ich kann dich nichts mehr lehren, also ist es Zeit für deine letzte Prüfung... Ein Duell gegen mich!<wait>
 
 - offsets: 5722
-  # Tajim (if you win)
+  # Tajim (if you win) (talking to Lutz)
   indices: 250,252,254
   ja: |
     ツヨクナッタノウ。ルツヨ。<wait more>
@@ -7116,7 +7084,7 @@
     Und nun geh.<wait>
 
 - offsets: 571c
-  # Tajim (if you lose)
+  # Tajim (if you lose) (talking to Lutz)
   indices: 256
   ja: |
     マダマダ　シュギョウガ　タリンノウ。
@@ -7158,10 +7126,10 @@
 # *** Native Dezorian Town ***
 # ****************************
 
-# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say things like ’it does’ and ’you will’ at the ends of sentences, and the liars say things like, ’no joke’, ’seriously’, etc. in their sentences.
-# [Paul Jensen]
-# In catalan version, Honest Dezorians speak western dialect, and the liars Majorcan
-# In spanish version, Honest Dezorian speaks like galician, and the liars like people from Murcia
+# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say verb-affirmative things like ’it does’ and ’you will’ at the ends of sentences, and the liars say truth-affirming things like ’no joke’, ’seriously’, etc. in their sentences.
+# French and Brazilian Portuguese use similar patterns to English.
+# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
+# In Spanish, Honest Dezorian speaks like galician, and the liars like people from Murcia
 # In German, honest Dezorians use VOS sentence structure while liars use OVS.
 - offsets: 5274
   # Honest Dezorian
@@ -7779,7 +7747,7 @@
     <player> RAISES<line>
     <item> TOWARDS<wait more>
     THE SKY.<wait>
-  en: <player> held <article><item> up over <his> head, towards the sky.<delay>
+  en: <player> held <article><item> up over <his> head.<delay>
   fr: <player> tend <article><item> vers le ciel.<delay>
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
@@ -8371,7 +8339,7 @@
     CELESTIAL CASTLE<wait more>
     APPEAR IN THE <line>
     SKY.<end>
-  en: The Aerocastle was revealed.<wait>
+  en: The illusionary Aerocastle was revealed in the sky.<wait>
   fr: Dans le ciel, le Château Aérien apparaît sous vos yeux.<wait>
   pt-br: O Castelo Aéreo foi revelado.<wait>
   ca: El castell volador es revelat.<wait>
@@ -8524,6 +8492,7 @@
     DEPTH OF THE <line>
     DUNGEONS.<end>
   en: There is more than meets the eye in this dungeon, fools.<wait>
+  # TODO: French version here
   fr: .........<wait>
   pt-br: Há mais do que seus olhos podem ver neste calabouço, tolos.<wait>
   ca: En aquesta masmorra hi ha més del que els vostres ulls poden veure , ximples.<wait>
@@ -8614,6 +8583,7 @@
 
 - offsets: 576a
   # LaShiec
+  # The party may only be Tylon who can't do magic, but it's unlikely.
   indices: 26C
   ja: |
     トウトウ　ココマデ　キタカ。<line>
@@ -9785,11 +9755,11 @@
   ja: ベツニ　コワレテナイヨウダ。<wait>
   kanji: 別に乞われてないようだ。
   translated: It doesn't really seem to be asked for [right now].
+  # Note: this was originally ‘It doesn’t look particularly broken.’
+  # This translation takes the verb KOWARERU to mean ‘to be begged’
   us: |
     IT DOESN'T SEEM TO
     BE BROKEN.<end>
-  # Note: this was originally ‘It doesn’t look particularly broken.’
-  # This translation takes the verb KOWARERU to mean ‘to be begged’
   en: There’s no real need for it right now.<wait>
   fr: <player> n'en a pas besoin pour le moment.<wait>
   pt-br: Não há necessidade de usar isso agora.<wait>
@@ -9943,7 +9913,8 @@
 
 - offsets: 273d
   # Use Laerma Berries in the wrong place
-  # TODO: use pronouns, may not be Alisa?
+  # Comes immediately after "<player> took out the <item>."
+  # TODO: use pronouns, may not be Alisa.
   indices: aecf
   ja: |
     オナカガ　スイテナカッタノデ<line>
@@ -10012,7 +9983,7 @@
 
 - offsets: 218d,2195,299f,2a2e,579d
   # 218d = untrap not in dungeon
-  # 2195 = untrap wth no object
+  # 2195 = untrap with no chest
   # 25aa = use Alsuline in the wrong place, changed to adad
   # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
   # 299f = search (from menu)
@@ -10444,6 +10415,7 @@
   de: <player> ist tot.<wait>
 
 - offsets: 19f7,2b0f
+  # Selecting a player from the menu when they are dead, to do something like heal them.
   indices: b087
   ja: <player>ハ　モウ　シンデイル。<delay>
   kanji: <player>はもう死んでいる。
@@ -11851,4 +11823,5 @@
   us: |
     REPORT QUICKLY TO<line>
     THE GOVERNOR!<end>
+
 
