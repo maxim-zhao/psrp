@@ -6797,7 +6797,10 @@
     NAMED TAJIM IN THE<wait more>
     MOUNTAINS TO THE <line>
     SOUTH OF THE LAKE.<end>
-  en: Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait>
+  en: |
+    Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait more>
+    They say he is the greatest magical combat trainer in Algol.<wait more>
+    They also say he sees dead people...<wait>
   fr: |
     Avez-vous croisé Maître Tajim_? C'est un moine.<wait more>
     Il habite dans les montagnes situées au sud du lac.<wait>
@@ -11556,7 +11559,7 @@
     APPROACH ME!<end>
   en: |
     ‘You are brave to talk to me. I will tell you a secret in return:<wait more>
-    The same telepathy that you're using right now can also be used to detect traps.’
+    The same telepathy that you're using right now can also be used to detect traps.’<wait>
   # TODO (maybe): add this hint to other languages
   fr: Vous êtes bien brave pour me parler. Approchez-vous.<wait>
   pt-br: ‘Você é muito corajoso para conversar comigo. Fique por aqui.’<wait>
