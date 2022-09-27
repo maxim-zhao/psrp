@@ -1120,12 +1120,15 @@ _PronounHis: String "his"
 .dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
 ; Values by index:
 ; 0 = Sie/Er
+; 1 = sie/er
 _PronounsF:
-.dw _PronounSie
-_PronounSie: String "Sie"
+.dw _PronounSieUpper, _PronounSieLower
+_PronounSieUpper: String "Sie"
+_PronounSieLower: String "sie"
 _PronounsM:
-.dw _PronounEr
-_PronounEr: String "Er"
+.dw _PronounErUpper, _PronounErLower
+_PronounErUpper: String "Er"
+_PronounErLower: String "er"
 .endif
 
 SubstringFormatter:

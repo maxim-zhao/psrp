@@ -383,7 +383,8 @@ class ScriptEntry:
             self.buffer.append(0)
             self.script_hints = True
             pass
-        elif tag == "his" or tag == "her": # Careful, "him/her" would get confused here
+        elif tag == "his" or tag == "her" or tag == "sie" or tag == "er":
+            # Careful, "him/her" would get confused here
             # Pronoun
             self.buffer.append(ScriptingCode.SymbolPronoun)
             self.buffer.append(1)
