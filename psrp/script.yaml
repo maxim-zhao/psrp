@@ -2460,7 +2460,7 @@
   es: |
     <player> abre el tapón del frasco y vierte su contenido.<wait more>
     ¡Está funcionando!<delay>
-  de: <player> öffnet die Flasche und leert den Inhalt aus...<delay>
+  de: <Sie> öffnet die Flasche und leert den Inhalt aus...<delay>
 
 - offsets: 25af,260c,262d
   # Using "Alsuline" or "Polymeteral" but only Myau is alive
@@ -7772,7 +7772,7 @@
   pt-br: <player> pegou algumas Frutas de Laerma e colocou no Pote de Lacônia.<wait>
   ca: <player> agafa alguns Fruits de Laerma i els posa a l'olla de Laconia.<wait>
   es: <player> coge algunos Frutos de Laerma y los pone en la olla de Laconia.<wait>
-  de: <player> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
+  de: <Sie> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
 
 - offsets: 26c4
   # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
@@ -7792,7 +7792,7 @@
   pt-br: As Frutas de Laerma murcharam logo após serem colhidas.<wait>
   ca: <player> agafa alguns Fruits de Laerma, però s'encongeixen immediatament!<wait>
   es: <player> coge algunos Frutos de Laerma, ¡peró se encongen immediatamente!<wait>
-  de: <player> pflückt ein paar Laermabeeren, aber sie trocknen sofort aus!<wait>
+  de: <Sie> pflückt ein paar Laermabeeren, aber sie trocknen sofort aus!<wait>
 
 
 # *******************

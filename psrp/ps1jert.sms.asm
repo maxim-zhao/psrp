@@ -1013,10 +1013,10 @@ _Wait_Clear:
   ld (ARTICLE),a
 .if LANGUAGE == "de"
   ; Set SKIP_BITMASK accordingly
-  ; 1 => %1000 (nominative, select «» brackets only)
-  ; 2 => %1010 (genitive, select «» and {} brackets)
-  ; 3 => %1100 (dative, select «» and () brackets)
-  ; 4 => %1100 (accusative, select «» and () brackets)
+  ; 1 => %01000 (nominative, select «» brackets only)
+  ; 2 => %01010 (genitive, select «» and {} brackets)
+  ; 3 => %11100 (dative, select «», ‹› and () brackets)
+  ; 4 => %01100 (accusative, select «» and () brackets)
   push hl
   push de
     ld d,0
@@ -1028,7 +1028,7 @@ _Wait_Clear:
   pop de
   pop hl
   jp _Decode
-_SkipBitmaskLookup: .db %1000, %1010, %1100, %1100
+_SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
 .else
   ; Select all bracketed parts
   ld a,$ff
@@ -1092,6 +1092,9 @@ _Pronoun:
 _Pronouns: ; Lookup by character index: Alisa, Myau, Tyron, Lutz
 .if LANGUAGE == "en"
 .dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = he/she
+; 1 = his/her
 _PronounsF:
 .dw _PronounShe, _PronounHer
 _PronounShe: String "she"
@@ -1114,7 +1117,15 @@ _PronounHis: String "his"
 ; No pronouns yet
 .endif
 .if LANGUAGE == "de"
-; No pronouns yet
+.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = Sie/Er
+_PronounsF:
+.dw _PronounSie
+_PronounSie: String "Sie"
+_PronounsM:
+.dw _PronounEr
+_PronounEr: String "Er"
 .endif
 
 SubstringFormatter:
@@ -2694,7 +2705,7 @@ Items:
   String "<Ein> Eisenschild"
   String "<Ein> Bronzeschild"
   String "<Ein> Keramikschild"
-  String "Tierhandschuhe"				; needs -n suffix in dative case
+  String "Tierhandschuhe‹n›"
   String "<Eine> Laserbarriere"
   String "<Der> Schild des Perseus"
   String "<Der> Lakoniumschild"
@@ -5545,8 +5556,8 @@ CreditsScreen5: .db 6
   CreditsEntry 3,5,"KOMPLETTES"
   CreditsEntry 8,7,"DESIGN"
   CreditsEntry 18,6,"PHOENIX RIE"
-  CreditsEntry 2,14,"DESIGN DER"
-  CreditsEntry 8,16,"MONSTER"
+  CreditsEntry 5,14,"MONSTER-"
+  CreditsEntry 7,16,"DESIGN"
   CreditsEntry 17,15,"CHAOTIC KAZ"
 CreditsScreen6: .db 3
   CreditsEntry 8,6,"DESIGN"
@@ -5557,11 +5568,12 @@ CreditsScreen7: .db 4
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8: .db 6
+CreditsScreen8: .db 7
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,14,"SOFTWARE-"
-  CreditsEntry 3,15,"¨     ¨"
+  CreditsEntry 3,15,"¨"
+  CreditsEntry 9,15,      "¨"
   CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 5
