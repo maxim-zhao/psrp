@@ -20,7 +20,7 @@ LANGUAGE = en
 # The dictionary size. Maximum is 164.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count depends on the script. Iterating through the options can help to find the best value. Use the "sizes" makefile target to do that.
-WORD_COUNT_en = 97
+WORD_COUNT_en = 98
 WORD_COUNT_fr = 50
 WORD_COUNT_pt-br = 31
 WORD_COUNT_ca = 65

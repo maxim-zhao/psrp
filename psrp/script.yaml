@@ -6801,6 +6801,8 @@
     Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait more>
     They say he is the greatest magical combat trainer in Algol.<wait more>
     They also say he sees dead people...<wait>
+  # TODO (maybe) add this hint to other languages. It helps explain a possible 
+  # scenario later where Tajim sees Lutz when he is dead.
   fr: |
     Avez-vous croisé Maître Tajim_? C'est un moine.<wait more>
     Il habite dans les montagnes situées au sud du lac.<wait>
