@@ -8781,7 +8781,7 @@
     Alisa lebt wieder.<wait>
 
 - offsets: 58e1
-  # Governor-General
+  # Governor-General (to Alisa)
   indices: 272,274,276,278
   ja: |
     オオ。ミンナ　スマナカッタ。<wait more>
@@ -11005,6 +11005,39 @@
   es: Entonces rezaré por vosotros.<wait>
   de: Dann werde ich nun ein Gebet aussprechen.<wait>
 
+- offsets: 2bfb
+  indices: b31e
+  ja: ドナタノ　タマシイデショウ。<end>
+  kanji: どなたの魂でしょう。
+  translated: Whose soul?
+  us: |
+    WHO IS TO BE<line>
+    RESURRECTED?<prompt>
+  en: Who shall be returned?<end>
+  fr: Quelle âme voulez-vous ramener_?<end>
+  pt-br: Quem deve ser revivido?<end>
+  ca: Qui ha de ser retornat?<end>
+  es: ¿Quién ha de ser revivido?<end>
+  de: Wer soll wiederbelebt werden?<end>
+
+- offsets: 2c24
+  indices: b33c
+  ja: |
+    <number>メセタ　カカリマスガ<line>
+    ヨロシイデスカ。<end>
+  kanji: <number>メセタかかりますが宜しいですか。
+  translated: It will require <number> mesetas. Is that okay?
+  us: |
+    THAT REQUIRES<line>
+    <number> MESETAS. O.K.?<prompt>
+  # Resurrection cost is Level * 20 so is definitely plural.
+  en: Our suggested donation is <number> mesetas.<end>
+  fr: Nous suggérons un don de <number> mesetas.<end>
+  pt-br: Nossa doação sugerida é de <number> mesetas.<end>
+  ca: La donació suggerida és <number> mesetas.<end>
+  es: La donación sugerida es <number> mesetas.<end>
+  de: Dürfte ich zuvor um eine Spende von <number> Meseta bitten?<end>
+
 - offsets: 2c37
   indices: b2f2
   ja: ソレデハ　ジュモンヲ　トナエマス。<delay>
@@ -11022,6 +11055,7 @@
 
 - offsets: 2c60
   indices: b304
+  # If you have enough money
   ja: |
     アルテムハムラム　アルテムハムハム<line>
     ストラトポン。<delay>
@@ -11037,6 +11071,7 @@
 
 - offsets: 2c82
   indices: b695
+  # If you don't have enough money
   ja: |
     アルテムハムラム　ア　ウッ。<line>
     ゴホッ。ゴホッ。<wait more>
@@ -11045,7 +11080,7 @@
   kanji: |
     アルテムハムラム　ア　ウッ。ゴホッ。ゴホッ。
     ごめんなさい。どうやら失敗したようです。
-  translated: Arutemuhamramu, A--ugh, COUGH COUGH. My apologies. I seem to have failed.
+  translated: Arutemuhamuramu, A--ugh, COUGH COUGH. My apologies. I seem to have failed.
   us: |
     SABRUS CABRUS<line>
     SEB..B...HACK,HACK<wait more>
@@ -11082,21 +11117,6 @@
     Ich bitte um Entschuldigung.<line>
     Der Zauberspruch schlug fehl.<wait>
 
-- offsets: 2bfb
-  indices: b31e
-  ja: ドナタノ　タマシイデショウ。<end>
-  kanji: どなたの魂でしょう。
-  translated: Whose soul?
-  us: |
-    WHO IS TO BE<line>
-    RESURRECTED?<prompt>
-  en: Who shall be returned?<end>
-  fr: Quelle âme voulez-vous ramener_?<end>
-  pt-br: Quem deve ser revivido?<end>
-  ca: Qui ha de ser retornat?<end>
-  es: ¿Quién ha de ser revivido?<end>
-  de: Wer soll wiederbelebt werden?<end>
-
 - offsets: 2c71
   indices: b32d
   ja: ホカノカタハ　イカガデスカ。<end>
@@ -11109,24 +11129,6 @@
   ca: Algú més?<end>
   es: ¿Alguien más?<end>
   de: Gibt es sonst noch jemanden?<end>
-
-- offsets: 2c24
-  indices: b33c
-  ja: |
-    <number>メセタ　カカリマスガ<line>
-    ヨロシイデスカ。<end>
-  kanji: <number>メセタかかりますが宜しいですか。
-  translated: It will require <number> mesetas. Is that okay?
-  us: |
-    THAT REQUIRES<line>
-    <number> MESETAS. O.K.?<prompt>
-  # Resurrection costs can never be exactly 1 meseta.
-  en: Our suggested donation is <number> mesetas.<end>
-  fr: Nous suggérons un don de <number> mesetas.<end>
-  pt-br: Nossa doação sugerida é de <number> mesetas.<end>
-  ca: La donació suggerida és <number> mesetas.<end>
-  es: La donación sugerida es <number> mesetas.<end>
-  de: Dürfte ich zuvor um eine Spende von <number> Meseta bitten?<end>
 
 - offsets: 2ca8
   indices: b351
@@ -11141,7 +11143,7 @@
   pt-br: Para subir de nível,<wait>
   ca: Per pujar de nivell,<wait>
   es: Para subir de nivel,<wait>
-  de: <end> #Putting this line into the one below so it flows better.
+  de: <end> # Putting this line into the one below so it flows better.
 
 - offsets: 2d16
   indices: b363
@@ -11155,9 +11157,9 @@
     EXPERIENCE POINTS.<end>
   en: <player> needs <number><internal hint 02> point<s>.<wait>
   fr: <player> a besoin de <number><internal hint 02> point<s>.<wait>
-  pt-br: <player> precisa de <number><internal hint 02> ponto<s> de experiência.<wait>
-  ca: a <player> li manquen <number><internal hint 02> punt<s> d'experiència.<wait>
-  es: a <player> le faltan <number><internal hint 02> punto<s> de experiéncia.<wait>
+  pt-br: <player> precisa de <number><internal hint 01> ponto<s> de experiência.<wait>
+  ca: a <player> li manquen <number><internal hint 01> punt<s> d'experiència.<wait>
+  es: a <player> le faltan <number><internal hint 01> punto<s> de experiéncia.<wait>
   de: <player> braucht für die nächste Stufe <number><internal hint 02> Erfahrungspunkt<s>.<wait>
   
 - offsets: 2cef
@@ -11171,7 +11173,7 @@
   us: |
     <player> IS STRONG<line>
     ENOUGH ALREADY.<end>
-  en: <player> is already at full health.<wait>
+  en: <player> is already at the highest level.<wait>
   fr: <player> est déjà en pleine forme.<wait>
   pt-br: <player> já está em plena saúde.<wait>
   ca: <player> ja és en plena forma.<wait>
@@ -11552,7 +11554,10 @@
   us: |
     YOU ARE BRAVE TO<line>
     APPROACH ME!<end>
-  en: ‘My, you’re very brave to talk to me. Hang in there.’<wait>
+  en: |
+    ‘You are brave to talk to me. I will tell you a secret in return:<wait more>
+    The same telepathy that you're using right now can also be used to detect traps.’
+  # TODO (maybe): add this hint to other languages
   fr: Vous êtes bien brave pour me parler. Approchez-vous.<wait>
   pt-br: ‘Você é muito corajoso para conversar comigo. Fique por aqui.’<wait>
   ca: ‘Certament sou molt valents de parlar amb mi. Apropeu-vos.’<wait>
@@ -11560,8 +11565,6 @@
   de: |
     „Du bist mutig, mit mir zu reden. Dafür erzähle ich dir ein Geheimnis.<wait more>
     Die Telepathie, die du in diesem Moment benutzt, kann auch Fallen aufspüren.“<wait>
-  # "You are brave to talk to me. I will tell you a secret in return:
-  # The same telepathy that you're using right now can also be used to detect traps."
 
 
 # **************
@@ -11783,7 +11786,7 @@
     GAME <number> HAS BEEN<line>
     DELETED.<end>
   en: Deleting game from slot <number>...<delay>
-  #<delay> is nicer than<wait> here - Maxim
+  # <delay> is nicer than<wait> here - Maxim
   fr: Suppression de la sauvegarde, emplacement <number>.<delay>
   pt-br: |
     Deletando o jogo da posição <line>

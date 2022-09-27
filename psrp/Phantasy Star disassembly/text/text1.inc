@@ -2017,10 +2017,12 @@ textUnused6:
 
 textChurchIncantation1:
 .stringmap script "ソレデハ　ジュモンヲ　トナエマス。<delay>"
+; I will now recite an incantation.
 
 textChurchIncantation2:
 .stringmap script "アルテムハムラム　アルテムハムハム<line>"
 .stringmap script "ストラトポン。<delay>"
+; ArtemuhamuRAmu! ArtemuhamuHAmu! STRATOPON!
 
 textChurchWho:
 .stringmap script "ドナタノ　タマシイデショウ。<end>"

@@ -15,6 +15,7 @@ Changelog (in reverse chronological order):
   - Much work on annotating the script with where each line is used/reused
   - Some shared lines split up to enable better translation
   - Fixed a mistranslation regarding where the poison fog is
+  - Fixing areas of the script that incorrectly make assumptions about which character is alive
   - Changed name entry screen to support a cursor on wider words
   - Quite a lot of work done on the disassembly
 - v2.2 released 2021/12/20
