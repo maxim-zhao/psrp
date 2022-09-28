@@ -3728,7 +3728,7 @@ DezorianCustomStringCheck:
 
 ;              Name             RAM location          W                             H                               X                                     Y
   DefineWindow PARTYSTATS       $d700                 32                            6                               0                                     18
-  DefineWindow NARRATIVE        PARTYSTATS_end        31                            6                               1                                     18
+  DefineWindow NARRATIVE        PARTYSTATS_end        NarrativeBox_width            NarrativeBox_height             1                                     18
   DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                            3                               2                                     19
   DefineWindow CHARACTERSTATS   NARRATIVE             StatsMenuDimensions_width     StatsMenuDimensions_height      31-StatsMenuDimensions_width          4
   DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width               WorldMenu_height                1                                     1
@@ -3752,9 +3752,9 @@ DezorianCustomStringCheck:
   DefineWindow HAPSBY           MENU_end              8                             5                               21                                    13
   DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width            ToolShopMenu_height             29-ToolShopMenu_width                 14
   DefineWindow SPELLS           INVENTORY             SpellMenuBottom_width         7                               WorldMenu_width+1                     1 ; Spells and inventory are mutually exclusive
-  DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     7                             6                               9                                     8
+  DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     ChoosePlayerMenu_width        ChoosePlayerMenu_height         9                                     8
   DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width              ChoiceMenu_height               29-ChoiceMenu_width                   14
-  DefineWindow ACTIVE_PLAYER    INVENTORY_end         7                             3                               1                                     8
+  DefineWindow ACTIVE_PLAYER    INVENTORY_end         AlisaActiveBox_width          3                               1                                     8
   DefineWindow SHOP             MENU                  32                            5                               0                                     0 ; shop inventory width is dynamic, up to 32
   DefineWindow SHOP_MST         PLAYER_SELECT_end     StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4             SAVE_SLOT_COUNT+2               27-SAVE_NAME_WIDTH                    1
