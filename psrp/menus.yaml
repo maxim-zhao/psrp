@@ -1289,7 +1289,7 @@
 
 - name: SpellMenuBottom
   # referenced in assembly code
-  literal: ╘═════════════╝
+  literal: ╘═════════╝
   en: ╘════════════╝
   fr: ╘════════════════╝
   pt-br: ╘════════════════╝
