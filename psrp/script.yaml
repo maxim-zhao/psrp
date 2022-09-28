@@ -1564,7 +1564,7 @@
   kanji: |
     しつこい奴だ。そんなに言うのなら仕方がない。
     誰にも言うなよ。
-  literal: You just don't quit, do you? If you're gonna keep bugging me, then fine[, take it]. But don't tell anybody.<wait>
+  literal: You just don't quit, do you? If you're gonna keep bugging me, then fine. But don't tell anybody.<wait>
   us: |
     ALL RIGHT, ALL<line>
     RIGHT. I GIVE UP.<wait more>
@@ -2928,7 +2928,7 @@
     ソレハ　ラコニア　ジャ。　ソレデ<line>
     デキタ　ブキハ　サイキョウナンジャ。<wait>
   kanji: それはラコニアじゃ。それでできた武器は最強なんじゃ。
-  literal: It’s ‘Laconia’! Laconian weapons are the strongest [in the solar system].<wait>
+  literal: It’s ‘Laconia’! Laconian weapons are the strongest.<wait>
   us: |
     IT'S LACONIA!<line>
     ARMS MADE WITH<wait more>
@@ -4253,7 +4253,7 @@
     えーっ。ルベノ博士が帰って来たのかい。
     また宇宙船を創るのか。
     しょうがねえや。すぐ行くよ。
-  literal: Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice [but to help]. I’ll go there right away.<wait>
+  literal: Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice. I’ll go there right away.<wait>
   us: |
     WHAT? DR.LUVENO<line>
     HAS RETURNED?<wait more>
@@ -4337,7 +4337,7 @@
     モハヤ　カクゴハ　デキテオル<line>
     ジャロウナ。　フッフッフ。<wait>
   kanji: もはや覚悟はできておるじゃろうな。ふっふっふ。
-  literal: I hope you are ready [for what's ahead]. Ho ho ho...<wait>
+  literal: I hope you are ready. Ho ho ho...<wait>
   us: |
     YOU WILL SOON FIND<line>
     OUT THE TRUTH!<wait>
@@ -6045,7 +6045,7 @@
   kanji: |
     周りを霧に囲まれた村には伝説の盾の言い伝えがある。
     その昔ペルセウスが魔物退治に使ったという。
-  literal: The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, [a man named] Perseus used that shield to exterminate a monster.<wait>
+  literal: The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, Perseus used that shield to exterminate a monster.<wait>
   us: |
     THERE ARE LEGENDS<line>
     OF A MYSTIC SHIELD<wait more>
@@ -8914,7 +8914,7 @@
   kanji: |
     そうか。それでこそアルゴル王の娘だ。
     私も手伝わせてもらうよ。
-  literal: I see. Then indeed, you are the daughter of the King of Algol, [and our new Queen]. Please let me help you [however I can].<wait>
+  literal: I see. Then indeed, you are the daughter of the King of Algol. Please let me help you.<wait>
   us: |
     THEN YOU ARE THE <line>
     VERY QUEEN OF THE <wait more>
@@ -9029,14 +9029,14 @@
 
 - offsets: 4800
   indices: bd25
-  literal: <line><wait>
   ja: |
     アリサ<delay>
     <line>
   kanji: アリサ
+  literal: Alisa<delay>
   us: |
     <line>
-         ALIS<wait>
+         ALIS<delay>
   en: "           Alisa,<delay>"
   fr: "           Alisa,<delay>"
   pt-br: "           Alisa,<delay>"
@@ -9046,14 +9046,14 @@
 
 - offsets: 480b
   indices: bd30
-  literal: <line><wait>
   ja: |
     タイロン<delay>
     <line>
   kanji: タイロン
+  literal: Tairon<delay>
   us: |
     <line>
-         ODIN<wait>
+         ODIN<delay>
   en: "           Tylon,<delay>"
   fr: "           Tylon,<delay>"
   pt-br: "           Tylon,<delay>"
@@ -9063,14 +9063,14 @@
 
 - offsets: 4816
   indices: bd3c
-  literal: <line><wait>
   ja: |
     ルツ<delay>
     <line>
   kanji: ルツ
+  literal: Lutz<delay>
   us: |
     <line>
-         NOAH<wait>
+         NOAH<delay>
   en: "            Lutz,<delay>"
   fr: "            Lutz,<delay>"
   pt-br: "            Lutz,<delay>"
@@ -9080,14 +9080,14 @@
 
 - offsets: 4821
   indices: bd46
-  literal: <line><wait>
   ja: |
     ソシテ　ミャウ<delay>
     <line>
   kanji: そしてミャウ
+  literal: and Myau<delay>
   us: |
     <line>
-         AND MYAU<wait>
+         AND MYAU<delay>
   en: "          and Myau.<delay>"
   fr: "          et Myau.<delay>"
   pt-br: "           e Myau.<delay>"
@@ -9168,7 +9168,7 @@
   indices: ab43
   ja: <player>ハ　ハナシカケタ。<end>
   kanji: <player>は話しかけた。
-  literal: <player> spoke [to <monster>].<end>
+  literal: <player> spoke.<end>
   us: <player> SPEAKS.<end>
   en: <player> spoke to <article><monster>.<end>
   fr: <player> parle <à><monster>.<end>
@@ -9655,7 +9655,7 @@
   indices: ad26
   ja: ココデ　オリルワケニハ　イカナイ。<wait>
   kanji: ここで下りる訳にはいかない。
-  literal: Can't get off [the vehicle] here.<wait>
+  literal: Can't get off here.<wait>
   us: |
     CANNOT DISEMBARK<line>
     HERE!<wait>
@@ -9765,7 +9765,7 @@
   indices: adad
   ja: ベツニ　コワレテナイヨウダ。<wait>
   kanji: 別に乞われてないようだ。
-  literal: It doesn't really seem to be asked for [right now].<wait>
+  literal: It doesn't really seem to be asked for.<wait>
   # Note: this was originally ‘It doesn’t look particularly broken.’
   # This translation takes the verb KOWARERU to mean ‘to be begged’
   us: |
@@ -9931,7 +9931,7 @@
     オナカガ　スイテナカッタノデ<line>
     モトニ　モドシタ。<wait>
   kanji: お腹が空いてなかったので元に戻した。
-  literal: Nobody is hungry, so they [the berries] were put back.<wait>
+  literal: Nobody is hungry, so they were put back.<wait>
   us: |
     MYAU ISN'T HUNGRY,<line>
     SO SHE PUTS THE <wait more>

@@ -3733,7 +3733,7 @@ DezorianCustomStringCheck:
   DefineWindow CHARACTERSTATS   NARRATIVE             StatsMenuDimensions_width     StatsMenuDimensions_height      31-StatsMenuDimensions_width          4
   DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width               WorldMenu_height                1                                     1
   DefineWindow CURRENT_ITEMS    MENU_end              InventoryMenuDimensions_width 5                               31-InventoryMenuDimensions_width      13
-  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     7                             6                               1                                     8
+  DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     ChoosePlayerMenu_width        ChoosePlayerMenu_height         1                                     8
   DefineWindow ENEMY_NAME       MENU_end              21                            3                               11                                    0 ; max width 19 chars
   DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                             10                              24                                    3
 ; Inventory goes after the end of whichever of these is later
@@ -3858,7 +3858,7 @@ DezorianCustomStringCheck:
   PatchWords PLAYER_SELECT          $3788 $37de ; Player select
   ; a = player count, but we want n+1 rows of data for n players
   PatchB $37c5 $3c ; inc a
-  PatchB $37c8 7*2 ; width*2
+  PatchB $37c8 ChoosePlayerMenu_width*2 ; width*2
   PatchWords PLAYER_SELECT_VRAM     $378b $37e1
   PatchW $3797 PLAYER_SELECT_VRAM + ONE_ROW
 
