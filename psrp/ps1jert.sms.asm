@@ -1878,7 +1878,7 @@ Lists:
 Items:
   ; Max width 18 excluding <...> prefix (with space)
   String " " ; empty item (blank). Must be at least one space.
-  ;        Retranslation name               Sega translation              Romaji              Japanese
+  ;        Retranslation name                 Sega translation              Romaji              Japanese
 ; weapons: 01-0f
   String "<A> Wood Cane"                    ; WOODCANE  Wood Cane           uddokein            ウッドケイン
   String "<A> Short Sword"                  ; SHT. SWD  Short Sword         shōtosōdo           ショートソード
@@ -1952,7 +1952,11 @@ Items:
 Names:
   String "Alisa"                            ; ALIS      Alis                arisa               アリサ
   String "Myau"                             ; MYAU      Myau                myau                ミャウ
+.if LANGUAGE == "en"
   String "Tylon"                            ; ODIN      Odin                tairon              タイロン
+.else
+  String "Tairon"                           
+.endif
   String "Lutz"                             ; LUTZ      Lutz                rutsu               ルツ
 
 Enemies:
