@@ -19,30 +19,14 @@ LANGUAGE = en
 
 # The dictionary size. Maximum is 164.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
-# The optimal word count depends on the script. Iterating through the options can help to find the best value. CMD one-liner:
-# for /l %n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%n LANGUAGE=es ps1jert.sms 2>&1 || echo ROM: 0 bytes) | find "ROM: ") >> sizes.txt
-# On 2021-01-06 the optimal value for total size was 91 for English and 54 for French.
-ifeq ("$(LANGUAGE)", "en")
-WORD_COUNT = 85
-endif
-ifeq ("$(LANGUAGE)", "literal")
-WORD_COUNT = 85
-endif
-ifeq ("$(LANGUAGE)", "fr")
-WORD_COUNT = 49
-endif
-ifeq ("$(LANGUAGE)", "pt-br")
-WORD_COUNT = 48
-endif
-ifeq ("$(LANGUAGE)", "ca")
-WORD_COUNT = 65
-endif
-ifeq ("$(LANGUAGE)", "es")
-WORD_COUNT = 42
-endif
-ifeq ("$(LANGUAGE)", "de")
-WORD_COUNT = 90 
-endif
+# The optimal word count depends on the script. Iterating through the options can help to find the best value. Use the "sizes" makefile target to do that.
+WORD_COUNT_en = 98
+WORD_COUNT_fr = 50
+WORD_COUNT_pt-br = 31
+WORD_COUNT_ca = 65
+WORD_COUNT_es = 42
+WORD_COUNT_de = 89
+WORD_COUNT = $(WORD_COUNT_$(LANGUAGE))
 
 # Default targets are the patch files for our language
 DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
@@ -53,27 +37,16 @@ play: ps1jert.sms
 # bitmap_decode
 # Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
 # This is done to free up ROM space.
-generated/bg1.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 40020
-generated/bg2.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 40f36
-generated/bg3.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 41c82
-generated/bg5.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 43406
-generated/bg8.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 44650
-generated/bg9.bin   : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 457d4
-generated/bg10.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 464c1
-generated/bg11.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 46f68
-generated/bg13.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 5ac8d
-generated/bg14.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 2c010
-generated/bg16.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 5eb6f
-generated/bg29.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 27b24
-generated/bg30.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 524ea
-generated/bg31.bin  : $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 4c010
-generated/world1.bin: $(PSJ) tools.py ; $(PY) tools.py bitmap_decode $@ $(PSJ) 747b8
 
-# Recompression for the above
+# Decompress bitmaps
+generated/%.bin: $(PSJ) tools.py
+	$(PY) tools.py bitmap_decode $@ $(PSJ) $(basename $(notdir $@))
+
+# Recompress bitmaps
 generated/%.psgcompr: generated/%.bin
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
-# Graphics conversion from PNG
+# Graphics conversion from PNG for ones where we also translate text. Makefile ordering means these take precendence if possible.
 generated/%.psgcompr: new_graphics\%.png
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
@@ -132,3 +105,7 @@ ps1jert.$(LANGUAGE).bps: $(PSJ) ps1jert.sms
 
 clean:
 	$(PY) tools.py clean generated
+
+sizes: clean
+	del sizes.txt
+	for /l %%n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%%n LANGUAGE=$(LANGUAGE) ps1jert.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> sizes.txt

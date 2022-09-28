@@ -6637,7 +6637,8 @@ _LABEL_2BF4_:
     ld (TextCharacterNumber),a
     push hl
     pop iy
-    ld a,(iy+5)
+    ; resurrection cost = LV * 20
+    ld a,(iy+Character.LV)
     add a,a
     add a,a
     ld l,a
@@ -6663,13 +6664,14 @@ _LABEL_2BF4_:
     or a
     sbc hl,de
     jp c,+
+    ; Enough money
     ld (Meseta),hl
     call _LABEL_3B21_
-    ld (iy+0),$01
-    ld a,(iy+6)
-    ld (iy+1),a
-    ld a,(iy+7)
-    ld (iy+2),a
+    ld (iy+Character.IsAlive),$01
+    ld a,(iy+Character.MaxHP)
+    ld (iy+Character.HP),a
+    ld a,(iy+Character.MaxMP)
+    ld (iy+Character.MP),a
     ld hl,textChurchIncantation2
     call TextBox20x6
     ld a,SFX_c5
@@ -6708,20 +6710,20 @@ _LABEL_2CA2_:
     jp Close20x6TextBox
 
 +:  ld iy,CharacterStatsAlis
-    ld de,$B8AF
+    ld de,LevelStatsAlis
     xor a
     call +
     ld iy,CharacterStatsMyau
-    ld de,$B99F
-    ld a,$01
+    ld de,LevelStatsMyau
+    ld a,1
     call +
     ld iy,CharacterStatsOdin
-    ld de,$BA8F
-    ld a,$02
+    ld de,LevelStatsOdin
+    ld a,2
     call +
     ld iy,CharacterStatsLutz
-    ld de,$BB7F
-    ld a,$03
+    ld de,LevelStatsLutz
+    ld a,3
 +:  ld (TextCharacterNumber),a
     bit 0,(iy+Character.IsAlive)
     ret z

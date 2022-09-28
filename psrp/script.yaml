@@ -53,6 +53,7 @@
 # <de>, <do>, <del> = use possessive+article for an enemy (French, Brazilian Portuguese, Catalan/Spanish respectively)
 # <à> = use directive+article for an enemy or player (French)
 # <nom>, <dat>, <gen>, <acc> = use nominative, dative, genitive and accusative cases (German)
+# <he>, <she>, <his>, <her> = pronouns
 # <player> = player name
 # <monster> = enemy name
 # <item> = item name
@@ -116,9 +117,9 @@
     これからはせいぜい大人しくしていることだな。
     兄さん。何があったの。しっかりして。
   literal: |
-    Guards: You little bastard -- poking your nose into LaShiec's business like that!<line>
-    Maybe from now on you'll try to mind your manners!<line>
-    Alisa: Nero! What happened?! Hang on!<wait>
+    Guards: You little bastard -- poking your nose into LaShiec's business like that!
+    Maybe from now on you'll try to mind your manners!
+    Alisa: Nero! What happened?! Hang on!
   us: |
     SCUM! DO NOT SNIFF<line>
     AROUND IN LASSIC'S<line>
@@ -192,14 +193,14 @@
     アリサ。俺はもう駄目だ。
     お前一人を残していく俺を許してくれ。
   literal: |
-    Alisa. Listen to me.<line>
-    LaShiec has brought a great disaster to our planet.<line>
-    The world is headed for destruction.<line>
-    I tried to find out what he is planning, but I couldn't do anything by myself.<line>
-    During my travels, I heard rumors of a strong man named Tairon.<line>
-    Together with him, you might be able to defeat LaShiec and restore peace.<line>
-    Alisa... it's too late for me.<line>
-    Please forgive me for leaving you all alone...<wait>
+    Alisa. Listen to me.
+    LaShiec has brought a great disaster to our planet.
+    The world is headed for destruction.
+    I tried to find out what he is planning, but I couldn't do anything by myself.
+    During my travels, I heard rumors of a strong man named Tairon.
+    Together with him, you might be able to defeat LaShiec and restore peace.
+    Alisa... it's too late for me.
+    Please forgive me for leaving you all alone...
   us: |
     ALIS,LISTEN!<line>
     LASSIC IS LEADING<line>
@@ -350,8 +351,8 @@
     アリサは兄さんの命を無駄にしないために戦いに行きます。
     きっと見守っていてね。兄さん。
   literal: |
-    I will go and fight to ensure that my brother did not die in vain!<line>
-    Keep a sharp watch over me, Nero!<wait>
+    I will go and fight to ensure that my brother did not die in vain!
+    Keep a sharp watch over me, Nero!
   us: |
     I WILL MAKE SURE<line>
     THAT MY BROTHER<line>
@@ -440,7 +441,7 @@
   kanji: |
     ここはアリサの家です。
     誰もいません。
-  literal: This is Alisa’s house. Nobody is here.<wait>
+  literal: This is Alisa’s house. Nobody is here.<wait><wait>
   us: |
     HERE IS THE HOME<line>
     OF ALIS.<end>
@@ -466,6 +467,8 @@
 - offsets: 4b48
   # Camineet
   # Suelo (first visit)
+  # Note that Alisa may be dead - but it's pretty unlikely 
+  # and the original script assumes she is alive
   indices: 002,004
   ja: |
     ワタシハ　スエロ。アリサノ　キモチハ
@@ -476,7 +479,7 @@
     私はスエロ。アリサの気持ちはよく分かるわ。
     もう誰もあなたを止めることはできない。
     でも、もし戦いで傷ついたときは
-  literal: My name is Suelo. I know how you feel, Alisa. No one will be able to stop you from doing what you must do. If you are ever injured in battle...<wait>
+  literal: My name is Suelo. I know how you feel, Alisa. No one will be able to stop you [from doing what you must do]. If you are ever injured in battle... (segues seamlessly into the line below)<wait>
   us: |
     I'M SUELO. I KNOW<line>
     HOW YOU MUST FEEL,<wait more>
@@ -523,6 +526,7 @@
 - offsets: 4b4e
   # Camineet
   # Suelo (subsequent visits)
+  # Note: Alisa may not be alive, so make sure the text here doesn't talk to her directly.
   indices: 006
   ja: |
     ココデ　ユックリ　ヤスンデ　オユキ。<wait more>
@@ -539,20 +543,19 @@
     YOU ARE WELCOME <line>
     HERE AT ANYTIME.<end>
   en: |
-    Please get some rest.<wait more>
-    Your brother would be proud of you. But don't overdo it, okay? Come back here anytime.<wait>
+    Please get some rest. Don't overdo it, okay? You will always be welcome here.<wait>
   fr: |
     Repose-toi un peu, si tu veux.
     Tu seras toujours la bienvenue ici.<wait>
   pt-br: |
     Por favor, descanse um pouco.<wait more>
-    Seu irmão ficaria orgulhoso de você. Mas não exagere, ok? Volte aqui quando quiser.<wait>
+    Mas não exagere, está bem? Volte aqui quando quiser.<wait>
   ca: |
     Si us plau reposa una mica.<wait more>
-    El teu germà estaria orgullós de tu. Però vés amb compte, d'acord? torna quan vulguis.<wait>
+    Però vés amb compte, d'acord? torna quan vulguis.<wait>
   es: |
     Por favor, descansa un poco.<wait more>
-    Tu hermano estaría orgulloso. Pero ve con cuidado, ¿vale? vuelve cuando quieras.<wait>
+    Pero ve con cuidado, ¿vale? vuelve cuando quieras.<wait>
   de: |
     Ruh dich doch etwas aus.<wait more>
     Bitte überarbeite dich nicht, OK? Komm jederzeit wieder.<wait>
@@ -560,6 +563,7 @@
 - offsets: 4b62
   # Camineet
   # Nekiseh (first visit)
+  # Alisa is not guaranteed to be alive...
   indices: 008,00A,00C,00E
   ja: |
     ボクハ　ネキセ。<line>
@@ -575,7 +579,7 @@
     聞くところによると、勇者タイロンはシオンという町にいるらしい。
     あっ。それと、ネロからラコニアンポットという壺を預かってたんだ。
     後で役に立つだろうから持って行くといいよ。
-  literal: My name is Nekise. According to what I’ve heard, the hero Tairon is staying in the town of Shion. Oh, Nero also entrusted me with this jar - it’s called a ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.<wait>
+  literal: My name is Nekise. According to what I’ve heard, the hero Tairon is staying in the town of Shion. Oh, Nero also entrusted me with this jar -- it’s called a ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.<wait>
   us: |
     I'M NEKISE. ONE<line>
     HEARS LOTS OF<wait more>
@@ -592,7 +596,6 @@
     TASK.<end>
   en: |
     My name is Nekise.<line><line>
-    I was sorry to hear about your loss.<wait more>
     Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
     The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
     Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
@@ -641,7 +644,7 @@
   kanji: |
     力になれなくてごめん。
     無事を祈ってるよ。
-  literal: I’m sorry there’s nothing more I can do. May your journey be safe.<wait>
+  literal: I’m sorry there’s nothing more I can do. May you[r journey] be safe.<wait>
   us: |
     I WISH I COULD<line>
     HELP YOU MORE.<wait more>
@@ -855,7 +858,7 @@
   us: YOU MAY PROCEED.<end>
   en: Okay, go on through.<wait>
   fr: Accès accordé. Allez-y.<wait>
-  pt-br: Ok, vá em frente.<wait>
+  pt-br: Tudo certo, pode passar.<wait>
   ca: D'acord, endavant.<wait>
   es: De acuerdo, adelante.<wait>
   de: In Ordnung, Sie dürfen hindurch.<wait>
@@ -872,7 +875,7 @@
     DO YOU KNOW ABOUT<line>
     THE PLANETS OF<wait more>
     THE ALGOL STAR<line>
-    SYSTEM?<end>
+    SYSTEM?<prompt>
   en: Do you know about all the planets in the Algol Solar System?<end>
   fr: Connaissez-vous les planètes d'Algol_?<end>
   pt-br: Você conhece todos os planetas do Sistema Solar de Algol?<end>
@@ -900,7 +903,7 @@
     Palma is a planet of greenery.
     Motavia is a planet of sand.
     Dezoris is a planet of ice.
-    There is a crisis drawing near to Algol...<wait>
+    There is a crisis drawing near to Algol...
   us: |
     THERE ARE THREE<line>
     PLANETS: PALMA<wait more>
@@ -974,7 +977,7 @@
   us: O.K. GOOD DAY.<end>
   en: Oh. Okay.<wait>
   fr: Oh. Très bien.<wait>
-  pt-br: Ah. Ok.<wait>
+  pt-br: Ah, tudo bem.<wait>
   ca: Oh. D'acord.<wait>
   es: Oh. De acuerdo.<wait>
   de: Oh, na gut.<wait>
@@ -1216,13 +1219,14 @@
     I DON'T KNOW WHAT<line>
     THAT IS FOR.<end>
   # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
+  # TODO fix south references below
   en: |
-    Yeah, Tylon was here. He said he was heading south to slay Medusa. I haven't seen him since.<wait more>
+    Yeah, Tylon was here. He said he was heading south-west to slay Medusa. I haven't seen him since.<wait more>
     He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
     It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
   fr: |
     Oui, Tylon est passé ici.<wait more>
-    Il disait aller vers le sud pour tuer Médusa.<wait more>
+    Il disait aller vers le sud-ouest pour tuer Médusa.<wait more>
     Un animal parlant avec une fiole autour du cou l'accompagnait_!<wait more>
     Je me demande ce que c'était_?<wait>
   pt-br: |
@@ -1349,8 +1353,9 @@
     CAN BE FOUND ON<wait more>
     THE PENINSULA TO<line>
     THE SOUTH OF SCION<end>
+  # TODO: the peninsula is more south-east than south.
   en: Iala Cave lies on the peninsula south-east of here.<wait>
-  fr: La grotte Iala est située sur la péninsule au sud de la ville.<wait>
+  fr: La grotte Iala est située sur la péninsule au sud-ouest de la ville.<wait>
   pt-br: A Caverna de Iala fica na península ao sul da cidade.<wait>
   ca: La cova d'Iala es troba a la península al sud-est d'aquí.<wait>
   es: La cueva de Iala se encuentra en la península al sureste de aquí.<wait>
@@ -1535,7 +1540,7 @@
     Je l'ai déjà dit, je ne fais pas de contrebande_!<wait more>
     Sortez de mon magasin_!<wait>
   pt-br: |
-    Desista, ok? Já te disse, nosso negócio é legal.<wait more>
+    Desista, entendeu? Já te disse, nosso negócio é legal.<wait more>
     Saia da minha loja.<wait>
   ca: |
     Deixa-ho estar, d'acord? Ja t'ho he dit, som un negoci legal.<wait more>
@@ -1677,7 +1682,7 @@
   literal: Do you have a passport?<wait>
   us: |
     DO YOU HAVE YOUR <line>
-    PASSPORT?<end>
+    PASSPORT?<prompt>
   en: Do you have a Passport?<end>
   fr: Avez-vous un Passeport_?<wait>
   pt-br: Você tem um Passaporte?<end>
@@ -1711,7 +1716,7 @@
     YOU CAN FILE FOR A<line>
     PASSPORT HERE.<wait more>
     DO YOU WANT A<line>
-    PASSPORT?<end>
+    PASSPORT?<prompt>
   en: Are you here to apply for a Passport?<end>
   fr: Êtes-vous ici pour une demande de Passeport_?<end>
   pt-br: Você está aqui para solicitar um Passaporte?<end>
@@ -1729,7 +1734,7 @@
   literal: Have you ever done anything wrong?<wait>
   us: |
     HAVE YOU EVER DONE<line>
-    ANYTHING ILLEGAL? <end>
+    ANYTHING ILLEGAL? <prompt>
   en: |
     I’m required by law to ask you a series of questions.<wait more>
     Have you ever been convicted of a crime?<end>
@@ -1759,7 +1764,7 @@
   literal: Are you suffering from any bad illnesses right now?<wait>
   us: |
     DO YOU CURRENTLY<line>
-    HAVE AN ILLNESS?<end>
+    HAVE AN ILLNESS?<prompt>
   en: Are you suffering from an illness that may be contagious to other passengers?<end>
   fr: Souffrez-vous d'une maladie contagieuse_?<end>
   pt-br: Você sofre de alguma doença contagiosa?<end>
@@ -1779,7 +1784,7 @@
   us: |
     THE PASSPORT FEE<line>
     IS 100 MESETAS.<wait more>
-    WOULD YOU PAY IT?<end>
+    WOULD YOU PAY IT?<prompt>
   en: There is a handling fee of <number><internal hint 02> meseta<s>. Are you willing to pay?<end>
   fr: Les frais de dossier sont de <number><internal hint 02> meseta<s>. Pouvez-vous payer?<end>
   pt-br: Há uma taxa administrativa de <number><internal hint 02> meseta<s>. Você está disposto a pagar?<end>
@@ -1867,7 +1872,7 @@
   literal: Bound for Motavia. Getting on?<wait>
   us: |
     BOUND FOR MOTAVIA.
-    GETTING ON?<end>
+    GETTING ON?<prompt>
   en: This is a non-stop flight to Motavia. Getting on?<end>
   fr: C'est un vol sans escale vers Motavia. Monter à bord_?<end>
   pt-br: Este é um voo sem paradas para Motávia. Deseja ir?<end>
@@ -1957,7 +1962,7 @@
   literal: Bound for Palma. Getting on?<wait>
   us: |
     BOUND FOR PALMA.<line>
-    GETTING ON?<end>
+    GETTING ON?<prompt>
   en: This shuttle is heading for Palma. Getting on?<end>
   fr: Cette navette se dirige vers Palma. Embarquer_?<end>
   pt-br: Esta aeronave está se dirigindo para Palma. Deseja ir?<end>
@@ -2110,7 +2115,7 @@
     I HAVE AN RARE<line>
     ANIMAL HERE. WOULD<wait more>
     YOU PAY 1 BILLION<line>
-    MESETAS FOR IT?<end>
+    MESETAS FOR IT?<prompt>
   en: |
     Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
     One billion mesetas, and it’s yours. How ’bout it?<end>
@@ -2171,7 +2176,7 @@
     I SEE YOU HAVE A<line>
     STRANGE POT.<wait more>
     SHALL I TRADE THE <line>
-    ANIMAL FOR IT?<end>
+    ANIMAL FOR IT?<prompt>
   en: |
     That’s too bad.<wait more>
     ...hold on, now. Is that a Laconian Pot?<wait more>
@@ -2429,32 +2434,33 @@
 - offsets: 25bd,2636
   # Using "Alsuline" or "Polymeteral"
   # This comes immediately after the "Alisa took out the item" message.
-  # Since it's used for the Polymeteral, too, avoid pronouns if you can.
+  # Since it's used for the Polymeteral, too, it may not be Alisa.
   indices: adcf
   ja: |
     ソシテ　ビンノ　フタヲ　アケテ<line>
     シズカニ　タラシタ。<delay>
   kanji: そして、ビンの蓋を開けて静かに垂らした。
-  literal: Then she opened the lid to the bottle, and the contents quietly spilled out.<wait>
-  en: |
-    Alisa opened the lid on the bottle and poured out its contents.<wait more>
-    It's working!<delay>
+  literal: Then he/she opened the lid to the bottle, and the contents quietly spilled out.<wait>
   us: |
     THE BOTTLECAP<line>
     OPENS AND THE <wait more>
     CONTENTS QUIETLY<line>
     LEAK OUT.<wait>
-  fr: Alisa ouvre la bouteille et en verse le contenu.<delay>
+  # TODO add pronouns to other langauges here?
+  en: |
+    Then <she> opened the lid on the bottle and poured out its contents.<wait more>
+    It's working!<delay>
+  fr: <player> ouvre la bouteille et en verse le contenu.<delay>
   pt-br: |
-    Alisa abriu a tampa da garrafa e despeja seu conteúdo.<wait more>
+    <player> abriu a tampa da garrafa e despeja seu conteúdo.<wait more>
     Está funcionando!<delay>
   ca: |
-    Alisa obre el tap de l'ampolla i vessa el seu contingut.<wait more>
+    <player> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
     Està funcionant!<delay>
   es: |
-    Alisa abre el tapón del frasco y vierte su contenido.<wait more>
+    <player> abre el tapón del frasco y vierte su contenido.<wait more>
     ¡Está funcionando!<delay>
-  de: <player> öffnet die Flasche und leert den Inhalt aus...<delay>
+  de: <Sie> öffnet die Flasche und leert den Inhalt aus...<delay>
 
 - offsets: 25af,260c,262d
   # Using "Alsuline" or "Polymeteral" but only Myau is alive
@@ -2467,10 +2473,11 @@
   us: |
     BUT MYAU CANNOT<line>
     OPEN THE BOTTLE.<end>
-  en: But Myau couldn’t open the lid to the bottle.<wait>
-  fr: Mais Myau ne peut pas ouvrir la bouteille.<wait>
+  # TODO as this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
+  en: But he couldn’t open the lid to the bottle.<wait>
+  fr: Mais il ne peut pas ouvrir la bouteille.<wait>
   pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
-  ca: Però en  Myau no pot obrir el tap de l'ampolla.<wait>
+  ca: Però en Myau no pot obrir el tap de l'ampolla.<wait>
   es: Pero Myau no puede abrir el tapón del frasco.<wait>
   de: Aber er bekam die Flasche nicht auf.<wait>
 
@@ -2485,6 +2492,8 @@
 - offsets: 4688
   indices: baf3
   # Tairon
+  # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
+  # So Tylon can't talk to Myau directly.
   ja: |
     アリガトウ。タスカッタヨ。<line>
     シカシ　メデューサニ<line>
@@ -2503,10 +2512,9 @@
     KILLING LASSIC,<line>
     DO I?<end>
   en: |
-    Ah, Myau, you found help. Thank you.<line><line>
+    Ah, Myau found help. Thank you for rescuing me.<line>
     I don't know if it will do any good though.<wait more>
-    If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<line><line>
-    Who’s your new friend?<wait>
+    If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<wait>
   fr: |
     Ah, Myau, tu as trouvé de l'aide.  Merci.<wait more>
     Médusa était plus forte que je ne le pensais, je n'aurais aucune chance face à Lassic.<wait more>
@@ -2618,7 +2626,7 @@
     ソレヨリ　ナゼ　メデューサヲ<line>
     タオソウト　シタノ。<wait>
   kanji: それより、なぜメデューサを倒そうとしたの。
-  literal: Tell me something first -- Why did you try to kill Medusa?<wait>
+  literal: Tell me something first - why did you try to kill Medusa?<wait>
   us: |
     WHY DID YOU TRY TO<line>
     KILL MEDUSA?<end>
@@ -2827,7 +2835,7 @@
   literal: Are you by any chance searching for the ‘Dungeon Key’?<wait>
   us: |
     ARE YOU LOOKING<line>
-    FOR A DUNGEON KEY?<end>
+    FOR A DUNGEON KEY?<prompt>
   en: |
     Taking on ol’ LaShiec, are you?<wait more>
     You’re either a fool, or you’re tougher than you look.<wait more>
@@ -2902,7 +2910,7 @@
     DO YOU KNOW WHAT<line>
     THE HARDEST,<wait more>
     STRONGEST MATERIAL
-    IN OUR WORLD IS?<end>
+    IN OUR WORLD IS?<prompt>
   en: Do you know what the hardest, strongest material in the world is?<end>
   fr: Connaissez-vous le matériau qui est le plus incroyable au monde_?<end>
   pt-br: Você sabe qual é o material mais duro, mais forte do mundo?<end>
@@ -2952,7 +2960,7 @@
     SHOP IN SUCH A<wait more>
     PLACE. SHORTCAKE<line>
     FOR 280 MESETAS!<wait more>
-    WILL YOU BUY ONE?<end>
+    WILL YOU BUY ONE?<prompt>
   en: |
     Hey, a customer! Glad you found us. Sorry about the location...<wait more>
     My shortcakes are the best in Algol, and a steal at only <number> mesetas. Want one?<end>
@@ -3024,7 +3032,7 @@
   us: |
     DO YOU HAVE A<line>
     PRESENT TO GIVE TO<wait more>
-    THE GOVERNOR?<end>
+    THE GOVERNOR?<prompt>
   en: Halt! Did you bring a gift for the Governor-General?<end>
   fr: |
     Halte_!<wait more>
@@ -3373,7 +3381,7 @@
 # ******************
 
 - offsets: 53c4
-  # If you haven't found Lutz yet (Unused)
+  # If you haven't found Lutz yet (unused/impossible?)
   indices: 0AC
   ja: |
     ルツハ　パセオノ　ソウトクノ<line>
@@ -3393,7 +3401,7 @@
   de: Wenn Lutz jemandem gehorcht, dann dem Generalgouverneur.<wait>
 
 - offsets: 53c9
-  # If you have found Lutz (Unused)
+  # If you have found Lutz (unused?)
   indices: 0B2
   ja: ヤッホー。<wait>
   kanji: ヤッホー。
@@ -3451,7 +3459,8 @@
 
 - offsets: 46e7
   # Will show a picture of whichever of the party is alive at this point,
-  # prefering Alis, then Myau, finally Tylon
+  # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
+  # which character it is during this conversation.
   indices: bc18
   ja: |
     ソウトクカラノ　テガミヲ　アズカッテ<line>
@@ -3587,7 +3596,7 @@
   literal: Hey, you mind if I bum a ‘PelorieMate’?<wait>
   us: |
     COULD YA SPARE ME<line>
-    A CUP OF COLA?<end>
+    A CUP OF COLA?<prompt>
   en: I could really use a PelorieMate. Can you spare one?<end>
   fr: |
     J'aurais vraiment besoin d'une Vitabarre.<wait more>
@@ -3789,7 +3798,7 @@
   literal: Do you have a Roadpass?<wait>
   us: |
     DO YOU HAVE YOUR <line>
-    ROADPASS?<end>
+    ROADPASS?<prompt>
   en: Do you have a Roadpass?<end>
   fr: Avez-vous un laisser passer_?<end>
   pt-br: Você tem um Passe?<end>
@@ -3919,7 +3928,7 @@
     I HAVEN'T SEEN<line>
     ANYONE FOR A LONG<wait more>
     TIME. WILL YOU<line>
-    TALK WITH ME?<end>
+    TALK WITH ME?<prompt>
   en: Oh, hi! I haven't seen another person in a long time! Will you stay and talk for a while?<end>
   fr: |
     Il y a longtemps que je n'ai vu personne.<wait more>
@@ -3953,7 +3962,7 @@
   en: |
     I’ve got a friend in Bartevo.<wait more>
     I guess things are pretty bad there right now, what with those pools of lava and all.<wait more>
-    If you see him, could you say ’hi’ to him for me?<wait>
+    If you see him, could you say ‘hi’ to him for me?<wait>
   fr: |
     J'avais un ami à Bortevo.<wait more>
     Les choses vont assez mal là-bas,<wait more>
@@ -3986,7 +3995,7 @@
   literal: Do you know of a robot called ‘Hapsby’?<wait>
   us: |
     DO YOU KNOW THE <line>
-    ROBOT HAPSBY?<end>
+    ROBOT HAPSBY?<prompt>
   en: Have you heard of Hapsby the robot?<end>
   fr: Avez-vous entendu parler du robot Hapsby_?<end>
   pt-br: Você já ouviu falar de Hapsby, o robô?<end>
@@ -4133,7 +4142,7 @@
     PERSISITENT. WELL,<wait more>
     IF YOU WILL DO AS<line>
     I SAY, I WILL HELP<wait more>
-    YOU. IS IT A DEAL?<end>
+    YOU. IS IT A DEAL?<prompt>
   en: |
     You again? Ach, I give up. I'll build your spaceship, but there's one condition.<wait more>
     You must promise you'll follow my instructions exactly, no matter what I ask. Agreed?<end>
@@ -4166,7 +4175,7 @@
   us: |
     IF YOU DON'T OBEY<line>
     ME, I CANNOT HELP.<end>
-  en: If you don’t do as I say, there’s no way I can help you.<wait>
+  en: If you won’t do as I say, there’s no way I can help you.<wait>
   fr: Si vous ne faites pas ce que je dis, ca ne marchera jamais.<wait>
   pt-br: Se você não fizer o que eu digo, não há como eu te ajudar.<wait>
   ca: Si no fas el que et dic, no hi ha manera que et pugui ajudar.<wait>
@@ -4382,7 +4391,7 @@
   us: |
     <player> HAS BEEN<line>
     TURNED TO STONE.<end>
-  en: <player> turned to stone.<wait>
+  en: <player> was turned to stone.<wait>
   fr: <player> se fait pétrifier_!<wait>
   pt-br: <player> foi transformado em pedra.<wait>
   ca: <player> s'ha convertit en pedra.<wait>
@@ -4459,7 +4468,7 @@
     IS HOWERVER, A<wait more>
     SLIGHT FEE OF 1200
     MESETAS INVOLVED.<wait more>
-    WILL YOU PAY?<end>
+    WILL YOU PAY?<prompt>
   en: |
     Right. It looks like my staff is assembled.<wait more>
     What, you don’t think two people can build a spaceship?<wait more>
@@ -5104,7 +5113,7 @@
   literal: Do you know about the ‘Laerma Tree?'<wait>
   us: |
     DO YOU KNOW ABOUT<line>
-    LAERMA TREES?<end>
+    LAERMA TREES?<prompt>
   en: Have you heard about Laerma trees?<end>
   fr: Avez-vous entendu parler des arbres Laerma_?<end>
   pt-br: Você já ouviu falar sobre as árvores Laerma?<end>
@@ -5135,13 +5144,17 @@
   de: Angeblich wächst ein regelrechter Wald von ihnen auf dem Altiplano-Plateau auf Dezoris.<wait>
 
 - offsets: 5113
-  # Villager
-  indices: 118
+  # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
+  indices: 118, 11A
   ja: |
     エッ　ラシークヲ　タオシニ　イクノ。
     スゴイネエ。<wait>
-  kanji: えっ、ラシークを倒しに行くの。凄いねえ。
-  literal: Huh? You’re going to defeat LaShiec? Awesome!<wait>
+    ウワサダケド　アル　クリスタルハ<line>
+    アシキ　マホウヲ　フウジルトカ。<wait>
+  kanji: |
+    えっ、ラシークを倒しに行くの。凄いねえ。
+    噂だけどあるクリスタルは悪しき魔法を封じるとか。
+  literal: Huh? You’re going to defeat LaShiec? Awesome! Now this is just a rumor, but supposedly there are crystals that protect against evil magic.<wait>
   us: |
     YOU ARE GOING TO<line>
     TRY TO KILL LASSIC<wait more>
@@ -5182,43 +5195,6 @@
     Mit ihm ist allerdings nicht zu spaßen. Seine Magie ist tödlich!<wait more>
     Es soll einen Kristall geben, der diese Magie erheblich schwächen kann.<wait more>
     ...Hab ich zumindest mal irgendwo gehört.<wait>
-
-- offsets: # unused? index $011a originally; combined into the above line
-  indices: 11A
-  ja: |
-    ウワサダケド　アル　クリスタルハ<line>
-    アシキ　マホウヲ　フウジルトカ。<wait>
-  kanji: 噂だけどあるクリスタルは悪しき魔法を封じるとか。
-  literal: Now this is just a rumor, but supposedly there are crystals that protect against evil magic.<wait>
-  us: |
-    I HAVE HEARD THAT<line>
-    A CERTAIN<wait more>
-    CRYSTAL WILL BLOCK<line>
-    EVIL MAGIC.<end>
-  en: |
-    LaShiec’s no pushover. His black magic could destroy you.<wait more>
-    I’ve heard certain crystals can protect you against such magic.<wait more>
-    It’s just a rumor, though. Don’t quote me on that.<wait>
-  fr: |
-    Lassic n'est pas un tendre. Sa magie noire peut vous tuer.<wait more>
-    Je crois que certains cristaux peuvent vous protéger d'elle.<wait more>
-    C'est une rumeur, alors ne dites à personne que je vous en ai parlé.<wait>
-  pt-br: |
-    LaShiec não é um novato. Sua magia negra poderia destruí-lo.<wait more>
-    Já ouvi que alguns cristais podem protegê-lo contra tal magia.<wait more>
-    Apesar de tudo, isso é apenas um rumor. Não comente que falei sobre isso.<wait>
-  ca: |
-    En Lashiec no és un passarell. La seva màgia negra et pot destruir.<wait more>
-    He sentit que certs cristalls poden protegir-te contra una màgia així.<wait more>
-    És un rumor, però. No vagis dient que ho dic jo això.<wait>
-  es: |
-    Lashiec no es un don nadie. Su magia negra te puede destruir.<wait more>
-    He oído que ciertos cristales pueden protegerte contra una mágia semejante.<wait more>
-    Es un rumor, eso sí. No vayas diciendo que te lo he dicho yo.<wait>
-  de: |
-    Mit Lashiec ist nicht zu spaßen. Seine Magie ist tödlich!<wait more>
-    Allerdings soll es einen Kristall geben, der diese Magie erheblich schwächen kann.<wait more>
-    ...So lauten zumindest die Gerüchte.<wait>
 
 # *************
 # *** Abion ***
@@ -5381,7 +5357,7 @@
   literal: Hey, cat! C'mere!<wait>
   us: |
     HEY, BRING THAT<line>
-    CAT OVER HERE!<end>
+    CAT OVER HERE!<prompt>
   en: Here, kitty kitty! Come here!<end>
   fr: Ici, minou minou_! Viens ici_!<end>
   pt-br: Aqui, gatinho, gatinho! Venha aqui!<end>
@@ -5524,8 +5500,7 @@
     それならばラコニアでできたソード、アクス、シールド、アーマーを揃えなされ。
     これらの武器は最強の力を発揮するだろう。
     無事を祈っている。
-  literal: |
-    What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.<wait>
+  literal: "What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety."<wait>
   us: |
     IF YOU REALLY HOPE
     TO KILL LASSIC,<wait more>
@@ -5591,7 +5566,7 @@
     ALGOL SYSTEM.<end>
   en: |
     Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
-    LaShiec knows this, of course. That's why he's hidden them across the galaxy! He's scared!<wait>
+    LaShiec knows this, of course. That's why he's hidden them across the Algol system! He's scared!<wait>
   fr: |
     Le Laconian n'est pas que puissant, il est sacré.<wait more>
     Lassic le sait, bien entendu.<wait more>
@@ -5903,7 +5878,7 @@
   us: |
     HAVE YOU HEARD<line>
     ABOUT THE <wait more>
-    SOOTHING FLUTE?<end>
+    SOOTHING FLUTE?<prompt>
   en: Have you heard of the Soothe Flute?<end>
   fr: Avez-vous entendu parler de la Flute apaisante_?<end>
   pt-br: Você já ouviu falar da Flauta Calmante?<end>
@@ -6108,7 +6083,7 @@
   kanji: |
     僕が湖の西へ行くと霧のような恐ろしい毒ガスが広がっていたんだ。
     何とかしないととても近寄れないよ。
-  literal: One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over! There's no way to get close to that without... something.<wait>
+  literal: One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over! There's no way to get close to that without *something.*<wait>
   us: |
     THERE IS POISON<line>
     GAS ABOVE THE SEA<wait more>
@@ -6146,7 +6121,7 @@
   us: |
     HAVE YOU HEARD OF<line>
     VEHICLE CALLED<wait more>
-    THE HOVERCRAFT?<end>
+    THE HOVERCRAFT?<prompt>
   en: Do you know what a FlowMover is?<end>
   fr: Savez-vous ce qu'est un AquaNaute_?<end>
   pt-br: Você sabe o que é um Aerobarco?<end>
@@ -6462,7 +6437,7 @@
     A GAS SHIELD IS<line>
     ONLY 1000 MESETAS!<wait more>
     PRETTY CHEAP, HUH?
-    WILL YOU BUY ONE?<end>
+    WILL YOU BUY ONE?<prompt>
   en: |
     I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
     GasClears are <number> mesetas each. Pretty cheap, no? Want one?<end>
@@ -6598,7 +6573,7 @@
     WE ARE THEREFORE<line>
     VERY POOR.<wait more>
     WILL YOU DONATE<line>
-    400 MESETAS?<end>
+    400 MESETAS?<prompt>
   en: |
     I am the chief of this village.<wait more>
     We in Sopia are very poor. The mist shuts us off from other towns.<wait more>
@@ -6728,10 +6703,10 @@
   us: |
     HI! I'M MIKI!<line>
     DO YOU LIKE<wait more>
-    SEGA GAMES?<end>
+    SEGA GAMES?<prompt>
   en: Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
   fr: |
-    Salut, je suis Joe Musashi_!<wait more>
+    Salut, je suis Gamer Miki-chan_!<wait more>
     Possèdes-tu une Master System_?<end>
   pt-br: Oi, eu sou a Jogadora Miki-chan! Você possui um Master System?<end>
   ca: Hola, sóc la Miki-chan, una gamer! Tens una Master System?<end>
@@ -6822,7 +6797,12 @@
     NAMED TAJIM IN THE<wait more>
     MOUNTAINS TO THE <line>
     SOUTH OF THE LAKE.<end>
-  en: Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait>
+  en: |
+    Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait more>
+    They say he is the greatest magical combat trainer in Algol.<wait more>
+    They also say he sees dead people...<wait>
+  # TODO (maybe) add this hint to other languages. It helps explain a possible 
+  # scenario later where Tajim sees Lutz when he is dead.
   fr: |
     Avez-vous croisé Maître Tajim_? C'est un moine.<wait more>
     Il habite dans les montagnes situées au sud du lac.<wait>
@@ -6843,7 +6823,7 @@
     I'VE HEARD THAT<line>
     THE PALMA IS A<wait more>
     BEAUTIFUL PLANET.<line>
-    IS THAT TRUE?<end>
+    IS THAT TRUE?<prompt>
   en: I heard that Palma is a very beautiful planet. Is it true?<end>
   fr: On m'a dit que Palma était une superbe planète. Est-ce vrai_?<end>
   pt-br: Ouvi dizer que Palma é um belo planeta. Isso é verdade?<end>
@@ -6922,7 +6902,7 @@
     FIND MY PUPIL NOAH<wait more>
     IN THE MAHARU<line>
     CAVE.DO YOU KNOW<wait more>
-    HIM?<end>
+    HIM?<prompt>
   en: |
     And who might you people be?<wait more>
     My pupil, Lutz, is in Mahal Cave. Do you know him?<end>
@@ -7037,19 +7017,18 @@
   de: ...Lutz? Oh, er ist tot.<line>Ihr da, bringt ihn in einer Kirche wieder zum Leben und kommt dann zurück.<wait>
 
 - offsets: 56d9
-  # Tajim
+  # Tajim (talking to Lutz)
   indices: 24E
   ja: |
     デハ　ソツギョウノ　シケンヲ　シテ<line>
     ヤロウ。ワシト　タタカウガヨイ。<wait>
   kanji: では、卒業の試験をしてやろう。わしと戦うが良い。
-  literal: |
-    That being the case, I'll give you your final test: a duel with me!<wait>
+  literal: "That being the case, I'll give you your final test: a duel with me!"<wait>
   us: |
     COME,YOU MUST PASS<line>
     YOUR FINAL TEST---<wait more>
     WE WILL DUEL!<end>
-  en: "I've taught you all that I know. It's time to give you one final test: A duel against me!<wait>"
+  en: "I've taught you all that I know. It's time to give you one final test: a duel against me!<wait>"
   fr: |
     Alors tu te dois de passer un test final.<wait more>
     Battons-nous en duel.<wait>
@@ -7059,7 +7038,7 @@
   de: Ich kann dich nichts mehr lehren, also ist es Zeit für deine letzte Prüfung... Ein Duell gegen mich!<wait>
 
 - offsets: 5722
-  # Tajim (if you win)
+  # Tajim (if you win) (talking to Lutz)
   indices: 250,252,254
   ja: |
     ツヨクナッタノウ。ルツヨ。<wait more>
@@ -7110,7 +7089,7 @@
     Und nun geh.<wait>
 
 - offsets: 571c
-  # Tajim (if you lose)
+  # Tajim (if you lose) (talking to Lutz)
   indices: 256
   ja: |
     マダマダ　シュギョウガ　タリンノウ。
@@ -7152,10 +7131,10 @@
 # *** Native Dezorian Town ***
 # ****************************
 
-# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say things like ’it does’ and ’you will’ at the ends of sentences, and the liars say things like, ’no joke’, ’seriously’, etc. in their sentences.
-# [Paul Jensen]
-# In catalan version, Honest Dezorians speak western dialect, and the liars Majorcan
-# In spanish version, Honest Dezorian speaks like galician, and the liars like people from Murcia
+# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say verb-affirmative things like ’it does’ and ’you will’ at the ends of sentences, and the liars say truth-affirming things like ’no joke’, ’seriously’, etc. in their sentences.
+# French and Brazilian Portuguese use similar patterns to English.
+# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
+# In Spanish, Honest Dezorian speaks like galician, and the liars like people from Murcia
 # In German, honest Dezorians use VOS sentence structure while liars use OVS.
 - offsets: 5274
   # Honest Dezorian
@@ -7295,7 +7274,7 @@
   literal: Do you know about the ‘Aeroprism’?<wait>
   us: |
     DO YOU KNOW WHAT<line>
-    AN AEROPRISM IS?<end>
+    AN AEROPRISM IS?<prompt>
   en: Heard of something called an Aeroprism, have you?<end>
   fr: Entendu parler d'une chose nommée Aéroprisme, avez- vous_?<end>
   pt-br: Ouviu falar de uma coisa chamada Aeroprisma, já ouviu?<end>
@@ -7362,7 +7341,7 @@
     コロナノトウニハ　イノチノイズミガ<line>
     アルンダス。<wait>
   kanji: コロナの塔には命の泉があるんダス。
-  literal: There's a Fountain of Youth in Corona Tower, y’know.<wait>
+  literal: There's a Life Spring/Fountain of Youth in Corona Tower, y’know.<wait>
   us: |
     THERE IS A SPRING<line>
     OF LIFE IN THE <wait more>
@@ -7613,7 +7592,7 @@
     GEM FROM A DRAGON,<wait more>
     I'LL GIVE YOU SOME
     OF THIS FIRE.<wait more>
-    HOW ABOUT IT?<end>
+    HOW ABOUT IT?<prompt>
   en: |
     Do you see this flame in my hand? This is the Eclipse Torch.<wait more>
     This is the sacred fire of the centennial eclipse.<wait more>
@@ -7773,7 +7752,7 @@
     <player> RAISES<line>
     <item> TOWARDS<wait more>
     THE SKY.<wait>
-  en: <player> held <article><item> up towards the sky.<delay>
+  en: <player> held <article><item> up over <his> head.<delay>
   fr: <player> tend <article><item> vers le ciel.<delay>
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
@@ -7798,7 +7777,7 @@
   pt-br: <player> pegou algumas Frutas de Laerma e colocou no Pote de Lacônia.<wait>
   ca: <player> agafa alguns Fruits de Laerma i els posa a l'olla de Laconia.<wait>
   es: <player> coge algunos Frutos de Laerma y los pone en la olla de Laconia.<wait>
-  de: <player> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
+  de: <Sie> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
 
 - offsets: 26c4
   # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
@@ -7818,7 +7797,7 @@
   pt-br: As Frutas de Laerma murcharam logo após serem colhidas.<wait>
   ca: <player> agafa alguns Fruits de Laerma, però s'encongeixen immediatament!<wait>
   es: <player> coge algunos Frutos de Laerma, ¡peró se encongen immediatamente!<wait>
-  de: <player> pflückt ein paar Laermabeeren, aber sie trocknen sofort aus!<wait>
+  de: <Sie> pflückt ein paar Laermabeeren, aber sie trocknen sofort aus!<wait>
 
 
 # *******************
@@ -7914,7 +7893,7 @@
   literal: Have you gotten the armor from Guaran?<wait>
   us: |
     HAVE YOU FOUND THE<line>
-    ARMOR IN GUARON?<end>
+    ARMOR IN GUARON?<prompt>
   en: Did you get the armor in Guaran?<end>
   fr: Avez-vous trouvé l'armure à Garond?<end>
   pt-br: Você conseguiu a armadura em Guaran?<end>
@@ -8135,7 +8114,7 @@
     DO YOU COME IN<line>
     FULL KNOWLEDGE OF<wait more>
     THE TOWER OF BAYA<line>
-    MALAY?<end>
+    MALAY?<prompt>
   en: Did you come here seeking Baya Marlay tower?<end>
   fr: Vous êtes venue ici en pensant que c'était la tour de Baya Malay_?<end>
   pt-br: Você veio aqui em busca da torre de Baya Marlay?<end>
@@ -8191,7 +8170,7 @@
     I'M THE GREAT <line>
     DAMOR, SOOTHSAYER!<wait more>
     DO YOU BELIEVE IN<line>
-    MY PROPHECIES?<end>
+    MY PROPHECIES?<prompt>
   en: |
     I am Damoa, the greatest fortune-teller in the world!<wait more>
     Do you believe in my powers of divination?<end>
@@ -8252,7 +8231,7 @@
   literal: You are looking for something, yes?<wait>
   us: |
     YOU'RE SEARCHING<line>
-    FOR SOMETHING?<end>
+    FOR SOMETHING?<prompt>
   en: I sense that you are searching for something, yes?<end>
   fr: Je sens que vous êtes en quête de quelque chose, non_?<end>
   pt-br: Sinto que você está procurando por algo, né?<end>
@@ -8269,7 +8248,7 @@
   literal: You are looking for Alex Ossale, yes?<wait>
   us: |
     YOU ARE SEARCHING<line>
-    FOR ALEX OSSALE?<end>
+    FOR ALEX OSSALE?<prompt>
   en: I sense that you are looking for Alex Ossale, yes?<end>
   fr: Je percois que vous êtes... à la recherche d'Alex Ossale, non_?<end>
   pt-br: Sinto que você está procurando Alex Ossale, né?<end>
@@ -8286,7 +8265,7 @@
   literal: Everything I say is correct. Understand?<wait>
   us: |
     EVERYTHING I'VE<line>
-    SAID IS CORRECT?<end>
+    SAID IS CORRECT?<prompt>
   en: Everything I say is correct. Understood?<end>
   fr: Tout ce que je dis est vrai. Compris_?<end>
   pt-br: Tudo o que eu digo é correto. Entendeu?<end>
@@ -8317,7 +8296,7 @@
   literal: Do you oppose me?<wait>
   us: |
     DO YOU CONTRADICT<line>
-    THE GREAT DAMOR?!?<end>
+    THE GREAT DAMOR?!?<prompt>
   en: Do you defy me?<end>
   fr: Vous me défiez_?<end>
   pt-br: Você me desafia?<end>
@@ -8365,7 +8344,7 @@
     CELESTIAL CASTLE<wait more>
     APPEAR IN THE <line>
     SKY.<end>
-  en: The Aerocastle was revealed.<wait>
+  en: The illusionary Aerocastle was revealed in the sky.<wait>
   fr: Dans le ciel, le Château Aérien apparaît sous vos yeux.<wait>
   pt-br: O Castelo Aéreo foi revelado.<wait>
   ca: El castell volador es revelat.<wait>
@@ -8464,7 +8443,9 @@
   height: 4
 
 - offsets: 14cc
-  # (If Myau dies in the Gold Dragon battle)
+  # (If Myau dies in the Gold Dragon battle and other characters are still alive)
+  # Note: Alisa may not be alive, and there may be only one other left alive.
+  # Previous line will have been "Myau died." so you can assume that context.
   indices: b837
   ja: |
     ミャウニ　ノッテイタ　アリサタチハ<line>
@@ -8476,8 +8457,8 @@
     COMPANY ON MYAU,<wait more>
     ARE TOSSED INTO<line>
     THE SKY.<end>
-  # TODO what if Alisa is dead?
-  en: Alisa and the others were knocked off of Myau, into the sky.<wait>
+  en: His companions were flung from his back, tumbling through the sky towards their death.<wait>
+  # TODO: rewrite other languages here
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
   pt-br: Alisa e os outros foram derrubados de Myau, lá do céu.<wait>
   ca: Alisa i els altres son arrancats d'en Myau, caient al cel.<wait>
@@ -8516,6 +8497,7 @@
     DEPTH OF THE <line>
     DUNGEONS.<end>
   en: There is more than meets the eye in this dungeon, fools.<wait>
+  # TODO: French version here
   fr: .........<wait>
   pt-br: Há mais do que seus olhos podem ver neste calabouço, tolos.<wait>
   ca: En aquesta masmorra hi ha més del que els vostres ulls poden veure , ximples.<wait>
@@ -8606,6 +8588,7 @@
 
 - offsets: 576a
   # LaShiec
+  # The party may only be Tylon who can't do magic, but it's unlikely.
   indices: 26C
   ja: |
     トウトウ　ココマデ　キタカ。<line>
@@ -8622,7 +8605,7 @@
     FAR. YOU ARE VERY<wait more>
     LUCKY INDEED. DO<line>
     YOU REALLY WISH TO<wait more>
-    KILL AN OLD MAN?<end>
+    KILL AN OLD MAN?<prompt>
   en: |
     Ah, it’s you. You've finally arrived. How accomplished you must feel.<wait more>
     Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
@@ -8766,8 +8749,8 @@
     アリサの魂はよみがえった。
   literal: |
     At that time, Alisa heard Nero's voice deep in her soul:
-    ‘Live again! Work for the peace of this world!’
-    Alisa was resurrected.<wait>
+    “Live again! Work for the peace of this world!”
+    Alisa was resurrected.
   us: |
     ALIS HEARS NERO'S<line>
     VOICE IN THE DEPTH<wait more>
@@ -8803,7 +8786,7 @@
     Alisa lebt wieder.<wait>
 
 - offsets: 58e1
-  # Governor-General
+  # Governor-General (to Alisa)
   indices: 272,274,276,278
   ja: |
     オオ。ミンナ　スマナカッタ。<wait more>
@@ -8835,7 +8818,7 @@
     Well done! You have saved the world! If you had taken any longer, terrible events might have come to pass. I extend you my utmost appreciation.
     And now, Alisa, I have something I wish to tell you:
     The truth is, your father was once the King of Algol.
-    Now that the demon’s fortress has been destroyed, and LaShiec is no more, will you be your father’s successor and become the Queen of Algol?<end>
+    Now that the demon’s fortress has been destroyed, and LaShiec is no more, will you be your father’s successor and become the Queen of Algol?
   us: |
     I'M SORRY, I MUST<line>
     HAVE BEEN<wait more>
@@ -8860,7 +8843,7 @@
     ASCEND YOUR <line>
     FATHER'S THRONE<wait more>
     AND BECOME THE <line>
-    QUEEN OF ALGOL?<end>
+    QUEEN OF ALGOL?<prompt>
   en: |
     Oh, goodness. Please forgive me. My mind and body were controlled by an evil force.<wait more>
     You’ve done it! You’ve saved Algol. History shall repeat your names, always.<wait more>
@@ -9040,11 +9023,11 @@
 
 - offsets: 4800
   indices: bd25
+  literal: <line><wait>
   ja: |
     アリサ<delay>
     <line>
   kanji: アリサ
-  literal: Alisa<delay>
   us: |
     <line>
          ALIS<wait>
@@ -9057,11 +9040,11 @@
 
 - offsets: 480b
   indices: bd30
+  literal: <line><wait>
   ja: |
     タイロン<delay>
     <line>
   kanji: タイロン
-  literal: Tairon<delay>
   us: |
     <line>
          ODIN<wait>
@@ -9074,11 +9057,11 @@
 
 - offsets: 4816
   indices: bd3c
+  literal: <line><wait>
   ja: |
     ルツ<delay>
     <line>
   kanji: ルツ
-  literal: Lutz<delay>
   us: |
     <line>
          NOAH<wait>
@@ -9091,11 +9074,11 @@
 
 - offsets: 4821
   indices: bd46
+  literal: <line><wait>
   ja: |
     ソシテ　ミャウ<delay>
     <line>
   kanji: そしてミャウ
-  literal: and Myau<delay>
   us: |
     <line>
          AND MYAU<wait>
@@ -9114,7 +9097,7 @@
     ヒトビトノ　ココロニ<line>
     ノコリツヅケルダロウ。<delay>
   kanji: 闇の記憶が消えても彼らの名前は人々の心に残り続けるだろう。
-  literal: Though the dark memories will fade away, their names will continue to remain in the hearts of the people.<delay>
+  literal: Though the dark memories will fade away, their names will continue to remain in the hearts of the people.<wait>
   us: |
     EVEN THOUGH THE<line>
     MEMORIES OF EVIL<line>
@@ -9180,7 +9163,7 @@
   ja: <player>ハ　ハナシカケタ。<end>
   kanji: <player>は話しかけた。
   literal: <player> spoke [to <monster>].<wait>
-  us: <player> SPEAKS.<end>
+  us: <player> SPEAKS.<prompt>
   en: <player> spoke to <article><monster>.<end>
   fr: <player> parle <à><monster>.<end>
   pt-br: <player> falou com <article><monster>.<end>
@@ -9604,7 +9587,7 @@
   literal: <player> equipped <item>.<wait>
   us: |
     <player> EQUIPS<line>
-    <item>.<end>
+    <item>.<prompt>
   en: <player> equipped <article><item>.<end>
   fr: <player> s'équipe <de><item>.<end>
   pt-br: <player> equipou <article><item>.<end>
@@ -9777,11 +9760,11 @@
   ja: ベツニ　コワレテナイヨウダ。<wait>
   kanji: 別に乞われてないようだ。
   literal: It doesn't really seem to be asked for [right now].<wait>
+  # Note: this was originally ‘It doesn’t look particularly broken.’
+  # This translation takes the verb KOWARERU to mean ‘to be begged’
   us: |
     IT DOESN'T SEEM TO
     BE BROKEN.<end>
-  # Note: this was originally ‘It doesn’t look particularly broken.’
-  # This translation takes the verb KOWARERU to mean ‘to be begged’
   en: There’s no real need for it right now.<wait>
   fr: <player> n'en a pas besoin pour le moment.<wait>
   pt-br: Não há necessidade de usar isso agora.<wait>
@@ -9793,7 +9776,7 @@
   indices: adbc
   ja: マックラデ　ススムコトガ　デキナイ。<wait>
   kanji: 真っ暗で進むことができない。
-  literal: It's pitch-black and impossible to advance.<wait>
+  translate: It's pitch-black and impossible to advance.
   us: |
     CANNOT GO FORWARD,
     IT'S PITCH BLACK.<end>
@@ -9871,7 +9854,7 @@
     イツ　カイデミテモ　イヤナ<line>
     ニオイガ　スル。<wait>
   kanji: いつ嗅いでみてもイヤな匂いがする。
-  literal: It smells awful.<wait>
+  translate: It smells awful.
   us: IT STINKS!<end>
   en: Wow, this stuff stinks.<wait>
   fr: Peut importe combien de fois vous le reniflez, ca empeste.<wait>
@@ -9935,7 +9918,8 @@
 
 - offsets: 273d
   # Use Laerma Berries in the wrong place
-  # TODO: don't use pronouns, may not be Alisa?
+  # Comes immediately after "<player> took out the <item>."
+  # TODO: use pronouns, may not be Alisa.
   indices: aecf
   ja: |
     オナカガ　スイテナカッタノデ<line>
@@ -9946,7 +9930,7 @@
     MYAU ISN'T HUNGRY,<line>
     SO SHE PUTS THE <wait more>
     FOOD BACK.<end>
-  en: Nobody’s hungry right now, so she put them back.<wait>
+  en: Nobody’s hungry right now, so <she> put them back.<wait>
   fr: Myau n'ayant pas faim, Alisa les range.<wait>
   pt-br: Ninguém está com fome agora, então ela as colocou de volta.<wait>
   ca: Ningú té gana, així que les torna a guardar.<wait>
@@ -10004,7 +9988,7 @@
 
 - offsets: 218d,2195,299f,2a2e,579d
   # 218d = untrap not in dungeon
-  # 2195 = untrap wth no object
+  # 2195 = untrap with no chest
   # 25aa = use Alsuline in the wrong place, changed to adad
   # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
   # 299f = search (from menu)
@@ -10144,7 +10128,7 @@
     ケイケンチガ　<number>ポイント<line>
     アガッタ。<wait>
   kanji: 経験値が<number>ポイント上がった。
-  literal: Experience increased by <number><internal hint 02> point<s>.<wait>
+  literal: Experience increased by <number> point(s).<wait>
   us: |
     YOU GAINED <number><line>
     EXPERIENCE POINTS.<end>
@@ -10196,7 +10180,7 @@
   literal: <monster> had a treasure chest.<wait>
   us: |
     <monster> HAD A<line>
-    TREASURE CHEST.<end>
+    TREASURE CHEST.<prompt>
   en: <Article><monster> had a treasure chest.<end>
   fr: <Article><monster> laisse un coffre au trésor.<end>
   pt-br: <Article><monster> tinha um baú do tesouro.<end>
@@ -10211,7 +10195,7 @@
   literal: You found a treasure chest.<wait>
   us: |
     THERE IS A<line>
-    TREASURE CHEST.<end>
+    TREASURE CHEST.<prompt>
   en: You found a treasure chest.<line><end>
   fr: Vous trouvez un coffre.<end>
   pt-br: Você encontrou um baú do tesouro.<end>
@@ -10226,7 +10210,7 @@
   literal: Do you want to open it.<wait>
   us: |
     DO YOU WANT TO<line>
-    OPEN IT?<end>
+    OPEN IT?<prompt>
   en: Do you want to open it?<end>
   fr: L'ouvrir_?<end>
   pt-br: Você quer abrir?<end>
@@ -10238,7 +10222,7 @@
   indices: afda
   ja: <number>メセタ　ハイッテイタ。<wait>
   kanji: <number>メセタ入っていた。
-  literal: There are <number><internal hint 01> meseta<s> inside.<wait>
+  literal: There are/were <number> meseta(s) inside.<wait>
   us: |
     THERE ARE <number><line>
     MESETAS INSIDE.<end>
@@ -10273,7 +10257,7 @@
     YOU CANNOT CARRY<line>
     ANYMORE.<wait more>
     DO YOU WANT TO<line>
-    DROP SOMETHING?<end>
+    DROP SOMETHING?<prompt>
   en: You can’t carry any more. Do you want to drop something?<end>
   fr: |
     Vous ne pouvez plus rien porter_!<wait more>
@@ -10290,7 +10274,7 @@
   literal: What will you drop?<wait>
   us: |
     WHAT DO YOU WANT <line>
-    TO DROP?<end>
+    TO DROP?<prompt>
   en: Which item do you want to drop?<end>
   fr: Quel objet voulez-vous jeter_?<end>
   pt-br: Qual item você quer descartar?<end>
@@ -10336,7 +10320,7 @@
   literal: You don't want <item>?<wait>
   us: |
     <item> IS NOT <line>
-    NEEDED?<end>
+    NEEDED?<prompt>
   en: Do you want to abandon <article><item>?<end>
   fr: Voulez-vous laisser <article><item>_?<end>
   pt-br: Você quer abandonar <article><item>?<end>
@@ -10427,7 +10411,7 @@
   ja: <player>ハ　シンデシマッタ。<delay>
   kanji: <player>は死んでしまった。
   literal: <player> died.<wait>
-  us: <player> DIED.<wait>
+  us: <player> DIED.<delay>
   en: <player> died.<delay>
   fr: <player> meurt de ses blessures.<delay>
   pt-br: <player> morreu.<delay>
@@ -10436,6 +10420,7 @@
   de: <player> ist tot.<wait>
 
 - offsets: 19f7,2b0f
+  # Selecting a player from the menu when they are dead, to do something like heal them.
   indices: b087
   ja: <player>ハ　モウ　シンデイル。<delay>
   kanji: <player>はもう死んでいる。
@@ -10508,7 +10493,7 @@
   literal: Where would you like to go?<wait>
   us: |
     WHERE ARE WE<line>
-    GOING?<end>
+    GOING?<prompt>
   en: Where would you like to go?<end>
   fr: Où voudriez-vous aller_?<end>
   pt-br: Para onde você gostaria de ir?<end>
@@ -10522,11 +10507,10 @@
     デゾリスセイノ　スクレノマチヘ<line>
     イキマス。イイデスカ。<end>
   kanji: デゾリス星のスクレの町へ行きます。いいですか。
-  literal: |
-    Destination: Skray, on Dezoris. Confirm?<wait>
+  literal: "Destination: Skray, on Dezoris. Confirm?"<wait>
   us: |
     WE ARE HEADING FOR
-    SKURE ON DEZORIS?<end>
+    SKURE ON DEZORIS?<prompt>
   en: Would you like to go to Skray, on Dezoris?<end>
   fr: Voulez-vous aller à Skure, sur Dézoris_?<end>
   pt-br: Gostaria de ir para Skray, em Dezóris?<end>
@@ -10540,11 +10524,10 @@
     モタビアセイノ　ウーゾノムラヘ<line>
     イキマス。イイデスカ。<end>
   kanji: モタビア星のウーゾの村へ行きます。いいですか。
-  literal: |
-    Destination: Uzo, on Motabia. Confirm?<wait>
+  literal: "Destination: Uzo, on Motabia. Confirm?"<wait>
   us: |
     WE ARE HEADING FOR
-    UZO ON MOTAVIA?<end>
+    UZO ON MOTAVIA?<prompt>
   en: Would you like to go to Uzo, on Motavia?<end>
   fr: Voulez-vous aller à Uzo, sur Motavia_?<end>
   pt-br: Gostaria de ir para Uzo, em Motávia?<end>
@@ -10558,11 +10541,10 @@
     パルマセイノ　ガシコノムラヘ<line>
     イキマス。イイデスカ。<end>
   kanji: パルマ星のガシコの村へ行きます。いいですか。
-  literal: |
-    Destination: Gothic, on Palma. Confirm?<wait>
+  literal: "Destination: Gothic, on Palma. Confirm?"<wait>
   us: |
     WE ARE HEADING FOR
-    GOTHIC ON PALMA?<end>
+    GOTHIC ON PALMA?<prompt>
   en: Would you like to go to Gothic, on Palma?<end>
   fr: Voulez-vous aller à Gothic, sur Palma_?<end>
   pt-br: Gostaria de ir para Gótica, em Palma?<end>
@@ -10574,11 +10556,10 @@
   indices: b106
   ja: ココハ　スクレ　デス。<end>
   kanji: ここはスクレです。
-  literal: This is Skray.<end>
-  us: WE ARE AT SKURE.<end>
+  us: WE ARE AT SKURE.<prompt>
   en: This IS Skray.<end>
   fr: La cité de Skure.<end>
-  pt-br: Aqui é Skray.<end>
+  pt-br: Aqui é Skray..<end>
   ca: Hem arribat a Skray.<end>
   es: Hemos llegado a Skray.<end>
   de: Wir sind bereits in Skure.<end>
@@ -10587,8 +10568,7 @@
   indices: b112
   ja: ココハ　ウーゾ　デス。<end>
   kanji: ここはウーゾです。
-  literal: This is Uzo.<end>
-  us: WE ARE AT UZO.<end>
+  us: WE ARE AT UZO.<prompt>
   en: This IS Uzo.<end>
   fr: La ville d'Uzo.<end>
   pt-br: Aqui é Uzo.<end>
@@ -10600,8 +10580,7 @@
   indices: b11e
   ja: ココハ　ガシコ　デス。<end>
   kanji: ここはガシコです。
-  literal: This is Gothic.<end>
-  us: WE ARE AT GOTHIC.<end>
+  us: WE ARE AT GOTHIC.<prompt>
   en: This IS Gothic.<end>
   fr: Nous voilà à Gothic.<end>
   pt-br: Aqui é Gótica.<end>
@@ -10636,7 +10615,7 @@
   us: |
     THIS IS AN ARMORY.
     DO YOU WANT TO BUY<wait more>
-    SOMETHING?<end>
+    SOMETHING?<prompt>
   en: Welcome to the armor shop. Can I help you?<end>
   fr: Bienvenue à l'armurerie! Besoin d'armes pour votre quête_?<end>
   pt-br: Esta é uma loja de armas. Posso ajudá-lo?<end>
@@ -10648,7 +10627,7 @@
   indices: b163
   ja: ソウデスカ。マタキテクダサイ。<wait>
   kanji: そうですか。また来てください。
-  literal: I see. Please come again.<wait>
+  translate: I see. Please come again.
   us: WELL, COME AGAIN.<end>
   en: Take care, come back and see us soon.<wait>
   fr: Prenez soin de vous et à bientôt.<wait>
@@ -10664,7 +10643,7 @@
   literal: Which will you buy?<wait>
   us: |
     WHICH DO YOU WANT <line>
-    TO BUY?<end>
+    TO BUY?<prompt>
   en: What can I get for you today?<end>
   fr: Que puis-je faire pour vous aujourd'hui_?<end>
   pt-br: O que posso fazer por você hoje?<end>
@@ -10679,7 +10658,7 @@
   literal: Thank you! Will you buy anything else?<wait>
   us: |
     THANK YOU.<line>
-    ANYTHING ELSE?<end>
+    ANYTHING ELSE?<prompt>
   en: Enjoy. Can I get you anything else?<end>
   fr: Parfait, autre chose_?<end>
   pt-br: Aproveite. Posso ajudá-lo em algo mais?<end>
@@ -10717,7 +10696,7 @@
     THIS IS A<line>
     FIRST FOOD SHOP.<wait more>
     WOULD YOU LIKE TO<line>
-    BUY SOMETHING?<end>
+    BUY SOMETHING?<prompt>
   en: This is a pharmacy. Can I help you with something?<end>
   fr: Bienvenue à la pharmacie. Besoin d'aide_?<end>
   pt-br: Esta é uma farmácia. Posso ajudá-lo?<end>
@@ -10735,7 +10714,7 @@
   us: |
     THIS IS A<line>
     SECOND-HAND SHOP.<wait more>
-    CAN I HELP YOU?<end>
+    CAN I HELP YOU?<prompt>
   en: Welcome to the tool shop. May I help you?<end>
   fr: Bienvenue à la quincaillerie. Que voulez-vous faire_?<end>
   pt-br: Esta é uma loja de ferramentas. Posso ajudá-lo?<end>
@@ -10750,7 +10729,7 @@
   literal: Which will you sell?<wait>
   us: |
     WHAT WOULD YOU <line>
-    LIKE TO SELL?<end>
+    LIKE TO SELL?<prompt>
   en: What do you have?<end>
   fr: Voyons voir...<end>
   pt-br: O que você tem?<end>
@@ -10769,7 +10748,7 @@
     <item>? LET ME<line>
     SEE.....<wait more>
     HOW ABOUT <number><line>
-    MESETAS?<end>
+    MESETAS?<prompt>
   # No item in the game sells for exactly 1 meseta.
   en: Hmm, <article><item>? How does <number> mesetas sound?<end>
   fr: <article><item>. Disons <number> mesetas_?<end>
@@ -10785,7 +10764,7 @@
   literal: Thank you! Will you sell anything else?<wait>
   us: |
     THANK YOU.<line>
-    ANYTHING ELSE?<end>
+    ANYTHING ELSE?<prompt>
   en: Wonderful! Have anything else for me?<end>
   fr: Magnifique_! Autre chose_?<end>
   pt-br: Maravilha! Tem mais alguma coisa para mim?<end>
@@ -10815,7 +10794,7 @@
     オカネガ　タリナイヨウデスネ。<line>
     マタキテクダサイ。<wait>
   kanji: お金が足りないようですね。また来てください。
-  literal: It doesn't look like you have enough money. Please come again.<wait>
+  translate: It doesn't look like you have enough money. Please come again.
   us: |
     YOU DON'T HAVE <line>
     ENOUGH MONEY.<wait more>
@@ -10851,7 +10830,7 @@
   literal: This is the hospital. Will you be receiving medical care?<wait>
   us: |
     THIS IS A HOSPITAL
-    DO YOU NEED HELP?<end>
+    DO YOU NEED HELP?<prompt>
   en: This is a hospital. Do you require medical care?<end>
   fr: Bienvenue à l'hôpital. Avez-vous besoin de soins_?<end>
   pt-br: Este é um hospital. Você precisa de cuidados médicos?<end>
@@ -10870,7 +10849,7 @@
     THE FEE FOR<line>
     HEALING IS <number><wait more>
     MESETAS. IS THAT<line>
-    ACCEPTABLE?<end>
+    ACCEPTABLE?<prompt>
   en: |
     Hmm. I can get you good as new for <number><internal hint 02> meseta<s>. Shall I proceed?<end>
   fr: |
@@ -10894,7 +10873,7 @@
   literal: Does anybody else want to be treated?<wait>
   us: |
     DOES ANYONE ELSE<line>
-    NEED TO BE HEALED?<end>
+    NEED TO BE HEALED?<prompt>
   en: Does anyone else need treatment?<end>
   fr: Quelqu'un d'autre a t-il besoin de soins?<end>
   pt-br: Alguém mais precisa de tratamento?<end>
@@ -10909,7 +10888,7 @@
   literal: Who will receive treatment?<wait>
   us: |
     WHO NEEDS TO BE<line>
-    HEALED?<end>
+    HEALED?<prompt>
   en: Who requires our attention?<end>
   fr: Quel personne doit être soignée?<end>
   pt-br: Quem requer a nossa atenção?<end>
@@ -11006,7 +10985,7 @@
   us: |
     THIS IS A CHURCH.<line>
     DO YOU WISH TO<wait more>
-    RESURRECT SOMEONE?<end>
+    RESURRECT SOMEONE?<prompt>
   en: This is a church. Do you need to revive a departed soul?<end>
   fr: Bienvenue dans notre église. Une âme disparu_?<end>
   pt-br: Esta é uma igreja. Você precisa reviver uma alma que partiu?<end>
@@ -11031,6 +11010,39 @@
   es: Entonces rezaré por vosotros.<wait>
   de: Dann werde ich nun ein Gebet aussprechen.<wait>
 
+- offsets: 2bfb
+  indices: b31e
+  ja: ドナタノ　タマシイデショウ。<end>
+  kanji: どなたの魂でしょう。
+  literal: Whose soul?<wait>
+  us: |
+    WHO IS TO BE<line>
+    RESURRECTED?<prompt>
+  en: Who shall be returned?<end>
+  fr: Quelle âme voulez-vous ramener_?<end>
+  pt-br: Quem deve ser revivido?<end>
+  ca: Qui ha de ser retornat?<end>
+  es: ¿Quién ha de ser revivido?<end>
+  de: Wer soll wiederbelebt werden?<end>
+
+- offsets: 2c24
+  indices: b33c
+  ja: |
+    <number>メセタ　カカリマスガ<line>
+    ヨロシイデスカ。<end>
+  kanji: <number>メセタかかりますが宜しいですか。
+  literal: It will require <number> mesetas. Is that okay?<wait>
+  us: |
+    THAT REQUIRES<line>
+    <number> MESETAS. O.K.?<prompt>
+  # Resurrection cost is Level * 20 so is definitely plural.
+  en: Our suggested donation is <number> mesetas.<end>
+  fr: Nous suggérons un don de <number> mesetas.<end>
+  pt-br: Nossa doação sugerida é de <number> mesetas.<end>
+  ca: La donació suggerida és <number> mesetas.<end>
+  es: La donación sugerida es <number> mesetas.<end>
+  de: Dürfte ich zuvor um eine Spende von <number> Meseta bitten?<end>
+
 - offsets: 2c37
   indices: b2f2
   ja: ソレデハ　ジュモンヲ　トナエマス。<delay>
@@ -11048,10 +11060,10 @@
 
 - offsets: 2c60
   indices: b304
+  # If you have enough money
   ja: |
     アルテムハムラム　アルテムハムハム<line>
     ストラトポン。<delay>
-  literal: Artemuhamuramu artemuhamuhamu stratopon.<delay>
   us: |
     SABRUS CABRUS<line>
     SEBRUS BASS!<wait>
@@ -11064,6 +11076,7 @@
 
 - offsets: 2c82
   indices: b695
+  # If you don't have enough money
   ja: |
     アルテムハムラム　ア　ウッ。<line>
     ゴホッ。ゴホッ。<wait more>
@@ -11072,7 +11085,7 @@
   kanji: |
     アルテムハムラム　ア　ウッ。ゴホッ。ゴホッ。
     ごめんなさい。どうやら失敗したようです。
-  literal: Arutemuhamramu, A--ugh, COUGH COUGH. My apologies. I seem to have failed.<wait>
+  literal: Arutemuhamuramu, A--ugh, COUGH COUGH. My apologies. I seem to have failed.<wait>
   us: |
     SABRUS CABRUS<line>
     SEB..B...HACK,HACK<wait more>
@@ -11109,51 +11122,18 @@
     Ich bitte um Entschuldigung.<line>
     Der Zauberspruch schlug fehl.<wait>
 
-- offsets: 2bfb
-  indices: b31e
-  ja: ドナタノ　タマシイデショウ。<end>
-  kanji: どなたの魂でしょう。
-  literal: Whose soul?<wait>
-  us: |
-    WHO IS TO BE<line>
-    RESURRECTED?<end>
-  en: Who shall be returned?<end>
-  fr: Quelle âme voulez-vous ramener_?<end>
-  pt-br: Quem deve ser revivido?<end>
-  ca: Qui ha de ser retornat?<end>
-  es: ¿Quién ha de ser revivido?<end>
-  de: Wer soll wiederbelebt werden?<end>
-
 - offsets: 2c71
   indices: b32d
   ja: ホカノカタハ　イカガデスカ。<end>
   kanji: 他の方はいかがですか。
-  literal: How about anyone else?<wait>
-  us: ANYONE ELSE?<end>
+  translate: How about anyone else?
+  us: ANYONE ELSE?<prompt>
   en: Is there anyone else?<end>
   fr: Encore une ame_?<end>
   pt-br: Há mais alguém?<end>
   ca: Algú més?<end>
   es: ¿Alguien más?<end>
   de: Gibt es sonst noch jemanden?<end>
-
-- offsets: 2c24
-  indices: b33c
-  ja: |
-    <number>メセタ　カカリマスガ<line>
-    ヨロシイデスカ。<end>
-  kanji: <number>メセタかかりますが宜しいですか。
-  literal: It will require <number> mesetas. Is that okay?<wait>
-  us: |
-    THAT REQUIRES<line>
-    <number> MESETAS. O.K.?<end>
-  # Resurrection costs can never be exactly 1 meseta.
-  en: Our suggested donation is <number> mesetas.<end>
-  fr: Nous suggérons un don de <number> mesetas.<end>
-  pt-br: Nossa doação sugerida é de <number> mesetas.<end>
-  ca: La donació suggerida és <number> mesetas.<end>
-  es: La donación sugerida es <number> mesetas.<end>
-  de: Dürfte ich zuvor um eine Spende von <number> Meseta bitten?<end>
 
 - offsets: 2ca8
   indices: b351
@@ -11168,7 +11148,7 @@
   pt-br: Para subir de nível,<wait>
   ca: Per pujar de nivell,<wait>
   es: Para subir de nivel,<wait>
-  de: <end> #Putting this line into the one below so it flows better.
+  de: <end> # Putting this line into the one below so it flows better.
 
 - offsets: 2d16
   indices: b363
@@ -11182,9 +11162,9 @@
     EXPERIENCE POINTS.<end>
   en: <player> needs <number><internal hint 02> point<s>.<wait>
   fr: <player> a besoin de <number><internal hint 02> point<s>.<wait>
-  pt-br: <player> precisa de <number><internal hint 02> ponto<s> de experiência.<wait>
-  ca: a <player> li manquen <number><internal hint 02> punt<s> d'experiència.<wait>
-  es: a <player> le faltan <number><internal hint 02> punto<s> de experiéncia.<wait>
+  pt-br: <player> precisa de <number><internal hint 01> ponto<s> de experiência.<wait>
+  ca: a <player> li manquen <number><internal hint 01> punt<s> d'experiència.<wait>
+  es: a <player> le faltan <number><internal hint 01> punto<s> de experiéncia.<wait>
   de: <player> braucht für die nächste Stufe <number><internal hint 02> Erfahrungspunkt<s>.<wait>
   
 - offsets: 2cef
@@ -11198,7 +11178,7 @@
   us: |
     <player> IS STRONG<line>
     ENOUGH ALREADY.<end>
-  en: <player> is already at full health.<wait>
+  en: <player> is already at the highest level.<wait>
   fr: <player> est déjà en pleine forme.<wait>
   pt-br: <player> já está em plena saúde.<wait>
   ca: <player> ja és en plena forma.<wait>
@@ -11227,7 +11207,7 @@
   ja: <player>ハ　イキテイマスヨ。<end>
   kanji: <player>は生きていますよ。
   literal: <player> is alive.<wait>
-  us: <player> IS ALIVE.<end>
+  us: <player> IS ALIVE.<prompt>
   en: |
     <player>? You don’t look dead to me.<wait more>
     If you need medical care, I advise finding the nearest hospital.<end>
@@ -11276,7 +11256,7 @@
   indices: b3fc
   ja: ラエルマベリーガ　タベタイナア。<wait>
   kanji: ラエルマツリーが食べたいなあ。
-  literal: I'd really like to eat some Laerma Berries...<wait>
+  translate: I'd really like to eat some Laerma Berries...
   us: |
     I WANT TO EAT A<line>
     NUT OF LAERMA.<end>
@@ -11293,7 +11273,7 @@
     ラシークサマニハ<line>
     サカラワナイホウガ　イイヨ。<wait>
   kanji: ラシーク様には逆らわないほうがいいよ。
-  literal: You shouldn't go against King LaShiec!<wait>
+  translate: You shouldn't go against King LaShiec!
   us: |
     DO NOT OFFEND<line>
     LASSIC.<end>
@@ -11579,7 +11559,10 @@
   us: |
     YOU ARE BRAVE TO<line>
     APPROACH ME!<end>
-  en: ‘My, you’re very brave to talk to me. Hang in there.’<wait>
+  en: |
+    ‘You are brave to talk to me. I will tell you a secret in return:<wait more>
+    The same telepathy that you're using right now can also be used to detect traps.’<wait>
+  # TODO (maybe): add this hint to other languages
   fr: Vous êtes bien brave pour me parler. Approchez-vous.<wait>
   pt-br: ‘Você é muito corajoso para conversar comigo. Fique por aqui.’<wait>
   ca: ‘Certament sou molt valents de parlar amb mi. Apropeu-vos.’<wait>
@@ -11587,8 +11570,6 @@
   de: |
     „Du bist mutig, mit mir zu reden. Dafür erzähle ich dir ein Geheimnis.<wait more>
     Die Telepathie, die du in diesem Moment benutzt, kann auch Fallen aufspüren.“<wait>
-  # "You are brave to talk to me. I will tell you a secret in return:
-  # The same telepathy that you're using right now can also be used to detect traps."
 
 
 # **************
@@ -11606,7 +11587,7 @@
     WILL SAVE THE GAME
     IN PROGRESS.<wait more>
     PLEASE SELECT<line>
-    A NUMBER.<end>
+    A NUMBER.<prompt>
   en: |
     Saving the game?<line>
     Please choose a slot.<end>
@@ -11631,7 +11612,7 @@
   literal: Is number <number> okay?<wait>
   us: |
     YOU SELECTED <number><line>
-    IS THAT O.K.<end>
+    IS THAT O.K.<prompt>
   en: Slot <number>, are you sure?<end>
   fr: Emplacement <number>, êtes-vous sur_?<end>
   pt-br: Posição <number>, você tem certeza?<end>
@@ -11647,7 +11628,7 @@
   us: WELL, SAVING <number>.<wait>
   en: OK. Now saving in slot <number>...<delay>
   fr: Ok. Emplacement numéro <number> en cours de sauvegarde...<delay>
-  pt-br: Ok. Salvando na posição <number>...<delay>
+  pt-br: Certo. Salvando na posição <number>...<delay>
   ca: D'acord, guardant a la ranura <number>...<delay>
   es: De acuerdo, guardando en la ranura <number>...<delay>
   de: OK. Spiel wird in Position <number> gespeichert...<delay>
@@ -11680,7 +11661,7 @@
   literal: Continuing a game. Please select a number.<wait>
   us: |
     CONTINUE A GAME.<line>
-    SELECT A NUMBER.<end>
+    SELECT A NUMBER.<prompt>
   en: |
     Continuing a saved game.<line>
     Please choose a slot.<end>
@@ -11706,7 +11687,7 @@
   us: CONTINUING GAME <number>.<wait>
   en: OK. Continuing from slot <number>.<delay>
   fr: Ok. Continuer à partir de l'emplacement numéro <number>.<delay>
-  pt-br: Ok. Continuando da posição <number>.<delay>
+  pt-br: Certo. Continuando da posição <number>.<delay>
   ca: D'acord. Continuant desde la ranura <number>.<delay>
   es: De acuerdo. Continuando desde la ranura <number>.<delay>
   de: OK. Spiel in Position <number> wird fortgesetzt.<delay>
@@ -11749,7 +11730,7 @@
     Delete game ----- No
   us: |
     CONTINUE GAME- YES
-    DELETE   GAME- NO<end>
+    DELETE   GAME- NO<prompt>
   en: Do you want to continue a saved game?<end>
   fr: Voulez-vous continuer une partie sauvegardée_?<end>
   pt-br: Quer continuar um jogo salvo?<end>
@@ -11768,7 +11749,7 @@
   literal: This will delete a saved game. Is that okay?<wait>
   us: |
     WILL DELETE A<line>
-    SAVED GAME O.K.?<end>
+    SAVED GAME O.K.?<prompt>
   en: Do you want to delete a saved game?<end>
   fr: Voulez-vous supprimer une sauvegarde_?<end>
   pt-br: Você quer deletar um jogo salvo?<end>
@@ -11783,7 +11764,7 @@
   literal: Which number's game will you delete?<wait>
   us: |
     DELETE A GAME.<line>
-    SELECT A NUMBER.<end>
+    SELECT A NUMBER.<prompt>
   en: |
     Deleting a saved game.<line>
     Please choose a slot.<end>
@@ -11810,7 +11791,7 @@
     GAME <number> HAS BEEN<line>
     DELETED.<end>
   en: Deleting game from slot <number>...<delay>
-  #<delay> is nicer than<wait> here - Maxim
+  # <delay> is nicer than<wait> here - Maxim
   fr: Suppression de la sauvegarde, emplacement <number>.<delay>
   pt-br: |
     Deletando o jogo da posição <line>
@@ -11821,7 +11802,6 @@
 
 - offsets: ScriptNoSavedGames
   # This is not in the original game.
-  literal: There are no saved games!<wait>
   en: There are no saved games!<wait>
   fr: Il n'y a pas de sauvegardes!<wait>
   pt-br: Não há jogos salvos!<wait>
@@ -11851,4 +11831,5 @@
   us: |
     REPORT QUICKLY TO<line>
     THE GOVERNOR!<end>
+
 

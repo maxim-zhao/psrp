@@ -408,7 +408,7 @@ TitleScreenExtra:
 .slot 2
 .section "Outside tiles" superfree
 OutsideTiles:
-.incbin "generated/world1.psgcompr"
+.incbin "generated/747b8.psgcompr"
 .ends
 
 .section "Town tiles" superfree
@@ -502,54 +502,54 @@ SceneData:
 .section "Palma and Dezoris open area graphics" superfree
 PalettePalmaOpen:      CopyFromOriginal $40000 16
 PaletteDezorisOpen:    CopyFromOriginal $40010 16
-TilesPalmaAndDezorisOpen: .incbin "generated/bg1.psgcompr"
+TilesPalmaAndDezorisOpen: .incbin "generated/40020.psgcompr"
 .ends
 
 .section "Forest graphics" superfree
 PalettePalmaForest:    CopyFromOriginal $40f16 16
 PaletteDezorisForest:  CopyFromOriginal $40f26 16
-TilesPalmaForest:     .incbin "generated/bg2.psgcompr"
+TilesPalmaForest:     .incbin "generated/40f36.psgcompr"
 .ends
 
 .section "Palma sea graphics" superfree
 PalettePalmaSea:       CopyFromOriginal $41c72 16
-TilesPalmaSea: .incbin "generated/bg3.psgcompr"
+TilesPalmaSea: .incbin "generated/41c82.psgcompr"
 .ends
 
 .section "Motabia open graphics" superfree
 PaletteMotabiaOpen: CopyFromOriginal $433f6 16
-TilesMotabiaOpen: .incbin "generated/bg5.psgcompr"
+TilesMotabiaOpen: .incbin "generated/43406.psgcompr"
 .ends
 
 .section "Palma town graphics" superfree
 PalettePalmaTown:     CopyFromOriginal $44640 16
-TilesPalmaTown: .incbin "generated/bg8.psgcompr"
+TilesPalmaTown: .incbin "generated/44650.psgcompr"
 .ends
 
 .section "Palma village graphics" superfree
 PalettePalmaVillage:  CopyFromOriginal $457c4 16
-TilesPalmaVillage: .incbin "generated/bg9.psgcompr"
+TilesPalmaVillage: .incbin "generated/457d4.psgcompr"
 .ends
 
 .section "Spaceport graphics" superfree
 PaletteSpaceport:     CopyFromOriginal $464b1 16
-TilesSpaceport: .incbin "generated/bg10.psgcompr"
+TilesSpaceport: .incbin "generated/464c1.psgcompr"
 .ends
 
 .section "Dead trees graphics" superfree
 PaletteDeadTrees:     CopyFromOriginal $46f58 16
-TilesDeadTrees: .incbin "generated/bg11.psgcompr"
+TilesDeadTrees: .incbin "generated/46f68.psgcompr"
 .ends
 
 .section "Air castle graphics" superfree
 PaletteAirCastle:     CopyFromOriginal $5ac7d 16
 PaletteAirCastleFull: CopyFromOriginal $03fc2 16
-TilesAirCastle: .incbin "generated/bg13.psgcompr"
+TilesAirCastle: .incbin "generated/5ac8d.psgcompr"
 .ends
 
 .section "Gold dragon graphics" superfree
 PaletteGoldDragon: CopyFromOriginal $2c000 16
-TilesGoldDragon: .incbin "generated/bg14.psgcompr"
+TilesGoldDragon: .incbin "generated/2c010.psgcompr"
 .ends
 
 .section "Building graphics" superfree
@@ -566,22 +566,22 @@ PaletteBuildingShop2:     CopyFromOriginal $5eb2f 16
 PaletteBuildingShop3:     CopyFromOriginal $5eb3f 16
 PaletteBuildingShop4:     CopyFromOriginal $5eb4f 16
 PaletteBuildingDestroyed: CopyFromOriginal $5eb5f 16
-TilesBuilding: .incbin "generated/bg16.psgcompr"
+TilesBuilding: .incbin "generated/5eb6f.psgcompr"
 .ends
 
 .section "Mansion graphics" superfree
 PaletteMansion: CopyFromOriginal $27b14 16
-TilesMansion: .incbin "generated/bg29.psgcompr"
+TilesMansion: .incbin "generated/27b24.psgcompr"
 .ends
 
 .section "Lassic graphics" superfree
 PaletteLassicRoom: CopyFromOriginal $524da 16
-TilesLassicRoom: .incbin "generated/bg30.psgcompr"
+TilesLassicRoom: .incbin "generated/524ea.psgcompr"
 .ends
 
 .section "Dark Force graphics" superfree
 PaletteDarkForce: CopyFromOriginal $4c000 16
-TilesDarkForce: .incbin "generated/bg31.psgcompr"
+TilesDarkForce: .incbin "generated/4c010.psgcompr"
 .ends
 
   ; We also need the non-relocated tilemap and palette addresses to populate the table...
@@ -803,14 +803,14 @@ DictionaryLookup_Substring:
 
 -:ld c,(hl)   ; Grab string length
   or a        ; Check for zero strings left
-  jr z,_Copy  ; _Stop if found
+  jr z,@Copy  ; _Stop if found
 
   inc hl      ; Bypass length byte
   add hl,bc   ; Bypass physical string
   dec a       ; One less item to look at
   jr -        ; Keep searching
 
-_Copy:
+@Copy:
   ; Apply bracketed parts skipping here.
   ; This code is used for all item lookups.
   ; hl = source
@@ -884,7 +884,8 @@ _bracket:
   SymbolPostHint  db ; $69, ; New codes
   SymbolArticle   db ; $6a,
   SymbolSuffix    db ; $6b,
-  WordListStart   db ; $6c
+  SymbolPronoun   db ; $6c,
+  WordListStart   db ; $6d
 .ende
 
 ; We patch the usages of these codes so we can relocate them.
@@ -1012,24 +1013,22 @@ _Wait_Clear:
   ld (ARTICLE),a
 .if LANGUAGE == "de"
   ; Set SKIP_BITMASK accordingly
-  ; 1 => %1000 (nominative, select «» brackets only)
-  ; 2 => %1010 (genitive, select «» and {} brackets)
-  ; 3 => %1100 (dative, select «» and () brackets)
-  ; 4 => %1100 (accusative, select «» and () brackets)
+  ; 1 => %01000 (nominative, select «» brackets only)
+  ; 2 => %01010 (genitive, select «» and {} brackets)
+  ; 3 => %11100 (dative, select «», ‹› and () brackets)
+  ; 4 => %01100 (accusative, select «» and () brackets)
   push hl
   push de
-  push af
     ld d,0
     ld hl,_SkipBitmaskLookup - 1 ; index 0 is unused
     ld e,a
     add hl,de
     ld a,(hl)
     ld (SKIP_BITMASK),a
-  pop af
   pop de
   pop hl
   jp _Decode
-_SkipBitmaskLookup: .db %1000, %1010, %1100, %1100
+_SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
 .else
   ; Select all bracketed parts
   ld a,$ff
@@ -1045,12 +1044,92 @@ _SkipBitmaskLookup: .db %1000, %1010, %1100, %1100
   jp z,_Decode   ; No 's' needed
 
   ld a,LETTER_S   ; add 's'
+  jr _Done
 
-+:
++:cp SymbolPronoun
+  jr z,_Pronoun
 
 _Done:
   cp SymbolWait ; Old code
   ret     ; Go to remaining text handler
+
+_Pronoun:
+  call SFGDecoder    ; Grab #
+  push hl
+  push de
+  push bc
+    push af
+      ; Look up character
+      ld a,(NameIndex)
+      and 3
+      add a,a
+      ; Look up in table
+      ld hl,_Pronouns
+      ld d,0
+      ld e,a
+      add hl,de
+      ld a,(hl)
+      inc hl
+      ld h,(hl)
+      ld l,a
+    pop af
+    ; Then look up the pronoun index
+    add a,a
+    ld e,a
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ; Finally we want to emit this text. We call into the dictionary lookup code to copy it to RAM and point to it...
+    call DictionaryLookup_Substring@Copy
+  pop bc
+  pop de
+  pop hl
+  ; Then we jump to here. This makes the copy above get drawn before continuing.
+  jp _Start
+
+_Pronouns: ; Lookup by character index: Alisa, Myau, Tyron, Lutz
+.if LANGUAGE == "en"
+.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = he/she
+; 1 = his/her
+_PronounsF:
+.dw _PronounShe, _PronounHer
+_PronounShe: String "she"
+_PronounHer: String "her"
+_PronounsM:
+.dw _PronounHe, _PronounHis
+_PronounHe: String "he"
+_PronounHis: String "his"
+.endif
+.if LANGUAGE == "fr"
+; No pronouns yet
+.endif
+.if LANGUAGE == "pt-br"
+; No pronouns yet
+.endif
+.if LANGUAGE == "ca"
+; No pronouns yet
+.endif
+.if LANGUAGE == "es"
+; No pronouns yet
+.endif
+.if LANGUAGE == "de"
+.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = Sie/Er
+; 1 = sie/er
+_PronounsF:
+.dw _PronounSieUpper, _PronounSieLower
+_PronounSieUpper: String "Sie"
+_PronounSieLower: String "sie"
+_PronounsM:
+.dw _PronounErUpper, _PronounErLower
+_PronounErUpper: String "Er"
+_PronounErLower: String "er"
+.endif
 
 SubstringFormatter:
 ; Needs to be in the same bank as AdditionalScriptingCodes
@@ -1219,7 +1298,6 @@ _Art_Exit:
   .db SymbolEnd
 .endm
 
-; Note: code assumes this is not over a 256b boundary. We don't enforce that here...
 .if LANGUAGE == "en" || LANGUAGE == "literal"
 ; Order is:
 ; - Indefinite (starting with consonant)
@@ -2127,7 +2205,7 @@ Items:
   String  "<um> Machado de Ferro"
   String "<uma> Espada de Titânio"
   String "<uma> Espada de Cerâmica"
-  String "<uma> Pistola de Agulha"
+  String "<uma> Pistola de Agulhas"
   String "<uma> Garra Afiada"
   String "<uma> Pistola de Calor"
   String  "<um> Sabre de Luz"
@@ -2154,7 +2232,7 @@ Items:
   String   "<o> Escudo de Perseu"
   String  "<um> Escudo de Lacônia"
 ; veículos      123456789012345678
-  String   "<o> Mestre-Terra"
+  String   "<o> Rover Terrestre"
   String   "<o> Aerobarco"
   String   "<o> Escavador de Gelo"
 ; objetos       123456789012345678
@@ -2630,7 +2708,7 @@ Items:
   String "<Ein> Eisenschild"
   String "<Ein> Bronzeschild"
   String "<Ein> Keramikschild"
-  String "Tierhandschuhe"				; needs -n suffix in dative case
+  String "Tierhandschuhe‹n›"
   String "<Eine> Laserbarriere"
   String "<Der> Schild des Perseus"
   String "<Der> Lakoniumschild"
@@ -2761,7 +2839,7 @@ Enemies:
 ; Note that the number of words we add here has a complicated effect on the data size.
 ; Adding more words costs space here (in a paged bank), but saves space in bank 2.
 ; If our goal is to maximise script space then we should maximise the word count.
-; The limit is 148 ($100 - WordListStart).
+; The limit is 147 ($100 - WordListStart).
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
@@ -5481,8 +5559,8 @@ CreditsScreen5: .db 6
   CreditsEntry 3,5,"KOMPLETTES"
   CreditsEntry 8,7,"DESIGN"
   CreditsEntry 18,6,"PHOENIX RIE"
-  CreditsEntry 2,14,"DESIGN DER"
-  CreditsEntry 8,16,"MONSTER"
+  CreditsEntry 5,14,"MONSTER-"
+  CreditsEntry 7,16,"DESIGN"
   CreditsEntry 17,15,"CHAOTIC KAZ"
 CreditsScreen6: .db 3
   CreditsEntry 8,6,"DESIGN"
@@ -5493,11 +5571,12 @@ CreditsScreen7: .db 4
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8: .db 6
+CreditsScreen8: .db 7
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
   CreditsEntry 4,14,"SOFTWARE-"
-  CreditsEntry 3,15,"¨     ¨"
+  CreditsEntry 3,15,"¨"
+  CreditsEntry 9,15,      "¨"
   CreditsEntry 3,16,"UBERPRUFUNG"
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 5
@@ -6627,7 +6706,7 @@ GetItemType:
 ; This "fix" makes it match the export version, with a sensible value.
   PatchB $fa88 $56
 
-; There is another bug that causes the tool shop to lose some state regarding the script winow, when showing the buy/sell window. We patch it here.
+; There is another bug that causes the tool shop to lose some state regarding the script window, when showing the buy/sell window. We patch it here.
   ROMPosition $2dfa
 .section "Shop bug fix" overwrite size 12
 ; Original code:
@@ -6686,13 +6765,28 @@ ShopSellInventoryFixHelper:
 ;    jp     nz,$2bae                ; 002B04 C2 AE 2B 
 ; Following code assumes BC is still valid
   push bc
-    call HospitalFixHelper
+    call HospitalAndChurchFixHelper
   pop bc
 .ends
 
 .section "Hospital bug fix part 2" free
-HospitalFixHelper:
+HospitalAndChurchFixHelper:
   call $3782 ; inventory select
   bit 4,c
   ret
+.ends
+
+; And in the church.
+  ROMPosition $2c01
+.section "Church bug fix" overwrite size 5
+; Original code:
+;    ld     hl,$b31e                ; 002BFB 21 1E B3 ; Who shall be returned?<end>
+;    call   TextBox20x6             ; 002BFE CD 3A 33 
+;    call   ShowCharacterSelectMenu ; 002C01 CD 82 37 ; CharacterSelect
+;    bit    4,c                     ; 002C04 CB 61    ; Returns in A, C
+;    jp     nz,$2c9f                ; 002C06 C2 9F 2C 
+; Following code assumes BC is still valid
+  push bc
+    call HospitalAndChurchFixHelper
+  pop bc
 .ends

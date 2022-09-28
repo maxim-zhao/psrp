@@ -12,11 +12,11 @@ PSJ = ps1-j.sms
 # The language data to use
 LANGUAGE = en
 
-# The dictionary size. Maximum is 164.
+# The dictionary size. Maximum is ~140.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count depends on the script. Iterating through the options can help to find the best value. CMD one-liner:
 # for /l %n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%n LANGUAGE=es ps1jert.sms 2>&1 || echo ROM: 0 bytes) | find "ROM: ") >> sizes.txt
-# On 2021-01-06 the optimal value for total size was 91 for English and 54 for French.
+# This can help find the best word count for maximum free space but potentially it can be better (or even necessary) to have a less efficient value to enable the script chunk to fit.
 ifeq ("$(LANGUAGE)", "en")
 WORD_COUNT = 91
 endif
@@ -34,7 +34,6 @@ WORD_COUNT = 47
 endif
 ifeq ("$(LANGUAGE)", "de")
 WORD_COUNT = 45 
-# TODO calibrate this
 endif
 
 # Default targets are the patch files for our language
