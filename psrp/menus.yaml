@@ -82,13 +82,13 @@
     調べる
     Save
   literal: |
-    ┌──────────────╖
-    │Strength/power║
-    │Magic         ║
-    │Item          ║
-    │Investigate   ║
-    │Save          ║
-    ╘══════════════╝
+    ┌───────────╖
+    │Strength   ║
+    │Magic      ║
+    │Item       ║
+    │Investigate║
+    │Save       ║
+    ╘═══════════╝
   us: |
     ┌────╖
     │STAS║

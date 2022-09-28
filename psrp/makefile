@@ -26,6 +26,7 @@ WORD_COUNT_pt-br = 31
 WORD_COUNT_ca = 65
 WORD_COUNT_es = 42
 WORD_COUNT_de = 89
+WORD_COUNT_literal = 80
 WORD_COUNT = $(WORD_COUNT_$(LANGUAGE))
 
 # Default targets are the patch files for our language
