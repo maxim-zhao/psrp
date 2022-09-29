@@ -10,6 +10,7 @@ WLALINK = wlalink.exe
 FLIPS = flips.exe
 BMP2TILE = bmp2tile.exe
 PY = "py"
+7Z = "7z"
 
 # The original PSJ ROM
 PSJ = ps1-j.sms
@@ -29,8 +30,10 @@ WORD_COUNT_de = 89
 WORD_COUNT_literal = 57
 WORD_COUNT = $(WORD_COUNT_$(LANGUAGE))
 
+.PHONY: all clean sizes
+
 # Default targets are the patch files for our language
-DUMMY: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
+default: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
 
 play: ps1jert.sms
 	$(EMU) ps1jert.sms
@@ -111,5 +114,10 @@ sizes: clean
 	del sizes.txt
 	for /l %%n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%%n LANGUAGE=$(LANGUAGE) ps1jert.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> sizes.txt
 
+# Generate all the IPS and BPSes for each language found
+# This will always do a full build because "all" is a phony target.
 all: script.*.tbl
 	$(foreach var,$(subst .tbl,,$(subst script.,,$^)),make clean && make LANGUAGE=$(var) &&) echo done
+
+psrp.zip: all
+	$(7Z) a ..\psrp.zip *.?ps ..\readme.md
