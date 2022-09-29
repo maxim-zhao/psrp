@@ -120,4 +120,4 @@ all: script.*.tbl
 	$(foreach var,$(subst .tbl,,$(subst script.,,$^)),make clean && make LANGUAGE=$(var) &&) echo done
 
 psrp.zip: all
-	$(7Z) a ..\psrp.zip *.?ps ..\readme.md
+	$(7Z) a ../psrp.zip *.?ps ../readme.md
