@@ -479,7 +479,7 @@
     私はスエロ。アリサの気持ちはよく分かるわ。
     もう誰もあなたを止めることはできない。
     でも、もし戦いで傷ついたときは
-  literal: My name is Suelo. I know how you feel, Alisa. No one will be able to stop you from doing what you must do. If you are ever injured in battle...<wait>
+  literal: My name is Suelo. I know how you feel, Alisa. No one will be able to stop you. If you are ever injured in battle...<wait>
   us: |
     I'M SUELO. I KNOW<line>
     HOW YOU MUST FEEL,<wait more>
@@ -525,8 +525,8 @@
 
 - offsets: 4b4e
   # Camineet
-  # Suelo (subsequent visits)
-  # Note: Alisa may not be alive, so make sure the text here doesn't talk to her directly.
+  # Suelo (subsequent visits and also immediately after the preceding text)
+  # Note: Alisa may not be alive later, so make sure the text here doesn't talk to her directly.
   indices: 006
   ja: |
     ココデ　ユックリ　ヤスンデ　オユキ。<wait more>
@@ -1442,7 +1442,9 @@
   kanji: |
     この町から北へ行くとバヤマーレという丘があります。
     でも我々はその丘へ近づくことができません。
-  literal: If you go North from this town you will reach the hill of Baya Marlay. However, we aren’t able to get near to it.<wait>
+  literal: |
+    If you go North from this town you will reach the hill of Baya Marlay.<line>
+    However, we aren’t able to get near to it.<wait>
   us: |
     THERE IS A HILL<line>
     NAMED BAYA MALAY<wait more>
