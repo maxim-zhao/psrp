@@ -246,10 +246,10 @@ _script\@_end:
     ; Script decoding
     ; Buffer for item name strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.
     ; It is prepended with articles so we need to make sure there is space before it for the longest article 
-    ; (Brazilian Portuguese "de una " = 7) and after it for the longest item name (20)
+    ; (Brazilian Portuguese "de una " = 7) and after it for the longest item name (27)
     ArticleSpace    dsb 16
     TEMP_STR        dsb 32
-    STR             dw   ; pointer to WRAM string
+    STR             dw   ; pointer to WRAM string - will be in ArticleSpace if an article was prepended
     LEN             db   ; length of substring in WRAM
     POST_LEN        db   ; post-string hint (ex. <Herb>...)
     LINE_NUM        db   ; # of lines drawn

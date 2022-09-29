@@ -10,6 +10,7 @@ Changelog (in reverse chronological order):
   - Phantasy Star 35th anniversary!
   - Added Spanish translation from kusfo
   - Added German translation from PopFan
+  - Added literal English translation variant
   - Updates to the Brazilian Portuguese script from ajkmetiuk
   - Much work on converting the original Katakana script to use Hiragana and Kanji where appropriate, and then re-retranslating in a few areas
   - Much work on annotating the script with where each line is used/reused

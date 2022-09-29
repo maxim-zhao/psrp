@@ -110,3 +110,6 @@ clean:
 sizes: clean
 	del sizes.txt
 	for /l %%n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%%n LANGUAGE=$(LANGUAGE) ps1jert.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> sizes.txt
+
+all: script.*.tbl
+	$(foreach var,$(subst .tbl,,$(subst script.,,$^)),make clean && make LANGUAGE=$(var) &&) echo done
