@@ -1934,7 +1934,7 @@ Items:
   String "<The> Aeroprism" ; $30            ; PRISM     Prism               earopurizumu        エアロプリズム
   String "<The> Laerma Berries"             ; NUTS      Nuts                raerumaberī         ラエルマベリー
   String "Hapsby"                           ; HAPSBY    Hapsby              hapusubī            ハプスビー
-  String "<A> Road Pass"                    ; ROADPASS  Roadpass            rōdopasu            ロードパス
+  String "<A> Roadpass"                     ; ROADPASS  Roadpass            rōdopasu            ロードパス
   String "<A> Passport"                     ; PASSPORT  Passport            pasupōto            パスポート
   String "<A> Compass"                      ; COMPASS   Compass             konpasu             コンパス
   String "<A> Shortcake"                    ; CAKE      Cake                shōtokēki           ショートケーキ
