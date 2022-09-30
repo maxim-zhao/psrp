@@ -57,21 +57,21 @@ generated/%.psgcompr: new_graphics\%.png
 generated/%.psgcompr: new_graphics\%.$(LANGUAGE).png
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
-generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin: new_graphics\titlescreen.top.png
+generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin &: new_graphics\titlescreen.top.png
 	$(BMP2TILE) $^ -tileoffset 0 -savetiles generated/title.top.psgcompr -savetilemap generated/title.top.tilemap.pscompr -palsms -savepalette generated/title-pal.bin
-generated/title.bottom.psgcompr generated/title.bottom.tilemap.pscompr: new_graphics\titlescreen.$(LANGUAGE).png
+generated/title.bottom.psgcompr generated/title.bottom.tilemap.pscompr &: new_graphics\titlescreen.$(LANGUAGE).png
 	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/title.bottom.psgcompr -savetilemap generated/title.bottom.tilemap.pscompr
 
 generated/alisa-sprite.tiles.bin: new_graphics\alisa-sprite.png
 	$(BMP2TILE) $^ -noremovedupes -savetiles $@
 
 # Generate menu data
-generated/menus.asm generated/menu-patches.asm : tools.py menus.yaml
+generated/menus.asm generated/menu-patches.asm &: tools.py menus.yaml
 	$(PY) tools.py menu_creator generated/menus.asm generated/menu-patches.asm menus.yaml $(LANGUAGE)
 
 # Analyse the script to determine which words can be substituted for best "compression"
 # Converts the word list to a TBL file and an asm file
-generated/words.tbl generated/words.asm: tools.py script.yaml
+generated/words.tbl generated/words.asm &: tools.py script.yaml
 	$(PY) tools.py generate_words generated/words.tbl generated/words.asm script.yaml $(LANGUAGE) $(WORD_COUNT)
 
 # Combine the words and letters symbol dictionaries
@@ -79,7 +79,7 @@ generated/script_with_words.tbl: script.$(LANGUAGE).tbl generated/words.tbl
 	$(PY) tools.py join $^ $@
 
 # Generate the script data
-generated/script.asm generated/script-patches.asm generated/tree.asm: generated/script_with_words.tbl tools.py script.yaml
+generated/script.asm generated/script-patches.asm generated/tree.asm &: generated/script_with_words.tbl tools.py script.yaml
 	$(PY) tools.py script_inserter generated/script.asm generated/script-patches.asm generated/tree.asm script.yaml $(LANGUAGE) generated/script_with_words.tbl
 
 # Generate the font lookup
@@ -117,7 +117,7 @@ sizes: clean
 # Generate all the IPS and BPSes for each language found
 # This will always do a full build because "all" is a phony target.
 all: script.*.tbl
-	$(foreach var,$(subst .tbl,,$(subst script.,,$^)),make clean && make LANGUAGE=$(var) &&) echo done
+	$(foreach var,$(subst .tbl,,$(subst script.,,$^)),make clean && make -j LANGUAGE=$(var) &&) echo done
 
 psrp.zip: all
 	$(7Z) a ../psrp.zip *.?ps ../readme.md
