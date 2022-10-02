@@ -726,9 +726,9 @@ def generate_font_lookup(tbl_file, lookup_file):
 
 
 def fix_asm(source, dest, language):
-    with open(source, 'r') as f:
+    with open(source, 'r', encoding="utf-8") as f:
         lines = f.readlines()
-    with open(dest, 'w') as f:
+    with open(dest, 'w', encoding="utf-8") as f:
         for x in lines:
             x = x.replace('{LANGUAGE}', language)
             f.write(x)
