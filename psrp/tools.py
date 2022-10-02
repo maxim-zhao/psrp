@@ -725,14 +725,6 @@ def generate_font_lookup(tbl_file, lookup_file):
         f.write("\"")
 
 
-def fix_asm(source, dest, language):
-    with open(source, 'r', encoding="utf-8") as f:
-        lines = f.readlines()
-    with open(dest, 'w', encoding="utf-8") as f:
-        for x in lines:
-            x = x.replace('{LANGUAGE}', language)
-            f.write(x)
-
 
 def main():
     verb = sys.argv[1]
@@ -752,8 +744,6 @@ def main():
         clean(sys.argv[2])
     elif verb == 'generate_font_lookup':
         generate_font_lookup(sys.argv[2], sys.argv[3])
-    elif verb == 'fix_asm':
-        fix_asm(sys.argv[2], sys.argv[3], sys.argv[4])
     else:
         raise Exception(f"Unknown verb \"{verb}\"")
 

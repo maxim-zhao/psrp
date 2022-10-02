@@ -333,12 +333,12 @@ LoadTiles:
 .slot 2
 .section "Replacement title screen" superfree
 TitleScreenTilesBottom:
-.incbin "generated/title.bottom.{LANGUAGE}.psgcompr"
+.incbin {"generated/title.bottom.{LANGUAGE}.psgcompr"}
 .ends
 
 .section "Title screen name table" superfree
 TitleScreenTilemapBottom:
-.incbin "generated/title.bottom.{LANGUAGE}.tilemap.pscompr"
+.incbin {"generated/title.bottom.{LANGUAGE}.tilemap.pscompr"}
 .ends
 
 .section "Replacement title screen part 2" superfree
@@ -413,7 +413,7 @@ OutsideTiles:
 
 .section "Town tiles" superfree
 TownTiles:
-.incbin "generated/world2.{LANGUAGE}.psgcompr"
+.incbin {"generated/world2.{LANGUAGE}.psgcompr"}
 .ends
 
   ROMPosition $00ce4
@@ -639,10 +639,10 @@ BackgroundSceneLoaderTileLoaderPatch:
 
 .slot 2
 .section "Font part 1" superfree
-FONT1: .incbin "generated/font-polaris-part1.{LANGUAGE}.psgcompr"
-FONT2: .incbin "generated/font-polaris-part2.{LANGUAGE}.psgcompr"
-FONT1a: .incbin "generated/font-aw2284-part1.{LANGUAGE}.psgcompr"
-FONT2a: .incbin "generated/font-aw2284-part2.{LANGUAGE}.psgcompr"
+FONT1: .incbin {"generated/font-polaris-part1.{LANGUAGE}.psgcompr"}
+FONT2: .incbin {"generated/font-polaris-part2.{LANGUAGE}.psgcompr"}
+FONT1a: .incbin {"generated/font-aw2284-part1.{LANGUAGE}.psgcompr"}
+FONT2a: .incbin {"generated/font-aw2284-part2.{LANGUAGE}.psgcompr"}
 LoadFontsImpl:
     ld hl,Font1VRAMAddress
     ld de,FONT1
@@ -2847,7 +2847,7 @@ Enemies:
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force; for the 1.02 (English) script this was at 79.
 Words:
-.include "generated/words.{LANGUAGE}.asm"
+.include {"generated/words.{LANGUAGE}.asm"}
 .endb
 .ends
 
@@ -2865,11 +2865,11 @@ IndexTableRemap:
 .section "Menu data" superfree
 .block "Menus"
 MenuData:
-.include "generated/menus.{LANGUAGE}.asm"
+.include {"generated/menus.{LANGUAGE}.asm"}
 .endb
 .ends
 
-.include "generated/menu-patches.{LANGUAGE}.asm"
+.include {"generated/menu-patches.{LANGUAGE}.asm"}
 
   PatchB $3b58 :MenuData ; HapsbyTravelMenu only
   PatchB $3b82 :MenuData ; OutputTilemapBoxWipePaging
@@ -5659,7 +5659,7 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
 .section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table. These must be in the order given in script.<language>.tbl.
-.include "generated/font-lookup.{LANGUAGE}.asm"
+.include {"generated/font-lookup.{LANGUAGE}.asm"}
 .ends
 
 ; We locate the Huffman trees in a different slot to the script so we can access them at the same time
@@ -5667,7 +5667,7 @@ FontLookup:
 .section "Huffman trees" superfree
 .block "Huffman trees"
 HuffmanTrees:
-.include "generated/tree.{LANGUAGE}.asm"
+.include {"generated/tree.{LANGUAGE}.asm"}
 .endb
 .ends
 
@@ -5675,7 +5675,7 @@ HuffmanTrees:
 .bank 2 slot 2
 .section "Script" free
 .block "Script"
-.include "generated/script.{LANGUAGE}.asm"
+.include {"generated/script.{LANGUAGE}.asm"}
 .endb
 .ends
 
@@ -5871,7 +5871,7 @@ _Decode_Done:
   ret
 .ends
 
-.include "generated/script-patches.{LANGUAGE}.asm"
+.include {"generated/script-patches.{LANGUAGE}.asm"}
 
   ROMPosition $2fe2
 .section "Cursor row count hack" overwrite

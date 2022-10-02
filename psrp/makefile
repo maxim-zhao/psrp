@@ -71,22 +71,14 @@ generated/script.%.asm generated/script-patches.%.asm generated/tree.%.asm &: ge
 generated/font-lookup.%.asm: script.%.tbl tools.py
 	$(PY) tools.py generate_font_lookup $< generated/font-lookup.$*.asm 
 
-# We need to substitute variables in the asm until WLA DX can do it...
-generated/ps1jert.%.sms.asm: ps1jert.sms.asm tools.py
-	$(PY) tools.py fix_asm $< $@ $*
-
 # Generate the dependencies list for assembly
-generated/auto.makefile.%: generated/ps1jert.%.sms.asm tools.py
-	$(WLAZ80) -M -D LANGUAGE=$* -D WLA_DX_BUG_WORKAROUND -o $(<:.asm=.o) $< > $@
+generated/auto.makefile.%: ps1jert.sms.asm tools.py
+	$(WLAZ80) -M -D LANGUAGE=$* -D WLA_DX_BUG_WORKAROUND -o generated/ps1jert.$*.sms.o $< > $@
 	$(PY) tools.py fix_makefile $@
-
-#generated/auto.makefile.%: LANGUAGE=$*
-
-# Then include it. The - at the start makes it not error out on the first makefile parse.
 
 # Now we add in the recipe to actually compile...
 generated/ps1jert.%.sms.o:
-	$(WLAZ80) -D LANGUAGE=$* -o $@ $(@:.o=.asm)
+	$(WLAZ80) -D LANGUAGE=$* -o $@ ps1jert.sms.asm
 
 # And then link
 ps1jert.%.sms: generated/ps1jert.%.sms.o
