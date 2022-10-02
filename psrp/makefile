@@ -1,10 +1,3 @@
-#
-# Phantasy Star retranslation makefile
-#
-
-# The emulator for testing
-EMU = "..\..\..\c\meka\meka\mekaw.exe"
-
 WLAZ80 = wla-z80.exe
 WLALINK = wlalink.exe
 FLIPS = flips.exe
@@ -13,10 +6,7 @@ PY = "py"
 7Z = "7z"
 
 # The original PSJ ROM
-PSJ = ps1-j.sms
-
-# The language data to use
-LANGUAGE = en
+PSJ = PS1-J.SMS
 
 # The dictionary size. Maximum is 164.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
@@ -28,19 +18,19 @@ WORD_COUNT_ca = 65
 WORD_COUNT_es = 42
 WORD_COUNT_de = 89
 WORD_COUNT_literal = 57
-WORD_COUNT = $(WORD_COUNT_$(LANGUAGE))
 
-.PHONY: all clean sizes
+# These are targets that aren't files
+.PHONY: all clean sizes default
+
+# Disable built-in rules
+.SUFFIXES:
 
 # Default targets are the patch files for our language
-default: ps1jert.$(LANGUAGE).ips ps1jert.$(LANGUAGE).bps
+default: all
 
-play: ps1jert.sms
-	$(EMU) ps1jert.sms
-
-# bitmap_decode
-# Decompresses tile data with the "Phantasy Star RLE" compression, for later recompression.
-# This is done to free up ROM space.
+# We have to put this before the following one to make it take precedence: if we have a PNG file, use it.
+generated/%.bin: new_graphics/%.png
+	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
 # Decompress bitmaps
 generated/%.bin: $(PSJ) tools.py
@@ -50,74 +40,82 @@ generated/%.bin: $(PSJ) tools.py
 generated/%.psgcompr: generated/%.bin
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
-# Graphics conversion from PNG for ones where we also translate text. Makefile ordering means these take precendence if possible.
-generated/%.psgcompr: new_graphics\%.png
+# Graphics conversion from PNG for ones where we supply PNGs.
+generated/%.psgcompr: new_graphics/%.png
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
-generated/%.psgcompr: new_graphics\%.$(LANGUAGE).png
-	$(BMP2TILE) $< -noremovedupes -savetiles $@
-
+# We generate tiles and tilemap for the title screen, these need specific parameters
 generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin &: new_graphics\titlescreen.top.png
 	$(BMP2TILE) $^ -tileoffset 0 -savetiles generated/title.top.psgcompr -savetilemap generated/title.top.tilemap.pscompr -palsms -savepalette generated/title-pal.bin
-generated/title.bottom.psgcompr generated/title.bottom.tilemap.pscompr &: new_graphics\titlescreen.$(LANGUAGE).png
-	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/title.bottom.psgcompr -savetilemap generated/title.bottom.tilemap.pscompr
-
-generated/alisa-sprite.tiles.bin: new_graphics\alisa-sprite.png
-	$(BMP2TILE) $^ -noremovedupes -savetiles $@
+generated/title.bottom.%.psgcompr generated/title.bottom.%.tilemap.pscompr &: new_graphics\titlescreen.%.png
+	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/title.bottom.$*.psgcompr -savetilemap generated/title.bottom.$*.tilemap.pscompr
 
 # Generate menu data
-generated/menus.asm generated/menu-patches.asm &: tools.py menus.yaml
-	$(PY) tools.py menu_creator generated/menus.asm generated/menu-patches.asm menus.yaml $(LANGUAGE)
+generated/menus.%.asm generated/menu-patches.%.asm &: tools.py menus.yaml
+	$(PY) tools.py menu_creator generated/menus.$*.asm generated/menu-patches.$*.asm menus.yaml $*
 
 # Analyse the script to determine which words can be substituted for best "compression"
 # Converts the word list to a TBL file and an asm file
-generated/words.tbl generated/words.asm &: tools.py script.yaml
-	$(PY) tools.py generate_words generated/words.tbl generated/words.asm script.yaml $(LANGUAGE) $(WORD_COUNT)
+generated/words.%.tbl generated/words.%.asm &: tools.py script.yaml
+	$(PY) tools.py generate_words generated/words.$*.tbl generated/words.$*.asm script.yaml $* $(WORD_COUNT_$*)
 
 # Combine the words and letters symbol dictionaries
-generated/script_with_words.tbl: script.$(LANGUAGE).tbl generated/words.tbl
+generated/script_with_words.%.tbl: script.%.tbl generated/words.%.tbl
 	$(PY) tools.py join $^ $@
 
 # Generate the script data
-generated/script.asm generated/script-patches.asm generated/tree.asm &: generated/script_with_words.tbl tools.py script.yaml
-	$(PY) tools.py script_inserter generated/script.asm generated/script-patches.asm generated/tree.asm script.yaml $(LANGUAGE) generated/script_with_words.tbl
+generated/script.%.asm generated/script-patches.%.asm generated/tree.%.asm &: generated/script_with_words.%.tbl tools.py script.yaml
+	$(PY) tools.py script_inserter generated/script.$*.asm generated/script-patches.$*.asm generated/tree.$*.asm script.yaml $* generated/script_with_words.$*.tbl
 
 # Generate the font lookup
-generated/font-lookup.asm: script.$(LANGUAGE).tbl
-	$(PY) tools.py generate_font_lookup $^ generated/font-lookup.asm 
+generated/font-lookup.%.asm: script.%.tbl tools.py
+	$(PY) tools.py generate_font_lookup $< generated/font-lookup.$*.asm 
 
-# ROM building
+# We need to substitute variables in the asm until WLA DX can do it...
+generated/ps1jert.%.sms.asm: ps1jert.sms.asm tools.py
+	$(PY) tools.py fix_asm $< $@ $*
 
 # Generate the dependencies list for assembly
-generated/auto.makefile: ps1jert.sms.asm
-	$(WLAZ80) -M -D LANGUAGE=$(LANGUAGE) -D WLA_DX_BUG_WORKAROUND -o ps1jert.sms.o $^ > $@
+generated/auto.makefile.%: generated/ps1jert.%.sms.asm tools.py
+	$(WLAZ80) -M -D LANGUAGE=$* -D WLA_DX_BUG_WORKAROUND -o $(<:.asm=.o) $< > $@
 	$(PY) tools.py fix_makefile $@
 
-include generated/auto.makefile
+#generated/auto.makefile.%: LANGUAGE=$*
 
-ps1jert.sms.o: ps1jert.sms.asm
-	$(WLAZ80) -D LANGUAGE=$(LANGUAGE) -o "$@" "ps1jert.sms.asm"
+# Then include it. The - at the start makes it not error out on the first makefile parse.
 
-ps1jert.sms: ps1jert.sms.o
-	$(WLALINK) -d -r -v -S linkfile "ps1jert.sms"
+# Now we add in the recipe to actually compile...
+generated/ps1jert.%.sms.o:
+	$(WLAZ80) -D LANGUAGE=$* -o $@ $(@:.o=.asm)
 
-ps1jert.$(LANGUAGE).ips: $(PSJ) ps1jert.sms
-	$(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.$(LANGUAGE).ips
+# And then link
+ps1jert.%.sms: generated/ps1jert.%.sms.o
+	echo [objects] > generated/linkfile.$*
+	echo "$<" >> generated/linkfile.$*
+	$(WLALINK) -d -r -v -S generated/linkfile.$* $@
 
-ps1jert.$(LANGUAGE).bps: $(PSJ) ps1jert.sms
-	$(FLIPS) --create $(PSJ) ps1jert.sms ps1jert.$(LANGUAGE).bps
+# And make patches
+ps1jert.%.ips: $(PSJ) ps1jert.%.sms
+	$(FLIPS) --create $(PSJ) ps1jert.$*.sms $@
+ps1jert.%.bps: $(PSJ) ps1jert.%.sms
+	$(FLIPS) --create $(PSJ) ps1jert.$*.sms $@
 
-clean:
-	$(PY) tools.py clean generated
 
-sizes: clean
-	del sizes.txt
-	for /l %%n in (1,1,140) do @del generated\words.tbl & ((make WORD_COUNT=%%n LANGUAGE=$(LANGUAGE) ps1jert.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> sizes.txt
+# Generate all the IPS and BPSes for each language found, from script.*.tbl
+LANGUAGES = $(subst .tbl,,$(subst script.,,$(wildcard script.*.tbl)))
+all: $(foreach lang,$(LANGUAGES),ps1jert.$(lang).ips ps1jert.$(lang).bps)
 
-# Generate all the IPS and BPSes for each language found
-# This will always do a full build because "all" is a phony target.
-all: script.*.tbl
-	$(foreach var,$(subst .tbl,,$(subst script.,,$^)),make clean && make -j LANGUAGE=$(var) &&) echo done
+# Mark various targets as "precious". This makes make keep the files rather than auto-delete them.
+.PRECIOUS: ps1jert.%.sms generated/ps1jert.%.sms.o generated/auto.makefile.% generated/ps1jert.%.sms.asm generated/script_with_words.%.tbl generated/words.%.tbl
+
+# We include all languages' makefiles here.
+# Make will automatically regenerate them as needed.
+# This unfortunately means we generate them for all langauges when we only ask for one -
+# but I can't find a way to avoid that without running sub-makes.
+-include $(foreach lang,$(LANGUAGES),generated/auto.makefile.$(lang))
 
 psrp.zip: all
 	$(7Z) a ../psrp.zip *.?ps ../readme.md
+
+clean:
+	$(PY) tools.py clean generated
