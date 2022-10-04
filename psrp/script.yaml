@@ -3832,7 +3832,8 @@
 
 - offsets: 54ca
   # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
-  # Split up to allow different translations from the usage by airstrip guards
+  # Split up from 4c30,4ccf to allow different translations from the usage by airstrip guards
+  # TODO: consider rewriting this and the split version accordingly
   indices: 0CE
   ja: フザケルナ。<wait>
   kanji: ふざけるな。
