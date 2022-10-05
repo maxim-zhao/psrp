@@ -9867,7 +9867,7 @@
   us: IT STINKS!<wait>
   en: Wow, this stuff stinks.<wait>
   fr: Peut importe combien de fois vous le reniflez, ca empeste.<wait>
-  pt-br: Uau, essa coisa fede.<wait>
+  pt-br: Credo, essa coisa fede!<wait>
   ca: Ondia, això fa catipén.<wait>
   es: Ostras, vaya peste.<wait>
   de: Das Zeug stinkt fürchterlich!<wait>
@@ -9959,7 +9959,7 @@
   fr: Hapsby secoue la tête.<wait>
   pt-br: Hapsby balançou a cabeça.<wait>
   ca: Hapsby nega amb el cap.<wait>
-  es: Hapsby dice no con la cabeza. <wait>
+  es: Hapsby dice no con la cabeza.<wait>
   de: Hapsby schüttelt den Kopf.<wait>
 
 - offsets: 2784
@@ -9973,7 +9973,7 @@
     HARDHEADED.<wait>
   en: Hapbsy’s head is hard.<wait>
   fr: La tête d'Hapsby est dure.<wait>
-  pt-br: A cabeça de Hapbsy é dura.<wait>
+  pt-br: Hapsby é cabeça-dura.<wait>
   ca: En Hapsby té el cap dur.<wait>
   es: Hapsby tiene la cabeza muy dura.<wait>
   de: Hapsby hat einen harten Schädel.<wait>
@@ -10094,7 +10094,7 @@
     LEARNED MAGIC YET<wait>
   en: <player> doesn’t know any spells yet.<wait>
   fr: <player> ne connaît pas de sortilège.<delay>
-  pt-br: <player> não conhece nenhum feitiço ainda.<delay>
+  pt-br: <player> não aprendeu nenhuma magia ainda.<delay>
   ca: <player> no ha après encara cap encanteri. <delay>
   es: <player> no ha aprendido aún ningún hechizo. <delay>
   de: <player> hat noch keine Zaubersprüche gelernt.<delay>
@@ -10302,7 +10302,7 @@
     DROPPED,<end>
   en: You dropped <article><item>...<end>
   fr: Vous jetez <article><item>.<end>
-  pt-br: Você descartou <article><item>, e<end>
+  pt-br: Você descartou <article><item>...<end>
   ca: Heu llençat <article><item>.<end>
   es: Habéis tirado <article><item>.<end>
   de: Du wirfst <acc><item> weg<end>
@@ -10317,7 +10317,7 @@
     PICKED UP.<wait>
   en: ...and you got <article><item>.<wait>
   fr: Vous avez <article><item>.<wait>
-  pt-br: Você obteve <article><item>.<wait>
+  pt-br: ...e obteve <article><item>.<wait>
   ca: Aconseguiu <article><item>.<wait>
   es: Habéis conseguido <article><item>.<wait>
   de: und erhältst <acc><item>.<wait>
@@ -10747,7 +10747,7 @@
     LIKE TO SELL?<end>
   en: What do you have?<end>
   fr: Voyons voir...<end>
-  pt-br: O que você tem?<end>
+  pt-br: O que você tem aí?<end>
   ca: Que teniu?<end>
   es: ¿Qué tenéis?<end>
   de: Was möchten Sie verkaufen?<end>
@@ -10767,7 +10767,7 @@
   # No item in the game sells for exactly 1 meseta.
   en: Hmm, <article><item>? How does <number> mesetas sound?<end>
   fr: <article><item>. Disons <number> mesetas_?<end>
-  pt-br: Hmm, <article><item>? Que tal <number> mesetas?<end>
+  pt-br: Humm, <article><item>? Que tal <number> mesetas?<end>
   ca: Hmm, <article><item>? Que et sembla <number> mesetas?<end>
   es: Hmm, ¿<article><item>? ¿Qué te parece <number> mesetas?<end>
   de: Hmm, <acc><item>? Dafür kann ich Ihnen <number> Meseta anbieten.<end>
@@ -11121,7 +11121,7 @@
     Quelque chose m'a fait échouer.<wait>
   pt-br: |
     ArutemuhamuRAmu A--rgh!<line>
-    Cof! cof!<wait more>
+    Cof! Cof!<wait more>
     Mil desculpas.<line>
     Por alguma razão, eu falhei.<wait>
   ca: |
@@ -11198,7 +11198,7 @@
     ENOUGH ALREADY.<wait>
   en: <player> is already at the highest level.<wait>
   fr: <player> est déjà en pleine forme.<wait>
-  pt-br: <player> já está em plena saúde.<wait>
+  pt-br: <player> já está no nível máximo.<wait>
   ca: <player> ja és en plena forma.<wait>
   es: <player> ya está en plena forma.<wait>
   de: <player> hat die höchste Stufe bereits erreicht.<wait>
@@ -11297,7 +11297,7 @@
     LASSIC.<wait>
   en: ‘You should not go against Lord LaShiec.’<wait>
   fr: Vous ne devriez pas tenir tête au Seigneur Lassic.<wait>
-  pt-br: ‘Você não deve ir contra LaShiec.’<wait>
+  pt-br: ‘Não desafie Lorde LaShiec.’<wait>
   ca: ‘No heu d'anar en contra Lashiec.’<wait>
   es: ‘No vayáis en contra de Lashiec.’<wait>
   de: „König Lashiec solltet ihr besser nicht die Stirn bieten.“<wait>
@@ -11433,7 +11433,7 @@
     NAME.<wait>
   en: ‘IceDeckers can cut through ice!’<wait>
   fr: Les ForaGlaces permettent de briser la glace.<wait>
-  pt-br: ‘Cavadores de Gelo podem cortar sobre o gelo!’<wait>
+  pt-br: ‘Cavadores de Gelo podem até perfurar o gelo!’<wait>
   ca: ‘Els Trencaglaços poden travessar el gel!’<wait>
   es: ‘¡Los Rompehielos pueden atravesar el hielo!’<wait>
   de: „IceDecker können selbst Eis durchstoßen!“<wait>
@@ -11582,7 +11582,9 @@
     The same telepathy that you're using right now can also be used to detect traps.’<wait>
   # TODO (maybe): add this hint to other languages
   fr: Vous êtes bien brave pour me parler. Approchez-vous.<wait>
-  pt-br: ‘Você é muito corajoso para conversar comigo. Fique por aqui.’<wait>
+  pt-br: |
+    ‘Você é muito corajoso para conversar comigo. Eu vou te contar um segredo em troca:<wait more>
+    A mesma telepatia que você está usando agora, também pode ser usada para detectar armadilhas.’<wait>
   ca: ‘Certament sou molt valents de parlar amb mi. Apropeu-vos.’<wait>
   es: ‘Ciertamente soís muy valientes para atraveros a hablar conmigo. Acercaros.’<wait>
   de: |
@@ -11646,7 +11648,8 @@
   us: WELL, SAVING <number>.<wait>
   en: OK. Now saving in slot <number>...<delay>
   fr: Ok. Emplacement numéro <number> en cours de sauvegarde...<delay>
-  pt-br: Certo. Salvando na posição <number>...<delay>
+  pt-br: Certo. Salvando na posição <line>
+    <number>...<delay>
   ca: D'acord, guardant a la ranura <number>...<delay>
   es: De acuerdo, guardando en la ranura <number>...<delay>
   de: OK. Spiel wird in Position <number> gespeichert...<delay>
@@ -11705,7 +11708,8 @@
   us: CONTINUING GAME <number>.<wait>
   en: OK. Continuing from slot <number>.<delay>
   fr: Ok. Continuer à partir de l'emplacement numéro <number>.<delay>
-  pt-br: Certo. Continuando da posição <number>.<delay>
+  pt-br: Certo. Continuando da posição <line>
+    <number>.<delay>
   ca: D'acord. Continuant desde la ranura <number>.<delay>
   es: De acuerdo. Continuando desde la ranura <number>.<delay>
   de: OK. Spiel in Position <number> wird fortgesetzt.<delay>
