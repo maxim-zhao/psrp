@@ -1108,7 +1108,18 @@ _PronounHis: String "his"
 ; No pronouns yet
 .endif
 .if LANGUAGE == "pt-br"
-; No pronouns yet
+.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = Ele/Ela
+; 1 = ele/ela
+_PronounsF:
+.dw _PronounElaUpper, _PronounElaLower
+_PronounElaUpper: String "Ela"
+_PronounElaLower: String "ela"
+_PronounsM:
+.dw _PronounEleUpper, _PronounEleLower
+_PronounEleUpper: String "Ele"
+_PronounEleLower: String "ele"
 .endif
 .if LANGUAGE == "ca"
 ; No pronouns yet
