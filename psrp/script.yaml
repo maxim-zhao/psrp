@@ -8472,7 +8472,7 @@
   en: His companions were flung from his back, tumbling through the sky towards their death.<wait>
   # TODO: rewrite other languages here
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
-  pt-br: Seus companheiros foram arremessados de suas costas, caindo do céu em direção a própria morte.<wait>
+  pt-br: Seus companheiros foram arremessados de suas costas, caindo do céu em direção para a sua própria morte.<wait>
   ca: Alisa i els altres son arrancats d'en Myau, caient al cel.<wait>
   es: Alisa y los otros son arrancados Myau, cayendo al cielo.<wait>
   de: Alisa und die anderen fielen von Myaus Rücken in die Tiefe.<wait>
@@ -11586,7 +11586,7 @@
   # TODO (maybe): add this hint to other languages
   fr: Vous êtes bien brave pour me parler. Approchez-vous.<wait>
   pt-br: |
-    ‘Você é muito corajoso para conversar comigo. Eu vou te contar um segredo em troca...<wait more>
+    ‘Você é muito corajoso para conversar comigo. Vou te contar um segredo em troca...<wait more>
     A mesma telepatia que você está usando agora, também pode ser usada para detectar armadilhas.’<wait>
   ca: ‘Certament sou molt valents de parlar amb mi. Apropeu-vos.’<wait>
   es: ‘Ciertamente soís muy valientes para atraveros a hablar conmigo. Acercaros.’<wait>
