@@ -6803,3 +6803,22 @@ HospitalAndChurchFixHelper:
     call HospitalAndChurchFixHelper
   pop bc
 .ends
+
+; And when saving a game...
+  ROMPosition $1e41
+.section "Save game bug fix" overwrite size 3
+; Original code:
+;    ld     hl,$b39f        ; 001E3B 21 9F B3 
+;    call   TextBox20x6     ; 001E3E CD 3A 33 
+;    call   $3acf           ; 001E41 CD CF 3A 
+; Following code assumes BC is still valid
+  call SaveFixHelper
+.ends
+
+.section "Save game bug fix part 2" free
+SaveFixHelper:
+  push bc
+    call $3acf ; save slot select
+  pop bc
+  ret
+.ends
