@@ -611,7 +611,7 @@
   pt-br: |
     Meu nome é Nekise.<line><line>
     Fiquei triste ao saber de sua perda.<wait more>
-    Nero me pediu para ajudá-la a encontrar um guerreiro chamado Tylon, você também está procurando por ele?<wait more>
+    Nero me pediu para te ajudar a encontrar um guerreiro chamado Tylon, você também está procurando por ele?<wait more>
     A última vez que ouvi, ele estava hospedado em uma cidade chamada Shion. Talvez ele ainda esteja por perto.<wait more>
     Seu irmão também me pediu para manter este Pote de Lacônia seguro.<wait more>
     Ele é muito valioso, talvez seja útil em sua jornada. Aqui, pode pegar.<wait>
@@ -750,7 +750,7 @@
     Comment vais-je rentrer chez moi_?<wait>
   pt-br: |
     Você não pode mais entrar no Espaçoporto sem um tal de Passe.<wait more>
-    Tentei me cadastrar para conseguir um, mas disseram-me que pode demorar semanas. Como é que vou voltar para casa?<wait>
+    Tentei me cadastrar para conseguir um, mas me disseram que pode demorar semanas. Como é que vou voltar para casa?<wait>
   ca: |
     Ni tan sols pots entrar al port espacial sense un salconduit.<wait more>
     He intentat aconseguir-ne un, però diuen que pot trigar setmanes. Com m'ho faré per tornar a casa?<wait>
@@ -1233,7 +1233,7 @@
     Un animal parlant avec une fiole autour du cou l'accompagnait_!<wait more>
     Je me demande ce que c'était_?<wait>
   pt-br: |
-    Sim, Tylon estava aqui. Ele disse que estava indo para o sul para matar Medusa. Eu não o vi desde então.<wait more>
+    Sim, Tylon estava aqui. Ele disse que estava indo para o sudoeste para matar Medusa. Eu não o vi desde então.<wait more>
     Ele não estava sozinho, ele estava viajando com um animal falante! Eu não pude acreditar!<wait more>
     Ele tinha um frasco de remédio de aparência importante em seu pescoço. Eu me pergunto para o que serve?<wait>
   ca: |
@@ -1704,7 +1704,7 @@
   us: DON'T BE A FOOL!<wait>
   en: Well? Let’s see it.<wait>
   fr: Eh bien_? Voyons ca.<wait>
-  pt-br: Certo? Deixe-me ver isso.<wait>
+  pt-br: Ah é? Então me mostre.<wait>
   ca: De debò? A veure.<wait>
   es: ¿En serio? A ver.<wait>
   de: Na? Dann zeigen Sie mal.<wait>
@@ -1841,7 +1841,7 @@
     DAY.<wait>
   en: Oh, okay then.<wait>
   fr: Parfait. Au suivant, s'il vous plait.<wait>
-  pt-br: Oh, está bem então.<wait>
+  pt-br: Ah, está bem então.<wait>
   ca: Oh, d'acord aleshores.<wait>
   es: Oh, de acuerdo entonces.<wait>
   de: Oh, dann auf Wiedersehen.<wait>
@@ -2277,7 +2277,7 @@
     Je suppose que nous sommes compagnons maintenant, hein_?
     Je m'appelle Alisa. Comment t'appelles-tu_?<wait>
   pt-br: |
-    Acho que nós somos companheiros agora, hein?<line><line>
+    Acho que nós somos companheiros agora, não é?<line><line>
     Sou Alisa. Qual é o seu nome?<wait>
   ca: |
     Suposo que ara som companys, no?<line><line>
@@ -2329,7 +2329,7 @@
   pt-br: |
     Olá, Myau. Estou procurando um homem chamado Tylon.<wait more>
     Há rumores de que ele estava viajando com um animal falante.<line><line>
-    Poderia ser você?<wait>
+    Seria você?<wait>
   ca: |
     Hola, Myau. Estic buscant un home anomenat Tylon.<wait more>
     Deien que viatjava amb un animal que parlava.<line><line>
@@ -2372,7 +2372,7 @@
     Tylon doit toujours être à Scion, sais-tu comment y aller_?<wait>
   pt-br: |
     Tylon foi transformado em pedra tentando matar Medusa!<line><line>
-    Nós podemos curá-lo com este medicamento, mas não consigo abrir a tampa...<wait>
+    Nós podemos curar ele com este medicamento, mas não consigo abrir a tampa...<wait>
   ca: |
     En Tylon va ser convertit en pedra quan intentava derrotar a Medusa!<line><line>
     El podem curar amb aquest remei, però no puc obrir el tap...<wait>
@@ -2457,7 +2457,7 @@
     It's working!<delay>
   fr: <player> ouvre la bouteille et en verse le contenu.<delay>
   pt-br: |
-    <player> abriu a tampa da garrafa e despeja seu conteúdo.<wait more>
+    Então, <ela> abriu a tampa da garrafa e despejou seu conteúdo.<wait more>
     Está funcionando!<delay>
   ca: |
     <player> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
@@ -2694,9 +2694,9 @@
     Nous allons en avoir besoin. Allons-y.<wait>
   pt-br: |
     Ah, é porque ela tem um machado mágico, e eu o quero.<line><line>
-    Talvez possamos pegá-lo no caminho para LaShiec?<wait more>
+    Talvez podemos pegar ele no caminho que nos levará até LaShiec?<wait more>
     Enfim, escondi uma Bússola em um beco sem saída nesta caverna.<line><line>
-    Venha, vamos pegá-la. Tenho certeza de que pode ser útil.<wait>
+    Venha, vamos lá pegar. Tenho certeza de que pode ser útil.<wait>
   ca: |
     Oh, es per que amaga una destral màgica entre els seus tresors, i la necessitarem.<line><line>
     Potser podrem aconseguir-la en el camí a enfrontar-nos a en Lashiec?<wait more>
@@ -2742,7 +2742,7 @@
     je pense qu'il est en accord avec la quête que vous avez entreprise_!<wait>
   pt-br: |
     Não me surpreenderia se o Governador-Geral de Motávia aprovasse o que você está fazendo.<wait more>
-    Ele pode até mesmo ser capaz de ajudá-lo em sua jornada. Você já falou com ele?<wait>
+    Ele pode até mesmo ser capaz de te ajudar em sua jornada. Você já falou com ele?<wait>
   ca: |
     No em sorprendria que al Governador General de Motavia li semblés bé el que fas.<wait more>
     Potser fins i tot et podria ajudar en la teva cerca. Has parlat amb ell?<wait>
@@ -2792,7 +2792,7 @@
     Je me demande s'il y est toujours_?<wait>
   pt-br: |
     Há muito tempo, um cientista chamado Luveno tinha um laboratório de pesquisa na Floresta de Gótica.<wait more>
-    Eu me pergunto se ele ainda está lá?<wait>
+    Eu me pergunto, será que ele ainda está lá?<wait>
   ca: |
     Fa molt temps,un professor anomenat Luveno disposava d'un laboratori al bosc de Gothic.<wait more>
     Em pregunto si encara hi deu ser?<wait>
@@ -2853,7 +2853,7 @@
   pt-br: |
     Derrubar LaShiec, não é?<wait more>
     Ou você é louco, ou é mais forte do que parece.<wait more>
-    De qualquer forma, eu admiro sua coragem. Você está precisando de uma Chave do Calabouço?<end>
+    De qualquer forma, eu admiro sua coragem. Está precisando de uma Chave do Calabouço?<end>
   ca: |
     Vas en contra del vell Lashiec, no?<wait more>
     O ets una ximple, o ets més forta del que sembla.<wait more>
@@ -2918,7 +2918,7 @@
     IN OUR WORLD IS?<end>
   en: Do you know what the hardest, strongest material in the world is?<end>
   fr: Connaissez-vous le matériau qui est le plus incroyable au monde_?<end>
-  pt-br: Você sabe qual é o material mais duro, mais forte do mundo?<end>
+  pt-br: Você sabe qual é o material mais forte e mais duro do mundo?<end>
   ca: Saps quin és el material més dur i fort del món?<end>
   es: ¿Sabes cuál es el material más duro y fuerte del mundo?<end>
   de: Wisst ihr, was das härteste, stärkste Material in der ganzen Welt ist?<end>
@@ -2976,7 +2976,7 @@
     Mes fameuses tartes coûtent <number> mesetas.<wait more>
     Je vous en emballe une_?<end>
   pt-br: |
-    Ei, um cliente! Que bom que você nos encontrou. Desculpe a localização.<wait more>
+    Ei, um cliente! Que bom que nos encontrou. Desculpe a localização.<wait more>
     Meus bolos são famosos em Algol, é um roubo ser apenas <number> mesetas. Quer um?<end>
   ca: |
     Apa, un client! M'en alegro que ens hagis trobat. Perdó per la localització...<wait more>
@@ -3175,9 +3175,9 @@
     Revenez ici quand vous aurez vaincu Lassic. J'ai foi en vous.<wait>
   pt-br: |
     Olá. Eu sou o Governador-Geral deste planeta. Você veio de tão longe. Por favor, sente-se.<wait more>
-    Eu sei porque está aqui. Você certamente não fez nenhum segredo disso. Você pretende derrotar LaShiec.<wait more>
+    Eu sei porque está aqui. Você certamente não fez nenhum segredo disso. Pretende derrotar LaShiec, não é?<wait more>
     LaShiec é um homem poderoso. Não, mais do que um homem. Está além dessas restrições.<wait more>
-    Você é muito corajosa para levar isso adiante. Mas coragem, eu temo que não será o suficiente.<wait more>
+    Você tem muita coragem em levar isso adiante. Mas coragem, eu temo que não será o suficiente.<wait more>
     Vá. Destrua-o. Eu não vou te impedir. Na verdade, vou lhe oferecer assistência.<wait more>
     Um Esper poderoso chamado Lutz vive na caverna de Mahal, ao norte daqui. Leve esta carta para ele.<wait more>
     Com sua ajuda, tenho fé que você terá sucesso. Volte aqui quando tiver derrotado LaShiec.<wait>
@@ -3222,7 +3222,7 @@
     HERE EVENTUALLY.<wait>
   en: Return here when you have defeated LaShiec. God be with you.<wait>
   fr: Revenez ici quand vous aurez vaincu Lassic. Que Dieu vous garde.<wait>
-  pt-br: Volte aqui quando você derrotar LaShiec. Que Deus esteja com você.<wait>
+  pt-br: Volte aqui quando derrotar LaShiec. Que Deus esteja com você.<wait>
   ca: Torneu aquí un cop hàgiu derrotat en Lashiec. Déu vos guard.<wait>
   es: Volved aquí una vez hayáis derrotado a Lashiec. Que Dios os proteja.<wait>
   de: Sagen Sie Bescheid, wenn Lashiec nicht mehr lebt. Ich zähle auf Sie.<wait>
@@ -3765,7 +3765,7 @@
   fr: |
     Hey_!<line>
     Sortez d'ici_!<wait>
-  pt-br: Ei! Fique longe do meu território! Tudo passando daqui é meu!<wait>
+  pt-br: Ei! Fique longe do meu território! Passando daqui, tudo é meu!<wait>
   ca: Hey! Fora del meu tros! A partir d'aquí tot és meu!<wait>
   es: ¡Hey! ¡Fuera de mi terruño! ¡Desde aquí todo esto es mio!<wait>
   de: Ey! Das da is' mein Revier! Verzieht euch!<wait>
@@ -3841,7 +3841,7 @@
   us: DON'T BE A FOOL!<wait>
   en: Well? Let’s see it.<wait>
   fr: Eh bien_? Voyons ca.<wait>
-  pt-br: Certo? Deixe-me ver isso.<wait>
+  pt-br: Ei, não brinque comigo!<wait>
   ca: De debò? A veure.<wait>
   es: ¿En serio? A ver.<wait>
   de: Mann, verarsch mich doch nich!<wait>
@@ -3939,7 +3939,7 @@
   fr: |
     Il y a longtemps que je n'ai vu personne.<wait more>
     Vous ne voulez pas rester parler avec moi un moment_?<end>
-  pt-br: Oh, olá! Faz muito tempo que não vejo outra pessoa! Gostaria de ficar e conversar um pouco?<end>
+  pt-br: Ah, olá! Faz muito tempo que não vejo outra pessoa! Gostaria de ficar e conversar um pouco?<end>
   ca: Oh, hola! No he vist a ningú desde fa molt de temps! Vols quedar-te i conversar una mica?<end>
   es: Oh, ¡hola! ¡No he visto a nadies desde hace mucho tiempo! ¿Te quedas y charlamos un poco?<end>
   de: Oh, hallo! Ich hab seit Ewigkeiten keinen mehr zu Gesicht bekommen. Bleibt ihr ein bisschen?<end>
@@ -3977,7 +3977,7 @@
   pt-br: |
     Eu tenho um amigo em Bartevo.<wait more>
     Por causa de todas aquelas poças de lava, acho que as coisas estão bem feias por lá.<wait more>
-    Se caso o vir, poderia dizer ‘oi’ por mim?<wait>
+    Se caso o vir, poderia cumprimentá-lo por mim?<wait>
   ca: |
     Tinc un amic a Bartevo.<wait more>
     Sembla que les coses van força malament allà, amb tots els llacs de lava i tal.<wait more>
@@ -4275,7 +4275,7 @@
   pt-br: |
     O quê? Você libertou o Doutor Luveno?<wait more>
     O quê? Ele está construindo uma nave espacial?!<wait more>
-    Ele é velho demais para isso, então é melhor que eu vá ajudá-lo.<wait>
+    Ele é velho demais para isso, é melhor eu ir dar uma mãozinha.<wait>
   ca: |
     Què? Heu alliberat al Doctor Luveno?<wait more>
     Què?! Us està construint una nau espacial?!<wait more>
@@ -4611,7 +4611,7 @@
     Allez donc visiter une grotte, car là nous sommes très occupés_!<wait>
   pt-br: |
     Por favor, não apresse a perfeição.<wait more>
-    A menos que você queira acabar encalhado no espaço, dá-nos um tempo.<wait more>
+    A menos que queira acabar encalhado no espaço, nos dê um tempo.<wait more>
     Você não quer ir passear em uma caverna ou algo assim? Estamos muito ocupados.<wait>
   ca: |
     Si us plau, la perfecció necessita temps.<wait more>
@@ -4646,7 +4646,7 @@
     C'est vraiment une superbe pièce, n'est-ce pas_?<wait>
   pt-br: |
     Sucesso! Este é o meu melhor trabalho até então.<wait more>
-    Eu a chamo de Luveno. Soa bem, você não acha?<wait>
+    Eu a chamo de Luveno. Soa bem, não acha?<wait>
   ca: |
     Fet! Aquesta és la meva millor obra.<wait more>
     L'anomenaré la Luveno. Sona bé, no et sembla?<wait>
@@ -4762,7 +4762,7 @@
     Ah, meu pequeno Hapsby, você chegou em casa!<wait more>
     Excelente. Com Hapsby você pode pilotar a Luveno através do espaço!<wait more>
     E bem na hora, também. A segurança do Espaçoporto ficou mais rígida.<wait more>
-    Vá em frente! A Luveno está ancorada fora da vila! Vá experimentá-la!<wait>
+    Vá em frente e faça um teste! A Luveno está ancorada fora da vila!<wait>
   ca: |
     Ah, el petit Hapsby, has tornat a casa!<wait more>
     Excel·lent. Amb en Hapsby podeu portar la Luveno a través del espai!<wait more>
@@ -4888,7 +4888,7 @@
     Je me demande si c'est vrai.<wait>
   pt-br: |
     Alguém me disse que há um robô em perfeito estado descartado em um desses montes de sucata.<wait more>
-    Eu me pergunto se isso é verdade?<wait>
+    Será que isso é verdade?<wait>
   ca: |
     Algú em va dir que hi ha un robot perfectament vàlid llençat en un d'aquest munts de brossa.<wait more>
     Em pregunto si serà veritat?<wait>
@@ -4943,7 +4943,7 @@
     Je vous aiderai dans l'utilisation de n'importe quel vaisseau Luveno.<wait>
   pt-br: |
     Saudações. Sou o robô-piloto Hapsby. Obrigado por me resgatar.<wait more>
-    Vou ajudá-lo na operação de qualquer espaçonave da marca Luveno.<wait>
+    Vou te ajudar na operação de qualquer espaçonave da marca Luveno.<wait>
   ca: |
     Salut. Sóc el robot pilot Hapsby. Gràcies per rescatar-me.<wait more>
     T'ajudaré a operar qualsevol nau espacial d'en Luveno.<wait>
@@ -5097,7 +5097,7 @@
     Puisque vous êtes ici, vous pourriez visiter Abion.<wait more>
     C'est un village comme celui-ci, à la pointe ouest de l'île.<wait>
   pt-br: |
-    Ei, já que você está aqui, você pode muito bem fazer uma visita a Avion.<wait more>
+    Ei, já que está aqui, você deveria visitar Avion.<wait more>
     Lá é um povoado pequeno como este, na ponta ocidental da ilha.<wait>
   ca: |
     Ja que ets per aquí, hauries de visitar Avion.<wait more>
@@ -5183,8 +5183,8 @@
     C'est une rumeur, alors ne dites à personne que je vous en ai parlé.<wait>
   pt-br: |
     Você vai derrotar LaShiec? Já era hora de alguém fazer isso!<wait more>
-    Mas ele não é um novato. Sua magia negra poderia destruí-lo.<wait more>
-    Já ouvi que alguns cristais podem protegê-lo contra tal magia.<wait more>
+    Mas ele não é um novato. Sua magia negra poderia te destruir.<wait more>
+    Já ouvi dizer que alguns cristais podem te proteger contra tal magia.<wait more>
     Apesar de tudo, isso é apenas um rumor. Não comente que falei sobre isso.<wait>
   ca: | 
     Enderrocareu en Lashiec? Ja era hora que algú ho fés!<wait more>
@@ -5235,7 +5235,7 @@
   fr: |
     L'aura maléfique de Lassic a également corrompu notre village_!<wait more>
     S'il vous plait, arrêtez-le.<wait>
-  pt-br: A influência maligna de LaShiec corrompeu nossa vila também! Por favor, você tem que detê-lo!<wait>
+  pt-br: A influência maligna de LaShiec corrompeu nossa vila também! Por favor, você precisa deter ele!<wait>
   ca: La negra mà d'en Lashiec ha arribat també a aquesta vila! Si us plau, teniu que aturar-lo!<wait>
   es: ¡La negra mano de Lashiec ha llegado también a esta villa! Por favor,¡tenéis que pararlo!<wait>
   de: Lashiecs Einfluss hat selbst unser Dorf erreicht!<line>Bitte helft uns!<wait>
@@ -5400,7 +5400,7 @@
     WHO INTERFERE!<wait>
   en: I said come HERE.<wait>
   fr: J'ai dit VIENS ICI_!<wait>
-  pt-br: Eu disse venha AQUI!<wait>
+  pt-br: Eu mato qualquer um que ficar em meu caminho!<wait>
   ca: He dit que vinguis ací!<wait>
   es: ¡He dicho que vengas aquí!<wait>
   de: Ich töte jeden, der sich mir in den Weg stellt!<wait>
@@ -5581,7 +5581,7 @@
     Il en a peur_!<wait>
   pt-br: |
     Lacônia é mais do que forte, é sagrada. As armas feitas com ela possuem poderes divinos.<wait more>
-    LaShiec sabe disso, é claro, e é por isso que ele as escondeu pela galáxia! Ele está com medo!<wait>
+    LaShiec sabe disso, é claro, e é por isso que as escondeu pela galáxia! Ele está com medo!<wait>
   ca: |
     La Laconia és quelcom més que forta, es sagrada. Les armes forjades amb ella tenen poders divins.<wait more>
     Lashiec ho sap, per suposat. Aquesta és la raó per la que les ha amagat per la galaxia! Te por!<wait>
@@ -5731,7 +5731,7 @@
     S'il vous plait, arrêtez-le. C'est bien trop horrible_!<wait>
   pt-br: |
     As forças profanas com as quais LaShiec e sua laia se envolveram já foram longe demais.<wait more>
-    Todos os cadáveres do Necrotério Guaran voltaram a viver! Isto é grotesco!<wait>
+    Todos os cadáveres do Necrotério Guaran voltaram a viver! Muito assustador!<wait>
   ca: |
     Les forces malsanes amb les que en Lashiec i el seus s'han involucrat han anat massa lluny.<wait more>
     Tots els cossos de la morgue de Guaran han tornat a la vida! És grotesc!<wait>
@@ -5784,7 +5784,7 @@
   fr: |
     Fourmilions_? Pas de problème_!<wait more>
     Conduisez donc un GéoMaster au dessus d'eux_!<wait>
-  pt-br: Formigas-Leão? Não tem problema! Você pode dirigir um Mestre-Terra por cima delas.<wait>
+  pt-br: Formigas-Leão? Não tem problema! Você pode dirigir um Rover Terrestre por cima delas.<wait>
   ca: Formigues-Lleó? No hi ha problema! Pots passar amb un LandMaster per sobre.<wait>
   es: ¿Hormigas-León? ¡No hay problema! Puedes pasar con un LandMaster por encima.<wait>
   de: Ameisenlöwen? Mit einem LandMaster könnt ihr ganz einfach drüberfahren!<wait>
@@ -5803,7 +5803,7 @@
     THE SOUTH OF HERE.<wait>
   en: To the south of Uzo lies a village called Casba.<wait>
   fr: Au sud d'Uzo se trouve le village de Casba.<wait>
-  pt-br: Ao sul de Uzo está uma vila chamada Casba.<wait>
+  pt-br: Ao sul de Uzo tem uma vila chamada Casba.<wait>
   ca: Al sud d'Uzo hi ha una vila anomenada Casba.<wait>
   es: Al sur de Uzo hay una villa llamada Casba.<wait>
   de: Südlich von hier liegt das Dorf Casba.<wait>
@@ -5910,7 +5910,7 @@
     Oh.<wait more>
     Très bien.<wait>
   pt-br: |
-    Oh.<wait more>
+    Ah.<wait more>
     Muito bem.<wait>
   ca: |
     Oh.<wait more>
@@ -6067,7 +6067,7 @@
     Apparemment, Persée s'en serait servi pour vaincre un monstre.<wait>
   pt-br: |
     Em uma vila cercada por névoa, as pessoas contam a história de um escudo lendário.<wait more>
-    Dizem que há muito tempo um homem chamado Perseus o usou para enfrentar um monstro.<wait>
+    Dizem que há muito tempo, um homem chamado Perseus o usou para enfrentar um monstro.<wait>
   ca: |
     En una vila emboirada, la gent explica un conte sobre un escut llegendari.<wait more>
     Diuen que fa molt de temps, un home anomenat Perseu el va emprar per enfrontar-se a un monstre.<wait>
@@ -6199,8 +6199,8 @@
     Oh, c'est génial_! Quand ca marche, bien-sur.<wait more>
     Il peut glisser en douceur au dessus de l'eau.<wait>
   pt-br: |
-    Oh, eles são maravilhosos! Quando eles funcionam, é claro.<wait more>
-    Eles podem deslizar suavemente sobre a água.<wait>
+    Ah, eles são maravilhosos, deslizam tranquilamente sobre as águas!<wait more>
+    Mas só quando funcionam, é claro.<wait>
   ca: |
     Oh, són meravellosos! Quan funcionen, és clar.<wait more>
     Poden lliscar ràpidament sobre els cossos d'aigua.<wait>
@@ -6453,7 +6453,7 @@
     Les masques valent <number> mesetas pièce Bon marché, non_?<wait more>
     En voulez-vous un?<end>
   pt-br: |
-    Aposto que você está surpreso ao encontrar uma loja em um lugar como esse, hein?<wait more>
+    Aposto que você está surpreso ao encontrar uma loja em um lugar como esse, não é?<wait more>
     A Máscara de Gás custa <number> mesetas cada. Muito barata, não? Quer uma?<end>
   ca: |
     Estic segur que us heu sorprés de trobar una botiga en un lloc com aquest, eh?<wait more>
@@ -6621,7 +6621,7 @@
   fr: |
     Je vois...<wait more>
     Je suis navré d'entendre ca. Ohhh...<wait>
-  pt-br: Entendo. Sinto muito em ouvir isso. Ohhh....<wait>
+  pt-br: Entendo. Sinto muito em ouvir isso. Ahhh....<wait>
   ca: Ja vec. És una llàstima sentir això. Ohhh...<wait>
   es: Ya veo. Es una lástima oir eso. Ohhh...<wait>
   de: Ich verstehe. Das ist bedauerlich...<wait>
@@ -6683,8 +6683,8 @@
     J'ai entendu dire qu'il serait enterré sous un cactus.<wait more>
     Navré, c'est tout ce que je sais. Bonne chance.<wait>
   pt-br: |
-    Obrigado. Talvez eu possa ajudá-lo em troca.<wait more>
-    Imagino que você está procurando o Escudo de Perseu. O que ele usou para matar Medusa?<wait more>
+    Obrigado. Talvez eu possa te ajudar em troca.<wait more>
+    Imagino que esteja procurando o Escudo de Perseu, não é? O que ele usou para matar Medusa?<wait more>
     A lenda local diz que ele está em uma ilha no lago, enterrado sob um cacto.<wait>
   ca: |
     Merci. Crec que puc ajudar-vos en agraïment.<wait more>
@@ -6760,7 +6760,7 @@
     Quelle Honte_! Dépêche-toi d'en acheter une_!<wait>
   pt-br: |
     O quê?!<wait more>
-    Que vergonha! Então apresse-se em comprar um!<wait>
+    Que vergonha! Então, se apresse e compre um!<wait>
   ca: |
     QUÉ?!<wait more>
     quina vergonya! Corre a comprar-ne una!<wait>
@@ -6813,7 +6813,10 @@
   fr: |
     Avez-vous croisé Maître Tajim_? C'est un moine.<wait more>
     Il habite dans les montagnes situées au sud du lac.<wait>
-  pt-br: Você conheceu Tajim, o monge? Ele mora nas montanhas ao sul do lago.<wait>
+  pt-br: |
+    Você conheceu Tajim, o monge? Ele mora nas montanhas ao sul do lago.<wait more>
+    Dizem que ele é o maior treinador mágico de Algol.<wait more>
+    Também dizem que ele vê gente morta...<wait>
   ca: Heu conegut en Tajim, el monjo? Viu a les muntanyes al sud del llac.<wait>
   es: ¿Habéis conocido a Tajim el monge? Vive en las montañas al sur del lago. <wait>
   de: Im Gebirge südlich des Meers lebt ein Mönch namens Tajim.<wait>
@@ -6851,7 +6854,7 @@
   fr: |
     N'importe où sera mieux qu'ici_!<wait more>
     Il n'y a pas pire qu'une ville noyée de brume mortelle.<wait>
-  pt-br: Oh, eu queria tanto ir para lá!<wait>
+  pt-br: Ah, eu queria tanto ir para lá!<wait>
   ca: Oh, em moro de ganes d'anar-hi!<wait>
   es: Oh, ¡me muero de ganas de ir!<wait>
   de: Oh, ich würde so gerne mal dort hin!<wait>
@@ -6871,7 +6874,7 @@
     AND FRESH.<wait>
   en: Oh, interesting. I'd go just about anywhere that has cleaner air.<wait>
   fr: Oh, je vois. Je veux aller quelque part où l'air est sain.<wait>
-  pt-br: Oh, interessante. Eu iria para qualquer lugar que tenha o ar mais puro.<wait>
+  pt-br: Ah, interessante. Eu iria para qualquer lugar onde tenha um ar mais puro.<wait>
   ca: Oh, interessant. Jo només vull anar a un lloc amb l'aire més net.<wait>
   es: Oh, interesante. Yo solo quiero ir a un lugar con el aire más limpio. <wait>
   de: Ach, wirklich? Ich würde gerne mal wohin mit sauberer Luft als hier.<wait>
@@ -6950,7 +6953,7 @@
     S'il vous plait dites-lui de venir me voir.<wait>
   pt-br: |
     Tenho algo que devo dizer a ele.<wait more>
-    Por favor, diga-lhe para vir me ver.<wait>
+    Você pode trazê-lo aqui?<wait>
   ca: |
     Li heu de dir una cosa de part meva.<wait more>
     Digueu-li que ha de venir a veure'm.<wait>
@@ -7018,7 +7021,7 @@
   fr: |
     Hé_! Êtes-vous morte_? Quel dommage...<wait more>
     Ressuscitez et essayez encore.<wait>
-  pt-br: ...Lutz? Oh, entendo, ele morreu. Você aí, vá reviver Lutz em uma igreja e traga-o de volta aqui.<wait>
+  pt-br: ...Lutz? Ah, entendo, ele morreu. Você aí, vá reviver Lutz em uma igreja e traga-o de volta aqui.<wait>
   ca: ...Lutz? Oh, ja vec, és mort. Vosaltres, aneu a reviure'l a una església i torneu cap aquí.<wait>
   es: ...¿Lutz? Oh, ya veo, está muerto. Vosotros, id a revivirlo a una iglesia y volved aquí.<wait>
   de: ...Lutz? Oh, er ist tot.<line>Ihr da, bringt ihn in einer Kirche wieder zum Leben und kommt dann zurück.<wait>
@@ -7041,7 +7044,7 @@
   fr: |
     Alors tu te dois de passer un test final.<wait more>
     Battons-nous en duel.<wait>
-  pt-br: Eu te ensinei tudo o que sei. Agora é hora de dar a você um teste final, vamos duelar!<wait>
+  pt-br: Eu te ensinei tudo o que sei. Agora é a hora do teste final. Vamos duelar!<wait>
   ca: T'he ensenyat tot el que sé. És hora d'una última prova. Un duel contra mí!<wait>
   es: Te he enseñado todo lo que sé. Es la hora de una última prueba. ¡Un duelo contra mí!<wait>
   de: Ich kann dich nichts mehr lehren, also ist es Zeit für deine letzte Prüfung... Ein Duell gegen mich!<wait>
@@ -7082,7 +7085,7 @@
     Maintenant, va mon garçon.<wait>
   pt-br: |
     Você ficou forte, meu rapaz! Você tem todo o poder que precisa para concluir sua tarefa.<wait more>
-    Tome isso, é um Manto de Frade, um presente para você. Isso protegerá seu corpo contra danos.<wait more>
+    Tome isso, é um Manto de Frade, um presente para você. Isso protegerá seu corpo de qualquer mal.<wait more>
     Agora vá! Cumpra seu destino e traga a paz de volta a Algol!<wait>
   ca: |
     T'has fet fort, el meu noi! Tens el poder necessari per a assolir la teva fita.<wait more>
@@ -7130,7 +7133,7 @@
     TEACH YOU MORE.<wait>
   en: There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
   fr: Je n'ai plus rien à t'apprendre, mon garçon.<wait>
-  pt-br: Não tenho mais nada a lhe ensinar. Cumpra seu destino e traga a paz de volta a Algol!<wait>
+  pt-br: Não tenho mais nada para te ensinar. Cumpra seu destino e traga a paz de volta a Algol!<wait>
   ca: No hi ha res més que us pugui ensenyar. Acompliu el vostre destí i porteu la pau altre cop a Algol!<wait>
   es: No hay nada más que os pueda enseñar. ¡Cumplid vuestro destino y traed la paz de nuevo a Algol!<wait>
   de: Ich kann dich nichts mehr lehren.<wait>
@@ -7214,7 +7217,7 @@
   fr: |
     A l'ouest de la tour Corona, la grotte Dézoris, se trouve.<wait more>
     Là-bas, des amis nous avons. Nos respects leur donnerez-vous_?<wait>
-  pt-br: A Caverna de Dezoris fica a oeste da Torre Corona. Diga oi para nossos amigos lá, diga sim!<wait>
+  pt-br: A Caverna de Dezoris fica a oeste da Torre Corona. Se ver meus amigos, mande meus cumprimentos!<wait>
   ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola a los nostres amics allà!<wait>
   es: La cueva de Dezoris está al oeste de la Torre de Corona. ¡Saluda a noso amigos!<wait>
   de: |
@@ -7304,7 +7307,7 @@
     ANOTHER WORLD.<wait>
   en: I hear you can see other worlds with one, you can.<wait>
   fr: Avec cet objet, voir autres mondes vous pourrez.<wait>
-  pt-br: Ouvi dizer que você pode ver outros mundos com um, você pode.<wait>
+  pt-br: Ouvi dizer que você pode usá-lo para ver outros mundos, você pode.<wait>
   ca: He sentit a dir que pots vore altres mons amb un d'allonses.<wait>
   es: He oído que pues ver outros mundos con uno.<wait>
   de: Habe gehört, ich, dass kann sehen andere Welten damit, man.<wait>
@@ -7459,7 +7462,7 @@
   literal: The neighboring villagers are all liars. Be careful.<wait>
   en: The neighboring villagers lie. Really!<wait>
   fr: Gars dans autre village être toussa menteurs. Moissa pas mentir.<wait>
-  pt-br: Esses caras na outra vila são todos mentirosos. Fato!<wait>
+  pt-br: Esses caras na outra vila são todos mentirosos. Tome cuidado!<wait>
   ca: Es del poble de la vora són uns entabanadors.<wait>
   es: Los del pueblo del lado son unos liantes, bonico.<wait>
   de: Niemandem vom Dorf nebenan würde vertrauen, ich. Alles Lügner sind die.<wait>
@@ -7510,7 +7513,7 @@
     SOME MISCHIEF?<wait>
   en: Why have you come here? Stay out of trouble, hear me?<wait>
   fr: Pourquoi êtes-vous venue ici_? Évitez les ennuis, entendu_?<wait>
-  pt-br: Por que você veio aqui? Fique fora de problemas, está me ouvindo?<wait>
+  pt-br: Por que veio aqui? Fique fora de problemas, ouviu?<wait>
   ca: Per què heu vingut aquí? No us poseu en problemes, em sentiu?<wait>
   es: ¿Por qué habéis venido aquí? No os metáis en problemas, ¿me oís?<wait>
   de: Warum seid hier, ihr? Macht ja keinen Unfug!<wait>
@@ -7525,7 +7528,7 @@
     FEELING.<wait>
   en: I’ve got a bad feeling about this.<wait>
   fr: J'ai un mauvais pressentiment.<wait>
-  pt-br: Tenho um mau pressentimento sobre isso.<wait>
+  pt-br: Tenho um mau pressentimento sobre isso...<wait>
   ca: Tinc un mal presentiment.<wait>
   es: Tengo un mal presentimiento.<wait>
   de: Ich hab eine ganz üble Vorahnung...<wait>
@@ -7655,7 +7658,7 @@
     ECLIPSE TORCH.<wait>
   en: Excellent. Here you are, then.<wait>
   fr: Parfait, la voici.<wait>
-  pt-br: Excelente. Aqui está, então.<wait>
+  pt-br: Excelente. Aqui está, pegue!<wait>
   ca: Excel·lent. Aquí ho tens, doncs.<wait>
   es: Excelente. Aquí tienes.<wait>
   de: Ausgezeichnet. Dann nehmt an die Fackel, ihr.<wait>
@@ -7692,7 +7695,7 @@
     FOOL OR SOMETHING?<wait>
   en: You have no jewel! Don’t be foolish!<wait>
   fr: Vous n'avez pas de joyau_! Alors ne soyez pas stupide_!<wait>
-  pt-br: Você não tem nenhuma joia! Não seja tolo!<wait>
+  pt-br: Quer dizer que não tem a joia?! Não brinque comigo!<wait>
   ca: No tens cap joia! No siguis estúpid!<wait>
   es: ¡No tienes ninguna joya! ¡No seas estúpido!<wait>
   de: Habt kein Juwel, ihr!<line>Seid nicht töricht!<wait>
@@ -7729,7 +7732,7 @@
     Dites-nous ce que vous pensez de notre traduction. Merci_!<wait>
   pt-br: |
     Eu sou Otegami Chie-chan, da Sega! Obrigado por todas as suas cartas.<wait more>
-    Por favor, diga-nos o que você acha deste jogo. Estamos ansiosos em saber.<wait more>
+    Por favor, nos diga o que você acha deste jogo. Estamos ansiosos em saber.<wait more>
     Aqui vai uma dica - Vá até o ponto mais alto de Palma e levante o Aeroprisma ao céu!<wait>
   ca: |
     Sóc na Otegami Chie-chan, de Sega! Merci per tots els missatges.<wait more>
@@ -7803,7 +7806,7 @@
     A FEW MOMENTS.<wait>
   en: <player> picked up some Laerma Berries, but they shriveled up immediately!<wait>
   fr: Les baies Laerma se dessèchent vite après avoir été cueillies.<wait>
-  pt-br: As Frutas de Laerma murcharam logo após serem colhidas.<wait>
+  pt-br: <player> pegou algumas Frutas de Laerma, mas elas murcharam logo após serem colhidas!<wait>
   ca: <player> agafa alguns Fruits de Laerma, però s'encongeixen immediatament!<wait>
   es: <player> coge algunos Frutos de Laerma, ¡peró se encongen immediatamente!<wait>
   de: <Sie> pflückt ein paar Laermabeeren, aber sie trocknen sofort aus!<wait>
@@ -7847,7 +7850,7 @@
   fr: |
     Êtes-vous venus me sortir d'ici_?<wait more>
     Oh, s'il vous plait aidez-moi... Je ne veux pas mourir_!<wait>
-  pt-br: Você veio me ajudar a escapar?<wait>
+  pt-br: Você veio me ajudar a escapar? Para que?<wait>
   ca: Heu vingut per ajudar-me a escapar?<wait>
   es: ¿Habéis venido para ayudarme a escapar?<wait>
   de: |
@@ -7887,7 +7890,7 @@
     SACRIFICE US! AGH!<wait>
   en: We’re all going to end up as sacrifices for LaShiec!<wait>
   fr: Nous allons tous être sacrifiés au Seigneur Lassic_!<wait>
-  pt-br: Nós todos vamos acabar como sacrifícios para LaShiec!<wait>
+  pt-br: Seremos todos sacrificados a Lashiec! Ahhh...!<wait>
   ca: Acabarem tots essent sacrificats a Lashiec!<wait>
   es: ¡Todos seremos sacrificados a Lashiec!<wait>
   de: Wir werden alle Lashiec geopfert werden! Ahhh...!<wait>
@@ -7924,7 +7927,7 @@
     A PIT TRAP.<wait>
   en: You can find it on the other side of a pitfall.<wait>
   fr: Vous pouvez la trouver de l'autre coté d'un piège.<wait>
-  pt-br: Você pode encontrá-la do outro lado de uma armadilha.<wait>
+  pt-br: Você vai encontrar ela do outro lado de uma armadilha.<wait>
   ca: La podeu trobar a l'altra banda d'una trampa.<wait>
   es: La podéis encontrar al otro lado de una trampa.<wait>
   de: Ist jenseits einer Falltür, sie.<wait>
@@ -8001,7 +8004,7 @@
   fr: |
     Il y a une tour au sommet de la colline de Baya Malay.<wait more>
     Je me demande bien quels secrets y sont cachés...<wait>
-  pt-br: Há uma torre no topo da colina de Baya Marlay. Eu me pergunto que segredos se encontram lá dentro?<wait>
+  pt-br: Há uma torre no topo da colina de Baya Marlay. Eu me pergunto, quais segredos se encontram lá dentro?<wait>
   ca: Hi ha una torre al capdamunt del monticle de Baya Marlay. Em pregunto quins secrets deu guardar?<wait>
   es: Hay una torre en la cima de la colina de Baya Marlay, ¿Me pregunto que secretos debe guardar?<wait>
   de: Auf der Spitze des Baya Marley steht ein Turm.<line>Ich frage mich, was dort drin versteckt wird.<wait>
@@ -8048,7 +8051,7 @@
     Eh bien, vous avez choisi le bon endroit pour vous faire enfermer.<wait more>
     Venez avec moi.<wait>
   pt-br: |
-    Isso é falso. Onde você conseguiu isso?<wait more>
+    Isso é falso. Onde conseguiu isso?<wait more>
     Bem, você certamente escolheu o lugar certo para ficar preso. Venha comigo.<wait>
   ca: |
     Això és una falsificació. On l'heu aconseguit?<wait more>
@@ -8243,7 +8246,7 @@
     FOR SOMETHING?<end>
   en: I sense that you are searching for something, yes?<end>
   fr: Je sens que vous êtes en quête de quelque chose, non_?<end>
-  pt-br: Sinto que você está procurando por algo, né?<end>
+  pt-br: Sinto que está procurando por algo, certo?<end>
   ca: Crec que esteu buscant quelcom, oi?<end>
   es: Creo que estáis buscando algo, ¿verdad?<end>
   de: Ich spüre, dass ihr etwas sucht. Liege ich richtig?<end>
@@ -8260,7 +8263,7 @@
     FOR ALEX OSSALE?<end>
   en: I sense that you are looking for Alex Ossale, yes?<end>
   fr: Je percois que vous êtes... à la recherche d'Alex Ossale, non_?<end>
-  pt-br: Sinto que você está procurando Alex Ossale, né?<end>
+  pt-br: Sinto que está procurando por Alex Ossale, não é?<end>
   ca: Presenteixo que busqueu en Alex Ossale, oi?<end>
   es: Presiento que buscáis a Alex Ossale, ¿verdad?<end>
   de: Ich spüre, dass ihr nach Alex Ossale sucht. Liege ich richtig?<end>
@@ -8293,7 +8296,7 @@
     ANYTIME.<wait>
   en: Then perhaps you should come back later.<wait>
   fr: Alors peut être devriez-vous revenir plus tard.<wait>
-  pt-br: Então talvez você deva voltar mais tarde.<wait>
+  pt-br: Então, talvez você deva voltar mais tarde.<wait>
   ca: Aleshores potser haureu de tornar més tard.<wait>
   es: Entonces quizás habréis de venir más tarde.<wait>
   de: Dann kommt bald wieder.<wait>
@@ -8355,7 +8358,7 @@
     SKY.<wait>
   en: The illusionary Aerocastle was revealed in the sky.<wait>
   fr: Dans le ciel, le Château Aérien apparaît sous vos yeux.<wait>
-  pt-br: O Castelo Aéreo foi revelado.<wait>
+  pt-br: O ilusório Castelo Aéreo foi revelado no céu.<wait>
   ca: El castell volador es revelat.<wait>
   es: El castillo volador ha sido revelado.<wait>
   de: Das geisterhafte Luftschloss erscheint im Himmel.<wait>
@@ -8469,7 +8472,7 @@
   en: His companions were flung from his back, tumbling through the sky towards their death.<wait>
   # TODO: rewrite other languages here
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
-  pt-br: Alisa e os outros foram derrubados de Myau, lá do céu.<wait>
+  pt-br: Seus companheiros foram arremessados de suas costas, caindo do céu em direção à própria morte.<wait>
   ca: Alisa i els altres son arrancats d'en Myau, caient al cel.<wait>
   es: Alisa y los otros son arrancados Myau, cayendo al cielo.<wait>
   de: Alisa und die anderen fielen von Myaus Rücken in die Tiefe.<wait>
@@ -8632,7 +8635,7 @@
     Vous envisagez de me tuer. N'est-ce pas, mon enfant_?<end>
   pt-br: |
     Ah, é você. Finalmente você chegou, deve estar se sentindo realizada.<wait more>
-    Aqueles a quem sirvo concederam-me a imortalidade. Meu poder é sem limites. Eu sou um deus.<wait more>
+    Aqueles a quem sirvo me concederam a imortalidade. Meu poder é sem limites. Eu sou um deus.<wait more>
     E você tem o quê? Armas? Magia? Você realmente esperava me derrotar?<end>
   ca: |
     Ah, sou vosaltres. Finalment heu arribat. Us deveu sentir molt satisfets.<wait more>
@@ -8686,7 +8689,7 @@
     YOU SHALL REPENT!<wait>
   en: I’ve no time for games! Come, let me show you what lies beyond this life.<wait>
   fr: Aller. Je n'ai pas le temps de jouer. Finissons-en.<wait>
-  pt-br: Não tenho tempo para brincadeiras! Venha, deixe-me mostrar o que está além desta vida.<wait>
+  pt-br: Não tenho tempo para brincadeiras! Venha, me deixe mostrar o que está além desta vida.<wait>
   ca: No tinc temps per jocs! Veniu, us mostraré que hi ha més enllà de la vida.<wait>
   es: ¡No tengo tiempo para juegos! Acercáros, os enseñaré que hay más allá de la vida.<wait>
   de: Selbst jetzt erlaubt ihr euch Spielchen mit mir? Ihr werdet für eure Frechheit büßen!<wait>
@@ -8724,7 +8727,7 @@
   pt-br: |
     Você pode ter destruído este corpo, mas eu nunca morrerei! Eu retornarei novamente!<line><line><line><line><wait more>
     Lorde LaShiec caiu. O último desejo de Nero foi atendido. Uma nova era começou em Algol.<wait more>
-    A única coisa que resta a fazer é encontrar o Governador-Geral em Paseo!<wait>
+    A única coisa que resta a fazer, é encontrar o Governador-Geral em Paseo!<wait>
   ca: |
     Potser heu destruït aquest cos, pero jo no puc morir! Reviuré un altre cop!<line><line><line><line><wait more>
     Lashiec ha caigut. L'últim desig d'en Nero s'ha acomplert. Una nova era comença per a Algol.<wait more>
@@ -8875,10 +8878,10 @@
     Désormais nous sommes sans roi, Alisa.<wait more>
     Prendras-tu sa place afin de devenir la reine d'Algol_?<end>
   pt-br: |
-    Oh, meu Deus. Me perdoe. Minha mente e meu corpo estavam sendo controlados por uma força maligna.<wait more>
-    Você conseguiu! Você salvou Algol. A história deve lembrar os seus nomes, sempre.<wait more>
+    Ah, meu Deus. Me perdoe. Minha mente e meu corpo estavam sendo controlados por uma força maligna.<wait more>
+    Você conseguiu! Você salvou Algol. A história irá lembrar seus nomes para sempre.<wait more>
     LaShiec não existe mais, sua terrível fortaleza foi destruída. Finalmente, a paz pode ser restaurada.<wait more>
-    E bem na hora também. Temo que se você demorasse mais, teríamos perdido tudo.<wait more>
+    E bem na hora! Temo que se você demorasse mais, teríamos perdido tudo.<wait more>
     Alisa. Há algo que devo lhe contar. Um segredo que guardei, para poupar sua vida.<wait more>
     Alisa... Seu pai era Aures Landeel, o rei de Algol. A coroa é sua pelo sangue.<wait more>
     Algol está sem um líder. Você sucederá seu pai, e tomará o seu lugar como nossa rainha?<end>
@@ -9941,7 +9944,7 @@
     FOOD BACK.<wait>
   en: Nobody’s hungry right now, so <she> put them back.<wait>
   fr: Myau n'ayant pas faim, Alisa les range.<wait>
-  pt-br: Ninguém está com fome agora, então ela as colocou de volta.<wait>
+  pt-br: Ninguém está com fome agora, então <ela> as colocou de volta.<wait>
   ca: Ningú té gana, així que les torna a guardar.<wait>
   es: Nadie tiene hambre, así que las vuelve a guardar.<wait>
   de: Niemand hat gerade Hunger, also werden sie wieder eingesteckt.<wait>
