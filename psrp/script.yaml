@@ -11613,7 +11613,7 @@
     A NUMBER.<end>
   en: |
     Saving the game?<line>
-    Please choose a slot.<wait>
+    Please choose a slot.<end>
   fr: Sauvegarder votre progression_? Choisissez un emplacement.<end>
   pt-br: |
     Salvar o jogo?<line>
@@ -11651,7 +11651,8 @@
   us: WELL, SAVING <number>.<wait>
   en: OK. Now saving in slot <number>...<delay>
   fr: Ok. Emplacement numéro <number> en cours de sauvegarde...<delay>
-  pt-br: Certo. Salvando na posição <line>
+  pt-br: |
+    Certo. Salvando na posição<line>
     <number>...<delay>
   ca: D'acord, guardant a la ranura <number>...<delay>
   es: De acuerdo, guardando en la ranura <number>...<delay>
