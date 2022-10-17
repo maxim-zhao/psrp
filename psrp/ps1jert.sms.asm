@@ -63,7 +63,7 @@ banks 32
   .unbackground $0bfdc $0bfff ; blank
 ; Bank 3
   .unbackground $0feb2 $0ff01 ; Hapsby travel menu
-  .unbackground $0ff02 $0ff97 ; Opening cinema text box 
+  .unbackground $0ff02 $0ff97 ; Opening cinema text box
 ; Bank 9
   .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
 ; Bank 11
@@ -228,14 +228,14 @@ _script\@_end:
 .define CursorMax           $c26e ; b Maximum index for menu selection (0-based)
 .define NameIndex           $c2c2 ; b Index into Names
 .define ItemIndex           $c2c4 ; b Index into Items
-.define RoomIndex           $c2db ; Index for various room-related lookups, notably shops.
+.define RoomIndex           $c2db ; b Index for various room-related lookups, notably shops.
+.define ItemTableIndex      $c2c4 ; b Index of the "current" item
 .define NumberToShowInText  $c2c5 ; w Number to show in text. Sometimes assumed to be 8-bit.
 .define EnemyIndex          $c2e6 ; b Index into Enemies
 .define VehicleType         $c30e ; b Zero when walking
 .define IntroState          $c600 ; b $ff when intro starts
 .define SaveTilemapOld      $8100 ; Tilemap data for save - original
 .define SaveTilemap         $8040 ; Tilemap data for save - new - moved to make more space
-
 
 ; RAM used by the hack. The original game doesn't venture higher than $de96, we use even less... so it's safe to use this chunk up high (so long as we don't hit $dffc+).
 
@@ -245,31 +245,32 @@ _script\@_end:
   .nextu
     ; Script decoding
     ; Buffer for item name strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.
-    ; It is prepended with articles so we need to make sure there is space before it for the longest article 
+    ; It is prepended with articles so we need to make sure there is space before it for the longest article
     ; (Brazilian Portuguese "de una " = 7) and after it for the longest item name (27)
     ArticleSpace    dsb 16
     TEMP_STR        dsb 32
-    STR             dw   ; pointer to WRAM string - will be in ArticleSpace if an article was prepended
-    LEN             db   ; length of substring in WRAM
-    POST_LEN        db   ; post-string hint (ex. <Herb>...)
-    LINE_NUM        db   ; # of lines drawn
-    FLAG            db   ; auto-wait flag
-    ARTICLE         db   ; article category #
-    SUFFIX          db   ; suffix flag
-    HLIMIT          db   ; horizontal chars left
-    VLIMIT          db   ; vertical line limit
-    SCRIPT          dw   ; pointer to script
-    BARREL          db   ; current Huffman encoding barrel
-    TREE            db   ; current Huffman tree
-    VRAM_PTR        dw   ; VRAM address
-    SKIP_BITMASK    db   ; for bracket-based skipping. If a skip region's code AND this is 0, we skip it.
   .endu
+  STR             dw   ; pointer to WRAM string - will be in ArticleSpace if an article was prepended
+  LEN             db   ; length of substring in WRAM
+  POST_LEN        db   ; post-string hint (ex. <Herb>...)
+  LINE_NUM        db   ; # of lines drawn
+  FLAG            db   ; auto-wait flag
+  ARTICLE         db   ; article category #
+  SUFFIX          db   ; suffix flag
+  HLIMIT          db   ; horizontal chars left
+  VLIMIT          db   ; vertical line limit
+  SCRIPT          dw   ; pointer to script
+  BARREL          db   ; current Huffman encoding barrel
+  TREE            db   ; current Huffman tree
+  VRAM_PTR        dw   ; VRAM address
+  SKIP_BITMASK    db   ; for bracket-based skipping. If a skip region's code AND this is 0, we skip it.
   HasFM             db   ; copy of FM detection result
   MusicSelection    db ; music test last selected song
   ShopInventoryWidth db ; for elastic window size
+  ScriptBCStateBackup dw ; w Used for retaining state in tricky script situations
 
   SettingsStart: .db
-  
+
   MovementSpeedUp db ; non-zero for speedup
   ExpMultiplier  db ; b Experience scaling
   MoneyMultiplier  db ; b Money pickups scaling
@@ -829,7 +830,7 @@ _NextByte:
 _SkipEndBracket:
   djnz _NextByte
   jr _Done
-  
+
 +:; Copy the byte
   ld (de),a
   inc de
@@ -868,8 +869,8 @@ _bracket:
 
 .enum $5f ; Scripting codes. These correspond to codes used by the original game, plus some extensions.
 ; If changing the value here, you must also change the symbols range in tools.py
-; and values used for articles and name block removal ([...]) in script.<xx>.tbl 
-; and values in the code below to handle these 
+; and values used for articles and name block removal ([...]) in script.<xx>.tbl
+; and values in the code below to handle these
   SymbolStart     .db
   SymbolPlayer    db ; $5f, Handled by the original engine
   SymbolMonster   db ; $60,
@@ -1215,7 +1216,7 @@ _Substring:
       ld de,ArticlesPossessive
       ; fall through
 .endif
-.if LANGUAGE == "ca" 
+.if LANGUAGE == "ca"
       ld de,ArticlesLower
       cp $01      ; article = l', el, la, els, les,
       jr z,_Start_Art
@@ -1254,7 +1255,7 @@ _Substring:
       ld de,ArticlesLowerDative
       cp $03
       jr z,_Start_Art
-      
+
       ; article = den, die, das, einen, eine, ein
       ld de,ArticlesLowerAccusative
       ; fall through
@@ -1964,7 +1965,7 @@ Names:
 .if LANGUAGE == "en"
   String "Tylon"                            ; ODIN      Odin                tairon              タイロン
 .else
-  String "Tairon"                           
+  String "Tairon"
 .endif
   String "Lutz"                             ; LUTZ      Lutz                rutsu               ルツ
 
@@ -3182,7 +3183,7 @@ _itemsLoop:
         inc hl
         call EmitCharacter
         djnz -
-        
+
         ; Write out right border
         ld hl,BorderSides+2
         call _DrawOneTile
@@ -3203,7 +3204,7 @@ _itemsLoop:
     ; Clear LEN to stop the item name being drawn later
     xor a
     ld (LEN),a
-  
+
     ; Bottom border
     ld a,(ShopInventoryWidth)
     ld c,a
@@ -3243,7 +3244,7 @@ _lookUpShopItem:
     call DictionaryLookup ; puts length in LEN
   pop de
   ret
-  
+
 _checkLength:
   ; When we do an item name lookup, the length includes control characters.
   ; We count the printable ones.
@@ -3645,6 +3646,12 @@ DezorianCustomStringCheck:
 ;   * Player select
 ;     * Meseta
 ;       * Yes/No
+; 9. Shop with new equip option
+; * Narrative
+;   * Shop inventory
+;   * Current money
+;     * Player select
+;       * Currently equipped items
 
 ; My layout
 
@@ -3657,17 +3664,17 @@ DezorianCustomStringCheck:
 ; $d9f4 +---------------+
 ;       | Narrative     |
 ;       | scroll buffer |
-; $daae +---------------+                   +---------------+ +---------------+
-;       | Regular menu  |                   | Battle menu   | | Shop items    |
-;       |           (W) |                   |           (B) | | (max 32x5)    |
-; $db1e +---------------+ +---------------+ +---------------+ |           (S) | +---------------+
-;       | Currently     | | Hapsby travel | | Enemy name    | |               | | Select        |
-;       | equipped      | | (8x7)     (W) | | (21x3)    (B) | |               | | save slot     |
-; $db6e | items         | +---------------+ |               | |               | | (22x9)    (W) |
-; $db76 | (16x8)    (W) |                   |               | |               | |               |
-; $db9c |               |                   +---------------+ |               | |               |
-; $dbe6 +---------------+ +---------------+ | Enemy stats   | |               | |               |
-; $dbee | Player select | | Buy/Sell      | | (8x10)    (B) | +---------------+ |               |
+; $daae +---------------+                   +---------------+                  
+;       | Regular menu  |                   | Battle menu   |                  
+;       |           (W) |                   |           (B) |                  
+; $db1e +---------------+ +---------------+ +---------------+                   +---------------+
+;       | Currently     | | Hapsby travel | | Enemy name    |                   | Select        |
+;       | equipped      | | (8x7)     (W) | | (21x3)    (B) |                   | save slot     |
+; $db6e | items         | +---------------+ |               |                   | (22x9)    (W) |
+; $db76 | (16x8)    (W) |                   |               |                   |               |
+; $db9c |               |                   +---------------+                   |               |
+; $dbe6 +---------------+ +---------------+ | Enemy stats   |                   |               |
+; $dbee | Player select | | Buy/Sell      | | (8x10)    (B) |                   |               |
 ;       | (8x9) (B,W)   | | (6x4)     (S) | |               |                   |               |
 ; $dc1e |               | +- - - - - - - -+ |               |                   |               |
 ;       |               | | (fr:9x4)      | |               |                   |               |
@@ -3677,16 +3684,17 @@ DezorianCustomStringCheck:
 ; $dc4e | Inventory     | | Spells        |                   | and hospital  | |               |
 ;       | (16x21) (B,W) | | (12x12) (B,W) |                   | (16x3)    (S) | |               |
 ; $dca6 |               | |               |                   +---------------+ |               |
-; $dcaa |               | |               |                                     +---------------+
-; $dd00 |               | +- - - - - - - -+                   
-;       |               | | (fr: 16x12)   |                   
-; $dd38 |               | +---------------+                   
-; $de1c +---------------+ +---------------+ +---------------+ 
+; $dcaa |               | |               |                   | Shop items    | +---------------+
+; $dd00 |               | +- - - - - - - -+                   | (max 32x5)    |
+;       |               | | (fr: 16x12)   |                   |           (S) |
+; $dd38 |               | +---------------+                   |               |
+; $dde6 |               |                                     +---------------+
+; $de1c +---------------+ +---------------+ +---------------+
 ;       | Use/Equip/Drop| | Yes/No        | | Active player |
 ;       | (7x5)     (W) | | (5x5)         | | (during       |
 ; $de44 |               | +---------------+ | battle)   (B) |
 ; $de46 |               |                   +---------------+
-; $de62 +- - - - - - - -+                   | Player select |
+; $de62 +- - - - - - - -+                   | Player select | 
 ;       | (fr:10x5)     |                   | (magic) (8x9) |
 ; $de80 +---------------+                   |         (B,W) |
 ; $de9a                                     +---------------+
@@ -3750,7 +3758,7 @@ DezorianCustomStringCheck:
   DefineWindow ENEMY_NAME       MENU_end              21                            3                               11                                    0 ; max width 19 chars
   DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                             10                              24                                    3
 ; Inventory goes after the end of whichever of these is later
-.ifdef WLA_DX_BUG_WORKAROUND 
+.ifdef WLA_DX_BUG_WORKAROUND
 ; The conditional does not work in makefile generation mode; we use the real logic in real compilation mode
 .define INVENTORY_START ENEMY_STATS_end
 .else
@@ -3768,7 +3776,7 @@ DezorianCustomStringCheck:
   DefineWindow PLAYER_SELECT_2  ACTIVE_PLAYER_end     ChoosePlayerMenu_width        ChoosePlayerMenu_height         9                                     8
   DefineWindow YESNO            USEEQUIPDROP          ChoiceMenu_width              ChoiceMenu_height               29-ChoiceMenu_width                   14
   DefineWindow ACTIVE_PLAYER    INVENTORY_end         AlisaActiveBox_width          3                               1                                     8
-  DefineWindow SHOP             MENU                  32                            5                               0                                     0 ; shop inventory width is dynamic, up to 32
+  DefineWindow SHOP             SHOP_MST_end          32                            5                               0                                     0 ; shop inventory width is dynamic, up to 32
   DefineWindow SHOP_MST         PLAYER_SELECT_end     StatsMenuDimensions_width     3                               3                                     15 ; same width as stats menu
   DefineWindow SAVE             MENU_end              SAVE_NAME_WIDTH+4             SAVE_SLOT_COUNT+2               27-SAVE_NAME_WIDTH                    1
   DefineWindow SoundTestWindow  $d700                 SoundTestMenu_width           SoundTestMenu_height+2          31-SoundTestMenu_width                0
@@ -4050,7 +4058,7 @@ _borderTop:
   ld hl,StatsBorderTop
   ld bc,(1<<8) + _sizeof_StatsBorderTop ; size
   jp OutputTilemapBoxWipePaging ; draw and exit
-  
+
 shopMSTImpl: ; same section to share data
   ; Need to set de as this is also used to update things.
   ; It's unnecessary for the initial draw as de is set from the copy to RAM.
@@ -4364,7 +4372,7 @@ _button2:
   call _writeTilemapEntry
   ; Increment index
   jr _next
-  
+
 _controlCharacter:
   cp 'B'
   jr z,_back
@@ -4397,12 +4405,12 @@ _next:
   ret z
   ld (CurrentIndex),a
   jp _drawCursors ; and ret
-  
+
 _space:
   ld de,$00c0
   call _writeTilemapEntry
   jr _next ; and ret
-  
+
 _save:
   ; get name from VRAM to RAM
   ld de,NAME_TILEMAP_POS - $4000
@@ -4462,7 +4470,7 @@ _writeTilemapEntry:
     out (PORT_VDP_DATA),a
   ei
   ret
-  
+
 ; Direction auto-repeat timings
 .define NameEntryRepeatInitialFrames 24
 .define NameEntryRepeatFrames 5
@@ -4543,7 +4551,7 @@ _DecrementKeyRepeatCounter:
   ret nz
   ld (hl),NameEntryRepeatFrames ; reset counter -> repeat every 5 frames, 30/s
   ret
-  
+
 _DirectionPressed:
   ; Get the currently pointed value
   ld hl,(CurrentSelectionPointer)
@@ -4552,7 +4560,7 @@ _DirectionPressed:
   inc hl
   ld a,(hl)
   ld (PreviouslyPointedValue+1),a
-  
+
   ; Get the current X or Y value
 -:ld a,(iy+0)
   cp b ; see if already at the limit
@@ -4602,7 +4610,7 @@ _DirectionPressed:
   inc hl
   ld (CurrentSelectionPointer),hl
   jp _drawCursors ; and ret
-  
+
 _spaceAtLimit:
   ; If we run into a blank at the limit then we want to go down/right until we find something.
   ; We don't want to repeat the action that got us here, so we only try a direction that is not already at the limit.
@@ -4619,7 +4627,7 @@ _spaceAtLimit:
   cp b
   call nz,_DirectionPressed ; and ret
   ret
-  
+
 _getPointedTileAddress:
   ; Compute the tilemap address of the pointed item.
   ; Compute Y*32
@@ -4642,7 +4650,7 @@ _getPointedTileAddress:
   ld de,$d000
   add hl,de
   ret ; in hl
-  
+
 _drawCursors:
   ; This used to draw cursors using sprites. We now draw it using tiles to avoid the sprite limit.
   ; This means we need to draw into the name table to both clear the previous cursor and draw the new one.
@@ -4675,7 +4683,7 @@ _drawCursors:
   ld (PreviousSelectionPointer),hl
   ld de,$0900
   ; fall through
-  
+
 _drawSelectionCursor:
   ; How wide is it?
   ld a,(hl)
@@ -4706,7 +4714,7 @@ _drawSelectionCursor:
     djnz -
   ei
   ret
-  
+
 _emit:
   ld a,l
   out (PORT_VDP_DATA),a
@@ -5194,7 +5202,7 @@ SaveDataPatch:
 ; Point to maybe relocated data
   PatchB $70b4 :CreditsData
   PatchW $70ba CreditsData-4
-; Code treats values >64 as 
+; Code treats values >64 as
 .slot 2
 .section "Credits" superfree
 CreditsData:
@@ -6441,7 +6449,7 @@ SettingsFromSRAM:
   ld hl,$8210
   ld de,SettingsStart
   call CopySettings
-  
+
   ; If they are not valid, we need to initialise the multipliers
   ld a,(ExpMultiplier)
   or a
@@ -6726,12 +6734,12 @@ GetItemType:
 ;    ld     hl,$b1c5        ; 002DF4 21 C5 B1 ; Welcome to the tool shop. May I help you?<end>
 ;    call TextBox20x6       ; 002DF7 CD 3A 33 ; State in BC for text window
 ;    call   $3894           ; 002DFA CD 94 38 ; Show Buy or Sell window; returns in  A, C
-;    push   af              ; 002DFD F5 
-;    push   bc              ; 002DFE C5 
+;    push   af              ; 002DFD F5
+;    push   bc              ; 002DFE C5
 ;      call   $38b4           ; 002DFF CD B4 38 ; restore tilemap
-;    pop    bc              ; 002E02 C1 
-;    pop    af              ; 002E03 F1 
-;    bit    4,c             ; 002E04 CB 61 
+;    pop    bc              ; 002E02 C1
+;    pop    af              ; 002E03 F1
+;    bit    4,c             ; 002E04 CB 61
 ; Following code assumes C is still valid
 ; We can fit a fix into the existing space by moving the BC push/pop around.
   push bc
@@ -6772,10 +6780,10 @@ ShopSellInventoryFixHelper:
 .section "Hospital bug fix" overwrite size 5
 ; Original code:
 ;    ld     hl,$b25c                ; 002AF9 21 5C B2 ; Who will receive treatment?
-;    call   nz,TextBox20x6          ; 002AFC C4 3A 33 
+;    call   nz,TextBox20x6          ; 002AFC C4 3A 33
 ;    call   ShowCharacterSelectMenu ; 002AFF CD 82 37 ; Returns in A, C
-;    bit    4,c                     ; 002B02 CB 61 
-;    jp     nz,$2bae                ; 002B04 C2 AE 2B 
+;    bit    4,c                     ; 002B02 CB 61
+;    jp     nz,$2bae                ; 002B04 C2 AE 2B
 ; Following code assumes BC is still valid
   push bc
     call HospitalAndChurchFixHelper
@@ -6784,7 +6792,7 @@ ShopSellInventoryFixHelper:
 
 .section "Hospital bug fix part 2" free
 HospitalAndChurchFixHelper:
-  call $3782 ; inventory select
+  call $3782 ; character select
   bit 4,c
   ret
 .ends
@@ -6794,10 +6802,10 @@ HospitalAndChurchFixHelper:
 .section "Church bug fix" overwrite size 5
 ; Original code:
 ;    ld     hl,$b31e                ; 002BFB 21 1E B3 ; Who shall be returned?<end>
-;    call   TextBox20x6             ; 002BFE CD 3A 33 
+;    call   TextBox20x6             ; 002BFE CD 3A 33
 ;    call   ShowCharacterSelectMenu ; 002C01 CD 82 37 ; CharacterSelect
 ;    bit    4,c                     ; 002C04 CB 61    ; Returns in A, C
-;    jp     nz,$2c9f                ; 002C06 C2 9F 2C 
+;    jp     nz,$2c9f                ; 002C06 C2 9F 2C
 ; Following code assumes BC is still valid
   push bc
     call HospitalAndChurchFixHelper
@@ -6808,9 +6816,9 @@ HospitalAndChurchFixHelper:
   ROMPosition $1e41
 .section "Save game bug fix" overwrite size 3
 ; Original code:
-;    ld     hl,$b39f        ; 001E3B 21 9F B3 
-;    call   TextBox20x6     ; 001E3E CD 3A 33 
-;    call   $3acf           ; 001E41 CD CF 3A 
+;    ld     hl,$b39f        ; 001E3B 21 9F B3
+;    call   TextBox20x6     ; 001E3E CD 3A 33
+;    call   $3acf           ; 001E41 CD CF 3A
 ; Following code assumes BC is still valid
   call SaveFixHelper
 .ends
@@ -6821,4 +6829,158 @@ SaveFixHelper:
     call $3acf ; save slot select
   pop bc
   ret
+.ends
+
+
+; Now we hack the shop to offer to equip items when you buy them.
+  ROMPosition $2d7b
+.section "Shop equip mod" overwrite size 3
+; Original code:
+;  call $28fb           ; 002D7B CD FB 28 ; AddItemToInventory
+  call ShopEquipMod
+.ends
+
+.section "Shop equip mode part 2" free
+ShopEquipMod:
+  call $28fb ; AddItemToInventory
+  ; This leaves hl pointing to the newly-added item. We need this later...
+  ld ($c29b),hl ; The game saves the pointer here
+  
+  ; The original item equip code is at $2824. However we can't use it because it breaks our script state. So we copy/paste/enhance...
+  
+
+  ; Check if the item is equippable
+  ld hl,PAGING_SLOT_2
+  ld (hl),:ItemMetaData
+  ld a,(ItemTableIndex)
+  ld hl,ItemMetaData
+  add a,l
+  ld l,a
+  adc a,h
+  sub l
+  ld h,a
+  ld a,(hl) ; hl = bfa9
+  ; Get upper nybble into d = equippability bits per character
+  rrca            
+  rrca            
+  rrca            
+  rrca            
+  and $0f         
+  ; Zero means not equippable
+  ret z
+  
+  ld d,a ; backup equippability bitmask
+
+  ; Check if any alive characters can equip it
+  push bc
+    ld b,0 ; character index
+    ld c,d
+-:  ld a,b
+    cp 4 ; valid range is 0..3
+    jr z,_noMatches
+    ; check equippable bit
+    srl c
+    jr nc,_invalid
+    ; bit was 1, is character alive?
+    call $19ea
+    jr z,_invalid
+    ; Character is alive
+    jr + ; continue on then
+
+_invalid:
+    inc b ; try next character
+    jr -
+    
+_noMatches:
+  pop bc
+  ret
+    
++:pop bc
+
+  push de     
+  push hl
+    ld hl,ScriptDoYouWantToEquip
+    call TextBox
+    ; Save BC so we can get at it below outside a push/pop safe place
+    ld (ScriptBCStateBackup),bc
+    call DoYesNoMenu
+  pop hl
+  pop de
+  ret nz ; = chose "no"
+  
+_selectWho:
+  push de     
+  push hl     
+    call $3782 ; show character select
+  pop hl      
+  pop de      
+  
+  bit 4,c ; cancel
+  jp nz,_done
+
+  call $19ea ; check character is alive
+  jp z,_done
+
+  ld (NameIndex),a
+  ld c,a
+  inc a ; range 1..4
+  ld b,a
+  ld a,d ; rotate upper nibble right by character number
+-:rrca
+  djnz -
+  jp nc,_cantEquip ; if carry then bit was set -> can equip
+
+  ; point to correct place in character stats
+  ld a,c             
+  add a,a            
+  add a,a            
+  add a,a            
+  add a,a ; *16 to point to correct character stats
+  ld de,$c40a ; Alisa weapon
+  add a,e ; point to correct character
+  ld e,a 
+  adc a,d
+  sub e  
+  ld d,a 
+
+  ; read metadata again
+  ld a,:ItemMetaData
+  ld (PAGING_SLOT_2),a
+  ld a,(hl)
+  ; low 2 bits are item type (0 = weapon, 1 = armour, 2 = shield)
+  and %00000011
+  add a,e
+  ld e,a 
+  ; read current equipped item
+  ld a,(de)
+  ld hl,($c29b) ; Read a pointer?
+  ld (hl),a ; Replace item in inventory with de-equipped item
+  push af
+    ld a,(ItemTableIndex)
+    ld (de),a
+    ld hl,ScriptPlayerEquippedItem
+    ld bc,(ScriptBCStateBackup)
+    call TextBox
+    ld (ScriptBCStateBackup),bc
+    ld a,(NameIndex)       
+    call $3824 ; Show player equpped items window
+    call MenuWaitForButton           
+    call $386a ; Hide it again
+  pop af
+  or a
+  call z, $28d8 ; RemoveSelectedItemfromInventory ; because we swapped something for nothing
+
+_done:
+  call $1916 ; CharacterStatsUpdate
+  ld bc,(ScriptBCStateBackup)
+  jp $37d8 ; Close player select and return
+
+_cantEquip:  
+  ld hl,ScriptPlayerCantEquipItem
+  ld bc,(ScriptBCStateBackup)
+  call TextBox
+  ld (ScriptBCStateBackup),bc
+  call $37d8 ; Close player select
+  jr _selectWho ; try again!
+
 .ends

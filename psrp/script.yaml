@@ -9590,7 +9590,7 @@
   es: Alguien ha utilizado <article><item>.<wait>
   de: Jemand hat <acc><item> bereits aufgebraucht.<wait>
 
-- offsets: 2883
+- offsets: 2883, ScriptPlayerEquippedItem
   indices: ace6
   ja: |
     <player>ハ　<item>ヲ<line>
@@ -10102,7 +10102,7 @@
   es: <player> no ha aprendido aún ningún hechizo. <delay>
   de: <player> hat noch keine Zaubersprüche gelernt.<delay>
 
-- offsets: 28a3
+- offsets: 28a3, ScriptPlayerCantEquipItem
   indices: af86
   ja: |
     <player>ハ　<item>ヲ<line>
@@ -11836,6 +11836,18 @@
   ca: No hi ha partides guardades!<wait>
   es: ¡No hay partidas guardadas!<wait>
   de: Es sind keine Spiele gespeichert!<wait>
+
+- offsets: ScriptDoYouWantToEquip
+  # This is not in the original game, see https://github.com/maxim-zhao/psrp/issues/50
+  # It is only used for weapons, shields and armour - the first 32 items in the items list.
+  # TODO: other languages are machine translations, need to be corrected
+  literal: Do you want to equip <article><item>?<end>
+  en: Here you go, <article><item>. Do you want to equip it?<end>
+  fr: Et voilà, <article><item>. Tu veux l'équiper ?<end>
+  pt-br: Aqui está, <article><item>. Você quer equipá-lo?<end>
+  ca: Aquí tens, <article><item>. El vols equipar?<end>
+  es: Aquí tienes, <article><item>. ¿Quieres equiparlo?<end>
+  de: Bitte sehr, <article><item>. Willst du ihn ausrüsten?<end>
 
 
 # There are a few unused script entries in the US script that are not present at all in the Japanese version:

@@ -195,7 +195,7 @@ SceneType db                  ; Scene characteristics; controls which animation 
 
 .enum $C299 export
 _RAM_C299_ dw
-_RAM_C29B_ dw
+_RAM_C29B_SelectedInventoryItem dw
 _RAM_C29D_InBattle db
 SceneType2 db
 _RAM_C29F_ db
@@ -3373,7 +3373,7 @@ _LABEL_1338_:
     ld (ItemTableIndex),a
     call HaveItem
     jr nz,+
-    ld (_RAM_C29B_),hl
+    ld (_RAM_C29B_SelectedInventoryItem),hl
     call UseItem
 _LABEL_1367_:
     call _LABEL_326D_UpdateEnemyHP
@@ -4774,7 +4774,7 @@ _LABEL_1DFD_:
     call ShowMessageIfDead
     jr z,+++
     push af
-      call _LABEL_3824_
+      call _LABEL_3824_ShowEquippedItems
       call _LABEL_38EC_
       call MenuWaitForButton
     pop af
@@ -4798,7 +4798,7 @@ _LABEL_1DFD_:
     call MenuWaitForButton
     call _LABEL_35E3_
 ++:  call _LABEL_39DE_
-    call _LABEL_386A_
+    call _LABEL_386A_HideEquippedItems
 +++:jp _LABEL_37D8_ClosePlayerSelect
 
 ; 5th entry of Jump Table from 1DF3 (indexed by CursorPos)
@@ -6111,7 +6111,7 @@ UseItem_AlwaysActive:
     jp Close20x6TextBox
 
 ; 2nd entry of Jump Table from 2357 (indexed by CursorPos)
-EquipItem:
+EquipItem: ; $2824
     ld hl,Frame2Paging
     ld (hl),:ItemMetadata
     ld a,(ItemTableIndex)
@@ -6167,7 +6167,7 @@ EquipItem:
     add a,e
     ld e,a
     ld a,(de)
-    ld hl,(_RAM_C29B_)
+    ld hl,(_RAM_C29B_SelectedInventoryItem)
     ld (hl),a
     push af
       ld a,(ItemTableIndex)
@@ -6175,9 +6175,9 @@ EquipItem:
       ld hl,textPlayerEquippedItem
       call TextBox20x6
       ld a,(TextCharacterNumber)
-      call _LABEL_3824_
+      call _LABEL_3824_ShowEquippedItems
       call MenuWaitForButton
-      call _LABEL_386A_
+      call _LABEL_386A_HideEquippedItems
       call Close20x6TextBox
     pop af
     or a
@@ -6215,7 +6215,7 @@ DropItem:
     jp Close20x6TextBox
 
 _LABEL_28D8_RemoveItemFromInventory:
-    ld hl,(_RAM_C29B_)
+    ld hl,(_RAM_C29B_SelectedInventoryItem)
 RemoveItemFromInventory:
     push bc
       ld e,l
@@ -6297,7 +6297,7 @@ _LABEL_2934_SelectItemToDrop:
     call TextBox20x6
     pop af
     ld (ItemTableIndex),a
-    ld hl,(_RAM_C29B_)
+    ld hl,(_RAM_C29B_SelectedInventoryItem)
     ld (hl),a
     ld a,SFX_b3
     ld (NewMusic),a
@@ -8156,7 +8156,7 @@ _LABEL_35EF_SelectItemFromInventory:
     ld hl,Inventory
     add a,l
     ld l,a
-    ld (_RAM_C29B_),hl
+    ld (_RAM_C29B_SelectedInventoryItem),hl
     ld a,(hl)
     ld (ItemTableIndex),a
     ret
@@ -8438,7 +8438,7 @@ _LABEL_3818_:
     ld bc,$0B0C
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3824_:
+_LABEL_3824_ShowEquippedItems:
     push af
       ld hl,OldTileMapEnemyName10x4
       ld de,$7A8C
@@ -8475,7 +8475,7 @@ _LABEL_3824_:
     pop af
     ret
 
-_LABEL_386A_:
+_LABEL_386A_HideEquippedItems:
     ld hl,OldTileMapEnemyName10x4
     ld de,$7A8C
     ld bc,$0814
