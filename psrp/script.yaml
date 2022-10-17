@@ -11844,7 +11844,7 @@
   literal: Do you want to equip <article><item>?<end>
   en: Here you go, <article><item>. Do you want to equip it?<end>
   fr: Et voilà, <article><item>. Tu veux l'équiper_?<end>
-  pt-br: Aqui está, <article><item>. Você quer equipá-lo?<end>
+  pt-br: Aqui está, <article><item>. Deseja equipar?<end>
   ca: Aquí tens, <article><item>. El vols equipar?<end>
   es: Aquí tienes, <article><item>. ¿Quieres equiparlo?<end>
   de: Bitte sehr, <article><item>. Willst du ihn ausrüsten?<end>
