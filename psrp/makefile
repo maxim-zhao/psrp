@@ -10,17 +10,17 @@ PSJ = PS1-J.SMS
 
 # The dictionary size. Maximum is 164.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
-# The optimal word count depends on the script. Iterating through the options can help to find the best value. Use the "sizes" makefile target to do that.
-WORD_COUNT_en = 98
-WORD_COUNT_fr = 50
-WORD_COUNT_pt-br = 31
+# The optimal word count depends on the script. Iterating through the options can help to find the best value. `make sizes.en.txt` and similar to do that.
+WORD_COUNT_en = 86
+WORD_COUNT_fr = 49
+WORD_COUNT_pt-br = 39
 WORD_COUNT_ca = 65
 WORD_COUNT_es = 42
 WORD_COUNT_de = 89
-WORD_COUNT_literal = 57
+WORD_COUNT_literal = 58
 
 # These are targets that aren't files
-.PHONY: all clean sizes default
+.PHONY: all clean default sizes.%.txt
 
 # Disable built-in rules
 .SUFFIXES:
@@ -111,3 +111,7 @@ psrp.zip: all
 
 clean:
 	$(PY) tools.py clean generated
+
+sizes.%.txt:
+	del $@
+	for /l %%n in (1,1,140) do @del generated\words.$*.tbl & ((make -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
