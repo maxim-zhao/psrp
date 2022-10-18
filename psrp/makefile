@@ -25,7 +25,7 @@ WORD_COUNT_literal = 58
 # Disable built-in rules
 .SUFFIXES:
 
-# Default targets are the patch files for our language
+# Default target is all the patch files
 default: all
 
 # We have to put this before the following one to make it take precedence: if we have a PNG file, use it.
@@ -102,7 +102,7 @@ all: $(foreach lang,$(LANGUAGES),ps1jert.$(lang).ips ps1jert.$(lang).bps)
 
 # We include all languages' makefiles here.
 # Make will automatically regenerate them as needed.
-# This unfortunately means we generate them for all langauges when we only ask for one -
+# This unfortunately means we generate them for all languages when we only ask for one -
 # but I can't find a way to avoid that without running sub-makes.
 -include $(foreach lang,$(LANGUAGES),generated/auto.makefile.$(lang))
 
@@ -112,6 +112,6 @@ psrp.zip: all
 clean:
 	$(PY) tools.py clean generated
 
-sizes.%.txt:
+sizes.%.txt: ps1jert.%.sms script.yaml
 	del $@
 	for /l %%n in (1,1,140) do @del generated\words.$*.tbl & ((make -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
