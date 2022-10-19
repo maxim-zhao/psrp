@@ -84,7 +84,7 @@ generated/ps1jert.%.sms.o:
 ps1jert.%.sms: generated/ps1jert.%.sms.o
 	echo [objects] > generated/linkfile.$*
 	echo "$<" >> generated/linkfile.$*
-	$(WLALINK) -d -r -v -S generated/linkfile.$* $@
+	$(WLALINK) -d -r -v -s generated/linkfile.$* $@
 
 # And make patches
 ps1jert.%.ips: $(PSJ) ps1jert.%.sms
