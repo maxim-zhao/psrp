@@ -1965,7 +1965,7 @@ Names:
 .if LANGUAGE == "en"
   String "Tylon"                            ; ODIN      Odin                tairon              タイロン
 .else
-  String "Tairon"
+  String "Tairon" ; for "literal"
 .endif
   String "Lutz"                             ; LUTZ      Lutz                rutsu               ルツ
 
