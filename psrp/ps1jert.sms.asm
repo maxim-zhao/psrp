@@ -57,8 +57,6 @@ banks 32
   .unbackground $08000 $080b1 ; font tile lookup
   .unbackground $080b2 $0bd93 ; script
   .unbackground $0bd94 $0bf9b ; item names
-  .unbackground $0bed0 $0bf9b ; item names - now SFG decoder
-  .unbackground $0bf50 $0bf9b ; item names - now Huffman decoder init
   .unbackground $0bf9c $0bfdb ; item metadata
   .unbackground $0bfdc $0bfff ; blank
 ; Bank 3
@@ -498,7 +496,7 @@ SceneData:
   PatchB $588d :PaletteDarkForce
   PatchW $588f PaletteDarkForce
 
-.bank 2 slot 2
+.slot 2
 
 .section "Palma and Dezoris open area graphics" superfree
 PalettePalmaOpen:      CopyFromOriginal $40000 16
@@ -1782,7 +1780,7 @@ DrawNumberToTempStr:
     ld (ix+3),a
 
     ld a,l      ; # 1's (_BCD_Digit has made it only possible to be in the range 0..9)
-    add a,1     ; add 1 because result = digit+1
+    inc a       ; add 1 because result = digit+1
     ld (ix+4),a
 
 
@@ -5671,7 +5669,7 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
   PatchW $1808 0
   PatchB $180a 0 ; found treasure chest/display/wait/do you want to open it?
 
-.bank 2 slot 2
+.slot 2
 
 .section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
@@ -5696,7 +5694,7 @@ HuffmanTrees:
 .endb
 .ends
 
-.bank 2 slot 2
+.bank 0 slot 0
 .section "Decoder init" free
 DecoderInit:
 ; Semi-adaptive Huffman decoder
