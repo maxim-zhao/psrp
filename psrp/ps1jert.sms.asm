@@ -6034,10 +6034,10 @@ _OptionsSelect:
   ld de,OptionsWindow_VRAM + ONE_ROW * 7 + 2 * OptionsMenu_width - _sizeof__Normal - 2
   rst $8
   ld a,(FadeSpeed)
-  cp 3
-  ld hl,_Normal
-  jr z,+
+  or a
   ld hl,_Fast
+  jr z,+
+  ld hl,_Normal
 +:ld b,_sizeof__Normal
   ld c,PORT_VDP_DATA
   otir
@@ -6212,7 +6212,7 @@ _Black: .stringmap tilemap " Negro"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " DG2284"
 _Normal:.stringmap tilemap "Normal"
-_Fast:  .stringmap tilemap "Ràpido"
+_Fast:  .stringmap tilemap "Rápido"
 .endif
 .if LANGUAGE == "de"
 _BattlesAll:  .stringmap tilemap "Voll"
@@ -6496,12 +6496,6 @@ SettingsFromSRAM:
   ld (ExpMultiplier),a
   ld (MoneyMultiplier),a
   
-++:
-  ld a,(FadeSpeed)
-  or a
-  jr nz,++
-  ld a,3
-  ld (FadeSpeed),a ; "normal"
 ++:
   ret
 .ends
@@ -7045,7 +7039,7 @@ SpeedHackEnd:
 SpeedHack:
   ; Code we replaced to get here
   ret p
-  ; And then replace the 3
+  ; And then replace the 3 with a value from RAM
   ld a,(FadeSpeed)
   ld (hl),a
   jp SpeedHackEnd
