@@ -75,3 +75,4 @@ make_de.bat
 /psrp/sizes.txt
 *.sym
 /psrp/sizes.*.txt
+/psrp/*.tmp
