@@ -560,7 +560,7 @@
     Pero ve con cuidado, ¿vale? vuelve cuando quieras.<wait>
   de: |
     Ruh dich doch etwas aus.<wait more>
-    Bitte überarbeite dich nicht, OK? Komm jederzeit wieder.<wait>
+    Bitte übernimm dich nicht, OK? Komm jederzeit wieder.<wait>
     
 - offsets: 4b62
   # Camineet
@@ -1278,7 +1278,7 @@
   pt-br: Já era hora de alguém enfrentar LaShiec. Que Deus esteja com você.<wait>
   ca: Ja és l'hora de que algú s'enfronti a en LaShiec. Que Déu et beneeixi.<wait>
   es: Ja era hora que alguien se enfrentase a LaShiec. Que Dios te bendiga.<wait>
-  de: Endlich sagt jemand Lashiec den Kampf an. Dann viel Erfolg!<wait>
+  de: Endlich sagt jemand Lashiec den Kampf an. Viel Erfolg!<wait>
 
 - offsets: 4db6
   # If you haven't bought Myau yet
