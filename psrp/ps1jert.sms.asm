@@ -275,6 +275,7 @@ _script\@_end:
   FewerBattles db ; b 1 to halve battle probability
   BrunetteAlisa db ; 1 to enable brown hair
   Font db ; 1 for the "alternate" font
+  FadeSpeed db ; 3 is "normal", 0 is "fast"
 
   SettingsEnd: .db
 
@@ -3718,8 +3719,8 @@ DezorianCustomStringCheck:
 ;
 ; $8210                       +-----------------+
 ;                             | Options         |
-; $8216                       +-----------------+
-;
+; $8217                       +-----------------+
+;                             (Space here for new options)
 ; $8400 +-----------------+   +-----------------+
 ;       | Slot 1          |   | Slot 1          |
 ; $8800 +-----------------+   +-----------------+
@@ -6019,7 +6020,7 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * (OptionsMenu_width - 8)
+  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * OptionsMenu_width - _sizeof__Font1 - 2
   rst $8
   ld a,(Font)
   or a
@@ -6030,9 +6031,20 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
 
+  ld de,OptionsWindow_VRAM + ONE_ROW * 7 + 2 * OptionsMenu_width - _sizeof__Normal - 2
+  rst $8
+  ld a,(FadeSpeed)
+  cp 3
+  ld hl,_Normal
+  jr z,+
+  ld hl,_Fast
++:ld b,_sizeof__Normal
+  ld c,PORT_VDP_DATA
+  otir
+
   ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
-  ld a,5 ; 6 options
+  ld a,OptionsMenu_height - 3 ; Max option is menu size - 3
   ld (CursorMax),a ; CursorMax
   call $2ec8 ; no cursor position reset
 
@@ -6125,7 +6137,8 @@ _hair:
   ld (BrunetteAlisa),a
   jp _OptionsSelect
 
-+:; Last option, no need for dec
++:dec a
+  jr nz,+
 
 _font:
   ld a,(Font)
@@ -6137,6 +6150,20 @@ _font:
   halt
   jp _OptionsSelect
 
++:dec a
+  jr nz,+
+  
+_fade:
+  ld a,(FadeSpeed)
+  ; We want to swap between 3 and 0
+  xor 3
+  ld (FadeSpeed),a
+  jp _OptionsSelect
+
+
++:; should not get here
+  jp _OptionsSelect
+  
 .if LANGUAGE == "en" || LANGUAGE == "literal"
 _BattlesAll:  .stringmap tilemap " All"
 _BattlesHalf: .stringmap tilemap "Half"
@@ -6144,6 +6171,8 @@ _Brown: .stringmap tilemap "Brown"
 _Black: .stringmap tilemap "Black"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
+_Normal:.stringmap tilemap "Normal"
+_Fast:  .stringmap tilemap "  Fast"
 .endif
 .if LANGUAGE == "fr"
 _BattlesAll:  .stringmap tilemap "Tout"
@@ -6451,11 +6480,19 @@ SettingsFromSRAM:
   ; If they are not valid, we need to initialise the multipliers
   ld a,(ExpMultiplier)
   or a
-  ret nz
+  jr nz,++
 +:
   ld a,1
   ld (ExpMultiplier),a
   ld (MoneyMultiplier),a
+  
+++:
+  ld a,(FadeSpeed)
+  or a
+  jr nz,++
+  ld a,3
+  ld (FadeSpeed),a ; "normal"
+++:
   ret
 .ends
 
@@ -6982,3 +7019,25 @@ _cantEquip:
   jr _selectWho ; try again!
 
 .ends
+
+  ROMPosition $7de7
+.section "Fade speed hack" overwrite
+; Original code
+;    ld     hl,$c21d        ; 007DE3 21 1D C2 Get counter
+;    dec    (hl)            ; 007DE6 35       Decrement it
+;    ret    p               ; 007DE7 F0 
+;    ld     (hl),$03        ; 007DE8 36 03    Reset -> run every 4 frames
+  jp SpeedHack
+SpeedHackEnd:
+.ends
+
+.section "Fade speed hack part 2" free
+SpeedHack:
+  ; Code we replaced to get here
+  ret p
+  ; And then replace the 3
+  ld a,(FadeSpeed)
+  ld (hl),a
+  jp SpeedHackEnd
+.ends
+

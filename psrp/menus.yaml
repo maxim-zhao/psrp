@@ -1886,6 +1886,7 @@
     │Battles            ║
     │Alisa's hair       ║
     │Font               ║
+    │Fades              ║
     ╘═══════════════════╝
   en: |
     ┌───────────────────╖
@@ -1895,6 +1896,7 @@
     │Battles            ║
     │Alisa's hair       ║
     │Font               ║
+    │Fades              ║
     ╘═══════════════════╝
   fr: |
     ┌──────────────────────╖
@@ -1904,6 +1906,7 @@
     │Combats               ║
     │Cheveux d'Alisa       ║
     │Police                ║
+    │Fondu                 ║
     ╘══════════════════════╝
   pt-br: |
     ┌────────────────────────╖
@@ -1913,6 +1916,7 @@
     │Batalhas                ║
     │Cabelo de Alisa         ║
     │Fonte                   ║
+    │TODO                    ║
     ╘════════════════════════╝
   ca: |
     ┌────────────────────────╖
@@ -1922,6 +1926,7 @@
     │Batalles                ║
     │Cabell d'Alisa          ║
     │Font                    ║
+    │Fosa                    ║
     ╘════════════════════════╝
   es: |
     ┌────────────────────────╖
@@ -1931,6 +1936,7 @@
     │Batallas                ║
     │Pelo de Alisa           ║
     │Fuente                  ║
+    │Fundido                 ║
     ╘════════════════════════╝
   de: |
     ┌─────────────────────╖
@@ -1940,6 +1946,7 @@
     │Kampfhäufigkeit      ║
     │Alisas Haare         ║
     │Schriftart           ║
+    │Überblendung         ║
     ╘═════════════════════╝
 
 - name: ContinueMenu
