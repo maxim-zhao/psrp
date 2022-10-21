@@ -17774,7 +17774,7 @@ FadeInWholePalette:    ; $7dc3
     ldir               ; Fill ActualPalette with black
 
 _DoFade:
-    ld a,$16           ; VBlankFunction_18b
+    ld a,$16           ; VBlankFunction_PaletteEffects
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(PaletteFadeControl)
     or a

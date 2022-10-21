@@ -57,8 +57,6 @@ banks 32
   .unbackground $08000 $080b1 ; font tile lookup
   .unbackground $080b2 $0bd93 ; script
   .unbackground $0bd94 $0bf9b ; item names
-  .unbackground $0bed0 $0bf9b ; item names - now SFG decoder
-  .unbackground $0bf50 $0bf9b ; item names - now Huffman decoder init
   .unbackground $0bf9c $0bfdb ; item metadata
   .unbackground $0bfdc $0bfff ; blank
 ; Bank 3
@@ -277,6 +275,7 @@ _script\@_end:
   FewerBattles db ; b 1 to halve battle probability
   BrunetteAlisa db ; 1 to enable brown hair
   Font db ; 1 for the "alternate" font
+  FadeSpeed db ; 3 is "normal", 0 is "fast"
 
   SettingsEnd: .db
 
@@ -498,7 +497,7 @@ SceneData:
   PatchB $588d :PaletteDarkForce
   PatchW $588f PaletteDarkForce
 
-.bank 2 slot 2
+.slot 2
 
 .section "Palma and Dezoris open area graphics" superfree
 PalettePalmaOpen:      CopyFromOriginal $40000 16
@@ -1782,7 +1781,7 @@ DrawNumberToTempStr:
     ld (ix+3),a
 
     ld a,l      ; # 1's (_BCD_Digit has made it only possible to be in the range 0..9)
-    add a,1     ; add 1 because result = digit+1
+    inc a       ; add 1 because result = digit+1
     ld (ix+4),a
 
 
@@ -1965,7 +1964,7 @@ Names:
 .if LANGUAGE == "en"
   String "Tylon"                            ; ODIN      Odin                tairon              タイロン
 .else
-  String "Tairon"
+  String "Tairon" ; for "literal"
 .endif
   String "Lutz"                             ; LUTZ      Lutz                rutsu               ルツ
 
@@ -3720,8 +3719,8 @@ DezorianCustomStringCheck:
 ;
 ; $8210                       +-----------------+
 ;                             | Options         |
-; $8216                       +-----------------+
-;
+; $8217                       +-----------------+
+;                             (Space here for new options)
 ; $8400 +-----------------+   +-----------------+
 ;       | Slot 1          |   | Slot 1          |
 ; $8800 +-----------------+   +-----------------+
@@ -5671,7 +5670,7 @@ ExecuteFunctionIndexAInNextVBlank ; $0056
   PatchW $1808 0
   PatchB $180a 0 ; found treasure chest/display/wait/do you want to open it?
 
-.bank 2 slot 2
+.slot 2
 
 .section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
@@ -5696,7 +5695,7 @@ HuffmanTrees:
 .endb
 .ends
 
-.bank 2 slot 2
+.bank 0 slot 0
 .section "Decoder init" free
 DecoderInit:
 ; Semi-adaptive Huffman decoder
@@ -6021,7 +6020,7 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
 
-  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * (OptionsMenu_width - 8)
+  ld de,OptionsWindow_VRAM + ONE_ROW * 6 + 2 * OptionsMenu_width - _sizeof__Font1 - 2
   rst $8
   ld a,(Font)
   or a
@@ -6032,9 +6031,20 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
 
+  ld de,OptionsWindow_VRAM + ONE_ROW * 7 + 2 * OptionsMenu_width - _sizeof__Normal - 2
+  rst $8
+  ld a,(FadeSpeed)
+  or a
+  ld hl,_Fast
+  jr z,+
+  ld hl,_Normal
++:ld b,_sizeof__Normal
+  ld c,PORT_VDP_DATA
+  otir
+
   ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
-  ld a,5 ; 6 options
+  ld a,OptionsMenu_height - 3 ; Max option is menu size - 3
   ld (CursorMax),a ; CursorMax
   call $2ec8 ; no cursor position reset
 
@@ -6127,7 +6137,8 @@ _hair:
   ld (BrunetteAlisa),a
   jp _OptionsSelect
 
-+:; Last option, no need for dec
++:dec a
+  jr nz,+
 
 _font:
   ld a,(Font)
@@ -6139,6 +6150,20 @@ _font:
   halt
   jp _OptionsSelect
 
++:dec a
+  jr nz,+
+  
+_fade:
+  ld a,(FadeSpeed)
+  ; We want to swap between 3 and 0
+  xor 3
+  ld (FadeSpeed),a
+  jp _OptionsSelect
+
+
++:; should not get here
+  jp _OptionsSelect
+  
 .if LANGUAGE == "en" || LANGUAGE == "literal"
 _BattlesAll:  .stringmap tilemap " All"
 _BattlesHalf: .stringmap tilemap "Half"
@@ -6146,6 +6171,8 @@ _Brown: .stringmap tilemap "Brown"
 _Black: .stringmap tilemap "Black"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
+_Normal:.stringmap tilemap "Normal"
+_Fast:  .stringmap tilemap "  Fast"
 .endif
 .if LANGUAGE == "fr"
 _BattlesAll:  .stringmap tilemap "Tout"
@@ -6154,6 +6181,8 @@ _Brown: .stringmap tilemap "Bruns"
 _Black: .stringmap tilemap "Noirs"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
+_Normal:.stringmap tilemap " Normal"
+_Fast:  .stringmap tilemap "Presque"
 .endif
 .if LANGUAGE == "pt-br"
 _BattlesAll:  .stringmap tilemap "    Todas"
@@ -6162,6 +6191,8 @@ _Brown: .stringmap tilemap "Castanho"
 _Black: .stringmap tilemap "   Preto"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
+_Normal:.stringmap tilemap "Normal"
+_Fast:  .stringmap tilemap " Quase"
 .endif
 .if LANGUAGE == "ca"
 _BattlesAll:  .stringmap tilemap " Totes"
@@ -6170,6 +6201,8 @@ _Brown: .stringmap tilemap "Marró"
 _Black: .stringmap tilemap "Negre"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " DG2284"
+_Normal:.stringmap tilemap "Normal"
+_Fast:  .stringmap tilemap " Ràpid"
 .endif
 .if LANGUAGE == "es"
 _BattlesAll:  .stringmap tilemap " Todas"
@@ -6178,6 +6211,8 @@ _Brown: .stringmap tilemap "Marrón"
 _Black: .stringmap tilemap " Negro"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " DG2284"
+_Normal:.stringmap tilemap "Normal"
+_Fast:  .stringmap tilemap "Rápido"
 .endif
 .if LANGUAGE == "de"
 _BattlesAll:  .stringmap tilemap "Voll"
@@ -6186,6 +6221,8 @@ _Brown: .stringmap tilemap "  Braun"
 _Black: .stringmap tilemap "Schwarz"
 _Font1: .stringmap tilemap "Polaris"
 _Font2: .stringmap tilemap " AW2284"
+_Normal:.stringmap tilemap " Normal"
+_Fast:  .stringmap tilemap "Schnell"
 .endif
 
 Continue:
@@ -6453,11 +6490,13 @@ SettingsFromSRAM:
   ; If they are not valid, we need to initialise the multipliers
   ld a,(ExpMultiplier)
   or a
-  ret nz
+  jr nz,++
 +:
   ld a,1
   ld (ExpMultiplier),a
   ld (MoneyMultiplier),a
+  
+++:
   ret
 .ends
 
@@ -6984,3 +7023,25 @@ _cantEquip:
   jr _selectWho ; try again!
 
 .ends
+
+  ROMPosition $7de7
+.section "Fade speed hack" overwrite
+; Original code
+;    ld     hl,$c21d        ; 007DE3 21 1D C2 Get counter
+;    dec    (hl)            ; 007DE6 35       Decrement it
+;    ret    p               ; 007DE7 F0 
+;    ld     (hl),$03        ; 007DE8 36 03    Reset -> run every 4 frames
+  jp SpeedHack
+SpeedHackEnd:
+.ends
+
+.section "Fade speed hack part 2" free
+SpeedHack:
+  ; Code we replaced to get here
+  ret p
+  ; And then replace the 3 with a value from RAM
+  ld a,(FadeSpeed)
+  ld (hl),a
+  jp SpeedHackEnd
+.ends
+
