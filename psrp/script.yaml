@@ -117,9 +117,9 @@
     これからはせいぜい大人しくしていることだな。
     兄さん。何があったの。しっかりして。
   literal: |
-    You little bastard - poking your nose into LaShiec's business like that!<line>
-    Maybe from now on you'll try to mind your manners!<wait more>
-    Nero! What happened?! Hang on!<wait>
+    Some nerve you have, sniffing around in LaShiec's business.<line>
+    You better keep quiet from now on.<wait more>
+    Nero! What happened?!Hang in there!<wait>
   us: |
     SCUM! DO NOT SNIFF<line>
     AROUND IN LASSIC'S<line>
@@ -194,11 +194,11 @@
     お前一人を残していく俺を許してくれ。
   literal: |
     Alisa. Listen to me.<line>
-    LaShiec has brought a great disaster to our planet.<line>
-    The world is headed for destruction.<wait more>
-    I tried to find out what he is planning, but I couldn't do anything by myself.<wait more>
-    During my travels, I heard rumors of a strong man named Tairon.<line>
-    Together with him, you might be able to defeat LaShiec and restore peace.<line>
+    LaShiec has brought great disaster to this planet.<line>
+    The world is headed for destruction!<wait more>
+    I tried to find out what he is scheming, but I couldn't do anything by myself.<wait more>
+    During my travels, I heard rumors of a strong man named Tylon.<line>
+    The two of you might be able to kill LaShiec and restore peace.<wait more>
     Alisa... it's too late for me.<line>
     Please forgive me for leaving you all alone...<wait>
   us: |
@@ -351,8 +351,8 @@
     アリサは兄さんの命を無駄にしないために戦いに行きます。
     きっと見守っていてね。兄さん。
   literal: |
-    I will go and fight to ensure that my brother did not die in vain!<line>
-    Keep a sharp watch over me, Nero!<wait>
+    I will go and fight to make sure that your death was not in vain!<line>
+    Make sure to watch over me, Nero!<wait>
   us: |
     I WILL MAKE SURE<line>
     THAT MY BROTHER<line>
@@ -441,7 +441,7 @@
   kanji: |
     ここはアリサの家です。
     誰もいません。
-  literal: This is Alisa’s house. Nobody is here.<wait>
+  literal: This is Alisa’s house. There is nobody here.<wait>
   us: |
     HERE IS THE HOME<line>
     OF ALIS.<wait>
@@ -479,7 +479,9 @@
     私はスエロ。アリサの気持ちはよく分かるわ。
     もう誰もあなたを止めることはできない。
     でも、もし戦いで傷ついたときは
-  literal: My name is Suelo. I know how you feel, Alisa. No one will be able to stop you. If you are ever injured in battle...<wait>
+  literal: |
+    I'm Suelo. I understand how you feel, Alisa. There's no one who can stop you anymore.<wait more>
+    But if you should be injured in battle, then...<wait>
   us: |
     I'M SUELO. I KNOW<line>
     HOW YOU MUST FEEL,<wait more>
@@ -536,7 +538,7 @@
     ここでゆっくり休んでおゆき。
     無理をしないようにね。
     またいつでもいらっしゃい。
-  literal: Please rest and relax here. Don’t overdo it, okay? You will always be welcome here.<wait>
+  literal: Please rest and relax here. Don’t overdo it, okay? Come back here anytime.<wait>
   us: |
     PLEASE REST<line>
     YOURSELF.<wait more>
@@ -558,7 +560,7 @@
     Pero ve con cuidado, ¿vale? vuelve cuando quieras.<wait>
   de: |
     Ruh dich doch etwas aus.<wait more>
-    Bitte überarbeite dich nicht, OK? Komm jederzeit wieder.<wait>
+    Bitte übernimm dich nicht, OK? Komm jederzeit wieder.<wait>
     
 - offsets: 4b62
   # Camineet
@@ -581,8 +583,8 @@
     あっ。それと、ネロからラコニアンポットという壺を預かってたんだ。
     後で役に立つだろうから持って行くといいよ。
   literal: |
-    My name is Nekise. According to what I’ve heard, the hero Tairon is staying in the town of Shion.<wait more>
-    Oh, Nero also entrusted me with this jar - it’s called a ‘Laconian Pot.’ Here, you should take it with you. It may come in handy later on.<wait>
+    I'm Nekise. From what I've heard, the hero Tylon is said to be in the town of Shion at the moment.<wait more>
+    Oh, right. Nero entrusted me with this Laconian Pot. Take it - it might come in handy later.<wait>
   us: |
     I'M NEKISE. ONE<line>
     HEARS LOTS OF<wait more>
@@ -647,7 +649,7 @@
   kanji: |
     力になれなくてごめん。
     無事を祈ってるよ。
-  literal: I’m sorry there’s nothing more I can do. May your journey be safe.<wait>
+  literal: I'm sorry I can't help you any more. I hope you'll be safe.<wait>
   us: |
     I WISH I COULD<line>
     HELP YOU MORE.<wait more>
@@ -697,7 +699,7 @@
     カギノ　カカッタ　ドアヲ　アケルニハ
     ダンジョンキーガ　ヒツヨウデス。<wait>
   kanji: 鍵の掛かったドアを開けるにはダンジョンキーが必要です。
-  literal: You need a ‘Dungeon Key’ to open locked doors.<wait>
+  literal: You need a Dungeon Key to open locked doors.<wait>
   us: |
     YOU NEED A<line>
     DUNGEON KEY TO<wait more>
@@ -716,7 +718,7 @@
     アカリガナイト　ススメナイ<line>
     ダンジョンモ　アルヨ。<wait>
   kanji: 明かりがないと勧めないダンジョンもあるよ。
-  literal: You will not be able to advance through certain dungeons if you don't have a light.<wait>
+  literal: There are dungeons that are too dark to traverse without a light.<wait>
   us: |
     IN SOME DUNGEONS<line>
     YOU WILL NOT GET<wait more>
@@ -768,7 +770,7 @@
     ミナトマチデハ　イロイロナ　トリヒキ
     ガ　デキル　トイウ　ハナシダ。<wait>
   kanji: 港町では色々な取引ができるという話だ。
-  literal: They say that all sorts of business goes on in the port town.<wait>
+  literal: They say there are all sorts of deals to be made in port towns.<wait>
   us: |
     IF YOU WANT TO<line>
     MAKE A DEAL, YOU <wait more>
@@ -823,7 +825,7 @@
   indices: 020
   ja: ココヲ　トオスワケニハ　イカナイ。<wait>
   kanji: ここを通す訳にはいかない。
-  literal: I can’t just let you pass through here!<wait>
+  literal: We cannot let you pass through here.<wait>
   us: YOU MAY NOT PASS.<wait>
   en: Authorization is required to pass this point. Stay back or we will use force!<wait>
   fr: Désolé, nous sommes en état d'alerte. Accès interdit.<wait>
@@ -839,7 +841,7 @@
     ロードパスノ　ナイモノハ　ココヲ<line>
     トオレナイ。<wait>
   kanji: ロードパスの無い者はここを通れない。
-  literal: Nobody gets through here without a 'Roadpass'.<wait>
+  literal: Nobody gets through here without a Roadpass.<wait>
   us: |
     YOU CANNOT PASS<line>
     WITHOUT ROADPASS.<wait>
@@ -857,7 +859,7 @@
   indices: 024
   ja: トオッテ　ヨシ。<wait>
   kanji: 通って良し。
-  literal: Okay, you may pass.<wait>
+  literal: You may pass.<wait>
   us: YOU MAY PROCEED.<wait>
   en: Okay, go on through.<wait>
   fr: Accès accordé. Allez-y.<wait>
@@ -873,7 +875,7 @@
     アルゴル　タイヨウケイノ　ワクセイヲ
     シッテイルカナ。<end>
   kanji: アルゴル太陽系の惑星を知っているかな。
-  literal: Do you know the planets in the Algol Solar System?<end>
+  literal: Do you know the planets of the Algol Solar System?<end>
   us: |
     DO YOU KNOW ABOUT<line>
     THE PLANETS OF<wait more>
@@ -902,11 +904,11 @@
     パルマは緑の星。モタビアは砂の星。デゾリスは氷の星じゃ。
     アルゴル太陽系には危機が迫っているのじゃ。
   literal: |
-    There are three planets: Palma, Motabia, and Dezoris.<line>
+    There are three planets: Palma, Motavia, and Dezoris.<wait more>
     Palma is a planet of greenery.<line>
     Motavia is a planet of sand.<line>
-    Dezoris is a planet of ice.<line>
-    There is a crisis drawing near to Algol...<wait>
+    Dezoris is a planet of ice.<wait more>
+    The Algol Solar System is facing a crisis...<wait>
   us: |
     THERE ARE THREE<line>
     PLANETS: PALMA<wait more>
@@ -976,7 +978,7 @@
   indices: 060
   ja: ナラバ　ヨイ。<wait>
   kanji: ならば良い。
-  literal: Then good.<wait>
+  literal: Very well, then.<wait>
   us: O.K. GOOD DAY.<wait>
   en: Oh. Okay.<wait>
   fr: Oh. Très bien.<wait>
@@ -994,7 +996,7 @@
   indices: 026
   ja: ココハ　パロリト　キョジュウクヨ。<wait>
   kanji: ここはパロリト居住区よ。
-  literal: This is Parolit residential district.<wait>
+  literal: This is the Parolit residential district.<wait>
   us: |
     THIS IS PAROLIT<line>
     RESIDENTIAL AREA.<wait>
@@ -1034,7 +1036,9 @@
   kanji: |
     居住区の南の洞窟にメデューサという魔物がよみがえったという。
     姿を見た者は石にされるそうだ。
-  literal: I hear that a monster named Medusa has come back to life in the cave south of the residential area. They say if you look at her, you'll turn to stone!<wait>
+  literal: |
+    I hear that a monster named Medusa has come back to life in the cave south of the residential area.<wait more>
+    They say that if you look at her, you'll turn to stone!<wait>
   us: |
     MEDUSA HAS BEEN<line>
     REBORN AND LIVES<wait more>
@@ -1161,7 +1165,9 @@
   kanji: |
     モタビア星にはモタビアン、デゾリス星にはデゾリアンという
     星人が住んでいるそうだよ。一度会って話してみたいな。
-  literal: On Motabia, there are the Motavians. On Dezoris, the Dezorians. I’d like to hang out and talk with them sometime.<wait>
+  literal: |
+    There are Motavians on Motavia and Dezorians on Dezoris.<wait more>
+    I'd love to meet and talk to them sometime.<wait>
   us: |
     THEY SAY THAT<line>
     THERE ARE MOTAVIAN<wait more>
@@ -1209,7 +1215,10 @@
     奴は言葉を話す動物を連れていたなあ。
     その動物は首に薬瓶をぶらさげていたが
     何かの役に立つかねえ。
-  literal: Tairon? He went to slay Medusa! That guy, he was with a TALKING ANIMAL! And the animal - it had a bottle of medicine around its neck. I wonder if it has any special purpose.<wait>
+  literal: |
+    If you're looking for Tylon, he went off to go slay Medusa.<wait more>
+    That guy had a talking animal with him! And the animal had a bottle of medicine hanging around its neck!<wait more>
+    I wonder what that's for.<wait>
   us: |
     ODIN SET OFF TO<line>
     KILL MEDUSA. HE<wait more>
@@ -1269,7 +1278,7 @@
   pt-br: Já era hora de alguém enfrentar LaShiec. Que Deus esteja com você.<wait>
   ca: Ja és l'hora de que algú s'enfronti a en LaShiec. Que Déu et beneeixi.<wait>
   es: Ja era hora que alguien se enfrentase a LaShiec. Que Dios te bendiga.<wait>
-  de: Endlich sagt jemand Lashiec den Kampf an. Dann viel Erfolg!<wait>
+  de: Endlich sagt jemand Lashiec den Kampf an. Viel Erfolg!<wait>
 
 - offsets: 4db6
   # If you haven't bought Myau yet
@@ -1282,7 +1291,9 @@
   kanji: |
     この前、メデューサの洞窟で、喋る動物を拾ったんだ。
     パセオの商人に高く売りつけてやったよ。へっへっへ。
-  literal: I picked up a talking animal in Medusa’s Cave earlier. Then I sold it off to a trader in Paseo and made a bundle! Heh, heh, heh!<wait>
+  literal: |
+    I picked up a talking animal in Medusa's Cave earlier.<wait more>
+    Made a fortune selling him to a trader in Paseo! Heh heh heh!<wait>
   us: |
     I RECENTLY FOUND A
     TALKING BEAST IN<wait more>
@@ -1350,7 +1361,7 @@
     シオンノ　ミナミノ　ハントウニハ<line>
     イアラト　ヨバレル　ドウクツガアル。<wait>
   kanji: シオンの南の半島にはイアラと呼ばれる洞窟がある。
-  literal: On the peninsula South of Shion, you will find Iala Cave.<wait>
+  literal: On the peninsula south of Shion lies a cave called Iala.<wait>
   us: |
     A CAVE CALLED IALA
     CAN BE FOUND ON<wait more>
@@ -1402,7 +1413,7 @@
     エピトイウ　マヨイノモリハ<line>
     コンパスガナイト　トオレナイヨ。<wait>
   kanji: エピという迷いの森はコンパスがないと通れないよ。
-  literal: The Eppi Woods are confusing. You need a ‘Compass’ just to pass through them.<wait>
+  literal: The Eppi Woods are confusing. You need a Compass just to pass through them.<wait>
   us: |
     YOU NEED A COMPASS
     TO PASS THROUGH<wait more>
@@ -1420,7 +1431,7 @@
     マホウノ　カカッタドアハ　マジックヲ
     ツカワナイト　ヒラキマセン。<wait>
   kanji: 魔法の掛かったドアはマジックを使わないと開きません。
-  literal: Magically-sealed doors can be opened only with magic.<wait>
+  literal: Magically-sealed doors can only be opened with magic.<wait>
   us: |
     A DOOR LOCKED WITH
     MAGIC CAN ONLY BE<wait more>
@@ -1443,7 +1454,7 @@
     この町から北へ行くとバヤマーレという丘があります。
     でも我々はその丘へ近づくことができません。
   literal: |
-    If you go North from this town you will reach the hill of Baya Marlay.<line>
+    If you go north from this town, you will reach the hill of Baya Marlay.<wait more>
     However, we aren’t able to get near to it.<wait>
   us: |
     THERE IS A HILL<line>
@@ -1478,7 +1489,7 @@
     バヤマーレノ　キタノ　カイガンニ<line>
     ナウラトイウ　ドウクツガ　アリマス。<wait>
   kanji: バヤマーレの北の海岸にナウラという洞窟があります。
-  literal: On the beach North of Baya Marlay, you will find Naula Cave.<wait>
+  literal: On the beach north of Baya Marlay, you will find Naula Cave.<wait>
   us: |
     A CAVE CALLED<line>
     NAULA LIES ON THE <wait more>
@@ -1510,7 +1521,7 @@
     ダレニ　キイタカ　シラナイガ<line>
     アキラメタホウガ　ミノタメダ。<wait>
   kanji: 誰に聞いたか知らないが諦めたほうが身のためだ。
-  literal: I don’t know who told you that, but you’d better just forget about it if you know what’s good for you.<wait>
+  literal: I don’t know who told you that, but you’d better forget about it if you know what’s good for you.<wait>
   us: |
     I DON'T KNOW WHO<line>
     TOLD YOU THAT.<wait more>
@@ -1532,7 +1543,7 @@
   kanji: |
     駄目なものはダメだ。
     さー、帰った。帰った。
-  literal: Give it up, willya? Now get outta here!<wait>
+  literal: I already told you no can do! Now get out!<wait>
   us: |
     I TELL YOU NO ONE<line>
     CAN DO.GO ON BACK<wait more>
@@ -1626,7 +1637,7 @@
   kanji: |
     ここはパルマのスペースポートだ。
     モタビア星のパセオまで行ける。
-  literal: This is Palma Spaceport. You can go to Paseo, on the planet Motavia.<wait>
+  literal: This is Palma's spaceport. You can go to Paseo, on the planet Motavia.<wait>
   us: |
     THIS IS PALMA'S<line>
     SPACEPORT.<wait more>
@@ -1716,7 +1727,7 @@
     ココデ　パスポートノ　シンセイガ<line>
     デキマス。シンセイヲシマスカ。<end>
   kanji: ここでパスポートの申請ができます。申請をしますか。
-  literal: You can apply for a ‘passport’ here. Would you like to apply?<end>
+  literal: You can apply for a passport here. Would you like to apply?<end>
   us: |
     YOU CAN FILE FOR A<line>
     PASSPORT HERE.<wait more>
@@ -1736,7 +1747,7 @@
     イママデニ　ワルイコトヲ　シタコトガ
     アリマスカ。<end>
   kanji: 今までに悪い事をしたことがありますか。
-  literal: Have you ever done anything wrong?<end>
+  literal: Have you ever done something bad?<end>
   us: |
     HAVE YOU EVER DONE<line>
     ANYTHING ILLEGAL? <end>
@@ -1785,7 +1796,7 @@
     ヨロシイデスカ。<end>
   kanji: 手数料１００メセタです。宜しいですか。
   # <number> is always 100.
-  literal: The handling fee is 100 mesetas. Is that okay?<end>
+  literal: The handling fee is <number> mesetas. Is that okay?<end>
   us: |
     THE PASSPORT FEE<line>
     IS 100 MESETAS.<wait more>
@@ -1804,7 +1815,7 @@
     デハ　パスポートヲ　ハッコウシマス。
     オウケトリクダサイ。<wait>
   kanji: では、パスポートを発行します。お受け取り下さい。
-  literal: Well then, we will issue you a passport. Here you go.<wait>
+  literal: Then we will issue you your passport. Here you go.<wait>
   us: |
     YOUR PASSPORT IS<line>
     READY, HERE.<wait>
@@ -1856,7 +1867,7 @@
   kanji: |
     それはよくないですね。
     またお越しください。
-  literal: That's too bad. Please come back some other time.<wait>
+  literal: That's not good. Please come back another time.<wait>
   us: |
     THAT'S NOT GOOD.<line>
     YOU'LL HAVE TO<wait more>
@@ -11847,7 +11858,7 @@
   pt-br: Aqui está, <article><item>. Deseja equipar?<end>
   ca: Aquí tens, <article><item>. El vols equipar?<end>
   es: Aquí tienes, <article><item>. ¿Quieres equiparlo?<end>
-  de: Bitte sehr, <article><item>. Willst du ihn ausrüsten?<end>
+  de: Bitte sehr! Wollen Sie sich gleich damit ausrüsten?<end>
 
 
 # There are a few unused script entries in the US script that are not present at all in the Japanese version:
