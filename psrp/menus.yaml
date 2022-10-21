@@ -1916,7 +1916,7 @@
     │Batalhas                ║
     │Cabelo de Alisa         ║
     │Fonte                   ║
-    │TODO                    ║
+    │Transições              ║
     ╘════════════════════════╝
   ca: |
     ┌────────────────────────╖
@@ -1946,7 +1946,7 @@
     │Kampfhäufigkeit      ║
     │Alisas Haare         ║
     │Schriftart           ║
-    │Uberblendung         ║
+    │Bildwechsel          ║
     ╘═════════════════════╝
 
 - name: ContinueMenu
