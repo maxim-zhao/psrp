@@ -2495,7 +2495,7 @@
   pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
   ca: Però en Myau no pot obrir el tap de l'ampolla.<wait>
   es: Pero Myau no puede abrir el tapón del frasco.<wait>
-  de: Aber er bekam die Flasche nicht auf.<wait>
+  de: Aber <sie> bekam die Flasche nicht auf.<wait>
 
 
 # ********************************
@@ -2551,9 +2551,8 @@
     Si no podemos derrotar a Medusa, no tenemos ninguna posibilidad contra Lashiec.<line><line>
     ¿Quien es tu nueva amiga?<wait>
   de: |
-    Ah, Myau, du hast Hilfe gefunden. Danke.<wait more>
-    Aber wenn wir selbst Medusa nicht besiegen konnten, welche Chance haben wir gegen Lashiec?<wait more>
-    Und du bist...?<wait>
+    Ah, besten Dank für die Rettung.<wait more>
+    Aber wenn ich selbst Medusa nicht besiegen konnte, welche Chance hätte ich dann gegen Lashiec?<wait>
 
 - offsets: 4693
   indices: bb29
@@ -2594,7 +2593,7 @@
     Lo destruiré, cueste lo que cueste.<line><line>
     Nero me dió tu nombre antes de morir, creíaa que nos podrias ayudar.<wait>
   de: |
-    Alisa. Mein Bruder wollte Lashiec stürzen und hat dabei sein Leben gelassen.<line><line>
+    Mein Bruder wollte Lashiec stürzen und hat dabei sein Leben gelassen.<line><line>
     Ich werde ihn rächen, komme was wolle.<wait more>
     Bevor er starb, hat er mir deinen Namen genannt, und gesagt, dass du mir helfen könntest.<wait>
 

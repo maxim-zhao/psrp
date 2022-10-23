@@ -6215,7 +6215,7 @@ _Normal:.stringmap tilemap "Normal"
 _Fast:  .stringmap tilemap "Rápido"
 .endif
 .if LANGUAGE == "de"
-_BattlesAll:  .stringmap tilemap "Voll"
+_BattlesAll:  .stringmap tilemap "Ganz"
 _BattlesHalf: .stringmap tilemap "Halb"
 _Brown: .stringmap tilemap "  Braun"
 _Black: .stringmap tilemap "Schwarz"
