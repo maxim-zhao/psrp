@@ -2672,7 +2672,8 @@
     ソレヨリ　ナゼ　メデューサヲ<line>
     タオソウト　シタノ。<wait>
   kanji: それより、なぜメデューサを倒そうとしたの。
-  literal: But before that: Why did you try to kill Medusa?<wait>
+  literal: |
+    But before that: Why did you try to kill Medusa?<wait>
   us: |
     WHY DID YOU TRY TO<line>
     KILL MEDUSA?<wait>
