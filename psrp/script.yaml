@@ -117,9 +117,10 @@
     これからはせいぜい大人しくしていることだな。
     兄さん。何があったの。しっかりして。
   literal: |
-    Some nerve you have, sniffing around in LaShiec's business.<line>
+    Some nerve you have, sniffing around in LaShiec's business.<line><line>
     You better keep quiet from now on.<wait more>
-    Nero! What happened?!Hang in there!<wait>
+    Nero! What happened?!<line>
+    Hang in there!<wait>
   us: |
     SCUM! DO NOT SNIFF<line>
     AROUND IN LASSIC'S<line>
@@ -193,13 +194,14 @@
     アリサ。俺はもう駄目だ。
     お前一人を残していく俺を許してくれ。
   literal: |
-    Alisa. Listen to me.<line>
+    Alisa. Listen to me.<line><line>
     LaShiec has brought great disaster to this planet.<line>
     The world is headed for destruction!<wait more>
     I tried to find out what he is scheming, but I couldn't do anything by myself.<wait more>
     During my travels, I heard rumors of a strong man named Tylon.<line>
     The two of you might be able to kill LaShiec and restore peace.<wait more>
-    Alisa... it's too late for me.<line>
+    Alisa...<line><line>
+    It's too late for me.<line><line>
     Please forgive me for leaving you all alone...<wait>
   us: |
     ALIS,LISTEN!<line>
@@ -351,7 +353,7 @@
     アリサは兄さんの命を無駄にしないために戦いに行きます。
     きっと見守っていてね。兄さん。
   literal: |
-    I will go and fight to make sure that your death was not in vain!<line>
+    I will go and fight to make sure that your death was not in vain!<line><line>
     Make sure to watch over me, Nero!<wait>
   us: |
     I WILL MAKE SURE<line>
@@ -441,7 +443,9 @@
   kanji: |
     ここはアリサの家です。
     誰もいません。
-  literal: This is Alisa’s house. There is nobody here.<wait>
+  literal: |
+    This is Alisa’s house.<line>
+    There is nobody here.<wait>
   us: |
     HERE IS THE HOME<line>
     OF ALIS.<wait>
@@ -480,7 +484,7 @@
     もう誰もあなたを止めることはできない。
     でも、もし戦いで傷ついたときは
   literal: |
-    I'm Suelo. I understand how you feel, Alisa. There's no one who can stop you anymore.<wait more>
+    I'm Suelo. I understand how you feel, Alisa. There's no one who could stop you anymore.<wait more>
     But if you should be injured in battle, then...<wait>
   us: |
     I'M SUELO. I KNOW<line>
@@ -538,7 +542,10 @@
     ここでゆっくり休んでおゆき。
     無理をしないようにね。
     またいつでもいらっしゃい。
-  literal: Please rest and relax here. Don’t overdo it, okay? Come back here anytime.<wait>
+  literal: |
+    Please rest and relax here.<wait more>
+    Don’t overdo it, okay?<line>
+    Come back here anytime.<wait>
   us: |
     PLEASE REST<line>
     YOURSELF.<wait more>
@@ -738,7 +745,7 @@
     カミニートノ　ニシハ　スペースポート
     デス。<wait>
   kanji: カミニートの西はスペースポートです。
-  literal: West of Camineet is the Spaceport.<wait>
+  literal: West of Camineet is the spaceport.<wait>
   us: |
     THERE IS A<line>
     SPACEPORT TO THE <wait more>
@@ -770,7 +777,7 @@
     ミナトマチデハ　イロイロナ　トリヒキ
     ガ　デキル　トイウ　ハナシダ。<wait>
   kanji: 港町では色々な取引ができるという話だ。
-  literal: They say there are all sorts of deals to be made in port towns.<wait>
+  literal: They say that there are all sorts of deals to be made in port towns.<wait>
   us: |
     IF YOU WANT TO<line>
     MAKE A DEAL, YOU <wait more>
@@ -1014,7 +1021,7 @@
     モリノナカハ　トクニ<line>
     キヲツケタホウガイイヨ。<wait>
   kanji: 森の中は特に気を付けたほうがいいよ。
-  literal: When you're in the forest, you need to be especially cautious.<wait>
+  literal: You ought to be especially cautious in forests.<wait>
   us: |
     THE FOREST IS A<line>
     DANGEROUS PLACE.<wait>
@@ -1122,7 +1129,7 @@
     パロリトノ　ニシニアル　ガシコノモリ
     ヘハ　チカツウロガ　アルラシイ。<wait>
   kanji: パロリトの西にあるガシコの森へは地下通路があるらしい。
-  literal: I hear that you can get to the Gothic Forest west of Parolit through an underground passageway.<wait>
+  literal: I hear that there's an underground passageway leading to Gothic Forest west of Parolit.<wait>
   us: |
     THERE IS AN<line>
     UNDERGROUND<wait more>
@@ -1361,7 +1368,7 @@
     シオンノ　ミナミノ　ハントウニハ<line>
     イアラト　ヨバレル　ドウクツガアル。<wait>
   kanji: シオンの南の半島にはイアラと呼ばれる洞窟がある。
-  literal: On the peninsula south of Shion lies a cave called Iala.<wait>
+  literal: On the peninsula south of Shion lies a cave named Iala.<wait>
   us: |
     A CAVE CALLED IALA
     CAN BE FOUND ON<wait more>
@@ -1455,7 +1462,7 @@
     でも我々はその丘へ近づくことができません。
   literal: |
     If you go north from this town, you will reach the hill of Baya Marlay.<wait more>
-    However, we aren’t able to get near to it.<wait>
+    However, we aren’t able to get close to it.<wait>
   us: |
     THERE IS A HILL<line>
     NAMED BAYA MALAY<wait more>
@@ -1489,7 +1496,7 @@
     バヤマーレノ　キタノ　カイガンニ<line>
     ナウラトイウ　ドウクツガ　アリマス。<wait>
   kanji: バヤマーレの北の海岸にナウラという洞窟があります。
-  literal: On the beach north of Baya Marlay, you will find Naula Cave.<wait>
+  literal: On the coast north of Baya Marlay, you will find a cave called Naula.<wait>
   us: |
     A CAVE CALLED<line>
     NAULA LIES ON THE <wait more>
@@ -1711,7 +1718,7 @@
   indices: 0CE
   ja: フザケルナ。<wait>
   kanji: ふざけるな。
-  literal: Don't mess with me.<wait>
+  literal: Stop fooling around.<wait>
   us: DON'T BE A FOOL!<wait>
   en: Well? Let’s see it.<wait>
   fr: Eh bien_? Voyons ca.<wait>
@@ -1885,7 +1892,9 @@
   indices: b6c6
   ja: モタビア　ユキデス。ノリマスカ。<end>
   kanji: モタビア行きです。乗りますか。
-  literal: Bound for Motavia. Getting on?<end>
+  literal: |
+    Bound for Motavia.<line>
+    Getting on?<end>
   us: |
     BOUND FOR MOTAVIA.
     GETTING ON?<end>
@@ -1908,7 +1917,7 @@
     ココハ　モタビアノ<line>
     パセオ　スペースポート　ダヨ。<wait>
   kanji: ここはモタビアのパセオ・スペースポートだよ。
-  literal: This is Paseo spaceport, on the planet Motabia.<wait>
+  literal: This is Paseo Spaceport, on the planet Motavia.<wait>
   us: |
     WELCOME TO THE <line>
     PASEO SPACEPORT<wait more>
@@ -1927,7 +1936,7 @@
     サバクノ　ナカデハ　アリジゴクガ<line>
     アバレテ　イルトイウ　ウワサダヨ。<wait>
   kanji: 砂漠の中では蟻地獄が暴れているという噂だよ。
-  literal: I’ve heard rumors that there are vicious ‘Ant-lions’ in the desert!<wait>
+  literal: I’ve heard rumors that there are antlions rampaging in the desert!<wait>
   us: |
     IT IS SAID THAT<line>
     ANT LIONS ROAM<wait more>
@@ -1946,7 +1955,7 @@
     ナウラ　トイウ　ドウクツニハ<wait more>
     ケーキヤガ　アルンダッテネ。<wait>
   kanji: パルマ星のナウラという洞窟にはケーキ屋があるんだってね。
-  literal: I heard that there's a cake shop in Naula Cave on the planet Palma.<wait>
+  literal: There's supposed to be a cake shop in the Naula Cave on Palma.<wait>
   us: |
     THERE IS A CAKE<line>
     SHOP IN THE CAVE<wait more>
@@ -1997,7 +2006,7 @@
     モタビアノ　ソウトクハ　ジツハ<line>
     ラシークト　ナカガ　ワルイラシイヨ。<wait>
   kanji: モタビアの総督は実はラシークと仲が悪いらしいよ。
-  literal: ...Actually, the Governor-General seems to be on very bad terms with LaShiec!<wait>
+  literal: Supposedly, the Governor-<line>General is actually on pretty bad terms with LaShiec.<wait>
   us: |
     MOTAVIA'S GOVERNOR
     AND LASSIC ARE NOT<wait more>
@@ -2016,7 +2025,7 @@
     ソウトクニ　アウニハ　オクリモノガ<line>
     イルソウヨ。<wait>
   kanji: 総督に会うには贈り物が要るそうよ。
-  literal: You need to have a gift in order to meet with the Governor-General.<wait>
+  literal: It seems you need a gift in order to meet with the Governor-General.<wait>
   us: |
     A GIFT IS NEEDED<line>
     IF YOU WISH TO SEE<wait more>
@@ -2049,7 +2058,7 @@
     マハル　トイウ　ドウクツガ　パセオ
     ノキタノ　ヤマノ　ナカニ　アリマス。<wait>
   kanji: マハルという洞窟がパセオの北の山の中にあります。
-  literal: Maharu Cave is located in the mountains to the north of Paseo.<wait>
+  literal: A cave named Mahal lies in the mountains north of Paseo.<wait>
   us: |
     THERE IS A CAVE<line>
     CALLED MAHARU IN<wait more>
@@ -2068,7 +2077,7 @@
     ココハ　モタビアノ　シュト<line>
     パセオ　デス。<wait>
   kanji: ここはモタビアの首都パセオです。
-  literal: This is Paseo, capital of Motabia.<wait>
+  literal: This is Paseo, the capital of Motavia.<wait>
   us: |
     THIS IS PASEO<line>
     MOTAVIA'S CAPITAL.<wait>
@@ -2126,7 +2135,8 @@
     <number>オク　メセタデ　カワナイカ。<end>
   kanji: 珍しい動物がいるんだけど１０憶メセタで買わないか。
   # <number> is always 10.
-  literal: I gotta real rare animal here. You can have it fer a billion mesetas. Whuddayuhsay?<end>
+  # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
+  literal: I've got a rare animal here. Wanna buy it for a billion mesetas?<end>
   us: |
     I HAVE AN RARE<line>
     ANIMAL HERE. WOULD<wait more>
@@ -2157,7 +2167,7 @@
   indices: 094
   ja: アンタ　ウソツキダネ。<wait>
   kanji: あんた、嘘つきだね。
-  literal: Yeah, right. You gotta be kiddin’ me!<wait>
+  literal: You are a liar and a cheat!<wait>
   us: YOU ARE A LIAR!<wait>
   en: |
     Whoa, seriously?<wait more>
@@ -2187,7 +2197,9 @@
   kanji: |
     おや、あんた、珍しい壺を持っているね。
     そのラコニアンポットとなら交換してもいいよ。どうかね。
-  literal: Say... That’s a real unusual pot you got there... ...is 'dat a ‘Laconian Pot’?! How ‘bout I give you da animal, you give me the pot? Whuddayuhsay?<end>
+  literal: |
+    Oh, that's an interesting-<line>looking pot you've got there.<wait more>
+    I'd be willing to trade the animal for that Laconian Pot. What do you think?<end>
   us: |
     I SEE YOU HAVE A<line>
     STRANGE POT.<wait more>
@@ -2225,7 +2237,7 @@
     ソレジャ　ツレテイキナ。<line>
     カワイガッテ　ヤッテクレ。<wait>
   kanji: それじゃ、連れていきな。可愛がってやってくれ。
-  literal: Alri---ght, there yuh go. Take good care uv‘im.<wait>
+  literal: Alright, here you go, then. Take good care of him!<wait>
   us: |
     ALL RIGHT, THERE<line>
     YOU GO WITH HIM.<wait>
@@ -2247,7 +2259,7 @@
     ラコニアンポットハ　トテモ　タカク<line>
     ウレタヨ。　アリガトサン。<wait>
   kanji: ラコニアンポットはとても高く売れたよ。ありがとさん。
-  literal: That laconian pot was worth a fortune! Thanks a bundle!<wait>
+  literal: I made a killing off that Laconian Pot! Thanks again!<wait>
   us: |
     I SOLD THAT<line>
     LACONIAN POT FOR<wait more>
@@ -2275,7 +2287,9 @@
     ワタシハ　アリサ。<line>
     アナタノ　ナマエヲ　オシエテ。<wait>
   kanji: 今日から仲間ね。私はアリサ。あなたの名前を教えて。
-  literal: I guess we’re gonna be traveling together from now on, huh? I’m Alisa. What’s your name?<wait>
+  literal: |
+    I guess we're companions from now on, huh?<line><line>
+    I'm Alisa. What's your name?<wait>
   us: |
     WE WILL BE FELLOW<line>
     TRAVELERS.<line>
@@ -2324,7 +2338,9 @@
   kanji: |
     ねえ、ミャウ。
     タイロンのことなんだけど、何か知っていたら教えて。
-  literal: Say, Myau. Do you know what happened to Tairon?<wait>
+  literal: |
+    Say, Myau...<line>
+    I've been wondering about Tylon. What do you know about him?<wait>
   us: |
     MYAU, HAVE YOU <line>
     EVER HEARD OF A<line>
@@ -2366,7 +2382,9 @@
     タイロン、石になっちまったの。
     この薬かければ治るんだ。
     けど、ミャウ、ビンの蓋開けられないの。
-  literal: Someone turned him into stone. I can heal him with this medicine, but I can’t open the lid, so...<wait>
+  literal: |
+    Tylon was turned to stone!<line><line>
+    He can be restored by pouring this medicine on him, but I can't get the lid open...<wait>
   us: |
     YES, BUT HE IS<line>
     TURNED TO STONE!<line>
@@ -2404,7 +2422,9 @@
   kanji: |
     そっか。
     じゃ、一緒にタイロンを助けに行きましょう。
-  literal: I see. Let’s go help him!<wait>
+  literal: |
+    I see.<line><line>
+    Let’s go help him together, then!<wait>
   us: |
     WELL, THEN, WE'D<line>
     BETTER GO SAVE<line>
@@ -2430,7 +2450,7 @@
   kanji: |
     石にされてしまった人らしい。
     元に戻れるのだろうか。
-  literal: It looks like this person was turned to stone! Maybe he can be returned to normal...<wait>
+  literal: It looks like someone who was turned to stone! Maybe he can be returned to normal...<wait>
   us: |
     IT SEEMS TO BE A<line>
     MAN WHO HAS BEEN<wait more>
@@ -2456,7 +2476,7 @@
     ソシテ　ビンノ　フタヲ　アケテ<line>
     シズカニ　タラシタ。<delay>
   kanji: そして、ビンの蓋を開けて静かに垂らした。
-  literal: Then they opened the lid to the bottle, and the contents quietly spilled out.<wait>
+  literal: Then <she> opened the lid of the bottle, and the contents quietly spilled out...<wait>
   us: |
     THE BOTTLECAP<line>
     OPENS AND THE <wait more>
@@ -2485,7 +2505,7 @@
     シカシ　ミャウハ　ビンノ　フタヲ<line>
     アケルコトガ　デキナカッタ。<wait>
   kanji: しかし、ミャウはビンの蓋を開けることができなかった。
-  literal: Alas, Myau was not able to open the lid to the bottle.<wait>
+  literal: But <she> couldn't get the lid open.<wait>
   us: |
     BUT MYAU CANNOT<line>
     OPEN THE BOTTLE.<wait>
@@ -2518,7 +2538,9 @@
   kanji: |
     ありがとう。助かったよ。
     しかし、メデューサにしてやられるようではラシークは倒せそうにないな。
-  literal: Thanks for rescuing me. But if Medusa can do me in, I don't think I'll stand a chance against LaShiec.<wait>
+  literal: |
+    Thanks for saving me.<line><line>
+    But if Medusa can stop me, I guess there's no way I could kill LaShiec.<wait>
   us: |
     THANKS FOR SAVING<line>
     ME. I GUESS IF<line>
@@ -2608,7 +2630,9 @@
   kanji: |
     そうだったのか。
     よし、君の兄さんのためにも力を合わせてラシークを倒そう。
-  literal: I see... All right then, for the sake of your brother, let’s join forces and destroy LaShiec!<wait>
+  literal: |
+    I see...<line><line>
+    Alright, then. For your brother's sake, let's join forces and kill LaShiec together!<wait>
   us: |
     IS THAT SO? WELL,<line>
     I MUST NOT LET<line>
@@ -2641,7 +2665,7 @@
     ソレヨリ　ナゼ　メデューサヲ<line>
     タオソウト　シタノ。<wait>
   kanji: それより、なぜメデューサを倒そうとしたの。
-  literal: Tell me something first - why did you try to kill Medusa?<wait>
+  literal: But before that: Why did you try to kill Medusa?<wait>
   us: |
     WHY DID YOU TRY TO<line>
     KILL MEDUSA?<wait>
@@ -2681,7 +2705,11 @@
     悔しいなあ。
     そう言えば、オレ、この洞窟の行き止まりにコンパスを隠しておいたんだっけ。
     取りに行こうぜ。
-  literal: See, Medusa has this magical axe, and I wanted to get it, but she got away from me. Damn... But anyway... I hid a 'Compass' at a dead end in this cave. We should go get it.<wait>
+  literal: |
+    See, Medusa has this legendary axe that I wanted to get my hands on.<line><line>
+    Darn shame that she got away from me...<wait more>
+    Come to think of it, I should've hidden a Compass in one of the dead ends of this cave.<line><line>
+    Let's go get it.<wait>
   us: |
     BECAUSE MEDUSA HAS<line>
     A MYSTIC AXE.<line>
@@ -2738,7 +2766,7 @@
     モタビアノ　ソウトクハ　モシカシタラ
     ミカタニ　ナッテクレルカモシレナイ。<wait>
   kanji: モタビアの総督はもしかしたら味方になってくれるかも知れない。
-  literal: The Governor-general of Motavia might possibly become an ally to you.<wait>
+  literal: The Governor-General of Motavia might possibly become an ally to you.<wait>
   us: |
     THE GOVERNOR OF<line>
     MOTAVIA MIGHT<wait more>
@@ -2770,7 +2798,7 @@
     モタビアニハ　スゴイ　エスパーガ<line>
     イルラシイヨ。<wait>
   kanji: モタビアには凄いエスパーがいるらしいよ。
-  literal: On Motabia live the great ‘Espers’.<wait>
+  literal: On Motavia live the great Espers.<wait>
   us: |
     NOAH LIVES ON<line>
     MOTAVIA.<wait>
@@ -2788,7 +2816,7 @@
     ガシコノモリニハ　ソノムカシ　ルベノ
     ハカセノ　ケンキュウジョガ　アッタ。<wait>
   kanji: ガシコの森にはその昔ルベノ博士の研究所があった。
-  literal: Doctor Luveno used to have a laboratory in Gothic Forest.<wait>
+  literal: Long ago, Doctor Luveno used to have a laboratory in Gothic Forest.<wait>
   us: |
     DR.LUVENO HAD A<line>
     LABORATORY IN THE <wait more>
@@ -2847,7 +2875,7 @@
     ソナタハ　ダンジョンキーノ　アリカヲ
     サガシテ　イルノカナ。<end>
   kanji: そなたはダンジョンキーの在り処を探しているのかな。
-  literal: Are you by any chance searching for the ‘Dungeon Key’?<end>
+  literal: Are you searching for the whereabouts of a Dungeon Key?<end>
   us: |
     ARE YOU LOOKING<line>
     FOR A DUNGEON KEY?<end>
@@ -2886,7 +2914,7 @@
     ソウコノナカニ　ワシガ　コッソリ<line>
     カクシテオイタゾヨ。<wait>
   kanji: ダンジョンキーはカミニート居住区の外れにある倉庫の中にわしがコッソリ隠しておいたぞよ。
-  literal: I secretly hid the ‘Dungeon Key’ inside the warehouse located on the outskirts of Camineet residential area.<wait>
+  literal: I secretly hid a Dungeon Key inside the warehouse on the outskirts of the Camineet residential district.<wait>
   us: |
     I'VE HIDDEN A<line>
     DUNGEON KEY IN THE<wait more>
@@ -2940,7 +2968,7 @@
     ソレハ　ラコニア　ジャ。　ソレデ<line>
     デキタ　ブキハ　サイキョウナンジャ。<wait>
   kanji: それはラコニアじゃ。それでできた武器は最強なんじゃ。
-  literal: It’s ‘Laconia’! Laconian weapons are the strongest.<wait>
+  literal: It’s Laconia! Weapons made from it are the strongest.<wait>
   us: |
     IT'S LACONIA!<line>
     ARMS MADE WITH<wait more>
@@ -2969,12 +2997,14 @@
     こんな所にお店があってごめんなさい。
     ショートケーキを２８０メセタでいかがですか。
   # <number> is always 280.
-  literal: I’m sorry for having a store in a place like this. Shortcakes are 280 meseta. Would you like one?<end>
+  literal: |
+    I’m sorry for having a store in a place like this.<wait more>
+    Would you like to buy a Shortcake for <number> mesetas?<end>
   us: |
     I'M SORRY I HAVE A<line>
     SHOP IN SUCH A<wait more>
     PLACE. SHORTCAKE<line>
-    FOR 280 MESETAS!<wait more>
+    FOR 1000 MESETAS!<wait more>
     WILL YOU BUY ONE?<end>
   en: |
     Hey, a customer! Glad you found us. Sorry about the location...<wait more>
@@ -3007,7 +3037,9 @@
     アリガトウ。<wait more>
     マタキテネ。<wait>
   kanji: ありがとう。また来てね。
-  literal: Thanks. Please come again.<wait>
+  literal: |
+    Thank you!<wait more>
+    Please come again!<wait>
   us: |
     THANKS!<line>
     COME AGAIN!<wait>
@@ -3027,7 +3059,7 @@
   indices: 0B4
   ja: グウグウ。<wait>
   kanji: ぐうぐう。
-  literal: zzz... zzz...<wait>
+  literal: zzz...<wait>
   us: ZZZ...ZZZ...<wait>
   en: zzz...<wait>
   fr: Pff...<wait>
@@ -3064,7 +3096,7 @@
     デハ　ソノ　ショートケーキヲ<line>
     アズカッテ　オコウ。<wait>
   kanji: では、そのショートケーキを預かっておこう。
-  literal: Well then, I’ll look after this ‘Shortcake’.<wait>
+  literal: I will hold on to this Shortcake for you, then.<wait>
   us: |
     I'LL TAKE THE <line>
     SHORTCAKE NOW.<wait>
@@ -3094,7 +3126,7 @@
     オクリモノニ　ナルヨウナ　モノヲ<line>
     モッテナイジャナイカ。<wait>
   kanji: 贈り物になるようなものを持ってないじゃないか。
-  literal: You don't have anything that could be a suitable gift.<wait>
+  literal: You have nothing that could be a suitable gift.<wait>
   us: |
     I DON'T THINK YOU <line>
     HAVE A SUITABLE<wait more>
@@ -3141,7 +3173,10 @@
     マハルの洞窟にルツというエスパーがいる。
     私の手紙を持って会いに行くがよい。
     ラシークを倒してきっとここへ戻ってくることを信じているぞ。
-  literal: I am the Governor-General of this planet. I understand you are on a quest to defeat LaShiec. I commend you for your courage. In Maharu Cave you will find an Esper named Lutz. Please take this letter to him. I am absolutely certain that you will defeat LaShiec and return here.<wait>
+  literal: |
+    I am the Governor-General of this planet. I understand you are on a quest to kill LaShiec.<wait more>
+    I commend you for your courage. In the Mahal Cave lives an Esper named Lutz. Take this letter to him.<wait more>
+    I have faith that you will kill LaShiec and return here.<wait>
   us: |
     I'M THE GOVERNOR.<line>
     I'M TOLD THAT YOU <wait more>
@@ -3224,7 +3259,7 @@
     ラシークヲ　タオシテ　キット　ココヘ
     モドッテクルコトヲ　シンジテイルゾ。<wait>
   kanji: ラシークを倒してきっとここへ戻ってくることを信じているぞ。
-  literal: I am absolutely certain that you will defeat LaShiec and return here.<wait>
+  literal: I have faith that you will kill LaShiec and return here.<wait>
   us: |
     I HAVE FAITH THAT<line>
     YOU WILL KILL<wait more>
@@ -3263,7 +3298,7 @@
   indices: 0B6
   ja: ドウゾ　ヤスンデ　イッテネ。<wait>
   kanji: どうぞ休んでいってね。
-  literal: Please get some rest.<wait>
+  literal: Go ahead and get some rest.<wait>
   us: |
     PLEASE REST YOUR <line>
     WEARY BONES.<wait>
@@ -3283,7 +3318,9 @@
     ドウカ　ブジニ　モドッテキテネ。<line>
     イノッテルワ。<wait>
   kanji: どうか無事に戻ってきてね。祈ってるわ。
-  literal: Please come back safely. I'll be praying for you.<wait>
+  literal: |
+    Please come back safely.<line>
+    I'll be praying for you.<wait>
   us: |
     I AM PRAYING FOR<line>
     YOUR SAFETY.<wait>
@@ -3298,7 +3335,7 @@
   indices: 2A0
   ja: フカイ　ネムリニ　ツイタ。<delay>
   kanji: 深い眠りについた。
-  literal: You enter into a deep sleep...<wait>
+  literal: You fell into a deep sleep...<wait>
   us: |
     YOU FELL INTO A<line>
     DEEP SLEEP.<delay>
@@ -3313,7 +3350,7 @@
   indices: 2A2
   ja: オソロシイ　ユメダッタ。<wait>
   kanji: 恐ろしい夢だった。
-  literal: What a frightening dream!<wait>
+  literal: It was a horrible dream.<wait>
   us: |
     YOU HAD A BAD<line>
     DREAM.<wait>
@@ -3378,7 +3415,9 @@
   kanji: |
     おや。様子が変だ。
     総督はどこへ行ったんだろう。
-  literal: Hey. That’s weird... Where’d the Governor-General go?<wait>
+  literal: |
+    Huh? Something is wrong...<wait more>
+    Where'd the Governor-General go?<wait>
   us: |
     IT HAS SOMETHING<line>
     STRANGE.<wait more>
@@ -3402,7 +3441,7 @@
     ルツハ　パセオノ　ソウトクノ<line>
     メイレイナラバ　キクカモシレナイ。<wait>
   kanji: ルツはパセオの総督の命令ならば聞くかもしれない。
-  literal: Lutz might listen if the orders are from the Governor-general.<wait>
+  literal: Lutz might listen if the orders are from the Governor-General.<wait>
   us: |
     IF THE GOVERNOR<line>
     ORDERS NOAH TO DO<wait more>
@@ -3440,7 +3479,10 @@
     あなた方は誰ですか。
     私は今修行中です。
     邪魔をしないでください。
-  literal: Who are you? I'm in the middle of training right now. Please don’t interrupt.<wait>
+  literal: |
+    Who are you?<line>
+    I'm in the middle of training right now.<wait more>
+    Please do not interrupt me.<wait>
   us: |
     WHO ARE YOU? I'M<line>
     BUSY WITH MY<wait more>
@@ -3482,9 +3524,10 @@
     キマシタ。<line>
     ヨンデイタダケマセンカ。<wait>
   kanji: |
-    総督からの出が身を預かって来ました。
+    総督からの手紙を預かって来ました。
     読んで頂けませんか。
-  literal: We came to deliver this letter from the Governor-General. Won’t you read it please?<wait>
+  literal: |
+    We came to deliver this letter from the Governor-General. Would you please read it?<wait>
   us: |
     I'VE RECEIVED A<line>
     LETTER FROM THE <line>
@@ -3525,7 +3568,11 @@
     みんなでこのアルゴル太陽系を悪の手から守りましょう。
     そのためには先ずガシコの森へ行ってルベノ博士に会いたい。
     確かマンホールを通って行けたはずです。
-  literal: I understand... Together, we must protect the Algol system from the hands of evil. To do that, we must first meet with Dr. Luveno in the Gothic Woods. If I recall correctly, there is a manhole we can pass through.<wait>
+  literal: |
+    I understand...<line><line>
+    Together, we must protect the Algol system from the hands of evil.<wait more>
+    To do that, we must first go to the Gothic Forest and find Doctor Luveno.<line>
+    If I recall correctly, there should be a manhole we can pass through.<wait>
   us: |
     LET ME SEE IT.....<line>
     OUR DUTY IS CLEAR: <line>
@@ -10548,7 +10595,7 @@
     イキマス。イイデスカ。<end>
   kanji: モタビア星のウーゾの村へ行きます。いいですか。
   literal: |
-    Destination: Uzo, on Motabia. Confirm?<end>
+    Destination: Uzo, on Motavia. Confirm?<end>
   us: |
     WE ARE HEADING FOR
     UZO ON MOTAVIA?<end>
