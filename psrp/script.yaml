@@ -1384,7 +1384,7 @@
   # TODO: the peninsula is more south-east than south.
   en: Iala Cave lies on the peninsula south-east of here.<wait>
   fr: La grotte Iala est située sur la péninsule au sud-ouest de la ville.<wait>
-  pt-br: A Caverna de Iala fica na península ao sul da cidade.<wait>
+  pt-br: A Caverna de Iala fica na península a sudeste daqui.<wait>
   ca: La cova d'Iala es troba a la península al sud-est d'aquí.<wait>
   es: La cueva de Iala se encuentra en la península al sureste de aquí.<wait>
   de: Die Iala-Höhle liegt auf einer Halbinsel südöstlich von hier.<wait>
@@ -2519,7 +2519,7 @@
   # TODO as this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
   en: But he couldn’t open the lid to the bottle.<wait>
   fr: Mais il ne peut pas ouvrir la bouteille.<wait>
-  pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
+  pt-br: Mas <ele> não consegue abrir a tampa da garrafa.<wait>
   ca: Però <ell> no pot obrir el tap de l'ampolla.<wait>
   es: Pero <él> no puede abrir el tapón del frasco.<wait>
   de: Aber <sie> bekam die Flasche nicht auf.<wait>
