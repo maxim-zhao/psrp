@@ -6,5 +6,7 @@
 *.bps
 *.sym
 *.sav
+*.cmd
 psrp/generated/*
+psrp/sizes.*.txt
 /tools/

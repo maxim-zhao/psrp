@@ -18,6 +18,7 @@ Changelog (in reverse chronological order):
   - Fixed a mistranslation regarding where the poison fog is
   - Fixing areas of the script that incorrectly make assumptions about which character is alive
   - Changed name entry screen to support a cursor on wider words
+  - Added an option to speed up scene transitions (palette fades)
   - Quite a lot of work done on the disassembly
 - v2.2 released 2021/12/20
   - Phantasy Star 34th anniversary!
