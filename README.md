@@ -9,7 +9,7 @@ Changelog (in reverse chronological order):
 - v2.3 releases 2022/12/20
   - Phantasy Star 35th anniversary!
   - Added Spanish translation from kusfo
-  - Added German translation from PopFan
+  - Added German translation from Popfan
   - Added literal English translation variant
   - Updates to the Brazilian Portuguese script from ajkmetiuk
   - Much work on converting the original Katakana script to use Hiragana and Kanji where appropriate, and then re-retranslating in a few areas
