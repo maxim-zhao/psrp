@@ -329,7 +329,6 @@ class ScriptEntry:
             self.script_hints = False
             self.current_line_length = 0
         # Articles
-        # TODO: extract these from the tbl?
         elif tag == "article":
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(1)  # lowercase
@@ -383,7 +382,7 @@ class ScriptEntry:
             self.buffer.append(0)
             self.script_hints = True
             pass
-        elif tag in ["his","her","sie","er","elle","il","el seu","la seva","su"]:
+        elif tag in ["his","her","sie","er","elle","il","el seu","la seva"]:
             # Careful, "him/her" would get confused here if we added it
             # Pronoun 1
             self.buffer.append(ScriptingCode.SymbolPronoun)
