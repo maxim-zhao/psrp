@@ -11851,10 +11851,9 @@
 - offsets: ScriptDoYouWantToEquip
   # This is not in the original game, see https://github.com/maxim-zhao/psrp/issues/50
   # It is only used for weapons, shields and armour - the first 32 items in the items list.
-  # TODO: other languages are machine translations, need to be corrected
   literal: Do you want to equip <article><item>?<end>
   en: Here you go, <article><item>. Do you want to equip it?<end>
-  fr: Et voilà, <article><item>. Tu veux l'équiper_?<end>
+  fr: Voici <article><item>. Veux-tu t'en équiper_?<end>
   pt-br: Aqui está, <article><item>. Deseja equipar?<end>
   ca: Aquí tens, <article><item>. El vols equipar?<end>
   es: Aquí tienes, <article><item>. ¿Quieres equiparlo?<end>
