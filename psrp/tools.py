@@ -338,7 +338,7 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(2)  # uppercase
             self.script_hints = True
-        elif tag == "de" or tag == "do" or tag == "del":
+        elif tag in ["de","do","del"]:
             # Possessives (fr, pt-br, ca, es)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
@@ -377,15 +377,15 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
             pass
-        elif tag == "he" or tag == "she" or tag == "Sie" or tag == "Er" or tag == "ela" or tag == "Elle" or tag == "Il" or tag == "ell" or tag == "ella" or tag == "él":
-            # Pronoun
+        elif tag in ["he","she","Sie","Er","ela","Elle","Il","ell","ella","él"]:
+            # Pronoun 0
             self.buffer.append(ScriptingCode.SymbolPronoun)
             self.buffer.append(0)
             self.script_hints = True
             pass
-        elif tag == "his" or tag == "her" or tag == "sie" or tag == "er" or tag == "elle" or tag == "il" or tag == "el seu" or tag == "la seva" or tag == "su":
-            # Careful, "him/her" would get confused here
-            # Pronoun
+        elif tag in ["his","her","sie","er","elle","il","el seu","la seva","su"]:
+            # Careful, "him/her" would get confused here if we added it
+            # Pronoun 1
             self.buffer.append(ScriptingCode.SymbolPronoun)
             self.buffer.append(1)
             self.script_hints = True
