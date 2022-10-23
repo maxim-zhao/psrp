@@ -1132,10 +1132,30 @@ _PronounsM:
 _PronounEleLower: String "ele"
 .endif
 .if LANGUAGE == "ca"
-; No pronouns yet
+.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = ell/ella
+; 1 = el seu/la seva
+_PronounsF:
+.dw _PronounElla, _PronounLaSeva
+_PronounElla: String "ella"
+_PronounLaSeva: String "la seva"
+_PronounsM:
+.dw _PronounEll, _PronounElSeu
+_PronounEll: String "ell"
+_PronounElSeu: String "el seu"
 .endif
 .if LANGUAGE == "es"
-; No pronouns yet
+.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
+; Values by index:
+; 0 = él/ella
+; No others needed (yet)
+_PronounsF:
+.dw _PronounElla
+_PronounElla: String "ella"
+_PronounsM:
+.dw _PronounEl
+_PronounEl: String "él"
 .endif
 .if LANGUAGE == "de"
 .dw _PronounsF, _PronounsM, _PronounsM, _PronounsM

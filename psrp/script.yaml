@@ -1251,11 +1251,11 @@
     Ele não estava sozinho, ele estava viajando com um animal falante! Eu não pude acreditar!<wait more>
     Ele tinha um frasco de remédio de aparência importante em seu pescoço. Eu me pergunto para o que serve?<wait>
   ca: |
-    Si, en Tylon va passar per aquí. Es dirigía al sud per a derrotar a Medusa. No l'he tornat a veure desde aleshores.<wait more>
+    Si, en Tylon va passar per aquí. Es dirigía al sud-oest per a derrotar a Medusa. No l'he tornat a veure desde aleshores.<wait more>
     No anava sol per això, anava amb un animal que parlava! No m'ho podia creure! <wait more>
     Portava un flascó amb algun tipus de remei al coll. Em pregunto per què deuria servir?<wait>
   es: |
-    Si, Tylon pasó por aquí. Se dirigía hacia el sur para derrotar a Medusa. No lo he vuelto a ver desde entonces.<wait more>
+    Si, Tylon pasó por aquí. Se dirigía hacia el suroeste para derrotar a Medusa. No lo he vuelto a ver desde entonces.<wait more>
     No iba solo, ¡le acompañaba un animal que hablaba! ¡No me lo podía creer! <wait more>
     Llevaba un frasco de algún tipo de remedio en el cuello. ¿Me pregunto para qué serviría?<wait>
   de: |
@@ -2476,10 +2476,10 @@
     Então, <ela> abriu a tampa da garrafa e despejou seu conteúdo.<wait more>
     Está funcionando!<delay>
   ca: |
-    <player> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
+    Aleshores <ella> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
     Està funcionant!<delay>
   es: |
-    <player> abre el tapón del frasco y vierte su contenido.<wait more>
+    Entonces <ella> abre el tapón del frasco y vierte su contenido.<wait more>
     ¡Está funcionando!<delay>
   de: <Sie> öffnet die Flasche und leert den Inhalt aus...<delay>
 
@@ -2498,8 +2498,8 @@
   en: But he couldn’t open the lid to the bottle.<wait>
   fr: Mais il ne peut pas ouvrir la bouteille.<wait>
   pt-br: Mas Myau não consegue abrir a tampa da garrafa.<wait>
-  ca: Però en Myau no pot obrir el tap de l'ampolla.<wait>
-  es: Pero Myau no puede abrir el tapón del frasco.<wait>
+  ca: Però <ell> no pot obrir el tap de l'ampolla.<wait>
+  es: Pero <él> no puede abrir el tapón del frasco.<wait>
   de: Aber er bekam die Flasche nicht auf.<wait>
 
 
@@ -3858,8 +3858,8 @@
   en: Well? Let’s see it.<wait>
   fr: Eh bien_? Voyons ca.<wait>
   pt-br: Ei, não brinque comigo!<wait>
-  ca: De debò? A veure.<wait>
-  es: ¿En serio? A ver.<wait>
+  ca: De debò? Vull veure'l.<wait>
+  es: ¿En serio? Quiero verlo.<wait>
   de: Mann, verarsch mich doch nich!<wait>
 
 - offsets: 54c4
@@ -6833,8 +6833,12 @@
     Você conheceu Tajim, o monge? Ele mora nas montanhas ao sul do lago.<wait more>
     Dizem que ele é o maior treinador mágico de Algol.<wait more>
     Também dizem que ele vê gente morta...<wait>
-  ca: Heu conegut en Tajim, el monjo? Viu a les muntanyes al sud del llac.<wait>
-  es: ¿Habéis conocido a Tajim el monge? Vive en las montañas al sur del lago. <wait>
+  ca: Heu conegut en Tajim, el monjo? Viu a les muntanyes al sud del llac.<wait more>
+      Diuen que és el millor mestre de màgia de tot Algol.<wait more>
+      També diuen que pot veure als morts... <wait>
+  es: ¿Habéis conocido a Tajim el monge? Vive en las montañas al sur del lago.<wait more>
+      Dicen que es el mejor maestro de mágia de todo Algol.<wait more>
+      También dicen que puede ver a los muertos... <wait>
   de: Im Gebirge südlich des Meers lebt ein Mönch namens Tajim.<wait>
 
 - offsets: 5326
@@ -8489,8 +8493,8 @@
   # TODO: rewrite other languages here
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
   pt-br: Seus companheiros foram arremessados de suas costas, caindo do céu em direção para a sua própria morte.<wait>
-  ca: Alisa i els altres son arrancats d'en Myau, caient al cel.<wait>
-  es: Alisa y los otros son arrancados Myau, cayendo al cielo.<wait>
+  ca: Els seus companys son arrancats de la seva esquena, caient del cel cap a la seva mort.<wait>
+  es: Sus compañeros son arrancados de su espalda, cayendo del cielo hacia su muerte.<wait>
   de: Alisa und die anderen fielen von Myaus Rücken in die Tiefe.<wait>
 
 
@@ -11604,8 +11608,10 @@
   pt-br: |
     ‘Você é muito corajoso para conversar comigo. Vou te contar um segredo em troca...<wait more>
     A mesma telepatia que você está usando agora, também pode ser usada para detectar armadilhas.’<wait>
-  ca: ‘Certament sou molt valents de parlar amb mi. Apropeu-vos.’<wait>
-  es: ‘Ciertamente soís muy valientes para atraveros a hablar conmigo. Acercaros.’<wait>
+  ca: ‘Certament sou molt valents de parlar amb mi. Us direu un secret a canvi.<wait more>
+      La mateixa telepatia que feu servir ara us pot ajudar a descobrir paranys.’<wait>
+  es: ‘Ciertamente soís muy valientes para atraveros a hablar conmigo. Os diré un secreto a cambio.<wait more>
+      La misma telepatía que estáis usando os puede ayudar a descubrir trampas.’<wait>
   de: |
     „Du bist mutig, mit mir zu reden. Dafür erzähle ich dir ein Geheimnis.<wait more>
     Die Telepathie, die du in diesem Moment benutzt, kann auch Fallen aufspüren.“<wait>

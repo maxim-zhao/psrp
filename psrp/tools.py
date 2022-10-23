@@ -377,13 +377,13 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
             pass
-        elif tag == "he" or tag == "she" or tag == "Sie" or tag == "Er" or tag == "ela" or tag == "Elle" or tag == "Il":
+        elif tag == "he" or tag == "she" or tag == "Sie" or tag == "Er" or tag == "ela" or tag == "Elle" or tag == "Il" or tag == "ell" or tag == "ella" or tag == "él":
             # Pronoun
             self.buffer.append(ScriptingCode.SymbolPronoun)
             self.buffer.append(0)
             self.script_hints = True
             pass
-        elif tag == "his" or tag == "her" or tag == "sie" or tag == "er" or tag == "elle" or tag == "il":
+        elif tag == "his" or tag == "her" or tag == "sie" or tag == "er" or tag == "elle" or tag == "il" or tag == "el seu" or tag == "la seva" or tag == "su":
             # Careful, "him/her" would get confused here
             # Pronoun
             self.buffer.append(ScriptingCode.SymbolPronoun)
