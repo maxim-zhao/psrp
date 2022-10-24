@@ -107,7 +107,7 @@ all: $(foreach lang,$(LANGUAGES),ps1jert.$(lang).ips ps1jert.$(lang).bps)
 -include $(foreach lang,$(LANGUAGES),generated/auto.makefile.$(lang))
 
 psrp.zip: all
-	$(7Z) a ../psrp.zip *.?ps ../readme.md
+	$(7Z) a ../psrp.zip *.?ps ../*.md
 
 clean:
 	$(PY) tools.py clean generated
