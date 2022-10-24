@@ -56,7 +56,7 @@
 # <he>/<she>,  <his>/<her> (en)        \ = pronouns. 
 # <il>/<elle>, <Il>/<Elle> (fr)        | These get used in place of the active player name.
 # <Sie>/<Er>,  <sie>/<er>  (de)        | Some situtations may use male players if 
-# <ela>                 (pt-br)        | Alisa is dead; others are only possible 
+# <ela>/<ele>              (pt-br)     | Alisa is dead; others are only possible 
 # <ell>/<ella>, <el seu>/<la seva> (ca)| with a single player as the protagonist.
 # <él> (es)                            /
 # <player> = player name

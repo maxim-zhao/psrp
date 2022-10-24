@@ -123,6 +123,16 @@ Catalan:
 |Masculine name              | en                 | En                      | d'en
 |Feminine name               | na                 | Na                      | de na
 
+German:
+
+|                              |Start of sentence nominative|Mid-sentence genitive|Mid-sentence dative|Mid-sentence accusative
+|------------------------------|----------------------------|---------------------|-------------------|-----------------------
+|Definite masculine singular   | Der                        | des                 | dem               | den
+|Definite feminine singular    | Die                        | der                 | der               | die
+|Definite neuter singular      | Das                        | des                 | dem               | das
+|Indefinite masculine singular | Ein                        | eines               | einem             | einen
+|Indefinite feminine singular  | Eine                       | einer               | einer             | eine
+|Indefinite neuter singular    | Ein                        | eines               | einem             | ein
 
 Building
 --------
@@ -136,11 +146,11 @@ To build, you need:
 5. (Optionally) Flips, to create patch files
 6. A copy of the original Phantasy Star ROM
 
-Parts 1 and 3-5 are included in my [SMS Build tools package](https://github.com/maxim-zhao/sms-build-tools/) from version 1.0.102 onwards.
+Parts 1 and 3-5 are included in my [SMS Build tools package](https://github.com/maxim-zhao/sms-build-tools/); you are likely to need a recent version as I am using relatively recent WLA DX features.
 
-You may edit the makefile or set environment variables to set the path to the tools necessary, then invoke the builder from #1. For example, to build in pt-br mode you might invoke
+You may edit the makefile or set environment variables to set the path to the tools necessary, then invoke the makefile. For example, to build in pt-br mode you might invoke
 ```
-make LANGUAGE=pt-br ps1jert.sms
+make ps1jert.pt-br.sms
 ```
 
 Giving back
