@@ -686,13 +686,6 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
           f"({(char_count - total_size) / char_count * 100:.2f}% compression)")
 
 
-def fix_makefile(path):
-   with open(path, 'r') as f:
-       lines = f.readlines()
-   with open(path, 'w') as f:
-       f.writelines([re.sub('\\\\(.)', '/\\1', x) for x in lines if not 'INTERNAL' in x])
-
-
 def join(f1, f2, dest):
     with open(f1, 'r', encoding="utf-8") as f:
         lines = f.readlines()
@@ -735,8 +728,6 @@ def main():
         menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
     elif verb == 'script_inserter':
         script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
-    elif verb == 'fix_makefile':
-        fix_makefile(sys.argv[2])
     elif verb == 'join':
         join(sys.argv[2], sys.argv[3], sys.argv[4])
     elif verb == 'clean':
