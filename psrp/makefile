@@ -73,7 +73,7 @@ generated/font-lookup.%.asm: script.%.tbl tools.py
 
 # Generate the dependencies list for assembly
 generated/auto.makefile.%: ps1jert.sms.asm tools.py
-	$(WLAZ80) -M -D LANGUAGE=$* -D WLA_DX_BUG_WORKAROUND -o generated/ps1jert.$*.sms.o $< > $@
+	$(WLAZ80) -M -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o $< > $@
 	$(PY) tools.py fix_makefile $@
 
 # Now we add in the recipe to actually compile...
@@ -84,7 +84,7 @@ generated/ps1jert.%.sms.o:
 ps1jert.%.sms: generated/ps1jert.%.sms.o
 	echo [objects] > generated/linkfile.$*
 	echo "$<" >> generated/linkfile.$*
-	$(WLALINK) -d -r -v -s generated/linkfile.$* $@
+	$(WLALINK) -d -r -v -S generated/linkfile.$* $@
 
 # And make patches
 ps1jert.%.ips: $(PSJ) ps1jert.%.sms
