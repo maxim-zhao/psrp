@@ -15,11 +15,13 @@ Changelog (in reverse chronological order):
   - Much work on converting the original Katakana script to use Hiragana and Kanji where appropriate, and then re-retranslating in a few areas
   - Much work on annotating the script with where each line is used/reused
   - Some shared lines split up to enable better translation
-  - Fixed a mistranslation regarding where the poison fog is
-  - Fixing areas of the script that incorrectly make assumptions about which character is alive
+  - Fixed some very old mistranslations
+  - Fixed areas of the script that incorrectly make assumptions about which character is alive
+  - Added support for dynamic pronouns in the script
   - Changed name entry screen to support a cursor on wider words
   - Added an option to speed up scene transitions (palette fades)
-  - Quite a lot of work done on the disassembly
+  - Shop inventories are now drawn dynamically to minimise empty space
+  - Quite a lot of work done on the disassembly 
 
 <details>
 <summary>Click for more history</summary>
