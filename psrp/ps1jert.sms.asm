@@ -275,7 +275,7 @@ _script\@_end:
   FewerBattles db ; b 1 to halve battle probability
   BrunetteAlisa db ; 1 to enable brown hair
   Font db ; 1 for the "alternate" font
-  FadeSpeed db ; 3 is "normal", 0 is "fast"
+  FadeSpeed db ; 0 is "normal", 1 is "fast"
 
   SettingsEnd: .db
 
@@ -6061,9 +6061,9 @@ _OptionsSelect:
   rst $8
   ld a,(FadeSpeed)
   or a
-  ld hl,_Fast
-  jr z,+
   ld hl,_Normal
+  jr z,+
+  ld hl,_Fast
 +:ld b,_sizeof__Normal
   ld c,PORT_VDP_DATA
   otir
@@ -6181,8 +6181,8 @@ _font:
   
 _fade:
   ld a,(FadeSpeed)
-  ; We want to swap between 3 and 0
-  xor 3
+  ; We want to swap between 1 and 0
+  xor 1
   ld (FadeSpeed),a
   jp _OptionsSelect
 
@@ -7067,7 +7067,11 @@ SpeedHack:
   ret p
   ; And then replace the 3 with a value from RAM
   ld a,(FadeSpeed)
-  ld (hl),a
+  or a
+  ld a,3 ; "normal" frame counter for 4 frames per step
+  jr z,+
+  xor a ; "fast" frame counter for 1 frame per step
++:ld (hl),a
   jp SpeedHackEnd
 .ends
 
