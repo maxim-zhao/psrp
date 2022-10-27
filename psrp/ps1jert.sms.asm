@@ -3788,12 +3788,8 @@ DezorianCustomStringCheck:
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     ChoosePlayerMenu_width        ChoosePlayerMenu_height         1                                     8
   DefineWindow ENEMY_NAME       MENU_end              21                            3                               11                                    0 ; max width 19 chars
   DefineWindow ENEMY_STATS      ENEMY_NAME_end        8                             10                              24                                    3
-; Inventory goes after the end of whichever of these is later
-; We use WLA DX functions creatively here...
-.function max(a,b) floor(a/b)*a+floor(b/a)*b
-.define INVENTORY_START max(ENEMY_STATS_end, PLAYER_SELECT_end)
 
-  DefineWindow INVENTORY        INVENTORY_START       InventoryMenuDimensions_width InventoryMenuDimensions_height  31-InventoryMenuDimensions_width      1
+  DefineWindow INVENTORY        max(ENEMY_STATS_end, PLAYER_SELECT_end)       InventoryMenuDimensions_width InventoryMenuDimensions_height  31-InventoryMenuDimensions_width      1
   DefineWindow USEEQUIPDROP     INVENTORY_end         ItemActionMenu_width          ItemActionMenu_height           31-ItemActionMenu_width               13
   DefineWindow HAPSBY           MENU_end              8                             5                               21                                    13
   DefineWindow BUYSELL          CURRENT_ITEMS_end     ToolShopMenu_width            ToolShopMenu_height             29-ToolShopMenu_width                 14
