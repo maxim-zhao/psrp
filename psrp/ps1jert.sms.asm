@@ -5053,7 +5053,7 @@ NameEntryLookup:
 .define NameEntryMaxY 19
 .endif
 .if LANGUAGE == "de"
-.db 12
+.db 10
   NameEntryText  6,  1,    "Gib einen Namen ein"
   NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
