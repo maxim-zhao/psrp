@@ -225,7 +225,13 @@ I also reached out to DamienG and he came up with an awesome new font. Note that
 
 ### Maxim (2022)
 
-In the last few years we've continued to add more languages and thus more language grammar features to the code. 
+In the last few years we've continued to add more languages and thus more language grammar features to the code. Many thanks to the peopel helping with the translation work and their patience to explain the grammatical issues to me so I can implement the functionality needed to make first-class translations.
+
+I spent a chunk of time to merge the ancient disassembly work I did in the early 2000s into a modern Emulicious disassembly. It's still far from complete but it was a big step forward in terms of understanding more of the code and how the script is used, to allow us to make sure the script lines flow properly and even extend it so lines shared between multiple places in Japanese can diverge to suit the characters. We even took the opportunity to add a few hints into the script regarding some lesser-known uses of objects.
+
+We have also had a great amount of work from Popfan to "re-retranslate" the raw Katakana script into Katakana/Hiragaga/Kanji, and offer corrections for some of the original translation work from 2001-2002. His questions about the script were a great motivator on my side to understand all the usages.
+
+We still have plans for things to do for version 3.0, and new translations are still welcome. I'd love to have dozens of languages covered for this one game!
 
 ## Disclaimer
 
