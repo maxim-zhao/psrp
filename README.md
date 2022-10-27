@@ -167,6 +167,8 @@ Special thanks to:
 - Meka is an excellent debugging emulator (used extensively for the hacking work): https://www.smspower.org/meka/
 ### Ville Helin
 - WLA DX is an excellent assembler and enables a lot of the adaptations for the translation. I hope to see more translation patches with published source using it.
+### Calindro
+- Emulicious is another excellent debugging emulator (invaluable for the later disassembly work): https://emulicious.net
 
 Also thanks to the following for various contributions to item naming, etc.
 - DJ Squarewave
