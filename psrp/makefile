@@ -13,10 +13,10 @@ PSJ = PS1-J.SMS
 # The optimal word count depends on the script. Iterating through the options can help to find the best value. `make sizes.en.txt` and similar to do that.
 WORD_COUNT_en = 86
 WORD_COUNT_fr = 49
-WORD_COUNT_pt-br = 39
-WORD_COUNT_ca = 65
-WORD_COUNT_es = 42
-WORD_COUNT_de = 89
+WORD_COUNT_pt-br = 50
+WORD_COUNT_ca = 56
+WORD_COUNT_es = 41
+WORD_COUNT_de = 87
 WORD_COUNT_literal = 58
 
 # These are targets that aren't files
@@ -113,4 +113,4 @@ clean:
 
 sizes.%.txt: ps1jert.%.sms script.yaml
 	del $@
-	for /l %%n in (1,1,140) do @del generated\words.$*.tbl & ((make -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
+	for /l %%n in (1,1,140) do @del generated\words.$*.asm & ((make -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
