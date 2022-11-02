@@ -7133,3 +7133,60 @@ SpeedHack:
   jp SpeedHackEnd
 .ends
 
+
+  ROMPosition $5361
+.section "Aerocastle soft lock fix part 1" overwrite
+  jp AerocastleSoftLockFix
+.ends
+
+.section "Aerocastle soft lock fix part 2" free
+AerocastleSoftLockFix:
+  ; If you kill Lassic, but Myau is dead, Alisa is either dead or doesn't have enough MP to cast Fly, Lutz is either dead or doesn't have enough MP to revive anyone, and you didn't buy a Transer. You then have no way of getting off the Air Castle.
+  ; We can use any registers we like (?)
+  ; We define some helpful addresses/values...
+  .define HaveBeatenLaShiec $c516
+  .define AlisaIsAlive $c400
+  .define AlisaMP $c402
+  .define MyauIsAlive $c410
+  .define LutzIsAlive $c430
+  .define LutzMP $c432
+  .define Item_TranCarpet $29 ; item index
+  .define HaveItem $298a ; functions in original game
+  .define AddItemToInventory $28fb
+  ; Is Lassic dead?
+  ld a,(HaveBeatenLaShiec)
+  or a
+  jr z,_no
+  ; Is Myau dead?
+  ld a,(MyauIsAlive)
+  or a
+  jr nz,_no
+  ; Then he can't fly us down. Can Alisa cast Troop?
+  ld a,(AlisaIsAlive)
+  or a
+  jr z,+
+  ld a,(AlisaMP)
+  cp 8 ; MP cost of Troop. We hard-code the value rather than look it up (MagicMPCosts+$12)
+  jr nc,_no
++:; Alisa can't do it, can Lutz revive Myau?
+  ld a,(LutzIsAlive)
+  or a
+  jr z,+
+  ld a,(LutzMP)
+  cp $c ; MP cost of Rebirth (MagicMPCosts+$0f)
+  jr nc,_no
++:; Do we have a TranCarpet?
+  ld a,Item_TranCarpet
+  ld (ItemIndex),a
+  call HaveItem
+  jr z,_no
+  ; Then let's give one
+  ld hl,ScriptAerocastleFreeTranCarpet
+  call TextBox
+  jp AddItemToInventory
+  
+_no:
+  ; Original code equivalent
+  ld hl, ScriptAerocastleDots
+  jp TextBox
+.ends

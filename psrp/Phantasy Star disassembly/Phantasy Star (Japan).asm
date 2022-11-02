@@ -4939,11 +4939,9 @@ _LABEL_1F21_TaironNoMagic:
     jr _LABEL_1F13_
 
 ; Data from 1F38 to 1F4A (19 bytes)
-MagicMPCosts: ; indexed by "magix index" (see below)
-.db $00
-.db $02 $06 $06 $0A $04
-.db $10 $0C $04 $02 $0A
-.db $02 $02 $04 $04 $0C
+MagicMPCosts: ; indexed by "magic index" (see below)
+;     0   1   2   3   4   5   6   7   8   9   a   b   c   d   e   f
+.db $00 $02 $06 $06 $0A $04 $10 $0C $04 $02 $0A $02 $02 $04 $04 $0C
 .db $02 $04 $08
 
 ; Data from 1F4B to 1F59 (15 bytes)
