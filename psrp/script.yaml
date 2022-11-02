@@ -8568,9 +8568,9 @@
   # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
   indices: 210
   literal: Here's a free TranCarpet.<wait>
-  en: Hmm, no way down? Here, use my TranCarpet.<wait>
+  en: Hmm, no way down? Here, you can have my <item>.<wait>
   fr: TODO<wait>
-  pt-br: TODO<wait>
+  pt-br: Humm, não consegue sair? Aqui, use meu <item>.<wait>
   ca: TODO<wait>
   es: TODO<wait>
   de: TODO<wait>

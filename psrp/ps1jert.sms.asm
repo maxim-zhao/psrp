@@ -7147,9 +7147,11 @@ AerocastleSoftLockFix:
   .define HaveBeatenLaShiec $c516
   .define AlisaIsAlive $c400
   .define AlisaMP $c402
+  .define AlisaMagicCount $c40e
   .define MyauIsAlive $c410
   .define LutzIsAlive $c430
   .define LutzMP $c432
+  .define LutzMagicCount $c43e
   .define Item_TranCarpet $29 ; item index
   .define HaveItem $298a ; functions in original game
   .define AddItemToInventory $28fb
@@ -7165,6 +7167,9 @@ AerocastleSoftLockFix:
   ld a,(AlisaIsAlive)
   or a
   jr z,+
+  ld a,(AlisaMagicCount)
+  cp 2 ; Troop is magic #2
+  jr c,+
   ld a,(AlisaMP)
   cp 8 ; MP cost of Troop. We hard-code the value rather than look it up (MagicMPCosts+$12)
   jr nc,_no
@@ -7172,6 +7177,9 @@ AerocastleSoftLockFix:
   ld a,(LutzIsAlive)
   or a
   jr z,+
+  ld a,(LutzMagicCount)
+  cp 5 ; Rebirth is magic #2
+  jr c,+
   ld a,(LutzMP)
   cp $c ; MP cost of Rebirth (MagicMPCosts+$0f)
   jr nc,_no
