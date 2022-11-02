@@ -7198,3 +7198,21 @@ _no:
   ld hl, ScriptAerocastleDots
   jp TextBox
 .ends
+
+  ROMPosition $50f9
+.section "Luveno troop soft lock fix part 1" overwrite
+  jp LuvenoTroopFix
+.ends
+
+.section "Luveno troop soft lock fix part 2" free
+LuvenoTroopFix:
+  ; If you use a Trancarpet or the Troop spell after obtaining the Luveno, and the last church you visited was in Paseo, you can't go back to Palma because the spaceports are closed, and you can't leave the area around Paseo because you haven't gotten any other vehicles yet.
+  ; Church index is in $c317
+  ; Check the value
+  ld a,($c317)
+  cp 4 ; Paseo church
+  jr nz,+
+  ld a,1 ; Camineet church
++:; Code we replaced to get here
+  jp TextBox
+.ends

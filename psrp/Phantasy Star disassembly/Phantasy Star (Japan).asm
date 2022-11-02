@@ -283,7 +283,7 @@ _RAM_C311_ dw
 _RAM_C313_ dw
 DungeonPaletteIndex db
 _RAM_C316_ db
-_RAM_C317_ db
+_RAM_C317_LastChurchRoomIndex db
 .ende
 
 .struct Character
@@ -4473,6 +4473,7 @@ _DATA_1BB3_BattleMagicIndices:
 .db $01 $09 $10 $05 $08 ; Alisa
 .db $02 $0B $03 $0A $00 ; Myau
 .db $05 $11 $07 $04 $06 ; Lutz
+; see also _OverworldMagicIndicesByPlayer
 
 ; Jump Table from 1BC2 to 1BE5 (18 entries,indexed by unknown)
 _DATA_1BC2_:
@@ -4708,6 +4709,7 @@ _LABEL_1D3D_:
 ++: push af
       cp $05
       jr z,+
+      ; Turn off sprites
       xor a
       ld (CharacterSpriteAttributes),a
       ld a,$D0
@@ -4741,26 +4743,35 @@ _LABEL_1D3D_:
 
 +:  cp $08
     jp c,_LABEL_46FE_
+    ; Troop/TranCarpet
     ld a,SFX_bf
     ld (NewMusic),a
     ld hl,FunctionLookupIndex
     ld (hl),$08
     xor a
     ld (VehicleMovementFlags),a
-    ld a,(_RAM_C317_)
+    ; Look up whwre to go to
+    ld a,(_RAM_C317_LastChurchRoomIndex)
     ld l,a
     add a,a
     add a,l
     ld h,$00
     ld l,a
-    ld de,_DATA_1DD8_
+    ld de,_DATA_1DD8_ChurchLocations
     add hl,de
     jp _LABEL_7B1E_
 
 ; Data from 1DD8 to 1DF2 (27 bytes)
-_DATA_1DD8_:
-.db $04 $16 $69 $04 $27 $6B $07 $29 $2A $09 $19 $66 $0E $29 $19 $0F
-.db $15 $43 $11 $53 $52 $16 $15 $2C $15 $28 $61
+_DATA_1DD8_ChurchLocations:
+.db $04 $16 $69
+.db $04 $27 $6B
+.db $07 $29 $2A
+.db $09 $19 $66
+.db $0E $29 $19
+.db $0F $15 $43
+.db $11 $53 $52
+.db $16 $15 $2C
+.db $15 $28 $61
 
 ; Jump Table from 1DF3 to 1DFC (5 entries,indexed by CursorPos)
 _DATA_1DF3_:
@@ -4949,6 +4960,7 @@ _OverworldMagicIndicesByPlayer:
 .db $01 $12 $00 $00 $00 ; Alisa - Heal, Troop
 .db $02 $0C $0D $00 $00 ; Myau - Super Heal, Untrap, Bypass
 .db $02 $0D $11 $0E $0F ; Lutz - Super Heal, Bypass, Telepathy, Magic Unseal, Rebirth
+; see also _DATA_1BB3_BattleMagicIndices
 
 ; Jump Table from 1F5A to 1F7F (19 entries,indexed by unknown)
 MagicFunctions:
@@ -5411,12 +5423,12 @@ _Magic12_Troop:
     ld (NewMusic),a
     ld a,(SceneType)
     or a
-    jr nz,_LABEL_22B5_
+    jr nz,_DoTroopOrTranCarpet
     ld hl,textPlayersSpellHadNoEffect
     call TextBox20x6
     jp Close20x6TextBox
 
-_LABEL_22B5_:
+_DoTroopOrTranCarpet:
     ld hl,textYouBecomeLight
     call TextBox20x6
     call Close20x6TextBox
@@ -5765,6 +5777,7 @@ UseItem_TranCarpet:
     ld a,(_RAM_C29D_InBattle)
     or a
     jr z,+
+    ; No effect in battle
     ld hl,textNoEffect
     call TextBox20x6
     jp Close20x6TextBox
@@ -5774,7 +5787,8 @@ UseItem_TranCarpet:
     push af
       call nz,_LABEL_28D8_RemoveItemFromInventory
     pop af
-    jp nz,_LABEL_22B5_
+    jp nz,_DoTroopOrTranCarpet
+    ; In dungeons (?) it doesn't work
     ld hl,textNothingHappened
     call TextBox20x6
     jp Close20x6TextBox
@@ -6615,7 +6629,7 @@ _LABEL_2BC9_:
 
 _LABEL_2BE1_:
     ld a,(RoomIndex)
-    ld (_RAM_C317_),a
+    ld (_RAM_C317_LastChurchRoomIndex),a
     ld hl,textChurch
     call TextBox20x6
     call DoYesNoMenu
