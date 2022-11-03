@@ -742,25 +742,6 @@ CharacterDrawing:
 
 .section "Font lookup helper" free
 EmitCharacter:
-  ; Short of space in bank 0, we trampoline...
-  push hl
-    ; We need to stash a, we also double it here...
-    add a,a
-    ld l,a
-    ld a,(PAGING_SLOT_1)
-    push af
-      ld a,:EmitCharacterImpl
-      ld (PAGING_SLOT_1),a
-      call EmitCharacterImpl
-    pop af
-    ld (PAGING_SLOT_1),a
-  pop hl
-  ret
-.ends
-
-.bank 1 slot 1
-.section "Font lookup helper part 2" superfree
-EmitCharacterImpl:
   ; We look up the two-byte tile data for character index a,
   ; and emit to the VDP
   ld h,>FontLookup ; Aligned table
