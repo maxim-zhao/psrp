@@ -4764,14 +4764,14 @@ _LABEL_1D3D_:
 ; Data from 1DD8 to 1DF2 (27 bytes)
 _DATA_1DD8_ChurchLocations:
 .db $04 $16 $69
-.db $04 $27 $6B
-.db $07 $29 $2A
+.db $04 $27 $6B ; Camineet
+.db $07 $29 $2A ; Gothic
 .db $09 $19 $66
-.db $0E $29 $19
-.db $0F $15 $43
+.db $0E $29 $19 ; Camineet
+.db $0F $15 $43 ; Uzo
 .db $11 $53 $52
 .db $16 $15 $2C
-.db $15 $28 $61
+.db $15 $28 $61 ; Skray
 
 ; Jump Table from 1DF3 to 1DFC (5 entries,indexed by CursorPos)
 _DATA_1DF3_:
