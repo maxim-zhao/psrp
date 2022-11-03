@@ -7201,6 +7201,12 @@ _no:
 
   ROMPosition $50f9
 .section "Luveno troop soft lock fix part 1" overwrite
+  ; This is where Dr. Luveno gives you the "Luveno"
+  ; ld a,7
+  ; ld (LuvenoState),a ; Final state
+  ; ld hl,$0294 ; Now then, you can use the Luveno to fly through space. Go outside the village and take a look. It’s a brilliant piece of work.
+  ; jp DrawText20x6 ; and ret
+  ; We overwrite the final jp above
   jp LuvenoTroopFix
 .ends
 
