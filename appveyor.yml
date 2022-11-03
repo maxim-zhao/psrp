@@ -12,7 +12,7 @@ build_script:
     7z x ps.zip -opsrp
     cd psrp
     py -m pip install PyYAML
-    make -j psrp.zip
+    make -j --output-sync psrp.zip
 artifacts:
 - path: psrp.zip
   name: psrp
