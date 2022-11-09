@@ -5248,9 +5248,6 @@ CalculateCursorPos:
    reservedspace $ff, $ff
 .endsms
 
-
-
-
 ; Relocating item metadata to increase script space
 
 .bank 31 slot 2

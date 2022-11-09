@@ -342,10 +342,8 @@ _SelectAction:
   call WaitForMenuSelection
 
   ; If button 1, return
-  ld b,a
-  ld a,%00010000 ; Button 1
-  cp c
-  jr nz,+
+  bit 4,c ; Button 1
+  jr z,+
 
 _continueReturn:
   ; return to title screen
@@ -356,9 +354,7 @@ _continueReturn:
   ld de,TitleScreenCursorBase + ONE_ROW * 1
   jp BackToTitle
 
-+:ld a,b
-
-  ; remember the selection while we show the slot selection menu
++:; remember the selection while we show the slot selection menu
   push af
     ; First check if there are any...
 _checkForSaves:
@@ -546,6 +542,7 @@ _chip:
 +:jp DrawTilemap ; and ret
 .ends
 
+.bank 0 slot 0
 .section "No saved games message" free
 NoSavedGames:
   ld a,(PAGING_SLOT_2)
