@@ -679,7 +679,9 @@ EmitCharacter:
   ; We look up the two-byte tile data for character index a,
   ; and emit to the VDP
   ld h,>FontLookup ; Aligned table
-
+  add a,a
+  ld l,a
+  
   ld a,(PAGING_SLOT_2)
   push af
     ld a,:FontLookup
