@@ -6686,7 +6686,7 @@
   fr: |
     Je vois...<wait more>
     Je suis navré d'entendre ca. Ohhh...<wait>
-  pt-br: Entendo. Sinto muito em ouvir isso. Ahhh....<wait>
+  pt-br: Entendo. Sinto muito em ouvir isso. Ahhh...<wait>
   ca: Ja vec. És una llàstima sentir això. Ohhh...<wait>
   es: Ya veo. Es una lástima oir eso. Ohhh...<wait>
   de: Ich verstehe. Das ist bedauerlich...<wait>
@@ -8551,7 +8551,7 @@
 # *** The Illusionary Aerocastle ***
 # **********************************
 
-- offsets: 5361
+- offsets: ScriptAerocastleDots # was $5361
   # Old Man
   indices: 210
   jp: 。。。。。。。。。<wait>
@@ -8563,6 +8563,18 @@
   ca: .........<wait>
   es: .........<wait>
   de: .........<wait>
+
+- offsets: ScriptAerocastleFreeTranCarpet
+  # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
+  # TODO fix these translations: fr, ca, es, de
+  indices: 210
+  literal: Here's a free TranCarpet.<wait>
+  en: Hmm, no way down? Here, you can have my <item>.<wait>
+  fr: Hmm, pas moyen de descendre_? Tiens, tu peux prendre mon <item>.<wait>
+  pt-br: Humm, não consegue sair? Aqui, use meu <item>.<wait>
+  ca: Hmm, cap baixada? Aquí pots tenir la meva <item>.<wait>
+  es: Hmm, ¿no hay manera de bajar? Toma, puedes tener mi <item>.<wait>
+  de: Hmm, kein Weg nach unten? Hier, du kannst meinen <item> haben.<wait>
 
 - offsets: 51a6
   # Old Man (also said by an old man in Casba)

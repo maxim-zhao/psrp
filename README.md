@@ -17,10 +17,12 @@ Changelog (in reverse chronological order):
   - Some shared lines split up to enable better translation
   - Fixed some very old mistranslations
   - Fixed areas of the script that incorrectly make assumptions about which character is alive
-  - Added support for dynamic pronouns in the script
-  - Changed name entry screen to support a cursor on wider words
+  - Changed name entry screen to support a cursor on wider words (#70)
+  - Shop drawing now uses a smaller Meseta window (#72) and dynamic-width inventories (#79)
+  - Added support for dynamic pronouns in the script (#80)
   - Added an option to speed up scene transitions (palette fades)
-  - Shop inventories are now drawn dynamically to minimise empty space
+  - Fixed a bug that could cause blank lines in the script after a prompt (#82)
+  - Fixed some "soft lock" situations in the original game (#84)
   - Quite a lot of work done on the disassembly 
 
 <details>
