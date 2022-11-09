@@ -556,6 +556,86 @@ NoSavedGames:
   jp RestoreSlot2AndRet
 .ends
 
+.section "Save game deletion" free
+DeleteSavedGame:
+  ; We want to jump back to slot 2 when we are done
+  ld hl,ScriptConfirmSlot ; Slot <n>, are you sure?
+  call TextBox
+  call DoYesNoMenu
+  jr nz,_no
+
+  ld hl,ScriptDeletingFromSlotN ; Deleting game from slot <n>.
+  call TextBox
+
+  ld a,SRAMPagingOn
+  ld (PAGING_SRAM),a
+
+  ; We need to blank $8200 + n
+  ld h,$82
+  ld a,(NumberToShowInText)
+  ld l,a
+  xor a
+  ld (hl),0
+
+  ; compute where to write to
+  ; a = 1-based index
+  ; we want de = SaveTilemap + (a * (SAVE_NAME_WIDTH+4) + 2) * 2
+  ld d,0
+  ld e,l
+  ld hl,0
+  ld b,SAVE_NAME_WIDTH+4
+-:add hl,de
+  djnz -
+  inc hl
+  inc hl
+  add hl,hl
+  ld de,SaveTilemap
+  add hl,de
+  ld e,l
+  ld d,h
+  ; We then want to copy the blank we are pointing at to the right
+  inc de
+  inc de
+  ld bc,SAVE_NAME_WIDTH*2
+  ldir
+
+  ld a,SRAMPagingOff
+  ld (PAGING_SRAM),a
+
+_no:
+  call TextBoxEnd
+
+  ld a,:Continue
+  ld (PAGING_SLOT_2),a
+  ret
+.ends
+
+.section "Continue a saved game" free
+ContinueSavedGame:
+  ld a,SRAMPagingOn  ; Load game
+  ld (PAGING_SRAM),a
+  ld a,(NumberToShowInText) ; 1-based
+  ld h,a
+  ld l,0
+  add hl,hl
+  add hl,hl
+  set 7,h            ; hl = $8000 + $400*a = slot a game data ($400 bytes)
+  ld de,$c300
+  ld bc,1024 ; bytes
+  ldir               ; Copy
+  ld a,SRAMPagingOff
+  ld (PAGING_SRAM),a
+
+  ; This is important, not sure what it does :)
+  ld a,($c316)       ; Check xc316
+  cp 11
+  ret nz             ; if == 11
+
+  ld hl,FunctionLookupIndex
+  ld (hl),$0a        ; Start game
+  ret
+.ends
+
 ; We want to access the tilemap drawing code from high banks, so we make a low trampoline here that preserves the slot
 .slot 0
 .section "Menu drawing trampoline" free
