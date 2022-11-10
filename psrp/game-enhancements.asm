@@ -134,6 +134,12 @@ _OptionsSelect:
   ld c,PORT_VDP_DATA
   otir
 
+  ld de,OptionsWindow_VRAM + ONE_ROW * 8 + 2 * (OptionsMenu_width - 2)
+  rst $8
+  ld a,(TextSpeed)
+  inc a
+  call OutputDigit
+
   ld a,$ff
   ld (CursorEnabled),a ; CursorEnabled
   ld a,OptionsMenu_height - 3 ; Max option is menu size - 3
@@ -252,6 +258,19 @@ _fade:
   ld (FadeSpeed),a
   jp _OptionsSelect
 
++:dec a
+  jr nz,+
+  
+_textSpeed:
+  ; We want to range 0..3 for 1..4 displayed. 4x is really fast, no need for more.
+  ld hl,TextSpeed
+-:ld a,(hl)
+  inc a
+  cp 4
+  jr c,+
+  xor a
++:ld (hl),a
+  jp _OptionsSelect
 
 +:; should not get here
   jp _OptionsSelect
@@ -550,7 +569,7 @@ NoSavedGames:
     ld hl,ScriptNoSavedGames
     call TextBox
     call TextBoxEnd
-  jp RestoreSlot2AndRet
+    jp RestoreSlot2AndRet
 .ends
 
 .section "Save game deletion" free
@@ -640,7 +659,7 @@ DrawTilemap:
   ld a,(PAGING_SLOT_2)
   push af
     call OutputTilemapBoxWipePaging
-  jp RestoreSlot2AndRet
+    jp RestoreSlot2AndRet
 .ends
 
 ; SRAM helpers need to be in bank 0 or 1
@@ -1017,7 +1036,10 @@ LoadFonts:
     ld a,:LoadFontsImpl
     ld (PAGING_SLOT_2),a
     call LoadFontsImpl
-  jp RestoreSlot2AndRet
+RestoreSlot2AndRet: ; Common pattern so we reuse it to save 2-3 bytes each time
+  pop af
+  ld (PAGING_SLOT_2),a
+  ret
 
 LoadUpperFont:
   ld a,(PAGING_SLOT_2)
@@ -1025,7 +1047,7 @@ LoadUpperFont:
     ld a,:LoadUpperFontImpl
     ld (PAGING_SLOT_2),a
     call LoadUpperFontImpl
-  jp RestoreSlot2AndRet
+    jr RestoreSlot2AndRet
 .ends
 
 ; We use a macro to patch out all the places the font is laoded...

@@ -269,6 +269,7 @@ _script\@_end:
   MusicSelection    db ; music test last selected song
   ShopInventoryWidth db ; for elastic window size
   ScriptBCStateBackup dw ; w Used for retaining state in tricky script situations
+  TextDrawingCharacterCounter db ; Counts the number of chars to draw per frame
 
   SettingsStart: .db
 
@@ -279,6 +280,7 @@ _script\@_end:
   BrunetteAlisa db ; 1 to enable brown hair
   Font db ; 1 for the "alternate" font
   FadeSpeed db ; 0 is "normal", 1 is "fast"
+  TextSpeed db ; Counter for text speed, in additional chars per frame so 0 = normal
 
   SettingsEnd: .db
 
@@ -665,10 +667,17 @@ CharacterDrawing:
   ; Bump VRAM address
   inc de
   inc de
+  ld a,(TextDrawingCharacterCounter)
+  sub 1 ; dec a doesn't change carry
+  ei               
+  jp nc,+
 
-  ei               ; Wait for VBlank
+  ; Wait for VBlank 
   ld a,10          ; Trigger a name table refresh
   call ExecuteFunctionIndexAInNextVBlank
+
+  ld a,(TextSpeed) ; reset counter
++:ld (TextDrawingCharacterCounter),a
 
   dec b             ; Shrink window width
   ret
@@ -678,25 +687,25 @@ CharacterDrawing:
 EmitCharacter:
   ; We look up the two-byte tile data for character index a,
   ; and emit to the VDP
-  ld h,>FontLookup ; Aligned table
-  add a,a
-  ld l,a
-  
-  ld a,(PAGING_SLOT_2)
-  push af
-    ld a,:FontLookup
-    ld (PAGING_SLOT_2),a
-    ld a,(hl)
-    out (PORT_VDP_DATA),a
-    push af       ; VRAM wait
+  push hl
+    ld h,>FontLookup ; Aligned table
+    add a,a
+    ld l,a
+    
+    ld a,(PAGING_SLOT_2)
+    push af
+      ld a,:FontLookup
+      ld (PAGING_SLOT_2),a
+      ld a,(hl)
+      out (PORT_VDP_DATA),a
+      push af       ; VRAM wait
+      pop af
+      inc hl
+      ld a,(hl)
+      out (PORT_VDP_DATA),a
     pop af
-    inc hl
-    ld a,(hl)
-    out (PORT_VDP_DATA),a
-; This is a common ending pattern so we will reuse it - jumping here saves 2 bytes (!)
-RestoreSlot2AndRet:
-  pop af
-  ld (PAGING_SLOT_2),a
+    ld (PAGING_SLOT_2),a
+  pop hl
   ret
 .ends
 

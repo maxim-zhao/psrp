@@ -1887,6 +1887,7 @@
     │Alisa's hair       ║
     │Font               ║
     │Fades              ║
+    │Text speed       x ║
     ╘═══════════════════╝
   en: |
     ┌───────────────────╖
@@ -1897,6 +1898,7 @@
     │Alisa's hair       ║
     │Font               ║
     │Fades              ║
+    │Text speed       x ║
     ╘═══════════════════╝
   fr: |
     ┌──────────────────────╖
@@ -1907,6 +1909,7 @@
     │Cheveux d'Alisa       ║
     │Police                ║
     │Fondu                 ║
+    │Vitesse du texte    x ║
     ╘══════════════════════╝
   pt-br: |
     ┌────────────────────────╖
@@ -1917,6 +1920,7 @@
     │Cabelo de Alisa         ║
     │Fonte                   ║
     │Transições              ║
+    │Velocidade do texto   x ║
     ╘════════════════════════╝
   ca: |
     ┌────────────────────────╖
@@ -1927,6 +1931,7 @@
     │Cabell d'Alisa          ║
     │Font                    ║
     │Fosa                    ║
+    │Velocitat del text    x ║
     ╘════════════════════════╝
   es: |
     ┌────────────────────────╖
@@ -1937,17 +1942,19 @@
     │Pelo de Alisa           ║
     │Fuente                  ║
     │Fundido                 ║
+    │Velocidad del texto   x ║
     ╘════════════════════════╝
   de: |
-    ┌─────────────────────╖
-    │Gehgeschwindigkeit x ║
-    │Erfahrung          x ║
-    │Meseta             x ║
-    │Kampfhäufigkeit      ║
-    │Alisas Haare         ║
-    │Schriftart           ║
-    │Bildwechsel          ║
-    ╘═════════════════════╝
+    ┌──────────────────────╖
+    │Gehgeschwindigkeit  x ║
+    │Erfahrung           x ║
+    │Meseta              x ║
+    │Kampfhäufigkeit       ║
+    │Alisas Haare          ║
+    │Schriftart            ║
+    │Bildwechsel           ║
+    │Textgeschwindigkeit x ║
+    ╘══════════════════════╝
 
 - name: ContinueMenu
   literal: |
