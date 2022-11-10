@@ -4678,14 +4678,14 @@ _CursorSprite:
 .incbin "generated/name-entry-cursor.psgcompr"
 
 .macro NameEntryText args x,y,text
-.dw $d000 + (y * 32 + x) * 2 ; destination
+.dw TileMapCacheAddress(x, y) ; destination
 .db _NameEntryText\@end - CADDR - 1
 .stringmap tilemap text
 _NameEntryText\@end:
 .endm
 
 .macro NameEntryMask args x,y,count,text
-.dw $d000 + (y * 32 + x) * 2 ; destination
+.dw TileMapCacheAddress(x, y) ; destination
 .db count*2, text
 .endm
 
