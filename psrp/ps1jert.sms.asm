@@ -5294,3 +5294,4 @@ GetItemType:
 .include "game-enhancements.asm"
 .include "shop-equip-prompt.asm"
 .include "soft-lock-fixes.asm"
+.include "credits.asm"
