@@ -20,7 +20,7 @@ WORD_COUNT_de = 89
 WORD_COUNT_literal = 59
 
 # These are targets that aren't files
-.PHONY: all clean default sizes.%.txt
+.PHONY: all clean default
 
 # Disable built-in rules
 .SUFFIXES:
