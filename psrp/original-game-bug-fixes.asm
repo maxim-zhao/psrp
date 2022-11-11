@@ -3,6 +3,27 @@
   PatchB $fa88 $56
 
 
+; In the native Dezorian village, a slight contextual error occurs.
+;
+; (West) Those guys in the village next to us are all a bunch of liars. Be careful, eh.<wait>
+; (East) The neighboring villagers are all liars. Be careful.<wait>
+;
+; Both 'West' strings are used. No reference to the 'East' variety is made.
+; A small hack is inserted to catch for 'extra' strings.
+.bank 0 slot 0
+.section "Dezorian string" free
+DezorianCustomStringCheck:
+  cp $ff      ; custom string [1E7]
+  jp nz, $59ca    ; Where the patched jump went to (shows an error message? Shows junk now...)
+
+  ld hl,DishonestDezorianFix ; Those guys in the other village are all liars. For real.<wait>
+  jp IndexTableRemap
+.ends
+
+  PatchB $eec9 $ff      ; - insert $ff scripting code into data
+  PatchW $49b0 DezorianCustomStringCheck ; Patch to jump to extra code
+
+
 ; There is another bug that causes the script engine to lose some state regarding which row the script window is drawing to, when showing certain prompt windows. This is masked in the original because it only causes issues where the script window has not yet reached the bottom row; this is of course only row 2. Now we have a much bigger window, we notice the issue.
 
 ; 1. Tool shop buy/sell prompt
@@ -107,4 +128,21 @@ SaveFixHelper:
     call $3acf ; save slot select
   pop bc
   ret
+.ends
+
+
+; If you try to sell an item but you don't have any to sell,
+; the game acts the same as if you cancelled the selection with button 1.
+; To do this it needs to have bit 4 of c set. The inventory drawing code
+; leaves c in this state so it doesn't bother to set it. Our changes
+; break this.
+  ROMPosition $3602
+.section "Sell cycle fix patch" overwrite
+  jp z,NoItemsToSell
+.ends
+
+.section "Sell cycle fix" free
+NoItemsToSell:
+  ld c,1<<4 ; act like a cancel
+  jp MenuWaitForButton ; and then do what the original code did
 .ends
