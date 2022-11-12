@@ -10172,11 +10172,11 @@
     <player>ハ　マダ　マジックヲ<line>
     オボエテイナイ。<delay>
   kanji: <player>はまだマジックを覚えていない。
-  literal: <player> hasn't learned any magic yet.<wait>
+  literal: <player> hasn't learned any magic yet.<delay>
   us: |
     <player> HAS NOT <line>
     LEARNED MAGIC YET<wait>
-  en: <player> doesn’t know any spells yet.<wait>
+  en: <player> doesn’t know any spells yet.<delay>
   fr: <player> ne connaît pas de sortilège.<delay>
   pt-br: <player> não aprendeu nenhuma magia ainda.<delay>
   ca: <player> no ha après encara cap encanteri. <delay>

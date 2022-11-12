@@ -1174,3 +1174,50 @@ Words:
 .include {"generated/words.{LANGUAGE}.asm"}
 .endb
 .ends
+
+.slot 0
+.section "Newline patch" free
+; Originally tx1.asm
+; Text window drawer multi-line handler
+
+newline:
+    ld b,NARRATIVE_WIDTH ; reset x counter
+    inc hl   ; move pointer to next byte
+    ld a,c   ; get line counter
+    or a     ; test for c==0
+    jr nz,_not_zero
+    ; zero: draw on 2nd line
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW ; VRAM address
+_inc_and_finish:
+    inc c
+    jp InGameTextDecoder
+_not_zero:
+    dec a    ; test for c==1
+    jr nz,+
+    ; one: draw on 3rd
+_draw_3rd_line:
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW * 2 ; VRAM address
+    jr _inc_and_finish
++:  dec a    ; test for c==2
+    jr nz,+
+    ; two: draw on 4th
+_draw_4th_line:
+    ld de,NARRATIVE_SCROLL_VRAM + ONE_ROW * 3
+    jr _inc_and_finish
++:  ; three: scroll, draw on 4th line
+    call $3546 ; _ScrollTextBoxUp2Lines (patch reduces it to one)
+    dec c      ; cancel increment
+    jr _draw_4th_line
+.ends
+
+  ROMPosition $3397
+.section "Newline patch trampoline" overwrite
+  jp newline
+.ends
+
+  ROMPosition $354c
+.section "nop out 2nd line scroll" overwrite
+.repeat 3
+  nop
+.endr
+.ends
