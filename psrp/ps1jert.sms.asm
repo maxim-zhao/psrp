@@ -160,45 +160,11 @@ LoadPagedTiles\1:
 .function TileMapWriteAddress(x, y) ($3800 + (y*32+x)*2) | $4000
 .function TileMapCacheAddress(x, y) ($d000 + (y*32+x)*2)
 
-.if LANGUAGE == "en" || LANGUAGE == "literal"
 ; This string mapping is for raw (16-bit) tilemap data. It sets the priority bit on every tile.
-.stringmaptable tilemap "tilemap.en.tbl"
+.stringmaptable tilemap {"tilemap.{LANGUAGE}.tbl"}
 
 ; This one is for script text and item names (8-bit). It includes control codes but not dictionary words.
-.stringmaptable script "script.en.tbl"
-
-.define LETTER_S  $37   ; suffix letter ('s')
-.endif
-
-.if LANGUAGE == "fr"
-.stringmaptable tilemap "tilemap.fr.tbl"
-.stringmaptable script "script.fr.tbl"
-.define LETTER_S  $37   ; suffix letter ('s')
-.endif
-
-.if LANGUAGE == "pt-br"
-.stringmaptable tilemap "tilemap.pt-br.tbl"
-.stringmaptable script "script.pt-br.tbl"
-.define LETTER_S  $37   ; suffix letter ('s')
-.endif
-
-.if LANGUAGE == "ca"
-.stringmaptable tilemap "tilemap.ca.tbl"
-.stringmaptable script "script.ca.tbl"
-.define LETTER_S  $33   ; suffix letter ('s')
-.endif
-
-.if LANGUAGE == "es"
-.stringmaptable tilemap "tilemap.es.tbl"
-.stringmaptable script "script.es.tbl"
-.define LETTER_S  $37   ; suffix letter ('s')
-.endif
-
-.if LANGUAGE == "de"
-.stringmaptable tilemap "tilemap.de.tbl"
-.stringmaptable script "script.de.tbl"
-.define LETTER_S  $29   ; suffix letter ('e') only used in "Punkte"
-.endif
+.stringmaptable script {"script.{LANGUAGE}.tbl"}
 
 
 .macro String args s
@@ -453,22 +419,6 @@ _magicmenutable:
 .dw OverworldSpellsAlisa, OverworldSpellsMyau, OverworldSpellsLutz
 .ends
 
-
-
-.bank 0 slot 0
-.section "Multiply" free
-GetActivePlayerTilemapData:
-  ; we want a = a * ACTIVE_PLAYER_size
-  ; we need to preserve de, bc
-  ld h,a
-  inc h
-  xor a
--:add a,ACTIVE_PLAYER_size
-  dec h
-  jr nz,-
-  sub ACTIVE_PLAYER_size
-  ret
-.ends
 
   ROMPosition $3907
 .section "Stats window" force

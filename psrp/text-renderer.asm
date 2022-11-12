@@ -326,7 +326,9 @@ _SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
   or a
   jp z,_Decode   ; No 's' needed
 
-  ld a,LETTER_S   ; add 's'
+  ;ld a,LETTER_S   ; add 's'
+  .db $3e
+  .stringmap script "s"
   jr _Done
 
 +:cp SymbolPronoun
@@ -1159,6 +1161,7 @@ _BCD_Digit:
   ret
 .ends
 
+.slot 2
 .section "Static dictionary" superfree
 .block "Words"
 ; Note that the number of words we add here has a complicated effect on the data size.

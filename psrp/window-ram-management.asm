@@ -344,3 +344,17 @@
   PatchWords PLAYER_SELECT_2_VRAM   $37a8 $37f2
   PatchW $37b4 PLAYER_SELECT_2_VRAM + ONE_ROW
 
+.bank 0 slot 0
+.section "Active player calculation patch" free
+GetActivePlayerTilemapData:
+  ; we want a = a * ACTIVE_PLAYER_size
+  ; we need to preserve de, bc
+  ld h,a
+  inc h
+  xor a
+-:add a,ACTIVE_PLAYER_size
+  dec h
+  jr nz,-
+  sub ACTIVE_PLAYER_size
+  ret
+.ends
