@@ -1846,6 +1846,6 @@ GetItemType:
 .include "graphics-recompression.asm"
 .include "title-screen.asm"
 .include "text-renderer.asm"
-.include "lists.asm"
+.include {"lists.{LANGUAGE}.asm"}
 .include "item-drawing.asm"
 .include "window-ram-management.asm"
