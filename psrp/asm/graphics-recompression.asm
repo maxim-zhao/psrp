@@ -30,7 +30,7 @@ OutsideTiles:
 
 .section "Town tiles" superfree
 TownTiles:
-.incbin {"generated/world2.{LANGUAGE}.psgcompr"}
+.incbin {"generated/{LANGUAGE}/world2.psgcompr"}
 .ends
 
   ROMPosition $00ce4

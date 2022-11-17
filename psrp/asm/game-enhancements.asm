@@ -942,10 +942,10 @@ BrunetteAlisaTiles:
 ; First we put the font data and loader functions in a high bank. This is about 1.2KB, so fairly large but not huge. The font is in two parts due to VRAM layout, and we need a way to load just the upper part for dungeon pitfalls.
 .slot 2
 .section "Font part 1" superfree
-FONT1: .incbin {"generated/font-polaris-part1.{LANGUAGE}.psgcompr"}
-FONT2: .incbin {"generated/font-polaris-part2.{LANGUAGE}.psgcompr"}
-FONT1a: .incbin {"generated/font-aw2284-part1.{LANGUAGE}.psgcompr"}
-FONT2a: .incbin {"generated/font-aw2284-part2.{LANGUAGE}.psgcompr"}
+FONT1: .incbin {"generated/{LANGUAGE}/font-polaris-part1.psgcompr"}
+FONT2: .incbin {"generated/{LANGUAGE}/font-polaris-part2.psgcompr"}
+FONT1a: .incbin {"generated/{LANGUAGE}/font-aw2284-part1.psgcompr"}
+FONT2a: .incbin {"generated/{LANGUAGE}/font-aw2284-part2.psgcompr"}
 .define Font1VRAMAddress $5800
 .define Font2VRAMAddress $7e00
 LoadFontsImpl:
