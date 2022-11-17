@@ -60,7 +60,7 @@ generated/words.%.tbl generated/words.%.asm &: tools.py script.yaml
 	$(PY) tools.py generate_words generated/words.$*.tbl generated/words.$*.asm script.yaml $* $(WORD_COUNT_$*)
 
 # Combine the words and letters symbol dictionaries
-generated/script_with_words.%.tbl: script.%.tbl generated/words.%.tbl
+generated/script_with_words.%.tbl: %/script.tbl generated/words.%.tbl
 	$(PY) tools.py join $^ $@
 
 # Generate the script data
@@ -68,7 +68,7 @@ generated/script.%.asm generated/script-patches.%.asm generated/tree.%.asm &: ge
 	$(PY) tools.py script_inserter generated/script.$*.asm generated/script-patches.$*.asm generated/tree.$*.asm script.yaml $* generated/script_with_words.$*.tbl
 
 # Generate the font lookup
-generated/font-lookup.%.asm: script.%.tbl tools.py
+generated/font-lookup.%.asm: %/script.tbl tools.py
 	$(PY) tools.py generate_font_lookup $< generated/font-lookup.$*.asm 
 
 # Generate the dependencies list for assembly
@@ -92,8 +92,8 @@ ps1jert.%.bps: $(PSJ) ps1jert.%.sms
 	$(FLIPS) --create $(PSJ) ps1jert.$*.sms $@
 
 
-# Generate all the IPS and BPSes for each language found, from script.*.tbl
-LANGUAGES = $(subst .tbl,,$(subst script.,,$(wildcard script.*.tbl)))
+# Generate all the IPS and BPSes for each language found, from */script.tbl
+LANGUAGES = $(subst /script.tbl,,$(wildcard */script.tbl))
 all: $(foreach lang,$(LANGUAGES),ps1jert.$(lang).ips ps1jert.$(lang).bps)
 
 # Mark various targets as "precious". This makes make keep the files rather than auto-delete them.

@@ -162,10 +162,10 @@ LoadPagedTiles\1:
 .function TileWriteAddress(n) (n * 32) | $4000
 
 ; This string mapping is for raw (16-bit) tilemap data. It sets the priority bit on every tile.
-.stringmaptable tilemap {"tilemap.{LANGUAGE}.tbl"}
+.stringmaptable tilemap {"{LANGUAGE}/tilemap.tbl"}
 
 ; This one is for script text and item names (8-bit). It includes control codes but not dictionary words.
-.stringmaptable script {"script.{LANGUAGE}.tbl"}
+.stringmaptable script {"{LANGUAGE}/script.tbl"}
 
 
 .macro String args s
