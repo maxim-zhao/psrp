@@ -2,6 +2,7 @@ import sys
 import os
 import re
 import yaml
+from pathlib import Path
 
 start_code = 0x6d  # see WordListStart in asm
 
@@ -718,10 +719,7 @@ def generate_font_lookup(tbl_file, lookup_file):
 
 
 def mkdir(path):
-    try:
-        os.mkdir(path)
-    except:
-        pass
+    Path(path).mkdir(parents=True, exist_ok=True)
 
 
 def main():
