@@ -340,49 +340,7 @@ MenuData:
   PatchB $3bab :MenuData ; OutputTilemapRect
   PatchB $45d7 :MenuData ; for opening cinema only
 
-  ROMPosition $3211
-.section "HP letters" size 4 overwrite ; not movable
-.if LANGUAGE == "en" || LANGUAGE == "literal"
-.stringmap tilemap "HP"
-.endif
-.if LANGUAGE == "fr"
-.stringmap tilemap "HP"
-.endif
-.if LANGUAGE == "pt-br"
-.stringmap tilemap "PV"
-.endif
-.if LANGUAGE == "ca"
-.stringmap tilemap "PV"
-.endif
-.if LANGUAGE == "es"
-.stringmap tilemap "PV"
-.endif
-.if LANGUAGE == "de"
-.stringmap tilemap "LP"
-.endif
-.ends
-
-  ROMPosition $3219
-.section "MP letters" size 4 overwrite ; not movable
-.if LANGUAGE == "en" || LANGUAGE == "literal"
-.stringmap tilemap "MP"
-.endif
-.if LANGUAGE == "fr"
-.stringmap tilemap "MP"
-.endif
-.if LANGUAGE == "pt-br"
-.stringmap tilemap "PM"
-.endif
-.if LANGUAGE == "ca"
-.stringmap tilemap "PM"
-.endif
-.if LANGUAGE == "es"
-.stringmap tilemap "PM"
-.endif
-.if LANGUAGE == "de"
-.stringmap tilemap "MP"
-.endif
-.ends
+.include {"stats-hp-mp.{LANGUAGE}.asm"}
 
 .unbackground $35a2 $35d7
   ROMPosition $35a2
@@ -459,72 +417,12 @@ ShopMST:
 ; This one needs to go in low ROM as it's accessed from multiple places (stats, shop, inventory)
 .bank 0 slot 0
 .section "Meseta tilemap data" free
-MST:      .stringmap tilemap "│Meseta         "   ; 5 digit number but also used for shop so extra spaces needed
+MST:      .stringmap tilemap "│Meseta     "   ; Spaces for padding
 .ends
 
 .slot 1
 .section "Stats window drawing" superfree
-; The width of these is important
-.if LANGUAGE == "en" || LANGUAGE == "literal"
-StatsBorderTop:     .stringmap tilemap "┌────────────────╖"
-Level:              .stringmap tilemap "│Level        " ; 3 digit number
-EXP:                .stringmap tilemap "│Experience "   ; 5 digit number
-Attack:             .stringmap tilemap "│Attack       " ; 3 digit numbers
-Defense:            .stringmap tilemap "│Defense      "
-MaxMP:              .stringmap tilemap "│Maximum MP   "
-MaxHP:              .stringmap tilemap "│Maximum HP   "
-StatsBorderBottom:  .stringmap tilemap "╘════════════════╝"
-.endif
-.if LANGUAGE == "fr"
-StatsBorderTop:     .stringmap tilemap "┌────────────────╖"
-Level:              .stringmap tilemap "│Niveau       " ; 3 digit number
-EXP:                .stringmap tilemap "│Expérience "   ; 5 digit number
-Attack:             .stringmap tilemap "│Attaque      " ; 3 digit numbers
-Defense:            .stringmap tilemap "│Défense      "
-MaxMP:              .stringmap tilemap "│MP maximum   "
-MaxHP:              .stringmap tilemap "│HP maximum   "
-StatsBorderBottom:  .stringmap tilemap "╘════════════════╝"
-.endif
-.if LANGUAGE == "pt-br"
-StatsBorderTop:     .stringmap tilemap "┌─────────────────╖"
-Level:              .stringmap tilemap "│Nível         " ; 3 digit number
-EXP:                .stringmap tilemap "│Experiência "   ; 5 digit number
-Attack:             .stringmap tilemap "│Ataque        " ; 3 digit numbers
-Defense:            .stringmap tilemap "│Defesa        "
-MaxMP:              .stringmap tilemap "│PM máximo     "
-MaxHP:              .stringmap tilemap "│PV máximo     "
-StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
-.endif
-.if LANGUAGE == "ca"
-StatsBorderTop:     .stringmap tilemap "┌─────────────────╖"
-Level:              .stringmap tilemap "│Nivell        " ; 3 digit number
-EXP:                .stringmap tilemap "│Experiència "   ; 5 digit number
-Attack:             .stringmap tilemap "│Atac          " ; 3 digit numbers
-Defense:            .stringmap tilemap "│Defensa       "
-MaxMP:              .stringmap tilemap "│PM màxim      "
-MaxHP:              .stringmap tilemap "│PV màxim      "
-StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
-.endif
-.if LANGUAGE == "es"
-StatsBorderTop:     .stringmap tilemap "┌─────────────────╖"
-Level:              .stringmap tilemap "│Nivel         " ; 3 digit number
-EXP:                .stringmap tilemap "│Experiéncia "   ; 5 digit number
-Attack:             .stringmap tilemap "│Ataque        " ; 3 digit numbers
-Defense:            .stringmap tilemap "│Defensa       "
-MaxMP:              .stringmap tilemap "│PM máximo     "
-MaxHP:              .stringmap tilemap "│PV máximo     "
-StatsBorderBottom:  .stringmap tilemap "╘═════════════════╝"
-.endif
-.if LANGUAGE == "de"
-StatsBorderTop:     .stringmap tilemap "┌───────────────╖"
-Level:              .stringmap tilemap "│Stufe       " ; 3 digit number
-EXP:                .stringmap tilemap "│Erfahrung "   ; 5 digit number
-Attack:             .stringmap tilemap "│Stärke      " ; 3 digit numbers
-Defense:            .stringmap tilemap "│Abwehr      "
-MaxMP:              .stringmap tilemap "│LP-Maximum  "
-MaxHP:              .stringmap tilemap "│MP-Maximum  "
-StatsBorderBottom:  .stringmap tilemap "╘═══════════════╝"
-.endif
+.include {"stats-window.{LANGUAGE}.asm"}
 
 statsImpl:
   call _borderTop

@@ -39,15 +39,15 @@ asm/articles.xx.asm
 
 These contain the definitions of articles and code to manage the selection of them. The indices used need to match those used in tools.py - see the articles section below.
 
-asm/lists.xx.asm
-----------------
-
-These contain the names of items in the game: inventory items, characters and enemies. These include markers to determine the correct articles for each. Add a new version for a new language.
-
 asm/credits.xx.asm
 ------------------
 
 This contains data for the credits at the end of the game. We have squeezed some of the original credits together in order to make space for a couple of screens for retranslation credits. As it is all capitals, any accents are placed as separate text on the row above or below as needed.
+
+asm/lists.xx.asm
+----------------
+
+These contain the names of items in the game: inventory items, characters and enemies. These include markers to determine the correct articles for each. Add a new version for a new language.
 
 asm/name-entry-data.xx.asm
 --------------------------
@@ -63,7 +63,22 @@ Finally we define the X, Y limits of the screen so the cursor knows where to sto
 asm/options-menu.xx.asm
 -----------------------
 
-The options menu has values drawn in at runtime. These are localised per-language here.
+The title screen options menu has values drawn in at runtime. These are localised per-language here.
+
+asm/pronouns.xx.asm
+-------------------
+
+In most languages we sometimes use pronouns like "her" and "she" in the script when referring to the party members. Here we define the pronouns for the female and male characters for each language.
+
+asm/stats-hp-mp.xx.asm
+----------------------
+
+This is the text for "HP" and "MP" in stats windows for both players and enemies.
+
+asm/stats-window.xx.asm
+-----------------------
+
+This is the main stats window seen in-game when choosing "Status".
 
 ps1jert.sms.asm
 ---------------

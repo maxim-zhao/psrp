@@ -7467,7 +7467,7 @@ _LABEL_319E_:
     ret
 
 .orga $320f
-.section "Tilemaps for HM and MP display" overwrite
+.section "Tilemaps for HP and MP display" overwrite
 ; Data from 320F to 3216 (8 bytes)
 TilesHP:
 .dw $11f3 $11f4 $11f5 $10c0 ; "|HP "
