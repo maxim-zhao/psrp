@@ -67,7 +67,7 @@ TitleScreenExtra:
   ldir
 
   ; Now we load the top half
-  LoadPagedTiles TitleScreenTilesTop $4000
+  LoadPagedTiles TitleScreenTilesTop TileWriteAddress(0)
 
   ld a,:TitleScreenTilemapTop
   ld (PAGING_SLOT_2),a

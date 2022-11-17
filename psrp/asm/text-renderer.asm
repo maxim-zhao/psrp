@@ -375,87 +375,8 @@ _Pronoun:
   jp _Start
 
 _Pronouns: ; Lookup by character index: Alisa, Myau, Tyron, Lutz
-.if LANGUAGE == "en"
 .dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
-; Values by index:
-; 0 = he/she
-; 1 = his/her
-_PronounsF:
-.dw _PronounShe, _PronounHer
-_PronounShe: String "she"
-_PronounHer: String "her"
-_PronounsM:
-.dw _PronounHe, _PronounHis
-_PronounHe: String "he"
-_PronounHis: String "his"
-.endif
-.if LANGUAGE == "fr"
-.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
-; Values by index:
-; 0 = Il/Elle
-; 1 = il/elle
-; No others needed (yet)
-_PronounsF:
-.dw _PronounElleUpper, _PronounElleLower
-_PronounElleUpper: String "Elle"
-_PronounElleLower: String "elle"
-_PronounsM:
-.dw _PronounIlUpper, _PronounIlLower
-_PronounIlUpper: String "Il"
-_PronounIlLower: String "il"
-.endif
-.if LANGUAGE == "pt-br"
-.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
-; Values by index:
-; 0 = ele/ela
-; No others needed (yet)
-_PronounsF:
-.dw _PronounElaLower
-_PronounElaLower: String "ela"
-_PronounsM:
-.dw _PronounEleLower
-_PronounEleLower: String "ele"
-.endif
-.if LANGUAGE == "ca"
-.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
-; Values by index:
-; 0 = ell/ella
-; 1 = el seu/la seva
-_PronounsF:
-.dw _PronounElla, _PronounLaSeva
-_PronounElla: String "ella"
-_PronounLaSeva: String "la seva"
-_PronounsM:
-.dw _PronounEll, _PronounElSeu
-_PronounEll: String "ell"
-_PronounElSeu: String "el seu"
-.endif
-.if LANGUAGE == "es"
-.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
-; Values by index:
-; 0 = él/ella
-; No others needed (yet)
-_PronounsF:
-.dw _PronounElla
-_PronounElla: String "ella"
-_PronounsM:
-.dw _PronounEl
-_PronounEl: String "él"
-.endif
-.if LANGUAGE == "de"
-.dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
-; Values by index:
-; 0 = Sie/Er
-; 1 = sie/er
-_PronounsF:
-.dw _PronounSieUpper, _PronounSieLower
-_PronounSieUpper: String "Sie"
-_PronounSieLower: String "sie"
-_PronounsM:
-.dw _PronounErUpper, _PronounErLower
-_PronounErUpper: String "Er"
-_PronounErLower: String "er"
-.endif
+.include {"asm/pronouns.{LANGUAGE}.asm"}
 
 SubstringFormatter:
 ; Needs to be in the same bank as AdditionalScriptingCodes

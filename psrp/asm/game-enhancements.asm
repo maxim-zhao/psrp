@@ -274,67 +274,8 @@ _textSpeed:
 
 +:; should not get here
   jp _OptionsSelect
-  
-.if LANGUAGE == "en" || LANGUAGE == "literal"
-_BattlesAll:  .stringmap tilemap " All"
-_BattlesHalf: .stringmap tilemap "Half"
-_Brown: .stringmap tilemap "Brown"
-_Black: .stringmap tilemap "Black"
-_Font1: .stringmap tilemap "Polaris"
-_Font2: .stringmap tilemap " AW2284"
-_Normal:.stringmap tilemap "Normal"
-_Fast:  .stringmap tilemap "  Fast"
-.endif
-.if LANGUAGE == "fr"
-_BattlesAll:  .stringmap tilemap "Tout"
-_BattlesHalf: .stringmap tilemap "Demi"
-_Brown: .stringmap tilemap "Bruns"
-_Black: .stringmap tilemap "Noirs"
-_Font1: .stringmap tilemap "Polaris"
-_Font2: .stringmap tilemap " AW2284"
-_Normal:.stringmap tilemap "Normale"
-_Fast:  .stringmap tilemap " Rapide"
-.endif
-.if LANGUAGE == "pt-br"
-_BattlesAll:  .stringmap tilemap "    Todas"
-_BattlesHalf: .stringmap tilemap "Reduzidas"
-_Brown: .stringmap tilemap "Castanho"
-_Black: .stringmap tilemap "   Preto"
-_Font1: .stringmap tilemap "Polaris"
-_Font2: .stringmap tilemap " AW2284"
-_Normal:.stringmap tilemap "Normais"
-_Fast:  .stringmap tilemap "Rápidas"
-.endif
-.if LANGUAGE == "ca"
-_BattlesAll:  .stringmap tilemap " Totes"
-_BattlesHalf: .stringmap tilemap "Meitat"
-_Brown: .stringmap tilemap "Marró"
-_Black: .stringmap tilemap "Negre"
-_Font1: .stringmap tilemap "Polaris"
-_Font2: .stringmap tilemap " DG2284"
-_Normal:.stringmap tilemap "Normal"
-_Fast:  .stringmap tilemap " Ràpid"
-.endif
-.if LANGUAGE == "es"
-_BattlesAll:  .stringmap tilemap " Todas"
-_BattlesHalf: .stringmap tilemap " Mitad"
-_Brown: .stringmap tilemap "Marrón"
-_Black: .stringmap tilemap " Negro"
-_Font1: .stringmap tilemap "Polaris"
-_Font2: .stringmap tilemap " DG2284"
-_Normal:.stringmap tilemap "Normal"
-_Fast:  .stringmap tilemap "Rápido"
-.endif
-.if LANGUAGE == "de"
-_BattlesAll:  .stringmap tilemap "Ganz"
-_BattlesHalf: .stringmap tilemap "Halb"
-_Brown: .stringmap tilemap "  Braun"
-_Black: .stringmap tilemap "Schwarz"
-_Font1: .stringmap tilemap "Polaris"
-_Font2: .stringmap tilemap " AW2284"
-_Normal:.stringmap tilemap " Normal"
-_Fast:  .stringmap tilemap "Schnell"
-.endif
+
+.include {"options-menu.{LANGUAGE}.asm"}
 
 Continue:
   ld hl,FunctionLookupIndex

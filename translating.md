@@ -34,15 +34,36 @@ menus.yaml
 
 This contains the menus used in the game. The box drawing characters are important, and if you increase the size of any menu then it is important to manage the RAM caches - see below.
 
-lists.xx.asm
-------------
+asm/articles.xx.asm
+-------------------
+
+These contain the definitions of articles and code to manage the selection of them. The indices used need to match those used in tools.py - see the articles section below.
+
+asm/lists.xx.asm
+----------------
 
 These contain the names of items in the game: inventory items, characters and enemies. These include markers to determine the correct articles for each. Add a new version for a new language.
 
-articles.xx.asm
----------------
+asm/credits.xx.asm
+------------------
 
-These contain the definitions of articles and code to manage the selection of them. The indeices used need to match those used in tools.py - see the articles section below.
+This contains data for the credits at the end of the game. We have squeezed some of the original credits together in order to make space for a couple of screens for retranslation credits. As it is all capitals, any accents are placed as separate text on the row above or below as needed.
+
+asm/name-entry-data.xx.asm
+--------------------------
+
+The save game name entry screen layout is defined here. There are three parts: text, mask and cursor limits.
+
+In the first part, NameEntryText defines what is shown on the screen and where, in the form `x, y, "text"`. If there are more than three spaces in a row then it saves a tiny amount of ROM space to split the text into multiple entries. 
+
+In the second part, NameEntryMask defines which parts of the text are the Back, Next, Space and Save buttons.
+
+Finally we define the X, Y limits of the screen so the cursor knows where to stop.
+
+asm/options-menu.xx.asm
+-----------------------
+
+The options menu has values drawn in at runtime. These are localised per-language here.
 
 ps1jert.sms.asm
 ---------------

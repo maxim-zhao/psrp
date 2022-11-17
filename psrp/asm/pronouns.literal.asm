@@ -1,0 +1,1 @@
+; No pronouns for literal

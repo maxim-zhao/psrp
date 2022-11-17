@@ -72,12 +72,12 @@ generated/font-lookup.%.asm: script.%.tbl tools.py
 	$(PY) tools.py generate_font_lookup $< generated/font-lookup.$*.asm 
 
 # Generate the dependencies list for assembly
-generated/auto.makefile.%: ps1jert.sms.asm
-	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o $< > $@
+generated/auto.makefile.%: asm/ps1jert.sms.asm
+	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o -I asm $< > $@
 
 # Now we add in the recipe to actually compile...
 generated/ps1jert.%.sms.o:
-	$(WLAZ80) -D LANGUAGE=$* -o $@ ps1jert.sms.asm
+	$(WLAZ80) -D LANGUAGE=$* -o $@ -I asm asm/ps1jert.sms.asm
 
 # And then link
 ps1jert.%.sms: generated/ps1jert.%.sms.o

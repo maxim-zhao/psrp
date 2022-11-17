@@ -35,12 +35,12 @@ TownTiles:
 
   ROMPosition $00ce4
 .section "BG loader patch 1" size 14 overwrite ; not movable
-  LoadPagedTiles OutsideTiles $4000
+  LoadPagedTiles OutsideTiles TileWriteAddress(0)
 .ends
 
   ROMPosition $00cf4
 .section "BG loader patch 2" size 14 overwrite ; not movable
-  LoadPagedTiles TownTiles $4000
+  LoadPagedTiles TownTiles TileWriteAddress(0)
 .ends
 
 ; Other backgrounds
@@ -248,6 +248,6 @@ BackgroundSceneLoaderTileLoaderPatch:
 ; call LoadTiles4BitRLE
   ld d,(hl)
   ld e,a
-  ld hl,$4000
+  ld hl,TileWriteAddress(0)
   call LoadTiles
 .ends
