@@ -46,7 +46,7 @@ generated/%.psgcompr: new_graphics/%.png
 
 # And per-language ones. There's a <LANGUAGE>/<filename> hidden in the %.
 generated/%.psgcompr: %.png
-	mkdir $(subst /,\,$(dir $@)) || echo. 2>nul
+	cmd /E:ON /C if not exist $(subst /,\,$(dir $@))\nul mkdir $(subst /,\,$(dir $@))
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
 # We generate tiles and tilemap for the title screen, these need specific parameters
