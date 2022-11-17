@@ -45,8 +45,8 @@ generated/%.psgcompr: new_graphics/%.png
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
 # And per-language ones. There's a <LANGUAGE>/<filename> hidden in the %.
-generated/%.psgcompr: %.png
-	cmd /E:ON /C "mkdir $(subst /,\,$(dir $@)) 2>&1 || echo." > nul
+generated/%.psgcompr: %.png tools.py
+	$(PY) tools.py mkdir $(subst /,\,$(dir $@))
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
 # We generate tiles and tilemap for the title screen, these need specific parameters

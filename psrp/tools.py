@@ -717,6 +717,12 @@ def generate_font_lookup(tbl_file, lookup_file):
         f.write("\"")
 
 
+def mkdir(path):
+    try:
+        os.mkdir(path)
+    except:
+        pass
+
 
 def main():
     verb = sys.argv[1]
@@ -734,6 +740,8 @@ def main():
         clean(sys.argv[2])
     elif verb == 'generate_font_lookup':
         generate_font_lookup(sys.argv[2], sys.argv[3])
+    elif verb == 'mkdir':
+        mkdir(sys.argv[2])
     else:
         raise Exception(f"Unknown verb \"{verb}\"")
 
