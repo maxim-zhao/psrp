@@ -18,7 +18,7 @@ _credits_\@:
 _credits_\@_end:
 .endm
 
-.include {"credits.{LANGUAGE}.asm"}
+.include {"{LANGUAGE}/credits.asm"}
 .ends
 
   ROMPosition $488a

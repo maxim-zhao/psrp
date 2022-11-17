@@ -275,7 +275,7 @@ _textSpeed:
 +:; should not get here
   jp _OptionsSelect
 
-.include {"options-menu.{LANGUAGE}.asm"}
+.include {"{LANGUAGE}/options-menu.asm"}
 
 Continue:
   ld hl,FunctionLookupIndex

@@ -376,7 +376,7 @@ _Pronoun:
 
 _Pronouns: ; Lookup by character index: Alisa, Myau, Tyron, Lutz
 .dw _PronounsF, _PronounsM, _PronounsM, _PronounsM
-.include {"asm/pronouns.{LANGUAGE}.asm"}
+.include {"{LANGUAGE}/pronouns.asm"}
 
 SubstringFormatter:
 ; Needs to be in the same bank as AdditionalScriptingCodes
@@ -422,7 +422,7 @@ _Substring:
   .db SymbolEnd
 .endm
 
-.include {"articles.{LANGUAGE}.asm"}
+.include {"{LANGUAGE}/articles.asm"}
 
 _Start_Art:
       ld a,(bc)   ; Grab index

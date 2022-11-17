@@ -603,7 +603,7 @@ _NameEntryText\@end:
 .db count*2, text
 .endm
 
-.include {"name-entry-data.{LANGUAGE}.asm"}
+.include {"{LANGUAGE}/name-entry-data.asm"}
 
 _CursorMemoryInitialValues:
 .db 3, 11, 0 ; X, Y, index into drawn name

@@ -340,7 +340,7 @@ MenuData:
   PatchB $3bab :MenuData ; OutputTilemapRect
   PatchB $45d7 :MenuData ; for opening cinema only
 
-.include {"stats-hp-mp.{LANGUAGE}.asm"}
+.include {"{LANGUAGE}/stats-hp-mp.asm"}
 
 .unbackground $35a2 $35d7
   ROMPosition $35a2
@@ -422,7 +422,7 @@ MST:      .stringmap tilemap "│Meseta     "   ; Spaces for padding
 
 .slot 1
 .section "Stats window drawing" superfree
-.include {"stats-window.{LANGUAGE}.asm"}
+.include {"{LANGUAGE}/stats-window.asm"}
 
 statsImpl:
   call _borderTop
@@ -799,7 +799,7 @@ GetItemType:
 .include "graphics-recompression.asm"
 .include "title-screen.asm"
 .include "text-renderer.asm"
-.include {"lists.{LANGUAGE}.asm"}
+.include {"{LANGUAGE}/lists.asm"}
 .include "item-drawing.asm"
 .include "window-ram-management.asm"
 .include "save-game-handling.asm"
