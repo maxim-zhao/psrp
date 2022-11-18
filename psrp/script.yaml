@@ -3663,7 +3663,7 @@
     アンタ　オレニ　ペロリーメイトヲ<line>
     ヒトツ　メグンデ　クレナイカ。<end>
   kanji: あんた、オレにペロリーメイトを一つ恵んでくれないか。
-  literal: Hey, you mind if I bum a ‘PelorieMate’?<end>
+  literal: Hey, think you could spare me a PelorieMate?<end>
   us: |
     COULD YA SPARE ME<line>
     A CUP OF COLA?<end>
@@ -3691,7 +3691,9 @@
     ここは昔ルベノという科学者の研究所だった。
     だけどルベノは狂っているという理由でこの村の
     南にあるトリアダという牢獄に閉じ込められたんだ。
-  literal: Thanks. This place used to be the lab of a scientist named ‘Luveno’. But they claimed he went crazy, so they locked him up in the Triada prison to the south of this village.<end>
+  literal: |
+    Thanks. Long ago, this place used to be Doctor Luveno's research institute.<wait more>
+    But then they locked him up in Triada, the prison south of here, claiming he went crazy.<end>
   us: |
     THANKS! THIS WAS<line>
     ONCE THE LAB. OF<wait more>
@@ -3733,7 +3735,7 @@
   indices: 20E
   ja: バカニスンデネエ。<wait>
   kanji: 馬鹿にすんでねえ。
-  literal: Don’t f--- with me!<wait>
+  literal: Quit messin' with me!<wait>
   us: DON'T BE A FOOL!<wait>
   en: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
   fr: Ai-je l'air d'un idiot_???<wait>
@@ -3750,7 +3752,7 @@
     アンタニ　ハナスコトハ　ナイ。<line>
     ドコカヘ　キエナ。<end>
   kanji: あんたに話す事はない。どこかへ消えな。
-  literal: I ain’t talking to you, then. Get the hell away from me.<wait>
+  literal: Then I got nothing to say to you. Get lost.<wait>
   us: |
     I GOT NOTHIN' TO<line>
     SAY T'YA!GET LOST!<end>
@@ -3774,7 +3776,9 @@
   kanji: |
     ガシコの森から山へ通じる一本道の奥にある塔には近づくな。
     そこには姿を見ただけで体が石になってしまうという恐ろしい魔物が住んでいるらしい。
-  literal: Whatever ya do, stay away from the tower that the road from the Gothic Woods through the mountains leads to. They say there's a freaky monster in there that, if you just LOOK at it, will turn yuh tuh stone!<wait>
+  literal: |
+    Stay far away from the tower at the end the path going from the forest through the mountains.<wait more>
+    They say there's a fearsome monster living there that can turn you to stone just by looking at it!<wait>
   us: |
     DON'T GO NEAR THE <line>
     TOWER AT THE FAR<wait more>
@@ -3821,7 +3825,7 @@
     ココカラ　サキハ　ボクノ<line>
     ナワバリダカラ　トオセナイヨーダ。<wait>
   kanji: ここから先は僕の縄張りだから通せないよーだ。
-  literal: The area beyond here is my territory, so stay the hell out!<wait>
+  literal: The area beyond here is my territory, so keep out!<wait>
   us: |
     YOU CANNOT COME<line>
     THROUGH HERE.<wait more>
@@ -3842,7 +3846,7 @@
     ルベノハカセガ　イウノダッタラ<line>
     ショウガナイ。　トオッテモイイヨ。<wait>
   kanji: ルベノ博士が言うのだったらしょうがない。通ってもいいよ。
-  literal: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.<wait>
+  literal: Well, I guess I gotta do what Doctor Luveno says. Go on through.<wait>
   us: |
     WELL,IF DR.LUVENO<line>
     SENT YOU ,I GUESS<wait more>
@@ -3884,7 +3888,7 @@
     タイシタ　ドキョウダ。<line>
     シンデモラウゾ。<wait>
   kanji: 大した度胸だ。死んでもらうぞ。
-  literal: You are very brave. Please allow me to kill you...<wait>
+  literal: Some nerve you have. You will die now.<wait>
   us: |
     YOU ARE A FOOL!<line>
     YOU WILL DIE!<wait>
@@ -3902,7 +3906,7 @@
   indices: 0CE
   ja: フザケルナ。<wait>
   kanji: ふざけるな。
-  literal: Don't mess with me.<wait>
+  literal: Don't mess with me!<wait>
   us: DON'T BE A FOOL!<wait>
   en: Well? Let’s see it.<wait>
   fr: Eh bien_? Voyons ca.<wait>
@@ -3918,7 +3922,7 @@
     クモノ　カイブツハ　ホントウハ<line>
     カシコインダヨ。<wait>
   kanji: 蜘蛛の怪物は本当は賢いんだよ。
-  literal: Y’know, no matter what people say, spiders are actually very wise creatures.<wait>
+  literal: Spider monsters are actually quite smart.<wait>
   us: |
     SPIDER MONSTERS<line>
     ARE ACTUALLY<wait more>
@@ -3939,7 +3943,7 @@
     ガシコノ　ヤマオクニアル　トウハ<line>
     メデューサノトウト　ヨバレテイル。<wait>
   kanji: ガシコの山奥にある塔はメデューサの塔と呼ばれている。
-  literal: The tower nestled in the Gothic Mountains is called ‘Medusa’s Tower.’<wait>
+  literal: The tower nestled in the Gothic mountains is called Medusa’s Tower.<wait>
   us: |
     THE TOWER DEEP IN<line>
     THE GOTHIC<wait more>
@@ -3962,7 +3966,7 @@
     ラコニア　イガイノ　ブッシツハ<line>
     スベテ　トカスソウダヨ。<wait>
   kanji: ポリメテラールという薬はラコニア以外の物質は全て溶かすそうだよ。
-  literal: There’s this chemical called ‘Polymeteral’ that they say will dissolve any material except laconia.<wait>
+  literal: The chemical known as Polymeteral will dissolve any material except for Laconia.<wait>
   us: |
     POLYMETERAL WILL<line>
     DISSOLVE ALL<wait more>
@@ -3994,7 +3998,7 @@
     ヤア。ヒトニ　アウノハ<line>
     ヒサシブリダ。オハナシシヨウヨ。<end>
   kanji: やあ。人に会うのは久しぶりだ。お話ししようよ。
-  literal: Whassup? I haven’t seen any people in a long time! Let’s talk!<end>
+  literal: Hey there! Haven't seen any other people in a long time. Wanna chat?<end>
   us: |
     I HAVEN'T SEEN<line>
     ANYONE FOR A LONG<wait more>
@@ -4022,7 +4026,9 @@
     バルテボには僕の友達がいるんだ。
     今は溶岩池のせいで大変だろうなあ。
     会ったらよろしく言っていてね。
-  literal: Y’know, I’ve got a friend in Bartevo. But those lava pools are making things real tough right now, I guess. If you see my friend, could you tell him I said ‘hi?’<wait>
+  literal: |
+    I've got a friend living in Bartevo. He's probably having a hard time right now because of the lava pools.<wait more>
+    If you see him, tell him I said hi, okay?<wait>
   us: |
     I'VE GOT A FRIEND<line>
     IN BORTEVO. HE'S<wait more>
@@ -4063,7 +4069,7 @@
     ハプスビー　トイウ<line>
     ロボットヲ　シッテルカイ。<end>
   kanji: ハプスビーというロボットを知ってるかい。
-  literal: Do you know of a robot called ‘Hapsby’?<end>
+  literal: Do you know of a robot called Hapsby?<end>
   us: |
     DO YOU KNOW THE <line>
     ROBOT HAPSBY?<end>
@@ -4084,7 +4090,7 @@
   kanji: |
     ラコニアでできたロボットだよ。
     でもスクラップにされて捨てられちまったらしいよ。
-  literal: It’s a robot made out of laconia! But it seems to have been dumped into a scrap heap!<wait>
+  literal: It’s a robot made out of laconia! But it seems to have been scrapped and thrown away.<wait>
   us: |
     IT'S A ROBOT MADE<line>
     OF LACONIA. BUT<wait more>
@@ -4125,7 +4131,7 @@
     ヤマノ　ムコウハ　カザンノ　フンカデ
     ヨウガンイケガ　デキテイルソウダヨ。<wait>
   kanji: 山の向こうは火山の噴火で溶岩池ができているそうだよ。
-  literal: I hear that on the other side of the mountains there's a whole bunch of lava because of the volcanic eruptions.<wait>
+  literal: I hear that on the other side of the mountains there's a whole bunch of lava because of volcanic eruptions.<wait>
   us: |
     ON THE FAR SIDE OF
     THE MOUNTAINS LIES<wait more>
@@ -4151,7 +4157,7 @@
   kanji: |
     わしはルベノじゃ。
     助けに来たのなら余計な事じゃ。帰るがいい。
-  literal: I’m Luveno. You came here to rescue me? That’s not really necessary. You should go home.<wait>
+  literal: I'm Luveno. If you're here to rescue me, then your help is unwanted. Leave!<wait>
   us: |
     I'M LUVENO. IF<line>
     YOU'VE COME FOR<wait more>
@@ -4179,7 +4185,9 @@
     なに。宇宙船を創れじゃと。
     馬鹿も休み休み言え。
     わしがそんなことを引き受けると思うのか。
-  literal: What? Did you say 'build a spaceship?' Don't be ridiculous!  Do you think I want to be responsible for something like that?<wait>
+  literal: |
+    What? Build us a spaceship, you say? Don't be ridiculous!<wait more>
+    Do you think I'd want to be responsible for something like that?<wait>
   us: |
     YOU WANT ME TO<line>
     BUILD A SPACESHIP<wait more>
@@ -4207,7 +4215,9 @@
   kanji: |
     うーむ。懲りない奴じゃ。仕方がない。
     わしの言う通りにしてもらうがそれでも良いか。
-  literal: Hmmm... Didn’t I tell you to-- Aah, I give up! You must promise to do whatever I ask. Agreed?<end>
+  literal: |
+    Mmmmgh, you just won't quit, will you? Fine, I'll do it.<wait more>
+    In exchange, you will do exactly as I say. Agreed?<end>
   us: |
     YOU ARE CERTAINLY<line>
     PERSISITENT. WELL,<wait more>
@@ -4242,7 +4252,7 @@
     イウトオリニ　シナイナラ<line>
     ヒキウケルワケニハ　イカナイ。<wait>
   kanji: 言う通りにしないなら引き受ける訳にはいかない。
-  literal: Well, if you won’t promise, then I’m afraid I can’t help you.<wait>
+  literal: If you won't do as I say, then I have no reason to help you out.<wait>
   us: |
     IF YOU DON'T OBEY<line>
     ME, I CANNOT HELP.<wait>
@@ -4264,7 +4274,9 @@
   kanji: |
     よし。それでは一足先にガシコの村へ行って準備するから後から来い。
     わしのことなら心配無用じゃ。
-  literal: Good. Well then, I’m going ahead to Gothic Village and make the proper arrangements. Meet me there later. Oh, don’t worry. I can make it there myself.<wait>
+  literal: |
+    Good. Well then, I'll be off to Gothic Village to make preparations.<wait more>
+    No need to worry about me.<wait>
   us: |
     O.K. I WILL GO TO<line>
     GOTHIC VILLAGE<wait more>
@@ -4298,7 +4310,7 @@
     イマ　イソガシインダ。<line>
     ジャマシナイデクレ。<wait>
   kanji: 今忙しいんだ。邪魔しないでくれ。
-  literal: I’m busy right now, so please don’t interrupt.<wait>
+  literal: I'm busy right now. Please don't bother me.<wait>
   us: |
     I'M BUSY.DON'T<line>
     BOTHER ME.<wait>
@@ -4321,7 +4333,10 @@
     えーっ。ルベノ博士が帰って来たのかい。
     また宇宙船を創るのか。
     しょうがねえや。すぐ行くよ。
-  literal: Huh? You say Dr. Luveno is back... and he’s going to build a spaceship?! Well, I guess I have no choice. I’ll go there right away.<wait>
+  literal: |
+    Ehhh? Doctor Luveno came back, you said?<wait more>
+    He's gonna build another spaceship?!<wait more>
+    Fine, guess I'll go see him right away.<wait>
   us: |
     WHAT? DR.LUVENO<line>
     HAS RETURNED?<wait more>
@@ -4489,7 +4504,9 @@
     さっそくじゃがわしの助手を連れて来てくれ。
     地下牢の中に隠れておるはずじゃ。
     ホントに、あいつは恥かしがり屋で困ったものじゃ。
-  literal: Ahh, you’re late! Quickly! Do me a favor and bring my assistant back here. He’s probably hiding in that underground tunnel. It really irritates me how shy he is.<wait>
+  literal: |
+    Ahh, you're late! Go fetch my assistant. He should be hiding out underground.<wait more>
+    Really, he's a pain in my rear with his shyness.<wait>
   us: |
     AH, IT'S GETTING<line>
     LATE! FETCH MY<wait more>
@@ -4531,7 +4548,9 @@
     よし、これでスタッフは揃ったようだ。
     そこで製作費が１２００メセタかかるんじゃが、わしにくれんか。
   # <number> is always 1200.
-  literal: Okay, it looks like my staff is assembled. Manufacturing expenses come to 1200 meseta. Will you please give it to me?<end>
+  literal: |
+    Alright, with this, my staff is assembled.<wait more>
+    Now then, the manufacturing costs are <number> mesetas. Will you pay up?<end>
   us: |
     NOW THAT MY STAFF<line>
     IS ASSEMBLED<wait more>
@@ -4585,7 +4604,7 @@
     アリガトウ。デハ　セイサクヲ<line>
     ハジメヨウ。スコシマッテクレ。<wait>
   kanji: ありがとう。では、製作を始めよう。少し待ってくれ。
-  literal: Thanks. Now then, time to begin construction. Please wait for a little while.<wait>
+  literal: Thanks. Now then, time to begin construction. Please wait a while.<wait>
   us: |
     THANK YOU. I CAN<line>
     NOW GET TO WORK.<wait more>
@@ -4619,7 +4638,7 @@
     タリナイノウ。　ワルイガ　オカネヲ<line>
     アツメテキテクレンカ。<wait>
   kanji: 足りないのう。悪いがお金を集めてきてくれんか。
-  literal: You don’t have enough? I’m sorry, but must get some more money.<wait>
+  literal: You don’t have enough? I'm afraid I'll need you to save up, then.<wait>
   us: |
     YOU DON'T HAVE <line>
     ENOUGH. COME BACK<wait more>
@@ -4660,7 +4679,7 @@
     アワテテモ　イイモノハ　デキンゾヨ。
     モウ　スコシノシンボウジャ。<wait>
   kanji: 慌ててもいいものはできんぞよ。もう少しの辛抱じゃ。
-  literal: Nothing good will come of rushing. Show a bit more patience.<wait>
+  literal: Good things come to those who wait, so be a bit more patient!<wait>
   us: |
     IT CANNOT BE<line>
     HURRIED! PLEASE <wait more>
@@ -4697,7 +4716,7 @@
     ヨロコベ　ツイニ　ウチュウセン<line>
     ルベノゴウガ　デキアガッタゾ。<wait>
   kanji: 喜べ、ついに宇宙船ルベノ号ができあがったぞ。
-  literal: At last, the spaceship is finished!  I’m pleased to present to you the ‘Luveno’!<wait>
+  literal: Rejoice, for the spaceship is complete! I call it the SS Luveno!<wait>
   us: |
     SUCCESS! I PRESENT
     A SUPERB SPACESHIP<wait more>
@@ -4727,7 +4746,7 @@
     シカシ　オマエニハ　ルベノゴウハ<line>
     ソウジュウデキン。<wait>
   kanji: しかし、お前にはルベノ号は操縦できん。
-  literal: But you won’t be able to pilot the spaceship yourself.<wait>
+  literal: Unfortunately, you won’t be able to pilot it by yourself.<wait>
   us: |
     BUT YOU CANNOT FLY<line>
     A SPACESHIP.<wait>
@@ -4807,7 +4826,9 @@
   kanji: |
     よし。これでルベノ号に乗って宇宙へ飛び出せる。
     村の外へ出てみるがいい。中々の出来だよ。
-  literal: Now then, you can use the Luveno to fly through space. Go outside the village and take a look. It’s a brilliant piece of work.<wait>
+  literal: |
+    Excellent! Now you can board the SS Luveno and blast off into space!<wait more>
+    Go find it just outside of the village. It's a brilliant piece of work.<wait>
   us: |
     WE CAN BOARD THE <line>
     LUVENO AND BE ON<wait more>
@@ -4851,7 +4872,7 @@
     ルベノゴウノ　チョウシハ　ドウジャ。
     ダイジニ　ツカッテ　オクレ。<wait>
   kanji: ルベノ号の調子はどうじゃ。大事に使っておくれ。
-  literal: How’s the ‘Luveno’ holding up? Please be careful with it.<wait>
+  literal: How is the SS Luveno holding up? Take good care of it.<wait>
   us: |
     HOW IS THE LUVENO?
     USE IT WELL.<wait>
