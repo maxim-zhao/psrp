@@ -4928,7 +4928,7 @@
     バルテボハ　オレノ　ナワバリダ。<line>
     アラスンジャナイゾ。<wait>
   kanji: バルテボはオレの縄張りだ。荒らすんじゃないぞ。
-  literal: Bartevo is my territory. Don’t be screwin’ around!<wait>
+  literal: Bartevo is my territory. Don't you mess anything up!<wait>
   us: |
     BORTEVO IS MY<line>
     TURF. DON'T YA<wait more>
@@ -4956,7 +4956,9 @@
     イ　ロボットガ　ステラレテイル<wait more>
     トイウハナシダケド　ホントウカネー。<wait>
   kanji: このスクラップの中に性能のいいロボットが捨てられているという話だけど本当かねー。
-  literal: I heard that a high-performance robot got dumped inside one of these scrap piles. I wonder if it’s true?<wait>
+  literal: |
+    People say that a perfectly functional robot has been dumped somewhere in all this scrap here.<wait more>
+    Wonder if that's true...<wait>
   us: |
     IN THIS PILE OF<line>
     JUNK, SOMEWHERE,<wait more>
@@ -4991,7 +4993,7 @@
     アビオンノ　ムラニ　ポリメテラール<line>
     トイウ　クスリガ　ウッテイルラシイ。<wait>
   kanji: アビオンの村にポリメテラールという薬が売っているらしい。
-  literal: A drug called Polymeteral is sold in Abion Village, I hear.<wait>
+  literal: Supposedly, a chemical called Polymeteral is sold in the village of Avion.<wait>
   us: |
     POLYMETERAL IS FOR<line>
     SALE IN ABION.<wait>
@@ -5014,7 +5016,7 @@
   kanji: | 
     ボクはハプスビー。見つけてくれてありがとう。
     ルベノ号の操縦は任せてね。
-  literal: I am Hapsby. Thanks for finding me. Let me pilot the ‘Luveno’ for you, okay?<wait>
+  literal: I am Hapsby. Thanks for finding me. I can pilot the SS Luveno for you.<wait>
   us: |
     I'M HAPSBY.<line>
     THANKS FOR FINDING<wait more>
@@ -5049,7 +5051,9 @@
   kanji: |
     フロームーバーを見つけた。
     ハプスビーが壊れたところを治したので使えるようになったぞ。
-  literal: You found the ‘FlowMover’! Hapsby fixed the areas that were damaged, so you can use it now!<wait>
+  literal: |
+    You found a FlowMover.<wait more>
+    Hapsby fixed the parts that were broken, so it's fully usable now.<wait>
   us: |
     YOU FOUND THE <line>
     HOVERCRAFT.HAPSBY<wait more>
@@ -5089,7 +5093,7 @@
   kanji: |
     ここはロアーという村です。
     ラシークのせいで寂れてしまった。
-  literal: This is the Village of Lore. Thanks to LaShiec, it’s become a wasteland.<wait>
+  literal: This is the village of Lore. Thanks to LaShiec, it’s become a wasteland.<wait>
   us: |
     THIS TOWN IS<line>
     CALLED LOAR.<wait more>
@@ -5129,7 +5133,9 @@
   kanji: |
     カーバンクルアイという宝石を知っていますか。
     カスバのドラゴンが持っているという噂です。
-  literal: Do you know of a jewel called the ‘Carbuncle Eye’? Rumor has it that it’s being held by the Casba Dragon.<wait>
+  literal: |
+    Do you know of a jewel called the Carbuncle Eye?<wait more>
+    Rumor has it that it’s being held by a dragon in Casba.<wait>
   us: |
     HAVE YOU HEARD OF<line>
     A GEM CALLED "THE <wait more>
@@ -5169,7 +5175,7 @@
     コノシマノ　ニシノ　ハズレニハ<line>
     アビオン　トイウ　ムラガ　アリマス。<wait>
   kanji: この島の西の外れにはアビオンという村があります。
-  literal: On the West end of this island, there is a village called Abion.<wait>
+  literal: On the west end of this island, there is a village called Avion.<wait>
   us: |
     THERE IS A VILLAGE
     CALLED ABION ON<wait more>
@@ -5201,7 +5207,7 @@
     ラエルマツリー　トイウ　キヲ<line>
     シッテイルカ。<end>
   kanji: ラエルマツリーという樹を知っているか。
-  literal: Do you know about the ‘Laerma Tree?'<end>
+  literal: Do you know about the Laerma Tree?<end>
   us: |
     DO YOU KNOW ABOUT<line>
     LAERMA TREES?<end>
@@ -5245,7 +5251,9 @@
   kanji: |
     えっ、ラシークを倒しに行くの。凄いねえ。
     噂だけどあるクリスタルは悪しき魔法を封じるとか。
-  literal: Huh? You’re going to defeat LaShiec? Awesome! Now this is just a rumor, but supposedly there are crystals that protect against evil magic.<wait>
+  literal: |
+    Huh? You’re going to defeat LaShiec? Awesome!<wait more>
+    Now this is just a rumor, but supposedly, a certain crystal can deflect his evil magic.<wait>
   us: |
     YOU ARE GOING TO<line>
     TRY TO KILL LASSIC<wait more>
@@ -5296,7 +5304,7 @@
   indices: 11C
   ja: コノムラハ　アビオン　トイウノヨ。<wait>
   kanji: この村はアビオンというのよ。
-  literal: This village is called Abion.<wait>
+  literal: This village is called Avion.<wait>
   us: WELCOME TO ABION.<wait>
   en: This village is called Avion.<wait>
   fr: Notre village se nomme Abion.<wait>
@@ -5312,7 +5320,7 @@
     ラシークノ　マノテハ　コノムラニモ<line>
     ノビテキタ。　タスケテクレ。<wait>
   kanji: ラシークの魔の手はこの村にも伸びてきた。助けてくれ。
-  literal: LaShiec's evil has extended to influence this village as well! Please help us!<wait>
+  literal: LaShiec's evil influence has extended to this village, as well! Please help us!<wait>
   us: |
     HELP! LASSIC HAS<line>
     COME TO THIS TOWN!<wait>
@@ -5337,7 +5345,10 @@
     この村に変った男が引っ越ししてきたよ。
     動物実験をやってるらしいが気味が悪いなあ。
     壺みたいなものを持ってたよ。
-  literal: Some weird freak just moved to this village, and he was carrying a jar or something. It seems he’s been doing experiments on animals. I gotta bad feeling about that guy.<wait>
+  literal: |
+    A weird man has recently moved to this village.<wait more>
+    Rumor has it that he conducts animal experiments. He gives me the creeps...<wait more>
+    I think he had some kind of pot with him, too.<wait>
   us: |
     A STRANGE MAN CAME
     TO THIS TOWN. HE<wait more>
@@ -5382,7 +5393,7 @@
     ワタシ　ウチュウノ　タビガ<line>
     シテミタイワ。<wait>
   kanji: 私、宇宙の旅がしてみたいわ。
-  literal: I want to try and travel the stars.<wait>
+  literal: I'd like to travel through outer space someday.<wait>
   us: |
     I'D LIKE TO TRAVEL
     IN OUTER SPACE.<wait>
@@ -5404,7 +5415,7 @@
   kanji: |
     ジャコウネコという動物はある木の実を食べると
     大きくなって空を飛べるようになるそうだよ。フシギダネ。
-  literal: They say if an animal called a ‘Musk Cat’ eats a certain type of berry, it’ll grow large, and become able to fly! Weird, huh?<wait>
+  literal: They say if an animal called a Musk Cat eats a certain type of berry, it'll grow large and become able to fly! Weird, huh?<wait>
   us: |
     SOME CATS, IF THEY
     EAT A CERTAIN TYPE<wait more>
@@ -5461,7 +5472,7 @@
   indices: 298
   ja: ケッケッケ。オマエラモ　シニタイカ。<wait>
   kanji: ケッケッケ。お前らも死にたいか。
-  literal: Hee hee hee! You guys wanna die too?<wait>
+  literal: Hee hee hee! You guys wanna die, too?<wait>
   us: |
     OOHH,HA,HA! THE <line>
     CAT WILL DIE!<wait>
@@ -5546,7 +5557,7 @@
   kanji: |
     私、この星の事はよく知らないけど
     北の山奥にこの星の住民デゾリアンの村があるそうよ。
-  literal: I don’t know much about this planet, but I do know that there are some native Dezorians living in a village inside the northern mountains.<wait>
+  literal: I don't know much about this planet, but there seems to be a native Dezorian village in the northern mountains.<wait>
   us: |
     I DON'T KNOW A LOT
     ABOUT THIS PLANET,<wait more>
@@ -5592,7 +5603,10 @@
     これらの武器は最強の力を発揮するだろう。
     無事を祈っている。
   literal: |
-    What? ‘Overthrow LaShiec?’ If you really are going to do that, you must gather all of the Laconian weapons: Sword, Axe, Shield, and Armor. These weapons are more powerful than any others. I’ll be praying for your safety.<wait>
+    What? Overthrow LaShiec, you say?<wait more>
+    Then you should collect a sword, axe, shield and armor made of Laconia.<wait more>
+    Those weapons will be the most powerful.<wait more>
+    I pray for your safety.<wait>
   us: |
     IF YOU REALLY HOPE
     TO KILL LASSIC,<wait more>
@@ -5644,7 +5658,9 @@
   kanji: |
     ラコニアでできた武器は聖なる力を秘めているんだ。
     ラシークはそれを嫌ってアルゴル太陽系の惑星のあちこちに隠してしまったという。
-  literal: Weapons made from laconia conceal holy powers, y’know. I heard that LaShiec despises them, so he hid them here and there throughout the planets of Algol.<wait>
+  literal: |
+    Weapons made from laconia conceal holy powers.<wait more>
+    I heard that LaShiec despises them, so he hid them all across the planets of Algol.<wait>
   us: |
     ARMS MADE OF<line>
     LACONIA CONCEAL<wait more>
@@ -5684,7 +5700,7 @@
   indices: 1B8
   ja: デゾリスセイハ　コオリノホシデス。<wait>
   kanji: デゾリス星は氷の星です。
-  literal: Planet Dezoris is made of ice.<wait>
+  literal: Dezoris is a planet of ice.<wait>
   us: |
     DEZORIS IS A<line>
     WORLD OF ICE.<wait>
@@ -5704,7 +5720,7 @@
     コオリノ　ヤマノナカニハ<line>
     クズレヤスイトコロモ　アルヨウデス。<wait>
   kanji: 氷の山の中には崩れやすいところもあるようです。
-  literal: There are places inside the ice mountains that can be easily broken.<wait>
+  literal: There are parts of the ice mountains that shatter easily.<wait>
   us: |
     THERE ARE PLACES<line>
     IN THE MOUNTAINS<wait more>
@@ -5726,7 +5742,7 @@
     アルチプラノコウゲンハ　マワリヲ<line>
     コオリノ　ヤマニ　カコマレテイマス。<wait>
   kanji: アルチプラノ高原は周りを氷の山に囲まれています。
-  literal: The area around the Altiplano Plateau is encircled by mountains of ice.<wait>
+  literal: The area around the Altiplano Plateau is surrounded by mountains of ice.<wait>
   us: |
     THE ALTIPLANO<line>
     PLATEAU IS AT THE <wait more>
@@ -5753,7 +5769,9 @@
     この星は百年に一度日食があります。
     その時に灯された炎はイクリプストーチと呼ばれ
     神聖なる炎としてデゾリアンに祭られているのです。
-  literal: This planet has a solar eclipse once every hundred years. There is a flame lit at this time called an ‘Eclipse Torch’. It is regarded by the Dezorians as sacred.<wait>
+  literal: |
+    This planet has a solar eclipse once every hundred years.<wait more>
+    A flame lit during this time is called an Eclipse Torch, and is worshipped as a sacred fire by the Dezorians.<wait>
   us: |
     AN ECLIPSE OCCURS<line>
     ON THIS PLANET<wait more>
@@ -5800,7 +5818,7 @@
   kanji: |
     グアランの死体置き場の死人がよみがえったそうだ。
     恐ろしいや。
-  literal: I heard that all the dead people in the Guaran Morgue have come back to life! How creepy!<wait>
+  literal: I heard that all the dead people in the Guaran Morgue have come back to life! How frightening!<wait>
   us: |
     THE DEAD GUARON<line>
     MORGUE HAVE BEEN<wait more>
@@ -5857,7 +5875,7 @@
     アリジゴクハ　ランドマスター　トイウ
     ノリモノヲ　ツカエバ　トオレマスヨ。<wait>
   kanji: 蟻地獄はランドマスターという乗り物を使えば通れますよ。
-  literal: You can pass over antlions if you have a ‘LandMaster.’<wait>
+  literal: You can pass over antlions with a vehicle known as the LandMaster.<wait>
   us: |
     IF YOU USE A<line>
     VEHICLE CALLED THE<wait more>
@@ -5904,7 +5922,9 @@
   kanji: |
     カスバの洞窟にはドラゴンが住み着いたらしいですよ。
     そのドラゴンの頭には宝石が入っているとか。
-  literal: It seems that a dragon has settled in Casba Cave! Supposedly, that dragon has a jewel embedded in its head!<wait>
+  literal: |
+    It seems that a dragon has made its home in Casba Cave!<wait more>
+    Supposedly, that dragon has a jewel embedded in its head.<wait>
   us: |
     THERE ARE DRAGONS<line>
     LIVING IN THE <wait more>
@@ -5931,7 +5951,9 @@
   kanji: |
     フラードマントというマントを知ってるかい。
     軽いけど凄い防御力があるそうだよ。
-  literal: Have you heard of the ‘Frad Cloak?' They say it’s light in weight, but has superb defensive power.<wait>
+  literal: |
+    Have you heard of a cloak called the Frad Mantle?<wait more>
+    From what I hear, it’s really light, yet has excellent protective power.<wait>
   us: |
     HAVE YOU HEARD<line>
     ABOUT MANTLES MADE<wait more>
@@ -5966,7 +5988,7 @@
     スーズフルート　トイウ　フエノコトヲ
     シッテルカイ。<end>
   kanji: スーズフルートという笛のことを知ってるかい。
-  literal: Do you know about the ‘Soothe Flute?’<end>
+  literal: Do you know about the Soothe Flute?<end>
   us: |
     HAVE YOU HEARD<line>
     ABOUT THE <wait more>
@@ -5986,7 +6008,7 @@
   indices: 13C
   ja: ソウカイ。ツマンネエノ。<wait>
   kanji: そうかい。つまんねえの。
-  literal: Really? What a bore!<wait>
+  literal: Really? What a bummer.<wait>
   us: OH, NEVER MIND.<wait>
   en: |
     Oh.<wait more>
@@ -6017,7 +6039,9 @@
     内緒だけどさ、僕がパルマ星へ行ったときに
     ガシコの村のはずれに埋めてきたんだ。
     誰にも言っちゃダメだよ。
-  literal: Well, this is a secret, but when I went to Palma, I buried it on the outskirts of Gothic Village. Don’t tell anybody!<wait>
+  literal: |
+    Well, this is a secret, but when I went to Palma, I buried it on the outskirts of Gothic Village.<wait more>
+    Don’t tell anybody!<wait>
   us: |
     IT'S A SECRET, BUT
     I BURIED ONE AT<wait more>
@@ -6052,7 +6076,7 @@
     ココロガ　ナゴムヨウナ<line>
     ウツクシイ　ネイロダ。<wait>
   kanji: 心が和むような美しい音色だ。
-  literal: The beautiful tone relaxes the soul.<wait>
+  literal: It plays a beautiful, relaxing sound.<wait>
   us: |
     THE SOUND IS<line>
     HEARTWARMING.<wait>
@@ -6069,7 +6093,7 @@
     <monster>ハ　フエノネヲ<line>
     キイテ　オトナシクナッタ。<delay>
   kanji: <monster>は笛の音を聞いて大人しくなった。
-  literal: <monster> was calmed by the sound of the flute.<wait>
+  literal: <Article><monster> was calmed by the sound of the flute.<wait>
   us: |
     <monster> HEARS THE<line>
     FLUTE AND FALLS<wait more>
@@ -6091,7 +6115,7 @@
   indices: 166
   ja: ココハ　カスバ　トイウ　ムラデス。<wait>
   kanji: ここはカスバという村です。
-  literal: This is Casba Village.<wait>
+  literal: This is the village of Casba.<wait>
   us: |
     THIS TOWN IS<line>
     CALLED CASBA.<wait>
@@ -6109,7 +6133,7 @@
     コノムラノ　ドウクツニ　ドラゴンガ<line>
     スミツイタノ。ワタシ　コワーイ。<wait>
   kanji: この村の洞窟にドラゴンが住み着いたの。私、怖ーい。
-  literal: There’s a dragon living in Casba Cave! I’m so scared!<wait>
+  literal: There’s a dragon living in this village's cave! I’m so scared!<wait>
   us: |
     FIERCE DRAGONS<line>
     LIVE IN THE CAVE<wait more>
@@ -6133,7 +6157,9 @@
   kanji: |
     周りを霧に囲まれた村には伝説の盾の言い伝えがある。
     その昔ペルセウスが魔物退治に使ったという。
-  literal: The people in the village surrounded by gas tell a tale of a legendary shield. They say that a long time ago, Perseus used that shield to exterminate a monster.<wait>
+  literal: |
+    From the village surrounded by gas comes a tale of a legendary shield.<wait more>
+    They say that, a long time ago, Perseus wielded that shield when exterminating a monster.<wait>
   us: |
     THERE ARE LEGENDS<line>
     OF A MYSTIC SHIELD<wait more>
@@ -6175,7 +6201,9 @@
   kanji: |
     僕が湖の西へ行くと霧のような恐ろしい毒ガスが広がっていたんだ。
     何とかしないととても近寄れないよ。
-  literal: One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over! There's no way to get close to that without... something.<wait>
+  literal: |
+    One time I traveled west of the lake, and a frightening, fog-like poison gas was spreading all over!<wait more>
+    You'd need to do something to get anywhere close to there.<wait>
   us: |
     THERE IS POISON<line>
     GAS ABOVE THE SEA<wait more>
@@ -6209,7 +6237,7 @@
     フロームーバー　トイウ　ノリモノヲ<line>
     シッテイルカイ。<end>
   kanji: フロームーバーという乗り物を知っているかい。
-  literal: Do you know about the ‘FlowMover’?<end>
+  literal: Do you know about the vehicle called the FlowMover?<end>
   us: |
     HAVE YOU HEARD OF<line>
     VEHICLE CALLED<wait more>
@@ -6233,7 +6261,9 @@
     パルマ星のシオンの町で買ったんだけど
     壊れちまったみたいでバルテボに捨てちまったよ。
     もったいないことしちまった。
-  literal: Well, I bought one on Palma, in the town of Shion, but it turned out to be broken, so I ditched it in Bartevo. What a waste!<wait>
+  literal: |
+    I bought one in the town of Shion on Palma, but it seemed to have broken down, so I dumped it in Bartevo.<wait more>
+    What a waste!<wait>
   us: |
     I BOUGHT IT IN<line>
     SCION ON PALMA<wait more>
@@ -6272,7 +6302,7 @@
     アレハ　ベンリダヨ。　ミズノウエヲ<line>
     スイスイ　イケルンダ。<wait>
   kanji: あれは便利だよ。水の上をスイスイ行けるんだ。
-  literal: With a FlowMover, you can glide smoothly across the the top of the water. They can really come in handy!<wait>
+  literal: It's really useful! It glides smoothly across water.<wait>
   us: |
     IT'S A GOOD THING<line>
     TO HAVE. IT MOVES<wait more>
@@ -6331,7 +6361,9 @@
   kanji: |
     今海の道は閉ざされて船さえ使えないのに
     よくもまあこの町へ辿り着きましたね。
-  literal: Amazing! You managed to make it here even though they shut down the sea routes and we are no longer allowed to use boats!<wait>
+  literal: |
+    Just how did you manage to make your way to this town?<wait more>
+    What with the sea routes shut down and everyone unable to use ships these days...<wait>
   us: |
     YOU ARE DARING TO<line>
     HAVE FOUND YOUR <wait more>
@@ -6366,7 +6398,7 @@
     アビオンノ　トウニハ　マリョクヲ<line>
     フウジル　ケンガ　アルソウデス。<wait>
   kanji: アビオンの塔には魔力を封じる剣があるそうです。
-  literal: I hear that there's an enchanted sword in Abion Tower.<wait>
+  literal: I hear that there's an enchanted sword in Avion Tower.<wait>
   us: |
     THERE IS A MAGIC<line>
     SWORD IN A TOWER<wait more>
@@ -6405,7 +6437,7 @@
     チョウコオネーサンデース。<wait more>
     ガンバッテ　ボウケンヲ　ツヅケテネ。<wait>
   kanji: ちょう子お姉さんでーす。頑張って冒険を続けてね。
-  literal: It's me, Choko Oneesan! Be brave and strong as you continue your quest!<wait>
+  literal: It's me, Choko-oneesan! Good luck on your adventure!<wait>
   us: |
     THE TOP OF THE <line>
     HILL CALLED BAYA<wait more>
@@ -6435,7 +6467,9 @@
     私は毒ガスから身を守るガスクリア―装置がここに売っていると
     聞いたのだが店がどこにあるのか分からない。
     困った。困った。
-  literal: I heard that a store in this city sells an apparatus called a ‘GasClear’, which protects the body against poison gas. The only thing is, I can’t find the damn store! Sheesh!<wait>
+  literal: |
+    I heard that they sell a device called a GasClear here, which protects against poison gas.<wait more>
+    But I can't find the store anywhere! Now what do I do?<wait>
   us: |
     I HEARD THAT THEY<line>
     SELL GAS SHIELD<wait more>
@@ -6477,7 +6511,10 @@
     どんなご用でしょう。
     なーんちゃって。からかってごめん。
     勘弁してちょ。
-  literal: This is an item shop. What can I do for you? Haah haah! Sorry, I’m just kidding! Please forgive me.<wait>
+  literal: |
+    This is an item shop. What can I do for you?<wait more>
+    Juuust kidding! Sorry for pulling your leg.<wait more>
+    C'mon now, give me a break.<wait>
   us: |
     WELCOME TO OUR<line>
     STORE. WHAT CAN I<wait more>
@@ -6520,7 +6557,9 @@
     ガスクリアー、１０００メセタです。
     安いでしょ。買いますか。
   # <number> is always 1000.
-  literal: You must be pretty shocked to see a store in a place like this, huh? ‘GasClears’ are 1000 mesetas. Pretty cheap, no? You wanna buy one?<end>
+  literal: |
+    I bet you're surprised to find a store in a place like this, huh?<wait more>
+    One GasClear is <number> mesetas. Cheap, right? Will you buy one?<end>
   us: |
     I BET YOU ARE <line>
     SURPRISED TO SEE A<wait more>
@@ -6572,7 +6611,7 @@
   ja: オカネガナイノー。　シケテンナー。
   kanji: お金がないのー。時化てんなー。
   # Note: In the Japanese version, this one runs into the line below. It was corrected in the Mega Drive version.
-  literal: Really, now? You have no money? That's tough, man.<wait>
+  literal: Really, now? You have no money? That's tough.<wait>
   us: |
     YOU DON'T HAVE <line>
     ENOUGH MONEY!<wait>
