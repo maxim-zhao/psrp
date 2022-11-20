@@ -8563,7 +8563,7 @@
   pt-br: Quando Myau come as Frutas de Laerma, uma febre o domina e uma luz reluzente envolve seu corpo.<wait>
   ca: Quan en Myau mastega els Fruits de Laerma, una febra se'n apodera, i una llum encegadora cobreix el seu cos.<wait>
   es: Cuando Myau mastica los Frutos de Laerma, una fiebre se apodera de él, y una luz cegadora cubre su cuerpo.<wait>
-  de: Als Myau auf der Laermabeere rumkaute, wurde ihm heiß, und sein Körper wurde von grellem Licht umhüllt.<wait>
+  de: Als Myau auf der Laermabeere rumkaute, wurde ihm heiß, und sein Körper von grellem Licht umhüllt.<wait>
 
 - offsets: 4726
   indices: bcd8
@@ -8810,7 +8810,7 @@
   de: |
     Endlich habt ihr es geschafft. Ihr könnt euch glücklich schätzen, heute vor mir zu stehen.<wait more>
     Die, denen ich diene, haben mich unsterblich gemacht. Meine Macht kennt keine Grenzen mehr.<wait more>
-    Denkt ihr allen Ernstes, ihr könnt mich besiegen?<end>
+    Und ihr denkt allen Ernstes, ihr könntet mich besiegen?<end>
 
 - offsets: 5773
   # LaShiec (yes to previous question)
