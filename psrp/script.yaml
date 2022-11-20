@@ -6653,7 +6653,9 @@
   kanji: |
     この村はソピアといいます。
     毒ガスの中をようこそ来られました。
-  literal: This village is called Sopia. I’m glad that you were able to brave your way through the poison gas.<wait>
+  literal: |
+    This village is called Sopia.<wait more>
+    Welcome to the center of the poison gas.<wait>
   us: |
     THIS TOWN IS<line>
     CALLED SOPIA.<wait more>
@@ -6693,7 +6695,10 @@
     私はこの村の村長です。
     この霧のせいで他の町や村から閉ざされたソピアはとても貧しいのです。
     どうか４００メセタ寄付してください。
-  literal: I am the chief of this village. Due to the gas, Sopia is cut off from other towns and villages, and is therefore very poor. Could you by any chance offer a contribution of 400 mesetas?<end>
+  literal: |
+    I am the chief of this village.<wait more>
+    Due to the gas, Sopia is cut off from other towns and villages, and is therefore very poor.<wait more>
+    Could you by any chance offer a donation of <number> mesetas?<end>
   us: |
     I'M THE HEAD OF<line>
     THIS VILLAGE.<wait more>
@@ -6757,7 +6762,7 @@
     オタガイニ　マズシイノデスネ。<line>
     サビシイ　ヨノナカデス。<wait>
   kanji: お互いに貧しいのですね。寂しい世の中です。
-  literal: You are poor as well, eh? What a sad world in which we live.<wait>
+  literal: So we are both poor, then? What a sad world in which we live.<wait>
   us: |
     YOU HAVE A LITTLE<line>
     MONEY,TOO, I SEE.<wait>
@@ -6784,7 +6789,10 @@
     ありがとう。
     我々の言い伝えによればペルセウスがメデューサを倒したときに
     使った盾が湖にある島のサボテンの下に埋めてあるそうです。
-  literal: Thank you. According to local legend, the shield that Perseus used when he defeated Medusa is buried under a cactus on the island in the middle of the lake.<wait>
+  literal: |
+    Thank you.<wait more>
+    According to local legend, the shield that Perseus used when he defeated Medusa is buried under a cactus on the<wait more>
+    island in the middle of the lake.<wait>
   us: |
     THANKS! ACCORDING<line>
     TO OUR LEGENDS,<wait more>
@@ -6830,7 +6838,7 @@
     アタシ　ゲーマーノ　ミキチャンヨ。<line>
     アナタ　マスターシステム　カッタ。<end>
   kanji: アタシ、ゲーマーのみきちゃんよ。あなた、マスターシステム買った。
-  literal: I'm Gamer Miki-chan! Do you own a Master System?<end>
+  literal: I'm Gamer Miki-chan! Did you buy a Master System?<end>
   us: |
     HI! I'M MIKI!<line>
     DO YOU LIKE<wait more>
@@ -6869,7 +6877,7 @@
     ヤッダー　アナタ　ハヤク　カッテ<line>
     ラッシャイヨー　モー　プン　プン。<wait>
   kanji: やっだー、あなた、早く買ってらっしゃいよー、もー、プンプン。
-  literal: Aawww! That’s no good! Hurry up and buy one! Hmph!<wait>
+  literal: Awww! That’s no good! Hurry up and buy one! Hmph!<wait>
   us: |
     I CAN'T BELIEVE<line>
     IT. IF YOU DON'T<wait more>
@@ -6903,7 +6911,7 @@
     ラシークガ　ケンリョクヲ　ニギル<line>
     マエハ　コノムラモ　ユタカダッタ。<wait>
   kanji: ラシークが権力を握る前はこの村も豊かだった。
-  literal: Before LaShiec’s powerful grasp, this village was very wealthy.<wait>
+  literal: Before LaShiec came into power, even this village used to be wealthy.<wait>
   us: |
     BEFORE LASSIC CAME
     TO POWER, EVEN OUR<wait more>
@@ -6922,7 +6930,7 @@
     ミズウミノ　ミナミノ　ヤマノ　ナカニ
     タジム　トイウ　ドウシガ　イマス。<wait>
   kanji: 湖の南の山の中にタジムという道士がいます。
-  literal: There’s a monk named Tajimu living in the mountains South of the lake.<wait>
+  literal: There’s a monk named Tajim living in the mountains south of the lake.<wait>
   us: |
     THERE IS A MONK<line>
     NAMED TAJIM IN THE<wait more>
@@ -6956,7 +6964,7 @@
     パルマセイハ　キレイナ　ホシダト<line>
     キキマシタガ　ホントウデスカ。<end>
   kanji: パルマ星は綺麗な星だと聞きましたが本当ですか。
-  literal: I heard that Palma is a very beautiful planet. Is it really true?<end>
+  literal: I heard that Palma is a very beautiful planet. Is that true?<end>
   us: |
     I'VE HEARD THAT<line>
     THE PALMA IS A<wait more>
@@ -6974,7 +6982,7 @@
   indices: 206
   ja: イッテミタイナー。<wait>
   kanji: 行ってみたいなー。
-  literal: Ooh, I want to go there so bad!<wait>
+  literal: Oh, I want to go there so bad!<wait>
   us: |
     I'D LIKE TO GO<line>
     VISITING SOMEDAY.<wait>
@@ -6994,7 +7002,7 @@
     ソウデスカ。ワタシハ　モット<line>
     クウキノ　キレイナトコロヘイキタイ。<wait>
   kanji: そうですか。私はもっと空気の綺麗な所へ行きたい。
-  literal: Oh, I see. I want to go to a place with cleaner air.<wait>
+  literal: Oh, I see. I'd like to go to somewhere with cleaner air.<wait>
   us: |
     NO? I'D LIKE TO GO
     SOMEWHERE THE AIR<wait more>
@@ -7034,7 +7042,7 @@
     オマエサンガタハ　ドナタカナ。<line>
     ルツガ　オル。シッテオルカ。<end>
   kanji: お前さん方はどなたかな。ルツがおる。知っておるか。
-  literal: Who, may I ask, are you? I have a student named Lutz. Do you know him?<end>
+  literal: Who, may I ask, are you? There is a man named Lutz. Do you know him?<end>
   us: |
     AND WHO ARE YOU?<line>
     FIND MY PUPIL NOAH<wait more>
@@ -7068,7 +7076,7 @@
     ルツニ　ツタエネバ　ナラヌコトガ<line>
     アル。　ツレテキテハ　クレマイカ。<wait>
   kanji: ルツに伝えねばならぬことがある。連れて来てはくれまいか。
-  literal: There is something I must tell Lutz. Would you please escort him to me?<wait>
+  literal: There is something I must tell him. Would you please escort him to me?<wait>
   us: |
     I'VE SOMETHING<line>
     I MUST TELL HIM.<wait more>
@@ -7097,7 +7105,7 @@
     ソウカ。　ナラバ　イッテモ<line>
     シカタノナイコトジャノウ。<wait>
   kanji: そうか。ならば言っても仕方のないことじゃのう。
-  literal: I see. In that case, I guess it’s pointless for us to talk.<wait>
+  literal: I see. Then there is no point in talking with you any further.<wait>
   us: |
     IN THAT CASE,<line>
     THERE IS NO POINT<wait more>
@@ -7117,7 +7125,7 @@
     オオ　ワガデシ　ルツヨ。　ツイニ<line>
     ラシークヲ　タオス　タビニデルカ。<wait>
   kanji: おお、我が弟子ルツよ。ついにラシークを倒す旅に出るか。
-  literal: Ah. My student, Lutz! I see you are finally on your way to defeating LaShiec.<wait>
+  literal: Ah. My student, Lutz! I see you are finally setting out to defeat LaShiec.<wait>
   us: |
     AH,MY YOUNG PUPIL,
     NOAH. YOU ARE <wait more>
@@ -7139,7 +7147,7 @@
     オヤ。シンデオルノカ。ナサケナイ。<line>
     イキカエッテ　デナオスガイイ。<wait>
   kanji: おや。死んでおるのか。情けない。生き返って出直すがいい。
-  literal: Oh. You're dead. What a pity. Resurrect him and then come again.<wait>
+  literal: Oh. You're dead? What a pity. Come back to life and then return here again.<wait>
   us: |
     YOU HAVE GOTTEN<line>
     YOURSELF KILLED?<wait more>
@@ -7161,8 +7169,7 @@
     デハ　ソツギョウノ　シケンヲ　シテ<line>
     ヤロウ。ワシト　タタカウガヨイ。<wait>
   kanji: では、卒業の試験をしてやろう。わしと戦うが良い。
-  literal: |
-    That being the case, I'll give you your final test: a duel with me!<wait>
+  literal: In that case, I'll give you your final test: we will duel!<wait>
   us: |
     COME,YOU MUST PASS<line>
     YOUR FINAL TEST---<wait more>
@@ -7191,7 +7198,11 @@
     それだけの力があれば良い。
     わしからの贈り物としてお前の体を守ってくれるじゃろう。
     では、行くが良い。
-  literal: You’ve become strong, my boy! You have all the power you’ll ever need. Here is my gift to you. It will protect your body from harm. Well then, you’d best be on your way.<wait>
+  literal: |
+    You’ve become strong, Lutz!<wait more>
+    You have all the power you’ll ever need.<wait more>
+    Here is my gift to you. It will protect your body from harm.<wait more>
+    Now go!<wait>
   us: |
     YOU HAVE BECOME<line>
     MUCH STRONGER...<wait more>
@@ -7235,7 +7246,7 @@
     マダマダ　シュギョウガ　タリンノウ。
     デナオシテクルガヨイ。<wait>
   kanji: まだまだ修行が足りんのう。出直して来るが良い。
-  literal: You still haven’t trained enough. You should come back later.<wait>
+  literal: You still need more training. Come back another time.<wait>
   us: |
     YOU ARE NOT YET<line>
     READY! YOU MUST GO<wait more>
@@ -7283,7 +7294,7 @@
     トナリノ　ブラクハ<line>
     ウソツキバカリダ。キヲツケナヨ。<wait>
   kanji: 隣の部落は嘘つきばかりだ。気を付けなよ。
-  literal: Those guys in the village next to us are all a bunch of liars. Be careful, eh.<wait>
+  literal: The neighboring village is full of liars, it is. Watch out, you better.<wait>
   us: |
     THE NEIBORING<line>
     VILLAGE ARE ALL<wait more>
@@ -7305,7 +7316,7 @@
     コノムラノ　キタノ　ヤマノムコウニ<line>
     コロナノトウガ　アルズラ。<wait>
   kanji: この村の北の山の向こうにコロナの塔があるズラ。
-  literal: Corona Tower lies on the other side of the mountains to the North of this village, eh.<wait>
+  literal: Corona Tower is on the other side of the mountains to the north, it is.<wait>
   us: |
     ZE CORONA TOWER<line>
     STANDS ON ZE<wait more>
@@ -7333,7 +7344,9 @@
   kanji: |
     コロナの塔の西にはデゾリスの洞窟があるズラ。
     わしらの仲間がいるズラ。よろしくズラ。
-  literal: To the West of Corona Tower is Dezoris Cave, eh. Please send my regards to our comrades there, eh.<wait>
+  literal: |
+    West of Corona Tower is Dezoris Cave, it is.<wait more>
+    Our friends live there, they do. Say hi to them, you should!<wait>
   us: |
     TO ZE WEST OF ZE<line>
     CORONA TOWER IS<wait more>
@@ -7366,7 +7379,10 @@
     ラエルマツリーにはラエルマベリーという木の実がなるズラよ。
     あの木の実は美味しいからわしらの食料にしたいけど
     ラコニアの壺に入れないと干からびてしまうズラよ。
-  literal: Laerma trees make berries called ‘Laerma Berries’, eh. Those berries are real tasty, eh. We wanna use them for food, eh, but if we don’t put them into a ‘Laconian Pot’, they just get all shriveled up, eh.<wait>
+  literal: |
+    Laerma Trees bear a fruit called Laerma Berries, they do.<wait more>
+    Those berries are real tasty and we'd like to make dishes out of them, we would.<wait more>
+    But if they're not put into a Laconian Pot, they quickly shrivel up, they do.<wait>
   us: |
     LAERMA TREES GROW<line>
     ZE LAERMA BERRIES.<wait more>
@@ -7411,7 +7427,7 @@
     エアロプリズム　トイウノヲ<line>
     シッテルズラカ。<end>
   kanji: エアロプリズムというのを知ってるズラか。
-  literal: Do you know about the ‘Aeroprism’?<end>
+  literal: Heard of something called an Aeroprism, have you?<end>
   us: |
     DO YOU KNOW WHAT<line>
     AN AEROPRISM IS?<end>
@@ -7429,7 +7445,7 @@
     コノヨト　チガウ　セカイガ<line>
     ミエルソウズラヨ。<wait>
   kanji: この世と違う世界が見えるそうズラよ。
-  literal: I hear you can use it to look at other worlds, eh.<wait>
+  literal: I hear you can see other worlds with one, you can.<wait>
   us: |
     IT LETS YOU SEE<line>
     ANOTHER WORLD.<wait>
@@ -7445,7 +7461,7 @@
   indices: 1DA
   ja: イチド　ミテミタイモノズラヨ。<wait>
   kanji: 一度見てみたいものズラよ。
-  literal: I’d really like to see it at least once, eh.<wait>
+  literal: I’d really like to look into one sometime, I would.<wait>
   us: |
     I'D LIKE TO SEE<line>
     ONE SOMETIME.<wait>
@@ -7463,7 +7479,7 @@
     コノブラクノ　ミンナハ　パルマノ<line>
     ヒトビトヲ　キラッテルズラ。<wait>
   kanji: この部落のみんなはパルマの人々を嫌ってるズラ。
-  literal: All the people in this village hate those Palmans, eh.<wait>
+  literal: Everyone here hates Palmans, we do.<wait>
   us: |
     WE OF ZIS TOWN<line>
     HATE PALMANS.<wait>
@@ -7481,7 +7497,7 @@
     コロナノトウニハ　イノチノイズミガ<line>
     アルンダス。<wait>
   kanji: コロナの塔には命の泉があるんダス。
-  literal: There's a Fountain of Youth in Corona Tower, y’know.<wait>
+  literal: There is a fountain of youth inside Corona Tower, yes, there is.<wait>
   us: |
     THERE IS A SPRING<line>
     OF LIFE IN THE <wait more>
@@ -7502,7 +7518,7 @@
     <number>カイデ　ワープデキルンダスヨ。<wait>
   # <number> is always 10.
   kanji: デゾリスの洞窟の地下１０階でワープできるんダスよ。
-  literal: There's a warp on the 10th underground floor of Dezoris cave, y’know.<wait>
+  literal: You can warp from the tenth underground level of Dezoris Cave, yes, you can.<wait>
   us: |
     YOU CAN WARP FROM <line>
     THE 10TH LEVEL OF<wait more>
@@ -7524,7 +7540,7 @@
     ラエルマベリーハ　アオイイロヲシタ<line>
     キノミデ　センリョウニ　ツカウダス。<wait>
   kanji: ラエルマベリーは青い色をした木の実で染料に使うダス。
-  literal: Laerma Berries are colored blue. We use them as a dye, y’know.<wait>
+  literal: Laerma Berries are colored blue, yes, they are. We use them as a dye, indeed, we do.<wait>
   us: |
     LAERMA BERRIES ARE<line>
     BLUE LAERMA NUTS<line>
@@ -7546,7 +7562,7 @@
     ラエルマツリーノ　マエデ　クリスタル
     ヲ　ツカウト　ミガ　ナルンダス。<wait>
   kanji: ラエルマツリーの前でクリスタルを使うと実がなるんダス。
-  literal: If you use a crystal in front of the Laerma Tree, berries will grow, y’know.<wait>
+  literal: If you use a crystal in front of the Laerma Tree, berries will grow, yes, they will.<wait>
   us: |
     IF YOU USE A<line>
     CRYSTAL IN FRONT<wait more>
@@ -7570,7 +7586,7 @@
     コノブラクハ　パルマノ　ヒトビトヲ<line>
     カンゲイシマス。<wait>
   kanji: この部落はパルマの人々を歓迎します。
-  literal: This village welcomes Palmans.<wait>
+  literal: We here welcome Palmans, yes, we do.<wait>
   us: |
     THIS TOWN WELCOMES
     ALL PALMANS,YES,<wait more>
@@ -7587,7 +7603,7 @@
   # We add a script entry here. The original game accidentally uses an entry from Sopia.
   indices: n/a
   ja: n/a
-  literal: The neighboring villagers are all liars. Be careful.<wait>
+  literal: The neighboring village is full of liars, yes, it is. You better watch out, yes, you should.<wait>
   en: The neighboring villagers lie. Really!<wait>
   fr: Gars dans autre village être toussa menteurs. Moissa pas mentir.<wait>
   pt-br: Esses caras na outra vila são todos mentirosos. Tome cuidado!<wait>
@@ -7634,7 +7650,7 @@
     ナニシニキタダ。　オメエタチ<line>
     ワルサ　スンデネエゾ。<wait>
   kanji: 何しに来ただ。おめえたち悪さすんでねえぞ。
-  literal: What is your business here? Don’t cause any trouble!<wait>
+  literal: What did you come here for? You better not cause any trouble!<wait>
   us: |
     WHAT HAVE YOU COME
     FOR? DO YOU INTEND<wait more>
@@ -7650,7 +7666,7 @@
   indices: 236
   ja: イヤナ　ヨカンガスル。<wait>
   kanji: イヤな予感がする。
-  literal: I’ve got a baad feeling about this...<wait>
+  literal: I’ve got a bad feeling about this...<wait>
   us: |
     I HAVE AN UNEASY<line>
     FEELING.<wait>
@@ -7674,7 +7690,9 @@
     ここだけの話しだが、ダモアという占い師のもっているクリスタルを
     ラシークさまは嫌っておられる。
     何か秘密があるに違いない。
-  literal: Don’t let this get out, but there's a fortune-teller named Damoa who is in possession of a crystal that LaShiec hates. There must be something secret about that crystal.<wait>
+  literal: |
+    Don’t let this get out, but there's a fortune-teller named Damoa who possesses a crystal that Lord LaShiec hates.<wait more>
+    There must be something secret about it.<wait>
   us: |
     LASSIC LIVES IN<line>
     FEAR OF THE <wait more>
@@ -7722,7 +7740,9 @@
     この火は百年に一度の日食の時に付けたものだ。
     ドラゴンの持っている宝石をくれるならば
     少し分けてあげても良いがどうだ。
-  literal: This flame is lit during each centennial solar eclipse. If you give me a dragon’s jewel, however, I’ll share the flame with you. Do we have an agreement?<end>
+  literal: |
+    This flame is lit during the solar eclipse, which occurs once every hundred years.<wait more>
+    If you give me a dragon’s jewel, I’ll share some of it with you. What do you say?<end>
   us: |
     THIS FIRE WAS LIT<line>
     DURING THE ECLIPSE<wait more>
@@ -7780,7 +7800,7 @@
     デハ　イクリプストーチヲ<line>
     ウケトルガイイ。<wait>
   kanji: ではイクリプストーチを受け取るがいい。
-  literal: Well then, please accept this ‘Eclipse Torch’.<wait>
+  literal: Well then, please accept this Eclipse Torch.<wait>
   us: |
     HERE, TAKE THIS <line>
     ECLIPSE TORCH.<wait>
@@ -7798,7 +7818,7 @@
     イラナイノカ。ソレジャア　オメエハ<line>
     ナニシニ　キタンダ。<wait>
   kanji: 要らないのか。それじゃあ、おめえは何しに来たんだ。
-  literal: You don’t want it?! Then, what did you come here for?<wait>
+  literal: You don’t want it?! Then what did you come here for?<wait>
   us: |
     NO? THEN WHAT DID<line>
     YOU COME FOR?<wait>
@@ -7816,7 +7836,7 @@
     ホウセキヲ　モッテナイデハナイカ。<line>
     ナメルナヨ。<wait>
   kanji: 宝石を持っていないではないか。舐めるなよ。
-  literal: You mean to say you don’t have the jewel?! Don’t toy with me!<wait>
+  literal: Why, you have no such jewel! Don’t toy with me!<wait>
   us: |
     YOU HAVE NO GEM!<line>
     DO I LOOK LIKE A<wait more>
@@ -7843,7 +7863,9 @@
   kanji: |
     私、お手紙チエちゃんよ。いつもお便りありがとう。
     このゲームの感想を聞かせてね。待ってるわ。
-  literal: I am 'Otegami Chie-chan!’ Thanks for all your letters. Please tell us how you feel about this game. We’ll be waiting.<wait>
+  literal: |
+    I am Otegami Chie-chan! Thanks for all your letters.<wait more>
+    Please tell us how you feel about this game. We’ll be waiting.<wait>
   us: |
     RAISE THE <line>
     AEROPRISM TOWARDS<wait more>
@@ -7887,7 +7909,7 @@
     <player>ハ　<item>ヲ<line>
     テンニ　カザシタ。<delay>
   kanji: <playerは<item>を天にかざした。
-  literal: Alisa held the 'Eclipse Torch' over her head.<wait>
+  literal: <player> held <article><item> up towards the sky.<delay>
   us: |
     <player> RAISES<line>
     <item> TOWARDS<wait more>
@@ -7906,7 +7928,7 @@
     <player>ハ　ラエルマベリーヲ　トッテ<line>
     ラコニアンポットニ　イレタ。<wait>
   kanji: <player>はラエルマベリーを取ってラコニアンポットに入れた。
-  literal: Alisa took the ‘Laerma Berries’ and put them in the ‘Laconian Pot’.<wait>
+  literal: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
   us: |
     <player> TAKES THE NUT<line>
     OF LAERMA AND PUTS<wait more>
@@ -7926,7 +7948,7 @@
     ラエルマベリーヲ　トッテミタガ<line>
     シバラクスルト　ヒカラビテシマッタ。<wait>
   kanji: ラエルマベリーを取ってみたがしばらくすると干からびてしまった。
-  literal: Alisa tried to pick some Laerma Berries, but they dried up after a short while.<wait>
+  literal: <player> tried to pick up some Laerma Berries, but they shriveled up immediately!<wait>
   us: |
     <player> TAKES THE NUT<line>
     OF LAERMA, BUT IT<wait more>
@@ -7992,7 +8014,7 @@
     ラシークヲ　タオソウナンテ<line>
     ムボウダヨ。<wait>
   kanji: ラシークを倒そうなんて無謀だよ。
-  literal: Defeat LaShiec?! That’s nonsense!<wait>
+  literal: It's foolhardy to try to defeat LaShiec!<wait>
   us: |
     IT'S FOOLISH TO<line>
     TRY TO GET LASSIC!<wait>
@@ -8030,7 +8052,7 @@
     グアランニアル　ヨロイヲ<line>
     テニイレタカイ。<end>
   kanji: グアランにある鎧を手に入れたかい。
-  literal: Have you gotten the armor from Guaran?<end>
+  literal: Did you get the armor in Guaran?<end>
   us: |
     HAVE YOU FOUND THE<line>
     ARMOR IN GUARON?<end>
@@ -8048,7 +8070,7 @@
     ソレハ　オトシアナノ　ムコウガワニ<line>
     アルンダヨ。<wait>
   kanji: それは落とし穴の向こう側にあるんだよ。
-  literal: It’s on the other side of a pitfall!<wait>
+  literal: It’s on the other side of a pitfall.<wait>
   us: |
     IT CAN BE FOUND ATTHE
     FAR SIDE OF<wait more>
@@ -8065,7 +8087,7 @@
   indices: 22C
   ja: キミッテ　スゴイネ。<wait>
   kanji: 君って、凄いね。
-  literal: Damn! You’re pretty cool!<wait>
+  literal: Wow, you’re amazing!<wait>
   us: |
     WELL,AREN'T YOU <line>
     SOMETHING?<wait>
@@ -8120,7 +8142,9 @@
   kanji: |
     バヤマーレの丘の上には塔がある。
     あの塔に秘密が隠されているに違いない。
-  literal: There is a tower on top of Baya Marlay knoll. There must be secrets hidden inside.<wait>
+  literal: |
+    There is a tower on top of the knoll of Baya Marlay.<wait more>
+    There must be secrets hidden inside.<wait>
   us: |
     THERE IS A TOWER<line>
     OF THE TOP OF<wait more>
@@ -8144,7 +8168,7 @@
     コノサキヘハ　イカナイホウガ<line>
     イイヨ。　ケイビヘイガ　イルンダ。<wait>
   kanji: この先へは行かないほうがいいよ。警備兵がいるんだ。
-  literal: You’d better not go any further, ‘cuz there’s a guard stationed up there.<wait>
+  literal: You’d better not go any further, there’s a security guard up ahead.<wait>
   us: |
     THERE ARE GUARDS<line>
     UP AHEAD!<wait>
@@ -8165,7 +8189,9 @@
   kanji: |
     どれどれ
     ロボットだと思ってなめるなよ。牢にぶち込んでやる。
-  literal: Let me see here... Don't think you can fool me just because I'm a robot! Let me show you to your cell.<wait>
+  literal: |
+    Let me see here...<wait more>
+    Don't think you can fool me just because I'm a robot! Let me show you to your cell.<wait>
   us: |
     THIS IS A FAKE!<line>
     DO YOU THINK YOU <wait more>
@@ -8205,7 +8231,9 @@
   kanji: |
     おお、あんたも閉じ込められたのか、可愛そうに。
     外に出る方法はあるじゃが、わしはここにいるほうが気楽でいいわい。
-  literal: Oh! So you’re locked up in here as well? How tragic. There IS a way to get outside, but I'D rather stay here where it's nice and cozy.<wait>
+  literal: |
+    Oh! So you got locked up in here, as well? How tragic.<wait more>
+    There is a way to get outside, but I'd rather stay here where life is so much easier.<wait>
   us: |
     YOU HAVE BEEN<line>
     LOCKED UP,TOO<wait more>
@@ -8305,7 +8333,7 @@
     ワシハ　セカイイチノ　ウラナイシ<line>
     ワシノ　ウラナイヲ　シンジルカ。<end>
   kanji: わしは世界一の占い師。わしの占いを信じるか。
-  literal: I am the World’s Greatest Fortune Teller! Do you believe in my divinations?<end>
+  literal: I am the world’s greatest fortune-teller! Do you believe in my divinations?<end>
   us: |
     I'M THE GREAT <line>
     DAMOR, SOOTHSAYER!<wait more>
@@ -8351,7 +8379,7 @@
     ナンジャト。　　オマエハ<line>
     スナオデナイ。　カエルガイイ。<wait>
   kanji: 何じゃと。お前は素直でない。帰るがいい。
-  literal: What did you say? You are very disobedient. I think you should leave.<wait>
+  literal: What did you say? Such impudence! Leave at once!<wait>
   us: |
     LEAVE MY SIGHT,<line>
     UNBELIEVER!<wait>
@@ -8402,7 +8430,7 @@
     ワシノ　イウコトハ　スベテ　タダシイ
     ノジャ。　ワカッタカ。<end>
   kanji: わしの言う事は全て正しいのじゃ。分かったか。
-  literal: Everything I say is correct. Understand?<end>
+  literal: Everything I say is correct. Understood?<end>
   us: |
     EVERYTHING I'VE<line>
     SAID IS CORRECT?<end>
@@ -8433,7 +8461,7 @@
   indices: 15A
   ja: ワシニ　サカラウノカ。<end>
   kanji: わしに逆らうのか。
-  literal: Do you oppose me?<end>
+  literal: Do you defy me?<end>
   us: |
     DO YOU CONTRADICT<line>
     THE GREAT DAMOR?!?<end>
@@ -8478,7 +8506,7 @@
     マボロシノ　エアロキャッスルガ<line>
     オオゾラニ　スガタヲ　アラワシタ。<wait>
   kanji: 幻のエアロキャッスルが大空に姿を現した。
-  literal: The illusionary ‘Aerocastle’ materialized in the vast open sky.<wait>
+  literal: The illusionary Aerocastle materialized in the vast open sky.<wait>
   us: |
     A VISION OF A<line>
     CELESTIAL CASTLE<wait more>
@@ -8498,7 +8526,7 @@
     ミャウハ　ラエルマベリーヲ<line>
     カジッタ。<wait>
   kanji: ミャウはラエルマベリーをかじった。
-  literal: Myau took a bite of the ‘Laerma Berry’.<wait>
+  literal: Myau took a bite of the Laerma Berry.<wait>
   us: |
     MYAU ATE THE NUT<line>
     OF LAERMA.<wait>
@@ -8523,7 +8551,7 @@
     ミャウノ　カラダハ　ネツヲ　オビ<line>
     マバユイ　ヒカリニ　ツツマレタ。<wait>
   kanji: ラエルマベリーをかじるとミャウの体は熱を帯び眩い光に包まれた。
-  literal: As Myau chewed the Laerma Berry, his body was enveloped by a warm and dazzling light.<wait>
+  literal: As Myau chewed the Laerma Berry, a fever swept over him, and a dazzling light engulfed his body.<wait>
   us: |
     WHEN MYAU EATS THE<line>
     NUTS OF LAERMA, HE<line>
@@ -8550,7 +8578,9 @@
   kanji: |
     そして見る見るうちにミャウは大きな翼をもった美しい獣へと変わった。
     ミャウは得意そうに一つ羽ばたいて見せた。
-  literal: Suddenly, Myau transformed into a beautiful large-winged beast. He proudly flapped his wings.<wait>
+  literal: |
+    And then, in an instant, he transformed into a beautiful beast with enormous wings.<line><line>
+    Myau proudly flapped his wings for all to see.<wait>
   us: |
     WHEN HE IS VISIBLE<line>
     AGAIN, HE HAS BEEN<line>
@@ -8591,7 +8621,7 @@
     ミャウニ　ノッテイタ　アリサタチハ<line>
     ソラニ　ホウリダサレテシマッタ。<wait>
   kanji: ミャウに乗っていたアリサたちは空に放り出されてしまった。
-  literal: Alisa and her companions were flung into the sky.<wait>
+  literal: Riding on Myau, Alisa and her companions were thrown into the sky.<wait>
   us: |
     ALIS AND HER<line>
     COMPANY ON MYAU,<wait more>
@@ -8630,7 +8660,7 @@
     ダンジョンノ　ナカデハ　オノレノ<line>
     メヲ　シンジルデナイゾ。<wait>
   kanji: ダンジョンの中では己の目を信じるでないぞ。
-  literal: You can't always trust your eyes in dungeons.<wait>
+  literal: Do not trust your own eyes in dungeons.<wait>
   us: |
     DON'T BELIEVE YOUR<line>
     OWN EYES IN THE <wait more>
@@ -8649,7 +8679,7 @@
   indices: 26A
   ja: ラシークサマニ　サカラウナ。<wait>
   kanji: ラシーク様に逆らうな。
-  literal: Do not defy the great LaShiec.<wait>
+  literal: Do not defy Lord LaShiec.<wait>
   us: |
     DON'T GO AGAINST<line>
     LASSIC!<wait>
@@ -8698,7 +8728,9 @@
   kanji: |
     オレはラシーク様の影武者だ。
     オレを倒したところでどうにもならないのさ。ひっひっ。
-  literal: I am King LaShiec’s body double. You have gained nothing by defeating me! Hee hee hee!<wait>
+  literal: |
+    I am King LaShiec’s body double.<wait more>
+    You have gained nothing by defeating me! Hee hee!<wait>
   us: |
     I'M BUT ONLY<line>
     LASSIC'S SHADOW!<wait more>
@@ -8737,7 +8769,9 @@
   kanji: |
     到頭ここまで来たか。運のいい奴らめ。
     そんなにわしを倒したいのか。
-  literal: And so you finally arrive. How fortunate you are. Do you really wish to defeat me?<end>
+  literal: |
+    And so you finally arrive. How fortunate you fools are.<wait more>
+    Do you really wish to defeat me?<end>
   us: |
     AH, MY CHILDREN,<line>
     YOU HAVE DONE VERY<wait more>
@@ -8786,7 +8820,9 @@
     ソノ　カンガエガ　マチガッテイタ<line>
     コトヲ　オモイシルガイイ。<wait>
   kanji: そうか。それならばその考えが間違っていたことを思い知るがいい。
-  literal: I see. Then perhaps I should show you the error in your judgment!<wait>
+  literal: |
+    I see. In that case...<wait more>
+    You shall realize the error in your judgement!<wait>
   us: |
     ALL RIGHT! THEN<line>
     WE WILL FORGET<wait more>
@@ -8810,7 +8846,9 @@
     フザケタヤツラダ。<wait more>
     コウカイサセテヤル。<wait>
   kanji: この期に及んでふざけた奴らだ。公開させてやる。
-  literal: Even at this point you try to fool with me. I shall make you regret it!<wait>
+  literal: |
+    Even at this point you try to fool with me.<wait more>
+    I shall make you regret it!<wait>
   us: |
     EVEN NOW YOU TRY<line>
     TO FOOL WITH ME?<wait more>
@@ -8836,7 +8874,10 @@
     ラシークは倒した。
     アリサの願いは叶えられた。天国のネロもきっと喜んでいることだろう。
     さあ、パセオの総督の元へ急ごう。
-  literal: LaShiec has fallen. Alisa’s wish has come true. Nero must be rejoicing in Heaven, too. Now hurry back to the Governor-General in Paseo!<wait>
+  literal: |
+    LaShiec has fallen.<wait more>
+    Alisa's wish has come true. Even Nero must be happy in Heaven now.<wait more>
+    Now, hurry back to the Governor-General in Paseo!<wait>
   us: |
     LASSIC HAS DIED.<line>
     ALIS ACCOMPLISHED<wait more>
@@ -8954,11 +8995,14 @@
     実はお前の父はアルゴルの王だった。
     悪魔の城は崩れ去り、ラシーク亡き、今お前は父の後を継ぎアルゴルの女王となるか。
   literal: |
-    Oh! My friends, please forgive me. It seems my mind and body had been enchanted by some sort of evil force.<line>
-    Well done! You have saved the world! If you had taken any longer, terrible events might have come to pass. I extend you my utmost appreciation.<line>
-    And now, Alisa, I have something I wish to tell you:<line>
-    The truth is, your father was once the King of Algol.<line>
-    Now that the demon’s fortress has been destroyed, and LaShiec is no more, will you be your father’s successor and become the Queen of Algol?<end>
+    Ohh! Please forgive me, everyone.<wait more>
+    It seems my mind and body had somehow been put under an evil spell.<wait more>
+    Well done on saving our world! If you had taken any longer, terrible things might have come to pass.<wait more>
+    I thank you from the bottom of my heart.<wait more>
+    Alisa. I have something to tell you:<wait more>
+    The truth is that your father was once the king of Algol.<wait more>
+    Now that the evil castle is destroyed and LaShiec is dead...<wait more>
+    Will you follow in your father's footsteps and become the queen of Algol?<end>
   us: |
     I'M SORRY, I MUST<line>
     HAVE BEEN<wait more>
@@ -9048,7 +9092,9 @@
   kanji: |
     そうか。それでこそアルゴル王の娘だ。
     私も手伝わせてもらうよ。
-  literal: I see. Then indeed, you are the daughter of the King of Algol. Please let me help you.<wait>
+  literal: |
+    I see. Then indeed, you are the daughter of the king of Algol!<wait more>
+    I, too, will assist you in every capacity.<wait>
   us: |
     THEN YOU ARE THE <line>
     VERY QUEEN OF THE <wait more>
@@ -9123,7 +9169,7 @@
     イマ　バヤマーレハ　サワヤカナ<line>
     ソヨカゼニ　ツツマレテイル。<end>
   kanji: 今バヤマーレは爽やかなそよ風に包まれている。
-  literal: Baya Marlay is covered by a refreshing breeze right now...<end>
+  literal: A cool, gentle breeze now surrounds Baya Marlay.<end>
   us: |
     A GENTLE BREEZE<delay>
     CARESSES<line>
@@ -9141,7 +9187,7 @@
     カレラノ　ナガク　クルシカッタタビヲ
     ソヨカゼハ　シッテイルノダロウカ。<end>
   kanji: 彼らの長く苦しかった旅をそよ風は知っているのだろうか。
-  literal: ...but does the breeze know of their long and difficult journey?<end>
+  literal: But does the breeze know of their long and difficult journey?<end>
   us: |
     BUT DOES THE <line>
     BREEZE KNOWS OF<delay>
@@ -9167,7 +9213,7 @@
     アリサ<delay>
     <line>
   kanji: アリサ
-  literal: Alisa<delay>
+  literal: "           Alisa,<delay>"
   us: |
     <line>
          ALIS<delay>
@@ -9184,7 +9230,7 @@
     タイロン<delay>
     <line>
   kanji: タイロン
-  literal: Tairon<delay>
+  literal: "           Tylon,<delay>"
   us: |
     <line>
          ODIN<delay>
@@ -9201,7 +9247,7 @@
     ルツ<delay>
     <line>
   kanji: ルツ
-  literal: Lutz<delay>
+  literal: "            Lutz,<delay>"
   us: |
     <line>
          NOAH<delay>
@@ -9218,7 +9264,7 @@
     ソシテ　ミャウ<delay>
     <line>
   kanji: そしてミャウ
-  literal: and Myau<delay>
+  literal: "          and Myau.<delay>"
   us: |
     <line>
          AND MYAU<delay>
