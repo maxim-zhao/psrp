@@ -78,9 +78,7 @@ CreditsScreen12: .db 4
   CreditsEntry 18,6,"PAUL JENSEN"
   CreditsEntry 13,10,"SATSU"
   CreditsEntry 18,15,"POPFAN"
-CreditsScreen13: .db 5
-  CreditsEntry 2,6,"LOCALISATION"
-  CreditsEntry 17,6,"FRANK CIFALDI"
+CreditsScreen13: .db 3
   CreditsEntry 13,10,"CODE"
   CreditsEntry 4,15,"Z80 GAIDEN"
   CreditsEntry 18,15,"MAXIM"
