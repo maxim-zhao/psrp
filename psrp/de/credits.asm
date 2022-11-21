@@ -30,13 +30,10 @@ CreditsScreen7: .db 4
   CreditsEntry 9,10,"MYAU CHOKO"
   CreditsEntry 17,15,"G CHIE"
   CreditsEntry 9,19,"YONESAN"
-CreditsScreen8: .db 7
+CreditsScreen8: .db 4
   CreditsEntry 10,6,"TON"
   CreditsEntry 18,6,"BO"
-  CreditsEntry 4,14,"SOFTWARE-"
-  CreditsEntry 3,15,"¨"
-  CreditsEntry 9,15,      "¨"
-  CreditsEntry 3,16,"UBERPRUFUNG"
+  CreditsEntry 5,15,"TESTER"
   CreditsEntry 18,15,"WORKS NISHI"
 CreditsScreen9: .db 5
   CreditsEntry 3,5,"PROGRAMMIER-"
