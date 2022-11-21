@@ -10281,11 +10281,7 @@
     <player>ハ　マダ　マジックヲ<line>
     オボエテイナイ。<delay>
   kanji: <player>はまだマジックを覚えていない。
-<<<<<<< HEAD
   literal: <player> hasn't learned magic yet.<wait>
-=======
-  literal: <player> hasn't learned any magic yet.<delay>
->>>>>>> master
   us: |
     <player> HAS NOT <line>
     LEARNED MAGIC YET<wait>
