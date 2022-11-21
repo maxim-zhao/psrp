@@ -3150,7 +3150,7 @@
   # Guard inside Underground Passage to Governor's Mansion (no to previous question)
   indices: 0A2
   ja: サッサト　カエレ。<wait>
-  kanji: さっさと還れ。
+  kanji: さっさと帰れ。
   literal: Leave at once!<wait>
   us: |
     GO BACK TO YOUR <line>
