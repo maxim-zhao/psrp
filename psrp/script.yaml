@@ -53,12 +53,12 @@
 # <de>, <do>, <del> = use possessive+article for an enemy (French, Brazilian Portuguese, Catalan/Spanish respectively)
 # <à> = use directive+article for an enemy or player (French)
 # <nom>, <dat>, <gen>, <acc> = use nominative, dative, genitive and accusative cases (German)
-# <he>/<she>,  <his>/<her> (en)        \ = pronouns. 
-# <il>/<elle>, <Il>/<Elle> (fr)        | These get used in place of the active player name.
-# <Sie>/<Er>,  <sie>/<er>  (de)        | Some situtations may use male players if 
-# <ela>/<ele>              (pt-br)     | Alisa is dead; others are only possible 
-# <ell>/<ella>, <el seu>/<la seva> (ca)| with a single player as the protagonist.
-# <él> (es)                            /
+# <he/she>, <his/her> (en)         \ = pronouns. 
+# <il/elle>, <Il/Elle> (fr)         | These get used in place of the active player name.
+# <Sie/Er>,  <sie/er>  (de)         | Some situtations may use male players if 
+# <ele/ela> (pt-br)                 | Alisa is dead; others are only possible 
+# <ell/ella>, <el seu/la seva> (ca) | with a single player as the protagonist.
+# <él/ella> (es)                   /
 # <player> = player name
 # <monster> = enemy name
 # <item> = item name
@@ -2483,27 +2483,26 @@
     ソシテ　ビンノ　フタヲ　アケテ<line>
     シズカニ　タラシタ。<delay>
   kanji: そして、ビンの蓋を開けて静かに垂らした。
-  literal: Then <she> opened the lid of the bottle, and the contents quietly spilled out...<wait>
+  literal: Then <he/she> opened the lid of the bottle, and the contents quietly spilled out...<wait>
   us: |
     THE BOTTLECAP<line>
     OPENS AND THE <wait more>
     CONTENTS QUIETLY<line>
     LEAK OUT.<wait>
-  # TODO add pronouns to other languages here?
   en: |
-    Then <she> opened the lid on the bottle and poured out its contents.<wait more>
+    Then <he/she> opened the lid on the bottle and poured out its contents.<wait more>
     It's working!<delay>
-  fr: <Elle> ouvre la bouteille et en verse le contenu.<delay>
+  fr: <Il/Elle> ouvre la bouteille et en verse le contenu.<delay>
   pt-br: |
-    Então, <ela> abriu a tampa da garrafa e despejou seu conteúdo.<wait more>
+    Então, <ele/ela> abriu a tampa da garrafa e despejou seu conteúdo.<wait more>
     Está funcionando!<delay>
   ca: |
-    Aleshores <ella> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
+    Aleshores <él/ella> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
     Està funcionant!<delay>
   es: |
-    Entonces <ella> abre el tapón del frasco y vierte su contenido.<wait more>
+    Entonces <ell/ella> abre el tapón del frasco y vierte su contenido.<wait more>
     ¡Está funcionando!<delay>
-  de: <Sie> öffnet die Flasche und leert den Inhalt aus...<delay>
+  de: <Sie/Er> öffnet die Flasche und leert den Inhalt aus...<delay>
 
 - offsets: 25af,260c,262d
   # Using "Alsuline" or "Polymeteral" but only Myau is alive
@@ -2512,17 +2511,17 @@
     シカシ　ミャウハ　ビンノ　フタヲ<line>
     アケルコトガ　デキナカッタ。<wait>
   kanji: しかし、ミャウはビンの蓋を開けることができなかった。
-  literal: But <she> couldn't get the lid open.<wait>
+  literal: But he couldn't get the lid open.<wait>
   us: |
     BUT MYAU CANNOT<line>
     OPEN THE BOTTLE.<wait>
-  # TODO as this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
+  # As this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
   en: But he couldn’t open the lid to the bottle.<wait>
   fr: Mais il ne peut pas ouvrir la bouteille.<wait>
   pt-br: Mas ele não consegue abrir a tampa da garrafa.<wait>
-  ca: Però <ell> no pot obrir el tap de l'ampolla.<wait>
-  es: Pero <él> no puede abrir el tapón del frasco.<wait>
-  de: Aber <sie> bekam die Flasche nicht auf.<wait>
+  ca: Però ell no pot obrir el tap de l'ampolla.<wait>
+  es: Pero él no puede abrir el tapón del frasco.<wait>
+  de: Aber sie bekam die Flasche nicht auf.<wait>
 
 
 # ********************************
@@ -6944,7 +6943,7 @@
     Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait more>
     They say he is the greatest magical combat trainer in Algol.<wait more>
     They also say he sees dead people...<wait>
-  # TODO (maybe) add this hint to other languages. It helps explain a possible 
+  # Maybe add this hint to other languages. It helps explain a possible 
   # scenario later where Tajim sees Lutz when he is dead.
   fr: |
     Avez-vous croisé Maître Tajim_? C'est un moine.<wait more>
@@ -6953,13 +6952,16 @@
     Você conheceu Tajim, o monge? Ele mora nas montanhas ao sul do lago.<wait more>
     Dizem que ele é o maior treinador mágico de Algol.<wait more>
     Também dizem que ele vê gente morta...<wait>
-  ca: Heu conegut en Tajim, el monjo? Viu a les muntanyes al sud del llac.<wait more>
-      Diuen que és el millor mestre de màgia de tot Algol.<wait more>
-      També diuen que pot veure als morts... <wait>
-  es: ¿Habéis conocido a Tajim el monge? Vive en las montañas al sur del lago.<wait more>
-      Dicen que es el mejor maestro de mágia de todo Algol.<wait more>
-      También dicen que puede ver a los muertos... <wait>
-  de: Im Gebirge südlich des Meers lebt ein Mönch namens Tajim.<wait>
+  ca: |
+    Heu conegut en Tajim, el monjo? Viu a les muntanyes al sud del llac.<wait more>
+    Diuen que és el millor mestre de màgia de tot Algol.<wait more>
+    També diuen que pot veure als morts... <wait>
+  es: |
+    ¿Habéis conocido a Tajim el monge? Vive en las montañas al sur del lago.<wait more>
+    Dicen que es el mejor maestro de mágia de todo Algol.<wait more>
+    También dicen que puede ver a los muertos... <wait>
+  de: |
+    Im Gebirge südlich des Meers lebt ein Mönch namens Tajim.<wait>
 
 - offsets: 5326
   # Villager
@@ -7919,7 +7921,7 @@
     <player> RAISES<line>
     <item> TOWARDS<wait more>
     THE SKY.<wait>
-  en: <player> held <article><item> up over <his> head.<delay>
+  en: <player> held <article><item> up over <his/her> head.<delay>
   fr: <player> tend <article><item> vers le ciel.<delay>
   pt-br: <player> levantou <article><item> ao céu.<delay>
   ca: <player> aixeca <article><item> cap al cel.<delay>
@@ -7944,7 +7946,7 @@
   pt-br: <player> pegou algumas Frutas de Laerma e colocou no Pote de Lacônia.<wait>
   ca: <player> agafa alguns Fruits de Laerma i els posa a l'olla de Laconia.<wait>
   es: <player> coge algunos Frutos de Laerma y los pone en la olla de Laconia.<wait>
-  de: <Sie> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
+  de: <Sie/Er> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
 
 - offsets: 26c4
   # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
@@ -7964,7 +7966,7 @@
   pt-br: <player> pegou algumas Frutas de Laerma, mas elas murcharam logo após serem colhidas!<wait>
   ca: <player> agafa alguns Fruits de Laerma, però s'encongeixen immediatament!<wait>
   es: <player> coge algunos Frutos de Laerma, ¡peró se encongen immediatamente!<wait>
-  de: <Sie> pflückt ein paar Laermabeeren, aber sie trocknen sofort aus!<wait>
+  de: <Sie/Er> pflückt ein paar Laermabeeren, aber sie trocknen sofort aus!<wait>
 
 
 # *******************
@@ -8633,7 +8635,6 @@
     ARE TOSSED INTO<line>
     THE SKY.<wait>
   en: His companions were flung from his back, tumbling through the sky towards their death.<wait>
-  # TODO: rewrite other languages here
   fr: Alisa et ses compagnons furent projetés de Myau, dans le ciel.<wait>
   pt-br: Seus companheiros foram arremessados de suas costas, caindo do céu em direção para a sua própria morte.<wait>
   ca: Els seus companys son arrancats de la seva esquena, caient del cel cap a la seva mort.<wait>
@@ -9653,7 +9654,7 @@
     <player>ハ　カラダニ　チカラガ<line>
     ミナギルノヲ　カンジタ。<delay>
   kanji: <player>は体に力が漲るのを感じた。
-  literal: <player> felt strength welling up inside <her> body.<delay>
+  literal: <player> felt strength welling up inside <his/her> body.<delay>
   us: |
     <player> IS BURSTING<line>
     WITH STRENGTH.<wait>
@@ -10122,20 +10123,20 @@
 - offsets: 273d
   # Use Laerma Berries in the wrong place
   # Comes immediately after "<player> took out the <item>."
-  # TODO: use pronouns, may not be Alisa.
+  # May not be Alisa.
   indices: aecf
   ja: |
     オナカガ　スイテナカッタノデ<line>
     モトニ　モドシタ。<wait>
   kanji: お腹が空いてなかったので元に戻した。
-  literal: Nobody’s hungry right now, so <she> put them back.<wait>
+  literal: Nobody’s hungry right now, so <he/she> put them back.<wait>
   us: |
     MYAU ISN'T HUNGRY,<line>
     SO SHE PUTS THE <wait more>
     FOOD BACK.<wait>
-  en: Nobody’s hungry right now, so <she> put them back.<wait>
-  fr: Myau n'ayant pas faim, <elle> les range.<wait>
-  pt-br: Ninguém está com fome agora, então <ela> as colocou de volta.<wait>
+  en: Nobody’s hungry right now, so <he/she> put them back.<wait>
+  fr: Myau n'ayant pas faim, <il/elle> les range.<wait>
+  pt-br: Ninguém está com fome agora, então <ele/ela> as colocou de volta.<wait>
   ca: Ningú té gana, així que les torna a guardar.<wait>
   es: Nadie tiene hambre, así que las vuelve a guardar.<wait>
   de: Niemand hat gerade Hunger, also werden sie wieder eingesteckt.<wait>
