@@ -75,12 +75,12 @@
     │シラベル║
     │セーブ ║
     ╘════╝
-  kanji:
+  kanji: |
     強さ
-    Magic
-    Item
+    マジック
+    アイテム
     調べる
-    Save
+    セーブ
   literal: |
     ┌────────╖
     │Strength║
@@ -154,7 +154,7 @@
     │ハイ ║
     │イイエ║
     ╘═══╝
-  kanji:
+  kanji: |
     はい
     いいえ
   literal: |
@@ -264,8 +264,8 @@
     ╘════╝
   kanji: |
     戦う
-    Magic
-    Item
+    マジック
+    アイテム
     話す
     逃げる
   literal: |
