@@ -9372,7 +9372,7 @@
   pt-br: <Article><monster> respondeu,<delay>
   ca: <Article><monster> respon,<delay>
   es: <Article><monster> responde,<delay>
-  de: <Nom><monster> antwortet:<delay>
+  de: <Nom><monster> antwortet.<delay>
 
 - offsets: 1ab7
   indices: ab57
@@ -12037,7 +12037,7 @@
   pt-br: Aqui está, <article><item>. Deseja equipar?<end>
   ca: Aquí tens, <article><item>. El vols equipar?<end>
   es: Aquí tienes, <article><item>. ¿Quieres equiparlo?<end>
-  de: Bitte sehr! Wollen Sie sich gleich damit ausrüsten?<end>
+  de: Wollen Sie sich gleich damit ausrüsten?<end>
 
 
 # There are a few unused script entries in the US script that are not present at all in the Japanese version:
