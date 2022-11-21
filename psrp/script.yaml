@@ -361,7 +361,7 @@
     きっと見守っていてね。兄さん。
   literal: |
     I will go and fight to make sure that your death was not in vain!<line><line>
-    Make sure to watch over me, Nero!<wait>
+    Watch over and protect me, Nero!<wait>
   us: |
     I WILL MAKE SURE<line>
     THAT MY BROTHER<line>
@@ -7173,7 +7173,7 @@
     デハ　ソツギョウノ　シケンヲ　シテ<line>
     ヤロウ。ワシト　タタカウガヨイ。<wait>
   kanji: では、卒業の試験をしてやろう。わしと戦うが良い。
-  literal: In that case, I'll give you your final test: we will duel!<wait>
+  literal: "In that case, I'll give you your final test: we will duel!<wait>"
   us: |
     COME,YOU MUST PASS<line>
     YOUR FINAL TEST---<wait more>
