@@ -663,7 +663,7 @@
   kanji: |
     力になれなくてごめん。
     無事を祈ってるよ。
-  literal: I'm sorry I can't help you any more. I hope you'll be safe.<wait>
+  literal: I'm sorry I can't help you any more. I pray for your safety.<wait>
   us: |
     I WISH I COULD<line>
     HELP YOU MORE.<wait more>
@@ -873,7 +873,7 @@
   indices: 024
   ja: トオッテ　ヨシ。<wait>
   kanji: 通って良し。
-  literal: You may pass.<wait>
+  literal: You may proceed.<wait>
   us: YOU MAY PROCEED.<wait>
   en: Okay, go on through.<wait>
   fr: Accès accordé. Allez-y.<wait>
@@ -1105,7 +1105,7 @@
     スペースポートカラ　モタビアセイノ<line>
     パセオ　マデ　イケルヨ。<wait>
   kanji: スペースポートからモタビア星のパセオまで行けるよ。
-  literal: You can travel to Paseo, on the planet Motavia, from the spaceport.<wait>
+  literal: From the spaceport you can travel to Paseo on Motavia.<wait>
   us: |
     FROM THE SPACEPORT<line>
     YOU CAN GO TO<wait more>
@@ -1136,7 +1136,7 @@
     パロリトノ　ニシニアル　ガシコノモリ
     ヘハ　チカツウロガ　アルラシイ。<wait>
   kanji: パロリトの西にあるガシコの森へは地下通路があるらしい。
-  literal: I hear that there's an underground passageway leading to Gothic Forest west of Parolit.<wait>
+  literal: I hear that there's an underground passage leading to the Gothic Forest west of Parolit.<wait>
   us: |
     THERE IS AN<line>
     UNDERGROUND<wait more>
@@ -1180,7 +1180,7 @@
     モタビア星にはモタビアン、デゾリス星にはデゾリアンという
     星人が住んでいるそうだよ。一度会って話してみたいな。
   literal: |
-    There are Motavians on Motavia and Dezorians on Dezoris.<wait more>
+    They say that there are Motavians on Motavia and Dezorians on Dezoris.<wait more>
     I'd love to meet and talk to them sometime.<wait>
   us: |
     THEY SAY THAT<line>
@@ -1279,7 +1279,7 @@
     ラシーク　ヲ　タオシニイクンダッテ<line>
     ナ。　ガンバレヨ。<wait>
   kanji: ラシークを倒しに行くんだってな。頑張れよ。
-  literal: You’re on a quest to defeat LaShiec, huh? Well, good luck!<wait>
+  literal: You’re on a quest to defeat LaShiec, huh? Best of luck!<wait>
   us: |
     I HEAR YOU ARE <line>
     GOING TO TRY<wait more>
@@ -1557,7 +1557,7 @@
   kanji: |
     駄目なものはダメだ。
     さー、帰った。帰った。
-  literal: I already told you no can do! Now get out!<wait>
+  literal: I already told you no can do! Go back to wherever you came from!<wait>
   us: |
     I TELL YOU NO ONE<line>
     CAN DO.GO ON BACK<wait more>
@@ -1627,7 +1627,7 @@
     モリノナカデ　ミチニ　マヨッテ<line>
     シマッタ。<wait>
   kanji: 森の中で道に迷ってしまった。
-  literal: You got lost in the forest.<wait>
+  literal: You got lost in the woods.<wait>
   us: |
     THE PATH IN THE <line>
     WOODS IS UNCLEAR.<wait>
@@ -1709,7 +1709,7 @@
   indices: 070
   ja: パスポートヲ　モッテイルカ。<end>
   kanji: パスポートを持っているか。
-  literal: Do you have a passport?<end>
+  literal: Do you have a Passport?<end>
   us: |
     DO YOU HAVE YOUR <line>
     PASSPORT?<end>
@@ -1791,7 +1791,7 @@
     イマ　アナタハ　ナニカ　ワルイ<line>
     ビョウキニ　カカッテイマスカ。<end>
   kanji: 今あなたは何か悪い病気にかかっていますか。
-  literal: Are you suffering from any bad illnesses right now?<end>
+  literal: Are you currently suffering from any bad illnesses?<end>
   us: |
     DO YOU CURRENTLY<line>
     HAVE AN ILLNESS?<end>
@@ -1962,7 +1962,7 @@
     ナウラ　トイウ　ドウクツニハ<wait more>
     ケーキヤガ　アルンダッテネ。<wait>
   kanji: パルマ星のナウラという洞窟にはケーキ屋があるんだってね。
-  literal: There's supposed to be a cake shop in the Naula Cave on Palma.<wait>
+  literal: There's supposed to be a cake shop in Naula Cave on Palma.<wait>
   us: |
     THERE IS A CAKE<line>
     SHOP IN THE CAVE<wait more>
@@ -2084,7 +2084,7 @@
     ココハ　モタビアノ　シュト<line>
     パセオ　デス。<wait>
   kanji: ここはモタビアの首都パセオです。
-  literal: This is Paseo, the capital of Motavia.<wait>
+  literal: This is Paseo, Motavia’s capital city.<wait>
   us: |
     THIS IS PASEO<line>
     MOTAVIA'S CAPITAL.<wait>
@@ -2174,7 +2174,7 @@
   indices: 094
   ja: アンタ　ウソツキダネ。<wait>
   kanji: あんた、嘘つきだね。
-  literal: You are a liar and a cheat!<wait>
+  literal: You are a liar!<wait>
   us: YOU ARE A LIAR!<wait>
   en: |
     Whoa, seriously?<wait more>
@@ -2266,7 +2266,7 @@
     ラコニアンポットハ　トテモ　タカク<line>
     ウレタヨ。　アリガトサン。<wait>
   kanji: ラコニアンポットはとても高く売れたよ。ありがとさん。
-  literal: I made a killing off that Laconian Pot! Thanks again!<wait>
+  literal: I made a fortune selling that Laconian Pot! Thanks!<wait>
   us: |
     I SOLD THAT<line>
     LACONIAN POT FOR<wait more>
@@ -2391,7 +2391,7 @@
     けど、ミャウ、ビンの蓋開けられないの。
   literal: |
     Tylon was turned to stone!<line><line>
-    He can be restored by pouring this medicine on him, but I can't get the lid open...<wait>
+    He can be restored by pouring this medicine on him, but I can't open the lid...<wait>
   us: |
     YES, BUT HE IS<line>
     TURNED TO STONE!<line>
@@ -2774,7 +2774,7 @@
     モタビアノ　ソウトクハ　モシカシタラ
     ミカタニ　ナッテクレルカモシレナイ。<wait>
   kanji: モタビアの総督はもしかしたら味方になってくれるかも知れない。
-  literal: The Governor-general of Motavia might possibly become an ally to you.<wait>
+  literal: The Governor-General of Motavia might possibly become an ally to you.<wait>
   us: |
     THE GOVERNOR OF<line>
     MOTAVIA MIGHT<wait more>
@@ -2824,7 +2824,7 @@
     ガシコノモリニハ　ソノムカシ　ルベノ
     ハカセノ　ケンキュウジョガ　アッタ。<wait>
   kanji: ガシコの森にはその昔ルベノ博士の研究所があった。
-  literal: Long ago, Doctor Luveno used to have a laboratory in Gothic Forest.<wait>
+  literal: Long ago, Dr._Luveno used to have a laboratory in Gothic Forest.<wait>
   us: |
     DR.LUVENO HAD A<line>
     LABORATORY IN THE <wait more>
@@ -3381,7 +3381,10 @@
     もう一刻の猶予も許されない。
     心してかかるがよい。
     無事を祈っている。
-  literal: There’s no time to lose! Have faith in yourself. I’ll be praying for your safety.<wait>
+  literal: |
+    There is not a single moment to lose!<wait more>
+    Have faith in yourself.<line>
+    I pray for your safety.<wait>
   us: |
     THAT WAS QUICK-OH,<line>
     I SEE,YOU ARE NOT <wait more>
@@ -3534,8 +3537,7 @@
   kanji: |
     総督からの手紙を預かって来ました。
     読んで頂けませんか。
-  literal: |
-    We came to deliver this letter from the Governor-General. Would you please read it?<wait>
+  literal: We came to deliver this letter from the Governor-General. Would you please read it?<wait>
   us: |
     I'VE RECEIVED A<line>
     LETTER FROM THE <line>
@@ -3579,7 +3581,7 @@
   literal: |
     I understand...<line><line>
     Together, we must protect the Algol system from the hands of evil.<wait more>
-    To do that, we must first go to the Gothic Forest and find Doctor Luveno.<line>
+    To do that, we must first go to the Gothic Forest and find Dr._Luveno.<line>
     If I recall correctly, there should be a manhole we can pass through.<wait>
   us: |
     LET ME SEE IT.....<line>
@@ -3825,7 +3827,7 @@
     ココカラ　サキハ　ボクノ<line>
     ナワバリダカラ　トオセナイヨーダ。<wait>
   kanji: ここから先は僕の縄張りだから通せないよーだ。
-  literal: The area beyond here is my territory, so keep out!<wait>
+  literal: The area beyond here is my turf, so keep out!<wait>
   us: |
     YOU CANNOT COME<line>
     THROUGH HERE.<wait more>
@@ -3846,7 +3848,7 @@
     ルベノハカセガ　イウノダッタラ<line>
     ショウガナイ。　トオッテモイイヨ。<wait>
   kanji: ルベノ博士が言うのだったらしょうがない。通ってもいいよ。
-  literal: Well, I guess I gotta do what Doctor Luveno says. Go on through.<wait>
+  literal: Well, I guess I gotta do what Dr._Luveno says. Go on through.<wait>
   us: |
     WELL,IF DR.LUVENO<line>
     SENT YOU ,I GUESS<wait more>
@@ -3943,7 +3945,7 @@
     ガシコノ　ヤマオクニアル　トウハ<line>
     メデューサノトウト　ヨバレテイル。<wait>
   kanji: ガシコの山奥にある塔はメデューサの塔と呼ばれている。
-  literal: The tower nestled in the Gothic mountains is called Medusa’s Tower.<wait>
+  literal: The tower nestled in the Gothic Mountains is called Medusa’s Tower.<wait>
   us: |
     THE TOWER DEEP IN<line>
     THE GOTHIC<wait more>
@@ -3998,7 +4000,7 @@
     ヤア。ヒトニ　アウノハ<line>
     ヒサシブリダ。オハナシシヨウヨ。<end>
   kanji: やあ。人に会うのは久しぶりだ。お話ししようよ。
-  literal: Hey there! Haven't seen any other people in a long time. Wanna chat?<end>
+  literal: Hey there! I haven't seen another person in a long time! Wanna chat?<end>
   us: |
     I HAVEN'T SEEN<line>
     ANYONE FOR A LONG<wait more>
@@ -4027,7 +4029,7 @@
     今は溶岩池のせいで大変だろうなあ。
     会ったらよろしく言っていてね。
   literal: |
-    I've got a friend living in Bartevo. He's probably having a hard time right now because of the lava pools.<wait more>
+    I've got a friend living in Bartevo. He's probably having a hard time right now because of the lava pool.<wait more>
     If you see him, tell him I said hi, okay?<wait>
   us: |
     I'VE GOT A FRIEND<line>
@@ -4090,7 +4092,9 @@
   kanji: |
     ラコニアでできたロボットだよ。
     でもスクラップにされて捨てられちまったらしいよ。
-  literal: It’s a robot made out of laconia! But it seems to have been scrapped and thrown away.<wait>
+  literal: |
+    It’s a robot made of Laconia!<wait more>
+    But it seems to have been scrapped and thrown away.<wait>
   us: |
     IT'S A ROBOT MADE<line>
     OF LACONIA. BUT<wait more>
@@ -4131,7 +4135,7 @@
     ヤマノ　ムコウハ　カザンノ　フンカデ
     ヨウガンイケガ　デキテイルソウダヨ。<wait>
   kanji: 山の向こうは火山の噴火で溶岩池ができているそうだよ。
-  literal: I hear that on the other side of the mountains there's a whole bunch of lava because of volcanic eruptions.<wait>
+  literal: I hear that volcanic eruptions created a pool of lava on the other side of the mountain.<wait>
   us: |
     ON THE FAR SIDE OF
     THE MOUNTAINS LIES<wait more>
@@ -4334,9 +4338,9 @@
     また宇宙船を創るのか。
     しょうがねえや。すぐ行くよ。
   literal: |
-    Ehhh? Doctor Luveno came back, you said?<wait more>
+    Ehhh? Dr._Luveno came back?<wait more>
     He's gonna build another spaceship?!<wait more>
-    Fine, guess I'll go see him right away.<wait>
+    Fine, I guess I'll go see him right away.<wait>
   us: |
     WHAT? DR.LUVENO<line>
     HAS RETURNED?<wait more>
@@ -4678,7 +4682,7 @@
     アワテテモ　イイモノハ　デキンゾヨ。
     モウ　スコシノシンボウジャ。<wait>
   kanji: 慌ててもいいものはできんぞよ。もう少しの辛抱じゃ。
-  literal: Good things come to those who wait, so be a bit more patient!<wait>
+  literal: You can't rush perfection! Please show a bit more patience!<wait>
   us: |
     IT CANNOT BE<line>
     HURRIED! PLEASE <wait more>
@@ -4715,7 +4719,7 @@
     ヨロコベ　ツイニ　ウチュウセン<line>
     ルベノゴウガ　デキアガッタゾ。<wait>
   kanji: 喜べ、ついに宇宙船ルベノ号ができあがったぞ。
-  literal: Rejoice, for the spaceship is complete! I call it the SS Luveno!<wait>
+  literal: Rejoice, for the S.S. Luveno is finally complete!<wait>
   us: |
     SUCCESS! I PRESENT
     A SUPERB SPACESHIP<wait more>
@@ -4826,7 +4830,7 @@
     よし。これでルベノ号に乗って宇宙へ飛び出せる。
     村の外へ出てみるがいい。中々の出来だよ。
   literal: |
-    Excellent! Now you can board the SS Luveno and blast off into space!<wait more>
+    Excellent! Now you can board the S.S. Luveno and blast off into space!<wait more>
     Go find it just outside of the village. It's a brilliant piece of work.<wait>
   us: |
     WE CAN BOARD THE <line>
@@ -4871,7 +4875,7 @@
     ルベノゴウノ　チョウシハ　ドウジャ。
     ダイジニ　ツカッテ　オクレ。<wait>
   kanji: ルベノ号の調子はどうじゃ。大事に使っておくれ。
-  literal: How is the SS Luveno holding up? Take good care of it.<wait>
+  literal: How is the S.S. Luveno holding up? Take good care of it.<wait>
   us: |
     HOW IS THE LUVENO?
     USE IT WELL.<wait>
@@ -4905,7 +4909,7 @@
   indices: 1A0
   ja: パスポートヲ　ボッシュウスルゾ。<wait>
   kanji: パスポートを没収するぞ。
-  literal: We'll confiscate your passport.<wait>
+  literal: We are confiscating your passport.<wait>
   us: |
     WE ARE CONFISCAT-<line>
     ING YOUR PASSPORT.<wait>
@@ -4928,7 +4932,7 @@
     バルテボハ　オレノ　ナワバリダ。<line>
     アラスンジャナイゾ。<wait>
   kanji: バルテボはオレの縄張りだ。荒らすんじゃないぞ。
-  literal: Bartevo is my territory. Don't you mess anything up!<wait>
+  literal: Bartevo is my turf. Don't you mess anything up!<wait>
   us: |
     BORTEVO IS MY<line>
     TURF. DON'T YA<wait more>
@@ -4993,7 +4997,7 @@
     アビオンノ　ムラニ　ポリメテラール<line>
     トイウ　クスリガ　ウッテイルラシイ。<wait>
   kanji: アビオンの村にポリメテラールという薬が売っているらしい。
-  literal: Supposedly, a chemical called Polymeteral is sold in the village of Avion.<wait>
+  literal: Supposedly, a chemical called Polymeteral is sold in the Avion Village.<wait>
   us: |
     POLYMETERAL IS FOR<line>
     SALE IN ABION.<wait>
@@ -5016,7 +5020,7 @@
   kanji: | 
     ボクはハプスビー。見つけてくれてありがとう。
     ルベノ号の操縦は任せてね。
-  literal: I am Hapsby. Thanks for finding me. I can pilot the SS Luveno for you.<wait>
+  literal: I am Hapsby. Thanks for finding me. I can pilot the S.S. Luveno for you.<wait>
   us: |
     I'M HAPSBY.<line>
     THANKS FOR FINDING<wait more>
@@ -5135,7 +5139,7 @@
     カスバのドラゴンが持っているという噂です。
   literal: |
     Do you know of a jewel called the Carbuncle Eye?<wait more>
-    Rumor has it that it’s being held by a dragon in Casba.<wait>
+    It’s rumored to be held by a dragon in Casba.<wait>
   us: |
     HAVE YOU HEARD OF<line>
     A GEM CALLED "THE <wait more>
@@ -5175,7 +5179,7 @@
     コノシマノ　ニシノ　ハズレニハ<line>
     アビオン　トイウ　ムラガ　アリマス。<wait>
   kanji: この島の西の外れにはアビオンという村があります。
-  literal: On the west end of this island, there is a village called Avion.<wait>
+  literal: There's a village called Avion on the western edge of this island.<wait>
   us: |
     THERE IS A VILLAGE
     CALLED ABION ON<wait more>
@@ -5207,7 +5211,7 @@
     ラエルマツリー　トイウ　キヲ<line>
     シッテイルカ。<end>
   kanji: ラエルマツリーという樹を知っているか。
-  literal: Do you know about the Laerma Tree?<end>
+  literal: Do you know about Laerma trees?<end>
   us: |
     DO YOU KNOW ABOUT<line>
     LAERMA TREES?<end>
@@ -5227,7 +5231,7 @@
     オイシゲッテイルトカ。<wait>
   kanji: |
     デゾリス星のアルチプラノと呼ばれる高原に生い茂っているとか。
-  literal: I hear the Altiplano Plateau on Dezoris is totally covered by them.<wait>
+  literal: I hear that they grow in abundance on the Altiplano Plateau on Dezoris.<wait>
   us: |
     THEY GROW ON THE <line>
     ALTIPLANO PLATEAU<wait more>
@@ -5346,9 +5350,9 @@
     動物実験をやってるらしいが気味が悪いなあ。
     壺みたいなものを持ってたよ。
   literal: |
-    A weird man has recently moved to this village.<wait more>
-    Rumor has it that he conducts animal experiments. He gives me the creeps...<wait more>
-    I think he had some kind of pot with him, too.<wait>
+    A strange man has recently moved to this village.<wait more>
+    Rumor has it that he performs animal experiments. He gives me the creeps...<wait more>
+    I think he had some kind of pot with him.<wait>
   us: |
     A STRANGE MAN CAME
     TO THIS TOWN. HE<wait more>
@@ -5605,7 +5609,7 @@
   literal: |
     What? Overthrow LaShiec, you say?<wait more>
     Then you should collect a sword, axe, shield and armor made of Laconia.<wait more>
-    Those weapons will be the most powerful.<wait more>
+    Those weapons will be the strongest.<wait more>
     I pray for your safety.<wait>
   us: |
     IF YOU REALLY HOPE
@@ -5659,8 +5663,8 @@
     ラコニアでできた武器は聖なる力を秘めているんだ。
     ラシークはそれを嫌ってアルゴル太陽系の惑星のあちこちに隠してしまったという。
   literal: |
-    Weapons made from laconia conceal holy powers.<wait more>
-    I heard that LaShiec despises them, so he hid them all across the planets of Algol.<wait>
+    Arms made of Laconia conceal holy powers.<wait more>
+    I heard that LaShiec despises them, so he's hidden them across the planets of Algol.<wait>
   us: |
     ARMS MADE OF<line>
     LACONIA CONCEAL<wait more>
@@ -5857,7 +5861,7 @@
     ココハ　モタビアセイノ　ウーゾ<line>
     トイウ　ムラデス。<wait>
   kanji: ここはモタビア星のウーゾという村です。
-  literal: This is Uzo Village, on the planet Motavia.<wait>
+  literal: This is Uzo Village, on Motavia.<wait>
   us: |
     THIS TOWN IS<line>
     CALLED UZO.<wait>
@@ -5899,7 +5903,7 @@
     ウーゾノ　ミナミニ　カスバ　トイウ<line>
     ムラガ　アリマス。<wait>
   kanji: ウーゾの南にカスバという村があります。
-  literal: To the South of Uzo, there is a village called Casba.<wait>
+  literal: To the South of Uzo lies a village called Casba.<wait>
   us: |
     THERE IS A TOWN<line>
     CALLED CASBA TO<wait more>
@@ -5923,7 +5927,7 @@
     カスバの洞窟にはドラゴンが住み着いたらしいですよ。
     そのドラゴンの頭には宝石が入っているとか。
   literal: |
-    It seems that a dragon has made its home in Casba Cave!<wait more>
+    It seems that a dragon has made its home in Casba Cave.<wait more>
     Supposedly, that dragon has a jewel embedded in its head.<wait>
   us: |
     THERE ARE DRAGONS<line>
@@ -6594,7 +6598,7 @@
   indices: 198
   ja: アリガトウ。マタキテネ。<wait>
   kanji: ありがとう。また来てね。
-  literal: Thank you. Please come again.<wait>
+  literal: Thank you! Please come again.<wait>
   us: |
     THANKS! SEE YOU <line>
     AGAIN.<wait>
@@ -9314,7 +9318,7 @@
     <monster>ハ　<player>ノ<line>
     コウゲキヲ　カワシタ。<delay>
   kanji: <monster>は<player>の攻撃をかわした。
-  literal: <monster> dodged <player>'s attack.<wait>
+  literal: <Article><monster> dodged <player>’s attack.<delay>
   us: |
     <monster> DODGES<line>
     <player>'S ATTACK.<wait>
@@ -9332,7 +9336,7 @@
     <player>ハ　<monster>ノ<line>
     コウゲキヲ　カワシタ。<delay>
   kanji: <player>は<monster>の攻撃をかわした。
-  literal: <player> dodged <monster>'s attack.<wait>
+  literal: <player> dodged <article><monster>’s attack.<delay>
   us: |
     <player> DODGES<line>
     <monster>'S ATTACK.<wait>
@@ -9361,7 +9365,7 @@
   indices: ab4e
   ja: <monster>ハ　コタエタ。<delay>
   kanji: <monster>は答えた。
-  literal: <monster> responded.<wait>
+  literal: <Article><monster> responded.<delay>
   us: <monster> ANSWERS.<wait>
   en: <Article><monster> replied,<delay>
   fr: <Article><monster> répond,<delay>
@@ -9374,7 +9378,7 @@
   indices: ab57
   ja: ツウジナカッタ。<delay>
   kanji: 通じがなかった。
-  literal: There was no understanding.<wait>
+  literal: There was no understanding.<delay>
   us: |
     <player> AND <monster><line>
     CANNOT UNDERSTAND<wait more>
@@ -9392,7 +9396,7 @@
     <monster>ハ　ニゲミチニ<line>
     タチフサガッタ。<delay>
   kanji: <monster>は逃げ道に立ちふさがった。
-  literal: <monster> stood in the way of the escape.<wait>
+  literal: <Article><monster> blocked the escape route.<delay>
   us: |
     <monster> BLOCKS<line>
     ANY RETREAT.<wait>
@@ -9410,7 +9414,7 @@
     <player>ノ　マジックハ<line>
     コウカガ　ナカッタ。<delay>
   kanji: <player>のマジックは効果がなかった。
-  literal: <player>'s magic had no effect.<wait>
+  literal: <player>'s magic had no effect.<delay>
   us: |
     <player>'S MAGIC IS<line>
     NOT EFFECTIVE.<wait>
@@ -9427,7 +9431,7 @@
     <monster>ノ　マジックハ<line>
     コウカガ　ナカッタ。<delay>
   kanji: <monster>のマジックは効果がなかった。
-  literal: <monster>'s magic had no effect.<wait>
+  literal: <Article><monster>'s magic had no effect.<delay>
   us: |
     <monster>'S MAGIC<line>
     IS NOT EFFECTIVE.<wait>
@@ -9444,7 +9448,7 @@
     メノマエニ　ミエナイ　マホウノ<line>
     カベガ　デキタ。<delay>
   kanji: 目の前に見えない魔法の壁ができた。
-  literal: An invisible magic wall was built before your eyes.<wait>
+  literal: An invisible magic wall was built before your eyes.<delay>
   us: |
     AN INVISIBLE MAGIC
     WALL ARISES.<wait>
@@ -9461,7 +9465,7 @@
     <monster>ノ　コウゲキハ<line>
     マホウノ　カベニ　ハネカエサレタ。<delay>
   kanji: <monster>の攻撃は魔法の壁に跳ね返された。
-  literal: <monster>'s attack bounced off the magic wall.<wait>
+  literal: <Article><monster>’s attack was deflected by the magic wall.<delay>
   us: |
     THE MAGIC WALL<line>
     DEFLECTS THE <wait more>
@@ -9479,7 +9483,7 @@
     <monster>ノ　マジックハ<line>
     マホウノ　カベニ　ハネカエサレタ。<delay>
   kanji: <monster>の魔法は魔法の壁に跳ね返された。
-  literal: <monster>'s magic bounced off the magic wall.<wait>
+  literal: <Article><monster>’s magic was deflected by the magic wall.<delay>
   us: |
     THE MAGIC WALL<line>
     DEFLECTS THE <wait more>
@@ -9497,7 +9501,7 @@
     ミエナイ　カベノ　コウカガ<line>
     ナクナッタ。<delay>
   kanji: 見えない壁の効果がなくなった。
-  literal: The effect of the invisible wall wore off.<wait>
+  literal: The invisible wall became ineffective.<delay>
   us: |
     THE MAGIC WALL<line>
     DISAPPEAR.<wait>
@@ -9514,7 +9518,7 @@
     <player>ノ　タイリョクガ<line>
     カイフクシタ。<delay>
   kanji: <player>の体力が回復した。
-  literal: <player>'s endurance was restored.<wait>
+  literal: <player>’s strength was restored.<delay>
   us: <player> IS HEALED.<wait>
   en: <player>’s stamina was restored.<delay>
   fr: L'énergie <de><player> est restaurée.<delay>
@@ -9529,7 +9533,7 @@
     <monster>ノ　タイリョクガ<line>
     カイフクシタ。<delay>
   kanji: <monster>の体力が回復した。
-  literal: <monster>'s endurance was restored.<wait>
+  literal: <Article><monster>’s strength was restored.<delay>
   us: |
     <monster> IS<line>
     HEALED.<wait>
@@ -9546,7 +9550,7 @@
     <monster>ヲ<line>
     カナシバリニシタ。<delay>
   kanji: <monster>を金縛りにした。
-  literal: <monster> was tied from head to toe.<wait>
+  literal: <Article><monster> is all bound up.<delay>
   us: |
     <monster> IS TIED<line>
     UP.<wait>
@@ -9561,7 +9565,7 @@
   indices: ac2f
   ja: <player>ハ　カナシバリニ　アッタ。<delay>
   kanji: <player>を金縛りにした。
-  literal: <player> was tied from head to toe.<wait>
+  literal: <player> is all bound up.<delay>
   us: <player> IS TIED UP.<wait>
   en: <player> is all bound up.<delay>
   fr: <player> s'est fait ligoter_!<delay>
@@ -9574,7 +9578,7 @@
   indices: ac3e
   ja: <player>ハ　ウゴケナイ。<delay>
   kanji: <player>は動けない。
-  literal: <player> can't move.<wait>
+  literal: <player> can't move.<delay>
   us: <player> CANNOT MOVE.<wait>
   en: <player> can’t move.<delay>
   fr: <player> ne peut plus bouger.<delay>
@@ -9587,7 +9591,7 @@
   indices: ac48
   ja: <monster>ハ　ウゴケナイ。<delay>
   kanji: <monster>は動けない。
-  literal: <monster> can't move.<wait>
+  literal: <Article><monster> can't move.<delay>
   us: |
     <monster> CANNOT<line>
     MOVE.<wait>
@@ -9602,7 +9606,7 @@
   indices: ac52
   ja: <player>ハ　カナシバリガ　トケタ。<delay>
   kanji: <player>は金縛りが解けた。
-  literal: <player>'s bindings came undone.<wait>
+  literal: <player>’s bindings came apart.<delay>
   us: |
     <player> REMOVES THE <line>
     BINDINGS.<wait>
@@ -9619,7 +9623,7 @@
     <monster>ハ<line>
     カナシバリガ　トケタ。<delay>
   kanji: <monster>は金縛りが解けた。
-  literal: <monster>'s bindings came undone.<wait>
+  literal: <Article><monster>’s bindings came apart.<delay>
   us: |
     <monster> REMOVES<line>
     THE BINDINGS.<wait>
@@ -9636,7 +9640,7 @@
     <player>ハ　カラダニ　チカラガ<line>
     ミナギルノヲ　カンジタ。<delay>
   kanji: <player>は体に力が漲るのを感じた。
-  literal: <player> felt strength welling up inside them.<wait>
+  literal: <player> felt strength welling up inside <her> body.<delay>
   us: |
     <player> IS BURSTING<line>
     WITH STRENGTH.<wait>
@@ -9653,7 +9657,7 @@
     <monster>ハ　カラダニ<line>
     チカラガ　ミナギルノヲカンジタ。<delay>
   kanji: <monster>は体に力が漲るのを感じた。
-  literal: <monster> felt strength welling up inside them.<wait>
+  literal: <Article><monster> felt strength welling up inside its body.<delay>
   us: |
     <monster> IS BURST-<line>
     ING WITH STRENGTH.<wait>
@@ -9670,7 +9674,7 @@
     <monster>ハ　コワクナッテ<line>
     シリゴミシタ。<delay>
   kanji: <monster>は怖くなって尻込みした。
-  literal: <monster> recoils in fear.<wait>
+  literal: <Article><monster> got scared and backed away.<delay>
   us: |
     <monster> RECOILS<line>
     IN FEAR.<wait>
@@ -9687,7 +9691,7 @@
     <monster>ハ　ニゲアシノ<line>
     ハヤサニ　オドロイタ。<delay>
   kanji: <monster>は逃げ足の速さに驚いた。
-  literal: <monster> was surprised by how fast you ran away.<wait>
+  literal: <Article><monster> was surprised by the speed of your escape.<delay>
   us: |
     ALIS AND HER<line>
     COMPANY ESCAPE<wait more>
@@ -9718,7 +9722,7 @@
     アブナイ　トコロダッタ。<player>ハ<line>
     ワナヲ　ミヤブッテ　ハズシタ。<wait>
   kanji: 危ないところだった。<player>は罠を見破って外した。
-  literal: Close call! <player> saw through and disarmed the trap.<wait>
+  literal: Close call! <player> spotted and disarmed the trap.<wait>
   us: |
     <player> SPOTTED AND<line>
     DISARMED THE TRAP.<wait>
@@ -9736,7 +9740,7 @@
     <player>ハ　<item>ヲ<line>
     ツカッタ。<delay>
   kanji: <playerは<item>を使った。
-  literal: <player> used <item>.<wait>
+  literal: <player> used <article><item>.<delay>
   us: |
     <player> USES<line>
     <item>.<wait>
@@ -9753,7 +9757,7 @@
     <item>ハ　イマ　ダレカガ<line>
     ツカッテシマッタ。<wait>
   kanji: <item>は今誰かが使ってしまった。
-  literal: <item> has already been used by someone.<wait>
+  literal: Someone has used <article><item> up.<wait>
   us: |
     <item> IS USED<line>
     BY SOMEONE NOW.<wait>
@@ -9770,7 +9774,7 @@
     <player>ハ　<item>ヲ<line>
     ソウビシタ。<end>
   kanji: <player>は<item>を装備した。
-  literal: <player> equipped <item>.<end>
+  literal: <player> equipped <article><item>.<end>
   us: |
     <player> EQUIPS<line>
     <item>.<end>
@@ -9787,7 +9791,7 @@
     <player>ハ　<item>ヲ<line>
     ステテシマッタ。<wait>
   kanji: <player>は<item>を捨ててしまった。
-  literal: <player> dropped <item>.<wait>
+  literal: <player> discarded <article><item>.<wait>
   us: |
     <player> DROPS<line>
     <item>.<wait>
@@ -9802,7 +9806,7 @@
   indices: ad02
   ja: シカシ　コウカハ　ナカッタ。<delay>
   kanji: しかし効果はなかった。
-  literal: But it had no effect.<wait>
+  literal: But there was no effect.<delay>
   us: |
     BUT IT HAS NO<line>
     EFFECT.<wait>
@@ -9850,7 +9854,7 @@
   indices: ad38
   ja: <item>ニ　ノリコンダ。<delay>
   kanji: <item>に乗り込んだ。
-  literal: Got into the <item>.<wait>
+  literal: Boarded <article><item>.<delay>
   us: EMBARKED.<wait>
   en: The group boarded <article><item>.<delay>
   fr: Le groupe monte à bord de l'engin.<delay>
@@ -9863,7 +9867,7 @@
   indices: ad42
   ja: <item>カラ　トビオリタ。<delay>
   kanji: <item>から飛び降りた。
-  literal: Got off the <item>.<wait>
+  literal: Got out of <article><item>.<delay>
   us: DISEMBARKED.<wait>
   en: The group got out of <article><item>.<delay>
   fr: Le groupe sort <de><item>.<delay>
@@ -9876,7 +9880,7 @@
   indices: ad4d
   ja: シカシ　ナニモ　オキナカッタ。<delay>
   kanji: しかし何も起きなかった。
-  literal: But nothing happened.<wait>
+  literal: But nothing happened.<delay>
   us: |
     NOTHING HAPPENS,<line>
     HOWEVER.<wait>
@@ -9891,7 +9895,7 @@
   indices: ad74
   ja: <monster>ハ　メガ　ウツロダ。<delay>
   kanji: <monster>は目が虚ろだ。
-  literal: <monster>'s eyes are blank.<wait>
+  literal: <Article><monster>’s eyes are blank.<delay>
   us: |
     <monster>'S EYES<line>
     LOOK VACANT.<wait>
@@ -9908,7 +9912,7 @@
     シカシ　イマハ　ソンナコトヲ<line>
     シテイルバアイジャ　ナイヨウダ。<delay>
   kanji: しかし今はそんなことをしている場合じゃないようだ。
-  literal: But now doesn't seem to be the time to do that.<wait>
+  literal: But now doesn’t seem to be the time to do that.<delay>
   us: |
     CANNOT DO THAT<line>
     HERE.<wait>
@@ -9925,7 +9929,7 @@
     <player>ハ　<item>ヲ<line>
     トリダシタ。<delay>
   kanji: <player>は<item>を取り出した。
-  literal: <player> took out <item>.<wait>
+  literal: <player> took out <article><item>.<delay>
   us: |
     <player> TAKES OUT<line>
     <item>.<wait>
@@ -9945,7 +9949,7 @@
   indices: adad
   ja: ベツニ　コワレテナイヨウダ。<wait>
   kanji: 別に乞われてないようだ。
-  literal: It doesn't really seem to be asked for.<wait>
+  literal: It doesn't really seem to be called for.<wait>
   # Note: this was originally ‘It doesn’t look particularly broken.’
   # This translation takes the verb KOWARERU to mean ‘to be begged’
   us: |
@@ -10040,7 +10044,7 @@
     イツ　カイデミテモ　イヤナ<line>
     ニオイガ　スル。<wait>
   kanji: いつ嗅いでみてもイヤな匂いがする。
-  literal: It smells awful.<wait>
+  literal: It stinks, no matter when you try to smell it.<wait>
   us: IT STINKS!<wait>
   en: Wow, this stuff stinks.<wait>
   fr: Peut importe combien de fois vous le reniflez, ca empeste.<wait>
@@ -10090,7 +10094,7 @@
     <monster>ハ　アカイ　ホナオヲ<line>
     ミテ　オジケズイタ。<delay>
   kanji: <monster>は赤い炎を見て怖じ気付いた。
-  literal: <monster> was frightened by the red flame.<wait>
+  literal: <Article><monster> saw the red flame and seized up in fear.<delay>
   us: |
     <monster> SEES THE <line>
     RED FLAME AND<wait more>
@@ -10111,7 +10115,7 @@
     オナカガ　スイテナカッタノデ<line>
     モトニ　モドシタ。<wait>
   kanji: お腹が空いてなかったので元に戻した。
-  literal: Nobody is hungry, so they were put back.<wait>
+  literal: Nobody’s hungry right now, so <she> put them back.<wait>
   us: |
     MYAU ISN'T HUNGRY,<line>
     SO SHE PUTS THE <wait more>
@@ -10144,7 +10148,7 @@
   indices: aef8
   ja: ハプスビーノ　アタマハ　カタイ。<wait>
   kanji: ハプスビーの頭は固い。
-  literal: Hapsby has a hard head.<wait>
+  literal: Hapbsy’s head is hard.<wait>
   us: |
     HAPSBY IS<line>
     HARDHEADED.<wait>
@@ -10185,7 +10189,7 @@
     トクニ　カワッタトコロハ<line>
     ナイヨウダ。<wait>
   kanji: 特に変わったところはないようだ。
-  literal: There doesn't seem to be anything particularly abnormal.<wait>
+  literal: There doesn't seem to be anything particularly unusual.<wait>
   us: |
     THERE DOESN'T SEEM
     TO BE ANYTHING<wait more>
@@ -10201,7 +10205,7 @@
   indices: af32
   ja: <item>ヲ　ミツケタ。<wait>
   kanji: <item>を見つけた。
-  literal: You found <item>.<wait>
+  literal: You found <article><item>.<wait>
   us: |
     YOU FOUND<line>
     <item>.<wait>
@@ -10216,7 +10220,7 @@
   indices: af3b
   ja: ナンダカ　カラダガ　カルクナッタ。<delay>
   kanji: 何だか体が軽くなった。
-  literal: Your body became somehow lighter.<wait>
+  literal: Your body became somehow lighter.<delay>
   us: |
     <player> FEELS VERY<line>
     LIGHT.<wait>
@@ -10248,7 +10252,7 @@
   indices: af5e
   ja: タイロンハ　マジックヲ　ツカエナイ。<delay>
   kanji: タイロンはマジックを使えない。
-  literal: Tairon can't use magic.<wait>
+  literal: Tylon can’t use magic.<delay>
   us: |
     ODIN CANNOT USE<line>
     MAGIC.<wait>
@@ -10265,7 +10269,7 @@
     <player>ハ　マダ　マジックヲ<line>
     オボエテイナイ。<delay>
   kanji: <player>はまだマジックを覚えていない。
-  literal: <player> hasn't learned any magic yet.<wait>
+  literal: <player> hasn't learned magic yet.<wait>
   us: |
     <player> HAS NOT <line>
     LEARNED MAGIC YET<wait>
@@ -10282,7 +10286,7 @@
     <player>ハ　<item>ヲ<line>
     ソウビ　デキナイ。<wait>
   kanji: <player>は<item>を装備できない。
-  literal: <player> can't equip <item>.<wait>
+  literal: <player> can’t equip <article><item>.<wait>
   us: |
     <player> CANNOT EQUIP<line>
     THAT ITEM.<wait>
@@ -10329,7 +10333,7 @@
   indices: afb9
   ja: <player>ハ　レベルアップシタ。<wait>
   kanji: <player>はレベルアップした。
-  literal: <player> gained a level.<wait>
+  literal: <player> leveled up.<wait>
   us: |
     <player> ADVANCED<line>
     A LEVEL.<wait>
@@ -10346,7 +10350,7 @@
     <player>ハ　マジックヲ<line>
     ヒトツ　ミニツケタ。<wait>
   kanji: <player>はマジックを一つ身に付けた。
-  literal: <player> acquired a spell.<wait>
+  literal: <player> learned a spell.<wait>
   us: |
     <player> LEARNED<line>
     A SPELL.<wait>
@@ -10363,7 +10367,7 @@
     <monster>ハ　タカラバコヲ<line>
     モッテイタ。<end>
   kanji: <monster>は宝箱を持っていた。
-  literal: <monster> had a treasure chest.<end>
+  literal: <Article><monster> had a treasure chest.<end>
   us: |
     <monster> HAD A<line>
     TREASURE CHEST.<end>
@@ -10393,7 +10397,7 @@
   indices: afe7
   ja: アケテミルカ。<end>
   kanji: 開けてみるか。
-  literal: Do you want to open it.<end>
+  literal: Do you want to open it?<end>
   us: |
     DO YOU WANT TO<line>
     OPEN IT?<end>
@@ -10473,7 +10477,7 @@
   indices: b01d
   ja: <item>ヲ　ステテ<wait>
   kanji: <item>を捨てて
-  literal: You dropped <item>...<wait>
+  literal: You dropped <article><item><end>
   us: |
     <item> IS <line>
     DROPPED,<end>
@@ -10488,7 +10492,7 @@
   indices: b024
   ja: <item>ヲ　テニイレタ。<wait>
   kanji: <item>を手に入れた。
-  literal: ...and received <item>.<wait>
+  literal: and received <article><item>.<wait>
   us: |
     AND <item> IS<line>
     PICKED UP.<wait>
@@ -10503,7 +10507,7 @@
   indices: b02e
   ja: <item>ハ　イラナイノカ。<end>
   kanji: <item>は要らないのか。
-  literal: You don't want <item>?<end>
+  literal: You don't want <article><item>?<end>
   us: |
     <item> IS NOT <line>
     NEEDED?<end>
@@ -10518,7 +10522,7 @@
   indices: b039
   ja: <item>ヲ　アキラメタ。<wait>
   kanji: <item>を諦めた。
-  literal: You abandoned <item>.<wait>
+  literal: You abandoned <article><item>.<wait>
   us: |
     <item> IS<line>
     ABANDONED.<wait>
@@ -10535,7 +10539,7 @@
     <item>ヲ<line>
     ステルワケニハ　イカナイ。<wait>
   kanji: <item>を捨てる訳にはいかない。
-  literal: You can't drop <item>!<wait>
+  literal: You can’t drop <article><item>!<wait>
   us: |
     <item> SHOULDN'T<line>
     BE THROWN AWAY.<wait>
@@ -10550,7 +10554,7 @@
   indices: b054
   ja: マジックポイントガ　タリナイ。<delay>
   kanji: マジックポイントが足りない。
-  literal: Not enough magic points.<wait>
+  literal: Not enough magic points.<delay>
   us: |
     NOT ENOUGH MAGIC<line>
     POINTS.<wait>
@@ -10565,7 +10569,7 @@
   indices: b064
   ja: <player>ハ　マダ　イキテイル。<delay>
   kanji: <player>はまだ生きている。
-  literal: <player> is still alive.<wait>
+  literal: <player> is still alive.<delay>
   us: |
     <player> IS STILL<line>
     ALIVE.<wait>
@@ -10580,7 +10584,7 @@
   indices: b071
   ja: <monster>ヲ　ヤッツケタ。<wait>
   kanji: <monster>をやっつけた。
-  literal: You defeated <monster>.<wait>
+  literal: You've defeated <article><monster>.<wait>
   us: |
     <monster><line>
     IS KILLED.<wait>
@@ -10596,7 +10600,7 @@
   indices: b07b
   ja: <player>ハ　シンデシマッタ。<delay>
   kanji: <player>は死んでしまった。
-  literal: <player> died.<wait>
+  literal: <player> died.<delay>
   us: <player> DIED.<delay>
   en: <player> died.<delay>
   fr: <player> meurt de ses blessures.<delay>
@@ -10610,7 +10614,7 @@
   indices: b087
   ja: <player>ハ　モウ　シンデイル。<delay>
   kanji: <player>はもう死んでいる。
-  literal: <player> is already dead.<wait>
+  literal: <player> is already dead.<delay>
   us: |
     <player> IS ALREADY<line>
     DEAD.<wait>
@@ -10625,7 +10629,7 @@
   indices: b617
   ja: アリサタチハ　ゼンメツシタ。<wait>
   kanji: アリサたちは全滅した。
-  literal: Alisa and her friends have been annihilated.<wait>
+  literal: Alisa and her companions have been annihilated.<wait>
   us: YOU ARE ALL DEAD.<wait>
   en: Alisa and her companions have been annihilated.<wait>
   fr: Alisa et ses amis ont été anéantis.<wait>
@@ -10642,7 +10646,9 @@
     ムナシク　キエサッタ。<line>
     ココデ　ボウケンハ　オワリデス。<wait>
   kanji: アリサの願いはラシークの野望の前に虚しく消え去った。ここで冒険は終わりです。
-  literal: Alisa's hopes vanished fruitlessly in the face of LaShiec's ambition. The adventure ends here.<wait>
+  literal: |
+    Alisa's hopes vanished fruitlessly in the face of LaShiec's ambition.<wait more>
+    The adventure ends here.<wait>
   us: |
     ALIS'S HOPE CANNOT
     OVERCOME THE POWER<wait more>
@@ -10693,8 +10699,7 @@
     デゾリスセイノ　スクレノマチヘ<line>
     イキマス。イイデスカ。<end>
   kanji: デゾリス星のスクレの町へ行きます。いいですか。
-  literal: |
-    Destination: Skray, on Dezoris. Confirm?<end>
+  literal: We are heading for Skray on Dezoris. Confirm?<end>
   us: |
     WE ARE HEADING FOR
     SKURE ON DEZORIS?<end>
@@ -10711,8 +10716,7 @@
     モタビアセイノ　ウーゾノムラヘ<line>
     イキマス。イイデスカ。<end>
   kanji: モタビア星のウーゾの村へ行きます。いいですか。
-  literal: |
-    Destination: Uzo, on Motavia. Confirm?<end>
+  literal: We are heading for Uzo on Motavia. Confirm?<end>
   us: |
     WE ARE HEADING FOR
     UZO ON MOTAVIA?<end>
@@ -10729,8 +10733,7 @@
     パルマセイノ　ガシコノムラヘ<line>
     イキマス。イイデスカ。<end>
   kanji: パルマ星のガシコの村へ行きます。いいですか。
-  literal: |
-    Destination: Gothic, on Palma. Confirm?<end>
+  literal: We are heading for Gothic on Palma. Confirm?<end>
   us: |
     WE ARE HEADING FOR
     GOTHIC ON PALMA?<end>
@@ -10803,7 +10806,7 @@
     ココハ　アーマーショップデス。<line>
     ナニカ　カイマスカ。<end>
   kanji: ここはアーマーショップです。何か買いますか。
-  literal: This is the armor shop. Will you buy something?<end>
+  literal: This is an armor shop. Will you buy something?<end>
   us: |
     THIS IS AN ARMORY.
     DO YOU WANT TO BUY<wait more>
@@ -10864,7 +10867,7 @@
     ソレイジョウ　モテナイヨウデスネ。<line>
     マタキテクダサイ。<wait>
   kanji: それ以上持てないようですね。また来てください。
-  literal: It's looks like you can't carry anything more. Please come back later.<wait>
+  literal: It looks like you can't carry any more. Please come back later.<wait>
   us: |
     YOU CANNOT CARRY<line>
     ANY MORE.<wait more>
@@ -10883,7 +10886,7 @@
     ココハ　ドラッグストアデス。<line>
     ナニカ　カイマスカ。<end>
   kanji: ここはドラッグストアです。何か買いますか。
-  literal: This is the drug store. Will you buy something?<end>
+  literal: This is a drug store. Will you buy something?<end>
   us: |
     THIS IS A<line>
     FIRST FOOD SHOP.<wait more>
@@ -10902,7 +10905,7 @@
     ココハ　ツールショップデス。<line>
     ドンナ　ゴヨウデスカ。<end>
   kanji: ここはツールショップです。どんなご用ですか。
-  literal: This is the tool shop. What is your business?<end>
+  literal: This is a tool shop. What is your business?<end>
   us: |
     THIS IS A<line>
     SECOND-HAND SHOP.<wait more>
@@ -10935,7 +10938,7 @@
     <item>デスネ。<line>
     <number>メセタデ　イイデスカ。<end>
   kanji: <item>ですね。<number>メセタでいいですか。
-  literal: <item>, yes? Does <number> mesetas sound good?<end>
+  literal: <Article><item>, yes? Does <number> mesetas sound good?<end>
   us: |
     <item>? LET ME<line>
     SEE.....<wait more>
@@ -10986,7 +10989,7 @@
     オカネガ　タリナイヨウデスネ。<line>
     マタキテクダサイ。<wait>
   kanji: お金が足りないようですね。また来てください。
-  literal: It doesn't look like you have enough money. Please come again.<wait>
+  literal: It looks like you don't have enough money. Please come back later.<wait>
   us: |
     YOU DON'T HAVE <line>
     ENOUGH MONEY.<wait more>
@@ -11019,7 +11022,7 @@
     ココハ　ホスピタルデス。<line>
     チリョウヲ　ウケマスカ。<end>
   kanji: ここはホスピタルです。治療を受けますか。
-  literal: This is the hospital. Will you be receiving medical care?<end>
+  literal: This is a hospital. Will you be receiving medical care?<end>
   us: |
     THIS IS A HOSPITAL
     DO YOU NEED HELP?<end>
@@ -11173,7 +11176,7 @@
     ココハ　キョウカイデス。　ダレカノ<line>
     タマシイヲ　ヨビモドサレマスカ。<end>
   kanji: ここは教会です。誰かの魂を呼び戻されますか。
-  literal: This is a church. Does someone's soul need to be called back?<end>
+  literal: This is a church. Will someone's soul need to be called back?<end>
   us: |
     THIS IS A CHURCH.<line>
     DO YOU WISH TO<wait more>
@@ -11280,7 +11283,11 @@
   kanji: |
     アルテムハムラム　ア　ウッ。ゴホッ。ゴホッ。
     ごめんなさい。どうやら失敗したようです。
-  literal: Arutemuhamuramu, A--ugh, COUGH COUGH. My apologies. I seem to have failed.<wait>
+  literal: |
+    Arutemuhamuramu, A--ugh,<line>
+    COUGH COUGH.<wait more>
+    My apologies.<line>
+    I seem to have failed somehow.<wait>
   us: |
     SABRUS CABRUS<line>
     SEB..B...HACK,HACK<wait more>
@@ -11334,7 +11341,7 @@
   indices: b351
   ja: コレカラ　レベルアップスルタメニハ<wait>
   kanji: これからレベルアップするためには
-  literal: To level up...<wait>
+  literal: To level up from here,<wait>
   us: |
     TO ADVANCE TO<line>
     THE NEXT LEVEL,<end>
@@ -11351,7 +11358,7 @@
     <player>ハ　<number>ポイント<line>
     ヒツヨウデス。<wait>
   kanji: <player>は<number>ポイント必要です。
-  literal: ...<player> needs <number> points.<wait>
+  literal: <player> needs <number><internal hint 02> point<s>.<wait>
   us: |
     <player> NEEDS <number><line>
     EXPERIENCE POINTS.<wait>
@@ -11386,7 +11393,7 @@
     アナタガタノ　ユクスエニ<line>
     カミノ　メグミガ　アリマスヨウニ。<wait>
   kanji: あなた方の行く末に神の恵みがありますように。
-  literal: May God bless your future.<wait>
+  literal: May your future hold blessings from God.<wait>
   us: |
     MAY THE GODS<line>
     WATCH OVER YOU!<wait>
@@ -11435,7 +11442,7 @@
     ワタシタチハ　パルマノ　ヒトタチト<line>
     ナカヨク　シタイ。<wait>
   kanji: 私たちはパルマの人たちと仲良くしたい。
-  literal: We want to become friends with the Palmans.<wait>
+  literal: ‘We want to become friends with the Palmans.’<wait>
   us: |
     WE WANT TO BE<line>
     FRIENDS WITH<wait more>
@@ -11451,7 +11458,7 @@
   indices: b3fc
   ja: ラエルマベリーガ　タベタイナア。<wait>
   kanji: ラエルマツリーが食べたいなあ。
-  literal: I'd really like to eat some Laerma Berries...<wait>
+  literal: ‘I'd really like to eat some Laerma Berries...’<wait>
   us: |
     I WANT TO EAT A<line>
     NUT OF LAERMA.<wait>
@@ -11468,7 +11475,7 @@
     ラシークサマニハ<line>
     サカラワナイホウガ　イイヨ。<wait>
   kanji: ラシーク様には逆らわないほうがいいよ。
-  literal: You shouldn't go against King LaShiec!<wait>
+  literal: ‘You should not go against Lord LaShiec.’<wait>
   us: |
     DO NOT OFFEND<line>
     LASSIC.<wait>
@@ -11485,7 +11492,7 @@
     オッ。ワタシタチノ　コトバガ<line>
     ワカルンダネ。<wait>
   kanji: おっ。私たちの言葉が分かるんだね。
-  literal: Oh, so you understand our language.<wait>
+  literal: ‘Oh! So you understand our language, do you?’<wait>
   us: |
     YOU UNDERSTAND OUR
     LANGUAGE?<wait>
@@ -11500,7 +11507,7 @@
   indices: b43c
   ja: ヤッホー。<wait>
   kanji: ヤッホー。
-  literal: Yahoo!<wait>
+  literal: ‘Yahoo!’<wait>
   us: HELLO!<wait>
   en: ‘Yahoo!’<wait>
   fr: Super_!<wait>
@@ -11515,7 +11522,7 @@
     ダンジョンデハ　オトシアナニ<line>
     キヲツケナヨ。<wait>
   kanji: ダンジョンでは落とし穴に気を付けなよ。
-  literal: Beware of pitfalls in dungeons.<wait>
+  literal: ‘Beware of pitfalls in dungeons.’<wait>
   us: |
     BE CAREFUL OF PITS
     IN THE DUNGEON.<wait>
@@ -11532,7 +11539,7 @@
     タカラバコハ　ムヤミニ<line>
     アケルト　ケガヲスルヨ。<wait>
   kanji: 宝箱はむやみに開けると怪我をするよ。
-  literal: You'll get hurt if you open treasure chests recklessly.<wait>
+  literal: ‘You’ll get injured if you open treasure boxes carelessly.’<wait>
   us: |
     MANY OF THE <line>
     TREASURE CHESTS IN<wait more>
@@ -11549,7 +11556,7 @@
   indices: b472
   ja: コノ　オイハギヤロウ。<wait>
   kanji: この追いはぎ野郎。
-  literal: You damn robbers!<wait>
+  literal: ‘You damn thieves!’<wait>
   us: YOU THIEF!<wait>
   en: ‘You damn thieves!’<wait>
   fr: Satanés voleurs_!<wait>
@@ -11564,7 +11571,7 @@
     ワタシタチハ　ドウセ<line>
     ニクマレモノダヨ。<wait>
   kanji: 私たちはどうせ憎まれ者だよ。
-  literal: We're despised no matter what.<wait>
+  literal: ‘We're despised no matter what we do.’<wait>
   us: |
     WE ARE OUTCASTS.<line>
     FORGIVE US.<wait>
@@ -11583,7 +11590,7 @@
     スーズフルートノ　ネイロハ<line>
     イイナア。<wait>
   kanji: スーズフルートの音色はいいなあ。
-  literal: The Soothing Flute sounds so nice!<wait>
+  literal: ‘The Soothe Flute sounds so nice!’<wait>
   us: |
     THE SOUND OF THE <line>
     SOOTHING FLUTE IS<wait more>
@@ -11602,7 +11609,7 @@
     アイスデッカー　トイウ　ノリモノハ<line>
     コオリモ　ケズレルンダッテ。<wait>
   kanji: アイスデッカーという乗り物は氷も削れるんだって。
-  literal: IceDeckers can even cut through ice!<wait>
+  literal: ‘IceDeckers can even cut through ice!’<wait>
   us: |
     THE VEHICLE KNOWN<line>
     AS "ICE DIGGER"<wait more>
@@ -11621,7 +11628,7 @@
     ラシークサマハ　ソラノウエニ<line>
     イラッシャルンダ。<wait>
   kanji: ラシーク様は空の上にいらっしゃるんだ。
-  literal: King LaShiec lives up in the sky.<wait>
+  literal: ‘Lord LaShiec lives up in the sky.’<wait>
   us: |
     LASSIC LIVES ABOVE
     THE SKY.<wait>
@@ -11640,7 +11647,7 @@
   # This line has a typo: ラスコニアンポット should be ラコニアンポット.
   # Please note that the kanji rendition below fixes this mistake.
   kanji: アビオンのマッドドクターがラコニアンポットを持ってたぜ。
-  literal: The Mad Doctor in Avion had a Laconian Pot.<wait>
+  literal: ‘The Mad Doctor in Avion had a Laconian Pot.’<wait>
   us: |
     THE MAD DOCTOR<line>
     IN ABION HAS A<wait more>
@@ -11658,7 +11665,7 @@
     ソラノ　ウエニハ　ウチュウセンデモ<line>
     イケナイトコロガアルゼ。<wait>
   kanji: 空の上には宇宙船でも行けない所があるぜ。
-  literal: There are places in the sky that even spaceships can't reach.<wait>
+  literal: ‘There are places in the sky that even spaceships can’t reach.’<wait>
   us: |
     THERE ARE PLACES<line>
     IN THE SKY<wait more>
@@ -11677,7 +11684,7 @@
     ラエルマベリーヲ　ミノラセルタメニハ
     アルモノガ　ヒツヨウダ。<wait>
   kanji: ラエルマベリーを実らせるためにはあるものが必要だ。
-  literal: You need a certain item to make Laerma Berries grow.<wait>
+  literal: ‘You need a certain item in order to make Laerma Berries grow.’<wait>
   us: |
     A NUT OF LAERMA<line>
     NEEDS SPECIAL<wait more>
@@ -11695,7 +11702,7 @@
     ダンジョンノ　メイロニハ<line>
     カクシトビラガ　アルンダゼ。<wait>
   kanji: ダンジョンの迷路には隠し扉があるんだぜ。
-  literal: There are hidden doors in the dungeon corridors.<wait>
+  literal: ‘There are hidden doors in the dungeon corridors.’<wait>
   us: |
     THERE ARE SECRET<line>
     DOORS IN THE<wait more>
@@ -11713,7 +11720,7 @@
     ミラクルキーハ　マホウノドアデモ<line>
     アケルコトガ　デキルゾ。<wait>
   kanji: ミラクルキーは魔法のドアでも開けることができるぞ。
-  literal: The Miracle Key can open even magic doors.<wait>
+  literal: ‘The Miracle Key can open magic doors, too!’<wait>
   us: |
     THE MIRACLE KEY<line>
     CAN OPEN DOORS<wait more>
@@ -11732,7 +11739,7 @@
     デゾリアンニハ　ウソツキモ　イルカラ
     キヲツケナヨ。<wait>
   kanji: デゾリアンには嘘つきもいるから気を付けなよ。
-  literal: Some Dezorians are liars, so be careful.<wait>
+  literal: ‘Some Dezorians are liars, so be careful.’<wait>
   us: |
     SOME DEZORIANS<line>
     LIKE TO TELL LIES,<wait more>
@@ -11750,7 +11757,7 @@
     ワタシニ　ハナシカケルトハ<line>
     ユウキガ　アルネエ。　ガンバレヨ。<wait>
   kanji: 私に話しかけるとは勇気があるねえ。頑張れよ。
-  literal: You are brave to talk to me. Hang in there.<wait>
+  literal: ‘You are brave to talk to me. Hang in there.’<wait>
   us: |
     YOU ARE BRAVE TO<line>
     APPROACH ME!<wait>
@@ -11781,7 +11788,9 @@
     セーブヲ　オコナイマス。<line>
     バンゴウヲ　エランデクダサイ。<end>
   kanji: セーブを行います。番号を選んでください。
-  literal: Commencing saving. Please select a number.<end>
+  literal: |
+    Commencing saving.<line>
+    Please select a number.<end>
   us: |
     WILL SAVE THE GAME
     IN PROGRESS.<wait more>
@@ -11859,7 +11868,9 @@
     ゲームノ　ツヅキヲ　ヤリマス。<line>
     バンゴウヲ　エランデクダサイ。<end>
   kanji: ゲームの続きをやります。番号を選んでください。
-  literal: Continuing a game. Please select a number.<end>
+  literal: |
+    Continuing a game.<line>
+    Please select a number.<end>
   us: |
     CONTINUE A GAME.<line>
     SELECT A NUMBER.<end>
@@ -11900,7 +11911,9 @@
     パスワードガ　チガイマス。<line>
     モウイチド　タシカメテクダサイ。<wait>
   kanji: パスワードが違います。もう一度確かめてください。
-  literal: The password is incorrect. Please check it again.<wait>
+  literal: |
+    The password is incorrect.<line>
+    Please check it again.<wait>
   us: # not present
   en: |
     That password is incorrect.<line>
@@ -11929,8 +11942,8 @@
     ゲームの続きをやる　ーー　はい
     ゲームを消す　ーーーーー　いいえ
   literal: |
-    Continue game --- Yes
-    Delete game ----- No
+    Continue game --- Yes<line>
+    Delete game ----- No<end>
   us: |
     CONTINUE GAME- YES
     DELETE   GAME- NO<end>
@@ -11949,7 +11962,9 @@
     セーブシタ　ゲームヲ　ケシマス。<line>
     イイデスカ。<end>
   kanji: セーブしたゲームを消します。いいですか。
-  literal: This will delete a saved game. Is that okay?<end>
+  literal: |
+    This will delete a saved game.<line>
+    Is that okay?<end>
   us: |
     WILL DELETE A<line>
     SAVED GAME O.K.?<end>
