@@ -1878,6 +1878,8 @@
     ╘═════════════╝
 
 - name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
   literal: |
     ┌───────────────────╖
     │Walk speed       x ║
@@ -1887,6 +1889,7 @@
     │Alisa's hair       ║
     │Font               ║
     │Fades              ║
+    │Text speed       x ║
     ╘═══════════════════╝
   en: |
     ┌───────────────────╖
@@ -1897,6 +1900,7 @@
     │Alisa's hair       ║
     │Font               ║
     │Fades              ║
+    │Text speed       x ║
     ╘═══════════════════╝
   fr: |
     ┌──────────────────────╖
@@ -1907,47 +1911,52 @@
     │Cheveux d'Alisa       ║
     │Police                ║
     │Fondu                 ║
+    │Vitesse du texte    x ║
     ╘══════════════════════╝
   pt-br: |
-    ┌────────────────────────╖
-    │Velocidade do passo   x ║
-    │Experiência           x ║
-    │Mesetas               x ║
-    │Batalhas                ║
-    │Cabelo de Alisa         ║
-    │Fonte                   ║
-    │Transições              ║
-    ╘════════════════════════╝
+    ┌─────────────────────────╖
+    │Velocidade do passo    x ║
+    │Experiência            x ║
+    │Mesetas                x ║
+    │Batalhas                 ║
+    │Cabelo de Alisa          ║
+    │Fonte                    ║
+    │Transições               ║
+    │Velocidade do texto    x ║
+    ╘═════════════════════════╝
   ca: |
-    ┌────────────────────────╖
-    │Velocitat de passos   x ║
-    │Experiència           x ║
-    │Mesetas               x ║
-    │Batalles                ║
-    │Cabell d'Alisa          ║
-    │Font                    ║
-    │Fosa                    ║
-    ╘════════════════════════╝
+    ┌───────────────────────╖
+    │Velocitat de passos  x ║
+    │Experiència          x ║
+    │Mesetas              x ║
+    │Batalles               ║
+    │Cabell d'Alisa         ║
+    │Font                   ║
+    │Fosa                   ║
+    │Velocitat del text   x ║
+    ╘═══════════════════════╝
   es: |
-    ┌────────────────────────╖
-    │Velocidad de pasos    x ║
-    │Experiéncia           x ║
-    │Mesetas               x ║
-    │Batallas                ║
-    │Pelo de Alisa           ║
-    │Fuente                  ║
-    │Fundido                 ║
-    ╘════════════════════════╝
+    ┌───────────────────────╖
+    │Velocidad de pasos   x ║
+    │Experiéncia          x ║
+    │Mesetas              x ║
+    │Batallas               ║
+    │Pelo de Alisa          ║
+    │Fuente                 ║
+    │Fundido                ║
+    │Velocidad del texto  x ║
+    ╘═══════════════════════╝
   de: |
-    ┌─────────────────────╖
-    │Gehgeschwindigkeit x ║
-    │Erfahrung          x ║
-    │Meseta             x ║
-    │Kampfhäufigkeit      ║
-    │Alisas Haare         ║
-    │Schriftart           ║
-    │Bildwechsel          ║
-    ╘═════════════════════╝
+    ┌───────────────────────╖
+    │Gehgeschwindigkeit   x ║
+    │Erfahrung            x ║
+    │Meseta               x ║
+    │Kampfhäufigkeit        ║
+    │Alisas Haare           ║
+    │Schriftart             ║
+    │Bildwechsel            ║
+    │Textgeschwindigkeit  x ║
+    ╘═══════════════════════╝
 
 - name: ContinueMenu
   literal: |

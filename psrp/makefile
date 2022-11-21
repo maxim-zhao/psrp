@@ -11,16 +11,16 @@ PSJ = PS1-J.SMS
 # The dictionary size. Maximum is 164.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count depends on the script. Iterating through the options can help to find the best value. `make sizes.en.txt` and similar to do that.
-WORD_COUNT_en = 86
+WORD_COUNT_en = 87
 WORD_COUNT_fr = 49
-WORD_COUNT_pt-br = 50
+WORD_COUNT_pt-br = 39
 WORD_COUNT_ca = 56
-WORD_COUNT_es = 41
-WORD_COUNT_de = 87
-WORD_COUNT_literal = 58
+WORD_COUNT_es = 46
+WORD_COUNT_de = 89
+WORD_COUNT_literal = 59
 
 # These are targets that aren't files
-.PHONY: all clean default sizes.%.txt
+.PHONY: all clean default
 
 # Disable built-in rules
 .SUFFIXES:
@@ -44,10 +44,15 @@ generated/%.psgcompr: generated/%.bin
 generated/%.psgcompr: new_graphics/%.png
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
+# And per-language ones. There's a <LANGUAGE>/<filename> hidden in the %.
+generated/%.psgcompr: %.png tools.py
+	$(PY) tools.py mkdir $(dir $@)
+	$(BMP2TILE) $< -noremovedupes -savetiles $@
+
 # We generate tiles and tilemap for the title screen, these need specific parameters
 generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin &: new_graphics\titlescreen.top.png
 	$(BMP2TILE) $^ -tileoffset 0 -savetiles generated/title.top.psgcompr -savetilemap generated/title.top.tilemap.pscompr -palsms -savepalette generated/title-pal.bin
-generated/title.bottom.%.psgcompr generated/title.bottom.%.tilemap.pscompr &: new_graphics\titlescreen.%.png
+generated/title.bottom.%.psgcompr generated/title.bottom.%.tilemap.pscompr &: %\titlescreen.png
 	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/title.bottom.$*.psgcompr -savetilemap generated/title.bottom.$*.tilemap.pscompr
 
 # Generate menu data
@@ -60,7 +65,7 @@ generated/words.%.tbl generated/words.%.asm &: tools.py script.yaml
 	$(PY) tools.py generate_words generated/words.$*.tbl generated/words.$*.asm script.yaml $* $(WORD_COUNT_$*)
 
 # Combine the words and letters symbol dictionaries
-generated/script_with_words.%.tbl: script.%.tbl generated/words.%.tbl
+generated/script_with_words.%.tbl: %/script.tbl generated/words.%.tbl
 	$(PY) tools.py join $^ $@
 
 # Generate the script data
@@ -68,16 +73,16 @@ generated/script.%.asm generated/script-patches.%.asm generated/tree.%.asm &: ge
 	$(PY) tools.py script_inserter generated/script.$*.asm generated/script-patches.$*.asm generated/tree.$*.asm script.yaml $* generated/script_with_words.$*.tbl
 
 # Generate the font lookup
-generated/font-lookup.%.asm: script.%.tbl tools.py
+generated/font-lookup.%.asm: %/script.tbl tools.py
 	$(PY) tools.py generate_font_lookup $< generated/font-lookup.$*.asm 
 
 # Generate the dependencies list for assembly
-generated/auto.makefile.%: ps1jert.sms.asm tools.py
-	$(WLAZ80) -M -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o $< > $@
+generated/auto.makefile.%: asm/ps1jert.sms.asm
+	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o -I asm $< > $@
 
 # Now we add in the recipe to actually compile...
 generated/ps1jert.%.sms.o:
-	$(WLAZ80) -D LANGUAGE=$* -o $@ ps1jert.sms.asm
+	$(WLAZ80) -D LANGUAGE=$* -o $@ -I asm asm/ps1jert.sms.asm
 
 # And then link
 ps1jert.%.sms: generated/ps1jert.%.sms.o
@@ -92,8 +97,8 @@ ps1jert.%.bps: $(PSJ) ps1jert.%.sms
 	$(FLIPS) --create $(PSJ) ps1jert.$*.sms $@
 
 
-# Generate all the IPS and BPSes for each language found, from script.*.tbl
-LANGUAGES = $(subst .tbl,,$(subst script.,,$(wildcard script.*.tbl)))
+# Generate all the IPS and BPSes for each language found, from */script.tbl
+LANGUAGES = $(subst /script.tbl,,$(wildcard */script.tbl))
 all: $(foreach lang,$(LANGUAGES),ps1jert.$(lang).ips ps1jert.$(lang).bps)
 
 # Mark various targets as "precious". This makes make keep the files rather than auto-delete them.

@@ -34,14 +34,58 @@ menus.yaml
 
 This contains the menus used in the game. The box drawing characters are important, and if you increase the size of any menu then it is important to manage the RAM caches - see below.
 
+asm/articles.xx.asm
+-------------------
+
+These contain the definitions of articles and code to manage the selection of them. The indices used need to match those used in tools.py - see the articles section below.
+
+asm/credits.xx.asm
+------------------
+
+This contains data for the credits at the end of the game. We have squeezed some of the original credits together in order to make space for a couple of screens for retranslation credits. As it is all capitals, any accents are placed as separate text on the row above or below as needed.
+
+asm/lists.xx.asm
+----------------
+
+These contain the names of items in the game: inventory items, characters and enemies. These include markers to determine the correct articles for each. Add a new version for a new language.
+
+asm/name-entry-data.xx.asm
+--------------------------
+
+The save game name entry screen layout is defined here. There are three parts: text, mask and cursor limits.
+
+In the first part, NameEntryText defines what is shown on the screen and where, in the form `x, y, "text"`. If there are more than three spaces in a row then it saves a tiny amount of ROM space to split the text into multiple entries. 
+
+In the second part, NameEntryMask defines which parts of the text are the Back, Next, Space and Save buttons.
+
+Finally we define the X, Y limits of the screen so the cursor knows where to stop.
+
+asm/options-menu.xx.asm
+-----------------------
+
+The title screen options menu has values drawn in at runtime. These are localised per-language here.
+
+asm/pronouns.xx.asm
+-------------------
+
+In most languages we sometimes use pronouns like "her" and "she" in the script when referring to the party members. Here we define the pronouns for the female and male characters for each language.
+
+asm/stats-hp-mp.xx.asm
+----------------------
+
+This is the text for "HP" and "MP" in stats windows for both players and enemies.
+
+asm/stats-window.xx.asm
+-----------------------
+
+This is the main stats window seen in-game when choosing "Status".
+
 ps1jert.sms.asm
 ---------------
 
 This is where most of the code goes. There are some important parts. You will need to implement them all. Each section is surrounded by a condition based on the LANGUAGE variable; search for this to find all the parts.
 
-- Table loading: add variants to load the table files for your language.
 - Articles handling: this is where we map some of the script elements to words which differ based on the noun they go with. For example, in English is determines whether an inventory item goes with "the", "a", "an", "some". In French it is used for possessive (de) and directive (à) forms for different nouns.
-- Items and names: these are the inventory items, characters and enemies. These include markers to determine the correct articles for each.
 - Stats window: these strings are localised here.
 - Save game name entry: these similarly define the text shown on the name entry screen.
 - Credits: there is a space to enter your translation credits.

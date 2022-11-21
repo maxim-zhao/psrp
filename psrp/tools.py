@@ -2,6 +2,7 @@ import sys
 import os
 import re
 import yaml
+from pathlib import Path
 
 start_code = 0x6d  # see WordListStart in asm
 
@@ -717,6 +718,9 @@ def generate_font_lookup(tbl_file, lookup_file):
         f.write("\"")
 
 
+def mkdir(path):
+    Path(path).mkdir(parents=True, exist_ok=True)
+
 
 def main():
     verb = sys.argv[1]
@@ -734,6 +738,8 @@ def main():
         clean(sys.argv[2])
     elif verb == 'generate_font_lookup':
         generate_font_lookup(sys.argv[2], sys.argv[3])
+    elif verb == 'mkdir':
+        mkdir(sys.argv[2])
     else:
         raise Exception(f"Unknown verb \"{verb}\"")
 
