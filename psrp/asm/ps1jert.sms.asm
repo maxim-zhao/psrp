@@ -417,7 +417,7 @@ ShopMST:
 ; This one needs to go in low ROM as it's accessed from multiple places (stats, shop, inventory)
 .bank 0 slot 0
 .section "Meseta tilemap data" free
-MST:      .stringmap tilemap "│Meseta     "   ; Spaces for padding
+MST:      .stringmap tilemap "│Meseta         " ; Spaces for padding; this needs to be big enough for all languages' stats windows
 .ends
 
 .slot 1

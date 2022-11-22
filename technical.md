@@ -53,7 +53,7 @@ Next we have the assembly file itself, `ps1jert.sms.asm`. ("Phantasy Star 1 Japa
   - `ROMPosition` allows us to set the assembly position in ROM space, useful for patching specific addresses.
   - `PatchB` and `PatchW` allow us to patch bytes and words at specific addresses. This is used for many of the generated "patch" files.
   - `LoadPagedTiles` is used for a repeated pattern of mapping in some tile data and loading t to VRAM.
-  - `String` is used to encode various bits of text in the game (especially the lists). We use WLA DX's `.asciitable` to help with the mapping.
+  - `String` is used to encode various bits of text in the game (especially the lists). We use WLA DX's `.stringmap` to help with the mapping.
 - We define some names for various RAM locations used by the game, as well as locations used by the new script engine code (which re-use areas used by the old engine).
 - Next we start defining a mixture of new code and patches to the old code to call into the new code. We use WLA DX's `.section` syntax to define chunks of code and data and give WLA DX hints about where they need to be placed; this allows it to deal with packing the chunks into the available space for us.
  - Some is marked as `overwrite`, where we are patching over the original code at the address given.
@@ -61,8 +61,9 @@ Next we have the assembly file itself, `ps1jert.sms.asm`. ("Phantasy Star 1 Japa
  - `free` sections can go anywhere in the current bank. This is useful for functions or data that are referenced from the same bank.
  - Some data can go literally anywhere as it's always accessed via paging; these are `superfree`.
 - Note that we relocate and repopulate (using labels and macro) the "`SceneDataStruct`", in order to map in the majority of our recompressed and relocated graphics data. The tilemaps and palettes are all copied from the original ROM, the latter are relocated too.
-- The name entry screen is reimplemented mostly from scratch.
-- For the credits, we inject new credits at the original data location. Note: please do not erase any credits on derived versions.
+- We inject additional source files via `.include`; some of these are language-specific. We use the compile-time definition `LANGUAGE` to control these and other language-specific aspects.
+- The name entry screen is reimplemented almost entirely from scratch.
+- For the credits, we inject new credits at the original data location.
 - Finally, there are a few original things added to the code...
   1. We fix a bug in the original game where the same text is used in both of the "liar" villages
   2. We fix a bug in the original game which causes Myau's stats to get worse at the highest level

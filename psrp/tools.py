@@ -377,14 +377,13 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
             pass
-        elif tag in ["he","she","Sie","Er","ela","Elle","Il","ell","ella","él"]:
+        elif tag in ["he/she","Sie/Er","él/ella","Il/Elle","ell/ella", "ele/ela"]:
             # Pronoun 0
             self.buffer.append(ScriptingCode.SymbolPronoun)
             self.buffer.append(0)
             self.script_hints = True
             pass
-        elif tag in ["his","her","sie","er","elle","il","el seu","la seva"]:
-            # Careful, "him/her" would get confused here if we added it
+        elif tag in ["his/her","sie/er","il/elle","el seu/la seva"]:
             # Pronoun 1
             self.buffer.append(ScriptingCode.SymbolPronoun)
             self.buffer.append(1)
