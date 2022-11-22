@@ -82,13 +82,13 @@
     調べる
     セーブ
   literal: |
-    ┌────────╖
-    │Strength║
-    │Magic   ║
-    │Items   ║
-    │Search  ║
-    │Save    ║
-    ╘════════╝
+    ┌──────╖
+    │Status║
+    │Magic ║
+    │Items ║
+    │Search║
+    │Save  ║
+    ╘══════╝
   us: |
     ┌────╖
     │STAS║
@@ -269,13 +269,13 @@
     話す
     逃げる
   literal: |
-    ┌─────╖
-    │Fight║
-    │Magic║
-    │Items║
-    │Talk ║
-    │Run  ║
-    ╘═════╝
+    ┌──────╖
+    │Attack║
+    │Magic ║
+    │Items ║
+    │Talk  ║
+    │Run   ║
+    ╘══════╝
   us: |
     ┌────╖
     │ATTK║
