@@ -8083,6 +8083,7 @@ _LABEL_3592_:
       call InputTilemapRect
     pop bc
     pop af
+    
     add a,a
     add a,a
     add a,a
@@ -8099,6 +8100,7 @@ _LABEL_3592_:
     add hl,de
     ld de,$7A0C
     ld a,b
+    ; Check for magic count = 0. This is handled earlier so this is unneeded #############
     or a
     jp z,+
     add a,a
@@ -8125,7 +8127,7 @@ _LABEL_3592_:
     ld b,a
     jp OutputTilemapBoxWipePaging
 
-+:  ld hl,_DATA_6FA3F_
++:  ld hl,_DATA_6FA3F_ ; Unreachable ################
     ld bc,$0C0C
     jp OutputTilemapBoxWipePaging
 

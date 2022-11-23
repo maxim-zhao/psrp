@@ -239,6 +239,7 @@ _script\@_end:
   ShopInventoryWidth db ; for elastic window size
   ScriptBCStateBackup dw ; w Used for retaining state in tricky script situations
   TextDrawingCharacterCounter db ; Counts the number of chars to draw per frame
+  SpellsMenuVRAMLocation dw ; We draw at variable locations so we store the value here for restore
 
   SettingsStart: .db
 
@@ -342,13 +343,37 @@ MenuData:
 
 .include {"{LANGUAGE}/stats-hp-mp.asm"}
 
-.unbackground $35a2 $35d7
-  ROMPosition $35a2
+.unbackground $3592 $35ee
+  ROMPosition $3592
 .section "Spell selection finder" force ; not movable
 DrawSpellsMenu:
-  ; We want to compute hl = a'th spells menu data
-  ; de = dest VRAM address
-  ; b = spell count to draw
+  ; Original offsets:
+  ; 3595: RAM address for reading in backup 
+  ; 3598: VRAM address for reading in backup 
+  ; 359b: VRAM dims for reading in backup
+  ; 35b0: pointer to start of data in ROM, replaced with table below
+  ; 35e4: RAM address for restoring backup
+  ; 35e7: VRAM address for restoring backup
+  ; 35ea: VRAM dims for restoring backup
+  ; 1b6a: pointer VRAM location for battle
+  ; 1ee1: pointer VRAM location for overworld
+  ; b = spell count to draw, a = index of spell data to draw (0..5)
+  ; Original code handles b = 0, we don't as the game can't reach that state
+  push bc
+    ; We want to compute hl = a'th spells menu data, de = VRAM address
+    ld hl,SPELLS
+    ld de,MENU_VRAM + BattleMenu_width * 2
+    ; if a > 2 then it is the world menu, else the battle menu
+    cp 3
+    jr c,+
+    ld de,MENU_VRAM + WorldMenu_width * 2
+    ; We save this address for later
++:  ld (SpellsMenuVRAMLocation),de
+    ld bc,SPELLS_dims
+    push af
+      call InputTilemapRect
+    pop af
+  pop bc
   push de
     add a,a
     ld e,a
@@ -360,10 +385,6 @@ DrawSpellsMenu:
     ld h,(hl)
     ld l,a
   pop de
-  ; Next we want to check if b = 0
-  ld a,b
-  or a
-  jp z,$35da
   ; Now we want to compute b = row count, c = column count  * 2
   inc b
   ld c,SpellMenuBottom_width*2
@@ -378,6 +399,21 @@ _magicmenutable:
 .dw OverworldSpellsAlisa, OverworldSpellsMyau, OverworldSpellsLutz
 .ends
 
+  ROMPosition $35e3
+.section "CloseSpellsMenu" force ; not movable?
+CloseSpellsMenu:
+  ld hl,SPELLS
+  ld de,(SpellsMenuVRAMLocation)
+  jp CloseSpellsMenu_helper
+.ends
+.section "CloseSpellsMenu helper" free
+CloseSpellsMenu_helper:
+  ld bc,SPELLS_dims
+  jp OutputTilemapBoxWipePaging
+.ends
+
+  PatchW $1b6a MENU_VRAM + BattleMenu_width * 2 + ONE_ROW ; pointer VRAM location for battle
+  PatchW $1ee1 MENU_VRAM + WorldMenu_width * 2 + ONE_ROW ; pointer VRAM location for overworld
 
   ROMPosition $3907
 .section "Stats window" force
@@ -803,3 +839,4 @@ GetItemType:
 .include "item-drawing.asm"
 .include "window-ram-management.asm"
 .include "save-game-handling.asm"
+
