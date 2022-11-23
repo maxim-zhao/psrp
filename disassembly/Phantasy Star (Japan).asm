@@ -4427,7 +4427,7 @@ BattleMenu_Magic:
     dec a
 +:  push af
       push hl
-        call _LABEL_3592_
+        call _LABEL_3592_ShowMagicMenu
         ld hl,$7A8C
         ld (CursorTileMapAddress),hl
       pop hl
@@ -4805,7 +4805,7 @@ _LABEL_1DFD_:
     cp $03
     jr nz,+
     dec a
-+:  call _LABEL_3592_
++:  call _LABEL_3592_ShowMagicMenu
     call MenuWaitForButton
     call _LABEL_35E3_
 ++:  call _LABEL_39DE_
@@ -4899,7 +4899,7 @@ _LABEL_1EA9_:
     add a,$03 ; Add 3 to magic count to make a line count
     push bc
       push hl
-        call _LABEL_3592_ ; Show magic menu
+        call _LABEL_3592_ShowMagicMenu ; Show magic menu
         ld hl,$7A8C
         ld (CursorTileMapAddress),hl
       pop hl
@@ -8074,7 +8074,7 @@ Close20x6TextBox:      ; $357e
 .ends
 .orga $3592
 
-_LABEL_3592_:
+_LABEL_3592_ShowMagicMenu:
     push af
     push bc
       ld hl,_RAM_DB74_

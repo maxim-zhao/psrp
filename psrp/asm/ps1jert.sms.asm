@@ -404,6 +404,8 @@ _magicmenutable:
 CloseSpellsMenu:
   ld hl,SPELLS
   ld de,(SpellsMenuVRAMLocation)
+  ; We are short of space by one byte, so we trampoline to some free space.
+  ; We could rewire calls to this function to save a few bytes.
   jp CloseSpellsMenu_helper
 .ends
 .section "CloseSpellsMenu helper" free
