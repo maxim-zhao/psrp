@@ -10422,19 +10422,34 @@
   es: ¿Queréis abrirlo?<end>
   de: Willst du sie öffnen?<end>
 
-- offsets: 2a8c
+- offsets: ChestMesetasPlural # Was 2a8c
   indices: afda
   ja: <number>メセタ　ハイッテイタ。<wait>
   kanji: <number>メセタ入っていた。
-  literal: There were <number><internal hint 01> meseta<s> inside.<wait>
+  literal: There were <number> mesetas inside.<wait>
   us: |
     THERE ARE <number><line>
     MESETAS INSIDE.<wait>
-  en: You found <number><internal hint 01> meseta<s> inside.<wait>
-  fr: Plus <number><internal hint 02> meseta<s>.<wait>
-  pt-br: Você encontrou <number><internal hint 01> meseta<s> dentro.<wait>
-  ca: Heu trobat <number><internal hint 01> meseta<s> dintre.<wait>
-  es: Habeís encontrado <number><internal hint 01> meseta<s> dentro.<wait>
+  en: There were <number> mesetas inside.<wait>
+  fr: Plus <number> mesetas.<wait>
+  pt-br: Você encontrou <number> mesetas dentro.<wait>
+  ca: Heu trobat <number> mesetas dintre.<wait>
+  es: Habeís encontrado <number> mesetas dentro.<wait>
+  de: Du hast <number> Meseta erhalten.<wait>
+
+- offsets: ChestMesetasSingular
+  # Not in the original
+  # TODO adjust lines for fr, pt-br, ca, es, de
+  # Localisers, remove your language from the list above when done please :)
+  literal: There was 1 meseta inside.<wait>
+  us: |
+    THERE ARE <number><line>
+    MESETAS INSIDE.<wait>
+  en: There's only one meseta inside.<wait>
+  fr: Plus <number> meseta.<wait>
+  pt-br: Você encontrou <number> meseta dentro.<wait>
+  ca: Heu trobat <number> meseta dintre.<wait>
+  es: Habeís encontrado <number> meseta dentro.<wait>
   de: Du hast <number> Meseta erhalten.<wait>
 
 - offsets: 2a73

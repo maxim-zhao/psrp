@@ -6428,7 +6428,7 @@ _LABEL_2A37_:
 _LABEL_2A4A_:
     ld a,SFX_b0
     ld (NewMusic),a
-    ; Set ibject flag to $ff so we don't see it again
+    ; Set object flag to $ff so we don't see it again
     ld hl,(DungeonObjectFlagAddress)
     ld (hl),$FF
     ld a,$01
