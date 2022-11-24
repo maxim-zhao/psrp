@@ -1038,7 +1038,7 @@ SpeedHack:
 
 ; For linguistic reasons, we want to use a slightly different script line
 ; for when the number of mesetas in a chest is one.
-  ROMPosition $2a8f
+  ROMPosition $2a8c
 .section "Chest mesetas plural enhancement part 1" overwrite
 ; Original code:
 ; hl = count, may be 0
@@ -1046,16 +1046,19 @@ SpeedHack:
 ;    or     l               ; 002A8B B5 
 ;    ld     hl,$afda        ; 002A8C 21 DA AF ; There were <n> mesetas inside.
 ;    call   nz,$333a        ; 002A8F C4 3A 33 
+  nop
+  nop
+  nop
   call ChestMesetas
 .ends
 
 .section "Chest mesetas plural enhancement part 2" free
 ChestMesetas:
   ; We check hl again
-  ld a,l
+  ld a,h
   or a
   jr nz,_plural; More than 255
-  ld a,h
+  ld a,l
   or a
   ret z ; Zero
   dec a
