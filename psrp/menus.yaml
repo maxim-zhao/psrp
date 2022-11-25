@@ -956,7 +956,7 @@
 
 - name: BattleSpellsAlisa
   #ptrs: 35b0
-  dims: 359b,35ea
+  #dims: 359b,35ea
   height: 7 # for bottom row
   jp: |
     ┌────╖

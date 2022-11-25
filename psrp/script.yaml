@@ -1245,7 +1245,6 @@
     I DON'T KNOW WHAT<line>
     THAT IS FOR.<wait>
   # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
-  # TODO fix south references below
   en: |
     Yeah, Tylon was here. He said he was heading south-west to slay Medusa. I haven't seen him since.<wait more>
     He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
@@ -1260,11 +1259,11 @@
     Ele não estava sozinho, ele estava viajando com um animal falante! Eu não pude acreditar!<wait more>
     Ele tinha um frasco de remédio de aparência importante em seu pescoço. Eu me pergunto para o que serve?<wait>
   ca: |
-    Si, en Tylon va passar per aquí. Es dirigía al sud per a derrotar a Medusa. No l'he tornat a veure desde aleshores.<wait more>
+    Si, en Tylon va passar per aquí. Es dirigía al sud-oest per a derrotar a Medusa. No l'he tornat a veure desde aleshores.<wait more>
     No anava sol per això, anava amb un animal que parlava! No m'ho podia creure! <wait more>
     Portava un flascó amb algun tipus de remei al coll. Em pregunto per què deuria servir?<wait>
   es: |
-    Si, Tylon pasó por aquí. Se dirigía hacia el sur para derrotar a Medusa. No lo he vuelto a ver desde entonces.<wait more>
+    Si, Tylon pasó por aquí. Se dirigía hacia el sur oeste para derrotar a Medusa. No lo he vuelto a ver desde entonces.<wait more>
     No iba solo, ¡le acompañaba un animal que hablaba! ¡No me lo podía creer! <wait more>
     Llevaba un frasco de algún tipo de remedio en el cuello. ¿Me pregunto para qué serviría?<wait>
   de: |
@@ -1381,9 +1380,9 @@
     CAN BE FOUND ON<wait more>
     THE PENINSULA TO<line>
     THE SOUTH OF SCION<wait>
-  # TODO: the peninsula is more south-east than south.
+  # The peninsula is more south-east than south.
   en: Iala Cave lies on the peninsula south-east of here.<wait>
-  fr: La grotte Iala est située sur la péninsule au sud-ouest de la ville.<wait>
+  fr: La grotte Iala est située sur la péninsule au sud-est de la ville.<wait>
   pt-br: A Caverna de Iala fica na península a sudeste daqui.<wait>
   ca: La cova d'Iala es troba a la península al sud-est d'aquí.<wait>
   es: La cueva de Iala se encuentra en la península al sureste de aquí.<wait>
@@ -3907,9 +3906,9 @@
   indices: 0CE
   ja: フザケルナ。<wait>
   kanji: ふざけるな。
-  literal: Don't mess with me!<wait>
+  literal: Stop fooling around.<wait>
   us: DON'T BE A FOOL!<wait>
-  en: Well? Let’s see it.<wait>
+  en: Don't mess with me!<wait>
   fr: Eh bien_? Voyons ca.<wait>
   pt-br: Ei, não brinque comigo!<wait>
   ca: De debò? Vull veure'l.<wait>
@@ -8660,7 +8659,6 @@
 
 - offsets: ScriptAerocastleFreeTranCarpet
   # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
-  # TODO fix these translations: fr, ca, es, de
   indices: 210
   literal: Hmm, no way down? Here, you can have my <item>.<wait>
   en: Hmm, no way down? Here, you can have my <item>.<wait>
@@ -8684,8 +8682,7 @@
     DEPTH OF THE <line>
     DUNGEONS.<wait>
   en: There is more than meets the eye in this dungeon, fools.<wait>
-  # TODO: French version here
-  fr: .........<wait>
+  fr: Ne vous fiez pas à vos propres yeux dans les donjons.<wait>
   pt-br: Há mais do que seus olhos podem ver neste calabouço, tolos.<wait>
   ca: En aquesta masmorra hi ha més del que els vostres ulls poden veure , ximples.<wait>
   es: En esta mazmorra hay más de lo que vuestros ojos pueden ver, imbéciles. <wait>
@@ -10421,19 +10418,32 @@
   es: ¿Queréis abrirlo?<end>
   de: Willst du sie öffnen?<end>
 
-- offsets: 2a8c
+- offsets: ChestMesetasPlural # Was 2a8c
   indices: afda
   ja: <number>メセタ　ハイッテイタ。<wait>
   kanji: <number>メセタ入っていた。
-  literal: There were <number><internal hint 01> meseta<s> inside.<wait>
+  literal: There were <number> mesetas inside.<wait>
   us: |
     THERE ARE <number><line>
     MESETAS INSIDE.<wait>
-  en: You found <number><internal hint 01> meseta<s> inside.<wait>
-  fr: Plus <number><internal hint 02> meseta<s>.<wait>
-  pt-br: Você encontrou <number><internal hint 01> meseta<s> dentro.<wait>
-  ca: Heu trobat <number><internal hint 01> meseta<s> dintre.<wait>
-  es: Habeís encontrado <number><internal hint 01> meseta<s> dentro.<wait>
+  en: There were <number> mesetas inside.<wait>
+  fr: Vous y trouvez <number> mesetas.<wait>
+  pt-br: Você encontrou <number> mesetas dentro.<wait>
+  ca: Heu trobat <number> mesetas dintre.<wait>
+  es: Habeís encontrado <number> mesetas dentro.<wait>
+  de: Du hast <number> Meseta erhalten.<wait>
+
+- offsets: ChestMesetasSingular
+  # Not in the original
+  literal: There was 1 meseta inside.<wait>
+  us: |
+    THERE ARE <number><line>
+    MESETAS INSIDE.<wait>
+  en: There's only one meseta inside.<wait>
+  fr: Vous n'y trouvez qu'un seul meseta.<wait>
+  pt-br: Você encontrou <number> meseta dentro.<wait>
+  ca: Heu trobat <number> meseta dintre.<wait>
+  es: Habeís encontrado <number> meseta dentro.<wait>
   de: Du hast <number> Meseta erhalten.<wait>
 
 - offsets: 2a73

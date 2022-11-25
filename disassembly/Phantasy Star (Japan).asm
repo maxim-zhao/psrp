@@ -4427,7 +4427,7 @@ BattleMenu_Magic:
     dec a
 +:  push af
       push hl
-        call _LABEL_3592_
+        call _LABEL_3592_ShowMagicMenu
         ld hl,$7A8C
         ld (CursorTileMapAddress),hl
       pop hl
@@ -4805,7 +4805,7 @@ _LABEL_1DFD_:
     cp $03
     jr nz,+
     dec a
-+:  call _LABEL_3592_
++:  call _LABEL_3592_ShowMagicMenu
     call MenuWaitForButton
     call _LABEL_35E3_
 ++:  call _LABEL_39DE_
@@ -4899,7 +4899,7 @@ _LABEL_1EA9_:
     add a,$03 ; Add 3 to magic count to make a line count
     push bc
       push hl
-        call _LABEL_3592_ ; Show magic menu
+        call _LABEL_3592_ShowMagicMenu ; Show magic menu
         ld hl,$7A8C
         ld (CursorTileMapAddress),hl
       pop hl
@@ -6428,7 +6428,7 @@ _LABEL_2A37_:
 _LABEL_2A4A_:
     ld a,SFX_b0
     ld (NewMusic),a
-    ; Set ibject flag to $ff so we don't see it again
+    ; Set object flag to $ff so we don't see it again
     ld hl,(DungeonObjectFlagAddress)
     ld (hl),$FF
     ld a,$01
@@ -8074,7 +8074,7 @@ Close20x6TextBox:      ; $357e
 .ends
 .orga $3592
 
-_LABEL_3592_:
+_LABEL_3592_ShowMagicMenu:
     push af
     push bc
       ld hl,_RAM_DB74_
@@ -8083,6 +8083,7 @@ _LABEL_3592_:
       call InputTilemapRect
     pop bc
     pop af
+    
     add a,a
     add a,a
     add a,a
@@ -8099,6 +8100,7 @@ _LABEL_3592_:
     add hl,de
     ld de,$7A0C
     ld a,b
+    ; Check for magic count = 0. This is handled earlier so this is unneeded #############
     or a
     jp z,+
     add a,a
@@ -8125,7 +8127,7 @@ _LABEL_3592_:
     ld b,a
     jp OutputTilemapBoxWipePaging
 
-+:  ld hl,_DATA_6FA3F_
++:  ld hl,_DATA_6FA3F_ ; Unreachable ################
     ld bc,$0C0C
     jp OutputTilemapBoxWipePaging
 

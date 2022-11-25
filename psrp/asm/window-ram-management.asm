@@ -214,7 +214,7 @@
   DefineWindow NARRATIVE        PARTYSTATS_end        NarrativeBox_width            NarrativeBox_height             1                                     18
   DefineWindow NARRATIVE_SCROLL NARRATIVE_end         31                            3                               2                                     19
   DefineWindow CHARACTERSTATS   NARRATIVE             StatsMenuDimensions_width     StatsMenuDimensions_height      31-StatsMenuDimensions_width          4
-  DefineWindow MENU             NARRATIVE_SCROLL_end  WorldMenu_width               WorldMenu_height                1                                     1
+  DefineWindow MENU             NARRATIVE_SCROLL_end  max(WorldMenu_width, BattleMenu_width) WorldMenu_height       1                                     1
   DefineWindow CURRENT_ITEMS    MENU_end              InventoryMenuDimensions_width 5                               31-InventoryMenuDimensions_width      13
   DefineWindow PLAYER_SELECT    CURRENT_ITEMS_end     ChoosePlayerMenu_width        ChoosePlayerMenu_height         1                                     8
   DefineWindow ENEMY_NAME       MENU_end              21                            3                               11                                    0 ; max width 19 chars
@@ -324,10 +324,11 @@
   PatchWords INVENTORY_VRAM         $363f $3778 $364b
   PatchW $3617 INVENTORY_VRAM + ONE_ROW * 2 ; - VRAM cursor
 
-  PatchWords SPELLS                 $3595 $35e4 ; Spell list
-  PatchWords SPELLS_VRAM            $3598 $35e7
-  PatchW $1ee1 SPELLS_VRAM + ONE_ROW
-  PatchW $1b6a SPELLS_VRAM + ONE_ROW
+; We replace the windowing of this to make the position stick to the menu spawning it
+;  PatchWords SPELLS                 $3595 $35e4 ; Spell list
+;  PatchWords SPELLS_VRAM            $3598 $35e7
+;  PatchW $1ee1 SPELLS_VRAM + ONE_ROW
+;  PatchW $1b6a SPELLS_VRAM + ONE_ROW
 
   PatchWords PLAYER_SELECT          $3788 $37de ; Player select
   ; a = player count, but we want n+1 rows of data for n players
