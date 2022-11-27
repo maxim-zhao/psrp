@@ -9566,10 +9566,10 @@
     <monster> IS TIED<line>
     UP.<wait>
   en: <Article><monster> is all bound up.<delay>
-  fr: <Article><monster> s'est fait ligoter!<delay>
+  fr: <Article><monster> s'est fait ligoter_!<delay>
   pt-br: A magia imobilizou <Article><monster>.<delay>
-  ca: La màgia inmobilitza <article><monster> .<delay>
-  es: La mágia inmobiliza <article><monster> .<delay>
+  ca: La màgia inmobilitza <article><monster>.<delay>
+  es: La mágia inmobiliza <article><monster>.<delay>
   de: <Nom><monster> wurde gefesselt.<delay>
 
 - offsets: 151f
@@ -10428,11 +10428,11 @@
     THERE ARE <number><line>
     MESETAS INSIDE.<wait>
   en: There were <number> mesetas inside.<wait>
-  fr: Vous y trouvez <number> mesetas.<wait>
+  fr: Il y avait <number> mesetas à l'intérieur.<wait>
   pt-br: Você encontrou <number> mesetas dentro.<wait>
   ca: Heu trobat <number> mesetas dintre.<wait>
   es: Habeís encontrado <number> mesetas dentro.<wait>
-  de: Du hast <number> Meseta erhalten.<wait>
+  de: Es gab <number> Meseta im Inneren.<wait>
 
 - offsets: ChestMesetasSingular
   # Not in the original
@@ -10440,12 +10440,12 @@
   us: |
     THERE ARE <number><line>
     MESETAS INSIDE.<wait>
-  en: There's only one meseta inside.<wait>
-  fr: Vous n'y trouvez qu'un seul meseta.<wait>
+  en: There was only one meseta inside.<wait>
+  fr: Il n'y avait qu'un meseta à l'intérieur.<wait>
   pt-br: Você encontrou <number> meseta dentro.<wait>
   ca: Heu trobat <number> meseta dintre.<wait>
   es: Habeís encontrado <number> meseta dentro.<wait>
-  de: Du hast <number> Meseta erhalten.<wait>
+  de: Es gab nur eine Meseta im Inneren.<wait>
 
 - offsets: 2a73
   indices: afef
