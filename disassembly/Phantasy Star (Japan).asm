@@ -384,6 +384,7 @@ CharacterSpriteAttributes .dsb 256 ; Character sprite attributes:
 ; +18 ($12): current facing direction (0,1,2,3=U,D,L,R)
 ; +19 ($13): previous facing direction (same as above)
 ; First 4 are main characters,other 4 are ???
+; Each entry is 32B total
 _RAM_C801_ dsb $9
 _RAM_C80A_ db
 .ende
