@@ -62,6 +62,7 @@ banks 32
 ; Bank 3
   .unbackground $0feb2 $0ff01 ; Hapsby travel menu
   .unbackground $0ff02 $0ff97 ; Opening cinema text box
+  .unbackground $0ff98 $0ffff ; Ending sequence movement script + unused space
 ; Bank 9
   .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
 ; Bank 11
@@ -70,7 +71,7 @@ banks 32
 ; Bank 14
   .unbackground $3bc68 $3bfff ; Title screen tilemap + unused space
 ; Bank 15
-  .unbackground $3fdee $3ffff ; Credits font
+  .unbackground $3fdee $3ffff ; Credits font + unused space
 ; Bank 16
   .unbackground $40000 $428f5 ; Scene tiles and palettes (part 1)
   .unbackground $433f6 $43fff ; Scene tiles and palettes (part 2) + unused space
