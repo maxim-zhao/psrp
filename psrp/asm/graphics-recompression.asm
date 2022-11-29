@@ -397,3 +397,27 @@ TilesMyauPortrait1: .incbin "generated/7caeb.psgcompr"
   PatchPortrait $4997 PaletteLutzPortrait
   PatchPortrait $499c PaletteMyauPortrait2
   PatchPortrait $49a1 PaletteMyauPortrait3
+
+; Treasure chests
+.slot 2
+.unbackground $50000 $50fea ; Treasure chest palette, tiles
+.section "Treasure chest art" superfree
+PaletteTreasureChest: CopyFromOriginal $50000 8
+TilesTreasureChest: .incbin "generated/50008.psgcompr"
+.ends
+;    ld     hl,$ffff        ; 00180E 21 FF FF 
+;    ld     (hl),:PaletteTreasureChest ;$14        ; 001811 36 14 
+  PatchB $1812 :PaletteTreasureChest
+;    ld     hl,PaletteTreasureChest ;$8000        ; 001813 21 00 80 
+  PatchW $1814 PaletteTreasureChest
+;    ld     de,$c258        ; 001816 11 58 C2 
+;    ld     bc,$0008        ; 001819 01 08 00 
+;    ldir                   ; 00181C ED B0 
+;    ld     hl,$c240        ; 00181E 21 40 C2 
+;    ld     de,$c220        ; 001821 11 20 C2 
+;    ld     bc,$0020        ; 001824 01 20 00 
+;    ldir                   ; 001827 ED B0 
+;    ld     hl,TilesTreasureChest ;$8008        ; 001829 21 08 80 
+  PatchW $182a TilesTreasureChest
+;    ld     de,$6000        ; 00182C 11 00 60 
+;    call   $04b3           ; 00182F CD B3 04 
