@@ -25,10 +25,10 @@ banks 32
 ; Bank 0
   .unbackground $0000f $00037 ; Unused space
   .unbackground $00056 $00065 ; ExecuteFunctionIndexAInNextVBlank followed by unused space
-  .unbackground $00486 $004b2 ; Old tile decoder
+  .unbackground $00486 $004b2 ; Old tile decoder 1
+  .unbackground $004b3 $004e1 ; Old tile decoder 2
   .unbackground $0073f $00750 ; Title screen menu
   .unbackground $0079e $008a3 ; Continue/Delete screen/menus
-  .unbackground $007c9 $007df ; Load game font loader
   .unbackground $008f3 $0090b ; Title screen graphics loading
   .unbackground $00925 $00944 ; Title screen palette
   .unbackground $010e3 $010f9 ; Dungeon font loader

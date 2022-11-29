@@ -1648,7 +1648,7 @@ _VDPData:
 ; followed by
 .section "Tile loader (4 bpp RLE, no di/ei)" overwrite
 ; Decompresses tile data from hl to VRAM address de
-LoadTiles4BitRLENoDI:
+LoadTiles4BitRLENoDI: ; $0486
     ld b,$04
 -:  push bc
     push de
@@ -1983,7 +1983,7 @@ NewGame:
 .ends
 ; followed by
 .section "Continue selected on title screen" overwrite
-TitleScreenContinue:
+TitleScreenContinue: ; $079E
     ld a,SRAMPagingOn
     ld (SRAMPaging),a
     ld hl,SRAMSlotsUsed
@@ -10483,7 +10483,7 @@ FadeToNarrativePicture: ; $492c
       call LoadTiles4BitRLE ; and tiles after it
 
       ld hl,Frame2Paging
-      ld (hl),NarrativeTilemaps
+      ld (hl),:NarrativeTilemaps
     pop hl
     ld a,(hl)          ; +3-4: Tilemap offset
     inc hl

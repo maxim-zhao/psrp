@@ -77,8 +77,8 @@ generated/font-lookup.%.asm: %/script.tbl tools.py
 	$(PY) tools.py generate_font_lookup $< generated/font-lookup.$*.asm 
 
 # Generate the dependencies list for assembly
-generated/auto.makefile.%: asm/ps1jert.sms.asm
-	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o -I asm $< > $@
+generated/auto.makefile.%: asm/*
+	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o -I asm asm/ps1jert.sms.asm > $@
 
 # Now we add in the recipe to actually compile...
 generated/ps1jert.%.sms.o:

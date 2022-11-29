@@ -43,7 +43,7 @@ TitleScreenModTrampoline:
 TitleScreenMod:
   call WaitForMenuSelection
   or a
-  jp z,$0751
+  jp z,$0751 ; NewGame
   dec a
   jp z,Continue
   dec a

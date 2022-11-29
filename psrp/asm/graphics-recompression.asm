@@ -22,6 +22,26 @@ LoadTiles:
   ret
 .ends
 
+  ROMPosition $004b3
+.section "Trampoline to new bitmap decoder 2" force ; not movable
+; RLE/LZ bitmap decoder
+; - support mapper
+
+; Redirects calls to LoadTiles4BitRLE@$04b3 (decompress graphics, interrupt-safe version)
+; to a ripped decompressor from Phantasy Star Gaiden
+LoadTilesDIEI:
+  ld a,:PSGaiden_tile_decompr
+  ld (PAGING_SLOT_1),a
+  ; TODO: is this too slow? The original does di/ei in the inner loop body...
+  ex de,hl ; ??????
+  di
+    call PSGaiden_tile_decompr
+  ei
+  ld a,1
+  ld (PAGING_SLOT_1),a
+
+  ret
+.ends
 .slot 2
 .section "Outside tiles" superfree
 OutsideTiles:
@@ -251,3 +271,129 @@ BackgroundSceneLoaderTileLoaderPatch:
   ld hl,TileWriteAddress(0)
   call LoadTiles
 .ends
+
+.slot 2
+
+.unbackground $5f778 $5ffff
+.section "Space graphics" superfree
+TilesSpace: .incbin "generated/5f778.psgcompr"
+PaletteSpace: CopyFromOriginal $5f767 17
+.ends
+
+; Intro sequence:
+;    ld     hl,$ffff        ; 004512 21 FF FF 
+;    ld     (hl),:PaletteSpace ;$17        ; 004515 36 17 
+  PatchB $4516 :PaletteSpace
+;    ld     hl,PaletteSpace ;$b767        ; 004517 21 67 B7 
+  PatchW $4518 PaletteSpace
+;    ld     de,$c240        ; 00451A 11 40 C2 
+;    ld     bc,$0011        ; 00451D 01 11 00 
+;    ldir                   ; 004520 ED B0 
+;    ld     hl,TilesSpace ;$b778        ; 004522 21 78 B7 
+  PatchW $4523 TilesSpace
+;    ld     de,$4000        ; 004525 11 00 40 
+;    call   LoadTiles ;$04b3           ; 004528 CD B3 04 
+
+; Interplanetary flight:
+;    ld     hl,$ffff        ; 000A03 21 FF FF 
+;    ld     (hl),:PaletteSpace ;$17        ; 000A06 36 17 
+  PatchB $0a07 :PaletteSpace
+;    ld     hl,PaletteSpace ;$b767        ; 000A08 21 67 B7 
+  PatchW $0a09 PaletteSpace
+;    ld     de,$c240        ; 000A0B 11 40 C2 
+;    ld     bc,$0011        ; 000A0E 01 11 00 
+;    ldir                   ; 000A11 ED B0 
+;    call   $0b8d           ; 000A13 CD 8D 0B 
+;    ld     hl,TilesSpace ;$b778        ; 000A16 21 78 B7 
+  PatchW $0a17 TilesSpace
+;    ld     de,$4000        ; 000A19 11 00 40 
+;    call   LoadTiles ;$04b3           ; 000A1C CD B3 04 
+
+.slot 2
+.unbackground $62484 $625df
+.section "Frame graphics" superfree
+TilesFrame: .incbin "generated/6258a.psgcompr"
+PaletteFrame: CopyFromOriginal $6257a 16
+TilemapFrame: CopyFromOriginal $62484 $6257a-$62484
+.ends
+;    ld     hl,$ffff        ; 0048F1 21 FF FF 
+;    ld     (hl),:TilesFrame ;$18        ; 0048F4 36 18 
+  PatchB $48f5 :TilesFrame
+;    ld     hl,$c240        ; 0048F6 21 40 C2 
+;    ld     de,$c241        ; 0048F9 11 41 C2 
+;    ld     (hl),$00        ; 0048FC 36 00 
+;    ld     bc,$000f        ; 0048FE 01 0F 00 
+;    ldir                   ; 004901 ED B0 
+;    ld     hl,PaletteFrame ;$a57a        ; 004903 21 7A A5 
+  PatchW $4904 PaletteFrame
+;    ld     bc,$0010        ; 004906 01 10 00 
+;    ldir                   ; 004909 ED B0 
+;    ld     hl,TilesFrame ;$a58a        ; 00490B 21 8A A5 
+  PatchW $490c TilesFrame
+;    ld     de,$4000        ; 00490E 11 00 40 
+;    call   DecompressTiles ;$04b3           ; 004911 CD B3 04 
+;    ld     hl,TilemapFrame ;$a484        ; 004914 21 84 A4 
+  PatchW $4915 TilemapFrame
+;    call   DecompressTileamap ;$6e05           ; 004917 CD 05 6E 
+
+; Character portraits
+; Palette+tiles are spread around the place but tilemaps are all together.
+; We thus only need to move the palette+tiles (and rewrite the table for them).
+
+.slot 2
+.unbackground $4b388 $4bfff ; Lutz portrait palette and tiles, unused space
+.section "Lutz portrait 1" superfree
+PaletteLutzPortrait: CopyFromOriginal $4b388 16
+TilesLutzPortrait: .incbin "generated/4b398.psgcompr"
+.ends
+.unbackground $7762a $77fff ; Tairon portrait palette and tiles, unused space
+.section "Tairon portrait" superfree
+PaletteTaironPortrait: CopyFromOriginal $7762a 16
+TilesTaironPortrait: .incbin "generated/7763a.psgcompr"
+.ends
+.unbackground $78000 $7bfff ; Various portrait palette and tiles, unused space
+.section "Nero portrait 2" superfree
+PaletteNeroPortrait2: CopyFromOriginal $78000 16
+TilesNeroPortrait2: .incbin "generated/78010.psgcompr"
+.ends
+.section "Alisa portrait 1" superfree
+PaletteAlisaPortrait1: CopyFromOriginal $78f62 16
+TilesAlisaPortrait1: .incbin "generated/78f72.psgcompr"
+.ends
+.section "Alisa portrait 2" superfree
+PaletteAlisaPortrait2: CopyFromOriginal $79c2b 16
+TilesAlisaPortrait2: .incbin "generated/79c3b.psgcompr"
+.ends
+.section "Myau portrait 2" superfree
+PaletteMyauPortrait2: CopyFromOriginal $7aa4e 16
+TilesMyauPortrait2: .incbin "generated/7aa5e.psgcompr"
+.ends
+.section "Myau portrait 3" superfree
+PaletteMyauPortrait3: CopyFromOriginal $7b30c 16
+TilesMyauPortrait3: .incbin "generated/7b31c.psgcompr"
+.ends
+
+.unbackground $7c000 $7d676 ; Nero death part 1, Myau palette and tiles
+.section "Nero portrait 1" superfree
+PaletteNeroPortrait1: CopyFromOriginal $7c000 16
+TilesNeroPortrait1: .incbin "generated/7c010.psgcompr"
+.ends
+.section "Myau portrait 1" superfree
+PaletteMyauPortrait1: CopyFromOriginal $7cedb 16
+TilesMyauPortrait1: .incbin "generated/7caeb.psgcompr"
+.ends
+
+; And the table...
+.macro PatchPortrait
+  PatchB \1 :\2
+  PatchW \1+1 \2
+.endm
+  PatchPortrait $4979 PaletteNeroPortrait1
+  PatchPortrait $497e PaletteNeroPortrait2
+  PatchPortrait $4983 PaletteAlisaPortrait1
+  PatchPortrait $4988 PaletteAlisaPortrait2
+  PatchPortrait $498d PaletteMyauPortrait1
+  PatchPortrait $4992 PaletteTaironPortrait
+  PatchPortrait $4997 PaletteLutzPortrait
+  PatchPortrait $499c PaletteMyauPortrait2
+  PatchPortrait $49a1 PaletteMyauPortrait3
