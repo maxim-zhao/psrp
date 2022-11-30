@@ -654,3 +654,107 @@ PatchEnemy\1\2:
   PatchEnemy 72 TilesLassic ; LaShiec
   PatchEnemy 73 TilesDarkForceFlame ; Dark Force
   PatchEnemy 74 TilesSuccubus ; Nightmare
+
+; Dialogue sprites
+.bank 2
+.unbackground $6c000 $6f40b ; Person tiles
+.section "6c000 art" superfree
+Tiles6c000: .incbin "generated/6c000.psgcompr"
+.ends
+.section "6ce19 art" superfree
+Tiles6ce19: .incbin "generated/6ce19.psgcompr"
+.ends
+.section "6d979 art" superfree
+Tiles6d979: .incbin "generated/6d979.psgcompr"
+.ends
+.section "6df26 art" superfree
+Tiles6df26: .incbin "generated/6df26.psgcompr"
+.ends
+.section "6e75e art" superfree
+Tiles6e75e: .incbin "generated/6e75e.psgcompr"
+.ends
+.section "6eb04 art" superfree
+Tiles6eb04: .incbin "generated/6eb04.psgcompr"
+.ends
+.section "6ee6c art" superfree
+Tiles6ee6c: .incbin "generated/6ee6c.psgcompr"
+.ends
+
+.unbackground $57a97 $57fff ; Person tiles, unused space
+.section "57a97 art" superfree
+Tiles57a97: .incbin "generated/57a97.psgcompr"
+.ends
+
+.unbackground $1bb80 $1bfff ; Person tiles, unused space
+.section "1bb80 art" superfree
+Tiles1bb80: .incbin "generated/1bb80.psgcompr"
+.ends
+
+
+; Table is at $d66c, 0-indexed.
+; Each entry is 8B.
+; Page number is offset +5B, pointer at +6B.
+.macro PatchPerson args index, label
+  ROMPosition ($d66c+index*8+5)
+.section "Person data patch for \1 \2" overwrite
+PatchPerson\1\2:
+.db :\2
+.dw \2
+.ends
+.endm
+  
+  PatchPerson 0 Tiles6c000
+  PatchPerson 1 Tiles6c000 ; Palman townsperson
+  PatchPerson 2 Tiles6c000 ; Nekise
+  PatchPerson 3 Tiles6c000
+  PatchPerson 4 Tiles6ce19 ; Robot cop
+  PatchPerson 5 Tiles6ce19 ; Old man
+  PatchPerson 6 Tiles6ce19
+  PatchPerson 7 Tiles1bb80
+  PatchPerson 8 Tiles6d979
+  PatchPerson 9 Tiles6df26
+  PatchPerson 10 Tiles6df26
+  PatchPerson 11 Tiles6e75e
+  PatchPerson 12 Tiles6eb04 ; Priest
+  PatchPerson 13 Tiles6ee6c
+  PatchPerson 14 Tiles57a97
+  PatchPerson 15 TilesDezorian
+  PatchPerson 16 TilesDezorian
+  
+  
+
+
+
+
+; Places LoadTiles4BitRLE @ $04b3 is used:
+/*
+    call   $04b3           ; 0007D4 CD B3 04 Save game loading to load font. Replaced.
+    call   $04b3           ; 0007DD CD B3 04 Save game loading to load font. Replaced.
+    call   $04b3           ; 000A1C CD B3 04 Space travel - data is done
+    call   $04b3           ; 000CEF CD B3 04 Scene loader - data is done
+    call   $04b3           ; 000CFF CD B3 04 Scene loader - data is done
+    call   $04b3           ; 0010EE CD B3 04 Dungeon font loader - replaced
+    call   $04b3           ; 0010F7 CD B3 04 Dungeon font loader - replaced 
+    call   $04b3           ; 00182F CD B3 04 Treasure chest after killing a monster - done
+    call   $04b3           ; 003DE9 CD B3 04 "Scene" font loader - replaced
+    call   $04b3           ; 003DF2 CD B3 04 "Scene" font loader - replaced 
+    call   $04b3           ; 003EB5 CD B3 04 "Scene" background loader - done
+    call   $04b3           ; 004528 CD B3 04 Intro space tiles - done
+    call   $04b3           ; 0045AF CD B3 04 Intro font loader - replaced
+    call   $04b3           ; 0045B8 CD B3 04 Intro font loader - replaced
+    call   $04b3           ; 0045C1 CD B3 04 Intro font loader - replaced
+    call   $04b3           ; 00479F CD B3 04 Myau flight sprites - TODO
+    call   $04b3           ; 00484B CD B3 04 Ending picture - done
+    call   $04b3           ; 004892 CD B3 04 Credits font - done
+    call   $04b3           ; 0048E5 CD B3 04 Picture frame font - done
+    call   $04b3           ; 0048EE CD B3 04 Picture frame font - done
+    call   $04b3           ; 004911 CD B3 04 Picture frame tiles - done
+    call   $04b3           ; 004952 CD B3 04 Picture frame picture tiles - done
+    call   $04b3           ; 005E45 CD B3 04 TODO - dialogue character or room loader?
+    call   $04b3           ; 0060E9 CD B3 04 TODO - dialogue character loader? 
+    call   $04b3           ; 0062CA CD B3 04 Enemy sprite loader - data done
+    call   $04b3           ; 006466 CD B3 04 Dialog counterpart loader - TODO - see DialogueSprites
+    call   $04b3           ; 00697C CD B3 04 Reload tiles after a pitfall
+    call   $04b3           ; 006BAE CD B3 04 Empty room - TODO
+    call   m,$04b3         ; 00DCE6 FC B3 04 Not real code
+*/
