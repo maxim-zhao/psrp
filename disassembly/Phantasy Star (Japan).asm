@@ -3013,7 +3013,7 @@ _LABEL_10C0_:
     or a
     ret z
     call LoadEnemy
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(CharacterSpriteAttributes)
     or a
     call nz,_LABEL_1D3D_
@@ -3084,7 +3084,7 @@ _LABEL_114F_:
     ld (SceneType),a
     jp DungeonScriptItem
 
-_LABEL_116B_:
+_LABEL_116B_DoBattle:
     ld a,(EnemyNumber)
     cp Enemy_LaShiec
     ld c,MusicLassic
@@ -9043,7 +9043,7 @@ _LABEL_3CE9_:
 
 _LABEL_3D3E_:
     call LoadEnemy
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(CharacterSpriteAttributes)
     or a
     call nz,_LABEL_1D3D_
@@ -10233,7 +10233,7 @@ _LABEL_46FE_:
     ld a,Enemy_GoldDrake
     ld (EnemyNumber),a
     call LoadEnemy
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(FunctionLookupIndex)
     cp $02
     ret z
@@ -11414,7 +11414,7 @@ _room_37_GovernorGeneral: ; $4ED0:
       push af
         ld a,(CharacterStatsOdin)
         push af
-          call _LABEL_116B_
+          call _LABEL_116B_DoBattle
         pop af
         ld (CharacterStatsOdin),a
       pop af
@@ -12401,7 +12401,7 @@ _room_93_55AB:
     call DrawText20x6
     call Close20x6TextBox
 _LABEL_55E9_:
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(CharacterSpriteAttributes)
     or a
     call nz,_LABEL_1D3D_
@@ -12560,7 +12560,7 @@ _room_9d_Tajim: ; $5690:
             ld (CharacterStatsAlis.IsAlive),a
             ld (CharacterStatsMyau.IsAlive),a
             ld (CharacterStatsOdin.IsAlive),a
-            call _LABEL_116B_
+            call _LABEL_116B_DoBattle
           pop af
           ld (CharacterStatsOdin.IsAlive),a
         pop af
@@ -12605,7 +12605,7 @@ _room_9e_ShadowWarrior:
     jp DrawText20x6 ; and ret
 
 _LABEL_574F_:
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(FunctionLookupIndex)
     cp $02
     ret nz
@@ -12735,7 +12735,7 @@ _room_a7_581B:
     ; Make it drop no money
     ld hl,$0000
     ld (EnemyMoney),hl
-    jp _LABEL_116B_
+    jp _LABEL_116B_DoBattle
 
 _room_a8_BayaMarlayPrisoner: ; $582D:
     ld hl,$0228
@@ -15502,7 +15502,7 @@ _LABEL_6C06_:
       ld (DungeonObjectFlagAddress),hl
     pop af
     ld (DungeonObjectItemIndex),a
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(CharacterSpriteAttributes)
     or a
     ret z
@@ -18535,7 +18535,7 @@ _DATA_C5A0_:
 
 ; TODO 16B missing here from C67F
 
-.orga $869f
+.orga $869f ; $c69f
 .section "Enemy data" overwrite
 .struct EnemyData
   Name                dsb 8

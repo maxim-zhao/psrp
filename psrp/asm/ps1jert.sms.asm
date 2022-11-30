@@ -77,7 +77,6 @@ banks 32
   .unbackground $433f6 $43fff ; Scene tiles and palettes (part 2) + unused space
 ; Bank 17
   .unbackground $44640 $47949 ; Palettes and tiles
-  ; Tajim's tiles live in this space. We used to relocate them but it's not needed any more.
   .unbackground $47fe5 $47fff ; Unused space
 ; Bank 18
   .unbackground $4be84 $4bfff ; Unused space

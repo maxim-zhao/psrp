@@ -281,33 +281,33 @@ PaletteSpace: CopyFromOriginal $5f767 17
 .ends
 
 ; Intro sequence:
-;    ld     hl,$ffff        ; 004512 21 FF FF 
-;    ld     (hl),:PaletteSpace ;$17        ; 004515 36 17 
+;    ld     hl,$ffff        ; 004512 21 FF FF
+;    ld     (hl),:PaletteSpace ;$17        ; 004515 36 17
   PatchB $4516 :PaletteSpace
-;    ld     hl,PaletteSpace ;$b767        ; 004517 21 67 B7 
+;    ld     hl,PaletteSpace ;$b767        ; 004517 21 67 B7
   PatchW $4518 PaletteSpace
-;    ld     de,$c240        ; 00451A 11 40 C2 
-;    ld     bc,$0011        ; 00451D 01 11 00 
-;    ldir                   ; 004520 ED B0 
-;    ld     hl,TilesSpace ;$b778        ; 004522 21 78 B7 
+;    ld     de,$c240        ; 00451A 11 40 C2
+;    ld     bc,$0011        ; 00451D 01 11 00
+;    ldir                   ; 004520 ED B0
+;    ld     hl,TilesSpace ;$b778        ; 004522 21 78 B7
   PatchW $4523 TilesSpace
-;    ld     de,$4000        ; 004525 11 00 40 
-;    call   LoadTiles ;$04b3           ; 004528 CD B3 04 
+;    ld     de,$4000        ; 004525 11 00 40
+;    call   LoadTiles ;$04b3           ; 004528 CD B3 04
 
 ; Interplanetary flight:
-;    ld     hl,$ffff        ; 000A03 21 FF FF 
-;    ld     (hl),:PaletteSpace ;$17        ; 000A06 36 17 
+;    ld     hl,$ffff        ; 000A03 21 FF FF
+;    ld     (hl),:PaletteSpace ;$17        ; 000A06 36 17
   PatchB $0a07 :PaletteSpace
-;    ld     hl,PaletteSpace ;$b767        ; 000A08 21 67 B7 
+;    ld     hl,PaletteSpace ;$b767        ; 000A08 21 67 B7
   PatchW $0a09 PaletteSpace
-;    ld     de,$c240        ; 000A0B 11 40 C2 
-;    ld     bc,$0011        ; 000A0E 01 11 00 
-;    ldir                   ; 000A11 ED B0 
-;    call   $0b8d           ; 000A13 CD 8D 0B 
-;    ld     hl,TilesSpace ;$b778        ; 000A16 21 78 B7 
+;    ld     de,$c240        ; 000A0B 11 40 C2
+;    ld     bc,$0011        ; 000A0E 01 11 00
+;    ldir                   ; 000A11 ED B0
+;    call   $0b8d           ; 000A13 CD 8D 0B
+;    ld     hl,TilesSpace ;$b778        ; 000A16 21 78 B7
   PatchW $0a17 TilesSpace
-;    ld     de,$4000        ; 000A19 11 00 40 
-;    call   LoadTiles ;$04b3           ; 000A1C CD B3 04 
+;    ld     de,$4000        ; 000A19 11 00 40
+;    call   LoadTiles ;$04b3           ; 000A1C CD B3 04
 
 .slot 2
 .unbackground $62484 $625df
@@ -316,25 +316,25 @@ TilesFrame: .incbin "generated/6258a.psgcompr"
 PaletteFrame: CopyFromOriginal $6257a 16
 TilemapFrame: CopyFromOriginal $62484 $6257a-$62484
 .ends
-;    ld     hl,$ffff        ; 0048F1 21 FF FF 
-;    ld     (hl),:TilesFrame ;$18        ; 0048F4 36 18 
+;    ld     hl,$ffff        ; 0048F1 21 FF FF
+;    ld     (hl),:TilesFrame ;$18        ; 0048F4 36 18
   PatchB $48f5 :TilesFrame
-;    ld     hl,$c240        ; 0048F6 21 40 C2 
-;    ld     de,$c241        ; 0048F9 11 41 C2 
-;    ld     (hl),$00        ; 0048FC 36 00 
-;    ld     bc,$000f        ; 0048FE 01 0F 00 
-;    ldir                   ; 004901 ED B0 
-;    ld     hl,PaletteFrame ;$a57a        ; 004903 21 7A A5 
+;    ld     hl,$c240        ; 0048F6 21 40 C2
+;    ld     de,$c241        ; 0048F9 11 41 C2
+;    ld     (hl),$00        ; 0048FC 36 00
+;    ld     bc,$000f        ; 0048FE 01 0F 00
+;    ldir                   ; 004901 ED B0
+;    ld     hl,PaletteFrame ;$a57a        ; 004903 21 7A A5
   PatchW $4904 PaletteFrame
-;    ld     bc,$0010        ; 004906 01 10 00 
-;    ldir                   ; 004909 ED B0 
-;    ld     hl,TilesFrame ;$a58a        ; 00490B 21 8A A5 
+;    ld     bc,$0010        ; 004906 01 10 00
+;    ldir                   ; 004909 ED B0
+;    ld     hl,TilesFrame ;$a58a        ; 00490B 21 8A A5
   PatchW $490c TilesFrame
-;    ld     de,$4000        ; 00490E 11 00 40 
-;    call   DecompressTiles ;$04b3           ; 004911 CD B3 04 
-;    ld     hl,TilemapFrame ;$a484        ; 004914 21 84 A4 
+;    ld     de,$4000        ; 00490E 11 00 40
+;    call   DecompressTiles ;$04b3           ; 004911 CD B3 04
+;    ld     hl,TilemapFrame ;$a484        ; 004914 21 84 A4
   PatchW $4915 TilemapFrame
-;    call   DecompressTileamap ;$6e05           ; 004917 CD 05 6E 
+;    call   DecompressTileamap ;$6e05           ; 004917 CD 05 6E
 
 ; Character portraits
 ; Palette+tiles are spread around the place but tilemaps are all together.
@@ -405,19 +405,252 @@ TilesMyauPortrait1: .incbin "generated/7caeb.psgcompr"
 PaletteTreasureChest: CopyFromOriginal $50000 8
 TilesTreasureChest: .incbin "generated/50008.psgcompr"
 .ends
-;    ld     hl,$ffff        ; 00180E 21 FF FF 
-;    ld     (hl),:PaletteTreasureChest ;$14        ; 001811 36 14 
+;    ld     hl,$ffff        ; 00180E 21 FF FF
+;    ld     (hl),:PaletteTreasureChest ;$14        ; 001811 36 14
   PatchB $1812 :PaletteTreasureChest
-;    ld     hl,PaletteTreasureChest ;$8000        ; 001813 21 00 80 
+;    ld     hl,PaletteTreasureChest ;$8000        ; 001813 21 00 80
   PatchW $1814 PaletteTreasureChest
-;    ld     de,$c258        ; 001816 11 58 C2 
-;    ld     bc,$0008        ; 001819 01 08 00 
-;    ldir                   ; 00181C ED B0 
-;    ld     hl,$c240        ; 00181E 21 40 C2 
-;    ld     de,$c220        ; 001821 11 20 C2 
-;    ld     bc,$0020        ; 001824 01 20 00 
-;    ldir                   ; 001827 ED B0 
-;    ld     hl,TilesTreasureChest ;$8008        ; 001829 21 08 80 
+;    ld     de,$c258        ; 001816 11 58 C2
+;    ld     bc,$0008        ; 001819 01 08 00
+;    ldir                   ; 00181C ED B0
+;    ld     hl,$c240        ; 00181E 21 40 C2
+;    ld     de,$c220        ; 001821 11 20 C2
+;    ld     bc,$0020        ; 001824 01 20 00
+;    ldir                   ; 001827 ED B0
+;    ld     hl,TilesTreasureChest ;$8008        ; 001829 21 08 80
   PatchW $182a TilesTreasureChest
-;    ld     de,$6000        ; 00182C 11 00 60 
-;    call   $04b3           ; 00182F CD B3 04 
+;    ld     de,$6000        ; 00182C 11 00 60
+;    call   $04b3           ; 00182F CD B3 04
+
+; Ending picture
+.slot 2
+.unbackground $7d676 $7e8bc ; Ending picture palette, tiles
+.section "Ending picture art" superfree
+PaletteEnding: CopyFromOriginal $7d676 17
+TilesEnding: .incbin "generated/7d687.psgcompr"
+.ends
+;    ld     hl,$ffff        ; 004835 21 FF FF
+;    ld     (hl),:PaletteEnding ;$1f        ; 004838 36 1F
+  PatchB $4839 :PaletteEnding
+;    ld     hl,PaletteEnding ;$9676        ; 00483A 21 76 96
+  PatchW $483b PaletteEnding
+;    ld     de,$c240        ; 00483D 11 40 C2
+;    ld     bc,$0011        ; 004840 01 11 00
+;    ldir                   ; 004843 ED B0
+;    ld     hl,TilesEnding ;$9687        ; 004845 21 87 96
+  PatchW $4846 TilesEnding
+;    ld     de,$4000        ; 004848 11 00 40
+;    call   $04b3           ; 00484B CD B3 04
+
+; Enemies
+; Table at $869f has 32 per enemy type.
+; Tiles bank is at +16, pointer at +17
+.slot 2
+.unbackground $28000 $2bfff ; Enemy tiles, unused space
+.section "Bat art" superfree
+TilesBat: .incbin "generated/28000.psgcompr"
+.ends
+.section "Reaper art" superfree
+TilesReaper: .incbin "generated/28d7e.psgcompr"
+.ends
+.section "Evil Dead art" superfree
+TilesEvilDead: .incbin "generated/29b85.psgcompr"
+.ends
+.section "Medusa art" superfree
+TilesMedusa: .incbin "generated/2a044.psgcompr"
+.ends
+.section "Sand worm art" superfree
+TilesSandWorm: .incbin "generated/2aa8c.psgcompr"
+.ends
+.section "Wing Eye art" superfree
+TilesWingEye: .incbin "generated/2b7e4.psgcompr"
+.ends
+
+.unbackground $2dcda $2ffff ; Enemy tiles, unused space
+.section "Fly art" superfree
+TilesFly: .incbin "generated/2dcda.psgcompr"
+.ends
+.section "TilesSorceror art" superfree
+TilesSorceror: .incbin "generated/2e25f.psgcompr"
+.ends
+.section "TilesLassic art" superfree
+TilesLassic: .incbin "generated/2ed79.psgcompr"
+.ends
+.section "Slime art" superfree
+TilesSlime: .incbin "generated/2f869.psgcompr"
+.ends
+
+.unbackground $4cdbe $4ffff ; Enemy tiles, unused space
+.section "TilesFarmer art" superfree
+TilesFarmer: .incbin "generated/4cdbe.psgcompr"
+.ends
+.section "TilesDezorian art" superfree
+TilesDezorian: .incbin "generated/4d6ed.psgcompr"
+.ends
+.section "TilesElephant art" superfree
+TilesElephant: .incbin "generated/4dc25.psgcompr"
+.ends
+.section "TilesRobotCop art" superfree
+TilesRobotCop: .incbin "generated/4ea0f.psgcompr"
+.ends
+.section "TilesTarantula art" superfree
+TilesTarantula: .incbin "generated/4f28a.psgcompr"
+.ends
+.section "TilesSuccubus art" superfree
+TilesSuccubus: .incbin "generated/4fd83.psgcompr"
+.ends
+
+.unbackground $50feb $524d9 ; Enemy tiles
+.section "TilesClub art" superfree
+TilesClub: .incbin "generated/50feb.psgcompr"
+.ends
+.section "TilesDarkForceFlame art" superfree
+TilesDarkForceFlame: .incbin "generated/517c4.psgcompr"
+.ends
+
+.unbackground $52ba2 $53dbb ; Enemy tiles
+.section "TilesAmmonite art" superfree
+TilesAmmonite: .incbin "generated/52ba2.psgcompr"
+.ends
+.section "TilesGolem art" superfree
+TilesGolem: .incbin "generated/53395.psgcompr"
+.ends
+
+.unbackground $64000 $67fff ; Enemy tiles
+.section "TilesShadow art" superfree
+TilesShadow: .incbin "generated/64000.psgcompr"
+.ends
+.section "TilesDragon art" superfree
+TilesDragon: .incbin "generated/6493b.psgcompr"
+.ends
+.section "TilesSnake art" superfree
+TilesSnake: .incbin "generated/65755.psgcompr"
+.ends
+.section "TilesScorpion art" superfree
+TilesScorpion: .incbin "generated/664d0.psgcompr"
+.ends
+.section "TilesSkeleton art" superfree
+TilesSkeleton: .incbin "generated/66a4a.psgcompr"
+.ends
+.section "TilesGhoul art" superfree
+TilesGhoul: .incbin "generated/67326.psgcompr"
+.ends
+
+.unbackground $68000 $6bfff ; Enemy tiles, unused space
+.section "Centaur art" superfree
+TilesCentaur: .incbin "generated/68000.psgcompr"
+.ends
+.section "IceMan art" superfree
+TilesIceMan: .incbin "generated/68a1f.psgcompr"
+.ends
+.section "Manticore art" superfree
+TilesManticore: .incbin "generated/69748.psgcompr"
+.ends
+.section "Man Eater art" superfree
+TilesManEater: .incbin "generated/6a180.psgcompr"
+.ends
+.section "FishMan art" superfree
+TilesFishMan: .incbin "generated/6a7b8.psgcompr"
+.ends
+.section "Octopus art" superfree
+TilesOctopus: .incbin "generated/6b17e.psgcompr"
+.ends
+
+
+
+.unbackground $4794a $47fff ; Tarzimal tiles, unused space
+.section "TilesTarzimal art" superfree
+TilesTarzimal: .incbin "generated/4794a.psgcompr"
+.ends
+
+.unbackground $2caeb $2d900 ; Gold Dragon head tiles
+.section "TilesGoldDragonHead art" superfree
+TilesGoldDragonHead: .incbin "generated/2caeb.psgcompr"
+.ends
+
+; Table is at $c69f, 1-indexed.
+; Each entry is 32B.
+; Page number is offset +16B, pointer at +17B.
+.macro PatchEnemy args index, label
+  ROMPosition ($c69f+(index-1)*32+16)
+.section "Enemy data patch for \1 \2" overwrite
+PatchEnemy\1\2:
+.db :\2
+.dw \2
+.ends
+.endm
+
+  PatchEnemy  1 TilesFly ; Monster Fly
+  PatchEnemy  2 TilesSlime ; Green Slime
+  PatchEnemy  3 TilesWingEye ; Wing Eye
+  PatchEnemy  4 TilesManEater ; Maneater
+  PatchEnemy  5 TilesScorpion ; Scorpius
+  PatchEnemy  6 TilesScorpion ; Giant Naiad
+  PatchEnemy  7 TilesSlime ; Blue Slime
+  PatchEnemy  8 TilesFarmer ; Motavian Peasant
+  PatchEnemy  9 TilesWingEye ; Devil Bat
+  PatchEnemy 10 TilesManEater ; Killer Plant
+  PatchEnemy 11 TilesScorpion ; Biting Fly
+  PatchEnemy 12 TilesFarmer ; Motavian Teaser
+  PatchEnemy 13 TilesFly ; Herex
+  PatchEnemy 14 TilesSandWorm ; Sandworm
+  PatchEnemy 15 TilesFarmer ; Motavian Maniac
+  PatchEnemy 16 TilesWingEye ; Gold Lens
+  PatchEnemy 17 TilesSlime ; Red Slime
+  PatchEnemy 18 TilesBat ; Bat Man
+  PatchEnemy 19 TilesClub ; Horseshoe Crab
+  PatchEnemy 20 TilesFishMan ; Shark King
+  PatchEnemy 21 TilesEvilDead ; Lich
+  PatchEnemy 22 TilesTarantula ; Tarantula
+  PatchEnemy 23 TilesManticore ; Manticort
+  PatchEnemy 24 TilesSkeleton ; Skeleton
+  PatchEnemy 25 TilesTarantula ; Ant-lion
+  PatchEnemy 26 TilesFishMan ; Marshes
+  PatchEnemy 27 TilesFarmer ; Dezorian
+  PatchEnemy 28 TilesSandWorm ; Desert Leech
+  PatchEnemy 29 TilesBat ; Cryon
+  PatchEnemy 30 TilesElephant ; Big Nose
+  PatchEnemy 31 TilesGhoul ; Ghoul
+  PatchEnemy 32 TilesAmmonite ; Ammonite
+  PatchEnemy 33 TilesClub ; Executor
+  PatchEnemy 34 TilesEvilDead ; Wight
+  PatchEnemy 35 TilesSkeleton ; Skull Soldier
+  PatchEnemy 36 TilesAmmonite ; Snail
+  PatchEnemy 37 TilesManticore ; Manticore
+  PatchEnemy 38 TilesSnake ; Serpent
+  PatchEnemy 39 TilesSandWorm ; Leviathan
+  PatchEnemy 40 TilesEvilDead ; Dorouge
+  PatchEnemy 41 TilesOctopus ; Octopus
+  PatchEnemy 42 TilesSkeleton ; Mad Stalker
+  PatchEnemy 43 TilesFarmer ; Dezorian Head
+  PatchEnemy 44 TilesGhoul ; Zombie
+  PatchEnemy 45 TilesGhoul ; Living Dead
+  PatchEnemy 46 TilesRobotCop ; Robot Police
+  PatchEnemy 47 TilesSorceror ; Cyborg Mage
+  PatchEnemy 48 TilesSnake ; Flame Lizard
+  PatchEnemy 49 TilesTarzimal ; Tajim
+  PatchEnemy 50 TilesGolem ; Gaia
+  PatchEnemy 51 TilesRobotCop ; Machine Guard
+  PatchEnemy 52 TilesOctopus ; Big Eater
+  PatchEnemy 53 TilesGolem ; Talos
+  PatchEnemy 54 TilesSnake ; Snake Lord
+  PatchEnemy 55 TilesReaper ; Death Bearer
+  PatchEnemy 56 TilesSorceror ; Chaos Sorcerer
+  PatchEnemy 57 TilesCentaur ; Centaur
+  PatchEnemy 58 TilesIceMan ; Ice Man
+  PatchEnemy 59 TilesIceMan ; Vulcan
+  PatchEnemy 60 TilesDragon ; Red Dragon
+  PatchEnemy 61 TilesDragon ; Green Dragon
+  PatchEnemy 62 TilesShadow ; LaShiec
+  PatchEnemy 63 TilesElephant ; Mammoth
+  PatchEnemy 64 TilesCentaur ; King Saber
+  PatchEnemy 65 TilesReaper ; Dark Marauder
+  PatchEnemy 66 TilesGolem ; Golem
+  PatchEnemy 67 TilesMedusa ; Medusa
+  PatchEnemy 68 TilesDragon ; Frost Dragon
+  PatchEnemy 69 TilesDragon ; Dragon Wise
+  PatchEnemy 70 TilesGoldDragonHead ; Gold Drake
+  PatchEnemy 71 TilesShadow ; Mad Doctor
+  PatchEnemy 72 TilesLassic ; LaShiec
+  PatchEnemy 73 TilesDarkForceFlame ; Dark Force
+  PatchEnemy 74 TilesSuccubus ; Nightmare
