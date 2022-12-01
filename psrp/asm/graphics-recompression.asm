@@ -274,7 +274,6 @@ BackgroundSceneLoaderTileLoaderPatch:
 
 .slot 2
 
-.unbackground $5f778 $5ffff
 .section "Space graphics" superfree
 TilesSpace: .incbin "generated/5f778.psgcompr"
 PaletteSpace: CopyFromOriginal $5f767 17
@@ -310,7 +309,6 @@ PaletteSpace: CopyFromOriginal $5f767 17
 ;    call   LoadTiles ;$04b3           ; 000A1C CD B3 04
 
 .slot 2
-.unbackground $62484 $625df
 .section "Frame graphics" superfree
 TilesFrame: .incbin "generated/6258a.psgcompr"
 PaletteFrame: CopyFromOriginal $6257a 16
@@ -341,17 +339,14 @@ TilemapFrame: CopyFromOriginal $62484 $6257a-$62484
 ; We thus only need to move the palette+tiles (and rewrite the table for them).
 
 .slot 2
-.unbackground $4b388 $4bfff ; Lutz portrait palette and tiles, unused space
 .section "Lutz portrait 1" superfree
 PaletteLutzPortrait: CopyFromOriginal $4b388 16
 TilesLutzPortrait: .incbin "generated/4b398.psgcompr"
 .ends
-.unbackground $7762a $77fff ; Tairon portrait palette and tiles, unused space
 .section "Tairon portrait" superfree
 PaletteTaironPortrait: CopyFromOriginal $7762a 16
 TilesTaironPortrait: .incbin "generated/7763a.psgcompr"
 .ends
-.unbackground $78000 $7bfff ; Various portrait palette and tiles, unused space
 .section "Nero portrait 2" superfree
 PaletteNeroPortrait2: CopyFromOriginal $78000 16
 TilesNeroPortrait2: .incbin "generated/78010.psgcompr"
@@ -373,7 +368,6 @@ PaletteMyauPortrait3: CopyFromOriginal $7b30c 16
 TilesMyauPortrait3: .incbin "generated/7b31c.psgcompr"
 .ends
 
-.unbackground $7c000 $7d676 ; Nero death part 1, Myau palette and tiles
 .section "Nero portrait 1" superfree
 PaletteNeroPortrait1: CopyFromOriginal $7c000 16
 TilesNeroPortrait1: .incbin "generated/7c010.psgcompr"
@@ -400,7 +394,6 @@ TilesMyauPortrait1: .incbin "generated/7caeb.psgcompr"
 
 ; Treasure chests
 .slot 2
-.unbackground $50000 $50fea ; Treasure chest palette, tiles
 .section "Treasure chest art" superfree
 PaletteTreasureChest: CopyFromOriginal $50000 8
 TilesTreasureChest: .incbin "generated/50008.psgcompr"
@@ -424,7 +417,6 @@ TilesTreasureChest: .incbin "generated/50008.psgcompr"
 
 ; Ending picture
 .slot 2
-.unbackground $7d676 $7e8bc ; Ending picture palette, tiles
 .section "Ending picture art" superfree
 PaletteEnding: CopyFromOriginal $7d676 17
 TilesEnding: .incbin "generated/7d687.psgcompr"
@@ -446,7 +438,6 @@ TilesEnding: .incbin "generated/7d687.psgcompr"
 ; Table at $869f has 32 per enemy type.
 ; Tiles bank is at +16, pointer at +17
 .slot 2
-.unbackground $28000 $2bfff ; Enemy tiles, unused space
 .section "Bat art" superfree
 TilesBat: .incbin "generated/28000.psgcompr"
 .ends
@@ -466,7 +457,6 @@ TilesSandWorm: .incbin "generated/2aa8c.psgcompr"
 TilesWingEye: .incbin "generated/2b7e4.psgcompr"
 .ends
 
-.unbackground $2dcda $2ffff ; Enemy tiles, unused space
 .section "Fly art" superfree
 TilesFly: .incbin "generated/2dcda.psgcompr"
 .ends
@@ -480,7 +470,6 @@ TilesLassic: .incbin "generated/2ed79.psgcompr"
 TilesSlime: .incbin "generated/2f869.psgcompr"
 .ends
 
-.unbackground $4cdbe $4ffff ; Enemy tiles, unused space
 .section "TilesFarmer art" superfree
 TilesFarmer: .incbin "generated/4cdbe.psgcompr"
 .ends
@@ -500,7 +489,6 @@ TilesTarantula: .incbin "generated/4f28a.psgcompr"
 TilesSuccubus: .incbin "generated/4fd83.psgcompr"
 .ends
 
-.unbackground $50feb $524d9 ; Enemy tiles
 .section "TilesClub art" superfree
 TilesClub: .incbin "generated/50feb.psgcompr"
 .ends
@@ -508,7 +496,6 @@ TilesClub: .incbin "generated/50feb.psgcompr"
 TilesDarkForceFlame: .incbin "generated/517c4.psgcompr"
 .ends
 
-.unbackground $52ba2 $53dbb ; Enemy tiles
 .section "TilesAmmonite art" superfree
 TilesAmmonite: .incbin "generated/52ba2.psgcompr"
 .ends
@@ -516,7 +503,6 @@ TilesAmmonite: .incbin "generated/52ba2.psgcompr"
 TilesGolem: .incbin "generated/53395.psgcompr"
 .ends
 
-.unbackground $64000 $67fff ; Enemy tiles
 .section "TilesShadow art" superfree
 TilesShadow: .incbin "generated/64000.psgcompr"
 .ends
@@ -536,7 +522,6 @@ TilesSkeleton: .incbin "generated/66a4a.psgcompr"
 TilesGhoul: .incbin "generated/67326.psgcompr"
 .ends
 
-.unbackground $68000 $6bfff ; Enemy tiles, unused space
 .section "Centaur art" superfree
 TilesCentaur: .incbin "generated/68000.psgcompr"
 .ends
@@ -558,12 +543,10 @@ TilesOctopus: .incbin "generated/6b17e.psgcompr"
 
 
 
-.unbackground $4794a $47fff ; Tarzimal tiles, unused space
 .section "TilesTarzimal art" superfree
 TilesTarzimal: .incbin "generated/4794a.psgcompr"
 .ends
 
-.unbackground $2caeb $2d900 ; Gold Dragon head tiles
 .section "TilesGoldDragonHead art" superfree
 TilesGoldDragonHead: .incbin "generated/2caeb.psgcompr"
 .ends
@@ -657,17 +640,14 @@ PatchEnemy\1\2:
 
 ; Dialogue sprites
 .bank 2
-.unbackground $1bb80 $1bfff ; Person tiles, unused space
 .section "1bb80 art" superfree
 Tiles1bb80: .incbin "generated/1bb80.psgcompr"
 .ends
 
-.unbackground $57a97 $57fff ; Person tiles, unused space
 .section "57a97 art" superfree
 Tiles57a97: .incbin "generated/57a97.psgcompr"
 .ends
 
-.unbackground $6c000 $6f40b ; Person tiles
 .section "6c000 art" superfree
 Tiles6c000: .incbin "generated/6c000.psgcompr"
 .ends
@@ -722,7 +702,6 @@ PatchPerson\1\2:
   
 ; Attack/magic sprites
 .bank 2
-.unbackground $49c00 $4b387
 .section "Attack/magic sprites art" superfree
 ; These have to share a bank
 AttackSprites:
@@ -772,8 +751,20 @@ PatchAttackSprites\1\2:
  PatchAttackSprites 18 Tiles4a7fd
 
 ; And the bank...
-  PatchW $5e12 :AttackSprites
   PatchB $5e12 :AttackSprites
+  
+; Attack/magic sprites
+.bank 2
+.section "Attack/magic sprites art 2" superfree
+; These have to share a bank
+AttackSprites2:
+Tiles2d901: .incbin "generated/2d901.psgcompr"
+Tiles2daf0: .incbin "generated/2daf0.psgcompr"
+.ends
+; And their pointers...
+  PatchW $6122 Tiles2d901
+  PatchW $6128 Tiles2daf0
+  PatchB $60b4 :AttackSprites2
 
 ; Places LoadTiles4BitRLE @ $04b3 is used:
 /*
@@ -799,34 +790,12 @@ PatchAttackSprites\1\2:
     call   $04b3           ; 0048EE CD B3 04 Picture frame font - done
     call   $04b3           ; 004911 CD B3 04 Picture frame tiles - done
     call   $04b3           ; 004952 CD B3 04 Picture frame picture tiles - done
-    call   $04b3           ; 005E45 CD B3 04 TODO - dialogue character or room loader? Attack art?
-    call   $04b3           ; 0060E9 CD B3 04 TODO - dialogue character loader? 
+    call   $04b3           ; 005E45 CD B3 04 Attack sprites - done
+    call   $04b3           ; 0060E9 CD B3 04 More attack sprites - done
     call   $04b3           ; 0062CA CD B3 04 Enemy sprite loader - data done
     call   $04b3           ; 006466 CD B3 04 Dialog counterpart loader - done
     call   $04b3           ; 00697C CD B3 04 Reload tiles after a pitfall - done
     call   $04b3           ; 006BAE CD B3 04 Empty room - TODO
     call   m,$04b3         ; 00DCE6 FC B3 04 Not real code
-
-; See also Dark Force tiles?
-
-4AD2A
-49C00
-49C00
-49C00
-49C00
-4AF91
-4B177
-49C00
-49C00
-4A270
-4AF91
-4A036
-4AAC0
-49DD7
-4AB9D
-4B244
-4A3BC
-4A5E0
-4A7FD
 
 */

@@ -403,7 +403,7 @@ _RAM_C880_ dsb $3
 .ende
 
 .enum $C88A export
-_RAM_C88A_ db
+_RAM_C88A_UnknownFlags db
 .ende
 
 .enum $C88D export
@@ -3671,8 +3671,8 @@ _LABEL_157D_EnemyMagicAttack:
     ld a,b
     call z,_LABEL_171E_ReducePlayerHP
     ; Magic wall is active
-    ld a,$80
-    ld (_RAM_C88A_),a
+    ld a,$80 ; Bit 7 only
+    ld (_RAM_C88A_UnknownFlags),a
     call _LABEL_1A2A_
     ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
@@ -3723,8 +3723,8 @@ MagicAttackDamageC:
       ; Perform attack using c as the parameter
       call ++
 
-      ld a,$C0
-      ld (_RAM_C88A_),a
+      ld a,$C0 ; Bits 7 and 6
+      ld (_RAM_C88A_UnknownFlags),a
       call _LABEL_1A2A_
       ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
       and $80
@@ -13782,28 +13782,28 @@ _LABEL_60AA_:
     inc (iy+0)
     ld hl,Frame2Paging
     ld (hl),$0B
-    ld a,(_RAM_C88A_)
+    ld a,(_RAM_C88A_UnknownFlags)
     bit 6,a
-    ld hl,_DATA_611E_
+    ld hl,_DATA_611E_ ; Table 1
     jr z,+
-    ld hl,_DATA_6124_
-+:  ld a,(hl)
+    ld hl,_DATA_6124_ ; Table 2
++:  ld a,(hl) ; +0 = SFX
     ld (NewMusic),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +1
     ld (iy+24),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +2
     ld (iy+1),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +3
     ld (iy+15),a
     inc hl
     ld a,(_RAM_C896_)
     ld (iy+2),a
     ld a,(_RAM_C897_)
     ld (iy+4),a
-    ld a,(hl)
+    ld a,(hl) ; +4, 5 = tiles
     inc hl
     ld h,(hl)
     ld l,a
@@ -13841,11 +13841,11 @@ _LABEL_60EE_:
 
 ; Data from 611E to 6123 (6 bytes)
 _DATA_611E_:
-.db $A8 $03 $46 $4F $01 $99
+.db $A8 $03 $46 $4F $01 $99 ; $9901 -> $2d901
 
 ; Data from 6124 to 6129 (6 bytes)
 _DATA_6124_:
-.db $A9 $03 $79 $82 $F0 $9A
+.db $A9 $03 $79 $82 $F0 $9A ; $9af0 -> $2daf0
 
 ; 19th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_612A_:

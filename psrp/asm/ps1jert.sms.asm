@@ -63,11 +63,17 @@ banks 32
   .unbackground $0feb2 $0ff01 ; Hapsby travel menu
   .unbackground $0ff02 $0ff97 ; Opening cinema text box
   .unbackground $0ff98 $0ffff ; Ending sequence movement script + unused space
+; Bank 6
+  .unbackground $1bb80 $1bfff ; Person tiles, unused space
 ; Bank 9
   .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
-; Bank 11
+; Bank 10 - entire bank
+  .unbackground $28000 $2bfff ; Enemy tiles, unused space
+; Bank 11 - entire bank
   .unbackground $2c000 $2caea ; Gold Dragon tiles and palette
-  .unbackground $2fe3e $2ffff ; Unused space
+  .unbackground $2caeb $2d900 ; Gold Dragon head tiles
+  .unbackground $2d901 $2dcd9 ; Attack/magic sprites
+  .unbackground $2dcda $2ffff ; Enemy tiles, unused space
 ; Bank 14
   .unbackground $3bc68 $3bfff ; Title screen tilemap + unused space
 ; Bank 15
@@ -77,25 +83,44 @@ banks 32
   .unbackground $433f6 $43fff ; Scene tiles and palettes (part 2) + unused space
 ; Bank 17
   .unbackground $44640 $47949 ; Palettes and tiles
-  .unbackground $47fe5 $47fff ; Unused space
+  .unbackground $4794a $47fff ; Tarzimal tiles, unused space
 ; Bank 18
-  .unbackground $4be84 $4bfff ; Unused space
-; Bank 19
+  .unbackground $49c00 $4b387 ; Attack/magic sprites
+  .unbackground $4b388 $4bfff ; Lutz portrait palette and tiles, unused space
+; Bank 19 - entire bank
   .unbackground $4c000 $4cdbd ; Dark Force tiles and palette
-  .unbackground $4ff59 $4ffff ; Unused space
-; Bank 20
+  .unbackground $4cdbe $4ffff ; Enemy tiles, unused space
+; Bank 20 - entire bank
+  .unbackground $50000 $50fea ; Treasure chest palette, tiles
+  .unbackground $50feb $524d9 ; Enemy tiles
   .unbackground $524da $52ba1 ; Lassic room tiles and palette
+  .unbackground $52ba2 $53dbb ; Enemy tiles
   .unbackground $53dbc $53fff ; Credits data, unused space
+; Bank 21
+  .unbackground $57a97 $57fff ; Person tiles, unused space
 ; Bank 22
   .unbackground $58570 $5ac8c ; Tiles for town
   .unbackground $5ac7d $5b9d6 ; Tiles, palette for air castle
 ; Bank 23
   .unbackground $5ea9f $5f766 ; Building interior tiles, palettes
+  .unbackground $5f778 $5ffff ; Space graphics, unused space
+; Bank 24
+  .unbackground $62484 $625df ; Picture frame
+; Bank 25 - entire bank
+  .unbackground $64000 $67fff ; Enemy tiles
+; Bank 26 - entire bank
+  .unbackground $68000 $6bfff ; Enemy tiles, unused space
 ; Bank 27
+  .unbackground $6c000 $6f40a ; Person tiles
   .unbackground $6f40b $6fd62 ; Menu tilemaps
 ; Bank 29
   .unbackground $747b8 $77629 ; landscapes (world 1)
-; Bank 31
+  .unbackground $7762a $77fff ; Tairon portrait palette and tiles, unused space
+; Bank 30 - entire bank
+  .unbackground $78000 $7bfff ; Various portrait palette and tiles, unused space
+; Bank 31 - entire bank
+  .unbackground $7c000 $7d675 ; Nero death part 1, Myau palette and tiles
+  .unbackground $7d676 $7e8bc ; Ending picture palette, tiles
   .unbackground $7e8bd $7ffff ; Title screen tiles
 
 ; Macros
