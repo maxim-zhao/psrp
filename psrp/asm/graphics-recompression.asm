@@ -657,6 +657,16 @@ PatchEnemy\1\2:
 
 ; Dialogue sprites
 .bank 2
+.unbackground $1bb80 $1bfff ; Person tiles, unused space
+.section "1bb80 art" superfree
+Tiles1bb80: .incbin "generated/1bb80.psgcompr"
+.ends
+
+.unbackground $57a97 $57fff ; Person tiles, unused space
+.section "57a97 art" superfree
+Tiles57a97: .incbin "generated/57a97.psgcompr"
+.ends
+
 .unbackground $6c000 $6f40b ; Person tiles
 .section "6c000 art" superfree
 Tiles6c000: .incbin "generated/6c000.psgcompr"
@@ -679,17 +689,6 @@ Tiles6eb04: .incbin "generated/6eb04.psgcompr"
 .section "6ee6c art" superfree
 Tiles6ee6c: .incbin "generated/6ee6c.psgcompr"
 .ends
-
-.unbackground $57a97 $57fff ; Person tiles, unused space
-.section "57a97 art" superfree
-Tiles57a97: .incbin "generated/57a97.psgcompr"
-.ends
-
-.unbackground $1bb80 $1bfff ; Person tiles, unused space
-.section "1bb80 art" superfree
-Tiles1bb80: .incbin "generated/1bb80.psgcompr"
-.ends
-
 
 ; Table is at $d66c, 0-indexed.
 ; Each entry is 8B.
@@ -721,10 +720,60 @@ PatchPerson\1\2:
   PatchPerson 15 TilesDezorian
   PatchPerson 16 TilesDezorian
   
-  
+; Attack/magic sprites
+.bank 2
+.unbackground $49c00 $4b387
+.section "Attack/magic sprites art" superfree
+; These have to share a bank
+AttackSprites:
+Tiles49c00: .incbin "generated/49c00.psgcompr"
+Tiles49dd7: .incbin "generated/49dd7.psgcompr"
+Tiles4a036: .incbin "generated/4a036.psgcompr"
+Tiles4a270: .incbin "generated/4a270.psgcompr"
+Tiles4a3bc: .incbin "generated/4a3bc.psgcompr"
+Tiles4a5e0: .incbin "generated/4a5e0.psgcompr"
+Tiles4a7fd: .incbin "generated/4a7fd.psgcompr"
+Tiles4aac0: .incbin "generated/4aac0.psgcompr"
+Tiles4ab9d: .incbin "generated/4ab9d.psgcompr"
+Tiles4ad2a: .incbin "generated/4ad2a.psgcompr"
+Tiles4af91: .incbin "generated/4af91.psgcompr"
+Tiles4b177: .incbin "generated/4b177.psgcompr"
+Tiles4b244: .incbin "generated/4b244.psgcompr"
+.ends
 
+; And the table that references them...
+; Attack art table at $5e6d, stride = 6, delta = 4:
+.macro PatchAttackSprites args index, label
+  ROMPosition ($5e6d+index*6+4)
+.section "Attack sprites patch for \1 \2" overwrite
+PatchAttackSprites\1\2:
+.dw \2
+.ends
+.endm
 
+ PatchAttackSprites 0 Tiles4ad2a
+ PatchAttackSprites 1 Tiles49c00
+ PatchAttackSprites 2 Tiles49c00
+ PatchAttackSprites 3 Tiles49c00
+ PatchAttackSprites 4 Tiles49c00
+ PatchAttackSprites 5 Tiles4af91
+ PatchAttackSprites 6 Tiles4b177
+ PatchAttackSprites 7 Tiles49c00
+ PatchAttackSprites 8 Tiles49c00
+ PatchAttackSprites 9 Tiles4a270
+ PatchAttackSprites 10 Tiles4af91
+ PatchAttackSprites 11 Tiles4a036
+ PatchAttackSprites 12 Tiles4aac0
+ PatchAttackSprites 13 Tiles49dd7
+ PatchAttackSprites 14 Tiles4ab9d
+ PatchAttackSprites 15 Tiles4b244
+ PatchAttackSprites 16 Tiles4a3bc
+ PatchAttackSprites 17 Tiles4a5e0
+ PatchAttackSprites 18 Tiles4a7fd
 
+; And the bank...
+  PatchW $5e12 :AttackSprites
+  PatchB $5e12 :AttackSprites
 
 ; Places LoadTiles4BitRLE @ $04b3 is used:
 /*
@@ -750,11 +799,34 @@ PatchPerson\1\2:
     call   $04b3           ; 0048EE CD B3 04 Picture frame font - done
     call   $04b3           ; 004911 CD B3 04 Picture frame tiles - done
     call   $04b3           ; 004952 CD B3 04 Picture frame picture tiles - done
-    call   $04b3           ; 005E45 CD B3 04 TODO - dialogue character or room loader?
+    call   $04b3           ; 005E45 CD B3 04 TODO - dialogue character or room loader? Attack art?
     call   $04b3           ; 0060E9 CD B3 04 TODO - dialogue character loader? 
     call   $04b3           ; 0062CA CD B3 04 Enemy sprite loader - data done
-    call   $04b3           ; 006466 CD B3 04 Dialog counterpart loader - TODO - see DialogueSprites
-    call   $04b3           ; 00697C CD B3 04 Reload tiles after a pitfall
+    call   $04b3           ; 006466 CD B3 04 Dialog counterpart loader - done
+    call   $04b3           ; 00697C CD B3 04 Reload tiles after a pitfall - done
     call   $04b3           ; 006BAE CD B3 04 Empty room - TODO
     call   m,$04b3         ; 00DCE6 FC B3 04 Not real code
+
+; See also Dark Force tiles?
+
+4AD2A
+49C00
+49C00
+49C00
+49C00
+4AF91
+4B177
+49C00
+49C00
+4A270
+4AF91
+4A036
+4AAC0
+49DD7
+4AB9D
+4B244
+4A3BC
+4A5E0
+4A7FD
+
 */

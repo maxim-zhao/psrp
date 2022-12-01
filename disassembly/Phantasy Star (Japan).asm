@@ -13475,28 +13475,28 @@ _LABEL_5E03_:
     add a,a
     add a,e
     ld e,a
-    ld d,$00
+    ld d,$00 ; a*6
     ld hl,_DATA_5E6D_
     add hl,de
-    ld a,(hl)
+    ld a,(hl) ; +0
     ld (NewMusic),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +1
     ld (iy+24),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +2
     ld (iy+1),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +3
     ld (iy+15),a
     inc hl
     ld a,(_RAM_C894_)
     ld (iy+2),a
     ld a,(_RAM_C895_)
     ld (iy+4),a
-    ld a,(hl)
+    ld a,(hl) ; +4
     inc hl
-    ld h,(hl)
+    ld h,(hl) ; +5
     ld l,a
     ld de,$7400
     call LoadTiles4BitRLE
@@ -13527,14 +13527,27 @@ _LABEL_5E4A_:
 
 ; Data from 5E6D to 5EDE (114 bytes)
 _DATA_5E6D_:
-.db $A2 $03 $66 $6B $2A $AD $A2 $03 $05 $0A $00 $9C $A2 $03 $05 $0A
-.db $00 $9C $A2 $03 $05 $0A $00 $9C $A2 $03 $05 $0A $00 $9C $A2 $03
-.db $6A $72 $91 $AF $A2 $03 $71 $76 $77 $B1 $A2 $03 $05 $0A $00 $9C
-.db $A2 $03 $05 $0A $00 $9C $A7 $03 $18 $21 $70 $A2 $A2 $03 $6A $72
-.db $91 $AF $A6 $03 $11 $19 $36 $A0 $A3 $03 $5E $63 $C0 $AA $A5 $03
-.db $09 $12 $D7 $9D $A4 $03 $62 $67 $9D $AB $A4 $03 $75 $7A $44 $B2
-.db $A8 $03 $20 $29 $BC $A3 $A9 $03 $28 $32 $E0 $A5 $AA $03 $31 $3A
-.db $FD $A7
+;    ,,--------------------- SFX
+;    ||              ,,,,,,- tile data offset?
+.db $A2 $03 $66 $6B $2A $AD ; AD2A
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $6A $72 $91 $AF ; AF91
+.db $A2 $03 $71 $76 $77 $B1 ; B177
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A7 $03 $18 $21 $70 $A2 ; A270
+.db $A2 $03 $6A $72 $91 $AF ; AF91
+.db $A6 $03 $11 $19 $36 $A0 ; A036
+.db $A3 $03 $5E $63 $C0 $AA ; AAC0
+.db $A5 $03 $09 $12 $D7 $9D ; 9DD7
+.db $A4 $03 $62 $67 $9D $AB ; AB9D
+.db $A4 $03 $75 $7A $44 $B2 ; B244
+.db $A8 $03 $20 $29 $BC $A3 ; A3BC
+.db $A9 $03 $28 $32 $E0 $A5 ; A5E0
+.db $AA $03 $31 $3A $FD $A7 ; A7FD
 
 ; 13th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_5EDF_:
