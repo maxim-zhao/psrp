@@ -24,8 +24,8 @@ _credits_\@_end:
   ROMPosition $488a
 .section "Credits hack" overwrite ; not movable
   ld (hl),:CreditsFont
-  ld hl,TileWriteAddress($c1) ; VRAM address
-  ld de,CreditsFont
+  ld hl,CreditsFont
+  ld de,TileWriteAddress($c1) ; VRAM address
   call LoadTiles
 .ends
 

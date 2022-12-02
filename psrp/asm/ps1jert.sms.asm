@@ -171,17 +171,6 @@ PatchAt\1:
   jr \1-CADDR-1
 .endm
 
-; Macro to load tiles from the given label
-.macro LoadPagedTiles args address, dest
-LoadPagedTiles\1:
-  ; Common pattern used to load tiles in the original code
-  ld hl,PAGING_SLOT_2
-  ld (hl),:address
-  ld hl,dest
-  ld de,address
-  call LoadTiles
-.endm
-
 .function TileMapWriteAddress(x, y) ($3800 + (y*32+x)*2) | $4000
 .function TileMapCacheAddress(x, y) ($d000 + (y*32+x)*2)
 .function TileWriteAddress(n) (n * 32) | $4000
@@ -237,6 +226,7 @@ _script\@_end:
 .enum $dfa0 export
   .union
     PSGaiden_decomp_buffer    dsb 32 ; buffer for tile decoding
+    PSGaiden_vram_ptr dw
   .nextu
     ; Script decoding
     ; Buffer for item name strings, shared with PSGaiden_decomp_buffer as we don't need both at the same time.

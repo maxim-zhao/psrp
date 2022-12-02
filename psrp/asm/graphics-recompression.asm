@@ -28,19 +28,9 @@ LoadTiles:
 ; - support mapper
 
 ; Redirects calls to LoadTiles4BitRLE@$04b3 (decompress graphics, interrupt-safe version)
-; to a ripped decompressor from Phantasy Star Gaiden
+; to the same one as above
 LoadTilesDIEI:
-  ld a,:PSGaiden_tile_decompr
-  ld (PAGING_SLOT_1),a
-  ; TODO: is this too slow? The original does di/ei in the inner loop body...
-  ex de,hl ; ??????
-  di
-    call PSGaiden_tile_decompr
-  ei
-  ld a,1
-  ld (PAGING_SLOT_1),a
-
-  ret
+  jp LoadTiles
 .ends
 .slot 2
 .section "Outside tiles" superfree
@@ -52,6 +42,17 @@ OutsideTiles:
 TownTiles:
 .incbin {"generated/{LANGUAGE}/world2.psgcompr"}
 .ends
+
+; Macro to load tiles from the given label
+.macro LoadPagedTiles args address, dest
+LoadPagedTiles\1:
+  ; Common pattern used to load tiles in the original code
+  ld hl,PAGING_SLOT_2
+  ld (hl),:address
+  ld hl,address
+  ld de,dest
+  call LoadTiles
+.endm
 
   ROMPosition $00ce4
 .section "BG loader patch 1" size 14 overwrite ; not movable
@@ -266,9 +267,9 @@ BackgroundSceneLoaderTileLoaderPatch:
 ; ld l,a         ; hl = offset
 ; ld de,$4000
 ; call LoadTiles4BitRLE
-  ld d,(hl)
-  ld e,a
-  ld hl,TileWriteAddress(0)
+  ld h,(hl)
+  ld l,a
+  ld de,TileWriteAddress(0)
   call LoadTiles
 .ends
 
