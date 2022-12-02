@@ -19,21 +19,13 @@ PSGaiden_jump_table:
 ; Type E: <anything else> = use next byte for some pixels, byte itself is the bitmask; then raw bytes for the rest
 ; Rather than try to mask the bits off for lookup, we instead use a 256B table that selects the bits and plane in one go. Only 12 bytes are not type E...
   .db <typeA_plane0, <typeA_plane1, <typeA_plane2    ; [0x00,0x02]
-  .repeat 13
-    .db <typeE                                    ; [0x03,0x0F]
-  .endr
+  .dsb 13 <typeE                                     ; [0x03,0x0F]
   .db <typeB_plane0, <typeB_plane1, <typeB_plane2    ; [0x10,0x12]
-  .repeat 13
-    .db <typeE                                    ; [0x03,0x0F]
-  .endr
+  .dsb 13 <typeE                                     ; [0x03,0x0F]
   .db <typeC_plane0, <typeC_plane1, <typeC_plane2    ; [0x20,0x22]
-  .repeat 13+16
-    .db <typeE                                    ; [0x03,0x0F]
-  .endr
+  .dsb 13+16 <typeE                                  ; [0x03,0x0F]
   .db <typeD_plane0, <typeD_plane1, <typeD_plane2    ; [0x40,0x42]
-  .repeat 13+16*11
-    .db <typeE                                    ; [0x03,0x0F]
-  .endr
+  .dsb 13+16*11 <typeE                               ; [0x03,0x0F]
 
 ; Then the labels referred to above need to be in the following 256B, for faster lookup...
 
