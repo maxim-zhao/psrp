@@ -268,7 +268,7 @@ VScroll db                    ; Vertical scroll
 VLocation dw                  ; Vertical location on map - skips parts
 ScrollScreens db              ; Counted down when scrolling between planets/in intro
 _RAM_C308_ db                 ; Type of current "world"???
-_RAM_C309_ db                 ; Current "world"???
+_RAM_C309_LocationIndex db                 ; Current "world"???
 DungeonFacingDirection db
 .ende
 
@@ -2681,11 +2681,11 @@ LoadScene:
     ld (HScroll),a     ; HScroll = - Hlocation (because HScroll is the opposite direction)
     ld a,(VLocation)   ; low byte only
     ld (VScroll),a
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     ld e,a
     ld d,$00
     ld hl,WorldDataLookup1
-    add hl,de          ; hl = WorldDataLookup1 + _RAM_c309_
+    add hl,de          ; hl = WorldDataLookup1 + _RAM_C309_LocationIndex
     ld a,(hl)
     ld (_RAM_c308_),a       ; _RAM_c308_ = (hl) = world type
     add a,a
@@ -2781,11 +2781,11 @@ LoadScene:
     or a
     ld c,MusicVehicle  ; else c=MusicVehicle
     jr nz,+            ; if _RAM_c30e_==0
-    ld a,(_RAM_c309_)       ; then:
+    ld a,(_RAM_C309_LocationIndex)       ; then:
     ld e,a
     ld d,$00
     ld hl,WorldMusics
-    add hl,de          ; de = WorldMusics+_RAM_c309_
+    add hl,de          ; de = WorldMusics+_RAM_C309_LocationIndex
     ld c,(hl)          ; c = (de) = music number
 +:  ld a,c
     call CheckMusic
@@ -2883,9 +2883,9 @@ SpritePalette2:        ; $fe0
 ; followed by
 .orga $f1d
 .section "World data" overwrite
-WorldDataLookup1: ; which "world" to load data for for each value of _RAM_c309_
+WorldDataLookup1: ; which "world" to load data for for each value of _RAM_C309_LocationIndex
 .db $00,$01,$02,$03,$04,$04,$04,$05,$05,$05,$05,$05,$06,$06,$07,$07,$07,$07,$07,$08,$08,$09,$09,$0A
-WorldMusics: ; Music for each value of _RAM_c309_
+WorldMusics: ; Music for each value of _RAM_C309_LocationIndex
 .db MusicPalma,MusicMotavia,MusicDezoris,MusicDezoris,MusicTown,MusicTown,MusicTown,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicTown,MusicTown,MusicTown,MusicVillage,MusicTown,MusicVillage,MusicVillage,MusicDezoris,MusicDezoris,MusicVillage,MusicVillage,MusicFinalDungeon
 WorldDataLookup2: ; "World" data
 ; Data from F4D to F57 (11 bytes)
@@ -5967,7 +5967,7 @@ UseItem_LaermaBerries:
     ld a,(CharacterStatsMyau)
     or a
     jr z,_LABEL_2733_
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $17
     jr z,+++
     ld a,(RoomIndex)
@@ -6330,7 +6330,7 @@ _LABEL_2995_:
     add hl,hl
     add hl,hl
     ld l,a
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $07
     jr nz,+
     ld a,l
@@ -10193,10 +10193,10 @@ _LABEL_46C8_:
     ret
 
 _LABEL_46FE_:
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $17
     jr nz,+
-    call _LABEL_477E_
+    call _LABEL_477E_MyauFlight
     ld hl,_DATA_477B_
     jp _LABEL_4770_
 
@@ -10211,7 +10211,7 @@ _LABEL_46FE_:
     call FadeToNarrativePicture
     ld hl,_DATA_BCD8_
     call ShowNarrativeText
-    call _LABEL_477E_
+    call _LABEL_477E_MyauFlight
     ld a,$0E
     ld (SceneType),a
     call LoadSceneData
@@ -10251,18 +10251,18 @@ _DATA_4778_:
 _DATA_477B_:
 .db $00 $40 $4C
 
-_LABEL_477E_:
+_LABEL_477E_MyauFlight:
     call FadeOutFullPalette
     ld a,$0F
     ld (SceneType),a
     call LoadSceneData
     ld hl,Frame2Paging
-    ld (hl),$16
-    ld hl,_DATA_5B9D8_
+    ld (hl),:_DATA_5B9D8_MyauFlightPalette
+    ld hl,_DATA_5B9D8_MyauFlightPalette
     ld de,TargetPalette+16+1
     ld bc,$000F
     ldir
-    ld hl,_DATA_5B9E7_
+    ld hl,_DATA_5B9E7_MyauFlightTiles
     ld de,$6000
     call LoadTiles4BitRLE
     ld a,$0C
@@ -10858,8 +10858,8 @@ _room_0c_CamineetGuard4: ; $4BD3:
 +:  ld hl,$0024
     ; Okay, you may pass.
     call DrawText20x6
-    ; Copy something from _RAM_c309_ to _RAM_c2e9_ TODO what is this?
-    ld a,(_RAM_C309_)
+    ; Copy something from _RAM_C309_LocationIndex to _RAM_c2e9_ TODO what is this?
+    ld a,(_RAM_C309_LocationIndex)
     rrca
     dec a
     and $03
@@ -12922,7 +12922,7 @@ _room_b5_HapsbyTravel: ; $5959:
     ret nz
     ld d,a
     ; Are we already there?
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     rrca
     rrca
     rrca
@@ -13650,7 +13650,7 @@ _LABEL_5F15_:
 _LABEL_5FAC_:
     call ZeroSpriteStruct
     inc (iy+0)
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $17
     ld a,$84
     ld de,$88D0
@@ -13680,7 +13680,7 @@ _LABEL_5FD7_:
     and $03
     add a,(iy+15)
     ld (iy+1),a
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $17
     jr z,+
     dec (iy+4)
@@ -17479,8 +17479,8 @@ _LABEL_7B1A_:
 .section "???" overwrite
 _LABEL_7B1E_:
     ld a,(hl)          ; get byte at hl (eg 01)
-    ld (_RAM_c308_),a       ; save in _RAM_c308_ and _RAM_c309_
-    ld (_RAM_C309_),a
+    ld (_RAM_c308_),a       ; save in _RAM_c308_ and _RAM_C309_LocationIndex
+    ld (_RAM_C309_LocationIndex),a
     inc hl             ; next byte hhhhllll in de (eg 8b)
     ld e,(hl)
     ld d,$00
@@ -17586,7 +17586,7 @@ _LABEL_7BCD_:
     ld a,(_RAM_C2E5_)
     cp $4C
     jp nz,+
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $05
     ret nz
     ld a,(HaveLutz)
@@ -17636,7 +17636,7 @@ _LABEL_7C15_:
 
 +:  cp $AD
     jp nz,+
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     sub $04
     ret c
     ld l,a
@@ -28302,7 +28302,9 @@ PaletteAirCastle:
 .db $30,$00,$3F,$0B,$06,$1A,$2F,$2A,$08,$15,$30,$30,$30,$30,$30,$30 ; palette for following (with castle hidden!)
 TilesAirCastle:
 .incbin "Tiles\5ac8dcompr.dat" ; 141 - AirCastle
+_DATA_5B9D8_MyauFlightPalette:
 .db $38,$3F,$00,$38,$1F,$0B,$06,$3E,$00,$00,$00,$00,$00,$00,$00,$00 ; palette for following
+_DATA_5B9E7_MyauFlightTiles:
 .incbin "Tiles\5b9e7compr.dat" ; 27 - flying Myau?
 .ends
 ; followed by

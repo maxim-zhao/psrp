@@ -766,6 +766,27 @@ Tiles2daf0: .incbin "generated/2daf0.psgcompr"
   PatchW $6122 Tiles2d901
   PatchW $6128 Tiles2daf0
   PatchB $60b4 :AttackSprites2
+  
+; Myau flight
+.unbackground $5b9d8 $5bc31 ; Myau flight sprites
+.bank 2
+.section "Myau flight art" superfree
+MyauFlightPalette:  CopyFromOriginal $5b9d8 15
+MyauFlightTiles:    .incbin "generated/5b9e7.psgcompr"
+.ends
+;    ld     hl,$ffff        ; 004789 21 FF FF 
+;    ld     (hl),$16        ; 00478C 36 16 
+  PatchB $478d :MyauFlightPalette
+;    ld     hl,$b9d8        ; 00478E 21 D8 B9 
+  PatchW $478f MyauFlightPalette
+;    ld     de,$c251        ; 004791 11 51 C2 
+;    ld     bc,$000f        ; 004794 01 0F 00 
+;    ldir                   ; 004797 ED B0 
+;    ld     hl,$b9e7        ; 004799 21 E7 B9 
+  PatchW $479a MyauFlightTiles
+;    ld     de,$6000        ; 00479C 11 00 60 
+;    call   $04b3           ; 00479F CD B3 04 
+
 
 ; Places LoadTiles4BitRLE @ $04b3 is used:
 /*
@@ -784,7 +805,7 @@ Tiles2daf0: .incbin "generated/2daf0.psgcompr"
     call   $04b3           ; 0045AF CD B3 04 Intro font loader - replaced
     call   $04b3           ; 0045B8 CD B3 04 Intro font loader - replaced
     call   $04b3           ; 0045C1 CD B3 04 Intro font loader - replaced
-    call   $04b3           ; 00479F CD B3 04 Myau flight sprites - TODO
+    call   $04b3           ; 00479F CD B3 04 Myau flight sprites - done
     call   $04b3           ; 00484B CD B3 04 Ending picture - done
     call   $04b3           ; 004892 CD B3 04 Credits font - done
     call   $04b3           ; 0048E5 CD B3 04 Picture frame font - done
