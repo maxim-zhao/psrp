@@ -374,7 +374,7 @@ PaletteNeroPortrait1: CopyFromOriginal $7c000 16
 TilesNeroPortrait1: .incbin "generated/7c010.psgcompr"
 .ends
 .section "Myau portrait 1" superfree
-PaletteMyauPortrait1: CopyFromOriginal $7cedb 16
+PaletteMyauPortrait1: CopyFromOriginal $7cadb 16
 TilesMyauPortrait1: .incbin "generated/7caeb.psgcompr"
 .ends
 

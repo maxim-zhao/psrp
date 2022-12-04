@@ -10502,7 +10502,7 @@ FadeToNarrativePicture: ; $492c
     ei
     jp FadeInTilePalette ; and ret
 
-_NarrativeGraphicsLookup:
+_NarrativeGraphicsLookup: ; $4979
 ; page, palette+tiles offset, raw tiles offset
 .macro NarrativeGraphicsData
 .db :NarrativeGraphics\1
