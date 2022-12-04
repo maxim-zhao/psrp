@@ -102,7 +102,7 @@ LANGUAGES = $(subst /script.tbl,,$(wildcard */script.tbl))
 all: $(foreach lang,$(LANGUAGES),ps1jert.$(lang).ips ps1jert.$(lang).bps)
 
 # Mark various targets as "precious". This makes make keep the files rather than auto-delete them.
-.PRECIOUS: ps1jert.%.sms generated/ps1jert.%.sms.o generated/auto.makefile.%  generated/script_with_words.%.tbl
+.PRECIOUS: ps1jert.%.sms
 
 # We include all languages' makefiles here.
 # Make will automatically regenerate them as needed.
