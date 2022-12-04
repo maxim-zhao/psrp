@@ -361,7 +361,7 @@
     きっと見守っていてね。兄さん。
   literal: |
     I will go and fight to make sure that your death was not in vain!<line><line>
-    Make sure to watch over me, Nero!<wait>
+    Watch over and protect me, Nero!<wait>
   us: |
     I WILL MAKE SURE<line>
     THAT MY BROTHER<line>
@@ -2772,7 +2772,7 @@
     モタビアノ　ソウトクハ　モシカシタラ
     ミカタニ　ナッテクレルカモシレナイ。<wait>
   kanji: モタビアの総督はもしかしたら味方になってくれるかも知れない。
-  literal: The Governor-general of Motavia might possibly become an ally to you.<wait>
+  literal: The Governor-General of Motavia might possibly become an ally to you.<wait>
   us: |
     THE GOVERNOR OF<line>
     MOTAVIA MIGHT<wait more>
@@ -3450,7 +3450,7 @@
     ルツハ　パセオノ　ソウトクノ<line>
     メイレイナラバ　キクカモシレナイ。<wait>
   kanji: ルツはパセオの総督の命令ならば聞くかもしれない。
-  literal: Lutz might listen if the orders are from the Governor-general.<wait>
+  literal: Lutz might listen if the orders are from the Governor-General.<wait>
   us: |
     IF THE GOVERNOR<line>
     ORDERS NOAH TO DO<wait more>
@@ -7174,8 +7174,7 @@
     デハ　ソツギョウノ　シケンヲ　シテ<line>
     ヤロウ。ワシト　タタカウガヨイ。<wait>
   kanji: では、卒業の試験をしてやろう。わしと戦うが良い。
-  literal: |
-    In that case, I'll give you your final test: we will duel!<wait>
+  literal: "In that case, I'll give you your final test: we will duel!<wait>"
   us: |
     COME,YOU MUST PASS<line>
     YOUR FINAL TEST---<wait more>
@@ -8661,13 +8660,13 @@
 - offsets: ScriptAerocastleFreeTranCarpet
   # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
   indices: 210
-  literal: Here's a free TranCarpet.<wait>
+  literal: Hmm, no way down? Here, you can have my <item>.<wait>
   en: Hmm, no way down? Here, you can have my <item>.<wait>
   fr: Hmm, pas moyen de descendre_? Tiens, tu peux prendre mon <item>.<wait>
   pt-br: Humm, não consegue sair? Aqui, use meu <item>.<wait>
   ca: Hmm, cap baixada? Aquí pots tenir la meva <item>.<wait>
   es: Hmm, ¿no hay manera de bajar? Toma, puedes tener mi <item>.<wait>
-  de: Hmm, kein Weg nach unten? Hier, du kannst meinen <item> haben.<wait>
+  de: Hmm, sitzt ihr hier oben fest? Na gut, dann geb ich euch meinen Fliegenden Teppich.<wait>
 
 - offsets: 51a6
   # Old Man (also said by an old man in Casba)
@@ -10280,7 +10279,7 @@
     <player>ハ　マダ　マジックヲ<line>
     オボエテイナイ。<delay>
   kanji: <player>はまだマジックを覚えていない。
-  literal: <player> hasn't learned any magic yet.<wait>
+  literal: <player> hasn't learned magic yet.<wait>
   us: |
     <player> HAS NOT <line>
     LEARNED MAGIC YET<wait>

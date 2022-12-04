@@ -75,20 +75,20 @@
     │シラベル║
     │セーブ ║
     ╘════╝
-  kanji:
+  kanji: |
     強さ
-    Magic
-    Item
+    マジック
+    アイテム
     調べる
-    Save
+    セーブ
   literal: |
-    ┌───────────╖
-    │Strength   ║
-    │Magic      ║
-    │Item       ║
-    │Investigate║
-    │Save       ║
-    ╘═══════════╝
+    ┌──────╖
+    │Status║
+    │Magic ║
+    │Items ║
+    │Search║
+    │Save  ║
+    ╘══════╝
   us: |
     ┌────╖
     │STAS║
@@ -138,13 +138,13 @@
     │Guardar║
     ╘═══════╝
   de: |
-    ┌─────────╖
-    │Status   ║
-    │Magie    ║
-    │Objekte  ║
-    │Suchen   ║
-    │Speichern║
-    ╘═════════╝
+    ┌───────╖
+    │Status ║
+    │Magie  ║
+    │Objekte║
+    │Suchen ║
+    │Sichern║
+    ╘═══════╝
 
 - name: ChoiceMenu
   ptrs: 38cd
@@ -154,7 +154,7 @@
     │ハイ ║
     │イイエ║
     ╘═══╝
-  kanji:
+  kanji: |
     はい
     いいえ
   literal: |
@@ -264,18 +264,18 @@
     ╘════╝
   kanji: |
     戦う
-    Magic
-    Item
+    マジック
+    アイテム
     話す
     逃げる
   literal: |
-    ┌────────╖
-    │Fight   ║
-    │Magic   ║
-    │Item    ║
-    │Talk    ║
-    │Run away║
-    ╘════════╝
+    ┌──────╖
+    │Attack║
+    │Magic ║
+    │Items ║
+    │Talk  ║
+    │Run   ║
+    ╘══════╝
   us: |
     ┌────╖
     │ATTK║
@@ -499,7 +499,7 @@
   literal: |
     ┌──────╖
     │Alisa ║
-    │      ║
+    │------║
   us: |
     ┌──────╖
     │ ALIS ║
@@ -538,7 +538,7 @@
   literal: |
     ┌──────╖
     │ Myau ║
-    │      ║
+    │------║
   us: |
     ┌──────╖
     │ MYAU ║
@@ -576,8 +576,8 @@
     │------║
   literal: |
     ┌──────╖
-    │Tairon║
-    │      ║
+    │Tylon ║
+    │------║
   us: |
     ┌──────╖
     │ ODIN ║
@@ -616,7 +616,7 @@
   literal: |
     ┌──────╖
     │ Lutz ║
-    │      ║
+    │------║
   us: |
     ┌──────╖
     │ NOAH ║
@@ -657,11 +657,11 @@
     │タイロン║
     │ルツ  ║
   literal: |
-    ┌──────╖
-    │Alisa ║
-    │Myau  ║
-    │Tairon║
-    │Lutz  ║
+    ┌─────╖
+    │Alisa║
+    │Myau ║
+    │Tylon║
+    │Lutz ║
   us: |
     ┌────╖
     │ALIS║
@@ -708,7 +708,7 @@
 - name: ChoosePlayerMenuBottom
   ptrs: 37d0
   dims: 37d3
-  literal: ╘══════╝
+  literal: ╘═════╝
   en: ╘═════╝
   fr: ╘═════╝
   pt-br: ╘═════╝
@@ -722,13 +722,16 @@
   jp: |
     ┌────╖
     │カイタイ║
-    │ウソタイ║
+    │ウリタイ║
     ╘════╝
+  kanji: |
+    買いたい
+    売りたい
   literal: |
-    ┌────╖
-    │Buy ║
-    │Sell║
-    ╘════╝
+    ┌────────────╖
+    │Want to buy ║
+    │Want to sell║
+    ╘════════════╝
   us: |
     ┌────╖
     │BUY ║
@@ -774,6 +777,10 @@
     │ソウビ║
     │ステル║
     ╘═══╝
+  kanji: |
+    使う
+    装備
+    捨てる
   literal: |
     ┌─────╖
     │Use  ║
@@ -889,9 +896,9 @@
 
 - name: TaironActiveBox
   literal: |
-    ┌──────╖
-    │Tairon║
-    ╘══════╝
+    ┌─────╖
+    │Tylon║
+    ╘═════╝
   en: |
     ┌─────╖
     │Tylon║
@@ -959,12 +966,12 @@
     │フレエリ║
     │ビンドワ║
   literal: |
-    ┌─────────╖
-    │Heal     ║
-    │Rakusuta ║
-    │Peyaraku ║
-    │Fureeri  ║
-    │Bindowa  ║
+    ┌────────╖
+    │Heal    ║
+    │Raksta  ║
+    │Peyarak ║
+    │Flaeli  ║
+    │Bindwa  ║
   us: |
     ┌────╖
     │HEAL║
@@ -1024,11 +1031,11 @@
     │ワーラ ║
     │パウマ ║
   literal: |
-    ┌─────────╖
-    │Doheal   ║
-    │Terror   ║
-    │Waller   ║
-    │Powma    ║
+    ┌────────╖
+    │Doheal  ║
+    │Telele  ║
+    │Warla   ║
+    │Powma   ║
   us: |
     ┌────╖
     │CURE║
@@ -1081,12 +1088,12 @@
     │ムワーラ║
     │タンドレ║
   literal: |
-    ┌─────────╖
-    │Fureeri  ║
-    │Telepathy║
-    │Hyuun    ║
-    │Muwaller ║
-    │Thunder  ║
+    ┌────────╖
+    │Flaeli  ║
+    │Telepath║
+    │Hewn    ║
+    │Muwarla ║
+    │Tandle  ║
   us: |
     ┌────╖
     │FIRE║
@@ -1143,9 +1150,9 @@
     │ヒール ║
     │トルーパ║
   literal: |
-    ┌─────────╖
-    │Heal     ║
-    │Toruupa  ║
+    ┌────────╖
+    │Heal    ║
+    │Trooper ║
   us: |
     ┌────╖
     │HEAL║
@@ -1182,10 +1189,10 @@
     │ラプット║
     │スルト ║
   literal: |
-    ┌─────────╖
-    │Doheal   ║
-    │Raputto  ║
-    │Suruto   ║
+    ┌────────╖
+    │Doheal  ║
+    │Rapt    ║
+    │Surut   ║
   us: |
     ┌────╖
     │CURE║
@@ -1231,12 +1238,12 @@
     │ムオーデ║
     │リーバス║
   literal: |
-    ┌─────────╖
-    │Doheal   ║
-    │Suruto   ║
-    │Telepathy║
-    │Muoode   ║
-    │Rebirth  ║
+    ┌────────╖
+    │Doheal  ║
+    │Surut   ║
+    │Telepath║
+    │Muohde  ║
+    │Rebirth ║
   us: |
     ┌────╖
     │CURE║
@@ -1289,7 +1296,7 @@
 
 - name: SpellMenuBottom
   # referenced in assembly code
-  literal: ╘═════════╝
+  literal: ╘════════╝
   en: ╘════════════╝
   fr: ╘════════════════╝
   pt-br: ╘════════════════╝
@@ -1347,12 +1354,20 @@
     ┌───────────╖
     │LV       99║
     │EP    65535║
-    │コウグキソョワ 255║
-    │シュビソョワ  255║
+    │コウグキリョク 255║
+    │シュビリョク  255║
     │サイダイHP  255║
     │サイダイMP  255║
     │メセタ   65535║
     ╘═══════════╝
+  kanji: |
+    ＬＶ
+    ＥＰ
+    攻撃力
+    守備力
+    最大ＨＰ
+    最大ＭＰ
+    メセタ
   literal: |
     ┌────────────────╖
     │LV            99║
@@ -1496,10 +1511,13 @@
     │Item 7  ║
     │Item 8  ║
     ╘════════╝
+  kanji: |
+    メセタ
+    他の持ち物
   literal: |
     ┌──────────────────╖
     │Meseta       65535║
-    │Next              ║
+    │Other Items       ║
     │Item 1            ║
     │Item 2            ║
     │Item 3            ║

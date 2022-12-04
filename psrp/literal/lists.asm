@@ -21,7 +21,7 @@ Items:
   String "<A> Laconian Sword"               
   String "<A> Laconian Axe"                 
 
-  String "<A> Leather Clothes"              
+  String "Leather Clothes"              
   String "<A> White Mantle"                 
   String "<A> Light Suit"                   
   String "<An> Iron Armor"                  
