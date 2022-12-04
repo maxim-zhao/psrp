@@ -43,7 +43,7 @@ TitleScreenModTrampoline:
 TitleScreenMod:
   call WaitForMenuSelection
   or a
-  jp z,$0751
+  jp z,$0751 ; NewGame
   dec a
   jp z,Continue
   dec a
@@ -949,22 +949,22 @@ FONT2a: .incbin {"generated/{LANGUAGE}/font-aw2284-part2.psgcompr"}
 .define Font1VRAMAddress $5800
 .define Font2VRAMAddress $7e00
 LoadFontsImpl:
-    ld hl,Font1VRAMAddress
-    ld de,FONT1
+    ld de,Font1VRAMAddress
+    ld hl,FONT1
     ld a,(Font)
     or a
     jr z,+
-    ld de,FONT1a
+    ld hl,FONT1a
 +:  call LoadTiles
     ; then fall through into the following
 
 LoadUpperFontImpl:
-    ld hl,Font2VRAMAddress
-    ld de,FONT2
+    ld de,Font2VRAMAddress
+    ld hl,FONT2
     ld a,(Font)
     or a
     jr z,+
-    ld de,FONT2a
+    ld hl,FONT2a
 +:  jp LoadTiles ; and ret
 .ends
 

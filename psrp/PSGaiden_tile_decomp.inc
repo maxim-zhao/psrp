@@ -2,31 +2,32 @@
 ; ***** by sverx - https://github.com/sverx/PSGaiden_tile_decompr *****
 
 ; Slightly modified for use in PSRP
-; - added ex de,hl due to reversed parameters
 ; - joined sections to ensure they end up in the same bank
 ; - removed ramsection usage
+; - made interrupt-safe
+; See https://www.smspower.org/Development/Compression#PhantasyStarGaidenDictionaryCoding
 
 .section "PSGaiden tile decompressor" align 256 superfree
-PSGaiden_jump_table:                    ; this needs to be 256 bytes aligned!!!!
-  .db <typeA_plane0, <typeA_plane1, <typeA_plane2, <typeE    ; [0x00,0x03]
-  .repeat 12
-    .db <typeE                                               ; [0x04,0x0F]
-  .endr
-  .db <typeB_plane0, <typeB_plane1, <typeB_plane2, <typeE    ; [0x10,0x13]
-  .repeat 12
-    .db <typeE                                               ; [0x14,0x1F]
-  .endr
-  .db <typeC_plane0, <typeC_plane1, <typeC_plane2, <typeE    ; [0x20,0x23]
-  .repeat 12+16
-    .db <typeE                                               ; [0x24,0x3F]
-  .endr
-  .db <typeD_plane0, <typeD_plane1, <typeD_plane2, <typeE    ; [0x40,0x43]
-  .repeat 12+16*11
-    .db <typeE                                               ; [0x44,0xFF]
-  .endr
+PSGaiden_jump_table:
+; This needs to be 256 bytes aligned.
+; PSGaiden compression has a "method" byte for each bitplane which determines
+; how it's decompressed (if necessary)
+; Type A: %000000pp = copy from bitplane pp (which must be less than the current bitplane)
+; Type B: %000100pp = copy from bitplane pp and invert
+; Type C: %001000pp = copy from bitplane pp, next byte is bitmask for which bytes to copy; then raw bytes for the rest
+; Type D: %010000pp = copy from bitplane pp and invert, next byte is bitmask for which bytes to copy; then raw bytes for the rest
+; Type E: <anything else> = use next byte for some pixels, byte itself is the bitmask; then raw bytes for the rest
+; Rather than try to mask the bits off for lookup, we instead use a 256B table that selects the bits and plane in one go. Only 12 bytes are not type E...
+  .db <typeA_plane0, <typeA_plane1, <typeA_plane2    ; [0x00,0x02]
+  .dsb 13 <typeE                                     ; [0x03,0x0F]
+  .db <typeB_plane0, <typeB_plane1, <typeB_plane2    ; [0x10,0x12]
+  .dsb 13 <typeE                                     ; [0x03,0x0F]
+  .db <typeC_plane0, <typeC_plane1, <typeC_plane2    ; [0x20,0x22]
+  .dsb 13+16 <typeE                                  ; [0x03,0x0F]
+  .db <typeD_plane0, <typeD_plane1, <typeD_plane2    ; [0x40,0x42]
+  .dsb 13+16*11 <typeE                               ; [0x03,0x0F]
 
-typeE:
-       jp typeE_proc
+; Then the labels referred to above need to be in the following 256B, for faster lookup...
 
 typeA_plane2:
        ld hl,PSGaiden_decomp_buffer+16
@@ -86,6 +87,25 @@ typeC_plane0:
        ld bc,PSGaiden_decomp_buffer
        jp typeC_proc
 
+typeE:
+     pop hl
+     push bc
+       ld b,a                           ; move mask (was type) in B
+       ld a,(hl)                        ; read next byte ('common')
+       inc hl
+       ld c,9                           ; so that B doesn't change when BC--
+       .repeat 8
+         rlc b                          ; get bit out of bitmask
+         jr c,+                         ; if 1, copy from common byte
+         ldi                            ; copy new data (DE)=(HL), DE++, HL++, BC--
+         jp ++
++:       ld (de),a                      ; write 'common' byte
+         inc de
+++:
+       .endr
+     pop bc
+     jp _BitplaneDone
+
 typeD_plane2:
      pop hl
      push bc
@@ -127,25 +147,6 @@ typeD_plane0:
      pop bc
      jp _BitplaneDone
 
-typeE_proc:
-     pop hl
-     push bc
-       ld b,a                           ; move mask (was type) in B
-       ld a,(hl)                        ; read next byte ('common')
-       inc hl
-       ld c,9                           ; so that B doesn't change when BC--
-       .repeat 8
-         rlc b                          ; get bit out of bitmask
-         jr c,+                         ; if 1, copy from common byte
-         ldi                            ; copy new data (DE)=(HL), DE++, HL++, BC--
-         jp ++
-+:       ld (de),a                      ; write 'common' byte
-         inc de
-++:
-       .endr
-     pop bc
-     jp _BitplaneDone
-
 typeC_proc:
 +:     ld a,(hl)                        ; read bitmask
        inc hl
@@ -174,10 +175,7 @@ typeC_proc:
      jp _WriteVRAM
 
 PSGaiden_tile_decompr:                  ; ******** procedure entry point *************
-   ex de,hl
-   ld c,$bf                             ; set VRAM address
-   out (c),e
-   out (c),d
+   ld (PSGaiden_vram_ptr),de
 
    ld c,(hl)                            ; BC = number of tiles
    inc hl
@@ -205,7 +203,7 @@ _BitplaneLoop:
        ld l,a
        ld h,>PSGaiden_jump_table
        ld l,(hl)
-       ld h,>typeE
+       inc h
        jp (hl)                          ; jump to desired routine
 
 _AllTheSame:
@@ -231,6 +229,11 @@ _BitplaneDone:
      ; tile is complete - ; fallback to _WriteVRAM
 
 _WriteVRAM:                             ; now loopless!
+    di
+     ld de,(PSGaiden_vram_ptr)
+     ld c,$bf                             ; set VRAM address
+     out (c),e
+     out (c),d
      push hl
        ld hl,PSGaiden_decomp_buffer     ; HL = source buffer
        ld bc,-8*3+1                     ; after each group of 4 bytes, go back this amount
@@ -247,8 +250,12 @@ _WriteVRAM:                             ; now loopless!
            add hl,bc                    ; go back for next run, if it's not the last
          .endif
        .endr
+       ld hl,32
+    ld de,(PSGaiden_vram_ptr)
+       add hl,de
+       ld (PSGaiden_vram_ptr),hl
      pop hl
-
+      ei
    pop bc
    dec bc                               ; more tiles?
    ld a,b
