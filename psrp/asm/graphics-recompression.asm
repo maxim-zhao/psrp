@@ -803,9 +803,8 @@ DungeonRoomTilemap: CopyFromOriginal $27130 $27471-$27130
   PatchW $6bb2 DungeonRoomTilemap
 ;    call   $6e05           ; 006BB4 CD 05 6E 
 
-
-; Places LoadTiles4BitRLE @ $04b3 is used:
 /*
+; Places LoadTiles4BitRLE @ $04b3 is used:
     call   $04b3           ; 0007D4 CD B3 04 Save game loading to load font. Replaced.
     call   $04b3           ; 0007DD CD B3 04 Save game loading to load font. Replaced.
     call   $04b3           ; 000A1C CD B3 04 Space travel - data is done
@@ -833,7 +832,7 @@ DungeonRoomTilemap: CopyFromOriginal $27130 $27471-$27130
     call   $04b3           ; 0062CA CD B3 04 Enemy sprite loader - data done
     call   $04b3           ; 006466 CD B3 04 Dialog counterpart loader - done
     call   $04b3           ; 00697C CD B3 04 Reload tiles after a pitfall - done
-    call   $04b3           ; 006BAE CD B3 04 Dungeon room - TODO
+    call   $04b3           ; 006BAE CD B3 04 Dungeon room - done
     call   m,$04b3         ; 00DCE6 FC B3 04 Not real code
 
 */
