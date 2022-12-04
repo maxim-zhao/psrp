@@ -766,9 +766,8 @@ Tiles2daf0: .incbin "generated/2daf0.psgcompr"
   PatchW $6122 Tiles2d901
   PatchW $6128 Tiles2daf0
   PatchB $60b4 :AttackSprites2
-  
+
 ; Myau flight
-.unbackground $5b9d8 $5bc31 ; Myau flight sprites
 .bank 2
 .section "Myau flight art" superfree
 MyauFlightPalette:  CopyFromOriginal $5b9d8 15
@@ -786,6 +785,23 @@ MyauFlightTiles:    .incbin "generated/5b9e7.psgcompr"
   PatchW $479a MyauFlightTiles
 ;    ld     de,$6000        ; 00479C 11 00 60 
 ;    call   $04b3           ; 00479F CD B3 04 
+
+; Dungeon rooms
+.bank 2
+.section "Dungeon room art" superfree
+DungeonRoomTiles:   .incbin "generated/27471.psgcompr"
+DungeonRoomTilemap: CopyFromOriginal $27130 $27471-$27130
+.ends
+;    ld     hl,$ffff        ; 006BA3 21 FF FF 
+;    ld     (hl),$09        ; 006BA6 36 09 
+  PatchB $6ba7 :DungeonRoomTiles
+;    ld     hl,$b471        ; 006BA8 21 71 B4 
+  PatchW $6ba9 DungeonRoomTiles
+;    ld     de,$4000        ; 006BAB 11 00 40 
+;    call   $04b3           ; 006BAE CD B3 04 
+;    ld     hl,$b130        ; 006BB1 21 30 B1 
+  PatchW $6bb2 DungeonRoomTilemap
+;    call   $6e05           ; 006BB4 CD 05 6E 
 
 
 ; Places LoadTiles4BitRLE @ $04b3 is used:
@@ -817,7 +833,7 @@ MyauFlightTiles:    .incbin "generated/5b9e7.psgcompr"
     call   $04b3           ; 0062CA CD B3 04 Enemy sprite loader - data done
     call   $04b3           ; 006466 CD B3 04 Dialog counterpart loader - done
     call   $04b3           ; 00697C CD B3 04 Reload tiles after a pitfall - done
-    call   $04b3           ; 006BAE CD B3 04 Empty room - TODO
+    call   $04b3           ; 006BAE CD B3 04 Dungeon room - TODO
     call   m,$04b3         ; 00DCE6 FC B3 04 Not real code
 
 */

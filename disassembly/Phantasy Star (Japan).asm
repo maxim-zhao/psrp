@@ -15313,16 +15313,19 @@ _LABEL_6B2F_:
     jp _LABEL_6C06_
 
 _LABEL_6B5F_:
+    ; Check square in front of player
     ld b,$01
     call DungeonGetRelativeSquare
+    ; Check for bit 3 = object/pitfall/exit
     and $08
     ret z
-    ld c,l
+    
+    ld c,l ; ???
     ld a,(DungeonNumber)
     ld b,a
     ld hl,Frame2Paging
     ld (hl),$03
-    ld hl,_DATA_F473_
+    ld hl,_DATA_F473_DungeonRooms
     ld de,$0004
 -:  ld a,(hl)
     cp $FF
@@ -15337,9 +15340,10 @@ _LABEL_6B5F_:
     jp -
 
 ; Data from 6B88 to 6B88 (1 bytes)
-.db $C9
+.db $C9  ; ############ Unreachable
 
-++:  ld hl,FunctionLookupIndex
+++: ; No match
+    ld hl,FunctionLookupIndex
     ld (hl),$08
     ret
 
@@ -15356,11 +15360,11 @@ _LABEL_6B5F_:
     push hl
       call FadeOutFullPalette
       ld hl,Frame2Paging
-      ld (hl),$09
-      ld hl,_DATA_27471_
+      ld (hl),:_DATA_27471_DungeonRoomTiles
+      ld hl,_DATA_27471_DungeonRoomTiles
       ld de,$4000
       call LoadTiles4BitRLE
-      ld hl,_DATA_27130_
+      ld hl,_DATA_27130_DungeonRoomTilemap
       call DecompressToTileMapData
       ld a,$0F
       ld (SceneType),a
@@ -15817,6 +15821,7 @@ _LABEL_6E6D_:
     ret
 
 DungeonGetRelativeSquare:
+    ; Returns a = dungeon square data
     ld a,(DungeonFacingDirection)
     and $03 ; 0-3
     add a,a ; Multiply by 16
@@ -20757,30 +20762,76 @@ DungeonObjects:
 .db $FF
 
 ; Data from F473 to F5B8 (326 bytes)
-_DATA_F473_:
-.db $00 $EE $05 $27 $12 $00 $5C $FF $7F $00 $00 $1E $07 $14 $2D $00
-.db $EC $00 $54 $4E $00 $6A $00 $12 $79 $00 $14 $00 $07 $74 $01 $34
-.db $FF $84 $33 $01 $75 $FF $85 $33 $01 $79 $FF $81 $00 $01 $87 $FF
-.db $86 $33 $01 $8C $FF $87 $33 $01 $C5 $FF $83 $33 $02 $11 $0A $51
-.db $13 $02 $EE $0A $51 $21 $04 $E8 $00 $65 $22 $04 $DA $FF $89 $32
-.db $06 $43 $FF $8A $32 $07 $A8 $FF $8B $32 $08 $81 $FF $8F $32 $08
-.db $8C $FF $01 $00 $0B $C9 $00 $19 $69 $0F $C5 $FF $8E $32 $0F $1D
-.db $FE $B0 $00 $10 $65 $FF $7C $2F $13 $3C $FF $80 $33 $14 $11 $00
-.db $26 $68 $14 $DB $00 $29 $69 $14 $49 $FF $94 $33 $14 $4D $FF $95
-.db $33 $14 $63 $FF $99 $17 $14 $79 $FF $A8 $3C $14 $7D $FF $97 $33
-.db $14 $83 $FF $98 $33 $14 $A4 $FF $96 $1B $15 $3E $FF $92 $0F $15
-.db $CC $FF $9A $32 $16 $11 $00 $30 $18 $16 $1D $FF $8C $33 $16 $EE
-.db $00 $3A $1B $19 $2E $FF $8D $32 $1D $78 $FF $7E $00 $1F $CE $FC
-.db $AB $00 $21 $51 $0E $18 $1D $21 $E4 $0E $23 $22 $27 $E3 $01 $79
-.db $5D $27 $EC $11 $44 $54 $28 $13 $13 $15 $13 $28 $5B $15 $14 $60
-.db $28 $97 $16 $24 $20 $28 $ED $14 $17 $39 $2B $76 $FF $A5 $3C $2B
-.db $98 $FF $B1 $3C $2E $3D $FF $9C $3D $2F $D1 $02 $75 $23 $2F $DE
-.db $02 $75 $35 $30 $1E $02 $2B $5F $30 $77 $02 $63 $17 $30 $89 $02
-.db $38 $5F $30 $EE $02 $70 $20 $31 $1D $02 $38 $43 $31 $E1 $02 $3B
-.db $2B $32 $49 $02 $49 $10 $32 $EB $02 $58 $11 $39 $CB $FD $9F $00
-
-; "-1"th palette?
-.db $3A $98 $FF $B2 $1D $FF
+_DATA_F473_DungeonRooms: ; Table of dungeon encounters?
+;    ,,----------------- Dungeon floor index
+;    ||  ,,------------- X,Y?
+;    ||  ||  ,,--------- 
+.db $00 $EE $05 $27 $12
+.db $00 $5C $FF $7F $00
+.db $00 $1E $07 $14 $2D
+.db $00 $EC $00 $54 $4E
+.db $00 $6A $00 $12 $79
+.db $00 $14 $00 $07 $74
+.db $01 $34 $FF $84 $33
+.db $01 $75 $FF $85 $33
+.db $01 $79 $FF $81 $00
+.db $01 $87 $FF $86 $33
+.db $01 $8C $FF $87 $33
+.db $01 $C5 $FF $83 $33
+.db $02 $11 $0A $51 $13
+.db $02 $EE $0A $51 $21
+.db $04 $E8 $00 $65 $22
+.db $04 $DA $FF $89 $32
+.db $06 $43 $FF $8A $32
+.db $07 $A8 $FF $8B $32
+.db $08 $81 $FF $8F $32
+.db $08 $8C $FF $01 $00
+.db $0B $C9 $00 $19 $69
+.db $0F $C5 $FF $8E $32
+.db $0F $1D $FE $B0 $00
+.db $10 $65 $FF $7C $2F
+.db $13 $3C $FF $80 $33
+.db $14 $11 $00 $26 $68
+.db $14 $DB $00 $29 $69
+.db $14 $49 $FF $94 $33
+.db $14 $4D $FF $95 $33
+.db $14 $63 $FF $99 $17
+.db $14 $79 $FF $A8 $3C
+.db $14 $7D $FF $97 $33
+.db $14 $83 $FF $98 $33
+.db $14 $A4 $FF $96 $1B
+.db $15 $3E $FF $92 $0F
+.db $15 $CC $FF $9A $32
+.db $16 $11 $00 $30 $18
+.db $16 $1D $FF $8C $33
+.db $16 $EE $00 $3A $1B
+.db $19 $2E $FF $8D $32
+.db $1D $78 $FF $7E $00
+.db $1F $CE $FC $AB $00
+.db $21 $51 $0E $18 $1D
+.db $21 $E4 $0E $23 $22
+.db $27 $E3 $01 $79 $5D
+.db $27 $EC $11 $44 $54
+.db $28 $13 $13 $15 $13
+.db $28 $5B $15 $14 $60
+.db $28 $97 $16 $24 $20
+.db $28 $ED $14 $17 $39
+.db $2B $76 $FF $A5 $3C
+.db $2B $98 $FF $B1 $3C
+.db $2E $3D $FF $9C $3D
+.db $2F $D1 $02 $75 $23
+.db $2F $DE $02 $75 $35
+.db $30 $1E $02 $2B $5F
+.db $30 $77 $02 $63 $17
+.db $30 $89 $02 $38 $5F
+.db $30 $EE $02 $70 $20
+.db $31 $1D $02 $38 $43
+.db $31 $E1 $02 $3B $2B
+.db $32 $49 $02 $49 $10
+.db $32 $EB $02 $58 $11
+.db $39 $CB $FD $9F $00
+.db $3A $98 $FF $B2 $1D
+.db $FF ; Terminator
 
 ; Data from F5B9 to F618 (96 bytes)
 DungeonPalettes:
@@ -22136,8 +22187,10 @@ _DATA_1B9D0_:
 ; Data from 24000 to 2712F (12592 bytes)
 .incbin "Phantasy Star (Japan)_DATA_24000_.inc"
 
+.org $27130-$24000
+.section "Dungeon room" overwrite
 ; Data from 27130 to 27470 (833 bytes)
-_DATA_27130_:
+_DATA_27130_DungeonRoomTilemap:
 .db $9F $01 $02 $03 $04 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
 .db $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $04 $03 $02
 .db $03 $01 $9C $09 $04 $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C
@@ -22192,13 +22245,10 @@ _DATA_27130_:
 .db $81 $02 $07 $00 $02 $02 $16 $00 $02 $02 $07 $00 $02 $02 $02 $00
 .db $00
 
-.org $27471-$24000
-.section "Tile data 2" overwrite
+_DATA_27471_DungeonRoomTiles:
 .incbin "Tiles\27471compr.dat"
 .ends
-; followed by
-.org $2778b-$24000
-.section "Mansion tilemap" overwrite
+.section "Tile data 3" overwrite
 TilemapMansion:
 .incbin "Tilemaps\2778btilemap.dat"
 .ends
@@ -28302,10 +28352,12 @@ PaletteAirCastle:
 .db $30,$00,$3F,$0B,$06,$1A,$2F,$2A,$08,$15,$30,$30,$30,$30,$30,$30 ; palette for following (with castle hidden!)
 TilesAirCastle:
 .incbin "Tiles\5ac8dcompr.dat" ; 141 - AirCastle
+
+.db $38 ; unused (sprite palette index 0, not loaded) #####################
 _DATA_5B9D8_MyauFlightPalette:
-.db $38,$3F,$00,$38,$1F,$0B,$06,$3E,$00,$00,$00,$00,$00,$00,$00,$00 ; palette for following
+.db $3F,$00,$38,$1F,$0B,$06,$3E,$00,$00,$00,$00,$00,$00,$00,$00 ; palette for following
 _DATA_5B9E7_MyauFlightTiles:
-.incbin "Tiles\5b9e7compr.dat" ; 27 - flying Myau?
+.incbin "Tiles\5b9e7compr.dat" ; 27 - flying Myau? 587 -> 549
 .ends
 ; followed by
 .org $5bc32-$58000

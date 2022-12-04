@@ -66,6 +66,8 @@ banks 32
 ; Bank 6
   .unbackground $1bb80 $1bfff ; Person tiles, unused space
 ; Bank 9
+  .unbackground $27130 $2778a ; Dungeon room tiles/tilemap
+  ; Mansion tilemap is in this gap, could relocate to make space more usable
   .unbackground $27b14 $27fff ; Mansion tiles and palette + unused space
 ; Bank 10 - entire bank
   .unbackground $28000 $2bfff ; Enemy tiles, unused space
@@ -101,6 +103,7 @@ banks 32
 ; Bank 22
   .unbackground $58570 $5ac8c ; Tiles for town
   .unbackground $5ac7d $5b9d6 ; Tiles, palette for air castle
+  .unbackground $5b9d7 $5bc31 ; Myau flight sprites
 ; Bank 23
   .unbackground $5ea9f $5f766 ; Building interior tiles, palettes
   .unbackground $5f778 $5ffff ; Space graphics, unused space
