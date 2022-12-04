@@ -64,11 +64,8 @@ CreditsScreen10:
 ; Pitfall to green
 
 CreditsScreen11:
-.db 5
-  CreditsEntry 4,14,"SOFTWARE-"
-  CreditsEntry 3,15,"¨"
-  CreditsEntry 9,15,      "¨"
-  CreditsEntry 3,16,"UBERPRUFUNG"
+.db 2
+  CreditsEntry 5,15,"TESTER"
   CreditsEntry 18,15,"WORKS NISHI"
 
 CreditsScreen12:
