@@ -36,27 +36,44 @@ CreditsFont:
 .ends
 
 ; We hack the credits dungeon data to add more credits at the end...
-  ROMPosition $3df6e + $3c * 128 ; Dungeon level $3d
+  ROMPosition $3df6e + $3b * 128 ; Dungeon level $3c
 .stringmaptable dungeons "asm/Dungeons.tbl"
 .section "Add credits wall text" overwrite
+Dungeon3c:
+.stringmap dungeons "🧱🧱🧱🧱🌫📄🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱" ; 15 RETRANSLATION
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫📄🧱🧱🧱🧱🧱" ; 16 TRANSLATION
+.stringmap dungeons "🧱🌫🌫🌫🔼🧱🧱🧱🧱🧱🧱🧱📄🌫📄🧱" ; 8, 9
+.stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱"
+.stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🧱🔼🌫🌫🌫🌫🌫🧱🧱"
+.stringmap dungeons "🧱🧱🌫🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🌫🧱🧱"
+.stringmap dungeons "🧱🧱🌫🌫🌫🌫🌫📄🧱📄🌫🌫🌫🌫🧱🧱" ; 11, 7
+.stringmap dungeons "🧱🧱📄🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🌫🧱🧱" ; 13
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🌫📄🧱🧱🌫🌫🌫📄🧱🧱🧱🧱" ; 12, 6
+.stringmap dungeons "🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🌫🧱🧱🌫📄🧱🌫🧱🧱🧱🧱🧱" ; 17 LOCALIZATION
+.stringmap dungeons "🧱🧱🧱🧱🌫🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱📄🌫🌫🌫🌫🌫🌫🧱🧱🧱🧱🧱🧱🧱🧱" ; 18 CODE
+.stringmap dungeons "🧱🧱🧱🧱🌫🧱🧱🌫🌫🌫🔼🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🌫🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
 Dungeon3d:
-.stringmap dungeons "🧱🧱🧱🧱🧱🌫📄🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱📄🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🔽🌫🌫🌫📄🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🧱📦🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🔽🌫🌫🌫📄🧱🧱🧱🧱🧱🧱🧱" ; 14 PRESENTED BY SEGA
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🌫🔽🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱📄🌫🧱🧱📄🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🌫🧱📄🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱📄🌫🧱🧱📄🧱🧱🧱🧱🧱🧱🧱" ; 10, 5
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🌫🧱📄🧱🧱🧱🧱🧱" ; 4
 .stringmap dungeons "🧱🧱🧱🧱🧱📦🧱🧱🌫🌫🌫🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱📦🧱🌫🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🌫📄🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱📄🧱🧱🌫🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱📄🌫🌫🌫🌫🌫🌫🌫📄🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🌫📄🧱🧱🧱" ; 3
+.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱📄🧱🧱🌫🧱🧱🧱🧱🧱" ; 1 STAFF
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫📄🧱🧱🧱🧱" ; 2 
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🌫📄🌫🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱📄🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
-; We have extended the last bit (at the top) to have a new path and 5 new text places
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🔽🌫🌫🌫📄🧱" ; PRESENTED BY SMS POWER!
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
+; We have extended the last bit (at the top) to add the new pitfall
 .ends
 
 ; Next we need to replace the ending walk data...
@@ -67,6 +84,7 @@ Dungeon3d:
 .define _R %1000
 .define _Pause $f
 .define _End $ff
+.define _Pitfall $00
 
 CreditsMovementData:
 .db _F _F _F _Pause
@@ -74,22 +92,22 @@ CreditsMovementData:
 .db _L _F _F _R _F _Pause
 .db _L _L _F _R _F _F _Pause
 .db _L _F _F _R _F _Pause
-.db _B _B $00 _R _F _F _Pause
+.db _B _B _Pitfall _R _F _F _Pause
 .db _L _F _F _F _F _B _L _Pause
 .db _B _B _B _R _F _F _F _F _L _Pause
 .db _R _R _Pause
 .db _R _F _F _R _F _F _F _F _F _F _F _R _B _B _L _Pause
-.db _L _F _F $00 _Pause
+.db _L _F _F _Pitfall _Pause
 .db _L _L _F _F _R _F _Pause
 .db _B _B _B _B _R _Pause
 .db _B _L _L _F _F _F _R _F _F _F _F _Pause
 ; New stuff added here. We visit the 📄 we added.
-.db _Pause _Pause _Pause
-.db _L _L _F _F _R _F _L _Pause
-.db _R _F _R _Pause
-.db _L _F _L _Pause
-.db _R _F _R _Pause
-.db _L _F _F _L _F _Pause
+.db _Pause ; for music timing
+.db _L _L _F _F _R _F _Pitfall _Pause ; RETRANSLATION
+.db _L _L _L _F _F _F _F _Pause ; TRANSLATION
+.db _B _B _L _F _F _F _F _F _F _R _Pause ; LOCALIZATION
+.db _L _B _B _L _F _F _F _F _F _Pause ; CODE
+.db _R _R _F _F _R _R _R _R _F _F _F _R _F _L _F _F _F _F _F _Pause ; PRESENTED BY SMS POWER!
 .db _End
 .ends
   PatchB $48a3 :CreditsMovementData
