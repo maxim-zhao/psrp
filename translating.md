@@ -29,7 +29,7 @@ Any characters used in your script.yaml file have to be specified in here. You c
 script.yaml
 -----------
 
-This is the main script. It is in YAML form, and includes every language at the same time. This means you can look at the Japanese text, literal translation, English localisation, and other translations for each script element at the same time. Some entries have comments to explain why things are the way they are. This file contains UTF-8 text and you should use all characters for your language in the text - let script.xx.tbl handle any removal of accents.
+This is the main script. It is in YAML form, and includes every language at the same time. This means you can look at the Japanese text, literal translation, English localization, and other translations for each script element at the same time. Some entries have comments to explain why things are the way they are. This file contains UTF-8 text and you should use all characters for your language in the text - let script.xx.tbl handle any removal of accents.
 
 menus.yaml
 ----------

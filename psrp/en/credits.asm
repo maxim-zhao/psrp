@@ -127,7 +127,7 @@ CreditsScreen16:
 
 CreditsScreen17:
 .db 2
-  CreditsEntry 2,6, "LOCALISATION"
+  CreditsEntry 2,6, "LOCALIZATION"
   CreditsEntry 17,6, "FRANK CIFALDI"
 
 CreditsScreen18:

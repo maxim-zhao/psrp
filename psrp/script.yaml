@@ -15,7 +15,7 @@
 # - ja: original Japanese
 # - kanji: original Japanese text but also using hiragana and kanji to minimize ambiguity
 # - literal: literal translation of the "ja" text
-# - us: Sega localisation for this item (very incomplete)
+# - us: Sega's original English localization
 # - en, fr, pt-br, ca, es, de: translations consumed by the code
 # Stuff with ****** around it is an area indicator.
 #
