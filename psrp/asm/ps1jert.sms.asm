@@ -295,6 +295,7 @@ _script\@_end:
 .define DecompressToTileMapData $6e05
 .define Multiply16 $0505 ; dehl = de * bc
 .define GetRandomNumber $066a ; returns in a
+.define FadeOutFullPalette $7da8
 
 ; Save slots are $400 bytes so we have room for 7.
 ; Names could go up to 24 characters... but we limit to 18 because that fits nicely on the screen.

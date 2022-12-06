@@ -10,6 +10,7 @@
 ;    │Alisa's hair  Brown║
 ;    │Font        Polaris║
 ;    │Fades          Fast║
+;    │Text speed       x2║
 ;    ╘═══════════════════╝
 ;   Selections in here are saved to SRAM so they persist across games
 ; * We also redraw the whole title screen...
@@ -1070,3 +1071,17 @@ _plural:
   ld hl,ChestMesetasPlural
   jp TextBox ; and ret
 .ends
+
+
+; We want to default the text speed during the ending sequence so the timing matches the music.
+  PatchW $47b6 EndingSpeedReset
+.section "EndingSpeedReset" free
+EndingSpeedReset:
+  ; Zero = default for both of these
+  xor a
+  ld (FadeSpeed),a
+  ld (TextSpeed),a
+  ; We stole a call to this...
+  jp FadeOutFullPalette
+.ends
+; The title screen reloads them from SRAM so we don't need to deal with that.
