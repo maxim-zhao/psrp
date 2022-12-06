@@ -41,7 +41,7 @@ CreditsFont:
 .section "Add credits wall text" overwrite
 Dungeon3c:
 .stringmap dungeons "🧱🧱🧱🧱🌫📄🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱" ; 15 RETRANSLATION
-.stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫📄🧱🧱🧱🧱🧱" ; 16 TRANSLATION
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫📄🧱🧱🧱🧱" ; 16 TRANSLATION
 .stringmap dungeons "🧱🌫🌫🌫🔼🧱🧱🧱🧱🧱🧱🧱📄🌫📄🧱" ; 8, 9
 .stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱"
 .stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🧱🔼🌫🌫🌫🌫🌫🧱🧱"
@@ -70,9 +70,9 @@ Dungeon3d:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🌫📄🧱🧱🧱" ; 3
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱📄🧱🧱🌫🧱🧱🧱🧱🧱" ; 1 STAFF
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫📄🧱🧱🧱🧱" ; 2 
-.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🔽🌫🌫🌫📄🧱" ; PRESENTED BY SMS POWER!
-.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🔽🌫🌫🌫📄🧱" ; PRESENTED BY SMS POWER!
+.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
 ; We have extended the last bit (at the top) to add the new pitfall
 .ends
 
@@ -104,10 +104,10 @@ CreditsMovementData:
 ; New stuff added here. We visit the 📄 we added.
 .db _Pause ; for music timing
 .db _L _L _F _F _R _F _Pitfall _Pause ; RETRANSLATION
-.db _L _L _L _F _F _F _F _Pause ; TRANSLATION
-.db _B _B _L _F _F _F _F _F _F _R _Pause ; LOCALIZATION
+.db _L _L _L _F _F _F _F _F _Pause ; TRANSLATION
+.db _B _B _B _L _F _F _F _F _F _F _R _Pause ; LOCALIZATION
 .db _L _B _B _L _F _F _F _F _F _Pause ; CODE
-.db _R _R _F _F _R _R _R _R _F _F _F _R _F _L _F _F _F _F _F _Pause ; PRESENTED BY SMS POWER!
+.db _R _R _F _F _F _F _F _R _F _L _F _F _F _F _F _Pause _Pause ; PRESENTED BY SMS POWER!
 .db _End
 .ends
   PatchB $48a3 :CreditsMovementData
