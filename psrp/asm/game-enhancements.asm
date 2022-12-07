@@ -1085,3 +1085,32 @@ EndingSpeedReset:
   jp FadeOutFullPalette
 .ends
 ; The title screen reloads them from SRAM so we don't need to deal with that.
+
+
+; We make yes/no menus treat button 1 as "no"
+  ROMPosition $2e79
+.section "Yes/no 1 = close hook" overwrite
+  jp YesNoButton1Fix
+.ends
+.section "Yes/no 1 = close implementation" free
+YesNoButton1Fix:
+  ; If bit 4 of c is set, button 1 was pressed
+  bit 4,c
+  jr z,+
+  ; If so, set a = 1
+  ld a,1
+  ; Code we replaced to get here
++:push af
+  call $38e0
+  ; And return (stacklessly)
+  jp $2e7d
+.ends
+; Original code:
+;    push   bc              ; 002E75 C5 
+;    call   ShowYesNoMenu ;$38c0           ; 002E76 CD C0 38 
+;    push   af              ; 002E79 F5 
+;    call   HideYesNoMenu ;$38e0           ; 002E7A CD E0 38 
+;    pop    af              ; 002E7D F1 
+;    pop    bc              ; 002E7E C1 
+;    or     a               ; 002E7F B7 
+;    ret                    ; 002E80 C9 
