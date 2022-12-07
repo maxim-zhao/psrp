@@ -1114,3 +1114,27 @@ YesNoButton1Fix:
 ;    pop    bc              ; 002E7E C1 
 ;    or     a               ; 002E7F B7 
 ;    ret                    ; 002E80 C9 
+
+
+; And 1 in the save menu should cancel
+  ROMPosition $1e44
+.section "Save slot 1 = close hook" overwrite
+  jp SaveSlotButton1Fix
+.ends
+.section "Save slot 1 = close implementation" free
+SaveSlotButton1Fix:
+  ; The Z flag reflects if button 1 was pressed
+  ; If so, jump to the same place as if you chose "no" on the confirmation prompt
+  jp nz,$1e97
+
+  ; What we replaced to get here
+  ld hl,ScriptConfirmSlot
+  jp $1e47
+.ends
+;    ld     hl,$b39f        ; 001E3B 21 9F B3 Saving the game?<line> Please choose a slot.<end>
+;    call   $333a ;TextBox20x6 ; 001E3E CD 3A 33 
+;    call   $3acf ;SelectSaveSlot ; 001E41 CD CF 3A <-- We changed this in original-game-bug-fixes.asm to another call that checks for button 1 for us
+;    ld     hl,$b3bc        ; 001E44 21 BC B3 ; Slot <number>, are you sure?<end>
+;    call   $333a ;TextBox20x6 ; 001E47 CD 3A 33 
+;    call   $2e75 ;DoYesNoMenu ; 001E4A CD 75 2E 
+;    jr     nz,$1e97        ; 001E4D 20 48 

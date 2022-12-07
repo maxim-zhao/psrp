@@ -11836,7 +11836,7 @@
     Spiel speichern?<line>
     Bitte eine Nummer wählen.<end>
 
-- offsets: ScriptConfirmSlot,1e44
+- offsets: ScriptConfirmSlot
   indices: b3bc
   ja: <number>バンデ　イイデスカ。<end>
   kanji: <number>番でいいですか。

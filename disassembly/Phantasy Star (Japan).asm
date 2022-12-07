@@ -2074,7 +2074,7 @@ _Delete:
       call GetSavegameSelection
       bit 4,c        ; z set if button 1 pressed
     pop bc
-    jr nz,_Delete      ; repeat if button 2 pressed(?)
+    jr nz,_Delete      ; back to previous state if button 1 pressed
     call IsSlotUsed
     jr z,-             ; wait for a valid selection
     ld hl,textSaveDeleteConfirmSlot
@@ -4749,7 +4749,7 @@ _DATA_1DD8_ChurchLocations:
 
 ; Jump Table from 1DF3 to 1DFC (5 entries,indexed by CursorPos)
 _DATA_1DF3_:
-.dw _LABEL_1DFD_ _LABEL_1EA9_ _LABEL_22C4_ _LABEL_2995_ _LABEL_1E3B_
+.dw _LABEL_1DFD_ _LABEL_1EA9_ _LABEL_22C4_ _LABEL_2995_ _LABEL_1E3B_SaveGame
 
 ; 1st entry of Jump Table from 1DF3 (indexed by CursorPos)
 _LABEL_1DFD_:
@@ -4787,10 +4787,10 @@ _LABEL_1DFD_:
 +++:jp _LABEL_37D8_ClosePlayerSelect
 
 ; 5th entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_1E3B_:
+_LABEL_1E3B_SaveGame:
     ld hl,textSaveSelectSlot
     call TextBox20x6
-    call _LABEL_3ACF_
+    call _LABEL_3ACF_GetSaveGameSelection
     ld hl,textSaveDeleteConfirmSlot
     call TextBox20x6
     call DoYesNoMenu
@@ -8777,11 +8777,12 @@ _LABEL_3AC3_:
     ld bc,$0820
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3ACF_:
+_LABEL_3ACF_GetSaveGameSelection:
     ld hl,OldTileMapEnemyName10x4
     ld de,$786E
     ld bc,$0C12
     call InputTilemapRect
+    ; fall through
 
 .orga $3adb
 .section "Show savegame list and get selection" overwrite
