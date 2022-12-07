@@ -1133,8 +1133,40 @@ SaveSlotButton1Fix:
 .ends
 ;    ld     hl,$b39f        ; 001E3B 21 9F B3 Saving the game?<line> Please choose a slot.<end>
 ;    call   $333a ;TextBox20x6 ; 001E3E CD 3A 33 
-;    call   $3acf ;SelectSaveSlot ; 001E41 CD CF 3A <-- We changed this in original-game-bug-fixes.asm to another call that checks for button 1 for us
+;    call   $3acf ;SelectSaveSlot ; 001E41 CD CF 3A <-- We changed this in original-game-bug-fixes.asm to another call that checks for button 1 for us, as bc needs to be preserved
 ;    ld     hl,$b3bc        ; 001E44 21 BC B3 ; Slot <number>, are you sure?<end>
 ;    call   $333a ;TextBox20x6 ; 001E47 CD 3A 33 
 ;    call   $2e75 ;DoYesNoMenu ; 001E4A CD 75 2E 
 ;    jr     nz,$1e97        ; 001E4D 20 48 
+
+
+; We handle 1 during the stats display to skip showing magic
+  ROMPosition $1e13
+.section "Stats 1 = close hook" overwrite
+  jp StatsButton1Fix
+.ends
+.section "Stats 1 = close implementation" free
+StatsButton1Fix:
+  ; a has the button press info
+  bit 4,a
+  jp nz,+
+  ; Button 1 was not pressed
+  ; What we replaced to get here
+  pop af
+  ld c,a
+  add a,a
+  jp $1e16
++:; Button 1 was pressed
+  ; Skip past the magic menu part. We need to clear up the stack though.
+  pop af
+  jp $1e32 ; after magic menu closes, cleans up what's left
+.ends
+;    push   af              ; 001E09 F5 
+;     call ShowEquippedItems ; 001E0A CD 24 38 
+;     call ShowCharacterStats ; 001E0D CD EC 38 
+;     call MenuWaitForButton ; 001E10 CD 81 2E 
+;>   pop    af              ; 001E13 F1 
+;>   ld     c,a             ; 001E14 4F 
+;>   add    a,a             ; 001E15 87 
+;    add    a,a             ; 001E16 87 
+;    add    a,a             ; 001E17 87 

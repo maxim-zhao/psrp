@@ -4430,7 +4430,7 @@ BattleMenu_Magic:
     ld a,b
     ld hl,_DATA_1BC2_
     call FunctionLookup
-+:  jp _LABEL_35E3_
++:  jp _LABEL_35E3_HideMagicMenu
 
 _noMagicYet:
     ld hl,textPlayerHasNoMagicYet
@@ -4440,7 +4440,7 @@ _noMagicYet:
 ++: ld hl,textNotEnoughMagicPoints
     call TextBox20x6
     call Close20x6TextBox
-    jp _LABEL_35E3_
+    jp _LABEL_35E3_HideMagicMenu
 
 ; Data from 1BB3 to 1BC1 (15 bytes)
 _DATA_1BB3_BattleMagicIndices:
@@ -4674,7 +4674,7 @@ _LABEL_1D3D_:
     call WaitForMenuSelection
     bit 4,c
     jp nz,+
-    ld hl,_DATA_1DF3_
+    ld hl,_DATA_1DF3_OverworldMenuHandlers
     call FunctionLookup
     call _LABEL_380C_
     jp -
@@ -4748,11 +4748,11 @@ _DATA_1DD8_ChurchLocations:
 .db $15 $28 $61 ; Skray
 
 ; Jump Table from 1DF3 to 1DFC (5 entries,indexed by CursorPos)
-_DATA_1DF3_:
-.dw _LABEL_1DFD_ _LABEL_1EA9_ _LABEL_22C4_ _LABEL_2995_ _LABEL_1E3B_SaveGame
+_DATA_1DF3_OverworldMenuHandlers:
+.dw _LABEL_1DFD_Stats _LABEL_1EA9_Magic _LABEL_22C4_Items _LABEL_2995_Search _LABEL_1E3B_SaveGame
 
 ; 1st entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_1DFD_:
+_LABEL_1DFD_Stats:
     call ShowCharacterSelectMenu
     bit 4,c
     jr nz,+++
@@ -4760,7 +4760,7 @@ _LABEL_1DFD_:
     jr z,+++
     push af
       call _LABEL_3824_ShowEquippedItems
-      call _LABEL_38EC_
+      call _LABEL_38EC_ShowCharacterStats
       call MenuWaitForButton
     pop af
     ld c,a
@@ -4781,8 +4781,8 @@ _LABEL_1DFD_:
     dec a
 +:  call _LABEL_3592_ShowMagicMenu
     call MenuWaitForButton
-    call _LABEL_35E3_
-++:  call _LABEL_39DE_
+    call _LABEL_35E3_HideMagicMenu
+++:  call _LABEL_39DE_HideCharacterStats
     call _LABEL_386A_HideEquippedItems
 +++:jp _LABEL_37D8_ClosePlayerSelect
 
@@ -4842,7 +4842,7 @@ _LABEL_1E97_:
     ret
 
 ; 2nd entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_1EA9_:
+_LABEL_1EA9_Magic:
     call ShowCharacterSelectMenu
     bit 4,c
     jp nz,_LABEL_1F16_
@@ -4903,7 +4903,7 @@ _LABEL_1EA9_:
     ld hl,MagicFunctions
     call FunctionLookup
 _LABEL_1F13_:
-    call _LABEL_35E3_
+    call _LABEL_35E3_HideMagicMenu
 _LABEL_1F16_:
     call _LABEL_37D8_ClosePlayerSelect
     jp _LABEL_30A4_
@@ -5411,7 +5411,7 @@ _DoTroopOrTranCarpet:
     ret
 
 ; 3rd entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_22C4_:
+_LABEL_22C4_Items:
     ld a,(InventoryCount)
     or a
     jp nz,+
@@ -6304,7 +6304,7 @@ HaveItem:
     ret
 
 ; 4th entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_2995_:
+_LABEL_2995_Search:
     ld a,(CharacterSpriteAttributes)
     cp $0E
     jr nz,+
@@ -6341,45 +6341,45 @@ _LABEL_2995_:
     jr nz,+
     ld a,l
     cp $28
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,h
     cp $1E
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,(SootheFluteIsUnhidden)
     or a
-    jr z,_LABEL_2A21_
+    jr z,+++
     cp $FF
-    jr z,_LABEL_2A21_
+    jr z,+++
     ld a,$FF
     ld (SootheFluteIsUnhidden),a
     ld a,Item_SootheFlute
     jr ++
 
 +:  cp $01
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,l
     cp $30
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,h
     cp $48
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,(PerseusShieldIsUnhidden)
     or a
-    jr z,_LABEL_2A21_
+    jr z,+++
     ld a,(CharacterStatsOdin.Shield)
     ld b,a
     ld a,Item_Shield_ShieldOfPerseus
     cp b
-    jr z,_LABEL_2A21_
+    jr z,+++
 ++: ld (ItemTableIndex),a
     call HaveItem
-    jr z,_LABEL_2A21_
+    jr z,+++
     ld hl,textFoundItem
     call TextBox20x6
     call AddItemToInventory
     jp Close20x6TextBox
 
-_LABEL_2A21_:
++++:
     ld a,(RoomIndex)
     cp $A2 ; _room_a2_5795 ???
     jp z,_LABEL_57C6_
@@ -8106,7 +8106,7 @@ _LABEL_3592_ShowMagicMenu:
     ld bc,$0C0C
     jp OutputTilemapBoxWipePaging
 
-_LABEL_35E3_:
+_LABEL_35E3_HideMagicMenu:
     ld hl,_RAM_DB74_
     ld de,$7A0C
     ld bc,$0C0C
@@ -8531,7 +8531,7 @@ HideMenuYesNo:
 .ends
 .orga $38ec
 
-_LABEL_38EC_:
+_LABEL_38EC_ShowCharacterStats:
     add a,a
     add a,a
     add a,a
@@ -8614,7 +8614,7 @@ _DATA_39BE_:
 _DATA_39CE_:
 .db $F3 $11 $D5 $10 $CC $10 $DA $10 $CC $10 $F6 $11 $F5 $11 $C0 $10
 
-_LABEL_39DE_:
+_LABEL_39DE_HideCharacterStats:
     ld hl,_RAM_DC04_
     ld de,$7920
     ld bc,$0E18
