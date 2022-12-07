@@ -349,11 +349,17 @@ HaveBeatenShadow db           ; $ff if yes
 .ende
 
 .enum $C600 export
-_RAM_C600_ db ; Dialogue flags
-.ende
-
-.enum $C604 export
+_RAM_C600_ .dsb 100 ; Dialogue flags
+Flag_Compass           db ; $c600
+Flag_DungeonChest0_e0  db ; $c601
+Flag_DungeonChest0_7c  db ; $c602
+Flag_DungeonChest1_17  db ; $c603
 DungeonKeyIsHidden db         ; $ff at start of game,0 when villager tells you about it
+Flag_DungeonChest2_67  db ; $c605
+Flag_DungeonChest2_3a  db ; $c606
+Flag_DungeonChest2_63  db ; $c607
+Flag_DungeonChest3_9c  db ; $c608
+; ...
 .ende
 
 .enum $C780 export
@@ -3051,7 +3057,7 @@ _LABEL_10D9_:
     ei
     call ClearSpriteTableAndFadeInWholePalette
     ld b,$01
-    call _LABEL_6C06_
+    call _LABEL_6C06_CheckForDungeonObject
     ld a,(DungeonPaletteIndex)
     or a
     ret nz
@@ -3980,7 +3986,7 @@ _LABEL_17B2_:
     call TextBox20x6
     call ShowTreasureChest
     call MenuWaitForButton
-    jp _LABEL_2A37_
+    jp _LABEL_2A37_HandleTreasureChest
 
 ShowTreasureChest:
     ld hl,Frame2Paging
@@ -5380,7 +5386,7 @@ DoTelepathy:
 +:  call TextBox20x6
     ld a,SFX_d5
     ld (NewMusic),a
-    jp _LABEL_2A37_
+    jp _LABEL_2A37_HandleTreasureChest
 
 ; 19th entry of Jump Table from 1F5A (indexed by unknown)
 _Magic12_Troop:
@@ -5933,7 +5939,7 @@ UseItem_EclipseTorch:
     ld (ItemTableIndex),a
     call HaveItem
     ret z
-    jp _LABEL_28FB_AddItemToInventory
+    jp AddItemToInventory
 
 ; 49th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 UseItem_AeroPrism:
@@ -6218,7 +6224,7 @@ RemoveItemFromInventory:
     pop bc
     ret
 
-_LABEL_28FB_AddItemToInventory:
+AddItemToInventory:
     ld a,(InventoryCount)
     cp $18
     jr nc,_LABEL_2918_InventoryFull
@@ -6305,7 +6311,7 @@ _LABEL_2995_:
     call _LABEL_321F_HidePartyStats
     ld hl,textNothingUnusualHere
     call TextBox20x6
-    call _LABEL_2A37_
+    call _LABEL_2A37_HandleTreasureChest
     jp _LABEL_3041_UpdatePartyStats
 
 +:  ld hl,(VLocation)
@@ -6370,7 +6376,7 @@ _LABEL_2995_:
     jr z,_LABEL_2A21_
     ld hl,textFoundItem
     call TextBox20x6
-    call _LABEL_28FB_AddItemToInventory
+    call AddItemToInventory
     jp Close20x6TextBox
 
 _LABEL_2A21_:
@@ -6383,7 +6389,7 @@ _LABEL_2A21_:
     call TextBox20x6
     jp Close20x6TextBox
 
-_LABEL_2A37_:
+_LABEL_2A37_HandleTreasureChest:
     ld hl,textDoYouWantToOpenIt
     call TextBox20x6
     call ShowMenuYesNo
@@ -6393,6 +6399,7 @@ _LABEL_2A37_:
     pop af
     or a
     ret nz
+    
 _LABEL_2A4A_:
     ld a,SFX_b0
     ld (NewMusic),a
@@ -6433,7 +6440,7 @@ _LABEL_2A4A_:
     jr z,+
     ld hl,textFoundItem
     call TextBox20x6
-    call _LABEL_28FB_AddItemToInventory
+    call AddItemToInventory
 +:  ld a,$D0
     ld (SpriteTable),a
     jp Close20x6TextBox
@@ -6782,7 +6789,7 @@ _LABEL_2D38_BuyLoop:
     ; So it must be a vehicle. You can't have more than one of these?
     call HaveItem
     jr z,++
-+:  call _LABEL_28FB_AddItemToInventory
++:  call AddItemToInventory
 ++: ld hl,textShopBuyItem
     call TextBox20x6
     call DoYesNoMenu
@@ -6829,7 +6836,7 @@ _LABEL_2DA2_BuySecretThing:
     jr z,_LABEL_2DA2_BuySecretThing ; Go back to the start if you already have it
     ld (Meseta),hl
     call _LABEL_3B21_
-    call _LABEL_28FB_AddItemToInventory
+    call AddItemToInventory
     ld hl,$0146 ; You just don't quit, do you? If you're gonna keep bugging me, then fine[, take it]. But don't tell anybody.
     call DrawText20x6
     call _LABEL_3B3C_
@@ -12506,9 +12513,9 @@ _room_9d_Tajim: ; $5690:
     ld a,Enemy_Tajim
     ld (EnemyNumber),a
     call LoadEnemy
-    ld a,($c43b)
+    ld a,(CharacterStatsLutz.Armour)
     ld b,a
-    ld a,Item_Armour_FradMantle ; ???
+    ld a,Item_Armour_FradMantle
     cp b
     jr z,+
     call HaveItem
@@ -14923,7 +14930,7 @@ _LABEL_6891_:
     ld a,(hl)
     cp $08 ; Object or pitfall
     jp nz,_NotPitFall
-    ; It is 8
+    ; It is 8, is it an object?
     ld c,l
     ld a,(DungeonNumber)
     ld b,a
@@ -15041,13 +15048,13 @@ _PitFall:
     ld de,$7E00
     call LoadTiles4BitRLE
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _NotPitFall:
     ld a,(ControlsNew)
     and $0F ; Mask to directions
     jp z,_NotMoving
-    ; Check movememnt direction
+    ; Check movement direction
     ld c,a
     bit 0,c ; Up -> forwards
     jp z,_NotForwards
@@ -15102,7 +15109,7 @@ _NotPitFall:
     call DungeonScriptItem
     call FadeInWholePalette
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _LABEL_69F8_:
     call _LABEL_69FB_
@@ -15123,7 +15130,7 @@ _LABEL_69FB_:
     xor a
     call DungeonScriptItem
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _NotForwards:
     ; Down -> backwards
@@ -15134,9 +15141,9 @@ _NotForwards:
     jr nz,+
     call _LABEL_6A35_
     ld b,$01
-    call _LABEL_6C06_
+    call _LABEL_6C06_CheckForDungeonObject
     ld b,$0B
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _LABEL_6A35_:
     ld a,(DungeonFacingDirection)
@@ -15158,7 +15165,7 @@ _LABEL_6A35_:
     jr z,++
     call _TurnLeft
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _TurnLeft:
     ld a,(DungeonFacingDirection)
@@ -15183,7 +15190,7 @@ _TurnLeft:
     ret z
     call _TurnRight
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _TurnRight:
     ld a,(DungeonFacingDirection)
@@ -15308,9 +15315,9 @@ _LABEL_6B2F_:
 ++: call _TurnLeft
 +++:call _LABEL_6A35_
     ld b,$01
-    call _LABEL_6C06_
+    call _LABEL_6C06_CheckForDungeonObject
     ld b,$0B
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _LABEL_6B5F_:
     ; Check square in front of player
@@ -15407,7 +15414,7 @@ _LABEL_6BEA_:
       call LoadSceneData
       jp _LABEL_6BC0_
 
-_LABEL_6C06_:
+_LABEL_6C06_CheckForDungeonObject:
     call DungeonGetRelativeSquare
     cp $08
     ret nz
@@ -15485,7 +15492,7 @@ _LABEL_6C06_:
     push bc
       call ShowTreasureChest
     pop bc
-    call _LABEL_2A37_
+    call _LABEL_2A37_HandleTreasureChest
     ld a,(CharacterSpriteAttributes)
     or a
     ret z
