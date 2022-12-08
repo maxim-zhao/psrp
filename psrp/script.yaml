@@ -8666,7 +8666,7 @@
   pt-br: Humm, não consegue sair? Aqui, use meu <item>.<wait>
   ca: Hmm, cap baixada? Aquí pots tenir la meva <item>.<wait>
   es: Hmm, ¿no hay manera de bajar? Toma, puedes tener mi <item>.<wait>
-  de: Hmm, sitzt ihr hier oben fest? Na gut, dann geb ich euch meinen Fliegenden Teppich.<wait>
+  de: Hmm, sitzt ihr hier oben fest? Na gut, dann könnt ihr meinen Fliegenden Teppich haben.<wait>
 
 - offsets: 51a6
   # Old Man (also said by an old man in Casba)
@@ -10431,7 +10431,7 @@
   pt-br: Você encontrou <number> mesetas dentro.<wait>
   ca: Heu trobat <number> mesetas dintre.<wait>
   es: Habeís encontrado <number> mesetas dentro.<wait>
-  de: Du hast <number> Meseta erhalten.<wait>
+  de: Es waren <number> Meseta drin.<wait>
 
 - offsets: ChestMesetasSingular
   # Not in the original
@@ -10444,7 +10444,7 @@
   pt-br: Você encontrou <number> meseta dentro.<wait>
   ca: Heu trobat <number> meseta dintre.<wait>
   es: Habeís encontrado <number> meseta dentro.<wait>
-  de: Du hast <number> Meseta erhalten.<wait>
+  de: Es war 1 Meseta drin.<wait>
 
 - offsets: 2a73
   indices: afef

@@ -94,7 +94,7 @@ Enemies:
   String "<Das> Flügelauge{s}"
   String "<Der> Menschenfresser{s}"
   String "<Der> Skorpion{s}"
-  String "<Der> Goldskorpion{s}"
+  String "<Die> Riesenlibelle"
   String "<Der> Blauschleim{s}"
   String "<Der> Motavische[r]{n}(n) Bauer{s}(n)"
   String "<Die> Teufelsfledermaus"
