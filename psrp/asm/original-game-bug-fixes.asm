@@ -117,7 +117,7 @@ HospitalAndChurchFixHelper:
 ; Original code:
 ;    ld     hl,$b39f        ; 001E3B 21 9F B3
 ;    call   TextBox20x6     ; 001E3E CD 3A 33
-;    call   $3acf           ; 001E41 CD CF 3A
+;    call   SelectSaveSlot  ; 001E41 CD CF 3A 
 ; Following code assumes BC is still valid
   call SaveFixHelper
 .ends
@@ -126,6 +126,7 @@ HospitalAndChurchFixHelper:
 SaveFixHelper:
   push bc
     call $3acf ; save slot select
+    bit 4,c ; put button 1 state in F, for us to use later...
   pop bc
   ret
 .ends

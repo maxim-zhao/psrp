@@ -1,6 +1,6 @@
 ## Translation notes
 
-The goal of this translation is to produce a blend between "what the original Japanese version was like" and "what a good localisation would have been in 1987".
+The goal of this translation is to produce a blend between "what the original Japanese version was like" and "what a good localization would have been in 1987".
 This means some effort is needed to adapt the intent of the original Japanese more or less literally as needed.
 As a result, some of the character dialogue is extended beyond what was in the original Japanese, occasionally adding some hints, sometimes adding some extra style to some of the bare-bones dialogue where we are able to extend things beyond the space restrictions that also limited the Japanese script.
 

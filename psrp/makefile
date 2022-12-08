@@ -17,7 +17,7 @@ WORD_COUNT_pt-br = 39
 WORD_COUNT_ca = 56
 WORD_COUNT_es = 46
 WORD_COUNT_de = 89
-WORD_COUNT_literal = 59
+WORD_COUNT_literal = 53
 
 # These are targets that aren't files
 .PHONY: all clean default
@@ -50,9 +50,9 @@ generated/%.psgcompr: %.png tools.py
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
 # We generate tiles and tilemap for the title screen, these need specific parameters
-generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin &: new_graphics\titlescreen.top.png
+generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin &: new_graphics/titlescreen.top.png
 	$(BMP2TILE) $^ -tileoffset 0 -savetiles generated/title.top.psgcompr -savetilemap generated/title.top.tilemap.pscompr -palsms -savepalette generated/title-pal.bin
-generated/title.bottom.%.psgcompr generated/title.bottom.%.tilemap.pscompr &: %\titlescreen.png
+generated/title.bottom.%.psgcompr generated/title.bottom.%.tilemap.pscompr &: %/titlescreen.png
 	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/title.bottom.$*.psgcompr -savetilemap generated/title.bottom.$*.tilemap.pscompr
 
 # Generate menu data
@@ -77,8 +77,8 @@ generated/font-lookup.%.asm: %/script.tbl tools.py
 	$(PY) tools.py generate_font_lookup $< generated/font-lookup.$*.asm 
 
 # Generate the dependencies list for assembly
-generated/auto.makefile.%: asm/ps1jert.sms.asm
-	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o -I asm $< > $@
+generated/auto.makefile.%: asm/*
+	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o -I asm asm/ps1jert.sms.asm > $@
 
 # Now we add in the recipe to actually compile...
 generated/ps1jert.%.sms.o:
@@ -102,7 +102,7 @@ LANGUAGES = $(subst /script.tbl,,$(wildcard */script.tbl))
 all: $(foreach lang,$(LANGUAGES),ps1jert.$(lang).ips ps1jert.$(lang).bps)
 
 # Mark various targets as "precious". This makes make keep the files rather than auto-delete them.
-.PRECIOUS: ps1jert.%.sms generated/ps1jert.%.sms.o generated/auto.makefile.%  generated/script_with_words.%.tbl generated/words.%.tbl
+.PRECIOUS: ps1jert.%.sms
 
 # We include all languages' makefiles here.
 # Make will automatically regenerate them as needed.
@@ -116,6 +116,6 @@ psrp.zip: all
 clean:
 	$(PY) tools.py clean generated
 
-sizes.%.txt: ps1jert.%.sms script.yaml
+sizes.%.txt: script.yaml
 	del $@
-	for /l %%n in (1,1,140) do @del generated\words.$*.asm & ((make -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
+	for /l %%n in (1,1,140) do @del generated\*.$*.asm generated\*.$*.tbl & ((make -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@

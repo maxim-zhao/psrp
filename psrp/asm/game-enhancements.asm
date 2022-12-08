@@ -10,6 +10,7 @@
 ;    │Alisa's hair  Brown║
 ;    │Font        Polaris║
 ;    │Fades          Fast║
+;    │Text speed       x2║
 ;    ╘═══════════════════╝
 ;   Selections in here are saved to SRAM so they persist across games
 ; * We also redraw the whole title screen...
@@ -43,7 +44,7 @@ TitleScreenModTrampoline:
 TitleScreenMod:
   call WaitForMenuSelection
   or a
-  jp z,$0751
+  jp z,$0751 ; NewGame
   dec a
   jp z,Continue
   dec a
@@ -949,22 +950,22 @@ FONT2a: .incbin {"generated/{LANGUAGE}/font-aw2284-part2.psgcompr"}
 .define Font1VRAMAddress $5800
 .define Font2VRAMAddress $7e00
 LoadFontsImpl:
-    ld hl,Font1VRAMAddress
-    ld de,FONT1
+    ld de,Font1VRAMAddress
+    ld hl,FONT1
     ld a,(Font)
     or a
     jr z,+
-    ld de,FONT1a
+    ld hl,FONT1a
 +:  call LoadTiles
     ; then fall through into the following
 
 LoadUpperFontImpl:
-    ld hl,Font2VRAMAddress
-    ld de,FONT2
+    ld de,Font2VRAMAddress
+    ld hl,FONT2
     ld a,(Font)
     or a
     jr z,+
-    ld de,FONT2a
+    ld hl,FONT2a
 +:  jp LoadTiles ; and ret
 .ends
 
@@ -1070,3 +1071,102 @@ _plural:
   ld hl,ChestMesetasPlural
   jp TextBox ; and ret
 .ends
+
+
+; We want to default the text speed during the ending sequence so the timing matches the music.
+  PatchW $47b6 EndingSpeedReset
+.section "EndingSpeedReset" free
+EndingSpeedReset:
+  ; Zero = default for both of these
+  xor a
+  ld (FadeSpeed),a
+  ld (TextSpeed),a
+  ; We stole a call to this...
+  jp FadeOutFullPalette
+.ends
+; The title screen reloads them from SRAM so we don't need to deal with that.
+
+
+; We make yes/no menus treat button 1 as "no"
+  ROMPosition $2e79
+.section "Yes/no 1 = close hook" overwrite
+  jp YesNoButton1Fix
+.ends
+.section "Yes/no 1 = close implementation" free
+YesNoButton1Fix:
+  ; If bit 4 of c is set, button 1 was pressed
+  bit 4,c
+  jr z,+
+  ; If so, set a = 1
+  ld a,1
+  ; Code we replaced to get here
++:push af
+  call $38e0
+  ; And return (stacklessly)
+  jp $2e7d
+.ends
+; Original code:
+;    push   bc              ; 002E75 C5 
+;    call   ShowYesNoMenu ;$38c0           ; 002E76 CD C0 38 
+;    push   af              ; 002E79 F5 
+;    call   HideYesNoMenu ;$38e0           ; 002E7A CD E0 38 
+;    pop    af              ; 002E7D F1 
+;    pop    bc              ; 002E7E C1 
+;    or     a               ; 002E7F B7 
+;    ret                    ; 002E80 C9 
+
+
+; And 1 in the save menu should cancel
+  ROMPosition $1e44
+.section "Save slot 1 = close hook" overwrite
+  jp SaveSlotButton1Fix
+.ends
+.section "Save slot 1 = close implementation" free
+SaveSlotButton1Fix:
+  ; The Z flag reflects if button 1 was pressed
+  ; If so, jump to the same place as if you chose "no" on the confirmation prompt
+  jp nz,$1e97
+
+  ; What we replaced to get here
+  ld hl,ScriptConfirmSlot
+  jp $1e47
+.ends
+;    ld     hl,$b39f        ; 001E3B 21 9F B3 Saving the game?<line> Please choose a slot.<end>
+;    call   $333a ;TextBox20x6 ; 001E3E CD 3A 33 
+;    call   $3acf ;SelectSaveSlot ; 001E41 CD CF 3A <-- We changed this in original-game-bug-fixes.asm to another call that checks for button 1 for us, as bc needs to be preserved
+;    ld     hl,$b3bc        ; 001E44 21 BC B3 ; Slot <number>, are you sure?<end>
+;    call   $333a ;TextBox20x6 ; 001E47 CD 3A 33 
+;    call   $2e75 ;DoYesNoMenu ; 001E4A CD 75 2E 
+;    jr     nz,$1e97        ; 001E4D 20 48 
+
+
+; We handle 1 during the stats display to skip showing magic
+  ROMPosition $1e13
+.section "Stats 1 = close hook" overwrite
+  jp StatsButton1Fix
+.ends
+.section "Stats 1 = close implementation" free
+StatsButton1Fix:
+  ; a has the button press info
+  bit 4,a
+  jp nz,+
+  ; Button 1 was not pressed
+  ; What we replaced to get here
+  pop af
+  ld c,a
+  add a,a
+  jp $1e16
++:; Button 1 was pressed
+  ; Skip past the magic menu part. We need to clear up the stack though.
+  pop af
+  jp $1e32 ; after magic menu closes, cleans up what's left
+.ends
+;    push   af              ; 001E09 F5 
+;     call ShowEquippedItems ; 001E0A CD 24 38 
+;     call ShowCharacterStats ; 001E0D CD EC 38 
+;     call MenuWaitForButton ; 001E10 CD 81 2E 
+;>   pop    af              ; 001E13 F1 
+;>   ld     c,a             ; 001E14 4F 
+;>   add    a,a             ; 001E15 87 
+;    add    a,a             ; 001E16 87 
+;    add    a,a             ; 001E17 87 

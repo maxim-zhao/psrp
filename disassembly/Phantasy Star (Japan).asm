@@ -268,7 +268,7 @@ VScroll db                    ; Vertical scroll
 VLocation dw                  ; Vertical location on map - skips parts
 ScrollScreens db              ; Counted down when scrolling between planets/in intro
 _RAM_C308_ db                 ; Type of current "world"???
-_RAM_C309_ db                 ; Current "world"???
+_RAM_C309_LocationIndex db                 ; Current "world"???
 DungeonFacingDirection db
 .ende
 
@@ -349,11 +349,17 @@ HaveBeatenShadow db           ; $ff if yes
 .ende
 
 .enum $C600 export
-_RAM_C600_ db ; Dialogue flags
-.ende
-
-.enum $C604 export
+_RAM_C600_ .dsb 100 ; Dialogue flags
+Flag_Compass           db ; $c600
+Flag_DungeonChest0_e0  db ; $c601
+Flag_DungeonChest0_7c  db ; $c602
+Flag_DungeonChest1_17  db ; $c603
 DungeonKeyIsHidden db         ; $ff at start of game,0 when villager tells you about it
+Flag_DungeonChest2_67  db ; $c605
+Flag_DungeonChest2_3a  db ; $c606
+Flag_DungeonChest2_63  db ; $c607
+Flag_DungeonChest3_9c  db ; $c608
+; ...
 .ende
 
 .enum $C780 export
@@ -384,6 +390,7 @@ CharacterSpriteAttributes .dsb 256 ; Character sprite attributes:
 ; +18 ($12): current facing direction (0,1,2,3=U,D,L,R)
 ; +19 ($13): previous facing direction (same as above)
 ; First 4 are main characters,other 4 are ???
+; Each entry is 32B total
 _RAM_C801_ dsb $9
 _RAM_C80A_ db
 .ende
@@ -402,7 +409,7 @@ _RAM_C880_ dsb $3
 .ende
 
 .enum $C88A export
-_RAM_C88A_ db
+_RAM_C88A_UnknownFlags db
 .ende
 
 .enum $C88D export
@@ -457,44 +464,11 @@ _RAM_CF00_ db
 .ende
 
 .enum $D000 export
-TileMapData db                ; RAM copy of the tilemap
+TileMapData dsb 32*24*2                ; RAM copy of the tilemap
 .ende
 
-.enum $D0D4 export
-_RAM_D0D4_ dsb $d
-_RAM_D0E1_ db
-.ende
-
-.enum $D114 export
-_RAM_D114_ dsb $18
-.ende
-
-.enum $D150 export
-_RAM_D150_ dsb $4
-_RAM_D154_ dsb $16
-_RAM_D16A_ dsb $6
-.ende
-
-.enum $D1CF export
-_RAM_D1CF_ db
-.ende
-
-.enum $D1D4 export
-_RAM_D1D4_ dsb $18
-.ende
-
-.enum $D1EF export
-_RAM_D1EF_ db
-.ende
-
-.enum $D21C export
-_RAM_D21C_ dsb $8
-.ende
-
-.enum $D300 export
-TileMapData+12*32*2 dsb $300
-_RAM_D600_ dsb $100
-_RAM_D700_ db
+.enum $D700 export
+_RAM_D700_ db                        ; Start of RAM copies of tilemp for windwoing
 .ende
 
 .enum $D724 export
@@ -1680,7 +1654,7 @@ _VDPData:
 ; followed by
 .section "Tile loader (4 bpp RLE, no di/ei)" overwrite
 ; Decompresses tile data from hl to VRAM address de
-LoadTiles4BitRLENoDI:
+LoadTiles4BitRLENoDI: ; $0486
     ld b,$04
 -:  push bc
     push de
@@ -2015,7 +1989,7 @@ NewGame:
 .ends
 ; followed by
 .section "Continue selected on title screen" overwrite
-TitleScreenContinue:
+TitleScreenContinue: ; $079E
     ld a,SRAMPagingOn
     ld (SRAMPaging),a
     ld hl,SRAMSlotsUsed
@@ -2100,7 +2074,7 @@ _Delete:
       call GetSavegameSelection
       bit 4,c        ; z set if button 1 pressed
     pop bc
-    jr nz,_Delete      ; repeat if button 2 pressed(?)
+    jr nz,_Delete      ; back to previous state if button 1 pressed
     call IsSlotUsed
     jr z,-             ; wait for a valid selection
     ld hl,textSaveDeleteConfirmSlot
@@ -2713,11 +2687,11 @@ LoadScene:
     ld (HScroll),a     ; HScroll = - Hlocation (because HScroll is the opposite direction)
     ld a,(VLocation)   ; low byte only
     ld (VScroll),a
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     ld e,a
     ld d,$00
     ld hl,WorldDataLookup1
-    add hl,de          ; hl = WorldDataLookup1 + _RAM_c309_
+    add hl,de          ; hl = WorldDataLookup1 + _RAM_C309_LocationIndex
     ld a,(hl)
     ld (_RAM_c308_),a       ; _RAM_c308_ = (hl) = world type
     add a,a
@@ -2813,11 +2787,11 @@ LoadScene:
     or a
     ld c,MusicVehicle  ; else c=MusicVehicle
     jr nz,+            ; if _RAM_c30e_==0
-    ld a,(_RAM_c309_)       ; then:
+    ld a,(_RAM_C309_LocationIndex)       ; then:
     ld e,a
     ld d,$00
     ld hl,WorldMusics
-    add hl,de          ; de = WorldMusics+_RAM_c309_
+    add hl,de          ; de = WorldMusics+_RAM_C309_LocationIndex
     ld c,(hl)          ; c = (de) = music number
 +:  ld a,c
     call CheckMusic
@@ -2915,9 +2889,9 @@ SpritePalette2:        ; $fe0
 ; followed by
 .orga $f1d
 .section "World data" overwrite
-WorldDataLookup1: ; which "world" to load data for for each value of _RAM_c309_
+WorldDataLookup1: ; which "world" to load data for for each value of _RAM_C309_LocationIndex
 .db $00,$01,$02,$03,$04,$04,$04,$05,$05,$05,$05,$05,$06,$06,$07,$07,$07,$07,$07,$08,$08,$09,$09,$0A
-WorldMusics: ; Music for each value of _RAM_c309_
+WorldMusics: ; Music for each value of _RAM_C309_LocationIndex
 .db MusicPalma,MusicMotavia,MusicDezoris,MusicDezoris,MusicTown,MusicTown,MusicTown,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicVillage,MusicTown,MusicTown,MusicTown,MusicVillage,MusicTown,MusicVillage,MusicVillage,MusicDezoris,MusicDezoris,MusicVillage,MusicVillage,MusicFinalDungeon
 WorldDataLookup2: ; "World" data
 ; Data from F4D to F57 (11 bytes)
@@ -3045,7 +3019,7 @@ _LABEL_10C0_:
     or a
     ret z
     call LoadEnemy
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(CharacterSpriteAttributes)
     or a
     call nz,_LABEL_1D3D_
@@ -3083,7 +3057,7 @@ _LABEL_10D9_:
     ei
     call ClearSpriteTableAndFadeInWholePalette
     ld b,$01
-    call _LABEL_6C06_
+    call _LABEL_6C06_CheckForDungeonObject
     ld a,(DungeonPaletteIndex)
     or a
     ret nz
@@ -3116,7 +3090,7 @@ _LABEL_114F_:
     ld (SceneType),a
     jp DungeonScriptItem
 
-_LABEL_116B_:
+_LABEL_116B_DoBattle:
     ld a,(EnemyNumber)
     cp Enemy_LaShiec
     ld c,MusicLassic
@@ -3703,8 +3677,8 @@ _LABEL_157D_EnemyMagicAttack:
     ld a,b
     call z,_LABEL_171E_ReducePlayerHP
     ; Magic wall is active
-    ld a,$80
-    ld (_RAM_C88A_),a
+    ld a,$80 ; Bit 7 only
+    ld (_RAM_C88A_UnknownFlags),a
     call _LABEL_1A2A_
     ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
@@ -3755,8 +3729,8 @@ MagicAttackDamageC:
       ; Perform attack using c as the parameter
       call ++
 
-      ld a,$C0
-      ld (_RAM_C88A_),a
+      ld a,$C0 ; Bits 7 and 6
+      ld (_RAM_C88A_UnknownFlags),a
       call _LABEL_1A2A_
       ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
       and $80
@@ -4012,7 +3986,7 @@ _LABEL_17B2_:
     call TextBox20x6
     call ShowTreasureChest
     call MenuWaitForButton
-    jp _LABEL_2A37_
+    jp _LABEL_2A37_HandleTreasureChest
 
 ShowTreasureChest:
     ld hl,Frame2Paging
@@ -4456,7 +4430,7 @@ BattleMenu_Magic:
     ld a,b
     ld hl,_DATA_1BC2_
     call FunctionLookup
-+:  jp _LABEL_35E3_
++:  jp _LABEL_35E3_HideMagicMenu
 
 _noMagicYet:
     ld hl,textPlayerHasNoMagicYet
@@ -4466,7 +4440,7 @@ _noMagicYet:
 ++: ld hl,textNotEnoughMagicPoints
     call TextBox20x6
     call Close20x6TextBox
-    jp _LABEL_35E3_
+    jp _LABEL_35E3_HideMagicMenu
 
 ; Data from 1BB3 to 1BC1 (15 bytes)
 _DATA_1BB3_BattleMagicIndices:
@@ -4700,7 +4674,7 @@ _LABEL_1D3D_:
     call WaitForMenuSelection
     bit 4,c
     jp nz,+
-    ld hl,_DATA_1DF3_
+    ld hl,_DATA_1DF3_OverworldMenuHandlers
     call FunctionLookup
     call _LABEL_380C_
     jp -
@@ -4774,11 +4748,11 @@ _DATA_1DD8_ChurchLocations:
 .db $15 $28 $61 ; Skray
 
 ; Jump Table from 1DF3 to 1DFC (5 entries,indexed by CursorPos)
-_DATA_1DF3_:
-.dw _LABEL_1DFD_ _LABEL_1EA9_ _LABEL_22C4_ _LABEL_2995_ _LABEL_1E3B_
+_DATA_1DF3_OverworldMenuHandlers:
+.dw _LABEL_1DFD_Stats _LABEL_1EA9_Magic _LABEL_22C4_Items _LABEL_2995_Search _LABEL_1E3B_SaveGame
 
 ; 1st entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_1DFD_:
+_LABEL_1DFD_Stats:
     call ShowCharacterSelectMenu
     bit 4,c
     jr nz,+++
@@ -4786,7 +4760,7 @@ _LABEL_1DFD_:
     jr z,+++
     push af
       call _LABEL_3824_ShowEquippedItems
-      call _LABEL_38EC_
+      call _LABEL_38EC_ShowCharacterStats
       call MenuWaitForButton
     pop af
     ld c,a
@@ -4807,16 +4781,16 @@ _LABEL_1DFD_:
     dec a
 +:  call _LABEL_3592_ShowMagicMenu
     call MenuWaitForButton
-    call _LABEL_35E3_
-++:  call _LABEL_39DE_
+    call _LABEL_35E3_HideMagicMenu
+++:  call _LABEL_39DE_HideCharacterStats
     call _LABEL_386A_HideEquippedItems
 +++:jp _LABEL_37D8_ClosePlayerSelect
 
 ; 5th entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_1E3B_:
+_LABEL_1E3B_SaveGame:
     ld hl,textSaveSelectSlot
     call TextBox20x6
-    call _LABEL_3ACF_
+    call _LABEL_3ACF_GetSaveGameSelection
     ld hl,textSaveDeleteConfirmSlot
     call TextBox20x6
     call DoYesNoMenu
@@ -4868,7 +4842,7 @@ _LABEL_1E97_:
     ret
 
 ; 2nd entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_1EA9_:
+_LABEL_1EA9_Magic:
     call ShowCharacterSelectMenu
     bit 4,c
     jp nz,_LABEL_1F16_
@@ -4929,7 +4903,7 @@ _LABEL_1EA9_:
     ld hl,MagicFunctions
     call FunctionLookup
 _LABEL_1F13_:
-    call _LABEL_35E3_
+    call _LABEL_35E3_HideMagicMenu
 _LABEL_1F16_:
     call _LABEL_37D8_ClosePlayerSelect
     jp _LABEL_30A4_
@@ -5412,7 +5386,7 @@ DoTelepathy:
 +:  call TextBox20x6
     ld a,SFX_d5
     ld (NewMusic),a
-    jp _LABEL_2A37_
+    jp _LABEL_2A37_HandleTreasureChest
 
 ; 19th entry of Jump Table from 1F5A (indexed by unknown)
 _Magic12_Troop:
@@ -5437,7 +5411,7 @@ _DoTroopOrTranCarpet:
     ret
 
 ; 3rd entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_22C4_:
+_LABEL_22C4_Items:
     ld a,(InventoryCount)
     or a
     jp nz,+
@@ -5965,7 +5939,7 @@ UseItem_EclipseTorch:
     ld (ItemTableIndex),a
     call HaveItem
     ret z
-    jp _LABEL_28FB_AddItemToInventory
+    jp AddItemToInventory
 
 ; 49th entry of Jump Table from 2366 (indexed by ItemTableIndex)
 UseItem_AeroPrism:
@@ -5999,7 +5973,7 @@ UseItem_LaermaBerries:
     ld a,(CharacterStatsMyau)
     or a
     jr z,_LABEL_2733_
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $17
     jr z,+++
     ld a,(RoomIndex)
@@ -6250,7 +6224,7 @@ RemoveItemFromInventory:
     pop bc
     ret
 
-_LABEL_28FB_AddItemToInventory:
+AddItemToInventory:
     ld a,(InventoryCount)
     cp $18
     jr nc,_LABEL_2918_InventoryFull
@@ -6330,14 +6304,14 @@ HaveItem:
     ret
 
 ; 4th entry of Jump Table from 1DF3 (indexed by CursorPos)
-_LABEL_2995_:
+_LABEL_2995_Search:
     ld a,(CharacterSpriteAttributes)
     cp $0E
     jr nz,+
     call _LABEL_321F_HidePartyStats
     ld hl,textNothingUnusualHere
     call TextBox20x6
-    call _LABEL_2A37_
+    call _LABEL_2A37_HandleTreasureChest
     jp _LABEL_3041_UpdatePartyStats
 
 +:  ld hl,(VLocation)
@@ -6362,50 +6336,50 @@ _LABEL_2995_:
     add hl,hl
     add hl,hl
     ld l,a
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $07
     jr nz,+
     ld a,l
     cp $28
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,h
     cp $1E
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,(SootheFluteIsUnhidden)
     or a
-    jr z,_LABEL_2A21_
+    jr z,+++
     cp $FF
-    jr z,_LABEL_2A21_
+    jr z,+++
     ld a,$FF
     ld (SootheFluteIsUnhidden),a
     ld a,Item_SootheFlute
     jr ++
 
 +:  cp $01
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,l
     cp $30
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,h
     cp $48
-    jr nz,_LABEL_2A21_
+    jr nz,+++
     ld a,(PerseusShieldIsUnhidden)
     or a
-    jr z,_LABEL_2A21_
+    jr z,+++
     ld a,(CharacterStatsOdin.Shield)
     ld b,a
     ld a,Item_Shield_ShieldOfPerseus
     cp b
-    jr z,_LABEL_2A21_
+    jr z,+++
 ++: ld (ItemTableIndex),a
     call HaveItem
-    jr z,_LABEL_2A21_
+    jr z,+++
     ld hl,textFoundItem
     call TextBox20x6
-    call _LABEL_28FB_AddItemToInventory
+    call AddItemToInventory
     jp Close20x6TextBox
 
-_LABEL_2A21_:
++++:
     ld a,(RoomIndex)
     cp $A2 ; _room_a2_5795 ???
     jp z,_LABEL_57C6_
@@ -6415,7 +6389,7 @@ _LABEL_2A21_:
     call TextBox20x6
     jp Close20x6TextBox
 
-_LABEL_2A37_:
+_LABEL_2A37_HandleTreasureChest:
     ld hl,textDoYouWantToOpenIt
     call TextBox20x6
     call ShowMenuYesNo
@@ -6425,6 +6399,7 @@ _LABEL_2A37_:
     pop af
     or a
     ret nz
+    
 _LABEL_2A4A_:
     ld a,SFX_b0
     ld (NewMusic),a
@@ -6465,7 +6440,7 @@ _LABEL_2A4A_:
     jr z,+
     ld hl,textFoundItem
     call TextBox20x6
-    call _LABEL_28FB_AddItemToInventory
+    call AddItemToInventory
 +:  ld a,$D0
     ld (SpriteTable),a
     jp Close20x6TextBox
@@ -6814,7 +6789,7 @@ _LABEL_2D38_BuyLoop:
     ; So it must be a vehicle. You can't have more than one of these?
     call HaveItem
     jr z,++
-+:  call _LABEL_28FB_AddItemToInventory
++:  call AddItemToInventory
 ++: ld hl,textShopBuyItem
     call TextBox20x6
     call DoYesNoMenu
@@ -6861,7 +6836,7 @@ _LABEL_2DA2_BuySecretThing:
     jr z,_LABEL_2DA2_BuySecretThing ; Go back to the start if you already have it
     ld (Meseta),hl
     call _LABEL_3B21_
-    call _LABEL_28FB_AddItemToInventory
+    call AddItemToInventory
     ld hl,$0146 ; You just don't quit, do you? If you're gonna keep bugging me, then fine[, take it]. But don't tell anybody.
     call DrawText20x6
     call _LABEL_3B3C_
@@ -8131,7 +8106,7 @@ _LABEL_3592_ShowMagicMenu:
     ld bc,$0C0C
     jp OutputTilemapBoxWipePaging
 
-_LABEL_35E3_:
+_LABEL_35E3_HideMagicMenu:
     ld hl,_RAM_DB74_
     ld de,$7A0C
     ld bc,$0C0C
@@ -8556,7 +8531,7 @@ HideMenuYesNo:
 .ends
 .orga $38ec
 
-_LABEL_38EC_:
+_LABEL_38EC_ShowCharacterStats:
     add a,a
     add a,a
     add a,a
@@ -8639,7 +8614,7 @@ _DATA_39BE_:
 _DATA_39CE_:
 .db $F3 $11 $D5 $10 $CC $10 $DA $10 $CC $10 $F6 $11 $F5 $11 $C0 $10
 
-_LABEL_39DE_:
+_LABEL_39DE_HideCharacterStats:
     ld hl,_RAM_DC04_
     ld de,$7920
     ld bc,$0E18
@@ -8802,11 +8777,12 @@ _LABEL_3AC3_:
     ld bc,$0820
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3ACF_:
+_LABEL_3ACF_GetSaveGameSelection:
     ld hl,OldTileMapEnemyName10x4
     ld de,$786E
     ld bc,$0C12
     call InputTilemapRect
+    ; fall through
 
 .orga $3adb
 .section "Show savegame list and get selection" overwrite
@@ -9075,7 +9051,7 @@ _LABEL_3CE9_:
 
 _LABEL_3D3E_:
     call LoadEnemy
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(CharacterSpriteAttributes)
     or a
     call nz,_LABEL_1D3D_
@@ -10225,10 +10201,10 @@ _LABEL_46C8_:
     ret
 
 _LABEL_46FE_:
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $17
     jr nz,+
-    call _LABEL_477E_
+    call _LABEL_477E_MyauFlight
     ld hl,_DATA_477B_
     jp _LABEL_4770_
 
@@ -10243,7 +10219,7 @@ _LABEL_46FE_:
     call FadeToNarrativePicture
     ld hl,_DATA_BCD8_
     call ShowNarrativeText
-    call _LABEL_477E_
+    call _LABEL_477E_MyauFlight
     ld a,$0E
     ld (SceneType),a
     call LoadSceneData
@@ -10265,7 +10241,7 @@ _LABEL_46FE_:
     ld a,Enemy_GoldDrake
     ld (EnemyNumber),a
     call LoadEnemy
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(FunctionLookupIndex)
     cp $02
     ret z
@@ -10283,18 +10259,18 @@ _DATA_4778_:
 _DATA_477B_:
 .db $00 $40 $4C
 
-_LABEL_477E_:
+_LABEL_477E_MyauFlight:
     call FadeOutFullPalette
     ld a,$0F
     ld (SceneType),a
     call LoadSceneData
     ld hl,Frame2Paging
-    ld (hl),$16
-    ld hl,_DATA_5B9D8_
+    ld (hl),:_DATA_5B9D8_MyauFlightPalette
+    ld hl,_DATA_5B9D8_MyauFlightPalette
     ld de,TargetPalette+16+1
     ld bc,$000F
     ldir
-    ld hl,_DATA_5B9E7_
+    ld hl,_DATA_5B9E7_MyauFlightTiles
     ld de,$6000
     call LoadTiles4BitRLE
     ld a,$0C
@@ -10305,7 +10281,7 @@ _LABEL_477E_:
     call _LABEL_1A15_
     jp FadeOutFullPalette
 
-_LABEL_47B5_:
+_LABEL_47B5_Ending:
     call FadeOutFullPalette
     ld a,$D0
     ld (SpriteTable),a
@@ -10319,7 +10295,7 @@ _LABEL_47B5_:
     call FadeInWholePalette
     ld b,$00
     call PauseBFrames
-    call _LABEL_7F82_
+    call _LABEL_7F82_EndingFadeSky
     ld hl,textEnding1
     call TextBox20x6
     call Pause256Frames
@@ -10352,60 +10328,78 @@ _LABEL_47B5_:
     ld hl,textEndingEnd
     call ShowNarrativeText
     call FadeOutFullPalette
+
+    ; Ending picture
+    ; 1. Palette
     ld hl,Frame2Paging
-    ld (hl),$1F
-    ld hl,_DATA_7D676_
+    ld (hl),:_DATA_7D676_EndingPicturePalette
+    ld hl,_DATA_7D676_EndingPicturePalette
     ld de,TargetPalette
     ld bc,$0011
     ldir
-    ld hl,_DATA_7D687_
+    ; 2. Tiles
+    ld hl,_DATA_7D687_EndingPictureTiles
     ld de,$4000
     call LoadTiles4BitRLE
     ld hl,Frame2Paging
-    ld (hl),$18
+    ; 3. Tilemap
+    ; First zero it...
+    ld (hl),:_DATA_625E0_EndingPictureTilemap
     ld hl,TileMapData
     ld de,TileMapData + 1
     ld bc,$0600
     ld (hl),$00
     ldir
-    ld hl,_DATA_625E0_
-    ld de,_RAM_D0D4_
-    ld bc,$1316
-    call _LABEL_7107_
+    ; Then load it
+    ld hl,_DATA_625E0_EndingPictureTilemap
+    ld de,TileMapData + $d4
+    ld bc,$1316 ; w, h
+    call _LABEL_7107_LoadTilemapRawRect
     ld a,$0C
     call ExecuteFunctionIndexAInNextVBlank
     call FadeInWholePalette
     call Pause256Frames
     call Pause256Frames
-    ld hl,$3DF7
+    
+    ; Now start the dungeon credits
+    ld hl,$3DF7 ; number = $3d, position = $f7
     ld (DungeonPosition),hl
     xor a
     ld (DungeonFacingDirection),a
     call _PitFall
+    
+    ; Load font
     ld hl,Frame2Paging
-    ld (hl),$0F
+    ld (hl),:CreditsFont
     ld hl,CreditsFont
     ld de,$5820
     call LoadTiles4BitRLE
+    
     ld a,$01
     ld (_RAM_C2F5_),a
+    
     ld a,MusicTower
     ld (NewMusic),a
-    ld hl,_DATA_FF98_
--:  ld a,$03
+    
+    ld hl,_DATA_FF98_EndingMovementData
+-:  ld a,:_DATA_FF98_EndingMovementData
     ld (Frame2Paging),a
+    ; Get byte
     ld a,(hl)
-    cp $FF
+    cp $FF ; FF = End
     jr z,++
-    cp $0F
+    cp $0F ; F = pause
     jr nz,+
     ld b,$B4
     call PauseBFrames
     inc hl
     jr -
 
-+:  push hl
++:  ; Else treat as an input
+    push hl
+      ; Inject into controls data
       ld (ControlsNew),a
+      ; Perform a movement sequence
       call _LABEL_6891_
     pop hl
     inc hl
@@ -10497,7 +10491,7 @@ FadeToNarrativePicture: ; $492c
       call LoadTiles4BitRLE ; and tiles after it
 
       ld hl,Frame2Paging
-      ld (hl),NarrativeTilemaps
+      ld (hl),:NarrativeTilemaps
     pop hl
     ld a,(hl)          ; +3-4: Tilemap offset
     inc hl
@@ -10516,7 +10510,7 @@ FadeToNarrativePicture: ; $492c
     ei
     jp FadeInTilePalette ; and ret
 
-_NarrativeGraphicsLookup:
+_NarrativeGraphicsLookup: ; $4979
 ; page, palette+tiles offset, raw tiles offset
 .macro NarrativeGraphicsData
 .db :NarrativeGraphics\1
@@ -10872,8 +10866,8 @@ _room_0c_CamineetGuard4: ; $4BD3:
 +:  ld hl,$0024
     ; Okay, you may pass.
     call DrawText20x6
-    ; Copy something from _RAM_c309_ to _RAM_c2e9_ TODO what is this?
-    ld a,(_RAM_C309_)
+    ; Copy something from _RAM_C309_LocationIndex to _RAM_c2e9_ TODO what is this?
+    ld a,(_RAM_C309_LocationIndex)
     rrca
     dec a
     and $03
@@ -11428,7 +11422,7 @@ _room_37_GovernorGeneral: ; $4ED0:
       push af
         ld a,(CharacterStatsOdin)
         push af
-          call _LABEL_116B_
+          call _LABEL_116B_DoBattle
         pop af
         ld (CharacterStatsOdin),a
       pop af
@@ -12415,7 +12409,7 @@ _room_93_55AB:
     call DrawText20x6
     call Close20x6TextBox
 _LABEL_55E9_:
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(CharacterSpriteAttributes)
     or a
     call nz,_LABEL_1D3D_
@@ -12520,9 +12514,9 @@ _room_9d_Tajim: ; $5690:
     ld a,Enemy_Tajim
     ld (EnemyNumber),a
     call LoadEnemy
-    ld a,($c43b)
+    ld a,(CharacterStatsLutz.Armour)
     ld b,a
-    ld a,Item_Armour_FradMantle ; ???
+    ld a,Item_Armour_FradMantle
     cp b
     jr z,+
     call HaveItem
@@ -12574,7 +12568,7 @@ _room_9d_Tajim: ; $5690:
             ld (CharacterStatsAlis.IsAlive),a
             ld (CharacterStatsMyau.IsAlive),a
             ld (CharacterStatsOdin.IsAlive),a
-            call _LABEL_116B_
+            call _LABEL_116B_DoBattle
           pop af
           ld (CharacterStatsOdin.IsAlive),a
         pop af
@@ -12619,7 +12613,7 @@ _room_9e_ShadowWarrior:
     jp DrawText20x6 ; and ret
 
 _LABEL_574F_:
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(FunctionLookupIndex)
     cp $02
     ret nz
@@ -12749,7 +12743,7 @@ _room_a7_581B:
     ; Make it drop no money
     ld hl,$0000
     ld (EnemyMoney),hl
-    jp _LABEL_116B_
+    jp _LABEL_116B_DoBattle
 
 _room_a8_BayaMarlayPrisoner: ; $582D:
     ld hl,$0228
@@ -12861,7 +12855,7 @@ _room_ac_58C6:
 +:  call DrawText20x6
     call Close20x6TextBox
     pop hl
-    jp _LABEL_47B5_
+    jp _LABEL_47B5_Ending
 
 _room_ad_58FC:
     ld hl,$02A4
@@ -12936,7 +12930,7 @@ _room_b5_HapsbyTravel: ; $5959:
     ret nz
     ld d,a
     ; Are we already there?
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     rrca
     rrca
     rrca
@@ -13045,7 +13039,7 @@ SpriteHandler:         ; $59e6
     and $7f            ; strip high bit
     jr z,+             ; if rest is 0 then skip -------------------------+
     push bc            ;                                                 |
-      ld hl,_DATA_5AA3_ - 2
+      ld hl,_DATA_5AA3_SpriteHandlers - 2
       call FunctionLookup ;                                              |
     pop bc             ;                                                 |
     or a               ; if result == 0 then skip again -----------------+
@@ -13131,7 +13125,7 @@ SpriteHandler:         ; $59e6
 ; followed by
 .orga $5a94
 .section "Zero iy structure +1 to +31" overwrite
-ZeroIYStruct:
+ZeroSpriteStruct:
     push iy
     pop hl
     inc hl
@@ -13145,7 +13139,7 @@ ZeroIYStruct:
     ret
 .ends
 ; Jump Table from 5AA3 to 5ACE (22 entries,indexed by CharacterSpriteAttributes)
-_DATA_5AA3_:
+_DATA_5AA3_SpriteHandlers:
 .dw _LABEL_5C1B_ _LABEL_5C50_ _LABEL_5C5C_ _LABEL_5C61_ _LABEL_5C6D_ _LABEL_5C72_ _LABEL_5C7E_ _LABEL_5C83_
 .dw _LABEL_5CCB_ _LABEL_5CEC_ _LABEL_5E03_ _LABEL_5E4A_ _LABEL_5EDF_ _LABEL_5F15_ _LABEL_601C_ _LABEL_60A7_
 .dw _LABEL_60AA_ _LABEL_60EE_ _LABEL_612A_ _LABEL_6166_ _LABEL_5FAC_ _LABEL_5FD7_
@@ -13229,7 +13223,7 @@ _LABEL_5C1B_:
     ld b,$01
 _LABEL_5C1D_:
     push bc
-      call ZeroIYStruct
+      call ZeroSpriteStruct
       inc (iy+0)
     pop bc
     ld (iy+2),$60      ; ???
@@ -13320,7 +13314,7 @@ _DATA_5CBB_:
 
 ; 9th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_5CCB_:
-    call ZeroIYStruct
+    call ZeroSpriteStruct
     inc (iy+0)
     ld (iy+2),$60
     ld (iy+4),$80
@@ -13479,7 +13473,7 @@ _LABEL_5DAC_:
 _LABEL_5E03_:
     ld a,(iy+10)
     push af
-      call ZeroIYStruct
+      call ZeroSpriteStruct
     pop af
     inc (iy+0)
     ld hl,Frame2Paging
@@ -13489,28 +13483,28 @@ _LABEL_5E03_:
     add a,a
     add a,e
     ld e,a
-    ld d,$00
+    ld d,$00 ; a*6
     ld hl,_DATA_5E6D_
     add hl,de
-    ld a,(hl)
+    ld a,(hl) ; +0
     ld (NewMusic),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +1
     ld (iy+24),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +2
     ld (iy+1),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +3
     ld (iy+15),a
     inc hl
     ld a,(_RAM_C894_)
     ld (iy+2),a
     ld a,(_RAM_C895_)
     ld (iy+4),a
-    ld a,(hl)
+    ld a,(hl) ; +4
     inc hl
-    ld h,(hl)
+    ld h,(hl) ; +5
     ld l,a
     ld de,$7400
     call LoadTiles4BitRLE
@@ -13541,18 +13535,31 @@ _LABEL_5E4A_:
 
 ; Data from 5E6D to 5EDE (114 bytes)
 _DATA_5E6D_:
-.db $A2 $03 $66 $6B $2A $AD $A2 $03 $05 $0A $00 $9C $A2 $03 $05 $0A
-.db $00 $9C $A2 $03 $05 $0A $00 $9C $A2 $03 $05 $0A $00 $9C $A2 $03
-.db $6A $72 $91 $AF $A2 $03 $71 $76 $77 $B1 $A2 $03 $05 $0A $00 $9C
-.db $A2 $03 $05 $0A $00 $9C $A7 $03 $18 $21 $70 $A2 $A2 $03 $6A $72
-.db $91 $AF $A6 $03 $11 $19 $36 $A0 $A3 $03 $5E $63 $C0 $AA $A5 $03
-.db $09 $12 $D7 $9D $A4 $03 $62 $67 $9D $AB $A4 $03 $75 $7A $44 $B2
-.db $A8 $03 $20 $29 $BC $A3 $A9 $03 $28 $32 $E0 $A5 $AA $03 $31 $3A
-.db $FD $A7
+;    ,,--------------------- SFX
+;    ||              ,,,,,,- tile data offset?
+.db $A2 $03 $66 $6B $2A $AD ; AD2A
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $6A $72 $91 $AF ; AF91
+.db $A2 $03 $71 $76 $77 $B1 ; B177
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A2 $03 $05 $0A $00 $9C ; 9C00
+.db $A7 $03 $18 $21 $70 $A2 ; A270
+.db $A2 $03 $6A $72 $91 $AF ; AF91
+.db $A6 $03 $11 $19 $36 $A0 ; A036
+.db $A3 $03 $5E $63 $C0 $AA ; AAC0
+.db $A5 $03 $09 $12 $D7 $9D ; 9DD7
+.db $A4 $03 $62 $67 $9D $AB ; AB9D
+.db $A4 $03 $75 $7A $44 $B2 ; B244
+.db $A8 $03 $20 $29 $BC $A3 ; A3BC
+.db $A9 $03 $28 $32 $E0 $A5 ; A5E0
+.db $AA $03 $31 $3A $FD $A7 ; A7FD
 
 ; 13th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_5EDF_:
-    call ZeroIYStruct
+    call ZeroSpriteStruct
     inc (iy+0)
     ld (iy+2),$58
     ld (iy+4),$60
@@ -13649,9 +13656,9 @@ _LABEL_5F15_:
 
 ; 21st entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_5FAC_:
-    call ZeroIYStruct
+    call ZeroSpriteStruct
     inc (iy+0)
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $17
     ld a,$84
     ld de,$88D0
@@ -13681,7 +13688,7 @@ _LABEL_5FD7_:
     and $03
     add a,(iy+15)
     ld (iy+1),a
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $17
     jr z,+
     dec (iy+4)
@@ -13779,32 +13786,32 @@ _LABEL_60A7_:
 
 ; 17th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_60AA_:
-    call ZeroIYStruct
+    call ZeroSpriteStruct
     inc (iy+0)
     ld hl,Frame2Paging
     ld (hl),$0B
-    ld a,(_RAM_C88A_)
+    ld a,(_RAM_C88A_UnknownFlags)
     bit 6,a
-    ld hl,_DATA_611E_
+    ld hl,_DATA_611E_ ; Table 1
     jr z,+
-    ld hl,_DATA_6124_
-+:  ld a,(hl)
+    ld hl,_DATA_6124_ ; Table 2
++:  ld a,(hl) ; +0 = SFX
     ld (NewMusic),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +1
     ld (iy+24),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +2
     ld (iy+1),a
     inc hl
-    ld a,(hl)
+    ld a,(hl) ; +3
     ld (iy+15),a
     inc hl
     ld a,(_RAM_C896_)
     ld (iy+2),a
     ld a,(_RAM_C897_)
     ld (iy+4),a
-    ld a,(hl)
+    ld a,(hl) ; +4, 5 = tiles
     inc hl
     ld h,(hl)
     ld l,a
@@ -13842,11 +13849,11 @@ _LABEL_60EE_:
 
 ; Data from 611E to 6123 (6 bytes)
 _DATA_611E_:
-.db $A8 $03 $46 $4F $01 $99
+.db $A8 $03 $46 $4F $01 $99 ; $9901 -> $2d901
 
 ; Data from 6124 to 6129 (6 bytes)
 _DATA_6124_:
-.db $A9 $03 $79 $82 $F0 $9A
+.db $A9 $03 $79 $82 $F0 $9A ; $9af0 -> $2daf0
 
 ; 19th entry of Jump Table from 5AA3 (indexed by CharacterSpriteAttributes)
 _LABEL_612A_:
@@ -14924,7 +14931,7 @@ _LABEL_6891_:
     ld a,(hl)
     cp $08 ; Object or pitfall
     jp nz,_NotPitFall
-    ; It is 8
+    ; It is 8, is it an object?
     ld c,l
     ld a,(DungeonNumber)
     ld b,a
@@ -15042,13 +15049,13 @@ _PitFall:
     ld de,$7E00
     call LoadTiles4BitRLE
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _NotPitFall:
     ld a,(ControlsNew)
     and $0F ; Mask to directions
     jp z,_NotMoving
-    ; Check movememnt direction
+    ; Check movement direction
     ld c,a
     bit 0,c ; Up -> forwards
     jp z,_NotForwards
@@ -15103,7 +15110,7 @@ _NotPitFall:
     call DungeonScriptItem
     call FadeInWholePalette
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _LABEL_69F8_:
     call _LABEL_69FB_
@@ -15124,7 +15131,7 @@ _LABEL_69FB_:
     xor a
     call DungeonScriptItem
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _NotForwards:
     ; Down -> backwards
@@ -15135,9 +15142,9 @@ _NotForwards:
     jr nz,+
     call _LABEL_6A35_
     ld b,$01
-    call _LABEL_6C06_
+    call _LABEL_6C06_CheckForDungeonObject
     ld b,$0B
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _LABEL_6A35_:
     ld a,(DungeonFacingDirection)
@@ -15159,7 +15166,7 @@ _LABEL_6A35_:
     jr z,++
     call _TurnLeft
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _TurnLeft:
     ld a,(DungeonFacingDirection)
@@ -15184,7 +15191,7 @@ _TurnLeft:
     ret z
     call _TurnRight
     ld b,$01
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _TurnRight:
     ld a,(DungeonFacingDirection)
@@ -15309,21 +15316,24 @@ _LABEL_6B2F_:
 ++: call _TurnLeft
 +++:call _LABEL_6A35_
     ld b,$01
-    call _LABEL_6C06_
+    call _LABEL_6C06_CheckForDungeonObject
     ld b,$0B
-    jp _LABEL_6C06_
+    jp _LABEL_6C06_CheckForDungeonObject
 
 _LABEL_6B5F_:
+    ; Check square in front of player
     ld b,$01
     call DungeonGetRelativeSquare
+    ; Check for bit 3 = object/pitfall/exit
     and $08
     ret z
-    ld c,l
+    
+    ld c,l ; ???
     ld a,(DungeonNumber)
     ld b,a
     ld hl,Frame2Paging
     ld (hl),$03
-    ld hl,_DATA_F473_
+    ld hl,_DATA_F473_DungeonRooms
     ld de,$0004
 -:  ld a,(hl)
     cp $FF
@@ -15338,9 +15348,10 @@ _LABEL_6B5F_:
     jp -
 
 ; Data from 6B88 to 6B88 (1 bytes)
-.db $C9
+.db $C9  ; ############ Unreachable
 
-++:  ld hl,FunctionLookupIndex
+++: ; No match
+    ld hl,FunctionLookupIndex
     ld (hl),$08
     ret
 
@@ -15357,11 +15368,11 @@ _LABEL_6B5F_:
     push hl
       call FadeOutFullPalette
       ld hl,Frame2Paging
-      ld (hl),$09
-      ld hl,_DATA_27471_
+      ld (hl),:_DATA_27471_DungeonRoomTiles
+      ld hl,_DATA_27471_DungeonRoomTiles
       ld de,$4000
       call LoadTiles4BitRLE
-      ld hl,_DATA_27130_
+      ld hl,_DATA_27130_DungeonRoomTilemap
       call DecompressToTileMapData
       ld a,$0F
       ld (SceneType),a
@@ -15404,7 +15415,7 @@ _LABEL_6BEA_:
       call LoadSceneData
       jp _LABEL_6BC0_
 
-_LABEL_6C06_:
+_LABEL_6C06_CheckForDungeonObject:
     call DungeonGetRelativeSquare
     cp $08
     ret nz
@@ -15482,7 +15493,7 @@ _LABEL_6C06_:
     push bc
       call ShowTreasureChest
     pop bc
-    call _LABEL_2A37_
+    call _LABEL_2A37_HandleTreasureChest
     ld a,(CharacterSpriteAttributes)
     or a
     ret z
@@ -15516,7 +15527,7 @@ _LABEL_6C06_:
       ld (DungeonObjectFlagAddress),hl
     pop af
     ld (DungeonObjectItemIndex),a
-    call _LABEL_116B_
+    call _LABEL_116B_DoBattle
     ld a,(CharacterSpriteAttributes)
     or a
     ret z
@@ -15818,6 +15829,7 @@ _LABEL_6E6D_:
     ret
 
 DungeonGetRelativeSquare:
+    ; Returns a = dungeon square data
     ld a,(DungeonFacingDirection)
     and $03 ; 0-3
     add a,a ; Multiply by 16
@@ -15991,7 +16003,7 @@ _LABEL_6FB6_:
     push hl
       ld h,(hl)
       ld l,a
-      call nz,_LABEL_7107_
+      call nz,_LABEL_7107_LoadTilemapRawRect
     pop hl
     inc hl
     ret
@@ -16008,7 +16020,7 @@ _LABEL_6FD7_:
     push hl
       ld h,(hl)
       ld l,a
-      call z,_LABEL_7107_
+      call z,_LABEL_7107_LoadTilemapRawRect
     pop hl
     inc hl
     ret
@@ -16023,7 +16035,7 @@ _LABEL_6FE8_:
     push hl
       ld h,(hl)
       ld l,a
-      call z,_LABEL_7107_
+      call z,_LABEL_7107_LoadTilemapRawRect
     pop hl
     inc hl
     inc hl
@@ -16199,9 +16211,9 @@ _LABEL_70EF_:
     inc hl
     ld h,(hl)
     ld l,a
-    ld de,_RAM_D114_
+    ld de,TileMapData+$114
     ld bc,$1218
-_LABEL_7107_:
+_LABEL_7107_LoadTilemapRawRect:
     push bc
       push de
         ld b,$00
@@ -16212,7 +16224,7 @@ _LABEL_7107_:
       add hl,bc
       ex de,hl
     pop bc
-    djnz _LABEL_7107_
+    djnz _LABEL_7107_LoadTilemapRawRect
     ret
 
 ; Pointer Table from 7118 to 712D (11 entries,indexed by DungeonMap)
@@ -17480,8 +17492,8 @@ _LABEL_7B1A_:
 .section "???" overwrite
 _LABEL_7B1E_:
     ld a,(hl)          ; get byte at hl (eg 01)
-    ld (_RAM_c308_),a       ; save in _RAM_c308_ and _RAM_c309_
-    ld (_RAM_C309_),a
+    ld (_RAM_c308_),a       ; save in _RAM_c308_ and _RAM_C309_LocationIndex
+    ld (_RAM_C309_LocationIndex),a
     inc hl             ; next byte hhhhllll in de (eg 8b)
     ld e,(hl)
     ld d,$00
@@ -17587,7 +17599,7 @@ _LABEL_7BCD_:
     ld a,(_RAM_C2E5_)
     cp $4C
     jp nz,+
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     cp $05
     ret nz
     ld a,(HaveLutz)
@@ -17637,7 +17649,7 @@ _LABEL_7C15_:
 
 +:  cp $AD
     jp nz,+
-    ld a,(_RAM_C309_)
+    ld a,(_RAM_C309_LocationIndex)
     sub $04
     ret c
     ld l,a
@@ -18066,7 +18078,7 @@ _LABEL_7F59_:
     djnz --
     ret
 
-_LABEL_7F82_:
+_LABEL_7F82_EndingFadeSky:
     ld hl,Frame2Paging
     ld (hl),:_DATA_FEA0_
     ld hl,_DATA_FEA0_
@@ -18549,7 +18561,7 @@ _DATA_C5A0_:
 
 ; TODO 16B missing here from C67F
 
-.orga $869f
+.orga $869f ; $c69f
 .section "Enemy data" overwrite
 .struct EnemyData
   Name                dsb 8
@@ -20758,30 +20770,76 @@ DungeonObjects:
 .db $FF
 
 ; Data from F473 to F5B8 (326 bytes)
-_DATA_F473_:
-.db $00 $EE $05 $27 $12 $00 $5C $FF $7F $00 $00 $1E $07 $14 $2D $00
-.db $EC $00 $54 $4E $00 $6A $00 $12 $79 $00 $14 $00 $07 $74 $01 $34
-.db $FF $84 $33 $01 $75 $FF $85 $33 $01 $79 $FF $81 $00 $01 $87 $FF
-.db $86 $33 $01 $8C $FF $87 $33 $01 $C5 $FF $83 $33 $02 $11 $0A $51
-.db $13 $02 $EE $0A $51 $21 $04 $E8 $00 $65 $22 $04 $DA $FF $89 $32
-.db $06 $43 $FF $8A $32 $07 $A8 $FF $8B $32 $08 $81 $FF $8F $32 $08
-.db $8C $FF $01 $00 $0B $C9 $00 $19 $69 $0F $C5 $FF $8E $32 $0F $1D
-.db $FE $B0 $00 $10 $65 $FF $7C $2F $13 $3C $FF $80 $33 $14 $11 $00
-.db $26 $68 $14 $DB $00 $29 $69 $14 $49 $FF $94 $33 $14 $4D $FF $95
-.db $33 $14 $63 $FF $99 $17 $14 $79 $FF $A8 $3C $14 $7D $FF $97 $33
-.db $14 $83 $FF $98 $33 $14 $A4 $FF $96 $1B $15 $3E $FF $92 $0F $15
-.db $CC $FF $9A $32 $16 $11 $00 $30 $18 $16 $1D $FF $8C $33 $16 $EE
-.db $00 $3A $1B $19 $2E $FF $8D $32 $1D $78 $FF $7E $00 $1F $CE $FC
-.db $AB $00 $21 $51 $0E $18 $1D $21 $E4 $0E $23 $22 $27 $E3 $01 $79
-.db $5D $27 $EC $11 $44 $54 $28 $13 $13 $15 $13 $28 $5B $15 $14 $60
-.db $28 $97 $16 $24 $20 $28 $ED $14 $17 $39 $2B $76 $FF $A5 $3C $2B
-.db $98 $FF $B1 $3C $2E $3D $FF $9C $3D $2F $D1 $02 $75 $23 $2F $DE
-.db $02 $75 $35 $30 $1E $02 $2B $5F $30 $77 $02 $63 $17 $30 $89 $02
-.db $38 $5F $30 $EE $02 $70 $20 $31 $1D $02 $38 $43 $31 $E1 $02 $3B
-.db $2B $32 $49 $02 $49 $10 $32 $EB $02 $58 $11 $39 $CB $FD $9F $00
-
-; "-1"th palette?
-.db $3A $98 $FF $B2 $1D $FF
+_DATA_F473_DungeonRooms: ; Table of dungeon encounters?
+;    ,,----------------- Dungeon floor index
+;    ||  ,,------------- X,Y?
+;    ||  ||  ,,--------- 
+.db $00 $EE $05 $27 $12
+.db $00 $5C $FF $7F $00
+.db $00 $1E $07 $14 $2D
+.db $00 $EC $00 $54 $4E
+.db $00 $6A $00 $12 $79
+.db $00 $14 $00 $07 $74
+.db $01 $34 $FF $84 $33
+.db $01 $75 $FF $85 $33
+.db $01 $79 $FF $81 $00
+.db $01 $87 $FF $86 $33
+.db $01 $8C $FF $87 $33
+.db $01 $C5 $FF $83 $33
+.db $02 $11 $0A $51 $13
+.db $02 $EE $0A $51 $21
+.db $04 $E8 $00 $65 $22
+.db $04 $DA $FF $89 $32
+.db $06 $43 $FF $8A $32
+.db $07 $A8 $FF $8B $32
+.db $08 $81 $FF $8F $32
+.db $08 $8C $FF $01 $00
+.db $0B $C9 $00 $19 $69
+.db $0F $C5 $FF $8E $32
+.db $0F $1D $FE $B0 $00
+.db $10 $65 $FF $7C $2F
+.db $13 $3C $FF $80 $33
+.db $14 $11 $00 $26 $68
+.db $14 $DB $00 $29 $69
+.db $14 $49 $FF $94 $33
+.db $14 $4D $FF $95 $33
+.db $14 $63 $FF $99 $17
+.db $14 $79 $FF $A8 $3C
+.db $14 $7D $FF $97 $33
+.db $14 $83 $FF $98 $33
+.db $14 $A4 $FF $96 $1B
+.db $15 $3E $FF $92 $0F
+.db $15 $CC $FF $9A $32
+.db $16 $11 $00 $30 $18
+.db $16 $1D $FF $8C $33
+.db $16 $EE $00 $3A $1B
+.db $19 $2E $FF $8D $32
+.db $1D $78 $FF $7E $00
+.db $1F $CE $FC $AB $00
+.db $21 $51 $0E $18 $1D
+.db $21 $E4 $0E $23 $22
+.db $27 $E3 $01 $79 $5D
+.db $27 $EC $11 $44 $54
+.db $28 $13 $13 $15 $13
+.db $28 $5B $15 $14 $60
+.db $28 $97 $16 $24 $20
+.db $28 $ED $14 $17 $39
+.db $2B $76 $FF $A5 $3C
+.db $2B $98 $FF $B1 $3C
+.db $2E $3D $FF $9C $3D
+.db $2F $D1 $02 $75 $23
+.db $2F $DE $02 $75 $35
+.db $30 $1E $02 $2B $5F
+.db $30 $77 $02 $63 $17
+.db $30 $89 $02 $38 $5F
+.db $30 $EE $02 $70 $20
+.db $31 $1D $02 $38 $43
+.db $31 $E1 $02 $3B $2B
+.db $32 $49 $02 $49 $10
+.db $32 $EB $02 $58 $11
+.db $39 $CB $FD $9F $00
+.db $3A $98 $FF $B2 $1D
+.db $FF ; Terminator
 
 ; Data from F5B9 to F618 (96 bytes)
 DungeonPalettes:
@@ -21231,17 +21289,70 @@ IntroBox1: ; Spring, AW 342
 .ends
 ; followed by
 .orga $bf98
-.section "More unknown data" overwrite
-; Data from FF98 to FFFF (104 bytes)
-_DATA_FF98_:
-.db $01 $01 $01 $0F $08 $01 $01 $01 $0F $04 $01 $01 $08 $01 $0F $04
-.db $04 $01 $08 $01 $01 $0F $04 $01 $01 $08 $01 $0F $02 $02 $00 $08
-.db $01 $01 $0F $04 $01 $01 $01 $01 $02 $04 $0F $02 $02 $02 $08 $01
-.db $01 $01 $01 $04 $0F $08 $08 $0F $08 $01 $01 $08 $01 $01 $01 $01
-.db $01 $01 $01 $08 $02 $02 $04 $0F $04 $01 $01 $00 $0F $04 $04 $01
-.db $01 $08 $01 $0F $02 $02 $02 $02 $08 $0F $02 $04 $04 $01 $01 $01
-.db $08 $01 $01 $01 $01 $0F $FF $FF
+.section "Ending movement data" overwrite
+_DATA_FF98_EndingMovementData:
+
+.define _F %0001
+.define _B %0010
+.define _L %0100
+.define _R %1000
+.define _Pause $f
+.define _End $ff
+
+.db _F _F _F _Pause
+.db _R _F _F _F _Pause
+.db _L _F _F _R _F _Pause
+.db _L _L _F _R _F _F _Pause
+.db _L _F _F _R _F _Pause
+.db _B _B $00 _R _F _F _Pause
+.db _L _F _F _F _F _B _L _Pause
+.db _B _B _B _R _F _F _F _F _L _Pause
+.db _R _R _Pause
+.db _R _F _F _R _F _F _F _F _F _F _F _R _B _B _L _Pause
+.db _L _F _F $00 _Pause
+.db _L _L _F _F _R _F _Pause
+.db _B _B _B _B _R _Pause
+.db _B _L _L _F _F _F _R _F _F _F _F _Pause
+.db _End
+/*
+; $3c - ending lower level
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🌫🌫🌫🔼🧱🧱🧱🧱🧱🧱🧱📄🌫📄🧱
+🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱
+🧱🧱🌫🧱🧱🧱🧱🧱🔼🌫🌫🌫🌫🌫🧱🧱
+🧱🧱🌫🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🌫🧱🧱
+🧱🧱🌫🌫🌫🌫🌫📄🧱📄🌫🌫🌫🌫🧱🧱
+🧱🧱📄🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🌫🧱🧱
+🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱📄🧱🧱🌫🌫🌫📄🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+; $3d - ending upper level
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🔽🌫🌫🌫📄🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🌫🌫🌫🌫🌫🔽🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱📄🌫🧱🧱📄🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🌫🧱🧱🌫🧱📄🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱📦🧱🧱🌫🌫🌫🌫🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🌫🧱🧱📦🧱🌫🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🌫📄🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱📄🧱🧱🌫🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫📄🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱
+🧱🧱🧱🧱🧱🧱🧱🌫<- start
+*/
+
 .ends
+; One unused byte at the end
 
 ;=======================================================================================================
 ; Bank 4: $10000 - $13fff
@@ -22084,8 +22195,10 @@ _DATA_1B9D0_:
 ; Data from 24000 to 2712F (12592 bytes)
 .incbin "Phantasy Star (Japan)_DATA_24000_.inc"
 
+.org $27130-$24000
+.section "Dungeon room" overwrite
 ; Data from 27130 to 27470 (833 bytes)
-_DATA_27130_:
+_DATA_27130_DungeonRoomTilemap:
 .db $9F $01 $02 $03 $04 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07
 .db $08 $05 $06 $07 $08 $05 $06 $07 $08 $05 $06 $07 $08 $04 $03 $02
 .db $03 $01 $9C $09 $04 $0A $0B $0C $0D $0A $0B $0C $0D $0A $0B $0C
@@ -22140,13 +22253,10 @@ _DATA_27130_:
 .db $81 $02 $07 $00 $02 $02 $16 $00 $02 $02 $07 $00 $02 $02 $02 $00
 .db $00
 
-.org $27471-$24000
-.section "Tile data 2" overwrite
+_DATA_27471_DungeonRoomTiles:
 .incbin "Tiles\27471compr.dat"
 .ends
-; followed by
-.org $2778b-$24000
-.section "Mansion tilemap" overwrite
+.section "Tile data 3" overwrite
 TilemapMansion:
 .incbin "Tilemaps\2778btilemap.dat"
 .ends
@@ -25847,7 +25957,7 @@ TilemapDeadTrees:
 DungeonMaps:
 
 .stringmaptable dungeons "Dungeons.tbl"
-
+; 1
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱⏫🌫🌫🌫🌫🧱🌫🧱🧱🧱⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🌫🧱"
@@ -25864,24 +25974,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🌫🌫🌫🌫🧱🧱🌫🧱🌫🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫📦🧱🧱🧱🧱📦🌫🌫🧱⏫🧱⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱⏫🌫🌫🌫🌫🧱🌫🧱🧱🧱⏫🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🌫🧱"
-.stringmap dungeons "🧱🌫🌫🌫🌫🌫📦🧱🌫🧱🌫🧱🧱🧱🌫🧱"
-.stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🌫🌫🌫🧱🧱🧱🌫🧱"
-.stringmap dungeons "🧱🌫🧱📦🌫🌫🌫🧱🌫🧱🌫🧱⏩🌫🌫🧱"
-.stringmap dungeons "🧱🌫🧱🌫🧱🧱🌫🧱🌫🧱⏫🧱🧱🧱🌫🧱"
-.stringmap dungeons "🧱🌫🧱🌫🌫🌫🌫🌫🌫🧱🧱🧱📦🧱🌫🧱"
-.stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱"
-.stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🌫🧱"
-.stringmap dungeons "🧱🌫🧱🧱🌫🧱🧱🧱🧱🧱🌫🧱🌫🧱🌫🧱"
-.stringmap dungeons "🧱🌫🧱🧱🌫🌫🌫🌫🧱🧱🌫🧱🌫🧱🌫🧱"
-.stringmap dungeons "🧱🌫🌫🌫🌫🧱🧱🌫🌫🌫🌫🧱🌫🧱🌫🧱"
-.stringmap dungeons "🧱🌫🧱🧱🌫🌫🌫🌫🧱🧱🌫🧱🌫🧱🌫🧱"
-.stringmap dungeons "🧱🌫🌫📦🧱🧱🧱🧱📦🌫🌫🧱⏫🧱⏫🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; 2
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱📦🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -25898,7 +25991,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱⏩🧱🧱🧱🧱🧱🧱📦🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; 3
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱⏫🌫🌫🌫🌫🧱📦🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱"
@@ -25915,7 +26008,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; 4
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🌫🧱🧱"
@@ -25932,7 +26025,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🌫🧱🌫🧱🌫🧱🧱🌫🧱🧱"
 .stringmap dungeons "🧱📦🌫🔐🌫🌫🌫🧱📦🧱🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; 5
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫📦🧱🧱🧱🧱🧱🧱🧱🧱🧱📦🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱"
@@ -25949,7 +26042,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🌫🧱🧱🧱🌫🧱🌫🧱⏹🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🌫🌫🌫📦🧱🧱⏩🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; 6
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🧱🌫🧱🌫🧱🧱🧱🌫🧱🧱🧱🧱"
@@ -25966,7 +26059,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫🔐🌫📦🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; 7
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🧱🌫🌫🌫🌫🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🧱🌫🧱🌫🧱🌫🧱📦🧱🌫🧱🧱🧱🧱"
@@ -25983,7 +26076,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; 8
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱"
@@ -26000,7 +26093,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; 9
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🌫🌫🔐🌫🌫🌫🌫🧱📦🧱🧱🌫🧱🌫🧱"
@@ -26017,7 +26110,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🌫🧱🌫🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🔐🌫🌫📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $a
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🔼🌫🌫🌫🧱🌫🌫🌫🌫🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱"
@@ -26034,7 +26127,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🌫🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🧱🧱🧱🌫🌫🌫🌫🎩🌫🌫📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $b
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🔽🧱🧱📦🌫📦🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱🌫🧱🌫🧱"
@@ -26051,7 +26144,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱📦🌫🌫🌫🌫🌫🔼🧱🧱🌫🌫📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $c
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱📦🧱🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱"
@@ -26068,7 +26161,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🧱🌫🌫🌫🧱🧱🧱🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🧱🧱🧱🧱🔽🌫🌫🌫📦🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $d
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱📦🧱🧱🧱🧱🌫🌫🌫🔼🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🧱🧱🌫🧱🧱🧱🧱📦🌫🌫🌫🧱"
@@ -26085,7 +26178,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🌫🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $e
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🔼🧱🧱🧱🔽🌫🌫🔼🧱🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱📦🧱"
@@ -26102,7 +26195,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🌫🧱🧱🌫🌫🌫🌫🧱🌫🧱"
 .stringmap dungeons "🧱🧱🌫🌫🌫🌫🌫🌫📦🧱🧱📦🧱🧱📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $f
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱📦🌫🧱🧱🔽🌫🌫🌫🌫🧱🧱🔽🌫🌫🧱"
 .stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🌫🧱"
@@ -26119,7 +26212,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🧱🧱🔼🌫🌫🌫🌫🌫📦🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $10
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🚪🌫🌫🌫🚪🌫🌫🌫⏫🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26136,7 +26229,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱"
 .stringmap dungeons "🧱🌫🌫🔽🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $11
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🌫🌫🌫📦🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🌫🧱🧱🧱🌫🧱🌫🧱🌫🧱🧱"
@@ -26153,7 +26246,7 @@ DungeonMaps:
 .stringmap dungeons "🧱📦🌫🧱🧱🌫🧱🌫🧱🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🔼🌫🌫🧱🌫🌫🌫🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $12
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫📦🧱🧱🌫🧱📦🧱🌫🧱🧱"
@@ -26170,7 +26263,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🌫🧱🌫🌫🌫🧱"
 .stringmap dungeons "🧱🌫🌫🔽🧱🧱🌫🌫🚪🌫🌫🌫🌫🧱🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $13
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🌫🌫🌫🌫🌫🌫🧱📦📦🌫🌫🧱📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🌫🧱🧱🌫🧱🌫🧱"
@@ -26187,7 +26280,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🌫🧱🌫🧱🧱🧱🌫🧱🧱🌫🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🚪🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $14
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫⏫🧱🧱🌫🌫🌫🌫🚪🌫🌫📦🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🌫🧱"
@@ -26204,7 +26297,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🌫🧱🌫🧱🧱🌫🌫🌫🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🧱🌫🌫🌫🌫🧱📦🧱⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $15
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱⏩🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱"
@@ -26221,7 +26314,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🌫🧱🌫🌫🌫⏩🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $16
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🧱🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🌫🧱🧱🌫🧱🌫🧱🧱🧱🌫🧱"
@@ -26238,7 +26331,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🌫🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱⏫🧱🌫🌫🌫🌫🧱⏩⏫🧱🧱🧱🧱⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $17
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱⏫🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫⏹🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26255,7 +26348,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🌫🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🧱🌫🌫🌫🌫🌫🌫🌫🧱⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $18
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🌫🧱"
@@ -26272,7 +26365,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱⏩🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $19
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱📦🧱🌫🌫🌫🧱📦🌫🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🧱🌫🧱🌫🧱🧱🧱🌫🧱"
@@ -26289,7 +26382,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🌫🧱🧱🌫🧱🌫🧱🌫🧱🧱🌫🧱🌫🧱"
 .stringmap dungeons "🧱🧱🌫🌫🌫🌫🌫🌫🧱🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $1a
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🧱🌫🌫🌫🌫🌫🧱🧱📦🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🧱🧱🧱🌫🧱🧱🌫🧱🧱🧱⏹🧱"
@@ -26306,7 +26399,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🌫🧱🌫🧱🌫🧱🌫🧱🌫🧱🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🧱🌫🌫🌫🧱🧱🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $1b
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🧱🧱🧱🌫🌫🌫🌫🧱📦🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🌫🧱🧱🧱🌫🧱🧱🌫🧱🌫🧱"
@@ -26323,7 +26416,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $1c
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱"
@@ -26340,7 +26433,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱📦🌫🔐🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $1d
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🧱🧱🧱📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🌫🧱🧱🧱🌫🧱"
@@ -26357,7 +26450,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🌫🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $1e
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫📦🧱🌫🌫🧱"
 .stringmap dungeons "🧱📦🧱🧱🧱🌫🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱"
@@ -26374,7 +26467,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱📄🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $1f
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱📦🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱📦🧱"
 .stringmap dungeons "🧱🌫🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🌫🧱"
@@ -26391,7 +26484,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $20
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26408,7 +26501,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $21
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26425,7 +26518,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $22
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱📦🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱"
@@ -26442,7 +26535,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🌫🧱🌫🧱🌫🧱🌫🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱⏫🧱🌫🧱🌫🌫🌫🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $23
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱📦🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱📦🌫🌫🌫🔐🌫🌫🌫🧱🧱🧱🧱"
@@ -26459,7 +26552,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🧱🧱📦🧱🧱🧱🧱🧱🧱📦🧱🧱🧱📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $24
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🧱🧱🧱🧱🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🌫🧱"
@@ -26476,7 +26569,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🌫🧱🧱🧱🌫🧱🌫🧱🌫🧱🌫🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🧱🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $25
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱📦🌫🌫🌫🧱🌫🌫🌫🌫🧱🌫🌫🌫📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🌫🧱🌫🧱🧱🌫🧱🌫🧱🧱🧱🧱"
@@ -26493,7 +26586,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱⏫🧱🧱🧱🧱📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $26
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🔼🧱🧱🧱🧱🌫🧱🌫🌫🌫📦🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱"
@@ -26510,7 +26603,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🌫🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🌫🌫🌫🧱🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $27
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🔽🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱"
@@ -26527,7 +26620,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🔼🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $28
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26544,7 +26637,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱⏫🧱🧱🧱🧱🔽🌫🌫🧱⏫🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $29
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱⏫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26561,7 +26654,7 @@ DungeonMaps:
 .stringmap dungeons "🧱📦🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱⏫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $2a
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26578,7 +26671,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $2b
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱🌫🌫🌫🧱"
 .stringmap dungeons "🧱🌫🧱🌫🧱🧱🧱🌫🧱🌫🧱🧱🌫🧱🌫🧱"
@@ -26595,7 +26688,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🌫🚪🌫🌫📦🌫🌫⏩🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $2c
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱"
@@ -26612,7 +26705,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🌫🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱"
 .stringmap dungeons "🧱⏩🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $2d
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱📦🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱"
@@ -26629,7 +26722,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫📦🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $2e
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫📦🌫🌫🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱"
@@ -26646,7 +26739,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱📦🧱🔼🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $2f
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🌫🚪🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱"
@@ -26663,7 +26756,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🌫🧱🧱🧱🧱🧱🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🔽🧱🌫🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $30
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱📦🌫🔐🌫🌫🌫🔼🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🌫🌫📦🧱🧱🧱🧱"
@@ -26680,7 +26773,7 @@ DungeonMaps:
 .stringmap dungeons "🧱⏫🌫🌫🌫🌫📦🧱🌫🌫🌫🧱🌫🌫⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $31
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🔽🌫🌫🌫🧱🧱🧱⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🌫🧱"
@@ -26697,7 +26790,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫⏫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $32
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🔼🧱🧱🌫🌫🔼🧱🧱🌫🌫⏫🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱"
@@ -26714,7 +26807,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🌫🧱"
 .stringmap dungeons "🧱⏫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $33
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🔽🌫🌫🧱🧱🔽🌫🌫🌫🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱"
@@ -26731,7 +26824,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱⏫🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $34
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱📦🧱🧱🌫🌫🌫🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🌫🧱🌫🧱"
@@ -26748,7 +26841,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱📦🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $35
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫📦🧱🌫🌫🌫🌫🌫🌫📦🧱"
 .stringmap dungeons "🧱🧱🧱🌫🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱"
@@ -26765,7 +26858,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱⏫🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫📦🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $36
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26782,7 +26875,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🌫🌫🌫🌫🌫🌫🌫🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $37
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
@@ -26799,7 +26892,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $38
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🧱🌫🌫🌫🌫🌫🌫🧱🧱"
@@ -26816,7 +26909,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $39
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🧱🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🌫🧱🧱"
@@ -26833,7 +26926,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $3a
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🌫🌫🌫🧱🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🌫🧱🧱🌫🧱🌫🧱🌫🧱🧱🌫🧱🌫🧱🧱"
@@ -26850,7 +26943,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱⏩🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $3b
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🌫🧱🧱"
 .stringmap dungeons "🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱"
@@ -26867,7 +26960,7 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱⏫🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
+; $3c - ending lower level
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🌫🌫🌫🔼🧱🧱🧱🧱🧱🧱🧱📄🌫📄🧱"
@@ -26884,9 +26977,9 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
+; $3d - ending upper level
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫📄🧱🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱📄🌫🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🔽🌫🌫🌫📄🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🌫🌫🌫🌫🌫🔽🧱🧱🧱🧱🧱🧱🧱"
@@ -26897,10 +26990,10 @@ DungeonMaps:
 .stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🧱📦🧱🌫🧱🧱🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🧱🌫🧱🌫🌫📄🧱🧱🧱"
 .stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱📄🧱🧱🌫🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🌫🌫🌫🌫🌫🌫📄🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
-.stringmap dungeons "🧱🧱🧱🧱🧱🧱🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱📄🌫🌫🌫🌫🌫🌫🌫📄🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱🧱🌫📄🌫🧱🧱🧱🧱🧱🧱🧱🧱"
+.stringmap dungeons "🧱🧱🧱🧱📄🌫🧱🌫🧱🧱🧱🧱🧱🧱🧱🧱"
 
 ; Data from 3FDEE to 3FFFF (530 bytes)
 CreditsFont:
@@ -27072,99 +27165,93 @@ TilesGolem:
 .section "Credits" overwrite
 ; Pointer Table from 53DBC to 53DD7 (14 entries,indexed by _RAM_C2F5_)
 _DATA_53DBC_:
-.dw _DATA_53DD8_ _DATA_53DE1_ _DATA_53E04_ _DATA_53E1D_ _DATA_53E41_ _DATA_53E79_ _DATA_53E97_ _DATA_53EB9_
-.dw _DATA_53EDD_ _DATA_53F07_ _DATA_53F15_ _DATA_53F31_ _DATA_53F66_ _DATA_53F83_
+.dw _Credits1 _Credits2 _Credits3 _Credits4 _Credits5 _Credits6 _Credits7 _Credits8
+.dw _Credits9 _Credits10 _Credits11 _Credits12 _Credits13 _Credits14
 
-; 1st entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53DD8 to 53DE0 (9 bytes)
-_DATA_53DD8_:
-.db $01 $9A $D2 $05 $53 $54 $41 $46 $46
+_Credits1:
+.db 1
+  CreditsEntry 13,10,"STAFF"
 
-; 2nd entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53DE1 to 53E03 (35 bytes)
-_DATA_53DE1_:
-.db $03 $4A $D1 $05 $54 $4F $54 $41 $4C $CC $D1 $08 $50 $4C $41 $4E
-.db $4E $49 $4E $47 $A2 $D1 $0C $4F $53 $53 $41 $4C $45 $20 $4B $4F
-.db $48 $54 $41
+_Credits2:
+.db 3
+  CreditsEntry 5,5,"TOTAL"
+  CreditsEntry 6,7,"PLANNING"
+  CreditsEntry 17,6,"OSSALE KOHTA"
 
-; 3rd entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53E04 to 53E1C (25 bytes)
-_DATA_53E04_:
-.db $02 $CC $D3 $08 $53 $54 $4F $52 $59 $20 $42 $59 $E2 $D3 $0A $41
-.db $50 $52 $49 $4C $20 $46 $4F $4F $4C
+_Credits3:
+.db 2
+  CreditsEntry 6,15,"STORY BY"
+  CreditsEntry 17,15,"APRIL FOOL"
 
-; 4th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53E1D to 53E40 (36 bytes)
-_DATA_53E1D_:
-.db $03 $4C $D1 $08 $53 $43 $45 $4E $41 $52 $49 $4F $CE $D1 $06 $57
-.db $52 $49 $54 $45 $52 $A2 $D1 $0C $4F $53 $53 $41 $4C $45 $20 $4B
-.db $4F $48 $54 $41
+_Credits4:
+.db 3
+  CreditsEntry 6,5,"SCENARIO"
+  CreditsEntry 7,7,"WRITER"
+  CreditsEntry 17,6,"OSSALE KOHTA"
 
-; 5th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53E41 to 53E78 (56 bytes)
-_DATA_53E41_:
-.db $04 $92 $D2 $09 $41 $53 $53 $49 $53 $54 $41 $4E $54 $14 $D3 $0C
-.db $43 $4F $4F $52 $44 $49 $4E $41 $54 $4F $52 $53 $C4 $D3 $0C $4F
-.db $54 $45 $47 $41 $4D $49 $20 $43 $48 $49 $45 $E4 $D3 $0A $47 $41
-.db $4D $45 $52 $20 $4D $49 $4B $49
+_Credits5:
+.db 4
+  CreditsEntry 5,6,"ASSISTANT"
+  CreditsEntry 17,6,"COORDINATORS"
+  CreditsEntry 11,11,"FINOS PATA"
+  CreditsEntry 2,15,"OTEGAMI CHIE"
+  CreditsEntry 18,15, "GAMER MIKI"
 
-; 6th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53E79 to 53E96 (30 bytes)
-_DATA_53E79_:
-.db $02 $86 $D1 $0C $54 $4F $54 $41 $4C $20 $44 $45 $53 $49 $47 $4E
-.db $A4 $D1 $0B $50 $48 $4F $45 $48 $49 $58 $20 $52 $49 $45
+; Pitfall to green
 
-; 7th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53E97 to 53EB8 (34 bytes)
-_DATA_53E97_:
-.db $03 $8A $D3 $07 $4D $4F $4E $53 $54 $45 $52 $0A $D4 $06 $44 $45
-.db $53 $49 $47 $4E $E2 $D3 $0B $43 $48 $41 $4F $54 $49 $43 $20 $4B
-.db $41 $5A
+_Credits6:
+.db 2
+  CreditsEntry 3,6,"TOTAL DESIGN"
+  CreditsEntry 18,5, "PHOEHIX RIE" ; Original typo
 
-; 8th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53EB9 to 53EDC (36 bytes)
-_DATA_53EB9_:
-.db $03 $90 $D1 $06 $44 $45 $53 $49 $47 $4E $92 $D2 $0A $52 $4F $43
-.db $4B $48 $59 $20 $4E $41 $4F $E2 $D3 $0A $53 $41 $44 $41 $4D $4F
-.db $52 $49 $41 $4E
+_Credits7:
+.db 3
+  CreditsEntry 5,14,"MONSTER"
+  CreditsEntry 5,16,"DESIGN"
+  CreditsEntry 17,15,"CHAOTIC KAZ"
 
-; 9th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53EDD to 53F06 (42 bytes)
-_DATA_53EDD_:
-.db $04 $90 $D1 $06 $44 $45 $53 $49 $47 $4E $92 $D2 $0A $4D $59 $41
-.db $55 $20 $43 $48 $4F $4B $4F $E2 $D3 $06 $47 $20 $43 $48 $49 $45
-.db $D2 $D4 $07 $59 $4F $4E $45 $53 $41 $4E
+_Credits8:
+.db 3
+  CreditsEntry 8,6,"DESIGN"
+  CreditsEntry 9,10,"ROCKHY NAO"
+  CreditsEntry 17,15,"SADAMORIAN"
 
-; 10th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53F07 to 53F14 (14 bytes)
-_DATA_53F07_:
-.db $02 $92 $D1 $05 $53 $4F $55 $4E $44 $A4 $D1 $02 $42 $4F
+_Credits9:
+.db 4
+  CreditsEntry 8,6,"DESIGN"
+  CreditsEntry 9,10, "MYAU CHOKO"
+  CreditsEntry 17,15,"G CHIE"
+  CreditsEntry 9,19, "YONESAN"
 
-; 11th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53F15 to 53F30 (28 bytes)
-_DATA_53F15_:
-.db $02 $C6 $D3 $0A $53 $4F $46 $54 $20 $43 $48 $45 $43 $4B $E4 $D3
-.db $0B $57 $4F $52 $4B $53 $20 $4E $49 $53 $48 $49
+; Stairs to blue
 
-; 12th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53F31 to 53F65 (53 bytes)
-_DATA_53F31_:
-.db $05 $46 $D1 $09 $41 $53 $53 $49 $53 $54 $41 $4E $54 $C8 $D1 $0B
-.db $50 $52 $4F $47 $52 $41 $4D $4D $45 $52 $53 $92 $D2 $08 $43 $4F
-.db $4D $20 $42 $4C $55 $45 $C8 $D3 $06 $4D $20 $57 $41 $4B $41 $E6
-.db $D3 $03 $41 $53 $49
+_Credits10:
+.db 2
+  CreditsEntry 9,6,"SOUND"
+  CreditsEntry 18,6, "BO"
 
-; 13th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53F66 to 53F82 (29 bytes)
-_DATA_53F66_:
-.db $02 $84 $D1 $0C $4D $41 $49 $4E $20 $50 $52 $4F $47 $52 $41 $4D
-.db $A2 $D1 $0A $4D $55 $55 $55 $55 $20 $59 $55 $4A $49
+_Credits11:
+.db 2
+  CreditsEntry 3,15,"SOFT CHECK"
+  CreditsEntry 18,15, "WORKS NISHI"
 
-; 14th entry of Pointer Table from 53DBC (indexed by _RAM_C2F5_)
-; Data from 53F83 to 53FFF (125 bytes)
-_DATA_53F83_:
-.db $02 $C6 $D3 $0C $50 $52 $45 $53 $45 $4E $54 $45 $44 $20 $42 $59
-.db $E4 $D3 $04 $53 $45 $47 $41
+_Credits12:
+.db 5
+  CreditsEntry 3,5,"ASSISTANT"
+  CreditsEntry 4,7,"PROGRAMMERS"
+  CreditsEntry 9,10,"COM BLUE"
+  CreditsEntry 4,15,  "M WAKA"
+  CreditsEntry 19,15,"ASI"
+
+_Credits13:
+.db 2
+  CreditsEntry 2,6,"MAIN PROGRAM"
+  CreditsEntry 17,6,"MUUUU YUJI"
+
+_Credits14:
+.db 2
+  CreditsEntry 3,15,"PRESENTED BY"
+  CreditsEntry 18,15,"SEGA"
 .ends
 
 ;=======================================================================================================
@@ -28273,8 +28360,12 @@ PaletteAirCastle:
 .db $30,$00,$3F,$0B,$06,$1A,$2F,$2A,$08,$15,$30,$30,$30,$30,$30,$30 ; palette for following (with castle hidden!)
 TilesAirCastle:
 .incbin "Tiles\5ac8dcompr.dat" ; 141 - AirCastle
-.db $38,$3F,$00,$38,$1F,$0B,$06,$3E,$00,$00,$00,$00,$00,$00,$00,$00 ; palette for following
-.incbin "Tiles\5b9e7compr.dat" ; 27 - flying Myau?
+
+.db $38 ; unused (sprite palette index 0, not loaded) #####################
+_DATA_5B9D8_MyauFlightPalette:
+.db $3F,$00,$38,$1F,$0B,$06,$3E,$00,$00,$00,$00,$00,$00,$00,$00 ; palette for following
+_DATA_5B9E7_MyauFlightTiles:
+.incbin "Tiles\5b9e7compr.dat" ; 27 - flying Myau? 587 -> 549
 .ends
 ; followed by
 .org $5bc32-$58000
@@ -28401,7 +28492,7 @@ TilesFrame:
 .ends
 .org $625e0-$60000
 ; Data from 625E0 to 62781 (418 bytes)
-_DATA_625E0_:
+_DATA_625E0_EndingPictureTilemap:
 .dsb 12,$00
 .db $01 $00 $02 $00 $01 $02
 .dsb 16,$00
@@ -28639,11 +28730,11 @@ NarrativeGraphicsIntroNero1:
 NarrativeGraphicsMyau:
 .db $00,$00,$3F,$2F,$0F,$0B,$2B,$06,$08,$0C,$2C,$3E,$38,$20,$34,$28 ; palette
 .incbin "Tiles\7CAEBcompr.dat" ; 118 Myau
-_DATA_7D676_:
+_DATA_7D676_EndingPicturePalette:
 .db $30,$00,$3F,$38,$3E,$27,$01,$0F,$2B,$0B,$06,$2A,$25,$2F,$3B,$3C ; palette
 .db $30 ; ???
 ; Data from 7D687 to 7E8BC (4662 bytes)
-_DATA_7D687_:
+_DATA_7D687_EndingPictureTiles:
 .incbin "Tiles\7d687compr.dat" ; 159 ending picture
 TilesTitleScreen:      ; $7e8bd
 .incbin "Tiles\7E8BDcompr Title screen tiles.dat" ; 256 title

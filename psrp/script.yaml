@@ -15,7 +15,7 @@
 # - ja: original Japanese
 # - kanji: original Japanese text but also using hiragana and kanji to minimize ambiguity
 # - literal: literal translation of the "ja" text
-# - us: Sega localisation for this item (very incomplete)
+# - us: Sega's original English localization
 # - en, fr, pt-br, ca, es, de: translations consumed by the code
 # Stuff with ****** around it is an area indicator.
 #
@@ -614,7 +614,7 @@
     TO YOU IN YOUR <wait more>
     TASK.<wait>
   en: |
-    My name is Nekise.<line><line>
+    My name is Nekise.<line>
     Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
     The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
     Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
@@ -5002,7 +5002,7 @@
   en: The drug store in Avion Village sells Polymeteral.<wait>
   fr: |
     J'ai entendu dire qu'on trouvait un produit appelé Polymatériau<wait more>
-    dans la cité d'Abion.<wait>
+    dans la cité d'Avion.<wait>
   pt-br: A farmácia na Vila Avion vende o Polimaterial.<wait>
   ca: A la farmàcia de la vila d'Avion venen Polymeteral.<wait>
   es: En la farmacia de la villa de Avion venden Polymeteral.<wait>
@@ -5187,7 +5187,7 @@
     Hey, since you’re here, you might as well pay Avion a visit.<wait more>
     It’s a small town like this one, on the western tip of the island.<wait>
   fr: |
-    Puisque vous êtes ici, vous pourriez visiter Abion.<wait more>
+    Puisque vous êtes ici, vous pourriez visiter Avion.<wait more>
     C'est un village comme celui-ci, à la pointe ouest de l'île.<wait>
   pt-br: |
     Ei, já que está aqui, você deveria visitar Avion.<wait more>
@@ -5309,7 +5309,7 @@
   literal: This village is called Avion.<wait>
   us: WELCOME TO ABION.<wait>
   en: This village is called Avion.<wait>
-  fr: Notre village se nomme Abion.<wait>
+  fr: Notre village se nomme Avion.<wait>
   pt-br: Esta vila é chamada Avion.<wait>
   ca: Aquesta vila es diu Avion.<wait>
   es: Este villa se llama Avion.<wait>
@@ -6407,7 +6407,7 @@
     ON A FORGOTTEN<line>
     ISLAND.<wait>
   en: I hear that there’s an enchanted sword in Avion Tower.<wait>
-  fr: J'ai entendu dire qu'il y avait une épée magique dans la tour d'Abion.<wait>
+  fr: J'ai entendu dire qu'il y avait une épée magique dans la tour d'Avion.<wait>
   pt-br: Ouvi dizer que há uma espada encantada na Torre de Avion.<wait>
   ca: He sentit a dir que hi ha una espasa màgica a la Torre d'Avion.<wait>
   es: He oído que hay una espada mágica en la Torre de Avion.<wait>
@@ -9565,10 +9565,10 @@
     <monster> IS TIED<line>
     UP.<wait>
   en: <Article><monster> is all bound up.<delay>
-  fr: <Article><monster> s'est fait ligoter!<delay>
+  fr: <Article><monster> s'est fait ligoter_!<delay>
   pt-br: A magia imobilizou <Article><monster>.<delay>
-  ca: La màgia inmobilitza <article><monster> .<delay>
-  es: La mágia inmobiliza <article><monster> .<delay>
+  ca: La màgia inmobilitza <article><monster>.<delay>
+  es: La mágia inmobiliza <article><monster>.<delay>
   de: <Nom><monster> wurde gefesselt.<delay>
 
 - offsets: 151f
@@ -10427,11 +10427,15 @@
     THERE ARE <number><line>
     MESETAS INSIDE.<wait>
   en: There were <number> mesetas inside.<wait>
-  fr: Vous y trouvez <number> mesetas.<wait>
+  fr: Il y avait <number> mesetas à l'intérieur.<wait>
   pt-br: Você encontrou <number> mesetas dentro.<wait>
   ca: Heu trobat <number> mesetas dintre.<wait>
   es: Habeís encontrado <number> mesetas dentro.<wait>
+<<<<<<< HEAD
   de: Es waren <number> Meseta drin.<wait>
+=======
+  de: Es gab <number> Meseta im Inneren.<wait>
+>>>>>>> master
 
 - offsets: ChestMesetasSingular
   # Not in the original
@@ -10439,8 +10443,8 @@
   us: |
     THERE ARE <number><line>
     MESETAS INSIDE.<wait>
-  en: There's only one meseta inside.<wait>
-  fr: Vous n'y trouvez qu'un seul meseta.<wait>
+  en: There was only one meseta inside.<wait>
+  fr: Il n'y avait qu'un meseta à l'intérieur.<wait>
   pt-br: Você encontrou <number> meseta dentro.<wait>
   ca: Heu trobat <number> meseta dintre.<wait>
   es: Habeís encontrado <number> meseta dentro.<wait>
@@ -11676,7 +11680,7 @@
     IN ABION HAS A<wait more>
     LACONIAN POT.<wait>
   en: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
-  fr: Le Savant fou à Abion possède un vase Laconian.<wait>
+  fr: Le Savant fou à Avion possède un vase Laconian.<wait>
   pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
   ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
   es: ‘El Doctor Loco en Avion tiene una Olla de Laconia.’<wait>
@@ -11836,7 +11840,7 @@
     Spiel speichern?<line>
     Bitte eine Nummer wählen.<end>
 
-- offsets: ScriptConfirmSlot,1e44
+- offsets: ScriptConfirmSlot
   indices: b3bc
   ja: <number>バンデ　イイデスカ。<end>
   kanji: <number>番でいいですか。

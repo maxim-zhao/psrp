@@ -453,7 +453,7 @@ SaveNameToSaveRam:
 .bank 1 slot 1
 .orga $4183
 .section "Draw name entry screen trampoline" force
-  call $7da8 ; FadeOutFullPalette
+  call FadeOutFullPalette
   ld a,:DrawNameEntryScreen
   ld (PAGING_SLOT_2),a
   call DrawNameEntryScreen
