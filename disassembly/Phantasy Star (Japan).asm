@@ -4451,8 +4451,8 @@ _DATA_1BB3_BattleMagicIndices:
 
 ; Jump Table from 1BC2 to 1BE5 (18 entries,indexed by unknown)
 _DATA_1BC2_:
-.dw _LABEL_1C0A_ _LABEL_1C0D_ _LABEL_1C0D_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C2C_ _LABEL_1C2C_ _LABEL_1C2C_
-.dw _LABEL_1C2C_ _LABEL_1C59_ _LABEL_1C3A_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_
+.dw _LABEL_1C0A_Magic0_LockUp _LABEL_1C0D_Magic1_2_Heal _LABEL_1C0D_Magic1_2_Heal _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4 _LABEL_1C2C_Magic5_6_7_8 _LABEL_1C2C_Magic5_6_7_8 _LABEL_1C2C_Magic5_6_7_8
+.dw _LABEL_1C2C_Magic5_6_7_8 _LABEL_1C59_Magic3_4 _LABEL_1C3A_MagicB _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4
 .dw _Magic10_Transrate _Magic11_Telepathy
 
 ; Jump Table from 1BE6 to 1C09 (18 entries,indexed by _RAM_C2AD_)
@@ -4462,11 +4462,11 @@ _DATA_1BE6_:
 .dw _Magic10_Transrate _Magic11_Telepathy
 
 ; 1st entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C0A_:
-    jp _LABEL_1C0A_
+_LABEL_1C0A_Magic0_LockUp:
+    jp _LABEL_1C0A_Magic0_LockUp
 
 ; 2nd entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C0D_:
+_LABEL_1C0D_Magic1_2_Heal:
     push bc
       call _LABEL_379F_ChooseCharacter
     pop de
@@ -4480,11 +4480,11 @@ _LABEL_1C0D_:
     ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
     ld (_RAM_C267_BattleCurrentPlayer),a
-+:  call _LABEL_37E9_
++:  call _LABEL_37E9_HidePlayerSelect2Window
     ret
 
 ; 6th entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C2C_:
+_LABEL_1C2C_Magic5_6_7_8:
     ld c,$03
     xor a
     call _LABEL_1D15_
@@ -4494,7 +4494,7 @@ _LABEL_1C2C_:
     ret
 
 ; 11th entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C3A_:
+_LABEL_1C3A_MagicB:
     push bc
       call _LABEL_379F_ChooseCharacter
     pop de
@@ -4508,11 +4508,11 @@ _LABEL_1C3A_:
     ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
     ld (_RAM_C267_BattleCurrentPlayer),a
-+:  call _LABEL_37E9_
++:  call _LABEL_37E9_HidePlayerSelect2Window
     ret
 
 ; 4th entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C59_:
+_LABEL_1C59_Magic3_4:
     ld c,$03
     ld a,(TextCharacterNumber)
     call _LABEL_1D15_
@@ -4620,11 +4620,12 @@ BattleMenu_Item:
     ret
 
 _LABEL_1D15_:
+    ; Write data from c, b, a into player index data in _RAM_C2AC_
     push af
       ld a,(_RAM_C267_BattleCurrentPlayer)
       add a,a
       add a,a
-      ld hl,$C2AC
+      ld hl,_RAM_C2AC_
       add a,l
       ld l,a
       adc a,h
@@ -4966,7 +4967,7 @@ _Magic02_SuperHeal:
     call ShowMessageIfDead
     jr z,+
     call ++
-+:  jp _LABEL_37E9_
++:  jp _LABEL_37E9_HidePlayerSelect2Window
 
 ; 2nd entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
 _Magic01_Heal_Battle:
@@ -5350,7 +5351,7 @@ _Magic0f_Rebirth:
     ld hl,textPlayerRevived
 ++: call TextBox20x6
     call Close20x6TextBox
-+++:jp _LABEL_37E9_
++++:jp _LABEL_37E9_HidePlayerSelect2Window
 
 ; 17th entry of Jump Table from 1F5A (indexed by unknown)
 _Magic11_Telepathy:
@@ -8398,7 +8399,7 @@ _LABEL_37D8_ClosePlayerSelect:
     ld bc,$090C
     jp OutputTilemapBoxWipePaging
 
-_LABEL_37E9_:
+_LABEL_37E9_HidePlayerSelect2Window:
     ld a,(PartySize)
     or a
     ret z
