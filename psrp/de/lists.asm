@@ -87,7 +87,7 @@ Names:
   String "Lutz{'}"
 
 Enemies:
-; Max width 18 for enemy window, excluding <...> prefix (with space)
+; Max width 20 for enemy window, excluding <...> prefix (with space)
   String " " ; Empty
   String "<Die> Riesenfliege"
   String "<Der> Grünschleim{s}"
@@ -96,14 +96,14 @@ Enemies:
   String "<Der> Skorpion{s}"
   String "<Die> Riesenlibelle"
   String "<Der> Blauschleim{s}"
-  String "<Der> Motavische[r]{n}(n) Bauer{s}(n)"
+  String "<Der> Motavia-Bauer{s}(n)"
   String "<Die> Teufelsfledermaus"
   String "<Der> Mörderbaum{s}"
   String "<Die> Beißerfliege"
-  String "<Der> Motavische[r]{n}(n) Pläger{s}"
+  String "<Der> Motavia-Pläger{s}"
   String "<Der> Herex"
   String "<Der> Sandwurm{s}"
-  String "<Der> Motavische[r]{n}(n) Irre[r]{n}(n)"
+  String "<Der> Motavianische[r]{n}(n) Irre[r]{n}(n)"
   String "<Die> Goldlinse"
   String "<Der> Rotschleim{s}"
   String "<Der> Fledermausmann{s}"
@@ -117,7 +117,7 @@ Enemies:
   String "<Der> Morastmann{s}"
   String "<Der> Dezorianer{s}"
   String "<Der> Wüstenegel{s}"
-  String "<Der> Cryon{s}"							; think of a different translation
+  String "<Der> Vampir{s}"
   String "<Der> Riesenrüssel{s}"
   String "<Der> Ghul{s}"
   String "<Der> Ammonit{s}"
@@ -131,7 +131,7 @@ Enemies:
   String "<Der> Königslich{s}"
   String "<Der> Krake{n}(n)"
   String "<Der> Wilde[r]{n}(n) Jäger{s}"
-  String "<Der> Dezorianer-Häuptling{s}"			; too long
+  String "<Der> Dezorianer-Häuptling{s}"
   String "<Der> Zombie{s}"
   String "<Der> Lebende[r]{n}(n) Tote[r]{n}(n)"
   String "<Der> Roboterpolizist{en}(en)"
@@ -161,7 +161,7 @@ Enemies:
   String "<Der> Golddrache{n}(n)"
   String "<Der> Irre[r]{n}(n) Doktor{s}"
   String "Lashiec{s}"
-  String "Dunkle{r} Macht"							; with or without article is the question
+  String "Dark Falz{'}"
   String "<Der> Albtraum{s}"
 
 .ends
