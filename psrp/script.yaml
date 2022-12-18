@@ -10431,11 +10431,7 @@
   pt-br: Você encontrou <number> mesetas dentro.<wait>
   ca: Heu trobat <number> mesetas dintre.<wait>
   es: Habeís encontrado <number> mesetas dentro.<wait>
-<<<<<<< HEAD
   de: Es waren <number> Meseta drin.<wait>
-=======
-  de: Es gab <number> Meseta im Inneren.<wait>
->>>>>>> master
 
 - offsets: ChestMesetasSingular
   # Not in the original
