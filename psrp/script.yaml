@@ -2908,7 +2908,7 @@
     De cualquier forma, admiro tu valentía. ¿No necesitas una Llave de Mazmorra?<end>
   de: |
     Ihr wollt Lashiec die Stirn bieten?<wait more>
-    Da seid ihr entweder Narren, oder stärker, als ihr ausseht.<wait more>
+    Da seid ihr entweder Narren, oder stärker als ihr ausseht.<wait more>
     Helfen würde ich euch jedenfalls gerne. Braucht ihr einen Generalschlüssel?<end>
 
 - offsets: 4e17
@@ -3032,7 +3032,8 @@
     Mis pasteles son los mejores de Algol, y solo cuestan <number> mesetas. ¿Quieres uno?<end>
   de: |
     Willkommen in meiner Konditorei! Tur mir leid wegen des Standortes...<wait more>
-    Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta! Wollen Sie eins?<end>
+    Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta!<line>
+    Wollen Sie eins?<end>
     
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
@@ -8666,7 +8667,7 @@
   pt-br: Humm, não consegue sair? Aqui, use meu <item>.<wait>
   ca: Hmm, cap baixada? Aquí pots tenir la meva <item>.<wait>
   es: Hmm, ¿no hay manera de bajar? Toma, puedes tener mi <item>.<wait>
-  de: Hmm, sitzt ihr hier oben fest? Na gut, dann geb ich euch meinen Fliegenden Teppich.<wait>
+  de: Hmm, sitzt ihr hier oben fest? Na gut, dann könnt ihr meinen Fliegenden Teppich haben.<wait>
 
 - offsets: 51a6
   # Old Man (also said by an old man in Casba)
@@ -9985,7 +9986,7 @@
   pt-br: Está muito escuro. Você não pode avançar.<wait>
   ca: Es fosc com la gola del llop. No podem avançar.<wait>
   es: Está oscuro como la panza de un lobo. No podemos avanzar.<wait>
-  de: Es ist zu dunkel, um weiterzugehen.<wait>
+  de: Es ist zu dunkel um weiterzugehen.<wait>
 
 - offsets: 27c3
   indices: b5de
@@ -10338,7 +10339,7 @@
   pt-br: Você ganhou <number> pontos de experiência.<wait>
   ca: Heu guanyat <number> punts d'experiéncia.<wait>
   es: Habéis ganado <number> puntos de experiéncia.<wait>
-  de: <number><internal hint 01> Erfahrungspunkte erhalten.<wait>
+  de: <number> Erfahrungspunkte erhalten.<wait>
 
 - offsets: 18f3
   indices: afb9
@@ -10432,7 +10433,7 @@
   pt-br: Você encontrou <number> mesetas dentro.<wait>
   ca: Heu trobat <number> mesetas dintre.<wait>
   es: Habeís encontrado <number> mesetas dentro.<wait>
-  de: Es gab <number> Meseta im Inneren.<wait>
+  de: Es waren <number> Meseta drin.<wait>
 
 - offsets: ChestMesetasSingular
   # Not in the original
@@ -10445,7 +10446,7 @@
   pt-br: Você encontrou <number> meseta dentro.<wait>
   ca: Heu trobat <number> meseta dintre.<wait>
   es: Habeís encontrado <number> meseta dentro.<wait>
-  de: Es gab nur eine Meseta im Inneren.<wait>
+  de: Es war 1 Meseta drin.<wait>
 
 - offsets: 2a73
   indices: afef

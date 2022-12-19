@@ -1,117 +1,139 @@
 CreditsScreen1:
 .db 1
-  CreditsEntry 11,10,"MITWIRKENDE"
+  CreditsEntry 10,10, "MITWIRKENDE"
 
 CreditsScreen2:
-.db 3
-  CreditsEntry 4,5,"KOMPLETTE"
-  CreditsEntry 8,7,"PLANUNG"
-  CreditsEntry 17,6,"OSSALE KOHTA"
-  ; We don't have real names in the German credits...
+.db 4
+  CreditsEntry 5,6, "PLANUNG"
+  CreditsEntry 17,6, "OSSALE KOHTA"
+  CreditsEntry 9,10, "(KOTARO"
+  CreditsEntry 13,11, "HAYASHIDA)"
 
 CreditsScreen3:
 .db 2
-  CreditsEntry 6,15,"HANDLUNG"
-  CreditsEntry 17,15,"APRIL FOOL"
+  CreditsEntry 5,15, "HANDLUNG"
+  CreditsEntry 17,15, "APRIL FOOL"
 
 CreditsScreen4:
-.db 2
-  CreditsEntry 6,6,"SZENARIO"
-  CreditsEntry 17,6,"OSSALE KOHTA"
+.db 4
+  CreditsEntry 5,6, "DREHBUCH"
+  CreditsEntry 17,6, "OSSALE KOHTA"
+  CreditsEntry 9,10, "(KOTARO"
+  CreditsEntry 13,11, "HAYASHIDA)"
 
 CreditsScreen5:
-.db 5
-  CreditsEntry 1,6,"KOORDINATIONS-" ; overwrites edge a bit, not safe area?
-  CreditsEntry 17,6,"ASSISTENZ"
+.db 8
+  CreditsEntry 17,5, "HILFE BEI"
+  CreditsEntry 18,7, "KOORDINATION"
   CreditsEntry 11,11, "FINOS PATA"
-  CreditsEntry 10,11,"OTEGAMI CHIE"
-  CreditsEntry 18,15,"GAMER MIKI"
+  CreditsEntry 2,14, "OTEGAMI CHIE"
+  CreditsEntry 2,16, "(CHIEKO AOKI)"
+  CreditsEntry 18,14, "GAMER MIKI"
+  CreditsEntry 17,15, "(MIKI"
+  CreditsEntry 20,16, "MORIMOTO)"
 
 ; Pitfall to green
 
 CreditsScreen6:
 .db 3
-  CreditsEntry 3,5,"KOMPLETTES"
-  CreditsEntry 8,7,"DESIGN"
-  CreditsEntry 18,6,"PHOENIX RIE"
+  CreditsEntry 3,6, "HAUPTDESIGN"
+  CreditsEntry 18,6, "PHOENIX RIE" ; Original typo fixed
+  CreditsEntry 9,10, "(RIEKO KODAMA)"
 
 CreditsScreen7:
-.db 3
-  CreditsEntry 5,14,"MONSTER-"
-  CreditsEntry 5,16,"DESIGN"
-  CreditsEntry 17,15,"CHAOTIC KAZ"
-  
+.db 4
+  CreditsEntry 2,15, "MONSTERDESIGN"
+  CreditsEntry 17,15, "CHAOTIC KAZ"
+  CreditsEntry 9,19, "(KAZUYUKI"
+  CreditsEntry 15,20, "SHIBATA)"
+
 CreditsScreen8:
-.db 3
-  CreditsEntry 8,6,"DESIGN"
-  CreditsEntry 9,10,"ROCKHY NAO"
-  CreditsEntry 17,15,"SADAMORIAN"
+.db 7
+  CreditsEntry 8,6, "DESIGN"
+  CreditsEntry 9,10, "ROCKHY NAO"
+  CreditsEntry 9,11, "(NAOTO"
+  CreditsEntry 15,12, "OHSHIMA)"
+  CreditsEntry 17,14, "SADAMORIAN"
+  CreditsEntry 17,15, "(KOKI"
+  CreditsEntry 21,16, "SADAMORI)"
 
 CreditsScreen9:
-.db 4
-  CreditsEntry 8,6,"DESIGN"
-  CreditsEntry 9,10,"MYAU CHOKO"
-  CreditsEntry 17,15,"G CHIE"
-  CreditsEntry 9,19,"YONESAN"
+.db 8
+  CreditsEntry 8,6, "DESIGN"
+  CreditsEntry 9,10, "MYAU CHOKO"
+  CreditsEntry 9,11, "(TAKAKO"
+  CreditsEntry 13,12, "KAWAGUCHI)"
+  CreditsEntry 17,15, "G CHIE"
+  CreditsEntry 9,18, "YONESAN"
+  CreditsEntry 9,19, "(HITOSHI"
+  CreditsEntry 16,20, "YONEDA)"
 
 ; Stairs to blue
 
 CreditsScreen10:
-.db 2
-  CreditsEntry 11,6,"TON"
-  CreditsEntry 18,6,"BO"
+.db 4
+  CreditsEntry 11,6, "TON"
+  CreditsEntry 18,6, "BO"
+  CreditsEntry 9,10, "(TOKUHIKO"
+  CreditsEntry 17,11, "UWABO)"
 
 ; Pitfall to green
 
 CreditsScreen11:
-.db 2
-  CreditsEntry 5,15,"TESTER"
-  CreditsEntry 18,15,"WORKS NISHI"
+.db 4
+  CreditsEntry 6,15, "TESTER"
+  CreditsEntry 18,15, "WORKS NISHI"
+  CreditsEntry 9,19, "(AKINORI"
+  CreditsEntry 13,20, "NISHIYAMA)"
 
 CreditsScreen12:
-.db 5
-  CreditsEntry 3,5,"PROGRAMMIER-"
-  CreditsEntry 4,7,"ASSISTENZ"
-  CreditsEntry 9,10,"COM BLUE"
-  CreditsEntry 4,15,"M WAKA"
-  CreditsEntry 19,15,"ASI"
-  
+.db 7
+  CreditsEntry 2,5, "HILFS-"
+  CreditsEntry 2,7, "PROGRAMMIERER"
+  CreditsEntry 9,10, "COM BLUE"
+  CreditsEntry 4,14, "M WAKA"
+  CreditsEntry 2,15, "(MASAHIRO"
+  CreditsEntry 6,16, "WAKAYAMA)"
+  CreditsEntry 19,15, "ASI"
+
 CreditsScreen13:
-.db 3
-  CreditsEntry 4,5,"HAUPT-"
-  CreditsEntry 2,7,"PROGRAMMIERER"
-  CreditsEntry 17,6,"MUUUU YUJI"
+.db 4
+  CreditsEntry 2,5, "HAUPT-"
+  CreditsEntry 2,7, "PROGRAMMIERER"
+  CreditsEntry 17,6, "MUUUU YUJI"
+  CreditsEntry 11,10, "(YUJI NAKA)"
 
 ; Stairs to blue
 
 CreditsScreen14:
 .db 3
-  CreditsEntry 3,14,"PRASENTIERT"
-  CreditsEntry 11,16,"VON"
-  CreditsEntry 18,15,"SEGA"
-  
+  CreditsEntry 11,9, "¨"
+  CreditsEntry 9,10, "PRASENTIERT"
+  CreditsEntry 15,12, "VON SEGA"
+
 ; New credits here
 
 CreditsScreen15:
-.db 2
-  CreditsEntry 12,9,   "¨"
-  CreditsEntry 9,10,"NEUUBERSETZUNG"
+.db 3
+  CreditsEntry 10,10, "NEUE"
+  CreditsEntry 11,11, "¨"
+  CreditsEntry 11,12, "UBERSETZUNG"
 
 CreditsScreen16:
 .db 6
-  CreditsEntry 3,5,"ENGLISCHE"
-  CreditsEntry 4,6,   "¨"
-  CreditsEntry 1,7,"NEUUBERSETZUNG"
+  CreditsEntry 2,5, "ENGLISCHE"
+  CreditsEntry 3,6, "¨"
+  CreditsEntry 3,7, "UBERSETZUNG"
   CreditsEntry 18,6, "PAUL JENSEN"
   CreditsEntry 13,10, "SATSU"
-  CreditsEntry 18,15, "POPFAN"
+  CreditsEntry 17,15, "FRANK CIFALDI"
 
 CreditsScreen17:
 .db 4
-  CreditsEntry 3,5,"DEUTSCHE"
-  CreditsEntry 4,6,"¨"
-  CreditsEntry 4,7,"UBERSETZUNG"
-  CreditsEntry 17,6,"POPFAN"
+  CreditsEntry 2,5, "DEUTSCHE"
+  CreditsEntry 3,6, "¨"
+  CreditsEntry 3,7, "UBERSETZUNG"
+  CreditsEntry 18,6, "POPFAN"
 
 CreditsScreen18:
 .db 3
@@ -120,8 +142,9 @@ CreditsScreen18:
   CreditsEntry 18,15, "MAXIM"
 
 CreditsScreen19:
-.db 4
-  CreditsEntry 3,14,"PRASENTIERT"
-  CreditsEntry 11,16,"VON"
-  CreditsEntry 18,15, "SMS Power! (top)"
-  CreditsEntry 18,16, "SMS Power! (bottom)"
+.db 5
+  CreditsEntry 6,15, "¨"
+  CreditsEntry 4,16, "PRASENTIERT"
+  CreditsEntry 17,16, "VON"
+  CreditsEntry 10,19, "SMS Power! (top)"
+  CreditsEntry 10,20, "SMS Power! (bottom)"

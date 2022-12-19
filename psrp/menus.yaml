@@ -138,13 +138,13 @@
     │Guardar║
     ╘═══════╝
   de: |
-    ┌───────╖
-    │Status ║
-    │Magie  ║
-    │Objekte║
-    │Suchen ║
-    │Sichern║
-    ╘═══════╝
+    ┌─────────╖
+    │Status   ║
+    │Magie    ║
+    │Objekte  ║
+    │Suchen   ║
+    │Speichern║
+    ╘═════════╝
 
 - name: ChoiceMenu
   ptrs: 38cd
@@ -1758,7 +1758,7 @@
     │Tower        ║
     │Final Dungeon║
     │LaShiec      ║
-    │Dark Force   ║
+    │Dark Falz    ║
     │Ending       ║
     │Game Over    ║
     ╘═════════════╝
@@ -1890,7 +1890,7 @@
     │Turm         ║
     │Letzte Höhle ║
     │Lashiec      ║
-    │Dunkle Macht ║
+    │Dark Falz    ║
     │Endszene     ║
     │Spielende    ║
     ╘═════════════╝
