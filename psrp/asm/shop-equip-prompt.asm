@@ -142,11 +142,13 @@ _done:
 
 _cantEquip:
   push hl
+  push de
     ld hl,ScriptPlayerCantEquipItem
     ld bc,(ScriptBCStateBackup)
     call TextBox
     ld (ScriptBCStateBackup),bc
     call $37d8 ; Close player select
+  pop de
   pop hl
   jr _selectWho ; try again!
 
