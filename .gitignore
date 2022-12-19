@@ -12,3 +12,4 @@
 psrp/generated/*
 psrp/sizes.*.txt
 /tools/
+/disassembly/generated.makefile

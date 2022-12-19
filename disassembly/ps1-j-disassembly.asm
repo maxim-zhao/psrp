@@ -411,7 +411,7 @@ Flag_DungeonChest0C_A5 db ; $C633
 Flag_DungeonChest0D_68 db ; $C634
 Flag_DungeonChest0D_EB db ; $C635
 Flag_DungeonChest0D_EE db ; $C636
-Flag_DungeonChest0D_68 db ; $C637
+Flag_DungeonChest0D_68_2 db ; $C637
 Flag_DungeonChest0D_E8 db ; $C638
 Flag_DungeonChest0E_11 db ; $C639
 Flag_DungeonChest0E_41 db ; $C63A
@@ -427,7 +427,7 @@ Flag_DungeonChest11_26 db ; $C643
 Flag_DungeonChest11_5E db ; $C644
 Flag_DungeonChest11_71 db ; $C645
 Flag_DungeonChest11_7D db ; $C646
-Flag_DungeonChest11_26 db ; $C647
+Flag_DungeonChest11_26_2 db ; $C647
 Flag_DungeonChest12_19 db ; $C648
 Flag_DungeonChest12_1E db ; $C649
 Flag_DungeonChest12_CC db ; $C64A
@@ -438,13 +438,13 @@ Flag_DungeonChest13_1E db ; $C64E
 Flag_DungeonChest13_33 db ; $C64F
 Flag_DungeonChest13_A5 db ; $C650
 Flag_DungeonChest13_EC db ; $C651
-Flag_DungeonChest13_EC db ; $C652
+Flag_DungeonChest13_EC_2 db ; $C652
 Flag_DungeonChest16_3E db ; $C653
 Flag_DungeonChest16_5E db ; $C654
 Flag_DungeonChest16_81 db ; $C655
 Flag_DungeonChest16_C8 db ; $C656
 Flag_DungeonChest17_AA db ; $C657
-Flag_DungeonChest17_AA db ; $C658
+Flag_DungeonChest17_AA_2 db ; $C658
 Flag_DungeonChest18_16 db ; $C659
 Flag_DungeonChest19_1A db ; $C65A
 Flag_DungeonChest19_B9 db ; $C65B
@@ -765,13 +765,13 @@ SFX_b9           db ; b9
 SFX_ba           db ; ba
 SFX_bb           db ; bb
 SFX_bc           db ; bc
-SFX_bd           db ; bd
+SFX_bd_UnlockDoor           db ; bd
 SFX_be           db ; be
 SFX_bf           db ; bf
 SFX_c0           db ; c0
 SFX_Heal         db ; c1
 SFX_c2           db ; c2
-SFX_c3           db ; c3
+SFX_c3_DungeonStairs           db ; c3
 SFX_c4           db ; c4
 SFX_c5           db ; c5
 SFX_c6           db ; c6
@@ -791,8 +791,8 @@ SFX_d3           db ; d3
 SFX_d4           db ; d4
 SFX_d5           db ; d5
 SFX_d6           db ; d6
+SFXStop          db ; d7
 .ende
-.define MusicStop $d7
 
 .enum 0
 Item_Empty                    db ; $00
@@ -1674,7 +1674,7 @@ GetControllerInput:
 ; followed by
 .section "Output bc bytes from hl to VRAM de" overwrite
 ; Output bc bytes from hl to VRAM address de
-OutputToVRAM:
+OutputToVRAM: ; $03de
     rst SetVRAMAddressToDE
     ld a,c
     or a
@@ -3189,8 +3189,8 @@ _LABEL_1098_:
     call GetRandomNumber
     cp b
     ret nc
-    ld b,$01
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     ret nz
     xor a
 _LABEL_10C0_:
@@ -3237,7 +3237,7 @@ _LABEL_10D9_:
       rst SetVDPRegisterDToE
     ei
     call ClearSpriteTableAndFadeInWholePalette
-    ld b,$01
+    ld b,DungeonSquare_F
     call _LABEL_6C06_CheckForDungeonObject
     ld a,(DungeonPaletteIndex)
     or a
@@ -3269,7 +3269,7 @@ _LABEL_114F_:
     call LoadDungeonMap
     xor a
     ld (SceneType),a
-    jp DungeonScriptItem
+    jp DungeonNextScreen
 
 _LABEL_116B_DoBattle:
     ld a,(EnemyNumber)
@@ -4064,7 +4064,7 @@ _LABEL_171E_ReducePlayerHP:
     ld (_RAM_C2ED_PlayerWasHurt),a
     ret
 
-_LABEL_1735_:
+RemoveEnemy:
     call HideEnemyData
 _LABEL_1738_:
     ld hl,CharacterSpriteAttributes
@@ -4115,7 +4115,7 @@ _LABEL_175E_:
 
 _LABEL_179A_:
     push af
-      call _LABEL_1735_
+      call RemoveEnemy
       call CharacterStatsUpdate
       ld a,SFX_d8
       ld (NewMusic),a
@@ -4125,13 +4125,13 @@ _LABEL_179A_:
     ld a,(SceneType)
     or a
     ret nz
-    jp _LABEL_6B2F_
+    jp DungeonRunAway
 
 _LABEL_17B2_:
     ld a,(EnemyNumber)
     cp Enemy_Tajim
     jr nz,+
-    ld a,SFX)d8
+    ld a,SFX_d8
     ld (NewMusic),a
     ret
 
@@ -4144,7 +4144,7 @@ _LABEL_17B2_:
     djnz -
 +:  ld a,SFX_af
     ld (NewMusic),a
-    call _LABEL_1735_
+    call RemoveEnemy
     ld a,(EnemyNumber)
     cp Enemy_LaShiec
     jr z,+
@@ -5491,7 +5491,7 @@ _Magic0e_MagicUnseal:
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld b,$01
++:  ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     and $07
     cp $06 ; Magically locked door
@@ -6060,7 +6060,7 @@ UseKeyNotInDungeon: ; shared with Miracle Key
 
 +:  ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     and $07
     cp $05
@@ -6247,7 +6247,7 @@ UseItem_MiracleKey:
     jp nz,UseKeyNotInDungeon
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     bit 7,(hl)
     jr nz,++
@@ -9535,7 +9535,7 @@ _MoveToNextChar:
     ld c,$37                     ; 004019 0E 37         ; max = $37 for password
     rra                          ; 00401B 1F
     jr c,+                       ; 00401C 38 02
-    ld c,$25                     ; 00401E 0E 25         ; max = $25 nor name entry
+    ld c,$25                     ; 00401E 0E 25         ; max = $25 for name entry
 +:  ld hl,NameEntryCharIndex
     ld a,(hl)                    ; 004023 7E
     cp c                         ; 004024 B9
@@ -12664,7 +12664,7 @@ _room_9b_561F_GiftCheck:
 ++:  pop hl
     call Close20x6TextBox
     call _LABEL_1738_
-    jp _LABEL_6B2F_
+    jp DungeonRunAway
 
 _room_9c_TorchBearer: ; $5661:
     ld hl,$023E
@@ -15122,7 +15122,7 @@ _LABEL_6891_:
     ld hl,DungeonObjects
     ld de,6 ; 7 bytes per entry, but we inc hl once
 -:  ld a,(hl)
-    ; IF we reach the end of the list, it's a pitfall
+    ; If we reach the end of the list, it's a pitfall
     cp $FF
     jr z,_PitFall
     inc hl
@@ -15180,7 +15180,7 @@ _PitFall:
     call LoadDungeonMap
     ; Scroll in the new dungeon
     xor a
-    call _LABEL_6D90_
+    call DungeonLoadScreen
     ld hl,TargetPalette
     ld de,ActualPalette
     ld bc,$0020
@@ -15230,7 +15230,7 @@ _PitFall:
     ld hl,TilesExtraFont
     ld de,$7E00
     call LoadTiles4BitRLE
-    ld b,$01
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
 _NotPitFall:
@@ -15242,66 +15242,70 @@ _NotPitFall:
     bit 0,c ; Up -> forwards
     jp z,_NotForwards
     ; See what's in front
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     ld b,a
     and $07
-    ; Zero ->
-    jp z,_LABEL_69FB_
+    ; Zero -> path, we can move
+    jp z,_MoveForwards
     sub $02
-    jp c,_NotForwards
-    cp $05
-    jp z,_LABEL_69F8_
+    jp c,_NotForwards ; It's a wall
+    cp $05 ; 7 = fake wall
+    jp z,_MoveForwardsIntoFakeWall
     cp $02
     jp nc,++
+    ; Must be 2 or 3, stairs up or down
     ld c,a
-    ld a,SFX_c3
+    ld a,SFX_c3_DungeonStairs
     ld (NewMusic),a
     ld a,c
-    bit 3,b
-    jp nz,_LABEL_6B5F_
+    bit 3,b ; Is this an "exit" or regular stairs?
+    jp nz,_LABEL_6B5F_DungeonExit
     ; Is it a stair up or down?
     or a
     ld b,+1
     jr z,+
     ld b,-1
-+:  ld a,(DungeonNumber)
++:  ld a,(DungeonNumber) ; Change the dungeon number, keep the coordinates
     add a,b
     ld (DungeonNumber),a
     call LoadDungeonMap
     jp +++
 
-++: bit 7,(hl)
+++: ; Must be a door. Is it locked?
+    bit 7,(hl)
     ret z
-    bit 3,b
-    jp nz,_LABEL_6B5F_
-+++:call FadeOutFullPalette
+    bit 3,b ; Is it an exit?
+    jp nz,_LABEL_6B5F_DungeonExit
++++:; We want to warp to the square after the door or stairs tile
+    call FadeOutFullPalette
     ld a,(DungeonFacingDirection)
     and $03
-    ld hl,_DATA_6D82_
+    ld hl,_DATA_6D82_DungeonMovementLookup ; Index into here
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
+    ; Add to our position twice
     ld a,(DungeonPosition)
     add a,(hl)
     add a,(hl)
     ld (DungeonPosition),a
     xor a
-    call DungeonScriptItem
+    call DungeonNextScreen
     call FadeInWholePalette
-    ld b,$01
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
-_LABEL_69F8_:
-    call _LABEL_69FB_
-_LABEL_69FB_:
+_MoveForwardsIntoFakeWall:
+    call _MoveForwards ; Move twice so we don't stop in it
+_MoveForwards:
     ld a,$00
     call DungeonAnimation
     ld a,(DungeonFacingDirection)
     and $03
-    ld hl,_DATA_6D82_
+    ld hl,_DATA_6D82_DungeonMovementLookup
     add a,l
     ld l,a
     adc a,h
@@ -15311,27 +15315,27 @@ _LABEL_69FB_:
     add a,(hl)
     ld (DungeonPosition),a
     xor a
-    call DungeonScriptItem
-    ld b,$01
+    call DungeonNextScreen
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
 _NotForwards:
     ; Down -> backwards
     bit 1,c
     jr z,+
-    ld b,$0B
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_B
+    call DungeonGetRelativeSquare_Type
     jr nz,+
-    call _LABEL_6A35_
-    ld b,$01
+    call DungeonMoveBackwards
+    ld b,DungeonSquare_F
     call _LABEL_6C06_CheckForDungeonObject
-    ld b,$0B
+    ld b,DungeonSquare_B
     jp _LABEL_6C06_CheckForDungeonObject
 
-_LABEL_6A35_:
+DungeonMoveBackwards:
     ld a,(DungeonFacingDirection)
     and $03
-    ld hl,_DATA_6D82_ + 2
+    ld hl,_DATA_6D82_DungeonMovementLookup + 2
     add a,l
     ld l,a
     adc a,h
@@ -15347,7 +15351,7 @@ _LABEL_6A35_:
     bit 2,c
     jr z,++
     call _TurnLeft
-    ld b,$01
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
 _TurnLeft:
@@ -15356,13 +15360,13 @@ _TurnLeft:
     and $03
     ld (DungeonFacingDirection),a
     ld h,$02
-    ld b,$0D
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_R
+    call DungeonGetRelativeSquare_Type
     jr z,+
     inc h
     inc h
-+:  ld b,$01
-    call _LABEL_6E6D_
++:  ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     jr z,+
     inc h
 +:  ld a,h
@@ -15372,7 +15376,7 @@ _TurnLeft:
     bit 3,c
     ret z
     call _TurnRight
-    ld b,$01
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
 _TurnRight:
@@ -15381,13 +15385,13 @@ _TurnRight:
     and $03
     ld (DungeonFacingDirection),a
     ld h,$06
-    ld b,$0C
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_L
+    call DungeonGetRelativeSquare_Type
     jr z,+
     inc h
     inc h
-+:  ld b,$01
-    call _LABEL_6E6D_
++:  ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     jr z,+
     inc h
 +:  ld a,h
@@ -15397,8 +15401,8 @@ _NotMoving:
     ld a,(Controls)
     and $30
     ret z
-    ld b,$01
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     cp $04
     jr nz,+
     ld c,$02
@@ -15408,12 +15412,12 @@ _NotMoving:
     ret
 
 _LABEL_6ABE_:
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     bit 7,(hl)
     ret nz
     set 7,(hl)
-    ld a,SFX_bd
+    ld a,SFX_bd_UnlockDoor
     ld (NewMusic),a
     ld h,c
     ld l,$00
@@ -15438,7 +15442,7 @@ _LABEL_6ABE_:
     ret
 
 _SquareInFrontOfPlayerContainsObject:
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     cp $08
     jr nz,++
@@ -15469,25 +15473,26 @@ _SquareInFrontOfPlayerContainsObject:
     ret
 
 _LABEL_6B1D_:
-    ld b,$0B
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_B
+    call DungeonGetRelativeSquare_Type
     ret z
-    ld b,$0C
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_L
+    call DungeonGetRelativeSquare_Type
     ret z
-    ld b,$0D
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_R
+    call DungeonGetRelativeSquare_Type
     ret
 
-_LABEL_6B2F_:
-    ld b,$0B
-    call _LABEL_6E6D_
+DungeonRunAway:
+    ; Move backwards if possible, else turn left or right to face a wall, else randomly turn left or right
+    ld b,DungeonSquare_B
+    call DungeonGetRelativeSquare_Type
     jr z,+++
-    ld b,$0C
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_L
+    call DungeonGetRelativeSquare_Type
     jr nz,++
-    ld b,$0D
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_R
+    call DungeonGetRelativeSquare_Type
     jr nz,+
     ; Randomly turn left or right
     call GetRandomNumber
@@ -15496,15 +15501,15 @@ _LABEL_6B2F_:
 +:  call _TurnRight
     jr +++
 ++: call _TurnLeft
-+++:call _LABEL_6A35_
-    ld b,$01
++++:call DungeonMoveBackwards
+    ld b,DungeonSquare_F
     call _LABEL_6C06_CheckForDungeonObject
-    ld b,$0B
+    ld b,DungeonSquare_B
     jp _LABEL_6C06_CheckForDungeonObject
 
-_LABEL_6B5F_:
+_LABEL_6B5F_DungeonExit:
     ; Check square in front of player
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     ; Check for bit 3 = object/pitfall/exit
     and $08
@@ -15530,7 +15535,7 @@ _LABEL_6B5F_:
     jp -
 
 ; Data from 6B88 to 6B88 (1 bytes)
-.db $C9  ; ############ Unreachable
+    ret ; ############ Unreachable
 
 ++: ; No match
     ld hl,FunctionLookupIndex
@@ -15575,7 +15580,7 @@ _LABEL_6BC0_:
     ret nz
     call FadeOutFullPalette
     xor a
-    call DungeonScriptItem
+    call DungeonNextScreen
     call LoadDungeonData
     call CheckDungeonMusic
     call FadeInWholePalette
@@ -15598,10 +15603,11 @@ _LABEL_6BEA_:
       jp _LABEL_6BC0_
 
 _LABEL_6C06_CheckForDungeonObject:
+; parameters: b = index of offset to player
     call DungeonGetRelativeSquare
-    cp $08
+    cp $08 ; Object
     ret nz
-    ld c,l
+    ld c,l ; ???
     ; Check if the pointed square has an object
     push bc
       ld a,(DungeonNumber)
@@ -15644,7 +15650,9 @@ _LABEL_6C06_CheckForDungeonObject:
     inc hl
     or a
     jr nz,+
+
     ; Type 0: item
+    ; DungeonObject_Item
     ld a,(hl) ; Read item type
     ld (DungeonObjectItemIndex),a
     inc hl
@@ -15769,7 +15777,7 @@ DungeonAnimation: ; $6CFB
     cp $FF
     ret z
     push hl
-      call DungeonScriptItem
+      call DungeonNextScreen
     pop hl
     inc hl
     jp -
@@ -15786,21 +15794,24 @@ _table5: .db $0F $10 $11 $12 $13 $14 $15 $00 $FF  ; 5 = turn wall to wall (left)
 _table6: .db $0D $0C $0B $0A $09 $08 $07 $00 $FF  ; 6 = turn corridor to corridor (right)
 _table7: .db $25 $24 $23 $22 $21 $20 $1F $00 $FF  ; 7 = turn corridor to wall (right)
 _table8: .db $1D $1C $1B $1A $19 $18 $17 $00 $FF  ; 8 = turn wall to corridor (right)
-_table9:.db $15 $14 $13 $12 $11 $10 $0F $00 $FF   ; 9 = turn wall to wall (right)
+_table9: .db $15 $14 $13 $12 $11 $10 $0F $00 $FF  ; 9 = turn wall to wall (right)
 
-_DATA_6D82_:
+_DATA_6D82_DungeonMovementLookup:
+; Values to add to DungeonPosition to move in certain directions:
+; - up, right, down, left, up, right
+; Indexed +2 for opposite movement
 .db $F0 $01 $10 $FF $F0 $01
 
-DungeonScriptItem:
-    call _LABEL_6D90_
+DungeonNextScreen:
+    call DungeonLoadScreen
     ld a,$0C ; VBlankFunction_UpdateTilemap
     jp ExecuteFunctionIndexAInNextVBlank
 
-_LABEL_6D90_:
+DungeonLoadScreen:
     and $3F
     jr nz,+
-    ld b,$01
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     ld a,$00
     jr z,+
     ld a,$06
@@ -15856,8 +15867,8 @@ _LABEL_6D90_:
     ret
 
 _LABEL_6DDD_:
-    ld b,$01
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     ld a,$00
     jr z,+
     ld a,$06
@@ -15987,7 +15998,7 @@ _raw:
     jp nz,-
     jp --
 
-_LABEL_6E6D_:
+DungeonGetRelativeSquare_Type:
     push hl
       ld a,(DungeonFacingDirection)
       and $03
@@ -16006,12 +16017,16 @@ _LABEL_6E6D_:
       ld h,>DungeonMap
       ld l,a
       ld a,(hl)
-      and $07
+      and $07 ; Mask to square type
     pop hl
     ret
 
 DungeonGetRelativeSquare:
-    ; Returns a = dungeon square data
+    ; Parameters: b = relative square index
+    ; Returns:
+    ; a = dungeon square data
+    ; hl = pointer to byte in dungeon data
+    ; l = index into dungeon map data (x, y) of square in front of player
     ld a,(DungeonFacingDirection)
     and $03 ; 0-3
     add a,a ; Multiply by 16
@@ -16036,15 +16051,33 @@ DungeonGetRelativeSquare:
 _RelativeSquareOffsets:
 ; Offsets of tile a certain distance away in the map. For a player at X facing right:
 ;
-;  $0b $0c $02 $05 $07
-;      [X] $01 $04 $08 $0a
+;      $0c $02 $05 $07
+;  $0b [X] $01 $04 $08 $0a
 ;      $0d $03 $06 $09
 ;
-;         1   2   3   4   5   6   7   8   9   a   b   c   d   e   f
+;     0   1   2   3   4   5   6   7   8   9   a   b   c   d   e   f
 .db $00 $F0 $EF $F1 $E0 $DF $E1 $D0 $CF $D1 $C0 $10 $FF $01 $00 $00 ; Up
 .db $00 $01 $F1 $11 $02 $F2 $12 $03 $F3 $13 $04 $FF $F0 $10 $00 $00 ; Right
 .db $00 $10 $11 $0F $20 $21 $1F $30 $31 $2F $40 $F0 $01 $FF $00 $00 ; Down
 .db $00 $FF $0F $EF $FE $0E $EE $FD $0D $ED $FC $01 $10 $F0 $00 $00 ; Left
+
+.enum $00
+  DungeonSquare_Player  db ; 0
+  DungeonSquare_F       db ; 1
+  DungeonSquare_FL      db ; 2
+  DungeonSquare_FR      db ; 3
+  DungeonSquare_FF      db ; 4
+  DungeonSquare_FFL     db ; 5
+  DungeonSquare_FFR     db ; 6
+  DungeonSquare_FFFL    db ; 7
+  DungeonSquare_FFF     db ; 8
+  DungeonSquare_FFFR    db ; 9
+  DungeonSquare_FFFF    db ; a
+  DungeonSquare_B       db ; b
+  DungeonSquare_L       db ; c
+  DungeonSquare_R       db ; d
+  ; ...
+.ende
 
 _LABEL_6EE9_:
     ld a,c
@@ -16069,97 +16102,97 @@ _LABEL_6EE9_:
     add hl,de
     ld de,_DATA_712E_
     add hl,de
-    ld b,$04
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FF
+    call DungeonGetRelativeSquare_Type
     jr z,+
     call _LABEL_6FB6_
-    ld b,$02
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FL
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FD7_
-      ld b,$03
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FR
+      call DungeonGetRelativeSquare_Type
     pop bc
     jp _LABEL_6FD7_
 
 +:  ld de,$000C
     add hl,de
-    ld b,$02
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FL
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FE8_
-      ld b,$03
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FR
+      call DungeonGetRelativeSquare_Type
     pop bc
     call _LABEL_6FE8_
-    ld b,$07
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFFL
+    call DungeonGetRelativeSquare_Type
     jr z,+
     call _LABEL_6FB6_
-    ld b,$05
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFL
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FD7_
-      ld b,$06
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FFR
+      call DungeonGetRelativeSquare_Type
     pop bc
     jp _LABEL_6FD7_
 
 +:  ld de,$000C
     add hl,de
-    ld b,$05
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFL
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FE8_
-      ld b,$06
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FFR
+      call DungeonGetRelativeSquare_Type
     pop bc
     call _LABEL_6FE8_
-    ld b,$0A
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFFF
+    call DungeonGetRelativeSquare_Type
     jr z,+
     call _LABEL_6FB6_
-    ld b,$08
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFF
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FD7_
-      ld b,$09
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FFFR
+      call DungeonGetRelativeSquare_Type
     pop bc
     jp _LABEL_6FD7_
 
 +:  ld de,$000C
     add hl,de
-    ld b,$08
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFF
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FE8_
-      ld b,$09
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FFFR
+      call DungeonGetRelativeSquare_Type
     pop bc
     jp _LABEL_6FE8_
 
@@ -16369,7 +16402,7 @@ _70a1:
     ret
 
 _LABEL_70DB_:
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     and $07
     cp $07
@@ -18761,7 +18794,7 @@ _DATA_C5A0_:
   ExperienceValue     dw ; multiplies by number of enemies
   TalkingAndMagicType db ; bit 7 = ability to talk; bit 6 = ability to talk magically; bit 5 = 1 if enemy is impervious to "bind" magic; bit 4 = 1 if enemy always removes a magic wall; bit 3 = ?; low 3 bits are an index into EnemyAttackFunctions for enemy magic
   RetreatProbability  db ; Relates to ability to run away, higher means less likely to block it. $ff means can always run away, $00 means never can.
-.ends
+.endst
 .define TALK_NORMAL         %10000000
 .define TALK_MAGIC          %01000000
 .define BIND_PROOF          %00100000
@@ -20758,6 +20791,12 @@ DungeonObjects:
   RoomID:           .db \5
 .endst
 .endm
+; Note: some entries here have duplicate coordinates. It looks like the intention was
+; to allow you to "visit" the object multiple times, but the code seems not to support
+; that: it finds the first item in the table matching the dungeon number and coordinates,
+; and then checks the flag. If the flag is $ff, it acts like the obejct is not there.
+; It does not then continue searching the table. Thus these duplicate objects are never
+; used.
 ;                            ,,-------------------------- DungeonNumber
 ;                            ||   ,,---------------------- Y, X
 ;                            ||   ||   ,,--------------- RAM address to flag for object so you see it only once
@@ -20765,7 +20804,7 @@ DungeonObjects:
 ;                            ||   ||   ||
   AddDungeonObject_Item     $00, $36, Flag_DungeonChest00_36_Compass, Item_Compass, 0
   AddDungeonObject_Meseta   $00, $E0, Flag_DungeonChest00_E0, 20
-  AddDungeonObject_Battle   $00, $53, Flag_DungeonBattle00_53 db ; $C6C0, Enemy_MadDoctor, Item_Empty
+  AddDungeonObject_Battle   $00, $53, Flag_DungeonBattle00_53, Enemy_MadDoctor, Item_Empty
   AddDungeonObject_Dialogue $00, $E3, Flag_DungeonDialogue00_E3_StoneTairon, $A3, $3A ; _room_a3_TaironStone ???
   AddDungeonObject_Meseta   $00, $7C, Flag_DungeonChest00_7C, 10
   AddDungeonObject_Item     $01, $17, Flag_DungeonChest01_17, Item_Empty, $FC
@@ -20830,7 +20869,7 @@ DungeonObjects:
   AddDungeonObject_Meseta   $0D, $68, Flag_DungeonChest0D_68, 100
   AddDungeonObject_Item     $0D, $EB, Flag_DungeonChest0D_EB, Item_Weapon_IronAxe, $00
   AddDungeonObject_Item     $0D, $EE, Flag_DungeonChest0D_EE, Item_Empty, $FC
-  AddDungeonObject_Meseta   $0D, $68, Flag_DungeonChest0D_68, 100
+  AddDungeonObject_Meseta   $0D, $68, Flag_DungeonChest0D_68_2, 100
   AddDungeonObject_Item     $0D, $E8, Flag_DungeonChest0D_E8, Item_Empty, $FF
   AddDungeonObject_Item     $0E, $11, Flag_DungeonChest0E_11, Item_Ruoginin, $00
   AddDungeonObject_Item     $0E, $41, Flag_DungeonChest0E_41, Item_Empty, $FF
@@ -20847,7 +20886,7 @@ DungeonObjects:
   AddDungeonObject_Meseta   $11, $5E, Flag_DungeonChest11_5E, 50
   AddDungeonObject_Meseta   $11, $71, Flag_DungeonChest11_71, 20
   AddDungeonObject_Meseta   $11, $7D, Flag_DungeonChest11_7D, 20
-  AddDungeonObject_Meseta   $11, $26, Flag_DungeonChest11_26, 20
+  AddDungeonObject_Meseta   $11, $26, Flag_DungeonChest11_26_2, 20
   AddDungeonObject_Item     $12, $19, Flag_DungeonChest12_19, Item_Empty, $FC
   AddDungeonObject_Item     $12, $1E, Flag_DungeonChest12_1E, Item_PelorieMate, $00
   AddDungeonObject_Item     $12, $CC, Flag_DungeonChest12_CC, Item_Searchlight, $00
@@ -20858,7 +20897,7 @@ DungeonObjects:
   AddDungeonObject_Meseta   $13, $33, Flag_DungeonChest13_33, 20
   AddDungeonObject_Item     $13, $A5, Flag_DungeonChest13_A5, Item_Empty, $00
   AddDungeonObject_Item     $13, $EC, Flag_DungeonChest13_EC, Item_Empty, $7F
-  AddDungeonObject_Meseta   $13, $EC, Flag_DungeonChest13_EC, 20
+  AddDungeonObject_Meseta   $13, $EC, Flag_DungeonChest13_EC_2, 20
   AddDungeonObject_Dialogue $14, $41, Flag_DungeonDialogue14_41, $93, $00 ; _room_93_55AB_TriadaGuard
   AddDungeonObject_Dialogue $15, $55, Flag_DungeonDialogue15_55, $91, $0F ; _room_91_DrasgoCave2
   AddDungeonObject_Dialogue $15, $A1, Flag_DungeonDialogue15_A1, $90, $29 ; _room_90_DrasgoCave1
@@ -20868,7 +20907,7 @@ DungeonObjects:
   AddDungeonObject_Item     $16, $81, Flag_DungeonChest16_81, Item_Searchlight, $00
   AddDungeonObject_Item     $16, $C8, Flag_DungeonChest16_C8, Item_EscapeCloth, $00
   AddDungeonObject_Meseta   $17, $AA, Flag_DungeonChest17_AA, 20
-  AddDungeonObject_Meseta   $17, $AA, Flag_DungeonChest17_AA, 200
+  AddDungeonObject_Meseta   $17, $AA, Flag_DungeonChest17_AA_2, 200
   AddDungeonObject_Item     $18, $16, Flag_DungeonChest18_16, Item_Empty, $FF
   AddDungeonObject_Battle   $18, $1C, Flag_DungeonBattle18_1C, Enemy_RedSlime, Item_Empty
   AddDungeonObject_Item     $19, $1A, Flag_DungeonChest19_1A, Item_Ruoginin, $00
