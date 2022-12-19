@@ -5515,7 +5515,7 @@
     ココハ　デゾリスセイノ　スクレ。<line>
     ソトハ　サムカッタデショウ。<wait>
   kanji: ここはデゾリス星のスクレ。外は寒かったでしょう。
-  literal: This is Skray, on the planet Dezoris. Pretty cold outside, wasn’t it?<wait>
+  literal: This is Skure, on the planet Dezoris. Pretty cold outside, wasn’t it?<wait>
   us: |
     WELCOME TO SKURE<line>
     ON DEZORIS.<wait more>
@@ -10724,7 +10724,7 @@
     デゾリスセイノ　スクレノマチヘ<line>
     イキマス。イイデスカ。<end>
   kanji: デゾリス星のスクレの町へ行きます。いいですか。
-  literal: We are heading for Skray on Dezoris. Confirm?<end>
+  literal: We are heading for Skure on Dezoris. Confirm?<end>
   us: |
     WE ARE HEADING FOR
     SKURE ON DEZORIS?<end>
@@ -10773,7 +10773,7 @@
   indices: b106
   ja: ココハ　スクレ　デス。<end>
   kanji: ここはスクレです。
-  literal: This is Skray.<end>
+  literal: This is Skure.<end>
   us: WE ARE AT SKURE.<end>
   en: This IS Skray.<end>
   fr: La cité de Skure.<end>
