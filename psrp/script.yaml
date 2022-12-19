@@ -2908,7 +2908,7 @@
     De cualquier forma, admiro tu valentía. ¿No necesitas una Llave de Mazmorra?<end>
   de: |
     Ihr wollt Lashiec die Stirn bieten?<wait more>
-    Da seid ihr entweder Narren, oder stärker, als ihr ausseht.<wait more>
+    Da seid ihr entweder Narren, oder stärker als ihr ausseht.<wait more>
     Helfen würde ich euch jedenfalls gerne. Braucht ihr einen Generalschlüssel?<end>
 
 - offsets: 4e17
@@ -3032,7 +3032,8 @@
     Mis pasteles son los mejores de Algol, y solo cuestan <number> mesetas. ¿Quieres uno?<end>
   de: |
     Willkommen in meiner Konditorei! Tur mir leid wegen des Standortes...<wait more>
-    Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta! Wollen Sie eins?<end>
+    Meine Törtchen sind die besten in ganz Algol, und kosten nur <number> Meseta!<line>
+    Wollen Sie eins?<end>
     
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
@@ -10337,7 +10338,7 @@
   pt-br: Você ganhou <number><internal hint 01> ponto<s> de experiência.<wait>
   ca: Heu guanyat <number><internal hint 01> punt<s> d'experiéncia.<wait>
   es: Habéis ganado <number><internal hint 01> punto<s> de experiéncia.<wait>
-  de: <number><internal hint 01> Erfahrungspunkt<s> erhalten.<wait>
+  de: <number> Erfahrungspunkte erhalten.<wait>
 
 - offsets: 18f3
   indices: afb9

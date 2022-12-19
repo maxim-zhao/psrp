@@ -138,13 +138,13 @@
     │Guardar║
     ╘═══════╝
   de: |
-    ┌───────╖
-    │Status ║
-    │Magie  ║
-    │Objekte║
-    │Suchen ║
-    │Sichern║
-    ╘═══════╝
+    ┌─────────╖
+    │Status   ║
+    │Magie    ║
+    │Objekte  ║
+    │Suchen   ║
+    │Speichern║
+    ╘═════════╝
 
 - name: ChoiceMenu
   ptrs: 38cd
