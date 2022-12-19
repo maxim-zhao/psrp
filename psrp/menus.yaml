@@ -834,9 +834,9 @@
   ptrs: 302b
   dims: 301b,303c
   literal: |
-    ┌──────╖
-    │Alisa ║
-    ╘══════╝
+    ┌─────╖
+    │Alisa║
+    ╘═════╝
   en: |
     ┌─────╖
     │Alisa║
@@ -866,9 +866,9 @@
 
 - name: MyauActiveBox
   literal: |
-    ┌──────╖
-    │Myau  ║
-    ╘══════╝
+    ┌─────╖
+    │Myau ║
+    ╘═════╝
   en: |
     ┌─────╖
     │Myau ║
@@ -926,9 +926,9 @@
 
 - name: LutzActiveBox
   literal: |
-    ┌──────╖
-    │Lutz  ║
-    ╘══════╝
+    ┌─────╖
+    │Lutz ║
+    ╘═════╝
   en: |
     ┌─────╖
     │Lutz ║

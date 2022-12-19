@@ -306,17 +306,17 @@ BattleMagicCount db     ; +15 Number of battle magics known
 
 .enum $C400 export
 .union
-CharacterStats     instanceof Character 12
+CharacterStats     instanceof Character 12 ; Fully included in saves, a bit redundant
 .nextu
 CharacterStatsAlis instanceof Character
 CharacterStatsMyau instanceof Character
 CharacterStatsOdin instanceof Character
 CharacterStatsLutz instanceof Character
-CharacterStatsEnemies instanceof Character 8
+CharacterStatsEnemies instanceof Character 8 ; Included in saves unnecessarily
 .endu
-Inventory dsb 32              ; Item indices. Space for 32 but limit is 24..?
-Meseta dw                     ; Current money
-InventoryCount db             ; Number of items in Inventory
+Inventory dsb 32              ; $c4c0 Item indices. Space for 32 but limit is 24..?
+Meseta dw                     ; $c4e0 Current money
+InventoryCount db             ; $c4e2 Number of items in Inventory
 .ende
 
 .enum $C4F0 export
@@ -324,43 +324,224 @@ PartySize db                  ; 0-3 based on how many player characters have bee
 .ende
 
 .enum $C500 export
+; Dialogue flags x25; some are more than 1 bit
 _RAM_C500_ db
 HaveVisitedSuelo db           ; 1 if you have been there
 HaveGotPotfromNekise db       ; 1 if you have
-LuvenoPrisonVisitCounter db   ; 0 on first visit,1 after
-LuvenoState db                ; 0 -> in prison,1 -> waiting for assistant,2 -> have found assistant,3 -> paid,4..5 -> waiting,6 -> built but no Hapsby,7 -> all done
-.ende
-
-.enum $C506 export
+LuvenoPrisonVisitCounter db   ; 0 on first visit, 1 after
+LuvenoState db                ; 0 -> in prison, 1 -> waiting for assistant, 2 -> have found assistant, 3 -> paid, 4..5 -> waiting, 6 -> built but no Hapsby, 7 -> all done
+unused_c505 db
 HaveLutz db                   ; 0 -> not joined yet,1 -> has joined party (but may be dead)
 SootheFluteIsUnhidden db      ; 0 -> hidden,1 -> can find it
 FlowMoverIsUnhidden db        ; 0 -> hidden,1 -> can find it
 PerseusShieldIsUnhidden db    ; 0 -> hidden,1 -> can find it
-_RAM_C50A_ db
+Flag_DungeonDialogue00_E3_StoneTairon db ; $C50A
+Flag_DungeonDialogue01_E9 db ; $C50B
+Flag_DungeonDialogue01_B2 db ; $C50C
+Flag_DungeonDialogue14_41 db ; $C50D
+Flag_DungeonDialogue15_55 db ; $C50E
+Flag_DungeonDialogue15_A1 db ; $C50F
+unused_c510 db
+Flag_DungeonDialogue21_94 db ; $C511
+Flag_DungeonDialogue22_24 db ; $C512
+Flag_DungeonDialogue2A_DB db ; $C513
+Flag_DungeonDialogue34_C3 db ; $C514
+unused_c515 db
+HaveBeatenLaShiec db          ; $c516 1 if yes
+Flag_DungeonDialogue35_C2_ShadowWarrior db ; $c517 $ff if he is beaten
+Flag_DungeonDialogue15_C8 db ; $C518
 .ende
 
-.enum $C511 export
-HaveGivenShortcake db         ; $ff if yes
-.ende
-
-.enum $C516 export
-HaveBeatenLaShiec db          ; 1 if yes
-HaveBeatenShadow db           ; $ff if yes
-.ende
+; Unused RAM from c519 to c5ff?
 
 .enum $C600 export
-_RAM_C600_ .dsb 100 ; Dialogue flags
-Flag_Compass           db ; $c600
-Flag_DungeonChest0_e0  db ; $c601
-Flag_DungeonChest0_7c  db ; $c602
-Flag_DungeonChest1_17  db ; $c603
-DungeonKeyIsHidden db         ; $ff at start of game,0 when villager tells you about it
-Flag_DungeonChest2_67  db ; $c605
-Flag_DungeonChest2_3a  db ; $c606
-Flag_DungeonChest2_63  db ; $c607
-Flag_DungeonChest3_9c  db ; $c608
-; ...
+; Dungeon chest flags x149
+Flag_DungeonChest00_36_Compass db ; $c600
+Flag_DungeonChest00_E0 db ; $c601
+Flag_DungeonChest00_7C db ; $c602
+Flag_DungeonChest01_17 db ; $c603
+Flag_DungeonChest02_17_DungeonKey db ; $ff at start of game,0 when villager tells you about it, back to $ff when you collect it
+Flag_DungeonChest02_67 db ; $c605
+Flag_DungeonChest02_3A db ; $c606
+Flag_DungeonChest02_63 db ; $c607
+Flag_DungeonChest03_9C db ; $c608
+Flag_DungeonChest03_9E db ; $c609
+Flag_DungeonChest03_E1 db ; $c60a
+Flag_DungeonChest03_E8 db ; $c60b
+Flag_DungeonChest03_E1_2 db ; $c60c
+Flag_DungeonChest03_56 db ; $c60d
+Flag_DungeonChest03_58 db ; $c60e
+Flag_DungeonChest04_13 db ; $c60f
+Flag_DungeonChest04_E5 db ; $c610
+Flag_DungeonChest04_13_2 db ; $c611
+Flag_DungeonChest04_1D db ; $c612
+Flag_DungeonChest05_5B db ; $c613
+Flag_DungeonChest05_A1 db ; $c614
+Flag_DungeonChest05_A3 db ; $c615
+Flag_DungeonChest05_DD db ; $c616
+Flag_DungeonChest05_5B_2 db ; $c617
+Flag_DungeonChest05_A1_2 db ; $c618
+Flag_DungeonChest06_55 db ; $c619
+Flag_DungeonChest06_93 db ; $c61a
+Flag_DungeonChest06_55_2 db ; $c61b
+Flag_DungeonChest06_29 db ; $c61c
+Flag_DungeonChest07_65 db ; $c61d
+Flag_DungeonChest07_AC db ; $c61e
+Flag_DungeonChest07_AC_2 db ; $c61f
+Flag_DungeonChest07_89 db ; $c620
+Flag_DungeonChest08_C3 db ; $c621
+Flag_DungeonChest08_C5 db ; $c622
+Flag_DungeonChest08_EE db ; $c623
+Flag_DungeonChest09_64 db ; $c624
+Flag_DungeonChest09_EE db ; $c625
+Flag_DungeonChest09_91 db ; $c626
+Flag_DungeonChest0A_61 db ; $c627
+Flag_DungeonChest0A_EE db ; $c628
+Flag_DungeonChest0A_17 db ; $c629
+Flag_DungeonChest0A_E3 db ; $c62a
+Flag_DungeonChest0A_A9 db ; $c62b
+Flag_DungeonChest0A_AB db ; $c62c
+Flag_DungeonChest0B_71 db ; $c62d
+Flag_DungeonChest0B_ED db ; $c62e
+Flag_DungeonChest0B_1C db ; $c62f
+Flag_DungeonChest0B_63 db ; $c630
+Flag_DungeonChest0C_11 db ; $c631
+Flag_DungeonChest0C_2B db ; $c632
+Flag_DungeonChest0C_A5 db ; $C633
+Flag_DungeonChest0D_68 db ; $C634
+Flag_DungeonChest0D_EB db ; $C635
+Flag_DungeonChest0D_EE db ; $C636
+Flag_DungeonChest0D_68_2 db ; $C637
+Flag_DungeonChest0D_E8 db ; $C638
+Flag_DungeonChest0E_11 db ; $C639
+Flag_DungeonChest0E_41 db ; $C63A
+Flag_DungeonChest0E_AC db ; $C63B
+Flag_DungeonChest0E_E9 db ; $C63C
+Flag_DungeonChest0F_EE db ; $C63D
+Flag_DungeonChest10_1E db ; $C63E
+Flag_DungeonChest10_8B db ; $C63F
+Flag_DungeonChest10_61 db ; $C640
+Flag_DungeonChest10_9C db ; $C641
+Flag_DungeonChest10_D1 db ; $C642
+Flag_DungeonChest11_26 db ; $C643
+Flag_DungeonChest11_5E db ; $C644
+Flag_DungeonChest11_71 db ; $C645
+Flag_DungeonChest11_7D db ; $C646
+Flag_DungeonChest11_26_2 db ; $C647
+Flag_DungeonChest12_19 db ; $C648
+Flag_DungeonChest12_1E db ; $C649
+Flag_DungeonChest12_CC db ; $C64A
+Flag_DungeonChest12_77 db ; $C64B
+Flag_DungeonChest12_92 db ; $C64C
+Flag_DungeonChest12_94 db ; $C64D
+Flag_DungeonChest13_1E db ; $C64E
+Flag_DungeonChest13_33 db ; $C64F
+Flag_DungeonChest13_A5 db ; $C650
+Flag_DungeonChest13_EC db ; $C651
+Flag_DungeonChest13_EC_2 db ; $C652
+Flag_DungeonChest16_3E db ; $C653
+Flag_DungeonChest16_5E db ; $C654
+Flag_DungeonChest16_81 db ; $C655
+Flag_DungeonChest16_C8 db ; $C656
+Flag_DungeonChest17_AA db ; $C657
+Flag_DungeonChest17_AA_2 db ; $C658
+Flag_DungeonChest18_16 db ; $C659
+Flag_DungeonChest19_1A db ; $C65A
+Flag_DungeonChest19_B9 db ; $C65B
+Flag_DungeonChest19_35 db ; $C65C
+Flag_DungeonChest19_C3 db ; $C65D
+Flag_DungeonChest19_74 db ; $C65E
+Flag_DungeonChest19_A3 db ; $C65F
+Flag_DungeonChest1A_1E db ; $C660
+Flag_DungeonChest1A_33 db ; $C661
+Flag_DungeonChest1A_51 db ; $C662
+Flag_DungeonChest1A_CB db ; $C663
+Flag_DungeonChest1B_E1 db ; $C664
+Flag_DungeonChest1C_31 db ; $C665
+Flag_DungeonChest1D_1B db ; $C666
+Flag_DungeonChest1D_21 db ; $C667
+Flag_DungeonChest1D_41 db ; $C668
+Flag_DungeonChest1D_8C db ; $C669
+Flag_DungeonChest1D_CA db ; $C66A
+Flag_DungeonChest1E_1E db ; $C66B
+Flag_DungeonChest1E_11 db ; $C66C
+Flag_DungeonChest22_11 db ; $C66D
+Flag_DungeonChest22_6E db ; $C66E
+Flag_DungeonChest22_91 db ; $C66F
+Flag_DungeonChest22_EA db ; $C670
+Flag_DungeonChest22_EE db ; $C671
+Flag_DungeonChest22_E3 db ; $C672
+Flag_DungeonChest23_79 db ; $C673
+Flag_DungeonChest23_91 db ; $C674
+Flag_DungeonChest23_C1 db ; $C675
+Flag_DungeonChest24_47 db ; $C676
+Flag_DungeonChest24_11 db ; $C677
+Flag_DungeonChest24_1E db ; $C678
+Flag_DungeonChest24_EE db ; $C679
+Flag_DungeonChest25_86 db ; $C67A
+Flag_DungeonChest25_8A db ; $C67B
+Flag_DungeonChest25_3E db ; $C67C
+Flag_DungeonChest26_7B db ; $C67D
+Flag_DungeonChest27_71 db ; $C67E
+Flag_DungeonChest28_D1 db ; $C67F
+Flag_DungeonChest29_99 db ; $C680
+Flag_DungeonChest2A_99 db ; $C681
+Flag_DungeonChest2B_79 db ; $C682
+Flag_DungeonChest2C_45 db ; $C683
+Flag_DungeonChest2C_ED db ; $C684
+Flag_DungeonChest2C_4B db ; $C685
+Flag_DungeonChest2D_18 db ; $C686
+Flag_DungeonChest2D_83 db ; $C687
+Flag_DungeonChest2D_AD db ; $C688
+Flag_DungeonChest2D_E3 db ; $C689
+Flag_DungeonChest2D_A3 db ; $C68A
+Flag_DungeonChest2F_11 db ; $C68B
+Flag_DungeonChest2F_2B db ; $C68C
+Flag_DungeonChest2F_73 db ; $C68D
+Flag_DungeonChest2F_D6 db ; $C68E
+Flag_DungeonChest32_3B db ; $C68F
+Flag_DungeonChest33_19 db ; $C690
+Flag_DungeonChest34_16 db ; $C691
+Flag_DungeonChest34_1E db ; $C692
+Flag_DungeonChest34_EE db ; $C693
+Flag_DungeonChest3A_82 db ; $C694
+; Then lots of unused space?
 .ende
+
+; Unused RAM from c695 to c6bf?
+
+.enum $c6c0 export
+; Dungeon battle flags x 25
+Flag_DungeonBattle00_53 db ; $C6C0
+Flag_DungeonBattle01_5D db ; $C6C1
+Flag_DungeonBattle08_29 db ; $C6C2
+Flag_DungeonBattle08_65 db ; $C6C3
+Flag_DungeonBattle0A_48 db ; $C6C4
+Flag_DungeonBattle0A_67 db ; $C6C5
+Flag_DungeonBattle0C_39 db ; $C6C6
+Flag_DungeonBattle0C_85 db ; $C6C7
+Flag_DungeonBattle0C_A9 db ; $C6C8
+Flag_DungeonBattle10_C7 db ; $C6C9
+Flag_DungeonBattle18_1C db ; $C6CA
+Flag_DungeonBattle1B_5A db ; $C6CB
+Flag_DungeonBattle1C_1E db ; $C6CC
+Flag_DungeonBattle1D_B1 db ; $C6CD
+Flag_DungeonBattle25_1D db ; $C6CE
+Flag_DungeonBattle27_9E db ; $C6CF
+Flag_DungeonBattle29_67 db ; $C6D0
+Flag_DungeonBattle29_79 db ; $C6D1
+Flag_DungeonBattle29_A4 db ; $C6D2
+Flag_DungeonBattle29_D5 db ; $C6D3
+Flag_DungeonBattle2A_53 db ; $C6D4
+Flag_DungeonBattle2A_73 db ; $C6D5
+Flag_DungeonBattle2A_B1 db ; $C6D6
+Flag_DungeonBattle33_D9 db ; $C6D7
+Flag_DungeonBattle3A_79 db ; $C6D8
+.ende
+
+; Unused RAM from c6d9 to c6ff?
+
+; SRAM saves go up to $c6ff inclusive
 
 .enum $C780 export
 NameEntryMode db              ; 0 = name entry,1 = password entry (not used)
@@ -584,13 +765,13 @@ SFX_b9           db ; b9
 SFX_ba           db ; ba
 SFX_bb           db ; bb
 SFX_bc           db ; bc
-SFX_bd           db ; bd
+SFX_bd_UnlockDoor           db ; bd
 SFX_be           db ; be
 SFX_bf           db ; bf
 SFX_c0           db ; c0
 SFX_Heal         db ; c1
 SFX_c2           db ; c2
-SFX_c3           db ; c3
+SFX_c3_DungeonStairs           db ; c3
 SFX_c4           db ; c4
 SFX_c5           db ; c5
 SFX_c6           db ; c6
@@ -610,8 +791,8 @@ SFX_d3           db ; d3
 SFX_d4           db ; d4
 SFX_d5           db ; d5
 SFX_d6           db ; d6
+SFXStop          db ; d7
 .ende
-.define MusicStop $d7
 
 .enum 0
 Item_Empty                    db ; $00
@@ -1493,7 +1674,7 @@ GetControllerInput:
 ; followed by
 .section "Output bc bytes from hl to VRAM de" overwrite
 ; Output bc bytes from hl to VRAM address de
-OutputToVRAM:
+OutputToVRAM: ; $03de
     rst SetVRAMAddressToDE
     ld a,c
     or a
@@ -1966,9 +2147,9 @@ NewGame:
     ld (iy+CharacterStats.Armour),Item_Armour_LeatherClothes
     call InitialiseCharacterStats
 
-    ld hl,_RAM_C600_
+    ld hl,Flag_DungeonChest00_36_Compass
     ld (hl),$FF
-    ld hl,DungeonKeyIsHidden
+    ld hl,Flag_DungeonChest02_17_DungeonKey
     ld (hl),$FF
     ld hl,$0404        ; Set "world" to 4 (type 4)
     ld (_RAM_C308_),hl
@@ -3008,8 +3189,8 @@ _LABEL_1098_:
     call GetRandomNumber
     cp b
     ret nc
-    ld b,$01
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     ret nz
     xor a
 _LABEL_10C0_:
@@ -3056,7 +3237,7 @@ _LABEL_10D9_:
       rst SetVDPRegisterDToE
     ei
     call ClearSpriteTableAndFadeInWholePalette
-    ld b,$01
+    ld b,DungeonSquare_F
     call _LABEL_6C06_CheckForDungeonObject
     ld a,(DungeonPaletteIndex)
     or a
@@ -3088,7 +3269,7 @@ _LABEL_114F_:
     call LoadDungeonMap
     xor a
     ld (SceneType),a
-    jp DungeonScriptItem
+    jp DungeonNextScreen
 
 _LABEL_116B_DoBattle:
     ld a,(EnemyNumber)
@@ -3883,7 +4064,7 @@ _LABEL_171E_ReducePlayerHP:
     ld (_RAM_C2ED_PlayerWasHurt),a
     ret
 
-_LABEL_1735_:
+RemoveEnemy:
     call HideEnemyData
 _LABEL_1738_:
     ld hl,CharacterSpriteAttributes
@@ -3934,7 +4115,7 @@ _LABEL_175E_:
 
 _LABEL_179A_:
     push af
-      call _LABEL_1735_
+      call RemoveEnemy
       call CharacterStatsUpdate
       ld a,SFX_d8
       ld (NewMusic),a
@@ -3944,13 +4125,13 @@ _LABEL_179A_:
     ld a,(SceneType)
     or a
     ret nz
-    jp _LABEL_6B2F_
+    jp DungeonRunAway
 
 _LABEL_17B2_:
     ld a,(EnemyNumber)
     cp Enemy_Tajim
     jr nz,+
-    ld a,SFX)d8
+    ld a,SFX_d8
     ld (NewMusic),a
     ret
 
@@ -3963,7 +4144,7 @@ _LABEL_17B2_:
     djnz -
 +:  ld a,SFX_af
     ld (NewMusic),a
-    call _LABEL_1735_
+    call RemoveEnemy
     ld a,(EnemyNumber)
     cp Enemy_LaShiec
     jr z,+
@@ -4034,7 +4215,7 @@ _LABEL_1869_:
     ld (NumberToShowInText),hl
     ld a,l
     or h
-    ret z
+    ret z ; Show nothing if 0
     ld hl,textGainedExperience
     call TextBox20x6
     ld iy,CharacterStatsAlis
@@ -4451,8 +4632,8 @@ _DATA_1BB3_BattleMagicIndices:
 
 ; Jump Table from 1BC2 to 1BE5 (18 entries,indexed by unknown)
 _DATA_1BC2_:
-.dw _LABEL_1C0A_ _LABEL_1C0D_ _LABEL_1C0D_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C2C_ _LABEL_1C2C_ _LABEL_1C2C_
-.dw _LABEL_1C2C_ _LABEL_1C59_ _LABEL_1C3A_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_ _LABEL_1C59_
+.dw _LABEL_1C0A_Magic0_LockUp _LABEL_1C0D_Magic1_2_Heal _LABEL_1C0D_Magic1_2_Heal _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4 _LABEL_1C2C_Magic5_6_7_8 _LABEL_1C2C_Magic5_6_7_8 _LABEL_1C2C_Magic5_6_7_8
+.dw _LABEL_1C2C_Magic5_6_7_8 _LABEL_1C59_Magic3_4 _LABEL_1C3A_MagicB _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4 _LABEL_1C59_Magic3_4
 .dw _Magic10_Transrate _Magic11_Telepathy
 
 ; Jump Table from 1BE6 to 1C09 (18 entries,indexed by _RAM_C2AD_)
@@ -4462,13 +4643,13 @@ _DATA_1BE6_:
 .dw _Magic10_Transrate _Magic11_Telepathy
 
 ; 1st entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C0A_:
-    jp _LABEL_1C0A_
+_LABEL_1C0A_Magic0_LockUp:
+    jp _LABEL_1C0A_Magic0_LockUp
 
 ; 2nd entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C0D_:
+_LABEL_1C0D_Magic1_2_Heal:
     push bc
-      call _LABEL_379F_ChooseCharacter
+      call _LABEL_379F_PlayerSelect2
     pop de
     bit 4,c
     jr nz,+
@@ -4480,11 +4661,11 @@ _LABEL_1C0D_:
     ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
     ld (_RAM_C267_BattleCurrentPlayer),a
-+:  call _LABEL_37E9_
++:  call _LABEL_37E9_HidePlayerSelect2Window
     ret
 
 ; 6th entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C2C_:
+_LABEL_1C2C_Magic5_6_7_8:
     ld c,$03
     xor a
     call _LABEL_1D15_
@@ -4494,9 +4675,9 @@ _LABEL_1C2C_:
     ret
 
 ; 11th entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C3A_:
+_LABEL_1C3A_MagicB:
     push bc
-      call _LABEL_379F_ChooseCharacter
+      call _LABEL_379F_PlayerSelect2
     pop de
     bit 4,c
     jr nz,+
@@ -4508,11 +4689,11 @@ _LABEL_1C3A_:
     ld a,(_RAM_C267_BattleCurrentPlayer)
     inc a
     ld (_RAM_C267_BattleCurrentPlayer),a
-+:  call _LABEL_37E9_
++:  call _LABEL_37E9_HidePlayerSelect2Window
     ret
 
 ; 4th entry of Jump Table from 1BC2 (indexed by unknown)
-_LABEL_1C59_:
+_LABEL_1C59_Magic3_4:
     ld c,$03
     ld a,(TextCharacterNumber)
     call _LABEL_1D15_
@@ -4620,11 +4801,12 @@ BattleMenu_Item:
     ret
 
 _LABEL_1D15_:
+    ; Write data from c, b, a into player index data in _RAM_C2AC_
     push af
       ld a,(_RAM_C267_BattleCurrentPlayer)
       add a,a
       add a,a
-      ld hl,$C2AC
+      ld hl,_RAM_C2AC_
       add a,l
       ld l,a
       adc a,h
@@ -4957,7 +5139,7 @@ _Magic02_SuperHeal:
     ld d,$50
 +:  push bc
       push de
-        call _LABEL_379F_ChooseCharacter
+        call _LABEL_379F_PlayerSelect2
       pop de
       bit 4,c
     pop bc
@@ -4966,7 +5148,7 @@ _Magic02_SuperHeal:
     call ShowMessageIfDead
     jr z,+
     call ++
-+:  jp _LABEL_37E9_
++:  jp _LABEL_37E9_HidePlayerSelect2Window
 
 ; 2nd entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
 _Magic01_Heal_Battle:
@@ -5309,7 +5491,7 @@ _Magic0e_MagicUnseal:
     call TextBox20x6
     jp Close20x6TextBox
 
-+:  ld b,$01
++:  ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     and $07
     cp $06 ; Magically locked door
@@ -5325,7 +5507,7 @@ _Magic0f_Rebirth:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    call _LABEL_379F_ChooseCharacter
+    call _LABEL_379F_PlayerSelect2
     bit 4,c
     jr nz,+++
     push af
@@ -5350,7 +5532,7 @@ _Magic0f_Rebirth:
     ld hl,textPlayerRevived
 ++: call TextBox20x6
     call Close20x6TextBox
-+++:jp _LABEL_37E9_
++++:jp _LABEL_37E9_HidePlayerSelect2Window
 
 ; 17th entry of Jump Table from 1F5A (indexed by unknown)
 _Magic11_Telepathy:
@@ -5812,9 +5994,9 @@ UseItem_Alsuline:
     call InitialiseCharacterStats
     ld a,$02
     ld (PartySize),a
-    ld hl,_RAM_C600_
+    ld hl,Flag_DungeonChest00_36_Compass
     ld (hl),$00
-    ld hl,_RAM_C50A_
+    ld hl,Flag_DungeonDialogue00_E3_StoneTairon
     ld (hl),$FF
     ld a,$05
     ld (_RAM_C2D8_),a
@@ -5878,7 +6060,7 @@ UseKeyNotInDungeon: ; shared with Miracle Key
 
 +:  ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     and $07
     cp $05
@@ -6065,7 +6247,7 @@ UseItem_MiracleKey:
     jp nz,UseKeyNotInDungeon
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     bit 7,(hl)
     jr nz,++
@@ -6399,6 +6581,7 @@ _LABEL_2A37_HandleTreasureChest:
     pop af
     or a
     ret nz
+    ; fall through
     
 _LABEL_2A4A_:
     ld a,SFX_b0
@@ -8362,7 +8545,7 @@ ShowCharacterSelectMenu:
     ld (CursorTileMapAddress),hl
     jp WaitForMenuSelection
 
-_LABEL_379F_ChooseCharacter:
+_LABEL_379F_PlayerSelect2:
     ld a,(PartySize)
     or a
     ret z
@@ -8398,7 +8581,7 @@ _LABEL_37D8_ClosePlayerSelect:
     ld bc,$090C
     jp OutputTilemapBoxWipePaging
 
-_LABEL_37E9_:
+_LABEL_37E9_HidePlayerSelect2Window:
     ld a,(PartySize)
     or a
     ret z
@@ -9353,7 +9536,7 @@ _MoveToNextChar:
     ld c,$37                     ; 004019 0E 37         ; max = $37 for password
     rra                          ; 00401B 1F
     jr c,+                       ; 00401C 38 02
-    ld c,$25                     ; 00401E 0E 25         ; max = $25 nor name entry
+    ld c,$25                     ; 00401E 0E 25         ; max = $25 for name entry
 +:  ld hl,NameEntryCharIndex
     ld a,(hl)                    ; 004023 7E
     cp c                         ; 004024 B9
@@ -10712,7 +10895,7 @@ _RoomScriptTable:
 .dw _room_90_DrasgoCave1
 .dw _room_91_DrasgoCave2
 .dw _room_92_DrasgoGasClearSeller
-.dw _room_93_55AB
+.dw _room_93_55AB_TriadaGuard
 .dw _room_94_55F5
 .dw _room_95_55FB
 .dw _room_96_5601
@@ -10720,7 +10903,7 @@ _RoomScriptTable:
 .dw _room_98_560D
 .dw _room_99_5613
 .dw _room_9a_5619
-.dw _room_9b_561F
+.dw _room_9b_561F_GiftCheck
 .dw _room_9c_TorchBearer
 .dw _room_9d_Tajim
 .dw _room_9e_ShadowWarrior
@@ -11222,7 +11405,7 @@ _room_2a_EppiMan5: ; $4DFD:
     ld a,Item_DungeonKey
     call HaveItem
     jr z,++
-    ld hl,DungeonKeyIsHidden
+    ld hl,Flag_DungeonChest02_17_DungeonKey
     ld (hl),0
 ++: ld hl,$0058
     ; I hid the ‘Dungeon Key’ in a secret place, inside the warehouse located on the outskirts of Camineet residential area.
@@ -12379,7 +12562,7 @@ _room_8f_5597:
     ; Then you should turn back.
     jp DrawText20x6 ; and ret
 
-_room_93_55AB:
+_room_93_55AB_TriadaGuard:
     ld a,Enemy_RobotPolice
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12451,7 +12634,7 @@ _room_9a_5619:
     ; Oh! So you’re locked up in here as well? How tragic. There IS a way to get outside, but I'D rather stay here where it's nice and cozy.
     jp DrawText20x6 ; and ret
 
-_room_9b_561F:
+_room_9b_561F_GiftCheck:
     ld a,Enemy_RobotPolice
     ld (EnemyNumber),a
     call LoadEnemy
@@ -12472,7 +12655,7 @@ _room_9b_561F:
       call RemoveItemFromInventory
     pop bc
     ld a,$FF
-    ld (HaveGivenShortcake),a
+    ld (Flag_DungeonDialogue21_94),a
     ld hl,$009E
     ; Well then, I’ll look after this ‘Shortcake’.
     jp DrawText20x6 ; and ret
@@ -12482,7 +12665,7 @@ _room_9b_561F:
 ++:  pop hl
     call Close20x6TextBox
     call _LABEL_1738_
-    jp _LABEL_6B2F_
+    jp DungeonRunAway
 
 _room_9c_TorchBearer: ; $5661:
     ld hl,$023E
@@ -12607,7 +12790,7 @@ _room_9e_ShadowWarrior:
     call Close20x6TextBox
     call _LABEL_574F_
     ld a,$FF
-    ld (HaveBeatenShadow),a
+    ld (Flag_DungeonDialogue35_C2_ShadowWarrior),a
     ld hl,$0266
     ; I am King LaShiec’s shadow warrior. You have gained nothing by defeating me! Hee hee hee!
     jp DrawText20x6 ; and ret
@@ -14162,7 +14345,7 @@ LoadEnemy:
     inc hl
     ld a,(hl)          ; Next byte in DungeonObjectItemTrapped
     ld (DungeonObjectItemTrapped),a
-    inc hl             ; next word in de
+    inc hl             ; next word in de = experience value
     ld e,(hl)
     inc hl
     ld d,(hl)
@@ -14940,7 +15123,7 @@ _LABEL_6891_:
     ld hl,DungeonObjects
     ld de,6 ; 7 bytes per entry, but we inc hl once
 -:  ld a,(hl)
-    ; IF we reach the end of the list, it's a pitfall
+    ; If we reach the end of the list, it's a pitfall
     cp $FF
     jr z,_PitFall
     inc hl
@@ -14998,7 +15181,7 @@ _PitFall:
     call LoadDungeonMap
     ; Scroll in the new dungeon
     xor a
-    call _LABEL_6D90_
+    call DungeonLoadScreen
     ld hl,TargetPalette
     ld de,ActualPalette
     ld bc,$0020
@@ -15048,7 +15231,7 @@ _PitFall:
     ld hl,TilesExtraFont
     ld de,$7E00
     call LoadTiles4BitRLE
-    ld b,$01
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
 _NotPitFall:
@@ -15060,66 +15243,70 @@ _NotPitFall:
     bit 0,c ; Up -> forwards
     jp z,_NotForwards
     ; See what's in front
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     ld b,a
     and $07
-    ; Zero ->
-    jp z,_LABEL_69FB_
+    ; Zero -> path, we can move
+    jp z,_MoveForwards
     sub $02
-    jp c,_NotForwards
-    cp $05
-    jp z,_LABEL_69F8_
+    jp c,_NotForwards ; It's a wall
+    cp $05 ; 7 = fake wall
+    jp z,_MoveForwardsIntoFakeWall
     cp $02
     jp nc,++
+    ; Must be 2 or 3, stairs up or down
     ld c,a
-    ld a,SFX_c3
+    ld a,SFX_c3_DungeonStairs
     ld (NewMusic),a
     ld a,c
-    bit 3,b
-    jp nz,_LABEL_6B5F_
+    bit 3,b ; Is this an "exit" or regular stairs?
+    jp nz,_LABEL_6B5F_DungeonExit
     ; Is it a stair up or down?
     or a
     ld b,+1
     jr z,+
     ld b,-1
-+:  ld a,(DungeonNumber)
++:  ld a,(DungeonNumber) ; Change the dungeon number, keep the coordinates
     add a,b
     ld (DungeonNumber),a
     call LoadDungeonMap
     jp +++
 
-++: bit 7,(hl)
+++: ; Must be a door. Is it locked?
+    bit 7,(hl)
     ret z
-    bit 3,b
-    jp nz,_LABEL_6B5F_
-+++:call FadeOutFullPalette
+    bit 3,b ; Is it an exit?
+    jp nz,_LABEL_6B5F_DungeonExit
++++:; We want to warp to the square after the door or stairs tile
+    call FadeOutFullPalette
     ld a,(DungeonFacingDirection)
     and $03
-    ld hl,_DATA_6D82_
+    ld hl,_DATA_6D82_DungeonMovementLookup ; Index into here
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a
+    ; Add to our position twice
     ld a,(DungeonPosition)
     add a,(hl)
     add a,(hl)
     ld (DungeonPosition),a
     xor a
-    call DungeonScriptItem
+    call DungeonNextScreen
     call FadeInWholePalette
-    ld b,$01
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
-_LABEL_69F8_:
-    call _LABEL_69FB_
-_LABEL_69FB_:
+_MoveForwardsIntoFakeWall:
+    call _MoveForwards ; Move twice so we don't stop in it
+_MoveForwards:
     ld a,$00
     call DungeonAnimation
     ld a,(DungeonFacingDirection)
     and $03
-    ld hl,_DATA_6D82_
+    ld hl,_DATA_6D82_DungeonMovementLookup
     add a,l
     ld l,a
     adc a,h
@@ -15129,27 +15316,27 @@ _LABEL_69FB_:
     add a,(hl)
     ld (DungeonPosition),a
     xor a
-    call DungeonScriptItem
-    ld b,$01
+    call DungeonNextScreen
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
 _NotForwards:
     ; Down -> backwards
     bit 1,c
     jr z,+
-    ld b,$0B
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_B
+    call DungeonGetRelativeSquare_Type
     jr nz,+
-    call _LABEL_6A35_
-    ld b,$01
+    call DungeonMoveBackwards
+    ld b,DungeonSquare_F
     call _LABEL_6C06_CheckForDungeonObject
-    ld b,$0B
+    ld b,DungeonSquare_B
     jp _LABEL_6C06_CheckForDungeonObject
 
-_LABEL_6A35_:
+DungeonMoveBackwards:
     ld a,(DungeonFacingDirection)
     and $03
-    ld hl,_DATA_6D82_ + 2
+    ld hl,_DATA_6D82_DungeonMovementLookup + 2
     add a,l
     ld l,a
     adc a,h
@@ -15165,7 +15352,7 @@ _LABEL_6A35_:
     bit 2,c
     jr z,++
     call _TurnLeft
-    ld b,$01
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
 _TurnLeft:
@@ -15174,13 +15361,13 @@ _TurnLeft:
     and $03
     ld (DungeonFacingDirection),a
     ld h,$02
-    ld b,$0D
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_R
+    call DungeonGetRelativeSquare_Type
     jr z,+
     inc h
     inc h
-+:  ld b,$01
-    call _LABEL_6E6D_
++:  ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     jr z,+
     inc h
 +:  ld a,h
@@ -15190,7 +15377,7 @@ _TurnLeft:
     bit 3,c
     ret z
     call _TurnRight
-    ld b,$01
+    ld b,DungeonSquare_F
     jp _LABEL_6C06_CheckForDungeonObject
 
 _TurnRight:
@@ -15199,13 +15386,13 @@ _TurnRight:
     and $03
     ld (DungeonFacingDirection),a
     ld h,$06
-    ld b,$0C
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_L
+    call DungeonGetRelativeSquare_Type
     jr z,+
     inc h
     inc h
-+:  ld b,$01
-    call _LABEL_6E6D_
++:  ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     jr z,+
     inc h
 +:  ld a,h
@@ -15215,8 +15402,8 @@ _NotMoving:
     ld a,(Controls)
     and $30
     ret z
-    ld b,$01
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     cp $04
     jr nz,+
     ld c,$02
@@ -15226,12 +15413,12 @@ _NotMoving:
     ret
 
 _LABEL_6ABE_:
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     bit 7,(hl)
     ret nz
     set 7,(hl)
-    ld a,SFX_bd
+    ld a,SFX_bd_UnlockDoor
     ld (NewMusic),a
     ld h,c
     ld l,$00
@@ -15256,7 +15443,7 @@ _LABEL_6ABE_:
     ret
 
 _SquareInFrontOfPlayerContainsObject:
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     cp $08
     jr nz,++
@@ -15287,25 +15474,26 @@ _SquareInFrontOfPlayerContainsObject:
     ret
 
 _LABEL_6B1D_:
-    ld b,$0B
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_B
+    call DungeonGetRelativeSquare_Type
     ret z
-    ld b,$0C
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_L
+    call DungeonGetRelativeSquare_Type
     ret z
-    ld b,$0D
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_R
+    call DungeonGetRelativeSquare_Type
     ret
 
-_LABEL_6B2F_:
-    ld b,$0B
-    call _LABEL_6E6D_
+DungeonRunAway:
+    ; Move backwards if possible, else turn left or right to face a wall, else randomly turn left or right
+    ld b,DungeonSquare_B
+    call DungeonGetRelativeSquare_Type
     jr z,+++
-    ld b,$0C
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_L
+    call DungeonGetRelativeSquare_Type
     jr nz,++
-    ld b,$0D
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_R
+    call DungeonGetRelativeSquare_Type
     jr nz,+
     ; Randomly turn left or right
     call GetRandomNumber
@@ -15314,15 +15502,15 @@ _LABEL_6B2F_:
 +:  call _TurnRight
     jr +++
 ++: call _TurnLeft
-+++:call _LABEL_6A35_
-    ld b,$01
++++:call DungeonMoveBackwards
+    ld b,DungeonSquare_F
     call _LABEL_6C06_CheckForDungeonObject
-    ld b,$0B
+    ld b,DungeonSquare_B
     jp _LABEL_6C06_CheckForDungeonObject
 
-_LABEL_6B5F_:
+_LABEL_6B5F_DungeonExit:
     ; Check square in front of player
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     ; Check for bit 3 = object/pitfall/exit
     and $08
@@ -15348,7 +15536,7 @@ _LABEL_6B5F_:
     jp -
 
 ; Data from 6B88 to 6B88 (1 bytes)
-.db $C9  ; ############ Unreachable
+    ret ; ############ Unreachable
 
 ++: ; No match
     ld hl,FunctionLookupIndex
@@ -15393,7 +15581,7 @@ _LABEL_6BC0_:
     ret nz
     call FadeOutFullPalette
     xor a
-    call DungeonScriptItem
+    call DungeonNextScreen
     call LoadDungeonData
     call CheckDungeonMusic
     call FadeInWholePalette
@@ -15416,10 +15604,11 @@ _LABEL_6BEA_:
       jp _LABEL_6BC0_
 
 _LABEL_6C06_CheckForDungeonObject:
+; parameters: b = index of offset to player
     call DungeonGetRelativeSquare
-    cp $08
+    cp $08 ; Object
     ret nz
-    ld c,l
+    ld c,l ; ???
     ; Check if the pointed square has an object
     push bc
       ld a,(DungeonNumber)
@@ -15462,7 +15651,9 @@ _LABEL_6C06_CheckForDungeonObject:
     inc hl
     or a
     jr nz,+
+
     ; Type 0: item
+    ; DungeonObject_Item
     ld a,(hl) ; Read item type
     ld (DungeonObjectItemIndex),a
     inc hl
@@ -15587,7 +15778,7 @@ DungeonAnimation: ; $6CFB
     cp $FF
     ret z
     push hl
-      call DungeonScriptItem
+      call DungeonNextScreen
     pop hl
     inc hl
     jp -
@@ -15604,21 +15795,24 @@ _table5: .db $0F $10 $11 $12 $13 $14 $15 $00 $FF  ; 5 = turn wall to wall (left)
 _table6: .db $0D $0C $0B $0A $09 $08 $07 $00 $FF  ; 6 = turn corridor to corridor (right)
 _table7: .db $25 $24 $23 $22 $21 $20 $1F $00 $FF  ; 7 = turn corridor to wall (right)
 _table8: .db $1D $1C $1B $1A $19 $18 $17 $00 $FF  ; 8 = turn wall to corridor (right)
-_table9:.db $15 $14 $13 $12 $11 $10 $0F $00 $FF   ; 9 = turn wall to wall (right)
+_table9: .db $15 $14 $13 $12 $11 $10 $0F $00 $FF  ; 9 = turn wall to wall (right)
 
-_DATA_6D82_:
+_DATA_6D82_DungeonMovementLookup:
+; Values to add to DungeonPosition to move in certain directions:
+; - up, right, down, left, up, right
+; Indexed +2 for opposite movement
 .db $F0 $01 $10 $FF $F0 $01
 
-DungeonScriptItem:
-    call _LABEL_6D90_
+DungeonNextScreen:
+    call DungeonLoadScreen
     ld a,$0C ; VBlankFunction_UpdateTilemap
     jp ExecuteFunctionIndexAInNextVBlank
 
-_LABEL_6D90_:
+DungeonLoadScreen:
     and $3F
     jr nz,+
-    ld b,$01
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     ld a,$00
     jr z,+
     ld a,$06
@@ -15674,8 +15868,8 @@ _LABEL_6D90_:
     ret
 
 _LABEL_6DDD_:
-    ld b,$01
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_F
+    call DungeonGetRelativeSquare_Type
     ld a,$00
     jr z,+
     ld a,$06
@@ -15805,7 +15999,7 @@ _raw:
     jp nz,-
     jp --
 
-_LABEL_6E6D_:
+DungeonGetRelativeSquare_Type:
     push hl
       ld a,(DungeonFacingDirection)
       and $03
@@ -15824,12 +16018,16 @@ _LABEL_6E6D_:
       ld h,>DungeonMap
       ld l,a
       ld a,(hl)
-      and $07
+      and $07 ; Mask to square type
     pop hl
     ret
 
 DungeonGetRelativeSquare:
-    ; Returns a = dungeon square data
+    ; Parameters: b = relative square index
+    ; Returns:
+    ; a = dungeon square data
+    ; hl = pointer to byte in dungeon data
+    ; l = index into dungeon map data (x, y) of square in front of player
     ld a,(DungeonFacingDirection)
     and $03 ; 0-3
     add a,a ; Multiply by 16
@@ -15854,15 +16052,33 @@ DungeonGetRelativeSquare:
 _RelativeSquareOffsets:
 ; Offsets of tile a certain distance away in the map. For a player at X facing right:
 ;
-;  $0b $0c $02 $05 $07
-;      [X] $01 $04 $08 $0a
+;      $0c $02 $05 $07
+;  $0b [X] $01 $04 $08 $0a
 ;      $0d $03 $06 $09
 ;
-;         1   2   3   4   5   6   7   8   9   a   b   c   d   e   f
+;     0   1   2   3   4   5   6   7   8   9   a   b   c   d   e   f
 .db $00 $F0 $EF $F1 $E0 $DF $E1 $D0 $CF $D1 $C0 $10 $FF $01 $00 $00 ; Up
 .db $00 $01 $F1 $11 $02 $F2 $12 $03 $F3 $13 $04 $FF $F0 $10 $00 $00 ; Right
 .db $00 $10 $11 $0F $20 $21 $1F $30 $31 $2F $40 $F0 $01 $FF $00 $00 ; Down
 .db $00 $FF $0F $EF $FE $0E $EE $FD $0D $ED $FC $01 $10 $F0 $00 $00 ; Left
+
+.enum $00
+  DungeonSquare_Player  db ; 0
+  DungeonSquare_F       db ; 1
+  DungeonSquare_FL      db ; 2
+  DungeonSquare_FR      db ; 3
+  DungeonSquare_FF      db ; 4
+  DungeonSquare_FFL     db ; 5
+  DungeonSquare_FFR     db ; 6
+  DungeonSquare_FFFL    db ; 7
+  DungeonSquare_FFF     db ; 8
+  DungeonSquare_FFFR    db ; 9
+  DungeonSquare_FFFF    db ; a
+  DungeonSquare_B       db ; b
+  DungeonSquare_L       db ; c
+  DungeonSquare_R       db ; d
+  ; ...
+.ende
 
 _LABEL_6EE9_:
     ld a,c
@@ -15887,97 +16103,97 @@ _LABEL_6EE9_:
     add hl,de
     ld de,_DATA_712E_
     add hl,de
-    ld b,$04
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FF
+    call DungeonGetRelativeSquare_Type
     jr z,+
     call _LABEL_6FB6_
-    ld b,$02
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FL
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FD7_
-      ld b,$03
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FR
+      call DungeonGetRelativeSquare_Type
     pop bc
     jp _LABEL_6FD7_
 
 +:  ld de,$000C
     add hl,de
-    ld b,$02
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FL
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FE8_
-      ld b,$03
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FR
+      call DungeonGetRelativeSquare_Type
     pop bc
     call _LABEL_6FE8_
-    ld b,$07
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFFL
+    call DungeonGetRelativeSquare_Type
     jr z,+
     call _LABEL_6FB6_
-    ld b,$05
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFL
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FD7_
-      ld b,$06
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FFR
+      call DungeonGetRelativeSquare_Type
     pop bc
     jp _LABEL_6FD7_
 
 +:  ld de,$000C
     add hl,de
-    ld b,$05
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFL
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FE8_
-      ld b,$06
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FFR
+      call DungeonGetRelativeSquare_Type
     pop bc
     call _LABEL_6FE8_
-    ld b,$0A
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFFF
+    call DungeonGetRelativeSquare_Type
     jr z,+
     call _LABEL_6FB6_
-    ld b,$08
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFF
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FD7_
-      ld b,$09
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FFFR
+      call DungeonGetRelativeSquare_Type
     pop bc
     jp _LABEL_6FD7_
 
 +:  ld de,$000C
     add hl,de
-    ld b,$08
-    call _LABEL_6E6D_
+    ld b,DungeonSquare_FFF
+    call DungeonGetRelativeSquare_Type
     ld b,(hl)
     inc hl
     ld c,(hl)
     inc hl
     push bc
       call _LABEL_6FE8_
-      ld b,$09
-      call _LABEL_6E6D_
+      ld b,DungeonSquare_FFFR
+      call DungeonGetRelativeSquare_Type
     pop bc
     jp _LABEL_6FE8_
 
@@ -16187,7 +16403,7 @@ _70a1:
     ret
 
 _LABEL_70DB_:
-    ld b,$01
+    ld b,DungeonSquare_F
     call DungeonGetRelativeSquare
     and $07
     cp $07
@@ -18308,47 +18524,52 @@ ItemMetadata:
 ; %765432tt
 ;  |||| |``- Item type: 0 = weapon, 1 = armour, 2 = shield
 ;  |||| `--- Undroppable item
-;  ````----- Equippable by player bits. Zero if equippable. Lutz - Odin - Myau - Alis
-
+;  ````----- Equippable by player bits. 1 if equippable. Lutz - Odin - Myau - Alis
 .define ItemMetadata_Weapon %00
 .define ItemMetadata_Armour %01
 .define ItemMetadata_Shield %10
+.define ItemMetadata_Undroppable %1000
+.define ItemMetadata_Alis  %00010000
+.define ItemMetadata_Myau  %00100000
+.define ItemMetadata_Tylon %01000000
+.define ItemMetadata_Lutz  %10000000
+
 .db $00 ; blank
 ; Weapons
-.db %11010000 ; Wood Cane - Myau?
-.db %11010000
-.db %01010000
-.db %11010000
-.db %00100000
-.db %01000000
-.db %01010000
-.db %01010000
-.db %01000000
-.db %00100000
-.db %01000000
-.db %01010000
-.db %01000000
-.db %01010000
-.db %01000000
+.db ItemMetadata_Weapon | ItemMetadata_Lutz | ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_WoodCane      
+.db ItemMetadata_Weapon | ItemMetadata_Lutz | ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_ShortSword    
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_IronSword     
+.db ItemMetadata_Weapon | ItemMetadata_Lutz | ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_PsychoWand    
+.db ItemMetadata_Weapon |                                          ItemMetadata_Myau                     ; Item_Weapon_SilverTusk    
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_IronAxe       
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_TitaniumSword 
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_CeramicSword  
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_NeedleGun     
+.db ItemMetadata_Weapon |                                          ItemMetadata_Myau                     ; Item_Weapon_SaberClaw     
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_HeatGun       
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_LightSaber    
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_LaserGun      
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_LaconianSword 
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_LaconianAxe   
 ; Armour
-.db %01010001
-.db %10000001
-.db %01010001
-.db %01000001
-.db %00100001
-.db %01010001
-.db %01010001
-.db %01000001
-.db %10000001
+.db %01010001; Item_Armour_LeatherClothes  
+.db %10000001; Item_Armour_WhiteMantle     
+.db %01010001; Item_Armour_LightSuit       
+.db %01000001; Item_Armour_IronArmor       
+.db %00100001; Item_Armour_SpikySquirrelFur
+.db %01010001; Item_Armour_ZirconiaMail    
+.db %01010001; Item_Armour_DiamondArmor    
+.db %01000001; Item_Armour_LaconianArmor   
+.db %10000001; Item_Armour_FradMantle      
 ; Shields
-.db %01010010
-.db %01000010
-.db %01010010
-.db %01010010
-.db %00100010
-.db %11010010
-.db %01000110
-.db %01010010
+.db %01010010 ; Item_Shield_LeatherShield  
+.db %01000010 ; Item_Shield_IronShield     
+.db %01010010 ; Item_Shield_BronzeShield   
+.db %01010010 ; Item_Shield_CeramicShield  ; Alisa and Tylon only
+.db %00100010 ; Item_Shield_AnimalGlove    
+.db %11010010 ; Item_Shield_LaserBarrier   
+.db %01000110 ; Item_Shield_ShieldOfPerseus
+.db %01010010 ; Item_Shield_LaconianShield 
 ; Vehicles
 .db %00000100 ; Undroppable
 .db %00000100 ; Undroppable
@@ -18579,7 +18800,7 @@ _DATA_C5A0_:
   ExperienceValue     dw ; multiplies by number of enemies
   TalkingAndMagicType db ; bit 7 = ability to talk; bit 6 = ability to talk magically; bit 5 = 1 if enemy is impervious to "bind" magic; bit 4 = 1 if enemy always removes a magic wall; bit 3 = ?; low 3 bits are an index into EnemyAttackFunctions for enemy magic
   RetreatProbability  db ; Relates to ability to run away, higher means less likely to block it. $ff means can always run away, $00 means never can.
-.ends
+.endst
 .define TALK_NORMAL         %10000000
 .define TALK_MAGIC          %01000000
 .define BIND_PROOF          %00100000
@@ -20576,197 +20797,203 @@ DungeonObjects:
   RoomID:           .db \5
 .endst
 .endm
+; Note: some entries here have duplicate coordinates. It looks like the intention was
+; to allow you to "visit" the object multiple times, but the code seems not to support
+; that: it finds the first item in the table matching the dungeon number and coordinates,
+; and then checks the flag. If the flag is $ff, it acts like the obejct is not there.
+; It does not then continue searching the table. Thus these duplicate objects are never
+; used.
 ;                            ,,-------------------------- DungeonNumber
 ;                            ||   ,,---------------------- Y, X
-;                            ||   ||   ,,,,--------------- RAM address to flag for object so you see it only once
-;                            ||   ||   ||||
-;                            ||   ||   ||||
-  AddDungeonObject_Item     $00, $36, $c600, Item_Compass, 0
-  AddDungeonObject_Meseta   $00, $E0, $c601, 20
-  AddDungeonObject_Battle   $00, $53, $C6C0, Enemy_MadDoctor, Item_Empty
-  AddDungeonObject_Dialogue $00, $E3, $C50A, $A3, $3A ; _room_a3_TaironStone ???
-  AddDungeonObject_Meseta   $00, $7C, $C602, 10
-  AddDungeonObject_Item     $01, $17, $C603, Item_Empty, $FC
-  AddDungeonObject_Battle   $01, $5D, $C6C1, Enemy_Skeleton, Item_Empty
-  AddDungeonObject_Dialogue $01, $B2, $C50C, $82, $00 ; _room_82_TriadaPrisonGuard1
-  AddDungeonObject_Dialogue $01, $E9, $C50B, $88, $00 ; _room_88_TriadaPrisoner6
-  AddDungeonObject_Item     $02, $17, DungeonKeyIsHidden, Item_DungeonKey, $00
-  AddDungeonObject_Meseta   $02, $67, $C605, 50
-  AddDungeonObject_Meseta   $02, $3A, $C606, 30
-  AddDungeonObject_Meseta   $02, $63, $C607, 20
-  AddDungeonObject_Item     $03, $9C, $C608, Item_Empty, $FC
-  AddDungeonObject_Item     $03, $9E, $C609, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $03, $E1, $C60A, 10
-  AddDungeonObject_Item     $03, $E8, $C60B, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $03, $E1, $C60C, 100
-  AddDungeonObject_Item     $03, $56, $C60D, Item_EscapeCloth, $00
-  AddDungeonObject_Item     $03, $58, $C60E, Item_Searchlight, $00
-  AddDungeonObject_Meseta   $04, $13, $C60F, 20
-  AddDungeonObject_Item     $04, $E5, $C610, Item_PelorieMate, $00
-  AddDungeonObject_Meseta   $04, $13, $C611, 100
-  AddDungeonObject_Item     $04, $1D, $C612, Item_Empty, $FC
-  AddDungeonObject_Meseta   $05, $5B, $C613, 10
-  AddDungeonObject_Meseta   $05, $A1, $C614, 5
-  AddDungeonObject_Item     $05, $A3, $C615, Item_Empty, $FF
-  AddDungeonObject_Item     $05, $DD, $C616, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $05, $5B, $C617, 100
-  AddDungeonObject_Meseta   $05, $A1, $C618, 50
-  AddDungeonObject_Meseta   $06, $55, $C619, 35
-  AddDungeonObject_Item     $06, $93, $C61A, Item_Empty, $FC
-  AddDungeonObject_Meseta   $06, $55, $C61B, 100
-  AddDungeonObject_Meseta   $06, $29, $C61C, 10
-  AddDungeonObject_Item     $07, $65, $C61D, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $07, $AC, $C61E, 100
-  AddDungeonObject_Meseta   $07, $AC, $C61F, 500
-  AddDungeonObject_Item     $07, $89, $C620, Item_Empty, $FF
-  AddDungeonObject_Battle   $08, $29, $C6C2, Enemy_SkullSoldier, Item_Empty
-  AddDungeonObject_Battle   $08, $65, $C6C3, Enemy_Herex, Item_Empty
-  AddDungeonObject_Item     $08, $C3, $C621, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $08, $C5, $C622, 50
-  AddDungeonObject_Item     $08, $EE, $C623, Item_Empty, $FF
-  AddDungeonObject_Item     $09, $64, $C624, Item_PelorieMate, $00
-  AddDungeonObject_Item     $09, $EE, $C625, Item_Ruoginin, $00
-  AddDungeonObject_Item     $09, $91, $C626, Item_LightPendant, $00
-  AddDungeonObject_Battle   $0A, $48, $C6C4, Enemy_BitingFly, Item_Empty
-  AddDungeonObject_Item     $0A, $61, $C627, Item_Empty, $FF
-  AddDungeonObject_Battle   $0A, $67, $C6C5, Enemy_Medusa, Item_Weapon_LaconianAxe
-  AddDungeonObject_Item     $0A, $EE, $C628, Item_PelorieMate, $00
-  AddDungeonObject_Meseta   $0A, $17, $C629, 500
-  AddDungeonObject_Meseta   $0A, $E3, $C62A, 500
-  AddDungeonObject_Item     $0A, $A9, $C62B, Item_EscapeCloth, $00
-  AddDungeonObject_Item     $0A, $AB, $C62C, Item_Empty, $FC
-  AddDungeonObject_Item     $0B, $71, $C62D, Item_Weapon_ShortSword, $00
-  AddDungeonObject_Item     $0B, $ED, $C62E, Item_Weapon_LightSaber, $00
-  AddDungeonObject_Item     $0B, $1C, $C62F, Item_Ruoginin, $00
-  AddDungeonObject_Item     $0B, $63, $C630, Item_Weapon_IronSword, $00
-  AddDungeonObject_Item     $0C, $11, $C631, Item_MiracleKey, $FC
-  AddDungeonObject_Meseta   $0C, $2B, $C632, 20
-  AddDungeonObject_Battle   $0C, $39, $C6C6, Enemy_BatMan, Item_Empty
-  AddDungeonObject_Battle   $0C, $85, $C6C7, Enemy_MadStalker, Item_Empty
-  AddDungeonObject_Battle   $0C, $A9, $C6C8, Enemy_MadStalker, Item_Empty
-  AddDungeonObject_Item     $0C, $A5, $C633, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $0D, $68, $C634, 100
-  AddDungeonObject_Item     $0D, $EB, $C635, Item_Weapon_IronAxe, $00
-  AddDungeonObject_Item     $0D, $EE, $C636, Item_Empty, $FC
-  AddDungeonObject_Meseta   $0D, $68, $C637, 100
-  AddDungeonObject_Item     $0D, $E8, $C638, Item_Empty, $FF
-  AddDungeonObject_Item     $0E, $11, $C639, Item_Ruoginin, $00
-  AddDungeonObject_Item     $0E, $41, $C63A, Item_Empty, $FF
-  AddDungeonObject_Item     $0E, $AC, $C63B, Item_Ruoginin, $00
-  AddDungeonObject_Item     $0E, $E9, $C63C, Item_Empty, $FC
-  AddDungeonObject_Item     $0F, $EE, $C63D, Item_Ruoginin, $00
-  AddDungeonObject_Item     $10, $1E, $C63E, Item_PelorieMate, $00
-  AddDungeonObject_Item     $10, $8B, $C63F, Item_Empty, $FC
-  AddDungeonObject_Item     $10, $61, $C640, Item_Searchlight, $00
-  AddDungeonObject_Item     $10, $9C, $C641, Item_Searchlight, $00
-  AddDungeonObject_Battle   $10, $C7, $C6C9, Enemy_Skeleton, Item_Weapon_SilverTusk
-  AddDungeonObject_Item     $10, $D1, $C642, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $11, $26, $C643, 10
-  AddDungeonObject_Meseta   $11, $5E, $C644, 50
-  AddDungeonObject_Meseta   $11, $71, $C645, 20
-  AddDungeonObject_Meseta   $11, $7D, $C646, 20
-  AddDungeonObject_Meseta   $11, $26, $C647, 20
-  AddDungeonObject_Item     $12, $19, $C648, Item_Empty, $FC
-  AddDungeonObject_Item     $12, $1E, $C649, Item_PelorieMate, $00
-  AddDungeonObject_Item     $12, $CC, $C64A, Item_Searchlight, $00
-  AddDungeonObject_Item     $12, $77, $C64B, Item_Weapon_ShortSword, $00
-  AddDungeonObject_Meseta   $12, $92, $C64C, 20
-  AddDungeonObject_Item     $12, $94, $C64D, Item_Empty, $FF
-  AddDungeonObject_Item     $13, $1E, $C64E, Item_PelorieMate, $00
-  AddDungeonObject_Meseta   $13, $33, $C64F, 20
-  AddDungeonObject_Item     $13, $A5, $C650, Item_Empty, $00
-  AddDungeonObject_Item     $13, $EC, $C651, Item_Empty, $7F
-  AddDungeonObject_Meseta   $13, $EC, $C652, 20
-  AddDungeonObject_Dialogue $14, $41, $C50D, $93, $00 ; _room_93_55AB
-  AddDungeonObject_Dialogue $15, $55, $C50E, $91, $0F ; _room_91_DrasgoCave2
-  AddDungeonObject_Dialogue $15, $A1, $C50F, $90, $29 ; _room_90_DrasgoCave1
-  AddDungeonObject_Dialogue $15, $C8, $C518, $16, $00 ; _room_16_MadDoctor
-  AddDungeonObject_Meseta   $16, $3E, $C653, 100
-  AddDungeonObject_Item     $16, $5E, $C654, Item_Empty, $FC
-  AddDungeonObject_Item     $16, $81, $C655, Item_Searchlight, $00
-  AddDungeonObject_Item     $16, $C8, $C656, Item_EscapeCloth, $00
-  AddDungeonObject_Meseta   $17, $AA, $C657, 20
-  AddDungeonObject_Meseta   $17, $AA, $C658, 200
-  AddDungeonObject_Item     $18, $16, $C659, Item_Empty, $FF
-  AddDungeonObject_Battle   $18, $1C, $C6CA, Enemy_RedSlime, Item_Empty
-  AddDungeonObject_Item     $19, $1A, $C65A, Item_Ruoginin, $00
-  AddDungeonObject_Item     $19, $B9, $C65B, Item_Empty, $FF
-  AddDungeonObject_Meseta   $19, $35, $C65C, 100
-  AddDungeonObject_Meseta   $19, $C3, $C65D, 1
-  AddDungeonObject_Item     $19, $74, $C65E, Item_Ruoginin, $00
-  AddDungeonObject_Item     $19, $A3, $C65F, Item_Empty, $FC
-  AddDungeonObject_Item     $1A, $1E, $C660, Item_Empty, $FC
-  AddDungeonObject_Meseta   $1A, $33, $C661, 20
-  AddDungeonObject_Item     $1A, $51, $C662, Item_Ruoginin, $00
-  AddDungeonObject_Item     $1A, $CB, $C663, Item_Empty, $00
-  AddDungeonObject_Battle   $1B, $5A, $C6CB, Enemy_RedDragon, Item_Weapon_LaconianSword
-  AddDungeonObject_Item     $1B, $E1, $C664, Item_Ruoginin, $00
-  AddDungeonObject_Battle   $1C, $1E, $C6CC, Enemy_RedDragon, Item_Empty
-  AddDungeonObject_Meseta   $1C, $31, $C665, 2000
-  AddDungeonObject_Item     $1D, $1B, $C666, Item_Searchlight, $00
-  AddDungeonObject_Item     $1D, $21, $C667, Item_Ruoginin, $00
-  AddDungeonObject_Item     $1D, $41, $C668, Item_Ruoginin, $FC
-  AddDungeonObject_Item     $1D, $8C, $C669, Item_Searchlight, $00
-  AddDungeonObject_Meseta   $1D, $CA, $C66A, 50
-  AddDungeonObject_Battle   $1D, $B1, $C6CD, Enemy_MotavianPeasant, Item_Empty
-  AddDungeonObject_Item     $1E, $1E, $C66B, Item_PelorieMate, $00
-  AddDungeonObject_Meseta   $1E, $11, $C66C, 20
-  AddDungeonObject_Dialogue $21, $94, $C511, $9B, $00 ; _room_9b_561F
-  AddDungeonObject_Meseta   $22, $11, $C66D, 500
-  AddDungeonObject_Dialogue $22, $24, $C512, $9D, $00 ; _room_9d_Tajim
-  AddDungeonObject_Item     $22, $6E, $C66E, Item_Empty, $FC
-  AddDungeonObject_Item     $22, $91, $C66F, Item_Empty, $FF
-  AddDungeonObject_Item     $22, $EA, $C670, Item_Weapon_TitaniumSword, $00
-  AddDungeonObject_Item     $22, $EE, $C671, Item_Empty, $FF
-  AddDungeonObject_Meseta   $22, $E3, $C672, 500
-  AddDungeonObject_Item     $23, $79, $C673, Item_Searchlight, $00
-  AddDungeonObject_Item     $23, $91, $C674, Item_Empty, $FC
-  AddDungeonObject_Item     $23, $C1, $C675, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $24, $47, $C676, 3000
-  AddDungeonObject_Item     $24, $11, $C677, Item_Armour_WhiteMantle, $00
-  AddDungeonObject_Item     $24, $1E, $C678, Item_Weapon_WoodCane, $00
-  AddDungeonObject_Item     $24, $EE, $C679, Item_PelorieMate, $00
-  AddDungeonObject_Battle   $25, $1D, $C6CE, Enemy_DragonWise, Item_CarbuncleEye
-  AddDungeonObject_Meseta   $25, $86, $C67A, 100
-  AddDungeonObject_Item     $25, $8A, $C67B, Item_Empty, $FC
-  AddDungeonObject_Meseta   $25, $3E, $C67C, 100
-  AddDungeonObject_Meseta   $26, $7B, $C67D, 5000
-  AddDungeonObject_Battle   $27, $9E, $C6CF, Enemy_RedDragon, Item_Weapon_LightSaber
-  AddDungeonObject_Meseta   $27, $71, $C67E, 500
-  AddDungeonObject_Meseta   $28, $D1, $C67F, 500
-  AddDungeonObject_Battle   $29, $67, $C6D0, Enemy_Zombie, Item_Empty
-  AddDungeonObject_Battle   $29, $79, $C6D1, Enemy_Zombie, Item_Empty
-  AddDungeonObject_Item     $29, $99, $C680, Item_Ruoginin, $00
-  AddDungeonObject_Battle   $29, $A4, $C6D2, Enemy_Wight, Item_Empty
-  AddDungeonObject_Battle   $29, $D5, $C6D3, Enemy_Zombie, Item_Empty
-  AddDungeonObject_Battle   $2A, $53, $C6D4, Enemy_Zombie, Item_Empty
-  AddDungeonObject_Battle   $2A, $73, $C6D5, Enemy_Zombie, Item_Empty
-  AddDungeonObject_Battle   $2A, $B1, $C6D6, Enemy_Zombie, Item_Empty
-  AddDungeonObject_Dialogue $2A, $DB, $C513, $A4, $00 ; _room_a4_CoronoTowerDezorian1
-  AddDungeonObject_Item     $2A, $99, $C681, Item_Armour_LaconianArmor, $7F
-  AddDungeonObject_Item     $2B, $79, $C682, Item_EscapeCloth, $00
-  AddDungeonObject_Item     $2C, $45, $C683, Item_Empty, $FC
-  AddDungeonObject_Item     $2C, $ED, $C684, Item_Ruoginin, $00
-  AddDungeonObject_Meseta   $2C, $4B, $C685, 500
-  AddDungeonObject_Meseta   $2D, $18, $C686, 20
-  AddDungeonObject_Item     $2D, $83, $C687, Item_PelorieMate, $00
-  AddDungeonObject_Item     $2D, $AD, $C688, Item_Searchlight, $00
-  AddDungeonObject_Meseta   $2D, $E3, $C689, 20
-  AddDungeonObject_Item     $2D, $A3, $C68A, Item_Empty, $FF
-  AddDungeonObject_Item     $2F, $11, $C68B, Item_Shield_LaconianShield, $7F
-  AddDungeonObject_Item     $2F, $2B, $C68C, Item_Empty, $FF
-  AddDungeonObject_Item     $2F, $73, $C68D, Item_Empty, $FC
-  AddDungeonObject_Meseta   $2F, $D6, $C68E, 100
-  AddDungeonObject_Item     $32, $3B, $C68F, Item_Empty, $FC
-  AddDungeonObject_Item     $33, $19, $C690, Item_Empty, $FF
-  AddDungeonObject_Battle   $33, $D9, $C6D7, $0B, Item_Empty
-  AddDungeonObject_Meseta   $34, $16, $C691, 50
-  AddDungeonObject_Item     $34, $1E, $C692, Item_MagicHat, $00
-  AddDungeonObject_Item     $34, $EE, $C693, Item_Shield_CeramicShield, $00
-  AddDungeonObject_Dialogue $34, $C3, $C514, $A6, $00 ; _room_a6_CoronaDungeonDishonestDezorian
-  AddDungeonObject_Dialogue $35, $C2, $C517, $9E, $00 ; _room_9e_ShadowWarrior
-  AddDungeonObject_Battle   $3A, $79, $C6D8, Enemy_Golem, Item_Aeroprism
-  AddDungeonObject_Item     $3A, $82, $C694, Item_MagicHat, $00
+;                            ||   ||   ,,--------------- RAM address to flag for object so you see it only once
+;                            ||   ||   ||
+;                            ||   ||   ||
+  AddDungeonObject_Item     $00, $36, Flag_DungeonChest00_36_Compass, Item_Compass, 0
+  AddDungeonObject_Meseta   $00, $E0, Flag_DungeonChest00_E0, 20
+  AddDungeonObject_Battle   $00, $53, Flag_DungeonBattle00_53, Enemy_MadDoctor, Item_Empty
+  AddDungeonObject_Dialogue $00, $E3, Flag_DungeonDialogue00_E3_StoneTairon, $A3, $3A ; _room_a3_TaironStone ???
+  AddDungeonObject_Meseta   $00, $7C, Flag_DungeonChest00_7C, 10
+  AddDungeonObject_Item     $01, $17, Flag_DungeonChest01_17, Item_Empty, $FC
+  AddDungeonObject_Battle   $01, $5D, Flag_DungeonBattle01_5D, Enemy_Skeleton, Item_Empty
+  AddDungeonObject_Dialogue $01, $B2, Flag_DungeonDialogue01_B2, $82, $00 ; _room_82_TriadaPrisonGuard1
+  AddDungeonObject_Dialogue $01, $E9, Flag_DungeonDialogue01_E9, $88, $00 ; _room_88_TriadaPrisoner6
+  AddDungeonObject_Item     $02, $17, Flag_DungeonChest02_17_DungeonKey, Item_DungeonKey, $00
+  AddDungeonObject_Meseta   $02, $67, Flag_DungeonChest02_67, 50
+  AddDungeonObject_Meseta   $02, $3A, Flag_DungeonChest02_3A, 30
+  AddDungeonObject_Meseta   $02, $63, Flag_DungeonChest02_63, 20
+  AddDungeonObject_Item     $03, $9C, Flag_DungeonChest03_9C, Item_Empty, $FC
+  AddDungeonObject_Item     $03, $9E, Flag_DungeonChest03_9E, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $03, $E1, Flag_DungeonChest03_E1, 10
+  AddDungeonObject_Item     $03, $E8, Flag_DungeonChest03_E8, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $03, $E1, Flag_DungeonChest03_E1_2, 100
+  AddDungeonObject_Item     $03, $56, Flag_DungeonChest03_56, Item_EscapeCloth, $00
+  AddDungeonObject_Item     $03, $58, Flag_DungeonChest03_58, Item_Searchlight, $00
+  AddDungeonObject_Meseta   $04, $13, Flag_DungeonChest04_13, 20
+  AddDungeonObject_Item     $04, $E5, Flag_DungeonChest04_E5, Item_PelorieMate, $00
+  AddDungeonObject_Meseta   $04, $13, Flag_DungeonChest04_13_2, 100
+  AddDungeonObject_Item     $04, $1D, Flag_DungeonChest04_1D, Item_Empty, $FC
+  AddDungeonObject_Meseta   $05, $5B, Flag_DungeonChest05_5B, 10
+  AddDungeonObject_Meseta   $05, $A1, Flag_DungeonChest05_A1, 5
+  AddDungeonObject_Item     $05, $A3, Flag_DungeonChest05_A3, Item_Empty, $FF
+  AddDungeonObject_Item     $05, $DD, Flag_DungeonChest05_DD, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $05, $5B, Flag_DungeonChest05_5B_2, 100
+  AddDungeonObject_Meseta   $05, $A1, Flag_DungeonChest05_A1_2, 50
+  AddDungeonObject_Meseta   $06, $55, Flag_DungeonChest06_55, 35
+  AddDungeonObject_Item     $06, $93, Flag_DungeonChest06_93, Item_Empty, $FC
+  AddDungeonObject_Meseta   $06, $55, Flag_DungeonChest06_55, 100
+  AddDungeonObject_Meseta   $06, $29, Flag_DungeonChest06_29, 10
+  AddDungeonObject_Item     $07, $65, Flag_DungeonChest07_65, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $07, $AC, Flag_DungeonChest07_AC, 100
+  AddDungeonObject_Meseta   $07, $AC, Flag_DungeonChest07_AC_2, 500
+  AddDungeonObject_Item     $07, $89, Flag_DungeonChest07_89, Item_Empty, $FF
+  AddDungeonObject_Battle   $08, $29, Flag_DungeonBattle08_29, Enemy_SkullSoldier, Item_Empty
+  AddDungeonObject_Battle   $08, $65, Flag_DungeonBattle08_65, Enemy_Herex, Item_Empty
+  AddDungeonObject_Item     $08, $C3, Flag_DungeonChest08_C3, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $08, $C5, Flag_DungeonChest08_C5, 50
+  AddDungeonObject_Item     $08, $EE, Flag_DungeonChest08_EE, Item_Empty, $FF
+  AddDungeonObject_Item     $09, $64, Flag_DungeonChest09_64, Item_PelorieMate, $00
+  AddDungeonObject_Item     $09, $EE, Flag_DungeonChest09_EE, Item_Ruoginin, $00
+  AddDungeonObject_Item     $09, $91, Flag_DungeonChest09_91, Item_LightPendant, $00
+  AddDungeonObject_Battle   $0A, $48, Flag_DungeonBattle0A_48, Enemy_BitingFly, Item_Empty
+  AddDungeonObject_Item     $0A, $61, Flag_DungeonChest0A_61, Item_Empty, $FF
+  AddDungeonObject_Battle   $0A, $67, Flag_DungeonBattle0A_67, Enemy_Medusa, Item_Weapon_LaconianAxe
+  AddDungeonObject_Item     $0A, $EE, Flag_DungeonChest0A_EE, Item_PelorieMate, $00
+  AddDungeonObject_Meseta   $0A, $17, Flag_DungeonChest0A_17, 500
+  AddDungeonObject_Meseta   $0A, $E3, Flag_DungeonChest0A_E3, 500
+  AddDungeonObject_Item     $0A, $A9, Flag_DungeonChest0A_A9, Item_EscapeCloth, $00
+  AddDungeonObject_Item     $0A, $AB, Flag_DungeonChest0A_AB, Item_Empty, $FC
+  AddDungeonObject_Item     $0B, $71, Flag_DungeonChest0B_71, Item_Weapon_ShortSword, $00
+  AddDungeonObject_Item     $0B, $ED, Flag_DungeonChest0B_ED, Item_Weapon_LightSaber, $00
+  AddDungeonObject_Item     $0B, $1C, Flag_DungeonChest0B_1C, Item_Ruoginin, $00
+  AddDungeonObject_Item     $0B, $63, Flag_DungeonChest0B_63, Item_Weapon_IronSword, $00
+  AddDungeonObject_Item     $0C, $11, Flag_DungeonChest0C_11, Item_MiracleKey, $FC
+  AddDungeonObject_Meseta   $0C, $2B, Flag_DungeonChest0C_2B, 20
+  AddDungeonObject_Battle   $0C, $39, Flag_DungeonBattle0C_39, Enemy_BatMan, Item_Empty
+  AddDungeonObject_Battle   $0C, $85, Flag_DungeonBattle0C_85, Enemy_MadStalker, Item_Empty
+  AddDungeonObject_Battle   $0C, $A9, Flag_DungeonBattle0C_A9, Enemy_MadStalker, Item_Empty
+  AddDungeonObject_Item     $0C, $A5, Flag_DungeonChest0C_A5, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $0D, $68, Flag_DungeonChest0D_68, 100
+  AddDungeonObject_Item     $0D, $EB, Flag_DungeonChest0D_EB, Item_Weapon_IronAxe, $00
+  AddDungeonObject_Item     $0D, $EE, Flag_DungeonChest0D_EE, Item_Empty, $FC
+  AddDungeonObject_Meseta   $0D, $68, Flag_DungeonChest0D_68_2, 100
+  AddDungeonObject_Item     $0D, $E8, Flag_DungeonChest0D_E8, Item_Empty, $FF
+  AddDungeonObject_Item     $0E, $11, Flag_DungeonChest0E_11, Item_Ruoginin, $00
+  AddDungeonObject_Item     $0E, $41, Flag_DungeonChest0E_41, Item_Empty, $FF
+  AddDungeonObject_Item     $0E, $AC, Flag_DungeonChest0E_AC, Item_Ruoginin, $00
+  AddDungeonObject_Item     $0E, $E9, Flag_DungeonChest0E_E9, Item_Empty, $FC
+  AddDungeonObject_Item     $0F, $EE, Flag_DungeonChest0F_EE, Item_Ruoginin, $00
+  AddDungeonObject_Item     $10, $1E, Flag_DungeonChest10_1E, Item_PelorieMate, $00
+  AddDungeonObject_Item     $10, $8B, Flag_DungeonChest10_8B, Item_Empty, $FC
+  AddDungeonObject_Item     $10, $61, Flag_DungeonChest10_61, Item_Searchlight, $00
+  AddDungeonObject_Item     $10, $9C, Flag_DungeonChest10_9C, Item_Searchlight, $00
+  AddDungeonObject_Battle   $10, $C7, Flag_DungeonBattle10_C7, Enemy_Skeleton, Item_Weapon_SilverTusk
+  AddDungeonObject_Item     $10, $D1, Flag_DungeonChest10_D1, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $11, $26, Flag_DungeonChest11_26, 10
+  AddDungeonObject_Meseta   $11, $5E, Flag_DungeonChest11_5E, 50
+  AddDungeonObject_Meseta   $11, $71, Flag_DungeonChest11_71, 20
+  AddDungeonObject_Meseta   $11, $7D, Flag_DungeonChest11_7D, 20
+  AddDungeonObject_Meseta   $11, $26, Flag_DungeonChest11_26_2, 20
+  AddDungeonObject_Item     $12, $19, Flag_DungeonChest12_19, Item_Empty, $FC
+  AddDungeonObject_Item     $12, $1E, Flag_DungeonChest12_1E, Item_PelorieMate, $00
+  AddDungeonObject_Item     $12, $CC, Flag_DungeonChest12_CC, Item_Searchlight, $00
+  AddDungeonObject_Item     $12, $77, Flag_DungeonChest12_77, Item_Weapon_ShortSword, $00
+  AddDungeonObject_Meseta   $12, $92, Flag_DungeonChest12_92, 20
+  AddDungeonObject_Item     $12, $94, Flag_DungeonChest12_94, Item_Empty, $FF
+  AddDungeonObject_Item     $13, $1E, Flag_DungeonChest13_1E, Item_PelorieMate, $00
+  AddDungeonObject_Meseta   $13, $33, Flag_DungeonChest13_33, 20
+  AddDungeonObject_Item     $13, $A5, Flag_DungeonChest13_A5, Item_Empty, $00
+  AddDungeonObject_Item     $13, $EC, Flag_DungeonChest13_EC, Item_Empty, $7F
+  AddDungeonObject_Meseta   $13, $EC, Flag_DungeonChest13_EC_2, 20
+  AddDungeonObject_Dialogue $14, $41, Flag_DungeonDialogue14_41, $93, $00 ; _room_93_55AB_TriadaGuard
+  AddDungeonObject_Dialogue $15, $55, Flag_DungeonDialogue15_55, $91, $0F ; _room_91_DrasgoCave2
+  AddDungeonObject_Dialogue $15, $A1, Flag_DungeonDialogue15_A1, $90, $29 ; _room_90_DrasgoCave1
+  AddDungeonObject_Dialogue $15, $C8, Flag_DungeonDialogue15_C8, $16, $00 ; _room_16_MadDoctor
+  AddDungeonObject_Meseta   $16, $3E, Flag_DungeonChest16_3E, 100
+  AddDungeonObject_Item     $16, $5E, Flag_DungeonChest16_5E, Item_Empty, $FC
+  AddDungeonObject_Item     $16, $81, Flag_DungeonChest16_81, Item_Searchlight, $00
+  AddDungeonObject_Item     $16, $C8, Flag_DungeonChest16_C8, Item_EscapeCloth, $00
+  AddDungeonObject_Meseta   $17, $AA, Flag_DungeonChest17_AA, 20
+  AddDungeonObject_Meseta   $17, $AA, Flag_DungeonChest17_AA_2, 200
+  AddDungeonObject_Item     $18, $16, Flag_DungeonChest18_16, Item_Empty, $FF
+  AddDungeonObject_Battle   $18, $1C, Flag_DungeonBattle18_1C, Enemy_RedSlime, Item_Empty
+  AddDungeonObject_Item     $19, $1A, Flag_DungeonChest19_1A, Item_Ruoginin, $00
+  AddDungeonObject_Item     $19, $B9, Flag_DungeonChest19_B9, Item_Empty, $FF
+  AddDungeonObject_Meseta   $19, $35, Flag_DungeonChest19_35, 100
+  AddDungeonObject_Meseta   $19, $C3, Flag_DungeonChest19_C3, 1
+  AddDungeonObject_Item     $19, $74, Flag_DungeonChest19_74, Item_Ruoginin, $00
+  AddDungeonObject_Item     $19, $A3, Flag_DungeonChest19_A3, Item_Empty, $FC
+  AddDungeonObject_Item     $1A, $1E, Flag_DungeonChest1A_1E, Item_Empty, $FC
+  AddDungeonObject_Meseta   $1A, $33, Flag_DungeonChest1A_33, 20
+  AddDungeonObject_Item     $1A, $51, Flag_DungeonChest1A_51, Item_Ruoginin, $00
+  AddDungeonObject_Item     $1A, $CB, Flag_DungeonChest1A_CB, Item_Empty, $00
+  AddDungeonObject_Battle   $1B, $5A, Flag_DungeonBattle1B_5A, Enemy_RedDragon, Item_Weapon_LaconianSword
+  AddDungeonObject_Item     $1B, $E1, Flag_DungeonChest1B_E1, Item_Ruoginin, $00
+  AddDungeonObject_Battle   $1C, $1E, Flag_DungeonBattle1C_1E, Enemy_RedDragon, Item_Empty
+  AddDungeonObject_Meseta   $1C, $31, Flag_DungeonChest1C_31, 2000
+  AddDungeonObject_Item     $1D, $1B, Flag_DungeonChest1D_1B, Item_Searchlight, $00
+  AddDungeonObject_Item     $1D, $21, Flag_DungeonChest1D_21, Item_Ruoginin, $00
+  AddDungeonObject_Item     $1D, $41, Flag_DungeonChest1D_41, Item_Ruoginin, $FC
+  AddDungeonObject_Item     $1D, $8C, Flag_DungeonChest1D_8C, Item_Searchlight, $00
+  AddDungeonObject_Meseta   $1D, $CA, Flag_DungeonChest1D_CA, 50
+  AddDungeonObject_Battle   $1D, $B1, Flag_DungeonBattle1D_B1, Enemy_MotavianPeasant, Item_Empty
+  AddDungeonObject_Item     $1E, $1E, Flag_DungeonChest1E_1E, Item_PelorieMate, $00
+  AddDungeonObject_Meseta   $1E, $11, Flag_DungeonChest1E_11, 20
+  AddDungeonObject_Dialogue $21, $94, Flag_DungeonDialogue21_94, $9B, $00 ; _room_9b_561F_GiftCheck_room_9b_561F_GiftCheck
+  AddDungeonObject_Meseta   $22, $11, Flag_DungeonChest22_11, 500
+  AddDungeonObject_Dialogue $22, $24, Flag_DungeonDialogue22_24, $9D, $00 ; _room_9d_Tajim
+  AddDungeonObject_Item     $22, $6E, Flag_DungeonChest22_6E, Item_Empty, $FC
+  AddDungeonObject_Item     $22, $91, Flag_DungeonChest22_91, Item_Empty, $FF
+  AddDungeonObject_Item     $22, $EA, Flag_DungeonChest22_EA, Item_Weapon_TitaniumSword, $00
+  AddDungeonObject_Item     $22, $EE, Flag_DungeonChest22_EE, Item_Empty, $FF
+  AddDungeonObject_Meseta   $22, $E3, Flag_DungeonChest22_E3, 500
+  AddDungeonObject_Item     $23, $79, Flag_DungeonChest23_79, Item_Searchlight, $00
+  AddDungeonObject_Item     $23, $91, Flag_DungeonChest23_91, Item_Empty, $FC
+  AddDungeonObject_Item     $23, $C1, Flag_DungeonChest23_C1, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $24, $47, Flag_DungeonChest24_47, 3000
+  AddDungeonObject_Item     $24, $11, Flag_DungeonChest24_11, Item_Armour_WhiteMantle, $00
+  AddDungeonObject_Item     $24, $1E, Flag_DungeonChest24_1E, Item_Weapon_WoodCane, $00
+  AddDungeonObject_Item     $24, $EE, Flag_DungeonChest24_EE, Item_PelorieMate, $00
+  AddDungeonObject_Battle   $25, $1D, Flag_DungeonBattle25_1D, Enemy_DragonWise, Item_CarbuncleEye
+  AddDungeonObject_Meseta   $25, $86, Flag_DungeonChest25_86, 100
+  AddDungeonObject_Item     $25, $8A, Flag_DungeonChest25_8A, Item_Empty, $FC
+  AddDungeonObject_Meseta   $25, $3E, Flag_DungeonChest25_3E, 100
+  AddDungeonObject_Meseta   $26, $7B, Flag_DungeonChest26_7B, 5000
+  AddDungeonObject_Battle   $27, $9E, Flag_DungeonBattle27_9E, Enemy_RedDragon, Item_Weapon_LightSaber
+  AddDungeonObject_Meseta   $27, $71, Flag_DungeonChest27_71, 500
+  AddDungeonObject_Meseta   $28, $D1, Flag_DungeonChest28_D1, 500
+  AddDungeonObject_Battle   $29, $67, Flag_DungeonBattle29_67, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Battle   $29, $79, Flag_DungeonBattle29_79, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Item     $29, $99, Flag_DungeonChest29_99, Item_Ruoginin, $00
+  AddDungeonObject_Battle   $29, $A4, Flag_DungeonBattle29_A4, Enemy_Wight, Item_Empty
+  AddDungeonObject_Battle   $29, $D5, Flag_DungeonBattle29_D5, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Battle   $2A, $53, Flag_DungeonBattle2A_53, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Battle   $2A, $73, Flag_DungeonBattle2A_73, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Battle   $2A, $B1, Flag_DungeonBattle2A_B1, Enemy_Zombie, Item_Empty
+  AddDungeonObject_Dialogue $2A, $DB, Flag_DungeonDialogue2A_DB, $A4, $00 ; _room_a4_CoronoTowerDezorian1
+  AddDungeonObject_Item     $2A, $99, Flag_DungeonChest2A_99, Item_Armour_LaconianArmor, $7F
+  AddDungeonObject_Item     $2B, $79, Flag_DungeonChest2B_79, Item_EscapeCloth, $00
+  AddDungeonObject_Item     $2C, $45, Flag_DungeonChest2C_45, Item_Empty, $FC
+  AddDungeonObject_Item     $2C, $ED, Flag_DungeonChest2C_ED, Item_Ruoginin, $00
+  AddDungeonObject_Meseta   $2C, $4B, Flag_DungeonChest2C_4B, 500
+  AddDungeonObject_Meseta   $2D, $18, Flag_DungeonChest2D_18, 20
+  AddDungeonObject_Item     $2D, $83, Flag_DungeonChest2D_83, Item_PelorieMate, $00
+  AddDungeonObject_Item     $2D, $AD, Flag_DungeonChest2D_AD, Item_Searchlight, $00
+  AddDungeonObject_Meseta   $2D, $E3, Flag_DungeonChest2D_E3, 20
+  AddDungeonObject_Item     $2D, $A3, Flag_DungeonChest2D_A3, Item_Empty, $FF
+  AddDungeonObject_Item     $2F, $11, Flag_DungeonChest2F_11, Item_Shield_LaconianShield, $7F
+  AddDungeonObject_Item     $2F, $2B, Flag_DungeonChest2F_2B, Item_Empty, $FF
+  AddDungeonObject_Item     $2F, $73, Flag_DungeonChest2F_73, Item_Empty, $FC
+  AddDungeonObject_Meseta   $2F, $D6, Flag_DungeonChest2F_D6, 100
+  AddDungeonObject_Item     $32, $3B, Flag_DungeonChest32_3B, Item_Empty, $FC
+  AddDungeonObject_Item     $33, $19, Flag_DungeonChest33_19, Item_Empty, $FF
+  AddDungeonObject_Battle   $33, $D9, Flag_DungeonBattle33_D9, Enemy_BitingFly, Item_Empty
+  AddDungeonObject_Meseta   $34, $16, Flag_DungeonChest34_16, 50
+  AddDungeonObject_Item     $34, $1E, Flag_DungeonChest34_1E, Item_MagicHat, $00
+  AddDungeonObject_Item     $34, $EE, Flag_DungeonChest34_EE, Item_Shield_CeramicShield, $00
+  AddDungeonObject_Dialogue $34, $C3, Flag_DungeonDialogue34_C3, $A6, $00 ; _room_a6_CoronaDungeonDishonestDezorian
+  AddDungeonObject_Dialogue $35, $C2, Flag_DungeonDialogue35_C2_ShadowWarrior, $9E, $00 ; _room_9e_ShadowWarrior
+  AddDungeonObject_Battle   $3A, $79, Flag_DungeonBattle3A_79, Enemy_Golem, Item_Aeroprism
+  AddDungeonObject_Item     $3A, $82, Flag_DungeonChest3A_82, Item_MagicHat, $00
 .db $FF
 
 ; Data from F473 to F5B8 (326 bytes)

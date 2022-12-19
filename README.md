@@ -27,6 +27,7 @@ Changelog (in reverse chronological order):
   - Added an option to speed up scene transitions (palette fades)
   - Added an option to speed up text drawing in the main script window
   - Button 1 more usage is now more consistently a "cancel" or "no" action (#96)
+  - Extended the credits sequence so the original credits are now left untouched
 
 <details>
 <summary>Click for more history</summary>
@@ -125,11 +126,15 @@ This patch requires that you download a program that can apply it to a properly 
 
 The original, unmodified game has the following characteristics:
 
-Size:  512KB (524,288 bytes)
-
-CRC32: `6605D36A`
-
-MD5:   `DFEBC48DFE8165202B7F002D8BAC477B`
+Attribute|Value
+---------|----
+Size     | 512KB (524,288 bytes)
+CRC32    |`6605d36a`
+CRC64    |`8c8383b83a0d6ecc`
+MD5      |`dfebc48dfe8165202b7f002d8bac477b`
+SHA1     |`c9a40ddd217c58dddcd6b5c0fe66c3a50d3e68e4`
+SHA256   |`1d8554202f313d97c4f48c6acf9b312853a1aca3c04fab9077743d7943a45ebb`
+BLAKE2sp |`9e006166eb172cd5a1c98483128e4d871924a2777da5514cad42cbfe6652d94b`
 
 There is only one known Japanese version of the game. The patch will NOT work with the US/European versions, or any other game on any platform. If you use the BPS patch it will verify that you are using the correct file.
 
@@ -230,7 +235,9 @@ I also reached out to DamienG and he came up with an awesome new font. Note that
 
 ### Maxim (2022)
 
-In the last few years we've continued to add more languages and thus more language grammar features to the code. Many thanks to the peopel helping with the translation work and their patience to explain the grammatical issues to me so I can implement the functionality needed to make first-class translations.
+In the last few years we've continued to add more languages and thus more language grammar features to the code. Many thanks to the people helping with the translation work and their patience to explain the grammatical issues to me so I can implement the functionality needed to make first-class translations.
+
+In the interests of better portability, buildability and understandability, all of the utility programs that were ported from C to C++ were further ported to Python. This was mostly in the interests of making these utilities (performing tasks like encoding the script) a little bit more understandable, but also removing the need for a C++ compiler to build the project from scratch.
 
 I spent a chunk of time to merge the ancient disassembly work I did in the early 2000s into a modern Emulicious disassembly. It's still far from complete but it was a big step forward in terms of understanding more of the code and how the script is used, to allow us to make sure the script lines flow properly and even extend it so lines shared between multiple places in Japanese can diverge to suit the characters. We even took the opportunity to add a few hints into the script regarding some lesser-known uses of objects.
 

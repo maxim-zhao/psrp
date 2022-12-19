@@ -1115,6 +1115,25 @@ YesNoButton1Fix:
 ;    or     a               ; 002E7F B7 
 ;    ret                    ; 002E80 C9 
 
+; It's handled separately on the treasure chest code path; we redirect that to the "normal" handler
+  ROMPosition $2a3d
+.section "Treasure chest yes/no 1 = close fix" overwrite
+  call $2e75 ; DoYesNoMenu, with 1 = close fix
+  push af
+    call $357e ; Close20x6TextBox - this is additionally needed here.
+  pop af
+  ret nz
+  jp $2a4a ; Continue past patched code
+.ends
+; Original code:
+;    call   ShowYesNoMenu ;$38c0  ; 002A3D CD C0 38 
+;    push   af                    ; 002A40 F5 
+;    call   HideYesNoMenu ;$38e0  ; 002A41 CD E0 38 
+;    call   Close20x6TextBox      ; 002A44 CD 7E 35 
+;    pop    af                    ; 002A47 F1 
+;    or     a                     ; 002A48 B7 
+;    ret    nz                    ; 002A49 C0 
+
 
 ; And 1 in the save menu should cancel
   ROMPosition $1e44

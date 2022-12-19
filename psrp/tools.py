@@ -44,16 +44,16 @@ def generate_words(tbl_file, asm_file, script_file, language, word_count):
     # The benefit of substituting a word is a bit complicated.
     # The substituted text storage is in a separate bank to the main script so moving low-frequency long words there can
     # be worthwhile. The space taken by a word is very much dependent on the letter frequency that we later Huffman
-    # compress, so common letter sequences are cheaper than unusual ones the Huffman trees are also stored outside the
+    # compress, so common letter sequences are cheaper than unusual ones. The Huffman trees are also stored outside the
     # script bank. Thus we can maximize the script space by selecting the words which are used the most, and are long
     # when Huffman encoded. As we don't know the Huffman length, we use the word length as a proxy.
     # Some tweaking of the weight function seems to find this gives the smallest size for the script block, which is the
-    # most space-pressured.
+    # most space-pressured. A word of length l that is found n times will be replaced by n symbols, so replacing will save n*(l-1) symbols.
     weighted_list = []
     for word, count in words.items():
         if len(word) == 1:
             continue
-        weighted_list.append(((count - 1) * len(word), word))
+        weighted_list.append((count * (len(word) - 1), word))
 
     # Then sort by weight descending, word descending
     weighted_list.sort(reverse=True)

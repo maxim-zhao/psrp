@@ -2532,7 +2532,7 @@
 
 - offsets: 4688
   indices: baf3
-  # Tairon
+  # Tylon
   # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
   # So Tylon can't talk to Myau directly.
   ja: |
@@ -2626,7 +2626,7 @@
 
 - offsets: 469e
   indices: bb64
-  # Tairon
+  # Tylon
   ja: |
     ソウダッタノカ。<line>
     ヨシ　キミノ　ニイサンノ　タメニモ<line>
@@ -2696,7 +2696,7 @@
 
 - offsets: 46b4
   indices: bbaf
-  # Tairon
+  # Tylon
   ja: |
     メデューサガ　モッテイル　デンセツノ<line>
     オノガ　ホシカッタンダケド<line>
@@ -10329,15 +10329,16 @@
     ケイケンチガ　<number>ポイント<line>
     アガッタ。<wait>
   kanji: 経験値が<number>ポイント上がった。
+  # <number> is always >1
   literal: Experience increased by <number> points.<wait>
   us: |
     YOU GAINED <number><line>
     EXPERIENCE POINTS.<wait>
-  en: You gained <number> experience<internal hint 02> point<s>.<wait>
-  fr: Plus <number><internal hint 01> point<s> d'Exp.<wait>
-  pt-br: Você ganhou <number><internal hint 01> ponto<s> de experiência.<wait>
-  ca: Heu guanyat <number><internal hint 01> punt<s> d'experiéncia.<wait>
-  es: Habéis ganado <number><internal hint 01> punto<s> de experiéncia.<wait>
+  en: You gained <number> experience points.<wait>
+  fr: Plus <number> points d'Exp.<wait>
+  pt-br: Você ganhou <number> pontos de experiência.<wait>
+  ca: Heu guanyat <number> punts d'experiéncia.<wait>
+  es: Habéis ganado <number> puntos de experiéncia.<wait>
   de: <number> Erfahrungspunkte erhalten.<wait>
 
 - offsets: 18f3

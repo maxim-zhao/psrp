@@ -533,8 +533,8 @@ DrawNameEntryScreen:
     ld bc,32*24*2
     call $03de ; OutputToVRAM
     ; Load the cursor sprite
-    ld hl,$6000 ; tile $100
-    ld de,_CursorSprite
+    ld de,$6000 ; tile $100
+    ld hl,_CursorSprite
     call LoadTiles
   ei
 
@@ -607,7 +607,7 @@ _NameEntryText\@end:
 
 _CursorMemoryInitialValues:
 .db 3, 11, 0 ; X, Y, index into drawn name
-.dw $0000 ; Previous selection pointer. 0 is used to trigger the intial cursor draw.
+.dw $0000 ; Previous selection pointer. 0 is used to trigger the initial cursor draw.
 
 .ends
 
