@@ -3451,11 +3451,11 @@ _LABEL_12A4_:
     and $01
     inc a
     ld b,a
-    ld a,(iy+13)
+    ld a,(iy+Character.TiedUp)
     sub b
     jr nc,+
     xor a
-+:  ld (iy+13),a
++:  ld (iy+Character.TiedUp),a
     or a
     ld hl,textPlayerRemovedBindings
     jr z,+
@@ -3486,7 +3486,9 @@ _LABEL_12A4_:
     jr z,++
     cp Item_Weapon_LaserGun
     jr z,+++
-    call _LABEL_1A05_
+    ; Non-gun attack
+    call _LABEL_1A05_ShowAttackSprites
+    ; Pick a random enemy
 -:  call GetRandomNumber
     and $07
     add a,$04
@@ -3541,8 +3543,8 @@ _LABEL_1367_:
     jr _LABEL_1367_
 
 _LABEL_1379_:
-    ld a,(iy+8)
-    bit 7,(iy+0)
+    ld a,(iy+Character.Attack)
+    bit 7,(iy+Character.IsAlive)
     jr z,+
     ld c,a
     rrca
@@ -3552,7 +3554,7 @@ _LABEL_1379_:
     ld a,$FF
 +:  call RandomReduce
     ld c,a
-    ld a,(ix+9)
+    ld a,(ix+Character.Defence)
     call RandomReduce
     sub c
     jr c,_LABEL_13BA_FlashAndReduceEnemyHP
@@ -3569,7 +3571,7 @@ _LABEL_1379_:
 _LABEL_13AD_:
     call GetRandomNumber
     and $1F
-    cp (iy+5)
+    cp (iy+Character.LV)
     jr z,+
     jr nc,_LABEL_13AD_
 +:  cpl
@@ -3609,18 +3611,18 @@ _LABEL_13E8_:
     ret z
     push hl
     pop iy
-    ld a,(iy+13)
+    ld a,(iy+Character.TiedUp)
     or a
     jr z,++
     call GetRandomNumber
     and $01
     inc a
     ld b,a
-    ld a,(iy+13)
+    ld a,(iy+Character.TiedUp)
     sub b
     jr nc,+
     xor a
-+:  ld (iy+13),a
++:  ld (iy+Character.TiedUp),a
     or a
     ld hl,textMonsterRemovedBindings
     jr z,+
@@ -4197,15 +4199,15 @@ ShowTreasureChest:
 .orga $184d
 .section "Initialise character stats in iy" overwrite
 InitialiseCharacterStats:
-    ld (iy+0),$01      ; alive
-    ld (iy+5),$01      ; LV
+    ld (iy+Character.IsAlive),$01      ; alive
+    ld (iy+Character.LV),$01      ; LV
     push iy
       call CharacterStatsUpdate
     pop iy
-    ld a,(iy+6)        ; copy Max HP and Max MP to HP and MP
-    ld (iy+1),a
-    ld a,(iy+7)
-    ld (iy+2),a
+    ld a,(iy+Character.MaxHP)        ; copy Max HP and Max MP to HP and MP
+    ld (iy+Character.HP),a
+    ld a,(iy+Character.MaxMP)
+    ld (iy+Character.MP),a
     ret
 .ends
 .orga $1869
@@ -4240,7 +4242,7 @@ _LABEL_1869_:
 +:  bit 0,(iy+Character.IsAlive)
     ret z
     ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:LevelStats
     ld l,(iy+Character.LV)
     ld h,$00
     add hl,hl
@@ -4262,11 +4264,11 @@ _LABEL_1869_:
     cp $1E
     ret z
     ld a,h
-    sub (ix+5)
+    sub (ix+LevelStats.ExperienceThreshold+1)
     ret c
     jr nz,+
     ld a,l
-    sub (ix+4)
+    sub (ix+LevelStats.ExperienceThreshold+0)
     ret c
 +:  ld a,SFX_ba
     ld (NewMusic),a
@@ -4275,10 +4277,10 @@ _LABEL_1869_:
     ld hl,Frame2Paging
     ld (hl),$03
     inc (iy+Character.LV)
-    ld a,(ix+6)
+    ld a,(ix+LevelStats.MagicCount)
     cp (iy+Character.MagicCount)
     jr nz,+
-    ld a,(ix+7)
+    ld a,(ix+LevelStats.BattleMagicCount)
     cp (iy+Character.BattleMagicCount)
     ret z
 +:  ld hl,textPlayerLearnedASpell
@@ -4291,11 +4293,11 @@ CharacterStatsUpdate:
     ld (hl),:LevelStats
 
     ld iy,CharacterStatsAlis
-    ld de,LevelStatsAlis-8
+    ld de,LevelStatsAlis-8 ; -8 because level starts at 1
     call +
 
     ld iy,CharacterStatsMyau
-    ld de,LevelStatsMyau-8 ; -8 because other characters start at level 1
+    ld de,LevelStatsMyau-8
     call +
 
     ld iy,CharacterStatsOdin
@@ -4319,41 +4321,41 @@ CharacterStatsUpdate:
     push hl
     pop ix             ; ix = de + LV*8
 
-    ld a,(ix+0)
-    ld (iy+6),a        ; Max HP
+    ld a,(ix+LevelStats.MaxHP)
+    ld (iy+Character.MaxHP),a        ; Max HP
 
-    ld l,(iy+10)
+    ld l,(iy+Character.Weapon)
     ld h,$00
     ld de,_ItemStrengths
     add hl,de
     ld a,(hl)
-    add a,(ix+1)
-    ld (iy+8),a        ; Attack = (_ItemStrengths + Weapon) + level bonus
+    add a,(ix+LevelStats.Attack)
+    ld (iy+Character.Attack),a        ; Attack = (_ItemStrengths + Weapon) + level bonus
 
-    ld l,(iy+11)
+    ld l,(iy+Character.Armour)
     ld h,$00
     add hl,de
     ld a,(hl)
-    ld l,(iy+12)
+    ld l,(iy+Character.Shield)
     ld h,$00
     add hl,de
     add a,(hl)
-    add a,(ix+2)
-    ld (iy+9),a        ; Defence = (_ItemStrengths + Armour) + (_ItemStrengths + Shield) + level bonus
+    add a,(ix+LevelStats.Defence)
+    ld (iy+Character.Defence),a        ; Defence = (_ItemStrengths + Armour) + (_ItemStrengths + Shield) + level bonus
 
-    ld a,(ix+3)
-    ld (iy+7),a        ; Max MP
+    ld a,(ix+LevelStats.MaxMP)
+    ld (iy+Character.MaxMP),a        ; Max MP
 
-    ld a,(ix+6)
-    ld (iy+14),a       ; Number of magics known
+    ld a,(ix+LevelStats.MagicCount)
+    ld (iy+Character.MagicCount),a       ; Number of magics known
 
-    ld a,(ix+7)
-    ld (iy+15),a       ; ??? = ix+7
+    ld a,(ix+LevelStats.BattleMagicCount)
+    ld (iy+Character.BattleMagicCount),a       ; Number of battle magics known
     ret
 
 _ItemStrengths:
 .db  0,3,4,12,10,10,10,21,31,18,30,30,46,50,60,80 ; weapons
-.db  5,5,15,20,30,30,60,80,40                      ; armour - splits not certain ???
+.db  5,5,15,20,30,30,60,80,40                      ; armour
 .db  3,8,15,23,40,30,40,50                         ; shields
 .dsb 31,0                                          ; 31 0s at the end -> 64 bytes total ##############
 .ends
@@ -4396,7 +4398,7 @@ ShowMessageIfDead:
     pop af
     ret
 
-_LABEL_1A05_:
+_LABEL_1A05_ShowAttackSprites:
     push iy
       ld (_RAM_C80A_),a
       ld a,$0B
@@ -5214,9 +5216,10 @@ _Magic05_Fire:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld de,$F610
-    call _LABEL_200E_
-_LABEL_200E_:
+    ld de,$F610 ; -10, 16
+    call _LABEL_200E_AttackRandomEnemy
+    ; And fall through to do it twice
+_LABEL_200E_AttackRandomEnemy:
     ld b,$08
 -:  ld a,b
     sub $0C
@@ -5228,7 +5231,8 @@ _LABEL_200E_:
 
 +:  push de
       ld a,e
-      call _LABEL_1A05_
+      call _LABEL_1A05_ShowAttackSprites
+      ; Pick a random enemy
   -:  call GetRandomNumber
       and $07
       add a,$04
@@ -5238,6 +5242,7 @@ _LABEL_200E_:
       pop ix
     pop de
     push de
+      ; Reduce attack strength by 0..3
       call GetRandomNumber
       and $03
       add a,d
@@ -5254,10 +5259,10 @@ _Magic06Thunder:
     ld de,$D811
 _LABEL_204A_DoGunOrThunderAttack:
     ; d = attach strength (negative number)
-    ; e = weapon number?
+    ; e = weapon number for sprites
     ld b,$08
 -:  push bc
-      ; Pick an enemy who is alive
+      ; Pick every enemy who is alive
       ld a,b
       sub $0C
       neg
@@ -5267,7 +5272,7 @@ _LABEL_204A_DoGunOrThunderAttack:
       pop ix ; ix points to the enemy
       push de
         ld a,e
-        call _LABEL_1A05_ ; Show weapon attack sprites?
+        call _LABEL_1A05_ShowAttackSprites ; Show weapon attack sprites?
       pop de
       push de
         ld a,d ; Get attack strength: $d8 (-40) for thunder, $ec (-20) for laser gun, $f6 (-10) for heat gun, $fb (-5) for needle gun
@@ -5280,6 +5285,8 @@ _LABEL_204A_DoGunOrThunderAttack:
 +:      call _LABEL_13BA_FlashAndReduceEnemyHP
         call _LABEL_326D_UpdateEnemyHP
       pop de
+      ; We loop over all enemies normally, but treat Dark Force as a special case
+      ; and only attack him once.
       ld a,(EnemyNumber)
       cp Enemy_DarkForce
       jr z,+++
@@ -5295,10 +5302,11 @@ _Magic07_Wind:
     ld a,b
     call CheckIfEnoughMP
     ld (de),a
-    ld de,$F412
-    call _LABEL_200E_
-    call _LABEL_200E_
-    jp _LABEL_200E_
+    ld de,$F412 ; -12 HP, sprite set 18
+    ; Three attacks
+    call _LABEL_200E_AttackRandomEnemy
+    call _LABEL_200E_AttackRandomEnemy
+    jp _LABEL_200E_AttackRandomEnemy
 
 ; 9th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
 _Magic08_Bind:
@@ -5993,10 +6001,10 @@ UseItem_Alsuline:
     call Close20x6TextBox
     call _LABEL_28D8_RemoveItemFromInventory
     ld iy,CharacterStatsOdin
-    ld (iy+10),$06
-    ld (iy+11),$13
+    ld (iy+Character.Weapon),Item_Weapon_IronAxe
+    ld (iy+Character.Armour),Item_Armour_IronArmor
     call InitialiseCharacterStats
-    ld a,$02
+    ld a,2
     ld (PartySize),a
     ld hl,Flag_DungeonChest00_36_Compass
     ld (hl),$00
@@ -6908,7 +6916,7 @@ _LABEL_2CA2_:
     jp TextBox20x6
 
 +:  ld hl,Frame2Paging
-    ld (hl),$03
+    ld (hl),:LevelStats
     ld l,a
     ld h,$00
     add hl,hl
@@ -6917,10 +6925,10 @@ _LABEL_2CA2_:
     add hl,de
     push hl
     pop ix
-    ld e,(iy+3)
-    ld d,(iy+4)
-    ld l,(ix+4)
-    ld h,(ix+5)
+    ld e,(iy+Character.EP+0)
+    ld d,(iy+Character.EP+1)
+    ld l,(ix+LevelStats.ExperienceThreshold+0)
+    ld h,(ix+LevelStats.ExperienceThreshold+1)
     or a
     sbc hl,de
     ld (NumberToShowInText),hl
@@ -7408,16 +7416,16 @@ _LABEL_3041_UpdatePartyStats:
     ld hl,_DATA_6F53B_
     ld de,$7CB0
     ld ix,CharacterStatsLutz
-+:  bit 0,(ix+0)
++:  bit 0,(ix+Character.IsAlive)
     ret z
 _LABEL_3083_:
     ld bc,$0310
     call OutputTilemapBoxWipePaging
     ld hl,TilesHP
-    ld a,(ix+1)
+    ld a,(ix+Character.HP)
     call Output4CharsPlusStat
     ld hl,TilesMP
-    ld a,(ix+2)
+    ld a,(ix+Character.MP)
     call Output4CharsPlusStat
     ld hl,MenuBox8Bottom
     ld bc,$0110
@@ -7439,15 +7447,15 @@ _LABEL_30A4_:
     ld hl,_DATA_6F53B_
     ld de,$7CB0
     ld ix,CharacterStatsLutz
-+:  bit 0,(ix+0)
++:  bit 0,(ix+Character.IsAlive)
     ret z
     ld bc,$0310
     call OutputTilemapRect
     ld hl,TilesHP
-    ld a,(ix+1)
+    ld a,(ix+Character.HP)
     call Output4CharsPlusStat
     ld hl,TilesMP
-    ld a,(ix+2)
+    ld a,(ix+Character.MP)
     call Output4CharsPlusStat
     ld hl,MenuBox8Bottom
     ld bc,$0110
@@ -7721,7 +7729,7 @@ _LABEL_326D_UpdateEnemyHP:
     ld b,a             ; b = number of enemies
 -:  push bc
       ld hl,TilesHP
-      ld a,(ix+$01)  ; HP
+      ld a,(ix+Character.HP)  ; HP
       call Output4CharsPlusStat
       ld bc,$10      ; Next enemy's stats
       add ix,bc
@@ -12314,8 +12322,8 @@ _room_7e_Lutz: ; $53CF:
     ld a,1
     ld (HaveLutz),a
     ld iy,CharacterStatsLutz
-    ld (iy+$0a),$01
-    ld (iy+$0b),$11
+    ld (iy+Character.Weapon),Item_Weapon_WoodCane
+    ld (iy+Character.Armour),Item_Armour_WhiteMantle
     call InitialiseCharacterStats
     ld a,3
     ld (PartySize),a
@@ -21291,6 +21299,15 @@ _DATA_F82F_ItemSellingPrices:
 
 .orga $b8a7
 .section "Character level stats" overwrite
+.struct LevelStats
+  MaxHP db
+  Attack db
+  Defence db
+  MaxMP db
+  ExperienceThreshold dw
+  MagicCount db
+  BattleMagicCount db
+.endst
 LevelStats:
 ;    ,,------------------------------ Max HP
 ;    ||  ,,-------------------------- Attack boost
@@ -21299,7 +21316,6 @@ LevelStats:
 ;    ||  ||  ||  ||  ,,--,,---------- Experience threshold for level
 ;    ||  ||  ||  ||  ||  ||  ,,------ Magics known
 ;    ||  ||  ||  ||  ||  ||  ||  ,,-- Battle magics known
-.db 0,0,0,0,0,0,0,0
 LevelStatsAlis:
 .db $10,$08,$08,$00,$00,$00,$00,$00
 .db $14,$0a,$0b,$00,$14,$00,$00,$00
