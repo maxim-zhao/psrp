@@ -18524,47 +18524,52 @@ ItemMetadata:
 ; %765432tt
 ;  |||| |``- Item type: 0 = weapon, 1 = armour, 2 = shield
 ;  |||| `--- Undroppable item
-;  ````----- Equippable by player bits. Zero if equippable. Lutz - Odin - Myau - Alis
-
+;  ````----- Equippable by player bits. 1 if equippable. Lutz - Odin - Myau - Alis
 .define ItemMetadata_Weapon %00
 .define ItemMetadata_Armour %01
 .define ItemMetadata_Shield %10
+.define ItemMetadata_Undroppable %1000
+.define ItemMetadata_Alis  %00010000
+.define ItemMetadata_Myau  %00100000
+.define ItemMetadata_Tylon %01000000
+.define ItemMetadata_Lutz  %10000000
+
 .db $00 ; blank
 ; Weapons
-.db %11010000 ; Wood Cane - Myau?
-.db %11010000
-.db %01010000
-.db %11010000
-.db %00100000
-.db %01000000
-.db %01010000
-.db %01010000
-.db %01000000
-.db %00100000
-.db %01000000
-.db %01010000
-.db %01000000
-.db %01010000
-.db %01000000
+.db ItemMetadata_Weapon | ItemMetadata_Lutz | ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_WoodCane      
+.db ItemMetadata_Weapon | ItemMetadata_Lutz | ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_ShortSword    
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_IronSword     
+.db ItemMetadata_Weapon | ItemMetadata_Lutz | ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_PsychoWand    
+.db ItemMetadata_Weapon |                                          ItemMetadata_Myau                     ; Item_Weapon_SilverTusk    
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_IronAxe       
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_TitaniumSword 
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_CeramicSword  
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_NeedleGun     
+.db ItemMetadata_Weapon |                                          ItemMetadata_Myau                     ; Item_Weapon_SaberClaw     
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_HeatGun       
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_LightSaber    
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_LaserGun      
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                     ItemMetadata_Alis ; Item_Weapon_LaconianSword 
+.db ItemMetadata_Weapon |                     ItemMetadata_Tylon |                                       ; Item_Weapon_LaconianAxe   
 ; Armour
-.db %01010001
-.db %10000001
-.db %01010001
-.db %01000001
-.db %00100001
-.db %01010001
-.db %01010001
-.db %01000001
-.db %10000001
+.db %01010001; Item_Armour_LeatherClothes  
+.db %10000001; Item_Armour_WhiteMantle     
+.db %01010001; Item_Armour_LightSuit       
+.db %01000001; Item_Armour_IronArmor       
+.db %00100001; Item_Armour_SpikySquirrelFur
+.db %01010001; Item_Armour_ZirconiaMail    
+.db %01010001; Item_Armour_DiamondArmor    
+.db %01000001; Item_Armour_LaconianArmor   
+.db %10000001; Item_Armour_FradMantle      
 ; Shields
-.db %01010010
-.db %01000010
-.db %01010010
-.db %01010010
-.db %00100010
-.db %11010010
-.db %01000110
-.db %01010010
+.db %01010010 ; Item_Shield_LeatherShield  
+.db %01000010 ; Item_Shield_IronShield     
+.db %01010010 ; Item_Shield_BronzeShield   
+.db %01010010 ; Item_Shield_CeramicShield  ; Alisa and Tylon only
+.db %00100010 ; Item_Shield_AnimalGlove    
+.db %11010010 ; Item_Shield_LaserBarrier   
+.db %01000110 ; Item_Shield_ShieldOfPerseus
+.db %01010010 ; Item_Shield_LaconianShield 
 ; Vehicles
 .db %00000100 ; Undroppable
 .db %00000100 ; Undroppable

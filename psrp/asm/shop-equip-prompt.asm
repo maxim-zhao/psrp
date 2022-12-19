@@ -14,7 +14,6 @@ ShopEquipMod:
   
   ; The original item equip code is at $2824. However we can't use it because it breaks our script state. So we copy/paste/enhance...
   
-
   ; Check if the item is equippable
   ld hl,PAGING_SLOT_2
   ld (hl),:ItemMetaData
@@ -141,12 +140,14 @@ _done:
   ld bc,(ScriptBCStateBackup)
   jp $37d8 ; Close player select and return
 
-_cantEquip:  
-  ld hl,ScriptPlayerCantEquipItem
-  ld bc,(ScriptBCStateBackup)
-  call TextBox
-  ld (ScriptBCStateBackup),bc
-  call $37d8 ; Close player select
+_cantEquip:
+  push hl
+    ld hl,ScriptPlayerCantEquipItem
+    ld bc,(ScriptBCStateBackup)
+    call TextBox
+    ld (ScriptBCStateBackup),bc
+    call $37d8 ; Close player select
+  pop hl
   jr _selectWho ; try again!
 
 .ends
