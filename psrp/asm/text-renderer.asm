@@ -327,8 +327,8 @@ _SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
   jp z,_Decode   ; No 's' needed
 
   ;ld a,LETTER_S   ; add 's'
-  .db $3e
-  .stringmap script "s"
+  .db $3e ; ld a, nn opcode
+.include {"{LANGUAGE}/plurals.asm"}
   jr _Done
 
 +:cp SymbolPronoun
