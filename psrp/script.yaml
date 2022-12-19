@@ -9986,7 +9986,7 @@
   pt-br: Está muito escuro. Você não pode avançar.<wait>
   ca: Es fosc com la gola del llop. No podem avançar.<wait>
   es: Está oscuro como la panza de un lobo. No podemos avanzar.<wait>
-  de: Es ist zu dunkel, um weiterzugehen.<wait>
+  de: Es ist zu dunkel um weiterzugehen.<wait>
 
 - offsets: 27c3
   indices: b5de
