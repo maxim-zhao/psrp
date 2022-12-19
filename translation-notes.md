@@ -12,15 +12,15 @@ Telling you the names of all the things in the game is a kind of spoiler, so don
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
 アリサ|arisa|ALIS|Alis|Alisa|Transliteration. Later games use "Alis" but the "a" is there in the original.
-チョウコオネーサン|choukoonēsan|<not present>|<not present>|Choko Oneesan|Transliteration
+チョウコオネーサン|choukooneesan|<not present>|<not present>|Choko Oneesan|Transliteration
 ダモア|damoa|DAMOR|Damor|Damoa|Transliteration
-エスパー|esupā|ESPAR|Espar|Esper(s)|Transliteration
-ゲーマーノ ミキチャン|gēmāno mikichan|MIKI|Miki|Gamer Miki-chan|Transliteration
-ソウトク|soutoku|GOVERNOR|Governor|Governor-General|Translation (総督)
-ラシーク|rashīku|LASSIC|Lassic|LaShiec|Transliteration. [Fits with later translations.](https://phantasystar.fandom.com/wiki/Lashiec)
+エスパー|esupaa|ESPAR|Espar|Esper(s)|Transliteration
+ゲーマーノ ミキチャン|geemaano mikichan|MIKI|Miki|Gamer Miki-chan|Transliteration
+ソウトク (総督)|soutoku|GOVERNOR|Governor|Governor-General|Translation
+ラシーク|rashiiku|LASSIC|Lassic|LaShiec|Transliteration. [Fits with later translations.](https://phantasystar.fandom.com/wiki/Lashiec)
 ルツ|rutsu|LUTZ|Lutz|Lutz|Transliteration
 ルベノ|rubeno|LUVENO|Luveno|Luveno|Transliteration (unchanged)
-メデューサ|mede~yūsa|MEDUSA|Medusa|Medusa|Transliteration (unchanged)
+メデューサ|mede~yuusa|MEDUSA|Medusa|Medusa|Transliteration (unchanged)
 ミャウ|myau|MYAU|Myau|Myau|Transliteration (and onomatopoeia) (unchanged)
 ネキセ|nekise|NEKISE|Nekise|Nekise|Transliteration (unchanged). Could be "Nekiseh" to imply the correct pronunciation.
 ネロ|nero|NERO|Nero|Nero|Transliteration (unchanged)
@@ -36,12 +36,12 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 アルチプラノ|aruchipurano|ALTIPLANO|Altiplano|Altiplano|Transliteration (unchanged)
 アビオン|abion|ABION|Abion|Avion|Transliteration
 バルテボ|barutebo|BORTEVO|Bortevo|Bartevo|Transliteration
-バヤ マーレ|baya māre|BAYA MALAY|Baya Malay|Baya Marlay|Transliteration
-カミニート|kaminīto|CAMINEET|Camineet|Camineet|Transliteration (unchanged)
+バヤ マーレ|baya maare|BAYA MALAY|Baya Malay|Baya Marlay|Transliteration
+カミニート|kaminiito|CAMINEET|Camineet|Camineet|Transliteration (unchanged)
 カスバ|kasuba|CASBA|Casba|Casba|Transliteration (unchanged)
 コロナ|korona|CORONA|Corona|Corona|Transliteration (unchanged)
 デゾリス|dezorisu|DEZORIS|Dezoris|Dezoris|Transliteration (unchanged)
-ドラスゴー |dorasugō|DRASGOW|Drasgow|Drasgo|Transliteration
+ドラスゴー |dorasugoo|DRASGOW|Drasgow|Drasgo|Transliteration
 エピ|epi|EPPI|Eppi|Eppi|Transliteration (unchanged)
 ガシコ|gashiko|GOTHIC|Gothic|Gothic|Transliteration (unchanged)
 グアラン|guaran|GUARON|Guaron|Guaran|Transliteration
@@ -56,37 +56,37 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 スクレ|sukure|SKURE|Skure|Skray|Transliteration
 ソピア|sopia|SOPIA|Sopia|Sopia|Transliteration (unchanged)
 トリアダ|toriada|TRIADA|Triada|Triada|Transliteration (unchanged)
-ウーゾ|ūzo|UZO|Uzo|Uzo|Transliteration (unchanged)
+ウーゾ|uuzo|UZO|Uzo|Uzo|Transliteration (unchanged)
 
 ### Weapons
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
-セラミックソード|seramikkusōdo|CRC. SWD|Ceramic Sword|Ceramic Sword|Transliteration (unchanged)
-ヒートガン|ītogan|HEAT.GUN|Heat Gun|Heat Gun|Transliteration (unchanged)
+セラミックソード|seramikkusoodo|CRC. SWD|Ceramic Sword|Ceramic Sword|Transliteration (unchanged)
+ヒートガン|iitogan|HEAT.GUN|Heat Gun|Heat Gun|Transliteration (unchanged)
 アイアンアクス|aianakusu|IRN. AXE|Iron Axe|Iron Axe|Transliteration (unchanged)
-アイアンソード|aiansōdo|IRN. SWD|Iron Sword|Iron Sword|Transliteration (unchanged)
+アイアンソード|aiansoodo|IRN. SWD|Iron Sword|Iron Sword|Transliteration (unchanged)
 ラコニアンアクス|rakonianakusu|LAC. AXE|Laconian Axe|Laconian Axe|Transliteration (unchanged)
-ラコニアンソード|rakoniansōdo|LAC. SWD|Laconian Sword|Laconian Sword|Transliteration (unchanged)
-レーザーガン|rēzāgan|LASR.GUN|Laser Gun|Laser Gun|Transliteration (unchanged)
-ライトセイバー|raitoseibā|LGT.SABR|Light Saber|Light Saber|Transliteration (unchanged)
-ニードルガン|nīdorugan|NEEDLGUN|Needle Gun|Needle Gun|Transliteration (unchanged)
+ラコニアンソード|rakoniansoodo|LAC. SWD|Laconian Sword|Laconian Sword|Transliteration (unchanged)
+レーザーガン|reezaagan|LASR.GUN|Laser Gun|Laser Gun|Transliteration (unchanged)
+ライトセイバー|raitoseibaa|LGT.SABR|Light Saber|Light Saber|Transliteration (unchanged)
+ニードルガン|niidorugan|NEEDLGUN|Needle Gun|Needle Gun|Transliteration (unchanged)
 サイコウォンド|saikowondo|WAND|Wand|Psycho Wand|Transliteration
-サーベルクロー|sāberukurō|SIL.FANG|Silver Fang|Saber Claw|Transliteration. Sega translation changed the meaning.
-ショートソード|shōtosōdo|SHT. SWD|Short Sword|Short Sword|Transliteration (unchanged)
-シルバータスク|shirubātasuku|IRN.FANG|Iron Fang|Silver Tusk|Transliteration. Sega translation changed the meaning, see also "SIL. FANG".
-チタニウムソード|chitaniumusōdo|TIT. SWD|Titanium Sword|Titanium Sword|Transliteration (unchanged)
+サーベルクロー|saaberukuroo|SIL.FANG|Silver Fang|Saber Claw|Transliteration. Sega translation changed the meaning.
+ショートソード|shootosoodo|SHT. SWD|Short Sword|Short Sword|Transliteration (unchanged)
+シルバータスク|shirubaatasuku|IRN.FANG|Iron Fang|Silver Tusk|Transliteration. Sega translation changed the meaning, see also "SIL. FANG".
+チタニウムソード|chitaniumusoodo|TIT. SWD|Titanium Sword|Titanium Sword|Transliteration (unchanged)
 ウッドケイン|uddokein|WOODCANE|Wood Cane|Wood Cane|Transliteration (unchanged)
 
 ### Armour
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
-ダイヤノヨロイ|daiyanoyoroi|DMD.ARMR|Diamond Armor|Diamond Armor|Transliteration + translation (ダイヤの鎧)
-フラードマント|furādomanto|FRD.MANT|Frad Mantle|Frad Mantle|Transliteration
-アイアンアーマ|aianāma|IRN.ARMR|Iron Armor|Iron Armor|Transliteration (unchanged)
-ラコニアアーマ|rakoniāama|LAC.ARMR|Laconian Armor|Laconian Armor|Transliteration
-レザークロス|rezākurosu|LTH.ARMR|Leather Armor|Leather Clothes|Transliteration
-ライトスーツ|raitosūtsu|LGT.SUIT|Light Suit|Light Suit|Transliteration (unchanged)
-トゲリスノケガワ|togerisunokegawa|THCK.FUR|Thick Fur|Spiky Squirrel Fur|Translation (トゲリスの毛皮)
+ダイヤノヨロイ (ダイヤの鎧)|daiyanoyoroi|DMD.ARMR|Diamond Armor|Diamond Armor|Transliteration + translation
+フラードマント|furaadomanto|FRD.MANT|Frad Mantle|Frad Mantle|Transliteration
+アイアンアーマ|aianaama|IRN.ARMR|Iron Armor|Iron Armor|Transliteration (unchanged)
+ラコニアアーマ|rakoniaaama|LAC.ARMR|Laconian Armor|Laconian Armor|Transliteration
+レザークロス|rezaakurosu|LTH.ARMR|Leather Armor|Leather Clothes|Transliteration
+ライトスーツ|raitosuutsu|LGT.SUIT|Light Suit|Light Suit|Transliteration (unchanged)
+トゲリスノケガワ (棘栗鼠の毛皮)|togerisunokegawa|THCK.FUR|Thick Fur|Spiky Squirrel Fur|Translation
 ホワイトマント|howaitomanto|WHT.MANT|White Mantle|White Mantle|Transliteration (unchanged)
 ジルコニアメイル|jirukoniameiru|ZIR.ARMR|Zirconian Armour|Zirconia Mail|Transliteration. Note that zirconia is a cheaper version of diamond.
 
@@ -94,52 +94,52 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
 アニマルグラブ|animarugurabu|GLOVE|Glove|Animal Glove|Transliteration
-ボロンシールド|boronshīrudo|IRN. SLD|Iron Shield|Bronze Shield|Transliteration. Swapped with Iron Shield in Sega translation.
-セラミックノタテ|seramikkunotate|CRC. SLD|Ceramic Shield|Ceramic Shield|Transliteration + translation (セラミックの盾)
-アイアンシールド|aianshīrudo|BRNZ.SLD|Bronze Shield|Iron Shield|Transliteration. Swapped with Bronze Shield in Sega translation.
-ラコニアシールド|rakoniashīrudo|LAC. SLD|Laconian Shield|Laconian Shield|Transliteration
-レーザーバリア|rēzābaria|LASR.SLD|Laser Shield|Laser Barrier|Transliteration
-レザーシールド|rezāshīrudo|LTH. SLD|Leather Shield|Leather Shield|Transliteration
-ペルセウスノタテ|peruseusunotate|MIRR.SLD|Mirror Shield|Shield of Perseus|Transliteration + translation (ペルセウスの盾)
+ボロンシールド|boronshiirudo|IRN. SLD|Iron Shield|Bronze Shield|Transliteration. Swapped with Iron Shield in Sega translation.
+セラミックノタテ (セラミックの盾)|seramikkunotate|CRC. SLD|Ceramic Shield|Ceramic Shield|Transliteration + translation
+アイアンシールド|aianshiirudo|BRNZ.SLD|Bronze Shield|Iron Shield|Transliteration. Swapped with Bronze Shield in Sega translation.
+ラコニアシールド|rakoniashiirudo|LAC. SLD|Laconian Shield|Laconian Shield|Transliteration
+レーザーバリア|reezaabaria|LASR.SLD|Laser Shield|Laser Barrier|Transliteration
+レザーシールド|rezaashiirudo|LTH. SLD|Leather Shield|Leather Shield|Transliteration
+ペルセウスノタテ (ペルセウスの盾)|peruseusunotate|MIRR.SLD|Mirror Shield|Shield of Perseus|Transliteration + translation
 
 ### Vehicles
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
-フロームーバー|furōmūbā|HOVRCRFT|Hovercraft|FlowMover|Transliteration
-アイスデッカー|aisudekkā|ICE DIGR|Ice Digger|IceDecker|Transliteration
-ランドマスター|randomasutā|LANDROVR|Land Rover|LandMaster|Transliteration
+フロームーバー|furoomuubaa|HOVRCRFT|Hovercraft|FlowMover|Transliteration
+アイスデッカー|aisudekkaa|ICE DIGR|Ice Digger|IceDecker|Transliteration
+ランドマスター|randomasutaa|LANDROVR|Land Rover|LandMaster|Transliteration
 
 ### Items
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
 :---|:---|:---|:---|:---|:---
 エアロプリズム|earopurizumu|PRISM|Prism|Aeroprism|Transliteration
 アルシュリン|arushurin|ALSULIN|Alsulin|Alsuline|Transliteration. Not sure if there is some reason for the name.
-カーバンクルアイ|kābankuruai|AMBR EYE|Amber Eye|Carbuncle Eye|Transliteration
+カーバンクルアイ|kaabankuruai|AMBR EYE|Amber Eye|Carbuncle Eye|Transliteration
 コンパス|konpasu|COMPASS|Compass|Compass|Transliteration
 ダモアクリスタル|damoakurisutaru|CRYSTAL|Crystal|Damoa's Crystal|Transliteration
-ダンジョンキー|danjonkī|DUGN KEY|Dungeon Key|Dungeon Key|Transliteration
-イクリプストーチ|ikuripusutōchi|TORCH|Torch|Eclipse Torch|Transliteration
-エスケープクロス|esukēpukurosu|ESCAPER|Escaper|Escape Cloth|Transliteration
+ダンジョンキー|danjonkii|DUGN KEY|Dungeon Key|Dungeon Key|Transliteration
+イクリプストーチ|ikuripusutoochi|TORCH|Torch|Eclipse Torch|Transliteration
+エスケープクロス|esukeepukurosu|ESCAPER|Escaper|Escape Cloth|Transliteration
 ガスクリア|gasukuria|GAS. SLD|Gas Shield|GasClear|Transliteration
-ソウトクノテガミ|soutokunotegami|LETTER|Letter|Governor[-General]'s Letter|Translation (総督の手紙)
-ハプスビー|hapusubī|HAPSBY|Hapsby|Hapsby|Transliteration
+ソウトクノテガミ (総督の手紙)|soutokunotegami|LETTER|Letter|Governor[-General]'s Letter|Translation
+ハプスビー|hapusubii|HAPSBY|Hapsby|Hapsby|Transliteration
 ラコニアンポット|rakonianpotto|LAC. POT|Laconian Pot|Laconian Pot|Transliteration
-ラエルマベリー|raerumaberī|NUTS|Nuts|Laerma Berries|Transliteration
+ラエルマベリー|raerumaberii|NUTS|Nuts|Laerma Berries|Transliteration
 ライトペンダント|raitopendanto|MAG.LAMP|Magic Lamp|Light Pendant|Transliteration
 マジックハット|majikkuhatto|MAGC HAT|Magic Hat|Magic Hat|Transliteration
-マスターシステム|masutāshisutemu|M SYSTEM|Master System|Master System|Transliteration
-ミラクルキー|mirakurukī|MRCL KEY|Miracle Key|Miracle Key|Transliteration
-パスポート|pasupōto|PASSPORT|Passport|Passport|Transliteration
-ペロリーメイト|perorīmeito|COLA|Cola|PelorieMate|Transliteration. This is a play on "CalorieMate", a Japanese brand of "energy bar"
-ポリメテラール|porimeterāru|POLYMTRL|Polymeteral|Polymeteral|Transliteration
-ロードパス|rōdopasu|ROADPASS|Roadpass|Road Pass|Transliteration
+マスターシステム|masutaashisutemu|M SYSTEM|Master System|Master System|Transliteration
+ミラクルキー|mirakurukii|MRCL KEY|Miracle Key|Miracle Key|Transliteration
+パスポート|pasupooto|PASSPORT|Passport|Passport|Transliteration
+ペロリーメイト|peroriimeito|COLA|Cola|PelorieMate|Transliteration. This is a play on "CalorieMate", a Japanese brand of "energy bar"
+ポリメテラール|porimeteraaru|POLYMTRL|Polymeteral|Polymeteral|Transliteration
+ロードパス|roodopasu|ROADPASS|Roadpass|Road Pass|Transliteration
 ルオギニン|ruoginin|BURGER|Burger|Ruoginin|Transliteration. Similar to PelorieMate, this is a corruption of Arginine V (アルギニンV, aruginin V), a Japanese brand of "energy drink"
-サーチライト|sāchiraito|FLASH|Flash|Searchlight|Transliteration
-ヒミツノモノ|himitsunomono|SECRETS|Secret|Secret Thing|Translation (秘密の物)
-ショートケーキ|shōtokēki|CAKE|Cake|Shortcake|Transliteration
-スーズフルート|sūzufurūto|FLUTE|Flute|Soothe Flute|Transliteration
-テレパシーボール|terepashībōru|SPHERE|Sphere|Telepathy Ball|Transliteration
-トランカーペット|torankāpetto|TRANSER|Transer|TranCarpet|Transliteration
+サーチライト|saachiraito|FLASH|Flash|Searchlight|Transliteration
+ヒミツノモノ (秘密の物)|himitsunomono|SECRETS|Secret|Secret Thing|Translation
+ショートケーキ|shootokeeki|CAKE|Cake|Shortcake|Transliteration
+スーズフルート|suuzufuruuto|FLUTE|Flute|Soothe Flute|Transliteration
+テレパシーボール|terepashiibooru|SPHERE|Sphere|Telepathy Ball|Transliteration
+トランカーペット|torankaapetto|TRANSER|Transer|TranCarpet|Transliteration
 ジリオン|jirion|ZILLION|Zillion|Zillion|Transliteration
 
 ### Spells
@@ -163,3 +163,81 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ラプット|raputto|TRAP|Trap|Untrap|Disarms traps. "Raputto" is a jumpled-up "torappu", which is transliterated.
 ワーラ|waara|WALL|Wall|Waller|Creates a "wall" that blocks attacks. Transliteration (unchanged)
 ヒューン|hyuun|WIND|Wind|Wind|Wind attack (-10DP x 3). Original is opomatopoeic for a strong gust of wind but there's no good English equivalent.
+
+### Enemies
+Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
+:---|:---|:---|:---|:---|:---
+モンスターフライ|monsutaafurai|SWORM|Sworm|Monster Fly|Transliteration
+グリーンスライム|guriinsuraimu|GR.SLIME|Green Slime|Green Slime|Transliteration
+ウイングアイ|uinguai|WING EYE|Wing Eye|Wing Eye|Transliteration
+マンイーター|maniitaa|MANEATER|Man Eater|Maneater|Transliteration
+スコーピラス|sukoopirasu|SCORPION|Scorpion|Scorpius|Transliteration
+ラージヤーゴ (ラージ水蠆)|raajaago|G.SCORPI|Gold Scorpion|Giant Naiad|Transliteration + translation
+ブルースライム|buruusuraimu|BL.SLIME|Blue Slime|Blue Slime|Transliteration
+モタビアンノーフ (モタビアン農夫)|motabiannoofu|N.FARMER|N.Farmer|Motavian Peasant|Transliteration + translation
+デビルバット|debirubatto|OWL BEAR|Owl Bear|Devil Bat|Transliteration
+キラープラント|kiraapuranto|DEADTREE|Dead Tree|Killer Plant|Transliteration
+バイターフライ|baitaafurai|SCORPIUS|Scorpius|Biting Fly|Transliteration
+モタビアンイビル|motabianibiru|E.FARMER|E.Farmer|Motavian Evil|Transliteration
+ヘレックス|herekkusu|GIANTFLY|Giant Fly|Herex|Transliteration
+サンドワーム|sandowuumu|CRAWLER|Crawler|Sandworm|Transliteration
+モタビアンマニア|motabianmania|BARBRIAN|Barbarian|Motavian Maniac|Transliteration
+ゴールドレンズ|goorudorenzu|GOLDLENS|Goldlens|Gold Lens|Transliteration
+レッドスライム|reddosuraimu|RD.SLIME|Red Slime|Red Slime|Transliteration
+バットマン|battoman|WERE BAT|Werebat|Bat Man|Transliteration
+カブトガニ (兜蟹)|kabutogani|BIG CLUB|Big Club|Horseshoe Crab|Translation
+シャーキン|shaakin|FISHMAN|Fishman|Shark King|Transliteration
+リッチ|ritchi|EVILDEAD|Evil Dead|Lich|Transliteration
+タランチュラ|taranuchura|TARANTUL|Tarantula|Tarantula|Transliteration
+マンチコア|manchikoa|MANTICOR|Manticore|Manticort|Transliteration
+スケルトン|sukeruton|SKELETON|Skeleton|Skeleton|Transliteration
+アリジゴク (蟻地獄)|arijigoku|ANT LION|Ant Lion|Ant-lion|Translation
+マーシーズ|maashiizu|MARMAN|Marshman|Marshes|Transliteration
+デゾリアン|dezorian|DEZORIAN|Dezorian|Dezorian|Transliteration
+デザートリーチ|dezaatoriichi|LEECH|Leech|Desert Leech|Transliteration
+クライオン|kuraion|VAMPIRE|Vampire|Cryon|Transliteration
+ビッグノーズ|biggunoozu|ELEPHANT|Elephant|Big Nose|Transliteration
+グール|guuru|GHOUL|Ghoul|Ghoul|Transliteration
+アンモナイト|anmonaito|SHELFISH|Shellfish|Ammonite|Transliteration
+エグゼキュート|eguzekyuuto|EXECUTER|Executer|Executor|Transliteration
+ワイト|waito|WIGHT|Wight|Wight|Transliteration
+スカルソルジャー|sukarusorujaa|SKULL-EN|Skull-En|Skull Soldier|Transliteration
+マイマイ (まいまい)|maimai|AMMONITE|Ammonite|Snail|Translation
+マンチコート|manchikooto|SPHINX|Sphinx|Manticore|Transliteration. Could be "Manticort".
+サーペント|saapento|SERPEN|Serpent|Serpent|Transliteration
+リバイアサン|ribaiasan|SANDWORM|Sandworm|Leviathan|Transliteration
+ドルージュ|doruuju|LICH|Lich|Dorouge|Transliteration
+オクトパス|okutopasu|OCTOPUS|Octopus|Octopus|Transliteration
+マッドストーカー|maddosutookaa|STALKER|Stalker|Mad Stalker|Transliteration
+デゾリアンヘッド|dezorianheddo|EVILHEAD|Evil Head|Dezorian Head|Transliteration
+ゾンビ|zonbi|ZOMBIE|Zombie|Zombie|Transliteration
+リビングデッド|ribingudeddo|BATALION|Battalion|Living Dead|Transliteration
+ロボットポリス|robottoporisu|ROBOTCOP|Robotcop|Robot Police|Transliteration
+サイボーグメイジ|saiboogumeiji|SORCERER|Sorcerer|Cyborg Mage|Transliteration
+フレームリザード|fureemurizaado|NESSIE|Nessie|Flame Lizard|Transliteration
+タジム|tajimu|TARZIMAL|Tarzimal|Tajim|Transliteration
+ガイア|gaia|GOLEM|Golem|Gaia|Transliteration
+マシンガーダー|mashiingaadaa|ANDROCOP|Androcop|Machine Guard|Transliteration. Could be "Guarder"
+ビッグイーター|bigguiitaa|TENTACLE|Tentacle|Big Eater|Transliteration
+タロス|tarosu|GIANT|Giant|Talos|Transliteration
+スネークロード|suneekuroodo|WYVERN|Wyvern|Snake Lord|Transliteration
+デスベアラー|desubearaa|REAPER|Reaper|Death Bearer|Transliteration
+カオスソーサラー|kaosusoosaraa|MAGICIAN|Magician|Chaos Sorcerer|Transliteration
+セントール|sentooru|HORSEMAN|Horseman|Centaur|Transliteration
+アイスマン|aisuman|FROSTMAN|Frostman|Ice Man|Transliteration
+バルカン|barukan|AMUNDSEN|Amundsen|Vulcan|Transliteration
+レッドドラゴン|reddodoragon|RD.DRAGN|Red Dragon|Red Dragon|Transliteration
+グリーンドラゴン|guriindoragon|GR.DRAGN|Green Dragon|Green Dragon|Transliteration
+ラシーク|rashiiku|SHADOW|Shadow|LaShiec|Transliteration
+マンモス|manmosu|MAMMOTH|Mammoth|Mammoth|Transliteration
+キングセイバー|kinguseibaa|CENTAUR|Centaur|King Saber|Transliteration
+ダークマローダー|daakumaroodaa|MARAUDER|Marauder|Dark Marauder|Transliteration
+ゴーレム|gooremu|TITAN|Titan|Golem|Transliteration
+メデューサ|medyuusa|MEDUSA|Medusa|Medusa|Transliteration
+フロストドラゴン|furosutodoragon|WT.DRAGN|White Dragon|Frost Dragon|Transliteration
+ドラゴンワイズ|doragonwaizu|B.DRAGN|Blue Dragon|Dragon Wise|Transliteration
+ゴールドドレイク|goorudodoreiku|GD.DRAGN|Gold Dragon|Gold Drake|Transliteration
+マッドドクター|maddodokutaa|DR.MAD|Dr. Mad|Mad Doctor|Transliteration
+ラシーク|rashiiku|LASSIC|Lassic|LaShiec|Transliteration
+ダークファルス|daakufarusu|DARKFALZ|Dark Falz|Dark Force|Transliteration. Could be "Dark Falz" as seen in later PS games.
+ナイトメア|naitomea|SACCUBUS|Saccubus|Nightmare|Transliteration

@@ -28,19 +28,19 @@ Items:
   String "<A> White Mantle"                 ; WHT.MANT  White Mantle        howaitomanto        ホワイトマント
   String "<A> Light Suit"                   ; LGT.SUIT  Light Suit          raitosūtsu          ライトスーツ
   String "<An> Iron Armor"                  ; IRN.ARMR  Iron Armor          aianāma             アイアンアーマ
-  String "<A> Spiky Squirrel Fur"           ; THCK.FUR  Thick Fur           togerisunokegawa    トゲリスノケガワ
+  String "<A> Spiky Squirrel Fur"           ; THCK.FUR  Thick Fur           togerisunokegawa    トゲリスノケガワ       棘栗鼠の毛皮
   String "<A> Zirconia Mail"                ; ZIR.ARMR  Zirconian Armour    jirukoniameiru      ジルコニアメイル
-  String "<A> Diamond Armor"                ; DMD.ARMR  Diamond Armor       daiyanoyoroi        ダイヤノヨロイ
+  String "<A> Diamond Armor"                ; DMD.ARMR  Diamond Armor       daiyanoyoroi        ダイヤノヨロイ        ダイヤの鎧
   String "<A> Laconian Armor"               ; LAC.ARMR  Laconian Armor      rakoniāama          ラコニアアーマ
   String "<The> Frad Mantle"                ; FRD.MANT  Frad Mantle         furādomanto         フラードマント
 ; shields: 19-20
   String "<A> Leather Shield"               ; LTH. SLD  Leather Shield      rezāshīrudo         レザーシールド
   String "<An> Iron Shield"                 ; BRNZ.SLD  Bronze Shield       aianshīrudo         アイアンシールド  <-- Note, order reversed in Sega translation
   String "<A> Bronze Shield"                ; IRN. SLD  Iron Shield         boronshīrudo        ボロンシールド   <--
-  String "<A> Ceramic Shield"               ; CRC. SLD  Ceramic Shield      seramikkunotate     セラミックノタテ
+  String "<A> Ceramic Shield"               ; CRC. SLD  Ceramic Shield      seramikkunotate     セラミックノタテ       セラミックの盾
   String "<An> Animal Glove"                ; GLOVE     Glove               animarugurabu       アニマルグラブ
   String "<A> Laser Barrier"                ; LASR.SLD  Laser Shield        rēzābaria           レーザーバリア
-  String "<The> Shield of Perseus"          ; MIRR.SLD  Mirror Shield       peruseusunotate     ペルセウスノタテ
+  String "<The> Shield of Perseus"          ; MIRR.SLD  Mirror Shield       peruseusunotate     ペルセウスノタテ      ペルセウスの盾
   String "<A> Laconian Shield"              ; LAC. SLD  Laconian Shield     rakoniashīrudo      ラコニアシールド
 ; vehicles: 21-23
   String "<The> LandMaster"                 ; LANDROVR  Land Rover          randomasutā         ランドマスター
@@ -66,7 +66,7 @@ Items:
   String "<A> Passport"                     ; PASSPORT  Passport            pasupōto            パスポート
   String "<A> Compass"                      ; COMPASS   Compass             konpasu             コンパス
   String "<A> Shortcake"                    ; CAKE      Cake                shōtokēki           ショートケーキ
-  String "<The> Governor[-General]'s Letter"; LETTER    Letter              soutokunotegami     ソウトクノテガミ
+  String "<The> Governor[-General]'s Letter"; LETTER    Letter              soutokunotegami     ソウトクノテガミ      総督の手紙
   String "<A> Laconian Pot"                 ; LAC. POT  Laconian Pot        rakonianpotto       ラコニアンポット
   String "<The> Light Pendant"              ; MAG.LAMP  Magic Lamp          raitopendanto       ライトペンダント
   String "<The> Carbuncle Eye"              ; AMBR EYE  Amber Eye           kābankuruai         カーバンクルアイ
@@ -75,7 +75,7 @@ Items:
   String "<A> Master System"                ; M SYSTEM  Master System       masutāshisutemu     マスターシステム
   String "<The> Miracle Key"                ; MRCL KEY  Miracle Key         mirakurukī          ミラクルキー
   String "Zillion"                          ; ZILLION   Zillion             jirion              ジリオン
-  String "<A> Secret Thing"                 ; SECRET    Secret              himitsunomono       ヒミツノモノ
+  String "<A> Secret Thing"                 ; SECRET    Secret              himitsunomono       ヒミツノモノ        秘密の物
 
 Names:
   String "Alisa"                            ; ALIS      Alis                arisa               アリサ
@@ -90,13 +90,13 @@ Enemies:
   String "<The> Wing Eye"                   ; WING EYE  Wing Eye            uinguai             ウイングアイ
   String "<The> Maneater"                   ; MANEATER  Man Eater           manītā              マンイーター
   String "<The> Scorpius"                   ; SCORPION  Scorpion            sukōpirasu          スコーピラス
-  String "<The> Giant Naiad"                ; G.SCORPI  Gold Scorpion       rājāgo              ラージャーゴ
+  String "<The> Large Naiad"                ; G.SCORPI  Gold Scorpion       rājāgo              ラージャーゴ       ラージ水蠆
   String "<The> Blue Slime"                 ; BL.SLIME  Blue Slime          burūsuraimu         ブルースライム
   String "<The> Motavian Peasant"           ; N.FARMER  N.Farmer            motabiannōfu        モタビアンノーフ
   String "<The> Devil Bat"                  ; OWL BEAR  Owl Bear            debirubatto         デビルバット
   String "<The> Killer Plant"               ; DEADTREE  Dead Tree           kirāpuranto         キラープラント
   String "<The> Biting Fly"                 ; SCORPIUS  Scorpius            baitāfurai          バイターフライ
-  String "<The> Motavian Teaser"            ; E.FARMER  E.Farmer            motabianibiru       モタビアンイビル
+  String "<The> Motavian Evil"              ; E.FARMER  E.Farmer            motabianibiru       モタビアンイビル    モタビアン農夫
   String "<The> Herex"                      ; GIANTFLY  Giant Fly           herekkusu           ヘレックス
   String "<The> Sandworm"                   ; CRAWLER   Crawler             sandofūmu           サンドフーム
   String "<The> Motavian Maniac"            ; BARBRIAN  Barbarian           motabianmania       モタビアンマニア
