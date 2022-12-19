@@ -299,7 +299,7 @@ Defence db      ;  +9 b Defence
 Weapon db       ; +10 \  These 3 are bytes values
 Armour db       ; +11  | from the same list.
 Shield db       ; +12 /
-Unknown1 db     ; +13 : Tied up state?
+TiedUp db       ; +13 : Tied up state?
 MagicCount db   ; +14 Number of magics known (?) <5
 BattleMagicCount db     ; +15 Number of battle magics known
 .endst
@@ -3439,10 +3439,10 @@ _LABEL_12A4_:
     ret nz
     push hl
     pop iy
-    ld a,(iy+1)
+    ld a,(iy+Character.HP)
     or a
     ret z
-    ld a,(iy+13)
+    ld a,(iy+Character.TiedUp)
     or a
     jr z,++
     ld a,(_RAM_C267_BattleCurrentPlayer)
@@ -3506,7 +3506,7 @@ _LABEL_12A4_:
 +++:ld d,$EC
 ++++:
     ld e,a
-    call _LABEL_204A_
+    call _LABEL_204A_DoGunOrThunderAttack
     jp _LABEL_1367_
 
 _LABEL_1338_:
@@ -3555,7 +3555,7 @@ _LABEL_1379_:
     ld a,(ix+9)
     call RandomReduce
     sub c
-    jr c,_LABEL_13BA_
+    jr c,_LABEL_13BA_FlashAndReduceEnemyHP
     cp $10
     jr c,_LABEL_13AD_
     rrca
@@ -3573,19 +3573,19 @@ _LABEL_13AD_:
     jr z,+
     jr nc,_LABEL_13AD_
 +:  cpl
-_LABEL_13BA_:
+_LABEL_13BA_FlashAndReduceEnemyHP:
     push af
       ld a,SFX_ad
       ld (NewMusic),a
-      call _LABEL_7E4F_
+      call _LABEL_7E4F_Flash
     pop af
-    add a,(ix+1)
+    add a,(ix+Character.HP) ; Enemy HP
     jr c,+
     xor a
-+:  ld (ix+1),a
++:  ld (ix+Character.HP),a
     ret nz
-    ld (ix+0),a
-    ld (ix+13),a
+    ld (ix+Character.IsAlive),a
+    ld (ix+Character.TiedUp),a
     ret
 
 RandomReduce:
@@ -3759,8 +3759,8 @@ _LABEL_14E2_EnemyMagic_Bind:
     call PointHLToCharacterInA
     jr z,-
     ld (TextCharacterNumber),a
-    ; hl += $0d -> Unknown1
-    ld a,Character.Unknown1
+    ; hl += $0d -> TiedUp
+    ld a,Character.TiedUp
     add a,l
     ld l,a
     ld a,(hl)
@@ -4059,7 +4059,7 @@ _LABEL_171E_ReducePlayerHP:
 +:  ld (ix+Character.HP),a
     jr nz,+
     ld (ix+Character.IsAlive),a
-    ld (ix+Character.Unknown1),a
+    ld (ix+Character.TiedUp),a
 +:  ld a,$FF
     ld (_RAM_C2ED_PlayerWasHurt),a
     ret
@@ -4309,7 +4309,7 @@ CharacterStatsUpdate:
 +:  bit 0,(iy+CharacterStats.IsAlive)
     ret z
     ld (iy+CharacterStats.IsAlive),$01
-    ld (iy+CharacterStats.Unknown1),$00
+    ld (iy+CharacterStats.TiedUp),$00
     ld l,(iy+CharacterStats.LV)
     ld h,$00
     add hl,hl
@@ -5241,7 +5241,7 @@ _LABEL_200E_:
       call GetRandomNumber
       and $03
       add a,d
-      call _LABEL_13BA_
+      call _LABEL_13BA_FlashAndReduceEnemyHP
       call _LABEL_326D_UpdateEnemyHP
     pop de
     ret
@@ -5252,28 +5252,32 @@ _Magic06Thunder:
     call CheckIfEnoughMP
     ld (de),a
     ld de,$D811
-_LABEL_204A_:
+_LABEL_204A_DoGunOrThunderAttack:
+    ; d = attach strength (negative number)
+    ; e = weapon number?
     ld b,$08
 -:  push bc
+      ; Pick an enemy who is alive
       ld a,b
       sub $0C
       neg
       call PointHLToCharacterInA
       jp z,++
       push hl
-      pop ix
+      pop ix ; ix points to the enemy
       push de
         ld a,e
-        call _LABEL_1A05_
+        call _LABEL_1A05_ ; Show weapon attack sprites?
       pop de
       push de
-        ld a,d
+        ld a,d ; Get attack strength: $d8 (-40) for thunder, $ec (-20) for laser gun, $f6 (-10) for heat gun, $fb (-5) for needle gun
         cp $D8
-        jr nz,+
+        jr nz,+ ; No random chance for thunder
+        ; Else get a number from 1 to 15 and add it -> reduce the attack strength
         call GetRandomNumber
         and $0F
         add a,d
-+:      call _LABEL_13BA_
++:      call _LABEL_13BA_FlashAndReduceEnemyHP
         call _LABEL_326D_UpdateEnemyHP
       pop de
       ld a,(EnemyNumber)
@@ -18112,7 +18116,7 @@ _FadePaletteEntry:
 .ends
 .orga $7e4f
 
-_LABEL_7E4F_:
+_LABEL_7E4F_Flash:
     ld a,$0A
     ld (PaletteFlashFrames),a
     ld hl,$0D13
