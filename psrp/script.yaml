@@ -205,7 +205,7 @@
     LaShiec has brought great disaster to this planet.<line>
     The world is headed for destruction!<wait more>
     I tried to find out what he is scheming, but I couldn't do anything by myself.<wait more>
-    During my travels, I heard rumors of a strong man named Tairon.<line>
+    During my travels, I heard rumors of a strong man named Tylon.<line>
     The two of you might be able to kill LaShiec and restore peace.<wait more>
     Alisa...<line><line>
     It's too late for me.<line><line>
@@ -597,7 +597,7 @@
     あっ。それと、ネロからラコニアンポットという壺を預かってたんだ。
     後で役に立つだろうから持って行くといいよ。
   literal: |
-    I'm Nekise. From what I've heard, the hero Tairon is said to be in the town of Shion at the moment.<wait more>
+    I'm Nekise. From what I've heard, the hero Tylon is said to be in the town of Shion at the moment.<wait more>
     Oh, right. Nero entrusted me with this Laconian Pot. Take it - it might come in handy later.<wait>
   us: |
     I'M NEKISE. ONE<line>
@@ -1230,7 +1230,7 @@
     その動物は首に薬瓶をぶらさげていたが
     何かの役に立つかねえ。
   literal: |
-    If you're looking for Tairon, he went off to go slay Medusa.<wait more>
+    If you're looking for Tylon, he went off to go slay Medusa.<wait more>
     That guy had a talking animal with him! And the animal had a bottle of medicine hanging around its neck!<wait more>
     I wonder what that's for.<wait>
   us: |
@@ -2346,7 +2346,7 @@
     タイロンのことなんだけど、何か知っていたら教えて。
   literal: |
     Say, Myau...<line>
-    I've been wondering about Tairon. What do you know about him?<wait>
+    I've been wondering about Tylon. What do you know about him?<wait>
   us: |
     MYAU, HAVE YOU <line>
     EVER HEARD OF A<line>
@@ -2389,7 +2389,7 @@
     この薬かければ治るんだ。
     けど、ミャウ、ビンの蓋開けられないの。
   literal: |
-    Tairon was turned to stone!<line><line>
+    Tylon was turned to stone!<line><line>
     He can be restored by pouring this medicine on him, but I can't open the lid...<wait>
   us: |
     YES, BUT HE IS<line>
@@ -2532,7 +2532,7 @@
 
 - offsets: 4688
   indices: baf3
-  # Tairon
+  # Tylon
   # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
   # So Tylon can't talk to Myau directly.
   ja: |
@@ -2626,7 +2626,7 @@
 
 - offsets: 469e
   indices: bb64
-  # Tairon
+  # Tylon
   ja: |
     ソウダッタノカ。<line>
     ヨシ　キミノ　ニイサンノ　タメニモ<line>
@@ -2696,7 +2696,7 @@
 
 - offsets: 46b4
   indices: bbaf
-  # Tairon
+  # Tylon
   ja: |
     メデューサガ　モッテイル　デンセツノ<line>
     オノガ　ホシカッタンダケド<line>
@@ -9244,7 +9244,7 @@
     タイロン<delay>
     <line>
   kanji: タイロン
-  literal: "          Tairon,<delay>"
+  literal: "           Tylon,<delay>"
   us: |
     <line>
          ODIN<delay>
@@ -10262,7 +10262,7 @@
   indices: af5e
   ja: タイロンハ　マジックヲ　ツカエナイ。<delay>
   kanji: タイロンはマジックを使えない。
-  literal: Tairon can’t use magic.<delay>
+  literal: Tylon can’t use magic.<delay>
   us: |
     ODIN CANNOT USE<line>
     MAGIC.<wait>
