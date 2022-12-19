@@ -607,7 +607,7 @@ _NameEntryText\@end:
 
 _CursorMemoryInitialValues:
 .db 3, 11, 0 ; X, Y, index into drawn name
-.dw $0000 ; Previous selection pointer. 0 is used to trigger the intial cursor draw.
+.dw $0000 ; Previous selection pointer. 0 is used to trigger the initial cursor draw.
 
 .ends
 
