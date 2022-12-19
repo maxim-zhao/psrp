@@ -14,7 +14,9 @@ LoadTiles:
   ld a,:PSGaiden_tile_decompr
   ld (PAGING_SLOT_1),a
 
-  call PSGaiden_tile_decompr
+  push ix
+    call PSGaiden_tile_decompr
+  pop ix
 
   ld a,1
   ld (PAGING_SLOT_1),a
