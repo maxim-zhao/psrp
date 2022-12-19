@@ -4215,7 +4215,7 @@ _LABEL_1869_:
     ld (NumberToShowInText),hl
     ld a,l
     or h
-    ret z
+    ret z ; Show nothing if 0
     ld hl,textGainedExperience
     call TextBox20x6
     ld iy,CharacterStatsAlis
@@ -14345,7 +14345,7 @@ LoadEnemy:
     inc hl
     ld a,(hl)          ; Next byte in DungeonObjectItemTrapped
     ld (DungeonObjectItemTrapped),a
-    inc hl             ; next word in de
+    inc hl             ; next word in de = experience value
     ld e,(hl)
     inc hl
     ld d,(hl)
