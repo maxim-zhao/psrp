@@ -77,7 +77,7 @@ Items:
 Names:
   String "Alisa"                            
   String "Myau"                             
-  String "Tairon" 
+  String "Tylon" 
   String "Lutz"                             
 
 Enemies:
