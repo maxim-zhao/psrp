@@ -10329,7 +10329,7 @@
     ケイケンチガ　<number>ポイント<line>
     アガッタ。<wait>
   kanji: 経験値が<number>ポイント上がった。
-  literal: Experience increased by <number><internal hint 02> point<s>.<wait>
+  literal: Experience increased by <number> points.<wait>
   us: |
     YOU GAINED <number><line>
     EXPERIENCE POINTS.<wait>
