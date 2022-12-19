@@ -533,8 +533,8 @@ DrawNameEntryScreen:
     ld bc,32*24*2
     call $03de ; OutputToVRAM
     ; Load the cursor sprite
-    ld hl,$6000 ; tile $100
-    ld de,_CursorSprite
+    ld de,$6000 ; tile $100
+    ld hl,_CursorSprite
     call LoadTiles
   ei
 
