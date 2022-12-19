@@ -6581,6 +6581,7 @@ _LABEL_2A37_HandleTreasureChest:
     pop af
     or a
     ret nz
+    ; fall through
     
 _LABEL_2A4A_:
     ld a,SFX_b0
