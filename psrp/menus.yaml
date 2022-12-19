@@ -576,7 +576,7 @@
     │------║
   literal: |
     ┌──────╖
-    │Tylon ║
+    │Tairon║
     │------║
   us: |
     ┌──────╖
@@ -657,11 +657,11 @@
     │タイロン║
     │ルツ  ║
   literal: |
-    ┌─────╖
-    │Alisa║
-    │Myau ║
-    │Tylon║
-    │Lutz ║
+    ┌──────╖
+    │Alisa ║
+    │Myau  ║
+    │Tairon║
+    │Lutz  ║
   us: |
     ┌────╖
     │ALIS║
@@ -669,11 +669,11 @@
     │ODIN║
     │NOAH║
   en: |
-    ┌─────╖
-    │Alisa║
-    │Myau ║
-    │Tylon║
-    │Lutz ║
+    ┌──────╖
+    │Alisa ║
+    │Myau  ║
+    │Tairon║
+    │Lutz  ║
   fr: |
     ┌─────╖
     │Alisa║
@@ -708,7 +708,7 @@
 - name: ChoosePlayerMenuBottom
   ptrs: 37d0
   dims: 37d3
-  literal: ╘═════╝
+  literal: ╘══════╝
   en: ╘═════╝
   fr: ╘═════╝
   pt-br: ╘═════╝
@@ -896,9 +896,9 @@
 
 - name: TaironActiveBox
   literal: |
-    ┌─────╖
-    │Tylon║
-    ╘═════╝
+    ┌──────╖
+    │Tairon║
+    ╘══════╝
   en: |
     ┌─────╖
     │Tylon║
