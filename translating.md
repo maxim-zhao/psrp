@@ -46,6 +46,11 @@ These contain the definitions of articles (see the articles section below) and c
 
 These contain the names of items in the game: inventory items, characters and enemies. These include markers to determine the correct articles for each. Add a new version for a new language.
 
+`xx`/plurals.asm
+-----------------
+
+In the script you sometimes want to pluralise a noun in a script entry like "You gained 10 experience points". The script engine lets you do this with the `<s>` tag, but this file defines which letter is actually used. If you need more complex pluralisation, some more development work will be needed. 
+
 `xx`/pronouns.asm
 -----------------
 
