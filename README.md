@@ -148,14 +148,18 @@ Changes made between version numbers may adversely affect emulator save states. 
 - Core hacking and programming
 ### Maxim
 - Project manager, final hacking/programming
+- https://www.smspower.org/maxim
 ### Paul Jensen
 - Script translator, editor
 ### satsu
 - Additional translations
 ### Frank Cifaldi (TheRedEye)
 - Localization and script enhancements
+- https://twitter.com/frankcifaldi
+- https://gamehistory.org
 ### Damien Guard
-- Polaris font, see also https://damieng.com/typography/zx-origins/
+- Polaris font
+- https://damieng.com
 ### Popfan
 - German translation, Kanji/hiragana/katakana script, literal script improvements
 ### kusfo
