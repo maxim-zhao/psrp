@@ -892,3 +892,224 @@ _draw_4th_line:
   nop
 .endr
 .ends
+
+.slot 2
+
+.section "Font lookup" align 256 superfree ; alignment simplifies code...
+FontLookup:
+; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table. These must be in the order given in script.<language>.tbl.
+.include {"generated/font-lookup.{LANGUAGE}.asm"}
+.ends
+
+; We locate the Huffman trees in a different slot to the script so we can access them at the same time
+.slot 1
+.section "Huffman trees" superfree
+.block "Huffman trees"
+HuffmanTrees:
+.include {"generated/tree.{LANGUAGE}.asm"}
+.endb
+.ends
+
+; ...but the script still needs to go in slot 2.
+.bank 2 slot 2
+.section "Script" free
+.block "Script"
+.include {"generated/script.{LANGUAGE}.asm"}
+.endb
+.ends
+
+.bank 0 slot 0
+.section "Decoder init" free
+DecoderInit:
+; Semi-adaptive Huffman decoder
+; - Init decoder
+; This is called from various places where the game wants to draw text. We:
+; - page some code into slot 1
+; - init the Huffman decoding state
+; - determine which place we were called from and implement the patched-over code,
+;   plus some context-specific state.
+; - call into the code following the patch point, which will call into other text-decoding functions
+; - then restore slot 1
+
+  push af     ; Save routine selection
+
+    ld a,:AdditionalScriptingCodes
+    ld (PAGING_SLOT_1),a
+
+    ld a,SymbolEnd    ; Starting tree symbol
+    ld (TREE),a
+
+    ld a,1<<7    ; Initial tree barrel
+    ld (BARREL),a
+
+    ld (SCRIPT),hl    ; Beginning script offset
+
+    xor a     ; A = $00
+    ld (POST_LEN),a   ; No post hints
+    ld (LINE_NUM),a   ; No lines drawn
+    ld (FLAG),a       ; No wait flag
+    ld (ARTICLE),a    ; No article usage
+    ld (SUFFIX),a     ; No suffix flag
+    ld (SKIP_BITMASK),a ; No (){}[] etc
+
+  pop af
+
+  ; Now we detect what we need to do to recover from the patch to get here...
+  or a
+  jr nz,+
+
+CutsceneClear:
+  ; a = 0: Cutscene handler
+  ; Patched-over code
+  ld de,$7c42   ; VRAM address - modified
+  ld bc,$0000
+  ; Context-specific state
+  ld a,6        ; Line count
+  ld (VLIMIT),a
+  ; Call back to patch location
+  xor a ; unnecessary?
+  call CutsceneNarrativeInitOriginalCode
+  jr ++
+
++:; a = 1: in-game dialog
+  ; Context-specific state
+  ld a,4        ; Line count
+  ld (VLIMIT),a
+  ; Patched-over code
+  ld a,($c2d3)  ; Old code (checking if the text window is already open)
+  or a          ; Done second as the flags from this test are what matters
+  ; Call back to patch location
+  call InGameNarrativeInitOriginalCode
+
+++:
+  ld a,1    ; Restore slot 1
+  ld (PAGING_SLOT_1),a
+
+  ret
+
+.ends
+
+.bank 0 slot 0
+.section "SFG decoder" free
+SFGDecoder:
+; Originally t4a.asm
+; Semi-adaptive Huffman decoder
+; - Shining Force Gaiden: Final Conflict
+
+; Start of decoder
+
+; Note:
+; The Z80 uses one set of registers for decoding the Huffman input data
+; The other context is used to traverse the Huffman tree itself
+
+; Encoded Huffman data is in slot 2
+; Huffman tree data is in slot 1
+; The symbols for the tree are stored in backwards linear order
+
+  push hl
+    ld a,:HuffmanTrees
+    ld (PAGING_SLOT_1),a
+
+    ld hl,(SCRIPT)    ; Set Huffman data location
+    ld a,(BARREL)   ; Load Huffman barrel
+
+    ex af,af'   ; Context switch to tree mode
+    exx
+      ld a',(TREE)   ; Load in tree / last symbol
+
+      push af'
+        ld bc',HuffmanTrees    ; Set physical address of tree data
+        ld h',0      ; 8 -> 16
+        ld l',a'
+        add hl',hl'   ; 2-byte indices
+        add hl',bc'   ; add offset
+
+        ld a',(hl')   ; grab final offset
+        inc hl'
+        ld h',(hl')
+        ld l',a'
+      pop af'
+
+      ld a',$80    ; Initialise the tree barrel data
+      ld d',h'      ; Point to symbol data
+      ld e',l'
+      dec de'      ; Symbol data starts one behind the tree
+
+      jr _Tree_Shift1    ; Grab first bit
+
+_Tree_Mode1:
+    ex af,af'   ; Context switch to tree mode
+    exx
+
+_Tree_Shift1:
+      add a',a'     ; Shift out next tree bit to carry flag
+      jr nz,+     ; Check for empty tree barrel
+
+      ld a',(hl')   ; Shift out next tree bit to carry flag
+      inc hl'      ; Bump tree pointer
+
+      adc a',a'     ; Note: We actually shift in a '1' by doing this! Clever trick to use all 8 bits for tree codes
+
++:    jr c,_Decode_Done ; 0 -> tree node = continue looking
+                        ; 1 -> root node = symbol found
+
+    ex af,af'   ; Switch to Huffman data processing = full context switch
+    exx
+
+    add a,a     ; Read in Huffman bit
+    jr nz,_Check_Huffman1  ; Check Huffman barrel status
+
+    ld a,(hl)   ; Reload 8-bit Huffman barrel
+    inc hl      ; Bump Huffman data pointer
+    adc a,a     ; Re-grab bit
+
+_Check_Huffman1:
+    jr nc,_Tree_Mode1  ; 0 -> travel left, 1 -> travel right
+
+    ex af,af'   ; Switch back to tree mode
+    exx
+
+      ld c',1    ; Start counting how many symbols to skip in the linear list since we are traversing the right sub-tree
+
+_Tree_Shift2:
+      add a',a'     ; Check if tree data needs refreshing
+      jr nz,_Check_Tree2
+
+      ld a',(hl')   ; Refresh tree barrel again
+      inc hl'      ; Bump tree pointer
+      adc a',a'     ; Grab new tree bit
+
+_Check_Tree2:
+      jr c,_Bump_Symbol  ; 0 -> tree, 1 -> symbol
+
+      inc c'     ; Need to bypass one more node
+      jr _Tree_Shift2    ; Keep bypassing symbols
+
+_Bump_Symbol:
+      dec de'      ; Bump pointer in symbol list backwards
+      dec c'     ; One less node/symbol to skip
+
+      jr nz,_Tree_Shift2 ; Check for full exhaustion of left subtree nodes
+
+      jr _Tree_Shift1    ; Need status of termination
+
+_Decode_Done:
+      ld a',(de')   ; Find symbol
+      ld (TREE),a'   ; Save decoded byte
+
+    ex af,af'   ; Go to Huffman mode
+    exx
+    ld (SCRIPT),hl    ; Save script pointer
+    ld (BARREL),a   ; Save Huffman barrel
+    ld a,:AdditionalScriptingCodes ; restore paging
+    ld (PAGING_SLOT_1),a
+    ex af,af'   ; Go to Tree mode
+    ; no need to exx again
+
+  pop hl      ; Restore stack and exit
+  ret
+.ends
+
+.include {"generated/script-patches.{LANGUAGE}.asm"}
+
+
