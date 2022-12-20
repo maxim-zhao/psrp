@@ -160,9 +160,9 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 タンドレ|tandore|THUN|Thunder|Thunder|Lightning attack (-30DP to all enemies). Transliteration.
 ペヤラク|peyaraku|CHAT|Chat|Transrate|Talk to enemies, but does not always work - hence a "bad" translation. Might be a play on the words "perapera" ('fluent') and "yaku" ('translation'), created by taking the word "perayaku" ("fluent/perfect translation") and switching the second and third syllables. Similar to "raputto", this also makes sense if you consider that the spell allows you to talk to certain monsters. Also, since the name of the spell isn't a perfect rendering of "peyaraku", it makes sense that the spell doesn't work on all monsters. 
 トルーパ|toruupa|FLY|Fly|Troop|Return to last church. Transliteration.
-ラプット|raputto|TRAP|Trap|Untrap|Disarms traps. "Raputto" is a jumpled-up "torappu", which is transliterated.
+ラプット|raputto|TRAP|Trap|Untrap|Disarms traps. "Raputto" is a jumbled-up "torappu", which is transliterated.
 ワーラ|waara|WALL|Wall|Waller|Creates a "wall" that blocks attacks. Transliteration (unchanged)
-ヒューン|hyuun|WIND|Wind|Wind|Wind attack (-10DP x 3). Original is opomatopoeic for a strong gust of wind but there's no good English equivalent.
+ヒューン|hyuun|WIND|Wind|Wind|Wind attack (-10DP x 3). Original is onomatopoeic for a strong gust of wind but there's no good English equivalent.
 
 ### Enemies
 Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes

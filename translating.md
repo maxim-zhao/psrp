@@ -185,7 +185,7 @@ To build, you need:
 
 1. GNU Make
 2. Python 3
-3. [WLA DX](https://github.com/vhelin/wla-dx) - a version newer than 3 Dec 2020
+3. [WLA DX](https://github.com/vhelin/wla-dx)
 4. [BMP2Tile](https://github.com/maxim-zhao/bmp2tile) and its set of [compressors](https://github.com/maxim-zhao/bmp2tilecompressors)
 5. (Optionally) Flips, to create patch files
 6. A copy of the original Phantasy Star ROM
