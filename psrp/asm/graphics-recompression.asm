@@ -592,7 +592,7 @@ PatchEnemy\1\2:
   PatchEnemy 24 TilesSkeleton ; Skeleton
   PatchEnemy 25 TilesTarantula ; Ant-lion
   PatchEnemy 26 TilesFishMan ; Marshes
-  PatchEnemy 27 TilesFarmer ; Dezorian
+  PatchEnemy 27 TilesDezorian ; Dezorian
   PatchEnemy 28 TilesSandWorm ; Desert Leech
   PatchEnemy 29 TilesBat ; Cryon
   PatchEnemy 30 TilesElephant ; Big Nose
@@ -608,7 +608,7 @@ PatchEnemy\1\2:
   PatchEnemy 40 TilesEvilDead ; Dorouge
   PatchEnemy 41 TilesOctopus ; Octopus
   PatchEnemy 42 TilesSkeleton ; Mad Stalker
-  PatchEnemy 43 TilesFarmer ; Dezorian Head
+  PatchEnemy 43 TilesDezorian ; Dezorian Head
   PatchEnemy 44 TilesGhoul ; Zombie
   PatchEnemy 45 TilesGhoul ; Living Dead
   PatchEnemy 46 TilesRobotCop ; Robot Police
