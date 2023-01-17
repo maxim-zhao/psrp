@@ -6,6 +6,9 @@ This project is an unofficial retranslation/relocalisation based on that first J
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+- v2.3.1 released 2023/01/17
+  - Fixed graphics error on Dezorian enemies (#101)
+
 - v2.3 released 2022/12/20
   - Phantasy Star 35th anniversary!
   - Added Spanish translation from kusfo
