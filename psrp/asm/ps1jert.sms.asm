@@ -346,7 +346,7 @@ IndexTableRemap:
 ; Menus
 
 .slot 2
-.section "Menu data" superfree
+.section "Menu data" semisuperfree banks 3-31
 .block "Menus"
 MenuData:
 .include {"generated/menus.{LANGUAGE}.asm"}
@@ -478,7 +478,7 @@ MST:      .stringmap tilemap "│Meseta         " ; Spaces for padding; this nee
 .ends
 
 .slot 1
-.section "Stats window drawing" superfree
+.section "Stats window drawing" semisuperfree banks 3-31
 .include {"{LANGUAGE}/stats-window.asm"}
 
 statsImpl:
@@ -601,7 +601,7 @@ CalculateCursorPos:
 ; Relocating item metadata to increase script space
 
 .slot 2
-.section "Item metadata" superfree
+.section "Item metadata" semisuperfree banks 3-31
 ItemMetaData:
   CopyFromOriginal $0bf9c $40
 .ends

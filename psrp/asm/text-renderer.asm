@@ -191,7 +191,7 @@ _bracket:
 
 
 .slot 1
-.section "Additional scripting codes" superfree
+.section "Additional scripting codes" semisuperfree banks 3-31
 AdditionalScriptingCodes:
 ; Originally t4a_2.asm
 ; Narrative formatter
@@ -833,7 +833,7 @@ _BCD_Digit:
 .ends
 
 .slot 2
-.section "Static dictionary" superfree
+.section "Static dictionary" semisuperfree banks 3-31
 .block "Words"
 ; Note that the number of words we add here has a complicated effect on the data size.
 ; Adding more words costs space here (in a paged bank), but saves space in bank 2.
@@ -895,7 +895,7 @@ _draw_4th_line:
 
 .slot 2
 
-.section "Font lookup" align 256 superfree ; alignment simplifies code...
+.section "Font lookup" align 256 semisuperfree banks 3-31 ; alignment simplifies code...
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table. These must be in the order given in script.<language>.tbl.
 .include {"generated/font-lookup.{LANGUAGE}.asm"}
@@ -903,7 +903,7 @@ FontLookup:
 
 ; We locate the Huffman trees in a different slot to the script so we can access them at the same time
 .slot 1
-.section "Huffman trees" superfree
+.section "Huffman trees" semisuperfree banks 3-31
 .block "Huffman trees"
 HuffmanTrees:
 .include {"generated/tree.{LANGUAGE}.asm"}

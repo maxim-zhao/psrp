@@ -40,7 +40,7 @@ TitleScreenModTrampoline:
   jp TitleScreenMod
 .ends
 .slot 2
-.section "Title screen modification" superfree
+.section "Title screen modification" semisuperfree banks 3-31
 TitleScreenMod:
   call WaitForMenuSelection
   or a
@@ -932,7 +932,7 @@ BrunetteAlisaCheck:
 
 ; and the data can be anywhere...
 .slot 2
-.section "Brunette Alisa tiles" superfree
+.section "Brunette Alisa tiles" semisuperfree banks 3-31
 BrunetteAlisaTiles:
 .incbin "generated/alisa-sprite.bin"
 .ends
@@ -942,7 +942,7 @@ BrunetteAlisaTiles:
 ; The font is part of the recompressed assets anyway, so we needed to replace the loaders no matter what. We add a switch based on the option.
 ; First we put the font data and loader functions in a high bank. This is about 1.2KB, so fairly large but not huge. The font is in two parts due to VRAM layout, and we need a way to load just the upper part for dungeon pitfalls.
 .slot 2
-.section "Font part 1" superfree
+.section "Font part 1" semisuperfree banks 3-31
 FONT1: .incbin {"generated/{LANGUAGE}/font-polaris-part1.psgcompr"}
 FONT2: .incbin {"generated/{LANGUAGE}/font-polaris-part2.psgcompr"}
 FONT1a: .incbin {"generated/{LANGUAGE}/font-aw2284-part1.psgcompr"}

@@ -4,22 +4,22 @@
 ; The artwork is over 256 tiles so we load it in two chunks. This is handy as we can also localise the bottom half.
 
 .slot 2
-.section "Replacement title screen" superfree
+.section "Replacement title screen" semisuperfree banks 3-31
 TitleScreenTilesBottom:
 .incbin {"generated/title.bottom.{LANGUAGE}.psgcompr"}
 .ends
 
-.section "Title screen name table" superfree
+.section "Title screen name table" semisuperfree banks 3-31
 TitleScreenTilemapBottom:
 .incbin {"generated/title.bottom.{LANGUAGE}.tilemap.pscompr"}
 .ends
 
-.section "Replacement title screen part 2" superfree
+.section "Replacement title screen part 2" semisuperfree banks 3-31
 TitleScreenTilesTop:
 .incbin "generated/title.top.psgcompr"
 .ends
 
-.section "Title screen name table for logo" superfree
+.section "Title screen name table for logo" semisuperfree banks 3-31
 TitleScreenTilemapTop:
 .incbin "generated/title.top.tilemap.pscompr"
 .ends

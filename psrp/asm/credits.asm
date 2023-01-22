@@ -4,7 +4,7 @@
   PatchW $70ba CreditsData-4
 ; Code treats values >64 as
 .slot 2
-.section "Credits" superfree
+.section "Credits" semisuperfree banks 3-31
 CreditsData:
 .dw CreditsScreen1, CreditsScreen2, CreditsScreen3, CreditsScreen4, CreditsScreen5, CreditsScreen6, CreditsScreen7, CreditsScreen8, CreditsScreen9, CreditsScreen10, CreditsScreen11, CreditsScreen12, CreditsScreen13, CreditsScreen14, CreditsScreen15, CreditsScreen16, CreditsScreen17, CreditsScreen18, CreditsScreen19
 ; Note that the original only goes up to 14. 15-19 are the retranslation credits.
@@ -30,7 +30,7 @@ _credits_\@_end:
 .ends
 
 .slot 2
-.section "Credits font" superfree
+.section "Credits font" semisuperfree banks 3-31
 CreditsFont:
 .incbin "generated/font-credits.psgcompr"
 .ends
@@ -77,7 +77,7 @@ Dungeon3d:
 .ends
 
 ; Next we need to replace the ending walk data...
-.section "Credits movement data" superfree
+.section "Credits movement data" semisuperfree banks 3-31
 .define _F %0001
 .define _B %0010
 .define _L %0100

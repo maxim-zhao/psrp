@@ -1,5 +1,5 @@
 .slot 1
-.section "Scripting code" superfree
+.section "Scripting code" semisuperfree banks 3-31
 ; Originally t2a.asm
 ; Item window drawer (generic)
 
