@@ -118,4 +118,4 @@ clean:
 
 sizes.%.txt: script.yaml
 	del $@
-	for /l %%n in (1,1,140) do @del generated\*.$*.asm generated\*.$*.tbl & ((make -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
+	for /l %%n in (1,1,140) do @del generated\*.$*.asm generated\*.$*.tbl & (($(MAKE) -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
