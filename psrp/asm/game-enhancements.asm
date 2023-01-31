@@ -28,7 +28,7 @@
 .define TitleScreenCursorBase TileMapWriteAddress(9,15)
   ld hl,TitleScreenCursorBase
   ld (CursorTileMapAddress),hl
-  ld a,3 ; 4 options
+  ld a,4 ; 5 options
   ld (CursorMax),a ; CursorMax
   ld a,:TitleScreenMod
   jp TitleScreenModTrampoline ; Out of space here (want 5B, have 4)
@@ -49,7 +49,11 @@ TitleScreenMod:
   jp z,Continue
   dec a
   jp z,SoundTest
-  ; else fall through
+  dec a
+  jp z,_OptionsMenu
+  ; fall through
+
+  jp ArtTest ; in low ROM
 
 _OptionsMenu:
   ld hl,FunctionLookupIndex
@@ -1189,3 +1193,64 @@ StatsButton1Fix:
 ;>   add    a,a             ; 001E15 87 
 ;    add    a,a             ; 001E16 87 
 ;    add    a,a             ; 001E17 87 
+
+.slot 0
+.section "Art test" free
+ArtTest:
+  ld hl,FunctionLookupIndex
+  ld (hl),8 ; ???
+
+.define SceneType $c29e
+.define LoadSceneData $3e6b
+.define TargetPalette $c240
+.define FadeInWholePalette $7dc3
+.define CharacterSpriteAttributes $c800
+.define ControlsNew $c204
+.define SceneAnimEnabled $c2d6
+    ld a,$0f
+    ld (SceneType),a
+    ld a,1
+    ld (SceneAnimEnabled),a
+_drawScene:
+    call FadeOutFullPalette
+    call LoadSceneData
+    ld hl,$ffff
+    ld (hl),:MyauFlightPalette
+    ld hl,MyauFlightPalette
+    ld de,TargetPalette+16+1
+    ld bc,$000F
+    ldir
+    ld a,$0C ; VBlankFunction_UpdateTilemap
+    call ExecuteFunctionIndexAInNextVBlank
+    call FadeInWholePalette
+    ld a,$15
+    ld (CharacterSpriteAttributes),a
+
+    ; Wait for button press
+_waitForButton:
+    ld a,$8 ; VBlankFunction_Menu
+    call ExecuteFunctionIndexAInNextVBlank
+    ld a,(ControlsNew)
+    bit 2,a
+    jr z,++
+    
+_left:
+    ld a,(SceneType)
+    dec a
+    jr nz,+
+    ld a,$1f ; wrap to max
++:  ld (SceneType),a
+    jp _drawScene
+    
+++: bit 3,a
+    jr z,++
+    ld a,(SceneType)
+    inc a
+    cp $20
+    jr nz,+
+    ld a,1    
++:  ld (SceneType),a
+    jp _drawScene
+    
+++: jp _waitForButton
+.ends

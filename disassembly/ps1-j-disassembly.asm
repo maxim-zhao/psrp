@@ -1157,6 +1157,7 @@ ResetPoint:
     call NTSCDetection ; NTSC detection
     ei
 
+    ; Main loop. We swap between "modes" using the table below.
 -:  ld hl,FunctionLookupIndex
     ld a,(hl)          ; Get value in FunctionLookupIndex (initialised to 0)
     and $1f            ; Strip to low 5 bits
@@ -1166,26 +1167,26 @@ ResetPoint:
 
 ; Jump Table from EA to 111 (11 entries,indexed by FunctionLookupIndex)
 FunctionLookupTable:
-.dw LoadMarkIIILogo           ; 0 $06a0
-.dw FadeInMarkIIILogoAndPause ; 1 $0689
-.dw StartTitleScreen          ; 2 $08b7
-.dw TitleScreen               ; 3 $073f --+  // and intro
-.dw _LABEL_BB8_               ; 4         |
-.dw _LABEL_9CB_               ; 5 *       |
-.dw DoNothing                 ; 6         |
-.dw DoNothing                 ; 7         |
-.dw LoadScene                 ; 8       <-+
-.dw _LABEL_C64_               ; 9 *
-.dw _LABEL_10D9_              ; a
-.dw _LABEL_1098_              ; b * Dungeon
-.dw _LABEL_3D76_              ; c
-.dw _LABEL_3CC0_              ; d *
-.dw _LABEL_1033_              ; e
-.dw _LABEL_FE7_               ; f
-.dw LoadNameEntryScreen       ; 10 $4183
-.dw HandleNameEntry           ; 11 $3fdd
-.dw FadeToPictureFrame        ; 12
-.dw FadeToPictureFrame        ; 13
+.dw LoadMarkIIILogo_FunctionLookup_0            ; 0 $06a0
+.dw FadeInMarkIIILogoAndPause_FunctionLookup_1  ; 1 $0689
+.dw StartTitleScreen_FunctionLookup_2           ; 2 $08b7
+.dw TitleScreen_FunctionLookup_3                ; 3 $073f --+  // and intro
+.dw _LABEL_BB8_FunctionLookup_4                 ; 4         |
+.dw _LABEL_9CB_FunctionLookup_5                 ; 5 *       |
+.dw DoNothing_FunctionLookup_6_7                ; 6         |
+.dw DoNothing_FunctionLookup_6_7                ; 7         |
+.dw LoadScrollingScene_FunctionLookup_8                  ; 8       <-+
+.dw _LABEL_C64_FunctionLookup_9                 ; 9 *
+.dw _LABEL_10D9_FunctionLookup_a                ; a
+.dw _LABEL_1098_FunctionLookup_b                ; b * Dungeon
+.dw _LABEL_3D76_FunctionLookup_c                ; c
+.dw _LABEL_3CC0_FunctionLookup_d                ; d *
+.dw _LABEL_1033_FunctuionLookup_e               ; e
+.dw _LABEL_FE7_FunctionLookup_f                 ; f
+.dw LoadNameEntryScreen_FunctionLookup_10       ; 10 $4183
+.dw HandleNameEntry_FunctionLookup_11           ; 11 $3fdd
+.dw FadeToPictureFrame_FunctionLookup_12_13     ; 12
+.dw FadeToPictureFrame_FunctionLookup_12_13     ; 13
 
 FunctionLookup: ; $0112
     ; Looks up a function in the table pointed to by hl and jumps to that
@@ -2013,28 +2014,28 @@ GetRandomNumber:
 ; 2nd entry of Jump Table from EA (indexed by FunctionLookupIndex)
 .orga $689
 .section "Startup functions" overwrite
-FadeInMarkIIILogoAndPause:
+FadeInMarkIIILogoAndPause_FunctionLookup_1:
     ld a,$02           ; VBlankFunction_MarkIIIFadeIn
     call ExecuteFunctionIndexAInNextVBlank
     ld a,(Controls)
     and P11 | P12      ; Button 1 or 2
-    jr nz,+            ; If button pressed then skip to function 2 = StartTitleScreen
+    jr nz,+            ; If button pressed then skip to function 2 = StartTitleScreen_FunctionLookup_2
     ld a,(MarkIIILogoDelay)
     or a
     ret nz             ; Keep doing this function until MarkIIILogoDelay is zero
 +:
 -:  ld hl,FunctionLookupIndex ; This bit used by more than one function
-    ld (hl),2          ; Set FunctionLookupIndex to 2 (StartTitleScreen)
+    ld (hl),2          ; Set FunctionLookupIndex to 2 (StartTitleScreen_FunctionLookup_2)
     ret
 
 ; 1st entry of Jump Table from EA (indexed by FunctionLookupIndex)
-LoadMarkIIILogo:
+LoadMarkIIILogo_FunctionLookup_0:
     ld a,(IsJapanese)
     or a
-    jr nz,-            ; if IsJapanese==0 then skip to function 2 = StartTitleScreen
+    jr nz,-            ; if IsJapanese==0 then skip to function 2 = StartTitleScreen_FunctionLookup_2
 
     ld hl,FunctionLookupIndex
-    inc (hl)           ; Set FunctionLookupIndex to the next in sequence (FadeInMarkIIILogoAndPause)
+    inc (hl)           ; Set FunctionLookupIndex to the next in sequence (FadeInMarkIIILogoAndPause_FunctionLookup_1)
     di
 
       ld hl,120          ; Number of frames to show logo for (2s)
@@ -2124,7 +2125,7 @@ _Colours:              ; $737
 ; 4th entry of Jump Table from EA (indexed by FunctionLookupIndex)
 .section "Title screen" overwrite
 ; Title screen menu / intro
-TitleScreen:
+TitleScreen_FunctionLookup_3:
     TileMapAddressHL 9,16
     ld (CursorTileMapAddress),hl
 
@@ -2133,13 +2134,13 @@ TitleScreen:
 
     call WaitForMenuSelection
     or a               ; examine returned value
-    jp nz,TitleScreenContinue
+    jp nz,TitleScreen_FunctionLookup_3Continue
 
 NewGame:
     ld hl,GameData
     ld de,GameData+1
-    ld bc,$400-1
-    ld (hl),$00
+    ld bc,_sizeof_GameData-1
+    ld (hl),0
     ldir               ; zero GameData
 
     ld iy,CharacterStatsAlis
@@ -2165,12 +2166,12 @@ NewGame:
     call IntroSequence
 
     ld hl,FunctionLookupIndex
-    ld (hl),$08 ; LoadScene
+    ld (hl),$08 ; LoadScrollingScene_FunctionLookup_8
     ret
 .ends
 ; followed by
 .section "Continue selected on title screen" overwrite
-TitleScreenContinue: ; $079E
+TitleScreen_FunctionLookup_3Continue: ; $079E
     ld a,SRAMPagingOn
     ld (SRAMPaging),a
     ld hl,SRAMSlotsUsed
@@ -2195,7 +2196,7 @@ _UsedSlotFound:
     ei
 
     ld hl,FunctionLookupIndex
-    ld (hl),$08        ; LoadScene
+    ld (hl),$08        ; LoadScrollingScene_FunctionLookup_8
     ld hl,Frame2Paging
     ld (hl),:TilesFont
 
@@ -2297,7 +2298,7 @@ _Delete:
     ld a,SRAMPagingOff
     ld (SRAMPaging),a
     ld hl,FunctionLookupIndex
-    ld (hl),2          ; StartTitleScreen
+    ld (hl),2          ; StartTitleScreen_FunctionLookup_2
     ret
 
 ; Data from 89A to 8A3 (10 bytes)
@@ -2318,7 +2319,7 @@ IsSlotUsed:
 .ends
 ; 3rd entry of Jump Table from EA (indexed by FunctionLookupIndex)
 .section "Start title screen" overwrite
-StartTitleScreen:      ; $08b7
+StartTitleScreen_FunctionLookup_2:      ; $08b7
     call FadeOutFullPalette
     di
       call TurnOffDisplay
@@ -2326,14 +2327,14 @@ StartTitleScreen:      ; $08b7
       call ClearTileMap
 
       ld hl,FunctionLookupIndex
-      inc (hl)           ; TitleScreen
+      inc (hl)           ; TitleScreen_FunctionLookup_3
 
       ld hl,600
       ld (MarkIIILogoDelay),hl ; ??? ##############
 
-      ld hl,_TitleScreenPalette
+      ld hl,_TitleScreen_FunctionLookup_3Palette
       ld de,TargetPalette
-      ld bc,_sizeof__TitleScreenPalette
+      ld bc,_sizeof__TitleScreen_FunctionLookup_3Palette
       ldir               ; load palette
       ld hl,_RAM_C260_
       ld de,_RAM_C260_ + 1
@@ -2347,13 +2348,13 @@ StartTitleScreen:      ; $08b7
       ld (hl),$00
       ldir               ; zero $c800-$c8ff
       ld hl,Frame2Paging
-      ld (hl),:TilesTitleScreen
-      ld hl,TilesTitleScreen
+      ld (hl),:TilesTitleScreen_FunctionLookup_3
+      ld hl,TilesTitleScreen_FunctionLookup_3
       TileAddressDE 0    ; tile number 0
       call LoadTiles4BitRLENoDI
       ld hl,Frame2Paging
-      ld (hl),:TitleScreenTilemap
-      ld hl,TitleScreenTilemap
+      ld (hl),:TitleScreen_FunctionLookup_3Tilemap
+      ld hl,TitleScreen_FunctionLookup_3Tilemap
       call DecompressToTileMapData
 
       xor a
@@ -2371,7 +2372,7 @@ StartTitleScreen:      ; $08b7
     jp ClearSpriteTableAndFadeInWholePalette ; and ret
 
 ; Data from 925 to 944 (32 bytes)
-_TitleScreenPalette:
+_TitleScreen_FunctionLookup_3Palette:
 .db $00,$00,$3F,$0F,$0B,$06,$2B,$2A,$25,$27,$3B,$01,$3C,$34,$2F,$3C
 .db $00,$00,$3C,$0F,$0B,$06,$2B,$2A,$25,$27,$3B,$01,$3C,$34,$2F,$3C
 .ends
@@ -2423,7 +2424,7 @@ _InitSRAM:
 ; 6th entry of Jump Table from EA (indexed by FunctionLookupIndex)
 .orga $9cb
 .section "unprocessed code" overwrite
-_LABEL_9CB_:
+_LABEL_9CB_FunctionLookup_5:
     ld hl,$2009        ; Fade out, 32 colours
     ld (PaletteFadeControl),hl
 
@@ -2683,7 +2684,7 @@ PaletteSpacePlanets:
 .db $3F $3F $3E $3C $39 $38 ; Motavia
 
 ; 5th entry of Jump Table from EA (indexed by FunctionLookupIndex)
-_LABEL_BB8_:
+_LABEL_BB8_FunctionLookup_4:
     ld a,(_RAM_C2E9_)
     and $7F
     ld l,a
@@ -2731,7 +2732,7 @@ _LABEL_BD0_:
     ld hl,0
     ld (_RAM_C2F2_),hl
 
-    call LoadScene
+    call LoadScrollingScene_FunctionLookup_8
 
     ld hl,OutsideAnimCounters ; zero OutsideAnimCounters
     ld de,OutsideAnimCounters + 1
@@ -2765,11 +2766,11 @@ _WorldData: ; $0c1b
 .db $02 $5b $2d $01 $27 $74 $0f $20 $58
 
 ; 7th entry of Jump Table from EA (indexed by FunctionLookupIndex)
-DoNothing:
+DoNothing_FunctionLookup_6_7:
     ret
 
 ; 10th entry of Jump Table from EA (indexed by FunctionLookupIndex)
-_LABEL_C64_:
+_LABEL_C64_FunctionLookup_9:
     ; check for Pause
     ld a,(PauseFlag)
     or a
@@ -2822,7 +2823,7 @@ _LABEL_C64_:
 ; 9th entry of Jump Table from EA (indexed by FunctionLookupIndex)
 .orga $cc6
 .section "Load scene" overwrite
-LoadScene:
+LoadScrollingScene_FunctionLookup_8:
     call FadeOutFullPalette
     di
       call TurnOffDisplay
@@ -3097,7 +3098,7 @@ WorldDataLookup2:
 .ends
 .orga $fe7
 
-_LABEL_FE7_:
+_LABEL_FE7_FunctionLookup_f:
     ld a,(PauseFlag)
     or a
     call nz,DoPause
@@ -3135,7 +3136,7 @@ _LABEL_FE7_:
     ret
 
 ; Data from 1033 to 107C (74 bytes)
-_LABEL_1033_: ; Unreferenced?
+_LABEL_1033_FunctuionLookup_e: ; Unreferenced?
     ld a, (_RAM_C2E9_)
     ; Find a'th entry in _DATA_1068 (1-based)
     add a, a
@@ -3172,7 +3173,7 @@ _DATA_1068:
 .db $02 $0B $00 $3A $46 $06 $54 $20
 .db $02 $04 $01 $2B $64 $10 $43 $1E
 
-_LABEL_1098_:
+_LABEL_1098_FunctionLookup_b:
     ld a,(PauseFlag)
     or a
     call nz,DoPause
@@ -3207,7 +3208,7 @@ _LABEL_10C0_:
     ret
 
 ; 11th entry of Jump Table from EA (indexed by FunctionLookupIndex)
-_LABEL_10D9_:
+_LABEL_10D9_FunctionLookup_a:
     call FadeOutFullPalette
     call CheckDungeonMusic
     ld hl,FunctionLookupIndex
@@ -7328,7 +7329,7 @@ FlashCursor:
     or a
     ret z              ; Continue if non-zero
     ld a,(FunctionLookupIndex)
-    cp 3               ; if FunctionLookupIndex<>3 (TitleScreen)
+    cp 3               ; if FunctionLookupIndex<>3 (TitleScreen_FunctionLookup_3)
     ld bc,$f0f3        ; then b=$f0, c=$f3 (in-game cursor tile #s, actually $1xx)
     jr nz,+
     ld bc,$ff00        ; else b=$ff, c=$00 (title screen cursor tile #s)
@@ -9183,7 +9184,7 @@ DefaultSRAMData: ; Default data for SRAM
 .orga $3cc0
 
 
-_LABEL_3CC0_:
+_LABEL_3CC0_FunctionLookup_d:
     ld a,(PauseFlag)
     or a
     call nz,DoPause
@@ -9258,7 +9259,7 @@ _DATA_3D4E_:
 .dw _LABEL_2DEB_ _LABEL_2DEB_ _LABEL_2DF4_ _LABEL_2DF4_ DoRoomScript DoRoomScript DoRoomScript DoRoomScript
 .dw DoRoomScript DoRoomScript DoRoomScript DoRoomScript
 
-_LABEL_3D76_:
+_LABEL_3D76_FunctionLookup_c:
     ld a,SFX_d6
     ld (NewMusic),a
     call FadeOutFullPalette
@@ -9309,7 +9310,7 @@ _LABEL_3DD1_:
     jr nz,+
     inc a
     ld (SceneType),a
-+:  call LoadSceneData
++:  call LoadStaticSceneData
     ld hl,Frame2Paging
     ld (hl),$10
     ld hl,TilesFont
@@ -9385,10 +9386,10 @@ _LABEL_3E5A_:
 
 .orga $3e6b
 .section "Scene data loader" overwrite
-LoadSceneData:         ; $3e6b
+LoadStaticSceneData:         ; $3e6b
     ld a,(SceneType)
     cp 32
-    jr c,_LoadSceneData ; if SceneType<32 then load data
+    jr c,_LoadStaticSceneData ; if SceneType<32 then load data
 
 +:  ld hl,TileMapData
     ld de,TileMapData+2
@@ -9403,7 +9404,7 @@ LoadSceneData:         ; $3e6b
     ld (TextBox20x6Open),a ; zero TextBox20x6Open
     ret
 
-_LoadSceneData:        ; $3e88
+_LoadStaticSceneData:        ; $3e88
     add a,a
     add a,a
     add a,a            ; multiply SceneType by 8
@@ -9511,7 +9512,7 @@ PaletteAirCastleFull:  ; $3fc2
 
 .orga $3fdd
 .section "Name entry screens (FunctionLookupTable $10, $11)" overwrite
-HandleNameEntry: ; 3fdd
+HandleNameEntry_FunctionLookup_11: ; 3fdd
     ld a,(PauseFlag)             ; 003FDD 3A 12 C2
     or a                         ; 003FE0 B7
     call nz,DoPause              ; 003FE1 C4 1D 01
@@ -9782,7 +9783,7 @@ _DecrementKeyRepeatCounter: ; 417b
     ld (hl),$05                  ; 004180 36 05
     ret                          ; 004182 C9
 
-LoadNameEntryScreen: ; $4183
+LoadNameEntryScreen_FunctionLookup_10: ; $4183
     call FadeOutFullPalette      ; 004183 CD A8 7D   ; go to name entry screen
 
     TileMapAddressDE 0,0         ; 004186 11 00 78   ; clear name table
@@ -10222,7 +10223,7 @@ IntroSequence:
     call FadeOutFullPalette
     ld a,$08
     ld (SceneType),a    ; Palma Town
-    call LoadSceneData
+    call LoadStaticSceneData
 
     ld (hl),:TilesFont
 
@@ -10252,7 +10253,7 @@ IntroSequence:
     call OutputTilemapBoxWipe
 
     call Pause3Seconds
-    call FadeToPictureFrame
+    call FadeToPictureFrame_FunctionLookup_12_13
 
     ld a,$00
     call FadeToNarrativePicture
@@ -10313,7 +10314,7 @@ IntroScrollDown:
 .orga $4636
 
 _LABEL_4636_MyauIntro:
-    call FadeToPictureFrame
+    call FadeToPictureFrame_FunctionLookup_12_13
     ld a,MusicStory
     ld (NewMusic),a
     ld a,$03
@@ -10341,7 +10342,7 @@ _LABEL_4636_MyauIntro:
     ret
 
 _LABEL_467B_:
-    call FadeToPictureFrame
+    call FadeToPictureFrame_FunctionLookup_12_13
     ld a,MusicStory
     ld (NewMusic),a
     ld a,$05
@@ -10371,7 +10372,7 @@ _LABEL_467B_:
     jp FadeInWholePalette
 
 _LABEL_46C8_:
-    call FadeToPictureFrame
+    call FadeToPictureFrame_FunctionLookup_12_13
     ld a,MusicStory
     ld (NewMusic),a
     ; Pick an alive character to show
@@ -10403,7 +10404,7 @@ _LABEL_46FE_:
     ld hl,_DATA_477B_
     jp _LABEL_4770_
 
-+:  call FadeToPictureFrame
++:  call FadeToPictureFrame_FunctionLookup_12_13
     ld a,MusicStory
     ld (NewMusic),a
     ld a,$07
@@ -10417,7 +10418,7 @@ _LABEL_46FE_:
     call _LABEL_477E_MyauFlight
     ld a,$0E
     ld (SceneType),a
-    call LoadSceneData
+    call LoadStaticSceneData
     ld a,$0C
     call ExecuteFunctionIndexAInNextVBlank
     ld hl,TargetPalette+16
@@ -10458,7 +10459,7 @@ _LABEL_477E_MyauFlight:
     call FadeOutFullPalette
     ld a,$0F
     ld (SceneType),a
-    call LoadSceneData
+    call LoadStaticSceneData
     ld hl,Frame2Paging
     ld (hl),:_DATA_5B9D8_MyauFlightPalette
     ld hl,_DATA_5B9D8_MyauFlightPalette
@@ -10484,7 +10485,7 @@ _LABEL_47B5_Ending:
     ld (NewMusic),a
     ld a,$0D
     ld (SceneType),a
-    call LoadSceneData
+    call LoadStaticSceneData
     ld a,$0C
     call ExecuteFunctionIndexAInNextVBlank
     call FadeInWholePalette
@@ -10501,7 +10502,7 @@ _LABEL_47B5_Ending:
     call TextBox20x6
     call Pause256Frames
     call Close20x6TextBox
-    call FadeToPictureFrame
+    call FadeToPictureFrame_FunctionLookup_12_13
     ld a,$03
     call FadeToNarrativePicture
     ld hl,textEndingAlisa
@@ -10612,7 +10613,7 @@ _LABEL_47B5_Ending:
 
 .orga $48d7
 .section "Load picture frame" overwrite
-FadeToPictureFrame:      ; $48d7
+FadeToPictureFrame_FunctionLookup_12_13:      ; $48d7
     call FadeOutFullPalette
     ld hl,Frame2Paging
     ld (hl),:TilesFont
@@ -11589,7 +11590,7 @@ _room_37_GovernorGeneral: ; $4ED0:
     call Close20x6TextBox
     ld a,$20
     ld (SceneType),a
-    call LoadSceneData
+    call LoadStaticSceneData
     ; Turn off sprites
     ld a,$D0
     ld (SpriteTable),a
@@ -11625,7 +11626,7 @@ _room_37_GovernorGeneral: ; $4ED0:
     pop af
     ld (CharacterStatsAlis),a
     call FadeOutFullPalette
-    call LoadSceneData
+    call LoadStaticSceneData
     ld a,$D0
     ld (SpriteTable),a
     ld a,$0C
@@ -11637,7 +11638,7 @@ _room_37_GovernorGeneral: ; $4ED0:
     call FadeOutFullPalette
     ld a,$1D
     ld (SceneType),a
-    call LoadSceneData
+    call LoadStaticSceneData
     call _LABEL_2BC9_
     ld a,$0C
     call ExecuteFunctionIndexAInNextVBlank
@@ -12994,7 +12995,7 @@ _room_ab_DarkForce: ; $5879:
     call Pause256Frames
     ld a,$1F
     ld (SceneType),a
-    call LoadSceneData
+    call LoadStaticSceneData
     ld hl,Frame2Paging
     ld (hl),:DarkForceSpritePalette
     ld hl,DarkForceSpritePalette
@@ -13025,7 +13026,7 @@ _room_ac_58C6:
 +:  call FadeOutFullPalette
     ld a,$1D
     ld (SceneType),a
-    call LoadSceneData
+    call LoadStaticSceneData
     ld a,$0C
     call ExecuteFunctionIndexAInNextVBlank
     call FadeInWholePalette
@@ -15612,7 +15613,7 @@ _LABEL_6BEA_:
       jr nz,-
 +:    ld a,c
       ld (SceneType),a
-      call LoadSceneData
+      call LoadStaticSceneData
       jp _LABEL_6BC0_
 
 _LABEL_6C06_CheckForDungeonObject:
@@ -26162,7 +26163,7 @@ TilesSmoke:            ; $3bae8
 ; followed by
 .orga $bc68
 .section "Title screen tilemap" overwrite
-TitleScreenTilemap:
+TitleScreen_FunctionLookup_3Tilemap:
 .incbin "Tilemaps\3BC68 Title screen tilemap.dat"
 .ends
 .orga $bf60
@@ -28983,7 +28984,7 @@ _DATA_7D676_EndingPicturePalette:
 ; Data from 7D687 to 7E8BC (4662 bytes)
 _DATA_7D687_EndingPictureTiles:
 .incbin "Tiles\7d687compr.dat" ; 159 ending picture
-TilesTitleScreen:      ; $7e8bd
+TilesTitleScreen_FunctionLookup_3:      ; $7e8bd
 .incbin "Tiles\7E8BDcompr Title screen tiles.dat" ; 256 title
 .ends
 ; to end :)
