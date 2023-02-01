@@ -1201,28 +1201,51 @@ ArtTest:
   ld (hl),8 ; ???
 
 .define SceneType $c29e
-.define LoadSceneData $3e6b
+.define LoadStaticSceneData $3e6b
 .define TargetPalette $c240
 .define FadeInWholePalette $7dc3
 .define CharacterSpriteAttributes $c800
-.define ControlsNew $c204
+.define Controls $c205
 .define SceneAnimEnabled $c2d6
-    ld a,$0f
+.define EnemyNumber $c2e6
+.define LoadEnemy $627a
+.define RemoveEnemy $1738
+.define LoadDialogueSprite $63f2
+.define SpriteHandler $59e6
+.define PaletteMoveDelay $c213
+.define AnimDelayCounter $c2bc
+.define EnemySceneTileAnimation $6621
+
+.define SCENE_MIN $01
+.define SCENE_MAX $1f
+.define ENEMY_MIN $01
+.define ENEMY_MAX $4a
+    ld a,SCENE_MIN
     ld (SceneType),a
-    ld a,1
-    ld (SceneAnimEnabled),a
+    ld a,ENEMY_MIN
+    ld (EnemyNumber),a
 _drawScene:
+    xor a
+    ld (SceneAnimEnabled),a
     call FadeOutFullPalette
-    call LoadSceneData
-    ld hl,$ffff
-    ld (hl),:MyauFlightPalette
-    ld hl,MyauFlightPalette
-    ld de,TargetPalette+16+1
-    ld bc,$000F
-    ldir
+    call RemoveEnemy
+    call LoadStaticSceneData
+
+    ; This seems to be how the game inits the scene animations
+    ld a,$ff
+    ld (SceneAnimEnabled),a
+    ld hl,$0000
+    ld (PaletteMoveDelay),hl
+    ld hl,$FF00
+    ld (AnimDelayCounter),hl
+    di
+      call EnemySceneTileAnimation
+    ei
+
     ld a,$0C ; VBlankFunction_UpdateTilemap
     call ExecuteFunctionIndexAInNextVBlank
     call FadeInWholePalette
+    call LoadEnemy ; need to redraw enemy BG tiles. Unfortunately if we do this before fading in then it messes up the fade.
     ld a,$15
     ld (CharacterSpriteAttributes),a
 
@@ -1230,27 +1253,61 @@ _drawScene:
 _waitForButton:
     ld a,$8 ; VBlankFunction_Menu
     call ExecuteFunctionIndexAInNextVBlank
-    ld a,(ControlsNew)
+    ld a,(Controls)
     bit 2,a
     jr z,++
     
 _left:
     ld a,(SceneType)
     dec a
-    jr nz,+
-    ld a,$1f ; wrap to max
-+:  ld (SceneType),a
+    cp SCENE_MIN-1
+    jr nz,_bgDone
+    ld a,SCENE_MAX
+_bgDone:
+    ld (SceneType),a
     jp _drawScene
     
 ++: bit 3,a
     jr z,++
+    
+_right:
     ld a,(SceneType)
     inc a
-    cp $20
-    jr nz,+
-    ld a,1    
-+:  ld (SceneType),a
-    jp _drawScene
+    cp SCENE_MAX+1
+    jr nz,_bgDone
+    ld a,SCENE_MIN
+    jr _bgDone
     
-++: jp _waitForButton
+++: bit 0,a
+    jr z,++
+    
+_up:
+    ld a,(EnemyNumber)
+    inc a
+    cp ENEMY_MAX+1
+    jr nz,_enemyDone
+    ld a,ENEMY_MIN
+    
+_enemyDone:
+    push af
+      call RemoveEnemy ; to restore background tiles
+    pop af
+    ld (EnemyNumber),a
+    call LoadEnemy
+    
+    jp _waitForButton
+    
+++: bit 1,a
+    jr z,++
+    
+_down:
+    ld a,(EnemyNumber)
+    dec a
+    cp ENEMY_MIN-1
+    jr nz,_enemyDone
+    ld a,ENEMY_MAX
+    jr _enemyDone
+    
+++:
+    jp _waitForButton
 .ends

@@ -9210,7 +9210,7 @@ _LABEL_3CE9_:
 +:  and $0F
     ld l,a
     ld h,$00
-    ld de,$3E49
+    ld de,_DATA_3E49_
     add hl,de
     ld a,(hl)
     or a
@@ -9340,7 +9340,7 @@ _LABEL_3DD1_:
 +:  and $0F
     ld l,a
     ld h,$00
-    ld de,$3E49
+    ld de,_DATA_3E49_
     add hl,de
     ld a,(hl)
     or a
@@ -9364,13 +9364,8 @@ SpritePaletteStart:
 .ends
 .orga $3e49
 
-; Data from 3E49 to 3E49 (1 bytes)
-_DATA_3E49_:
-.db $00
-
-; Data from 3E4A to 3E59 (16 bytes)
-_DATA_3E4A_:
-.db $00 $00 $00 $00 $8D $8D $8E $8E $8E $8E $8E $8E $00 $00 $00 $00
+_DATA_3E49_: ; Music indices for enemy scenes?
+.db $00 $00 $00 $00 $00 $8D $8D $8E $8E $8E $8E $8E $8E $00 $00 $00 $00
 
 _LABEL_3E5A_:
     cp $20
