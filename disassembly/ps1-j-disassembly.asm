@@ -3689,7 +3689,7 @@ _LABEL_1461_RegularEnemyAttack:
       ld a,(_RAM_C2ED_PlayerWasHurt)
       or a
       push af
-        call _LABEL_1A2A_
+        call _LABEL_1A2A_EnemyAttackAnimation
       pop af
       jr nz,++
       ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
@@ -3863,7 +3863,7 @@ _LABEL_157D_EnemyMagicAttack:
     ; Magic wall is active
     ld a,$80 ; Bit 7 only
     ld (_RAM_C88A_UnknownFlags),a
-    call _LABEL_1A2A_
+    call _LABEL_1A2A_EnemyAttackAnimation
     ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
     and $80
     jr z,+
@@ -3915,7 +3915,7 @@ MagicAttackDamageC:
 
       ld a,$C0 ; Bits 7 and 6
       ld (_RAM_C88A_UnknownFlags),a
-      call _LABEL_1A2A_
+      call _LABEL_1A2A_EnemyAttackAnimation
       ld a,(_RAM_C2EF_MagicWallActiveAndCounter)
       and $80
       jr z,+
@@ -3979,7 +3979,7 @@ _LABEL_1676_MedusaAttack:
     ld (hl),a
     inc hl
     ld (hl),a
-    call _LABEL_1A2A_
+    call _LABEL_1A2A_EnemyAttackAnimation
     ld hl,textPlayerTurnedToStone
     call TextBox20x6
     call Close20x6TextBox
@@ -4419,7 +4419,7 @@ _LABEL_1A15_:
     call ExecuteFunctionIndexAInNextVBlank
     ret
 
-_LABEL_1A2A_:
+_LABEL_1A2A_EnemyAttackAnimation:
     push iy
       ld a,$FF
       ld (_RAM_C29F_),a

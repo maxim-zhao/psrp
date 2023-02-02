@@ -1215,6 +1215,7 @@ ArtTest:
 .define PaletteMoveDelay $c213
 .define AnimDelayCounter $c2bc
 .define EnemySceneTileAnimation $6621
+.define EnemyAttackAnimation $1a2a
 
 .define SCENE_MIN $01
 .define SCENE_MAX $1f
@@ -1307,6 +1308,11 @@ _down:
     jr nz,_enemyDone
     ld a,ENEMY_MAX
     jr _enemyDone
+    
+++: bit 4,a
+    jr z,++
+    call EnemyAttackAnimation
+    jr _waitForButton
     
 ++:
     jp _waitForButton
