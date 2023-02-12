@@ -119,7 +119,7 @@ CreditsScreen15:
   CreditsEntry 10,10, "RETRADUCTION"
 
 CreditsScreen16:
-.db 4
+.db 5
   CreditsEntry 12,5,    "/"
   CreditsEntry 8,6, "ANGLES"
   CreditsEntry 18,6, "PAUL JENSEN"

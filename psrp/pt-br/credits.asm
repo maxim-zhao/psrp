@@ -113,7 +113,7 @@ CreditsScreen13:
 ; Stairs to blue
 
 CreditsScreen14:
-.db 2
+.db 3
   CreditsEntry 4,14,  "APRESENTADO"
   CreditsEntry 11,16,        "PELA"
   CreditsEntry 18,15, "SEGA"
