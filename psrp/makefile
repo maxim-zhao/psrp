@@ -119,3 +119,8 @@ clean:
 sizes.%.txt: script.yaml
 	del $@
 	for /l %%n in (1,1,140) do @del generated\*.$*.asm generated\*.$*.tbl & (($(MAKE) -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
+
+../PhantasyStar-SMS-%.zip: ps1jert.%.ips ps1jert.%.bps ../README.md ../translating.md ../translation-notes.md ../technical.md
+	$(7Z) a -mx9 $@ $^
+
+zips: $(foreach lang,$(LANGUAGES),../PhantasyStar-SMS-$(lang).zip)
