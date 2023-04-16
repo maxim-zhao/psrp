@@ -2750,7 +2750,7 @@
     Oh, es por que esconde una hacha mágica entre sus tesoros, y la vamos a necesitar.<line><line>
     ¿Quizá la podemos conseguir de camino a nuestra lucha con Lashiec?<wait more>
     De todas formas, escondí una brújula en un pasillo sin salida de esta cueva.<line><line>
-    Busquémosla. Estoy seguro que nos será útil.<wait>
+    Busquémosla. Estoy seguro de que nos será útil.<wait>
   de: |
     Ach, weil sie eine legendäre Axt besitzt, die ich haben wollte.<line><line>
     Nur ärgerlich, dass sie mir entkommen ist...<wait more>
@@ -4860,7 +4860,7 @@
     Ah, el pequeño Hapsby, ¡has vuelto a casa!<wait more>
     Excelente. ¡Con Hapsby podéis pilotar la Luveno a través del espacio!<wait more>
     Y justo a tiempo. La seguridad de los puertos espaciales se ha endurecido.<wait more>
-    ¡Iros! ¡La Luveno está atracada en las afueras de la villa! ¡Id a probadla!<wait>
+    ¡Idos! ¡La Luveno está atracada en las afueras de la villa! ¡Id a probadla!<wait>
   de: |
     Ah, Hapsby, mein Kleiner, ich hab dich vermisst!<wait more>
     Gute Arbeit. Hapsby kann euch den Luveno durchs All fliegen.<wait more>
@@ -6586,7 +6586,7 @@
     Estic segur que us heu sorprés de trobar una botiga en un lloc com aquest, eh?<wait more>
     Les màscares de gas costen <number> mesetas cadascuna. Prou barat, no? En voleu?<end>
   es: |
-    Estoy seguro que os habéis sorprendido de encontrar una tienda en un sitio como este, ¿eh?<wait more>
+    Estoy seguro de que os habéis sorprendido de encontrar una tienda en un sitio como este, ¿eh?<wait more>
     Las máscaras de gas cuestan <number> mesetas cada una. Bastante barato, ¿no? ¿Queréis?<end>
   de: |
     Sie hätten nicht erwartet, hier einen Laden zu finden, oder?<wait more>
@@ -6733,7 +6733,7 @@
     No ens podríeu donar <number> mesetas per ajudar-nos?<end>
   es: |
     Soy el cabecilla de esta villa.<wait more>
-    A Sopia somos muy pobres. La neblina envenada nos aisla de los otros pueblos.<wait more>
+    En Sopia somos muy pobres. La neblina envenada nos aisla de los otros pueblos.<wait more>
     ¿No nos podríais dar <number> mesetas para ayudarnos?<end>
   de: |
     Ich bin der Bürgermeister dieses Dorfes.<wait more>
@@ -6923,7 +6923,7 @@
   fr: Avant l'avènement de Lassic, ce village était très riche.<wait>
   pt-br: Antes do governo opressor de LaShiec, nossa vila tinha muitas riquezas.<wait>
   ca: Abans del opressiu regnat d'en Lashiec, aquesta vila era molt rica.<wait>
-  es: Antes del reinado opressivo de Lashiec, esta villa era molt rica.<wait>
+  es: Antes del reinado opressivo de Lashiec, esta villa era muy rica.<wait>
   de: In Zeiten vor Lashiecs Diktatur waren selbst wir einst sehr wohlhabend.<wait>
 
 - offsets: 5320
@@ -7896,7 +7896,7 @@
     Us donaré un consell. Aneu al lloc amb més alçada de Palma, i mostreu l'Aeroprisma al cel!<wait>
   es: |
     Soy Otegami Chie-chan, ¡de Sega! Gracias por todos los mensajes.<wait more>
-    Por favor, contadnos que os parece este juego. Queremso oír vuestras opiniones.<wait more>
+    Por favor, contadnos que os parece este juego. Queremos oír vuestras opiniones.<wait more>
     Os daré un consejo. Id al lugar más elevado de Palma, y ¡mostrad el Aeroprisma al cielo!<wait>
   de: |
     Ich bin's, Otegami Chie-chan! Vielen Dank für all eure Briefe!<wait more>
