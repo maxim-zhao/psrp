@@ -27,7 +27,7 @@ Items:
   String "<uma> Veste Leve"
   String "<uma> Armadura de Ferro"
   String "<uma> Pele Espinhosa"
-  String "<uma> Malha de Zicórnio"
+  String "<uma> Malha de Zircônio"
   String "<uma> Armadura de Diamante"
   String "<uma> Armadura de Lacônia"
   String   "<o> Manto de Frade"
