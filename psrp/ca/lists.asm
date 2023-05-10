@@ -27,7 +27,7 @@ Items:
   String  "<un> Vestit Lleuger"
   String "<una> Armadura de Ferro"
   String "<una> Pell Punxeguda"
-  String "<una> Malla de Zicorni"
+  String "<una> Malla de Zirconita"
   String "<una> Armadura de Diamant"
   String "<una> Armadura de Laconia"
   String  "<la> Capa de Frai"

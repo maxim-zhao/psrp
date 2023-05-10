@@ -27,7 +27,7 @@ Items:
   String  "<un> Vestido Ligero"
   String "<una> Armadura de Hierro"
   String "<una> Piel Puntiaguda"
-  String "<una> Malla de Zicornio"
+  String "<una> Malla de Zirconita"
   String "<una> Armadura de Diamante"
   String "<una> Armadura de Laconia"
   String  "<la> Capa de Fray"
