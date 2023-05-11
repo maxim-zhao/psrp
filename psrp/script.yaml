@@ -649,7 +649,7 @@
     Ich bin Nekise.<line>
     Mein Beileid für deinen Bruder.<wait more>
     Falls du einen Krieger namens Tylon suchst, ich habe gehört, er soll sich derzeit in der Stadt Shion aufhalten.<wait more>
-    Ach ja, ehe ich's vergesse... Nero hatte mir diesen Lakoniumtopf anvertraut.<wait more>
+    Ach ja, ehe ich's vergesse... Nero hatte mir diesen Laconiatopf anvertraut.<wait more>
     Er ist ziemlich wertvoll. Vielleicht hilft er dir ja auf deiner Reise.<line>
     Hier, nimm ihn mit.<wait>
 
@@ -2233,7 +2233,7 @@
     ...espera. ¿Eso es una olla de Laconia?<wait more>
     Que te parece un cambio, ¿la olla por el animalito?<end>
   de: |
-    Schade... nee, warte mal, ist das 'n Lakoniumtopf?<wait more>
+    Schade... nee, warte mal, ist das 'n Laconiatopf?<wait more>
     Wie wär's mit 'nem Tauschgeschäft? Deinen Topf für meine Mieze.<end>
 
 - offsets: 4ea9
@@ -2276,7 +2276,7 @@
   pt-br: Ganhei uma fortuna vendendo o Pote de Lacônia! Obrigado!<wait>
   ca: He fet una fortuna venen l'olla de Laconia! Gràcies!<wait>
   es: ¡He conseguido una fortuna vendiendo la olla de Laconia!¡Grácias!<wait>
-  de: Von deinem Lakoniumtopf hab ich ein Vermögen gemacht! Danke nochmal!<wait>
+  de: Von deinem Laconiatopf hab ich ein Vermögen gemacht! Danke nochmal!<wait>
 
 # ******************************
 # *** Character Intro - Myau ***
@@ -2985,7 +2985,7 @@
   pt-br: Se você não sabe, é Lacônia! Armas de Lacônia são as mais fortes em toda Algol!<wait>
   ca: És la Laconia! Les armes de Laconia són les més fortes de tot Algol!<wait>
   es: ¡Es la Laconia! ¡Las armas de Laconia son las más fuertes de todo Algol!<wait>
-  de: Lakonium! Waffen aus Lakonium sind die stärksten in ganz Algol!<wait>
+  de: Laconia! Waffen aus Laconia sind die stärksten in ganz Algol!<wait>
 
 # ******************
 # *** Naula Cave ***
@@ -3990,7 +3990,7 @@
     ...bueno, cualquiera menos la Laconia, por supuesto.<wait>
   de: |
     Es gibt eine Chemikalie namens Polymeteral, die jedes erdenkliche Material auflösen kann!<wait more>
-    ...mit Ausnahme von Lakonium, versteht sich.<wait>
+    ...mit Ausnahme von Laconia, versteht sich.<wait>
 
 - offsets: 54f0
   # Prisoner
@@ -4123,7 +4123,7 @@
     Luveno creó a Hapsby como un prototipo de piloto de nave espacial.<wait more>
     Lo tiraron a un vertedero, y ahí está oxidándose. Qué desperdicio...<wait>
   de: |
-    Er ist ein Roboter aus Lakonium! Luveno hatte ihn ursprünglich entwickelt, um Raumschiffe zu steuern.<wait more>
+    Er ist ein Roboter aus Laconia! Luveno hatte ihn ursprünglich entwickelt, um Raumschiffe zu steuern.<wait more>
     Aber dann wurde er in irgendeinen Schrotthaufen geworfen und dort vergessen.<wait more>
     Eigentlich schade um ihn...<wait>
 
@@ -5645,8 +5645,8 @@
     Laconia es el material más poderoso de Algol, no usaria nada menos poderoso.<wait more>
     Rezaré por tí. Todos lo haremos.<wait>
   de: |
-    Ihr wollt also Lashiec stürzen? Dann braucht ihr Schwert, Axt, Schild und Rüstung aus Lakonium.<wait more>
-    Lakonium ist das stärkste Material in ganz Algol. Mit weniger würde ich mich nicht zufriedengeben.<wait more>
+    Ihr wollt also Lashiec stürzen? Dann braucht ihr Schwert, Axt, Schild und Rüstung aus Laconia.<wait more>
+    Laconia ist das stärkste Material in ganz Algol. Mit weniger würde ich mich nicht zufriedengeben.<wait more>
     Ich wünsche euch viel Glück.<wait>
 
 - offsets: 5250
@@ -5693,8 +5693,8 @@
     La Laconia es más que fuerte, es sagrada. Las armas forjadas con ella tienen poderes divinos.<wait more>
     Lashiec lo sabe, por supuesto. ¡Esta es la razón por la que las ha escondido por la galaxia! ¡Tiene miedo!<wait>
   de: |
-    Lakonium ist nicht nur verdammt hart, sondern auch heilig.<wait more>
-    Lashiec weiß das natürlich. Er hat Angst vor der Macht, die Lakonium innewohnt.<wait more>
+    Laconia ist nicht nur verdammt hart, sondern auch heilig.<wait more>
+    Lashiec weiß das natürlich. Er hat Angst vor der Macht, die Laconia innewohnt.<wait more>
     Deswegen hat er alle Waffen daraus in den abgelegensten Ecken der Welt versteckt.<wait>
 
 
@@ -7424,7 +7424,7 @@
   de: |
     Tragen seltene Früchte, Laermabäume.<wait more>
     Werden genannt Laermabeeren, und sind sehr köstlich, die.<wait more>
-    Aber wenn nicht lagert in einem Lakoniumtopf, sie, dann trocknen aus, sie.<wait>
+    Aber wenn nicht lagert in einem Laconiatopf, sie, dann trocknen aus, sie.<wait>
 
 - offsets: 528c
   # Honest Dezorian
@@ -7945,7 +7945,7 @@
   pt-br: <player> pegou algumas Frutas de Laerma e colocou no Pote de Lacônia.<wait>
   ca: <player> agafa alguns Fruits de Laerma i els posa a l'olla de Laconia.<wait>
   es: <player> coge algunos Frutos de Laerma y los pone en la olla de Laconia.<wait>
-  de: <Sie/Er> pflückt ein paar Laermabeeren und verstaut sie im Lakoniumtopf.<wait>
+  de: <Sie/Er> pflückt ein paar Laermabeeren und verstaut sie im Laconiatopf.<wait>
 
 - offsets: 26c4
   # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
@@ -11682,7 +11682,7 @@
   pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
   ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
   es: ‘El Doctor Loco en Avion tiene una Olla de Laconia.’<wait>
-  de: „Der Irre Doktor in Avion hat einen Lakoniumtopf.“<wait>
+  de: „Der Irre Doktor in Avion hat einen Laconiatopf.“<wait>
 
 - offsets: 1cd6
   indices: b502
