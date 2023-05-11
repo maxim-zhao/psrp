@@ -622,7 +622,7 @@
   fr: |
     Je suis Nékisée, mes sincères condoléances pour ton frère.<wait more>
     Nous avons entendu dire que Tylon se trouvait à Scion.<wait more>
-    Néro m'avait demandé de garder ce vase Laconian.<wait more>
+    Néro m'avait demandé de garder ce vase en Laconia.<wait more>
     Il aurait voulu que tu l'aies. Tiens, prends-le.<wait>
   pt-br: |
     Meu nome é Nekise.<line><line>
@@ -2218,7 +2218,7 @@
   fr: |
     C'est dommage.<wait more>
     ...attendez_!<wait more>
-    Est-ce un vase Laconian_?<wait more>
+    Est-ce un vase en Laconia_?<wait more>
     Faisons un marché, le vase contre le chaton_?<end>
   pt-br: |
     Que pena.<wait more>
@@ -2272,7 +2272,7 @@
     A GREAT DEAL OF<line>
     MONEY. THANKS.<wait>
   en: I made a fortune selling that Laconian Pot! Thanks!<wait>
-  fr: J'ai fait fortune en vendant ce vase Laconian_! Merci_!<wait>
+  fr: J'ai fait fortune en vendant ce vase en Laconia_! Merci_!<wait>
   pt-br: Ganhei uma fortuna vendendo o Pote de Lacônia! Obrigado!<wait>
   ca: He fet una fortuna venen l'olla de Laconia! Gràcies!<wait>
   es: ¡He conseguido una fortuna vendiendo la olla de Laconia!¡Grácias!<wait>
@@ -2981,7 +2981,7 @@
     LACONIA ARE THE <line>
     BEST TO HAVE.<wait>
   en: It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
-  fr: C'est le Laconian! Les armes faites en Laconian sont les meilleures_!<wait>
+  fr: C'est le Laconia! Les armes en Laconia sont les meilleures_!<wait>
   pt-br: Se você não sabe, é Lacônia! Armas de Lacônia são as mais fortes em toda Algol!<wait>
   ca: És la Laconia! Les armes de Laconia són les més fortes de tot Algol!<wait>
   es: ¡Es la Laconia! ¡Las armas de Laconia son las más fuertes de todo Algol!<wait>
@@ -3978,7 +3978,7 @@
     ...well, anything except Laconia, of course.<wait>
   fr: |
     Un produit appelé Polymatériau peut tout dissoudre_!<wait more>
-    Sauf le Laconian, bien sur.<wait>
+    Sauf le Laconia, bien sur.<wait>
   pt-br: |
     A substância química chamada Polimaterial vai dissolver qualquer material!<wait more>
     ...bem, qualquer coisa, exceto Lacônia, é claro.<wait>
@@ -4106,7 +4106,7 @@
     Luveno created Hapsby as a prototype spaceship pilot.<wait more>
     It was abandoned in a scrap heap and left to rot. What a waste...<wait>
   fr: |
-    C'est un robot construit en Laconian_!<wait more>
+    C'est un robot construit en Laconia_!<wait more>
     Luveno l'a inventé pour piloter des vaisseaux spatiaux<wait more>
     Mais il l'a jeté dans un tas de ferraille et l'a laissé pourrir.<wait more>
     Quel gâchis...<wait>
@@ -5629,7 +5629,7 @@
     Renverser Lassic_?<wait more>
     J'espère que vous êtes bien équipé_!<wait more>
     Vous aurez besoin d'une épée, d'une hache, d'un bouclier,<wait more>
-    et d'une armure Laconian.<wait more>
+    et d'une armure en Laconia.<wait more>
     Si j'étais vous, je n'utiliserais rien de moins puissant.<wait more>
     Que votre voyage soit sur.<wait>
   pt-br: |
@@ -5679,9 +5679,9 @@
     Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
     LaShiec knows this, of course. That's why he's hidden them across the Algol system! He's scared!<wait>
   fr: |
-    Le Laconian n'est pas que puissant, il est sacré.<wait more>
+    Le Laconia n'est pas que puissant, il est sacré.<wait more>
     Lassic le sait, bien entendu.<wait more>
-    C'est pourquoi les équipements faits de Laconian sont si durs à trouver!<wait more>
+    C'est pourquoi les équipements en Laconia sont si durs à trouver!<wait more>
     Il en a peur_!<wait>
   pt-br: |
     Lacônia é mais do que forte, é sagrada. As armas feitas com ela possuem poderes divinos.<wait more>
@@ -7407,7 +7407,7 @@
     D'étranges fruits, les arbres Laerma portent.<wait more>
     Des baies Laerma, on les appelle.<wait more>
     Savoureuses, elles sont_! En manger je voudrais.<wait more>
-    Un souci il y a, dans un pot en Laconian, elles doivent être.<wait more>
+    Un souci il y a, dans un pot en Laconia, elles doivent être.<wait more>
     Si dans un tel pot elles ne sont pas, toutes desséchées elles deviennent.<wait>
   pt-br: |
     As árvores Laerma possuem frutas estranhas.<wait more>
@@ -7941,7 +7941,7 @@
     IT IN THE LACONIAN
     POT.<wait>
   en: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
-  fr: <player> mets des baies Laerma dans le vase Laconian.<wait>
+  fr: <player> mets des baies Laerma dans le vase en Laconia.<wait>
   pt-br: <player> pegou algumas Frutas de Laerma e colocou no Pote de Lacônia.<wait>
   ca: <player> agafa alguns Fruits de Laerma i els posa a l'olla de Laconia.<wait>
   es: <player> coge algunos Frutos de Laerma y los pone en la olla de Laconia.<wait>
@@ -11678,7 +11678,7 @@
     IN ABION HAS A<wait more>
     LACONIAN POT.<wait>
   en: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
-  fr: Le Savant fou à Avion possède un vase Laconian.<wait>
+  fr: Le Savant fou à Avion possède un vase en Laconia.<wait>
   pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
   ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
   es: ‘El Doctor Loco en Avion tiene una Olla de Laconia.’<wait>
