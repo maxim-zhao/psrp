@@ -78,37 +78,45 @@ Dungeon3d:
 
 ; Next we need to replace the ending walk data...
 .section "Credits movement data" semisuperfree banks 3-31
-.define _F %0001
-.define _B %0010
-.define _L %0100
-.define _R %1000
-.define _Pause $f
+.define ⬆️ %0001
+.define ⬇️ %0010
+.define ⬅️ %0100
+.define ➡️ %1000
+.define ⏸️ $f
 .define _End $ff
 .define _Pitfall $00
 
 CreditsMovementData:
-.db _F _F _F _Pause
-.db _R _F _F _F _Pause
-.db _L _F _F _R _F _Pause
-.db _L _L _F _R _F _F _Pause
-.db _L _F _F _R _F _Pause
-.db _B _B _Pitfall _R _F _F _Pause
-.db _L _F _F _F _F _B _L _Pause
-.db _B _B _B _R _F _F _F _F _L _Pause
-.db _R _R _Pause
-.db _R _F _F _R _F _F _F _F _F _F _F _R _B _B _L _Pause
-.db _L _F _F _Pitfall _Pause
-.db _L _L _F _F _R _F _Pause
-.db _B _B _B _B _R _Pause
-.db _B _L _L _F _F _F _R _F _F _F _F _Pause
+.db ⬆️ ⬆️ ⬆️ ⏸️
+.db ➡️ ⬆️ ⬆️ ⬆️ ⏸️
+.db ⬅️ ⬆️ ⬆️ ➡️ ⬆️ ⏸️
+.db ⬅️ ⬅️ ⬆️ ➡️ ⬆️ ⬆️ ⏸️
+.db ⬅️ ⬆️ ⬆️ ➡️ ⬆️ ⏸️
+.db ⬇️ ⬇️ _Pitfall ➡️ ⬆️ ⬆️ ⏸️
+.db ⬅️ ⬆️ ⬆️ ⬆️ ⬆️ ⬇️ ⬅️ ⏸️
+.db ⬇️ ⬇️ ⬇️ ➡️ ⬆️ ⬆️ ⬆️ ⬆️ ⬅️ ⏸️
+.db ➡️ ➡️ ⏸️
+.db ➡️ ⬆️ ⬆️ ➡️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ➡️ ⬇️ ⬇️ ⬅️ ⏸️
+.db ⬅️ ⬆️ ⬆️ _Pitfall ⏸️
+.db ⬅️ ⬅️ ⬆️ ⬆️ ➡️ ⬆️ ⏸️
+.db ⬇️ ⬇️ ⬇️ ⬇️ ➡️ ⏸️
+.db ⬇️ ⬅️ ⬅️ ⬆️ ⬆️ ⬆️ ➡️ ⬆️ ⬆️ ⬆️ ⬆️ ⏸️
 ; New stuff added here. We visit the 📄 we added.
-.db _Pause ; for music timing
-.db _L _L _F _F _R _F _Pitfall _Pause ; RETRANSLATION
-.db _L _L _L _F _F _F _F _F _Pause ; TRANSLATION
-.db _B _B _B _L _F _F _F _F _F _F _R _Pause ; LOCALIZATION
-.db _L _B _B _L _F _F _F _F _F _Pause ; CODE
-.db _R _R _F _F _F _F _F _R _F _L _F _F _F _F _F _Pause _Pause ; PRESENTED BY SMS POWER!
+.db ⏸️ ; for music timing
+.db ⬅️ ⬅️ ⬆️ ⬆️ ➡️ ⬆️ _Pitfall ⏸️ ; RETRANSLATION
+.db ⬅️ ⬅️ ⬅️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⏸️ ; TRANSLATION
+.db ⬇️ ⬇️ ⬇️ ⬅️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ➡️ ⏸️ ; LOCALIZATION
+.db ⬅️ ⬇️ ⬇️ ⬅️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⏸️ ; CODE
+.db ➡️ ➡️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ➡️ ⬆️ ⬅️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⏸️ ⏸️ ; PRESENTED BY SMS POWER!
 .db _End
+
+.undefine ⬆️
+.undefine ⬇️
+.undefine ⬅️
+.undefine ➡️
+.undefine ⏸️
+.undefine _End
+.undefine _Pitfall
 .ends
   PatchB $48a3 :CreditsMovementData
   PatchW $48a0 CreditsMovementData
