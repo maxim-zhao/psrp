@@ -15,91 +15,91 @@
 
 ; Uppercase
 0B=A
+; Â -> A
+0B=Â
 0C=B
 0D=C
 0E=D
 0F=E
+0F=É
+0F=Ê
 10=F
 11=G
 12=H
 13=I
 14=J
-15=K
-16=L
-17=M
-18=N
-19=O
-1A=P
-1B=Q
-1C=R
-1D=S
-1E=T
-1F=U
-20=V
-21=W
-22=X
-23=Y
-24=Z
+; K is unused
+15=L
+16=M
+17=N
+18=O
+19=P
+1A=Q
+1B=R
+1C=S
+1D=T
+1E=U
+1F=V
+20=W
+; X is unused
+21=Y
+; Z is unused
 
 ; Lowercase
-25=a
-26=b
-27=c
+22=a
+23=à
+24=â
+25=b
+26=c
+27=ç
 28=d
 29=e
-2A=f
-2B=g
-2C=h
-2D=i
-2E=j
-2F=k
-30=l
-31=m
-32=n
-33=o
-34=p
-35=q
-36=r
-37=s
-38=t
-39=u
-3A=v
-3B=w
-3C=x
-3D=y
-3E=z
+2A=é
+2B=ê
+2C=è
+2D=f
+2E=g
+2F=h
+30=i
+; ï -> i
+30=ï
+31=î
+32=j
+33=k
+34=l
+35=m
+36=n
+37=o
+38=ô
+39=p
+3A=q
+3B=r
+3C=s
+3D=t
+3E=u
+3F=ù
+40=û
+41=v
+; w is unused
+42=x
+43=y
+44=z
 
 ; Punctuation
-3F=.
-41=‘
-42=’
-42='
-43=,
-44=-
-45=!
-46=?
+45=.
+46=‘
+47=’
+48='
+49=,
+4A=-
+4B=!
+4C=?
 ; non-breaking space
-47=_
-
-; French accented letters
-48=à
-49=é
-4A=ê
-4B=è
-4C=ç
-4D=ù
+4D=_
 
 ; Below here are mapping to the unaccented characters...
-0B=Â
-0F=É
-0F=Ê
-25=â
-2D=î
-2D=ï
-33=ô
-3329=œ
-1929=Œ
-39=û
+3729=œ
+1829=Œ
 
 ; These control codes only apply to items/names...
 

@@ -135,7 +135,7 @@ Enemies:
   String "<de> Maître Tajim"
   String "<du> Gaia"
   String "<du> Garde mécanique"
-  String "<du> Kraken"
+  String "<du> Gros mangeur"
   String "<du> Talos"
   String "<du> Seigneur serpent"
   String "<du> Porteur de mort"
