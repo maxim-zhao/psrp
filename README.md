@@ -6,6 +6,10 @@ This project is an unofficial retranslation/relocalisation based on that first J
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+- v2.x work in progress
+  - Some script amendments regarding the word Laconian
+  - ...
+
 - v2.3.2 released 2023/02/12
   - Fixed errors in Catalan and Portuguese Brazilian ending credits
 
