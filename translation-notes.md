@@ -158,9 +158,9 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 テレパス|telepasu|TELE|Telepathy|Telepathy|Talk to enemies. Transliteration.
 テルル|teruru|TERR|Terror|Terror|Decreases enemy DP. Transliteration.
 タンドレ|tandore|THUN|Thunder|Thunder|Lightning attack (-30DP to all enemies). Transliteration.
-ペヤラク|peyaraku|CHAT|Chat|Transrate|Talk to enemies, but does not always work - hence a "bad" translation. Might be a play on the words "perapera" ('fluent') and "yaku" ('translation'), created by taking the word "perayaku" ("fluent/perfect translation") and switching the second and third syllables. Similar to "raputto", this also makes sense if you consider that the spell allows you to talk to certain monsters. Also, since the name of the spell isn't a perfect rendering of "peyaraku", it makes sense that the spell doesn't work on all monsters. 
+ペヤラク|peyaraku|CHAT|Chat|Transrate|Talk to enemies, but responses are worse than with Telepathy - or the enemy will attack you (if it is stronger than you and cannot talk magically). Might be a play on the words "perapera" ("ぺらぺら", "fluent") and "honyaku" ("翻訳", "translation"), created by taking the word "perayaku" ("ぺら訳", "fluent/perfect translation") and switching the second and third syllables. Similar to "raputto", this also makes sense if you consider that the spell allows you to talk to certain monsters. Also, since the name of the spell isn't a perfect rendering of "perayaku", it makes sense that the spell doesn't work on all monsters. 
 トルーパ|toruupa|FLY|Fly|Troop|Return to last church. Transliteration.
-ラプット|raputto|TRAP|Trap|Untrap|Disarms traps. "Raputto" is a jumbled-up "torappu", which is transliterated.
+ラプット|raputto|TRAP|Trap|Untrap|Disarms traps. "Raputto" is a jumbled-up "トラップ"/"torappu", which is transliterated.
 ワーラ|waara|WALL|Wall|Waller|Creates a "wall" that blocks attacks. Transliteration (unchanged)
 ヒューン|hyuun|WIND|Wind|Wind|Wind attack (-10DP x 3). Original is onomatopoeic for a strong gust of wind but there's no good English equivalent.
 
