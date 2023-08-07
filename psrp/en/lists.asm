@@ -124,7 +124,7 @@ Enemies:
   String "<The> Manticort"                  ; SPHINX    Sphinx              manchikōto          マンチコート
   String "<The> Serpent"                    ; SERPENT   Serpent             sāpento             サーペント
   String "<The> Leviathan"                  ; SANDWORM  Sandworm            ribaiasan           リバイアサン
-  String "<The> Dorouge"                    ; LICH      Lich                dorūju              ドルージュ
+  String "<The> Druj"                       ; LICH      Lich                dorūju              ドルージュ
   String "<The> Octopus"                    ; OCTOPUS   Octopus             okutopasu           オクトパス
   String "<The> Mad Stalker"                ; STALKER   Stalker             maddosutōkā         マッドストーカー
   String "<The> Dezorian Head"              ; EVILHEAD  Evil Head           dezorianheddo       デゾリアンヘッド

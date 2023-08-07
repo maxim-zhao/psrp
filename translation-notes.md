@@ -206,7 +206,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 マンチコート|manchikooto|SPHINX|Sphinx|Manticort|Transliteration
 サーペント|saapento|SERPEN|Serpent|Serpent|Transliteration
 リバイアサン|ribaiasan|SANDWORM|Sandworm|Leviathan|Transliteration
-ドルージュ|doruuju|LICH|Lich|Dorouge|Transliteration
+ドルージュ|doruuju|LICH|Lich|Druj|Transliteration. See [Wikipedia](https://en.wikipedia.org/wiki/Nasu_%28Zoroastrianism%29).
 オクトパス|okutopasu|OCTOPUS|Octopus|Octopus|Transliteration
 マッドストーカー|maddosutookaa|STALKER|Stalker|Mad Stalker|Transliteration
 デゾリアンヘッド|dezorianheddo|EVILHEAD|Evil Head|Dezorian Head|Transliteration
