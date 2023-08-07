@@ -11,11 +11,11 @@ PSJ = PS1-J.SMS
 # The dictionary size. Maximum is about 145, depending on how many script codes are used for grammar - see script.tbl for the language in question.
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count (for smallest overall data size) depends on the script. Iterating through the options can help to find the best value. `make sizes.en.txt` and similar to do that.
-WORD_COUNT_en = 71
+WORD_COUNT_en = 51
 WORD_COUNT_fr = 117
 WORD_COUNT_pt-br = 58
 WORD_COUNT_ca = 56
-WORD_COUNT_es = 66
+WORD_COUNT_es = 67
 WORD_COUNT_de = 89
 WORD_COUNT_literal = 53
 
