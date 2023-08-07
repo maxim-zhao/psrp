@@ -109,7 +109,7 @@ Enemies:
   String "<The> Tarantula"                  ; TARANTUL  Tarantula           taranuchura         タランチュラ
   String "<The> Manticore"                  ; MANTICOR  Manticore           manchikoa           マンチコア
   String "<The> Skeleton"                   ; SKELETON  Skeleton            sukeruton           スケルトン
-  String "<The> Ant-lion"                   ; ANT LION  Ant Lion            arijigoku           アリジゴク
+  String "<The> Antlion"                    ; ANT LION  Ant Lion            arijigoku           アリジゴク
   String "<The> Marshes"                    ; MARMAN    Marshman            māshīzu             マーシーズ
   String "<The> Dezorian"                   ; DEZORIAN  Dezorian            dezorian            デゾリアン
   String "<The> Desert Leech"               ; LEECH     Leech               dezātorīchi         デザートリーチ

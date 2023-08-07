@@ -172,7 +172,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ウイングアイ|uinguai|WING EYE|Wing Eye|Wing Eye|Transliteration
 マンイーター|maniitaa|MANEATER|Man Eater|Maneater|Transliteration
 スコーピラス|sukoopirasu|SCORPION|Scorpion|Scorpius|Transliteration
-ラージヤーゴ (ラージ水蠆)|raajiyaago|G.SCORPI|Gold Scorpion|Giant Naiad|Transliteration + translation
+ラージヤーゴ (ラージ[水蠆](https://en.wiktionary.org/wiki/%E6%B0%B4%E8%A0%86))|raajiyaago|G.SCORPI|Gold Scorpion|Giant [Naiad](https://en.wiktionary.org/wiki/naiad)|Transliteration + translation
 ブルースライム|buruusuraimu|BL.SLIME|Blue Slime|Blue Slime|Transliteration
 モタビアンノーフ (モタビアン農夫)|motabiannoofu|N.FARMER|N.Farmer|Motavian Peasant|Transliteration + translation
 デビルバット|debirubatto|OWL BEAR|Owl Bear|Devil Bat|Transliteration
@@ -191,7 +191,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 タランチュラ|taranuchura|TARANTUL|Tarantula|Tarantula|Transliteration
 マンチコア|manchikoa|MANTICOR|Manticore|Manticore|Transliteration
 スケルトン|sukeruton|SKELETON|Skeleton|Skeleton|Transliteration
-アリジゴク (蟻地獄)|arijigoku|ANT LION|Ant Lion|Ant-lion|Translation
+アリジゴク ([蟻地獄](https://ja.wikipedia.org/wiki/%E3%82%A6%E3%82%B9%E3%83%90%E3%82%AB%E3%82%B2%E3%83%AD%E3%82%A6))|arijigoku|ANT LION|Ant Lion|Antlion|[Translation](https://en.wikipedia.org/wiki/Antlion)
 マーシーズ|maashiizu|MARMAN|Marshman|Marshes|Transliteration
 デゾリアン|dezorian|DEZORIAN|Dezorian|Dezorian|Transliteration
 デザートリーチ|dezaatoriichi|LEECH|Leech|Desert Leech|Transliteration
@@ -206,7 +206,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 マンチコート|manchikooto|SPHINX|Sphinx|Manticort|Transliteration
 サーペント|saapento|SERPEN|Serpent|Serpent|Transliteration
 リバイアサン|ribaiasan|SANDWORM|Sandworm|Leviathan|Transliteration
-ドルージュ|doruuju|LICH|Lich|Druj|Transliteration. See [Wikipedia](https://en.wikipedia.org/wiki/Nasu_%28Zoroastrianism%29).
+ドルージュ|doruuju|LICH|Lich|[Druj](https://en.wikipedia.org/wiki/Nasu_%28Zoroastrianism%29)|Transliteration
 オクトパス|okutopasu|OCTOPUS|Octopus|Octopus|Transliteration
 マッドストーカー|maddosutookaa|STALKER|Stalker|Mad Stalker|Transliteration
 デゾリアンヘッド|dezorianheddo|EVILHEAD|Evil Head|Dezorian Head|Transliteration
