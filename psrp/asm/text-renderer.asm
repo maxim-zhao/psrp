@@ -124,7 +124,7 @@ _Done:
   add hl,de
   ld a,l
   ld (LEN),a
-  ld a,2    ; Normal page
+  ld a,(SCRIPT_BANK)
   ld (PAGING_SLOT_2),a
   ret
 
@@ -191,7 +191,7 @@ _bracket:
 
 
 .slot 1
-.section "Additional scripting codes" semisuperfree banks 3-31
+.section "Additional scripting codes" superfree
 AdditionalScriptingCodes:
 ; Originally t4a_2.asm
 ; Narrative formatter
@@ -833,7 +833,7 @@ _BCD_Digit:
 .ends
 
 .slot 2
-.section "Static dictionary" semisuperfree banks 3-31
+.section "Static dictionary" superfree
 .block "Words"
 ; Note that the number of words we add here has a complicated effect on the data size.
 ; Adding more words costs space here (in a paged bank), but saves space in bank 2.
@@ -895,7 +895,7 @@ _draw_4th_line:
 
 .slot 2
 
-.section "Font lookup" align 256 semisuperfree banks 3-31 ; alignment simplifies code...
+.section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table. These must be in the order given in script.<language>.tbl.
 .include {"generated/font-lookup.{LANGUAGE}.asm"}
@@ -903,20 +903,15 @@ FontLookup:
 
 ; We locate the Huffman trees in a different slot to the script so we can access them at the same time
 .slot 1
-.section "Huffman trees" semisuperfree banks 3-31
+.section "Huffman trees" superfree
 .block "Huffman trees"
 HuffmanTrees:
 .include {"generated/tree.{LANGUAGE}.asm"}
 .endb
 .ends
 
-; ...but the script still needs to go in slot 2.
-.bank 2 slot 2
-.section "Script" free
-.block "Script"
+; The generated script data has its own section info
 .include {"generated/script.{LANGUAGE}.asm"}
-.endb
-.ends
 
 .bank 0 slot 0
 .section "Decoder init" free
@@ -942,6 +937,16 @@ DecoderInit:
     ld a,1<<7    ; Initial tree barrel
     ld (BARREL),a
 
+    ; Load script bank and pointer from table entry at hl
+    ld a,:ScriptLookup
+    ld (PAGING_SLOT_2),a
+    ld a,(hl)
+    ld (SCRIPT_BANK),a
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
     ld (SCRIPT),hl    ; Beginning script offset
 
     xor a     ; A = $00
@@ -1011,6 +1016,8 @@ SFGDecoder:
     ld (PAGING_SLOT_1),a
 
     ld hl,(SCRIPT)    ; Set Huffman data location
+    ld a,(SCRIPT_BANK)
+    ld (PAGING_SLOT_2),a ; No attempt to preserve this
     ld a,(BARREL)   ; Load Huffman barrel
 
     ex af,af'   ; Context switch to tree mode
@@ -1110,6 +1117,6 @@ _Decode_Done:
   ret
 .ends
 
-.include {"generated/script-patches.{LANGUAGE}.asm"}
+
 
 

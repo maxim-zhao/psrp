@@ -35,12 +35,12 @@ LoadTilesDIEI:
   jp LoadTiles
 .ends
 .slot 2
-.section "Outside tiles" semisuperfree banks 3-31
+.section "Outside tiles" superfree
 OutsideTiles:
 .incbin "generated/747b8.psgcompr"
 .ends
 
-.section "Town tiles" semisuperfree banks 3-31
+.section "Town tiles" superfree
 TownTiles:
 .incbin {"generated/{LANGUAGE}/world2.psgcompr"}
 .ends
@@ -139,60 +139,60 @@ SceneData:
 
 .slot 2
 
-.section "Palma and Dezoris open area graphics" semisuperfree banks 3-31
+.section "Palma and Dezoris open area graphics" superfree
 PalettePalmaOpen:      CopyFromOriginal $40000 16
 PaletteDezorisOpen:    CopyFromOriginal $40010 16
 TilesPalmaAndDezorisOpen: .incbin "generated/40020.psgcompr"
 .ends
 
-.section "Forest graphics" semisuperfree banks 3-31
+.section "Forest graphics" superfree
 PalettePalmaForest:    CopyFromOriginal $40f16 16
 PaletteDezorisForest:  CopyFromOriginal $40f26 16
 TilesPalmaForest:     .incbin "generated/40f36.psgcompr"
 .ends
 
-.section "Palma sea graphics" semisuperfree banks 3-31
+.section "Palma sea graphics" superfree
 PalettePalmaSea:       CopyFromOriginal $41c72 16
 TilesPalmaSea: .incbin "generated/41c82.psgcompr"
 .ends
 
-.section "Motabia open graphics" semisuperfree banks 3-31
+.section "Motabia open graphics" superfree
 PaletteMotabiaOpen: CopyFromOriginal $433f6 16
 TilesMotabiaOpen: .incbin "generated/43406.psgcompr"
 .ends
 
-.section "Palma town graphics" semisuperfree banks 3-31
+.section "Palma town graphics" superfree
 PalettePalmaTown:     CopyFromOriginal $44640 16
 TilesPalmaTown: .incbin "generated/44650.psgcompr"
 .ends
 
-.section "Palma village graphics" semisuperfree banks 3-31
+.section "Palma village graphics" superfree
 PalettePalmaVillage:  CopyFromOriginal $457c4 16
 TilesPalmaVillage: .incbin "generated/457d4.psgcompr"
 .ends
 
-.section "Spaceport graphics" semisuperfree banks 3-31
+.section "Spaceport graphics" superfree
 PaletteSpaceport:     CopyFromOriginal $464b1 16
 TilesSpaceport: .incbin "generated/464c1.psgcompr"
 .ends
 
-.section "Dead trees graphics" semisuperfree banks 3-31
+.section "Dead trees graphics" superfree
 PaletteDeadTrees:     CopyFromOriginal $46f58 16
 TilesDeadTrees: .incbin "generated/46f68.psgcompr"
 .ends
 
-.section "Air castle graphics" semisuperfree banks 3-31
+.section "Air castle graphics" superfree
 PaletteAirCastle:     CopyFromOriginal $5ac7d 16
 PaletteAirCastleFull: CopyFromOriginal $03fc2 16
 TilesAirCastle: .incbin "generated/5ac8d.psgcompr"
 .ends
 
-.section "Gold dragon graphics" semisuperfree banks 3-31
+.section "Gold dragon graphics" superfree
 PaletteGoldDragon: CopyFromOriginal $2c000 16
 TilesGoldDragon: .incbin "generated/2c010.psgcompr"
 .ends
 
-.section "Building graphics" semisuperfree banks 3-31
+.section "Building graphics" superfree
 PaletteBuildingEmpty:     CopyFromOriginal $5ea9f 16
 PaletteBuildingWindows:   CopyFromOriginal $5eaaf 16
 PaletteBuildingHospital1: CopyFromOriginal $5eabf 16
@@ -209,17 +209,17 @@ PaletteBuildingDestroyed: CopyFromOriginal $5eb5f 16
 TilesBuilding: .incbin "generated/5eb6f.psgcompr"
 .ends
 
-.section "Mansion graphics" semisuperfree banks 3-31
+.section "Mansion graphics" superfree
 PaletteMansion: CopyFromOriginal $27b14 16
 TilesMansion: .incbin "generated/27b24.psgcompr"
 .ends
 
-.section "Lassic graphics" semisuperfree banks 3-31
+.section "Lassic graphics" superfree
 PaletteLassicRoom: CopyFromOriginal $524da 16
 TilesLassicRoom: .incbin "generated/524ea.psgcompr"
 .ends
 
-.section "Dark Force graphics" semisuperfree banks 3-31
+.section "Dark Force graphics" superfree
 PaletteDarkForce: CopyFromOriginal $4c000 16
 TilesDarkForce: .incbin "generated/4c010.psgcompr"
 .ends
@@ -277,7 +277,7 @@ BackgroundSceneLoaderTileLoaderPatch:
 
 .slot 2
 
-.section "Space graphics" semisuperfree banks 3-31
+.section "Space graphics" superfree
 TilesSpace: .incbin "generated/5f778.psgcompr"
 PaletteSpace: CopyFromOriginal $5f767 17
 .ends
@@ -312,7 +312,7 @@ PaletteSpace: CopyFromOriginal $5f767 17
 ;    call   LoadTiles ;$04b3           ; 000A1C CD B3 04
 
 .slot 2
-.section "Frame graphics" semisuperfree banks 3-31
+.section "Frame graphics" superfree
 TilesFrame: .incbin "generated/6258a.psgcompr"
 PaletteFrame: CopyFromOriginal $6257a 16
 TilemapFrame: CopyFromOriginal $62484 $6257a-$62484
@@ -342,40 +342,40 @@ TilemapFrame: CopyFromOriginal $62484 $6257a-$62484
 ; We thus only need to move the palette+tiles (and rewrite the table for them).
 
 .slot 2
-.section "Lutz portrait 1" semisuperfree banks 3-31
+.section "Lutz portrait 1" superfree
 PaletteLutzPortrait: CopyFromOriginal $4b388 16
 TilesLutzPortrait: .incbin "generated/4b398.psgcompr"
 .ends
-.section "Tairon portrait" semisuperfree banks 3-31
+.section "Tairon portrait" superfree
 PaletteTaironPortrait: CopyFromOriginal $7762a 16
 TilesTaironPortrait: .incbin "generated/7763a.psgcompr"
 .ends
-.section "Nero portrait 2" semisuperfree banks 3-31
+.section "Nero portrait 2" superfree
 PaletteNeroPortrait2: CopyFromOriginal $78000 16
 TilesNeroPortrait2: .incbin "generated/78010.psgcompr"
 .ends
-.section "Alisa portrait 1" semisuperfree banks 3-31
+.section "Alisa portrait 1" superfree
 PaletteAlisaPortrait1: CopyFromOriginal $78f62 16
 TilesAlisaPortrait1: .incbin "generated/78f72.psgcompr"
 .ends
-.section "Alisa portrait 2" semisuperfree banks 3-31
+.section "Alisa portrait 2" superfree
 PaletteAlisaPortrait2: CopyFromOriginal $79c2b 16
 TilesAlisaPortrait2: .incbin "generated/79c3b.psgcompr"
 .ends
-.section "Myau portrait 2" semisuperfree banks 3-31
+.section "Myau portrait 2" superfree
 PaletteMyauPortrait2: CopyFromOriginal $7aa4e 16
 TilesMyauPortrait2: .incbin "generated/7aa5e.psgcompr"
 .ends
-.section "Myau portrait 3" semisuperfree banks 3-31
+.section "Myau portrait 3" superfree
 PaletteMyauPortrait3: CopyFromOriginal $7b30c 16
 TilesMyauPortrait3: .incbin "generated/7b31c.psgcompr"
 .ends
 
-.section "Nero portrait 1" semisuperfree banks 3-31
+.section "Nero portrait 1" superfree
 PaletteNeroPortrait1: CopyFromOriginal $7c000 16
 TilesNeroPortrait1: .incbin "generated/7c010.psgcompr"
 .ends
-.section "Myau portrait 1" semisuperfree banks 3-31
+.section "Myau portrait 1" superfree
 PaletteMyauPortrait1: CopyFromOriginal $7cadb 16
 TilesMyauPortrait1: .incbin "generated/7caeb.psgcompr"
 .ends
@@ -397,7 +397,7 @@ TilesMyauPortrait1: .incbin "generated/7caeb.psgcompr"
 
 ; Treasure chests
 .slot 2
-.section "Treasure chest art" semisuperfree banks 3-31
+.section "Treasure chest art" superfree
 PaletteTreasureChest: CopyFromOriginal $50000 8
 TilesTreasureChest: .incbin "generated/50008.psgcompr"
 .ends
@@ -420,7 +420,7 @@ TilesTreasureChest: .incbin "generated/50008.psgcompr"
 
 ; Ending picture
 .slot 2
-.section "Ending picture art" semisuperfree banks 3-31
+.section "Ending picture art" superfree
 PaletteEnding: CopyFromOriginal $7d676 17
 TilesEnding: .incbin "generated/7d687.psgcompr"
 .ends
@@ -441,116 +441,116 @@ TilesEnding: .incbin "generated/7d687.psgcompr"
 ; Table at $869f has 32 per enemy type.
 ; Tiles bank is at +16, pointer at +17
 .slot 2
-.section "Bat art" semisuperfree banks 3-31
+.section "Bat art" superfree
 TilesBat: .incbin "generated/28000.psgcompr"
 .ends
-.section "Reaper art" semisuperfree banks 3-31
+.section "Reaper art" superfree
 TilesReaper: .incbin "generated/28d7e.psgcompr"
 .ends
-.section "Evil Dead art" semisuperfree banks 3-31
+.section "Evil Dead art" superfree
 TilesEvilDead: .incbin "generated/29b85.psgcompr"
 .ends
-.section "Medusa art" semisuperfree banks 3-31
+.section "Medusa art" superfree
 TilesMedusa: .incbin "generated/2a044.psgcompr"
 .ends
-.section "Sand worm art" semisuperfree banks 3-31
+.section "Sand worm art" superfree
 TilesSandWorm: .incbin "generated/2aa8c.psgcompr"
 .ends
-.section "Wing Eye art" semisuperfree banks 3-31
+.section "Wing Eye art" superfree
 TilesWingEye: .incbin "generated/2b7e4.psgcompr"
 .ends
 
-.section "Fly art" semisuperfree banks 3-31
+.section "Fly art" superfree
 TilesFly: .incbin "generated/2dcda.psgcompr"
 .ends
-.section "TilesSorceror art" semisuperfree banks 3-31
+.section "TilesSorceror art" superfree
 TilesSorceror: .incbin "generated/2e25f.psgcompr"
 .ends
-.section "TilesLassic art" semisuperfree banks 3-31
+.section "TilesLassic art" superfree
 TilesLassic: .incbin "generated/2ed79.psgcompr"
 .ends
-.section "Slime art" semisuperfree banks 3-31
+.section "Slime art" superfree
 TilesSlime: .incbin "generated/2f869.psgcompr"
 .ends
 
-.section "TilesFarmer art" semisuperfree banks 3-31
+.section "TilesFarmer art" superfree
 TilesFarmer: .incbin "generated/4cdbe.psgcompr"
 .ends
-.section "TilesDezorian art" semisuperfree banks 3-31
+.section "TilesDezorian art" superfree
 TilesDezorian: .incbin "generated/4d6ed.psgcompr"
 .ends
-.section "TilesElephant art" semisuperfree banks 3-31
+.section "TilesElephant art" superfree
 TilesElephant: .incbin "generated/4dc25.psgcompr"
 .ends
-.section "TilesRobotCop art" semisuperfree banks 3-31
+.section "TilesRobotCop art" superfree
 TilesRobotCop: .incbin "generated/4ea0f.psgcompr"
 .ends
-.section "TilesTarantula art" semisuperfree banks 3-31
+.section "TilesTarantula art" superfree
 TilesTarantula: .incbin "generated/4f28a.psgcompr"
 .ends
-.section "TilesSuccubus art" semisuperfree banks 3-31
+.section "TilesSuccubus art" superfree
 TilesSuccubus: .incbin "generated/4fd83.psgcompr"
 .ends
 
-.section "TilesClub art" semisuperfree banks 3-31
+.section "TilesClub art" superfree
 TilesClub: .incbin "generated/50feb.psgcompr"
 .ends
-.section "TilesDarkForceFlame art" semisuperfree banks 3-31
+.section "TilesDarkForceFlame art" superfree
 TilesDarkForceFlame: .incbin "generated/517c4.psgcompr"
 .ends
 
-.section "TilesAmmonite art" semisuperfree banks 3-31
+.section "TilesAmmonite art" superfree
 TilesAmmonite: .incbin "generated/52ba2.psgcompr"
 .ends
-.section "TilesGolem art" semisuperfree banks 3-31
+.section "TilesGolem art" superfree
 TilesGolem: .incbin "generated/53395.psgcompr"
 .ends
 
-.section "TilesShadow art" semisuperfree banks 3-31
+.section "TilesShadow art" superfree
 TilesShadow: .incbin "generated/64000.psgcompr"
 .ends
-.section "TilesDragon art" semisuperfree banks 3-31
+.section "TilesDragon art" superfree
 TilesDragon: .incbin "generated/6493b.psgcompr"
 .ends
-.section "TilesSnake art" semisuperfree banks 3-31
+.section "TilesSnake art" superfree
 TilesSnake: .incbin "generated/65755.psgcompr"
 .ends
-.section "TilesScorpion art" semisuperfree banks 3-31
+.section "TilesScorpion art" superfree
 TilesScorpion: .incbin "generated/664d0.psgcompr"
 .ends
-.section "TilesSkeleton art" semisuperfree banks 3-31
+.section "TilesSkeleton art" superfree
 TilesSkeleton: .incbin "generated/66a4a.psgcompr"
 .ends
-.section "TilesGhoul art" semisuperfree banks 3-31
+.section "TilesGhoul art" superfree
 TilesGhoul: .incbin "generated/67326.psgcompr"
 .ends
 
-.section "Centaur art" semisuperfree banks 3-31
+.section "Centaur art" superfree
 TilesCentaur: .incbin "generated/68000.psgcompr"
 .ends
-.section "IceMan art" semisuperfree banks 3-31
+.section "IceMan art" superfree
 TilesIceMan: .incbin "generated/68a1f.psgcompr"
 .ends
-.section "Manticore art" semisuperfree banks 3-31
+.section "Manticore art" superfree
 TilesManticore: .incbin "generated/69748.psgcompr"
 .ends
-.section "Man Eater art" semisuperfree banks 3-31
+.section "Man Eater art" superfree
 TilesManEater: .incbin "generated/6a180.psgcompr"
 .ends
-.section "FishMan art" semisuperfree banks 3-31
+.section "FishMan art" superfree
 TilesFishMan: .incbin "generated/6a7b8.psgcompr"
 .ends
-.section "Octopus art" semisuperfree banks 3-31
+.section "Octopus art" superfree
 TilesOctopus: .incbin "generated/6b17e.psgcompr"
 .ends
 
 
 
-.section "TilesTarzimal art" semisuperfree banks 3-31
+.section "TilesTarzimal art" superfree
 TilesTarzimal: .incbin "generated/4794a.psgcompr"
 .ends
 
-.section "TilesGoldDragonHead art" semisuperfree banks 3-31
+.section "TilesGoldDragonHead art" superfree
 TilesGoldDragonHead: .incbin "generated/2caeb.psgcompr"
 .ends
 
@@ -643,33 +643,33 @@ PatchEnemy\1\2:
 
 ; Dialogue sprites
 .bank 2
-.section "1bb80 art" semisuperfree banks 3-31
+.section "1bb80 art" superfree
 Tiles1bb80: .incbin "generated/1bb80.psgcompr"
 .ends
 
-.section "57a97 art" semisuperfree banks 3-31
+.section "57a97 art" superfree
 Tiles57a97: .incbin "generated/57a97.psgcompr"
 .ends
 
-.section "6c000 art" semisuperfree banks 3-31
+.section "6c000 art" superfree
 Tiles6c000: .incbin "generated/6c000.psgcompr"
 .ends
-.section "6ce19 art" semisuperfree banks 3-31
+.section "6ce19 art" superfree
 Tiles6ce19: .incbin "generated/6ce19.psgcompr"
 .ends
-.section "6d979 art" semisuperfree banks 3-31
+.section "6d979 art" superfree
 Tiles6d979: .incbin "generated/6d979.psgcompr"
 .ends
-.section "6df26 art" semisuperfree banks 3-31
+.section "6df26 art" superfree
 Tiles6df26: .incbin "generated/6df26.psgcompr"
 .ends
-.section "6e75e art" semisuperfree banks 3-31
+.section "6e75e art" superfree
 Tiles6e75e: .incbin "generated/6e75e.psgcompr"
 .ends
-.section "6eb04 art" semisuperfree banks 3-31
+.section "6eb04 art" superfree
 Tiles6eb04: .incbin "generated/6eb04.psgcompr"
 .ends
-.section "6ee6c art" semisuperfree banks 3-31
+.section "6ee6c art" superfree
 Tiles6ee6c: .incbin "generated/6ee6c.psgcompr"
 .ends
 
@@ -705,7 +705,7 @@ PatchPerson\1\2:
   
 ; Attack/magic sprites
 .bank 2
-.section "Attack/magic sprites art" semisuperfree banks 3-31
+.section "Attack/magic sprites art" superfree
 ; These have to share a bank
 AttackSprites:
 Tiles49c00: .incbin "generated/49c00.psgcompr"
@@ -758,7 +758,7 @@ PatchAttackSprites\1\2:
   
 ; Attack/magic sprites
 .bank 2
-.section "Attack/magic sprites art 2" semisuperfree banks 3-31
+.section "Attack/magic sprites art 2" superfree
 ; These have to share a bank
 AttackSprites2:
 Tiles2d901: .incbin "generated/2d901.psgcompr"
@@ -771,7 +771,7 @@ Tiles2daf0: .incbin "generated/2daf0.psgcompr"
 
 ; Myau flight
 .bank 2
-.section "Myau flight art" semisuperfree banks 3-31
+.section "Myau flight art" superfree
 MyauFlightPalette:  CopyFromOriginal $5b9d8 15
 MyauFlightTiles:    .incbin "generated/5b9e7.psgcompr"
 .ends
@@ -790,7 +790,7 @@ MyauFlightTiles:    .incbin "generated/5b9e7.psgcompr"
 
 ; Dungeon rooms
 .bank 2
-.section "Dungeon room art" semisuperfree banks 3-31
+.section "Dungeon room art" superfree
 DungeonRoomTiles:   .incbin "generated/27471.psgcompr"
 DungeonRoomTilemap: CopyFromOriginal $27130 $27471-$27130
 .ends

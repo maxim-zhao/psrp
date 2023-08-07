@@ -12,7 +12,7 @@ PSJ = PS1-J.SMS
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count (for smallest overall data size) depends on the script. Iterating through the options can help to find the best value. `make sizes.en.txt` and similar to do that.
 WORD_COUNT_en = 71
-WORD_COUNT_fr = 146
+WORD_COUNT_fr = 117
 WORD_COUNT_pt-br = 58
 WORD_COUNT_ca = 56
 WORD_COUNT_es = 66
@@ -69,8 +69,8 @@ generated/script_with_words.%.tbl: %/script.tbl generated/words.%.tbl
 	$(PY) tools.py join $^ $@
 
 # Generate the script data
-generated/script.%.asm generated/script-patches.%.asm generated/tree.%.asm &: generated/script_with_words.%.tbl tools.py script.yaml
-	$(PY) tools.py script_inserter generated/script.$*.asm generated/script-patches.$*.asm generated/tree.$*.asm script.yaml $* generated/script_with_words.$*.tbl
+generated/script.%.asm generated/tree.%.asm &: generated/script_with_words.%.tbl tools.py script.yaml
+	$(PY) tools.py script_inserter generated/script.$*.asm generated/tree.$*.asm script.yaml $* generated/script_with_words.$*.tbl
 
 # Generate the font lookup
 generated/font-lookup.%.asm: %/script.tbl tools.py

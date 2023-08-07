@@ -248,6 +248,7 @@ _script\@_end:
   HLIMIT          db   ; horizontal chars left
   VLIMIT          db   ; vertical line limit
   SCRIPT          dw   ; pointer to script
+  SCRIPT_BANK     db   ; bank of script
   BARREL          db   ; current Huffman encoding barrel
   TREE            db   ; current Huffman tree
   VRAM_PTR        dw   ; VRAM address
@@ -346,7 +347,7 @@ IndexTableRemap:
 ; Menus
 
 .slot 2
-.section "Menu data" semisuperfree banks 3-31
+.section "Menu data" superfree
 .block "Menus"
 MenuData:
 .include {"generated/menus.{LANGUAGE}.asm"}
@@ -478,7 +479,7 @@ MST:      .stringmap tilemap "│Meseta         " ; Spaces for padding; this nee
 .ends
 
 .slot 1
-.section "Stats window drawing" semisuperfree banks 3-31
+.section "Stats window drawing" superfree
 .include {"{LANGUAGE}/stats-window.asm"}
 
 statsImpl:
@@ -601,7 +602,7 @@ CalculateCursorPos:
 ; Relocating item metadata to increase script space
 
 .slot 2
-.section "Item metadata" semisuperfree banks 3-31
+.section "Item metadata" superfree
 ItemMetaData:
   CopyFromOriginal $0bf9c $40
 .ends

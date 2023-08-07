@@ -1,5 +1,5 @@
 .slot 2
-.section "Enemy, name, item lists" semisuperfree banks 3-31
+.section "Enemy, name, item lists" superfree
 Lists:
 
 Items:  
