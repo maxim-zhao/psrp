@@ -27,7 +27,7 @@ Items:
   String "<de la> Combinaison Légère"
   String "<de l'>Armure en Fer"
   String "<de la> Fourrure Piquante"
-  String "<de l'> Armure Zirconium"
+  String "<de l'> Armure zirconium"
   String "<de l'>Armure en Diamant"
   String "<de l'>Armure en Laconia"
   String "<de la> Cape de Frad"

@@ -624,7 +624,7 @@
     Aux dernières nouvelles, il séjournait à l'est dans la ville de Scion.<wait more>
     Peut-être est-il toujours dans les parages_?<wait more>
     Au fait, ton frère m'avait confié ce Vase en Laconia.<wait more>
-    Je suis désolé, mais je ne peux pas t'aider plus. Bonne chance.<wait>C'est un objet de grande valeur. Tiens, prends-le. Peut-être t'aidera-t-il au cours de ton voyage_?<wait>
+    C'est un objet de grande valeur. Tiens, prends-le. Peut-être t'aidera-t-il au cours de ton voyage_?<wait>
   pt-br: |
     Meu nome é Nekise.<line><line>
     Fiquei triste ao saber de sua perda.<wait more>
@@ -966,7 +966,7 @@
     Dézoris est la planète la plus éloignée du soleil. Sa surface est gelée et très peu de vie y prospère.<wait more>
     Son développement a donc été retardé mais la construction d'un spatioport reste prévue dans quelques années.<wait more>
     Malheureusement, depuis le début du printemps, le système solaire d'Algol est menacé.<wait more>
-    Chaque jour les ambitions de LaShiec nous rapprochent d'une crise irréversible.<wait> 
+    Chaque jour les ambitions de LaShiec nous rapprochent d'une crise irréversible.<wait>
   pt-br: |
     Algol é composta por três planetas - Palma, Motávia e Dezóris.<wait more>
     Cada planeta possui uma atmosfera única, o que significa que todos têm características distintas.<wait more>
@@ -2862,7 +2862,7 @@
     I wonder if it’s still there?<wait>
   fr: |
     Il y a longtemps, le docteur Luveno dirigeait les laboratoires de Gothic.<wait more>
-    Je me demande ce qu'il est devenu...<wait more>
+    Je me demande ce qu'il est devenu...<wait>
   pt-br: |
     Há muito tempo, um cientista chamado Luveno tinha um laboratório de pesquisa na Floresta de Gótica.<wait more>
     Eu me pergunto, será que ele ainda está lá?<wait>
@@ -3098,7 +3098,7 @@
   literal: zzz...<wait>
   us: ZZZ...ZZZ...<wait>
   en: zzz...<wait>
-  fr: Zzz...<wait>
+  fr: zzz...<wait>
   pt-br: zzz...<wait>
   ca: zzz...<wait>
   es: zzz...<wait>
@@ -6369,7 +6369,7 @@
     -- A SMALL TOWN<wait more>
     ON THE OCEAN.<wait>
   en: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
-  fr: Voici Drasgow, une petite ville flottante, sur la mer de la planète Palma.<wait>
+  fr: Voici Drasgo, une petite ville flottante, sur la mer de la planète Palma.<wait>
   pt-br: Esta é Drasgo, uma pequena cidade flutuando no mar.<wait>
   ca: Benvinguts a Drasgo, el nostre petit poble que sura al mar.<wait>
   es: Bienvenidos a Drasgo, nuestro pequeño pueblo que flota en el mar.<wait>
@@ -8112,7 +8112,7 @@
   en: You can find it on the other side of a pitfall.<wait>
   fr: |
     Écoutez les conseils des villageois pour les trouver.<wait more>
-    Pour l'épée, allez au village de Drasgow au sud-est de la planète Palma.<wait more>
+    Pour l'épée, allez au village de Drasgo au sud-est de la planète Palma.<wait more>
     Pour l'armure, allez au village de Skure au sud-est de la planète Dézoris.<wait more>
     Pour le bouclier, allez au village des dézoriens au nord-est de la planète Dézoris.<wait more>
     Pour la hache, allez au village de Sopia au nord-est de la planète Motavia.<wait>
@@ -8460,7 +8460,7 @@
     FOR ALEX OSSALE?<end>
   en: I sense that you are looking for Alex Ossale, yes?<end>
   fr: |
-    Vous recherchez Alex Ossale, je veux dire... Ossale Kohta (Designer des jeux Alex Kidd et Phantasy Star).<wait more>
+    Vous recherchez Alex Ossale, je veux dire... Ossale kohta, Designer des jeux Alex kidd et Phantasy Star.<wait more>
     Puis-je continuer_?<end>
   pt-br: Sinto que está procurando por Alex Ossale, não é?<end>
   ca: Presenteixo que busqueu en Alex Ossale, oi?<end>
@@ -9341,7 +9341,7 @@
   en: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
   fr: |
     Même si les souvenirs de cette sombre période s'estompent, ces quatre noms resteront dans le coeur du peuple d'Algol.<wait more>
-    -EPILOGUE D'ALISA ET LUTZ-<wait more>
+    -EPILOGUE D'ALISA ET LUTz-<wait more>
     Alisa et Lutz souhaitaient à tout prix préserver la paix en tout espace et en tout temps.<wait more>
     Chacun entra dans un profond sommeil cryogénique jusqu'au jour où le monde aurait besoin de l'un d'eux.<wait more>
     Phantasy Star Generation 2<line>
