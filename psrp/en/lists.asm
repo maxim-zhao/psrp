@@ -90,14 +90,14 @@ Enemies:
   String "<The> Wing Eye"                   ; WING EYE  Wing Eye            uinguai             ウイングアイ
   String "<The> Maneater"                   ; MANEATER  Man Eater           manītā              マンイーター
   String "<The> Scorpius"                   ; SCORPION  Scorpion            sukōpirasu          スコーピラス
-  String "<The> Large Naiad"                ; G.SCORPI  Gold Scorpion       rājāgo              ラージャーゴ       ラージ水蠆
+  String "<The> Large Naiad"                ; G.SCORPI  Gold Scorpion       rājiyāgo            ラージヤーゴ       ラージ水蠆
   String "<The> Blue Slime"                 ; BL.SLIME  Blue Slime          burūsuraimu         ブルースライム
   String "<The> Motavian Peasant"           ; N.FARMER  N.Farmer            motabiannōfu        モタビアンノーフ
   String "<The> Devil Bat"                  ; OWL BEAR  Owl Bear            debirubatto         デビルバット
   String "<The> Killer Plant"               ; DEADTREE  Dead Tree           kirāpuranto         キラープラント
-  String "<The> Biting Fly"                 ; SCORPIUS  Scorpius            baitāfurai          バイターフライ
+  String "<The> Biting Fly"                 ; SCORPIUS  Scorpius            baitāfurai          バイターフライ      <-- Note that the sprite is a winged scorpion, see Herex below
   String "<The> Motavian Evil"              ; E.FARMER  E.Farmer            motabianibiru       モタビアンイビル    モタビアン農夫
-  String "<The> Herex"                      ; GIANTFLY  Giant Fly           herekkusu           ヘレックス
+  String "<The> Herex"                      ; GIANTFLY  Giant Fly           herekkusu           ヘレックス        <-- Note that the sprite is a fly, see Biting Fly above. The US translation seemingly transfers the fly name here.
   String "<The> Sandworm"                   ; CRAWLER   Crawler             sandofūmu           サンドフーム
   String "<The> Motavian Maniac"            ; BARBRIAN  Barbarian           motabianmania       モタビアンマニア
   String "<The> Gold Lens" ; $10            ; GOLDLENS  Goldlens            gōrudorenzu         ゴールドレンズ
@@ -106,8 +106,8 @@ Enemies:
   String "<The> Horseshoe Crab"             ; BIG CLUB  Big Club            kabutogani          カブトガニ
   String "<The> Shark King"                 ; FISHMAN   Fishman             shākin              シャーキン
   String "<The> Lich"                       ; EVILDEAD  Evil Dead           ritchi              リッチ
-  String "<The> Tarantula"                  ; TARANTUL  Tarantula           taranuchirra        タラヌチッラ
-  String "<The> Manticort"                  ; MANTICOR  Manticore           manchikoa           マンチコア
+  String "<The> Tarantula"                  ; TARANTUL  Tarantula           taranuchura         タランチュラ
+  String "<The> Manticore"                  ; MANTICOR  Manticore           manchikoa           マンチコア
   String "<The> Skeleton"                   ; SKELETON  Skeleton            sukeruton           スケルトン
   String "<The> Ant-lion"                   ; ANT LION  Ant Lion            arijigoku           アリジゴク
   String "<The> Marshes"                    ; MARMAN    Marshman            māshīzu             マーシーズ
@@ -121,7 +121,7 @@ Enemies:
   String "<The> Wight"                      ; WIGHT     Wight               waito               ワイト
   String "<The> Skull Soldier"              ; SKULL-EN  Skull-En            sukarusorujā        スカルソルジャー
   String "<The> Snail"                      ; AMMONITE  Ammonite            maimai              マイマイ
-  String "<The> Manticore"                  ; SPHINX    Sphinx              manchikōto          マンチコート
+  String "<The> Manticort"                  ; SPHINX    Sphinx              manchikōto          マンチコート
   String "<The> Serpent"                    ; SERPENT   Serpent             sāpento             サーペント
   String "<The> Leviathan"                  ; SANDWORM  Sandworm            ribaiasan           リバイアサン
   String "<The> Dorouge"                    ; LICH      Lich                dorūju              ドルージュ
@@ -132,7 +132,7 @@ Enemies:
   String "<The> Living Dead"                ; BATALION  Battalion           byūto               ビュート
   String "<The> Robot Police"               ; ROBOTCOP  Robotcop            robottoporisu       ロボットポリス
   String "<The> Cyborg Mage"                ; SORCERER  Sorcerer            saibōgumeiji        サイボーグメイジ
-  String "<The> Flame Lizard" ; $30         ; NESSIE    Nessie              furēmurizado        フレームリザド
+  String "<The> Flame Lizard" ; $30         ; NESSIE    Nessie              furēmurizādo        フレームリザード
   String "Tajim"                            ; TARZIMAL  Tarzimal            tajimu              タジム
   String "<The> Gaia"                       ; GOLEM     Golem               gaia                ガイア
   String "<The> Machine Guard"              ; ANDROCOP  Androcop            mashīngādā          マシーンガーダー
@@ -150,10 +150,10 @@ Enemies:
   String "<The> Mammoth"                    ; MAMMOTH   Mammoth             manmosu             マンモス
   String "<The> King Saber"   ; $40         ; CENTAUR   Centaur             kinguseibā          キングセイバー
   String "<The> Dark Marauder"              ; MARAUDER  Marauder            dākumarōdā          ダークマローダー
-  String "<The> Golem"                      ; TITAN     Titan               kōremu              コーレム
+  String "<The> Golem"                      ; TITAN     Titan               gōremu              ゴーレム
   String "Medusa"                           ; MEDUSA    Medusa              medyūsa             メデューサ
   String "<The> Frost Dragon"               ; WT.DRAGN  White Dragon        furosutodoragon     フロストドラゴン
-  String "Dragon Wise"                      ; B.DRAGN   Blue Dragon         doragonwaizu        ドラゴンワイズ
+  String "Dragon Wise"                      ; BL.DRAGN  Blue Dragon         doragonwaizu        ドラゴンワイズ
   String "<The> Gold Drake"                 ; GD.DRAGN  Gold Dragon         gōrudodoreiku       ゴールドドレイク
   String "<The> Mad Doctor"                 ; DR.MAD    Dr. Mad             maddodokutā         マッドドクター
   String "LaShiec"                          ; LASSIC    Lassic              rashīku             ラシーク

@@ -172,7 +172,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ウイングアイ|uinguai|WING EYE|Wing Eye|Wing Eye|Transliteration
 マンイーター|maniitaa|MANEATER|Man Eater|Maneater|Transliteration
 スコーピラス|sukoopirasu|SCORPION|Scorpion|Scorpius|Transliteration
-ラージヤーゴ (ラージ水蠆)|raajaago|G.SCORPI|Gold Scorpion|Giant Naiad|Transliteration + translation
+ラージヤーゴ (ラージ水蠆)|raajiyaago|G.SCORPI|Gold Scorpion|Giant Naiad|Transliteration + translation
 ブルースライム|buruusuraimu|BL.SLIME|Blue Slime|Blue Slime|Transliteration
 モタビアンノーフ (モタビアン農夫)|motabiannoofu|N.FARMER|N.Farmer|Motavian Peasant|Transliteration + translation
 デビルバット|debirubatto|OWL BEAR|Owl Bear|Devil Bat|Transliteration
@@ -189,7 +189,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 シャーキン|shaakin|FISHMAN|Fishman|Shark King|Transliteration
 リッチ|ritchi|EVILDEAD|Evil Dead|Lich|Transliteration
 タランチュラ|taranuchura|TARANTUL|Tarantula|Tarantula|Transliteration
-マンチコア|manchikoa|MANTICOR|Manticore|Manticort|Transliteration
+マンチコア|manchikoa|MANTICOR|Manticore|Manticore|Transliteration
 スケルトン|sukeruton|SKELETON|Skeleton|Skeleton|Transliteration
 アリジゴク (蟻地獄)|arijigoku|ANT LION|Ant Lion|Ant-lion|Translation
 マーシーズ|maashiizu|MARMAN|Marshman|Marshes|Transliteration
@@ -203,7 +203,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ワイト|waito|WIGHT|Wight|Wight|Transliteration
 スカルソルジャー|sukarusorujaa|SKULL-EN|Skull-En|Skull Soldier|Transliteration
 マイマイ (まいまい)|maimai|AMMONITE|Ammonite|Snail|Translation
-マンチコート|manchikooto|SPHINX|Sphinx|Manticore|Transliteration. Could be "Manticort".
+マンチコート|manchikooto|SPHINX|Sphinx|Manticort|Transliteration
 サーペント|saapento|SERPEN|Serpent|Serpent|Transliteration
 リバイアサン|ribaiasan|SANDWORM|Sandworm|Leviathan|Transliteration
 ドルージュ|doruuju|LICH|Lich|Dorouge|Transliteration
