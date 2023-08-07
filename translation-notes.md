@@ -158,9 +158,9 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 テレパス|telepasu|TELE|Telepathy|Telepathy|Talk to enemies. Transliteration.
 テルル|teruru|TERR|Terror|Terror|Decreases enemy DP. Transliteration.
 タンドレ|tandore|THUN|Thunder|Thunder|Lightning attack (-30DP to all enemies). Transliteration.
-ペヤラク|peyaraku|CHAT|Chat|Transrate|Talk to enemies, but does not always work - hence a "bad" translation. Might be a play on the words "perapera" ('fluent') and "yaku" ('translation'), created by taking the word "perayaku" ("fluent/perfect translation") and switching the second and third syllables. Similar to "raputto", this also makes sense if you consider that the spell allows you to talk to certain monsters. Also, since the name of the spell isn't a perfect rendering of "peyaraku", it makes sense that the spell doesn't work on all monsters. 
+ペヤラク|peyaraku|CHAT|Chat|Transrate|Talk to enemies, but responses are worse than with Telepathy - or the enemy will attack you (if it is stronger than you and cannot talk magically). Might be a play on the words "perapera" ("ぺらぺら", "fluent") and "honyaku" ("翻訳", "translation"), created by taking the word "perayaku" ("ぺら訳", "fluent/perfect translation") and switching the second and third syllables. This word corruption maybe implies the lower quality of the result.
 トルーパ|toruupa|FLY|Fly|Troop|Return to last church. Transliteration.
-ラプット|raputto|TRAP|Trap|Untrap|Disarms traps. "Raputto" is a jumbled-up "torappu", which is transliterated.
+ラプット|raputto|TRAP|Trap|Untrap|Disarms traps. "Raputto" is a jumbled-up "トラップ"/"torappu", which is transliterated.
 ワーラ|waara|WALL|Wall|Waller|Creates a "wall" that blocks attacks. Transliteration (unchanged)
 ヒューン|hyuun|WIND|Wind|Wind|Wind attack (-10DP x 3). Original is onomatopoeic for a strong gust of wind but there's no good English equivalent.
 
@@ -172,7 +172,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ウイングアイ|uinguai|WING EYE|Wing Eye|Wing Eye|Transliteration
 マンイーター|maniitaa|MANEATER|Man Eater|Maneater|Transliteration
 スコーピラス|sukoopirasu|SCORPION|Scorpion|Scorpius|Transliteration
-ラージヤーゴ (ラージ水蠆)|raajaago|G.SCORPI|Gold Scorpion|Giant Naiad|Transliteration + translation
+ラージヤーゴ (ラージ[水蠆](https://en.wiktionary.org/wiki/%E6%B0%B4%E8%A0%86))|raajiyaago|G.SCORPI|Gold Scorpion|Giant [Naiad](https://en.wiktionary.org/wiki/naiad)|Transliteration + translation
 ブルースライム|buruusuraimu|BL.SLIME|Blue Slime|Blue Slime|Transliteration
 モタビアンノーフ (モタビアン農夫)|motabiannoofu|N.FARMER|N.Farmer|Motavian Peasant|Transliteration + translation
 デビルバット|debirubatto|OWL BEAR|Owl Bear|Devil Bat|Transliteration
@@ -189,9 +189,9 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 シャーキン|shaakin|FISHMAN|Fishman|Shark King|Transliteration
 リッチ|ritchi|EVILDEAD|Evil Dead|Lich|Transliteration
 タランチュラ|taranuchura|TARANTUL|Tarantula|Tarantula|Transliteration
-マンチコア|manchikoa|MANTICOR|Manticore|Manticort|Transliteration
+マンチコア|manchikoa|MANTICOR|Manticore|Manticore|Transliteration
 スケルトン|sukeruton|SKELETON|Skeleton|Skeleton|Transliteration
-アリジゴク (蟻地獄)|arijigoku|ANT LION|Ant Lion|Ant-lion|Translation
+アリジゴク ([蟻地獄](https://ja.wikipedia.org/wiki/%E3%82%A6%E3%82%B9%E3%83%90%E3%82%AB%E3%82%B2%E3%83%AD%E3%82%A6))|arijigoku|ANT LION|Ant Lion|Antlion|[Translation](https://en.wikipedia.org/wiki/Antlion)
 マーシーズ|maashiizu|MARMAN|Marshman|Marshes|Transliteration
 デゾリアン|dezorian|DEZORIAN|Dezorian|Dezorian|Transliteration
 デザートリーチ|dezaatoriichi|LEECH|Leech|Desert Leech|Transliteration
@@ -203,10 +203,10 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ワイト|waito|WIGHT|Wight|Wight|Transliteration
 スカルソルジャー|sukarusorujaa|SKULL-EN|Skull-En|Skull Soldier|Transliteration
 マイマイ (まいまい)|maimai|AMMONITE|Ammonite|Snail|Translation
-マンチコート|manchikooto|SPHINX|Sphinx|Manticore|Transliteration. Could be "Manticort".
+マンチコート|manchikooto|SPHINX|Sphinx|Manticort|Transliteration
 サーペント|saapento|SERPEN|Serpent|Serpent|Transliteration
 リバイアサン|ribaiasan|SANDWORM|Sandworm|Leviathan|Transliteration
-ドルージュ|doruuju|LICH|Lich|Dorouge|Transliteration
+ドルージュ|doruuju|LICH|Lich|[Druj](https://en.wikipedia.org/wiki/Nasu_%28Zoroastrianism%29)|Transliteration
 オクトパス|okutopasu|OCTOPUS|Octopus|Octopus|Transliteration
 マッドストーカー|maddosutookaa|STALKER|Stalker|Mad Stalker|Transliteration
 デゾリアンヘッド|dezorianheddo|EVILHEAD|Evil Head|Dezorian Head|Transliteration

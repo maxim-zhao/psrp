@@ -30,13 +30,9 @@ We might consider changing menu drawing to use a more efficient format - i.e. th
 
 ### tools.py bitmap_decode
 
-In order to free up space in the ROM, we re-encode some of the graphics (tile) data with a more efficient (but slower) compression method - namely, the algorithm used in Phantasy Star Gaiden. We first decode the data using bitmap_decode, which puts it into the raw VRAM tile format, and then re-encode it using BMP2Tile.
+In order to free up space in the ROM, we re-encode the graphics (tile) data with a more efficient compression method - namely, the algorithm used in Phantasy Star Gaiden. We first decode the data using bitmap_decode, which puts it into the raw VRAM tile format, and then re-encode it using BMP2Tile.
 
 Note that the PS Gaiden compression yields smaller results than other algorithms like ZX7, yet faster decompression than the original game.
-
-Note also that the original game has two versions of the tile decoder - one for use when VBlanks are disabled (i.e. when loading new scenes) and one for use "in-game" (e.g. for loading enemy tiles). We replace only the first one of these; this allows us to free up enough space while also reducing the number of places we need to re-encode the graphics.
-
-We might consider re-encoding the remaining artwork to save ROM space in future.
 
 ### new_graphics directory
 

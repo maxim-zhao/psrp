@@ -7,7 +7,7 @@
 ; - made interrupt-safe
 ; See https://www.smspower.org/Development/Compression#PhantasyStarGaidenDictionaryCoding
 
-.section "PSGaiden tile decompressor" align 256 superfree
+.section "PSGaiden tile decompressor" align 256 semisuperfree banks 3-31
 PSGaiden_jump_table:
 ; This needs to be 256 bytes aligned.
 ; PSGaiden compression has a "method" byte for each bitplane which determines
