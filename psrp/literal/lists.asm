@@ -65,7 +65,7 @@ Items:
   String "<A> Shortcake"                     ; ショートケーキ
   String "<The> Governor[-General]'s Letter" ; ソウトクノテガミ     総督の手紙
   String "<A> Laconian Pot"                  ; ラコニアンポット
-  String "<A> Light Pendant"                 ; ライトペンダント
+  String "<The> Light Pendant"                 ; ライトペンダント
   String "<The> Carbuncle Eye"               ; カーバンクルアイ
   String "<A> GasClear"                      ; ガスクリア
   String "Damoa's Crystal"                   ; ダモアクリスタル
@@ -106,7 +106,7 @@ Enemies:
   String "<The> Tarantula"                   ; タランチュラ
   String "<The> Manticore"                   ; マンチコア
   String "<The> Skeleton"                    ; スケルトン
-  String "<The> Ant-lion"                    ; アリジゴク        蟻地獄
+  String "<The> Antlion"                     ; アリジゴク        蟻地獄
   String "<The> Marshes"                     ; マーシーズ
   String "<The> Dezorian"                    ; デゾリアン
   String "<The> Desert Leech"                ; デザートリーチ
@@ -121,7 +121,7 @@ Enemies:
   String "<The> Manticort"                   ; マンチコート
   String "<The> Serpent"                     ; サーペント
   String "<The> Leviathan"                   ; リバイアサン
-  String "<The> Dorouge"                     ; ビュート
+  String "<The> Druj"                        ; ビュート
   String "<The> Octopus"                     ; オクトパス
   String "<The> Mad Stalker"                 ; マッドストーカー
   String "<The> Dezorian Head"               ; デゾリアンヘッド
