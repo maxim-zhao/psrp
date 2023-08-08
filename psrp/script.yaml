@@ -966,7 +966,7 @@
     Dézoris est la planète la plus éloignée du soleil. Sa surface est gelée et très peu de vie y prospère.<wait more>
     Son développement a donc été retardé mais la construction d'un spatioport reste prévue dans quelques années.<wait more>
     Malheureusement, depuis le début du printemps, le système solaire d'Algol est menacé.<wait more>
-    Chaque jour les ambitions de LaShiec nous rapprochent d'une crise irréversible.<wait>
+    Chaque jour les ambitions de LaShiec nous rapprochent d'une crise irréversible.<wait> 
   pt-br: |
     Algol é composta por três planetas - Palma, Motávia e Dezóris.<wait more>
     Cada planeta possui uma atmosfera única, o que significa que todos têm características distintas.<wait more>
@@ -1304,7 +1304,7 @@
   fr: |
     Il est temps que quelqu'un s'attaque à LaShiec. Bonne chance_!<wait more>
     Voici quelques conseils.<wait more>
-    La magie Téléporter d'Alisa et l'objet Tapis Volant te téléporteront à la dernière église visitée.<wait more>
+    La magie Retour Eglise d'Alisa et l'objet Tapis du Croyant te téléporteront à la dernière église visitée.<wait more>
     Tu peux aussi utiliser une Vitabarre pour récupérer 10 points de vie ou un Aquavital pour en récupérer 40.<wait>
   pt-br: Já era hora de alguém enfrentar LaShiec. Que Deus esteja com você.<wait>
   ca: Ja és l'hora de que algú s'enfronti a en LaShiec. Que Déu et beneeixi.<wait>
@@ -1836,7 +1836,7 @@
     IS 100 MESETAS.<wait more>
     WOULD YOU PAY IT?<end>
   en: There is a handling fee of <number> Meseta. Are you willing to pay?<end>
-  fr: Les frais de dossier sont de <number> Meseta. Pouvez-vous payer?<end>
+  fr: Les frais de dossier sont de <number> mesetas. Etes-vous prête à payer_?<end>
   pt-br: Há uma taxa administrativa de <number> Meseta. Você está disposto a pagar?<end>
   ca: Hi ha una taxa d'expedició de <number> Meseta. Vol pagar-la?<end>
   es: Hay una tasa de expedición de <number> Meseta. ¿Quiere pagarla?<end>
@@ -2094,7 +2094,7 @@
     A MOUNTAIN TO THE <line>
     NORTH OF PASEO.<wait>
   en: Mahal Cave is located in the mountains north of Paseo.<wait>
-  fr: La grotte Mahal où vit un Esper du nom de Lutz se situe dans les montagnes au nord de Paséo.<wait>
+  fr: La grotte Maharu où vit un Esper du nom de Lutz se situe dans les montagnes au nord de Paséo.<wait>
   pt-br: A Caverna Mahal está localizada nas montanhas ao norte de Paseo.<wait>
   ca: La cova de Mahal es troba a les muntanyes al nord de Paseo.<wait>
   es: La cueva de Mahal se encuentra en las montañas al norte de Paseo.<wait>
@@ -3244,7 +3244,7 @@
     Il a consenti à laisser des forces sombres plonger Algol dans la chaos en échange de la vie éternelle.<wait more>
     Depuis, des monstres ont surgi partout sur Algol, menaçant les moyens de subsistance de ses habitants.<wait more>
     Je vais vous offrir mon aide.<wait more>
-    Un grand Esper du nom de Lutz vit dans la grotte de Mahal au nord-ouest d'ici.<wait more>
+    Un grand Esper du nom de Lutz vit dans la grotte de Maharu au nord-ouest d'ici.<wait more>
     Apportez-lui cette lettre. Il comprendra.<wait more>
     Sur votre route, évitez les fourmilions et tentez de converser avec les motaviens.<wait more>
     Avec l'aide de Lutz, je suis convaincu que vous trouverez un moyen de vaincre LaShiec.<wait more>
@@ -3632,7 +3632,7 @@
     Let’s go. Quickly.<wait>
   fr: |
     Laissez-moi voir ça...<line>
-    Ah ! Je vois... Donc, c'en est arrivé là.<wait more>
+    Ah_! Je vois... Donc, c'en est arrivé là.<wait more>
     Pardonnez mon accueil de tout à l'heure.<wait more>
     LaShiec est dangereux, il faut l'arrêter.<wait more>
     Je pense pouvoir vous venir en aide.<wait more>
@@ -6876,7 +6876,7 @@
   en: Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
   fr: |
     On me nomme Joueuse Miki.<wait more>
-    Oui, c'est bien moi, Gamer Miki, la Game Designer qui testa le jeu contre les bogues.<wait more>
+    Oui, c'est bien moi, Gamer Miki-chan, la Game Designer qui testa le jeu contre les bogues.<wait more>
     Joues-tu à Phantasy Star sur une Master System japonaise_?<end>
   pt-br: Oi, eu sou a Jogadora Miki-chan! Você possui um Master System?<end>
   ca: Hola, sóc la Miki-chan, una gamer! Tens una Master System?<end>
@@ -7090,7 +7090,7 @@
   fr: |
     Bienvenue à vous visiteurs.<wait more>
     Je ne sais pas qui vous êtes mais j'aimerais savoir si vous connaissez mon élève.<wait more>
-    Il vit dans la grotte de Mahal au nord d'ici et s'appelle Lutz, le connaissez-vous_?<end>
+    Il vit dans la grotte de Maharu au nord d'ici et s'appelle Lutz, le connaissez-vous_?<end>
   pt-br: |
     E quem seriam vocês?<wait more>
     Meu aluno, Lutz, está na Caverna Mahal. Você o conhece?<end>
@@ -7911,7 +7911,7 @@
     Here's a tip: Go to the highest point in Palma, and raise the Aeroprism to the sky!<wait>
   fr: |
     Je suis Chie la femme de lettres_!<wait more>
-    Oui, c'est bien moi, Otegami Chie qui a créé l'histoire et le monde de Phantasy Star.<wait more>
+    Oui, c'est bien moi, Otegami Chie-chan qui a créé l'histoire et le monde de Phantasy Star.<wait more>
     Merci pour toutes vos lettres.<wait more>
     Dites-nous ce que vous pensez du jeu. Nous serons ravis d'avoir de vos nouvelles.<wait more>
     Voici une astuce pour vous.<wait more>
@@ -8721,7 +8721,9 @@
     DEPTH OF THE <line>
     DUNGEONS.<wait>
   en: There is more than meets the eye in this dungeon, fools.<wait>
-  fr: N'accordez pas une confiance excessive à ce que voient vos propres yeux.<wait>
+  fr: |
+    N'accordez pas une confiance excessive à ce que voient vos propres yeux.<wait more>
+    Utilisez la magie Prévention pour découvrir les pièges dissimulés.<wait>
   pt-br: Há mais do que seus olhos podem ver neste calabouço, tolos.<wait>
   ca: En aquesta masmorra hi ha més del que els vostres ulls poden veure , ximples.<wait>
   es: En esta mazmorra hay más de lo que vuestros ojos pueden ver, imbéciles. <wait>
@@ -9341,7 +9343,7 @@
   en: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
   fr: |
     Même si les souvenirs de cette sombre période s'estompent, ces quatre noms resteront dans le coeur du peuple d'Algol.<wait more>
-    -EPILOGUE D'ALISA ET LUTz-<wait more>
+    -Epilogue d'Alisa et Lutz-<wait more>
     Alisa et Lutz souhaitaient à tout prix préserver la paix en tout espace et en tout temps.<wait more>
     Chacun entra dans un profond sommeil cryogénique jusqu'au jour où le monde aurait besoin de l'un d'eux.<wait more>
     Phantasy Star Generation 2<line>
@@ -10146,7 +10148,7 @@
     <player> FEELS<line>
     NOTHING.<wait>
   en: <player> didn’t feel anything.<wait>
-  fr: <player> n'a rien senti.<wait>
+  fr: <player> ne voit pas de piège.<wait>
   pt-br: <player> não sente nada.<wait>
   ca: <player> no sent res.<wait>
   es: <player> no nota nada.<wait>
@@ -11849,7 +11851,8 @@
   # TODO (maybe): add this hint to other languages
   fr: |
     Vous êtes bien brave pour me parler. Je vais vous révéler un secret.<wait more>
-    Le sort magique de télépathie peut aussi servir à détecter les pièges.<wait>
+    La fonction Parler propose 9 dialogues différents.<wait more>
+    Les sorts magiques Traducteur et Télépathie donnent 10 messages supplémentaires dont celui-ci.<wait>
   pt-br: |
     ‘Você é muito corajoso para conversar comigo. Vou te contar um segredo em troca...<wait more>
     A mesma telepatia que você está usando agora, também pode ser usada para detectar armadilhas.’<wait>

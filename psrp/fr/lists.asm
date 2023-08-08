@@ -50,7 +50,7 @@ Items:
   String "<de la> Flûte Apaisante"
   String "<de la> Lampe Torche"
   String "<du> Voile de Fuite"
-  String "<du> Tapis Volant"
+  String "<du> Tapis du Croyant"
   String "<du> Chapeau Magique"
   String "<de l'>Alsuline"
   String "<du> Polymétéral"

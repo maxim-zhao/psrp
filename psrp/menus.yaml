@@ -988,11 +988,11 @@
     │Bind        ║
   fr: |
     ┌────────────────╖
-    │Soins           ║
-    │Déguerpir       ║
+    │Soin            ║
+    │Fuite           ║
     │Traducteur      ║
-    │Flammes         ║
-    │Ligoter         ║
+    │Flamme          ║
+    │Lien paralysant ║
   pt-br: |
     ┌────────────────╖
     │Cura            ║
@@ -1050,10 +1050,10 @@
     │Power Boost ║
   fr: |
     ┌────────────────╖
-    │Super Soins     ║
-    │Terroriser      ║
-    │Barrière        ║
-    │Tonifier        ║
+    │Super Soin      ║
+    │Coup Terreur    ║
+    │Mur physique    ║
+    │Force accrue    ║
   pt-br: |
     ┌────────────────╖
     │Super Cura      ║
@@ -1110,10 +1110,10 @@
     │Thunder     ║
   fr: |
     ┌────────────────╖
-    │Flammes         ║
+    │Flamme          ║
     │Télépathie      ║
-    │Tornades        ║
-    │Barrière Magique║
+    │Tornade         ║
+    │Mur complet     ║
     │Foudre          ║
   pt-br: |
     ┌────────────────╖
@@ -1163,8 +1163,8 @@
     │Troop       ║
   fr: |
     ┌────────────────╖
-    │Soins           ║
-    │Téléporter      ║
+    │Soin            ║
+    │Retour Eglise   ║
   pt-br: |
     ┌────────────────╖
     │Cura            ║
@@ -1205,9 +1205,9 @@
     │Bypass      ║
   fr: |
     ┌────────────────╖
-    │Super Soins     ║
-    │Déminer         ║
-    │Passe-muraille  ║
+    │Super Soin      ║
+    │Anti-piège      ║
+    │Sortie Donjon   ║
   pt-br: |
     ┌────────────────╖
     │Super Cura      ║
@@ -1260,11 +1260,11 @@
     │Rebirth     ║
   fr: |
     ┌────────────────╖
-    │Super Soins     ║
-    │Passe-muraille  ║
-    │Télépathie      ║
-    │Desceller       ║
-    │Renaître        ║
+    │Super Soin      ║
+    │Sortie Donjon   ║
+    │Prévention      ║
+    │Retrait Sceau   ║
+    │Renaissance     ║
   pt-br: |
     ┌────────────────╖
     │Super Cura      ║
