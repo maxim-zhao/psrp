@@ -215,11 +215,12 @@ class ScriptEntry:
         self.offsets = []
         self.label = f"Script{entry_number}"
         self.index = entry_number
+        self.lookup_label = ""
         for offset in [x.strip() for x in entry["offsets"].split(",")]:
             if re.match("[0-9A-Fa-f]{4}\\w*", offset):
                 self.offsets.append(int(offset, base=16))
             else:
-                self.label = offset
+                self.lookup_label = offset
 
         # Initialise parsing state
         self.internal_hint = 0  # Set to a number if an "internal hint" has happened
@@ -652,13 +653,15 @@ def script_inserter(data_file, trees_file, script_file, language, tbl_file):
         script_size = 0
         
         # First a lookup table
-        f.write(".section \"Script lookup\" superfree\nScriptLookup:");
+        f.write(".section \"Script lookup\" semisuperfree banks 3-31\nScriptLookup:");
         for entry in script:
+            if entry.lookup_label != "":
+                f.write(f"\n{entry.lookup_label}:")
             f.write(f"\n.db :{entry.label}\n.dw {entry.label}")
         f.write("\n.ends\n")
 
         for entry in script:
-            f.write(f"\n.section \"{entry.label}\" superfree\n{entry.label}:\n/* {entry.text} */\n.db")
+            f.write(f"\n.section \"{entry.label}\" semisuperfree banks 3-31\n{entry.label}:\n/* {entry.text} */\n.db")
 
             # Starting tree number
             preceding_byte = ScriptingCode.SymbolEnd
