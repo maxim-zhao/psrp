@@ -460,7 +460,8 @@
   fr: |
     La maison d'Alisa est vide.<line>
     Toutes les affaires de Néro sont encore là.<wait more>
-    Les parents adoptifs d'Alisa sont morts alors qu'elle avait 10 ans. Frère et soeur de coeur ont survécu en comptant l'un sur l'autre.<wait more>
+    Les parents adoptifs d'Alisa sont morts alors qu'elle avait 10 ans.<wait more>
+    Frère et soeur de coeur ont survécu en comptant l'un sur l'autre.<wait more>
     Alisa a 15 ans et Néro avait 18 ans. Il travaillait comme bagagiste au spatioport de Paséo sur la planète Motavia.<wait>
   pt-br: |
     Esta é a casa de Alisa.<line><line>
@@ -672,7 +673,7 @@
     SAFETY.<wait>
   en: I wish there was more I could do for you. Please be safe out there.<wait>
   fr: |
-    Je t'ai donné le Vase en Laconia que ton frère m'a confié.<wait more>
+    Ce Vase en Laconia est tout ce que ton frère m'a confié.<wait more>
     Je suis désolé de ne pas pouvoir t'aider davantage. Bonne chance.<wait>
   pt-br: Eu gostaria de ter ajudado mais. Por favor, se cuide lá fora.<wait>
   ca: M'agradaria poder ajudar-te més. Si us plau, ves amb compte.<wait>
@@ -769,7 +770,7 @@
     You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
     I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
   fr: |
-    On ne peut même plus entrer dans le Spatioport sans un Laissez-passer.<wait more>
+    On ne peut même plus entrer dans le spatioport sans un Laissez-passer.<wait more>
     J'ai essayé d'en faire la  demande, mais on m'a dit que cela pouvait prendre des semaines.<wait more>
     Comment suis-je censé rentrer chez moi_?<wait>
   pt-br: |
@@ -960,7 +961,7 @@
     Le système solaire d'Algol est composé de trois planètes.<line>
     Palma, Motavia et Dézoris.<wait more>
     Palma, notre planète, a une végétation abondante.<wait more>
-    Sa civilisation, qui remonte à des temps anciens, s'étend aujourd'hui aux colonies des planètes Motavia et     Dézoris.<wait more>
+    Sa civilisation, qui remonte à des temps anciens, s'étend aujourd'hui aux colonies des planètes Motavia et Dézoris.<wait more>
     Motavia est la plus proche du soleil, sa surface est sèche et désertique. Elle est en développement.<wait more>
     Des vaisseaux circulent chaque jour entre Palma et Motavia dont le spatioport a été ouvert récemment.<wait more>
     Dézoris est la planète la plus éloignée du soleil. Sa surface est gelée et très peu de vie y prospère.<wait more>
@@ -1079,7 +1080,8 @@
     They say one look turns you into a living statue. That can't be true, can it?<wait>
   fr: |
     J'ai entendu dire que le monstre nommé Médusa habite la grotte juste au sud d'ici.<wait more>
-    On dit que quiconque croise son regard serait transformé en statue vivante. Cela ne peut être vrai, n'est-ce pas_?<wait>
+    On dit que quiconque croise son regard serait transformé en statue vivante.<wait more>
+    Cela ne peut être vrai, n'est-ce pas_?<wait>
   pt-br: |
     Há rumores de que Medusa voltou para sua caverna, ao sul daqui.<wait more>
     Dizem que só um olhar dela transforma você em uma estátua viva. Isso não pode ser verdade, pode?<wait>
@@ -1266,7 +1268,7 @@
     He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
     It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
   fr: |
-    Oui, Tylon était là. Il a dit qu'il se dirigeait vers le sud-ouest pour tuer Médusa.<wait more>
+    Oui, Tylon était là. Il a dit qu'il se dirigeait vers le sud-ouest pour affronter Médusa.<wait more>
     Je ne l'ai pas revu depuis. Mais il n'était pas seul, il voyageait avec un animal parlant_!<wait more>
     Je n'arrivais pas à y croire_! Il avait un flacon avec un remède important autour du cou.<wait more>
     Je me demande à quoi cela pouvait servir.<wait>
@@ -1371,8 +1373,9 @@
     The economy’s plummeted since LaShiec came into power.<wait more>
     I’m so broke, I don’t know what to do...<wait>
   fr: |
-    Les temps sont durs dernièrement, tu ne trouves pas_? Vendre un animal parlant était une véritable aubaine.
-    Je me demande s'il y a un autre endroit où je pourrais me faire de l'argent rapidement.<wait>
+    Les temps sont durs dernièrement, tu ne trouves pas_?<wait more>
+    Vendre une créature parlante était une véritable aubaine.<wait more>
+    Je me demande s'il y a un autre moyen de se faire de l'argent facilement.<wait>
   pt-br: |
     A economia está em queda desde que LaShiec chegou ao poder.<wait more>
     Estou tão quebrado, não sei o que fazer...<wait>
@@ -1424,7 +1427,7 @@
     Welcome to Shion, the busiest port on Palma... or at least, it was.<wait more>
     With the world the way it is lately, there isn't much trade going on anymore.<wait>
   fr: |
-    Bienvenue à Scion, un port très actif sur le plan commercial... ou du moins, il l'était.<wait more> 
+    Bienvenue à Scion, un port très actif sur le plan commercial... ou du moins, il l'était.<wait more>
     Avec le monde tel qu'il est ces derniers temps, il n'y a plus autant d'activité.<wait>
   pt-br: |
     Este é Shion, o porto mais movimentado de Palma... ou pelo menos era.<wait more>
@@ -1584,9 +1587,7 @@
   en: |
     Give it up, will ya? I already told you, we're a legitimate business.<wait more>
     Get out of my store.<delay>
-  fr: |
-    Abandonnez, voulez-vous_? Je vous l'ai déjà dit, nous sommes une entreprise légitime.<wait more>
-    Sortez de mon magasin_!<wait>
+  fr: Abandonnez, voulez-vous_? Je vous l'ai déjà dit, nous sommes un simple magasin. Sortez_!<wait>
   pt-br: |
     Desista, entendeu? Já te disse, nosso negócio é legal.<wait more>
     Saia da minha loja.<wait>
@@ -1677,7 +1678,7 @@
     YOU CAN GO TO<wait more>
     PASEO ON MOTAVIA.<wait>
   en: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
-  fr: Bienvenue au Spatioport de Palma. Tous les vaisseaux voyagent vers Paséo, capitale de la planète Motavia.<wait>
+  fr: Bienvenue au spatioport de Palma. Tous les vaisseaux voyagent vers Paséo, capitale de la planète Motavia.<wait>
   pt-br: Esté é o Espaçoporto de Palma. Todas as espaçonaves viajam direto para Paseo, a capital de Motávia.<wait>
   ca: Benvingut al Port Espacial de Palma. Totes les naus volen en sentit a Paseo, la capital de Motavia.<wait>
   es: Bienvenido al Puerto Espacial de Palma. Todas las naves vuelan en dirección a Paseo, la capital de Motavia.<wait>
@@ -1950,7 +1951,7 @@
     PASEO SPACEPORT<wait more>
     ON MOTAVIA.<wait>
   en: This is Paseo, the only spaceport on Motavia.<wait>
-  fr: Vous êtes à Paséo, capitale hébergeant l'unique Spatioport de la planète Motavia.<wait>
+  fr: Vous êtes à Paséo, capitale disposant de l'unique spatioport de la planète Motavia.<wait>
   pt-br: Este é Paseo, o único espaçoporto em Motávia.<wait>
   ca: Això es Paseo, l'únic Port Espacial de Motavia.<wait>
   es: Esto es Paseo, el único Puerto Espacial de Motavia.<wait>
@@ -1969,7 +1970,7 @@
     ANT LIONS ROAM<wait more>
     IN THE DESERT.<wait>
   en: It’s Ant-Lion breeding season, be careful out there. They get vicious.<wait>
-  fr: C'est la saison de reproduction des fourmilions, soyez prudente.<wait>
+  fr: C'est la saison de reproduction des fourmilions, soyez prudente durant votre séjour.<wait>
   pt-br: Agora é a época de reprodução das Formigas-Leão, tenha cuidado lá fora. Elas se tornam agressivas.<wait>
   ca: Es época de cria de les Formigues Lleó, ves amb compte. Son ferotges.<wait>
   es: Es época de cría de las Hormigas León, anda con ojo. Són feroces.<wait>
@@ -2111,7 +2112,7 @@
     THIS IS PASEO<line>
     MOTAVIA'S CAPITAL.<wait>
   en: This is Paseo, Motavia’s capital city.<wait>
-  fr: Bienvenue à Paséo, capitale de la planète Motavia.<wait>
+  fr: Bienvenue à vous, visiteuse. Vous êtes à Paséo, capitale de la planète Motavia.<wait>
   pt-br: Esta é Paseo, a capital de Motávia.<wait>
   ca: Això és Paseo, la capital de Motavia.<wait>
   es: Esto es Paseo, la capital de Motavia.<wait>
@@ -2129,7 +2130,7 @@
     TO PASS THROUGH<wait more>
     ANT LION ON FOOT.<wait>
   en: There's no way to get past the Ant-Lions on foot, but I've heard there's another way...<wait>
-  fr: Il est impossible de traverser les nids de fourmilions à pied mais j'ai entendu parler d'un autre moyen...<wait>
+  fr: Impossible de traverser les nids de fourmilions à pied mais j'ai entendu parler d'un autre moyen...<wait>
   pt-br: Não há como passar pelas Formigas-Leão a pé, mas ouvi dizer que há outra maneira...<wait>
   ca: No hi ha manera de travessar les Formigues Lleó a peu, però he sentit que hi ha una altra manera...<wait>
   es: No es posible cruzar las Hormigas León a pie, pero he oído que hay otra manera...<wait>  
@@ -2176,8 +2177,8 @@
     One billion Meseta, and it’s yours. How ’bout it?<end>
   fr: |
     Avez-vous déjà vu une telle créature parler_?<wait more>
-    Rare, très rare, peut-être le seul et unique en son genre.<wait more>
-    Un milliard de mesetas et il est à vous. Qu'en dites-vous_?<end>
+    Rare, très rare, peut-être la seule et unique en son genre.<wait more>
+    Un milliard de mesetas et elle est à vous. Qu'en dites-vous_?<end>
   pt-br: |
     Já viu um gato que fala antes? Eu tenho um bem aqui. Muito raro. Pode ser o único.<wait more>
     Um bilhão de Meseta e ele é seu. Que tal?<end>
@@ -2273,7 +2274,7 @@
   en: I hate to see the little guy go, but I can’t pass up a trade like this. Take good care of ’im.<wait>
   fr: |
     Je ne peux pas rater une occasion pareille.<wait more>
-    Prenez bien soin de lui.<wait>
+    Prenez-en bien soin.<wait>
   pt-br: Odeio ver o rapazinho ir embora, mas eu não posso deixar passar um negócio como esse. Cuide bem dele.<wait>
   ca: No m'agrada desfer-me del petitó, però no puc deixar passar una ocasió com aquesta. Cuida'l molt.<wait>
   es: No me gusta deshacerme del pequeñajo, pero no puedo perder una ocasión como esta. Cuídalo mucho.<wait>
@@ -2380,8 +2381,7 @@
     I don’t suppose that was you?<wait>
   fr: |
     Bonjour, Myau. Je suis à la recherche d'un homme nommé Tylon.<wait more>
-    La rumeur veut qu'il voyage avec un animal parlant.
-    Serait-ce toi_?<wait>
+    La rumeur dit qu'il voyage avec un animal parlant. Serait-ce toi_?<wait>
   pt-br: |
     Olá, Myau. Estou procurando um homem chamado Tylon.<wait more>
     Há rumores de que ele estava viajando com um animal falante.<line><line>
@@ -2425,7 +2425,7 @@
     Tylon got turned to stone trying to slay Medusa!<line><line>
     We can heal him with this medicine, but I can’t open the lid...<wait>
   fr: |
-    Tylon a été transformé en statue vivante en affrontant Médusa_!<wait more>
+    Oui. Tylon a été transformé en statue vivante en affrontant Médusa_!<wait more>
     Nous pouvons le guérir avec cet élixir, mais je n'arrive pas à en retirer le bouchon.<wait>
   pt-br: |
     Tylon foi transformado em pedra tentando matar Medusa!<line><line>
@@ -2513,7 +2513,7 @@
   en: |
     Then <he/she> opened the lid on the bottle and poured out its contents.<wait more>
     It's working!<delay>
-  fr: La bouteille est ouverte et son contenu est versé sur la statue.<delay>
+  fr: La bouteille est ouverte et son contenu est versé.<delay>
   pt-br: |
     Então, <ele/ela> abriu a tampa da garrafa e despejou seu conteúdo.<wait more>
     Está funcionando!<delay>
@@ -2920,9 +2920,9 @@
   fr: |
     Je vous souhaite la bienvenue.<wait more>
     Ainsi vous chercher à renverser LaShiec... J'admire votre courage.<wait more>
-    Je peux peut-être vous aider en vous offrant une Clé des Donjons.<wait more>
+    Je peux peut-être vous aider en vous offrant une Clé de Donjon.<wait more>
     C'est un objet indispensable pour explorer de nombreuses grottes afin de mener à bien votre quête.<wait more>
-    Avez-vous besoin d'en récupérer une_?<end>
+    En avez-vous besoin_?<end>
   pt-br: |
     Derrubar LaShiec, não é?<wait more>
     Ou você é louco, ou é mais forte do que parece.<wait more>
@@ -2961,7 +2961,7 @@
     I hid it pretty good, you might want to take a second look if you've already been there.<wait>
   fr: |
     J'en ai caché une dans le district de Camineet au fond d'une toute petite grotte.<wait more>
-    Si vous y êtes déjà allé, vous devriez y jeter un oeil plus attentif et vous la trouverez.<wait>
+    Si vous y êtes déjà allée, vous devriez y jeter un oeil plus attentif et vous la trouverez.<wait>
   pt-br: |
     Escondi uma dentro do armazém nos arredores da zona residencial de Camineet.<wait more>
     Eu deixei bem escondida. Você pode querer dar uma segunda olhada se já esteve lá.<wait>
@@ -3045,9 +3045,9 @@
     My shortcakes are the best in Algol, and a steal at only <number> Meseta. Want one?<end>
   fr: |
     Hé_! Un client_!<wait more>
-    Je suis désolé, ce n'est pas un endroit idéal pour ouvrir une pâtisserie.<wait more>
+    Je suis désolé, ce n'est pas un endroit idéal pour tenir une pâtisserie.<wait more>
     Vous vous demandez peut-être pourquoi elle est située au fond d'une grotte_?<wait more>
-    J'ai pensé que ça serait bien ennuyeux si elle était dans un endroit trop facile d'accès... Vous ne trouvez     pas_?<wait more>
+    J'ai pensé que ce serait bien ennuyeux qu'elle soit dans un lieu trop facile d'accès... Vous ne trouvez pas_?<wait more>
     Un shortcake coûte <number> mesetas.<wait more>
     Vous en voulez un_?<end>
   pt-br: |
@@ -3978,7 +3978,7 @@
     MOUNTAINS IS KNOWN
     AS MEDUSA'S TOWER.<wait>
   en: The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
-  fr: L'ancienne tour située dans les montagnes au sud-ouest de Gothic est appelée tour de Médusa.<wait>
+  fr: Nous avons été emprisonnés ici injustement.<wait>
   pt-br: A antiga estrutura situada no coração das Montanhas de Gótica é chamada de Torre da Medusa.<wait>
   ca: A l'estructura antiga enmig de les Muntanyes de Gothic l'anomenen La Torre de la Medusa.<wait>
   es: A la antigua estructura rodeada de las Montañas de Gothic la llaman Torre de la Medusa.<wait>  
@@ -5199,8 +5199,8 @@
     Hey, since you’re here, you might as well pay Avion a visit.<wait more>
     It’s a small town like this one, on the western tip of the island.<wait>
   fr: |
-    Puisque vous êtes ici, vous pourriez visiter Avion.<wait more>
-    C'est un village comme celui-ci, à la pointe ouest de l'île.<wait>
+    Puisque vous êtes arrivée jusqu'ici, vous pourriez visiter Abion.<wait more>
+    C'est un village comme celui-ci, à la pointe ouest de la péninsule.<wait>
   pt-br: |
     Ei, já que está aqui, você deveria visitar Avion.<wait more>
     Lá é um povoado pequeno como este, na ponta ocidental da ilha.<wait>
@@ -5248,7 +5248,7 @@
     ON THE PLANET<line>
     DEZORIS.<wait>
   en: I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
-  fr: J'ai entendu dire qu'elles poussaient en abondance sur le plateau d'Altiplano à l'extrême sud de la planète Dézoris.<wait>
+  fr: On dit qu'elles poussent en abondance sur le plateau d'Altiplano à l'extrême sud de la planète Dézoris.<wait>
   pt-br: Ouvi dizer que o Planalto Altiplano em Dezóris é totalmente coberto por elas.<wait>
   ca: Diuen que l'altiplà d'Altiplano, a Dezoris, hi és cobert.<wait>
   es: Dicen que el altiplano de Altipleau, en Dezoris, está cubierto de ellos.<wait>
@@ -5318,7 +5318,7 @@
   literal: This village is called Avion.<wait>
   us: WELCOME TO ABION.<wait>
   en: This village is called Avion.<wait>
-  fr: Notre village de la planète Palma se nomme Abion.<wait>
+  fr: Notre ville de la planète Palma se nomme Abion. Nous vous souhaitons un agréable séjour.<wait>
   pt-br: Esta vila é chamada Avion.<wait>
   ca: Aquesta vila es diu Avion.<wait>
   es: Este villa se llama Avion.<wait>
@@ -5816,9 +5816,9 @@
   fr: |
     Une éclipse solaire se produit une fois tous les cent ans sur la planète Dézoris.<wait more>
     À ce moment-là, la planète est plongée dans une obscurité totale pendant dix jours.<wait more>
-    C'est durant cette période qu'un objet appelé Torche d'éclipse est utilisé pour allumer la Flamme Sacrée.<wait more>
+    C'est durant cette période qu'un objet appelé Torche d'Eclipse est utilisé pour allumer la Flamme Sacrée.<wait more>
     Vénérée par les dézoriens, cette flamme émet une lumière semblable aux rayons du soleil.<wait more>
-    Impossible de se procurer cette Torche d'éclipse, à moins de l'échanger contre un objet de grande valeur.<wait more>
+    Impossible de se procurer cette Torche d'Eclipse, à moins de l'échanger contre un objet de grande valeur.<wait more>
     Les échanges se font à la tour Corona au nord de la planète. Il faudra traverser de nombreuses grottes.<wait>
   pt-br: |
     Este planeta tem um eclipse solar uma vez a cada cem anos.<wait more>
@@ -5857,7 +5857,7 @@
     The unholy forces LaShiec and his ilk have involved themselves with have gone too far.<wait more>
     All of the dead bodies in Guaran Morgue have come back to life! It's grotesque!<wait>
   fr: |
-    J'ai entendu dire que tous les morts sont revenus à la vie à la morgue de Guaron_! C'est effrayant_!<wait more>
+    Avec mes dons de divination, je vois que tous les morts sont revenus à la vie à la morgue de Guaron_!<wait more>
     Il y a une Armure en Laconia là-bas. Sors de Skure, va à la grotte au sud puis prends les deux grottes suivantes.<wait more>
     Guaron est au nord. L'armure à l'intérieur est de l'autre côté d'un piège à désactiver avec un sort magique de Myau.<wait>
   pt-br: |
@@ -5890,7 +5890,7 @@
     THIS TOWN IS<line>
     CALLED UZO.<wait>
   en: This is Uzo Village, on Motavia.<wait>
-  fr: Bienvenue au village d'Uzo sur la planète Motavia.<wait>
+  fr: Bienvenue à vous, étrangère. Vous êtes au village d'Uzo sur la planète Motavia.<wait>
   pt-br: Esta é a Vila Uzo, em Motávia.<wait>
   ca: Aquesta és la Vila d'Uzo, a Motavia.<wait>
   es: Esta es la Villa de Uzo, en Motavia.<wait>
@@ -6270,7 +6270,7 @@
     VEHICLE CALLED<wait more>
     THE HOVERCRAFT?<end>
   en: Do you know what a FlowMover is?<end>
-  fr: Avez-vous entendu parlé d'un véhicule appelé Aéroglisseur_?<end>
+  fr: Aimeriez-vous posséder un véhicule appelé Aéroglisseur_?<end>
   pt-br: Você sabe o que é um Aerobarco?<end>
   ca: Saps que és un aerolliscador?<end>
   es: ¿Sabes que es un aerodeslizador?<end>
@@ -6842,7 +6842,7 @@
     Mais ce n'est pas qu'une légende.<wait more>
     Il est dit que le bouclier de Persée est enterré sur la petite île au milieu du lac environnant.<wait more>
     Le bouclier serait caché sous un cactus.<wait more>
-    On dit à présent que Médusa serait loin d'ici, sur la planète Palma au sud du village de Gothic<wait more>
+    On dit à présent que Médusa serait loin d'ici, sur la planète Palma au sud du village de Gothic.<wait more>
     Que votre quête soit couronnée de succès pour obtenir la hache en Laconia qu'elle détient.<wait>
   pt-br: |
     Obrigado. Talvez eu possa te ajudar em troca.<wait more>
@@ -7489,7 +7489,8 @@
   fr: |
     Cet objet a le pouvoir spécial de révéler ce qui était caché.<wait more>
     Traversez les deux dernières grottes que vous avez empruntées.<wait more>
-    Puis allez au sud-ouest en traversant les montagnes avec un Foraglace, ah, ah, ah_!<wait>
+    Puis allez au sud-ouest en traversant les montagnes avec un Foraglace.<wait more>
+    Vous devriez en trouver un là-bas, ah, ah, ah_!<wait>
   pt-br: Ouvi dizer que você pode usá-lo para ver outros mundos, você pode.<wait>
   ca: He sentit a dir que pots vore altres mons amb un d'allonses.<wait>
   es: He oído que pues ver outros mundos con uno.<wait>
@@ -7523,7 +7524,7 @@
     WE OF ZIS TOWN<line>
     HATE PALMANS.<wait>
   en: Everyone here hates Palmans, we do.<wait>
-  fr: Nous autres les natifs de la planète Dézoris, nous n'aimons pas beaucoup les habitants originaires de la planète Palma, ah, ah, ah_!<wait>
+  fr: Nous autres natifs de la planète Dézoris n'aimons pas beaucoup les habitants de la planète Palma, ah, ah, ah_!<wait>
   pt-br: Todo mundo aqui odeia Palmanos, nós odiamos.<wait>
   ca: No en volem saber re, dels de Palma!.<wait>
   es: ¡No queremos un carallo de los de Palma!.<wait>
@@ -7564,7 +7565,7 @@
     THE DUNGEON UNDER<line>
     DEZORIS,YES.<wait>
   en: There's a warp on the tenth underground level of Dezoris Cave. No joke!<wait>
-  fr: Il y a un téléporteur situé au dixième sous-sol dans l'une des grottes de Dézoris, bah_!<wait>
+  fr: Il y a un téléporteur situé au dixième sous-sol dans l'une des grottes de la planète Dézoris, bah_!<wait>
   pt-br: Há uma passagem secreta no décimo nível subterrâneo na Caverna de Dezóris. Não estou brincando!<wait>
   ca: Hi ha un passatge secret al desè nivell de sa caverna de Dezoris. No t'ensarrono!<wait>
   es: Hay un pasaje secreto en el desimo nivel de la caverna de Dezoris. ¡Bonico!<wait>
@@ -7792,7 +7793,7 @@
     ...a dragon’s crystal. What do you say?<end>
   fr: |
     Voyez-vous cet objet qui se trouve dans ma main_?<line>
-    C'est la Torche d'éclipse.<wait more>
+    C'est la Torche d'Eclipse.<wait more>
     Elle permet de faire jaillir une flamme sacrée dont la lueur est semblable aux rayons du soleil.<wait more>
     Cet objet extrêmement précieux est sacré.<wait more>
     Je pourrais prêt-être m'en séparer en échange de l'Oeil d'Escarboucle.<wait more>
@@ -7835,7 +7836,7 @@
     ECLIPSE TORCH.<wait>
   en: Excellent. Here you are, then.<wait>
   fr: |
-    Tenez, voici la Torche d'éclipse.<wait more>
+    Tenez, voici la Torche d'Eclipse.<wait more>
     Elle ne sert pas qu'à illuminer notre planète lors des éclipses.<wait more>
     Grâce à ceci, vous pourrez faire fondre la glace sur les arbres.<wait>
   pt-br: Excelente. Aqui está, pegue!<wait>
@@ -7971,7 +7972,9 @@
     IT IN THE LACONIAN
     POT.<wait>
   en: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
-  fr: <player> prend quelques Baies Laerma et les place dans le Vase en Laconia.<wait>
+  fr: |
+    <player> prend quelques Baies Laerma.<wait more>
+    Le tout est placé dans le Vase en Laconia.<wait>
   pt-br: <player> pegou algumas Frutas de Laerma e colocou no Pote de Lacônia.<wait>
   ca: <player> agafa alguns Fruits de Laerma i els posa a l'olla de Laconia.<wait>
   es: <player> coge algunos Frutos de Laerma y los pone en la olla de Laconia.<wait>
@@ -7992,7 +7995,8 @@
     A FEW MOMENTS.<wait>
   en: <player> picked up some Laerma Berries, but they shriveled up immediately!<wait>
   fr: |
-    <player> prend quelques Baies Laerma. Elles se dessèchent très vite après avoir été cueillies.<wait more>
+    <player> prend quelques Baies Laerma.<wait more>
+    Elles se dessèchent très vite après avoir été cueillies.<wait more>
     Il faudrait un vase en Laconia pour les préserver.<wait>
   pt-br: <player> pegou algumas Frutas de Laerma, mas elas murcharam logo após serem colhidas!<wait>
   ca: <player> agafa alguns Fruits de Laerma, però s'encongeixen immediatament!<wait>
@@ -8383,7 +8387,7 @@
     Do you believe in my powers of divination?<end>
   fr: |
     Je m'appelle Damoa. Je suis le plus grand devin d'Algol.<wait more>
-    Croyez-vous en mes pouvoirs de divinations_?<end>
+    Croyez-vous en mes pouvoirs de divination_?<end>
   pt-br: |
     Eu sou Damoa, o maior vidente do mundo!<wait more>
     Você acredita em meus poderes de adivinhação?<end>
@@ -8832,7 +8836,7 @@
     Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
     And you have what? Weapons? Magic? Did you really hope to defeat me?<end>
   fr: |
-    Vous voilà enfin.<wait more>
+    Vous voilà enfin.<line>
     Vous avez eu beaucoup de chance, pauvres fous_!<wait more>
     Celui que je sers m'a accordé l'immortalité. Mon pouvoir n'a plus de limites.<wait more>
     Vous espérez vraiment me vaincre_?<end>
@@ -9088,7 +9092,7 @@
     Tu n'avais pas un an quand ton père mourut subitement.<wait more>
     Une dame de la cour crut à tort que LaShiec était responsable de la mort du roi.<wait more>
     Mais ce n'était pas le cas et il fut un roi bon.<wait more>
-    Cependant, après quinze ans de juste règne, il apprit quelques secrets sur la genèse du système solaire d'Algol.<wait more>
+    Cependant, après 15 ans de juste règne, il apprit des secrets sur la genèse du système solaire d'Algol.<wait more>
     Il créa une porte spatio-temporelle et entra en contact avec une forme de vie spirituelle scellée.<wait more>
     Il invoqua alors cette force et devint son fidèle serviteur. La même année, un règne de terreur commença.<wait more>
     Quoi qu'il en soit, bien avant ces événements, la cour estima qu'il était préférable de t'éloigner.<wait more>
@@ -9154,7 +9158,7 @@
     ALL WAYS POSSIBLE.<wait>
   en: Then you have my eternal loyalty. All hail the new Queen of Algol, Alisa Landeel!<wait>
   fr: |
-    Alors je salue la nouvelle reine d'Algol, Alisa Landeel_!<wait more>
+    Alors je salue la nouvelle reine du système solaire d'Algol, Alisa Landeel_!<wait more>
     Je t'aiderai dans tous les domaines autant que possible.<wait>
   pt-br: Então você tem minha eterna lealdade. Todos saúdem a nova Rainha de Algol, Alisa Landeel!<wait>
   ca: Aleshores tens la meva lleialtat eterna. Visca la nova Reina d'Algol, Alisa Landeel!<wait>
@@ -9242,7 +9246,7 @@
     THE HARDSHIPS THAT
     THEY ENDURED?<delay>
   en: But does the breeze know of the hardships they endured?<end>
-  fr: La reconnaissance du peuple d'Algol sonna le début d'une nouvelle ère<end>
+  fr: La reconnaissance du peuple d'Algol sonna le début d'une nouvelle ère.<end>
   pt-br: Mas será que a brisa sabe das dificuldades que eles passaram?<end>
   ca: Però que sap la brisa de les dificultats que han hagut de patir?<end>
   es: ¿Pero que sabe la brisa de las dificultades que han padecido?<end>
@@ -11482,7 +11486,7 @@
     MAY THE GODS<line>
     WATCH OVER YOU!<wait>
   en: May your future hold blessings from God.<wait>
-  fr: Puisse Dieu bénir votre avenir.<wait>
+  fr: Puisse votre avenir être béni.<wait>
   pt-br: Que o seu futuro seja cheio das bençãos de Deus.<wait>
   ca: Que el teu futur porti benediccions de Déu.<wait>
   es: Que tu futuro te lleve bendiciones de Dios.<wait>
@@ -11581,7 +11585,7 @@
     YOU UNDERSTAND OUR
     LANGUAGE?<wait>
   en: ‘Oh! So you understand our language, do you?’<wait>
-  fr: Oh_! Alors vous comprenez donc notre langue, n'est-ce pas_?<wait>
+  fr: Oh_! Alors vous comprenez notre langue, n'est-ce pas_?<wait>
   pt-br: ‘Ah! Então você entende a nossa língua, não é?’<wait>
   ca: ‘Ah! Enteneu la nostra llengua?’<wait>
   es: ‘¡Ah! ¿Entendéis nuestra lengua?’<wait>
@@ -11737,7 +11741,7 @@
     IN ABION HAS A<wait more>
     LACONIAN POT.<wait>
   en: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
-  fr: Le Docteur fou à Avion possède un Vase en Laconia.<wait>
+  fr: Le Docteur fou à Abion possède un Vase en Laconia.<wait>
   pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
   ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
   es: ‘El Doctor Loco en Avion tiene una Olla de Laconia.’<wait>
