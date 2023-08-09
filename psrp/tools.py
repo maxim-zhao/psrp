@@ -653,7 +653,7 @@ def script_inserter(data_file, trees_file, script_file, language, tbl_file):
         script_size = 0
         
         # First a lookup table
-        f.write(".section \"Script lookup\" semisuperfree banks 3-31\nScriptLookup:");
+        f.write(".section \"Script lookup\" superfree\nScriptLookup:");
         for entry in script:
             if entry.lookup_label != "":
                 f.write(f"\n{entry.lookup_label}:")
@@ -661,7 +661,7 @@ def script_inserter(data_file, trees_file, script_file, language, tbl_file):
         f.write("\n.ends\n")
 
         for entry in script:
-            f.write(f"\n.section \"{entry.label}\" semisuperfree banks 3-31\n{entry.label}:\n/* {entry.text} */\n.db")
+            f.write(f"\n.section \"{entry.label}\" superfree\n{entry.label}:\n/* {entry.text} */\n.db")
 
             # Starting tree number
             preceding_byte = ScriptingCode.SymbolEnd
