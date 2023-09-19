@@ -314,15 +314,28 @@ VBlankIntercept:
   ROMPosition $00494
 .section "VBlank page saving" free
 VBlankPageSave:
-  ; We wrap the handler to select page 1 in slot 1 and then restore it
+  ; We wrap the handler to select page 1 in slot 1 and then restore it, 
+  ; and also save the shadow registers
   ld a,(PAGING_SLOT_1)    ; Save page 1
   push af
-
+  push bc
+  push de
+  push hl
     ld a,1    ; Regular page 1
     ld (PAGING_SLOT_1),a
 
-    call VBlankHandler ; Resume old code
-
+    ; Then swap to shadows, which the original vblank handler will then protect
+    ex af,af'
+    exx
+    push af
+      ; The original vblank handler will protect everything else
+      call VBlankHandler ; Resume old code
+    pop af
+    exx
+    ex af,af'
+  pop hl
+  pop de
+  pop bc
   pop af
   ld (PAGING_SLOT_1),a    ; Put back page 1
 

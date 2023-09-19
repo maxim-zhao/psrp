@@ -14,3 +14,4 @@ psrp/sizes.*.txt
 /tools/
 /disassembly/generated.makefile
 *.bak
+*.lst
