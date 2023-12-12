@@ -18,7 +18,7 @@ The optimal number of words to substitute this way for a given script is complic
 
 This converts the whole script into encoded data (for the substituted words, the non-substituted letters and some control codes). Next it applies "adaptive Huffman compression" to each script entry - for every byte in the script, we have a Huffman tree for each subsequent byte. This means the individual trees can be quite small (so the encoded tree path is smaller), but there are many such trees.
 
-Finally, it emits the Huffman trees and encoded script data as assembly, and also emits patches for all the locations where the original game references a script entry. Note that the game originally had script entries referenced by index; we instead patch with direct pointers.
+Finally, it emits the Huffman trees and encoded script data as assembly, and also emits patches for all the locations where the original game references a script entry. We introduce a lookup table to allow script entries to be stored in multiple banks; this could be more efficient (it costs us three bytes per script entry) but make script expansion much easier. The original English retranslation had no need for this, but some other languages benefit from the additional space.
 
 ### tools.py menu_creator
 

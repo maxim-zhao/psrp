@@ -30,7 +30,7 @@
 .ends
 
 .slot 2
-.section "Name entry per-frame handler" semisuperfree banks 3-31
+.section "Name entry per-frame handler" superfree
 NameEntryPerFrame:
   ; From the priginal...
   ld a,($c212) ; PauseFlag
@@ -463,7 +463,7 @@ SaveNameToSaveRam:
 .ends
 
 .slot 2
-.section "Draw name entry screen" semisuperfree banks 3-31
+.section "Draw name entry screen" superfree
 ; This is called once to set up the name entry screen.
 ; A lot of this code is copied from the original, but with customisations...
 DrawNameEntryScreen:

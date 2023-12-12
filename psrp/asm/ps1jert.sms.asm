@@ -248,6 +248,7 @@ _script\@_end:
   HLIMIT          db   ; horizontal chars left
   VLIMIT          db   ; vertical line limit
   SCRIPT          dw   ; pointer to script
+  SCRIPT_BANK     db   ; bank of script
   BARREL          db   ; current Huffman encoding barrel
   TREE            db   ; current Huffman tree
   VRAM_PTR        dw   ; VRAM address
@@ -313,15 +314,28 @@ VBlankIntercept:
   ROMPosition $00494
 .section "VBlank page saving" free
 VBlankPageSave:
-  ; We wrap the handler to select page 1 in slot 1 and then restore it
+  ; We wrap the handler to select page 1 in slot 1 and then restore it, 
+  ; and also save the shadow registers
   ld a,(PAGING_SLOT_1)    ; Save page 1
   push af
-
+  push bc
+  push de
+  push hl
     ld a,1    ; Regular page 1
     ld (PAGING_SLOT_1),a
 
-    call VBlankHandler ; Resume old code
-
+    ; Then swap to shadows, which the original vblank handler will then protect
+    ex af,af'
+    exx
+    push af
+      ; The original vblank handler will protect everything else
+      call VBlankHandler ; Resume old code
+    pop af
+    exx
+    ex af,af'
+  pop hl
+  pop de
+  pop bc
   pop af
   ld (PAGING_SLOT_1),a    ; Put back page 1
 
@@ -346,7 +360,7 @@ IndexTableRemap:
 ; Menus
 
 .slot 2
-.section "Menu data" semisuperfree banks 3-31
+.section "Menu data" superfree
 .block "Menus"
 MenuData:
 .include {"generated/menus.{LANGUAGE}.asm"}
@@ -478,7 +492,7 @@ MST:      .stringmap tilemap "│Meseta         " ; Spaces for padding; this nee
 .ends
 
 .slot 1
-.section "Stats window drawing" semisuperfree banks 3-31
+.section "Stats window drawing" superfree
 .include {"{LANGUAGE}/stats-window.asm"}
 
 statsImpl:
@@ -601,7 +615,7 @@ CalculateCursorPos:
 ; Relocating item metadata to increase script space
 
 .slot 2
-.section "Item metadata" semisuperfree banks 3-31
+.section "Item metadata" superfree
 ItemMetaData:
   CopyFromOriginal $0bf9c $40
 .ends

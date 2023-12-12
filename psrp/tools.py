@@ -214,11 +214,13 @@ class ScriptEntry:
         # The "offsets" text is a comma-separated list of either a label or hex offsets to patch.
         self.offsets = []
         self.label = f"Script{entry_number}"
+        self.index = entry_number
+        self.lookup_label = ""
         for offset in [x.strip() for x in entry["offsets"].split(",")]:
             if re.match("[0-9A-Fa-f]{4}\\w*", offset):
                 self.offsets.append(int(offset, base=16))
             else:
-                self.label = offset
+                self.lookup_label = offset
 
         # Initialise parsing state
         self.internal_hint = 0  # Set to a number if an "internal hint" has happened
@@ -543,7 +545,7 @@ class Tree:
             bit_writer.add(bit)
 
 
-def script_inserter(data_file, patch_file, trees_file, script_file, language, tbl_file):
+def script_inserter(data_file, trees_file, script_file, language, tbl_file):
     table = Table(tbl_file)
     with open(script_file, "r", encoding="utf-8") as f:
         script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)
@@ -646,12 +648,20 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
 
     # Emit the Huffman-encoded script
     with open(data_file, "w", encoding="utf-8") as f:
-        f.write("; Script entries, Huffman compressed\n")
+        f.write("; Script entries, Huffman compressed\n\n.slot 2\n\n")
 
         script_size = 0
+        
+        # First a lookup table
+        f.write(".section \"Script lookup\" superfree\nScriptLookup:");
+        for entry in script:
+            if entry.lookup_label != "":
+                f.write(f"\n{entry.lookup_label}:")
+            f.write(f"\n.db :{entry.label}\n.dw {entry.label}")
+        f.write("\n.ends\n")
 
         for entry in script:
-            f.write(f"\n{entry.label}:\n/*{entry.text}*/\n.db")
+            f.write(f"\n.section \"{entry.label}\" superfree\n{entry.label}:\n/* {entry.text} */\n.db")
 
             # Starting tree number
             preceding_byte = ScriptingCode.SymbolEnd
@@ -671,12 +681,12 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
             # Emit as assembly
             for b in bit_writer.buffer:
                 f.write(f" %{b:08b}")
+            f.write("\n.ends\n")
 
-    with open(patch_file, "w", encoding="utf-8") as f:
-        f.write("; Patches to point at new script entries\n")
+        f.write("\n; Patches to point at new script entries\n")
         for entry in script:
             for offset in entry.offsets:
-                f.write(f" PatchW ${offset + 1:04x} {entry.label}\n")
+                f.write(f" PatchW(${offset + 1:04x}, ScriptLookup + {entry.index * 3})\n")
 
     print(f"Huffman compressed script is {script_size} bytes")
 
@@ -730,7 +740,7 @@ def main():
     elif verb == 'menu_creator':
         menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
     elif verb == 'script_inserter':
-        script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
+        script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
     elif verb == 'join':
         join(sys.argv[2], sys.argv[3], sys.argv[4])
     elif verb == 'clean':

@@ -577,7 +577,7 @@ _RAM_C80A_ db
 .ende
 
 .enum $C80F export
-_RAM_C80F_ db
+_RAM_C80F_ChestTrap db
 _RAM_C810_ db
 .ende
 
@@ -4403,17 +4403,17 @@ _LABEL_1A05_ShowAttackSprites:
       ld (_RAM_C80A_),a
       ld a,$0B
       ld (CharacterSpriteAttributes),a
-      call _LABEL_1A15_
+      call _LABEL_1A15_PlaySpriteAnimation
     pop iy
     ret
 
-_LABEL_1A15_:
+_LABEL_1A15_PlaySpriteAnimation:
     ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
     call SpriteHandler
     ld a,(CharacterSpriteAttributes)
     or a
-    jp nz,_LABEL_1A15_
+    jp nz,_LABEL_1A15_PlaySpriteAnimation
     ld a,$08
     call ExecuteFunctionIndexAInNextVBlank
     ret
@@ -5455,15 +5455,15 @@ _Magic0c_Untrap:
 +:  call TextBox20x6
     jp Close20x6TextBox
 
-++: ld a,(_RAM_C80F_)
-    cp $3D
+++: ld a,(_RAM_C80F_ChestTrap)
+    cp $3D ; $3d = not trapped?
     ld hl,textNoTrap
     jr z,+
     ld hl,textTrapDisarmed
 +:  call TextBox20x6
     ld a,$3D
-    ld (_RAM_C80F_),a
-    jp _LABEL_2A4A_
+    ld (_RAM_C80F_ChestTrap),a
+    jp _LABEL_2A4A_OpenTreasureChest
 
 ; 14th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
 _Magic0d_Bypass:
@@ -5572,7 +5572,7 @@ DoTelepathy:
     ld (NewMusic),a
     jp Close20x6TextBox
 
-++: ld a,(_RAM_C80F_)
+++: ld a,(_RAM_C80F_ChestTrap)
     cp $3D
     ld hl,textPlayerNoPremonition
     jr z,+
@@ -6595,7 +6595,7 @@ _LABEL_2A37_HandleTreasureChest:
     ret nz
     ; fall through
     
-_LABEL_2A4A_:
+_LABEL_2A4A_OpenTreasureChest:
     ld a,SFX_b0
     ld (NewMusic),a
     ; Set object flag to $ff so we don't see it again
@@ -6604,11 +6604,11 @@ _LABEL_2A4A_:
     ld a,$01
     ld (_RAM_C80A_),a
     push bc
-      call _LABEL_1A15_
+      call _LABEL_1A15_PlaySpriteAnimation
     pop bc
-    ld a,(_RAM_C80F_)
+    ld a,(_RAM_C80F_ChestTrap)
     cp $3D
-    call nz,_LABEL_2AAC_
+    call nz,_LABEL_2AAC_ChestTrap
     ld hl,(EnemyMoney)
     ld a,h
     or l
@@ -6640,9 +6640,9 @@ _LABEL_2A4A_:
     ld (SpriteTable),a
     jp Close20x6TextBox
 
-_LABEL_2AAC_:
-    ld a,(_RAM_C80F_)
-    cp $3E
+_LABEL_2AAC_ChestTrap:
+    ld a,(_RAM_C80F_ChestTrap)
+    cp $3E ; $3e = damage a random party member, else damage all?
     jr nz,+
     ld b,$04
 -:  ld a,b
@@ -10473,7 +10473,7 @@ _LABEL_477E_MyauFlight:
     call FadeInWholePalette
     ld a,$15
     ld (CharacterSpriteAttributes),a
-    call _LABEL_1A15_
+    call _LABEL_1A15_PlaySpriteAnimation
     jp FadeOutFullPalette
 
 _LABEL_47B5_Ending:

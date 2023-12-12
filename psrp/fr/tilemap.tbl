@@ -27,82 +27,84 @@ cc10=B
 cd10=C
 ce10=D
 cf10=E
+; É -> E
+cf10=É
 d010=F
 d110=G
 d210=H
 d310=I
 d410=J
-d510=K
-d610=L
-d710=M
-d810=N
-; O = 0
+; K is unused
+d510=L
+d610=M
+d710=N
+; O -> 0
 c110=O
-d910=P
-da10=Q
-db10=R
-dc10=S
-dd10=T
-de10=U
-df10=V
-e010=W
-e110=X
-e210=Y
-e310=Z
+d810=P
+d910=Q
+da10=R
+db10=S
+dc10=T
+dd10=U
+de10=V
+df10=W
+; X is inused
+e010=Y
+; Z is unused
 
 ; Lowercase
 ; (last digit 2 = hflip)
-e410=a
-e610=b
-e710=c
-; d = hlip b
-e612=d
-e810=e
-ec10=f
-ed10=g
-ee10=h
-ef10=i
+e110=a
+e210=à
+e310=â
+e410=b
+e510=c
+e610=ç
+; d -> hlip b
+e412=d
+e710=e
+e810=é
+e910=ê
+ea10=è
+eb10=f
+ec10=g
+ed10=h
+ee10=i
+ef10=î
 f010=j
 f110=k
-; l = 1
+; l -> 1
 c210=l
 f210=m
 f310=n
 f410=o
-f510=p
-; q = hflip p
-f512=q
-f610=r
-f710=s
-f810=t
-f910=u
-fa10=v
-fb10=w
-fc10=x
-fd10=y
-fe10=z
-
-; French accented letters
-e510=à
-e910=é
-ea10=ê
-eb10=è
-f711=ç
-f411=ù
-; Below here are mapping to the unaccented characters...
-c110e810=Œ
-cf10=É
-ef10=î
+f510=ô
+f610=p
+; q -> hflip p
+f612=q
+f710=r
+f810=s
+f910=t
+fa10=u
+fb10=ù
+fc10=û
+fd10=v
+; w is unused
+fe10=x
+ff10=y
+f411=z
 
 ; Punctuation
-ff10=.
-f513=‘
 f511=’
 f511='
+; ‘ -> hflip ’
+f513=‘
+; , -> vflip ’
 f517=,
+f611=?
+f711=.
 fa11=-
 fb11=!
-f611=?
 
 ; Borders
 ; Using double lines to distinguish left from right and top from bottom...

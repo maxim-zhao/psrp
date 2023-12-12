@@ -988,11 +988,11 @@
     │Bind        ║
   fr: |
     ┌────────────────╖
-    │Soins           ║
-    │Déguerpir       ║
+    │Soin            ║
+    │Fuite           ║
     │Traducteur      ║
-    │Flammes         ║
-    │Ligoter         ║
+    │Flamme          ║
+    │Lien paralysant ║
   pt-br: |
     ┌────────────────╖
     │Cura            ║
@@ -1050,10 +1050,10 @@
     │Power Boost ║
   fr: |
     ┌────────────────╖
-    │Super Soins     ║
-    │Terroriser      ║
-    │Barrière        ║
-    │Tonifier        ║
+    │Super Soin      ║
+    │Coup Terreur    ║
+    │Mur physique    ║
+    │Force accrue    ║
   pt-br: |
     ┌────────────────╖
     │Super Cura      ║
@@ -1110,10 +1110,10 @@
     │Thunder     ║
   fr: |
     ┌────────────────╖
-    │Flammes         ║
+    │Flamme          ║
     │Télépathie      ║
-    │Tornades        ║
-    │Barrière Magique║
+    │Tornade         ║
+    │Mur complet     ║
     │Foudre          ║
   pt-br: |
     ┌────────────────╖
@@ -1163,8 +1163,8 @@
     │Troop       ║
   fr: |
     ┌────────────────╖
-    │Soins           ║
-    │Téléporter      ║
+    │Soin            ║
+    │Retour Eglise   ║
   pt-br: |
     ┌────────────────╖
     │Cura            ║
@@ -1205,9 +1205,9 @@
     │Bypass      ║
   fr: |
     ┌────────────────╖
-    │Super Soins     ║
-    │Déminer         ║
-    │Passe-muraille  ║
+    │Super Soin      ║
+    │Anti-piège      ║
+    │Sortie Donjon   ║
   pt-br: |
     ┌────────────────╖
     │Super Cura      ║
@@ -1260,11 +1260,11 @@
     │Rebirth     ║
   fr: |
     ┌────────────────╖
-    │Super Soins     ║
-    │Passe-muraille  ║
-    │Télépathie      ║
-    │Desceller       ║
-    │Renaître        ║
+    │Super Soin      ║
+    │Sortie Donjon   ║
+    │Prévention      ║
+    │Retrait Sceau   ║
+    │Renaissance     ║
   pt-br: |
     ┌────────────────╖
     │Super Cura      ║
@@ -1406,7 +1406,7 @@
     │Défense      255║
     │HP maximum   255║
     │MP maximum   255║
-    │Meseta     65535║
+    │Mesetas    65535║
     ╘════════════════╝
   pt-br: |
     ┌─────────────────╖
@@ -1555,7 +1555,7 @@
     ╘══════════════════╝
   fr: |
     ┌──────────────────╖
-    │Meseta       65535║
+    │Mesetas      65535║
     │Suite             ║
     │Item 1            ║
     │Item 2            ║
@@ -1793,12 +1793,12 @@
     │Magasin      ║
     │Église       ║
     │Palma        ║
-    │Bataille     ║
+    │Combat       ║
     │Histoire     ║
     │Village      ║
     │Véhicule     ║
     │Motavia      ║
-    │Dezoris      ║
+    │Dézoris      ║
     │Tour         ║
     │Donjon Final ║
     │LaShiec      ║
@@ -1924,7 +1924,7 @@
     ┌──────────────────────╖
     │Vitesse de marche   x ║
     │Expérience          x ║
-    │Meseta              x ║
+    │Mesetas             x ║
     │Combats               ║
     │Cheveux d'Alisa       ║
     │Police                ║
