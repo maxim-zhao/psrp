@@ -6,9 +6,23 @@ This project is an unofficial retranslation/relocalisation based on that first J
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
-- v2.x work in progress
-  - Some script amendments regarding the word Laconian
-  - ...
+- v2.4 release 2023/12/20
+  - Updated and expanded French script with a great deal of extra hints and lore added, tying into later games in the series
+  - Amended translation notes to better explain certain spells
+  - Some script amendments regarding the words Laconian and Zirconian in most languages
+  - Spanish:
+    - Typo fixes
+  - English:
+    - Fixed missing wait for button press when talking to Tajim (en)
+    - Renamed Dorougue to Druj. Look it up!
+    - Renamed Ant-lion to Antlion
+  - French:
+    - Fixed sometimes corrupted enemy names in French
+    - Added more accented letters
+    - Extended save game name entry screen to show "Sauvegarder"
+  - Technical work: 
+    - Recompressed all sprite art to make more room for script
+    - Script it now stored across the entire ROM space, removing the previous 16KB (compressed) limit
 
 - v2.3.2 released 2023/02/12
   - Fixed errors in Catalan and Portuguese Brazilian ending credits
