@@ -56,8 +56,8 @@ generated/title.bottom.%.psgcompr generated/title.bottom.%.tilemap.pscompr &: %/
 	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/title.bottom.$*.psgcompr -savetilemap generated/title.bottom.$*.tilemap.pscompr
 
 # Generate menu data
-generated/menus.%.asm generated/menu-patches.%.asm &: tools.py menus.yaml
-	$(PY) tools.py menu_creator generated/menus.$*.asm generated/menu-patches.$*.asm menus.yaml $*
+generated/%/menus.asm generated/%/menu-patches.asm &: tools.py menus.yaml %/menus.yaml
+	$(PY) tools.py menu_creator generated/$*/menus.asm generated/$*/menu-patches.asm menus.yaml $*/menus.yaml $*
 
 # Analyse the script to determine which words can be substituted for best "compression"
 # Converts the word list to a TBL file and an asm file

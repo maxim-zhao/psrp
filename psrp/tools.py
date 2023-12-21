@@ -106,10 +106,17 @@ class Menu:
             self.emit_data = node["emitData"] == "true" if "emitData" in node else True
             self.ptrs = [int(x.strip(), base=16) for x in node["ptrs"].split(",")] if "ptrs" in node else []
             self.dims = [int(x.strip(), base=16) for x in node["dims"].split(",")] if "dims" in node else []
-            self.lines = node[language].splitlines()
+            if language in node:
+              text = node[language]
+            elif "all" in node:
+              text = node["all"]
+            else:
+              print(node)
+              raise Exception(f"No text for menu {self.name} for {language}")
+            self.lines = text.splitlines()
             self.width = max(len(x) for x in self.lines)
             if min(len(x) for x in self.lines) != self.width:
-                print(f"Warning: uneven line lengths in menu {self.name}\n")
+                raise Exception(f"Uneven line lengths in menu {self.name}\n")
             self.height = int(node["height"]) if "height" in node else len(self.lines)
         except:
             print(f"Error parsing menu {node}")
@@ -134,10 +141,28 @@ class Menu:
             f.write(f"  PatchB ${ptr + 1:x} {self.height}\n")
 
 
-def menu_creator(data_asm, patches_asm, menus_yaml, language):
-    # Read the file
+def join_yaml(a, b, f):
+    # Make a dict of b according to f
+    b_lookup = {f(x): x for x in b}
+    # Walk through a and amend
+    for a_entry in a:
+        key = f(a_entry)
+        if key in b_lookup:
+            b_entry = b_lookup[key]
+            for name, value in b_entry.items():
+                if name in a_entry and name != 'name':
+                  print(f"Warning: overriding property {name} from {a_entry[name]} to {value} for entry {key}")
+                a_entry[name] = value
+    return a
+
+def menu_creator(data_asm, patches_asm, menus_yaml, language_menus_yaml, language):
+    # Read the files
     with open(menus_yaml, "r", encoding="utf-8") as f:
         menus = yaml.load(f, Loader=yaml.BaseLoader)
+    with open(language_menus_yaml, "r", encoding="utf-8") as f:
+        language_menus = yaml.load(f, Loader=yaml.BaseLoader)
+    
+    menus = join_yaml(menus, language_menus, lambda x: x["name"])
 
     # Parse
     menus = [Menu(x, language) for x in menus]
@@ -738,7 +763,7 @@ def main():
     elif verb == 'bitmap_decode':
         bitmap_decode(sys.argv[2], sys.argv[3], int(sys.argv[4], base=16))
     elif verb == 'menu_creator':
-        menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+        menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
     elif verb == 'script_inserter':
         script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
     elif verb == 'join':
