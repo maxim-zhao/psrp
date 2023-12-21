@@ -7,9 +7,12 @@ from pathlib import Path
 start_code = 0x6d  # see WordListStart in asm
 
 
-def generate_words(tbl_file, asm_file, script_file, language, word_count):
+def generate_words(tbl_file, asm_file, script_file, language_script_file, language, word_count):
     with open(script_file, "r", encoding="utf-8") as f:
         script = yaml.load(f, Loader=yaml.BaseLoader)  # BaseLoader keeps everything as strings
+    with open(language_script_file, "r", encoding="utf-8") as f:
+        language_script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)    
+    script = join_yaml(script, language_script_yaml, "offsets")
 
     # dict of word to count
     words = {}
@@ -141,18 +144,21 @@ class Menu:
             f.write(f"  PatchB ${ptr + 1:x} {self.height}\n")
 
 
-def join_yaml(a, b, f):
-    # Make a dict of b according to f
-    b_lookup = {f(x): x for x in b}
+def join_yaml(a, b, key_name):
+    # Make a dict of b according to the key
+    b_lookup = {x[key_name]: x for x in b}
     # Walk through a and amend
     for a_entry in a:
-        key = f(a_entry)
+        if key_name not in a_entry:
+          continue
+        key = a_entry[key_name]
         if key in b_lookup:
             b_entry = b_lookup[key]
             for name, value in b_entry.items():
-                if name in a_entry and name != 'name':
+                if name in a_entry and name != key_name:
                   print(f"Warning: overriding property {name} from {a_entry[name]} to {value} for entry {key}")
                 a_entry[name] = value
+        # print(a_entry)
     return a
 
 def menu_creator(data_asm, patches_asm, menus_yaml, language_menus_yaml, language):
@@ -162,7 +168,7 @@ def menu_creator(data_asm, patches_asm, menus_yaml, language_menus_yaml, languag
     with open(language_menus_yaml, "r", encoding="utf-8") as f:
         language_menus = yaml.load(f, Loader=yaml.BaseLoader)
     
-    menus = join_yaml(menus, language_menus, lambda x: x["name"])
+    menus = join_yaml(menus, language_menus, "name")
 
     # Parse
     menus = [Menu(x, language) for x in menus]
@@ -570,10 +576,14 @@ class Tree:
             bit_writer.add(bit)
 
 
-def script_inserter(data_file, trees_file, script_file, language, tbl_file):
+def script_inserter(data_file, trees_file, script_file, language_script_file, language, tbl_file):
     table = Table(tbl_file)
     with open(script_file, "r", encoding="utf-8") as f:
         script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)
+    with open(language_script_file, "r", encoding="utf-8") as f:
+        language_script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)
+    
+    script_yaml = join_yaml(script_yaml, language_script_yaml, "offsets")
 
     entry_number = 0
     max_width = -1
@@ -759,13 +769,13 @@ def mkdir(path):
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
-        generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], int(sys.argv[6]))
+        generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], int(sys.argv[7]))
     elif verb == 'bitmap_decode':
         bitmap_decode(sys.argv[2], sys.argv[3], int(sys.argv[4], base=16))
     elif verb == 'menu_creator':
         menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
     elif verb == 'script_inserter':
-        script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
+        script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
     elif verb == 'join':
         join(sys.argv[2], sys.argv[3], sys.argv[4])
     elif verb == 'clean':
