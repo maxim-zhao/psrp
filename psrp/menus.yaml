@@ -17,9 +17,10 @@
     │planet Palma.       ║
     ╘════════════════════╝
   us: |
-    SPACE CENTURY 342,
-    CAMINEET ON PALMA
-
+    ┌──────────────────╖
+    │SPACE CENTURY 342,║
+    │CAMINEET ON PALMA ║
+    ╘══════════════════╝
 - name: WorldMenu
   ptrs: 3807,380d
   dims: 3801,3813,381f
@@ -492,6 +493,7 @@
 
 - name: NarrativeBlankScrollDimensions
   emitData: false
+  dims: 355a,3566
   all: |
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
