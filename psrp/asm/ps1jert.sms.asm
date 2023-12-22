@@ -363,11 +363,11 @@ IndexTableRemap:
 .section "Menu data" superfree
 .block "Menus"
 MenuData:
-.include {"generated/menus.{LANGUAGE}.asm"}
+.include {"generated/{LANGUAGE}/menus.asm"}
 .endb
 .ends
 
-.include {"generated/menu-patches.{LANGUAGE}.asm"}
+.include {"generated/{LANGUAGE}/menu-patches.asm"}
 
   PatchB $3b58 :MenuData ; HapsbyTravelMenu only
   PatchB $3b82 :MenuData ; OutputTilemapBoxWipePaging

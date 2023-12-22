@@ -7,9 +7,12 @@ from pathlib import Path
 start_code = 0x6d  # see WordListStart in asm
 
 
-def generate_words(tbl_file, asm_file, script_file, language, word_count):
+def generate_words(tbl_file, asm_file, script_file, language_script_file, language, word_count):
     with open(script_file, "r", encoding="utf-8") as f:
         script = yaml.load(f, Loader=yaml.BaseLoader)  # BaseLoader keeps everything as strings
+    with open(language_script_file, "r", encoding="utf-8") as f:
+        language_script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)    
+    script = join_yaml(script, language_script_yaml, "offsets")
 
     # dict of word to count
     words = {}
@@ -106,10 +109,17 @@ class Menu:
             self.emit_data = node["emitData"] == "true" if "emitData" in node else True
             self.ptrs = [int(x.strip(), base=16) for x in node["ptrs"].split(",")] if "ptrs" in node else []
             self.dims = [int(x.strip(), base=16) for x in node["dims"].split(",")] if "dims" in node else []
-            self.lines = node[language].splitlines()
+            if language in node:
+              text = node[language]
+            elif "all" in node:
+              text = node["all"]
+            else:
+              print(node)
+              raise Exception(f"No text for menu {self.name} for {language}")
+            self.lines = text.splitlines()
             self.width = max(len(x) for x in self.lines)
             if min(len(x) for x in self.lines) != self.width:
-                print(f"Warning: uneven line lengths in menu {self.name}\n")
+                raise Exception(f"Uneven line lengths in menu {self.name}\n")
             self.height = int(node["height"]) if "height" in node else len(self.lines)
         except:
             print(f"Error parsing menu {node}")
@@ -134,10 +144,31 @@ class Menu:
             f.write(f"  PatchB ${ptr + 1:x} {self.height}\n")
 
 
-def menu_creator(data_asm, patches_asm, menus_yaml, language):
-    # Read the file
+def join_yaml(a, b, key_name):
+    # Make a dict of b according to the key
+    b_lookup = {x[key_name]: x for x in b}
+    # Walk through a and amend
+    for a_entry in a:
+        if key_name not in a_entry:
+          continue
+        key = a_entry[key_name]
+        if key in b_lookup:
+            b_entry = b_lookup[key]
+            for name, value in b_entry.items():
+                if name in a_entry and name != key_name:
+                  print(f"Warning: overriding property {name} from {a_entry[name]} to {value} for entry {key}")
+                a_entry[name] = value
+        # print(a_entry)
+    return a
+
+def menu_creator(data_asm, patches_asm, menus_yaml, language_menus_yaml, language):
+    # Read the files
     with open(menus_yaml, "r", encoding="utf-8") as f:
         menus = yaml.load(f, Loader=yaml.BaseLoader)
+    with open(language_menus_yaml, "r", encoding="utf-8") as f:
+        language_menus = yaml.load(f, Loader=yaml.BaseLoader)
+    
+    menus = join_yaml(menus, language_menus, "name")
 
     # Parse
     menus = [Menu(x, language) for x in menus]
@@ -545,10 +576,14 @@ class Tree:
             bit_writer.add(bit)
 
 
-def script_inserter(data_file, trees_file, script_file, language, tbl_file):
+def script_inserter(data_file, trees_file, script_file, language_script_file, language, tbl_file):
     table = Table(tbl_file)
     with open(script_file, "r", encoding="utf-8") as f:
         script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)
+    with open(language_script_file, "r", encoding="utf-8") as f:
+        language_script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)
+    
+    script_yaml = join_yaml(script_yaml, language_script_yaml, "offsets")
 
     entry_number = 0
     max_width = -1
@@ -734,13 +769,13 @@ def mkdir(path):
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
-        generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], int(sys.argv[6]))
+        generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], int(sys.argv[7]))
     elif verb == 'bitmap_decode':
         bitmap_decode(sys.argv[2], sys.argv[3], int(sys.argv[4], base=16))
     elif verb == 'menu_creator':
-        menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+        menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
     elif verb == 'script_inserter':
-        script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
+        script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
     elif verb == 'join':
         join(sys.argv[2], sys.argv[3], sys.argv[4])
     elif verb == 'clean':

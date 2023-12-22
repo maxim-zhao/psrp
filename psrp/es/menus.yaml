@@ -1,0 +1,215 @@
+- name: OpeningCinema
+  es: |
+    ┌────────────────────╖
+    │Primavera, DG 342   ║
+    │--------------------║
+    │Distrito residencial║
+    │de Camineet en el   ║
+    │planeta Palma.      ║
+    ╘════════════════════╝
+
+- name: WorldMenu
+  es: |
+    ┌───────╖
+    │Estado ║
+    │Mágia  ║
+    │Objetos║
+    │Buscar ║
+    │Guardar║
+    ╘═══════╝
+
+- name: ChoiceMenu
+  es: |
+    ┌──╖
+    │Si║
+    │No║
+    ╘══╝
+
+- name: BattleMenu
+  es: |
+    ┌──────╖
+    │Atacar║
+    │Mágia ║
+    │Objeto║
+    │Hablar║
+    │Huir  ║
+    ╘══════╝
+
+- name: ToolShopMenu
+  es: |
+    ┌───────╖
+    │Comprar║
+    │Vender ║
+    ╘═══════╝
+
+- name: ItemActionMenu
+  es: |
+    ┌─────────╖
+    │Usar     ║
+    │Equipar  ║
+    │Descartar║
+    ╘═════════╝
+
+- name: BattleSpellsAlisa
+  es: |
+    ┌──────────────╖
+    │Curar         ║
+    │Huir Rápido   ║
+    │Traducir      ║
+    │Fuego         ║
+    │Atar          ║
+
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  es: |
+    ┌──────────────╖
+    │Super Remedio ║
+    │Miedo         ║
+    │Muralla       ║
+    │Aumento Poder ║
+
+- name: BattleSpellsLutz
+  es: |
+    ┌──────────────╖
+    │Fuego         ║
+    │Telepatía     ║
+    │Viento        ║
+    │Barrera Mágica║
+    │Relámpago     ║
+
+- name: OverworldSpellsAlisa
+  es: |
+    ┌──────────────╖
+    │Curar         ║
+    │Teletransporte║
+
+- name: OverworldSpellsMyau
+  es: |
+    ┌──────────────╖
+    │Super Remedio ║
+    │Desarmar      ║
+    │Huir          ║
+
+- name: OverworldSpellsLutz
+  es: |
+    ┌──────────────╖
+    │Super Remedio ║
+    │Escapar       ║
+    │Telepatía     ║
+    │Abrir         ║
+    │Revivir       ║
+
+- name: SpellMenuBottom
+  # referenced in assembly code
+  es: ╘══════════════╝
+
+- name: StatsMenuDimensions
+  es: |
+    ┌─────────────────╖
+    │Nivel          99║
+    │Experiéncia 65535║
+    │Ataque        255║
+    │Defensa       255║
+    │PV máximo     255║
+    │PM máximo     255║
+    │Meseta      65535║
+    ╘═════════════════╝
+
+- name: EquimentMenuDimensions
+  es: |
+    ┌────────────────────╖
+    │                    ║
+    │                    ║
+    │                    ║
+    ╘════════════════════╝
+
+- name: InventoryMenuDimensions
+  es: |
+    ┌────────────────────╖
+    │Meseta         65535║
+    │Siguiente           ║
+    │Item 1              ║
+    │Item 2              ║
+    │Item 3              ║
+    │Item 4              ║
+    │Item 5              ║
+    │Item 6              ║
+    │Item 7              ║
+    │Item 8              ║
+    ╘════════════════════╝
+
+- name: TopBorder10
+  # inventory, currently equipped items # Not shop MST any more
+  es: ┌────────────────────╖
+
+- name: BottomBorder10
+  # inventory, currently equipped items
+  es: ╘════════════════════╝
+
+- name: InventoryNextMenu
+  es: │Siguiente           ║
+
+- name: HapsbyTravelMenu
+  es: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skray ║
+    ╘══════╝
+
+- name: SoundTestMenuTop
+  es: ┌──────────────╖
+
+- name: SoundTestMenuChipPSG
+  es: │Chip   SN76489║
+
+- name: SoundTestMenuChipYM2413
+  es: │Chip    YM2413║
+
+- name: SoundTestMenu
+  es: |
+    │--------------║
+    │Título        ║
+    │Introducción  ║
+    │Ciudad        ║
+    │Mazmorra      ║
+    │Tienda        ║
+    │Iglesia       ║
+    │Palma         ║
+    │Batalla       ║
+    │História      ║
+    │Villa         ║
+    │Vehículo      ║
+    │Motávia       ║
+    │Dezóris       ║
+    │Torre         ║
+    │Mazmorra Final║
+    │Lashiec       ║
+    │Fuerza Oscura ║
+    │Final         ║
+    │Fin del juego ║
+    ╘══════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
+  es: |
+    ┌───────────────────────╖
+    │Velocidad de pasos   x ║
+    │Experiéncia          x ║
+    │Meseta               x ║
+    │Batallas               ║
+    │Pelo de Alisa          ║
+    │Fuente                 ║
+    │Fundido                ║
+    │Velocidad del texto  x ║
+    ╘═══════════════════════╝
+
+- name: ContinueMenu
+  es: |
+    ┌──────╖
+    │Cargar║
+    │Borrar║
+    ╘══════╝
+

@@ -1,0 +1,214 @@
+- name: OpeningCinema
+  ca: |
+    ┌─────────────────────╖
+    │Primavera, DG 342    ║
+    │---------------------║
+    │Districte residencial║
+    │de Camineet al       ║
+    │planeta Palma.       ║
+    ╘═════════════════════╝
+
+- name: WorldMenu
+  ca: |
+    ┌────────╖
+    │Estat   ║
+    │Màgia   ║
+    │Objectes║
+    │Cercar  ║
+    │Guardar ║
+    ╘════════╝
+
+- name: ChoiceMenu
+  ca: |
+    ┌──╖
+    │Sí║
+    │No║
+    ╘══╝
+
+- name: BattleMenu
+  ca: |
+    ┌───────╖
+    │Atacar ║
+    │Màgia  ║
+    │Objecte║
+    │Parlar ║
+    │Fugir  ║
+    ╘═══════╝
+
+- name: ToolShopMenu
+  ca: |
+    ┌───────╖
+    │Comprar║
+    │Vendre ║
+    ╘═══════╝
+
+- name: ItemActionMenu
+  ca: |
+    ┌─────────╖
+    │Emprar   ║
+    │Equipar  ║
+    │Descartar║
+    ╘═════════╝
+
+- name: BattleSpellsAlisa
+  ca: |
+    ┌───────────────╖
+    │Guarir         ║
+    │Fugir Ràpid    ║
+    │Traduïr        ║
+    │Foc            ║
+    │Lligar         ║
+
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  ca: |
+    ┌───────────────╖
+    │Super Remei    ║
+    │Por            ║
+    │Muralla        ║
+    │Increment Poder║
+
+- name: BattleSpellsLutz
+  ca: |
+    ┌───────────────╖
+    │Foc            ║
+    │Telepatía      ║
+    │Vent           ║
+    │Barrera Màgica ║
+    │Llampec        ║
+
+- name: OverworldSpellsAlisa
+  ca: |
+    ┌───────────────╖
+    │Guarir         ║
+    │Teletransport  ║
+
+- name: OverworldSpellsMyau
+  ca: |
+    ┌───────────────╖
+    │Super Remei    ║
+    │Desarmar       ║
+    │Fugir          ║
+
+- name: OverworldSpellsLutz
+  ca: |
+    ┌───────────────╖
+    │Super Remei    ║
+    │Escapar        ║
+    │Telepatía      ║
+    │Obrir          ║
+    │Reviure        ║
+
+- name: SpellMenuBottom
+  # referenced in assembly code
+  ca: ╘═══════════════╝
+
+- name: StatsMenuDimensions
+  ca: |
+    ┌─────────────────╖
+    │Nivell         99║
+    │Experiència 65535║
+    │Atac          255║
+    │Defensa       255║
+    │PV màxim      255║
+    │PM màxim      255║
+    │Meseta      65535║
+    ╘═════════════════╝
+
+- name: EquimentMenuDimensions
+  ca: |
+    ┌────────────────────╖
+    │                    ║
+    │                    ║
+    │                    ║
+    ╘════════════════════╝
+
+- name: InventoryMenuDimensions
+  ca: |
+    ┌────────────────────╖
+    │Meseta         65535║
+    │Següent             ║
+    │Item 1              ║
+    │Item 2              ║
+    │Item 3              ║
+    │Item 4              ║
+    │Item 5              ║
+    │Item 6              ║
+    │Item 7              ║
+    │Item 8              ║
+    ╘════════════════════╝
+
+- name: TopBorder10
+  # inventory, currently equipped items # Not shop MST any more
+  ca: ┌────────────────────╖
+
+- name: BottomBorder10
+  # inventory, currently equipped items
+  ca: ╘════════════════════╝
+
+- name: InventoryNextMenu
+  ca: │Següent             ║
+
+- name: HapsbyTravelMenu
+  ca: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skray ║
+    ╘══════╝
+
+- name: SoundTestMenuTop
+  ca: ┌──────────────╖
+
+- name: SoundTestMenuChipPSG
+  ca: │Chip       PSG║
+
+- name: SoundTestMenuChipYM2413
+  ca: │Chip        FM║
+
+- name: SoundTestMenu
+  ca: |
+    │--------------║
+    │Pantalla títul║
+    │Introducció   ║
+    │Ciutat        ║
+    │Masmorra      ║
+    │Botiga        ║
+    │Esglesia      ║
+    │Palma         ║
+    │Batalla       ║
+    │Història      ║
+    │Vila          ║
+    │Vehicle       ║
+    │Motàvia       ║
+    │Dezóris       ║
+    │Torre         ║
+    │Masmorra Final║
+    │Lashiec       ║
+    │Força Fosca   ║
+    │Final         ║
+    │Fi del joc    ║
+    ╘══════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
+  ca: |
+    ┌───────────────────────╖
+    │Velocitat de passos  x ║
+    │Experiència          x ║
+    │Meseta               x ║
+    │Batalles               ║
+    │Cabell d'Alisa         ║
+    │Font                   ║
+    │Fosa                   ║
+    │Velocitat del text   x ║
+    ╘═══════════════════════╝
+
+- name: ContinueMenu
+  ca: |
+    ┌────────╖
+    │Carregar║
+    │Esborrar║
+    ╘════════╝

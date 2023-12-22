@@ -26,15 +26,39 @@ This is a "table file" defining how the UTF-8 characters in the script map to un
 
 Any characters used in your script.yaml file have to be specified in here. You can map accented characters to the same values as unaccented characters as necessary; this allows you to have "perfect" characters in the script even if you have to remove some of them to fit in the font space.
 
-script.yaml
------------
+script.yaml and `xx`/script.yaml
+--------------------------------
 
-This is the main script. It is in YAML form, and includes every language at the same time. This means you can look at the Japanese text, literal translation, English localization, and other translations for each script element at the same time. Some entries have comments to explain why things are the way they are. This file contains UTF-8 text and you should use all characters for your language in the text - let script.xx.tbl handle any removal of accents.
+This is the main script. It is in YAML form. The "base" file includes:
 
-menus.yaml
-----------
+- Technical details for processing the script like offsets of references and text window sizes
+- Most entries mention the script index used in the original game, but this is not important for translation
+- The original Japanese katakana (`jp`)
+- A full Japanese version with words converted to kanji and hiragana (`kanji`) where appropriate
+- A literal translation of the Japanese text, used to generate the "literal" version
+- The original US English translation (`us`)
+- Some entries have comments to explain why things are the way they are.
+
+You should not edit the "base" file.
+
+The language-specific file then adds the translation-specific parts. It is necessary to retain the `offsets` property to allow the translation to be matched up, and it's advisable to retain the script order too. This file contains UTF-8 text and you should use all characters for your language in the text - let script.xx.tbl handle any removal of accents.
+
+menus.yaml and `xx`/menus.yaml
+------------------------------
 
 This contains the menus used in the game. The box drawing characters are important, and if you increase the size of any menu then it is important to manage the RAM caches - see below.
+
+The "base" file includes:
+
+- Names for each menu
+- Technical details for patching the ROM
+- The menu as seen in the Japanese original with katakana text (`jp`)
+- A version with kanji and hiragana where appropriate (`kanji`)
+- A literal translation of the Japanese text, used to generate the "literal" version
+- The original US English translation (`us`)
+- For some menus, an `all` entry which defined the menu for all languages
+
+Again, the language-specific file is able to then add the language-specific parts.
 
 `xx`/articles.asm
 -----------------

@@ -842,7 +842,7 @@ _BCD_Digit:
 ; If our goal is to minimise total space used across both the script and word list then the
 ; best number has to be found by brute force.
 Words:
-.include {"generated/words.{LANGUAGE}.asm"}
+.include {"generated/{LANGUAGE}/words.asm"}
 .endb
 .ends
 
@@ -898,7 +898,7 @@ _draw_4th_line:
 .section "Font lookup" align 256 superfree ; alignment simplifies code...
 FontLookup:
 ; This is used to convert text from the game's encoding (indexing into this area) to name table entries. More space can be used but check SymbolStart which needs to be one past the end of this table. These must be in the order given in script.<language>.tbl.
-.include {"generated/font-lookup.{LANGUAGE}.asm"}
+.include {"generated/{LANGUAGE}/font-lookup.asm"}
 .ends
 
 ; We locate the Huffman trees in a different slot to the script so we can access them at the same time
@@ -906,12 +906,12 @@ FontLookup:
 .section "Huffman trees" superfree
 .block "Huffman trees"
 HuffmanTrees:
-.include {"generated/tree.{LANGUAGE}.asm"}
+.include {"generated/{LANGUAGE}/tree.asm"}
 .endb
 .ends
 
 ; The generated script data has its own section info
-.include {"generated/script.{LANGUAGE}.asm"}
+.include {"generated/{LANGUAGE}/script.asm"}
 
 .bank 0 slot 0
 .section "Decoder init" free

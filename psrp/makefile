@@ -52,43 +52,43 @@ generated/%.psgcompr: %.png tools.py
 # We generate tiles and tilemap for the title screen, these need specific parameters
 generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin &: new_graphics/titlescreen.top.png
 	$(BMP2TILE) $^ -tileoffset 0 -savetiles generated/title.top.psgcompr -savetilemap generated/title.top.tilemap.pscompr -palsms -savepalette generated/title-pal.bin
-generated/title.bottom.%.psgcompr generated/title.bottom.%.tilemap.pscompr &: %/titlescreen.png
-	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/title.bottom.$*.psgcompr -savetilemap generated/title.bottom.$*.tilemap.pscompr
+generated/%/title.bottom.psgcompr generated/%/title.bottom.tilemap.pscompr &: %/titlescreen.png
+	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/$*/title.bottom.psgcompr -savetilemap generated/$*/title.bottom.tilemap.pscompr
 
 # Generate menu data
-generated/menus.%.asm generated/menu-patches.%.asm &: tools.py menus.yaml
-	$(PY) tools.py menu_creator generated/menus.$*.asm generated/menu-patches.$*.asm menus.yaml $*
+generated/%/menus.asm generated/%/menu-patches.asm &: tools.py menus.yaml %/menus.yaml
+	$(PY) tools.py menu_creator generated/$*/menus.asm generated/$*/menu-patches.asm menus.yaml $*/menus.yaml $*
 
 # Analyse the script to determine which words can be substituted for best "compression"
 # Converts the word list to a TBL file and an asm file
-generated/words.%.tbl generated/words.%.asm &: tools.py script.yaml
-	$(PY) tools.py generate_words generated/words.$*.tbl generated/words.$*.asm script.yaml $* $(WORD_COUNT_$*)
+generated/%/words.tbl generated/%/words.asm &: tools.py script.yaml %/script.yaml
+	$(PY) tools.py generate_words generated/$*/words.tbl generated/$*/words.asm script.yaml $*/script.yaml $* $(WORD_COUNT_$*)
 
 # Combine the words and letters symbol dictionaries
-generated/script_with_words.%.tbl: %/script.tbl generated/words.%.tbl
+generated/%/script_with_words.tbl: %/script.tbl generated/%/words.tbl
 	$(PY) tools.py join $^ $@
 
 # Generate the script data
-generated/script.%.asm generated/tree.%.asm &: generated/script_with_words.%.tbl tools.py script.yaml
-	$(PY) tools.py script_inserter generated/script.$*.asm generated/tree.$*.asm script.yaml $* generated/script_with_words.$*.tbl
+generated/%/script.asm generated/%/tree.asm &: generated/%/script_with_words.tbl tools.py script.yaml %/script.yaml
+	$(PY) tools.py script_inserter generated/$*/script.asm generated/$*/tree.asm script.yaml $*/script.yaml $* generated/$*/script_with_words.tbl
 
 # Generate the font lookup
-generated/font-lookup.%.asm: %/script.tbl tools.py
-	$(PY) tools.py generate_font_lookup $< generated/font-lookup.$*.asm 
+generated/%/font-lookup.asm: %/script.tbl tools.py
+	$(PY) tools.py generate_font_lookup $< generated/$*/font-lookup.asm 
 
 # Generate the dependencies list for assembly
 generated/auto.makefile.%: asm/*
-	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/ps1jert.$*.sms.o -I asm asm/ps1jert.sms.asm > $@
+	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/$*/ps1jert.sms.o -I asm asm/ps1jert.sms.asm > $@
 
 # Now we add in the recipe to actually compile...
-generated/ps1jert.%.sms.o:
+generated/%/ps1jert.sms.o:
 	$(WLAZ80) -D LANGUAGE=$* -o $@ -I asm asm/ps1jert.sms.asm
 
 # And then link
-ps1jert.%.sms: generated/ps1jert.%.sms.o
-	echo [objects] > generated/linkfile.$*
-	echo "$<" >> generated/linkfile.$*
-	$(WLALINK) -d -r -v -S generated/linkfile.$* $@
+ps1jert.%.sms: generated/%/ps1jert.sms.o
+	echo [objects] > generated/$*/linkfile
+	echo "$<" >> generated/$*/linkfile
+	$(WLALINK) -d -r -v -S generated/$*/linkfile $@
 
 # And make patches
 ps1jert.%.ips: $(PSJ) ps1jert.%.sms

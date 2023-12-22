@@ -6,12 +6,12 @@
 .slot 2
 .section "Replacement title screen" superfree
 TitleScreenTilesBottom:
-.incbin {"generated/title.bottom.{LANGUAGE}.psgcompr"}
+.incbin {"generated/{LANGUAGE}/title.bottom.psgcompr"}
 .ends
 
 .section "Title screen name table" superfree
 TitleScreenTilemapBottom:
-.incbin {"generated/title.bottom.{LANGUAGE}.tilemap.pscompr"}
+.incbin {"generated/{LANGUAGE}/title.bottom.tilemap.pscompr"}
 .ends
 
 .section "Replacement title screen part 2" superfree

@@ -1,0 +1,211 @@
+- name: OpeningCinema
+  en: |
+    ┌────────────────────╖
+    │Spring, AW 342      ║
+    │--------------------║
+    │Camineet Residential║
+    │ District on the    ║
+    │ planet Palma.      ║
+    ╘════════════════════╝
+
+- name: WorldMenu
+  en: |
+    ┌──────╖
+    │Stats ║
+    │Magic ║
+    │Items ║
+    │Search║
+    │Save  ║
+    ╘══════╝
+
+- name: ChoiceMenu
+  en: |
+    ┌───╖
+    │Yes║
+    │No ║
+    ╘═══╝
+
+- name: BattleMenu
+  en: |
+    ┌──────╖
+    │Attack║
+    │Magic ║
+    │Items ║
+    │Talk  ║
+    │Run   ║
+    ╘══════╝
+
+- name: ToolShopMenu
+  en: |
+    ┌────╖
+    │Buy ║
+    │Sell║
+    ╘════╝
+
+- name: ItemActionMenu
+  en: |
+    ┌─────╖
+    │Use  ║
+    │Equip║
+    │Drop ║
+    ╘═════╝
+
+- name: BattleSpellsAlisa
+  en: |
+    ┌────────────╖
+    │Heal        ║
+    │Quick Dash  ║
+    │Transrate   ║
+    │Fire        ║
+    │Bind        ║
+
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  en: |
+    ┌────────────╖
+    │Super Heal  ║
+    │Terror      ║
+    │Waller      ║
+    │Power Boost ║
+
+- name: BattleSpellsLutz
+  en: |
+    ┌────────────╖
+    │Fire        ║
+    │Telepathy   ║
+    │Wind        ║
+    │Magic Waller║
+    │Thunder     ║
+
+- name: OverworldSpellsAlisa
+  en: |
+    ┌────────────╖
+    │Heal        ║
+    │Troop       ║
+
+- name: OverworldSpellsMyau
+  en: |
+    ┌────────────╖
+    │Super Heal  ║
+    │Untrap      ║
+    │Bypass      ║
+
+- name: OverworldSpellsLutz
+  en: |
+    ┌────────────╖
+    │Super Heal  ║
+    │Bypass      ║
+    │Telepathy   ║
+    │Magic Unseal║
+    │Rebirth     ║
+
+- name: SpellMenuBottom
+  en: ╘════════════╝
+
+- name: StatsMenuDimensions
+  en: |
+    ┌────────────────╖
+    │Level         99║
+    │Experience 65535║
+    │Attack       255║
+    │Defense      255║
+    │Maximum HP   255║
+    │Maximum MP   255║
+    │Meseta     65535║
+    ╘════════════════╝
+
+- name: EquimentMenuDimensions
+  en: |
+    ┌──────────────────╖
+    │                  ║
+    │                  ║
+    │                  ║
+    ╘══════════════════╝
+
+- name: InventoryMenuDimensions
+  en: |
+    ┌──────────────────╖
+    │Meseta       65535║
+    │Next              ║
+    │Item 1            ║
+    │Item 2            ║
+    │Item 3            ║
+    │Item 4            ║
+    │Item 5            ║
+    │Item 6            ║
+    │Item 7            ║
+    │Item 8            ║
+    ╘══════════════════╝
+
+- name: TopBorder10
+  en: ┌──────────────────╖
+
+- name: BottomBorder10
+  en: ╘══════════════════╝
+
+- name: InventoryNextMenu
+  en: │Next              ║
+
+- name: HapsbyTravelMenu
+  en: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skray ║
+    ╘══════╝
+
+- name: SoundTestMenuTop
+  en: ┌─────────────╖
+
+- name: SoundTestMenuChipPSG
+  en: │Chip  SN76489║
+
+- name: SoundTestMenuChipYM2413
+  en: │Chip   YM2413║
+
+- name: SoundTestMenu
+  en: |
+    │-------------║
+    │Title Screen ║
+    │Intro        ║
+    │Town         ║
+    │Dungeon      ║
+    │Shop         ║
+    │Church       ║
+    │Palma        ║
+    │Battle       ║
+    │Story        ║
+    │Village      ║
+    │Vehicle      ║
+    │Motavia      ║
+    │Dezoris      ║
+    │Tower        ║
+    │Final Dungeon║
+    │LaShiec      ║
+    │Dark Force   ║
+    │Ending       ║
+    │Game Over    ║
+    ╘═════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.  
+  en: |
+    ┌───────────────────╖
+    │Walk speed       x ║
+    │Experience       x ║
+    │Meseta           x ║
+    │Battles            ║
+    │Alisa's hair       ║
+    │Font               ║
+    │Fades              ║
+    │Text speed       x ║
+    ╘═══════════════════╝
+
+- name: ContinueMenu
+  en: |
+    ┌──────╖
+    │Load  ║
+    │Delete║
+    ╘══════╝
