@@ -52,55 +52,55 @@
 
 - name: BattleSpellsAlisa
   fr: |
-    ┌────────────────╖
-    │Soins           ║
-    │Déguerpir       ║
-    │Traducteur      ║
-    │Flammes         ║
-    │Ligoter         ║
+    ┌─────────────╖
+    │Soins        ║
+    │Déguerpir    ║
+    │Traducteur   ║
+    │Flammes      ║
+    │Ligoter      ║
 # Next five must follow...
 
 - name: BattleSpellsMyau
   fr: |
-    ┌────────────────╖
-    │Super Soin      ║
-    │Coup Terreur    ║
-    │Mur physique    ║
-    │Force accrue    ║
+    ┌─────────────╖
+    │Super Soin   ║
+    │Coup Terreur ║
+    │Mur physique ║
+    │Force accrue ║
 
 - name: BattleSpellsLutz
   fr: |
-    ┌────────────────╖
-    │Flamme          ║
-    │Télépathie      ║
-    │Tornade         ║
-    │Mur complet     ║
-    │Foudre          ║
+    ┌─────────────╖
+    │Flamme       ║
+    │Télépathie   ║
+    │Tornade      ║
+    │Mur complet  ║
+    │Foudre       ║
 
 - name: OverworldSpellsAlisa
   fr: |
-    ┌────────────────╖
-    │Soin            ║
-    │Retour Eglise   ║
+    ┌─────────────╖
+    │Soin         ║
+    │Retour Eglise║
 
 - name: OverworldSpellsMyau
   fr: |
-    ┌────────────────╖
-    │Super Soin      ║
-    │Anti-piège      ║
-    │Sortie Donjon   ║
+    ┌─────────────╖
+    │Super Soin   ║
+    │Anti-piège   ║
+    │Sortie Donjon║
 
 - name: OverworldSpellsLutz
   fr: |
-    ┌────────────────╖
-    │Super Soin      ║
-    │Sortie Donjon   ║
-    │Prévention      ║
-    │Retrait Sceau   ║
-    │Renaissance     ║
+    ┌─────────────╖
+    │Super Soin   ║
+    │Sortie Donjon║
+    │Prévention   ║
+    │Retrait Sceau║
+    │Renaissance  ║
 
 - name: SpellMenuBottom
-  fr: ╘════════════════╝
+  fr: ╘═════════════╝
 
 - name: StatsMenuDimensions
   fr: |
