@@ -1,5 +1,5 @@
 - name: OpeningCinema
-  fr: |
+  fr-extended: |
     ┌────────────────────╖
     │Printemps, année 342║
     │--------------------║
@@ -9,7 +9,7 @@
     ╘════════════════════╝
 
 - name: WorldMenu
-  fr: |
+  fr-extended: |
     ┌──────╖
     │Infos ║
     │Magies║
@@ -19,14 +19,14 @@
     ╘══════╝
 
 - name: ChoiceMenu
-  fr: |
+  fr-extended: |
     ┌───╖
     │Oui║
     │Non║
     ╘═══╝
 
 - name: BattleMenu
-  fr: |
+  fr-extended: |
     ┌──────╖
     │Combat║
     │Magies║
@@ -36,14 +36,14 @@
     ╘══════╝
 
 - name: ToolShopMenu
-  fr: |
+  fr-extended: |
     ┌───────╖
     │Acheter║
     │Vendre ║
     ╘═══════╝
 
 - name: ItemActionMenu
-  fr: |
+  fr-extended: |
     ┌────────╖
     │Utiliser║
     │Équiper ║
@@ -51,59 +51,59 @@
     ╘════════╝
 
 - name: BattleSpellsAlisa
-  fr: |
-    ┌────────────────╖
-    │Soins           ║
-    │Déguerpir       ║
-    │Traducteur      ║
-    │Flammes         ║
-    │Ligoter         ║
+  fr-extended: |
+    ┌─────────────╖
+    │Soins        ║
+    │Déguerpir    ║
+    │Traducteur   ║
+    │Flammes      ║
+    │Ligoter      ║
 # Next five must follow...
 
 - name: BattleSpellsMyau
-  fr: |
-    ┌────────────────╖
-    │Super Soins     ║
-    │Terroriser      ║
-    │Barrière        ║
-    │Tonifier        ║
+  fr-extended: |
+    ┌─────────────╖
+    │Super Soin   ║
+    │Coup Terreur ║
+    │Mur physique ║
+    │Force accrue ║
 
 - name: BattleSpellsLutz
-  fr: |
-    ┌────────────────╖
-    │Flammes         ║
-    │Télépathie      ║
-    │Tornades        ║
-    │Barrière Magique║
-    │Foudre          ║
+  fr-extended: |
+    ┌─────────────╖
+    │Flamme       ║
+    │Télépathie   ║
+    │Tornade      ║
+    │Mur complet  ║
+    │Foudre       ║
 
 - name: OverworldSpellsAlisa
-  fr: |
-    ┌────────────────╖
-    │Soins           ║
-    │Téléporter      ║
+  fr-extended: |
+    ┌─────────────╖
+    │Soin         ║
+    │Retour Eglise║
 
 - name: OverworldSpellsMyau
-  fr: |
-    ┌────────────────╖
-    │Super Soins     ║
-    │Déminer         ║
-    │Passe-muraille  ║
+  fr-extended: |
+    ┌─────────────╖
+    │Super Soin   ║
+    │Anti-piège   ║
+    │Sortie Donjon║
 
 - name: OverworldSpellsLutz
-  fr: |
-    ┌────────────────╖
-    │Super Soins     ║
-    │Passe-muraille  ║
-    │Télépathie      ║
-    │Desceller       ║
-    │Renaître        ║
+  fr-extended: |
+    ┌─────────────╖
+    │Super Soin   ║
+    │Sortie Donjon║
+    │Prévention   ║
+    │Retrait Sceau║
+    │Renaissance  ║
 
 - name: SpellMenuBottom
-  fr: ╘════════════════╝
+  fr-extended: ╘═════════════╝
 
 - name: StatsMenuDimensions
-  fr: |
+  fr-extended: |
     ┌────────────────╖
     │Niveau        99║
     │Expérience 65535║
@@ -115,7 +115,7 @@
     ╘════════════════╝
 
 - name: EquimentMenuDimensions
-  fr: |
+  fr-extended: |
     ┌──────────────────╖
     │                  ║
     │                  ║
@@ -123,7 +123,7 @@
     ╘══════════════════╝
 
 - name: InventoryMenuDimensions
-  fr: |
+  fr-extended: |
     ┌──────────────────╖
     │Meseta       65535║
     │Suite             ║
@@ -139,17 +139,17 @@
 
 - name: TopBorder10
   # inventory, currently equipped items # Not shop MST any more
-  fr: ┌──────────────────╖
+  fr-extended: ┌──────────────────╖
 
 - name: BottomBorder10
-  fr: ╘══════════════════╝
+  # inventory, currently equipped items
+  fr-extended: ╘══════════════════╝
 
 - name: InventoryNextMenu
-  # inventory, currently equipped items
-  fr: │Suite             ║
+  fr-extended: │Suite             ║
 
 - name: HapsbyTravelMenu
-  fr: |
+  fr-extended: |
     ┌──────╖
     │Gothic║
     │Uzo   ║
@@ -157,16 +157,16 @@
     ╘══════╝
 
 - name: SoundTestMenuTop
-  fr: ┌─────────────╖
+  fr-extended: ┌─────────────╖
 
 - name: SoundTestMenuChipPSG
-  fr: │Puce  SN76489║
+  fr-extended: │Puce  SN76489║
 
 - name: SoundTestMenuChipYM2413
-  fr: │Puce   YM2413║
+  fr-extended: │Puce   YM2413║
 
 - name: SoundTestMenu
-  fr: |
+  fr-extended: |
     │-------------║
     │Écran Titre  ║
     │Introduction ║
@@ -175,12 +175,12 @@
     │Magasin      ║
     │Église       ║
     │Palma        ║
-    │Bataille     ║
+    │Combat       ║
     │Histoire     ║
     │Village      ║
     │Véhicule     ║
     │Motavia      ║
-    │Dezoris      ║
+    │Dézoris      ║
     │Tour         ║
     │Donjon Final ║
     │LaShiec      ║
@@ -192,11 +192,11 @@
 - name: OptionsMenu
   # Width should be such that the closest left-right items have a 2 space gap.
   # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
-  fr: |
+  fr-extended: |
     ┌──────────────────────╖
     │Vitesse de marche   x ║
     │Expérience          x ║
-    │Mesetas             x ║
+    │Meseta              x ║
     │Combats               ║
     │Cheveux d'Alisa       ║
     │Police                ║
@@ -205,7 +205,7 @@
     ╘══════════════════════╝
 
 - name: ContinueMenu
-  fr: |
+  fr-extended: |
     ┌───────╖
     │Charger║
     │Effacer║

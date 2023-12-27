@@ -13,6 +13,7 @@ PSJ = PS1-J.SMS
 # The optimal word count (for smallest overall data size) depends on the script. Iterating through the options can help to find the best value. `make sizes.en.txt` and similar to do that.
 WORD_COUNT_en = 51
 WORD_COUNT_fr = 117
+WORD_COUNT_fr-extended = 117
 WORD_COUNT_pt-br = 58
 WORD_COUNT_ca = 56
 WORD_COUNT_es = 67
@@ -77,7 +78,7 @@ generated/%/font-lookup.asm: %/script.tbl tools.py
 	$(PY) tools.py generate_font_lookup $< generated/$*/font-lookup.asm 
 
 # Generate the dependencies list for assembly
-generated/auto.makefile.%: asm/*
+generated/%/auto.makefile: asm/*
 	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/$*/ps1jert.sms.o -I asm asm/ps1jert.sms.asm > $@
 
 # Now we add in the recipe to actually compile...
@@ -108,7 +109,7 @@ all: $(foreach lang,$(LANGUAGES),ps1jert.$(lang).ips ps1jert.$(lang).bps)
 # Make will automatically regenerate them as needed.
 # This unfortunately means we generate them for all languages when we only ask for one -
 # but I can't find a way to avoid that without running sub-makes.
--include $(foreach lang,$(LANGUAGES),generated/auto.makefile.$(lang))
+-include $(foreach lang,$(LANGUAGES),generated/$(lang)/auto.makefile)
 
 psrp.zip: all
 	$(7Z) a ../psrp.zip *.?ps ../*.md

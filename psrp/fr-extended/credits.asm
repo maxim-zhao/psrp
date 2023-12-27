@@ -1,5 +1,5 @@
 CreditsScreen1:
-.db 2
+.db 1
   CreditsEntry 13,9, "/"
   CreditsEntry 13,10,"EQUIPE"
 
