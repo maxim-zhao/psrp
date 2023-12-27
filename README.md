@@ -1,4 +1,4 @@
-# Phantasy Star English Retranslation v2.3
+# Phantasy Star English Retranslation v2.4
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/relocalisation based on that first Japanese version, with some enhancements.
@@ -6,6 +6,10 @@ This project is an unofficial retranslation/relocalisation based on that first J
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+-v2.4.1 release 2023/12/31
+  - Restored original French translation as an extra option
+  - Fixed credits in French
+  
 - v2.4 release 2023/12/20
   - Updated and expanded French script with a great deal of extra hints and lore added, tying into later games in the series
   - Amended translation notes to better explain certain spells
@@ -23,6 +27,9 @@ Changelog (in reverse chronological order):
   - Technical work: 
     - Recompressed all sprite art to make more room for script
     - Script it now stored across the entire ROM space, removing the previous 16KB (compressed) limit
+
+<details>
+<summary>Click for more history</summary>
 
 - v2.3.2 released 2023/02/12
   - Fixed errors in Catalan and Portuguese Brazilian ending credits
@@ -52,9 +59,6 @@ Changelog (in reverse chronological order):
   - Added an option to speed up text drawing in the main script window
   - Button 1 more usage is now more consistently a "cancel" or "no" action (#96)
   - Extended the credits sequence so the original credits are now left untouched
-
-<details>
-<summary>Click for more history</summary>
 
 - v2.2 released 2021/12/20
   - Phantasy Star 34th anniversary!

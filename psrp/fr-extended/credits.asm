@@ -1,5 +1,5 @@
 CreditsScreen1:
-.db 1
+.db 2
   CreditsEntry 13,9, "/"
   CreditsEntry 13,10,"EQUIPE"
 
@@ -129,14 +129,10 @@ CreditsScreen16:
   CreditsEntry 18,15, "POPFAN"
 
 CreditsScreen17:
-.db 6
+.db 3
   CreditsEntry 6,6, "FRANCAIS"
   CreditsEntry 10,7,    "'"
-  CreditsEntry 17,6, "ICHIGOBANKAI"
-  ; TODO place these?
-  CreditsEntry 17,14,"WIL76"
-  CreditsEntry 24,16,"ELZ"
-  CreditsEntry 11,19,"VINGAZOLE"
+  CreditsEntry 17,6, "CLEEEM"
 
 CreditsScreen18:
 .db 3
