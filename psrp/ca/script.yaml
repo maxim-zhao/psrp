@@ -397,7 +397,7 @@
   # Trader (say yes to previous question)
   ca: |
     Bah!De debò?<wait more>
-    Que te'n rius de mí?<delay>
+    Que te'n rius de mi?<delay>
 
 - offsets: 4e98
   # Trader (say no to previous question, and have a Laconian pot)
