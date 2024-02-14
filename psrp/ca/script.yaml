@@ -621,7 +621,7 @@
   
 - offsets: 4ff9
   # Lady in Guest House (after resting)
-  ca: Bona fortuna tingueu. La necessitareu.<wait>
+  ca: Bona sort. La necessitareu.<wait>
 
 - offsets: 4f5b
   ca: Caus en un son profund...<delay>
