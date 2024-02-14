@@ -295,7 +295,7 @@
 
 - offsets: 4c1d,4cb7
   # Airstrip guards
-  ca: Te vostè un Passaport?<end>
+  ca: Té vostè un Passaport?<end>
   
 - offsets: 4c30,4ccf
   # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
