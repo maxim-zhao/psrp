@@ -124,7 +124,7 @@
 - offsets: 4bcd,4c26,4cc2,4d0e
   # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
   # Spaceport guard (say "no" to question about passport) - Camineet (4c26) and Parolit (4cc2)
-  ca: Es necessita una autorització per travessar aquest punt. Facis enrere o emprarem la força!<wait>
+  ca: Es necessita una autorització per travessar aquest punt. Faci's enrere o emprarem la força!<wait>
 
 - offsets: 4bda,4d23
   # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
