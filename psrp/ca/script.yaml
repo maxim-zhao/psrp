@@ -5,7 +5,7 @@
     Ciutadans de Camineet, el cos d'aquest noi és un recordatori per tots vosaltres. <line>
     Sa majestat Lashiec no tolerarà cap desafiament!<wait more>
     Nero? NERO!<line><line>
-    Que ha passat?!<wait>
+    Què ha passat?!<wait>
 
 - offsets: 45fa
   # Game intro
@@ -82,7 +82,7 @@
     En Nero em va demanar ajuda per trobar un guerrer anomenat Tylon, l'estàs buscant tu també?<wait more>
     L'últim que se'n sap és que s'allotjava al poble de Shion. Potser encara s'hi troba pels voltants.<wait more>
     El teu germà també em va demanar que li guardés aquesta olla de Laconia.<wait more>
-    Es força valuosa, potser et serà útil en el teu viatge? Si us plau, agafa-la.<wait>
+    És força valuosa, potser et serà útil en el teu viatge? Si us plau, agafa-la.<wait>
 
 - offsets: 4b7c
   # Camineet
