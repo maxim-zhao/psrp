@@ -117,7 +117,7 @@ Enemies:
   String "<el> Gul"
   String  "<l'>Ammonita"
   String "<el> Botxí"
-  String  "<l'>Anima en Pena"
+  String  "<l'>Ànima en Pena"
   String "<el> Soldat Calavera"
   String "<el> Cargol"
   String "<l'> Esfinx"
