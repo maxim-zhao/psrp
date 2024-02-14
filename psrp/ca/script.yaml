@@ -859,7 +859,7 @@
   # Dr Luveno
   # <number> is always 1200.
   ca: |
-    D'acord. Sembla que hem pogut reunit el meu equip.<wait more>
+    D'acord. Sembla que hem pogut reunir el meu equip.<wait more>
     Qué, no creieu que dues persones puguin construir una nau espacial?<wait more>
     Sapigueu que en hem estat construint desde que anàveu en bolquers!<wait more>
     Això si, hi ha el tema del cost. Una nau espacial no surt gratis, sabeu?<wait more>
@@ -883,7 +883,7 @@
   # Dr Luveno (first two times you talk to him)
   ca: |
     Si us plau, la perfecció necessita temps.<wait more>
-    A menys que vulgueu acabar encallats al espai, doneu-nos temps.<wait more>
+    A menys que vulgueu acabar encallats a l'espai, doneu-nos temps.<wait more>
     No podeu anar a vagar per una cova? Estem molt ocupats.<wait>
 
 - offsets: 50d1
