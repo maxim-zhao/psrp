@@ -245,7 +245,7 @@
 
 - offsets: 4dd9
   ca: |
-    Cap al nord, pasada la presó, hi ha l'orgull de Palma - un monticle preciós anomenat Baya Marlay.<wait more>
+    Cap al nord, passada la presó, hi ha l'orgull de Palma - un monticle preciós anomenat Baya Marlay.<wait more>
     Llàstima que ara ja ningú hi pot anar...<wait>
 
 - offsets: 4ddf
@@ -256,7 +256,7 @@
 
 - offsets: 2dab
   # Trader (first time you buy the Secret Thing)
-  ca: No se qui et penses que ets, però no venem aquestes coses aquí. Oblida't d'això.<wait>
+  ca: No sé qui et penses que ets, però no venem aquestes coses aquí. Oblida't d'això.<wait>
 
 - offsets: 2db0
   # Trader (second time you buy the Secret Thing)
