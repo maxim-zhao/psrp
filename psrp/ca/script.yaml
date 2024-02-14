@@ -309,7 +309,7 @@
   # Passport office
   ca: |
     La llei requereix que li faci una serie de preguntes.<wait more>
-    Ha estat condemnada algún cop per un crim?<end>
+    Ha estat condemnada algun cop per un crim?<end>
 
 - offsets: 4d55
   # Passport office
