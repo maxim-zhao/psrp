@@ -692,7 +692,7 @@
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
   ca: |
-    Merci. Suposo que esteu buscant al Doctor Luveno, oi? Sí, el seu laboratori estava aquí.<wait more>
+    Gràcies. Suposo que esteu buscant al Doctor Luveno, oi? Sí, el seu laboratori estava aquí.<wait more>
     Però ja no. El paio va embogir. Al final el van tancar.<wait more>
     El tenen presoner a Triada, una presó al sud d'aquí.<wait>
 
@@ -709,7 +709,7 @@
 - offsets: 504f
   # Another villager (yes to previous question, and you have a PelorieMate)
   ca: |
-    Merci, forasters.<wait more>
+    Gràcies, forasters.<wait more>
     Al final del llarg camí al sud d'aquí, hi ha una torre antiga.<wait more>
     Diuen que hi viu un monstre que et converteix en pedra només de mirar-te!<wait>
 
@@ -744,7 +744,7 @@
 
 - offsets: 54c4
   # Prisoner (if you give PelorieMate)
-  ca: Merci. Saps, no facis cas al que diuen, les aranyes son de fet molt intel·ligents.<wait>
+  ca: Gràcies. Saps, no facis cas al que diuen, les aranyes son de fet molt intel·ligents.<wait>
 
 - offsets: 54ea
   # Prisoner
@@ -1233,7 +1233,7 @@
 
 - offsets: 5226
   # GasClear salesman (yes to previous question)
-  ca: Merci. Torneu quan vulgueu!<wait>
+  ca: Gràcies. Torneu quan vulgueu!<wait>
 
 - offsets: 521d
   # GasClear salesman (yes to previous question, but don't have enough money)
@@ -1272,7 +1272,7 @@
 - offsets: 5300
   # The Village Chief (yes to previous question)
   ca: |
-    Merci. Crec que puc ajudar-vos en agraïment.<wait more>
+    Gràcies. Crec que puc ajudar-vos en agraïment.<wait more>
     Imagino que esteu buscant l'Escut de Perseu? El que va emprar per matar a Medusa?<wait more>
     La llegenda local diu que es troba en una illa al llac, enterrat sota un cactus.<wait>
 
@@ -1489,7 +1489,7 @@
 - offsets: 5933
   # Otegami Chie-chan
   ca: |
-    Sóc na Otegami Chie-chan, de Sega! Merci per tots els missatges.<wait more>
+    Sóc na Otegami Chie-chan, de Sega! Gràcies per tots els missatges.<wait more>
     Si us plau, expliqueu-nos què penseu d'aquest joc. Volem sentir les vostres opinions.<wait more>
     Us donaré un consell. Aneu al lloc amb més alçada de Palma, i mostreu l'Aeroprisma al cel!<wait>
   
@@ -2143,7 +2143,7 @@
 
 - offsets: 2b8a
   ca: |
-    Merci per la vostra paciència.<line>
+    Gràcies per la vostra paciència.<line>
     Aneu amb compte.<wait>
 
 - offsets: 2bb1
