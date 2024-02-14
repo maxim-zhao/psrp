@@ -313,7 +313,7 @@
 
 - offsets: 4d55
   # Passport office
-  ca: Ha patit alguna enfermetat que pugui ser contagiosa per als altres passatgers?<end>
+  ca: Ha patit alguna malaltia que pugui ser contagiosa per als altres passatgers?<end>
 
 - offsets: 4d6c
   # Passport office
