@@ -162,10 +162,10 @@
   ca: ┌──────────────╖
 
 - name: SoundTestMenuChipPSG
-  ca: │Chip       PSG║
+  ca: │Xip        PSG║
 
 - name: SoundTestMenuChipYM2413
-  ca: │Chip        FM║
+  ca: │Xip         FM║
 
 - name: SoundTestMenu
   ca: |
