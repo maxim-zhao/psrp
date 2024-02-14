@@ -632,7 +632,7 @@
 - offsets: 4f0d
   # Governor-General (return after dream):
   ca: |
-    No hi ha temps que perdre.<wait more>
+    No hi ha temps per perdre.<wait more>
     Si us plau, aneu amb compte.<line>
     Prego per vosaltres.<wait>
 
