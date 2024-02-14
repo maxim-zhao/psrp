@@ -170,7 +170,7 @@
 - name: SoundTestMenu
   ca: |
     │--------------║
-    │Pantalla títul║
+    │Pantalla títol║
     │Introducció   ║
     │Ciutat        ║
     │Masmorra      ║
