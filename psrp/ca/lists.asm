@@ -15,7 +15,7 @@ Items:
   String "<una> Espasa de Titani"
   String "<una> Espasa de Ceràmica"
   String "<una> Pistola d'Agulles"
-  String "<una> Garra Esmolada"
+  String "<una> Urpa Esmolada"
   String "<una> Pistola de Calor"
   String  "<un> Sabre de Llum"
   String "<una> Arma Làser"
