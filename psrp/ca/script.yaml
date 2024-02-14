@@ -656,7 +656,7 @@
   # Lutz
   ca: |
     Qui sou?<line><line>
-    Estic intentant entrenar. No m'interrompeu.<wait>
+    Estic intentant entrenar. No m'interrumpiu.<wait>
 
 # ******************************
 # *** Character Intro - Lutz ***
@@ -666,7 +666,7 @@
   # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
   # which character it is during this conversation.
   ca: |
-    Tu deus ser en Lutz. Tinc una carta per tú del Governador General.<line><line>
+    Tu deus ser en Lutz. Tinc una carta per tu del Governador General.<line><line>
     T'importaria llegir-la?<wait>
 
 - offsets: 46f2
