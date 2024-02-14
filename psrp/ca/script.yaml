@@ -561,7 +561,7 @@
   # Shortcake Salesman
   # <number> is always 280.
   ca: |
-    Apa, un client! M'en alegro que ens hagis trobat. Perdó per la localització...<wait more>
+    Apa, un client! Me n'alegro que ens hagis trobat. Perdó per la localització...<wait more>
     Els meus pastissos són els millors d'Algol, i només costen <number> Meseta. En vols un?<end>
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
