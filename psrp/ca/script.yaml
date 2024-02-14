@@ -396,7 +396,7 @@
 - offsets: 4e8a
   # Trader (say yes to previous question)
   ca: |
-    Bah!En serio?<wait more>
+    Bah!De debò?<wait more>
     Que te'n rius de mí?<delay>
 
 - offsets: 4e98
