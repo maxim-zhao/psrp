@@ -1357,7 +1357,7 @@
   ca: |
     T'has fet fort, el meu noi! Tens el poder necessari per a assolir la teva fita.<wait more>
     Agafa això. És una Capa de Frai, el meu regal per tu. Protegirà el teu cos de qualsevol mal.<wait more>
-    Ara aneu! Acompliu el vostre destí i porteu la pau altre cop a Algol!<wait>
+    Ara aneu! Compliu el vostre destí i porteu la pau altre cop a Algol!<wait>
 
 - offsets: 571c
   # Tajim (if you lose) (talking to Lutz)
@@ -1365,7 +1365,7 @@
 
 - offsets: 56a6
   # Tajim (subsequent visits)
-  ca: No hi ha res més que us pugui ensenyar. Acompliu el vostre destí i porteu la pau altre cop a Algol!<wait>
+  ca: No hi ha res més que us pugui ensenyar. Compliu el vostre destí i porteu la pau altre cop a Algol!<wait>
 
 # ****************************
 # *** Native Dezorian Town ***
