@@ -1004,7 +1004,7 @@
 
 - offsets: 5145
   # Villager
-  ca: La negra mà d'en Lashiec ha arribat també a aquesta vila! Si us plau, teniu que aturar-lo!<wait>
+  ca: La negra mà d'en Lashiec ha arribat també a aquesta vila! Si us plau, heu d'aturar-lo!<wait>
 
 - offsets: 514b
   # Villager
@@ -1015,7 +1015,7 @@
 
 - offsets: 5151
   # Villager
-  ca: M'agradaria anar al espai algún dia.<wait>
+  ca: M'agradaria anar a l'espai algún dia.<wait>
 
 - offsets: 5157
   # Villager
