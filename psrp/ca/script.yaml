@@ -542,7 +542,7 @@
 - offsets: 4e17
   # Villager (yes to previous question)
   ca: |
-    En vaig amagar una al magatzem a les afores del districte residencial de Camineet.<wait more>
+    En vaig amagar una al magatzem a les rodalies del districte residencial de Camineet.<wait more>
     La vaig amagar molt bé, potser li hauràs de tornar a fer un cop d'ull si ja vas estar allà.<wait>
 
 - offsets: 4e1d
@@ -1135,7 +1135,7 @@
 - offsets: 518e
   # Villager (no to previous question)
   ca: |
-    Bé, això és un secret, però vaig enterrar una a les afores de la vila de Gothic.<wait more>
+    Bé, això és un secret, però vaig enterrar una a les rodalies de la vila de Gothic.<wait more>
     No li diguis a ningú!<wait>
 
 # Soothe Flute stuff
