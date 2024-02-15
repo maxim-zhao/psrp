@@ -1004,37 +1004,37 @@
 
 - offsets: 5145
   # Villager
-  ca: La negra mà d'en Lashiec ha arribat també a aquesta vila! Si us plau, heu d'aturar-lo!<wait>
+  ca: La mà negra d'en Lashiec ha arribat també aquí! Si us plau, heu d'aturar-lo!<wait>
 
 - offsets: 514b
   # Villager
   ca: |
-    Un paio molt estrany va arribar fa poc. Diuen que fa experiments amb animals.<wait more>
-    I aquella olla estranya! Va fent tombs amb l'olla contra el pit.<wait more>
+    Un paio molt estrany va arribar fa poc. Diuen que experimenta amb animals.<wait more>
+    I aquella olla estranya! Va fent tombs amb ella contra el pit.<wait more>
     Tinc un mal pressentiment.<wait>
 
 - offsets: 5151
   # Villager
-  ca: M'agradaria anar a l'espai algún dia.<wait>
+  ca: M'agradaria anar a l'espai algun dia.<wait>
 
 - offsets: 5157
   # Villager
   ca: |
-    El nostre nou veí sap de segur molt d'animals.<wait more>
+    El nostre nou veí segur que sap molt d'animals.<wait more>
     Em va dir quelcom molt estrany sobre els Gats de Musk.<wait more>
     Diu que si els hi dones un cert fruit, es fan gegants i poden volar!<wait>
 
 - offsets: 4c54
   # Mad Doctor
-  ca: Aquí, mixeta mixeta! Vine ací!<end>
+  ca: Aquí, mixeta mixeta! Vine aquí!<end>
 
 - offsets: 4c75
   # Mad Doctor (yes to previous question)
-  ca: Ho ho, qué divertit! Qui serà el següent?<wait>
+  ca: Ho ho, que divertit! Qui serà el següent?<wait>
 
 - offsets: 4c7a
   # Mad Doctor (no to previous question or if Myau is already dead)
-  ca: He dit que vinguis ací!<wait>
+  ca: He dit que vinguis aquí!<wait>
 
 # *************
 # *** Skray ***
@@ -1046,7 +1046,7 @@
 
 - offsets: 523e
   # Townsperson
-  ca: Quasi tots els immigrants de Palma vivim aquí a Skray. No estem fets per al fred.<wait>
+  ca: Quasi tots els immigrants de Palma vivim aquí a Skray. No estem fets pel fred.<wait>
 
 - offsets: 5244
   # Townsperson
@@ -1057,7 +1057,7 @@
 - offsets: 524a
   # Townsperson
   ca: |
-    Enderrocar en Lashiec, de veritat? Necessitaràs una espasa, una destral, un escut i una armadura forjades de Laconia.<wait more>
+    Enderrocar en Lashiec, de veritat? Necessitaràs una espasa, una destral, un escut i una armadura forjades amb Laconia.<wait more>
     Laconia és el material més poderós d'Algol, no empraria res menys poderós.<wait more>
     Resaré per tu. Tots ho farem.<wait>
 
@@ -1111,7 +1111,7 @@
 
 - offsets: 516f
   # Villager
-  ca: Un drac es troba entaforat dintre la cova de Casba. Diuen que té una joia incrustada al cap!<wait>
+  ca: Un drac es troba entaforat dins la cova de Casba. Diuen que té una joia incrustada al cap!<wait>
 
 - offsets: 5194
   # Villager
@@ -1141,7 +1141,7 @@
 # Soothe Flute stuff
 - offsets: 24d6
   # Use Soothe Flute outside a battle
-  ca: El so desfà el teu cor.<wait>
+  ca: El so asserena el teu cor.<wait>
 
 - offsets: 24eb
   ca: <Article><monster> sent el so de la flauta i es calma.<delay>
@@ -1197,8 +1197,8 @@
 - offsets: 51d7
   # Townsperson
   ca: |
-    Ondia! No esperava veure forasters per aquí en aquests temps.<wait more>
-    No des que en Lashiec va prohibir els viatges per mar. Com coi heu arribat aquí?<wait>
+    Ondia! A aquestes alçades ja no esperava veure forasters per aquí...<wait more>
+    Al menys no des que Lashiec va prohibir els viatges per mar. Com coi heu arribat fins aquí?<wait>
 
 - offsets: 51dd
   # Townsperson
@@ -1215,14 +1215,14 @@
 - offsets: 51ef
   # Person inside cave
   ca: |
-    Vaig venir a aquest poble per comprar la màscara de gas, necessito protecció contra gas verinós.<wait more>
-    Es suposa que per aquí hi ha una botiga que en venen, però no la puc trobar pas!<wait>
+    Vaig venir a aquest poble per comprar una màscara de gas, necessito protecció contra el gas verinós.<wait more>
+    Es suposa que per aquí hi ha una botiga que en venen, però no la trobo per enlloc!<wait>
 
 - offsets: 51f5
   # Person inside cave
   ca: |
     Això és una botiga. Què puc fer per tu?<wait more>
-    ...ja,ja, ho sento, t'estava aixecant la camisa! Qué? No em miris així.<wait>
+    ...ja,ja, ho sento, t'estava aixecant la camisa! Què? No em miris així.<wait>
 
 - offsets: 5201
   # GasClear salesman
@@ -1251,7 +1251,7 @@
   # Villager
   ca: |
     Aquesta vila s'anomena Sopia. Benvingut.<wait more>
-    M'alegro que hagis pogut travessar la boirina.<wait>
+    Me n'alegro que hagis pogut travessar la boirina.<wait>
 
 - offsets: 52d6
   # The Village Chief
@@ -1282,12 +1282,12 @@
 
 - offsets: 530f
   # Gamer Miki (yes to previous question)
-  ca: Sí! No és meravellós el so FM?!<wait>
+  ca: Sí? No és meravellós el so FM?!<wait>
 
 - offsets: 5314
   # Gamer Miki (no to previous question)
   ca: |
-    QUÉ?!<wait more>
+    QUÈ?!<wait more>
     Quina vergonya! Corre a comprar-ne una!<wait>
 
 - offsets: 531a
@@ -1374,7 +1374,7 @@
 
 - offsets: 5274
   # Honest Dezorian
-  ca: No te'n refiïs de ningú del poble del costat...uns ensarronadors que són.<wait>
+  ca: No te'n refiïs de ningú del poble del costat... bons ensarronadors que són.<wait>
 
 - offsets: 527a
   # Honest Dezorian
@@ -1382,22 +1382,22 @@
 
 - offsets: 5280
   # Honest Dezorian
-  ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola als nostres amics allà!<wait>
+  ca: La cova de Dezoris és a l'oest de la Torre de Corona. Digues-li hola als nostres amics allà!<wait>
 
 - offsets: 5286
   # Honest Dezorian
   ca: |
-    Los abres de Laerma donen uns fruits estranys.<wait more>
+    Els abres de Laerma donen uns fruits estranys.<wait more>
     Es diuen fruits de Laerma, i són molt bons.<wait more>
-    Però si no els embuteixes en una olla de Laconia s'encongeixen.<wait>
+    Però si no els emboteixes en una olla de Laconia s'encongeixen.<wait>
 
 - offsets: 528c
   # Honest Dezorian
-  ca: Has sentit dir d'una andròmina que es diu Aeroprisma?<end>
+  ca: Has sentit parlar d'una andròmina que es diu Aeroprisma?<end>
 
 - offsets: 529a
   # Honest Dezorian (no to previous question)
-  ca: He sentit a dir que pots veure altres móns amb un d'aquests.<wait>
+  ca: He sentit que pots veure altres móns amb un d'aquests.<wait>
 
 - offsets: 5295
   # Honest Dezorian (yes to previous question)
@@ -1426,7 +1426,7 @@
 
 - offsets: 52c4
   # Dishonest Dezorian
-  ca: Tots es de Palma son benvinguts aquí. De veritat!<wait>
+  ca: Tots els de Palma son benvinguts aquí. De veritat!<wait>
 
 - offsets: DishonestDezorianFix
   # Dishonest Dezorian
@@ -1440,7 +1440,7 @@
 - offsets: 5815
   # Dungeon Southwest of Corona Tower
   # Dishonest Dezorian
-  ca: Ves amb compte més endavant. Gira a l'esquerra a la bifurcació.<wait>
+  ca: Vés amb compte més endavant. Gira a l'esquerra a la bifurcació.<wait>
 
 # ********************
 # *** Corona Tower ***
@@ -1449,7 +1449,7 @@
 - offsets: 57fd,5803
   # Dezorian
   # (Also in Guaran Morgue)
-  ca: Per què heu vingut aquí? No us poseu en problemes, em sentiu?<wait>
+  ca: Per què heu vingut aquí? No poseu el nas on no us toca, em sentiu?<wait>
 
 - offsets: # Unused
   ca: Tinc un mal pressentiment.<wait>
@@ -1464,15 +1464,15 @@
 - offsets: 5661
   # Torchbearer
   ca: |
-    Veus la flama a la meva mà? És la Torxa d'Eclipsi.<wait more>
-    És el foc sagrat del eclipsi centenari.<wait more>
+    Veus la flama que tinc a la meva mà? És una Torxa d'Eclipsi.<wait more>
+    És el foc sagrat de l'eclipsi centenari.<wait more>
     És bonic, sagrat i molt valuós.<wait more>
-    Potser en compartiría una mica a canvi de...<wait more>
-    ...una joia del drac. Que dius?<end>
+    Potser en compartiria una mica a canvi de...<wait more>
+    ...la joia del drac. Què me'n dius?<end>
 
 - offsets: 5684
   # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
-  ca: Excel·lent. Aquí ho tens, doncs.<wait>
+  ca: Excel·lent. Aquí ho tens.<wait>
 
 - offsets: 566c
   # Torchbearer (no to previous question)
@@ -1526,11 +1526,11 @@
 
 - offsets: 55fb
   # Prisoner
-  ca: Destruir en Lashiec? Això és impossible. No pots matar el que no pot morir.<wait>
+  ca: Destruir en Lashiec? Això és impossible. No pots matar qui no pot morir.<wait>
 
 - offsets: 5601
   # Prisoner
-  ca: Acabarem tots essent sacrificats a Lashiec!<wait>
+  ca: Acabarem tots sent sacrificats a Lashiec!<wait>
 
 - offsets: 582d
   # Prisoner (Dezorian)
@@ -1552,7 +1552,7 @@
 
 - offsets: 560d
   # Prisoner
-  ca: Hi ha una torre al capdamunt del monticle de Baya Marlay. Em pregunto quins secrets deu guardar?<wait>
+  ca: Hi ha una torre al capdamunt del monticle de Baya Marlay. Em pregunto quins secrets deu guardar...<wait>
 
 - offsets: 5613
   # Prisoner
@@ -1562,13 +1562,13 @@
   # Robot Police (yes to previous question, have one)
   ca: |
     Això és una falsificació. On l'heu aconseguit?<wait more>
-    Bé, heu escollit el millor lloc per que us tanquem. Veniu amb mi.<wait>
+    Bé, almenys heu escollit el millor lloc per que us tanquem. Veniu amb mi.<wait>
 
 - offsets: 5619
   # Prisoner
   ca: |
     Oh, així que us han confinat aquí també. Que trist.<wait more>
-    Segur que hi ha una forma de fugir. Però per a què?<wait more>
+    Segur que hi ha alguna manera de fugir. Però per a què?<wait more>
     La vida és molt menys complicada aquí.<wait>
 
 # *************************
@@ -1591,7 +1591,7 @@
 - offsets: 5530
   ca: |
     Soc Damoa, el millor vident del món!<wait more>
-    Creieu en els meus poders de vidència?<end>
+    Creieu en els meus poders de clarividència?<end>
 
 - offsets: 5541,5552,5563
   # (yes to previous question)
@@ -1664,7 +1664,7 @@
 
 - offsets: 51a6
   # Old Man (also said by an old man in Casba)
-  ca: En aquesta masmorra hi ha més del que els vostres ulls poden veure , ximples.<wait>
+  ca: En aquesta masmorra hi ha més del que els vostres ulls poden veure, ximplets.<wait>
 
 - offsets: 5367
   # Old Man
@@ -1684,24 +1684,24 @@
   # LaShiec
   # The party may only be Tylon who can't do magic, but it's unlikely.
   ca: |
-    Ah, sou vosaltres. Finalment heu arribat. Us deveu sentir molt satisfets.<wait more>
+    Ah, sou vosaltres. Finalment heu arribat. Segur que us sentiu satisfets.<wait more>
     Aquells als que serveixo m'han donat la immortalitat. El meu poder ja no té límits. Sóc un Déu.<wait more>
-    I vosaltres què teniu? Armes? Màgia? De debò penseu que em podeu derrotar?<end>
+    I vosaltres què teniu? Armes? Màgia? De debò creieu que em podeu derrotar?<end>
 
 - offsets: 5773
   # LaShiec (yes to previous question)
-  ca: Aleshores esperem que sigueu un digne sacrifici.<wait>
+  ca: Aleshores esperem que sigueu dignes de sacrificar!<wait>
     
 - offsets: 5778
   # LaShiec (no to previous question)
-  ca: No tinc temps per jocs! Veniu, us mostraré què hi ha més enllà de la vida.<wait>
+  ca: No tinc temps per jocs! Veniu, us mostraré el que hi ha més enllà de la vida.<wait>
 
 - offsets: 5789
   # (Defeat LaShiec)
   ca: |
     Potser heu destruït aquest cos, però jo no puc morir! Reviuré un altre cop!<line><line><line><line><wait more>
     Lashiec ha caigut. L'últim desig d'en Nero s'ha complert. Una nova era comença per a Algol.<wait more>
-    Només ens queda anar a veure al Governador General a Paseo!<wait>
+    Només ens queda anar a veure el Governador General a Paseo!<wait>
 
 # **************
 # *** Ending ***
@@ -1720,10 +1720,10 @@
     Oh, Déu meu. Si us plau, perdoneu-me. El meu cos i la meva ànima eren controlades per una força maligna.<wait more>
     Ho heu fet! Heu salvat Algol. La Historia recordarà els vostres noms per sempre.<wait more>
     Lashiec ha mort, la seva fortalesa maleïda ha estat destruïda. Finalment, ha tornat la pau.<wait more>
-    I just a temps. Temo que si haguéssim trigat més, ho hauríem perdut tot.<wait more>
+    I just a temps. Temo que si haguéssiu trigat més, ho hauríem perdut tot.<wait more>
     Alisa. Hi ha una cosa que has de saber. Un secret que he guardat per a protegir la teva vida.<wait more>
     Alisa... el teu pare va ser Aures Landeel, el rei d'Algol. La corona et pertany per dret de sang.<wait more>
-    Algol ja no té líder. Succeiràs al teu pare, i agafaràs el seu lloc com a Reina?<end>
+    Algol ja no té líder. Succeïries el teu pare ocupant el seu lloc com a Reina?<end>
 
 - offsets: 5849,58ea
   # Governor-General (yes to previous question)
@@ -1731,7 +1731,7 @@
 
 - offsets: 58ef
   # Governor-General (no to previous question)
-  ca: Ja veig. No t'intentaré convèncer. Si canvies de parer, Algol sempre et rebrà amb els braços oberts.<wait>
+  ca: Entenc. No t'intentaré convèncer però si canvies de parer, Algol sempre et rebrà amb els braços oberts.<wait>
 
 # ********************
 # *** Ending Scene ***
@@ -1744,7 +1744,7 @@
   ca: Una brisa fresca i suau rodeja Baya Malay.<end>
 
 - offsets: 47ec
-  ca: Però que sap la brisa de les dificultats que han hagut de patir?<end>
+  ca: Però què sap la brisa de les dificultats que han hagut de patir?<end>
 
 # This text tries to be centred so it needs quotes around the spaces.Width = 29 so leading space = (29 - length) / 2
 
@@ -1773,7 +1773,7 @@
 
 - offsets: 1497
   # In battle, player dodges 
-  ca: <player> ha desviat l'atac <del><monster>.<delay>
+  ca: <player> ha desviat l'atac <article><monster>.<delay>
 
 - offsets: 1a96
   # In battle, chose "talk"
@@ -1786,23 +1786,23 @@
   ca: <Article><monster> no us entén.<delay>
 
 - offsets: 1b27
-  ca: <Article><monster> bloqueja la fugida.<delay>
+  ca: <Article><monster> bloqueja la fuga.<delay>
 
 - offsets: 20cd,20fa,2168,21cb,21fd,22ac
   # Used in a bunch of places...
   ca: La màgia de <player> no fa cap efecte.<delay>
 
 - offsets: # unused
-  ca: La màgia <del><monster> no fa cap efecte.<delay>
+  ca: La màgia <article><monster> no fa cap efecte.<delay>
 
 - offsets: 1ffa
   ca: Un mur màgic invisible apareix davant els vostres ulls.<delay>
 
 - offsets: 1492
-  ca: L'atac <del><monster> es reflectit per el mur màgic.<delay>
+  ca: L'atac <article><monster> es reflectit pel mur màgic.<delay>
 
 - offsets: 14f9,15d3,1637
-  ca: La màgia <del><monster> ha estat reflectida per el mur màgic.<delay>
+  ca: La màgia <article><monster> ha estat reflectida per el mur màgic.<delay>
 
 - offsets: 1458
   ca: El mur màgic es torna ineficaç.<delay>
@@ -1811,7 +1811,7 @@
   ca: L'energia de <player> ha estat restaurada.<delay>
 
 - offsets: 1552
-  ca: L'energia <del><monster> ha estat restaurada.<delay>
+  ca: L'energia <article><monster> ha estat restaurada.<delay>
 
 - offsets: 20d3
   ca: La màgia inmobilitza <article><monster>.<delay>
@@ -1881,7 +1881,7 @@
   ca: Però no succeeix res.<delay>
 
 - offsets: # unused
-  ca: Els ulls <del><monster> estan en blanc.<delay>
+  ca: Els ulls <article><monster> estan en blanc.<delay>
 
 - offsets: 2505,2597,25f9,26f1,2742,27a2
   ca: Sembla que no és el millor moment per això.<delay>
@@ -2078,7 +2078,7 @@
   ca: Hem arribat a Gothic.<end>
 
 - offsets: # Unused...
-  ca: Anem!<delay>
+  ca: Som-hi!<delay>
 
 # *************
 # *** Shops ***
@@ -2091,49 +2091,49 @@
   ca: Vagin amb compte, i a reveure.<wait>
 
 - offsets: 2d38
-  ca: Que puc fer per vostès?<end>
+  ca: Què podria fer per vostès?<end>
 
 - offsets: 2d7e
   ca: Perfecte. Alguna cosa més?<end>
 
 - offsets: 2d98,539c
-  ca: No podeu carregar res més. Torneu quan ho pogueu fer.<wait>
+  ca: No poden carregar res més. Tornin quan ho puguin fer.<wait>
 
 - offsets: 2deb
-  ca: Benvinguts a la farmàcia. En què els puc ajudar?<end>
+  ca: Benvinguts a la farmàcia. En què els podria ajudar?<end>
 
 - offsets: 2df4
-  ca: Benvinguts a la ferreteria. En qué els puc ajudar?<end>
+  ca: Benvinguts a la ferreteria. En què els pudria ajudar?<end>
 
 - offsets: 2e0d
-  ca: Que teniu?<end>
+  ca: Què teniu?<end>
 
 - offsets: 2e4f
   # No item in the game sells for exactly 1 Meseta.
-  ca: Hmm, <article><item>? Que et sembla <number> Meseta?<end>
+  ca: Hmm, <article><item>? Què us semblaria <number> Meseta?<end>
 
 - offsets: 2e66
-  ca: Meravellós! Teniu quelcom més per mí?<end>
+  ca: Meravellós! No tindrieu pas res més per mi?<end>
   
 - offsets: 2e3d
-  # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
+  # Trying to sell an important item (with 0 selling price in table at $B82F)s
   ca: Això farà servei més endavant.<wait>
   
 - offsets: 2bc0,2d9d,4d88,538f
   ca: |
-    Sembla que no teniu diners suficients.<line>
-    Torneu més tard.<wait>
+    Sembla que no tenen diners suficients.<line>
+    Tornin més tard.<wait>
 
 # ****************
 # *** Hospital ***
 # ****************
 
 - offsets: 2ae9
-  ca: Benvinguts a l'hospital. Necessiteu atenció mèdica?<end>
+  ca: Benvinguts a l'hospital. Necessiten atenció mèdica?<end>
 
 - offsets: 2b54
   ca: |
-    Hmm. Us puc deixar com nous per <number> Meseta. Procedim?<end>
+    Hmm. Els puc deixar com nous per <number> Meseta. Procedim?<end>
 
 - offsets: 2b99
   ca: Algú més necessita tractament?<end>
@@ -2143,27 +2143,27 @@
 
 - offsets: 2b8a
   ca: |
-    Gràcies per la vostra paciència.<line>
-    Aneu amb compte.<wait>
+    Gràcies per la seva paciència.<line>
+    Vagin amb compte.<wait>
 
 - offsets: 2bb1
-  ca: Em sap greu no haver pogut ajudar. Aneu amb compte allà fora.<wait>
+  ca: Em sap greu no haver pogut ajudar-los. Vagin amb compte allà fora.<wait>
 
 - offsets: 2b37
-  ca: Aneu amb compte allà fora.<wait>
+  ca: Vagin amb compte allà fora.<wait>
 
 - offsets: 2b2b
-  ca: Sembleu estar en un estat de salut perfecte...<wait>
+  ca: Semblen estar en un estat de salut perfecte...<wait>
 
 # **************
 # *** Church ***
 # **************
 
 - offsets: 2be7
-  ca: Això és una església. Necessiteu reviure una ànima que ha partit?<end>
+  ca: Això és una església. Necessiten reviure una ànima que ha partit?<end>
 
 - offsets: # Unused
-  ca: Aleshores pregaré per vosaltres.<wait>
+  ca: Aleshores pregaré per vostès.<wait>
 
 - offsets: 2bfb
   ca: Qui ha de ser retornat?<end>
@@ -2173,7 +2173,7 @@
   ca: La donació suggerida és <number> Meseta.<end>
 
 - offsets: 2c37
-  ca: Penseu en els que han partit mentre reso una pregària.<delay>
+  ca: Pensin en els que han partit mentre reso una pregària.<delay>
 
 - offsets: 2c60
   # If you have enough money
@@ -2201,12 +2201,12 @@
   ca: <player> ja és en plena forma.<wait>
 
 - offsets: 2ca2
-  ca: Que el teu futur porti benediccions de Déu.<wait>
+  ca: Que el seu futur porti benediccions de Déu.<wait>
 
 - offsets: 2c90
   ca: |
     <player>? No em sembla pas mort.<wait more>
-    Si necessiteu atenció médica, us suggereixo anar a l'hospital més proper.<end>
+    Si necessiten atenció médica, els suggereixo anar a l'hospital més proper.<end>
 
 # ************************
 # *** Monster Dialogue ***
@@ -2273,7 +2273,7 @@
 
 - offsets: 1ce0
   ca: |
-    'Certament sou molt valents de parlar amb mi. Us direu un secret a canvi.<wait more>
+    'Certament sou molt valents de parlar amb mi. Us diré un secret a canvi.<wait more>
     La mateixa telepatia que feu servir ara us pot ajudar a descobrir paranys.'<wait>
 
 # **************
@@ -2282,7 +2282,7 @@
 
 - offsets: 1e3b
   ca: |
-    Guardant la partida?<line>
+    Guardant la partida...<line>
     Seleccioneu una ranura.<end>
 
 - offsets: ScriptConfirmSlot
