@@ -1221,7 +1221,7 @@
 - offsets: 51f5
   # Person inside cave
   ca: |
-    Això és una botiga. Que puc fer per tu?<wait more>
+    Això és una botiga. Què puc fer per tu?<wait more>
     ...ja,ja, ho sento, t'estava aixecant la camisa! Qué? No em miris així.<wait>
 
 - offsets: 5201
