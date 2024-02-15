@@ -2,6 +2,16 @@
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/relocalisation based on that first Japanese version, with some enhancements.
+Currently we have translations for:
+- English
+- English (literal translation)
+- French
+- French (with additional lore)
+- German
+- Brazilian Portuguese
+- Spanish
+- Catalan
+More languages are welcome! See translating.md and/or contact me if you wouldnlike tonget involved to add your language. 
 
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
