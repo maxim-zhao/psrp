@@ -1,17 +1,25 @@
 import sys
+import os
 import re
 import yaml
+from pathlib import Path
 
-start_code = 0x6c  # see WordListStart in asm
+start_code = 0x6d  # see WordListStart in asm
 
 
-def generate_words(tbl_file, asm_file, script_file, language, word_count):
+def generate_words(tbl_file, asm_file, script_file, language_script_file, language, word_count):
     with open(script_file, "r", encoding="utf-8") as f:
         script = yaml.load(f, Loader=yaml.BaseLoader)  # BaseLoader keeps everything as strings
+    with open(language_script_file, "r", encoding="utf-8") as f:
+        language_script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)    
+    script = join_yaml(script, language_script_yaml, "offsets")
 
     # dict of word to count
     words = {}
     for entry in script:
+        # Discard unused entries
+        if "offsets" not in entry or entry["offsets"] == "":
+            continue;
         # Check for a missing language
         if language not in entry:
             if "offsets" in entry:
@@ -39,16 +47,16 @@ def generate_words(tbl_file, asm_file, script_file, language, word_count):
     # The benefit of substituting a word is a bit complicated.
     # The substituted text storage is in a separate bank to the main script so moving low-frequency long words there can
     # be worthwhile. The space taken by a word is very much dependent on the letter frequency that we later Huffman
-    # compress, so common letter sequences are cheaper than unusual ones the Huffman trees are also stored outside the
+    # compress, so common letter sequences are cheaper than unusual ones. The Huffman trees are also stored outside the
     # script bank. Thus we can maximize the script space by selecting the words which are used the most, and are long
     # when Huffman encoded. As we don't know the Huffman length, we use the word length as a proxy.
     # Some tweaking of the weight function seems to find this gives the smallest size for the script block, which is the
-    # most space-pressured.
+    # most space-pressured. A word of length l that is found n times will be replaced by n symbols, so replacing will save n*(l-1) symbols.
     weighted_list = []
     for word, count in words.items():
         if len(word) == 1:
             continue
-        weighted_list.append(((count - 1) * len(word), word))
+        weighted_list.append((count * (len(word) - 1), word))
 
     # Then sort by weight descending, word descending
     weighted_list.sort(reverse=True)
@@ -101,10 +109,17 @@ class Menu:
             self.emit_data = node["emitData"] == "true" if "emitData" in node else True
             self.ptrs = [int(x.strip(), base=16) for x in node["ptrs"].split(",")] if "ptrs" in node else []
             self.dims = [int(x.strip(), base=16) for x in node["dims"].split(",")] if "dims" in node else []
-            self.lines = node[language].splitlines()
+            if language in node:
+              text = node[language]
+            elif "all" in node:
+              text = node["all"]
+            else:
+              print(node)
+              raise Exception(f"No text for menu {self.name} for {language}")
+            self.lines = text.splitlines()
             self.width = max(len(x) for x in self.lines)
             if min(len(x) for x in self.lines) != self.width:
-                print(f"Warning: uneven line lengths in menu {self.name}\n")
+                raise Exception(f"Uneven line lengths in menu {self.name}\n")
             self.height = int(node["height"]) if "height" in node else len(self.lines)
         except:
             print(f"Error parsing menu {node}")
@@ -129,10 +144,31 @@ class Menu:
             f.write(f"  PatchB ${ptr + 1:x} {self.height}\n")
 
 
-def menu_creator(data_asm, patches_asm, menus_yaml, language):
-    # Read the file
+def join_yaml(a, b, key_name):
+    # Make a dict of b according to the key
+    b_lookup = {x[key_name]: x for x in b}
+    # Walk through a and amend
+    for a_entry in a:
+        if key_name not in a_entry:
+          continue
+        key = a_entry[key_name]
+        if key in b_lookup:
+            b_entry = b_lookup[key]
+            for name, value in b_entry.items():
+                if name in a_entry and name != key_name:
+                  print(f"Warning: overriding property {name} from {a_entry[name]} to {value} for entry {key}")
+                a_entry[name] = value
+        # print(a_entry)
+    return a
+
+def menu_creator(data_asm, patches_asm, menus_yaml, language_menus_yaml, language):
+    # Read the files
     with open(menus_yaml, "r", encoding="utf-8") as f:
         menus = yaml.load(f, Loader=yaml.BaseLoader)
+    with open(language_menus_yaml, "r", encoding="utf-8") as f:
+        language_menus = yaml.load(f, Loader=yaml.BaseLoader)
+    
+    menus = join_yaml(menus, language_menus, "name")
 
     # Parse
     menus = [Menu(x, language) for x in menus]
@@ -146,7 +182,7 @@ def menu_creator(data_asm, patches_asm, menus_yaml, language):
 
 class Table:
     def __init__(self, filename):
-        self.symbol_to_text = {}
+        self.index_to_text = {}
         self.text_to_symbol = {}
         with open(filename, "r", encoding="utf-8") as f:
             for line in f.read().splitlines():
@@ -154,8 +190,10 @@ class Table:
                 if match:
                     value = bytes.fromhex(match.group(1))
                     text = match.group(2)
-                    self.symbol_to_text[value] = text
                     self.text_to_symbol[text] = value
+                    index = int.from_bytes(value, byteorder="little")
+                    if index < 256 and index not in self.index_to_text:
+                        self.index_to_text[index] = text
 
         self.longest_value = max(len(x) for x in self.text_to_symbol)
 
@@ -181,14 +219,14 @@ class Table:
         else:
             return match, length
 
-    def text_for_symbol(self, symbol):
-        return self.symbol_to_text.get(symbol)
+    def text_for_index(self, index):
+        return self.index_to_text.get(index)
 
 
 class ScriptingCode:
     # This matches an enum in the assembly code with the same names
     SymbolPlayer, SymbolMonster, SymbolItem, SymbolNumber, SymbolBlank, SymbolNewLine, SymbolWaitMore, SymbolEnd, \
-        SymbolDelay, SymbolWait, SymbolPostHint, SymbolArticle, SymbolSuffix = range(0x5f, 0x6c)
+        SymbolDelay, SymbolWait, SymbolPostHint, SymbolArticle, SymbolSuffix, SymbolPronoun = range(0x5f, 0x6d)
 
 
 def get_word_length(s):
@@ -207,11 +245,13 @@ class ScriptEntry:
         # The "offsets" text is a comma-separated list of either a label or hex offsets to patch.
         self.offsets = []
         self.label = f"Script{entry_number}"
+        self.index = entry_number
+        self.lookup_label = ""
         for offset in [x.strip() for x in entry["offsets"].split(",")]:
             if re.match("[0-9A-Fa-f]{4}\\w*", offset):
                 self.offsets.append(int(offset, base=16))
             else:
-                self.label = offset
+                self.lookup_label = offset
 
         # Initialise parsing state
         self.internal_hint = 0  # Set to a number if an "internal hint" has happened
@@ -323,7 +363,6 @@ class ScriptEntry:
             self.script_hints = False
             self.current_line_length = 0
         # Articles
-        # TODO: extract these from the tbl?
         elif tag == "article":
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(1)  # lowercase
@@ -332,23 +371,57 @@ class ScriptEntry:
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(2)  # uppercase
             self.script_hints = True
-        # Possessives
-        elif tag == "de" or tag == "do" or tag == "del":
+        elif tag in ["de","do","del"]:
+            # Possessives (fr, pt-br, ca, es)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
             self.script_hints = True
         elif tag == "à":
+            # Directives (fr)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
             self.script_hints = True
-        # Fallback on manual numbers
         elif tag == "use article" and match.groups(3) is not None:
+            # Fallback on manual numbers (should not be used in the final script)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(int(match.groups(3), base=16))
             self.script_hints = True
         elif tag == "s":
+            # Simplistic pluralisation
             self.buffer.append(ScriptingCode.SymbolSuffix)
             self.script_hints = True
+        elif tag == "Nom":
+            # Nominative (de), no lowercase needed?
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(1)
+            pass
+        elif tag == "gen":
+            # Genetive (de), no uppercase needed?
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(2)
+            pass
+        elif tag == "dat":
+            # Dative (de), no uppercase needed?
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(3)
+            pass
+        elif tag == "acc":
+            # Accusative (de), no uppercase needed?
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(4)
+            pass
+        elif tag in ["he/she","Sie/Er","él/ella","Il/Elle","ell/ella", "ele/ela"]:
+            # Pronoun 0
+            self.buffer.append(ScriptingCode.SymbolPronoun)
+            self.buffer.append(0)
+            self.script_hints = True
+            pass
+        elif tag in ["his/her","sie/er","il/elle","el seu/la seva"]:
+            # Pronoun 1
+            self.buffer.append(ScriptingCode.SymbolPronoun)
+            self.buffer.append(1)
+            self.script_hints = True
+            pass
         else:
             raise Exception(f"Ignoring tag \"{match.group(0)}\"")
 
@@ -503,10 +576,14 @@ class Tree:
             bit_writer.add(bit)
 
 
-def script_inserter(data_file, patch_file, trees_file, script_file, language, tbl_file):
+def script_inserter(data_file, trees_file, script_file, language_script_file, language, tbl_file):
     table = Table(tbl_file)
     with open(script_file, "r", encoding="utf-8") as f:
         script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)
+    with open(language_script_file, "r", encoding="utf-8") as f:
+        language_script_yaml = yaml.load(f, Loader=yaml.CBaseLoader)
+    
+    script_yaml = join_yaml(script_yaml, language_script_yaml, "offsets")
 
     entry_number = 0
     max_width = -1
@@ -550,7 +627,7 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
 
     for i in range(256):
         if symbol_counts[i] == 0:
-            text = table.text_for_symbol(i.to_bytes(1, 'little'))
+            text = table.text_for_index(i)
             if text is not None:
                 print(f"Symbol ${i:02X} is unused (\"{text}\")")
 
@@ -606,12 +683,20 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
 
     # Emit the Huffman-encoded script
     with open(data_file, "w", encoding="utf-8") as f:
-        f.write("; Script entries, Huffman compressed\n")
+        f.write("; Script entries, Huffman compressed\n\n.slot 2\n\n")
 
         script_size = 0
+        
+        # First a lookup table
+        f.write(".section \"Script lookup\" superfree\nScriptLookup:");
+        for entry in script:
+            if entry.lookup_label != "":
+                f.write(f"\n{entry.lookup_label}:")
+            f.write(f"\n.db :{entry.label}\n.dw {entry.label}")
+        f.write("\n.ends\n")
 
         for entry in script:
-            f.write(f"\n{entry.label}:\n/*{entry.text}*/\n.db")
+            f.write(f"\n.section \"{entry.label}\" superfree\n{entry.label}:\n/* {entry.text} */\n.db")
 
             # Starting tree number
             preceding_byte = ScriptingCode.SymbolEnd
@@ -631,12 +716,12 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
             # Emit as assembly
             for b in bit_writer.buffer:
                 f.write(f" %{b:08b}")
+            f.write("\n.ends\n")
 
-    with open(patch_file, "w", encoding="utf-8") as f:
-        f.write("; Patches to point at new script entries\n")
+        f.write("\n; Patches to point at new script entries\n")
         for entry in script:
             for offset in entry.offsets:
-                f.write(f" PatchW ${offset + 1:04x} {entry.label}\n")
+                f.write(f" PatchW(${offset + 1:04x}, ScriptLookup + {entry.index * 3})\n")
 
     print(f"Huffman compressed script is {script_size} bytes")
 
@@ -646,16 +731,59 @@ def script_inserter(data_file, patch_file, trees_file, script_file, language, tb
           f"({(char_count - total_size) / char_count * 100:.2f}% compression)")
 
 
+def join(f1, f2, dest):
+    with open(f1, 'r', encoding="utf-8") as f:
+        lines = f.readlines()
+    with open(f2, 'r', encoding="utf-8") as f:
+        lines = lines + f.readlines()
+    with open(dest, 'w', encoding="utf-8") as f:
+        f.writelines(lines)
+
+
+def clean(path):
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            os.remove(os.path.join(root, file))
+
+
+def generate_font_lookup(tbl_file, lookup_file):
+    tbl = Table(tbl_file)
+    max_symbol = max(filter(lambda x: x < 0x5f, tbl.index_to_text.keys()))
+    print(f"Max key is {hex(max_symbol)}")
+    with open(lookup_file, "w", encoding="utf-8") as f:
+        f.write(".stringmap tilemap \"")
+        for i in range(max_symbol + 1):
+            text = tbl.text_for_index(i)
+            if text is None:
+                print(f"No symbol for index {hex(i)}!")
+                f.write(" "); # blank fill
+            else:
+                f.write(text)
+        f.write("\"")
+
+
+def mkdir(path):
+    Path(path).mkdir(parents=True, exist_ok=True)
+
+
 def main():
     verb = sys.argv[1]
     if verb == 'generate_words':
-        generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], int(sys.argv[6]))
+        generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], int(sys.argv[7]))
     elif verb == 'bitmap_decode':
         bitmap_decode(sys.argv[2], sys.argv[3], int(sys.argv[4], base=16))
     elif verb == 'menu_creator':
-        menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+        menu_creator(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
     elif verb == 'script_inserter':
         script_inserter(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7])
+    elif verb == 'join':
+        join(sys.argv[2], sys.argv[3], sys.argv[4])
+    elif verb == 'clean':
+        clean(sys.argv[2])
+    elif verb == 'generate_font_lookup':
+        generate_font_lookup(sys.argv[2], sys.argv[3])
+    elif verb == 'mkdir':
+        mkdir(sys.argv[2])
     else:
         raise Exception(f"Unknown verb \"{verb}\"")
 

@@ -1,0 +1,212 @@
+- name: OpeningCinema
+  fr-extended: |
+    ┌────────────────────╖
+    │Printemps, année 342║
+    │--------------------║
+    │District résidentiel║
+    │de Camineet sur     ║
+    │la planète Palma.   ║
+    ╘════════════════════╝
+
+- name: WorldMenu
+  fr-extended: |
+    ┌──────╖
+    │Infos ║
+    │Magies║
+    │Objets║
+    │Sonder║
+    │Sauver║
+    ╘══════╝
+
+- name: ChoiceMenu
+  fr-extended: |
+    ┌───╖
+    │Oui║
+    │Non║
+    ╘═══╝
+
+- name: BattleMenu
+  fr-extended: |
+    ┌──────╖
+    │Combat║
+    │Magies║
+    │Objets║
+    │Parler║
+    │Fuir  ║
+    ╘══════╝
+
+- name: ToolShopMenu
+  fr-extended: |
+    ┌───────╖
+    │Acheter║
+    │Vendre ║
+    ╘═══════╝
+
+- name: ItemActionMenu
+  fr-extended: |
+    ┌────────╖
+    │Utiliser║
+    │Équiper ║
+    │Jeter   ║
+    ╘════════╝
+
+- name: BattleSpellsAlisa
+  fr-extended: |
+    ┌─────────────╖
+    │Soins        ║
+    │Déguerpir    ║
+    │Traducteur   ║
+    │Flammes      ║
+    │Ligoter      ║
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  fr-extended: |
+    ┌─────────────╖
+    │Super Soin   ║
+    │Coup Terreur ║
+    │Mur physique ║
+    │Force accrue ║
+
+- name: BattleSpellsLutz
+  fr-extended: |
+    ┌─────────────╖
+    │Flamme       ║
+    │Télépathie   ║
+    │Tornade      ║
+    │Mur complet  ║
+    │Foudre       ║
+
+- name: OverworldSpellsAlisa
+  fr-extended: |
+    ┌─────────────╖
+    │Soin         ║
+    │Retour Eglise║
+
+- name: OverworldSpellsMyau
+  fr-extended: |
+    ┌─────────────╖
+    │Super Soin   ║
+    │Anti-piège   ║
+    │Sortie Donjon║
+
+- name: OverworldSpellsLutz
+  fr-extended: |
+    ┌─────────────╖
+    │Super Soin   ║
+    │Sortie Donjon║
+    │Prévention   ║
+    │Retrait Sceau║
+    │Renaissance  ║
+
+- name: SpellMenuBottom
+  fr-extended: ╘═════════════╝
+
+- name: StatsMenuDimensions
+  fr-extended: |
+    ┌────────────────╖
+    │Niveau        99║
+    │Expérience 65535║
+    │Attaque      255║
+    │Défense      255║
+    │HP maximum   255║
+    │MP maximum   255║
+    │Meseta     65535║
+    ╘════════════════╝
+
+- name: EquimentMenuDimensions
+  fr-extended: |
+    ┌──────────────────╖
+    │                  ║
+    │                  ║
+    │                  ║
+    ╘══════════════════╝
+
+- name: InventoryMenuDimensions
+  fr-extended: |
+    ┌──────────────────╖
+    │Meseta       65535║
+    │Suite             ║
+    │Item 1            ║
+    │Item 2            ║
+    │Item 3            ║
+    │Item 4            ║
+    │Item 5            ║
+    │Item 6            ║
+    │Item 7            ║
+    │Item 8            ║
+    ╘══════════════════╝
+
+- name: TopBorder10
+  # inventory, currently equipped items # Not shop MST any more
+  fr-extended: ┌──────────────────╖
+
+- name: BottomBorder10
+  # inventory, currently equipped items
+  fr-extended: ╘══════════════════╝
+
+- name: InventoryNextMenu
+  fr-extended: │Suite             ║
+
+- name: HapsbyTravelMenu
+  fr-extended: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skure ║
+    ╘══════╝
+
+- name: SoundTestMenuTop
+  fr-extended: ┌─────────────╖
+
+- name: SoundTestMenuChipPSG
+  fr-extended: │Puce  SN76489║
+
+- name: SoundTestMenuChipYM2413
+  fr-extended: │Puce   YM2413║
+
+- name: SoundTestMenu
+  fr-extended: |
+    │-------------║
+    │Écran Titre  ║
+    │Introduction ║
+    │Ville        ║
+    │Donjon       ║
+    │Magasin      ║
+    │Église       ║
+    │Palma        ║
+    │Combat       ║
+    │Histoire     ║
+    │Village      ║
+    │Véhicule     ║
+    │Motavia      ║
+    │Dézoris      ║
+    │Tour         ║
+    │Donjon Final ║
+    │LaShiec      ║
+    │Force Obscure║
+    │Fin          ║
+    │Game Over    ║
+    ╘═════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
+  fr-extended: |
+    ┌──────────────────────╖
+    │Vitesse de marche   x ║
+    │Expérience          x ║
+    │Meseta              x ║
+    │Combats               ║
+    │Cheveux d'Alisa       ║
+    │Police                ║
+    │Fondu                 ║
+    │Vitesse du texte    x ║
+    ╘══════════════════════╝
+
+- name: ContinueMenu
+  fr-extended: |
+    ┌───────╖
+    │Charger║
+    │Effacer║
+    ╘═══════╝

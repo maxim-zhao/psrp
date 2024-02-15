@@ -1,0 +1,81 @@
+3326: 4-byte-entry table
+
+¥¡¥ê¥µ[Exit after button press]
+¥ß¥ã¥¦[Exit after button press]
+¥¿¥¤¥í¥ó
+¥ë¥Ä[Exit after button press][00]
+
+59d3: ???
+¥Þ¥À¡¡¥×¥í¥°¥é¥à¥¬¡¡¥Ç¥­¥Æ¥¤¥Þ¥»¥ó¡£[Exit after button press]
+
+
+
+
+bd94: 8-byte-entry table - items
+¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
+¥¦¥Ã¥É¥±¥¤¥ó[Exit after button press]¡¡
+¥·¥ç£­¥È¥½£­¥É[Exit after button press]
+¥¡¥¤¥¡¥ó¥½£­¥É[Exit after button press]
+¥µ¥¤¥³¥¦¥ª¥ó¥É[Exit after button press]
+¥·¥ë¥Ð£­¥¿¥¹¥¯[Exit after button press]
+¥¡¥¤¥¡¥ó¥¡¥¯¥¹[Exit after button press]
+¥Á¥¿¥Ë¥¦¥à¥½£­¥É
+¥»¥é¥ß¥Ã¥¯¥½£­¥É
+¥Ë£­¥É¥ë¥¬¥ó[Exit after button press]¡¡
+¥µ£­¥Ù¥ë¥¯¥í£­[Exit after button press]
+¥Ò£­¥È¥¬¥ó[Exit after button press]¡¡¡¡
+¥é¥¤¥È¥»¥¤¥Ð£­[Exit after button press]
+¥ì£­¥¶£­¥¬¥ó[Exit after button press]¡¡
+¥é¥³¥Ë¥¡¥ó¥½£­¥É
+¥é¥³¥Ë¥¡¥ó¥¡¥¯¥¹
+¥ì¥¶£­¥¯¥í¥¹[Exit after button press]¡¡
+¥Û¥ï¥¤¥È¥Þ¥ó¥È[Exit after button press]
+¥é¥¤¥È¥¹£­¥Ä[Exit after button press]¡¡
+¥¡¥¤¥¡¥ó¥¡£­¥Þ£­
+¥È¥²¥ê¥¹¥Î¥±¥¬¥ï
+¥¸¥ë¥³¥Ë¥¡¥á¥¤¥ë
+¥À¥¤¥ä¥Î¥è¥í¥¤[Exit after button press]
+¥é¥³¥Ë¥¡¥¡£­¥Þ£­
+¥Õ¥é£­¥É¥Þ¥ó¥È[Exit after button press]
+¥ì¥¶£­¥·£­¥ë¥É[Exit after button press]
+¥¡¥¤¥¡¥ó¥·£­¥ë¥É
+¥Ü¥í¥ó¥·£­¥ë¥É[Exit after button press]
+¥»¥é¥ß¥Ã¥¯¥Î¥¿¥Æ
+¥¡¥Ë¥Þ¥ë¥°¥é¥Ö[Exit after button press]
+¥ì£­¥¶£­¥Ð¥ê¥¡[Exit after button press]
+¥Ú¥ë¥»¥¦¥¹¥Î¥¿¥Æ
+¥é¥³¥Ë¥¡¥·£­¥ë¥É
+¥é¥ó¥É¥Þ¥¹¥¿£­[Exit after button press]
+¥Õ¥í£­¥à£­¥Ð£­[Exit after button press]
+¥¡¥¤¥¹¥Ç¥Ã¥«£­[Exit after button press]
+¥Ú¥í¥ê£­¥á¥¤¥È[Exit after button press]
+¥ë¥ª¥®¥Ë¥ó[Exit after button press]¡¡¡¡
+¥¹£­¥º¥Õ¥ë£­¥È[Exit after button press]
+¥µ£­¥Á¥é¥¤¥È[Exit after button press]¡¡
+¥¨¥¹¥±£­¥×¥¯¥í¥¹
+¥È¥é¥ó¥«£­¥Ú¥Ã¥È
+¥Þ¥¸¥Ã¥¯¥Ï¥Ã¥È[Exit after button press]
+¥¡¥ë¥·¥å¥ê¥ó[Exit after button press]¡¡
+¥Ý¥ê¥á¥Æ¥é£­¥ë[Exit after button press]
+¥À¥ó¥¸¥ç¥ó¥­£­[Exit after button press]
+¥Æ¥ì¥Ñ¥·£­¥Ü£­¥ë
+¥¤¥¯¥ê¥×¥¹¥È£­¥Á
+¥¨¥¡¥í¥×¥ê¥º¥à[Exit after button press]
+¥é¥¨¥ë¥Þ¥Ù¥ê£­[Exit after button press]
+¥Ï¥×¥¹¥Ó£­[Exit after button press]¡¡¡¡
+¥í£­¥É¥Ñ¥¹[Exit after button press]¡¡¡¡
+¥Ñ¥¹¥Ý£­¥È[Exit after button press]¡¡¡¡
+¥³¥ó¥Ñ¥¹[Exit after button press]¡¡¡¡¡¡
+¥·¥ç£­¥È¥±£­¥­[Exit after button press]
+¥½¥¦¥È¥¯¥Î¥Æ¥¬¥ß
+¥é¥³¥Ë¥¡¥ó¥Ý¥Ã¥È
+¥é¥¤¥È¥Ú¥ó¥À¥ó¥È
+¥«£­¥Ð¥ó¥¯¥ë¥¡¥¤
+¥¬¥¹¥¯¥ê¥¡[Exit after button press]¡¡¡¡
+¥À¥â¥¡¥¯¥ê¥¹¥¿¥ë
+¥Þ¥¹¥¿£­¥·¥¹¥Æ¥à
+¥ß¥é¥¯¥ë¥­£­[Exit after button press]¡¡
+¥¸¥ê¥ª¥ó[Exit after button press]¡¡¡¡¡¡
+¥Ò¥ß¥Ä¥Î¥â¥Î[Exit after button press]¡¡
+
+

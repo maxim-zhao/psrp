@@ -1,0 +1,8 @@
+_BattlesAll:  .stringmap tilemap "Tout"
+_BattlesHalf: .stringmap tilemap "Demi"
+_Brown: .stringmap tilemap "Bruns"
+_Black: .stringmap tilemap "Noirs"
+_Font1: .stringmap tilemap "Polaris"
+_Font2: .stringmap tilemap " AW2284"
+_Normal:.stringmap tilemap "Normale"
+_Fast:  .stringmap tilemap " Rapide"

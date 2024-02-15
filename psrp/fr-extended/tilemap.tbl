@@ -1,0 +1,122 @@
+﻿; Font table for converting UTF-8 text to tilemap data
+; Note that data is in ROM order, e.g. c010 means data $10c0 which is tile $c0 with the priority bit set.
+; The priority bit is set for all tiles.
+
+; Space
+; Note we allow "~" as "visible space"
+c010= 
+c010=~
+; Non-breaking space
+c010=_
+
+; Numbers
+c110=0
+c210=1
+c310=2
+c410=3
+c510=4
+c610=5
+c710=6
+c810=7
+c910=8
+ca10=9
+
+; Uppercase
+cb10=A
+cc10=B
+cd10=C
+ce10=D
+cf10=E
+; É -> E
+cf10=É
+d010=F
+d110=G
+d210=H
+d310=I
+d410=J
+; K is unused
+d510=L
+d610=M
+d710=N
+; O -> 0
+c110=O
+d810=P
+d910=Q
+da10=R
+db10=S
+dc10=T
+dd10=U
+de10=V
+df10=W
+; X is inused
+e010=Y
+; Z is unused
+
+; Lowercase
+; (last digit 2 = hflip)
+e110=a
+e210=à
+e310=â
+e410=b
+e510=c
+e610=ç
+; d -> hlip b
+e412=d
+e710=e
+e810=é
+e910=ê
+ea10=è
+eb10=f
+ec10=g
+ed10=h
+ee10=i
+ef10=î
+f010=j
+f110=k
+; l -> 1
+c210=l
+f210=m
+f310=n
+f410=o
+f510=ô
+f610=p
+; q -> hflip p
+f612=q
+f710=r
+f810=s
+f910=t
+fa10=u
+fb10=ù
+fc10=û
+fd10=v
+; w is unused
+fe10=x
+ff10=y
+f411=z
+
+; Punctuation
+f511=’
+f511='
+; ‘ -> hflip ’
+f513=‘
+; , -> vflip ’
+f517=,
+f611=?
+f711=.
+fa11=-
+fb11=!
+
+; Borders
+; Using double lines to distinguish left from right and top from bottom...
+; ┌──╖
+; │  ║
+; ╘══╝
+
+f111=┌
+f211=─
+f113=╖
+f311=│
+f313=║
+f115=╘
+f215=═
+f117=╝

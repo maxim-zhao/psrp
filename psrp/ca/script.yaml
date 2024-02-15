@@ -1,0 +1,2339 @@
+- offsets: 45ef
+  # Game intro
+  # Nero on ground, robot police
+  ca: |
+    Ciutadans de Camineet, el cos d'aquest noi és un recordatori per tots vosaltres. <line>
+    Sa majestat Lashiec no tolerarà cap desafiament!<wait more>
+    Nero? NERO!<line><line>
+    Que ha passat?!<wait>
+
+- offsets: 45fa
+  # Game intro
+  # Nero, dying
+  ca: |
+    Alisa, germana meva.<line><line>
+    Escolta'm amb atenció, el meu temps s'esgota.<wait more>
+    Els rumors que hem sentit són certs. Lashiec ha...canviat.<line>
+    I va més enllà dels seus soldats controlant els carrers.<wait more>
+    Tots els monstres a l'exterior, tota la foscor sobre nostre...<line><line>
+    D'alguna manera, tot ens porta cap ell.<wait more>
+    Vaig intentar descobrir el perquè, suposo que era a prop de la veritat.<line><line>
+    Només ens queda una opció, pel bé de tots nosaltres.<wait more>
+    Hem d'aturar en Lashiec.<line><line>
+    Si no ho aconseguim, la foscor amb la qual s'ha aliat s'apoderarà d'Algol.<wait more>
+    El meu error ha estat fer-ho tot sol.<line><line>
+    Són perillosos, necessitaràs ajuda.<wait more>
+    He sentit a parlar d'un guerrer, un home anomenat Tylon, podria ser un aliat.<line><line>
+    Vaig voler unir-lo a la causa, però ha desaparegut.<wait more>
+    L'has de trobar, Alisa<line><line>
+    Troba en Tylon i enderroca en Lashiec. Junts podreu portar la pau altre cop a Algol.<wait more>
+    Alisa... un pes tan gran. Ho sento tant.<line><line>
+    Si us plau perdona'm, per demanar-te això...<wait more>
+    ...i per deixar-te tota...<line><line>
+    ...sola...<wait>
+
+- offsets: 4605
+  # Game intro
+  # Alisa
+  ca: |
+    Nero...<wait more>
+    La teva mort no serà en va, t'ho prometo.<line><line>
+    No deixaré que aquests monstres s'apoderin de casa nostra.<wait more>
+    Sigues el meu àngel de la guarda, germà gran.<line><line>
+    Amb el teu esperit al meu costat, en Lashiec no tindrà cap oportunitat.<wait>
+
+# *************************************
+# *** Camineet Residential District ***
+# *************************************
+
+- offsets: 58fc
+  # Camineet
+  # Alisa's house
+  ca: |
+    La casa d'Alisa.<line>
+    Les coses d'en Nero encara són on les va deixar.<wait>
+
+- offsets: 4b48
+  # Camineet
+  # Suelo (first visit)
+  # Note that Alisa may be dead - but it's pretty unlikely 
+  # and the original script assumes she is alive
+  ca: |
+    Alisa... enfrontar-se a Lashiec és una bogeria. Però sé com de tossuda i decidida pots arribar a ser.<wait more>
+    No gastaré paraules convencent-te del contrari, només...vés amb compte.<wait more>
+    Si mai estàs ferida, torna per recuperar-te.<wait more>
+    Hem estat veïns durant molt de temps, la meva casa sempre estarà oberta per a tu.<wait>
+
+- offsets: 4b4e
+  # Camineet
+  # Suelo (subsequent visits and also immediately after the preceding text)
+  # Note: Alisa may not be alive later, so make sure the text here doesn't talk to her directly.
+  ca: |
+    Si us plau reposa una mica.<wait more>
+    Però vés amb compte, d'acord? torna quan vulguis.<wait>
+- offsets: 4b62
+  # Camineet
+  # Nekiseh (first visit)
+  # Alisa is not guaranteed to be alive...
+  # Following script entry is shown immediately afterwards.
+  ca: |
+    Em diuen Nekise.<line><line>
+    T'acompanyo en el sentiment.<wait more>
+    En Nero em va demanar ajuda per trobar un guerrer anomenat Tylon, l'estàs buscant tu també?<wait more>
+    L'últim que se'n sap és que s'allotjava al poble de Shion. Potser encara s'hi troba pels voltants.<wait more>
+    El teu germà també em va demanar que li guardés aquesta olla de Laconia.<wait more>
+    Es força valuosa, potser et serà útil en el teu viatge? Si us plau, agafa-la.<wait>
+
+- offsets: 4b7c
+  # Camineet
+  # Nekiseh (additional text on first visit; only text on subsequent visits)
+  ca: M'agradaria poder ajudar-te més. Si us plau, ves amb compte.<wait>
+
+- offsets: 4b82
+  # Camineet resident - man
+  ca: |
+    No puc sortir de casa sense tenir a la policia secreta d'en Lashiec vigilant-me.<wait more>
+    Camineet era un lloc tan agradable. Com hem arribat aquí?<wait>
+
+- offsets: 4b88
+  # Camineet resident - man
+  ca: Algunes masmorres tenen portes barrades. Necessitaràs una Clau de Masmorra per obrir-les.<wait>
+
+- offsets: 4b8e
+  # Camineet resident - man
+  ca: Algunes masmorres son totalment fosques, porta sempre un llum a sobre.<wait>
+
+- offsets: 4b94
+  # Camineet resident - man
+  ca: |
+    Ni tan sols pots entrar al port espacial sense un salconduit.<wait more>
+    He intentat aconseguir-ne un, però diuen que pot trigar setmanes. Com m'ho faré per tornar a casa?<wait>
+
+- offsets: 4b9a
+  # Camineet resident - man
+  ca: Pots comprar de tot a les ciutats portuàries. Un cop fins i tot vaig aconseguir una tarja d'identitat falsificada!<wait>
+
+- offsets: 4bba
+  # Camineet police
+  ca: No surti de les àrees residencials. L'exterior no es segur per als ciutadans.<wait>
+
+- offsets: 4bc0
+  # Camineet police
+  ca: No els podem protegir al exterior. Quedin-se a casa fins que el perill hagi passat.<wait>
+
+- offsets: 4bcd,4c26,4cc2,4d0e
+  # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
+  # Spaceport guard (say "no" to question about passport) - Camineet (4c26) and Parolit (4cc2)
+  ca: Es necessita una autorització per travessar aquest punt. Facis enrere o emprarem la força!<wait>
+
+- offsets: 4bda,4d23
+  # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
+  ca: Ningú pot passar sense un salconduit.<wait>
+
+- offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
+  # Road guard (with a Roadpass) - Camineet (4be0) and Parolit (4d18, 4d2d)
+  # Spaceport guard (say "yes" with a Passport) - Camineet (4cd5) and Parolit (4c3a)
+  # Triada prison guard (say "yes" with a Roadpass) (5497)
+  ca: D'acord, endavant.<wait>
+
+- offsets: 4ba0
+  # Camineet resident - man
+  ca: Coneixes tots els planetes del Sistema d'Algol?<end>
+
+- offsets: 4bb4
+  # Camineet resident - man - "no" to question about Algol
+  # <number> is always 3.
+  ca: |
+    Algol és format per tres planetes - Palma, Motavia i Dezoris.<wait more>
+    Cadascun té una atmósfera única, de manera que les seves característiques son diferents.<wait more>
+    Palma, com ja saps, és un planeta verd. Ens trobem beneïts per grans prats i boscos.<wait more>
+    El desert sense fi de Motavia és dur, però té la seva pròpia bellesa.<wait more>
+    I Dezoris és un planeta de gel. Molt poca vida pot prosperar-hi.<wait more>
+    Tots tres planetes es troben amenaçats per les ambicions d'en Lashiec.<wait more>
+    Cada dia som més prop d'una crisis sense sortida.<wait>
+
+- offsets: 4ba9,4e06,4e26
+  # Camineet resident - man - "yes" to question about Algol
+  # Eppi resident - "yes" to question about strongest material
+  # Eppi resident - "no" to question about Dungeon Key
+  ca: Oh. D'acord.<wait>
+
+# ************************************
+# *** Parolit Residential District ***
+# ************************************
+
+- offsets: 4bf1
+  # Woman
+  ca: Benvingut a la zona residencial de Parolit.<wait>
+
+- offsets: 4bf7
+  # Man
+  ca: El bosc s'ha tornat molt perillós últimament, sigues prudent.<wait>
+
+- offsets: 4bfd
+  # Man
+  ca: |
+    Els rumors diuen que Medusa ha tornat a ser vista a la seva cova, cap al sud.<wait more>
+    Diuen que una sola mirada seva et pot convertir en pedra. No pot ser cert, oi?<wait>
+
+- offsets: 4c03
+  # Man
+  ca: La ciutat portuària de Shion es cap a l'est.<wait>
+
+- offsets: 4c09
+  # Man
+  ca: |
+    El nostre Port Espacial connecta directament amb Paseo, la capital de Motavia.<wait more>
+    M'agradaria anar-hi algún día. Mai he sortit del planeta!<wait>
+
+- offsets: 4c0f
+  # Man
+  ca: |
+    Sabies que hi ha un pas subterrani que porta a l'oest, al Bosc de Gothic?<wait more>
+    L'entrada se suposa que es als voltants, però mai l'he pogut trobar.<wait>
+
+# ***********************
+# *** Port town Shion ***
+# ***********************
+
+- offsets: 4c40
+  # Man
+  ca: |
+    Saps que no som l'única vida intel·ligent al Sistema d'Algol, oi?<wait more>
+    A Motavia hi ha els Motavians, a Dezoris hi ha els Dezorians. Alguns fins i tot parlen la nostra llengua!<wait more>
+    M'agradaria parlar amb algun alienígena de debò un dia...<wait>
+
+- offsets: 4da7
+  # Man (if you haven't bought Myau yet)
+  # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
+  ca: |
+    Si, en Tylon va passar per aquí. Es dirigía al sud-oest per a derrotar a Medusa. No l'he tornat a veure desde aleshores.<wait more>
+    No anava sol per això, anava amb un animal que parlava! No m'ho podia creure! <wait more>
+    Portava un flascó amb algun tipus de remei al coll. Em pregunto per què deuria servir?<wait>
+
+- offsets: 4dac
+  # Same man (after you get Myau)
+  ca: Ja és l'hora de que algú s'enfronti a en LaShiec. Que Déu et beneeixi.<wait>
+
+- offsets: 4db6
+  # If you haven't bought Myau yet
+  ca: |
+    Sembla una bogeria, però vaig trobar un animal que parlava a la cova de Medusa<wait more>
+    El vaig vendre a un comerciant de Paseo. El petitó valia una fortuna!<wait>
+
+- offsets: 4dbb
+  # Same person as above (if you have bought Myau)
+  # He'd just sold Myau for a huge sum of money earlier, so he's probably more greedy than destitute.
+  ca: |
+    L'economia s'ha enfonsat d'ençà en Lashiec va pujar al poder.<wait more>
+    Estic sense un cèntim, no se que fer...<wait>
+
+- offsets: 4dc1
+  # The peninsula is more south-east than south.
+  ca: La cova d'Iala es troba a la península al sud-est d'aquí.<wait>
+
+- offsets: 4dc7
+  ca: |
+    Benvingut a Shion, el port més transitat de Palma... o almenys ho era.<wait more>
+    Tal com va el món últimament, ja no hi ha gaire comerç.<wait>
+
+- offsets: 4dcd
+  ca: Els boscos d'Eppi són molt complicats de travessar, necessitaràs la brúixola per fer-ho.<wait>
+
+- offsets: 4dd3
+  ca: L'única manera d'obrir una porta segellada màgicament es conjurar un encanteri tu mateixa.<wait>
+
+- offsets: 4dd9
+  ca: |
+    Cap al nord, pasada la presó, hi ha l'orgull de Palma - un monticle preciós anomenat Baya Marlay.<wait more>
+    Llàstima que ara ja ningú hi pot anar...<wait>
+
+- offsets: 4ddf
+  # Woman next to dock
+  ca: |
+    Acostumava a anar a explorar la cova de Naula, a la costa al nord de Baya Marlay.<wait more>
+    Però amb tots els monstres que han aparegut, ja no hi puc anar.<wait>
+
+- offsets: 2dab
+  # Trader (first time you buy the Secret Thing)
+  ca: No se qui et penses que ets, però no venem aquestes coses aquí. Oblida't d'això.<wait>
+
+- offsets: 2db0
+  # Trader (second time you buy the Secret Thing)
+  ca: |
+    Deixa-ho estar, d'acord? Ja t'ho he dit, som un negoci legal.<wait more>
+    Fora de la meva botiga.<delay>
+
+- offsets: 2ddc
+  # Trader (third time you buy the Secret Thing)
+  ca: |
+    No ho deixaràs estar, oi? D'acord, quedat-ho.<wait more>
+    Un salconduit, signat i certificat. Però no t'he l'he donat jo, d'acord?<wait>
+
+# ******************
+# *** Eppi woods ***
+# ******************
+
+- offsets: 578f
+  ca: T'has perdut als boscos.<wait>
+
+# ***********************
+# *** Palma Spaceport ***
+# ***********************
+
+- offsets: 4c9e
+  # Luggage handler
+  ca: Benvingut al Port Espacial de Palma. Totes les naus volen en sentit a Paseo, la capital de Motavia.<wait>
+
+- offsets: 4ca4
+  # Luggage handler
+  ca: El Governador-General governa tota Motavia desde la seva oficina a Paseo.<wait>
+
+- offsets: 4caa
+  # Luggage handler
+  ca: Has estat algun cop a Gothic?  Als vells temps, naus com aquestes es construïen al seu laboratori.<wait>
+
+- offsets: 4c1d,4cb7
+  # Airstrip guards
+  ca: Te vostè un Passaport?<end>
+  
+- offsets: 4c30,4ccf
+  # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
+  ca: De debò? A veure.<wait>
+
+- offsets: 4d33
+  # Passport office
+  ca: Ha vingut per a demanar un Passaport?<end>
+
+- offsets: 4d44
+  # Passport office
+  ca: |
+    La llei requereix que li faci una serie de preguntes.<wait more>
+    Ha estat condemnada algún cop per un crim?<end>
+
+- offsets: 4d55
+  # Passport office
+  ca: Ha patit alguna enfermetat que pugui ser contagiosa per als altres passatgers?<end>
+
+- offsets: 4d6c
+  # Passport office
+  # <number> is always 100.
+  ca: Hi ha una taxa d'expedició de <number> Meseta. Vol pagar-la?<end>
+
+- offsets: 4d91
+  # Passport office
+  ca: |
+    Perfecte! Aquí té el seu passaport. Asseguris de portar-lo sempre a sobre.<wait more>
+    Següent?<wait>
+
+- offsets: 4d3e,4d77,4eca
+  # Passport office (say "no" to question about applying)
+  # Passport office (say "no" to question about paying)
+  # Paseo trader (say "no" to offer to trade the Laconian Pot for Myau)
+  ca: Oh, d'acord aleshores.<wait>
+
+- offsets: 4d4f,4d60
+  # Passport office (say "yes" to question about doing bad things)
+  # Passport office (say "yes" to question about having an illness)
+  ca: Ho sento, no compleix els requisits. Torni més endavant. Següent?<wait>
+
+- offsets: 5939
+  ca: Aquest és un vol sense parades a Motavia. Puja?<end>
+
+# ***********************
+# *** Paseo Spaceport ***
+# ***********************
+
+- offsets: 4e31
+  # Luggage handler
+  ca: Això es Paseo, l'únic Port Espacial de Motavia.<wait>
+
+- offsets: 4e37
+  # Luggage handler
+  ca: Es época de cria de les Formigues Lleó, ves amb compte. Son ferotges.<wait>
+
+- offsets: 4e3d
+  ca: |
+    He sentit que hi ha una botiga de pastissos a la cova de Naula, a Palma.<wait more>
+    Em pregunto quin tipus de negoci deuen fer en una cova com aquesta?<wait>
+
+- offsets: 5949
+  ca: Aquesta llançadora va cap a Palma. Puja?<end>
+  
+# *************
+# *** Paseo ***
+# *************
+
+- offsets: 4e43
+  ca: Fins i tot el Governador General no te bones relacions amb Lashiec.<wait>
+
+- offsets: 4e49
+  ca: Hauries de portar un detall si vols entrevistar-te amb el Governador General.<wait>
+
+- offsets: 4e4f
+  ca: El Governador General és una mica llaminer...<wait>
+
+- offsets: 4e55
+  ca: La cova de Mahal es troba a les muntanyes al nord de Paseo.<wait>
+
+- offsets: 4e5b
+  ca: Això és Paseo, la capital de Motavia.<wait>
+
+- offsets: 4e61
+  ca: No hi ha manera de travessar les Formigues Lleó a peu, però he sentit que hi ha una altra manera...<wait>
+
+- offsets: 4e67
+  ca: Hi ha monstres intel·ligents, però parlen llengües diferents a la nostra.<wait>
+
+- offsets: 4e7f
+  # Trader (before getting Myau)
+  # <number> is always 10.
+  # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
+  ca: |
+    Has vist mai un animal que parli? En vols un?. Molt escàs. Potser és únic.<wait more>
+    Deu mil milions de Meseta, i és teu. Que et sembla?<end>
+
+- offsets: 4e8a
+  # Trader (say yes to previous question)
+  ca: |
+    Bah!En serio?<wait more>
+    Que te'n rius de mí?<delay>
+
+- offsets: 4e98
+  # Trader (say no to previous question, and have a Laconian pot)
+  ca: |
+    Vaja...<wait more>
+    ...espera. És allò una olla de Laconia?<wait more>
+    Que et sembla un canvi, l'olla per l'animaló?<end>
+
+- offsets: 4ea9
+  # Trader (say yes to previous question)
+  ca: No m'agrada desfer-me del petitó, però no puc deixar passar una ocasió com aquesta. Cuida'l molt.<wait>
+
+- offsets: 4e73
+  # Trader (after getting Myau)
+  ca: He fet una fortuna venen l'olla de Laconia! Gràcies!<wait>
+
+# ******************************
+# *** Character Intro - Myau ***
+# ******************************
+
+- offsets: 4643
+  # Alisa
+  ca: |
+    Suposo que ara som companys, no?<line><line>
+    Hem dic Alisa. Com et dius?<wait>
+
+- offsets: 464e
+  # Myau
+  ca: Myau.<wait>
+
+- offsets: 4659
+  # Alisa
+  ca: |
+    Hola, Myau. Estic buscant un home anomenat Tylon.<wait more>
+    Deien que viatjava amb un animal que parlava.<line><line>
+    Potser ets tu?<wait>
+
+- offsets: 4664
+  # Myau
+  ca: |
+    En Tylon va ser convertit en pedra quan intentava derrotar a Medusa!<line><line>
+    El podem curar amb aquest remei, però no puc obrir el tap...<wait>
+
+- offsets: 466f
+  # Alisa
+  ca: Crec que me'n puc encarregar.<line><line>Va, anem a ajudar-lo!<wait>
+
+# ******************************
+# *** Cave South of Camineet ***
+# ******************************
+
+- offsets: 57ec
+  ca: Quelcom ha transformat aquesta persona en pedra! Potser la podem tornar a la normalitat...<wait>
+
+- offsets: 25bd,2636
+  # Using "Alsuline" or "Polymeteral"
+  # This comes immediately after the "Alisa took out the item" message.
+  # Since it's used for the Polymeteral, too, it may not be Alisa.
+  ca: |
+    Aleshores <él/ella> obre el tap de l'ampolla i vessa el seu contingut.<wait more>
+    Està funcionant!<delay>
+
+- offsets: 25af,260c,262d
+  # Using "Alsuline" or "Polymeteral" but only Myau is alive
+  # As this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
+  ca: Però ell no pot obrir el tap de l'ampolla.<wait>
+
+# ********************************
+# *** Character Intro - Tylon ***
+# ********************************
+
+- offsets: 4688
+  # Tylon
+  # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
+  # So Tylon can't talk to Myau directly.
+  ca: |
+    Ah, Myau, has trobat ajuda. Gràcies.<line><line>
+    Encara que potser no servirà de res.<wait more>
+    Si no podem derrotar a Medusa, no tenim cap oportunitat contra Lashiec.<line><line>
+    Qui és la teva nova amiga?<wait>
+
+- offsets: 4693
+  # Alisa
+  ca: |
+    El meu germà Nero va morir intentant enderrocar en Lashiec.<wait more>
+    El destruiré, costi el que costi.<line><line>
+    En Nero em va donar el teu nom abans de morir, creia que ens podries ajudar.<wait>
+
+- offsets: 469e
+  # Tylon
+  ca: |
+    Ja vec. Bé, en record d'en Nero, fem equip!<line><line>
+    Sempre hi ha lloc per un més, oi Myau?<wait>
+
+- offsets: 46a9
+  # Alisa
+  ca: |
+    Diga'm una cosa abans de continuar.<line><line>
+    Volies derrotar a Medusa. Per què?<wait>
+
+- offsets: 46b4
+  # Tylon
+  ca: |
+    Oh, es per que amaga una destral màgica entre els seus tresors, i la necessitarem.<line><line>
+    Potser podrem aconseguir-la en el camí a enfrontar-nos a en Lashiec?<wait more>
+    En tot cas, vaig amagar una brúixola en un cul de sac d'aquesta cova.<line><line>
+    Anem-la a buscar. Estic segur que ens farà servei.<wait>
+
+# ************
+# *** Eppi ***
+# ************
+
+- offsets: 4de5
+  # Villager
+  ca: |
+    No em sorprendria que al Governador General de Motavia li semblés bé el que fas.<wait more>
+    Potser fins i tot et podria ajudar en la teva cerca. Has parlat amb ell?<wait>
+
+- offsets: 4deb
+  # Villager
+  ca: Tots els grans Espers viuen a Motavia.<wait>
+
+- offsets: 4df1
+  # Villager
+  ca: |
+    Fa molt temps,un professor anomenat Luveno disposava d'un laboratori al bosc de Gothic.<wait more>
+    Em pregunto si encara hi deu ser?<wait>
+
+- offsets: 4df7
+  # Villager
+  ca: |
+    Benvingut a la vila d'Eppi!<wait more>
+    Últimament no tenim massa visitants, ara que el bosc bull ple de monstres.<wait>
+
+- offsets: 4dfd
+  # Villager
+  ca: |
+    Vas en contra del vell Lashiec, no?<wait more>
+    O ets una ximple, o ets més forta del que sembla.<wait more>
+    En tot cas, admiro la teva valentia. No necessitaràs una Clau de Masmorra?<end>
+
+- offsets: 4e17
+  # Villager (yes to previous question)
+  ca: |
+    En vaig amagar una al magatzem a les afores del districte residencial de Camineet.<wait more>
+    La vaig amagar molt bé, potser li hauràs de tornar a fer un cop d'ull si ja vas estar allà.<wait>
+
+- offsets: 4e1d
+  # Villager
+  ca: Saps quin és el material més dur i fort del món?<end>
+
+- offsets: 4e2b
+  # Villager (no to previous question)
+  ca: És la Laconia! Les armes de Laconia són les més fortes de tot Algol!<wait>
+
+# ******************
+# *** Naula Cave ***
+# ******************
+
+- offsets: 5373
+  # Shortcake Salesman
+  # <number> is always 280.
+  ca: |
+    Apa, un client! M'en alegro que ens hagis trobat. Perdó per la localització...<wait more>
+    Els meus pastissos són els millors d'Algol, i només costen <number> Meseta. En vols un?<end>
+- offsets: 5355,53a5
+  # Shortcake salesman (after purchase)
+  # Also Sopia villager if you give him a PelorieMate.
+  # Note the similarity to index 198.
+  ca: Merci!<wait>
+
+# *********************
+# *** Paseo (again) ***
+# *********************
+
+- offsets: 4fd4
+  # Guards outside Underground Passage to Governor's Mansion
+  ca: zzz...<wait>
+
+- offsets: 5627
+  # Guard inside Underground Passage to Governor's Mansion
+  ca: Pari! Ha portat un regal per al Governador General?<end>
+
+- offsets: 564b
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, have shortcake)
+  ca: |
+    Ah, pastís. Li encantarà. Li portaré personalment.<wait more>
+    Pots passar.<wait>
+
+- offsets: 5651
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, no shortcake)
+  ca: Aquest no és un present escaient!<wait>
+
+- offsets: 5632
+  # Guard inside Underground Passage to Governor's Mansion (no to previous question)
+  ca: No et puc deixar passar sense un present!<wait>
+
+- offsets: 4f19
+  # Governor-General (first visit)
+  # Last part falls through to the following entry, we do not do that here.
+  ca: |
+    Benvinguts. Sóc el Governador General d'aquest planeta. Heu vingut de molt lluny. Si us plau, seieu.<wait more>
+    Sé perquè sou aquí. Certament no ho heu mantingut en secret. Voleu matar a en Lashiec.<wait more>
+    Lashiec és un home poderós. No, més que un home. Ell ja es troba més enllà d'aquests límits ara.<wait more>
+    Sou molt valents de enfrontar-vos-hi. Però la valentía, em temo, no serà prou.<wait more>
+    Aneu a destruir-lo. No us aturaré. De fet, us ofereixo suport.<wait more>
+    Un Esper molt poderós anomenat Lutz viu a la cova de Mahal, al nord. Entrega-li aquesta carta.<wait more>
+    Amb la seva ajuda, tinc fe en que tindreu èxit. Torna un cop ho hagis aconseguit.<wait>
+
+- offsets: 4f13,4fc6
+  # Governor-General (subsequent visits)
+  ca: Torneu aquí un cop hàgiu derrotat en Lashiec. Déu vos guard.<wait>
+
+- offsets: 4f2f
+  # Governor-General (before nightmare)
+  ca: Heu d'estar esgotats del vostre viatge. Per què no descanseu una mica?<wait>
+
+- offsets: 4fda
+  # Lady in Guest House
+  ca: Sembleu esgotats. Per què no descanseu una mica?<wait>
+  
+- offsets: 4ff9
+  # Lady in Guest House (after resting)
+  ca: Bona fortuna tingueu. La necessitareu.<wait>
+
+- offsets: 4f5b
+  ca: Caus en un son profund...<delay>
+
+- offsets: 4fa2
+  ca: Ha estat tot un somni...<wait>
+
+- offsets: 4f0d
+  # Governor-General (return after dream):
+  ca: |
+    No hi ha temps que perdre.<wait more>
+    Si us plau, aneu amb compte.<line>
+    Prego per vosaltres.<wait>
+
+- offsets: 4ed6
+  # (after defeating LaShiec)
+  ca: No hi ha ningú! Ón és el Governador General?<wait>
+
+# ******************
+# *** Mahal cave ***
+# ******************
+
+- offsets: 53c4
+  # If you haven't found Lutz yet (unused/impossible?)
+  ca: Donat que les ordres son del Governador General, Lutz probablement t'escoltarà.<wait>
+
+- offsets: 53c9
+  # If you have found Lutz (unused?)
+  ca: Hola!<wait>
+
+- offsets: 53df
+  # Lutz
+  ca: |
+    Qui sou?<line><line>
+    Estic intentant entrenar. No m'interrompeu.<wait>
+
+# ******************************
+# *** Character Intro - Lutz ***
+# ******************************
+- offsets: 46e7
+  # Will show a picture of whichever of the party is alive at this point,
+  # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
+  # which character it is during this conversation.
+  ca: |
+    Tu deus ser en Lutz. Tinc una carta per tú del Governador General.<line><line>
+    T'importaria llegir-la?<wait>
+
+- offsets: 46f2
+  ca: |
+    Deixeu-me veure.<wait more>
+    ...Ah. Ja entenc. Així que hem arribat fins aquí.<line><line>
+    Perdoneu-me per la meva desconfiança inicial.<wait more>
+    Junts, hem de protegir Algol de les mans del mal.<line><line>
+    Primer de tot, hem d'anar a trobar el Dr. Luveno, al bosc de Gothic.<wait more>
+    Si no recordo malament, si pot arribar per un passadís desde el Port Espacial de Camineet.<line><line>
+    Anem! Fem via.<wait>
+
+# ********************
+# *** Gothic Woods ***
+# ********************
+
+- offsets: 500b,5034,533a,54a9
+  # Villager x2
+  # Sopia villager
+  # Triada prisoner
+  ca: M'aniria bé un PelorieMate. No me'n donaries un?<end>
+
+- offsets: 5028
+  # Villager (yes to previous question, and you have a PelorieMate)
+  ca: |
+    Merci. Suposo que esteu buscant al Doctor Luveno, oi? Sí, el seu laboratori estava aquí.<wait more>
+    Però ja no. El paio va embogir. Al final el van tancar.<wait more>
+    El tenen presoner a Triada, una presó al sud d'aquí.<wait>
+
+- offsets: 502e,5055,535b
+  # Sopia villager (yes to previous question, and you don't have a PelorieMate)
+  # Gothic Woods villager (yes to previous question, and you don't have a PelorieMate) x2
+  ca: Un moment, no en tens cap? Aleshores per què em dius que sí?! A prendre pel cul!<wait>
+
+- offsets: 5016,503f,54b4
+  # Villager x2 (no to previous question)
+  # Triada prisoner
+  ca: Aleshores no tinc res que conversar amb vosaltres. Adéu.<wait>
+
+- offsets: 504f
+  # Another villager (yes to previous question, and you have a PelorieMate)
+  ca: |
+    Merci, forasters.<wait more>
+    Al final del llarg camí al sud d'aquí, hi ha una torre antiga.<wait more>
+    Diuen que hi viu un monstre que et converteix en pedra només de mirar-te!<wait>
+
+- offsets: 5856
+  # Villager guarding open field (no Luveno/Hapsby)
+  # Also pointed to by indices 27c, 27e, 280 but these aren't used.
+  ca: Hey! Fora del meu tros! A partir d'aquí tot és meu!<wait>
+
+- offsets: 585c
+  # Villager guarding open field (have Luveno/Hapsby)
+  ca: Bé, suposo que he de fer el que el Doctor Luveno mana. Podeu passar.<wait>
+
+# *********************
+# *** Triada Prison ***
+# *********************
+
+- offsets: 5485,55b3
+  # Guard Near Entrance
+  # Also index 21c: robot police in Baya Marlay Prison
+  ca: Teniu un salconduit?<end>
+
+- offsets: 549d,55e0
+  # Guard Near Entrance (no to previous question)
+  # Same sequence in Baya Marlay Prison
+  ca: Intrús detectat. Iniciant seqüència de terminació.<wait>
+
+- offsets: 54ca
+  # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
+  # Split up from 4c30,4ccf to allow different translations from the usage by airstrip guards
+  # TODO: consider rewriting this and the split version accordingly
+  ca: De debò? Vull veure'l.<wait>
+
+- offsets: 54c4
+  # Prisoner (if you give PelorieMate)
+  ca: Merci. Saps, no facis cas al que diuen, les aranyes son de fet molt intel·ligents.<wait>
+
+- offsets: 54ea
+  # Prisoner
+  ca: A l'estructura antiga enmig de les Muntanyes de Gothic l'anomenen La Torre de la Medusa.<wait>
+
+- offsets: 550c
+  # Spider
+  ca: |
+    Hi ha un element químic anomenat Polymeteral que dissol qualsevol material!<wait more>
+    ...bé, qualsevol menys la Laconia, per suposat.<wait>
+
+- offsets: 54f0
+  # Prisoner
+  ca: Oh, hola! No he vist a ningú desde fa molt de temps! Vols quedar-te i conversar una mica?<end>
+
+- offsets: 54f9
+  # Prisoner (yes to previous question)
+  ca: |
+    Tinc un amic a Bartevo.<wait more>
+    Sembla que les coses van força malament allà, amb tots els llacs de lava i tal.<wait more>
+    Si te'l trobes, pots dir-li 'hola' de part meva?<wait>
+
+- offsets: 54d0
+  # Prisoner
+  ca: Has sentit a parlar d'en Hapsby el robot?<end>
+
+- offsets: 54de
+  # Prisoner (no to previous question)
+  ca: |
+    És un robot fet de Laconia!<wait more>
+    Luveno va crear en Hapsby com a prototip de pilot de nau espacial.<wait more>
+    El van llençar a un abocador, i allà es va rovellant. Quin malbaratament...<wait>
+
+- offsets: 54e4
+  # Prisoner
+  ca: Les erupcions volcàniques han cobert l'altra banda de les muntanyes amb munts de lava.<wait>
+
+- offsets: 5453
+  # Dr Luveno (first time)
+  ca: Si, sóc en Doctor Luveno. Si has vingut a rescatar-me, oblida-ho! No vaig enlloc.<wait>
+
+- offsets: 545e
+  # Dr Luveno (second time)
+  ca: Com? Que vols que et construeixi una nau espacial?! Per què ho hauria de fer? Veste'n, deixa'm en pau.<wait>
+
+- offsets: 5464
+  # Dr Luveno (third time)
+  ca: |
+    Altre cop? Ah, em rendeixo. Et construiré la nau espacial, però amb una condició.<wait more>
+    M'has de prometre que seguiràs les meves instruccions de forma exacta, et demani el que et demani. D'acord?<end>
+
+- offsets: 546d
+  # Dr Luveno (no to previous question)
+  ca: Si no fas el que et dic, no hi ha manera que et pugui ajudar.<wait>
+
+- offsets: 5477
+  # Dr Luveno (yes to previous question)
+  ca: |
+    Perfecte. Aleshores, surto cap a la vila de Gothic per començar. Ens trobem allà.<wait more>
+    Oh, no et preocupis per mi, sóc més dur del que sembla. Hi arribaré per el meu propi peu.<wait>
+
+- offsets: 510d,5428
+  # Man in underground tunnel
+  ca: No em distreguis! Estic molt ocupat.<wait>
+
+- offsets: 542f
+  # Man in underground tunnel
+  ca: |
+    Què? Heu alliberat al Doctor Luveno?<wait more>
+    Què?! Us està construint una nau espacial?!<wait more>
+    És massa vell per a això. Millor que li doni un cop de mà.<wait>
+
+# *****************
+# *** Iala Cave ***
+# *****************
+
+- offsets: 5436
+  ca: |
+    He vist molts homes entrar a la cambra interior.<wait more>
+    Sortir, però, és una altra història.<wait more>
+    Mai he vist sortir a algú viu d'allà.<wait>
+
+# **********************
+# *** Medusa's Tower ***
+# **********************
+
+- offsets: 5512
+  ca: Heu arribat molt lluny. Aviat coneixereu la veritat.<wait>
+
+- offsets: 5518
+  # Old man in an actual dead end
+  ca: Sortiu d'aquí mentres encara tingueu alé! No sabeu a què us enfronteu!<wait>
+
+- offsets: 551e
+  ca: Sou molt valents d'haver arribat aquí. Vigileu amb les trampes amagades!<wait>
+
+- offsets: 16a8
+  # Being ed by Medusa without the Shield of Perseus equipped
+  ca: <player> s'ha convertit en pedra.<wait>
+
+# *******************************
+# *** Dr. Luveno’s Laboratory ***
+# *******************************
+
+- offsets: 507b
+  # Dr Luveno (if you didn't talk to his assistant yet)
+  ca: |
+    Finalment. Per què heu trigat tant? Primer de tot, necessito que aneu a buscar el meu assistent.<wait more>
+    Probablement està amagat al túnel subterrani. És tímid. Es irritant tot plegat.<wait>
+
+- offsets: 508b
+  # Dr Luveno
+  # <number> is always 1200.
+  ca: |
+    D'acord. Sembla que hem pogut reunit el meu equip.<wait more>
+    Qué, no creieu que dues persones puguin construir una nau espacial?<wait more>
+    Sapigueu que en hem estat construint desde que anàveu en bolquers!<wait more>
+    Això si, hi ha el tema del cost. Una nau espacial no surt gratis, sabeu?<wait more>
+    Necessito <number> Meseta per avançat. Podeu cobrir això?<end>
+
+- offsets: 50b5
+  # Dr Luveno (yes to the previous question)
+  ca: |
+    Esplèndid. Començarem a construir immediatament.<wait more>
+    És una feina delicada, així que feu-me un favor i no m'emprenyeu en una estona, d'acord?<wait>
+
+- offsets: 50a7
+  # Dr Luveno (if you don't have enough money)
+  ca: No en teniu prous? Aneu a conseguir-ne més!<wait>
+
+- offsets: 5096
+  # Dr Luveno (no to the previous question)
+  ca: Ah, així que m'has fet perdre el temps. Maravellós.<wait>
+
+- offsets: 50c3
+  # Dr Luveno (first two times you talk to him)
+  ca: |
+    Si us plau, la perfecció necessita temps.<wait more>
+    A menys que vulgueu acabar encallats al espai, doneu-nos temps.<wait more>
+    No podeu anar a vagar per una cova? Estem molt ocupats.<wait>
+
+- offsets: 50d1
+  # Dr Luveno (third time)
+  ca: |
+    Fet! Aquesta és la meva millor obra.<wait more>
+    L'anomenaré la Luveno. Sona bé, no et sembla?<wait>
+
+- offsets: 50de
+  # If you don't have Hapsby already
+  ca: No obstant, hem sembla que la Luveno no podrà ser pilotada per un humà...<wait>
+
+- offsets: 50eb
+  # If you don't have Hapsby already
+  ca: |
+    Vaig construir un robot anomenat Hapsby farà uns anys, just per això.<wait more>
+    Probablement encara està a l'abocador a Bartevo.<wait more>
+    Ves a recuperar-lo, d'acord? Ves amb compte, això si. Bartevo es troba envoltada de lava.<wait more>
+    No em mireu així! Hem acordat que seguirieu les meves instruccions.<wait more>
+    He complert la meva part, ara us toca a vosaltres.<wait>
+
+- offsets: 50f6
+  # Luveno (if you have Hapsby)
+  ca: |
+    Ah, el petit Hapsby, has tornat a casa!<wait more>
+    Excel·lent. Amb en Hapsby podeu portar la Luveno a través del espai!<wait more>
+    I just a temps. La seguretat dels ports espacials s'ha endurit.<wait more>
+    Aneu! La Luveno es atracada a les afores de la vila! Aneu a provar-la!<wait>
+
+- offsets: 5071
+  # Luveno (subsequent visits)
+  ca: Com va la Luveno? Tingueu cura d'ella.<wait>
+
+# Spaceports now closed...
+- offsets: 4cec
+  ca: Algol està en nivell d'alerta vermella. S'han prohibit els viatges espacials a tots els ciutadans.<wait>
+
+- offsets: 4cfd
+  ca: Tots els Passaports són invàlids a partir d'ara i han de ser destruïts. Li confisquem el seu.<wait>
+
+# ***************
+# *** Bartevo ***
+# ***************
+
+- offsets: 4fff
+  # Villager
+  ca: Bartevo és el meu territori, forasters. No hi fiqueu el nas a on no us demanen.<wait>
+
+- offsets: 5005
+  # Villager
+  ca: |
+    Algú em va dir que hi ha un robot perfectament vàlid llençat en un d'aquest munts de brossa.<wait more>
+    Em pregunto si serà veritat?<wait>
+
+- offsets: 5524
+  # Villager (in the cave next to Bartevo)
+  ca: A la farmàcia de la vila d'Avion venen Polymeteral.<wait>
+
+- offsets: 57bd
+  # Hapsby
+  ca: |
+    Salut. Sóc el robot pilot Hapsby. Gràcies per rescatar-me.<wait more>
+    T'ajudaré a operar qualsevol nau espacial d'en Luveno.<wait>
+
+- offsets: 57e0
+  ca: |
+    Has trobat l'aerolliscador.<wait more>
+    Hapsby ha reparat les parts trencades, així que ara el pots emprar!<wait>
+
+# ************
+# *** Lore ***
+# ************
+
+- offsets: 5139
+  # Villager
+  ca: |
+    Això és la vila de Lore. Bé, ho era, abans de la corrupció d'en Lashiec.<wait more>
+    Com pots veure, ara és un erm.<wait>
+
+
+- offsets: 5119
+  # Villager
+  ca: |
+    Has sentit a parlar d'una joia anomenada l'Ull de Carboncle?<wait more>
+    Diuen que la custodia un drac a Casba.<wait more>
+    Per a què deu voler un drac una joia?<wait>
+
+
+- offsets: 511f
+  # Villager
+  ca: |
+    Ja que ets per aquí, hauries de visitar Avion.<wait more>
+    És un poble petit com aquest, a ponent de l'illa.<wait>
+
+- offsets: 5125
+  # Villager
+  ca: Has sentit a parlar dels arbres de Laerma?<end>
+
+- offsets: 512e
+  # Villager (no to previous question)
+  ca: Diuen que l'altiplà d'Altiplano, a Dezoris, hi és cobert.<wait>
+
+- offsets: 5113
+  # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
+  ca: |
+    Enderrocareu en Lashiec? Ja era hora que algú ho fés!<wait more>
+    Però no és un passarell. La seva màgia negra et pot destruir.<wait more>
+    He sentit que certs cristalls poden protegir-te contra una màgia així.<wait more>
+    És un rumor, però. No vagis dient que ho dic jo això.<wait>
+
+# *************
+# *** Abion ***
+# *************
+
+- offsets: 513f
+  # Villager
+  ca: Aquesta vila es diu Avion.<wait>
+
+- offsets: 5145
+  # Villager
+  ca: La negra mà d'en Lashiec ha arribat també a aquesta vila! Si us plau, teniu que aturar-lo!<wait>
+
+- offsets: 514b
+  # Villager
+  ca: |
+    Un paio molt estrany va arribar fa poc. Diuen que fa experiments amb animals.<wait more>
+    I aquella olla estranya! Va fent tombs amb l'olla contra el pit.<wait more>
+    Tinc un mal pressentiment.<wait>
+
+- offsets: 5151
+  # Villager
+  ca: M'agradaria anar al espai algún dia.<wait>
+
+- offsets: 5157
+  # Villager
+  ca: |
+    El nostre nou veí sap de segur molt d'animals.<wait more>
+    Em va dir quelcom molt estrany sobre els Gats de Musk.<wait more>
+    Diu que si els hi dones un cert fruit, es fan gegants i poden volar!<wait>
+
+- offsets: 4c54
+  # Mad Doctor
+  ca: Aquí, mixeta mixeta! Vine ací!<end>
+
+- offsets: 4c75
+  # Mad Doctor (yes to previous question)
+  ca: Ho ho, qué divertit! Qui serà el següent?<wait>
+
+- offsets: 4c7a
+  # Mad Doctor (no to previous question or if Myau is already dead)
+  ca: He dit que vinguis ací!<wait>
+
+# *************
+# *** Skray ***
+# *************
+
+- offsets: 5238
+  # Townsperson
+  ca: Benvinguts a Skray, el lloc més càlid de Dezoris! Fa molt fred allà fora, oi?<wait>
+
+- offsets: 523e
+  # Townsperson
+  ca: Quasi tots els migrants de Palma vivim aquí a Skray. No estem fets per al fred.<wait>
+
+- offsets: 5244
+  # Townsperson
+  ca: |
+    He arribat fa poc a Dezoris així que encara no ho conec massa. Hauries de parlar amb els nadius.<wait more>
+    Jo encara no hi he estat, però molts d'ells viuen a una vila entre les muntanyes del nord.<wait>
+
+- offsets: 524a
+  # Townsperson
+  ca: |
+    Enderrocar en Lashiec, de veritat? Necessitaràs una espasa, una destral, un escut i una armadura forjades de Laconia.<wait more>
+    Laconia és el material més poderós d'Algol, no empraria res menys poderós.<wait more>
+    Resaré per tu. Tots ho farem.<wait>
+
+- offsets: 5250
+  # Townsperson
+  ca: |
+    La Laconia és quelcom més que forta, es sagrada. Les armes forjades amb ella tenen poders divins.<wait more>
+    Lashiec ho sap, per suposat. Aquesta és la raó per la que les ha amagat per la galaxia! Te por!<wait>
+
+
+- offsets: 5256
+  # Townsperson
+  ca: Dezoris és bàsicament un glaçó gegant de gel. És un gran canvi comparat amb els prats verds de Palma.<wait>
+
+- offsets: 525c
+  # Townsperson
+  ca: No totes les muntanyes de gel són tan dures com sembla, algunes parts s'esquerden fàcilment.<wait>
+
+- offsets: 5262
+  # Townsperson
+  ca: L'àrea al voltant de l'altiplà d'Altiplano és envoltada de muntanyes de gel.<wait>
+
+- offsets: 5268
+  # Townsperson
+  ca: |
+    En aquest planeta hi ha un eclipsi de sol cada cent anys.<wait more>
+    Una flama encesa durant l'eclipsi s'anomena una Torcha d'Eclipsi.<wait more>
+    Els nadius de Dezoris creuen que una Torcha d'Eclipsi té poders divins.<wait>
+
+- offsets: 526e
+  # Townsperson
+  ca: |
+    Les forces malsanes amb les que en Lashiec i el seus s'han involucrat han anat massa lluny.<wait more>
+    Tots els cossos de la morgue de Guaran han tornat a la vida! És grotesc!<wait>
+
+# ***********
+# *** Uzo ***
+# ***********
+
+- offsets: 515d
+  # Villager
+  ca: Aquesta és la Vila d'Uzo, a Motavia.<wait>
+
+- offsets: 5163
+  # Villager
+  ca: Formigues-Lleó? No hi ha problema! Pots passar amb un LandMaster per sobre.<wait>
+
+- offsets: 5169
+  # Villager
+  ca: Al sud d'Uzo hi ha una vila anomenada Casba.<wait>
+
+- offsets: 516f
+  # Villager
+  ca: Un drac es troba entaforat dintre la cova de Casba. Diuen que té una joia incrustada al cap!<wait>
+
+- offsets: 5194
+  # Villager
+  ca: |
+    Has sentit a parlar d'una capa que es diu Capa de Frai? <wait more>
+    Per el que he sentit, és molt lleugera, però té una gran capacitat de protecció.<wait>
+
+- offsets: 5175
+  # Villager
+  ca: Has sentit a parlar de la Flauta Calmant?<end>
+
+- offsets: 5133,517e,54d9,54fe
+  # Villager (yes to previous question)
+  # Lore villager (yes to question about Laerma Tree)
+  # Triada prisoner (yes to question about Hapsby)
+  # Triada prisoner (no to request to talk)
+  ca: |
+    Oh.<wait more>
+    Molt bé.<wait>
+
+- offsets: 518e
+  # Villager (no to previous question)
+  ca: |
+    Bé, això és un secret, però vaig enterrar una a les afores de la vila de Gothic.<wait more>
+    No li diguis a ningú!<wait>
+
+# Soothe Flute stuff
+- offsets: 24d6
+  # Use Soothe Flute outside a battle
+  ca: El so desfà el teu cor.<wait>
+
+- offsets: 24eb
+  ca: <Article><monster> sent el so de la flauta i es calma.<delay>
+
+# *************
+# *** Casba ***
+# *************
+
+- offsets: 519a
+  # Villager
+  ca: Això és la vila de Casba.<wait>
+
+- offsets: 51a0
+  # Villager
+  ca: Hi ha un drac a la cova de Casba! Tinc molta por!<wait>
+
+- offsets: 51ac
+  # Villager
+  ca: |
+    En una vila emboirada, la gent explica un conte sobre un escut llegendari.<wait more>
+    Diuen que fa molt de temps, un home anomenat Perseu el va emprar per enfrontar-se a un monstre.<wait>
+
+- offsets: 51b2
+  # Villager
+  ca: |
+    Al oest del llac vaig veure aquella terrible boira enmetzinada cobrint-ho tot!<wait more>
+    Facis el que facis, no t'hi acostis!<wait>
+
+- offsets: 51b8
+  # Villager
+  ca: Saps que és un aerolliscador?<end>
+
+- offsets: 51cb
+  # Villager (yes to previous question)
+  ca: |
+    Així que saps la desferra que són! En vaig comprar un a Shion, a Palma.<wait more>
+    Es va espatllar de seguida, així que el vaig abandonar a Bartevo. No m'estranya que ja no els venguin.<wait>
+
+- offsets: 51c1
+  # Villager (no to previous question)
+  ca: |
+    Oh, són meravellosos! Quan funcionen, és clar.<wait more>
+    Poden lliscar ràpidament sobre els cossos d'aigua.<wait>
+
+# **************
+# *** Drasgo ***
+# **************
+
+- offsets: 51d1
+  # Townsperson
+  ca: Benvinguts a Drasgo, el nostre petit poble que sura al mar.<wait>
+
+- offsets: 51d7
+  # Townsperson
+  ca: |
+    Ondia! No esperava veure forasters per aquí en aquests temps.<wait more>
+    No des que en Lashiec va prohibir els viatges per mar. Com coi heu arribat aquí?<wait>
+
+- offsets: 51dd
+  # Townsperson
+  ca: He sentit a dir que hi ha una espasa màgica a la Torre d'Avion.<wait>
+
+- offsets: 51e3
+  # Townsperson
+  ca: Un cop vaig veure una roca gegantesca volant per el cel!<wait>
+
+- offsets: 51e9
+  # ????
+  ca: Sóc jo, la Choko Oneesan! Sigueu valents i forts en la vostra missió!<wait>
+
+- offsets: 51ef
+  # Person inside cave
+  ca: |
+    Vaig venir a aquest poble per comprar la màscara de gas, necessito protecció contra gas verinós.<wait more>
+    Es suposa que per aquí hi ha una botiga que en venen, però no la puc trobar pas!<wait>
+
+- offsets: 51f5
+  # Person inside cave
+  ca: |
+    Això és una botiga. Que puc fer per tu?<wait more>
+    ...ja,ja, ho sento, t'estava aixecant la camisa! Qué? No em miris així.<wait>
+
+- offsets: 5201
+  # GasClear salesman
+  # <number> is always 1000.
+  ca: |
+    Estic segur que us heu sorprés de trobar una botiga en un lloc com aquest, eh?<wait more>
+    Les màscares de gas costen <number> Meseta cadascuna. Prou barat, no? En voleu?<end>
+
+- offsets: 5226
+  # GasClear salesman (yes to previous question)
+  ca: Merci. Torneu quan vulgueu!<wait>
+
+- offsets: 521d
+  # GasClear salesman (yes to previous question, but don't have enough money)
+  # Note: In the Japanese version, this one runs into the line below. It was corrected in the Mega Drive version.
+  ca: Eh? No teniu prous diners?<wait>
+
+- offsets: 520c
+  ca: Com vulgueu. Estaré aquí per si canvieu d'opinió.<wait>
+
+# *************
+# *** Sopia ***
+# *************
+
+- offsets: 52ca
+  # Villager
+  ca: |
+    Aquesta vila s'anomena Sopia. Benvingut.<wait more>
+    M'alegro que hagis pogut travessar la boirina.<wait>
+
+- offsets: 52d6
+  # The Village Chief
+  # <number> is always 400.
+  ca: |
+    Soc el cap d'aquesta vila.<wait more>
+    A Sopia som molt pobres. La boirina enmetzinada ens aïlla dels altres pobles.<wait more>
+    No ens podríeu donar <number> Meseta per ajudar-nos?<end>
+
+- offsets: 52e1
+  # The Village Chief (no to previous question)
+  ca: Ja vec. És una llàstima sentir això. Ohhh...<wait>
+
+- offsets: 52f2
+  # The Village Chief (yes to previous question, but not enough money)
+  ca: Així que també sou pobres, oi? Quins temps més tristos vivim.<wait>
+
+- offsets: 5300
+  # The Village Chief (yes to previous question)
+  ca: |
+    Merci. Crec que puc ajudar-vos en agraïment.<wait more>
+    Imagino que esteu buscant l'Escut de Perseu? El que va emprar per matar a Medusa?<wait more>
+    La llegenda local diu que es troba en una illa al llac, enterrat sota un cactus.<wait>
+
+- offsets: 5306
+  # Gamer Miki
+  ca: Hola, sóc la Miki-chan, una gamer! Tens una Master System?<end>
+
+- offsets: 530f
+  # Gamer Miki (yes to previous question)
+  ca: Si! No és meravellós el so FM?!<wait>
+
+- offsets: 5314
+  # Gamer Miki (no to previous question)
+  ca: |
+    QUÉ?!<wait more>
+    quina vergonya! Corre a comprar-ne una!<wait>
+
+- offsets: 531a
+  # Villager
+  ca: Abans del opressiu regnat d'en Lashiec, aquesta vila era molt rica.<wait>
+
+- offsets: 5320
+  # Villager
+  # Maybe add this hint to other languages. It helps explain a possible 
+  # scenario later where Tajim sees Lutz when he is dead.
+  ca: |
+    Heu conegut en Tajim, el monjo? Viu a les muntanyes al sud del llac.<wait more>
+    Diuen que és el millor mestre de màgia de tot Algol.<wait more>
+    També diuen que pot veure als morts... <wait>
+
+- offsets: 5326
+  # Villager
+  ca: He sentit a dir que Palma és un planeta molt bonic. És veritat?<end>
+
+- offsets: 532f
+  # Villager (yes to previous question)
+  ca: Oh, em moro de ganes d'anar-hi!<wait>
+
+- offsets: 5334
+  # Villager (no to previous question)
+  ca: Oh, interessant. Jo només vull anar a un lloc amb l'aire més net.<wait>
+
+- offsets: 5345
+  # Villager (no to request for PelorieMate)
+  ca: Garrepa!<wait>
+
+# *********************
+# *** Tajim’s Cave ***
+# *********************
+
+- offsets: 56b3
+  # Tajim (if you don't have Lutz - which is not possible)
+  # You need either the hovercraft or the land rover to even reach the cave. You can't get either without being able to reach Casba, and the only way to reach Casba on foot is from Uzo, which you can't get to without your own spaceship, which you can't get without being able to reach Gothic, which you can't because the spaceport manhole is inaccessible without Lutz in your party.
+  ca: |
+    I qui sou vosaltres?<wait more>
+    El meu deixeble, en Lutz, es a la cova de Mahal. El coneixes?<end>
+
+- offsets: 56bc
+  # Tajim (yes to previous question)
+  ca: |
+    Li heu de dir una cosa de part meva.<wait more>
+    Digueu-li que ha de venir a veure'm.<wait>
+
+- offsets: 56c1
+  # Tajim (no to previous question)
+  ca: Ja vec. Aleshores no té sentit que parli més amb tu.<wait>
+
+- offsets: 56c7
+  # Tajim (if you have Lutz)
+  ca: Ah, Lutz, el meu deixeble! Vec que finalment estàs complint el teu destí i t'enfrontaràs a en LaShiec.<wait>
+
+- offsets: 56d3
+  # Tajim (if Lutz is dead)
+  ca: ...Lutz? Oh, ja vec, és mort. Vosaltres, aneu a reviure'l a una església i torneu cap aquí.<wait>
+
+- offsets: 56d9
+  # Tajim (talking to Lutz)
+  ca: T'he ensenyat tot el que sé. És hora d'una última prova. Un duel contra mí!<wait>
+
+- offsets: 5722
+  # Tajim (if you win) (talking to Lutz)
+  ca: |
+    T'has fet fort, el meu noi! Tens el poder necessari per a assolir la teva fita.<wait more>
+    Agafa això. És una Capa de Frai, el meu regal per tu. Protegirà el teu cos de qualsevol mal.<wait more>
+    Ara aneu! Acompliu el vostre destí i porteu la pau altre cop a Algol!<wait>
+
+- offsets: 571c
+  # Tajim (if you lose) (talking to Lutz)
+  ca: Necessiteu més entrenament, el meu noi. Torneu quan estigueu preparats. Us estaré esperant.<wait>
+
+- offsets: 56a6
+  # Tajim (subsequent visits)
+  ca: No hi ha res més que us pugui ensenyar. Acompliu el vostre destí i porteu la pau altre cop a Algol!<wait>
+
+# ****************************
+# *** Native Dezorian Town ***
+# ****************************
+# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
+
+- offsets: 5274
+  # Honest Dezorian
+  ca: No te'n refios de ningú del poble del costat...uns ensarronadors que són.<wait>
+
+- offsets: 527a
+  # Honest Dezorian
+  ca: La Torre de Corona és a lo altre costat de les montanyes del nord.<wait>
+
+- offsets: 5280
+  # Honest Dezorian
+  ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola a los nostres amics allà!<wait>
+
+- offsets: 5286
+  # Honest Dezorian
+  ca: |
+    Los abres de Laerma donen uns fruits estranys.<wait more>
+    Es diuen fruits de Laerma, i són molt bons.<wait more>
+    Però si nols embuteixes a una olla de Laconia s'encongeixen.<wait>
+
+- offsets: 528c
+  # Honest Dezorian
+  ca: Has sentit dir d'una andròmina que es diu Aeroprisma?<end>
+
+- offsets: 529a
+  # Honest Dezorian (no to previous question)
+  ca: He sentit a dir que pots vore altres mons amb un d'allonses.<wait>
+
+- offsets: 5295
+  # Honest Dezorian (yes to previous question)
+  ca: M'agradaria guaitar-hi un dia.<wait>
+
+- offsets: 52a0
+  # Honest Dezorian
+  ca: No en volem saber re, dels de Palma!.<wait>
+
+- offsets: 52a6
+  # Dishonest Dezorian
+  ca: Sa Font de sa Joventut és dintre sa Torre de sa Corona. T'ho juro!<wait>
+
+- offsets: 52b2
+  # Dishonest Dezorian
+  # <number> is always 10.
+  ca: Hi ha un passatge secret al desè nivell de sa caverna de Dezoris. No t'ensarrono!<wait>
+
+- offsets: 52b8
+  # Dishonest Dezorian
+  ca: Es fruits de Laerma són blaus, i tenyeix la roba amb ells.<wait>
+
+- offsets: 52be
+  # Dishonest Dezorian
+  ca: Pots emprar un cristall per fer créixer fruit a un arbre de Laerma.<wait>
+
+- offsets: 52c4
+  # Dishonest Dezorian
+  ca: Tots es de Palma son benvenguts aquí. De veritat!<wait>
+
+- offsets: DishonestDezorianFix
+  # Dishonest Dezorian
+  # We add a script entry here. The original game accidentally uses an entry from Sopia.
+  ca: Es del poble de la vora són uns entabanadors.<wait>
+
+# ********************
+# *** Dezoris Cave ***
+# ********************
+
+- offsets: 5815
+  # Dungeon Southwest of Corona Tower
+  # Dishonest Dezorian
+  ca: Ves amb compte més endavant. Gira a sa esquerra a la bifurcació.<wait>
+
+# ********************
+# *** Corona Tower ***
+# ********************
+
+- offsets: 57fd,5803
+  # Dezorian
+  # (Also in Guaran Morgue)
+  ca: Per què heu vingut aquí? No us poseu en problemes, em sentiu?<wait>
+
+- offsets: # Unused
+  ca: Tinc un mal presentiment.<wait>
+
+- offsets: 592d
+  # Dezorian
+  ca: |
+    Jo no t'ho he dit, però...<wait more>
+    Lord Lashiec tem el cristall de Damoa, el vident.<wait more>
+    Hi ha d'haver algun secret amagat.<wait>
+
+- offsets: 5661
+  # Torchbearer
+  ca: |
+    Veus la flama a la meva mà? És la Torcha d'Eclipsi.<wait more>
+    És el foc sagrat del eclipse centenari.<wait more>
+    És bonic, sagrat i molt valuós.<wait more>
+    Potser en compartiría una mica a canvi de...<wait more>
+    ...un joia de drac. Que dius?<end>
+
+- offsets: 5684
+  # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
+  ca: Excel·lent. Aquí ho tens, doncs.<wait>
+
+- offsets: 566c
+  # Torchbearer (no to previous question)
+  ca: No en vols? Aleshores perquè has vingut?<wait>
+
+- offsets: 568a
+  # Torchbearer (yes to previous question but no Carbuncle Eye)
+  ca: No tens cap joia! No siguis estúpid!<wait>
+
+# *************************
+# *** Aeroprism Dungeon ***
+# *************************
+
+- offsets: 5933
+  # Otegami Chie-chan
+  ca: |
+    Sóc na Otegami Chie-chan, de Sega! Merci per tots els missatges.<wait more>
+    Si us plau, expliqueu-nos què penseu d'aquest joc. Volem sentir les vostres opinions.<wait more>
+    Us donaré un consell. Aneu al lloc amb més alçada de Palma, i mostreu l'Aeroprisma al cel!<wait>
+  
+# *************************
+# *** Altiplano Plateau ***
+# *************************
+
+- offsets: 2693,26e5
+  # Also used for the Aeroprism later...
+  ca: <player> aixeca <article><item> cap al cel.<delay>
+
+- offsets: 26d0
+  # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
+  ca: <player> agafa alguns Fruits de Laerma i els posa a l'olla de Laconia.<wait>
+
+- offsets: 26c4
+  # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
+  ca: <player> agafa alguns Fruits de Laerma, però s'encongeixen immediatament!<wait>
+
+# *******************
+# *** Avion Tower ***
+# *******************
+
+- offsets: 552a
+  ca: Ara seria un bon moment per girar cua i tornar a casa.<wait>
+
+# **************************
+# *** Baya Marlay Prison ***
+# **************************
+
+- offsets: 55f5
+  # Prisoner
+  ca: Heu vingut per ajudar-me a escapar?<wait>
+
+- offsets: 55fb
+  # Prisoner
+  ca: Destruir en Lashiec? Això és impossible. No pots matar el que no pot morir.<wait>
+
+- offsets: 5601
+  # Prisoner
+  ca: Acabarem tots essent sacrificats a Lashiec!<wait>
+
+- offsets: 582d
+  # Prisoner (Dezorian)
+  ca: Heu conseguit l'armadura a Guaran?<end>
+
+- offsets: 583b
+  # Prisoner (no to previous question)
+  ca: La podeu trobar a l'altra banda d'una trampa.<wait>
+
+- offsets: 5836
+  # Prisoner (yes to previous question)
+  ca: Guau, sou increïbles!<wait>
+
+- offsets: 5607
+  # Prisoner
+  ca: |
+    Lashiec és més perillós del que la gent es pensa.<wait more>
+    Aquells que l'han desafiat han acabat amb les seves ànimes consumides per la seva màgia!<wait>
+
+- offsets: 560d
+  # Prisoner
+  ca: Hi ha una torre al capdamunt del monticle de Baya Marlay. Em pregunto quins secrets deu guardar?<wait>
+
+- offsets: 5613
+  # Prisoner
+  ca: Millor que no continueu per aquí. Hi ha un guàrdia més endavant.<wait>
+
+- offsets: 55c5
+  # Robot Police (yes to previous question, have one)
+  ca: |
+    Això és una falsificació. On l'heu aconseguit?<wait more>
+    Bé, heu escollit el millor lloc per a que us tanquem. Veniu amb mi.<wait>
+
+- offsets: 5619
+  # Prisoner
+  ca: |
+    Oh, així que us han confinat aquí també. Que trist.<wait more>
+    Segur que hi ha una forma de fugir. Però per a què?<wait more>
+    La vida és molt menys complicada aquí.<wait>
+
+# *************************
+# *** Baya Marlay Tower ***
+# *************************
+
+- offsets: 5597
+  ca: Heu vingut aquí buscant la Torre de Baya Malay?<end>
+
+- offsets: 55a0
+  # (yes to previous question)
+  ca: Aleshores sereu destruïts!<wait>
+
+- offsets: 55a5
+  # (no to previous question)
+  ca: Aleshores gireu cua.<wait>
+
+# Damoa the Fortuneteller
+
+- offsets: 5530
+  ca: |
+    Soc Damoa, el millor vident del món!<wait more>
+    Creieu en els meus poders d'endevinació?<end>
+
+- offsets: 5541,5552,5563
+  # (yes to previous question)
+  ca: Bé. Molt bé.<wait>
+
+- offsets: 553b
+  # (no to previous questions or most of the following)
+  ca: Que heu dit? Que descarats! Aneu-vos-en d'aquí!<wait>
+
+- offsets: 5547
+  ca: Crec que esteu buscant quelcom, oi?<end>
+
+- offsets: 5558
+  ca: Presenteixo que busqueu en Alex Ossale, oi?<end>
+
+- offsets: 5569
+  ca: Tot el que dic és cert. Enteneu?<end>
+
+- offsets: 5574
+  # (yes to last question)
+  ca: Aleshores potser haureu de tornar més tard.<wait>
+
+- offsets: 557a
+  ca: Que em desafieu?<end>
+
+- offsets: 5585
+  # (no to final question)
+  ca: Llavors ja està? Molt bé! Mostreu un gran compromís. Us obsequiaré amb aquest cristall.<wait>
+
+- offsets: 2711
+  # (Use Aeroprism)
+  ca: El castell volador es revelat.<wait>
+
+- offsets: 2752
+  # (Use Laerma Berries)
+  ca: Myau es menja els Fruits de Laerma.<wait>
+
+# ******************************
+# *** Myau’s Transformation ***
+# ******************************
+
+- offsets: 471b
+  ca: Quan en Myau mastega els Fruits de Laerma, una febra se'n apodera, i una llum encegadora cobreix el seu cos.<wait>
+
+- offsets: 4726
+  # This line has a typo: it should be ハバタイテ, not ハバテイテ.
+  # Please note that the kanji rendition below fixes this mistake.
+  ca: |
+    I aleshores, en un instant, es transforma en una bella bestia amb ales enormes!<line><line>
+    Myau bat les ales majestuosament per que tothom ho vegi.<wait>
+
+
+- offsets: 14cc
+  # (If Myau dies in the Gold Dragon battle and other characters are still alive)
+  # Note: Alisa may not be alive, and there may be only one other left alive.
+  # Previous line will have been "Myau died." so you can assume that context.
+  ca: Els seus companys son arrancats de la seva esquena, caient del cel cap a la seva mort.<wait>
+
+# **********************************
+# *** The Illusionary Aerocastle ***
+# **********************************
+
+- offsets: ScriptAerocastleDots # was $5361
+  # Old Man
+  ca: .........<wait>
+
+- offsets: ScriptAerocastleFreeTranCarpet
+  # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
+  ca: Hmm, cap baixada? Aquí pots tenir la meva <item>.<wait>
+
+- offsets: 51a6
+  # Old Man (also said by an old man in Casba)
+  ca: En aquesta masmorra hi ha més del que els vostres ulls poden veure , ximples.<wait>
+
+- offsets: 5367
+  # Old Man
+  ca: Desafieu al Rei Lashiec pel vostre risc i ventura.<wait>
+
+- offsets: 5738
+  # Shadow Warrior
+  ca: Sé per que sou aquí. Us he estat vigilant atentament. El vostre patètic viatge acaba aquí.<wait>
+
+- offsets: 5749
+  # Shadow Warrior
+  ca: |
+    Jo només sóc un guerrer a l'ombra d'en Lashiec. No heu aconseguit res derrotant-me<wait more>
+    El Rei Lashiec no pot morir. El seu poder desafía l'enteniment. Heu vingut aquí a morir.<wait>
+
+- offsets: 576a
+  # LaShiec
+  # The party may only be Tylon who can't do magic, but it's unlikely.
+  ca: |
+    Ah, sou vosaltres. Finalment heu arribat. Us deveu sentir molt satisfets.<wait more>
+    Aquells als que serveixo m'han donat la immortalitat. El meu poder ja no té límits. Sóc un Déu.<wait more>
+    I vosaltres que teniu? Armes? Màgia? De debò penseu que em podeu derrotar?<end>
+
+- offsets: 5773
+  # LaShiec (yes to previous question)
+  ca: Aleshores esperem que sigueu un digne sacrifici.<wait>
+    
+- offsets: 5778
+  # LaShiec (no to previous question)
+  ca: No tinc temps per jocs! Veniu, us mostraré que hi ha més enllà de la vida.<wait>
+
+- offsets: 5789
+  # (Defeat LaShiec)
+  ca: |
+    Potser heu destruït aquest cos, pero jo no puc morir! Reviuré un altre cop!<line><line><line><line><wait more>
+    Lashiec ha caigut. L'últim desig d'en Nero s'ha acomplert. Una nova era comença per a Algol.<wait more>
+    Només ens queda anar a veure al Governador General a Paseo!<wait>
+
+# **************
+# *** Ending ***
+# **************
+
+- offsets: 58bd
+  # If Alisa died during the final boss fight
+  ca: |
+    Aleshores Alisa sent la veu d'en Nero, d'un lloc llunyà.<wait more>
+    ‘No et rendeixis, Alisa. Heu arribat molt lluny.’<wait more>
+    El seu esperit reviu.<wait>
+
+- offsets: 58e1
+  # Governor-General (to Alisa)
+  ca: |
+    Oh, Déu meu. Si us plau, perdoneu-me. El meu cos i la meva ànima eren controlades per una força maligna.<wait more>
+    Ho heu fet! Heu salvat Algol. La Historia recordarà els vostres noms, sempre.<wait more>
+    Lashiec ha mort, la seva fortalesa maleïda ha estat destruïda. Finalment, ha tornat la pau.<wait more>
+    I just a temps. Temo que si haguéssim trigat més, ho hauríem perdut tot.<wait more>
+    Alisa. Hi ha una cosa que has de saber. Un secret que he guardat per a protegir la teva vida.<wait more>
+    Alisa... el teu pare va ser Aures Landeel, el rei d'Algol. La corona et pertany per dret de sang.<wait more>
+    Algol ja no té líder. Succeiràs al teu pare, i agafaràs el seu lloc com a Reina?<end>
+
+- offsets: 5849,58ea
+  # Governor-General (yes to previous question)
+  ca: Aleshores tens la meva lleialtat eterna. Visca la nova Reina d'Algol, Alisa Landeel!<wait>
+
+- offsets: 58ef
+  # Governor-General (no to previous question)
+  ca: Ja vec. No t'intentaré convèncer. Si canvies de parer, Algol sempre et rebrà amb els braços oberts.<wait>
+
+# ********************
+# *** Ending Scene ***
+# ********************
+
+- offsets: 47da
+  ca: Poc a poc, el cel s'il·lumina. Els monstres s'amaguen als caus. La pau torna.<end>
+
+- offsets: 47e3
+  ca: Una brisa fresca i suau rodeja Baya Malay.<end>
+
+- offsets: 47ec
+  ca: Però que sap la brisa de les dificultats que han hagut de patir?<end>
+
+# This text tries to be centred so it needs quotes around the spaces.Width = 29 so leading space = (29 - length) / 2
+
+- offsets: 4800
+  ca: "  Alisa,<delay>"
+
+- offsets: 480b
+  ca: "  Tylon,<delay>"
+
+- offsets: 4816
+  ca: "   Lutz,<delay>"
+
+- offsets: 4821
+  ca: "  i Myau.<delay>"
+
+- offsets: 482c
+  ca: Quan els records d'aquest temps foscos s'esvaeixin, aquest quatre noms romandran en els cors de la gent d'Algol per a sempre.<delay>
+
+# ****************************
+# *** Battle/menu dialogue ***
+# ****************************
+
+- offsets: 13a4
+  # In battle, enemy dodges 
+  ca: <Article><monster> ha desviat l'atac de <player>.<delay>
+
+- offsets: 1497
+  # In battle, player dodges 
+  ca: <player> ha desviat l’atac <del><monster>.<delay>
+
+- offsets: 1a96
+  # In battle, chose "talk"
+  ca: <player> parla amb <article><monster>.<end>
+
+- offsets: 1ac0,1ca4
+  ca: <Article><monster> respon,<delay>
+
+- offsets: 1ab7
+  ca: <Article><monster> no us entén.<delay>
+
+- offsets: 1b27
+  ca: <Article><monster> bloqueja la fugida.<delay>
+
+- offsets: 20cd,20fa,2168,21cb,21fd,22ac
+  # Used in a bunch of places...
+  ca: La màgia de <player> no fa cap efecte.<delay>
+
+- offsets: # unused
+  ca: La màgia <del><monster> no fa cap efecte.<delay>
+
+- offsets: 1ffa
+  ca: Un mur màgic invisible apareix davant els vostres ulls.<delay>
+
+- offsets: 1492
+  ca: L'atac <del><monster> es reflectit per el mur màgic.<delay>
+
+- offsets: 14f9,15d3,1637
+  ca: La màgia <del><monster> ha estat reflectida per el mur màgic.<delay>
+
+- offsets: 1458
+  ca: El mur màgic es torna ineficaç.<delay>
+
+- offsets: 1fbc
+  ca: L'energia de <player> ha estat restaurada.<delay>
+
+- offsets: 1552
+  ca: L'energia <del><monster> ha estat restaurada.<delay>
+
+- offsets: 20d3
+  ca: La màgia inmobilitza <article><monster>.<delay>
+
+- offsets: 151f
+  ca: La màgia inmobilitza <player>.<delay>
+
+- offsets: 12db
+  ca: <player> no es pot moure.<delay>
+
+- offsets: 140c
+  ca: <Article><monster> no es pot moure.<delay>
+
+- offsets: 12d6
+  ca: <player> es deslliura.<delay>
+
+- offsets: 1407
+  ca: <Article><monster> es deslliura.<delay>
+
+- offsets: 2132
+  ca: <player> sent un gran augment en la seva energia.<delay>
+
+- offsets: 1574
+  ca: <Article><monster> sent omplir-se el seu cos de força.<delay>
+
+- offsets: 216f
+  ca: <Article><monster> s'ha espantat i fuig.<delay>
+
+- offsets: 210d
+  ca: <Article><monster> es sorprén de la velocitat de la fugida.<delay>
+
+- offsets: 21ad
+  ca: No hi ha cap parany.<wait>
+
+- offsets: 219f,21b2
+  ca: Ha anat de poc! <player> detecta i treu el parany.<wait>
+
+- offsets: 23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
+  # Used in a lot of places!
+  ca: <player> empra <article><item>.<delay>
+
+- offsets: 136e
+  ca: Algú ha emprat <article><item>.<wait>
+
+- offsets: 2883, ScriptPlayerEquippedItem
+  ca: <player> equipa <article><item>.<end>
+
+- offsets: 28cc
+  ca: <player> llença <article><item>.<wait>
+
+- offsets: 20ff,23ec,2554,2582,2677,2803
+  ca: No fa cap efecte.<delay>
+
+- offsets: 2418,242a,244c,245e,2486
+  ca: Però <article><item> és inútil aquí.<wait>
+
+- offsets: 2304
+  ca: El grup no pot desembarcar aquí.<wait>
+
+- offsets: 2438,246d
+  ca: El grup s'embarca a bord de <item>.<delay>
+
+- offsets: 2311
+  ca: El grup desembarca de <item>.<delay>
+
+- offsets: 2402,2569,26af,2701,2816
+  ca: Però no succeeix res.<delay>
+
+- offsets: # unused
+  ca: Els ulls <del><monster> estan en blanc.<delay>
+
+- offsets: 2505,2597,25f9,26f1,2742,27a2
+  ca: Sembla que no és el millor moment per això.<delay>
+
+- offsets: 24ff,2514,258b,25ed,264b,2733,2793
+  ca: <player> treu <article><item>.<delay>
+
+- offsets: 251a,279d,25aa,2651
+  # 251a = use SearchLight when not in a dungeon (or a battle)
+  # 279d = use Compass when not in a dungeon (or a battle)
+  # We add 25aa, 2651 here:
+  # 25aa = use Alsuline in the wrong place, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  ca: Això no és necessari ara.<wait>
+
+- offsets: 112c
+  ca: Es fosc com la gola del llop. No podem avançar.<wait>
+
+- offsets: 27c3
+  ca: Ara mireu al est.<wait>
+
+- offsets: 27cf
+  ca: Ara mireu al oest.<wait>
+
+- offsets: 27bc
+  ca: Ara mireu al nord.<wait>
+
+- offsets: 27ca
+  ca: Ara mireu al sud.<wait>
+
+- offsets: 2611
+  # Using Polymeteral in the wrong place
+  ca: Ondia, això fa catipén.<wait>
+
+- offsets: 2276,228e
+  # Using the Telepathy Ball or Lutz's Telepathy spell in front of a pitfall
+  ca: <player> té un mal pressentiment.<wait>
+
+- offsets: 2269,2271,2289
+  # Using either of the above if not in front of a pit
+  ca: <player> no sent res.<wait>
+
+- offsets: 269f
+  # Use Eclipse Torch on a monster
+  ca: <Article><monster> veu la flama vermella i la por l'emplena. <delay>
+
+- offsets: 273d
+  # Use Laerma Berries in the wrong place
+  # Comes immediately after "<player> took out the <item>."
+  # May not be Alisa.
+  ca: Ningú té gana, així que les torna a guardar.<wait>
+
+- offsets: 277b
+  # Trying to use Hapsby in battle
+  ca: Hapsby nega amb el cap.<wait>
+
+- offsets: 2784
+  # Trying to use Hapsby outside of battle
+  ca: En Hapsby té el cap dur.<wait>
+
+- offsets: 281b
+  ca: Aquest objecte és sempre actiu. No cal que l'utilitzeu.<wait>
+
+- offsets: 218d,2195,299f,2a2e,579d
+  # 218d = untrap not in dungeon
+  # 2195 = untrap with no chest
+  # 25aa = use Alsuline in the wrong place, changed to adad
+  # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
+  # 299f = search (from menu)
+  # 2a2e = search (?)
+  # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
+  ca: No sembla que hi hagi res fora del normal aquí.<wait>
+
+- offsets: 2a15,2a9b
+  ca: Heu trobat <article><item>.<wait>
+
+- offsets: 21d9,22b5
+  ca: El cosos es tornen extranyament lleugers. <delay>
+
+- offsets: 2248
+  ca: <player> reviu.<wait>
+
+- offsets: 1b45,1f21
+  ca: Tylon no pot emprar màgia. <delay>
+
+- offsets: 1b9e,1f1c
+  ca: <player> no ha après encara cap encanteri. <delay>
+
+- offsets: 28a3, ScriptPlayerCantEquipItem
+  ca: <player> no es pot equipar amb <article><item>.<wait>
+
+- offsets: 283e
+  ca: No cal equipar aquest objecte.<wait>
+
+- offsets: 1872
+  # <number> is always >1
+  ca: Heu guanyat <number> punts d'experiéncia.<wait>
+
+- offsets: 18f3
+  ca: <player> ha pujat de nivell.<wait>
+
+- offsets: 1910
+  ca: <player> ha après un nou encanteri.<wait>
+
+- offsets: 17ff
+  ca: <Article><monster> té un Cofre del Tresor.<end>
+
+- offsets: 6c6e
+  ca: Heu trobat un Cofre del Tresor.<end>
+
+- offsets: 2a37
+  ca: Voleu obrir-lo?<end>
+
+- offsets: ChestMesetasPlural # Was 2a8c
+  ca: Heu trobat <number> Meseta dintre.<wait>
+
+- offsets: ChestMesetasSingular
+  # Not in the original
+  ca: Heu trobat <number> Meseta dintre.<wait>
+
+- offsets: 2a73
+  ca: És buit.<wait>
+
+- offsets: 2918
+  ca: No podeu carregar res més. Voleu llençar alguna cosa?<end>
+
+- offsets: 2938
+  ca: Quin objecte voleu llençar?<end>
+
+- offsets: 296a
+  # this runs into the next one...
+  ca: Heu llençat <article><item>.<end>
+
+- offsets: 297d
+  ca: Aconseguiu <article><item>.<wait>
+
+- offsets: 2923
+  ca: Voleu descartar <article><item>?<end>
+
+- offsets: 292e
+  ca: Descarteu <article><item>.<wait>
+
+- offsets: 28c3,295d
+  ca: No pots llençar <article><item>!<wait>
+
+- offsets: 1ba7,1f2d
+  ca: No teniu prous punts de màgia.<delay>
+
+- offsets: 2236
+  ca: <player> és encara viu.<delay>
+
+- offsets: 17ea
+  #<wait> because else you can't read it when you defeat Dark Force...
+  ca: Heu derrotat <article><monster>.<wait>
+
+- offsets: 14a6,15e4,1648,4c69,590f
+  ca: <player> ha mort.<delay>
+
+- offsets: 19f7,2b0f
+  # Selecting a player from the menu when they are dead, to do something like heal them.
+  ca: <player> ja es mort.<delay>
+
+- offsets: 1786
+  ca: Alisa i els seus companys han estat aniquilats.<wait>
+
+- offsets: 178c
+  ca: |
+    La esperança d'Alisa s'ha esvaït davant les ambicions d'en Lashiec.<wait more>
+    El viatge acaba aquí.<wait>
+
+# **************
+# *** Hapsby ***
+# **************
+
+- offsets: 5959
+  ca: On voleu anar?<end>
+
+- offsets: 5995
+  ca: Voleu anar a Skray, a Dezoris?<end>
+
+- offsets: 5990
+  ca: Voleu anar a Uzo, a Motavia?<end>
+
+- offsets: 598a
+  ca: Voleu anar a Gothic, a Palma?<end>
+
+- offsets: 5980
+  ca: Hem arribat a Skray.<end>
+
+- offsets: 597b
+  ca: Hem arribat a Uzo.<end>
+
+- offsets: 5975
+  ca: Hem arribat a Gothic.<end>
+
+- offsets: # Unused...
+  ca: Anem!<delay>
+
+# *************
+# *** Shops ***
+# *************
+
+- offsets: 2d1c
+  ca: Benvinguts a l'armeria.<end>
+
+- offsets: 2d27,2d89,2e46,537e
+  ca: Vagin amb compte, i a reveure.<wait>
+
+- offsets: 2d38
+  ca: Que puc fer per vostès?<end>
+
+- offsets: 2d7e
+  ca: Perfecte. Alguna cosa més?<end>
+
+- offsets: 2d98,539c
+  ca: No podeu carregar res més. Torneu quan ho pogueu fer.<wait>
+
+- offsets: 2deb
+  ca: Benvinguts a la farmàcia. En què els puc ajudar?<end>
+
+- offsets: 2df4
+  ca: Benvinguts a la ferreteria. En qué els puc ajudar?<end>
+
+- offsets: 2e0d
+  ca: Que teniu?<end>
+
+- offsets: 2e4f
+  # No item in the game sells for exactly 1 Meseta.
+  ca: Hmm, <article><item>? Que et sembla <number> Meseta?<end>
+
+- offsets: 2e66
+  ca: Meravellós! Teniu quelcom més per mí?<end>
+  
+- offsets: 2e3d
+  # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
+  ca: Això farà servei més endavant.<wait>
+  
+- offsets: 2bc0,2d9d,4d88,538f
+  ca: |
+    Sembla que no teniu diners suficients.<line>
+    Torneu més tard.<wait>
+
+# ****************
+# *** Hospital ***
+# ****************
+
+- offsets: 2ae9
+  ca: Benvinguts a l'hospital. Necessiteu atenció mèdica?<end>
+
+- offsets: 2b54
+  ca: |
+    Hmm. Us puc deixar com nous per <number> Meseta. Ho tirem endavant?<end>
+
+- offsets: 2b99
+  ca: Algú més necessita tractament?<end>
+
+- offsets: 2af9
+  ca: Qui requereix la nostra atenció?<end>
+
+- offsets: 2b8a
+  ca: |
+    Merci per la vostra paciència.<line>
+    Aneu amb compte.<wait>
+
+- offsets: 2bb1
+  ca: Em sap greu no haver pogut ajudar. Aneu amb compte allà fora.<wait>
+
+- offsets: 2b37
+  ca: Aneu amb compte allà fora.<wait>
+
+- offsets: 2b2b
+  ca: Sembleu estar en un estat de salut perfecte...<wait>
+
+# **************
+# *** Church ***
+# **************
+
+- offsets: 2be7
+  ca: Això és una església. Necessiteu reviure una ànima que ha partit?<end>
+
+- offsets: # Unused
+  ca: Aleshores pregaré per vosaltres.<wait>
+
+- offsets: 2bfb
+  ca: Qui ha de ser retornat?<end>
+
+- offsets: 2c24
+  # Resurrection cost is Level * 20 so is definitely plural.
+  ca: La donació suggerida és <number> Meseta.<end>
+
+- offsets: 2c37
+  ca: Penseu en els que han partit mentre reso una pregària.<delay>
+
+- offsets: 2c60
+  # If you have enough money
+  ca: ArtemuhamuRAmu! ArtemuhamuHAmu! STRATOPON!<delay>
+
+- offsets: 2c82
+  # If you don't have enough money
+  ca: |
+    ArutemuhamuRAmu A--hh!<line>
+    Cof! Cof!<wait more>
+    Perdó.<line>
+    Per alguna raó, he fallat.<wait>
+
+- offsets: 2c71
+  ca: Algú més?<end>
+
+- offsets: 2ca8
+  ca: Per pujar de nivell,<wait>
+
+- offsets: 2d16
+  ca: a <player> li manquen <number><internal hint 01> punt<s> d'experiència.<wait>
+  
+- offsets: 2cef
+  # If a party member is already at max level...
+  ca: <player> ja és en plena forma.<wait>
+
+- offsets: 2ca2
+  ca: Que el teu futur porti benediccions de Déu.<wait>
+
+- offsets: 2c90
+  ca: |
+    <player>? No em sembla pas mort.<wait more>
+    Si necessiteu atenció médica, us suggereixo anar al hospital més proper.<end>
+
+# ************************
+# *** Monster Dialogue ***
+# ************************
+# First 9 are in response to the "speak" battle menu
+
+- offsets: 1ae5
+  ca: ‘Volem ser amics dels de Palma.’<wait>
+
+- offsets: 1ae7
+  ca: ‘Em podría menjar uns Fruits de Laerma ara!’<wait>
+
+- offsets: 1ae9
+  ca: ‘No heu d'anar en contra Lashiec.’<wait>
+
+- offsets: 1aeb
+  ca: ‘Ah! Enteneu la nostra llengua?’<wait>
+
+- offsets: 1aed
+  ca: ‘Au!’<wait>
+
+- offsets: 1aef
+  ca: ‘Quan sigueu a les masmorres, vigileu amb els paranys.’<wait>
+
+- offsets: 1af1
+  ca: ‘Podeu resultar ferits si obriu cofres del tresor sense precaució.’<wait>
+
+- offsets: 1af3
+  ca: ‘Maleïts lladres!’<wait>
+
+- offsets: 1af5
+  ca: ‘La gent ens odia independentment del que fem.’<wait>
+
+# The next 10 are from enemies that you can only talk to with magic.
+
+- offsets: 1cce
+  ca: ‘La Flauta Calmant sona tan bé!’<wait>
+
+- offsets: 1cd0
+  ca: ‘Els Trencaglaços poden travessar el gel!’<wait>
+
+- offsets: 1cd2
+  ca: ‘En Lashiec viu dalt del cel.’<wait>
+
+- offsets: 1cd4
+  # This line has a typo: ラスコニアンポット should be ラコニアンポット.
+  # Please note that the kanji rendition below fixes this mistake.
+  ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
+
+- offsets: 1cd6
+  ca: ‘Hi ha llocs al cel que ni una nau espacial hi pot arribar.’<wait>
+
+- offsets: 1cd8
+  ca: ‘Heu de disposar de un cert objecte per fer creixer els Fruits de Laerma.’<wait>
+
+- offsets: 1cda
+  ca: ‘Alguns laberints a les masmorres tenen portes amagades.’<wait>
+
+- offsets: 1cdc
+  ca: ‘La Clau Miraculosa pot obrir portes màgiques!’<wait>
+
+- offsets: 1cde
+  ca: ‘Alguns habitants de Dezoris son mentiders, ves amb compte’<wait>
+
+- offsets: 1ce0
+  ca: |
+    ‘Certament sou molt valents de parlar amb mi. Us direu un secret a canvi.<wait more>
+    La mateixa telepatia que feu servir ara us pot ajudar a descobrir paranys.’<wait>
+
+# **************
+# *** Saving ***
+# **************
+
+- offsets: 1e3b
+  ca: |
+    Guardant la partida?<line>
+    Seleccioneu una ranura.<end>
+
+- offsets: ScriptConfirmSlot
+  ca: Ranura <number>, està segur?<end>
+
+- offsets: 1e55
+  ca: D'acord, guardant a la ranura <number>...<delay>
+
+- offsets: ScriptDone,1e91
+  ca: ...fet.<wait>
+
+# ************************
+# *** Loading/Deleting ***
+# ************************
+
+ # Continue/Save "dialogue" removed...
+- offsets: #07ee
+  ca: |
+    Continuant una partida guardada.<line>
+    Si us play escull una ranura.<end>
+
+- offsets: #07fe
+    <number>.<delay>
+  ca: D'acord. Continuant desde la ranura <number>.<delay>
+
+- offsets: # Unused
+  ca: |
+    Aquest mot de pas és incorrecte.<line>
+    Torna-ho a provar.<wait>
+
+- offsets: #07e3
+  # No longer used
+  ca: Voleu continuar una partida guardada?<end>
+
+- offsets: #082f
+  ca: Voleu esborrar una partida guardada?<end>
+
+- offsets: #083a
+  ca: |
+    Esborrant una partida guardada.<line>
+    Si us plau, escull una ranura.<end>
+
+- offsets: ScriptDeletingFromSlotN
+  # <delay> is nicer than<wait> here - Maxim
+  ca: Esborrant partida de la ranura <number>...<delay>
+
+- offsets: ScriptNoSavedGames
+  # This is not in the original game.
+  ca: No hi ha partides guardades!<wait>
+
+- offsets: ScriptDoYouWantToEquip
+  # This is not in the original game, see https://github.com/maxim-zhao/psrp/issues/50
+  # It is only used for weapons, shields and armour - the first 32 items in the items list.
+  ca: Aquí tens, <article><item>. El vols equipar?<end>

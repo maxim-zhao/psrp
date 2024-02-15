@@ -1,0 +1,119 @@
+﻿; Space
+00= 
+
+; Numbers
+01=0
+02=1
+03=2
+04=3
+05=4
+06=5
+07=6
+08=7
+09=8
+0A=9
+
+; Uppercase
+0B=A
+; À,Â -> A
+0B=Â
+0B=À
+0C=B
+0D=C
+0E=D
+0F=E
+0F=É
+0F=Ê
+10=F
+11=G
+12=H
+13=I
+14=J
+; K is unused
+15=L
+16=M
+17=N
+18=O
+19=P
+1A=Q
+1B=R
+1C=S
+1D=T
+1E=U
+1F=V
+;20=W
+; X is unused
+20=Y
+; Z is unused
+
+; Lowercase
+21=a
+22=à
+23=â
+24=b
+25=c
+26=ç
+27=d
+28=e
+29=é
+2A=ê
+2B=è
+2C=f
+2D=g
+2E=h
+2F=i
+; ï -> i
+2F=ï
+30=î
+31=j
+32=k
+33=l
+34=m
+35=n
+36=o
+37=ô
+38=p
+39=q
+3A=r
+3B=s
+3C=t
+3D=u
+3E=ù
+3F=û
+40=v
+; w is unused
+41=x
+42=y
+43=z
+
+; Punctuation
+44=.
+45=’
+45='
+46=,
+47=-
+48=!
+49=?
+; non-breaking space
+4A=_
+
+; Below here are mapping to the unaccented characters...
+
+3628=œ
+;180F=Œ
+
+; These control codes only apply to items/names...
+; These codes are not moveable without code changes.
+
+; Text between [] is skipped in menus but not in body text
+6201=[
+63=]
+; French articles with trailing spaces except for <d'>
+64=<de l'>
+65=<du> 
+66=<de la> 
+67=<des> 
+68=<d'>
+69=<de> 
+
+; Words go below...

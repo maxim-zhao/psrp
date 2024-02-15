@@ -1,0 +1,211 @@
+- name: OpeningCinema
+  de: |
+    ┌───────────────────╖
+    │Frühling, 342 AW   ║
+    │-------------------║
+    │Wohnbezirk Camineet║
+    │ auf Planet Palma. ║
+    ╘═══════════════════╝
+
+- name: WorldMenu
+  de: |
+    ┌─────────╖
+    │Status   ║
+    │Magie    ║
+    │Objekte  ║
+    │Suchen   ║
+    │Speichern║
+    ╘═════════╝
+
+- name: ChoiceMenu
+  de: |
+    ┌────╖
+    │Ja  ║
+    │Nein║
+    ╘════╝
+
+- name: BattleMenu
+  de: |
+    ┌───────╖
+    │Angriff║
+    │Magie  ║
+    │Objekte║
+    │Reden  ║
+    │Fliehen║
+    ╘═══════╝
+
+- name: ToolShopMenu
+  de: |
+    ┌─────────╖
+    │Kaufen   ║
+    │Verkaufen║
+    ╘═════════╝
+
+- name: ItemActionMenu
+  de: |
+    ┌─────────╖
+    │Benutzen ║
+    │Ausrüsten║
+    │Wegwerfen║
+    ╘═════════╝
+
+- name: BattleSpellsAlisa
+  de: |
+    ┌──────────╖
+    │Heilen    ║
+    │Flottlauf ║
+    │Seberützen║
+    │Flamme    ║
+    │Fessla    ║
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  de: |
+    ┌──────────╖
+    │Doheilen  ║
+    │Terroror  ║
+    │Waller    ║
+    │Kraftschub║
+
+- name: BattleSpellsLutz
+  de: |
+    ┌──────────╖
+    │Flamme    ║
+    │Telepath  ║
+    │Wind      ║
+    │Muwaller  ║
+    │Donner    ║
+
+- name: OverworldSpellsAlisa
+  de: |
+    ┌──────────╖
+    │Heilen    ║
+    │Truppa    ║
+
+- name: OverworldSpellsMyau
+  de: |
+    ┌──────────╖
+    │Doheilen  ║
+    │Ellaf     ║
+    │Ausgang   ║
+
+- name: OverworldSpellsLutz
+  de: |
+    ┌──────────╖
+    │Doheilen  ║
+    │Ausgang   ║
+    │Telepath  ║
+    │Musesam   ║
+    │Beleben   ║
+
+- name: SpellMenuBottom
+  de: ╘══════════╝
+    
+- name: StatsMenuDimensions
+  de: |
+    ┌───────────────╖
+    │Stufe        99║
+    │Erfahrung 65535║
+    │Stärke      255║
+    │Abwehr      255║
+    │LP-Maximum  255║
+    │MP-Maximum  255║
+    │Meseta    65535║
+    ╘═══════════════╝
+
+- name: EquimentMenuDimensions
+  de: |
+    ┌────────────────────╖
+    │                    ║
+    │                    ║
+    │                    ║
+    ╘════════════════════╝
+
+- name: InventoryMenuDimensions
+  de: |
+    ┌────────────────────╖
+    │Meseta         65535║
+    │Nächste Seite       ║
+    │Item 1              ║
+    │Item 2              ║
+    │Item 3              ║
+    │Item 4              ║
+    │Item 5              ║
+    │Item 6              ║
+    │Item 7              ║
+    │Item 8              ║
+    ╘════════════════════╝
+
+- name: TopBorder10
+  # inventory, currently equipped items # Not shop MST any more
+  de: ┌────────────────────╖
+
+- name: BottomBorder10
+  # inventory, currently equipped items
+  de: ╘════════════════════╝
+
+- name: InventoryNextMenu
+  de: │Nächste Seite       ║
+
+- name: HapsbyTravelMenu
+  de: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skure ║
+    ╘══════╝
+
+- name: SoundTestMenuTop
+  de: ┌─────────────╖
+
+- name: SoundTestMenuChipPSG
+  de: │Chip  SN76489║
+
+- name: SoundTestMenuChipYM2413
+  de: │Chip   YM2413║
+
+- name: SoundTestMenu
+  de: |
+    │-------------║
+    │Titelbild    ║
+    │Intro        ║
+    │Stadt        ║
+    │Höhle        ║
+    │Laden        ║
+    │Kirche       ║
+    │Palma        ║
+    │Kampf        ║
+    │Zwischenszene║
+    │Dorf         ║
+    │Fahrzeug     ║
+    │Motavia      ║
+    │Dezoris      ║
+    │Turm         ║
+    │Letzte Höhle ║
+    │Lashiec      ║
+    │Dark Falz    ║
+    │Endszene     ║
+    │Spielende    ║
+    ╘═════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
+  de: |
+    ┌───────────────────────╖
+    │Gehgeschwindigkeit   x ║
+    │Erfahrung            x ║
+    │Meseta               x ║
+    │Kampfhäufigkeit        ║
+    │Alisas Haare           ║
+    │Schriftart             ║
+    │Bildwechsel            ║
+    │Textgeschwindigkeit  x ║
+    ╘═══════════════════════╝
+
+- name: ContinueMenu
+  de: |
+    ┌───────╖
+    │Laden  ║
+    │Löschen║
+    ╘═══════╝

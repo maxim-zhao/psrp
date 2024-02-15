@@ -1,0 +1,212 @@
+- name: OpeningCinema
+  fr: |
+    ┌────────────────────╖
+    │Printemps, année 342║
+    │--------------------║
+    │District résidentiel║
+    │de Camineet sur     ║
+    │la planète Palma.   ║
+    ╘════════════════════╝
+
+- name: WorldMenu
+  fr: |
+    ┌──────╖
+    │Infos ║
+    │Magies║
+    │Objets║
+    │Sonder║
+    │Sauver║
+    ╘══════╝
+
+- name: ChoiceMenu
+  fr: |
+    ┌───╖
+    │Oui║
+    │Non║
+    ╘═══╝
+
+- name: BattleMenu
+  fr: |
+    ┌──────╖
+    │Combat║
+    │Magies║
+    │Objets║
+    │Parler║
+    │Fuir  ║
+    ╘══════╝
+
+- name: ToolShopMenu
+  fr: |
+    ┌───────╖
+    │Acheter║
+    │Vendre ║
+    ╘═══════╝
+
+- name: ItemActionMenu
+  fr: |
+    ┌────────╖
+    │Utiliser║
+    │Équiper ║
+    │Jeter   ║
+    ╘════════╝
+
+- name: BattleSpellsAlisa
+  fr: |
+    ┌────────────────╖
+    │Soins           ║
+    │Déguerpir       ║
+    │Traducteur      ║
+    │Flammes         ║
+    │Ligoter         ║
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  fr: |
+    ┌────────────────╖
+    │Super Soins     ║
+    │Terroriser      ║
+    │Barrière        ║
+    │Tonifier        ║
+
+- name: BattleSpellsLutz
+  fr: |
+    ┌────────────────╖
+    │Flammes         ║
+    │Télépathie      ║
+    │Tornades        ║
+    │Barrière Magique║
+    │Foudre          ║
+
+- name: OverworldSpellsAlisa
+  fr: |
+    ┌────────────────╖
+    │Soins           ║
+    │Téléporter      ║
+
+- name: OverworldSpellsMyau
+  fr: |
+    ┌────────────────╖
+    │Super Soins     ║
+    │Déminer         ║
+    │Passe-muraille  ║
+
+- name: OverworldSpellsLutz
+  fr: |
+    ┌────────────────╖
+    │Super Soins     ║
+    │Passe-muraille  ║
+    │Télépathie      ║
+    │Desceller       ║
+    │Renaître        ║
+
+- name: SpellMenuBottom
+  fr: ╘════════════════╝
+
+- name: StatsMenuDimensions
+  fr: |
+    ┌────────────────╖
+    │Niveau        99║
+    │Expérience 65535║
+    │Attaque      255║
+    │Défense      255║
+    │HP maximum   255║
+    │MP maximum   255║
+    │Meseta     65535║
+    ╘════════════════╝
+
+- name: EquimentMenuDimensions
+  fr: |
+    ┌──────────────────╖
+    │                  ║
+    │                  ║
+    │                  ║
+    ╘══════════════════╝
+
+- name: InventoryMenuDimensions
+  fr: |
+    ┌──────────────────╖
+    │Meseta       65535║
+    │Suite             ║
+    │Item 1            ║
+    │Item 2            ║
+    │Item 3            ║
+    │Item 4            ║
+    │Item 5            ║
+    │Item 6            ║
+    │Item 7            ║
+    │Item 8            ║
+    ╘══════════════════╝
+
+- name: TopBorder10
+  # inventory, currently equipped items # Not shop MST any more
+  fr: ┌──────────────────╖
+
+- name: BottomBorder10
+  fr: ╘══════════════════╝
+
+- name: InventoryNextMenu
+  # inventory, currently equipped items
+  fr: │Suite             ║
+
+- name: HapsbyTravelMenu
+  fr: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skure ║
+    ╘══════╝
+
+- name: SoundTestMenuTop
+  fr: ┌─────────────╖
+
+- name: SoundTestMenuChipPSG
+  fr: │Puce  SN76489║
+
+- name: SoundTestMenuChipYM2413
+  fr: │Puce   YM2413║
+
+- name: SoundTestMenu
+  fr: |
+    │-------------║
+    │Écran Titre  ║
+    │Introduction ║
+    │Ville        ║
+    │Donjon       ║
+    │Magasin      ║
+    │Église       ║
+    │Palma        ║
+    │Bataille     ║
+    │Histoire     ║
+    │Village      ║
+    │Véhicule     ║
+    │Motavia      ║
+    │Dezoris      ║
+    │Tour         ║
+    │Donjon Final ║
+    │LaShiec      ║
+    │Force Obscure║
+    │Fin          ║
+    │Game Over    ║
+    ╘═════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
+  fr: |
+    ┌──────────────────────╖
+    │Vitesse de marche   x ║
+    │Expérience          x ║
+    │Mesetas             x ║
+    │Combats               ║
+    │Cheveux d'Alisa       ║
+    │Police                ║
+    │Fondu                 ║
+    │Vitesse du texte    x ║
+    ╘══════════════════════╝
+
+- name: ContinueMenu
+  fr: |
+    ┌───────╖
+    │Charger║
+    │Effacer║
+    ╘═══════╝

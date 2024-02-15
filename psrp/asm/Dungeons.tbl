@@ -1,0 +1,86 @@
+; Abusing TBLs for dungeon maps!
+; This is tricky because we need to encode whole bytes.
+; Unicode:
+; 🌫 = 0 = path
+; 🧱 = 1 = wall
+; 🔼 = 2 = stairs up
+; 🔽 = 3 = stairs down
+; 🚪 = 4 = Unlocked door	; bit 7 determines if it's open (set) or not (clear)
+; 🔐 = 5 = Dungeon key door
+; 🎩 = 6 = Magically locked door
+; 📄 = 7 = Fake wall (or credits text)
+; Note that the below are kind of the same as above but with bit 3 set, making them "special" versions of the same thing
+; 📦 = 8 = object (or pitfall) -> "special" path
+; No 9
+; ⏫ = A = Exit up             -> "special" stairs up
+; ⏬ = B = Exit down           -> "special" stairs down
+; ⏩ = C = Exit door           -> "special" unlocked door
+; ⏹ = D = Exit locked door    -> "special" dungeon key door
+; 🎆 = E = Exit magical door   -> "special" magically locked door
+
+11=🧱🧱
+10=🧱🌫
+01=🌫🧱
+00=🌫🌫
+
+12=🧱🔼
+21=🔼🧱
+02=🌫🔼
+20=🔼🌫
+
+03=🌫🔽
+30=🔽🌫
+13=🧱🔽
+31=🔽🧱
+
+04=🌫🚪
+40=🚪🌫
+14=🧱🚪
+41=🚪🧱
+
+05=🌫🔐
+50=🔐🌫
+15=🧱🔐
+51=🔐🧱
+
+06=🌫🎩
+60=🎩🌫
+16=🧱🎩
+61=🎩🧱
+
+07=🌫📄
+70=📄🌫
+17=🧱📄
+71=📄🧱
+77=📄📄
+
+08=🌫📦
+80=📦🌫
+18=🧱📦
+81=📦🧱
+
+1A=🧱⏫
+A1=⏫🧱
+0A=🌫⏫
+A0=⏫🌫
+
+1B=🧱⏬
+B1=⏬🧱
+0B=🌫⏬
+B0=⏬🌫
+
+0C=🌫⏩
+C0=⏩🌫
+1C=🧱⏩
+C1=⏩🧱
+
+0D=🌫⏹
+D0=⏹🌫
+1D=🧱⏹
+D1=⏹🧱
+
+E1=🎆🧱
+1E=🧱🎆
+
+; weird one
+CA=⏩⏫

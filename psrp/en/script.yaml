@@ -1,0 +1,2375 @@
+# ********************
+# *** Introduction ***
+# ********************
+
+- offsets: 45ef
+  # Game intro
+  # Nero on ground, robot police
+  en: |
+    Citizens of Camineet, this boy’s corpse is a reminder for all of you.<line><line>
+    Defiance of Lord LaShiec will not be tolerated!<wait more>
+    Nero? NERO!<line><line>
+    What happened?!<wait>
+
+- offsets: 45fa
+  # Game intro
+  # Nero, dying
+  en: |
+    Alisa, my sister.<line><line>
+    Listen closely, I don’t have long.<wait more>
+    The rumors we've heard are true. LaShiec has... changed.<line>
+    And it goes beyond his military taking over our streets.<wait more>
+    All of the horrible creatures outside, all of the darkness in our lives...<line><line>
+    Somehow, it all traces back to him.<wait more>
+    I tried to learn how, but I guess I got too close to the truth.<line><line>
+    There's only one option left now, for all of us.<wait more>
+    Lord LaShiec must be stopped.<line><line>
+    If he isn't, the darkness he's aligned himself with will claim all of Algol.<wait more>
+    My mistake was trying to take him on alone.<line><line>
+    These are dangerous people, you’re going to need help.<wait more>
+    I’ve heard tales of a warrior, a man named Tylon, who could be an ally.<line><line>
+    I tried to enlist his help, but he's gone missing.<wait more>
+    You have to find him, Alisa.<line><line>
+    Find Tylon, and defeat LaShiec. Together, you can bring peace back to Algol.<wait more>
+    Alisa... such a terrible burden. I’m so sorry.<line><line>
+    Please forgive me, for asking this of you...<wait more>
+    ...and for leaving you all...<line><line>
+    ...alone...<wait>
+
+- offsets: 4605
+  # Game intro
+  # Alisa
+  en: |
+    Nero...<wait more>
+    Your death will not be meaningless, I swear it.<line><line>
+    I won't let these monsters take our home.<wait more>
+    Watch over and protect me, big brother.<line><line>
+    With your spirit by my side, LaShiec doesn't stand a chance.<wait>
+
+# *************************************
+# *** Camineet Residential District ***
+# *************************************
+
+- offsets: 58fc
+  # Camineet
+  # Alisa's house
+  en: |
+    This is Alisa’s home.<line><line>
+    Nero's things are still where he left them.<wait>
+
+- offsets: 4b48
+  # Camineet
+  # Suelo (first visit)
+  # Note that Alisa may be dead - but it's pretty unlikely 
+  # and the original script assumes she is alive
+  en: |
+    Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
+    I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
+    If you ever get hurt, come back here to heal.<wait more>
+    We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
+
+- offsets: 4b4e
+  # Camineet
+  # Suelo (subsequent visits and also immediately after the preceding text)
+  # Note: Alisa may not be alive later, so make sure the text here doesn't talk to her directly.
+  en: |
+    Please get some rest. Don't overdo it, okay? You will always be welcome here.<wait>
+- offsets: 4b62
+  # Camineet
+  # Nekiseh (first visit)
+  # Alisa is not guaranteed to be alive...
+  # Following script entry is shown immediately afterwards.
+  en: |
+    My name is Nekise.<line>
+    Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
+    The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
+    Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
+    It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
+
+- offsets: 4b7c
+  # Camineet
+  # Nekiseh (additional text on first visit; only text on subsequent visits)
+  en: I wish there was more I could do for you. Please be safe out there.<wait>
+
+- offsets: 4b82
+  # Camineet resident - man
+  en: |
+    I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
+    Camineet used to be so nice. How did it come to this?<wait>
+
+- offsets: 4b88
+  # Camineet resident - man
+  en: Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
+
+- offsets: 4b8e
+  # Camineet resident - man
+  en: Some dungeons are pitch black, make sure you always have a light source with you.<wait>
+
+- offsets: 4b94
+  # Camineet resident - man
+  en: |
+    You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
+    I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
+
+- offsets: 4b9a
+  # Camineet resident - man
+  en: You can buy just about anything in port towns. I even got a fake I.D. once!<wait>
+
+- offsets: 4bba
+  # Camineet police
+  en: Remain inside the residential area. It is not safe for citizens outside.<wait>
+
+- offsets: 4bc0
+  # Camineet police
+  en: We cannot protect you outside. Stay inside of your homes until the danger has passed.<wait>
+
+- offsets: 4bcd,4c26,4cc2,4d0e
+  # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
+  # Spaceport guard (say "no" to question about passport) - Camineet (4c26) and Parolit (4cc2)
+  en: Authorization is required to pass this point. Stay back or we will use force!<wait>
+
+- offsets: 4bda,4d23
+  # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
+  en: Nobody gets through here without a Roadpass.<wait>
+
+- offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
+  # Road guard (with a Roadpass) - Camineet (4be0) and Parolit (4d18, 4d2d)
+  # Spaceport guard (say "yes" with a Passport) - Camineet (4cd5) and Parolit (4c3a)
+  # Triada prison guard (say "yes" with a Roadpass) (5497)
+  en: Okay, go on through.<wait>
+
+- offsets: 4ba0
+  # Camineet resident - man
+  en: Do you know about all the planets in the Algol Solar System?<end>
+
+- offsets: 4bb4
+  # Camineet resident - man - "no" to question about Algol
+  # <number> is always 3.
+  en: |
+    Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
+    Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
+    Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
+    Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
+    And Dezoris is a planet of ice. Very little life thrives on its frozen surface.<wait more>
+    All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
+    Every day draws us closer to a crisis that can never be reversed.<wait>
+
+- offsets: 4ba9,4e06,4e26
+  # Camineet resident - man - "yes" to question about Algol
+  # Eppi resident - "yes" to question about strongest material
+  # Eppi resident - "no" to question about Dungeon Key
+  en: Oh. Okay.<wait>
+
+# ************************************
+# *** Parolit Residential District ***
+# ************************************
+
+- offsets: 4bf1
+  # Woman
+  en: Welcome to Parolit residential district.<wait>
+
+- offsets: 4bf7
+  # Man
+  en: The forest is especially dangerous lately, be careful if you head that way.<wait>
+
+- offsets: 4bfd
+  # Man
+  en: |
+    Rumors are going around that Medusa has returned to her cave, just south of here.<wait more>
+    They say one look turns you into a living statue. That can't be true, can it?<wait>
+
+- offsets: 4c03
+  # Man
+  en: If you're looking for a port town, Shion is just east of here.<wait>
+
+- offsets: 4c09
+  # Man
+  en: |
+    Our Spaceport flies directly to Paseo, the capital of Motavia.<wait more>
+    I'd love to go someday. I've never been off-planet before!<wait>
+
+- offsets: 4c0f
+  # Man
+  en: |
+    Did you know there’s an underground passage leading west, to the Gothic Woods?<wait more>
+    Supposedly it’s somewhere nearby, but I can’t find it.<wait>
+
+
+# ***********************
+# *** Port town Shion ***
+# ***********************
+
+- offsets: 4c40
+  # Man
+  en: |
+    We're not the only intelligent life in the Algol Solar System, you know.<wait more>
+    Motavia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
+    I'd love to have a conversation with an actual alien someday...<wait>
+
+- offsets: 4da7
+  # Man (if you haven't bought Myau yet)
+  # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
+  en: |
+    Yeah, Tylon was here. He said he was heading south-west to slay Medusa. I haven't seen him since.<wait more>
+    He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
+    It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
+
+- offsets: 4dac
+  # Same man (after you get Myau)
+  en: It’s about time someone took on LaShiec. God be with you.<wait>
+
+- offsets: 4db6
+  # If you haven't bought Myau yet
+  en: |
+    This is going to sound crazy, but I found a talking animal wandering Medusa’s dungeon.<wait more>
+    I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
+
+- offsets: 4dbb
+  # Same person as above (if you have bought Myau)
+  # He'd just sold Myau for a huge sum of money earlier, so he's probably more greedy than destitute.
+  en: |
+    The economy’s plummeted since LaShiec came into power.<wait more>
+    I’m so broke, I don’t know what to do...<wait>
+
+- offsets: 4dc1
+  # The peninsula is more south-east than south.
+  en: Iala Cave lies on the peninsula south-east of here.<wait>
+
+- offsets: 4dc7
+  en: |
+    Welcome to Shion, the busiest port on Palma... or at least, it was.<wait more>
+    With the world the way it is lately, there isn't much trade going on anymore.<wait>
+
+- offsets: 4dcd
+  en: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
+
+- offsets: 4dd3
+  en: The only way to open a door sealed with magic is to cast a spell of your own.<wait>
+
+- offsets: 4dd9
+  en: |
+    To the north, past the prison, is the pride of Palma: a beautiful knoll called Baya Marlay.<wait more>
+    Too bad nobody can get to it anymore...<wait>
+
+- offsets: 4ddf
+  # Woman next to dock
+  en: |
+    I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
+    But with all these monsters suddenly appearing, I can't go near it anymore.<wait>
+
+- offsets: 2dab
+  # Trader (first time you buy the Secret Thing)
+  en: I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
+
+- offsets: 2db0
+  # Trader (second time you buy the Secret Thing)
+  en: |
+    Give it up, will ya? I already told you, we're a legitimate business.<wait more>
+    Get out of my store.<delay>
+
+- offsets: 2ddc
+  # Trader (third time you buy the Secret Thing)
+  en: |
+    You’re not going to give up, are you? Fine, just take it.<wait more>
+    One Roadpass, signed and certified. But you didn't get this from me, understand?<wait>
+
+# ******************
+# *** Eppi woods ***
+# ******************
+
+- offsets: 578f
+  en: You got lost in the woods.<wait>
+
+# ***********************
+# *** Palma Spaceport ***
+# ***********************
+
+- offsets: 4c9e
+  # Luggage handler
+  en: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
+
+- offsets: 4ca4
+  # Luggage handler
+  en: The Governor-General rules all of Motavia from his office in Paseo.<wait>
+
+- offsets: 4caa
+  # Luggage handler
+  en: Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
+
+- offsets: 4c1d,4cb7
+  # Airstrip guards
+  en: Do you have a Passport?<end>
+  
+- offsets: 4c30,4ccf
+  # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
+  en: Well? Let’s see it.<wait>
+
+- offsets: 4d33
+  # Passport office
+  en: Are you here to apply for a Passport?<end>
+
+- offsets: 4d44
+  # Passport office
+  en: |
+    I’m required by law to ask you a series of questions.<wait more>
+    Have you ever been convicted of a crime?<end>
+
+- offsets: 4d55
+  # Passport office
+  en: Are you suffering from an illness that may be contagious to other passengers?<end>
+
+- offsets: 4d6c
+  # Passport office
+  # <number> is always 100.
+  en: There is a handling fee of <number> Meseta. Are you willing to pay?<end>
+
+- offsets: 4d91
+  # Passport office
+  en: |
+    Great! Here is your passport. Be sure to retain possession of it at all times.<wait more>
+    Next in line?<wait>
+
+- offsets: 4d3e,4d77,4eca
+  # Passport office (say "no" to question about applying)
+  # Passport office (say "no" to question about paying)
+  # Paseo trader (say "no" to offer to trade the Laconian Pot for Myau)
+  en: Oh, okay then.<wait>
+
+- offsets: 4d4f,4d60
+  # Passport office (say "yes" to question about doing bad things)
+  # Passport office (say "yes" to question about having an illness)
+  en: I’m sorry, you don't qualify. Feel free to try again later. Next?<wait>
+
+- offsets: 5939
+  en: This is a non-stop flight to Motavia. Getting on?<end>
+
+
+# ***********************
+# *** Paseo Spaceport ***
+# ***********************
+
+- offsets: 4e31
+  # Luggage handler
+  en: This is Paseo, the only spaceport on Motavia.<wait>
+
+- offsets: 4e37
+  # Luggage handler
+  en: It’s Antlion breeding season, be careful out there. They get vicious.<wait>
+
+- offsets: 4e3d
+  en: |
+    I hear there’s a cake shop in Naula cave on Palma.<wait more>
+    I wonder if it gets any business, in a cave like that?<wait>
+
+- offsets: 5949
+  en: This shuttle is heading for Palma. Getting on?<end>
+  
+
+# *************
+# *** Paseo ***
+# *************
+
+- offsets: 4e43
+  en: Even the Governor-General is on bad terms with LaShiec.<wait>
+
+- offsets: 4e49
+  en: You need to bring a gift if you're going to meet with the Governor-General.<wait>
+
+- offsets: 4e4f
+  en: The Governor-General has got a real sweet tooth.<wait>
+
+- offsets: 4e55
+  en: Mahal Cave is located in the mountains north of Paseo.<wait>
+
+- offsets: 4e5b
+  en: This is Paseo, Motavia’s capital city.<wait>
+
+- offsets: 4e61
+  en: There's no way to get past the Antlions on foot, but I've heard there's another way...<wait>
+
+- offsets: 4e67
+  en: There are intelligent monsters, but they speak a different language than ours.<wait>
+
+- offsets: 4e7f
+  # Trader (before getting Myau)
+  # <number> is always 10.
+  # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
+  en: |
+    Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
+    One billion Meseta, and it’s yours. How ’bout it?<end>
+
+- offsets: 4e8a
+  # Trader (say yes to previous question)
+  en: |
+    Whoa, seriously?<wait more>
+    Hey, where are you going?<delay>
+
+- offsets: 4e98
+  # Trader (say no to previous question, and have a Laconian pot)
+  en: |
+    That’s too bad.<wait more>
+    ...hold on, now. Is that a Laconian Pot?<wait more>
+    How ’bout a trade, the pot for the furball?<end>
+
+- offsets: 4ea9
+  # Trader (say yes to previous question)
+  en: I hate to see the little guy go, but I can’t pass up a trade like this. Take good care of ’im.<wait>
+
+- offsets: 4e73
+  # Trader (after getting Myau)
+  en: I made a fortune selling that Laconian Pot! Thanks!<wait>
+
+# ******************************
+# *** Character Intro - Myau ***
+# ******************************
+
+- offsets: 4643
+  # Alisa
+  en: |
+    I guess we’re companions now, huh?<line><line>
+    I’m Alisa. What’s your name?<wait>
+
+- offsets: 464e
+  # Myau
+  en: Myau.<wait>
+
+- offsets: 4659
+  # Alisa
+  en: |
+    Hello, Myau. I’m looking for a man named Tylon.<wait more>
+    Rumor has it he was traveling with a talking animal.<line><line>
+    I don’t suppose that was you?<wait>
+
+- offsets: 4664
+  # Myau
+  en: |
+    Tylon got turned to stone trying to slay Medusa!<line><line>
+    We can heal him with this medicine, but I can’t open the lid...<wait>
+
+- offsets: 466f
+  # Alisa
+  en: I think I can manage that.<line><line>Come on, let’s go help him!<wait>
+
+
+# ******************************
+# *** Cave South of Camineet ***
+# ******************************
+
+- offsets: 57ec
+  en: Something turned this person into stone! Maybe he can be returned to normal...<wait>
+
+- offsets: 25bd,2636
+  # Using "Alsuline" or "Polymeteral"
+  # This comes immediately after the "Alisa took out the item" message.
+  # Since it's used for the Polymeteral, too, it may not be Alisa.
+  en: |
+    Then <he/she> opened the lid on the bottle and poured out its contents.<wait more>
+    It's working!<delay>
+
+- offsets: 25af,260c,262d
+  # Using "Alsuline" or "Polymeteral" but only Myau is alive
+  # As this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
+  en: But he couldn’t open the lid to the bottle.<wait>
+
+
+# ********************************
+# *** Character Intro - Tylon ***
+# ********************************
+
+- offsets: 4688
+  # Tylon
+  # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
+  # So Tylon can't talk to Myau directly.
+  en: |
+    Ah, Myau found help. Thank you for rescuing me.<line>
+    I don't know if it will do any good though.<wait more>
+    If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<wait>
+
+- offsets: 4693
+  # Alisa
+  en: |
+    My brother Nero was killed trying to overthrow LaShiec.<wait more>
+    I'm going to destroy him, no matter what it takes.<line><line>
+    Nero gave me your name just before he died, and said that you might help me.<wait>
+
+- offsets: 469e
+  # Tylon
+  en: |
+    I see. Well then, for Nero's sake, let's team up!<line><line>
+    There's always room for one more, right Myau?<wait>
+
+- offsets: 46a9
+  # Alisa
+  en: |
+    Tell me something before we go.<line><line>
+    You said you were trying to slay Medusa. Why?<wait>
+
+- offsets: 46b4
+  # Tylon
+  en: |
+    Oh, it's because she has a magical axe, and I want it.<line><line>
+    Maybe we can grab it on the way to LaShiec?<wait more>
+    Anyway, I hid a Compass at a dead end in this cave.<line><line>
+    Come on, let's go grab it. I'm sure we could use it.<wait>
+
+
+# ************
+# *** Eppi ***
+# ************
+
+- offsets: 4de5
+  # Villager
+  en: |
+    It wouldn’t surprise me if the Governor-General of Motavia approved of what you’re doing.<wait more>
+    He might even be able to help you in your quest. Have you talked to him yet?<wait>
+
+- offsets: 4deb
+  # Villager
+  en: All the great Espers live on Motavia.<wait>
+
+- offsets: 4df1
+  # Villager
+  en: |
+    Long ago, a professor named Luveno had a research laboratory in the Gothic Woods.<wait more>
+    I wonder if it’s still there?<wait>
+
+- offsets: 4df7
+  # Villager
+  en: |
+    Welcome to Eppi Village!<wait more>
+    We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
+
+- offsets: 4dfd
+  # Villager
+  en: |
+    Taking on ol’ LaShiec, are you?<wait more>
+    You’re either a fool, or you’re tougher than you look.<wait more>
+    Either way, I admire your bravery. Are you in need of a Dungeon Key?<end>
+
+- offsets: 4e17
+  # Villager (yes to previous question)
+  en: |
+    I hid one inside the warehouse on the outskirts of Camineet’s residential district.<wait more>
+    I hid it pretty good, you might want to take a second look if you've already been there.<wait>
+
+- offsets: 4e1d
+  # Villager
+  en: Do you know what the hardest, strongest material in the world is?<end>
+
+- offsets: 4e2b
+  # Villager (no to previous question)
+  en: It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
+
+# ******************
+# *** Naula Cave ***
+# ******************
+
+- offsets: 5373
+  # Shortcake Salesman
+  # <number> is always 280.
+  en: |
+    Hey, a customer! Glad you found us. Sorry about the location...<wait more>
+    My shortcakes are the best in Algol, and a steal at only <number> Meseta. Want one?<end>
+- offsets: 5355,53a5
+  # Shortcake salesman (after purchase)
+  # Also Sopia villager if you give him a PelorieMate.
+  # Note the similarity to index 198.
+  en: Thank you!<wait>
+
+# *********************
+# *** Paseo (again) ***
+# *********************
+
+- offsets: 4fd4
+  # Guards outside Underground Passage to Governor's Mansion
+  en: zzz...<wait>
+
+- offsets: 5627
+  # Guard inside Underground Passage to Governor's Mansion
+  en: Halt! Did you bring a gift for the Governor-General?<end>
+
+- offsets: 564b
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, have shortcake)
+  en: |
+    Ah, Shortcake. He’ll be pleased. I’ll hold on to this for you.<wait more>
+    Proceed.<wait>
+
+- offsets: 5651
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, no shortcake)
+  en: These are not suitable gifts!<wait>
+
+- offsets: 5632
+  # Guard inside Underground Passage to Governor's Mansion (no to previous question)
+  en: I can’t grant you access without a gift!<wait>
+
+- offsets: 4f19
+  # Governor-General (first visit)
+  # Last part falls through to the following entry, we do not do that here.
+  en: |
+    Welcome. I am the Governor-General of this planet. You have come so far. Please, sit.<wait more>
+    I know why you are here. You’ve certainly made no secret of it. You're going to kill LaShiec.<wait more>
+    LaShiec is a powerful man. No, more than a man. He’s beyond those constraints now.<wait more>
+    You’re very brave to take him on. But bravery, I fear, will not be enough.<wait more>
+    Go. Destroy him. I won’t stop you. In fact, I will offer you assistance.<wait more>
+    A powerful Esper named Lutz lives in Mahal cave, north of here. Take this letter to him.<wait more>
+    With his help, I have faith that you will succeed. Come back here when you have.<wait>
+
+- offsets: 4f13,4fc6
+  # Governor-General (subsequent visits)
+  en: Return here when you have defeated LaShiec. God be with you.<wait>
+
+- offsets: 4f2f
+  # Governor-General (before nightmare)
+  en: You must be tired from your journey. Why don’t you rest here for a while?<wait>
+
+- offsets: 4fda
+  # Lady in Guest House
+  en: You look tired, why don’t you rest here for a while?<wait>
+  
+- offsets: 4ff9
+  # Lady in Guest House (after resting)
+  en: Good luck out there. You’re going to need it.<wait>
+
+- offsets: 4f5b
+  en: You fell into a deep sleep...<delay>
+
+- offsets: 4fa2
+  en: It was all a dream...<wait>
+
+- offsets: 4f0d
+  # Governor-General (return after dream):
+  en: |
+    There is not a single moment to lose.<wait more>
+    Please be careful.<line>
+    I pray for your safety.<wait>
+
+- offsets: 4ed6
+  # (after defeating LaShiec)
+  en: Empty! Where is the Governor-General?<wait>
+
+# ******************
+# *** Mahal cave ***
+# ******************
+
+- offsets: 53c4
+  # If you haven't found Lutz yet (unused/impossible?)
+  en: Since the orders are from the Governor-General, Lutz will probably listen.<wait>
+
+- offsets: 53c9
+  # If you have found Lutz (unused?)
+  en: Yahoo!<wait>
+
+- offsets: 53df
+  # Lutz
+  en: |
+    Who are you?<line><line>
+    I’m trying to train. Don’t interrupt me.<wait>
+
+
+# ******************************
+# *** Character Intro - Lutz ***
+# ******************************
+- offsets: 46e7
+  # Will show a picture of whichever of the party is alive at this point,
+  # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
+  # which character it is during this conversation.
+  en: |
+    You must be Lutz. I have a letter for you from the Governor-General.<line><line>
+    Would you mind reading it?<wait>
+
+- offsets: 46f2
+  en: |
+    Let me see that.<wait more>
+    ...Ah. I see. So it’s come to this.<line><line>
+    I apologize for my earlier hostility.<wait more>
+    Together, we must protect Algol from falling into the hands of evil.<line><line>
+    First, we must meet with Dr. Luveno, in the Gothic Woods.<wait more>
+    If I recall, we can get there through a manhole at Camineet Space Station.<line><line>
+    Let’s go. Quickly.<wait>
+
+
+# ********************
+# *** Gothic Woods ***
+# ********************
+- offsets: 500b,5034,533a,54a9
+  # Villager x2
+  # Sopia villager
+  # Triada prisoner
+  en: I could really use a PelorieMate. Can you spare one?<end>
+
+- offsets: 5028
+  # Villager (yes to previous question, and you have a PelorieMate)
+  en: |
+    Thanks. I suppose you’re looking for Doc Luveno? Yeah, his lab used to be here.<wait more>
+    Not no more, though. Guy went crazy. They finally locked that loon up.<wait more>
+    He’s being held in Triada, a prison south of here.<wait>
+
+- offsets: 502e,5055,535b
+  # Sopia villager (yes to previous question, and you don't have a PelorieMate)
+  # Gothic Woods villager (yes to previous question, and you don't have a PelorieMate) x2
+  en: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
+
+- offsets: 5016,503f,54b4
+  # Villager x2 (no to previous question)
+  # Triada prisoner
+  en: Then I got nothing to say to you. Get lost.<wait>
+
+- offsets: 504f
+  # Another villager (yes to previous question, and you have a PelorieMate)
+  en: |
+    Thank you, stranger.<wait more>
+    At the end of the long path directly south of here, there's an ancient tower.<wait more>
+    Word is there's a monster in there that turns you to stone if you just look at it!<wait>
+
+- offsets: 5856
+  # Villager guarding open field (no Luveno/Hapsby)
+  # Also pointed to by indices 27c, 27e, 280 but these aren't used.
+  en: Hey! Keep outta my turf! Everything past here is mine!<wait>
+
+- offsets: 585c
+  # Villager guarding open field (have Luveno/Hapsby)
+  en: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.<wait>
+
+# *********************
+# *** Triada Prison ***
+# *********************
+
+- offsets: 5485,55b3
+  # Guard Near Entrance
+  # Also index 21c: robot police in Baya Marlay Prison
+  en: Do you have a Roadpass?<end>
+
+- offsets: 549d,55e0
+  # Guard Near Entrance (no to previous question)
+  # Same sequence in Baya Marlay Prison
+  en: Intruder detected. Initiating termination sequence.<wait>
+
+- offsets: 54ca
+  # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
+  # Split up from 4c30,4ccf to allow different translations from the usage by airstrip guards
+  # TODO: consider rewriting this and the split version accordingly
+  en: Don't mess with me!<wait>
+
+- offsets: 54c4
+  # Prisoner (if you give PelorieMate)
+  en: Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.<wait>
+
+- offsets: 54ea
+  # Prisoner
+  en: The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
+
+- offsets: 550c
+  # Spider
+  en: |
+    A chemical called Polymeteral will dissolve any material!<wait more>
+    ...well, anything except Laconia, of course.<wait>
+
+- offsets: 54f0
+  # Prisoner
+  en: Oh, hi! I haven't seen another person in a long time! Will you stay and talk for a while?<end>
+
+- offsets: 54f9
+  # Prisoner (yes to previous question)
+  en: |
+    I’ve got a friend in Bartevo.<wait more>
+    I guess things are pretty bad there right now, what with those pools of lava and all.<wait more>
+    If you see him, could you say ‘hi’ to him for me?<wait>
+
+- offsets: 54d0
+  # Prisoner
+  en: Have you heard of Hapsby the robot?<end>
+
+- offsets: 54de
+  # Prisoner (no to previous question)
+  en: |
+    It’s a robot made of Laconia!<wait more>
+    Luveno created Hapsby as a prototype spaceship pilot.<wait more>
+    It was abandoned in a scrap heap and left to rot. What a waste...<wait>
+
+- offsets: 54e4
+  # Prisoner
+  en: Volcanic eruptions covered the other side of the mountains with a whole bunch of lava.<wait>
+
+- offsets: 5453
+  # Dr Luveno (first time)
+  en: Yes, I’m Dr. Luveno. If you're here to rescue me, forget it! I'm not going anywhere.<wait>
+
+- offsets: 545e
+  # Dr Luveno (second time)
+  en: What? You want me to build a spaceship?! Why would I do that? Go away, leave me be.<wait>
+
+- offsets: 5464
+  # Dr Luveno (third time)
+  en: |
+    You again? Ach, I give up. I'll build your spaceship, but there's one condition.<wait more>
+    You must promise you'll follow my instructions exactly, no matter what I ask. Agreed?<end>
+
+- offsets: 546d
+  # Dr Luveno (no to previous question)
+  en: If you won’t do as I say, there’s no way I can help you.<wait>
+
+- offsets: 5477
+  # Dr Luveno (yes to previous question)
+  en: |
+    Good. Well then, I'm off to Gothic Village to get started. I'll meet you there.<wait more>
+    Oh, don't worry about me, I'm tougher than I look. I'll make it there by myself.<wait>
+
+- offsets: 510d,5428
+  # Man in underground tunnel
+  en: Don’t distract me! I’m very busy.<wait>
+
+- offsets: 542f
+  # Man in underground tunnel
+  en: |
+    What? You busted out Doc Luveno?<wait more>
+    What?! He’s building you a spaceship?!<wait more>
+    He’s too old for this. I’d better go help him out.<wait>
+
+# *****************
+# *** Iala Cave ***
+# *****************
+
+- offsets: 5436
+  en: |
+    I’ve seen plenty of men go into the inner chamber.<wait more>
+    Coming out, though, is a different story.<wait more>
+    I’ve never seen anyone come out of there alive.<wait>
+
+# **********************
+# *** Medusa's Tower ***
+# **********************
+
+- offsets: 5512
+  en: You’ve gotten far. Soon you will know the truth.<wait>
+
+- offsets: 5518
+  # Old man in an actual dead end
+  en: Get out of here while you're still breathing! You don’t know what you’re up against!<wait>
+
+- offsets: 551e
+  en: It’s brave of you to come here. Beware of hidden traps!<wait>
+
+- offsets: 16a8
+  # Being attacked by Medusa without the Shield of Perseus equipped
+  en: <player> was turned to stone.<wait>
+
+
+# *******************************
+# *** Dr. Luveno’s Laboratory ***
+# *******************************
+
+- offsets: 507b
+  # Dr Luveno (if you didn't talk to his assistant yet)
+  en: |
+    Finally. What took you so long? First, I need you to fetch my assistant.<wait more>
+    He's probably hiding in the underground tunnel. He's shy, that one. It's irritating.<wait>
+
+- offsets: 508b
+  # Dr Luveno
+  # <number> is always 1200.
+  en: |
+    Right. It looks like my staff is assembled.<wait more>
+    What, you don’t think two people can build a spaceship?<wait more>
+    I’ll have you know I’ve been building these since you were in diapers!<wait more>
+    Now then, there's the matter of cost. Spaceships aren't free, you know.<wait more>
+    I require <number> Meseta upfront. Can you cover that?<end>
+
+- offsets: 50b5
+  # Dr Luveno (yes to the previous question)
+  en: |
+    Splendid. We’ll begin construction immediately.<wait more>
+    This is delicate work, do me a favor and try not to bother me for a while?<wait>
+
+- offsets: 50a7
+  # Dr Luveno (if you don't have enough money)
+  en: You don’t have enough? Go get some more!<wait>
+
+- offsets: 5096
+  # Dr Luveno (no to the previous question)
+  en: Ah, so you’ve wasted my time. Wonderful.<wait>
+
+- offsets: 50c3
+  # Dr Luveno (first two times you talk to him)
+  en: |
+    Please, you can’t rush perfection.<wait more>
+    Unless you want to end up stranded in space, give us time.<wait more>
+    Can’t you go wander around a cave or something? We’re very busy.<wait>
+
+- offsets: 50d1
+  # Dr Luveno (third time)
+  en: |
+    Success! This is my finest work yet.<wait more>
+    I call it the Luveno. Got a nice ring to it, don’t you think?<wait>
+
+- offsets: 50de
+  # If you don't have Hapsby already
+  en: But I’m afraid the Luveno can’t be piloted by a human...<wait>
+
+- offsets: 50eb
+  # If you don't have Hapsby already
+  en: |
+    I built a robot named Hapsby years ago, just for this purpose.<wait more>
+    He’s probably still in that scrap heap in Bartevo.<wait more>
+    Go fetch him, will you? Watch your step, though. Bartevo’s surrounded by lava.<wait more>
+    Don’t give me that look! You agreed to follow my instructions.<wait more>
+    I’ve upheld my end of the bargain, now go do yours.<wait>
+
+- offsets: 50f6
+  # Luveno (if you have Hapsby)
+  en: |
+    Ah, my little Hapsby, you’ve come home!<wait more>
+    Excellent. With Hapsby you can pilot the Luveno through space!<wait more>
+    And just in time, too. Spaceport security has gotten tighter.<wait more>
+    Go on! The Luveno is docked just outside the village! Go try it out!<wait>
+
+- offsets: 5071
+  # Luveno (subsequent visits)
+  en: How’s the Luveno holding up? Take good care of it.<wait>
+
+# Spaceports now closed...
+- offsets: 4cec
+  en: Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
+
+- offsets: 4cfd
+  en: All existing Passports are now invalid and must be destroyed. We're confiscating yours.<wait>
+
+
+# ***************
+# *** Bartevo ***
+# ***************
+
+- offsets: 4fff
+  # Villager
+  en: Bartevo is my turf, stranger. Don't go poking your nose around.<wait>
+
+- offsets: 5005
+  # Villager
+  en: |
+    Someone told me that there’s a perfectly good robot discarded in one of these scrap heaps.<wait more>
+    I wonder if it’s true?<wait>
+
+- offsets: 5524
+  # Villager (in the cave next to Bartevo)
+  en: The drug store in Avion Village sells Polymeteral.<wait>
+
+- offsets: 57bd
+  # Hapsby
+  en: |
+    Greetings. I am pilot robot Hapsby. Thanks for rescuing me.<wait more>
+    I will assist you in the operation of any Luveno brand spacecraft.<wait>
+
+- offsets: 57e0
+  en: |
+    You found a FlowMover.<wait more>
+    Hapsby fixed the parts that were broken, so you can use it now!<wait>
+
+
+# ************
+# *** Lore ***
+# ************
+
+- offsets: 5139
+  # Villager
+  en: |
+    This is Lore Village. Well, it used to be, before LaShiec's corruption.<wait more>
+    As you can see, now it’s a wasteland.<wait>
+
+
+- offsets: 5119
+  # Villager
+  en: |
+    Have you heard of a jewel called the Carbuncle Eye?<wait more>
+    It’s rumored to be held by a dragon in Casba.<wait more>
+    What does a dragon need a jewel for anyway?<wait>
+
+
+- offsets: 511f
+  # Villager
+  en: |
+    Hey, since you’re here, you might as well pay Avion a visit.<wait more>
+    It’s a small town like this one, on the western tip of the island.<wait>
+
+- offsets: 5125
+  # Villager
+  en: Have you heard about Laerma trees?<end>
+
+- offsets: 512e
+  # Villager (no to previous question)
+  en: I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
+
+- offsets: 5113
+  # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
+  en: |
+    You're going to bring down LaShiec? It's about time someone did!<wait more>
+    He’s no pushover, though. His black magic could destroy you.<wait more>
+    I’ve heard certain crystals can protect you against such magic.<wait more>
+    It’s just a rumor, though. Don’t quote me on that.<wait>
+
+# *************
+# *** Abion ***
+# *************
+
+- offsets: 513f
+  # Villager
+  en: This village is called Avion.<wait>
+
+- offsets: 5145
+  # Villager
+  en: The evil hand of Lashiec has extended to this village too! Please, you have to stop him!<wait>
+
+- offsets: 514b
+  # Villager
+  en: |
+    A really weird guy recently moved here. Rumor has it he experiments on animals.<wait more>
+    And that strange pot! He’s always walking around with it clutched to his chest.<wait more>
+    I've got a really bad feeling about him.<wait>
+
+- offsets: 5151
+  # Villager
+  en: I’d like to travel through space someday.<wait>
+
+- offsets: 5157
+  # Villager
+  en: |
+    Our new neighbor sure knows a lot about animals.<wait more>
+    He told me the weirdest thing about Musk Cats.<wait more>
+    He says if they eat a certain berry, they grow huge, and can fly!<wait>
+
+- offsets: 4c54
+  # Mad Doctor
+  en: Here, kitty kitty! Come here!<end>
+
+- offsets: 4c75
+  # Mad Doctor (yes to previous question)
+  en: Ho ho, that was fun! Who’s next?<wait>
+
+- offsets: 4c7a
+  # Mad Doctor (no to previous question or if Myau is already dead)
+  en: I said come HERE.<wait>
+
+# *************
+# *** Skray ***
+# *************
+
+- offsets: 5238
+  # Townsperson
+  en: Welcome to Skray, the warmest place on Dezoris! Pretty cold out there, isn't it?<wait>
+
+- offsets: 523e
+  # Townsperson
+  en: Almost all of us Palman immigrants live here in Skray. We're just not built for the cold.<wait>
+
+- offsets: 5244
+  # Townsperson
+  en: |
+    I'm new to Dezoris so I don't know too much about it yet. You should talk to the natives.<wait more>
+    I haven't been yet, but a lot of them live in a village inside the mountains up north.<wait>
+
+- offsets: 524a
+  # Townsperson
+  en: |
+    Overthrowing LaShiec, are you? You'll need a sword, axe, shield, and armor made of Laconia.<wait more>
+    Laconia is the most powerful material in Algol, I wouldn't use anything less.<wait more>
+    I'll be praying for your safety. We all will.<wait>
+
+- offsets: 5250
+  # Townsperson
+  en: |
+    Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
+    LaShiec knows this, of course. That's why he's hidden them across the Algol system! He's scared!<wait>
+
+
+- offsets: 5256
+  # Townsperson
+  en: Dezoris is basically a giant ice cube. It's a big change from the green fields of Palma.<wait>
+
+- offsets: 525c
+  # Townsperson
+  en: Not all of the ice mountains are as tough as they look, some parts of them shatter easily.<wait>
+
+- offsets: 5262
+  # Townsperson
+  en: The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
+
+- offsets: 5268
+  # Townsperson
+  en: |
+    This planet has a solar eclipse once every hundred years.<wait more>
+    A flame lit during an eclipse is called an Eclipse Torch.<wait more>
+    Native Dezorians believe Eclipse Torches carry divine power.<wait>
+
+- offsets: 526e
+  # Townsperson
+  en: |
+    The unholy forces LaShiec and his ilk have involved themselves with have gone too far.<wait more>
+    All of the dead bodies in Guaran Morgue have come back to life! It's grotesque!<wait>
+
+
+# ***********
+# *** Uzo ***
+# ***********
+
+- offsets: 515d
+  # Villager
+  en: This is Uzo Village, on Motavia.<wait>
+
+- offsets: 5163
+  # Villager
+  en: Antlions? No problem! You can drive a LandMaster right over ’em.<wait>
+
+- offsets: 5169
+  # Villager
+  en: To the south of Uzo lies a village called Casba.<wait>
+
+- offsets: 516f
+  # Villager
+  en: A dragon is holed up inside Casba Cave. They say there’s a jewel embedded in its head!<wait>
+
+- offsets: 5194
+  # Villager
+  en: |
+    Have you heard of a cloak called the Frad Mantle? <wait more>
+    From what I hear, it’s really light, yet has excellent protective power.<wait>
+
+- offsets: 5175
+  # Villager
+  en: Have you heard of the Soothe Flute?<end>
+
+- offsets: 5133,517e,54d9,54fe
+  # Villager (yes to previous question)
+  # Lore villager (yes to question about Laerma Tree)
+  # Triada prisoner (yes to question about Hapsby)
+  # Triada prisoner (no to request to talk)
+  en: |
+    Oh.<wait more>
+    Very well.<wait>
+
+- offsets: 518e
+  # Villager (no to previous question)
+  en: |
+    Well, this is a secret, but I went and buried one on the outskirts of Gothic village.<wait more>
+    Don’t tell anybody!<wait>
+
+
+# Soothe Flute stuff
+- offsets: 24d6
+  # Use Soothe Flute outside a battle
+  en: The sounds melt your heart.<wait>
+
+- offsets: 24eb
+  en: <Article><monster> heard the sound of the flute and calmed down.<delay>
+
+
+# *************
+# *** Casba ***
+# *************
+
+- offsets: 519a
+  # Villager
+  en: This is Casba Village.<wait>
+
+- offsets: 51a0
+  # Villager
+  en: There's a dragon living in Casba Cave! I'm so scared!<wait>
+
+- offsets: 51ac
+  # Villager
+  en: |
+    In a village surrounded by gas, people tell the tale of a legendary shield.<wait more>
+    They say that a long time ago, a man named Perseus used it to confront a monster.<wait>
+
+- offsets: 51b2
+  # Villager
+  en: |
+    West of the lake I saw this terrible, fog-like poison gas spreading all over!<wait more>
+    Whatever you do, stay away from there!<wait>
+
+- offsets: 51b8
+  # Villager
+  en: Do you know what a FlowMover is?<end>
+
+- offsets: 51cb
+  # Villager (yes to previous question)
+  en: |
+    So you know what junk they are! I bought one in the town of Shion, on Palma.<wait more>
+    It broke down, so I dumped it in Bartevo. No wonder they don't sell them anymore.<wait>
+
+- offsets: 51c1
+  # Villager (no to previous question)
+  en: |
+    Oh, they’re marvelous! When they work, of course.<wait more>
+    They can glide smoothly across the top of the water.<wait>
+
+
+# **************
+# *** Drasgo ***
+# **************
+
+- offsets: 51d1
+  # Townsperson
+  en: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
+
+- offsets: 51d7
+  # Townsperson
+  en: |
+    Wow! I didn’t expect to see visitors here any time soon.<wait more>
+    Not since LaShiec put an embargo on sea travel, anyway. How the heck did you get here?<wait>
+
+- offsets: 51dd
+  # Townsperson
+  en: I hear that there’s an enchanted sword in Avion Tower.<wait>
+
+- offsets: 51e3
+  # Townsperson
+  en: I once saw a huge floating rock in the sky!<wait>
+
+- offsets: 51e9
+  # ????
+  en: It's me, Choko Oneesan! Be brave and strong as you continue your quest!<wait>
+
+- offsets: 51ef
+  # Person inside cave
+  en: |
+    I came to this town to buy GasClear, I need it to protect myself from poisonous gas.<wait more>
+    There's supposed to be a shop around here that sells it, but I can't find it anywhere!<wait>
+
+- offsets: 51f5
+  # Person inside cave
+  en: |
+    This is an item shop. What can I do for you?<wait more>
+    ...haha, sorry, I'm just joking around! What? Don't give me that look.<wait>
+
+- offsets: 5201
+  # GasClear salesman
+  # <number> is always 1000.
+  en: |
+    I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
+    GasClears are <number> Meseta each. Pretty cheap, no? Want one?<end>
+
+- offsets: 5226
+  # GasClear salesman (yes to previous question)
+  en: Thanks. Come again!<wait>
+
+- offsets: 521d
+  # GasClear salesman (yes to previous question, but don't have enough money)
+  # Note: In the Japanese version, this one runs into the line below. It was corrected in the Mega Drive version.
+  en: Huh? You don’t have enough money?<wait>
+
+- offsets: 520c
+  en: Suit yourself. I’ll be here when you change your mind.<wait>
+
+# *************
+# *** Sopia ***
+# *************
+
+- offsets: 52ca
+  # Villager
+  en: |
+    This village is called Sopia. Welcome.<wait more>
+    I’m glad you were able to make it through the mist.<wait>
+
+- offsets: 52d6
+  # The Village Chief
+  # <number> is always 400.
+  en: |
+    I am the chief of this village.<wait more>
+    We in Sopia are very poor. The mist shuts us off from other towns.<wait more>
+    Would you by chance be able to spare <number> Meseta to help us?<end>
+
+- offsets: 52e1
+  # The Village Chief (no to previous question)
+  en: I see. I’m sorry to hear that. Ohhh...<wait>
+
+- offsets: 52f2
+  # The Village Chief (yes to previous question, but not enough money)
+  en: So you are poor as well, are you? Such sad times these are.<wait>
+
+- offsets: 5300
+  # The Village Chief (yes to previous question)
+  en: |
+    Thank you. Perhaps I can help you, in return.<wait more>
+    I imagine you’re looking for Perseus’ shield? The one he used to slay Medusa?<wait more>
+    Local legend says it's on the island in the lake, buried under a cactus.<wait>
+
+- offsets: 5306
+  # Gamer Miki
+  en: Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
+
+- offsets: 530f
+  # Gamer Miki (yes to previous question)
+  en: Yay! Isn’t the FM sound amazing?!<wait>
+
+- offsets: 5314
+  # Gamer Miki (no to previous question)
+  en: |
+    WHAT?!<wait more>
+    Shame on you! Hurry up and buy one!<wait>
+
+- offsets: 531a
+  # Villager
+  en: Before LaShiec’s oppressive rule, this village was very wealthy.<wait>
+
+- offsets: 5320
+  # Villager
+  en: |
+    Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait more>
+    They say he is the greatest magical combat trainer in Algol.<wait more>
+    They also say he sees dead people...<wait>
+  # Maybe add this hint to other languages. It helps explain a possible 
+  # scenario later where Tajim sees Lutz when he is dead.
+
+- offsets: 5326
+  # Villager
+  en: I heard that Palma is a very beautiful planet. Is it true?<end>
+
+- offsets: 532f
+  # Villager (yes to previous question)
+  en: Oh, I want to go there so bad!<wait>
+
+- offsets: 5334
+  # Villager (no to previous question)
+  en: Oh, interesting. I'd go just about anywhere that has cleaner air.<wait>
+
+- offsets: 5345
+  # Villager (no to request for PelorieMate)
+  en: Cheapskate!<wait>
+
+
+# *********************
+# *** Tajim’s Cave ***
+# *********************
+
+- offsets: 56b3
+  # Tajim (if you don't have Lutz - which is not possible)
+  # You need either the hovercraft or the land rover to even reach the cave. You can't get either without being able to reach Casba, and the only way to reach Casba on foot is from Uzo, which you can't get to without your own spaceship, which you can't get without being able to reach Gothic, which you can't because the spaceport manhole is inaccessible without Lutz in your party.
+  en: |
+    And who might you people be?<wait more>
+    My pupil, Lutz, is in Mahal Cave. Do you know him?<end>
+
+- offsets: 56bc
+  # Tajim (yes to previous question)
+  en: |
+    I have something that I must tell him.<wait more>
+    Please tell him to come see me.<wait>
+
+- offsets: 56c1
+  # Tajim (no to previous question)
+  en: I see. Then there is no point in talking with you any further.<wait>
+
+- offsets: 56c7
+  # Tajim (if you have Lutz)
+  en: Ah, Lutz, my pupil! I see you are finally fulfilling your destiny to defeat LaShiec.<wait>
+
+- offsets: 56d3
+  # Tajim (if Lutz is dead)
+  en: ...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.<wait>
+
+- offsets: 56d9
+  # Tajim (talking to Lutz)
+  en: |
+    I've taught you all that I know. It's time to give you one final test: a duel against me!<wait>
+
+- offsets: 5722
+  # Tajim (if you win) (talking to Lutz)
+  en: |
+    You have grown strong, my boy! You have all the power you need to complete your task.<wait more>
+    Take this. It’s a Frad Mantle, my gift to you. It will protect your body from harm.<wait more>
+    Now go! Fulfill your destiny and bring peace back to Algol!<wait>
+
+- offsets: 571c
+  # Tajim (if you lose) (talking to Lutz)
+  en: You need more training, my boy. Come back when you’re ready. I’ll be waiting.<wait>
+
+- offsets: 56a6
+  # Tajim (subsequent visits)
+  en: There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
+
+
+# ****************************
+# *** Native Dezorian Town ***
+# ****************************
+
+# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say verb-affirmative things like ’it does’ and ’you will’ at the ends of sentences, and the liars say truth-affirming things like ’no joke’, ’seriously’, etc. in their sentences.
+# French and Brazilian Portuguese use similar patterns to English.
+# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
+# In Spanish, Honest Dezorian speaks like galician, and the liars like people from Murcia
+# In German, honest Dezorians use VOS sentence structure while liars use OVS.
+- offsets: 5274
+  # Honest Dezorian
+  en: I wouldn’t trust anyone in the neighboring village... pathological liars, they are.<wait>
+
+- offsets: 527a
+  # Honest Dezorian
+  en: Corona Tower is on the other side of the mountains to the north, it is.<wait>
+
+- offsets: 5280
+  # Honest Dezorian
+  en: Dezoris Cave is west of Corona Tower, it is. Say hi to our friends there, you must!<wait>
+
+- offsets: 5286
+  # Honest Dezorian
+  en: |
+    Laerma trees bear strange fruits, they do.<wait more>
+    They’re called Laerma Berries, and real tasty, they are.<wait more>
+    But unless you put them in a Laconian Pot they shrivel, they do.<wait>
+
+- offsets: 528c
+  # Honest Dezorian
+  en: Heard of something called an Aeroprism, have you?<end>
+
+- offsets: 529a
+  # Honest Dezorian (no to previous question)
+  en: I hear you can see other worlds with one, you can.<wait>
+
+- offsets: 5295
+  # Honest Dezorian (yes to previous question)
+  en: I’d really like to look into one sometime, I would.<wait>
+
+- offsets: 52a0
+  # Honest Dezorian
+  en: Everyone here hates Palmans, we do.<wait>
+
+- offsets: 52a6
+  # Dishonest Dezorian
+  en: The Fountain of Youth is inside Corona Tower. Cross my heart!<wait>
+
+- offsets: 52b2
+  # Dishonest Dezorian
+  # <number> is always 10.
+  en: There's a warp on the tenth underground level of Dezoris Cave. No joke!<wait>
+
+- offsets: 52b8
+  # Dishonest Dezorian
+  en: Laerma Berries are blue, and we use them to dye our clothes. It's true!<wait>
+
+- offsets: 52be
+  # Dishonest Dezorian
+  en: You can use a crystal to make berries grow on a Laerma tree. You betcha!<wait>
+
+- offsets: 52c4
+  # Dishonest Dezorian
+  en: This village welcomes all Palmans. Seriously!<wait>
+
+- offsets: DishonestDezorianFix
+  # Dishonest Dezorian
+  # We add a script entry here. The original game accidentally uses an entry from Sopia.
+  en: The neighboring villagers lie. Really!<wait>
+
+# ********************
+# *** Dezoris Cave ***
+# ********************
+
+- offsets: 5815
+  # Dungeon Southwest of Corona Tower
+  # Dishonest Dezorian
+  en: Be careful up ahead. You should turn left at the fork in the path.<wait>
+
+# ********************
+# *** Corona Tower ***
+# ********************
+
+- offsets: 57fd,5803
+  # Dezorian
+  # (Also in Guaran Morgue)
+  en: Why have you come here? Stay out of trouble, hear me?<wait>
+
+- offsets: # Unused
+  en: I’ve got a bad feeling about this.<wait>
+
+- offsets: 592d
+  # Dezorian
+  en: |
+    You didn’t hear this from me, but...<wait more>
+    Lord LaShiec fears the crystal held by Damoa the fortune-teller.<wait more>
+    There must be something secret about it.<wait>
+
+- offsets: 5661
+  # Torchbearer
+  en: |
+    Do you see this flame in my hand? This is the Eclipse Torch.<wait more>
+    This is the sacred fire of the centennial eclipse.<wait more>
+    It’s beautiful, holy, and extremely valuable.<wait more>
+    I might be willing to part with some of it, for, say...<wait more>
+    ...a dragon’s crystal. What do you say?<end>
+
+- offsets: 5684
+  # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
+  en: Excellent. Here you are, then.<wait>
+
+- offsets: 566c
+  # Torchbearer (no to previous question)
+  en: You don’t want it? Then why have you come here?<wait>
+
+- offsets: 568a
+  # Torchbearer (yes to previous question but no Carbuncle Eye)
+  en: You have no jewel! Don’t be foolish!<wait>
+
+# *************************
+# *** Aeroprism Dungeon ***
+# *************************
+
+- offsets: 5933
+  # Otegami Chie-chan
+  en: |
+    I’m Otegami Chie-chan, from Sega! Thanks for all your letters.<wait more>
+    Please tell us what you think of this game. We’re eager to hear from you.<wait more>
+    Here's a tip: Go to the highest point in Palma, and raise the Aeroprism to the sky!<wait>
+
+
+# *************************
+# *** Altiplano Plateau ***
+# *************************
+
+- offsets: 2693,26e5
+  # Also used for the Aeroprism later...
+  en: <player> held <article><item> up over <his/her> head.<delay>
+
+- offsets: 26d0
+  # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
+  en: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
+
+- offsets: 26c4
+  # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
+  en: <player> picked up some Laerma Berries, but they shriveled up immediately!<wait>
+
+
+# *******************
+# *** Avion Tower ***
+# *******************
+- offsets: 552a
+  en: Now would be a good time to turn around and go home.<wait>
+
+# **************************
+# *** Baya Marlay Prison ***
+# **************************
+
+- offsets: 55f5
+  # Prisoner
+  en: Did you come to help me escape?<wait>
+
+- offsets: 55fb
+  # Prisoner
+  en: Destroy LaShiec? That’s impossible. You can’t kill one who cannot die.<wait>
+
+- offsets: 5601
+  # Prisoner
+  en: We’re all going to end up as sacrifices for LaShiec!<wait>
+
+- offsets: 582d
+  # Prisoner (Dezorian)
+  en: Did you get the armor in Guaran?<end>
+
+- offsets: 583b
+  # Prisoner (no to previous question)
+  en: You can find it on the other side of a pitfall.<wait>
+
+- offsets: 5836
+  # Prisoner (yes to previous question)
+  en: Wow, you’re amazing!<wait>
+
+- offsets: 5607
+  # Prisoner
+  en: |
+    LaShiec’s more dangerous than most people realize.<wait more>
+    Those who have challenged him have had their souls taken by his magic!<wait>
+
+- offsets: 560d
+  # Prisoner
+  en: There’s a tower on top of the knoll of Baya Marlay. I wonder what secrets lie within?<wait>
+
+- offsets: 5613
+  # Prisoner
+  en: You’d better not go any further, there’s a security guard up ahead.<wait>
+
+- offsets: 55c5
+  # Robot Police (yes to previous question, have one)
+  en: |
+    This is a fake. Where did you get this?<wait more>
+    Well, you certainly picked the right place to get locked up. Come with me.<wait>
+
+- offsets: 5619
+  # Prisoner
+  en: |
+    Oh, so you are confined in here as well. How sad.<wait more>
+    Sure, there’s a way out of here. But what’s the point?<wait more>
+    Life is so much less complicated here.<wait>
+
+
+# *************************
+# *** Baya Marlay Tower ***
+# *************************
+
+- offsets: 5597
+  en: Did you come here seeking Baya Marlay tower?<end>
+
+- offsets: 55a0
+  # (yes to previous question)
+  en: Then you will be destroyed!<wait>
+
+- offsets: 55a5
+  # (no to previous question)
+  en: Then you should turn back.<wait>
+
+# Damoa the Fortuneteller
+
+- offsets: 5530
+  en: |
+    I am Damoa, the greatest fortune-teller in the world!<wait more>
+    Do you believe in my powers of divination?<end>
+
+- offsets: 5541,5552,5563
+  # (yes to previous question)
+  en: Good. Good.<wait>
+
+- offsets: 553b
+  # (no to previous questions or most of the following)
+  en: What did you say? Such impudence! Leave at once!<wait>
+
+- offsets: 5547
+  en: I sense that you are searching for something, yes?<end>
+
+- offsets: 5558
+  en: I sense that you are looking for Alex Ossale, yes?<end>
+
+- offsets: 5569
+  en: Everything I say is correct. Understood?<end>
+
+- offsets: 5574
+  # (yes to last question)
+  en: Then perhaps you should come back later.<wait>
+
+- offsets: 557a
+  en: Do you defy me?<end>
+
+- offsets: 5585
+  # (no to final question)
+  en: Is that so? Good! You show considerable promise. I shall reward you with this crystal.<wait>
+
+- offsets: 2711
+  # (Use Aeroprism)
+  en: The illusionary Aerocastle was revealed in the sky.<wait>
+
+- offsets: 2752
+  # (Use Laerma Berries)
+  en: Myau ate the Laerma Berries.<wait>
+
+# ******************************
+# *** Myau’s Transformation ***
+# ******************************
+
+- offsets: 471b
+  en: When Myau chewed the Laerma Berries, a fever swept over him, and a dazzling light engulfed his body.<wait>
+
+- offsets: 4726
+  # This line has a typo: it should be ハバタイテ, not ハバテイテ.
+  # Please note that the kanji rendition below fixes this mistake.
+  en: |
+    And then, in an instant, he transformed into a beautiful beast with enormous wings!<line><line>
+    Myau proudly flapped his wings for all to see.<wait>
+
+
+- offsets: 14cc
+  # (If Myau dies in the Gold Dragon battle and other characters are still alive)
+  # Note: Alisa may not be alive, and there may be only one other left alive.
+  # Previous line will have been "Myau died." so you can assume that context.
+  en: His companions were flung from his back, tumbling through the sky towards their death.<wait>
+
+
+# **********************************
+# *** The Illusionary Aerocastle ***
+# **********************************
+
+- offsets: ScriptAerocastleDots # was $5361
+  # Old Man
+  en: .........<wait>
+
+- offsets: ScriptAerocastleFreeTranCarpet
+  # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
+  en: Hmm, no way down? Here, you can have my <item>.<wait>
+
+- offsets: 51a6
+  # Old Man (also said by an old man in Casba)
+  en: There is more than meets the eye in this dungeon, fools.<wait>
+
+- offsets: 5367
+  # Old Man
+  en: Defy King LaShiec at your peril.<wait>
+
+- offsets: 5738
+  # Shadow Warrior
+  en: I know why you’re here. I’ve been watching you closely. Your pathetic journey ends here.<wait>
+
+- offsets: 5749
+  # Shadow Warrior
+  en: |
+    I am merely LaShiec’s shadow warrior. You’ve gained nothing by defeating me.<wait more>
+    King LaShiec can't be killed. His power defies comprehension. You have come here to die.<wait>
+
+- offsets: 576a
+  # LaShiec
+  # The party may only be Tylon who can't do magic, but it's unlikely.
+  en: |
+    Ah, it’s you. You've finally arrived. How accomplished you must feel.<wait more>
+    Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
+    And you have what? Weapons? Magic? Did you really hope to defeat me?<end>
+
+- offsets: 5773
+  # LaShiec (yes to previous question)
+  en: Then let us hope you will be a worthy sacrifice.<wait>
+    
+- offsets: 5778
+  # LaShiec (no to previous question)
+  en: I’ve no time for games! Come, let me show you what lies beyond this life.<wait>
+
+- offsets: 5789
+  # (Defeat LaShiec)
+  en: |
+    You may have destroyed this body, but I can never truly die! I shall live again!<line><line><line><line><wait more>
+    Lord LaShiec has fallen. Nero’s dying wish was granted. A new era has begun in Algol.<wait more>
+    The only thing left to do is return to the Governor-General in Paseo!<wait>
+
+
+# **************
+# *** Ending ***
+# **************
+
+- offsets: 58bd
+  # If Alisa died during the final boss fight
+  en: |
+    Then Alisa heard Nero’s voice, from somewhere far away.<wait more>
+    ‘Don’t give up, Alisa. You’ve come so far.’<wait more>
+    Her spirit revived.<wait>
+
+- offsets: 58e1
+  # Governor-General (to Alisa)
+  en: |
+    Oh, goodness. Please forgive me. My mind and body were controlled by an evil force.<wait more>
+    You’ve done it! You’ve saved Algol. History shall repeat your names, always.<wait more>
+    LaShiec is no more, his terrible fortress has been destroyed. Finally, peace can be restored.<wait more>
+    And just in time, too. I fear if you'd taken any longer, we would have lost everything.<wait more>
+    Alisa. There is something I must tell you. A secret I've kept, to spare your life.<wait more>
+    Alisa... your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
+    Algol is without a leader. Will you succeed your father, and take your place as our queen?<end>
+
+- offsets: 5849,58ea
+  # Governor-General (yes to previous question)
+  en: Then you have my eternal loyalty. All hail the new Queen of Algol, Alisa Landeel!<wait>
+
+- offsets: 58ef
+  # Governor-General (no to previous question)
+  en: I see. I won't try to convince you. Should you change your mind, Algol will always welcome you.<wait>
+
+# ********************
+# *** Ending Scene ***
+# ********************
+
+- offsets: 47da
+  en: Gradually, the sky brightened. The monsters retreated. Peace returned.<end>
+
+- offsets: 47e3
+  en: A cool, gentle breeze now surrounds Baya Marlay.<end>
+
+- offsets: 47ec
+  en: But does the breeze know of the hardships they endured?<end>
+
+
+# This text tries to be centred so it needs quotes around the spaces.
+# Width = 29 so leading space = (29 - length) / 2
+
+- offsets: 4800
+  en: "           Alisa,<delay>"
+
+- offsets: 480b
+  en: "           Tylon,<delay>"
+
+- offsets: 4816
+  en: "            Lutz,<delay>"
+
+- offsets: 4821
+  en: "          and Myau.<delay>"
+
+- offsets: 482c
+  en: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
+
+
+# ****************************
+# *** Battle/menu dialogue ***
+# ****************************
+
+- offsets: 13a4
+  # In battle, enemy dodges attack
+  en: <Article><monster> dodged <player>’s attack.<delay>
+
+- offsets: 1497
+  # In battle, player dodges attack
+  en: <player> dodged <article><monster>’s attack.<delay>
+
+- offsets: 1a96
+  # In battle, chose "talk"
+  en: <player> spoke to <article><monster>.<end>
+
+- offsets: 1ac0,1ca4
+  en: <Article><monster> replied,<delay>
+
+- offsets: 1ab7
+  en: <Article><monster> didn’t understand.<delay>
+
+- offsets: 1b27
+  en: <Article><monster> blocked the escape route.<delay>
+
+- offsets: 20cd,20fa,2168,21cb,21fd,22ac
+  # Used in a bunch of places...
+  en: <player>’s spell had no effect.<delay>
+
+- offsets: # unused
+  en: <Article><monster>’s spell had no effect.<delay>
+
+- offsets: 1ffa
+  en: An invisible magic wall was built before your eyes.<delay>
+
+- offsets: 1492
+  en: <Article><monster>’s attack was deflected by the magic wall.<delay>
+
+- offsets: 14f9,15d3,1637
+  en: <Article><monster>’s spell was deflected by the magic wall.<delay>
+
+- offsets: 1458
+  en: The invisible wall became ineffective.<delay>
+
+- offsets: 1fbc
+  en: <player>’s stamina was restored.<delay>
+
+- offsets: 1552
+  en: <Article><monster>’s stamina was restored.<delay>
+
+- offsets: 20d3
+  en: <Article><monster> is all bound up.<delay>
+
+- offsets: 151f
+  en: <player> is all bound up.<delay>
+
+- offsets: 12db
+  en: <player> can’t move.<delay>
+
+- offsets: 140c
+  en: <Article><monster> can’t move.<delay>
+
+- offsets: 12d6
+  en: <player>’s bindings came apart.<delay>
+
+- offsets: 1407
+  en: <Article><monster>’s bindings came apart.<delay>
+
+- offsets: 2132
+  en: <player> felt a great swelling of energy.<delay>
+
+- offsets: 1574
+  en: <Article><monster> felt its body swell with strength.<delay>
+
+- offsets: 216f
+  en: <Article><monster> got scared and backed away.<delay>
+
+- offsets: 210d
+  en: <Article><monster> was surprised by the speed of your escape.<delay>
+
+- offsets: 21ad
+  en: There was no trap.<wait>
+
+- offsets: 219f,21b2
+  en: That was close! <player> detected and removed the trap.<wait>
+
+- offsets: 23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
+  # Used in a lot of places!
+  en: <player> used <article><item>.<delay>
+
+- offsets: 136e
+  en: Someone has used <article><item> up.<wait>
+
+- offsets: 2883, ScriptPlayerEquippedItem
+  en: <player> equipped <article><item>.<end>
+
+- offsets: 28cc
+  en: <player> discarded <article><item>.<wait>
+
+- offsets: 20ff,23ec,2554,2582,2677,2803
+  en: But there was no effect.<delay>
+
+- offsets: 2418,242a,244c,245e,2486
+  en: But <article><item> is of no use here.<wait>
+
+- offsets: 2304
+  en: The group can’t get off here.<wait>
+
+- offsets: 2438,246d
+  en: The group boarded <article><item>.<delay>
+
+- offsets: 2311
+  en: The group got out of <article><item>.<delay>
+
+- offsets: 2402,2569,26af,2701,2816
+  en: But nothing happened.<delay>
+
+- offsets: # unused
+  en: <Article><monster>’s eyes are blank.<delay>
+
+- offsets: 2505,2597,25f9,26f1,2742,27a2
+  en: But now doesn’t seem to be the time to do that.<delay>
+
+- offsets: 24ff,2514,258b,25ed,264b,2733,2793
+  en: <player> took out <article><item>.<delay>
+
+- offsets: 251a,279d,25aa,2651
+  # 251a = use SearchLight when not in a dungeon (or a battle)
+  # 279d = use Compass when not in a dungeon (or a battle)
+  # We add 25aa, 2651 here:
+  # 25aa = use Alsuline in the wrong place, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # Note: this was originally ‘It doesn’t look particularly broken.’
+  # This translation takes the verb KOWARERU to mean ‘to be begged’
+  en: There’s no real need for it right now.<wait>
+
+- offsets: 112c
+  en: It’s pitch black. You can’t move forward.<wait>
+
+- offsets: 27c3
+  en: You are now facing east.<wait>
+
+- offsets: 27cf
+  en: You are now facing west.<wait>
+
+- offsets: 27bc
+  en: You are now facing north.<wait>
+
+- offsets: 27ca
+  en: You are now facing south.<wait>
+
+- offsets: 2611
+  # Using Polymeteral in the wrong place
+  en: Wow, this stuff stinks.<wait>
+
+- offsets: 2276,228e
+  # Using the Telepathy Ball or Lutz's Telepathy spell in front of a pitfall
+  en: <player> got a very bad feeling.<wait>
+
+- offsets: 2269,2271,2289
+  # Using either of the above if not in front of a pit
+  en: <player> didn’t feel anything.<wait>
+
+- offsets: 269f
+  # Use Eclipse Torch on a monster
+  en: <Article><monster> saw the red flame and seized up in fear.<delay>
+
+- offsets: 273d
+  # Use Laerma Berries in the wrong place
+  # Comes immediately after "<player> took out the <item>."
+  # May not be Alisa.
+  en: Nobody’s hungry right now, so <he/she> put them back.<wait>
+
+- offsets: 277b
+  # Trying to use Hapsby in battle
+  en: Hapsby shook his head.<wait>
+
+- offsets: 2784
+  # Trying to use Hapsby outside of battle
+  en: Hapbsy’s head is hard.<wait>
+
+- offsets: 281b
+  en: This item is always active. You don’t need to use it.<wait>
+
+- offsets: 218d,2195,299f,2a2e,579d
+  # 218d = untrap not in dungeon
+  # 2195 = untrap with no chest
+  # 25aa = use Alsuline in the wrong place, changed to adad
+  # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
+  # 299f = search (from menu)
+  # 2a2e = search (?)
+  # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
+  en: There doesn’t seem to be anything particularly unusual here.<wait>
+
+- offsets: 2a15,2a9b
+  en: You found <article><item>.<wait>
+
+- offsets: 21d9,22b5
+  en: Your body became unusually light.<delay>
+
+- offsets: 2248
+  en: <player> revived.<wait>
+
+- offsets: 1b45,1f21
+  en: Tylon can’t use magic.<delay>
+
+- offsets: 1b9e,1f1c
+  en: <player> doesn’t know any spells yet.<delay>
+
+- offsets: 28a3, ScriptPlayerCantEquipItem
+  en: <player> can’t equip <article><item>.<wait>
+
+- offsets: 283e
+  en: You don’t need to equip this item.<wait>
+
+- offsets: 1872
+  # <number> is always >1
+  en: You gained <number> experience points.<wait>
+
+- offsets: 18f3
+  en: <player> leveled up.<wait>
+
+- offsets: 1910
+  en: <player> learned a new spell.<wait>
+
+- offsets: 17ff
+  en: <Article><monster> had a treasure chest.<end>
+
+- offsets: 6c6e
+  en: You found a treasure chest.<line><end>
+
+- offsets: 2a37
+  en: Do you want to open it?<end>
+
+- offsets: ChestMesetasPlural # Was 2a8c
+  en: There were <number> Meseta inside.<wait>
+
+- offsets: ChestMesetasSingular
+  # Not in the original
+  en: There was only one Meseta inside.<wait>
+
+- offsets: 2a73
+  en: It’s empty.<wait>
+
+- offsets: 2918
+  en: You can’t carry any more. Do you want to drop something?<end>
+
+- offsets: 2938
+  en: Which item do you want to drop?<end>
+
+- offsets: 296a
+  # this runs into the next one...
+  en: You dropped <article><item>...<end>
+
+- offsets: 297d
+  en: ...and you got <article><item>.<wait>
+
+- offsets: 2923
+  en: Do you want to abandon <article><item>?<end>
+
+- offsets: 292e
+  en: You abandoned <article><item>.<wait>
+
+- offsets: 28c3,295d
+  en: You can’t drop <article><item>!<wait>
+
+- offsets: 1ba7,1f2d
+  en: You don’t have enough magic points.<delay>
+
+- offsets: 2236
+  en: <player> is still alive.<delay>
+
+- offsets: 17ea
+  en: You’ve beaten <article><monster>.<wait>
+  #<wait> because else you can't read it when you defeat Dark Force...
+
+- offsets: 14a6,15e4,1648,4c69,590f
+  en: <player> died.<delay>
+
+- offsets: 19f7,2b0f
+  # Selecting a player from the menu when they are dead, to do something like heal them.
+  en: <player> is already dead.<delay>
+
+- offsets: 1786
+  en: Alisa and her companions have been annihilated.<wait>
+
+- offsets: 178c
+  en: |
+    Alisa’s hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
+    The journey ends here.<wait>
+
+# **************
+# *** Hapsby ***
+# **************
+
+- offsets: 5959
+  en: Where would you like to go?<end>
+
+- offsets: 5995
+  en: Would you like to go to Skray, on Dezoris?<end>
+
+- offsets: 5990
+  en: Would you like to go to Uzo, on Motavia?<end>
+
+- offsets: 598a
+  en: Would you like to go to Gothic, on Palma?<end>
+
+- offsets: 5980
+  en: This IS Skray.<end>
+
+- offsets: 597b
+  en: This IS Uzo.<end>
+
+- offsets: 5975
+  en: This IS Gothic.<end>
+
+- offsets: # Unused...
+  en: Here we go--!<delay>
+
+# *************
+# *** Shops ***
+# *************
+
+- offsets: 2d1c
+  en: Welcome to the armor shop. Can I help you?<end>
+
+- offsets: 2d27,2d89,2e46,537e
+  en: Take care, come back and see us soon.<wait>
+
+- offsets: 2d38
+  en: What can I get for you today?<end>
+
+- offsets: 2d7e
+  en: Enjoy. Can I get you anything else?<end>
+
+- offsets: 2d98,539c
+  en: You can’t carry any more. Come back when you can.<wait>
+
+- offsets: 2deb
+  en: This is a pharmacy. Can I help you with something?<end>
+
+- offsets: 2df4
+  en: Welcome to the tool shop. May I help you?<end>
+
+- offsets: 2e0d
+  en: What do you have?<end>
+
+- offsets: 2e4f
+  # No item in the game sells for exactly 1 Meseta.
+  en: Hmm, <article><item>? How does <number> Meseta sound?<end>
+
+- offsets: 2e66
+  en: Wonderful! Have anything else for me?<end>
+  
+- offsets: 2e3d
+  # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
+  en: That’ll come in handy later.<wait>
+  
+- offsets: 2bc0,2d9d,4d88,538f
+  en: |
+    It looks like you don’t have enough money.<line>
+    Please come back later.<wait>
+
+
+# ****************
+# *** Hospital ***
+# ****************
+
+- offsets: 2ae9
+  en: This is a hospital. Do you require medical care?<end>
+
+- offsets: 2b54
+  en: |
+    Hmm. I can get you good as new for <number> Meseta. Shall I proceed?<end>
+
+- offsets: 2b99
+  en: Does anyone else need treatment?<end>
+
+- offsets: 2af9
+  en: Who requires our attention?<end>
+
+- offsets: 2b8a
+  en: |
+    Thanks for waiting.<line>
+    Take care, now.<wait>
+
+- offsets: 2bb1
+  en: I'm sorry I couldn't help. Be safe out there.<wait>
+
+- offsets: 2b37
+  en: Be safe out there.<wait>
+
+- offsets: 2b2b
+  en: You seem perfectly healthy to me...<wait>
+
+
+# **************
+# *** Church ***
+# **************
+
+- offsets: 2be7
+  en: This is a church. Do you need to revive a departed soul?<end>
+
+- offsets: # Unused
+  en: Then I shall offer up a prayer for you.<wait>
+
+- offsets: 2bfb
+  en: Who shall be returned?<end>
+
+- offsets: 2c24
+  # Resurrection cost is Level * 20 so is definitely plural.
+  en: Our suggested donation is <number> Meseta.<end>
+
+- offsets: 2c37
+  en: Concentrate on the departed as I recite an incantation.<delay>
+
+- offsets: 2c60
+  # If you have enough money
+  en: ArtemuhamuRAmu! ArtemuhamuHAmu! STRATOPON!<delay>
+
+- offsets: 2c82
+  # If you don't have enough money
+  en: |
+    ArutemuhamuRAmu A--ugh!<line>
+    Cough! Cough!<wait more>
+    My apologies.<line>
+    For SOME reason I’ve failed.<wait>
+
+- offsets: 2c71
+  en: Is there anyone else?<end>
+
+- offsets: 2ca8
+  en: To level up,<wait>
+
+- offsets: 2d16
+  en: <player> needs <number><internal hint 02> point<s>.<wait>
+  
+- offsets: 2cef
+  # If a party member is already at max level...
+  en: <player> is already at the highest level.<wait>
+
+- offsets: 2ca2
+  en: May your future hold blessings from God.<wait>
+
+- offsets: 2c90
+  en: |
+    <player>? You don’t look dead to me.<wait more>
+    If you need medical care, I advise finding the nearest hospital.<end>
+
+
+# ************************
+# *** Monster Dialogue ***
+# ************************
+
+# First 9 are in response to the "speak" battle menu
+
+- offsets: 1ae5
+  en: ‘We want to become friends with the Palmans.’<wait>
+
+- offsets: 1ae7
+  en: ‘I could really go for some Laerma Berries right now!’<wait>
+
+- offsets: 1ae9
+  en: ‘You should not go against Lord LaShiec.’<wait>
+
+- offsets: 1aeb
+  en: ‘Oh! So you understand our language, do you?’<wait>
+
+- offsets: 1aed
+  en: ‘Yahoo!’<wait>
+
+- offsets: 1aef
+  en: ‘When you’re in the dungeons, beware of pitfalls.’<wait>
+
+- offsets: 1af1
+  en: ‘You’ll get injured if you open treasure boxes carelessly.’<wait>
+
+- offsets: 1af3
+  en: ‘You damn thieves!’<wait>
+
+- offsets: 1af5
+  en: ‘People hate us no matter what we do.’<wait>
+
+# The next 10 are from enemies that you can only talk to with magic.
+
+- offsets: 1cce
+  en: ‘The Soothe Flute sounds so nice!’<wait>
+
+- offsets: 1cd0
+  en: ‘IceDeckers can cut through ice!’<wait>
+
+- offsets: 1cd2
+  en: ‘Lord LaShiec lives up in the sky.’<wait>
+
+- offsets: 1cd4
+  # This line has a typo: ラスコニアンポット should be ラコニアンポット.
+  # Please note that the kanji rendition below fixes this mistake.
+  en: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
+
+- offsets: 1cd6
+  en: ‘There are places in the sky that even a spaceship can’t reach.’<wait>
+
+- offsets: 1cd8
+  en: ‘You need to have a certain item in order to make Laerma Berries grow.’<wait>
+
+- offsets: 1cda
+  en: ‘Some dungeon labyrinths contain hidden doors.’<wait>
+
+- offsets: 1cdc
+  en: ‘The Miracle Key can open magic doors!’<wait>
+
+- offsets: 1cde
+  en: ‘Some Dezorians are liars, so be careful.’<wait>
+
+- offsets: 1ce0
+  en: |
+    ‘You are brave to talk to me. I will tell you a secret in return:<wait more>
+    The same telepathy that you're using right now can also be used to detect traps.’<wait>
+
+# **************
+# *** Saving ***
+# **************
+
+- offsets: 1e3b
+  en: |
+    Saving the game?<line>
+    Please choose a slot.<end>
+
+- offsets: ScriptConfirmSlot
+  en: Slot <number>, are you sure?<end>
+
+- offsets: 1e55
+  en: OK. Now saving in slot <number>...<delay>
+
+- offsets: ScriptDone,1e91
+  en: ...done.<wait>
+
+
+# ************************
+# *** Loading/Deleting ***
+# ************************
+
+ # Continue/Save "dialogue" removed...
+- offsets: #07ee
+  en: |
+    Continuing a saved game.<line>
+    Please choose a slot.<end>
+
+- offsets: #07fe
+  en: OK. Continuing from slot <number>.<delay>
+    <number>.<delay>
+
+- offsets: # Unused
+  en: |
+    That password is incorrect.<line>
+    Please try again.<wait>
+
+- offsets: #07e3
+  # No longer used
+  en: Do you want to continue a saved game?<end>
+
+- offsets: #082f
+  en: Do you want to delete a saved game?<end>
+
+- offsets: #083a
+  en: |
+    Deleting a saved game.<line>
+    Please choose a slot.<wait>
+
+- offsets: ScriptDeletingFromSlotN
+  en: Deleting game from slot <number>...<delay>
+  # <delay> is nicer than<wait> here - Maxim
+
+- offsets: ScriptNoSavedGames
+  # This is not in the original game.
+  en: There are no saved games!<wait>
+
+- offsets: ScriptDoYouWantToEquip
+  # This is not in the original game, see https://github.com/maxim-zhao/psrp/issues/50
+  # It is only used for weapons, shields and armour - the first 32 items in the items list.
+  en: Here you go, <article><item>. Do you want to equip it?<end>

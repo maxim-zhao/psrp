@@ -1,11 +1,86 @@
-# Phantasy Star English Retranslation v2.1
+# Phantasy Star Retranslation v2.4
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/relocalisation based on that first Japanese version, with some enhancements.
+Currently we have translations for:
+- English
+- English (literal translation)
+- French
+- French (with additional lore)
+- German
+- Brazilian Portuguese
+- Spanish
+- Catalan
+
+More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language. 
 
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+-v2.4.1 release 2023/12/31
+  - Restored original French translation as an extra option
+  - Fixed credits in French
+  
+- v2.4 release 2023/12/20
+  - Updated and expanded French script with a great deal of extra hints and lore added, tying into later games in the series
+  - Amended translation notes to better explain certain spells
+  - Some script amendments regarding the words Laconian and Zirconian in most languages
+  - Spanish:
+    - Typo fixes
+  - English:
+    - Fixed missing wait for button press when talking to Tajim (en)
+    - Renamed Dorougue to Druj. Look it up!
+    - Renamed Ant-lion to Antlion
+  - French:
+    - Fixed sometimes corrupted enemy names in French
+    - Added more accented letters
+    - Extended save game name entry screen to show "Sauvegarder"
+  - Technical work: 
+    - Recompressed all sprite art to make more room for script
+    - Script it now stored across the entire ROM space, removing the previous 16KB (compressed) limit
+
+<details>
+<summary>Click for more history</summary>
+
+- v2.3.2 released 2023/02/12
+  - Fixed errors in Catalan and Portuguese Brazilian ending credits
+
+- v2.3.1 released 2023/01/17
+  - Fixed graphics error on Dezorian enemies (#101)
+
+- v2.3 released 2022/12/20
+  - Phantasy Star 35th anniversary!
+  - Added Spanish translation from kusfo
+  - Added German translation from Popfan
+  - Added literal English translation variant
+  - Updates to the Brazilian Portuguese script from ajkmetiuk
+  - Much work on converting the original Katakana script to use Hiragana and Kanji where appropriate, and then re-retranslating in a few areas
+  - Much work on annotating the script with where each line is used/reused
+  - Some shared lines split up to enable better translation
+  - Fixed some very old mistranslations
+  - Fixed areas of the script that incorrectly make assumptions about which character is alive
+  - Quite a lot of work done on the disassembly 
+  - When you buy weapons/armor, you can optionally equip it immediately (#50)
+  - Changed name entry screen to support a cursor on wider words (#70)
+  - Shop drawing now uses a smaller Meseta window (#72) and dynamic-width inventories (#79)
+  - Added support for dynamic pronouns in the script (#80)
+  - Fixed a bug that could cause blank lines in the script after a prompt (#82)
+  - Fixed some "soft lock" situations in the original game (#84)
+  - Added an option to speed up scene transitions (palette fades)
+  - Added an option to speed up text drawing in the main script window
+  - Button 1 more usage is now more consistently a "cancel" or "no" action (#96)
+  - Extended the credits sequence so the original credits are now left untouched
+
+- v2.2 released 2021/12/20
+  - Phantasy Star 34th anniversary!
+  - Fixed a bug with articles for some languages
+  - Fixed issue with emulators not supporting cartridge RAM
+  - Fixed glitches in enemy name border drawing on some hardware (#63)
+  - Fixed some script inconsistencies in English (#61)
+  - Added Catalan translation from kusfo
+  - Improved the translation tools based on issues found with the Catalan translation
+    - More languages are welcome! [Contact me](https://www.smspower.org/Home/Contact) if you want to contribute.
+  - Ported the build system to GNU Make
 - v2.1 released 2021/01/31
   - added French translation from ichigobankai, Wil76 and Vingazole
   - added Brazilian Portuguese translation from ajkmetiuk
@@ -61,6 +136,7 @@ Changelog (in reverse chronological order):
   - first release
 
 The script was originally based on the Phantasy Star Original Dialogue Version Japanese to English Retranslation by Paul Jensen.
+</details>
 
 ## What is Phantasy Star
 
@@ -77,7 +153,7 @@ The following changes are made to the game engine:
 - Narrative formatting
 - Window expansion
 - Replaced 8x8 font
-- Use of adapting indefinite articles
+- Use of adapting word tokens for articles, pronouns, and other grammatical constructs for specific languages
 - Reworked name entry screen
 - FM/PSG switching
 - Extended save slots names, count and interface
@@ -89,11 +165,15 @@ This patch requires that you download a program that can apply it to a properly 
 
 The original, unmodified game has the following characteristics:
 
-Size:  512KB (524,288 bytes)
-
-CRC32: `6605D36A`
-
-MD5:   `DFEBC48DFE8165202B7F002D8BAC477B`
+Attribute|Value
+---------|----
+Size     | 512KB (524,288 bytes)
+CRC32    |`6605d36a`
+CRC64    |`8c8383b83a0d6ecc`
+MD5      |`dfebc48dfe8165202b7f002d8bac477b`
+SHA1     |`c9a40ddd217c58dddcd6b5c0fe66c3a50d3e68e4`
+SHA256   |`1d8554202f313d97c4f48c6acf9b312853a1aca3c04fab9077743d7943a45ebb`
+BLAKE2sp |`9e006166eb172cd5a1c98483128e4d871924a2777da5514cad42cbfe6652d94b`
 
 There is only one known Japanese version of the game. The patch will NOT work with the US/European versions, or any other game on any platform. If you use the BPS patch it will verify that you are using the correct file.
 
@@ -107,14 +187,28 @@ Changes made between version numbers may adversely affect emulator save states. 
 - Core hacking and programming
 ### Maxim
 - Project manager, final hacking/programming
+  - https://www.smspower.org/maxim
 ### Paul Jensen
 - Script translator, editor
 ### satsu
 - Additional translations
 ### Frank Cifaldi (TheRedEye)
 - Localization and script enhancements
-## Damien Guard
-- Polaris font, see also https://damieng.com/typography/zx-origins/
+  - https://twitter.com/frankcifaldi
+  - https://gamehistory.org
+### Damien Guard
+- Polaris font
+  - https://damieng.com
+### Popfan
+- German translation, Kanji/hiragana/katakana script, literal script improvements
+  - https://twitter.com/gensakudan
+### kusfo
+- Catalan and Spanish translations
+  - https://twitter.com/jordimontornes
+### ajkmetiuk
+- Portuguese Brazilian translation
+### ichigobankai, Wil76, Vingazole
+- French translation
 
 Special thanks to:
 
@@ -128,6 +222,8 @@ Special thanks to:
 - Meka is an excellent debugging emulator (used extensively for the hacking work): https://www.smspower.org/meka/
 ### Ville Helin
 - WLA DX is an excellent assembler and enables a lot of the adaptations for the translation. I hope to see more translation patches with published source using it.
+### Calindro
+- Emulicious is another excellent debugging emulator (invaluable for the later disassembly work): https://emulicious.net
 
 Also thanks to the following for various contributions to item naming, etc.
 - DJ Squarewave
@@ -172,7 +268,7 @@ When I first worked on this, I was quite a lot less experienced. I had not learn
 
 As is often the case, I then got a bit hooked. I strove to remove as much of the original C code as possible - all that's really left is the bitmap decoder and script encoder. Up to this point I was always producing a bit-identical output to the 1.02 release. Then I started to move to mapping out the chunks of code and data which had been replaced, marking them as free space and then letting WLA DX deal with placing the patches and enhancements in the available space. Doing this allowed me to gain confidence in the availability of "free space" for further enhancements. This allowed me to start making some of the improvements (and bug fixes) I'd been thinking of for the last decade or so. (When I said "I'm committed to keep working on it", I didn't give any promises as to *when*...)
 
-A big thing I wanted to do was deal with the wrapping in menus. The original used two-line menus mainly due to a common hack for katakana-based games - so it can save tiles by putting the diacritics on the row above. The characters "ヒビピ" are somewhat analagous to characters like "eèéêë" in European languages. Placing the modifiers on the row above reduces the number of tiles needed, which is a big deal for Master System games' limited VRAM space. However to swap to single-line menus I'd also need to widen them to make room for the names (many of which were split over two lines in order to fit). This meant dealing with the game's "window RAM buffers", which was a complicated task. I needed to map out every "menu window" that the game ever opens, determine which could be open at the same time, and allocate them all space in memory such that we never use the same space for two things at the same time. This was quite difficult and has a correspondingly large comment in the source explaining it. However, the end result is not only the removal of all unnecessary wrapping, but also a more pleasant experience (I think) as there's less blank black on the screen.
+A big thing I wanted to do was deal with the wrapping in menus. The original used two-line menus mainly due to a common hack for katakana-based games - so it can save tiles by putting the diacritics on the row above. The characters "ヒビピ" are somewhat analogous to characters like "eèéêë" in European languages. Placing the modifiers on the row above reduces the number of tiles needed, which is a big deal for Master System games' limited VRAM space. However to swap to single-line menus I'd also need to widen them to make room for the names (many of which were split over two lines in order to fit). This meant dealing with the game's "window RAM buffers", which was a complicated task. I needed to map out every "menu window" that the game ever opens, determine which could be open at the same time, and allocate them all space in memory such that we never use the same space for two things at the same time. This was quite difficult and has a correspondingly large comment in the source explaining it. However, the end result is not only the removal of all unnecessary wrapping, but also a more pleasant experience (I think) as there's less blank black on the screen.
 
 Having sorted all that out, it also meant I could extend the title screen to use menus instead of a black background when leading and saving, and a sound test which is of course a great thing given the game's soundtrack.
 
@@ -182,77 +278,29 @@ I also got a welcome message from Frank Cifaldi (TheRedEye, also the founder of 
 
 I also reached out to DamienG and he came up with an awesome new font. Note that the "AW2284" font is a tweaked version of the font from Phantasy Star IV's English release, with the numbers from Phantasy Star III, as used in the earlier releases of this translation.
 
-## Technical notes
+### Maxim (2022)
 
-The Git history contains many documents written by Z80 Gaiden during his hacking work.
-These became less relevant later so they are no longer present.
+In the last few years we've continued to add more languages and thus more language grammar features to the code. Many thanks to the people helping with the translation work and their patience to explain the grammatical issues to me so I can implement the functionality needed to make first-class translations.
 
-The code is designed to build in a Visual Studio developer command prompt, with WLA DX
-available. It uses Microsoft's NMAKE too for the makefile; it is unlikely to work with
-GNU Make without modifications, but otherwise the build process is fairly simple.
+In the interests of better portability, buildability and understandability, all of the utility programs that were ported from C to C++ were further ported to Python. This was mostly in the interests of making these utilities (performing tasks like encoding the script) a little bit more understandable, but also removing the need for a C++ compiler to build the project from scratch.
 
-There are several programs included, some of which are not part of the build process but are retained for historical purposes. The main ones are:
+I spent a chunk of time to merge the ancient disassembly work I did in the early 2000s into a modern Emulicious disassembly. It's still far from complete but it was a big step forward in terms of understanding more of the code and how the script is used, to allow us to make sure the script lines flow properly and even extend it so lines shared between multiple places in Japanese can diverge to suit the characters. We even took the opportunity to add a few hints into the script regarding some lesser-known uses of objects.
 
-### word_count
+We have also had a great amount of work from Popfan to "re-retranslate" the raw Katakana script into Katakana/Hiragaga/Kanji, and offer corrections for some of the original translation work from 2001-2002. His questions about the script were a great motivator on my side to understand all the usages.
 
-This takes the script and generates a file listing the most commonly-used words, weighted by length, in descending order. It breaks words on apostrophes, so we can avoid counting "Alisa" and "Alisa's" separately.
+We still have plans for things to do for version 3.0, and new translations are still welcome. I'd love to have dozens of languages covered for this one game!
 
-### substring_formatter
+### Popfan (2022)
 
-This takes the word list and uses it to substitute the common words with a single byte. It generates a TBL file, and assembly code for the word list.
+I owe a lot to Phantasy Star. It's the reason I started learning Japanese in the first place, and I've made many a friendship and/or unforgettable memory with the game (or the series at a whole). You could probably also imagine my surprise when I found out that this retranslation, which I'd first tried out about 14 years ago, is still being worked on to this day. My own eventual involvement with the project happened mostly by pure chance, but I was happy for the opportunity to give back to it.
 
-The optimal number of words to substitute this way for a given script is complicated, as substituting more words adds complexity to the next compression steps; but to maximise the script space overall, we should maximise the word count, which means selecting the 164 most common words. (This number could be increased a little, or reduced if we needed more characters.)
+Starting with the German translation, which I'd had an itching to do for nearly as long as I've been aware of the retranslation itself. It took a while to get myself acclimated to the work environment, but it was immensely rewarding seeing it all come together little by little, and Maxim was a wonderful person to work with, able to implement just about any code-related change I requested, whether it be for supporting German grammar or just the odd quality-of-life or visual presentation touch-up I could think of.
 
-It then converts the whole script into encoded data (for the substituted words, the non-substituted letters and some control codes). Next it applies "adaptive Huffman compression" to each script entry - for every byte in the script, we have a Huffman tree for each subsequent byte. This means the individual trees can be quite small (so the encoded tree path is smaller), but there are up to 256 of them.
+As I was working my way through the script, though, I was also fixing mistakes in the literal English translation of the Japanese script, as well as using the full range of the Japanese writing system to make a proper transcription of the katakana-only in-game text. I myself could read it just fine, but I figured it'd help with any ambiguity there may have been. This, in turn, led to Maxim getting the idea to have literal English as its own language with its own patch, putting me in charge of that, too.
 
-Finally, it emits the Huffman trees and encoded script data as assembly, and also emits patches for all the locations where the original game references a script entry. Note that the game originally had script entries referenced by index; we instead patch with direct pointers.
+My personal philosophy as a (non-professional) translator is to keep as close to the source text as possible while also making sure that the translation reads like something a native speaker would actually say. This is especially prevalent with the German translation, though I still used the retranslation as a base wherever I thought a little extra fluff would be appropriate. The literal translation, on the other hand, might inadvertently sound a little more stilted, but I also thought I'd throw long-time fans of the series a bone by translating certain spell names after the equivalents of how they've been translated in Phantasy Star IV.
 
-### menu_creater
-
-The menus themselves are encoded as raw tilemap data. This program takes the UTF-8 text in menus.txt (all the menus/windows) and opening.txt (the one window used in the opening) and converts them to the tilemap data. Note that we use a "16-bit" TBL file for this part, with some extra characters used for the menu borders.
-
-Changing the menu dimensions is far from trivial. In order to act like overlapping windows, the game caches the tilemap data from under each one as it is drawn, and then restores it. This is done using fixed RAM areas, rather than some kind of stack, and these areas need to overlap (due to RAM restrictions), so we need to ensure only windows which are never used at the same time overlap in memory.
-
-### bitmap_decode
-
-In order to free up space in the ROM, we re-encode some of the graphics (tile) data with a more efficient (but slower) compression method - namely, the algorithm used in Phantasy Star Gaiden. We first decode the data using bitmap_decode, which puts it into the raw VRAM tile format, and then re-encode it using BMP2Tile.
-
-Note that the PS Gaiden compression yields smaller results than other algorithms like ZX7 and aPLib.
-
-Note also that the original game has two versions of the tile decoder - one for use when VBlanks are disabled (i.e. when loading new scenes) and one for use "in-game" (e.g. for loading enemy tiles). We replace only the first one of these; this allows us to free up enough space while also reducing the number of places we need to re-encode the graphics.
-
-### new_graphics
-
-In a few places we insert new graphics - the title screen and fonts. We render these as PNG files and use BMP2Tile to convert to the necessary formats. We also have a duplicate tileset for Alisa with brown hair.
-
-### ROM building
-
-Finally we have the assembly file itself, `ps1jert.asm`. ("Phantasy Star 1 Japanese to English ReTranslation", later simplified to "psrp" (Phantasy Star Retranslation Project)). We use WLA DX as it offers several useful features that avoid us needing to write custom code:
-
-- We "background" the original ROM, so that we can build a ROM image based on it
-- We then "unbackground" various areas that are either replaced code/data, unused code/data (e.g. there are vestiges of a password system), or just unused areas of ROM.
-- Next we can define some helper macros for various tasks:
-  - `CopyFromOriginal` is useful for where we are moving a chunk of of data to a different location.
-  - `ROMPosition` allows us to set the assembly position in ROM space, useful for patching specific addresses.
-  - `PatchB` and `PatchW` allow us to patch bytes and words at specific addresses. This is used for many of the generated "patch" files.
-  - `LoadPagedTiles` is used for a repeated pattern of mapping in some tile data and loading t to VRAM.
-  - `String` is used to encode various bits of text in the game (especially the lists). We use WLA DX's `.asciitable` to help with the mapping to avoid needing another monstrous macro like `TextToTilemap`.
-- We define some names for various RAM locations used by the game, as well as locations used by the new script engine code (which re-use areas used by the old engine).
-- Next we start defining a mixture of new code and patches to the old code to call into the new code. We use WLA DX's `.section` syntax to define chunks of code and data and give WLA DX hints about where they need to be placed; this allows it to deal with packing the chunks into the available space for us.
- - Some is marked as `overwrite`, where we are patching over the original code at the address given.
- - `force` sections also go exactly where we have said, but these can only be placed if we have also `unbackgrounded` the space.
- - `free` sections can go anywhere in the current bank. This is useful for functions or data that are referenced from the same bank.
- - Some data can go literally anywhere as it's always accessed via paging; these are `superfree`.
-- Note that we relocate and repopulate (using labels and macro) the "`SceneDataStruct`", in order to map in the majority of our recompressed and relocated graphics data. The tilemaps and palettes are all copied from the original ROM, the latter are relocated too.
-- The name entry screen is patched quite manually, including making data for a screen-specific run-oriented tilemap encoding.
-- For the credits, we inject new credits at the original data location. Note: please do not erase any credits on derived versions.
-- Finally, there are a few original things added to the code...
-  1. We fix a bug in the original game where the same text is used in both of the "liar" villages
-  2. We add menus to the title screen for our sound and options menus, and the game save management
-  3. We remove some of the waits for button presses
-  4. We change the main "Idle loop" to use the halt instruction, which allows much more efficient emulation
-  5. We replace the game load/delete menus (with awkward yes/no menus and black background) with menus from the title screen
-  6. We add in "quality of life" options, and a sound test
+By the way, one of the things planned for the future is a complete overhaul of the manual, along with translations into all the other languages. This was supposed to be done in time for the v2.3 release, but unfortunately the deadline crept up on us a little too fast.
 
 ## Disclaimer
 
@@ -284,6 +332,7 @@ SCENARIO WRITER
 OSSALE KOHTA (Kotaro Hayashida)
 
 ASSISTANT COORDINATORS
+FINOS PATA
 OTEGAMI CHIE (Chieko Aoki)
 GAMER MIKI (Miki Morimoto)
 
@@ -291,7 +340,7 @@ TOTAL DESIGN
 PHOEHIX RIE (Rieko Kodama)
 
 MONSTER DESIGN
-CHAOTIC KAZ
+CHAOTIC KAZ (Kazuyuki Shibata)
 
 DESIGN
 ROCKHY NAO (Naoto Ohshima)
@@ -330,172 +379,6 @@ Official distribution page for this patch:
 
 Source code:
 - https://github.com/maxim-zhao/psrp
-
-## Translation notes
-
-The goal of this translation is to produce a blend between "what the original Japanese version was like" and "what a good localisation would have been in 1987".
-This means some effort is needed to adapt the intent of the original Japanese more or less literally as needed.
-As a result, some of the character dialogue is extended beyond what was in the original Japanese, occasionally adding some hints, sometimes adding some extra style to some of the bare-bones dialogue where we are able to extend things beyond the space restrictions that also limited the Japanese script.
-
-***Spoilers ahead***
-
-Telling you the names of all the things in the game is a kind of spoiler, so don't look here unless you're OK with that.
-
-### Characters
-Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
-:---|:---|:---|:---|:---|:---
-アリサ|arisa|ALIS|Alis|Alisa|Transliteration. Later games use "Alis" but the "a" is there in the original.
-チョウコオネーサン|choukoonēsan|<not present>|<not present>|Choko Oneesan|Transliteration
-ダモア|damoa|DAMOR|Damor|Damoa|Transliteration
-エスパー|esupā|ESPAR|Espar|Esper(s)|Transliteration
-ゲーマーノ ミキチャン|gēmāno mikichan|MIKI|Miki|Gamer Miki-chan|Transliteration
-ソウトク|soutoku|GOVERNOR|Governor|Governor-General|Translation (総督)
-ラシーク|rashīku|LASSIC|Lassic|LaShiec|Transliteration. [Fits with later translations.](https://phantasystar.fandom.com/wiki/Lashiec)
-ルツ|rutsu|LUTZ|Lutz|Lutz|Transliteration
-ルベノ|rubeno|LUVENO|Luveno|Luveno|Transliteration (unchanged)
-メデューサ|mede~yūsa|MEDUSA|Medusa|Medusa|Transliteration (unchanged)
-ミャウ|myau|MYAU|Myau|Myau|Transliteration (and onomatopoeia) (unchanged)
-ネキセ|nekise|NEKISE|Nekise|Nekise|Transliteration (unchanged). Could be "Nekiseh" to imply the correct pronunciation.
-ネロ|nero|NERO|Nero|Nero|Transliteration (unchanged)
-オテガミ チエチャン|otegami chiechan|<not present>|<not present>|Otegami Chie-chan|Transliteration
-スエロ|suero|SUELO|Suelo|Suelo|Transliteration (unchanged)
-タジム|tajimu|TAJIM|Tajim|Tajim|Transliteration (unchanged)
-タイロン|tairon|ODIN|Odin|Tylon|Transliteration. Controversial - could also be "Tairon", "Tyrone", "Tyron", ...
-
-### Locations
-Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
-:---|:---|:---|:---|:---|:---
-アルゴル|arugoru|ALGOL|Algol|Algol|Transliteration (unchanged)
-アルチプラノ|aruchipurano|ALTIPLANO|Altiplano|Altiplano|Transliteration (unchanged)
-アビオン|abion|ABION|Abion|Avion|Transliteration
-バルテボ|barutebo|BORTEVO|Bortevo|Bartevo|Transliteration
-バヤ マーレ|baya māre|BAYA MALAY|Baya Malay|Baya Marlay|Transliteration
-カミニート|kaminīto|CAMINEET|Camineet|Camineet|Transliteration (unchanged)
-カスバ|kasuba|CASBA|Casba|Casba|Transliteration (unchanged)
-コロナ|korona|CORONA|Corona|Corona|Transliteration (unchanged)
-デゾリス|dezorisu|DEZORIS|Dezoris|Dezoris|Transliteration (unchanged)
-ドラスゴー |dorasugō|DRASGOW|Drasgow|Drasgo|Transliteration
-エピ|epi|EPPI|Eppi|Eppi|Transliteration (unchanged)
-ガシコ|gashiko|GOTHIC|Gothic|Gothic|Transliteration (unchanged)
-グアラン|guaran|GUARON|Guaron|Guaran|Transliteration
-イアラ|iara|IALA|Iala|Iala|Transliteration (unchanged)
-マハル|maharu|MAHARU|Maharu|Mahal|Transliteration
-モタビア|motabia|MOTAVIA|Motavia|Motavia|Transliteration (unchanged)
-ナウラ|naura|NAULA|Naula|Naula|Transliteration (unchanged)
-パルマ|paruma|PALMA|Palma|Palma|Transliteration (unchanged)
-パロリト|parorito|PAROLIT|Parolit|Parolit|Transliteration (unchanged)
-パセオ|paseo|PASEO|Paseo|Paseo|Transliteration (unchanged)
-シオン|shion|SCION|Shion|Shion|Transliteration
-スクレ|sukure|SKURE|Skure|Skray|Transliteration
-ソピア|sopia|SOPIA|Sopia|Sopia|Transliteration (unchanged)
-トリアダ|toriada|TRIADA|Triada|Triada|Transliteration (unchanged)
-ウーゾ|ūzo|UZO|Uzo|Uzo|Transliteration (unchanged)
-
-### Weapons
-Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
-:---|:---|:---|:---|:---|:---
-セラミックソード|seramikkusōdo|CRC. SWD|Ceramic Sword|Ceramic Sword|Transliteration (unchanged)
-ヒートガン|ītogan|HEAT.GUN|Heat Gun|Heat Gun|Transliteration (unchanged)
-アイアンアクス|aianakusu|IRN. AXE|Iron Axe|Iron Axe|Transliteration (unchanged)
-アイアンソード|aiansōdo|IRN. SWD|Iron Sword|Iron Sword|Transliteration (unchanged)
-ラコニアンアクス|rakonianakusu|LAC. AXE|Laconian Axe|Laconian Axe|Transliteration (unchanged)
-ラコニアンソード|rakoniansōdo|LAC. SWD|Laconian Sword|Laconian Sword|Transliteration (unchanged)
-レーザーガン|rēzāgan|LASR.GUN|Laser Gun|Laser Gun|Transliteration (unchanged)
-ライトセイバー|raitoseibā|LGT.SABR|Light Saber|Light Saber|Transliteration (unchanged)
-ニードルガン|nīdorugan|NEEDLGUN|Needle Gun|Needle Gun|Transliteration (unchanged)
-サイコウォンド|saikowondo|WAND|Wand|Psycho Wand|Transliteration
-サーベルクロー|sāberukurō|SIL.FANG|Silver Fang|Saber Claw|Transliteration. Sega translation changed the meaning.
-ショートソード|shōtosōdo|SHT. SWD|Short Sword|Short Sword|Transliteration (unchanged)
-シルバータスク|shirubātasuku|IRN.FANG|Iron Fang|Silver Tusk|Transliteration. Sega translation changed the meaning, see also "SIL. FANG".
-チタニウムソード|chitaniumusōdo|TIT. SWD|Titanium Sword|Titanium Sword|Transliteration (unchanged)
-ウッドケイン|uddokein|WOODCANE|Wood Cane|Wood Cane|Transliteration (unchanged)
-
-### Armour
-Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
-:---|:---|:---|:---|:---|:---
-ダイヤノヨロイ|daiyanoyoroi|DMD.ARMR|Diamond Armor|Diamond Armor|Transliteration + translation (ダイヤの鎧)
-フラードマント|furādomanto|FRD.MANT|Frad Mantle|Frad Mantle|Transliteration
-アイアンアーマ|aianāma|IRN.ARMR|Iron Armor|Iron Armor|Transliteration (unchanged)
-ラコニアアーマ|rakoniāama|LAC.ARMR|Laconian Armor|Laconian Armor|Transliteration
-レザークロス|rezākurosu|LTH.ARMR|Leather Armor|Leather Clothes|Transliteration
-ライトスーツ|raitosūtsu|LGT.SUIT|Light Suit|Light Suit|Transliteration (unchanged)
-トゲリスノケガワ|togerisunokegawa|THCK.FUR|Thick Fur|Spiky Squirrel Fur|Translation (トゲリスの毛皮)
-ホワイトマント|howaitomanto|WHT.MANT|White Mantle|White Mantle|Transliteration (unchanged)
-ジルコニアメイル|jirukoniameiru|ZIR.ARMR|Zirconian Armour|Zirconia Mail|Transliteration. Note that zirconia is a cheaper version of diamond.
-
-### Shields
-Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
-:---|:---|:---|:---|:---|:---
-アニマルグラブ|animarugurabu|GLOVE|Glove|Animal Glove|Transliteration
-ボロンシールド|boronshīrudo|IRN. SLD|Iron Shield|Bronze Shield|Transliteration. Swapped with Iron Shield in Sega translation.
-セラミックノタテ|seramikkunotate|CRC. SLD|Ceramic Shield|Ceramic Shield|Transliteration + translation (セラミックの盾)
-アイアンシールド|aianshīrudo|BRNZ.SLD|Bronze Shield|Iron Shield|Transliteration. Swapped with Bronze Shield in Sega translation.
-ラコニアシールド|rakoniashīrudo|LAC. SLD|Laconian Shield|Laconian Shield|Transliteration
-レーザーバリア|rēzābaria|LASR.SLD|Laser Shield|Laser Barrier|Transliteration
-レザーシールド|rezāshīrudo|LTH. SLD|Leather Shield|Leather Shield|Transliteration
-ペルセウスノタテ|peruseusunotate|MIRR.SLD|Mirror Shield|Shield of Perseus|Transliteration + translation (ペルセウスの盾)
-
-### Vehicles
-Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
-:---|:---|:---|:---|:---|:---
-フロームーバー|furōmūbā|HOVRCRFT|Hovercraft|FlowMover|Transliteration
-アイスデッカー|aisudekkā|ICE DIGR|Ice Digger|IceDecker|Transliteration
-ランドマスター|randomasutā|LANDROVR|Land Rover|LandMaster|Transliteration
-
-### Items
-Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
-:---|:---|:---|:---|:---|:---
-エアロプリズム|earopurizumu|PRISM|Prism|Aeroprism|Transliteration
-アルシュリン|arushurin|ALSULIN|Alsulin|Alsuline|Transliteration. Not sure if there is some reason for the name.
-カーバンクルアイ|kābankuruai|AMBR EYE|Amber Eye|Carbuncle Eye|Transliteration
-コンパス|konpasu|COMPASS|Compass|Compass|Transliteration
-ダモアクリスタル|damoakurisutaru|CRYSTAL|Crystal|Damoa's Crystal|Transliteration
-ダンジョンキー|danjonkī|DUGN KEY|Dungeon Key|Dungeon Key|Transliteration
-イクリプストーチ|ikuripusutōchi|TORCH|Torch|Eclipse Torch|Transliteration
-エスケープクロス|esukēpukurosu|ESCAPER|Escaper|Escape Cloth|Transliteration
-ガスクリア|gasukuria|GAS. SLD|Gas Shield|GasClear|Transliteration
-ソウトクノテガミ|soutokunotegami|LETTER|Letter|Governor[-General]'s Letter|Translation (総督の手紙)
-ハプスビー|hapusubī|HAPSBY|Hapsby|Hapsby|Transliteration
-ラコニアンポット|rakonianpotto|LAC. POT|Laconian Pot|Laconian Pot|Transliteration
-ラエルマベリー|raerumaberī|NUTS|Nuts|Laerma Berries|Transliteration
-ライトペンダント|raitopendanto|MAG.LAMP|Magic Lamp|Light Pendant|Transliteration
-マジックハット|majikkuhatto|MAGC HAT|Magic Hat|Magic Hat|Transliteration
-マスターシステム|masutāshisutemu|M SYSTEM|Master System|Master System|Transliteration
-ミラクルキー|mirakurukī|MRCL KEY|Miracle Key|Miracle Key|Transliteration
-パスポート|pasupōto|PASSPORT|Passport|Passport|Transliteration
-ペロリーメイト|perorīmeito|COLA|Cola|PelorieMate|Transliteration. This is a play on "CalorieMate", a Japanese brand of "energy bar"
-ポリメテラール|porimeterāru|POLYMTRL|Polymeteral|Polymeteral|Transliteration
-ロードパス|rōdopasu|ROADPASS|Roadpass|Road Pass|Transliteration
-ルオギニン|ruoginin|BURGER|Burger|Ruoginin|Transliteration. Similar to PelorieMate, this is a corruption of Arginine V (アルギニンV, aruginin V), a Japanese brand of "energy drink"
-サーチライト|sāchiraito|FLASH|Flash|Searchlight|Transliteration
-ヒミツノモノ|himitsunomono|SECRETS|Secret|Secret Thing|Translation (秘密の物)
-ショートケーキ|shōtokēki|CAKE|Cake|Shortcake|Transliteration
-スーズフルート|sūzufurūto|FLUTE|Flute|Soothe Flute|Transliteration
-テレパシーボール|terepashībōru|SPHERE|Sphere|Telepathy Ball|Transliteration
-トランカーペット|torankāpetto|TRANSER|Transer|TranCarpet|Transliteration
-ジリオン|jirion|ZILLION|Zillion|Zillion|Transliteration
-
-### Spells
-Japanese|Romaji|Sega original translation (in-game)|Sega original translation (interpretation)|Retranslation|Notes
-:---|:---|:---|:---|:---|:---
-ビンドワ|bindowa|ROPE|Rope|Bind|"Binds" enemy so it can't attack. Transliteration.
-スルト|suruto|EXIT|Exit|Bypass|Exit dungeon. Suruto means something like "and then...". May also come from "するっと", meaning to pass somewhere easily.
-フレエリ|fureeri|FIRE|Fire|Fire|Fire attack (-10DP x 2). Transliteration (unchanged).
-ヒール|hiiru|HEAL|Heal|Heal|+20HP. Transliteration (unchanged)
-ムオーデ|muoode|OPEN|Open|Magic Unseal|Open sealed doors. "Mu" prefix for "magic"; the word "oode" can mean "to open one's arms wide".
-ムワーラ|muwaara|PROT|Protect|Magic Waller|Creates a "wall" that blocks attacks and magic. "Mu" prefix for "magic", plus transliteration.
-パウマ|pauma|HELP|Help|Power Boost|Boosts AP. "Pow" transliteration.
-ラクスタ|rakusuta|BYE|Bye|Quick Dash|Exit a battle. "Raku" means 'comfort, ease', and "sutasuta" is sound-symbolic for 'quickly running'.
-リーバス|riibasu|RISE|Rise|Rebirth|Resurrects a dead person to full life. Transliteration.
-ドヒール|dohiiru|CURE|Cure|Super Heal|+80HP. "Do" prefix for "super" spells, plus transliteration.
-テレパス|telepasu|TELE|Telepathy|Telepathy|Talk to enemies. Transliteration.
-テルル|teruru|TERR|Terror|Terror|Decreases enemy DP. Transliteration.
-タンドレ|tandore|THUN|Thunder|Thunder|Lightning attack (-30DP to all enemies). Transliteration.
-ペヤラク|peyaraku|CHAT|Chat|Transrate|Talk to enemies, but does not always work - hence a "bad" translation. Might be a play on the words "perapera" ('fluent') and "yaku" ('translation'), created by taking the word "perayaku" ("fluent/perfect translation") and switching the second and third syllables. Similar to "raputto", this also makes sense if you consider that the spell allows you to talk to certain monsters. Also, since the name of the spell isn't a perfect rendering of "peyaraku", it makes sense that the spell doesn't work on all monsters. 
-トルーパ|toruupa|FLY|Fly|Troop|Return to last church. Transliteration.
-ラプット|raputto|TRAP|Trap|Untrap|Disarms traps. "Raputto" is a jumpled-up "torappu", which is transliterated.
-ワーラ|waara|WALL|Wall|Waller|Creates a "wall" that blocks attacks. Transliteration (unchanged)
-ヒューン|hyuun|WIND|Wind|Wind|Wind attack (-10DP x 3). Original is opomatopoeic for a strong gust of wind but there's no good English equivalent.
 
 ## Contact
 
