@@ -1258,7 +1258,7 @@
   # <number> is always 400.
   ca: |
     Soc el cap d'aquesta vila.<wait more>
-    A Sopia som molt pobres. La boirina enmetzinada ens aïlla dels altres pobles.<wait more>
+    A Sopia som molt pobres. La boirina emmetzinada ens aïlla dels altres pobles.<wait more>
     No ens podríeu donar <number> Meseta per ajudar-nos?<end>
 
 - offsets: 52e1
