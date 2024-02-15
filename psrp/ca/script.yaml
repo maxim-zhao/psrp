@@ -1374,22 +1374,22 @@
 
 - offsets: 5274
   # Honest Dezorian
-  ca: No te'n refios de ningú del poble del costat...uns ensarronadors que són.<wait>
+  ca: No te'n refiïs de ningú del poble del costat...uns ensarronadors que són.<wait>
 
 - offsets: 527a
   # Honest Dezorian
-  ca: La Torre de Corona és a lo altre costat de les montanyes del nord.<wait>
+  ca: La Torre de Corona és a l'altre costat de les muntanyes del nord.<wait>
 
 - offsets: 5280
   # Honest Dezorian
-  ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola a los nostres amics allà!<wait>
+  ca: La cova de Dezoris és a ponent de la Torre de Corona. Digues-li hola als nostres amics allà!<wait>
 
 - offsets: 5286
   # Honest Dezorian
   ca: |
     Los abres de Laerma donen uns fruits estranys.<wait more>
     Es diuen fruits de Laerma, i són molt bons.<wait more>
-    Però si nols embuteixes a una olla de Laconia s'encongeixen.<wait>
+    Però si no els embuteixes en una olla de Laconia s'encongeixen.<wait>
 
 - offsets: 528c
   # Honest Dezorian
@@ -1397,41 +1397,41 @@
 
 - offsets: 529a
   # Honest Dezorian (no to previous question)
-  ca: He sentit a dir que pots vore altres mons amb un d'allonses.<wait>
+  ca: He sentit a dir que pots veure altres móns amb un d'aquests.<wait>
 
 - offsets: 5295
   # Honest Dezorian (yes to previous question)
-  ca: M'agradaria guaitar-hi un dia.<wait>
+  ca: M'agradaria veure'n algun un dia.<wait>
 
 - offsets: 52a0
   # Honest Dezorian
-  ca: No en volem saber re, dels de Palma!.<wait>
+  ca: No en volem saber res, dels de Palma!.<wait>
 
 - offsets: 52a6
   # Dishonest Dezorian
-  ca: Sa Font de sa Joventut és dintre sa Torre de sa Corona. T'ho juro!<wait>
+  ca: La Font de la Joventut és dis la Torre de la Corona. T'ho juro!<wait>
 
 - offsets: 52b2
   # Dishonest Dezorian
   # <number> is always 10.
-  ca: Hi ha un passatge secret al desè nivell de sa caverna de Dezoris. No t'ensarrono!<wait>
+  ca: Hi ha un passatge secret al desè nivell de la caverna de Dezoris. No t'ensarrono!<wait>
 
 - offsets: 52b8
   # Dishonest Dezorian
-  ca: Es fruits de Laerma són blaus, i tenyeix la roba amb ells.<wait>
+  ca: Es fruits de Laerma són blaus, i tenyeixen la roba.<wait>
 
 - offsets: 52be
   # Dishonest Dezorian
-  ca: Pots emprar un cristall per fer créixer fruit a un arbre de Laerma.<wait>
+  ca: Pots emprar un cristall per fer créixer fruits a un arbre de Laerma.<wait>
 
 - offsets: 52c4
   # Dishonest Dezorian
-  ca: Tots es de Palma son benvenguts aquí. De veritat!<wait>
+  ca: Tots es de Palma son benvinguts aquí. De veritat!<wait>
 
 - offsets: DishonestDezorianFix
   # Dishonest Dezorian
   # We add a script entry here. The original game accidentally uses an entry from Sopia.
-  ca: Es del poble de la vora són uns entabanadors.<wait>
+  ca: Els del poble de la vora són uns entabanadors.<wait>
 
 # ********************
 # *** Dezoris Cave ***
@@ -1440,7 +1440,7 @@
 - offsets: 5815
   # Dungeon Southwest of Corona Tower
   # Dishonest Dezorian
-  ca: Ves amb compte més endavant. Gira a sa esquerra a la bifurcació.<wait>
+  ca: Ves amb compte més endavant. Gira a l'esquerra a la bifurcació.<wait>
 
 # ********************
 # *** Corona Tower ***
@@ -1452,7 +1452,7 @@
   ca: Per què heu vingut aquí? No us poseu en problemes, em sentiu?<wait>
 
 - offsets: # Unused
-  ca: Tinc un mal presentiment.<wait>
+  ca: Tinc un mal pressentiment.<wait>
 
 - offsets: 592d
   # Dezorian
@@ -1465,10 +1465,10 @@
   # Torchbearer
   ca: |
     Veus la flama a la meva mà? És la Torxa d'Eclipsi.<wait more>
-    És el foc sagrat del eclipse centenari.<wait more>
+    És el foc sagrat del eclipsi centenari.<wait more>
     És bonic, sagrat i molt valuós.<wait more>
     Potser en compartiría una mica a canvi de...<wait more>
-    ...un joia de drac. Que dius?<end>
+    ...una joia del drac. Que dius?<end>
 
 - offsets: 5684
   # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
@@ -1562,7 +1562,7 @@
   # Robot Police (yes to previous question, have one)
   ca: |
     Això és una falsificació. On l'heu aconseguit?<wait more>
-    Bé, heu escollit el millor lloc per a que us tanquem. Veniu amb mi.<wait>
+    Bé, heu escollit el millor lloc per que us tanquem. Veniu amb mi.<wait>
 
 - offsets: 5619
   # Prisoner
@@ -1591,7 +1591,7 @@
 - offsets: 5530
   ca: |
     Soc Damoa, el millor vident del món!<wait more>
-    Creieu en els meus poders d'endevinació?<end>
+    Creieu en els meus poders de vidència?<end>
 
 - offsets: 5541,5552,5563
   # (yes to previous question)
@@ -1623,7 +1623,7 @@
 
 - offsets: 2711
   # (Use Aeroprism)
-  ca: El castell volador es revelat.<wait>
+  ca: El castell volador és revelat.<wait>
 
 - offsets: 2752
   # (Use Laerma Berries)
@@ -1634,7 +1634,7 @@
 # ******************************
 
 - offsets: 471b
-  ca: Quan en Myau mastega els Fruits de Laerma, una febra se'n apodera, i una llum encegadora cobreix el seu cos.<wait>
+  ca: Quan en Myau mastega els Fruits de Laerma, una febre se n'apodera, i una llum encegadora cobreix el seu cos.<wait>
 
 - offsets: 4726
   # This line has a typo: it should be ハバタイテ, not ハバテイテ.
@@ -1648,7 +1648,7 @@
   # (If Myau dies in the Gold Dragon battle and other characters are still alive)
   # Note: Alisa may not be alive, and there may be only one other left alive.
   # Previous line will have been "Myau died." so you can assume that context.
-  ca: Els seus companys son arrancats de la seva esquena, caient del cel cap a la seva mort.<wait>
+  ca: Els seus companys són escombrats de la seva esquena, caient del cel cap a la seva mort.<wait>
 
 # **********************************
 # *** The Illusionary Aerocastle ***
@@ -1672,13 +1672,13 @@
 
 - offsets: 5738
   # Shadow Warrior
-  ca: Sé per que sou aquí. Us he estat vigilant atentament. El vostre patètic viatge acaba aquí.<wait>
+  ca: Sé per què sou aquí. Us he estat vigilant atentament. El vostre patètic viatge acaba aquí.<wait>
 
 - offsets: 5749
   # Shadow Warrior
   ca: |
     Jo només sóc un guerrer a l'ombra d'en Lashiec. No heu aconseguit res derrotant-me<wait more>
-    El Rei Lashiec no pot morir. El seu poder desafía l'enteniment. Heu vingut aquí a morir.<wait>
+    El Rei Lashiec no pot morir. El seu poder desafia l'enteniment. Heu vingut aquí a morir.<wait>
 
 - offsets: 576a
   # LaShiec
@@ -1686,7 +1686,7 @@
   ca: |
     Ah, sou vosaltres. Finalment heu arribat. Us deveu sentir molt satisfets.<wait more>
     Aquells als que serveixo m'han donat la immortalitat. El meu poder ja no té límits. Sóc un Déu.<wait more>
-    I vosaltres que teniu? Armes? Màgia? De debò penseu que em podeu derrotar?<end>
+    I vosaltres què teniu? Armes? Màgia? De debò penseu que em podeu derrotar?<end>
 
 - offsets: 5773
   # LaShiec (yes to previous question)
@@ -1694,13 +1694,13 @@
     
 - offsets: 5778
   # LaShiec (no to previous question)
-  ca: No tinc temps per jocs! Veniu, us mostraré que hi ha més enllà de la vida.<wait>
+  ca: No tinc temps per jocs! Veniu, us mostraré què hi ha més enllà de la vida.<wait>
 
 - offsets: 5789
   # (Defeat LaShiec)
   ca: |
-    Potser heu destruït aquest cos, pero jo no puc morir! Reviuré un altre cop!<line><line><line><line><wait more>
-    Lashiec ha caigut. L'últim desig d'en Nero s'ha acomplert. Una nova era comença per a Algol.<wait more>
+    Potser heu destruït aquest cos, però jo no puc morir! Reviuré un altre cop!<line><line><line><line><wait more>
+    Lashiec ha caigut. L'últim desig d'en Nero s'ha complert. Una nova era comença per a Algol.<wait more>
     Només ens queda anar a veure al Governador General a Paseo!<wait>
 
 # **************
@@ -1711,14 +1711,14 @@
   # If Alisa died during the final boss fight
   ca: |
     Aleshores Alisa sent la veu d'en Nero, d'un lloc llunyà.<wait more>
-    ‘No et rendeixis, Alisa. Heu arribat molt lluny.’<wait more>
+    'No et rendeixis, Alisa. Has arribat molt lluny.'<wait more>
     El seu esperit reviu.<wait>
 
 - offsets: 58e1
   # Governor-General (to Alisa)
   ca: |
     Oh, Déu meu. Si us plau, perdoneu-me. El meu cos i la meva ànima eren controlades per una força maligna.<wait more>
-    Ho heu fet! Heu salvat Algol. La Historia recordarà els vostres noms, sempre.<wait more>
+    Ho heu fet! Heu salvat Algol. La Historia recordarà els vostres noms per sempre.<wait more>
     Lashiec ha mort, la seva fortalesa maleïda ha estat destruïda. Finalment, ha tornat la pau.<wait more>
     I just a temps. Temo que si haguéssim trigat més, ho hauríem perdut tot.<wait more>
     Alisa. Hi ha una cosa que has de saber. Un secret que he guardat per a protegir la teva vida.<wait more>
@@ -1773,7 +1773,7 @@
 
 - offsets: 1497
   # In battle, player dodges 
-  ca: <player> ha desviat l’atac <del><monster>.<delay>
+  ca: <player> ha desviat l'atac <del><monster>.<delay>
 
 - offsets: 1a96
   # In battle, chose "talk"
@@ -1901,10 +1901,10 @@
   ca: Es fosc com la gola del llop. No podem avançar.<wait>
 
 - offsets: 27c3
-  ca: Ara mireu al est.<wait>
+  ca: Ara mireu a l'est.<wait>
 
 - offsets: 27cf
-  ca: Ara mireu al oest.<wait>
+  ca: Ara mireu a l'oest.<wait>
 
 - offsets: 27bc
   ca: Ara mireu al nord.<wait>
@@ -1914,7 +1914,7 @@
 
 - offsets: 2611
   # Using Polymeteral in the wrong place
-  ca: Ondia, això fa catipén.<wait>
+  ca: Òndia, això fa catipent.<wait>
 
 - offsets: 2276,228e
   # Using the Telepathy Ball or Lutz's Telepathy spell in front of a pitfall
@@ -1959,7 +1959,7 @@
   ca: Heu trobat <article><item>.<wait>
 
 - offsets: 21d9,22b5
-  ca: El cosos es tornen extranyament lleugers. <delay>
+  ca: El cossos es tornen estranyament lleugers. <delay>
 
 - offsets: 2248
   ca: <player> reviu.<wait>
@@ -1978,7 +1978,7 @@
 
 - offsets: 1872
   # <number> is always >1
-  ca: Heu guanyat <number> punts d'experiéncia.<wait>
+  ca: Heu guanyat <number> punts d'experiència.<wait>
 
 - offsets: 18f3
   ca: <player> ha pujat de nivell.<wait>
@@ -2042,14 +2042,14 @@
 
 - offsets: 19f7,2b0f
   # Selecting a player from the menu when they are dead, to do something like heal them.
-  ca: <player> ja es mort.<delay>
+  ca: <player> és mort.<delay>
 
 - offsets: 1786
-  ca: Alisa i els seus companys han estat aniquilats.<wait>
+  ca: Alisa i els seus companys han estat anihilats.<wait>
 
 - offsets: 178c
   ca: |
-    La esperança d'Alisa s'ha esvaït davant les ambicions d'en Lashiec.<wait more>
+    L'esperança d'Alisa s'ha esvaït davant les ambicions d'en Lashiec.<wait more>
     El viatge acaba aquí.<wait>
 
 # **************
@@ -2133,7 +2133,7 @@
 
 - offsets: 2b54
   ca: |
-    Hmm. Us puc deixar com nous per <number> Meseta. Ho tirem endavant?<end>
+    Hmm. Us puc deixar com nous per <number> Meseta. Procedim?<end>
 
 - offsets: 2b99
   ca: Algú més necessita tractament?<end>
@@ -2206,7 +2206,7 @@
 - offsets: 2c90
   ca: |
     <player>? No em sembla pas mort.<wait more>
-    Si necessiteu atenció médica, us suggereixo anar al hospital més proper.<end>
+    Si necessiteu atenció médica, us suggereixo anar a l'hospital més proper.<end>
 
 # ************************
 # *** Monster Dialogue ***
@@ -2214,67 +2214,67 @@
 # First 9 are in response to the "speak" battle menu
 
 - offsets: 1ae5
-  ca: ‘Volem ser amics dels de Palma.’<wait>
+  ca: 'Volem ser amics dels de Palma.'<wait>
 
 - offsets: 1ae7
-  ca: ‘Em podría menjar uns Fruits de Laerma ara!’<wait>
+  ca: 'Em podria menjar uns Fruits de Laerma ara!'<wait>
 
 - offsets: 1ae9
-  ca: ‘No heu d'anar en contra Lashiec.’<wait>
+  ca: 'No heu d'anar en contra Lashiec.'<wait>
 
 - offsets: 1aeb
-  ca: ‘Ah! Enteneu la nostra llengua?’<wait>
+  ca: 'Ah! Enteneu la nostra llengua?'<wait>
 
 - offsets: 1aed
-  ca: ‘Au!’<wait>
+  ca: 'Au!'<wait>
 
 - offsets: 1aef
-  ca: ‘Quan sigueu a les masmorres, vigileu amb els paranys.’<wait>
+  ca: 'Quan sigueu a les masmorres, vigileu amb els paranys.'<wait>
 
 - offsets: 1af1
-  ca: ‘Podeu resultar ferits si obriu cofres del tresor sense precaució.’<wait>
+  ca: 'Podeu resultar ferits si obriu cofres del tresor sense precaució.'<wait>
 
 - offsets: 1af3
-  ca: ‘Maleïts lladres!’<wait>
+  ca: 'Maleïts lladres!'<wait>
 
 - offsets: 1af5
-  ca: ‘La gent ens odia independentment del que fem.’<wait>
+  ca: 'La gent ens odia independentment del que fem.'<wait>
 
 # The next 10 are from enemies that you can only talk to with magic.
 
 - offsets: 1cce
-  ca: ‘La Flauta Calmant sona tan bé!’<wait>
+  ca: 'La Flauta Calmant sona tan bé!'<wait>
 
 - offsets: 1cd0
-  ca: ‘Els Trencaglaços poden travessar el gel!’<wait>
+  ca: 'Els Trencaglaços poden travessar el gel!'<wait>
 
 - offsets: 1cd2
-  ca: ‘En Lashiec viu dalt del cel.’<wait>
+  ca: 'En Lashiec viu dalt del cel.'<wait>
 
 - offsets: 1cd4
   # This line has a typo: ラスコニアンポット should be ラコニアンポット.
   # Please note that the kanji rendition below fixes this mistake.
-  ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
+  ca: 'El Doctor Boig a Avion té una Olla de Laconia.'<wait>
 
 - offsets: 1cd6
-  ca: ‘Hi ha llocs al cel que ni una nau espacial hi pot arribar.’<wait>
+  ca: 'Hi ha llocs al cel que ni una nau espacial hi pot arribar.'<wait>
 
 - offsets: 1cd8
-  ca: ‘Heu de disposar de un cert objecte per fer creixer els Fruits de Laerma.’<wait>
+  ca: 'Heu de disposar de un cert objecte per fer creixer els Fruits de Laerma.'<wait>
 
 - offsets: 1cda
-  ca: ‘Alguns laberints a les masmorres tenen portes amagades.’<wait>
+  ca: 'Alguns laberints a les masmorres tenen portes amagades.'<wait>
 
 - offsets: 1cdc
-  ca: ‘La Clau Miraculosa pot obrir portes màgiques!’<wait>
+  ca: 'La Clau Miraculosa pot obrir portes màgiques!'<wait>
 
 - offsets: 1cde
-  ca: ‘Alguns habitants de Dezoris son mentiders, ves amb compte’<wait>
+  ca: 'Alguns habitants de Dezoris son mentiders, ves amb compte'<wait>
 
 - offsets: 1ce0
   ca: |
-    ‘Certament sou molt valents de parlar amb mi. Us direu un secret a canvi.<wait more>
-    La mateixa telepatia que feu servir ara us pot ajudar a descobrir paranys.’<wait>
+    'Certament sou molt valents de parlar amb mi. Us direu un secret a canvi.<wait more>
+    La mateixa telepatia que feu servir ara us pot ajudar a descobrir paranys.'<wait>
 
 # **************
 # *** Saving ***
