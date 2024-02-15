@@ -73,7 +73,7 @@
   ca: |
     ┌───────────────╖
     │Foc            ║
-    │Telepatía      ║
+    │Telepatia      ║
     │Vent           ║
     │Barrera Màgica ║
     │Llampec        ║
@@ -96,7 +96,7 @@
     ┌───────────────╖
     │Super Remei    ║
     │Escapar        ║
-    │Telepatía      ║
+    │Telepatia      ║
     │Obrir          ║
     │Reviure        ║
 
@@ -162,20 +162,20 @@
   ca: ┌──────────────╖
 
 - name: SoundTestMenuChipPSG
-  ca: │Chip       PSG║
+  ca: │Xip        PSG║
 
 - name: SoundTestMenuChipYM2413
-  ca: │Chip        FM║
+  ca: │Xip         FM║
 
 - name: SoundTestMenu
   ca: |
     │--------------║
-    │Pantalla títul║
+    │Pantalla títol║
     │Introducció   ║
     │Ciutat        ║
     │Masmorra      ║
     │Botiga        ║
-    │Esglesia      ║
+    │Església      ║
     │Palma         ║
     │Batalla       ║
     │Història      ║
