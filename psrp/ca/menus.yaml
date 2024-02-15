@@ -54,7 +54,7 @@
   ca: |
     ┌───────────────╖
     │Guarir         ║
-    │Fugir Ràpid    ║
+    │Fugir          ║
     │Traduïr        ║
     │Foc            ║
     │Lligar         ║
@@ -162,15 +162,15 @@
   ca: ┌──────────────╖
 
 - name: SoundTestMenuChipPSG
-  ca: │Xip        PSG║
+  ca: │Música     PSG║
 
 - name: SoundTestMenuChipYM2413
-  ca: │Xip         FM║
+  ca: │Música      FM║
 
 - name: SoundTestMenu
   ca: |
     │--------------║
-    │Pantalla títol║
+    │Títol         ║
     │Introducció   ║
     │Ciutat        ║
     │Masmorra      ║
@@ -188,7 +188,7 @@
     │Lashiec       ║
     │Força Fosca   ║
     │Final         ║
-    │Fi del joc    ║
+    │Derrota       ║
     ╘══════════════╝
 
 - name: OptionsMenu
@@ -196,7 +196,7 @@
   # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
   ca: |
     ┌───────────────────────╖
-    │Velocitat de passos  x ║
+    │Ritme dels passos    x ║
     │Experiència          x ║
     │Meseta               x ║
     │Batalles               ║
