@@ -11,7 +11,8 @@ Currently we have translations for:
 - Brazilian Portuguese
 - Spanish
 - Catalan
-More languages are welcome! See translating.md and/or contact me if you wouldnlike tonget involved to add your language. 
+
+More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language. 
 
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
