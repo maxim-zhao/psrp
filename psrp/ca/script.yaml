@@ -1263,7 +1263,7 @@
 
 - offsets: 52e1
   # The Village Chief (no to previous question)
-  ca: Ja vec. És una llàstima sentir això. Ohhh...<wait>
+  ca: Ja veig. És una llàstima sentir això. Ohhh...<wait>
 
 - offsets: 52f2
   # The Village Chief (yes to previous question, but not enough money)
@@ -1338,15 +1338,15 @@
 
 - offsets: 56c1
   # Tajim (no to previous question)
-  ca: Ja vec. Aleshores no té sentit que parli més amb tu.<wait>
+  ca: Ja veig. Aleshores no té sentit que parli més amb tu.<wait>
 
 - offsets: 56c7
   # Tajim (if you have Lutz)
-  ca: Ah, Lutz, el meu deixeble! Vec que finalment estàs complint el teu destí i t'enfrontaràs a en LaShiec.<wait>
+  ca: Ah, Lutz, el meu deixeble! Veig que finalment estàs complint el teu destí i t'enfrontaràs a en LaShiec.<wait>
 
 - offsets: 56d3
   # Tajim (if Lutz is dead)
-  ca: ...Lutz? Oh, ja vec, és mort. Vosaltres, aneu a reviure'l a una església i torneu cap aquí.<wait>
+  ca: ...Lutz? Oh, ja veig, és mort. Vosaltres, aneu a reviure'l a una església i torneu cap aquí.<wait>
 
 - offsets: 56d9
   # Tajim (talking to Lutz)
@@ -1731,7 +1731,7 @@
 
 - offsets: 58ef
   # Governor-General (no to previous question)
-  ca: Ja vec. No t'intentaré convèncer. Si canvies de parer, Algol sempre et rebrà amb els braços oberts.<wait>
+  ca: Ja veig. No t'intentaré convèncer. Si canvies de parer, Algol sempre et rebrà amb els braços oberts.<wait>
 
 # ********************
 # *** Ending Scene ***
