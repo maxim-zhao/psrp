@@ -47,7 +47,6 @@ generated/%.psgcompr: new_graphics/%.png
 
 # And per-language ones. There's a <LANGUAGE>/<filename> hidden in the %.
 generated/%.psgcompr: %.png tools.py
-	$(PY) tools.py mkdir $(dir $@)
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
 # We generate tiles and tilemap for the title screen, these need specific parameters
