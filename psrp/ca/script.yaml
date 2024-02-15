@@ -1084,8 +1084,8 @@
   # Townsperson
   ca: |
     En aquest planeta hi ha un eclipsi de sol cada cent anys.<wait more>
-    Una flama encesa durant l'eclipsi s'anomena una Torcha d'Eclipsi.<wait more>
-    Els nadius de Dezoris creuen que una Torcha d'Eclipsi té poders divins.<wait>
+    Una flama encesa durant l'eclipsi s'anomena una Torxa d'Eclipsi.<wait more>
+    Els nadius de Dezoris creuen que una Torxa d'Eclipsi té poders divins.<wait>
 
 - offsets: 526e
   # Townsperson
@@ -1464,7 +1464,7 @@
 - offsets: 5661
   # Torchbearer
   ca: |
-    Veus la flama a la meva mà? És la Torcha d'Eclipsi.<wait more>
+    Veus la flama a la meva mà? És la Torxa d'Eclipsi.<wait more>
     És el foc sagrat del eclipse centenari.<wait more>
     És bonic, sagrat i molt valuós.<wait more>
     Potser en compartiría una mica a canvi de...<wait more>
