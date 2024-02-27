@@ -251,7 +251,7 @@
 - offsets: 4ddf
   # Woman next to dock
   ca: |
-    Acostumava a anar a explorar la cova de Naula, a la costa al nord de Baya Marlay.<wait more>
+    Acostumava a anar a explorar la cova de Neula, a la costa al nord de Baya Marlay.<wait more>
     Però amb tots els monstres que han aparegut, això ja no pot ser...<wait>
 
 - offsets: 2dab
@@ -338,7 +338,7 @@
   ca: Ho sento, no compleix els requisits. Torni més endavant. Següent?<wait>
 
 - offsets: 5939
-  ca: Aquest és un vol sense escales a Motavia. Ha de pujar?<end>
+  ca: Aquest és un vol sense escales a Motavia. Pujaria?<end>
 
 # ***********************
 # *** Paseo Spaceport ***
@@ -354,7 +354,7 @@
 
 - offsets: 4e3d
   ca: |
-    He sentit que hi ha una pastisseria a la cova de Naula, a Palma.<wait more>
+    He sentit que hi ha una pastisseria a la cova de Neula, a Palma.<wait more>
     Em pregunto quin tipus de negoci deuen fer en una cova com aquesta?<wait>
 
 - offsets: 5949
@@ -554,7 +554,7 @@
   ca: És la Laconia! Les armes fetes amb Laconia són les més fortes de tot Algol!<wait>
 
 # ******************
-# *** Naula Cave ***
+# *** Neula Cave ***
 # ******************
 
 - offsets: 5373
@@ -1370,66 +1370,66 @@
 # ****************************
 # *** Native Dezorian Town ***
 # ****************************
-# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
+# In Catalan, Dezorians speak Majorcan
 
 - offsets: 5274
-  # Honest Dezorian
+  # Honest Dezorian (Majorcan)
   ca: No te'n refiïs de ningú del poble del costat... bons ensarronadors que són.<wait>
 
 - offsets: 527a
-  # Honest Dezorian
+  # Honest Dezorian (Majorcan)
   ca: La Torre de Corona és a l'altre costat de les muntanyes del nord.<wait>
 
 - offsets: 5280
-  # Honest Dezorian
+  # Honest Dezorian (Majorcan)
   ca: La cova de Dezoris és a l'oest de la Torre de Corona. Digues-li hola als nostres amics allà!<wait>
 
 - offsets: 5286
-  # Honest Dezorian
+  # Honest Dezorian (Majorcan)
   ca: |
     Els abres de Laerma donen uns fruits estranys.<wait more>
     Es diuen fruits de Laerma, i són molt bons.<wait more>
     Però si no els emboteixes en una olla de Laconia s'encongeixen.<wait>
 
 - offsets: 528c
-  # Honest Dezorian
+  # Honest Dezorian (Majorcan)
   ca: Has sentit parlar d'una andròmina que es diu Aeroprisma?<end>
 
 - offsets: 529a
-  # Honest Dezorian (no to previous question)
+  # Honest Dezorian (no to previous question, Majorcan)
   ca: He sentit que pots veure altres móns amb un d'aquests.<wait>
 
 - offsets: 5295
-  # Honest Dezorian (yes to previous question)
+  # Honest Dezorian (yes to previous question, Majorcan)
   ca: M'agradaria veure'n algun un dia.<wait>
 
 - offsets: 52a0
-  # Honest Dezorian
+  # Honest Dezorian (Majorcan)
   ca: No en volem saber res, dels de Palma!.<wait>
 
 - offsets: 52a6
-  # Dishonest Dezorian
+  # Dishonest Dezorian (Majorcan)
   ca: La Font de la Joventut és dis la Torre de la Corona. T'ho juro!<wait>
 
 - offsets: 52b2
-  # Dishonest Dezorian
+  # Dishonest Dezorian (Majorcan)
   # <number> is always 10.
   ca: Hi ha un passatge secret al desè nivell de la caverna de Dezoris. No t'ensarrono!<wait>
 
 - offsets: 52b8
-  # Dishonest Dezorian
+  # Dishonest Dezorian (Majorcan)
   ca: Es fruits de Laerma són blaus, i tenyeixen la roba.<wait>
 
 - offsets: 52be
-  # Dishonest Dezorian
+  # Dishonest Dezorian (Majorcan)
   ca: Pots emprar un cristall per fer créixer fruits a un arbre de Laerma.<wait>
 
 - offsets: 52c4
-  # Dishonest Dezorian
+  # Dishonest Dezorian (Majorcan)
   ca: Tots els de Palma son benvinguts aquí. De veritat!<wait>
 
 - offsets: DishonestDezorianFix
-  # Dishonest Dezorian
+  # Dishonest Dezorian (Majorcan)
   # We add a script entry here. The original game accidentally uses an entry from Sopia.
   ca: Els del poble de la vora són uns entabanadors.<wait>
 
@@ -1439,7 +1439,7 @@
 
 - offsets: 5815
   # Dungeon Southwest of Corona Tower
-  # Dishonest Dezorian
+  # Dishonest Dezorian (Majorcan)
   ca: Vés amb compte més endavant. Gira a l'esquerra a la bifurcació.<wait>
 
 # ********************
@@ -1448,14 +1448,14 @@
 
 - offsets: 57fd,5803
   # Dezorian
-  # (Also in Guaran Morgue)
+  # (Also in Guaran Morgue, Majorcan)
   ca: Per què heu vingut aquí? No poseu el nas on no us toca, em sentiu?<wait>
 
 - offsets: # Unused
   ca: Tinc un mal pressentiment.<wait>
 
 - offsets: 592d
-  # Dezorian
+  # Dezorian (Majorcan)
   ca: |
     Jo no t'ho he dit, però...<wait more>
     Lord Lashiec tem el cristall de Damoa, el vident.<wait more>
