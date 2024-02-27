@@ -6,7 +6,7 @@ _NameEntryItems:
   NameEntryText  3, 15, "àçéèíóòú"
   NameEntryText  3, 17, "0123456789"
   NameEntryText 22, 17,                   ".,-!?‘’"
-  NameEntryText  3, 19, "Enrera"
+  NameEntryText  3, 19, "Enrere"
   NameEntryText 22, 19,                    "Següent"
   NameEntryText  3, 21, "Espai"
   NameEntryText 22, 21,                    "Guardar"
