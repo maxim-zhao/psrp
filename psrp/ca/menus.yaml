@@ -54,7 +54,7 @@
   ca: |
     ┌───────────────╖
     │Guarir         ║
-    │Fugir Ràpid    ║
+    │Fugir          ║
     │Traduïr        ║
     │Foc            ║
     │Lligar         ║
@@ -73,7 +73,7 @@
   ca: |
     ┌───────────────╖
     │Foc            ║
-    │Telepatía      ║
+    │Telepatia      ║
     │Vent           ║
     │Barrera Màgica ║
     │Llampec        ║
@@ -96,7 +96,7 @@
     ┌───────────────╖
     │Super Remei    ║
     │Escapar        ║
-    │Telepatía      ║
+    │Telepatia      ║
     │Obrir          ║
     │Reviure        ║
 
@@ -162,20 +162,20 @@
   ca: ┌──────────────╖
 
 - name: SoundTestMenuChipPSG
-  ca: │Chip       PSG║
+  ca: │Música     PSG║
 
 - name: SoundTestMenuChipYM2413
-  ca: │Chip        FM║
+  ca: │Música      FM║
 
 - name: SoundTestMenu
   ca: |
     │--------------║
-    │Pantalla títul║
+    │Títol         ║
     │Introducció   ║
     │Ciutat        ║
     │Masmorra      ║
     │Botiga        ║
-    │Esglesia      ║
+    │Església      ║
     │Palma         ║
     │Batalla       ║
     │Història      ║
@@ -188,7 +188,7 @@
     │Lashiec       ║
     │Força Fosca   ║
     │Final         ║
-    │Fi del joc    ║
+    │Derrota       ║
     ╘══════════════╝
 
 - name: OptionsMenu
@@ -196,7 +196,7 @@
   # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.
   ca: |
     ┌───────────────────────╖
-    │Velocitat de passos  x ║
+    │Ritme dels passos    x ║
     │Experiència          x ║
     │Meseta               x ║
     │Batalles               ║
