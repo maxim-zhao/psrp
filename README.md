@@ -17,7 +17,7 @@ More languages are welcome! See translating.md and/or contact me if you would li
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
--v2.4.1 release 2023/12/31
+- v2.4.1 release 2023/12/31
   - Restored original French translation as an extra option
   - Fixed credits in French
   
