@@ -37,7 +37,7 @@ Changelog (in reverse chronological order):
     - Extended save game name entry screen to show "Sauvegarder"
   - Technical work: 
     - Recompressed all sprite art to make more room for script
-    - Script it now stored across the entire ROM space, removing the previous 16KB (compressed) limit
+    - Script is now stored across the entire ROM space, removing the previous 16KB (compressed) limit
 
 <details>
 <summary>Click for more history</summary>
