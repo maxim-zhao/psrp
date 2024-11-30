@@ -867,8 +867,14 @@ MoneyHack:
 
 ; Enemy encounters are when a random number is less than some threshold... which is in b here:
   ROMPosition $10b4
-.section "Battle reducer trampoline" overwrite
+.section "Battle reducer hook (dungeons)" overwrite
 ;    call GetRandomNumber           ; 0010B4 CD 6A 06
+  call BattleReducer
+.ends
+
+  ROMPosition $6229
+.section "Battle reducer hook (overworld)" overwrite
+;    call GetRandomNumber           ; 006229 CD 6A 06
   call BattleReducer
 .ends
 

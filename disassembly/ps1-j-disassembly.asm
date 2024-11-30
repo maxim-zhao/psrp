@@ -14227,8 +14227,8 @@ _LABEL_61DF_:
     add hl,hl
     add hl,hl
     ld de,_DATA_C470_MonsterPoolsLookup
-    add hl,de
-    add hl,bc
+    add hl,de ; Row lookup
+    add hl,bc ; Column lookup
     ld a,(hl) ; That's a pool number
 _LABEL_6254_SelectMonsterFromPool:
     ; Return if 0
@@ -18782,9 +18782,9 @@ _DATA_C180_MonsterPools:
 ; Data from C470 to C59F (304 bytes)
 _DATA_C470_MonsterPoolsLookup:
 ; Monster pool numbers for the above
-; Palma 0..9
 ; Row is selected via _DATA_C5A0_TileTypeToMonsterPoolLookupRow below based on tile type
 ; Column is seleccted based on data in _DATA_C000_
+; Palma 0..9
 .db $01 $02 $02 $03 $04 $05 $05 $06 $07 $07 $08 $09 $0A $0A $06 $0B
 .db $01 $02 $02 $03 $04 $05 $05 $06 $07 $07 $08 $09 $0A $0A $06 $0B
 .dsb 16,$00 ; 0 = no monsters
