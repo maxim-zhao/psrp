@@ -23,6 +23,8 @@ ca10=9
 
 ; Uppercase
 cb10=A
+; À maps to A
+cb10=À
 cc10=B
 cd10=C
 ce10=D
