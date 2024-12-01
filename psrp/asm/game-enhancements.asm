@@ -1254,18 +1254,44 @@ ReadController:
 .ends
 ; Start can't unpause because pause mode doesn't check the controller.
 ; Let's fix that.
-.unbackground $120 $126
-  ROMPosition $0120
-.section "Start to unpause hook" force
-  jp StartToUnpause
+  ROMPosition $0323
+.section "Start to unpause hook" overwrite
+  ; This runs in VBlank only when paused
+  call StartToUnpause
 .ends
 .section "Start to unpause" free
 .define PauseFlag $c212
 StartToUnpause:
--:halt
-  call ReadController
-  ld a,(PauseFlag)
-  or a
-  ret z
-  jr -
+  call $339 ; what we stole to get here
+  jp ReadController ; and return
+.ends
+; And we'd like it work on the title screen.
+  ROMPosition $2ef3
+.section "Menu selection hook" overwrite
+  call MenuSelectionButtonsCheck
+  nop
+  nop
+.ends
+.section "Menu selection allow Start on title screen" free
+MenuSelectionButtonsCheck:
+  ; Start acts as pause, but Pause only pauses in these modes... (see NMI handler)
+  ld a, ($C202)
+  cp $05
+  jr z, _startIsPause
+  cp $09
+  jr z, _startIsPause
+  cp $0B
+  jr z, _startIsPause
+  cp $0D
+  jr z, _startIsPause
+_startIsSelect:
+  ld a,(ControlsNew + 1)
+  and %01110000 ; 1 or 2 or Start
+  ret
+
+_startIsPause:
+  ld a,(ControlsNew + 1)
+  and %00110000 ; 1 or 2
+  ret
+
 .ends
