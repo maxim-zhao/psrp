@@ -169,7 +169,9 @@ The following changes are made to the game engine:
 
 ## Instructions
 
-This patch requires that you download a program that can apply it to a properly dumped ROM-image of the game. "Floating IPS" is recommended for Windows.
+This patch requires that you do one of:
+1. Download a program that can apply it to a properly dumped ROM-image of the game. "Floating IPS" is recommended for Windows. 
+2. Use an online patcher. [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) is recommended.
 
 The original, unmodified game has the following characteristics:
 
