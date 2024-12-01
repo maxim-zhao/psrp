@@ -1,4 +1,4 @@
-;=======================================================================================================
+f;=======================================================================================================
 ; Phantasy Star disassembly/retranslation
 ;=======================================================================================================
 ; by Maxim
@@ -135,22 +135,22 @@ FunctionLookupIndex db        ; Index to lookup in FunctionLookup table
 .ende
 
 .enum $C204 export
-ControlsNew db                ; Buttons just pressed (1 = pressed) \ Must be
-Controls db                   ; All buttons pressed (1 = pressed)  / together
+ControlsHeld db               ; Buttons currently pressed (1 = pressed) \ Must be
+Controls db                   ; Buttons newly pressed (1 = pressed)     / together
 .ende
 
 .enum $C208 export
-VBlankFunctionIndex db        ; Index of function to execute in VBlank
-IsJapanese db                 ; 00 if Japanese,ff if Export
-IsNTSC db                     ; 00 if PAL,ff if NTSC
-ResetButton db                ; Reset button state: %00010000 unpressed %00000000 pressed
-RandomNumberGeneratorWord dw  ; Used for random number generator
-MarkIIILogoDelay dw          ; Counter for number of frames to wait on Mark III logo
-TileMapHighByte db            ; High byte to use when writing low-byte-only tile data to tilemap
-Mask1BitOutput db             ; Mask used by 1bpp tile output code
-PauseFlag db                  ; Pause flag $ff=pause/$00=not
-PaletteMoveDelay db           ; Counter used to slow down palette changes (Mark III logo,water sparkles,???)
-PaletteMovePos db             ; Current position in above palette changes (must follow)
+VBlankFunctionIndex db        ; $c208 Index of function to execute in VBlank
+IsJapanese db                 ; $c209 00 if Japanese,ff if Export
+IsNTSC db                     ; $c20a 00 if PAL,ff if NTSC
+ResetButton db                ; $c20b Reset button state: %00010000 unpressed %00000000 pressed
+RandomNumberGeneratorWord dw  ; $c20c..d Used for random number generator
+MarkIIILogoDelay dw           ; $c20e..f Counter for number of frames to wait on Mark III logo
+TileMapHighByte db            ; $c210 High byte to use when writing low-byte-only tile data to tilemap
+Mask1BitOutput db             ; $c211 Mask used by 1bpp tile output code
+PauseFlag db                  ; $c212 Pause flag $ff=pause/$00=not
+PaletteMoveDelay db           ; $c213 Counter used to slow down palette changes (Mark III logo,water sparkles,???)
+PaletteMovePos db             ; $c214 Current position in above palette changes (must follow)
 .ende
 
 .enum $C217 export
@@ -1660,13 +1660,13 @@ FMDetection:
 .ends
 ; followed by
 .section "Get controller input" overwrite
-GetControllerInput:
+GetControllerInput: ; $3d1
     in a,(IOPort1)     ; Get controls
-    ld hl,ControlsNew
+    ld hl,ControlsHeld
     cpl                ; Invert so 1 = pressed
     ld b,a             ; b = all buttons pressed
     xor (hl)
-    ld (hl),b          ; Store b in ControlsNew
+    ld (hl),b          ; Store b in ControlsHeld
     inc hl
     and b              ; a = all buttons pressed since last time
     ld (hl),a          ; Store a in Controls
@@ -2720,7 +2720,7 @@ _LABEL_BD0_:
 
 ; Continuing address for two places above
 +:  xor a
-    ld (ControlsNew),a
+    ld (ControlsHeld),a
     ld (ScrollDirection),a
 
     ld a,(_RAM_C2E9_)
@@ -2792,7 +2792,7 @@ _LABEL_C64_:
     jr z,+             ; if zero then skip -----------------+
     ld a,$ff           ; else set all bits in a             |
     jp ++              ; and skip onwards ------------------|-+
-+:  ld a,(ControlsNew) ; Check controls  <------------------+ |
++:  ld a,(ControlsHeld) ; Check controls  <------------------+ |
     and P11 | P12      ; Is a button pressed?                 |
     ret z              ; exit if not                          |
     ld a,(PaletteRotateEnabled) ;                             |
@@ -3108,7 +3108,7 @@ _LABEL_FE7_:
     and $30
     jr nz,+
     ld a,(_RAM_C2EA_)
-    ld (ControlsNew),a
+    ld (ControlsHeld),a
     call SpriteHandler
     ld a,(PaletteRotateEnabled)
     or a
@@ -9672,7 +9672,7 @@ _NameEntryNoButtonPressed: ; 40c8
     jr c,_LeftHeld          ; 0040D2 38 66
     rra                          ; 0040D4 1F
     jr c,_RightHeld         ; 0040D5 38 1E
-    ld a,(ControlsNew)           ; 0040D7 3A 04 C2
+    ld a,(ControlsHeld)           ; 0040D7 3A 04 C2
     rra                          ; 0040DA 1F
     jr c,_UpNew                  ; 0040DB 38 1F
     rra                          ; 0040DD 1F
@@ -10594,7 +10594,7 @@ _LABEL_47B5_Ending:
 +:  ; Else treat as an input
     push hl
       ; Inject into controls data
-      ld (ControlsNew),a
+      ld (ControlsHeld),a
       ; Perform a movement sequence
       call _LABEL_6891_
     pop hl
@@ -13598,7 +13598,7 @@ _LABEL_5D78_:
     ld a,c
     or a
     jr nz,+
-    ld a,(ControlsNew)
+    ld a,(ControlsHeld)
     and $0F
     jr z,+
     ld l,$FF
@@ -15268,7 +15268,7 @@ _PitFall:
     jp _LABEL_6C06_CheckForDungeonObject
 
 _NotPitFall:
-    ld a,(ControlsNew)
+    ld a,(ControlsHeld)
     and $0F ; Mask to directions
     jp z,_NotMoving
     ; Check movement direction
@@ -16560,7 +16560,7 @@ _LABEL_73E6_:
     jp ++
 
 +:  ld (hl),$00
-    ld a,(ControlsNew)
+    ld a,(ControlsHeld)
     and $0F
     or $80
     ld c,a

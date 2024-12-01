@@ -1195,3 +1195,77 @@ StatsButton1Fix:
 ;>   add    a,a             ; 001E15 87 
 ;    add    a,a             ; 001E16 87 
 ;    add    a,a             ; 001E17 87 
+
+
+
+.unbackground $3d1 $3dd
+  ROMPosition $3d1
+.section "Mega Drive pad support hook" force
+  jp ReadController
+.ends
+
+.section "Mega Drive pad support" free
+  .define TH_HIGH %00101101
+  .define TH_LOW  %00001101
+  .define ControlsNew $c204
+ReadController:
+  ; Set TH high
+  ld a,TH_HIGH
+  out ($3f),a
+  in a,($dc) ; --21RLDU (SMS) or --CBRLDU (MD)
+  ld b,a
+  ; Now low
+  ld a,TH_LOW
+  out ($3f),a
+  in a,($dc) ; --21RLDU (SMS) or --SA00DU (MD)
+  ld c,a
+  ; Check for the zero bits
+  and %1100
+  ; If zero, seems like a MD pad; else skip ahead
+  jr nz,+
+  ; Else get those bits out
+  ld a,c
+  ; We map A to 2, so ABC acts like 212
+  ; We also map Start to the next bit up, which is unused.
+  ; First shift left 1 so the A bit lines up with the 2 bit
+  add a,a
+  ; Then set all the other bits to 1
+  or %10011111
+  ; Active low so AND merges
+  and b
+  ld b,a
++:; Process data in B like the original game
+  ld a,b
+
+  ; This code is from the original, we can reuse it
+  ld hl,ControlsNew
+  cpl                ; Invert so 1 = pressed
+  ld b,a             ; b = all buttons pressed
+  xor (hl)
+  ld (hl),b          ; Store b in ControlsHeld
+  inc hl
+  and b              ; a = all buttons pressed since last time
+  ld (hl),a          ; Store a in Controls
+  
+  ; If Start was pressed, do a fake NMI
+  bit 6, a
+  call nz, $0066
+  ret
+.ends
+; Start can't unpause because pause mode doesn't check the controller.
+; Let's fix that.
+.unbackground $120 $126
+  ROMPosition $0120
+.section "Start to unpause hook" force
+  jp StartToUnpause
+.ends
+.section "Start to unpause" free
+.define PauseFlag $c212
+StartToUnpause:
+-:halt
+  call ReadController
+  ld a,(PauseFlag)
+  or a
+  ret z
+  jr -
+.ends
