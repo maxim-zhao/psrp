@@ -23,7 +23,7 @@ Changelog (in reverse chronological order):
   - German:
     - HP and MP were the wrong way around in the status window
   - Catalan:
-    - Many linguistic fixes from @RetroAND
+    - Many linguistic fixes from [![](https://github.com/RetroAND.png?size=16)RetroAND](https://github.com/RetroAND)
 
 <details>
 <summary>Click for more history</summary>
