@@ -10,13 +10,14 @@
 
 - name: WorldMenu
   en: |
-    ┌──────╖
-    │Stats ║
-    │Magic ║
-    │Items ║
-    │Search║
-    │Save  ║
-    ╘══════╝
+    ┌───────╖
+    │Stats  ║
+    │Magic  ║
+    │Items  ║
+    │Search ║
+    │Save   ║
+    │Options║
+    ╘═══════╝
 
 - name: ChoiceMenu
   en: |

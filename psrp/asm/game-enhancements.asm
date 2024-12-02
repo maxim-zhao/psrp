@@ -51,10 +51,11 @@ TitleScreenMod:
   jp z,SoundTest
   ; else fall through
 
-_OptionsMenu:
+  ; Set the "mode" so menus work properly
   ld hl,FunctionLookupIndex
   ld (hl),8 ; LoadScene (also changes cursor tile)
 
+ShowOptionsMenu:
   ; Save tilemap
   ld hl,OptionsWindow
   ld de,OptionsWindow_VRAM
@@ -162,6 +163,14 @@ _optionsReturn:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
+  
+  ; For in-game options we behave differently...
+  ld a,(FunctionLookupIndex)
+  cp 8 ; title screen
+  ret nz
+  
+  ; Returning to title screen
+  ; Restore the cursor index
   ld de,TitleScreenCursorBase + ONE_ROW * 3
   ; fall through
 
@@ -188,15 +197,6 @@ _movement:
   xor 1
   ld (MovementSpeedUp),a
   jp _OptionsSelect
-
-  cp 3
-  jr nz,+
-  ld hl,OptionsWindow
-  ld de,OptionsWindow_VRAM
-  ld bc,OptionsWindow_dims
-  call DrawTilemap
-  ld de,TitleScreenCursorBase + ONE_ROW * 3
-  jp BackToTitle
 
 +:dec a
   jr nz,++
@@ -1265,7 +1265,8 @@ StartToUnpause:
   call $339 ; what we stole to get here
   jp ReadController ; and return
 .ends
-; And we'd like it work on the title screen.
+; And we'd like it work on the title screen. We patch the menu handler
+; so Start works too, except in places where Pause is available.
   ROMPosition $2ef3
 .section "Menu selection hook" overwrite
   call MenuSelectionButtonsCheck
@@ -1293,5 +1294,31 @@ _startIsPause:
   ld a,(ControlsNew + 1)
   and %00110000 ; 1 or 2
   ret
+.ends
 
+; Add Options menu to world menu
+; Menu extension is in menus.yaml for each language
+; We patch the max menu count
+  PatchB $1d57 5
+; And the function lookup table
+; Remove the old one
+.unbackground $1df3 $1dfc
+; Point to a new one
+  PatchW $1d64 OverworldMenuHandlers
+; And fill it in
+.section "OverworldMenuHandlers" free
+OverworldMenuHandlers:
+.dw $1DFD ; Stats
+.dw $1EA9 ; Magic 
+.dw $22C4 ; Items 
+.dw $2995 ; Search 
+.dw $1E3B ; Save
+.dw OverworldOptions
+.ends
+; And then make that new option do something
+.section "Overworld options menu" free
+OverworldOptions:
+  ld a,:ShowOptionsMenu
+  ld ($ffff),a
+  jp ShowOptionsMenu
 .ends

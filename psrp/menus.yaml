@@ -41,13 +41,14 @@
     │セーブ ║
     ╘════╝
   literal: |
-    ┌──────╖
-    │Status║
-    │Magic ║
-    │Items ║
-    │Search║
-    │Save  ║
-    ╘══════╝
+    ┌───────╖
+    │Status ║
+    │Magic  ║
+    │Items  ║
+    │Search ║
+    │Save   ║
+    │Options║
+    ╘═══════╝
   us: |
     ┌────╖
     │STAS║

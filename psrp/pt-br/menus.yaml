@@ -16,6 +16,7 @@
     │Itens   ║
     │Procurar║
     │Salvar  ║
+    │Opções  ║
     ╘════════╝
 
 - name: ChoiceMenu

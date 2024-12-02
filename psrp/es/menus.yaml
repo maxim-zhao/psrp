@@ -10,13 +10,14 @@
 
 - name: WorldMenu
   es: |
-    ┌───────╖
-    │Estado ║
-    │Mágia  ║
-    │Objetos║
-    │Buscar ║
-    │Guardar║
-    ╘═══════╝
+    ┌────────╖
+    │Estado  ║
+    │Mágia   ║
+    │Objetos ║
+    │Buscar  ║
+    │Guardar ║
+    │Opciones║
+    ╘════════╝
 
 - name: ChoiceMenu
   es: |
