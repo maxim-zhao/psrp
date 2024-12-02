@@ -219,6 +219,11 @@ Changes made between version numbers may adversely affect emulator save states. 
 - Portuguese Brazilian translation
 ### ichigobankai, Wil76, Vingazole
 - French translation
+### Cleeem
+- Extended French translation
+### RetroAND
+- Catalan translation
+
 
 Special thanks to:
 
