@@ -77,7 +77,7 @@ Changelog (in reverse chronological order):
   - Fixed some "soft lock" situations in the original game (#84)
   - Added an option to speed up scene transitions (palette fades)
   - Added an option to speed up text drawing in the main script window
-  - Button 1 more usage is now more consistently a "cancel" or "no" action (#96)
+  - Button 1 usage is now more consistently a "cancel" or "no" action (#96)
   - Extended the credits sequence so the original credits are now left untouched
 
 - v2.2 released 2021/12/20
@@ -224,6 +224,7 @@ Changes made between version numbers may adversely affect emulator save states. 
 - Extended French translation
 ### RetroAND
 - Catalan translation
+  - https://github.com/RetroAND
 
 
 Special thanks to:
