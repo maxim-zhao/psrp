@@ -51,10 +51,11 @@ TitleScreenMod:
   jp z,SoundTest
   ; else fall through
 
-_OptionsMenu:
+  ; Set the "mode" so menus work properly
   ld hl,FunctionLookupIndex
   ld (hl),8 ; LoadScene (also changes cursor tile)
 
+ShowOptionsMenu:
   ; Save tilemap
   ld hl,OptionsWindow
   ld de,OptionsWindow_VRAM
@@ -162,6 +163,14 @@ _optionsReturn:
   ld de,OptionsWindow_VRAM
   ld bc,OptionsWindow_dims
   call DrawTilemap
+  
+  ; For in-game options we behave differently...
+  ld a,(FunctionLookupIndex)
+  cp 8 ; title screen
+  ret nz
+  
+  ; Returning to title screen
+  ; Restore the cursor index
   ld de,TitleScreenCursorBase + ONE_ROW * 3
   ; fall through
 
@@ -188,15 +197,6 @@ _movement:
   xor 1
   ld (MovementSpeedUp),a
   jp _OptionsSelect
-
-  cp 3
-  jr nz,+
-  ld hl,OptionsWindow
-  ld de,OptionsWindow_VRAM
-  ld bc,OptionsWindow_dims
-  call DrawTilemap
-  ld de,TitleScreenCursorBase + ONE_ROW * 3
-  jp BackToTitle
 
 +:dec a
   jr nz,++
@@ -867,8 +867,14 @@ MoneyHack:
 
 ; Enemy encounters are when a random number is less than some threshold... which is in b here:
   ROMPosition $10b4
-.section "Battle reducer trampoline" overwrite
+.section "Battle reducer hook (dungeons)" overwrite
 ;    call GetRandomNumber           ; 0010B4 CD 6A 06
+  call BattleReducer
+.ends
+
+  ROMPosition $6229
+.section "Battle reducer hook (overworld)" overwrite
+;    call GetRandomNumber           ; 006229 CD 6A 06
   call BattleReducer
 .ends
 
@@ -1189,3 +1195,130 @@ StatsButton1Fix:
 ;>   add    a,a             ; 001E15 87 
 ;    add    a,a             ; 001E16 87 
 ;    add    a,a             ; 001E17 87 
+
+
+
+.unbackground $3d1 $3dd
+  ROMPosition $3d1
+.section "Mega Drive pad support hook" force
+  jp ReadController
+.ends
+
+.section "Mega Drive pad support" free
+  .define TH_HIGH %00101101
+  .define TH_LOW  %00001101
+  .define ControlsNew $c204
+ReadController:
+  ; Set TH high
+  ld a,TH_HIGH
+  out ($3f),a
+  in a,($dc) ; --21RLDU (SMS) or --CBRLDU (MD)
+  ld b,a
+  ; Now low
+  ld a,TH_LOW
+  out ($3f),a
+  in a,($dc) ; --21RLDU (SMS) or --SA00DU (MD)
+  ld c,a
+  ; Check for the zero bits
+  and %1100
+  ; If zero, seems like a MD pad; else skip ahead
+  jr nz,+
+  ; Else get those bits out
+  ld a,c
+  ; We map A to 2, so ABC acts like 212
+  ; We also map Start to the next bit up, which is unused.
+  ; First shift left 1 so the A bit lines up with the 2 bit
+  add a,a
+  ; Then set all the other bits to 1
+  or %10011111
+  ; Active low so AND merges
+  and b
+  ld b,a
++:; Process data in B like the original game
+  ld a,b
+
+  ; This code is from the original, we can reuse it
+  ld hl,ControlsNew
+  cpl                ; Invert so 1 = pressed
+  ld b,a             ; b = all buttons pressed
+  xor (hl)
+  ld (hl),b          ; Store b in ControlsHeld
+  inc hl
+  and b              ; a = all buttons pressed since last time
+  ld (hl),a          ; Store a in Controls
+  
+  ; If Start was pressed, do a fake NMI
+  bit 6, a
+  call nz, $0066
+  ret
+.ends
+; Start can't unpause because pause mode doesn't check the controller.
+; Let's fix that.
+  ROMPosition $0323
+.section "Start to unpause hook" overwrite
+  ; This runs in VBlank only when paused
+  call StartToUnpause
+.ends
+.section "Start to unpause" free
+.define PauseFlag $c212
+StartToUnpause:
+  call $339 ; what we stole to get here
+  jp ReadController ; and return
+.ends
+; And we'd like it work on the title screen. We patch the menu handler
+; so Start works too, except in places where Pause is available.
+  ROMPosition $2ef3
+.section "Menu selection hook" overwrite
+  call MenuSelectionButtonsCheck
+  nop
+  nop
+.ends
+.section "Menu selection allow Start on title screen" free
+MenuSelectionButtonsCheck:
+  ; Start acts as pause, but Pause only pauses in these modes... (see NMI handler)
+  ld a, ($C202)
+  cp $05
+  jr z, _startIsPause
+  cp $09
+  jr z, _startIsPause
+  cp $0B
+  jr z, _startIsPause
+  cp $0D
+  jr z, _startIsPause
+_startIsSelect:
+  ld a,(ControlsNew + 1)
+  and %01110000 ; 1 or 2 or Start
+  ret
+
+_startIsPause:
+  ld a,(ControlsNew + 1)
+  and %00110000 ; 1 or 2
+  ret
+.ends
+
+; Add Options menu to world menu
+; Menu extension is in menus.yaml for each language
+; We patch the max menu count
+  PatchB $1d57 5
+; And the function lookup table
+; Remove the old one
+.unbackground $1df3 $1dfc
+; Point to a new one
+  PatchW $1d64 OverworldMenuHandlers
+; And fill it in
+.section "OverworldMenuHandlers" free
+OverworldMenuHandlers:
+.dw $1DFD ; Stats
+.dw $1EA9 ; Magic 
+.dw $22C4 ; Items 
+.dw $2995 ; Search 
+.dw $1E3B ; Save
+.dw OverworldOptions
+.ends
+; And then make that new option do something
+.section "Overworld options menu" free
+OverworldOptions:
+  ld a,:ShowOptionsMenu
+  ld ($ffff),a
+  jp ShowOptionsMenu
+.ends

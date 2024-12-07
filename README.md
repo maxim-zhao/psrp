@@ -1,12 +1,35 @@
-# Phantasy Star English Retranslation v2.4
+# Phantasy Star Retranslation v2.5 WIP
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
-This project is an unofficial retranslation/relocalisation based on that first Japanese version, with some enhancements.
+This project is an unofficial retranslation/re-localisation based on that first Japanese version, with some enhancements.
+Currently we have translations for:
+- English
+- English (literal translation)
+- French
+- French (with additional lore)
+- German
+- Brazilian Portuguese
+- Spanish
+- Catalan
+
+More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language. 
 
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
--v2.4.1 release 2023/12/31
+- v2.5 release 2024/12/20 (planned)
+  - Options menu is now available in-game (#100)
+  - Support for Mega Drive controllers (#113)
+  - Half battles mode now applies to the overworld as well as dungeons (#116)
+  - German:
+    - HP and MP were the wrong way around in the status window
+  - Catalan:
+    - Many linguistic fixes from [![](https://github.com/RetroAND.png?size=16)RetroAND](https://github.com/RetroAND)
+
+<details>
+<summary>Click for more history</summary>
+
+- v2.4.1 release 2023/12/31
   - Restored original French translation as an extra option
   - Fixed credits in French
   
@@ -26,10 +49,7 @@ Changelog (in reverse chronological order):
     - Extended save game name entry screen to show "Sauvegarder"
   - Technical work: 
     - Recompressed all sprite art to make more room for script
-    - Script it now stored across the entire ROM space, removing the previous 16KB (compressed) limit
-
-<details>
-<summary>Click for more history</summary>
+    - Script is now stored across the entire ROM space, removing the previous 16KB (compressed) limit
 
 - v2.3.2 released 2023/02/12
   - Fixed errors in Catalan and Portuguese Brazilian ending credits
@@ -57,7 +77,7 @@ Changelog (in reverse chronological order):
   - Fixed some "soft lock" situations in the original game (#84)
   - Added an option to speed up scene transitions (palette fades)
   - Added an option to speed up text drawing in the main script window
-  - Button 1 more usage is now more consistently a "cancel" or "no" action (#96)
+  - Button 1 usage is now more consistently a "cancel" or "no" action (#96)
   - Extended the credits sequence so the original credits are now left untouched
 
 - v2.2 released 2021/12/20
@@ -150,7 +170,9 @@ The following changes are made to the game engine:
 
 ## Instructions
 
-This patch requires that you download a program that can apply it to a properly dumped ROM-image of the game. "Floating IPS" is recommended for Windows.
+This patch requires that you do one of:
+1. Download a program that can apply it to a properly dumped ROM-image of the game. "Floating IPS" is recommended for Windows. 
+2. Use an online patcher. [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) is recommended.
 
 The original, unmodified game has the following characteristics:
 
@@ -198,6 +220,12 @@ Changes made between version numbers may adversely affect emulator save states. 
 - Portuguese Brazilian translation
 ### ichigobankai, Wil76, Vingazole
 - French translation
+### Cleeem
+- Extended French translation
+### RetroAND
+- Catalan translation
+  - https://github.com/RetroAND
+
 
 Special thanks to:
 

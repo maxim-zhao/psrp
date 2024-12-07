@@ -656,7 +656,7 @@
   # Lutz
   ca: |
     Qui sou?<line><line>
-    Estic intentant entrenar; no molesteu.<wait>
+    Estic intentant entrenar. No molesteu.<wait>
 
 # ******************************
 # *** Character Intro - Lutz ***
@@ -1637,8 +1637,6 @@
   ca: Quan en Myau mastega els Fruits de Laerma, una febre se n'apodera, i una llum encegadora cobreix el seu cos.<wait>
 
 - offsets: 4726
-  # This line has a typo: it should be ハバタイテ, not ハバテイテ.
-  # Please note that the kanji rendition below fixes this mistake.
   ca: |
     I aleshores, en un instant, es transforma en una bella bestia amb ales enormes!<line><line>
     Myau bat les ales majestuosament per que tothom ho vegi.<wait>
@@ -1711,7 +1709,7 @@
   # If Alisa died during the final boss fight
   ca: |
     Aleshores Alisa sent la veu d'en Nero, d'un lloc llunyà.<wait more>
-    'No et rendeixis, Alisa. Has arribat molt lluny.'<wait more>
+    ‘No et rendeixis, Alisa. Has arribat molt lluny.’<wait more>
     El seu esperit reviu.<wait>
 
 - offsets: 58e1
@@ -2214,67 +2212,65 @@
 # First 9 are in response to the "speak" battle menu
 
 - offsets: 1ae5
-  ca: 'Volem ser amics dels de Palma.'<wait>
+  ca: ‘Volem ser amics dels de Palma.’<wait>
 
 - offsets: 1ae7
-  ca: 'Em podria menjar uns Fruits de Laerma ara!'<wait>
+  ca: ‘Em podria menjar uns Fruits de Laerma ara!’<wait>
 
 - offsets: 1ae9
-  ca: 'No heu d'anar en contra Lashiec.'<wait>
+  ca: ‘No heu d'anar en contra Lashiec.’<wait>
 
 - offsets: 1aeb
-  ca: 'Ah! Enteneu la nostra llengua?'<wait>
+  ca: ‘Ah! Enteneu la nostra llengua?’<wait>
 
 - offsets: 1aed
-  ca: 'Au!'<wait>
+  ca: ‘Au!’<wait>
 
 - offsets: 1aef
-  ca: 'Quan sigueu a les masmorres, vigileu amb els paranys.'<wait>
+  ca: ‘Quan sigueu a les masmorres, vigileu amb els paranys.’<wait>
 
 - offsets: 1af1
-  ca: 'Podeu resultar ferits si obriu cofres del tresor sense precaució.'<wait>
+  ca: ‘Podeu resultar ferits si obriu cofres del tresor sense precaució.’<wait>
 
 - offsets: 1af3
-  ca: 'Maleïts lladres!'<wait>
+  ca: ‘Maleïts lladres!’<wait>
 
 - offsets: 1af5
-  ca: 'La gent ens odia independentment del que fem.'<wait>
+  ca: ‘La gent ens odia independentment del que fem.’<wait>
 
 # The next 10 are from enemies that you can only talk to with magic.
 
 - offsets: 1cce
-  ca: 'La Flauta Calmant sona tan bé!'<wait>
+  ca: ‘La Flauta Calmant sona tan bé!’<wait>
 
 - offsets: 1cd0
-  ca: 'Els Trencaglaços poden travessar el gel!'<wait>
+  ca: ‘Els Trencaglaços poden travessar el gel!’<wait>
 
 - offsets: 1cd2
-  ca: 'En Lashiec viu dalt del cel.'<wait>
+  ca: ‘En Lashiec viu dalt del cel.’<wait>
 
 - offsets: 1cd4
-  # This line has a typo: ラスコニアンポット should be ラコニアンポット.
-  # Please note that the kanji rendition below fixes this mistake.
-  ca: 'El Doctor Boig a Avion té una Olla de Laconia.'<wait>
+  ca: ‘El Doctor Boig a Avion té una Olla de Laconia.’<wait>
 
 - offsets: 1cd6
-  ca: 'Hi ha llocs al cel que ni una nau espacial hi pot arribar.'<wait>
+  ca: ‘Hi ha llocs al cel que ni una nau espacial hi pot arribar.’<wait>
 
 - offsets: 1cd8
-  ca: 'Heu de disposar de un cert objecte per fer creixer els Fruits de Laerma.'<wait>
+  ca: ‘Heu de disposar de un cert objecte per fer creixer els Fruits de Laerma.’<wait>
 
 - offsets: 1cda
-  ca: 'Alguns laberints a les masmorres tenen portes amagades.'<wait>
+  ca: ‘Alguns laberints a les masmorres tenen portes amagades.’<wait>
 
 - offsets: 1cdc
-  ca: 'La Clau Miraculosa pot obrir portes màgiques!'<wait>
+  ca: ‘La Clau Miraculosa pot obrir portes màgiques!’<wait>
 
 - offsets: 1cde
-  ca: 'Alguns habitants de Dezoris son mentiders, ves amb compte'<wait>
+  ca: ‘Alguns habitants de Dezoris son mentiders, ves amb compte’<wait>
 
 - offsets: 1ce0
   ca: |
     'Certament sou molt valents de parlar amb mi. Us diré un secret a canvi.<wait more>
-    La mateixa telepatia que feu servir ara us pot ajudar a descobrir paranys.'<wait>
+    La mateixa telepatia que feu servir ara us pot ajudar a descobrir paranys.’<wait>
 
 # **************
 # *** Saving ***

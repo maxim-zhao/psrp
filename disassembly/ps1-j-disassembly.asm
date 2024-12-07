@@ -1,4 +1,4 @@
-;=======================================================================================================
+f;=======================================================================================================
 ; Phantasy Star disassembly/retranslation
 ;=======================================================================================================
 ; by Maxim
@@ -135,22 +135,22 @@ FunctionLookupIndex db        ; Index to lookup in FunctionLookup table
 .ende
 
 .enum $C204 export
-ControlsNew db                ; Buttons just pressed (1 = pressed) \ Must be
-Controls db                   ; All buttons pressed (1 = pressed)  / together
+ControlsHeld db               ; Buttons currently pressed (1 = pressed) \ Must be
+Controls db                   ; Buttons newly pressed (1 = pressed)     / together
 .ende
 
 .enum $C208 export
-VBlankFunctionIndex db        ; Index of function to execute in VBlank
-IsJapanese db                 ; 00 if Japanese,ff if Export
-IsNTSC db                     ; 00 if PAL,ff if NTSC
-ResetButton db                ; Reset button state: %00010000 unpressed %00000000 pressed
-RandomNumberGeneratorWord dw  ; Used for random number generator
-MarkIIILogoDelay dw          ; Counter for number of frames to wait on Mark III logo
-TileMapHighByte db            ; High byte to use when writing low-byte-only tile data to tilemap
-Mask1BitOutput db             ; Mask used by 1bpp tile output code
-PauseFlag db                  ; Pause flag $ff=pause/$00=not
-PaletteMoveDelay db           ; Counter used to slow down palette changes (Mark III logo,water sparkles,???)
-PaletteMovePos db             ; Current position in above palette changes (must follow)
+VBlankFunctionIndex db        ; $c208 Index of function to execute in VBlank
+IsJapanese db                 ; $c209 00 if Japanese,ff if Export
+IsNTSC db                     ; $c20a 00 if PAL,ff if NTSC
+ResetButton db                ; $c20b Reset button state: %00010000 unpressed %00000000 pressed
+RandomNumberGeneratorWord dw  ; $c20c..d Used for random number generator
+MarkIIILogoDelay dw           ; $c20e..f Counter for number of frames to wait on Mark III logo
+TileMapHighByte db            ; $c210 High byte to use when writing low-byte-only tile data to tilemap
+Mask1BitOutput db             ; $c211 Mask used by 1bpp tile output code
+PauseFlag db                  ; $c212 Pause flag $ff=pause/$00=not
+PaletteMoveDelay db           ; $c213 Counter used to slow down palette changes (Mark III logo,water sparkles,???)
+PaletteMovePos db             ; $c214 Current position in above palette changes (must follow)
 .ende
 
 .enum $C217 export
@@ -238,7 +238,7 @@ DungeonObjectItemTrapped db
 DungeonObjectFlagAddress dw
 BattleProbability db          ; Chance of an enemy encounter (*255)
 DungeonMonsterPoolIndex db
-_RAM_C2E5_ db
+_RAM_C2E5_NextTileType db
 EnemyNumber db                ; Enemy number - index into EnemyData
 RetreatProbability db
 _RAM_C2E8_EnemyMagicType db
@@ -267,7 +267,7 @@ HLocation dw                  ; Horizontal location in map
 VScroll db                    ; Vertical scroll
 VLocation dw                  ; Vertical location on map - skips parts
 ScrollScreens db              ; Counted down when scrolling between planets/in intro
-_RAM_C308_ db                 ; Type of current "world"???
+_RAM_C308_WorldIndex db                 ; Type of current "world"???
 _RAM_C309_LocationIndex db                 ; Current "world"???
 DungeonFacingDirection db
 .ende
@@ -276,7 +276,8 @@ DungeonFacingDirection db
 DungeonPosition db
 DungeonNumber db
 VehicleMovementFlags db       ; ??? used by palette rotation but could be more
-                                ; Zero if not in a vehicle,else flags for terrain that can be passed?
+                                ; Zero if not in a vehicle, else flags for terrain that can be passed?
+                                ; Also affects encounter probability
 PaletteRotatePos db           ; Palette rotation position
 PaletteRotateCounter db       ; Palette rotation delay counter
 _RAM_C311_ dw
@@ -1659,13 +1660,13 @@ FMDetection:
 .ends
 ; followed by
 .section "Get controller input" overwrite
-GetControllerInput:
+GetControllerInput: ; $3d1
     in a,(IOPort1)     ; Get controls
-    ld hl,ControlsNew
+    ld hl,ControlsHeld
     cpl                ; Invert so 1 = pressed
     ld b,a             ; b = all buttons pressed
     xor (hl)
-    ld (hl),b          ; Store b in ControlsNew
+    ld (hl),b          ; Store b in ControlsHeld
     inc hl
     and b              ; a = all buttons pressed since last time
     ld (hl),a          ; Store a in Controls
@@ -2152,7 +2153,7 @@ NewGame:
     ld hl,Flag_DungeonChest02_17_DungeonKey
     ld (hl),$FF
     ld hl,$0404        ; Set "world" to 4 (type 4)
-    ld (_RAM_C308_),hl
+    ld (_RAM_C308_WorldIndex),hl
     ld hl,$0610
     ld (HLocation),hl
     ld (_RAM_C313_),hl
@@ -2649,7 +2650,7 @@ _ScrollToTopPlanet:
     ld de,_WorldData-9+3 ; get xc2e9th data
     add hl,de
     ld a,(hl)
-    ld (_RAM_C308_),a
+    ld (_RAM_C308_WorldIndex),a
     call _LoadPlanetPalette
 
     ld hl,TargetPalette
@@ -2661,7 +2662,7 @@ _ScrollToTopPlanet:
     jp DecompressToTileMapData ; and ret
 
 _LoadPlanetPalette:
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     and $03
     add a,a
     ld l,a
@@ -2719,7 +2720,7 @@ _LABEL_BD0_:
 
 ; Continuing address for two places above
 +:  xor a
-    ld (ControlsNew),a
+    ld (ControlsHeld),a
     ld (ScrollDirection),a
 
     ld a,(_RAM_C2E9_)
@@ -2791,7 +2792,7 @@ _LABEL_C64_:
     jr z,+             ; if zero then skip -----------------+
     ld a,$ff           ; else set all bits in a             |
     jp ++              ; and skip onwards ------------------|-+
-+:  ld a,(ControlsNew) ; Check controls  <------------------+ |
++:  ld a,(ControlsHeld) ; Check controls  <------------------+ |
     and P11 | P12      ; Is a button pressed?                 |
     ret z              ; exit if not                          |
     ld a,(PaletteRotateEnabled) ;                             |
@@ -2834,7 +2835,7 @@ LoadScene:
     ld (DungeonPaletteIndex),a
     inc a              ; Set to 1:
     ld (_RAM_C2D5_),a
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     cp 4
     jr nc,+
     ; load non-town tileset
@@ -2874,7 +2875,7 @@ LoadScene:
     ld hl,WorldDataLookup1
     add hl,de          ; hl = WorldDataLookup1 + _RAM_C309_LocationIndex
     ld a,(hl)
-    ld (_RAM_c308_),a       ; _RAM_c308_ = (hl) = world type
+    ld (_RAM_C308_WorldIndex),a       ; _RAM_C308_WorldIndex = (hl) = world type
     add a,a
     ld h,a
     add a,a
@@ -2885,7 +2886,7 @@ LoadScene:
     ld l,a
     ld h,$00
     ld de,WorldDataLookup2
-    add hl,de          ; hl = WorldDataLookup2 + 14*_RAM_c308_
+    add hl,de          ; hl = WorldDataLookup2 + 14*_RAM_C308_WorldIndex
     ld e,(hl)
     inc hl
     ld d,(hl)
@@ -2962,12 +2963,12 @@ LoadScene:
     ld (SceneType),a   ; set SceneType accordingly (???)
 
     ld a,(VehicleMovementFlags)
-    cp $10             ; if _RAM_c30e_>16
+    cp $10             ; if VehicleMovementFlags>16
     ld c,$b8           ; then c=$b8 (?)
     jr nc,+
     or a
     ld c,MusicVehicle  ; else c=MusicVehicle
-    jr nz,+            ; if _RAM_c30e_==0
+    jr nz,+            ; if VehicleMovementFlags==0
     ld a,(_RAM_C309_LocationIndex)       ; then:
     ld e,a
     ld d,$00
@@ -3107,7 +3108,7 @@ _LABEL_FE7_:
     and $30
     jr nz,+
     ld a,(_RAM_C2EA_)
-    ld (ControlsNew),a
+    ld (ControlsHeld),a
     call SpriteHandler
     ld a,(PaletteRotateEnabled)
     or a
@@ -5781,7 +5782,7 @@ UseItem_LandMaster:
     call TextBox20x6
     ld e,$04
 _LABEL_2413_:
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     cp $04
     ld hl,textItemNoUseHere
     jr nc,+
@@ -5807,7 +5808,7 @@ _LABEL_2413_:
 UseItem_FlowMover:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     cp $04
     ld hl,textItemNoUseHere
     jr nc,+
@@ -5833,7 +5834,7 @@ UseItem_FlowMover:
 UseItem_IceDecker:
     ld hl,textPlayerUsedItem
     call TextBox20x6
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     cp $02
     ld e,$0C
     jp z,_LABEL_2413_
@@ -9262,7 +9263,7 @@ _LABEL_3D76_:
     ld a,SFX_d6
     ld (NewMusic),a
     call FadeOutFullPalette
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     or a
     jr nz,+
     ld a,(SceneType)
@@ -9671,7 +9672,7 @@ _NameEntryNoButtonPressed: ; 40c8
     jr c,_LeftHeld          ; 0040D2 38 66
     rra                          ; 0040D4 1F
     jr c,_RightHeld         ; 0040D5 38 1E
-    ld a,(ControlsNew)           ; 0040D7 3A 04 C2
+    ld a,(ControlsHeld)           ; 0040D7 3A 04 C2
     rra                          ; 0040DA 1F
     jr c,_UpNew                  ; 0040DB 38 1F
     rra                          ; 0040DD 1F
@@ -10593,7 +10594,7 @@ _LABEL_47B5_Ending:
 +:  ; Else treat as an input
     push hl
       ; Inject into controls data
-      ld (ControlsNew),a
+      ld (ControlsHeld),a
       ; Perform a movement sequence
       call _LABEL_6891_
     pop hl
@@ -13597,7 +13598,7 @@ _LABEL_5D78_:
     ld a,c
     or a
     jr nz,+
-    ld a,(ControlsNew)
+    ld a,(ControlsHeld)
     and $0F
     jr z,+
     ld l,$FF
@@ -14142,10 +14143,10 @@ _LABEL_618D_:
 
 _LABEL_61DF_:
     ld hl,Frame2Paging
-    ld (hl),:
-    ld a,(_RAM_C308_)
+    ld (hl),:_DATA_C000_
+    ld a,(_RAM_C308_WorldIndex)
     cp $03
-    jp nc,_LABEL_6275_
+    jp nc,_NoBattle ; Not on a planet? No battle then
     ; Look up a*128
     ld h,a
     ld l,$00
@@ -14153,31 +14154,48 @@ _LABEL_61DF_:
     rr l
     ld de,_DATA_C000_
     add hl,de
-    ld de,(VLocation)
+    ; Do something with V location
+    ; World map is 2048x1536 pixels which is exactly 8x8 256x192 screens
+    ; which is 128x96 tiles
+    ; VLocation is in pixels, so it ranges from 0..$600
+    ; We want to map to 0..7, i.e. divide by 192 - but the code is more complex
+    ; It seems to instead map to 0..6, with some skewing so 0 and 6 are underused?
+    ; e.g. 0410 -> 4
+    ld de,(VLocation) ; is a multiple of 16px
     ld a,e
-    add a,$60
+    ; 0..96 -> carry (first jump)
+    ; 97..160 -> no carry
+    ; >160 -> carry
+    add a,$60 ; 96
     jr c,+
-    cp $C0
+    cp $C0 ; 192
     ccf
 +:  ld a,$00
-    adc a,d
-    and $07
+    adc a,d ; a = d + 1
+    and $07 ; Get low 3 bits and shift left 3
     add a,a
     add a,a
     add a,a
     ld c,a
+    ; Similar for H location
+    ; It's trying to map 0..2047 to 0..7 which is dividing by 256
+    ; But it seems to shift the result left half a screen
+    ; e.g. 0500 -> 05
     ld de,(HLocation)
     ld a,e
     add a,$80
     ld a,$00
     adc a,d
     and $07
-    add a,c
-    add a,a
+    add a,c; Merge bits and that's a lookup
+    add a,a ; Double up
+    ; e.g. $04A
     ld d,$00
     ld e,a
     add hl,de
+    ; And that's our probability threshold
     ld b,(hl)
+    ; If in a vehicle, divide by 4?
     ld a,(VehicleMovementFlags)
     or a
     jr z,+
@@ -14185,30 +14203,33 @@ _LABEL_61DF_:
     srl b
 +:  call GetRandomNumber
     cp b
-    jp nc,_LABEL_6275_
+    jp nc,_NoBattle
     inc hl
+    ; Then get the second byte from the table into bc
     ld b,$00
     ld c,(hl)
-    ld a,(_RAM_C2E5_)
+    ; _RAM_C2E5_NextTileType -> hl
+    ld a,(_RAM_C2E5_NextTileType)
     ld l,a
     ld h,$00
-    ld de,_DATA_C5A0_
+    ld de,_DATA_C5A0_TileTypeToMonsterPoolLookupRow ; Look up in _DATA_C5A0_TileTypeToMonsterPoolLookupRow
     add hl,de
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     or a
     jr z,+
-    ld a,$0A
-+:  add a,(hl)
+    ld a,$0A ; Start at 10 for worlds other than Palma?
++:  add a,(hl) ; Get pointed value (0..9), add 10 if not Palma
+    ; Multiply by 16
     ld l,a
     ld h,$00
     add hl,hl
     add hl,hl
     add hl,hl
     add hl,hl
-    ld de,_DATA_C470_
-    add hl,de
-    add hl,bc
-    ld a,(hl)
+    ld de,_DATA_C470_MonsterPoolsLookup
+    add hl,de ; Row lookup
+    add hl,bc ; Column lookup
+    ld a,(hl) ; That's a pool number
 _LABEL_6254_SelectMonsterFromPool:
     ; Return if 0
     or a
@@ -14221,7 +14242,7 @@ _LABEL_6254_SelectMonsterFromPool:
     add hl,hl ; x8
     add hl,hl
     add hl,hl
-    ld de,_DATA_C180_MonsterPools-8 ; it's 1-indexes
+    ld de,_DATA_C180_MonsterPools-8 ; it's 1-indexed
     add hl,de
     ; Then randomly +0-7
     call GetRandomNumber
@@ -14234,7 +14255,7 @@ _LABEL_6254_SelectMonsterFromPool:
     ld a,$FF
     ret
 
-_LABEL_6275_:
+_NoBattle:
     xor a
     ld (_RAM_C29D_InBattle),a
     ret
@@ -15247,7 +15268,7 @@ _PitFall:
     jp _LABEL_6C06_CheckForDungeonObject
 
 _NotPitFall:
-    ld a,(ControlsNew)
+    ld a,(ControlsHeld)
     and $0F ; Mask to directions
     jp z,_NotMoving
     ; Check movement direction
@@ -16539,7 +16560,7 @@ _LABEL_73E6_:
     jp ++
 
 +:  ld (hl),$00
-    ld a,(ControlsNew)
+    ld a,(ControlsHeld)
     and $0F
     or $80
     ld c,a
@@ -17297,7 +17318,7 @@ _LABEL_7787_:
     ld a,$D7
     ld e,a
 _LABEL_788B_:
-    ld (_RAM_C2E5_),a
+    ld (_RAM_C2E5_NextTileType),a
     ld hl,Frame2Paging
     ld (hl),$03
     ld hl,_DATA_FC6F_
@@ -17306,7 +17327,7 @@ _LABEL_788B_:
     adc a,h
     sub l
     ld h,a
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     cp $04
     jr c,+
     inc h
@@ -17314,7 +17335,7 @@ _LABEL_788B_:
     ret
 
 _LABEL_78A5_:
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     cp $02
     ret nz
     ld a,(VehicleMovementFlags)
@@ -17567,19 +17588,19 @@ GetLocationUnknownData: ; $7a07
     add a,l            ; put in l
     ld l,a
     ld a,(hl)          ; get data
-    ld (_RAM_c2e5_),a       ; put that in _RAM_c2e5_
+    ld (_RAM_C2E5_NextTileType),a       ; put that in _RAM_C2E5_NextTileType
     ld hl,Frame2Paging
-    ld (hl),$03        ; ???
+    ld (hl),:_DATA_FC6F_
     ld hl,_DATA_FC6F_
     add a,l
     ld l,a
     adc a,h
     sub l
     ld h,a             ; hl = bc6f + a
-    ld a,(_RAM_C308_)
+    ld a,(_RAM_C308_WorldIndex)
     cp 4
     jr c,+
-    inc h              ; if _RAM_c308_>=4 then inc h (add 256)
+    inc h              ; if _RAM_C308_WorldIndex>=4 then inc h (add 256)
 +:  ld a,(hl)          ; get data in a
     ret
 .ends
@@ -17720,7 +17741,7 @@ _LABEL_7B1A_:
 .section "???" overwrite
 _LABEL_7B1E_:
     ld a,(hl)          ; get byte at hl (eg 01)
-    ld (_RAM_c308_),a       ; save in _RAM_c308_ and _RAM_C309_LocationIndex
+    ld (_RAM_C308_WorldIndex),a       ; save in _RAM_C308_WorldIndex and _RAM_C309_LocationIndex
     ld (_RAM_C309_LocationIndex),a
     inc hl             ; next byte hhhhllll in de (eg 8b)
     ld e,(hl)
@@ -17756,7 +17777,7 @@ _LABEL_7B1E_:
     add hl,hl          ; multiply by 16
     ld (HLocation),hl
     ld (_RAM_C313_),hl
-    xor a              ; zero _RAM_c30e_
+    xor a              ; zero VehicleMovementFlags
     ld (VehicleMovementFlags),a
     jp _LABEL_7BAB_
 
@@ -17824,7 +17845,7 @@ _LABEL_7BAB_:
 .org $7bcd
 
 _LABEL_7BCD_:
-    ld a,(_RAM_C2E5_)
+    ld a,(_RAM_C2E5_NextTileType)
     cp $4C
     jp nz,+
     ld a,(_RAM_C309_LocationIndex)
@@ -18221,7 +18242,7 @@ PaletteRotate:
 +:  ld (hl),a          ; put back in PaletteRotatePos
     ld c,a
     ld a,b
-    cp $08             ; if _RAM_c30e_==8 then
+    cp $08             ; if VehicleMovementFlags==8 then
     ld hl,_Palette1    ; this palette data
     ld de,PaletteAddress+29 ; palette entries 29-31
     jp nz,+            ; else
@@ -18624,14 +18645,20 @@ ItemMetadata:
 
 ; Data from C000 to C177 (376 bytes)
 _DATA_C000_:
-.db $10 $0C $10 $0C $10 $0C $10 $0B $10 $0B $10 $05 $10 $05 $10 $0F
-.db $10 $0C $10 $0C $10 $0B $10 $0B $10 $0B $10 $04 $10 $0F $10 $0E
-.db $10 $0A $10 $0A $10 $0A $10 $0B $10 $0B $10 $01 $10 $01 $10 $0E
-.db $10 $0D $10 $0A $10 $0A $10 $07 $10 $00 $10 $00 $10 $01 $10 $06
-.db $10 $0A $10 $0A $10 $0A $10 $07 $10 $00 $10 $00 $10 $01 $10 $06
-.db $10 $09 $10 $09 $10 $08 $10 $07 $10 $02 $10 $02 $10 $01 $10 $06
-.db $10 $09 $10 $09 $10 $08 $10 $08 $10 $03 $10 $03 $10 $06 $10 $0B
-.db $10 $0A $10 $09 $10 $08 $10 $08 $10 $03 $10 $03 $10 $0B $10 $0D
+; 128 bytes, for each planet
+; Looked up as 2 bytes for the location on the planet
+; First byte is encounter probability: always $10 -> 16/256 = 1/8 chance
+; Second byte is an offset into rows at _DATA_C470_MonsterPoolsLookup
+; Palma:
+.db $10 $0C  $10 $0C  $10 $0C  $10 $0B  $10 $0B  $10 $05  $10 $05  $10 $0F
+.db $10 $0C  $10 $0C  $10 $0B  $10 $0B  $10 $0B  $10 $04  $10 $0F  $10 $0E
+.db $10 $0A  $10 $0A  $10 $0A  $10 $0B  $10 $0B  $10 $01  $10 $01  $10 $0E
+.db $10 $0D  $10 $0A  $10 $0A  $10 $07  $10 $00  $10 $00  $10 $01  $10 $06
+.db $10 $0A  $10 $0A  $10 $0A  $10 $07  $10 $00  $10 $00  $10 $01  $10 $06
+.db $10 $09  $10 $09  $10 $08  $10 $07  $10 $02  $10 $02  $10 $01  $10 $06
+.db $10 $09  $10 $09  $10 $08  $10 $08  $10 $03  $10 $03  $10 $06  $10 $0B
+.db $10 $0A  $10 $09  $10 $08  $10 $08  $10 $03  $10 $03  $10 $0B  $10 $0D
+
 .db $10 $09 $10 $09 $10 $08 $10 $03 $10 $03 $10 $06 $10 $06 $10 $06
 .db $10 $09 $10 $0E $10 $0E $10 $0E $10 $02 $10 $02 $10 $02 $10 $02
 .db $10 $08 $10 $0E $10 $0F $10 $0E $10 $0D $10 $01 $10 $01 $10 $05
@@ -18640,6 +18667,7 @@ _DATA_C000_:
 .db $10 $08 $10 $09 $10 $0B $10 $0A $10 $07 $10 $05 $10 $04 $10 $04
 .db $10 $08 $10 $09 $10 $0A $10 $0A $10 $07 $10 $05 $10 $05 $10 $05
 .db $10 $09 $10 $09 $10 $08 $10 $08 $10 $07 $10 $06 $10 $06 $10 $06
+
 .db $10 $0F $10 $0F $10 $0D $10 $0C $10 $0E $10 $0E $10 $0F $10 $0F
 .db $10 $0F $10 $0D $10 $0D $10 $0C $10 $0B $10 $0B $10 $0C $10 $0F
 .db $10 $0D $10 $0D $10 $0D $10 $0C $10 $0B $10 $0A $10 $09 $10 $09
@@ -18752,10 +18780,14 @@ _DATA_C180_MonsterPools:
 .db Enemy_DevilBat Enemy_DevilBat Enemy_BatMan Enemy_BatMan Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder Enemy_DarkMarauder
 
 ; Data from C470 to C59F (304 bytes)
-_DATA_C470_:
+_DATA_C470_MonsterPoolsLookup:
+; Monster pool numbers for the above
+; Row is selected via _DATA_C5A0_TileTypeToMonsterPoolLookupRow below based on tile type
+; Column is seleccted based on data in _DATA_C000_
+; Palma 0..9
 .db $01 $02 $02 $03 $04 $05 $05 $06 $07 $07 $08 $09 $0A $0A $06 $0B
 .db $01 $02 $02 $03 $04 $05 $05 $06 $07 $07 $08 $09 $0A $0A $06 $0B
-.dsb 16,$00
+.dsb 16,$00 ; 0 = no monsters
 .db $0C $0C $0C $0D $0E $0E $0E $0E $0E $0E $0E $0F $0F $0F $0F $0F
 .db $10 $10 $11 $12 $13 $13 $14 $14 $17 $15 $16 $18 $19 $1A $1B $1C
 .db $10 $10 $11 $12 $13 $13 $14 $14 $17 $15 $16 $18 $19 $1A $1B $1C
@@ -18763,18 +18795,21 @@ _DATA_C470_:
 .db $24 $24 $24 $24 $25 $25 $25 $26 $26 $26 $26 $27 $28 $28 $28 $28
 .db $24 $24 $24 $24 $25 $25 $25 $26 $26 $26 $26 $27 $28 $28 $28 $28
 .db $29 $29 $29 $29 $29 $2A $29 $29 $29 $29 $29 $29 $29 $29 $2A $2A
+; Other planets 10..18
 .db $2F $2F $30 $31 $32 $30 $32 $33 $32 $35 $36 $38 $37 $34 $39 $37
 .dsb 16,$2E
 .db $3A $3B $3C $3D $3E $3E $3F $40 $41 $42 $42 $41 $43 $42 $44 $45
 .db $46 $46 $46 $46 $46 $46 $47 $47 $47 $47 $47 $48 $48 $48 $48 $49
-.dsb 16,$00
+.dsb 16,$00 ; 0 = no monsters
 .dsb 16,$2D
 .db $2C $2C $2C $2C $2B $2B $2B $2B $2C $2C $2C $2C $2C $2C $2C $2C
 .db $2F $2F $30 $31 $32 $30 $32 $33 $32 $35 $36 $38 $37 $34 $39 $37
 .db $25 $26 $24 $24 $27 $27 $28 $28 $27 $26 $28 $27 $27 $26 $27 $28
 
 ; Data from C5A0 to C67E (223 bytes)
-_DATA_C5A0_:
+_DATA_C5A0_TileTypeToMonsterPoolLookupRow:
+; Indexed by _RAM_C2E5_NextTileType
+; Value is an index into _DATA_C470_MonsterPoolsLookup above
 .db $00 $00 $03 $03 $03 $03 $03 $04 $04 $00 $00 $00 $00 $00 $04
 .dsb 9,$00
 .dsb 9,$07

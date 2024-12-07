@@ -10,13 +10,14 @@
 
 - name: WorldMenu
   fr-extended: |
-    ┌──────╖
-    │Infos ║
-    │Magies║
-    │Objets║
-    │Sonder║
-    │Sauver║
-    ╘══════╝
+    ┌───────╖
+    │Infos  ║
+    │Magies ║
+    │Objets ║
+    │Sonder ║
+    │Sauver ║
+    │Options║
+    ╘═══════╝
 
 - name: ChoiceMenu
   fr-extended: |

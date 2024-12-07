@@ -47,7 +47,6 @@ generated/%.psgcompr: new_graphics/%.png
 
 # And per-language ones. There's a <LANGUAGE>/<filename> hidden in the %.
 generated/%.psgcompr: %.png tools.py
-	$(PY) tools.py mkdir $(dir $@)
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
 # We generate tiles and tilemap for the title screen, these need specific parameters
@@ -79,6 +78,7 @@ generated/%/font-lookup.asm: %/script.tbl tools.py
 
 # Generate the dependencies list for assembly
 generated/%/auto.makefile: asm/*
+	$(PY) tools.py mkdir $(dir $@)
 	$(WLAZ80) -M -t -D LANGUAGE=$* -o generated/$*/ps1jert.sms.o -I asm asm/ps1jert.sms.asm > $@
 
 # Now we add in the recipe to actually compile...
