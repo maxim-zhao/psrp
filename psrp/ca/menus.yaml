@@ -114,7 +114,7 @@
     │Defensa       255║
     │PV màxim      255║
     │PM màxim      255║
-    │Meseta      65535║
+    │Mesetas     65535║
     ╘═════════════════╝
 
 - name: EquimentMenuDimensions
@@ -128,7 +128,7 @@
 - name: InventoryMenuDimensions
   ca: |
     ┌────────────────────╖
-    │Meseta         65535║
+    │Mesetas        65535║
     │Següent             ║
     │Item 1              ║
     │Item 2              ║
@@ -199,7 +199,7 @@
     ┌───────────────────────╖
     │Ritme dels passos    x ║
     │Experiència          x ║
-    │Meseta               x ║
+    │Mesetas              x ║
     │Batalles               ║
     │Cabell d'Alisa         ║
     │Font                   ║

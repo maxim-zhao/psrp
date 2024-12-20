@@ -320,7 +320,7 @@
 - offsets: 4d6c
   # Passport office
   # <number> is always 100.
-  fr: Les frais de dossier sont de <number><internal hint 02> meseta<s>. Pouvez-vous payer?<end>
+  fr: Les frais de dossier sont de <number> mesetas. Pouvez-vous payer?<end>
 
 - offsets: 4d91
   # Passport office
@@ -2354,7 +2354,7 @@
 
 - offsets: 2b54
   fr: |
-    Hmm. Les soins coûtent <number><internal hint 02> meseta<s>. Puis-je commencer?<end>
+    Hmm. Les soins coûtent <number> mesetas. Puis-je commencer?<end>
 
 - offsets: 2b99
   fr: Quelqu'un d'autre a t-il besoin de soins?<end>

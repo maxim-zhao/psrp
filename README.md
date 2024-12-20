@@ -1,4 +1,4 @@
-# Phantasy Star Retranslation v2.5 WIP
+# Phantasy Star Retranslation v2.5
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/re-localisation based on that first Japanese version, with some enhancements.
@@ -17,7 +17,7 @@ More languages are welcome! See translating.md and/or contact me if you would li
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
-- v2.5 release 2024/12/20 (planned)
+- v2.5 release 2024/12/20
   - Options menu is now available in-game (#100)
   - Support for Mega Drive controllers (#113)
   - Half battles mode now applies to the overworld as well as dungeons (#116)
@@ -25,7 +25,8 @@ Changelog (in reverse chronological order):
     - HP and MP were the wrong way around in the status window
   - Catalan:
     - Many linguistic fixes from [![](https://github.com/RetroAND.png?size=16)RetroAND](https://github.com/RetroAND)
-
+  - French, Spanish, Catalan, Brazilian Portuguese:
+    - Re-pluralise Mesetas
 <details>
 <summary>Click for more history</summary>
 

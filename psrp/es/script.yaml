@@ -323,7 +323,7 @@
 - offsets: 4d6c
   # Passport office
   # <number> is always 100.
-  es: Hay una tasa de expedición de <number> Meseta. ¿Quiere pagarla?<end>
+  es: Hay una tasa de expedición de <number> Mesetas. ¿Quiere pagarla?<end>
 
 - offsets: 4d91
   # Passport office
@@ -398,7 +398,7 @@
   # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
   es: |
     ¿Has visto alguna vez un animal que habla? ¿Quieres uno?. Muy infrecuente. Quizá único.<wait more>
-    Diez mil millones de Meseta y es tuyo. ¿Que te parece?<end>
+    Diez mil millones de Mesetas y es tuyo. ¿Que te parece?<end>
 
 - offsets: 4e8a
   # Trader (say yes to previous question)
@@ -572,7 +572,7 @@
   # <number> is always 280.
   es: |
     Anda, ¡un cliente! Me alegro que nos hayas encontrado. Perdon por el emplazamiento...<wait more>
-    Mis pasteles son los mejores de Algol, y solo cuestan <number> Meseta. ¿Quieres uno?<end>
+    Mis pasteles son los mejores de Algol, y solo cuestan <number> Mesetas. ¿Quieres uno?<end>
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
   # Also Sopia villager if you give him a PelorieMate.
@@ -875,7 +875,7 @@
     Que, ¿no crees que dos personas puedan construir una nave espacial?<wait more>
     ¡Que sepáis que ya construíamos naves cuando ibáis en pañales!<wait more>
     Eso si, está el tema del precio. Una nave espacial no sale gratis, ¿sabéis?<wait more>
-    Necesito <number> Meseta por adelantado. ¿Podéis cubrirlo?<end>
+    Necesito <number> Mesetas por adelantado. ¿Podéis cubrirlo?<end>
 
 - offsets: 50b5
   # Dr Luveno (yes to the previous question)
@@ -1247,7 +1247,7 @@
   # <number> is always 1000.
   es: |
     Estoy seguro de que os habéis sorprendido de encontrar una tienda en un sitio como este, ¿eh?<wait more>
-    Las máscaras de gas cuestan <number> Meseta cada una. Bastante barato, ¿no? ¿Queréis?<end>
+    Las máscaras de gas cuestan <number> Mesetas cada una. Bastante barato, ¿no? ¿Queréis?<end>
 
 - offsets: 5226
   # GasClear salesman (yes to previous question)
@@ -1277,7 +1277,7 @@
   es: |
     Soy el cabecilla de esta villa.<wait more>
     En Sopia somos muy pobres. La neblina envenada nos aisla de los otros pueblos.<wait more>
-    ¿No nos podríais dar <number> Meseta para ayudarnos?<end>
+    ¿No nos podríais dar <number> Mesetas para ayudarnos?<end>
 
 - offsets: 52e1
   # The Village Chief (no to previous question)
@@ -2029,7 +2029,7 @@
   es: ¿Queréis abrirlo?<end>
 
 - offsets: ChestMesetasPlural # Was 2a8c
-  es: Habeís encontrado <number> Meseta dentro.<wait>
+  es: Habeís encontrado <number> Mesetas dentro.<wait>
 
 - offsets: ChestMesetasSingular
   # Not in the original
@@ -2143,7 +2143,7 @@
 
 - offsets: 2e4f
   # No item in the game sells for exactly 1 Meseta.
-  es: Hmm, ¿<article><item>? ¿Qué te parece <number> Meseta?<end>
+  es: Hmm, ¿<article><item>? ¿Qué te parece <number> Mesetas?<end>
 
 - offsets: 2e66
   es: ¡Maravilloso! ¿Tenéis algo más para mí?<end>
@@ -2167,7 +2167,7 @@
 
 - offsets: 2b54
   es: |
-    Hmm. Os puedo dejar como nuevos por <number> Meseta. ¿Procedemos?<end>
+    Hmm. Os puedo dejar como nuevos por <number> Mesetas. ¿Procedemos?<end>
 
 - offsets: 2b99
   es: ¿Alguien más necesita tratamiento?<end>
@@ -2205,7 +2205,7 @@
 
 - offsets: 2c24
   # Resurrection cost is Level * 20 so is definitely plural.
-  es: La donación sugerida es <number> Meseta.<end>
+  es: La donación sugerida es <number> Mesetas.<end>
 
 - offsets: 2c37
   es: Pensad en los que han partido mientras rezo una oración.<delay>

@@ -318,7 +318,7 @@
 - offsets: 4d6c
   # Passport office
   # <number> is always 100.
-  ca: Hi ha una taxa d'expedició de <number> Meseta. Vol pagar-la?<end>
+  ca: Hi ha una taxa d'expedició de <number> Mesetas. Vol pagar-la?<end>
 
 - offsets: 4d91
   # Passport office
@@ -391,7 +391,7 @@
   # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
   ca: |
     Has vist mai un animal que parli? En vols un?. És molt rar, potser sigui únic.<wait more>
-    Deu mil milions de Meseta, i és teu. Què et sembla?<end>
+    Deu mil milions de Mesetas, i és teu. Què et sembla?<end>
 
 - offsets: 4e8a
   # Trader (say yes to previous question)
@@ -562,7 +562,7 @@
   # <number> is always 280.
   ca: |
     Apa, un client! Me n'alegro que ens hagis trobat. Perdó pel lloc... És que tal com estan els lloguers...<wait more>
-    Els meus pastissos són els millors d'Algol, i només costen <number> Meseta. En vols un?<end>
+    Els meus pastissos són els millors d'Algol, i només costen <number> Mesetas. En vols un?<end>
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
   # Also Sopia villager if you give him a PelorieMate.
@@ -863,7 +863,7 @@
     Qué, no creieu que dues persones puguin construir una nau espacial?<wait more>
     Sapigueu que hem estat construint naus des d'abans que anéssiu en bolquers!<wait more>
     Això si, hi ha el tema del cost. Una nau espacial no és de franc, sabeu?<wait more>
-    Necessito <number> Meseta per avançat. Podeu cobrir això?<end>
+    Necessito <number> Mesetas per avançat. Podeu cobrir això?<end>
 
 - offsets: 50b5
   # Dr Luveno (yes to the previous question)
@@ -1229,7 +1229,7 @@
   # <number> is always 1000.
   ca: |
     Estic segur que us heu sorprés de trobar una botiga en un lloc com aquest, eh?<wait more>
-    Les màscares de gas costen <number> Meseta cadascuna. Prou barat, no? En voleu?<end>
+    Les màscares de gas costen <number> Mesetas cadascuna. Prou barat, no? En voleu?<end>
 
 - offsets: 5226
   # GasClear salesman (yes to previous question)
@@ -1259,7 +1259,7 @@
   ca: |
     Soc el cap d'aquesta vila.<wait more>
     A Sopia som molt pobres. La boirina emmetzinada ens aïlla dels altres pobles.<wait more>
-    No ens podríeu donar <number> Meseta per ajudar-nos?<end>
+    No ens podríeu donar <number> Mesetas per ajudar-nos?<end>
 
 - offsets: 52e1
   # The Village Chief (no to previous question)
@@ -1998,7 +1998,7 @@
 
 - offsets: ChestMesetasSingular
   # Not in the original
-  ca: Heu trobat <number> Meseta dintre.<wait>
+  ca: Heu trobat <number> Mesetas dintre.<wait>
 
 - offsets: 2a73
   ca: És buit.<wait>
@@ -2108,7 +2108,7 @@
 
 - offsets: 2e4f
   # No item in the game sells for exactly 1 Meseta.
-  ca: Hmm, <article><item>? Què us semblaria <number> Meseta?<end>
+  ca: Hmm, <article><item>? Què us semblaria <number> Mesetas?<end>
 
 - offsets: 2e66
   ca: Meravellós! No tindrieu pas res més per mi?<end>
@@ -2131,7 +2131,7 @@
 
 - offsets: 2b54
   ca: |
-    Hmm. Els puc deixar com nous per <number> Meseta. Procedim?<end>
+    Hmm. Els puc deixar com nous per <number> Mesetas. Procedim?<end>
 
 - offsets: 2b99
   ca: Algú més necessita tractament?<end>
@@ -2168,7 +2168,7 @@
 
 - offsets: 2c24
   # Resurrection cost is Level * 20 so is definitely plural.
-  ca: La donació suggerida és <number> Meseta.<end>
+  ca: La donació suggerida és <number> Mesetas.<end>
 
 - offsets: 2c37
   ca: Pensin en els que han partit mentre reso una pregària.<delay>

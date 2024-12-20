@@ -112,7 +112,7 @@
     │Défense      255║
     │HP maximum   255║
     │MP maximum   255║
-    │Meseta     65535║
+    │Mesetas    65535║
     ╘════════════════╝
 
 - name: EquimentMenuDimensions
@@ -126,7 +126,7 @@
 - name: InventoryMenuDimensions
   fr-extended: |
     ┌──────────────────╖
-    │Meseta       65535║
+    │Mesetas      65535║
     │Suite             ║
     │Item 1            ║
     │Item 2            ║
@@ -197,7 +197,7 @@
     ┌──────────────────────╖
     │Vitesse de marche   x ║
     │Expérience          x ║
-    │Meseta              x ║
+    │Mesetas             x ║
     │Combats               ║
     │Cheveux d'Alisa       ║
     │Police                ║

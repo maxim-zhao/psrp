@@ -2287,7 +2287,7 @@
 
 - offsets: ChestMesetasSingular
   # Not in the original
-  fr-extended: Il n'y avait qu'un Meseta à l'intérieur.<wait>
+  fr-extended: Il n'y avait qu'un meseta à l'intérieur.<wait>
 
 - offsets: 2a73
   fr-extended: Le coffre au trésor était vide.<wait>

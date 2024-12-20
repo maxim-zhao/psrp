@@ -241,3 +241,9 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 ラシーク|rashiiku|LASSIC|Lassic|LaShiec|Transliteration
 ダークファルス|daakufarusu|DARKFALZ|Dark Falz|Dark Force|Transliteration. Could be "Dark Falz" as seen in later PS games.
 ナイトメア|naitomea|SACCUBUS|Saccubus|Nightmare|Transliteration
+
+### Other things
+The currency of Algol is "メセタ" (meseta). In-game is is sometimes referred to by the pseudo-currency-code MST. Two questions arise for localisation:
+
+1. Should it be capitalised? For the original US translation, we can't tell. For English, we chose yes. 
+2. Should it be pluralised? For the original US translation, they chose yes. For English, we chose no, by similarity to the way "yen" and other east Asian currencies are not pluralised. For languages where "yen" is pluralised, we pluralise Mesetas.
