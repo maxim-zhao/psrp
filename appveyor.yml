@@ -5,14 +5,14 @@ environment:
     secure: cJUFr2NsBjDh6gZxnshL2HMwKuFcjj4JxyfYgTAwY4EaegRkArES3eXzLKOPnUNL3WZddVReEfJCXN81s0sLBA==
 build_script:
 - cmd: |
-    appveyor DownloadFile https://github.com/maxim-zhao/sms-build-tools/releases/download/1.0.176/tools.7z
+    appveyor DownloadFile https://github.com/maxim-zhao/sms-build-tools/releases/download/1.0.410/tools.7z
     7z x tools.7z -otools
     path %cd%\tools;%path%
     appveyor DownloadFile -Url %URL% -FileName ps.zip
     7z x ps.zip -opsrp
     cd psrp
     py -m pip install PyYAML
-    make -j --output-sync psrp.zip
+    make psrp.zip
 artifacts:
 - path: psrp.zip
   name: psrp
