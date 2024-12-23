@@ -127,10 +127,11 @@ CreditsScreen16:
   CreditsEntry 18,15, "POPFAN"
 
 CreditsScreen17:
-.db 2
-  CreditsEntry 8,11,     "`"
+.db 4
+  CreditsEntry 13,5,     "`"
   CreditsEntry 8,6, "CATALA"
-  CreditsEntry 17,6, "KUSFO"
+  CreditsEntry 12,11, "EN KUSFO"
+  CreditsEntry 18,15, "EN RETROAND"
 
 CreditsScreen18:
 .db 3

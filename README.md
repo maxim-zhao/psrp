@@ -1,4 +1,4 @@
-# Phantasy Star Retranslation v2.5
+# Phantasy Star Retranslation v2.5.1
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/re-localisation based on that first Japanese version, with some enhancements.
@@ -17,6 +17,10 @@ More languages are welcome! See translating.md and/or contact me if you would li
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+- v2.5.1 release 2024/12/23
+  - Fixed Catalan retranslation credits
+  - Fixed Catalan pluralised Mesetas
+
 - v2.5 release 2024/12/20
   - Options menu is now available in-game (#100)
   - Support for Mega Drive controllers (#113)

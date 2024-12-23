@@ -1994,11 +1994,11 @@
   ca: Voleu obrir-lo?<end>
 
 - offsets: ChestMesetasPlural # Was 2a8c
-  ca: Heu trobat <number> Meseta dintre.<wait>
+  ca: Heu trobat <number> Mesetas dintre.<wait>
 
 - offsets: ChestMesetasSingular
   # Not in the original
-  ca: Heu trobat <number> Mesetas dintre.<wait>
+  ca: Heu trobat <number> Meseta dintre.<wait>
 
 - offsets: 2a73
   ca: És buit.<wait>
