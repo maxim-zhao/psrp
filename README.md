@@ -12,6 +12,9 @@ Currently we have translations for:
 - Spanish
 - Catalan
 
+The japanese game manual has also been translated: 
+- [English](https://github.com/maxim-zhao/psrp/blob/master/Box%20and%20manual/Manual.pdf)
+
 More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language. 
 
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
