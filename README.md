@@ -220,7 +220,7 @@ Changes made between version numbers may adversely affect emulator save states. 
   - https://damieng.com
 ### Popfan
 - German translation, Kanji/hiragana/katakana script, literal script improvements
-  - https://twitter.com/gensakudan
+  - https://bsky.app/profile/gensakudan.com
 ### kusfo
 - Catalan and Spanish translations
   - https://twitter.com/jordimontornes
