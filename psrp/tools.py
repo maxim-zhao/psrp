@@ -396,7 +396,7 @@ class ScriptEntry:
             self.buffer.append(1)
             pass
         elif tag == "gen":
-            # Genetive (de), no uppercase needed?
+            # Genitive (de), no uppercase needed?
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(2)
             pass
