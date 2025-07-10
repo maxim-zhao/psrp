@@ -390,25 +390,30 @@ class ScriptEntry:
             # Simplistic pluralisation
             self.buffer.append(ScriptingCode.SymbolSuffix)
             self.script_hints = True
-        elif tag == "Nom":
-            # Nominative (de), no lowercase needed?
+        elif lower(tag) == "nom":
+            # Nominative (de, la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(1)
             pass
-        elif tag == "gen":
-            # Genitive (de), no uppercase needed?
+        elif lower(tag) == "gen":
+            # Genitive (de, la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(2)
             pass
-        elif tag == "dat":
-            # Dative (de), no uppercase needed?
+        elif lower(tag) == "dat":
+            # Dative (de, la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
             pass
-        elif tag == "acc":
-            # Accusative (de), no uppercase needed?
+        elif lower(tag) == "acc":
+            # Accusative (de, la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
+            pass
+        elif lower(tag) == "abl":
+            # Ablative (la)
+            self.buffer.append(ScriptingCode.SymbolArticle)
+            self.buffer.append(5)
             pass
         elif tag in ["he/she","Sie/Er","él/ella","Il/Elle","ell/ella", "ele/ela"]:
             # Pronoun 0

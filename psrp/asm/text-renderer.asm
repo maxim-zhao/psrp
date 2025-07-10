@@ -311,13 +311,19 @@ _Wait_Clear:
   pop de
   pop hl
   jp _Decode
-_SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
+_SkipBitmaskLookup: 
+;    ‹«({[
+.db %01000
+.db %01010
+.db %11100
+.db %01100 ; see above
 .elseif LANGUAGE == "la"
-  ; Set SKIP_BITMASK accordingly. TODO: this is a copy of German for now...
-  ; 1 => %01000 (nominative, select «» brackets only)
-  ; 2 => %01010 (genitive, select «» and {} brackets)
-  ; 3 => %11100 (dative, select «», ‹› and () brackets)
-  ; 4 => %01100 (accusative, select «» and () brackets)
+  ; Set SKIP_BITMASK accordingly.
+  ; 1 => nominative, select «» brackets only
+  ; 2 => genitive, select «» and {} brackets)
+  ; 3 => accusative, select «», ‹› and () brackets)
+  ; 4 => dative, select «» and () brackets)
+  ; 5 => ablative, select «» and () brackets)
   push hl
   push de
     ld d,0
@@ -329,7 +335,13 @@ _SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
   pop de
   pop hl
   jp _Decode
-_SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
+_SkipBitmaskLookup:
+;    ‹«({[
+.db %00001
+.db %00010
+.db %00100
+.db %01000
+.db %10000
 .else
   ; Select all bracketed parts
   ld a,$ff
