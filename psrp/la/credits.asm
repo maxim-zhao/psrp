@@ -126,9 +126,11 @@ CreditsScreen16:
   CreditsEntry 18,15, "POPFAN"
 
 CreditsScreen17:
-.db 2
-  CreditsEntry 2,6, "TRANSLATIO LATINA"
-  CreditsEntry 17,6, "METALLICORWELL" ; TODO: check this fits
+.db 4
+  CreditsEntry 5,5, "TRANSLATIO"
+  CreditsEntry 9,7,     "LATINA"
+  CreditsEntry 17,14, "METALLIC"
+  CreditsEntry 17,16, "ORWELL"
 
 CreditsScreen18:
 .db 3

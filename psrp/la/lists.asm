@@ -4,8 +4,7 @@ Lists:
 
 ; Order is important!
 Items:
-  ; Max width 18 excluding <...> prefix (with space)
-  ; TODO: check what happens with the longer names
+  ; Max width 21
   String " " ; empty item (blank). Must be at least one space.
   ;        Retranslation name                 Sega translation              Romaji              Japanese
 ; weapons: 01-0f
