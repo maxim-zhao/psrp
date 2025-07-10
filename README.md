@@ -11,6 +11,7 @@ Currently we have translations for:
 - Brazilian Portuguese
 - Spanish
 - Catalan
+- Latin
 
 The japanese game manual has also been translated: 
 - [English](https://github.com/maxim-zhao/psrp/blob/master/Box%20and%20manual/Manual.pdf)
@@ -20,6 +21,9 @@ More languages are welcome! See translating.md and/or contact me if you would li
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+- v2.6 release TBC
+  - Added Latin translation, thanks to Metallic Orwell
+
 - v2.5.1 release 2024/12/23
   - Fixed Catalan retranslation credits
   - Fixed Catalan pluralised Mesetas
@@ -233,7 +237,9 @@ Changes made between version numbers may adversely affect emulator save states. 
 ### RetroAND
 - Catalan translation
   - https://github.com/RetroAND
-
+### Metallic Orwell
+- Latin translation
+  - https://www.youtube.com/user/MetallicOrwell
 
 Special thanks to:
 
