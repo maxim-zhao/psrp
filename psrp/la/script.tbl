@@ -82,14 +82,41 @@
 ; non-breaking space
 47=_
 
+; Long vowels, mapping to normal letters for now
+0B=Ā
+0F=Ē
+13=Ī
+19=Ō
+1F=Ū
+23=Ȳ
+25=ā
+29=ē
+2D=ī
+33=ō
+39=ū
+3D=ȳ
+
+
 ; These control codes only apply to items/names...
 
 ; Text between [] is skipped in menus but not in body text
+; We encode a "type" as a second byte for each type of brackets. The closing ones are always just $63, the game code doesn't need them to be different.
+; The second byte encodes a bitmask for skipping. This allows us to determine whether the chunk is emitted or not by encoding bitmasks in the script.
+; [] = $01 = %00001 = enemy name window/inventory only
+; {} = $02 = %00010 = genetive case only
+; () = $04 = %00100 = dative or accusative case
+; «» = $08 = %01000 = script window only (regardless of case)
+; ‹› = $10 = %10000 = dative only
 6201=[
 63=]
-; Articles. Note these have trailing spaces.
-64=<A> 
-65=<An> 
-66=<The> 
+6202={
+63=}
+6204=(
+63=)
+6208=«
+63=»
+6210=‹
+63=›
+; TODO: tweak this area for Latin
 
 ; Words go below...

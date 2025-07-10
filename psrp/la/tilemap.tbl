@@ -77,6 +77,20 @@ fc10=x
 fd10=y
 fe10=z
 
+; Long vowels, mapping to normal letters for now
+cb10=Ā
+cf10=Ē
+d310=Ī
+d910=Ō
+df10=Ū
+e310=Ȳ
+e510=ā
+e910=ē
+ed10=ī
+f310=ō
+f910=ū
+fd10=ȳ
+
 ; Punctuation
 ff10=.
 f411=:
