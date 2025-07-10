@@ -1,0 +1,2341 @@
+# ********************
+# *** Introduction ***
+# ********************
+
+- offsets: 45ef
+  # Game intro
+  # Nero on ground, robot police
+  la: |
+    Cives Camineet, hoc corpus pueri admonitio est omnibus vobis.<line><line>
+    Defiantia Domini LaShieci non tolerabitur!<wait more>
+    Nero? NERO!<line><line>
+    Quid accidit?!<wait>
+
+- offsets: 45fa
+  # Game intro
+  # Nero, dying
+  la: |
+    Alisa, soror mea.<line><line>
+    Attente audi, non multum temporis habeo.<wait more>
+    Rumores audivimus veri sunt. LaShiec... mutatus est.<line>
+    Et ultra milites suos vias nostras occupantes.<wait more>
+    Omnia monstra horrida foris, omnia tenebrae in vitis nostris...<line><line>
+    Aliquo modo, omnia ad eum reducuntur.<wait more>
+    Quaerere conatus sum quomodo, sed fortasse nimis prope veritatem accessi.<line><line>
+    Nunc una sola optio superest omnibus nobis.<wait more>
+    Dominus LaShiec sisti debet.<line><line>
+    Nisi sistatur, tenebrae quas sibi adiunxit totum Algol capient.<wait more>
+    Error meus fuit solus eum provocare.<line><line>
+    Hi sunt homines periculosi, auxilio indigebis.<wait more>
+    Audivi fabulas de bellatore, viro nomine Tylon, qui socius esse posset.<line><line>
+    Conatus sum eius auxilium petere, sed ille disparuit.<wait more>
+    Eum invenire debes, Alisa.<line><line>
+    Inveni Tylonem, et LaShiecem vince. Una, pacem Algol restituere potestis.<wait more>
+    Alisa... tam grave onus. Me paenitet.<line><line>
+    Quaeso ignosce mihi, quod hoc a te peto...<wait more>
+    ...et quod te relinquo...<line><line>
+    ...solam...<wait>
+
+- offsets: 4605
+  # Game intro
+  # Alisa
+  la: |
+    Nero...<wait more>
+    Mors tua non erit vana, iuro.<line><line>
+    Non sinam haec monstra domum nostram capere.<wait more>
+    Specta et protege me, frater maior.<line><line>
+    Cum spiritu tuo mecum, LaShiec nulla spes est.<wait>
+
+# *************************************
+# *** Camineet Residential District ***
+# *************************************
+
+- offsets: 58fc
+  # Camineet
+  # Alisa's house
+  la: |
+    Haec est domus Alisae.<line><line>
+    Res Neronis adhuc sunt ubi eas reliquit.<wait>
+
+- offsets: 4b48
+  # Camineet
+  # Suelo (first visit)
+  # Note that Alisa may be dead - but it's pretty unlikely 
+  # and the original script assumes she is alive
+  la: |
+    Alisa... LaShiec provocare insania est. Sed scio quam pertinax et determinata esse possis.<wait more>
+    Non perdam spiritum meam te dissuadere conans, tantum... quaeso cave.<wait more>
+    Si umquam laederis, huc redi ut saneris.<wait more>
+    Vicini diu fuimus, scis domum Suelonis semper tibi aperta esse.<wait>
+
+- offsets: 4b4e
+  # Camineet
+  # Suelo (subsequent visits and also immediately after the preceding text)
+  # Note: Alisa may not be alive later, so make sure the text here doesn't talk to her directly.
+  la: |
+    Quaeso requiesce. Noli nimis facere, bene? Semper hic excipieris.<wait>
+
+- offsets: 4b62
+  # Camineet
+  # Nekiseh (first visit)
+  # Alisa is not guaranteed to be alive...
+  # Following script entry is shown immediately afterwards.
+  la: |
+    Nomen meum est Nekise.<line>
+    Nero me rogavit ut eum adiuvarem invenire bellatorem nomine Tylon, tu quoque eum quaeris?<wait more>
+    Ultimo audivi, in oppido Shion manebat. Fortasse adhuc ibi est.<wait more>
+    Frater tuus etiam me rogavit ut hanc Ollam Laconicam pro eo tuto custodirem.<wait more>
+    Est valde pretiosa, fortasse in itinere tuo te adiuvabit? Ecce, quaeso accipe.<wait>
+
+- offsets: 4b7c
+  # Camineet
+  # Nekiseh (additional text on first visit; only text on subsequent visits)
+  la: Plura facere pro te vellem. Quaeso salva esto.<wait>
+
+- offsets: 4b82
+  # Camineet resident - man
+  la: |
+    Domum meam iam non exire possum sine vigiliis privatis LaShiec omnia mea acta spectantibus.<wait more>
+    Camineet tam pulchra esse solebat. Quomodo hoc factum est?<wait>
+
+- offsets: 4b88
+  # Camineet resident - man
+  la: Quaedam carceres portas clausas habent. Clavis Carceris tibi necessaria erit ad eas aperiendas.<wait>
+
+- offsets: 4b8e
+  # Camineet resident - man
+  la: Quaedam carceres obscurissimae sunt, fac ut semper fontem lucis tecum habeas.<wait>
+
+- offsets: 4b94
+  # Camineet resident - man
+  la: |
+    In Spatioportum ne intrare quidem potes sine quodam viapasso.<wait more>
+    Conatus sum unum petere, sed dixerunt hebdomades durare posse. Quomodo domum revertar?<wait>
+
+- offsets: 4b9a
+  # Camineet resident - man
+  la: Fere omnia in oppidis portuum emere potes. Etiam falsum Tessera Identitatis olim acquisivi!<wait>
+
+- offsets: 4bba
+  # Camineet police
+  la: Mane in area residentiali. Non est tutum civibus foris.<wait>
+
+- offsets: 4bc0
+  # Camineet police
+  la: Foras te protegere non possumus. Mane intra domos tuas donec periculum praeterierit.<wait>
+
+- offsets: 4bcd,4c26,4cc2,4d0e
+  # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
+  # Spaceport guard (say "no" to question about passport) - Camineet (4c26) and Parolit (4cc2)
+  la: Auctoritas requiritur ut hoc punctum transeas. Retro mane aut vim adhibebimus!<wait>
+
+- offsets: 4bda,4d23
+  # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
+  la: Nemo hic transit sine Roadpass.<wait>
+
+- offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
+  # Road guard (with a Roadpass) - Camineet (4be0) and Parolit (4d18, 4d2d)
+  # Spaceport guard (say "yes" with a Passport) - Camineet (4cd5) and Parolit (4c3a)
+  # Triada prison guard (say "yes" with a Roadpass) (5497)
+  la: Bene, perge.<wait>
+
+- offsets: 4ba0
+  # Camineet resident - man
+  la: Scisne de omnibus planetis in Systemate Solari Algol?<end>
+
+- offsets: 4bb4
+  # Camineet resident - man - "no" to question about Algol
+  # <number> is always 3.
+  la: |
+    Algol ex tribus planetis constat: Palma, Motavia, et Dezoris.<wait more>
+    Quisque planeta atmosphaeram unicam habet, ita omnes notas distinctas habent.<wait more>
+    Palma, ut scis, planeta viriditatis est. Campis lushis et silvis benedicti sumus.<wait more>
+    Motaviae desertum infinitum asperum est, sed suo modo pulchrum.<wait more>
+    Et Dezoris planeta glaciei est. Parum vitae in superficie eius gelida floret.<wait more>
+    Omnes tres planetae nostrae pulchrae ambitionibus LaShiec minantur.<wait more>
+    Quotidie nos ad discrimen irreparabile appropinquare facit.<wait>
+
+- offsets: 4ba9,4e06,4e26
+  # Camineet resident - man - "yes" to question about Algol
+  # Eppi resident - "yes" to question about strongest material
+  # Eppi resident - "no" to question about Dungeon Key
+  la: Oh. Bene.<wait>
+
+# ************************************
+# *** Parolit Residential District ***
+# ************************************
+
+- offsets: 4bf1
+  # Woman
+  la: Benevenis ad districtum residentialem Parolit.<wait>
+
+- offsets: 4bf7
+  # Man
+  la: Silva nuper praesertim periculosa est, cave si illuc tendas.<wait>
+
+- offsets: 4bfd
+  # Man
+  la: |
+    Rumores circumferuntur Medusam ad speluncam suam, hinc meridiem, redisse.<wait more>
+    Dicunt unum visum te in statuam vivam convertere. Verumne esse potest?<wait>
+
+- offsets: 4c03
+  # Man
+  la: Si oppidum portus quaeris, Shion hinc orientem est.<wait>
+
+- offsets: 4c09
+  # Man
+  la: |
+    Spatioportus noster directe ad Paseo, caput Motaviae, volat.<wait more>
+    Amarem aliquando ire. Nunquam planeta excessi!<wait>
+
+- offsets: 4c0f
+  # Man
+  la: |
+    Scisne esse viam subterraneam occidentem versus, ad Silvas Gothicas?<wait more>
+    Dicitur alicubi prope esse, sed eam invenire non possum.<wait>
+
+# ***********************
+# *** Port town Shion ***
+# ***********************
+
+- offsets: 4c40
+  # Man
+  la: |
+    Non soli sumus vita intelligens in Systemate Solari Algol, scis.<wait more>
+    Motavia Motavianos habet, et Dezoris Dezorianos. Quidam etiam linguam nostram loquuntur!<wait more>
+    Amarem colloquium cum vero alieno aliquando habere...<wait>
+
+- offsets: 4da7
+  # Man (if you haven't bought Myau yet)
+  # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
+  la: |
+    Ita, Tylon hic erat. Dixit se meridiem-occidentem versus ad Medusam necandam ire. Non vidi eum postea.<wait more>
+    Non solus erat tamen, cum animali loquente iter faciebat! Credere non potui!<wait more>
+    In collo eius ampulla medicinae apparentis magni momenti erat. Quid sit, miror?<wait>
+
+- offsets: 4dac
+  # Same man (after you get Myau)
+  la: Tempus est aliquem LaShiec oppugnare. Deus tecum sit.<wait>
+
+- offsets: 4db6
+  # If you haven't bought Myau yet
+  la: |
+    Insanum sonabit, sed animal loquens in carcere Medusae errans inveni.<wait more>
+    Id vendidi mercatori in Paseo. Parvus ille fortuna valebat!<wait>
+
+- offsets: 4dbb
+  # Same person as above (if you have bought Myau)
+  # He'd just sold Myau for a huge sum of money earlier, so he's probably more greedy than destitute.
+  la: |
+    Oeconomia collapsa est ex quo LaShiec in potestatem venit.<wait more>
+    Tam pauper sum, quid faciam nescio...<wait>
+
+- offsets: 4dc1
+  # The peninsula is more south-east than south.
+  la: Spelunca Iala in peninsula meridiem-orientem hinc iacet.<wait>
+
+- offsets: 4dc7
+  la: |
+    Benevenis ad Shion, portum frequentissimum Palmae... vel saltem olim erat.<wait more>
+    Cum mundo nunc talis sit, non multum commercii iam fit.<wait>
+
+- offsets: 4dcd
+  la: Silvae Eppi nimis confusae sunt ad navigandum, Compassum necesse est habere.<wait>
+
+- offsets: 4dd3
+  la: Ostium magica arte obsignatum sine magica aperiri non potest.<wait>
+
+- offsets: 4dd9
+  la: |
+    Ad septentrionem, praeter carcerem, est superbia Palmae: collis pulcher nomine Baya Marlay.<wait more>
+    Domus nemo iam illuc accedere potest...<wait>
+
+- offsets: 4ddf
+  # Woman next to dock
+  la: |
+    Solebam speluncas in Naula, ad oram septentrionalem Baya Marlay, explorare.<wait more>
+    Sed cum omnibus his monstris subito apparentibus, iam prope accedere non possum.<wait>
+
+- offsets: 2dab
+  # Trader (first time you buy the Secret Thing)
+  la: Nescio quis te esse putas, sed talia hic non vendimus. Obliviscere.<wait>
+
+- offsets: 2db0
+  # Trader (second time you buy the Secret Thing)
+  la: |
+    Desiste, quaeso? Iam tibi dixi, negotium legitimum sumus.<wait more>
+    Exi e taberna mea.<delay>
+
+- offsets: 2ddc
+  # Trader (third time you buy the Secret Thing)
+  la: |
+    Non desistes, vero? Bene, tantum accipe.<wait more>
+    Unus viapassus, signatum et certificatum. Sed hoc a me non accepisti, intellegis?<wait>
+
+# ******************
+# *** Eppi woods ***
+# ******************
+
+- offsets: 578f
+  la: In silvis erravisti.<wait>
+
+# ***********************
+# *** Palma Spaceport ***
+# ***********************
+
+- offsets: 4c9e
+  # Luggage handler
+  la: Benevenis ad Spatioportum Palmae. Omnes naves unum iter ad Paseo, caput Motaviae, faciunt.<wait>
+
+- offsets: 4ca4
+  # Luggage handler
+  la: Gubernator-Generalis totam Motaviam ex officio suo in Paseo regit.<wait>
+
+- offsets: 4caa
+  # Luggage handler
+  la: Umquam in Gothicum fuisti? Olim naves huiusmodi in laboratorio eius fabricatae sunt.<wait>
+
+- offsets: 4c1d,4cb7
+  # Airstrip guards
+  la: Habesne Passportum?<end>
+
+- offsets: 4c30,4ccf
+  # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
+  la: Eia? Ostende.<wait>
+
+- offsets: 4d33
+  # Passport office
+  la: Esne hic ad petendum Passportum?<end>
+
+- offsets: 4d44
+  # Passport office
+  la: |
+    Lege requiror seriem quaestionum tibi ponere.<wait more>
+    Umquamne crimen tibi obiectum est?<end>
+
+- offsets: 4d55
+  # Passport office
+  la: Paterisne morbum qui aliis vectoribus contagiosus esse possit?<end>
+
+- offsets: 4d6c
+  # Passport office
+  # <number> is always 100.
+  la: Est merces tractationis <number> Meseta. Visne solvere?<end>
+
+- offsets: 4d91
+  # Passport office
+  la: |
+    Optime! Ecce passportus tuus. Semper eum possidere cura.<wait more>
+    Proximus in ordine?<wait>
+
+- offsets: 4d3e,4d77,4eca
+  # Passport office (say "no" to question about applying)
+  # Passport office (say "no" to question about paying)
+  # Paseo trader (say "no" to offer to trade the Laconian Pot for Myau)
+  la: Oh, bene tunc.<wait>
+
+- offsets: 4d4f,4d60
+  # Passport office (say "yes" to question about doing bad things)
+  # Passport office (say "yes" to question about having an illness)
+  la: Me paenitet, non qualifies. Libere postea iterum tempta. Proximus?<wait>
+
+- offsets: 5939
+  la: Hoc est volatus continuus ad Motaviam. Ascendisne?<end>
+# ***********************
+# *** Paseo Spaceport ***
+# ***********************
+
+- offsets: 4e31
+  # Luggage handler
+  la: Hoc est Paseo, unicus spatioportus Motaviae.<wait>
+
+- offsets: 4e37
+  # Luggage handler
+  la: Est tempus procreationis Formicae Leonis, cave extra. Feroces fiunt.<wait>
+
+- offsets: 4e3d
+  la: |
+    Audio esse tabernam placentae in spelunca Naula Palmae.<wait more>
+    Miror si negotium ullum accipit, in tali spelunca?<wait>
+
+- offsets: 5949
+  la: Hoc navis ad Palma tendit. Ascendisne?<end>
+
+# *************
+# *** Paseo ***
+# *************
+
+- offsets: 4e43
+  la: Etiam Gubernator-Generalis cum LaShiec male convenit.<wait>
+
+- offsets: 4e49
+  la: Donum ferre debes si Gubernatorem-Generalem vis convenire.<wait>
+
+- offsets: 4e4f
+  la: Gubernator-Generalis valde dulcia amat.<wait>
+
+- offsets: 4e55
+  la: Spelunca Mahal in montibus septentrionalibus Paseo sita est.<wait>
+
+- offsets: 4e5b
+  la: Hoc est Paseo, caput urbis Motaviae.<wait>
+
+- offsets: 4e61
+  la: Nullus modus est Formicas Leones pedibus transire, sed audivi aliam viam esse...<wait>
+
+- offsets: 4e67
+  la: Monstra intelligentia sunt, sed lingua diversa a nostra loquuntur.<wait>
+
+- offsets: 4e7f
+  # Trader (before getting Myau)
+  # <number> is always 10.
+  # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
+  la: |
+    Umquamne animal loquens vidisti? Unum hic habeo. Rarissimum. Fortasse unicum.<wait more>
+    Mille miliones milium Meseta, et tuum est. Quid dicis?<end>
+
+- offsets: 4e8a
+  # Trader (say yes to previous question)
+  la: |
+    Seria es?<wait more>
+    Heus, quo vadis?<delay>
+
+- offsets: 4e98
+  # Trader (say no to previous question, and have a Laconian pot)
+  la: |
+    Domus est.<wait more>
+    ...mane, estne illa Olla Laconica?<wait more>
+    Quid de commutatione, olla pro piloso?<end>
+
+- offsets: 4ea9
+  # Trader (say yes to previous question)
+  la: Odi parvum illum dimittere, sed talem commutationem praeterire non possum. Cura bene eius.<wait>
+
+- offsets: 4e73
+  # Trader (after getting Myau)
+  la: Fortunam feci vendendo Olla Laconica! Gratias!<wait>
+
+# ******************************
+# *** Character Intro - Myau ***
+# ******************************
+
+- offsets: 4643
+  # Alisa
+  la: |
+    Nunc socii sumus, nonne?<line><line>
+    Alisa sum. Quid est nomen tuum?<wait>
+
+- offsets: 464e
+  # Myau
+  la: Myau.<wait>
+
+- offsets: 4659
+  # Alisa
+  la: |
+    Salve, Myau. Quaeror virum nomine Tylon.<wait more>
+    Rumor est eum cum animali loquente iter fecisse.<line><line>
+    Nonne tu ille eras?<wait>
+
+- offsets: 4664
+  # Myau
+  la: |
+    Tylon in lapidem conversus est Medusam necando!<line><line>
+    Hoc medicamento eum sanare possumus, sed operculum aperire non possum...<wait>
+
+- offsets: 466f
+  # Alisa
+  la: Puto me id administrare posse.<line><line>Veni, eum adiuvemus!<wait>
+
+# ******************************
+# *** Cave South of Camineet ***
+# ******************************
+
+- offsets: 57ec
+  la: Aliquid hunc hominem in lapidem convertit! Fortasse ad normalem redigi potest...<wait>
+
+- offsets: 25bd,2636
+  # Using "Alsuline" or "Polymeteral"
+  # This comes immediately after the "Alisa took out the item" message.
+  # Since it's used for the Polymeteral, too, it may not be Alisa.
+  la: |
+    Tunc <he/she> operculum ampullae aperuit et contentum effudit.<wait more>
+    Funcionatur!<delay>
+
+- offsets: 25af,260c,262d
+  # Using "Alsuline" or "Polymeteral" but only Myau is alive
+  # As this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
+  la: Sed ille operculum ampullae aperire non potuit.<wait>
+
+# ********************************
+# *** Character Intro - Tylon ***
+# ********************************
+
+- offsets: 4688
+  # Tylon
+  # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
+  # So Tylon can't talk to Myau directly.
+  la: |
+    Ah, Myau auxilium invenit. Gratias tibi ago quod me liberasti.<line>
+    Nescio tamen si quid prodest.<wait more>
+    Si Medusam vincere non potuimus, contra LaShiec nulla spes est.<wait>
+
+- offsets: 4693
+  # Alisa
+  la: |
+    Frater meus Nero occisus est LaShiec subvertere conans.<wait more>
+    Illum destruam, quocumque modo.<line><line>
+    Nero nomen tuum mihi dedit antequam moreretur, et dixit te me adiuvare posse.<wait>
+
+- offsets: 469e
+  # Tylon
+  la: |
+    Intellego. Bene, propter Neronem, iungamus vires!<line><line>
+    Semper locus uni ampliori est.<wait>
+
+- offsets: 46a9
+  # Alisa
+  la: |
+    Dic mihi aliquid antequam eamus.<line><line>
+    Dixisti te Medusam necare conatus es. Cur?<wait>
+
+- offsets: 46b4
+  # Tylon
+  la: |
+    Oh, quia securem magicam habet, et eam volo.<line><line>
+    Fortasse eam capere possumus in via ad LaShiec?<wait more>
+    Quoquomodo, Compassum in fine mortuo huius speluncae abscondi.<line><line>
+    Veni, eamus id capere. Certus sum nos id uti posse.<wait>
+
+# ************
+# *** Eppi ***
+# ************
+
+- offsets: 4de5
+  # Villager
+  la: |
+    Non mirer si Gubernator-Generalis Motaviae approbaret quod facis.<wait more>
+    Etiam in quaestu tuo te adiuvare posset. Locuta esne cum eo?<wait>
+
+- offsets: 4deb
+  # Villager
+  la: Omnes magni vates Motaviae vivunt.<wait>
+
+- offsets: 4df1
+  # Villager
+  la: |
+    Olim professor nomine Luveno laboratorium in Silvis Gothicis habuit.<wait more>
+    Miror si adhuc ibi est?<wait>
+
+- offsets: 4df7
+  # Villager
+  la: |
+    Benevenis ad Vicum Eppi!<wait more>
+    Nuper paucos visitatores accipimus, nunc silva monstris reptat.<wait>
+
+- offsets: 4dfd
+  # Villager
+  la: |
+    LaShiecem oppugnas, vero?<wait more>
+    Aut stulta es aut fortior quam videris.<wait more>
+    Utroque modo, fortitudinem tuam admiror. Egesne Clave Carceris?<end>
+
+- offsets: 4e17
+  # Villager (yes to previous question)
+  la: |
+    Unam abscondi in horreo in finibus districtus residentialis Camineet.<wait more>
+    Satis bene eam abscondi, fortasse iterum inspicere velis si iam ibi fuisti.<wait>
+
+- offsets: 4e1d
+  # Villager
+  la: Scisne quid sit durissimum, fortissimum materia in mundo?<end>
+
+- offsets: 4e2b
+  # Villager (no to previous question)
+  la: Est Laconia! Arma Laconica fortissima in toto Algol sunt!<wait>
+
+# ******************
+# *** Naula Cave ***
+# ******************
+
+- offsets: 5373
+  # Shortcake Salesman
+  # <number> is always 280.
+  la: |
+    Heus, cliens! Gaudeo te nos invenisse. Me paenitet de loco...<wait more>
+    Placenta mea optima in Algol est, et furto tantum <number> Meseta. Visne unam?<end>
+
+- offsets: 5355,53a5
+  # Shortcake salesman (after purchase)
+  # Also Sopia villager if you give him a PelorieMate.
+  # Note the similarity to index 198.
+  la: Gratias!<wait>
+
+# *********************
+# *** Paseo (again) ***
+# *********************
+
+- offsets: 4fd4
+  # Guards outside Underground Passage to Governor's Mansion
+  la: zzz...<wait>
+
+- offsets: 5627
+  # Guard inside Underground Passage to Governor's Mansion
+  la: Sta! Attulistine donum pro Gubernatore-Generali?<end>
+
+- offsets: 564b
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, have shortcake)
+  la: |
+    Ah, Placenta. Is gaudebit. Id pro te tenebo.<wait more>
+    Procede.<wait>
+
+- offsets: 5651
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, no shortcake)
+  la: Haec dona idonea non sunt!<wait>
+
+- offsets: 5632
+  # Guard inside Underground Passage to Governor's Mansion (no to previous question)
+  la: Sine donum te accedere non possum!<wait>
+
+- offsets: 4f19
+  # Governor-General (first visit)
+  # Last part falls through to the following entry, we do not do that here.
+  la: |
+    Benevenis. Sum Gubernator-Generalis huius planetae. Tam longe venisti. Quaeso, sede.<wait more>
+    Scio cur hic sis. Certe id non celavisti. LaShiecem necare vis.<wait more>
+    LaShiec potens est. Immo, plus quam homo. Nunc illas angustias transcendit.<wait more>
+    Valde fortis es quod eum oppugnas. Sed fortitudo, timeo, non sufficiet.<wait more>
+    Vade. Destrue eum. Non te prohibebo. Immo, auxilium offeram.<wait more>
+    Vater potens nomine Lutz in spelunca Mahal, hinc septentrionalis, habitat. Hanc epistulam ad eum fer.<wait more>
+    Cum eius auxilio, confido te successuram. Hic redi cum viceris.<wait>
+
+- offsets: 4f13,4fc6
+  # Governor-General (subsequent visits)
+  la: Hic redi cum LaShiecem viceris. Deus tecum sit.<wait>
+
+- offsets: 4f2f
+  # Governor-General (before nightmare)
+  la: Fessa es ex itinere tuo. Cur non hic paulum requiescis?<wait>
+
+- offsets: 4fda
+  # Lady in Guest House
+  la: Fessa videris. Cur non hic paulum requiescis?<wait>
+
+- offsets: 4ff9
+  # Lady in Guest House (after resting)
+  la: Fortuna felix extra. Ea indigebis.<wait>
+
+- offsets: 4f5b
+  la: In somnum profundum incidisti...<delay>
+
+- offsets: 4fa2
+  la: Omnia somnium erat...<wait>
+
+- offsets: 4f0d
+  # Governor-General (return after dream):
+  la: |
+    Nullum momentum perdendum est.<wait more>
+    Quaeso cave.<line>
+    Pro salute tua oro.<wait>
+
+- offsets: 4ed6
+  # (after defeating LaShiec)
+  la: Vacuum! Ubi est Gubernator-Generalis?<wait>
+
+# ******************
+# *** Mahal cave ***
+# ******************
+
+- offsets: 53c4
+  # If you haven't found Lutz yet (unused/impossible?)
+  la: Cum ordines a Gubernatore-Generali sint, Lutz probabiliter audiet.<wait>
+
+- offsets: 53c9
+  # If you have found Lutz (unused?)
+  la: Yahoo!<wait>
+
+- offsets: 53df
+  # Lutz
+  la: |
+    Quis es?<line><line>
+    Exerceo me. Noli me interrumpere.<wait>
+# ******************************
+# *** Character Intro - Lutz ***
+# ******************************
+- offsets: 46e7
+  # Will show a picture of whichever of the party is alive at this point,
+  # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
+  # which character it is during this conversation.
+  la: |
+    Lutz esse debes. Epistulam a Gubernatore-Generali tibi fero.<line><line>
+    Visne eam legere?<wait>
+
+- offsets: 46f2
+  la: |
+    Ostende mihi.<wait more>
+    ...Ah. Intellego. Sic res se habet.<line><line>
+    Excuso pro priore hostilitate.<wait more>
+    Simul Algol a manibus mali protegere debemus.<line><line>
+    Primum, Doctor Luveno in Silvis Gothicis convenire debemus.<wait more>
+    Si recte memini, per cloacam in Statione Spatiali Camineet illuc pervenire possumus.<line><line>
+    Eamus. Celeriter.<wait>
+
+# ********************
+# *** Gothic Woods ***
+# ********************
+- offsets: 500b,5034,533a,54a9
+  # Villager x2
+  # Sopia villager
+  # Triada prisoner
+  la: PelorieMate valde usui esset. Potesne unum donare?<end>
+
+- offsets: 5028
+  # Villager (yes to previous question, and you have a PelorieMate)
+  la: |
+    Gratias. Quaereris Doctor Luveno, vero? Laboratorium eius hic olim erat.<wait more>
+    Nunc non iam. Vir insanus factus est. Tandem illum lunaticum incarcaverunt.<wait more>
+    In Triada, carcere hinc meridiem, tenetur.<wait>
+
+- offsets: 502e,5055,535b
+  # Sopia villager (yes to previous question, and you don't have a PelorieMate)
+  # Gothic Woods villager (yes to previous question, and you don't have a PelorieMate) x2
+  la: Mane, nullum habes? Cur igitur sic dixisti?! Abi!<wait>
+
+- offsets: 5016,503f,54b4
+  # Villager x2 (no to previous question)
+  # Triada prisoner
+  la: Tunc nihil tibi dicam. Abi.<wait>
+
+- offsets: 504f
+  # Another villager (yes to previous question, and you have a PelorieMate)
+  la: |
+    Gratias, ignote.<wait more>
+    In fine longi itineris directe hinc meridiem, turris antiqua est.<wait more>
+    Fama est monstrum ibi esse quod te in lapidem convertit si id spectas!<wait>
+
+- offsets: 5856
+  # Villager guarding open field (no Luveno/Hapsby)
+  # Also pointed to by indices 27c, 27e, 280 but these aren't used.
+  la: Heus! Extra territorium meum mane! Omnia ultra hic mea sunt!<wait>
+
+- offsets: 585c
+  # Villager guarding open field (have Luveno/Hapsby)
+  la: Bene, puto facere quod Doctor Luveno dicit. Transi.<wait>
+
+# *********************
+# *** Triada Prison ***
+# *********************
+
+- offsets: 5485,55b3
+  # Guard Near Entrance
+  # Also index 21c: robot police in Baya Marlay Prison
+  la: Habesne viapassum?<end>
+
+- offsets: 549d,55e0
+  # Guard Near Entrance (no to previous question)
+  # Same sequence in Baya Marlay Prison
+  la: Intrusor detectus. Sequentia terminationis initiatur.<wait>
+
+- offsets: 54ca
+  # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
+  # Split up from 4c30,4ccf to allow different translations from the usage by airstrip guards
+  # TODO: consider rewriting this and the split version accordingly
+  la: Noli me ludere!<wait>
+
+- offsets: 54c4
+  # Prisoner (if you give PelorieMate)
+  la: Gratias. Scis, quamvis homines dicant, araneae actu sapientissimae creaturae sunt.<wait>
+
+- offsets: 54ea
+  # Prisoner
+  la: Structura antiqua in corde Montium Gothicorum sita Turris Medusae appellatur.<wait>
+
+- offsets: 550c
+  # Spider
+  la: |
+    Chemicum nomine Polymeteral omnem materiam dissolvit!<wait more>
+    ...praeter Laconia, scilicet.<wait>
+
+- offsets: 54f0
+  # Prisoner
+  la: Oh, salvete! Diu hominem non vidi! Visne manere et colloquium habere?<end>
+
+- offsets: 54f9
+  # Prisoner (yes to previous question)
+  la: |
+    Amicum in Bartevo habeo.<wait more>
+    Puto res ibi nunc valde malae sint, cum omnibus illis stagnis lavae.<wait more>
+    Si eum videris, potesne pro me ‘salve’ dicere?<wait>
+
+- offsets: 54d0
+  # Prisoner
+  la: Audivisti de Hapsby robotum?<end>
+
+- offsets: 54de
+  # Prisoner (no to previous question)
+  la: |
+    Est robot ex Laconia factus!<wait more>
+    Luveno Hapsby creavit ut gubernator navis spatialis prototypus.<wait more>
+    In acervo ferri relictus est et putrescere permissus. Quam vastitas...<wait>
+
+- offsets: 54e4
+  # Prisoner
+  la: Eruptiones volcanicae alteram partem montium multa lava texerunt.<wait>
+
+- offsets: 5453
+  # Dr Luveno (first time)
+  la: Ita, Doctor Luveno sum. Si hic es ad me liberandum, obliviscere! Nusquam eo.<wait>
+
+- offsets: 545e
+  # Dr Luveno (second time)
+  la: Quid? Visne me navem spatialem construere?! Cur id facerem? Abi, me solum relinque.<wait>
+
+- offsets: 5464
+  # Dr Luveno (third time)
+  la: |
+    Iterum tu? Ach, cedo. Navem tuam construam, sed una condicio est.<wait more>
+    Promittere debes meis instructionibus exacte parere, quidquid petam. Consentisne?<end>
+
+- offsets: 546d
+  # Dr Luveno (no to previous question)
+  la: Si non facies ut dico, nullo modo te adiuvare possum.<wait>
+
+- offsets: 5477
+  # Dr Luveno (yes to previous question)
+  la: |
+    Bene. Ergo, ad Vicum Gothicum eo ut incipiam. Ibi te conveniam.<wait more>
+    Oh, ne cures de me, fortior sum quam videor. Solus illuc perveniam.<wait>
+
+- offsets: 510d,5428
+  # Man in underground tunnel
+  la: Noli me distrahere! Valde occupatus sum.<wait>
+
+- offsets: 542f
+  # Man in underground tunnel
+  la: |
+    Quid? Doctor Luveno liberatus est?<wait more>
+    Quid?! Navem spatialem tibi construit?!<wait more>
+    Senior est ad hoc. Melius eum adiuvem.<wait>
+
+# *****************
+# *** Iala Cave ***
+# *****************
+
+- offsets: 5436
+  la: |
+    Multos viros in cubiculum interius ire vidi.<wait more>
+    Exire, tamen, alia fabula est.<wait more>
+    Nunquam quemquam inde vivum exire vidi.<wait>
+
+# **********************
+# *** Medusa's Tower ***
+# **********************
+
+- offsets: 5512
+  la: Longe pervenisti. Mox veritatem scies.<wait>
+
+- offsets: 5518
+  # Old man in an actual dead end
+  la: Exi hinc dum adhuc spiras! Nescis contra quid stas!<wait>
+
+- offsets: 551e
+  la: Fortiter hic venis. Cave insidias occultas!<wait>
+
+- offsets: 16a8
+  # Being attacked by Medusa without the Shield of Perseus equipped
+  la: <player> in lapidem conversum est.<wait>
+
+# *******************************
+# *** Dr. Luveno’s Laboratory ***
+# *******************************
+
+- offsets: 507b
+  # Dr Luveno (if you didn't talk to his assistant yet)
+  la: |
+    Tandem. Quid te moratum est? Primum, adiutorem meum arcessere debes.<wait more>
+    Probabiliter in cuniculo subterraneo latet. Timidus est ille. Irritat.<wait>
+
+- offsets: 508b
+  # Dr Luveno
+  # <number> is always 1200.
+  la: |
+    Recte. Videtur manipulus meus congregatus esse.<wait more>
+    Quid, non credis duos homines navem spatialem construere posse?<wait more>
+    Scias me has construere ex quo in fasciis eras!<wait more>
+    Nunc, de pretio agendum est. Naves spatiales non gratuitae sunt, scis.<wait more>
+    <number> Meseta ante requiro. Potesne id solvere?<end>
+
+- offsets: 50b5
+  # Dr Luveno (yes to the previous question)
+  la: |
+    Splendide. Statim constructionem incipiemus.<wait more>
+    Hoc opus delicatum est, fac mihi gratiam et noli me aliquandiu vexare?<wait>
+
+- offsets: 50a7
+  # Dr Luveno (if you don't have enough money)
+  la: Non satis habes? Vade et plus acquire!<wait>
+
+- offsets: 5096
+  # Dr Luveno (no to the previous question)
+  la: Ah, sic tempus meum perdidisti. Mirabile.<wait>
+
+- offsets: 50c3
+  # Dr Luveno (first two times you talk to him)
+  la: |
+    Quaeso, perfectionem urgere non potes.<wait more>
+    Nisi in spatio relictus esse vis, da nobis tempus.<wait more>
+    Nonne potes in spelunca vagari vel aliquid? Valde occupati sumus.<wait>
+
+- offsets: 50d1
+  # Dr Luveno (third time)
+  la: |
+    Successus! Hoc est opus meum optimum adhuc.<wait more>
+    Luveno eam appello. Sonus bonus, nonne credis?<wait>
+
+- offsets: 50de
+  # If you don't have Hapsby already
+  la: Sed timeo Luveno a homine gubernari non potest...<wait>
+
+- offsets: 50eb
+  # If you don't have Hapsby already
+  la: |
+    Robotem nomine Hapsby ante annos creavi, ad hoc ipsum.<wait more>
+    Probabiliter adhuc in illo acervo ferri in Bartevo est.<wait more>
+    Vade eum arcesse, visne? Cave gradum, tamen. Bartevo lava circumdatur.<wait more>
+    Noli mihi istum vultum dare! Promisisti instructionibus meis parere.<wait more>
+    Partem meam pacti implevi, nunc vade tuam imple.<wait>
+
+- offsets: 50f6
+  # Luveno (if you have Hapsby)
+  la: |
+    Ah, Hapsby parvus, domum redisti!<wait more>
+    Optime. Cum Hapsby Luveno per spatium gubernare potes!<wait more>
+    Et tempore opportuno. Securitas spatioportus severior facta est.<wait more>
+    Perge! Luveno extra vicum appulsa est! Vade eam experire!<wait>
+
+- offsets: 5071
+  # Luveno (subsequent visits)
+  la: Quomodo Luveno se habet? Bene eam cura.<wait>
+
+# Spaceports now closed...
+- offsets: 4cec
+  la: Securitas Algol nunc ad gradum rubrum elevata est. Iter spatialis omnibus civibus interdictum est.<wait>
+
+- offsets: 4cfd
+  la: Omnes passporti existentis nunc invalidi sunt et delendi. Tuum confiscamus.<wait>
+
+# ***************
+# *** Bartevo ***
+# ***************
+
+- offsets: 4fff
+  # Villager
+  la: Bartevo territorium meum est, hospes. Noli nimium curiose agere.<wait>
+
+- offsets: 5005
+  # Villager
+  la: |
+    Aliquis mihi dixit robotem perfectum in uno horum acervorum relictum esse.<wait more>
+    Miror si verum sit?<wait>
+
+- offsets: 5524
+  # Villager (in the cave next to Bartevo)
+  la: Taberna pharmaciae in Avion Polymeteral vendit.<wait>
+
+- offsets: 57bd
+  # Hapsby
+  la: |
+    Salve. Sum robot gubernator Hapsby. Gratias quod me servasti.<wait more>
+    Te adiuvabo in operatione cuiusvis navis spatialis Luveno.<wait>
+
+- offsets: 57e0
+  la: |
+    Fluxumotorem invenisti.<wait more>
+    Hapsby partes fractas reparavit, nunc eam uti potes!<wait>
+
+# ************
+# *** Lore ***
+# ************
+
+- offsets: 5139
+  # Villager
+  la: |
+    Hoc est Vicus Lore. Olim erat, ante corruptionem LaShiec.<wait more>
+    Ut vides, nunc vastitas est.<wait>
+
+- offsets: 5119
+  # Villager
+  la: |
+    Audivistine de gemma nomine Oculus Carbunculi?<wait more>
+    Fama est a dracone in Casba teneri.<wait more>
+    Quid draco gemmam desiderat?<wait>
+
+- offsets: 511f
+  # Villager
+  la: |
+    Heus, quoniam hic es, potes Avion visitare.<wait more>
+    Est vicus parvus sicut hic, in extremitate occidentali insulae.<wait>
+
+- offsets: 5125
+  # Villager
+  la: Audivistine de arboribus Laerma?<end>
+
+- offsets: 512e
+  # Villager (no to previous question)
+  la: Audio Planum Altum Dezore totum eis coopertum esse.<wait>
+
+- offsets: 5113
+  # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
+  la: |
+    LaShiecem destruere vadis? Tempus est aliquem id facere!<wait more>
+    Non est tamen facilis. Magia nigra eius te destruere posset.<wait more>
+    Audivi crystallos quosdam contra talem magiam protegere posse.<wait more>
+    Tantum fama est. Noli me citare.<wait>
+
+# *************
+# *** Avion ***
+# *************
+
+- offsets: 513f
+  # Villager
+  la: Hic vicus Avion appellatur.<wait>
+
+- offsets: 5145
+  # Villager
+  la: Manus mala LaShiec etiam ad hunc vicum extendit! Quaeso, eum sistere debes!<wait>
+
+- offsets: 514b
+  # Villager
+  la: |
+    Vir valde mirus nuper huc migravit. Fama est eum experimenta in animalibus facere.<wait more>
+    Et illa olla mira! Semper eam ad pectus pressam circumambulat.<wait more>
+    Malum praesagium de eo habeo.<wait>
+
+- offsets: 5151
+  # Villager
+  la: Vellem aliquando per spatium iter facere.<wait>
+
+- offsets: 5157
+  # Villager
+  la: |
+    Vicinus noster novus multum de animalibus scit.<wait more>
+    Mihi rem mirissimam de Cattis Muscis dixit.<wait more>
+    Dicit si certam baccam edant, enormes fiunt et volare possunt!<wait>
+
+- offsets: 4c54
+  # Mad Doctor
+  la: Huc, cattus cattus! Veni huc!<end>
+
+- offsets: 4c75
+  # Mad Doctor (yes to previous question)
+  la: Ho ho, iucundum erat! Quis proximus?<wait>
+
+- offsets: 4c7a
+  # Mad Doctor (no to previous question or if Myau is already dead)
+  la: Dixi VENI HUC.<wait>
+# *************
+# *** Skray ***
+# *************
+
+- offsets: 5238
+  # Townsperson
+  la: Benevenis ad Skray, locum calidissimum Dezore! Satis frigidum est foris, nonne?<wait>
+
+- offsets: 523e
+  # Townsperson
+  la: Fere omnes immigrantes Palmanes hic in Skray habitamus. Simpliciter non facti sumus pro frigore.<wait>
+
+- offsets: 5244
+  # Townsperson
+  la: |
+    Novus sum Dezore, ideo nondum multum de eo scio. Cum indigenis loqui debes.<wait more>
+    Nondum ibi fui, sed multi eorum in vico intra montes septentrionales habitant.<wait>
+
+- offsets: 524a
+  # Townsperson
+  la: |
+    LaShiecem evertere vadis? Gladium, securem, scutum, et armaturam ex Laconia factam necesse habebis.<wait more>
+    Laconia est materia potentissima in Algol, nihil minus uti vellem.<wait more>
+    Pro salute tua orabo. Omnes orabimus.<wait>
+
+- offsets: 5250
+  # Townsperson
+  la: |
+    Laconia plus quam fortis est, sancta est. Arma ex ea facta vires divinas habent.<wait more>
+    LaShiec hoc scit, scilicet. Ideo eas per systema Algol abscondit! Timet!<wait>
+
+- offsets: 5256
+  # Townsperson
+  la: Dezoris est quasi cubus glaciei gigas. Magna mutatio a campis viridibus Palmae.<wait>
+
+- offsets: 525c
+  # Townsperson
+  la: Non omnes montes glaciei tam duri sunt quam videntur, quaedam partes eorum facile franguntur.<wait>
+
+- offsets: 5262
+  # Townsperson
+  la: Area circa Planum Altum montibus glaciei circumdata est.<wait>
+
+- offsets: 5268
+  # Townsperson
+  la: |
+    Hic planeta eclipsis solaris semel per centum annos habet.<wait more>
+    Flamma accensa durante eclipsi Fax Eclipsis appellatur.<wait more>
+    Indigenae Dezorianae credunt Fax Eclipsis vim divinam portare.<wait>
+
+- offsets: 526e
+  # Townsperson
+  la: |
+    Vires impiae cum quibus LaShiec et similes se implicaverunt nimis longe processerunt.<wait more>
+    Omnia corpora mortua in Guaran Morgue revixerunt! Est grotesque!<wait>
+
+# ***********
+# *** Uzo ***
+# ***********
+
+- offsets: 515d
+  # Villager
+  la: Hic est Vicus Uzo, Motaviae.<wait>
+
+- offsets: 5163
+  # Villager
+  la: Formicae Leones? Nihil problema! Terradominator recte super eas agere potes.<wait>
+
+- offsets: 5169
+  # Villager
+  la: Ad meridiem Uzo iacet vicus nomine Casba.<wait>
+
+- offsets: 516f
+  # Villager
+  la: Draco intra Speluncam Casba latet. Dicunt gemmam in capite eius infixam esse!<wait>
+
+- offsets: 5194
+  # Villager
+  la: |
+    Audivistine de pallio, cui nomen est Mantellum Fradi?<wait more>
+    Ex auditu, valde leve est, tamen vim protectivam excellentem habet.<wait>
+
+- offsets: 5175
+  # Villager
+  la: Audivistine de Tibia Soothis?<end>
+
+- offsets: 5133,517e,54d9,54fe
+  # Villager (yes to previous question)
+  # Lore villager (yes to question about Laerma Tree)
+  # Triada prisoner (yes to question about Hapsby)
+  # Triada prisoner (no to request to talk)
+  la: |
+    Oh.<wait more>
+    Bene.<wait>
+
+- offsets: 518e
+  # Villager (no to previous question)
+  la: |
+    Hoc secretum est, sed unam in finibus vici Gothici sepelivi.<wait more>
+    Nemini dicas!<wait>
+
+# Soothe Flute stuff
+- offsets: 24d6
+  # Use Soothe Flute outside a battle
+  la: Sonitus cor tuum liquant.<wait>
+
+- offsets: 24eb
+  la: <Article><monster> sonitum tibiae audivit et tranquillatus est.<delay>
+
+# *************
+# *** Casba ***
+# *************
+
+- offsets: 519a
+  # Villager
+  la: Hic est Vicus Casba.<wait>
+
+- offsets: 51a0
+  # Villager
+  la: Draco in Spelunca Casba habitat! Valde timeo!<wait>
+
+- offsets: 51ac
+  # Villager
+  la: |
+    In vico gasibus circumdato, homines fabulam scuti legendarii narrant.<wait more>
+    Dicunt olim virum nomine Perseus eo usum esse ad monstrum opponendum.<wait>
+
+- offsets: 51b2
+  # Villager
+  la: |
+    Occidentem lacus vidi hunc gasum veneni terribilem, nebulam similem, ubique se diffundentem!<wait more>
+    Quidquid facis, illinc mane!<wait>
+
+- offsets: 51b8
+  # Villager
+  la: Scisne quid sit Fluxumotor?<end>
+
+- offsets: 51cb
+  # Villager (yes to previous question)
+  la: |
+    Ita scis quanta sint inutilia! Unum in oppido Shion, Palmae, emi.<wait more>
+    Fractum est, ideo in Bartevo id abieci. Non mirum iam non vendi.<wait>
+
+- offsets: 51c1
+  # Villager (no to previous question)
+  la: |
+    Oh, mirabilia sunt! Cum operantur, scilicet.<wait more>
+    Super aquam leniter labi possunt.<wait>
+# **************
+# *** Drasgo ***
+# **************
+
+- offsets: 51d1
+  # Townsperson
+  la: Benevenis ad Drasgo, parvum oppidum nostrum in mari fluitans.<wait>
+
+- offsets: 51d7
+  # Townsperson
+  la: |
+    Eia! Visitatores hic mox non exspectavi.<wait more>
+    Non ex quo LaShiec iter maritimum vetuit. Quomodo huc pervenisti?<wait>
+
+- offsets: 51dd
+  # Townsperson
+  la: Audio esse gladium incantatum in Turri Avion.<wait>
+
+- offsets: 51e3
+  # Townsperson
+  la: Olim ingentem lapidem in caelo fluitantem vidi!<wait>
+
+- offsets: 51e9
+  # ????
+  la: Sum Choko Oneesan! Fortis et audax esto in quaestu tuo!<wait>
+
+- offsets: 51ef
+  # Person inside cave
+  la: |
+    Huc veni ad GasClear emendum, necesse est mihi contra gasum venenum.<wait more>
+    Supponitur taberna hic esse quae id vendit, sed eam nusquam invenio!<wait>
+
+- offsets: 51f5
+  # Person inside cave
+  la: |
+    Haec taberna est. Quid tibi facere possum?<wait more>
+    ...haha, modo ludo! Quid? Noli me sic aspicere.<wait>
+
+- offsets: 5201
+  # GasClear salesman
+  # <number> is always 1000.
+  la: |
+    Mirarisne tabernam in tali loco invenire, nonne?<wait more>
+    Vela Gasi sunt <number> Meseta singuli. Satis vilis, nonne? Visne unum?<end>
+
+- offsets: 5226
+  # GasClear salesman (yes to previous question)
+  la: Gratias. Iterum veni!<wait>
+
+- offsets: 521d
+  # GasClear salesman (yes to previous question, but don't have enough money)
+  # Note: In the Japanese version, this one runs into the line below. It was corrected in the Mega Drive version.
+  la: Eia? Non satis pecuniae habes?<wait>
+
+- offsets: 520c
+  la: Fac ut libet. Hic ero cum mentem mutaveris.<wait>
+
+# *************
+# *** Sopia ***
+# *************
+
+- offsets: 52ca
+  # Villager
+  la: |
+    Hic vicus Sopia appellatur. Benevenis.<wait more>
+    Gaudeo te per nebulam pervenire potuisse.<wait>
+
+- offsets: 52d6
+  # The Village Chief
+  # <number> is always 400.
+  la: |
+    Sum princeps huius vici.<wait more>
+    Nos in Sopia valde pauperes sumus. Nebula nos ab aliis oppidis separat.<wait more>
+    Fortasse potesne <number> Meseta nobis donare?<end>
+
+- offsets: 52e1
+  # The Village Chief (no to previous question)
+  la: Intellego. Me paenitet id audire. Ohhh...<wait>
+
+- offsets: 52f2
+  # The Village Chief (yes to previous question, but not enough money)
+  la: Ergo etiam pauper es? Tristia tempora sunt.<wait>
+
+- offsets: 5300
+  # The Village Chief (yes to previous question)
+  la: |
+    Gratias. Fortasse te in vicem adiuvare possum.<wait more>
+    Puto te scutum Persei quaerere? Quod Medusam necando usus est?<wait more>
+    Fama localis dicit in insula in lacu, sub cacto sepultum esse.<wait>
+
+- offsets: 5306
+  # Gamer Miki
+  la: Salve, sum Gamer Miki-chan! Habesne Master System?<end>
+
+- offsets: 530f
+  # Gamer Miki (yes to previous question)
+  la: Euge! Nonne sonus FM mirabilis est?!<wait>
+
+- offsets: 5314
+  # Gamer Miki (no to previous question)
+  la: |
+    QUID?!<wait more>
+    Turpe tibi! Cito unum eme!<wait>
+
+- offsets: 531a
+  # Villager
+  la: Ante dominationem oppressivam LaShiec, hic vicus valde dives erat.<wait>
+
+- offsets: 5320
+  # Villager
+  la: |
+    Convenistine Tajim, monachum? Habitat in montibus meridiem lacus.<wait more>
+    Dicunt eum esse maximum magistrum pugnae magicae in Algol.<wait more>
+    Dicunt etiam eum mortuos videre...<wait>
+  # Maybe add this hint to other languages. It helps explain a possible 
+  # scenario later where Tajim sees Lutz when he is dead.
+
+- offsets: 5326
+  # Villager
+  la: Audivi Palma esse planetam valde pulchram. Verumne est?<end>
+
+- offsets: 532f
+  # Villager (yes to previous question)
+  la: Oh, tam valde illuc ire volo!<wait>
+
+- offsets: 5334
+  # Villager (no to previous question)
+  la: Oh, interest. Fere ubique irem ubi aer purior est.<wait>
+
+- offsets: 5345
+  # Villager (no to request for PelorieMate)
+  la: Avara!<wait>
+
+# *********************
+# *** Tajim’s Cave ***
+# *********************
+
+- offsets: 56b3
+  # Tajim (if you don't have Lutz - which is not possible)
+  # You need either the hovercraft or the land rover to even reach the cave. You can't get either without being able to reach Casba, and the only way to reach Casba on foot is from Uzo, which you can't get to without your own spaceship, which you can't get without being able to reach Gothic, which you can't because the spaceport manhole is inaccessible without Lutz in your party.
+  la: |
+    Et qui estis vos?<wait more>
+    Discipulus meus, Lutz, in Spelunca Mahal est. Noscisne eum?<end>
+
+- offsets: 56bc
+  # Tajim (yes to previous question)
+  la: |
+    Aliquid habeo quod ei dicere debeo.<wait more>
+    Quaeso, dic ei ut me videat.<wait>
+
+- offsets: 56c1
+  # Tajim (no to previous question)
+  la: Intellego. Tunc nihil utilitatis est tecum amplius loqui.<wait>
+
+- offsets: 56c7
+  # Tajim (if you have Lutz)
+  la: Ah, Lutz, discipule_SENTINEL_mi! Video te tandem fatum tuum ad LaShiecem vincendum implere.<wait>
+
+- offsets: 56d3
+  # Tajim (if Lutz is dead)
+  la: ...Lutz? Oh, video, mortuus est. Tu, vade Lutz in ecclesia revivisce et huc reduc.<wait>
+
+- offsets: 56d9
+  # Tajim (talking to Lutz)
+  la: |
+    Omnia quae scio te docui. Tempus est tibi dare unum ultimum experimentum: duellum contra me!<wait>
+
+- offsets: 5722
+  # Tajim (if you win) (talking to Lutz)
+  la: |
+    Fortis factus es, puer mi! Omnem vim habes ad munus tuum complendum.<wait more>
+    Cape hoc. Est Mantellum Fradi, donum meum tibi. Corpus tuum a malo proteget.<wait more>
+    Nunc vade! Fatum tuum imple et pacem Algol redde!<wait>
+
+- offsets: 571c
+  # Tajim (if you lose) (talking to Lutz)
+  la: Plus exercitii tibi opus est, puer mi. Redi cum paratus eris. Exspectabo.<wait>
+
+- offsets: 56a6
+  # Tajim (subsequent visits)
+  la: Nihil amplius te docere possum. Fatum tuum imple et pacem Algol redde!<wait>
+
+# ****************************
+# *** Native Dezorian Town ***
+# ****************************
+
+# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say verb-affirmative things like ’it does’ and ’you will’ at the ends of sentences, and the liars say truth-affirming things like ’no joke’, ’seriously’, etc. in their sentences.
+# French and Brazilian Portuguese use similar patterns to English.
+# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
+# In Spanish, Honest Dezorian speaks like galician, and the liars like people from Murcia
+# In German, honest Dezorians use VOS sentence structure while liars use OVS.
+- offsets: 5274
+  # Honest Dezorian
+  la: Nemini in vico vicino credam... mendaces inveterati sunt, sunt.<wait>
+
+- offsets: 527a
+  # Honest Dezorian
+  la: Turris Corona trans montes ad septentrionem est, est.<wait>
+
+- offsets: 5280
+  # Honest Dezorian
+  la: Spelunca Dezoris ad occidentem Turris Coronae est, est. Amicos nostros ibi saluta, debes!<wait>
+
+- offsets: 5286
+  # Honest Dezorian
+  la: |
+    Arbores Laerma fructus mirabiles ferunt, ferunt.<wait more>
+    Baccae Laerma nominantur, et valde sapidae sunt, sunt.<wait more>
+    Nisi in olla Laconiana eas ponas, marcescunt, marcescunt.<wait>
+
+- offsets: 528c
+  # Honest Dezorian
+  la: Audivisti de re quae Aeroprisma vocatur, audivisti?<end>
+
+- offsets: 529a
+  # Honest Dezorian (no to previous question)
+  la: Audio te mundos alios cum illo videre posse, potes.<wait>
+
+- offsets: 5295
+  # Honest Dezorian (yes to previous question)
+  la: Vere velim in unum aliquando spectare, velim.<wait>
+
+- offsets: 52a0
+  # Honest Dezorian
+  la: Omnes hic Palmanos oderunt, odimus.<wait>
+
+- offsets: 52a6
+  # Dishonest Dezorian
+  la: Fons Iuventutis intra Turrim Coronae est. Mehercule!<wait>
+
+- offsets: 52b2
+  # Dishonest Dezorian
+  # <number> is always 10.
+  la: Est transitorium in decimo gradu subterraneo Speluncae Dezoris. Revera!<wait>
+
+- offsets: 52b8
+  # Dishonest Dezorian
+  la: Baccae Laerma caeruleae sunt, et eas ad vestes tingendas utimur. Est verum!<wait>
+
+- offsets: 52be
+  # Dishonest Dezorian
+  la: Crystallo uti potes ut baccae in arbore Laerma crescant. Sane sic!<wait>
+
+- offsets: 52c4
+  # Dishonest Dezorian
+  la: Hic vicus omnes Palmanos accipit. Serio!<wait>
+
+- offsets: DishonestDezorianFix
+  # Dishonest Dezorian
+  # We add a script entry here. The original game accidentally uses an entry from Sopia.
+  la: Vicini vicani mentiuntur. Re vera!<wait>
+
+# ********************
+# *** Dezoris Cave ***
+# ********************
+
+- offsets: 5815
+  # Dungeon Southwest of Corona Tower
+  # Dishonest Dezorian
+  la: Cave felis ante. Ad sinistram in bivio viae flectere debes.<wait>
+
+# ********************
+# *** Corona Tower ***
+# ********************
+
+- offsets: 57fd,5803
+  # Dezorian
+  # (Also in Guaran Morgue)
+  la: Cur huc venisti? A malis abstine, audis me?<wait>
+
+- offsets: # Unused
+  la: Malum de hoc sentio.<wait>
+
+- offsets: 592d
+  # Dezorian
+  la: |
+    Hoc a me non audivisti, sed...<wait more>
+    Dominus LaShiec crystallum quod Damoa vates tenet timet.<wait more>
+    Aliquid secretum de eo esse debet.<wait>
+
+- offsets: 5661
+  # Torchbearer
+  la: |
+    Videsne hanc flammam in manu mea? Haec est Fax Eclipsis.<wait more>
+    Hic est ignis sacer eclipsis centenariae.<wait more>
+    Est pulcher, sanctus, et valde pretiosus.<wait more>
+    Forsitan partem eius cedere velim, pro, inquam...<wait more>
+    ...crystallo draconis. Quid dicis?<end>
+
+- offsets: 5684
+  # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
+  la: Optime. Ecce tibi, igitur.<wait>
+
+- offsets: 566c
+  # Torchbearer (no to previous question)
+  la: Non vis? Cur igitur huc venisti?<wait>
+
+- offsets: 568a
+  # Torchbearer (yes to previous question but no Carbuncle Eye)
+  la: Nullum gemmam habes! Noli stulte agere!<wait>
+
+# *************************
+# *** Aeroprism Dungeon ***
+# *************************
+
+- offsets: 5933
+  # Otegami Chie-chan
+  la: |
+    Sum Otegami Chie-chan, ex Sega! Gratias pro omnibus litteris tuis.<wait more>
+    Quaeso dic nobis quid de hoc ludo sentias. Avide te audire volumus.<wait more>
+    Ecce consilium: Vade ad summum locum Palmae, et Aeroprisma ad caelum tolle!<wait>
+
+# *************************
+# *** Altiplano Plateau ***
+# *************************
+
+- offsets: 2693,26e5
+  # Also used for the Aeroprism later...
+  la: <player> <article><item> super <his/her> caput tenuit.<delay>
+
+- offsets: 26d0
+  # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
+  la: <player> quasdam Baccae Laerma collegit et in olla Laconiana posuit.<wait>
+
+- offsets: 26c4
+  # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
+  la: <player> quasdam Baccae Laerma collegit, sed statim marcescunt!<wait>
+
+# *******************
+# *** Avion Tower ***
+# *******************
+- offsets: 552a
+  la: Nunc tempus est ut revertaris et domum eas.<wait>
+
+# **************************
+# *** Baya Marlay Prison ***
+# **************************
+
+- offsets: 55f5
+  # Prisoner
+  la: Venistine ut me effugere adiuves?<wait>
+
+- offsets: 55fb
+  # Prisoner
+  la: Ad destruendum LaShiec? Id impossibile est. Non potes occidere qui mori non potest.<wait>
+
+- offsets: 5601
+  # Prisoner
+  la: Omnes nos pro LaShiec sacrificia finiemus!<wait>
+
+- offsets: 582d
+  # Prisoner (Dezorian)
+  la: Armaturam in Guaran accepisti?<end>
+
+- offsets: 583b
+  # Prisoner (no to previous question)
+  la: In altero latere voraginis eam invenire potes.<wait>
+
+- offsets: 5836
+  # Prisoner (yes to previous question)
+  la: Mirabilis es!<wait>
+
+- offsets: 5607
+  # Prisoner
+  la: |
+    LaShiec periculosior est quam plerique putant.<wait more>
+    Qui eum provocaverunt, animas suas per magiam eius ablatas habuerunt!<wait>
+
+- offsets: 560d
+  # Prisoner
+  la: Est turris super collem Baya Marlay. Quae secreta intus latent?<wait>
+
+- offsets: 5613
+  # Prisoner
+  la: Melius est ne ulterius procedas, custos securitatis ante est.<wait>
+
+- offsets: 55c5
+  # Robot Police (yes to previous question, have one)
+  la: |
+    Hoc falsum est. Ubi hoc accepisti?<wait more>
+    Certe locum rectum elegisti ut incarcerareris. Veni mecum.<wait>
+
+- offsets: 5619
+  # Prisoner
+  la: |
+    O, ergo tu quoque hic in custodia es. Quam triste.<wait more>
+    Certe, via hinc exit. Sed quid prodest?<wait more>
+    Vita hic multo simplicior est.<wait>
+
+# *************************
+# *** Baya Marlay Tower ***
+# *************************
+
+- offsets: 5597
+  la: Venistine quaerens turrim Baya Marlay?<end>
+
+- offsets: 55a0
+  # (yes to previous question)
+  la: Tunc destrueris!<wait>
+
+- offsets: 55a5
+  # (no to previous question)
+  la: Tunc retro revertere debes.<wait>
+
+# Damoa the Fortuneteller
+
+- offsets: 5530
+  la: |
+    Sum Damoa, maximus vates in mundo!<wait more>
+    Credisne in potestates meas divinatorias?<end>
+
+- offsets: 5541,5552,5563
+  # (yes to previous question)
+  la: Bene, bene.<wait>
+
+- offsets: 553b
+  # (no to previous questions or most of the following)
+  la: Quid dixisti? Talis impudentia! Statim discede!<wait>
+
+- offsets: 5547
+  la: Sentio te aliquid quaerere, sicne?<end>
+
+- offsets: 5558
+  la: Sentio te Alex Ossale quaerere, sicne?<end>
+
+- offsets: 5569
+  la: Omnia quae dico recta sunt. Intellexisti?<end>
+
+- offsets: 5574
+  # (yes to last question)
+  la: Tunc fortasse postea redire debes.<wait>
+
+- offsets: 557a
+  la: Mihi contradicis?<end>
+
+- offsets: 5585
+  # (no to final question)
+  la: Estne sic? Bene! Promissum notabile ostendis. Hoc crystallo te donabo.<wait>
+
+- offsets: 2711
+  # (Use Aeroprism)
+  la: Castellum Aerocastellum illusionarium in caelo revelatum est.<wait>
+
+- offsets: 2752
+  # (Use Laerma Berries)
+  la: Myau Baccae Laerma comedit.<wait>
+
+# ******************************
+# *** Myau’s Transformation ***
+# ******************************
+
+- offsets: 471b
+  la: Cum Myau Baccae Laerma comederet, febris eum invasit, et lux fulgens corpus eius involvit.<wait>
+
+- offsets: 4726
+  # This line has a typo: it should be ハバタイテ, not ハバテイテ.
+  # Please note that the kanji rendition below fixes this mistake.
+  la: |
+    Et tunc, in momento, in bestiam pulchram cum alis ingentibus transfiguratus est!<line><line><line>
+    Myau alas suas superbe agitavit ut omnes viderent.<wait>
+
+- offsets: 14cc
+  # (If Myau dies in the Gold Dragon battle and other characters are still alive)
+  # Note: Alisa may not be alive, and there may be only one other left alive.
+  # Previous line will have been "Myau died." so you can assume that context.
+  la: Socii eius de tergo eius eiecti sunt, per caelum in mortem suam cadentes.<wait>
+
+# **********************************
+# *** The Illusionary Aerocastle ***
+# **********************************
+
+- offsets: ScriptAerocastleDots # was $5361
+  # Old Man
+  la: .........<wait>
+
+- offsets: ScriptAerocastleFreeTranCarpet
+  # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
+  la: Hmm, nulla via descendendi? Ecce, meum <item> accipere potes.<wait>
+
+- offsets: 51a6
+  # Old Man (also said by an old man in Casba)
+  la: Plus est quam oculus spectat in hoc antro, stulti.<wait>
+
+- offsets: 5367
+  # Old Man
+  la: Regi LaShiec contra tuum periculum.<wait>
+
+- offsets: 5738
+  # Shadow Warrior
+  la: Scio cur hic es. Te diligenter spectavi. Iter tuum patheticum hic finit.<wait>
+
+- offsets: 5749
+  # Shadow Warrior
+  la: |
+    Sum tantum bellator umbra LaShiecis. Nihil obtinuisti me vincendo.<wait more>
+    Rex LaShiec occidi non potest. Potestas eius comprehensionem superat. Morieris.<wait>
+
+- offsets: 576a
+  # LaShiec
+  # The party may only be Tylon who can't do magic, but it's unlikely.
+  la: |
+   Ah, vos estis. Tandem advenistis. Quam praeclari sentiatis debetis.<wait more>
+   Ii, quos servo, mihi immortalitatem dederunt. Potestas mea iam nullos limites habet. Ego sum deus.<wait more>
+   Et vos quid habetis? Arma? Magiam? Vere speravistis me vincere?<end>
+
+- offsets: 5773
+  # LaShiec (yes to previous question)
+  la: Tunc speremus te dignum sacrificium esse.<wait>
+
+- offsets: 5778
+  # LaShiec (no to previous question)
+  la: Nullum tempus ludis! Veni, ostendam tibi quid ultra hanc vitam iacet.<wait>
+
+- offsets: 5789
+  # (Defeat LaShiec)
+  la: |
+    Hoc corpus destruxeritis, sed vere mori non possum! Iterum vivam!<line><line><line><line><wait more>
+    Dominus LaShiec cecidit. Votum moriens Neronis concessum est. Nova aetas in Algol incepit.<wait more>
+    Solum quod restat est ad Praefectum-Generalem in Paseo redire!<wait>
+# **************
+# *** Ending ***
+# **************
+
+- offsets: 58bd
+  # If Alisa died during the final boss fight
+  la: |
+    Tunc Alisa vocem Neronis audivit, e longinquo unde.<wait more>
+    ‘Noli desperare, Alisa. Tam longe venisti.’<wait more>
+    Spiritus eius revixit.<wait>
+
+- offsets: 58e1
+  # Governor-General (to Alisa)
+  la: |
+    O dii. Quaeso ignosce mihi. Mens et corpus meus ab vi maligna possessa erant.<wait more>
+    Perfecisti! Algol salvasti. Historia nomina vestra semper repetet.<wait more>
+    LaShiec non amplius est, fortalicium eius terribile destructum est. Tandem pax restitui potest.<wait more>
+    Et tempore opportuno. Timeo si diutius morata esses, omnia perdidissemus.<wait more>
+    Alisa, aliquid tibi dicere debeo. Secretum quod celavi, ut vitam tuam parcerem.<wait more>
+    Alisa... pater tuus Aures Landeel fuit, rex Algolis. Corona tibi ex sanguine debetur.<wait more>
+    Algol sine duce est. Visne patri tuo succedere et locum tuum ut regina nostra capere?<end>
+
+- offsets: 5849,58ea
+  # Governor-General (yes to previous question)
+  la: Tunc fidelitas mea aeterna est tibi. Omnes salutate novam Reginam Algol, Alisa Landeel!<wait>
+
+- offsets: 58ef
+  # Governor-General (no to previous question)
+  la: Video. Te persuadere non conabor. Si mentem mutaveris, Algol te semper accipiet.<wait>
+
+# ********************
+# *** Ending Scene ***
+# ********************
+
+- offsets: 47da
+  la: Paulatim caelum inlustravit. Monstra recesserunt. Pax rediit.<end>
+
+- offsets: 47e3
+  la: Aura frigida et lenis nunc Baya Marlay circumdat.<end>
+
+- offsets: 47ec
+  la: Sed scitne aura de laboribus quos tulerunt?<end>
+
+# This text tries to be centred so it needs quotes around the spaces.
+# Width = 29 so leading space = (29 - length) / 2
+
+- offsets: 4800
+  la: "           Alisa,<delay>"
+
+- offsets: 480b
+  la: "           Tylon,<delay>"
+
+- offsets: 4816
+  la: "            Lutz,<delay>"
+
+- offsets: 4821
+  la: "          et Myau.<delay>"
+
+- offsets: 482c
+  la: Etsi memoriae huius temporis obscuri evanescent, haec quattuor nomina in cordibus populi Algol in aeternum manebunt.<delay>
+
+# ****************************
+# *** Battle/menu dialogue ***
+# ****************************
+
+- offsets: 13a4
+  # In battle, enemy dodges attack
+  la: <Article><monster> impetum de <player> evasit.<delay>
+
+- offsets: 1497
+  # In battle, player dodges attack
+  la: <player> impetum de <article><monster> evasit.<delay>
+
+- offsets: 1a96
+  # In battle, chose "talk"
+  la: <player> ad <article><monster> loquitur.<end>
+
+- offsets: 1ac0,1ca4
+  la: <Article><monster> respondit,<delay>
+
+- offsets: 1ab7
+  la: <Article><monster> non intellexit.<delay>
+
+- offsets: 1b27
+  la: <Article><monster> viam fugae obstruxit.<delay>
+
+- offsets: 20cd,20fa,2168,21cb,21fd,22ac
+  # Used in a bunch of places...
+  la: Incantatio de <player> nullum effectum habuit.<delay>
+
+- offsets: # unused
+  la: Incantatio de <article><monster> nullum effectum habuit.<delay>
+
+- offsets: 1ffa
+  la: Murus magicus invisibilis ante oculos erectus est.<delay>
+
+- offsets: 1492
+  la: Impetus de <article><monster> a muro magico repulsus est.<delay>
+
+- offsets: 14f9,15d3,1637
+  la: Incantatio de <article><monster> a muro magico repulsum est.<delay>
+
+- offsets: 1458
+  la: Murus invisibilis inefficax factus est.<delay>
+
+- offsets: 1fbc
+  la: Vigor de <player> restitutus est.<delay>
+
+- offsets: 1552
+  la: Vigor de <article><monster> restitutus est.<delay>
+
+- offsets: 20d3
+  la: <Article><monster> omnino alligari coepit.<delay>
+
+- offsets: 151f
+  la: <player> omnino ligatus est.<delay>
+
+- offsets: 12db
+  la: <player> movere non potest.<delay>
+
+- offsets: 140c
+  la: <Article><monster> movere non potest.<delay>
+
+- offsets: 12d6
+  la: Vincula de <player> dissoluta sunt.<delay>
+
+- offsets: 1407
+  la: Vincula de <article><monster> dissoluta sunt.<delay>
+
+- offsets: 2132
+  la: <player> magnum energiae incrementum sensit.<delay>
+
+- offsets: 1574
+  la: <Article><monster> corpus suum viribus augeri sensit.<delay>
+
+- offsets: 216f
+  la: <Article><monster> timuit et retrocessit.<delay>
+
+- offsets: 210d
+  la: <Article><monster> celeritate fugae tuae surprensus est.<delay>
+
+- offsets: 21ad
+  la: Nulla insidia erat.<wait>
+
+- offsets: 219f,21b2
+  la: Prope erat! <player> insidias detexit et removit.<wait>
+
+- offsets: 23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
+  # Used in a lot of places!
+  la: <article><item> de <player> usus est.<delay>
+
+- offsets: 136e
+  la: Aliquis de <article><item> consumpsit.<wait>
+
+- offsets: 2883, ScriptPlayerEquippedItem
+  la: <player> armavit <article><item>.<end>
+
+- offsets: 28cc
+  la: <player> abiecit <article><item>.<wait>
+
+- offsets: 20ff,23ec,2554,2582,2677,2803
+  la: Sed nullus effectus fuit.<delay>
+
+- offsets: 2418,242a,244c,245e,2486
+  la: Sed <article><item> hic nihil prodest.<wait>
+
+- offsets: 2304
+  la: Grex hic descendere non potest.<wait>
+
+- offsets: 2438,246d
+  la: Grex <article><item>em conscendit.<delay>
+
+- offsets: 2311
+  la: Grex ex <article><item>e exiit.<delay>
+
+- offsets: 2402,2569,26af,2701,2816
+  la: Sed nihil accidit.<delay>
+
+- offsets: # unused
+  la: Oculi <article><monster> vacui sunt.<delay>
+
+- offsets: 2505,2597,25f9,26f1,2742,27a2
+  la: Nunc autem tempus facere id non videtur.<delay>
+
+- offsets: 24ff,2514,258b,25ed,264b,2733,2793
+  la: <player> <article><item> extraxit.<delay>
+
+- offsets: 251a,279d,25aa,2651
+  # 251a = use SearchLight when not in a dungeon (or a battle)
+  # 279d = use Compass when not in a dungeon (or a battle)
+  # We add 25aa, 2651 here:
+  # 25aa = use Alsuline in the wrong place, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # Note: this was originally ‘It doesn’t look particularly broken.’
+  # This translation takes the verb KOWARERU to mean ‘to be begged’
+  la: Nunc nulla vera necessitas est.<wait>
+
+- offsets: 112c
+  la: Est obscurissimum. Progredi non potes.<wait>
+
+- offsets: 27c3
+  la: Nunc versus orientem spectas.<wait>
+
+- offsets: 27cf
+  la: Nunc versus occidentem spectas.<wait>
+
+- offsets: 27bc
+  la: Nunc versus septentrionem spectas.<wait>
+
+- offsets: 27ca
+  la: Nunc versus meridiem spectas.<wait>
+
+- offsets: 2611
+  # Using Polymeteral in the wrong place
+  la: Eheu, hoc foetet.<wait>
+
+- offsets: 2276,228e
+  # Using the Telepathy Ball or Lutz's Telepathy spell in front of a pitfall
+  la: <player> malum praesensit.<wait>
+
+- offsets: 2269,2271,2289
+  # Using either of the above if not in front of a pit
+  la: <player> nihil sensit.<wait>
+
+- offsets: 269f
+  # Use Eclipse Torch on a monster
+  la: <Article><monster> flammam rubram vidit et timore congelavit.<delay>
+
+- offsets: 273d
+  # Use Laerma Berries in the wrong place
+  # Comes immediately after "<player> took out the <item>."
+  # May not be Alisa.
+  la: Nemo nunc esurit, ergo <he/she> eas reposuit.<wait>
+
+- offsets: 277b
+  # Trying to use Hapsby in battle
+  la: Hapsby caput negavit.<wait>
+
+- offsets: 2784
+  # Trying to use Hapsby outside of battle
+  la: Caput Hapsby durum est.<wait>
+
+- offsets: 281b
+  la: Hoc item semper activum est. Non opus est eo uti.<wait>
+
+- offsets: 218d,2195,299f,2a2e,579d
+  # 218d = untrap not in dungeon
+  # 2195 = untrap with no chest
+  # 25aa = use Alsuline in the wrong place, changed to adad
+  # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
+  # 299f = search (from menu)
+  # 2a2e = search (?)
+  # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
+  la: Nihil hic praecipue insolitum videtur.<wait>
+
+- offsets: 2a15,2a9b
+  la: Invenisti <article><item>.<wait>
+
+- offsets: 21d9,22b5
+  la: Corpus tuum insolite leve factum est.<delay>
+
+- offsets: 2248
+  la: <player> revixit.<wait>
+
+- offsets: 1b45,1f21
+  la: Tylon magiam uti non potest.<delay>
+
+- offsets: 1b9e,1f1c
+  la: <player> nulla incantatio nondum novit.<delay>
+
+- offsets: 28a3, ScriptPlayerCantEquipItem
+  la: <player> <article><item> armare non potest.<wait>
+
+- offsets: 283e
+  la: Hoc item armare non debes.<wait>
+
+- offsets: 1872
+  # <number> is always >1
+  la: Accepisti <number> puncta experientiae.<wait>
+
+- offsets: 18f3
+  la: <player> gradum ascendit.<wait>
+
+- offsets: 1910
+  la: <player> nova incantatio didicit.<wait>
+
+- offsets: 17ff
+  la: <Article><monster> arcam thesauri habuit.<end>
+
+- offsets: 6c6e
+  la: Arcum thesauri invenisti.<line><end>
+
+- offsets: 2a37
+  la: Visne eam aperire?<end>
+
+- offsets: ChestMesetasPlural # Was 2a8c
+  la: Intus erant <number> Meseta.<wait>
+
+- offsets: ChestMesetasSingular
+  # Not in the original
+  la: Intus tantum unum Meseta erat.<wait>
+
+- offsets: 2a73
+  la: Est vacua.<wait>
+
+- offsets: 2918
+  la: Non potes plura portare. Visne aliquid abicere?<end>
+
+- offsets: 2938
+  la: Quem item vis abicere?<end>
+
+- offsets: 296a
+  # this runs into the next one...
+  la: Abiecisti <article><item>...<end>
+
+- offsets: 297d
+  la: ...et accepisti <article><item>.<wait>
+
+- offsets: 2923
+  la: Visne <article><item> relinquere?<end>
+
+- offsets: 292e
+  la: Reliquisti <article><item>.<wait>
+
+- offsets: 28c3,295d
+  la: Non potes <article><item> abicere!<wait>
+
+- offsets: 1ba7,1f2d
+  la: Non habes satis puncta magica.<delay>
+
+- offsets: 2236
+  la: <player> adhuc vivit.<delay>
+
+- offsets: 17ea
+  la: Vicisti contra <article><monster>.<wait>
+  #<wait> because else you can't read it when you defeat Dark Force...
+
+- offsets: 14a6,15e4,1648,4c69,590f
+  la: <player> mortem obiit.<delay>
+
+- offsets: 19f7,2b0f
+  # Selecting a player from the menu when they are dead, to do something like heal them.
+  la: <player> iam mortem obiit.<delay>
+
+- offsets: 1786
+  la: Alisa et socii eius annihilati sunt.<wait>
+
+- offsets: 178c
+  la: |
+    Spes Alisae frustra evanuerunt coram ambitione LaShiecis.<wait more>
+    Iter hic finit.<wait>
+
+# **************
+# *** Hapsby ***
+# **************
+
+- offsets: 5959
+  la: Quo ire vis?<end>
+
+- offsets: 5995
+  la: Visne ire ad Skray, Dezore?<end>
+
+- offsets: 5990
+  la: Visne ire ad Uzo, Motaviae?<end>
+
+- offsets: 598a
+  la: Visne ire ad Gothic, Palmae?<end>
+
+- offsets: 5980
+  la: Hoc EST Skray.<end>
+
+- offsets: 597b
+  la: Hoc EST Uzo.<end>
+
+- offsets: 5975
+  la: Hoc EST Gothic.<end>
+
+- offsets: # Unused...
+  la: Ecce imus--!<delay>
+
+# *************
+# *** Shops ***
+# *************
+
+- offsets: 2d1c
+  la: Benevenisti ad tabernam armorum. Possumne te adiuvare?<end>
+
+- offsets: 2d27,2d89,2e46,537e
+  la: Cura te, mox nos revisere.<wait>
+
+- offsets: 2d38
+  la: Quid tibi hodie offerre possum?<end>
+
+- offsets: 2d7e
+  la: Gaude. Visne aliquid aliud?<end>
+
+- offsets: 2d98,539c
+  la: Non potes plura portare. Redi cum possis.<wait>
+
+- offsets: 2deb
+  la: Haec est pharmacopolium. Possumne te cum aliquo adiuvare?<end>
+
+- offsets: 2df4
+  la: Benevenisti ad tabernam instrumentorum. Possumne te adiuvare?<end>
+
+- offsets: 2e0d
+  la: Quid habes?<end>
+
+- offsets: 2e4f
+  # No item in the game sells for exactly 1 Meseta.
+  la: Hmm, <article><item>? Quid tibi videtur <number> Meseta?<end>
+
+- offsets: 2e66
+  la: Optime! Habesne aliquid aliud pro me?<end>
+
+- offsets: 2e3d
+  # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
+  la: Id postea utile erit.<wait>
+
+- offsets: 2bc0,2d9d,4d88,538f
+  la: |
+    Videtur te non satis pecuniae habere.<line>
+    Quaeso postea redi.<wait>
+
+# ****************
+# *** Hospital ***
+# ****************
+
+- offsets: 2ae9
+  la: Hoc est hospitium. Visne curam medicam?<end>
+
+- offsets: 2b54
+  la: |
+    Hmm. Te novum facere possum pro <number> Meseta. Procedamne?<end>
+
+- offsets: 2b99
+  la: Aliquis alius curam indiget?<end>
+
+- offsets: 2af9
+  la: Quis attentionem nostram requirit?<end>
+
+- offsets: 2b8a
+  la: |
+    Gratias pro exspectatione.<line>
+    Nunc cura te.<wait>
+
+- offsets: 2bb1
+  la: Me paenitet quod adiuvare non potui. Esto secure foris.<wait>
+
+- offsets: 2b37
+  la: In tuto est foris.<wait>
+
+- offsets: 2b2b
+  la: Mihi perfecta valetudo tua videtur...<wait>
+
+# **************
+# *** Church ***
+# **************
+
+- offsets: 2be7
+  la: Haec est ecclesia. Visne animam defunctam reviviscere?<end>
+
+- offsets: # Unused
+  la: Tunc preces pro te offeram.<wait>
+
+- offsets: 2bfb
+  la: Quis revertatur?<end>
+
+- offsets: 2c24
+  # Resurrection cost is Level * 20 so is definitely plural.
+  la: Donatio nostra suggesta est <number> Meseta.<end>
+
+- offsets: 2c37
+  la: In defunctum intende dum incantationem recito.<delay>
+
+- offsets: 2c60
+  # If you have enough money
+  la: ArtemuhamuRAmu! ArtemuhamuHAmu! STRATOPON!<delay>
+
+- offsets: 2c82
+  # If you don't have enough money
+  la: |
+    ArutemuhamuRAmu A--ugh!<line>
+    Tussis! Tussis!<wait more>
+    Me paenitet.<line>
+    Aliqua ratione defeci.<wait>
+
+- offsets: 2c71
+  la: Estne alius quis?<end>
+
+- offsets: 2ca8
+  la: Ad gradum ascendere,<wait>
+
+- offsets: 2d16
+  la: <player> indiget <number><internal hint 02> punctis.<wait>
+
+- offsets: 2cef
+  # If a party member is already at max level...
+  la: <player> iam in summo gradu est.<wait>
+
+- offsets: 2ca2
+  la: Futurum tuum benedictiones Dei contineat.<wait>
+
+- offsets: 2c90
+  la: |
+    <player>? Mihi mortem obiisse non videris.<wait more>
+    Si curam medicam vis, consulo hospitium proximum invenire.<end>
+
+# ************************
+# *** Monster Dialogue ***
+# ************************
+
+# First 9 are in response to the "speak" battle menu
+
+- offsets: 1ae5
+  la: ‘Amici cum Palmanis fieri volumus.’<wait>
+
+- offsets: 1ae7
+  la: ‘Vere nunc Baccae Laerma desiderarem!’<wait>
+
+- offsets: 1ae9
+  la: ‘Domino LaShiec resistere non debes.’<wait>
+
+- offsets: 1aeb
+  la: ‘O! Ergo linguam nostram intellegis, nonne?’<wait>
+
+- offsets: 1aed
+  la: ‘Io!’<wait>
+
+- offsets: 1aef
+  la: ‘Cum in carceribus es, cave felis voragines.’<wait>
+
+- offsets: 1af1
+  la: ‘Injuria feres si arcas thesauri temere aperueris.’<wait>
+
+- offsets: 1af3
+  la: ‘Fures damnati!’<wait>
+
+- offsets: 1af5
+  la: ‘Populus nos odit quidquid facimus.’<wait>
+
+# The next 10 are from enemies that you can only talk to with magic.
+
+- offsets: 1cce
+  la: ‘Fistula Soothe tam belle sonat!’<wait>
+
+- offsets: 1cd0
+  la: ‘Glaciesfossores glaciem secare possunt!’<wait>
+
+- offsets: 1cd2
+  la: ‘Dominus LaShiec in caelo habitat.’<wait>
+
+- offsets: 1cd4
+  # This line has a typo: ラスコニアンポット should be ラコニアンポット.
+  # Please note that the kanji rendition below fixes this mistake.
+  la: ‘Doctor Insanus in Avion ollam Laconianam habet.’<wait>
+
+- offsets: 1cd6
+  la: ‘Sunt loca in caelo quae ne nave siderali attingi possunt.’<wait>
+
+- offsets: 1cd8
+  la: ‘Certum item habere debes ut Baccae Laerma crescant.’<wait>
+
+- offsets: 1cda
+  la: ‘Quaedam carcerum labyrinthi portas occultas continent.’<wait>
+
+- offsets: 1cdc
+  la: ‘Clavis Miracula portas magicas aperire potest!’<wait>
+
+- offsets: 1cde
+  # Assuming this is a truth-telling Dezorian based on context
+  la: ‘Quidam Dezorianes mendaces sunt, ergo cave felis.’<wait>
+
+- offsets: 1ce0
+  la: |
+    ‘Fortis es qui mecum loqueris. Secretum tibi in vicem narrabo:<wait more>
+    Eadem telepathia qua nunc uteris etiam ad insidias detegendas uti potest.’<wait>
+
+# **************
+# *** Saving ***
+# **************
+
+- offsets: 1e3b
+  la: |
+    Ludum servas?<line>
+    Quaeso elige locum.<end>
+
+- offsets: ScriptConfirmSlot
+  la: Locus <number>, certus es?<end>
+
+- offsets: 1e55
+  la: Nunc salvatur in loco <number>...<delay>
+
+- offsets: ScriptDone,1e91
+  la: ...factum est.<wait>
+
+# ************************
+# *** Loading/Deleting ***
+# ************************
+
+# Continue/Save "dialogue" removed...
+- offsets: #07ee
+  la: |
+    Ludum servatum continuas.<line>
+    Quaeso elige locum.<end>
+
+- offsets: #07fe
+  la: Bene. Continuo ex loco <number>.<delay>
+    <number>.<delay>
+
+- offsets: # Unused
+  la: |
+    Illud tessera falsum est.<line>
+    Quaeso iterum conare.<wait>
+
+- offsets: #07e3
+  # No longer used
+  la: Visne ludum servatum continuare?<end>
+
+- offsets: #082f
+  la: Visne ludum servatum delere?<end>
+
+- offsets: #083a
+  la: |
+    Ludum servatum deleo.<line>
+    Quaeso elige locum.<wait>
+
+- offsets: ScriptDeletingFromSlotN
+  la: Ludum ex loco <number> deleo...<delay>
+  # <delay> is nicer than<wait> here - Maxim
+
+- offsets: ScriptNoSavedGames
+  # This is not in the original game.
+  la: Nulli ludi servati sunt!<wait>
+
+- offsets: ScriptDoYouWantToEquip
+  # This is not in the original game, see https://github.com/maxim-zhao/psrp/issues/50
+  # It is only used for weapons, shields and armour - the first 32 items in the items list.
+  la: Ecce, <article><item>. Visne eam armare?<end>

@@ -1,0 +1,216 @@
+- name: OpeningCinema
+  la: |
+    ┌──────────────────────╖
+    │Annus, AW 342         ║
+    │----------------------║
+    │Camineet Residentialis║
+    │Districtus in         ║
+    │planeta Palma.        ║
+    ╘══════════════════════╝
+
+- name: WorldMenu
+  la: |
+    ┌───────────╖
+    │Vires      ║
+    │Magia      ║
+    │Res        ║
+    │Investigare║
+    │Servare    ║
+    │Optiones   ║
+    ╘═══════════╝
+
+- name: ChoiceMenu
+  la: |
+    ┌───╖
+    │Sic║
+    │Non║
+    ╘═══╝
+
+- name: BattleMenu
+  la: |
+    ┌──────╖
+    │Pugna ║
+    │Magia ║
+    │Res   ║
+    │Loqui ║
+    │Fuga  ║
+    ╘══════╝
+
+- name: ToolShopMenu
+  la: |
+    ┌─────╖
+    │Eme  ║
+    │Vende║
+    ╘═════╝
+
+- name: ItemActionMenu
+  la: |
+    ┌─────╖
+    │Usa  ║
+    │Arma ║
+    │Iace ║
+    ╘═════╝
+
+- name: BattleSpellsAlisa
+  la: |
+    ┌──────────╖
+    │Cura      ║
+    │Fuga      ║
+    │Loqui     ║
+    │Ignis     ║
+    │Vinc      ║
+
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  la: |
+    ┌──────────╖
+    │Supercura ║
+    │Terror    ║
+    │Murus     ║
+    │Vis       ║
+
+- name: BattleSpellsLutz
+  la: |
+    ┌──────────╖
+    │Ignis     ║
+    │Telepathia║
+    │Ventus    ║
+    │Magimurus ║
+    │Tonitrus  ║
+
+- name: OverworldSpellsAlisa
+  la: |
+    ┌──────────╖
+    │Cura      ║
+    │Volare    ║
+
+- name: OverworldSpellsMyau
+  la: |
+    ┌──────────╖
+    │Supercura ║
+    │Delacua   ║
+    │Egressus  ║
+
+- name: OverworldSpellsLutz
+  la: |
+    ┌──────────╖
+    │Supercura ║
+    │Egressus  ║
+    │Telepathia║
+    │Resigno   ║
+    │Revive    ║
+
+- name: SpellMenuBottom
+  la: |
+    ╘══════════╝
+
+- name: StatsMenuDimensions
+  la: |
+    ┌──────────────────╖
+    │Gradus          99║
+    │Experientia  65535║
+    │Impetus        255║
+    │Defensio       255║
+    │Maximum PV     255║
+    │Maximum PM     255║
+    │Meseta       65535║
+    ╘══════════════════╝
+
+- name: EquimentMenuDimensions
+  la: |
+    ┌─────────────────────╖
+    │                     ║
+    │                     ║
+    │                     ║
+    ╘═════════════════════╝
+
+- name: InventoryMenuDimensions
+  la: |
+    ┌─────────────────────╖
+    │Meseta         65535 ║
+    │Proximus             ║
+    │Res 1                ║
+    │Res 2                ║
+    │Res 3                ║
+    │Res 4                ║
+    │Res 5                ║
+    │Res 6                ║
+    │Res 7                ║
+    │Res 8                ║
+    ╘═════════════════════╝
+
+- name: TopBorder10
+  la: ┌─────────────────────╖
+
+- name: BottomBorder10
+  la: ╘═════════════════════╝
+
+- name: InventoryNextMenu
+  la: │Proximus             ║
+
+- name: HapsbyTravelMenu
+  la: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skray ║
+    ╘══════╝
+
+- name: SoundTestMenuTop
+  la: |
+    ┌──────────────╖
+
+- name: SoundTestMenuChipPSG
+  la: |
+    │Assula SN76489║
+
+- name: SoundTestMenuChipYM2413
+  la: |
+    │Assula  YM2413║
+
+- name: SoundTestMenu
+  la: |
+    │--------------║
+    │Titulus       ║
+    │Intro         ║
+    │Urbs          ║
+    │Carcer        ║
+    │Taberna       ║
+    │Ecclesia      ║
+    │Palma         ║
+    │Proelium      ║
+    │Fabula        ║
+    │Vicus         ║
+    │Vehiculum     ║
+    │Motavia       ║
+    │Dezoris       ║
+    │Turris        ║
+    │Ultimus Carcer║
+    │LaShiec       ║
+    │Dark Falz     ║
+    │Finis         ║
+    │Ludus Finitus ║
+    ╘══════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.  
+  la: |
+    ┌───────────────────────╖
+    │Veloc Passuum        x ║
+    │Experientia          x ║
+    │Meseta               x ║
+    │Proelia                ║
+    │Crinis Alisae          ║
+    │Fons                   ║
+    │Transiti               ║
+    │Veloc Textuum        x ║
+    ╘═══════════════════════╝
+
+- name: ContinueMenu
+  la: |
+    ┌────────╖
+    │Recupera║
+    │Delere  ║
+    ╘════════╝

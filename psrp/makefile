@@ -13,12 +13,13 @@ PSJ = PS1-J.SMS
 # The optimal word count (for smallest overall data size) depends on the script. Iterating through the options can help to find the best value. `make sizes.en.txt` and similar to do that.
 WORD_COUNT_en = 51
 WORD_COUNT_fr = 117
-WORD_COUNT_fr-extended = 117
+WORD_COUNT_fr-extended = 111
 WORD_COUNT_pt-br = 58
 WORD_COUNT_ca = 56
 WORD_COUNT_es = 67
-WORD_COUNT_de = 89
-WORD_COUNT_literal = 53
+WORD_COUNT_de = 77
+WORD_COUNT_la = 37
+WORD_COUNT_literal = 69
 
 # These are targets that aren't files
 .PHONY: all clean default
@@ -119,7 +120,7 @@ clean:
 
 sizes.%.txt: script.yaml
 	del $@
-	for /l %%n in (1,1,140) do @del generated\*.$*.asm generated\*.$*.tbl & (($(MAKE) -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
+	for /l %%n in (1,1,140) do @rd /s /q generated\$* & (($(MAKE) -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
 
 ../PhantasyStar-SMS-%.zip: ps1jert.%.ips ps1jert.%.bps ../README.md ../translating.md ../translation-notes.md ../technical.md
 	$(7Z) a -mx9 $@ $^
