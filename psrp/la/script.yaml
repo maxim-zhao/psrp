@@ -1292,11 +1292,11 @@
 - offsets: 5320
   # Villager
   la: |
-    Convenistine Tajim, monachum? Habitat in montibus meridiem lacus.<wait more>
+    Convenistine Taxim, monachum? Habitat in montibus meridiem lacus.<wait more>
     Dicunt eum esse maximum magistrum pugnae magicae in Algol.<wait more>
     Dicunt etiam eum mortuos videre...<wait>
   # Maybe add this hint to other languages. It helps explain a possible 
-  # scenario later where Tajim sees Lutz when he is dead.
+  # scenario later where Taxim sees Lutz when he is dead.
 
 - offsets: 5326
   # Villager
@@ -1315,52 +1315,52 @@
   la: Avara!<wait>
 
 # *********************
-# *** Tajim’s Cave ***
+# *** Taxim’s Cave ***
 # *********************
 
 - offsets: 56b3
-  # Tajim (if you don't have Lutz - which is not possible)
+  # Taxim (if you don't have Lutz - which is not possible)
   # You need either the hovercraft or the land rover to even reach the cave. You can't get either without being able to reach Casba, and the only way to reach Casba on foot is from Uzo, which you can't get to without your own spaceship, which you can't get without being able to reach Gothic, which you can't because the spaceport manhole is inaccessible without Lutz in your party.
   la: |
     Et qui estis vos?<wait more>
     Discipulus meus, Lutz, in Spelunca Mahal est. Noscisne eum?<end>
 
 - offsets: 56bc
-  # Tajim (yes to previous question)
+  # Taxim (yes to previous question)
   la: |
     Aliquid habeo quod ei dicere debeo.<wait more>
     Quaeso, dic ei ut me videat.<wait>
 
 - offsets: 56c1
-  # Tajim (no to previous question)
+  # Taxim (no to previous question)
   la: Intellego. Tunc nihil utilitatis est tecum amplius loqui.<wait>
 
 - offsets: 56c7
-  # Tajim (if you have Lutz)
-  la: Ah, Lutz, discipule_SENTINEL_mi! Video te tandem fatum tuum ad LaShiecem vincendum implere.<wait>
+  # Taxim (if you have Lutz)
+  la: Ah, Lutz, discipule mi! Video te tandem fatum tuum ad LaShiecem vincendum implere.<wait>
 
 - offsets: 56d3
-  # Tajim (if Lutz is dead)
+  # Taxim (if Lutz is dead)
   la: ...Lutz? Oh, video, mortuus est. Tu, vade Lutz in ecclesia revivisce et huc reduc.<wait>
 
 - offsets: 56d9
-  # Tajim (talking to Lutz)
+  # Taxim (talking to Lutz)
   la: |
     Omnia quae scio te docui. Tempus est tibi dare unum ultimum experimentum: duellum contra me!<wait>
 
 - offsets: 5722
-  # Tajim (if you win) (talking to Lutz)
+  # Taxim (if you win) (talking to Lutz)
   la: |
     Fortis factus es, puer mi! Omnem vim habes ad munus tuum complendum.<wait more>
     Cape hoc. Est Mantellum Fradi, donum meum tibi. Corpus tuum a malo proteget.<wait more>
     Nunc vade! Fatum tuum imple et pacem Algol redde!<wait>
 
 - offsets: 571c
-  # Tajim (if you lose) (talking to Lutz)
+  # Taxim (if you lose) (talking to Lutz)
   la: Plus exercitii tibi opus est, puer mi. Redi cum paratus eris. Exspectabo.<wait>
 
 - offsets: 56a6
-  # Tajim (subsequent visits)
+  # Taxim (subsequent visits)
   la: Nihil amplius te docere possum. Fatum tuum imple et pacem Algol redde!<wait>
 
 # ****************************
@@ -2233,7 +2233,7 @@
   la: ‘Cum in carceribus es, cave felis voragines.’<wait>
 
 - offsets: 1af1
-  la: ‘Injuria feres si arcas thesauri temere aperueris.’<wait>
+  la: ‘Iniuria feres si arcas thesauri temere aperueris.’<wait>
 
 - offsets: 1af3
   la: ‘Fures damnati!’<wait>

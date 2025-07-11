@@ -14,87 +14,83 @@
 0A=9
 
 ; Uppercase
+; Uppercase long vowels are dropped
 0B=A
+0B=Ā
 0C=B
 0D=C
 0E=D
 0F=E
+0F=Ē
 10=F
 11=G
 12=H
+13=Ī
 13=I
-14=J
-15=K
-16=L
-17=M
-18=N
-19=O
-1A=P
-1B=Q
-1C=R
-1D=S
-1E=T
-1F=U
-20=V
-21=W
-22=X
-23=Y
-24=Z
+14=K
+15=L
+16=M
+17=N
+; O = 0
+01=O
+01=Ō
+18=P
+19=Q
+1A=R
+1B=S
+1C=T
+1D=U
+1D=Ū
+1E=V
+1F=X
+20=Y
+21=Ȳ
+22=Z
 
 ; Lowercase
-25=a
-26=b
-27=c
-28=d
-29=e
+23=a
+24=ā
+25=b
+26=c
+27=d
+28=e
+29=ē
 2A=f
 2B=g
 2C=h
 2D=i
-2E=j
+2E=ī
 2F=k
-30=l
-31=m
-32=n
-33=o
+; l = 1
+02=l
+30=m
+31=n
+32=o
+33=ō
 34=p
 35=q
 36=r
 37=s
 38=t
 39=u
-3A=v
-3B=w
+3A=ū
+3B=v
 3C=x
 3D=y
-3E=z
+3E=ȳ
+3F=z
 
 ; Punctuation
-3F=.
-40=:
-41=‘
-42=’
-42='
-43=,
-44=-
-45=!
-46=?
-; non-breaking space
-47=_
+40=.
+41=:
+42=‘
+43=’
+43='
+44=,
+45=-
+46=!
+47=?
 
-; Long vowels, mapping to normal letters for now
-0B=Ā
-0F=Ē
-13=Ī
-19=Ō
-1F=Ū
-23=Ȳ
-25=ā
-29=ē
-2D=ī
-33=ō
-39=ū
-3D=ȳ
 
 
 ; These control codes only apply to items/names...

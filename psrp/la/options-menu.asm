@@ -7,7 +7,7 @@ _Brown: .stringmap tilemap "Fuscus"
 _Black: .stringmap tilemap " Niger"
 
 _Font1: .stringmap tilemap "Polaris"
-_Font2: .stringmap tilemap " AW2284"
+_Font2: .stringmap tilemap " PB2284"
 
 _Normal:.stringmap tilemap "Normis"
 _Fast:  .stringmap tilemap " Velox"

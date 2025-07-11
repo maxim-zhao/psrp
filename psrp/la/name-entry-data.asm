@@ -1,8 +1,8 @@
 _NameEntryItems:
 .db 11
   NameEntryText  6,  1, "Nomen tuum inscribe:"
-  NameEntryText  3, 11, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  NameEntryText  3, 13, "abcdefghijklmnopqrstuvwxyz"
+  NameEntryText  3, 11, "ABCDEFGHIKLMNOPQRSTUVXYZ"
+  NameEntryText  3, 13, "abcdefghiklmnopqrstuvxyz"
   NameEntryText  3, 15, "0123456789"
   NameEntryText 21, 15,                   ".,:-!?‘’"
   NameEntryText  3, 17, "Retro  Proximo  Spatium"
