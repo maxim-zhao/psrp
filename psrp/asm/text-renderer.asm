@@ -320,11 +320,11 @@ _SkipBitmaskLookup:
 .endif
 .if LANGUAGE == "la"
   ; Set SKIP_BITMASK accordingly.
-  ; 1 => nominative, select «» brackets only
-  ; 2 => genitive, select «» and {} brackets)
-  ; 3 => accusative, select «», ‹› and () brackets)
-  ; 4 => dative, select «» and () brackets)
-  ; 5 => ablative, select «» and () brackets)
+  ; 1 => nominative, select [] brackets only
+  ; 2 => genitive, select {}
+  ; 3 => accusative, select ()
+  ; 4 => dative, select «»
+  ; 5 => ablative, select ‹›
   push hl
   push de
     ld d,0

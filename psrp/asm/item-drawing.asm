@@ -13,6 +13,9 @@ inventory:
 .if LANGUAGE == "de"
       ; Select [] brackets only
       ld a,%0001
+.elif LANGUAGE == "la"
+      ; We want nominative only
+      ld a,%0001
 .else
       ; Skip all brackets
       xor a
