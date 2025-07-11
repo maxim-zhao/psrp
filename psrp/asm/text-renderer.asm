@@ -322,8 +322,8 @@ _SkipBitmaskLookup:
   ; Set SKIP_BITMASK accordingly.
   ; 1 => nominative, select [] brackets only
   ; 2 => genitive, select {}
-  ; 3 => accusative, select ()
-  ; 4 => dative, select «»
+  ; 3 => dative, select ()
+  ; 4 => accusative, select «»
   ; 5 => ablative, select ‹›
   push hl
   push de

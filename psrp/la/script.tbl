@@ -104,8 +104,8 @@
 ; The second byte encodes a bitmask for skipping. This allows us to determine whether the chunk is emitted or not by encoding bitmasks in the script.
 ; [] = $01 = %00001 = nominative case only
 ; {} = $02 = %00010 = genitive case only
-; () = $04 = %00100 = accusative case only
-; «» = $08 = %01000 = dative case only
+; () = $04 = %00100 = dative case only
+; «» = $08 = %01000 = accusative case only
 ; ‹› = $10 = %10000 = ablative case only
 ; Only one of these can be active at a time, controlled by <nom>, <gen>, <acc>, <dat> and <abl> tags in the script.
 6201=[

@@ -4,7 +4,9 @@ Lists:
 
 ; Order is important!
 Items:
-  ; Max width 21
+  ; Max width 21. Names can contain text for different cases as so:
+  ; [nom]{gen}(dat)«acc»‹abl›
+  ; If no corresponding <nom> etc tag is prefixed in the script then none are used.
   String " " ; empty item (blank). Must be at least one space.
   ;        Retranslation name                 Sega translation              Romaji              Japanese
 ; weapons: 01-0f
