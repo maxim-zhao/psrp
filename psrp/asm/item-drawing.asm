@@ -257,6 +257,9 @@ _lookUpShopItem:
 .if LANGUAGE == "de"
     ; Select [] brackets only
     ld a,%0001
+.elif LANGUAGE == "la"
+    ; We want nominative only
+    ld a,%0001
 .else
     ; Skip all brackets
     xor a
@@ -295,6 +298,9 @@ enemy:
 
 .if LANGUAGE == "de"
     ; Select [] brackets only
+    ld a,%0001
+.elif LANGUAGE == "la"
+    ; We want nominative only
     ld a,%0001
 .else
     ; Skip all brackets
@@ -406,6 +412,9 @@ equipment:
 
 .if LANGUAGE == "de"
       ; Select [] brackets only
+      ld a,%0001
+.elif LANGUAGE == "la"
+      ; We want nominative only
       ld a,%0001
 .else
       ; Skip all brackets
