@@ -390,27 +390,27 @@ class ScriptEntry:
             # Simplistic pluralisation
             self.buffer.append(ScriptingCode.SymbolSuffix)
             self.script_hints = True
-        elif lower(tag) == "nom":
+        elif tag.lower() == "nom":
             # Nominative (de, la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(1)
             pass
-        elif lower(tag) == "gen":
+        elif tag.lower() == "gen":
             # Genitive (de, la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(2)
             pass
-        elif lower(tag) == "dat":
+        elif tag.lower() == "dat":
             # Dative (de, la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(3)
             pass
-        elif lower(tag) == "acc":
+        elif tag.lower() == "acc":
             # Accusative (de, la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(4)
             pass
-        elif lower(tag) == "abl":
+        elif tag.lower() == "abl":
             # Ablative (la)
             self.buffer.append(ScriptingCode.SymbolArticle)
             self.buffer.append(5)
