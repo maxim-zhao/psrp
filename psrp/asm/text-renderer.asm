@@ -317,7 +317,8 @@ _SkipBitmaskLookup:
 .db %01010
 .db %11100
 .db %01100 ; see above
-.elseif LANGUAGE == "la"
+.endif
+.if LANGUAGE == "la"
   ; Set SKIP_BITMASK accordingly.
   ; 1 => nominative, select «» brackets only
   ; 2 => genitive, select «» and {} brackets)
