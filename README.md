@@ -23,6 +23,7 @@ For more information and screenshots see https://www.smspower.org/Translations/P
 Changelog (in reverse chronological order):
 - v2.6 release TBC
   - Added Latin translation, thanks to Metallic Orwell
+  - Enlarged shop and exit signs for languages needing more space
 
 - v2.5.1 release 2024/12/23
   - Fixed Catalan retranslation credits
