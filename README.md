@@ -1,4 +1,4 @@
-# Phantasy Star Retranslation v2.5.1
+# Phantasy Star Retranslation v2.6
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/re-localisation based on that first Japanese version, with some enhancements.
