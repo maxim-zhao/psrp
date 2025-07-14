@@ -772,6 +772,8 @@ def mkdir(path):
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8")
+    
     verb = sys.argv[1]
     if verb == 'generate_words':
         generate_words(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], int(sys.argv[7]))
