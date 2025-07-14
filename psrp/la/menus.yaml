@@ -3,60 +3,60 @@
     ┌──────────────────────╖
     │Annus, PB 342         ║
     │----------------------║
-    │Camineet Residentialis║
-    │Districtus in         ║
-    │planeta Palma.        ║
+    │Camīneēt Rēsidentiālis║
+    │Dīstrictus in         ║
+    │Planēta Palmā         ║
     ╘══════════════════════╝
 
 - name: WorldMenu
   la: |
     ┌───────────╖
-    │Vires      ║
-    │Magia      ║
-    │Res        ║
-    │Investigare║
-    │Servare    ║
-    │Optiones   ║
+    │Status     ║
+    │Magīa      ║
+    │Rēs        ║
+    │Investīgāre║
+    │Servāre    ║
+    │Optiōnēs   ║
     ╘═══════════╝
 
 - name: ChoiceMenu
   la: |
     ┌───╖
-    │Sic║
-    │Non║
+    │Sīc║
+    │Nōn║
     ╘═══╝
 
 - name: BattleMenu
   la: |
-    ┌──────╖
-    │Pugna ║
-    │Magia ║
-    │Res   ║
-    │Loqui ║
-    │Fuga  ║
-    ╘══════╝
+    ┌───────╖
+    │Pugnāre║
+    │Magīa  ║
+    │Rēs    ║
+    │Loquī  ║
+    │Fugāre ║
+    ╘═══════╝
 
 - name: ToolShopMenu
   la: |
-    ┌─────╖
-    │Eme  ║
-    │Vende║
-    ╘═════╝
+    ┌───────╖
+    │Emere  ║
+    │Vendere║
+    ╘═══════╝
 
 - name: ItemActionMenu
   la: |
-    ┌─────╖
-    │Usa  ║
-    │Arma ║
-    │Iace ║
-    ╘═════╝
+    ┌───────╖
+    │Ūsāre  ║
+    │Armāre ║
+    │Iacere ║
+    ╘═══════╝
 
 - name: BattleSpellsAlisa
   la: |
     ┌──────────╖
-    │Cura      ║
+    │Cūra      ║
     │Fuga      ║
-    │Loqui     ║
+    │Loquī     ║
     │Ignis     ║
     │Vinc      ║
 
@@ -65,41 +65,41 @@
 - name: BattleSpellsMyau
   la: |
     ┌──────────╖
-    │Supercura ║
+    │Supercūra ║
     │Terror    ║
-    │Murus     ║
-    │Vis       ║
+    │Mūrus     ║
+    │Vīs       ║
 
 - name: BattleSpellsLutz
   la: |
     ┌──────────╖
     │Ignis     ║
-    │Telepathia║
+    │Tēlepathīa║
     │Ventus    ║
-    │Magimurus ║
+    │Magimūrus ║
     │Tonitrus  ║
 
 - name: OverworldSpellsAlisa
   la: |
     ┌──────────╖
-    │Cura      ║
-    │Volare    ║
+    │Cūra      ║
+    │Volāre    ║
 
 - name: OverworldSpellsMyau
   la: |
     ┌──────────╖
     │Supercura ║
-    │Delacua   ║
-    │Egressus  ║
+    │Dēlāqua   ║
+    │Ēgressus  ║
 
 - name: OverworldSpellsLutz
   la: |
     ┌──────────╖
-    │Supercura ║
-    │Egressus  ║
-    │Telepathia║
-    │Resigno   ║
-    │Revive    ║
+    │Supercūra ║
+    │Ēgressus  ║
+    │Tēlepathīa║
+    │Rēsignāre ║
+    │Revīvīre  ║
 
 - name: SpellMenuBottom
   la: |
@@ -109,12 +109,12 @@
   la: |
     ┌──────────────────╖
     │Gradus          99║
-    │Experientia  65535║
+    │Puncta ūsūs  65535║
     │Impetus        255║
-    │Defensio       255║
+    │Dēfēnsiō       255║
     │Maximum PV     255║
     │Maximum PM     255║
-    │Meseta       65535║
+    │Mesētae      65535║
     ╘══════════════════╝
 
 - name: EquimentMenuDimensions
@@ -128,16 +128,16 @@
 - name: InventoryMenuDimensions
   la: |
     ┌─────────────────────╖
-    │Meseta         65535 ║
+    │Mesētae        65535 ║
     │Proximus             ║
-    │Res 1                ║
-    │Res 2                ║
-    │Res 3                ║
-    │Res 4                ║
-    │Res 5                ║
-    │Res 6                ║
-    │Res 7                ║
-    │Res 8                ║
+    │Rēs 1                ║
+    │Rēs 2                ║
+    │Rēs 3                ║
+    │Rēs 4                ║
+    │Rēs 5                ║
+    │Rēs 6                ║
+    │Rēs 7                ║
+    │Rēs 8                ║
     ╘═════════════════════╝
 
 - name: TopBorder10
@@ -151,66 +151,66 @@
 
 - name: HapsbyTravelMenu
   la: |
-    ┌──────╖
-    │Gothic║
-    │Uzo   ║
-    │Skray ║
-    ╘══════╝
+    ┌────────╖
+    │Gothic  ║
+    │Uzo     ║
+    │Skure   ║
+    ╘════════╝
 
 - name: SoundTestMenuTop
   la: |
-    ┌──────────────╖
+    ┌───────────────────╖
 
 - name: SoundTestMenuChipPSG
   la: |
-    │Assula SN76489║
+    │Microschēma SN76489║
 
 - name: SoundTestMenuChipYM2413
   la: |
-    │Assula  YM2413║
+    │Microschēma  YM2413║
 
 - name: SoundTestMenu
   la: |
-    │--------------║
-    │Titulus       ║
-    │Intro         ║
-    │Urbs          ║
-    │Carcer        ║
-    │Taberna       ║
-    │Ecclesia      ║
-    │Palma         ║
-    │Proelium      ║
-    │Fabula        ║
-    │Vicus         ║
-    │Vehiculum     ║
-    │Motavia       ║
-    │Dezoris       ║
-    │Turris        ║
-    │Ultimus Carcer║
-    │LaShiec       ║
-    │Dark Falz     ║
-    │Finis         ║
-    │Ludus Finitus ║
-    ╘══════════════╝
+    │-------------------║
+    │Tītulus            ║
+    │Intrō              ║
+    │Urbs               ║
+    │Carcer             ║
+    │Taberna            ║
+    │Ecclēsia           ║
+    │Palma              ║
+    │Proelium           ║
+    │Fābula             ║
+    │Vīcus              ║
+    │Vehiculum          ║
+    │Motāvia            ║
+    │Dezōris            ║
+    │Turris             ║
+    │Ultimus Carcer     ║
+    │LaShiēc            ║
+    │Dark Falz          ║
+    │Fīnis              ║
+    │Lūdus Fīnītus      ║
+    ╘═══════════════════╝
 
 - name: OptionsMenu
   # Width should be such that the closest left-right items have a 2 space gap.
   # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.  
   la: |
     ┌───────────────────────╖
-    │Veloc Passuum        x ║
-    │Experientia          x ║
-    │Meseta               x ║
+    │Velōc passūs         x ║
+    │Puncta ūsūs          x ║
+    │Mesētae              x ║
     │Proelia                ║
-    │Crinis Alisae          ║
-    │Fons                   ║
-    │Transiti               ║
-    │Veloc Textuum        x ║
+    │Crīnis Alīsae          ║
+    │Fōns                   ║
+    │Trānsitī               ║
+    │Velōc Textuum        x ║
     ╘═══════════════════════╝
 
 - name: ContinueMenu
   la: |
-    ┌────────╖
-    │Recupera║
-    │Delere  ║
-    ╘════════╝
+    ┌──────────╖
+    │Recuperāre║
+    │Dēlēre    ║
+    ╘══════════╝
