@@ -13,7 +13,7 @@ Currently we have translations for:
 - Catalan
 - Latin
 
-The japanese game manual has also been translated: 
+The Japanese game manual has also been translated: 
 - [English](https://github.com/maxim-zhao/psrp/blob/master/Box%20and%20manual/Manual.pdf)
 
 More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language. 
@@ -24,7 +24,10 @@ Changelog (in reverse chronological order):
 - v2.6 release TBC
   - Added Latin translation, thanks to Metallic Orwell
   - Enlarged shop and exit signs for languages needing more space
+  - Catalan Dezorian liars are no longer Majorcan
 
+<details>
+<summary>Click for more history</summary>
 - v2.5.1 release 2024/12/23
   - Fixed Catalan retranslation credits
   - Fixed Catalan pluralised Mesetas
@@ -39,8 +42,6 @@ Changelog (in reverse chronological order):
     - Many linguistic fixes from [![](https://github.com/RetroAND.png?size=16)RetroAND](https://github.com/RetroAND)
   - French, Spanish, Catalan, Brazilian Portuguese:
     - Re-pluralise Mesetas
-<details>
-<summary>Click for more history</summary>
 
 - v2.4.1 release 2023/12/31
   - Restored original French translation as an extra option
