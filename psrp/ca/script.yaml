@@ -2,7 +2,7 @@
   # Game intro
   # Nero on ground, robot police
   ca: |
-    Ciutadans de Camineet! L'agonia d'aquest jove ha d'ésser un exemple! <line>
+    Ciutadans de Camineet! L'agonia d'aquest jove ha d'ésser un exemple!<line>
     Sa majestat Lashiec no tolerarà cap desafiament més!<wait more>
     Nero? NERO!<line><line>
     Què ha passat?!<wait>
@@ -208,7 +208,7 @@
   # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
   ca: |
     Si, en Tylon va passar per aquí. Es dirigia al sud-oest per derrotar Medusa. No l'he tornat a veure des d'aleshores.<wait more>
-    No anava sol per això, anava amb un animal que parlava! No m'ho podia creure! <wait more>
+    No anava sol per això, anava amb un animal que parlava! No m'ho podia creure!<wait more>
     Portava un flascó amb algun tipus de remei al coll. Em pregunto per què deuria servir?<wait>
 
 - offsets: 4dac
@@ -1116,7 +1116,7 @@
 - offsets: 5194
   # Villager
   ca: |
-    Has sentit a parlar d'una capa que es diu Capa de Frai? <wait more>
+    Has sentit a parlar d'una capa que es diu Capa de Frai?<wait more>
     Per el que he sentit, és molt lleugera, però té una gran capacitat de protecció.<wait>
 
 - offsets: 5175
@@ -1301,7 +1301,7 @@
   ca: |
     Heu conegut en Tajim, el monjo? Viu a les muntanyes al sud del llac.<wait more>
     Diuen que és el millor mestre de màgia de tot Algol.<wait more>
-    També diuen que pot veure els morts... <wait>
+    També diuen que pot veure els morts...<wait>
 
 - offsets: 5326
   # Villager
@@ -1447,7 +1447,7 @@
 - offsets: 57fd,5803
   # Dezorian
   # (Also in Guaran Morgue)
-  ca: Per què heu vingut aquí? No poseu es narius on no toca, em sentiu? <wait>
+  ca: Per què heu vingut aquí? No poseu es narius on no toca, em sentiu?<wait>
 
 - offsets: # Unused
   ca: Tinc un mal pressentiment.<wait>
@@ -1922,7 +1922,7 @@
 
 - offsets: 269f
   # Use Eclipse Torch on a monster
-  ca: <Article><monster> veu la flama vermella i la por l'emplena. <delay>
+  ca: <Article><monster> veu la flama vermella i la por l'emplena.<delay>
 
 - offsets: 273d
   # Use Laerma Berries in the wrong place
@@ -1955,16 +1955,16 @@
   ca: Heu trobat <article><item>.<wait>
 
 - offsets: 21d9,22b5
-  ca: El cossos es tornen estranyament lleugers. <delay>
+  ca: El cossos es tornen estranyament lleugers.<delay>
 
 - offsets: 2248
   ca: <player> reviu.<wait>
 
 - offsets: 1b45,1f21
-  ca: Tylon no pot emprar màgia. <delay>
+  ca: Tylon no pot emprar màgia.<delay>
 
 - offsets: 1b9e,1f1c
-  ca: <player> no ha après encara cap encanteri. <delay>
+  ca: <player> no ha après encara cap encanteri.<delay>
 
 - offsets: 28a3, ScriptPlayerCantEquipItem
   ca: <player> no es pot equipar amb <article><item>.<wait>
@@ -2320,7 +2320,7 @@
     Si us plau, escull una ranura.<end>
 
 - offsets: ScriptDeletingFromSlotN
-  # <delay> is nicer than<wait> here - Maxim
+  #<delay> is nicer than<wait> here - Maxim
   ca: Esborrant partida de la ranura <number>...<delay>
 
 - offsets: ScriptNoSavedGames
