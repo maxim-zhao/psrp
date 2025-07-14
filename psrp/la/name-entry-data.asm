@@ -14,7 +14,7 @@ _NameEntryItems:
 ;  │                            │
 ;  │  abcdefghiklmnopqrstuvxyz  │
 ;  │                            │
-;  │  āēīōūȳ0123456789.,:-!?‘’  │
+;  │  āēīōū 0123456789.,:-!?‘’  │
 ;  │                            │
 ;  │  Retrō  Proximō   Spatium  │
 ;  │                            │
@@ -27,7 +27,7 @@ _NameEntryItems:
   NameEntryText  6,  1, "Nōmen tuum inscrībe:"
   NameEntryText  4, 11, "ABCDEFGHIKLMNOPQRSTUVXYZ"
   NameEntryText  4, 13, "abcdefghiklmnopqrstuvxyz"
-  NameEntryText  4, 15, "āēīōūȳ0123456789.,:-!?‘’"
+  NameEntryText  4, 15, "āēīōū 0123456789.,:-!?‘’"
   NameEntryText  4, 17, "Retrō  Proximō   Spatium"
   NameEntryText 21, 19,                  "Servāre"
   NameEntryText  1,  3, "┌─" ; Leave these ones alone...
