@@ -18,7 +18,7 @@ WORD_COUNT_pt-br = 58
 WORD_COUNT_ca = 56
 WORD_COUNT_es = 67
 WORD_COUNT_de = 77
-WORD_COUNT_la = 37
+WORD_COUNT_la = 29
 WORD_COUNT_literal = 69
 
 # These are targets that aren't files
