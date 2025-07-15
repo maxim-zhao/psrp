@@ -73,10 +73,10 @@ Changelog (in reverse chronological order):
 
 - v2.3 released 2022/12/20
   - Phantasy Star 35th anniversary!
-  - Added Spanish translation from kusfo
+  - Added Spanish translation from [![](https://github.com/kusfo.png?size=16)kusfo](https://github.com/kusfo)
   - Added German translation from Popfan
   - Added literal English translation variant
-  - Updates to the Brazilian Portuguese script from ajkmetiuk
+  - Updates to the Brazilian Portuguese script from [![](https://github.com/ajkmetiuk.png?size=16)ajkmetiuk](https://github.com/ajkmetiuk)
   - Much work on converting the original Katakana script to use Hiragana and Kanji where appropriate, and then re-retranslating in a few areas
   - Much work on annotating the script with where each line is used/reused
   - Some shared lines split up to enable better translation
@@ -100,13 +100,13 @@ Changelog (in reverse chronological order):
   - Fixed issue with emulators not supporting cartridge RAM
   - Fixed glitches in enemy name border drawing on some hardware (#63)
   - Fixed some script inconsistencies in English (#61)
-  - Added Catalan translation from kusfo
+  - Added Catalan translation from [![](https://github.com/kusfo.png?size=16)kusfo](https://github.com/kusfo)
   - Improved the translation tools based on issues found with the Catalan translation
     - More languages are welcome! [Contact me](https://www.smspower.org/Home/Contact) if you want to contribute.
   - Ported the build system to GNU Make
 - v2.1 released 2021/01/31
   - added French translation from ichigobankai, Wil76 and Vingazole
-  - added Brazilian Portuguese translation from ajkmetiuk
+  - added Brazilian Portuguese translation from [![](https://github.com/ajkmetiuk.png?size=16)ajkmetiuk](https://github.com/ajkmetiuk)
   - fixed some bugs relating to the needs of these translations
   - ported script processing tools to Python
   - widened in-game and narrative script boxes
@@ -241,7 +241,6 @@ Changes made between version numbers may adversely affect emulator save states. 
   - https://github.com/RetroAND
 ### Metallic Orwell
 - Latin translation
-  - https://www.youtube.com/user/MetallicOrwell
 
 Special thanks to:
 
