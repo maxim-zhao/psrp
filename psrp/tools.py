@@ -43,15 +43,28 @@ def generate_words(tbl_file, asm_file, script_file, language_script_file, langua
 
     print(f"Script has {len(words)} unique words")
 
-    # Then convert to weighted counts
-    # The benefit of substituting a word is a bit complicated.
-    # The substituted text storage is in a separate bank to the main script so moving low-frequency long words there can
-    # be worthwhile. The space taken by a word is very much dependent on the letter frequency that we later Huffman
-    # compress, so common letter sequences are cheaper than unusual ones. The Huffman trees are also stored outside the
-    # script bank. Thus we can maximize the script space by selecting the words which are used the most, and are long
-    # when Huffman encoded. As we don't know the Huffman length, we use the word length as a proxy.
-    # Some tweaking of the weight function seems to find this gives the smallest size for the script block, which is the
-    # most space-pressured. A word of length l that is found n times will be replaced by n symbols, so replacing will save n*(l-1) symbols.
+    # Then convert to weighted counts...
+    # The benefit of substituting a word is a bit complicated. The word's letters will take a certain number of bits
+    # to encode, based on the "common-ness" of the letter sequences within it. If the word is then rarely used,
+    # it will become a longer Huffman code and this may outweigh the benefit of compressing it. If it is commonly
+    # used, it may instead add to the Huffman code length for everything else in the trees leading to it.
+    # We no longer care about space pressure in any one bank, so we want to overall choose words whose dictionary
+    # storage will save space. So for a word of n characters used m times, we can say:
+    # 1. If not in the dictionary, it will be encoded as n Huffman symbols, m times.
+    #    If we assume Huffman symbols average 5 bits per character (a rough approximation), then it's n*m*5/8 bytes.
+    # 2. If stored in the dictionary, it will cost:
+    #    - n+1 bytes for the word
+    #    - at least 1 byte for a tree entry
+    #    - some Huffman bits for each usage in the script, depending on the word popularity
+    #    If we assume 6 Huffman bits for the word (as words are surely less common than letters) then it's n+2+m*6/8 bytes.
+    # So we can guess the benefit of a word is something like (n*m*4/8)-(n+m*6/8+2), 
+    # which is roughly the same as (n-1)*m as n and m grow. It turns out this approximation is pretty good.
+    # We then take the word_count best words.
+    # If we plot word_count vs space used, we generally see a convex curve: at first, more words = less space used,
+    # but eventually more words = more space used because the benefit is less than the cost. Elsewhere, we exhaustively
+    # test which word_count is best, but this varies by language and when the script is edited.
+    # Technically, a word may end up being substituted during the encoding process even if it is a subset of the outer 
+    # word's letters.
     weighted_list = []
     for word, count in words.items():
         if len(word) == 1:
