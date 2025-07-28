@@ -24,7 +24,8 @@ Changelog (in reverse chronological order):
 - v2.6 release TBC
   - Added Latin translation, thanks to Metallic Orwell
   - Enlarged shop and exit signs for languages needing more space
-  - Catalan Dezorian liars are no longer Majorcan
+  - Catalan: Dezorian liars are no longer Majorcan
+  - Brazilian Portuguese: revised and improved script
 
 <details>
 <summary>Click for more history</summary>
