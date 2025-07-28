@@ -1,0 +1,216 @@
+- name: OpeningCinema
+  la: |
+    ┌──────────────────────╖
+    │Annus, PB 342         ║
+    │----------------------║
+    │Camīneēt Rēsidentiālis║
+    │Dīstrictus in         ║
+    │Planēta Palmā         ║
+    ╘══════════════════════╝
+
+- name: WorldMenu
+  la: |
+    ┌───────────╖
+    │Status     ║
+    │Magīa      ║
+    │Rēs        ║
+    │Investīgāre║
+    │Servāre    ║
+    │Optiōnēs   ║
+    ╘═══════════╝
+
+- name: ChoiceMenu
+  la: |
+    ┌───╖
+    │Sīc║
+    │Nōn║
+    ╘═══╝
+
+- name: BattleMenu
+  la: |
+    ┌───────╖
+    │Pugnāre║
+    │Magīa  ║
+    │Rēs    ║
+    │Loquī  ║
+    │Fugāre ║
+    ╘═══════╝
+
+- name: ToolShopMenu
+  la: |
+    ┌───────╖
+    │Emere  ║
+    │Vendere║
+    ╘═══════╝
+
+- name: ItemActionMenu
+  la: |
+    ┌───────╖
+    │Ūsāre  ║
+    │Armāre ║
+    │Iacere ║
+    ╘═══════╝
+
+- name: BattleSpellsAlisa
+  la: |
+    ┌──────────╖
+    │Cūra      ║
+    │Fuga      ║
+    │Loquī     ║
+    │Ignis     ║
+    │Vinc      ║
+
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  la: |
+    ┌──────────╖
+    │Supercūra ║
+    │Terror    ║
+    │Mūrus     ║
+    │Vīs       ║
+
+- name: BattleSpellsLutz
+  la: |
+    ┌──────────╖
+    │Ignis     ║
+    │Tēlepathīa║
+    │Ventus    ║
+    │Magimūrus ║
+    │Tonitrus  ║
+
+- name: OverworldSpellsAlisa
+  la: |
+    ┌──────────╖
+    │Cūra      ║
+    │Volāre    ║
+
+- name: OverworldSpellsMyau
+  la: |
+    ┌──────────╖
+    │Supercura ║
+    │Dēlāqua   ║
+    │Ēgressus  ║
+
+- name: OverworldSpellsLutz
+  la: |
+    ┌──────────╖
+    │Supercūra ║
+    │Ēgressus  ║
+    │Tēlepathīa║
+    │Rēsignāre ║
+    │Revīvīre  ║
+
+- name: SpellMenuBottom
+  la: |
+    ╘══════════╝
+
+- name: StatsMenuDimensions
+  la: |
+    ┌──────────────────╖
+    │Gradus          99║
+    │Puncta ūsūs  65535║
+    │Impetus        255║
+    │Dēfēnsiō       255║
+    │Maximum PV     255║
+    │Maximum PM     255║
+    │Mesētae      65535║
+    ╘══════════════════╝
+
+- name: EquimentMenuDimensions
+  la: |
+    ┌─────────────────────╖
+    │                     ║
+    │                     ║
+    │                     ║
+    ╘═════════════════════╝
+
+- name: InventoryMenuDimensions
+  la: |
+    ┌─────────────────────╖
+    │Mesētae        65535 ║
+    │Proximus             ║
+    │Rēs 1                ║
+    │Rēs 2                ║
+    │Rēs 3                ║
+    │Rēs 4                ║
+    │Rēs 5                ║
+    │Rēs 6                ║
+    │Rēs 7                ║
+    │Rēs 8                ║
+    ╘═════════════════════╝
+
+- name: TopBorder10
+  la: ┌─────────────────────╖
+
+- name: BottomBorder10
+  la: ╘═════════════════════╝
+
+- name: InventoryNextMenu
+  la: │Proximus             ║
+
+- name: HapsbyTravelMenu
+  la: |
+    ┌────────╖
+    │Gothic  ║
+    │Uzo     ║
+    │Skure   ║
+    ╘════════╝
+
+- name: SoundTestMenuTop
+  la: |
+    ┌───────────────────╖
+
+- name: SoundTestMenuChipPSG
+  la: |
+    │Microschēma SN76489║
+
+- name: SoundTestMenuChipYM2413
+  la: |
+    │Microschēma  YM2413║
+
+- name: SoundTestMenu
+  la: |
+    │-------------------║
+    │Tītulus            ║
+    │Intrō              ║
+    │Urbs               ║
+    │Carcer             ║
+    │Taberna            ║
+    │Ecclēsia           ║
+    │Palma              ║
+    │Proelium           ║
+    │Fābula             ║
+    │Vīcus              ║
+    │Vehiculum          ║
+    │Motāvia            ║
+    │Dezōris            ║
+    │Turris             ║
+    │Ultimus Carcer     ║
+    │LaShiēc            ║
+    │Dark Falz          ║
+    │Fīnis              ║
+    │Lūdus Fīnītus      ║
+    ╘═══════════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.  
+  la: |
+    ┌───────────────────────╖
+    │Velōc passūs         x ║
+    │Puncta ūsūs          x ║
+    │Mesētae              x ║
+    │Proelia                ║
+    │Crīnis Alīsae          ║
+    │Fōns                   ║
+    │Trānsitī               ║
+    │Velōc Textuum        x ║
+    ╘═══════════════════════╝
+
+- name: ContinueMenu
+  la: |
+    ┌──────────╖
+    │Recuperāre║
+    │Dēlēre    ║
+    ╘══════════╝

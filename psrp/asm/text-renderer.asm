@@ -311,7 +311,38 @@ _Wait_Clear:
   pop de
   pop hl
   jp _Decode
-_SkipBitmaskLookup: .db %01000, %01010, %11100, %01100 ; see above
+_SkipBitmaskLookup: 
+;    ‹«({[
+.db %01000
+.db %01010
+.db %11100
+.db %01100 ; see above
+.endif
+.if LANGUAGE == "la"
+  ; Set SKIP_BITMASK accordingly.
+  ; 1 => nominative, select [] brackets only
+  ; 2 => genitive, select {}
+  ; 3 => dative, select ()
+  ; 4 => accusative, select «»
+  ; 5 => ablative, select ‹›
+  push hl
+  push de
+    ld d,0
+    ld hl,_SkipBitmaskLookup - 1 ; index 0 is unused
+    ld e,a
+    add hl,de
+    ld a,(hl)
+    ld (SKIP_BITMASK),a
+  pop de
+  pop hl
+  jp _Decode
+_SkipBitmaskLookup:
+;    ‹«({[
+.db %00001
+.db %00010
+.db %00100
+.db %01000
+.db %10000
 .else
   ; Select all bracketed parts
   ld a,$ff

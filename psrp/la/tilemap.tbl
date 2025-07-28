@@ -1,0 +1,112 @@
+﻿; Font table for converting UTF-8 text to tilemap data
+; Note that data is in ROM order, e.g. c010 means data $10c0 which is tile $c0 with the priority bit set.
+; The priority bit is set for all tiles.
+
+; Space
+; Note we allow "~" as "visible space"
+c010= 
+c010=~
+; Non-breaking space
+c010=_
+
+; Numbers
+c110=0
+c210=1
+c310=2
+c410=3
+c510=4
+c610=5
+c710=6
+c810=7
+c910=8
+ca10=9
+
+; Uppercase
+cb10=A
+cb10=Ā
+cc10=B
+cd10=C
+ce10=D
+cf10=E
+cf10=Ē
+d010=F
+d110=G
+d210=H
+d310=I
+d310=Ī
+d410=K
+d510=L
+d610=M
+d710=N
+; O = 0
+c110=O
+c110=Ō
+d810=P
+d910=Q
+da10=R
+db10=S
+dc10=T
+dd10=U
+dd10=Ū
+de10=V
+df10=X
+e010=Y
+e010=Ȳ
+e110=Z
+
+; Lowercase
+e210=a
+e310=ā
+e410=b
+e510=c
+e610=d
+e710=e
+e810=ē
+e910=f
+ea10=g
+eb10=h
+ec10=i
+ed10=ī
+ee10=k
+ef10=l
+f010=m
+f110=n
+f210=o
+f310=ō
+f410=p
+f510=q
+f610=r
+f710=s
+f810=t
+f910=u
+fa10=ū
+fb10=v
+fc10=x
+fd10=y
+fe10=z
+
+; Punctuation
+ff10=.
+f411=:
+f511=‘
+f711=’
+f711='
+f517=,
+fa11=-
+fb11=!
+f611=?
+
+; Borders
+; Using double lines to distinguish left from right and top from bottom...
+; ┌──╖
+; │  ║
+; ╘══╝
+
+f111=┌
+f211=─
+f113=╖
+f311=│
+f313=║
+f115=╘
+f215=═
+f117=╝
