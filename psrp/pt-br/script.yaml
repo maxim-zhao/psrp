@@ -32,7 +32,7 @@
     Alisa, você precisa encontrar Tylon.<line><line>
     Juntos vocês podem derrotar LaShiec e trazer a paz de volta a Algol.<wait more>
     Alisa... um fardo tão terrível. Me desculpe.<line><line>
-    Por favor, me perdoe, por pedir isso de você...<wait more>
+    Por favor, me perdoe, por te pedir isso...<wait more>
     ...e por deixar todos vocês...<line><line>
     ...sozinhos...<wait>
 
@@ -65,8 +65,8 @@
   pt-br: |
     Alisa... enfrentar LaShiec é loucura. Mas eu sei o quão teimosa e determinada você pode ser.<wait more>
     Eu não vou perder meu fôlego tentando te convencer disso, mas... por favor, tome cuidado.<wait more>
-    Se você se machucar, volte aqui para se curar.<wait more>
-    Somos vizinhas há muito tempo, você sabe que a casa da Suelo estará sempre aberta para você.<wait>
+    Se por acaso se machucar, volte aqui para se curar.<wait more>
+    Somos vizinhas há muito tempo, sabe que a casa da Suelo estará sempre aberta para você.<wait>
 
 - offsets: 4b4e
   # Camineet
@@ -193,7 +193,7 @@
 - offsets: 4c0f
   # Man
   pt-br: |
-    Você sabia que há uma passagem subterrânea ao oeste, indo para a Floresta de Gótica?<wait more>
+    Sabia que há uma passagem subterrânea ao oeste, indo para a Floresta de Gótica?<wait more>
     Supostamente ela está em algum lugar próximo, mas eu não consigo encontrá-la.<wait>
 
 
@@ -212,13 +212,13 @@
   # Man (if you haven't bought Myau yet)
   # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
   pt-br: |
-    Sim, Tylon estava aqui. Ele disse que estava indo para o sudoeste para matar Medusa. Eu não o vi desde então.<wait more>
-    Ele não estava sozinho, ele estava viajando com um animal falante! Eu não pude acreditar!<wait more>
-    Ele tinha um frasco de remédio de aparência importante em seu pescoço. Eu me pergunto para o que serve?<wait>
+    Sim, Tylon estava aqui. Disse que estava indo para o sudoeste para matar Medusa. Eu não o vi desde então.<wait more>
+    Ele não estava sozinho, estava viajando com um animal falante! Eu não pude acreditar!<wait more>
+    Ele tinha um frasco de remédio de aparência importante em seu pescoço. Para que será que isso serve?<wait>
 
 - offsets: 4dac
   # Same man (after you get Myau)
-  pt-br: Já era hora de alguém enfrentar LaShiec. Que Deus esteja com você.<wait>
+  pt-br: Já era hora de alguém enfrentar LaShiec. Que Deus esteja contigo.<wait>
 
 - offsets: 4db6
   # If you haven't bought Myau yet
@@ -273,7 +273,7 @@
   # Trader (third time you buy the Secret Thing)
   pt-br: |
     Você não vai desistir, não é? Tudo bem, pegue aqui.<wait more>
-    Um Passe, assinado e certificado. Mas você não conseguiu isso de mim, entendeu?<wait>
+    Um Passe, assinado e certificado. Mas não diga que conseguiu isso de mim, entendeu?<wait>
 
 # ******************
 # *** Eppi woods ***
@@ -314,22 +314,22 @@
   # Passport office
   pt-br: |
     Sou obrigada por lei a fazer uma série de perguntas.<wait more>
-    Você já foi condenado por um crime?<end>
+    Já foi condenado por um crime?<end>
 
 - offsets: 4d55
   # Passport office
-  pt-br: Você sofre de alguma doença contagiosa?<end>
+  pt-br: Sofre de alguma doença contagiosa?<end>
 
 - offsets: 4d6c
   # Passport office
   # <number> is always 100.
-  pt-br: Há uma taxa administrativa de <number> Mesetas. Você está disposto a pagar?<end>
+  pt-br: Há uma taxa administrativa de <number> Mesetas. Está disposto a pagar?<end>
 
 - offsets: 4d91
   # Passport office
   pt-br: |
     Excelente! Aqui está seu passaporte. Certifique-se de mantê-lo contigo o tempo todo.<wait more>
-    Próximo da fila?<wait>
+    Próximo?<wait>
 
 - offsets: 4d3e,4d77,4eca
   # Passport office (say "no" to question about applying)
@@ -340,7 +340,7 @@
 - offsets: 4d4f,4d60
   # Passport office (say "yes" to question about doing bad things)
   # Passport office (say "yes" to question about having an illness)
-  pt-br: Sinto muito, você não se qualifica. Se quiser, você pode tentar novamente mais tarde. Próximo?<wait>
+  pt-br: Sinto muito, você não se qualifica. Se quiser, pode tentar novamente mais tarde. Próximo?<wait>
 
 - offsets: 5939
   pt-br: Este é um voo sem paradas para Motávia. Deseja ir?<end>
@@ -361,7 +361,7 @@
 - offsets: 4e3d
   pt-br: |
     Ouvi dizer que há uma loja de bolos na caverna de Naula, em Palma.<wait more>
-    Eu me pergunto se ele consegue vender algo, em uma caverna como essa?<wait>
+    Será que ele consegue vender algo em uma caverna como essa?<wait>
 
 - offsets: 5949
   pt-br: Esta aeronave está se dirigindo para Palma. Deseja ir?<end>
@@ -404,7 +404,7 @@
   # Trader (say yes to previous question)
   pt-br: |
     Uau, é sério?<wait more>
-    Ei, onde você está indo?<delay>
+    Ei, onde está indo?<delay>
 
 - offsets: 4e98
   # Trader (say no to previous question, and have a Laconian pot)
@@ -493,7 +493,7 @@
   pt-br: |
     Meu irmão Nero foi morto tentando derrotar LaShiec.<wait more>
     Vou destruí-lo, custe o que custar.<line><line>
-    Nero me deu o seu nome um pouco antes de morrer e disse que você poderia me ajudar.<wait>
+    Nero me deu o seu nome um pouco antes de morrer e disse que poderia me ajudar.<wait>
 
 - offsets: 469e
   # Tylon
@@ -524,7 +524,7 @@
   # Villager
   pt-br: |
     Não me surpreenderia se o Governador-Geral de Motávia aprovasse o que você está fazendo.<wait more>
-    Ele pode até mesmo ser capaz de te ajudar em sua jornada. Você já falou com ele?<wait>
+    Ele pode até mesmo ser capaz de te ajudar em sua jornada. Já falou com ele?<wait>
 
 - offsets: 4deb
   # Villager
@@ -534,7 +534,7 @@
   # Villager
   pt-br: |
     Há muito tempo, um cientista chamado Luveno tinha um laboratório de pesquisa na Floresta de Gótica.<wait more>
-    Eu me pergunto, será que ele ainda está lá?<wait>
+    Será que ele ainda está lá?<wait>
 
 - offsets: 4df7
   # Villager
@@ -553,11 +553,11 @@
   # Villager (yes to previous question)
   pt-br: |
     Escondi uma dentro do armazém nos arredores da zona residencial de Camineet.<wait more>
-    Eu deixei bem escondida. Você pode querer dar uma segunda olhada se já esteve lá.<wait>
+    Eu deixei bem escondida. Se quiser, dê uma segunda olhada se já esteve por lá.<wait>
 
 - offsets: 4e1d
   # Villager
-  pt-br: Você sabe qual é o material mais forte e mais duro do mundo?<end>
+  pt-br: Sabe qual é o material mais forte e mais duro do mundo?<end>
 
 - offsets: 4e2b
   # Villager (no to previous question)
@@ -589,7 +589,7 @@
 
 - offsets: 5627
   # Guard inside Underground Passage to Governor's Mansion
-  pt-br: Pare! Você trouxe um presente para o Governador-Geral?<end>
+  pt-br: Pare! Trouxe um presente para o Governador-Geral?<end>
 
 - offsets: 564b
   # Guard inside Underground Passage to Governor's Mansion (yes to previous question, have shortcake)
@@ -613,9 +613,9 @@
     Eu sei porque está aqui. Você certamente não fez nenhum segredo disso. Pretende derrotar LaShiec, não é?<wait more>
     LaShiec é um homem poderoso. Não, mais do que um homem. Está além dessas restrições.<wait more>
     Você tem muita coragem em levar isso adiante. Mas coragem, eu temo que não será o suficiente.<wait more>
-    Vá. Destrua-o. Eu não vou te impedir. Na verdade, vou lhe oferecer assistência.<wait more>
+    Vá. Destrua-o. Não irei te impedir. Na verdade, vou lhe oferecer assistência.<wait more>
     Um Esper poderoso chamado Lutz vive na caverna de Mahal, ao norte daqui. Leve esta carta para ele.<wait more>
-    Com sua ajuda, tenho fé que você terá sucesso. Volte aqui quando tiver derrotado LaShiec.<wait>
+    Com sua ajuda, tenho fé que terá sucesso. Volte aqui quando tiver derrotado LaShiec.<wait>
 
 - offsets: 4f13,4fc6
   # Governor-General (subsequent visits)
@@ -698,19 +698,19 @@
   # Villager x2
   # Sopia villager
   # Triada prisoner
-  pt-br: Gostaria de comer uma PelorieMate. Você pode me dar uma?<end>
+  pt-br: Queria comer uma PelorieMate. Você tem uma aí?<end>
 
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
   pt-br: |
-    Obrigado. Eu suponho que você está procurando o Doutor Luveno. Sim, seu laboratório costumava ficar aqui.<wait more>
-    Não há mais nada, no entanto. Aquele cara ficou louco. Finalmente aprisionaram aquele lunático.<wait more>
+    Obrigado. Suponho que esteja procurando o Doutor Luveno. Sim, seu laboratório costumava ficar aqui.<wait more>
+    Agora, não há mais nada. Aquele cara ficou louco. Finalmente aprisionaram aquele lunático.<wait more>
     Ele está sendo mantido em Triada, uma prisão ao sul daqui.<wait>
 
 - offsets: 502e,5055,535b
   # Sopia villager (yes to previous question, and you don't have a PelorieMate)
   # Gothic Woods villager (yes to previous question, and you don't have a PelorieMate) x2
-  pt-br: Espere, você não tem? Então por que disse sim?! Cai fora!<wait>
+  pt-br: Ué, você não tem? Então por que disse sim?! Cai fora!<wait>
 
 - offsets: 5016,503f,54b4
   # Villager x2 (no to previous question)
@@ -780,7 +780,7 @@
 
 - offsets: 54d0
   # Prisoner
-  pt-br: Você já ouviu falar de Hapsby, o robô?<end>
+  pt-br: Já ouviu falar do robô Hapsby?<end>
 
 - offsets: 54de
   # Prisoner (no to previous question)
@@ -795,21 +795,21 @@
 
 - offsets: 5453
   # Dr Luveno (first time)
-  pt-br: Sim, eu sou o Doutor Luveno. Se você está aqui para me resgatar, esqueça! Eu não vou a lugar nenhum.<wait>
+  pt-br: Sim, eu sou o Doutor Luveno. Se você está aqui para me resgatar, esqueça! Não vou a lugar nenhum.<wait>
 
 - offsets: 545e
   # Dr Luveno (second time)
-  pt-br: O quê? Você quer que eu construa uma nave espacial?! Porque eu faria isso? Vá embora, me deixe em paz.<wait>
+  pt-br: O quê? Quer que eu construa uma nave espacial?! Porque eu faria isso? Vá embora, me deixe em paz.<wait>
 
 - offsets: 5464
   # Dr Luveno (third time)
   pt-br: |
     Você novamente? Ahh, eu desisto. Vou construir sua nave espacial, mas há uma condição.<wait more>
-    Você vai me prometer que seguirá exatamente minhas instruções, não importa o que eu peça. Entendido?<end>
+    Me prometa que seguirá exatamente minhas instruções, não importa o que eu peça. Entendido?<end>
 
 - offsets: 546d
   # Dr Luveno (no to previous question)
-  pt-br: Se você não fizer o que eu digo, não há como eu te ajudar.<wait>
+  pt-br: Se não fizer o que eu digo, não há como eu te ajudar.<wait>
 
 - offsets: 5477
   # Dr Luveno (yes to previous question)
@@ -864,7 +864,7 @@
 - offsets: 507b
   # Dr Luveno (if you didn't talk to his assistant yet)
   pt-br: |
-    Finalmente. Por que demorou tanto? Primeiro, preciso que você vá buscar meu assistente.<wait more>
+    Finalmente. Por que demorou tanto? Primeiro, preciso que vá buscar meu assistente.<wait more>
     Ele provavelmente está se escondendo dentro da passagem subterrânea. Aquele ali é tímido, chega a irritar.<wait>
 
 - offsets: 508b
@@ -874,7 +874,7 @@
     Certo. Parece que minha equipe está reunida.<wait more>
     O que, você não acha que duas pessoas podem construir uma nave espacial?<wait more>
     Pois saiba que eu construo estas naves desde que você usava fraldas!<wait more>
-    Bem, agora tem a questão do custo. Naves espaciais não são baratas, você sabe.<wait more>
+    Bem, agora tem a questão do custo. Naves espaciais não são baratas, sabe.<wait more>
     Eu preciso de <number> Mesetas adiantado. Você pode cobrir isso?<end>
 
 - offsets: 50b5
@@ -885,7 +885,7 @@
 
 - offsets: 50a7
   # Dr Luveno (if you don't have enough money)
-  pt-br: Você não tem o suficiente? Sinto muito, tente conseguir um pouco mais!<wait>
+  pt-br: Não tem o suficiente? Sinto muito, tente conseguir um pouco mais!<wait>
 
 - offsets: 5096
   # Dr Luveno (no to the previous question)
@@ -896,7 +896,7 @@
   pt-br: |
     Por favor, não apresse a perfeição.<wait more>
     A menos que queira acabar encalhado no espaço, nos dê um tempo.<wait more>
-    Você não quer ir passear em uma caverna ou algo assim? Estamos muito ocupados.<wait>
+    Não quer ir passear em uma caverna ou algo assim? Estamos muito ocupados.<wait>
 
 - offsets: 50d1
   # Dr Luveno (third time)
@@ -920,7 +920,7 @@
 - offsets: 50f6
   # Luveno (if you have Hapsby)
   pt-br: |
-    Ah, meu pequeno Hapsby, você chegou em casa!<wait more>
+    Ah, meu pequeno Hapsby, que bom que chegou em casa!<wait more>
     Excelente. Com Hapsby você pode pilotar a Luveno através do espaço!<wait more>
     E bem na hora, também. A segurança do Espaçoporto ficou mais rígida.<wait more>
     Vá em frente e faça um teste! A Luveno está ancorada fora da vila!<wait>
@@ -975,13 +975,13 @@
   # Villager
   pt-br: |
     Esta é a Vila Lore. Bem, ela costumava ser, antes da corrupção de LaShiec.<wait more>
-    Como você pode ver, agora é um terreno baldio.<wait>
+    Como pode ver, agora é um terreno baldio.<wait>
 
 
 - offsets: 5119
   # Villager
   pt-br: |
-    Você já ouviu falar de uma joia chamada Olho de Carbúnculo?<wait more>
+    Já ouviu falar de uma joia chamada Olho de Carbúnculo?<wait more>
     Há rumores de que ela é guardada por um dragão em Casba.<wait more>
     De qualquer maneira, o que faria um dragão precisar de uma joia?<wait>
 
@@ -994,7 +994,7 @@
 
 - offsets: 5125
   # Villager
-  pt-br: Você já ouviu falar sobre as árvores Laerma?<end>
+  pt-br: Já ouviu falar sobre as árvores Laerma?<end>
 
 - offsets: 512e
   # Villager (no to previous question)
@@ -1072,7 +1072,7 @@
   # Townsperson
   pt-br: |
     Derrotar LaShiec, não é? Você vai precisar de uma espada, um machado, um escudo e uma armadura feitos de Lacônia.<wait more>
-    Lacônia é o material mais poderoso em Algol, não usaria nada menos poderoso, se eu fosse você.<wait more>
+    Lacônia é o material mais poderoso em Algol, se eu fosse você, não usaria nada menos poderoso.<wait more>
     Estaremos orando por sua segurança.<wait>
 
 - offsets: 5250
@@ -1131,12 +1131,12 @@
 - offsets: 5194
   # Villager
   pt-br: |
-    Você já ouviu falar de um manto chamado Manto de Frade?<wait more>
+    Já ouviu falar de um manto chamado Manto de Frade?<wait more>
     Pelo que ouvi, é muito leve, mas tem um excelente poder de proteção.<wait>
 
 - offsets: 5175
   # Villager
-  pt-br: Você já ouviu falar da Flauta Calmante?<end>
+  pt-br: Já ouviu falar da Flauta Calmante?<end>
 
 - offsets: 5133,517e,54d9,54fe
   # Villager (yes to previous question)
@@ -1215,7 +1215,7 @@
 - offsets: 51d7
   # Townsperson
   pt-br: |
-    Uau! Eu não esperava ver visitantes aqui tão cedo.<wait more>
+    Uau! Não esperava ver visitantes aqui tão cedo.<wait more>
     Que estranho! Se LaShiec embargou as viagens marítimas, como é que você chegou aqui?<wait>
 
 - offsets: 51dd
@@ -1246,7 +1246,7 @@
   # GasClear salesman
   # <number> is always 1000.
   pt-br: |
-    Aposto que você está surpreso ao encontrar uma loja em um lugar como esse, não é?<wait more>
+    Aposto que está surpreso ao encontrar uma loja em um lugar como esse, não é?<wait more>
     A Máscara de Gás custa <number> Mesetas cada. Muito barata, não? Quer uma?<end>
 
 - offsets: 5226
@@ -1259,7 +1259,7 @@
   pt-br: O quê? Você não tem dinheiro suficiente?<wait>
 
 - offsets: 520c
-  pt-br: Como quiser. Vou estar aqui quando você mudar de ideia.<wait>
+  pt-br: Como quiser. Vou estar aqui quando mudar de ideia.<wait>
 
 # *************
 # *** Sopia ***
@@ -1277,7 +1277,7 @@
   pt-br: |
     Eu sou o chefe desta vila.<wait more>
     Nós em Sopia somos muito pobres. A névoa nos desliga de outras cidades.<wait more>
-    Você poderia nos ajudar doando <number> Mesetas?<end>
+    Poderia nos ajudar doando <number> Mesetas?<end>
 
 - offsets: 52e1
   # The Village Chief (no to previous question)
@@ -1361,7 +1361,7 @@
 
 - offsets: 56c7
   # Tajim (if you have Lutz)
-  pt-br: Ah, Lutz, meu aluno! Vejo que você está finalmente cumprindo seu destino de derrotar LaShiec.<wait>
+  pt-br: Ah, Lutz, meu aluno! Vejo que finalmente está cumprindo seu destino de derrotar LaShiec.<wait>
 
 - offsets: 56d3
   # Tajim (if Lutz is dead)
@@ -1492,7 +1492,7 @@
     Este é o fogo sagrado do eclipse centenário.<wait more>
     Ele é lindo, santo, e, de fato, muito valioso.<wait more>
     Eu poderia estar disposto a compartilhar um pouco dela, por, digamos...<wait more>
-    ...uma joia de um dragão. O que você acha?<end>
+    ...uma joia de um dragão. O que acha?<end>
 
 - offsets: 5684
   # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
@@ -1577,7 +1577,7 @@
 
 - offsets: 560d
   # Prisoner
-  pt-br: Há uma torre no topo da colina de Baya Marlay. Eu me pergunto, quais segredos se encontram lá dentro?<wait>
+  pt-br: Há uma torre no topo da colina de Baya Marlay. Quais serão os segredos que se encontram lá dentro?<wait>
 
 - offsets: 5613
   # Prisoner
@@ -1625,7 +1625,7 @@
 
 - offsets: 553b
   # (no to previous questions or most of the following)
-  pt-br: O que você disse? Que atrevimento! Saia daqui!<wait>
+  pt-br: O que disse? Que atrevimento! Saia daqui!<wait>
 
 - offsets: 5547
   pt-br: Sinto que está procurando por algo, certo?<end>
@@ -2090,7 +2090,7 @@
 # **************
 
 - offsets: 5959
-  pt-br: Para onde você gostaria de ir?<end>
+  pt-br: Para onde gostaria de ir?<end>
 
 - offsets: 5995
   pt-br: Gostaria de ir para Skray, em Dezóris?<end>
@@ -2324,7 +2324,7 @@
     Escolha uma posição.<end>
 
 - offsets: ScriptConfirmSlot
-  pt-br: Posição <number>, você tem certeza?<end>
+  pt-br: Posição <number>, tem certeza?<end>
 
 - offsets: 1e55
   pt-br: |
@@ -2359,17 +2359,17 @@
   pt-br: Quer continuar um jogo salvo?<end>
 
 - offsets: #082f
-  pt-br: Você quer deletar um jogo salvo?<end>
+  pt-br: Quer apagar um jogo salvo?<end>
 
 - offsets: #083a
   pt-br: |
-    Deletar um jogo salvo.<line>
+    Apagar um jogo salvo.<line>
     Escolha uma posição.<end>
 
 - offsets: ScriptDeletingFromSlotN
   # <delay> is nicer than<wait> here - Maxim
   pt-br: |
-    Deletando o jogo da posição <line>
+    Apagando o jogo da posição <line>
     <number>...<delay>
 
 - offsets: ScriptNoSavedGames
