@@ -1,4 +1,4 @@
-# Phantasy Star Retranslation v2.5.1
+# Phantasy Star Retranslation v2.6
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/re-localisation based on that first Japanese version, with some enhancements.
@@ -11,8 +11,9 @@ Currently we have translations for:
 - Brazilian Portuguese
 - Spanish
 - Catalan
+- Latin
 
-The japanese game manual has also been translated: 
+The Japanese game manual has also been translated: 
 - [English](https://github.com/maxim-zhao/psrp/blob/master/Box%20and%20manual/Manual.pdf)
 
 More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language. 
@@ -20,6 +21,14 @@ More languages are welcome! See translating.md and/or contact me if you would li
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+- v2.6 release TBC
+  - Added Latin translation, thanks to Metallic Orwell
+  - Enlarged shop and exit signs for languages needing more space
+  - Catalan: Dezorian liars are no longer Majorcan
+  - Brazilian Portuguese: revised and improved script
+
+<details>
+<summary>Click for more history</summary>
 - v2.5.1 release 2024/12/23
   - Fixed Catalan retranslation credits
   - Fixed Catalan pluralised Mesetas
@@ -34,8 +43,6 @@ Changelog (in reverse chronological order):
     - Many linguistic fixes from [![](https://github.com/RetroAND.png?size=16)RetroAND](https://github.com/RetroAND)
   - French, Spanish, Catalan, Brazilian Portuguese:
     - Re-pluralise Mesetas
-<details>
-<summary>Click for more history</summary>
 
 - v2.4.1 release 2023/12/31
   - Restored original French translation as an extra option
@@ -67,10 +74,10 @@ Changelog (in reverse chronological order):
 
 - v2.3 released 2022/12/20
   - Phantasy Star 35th anniversary!
-  - Added Spanish translation from kusfo
+  - Added Spanish translation from [![](https://github.com/kusfo.png?size=16)kusfo](https://github.com/kusfo)
   - Added German translation from Popfan
   - Added literal English translation variant
-  - Updates to the Brazilian Portuguese script from ajkmetiuk
+  - Updates to the Brazilian Portuguese script from [![](https://github.com/ajkmetiuk.png?size=16)ajkmetiuk](https://github.com/ajkmetiuk)
   - Much work on converting the original Katakana script to use Hiragana and Kanji where appropriate, and then re-retranslating in a few areas
   - Much work on annotating the script with where each line is used/reused
   - Some shared lines split up to enable better translation
@@ -94,13 +101,13 @@ Changelog (in reverse chronological order):
   - Fixed issue with emulators not supporting cartridge RAM
   - Fixed glitches in enemy name border drawing on some hardware (#63)
   - Fixed some script inconsistencies in English (#61)
-  - Added Catalan translation from kusfo
+  - Added Catalan translation from [![](https://github.com/kusfo.png?size=16)kusfo](https://github.com/kusfo)
   - Improved the translation tools based on issues found with the Catalan translation
     - More languages are welcome! [Contact me](https://www.smspower.org/Home/Contact) if you want to contribute.
   - Ported the build system to GNU Make
 - v2.1 released 2021/01/31
   - added French translation from ichigobankai, Wil76 and Vingazole
-  - added Brazilian Portuguese translation from ajkmetiuk
+  - added Brazilian Portuguese translation from [![](https://github.com/ajkmetiuk.png?size=16)ajkmetiuk](https://github.com/ajkmetiuk)
   - fixed some bugs relating to the needs of these translations
   - ported script processing tools to Python
   - widened in-game and narrative script boxes
@@ -233,7 +240,8 @@ Changes made between version numbers may adversely affect emulator save states. 
 ### RetroAND
 - Catalan translation
   - https://github.com/RetroAND
-
+### Metallic Orwell
+- Latin translation
 
 Special thanks to:
 
