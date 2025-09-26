@@ -65,7 +65,7 @@ Items:
   String "<Das> Aeroprisma"
   String "<Die> Laermabeeren"
   String "Hapsby"
-  String "<Ein> Straßenpass"			; use definite article?
+  String "<Ein> Passierschein"			; use definite article?
   String "<Ein> Reisepass"				; use definite article?
   String "<Der> Kompass"
   String "<EinN> Törtchen"

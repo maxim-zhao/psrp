@@ -108,7 +108,7 @@
 - offsets: 4b94
   # Camineet resident - man
   de: |
-    Westlich von hier ist der Weltraumbahnhof, aber ohne einen Straßenpass gibt's keinen Zugang.<wait more>
+    Westlich von hier ist der Weltraumbahnhof, aber ohne einen Passierschein gibt's keinen Zugang.<wait more>
     Ich wollte einen beantragen, aber es hieß, das würde Wochen dauern. Wie soll ich nur nach Hause kommen?<wait>
 
 - offsets: 4b9a
@@ -130,7 +130,7 @@
 
 - offsets: 4bda,4d23
   # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
-  de: Ohne Straßenpass kommt hier keiner durch.<wait>
+  de: Ohne Passierschein kommt hier keiner durch.<wait>
 
 - offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
   # Road guard (with a Roadpass) - Camineet (4be0) and Parolit (4d18, 4d2d)
@@ -739,7 +739,7 @@
 - offsets: 5485,55b3
   # Guard Near Entrance
   # Also index 21c: robot police in Baya Marlay Prison
-  de: Haben Sie einen Straßenpass?<end>
+  de: Haben Sie einen Passierschein?<end>
 
 - offsets: 549d,55e0
   # Guard Near Entrance (no to previous question)
