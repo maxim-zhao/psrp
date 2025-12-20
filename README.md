@@ -27,6 +27,7 @@ Changelog (in reverse chronological order):
   - Catalan: Dezorian liars are no longer Majorcan
   - Brazilian Portuguese: revised and improved script
   - German: Straßenpass -> Passierschein
+  - French: MAGASIN sign improved
 
 <details>
 <summary>Click for more history</summary>
