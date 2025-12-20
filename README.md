@@ -21,11 +21,12 @@ More languages are welcome! See translating.md and/or contact me if you would li
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
-- v2.6 release TBC
+- v2.6 release 2025/12/20
   - Added Latin translation, thanks to Metallic Orwell
   - Enlarged shop and exit signs for languages needing more space
   - Catalan: Dezorian liars are no longer Majorcan
   - Brazilian Portuguese: revised and improved script
+  - German: Straßenpass -> Passierschein
 
 <details>
 <summary>Click for more history</summary>
