@@ -4,6 +4,7 @@ FLIPS = flips.exe
 BMP2TILE = bmp2tile.exe
 PY = "py"
 7Z = "7z"
+VERSION = "beta"
 
 # The original PSJ ROM
 PSJ = PS1-J.SMS
@@ -122,7 +123,7 @@ sizes.%.txt: script.yaml
 	del $@
 	for /l %%n in (1,1,140) do @del /q generated\$*\words.asm generated\$*\tree.asm ps1jert.$*.sms & (($(MAKE) -j WORD_COUNT_$*=%%n ps1jert.$*.sms 2>&1 || echo ROM:      [failed]) | find "ROM: ") >> $@
 
-../PhantasyStar-SMS-%.zip: ps1jert.%.ips ps1jert.%.bps ../README.md ../translating.md ../translation-notes.md ../technical.md
+../PhantasyStar-SMS-%-$(VERSION).zip: ps1jert.%.ips ps1jert.%.bps ../README.md ../translating.md ../translation-notes.md ../technical.md
 	$(7Z) a -mx9 $@ $^
 
-zips: $(foreach lang,$(LANGUAGES),../PhantasyStar-SMS-$(lang).zip)
+zips: $(foreach lang,$(LANGUAGES),../PhantasyStar-SMS-$(lang)-$(VERSION).zip)
