@@ -1,4 +1,4 @@
-# Phantasy Star Retranslation v2.6
+# Phantasy Star Retranslation v2.6.1
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/re-localisation based on that first Japanese version, with some enhancements.
@@ -21,7 +21,13 @@ More languages are welcome! See translating.md and/or contact me if you would li
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
-- v2.6 release 2025/12/20
+- v2.6.1 released 2025/12/22
+  - Improved layouts of title screen credits text
+  - Some languages' title screens were not updated for 2.6
+  - Added SDSC tags with credits for all languages
+  - Fixed some errors in the French extended script
+
+- v2.6 released 2025/12/20
   - Added Latin translation, thanks to Metallic Orwell
   - Enlarged shop and exit signs for languages needing more space
   - Catalan: Dezorian liars are no longer Majorcan
@@ -31,11 +37,11 @@ Changelog (in reverse chronological order):
 
 <details>
 <summary>Click for more history</summary>
-- v2.5.1 release 2024/12/23
+- v2.5.1 released 2024/12/23
   - Fixed Catalan retranslation credits
   - Fixed Catalan pluralised Mesetas
 
-- v2.5 release 2024/12/20
+- v2.5 released 2024/12/20
   - Options menu is now available in-game (#100)
   - Support for Mega Drive controllers (#113)
   - Half battles mode now applies to the overworld as well as dungeons (#116)
@@ -46,11 +52,11 @@ Changelog (in reverse chronological order):
   - French, Spanish, Catalan, Brazilian Portuguese:
     - Re-pluralise Mesetas
 
-- v2.4.1 release 2023/12/31
+- v2.4.1 released 2023/12/31
   - Restored original French translation as an extra option
   - Fixed credits in French
   
-- v2.4 release 2023/12/20
+- v2.4 released 2023/12/20
   - Updated and expanded French script with a great deal of extra hints and lore added, tying into later games in the series
   - Amended translation notes to better explain certain spells
   - Some script amendments regarding the words Laconian and Zirconian in most languages

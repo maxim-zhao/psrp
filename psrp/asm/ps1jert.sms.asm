@@ -689,7 +689,7 @@ AlsulinePaletteEffect:
    reservedspace $ff, $ff
 .endsms
 
-; We try to find space for the text...
+; We try to find space for the text... WLA DX defaults it to slot 0 (which is very tight), but slot 1 is relatively free
 .bank 1 slot 1
 .section "SDSC tag text: URL" free
 SDSCUrl: .db "https://github.com/maxim-zhao/psrp", 0
@@ -701,5 +701,5 @@ SDSCTitleData: .db SDSCTitle, 0
 SDSCAuthorsData: .db SDSCAuthors, 0
 .ends
 
-; TODO generate the number from the value passed in?
+; I can't find a nice way to feed the version number in from the makefile
 .sdsctag 2.61, SDSCTitleData, SDSCUrl, SDSCAuthorsData
