@@ -150,3 +150,6 @@ CreditsScreen19:
   CreditsEntry 3,15,"PRESENTE PAR"
   CreditsEntry 18,15, "SMS Power! (top)"
   CreditsEntry 18,16, "SMS Power! (bottom)"
+
+.define SDSCTitle "Phantasy Star: Retraduction"
+.define SDSCAuthors "SMS Power!, Maxim, Z80 Gaiden, Paul Jensen, Satsu, Popfan, ichigobankai, wil75, elz, Vingazole"

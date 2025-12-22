@@ -141,3 +141,8 @@ CreditsScreen19:
   CreditsEntry  3,15, "PRESENTED BY"
   CreditsEntry 18,15, "SMS Power! (top)"
   CreditsEntry 18,16, "SMS Power! (bottom)"
+
+
+
+.define SDSCTitle "Phantasy Star Retranslation"
+.define SDSCAuthors "SMS Power!, Maxim, Frank Cifaldi, Z80 Gaiden, Paul Jensen, Satsu, Popfan"

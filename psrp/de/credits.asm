@@ -148,3 +148,6 @@ CreditsScreen19:
   CreditsEntry 17,16, "VON"
   CreditsEntry 10,19, "SMS Power! (top)"
   CreditsEntry 10,20, "SMS Power! (bottom)"
+
+.define SDSCTitle "Phantasy Star Neuübersetzung"
+.define SDSCAuthors "SMS Power!, Maxim, Z80 Gaiden, Paul Jensen, Satsu, Popfan"

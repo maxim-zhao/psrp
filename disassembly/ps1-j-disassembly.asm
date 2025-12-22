@@ -228,7 +228,7 @@ _RAM_C2D4_ db
 _RAM_C2D5_ db
 SceneAnimEnabled db           ; Enemy scene animations only happen when non-zero
 _RAM_C2D7_ db
-_RAM_C2D8_ db
+_RAM_C2D8_MenuSpecialEffect db
 _RAM_C2D9_ dw
 RoomIndex db                  ; Room index to table at $49d1
 _RAM_C2DC_ db
@@ -4846,12 +4846,13 @@ _LABEL_1D2A_:
 _LABEL_1D3D_:
     xor a
     ld (_RAM_C29D_InBattle),a
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     call _LABEL_37FA_
     call _LABEL_3041_UpdatePartyStats
--:  ld a,(_RAM_C2D8_)
+-:  ld a,(_RAM_C2D8_MenuSpecialEffect)
     or a
     jr nz,++
+    ; Nothing special, carry on
     ld hl,$7882
     ld (CursorTileMapAddress),hl
     ld a,$04
@@ -4866,6 +4867,7 @@ _LABEL_1D3D_:
 
 +:  ld a,$FF
 ++: push af
+      ; Keep sprites+stats for #5 = Tairon + Alsuline scene
       cp $05
       jr z,+
       ; Turn off sprites
@@ -4876,31 +4878,31 @@ _LABEL_1D3D_:
 +:    call _LABEL_321F_HidePartyStats
       call _LABEL_3818_
     pop af
-    cp $FF
+    cp $FF ; -1 = nothing more to do
     ret z
-    cp $03
+    cp $03 ; 0, 1, 2 -> nothing
     ret c
-    cp $05
+    cp $05 ; 3 or 4 -> unlocking a door
     jr nc,+
     ld c,a
     jp _LABEL_6ABE_
 
-+:  cp $06
++:  cp $06 ; 5 => Alsuline scene
     jr nc,+
     call _LABEL_7F28_
     call MenuWaitForButton
     jp _LABEL_467B_
 
-+:  cp $07
++:  cp $07 ; 6 => Aerocastle scene
     jr nc,+
     ld a,MusicFinalDungeon
     call CheckMusic
-    call _LABEL_7F59_
+    call _LABEL_7F59_AerocastlePaletteEffect
     ld a,$FF
     ld (_RAM_C2DC_),a
     jp _LABEL_1D3D_
 
-+:  cp $08
++:  cp $08 ; 7 => Troop/TranCarpet
     jp c,_LABEL_46FE_
     ; Troop/TranCarpet
     ld a,SFX_bf
@@ -5485,7 +5487,7 @@ _LABEL_21D4_:
     call TextBox20x6
     call Close20x6TextBox
     ld a,$FF
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ld hl,FunctionLookupIndex
     ld (hl),$08
     ret
@@ -5512,7 +5514,7 @@ _Magic0e_MagicUnseal:
     bit 7,(hl) ; Mark as unlocked
     jr nz,-
     ld a,$04
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ret
 
 ; 16th entry of Jump Table from 1BE6 (indexed by _RAM_C2AD_)
@@ -5602,7 +5604,7 @@ _DoTroopOrTranCarpet:
     call TextBox20x6
     call Close20x6TextBox
     ld a,$08
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ret
 
 ; 3rd entry of Jump Table from 1DF3 (indexed by CursorPos)
@@ -5648,7 +5650,7 @@ _LABEL_22C4_Items:
     xor a
     ld (VehicleMovementFlags),a
     dec a
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ld hl,textDisembarkedVehicle
 +:  call TextBox20x6
     call Close20x6TextBox
@@ -5799,7 +5801,7 @@ _LABEL_2413_:
     ld a,e
     ld (VehicleMovementFlags),a
     ld a,$FF
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ld hl,textBoardedVehicle
 +:  call TextBox20x6
     jp Close20x6TextBox
@@ -5825,7 +5827,7 @@ UseItem_FlowMover:
     ld a,$08
     ld (VehicleMovementFlags),a
     ld a,$FF
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ld hl,textBoardedVehicle
 +:  call TextBox20x6
     jp Close20x6TextBox
@@ -5929,7 +5931,7 @@ UseItem_Searchlight:
     call _LABEL_28D8_RemoveItemFromInventory
     ld a,-1 ; Palette -1 is the lit one
     ld (DungeonPaletteIndex),a
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ret
 
 ; 41st entry of Jump Table from 2366 (indexed by ItemTableIndex)
@@ -6012,7 +6014,7 @@ UseItem_Alsuline:
     ld hl,Flag_DungeonDialogue00_E3_StoneTairon
     ld (hl),$FF
     ld a,$05
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ret
 
 ; 45th entry of Jump Table from 2366 (indexed by ItemTableIndex)
@@ -6081,7 +6083,7 @@ UseKeyNotInDungeon: ; shared with Miracle Key
     bit 7,(hl)
     jr nz,+
     ld a,$03
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     jp Close20x6TextBox
 
 +:  ld hl,textNoEffect
@@ -6160,7 +6162,7 @@ UseItem_AeroPrism:
     ld hl,textAerocastleAppeared
     call TextBox20x6
     ld a,$06
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     jp Close20x6TextBox
 
 ; 50th entry of Jump Table from 2366 (indexed by ItemTableIndex)
@@ -6192,7 +6194,7 @@ _LABEL_2733_:
     call TextBox20x6
     call Close20x6TextBox
     ld a,$07
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     ret
 
 +++:ld a,(SceneType)
@@ -6272,7 +6274,7 @@ UseItem_MiracleKey:
     jr nz,++
     ld b,$04
 +:  ld a,b
-    ld (_RAM_C2D8_),a
+    ld (_RAM_C2D8_MenuSpecialEffect),a
     jp Close20x6TextBox
 
 ++:  ld hl,textNoEffect
@@ -9506,6 +9508,7 @@ PaletteAirCastleFull:  ; $3fc2
 .db $30,$00,$3f,$0b,$06,$1a,$2f,$2a,$08,$15,$15,$0b,$06,$1a,$2f,$28
 .ends
 .orga $3fd2
+; Unused?
 .db $1A $2F $28
 
 .db $A6 $8B $17 $EF $AA $6F $AB $17 $8E $8F $17
@@ -18307,7 +18310,7 @@ _LABEL_7F44_PaletteAnimation:
 ; followed by
 .orga $7f59
 .section "Palette animation 2" overwrite
-_LABEL_7F59_:
+_LABEL_7F59_AerocastlePaletteEffect:
     ld hl,Frame2Paging
     ld (hl),:_DATA_FE52_
     call +

@@ -154,3 +154,6 @@ CreditsScreen19:
   CreditsEntry 11,16,      "PELA"
   CreditsEntry 18,15, "SMS Power! (top)"
   CreditsEntry 18,16, "SMS Power! (bottom)"
+
+.define SDSCTitle "Phantasy Star: Retradução"
+.define SDSCAuthors "SMS Power!, Maxim, Z80 Gaiden, Paul Jensen, Satsu, Popfan, ajkmetiuk"

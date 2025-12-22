@@ -605,13 +605,6 @@ CalculateCursorPos:
   ret
 .ends
 
-.smsheader
-   productcode 00, 95, 0 ; 9500
-   version 3 ; 1.03 :)
-   regioncode 4
-   reservedspace $ff, $ff
-.endsms
-
 ; Relocating item metadata to increase script space
 
 .slot 2
@@ -643,6 +636,39 @@ GetItemType:
   ret
 .ends
 
+; Relocating Alsuline palette effect to make space for the SDSC header
+.unbackground $7f28 $7f43 ; Code
+.unbackground $7fb5 $7fe4 ; Data
+.bank 1 slot 1
+.orga $7f28
+.section "Trampoline for Alsiline palette effect" force
+AlsulinePaletteTrampoline:
+  ld hl,$ffff
+  ld (hl),:AlsulinePaletteEffect
+  jp AlsulinePaletteEffect
+.ends
+.slot 2
+.section "Relocated palette effect" superfree
+_data:
+  CopyFromOriginal $7fb5 $30
+AlsulinePaletteEffect:
+  ; Code copied from the original
+  ld hl,_data
+  ld a,$6f
+-:push af
+    and $0F
+    ld de,$c220+32-8
+    ld bc,8
+    jr nz,+
+    ldir
++:  ld a,$16
+    call ExecuteFunctionIndexAInNextVBlank
+  pop af
+  dec a
+  jr nz,-
+  ret
+.ends
+
 .include "original-game-bug-fixes.asm"
 .include "game-enhancements.asm"
 .include "shop-equip-prompt.asm"
@@ -656,3 +682,24 @@ GetItemType:
 .include "window-ram-management.asm"
 .include "save-game-handling.asm"
 
+.smsheader
+   productcode 00, $95, 0 ; 9500
+   version 2 ; Major version
+   regioncode 4
+   reservedspace $ff, $ff
+.endsms
+
+; We try to find space for the text...
+.bank 1 slot 1
+.section "SDSC tag text: URL" free
+SDSCUrl: .db "https://github.com/maxim-zhao/psrp", 0
+.ends
+.section "SDSC tag text: title" free
+SDSCTitleData: .db SDSCTitle, 0
+.ends
+.section "SDSC tag text: authors" free
+SDSCAuthorsData: .db SDSCAuthors, 0
+.ends
+
+; TODO generate the number from the value passed in?
+.sdsctag 2.61, SDSCTitleData, SDSCUrl, SDSCAuthorsData
