@@ -1951,7 +1951,7 @@
 
 - offsets: 2276,228e
   # Using the Telepathy Ball or Lutz's Telepathy spell in front of a pitfall
-  pt-br: <player> teve um mal pressentimento.<wait>
+  pt-br: <player> teve um mau pressentimento.<wait>
 
 - offsets: 2269,2271,2289
   # Using either of the above if not in front of a pit
