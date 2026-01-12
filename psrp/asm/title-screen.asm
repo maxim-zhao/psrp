@@ -1,35 +1,35 @@
 ; New title screen ------------------------
-  PatchB $2fdb $2b    ; cursor tile index for title screen
+  PatchB $2fdb 191    ; cursor tile index for title screen
 
-; The artwork is over 256 tiles so we load it in two chunks. This is handy as we can also localise the bottom half.
+; The artwork is over 256 tiles so we load it in two chunks.
 
 .slot 2
 .section "Replacement title screen" superfree
-TitleScreenTilesBottom:
-.incbin {"generated/{LANGUAGE}/title.bottom.psgcompr"}
-.ends
-
-.section "Title screen name table" superfree
-TitleScreenTilemapBottom:
-.incbin {"generated/{LANGUAGE}/title.bottom.tilemap.pscompr"}
+TitleScreenTilesLow:
+.incbin {"generated/{LANGUAGE}/titlescreen.tiles.low.psgcompr"}
 .ends
 
 .section "Replacement title screen part 2" superfree
-TitleScreenTilesTop:
-.incbin "generated/title.top.psgcompr"
+TitleScreenTilesHigh:
+.incbin {"generated/{LANGUAGE}/titlescreen.tiles.high.psgcompr"}
 .ends
 
-.section "Title screen name table for logo" superfree
-TitleScreenTilemapTop:
-.incbin "generated/title.top.tilemap.pscompr"
+.section "Title screen name table" superfree
+TitleScreenTilemap:
+.incbin {"generated/{LANGUAGE}/titlescreen.tilemap.pscompr"}
+.ends
+
+; The cursor is invariant to the language so it's loaded separately
+.section "Replacement title screen part 3" superfree
+TitleScreenCursor:
+.incbin {"generated/titlescreen-cursor.psgcompr"}
 .ends
 
 
   ROMPosition $00925
 .section "Title screen palette" force ; not movable
 TitleScreenPalette:
-.incbin "generated/title-pal.bin"
-.db 0, 0 ; last two entries unused
+.incbin {"generated/{LANGUAGE}/title-pal.bin"}
 .db 0 ; background colour
 .db 0,0,$3c ; cursor for name entry screen
 .dsb 12 0 ; leave rest black
@@ -48,11 +48,11 @@ TitleScreenPatch:
 ;  ld (hl),$0e
 ;  ld hl,$bc68        ; Source
 ;  call $6e05         ; Load  
-  LoadPagedTiles TitleScreenTilesBottom $6000
+  LoadPagedTiles TitleScreenTilesLow TileWriteAddress(0)
 
   ld hl,PAGING_SLOT_2
-  ld (hl),:TitleScreenTilemapBottom
-  ld hl,TitleScreenTilemapBottom
+  ld (hl),:TitleScreenTilemap
+  ld hl,TitleScreenTilemap
   call TitleScreenExtra
   ; Size matches original
 .ends
@@ -60,19 +60,10 @@ TitleScreenPatch:
 .section "Title screen extra tile load" free
 TitleScreenExtra:
   call DecompressToTileMapData ; what we stole to get here
-  ; Then copy down...
-  ld hl,TileMapCacheAddress(0,0)
-  ld de,TileMapCacheAddress(0,12)
-  ld bc,12 * 32 * 2
-  ldir
 
   ; Now we load the top half
-  LoadPagedTiles TitleScreenTilesTop TileWriteAddress(0)
-
-  ld a,:TitleScreenTilemapTop
-  ld (PAGING_SLOT_2),a
-  ld hl,TitleScreenTilemapTop
-  call DecompressToTileMapData
+  LoadPagedTiles TitleScreenCursor TileWriteAddress(191)
+  LoadPagedTiles TitleScreenTilesHigh TileWriteAddress(256)
 
   call SettingsFromSRAM ; Load settings from SRAM
 

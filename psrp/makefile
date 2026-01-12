@@ -52,10 +52,14 @@ generated/%.psgcompr: %.png tools.py
 	$(BMP2TILE) $< -noremovedupes -savetiles $@
 
 # We generate tiles and tilemap for the title screen, these need specific parameters
-generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin &: new_graphics/titlescreen.top.png
-	$(BMP2TILE) $^ -tileoffset 0 -savetiles generated/title.top.psgcompr -savetilemap generated/title.top.tilemap.pscompr -palsms -savepalette generated/title-pal.bin
-generated/%/title.bottom.psgcompr generated/%/title.bottom.tilemap.pscompr &: %/titlescreen.png
-	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/$*/title.bottom.psgcompr -savetilemap generated/$*/title.bottom.tilemap.pscompr
+# Old:
+# generated/title.top.psgcompr generated/title.top.tilemap.pscompr generated/title-pal.bin &: new_graphics/titlescreen.top.png
+# 	$(BMP2TILE) $^ -tileoffset 0 -savetiles generated/title.top.psgcompr -savetilemap generated/title.top.tilemap.pscompr -palsms -savepalette generated/title-pal.bin
+# generated/%/title.bottom.psgcompr generated/%/title.bottom.tilemap.pscompr &: %/titlescreen.png
+# 	$(BMP2TILE) $^ -tileoffset 256 -savetiles generated/$*/title.bottom.psgcompr -savetilemap generated/$*/title.bottom.tilemap.pscompr
+# New:
+generated/%/titlescreen.tiles.low.psgcompr generated/%/titlescreen.tiles.high.psgcompr generated/%/titlescreen.tilemap.pscompr generated/%/title-pal.bin &: %/titlescreen.png
+	$(BMP2TILE) $^ -excludeindices 191-255 -savetilemap generated/$*/titlescreen.tilemap.pscompr -tilerange 0-191 -savetiles generated/$*/titlescreen.tiles.low.psgcompr -tilerange 191-500 -savetiles generated/$*/titlescreen.tiles.high.psgcompr -palsms -fullpalette -savepalette generated/$*/title-pal.bin
 
 # Generate menu data
 generated/%/menus.asm generated/%/menu-patches.asm &: tools.py menus.yaml %/menus.yaml
