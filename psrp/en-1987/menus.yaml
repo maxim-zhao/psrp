@@ -1,0 +1,209 @@
+- name: OpeningCinema
+  en-1987: |
+    ┌──────────────────╖
+    │Space Century 342,║
+    │Camineet on Palma ║
+    ╘══════════════════╝
+
+- name: WorldMenu
+  en-1987: |
+    ┌───────╖
+    │Stats  ║
+    │Magic  ║
+    │Items  ║
+    │Search ║
+    │Save   ║
+    │Options║
+    ╘═══════╝
+
+- name: ChoiceMenu
+  en-1987: |
+    ┌───╖
+    │Yes║
+    │No ║
+    ╘═══╝
+
+- name: BattleMenu
+  en-1987: |
+    ┌──────╖
+    │Attack║
+    │Magic ║
+    │Items ║
+    │Talk  ║
+    │Run   ║
+    ╘══════╝
+
+- name: ToolShopMenu
+  en-1987: |
+    ┌────╖
+    │Buy ║
+    │Sell║
+    ╘════╝
+
+- name: ItemActionMenu
+  en-1987: |
+    ┌─────╖
+    │Use  ║
+    │Equip║
+    │Drop ║
+    ╘═════╝
+
+- name: BattleSpellsAlisa
+  en-1987: |
+    ┌────╖
+    │Heal║
+    │Bye ║
+    │Chat║
+    │Fire║
+    │Rope║
+
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  en-1987: |
+    ┌────╖
+    │Cure║
+    │Terr║
+    │Wall║
+    │Help║
+
+- name: BattleSpellsLutz
+  en-1987: |
+    ┌────╖
+    │Fire║
+    │Tele║
+    │Wind║
+    │Prot║
+    │Thun║
+
+- name: OverworldSpellsAlisa
+  en-1987: |
+    ┌────╖
+    │Heal║
+    │Fly ║
+
+- name: OverworldSpellsMyau
+  en-1987: |
+    ┌────╖
+    │Cure║
+    │Trap║
+    │Exit║
+
+- name: OverworldSpellsLutz
+  en-1987: |
+    ┌────╖
+    │Cure║
+    │Exit║
+    │Tele║
+    │Open║
+    │Rise║
+
+- name: SpellMenuBottom
+  en-1987: ╘════╝
+
+- name: StatsMenuDimensions
+  en-1987: |
+    ┌────────────────╖
+    │LV            99║
+    │EP         65535║
+    │Attack       255║
+    │Defense      255║
+    │Maximum HP   255║
+    │Maximum MP   255║
+    │Meseta     65535║
+    ╘════════════════╝
+
+- name: EquimentMenuDimensions
+  en-1987: |
+    ┌──────────────────╖
+    │                  ║
+    │                  ║
+    │                  ║
+    ╘══════════════════╝
+
+- name: InventoryMenuDimensions
+  en-1987: |
+    ┌──────────────────╖
+    │Meseta       65535║
+    │Next              ║
+    │Item 1            ║
+    │Item 2            ║
+    │Item 3            ║
+    │Item 4            ║
+    │Item 5            ║
+    │Item 6            ║
+    │Item 7            ║
+    │Item 8            ║
+    ╘══════════════════╝
+
+- name: TopBorder10
+  en-1987: ┌──────────────────╖
+
+- name: BottomBorder10
+  en-1987: ╘══════════════════╝
+
+- name: InventoryNextMenu
+  en-1987: │Next              ║
+
+- name: HapsbyTravelMenu
+  en-1987: |
+    ┌──────╖
+    │Gothic║
+    │Uzo   ║
+    │Skray ║
+    ╘══════╝
+
+- name: SoundTestMenuTop
+  en-1987: ┌─────────────╖
+
+- name: SoundTestMenuChipPSG
+  en-1987: │Chip  SN76489║
+
+- name: SoundTestMenuChipYM2413
+  en-1987: │Chip   YM2413║
+
+- name: SoundTestMenu
+  en-1987: |
+    │-------------║
+    │Title Screen ║
+    │Intro        ║
+    │Town         ║
+    │Dungeon      ║
+    │Shop         ║
+    │Church       ║
+    │Palma        ║
+    │Battle       ║
+    │Story        ║
+    │Village      ║
+    │Vehicle      ║
+    │Motavia      ║
+    │Dezoris      ║
+    │Tower        ║
+    │Final Dungeon║
+    │LaShiec      ║
+    │Dark Force   ║
+    │Ending       ║
+    │Game Over    ║
+    ╘═════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.  
+  en-1987: |
+    ┌───────────────────╖
+    │Walk speed       x ║
+    │Experience       x ║
+    │Meseta           x ║
+    │Battles            ║
+    │Alisa's hair       ║
+    │Font               ║
+    │Fades              ║
+    │Text speed       x ║
+    ╘═══════════════════╝
+
+- name: ContinueMenu
+  en-1987: |
+    ┌──────╖
+    │Load  ║
+    │Delete║
+    ╘══════╝

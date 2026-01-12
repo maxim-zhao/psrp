@@ -13,6 +13,7 @@ PSJ = PS1-J.SMS
 # A larger word count allows the script chunk to be smaller at the cost of a larger word dictionary and larger Huffman trees.
 # The optimal word count (for smallest overall data size) depends on the script. Iterating through the options can help to find the best value. `make sizes.en.txt` and similar to do that.
 WORD_COUNT_en = 49
+WORD_COUNT_en-1987 = 49
 WORD_COUNT_fr = 64
 WORD_COUNT_fr-extended = 111
 WORD_COUNT_pt-br = 58
