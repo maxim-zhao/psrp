@@ -37,42 +37,40 @@
   # Camineet
   # Alisa's house
   en-1987: |
-    This is Alisa’s home.<line><line>
-    Nero's things are still where he left them.<wait>
-
+    Here is the home of Alis.<wait>
+    
 - offsets: 4b48
   # Camineet
   # Suelo (first visit)
   # Note that Alisa may be dead - but it's pretty unlikely 
   # and the original script assumes she is alive
   en-1987: |
-    Alisa... taking on LaShiec is crazy. But I know how stubborn and determined you can be.<wait more>
-    I won't waste my breath trying to talk you out of this, just... please be careful.<wait more>
-    If you ever get hurt, come back here to heal.<wait more>
-    We've been neighbors a long time, you know Suelo's home is always open for you.<wait>
+    I'm Suelo. I know how you must feel, dear, no one can stop you from doing what you know you must do.<wait more>
+    But if you should ever be wounded in battle, come here to rest.<wait>
 
 - offsets: 4b4e
   # Camineet
   # Suelo (subsequent visits and also immediately after the preceding text)
   # Note: Alisa may not be alive later, so make sure the text here doesn't talk to her directly.
   en-1987: |
-    Please get some rest. Don't overdo it, okay? You will always be welcome here.<wait>
+    Please rest yourself. You are welcome here at anytime.<wait>
+
 - offsets: 4b62
   # Camineet
   # Nekiseh (first visit)
   # Alisa is not guaranteed to be alive...
   # Following script entry is shown immediately afterwards.
   en-1987: |
-    My name is Nekise.<line>
-    Nero asked me to help him find a warrior named Tylon, are you looking for him too?<wait more>
-    The last I heard, he was staying in a town called Shion. Maybe he's still near there.<wait more>
-    Your brother also asked me to keep this Laconian Pot safe for him.<wait more>
-    It's pretty valuable, maybe it will help you on your journey? Here, please take it.<wait>
+    I'm Nekise. One hears lots of stories, you know, but some say that a fighter named Odin lives in a town called Scion.<wait more>
+    Also, I have a Laconian Pot given by Nero. That would be helpful to you in your task.<wait>
 
 - offsets: 4b7c
   # Camineet
   # Nekiseh (additional text on first visit; only text on subsequent visits)
-  en-1987: I wish there was more I could do for you. Please be safe out there.<wait>
+  en-1987: |
+    I wish I could help you more. I pray for your safety.<wait>
+
+# Done to here =========
 
 - offsets: 4b82
   # Camineet resident - man
