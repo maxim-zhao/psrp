@@ -416,7 +416,6 @@
   # As this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
   en-1987: But Myau cannot open the bottle.<wait>
 
-# =============== Done up to here
 
 # ********************************
 # *** Character Intro - Tylon ***
@@ -427,37 +426,30 @@
   # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
   # So Tylon can't talk to Myau directly.
   en-1987: |
-    Ah, Myau found help. Thank you for rescuing me.<line>
-    I don't know if it will do any good though.<wait more>
-    If we couldn't defeat Medusa, we don’t stand a chance against LaShiec.<wait>
+    Thanks for saving me.<line>
+    I guess if Medusa can stop me, I don't have much hope of killing Lassic, do I?<wait>
 
 - offsets: 4693
   # Alisa
   en-1987: |
-    My brother Nero was killed trying to overthrow LaShiec.<wait more>
-    I'm going to destroy him, no matter what it takes.<line><line>
-    Nero gave me your name just before he died, and said that you might help me.<wait>
+    My brother died trying to kill Lassic. Before he died, he told me to seek your help.<wait>
 
 - offsets: 469e
   # Tylon
   en-1987: |
-    I see. Well then, for Nero's sake, let's team up!<line><line>
-    There's always room for one more, right Myau?<wait>
+    Is that so? Well, I must not let your brother die unavenged.<wait>
 
 - offsets: 46a9
   # Alisa
   en-1987: |
-    Tell me something before we go.<line><line>
-    You said you were trying to slay Medusa. Why?<wait>
+    Why did you try to kill Medusa?<wait>
 
 - offsets: 46b4
   # Tylon
   en-1987: |
-    Oh, it's because she has a magical axe, and I want it.<line><line>
-    Maybe we can grab it on the way to LaShiec?<wait more>
-    Anyway, I hid a Compass at a dead end in this cave.<line><line>
-    Come on, let's go grab it. I'm sure we could use it.<wait>
-
+    Because Medusa has a mystic axe. Unfortunately, she got away from me.<wait more>
+    Anyhow, I have stashed a Compass in one of the passages of this cave. Let's go and get it<wait>
+  # Missing full stop
 
 # ************
 # *** Eppi ***
@@ -465,46 +457,36 @@
 
 - offsets: 4de5
   # Villager
-  en-1987: |
-    It wouldn’t surprise me if the Governor-General of Motavia approved of what you’re doing.<wait more>
-    He might even be able to help you in your quest. Have you talked to him yet?<wait>
+  en-1987: The governor of Motavia might possibly help you well.<wait>
 
 - offsets: 4deb
   # Villager
-  en-1987: All the great Espers live on Motavia.<wait>
+  en-1987: Noah lives on Motavia.<wait>
 
 - offsets: 4df1
   # Villager
-  en-1987: |
-    Long ago, a professor named Luveno had a research laboratory in the Gothic Woods.<wait more>
-    I wonder if it’s still there?<wait>
+  en-1987: Dr. Luveno had a laboratory in the Gothic forest long ago, it is said.<wait>
 
 - offsets: 4df7
   # Villager
-  en-1987: |
-    Welcome to Eppi Village!<wait more>
-    We don’t get many visitors lately, now that the forest is crawling with monsters.<wait>
+  en-1987: Welcome to Eppi.<wait>
 
 - offsets: 4dfd
   # Villager
-  en-1987: |
-    Taking on ol’ LaShiec, are you?<wait more>
-    You’re either a fool, or you’re tougher than you look.<wait more>
-    Either way, I admire your bravery. Are you in need of a Dungeon Key?<end>
+  en-1987: Are you looking for a Dungeon Key?<end>
 
 - offsets: 4e17
   # Villager (yes to previous question)
-  en-1987: |
-    I hid one inside the warehouse on the outskirts of Camineet’s residential district.<wait more>
-    I hid it pretty good, you might want to take a second look if you've already been there.<wait>
+  en-1987: I've hidden a Dungeon Key in the warehouse in the outskirts of the Camineet.<wait>
+  # "The Camineet"?
 
 - offsets: 4e1d
   # Villager
-  en-1987: Do you know what the hardest, strongest material in the world is?<end>
+  en-1987: Do you know what the hardest, strongest material in our world is?<end>
 
 - offsets: 4e2b
   # Villager (no to previous question)
-  en-1987: It’s Laconia! Laconian weapons are the strongest in all of Algol!<wait>
+  en-1987: It’s Laconia! Arms made with Laconia are the best to have.<wait>
 
 # ******************
 # *** Naula Cave ***
@@ -514,13 +496,14 @@
   # Shortcake Salesman
   # <number> is always 280.
   en-1987: |
-    Hey, a customer! Glad you found us. Sorry about the location...<wait more>
-    My shortcakes are the best in Algol, and a steal at only <number> Meseta. Want one?<end>
+    I'm sorry I have a shop in such a place.<line>
+    Shortcake for 1000 Mesetas! Will you buy one?<end>
+
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
   # Also Sopia villager if you give him a PelorieMate.
   # Note the similarity to index 198.
-  en-1987: Thank you!<wait>
+  en-1987: Thanks!<line>Come again!<wait>
 
 # *********************
 # *** Paseo (again) ***
@@ -528,70 +511,62 @@
 
 - offsets: 4fd4
   # Guards outside Underground Passage to Governor's Mansion
-  en-1987: zzz...<wait>
+  en-1987: ZZZ... ZZZ...<wait>
 
 - offsets: 5627
   # Guard inside Underground Passage to Governor's Mansion
-  en-1987: Halt! Did you bring a gift for the Governor-General?<end>
+  en-1987: Do you have a present to give to the Governor?<end>
 
 - offsets: 564b
   # Guard inside Underground Passage to Governor's Mansion (yes to previous question, have shortcake)
-  en-1987: |
-    Ah, Shortcake. He’ll be pleased. I’ll hold on to this for you.<wait more>
-    Proceed.<wait>
+  en-1987: I'll take the Shortcake now.<wait>
 
 - offsets: 5651
   # Guard inside Underground Passage to Governor's Mansion (yes to previous question, no shortcake)
-  en-1987: These are not suitable gifts!<wait>
+  en-1987: I don't think you have a suitable present.<wait>
 
 - offsets: 5632
   # Guard inside Underground Passage to Governor's Mansion (no to previous question)
-  en-1987: I can’t grant you access without a gift!<wait>
+  en-1987: Go back to your home now.<wait>
 
 - offsets: 4f19
   # Governor-General (first visit)
   # Last part falls through to the following entry, we do not do that here.
   en-1987: |
-    Welcome. I am the Governor-General of this planet. You have come so far. Please, sit.<wait more>
-    I know why you are here. You’ve certainly made no secret of it. You're going to kill LaShiec.<wait more>
-    LaShiec is a powerful man. No, more than a man. He’s beyond those constraints now.<wait more>
-    You’re very brave to take him on. But bravery, I fear, will not be enough.<wait more>
-    Go. Destroy him. I won’t stop you. In fact, I will offer you assistance.<wait more>
-    A powerful Esper named Lutz lives in Mahal cave, north of here. Take this letter to him.<wait more>
-    With his help, I have faith that you will succeed. Come back here when you have.<wait>
+    I'm the Governor. I'm told that you intend to try to kill Lassic.<wait more>
+    I admire your courage. In the Maharu Cave lives an Espar named Noah. 
+    I will give you a letter of introduction to present to her.<wait more>
+    I have faith that you will kill Lassic and return here eventually.<wait>
 
 - offsets: 4f13,4fc6
   # Governor-General (subsequent visits)
-  en-1987: Return here when you have defeated LaShiec. God be with you.<wait>
+  en-1987: I have faith that you will kill Lassic and return here eventually.<wait>
 
 - offsets: 4f2f
   # Governor-General (before nightmare)
-  en-1987: You must be tired from your journey. Why don’t you rest here for a while?<wait>
+  en-1987: You should rest here awhile after your long journey.<wait>
 
 - offsets: 4fda
   # Lady in Guest House
-  en-1987: You look tired, why don’t you rest here for a while?<wait>
+  en-1987: Please rest your weary bones.<wait>
   
 - offsets: 4ff9
   # Lady in Guest House (after resting)
-  en-1987: Good luck out there. You’re going to need it.<wait>
+  en-1987: I am praying for your safety.<wait>
 
 - offsets: 4f5b
-  en-1987: You fell into a deep sleep...<delay>
+  en-1987: You fell into a deep sleep.<delay>
 
 - offsets: 4fa2
-  en-1987: It was all a dream...<wait>
+  en-1987: You had a bad dream.<wait>
 
 - offsets: 4f0d
   # Governor-General (return after dream):
-  en-1987: |
-    There is not a single moment to lose.<wait more>
-    Please be careful.<line>
-    I pray for your safety.<wait>
+  en-1987: That was quick - oh, I see, you are not through with Lassic. You had best rest at the inn.<wait>
 
 - offsets: 4ed6
   # (after defeating LaShiec)
-  en-1987: Empty! Where is the Governor-General?<wait>
+  en-1987: It has something strange. Where is the Governor, I wonder?<wait>
 
 # ******************
 # *** Mahal cave ***
@@ -599,17 +574,16 @@
 
 - offsets: 53c4
   # If you haven't found Lutz yet (unused/impossible?)
-  en-1987: Since the orders are from the Governor-General, Lutz will probably listen.<wait>
+  en-1987: If the Governor orders Noah to do something, he will likely obey.<wait>
 
 - offsets: 53c9
   # If you have found Lutz (unused?)
-  en-1987: Yahoo!<wait>
+  en-1987: Hello!<wait>
 
 - offsets: 53df
   # Lutz
   en-1987: |
-    Who are you?<line><line>
-    I’m trying to train. Don’t interrupt me.<wait>
+    Who are you? I'm busy with my training now! Do not be a nuisance!<wait>
 
 
 # ******************************
@@ -620,18 +594,14 @@
   # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
   # which character it is during this conversation.
   en-1987: |
-    You must be Lutz. I have a letter for you from the Governor-General.<line><line>
-    Would you mind reading it?<wait>
+    I've received a letter from the Governor. Please read it.<wait>
 
 - offsets: 46f2
   en-1987: |
-    Let me see that.<wait more>
-    ...Ah. I see. So it’s come to this.<line><line>
-    I apologize for my earlier hostility.<wait more>
-    Together, we must protect Algol from falling into the hands of evil.<line><line>
-    First, we must meet with Dr. Luveno, in the Gothic Woods.<wait more>
-    If I recall, we can get there through a manhole at Camineet Space Station.<line><line>
-    Let’s go. Quickly.<wait>
+    Let me see it.....<line>
+    Our duty is clear: we must protect the planets of the Algol system from evil.<wait more>
+    We must first go to the Gothic forests and find Dr. Luveno.<wait more>
+    We can use an underground passage from a manhole in the Spaceport.<wait>
 
 
 # ********************
@@ -641,40 +611,39 @@
   # Villager x2
   # Sopia villager
   # Triada prisoner
-  en-1987: I could really use a PelorieMate. Can you spare one?<end>
+  en-1987: Could ya spare me a cup of Cola?<end>
 
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
   en-1987: |
-    Thanks. I suppose you’re looking for Doc Luveno? Yeah, his lab used to be here.<wait more>
-    Not no more, though. Guy went crazy. They finally locked that loon up.<wait more>
-    He’s being held in Triada, a prison south of here.<wait>
+    Thanks! This was once the lab. of Dr. Luveno. He went bonkers, though and be inprisoned in Triada to the south of here.<wait>
+  # "lab.", "be inprisoned"
 
 - offsets: 502e,5055,535b
   # Sopia villager (yes to previous question, and you don't have a PelorieMate)
   # Gothic Woods villager (yes to previous question, and you don't have a PelorieMate) x2
-  en-1987: Wait, you don't have one? Then why did you say yes?! Get lost!<wait>
+  en-1987: Don't be a fool!<wait>
 
 - offsets: 5016,503f,54b4
   # Villager x2 (no to previous question)
   # Triada prisoner
-  en-1987: Then I got nothing to say to you. Get lost.<wait>
+  en-1987: I got nothin' to say t'ya! Get lost!<end>
 
 - offsets: 504f
   # Another villager (yes to previous question, and you have a PelorieMate)
   en-1987: |
-    Thank you, stranger.<wait more>
-    At the end of the long path directly south of here, there's an ancient tower.<wait more>
-    Word is there's a monster in there that turns you to stone if you just look at it!<wait>
+    Don't go near the tower at the far end of the narrow road which goes from the Gothic Forest through the mountains.<wait more>
+    A magic beast lives there. Look at it and ya turn to stone.<wait>
 
 - offsets: 5856
   # Villager guarding open field (no Luveno/Hapsby)
   # Also pointed to by indices 27c, 27e, 280 but these aren't used.
-  en-1987: Hey! Keep outta my turf! Everything past here is mine!<wait>
+  en-1987: You cannot come through here. This is my area.<wait>
 
 - offsets: 585c
   # Villager guarding open field (have Luveno/Hapsby)
-  en-1987: Well, I guess I gotta do what Dr. Luveno says. Go ahead and pass.<wait>
+  en-1987: Well, if Dr. Luveno sent you, I guess I have to let you through.<wait>
+  # Original text has "YOU ,I GUESS"
 
 # *********************
 # *** Triada Prison ***
@@ -683,121 +652,106 @@
 - offsets: 5485,55b3
   # Guard Near Entrance
   # Also index 21c: robot police in Baya Marlay Prison
-  en-1987: Do you have a Roadpass?<end>
+  en-1987: Do you have your Roadpass?<end>
 
 - offsets: 549d,55e0
   # Guard Near Entrance (no to previous question)
   # Same sequence in Baya Marlay Prison
-  en-1987: Intruder detected. Initiating termination sequence.<wait>
+  en-1987: You are a fool! You will die!<wait>
 
 - offsets: 54ca
   # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
   # Split up from 4c30,4ccf to allow different translations from the usage by airstrip guards
   # TODO: consider rewriting this and the split version accordingly
-  en-1987: Don't mess with me!<wait>
+  en-1987: Don't be a fool!<wait>
 
 - offsets: 54c4
   # Prisoner (if you give PelorieMate)
-  en-1987: Thanks. Y’know, no matter what people say, spiders are actually very wise creatures.<wait>
+  en-1987: Spider monsters are actually very intelligent.<wait>
 
 - offsets: 54ea
   # Prisoner
-  en-1987: The ancient structure nestled in the heart of the Gothic Mountains is called Medusa’s Tower.<wait>
+  en-1987: The tower deep in the Gothic mountains is known as Medusa's Tower.<wait>
 
 - offsets: 550c
   # Spider
-  en-1987: |
-    A chemical called Polymeteral will dissolve any material!<wait more>
-    ...well, anything except Laconia, of course.<wait>
+  en-1987: Polymeteral will dissolve all materials except for Laconia.<wait>
 
 - offsets: 54f0
   # Prisoner
-  en-1987: Oh, hi! I haven't seen another person in a long time! Will you stay and talk for a while?<end>
+  en-1987: I haven't seen anyone for a long time. Will you talk with me?<end>
 
 - offsets: 54f9
   # Prisoner (yes to previous question)
-  en-1987: |
-    I’ve got a friend in Bartevo.<wait more>
-    I guess things are pretty bad there right now, what with those pools of lava and all.<wait more>
-    If you see him, could you say ‘hi’ to him for me?<wait>
+  en-1987: I've got a friend in Bortevo. He's probably having a hard time because of the lava. Why not visit him?<end>
 
 - offsets: 54d0
   # Prisoner
-  en-1987: Have you heard of Hapsby the robot?<end>
+  en-1987: Do you know the robot Hapsby?<end>
 
 - offsets: 54de
   # Prisoner (no to previous question)
-  en-1987: |
-    It’s a robot made of Laconia!<wait more>
-    Luveno created Hapsby as a prototype spaceship pilot.<wait more>
-    It was abandoned in a scrap heap and left to rot. What a waste...<wait>
+  en-1987: It's a robot made of Laconia. But it has been abandoned somewhere as being useless.<wait>
 
 - offsets: 54e4
   # Prisoner
-  en-1987: Volcanic eruptions covered the other side of the mountains with a whole bunch of lava.<wait>
+  en-1987: On the far side of the mountains lies a pool of molten lava created by a volcanic eruption.<wait>
 
 - offsets: 5453
   # Dr Luveno (first time)
-  en-1987: Yes, I’m Dr. Luveno. If you're here to rescue me, forget it! I'm not going anywhere.<wait>
+  en-1987: I'm Luveno. If you've come for help, you had best forget it. Leave!<wait>
 
 - offsets: 545e
   # Dr Luveno (second time)
-  en-1987: What? You want me to build a spaceship?! Why would I do that? Go away, leave me be.<wait>
+  en-1987: You want me to build a spaceship for you? Not a chance! I can't accept such responsibility.<wait>
+  # Original has "FOR YOU ? NOT A"
 
 - offsets: 5464
   # Dr Luveno (third time)
   en-1987: |
-    You again? Ach, I give up. I'll build your spaceship, but there's one condition.<wait more>
-    You must promise you'll follow my instructions exactly, no matter what I ask. Agreed?<end>
+    You are certainly persisitent. Well, if you will do as I say, I will help you. Is it a deal?<end>
+  # "persisitent"
 
 - offsets: 546d
   # Dr Luveno (no to previous question)
-  en-1987: If you won’t do as I say, there’s no way I can help you.<wait>
+  en-1987: If you don't obey me, I cannot help.<wait>
 
 - offsets: 5477
   # Dr Luveno (yes to previous question)
-  en-1987: |
-    Good. Well then, I'm off to Gothic Village to get started. I'll meet you there.<wait more>
-    Oh, don't worry about me, I'm tougher than I look. I'll make it there by myself.<wait>
+  en-1987: O.K. I will go to Gothic Village nearby to make preparations. Come then. Do not waste worry on me.<wait>
 
 - offsets: 510d,5428
   # Man in underground tunnel
-  en-1987: Don’t distract me! I’m very busy.<wait>
+  en-1987: I'm busy. Don't bother me.<wait>
 
 - offsets: 542f
   # Man in underground tunnel
-  en-1987: |
-    What? You busted out Doc Luveno?<wait more>
-    What?! He’s building you a spaceship?!<wait more>
-    He’s too old for this. I’d better go help him out.<wait>
+  en-1987: What? Dr. Luveno has returned? He will build another spaceship? I will be there right away.<wait>
 
 # *****************
 # *** Iala Cave ***
 # *****************
 
 - offsets: 5436
-  en-1987: |
-    I’ve seen plenty of men go into the inner chamber.<wait more>
-    Coming out, though, is a different story.<wait more>
-    I’ve never seen anyone come out of there alive.<wait>
+  en-1987: No man that goes into the room in the far corner has ever come out alive! Aha-ha-ha!<wait>
 
 # **********************
 # *** Medusa's Tower ***
 # **********************
 
 - offsets: 5512
-  en-1987: You’ve gotten far. Soon you will know the truth.<wait>
+  en-1987: You will soon find out the truth!<wait>
 
 - offsets: 5518
   # Old man in an actual dead end
-  en-1987: Get out of here while you're still breathing! You don’t know what you’re up against!<wait>
+  en-1987: Halt! Go back! Your last chance!<wait>
 
 - offsets: 551e
-  en-1987: It’s brave of you to come here. Beware of hidden traps!<wait>
+  en-1987: How brave! But be careful of traps!<wait>
 
 - offsets: 16a8
   # Being attacked by Medusa without the Shield of Perseus equipped
-  en-1987: <player> was turned to stone.<wait>
+  en-1987: <player> has been turned to stone.<wait>
 
 
 # *******************************
@@ -807,77 +761,57 @@
 - offsets: 507b
   # Dr Luveno (if you didn't talk to his assistant yet)
   en-1987: |
-    Finally. What took you so long? First, I need you to fetch my assistant.<wait more>
-    He's probably hiding in the underground tunnel. He's shy, that one. It's irritating.<wait>
+    Ah, it's getting late! Fetch my assistant. He's likely hiding in the underground passage.<wait>
 
 - offsets: 508b
   # Dr Luveno
   # <number> is always 1200.
-  en-1987: |
-    Right. It looks like my staff is assembled.<wait more>
-    What, you don’t think two people can build a spaceship?<wait more>
-    I’ll have you know I’ve been building these since you were in diapers!<wait more>
-    Now then, there's the matter of cost. Spaceships aren't free, you know.<wait more>
-    I require <number> Meseta upfront. Can you cover that?<end>
+  en-1987: Now that my staff is assembled I can begin. There is however, a slight fee of 1200 Mesetas involved. Will you pay?<end>
+  # Original has HOWERVER
 
 - offsets: 50b5
   # Dr Luveno (yes to the previous question)
-  en-1987: |
-    Splendid. We’ll begin construction immediately.<wait more>
-    This is delicate work, do me a favor and try not to bother me for a while?<wait>
+  en-1987: Thank you. I can now get to work. Please wait one moment.<wait>
 
 - offsets: 50a7
   # Dr Luveno (if you don't have enough money)
-  en-1987: You don’t have enough? Go get some more!<wait>
+  en-1987: You don't have enough. Come back again when you have enough funds.<wait>
 
 - offsets: 5096
   # Dr Luveno (no to the previous question)
-  en-1987: Ah, so you’ve wasted my time. Wonderful.<wait>
+  en-1987: That's too bad. And you have come so far, too.<wait>
 
 - offsets: 50c3
   # Dr Luveno (first two times you talk to him)
-  en-1987: |
-    Please, you can’t rush perfection.<wait more>
-    Unless you want to end up stranded in space, give us time.<wait more>
-    Can’t you go wander around a cave or something? We’re very busy.<wait>
+  en-1987: It cannot be hurried! Please show a bit more patience!<wait>
 
 - offsets: 50d1
   # Dr Luveno (third time)
-  en-1987: |
-    Success! This is my finest work yet.<wait more>
-    I call it the Luveno. Got a nice ring to it, don’t you think?<wait>
+  en-1987: Success! I present a superb spaceship<wait more>
+  the Luveno.<wait>
 
 - offsets: 50de
   # If you don't have Hapsby already
-  en-1987: But I’m afraid the Luveno can’t be piloted by a human...<wait>
+  en-1987: But you cannot fly a spaceship.<wait>
 
 - offsets: 50eb
   # If you don't have Hapsby already
-  en-1987: |
-    I built a robot named Hapsby years ago, just for this purpose.<wait more>
-    He’s probably still in that scrap heap in Bartevo.<wait more>
-    Go fetch him, will you? Watch your step, though. Bartevo’s surrounded by lava.<wait more>
-    Don’t give me that look! You agreed to follow my instructions.<wait more>
-    I’ve upheld my end of the bargain, now go do yours.<wait>
+  en-1987: You must find a robot named Hapsby. He can fly a spaceship.<wait>
 
 - offsets: 50f6
   # Luveno (if you have Hapsby)
-  en-1987: |
-    Ah, my little Hapsby, you’ve come home!<wait more>
-    Excellent. With Hapsby you can pilot the Luveno through space!<wait more>
-    And just in time, too. Spaceport security has gotten tighter.<wait more>
-    Go on! The Luveno is docked just outside the village! Go try it out!<wait>
+  en-1987: We can board the Luveno and be on our way!<wait>
 
 - offsets: 5071
   # Luveno (subsequent visits)
-  en-1987: How’s the Luveno holding up? Take good care of it.<wait>
+  en-1987: How is the Luveno? Use it well.<wait>
 
 # Spaceports now closed...
 - offsets: 4cec
-  en-1987: Algol security is now at threat level red. Space travel is off limits to all citizens.<wait>
+  en-1987: The spaceport is closed.<wait>
 
 - offsets: 4cfd
-  en-1987: All existing Passports are now invalid and must be destroyed. We're confiscating yours.<wait>
+  en-1987: We are confiscating your Passport.<wait>
 
 
 # ***************
@@ -886,28 +820,22 @@
 
 - offsets: 4fff
   # Villager
-  en-1987: Bartevo is my turf, stranger. Don't go poking your nose around.<wait>
+  en-1987: Bortevo is my turf. Don't ya mess 'round here, now git!<wait>
 
 - offsets: 5005
   # Villager
-  en-1987: |
-    Someone told me that there’s a perfectly good robot discarded in one of these scrap heaps.<wait more>
-    I wonder if it’s true?<wait>
-
+  en-1987: In this pile of junk, somewhere, there is s'pposed t'be a usable robot, but you know how rumors be.<wait>
+    
 - offsets: 5524
   # Villager (in the cave next to Bartevo)
-  en-1987: The drug store in Avion Village sells Polymeteral.<wait>
+  en-1987: Polymeteral is for sale in Abion.<wait>
 
 - offsets: 57bd
   # Hapsby
-  en-1987: |
-    Greetings. I am pilot robot Hapsby. Thanks for rescuing me.<wait more>
-    I will assist you in the operation of any Luveno brand spacecraft.<wait>
+  en-1987: I'm Hapsby. Thanks for finding me. I can fly the Luveno for you.<wait>
 
 - offsets: 57e0
-  en-1987: |
-    You found a FlowMover.<wait more>
-    Hapsby fixed the parts that were broken, so you can use it now!<wait>
+  en-1987: You found the Hovercraft. Hapsby has restored it to working order.<wait>
 
 
 # ************
@@ -916,40 +844,29 @@
 
 - offsets: 5139
   # Villager
-  en-1987: |
-    This is Lore Village. Well, it used to be, before LaShiec's corruption.<wait more>
-    As you can see, now it’s a wasteland.<wait>
-
+  en-1987: This town is called Loar. We have been in decline thanks to the work of Lassic.<wait>
 
 - offsets: 5119
   # Villager
-  en-1987: |
-    Have you heard of a jewel called the Carbuncle Eye?<wait more>
-    It’s rumored to be held by a dragon in Casba.<wait more>
-    What does a dragon need a jewel for anyway?<wait>
-
+  en-1987: Have you heard of a gem called "The Amber Eye"? Some say the Casba Dragon has one.<wait>
 
 - offsets: 511f
   # Villager
-  en-1987: |
-    Hey, since you’re here, you might as well pay Avion a visit.<wait more>
-    It’s a small town like this one, on the western tip of the island.<wait>
+  en-1987: There is a village called Abion on the western edge on this island.<wait>
 
 - offsets: 5125
   # Villager
-  en-1987: Have you heard about Laerma trees?<end>
+  en-1987: Do you know about Laerma trees?<end>
 
 - offsets: 512e
   # Villager (no to previous question)
-  en-1987: I hear the Altiplano Plateau on Dezoris is totally covered with ’em.<wait>
+  en-1987: They grow on the Altiplano Plateau on the planet Dezoris.<wait>
 
 - offsets: 5113
   # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
   en-1987: |
-    You're going to bring down LaShiec? It's about time someone did!<wait more>
-    He’s no pushover, though. His black magic could destroy you.<wait more>
-    I’ve heard certain crystals can protect you against such magic.<wait more>
-    It’s just a rumor, though. Don’t quote me on that.<wait>
+    You are going to try to kill Lassic I hear. That's great!<wait more>
+    I have heard that a certain crystal will block evil magic.<wait>
 
 # *************
 # *** Abion ***
@@ -957,41 +874,39 @@
 
 - offsets: 513f
   # Villager
-  en-1987: This village is called Avion.<wait>
+  en-1987: Welcome to Abion.<wait>
 
 - offsets: 5145
   # Villager
-  en-1987: The evil hand of Lashiec has extended to this village too! Please, you have to stop him!<wait>
+  en-1987: Help! Lassic has come to this town!<wait>
 
 - offsets: 514b
   # Villager
   en-1987: |
-    A really weird guy recently moved here. Rumor has it he experiments on animals.<wait more>
-    And that strange pot! He’s always walking around with it clutched to his chest.<wait more>
-    I've got a really bad feeling about him.<wait>
+    A strange man came to this town. He seems to be performing animal experiments.<wait more>
+    He brought a large pot or something.<wait>
 
 - offsets: 5151
   # Villager
-  en-1987: I’d like to travel through space someday.<wait>
+  en-1987: I’d like to travel in outer space.<wait>
 
 - offsets: 5157
   # Villager
   en-1987: |
-    Our new neighbor sure knows a lot about animals.<wait more>
-    He told me the weirdest thing about Musk Cats.<wait more>
-    He says if they eat a certain berry, they grow huge, and can fly!<wait>
+    Some cats, if they eat a certain type of nut, they become huge and can fly. It's really very weird.<wait>
+  # was "WIERD"
 
 - offsets: 4c54
   # Mad Doctor
-  en-1987: Here, kitty kitty! Come here!<end>
+  en-1987: Hey, bring that cat over here!<end>
 
 - offsets: 4c75
   # Mad Doctor (yes to previous question)
-  en-1987: Ho ho, that was fun! Who’s next?<wait>
+  en-1987: Oohh, ha, ha! The cat will die!<wait>
 
 - offsets: 4c7a
   # Mad Doctor (no to previous question or if Myau is already dead)
-  en-1987: I said come HERE.<wait>
+  en-1987: I will kill any who interfere!<wait>
 
 # *************
 # *** Skray ***
@@ -999,56 +914,49 @@
 
 - offsets: 5238
   # Townsperson
-  en-1987: Welcome to Skray, the warmest place on Dezoris! Pretty cold out there, isn't it?<wait>
+  en-1987: Welcome to Skure on Dezoris. It's freezing outside, isn't it?<wait>
 
 - offsets: 523e
   # Townsperson
-  en-1987: Almost all of us Palman immigrants live here in Skray. We're just not built for the cold.<wait>
+  en-1987: Most emigrants from Palma settle here.<wait>
 
 - offsets: 5244
   # Townsperson
-  en-1987: |
-    I'm new to Dezoris so I don't know too much about it yet. You should talk to the natives.<wait more>
-    I haven't been yet, but a lot of them live in a village inside the mountains up north.<wait>
+  en-1987: I don't know a lot about this planet, but word has it that there is a town of native Dezorians in the far reaches of the mountains.<wait>
 
 - offsets: 524a
   # Townsperson
   en-1987: |
-    Overthrowing LaShiec, are you? You'll need a sword, axe, shield, and armor made of Laconia.<wait more>
-    Laconia is the most powerful material in Algol, I wouldn't use anything less.<wait more>
-    I'll be praying for your safety. We all will.<wait>
+    If you really hope to kill Lassic, you had best find a sword, axe, shield, armor made of Laconia.<wait more>
+    Such weapons are strongest. I pray for your safety.<wait>
 
 - offsets: 5250
   # Townsperson
   en-1987: |
-    Laconia is more than just strong, it’s holy. Weapons made from it have divine powers.<wait more>
-    LaShiec knows this, of course. That's why he's hidden them across the Algol system! He's scared!<wait>
-
+    Arms made of Laconia conceal holy power.<wait more>
+    Lassic fears this power and has been running and hiding in different places in the planets of the Algol system.<wait>
 
 - offsets: 5256
   # Townsperson
-  en-1987: Dezoris is basically a giant ice cube. It's a big change from the green fields of Palma.<wait>
+  en-1987: Dezoris is a world of ice.<wait>
 
 - offsets: 525c
   # Townsperson
-  en-1987: Not all of the ice mountains are as tough as they look, some parts of them shatter easily.<wait>
+  en-1987: There are places in the mountains where the ice is soft and impassable to those on foot.<wait>
 
 - offsets: 5262
   # Townsperson
-  en-1987: The area around Altiplano Plateau is surrounded by mountains of ice.<wait>
+  en-1987: The Altiplano Plateau is at the top of the ice mountain.<wait>
 
 - offsets: 5268
   # Townsperson
   en-1987: |
-    This planet has a solar eclipse once every hundred years.<wait more>
-    A flame lit during an eclipse is called an Eclipse Torch.<wait more>
-    Native Dezorians believe Eclipse Torches carry divine power.<wait>
+    An eclipse occurs on this planet once every hundred years.<wait more>
+    A torch lit during an eclipse is called an "Eclipse Torch" and is regarded as holy by the Dezorians.<wait>
 
 - offsets: 526e
   # Townsperson
-  en-1987: |
-    The unholy forces LaShiec and his ilk have involved themselves with have gone too far.<wait more>
-    All of the dead bodies in Guaran Morgue have come back to life! It's grotesque!<wait>
+  en-1987: The dead Guaron Morgue have been called back to life! What fear!<wait>
 
 
 # ***********
@@ -1057,54 +965,50 @@
 
 - offsets: 515d
   # Villager
-  en-1987: This is Uzo Village, on Motavia.<wait>
+  en-1987: This town is called Uzo.<wait>
 
 - offsets: 5163
   # Villager
-  en-1987: Antlions? No problem! You can drive a LandMaster right over ’em.<wait>
+  en-1987: If you use a vehicle called the Land Rover, the Ant Lion will not be able to harm you.<wait>
 
 - offsets: 5169
   # Villager
-  en-1987: To the south of Uzo lies a village called Casba.<wait>
+  en-1987: There is a town called Casba to the south of here.<wait>
 
 - offsets: 516f
   # Villager
-  en-1987: A dragon is holed up inside Casba Cave. They say there’s a jewel embedded in its head!<wait>
+  en-1987: There are dragons living in the Casba Cave. These dragons have gems in their heads!<wait>
 
 - offsets: 5194
   # Villager
   en-1987: |
-    Have you heard of a cloak called the Frad Mantle? <wait more>
-    From what I hear, it’s really light, yet has excellent protective power.<wait>
+    Have you heard about mantles made of Frad fibers? THEY ARE LIGHT, BUT PROVIDE GREAT PROTECTION.<wait>
 
 - offsets: 5175
   # Villager
-  en-1987: Have you heard of the Soothe Flute?<end>
+  en-1987: Have you heard about the Soothing Flute?<end>
 
 - offsets: 5133,517e,54d9,54fe
   # Villager (yes to previous question)
   # Lore villager (yes to question about Laerma Tree)
   # Triada prisoner (yes to question about Hapsby)
   # Triada prisoner (no to request to talk)
-  en-1987: |
-    Oh.<wait more>
-    Very well.<wait>
+  en-1987: Oh, never mind.<wait>
 
 - offsets: 518e
   # Villager (no to previous question)
-  en-1987: |
-    Well, this is a secret, but I went and buried one on the outskirts of Gothic village.<wait more>
-    Don’t tell anybody!<wait>
-
+  en-1987: It's a secret, but i buried one at the outskirts of the town of Gothic on Palma. Don't tell anyone.<wait>
 
 # Soothe Flute stuff
 - offsets: 24d6
   # Use Soothe Flute outside a battle
-  en-1987: The sounds melt your heart.<wait>
+  en-1987: The sound is heartwarming.<wait>
 
 - offsets: 24eb
-  en-1987: <Article><monster> heard the sound of the flute and calmed down.<delay>
+  en-1987: <Article><monster> hears the flute and falls asleep.<wait>
 
+
+#============== DOne to here
 
 # *************
 # *** Casba ***
