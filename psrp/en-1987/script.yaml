@@ -787,8 +787,9 @@
 
 - offsets: 50d1
   # Dr Luveno (third time)
-  en-1987: Success! I present a superb spaceship<wait more>
-  the Luveno.<wait>
+  en-1987: |
+    Success! I present a superb spaceship<wait more>
+    the Luveno.<wait>
 
 - offsets: 50de
   # If you don't have Hapsby already
@@ -848,7 +849,7 @@
 
 - offsets: 5119
   # Villager
-  en-1987: Have you heard of a gem called "The Amber Eye"? Some say the Casba Dragon has one.<wait>
+  en-1987: Have you heard of a gem called ‘The Amber Eye’? Some say the Casba Dragon has one.<wait>
 
 - offsets: 511f
   # Villager
@@ -952,7 +953,7 @@
   # Townsperson
   en-1987: |
     An eclipse occurs on this planet once every hundred years.<wait more>
-    A torch lit during an eclipse is called an "Eclipse Torch" and is regarded as holy by the Dezorians.<wait>
+    A torch lit during an eclipse is called an ‘Eclipse Torch’ and is regarded as holy by the Dezorians.<wait>
 
 - offsets: 526e
   # Townsperson
