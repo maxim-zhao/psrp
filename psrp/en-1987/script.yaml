@@ -201,7 +201,7 @@
 
 - offsets: 4dc1
   # The peninsula is more south-east than south.
-  en-1987: A cave called Iala can be found on the peninsula to the south of Scion<wait>
+  en-1987: A cave called Iala can be found on the peninsula to the south of Scion.<wait>
   # No full stop in the original
 
 - offsets: 4dc7
@@ -448,8 +448,8 @@
   # Tylon
   en-1987: |
     Because Medusa has a mystic axe. Unfortunately, she got away from me.<wait more>
-    Anyhow, I have stashed a Compass in one of the passages of this cave. Let's go and get it<wait>
-  # Missing full stop
+    Anyhow, I have stashed a Compass in one of the passages of this cave. Let's go and get it.<wait>
+  # Missing full stop in the original
 
 # ************
 # *** Eppi ***
@@ -477,8 +477,8 @@
 
 - offsets: 4e17
   # Villager (yes to previous question)
-  en-1987: I've hidden a Dungeon Key in the warehouse in the outskirts of the Camineet.<wait>
-  # "The Camineet"?
+  en-1987: I've hidden a Dungeon Key in the warehouse in the outskirts of Camineet.<wait>
+  # "the Camineet"
 
 - offsets: 4e1d
   # Villager
@@ -616,7 +616,7 @@
 - offsets: 5028
   # Villager (yes to previous question, and you have a PelorieMate)
   en-1987: |
-    Thanks! This was once the lab. of Dr. Luveno. He went bonkers, though and be inprisoned in Triada to the south of here.<wait>
+    Thanks! This was once the lab of Dr. Luveno. He went bonkers, though and be imprisoned in Triada to the south of here.<wait>
   # "lab.", "be inprisoned"
 
 - offsets: 502e,5055,535b
@@ -709,7 +709,7 @@
 - offsets: 5464
   # Dr Luveno (third time)
   en-1987: |
-    You are certainly persisitent. Well, if you will do as I say, I will help you. Is it a deal?<end>
+    You are certainly persistent. Well, if you will do as I say, I will help you. Is it a deal?<end>
   # "persisitent"
 
 - offsets: 546d
