@@ -1397,8 +1397,7 @@
 
 - offsets: 55c5
   # Robot Police (yes to previous question, have one)
-  en-1987: This is a fake! Do you think you can fool a robot? Off to 
-jail we go!<wait>
+  en-1987: This is a fake! Do you think you can fool a robot? Off to jail we go!<wait>
     
 - offsets: 5619
   # Prisoner
@@ -1566,7 +1565,7 @@ jail we go!<wait>
 # ********************
 
 - offsets: 47da
-  en-1987: The sky gradually clears and the peace is returned to the Algol system.<line>
+  en-1987: The sky gradually clears and the peace is returned to the Algol system.<end>
 
 - offsets: 47e3
   en-1987: A gentle breeze caresses Baya Malay.<delay>
