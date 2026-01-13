@@ -70,76 +70,68 @@
   en-1987: |
     I wish I could help you more. I pray for your safety.<wait>
 
-# Done to here =========
-
 - offsets: 4b82
   # Camineet resident - man
-  en-1987: |
-    I can't leave my home anymore without LaShiec's private police watching my every move.<wait more>
-    Camineet used to be so nice. How did it come to this?<wait>
+  en-1987: The Camineet residential area is under martial law.<wait>
 
 - offsets: 4b88
   # Camineet resident - man
-  en-1987: Some dungeons have locked doors. You'll need a Dungeon Key to open them.<wait>
+  en-1987: You need a Dungeon Key to open locked doors.<wait>
 
 - offsets: 4b8e
   # Camineet resident - man
-  en-1987: Some dungeons are pitch black, make sure you always have a light source with you.<wait>
+  en-1987: In some dungeons you will not get far without some sort of light.<wait>
 
 - offsets: 4b94
   # Camineet resident - man
-  en-1987: |
-    You can't even get into the Spaceport anymore without something called a Roadpass.<wait more>
-    I tried applying for one but they said it could take weeks. How am I supposed to get home?<wait>
+  en-1987: There is a spaceport to the west of Camineet.<wait>
 
 - offsets: 4b9a
   # Camineet resident - man
-  en-1987: You can buy just about anything in port towns. I even got a fake I.D. once!<wait>
+  en-1987: If you want to make a deal, you should head for the port town.<wait>
 
 - offsets: 4bba
   # Camineet police
-  en-1987: Remain inside the residential area. It is not safe for citizens outside.<wait>
+  en-1987: You had better not leave the residential area.<wait>
 
 - offsets: 4bc0
   # Camineet police
-  en-1987: We cannot protect you outside. Stay inside of your homes until the danger has passed.<wait>
+  en-1987: Unless you hope to die, you had best stay here.<wait>
 
 - offsets: 4bcd,4c26,4cc2,4d0e
   # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
   # Spaceport guard (say "no" to question about passport) - Camineet (4c26) and Parolit (4cc2)
-  en-1987: Authorization is required to pass this point. Stay back or we will use force!<wait>
+  en-1987: You may not pass.<wait>
 
 - offsets: 4bda,4d23
   # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
-  en-1987: Nobody gets through here without a Roadpass.<wait>
+  en-1987: You cannot pass without Roadpass.<wait>
 
 - offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
   # Road guard (with a Roadpass) - Camineet (4be0) and Parolit (4d18, 4d2d)
   # Spaceport guard (say "yes" with a Passport) - Camineet (4cd5) and Parolit (4c3a)
   # Triada prison guard (say "yes" with a Roadpass) (5497)
-  en-1987: Okay, go on through.<wait>
+  en-1987: You may proceed.<wait>
 
 - offsets: 4ba0
   # Camineet resident - man
-  en-1987: Do you know about all the planets in the Algol Solar System?<end>
+  en-1987: Do you know the planets of the Algol Solar System?<end>
 
 - offsets: 4bb4
   # Camineet resident - man - "no" to question about Algol
   # <number> is always 3.
   en-1987: |
-    Algol is made up of three planets: Palma, Motavia, and Dezoris.<wait more>
-    Each planet has a unique atmosphere, meaning they all have distinct characteristics.<wait more>
-    Palma, as you know, is a planet of greenery. We are blessed with lush grasslands and forests.<wait more>
-    Motavia's endless desert landscape is harsh, but beautiful in its own way.<wait more>
-    And Dezoris is a planet of ice. Very little life thrives on its frozen surface.<wait more>
-    All three of our beautiful planets are threatened by LaShiec's ambitions.<wait more>
-    Every day draws us closer to a crisis that can never be reversed.<wait>
+    There are three planets: Palma Motavia and Dezoris.<wait more>
+    Palma is a world of green.<line>
+    Motavia is a world of sand.<line>
+    Dezoris is a world of ice.<wait more>
+    The Algol star system is currently facing a great crisis.<wait>
 
 - offsets: 4ba9,4e06,4e26
   # Camineet resident - man - "yes" to question about Algol
   # Eppi resident - "yes" to question about strongest material
   # Eppi resident - "no" to question about Dungeon Key
-  en-1987: Oh. Okay.<wait>
+  en-1987: O.K. Good day.<wait>
 
 # ************************************
 # *** Parolit Residential District ***
@@ -147,33 +139,30 @@
 
 - offsets: 4bf1
   # Woman
-  en-1987: Welcome to Parolit residential district.<wait>
+  en-1987: This is Parolit residential area.<wait>
 
 - offsets: 4bf7
   # Man
-  en-1987: The forest is especially dangerous lately, be careful if you head that way.<wait>
+  en-1987: The forest is a dangerous place.<wait>
 
 - offsets: 4bfd
   # Man
   en-1987: |
-    Rumors are going around that Medusa has returned to her cave, just south of here.<wait more>
-    They say one look turns you into a living statue. That can't be true, can it?<wait>
+    Medusa has been reborn and lives in a cave to the south. If you see her, you will be turned to stone.<wait>
 
 - offsets: 4c03
   # Man
-  en-1987: If you're looking for a port town, Shion is just east of here.<wait>
+  en-1987: To the east lies a port town called Scion.<wait>
 
 - offsets: 4c09
   # Man
   en-1987: |
-    Our Spaceport flies directly to Paseo, the capital of Motavia.<wait more>
-    I'd love to go someday. I've never been off-planet before!<wait>
+    From the spaceport you can go to Paseo on Motavia.<wait>
 
 - offsets: 4c0f
   # Man
   en-1987: |
-    Did you know there’s an underground passage leading west, to the Gothic Woods?<wait more>
-    Supposedly it’s somewhere nearby, but I can’t find it.<wait>
+    There is an underground passage to the Gothic Forest somewhere to the west of Parolit.<wait>
 
 
 # ***********************
@@ -183,83 +172,74 @@
 - offsets: 4c40
   # Man
   en-1987: |
-    We're not the only intelligent life in the Algol Solar System, you know.<wait more>
-    Motavia has Motavians, and Dezoris has Dezorians. Some even speak our language!<wait more>
-    I'd love to have a conversation with an actual alien someday...<wait>
+    They say that there are Motavian living on Motavia and Dezoriann on Dezoris.<wait more>
+    I'd sure like a chance to talk to someone.<wait>
+  # Motavian, Dezoriann in the original 
 
 - offsets: 4da7
   # Man (if you haven't bought Myau yet)
   # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
   en-1987: |
-    Yeah, Tylon was here. He said he was heading south-west to slay Medusa. I haven't seen him since.<wait more>
-    He wasn't alone though, he was traveling with a talking animal! I couldn't believe it!<wait more>
-    It had a bottle of important-looking medicine on its neck. I wonder what it's for?<wait>
+    Odin set off to kill Medusa.<line>
+    He went with an animal that can speak!<wait more>
+    The animal had a bottle of medicine hanging from its neck, but I don't know what that is for.<wait>
 
 - offsets: 4dac
   # Same man (after you get Myau)
-  en-1987: It’s about time someone took on LaShiec. God be with you.<wait>
+  en-1987: I hear you are going to try to kill Lassic. Best of luck!<wait>
 
 - offsets: 4db6
   # If you haven't bought Myau yet
   en-1987: |
-    This is going to sound crazy, but I found a talking animal wandering Medusa’s dungeon.<wait more>
-    I sold it to a trader in Paseo. The little guy was worth a fortune!<wait>
+    I recently found a talking beast in the cave where Medusa lives.<wait more>
+    I sold him for a good price to a merchant from Paseo!<wait>
 
 - offsets: 4dbb
   # Same person as above (if you have bought Myau)
   # He'd just sold Myau for a huge sum of money earlier, so he's probably more greedy than destitute.
-  en-1987: |
-    The economy’s plummeted since LaShiec came into power.<wait more>
-    I’m so broke, I don’t know what to do...<wait>
+  en-1987: Times are hard. There doesn't seem to be anyway to make money.<wait>
 
 - offsets: 4dc1
   # The peninsula is more south-east than south.
-  en-1987: Iala Cave lies on the peninsula south-east of here.<wait>
+  en-1987: A cave called Iala can be found on the peninsula to the south of Scion<wait>
+  # No full stop in the original
 
 - offsets: 4dc7
-  en-1987: |
-    Welcome to Shion, the busiest port on Palma... or at least, it was.<wait more>
-    With the world the way it is lately, there isn't much trade going on anymore.<wait>
+  en-1987: This is the port town Scion. Long ago, we thrived on trade.<wait>
 
 - offsets: 4dcd
-  en-1987: The Eppi Woods are too confusing to navigate, you need a Compass to get through.<wait>
+  en-1987: You need a compass to pass through the Eppi forest.<wait>
 
 - offsets: 4dd3
-  en-1987: The only way to open a door sealed with magic is to cast a spell of your own.<wait>
+  en-1987: A door locked with magic can only be opened with magic.<wait>
 
 - offsets: 4dd9
   en-1987: |
-    To the north, past the prison, is the pride of Palma: a beautiful knoll called Baya Marlay.<wait more>
-    Too bad nobody can get to it anymore...<wait>
+    There is a hill named Baya Malay to the north of this town. But none of us dare approach it.<wait>
 
 - offsets: 4ddf
   # Woman next to dock
   en-1987: |
-    I used to go spelunking in Naula cave, on the coast north of Baya Marlay.<wait more>
-    But with all these monsters suddenly appearing, I can't go near it anymore.<wait>
+    A cave called Naula lies on the north coast of Baya Malay.<wait>
 
 - offsets: 2dab
   # Trader (first time you buy the Secret Thing)
-  en-1987: I don't know who you think you are, but we don't sell stuff like that here. Forget it.<wait>
+  en-1987: I don't know who told you that. You had best forget it.<wait>
 
 - offsets: 2db0
   # Trader (second time you buy the Secret Thing)
-  en-1987: |
-    Give it up, will ya? I already told you, we're a legitimate business.<wait more>
-    Get out of my store.<delay>
+  en-1987: I tell you no one can do. Go on back to wherever you came from.<wait>
 
 - offsets: 2ddc
   # Trader (third time you buy the Secret Thing)
-  en-1987: |
-    You’re not going to give up, are you? Fine, just take it.<wait more>
-    One Roadpass, signed and certified. But you didn't get this from me, understand?<wait>
+  en-1987: All right, all right. I give up. But don't tell anyone where you got this, O.K.?<wait>
 
 # ******************
 # *** Eppi woods ***
 # ******************
 
 - offsets: 578f
-  en-1987: You got lost in the woods.<wait>
+  en-1987: The path in the woods is unclear.<wait>
 
 # ***********************
 # *** Palma Spaceport ***
@@ -267,62 +247,58 @@
 
 - offsets: 4c9e
   # Luggage handler
-  en-1987: Welcome to Palma Spaceport. All ships travel one way to Paseo, the capital of Motavia.<wait>
+  en-1987: This is Palma's spaceport. From the spaceport you can go to Paseo on Motavia.<wait>
 
 - offsets: 4ca4
   # Luggage handler
-  en-1987: The Governor-General rules all of Motavia from his office in Paseo.<wait>
+  en-1987: The governor is in Paseo. He rules all of Motavia.<wait>
 
 - offsets: 4caa
   # Luggage handler
-  en-1987: Ever been to Gothic? Back in the old days, ships like these were built in its laboratory.<wait>
+  en-1987: Long ago, a spaceship was built in the Gothic Laboratory.<wait>
 
 - offsets: 4c1d,4cb7
   # Airstrip guards
-  en-1987: Do you have a Passport?<end>
+  en-1987: Do you have your Passport?<end>
   
 - offsets: 4c30,4ccf
   # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
-  en-1987: Well? Let’s see it.<wait>
+  en-1987: Don't be a fool.<wait>
 
 - offsets: 4d33
   # Passport office
-  en-1987: Are you here to apply for a Passport?<end>
+  en-1987: You can file for a passport here. Do you want a passport?<end>
 
 - offsets: 4d44
   # Passport office
-  en-1987: |
-    I’m required by law to ask you a series of questions.<wait more>
-    Have you ever been convicted of a crime?<end>
+  en-1987: Have you ever done anything illegal?<end>
 
 - offsets: 4d55
   # Passport office
-  en-1987: Are you suffering from an illness that may be contagious to other passengers?<end>
+  en-1987: Do you currently have an illness?<end>
 
 - offsets: 4d6c
   # Passport office
   # <number> is always 100.
-  en-1987: There is a handling fee of <number> Meseta. Are you willing to pay?<end>
+  en-1987: The passport fee is 100 Mesetas. Would you pay it?<end>
 
 - offsets: 4d91
   # Passport office
-  en-1987: |
-    Great! Here is your passport. Be sure to retain possession of it at all times.<wait more>
-    Next in line?<wait>
+  en-1987: Your passport is ready, here.<wait>
 
 - offsets: 4d3e,4d77,4eca
   # Passport office (say "no" to question about applying)
   # Passport office (say "no" to question about paying)
   # Paseo trader (say "no" to offer to trade the Laconian Pot for Myau)
-  en-1987: Oh, okay then.<wait>
+  en-1987: I see. Have a good day.<wait>
 
 - offsets: 4d4f,4d60
   # Passport office (say "yes" to question about doing bad things)
   # Passport office (say "yes" to question about having an illness)
-  en-1987: I’m sorry, you don't qualify. Feel free to try again later. Next?<wait>
+  en-1987: That's not good. You'll have to come back later.<wait>
 
 - offsets: 5939
-  en-1987: This is a non-stop flight to Motavia. Getting on?<end>
+  en-1987: Bound for Motavia. Getting on?<end>
 
 
 # ***********************
@@ -331,19 +307,17 @@
 
 - offsets: 4e31
   # Luggage handler
-  en-1987: This is Paseo, the only spaceport on Motavia.<wait>
+  en-1987: Welcome to the Paseo spaceport on Motavia.<wait>
 
 - offsets: 4e37
   # Luggage handler
-  en-1987: It’s Antlion breeding season, be careful out there. They get vicious.<wait>
+  en-1987: It is said that Ant Lions roam in the desert.<wait>
 
 - offsets: 4e3d
-  en-1987: |
-    I hear there’s a cake shop in Naula cave on Palma.<wait more>
-    I wonder if it gets any business, in a cave like that?<wait>
+  en-1987: There is a cake shop in the cave called Naula on Palma!<wait>
 
 - offsets: 5949
-  en-1987: This shuttle is heading for Palma. Getting on?<end>
+  en-1987: Bound for Palma. Getting on?<end>
   
 
 # *************
@@ -351,54 +325,48 @@
 # *************
 
 - offsets: 4e43
-  en-1987: Even the Governor-General is on bad terms with LaShiec.<wait>
+  en-1987: Motavia's Governor and Lassic are not on good terms, it is said.<wait>
 
 - offsets: 4e49
-  en-1987: You need to bring a gift if you're going to meet with the Governor-General.<wait>
+  en-1987: A gift is needed if you wish to see the Governor.<wait>
 
 - offsets: 4e4f
-  en-1987: The Governor-General has got a real sweet tooth.<wait>
+  en-1987: The Governor loves sweets, I hear.<wait>
 
 - offsets: 4e55
-  en-1987: Mahal Cave is located in the mountains north of Paseo.<wait>
+  en-1987: There is a cave called Maharu in a mountain to the north of Paseo.<wait>
 
 - offsets: 4e5b
-  en-1987: This is Paseo, Motavia’s capital city.<wait>
+  en-1987: This is Paseo Motavia’s capital.<wait>
 
 - offsets: 4e61
-  en-1987: There's no way to get past the Antlions on foot, but I've heard there's another way...<wait>
+  en-1987: It's not possible to pass through Ant Lion on foot.<wait>
 
 - offsets: 4e67
-  en-1987: There are intelligent monsters, but they speak a different language than ours.<wait>
+  en-1987: Some intelligent monsters have their own language.<wait>
 
 - offsets: 4e7f
   # Trader (before getting Myau)
   # <number> is always 10.
   # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
   en-1987: |
-    Ever seen a talking animal before? I got one right here. Real rare. Might be the only one.<wait more>
-    One billion Meseta, and it’s yours. How ’bout it?<end>
+    I have an rare animal here. Would you pay 1 billion Mesetas for it?<end>
 
 - offsets: 4e8a
   # Trader (say yes to previous question)
-  en-1987: |
-    Whoa, seriously?<wait more>
-    Hey, where are you going?<delay>
+  en-1987: You are a liar!<wait>
 
 - offsets: 4e98
   # Trader (say no to previous question, and have a Laconian pot)
-  en-1987: |
-    That’s too bad.<wait more>
-    ...hold on, now. Is that a Laconian Pot?<wait more>
-    How ’bout a trade, the pot for the furball?<end>
+  en-1987: I see you have a strange pot. Shall I trade the animal for it?<end>
 
 - offsets: 4ea9
   # Trader (say yes to previous question)
-  en-1987: I hate to see the little guy go, but I can’t pass up a trade like this. Take good care of ’im.<wait>
+  en-1987: All right, there you go with him.<wait>
 
 - offsets: 4e73
   # Trader (after getting Myau)
-  en-1987: I made a fortune selling that Laconian Pot! Thanks!<wait>
+  en-1987: I sold that Laconian Pot for a great deal of money. Thanks.<wait>
 
 # ******************************
 # *** Character Intro - Myau ***
@@ -407,29 +375,26 @@
 - offsets: 4643
   # Alisa
   en-1987: |
-    I guess we’re companions now, huh?<line><line>
-    I’m Alisa. What’s your name?<wait>
+    We will be fellow travelers.<line>
+    I'm Alis: what's your name?<wait>
 
 - offsets: 464e
   # Myau
-  en-1987: Myau.<wait>
+  en-1987: I'm Myau.<wait>
 
 - offsets: 4659
   # Alisa
-  en-1987: |
-    Hello, Myau. I’m looking for a man named Tylon.<wait more>
-    Rumor has it he was traveling with a talking animal.<line><line>
-    I don’t suppose that was you?<wait>
+  en-1987: Myau, have you ever heard of a man named Odin?<wait>
 
 - offsets: 4664
   # Myau
   en-1987: |
-    Tylon got turned to stone trying to slay Medusa!<line><line>
-    We can heal him with this medicine, but I can’t open the lid...<wait>
+    Yes, but he is turned to stone!<line>
+    If he drinks this medicine, he'll be O.K., but I cannot open the bottle.<wait>
 
 - offsets: 466f
   # Alisa
-  en-1987: I think I can manage that.<line><line>Come on, let’s go help him!<wait>
+  en-1987: Well, then, we'd better go save Odin together, O.K.?<wait>
 
 
 # ******************************
@@ -437,21 +402,21 @@
 # ******************************
 
 - offsets: 57ec
-  en-1987: Something turned this person into stone! Maybe he can be returned to normal...<wait>
+  en-1987: It seems to be a man who has been turned to stone! I wonder if he can be returned to his original form?<wait>
 
 - offsets: 25bd,2636
   # Using "Alsuline" or "Polymeteral"
   # This comes immediately after the "Alisa took out the item" message.
   # Since it's used for the Polymeteral, too, it may not be Alisa.
   en-1987: |
-    Then <he/she> opened the lid on the bottle and poured out its contents.<wait more>
-    It's working!<delay>
+    The bottlecap opens and the contents quietly leak out.<wait>
 
 - offsets: 25af,260c,262d
   # Using "Alsuline" or "Polymeteral" but only Myau is alive
   # As this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
-  en-1987: But he couldn’t open the lid to the bottle.<wait>
+  en-1987: But Myau cannot open the bottle.<wait>
 
+# =============== Done up to here
 
 # ********************************
 # *** Character Intro - Tylon ***
