@@ -172,7 +172,7 @@
 - offsets: 4c40
   # Man
   en-1987: |
-    They say that there are Motavian living on Motavia and Dezoriann on Dezoris.<wait more>
+    They say that there are Motavians living on Motavia and Dezorians on Dezoris.<wait more>
     I'd sure like a chance to talk to someone.<wait>
   # Motavian, Dezoriann in the original 
 
@@ -1009,47 +1009,41 @@
   en-1987: <Article><monster> hears the flute and falls asleep.<wait>
 
 
-#============== DOne to here
-
 # *************
 # *** Casba ***
 # *************
 
 - offsets: 519a
   # Villager
-  en-1987: This is Casba Village.<wait>
+  en-1987: This town is called Casba.<wait>
 
 - offsets: 51a0
   # Villager
-  en-1987: There's a dragon living in Casba Cave! I'm so scared!<wait>
+  en-1987: Fierce dragons live in the cave near here, and I'm scared of them.<wait>
 
 - offsets: 51ac
   # Villager
   en-1987: |
-    In a village surrounded by gas, people tell the tale of a legendary shield.<wait more>
-    They say that a long time ago, a man named Perseus used it to confront a monster.<wait>
+    There are legends of a mystic shield in a village surrounded in mist.<wait more>
+    It is the shield Perseus used in days to conquer magic beasts.<wait>
 
 - offsets: 51b2
   # Villager
-  en-1987: |
-    West of the lake I saw this terrible, fog-like poison gas spreading all over!<wait more>
-    Whatever you do, stay away from there!<wait>
+  en-1987: There is poison gas above the sea to the west. No one can go near there without some protection.<wait>
 
 - offsets: 51b8
   # Villager
-  en-1987: Do you know what a FlowMover is?<end>
+  en-1987: Have you heard of a vehicle called the Hovercraft?<end>
 
 - offsets: 51cb
   # Villager (yes to previous question)
   en-1987: |
-    So you know what junk they are! I bought one in the town of Shion, on Palma.<wait more>
-    It broke down, so I dumped it in Bartevo. No wonder they don't sell them anymore.<wait>
+    I bought it in Scion on Palma but it seemed broken so I abandoned it in Bortevo.<wait more>
+    It probably can still be used, though.<wait>
 
 - offsets: 51c1
   # Villager (no to previous question)
-  en-1987: |
-    Oh, they’re marvelous! When they work, of course.<wait more>
-    They can glide smoothly across the top of the water.<wait>
+  en-1987: It's a good thing to have. It moves across water.<wait>
 
 
 # **************
@@ -1058,56 +1052,52 @@
 
 - offsets: 51d1
   # Townsperson
-  en-1987: Welcome to Drasgo, our tiny little town floating on the sea.<wait>
+  en-1987: Welcome to Drasgow -- a small town on the ocean.<wait>
 
 - offsets: 51d7
   # Townsperson
-  en-1987: |
-    Wow! I didn’t expect to see visitors here any time soon.<wait more>
-    Not since LaShiec put an embargo on sea travel, anyway. How the heck did you get here?<wait>
+  en-1987: You are daring to have found your way here even though the sea lanes are closed to ships.<wait>
 
 - offsets: 51dd
   # Townsperson
-  en-1987: I hear that there’s an enchanted sword in Avion Tower.<wait>
+  en-1987: There is a magic sword in a tower on a forgotten island.<wait>
 
 - offsets: 51e3
   # Townsperson
-  en-1987: I once saw a huge floating rock in the sky!<wait>
+  en-1987: Long ago, I saw a giant rock float through the sky.<wait>
 
 - offsets: 51e9
   # ????
-  en-1987: It's me, Choko Oneesan! Be brave and strong as you continue your quest!<wait>
+  en-1987: The top of the hill called Baya Malay is always hidden by clouds. Something must be up there!<wait>
 
 - offsets: 51ef
   # Person inside cave
-  en-1987: |
-    I came to this town to buy GasClear, I need it to protect myself from poisonous gas.<wait more>
-    There's supposed to be a shop around here that sells it, but I can't find it anywhere!<wait>
+  en-1987: I heard that they sell Gas Shield here, but I don't know where the shop is! What a mess!<wait>
 
 - offsets: 51f5
   # Person inside cave
   en-1987: |
-    This is an item shop. What can I do for you?<wait more>
-    ...haha, sorry, I'm just joking around! What? Don't give me that look.<wait>
+    Welcome to our store. What can I help you with?<wait more>
+    Ahh, I was pulling your leg! What's a matter, can't you take a joke?<wait>
 
 - offsets: 5201
   # GasClear salesman
   # <number> is always 1000.
   en-1987: |
-    I’ll bet you’re surprised to find a shop in a place like this, huh?<wait more>
-    GasClears are <number> Meseta each. Pretty cheap, no? Want one?<end>
+    I bet you are surprised to see a shop in a place like this!<wait more>
+    A Gas Shield is only 1000 Mesetas! Pretty cheap, huh? Will you buy one?<end>
 
 - offsets: 5226
   # GasClear salesman (yes to previous question)
-  en-1987: Thanks. Come again!<wait>
+  en-1987: Thanks! See you again.<wait>
 
 - offsets: 521d
   # GasClear salesman (yes to previous question, but don't have enough money)
   # Note: In the Japanese version, this one runs into the line below. It was corrected in the Mega Drive version.
-  en-1987: Huh? You don’t have enough money?<wait>
+  en-1987: You don't have enough money!<wait>
 
 - offsets: 520c
-  en-1987: Suit yourself. I’ll be here when you change your mind.<wait>
+  en-1987: Sorry, that was your only chance.<wait>
 
 # *************
 # *** Sopia ***
@@ -1116,75 +1106,66 @@
 - offsets: 52ca
   # Villager
   en-1987: |
-    This village is called Sopia. Welcome.<wait more>
-    I’m glad you were able to make it through the mist.<wait>
+    This town is called Sopia. You are brave to penetrate the gas.<wait>
 
 - offsets: 52d6
   # The Village Chief
   # <number> is always 400.
   en-1987: |
-    I am the chief of this village.<wait more>
-    We in Sopia are very poor. The mist shuts us off from other towns.<wait more>
-    Would you by chance be able to spare <number> Meseta to help us?<end>
+    I'm the head of this village.<wait more>
+    Because of the cloud of gas, we are cut off from other towns, we are therefore very poor.<wait more>
+    Will you donate 400 Mesetas?<end>
 
 - offsets: 52e1
   # The Village Chief (no to previous question)
-  en-1987: I see. I’m sorry to hear that. Ohhh...<wait>
+  en-1987: I see. We must go on suffering...<wait>
 
 - offsets: 52f2
   # The Village Chief (yes to previous question, but not enough money)
-  en-1987: So you are poor as well, are you? Such sad times these are.<wait>
+  en-1987: You have a little money, too, I see.<wait>
 
 - offsets: 5300
   # The Village Chief (yes to previous question)
   en-1987: |
-    Thank you. Perhaps I can help you, in return.<wait more>
-    I imagine you’re looking for Perseus’ shield? The one he used to slay Medusa?<wait more>
-    Local legend says it's on the island in the lake, buried under a cactus.<wait>
+    Thanks! According to our legends, the very shield, Perseus used to overcome Medusa, is buried on the small island in the middle of a lake.<wait>
 
 - offsets: 5306
   # Gamer Miki
-  en-1987: Hi, I’m Gamer Miki-chan! Do you own a Master System?<end>
+  en-1987: Hi! I'm Miki! Do you like Sega games?<end>
 
 - offsets: 530f
   # Gamer Miki (yes to previous question)
-  en-1987: Yay! Isn’t the FM sound amazing?!<wait>
+  en-1987: Of course! Sega games are best.<wait>
 
 - offsets: 5314
   # Gamer Miki (no to previous question)
-  en-1987: |
-    WHAT?!<wait more>
-    Shame on you! Hurry up and buy one!<wait>
+  en-1987: I can't believe it. If you don't like the game,.... why have you played so far!?!<wait>
 
 - offsets: 531a
   # Villager
-  en-1987: Before LaShiec’s oppressive rule, this village was very wealthy.<wait>
+  en-1987: Before Lassic came to power, even our town had plenty.<wait>
 
 - offsets: 5320
   # Villager
-  en-1987: |
-    Have you met Tajim, the monk? He lives in the mountains south of the lake.<wait more>
-    They say he is the greatest magical combat trainer in Algol.<wait more>
-    They also say he sees dead people...<wait>
-  # Maybe add this hint to other languages. It helps explain a possible 
-  # scenario later where Tajim sees Lutz when he is dead.
+  en-1987: There is a monk named Tajim in the mountains to the south of the lake.<wait>
 
 - offsets: 5326
   # Villager
-  en-1987: I heard that Palma is a very beautiful planet. Is it true?<end>
+  en-1987: I've heard that Palma is a beautiful planet. is that true?<end>
+  # Original: "THE PALMA"
 
 - offsets: 532f
   # Villager (yes to previous question)
-  en-1987: Oh, I want to go there so bad!<wait>
+  en-1987: I'd like to go visiting someday.<wait>
 
 - offsets: 5334
   # Villager (no to previous question)
-  en-1987: Oh, interesting. I'd go just about anywhere that has cleaner air.<wait>
+  en-1987: No? I'd like to go somewhere the air is more clean and fresh.<wait>
 
 - offsets: 5345
   # Villager (no to request for PelorieMate)
-  en-1987: Cheapskate!<wait>
-
+  en-1987: Tightwad!<wait>
+  # Original: "TIGHTWAND!"
 
 # *********************
 # *** Tajim’s Cave ***
@@ -1193,118 +1174,108 @@
 - offsets: 56b3
   # Tajim (if you don't have Lutz - which is not possible)
   # You need either the hovercraft or the land rover to even reach the cave. You can't get either without being able to reach Casba, and the only way to reach Casba on foot is from Uzo, which you can't get to without your own spaceship, which you can't get without being able to reach Gothic, which you can't because the spaceport manhole is inaccessible without Lutz in your party.
-  en-1987: |
-    And who might you people be?<wait more>
-    My pupil, Lutz, is in Mahal Cave. Do you know him?<end>
+  en-1987: And who are you? Find my pupil Noah in the Maharu Cave. Do you know him?<end>
 
 - offsets: 56bc
   # Tajim (yes to previous question)
-  en-1987: |
-    I have something that I must tell him.<wait more>
-    Please tell him to come see me.<wait>
+  en-1987: I've something I must tell him. Bring him here.<wait>
 
 - offsets: 56c1
   # Tajim (no to previous question)
-  en-1987: I see. Then there is no point in talking with you any further.<wait>
+  en-1987: In that case, there is no point in further conversation.<wait>
 
 - offsets: 56c7
   # Tajim (if you have Lutz)
-  en-1987: Ah, Lutz, my pupil! I see you are finally fulfilling your destiny to defeat LaShiec.<wait>
+  en-1987: Ah, my young pupil, Noah. You are preparing to face Lassic?<end>
 
 - offsets: 56d3
   # Tajim (if Lutz is dead)
-  en-1987: ...Lutz? Oh, I see, he's dead. You there, go revive Lutz at a church and bring him back here.<wait>
+  en-1987: You have gotten yourself killed? Come, let's try one more time.<wait>
 
 - offsets: 56d9
   # Tajim (talking to Lutz)
   en-1987: |
-    I've taught you all that I know. It's time to give you one final test: a duel against me!<wait>
+    Come, you must pass your final test---<wait more>
+    We will duel!<wait>
 
 - offsets: 5722
   # Tajim (if you win) (talking to Lutz)
   en-1987: |
-    You have grown strong, my boy! You have all the power you need to complete your task.<wait more>
-    Take this. It’s a Frad Mantle, my gift to you. It will protect your body from harm.<wait more>
-    Now go! Fulfill your destiny and bring peace back to Algol!<wait>
+    You have become much stronger... You are well prepared.<wait more>
+    I'll give you a Frad Mantle as a gift. It protects you from danger!<wait>
 
 - offsets: 571c
   # Tajim (if you lose) (talking to Lutz)
-  en-1987: You need more training, my boy. Come back when you’re ready. I’ll be waiting.<wait>
+  en-1987: You are not yet ready! You must go still undergo more training.<wait>
 
 - offsets: 56a6
   # Tajim (subsequent visits)
-  en-1987: There is nothing more I can teach you. Fulfill your destiny and bring peace back to Algol!<wait>
+  en-1987: I have nothing to teach you more.<wait>
 
 
 # ****************************
 # *** Native Dezorian Town ***
 # ****************************
 
-# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say verb-affirmative things like ’it does’ and ’you will’ at the ends of sentences, and the liars say truth-affirming things like ’no joke’, ’seriously’, etc. in their sentences.
-# French and Brazilian Portuguese use similar patterns to English.
-# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
-# In Spanish, Honest Dezorian speaks like galician, and the liars like people from Murcia
-# In German, honest Dezorians use VOS sentence structure while liars use OVS.
 - offsets: 5274
   # Honest Dezorian
-  en-1987: I wouldn’t trust anyone in the neighboring village... pathological liars, they are.<wait>
+  en-1987: The neighboring village are all liars! Don't listen to them!<wait>
+  # Original: "NEIBORING"
 
 - offsets: 527a
   # Honest Dezorian
-  en-1987: Corona Tower is on the other side of the mountains to the north, it is.<wait>
+  en-1987: Ze Corona Tower stands on ze far side of ze mountain to ze north of zis village.<wait>
 
 - offsets: 5280
   # Honest Dezorian
-  en-1987: Dezoris Cave is west of Corona Tower, it is. Say hi to our friends there, you must!<wait>
+  en-1987: To ze west of ze Corona Tower is ze Dezoris Cave. Our friends are in zere. Give zem our best, O.K.?<wait>
 
 - offsets: 5286
   # Honest Dezorian
   en-1987: |
-    Laerma trees bear strange fruits, they do.<wait more>
-    They’re called Laerma Berries, and real tasty, they are.<wait more>
-    But unless you put them in a Laconian Pot they shrivel, they do.<wait>
+    Laerma trees grow ze Laerma Berries. Zose berries are our most important food, but it shrivels up after a few moments, unless it is put in Laconian Pot.<wait>
 
 - offsets: 528c
   # Honest Dezorian
-  en-1987: Heard of something called an Aeroprism, have you?<end>
+  en-1987: Do you know what an Aeroprism is?<end>
 
 - offsets: 529a
   # Honest Dezorian (no to previous question)
-  en-1987: I hear you can see other worlds with one, you can.<wait>
+  en-1987: It lets you see another world.<wait>
 
 - offsets: 5295
   # Honest Dezorian (yes to previous question)
-  en-1987: I’d really like to look into one sometime, I would.<wait>
+  en-1987: I'd like to see one sometime.<wait>
 
 - offsets: 52a0
   # Honest Dezorian
-  en-1987: Everyone here hates Palmans, we do.<wait>
+  en-1987: We of zis town hate Palmans.<wait>
 
 - offsets: 52a6
   # Dishonest Dezorian
-  en-1987: The Fountain of Youth is inside Corona Tower. Cross my heart!<wait>
+  en-1987: There is a Spring of Life in the Corona Tower, there is, yes.<wait>
 
 - offsets: 52b2
   # Dishonest Dezorian
   # <number> is always 10.
-  en-1987: There's a warp on the tenth underground level of Dezoris Cave. No joke!<wait>
+  en-1987: You can warp from the 10th level of the dungeon under Dezoris, yes.<wait>
 
 - offsets: 52b8
   # Dishonest Dezorian
-  en-1987: Laerma Berries are blue, and we use them to dye our clothes. It's true!<wait>
+  en-1987: Laerma Berries are blue Laerma Nuts used in dyes, yes, they are, indeed.<wait>
 
 - offsets: 52be
   # Dishonest Dezorian
-  en-1987: You can use a crystal to make berries grow on a Laerma tree. You betcha!<wait>
+  en-1987: If you use a Crystal in front of a Laerma Tree, it will become, yes, a Laerma Nut, yes, indeed.<wait>
 
 - offsets: 52c4
   # Dishonest Dezorian
-  en-1987: This village welcomes all Palmans. Seriously!<wait>
+  en-1987: This town welcomes all Palmans, yes, indeed, we do.<wait>
 
 - offsets: DishonestDezorianFix
   # Dishonest Dezorian
   # We add a script entry here. The original game accidentally uses an entry from Sopia.
-  en-1987: The neighboring villagers lie. Really!<wait>
+  en-1987: The neighboring villagers lie, yes, indeed, they do.<wait>
 
 # ********************
 # *** Dezoris Cave ***
@@ -1313,7 +1284,7 @@
 - offsets: 5815
   # Dungeon Southwest of Corona Tower
   # Dishonest Dezorian
-  en-1987: Be careful up ahead. You should turn left at the fork in the path.<wait>
+  en-1987: Be careful up ahead. At the break in the road, go to the left!<wait>
 
 # ********************
 # *** Corona Tower ***
@@ -1322,38 +1293,34 @@
 - offsets: 57fd,5803
   # Dezorian
   # (Also in Guaran Morgue)
-  en-1987: Why have you come here? Stay out of trouble, hear me?<wait>
+  en-1987: What have you come for? Do you intend some mischief?<wait>
 
 - offsets: # Unused
-  en-1987: I’ve got a bad feeling about this.<wait>
+  en-1987: I have an uneasy feeling.<wait>
 
 - offsets: 592d
   # Dezorian
   en-1987: |
-    You didn’t hear this from me, but...<wait more>
-    Lord LaShiec fears the crystal held by Damoa the fortune-teller.<wait more>
-    There must be something secret about it.<wait>
+    Lassic lives in fear of the Crystal possessed by the soothsayer named Damor.<wait more>
+    There is something special about it, without a doubt.<wait>
 
 - offsets: 5661
   # Torchbearer
   en-1987: |
-    Do you see this flame in my hand? This is the Eclipse Torch.<wait more>
-    This is the sacred fire of the centennial eclipse.<wait more>
-    It’s beautiful, holy, and extremely valuable.<wait more>
-    I might be willing to part with some of it, for, say...<wait more>
-    ...a dragon’s crystal. What do you say?<end>
+    This fire was lit during the eclipse which occurs once every 100 years.<wait more>
+    If you give me a gem from a dragon, I'll give you some of this fire. How about it?<end>
 
 - offsets: 5684
   # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
-  en-1987: Excellent. Here you are, then.<wait>
+  en-1987: Here, take this Eclipse Torch.<wait>
 
 - offsets: 566c
   # Torchbearer (no to previous question)
-  en-1987: You don’t want it? Then why have you come here?<wait>
+  en-1987: No? Then what did you come for?<wait>
 
 - offsets: 568a
   # Torchbearer (yes to previous question but no Carbuncle Eye)
-  en-1987: You have no jewel! Don’t be foolish!<wait>
+  en-1987: You have no gem! Do i look like a fool or something?<wait>
 
 # *************************
 # *** Aeroprism Dungeon ***
@@ -1362,9 +1329,7 @@
 - offsets: 5933
   # Otegami Chie-chan
   en-1987: |
-    I’m Otegami Chie-chan, from Sega! Thanks for all your letters.<wait more>
-    Please tell us what you think of this game. We’re eager to hear from you.<wait more>
-    Here's a tip: Go to the highest point in Palma, and raise the Aeroprism to the sky!<wait>
+    Raise the Aeroprism towards the heavens - you should then be able to see the dark castle.<wait>
 
 
 # *************************
@@ -1373,22 +1338,22 @@
 
 - offsets: 2693,26e5
   # Also used for the Aeroprism later...
-  en-1987: <player> held <article><item> up over <his/her> head.<delay>
+  en-1987: <player> RAISES <article><item> TOWARDS THE SKY.<delay>
 
 - offsets: 26d0
   # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
-  en-1987: <player> picked some Laerma Berries and put them in the Laconian Pot.<wait>
+  en-1987: <player> takes the Nut of Laerma and puts it in the Laconian Pot.<wait>
 
 - offsets: 26c4
   # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
-  en-1987: <player> picked up some Laerma Berries, but they shriveled up immediately!<wait>
+  en-1987: <player> takes the Nut of Laerma, but it shrivels up after a few moments.<wait>
 
 
 # *******************
 # *** Avion Tower ***
 # *******************
 - offsets: 552a
-  en-1987: Now would be a good time to turn around and go home.<wait>
+  en-1987: If you plan to go back, now is the time to leave.<wait>
 
 # **************************
 # *** Baya Marlay Prison ***
@@ -1396,54 +1361,48 @@
 
 - offsets: 55f5
   # Prisoner
-  en-1987: Did you come to help me escape?<wait>
+  en-1987: Get me out here? But it's in vain.<wait>
 
 - offsets: 55fb
   # Prisoner
-  en-1987: Destroy LaShiec? That’s impossible. You can’t kill one who cannot die.<wait>
+  en-1987: It's foolish to try to get Lassic!<wait>
 
 - offsets: 5601
   # Prisoner
-  en-1987: We’re all going to end up as sacrifices for LaShiec!<wait>
+  en-1987: Lassic is gonna sacrifice us! Agh!<wait>
 
 - offsets: 582d
   # Prisoner (Dezorian)
-  en-1987: Did you get the armor in Guaran?<end>
+  en-1987: Have you found the armor in Guaron?<end>
 
 - offsets: 583b
   # Prisoner (no to previous question)
-  en-1987: You can find it on the other side of a pitfall.<wait>
+  en-1987: It can be found at the far side of a pit trap.<wait>
 
 - offsets: 5836
   # Prisoner (yes to previous question)
-  en-1987: Wow, you’re amazing!<wait>
+  en-1987: Well, aren't you something?<wait>
 
 - offsets: 5607
   # Prisoner
-  en-1987: |
-    LaShiec’s more dangerous than most people realize.<wait more>
-    Those who have challenged him have had their souls taken by his magic!<wait>
+  en-1987: All who face Lassic lose their souls to his magic!<wait>
 
 - offsets: 560d
   # Prisoner
-  en-1987: There’s a tower on top of the knoll of Baya Marlay. I wonder what secrets lie within?<wait>
+  en-1987: There is a tower of the top of Baya Malay. Something secret is hidden at the top of the tower!<wait>
 
 - offsets: 5613
   # Prisoner
-  en-1987: You’d better not go any further, there’s a security guard up ahead.<wait>
+  en-1987: There are guards up ahead!<wait>
 
 - offsets: 55c5
   # Robot Police (yes to previous question, have one)
-  en-1987: |
-    This is a fake. Where did you get this?<wait more>
-    Well, you certainly picked the right place to get locked up. Come with me.<wait>
-
+  en-1987: This is a fake! Do you think you can fool a robot? Off to 
+jail we go!<wait>
+    
 - offsets: 5619
   # Prisoner
-  en-1987: |
-    Oh, so you are confined in here as well. How sad.<wait more>
-    Sure, there’s a way out of here. But what’s the point?<wait more>
-    Life is so much less complicated here.<wait>
+  en-1987: You have been locked up, too. There is a way out, but I like it in here, myself.<wait>
 
 
 # *************************
@@ -1451,79 +1410,78 @@
 # *************************
 
 - offsets: 5597
-  en-1987: Did you come here seeking Baya Marlay tower?<end>
+  en-1987: Do you come in full knowledge of the tower of Baya Malay?<end>
 
 - offsets: 55a0
   # (yes to previous question)
-  en-1987: Then you will be destroyed!<wait>
+  en-1987: You will surely incur the wrath of the heavens!<wait>
 
 - offsets: 55a5
   # (no to previous question)
-  en-1987: Then you should turn back.<wait>
+  en-1987: Go back before it is too late.<wait>
 
 # Damoa the Fortuneteller
 
 - offsets: 5530
-  en-1987: |
-    I am Damoa, the greatest fortune-teller in the world!<wait more>
-    Do you believe in my powers of divination?<end>
+  en-1987: I'm the great Damor, soothsayer! Do you believe in my prophecies?<end>
 
 - offsets: 5541,5552,5563
   # (yes to previous question)
-  en-1987: Good. Good.<wait>
+  en-1987: Good!<wait>
 
 - offsets: 553b
   # (no to previous questions or most of the following)
-  en-1987: What did you say? Such impudence! Leave at once!<wait>
+  en-1987: Leave my sight, unbeliever!<wait>
 
 - offsets: 5547
-  en-1987: I sense that you are searching for something, yes?<end>
+  en-1987: You're searching for something?<end>
 
 - offsets: 5558
-  en-1987: I sense that you are looking for Alex Ossale, yes?<end>
+  en-1987: You are searching for Alex Ossale?<end>
 
 - offsets: 5569
-  en-1987: Everything I say is correct. Understood?<end>
+  en-1987: Everything i've said is correct?<end>
 
 - offsets: 5574
   # (yes to last question)
-  en-1987: Then perhaps you should come back later.<wait>
+  en-1987: Then, come again, anytime.<wait>
 
 - offsets: 557a
-  en-1987: Do you defy me?<end>
+  en-1987: Do you contradict the great Damor?!?<end>
 
 - offsets: 5585
   # (no to final question)
-  en-1987: Is that so? Good! You show considerable promise. I shall reward you with this crystal.<wait>
+  en-1987: Of course not! You are a promising young lass! I will give you a magic Crystal for a reward.<wait>
 
 - offsets: 2711
   # (Use Aeroprism)
-  en-1987: The illusionary Aerocastle was revealed in the sky.<wait>
+  en-1987: A vision of a celestial castle appears in the sky.<wait>
+  # Original: "APPEAR"
 
 - offsets: 2752
   # (Use Laerma Berries)
-  en-1987: Myau ate the Laerma Berries.<wait>
+  en-1987: Myau ate the Nut of Laerma.<wait>
 
 # ******************************
 # *** Myau’s Transformation ***
 # ******************************
 
 - offsets: 471b
-  en-1987: When Myau chewed the Laerma Berries, a fever swept over him, and a dazzling light engulfed his body.<wait>
+  en-1987: When Myau eats the Nuts of Laerma, he becomes clothed in flame and emits a blinding light.<wait>
 
 - offsets: 4726
   # This line has a typo: it should be ハバタイテ, not ハバテイテ.
   # Please note that the kanji rendition below fixes this mistake.
   en-1987: |
-    And then, in an instant, he transformed into a beautiful beast with enormous wings!<line><line>
-    Myau proudly flapped his wings for all to see.<wait>
-
+    When he is visible again, he has been transformed into a beautiful winged beast.<line><line>
+    Myau flaps his wings proudly.<wait>
+  # Original: "PLOUDLY"
 
 - offsets: 14cc
   # (If Myau dies in the Gold Dragon battle and other characters are still alive)
   # Note: Alisa may not be alive, and there may be only one other left alive.
   # Previous line will have been "Myau died." so you can assume that context.
-  en-1987: His companions were flung from his back, tumbling through the sky towards their death.<wait>
+  en-1987: Alis and her company on Myau, are tossed into the sky.<wait>
 
 
 # **********************************
@@ -1537,47 +1495,42 @@
 - offsets: ScriptAerocastleFreeTranCarpet
   # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
   en-1987: Hmm, no way down? Here, you can have my <item>.<wait>
+  # Not in the original game
 
 - offsets: 51a6
   # Old Man (also said by an old man in Casba)
-  en-1987: There is more than meets the eye in this dungeon, fools.<wait>
+  en-1987: Don't believe your own eyes in the depth of the dungeons.<wait>
 
 - offsets: 5367
   # Old Man
-  en-1987: Defy King LaShiec at your peril.<wait>
+  en-1987: Don't go against Lassic!<wait>
 
 - offsets: 5738
   # Shadow Warrior
-  en-1987: I know why you’re here. I’ve been watching you closely. Your pathetic journey ends here.<wait>
+  en-1987: I have watched all your actions. Attack me now, if you dare.<wait>
 
 - offsets: 5749
   # Shadow Warrior
-  en-1987: |
-    I am merely LaShiec’s shadow warrior. You’ve gained nothing by defeating me.<wait more>
-    King LaShiec can't be killed. His power defies comprehension. You have come here to die.<wait>
+  en-1987: I'm but only Lassic's shadow! Even if you defeat me, you've gained nothing at all!<wait>
 
 - offsets: 576a
   # LaShiec
-  # The party may only be Tylon who can't do magic, but it's unlikely.
   en-1987: |
-    Ah, it’s you. You've finally arrived. How accomplished you must feel.<wait more>
-    Those I serve have granted me immortality. My power no longer has limits. I am a god.<wait more>
-    And you have what? Weapons? Magic? Did you really hope to defeat me?<end>
+    Ah, my children, you have done very well to come this far. You are very lucky indeed.<wait more>
+    Do you really wish to kill an old man?<end>
 
 - offsets: 5773
   # LaShiec (yes to previous question)
-  en-1987: Then let us hope you will be a worthy sacrifice.<wait>
+  en-1987: All right! Then we will forget this as an unfortunate mistake.<wait>
     
 - offsets: 5778
   # LaShiec (no to previous question)
-  en-1987: I’ve no time for games! Come, let me show you what lies beyond this life.<wait>
+  en-1987: Even now you try to fool with me? You shall repent!<wait>
 
 - offsets: 5789
   # (Defeat LaShiec)
   en-1987: |
-    You may have destroyed this body, but I can never truly die! I shall live again!<line><line><line><line><wait more>
-    Lord LaShiec has fallen. Nero’s dying wish was granted. A new era has begun in Algol.<wait more>
-    The only thing left to do is return to the Governor-General in Paseo!<wait>
+    Lassic has died. Alis accomplished her wish. Nero is satisfied now in heaven. Hurry to the Governor!<wait>
 
 
 # **************
@@ -1587,61 +1540,60 @@
 - offsets: 58bd
   # If Alisa died during the final boss fight
   en-1987: |
-    Then Alisa heard Nero’s voice, from somewhere far away.<wait more>
-    ‘Don’t give up, Alisa. You’ve come so far.’<wait more>
-    Her spirit revived.<wait>
+    Alis hears Nero's voice in the depth of her soul:<line>
+    ‘You'll be reborn to fight for peace again.’<wait more>
+    Alis is resurrected.<wait>
 
 - offsets: 58e1
   # Governor-General (to Alisa)
   en-1987: |
-    Oh, goodness. Please forgive me. My mind and body were controlled by an evil force.<wait more>
-    You’ve done it! You’ve saved Algol. History shall repeat your names, always.<wait more>
-    LaShiec is no more, his terrible fortress has been destroyed. Finally, peace can be restored.<wait more>
-    And just in time, too. I fear if you'd taken any longer, we would have lost everything.<wait more>
-    Alisa. There is something I must tell you. A secret I've kept, to spare your life.<wait more>
-    Alisa... your father was Aures Landeel, the king of Algol. The crown is yours by blood.<wait more>
-    Algol is without a leader. Will you succeed your father, and take your place as our queen?<end>
+    I'm sorry, I must have been possessed body and soul by evil.<wait more>
+    You rescued our world just in the nick of time! If you had come any later, it might have been too late.<wait more>
+    We all thank you from the bottom of our hearts.<wait more>
+    Alis, your father was once king of Algol. The dark castle has been destroyed, Lassic killed...<wait more>
+    Do you, Alis, wish to ascend your father's throne and become the queen of Algol?<end>
 
 - offsets: 5849,58ea
   # Governor-General (yes to previous question)
-  en-1987: Then you have my eternal loyalty. All hail the new Queen of Algol, Alisa Landeel!<wait>
+  en-1987: Then you are the very queen of the entire system. I will assist you in all ways possible.<wait>
 
 - offsets: 58ef
   # Governor-General (no to previous question)
-  en-1987: I see. I won't try to convince you. Should you change your mind, Algol will always welcome you.<wait>
+  en-1987: No? That's fine, if you so desire. You will always be welcome here.<wait>
 
 # ********************
 # *** Ending Scene ***
 # ********************
 
 - offsets: 47da
-  en-1987: Gradually, the sky brightened. The monsters retreated. Peace returned.<end>
+  en-1987: The sky gradually clears and the peace is returned to the Algol system.<line>
 
 - offsets: 47e3
-  en-1987: A cool, gentle breeze now surrounds Baya Marlay.<end>
+  en-1987: A gentle breeze caresses Baya Malay.<delay>
 
 - offsets: 47ec
   en-1987: But does the breeze know of the hardships they endured?<end>
+  # Original: "KNOWS"
 
 
 # This text tries to be centred so it needs quotes around the spaces.
 # Width = 29 so leading space = (29 - length) / 2
 
 - offsets: 4800
-  en-1987: "           Alisa,<delay>"
+  en-1987: "           Alis,<delay>"
 
 - offsets: 480b
-  en-1987: "           Tylon,<delay>"
+  en-1987: "           Odin,<delay>"
 
 - offsets: 4816
-  en-1987: "            Lutz,<delay>"
+  en-1987: "            Noah,<delay>"
 
 - offsets: 4821
   en-1987: "          and Myau.<delay>"
 
 - offsets: 482c
-  en-1987: Though memories of this dark time will fade, these four names will remain in the hearts of Algol’s people forever.<delay>
-
+  en-1987: Even though the memories of evil fade away, their names will be kept in the hearts of the people of Algol forever!!!<delay>
+  # Original: "THE ALGOL"
 
 # ****************************
 # *** Battle/menu dialogue ***
@@ -1649,125 +1601,126 @@
 
 - offsets: 13a4
   # In battle, enemy dodges attack
-  en-1987: <Article><monster> dodged <player>’s attack.<delay>
+  en-1987: <Article><monster> dodges <player>’s attack.<delay>
 
 - offsets: 1497
   # In battle, player dodges attack
-  en-1987: <player> dodged <article><monster>’s attack.<delay>
+  en-1987: <player> dodges <article><monster>’s attack.<delay>
 
 - offsets: 1a96
   # In battle, chose "talk"
-  en-1987: <player> spoke to <article><monster>.<end>
+  en-1987: <player> speaks.<end>
 
 - offsets: 1ac0,1ca4
-  en-1987: <Article><monster> replied,<delay>
+  en-1987: <Article><monster> answers.<delay>
 
 - offsets: 1ab7
-  en-1987: <Article><monster> didn’t understand.<delay>
+  en-1987: <player> and <article><monster> cannot understand each other.<wait>
 
 - offsets: 1b27
-  en-1987: <Article><monster> blocked the escape route.<delay>
+  en-1987: <Article><monster> blocks any retreat.<delay>
 
 - offsets: 20cd,20fa,2168,21cb,21fd,22ac
   # Used in a bunch of places...
-  en-1987: <player>’s spell had no effect.<delay>
+  en-1987: <player>’s magic is not effective.<delay>
 
 - offsets: # unused
-  en-1987: <Article><monster>’s spell had no effect.<delay>
+  en-1987: <Article><monster>’s magic is not effective.<delay>
 
 - offsets: 1ffa
-  en-1987: An invisible magic wall was built before your eyes.<delay>
+  en-1987: An invisible magic wall arises.<delay>
 
 - offsets: 1492
-  en-1987: <Article><monster>’s attack was deflected by the magic wall.<delay>
+  en-1987: The magic wall deflects <article><monster>'s attack.<wait>
 
 - offsets: 14f9,15d3,1637
-  en-1987: <Article><monster>’s spell was deflected by the magic wall.<delay>
+  en-1987: The magic wall deflects <article><monster>'s magic.<wait>
 
 - offsets: 1458
-  en-1987: The invisible wall became ineffective.<delay>
+  en-1987: The magic wall disappears.<delay>
+  # Original: "DISAPPEAR"
 
 - offsets: 1fbc
-  en-1987: <player>’s stamina was restored.<delay>
+  en-1987: <player> is healed.<delay>
 
 - offsets: 1552
-  en-1987: <Article><monster>’s stamina was restored.<delay>
+  en-1987: <Article><monster> is healed.<delay>
 
 - offsets: 20d3
-  en-1987: <Article><monster> is all bound up.<delay>
+  en-1987: <Article><monster> is tied up.<delay>
 
 - offsets: 151f
-  en-1987: <player> is all bound up.<delay>
+  en-1987: <player> is tied up.<delay>
 
 - offsets: 12db
-  en-1987: <player> can’t move.<delay>
+  en-1987: <player> cannot move.<delay>
 
 - offsets: 140c
-  en-1987: <Article><monster> can’t move.<delay>
+  en-1987: <Article><monster> cannot move.<delay>
 
 - offsets: 12d6
-  en-1987: <player>’s bindings came apart.<delay>
+  en-1987: <player> removes the bindings.<delay>
 
 - offsets: 1407
-  en-1987: <Article><monster>’s bindings came apart.<delay>
+  en-1987: <Article><monster> removes the bindings,<delay>
 
 - offsets: 2132
-  en-1987: <player> felt a great swelling of energy.<delay>
+  en-1987: <player> is bursting with strength.<delay>
 
 - offsets: 1574
-  en-1987: <Article><monster> felt its body swell with strength.<delay>
+  en-1987: <Article><monster> is bursting with strength.<delay>
 
 - offsets: 216f
-  en-1987: <Article><monster> got scared and backed away.<delay>
+  en-1987: <Article><monster> recoils in fear.<delay>
 
 - offsets: 210d
-  en-1987: <Article><monster> was surprised by the speed of your escape.<delay>
+  en-1987: Alis and her company escape quickly.<delay>
 
 - offsets: 21ad
   en-1987: There was no trap.<wait>
 
 - offsets: 219f,21b2
-  en-1987: That was close! <player> detected and removed the trap.<wait>
+  en-1987: <player> spotted and disarmed the trap.<wait>
 
 - offsets: 23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
   # Used in a lot of places!
-  en-1987: <player> used <article><item>.<delay>
+  en-1987: <player> uses <article><item>.<delay>
 
 - offsets: 136e
-  en-1987: Someone has used <article><item> up.<wait>
+  en-1987: <Article><item> is used by someone now.<wait>
 
 - offsets: 2883, ScriptPlayerEquippedItem
-  en-1987: <player> equipped <article><item>.<end>
+  en-1987: <player> equips <article><item>.<end>
 
 - offsets: 28cc
-  en-1987: <player> discarded <article><item>.<wait>
+  en-1987: <player> drops <article><item>.<wait>
 
 - offsets: 20ff,23ec,2554,2582,2677,2803
-  en-1987: But there was no effect.<delay>
+  en-1987: But it has no effect.<delay>
 
 - offsets: 2418,242a,244c,245e,2486
-  en-1987: But <article><item> is of no use here.<wait>
+  en-1987: Using <article><item> will do no good here.<wait>
 
 - offsets: 2304
-  en-1987: The group can’t get off here.<wait>
+  en-1987: Cannot disembark here!<wait>
 
 - offsets: 2438,246d
-  en-1987: The group boarded <article><item>.<delay>
+  en-1987: Embarked.<delay>
 
 - offsets: 2311
-  en-1987: The group got out of <article><item>.<delay>
+  en-1987: Disembarked.<delay>
 
 - offsets: 2402,2569,26af,2701,2816
-  en-1987: But nothing happened.<delay>
+  en-1987: Nothing happens, however.<delay>
 
 - offsets: # unused
-  en-1987: <Article><monster>’s eyes are blank.<delay>
+  en-1987: <Article><monster>’s eyes look vacant.<delay>
 
 - offsets: 2505,2597,25f9,26f1,2742,27a2
-  en-1987: But now doesn’t seem to be the time to do that.<delay>
+  en-1987: Cannot do that here.<delay>
 
 - offsets: 24ff,2514,258b,25ed,264b,2733,2793
-  en-1987: <player> took out <article><item>.<delay>
+  en-1987: <player> takes out <article><item>.<delay>
 
 - offsets: 251a,279d,25aa,2651
   # 251a = use SearchLight when not in a dungeon (or a battle)
@@ -1777,55 +1730,55 @@
   # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
   # Note: this was originally ‘It doesn’t look particularly broken.’
   # This translation takes the verb KOWARERU to mean ‘to be begged’
-  en-1987: There’s no real need for it right now.<wait>
+  en-1987: It doesn't seem to be broken.<wait>
 
 - offsets: 112c
-  en-1987: It’s pitch black. You can’t move forward.<wait>
+  en-1987: Cannot go forward, it's pitch black.<wait>
 
 - offsets: 27c3
-  en-1987: You are now facing east.<wait>
+  en-1987: We are currently facing east.<wait>
 
 - offsets: 27cf
-  en-1987: You are now facing west.<wait>
+  en-1987: We are currently facing west.<wait>
 
 - offsets: 27bc
-  en-1987: You are now facing north.<wait>
+  en-1987: We are currently facing north.<wait>
 
 - offsets: 27ca
-  en-1987: You are now facing south.<wait>
+  en-1987: We are currently facing south.<wait>
 
 - offsets: 2611
   # Using Polymeteral in the wrong place
-  en-1987: Wow, this stuff stinks.<wait>
+  en-1987: It stinks!<wait>
 
 - offsets: 2276,228e
   # Using the Telepathy Ball or Lutz's Telepathy spell in front of a pitfall
-  en-1987: <player> got a very bad feeling.<wait>
+  en-1987: <player> has a terrible premonition.<wait>
 
 - offsets: 2269,2271,2289
   # Using either of the above if not in front of a pit
-  en-1987: <player> didn’t feel anything.<wait>
+  en-1987: <player> feels nothing.<wait>
 
 - offsets: 269f
   # Use Eclipse Torch on a monster
-  en-1987: <Article><monster> saw the red flame and seized up in fear.<delay>
+  en-1987: <Article><monster> sees the red flame and becomes afraid.<delay>
 
 - offsets: 273d
   # Use Laerma Berries in the wrong place
   # Comes immediately after "<player> took out the <item>."
   # May not be Alisa.
-  en-1987: Nobody’s hungry right now, so <he/she> put them back.<wait>
+  en-1987: Myau isn't hungry, so she puts the food back.<wait>
 
 - offsets: 277b
   # Trying to use Hapsby in battle
-  en-1987: Hapsby shook his head.<wait>
+  en-1987: Hapsby shakes his head ‘no’.<wait>
 
 - offsets: 2784
   # Trying to use Hapsby outside of battle
-  en-1987: Hapbsy’s head is hard.<wait>
+  en-1987: Hapsby is hardheaded.<wait>
 
 - offsets: 281b
-  en-1987: This item is always active. You don’t need to use it.<wait>
+  en-1987: There is no need to use that.<wait>
 
 - offsets: 218d,2195,299f,2a2e,579d
   # 218d = untrap not in dungeon
@@ -1835,88 +1788,88 @@
   # 299f = search (from menu)
   # 2a2e = search (?)
   # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
-  en-1987: There doesn’t seem to be anything particularly unusual here.<wait>
+  en-1987: There doesn't seem to be anything special about it.<wait>
 
 - offsets: 2a15,2a9b
   en-1987: You found <article><item>.<wait>
 
 - offsets: 21d9,22b5
-  en-1987: Your body became unusually light.<delay>
+  en-1987: <player> feels very light.<delay>
 
 - offsets: 2248
-  en-1987: <player> revived.<wait>
+  en-1987: <player> is resurrected.<wait>
 
 - offsets: 1b45,1f21
-  en-1987: Tylon can’t use magic.<delay>
+  en-1987: Odin cannot use magic.<delay>
 
 - offsets: 1b9e,1f1c
-  en-1987: <player> doesn’t know any spells yet.<delay>
+  en-1987: <player> has not learned magic yet.<delay>
 
 - offsets: 28a3, ScriptPlayerCantEquipItem
-  en-1987: <player> can’t equip <article><item>.<wait>
+  en-1987: <player> cannot equip that item.<wait>
 
 - offsets: 283e
-  en-1987: You don’t need to equip this item.<wait>
+  en-1987: You need not equip that item.<wait>
 
 - offsets: 1872
   # <number> is always >1
   en-1987: You gained <number> experience points.<wait>
 
 - offsets: 18f3
-  en-1987: <player> leveled up.<wait>
+  en-1987: <player> advanced a level.<wait>
 
 - offsets: 1910
-  en-1987: <player> learned a new spell.<wait>
+  en-1987: <player> learned a spell.<wait>
 
 - offsets: 17ff
   en-1987: <Article><monster> had a treasure chest.<end>
 
 - offsets: 6c6e
-  en-1987: You found a treasure chest.<line><end>
+  en-1987: There is a treasure chest.<line><end>
 
 - offsets: 2a37
   en-1987: Do you want to open it?<end>
 
 - offsets: ChestMesetasPlural # Was 2a8c
-  en-1987: There were <number> Meseta inside.<wait>
+  en-1987: There are <number> Mesetas inside.<wait>
 
 - offsets: ChestMesetasSingular
   # Not in the original
-  en-1987: There was only one Meseta inside.<wait>
+  en-1987: There is one Meseta inside.<wait>
 
 - offsets: 2a73
   en-1987: It’s empty.<wait>
 
 - offsets: 2918
-  en-1987: You can’t carry any more. Do you want to drop something?<end>
+  en-1987: You can’t carry anymore. Do you want to drop something?<end>
 
 - offsets: 2938
-  en-1987: Which item do you want to drop?<end>
+  en-1987: What do you want to drop?<end>
 
 - offsets: 296a
   # this runs into the next one...
-  en-1987: You dropped <article><item>...<end>
+  en-1987: <article><item> is dropped,<end>
 
 - offsets: 297d
-  en-1987: ...and you got <article><item>.<wait>
+  en-1987: ...and <article><item> is picked up.<wait>
 
 - offsets: 2923
-  en-1987: Do you want to abandon <article><item>?<end>
+  en-1987: <Article><item> is not needed?<end>
 
 - offsets: 292e
-  en-1987: You abandoned <article><item>.<wait>
+  en-1987: <Article><item> is abandoned.<wait>
 
 - offsets: 28c3,295d
-  en-1987: You can’t drop <article><item>!<wait>
+  en-1987: <Article><item> shouldn't be thrown away.<wait>
 
 - offsets: 1ba7,1f2d
-  en-1987: You don’t have enough magic points.<delay>
+  en-1987: Not enough magic points.<delay>
 
 - offsets: 2236
   en-1987: <player> is still alive.<delay>
 
 - offsets: 17ea
-  en-1987: You’ve beaten <article><monster>.<wait>
+  en-1987: <Article><monster> is killed.<wait>
   #<wait> because else you can't read it when you defeat Dark Force...
 
 - offsets: 14a6,15e4,1648,4c69,590f
@@ -1927,84 +1880,83 @@
   en-1987: <player> is already dead.<delay>
 
 - offsets: 1786
-  en-1987: Alisa and her companions have been annihilated.<wait>
+  en-1987: You are all dead.<wait>
 
 - offsets: 178c
-  en-1987: |
-    Alisa’s hopes have vanished fruitlessly in the face of LaShiec’s ambition.<wait more>
-    The journey ends here.<wait>
+  en-1987: Alis's hope cannot overcome the power of Lassic. The adventure is over.<wait>
 
 # **************
 # *** Hapsby ***
 # **************
 
 - offsets: 5959
-  en-1987: Where would you like to go?<end>
+  en-1987: Where are we going?<end>
 
 - offsets: 5995
-  en-1987: Would you like to go to Skray, on Dezoris?<end>
+  en-1987: We are heading for Skure on Dezoris?<end>
 
 - offsets: 5990
-  en-1987: Would you like to go to Uzo, on Motavia?<end>
+  en-1987: We are heading for Uzo on Motavia?<end>
 
 - offsets: 598a
-  en-1987: Would you like to go to Gothic, on Palma?<end>
+  en-1987: We are heading for Gothic on Palma?<end>
 
 - offsets: 5980
-  en-1987: This IS Skray.<end>
+  en-1987: We are at Skure.<end>
 
 - offsets: 597b
-  en-1987: This IS Uzo.<end>
+  en-1987: We are at Uzo.<end>
 
 - offsets: 5975
-  en-1987: This IS Gothic.<end>
+  en-1987: We are at Gothic.<end>
 
 - offsets: # Unused...
-  en-1987: Here we go--!<delay>
+  en-1987: Let's go!<delay>
 
 # *************
 # *** Shops ***
 # *************
 
 - offsets: 2d1c
-  en-1987: Welcome to the armor shop. Can I help you?<end>
+  en-1987: This is an armory. Do you want to buy something?<end>
 
 - offsets: 2d27,2d89,2e46,537e
-  en-1987: Take care, come back and see us soon.<wait>
+  en-1987: Well, come again.<wait>
 
 - offsets: 2d38
-  en-1987: What can I get for you today?<end>
+  en-1987: Which do you want to buy?<end>
 
 - offsets: 2d7e
-  en-1987: Enjoy. Can I get you anything else?<end>
+  en-1987: Thank you. Anything else?<end>
 
 - offsets: 2d98,539c
-  en-1987: You can’t carry any more. Come back when you can.<wait>
+  en-1987: You cannot carry any more. Thank you and come again.<wait>
 
 - offsets: 2deb
-  en-1987: This is a pharmacy. Can I help you with something?<end>
+  en-1987: This is a fast food shop. Would you like to buy something?<end>
+  # Original: "FIRST FOOD"
 
 - offsets: 2df4
-  en-1987: Welcome to the tool shop. May I help you?<end>
+  en-1987: This is a second-hand shop. Can I help you?<end>
 
 - offsets: 2e0d
-  en-1987: What do you have?<end>
+  en-1987: What would you like to sell?<end>
 
 - offsets: 2e4f
   # No item in the game sells for exactly 1 Meseta.
-  en-1987: Hmm, <article><item>? How does <number> Meseta sound?<end>
+  en-1987: |
+    <Article><item>? Let me see.....<wait more>
+    How about <number> Mesetas?<end>
 
 - offsets: 2e66
-  en-1987: Wonderful! Have anything else for me?<end>
+  en-1987: Thank you. Anything else?<end>
   
 - offsets: 2e3d
   # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
-  en-1987: That’ll come in handy later.<wait>
+  en-1987: That will come in handy later.<wait>
   
 - offsets: 2bc0,2d9d,4d88,538f
-  en-1987: |
-    It looks like you don’t have enough money.<line>
-    Please come back later.<wait>
+  en-1987: You don't have enough money. Come again later.<wait>
 
 
 # ****************
@@ -2012,31 +1964,29 @@
 # ****************
 
 - offsets: 2ae9
-  en-1987: This is a hospital. Do you require medical care?<end>
+  en-1987: This is a hospital. Do you need help?<end>
 
 - offsets: 2b54
-  en-1987: |
-    Hmm. I can get you good as new for <number> Meseta. Shall I proceed?<end>
+  en-1987: The fee for healing is <number> Mesetas. Is that acceptable?<end>
 
 - offsets: 2b99
-  en-1987: Does anyone else need treatment?<end>
+  en-1987: Does anyone else need to be healed?<end>
 
 - offsets: 2af9
-  en-1987: Who requires our attention?<end>
+  en-1987: Who needs to be healed?<end>
 
 - offsets: 2b8a
-  en-1987: |
-    Thanks for waiting.<line>
-    Take care, now.<wait>
+  en-1987: Thanks for waiting. Take care.<wait>
 
 - offsets: 2bb1
-  en-1987: I'm sorry I couldn't help. Be safe out there.<wait>
+  en-1987: I'm sorry I could not help. Please be careful.<wait>
 
 - offsets: 2b37
-  en-1987: Be safe out there.<wait>
+  en-1987: Please be careful.<wait>
 
 - offsets: 2b2b
-  en-1987: You seem perfectly healthy to me...<wait>
+  en-1987: <player> does not need to be healed.<wait>
+  # Original: "IS NOT"
 
 
 # **************
@@ -2044,53 +1994,53 @@
 # **************
 
 - offsets: 2be7
-  en-1987: This is a church. Do you need to revive a departed soul?<end>
+  en-1987: This is a church. Do you wish to resurrect someone?<end>
 
 - offsets: # Unused
-  en-1987: Then I shall offer up a prayer for you.<wait>
+  en-1987: I shall pray for you.<wait>
 
 - offsets: 2bfb
-  en-1987: Who shall be returned?<end>
+  en-1987: Who is to be resurrected?<end>
 
 - offsets: 2c24
   # Resurrection cost is Level * 20 so is definitely plural.
-  en-1987: Our suggested donation is <number> Meseta.<end>
+  en-1987: That requires <number> Mesetas. O.K.?<end>
 
 - offsets: 2c37
-  en-1987: Concentrate on the departed as I recite an incantation.<delay>
+  en-1987: I will now cast a spell.<delay>
 
 - offsets: 2c60
   # If you have enough money
-  en-1987: ArtemuhamuRAmu! ArtemuhamuHAmu! STRATOPON!<delay>
+  en-1987: |
+    Sabrus Cabrus<line>
+    Sebrus Bass!<wait>
 
 - offsets: 2c82
   # If you don't have enough money
   en-1987: |
-    ArutemuhamuRAmu A--ugh!<line>
-    Cough! Cough!<wait more>
-    My apologies.<line>
-    For SOME reason I’ve failed.<wait>
+    Sabrus Cabrus<line>
+    Seb..B...Hack, Hack<wait more>
+    Sorry, I seem to have failed.<wait>
 
 - offsets: 2c71
-  en-1987: Is there anyone else?<end>
+  en-1987: Anyone else?<end>
 
 - offsets: 2ca8
-  en-1987: To level up,<wait>
+  en-1987: To advance to the next level,<wait>
 
 - offsets: 2d16
-  en-1987: <player> needs <number><internal hint 02> point<s>.<wait>
+  en-1987: <player> needs <number><internal hint 02> experience point<s>.<wait>
   
 - offsets: 2cef
   # If a party member is already at max level...
-  en-1987: <player> is already at the highest level.<wait>
+  en-1987: <player> is strong enough already.<wait>
 
 - offsets: 2ca2
-  en-1987: May your future hold blessings from God.<wait>
+  en-1987: May the gods watch over you!<wait>
 
 - offsets: 2c90
   en-1987: |
-    <player>? You don’t look dead to me.<wait more>
-    If you need medical care, I advise finding the nearest hospital.<end>
+    <player> is alive.<end>
 
 
 # ************************
@@ -2100,67 +2050,64 @@
 # First 9 are in response to the "speak" battle menu
 
 - offsets: 1ae5
-  en-1987: ‘We want to become friends with the Palmans.’<wait>
+  en-1987: ‘We want to be friends with people from Palma.’<wait>
 
 - offsets: 1ae7
-  en-1987: ‘I could really go for some Laerma Berries right now!’<wait>
+  en-1987: ‘I want to eat a Nut of Laerma.’<wait>
 
 - offsets: 1ae9
-  en-1987: ‘You should not go against Lord LaShiec.’<wait>
+  en-1987: ‘Do not offend Lassic.’<wait>
 
 - offsets: 1aeb
-  en-1987: ‘Oh! So you understand our language, do you?’<wait>
+  en-1987: ‘You understand our language?’<wait>
 
 - offsets: 1aed
-  en-1987: ‘Yahoo!’<wait>
+  en-1987: ‘Hello!’<wait>
 
 - offsets: 1aef
-  en-1987: ‘When you’re in the dungeons, beware of pitfalls.’<wait>
+  en-1987: ‘Be careful of pits in the dungeon.’<wait>
 
 - offsets: 1af1
-  en-1987: ‘You’ll get injured if you open treasure boxes carelessly.’<wait>
+  en-1987: ‘Many of the treasure chests in the dungeon are trapped.’<wait>
 
 - offsets: 1af3
-  en-1987: ‘You damn thieves!’<wait>
+  en-1987: ‘You thief!’<wait>
 
 - offsets: 1af5
-  en-1987: ‘People hate us no matter what we do.’<wait>
+  en-1987: ‘We are outcasts. Forgive us.’<wait>
 
 # The next 10 are from enemies that you can only talk to with magic.
 
 - offsets: 1cce
-  en-1987: ‘The Soothe Flute sounds so nice!’<wait>
+  en-1987: ‘The sound of the Soothing Flute is a joy to both the ear and the heart.’<wait>
 
 - offsets: 1cd0
-  en-1987: ‘IceDeckers can cut through ice!’<wait>
+  en-1987: ‘THE VEHICLE KNOWN AS ‘ICE DIGGER’ LIVES UP TO ITS NAME.’<wait>
 
 - offsets: 1cd2
-  en-1987: ‘Lord LaShiec lives up in the sky.’<wait>
+  en-1987: ‘Lassic lives above the sky.’<wait>
 
 - offsets: 1cd4
-  # This line has a typo: ラスコニアンポット should be ラコニアンポット.
-  # Please note that the kanji rendition below fixes this mistake.
-  en-1987: ‘The Mad Doctor in Avion has a Laconian Pot.’<wait>
+  en-1987: ‘The Mad Doctor in Abion has a Laconian Pot.’<wait>
 
 - offsets: 1cd6
-  en-1987: ‘There are places in the sky that even a spaceship can’t reach.’<wait>
+  en-1987: ‘There are places in the sky where even spaceships cannot go.’<wait>
+  # Original: "SPACESHIP"
 
 - offsets: 1cd8
-  en-1987: ‘You need to have a certain item in order to make Laerma Berries grow.’<wait>
+  en-1987: ‘A Nut of Laerma needs special light to glow.’<wait>
 
 - offsets: 1cda
-  en-1987: ‘Some dungeon labyrinths contain hidden doors.’<wait>
+  en-1987: ‘there are secret doors in the dungeon maze.’<wait>
 
 - offsets: 1cdc
-  en-1987: ‘The Miracle Key can open magic doors!’<wait>
+  en-1987: ‘The Miracle Key can open doors which are shut by magic.’<wait>
 
 - offsets: 1cde
-  en-1987: ‘Some Dezorians are liars, so be careful.’<wait>
+  en-1987: ‘Some Dezorians like to tell lies, so be careful.’<wait>
 
 - offsets: 1ce0
-  en-1987: |
-    ‘You are brave to talk to me. I will tell you a secret in return:<wait more>
-    The same telepathy that you're using right now can also be used to detect traps.’<wait>
+  en-1987: ‘You are brave to approach me!’<wait>
 
 # **************
 # *** Saving ***
@@ -2168,17 +2115,17 @@
 
 - offsets: 1e3b
   en-1987: |
-    Saving the game?<line>
-    Please choose a slot.<end>
+    Will save the game in progress.<line>
+    Please select a number.<end>
 
 - offsets: ScriptConfirmSlot
-  en-1987: Slot <number>, are you sure?<end>
+  en-1987: You selected <number> is that O.K.?<end>
 
 - offsets: 1e55
-  en-1987: OK. Now saving in slot <number>...<delay>
+  en-1987: Well, saving <number>.<delay>
 
 - offsets: ScriptDone,1e91
-  en-1987: ...done.<wait>
+  en-1987: Completed.<wait>
 
 
 # ************************
@@ -2187,34 +2134,28 @@
 
  # Continue/Save "dialogue" removed...
 - offsets: #07ee
-  en-1987: |
-    Continuing a saved game.<line>
-    Please choose a slot.<end>
+  en-1987: ""
 
 - offsets: #07fe
-  en-1987: OK. Continuing from slot <number>.<delay>
-    <number>.<delay>
+  en-1987: Continuing game <number>.<delay>
 
 - offsets: # Unused
-  en-1987: |
-    That password is incorrect.<line>
-    Please try again.<wait>
+  en-1987: ""
 
 - offsets: #07e3
   # No longer used
-  en-1987: Do you want to continue a saved game?<end>
+  en-1987: ""
 
 - offsets: #082f
-  en-1987: Do you want to delete a saved game?<end>
+  en-1987: Will delete a saved game O.K.?<end>
 
 - offsets: #083a
   en-1987: |
-    Deleting a saved game.<line>
-    Please choose a slot.<wait>
+    Delete a game.<line>
+    Select a number.<wait>
 
 - offsets: ScriptDeletingFromSlotN
-  en-1987: Deleting game from slot <number>...<delay>
-  # <delay> is nicer than<wait> here - Maxim
+  en-1987: Game <number> has been deleted.<delay>
 
 - offsets: ScriptNoSavedGames
   # This is not in the original game.
@@ -2223,4 +2164,4 @@
 - offsets: ScriptDoYouWantToEquip
   # This is not in the original game, see https://github.com/maxim-zhao/psrp/issues/50
   # It is only used for weapons, shields and armour - the first 32 items in the items list.
-  en-1987: Here you go, <article><item>. Do you want to equip it?<end>
+  en-1987: Equip <article><item>?<end>
