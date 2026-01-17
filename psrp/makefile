@@ -22,6 +22,7 @@ WORD_COUNT_de = 85
 WORD_COUNT_la = 29
 WORD_COUNT_literal = 69
 WORD_COUNT_ja-1987 = 20
+WORD_COUNT_ja-kanji = 20
 
 # These are targets that aren't files
 .PHONY: all clean default

@@ -1,0 +1,264 @@
+- name: OpeningCinema
+  ja-kanji: |
+    ┌─────────────╖
+    │AW 342年 春    ║
+    │パルマ星 カミニート居住区║
+    ╘═════════════╝
+
+- name: WorldMenu
+  ja-kanji: |
+    ┌────╖
+    │強さ  ║
+    │マジック║
+    │アイテム║
+    │調べる ║
+    │セーブ ║
+    ╘════╝
+
+- name: ChoiceMenu
+  ja-kanji: |
+    ┌───╖
+    │はい ║
+    │いいえ║
+    ╘═══╝
+
+- name: BattleMenu
+  ja-kanji: |
+    ┌────╖
+    │戦う  ║
+    │マジック║
+    │アイテム║
+    │話す  ║
+    │逃げる ║
+    ╘════╝
+
+- name: AlisaBox
+  ja-kanji: |
+    ┌──────╖
+    │ アリサ  ║
+    │------║
+
+- name: MyauBox
+  ja-kanji: |
+    ┌──────╖
+    │ ミャウ  ║
+    │------║
+
+- name: TaironBox
+  ja-kanji: |
+    ┌──────╖
+    │ タイロン ║
+    │------║
+
+- name: LutzBox
+  ja-kanji: |
+    ┌──────╖
+    │  ルツ  ║
+    │------║
+
+- name: ChoosePlayerMenu
+  ja-kanji: |
+    ┌────╖
+    │アリサ ║
+    │ミャウ ║
+    │タイロン║
+    │ルツ  ║
+
+- name: ToolShopMenu
+  ja-kanji: |
+    ┌────╖
+    │買いたい║
+    │売りたい║
+    ╘════╝
+
+- name: ItemActionMenu
+  ja-kanji: |
+    ┌───╖
+    │使う ║
+    │装備 ║
+    │捨てる║
+    ╘═══╝
+
+- name: AlisaActiveBox
+  ja-kanji: |
+    ┌────╖
+    │アリサ ║
+    ╘════╝
+# Next three must follow (and be the same size)
+
+- name: MyauActiveBox
+  ja-kanji: |
+    ┌────╖
+    │ミャウ ║
+    ╘════╝
+
+- name: TaironActiveBox
+  ja-kanji: |
+    ┌────╖
+    │タイロン║
+    ╘════╝
+
+- name: LutzActiveBox
+  ja-kanji: |
+    ┌────╖
+    │ ルツ ║
+    ╘════╝
+
+- name: BattleSpellsAlisa
+  ja-kanji: |
+    ┌────╖
+    │ヒール ║
+    │ラクスタ║
+    │ペヤラク║
+    │フレエリ║
+    │ビンドワ║
+
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  ja-kanji: |
+    ┌────╖
+    │ドヒール║
+    │テルル ║
+    │ワーラ ║
+    │パウマ ║
+
+- name: BattleSpellsLutz
+  ja-kanji: |
+    ┌────╖
+    │フレエリ║
+    │テレパス║
+    │ヒューン║
+    │ムワーラ║
+    │タンドレ║
+
+- name: OverworldSpellsAlisa
+  ja-kanji: |
+    ┌────╖
+    │ヒール ║
+    │トルーパ║
+
+- name: OverworldSpellsMyau
+  ja-kanji: |
+    ┌────╖
+    │ヒール ║
+    │トルーパ║
+
+- name: OverworldSpellsLutz
+  ja-kanji: |
+    ┌────╖
+    │ドヒール║
+    │スルト ║
+    │テレパス║
+    │ムオーデ║
+    │リーバス║
+
+- name: SpellMenuBottom
+  ja-kanji: ╘════╝
+
+- name: StatsMenuDimensions
+  ja-kanji: |
+    ┌───────────╖
+    │ＬＶ       99║
+    │ＥＰ    65535║
+    │攻撃力     255║
+    │守備力     255║
+    │最大ＨＰ    255║
+    │最大ＭＰ    255║
+    │メセタ   65535║
+    ╘═══════════╝
+
+- name: EquimentMenuDimensions
+  ja-kanji: |
+    ┌──────────────────╖
+    │                  ║
+    │                  ║
+    │                  ║
+    ╘══════════════════╝
+
+- name: InventoryMenuDimensions
+  ja-kanji: |
+    ┌────────╖
+    │メセタ65535║
+    │他の持ち物   ║
+    │Item 1  ║
+    │Item 2  ║
+    │Item 3  ║
+    │Item 4  ║
+    │Item 5  ║
+    │Item 6  ║
+    │Item 7  ║
+    │Item 8  ║
+    ╘════════╝
+
+- name: TopBorder10
+  ja-kanji: ┌────────╖
+
+- name: BottomBorder10
+  ja-kanji: ╘════════╝
+
+- name: InventoryNextMenu
+  ja-kanji: │ホカノ モチモノ║
+
+- name: HapsbyTravelMenu
+  ja-kanji: |
+    ┌───╖
+    │ガシコ║
+    │ウーゾ║
+    │スクレ║
+    ╘═══╝
+
+- name: SoundTestMenuTop
+  ja-kanji: ┌─────────────╖
+
+- name: SoundTestMenuChipPSG
+  ja-kanji: │Chip  SN76489║
+
+- name: SoundTestMenuChipYM2413
+  ja-kanji: │Chip   YM2413║
+
+- name: SoundTestMenu
+  ja-kanji: |
+    │-------------║
+    │Title Screen ║
+    │Intro        ║
+    │Town         ║
+    │Dungeon      ║
+    │Shop         ║
+    │Church       ║
+    │Palma        ║
+    │Battle       ║
+    │Story        ║
+    │Village      ║
+    │Vehicle      ║
+    │Motavia      ║
+    │Dezoris      ║
+    │Tower        ║
+    │Final Dungeon║
+    │LaShiec      ║
+    │Dark Force   ║
+    │Ending       ║
+    │Game Over    ║
+    ╘═════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.  
+  ja-kanji: |
+    ┌───────────────────╖
+    │Walk speed       x ║
+    │Experience       x ║
+    │Meseta           x ║
+    │Battles            ║
+    │Alisa's hair       ║
+    │Font               ║
+    │Fades              ║
+    │Text speed       x ║
+    ╘═══════════════════╝
+
+- name: ContinueMenu
+  ja-kanji: |
+    ┌───────────╖
+    │ゲームノツヅキヲ　ヤル║
+    │ゲームヲ　ケス    ║
+    ╘═══════════╝

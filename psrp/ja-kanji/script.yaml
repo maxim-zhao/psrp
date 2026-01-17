@@ -1,0 +1,2246 @@
+- offsets: 45ef
+  # Game intro
+  # Nero on ground, robot police
+  ja-kanji: |
+    ラシーク様の事をコソコソと嗅ぎ回りやがって。<line>
+    これからはせいぜい大人しくしていることだな。<line>
+    兄さん。何があったの。しっかりして。<wait>
+
+- offsets: 45fa
+  # Game intro
+  # Nero, dying
+  ja-kanji: |
+    アリサ。聞いてくれ。<line>
+    ラシークはこの星に巨大な災いを招いてしまった。<line>
+    世界は破滅に向かっている。<line>
+    俺はラシークが何を企んでいるのか探っていたんだ。<wait more>
+    けど、俺一人ではどうすることもできなかった。<line>
+    旅の途中、タイロンという強い男の噂を聞いた。<line>
+    彼と一緒ならラシークを倒し平和を取り戻すことができるだろう。<wait more>
+    アリサ。俺はもう駄目だ。<line>
+    お前一人を残していく俺を許してくれ。<wait>
+
+- offsets: 4605
+  # Game intro
+  # Alisa
+  ja-kanji: |
+    アリサは兄さんの命を無駄にしないために戦いに行きます。<line>
+    きっと見守っていてね。兄さん。<wait>
+
+# *************************************
+# *** Camineet Residential District ***
+# *************************************
+
+- offsets: 58fc
+  # Camineet
+  # Alisa's house
+  ja-kanji: |
+    ここはアリサの家です。<line>
+    誰もいません。<wait>
+
+- offsets: 4b48
+  # Camineet
+  # Suelo (first visit)
+  # Note that Alisa may be dead - but it's pretty unlikely 
+  # and the original script assumes she is alive
+  ja-kanji: |
+    私はスエロ。アリサの気持ちはよく分かるわ。<line>
+    もう誰もあなたを止めることはできない。<line>
+    でも、もし戦いで傷ついたときは<wait>
+
+- offsets: 4b4e
+  # Camineet
+  # Suelo (subsequent visits and also immediately after the preceding text)
+  # Note: Alisa may not be alive later, so make sure the text here doesn't talk to her directly.
+  ja-kanji: |
+    ここでゆっくり休んでおゆき。<line>
+    無理をしないようにね。<line>
+    またいつでもいらっしゃい。<wait>
+- offsets: 4b62
+  # Camineet
+  # Nekiseh (first visit)
+  # Alisa is not guaranteed to be alive...
+  # Following script entry is shown immediately afterwards.
+  ja-kanji: |
+    僕はネキセ。
+    聞くところによると、勇者タイロンはシオンという町にいるらしい。
+    あっ。それと、ネロからラコニアンポットという壺を預かってたんだ。
+    後で役に立つだろうから持って行くといいよ。<wait>
+
+- offsets: 4b7c
+  # Camineet
+  # Nekiseh (additional text on first visit; only text on subsequent visits)
+  ja-kanji: |
+    力になれなくてごめん。
+    無事を祈ってるよ。<wait>
+
+- offsets: 4b82
+  # Camineet resident - man
+  ja-kanji: このカミニート居住区は戒厳令が敷かれているんだ。<wait>
+
+- offsets: 4b88
+  # Camineet resident - man
+  ja-kanji: 鍵の掛かったドアを開けるにはダンジョンキーが必要です。<wait>
+
+- offsets: 4b8e
+  # Camineet resident - man
+  ja-kanji: 明かりがないと勧めないダンジョンもあるよ。<wait>
+
+- offsets: 4b94
+  # Camineet resident - man
+  ja-kanji: カミニートの西はスペースポートです。<wait>
+
+- offsets: 4b9a
+  # Camineet resident - man
+  ja-kanji: 港町では色々な取引ができるという話だ。<wait>
+
+- offsets: 4bba
+  # Camineet police
+  ja-kanji: 居住区の外には出ないほうが身のためだ。<wait>
+
+- offsets: 4bc0
+  # Camineet police
+  ja-kanji: 死にたくなかったらここにいるんだ。<wait>
+
+- offsets: 4bcd,4c26,4cc2,4d0e
+  # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
+  # Spaceport guard (say "no" to question about passport) - Camineet (4c26) and Parolit (4cc2)
+  ja-kanji: ここを通す訳にはいかない。<wait>
+
+- offsets: 4bda,4d23
+  # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
+  ja-kanji: ロードパスの無い者はここを通れない。<wait>
+
+- offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
+  # Road guard (with a Roadpass) - Camineet (4be0) and Parolit (4d18, 4d2d)
+  # Spaceport guard (say "yes" with a Passport) - Camineet (4cd5) and Parolit (4c3a)
+  # Triada prison guard (say "yes" with a Roadpass) (5497)
+  ja-kanji: 通って良し。<wait>
+
+- offsets: 4ba0
+  # Camineet resident - man
+  ja-kanji: アルゴル太陽系の惑星を知っているかな。<end>
+
+- offsets: 4bb4
+  # Camineet resident - man - "no" to question about Algol
+  # <number> is always 3.
+  ja-kanji: |
+    パルマ・モタビア・デゾリスの<number>つの惑星がある。
+    パルマは緑の星。モタビアは砂の星。デゾリスは氷の星じゃ。
+    アルゴル太陽系には危機が迫っているのじゃ。<wait>
+
+- offsets: 4ba9,4e06,4e26
+  # Camineet resident - man - "yes" to question about Algol
+  # Eppi resident - "yes" to question about strongest material
+  # Eppi resident - "no" to question about Dungeon Key
+  ja-kanji: ならば良い。<wait>
+
+# ************************************
+# *** Parolit Residential District ***
+# ************************************
+
+- offsets: 4bf1
+  # Woman
+  ja-kanji: ここはパロリト居住区よ。<wait>
+
+- offsets: 4bf7
+  # Man
+  ja-kanji: 森の中は特に気を付けたほうがいいよ。
+
+- offsets: 4bfd
+  # Man
+  ja-kanji: |
+    居住区の南の洞窟にメデューサという魔物がよみがえったという。
+    姿を見た者は石にされるそうだ。
+
+- offsets: 4c03
+  # Man
+  ja-kanji: 東へ行くと、シオンという港町があるらしい。
+
+- offsets: 4c09
+  # Man
+  ja-kanji: スペースポートからモタビア星のパセオまで行けるよ。
+
+- offsets: 4c0f
+  # Man
+  ja-kanji: パロリトの西にあるガシコの森へは地下通路があるらしい。
+
+
+# ***********************
+# *** Port town Shion ***
+# ***********************
+
+- offsets: 4c40
+  # Man
+  ja-kanji: |
+    モタビア星にはモタビアン、デゾリス星にはデゾリアンという
+    星人が住んでいるそうだよ。一度会って話してみたいな。
+
+- offsets: 4da7
+  # Man (if you haven't bought Myau yet)
+  ja-kanji: |
+    タイロンならメデューサを倒しに行ったよ。
+    奴は言葉を話す動物を連れていたなあ。
+    その動物は首に薬瓶をぶらさげていたが
+    何かの役に立つかねえ。
+  # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
+
+- offsets: 4dac
+  # Same man (after you get Myau)
+  ja-kanji: ラシークを倒しに行くんだってな。頑張れよ。
+
+- offsets: 4db6
+  # If you haven't bought Myau yet
+  ja-kanji: |
+    この前、メデューサの洞窟で、喋る動物を拾ったんだ。
+    パセオの商人に高く売りつけてやったよ。へっへっへ。
+
+- offsets: 4dbb
+  # Same person as above (if you have bought Myau)
+  ja-kanji: 最近は不景気だね。どこかにいい儲け話はないものかね。
+  # He'd just sold Myau for a huge sum of money earlier, so he's probably more greedy than destitute.
+
+- offsets: 4dc1
+  ja-kanji: シオンの南の半島にはイアラと呼ばれる洞窟がある。
+  # The peninsula is more south-east than south.
+
+- offsets: 4dc7
+  ja-kanji: ここは港町シオン。昔は貿易で賑わったものだ。
+
+- offsets: 4dcd
+  ja-kanji: エピという迷いの森はコンパスがないと通れないよ。
+
+- offsets: 4dd3
+  ja-kanji: 魔法の掛かったドアはマジックを使わないと開きません。
+
+- offsets: 4dd9
+  ja-kanji: |
+    この町から北へ行くとバヤマーレという丘があります。
+    でも我々はその丘へ近づくことができません。
+
+- offsets: 4ddf
+  # Woman next to dock
+  ja-kanji: バヤマーレの北の海岸にナウラという洞窟があります。
+
+- offsets: 2dab
+  # Trader (first time you buy the Secret Thing)
+  ja-kanji: 誰に聞いたか知らないが諦めたほうが身のためだ。
+
+- offsets: 2db0
+  # Trader (second time you buy the Secret Thing)
+  ja-kanji: |
+    駄目なものはダメだ。
+    さー、帰った。帰った。
+
+- offsets: 2ddc
+  # Trader (third time you buy the Secret Thing)
+  ja-kanji: |
+    しつこい奴だ。そんなに言うのなら仕方がない。
+    誰にも言うなよ。
+
+# ******************
+# *** Eppi woods ***
+# ******************
+
+- offsets: 578f
+  ja-kanji: 森の中で道に迷ってしまった。
+
+# ***********************
+# *** Palma Spaceport ***
+# ***********************
+
+- offsets: 4c9e
+  # Luggage handler
+  ja-kanji: |
+    ここはパルマのスペースポートだ。
+    モタビア星のパセオまで行ける。
+
+- offsets: 4ca4
+  # Luggage handler
+  ja-kanji: パセオには総督がいる。モタビア星全部を治めているんだ。
+
+- offsets: 4caa
+  # Luggage handler
+  ja-kanji: ガシコの研究所では昔スペースシップを創ってたそうだ。
+
+- offsets: 4c1d,4cb7
+  # Airstrip guards
+  ja-kanji: パスポートを持っているか。<end>
+  
+- offsets: 4c30,4ccf
+  # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
+  ja-kanji: ふざけるな。
+
+- offsets: 4d33
+  # Passport office
+  ja-kanji: ここでパスポートの申請ができます。申請をしますか。<end>
+
+- offsets: 4d44
+  # Passport office
+  ja-kanji: 今までに悪い事をしたことがありますか。<end>
+
+- offsets: 4d55
+  # Passport office
+  ja-kanji: 今あなたは何か悪い病気にかかっていますか。<end>
+
+- offsets: 4d6c
+  # Passport office
+  ja-kanji: 手数料<number>メセタです。宜しいですか。<end>
+  # <number> is always 100.
+
+- offsets: 4d91
+  # Passport office
+  ja-kanji: では、パスポートを発行します。お受け取り下さい。
+
+- offsets: 4d3e,4d77,4eca
+  # Passport office (say "no" to question about applying)
+  # Passport office (say "no" to question about paying)
+  # Paseo trader (say "no" to offer to trade the Laconian Pot for Myau)
+  ja-kanji: そうですか。では、お気を付けて。
+
+- offsets: 4d4f,4d60
+  # Passport office (say "yes" to question about doing bad things)
+  # Passport office (say "yes" to question about having an illness)
+  ja-kanji: |
+    それはよくないですね。
+    またお越しください。
+
+- offsets: 5939
+  ja-kanji: モタビア行きです。乗りますか。<end>
+
+
+# ***********************
+# *** Paseo Spaceport ***
+# ***********************
+
+- offsets: 4e31
+  # Luggage handler
+  ja-kanji: ここはモタビアのパセオ・スペースポートだよ。
+
+- offsets: 4e37
+  # Luggage handler
+  ja-kanji: 砂漠の中では蟻地獄が暴れているという噂だよ。
+
+- offsets: 4e3d
+  ja-kanji: パルマ星のナウラという洞窟にはケーキ屋があるんだってね。
+
+- offsets: 5949
+  ja-kanji: パルマ行きです。乗りますか。<end>
+  
+
+# *************
+# *** Paseo ***
+# *************
+
+- offsets: 4e43
+  ja-kanji: モタビアの総督は実はラシークと仲が悪いらしいよ。
+
+- offsets: 4e49
+  ja-kanji: 総督に会うには贈り物が要るそうよ。
+
+- offsets: 4e4f
+  ja-kanji: 総督は甘いものが大好き。
+
+- offsets: 4e55
+  ja-kanji: マハルという洞窟がパセオの北の山の中にあります。
+
+- offsets: 4e5b
+  ja-kanji: ここはモタビアの首都パセオです。
+
+- offsets: 4e61
+  ja-kanji: 蟻地獄は人の足ではとても通れないだろう。
+
+- offsets: 4e67
+  ja-kanji: 賢いモンスターにはモンスター言葉があるそうだ。
+
+- offsets: 4e7f
+  # Trader (before getting Myau)
+  ja-kanji: 珍しい動物がいるんだけど<number>憶メセタで買わないか。<end>
+  # <number> is always 10.
+  # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
+
+- offsets: 4e8a
+  # Trader (say yes to previous question)
+  ja-kanji: あんた、嘘つきだね。
+
+- offsets: 4e98
+  # Trader (say no to previous question, and have a Laconian pot)
+  ja-kanji: |
+    おや、あんた、珍しい壺を持っているね。
+    そのラコニアンポットとなら交換してもいいよ。どうかね。<end>
+
+- offsets: 4ea9
+  # Trader (say yes to previous question)
+  ja-kanji: それじゃ、連れていきな。可愛がってやってくれ。
+
+- offsets: 4e73
+  # Trader (after getting Myau)
+  ja-kanji: ラコニアンポットはとても高く売れたよ。ありがとさん。
+
+# ******************************
+# *** Character Intro - Myau ***
+# ******************************
+
+- offsets: 4643
+  # Alisa
+  ja-kanji: 今日から仲間ね。私はアリサ。あなたの名前を教えて。
+
+- offsets: 464e
+  # Myau
+  ja-kanji: ミャウ。
+
+- offsets: 4659
+  # Alisa
+  ja-kanji: |
+    ねえ、ミャウ。
+    タイロンのことなんだけど、何か知っていたら教えて。
+
+- offsets: 4664
+  # Myau
+  ja-kanji: |
+    タイロン、石になっちまったの。
+    この薬かければ治るんだ。
+    けど、ミャウ、ビンの蓋開けられないの。
+
+- offsets: 466f
+  # Alisa
+  ja-kanji: |
+    そっか。
+    じゃ、一緒にタイロンを助けに行きましょう。
+
+
+# ******************************
+# *** Cave South of Camineet ***
+# ******************************
+
+- offsets: 57ec
+  ja-kanji: |
+    石にされてしまった人らしい。
+    元に戻れるのだろうか。
+
+- offsets: 25bd,2636
+  # Using "Alsuline" or "Polymeteral"
+  # This comes immediately after the "Alisa took out the item" message.
+  # Since it's used for the Polymeteral, too, it may not be Alisa.
+  ja-kanji: そして、ビンの蓋を開けて静かに垂らした。<delay>
+
+- offsets: 25af,260c,262d
+  # Using "Alsuline" or "Polymeteral" but only Myau is alive
+  ja-kanji: しかし、ミャウはビンの蓋を開けることができなかった。
+  # As this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
+
+
+# ********************************
+# *** Character Intro - Tylon ***
+# ********************************
+
+- offsets: 4688
+  # Tylon
+  # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
+  # So Tylon can't talk to Myau directly.
+  ja-kanji: |
+    ありがとう。助かったよ。
+    しかし、メデューサにしてやられるようではラシークは倒せそうにないな。
+
+- offsets: 4693
+  # Alisa
+  ja-kanji: |
+    私の兄さんもラシークを倒そうとして死んでしまったわ。
+    死ぬ前にあなたの名前を言い残して。
+
+- offsets: 469e
+  # Tylon
+  ja-kanji: |
+    そうだったのか。
+    よし、君の兄さんのためにも力を合わせてラシークを倒そう。
+
+- offsets: 46a9
+  # Alisa
+  ja-kanji: それより、なぜメデューサを倒そうとしたの。
+
+- offsets: 46b4
+  # Tylon
+  ja-kanji: |
+    メデューサが持っている伝説の斧が欲しかったんだけど逃げられちまった。
+    悔しいなあ。
+    そう言えば、オレ、この洞窟の行き止まりにコンパスを隠しておいたんだっけ。
+    取りに行こうぜ。
+
+
+# ************
+# *** Eppi ***
+# ************
+
+- offsets: 4de5
+  # Villager
+  ja-kanji: モタビアの総督はもしかしたら味方になってくれるかも知れない。
+
+- offsets: 4deb
+  # Villager
+  ja-kanji: モタビアには凄いエスパーがいるらしいよ。
+
+- offsets: 4df1
+  # Villager
+  ja-kanji: ガシコの森にはその昔ルベノ博士の研究所があった。
+
+- offsets: 4df7
+  # Villager
+  ja-kanji: エピの村へようこそ。
+
+- offsets: 4dfd
+  # Villager
+  ja-kanji: そなたはダンジョンキーの在り処を探しているのかな。<end>
+
+- offsets: 4e17
+  # Villager (yes to previous question)
+  ja-kanji: ダンジョンキーはカミニート居住区の外れにある倉庫の中にわしがコッソリ隠しておいたぞよ。
+
+- offsets: 4e1d
+  # Villager
+  ja-kanji: 世界で一番硬くて強い物質を知っているか。<end>
+
+- offsets: 4e2b
+  # Villager (no to previous question)
+  ja-kanji: それはラコニアじゃ。それでできた武器は最強なんじゃ。
+
+# ******************
+# *** Naula Cave ***
+# ******************
+
+- offsets: 5373
+  # Shortcake Salesman
+  ja-kanji: |
+    こんな所にお店があってごめんなさい。
+    ショートケーキを<number>メセタでいかがですか。<end>
+  # <number> is always 280.
+- offsets: 5355,53a5
+  # Shortcake salesman (after purchase)
+  # Also Sopia villager if you give him a PelorieMate.
+  # Note the similarity to index 198.
+  ja-kanji: ありがとう。また来てね。
+
+# *********************
+# *** Paseo (again) ***
+# *********************
+
+- offsets: 4fd4
+  # Guards outside Underground Passage to Governor's Mansion
+  ja-kanji: ぐうぐう。
+
+- offsets: 5627
+  # Guard inside Underground Passage to Governor's Mansion
+  ja-kanji: 総督への贈り物を持って来たか。<end>
+
+- offsets: 564b
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, have shortcake)
+  ja-kanji: では、そのショートケーキを預かっておこう。
+
+- offsets: 5651
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, no shortcake)
+  ja-kanji: 贈り物になるようなものを持ってないじゃないか。
+
+- offsets: 5632
+  # Guard inside Underground Passage to Governor's Mansion (no to previous question)
+  ja-kanji: さっさと帰れ。
+
+- offsets: 4f19
+  # Governor-General (first visit)
+  # Last part falls through to the following entry, we do not do that here.
+  ja-kanji: |
+    私がこの星の総督だ。
+    ラシークを倒しに行くそうだな。その勇気を褒めてやる。
+    マハルの洞窟にルツというエスパーがいる。
+    私の手紙を持って会いに行くがよい。
+    ラシークを倒してきっとここへ戻ってくることを信じているぞ。
+
+- offsets: 4f13,4fc6
+  # Governor-General (subsequent visits)
+  ja-kanji: ラシークを倒してきっとここへ戻ってくることを信じているぞ。
+
+- offsets: 4f2f
+  # Governor-General (before nightmare)
+  ja-kanji: 長い旅で疲れただろう。ここでゆっくり休むがいい。
+
+- offsets: 4fda
+  # Lady in Guest House
+  ja-kanji: どうぞ休んでいってね。
+  
+- offsets: 4ff9
+  # Lady in Guest House (after resting)
+  ja-kanji: どうか無事に戻ってきてね。祈ってるわ。
+
+- offsets: 4f5b
+  ja-kanji: 深い眠りについた。<delay>
+
+- offsets: 4fa2
+  ja-kanji: 恐ろしい夢だった。
+
+- offsets: 4f0d
+  # Governor-General (return after dream):
+  ja-kanji: |
+    もう一刻の猶予も許されない。
+    心してかかるがよい。
+    無事を祈っている。
+
+- offsets: 4ed6
+  # (after defeating LaShiec)
+  ja-kanji: |
+    おや。様子が変だ。
+    総督はどこへ行ったんだろう。
+
+# ******************
+# *** Mahal cave ***
+# ******************
+
+- offsets: 53c4
+  # If you haven't found Lutz yet (unused/impossible?)
+  ja-kanji: ルツはパセオの総督の命令ならば聞くかもしれない。
+
+- offsets: 53c9
+  # If you have found Lutz (unused?)
+  ja-kanji: ヤッホー。
+
+- offsets: 53df
+  # Lutz
+  ja-kanji: |
+    あなた方は誰ですか。
+    私は今修行中です。
+    邪魔をしないでください。
+
+
+# ******************************
+# *** Character Intro - Lutz ***
+# ******************************
+
+- offsets: 46e7
+  # Will show a picture of whichever of the party is alive at this point,
+  # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
+  # which character it is during this conversation.
+  ja-kanji: |
+    総督からの手紙を預かって来ました。
+    読んで頂けませんか。
+
+- offsets: 46f2
+  ja-kanji: |
+    分かりました。
+    みんなでこのアルゴル太陽系を悪の手から守りましょう。
+    そのためには先ずガシコの森へ行ってルベノ博士に会いたい。
+    確かマンホールを通って行けたはずです。
+
+
+# ********************
+# *** Gothic Woods ***
+# ********************
+
+- offsets: 500b,5034,533a,54a9
+  # Villager x2
+  # Sopia villager
+  # Triada prisoner
+  ja-kanji: あんた、オレにペロリーメイトを一つ恵んでくれないか。<end>
+
+- offsets: 5028
+  # Villager (yes to previous question, and you have a PelorieMate)
+  ja-kanji: |
+    ありがとう。
+    ここは昔ルベノという科学者の研究所だった。
+    だけどルベノは狂っているという理由でこの村の
+    南にあるトリアダという牢獄に閉じ込められたんだ。
+
+- offsets: 502e,5055,535b
+  # Sopia villager (yes to previous question, and you don't have a PelorieMate)
+  # Gothic Woods villager (yes to previous question, and you don't have a PelorieMate) x2
+  ja-kanji: 馬鹿にすんでねえ。
+
+- offsets: 5016,503f,54b4
+  # Villager x2 (no to previous question)
+  # Triada prisoner
+  ja-kanji: あんたに話す事はない。どこかへ消えな。<end>
+
+- offsets: 504f
+  # Another villager (yes to previous question, and you have a PelorieMate)
+  ja-kanji: |
+    ガシコの森から山へ通じる一本道の奥にある塔には近づくな。
+    そこには姿を見ただけで体が石になってしまうという恐ろしい魔物が住んでいるらしい。
+
+- offsets: 5856
+  # Villager guarding open field (no Luveno/Hapsby)
+  # Also pointed to by indices 27c, 27e, 280 but these aren't used.
+  ja-kanji: ここから先は僕の縄張りだから通せないよーだ。
+
+- offsets: 585c
+  # Villager guarding open field (have Luveno/Hapsby)
+  ja-kanji: ルベノ博士が言うのだったらしょうがない。通ってもいいよ。
+
+# *********************
+# *** Triada Prison ***
+# *********************
+
+- offsets: 5485,55b3
+  # Guard Near Entrance
+  # Also index 21c: robot police in Baya Marlay Prison
+  ja-kanji: ロードパスを持っているか。<end>
+
+- offsets: 549d,55e0
+  # Guard Near Entrance (no to previous question)
+  # Same sequence in Baya Marlay Prison
+  ja-kanji: 大した度胸だ。死んでもらうぞ。
+
+- offsets: 54ca
+  # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
+  # Split up from 4c30,4ccf to allow different translations from the usage by airstrip guards
+  # TODO: consider rewriting this and the split version accordingly
+  ja-kanji: ふざけるな。
+
+- offsets: 54c4
+  # Prisoner (if you give PelorieMate)
+  ja-kanji: 蜘蛛の怪物は本当は賢いんだよ。
+
+- offsets: 54ea
+  # Prisoner
+  ja-kanji: ガシコの山奥にある塔はメデューサの塔と呼ばれている。
+
+- offsets: 550c
+  # Spider
+  ja-kanji: ポリメテラールという薬はラコニア以外の物質は全て溶かすそうだよ。
+
+- offsets: 54f0
+  # Prisoner
+  ja-kanji: やあ。人に会うのは久しぶりだ。お話ししようよ。<end>
+
+- offsets: 54f9
+  # Prisoner (yes to previous question)
+  ja-kanji: |
+    バルテボには僕の友達がいるんだ。
+    今は溶岩池のせいで大変だろうなあ。
+    会ったらよろしく言っていてね。<end>
+
+- offsets: 54d0
+  # Prisoner
+  ja-kanji: ハプスビーというロボットを知ってるかい。<end>
+
+- offsets: 54de
+  # Prisoner (no to previous question)
+  ja-kanji: |
+    ラコニアでできたロボットだよ。
+    でもスクラップにされて捨てられちまったらしいよ。
+
+- offsets: 54e4
+  # Prisoner
+  ja-kanji: 山の向こうは火山の噴火で溶岩池ができているそうだよ。
+
+- offsets: 5453
+  # Dr Luveno (first time)
+  ja-kanji: |
+    わしはルベノじゃ。
+    助けに来たのなら余計な事じゃ。帰るがいい。
+
+- offsets: 545e
+  # Dr Luveno (second time)
+  ja-kanji: |
+    なに。宇宙船を創れじゃと。
+    馬鹿も休み休み言え。
+    わしがそんなことを引き受けると思うのか。<wait>
+
+- offsets: 5464
+  # Dr Luveno (third time)
+  ja-kanji: |
+    うーむ。懲りない奴じゃ。仕方がない。
+    わしの言う通りにしてもらうがそれでも良いか。<end>
+
+- offsets: 546d
+  # Dr Luveno (no to previous question)
+  ja-kanji: 言う通りにしないなら引き受ける訳にはいかない。
+
+- offsets: 5477
+  # Dr Luveno (yes to previous question)
+  ja-kanji: |
+    よし。それでは一足先にガシコの村へ行って準備するから後から来い。
+    わしのことなら心配無用じゃ。<wait>
+
+- offsets: 510d,5428
+  # Man in underground tunnel
+  ja-kanji: 今忙しいんだ。邪魔しないでくれ。
+
+- offsets: 542f
+  # Man in underground tunnel
+  ja-kanji: |
+    えーっ。ルベノ博士が帰って来たのかい。
+    また宇宙船を創るのか。
+    しょうがねえや。すぐ行くよ。
+
+# *****************
+# *** Iala Cave ***
+# *****************
+
+- offsets: 5436
+  ja-kanji: 奥の部屋へ入って生きて帰った者はいない。ひっひっひ。
+
+# **********************
+# *** Medusa's Tower ***
+# **********************
+
+- offsets: 5512
+  ja-kanji: もはや覚悟はできておるじゃろうな。ふっふっふ。
+
+- offsets: 5518
+  # Old man in an actual dead end
+  ja-kanji: 行き止まりじゃ。戻りなさい。帰るなら今の内だ。
+
+- offsets: 551e
+  ja-kanji: おお。何と勇敢な若者よ。罠に気をつけてな。
+
+- offsets: 16a8
+  # Being attacked by Medusa without the Shield of Perseus equipped
+  ja-kanji: <player>は石になってしまった。
+
+
+# *******************************
+# *** Dr. Luveno’s Laboratory ***
+# *******************************
+
+- offsets: 507b
+  # Dr Luveno (if you didn't talk to his assistant yet)
+  ja-kanji: |
+    おお。遅かったのう。
+    さっそくじゃがわしの助手を連れて来てくれ。
+    地下牢の中に隠れておるはずじゃ。
+    ホントに、あいつは恥かしがり屋で困ったものじゃ。
+
+- offsets: 508b
+  # Dr Luveno
+  ja-kanji: |
+    よし、これでスタッフは揃ったようだ。
+    そこで製作費が<number>メセタかかるんじゃが、わしにくれんか。<end>
+  # <number> is always 1200.
+
+- offsets: 50b5
+  # Dr Luveno (yes to the previous question)
+  ja-kanji: ありがとう。では、製作を始めよう。少し待ってくれ。
+
+- offsets: 50a7
+  # Dr Luveno (if you don't have enough money)
+  ja-kanji: 足りないのう。悪いがお金を集めてきてくれんか。
+
+- offsets: 5096
+  # Dr Luveno (no to the previous question)
+  ja-kanji: それは残念じゃ。お前の旅もここまでかのう。
+
+- offsets: 50c3
+  # Dr Luveno (first two times you talk to him)
+  ja-kanji: 慌ててもいいものはできんぞよ。もう少しの辛抱じゃ。
+
+- offsets: 50d1
+  # Dr Luveno (third time)
+  ja-kanji: 喜べ、ついに宇宙船ルベノ号ができあがったぞ。
+
+- offsets: 50de
+  # If you don't have Hapsby already
+  ja-kanji: しかし、お前にはルベノ号は操縦できん。
+
+- offsets: 50eb
+  # If you don't have Hapsby already
+  ja-kanji: |
+    ハプスビーというロボットを探してくれるんじゃ。
+    あのロボットなら宇宙船を操縦できるはずじゃ。
+
+- offsets: 50f6
+  # Luveno (if you have Hapsby)
+  ja-kanji: |
+    よし。これでルベノ号に乗って宇宙へ飛び出せる。
+    村の外へ出てみるがいい。中々の出来だよ。
+
+- offsets: 5071
+  # Luveno (subsequent visits)
+  ja-kanji: ルベノ号の調子はどうじゃ。大事に使っておくれ。
+
+# Spaceports now closed...
+- offsets: 4cec
+  ja-kanji: スペースポートは閉鎖する。
+
+- offsets: 4cfd
+  ja-kanji: パスポートを没収するぞ。
+
+
+# ***************
+# *** Bartevo ***
+# ***************
+
+- offsets: 4fff
+  # Villager
+  ja-kanji: バルテボはオレの縄張りだ。荒らすんじゃないぞ。
+
+- offsets: 5005
+  # Villager
+  ja-kanji: このスクラップの中に性能のいいロボットが捨てられているという話だけど本当かねー。
+
+- offsets: 5524
+  # Villager (in the cave next to Bartevo)
+  ja-kanji: アビオンの村にポリメテラールという薬が売っているらしい。
+
+- offsets: 57bd
+  # Hapsby
+  ja-kanji: |
+    ボクはハプスビー。見つけてくれてありがとう。
+    ルベノ号の操縦は任せてね。
+
+- offsets: 57e0
+  ja-kanji: |
+    フロームーバーを見つけた。
+    ハプスビーが壊れたところを治したので使えるようになったぞ。
+
+
+# ************
+# *** Lore ***
+# ************
+
+- offsets: 5139
+  # Villager
+  ja-kanji: |
+    ここはロアーという村です。
+    ラシークのせいで寂れてしまった。
+
+
+- offsets: 5119
+  # Villager
+  ja-kanji: |
+    カーバンクルアイという宝石を知っていますか。
+    カスバのドラゴンが持っているという噂です。
+
+
+- offsets: 511f
+  # Villager
+  ja-kanji: この島の西の外れにはアビオンという村があります。
+
+- offsets: 5125
+  # Villager
+  ja-kanji: ラエルマツリーという樹を知っているか。<end>
+
+- offsets: 512e
+  # Villager (no to previous question)
+  ja-kanji: |
+    デゾリス星のアルチプラノと呼ばれる高原に生い茂っているとか。
+
+- offsets: 5113
+  # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
+  ja-kanji: |
+    えっ、ラシークを倒しに行くの。凄いねえ。
+    噂だけどあるクリスタルは悪しき魔法を封じるとか。
+
+# *************
+# *** Abion ***
+# *************
+
+- offsets: 513f
+  # Villager
+  ja-kanji: この村はアビオンというのよ。
+
+- offsets: 5145
+  # Villager
+  ja-kanji: ラシークの魔の手はこの村にも伸びてきた。助けてくれ。
+
+- offsets: 514b
+  # Villager
+  ja-kanji: |
+    この村に変った男が引っ越ししてきたよ。
+    動物実験をやってるらしいが気味が悪いなあ。
+    壺みたいなものを持ってたよ。
+
+- offsets: 5151
+  # Villager
+  ja-kanji: 私、宇宙の旅がしてみたいわ。
+
+- offsets: 5157
+  # Villager
+  ja-kanji: |
+    ジャコウネコという動物はある木の実を食べると
+    大きくなって空を飛べるようになるそうだよ。フシギダネ。
+
+- offsets: 4c54
+  # Mad Doctor
+  ja-kanji: おい、そこのネコ。こっちへ来い。<end>
+
+- offsets: 4c75
+  # Mad Doctor (yes to previous question)
+  ja-kanji: ケッケッケ。お前らも死にたいか。
+
+- offsets: 4c7a
+  # Mad Doctor (no to previous question or if Myau is already dead)
+  ja-kanji: わしの邪魔をする奴は殺してやる。
+
+# *************
+# *** Skray ***
+# *************
+
+- offsets: 5238
+  # Townsperson
+  ja-kanji: ここはデゾリス星のスクレ。外は寒かったでしょう。
+
+- offsets: 523e
+  # Townsperson
+  ja-kanji: パルマ星からの移民は殆どこの町に住んでいます。
+
+- offsets: 5244
+  # Townsperson
+  ja-kanji: |
+    私、この星の事はよく知らないけど
+    北の山奥にこの星の住民デゾリアンの村があるそうよ。
+
+- offsets: 524a
+  # Townsperson
+  ja-kanji: |
+    なに、ラシークを倒すだと。
+    それならばラコニアでできたソード、アクス、シールド、アーマーを揃えなされ。
+    これらの武器は最強の力を発揮するだろう。
+    無事を祈っている。
+
+- offsets: 5250
+  # Townsperson
+  ja-kanji: |
+    ラコニアでできた武器は聖なる力を秘めているんだ。
+    ラシークはそれを嫌ってアルゴル太陽系の惑星のあちこちに隠してしまったという。
+
+
+- offsets: 5256
+  # Townsperson
+  ja-kanji: デゾリス星は氷の星です。
+
+- offsets: 525c
+  # Townsperson
+  ja-kanji: 氷の山の中には崩れやすいところもあるようです。
+
+- offsets: 5262
+  # Townsperson
+  ja-kanji: アルチプラノ高原は周りを氷の山に囲まれています。
+
+- offsets: 5268
+  # Townsperson
+  ja-kanji: |
+    この星は百年に一度日食があります。
+    その時に灯された炎はイクリプストーチと呼ばれ
+    神聖なる炎としてデゾリアンに祭られているのです。
+
+- offsets: 526e
+  # Townsperson
+  ja-kanji: |
+    グアランの死体置き場の死人がよみがえったそうだ。
+    恐ろしいや。
+
+
+# ***********
+# *** Uzo ***
+# ***********
+
+- offsets: 515d
+  # Villager
+  ja-kanji: ここはモタビア星のウーゾという村です。
+
+- offsets: 5163
+  # Villager
+  ja-kanji: 蟻地獄はランドマスターという乗り物を使えば通れますよ。
+
+- offsets: 5169
+  # Villager
+  ja-kanji: ウーゾの南にカスバという村があります。
+
+- offsets: 516f
+  # Villager
+  ja-kanji: |
+    カスバの洞窟にはドラゴンが住み着いたらしいですよ。
+    そのドラゴンの頭には宝石が入っているとか。
+
+- offsets: 5194
+  # Villager
+  ja-kanji: |
+    フラードマントというマントを知ってるかい。
+    軽いけど凄い防御力があるそうだよ。
+
+- offsets: 5175
+  # Villager
+  ja-kanji: スーズフルートという笛のことを知ってるかい。<end>
+
+- offsets: 5133,517e,54d9,54fe
+  # Villager (yes to previous question)
+  # Lore villager (yes to question about Laerma Tree)
+  # Triada prisoner (yes to question about Hapsby)
+  # Triada prisoner (no to request to talk)
+  ja-kanji: そうかい。つまんねえの。
+
+- offsets: 518e
+  # Villager (no to previous question)
+  ja-kanji: |
+    内緒だけどさ、僕がパルマ星へ行ったときに
+    ガシコの村のはずれに埋めてきたんだ。
+    誰にも言っちゃダメだよ。
+
+
+# Soothe Flute stuff
+- offsets: 24d6
+  # Use Soothe Flute outside a battle
+  ja-kanji: 心が和むような美しい音色だ。
+
+- offsets: 24eb
+  ja-kanji: <monster>は笛の音を聞いて大人しくなった。<delay>
+
+
+# *************
+# *** Casba ***
+# *************
+
+- offsets: 519a
+  # Villager
+  ja-kanji: ここはカスバという村です。
+
+- offsets: 51a0
+  # Villager
+  ja-kanji: この村の洞窟にドラゴンが住み着いたの。私、怖ーい。
+
+- offsets: 51ac
+  # Villager
+  ja-kanji: |
+    周りを霧に囲まれた村には伝説の盾の言い伝えがある。
+    その昔ペルセウスが魔物退治に使ったという。
+
+- offsets: 51b2
+  # Villager
+  ja-kanji: |
+    僕が湖の西へ行くと霧のような恐ろしい毒ガスが広がっていたんだ。
+    何とかしないととても近寄れないよ。
+
+- offsets: 51b8
+  # Villager
+  ja-kanji: フロームーバーという乗り物を知っているかい。<end>
+
+- offsets: 51cb
+  # Villager (yes to previous question)
+  ja-kanji: |
+    パルマ星のシオンの町で買ったんだけど
+    壊れちまったみたいでバルテボに捨てちまったよ。
+    もったいないことしちまった。
+
+- offsets: 51c1
+  # Villager (no to previous question)
+  ja-kanji: あれは便利だよ。水の上をスイスイ行けるんだ。
+
+
+# **************
+# *** Drasgo ***
+# **************
+
+- offsets: 51d1
+  # Townsperson
+  ja-kanji: ここはドラスゴー。海の上の小さな町です。
+
+- offsets: 51d7
+  # Townsperson
+  ja-kanji: |
+    今海の道は閉ざされて船さえ使えないのに
+    よくもまあこの町へ辿り着きましたね。
+
+- offsets: 51dd
+  # Townsperson
+  ja-kanji: アビオンの塔には魔力を封じる剣があるそうです。
+
+- offsets: 51e3
+  # Townsperson
+  ja-kanji: 私は昔空に浮かぶ大きな岩を見たことがある。
+
+- offsets: 51e9
+  # ????
+  ja-kanji: ちょう子お姉さんでーす。頑張って冒険を続けてね。
+
+- offsets: 51ef
+  # Person inside cave
+  ja-kanji: |
+    私は毒ガスから身を守るガスクリアーという装置がここに売っていると
+    聞いたのだが店がどこにあるのか分からない。
+    困った。困った。
+
+- offsets: 51f5
+  # Person inside cave
+  ja-kanji: |
+    ここはアイテムショップです。
+    どんなご用でしょう。
+    なーんちゃって。からかってごめん。
+    勘弁してちょ。
+
+- offsets: 5201
+  # GasClear salesman
+  ja-kanji: |
+    こんな所にお店があってビックリしたでしょ。
+    ガスクリアー、<number>メセタです。
+    安いでしょ。買いますか。<end>
+  # <number> is always 1000.
+
+- offsets: 5226
+  # GasClear salesman (yes to previous question)
+  ja-kanji: ありがとう。また来てね。
+
+- offsets: 521d
+  # GasClear salesman (yes to previous question, but don't have enough money)
+  ja-kanji: お金がないのー。時化てんなー。
+  # Note: In the Japanese version, this one runs into the line below. It was corrected in the Mega Drive version.
+
+- offsets: 520c
+  ja-kanji: おや、もったいない。もう売ってあげないよ。
+
+# *************
+# *** Sopia ***
+# *************
+
+- offsets: 52ca
+  # Villager
+  ja-kanji: |
+    この村はソピアといいます。
+    毒ガスの中をようこそ来られました。
+
+- offsets: 52d6
+  # The Village Chief
+  # <number> is always 400.
+  ja-kanji: |
+    私はこの村の村長です。
+    この霧のせいで他の町や村から閉ざされたソピアはとても貧しいのです。
+    どうか<number>メセタ寄付してください。<end>
+
+- offsets: 52e1
+  # The Village Chief (no to previous question)
+  ja-kanji: そうですか。残念です。ううっ。
+
+- offsets: 52f2
+  # The Village Chief (yes to previous question, but not enough money)
+  ja-kanji: お互いに貧しいのですね。寂しい世の中です。
+
+- offsets: 5300
+  # The Village Chief (yes to previous question)
+  ja-kanji: |
+    ありがとう。
+    我々の言い伝えによればペルセウスがメデューサを倒したときに
+    使った盾が湖にある島のサボテンの下に埋めてあるそうです。
+
+- offsets: 5306
+  # Gamer Miki
+  ja-kanji: アタシ、ゲーマーのみきちゃんよ。あなた、マスターシステム買った。<end>
+
+- offsets: 530f
+  # Gamer Miki (yes to previous question)
+  ja-kanji: まあ、アタシと同じゲーマーね。やっぱエフエム音源はグーね。
+
+- offsets: 5314
+  # Gamer Miki (no to previous question)
+  ja-kanji: やっだー、あなた、早く買ってらっしゃいよー、もー、プンプン。
+
+- offsets: 531a
+  # Villager
+  ja-kanji: ラシークが権力を握る前はこの村も豊かだった。
+
+- offsets: 5320
+  # Villager
+  ja-kanji: 湖の南の山の中にタジムという道士がいます。
+  # Maybe add this hint to other languages. It helps explain a possible 
+  # scenario later where Tajim sees Lutz when he is dead.
+
+- offsets: 5326
+  # Villager
+  ja-kanji: パルマ星は綺麗な星だと聞きましたが本当ですか。<end>
+
+- offsets: 532f
+  # Villager (yes to previous question)
+  ja-kanji: 行ってみたいなー。
+
+- offsets: 5334
+  # Villager (no to previous question)
+  ja-kanji: そうですか。私はもっと空気の綺麗な所へ行きたい。
+
+- offsets: 5345
+  # Villager (no to request for PelorieMate)
+  ja-kanji: ケチ。
+
+
+# *********************
+# *** Tajim’s Cave ***
+# *********************
+
+- offsets: 56b3
+  # Tajim (if you don't have Lutz - which is not possible)
+  # You need either the hovercraft or the land rover to even reach the cave. You can't get either without being able to reach Casba, and the only way to reach Casba on foot is from Uzo, which you can't get to without your own spaceship, which you can't get without being able to reach Gothic, which you can't because the spaceport manhole is inaccessible without Lutz in your party.
+  ja-kanji: お前さん方はどなたかな。ルツがおる。知っておるか。<end>
+
+- offsets: 56bc
+  # Tajim (yes to previous question)
+  ja-kanji: ルツに伝えねばならぬことがある。連れて来てはくれまいか。
+
+- offsets: 56c1
+  # Tajim (no to previous question)
+  ja-kanji: そうか。ならば言っても仕方のないことじゃのう。
+
+- offsets: 56c7
+  # Tajim (if you have Lutz)
+  ja-kanji: おお、我が弟子ルツよ。ついにラシークを倒す旅に出るか。
+
+- offsets: 56d3
+  # Tajim (if Lutz is dead)
+  ja-kanji: おや。死んでおるのか。情けない。生き返って出直すがいい。
+
+- offsets: 56d9
+  # Tajim (talking to Lutz)
+  ja-kanji: では、卒業の試験をしてやろう。わしと戦うが良い。
+
+- offsets: 5722
+  # Tajim (if you win) (talking to Lutz)
+  ja-kanji: |
+    強くなったのう。ルツよ。
+    それだけの力があれば良い。
+    わしからの贈り物としてお前の体を守ってくれるじゃろう。
+    では、行くが良い。
+
+- offsets: 571c
+  # Tajim (if you lose) (talking to Lutz)
+  ja-kanji: まだまだ修行が足りんのう。出直して来るが良い。
+
+- offsets: 56a6
+  # Tajim (subsequent visits)
+  ja-kanji: もうわしが教えることはない。
+
+
+# ****************************
+# *** Native Dezorian Town ***
+# ****************************
+
+# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say verb-affirmative things like ’it does’ and ’you will’ at the ends of sentences, and the liars say truth-affirming things like ’no joke’, ’seriously’, etc. in their sentences.
+# French and Brazilian Portuguese use similar patterns to English.
+# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
+# In Spanish, Honest Dezorian speaks like galician, and the liars like people from Murcia
+# In German, honest Dezorians use VOS sentence structure while liars use OVS.
+- offsets: 5274
+  # Honest Dezorian
+  ja-kanji: 隣の部落は嘘つきばかりだ。気を付けなよ。
+
+- offsets: 527a
+  # Honest Dezorian
+  ja-kanji: この村の北の山の向こうにコロナの塔があるズラ。
+
+- offsets: 5280
+  # Honest Dezorian
+  ja-kanji: |
+    コロナの塔の西にはデゾリスの洞窟があるズラ。
+    わしらの仲間がいるズラ。よろしくズラ。
+
+- offsets: 5286
+  # Honest Dezorian
+  ja-kanji: |
+    ラエルマツリーにはラエルマベリーという木の実がなるズラよ。
+    あの木の実は美味しいからわしらの食料にしたいけど
+    ラコニアの壺に入れないと干からびてしまうズラよ。
+
+- offsets: 528c
+  # Honest Dezorian
+  ja-kanji: エアロプリズムというのを知ってるズラか。<end>
+
+- offsets: 529a
+  # Honest Dezorian (no to previous question)
+  ja-kanji: この世と違う世界が見えるそうズラよ。
+
+- offsets: 5295
+  # Honest Dezorian (yes to previous question)
+  ja-kanji: 一度見てみたいものズラよ。
+
+- offsets: 52a0
+  # Honest Dezorian
+  ja-kanji: この部落のみんなはパルマの人々を嫌ってるズラ。
+
+- offsets: 52a6
+  # Dishonest Dezorian
+  ja-kanji: コロナの塔には命の泉があるんダス。
+
+- offsets: 52b2
+  # Dishonest Dezorian
+  # <number> is always 10.
+  ja-kanji: デゾリスの洞窟の地下<number>階でワープできるんダスよ。
+
+- offsets: 52b8
+  # Dishonest Dezorian
+  ja-kanji: ラエルマベリーは青い色をした木の実で染料に使うダス。
+
+- offsets: 52be
+  # Dishonest Dezorian
+  ja-kanji: ラエルマツリーの前でクリスタルを使うと実がなるんダス。
+
+- offsets: 52c4
+  # Dishonest Dezorian
+  ja-kanji: この部落はパルマの人々を歓迎します。
+
+- offsets: DishonestDezorianFix
+  # Dishonest Dezorian
+  # We add a script entry here. The original game accidentally uses an entry from Sopia.
+  ja-kanji: この部落はパルマの人々を歓迎します。<wait>
+
+# ********************
+# *** Dezoris Cave ***
+# ********************
+
+- offsets: 5815
+  # Dungeon Southwest of Corona Tower
+  # Dishonest Dezorian
+  ja-kanji: これから先は気を付けて。分かれ道を左へ行きなさい。
+
+# ********************
+# *** Corona Tower ***
+# ********************
+
+- offsets: 57fd,5803
+  # Dezorian
+  # (Also in Guaran Morgue)
+  ja-kanji: 何しに来ただ。おめえたち悪さすんでねえぞ。
+
+- offsets: # Unused
+  ja-kanji: イヤな予感がする。
+
+- offsets: 592d
+  # Dezorian
+  ja-kanji: |
+    ここだけの話しだが、ダモアという占い師のもっているクリスタルを
+    ラシークさまは嫌っておられる。
+    何か秘密があるに違いない。
+
+- offsets: 5661
+  # Torchbearer
+  ja-kanji: |
+    この火は百年に一度の日食の時に付けたものだ。
+    ドラゴンの持っている宝石をくれるならば
+    少し分けてあげても良いがどうだ。<end>
+
+- offsets: 5684
+  # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
+  ja-kanji: ではイクリプストーチを受け取るがいい。
+
+- offsets: 566c
+  # Torchbearer (no to previous question)
+  ja-kanji: 要らないのか。それじゃあ、おめえは何しに来たんだ。
+
+- offsets: 568a
+  # Torchbearer (yes to previous question but no Carbuncle Eye)
+  ja-kanji: 宝石を持っていないではないか。舐めるなよ。
+
+# *************************
+# *** Aeroprism Dungeon ***
+# *************************
+
+- offsets: 5933
+  # Otegami Chie-chan
+  ja-kanji: |
+    私、お手紙チエちゃんよ。いつもお便りありがとう。
+    このゲームの感想を聞かせてね。待ってるわ。
+
+
+# *************************
+# *** Altiplano Plateau ***
+# *************************
+
+- offsets: 2693,26e5
+  # Also used for the Aeroprism later...
+  ja-kanji: <playerは<item>を天にかざした。<delay>
+
+- offsets: 26d0
+  # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
+  ja-kanji: <player>はラエルマベリーを取ってラコニアンポットに入れた。
+
+- offsets: 26c4
+  # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
+  ja-kanji: ラエルマベリーを取ってみたがしばらくすると干からびてしまった。
+
+
+# *******************
+# *** Avion Tower ***
+# *******************
+- offsets: 552a
+  ja-kanji: 引き返すなら今の内じゃぞ。
+
+# **************************
+# *** Baya Marlay Prison ***
+# **************************
+
+- offsets: 55f5
+  # Prisoner
+  ja-kanji: オレをここから出してくれるのか。でも無駄だよ。
+
+- offsets: 55fb
+  # Prisoner
+  ja-kanji: ラシークを倒そうなんて無謀だよ。
+
+- offsets: 5601
+  # Prisoner
+  ja-kanji: 私たちはラシークの生贄にされてしまうのよ。うっうう。
+
+- offsets: 582d
+  # Prisoner (Dezorian)
+  ja-kanji: グアランにある鎧を手に入れたかい。<end>
+
+- offsets: 583b
+  # Prisoner (no to previous question)
+  ja-kanji: それは落とし穴の向こう側にあるんだよ。
+
+- offsets: 5836
+  # Prisoner (yes to previous question)
+  ja-kanji: 君って、凄いね。
+
+- offsets: 5607
+  # Prisoner
+  ja-kanji: ラシークに出会ったものは皆その魔力で魂を奪われるそうだよ。
+
+- offsets: 560d
+  # Prisoner
+  ja-kanji: |
+    バヤマーレの丘の上には塔がある。
+    あの塔に秘密が隠されているに違いない。
+
+- offsets: 5613
+  # Prisoner
+  ja-kanji: この先へは行かないほうがいいよ。警備兵がいるんだ。
+
+- offsets: 55c5
+  # Robot Police (yes to previous question, have one)
+  ja-kanji: |
+    どれどれ
+    ロボットだと思ってなめるなよ。牢にぶち込んでやる。
+
+- offsets: 5619
+  # Prisoner
+  ja-kanji: |
+    おお、あんたも閉じ込められたのか、可愛そうに。
+    外に出る方法はあるじゃが、わしはここにいるほうが気楽でいいわい。
+
+
+# *************************
+# *** Baya Marlay Tower ***
+# *************************
+
+- offsets: 5597
+  ja-kanji: ここをバヤマーレの塔と知りながら来たのか。<end>
+
+- offsets: 55a0
+  # (yes to previous question)
+  ja-kanji: 必ずや天の怒りにふれようぞ。
+
+- offsets: 55a5
+  # (no to previous question)
+  ja-kanji: ならば引き返すが良い。
+
+# Damoa the Fortuneteller
+
+- offsets: 5530
+  ja-kanji: わしは世界一の占い師。わしの占いを信じるか。<end>
+
+- offsets: 5541,5552,5563
+  # (yes to previous question)
+  ja-kanji: よし。よし。
+
+- offsets: 553b
+  # (no to previous questions or most of the following)
+  ja-kanji: 何じゃと。お前は素直でない。帰るがいい。
+
+- offsets: 5547
+  ja-kanji: お前は探し物をしておるじゃろう。<end>
+
+- offsets: 5558
+  ja-kanji: お前はアレックス・オサールを探しておるじゃろう。<end>
+
+- offsets: 5569
+  ja-kanji: わしの言う事は全て正しいのじゃ。分かったか。<end>
+
+- offsets: 5574
+  # (yes to last question)
+  ja-kanji: では、また来るがいい。
+
+- offsets: 557a
+  ja-kanji: わしに逆らうのか。<end>
+
+- offsets: 5585
+  # (no to final question)
+  ja-kanji: |
+    そうだろう。お前は中々見どころがある。
+    褒美にクリスタルをやろう。
+
+- offsets: 2711
+  # (Use Aeroprism)
+  ja-kanji: 幻のエアロキャッスルが大空に姿を現した。
+
+- offsets: 2752
+  # (Use Laerma Berries)
+  ja-kanji: ミャウはラエルマベリーをかじった。
+
+# ******************************
+# *** Myau’s Transformation ***
+# ******************************
+
+- offsets: 471b
+  ja-kanji: ラエルマベリーをかじるとミャウの体は熱を帯び眩い光に包まれた。
+
+- offsets: 4726
+  # This line has a typo: it should be ハバタイテ, not ハバテイテ.
+  # Please note that the kanji rendition below fixes this mistake.
+  ja-kanji: |
+    そして見る見るうちにミャウは大きな翼をもった美しい獣へと変わった。
+    ミャウは得意そうに一つ羽ばたいて見せた。
+
+- offsets: 14cc
+  # (If Myau dies in the Gold Dragon battle and other characters are still alive)
+  # Note: Alisa may not be alive, and there may be only one other left alive.
+  # Previous line will have been "Myau died." so you can assume that context.
+  ja-kanji: ミャウに乗っていたアリサたちは空に放り出されてしまった。
+
+
+# **********************************
+# *** The Illusionary Aerocastle ***
+# **********************************
+
+- offsets: ScriptAerocastleDots # was $5361
+  # Old Man
+  ja-kanji: 。。。。。。。。。<wait>
+
+- offsets: ScriptAerocastleFreeTranCarpet
+  # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
+  ja-kanji:
+    ふむ。。。下に行く道はないのか。<line>
+    なら、ここにいる<item>をやろう。<wait>
+
+- offsets: 51a6
+  # Old Man (also said by an old man in Casba)
+  ja-kanji: ダンジョンの中では己の目を信じるでないぞ。
+
+- offsets: 5367
+  # Old Man
+  ja-kanji: ラシーク様に逆らうな。
+
+- offsets: 5738
+  # Shadow Warrior
+  ja-kanji: お前たちの行動は全てお見通しだ。かかった来るがいい。
+
+- offsets: 5749
+  # Shadow Warrior
+  ja-kanji: |
+    オレはラシーク様の影武者だ。
+    オレを倒したところでどうにもならないのさ。ひっひっ。
+
+- offsets: 576a
+  # LaShiec
+  # The party may only be Tylon who can't do magic, but it's unlikely.
+  ja-kanji: |
+    到頭ここまで来たか。運のいい奴らめ。
+    そんなにわしを倒したいのか。<end>
+
+- offsets: 5773
+  # LaShiec (yes to previous question)
+  ja-kanji: そうか。それならばその考えが間違っていたことを思い知るがいい。
+    
+- offsets: 5778
+  # LaShiec (no to previous question)
+  ja-kanji: この期に及んでふざけた奴らだ。公開させてやる。
+
+- offsets: 5789
+  # (Defeat LaShiec)
+  ja-kanji: |
+    ラシークは倒した。
+    アリサの願いは叶えられた。天国のネロもきっと喜んでいることだろう。
+    さあ、パセオの総督の元へ急ごう。
+
+
+# **************
+# *** Ending ***
+# **************
+
+- offsets: 58bd
+  # If Alisa died during the final boss fight
+  ja-kanji: |
+    そのとき、アリサの魂はネロの声を聞いた。
+    お前は再び生きて平和のために尽くすがいい。
+    アリサの魂はよみがえった。
+
+- offsets: 58e1
+  # Governor-General (to Alisa)
+  ja-kanji: |
+    おお。みんな、すまなかった。
+    私の心と体はどうやら悪しき魔力に置かされていたらしい。
+    よくぞこの世を救ってくれた。もう少し遅かったら大変なことになっていただろう。
+    心から礼を言うぞ。
+    アリサよ。お前に話したいことがある。
+    実はお前の父はアルゴルの王だった。
+    悪魔の城は崩れ去り、ラシーク亡き、今お前は父の後を継ぎアルゴルの女王となるか。<end>
+
+- offsets: 5849,58ea
+  # Governor-General (yes to previous question)
+  ja-kanji: |
+    そうか。それでこそアルゴル王の娘だ。
+    私も手伝わせてもらうよ。
+
+- offsets: 58ef
+  # Governor-General (no to previous question)
+  ja-kanji: |
+    そうか。それもよかろう。
+    またいつでも戻ってくるがいい。
+
+# ********************
+# *** Ending Scene ***
+# ********************
+
+- offsets: 47da
+  ja-kanji: 次第に空が明るくなっていき、人々も平和を取り戻した。<end>
+
+- offsets: 47e3
+  ja-kanji: 今バヤマーレは爽やかなそよ風に包まれている。<end>
+
+- offsets: 47ec
+  ja-kanji: 彼らの長く苦しかった旅をそよ風は知っているのだろうか。<end>
+
+# This text tries to be centred so it needs quotes around the spaces.
+# Width = 29 so leading space = (29 - length) / 2
+
+- offsets: 4800
+  ja-kanji: アリサ<delay>
+
+- offsets: 480b
+  ja-kanji: タイロン<delay>
+
+- offsets: 4816
+  ja-kanji: ルツ<delay>
+
+- offsets: 4821
+  ja-kanji: そしてミャウ<delay>
+
+- offsets: 482c
+  ja-kanji: 闇の記憶が消えても彼らの名前は人々の心に残り続けるだろう。<wait>
+
+
+# ****************************
+# *** Battle/menu dialogue ***
+# ****************************
+
+- offsets: 13a4
+  # In battle, enemy dodges attack
+  ja-kanji: <monster>は<player>の攻撃をかわした。<delay>
+
+- offsets: 1497
+  # In battle, player dodges attack
+  ja-kanji: <player>は<monster>の攻撃をかわした。<delay>
+
+- offsets: 1a96
+  # In battle, chose "talk"
+  ja-kanji: <player>は話しかけた。<end>
+
+- offsets: 1ac0,1ca4
+  ja-kanji: <monster>は答えた。<delay>
+
+- offsets: 1ab7
+  ja-kanji: 通じがなかった。<delay>
+
+- offsets: 1b27
+  ja-kanji: <monster>は逃げ道に立ちふさがった。<delay>
+
+- offsets: 20cd,20fa,2168,21cb,21fd,22ac
+  # Used in a bunch of places...
+  ja-kanji: <player>のマジックは効果がなかった。<delay>
+
+- offsets: # unused
+  ja-kanji: <monster>のマジックは効果がなかった。<delay>
+
+- offsets: 1ffa
+  ja-kanji: 目の前に見えない魔法の壁ができた。<delay>
+
+- offsets: 1492
+  ja-kanji: <monster>の攻撃は魔法の壁に跳ね返された。<delay>
+
+- offsets: 14f9,15d3,1637
+  ja-kanji: <monster>の魔法は魔法の壁に跳ね返された。<delay>
+
+- offsets: 1458
+  ja-kanji: 見えない壁の効果がなくなった。<delay>
+
+- offsets: 1fbc
+  ja-kanji: <player>の体力が回復した。<delay>
+
+- offsets: 1552
+  ja-kanji: <monster>の体力が回復した。<delay>
+
+- offsets: 20d3
+  ja-kanji: <monster>を金縛りにした。<delay>
+
+- offsets: 151f
+  ja-kanji: <player>を金縛りにした。<delay>
+
+- offsets: 12db
+  ja-kanji: <player>は動けない。<delay>
+
+- offsets: 140c
+  ja-kanji: <monster>は動けない。<delay>
+
+- offsets: 12d6
+  ja-kanji: <player>は金縛りが解けた。<delay>
+
+- offsets: 1407
+  ja-kanji: <monster>は金縛りが解けた。<delay>
+
+- offsets: 2132
+  ja-kanji: <player>は体に力が漲るのを感じた。<delay>
+
+- offsets: 1574
+  ja-kanji: <monster>は体に力が漲るのを感じた。<delay>
+
+- offsets: 216f
+  ja-kanji: <monster>は怖くなって尻込みした。<delay>
+
+- offsets: 210d
+  ja-kanji: <monster>は逃げ足の速さに驚いた。<delay>
+
+- offsets: 21ad
+  ja-kanji: 罠じゃなかった。
+
+- offsets: 219f,21b2
+  ja-kanji: 危ないところだった。<player>は罠を見破って外した。
+
+- offsets: 23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
+  # Used in a lot of places!
+  ja-kanji: <playerは<item>を使った。
+
+- offsets: 136e
+  ja-kanji: <item>は今誰かが使ってしまった。
+
+- offsets: 2883, ScriptPlayerEquippedItem
+  ja-kanji: <player>は<item>を装備した。<end>
+
+- offsets: 28cc
+  ja-kanji: <player>は<item>を捨ててしまった。
+
+- offsets: 20ff,23ec,2554,2582,2677,2803<delay>
+  ja-kanji: しかし効果はなかった。
+
+- offsets: 2418,242a,244c,245e,2486
+  ja-kanji: しかしここで役に立たない。
+
+- offsets: 2304
+  ja-kanji: ここで下りる訳にはいかない。
+
+- offsets: 2438,246d
+  ja-kanji: <item>に乗り込んだ。<delay>
+
+- offsets: 2311
+  ja-kanji: <item>から飛び降りた。<delay>
+
+- offsets: 2402,2569,26af,2701,2816
+  ja-kanji: しかし何も起きなかった。<delay>
+
+- offsets: # unused
+  ja-kanji: <monster>は目が虚ろだ。<delay>
+
+- offsets: 2505,2597,25f9,26f1,2742,27a2
+  ja-kanji: しかし今はそんなことをしている場合じゃないようだ。<delay>
+
+- offsets: 24ff,2514,258b,25ed,264b,2733,2793
+  ja-kanji: <player>は<item>を取り出した。<delay>
+
+- offsets: 251a,279d,25aa,2651
+  # 251a = use SearchLight when not in a dungeon (or a battle)
+  # 279d = use Compass when not in a dungeon (or a battle)
+  # We add 25aa, 2651 here:
+  # 25aa = use Alsuline in the wrong place, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  ja-kanji: 別に乞われてないようだ。
+  # Note: this was originally ‘It doesn’t look particularly broken.’
+  # This translation takes the verb KOWARERU to mean ‘to be begged’
+
+- offsets: 112c
+  ja-kanji: 真っ暗で進むことができない。
+
+- offsets: 27c3
+  ja-kanji: 今東を向いている。
+
+- offsets: 27cf
+  ja-kanji: 今西を向いている。
+
+- offsets: 27bc
+  ja-kanji: 今北を向いている。
+
+- offsets: 27ca
+  ja-kanji: 今南を向いている。
+
+- offsets: 2611
+  # Using Polymeteral in the wrong place
+  ja-kanji: いつ嗅いでみてもイヤな匂いがする。
+
+- offsets: 2276,228e
+  # Using the Telepathy Ball or Lutz's Telepathy spell in front of a pitfall
+  ja-kanji: <player>はとてもイヤな予感がした。
+
+- offsets: 2269,2271,2289
+  # Using either of the above if not in front of a pit
+  ja-kanji: <player>は何も感じなかった。
+
+- offsets: 269f
+  # Use Eclipse Torch on a monster
+  ja-kanji: <monster>は赤い炎を見て怖じ気付いた。<delay>
+
+- offsets: 273d
+  # Use Laerma Berries in the wrong place
+  # Comes immediately after "<player> took out the <item>."
+  # May not be Alisa.
+  ja-kanji: お腹が空いてなかったので元に戻した。
+
+- offsets: 277b
+  # Trying to use Hapsby in battle
+  ja-kanji: ハプスビーはイヤイヤをした。
+
+- offsets: 2784
+  # Trying to use Hapsby outside of battle
+  ja-kanji: ハプスビーの頭は固い。
+
+- offsets: 281b
+  ja-kanji: それは使わなくても効き目がある。
+
+- offsets: 218d,2195,299f,2a2e,579d
+  # 218d = untrap not in dungeon
+  # 2195 = untrap with no chest
+  # 25aa = use Alsuline in the wrong place, changed to adad
+  # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
+  # 299f = search (from menu)
+  # 2a2e = search (?)
+  # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
+  ja-kanji: 特に変わったところはないようだ。
+
+- offsets: 2a15,2a9b
+  ja-kanji: <item>を見つけた。
+
+- offsets: 21d9,22b5
+  ja-kanji: 何だか体が軽くなった。<delay>
+
+- offsets: 2248
+  ja-kanji: <player>の魂はよみがえった。
+
+- offsets: 1b45,1f21
+  ja-kanji: タイロンはマジックを使えない。<delay>
+
+- offsets: 1b9e,1f1c
+  ja-kanji: <player>はまだマジックを覚えていない。
+
+- offsets: 28a3, ScriptPlayerCantEquipItem
+  ja-kanji: <player>は<item>を装備できない。
+
+- offsets: 283e
+  ja-kanji: それは装備しなくてもいい。
+
+- offsets: 1872
+  ja-kanji: 経験値が<number>ポイント上がった。
+  # <number> is always >1
+
+- offsets: 18f3
+  ja-kanji: <player>はレベルアップした。
+
+- offsets: 1910
+  ja-kanji: <player>はマジックを一つ身に付けた。
+
+- offsets: 17ff
+  ja-kanji: <monster>は宝箱を持っていた。<end>
+
+- offsets: 6c6e
+  ja-kanji: 宝箱を見つけた。<end>
+
+- offsets: 2a37
+  ja-kanji: 開けてみるか。<end>
+
+- offsets: ChestMesetasPlural, ChestMesetasSingular # Was 2a8c
+  ja-kanji: <number>メセタ入っていた。
+
+- offsets: 2a73
+  ja-kanji: 空っぽだった。
+
+- offsets: 2918
+  ja-kanji: これ以上物を持てない。何かを捨てるか。
+
+- offsets: 2938
+  ja-kanji: どれを捨てるか。<end>
+
+- offsets: 296a
+  # this runs into the next one...
+  ja-kanji: <item>を捨てて<end>
+
+- offsets: 297d
+  ja-kanji: <item>を手に入れた。<wait>
+
+- offsets: 2923
+  ja-kanji: <item>は要らないのか。<end>
+
+- offsets: 292e
+  ja-kanji: <item>を諦めた。
+
+- offsets: 28c3,295d
+  ja-kanji: <item>を捨てる訳にはいかない。
+
+- offsets: 1ba7,1f2d
+  ja-kanji: マジックポイントが足りない。<delay>
+
+- offsets: 2236
+  ja-kanji: <player>はまだ生きている。<delay>
+
+- offsets: 17ea
+  ja-kanji: <monster>をやっつけた。
+  #<wait> because else you can't read it when you defeat Dark Force...
+
+- offsets: 14a6,15e4,1648,4c69,590f<delay>
+  ja-kanji: <player>は死んでしまった。
+
+- offsets: 19f7,2b0f
+  # Selecting a player from the menu when they are dead, to do something like heal them.
+  ja-kanji: <player>はもう死んでいる。<delay>
+
+- offsets: 1786
+  ja-kanji: アリサたちは全滅した。
+
+- offsets: 178c
+  ja-kanji: アリサの願いはラシークの野望の前に虚しく消え去った。ここで冒険は終わりです。
+
+# **************
+# *** Hapsby ***
+# **************
+
+- offsets: 5959
+  ja-kanji: どこへ行きますか。<end>
+
+- offsets: 5995
+  ja-kanji: デゾリス星のスクレの町へ行きます。いいですか。<end>
+
+- offsets: 5990
+  ja-kanji: モタビア星のウーゾの村へ行きます。いいですか。<end>
+
+- offsets: 598a
+  ja-kanji: パルマ星のガシコの村へ行きます。いいですか。<end>
+
+- offsets: 5980
+  ja-kanji: ここはスクレです。<end>
+
+- offsets: 597b
+  ja-kanji: ここはウーゾです。<end>
+
+- offsets: 5975
+  ja-kanji: ここはガシコです。<end>
+
+# *************
+# *** Shops ***
+# *************
+
+- offsets: 2d1c
+  ja-kanji: ここはアーマーショップです。何か買いますか。<end>
+
+- offsets: 2d27,2d89,2e46,537e
+  ja-kanji: そうですか。また来てください。
+
+- offsets: 2d38
+  ja-kanji: どれを買いますか。<end>
+
+- offsets: 2d7e
+  ja-kanji: ありがとう。もっと買いますか。<end>
+
+- offsets: 2d98,539c
+  ja-kanji: それ以上持てないようですね。また来てください。
+
+- offsets: 2deb
+  ja-kanji: ここはドラッグストアです。何か買いますか。<end>
+
+- offsets: 2df4
+  ja-kanji: ここはツールショップです。どんなご用ですか。<end>
+
+- offsets: 2e0d
+  ja-kanji: どれを売りますか。<end>
+
+- offsets: 2e4f
+  ja-kanji: <item>ですね。<number>メセタでいいですか。<end>
+  # No item in the game sells for exactly 1 Meseta.
+
+- offsets: 2e66
+  ja-kanji: ありがとう。もっと売りますか。<end>
+  
+- offsets: 2e3d
+  # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
+  ja-kanji: それは後で役に立ちますよ。
+  
+- offsets: 2bc0,2d9d,4d88,538f
+  ja-kanji: お金が足りないようですね。また来てください。
+
+
+# ****************
+# *** Hospital ***
+# ****************
+
+- offsets: 2ae9
+  ja-kanji: ここはホスピタルです。治療を受けますか。<end>
+
+- offsets: 2b54
+  ja-kanji: 診察と治療費<number>メセタです。宜しいですか。<end>
+
+- offsets: 2b99
+  ja-kanji: 他に治療を受けたい方はいますか。<end>
+
+- offsets: 2af9
+  ja-kanji: どなたが治療を受けますか。<end>
+
+- offsets: 2b8a
+  ja-kanji: お待ちどうさま。どうぞお大事に。
+
+- offsets: 2bb1
+  ja-kanji: そうですか、お手伝いできなくて残念です。ではお気を付けて。
+
+- offsets: 2b37
+  ja-kanji: ではお気を付けて。
+
+- offsets: 2b2b
+  ja-kanji: <player>さんは医事用ありませんね。
+
+
+# **************
+# *** Church ***
+# **************
+
+- offsets: 2be7
+  ja-kanji: ここは教会です。誰かの魂を呼び戻されますか。<end>
+
+- offsets: # Unused
+  ja-kanji: では、あなたのためにお祈りを捧げます。
+
+- offsets: 2bfb
+  ja-kanji: どなたの魂でしょう。<end>
+
+- offsets: 2c24
+  ja-kanji: <number>メセタかかりますが宜しいですか。<end>
+  # Resurrection cost is Level * 20 so is definitely plural.
+
+- offsets: 2c37
+  ja-kanji: それでは呪文を唱えます。<delay>
+
+- offsets: 2c60
+  # If you have enough money
+  ja-kanji: |
+    アルテムハムラム　アルテムハムハム<line>
+    ストラトポン。<delay>
+
+- offsets: 2c82
+  # If you don't have enough money
+  ja-kanji: |
+    アルテムハムラム　ア　ウッ。ゴホッ。ゴホッ。
+    ごめんなさい。どうやら失敗したようです。
+
+- offsets: 2c71
+  ja-kanji: 他の方はいかがですか。<end>
+
+- offsets: 2ca8
+  ja-kanji: これからレベルアップするためには<end>
+
+- offsets: 2d16
+  ja-kanji: <player>は<number>ポイント必要です。
+  
+- offsets: 2cef
+  # If a party member is already at max level...
+  ja-kanji: <player>はもう力いっぱいです。
+
+- offsets: 2ca2
+  ja-kanji: あなた方の行く末に神の恵みがありますように。
+
+- offsets: 2c90
+  ja-kanji: <player>は生きていますよ。<end>
+
+
+# ************************
+# *** Monster Dialogue ***
+# ************************
+
+# First 9 are in response to the "speak" battle menu
+
+- offsets: 1ae5
+  ja-kanji: 私たちはパルマの人たちと仲良くしたい。
+
+- offsets: 1ae7
+  ja-kanji: ラエルマツリーが食べたいなあ。
+
+- offsets: 1ae9
+  ja-kanji: ラシーク様には逆らわないほうがいいよ。
+
+- offsets: 1aeb
+  ja-kanji: おっ。私たちの言葉が分かるんだね。
+
+- offsets: 1aed
+  ja-kanji: ヤッホー。
+
+- offsets: 1aef
+  ja-kanji: ダンジョンでは落とし穴に気を付けなよ。
+
+- offsets: 1af1
+  ja-kanji: 宝箱はむやみに開けると怪我をするよ。
+
+- offsets: 1af3
+  ja-kanji: この追いはぎ野郎。
+
+- offsets: 1af5
+  ja-kanji: 私たちはどうせ憎まれ者だよ。
+
+# The next 10 are from enemies that you can only talk to with magic.
+
+- offsets: 1cce
+  ja-kanji: スーズフルートの音色はいいなあ。
+
+- offsets: 1cd0
+  ja-kanji: アイスデッカーという乗り物は氷も削れるんだって。
+
+- offsets: 1cd2
+  ja-kanji: ラシーク様は空の上にいらっしゃるんだ。
+
+- offsets: 1cd4
+  # This line has a typo: ラスコニアンポット should be ラコニアンポット.
+  # Please note that the kanji rendition below fixes this mistake.
+  ja-kanji: アビオンのマッドドクターがラコニアンポットを持ってたぜ。
+
+- offsets: 1cd6
+  ja-kanji: 空の上には宇宙船でも行けない所があるぜ。
+
+- offsets: 1cd8
+  ja-kanji: ラエルマベリーを実らせるためにはあるものが必要だ。
+
+- offsets: 1cda
+  ja-kanji: ダンジョンの迷路には隠し扉があるんだぜ。
+
+- offsets: 1cdc
+  ja-kanji: ミラクルキーは魔法のドアでも開けることができるぞ。
+
+- offsets: 1cde
+  ja-kanji: デゾリアンには嘘つきもいるから気を付けなよ。
+
+- offsets: 1ce0
+  ja-kanji: 私に話しかけるとは勇気があるねえ。頑張れよ。
+
+
+# **************
+# *** Saving ***
+# **************
+
+- offsets: 1e3b
+  ja-kanji: セーブを行います。番号を選んでください。<end>
+
+- offsets: ScriptConfirmSlot
+  ja-kanji: <number>番でいいですか。<end>
+
+- offsets: 1e55
+  ja-kanji: では、<number>番にセーブします。<delay>
+
+- offsets: ScriptDone,1e91
+  ja-kanji: 終わりました。
+
+
+# ************************
+# *** Loading/Deleting ***
+# ************************
+
+- offsets: ScriptDeletingFromSlotN
+  ja-kanji: <number>番のゲームを消しました。<delay>
+  # <delay> is nicer than<wait> here - Maxim
+
+- offsets: ScriptNoSavedGames
+  # This is not in the original game.
+  ja-kanji: セーブデータがありません<wait>
+
+- offsets: ScriptDoYouWantToEquip
+  # This is not in the original game, see https://github.com/maxim-zhao/psrp/issues/50
+  # It is only used for weapons, shields and armour - the first 32 items in the items list.
+  ja-kanji: <item>を装備しますか。<end>
