@@ -1,0 +1,264 @@
+- name: OpeningCinema
+  ja-1987: |
+    ┌─────────────╖
+    │AW 342年 春    ║
+    │パルマ星 カミニート居住区║
+    ╘═════════════╝
+
+- name: WorldMenu
+  ja-1987: |
+    ┌────╖
+    │ツヨサ ║
+    │マジック║
+    │アイテム║
+    │シラベル║
+    │セーブ ║
+    ╘════╝
+
+- name: ChoiceMenu
+  ja-1987: |
+    ┌───╖
+    │ハイ ║
+    │イイエ║
+    ╘═══╝
+
+- name: BattleMenu
+  ja-1987: |
+    ┌────╖
+    │タタカウ║
+    │マジック║
+    │アイテム║
+    │ハナス ║
+    │ニゲル ║
+    ╘════╝
+
+- name: AlisaBox
+  ja-1987: |
+    ┌──────╖
+    │ アリサ  ║
+    │------║
+
+- name: MyauBox
+  ja-1987: |
+    ┌──────╖
+    │ ミャウ  ║
+    │------║
+
+- name: TaironBox
+  ja-1987: |
+    ┌──────╖
+    │ タイロン ║
+    │------║
+
+- name: LutzBox
+  ja-1987: |
+    ┌──────╖
+    │  ルツ  ║
+    │------║
+
+- name: ChoosePlayerMenu
+  ja-1987: |
+    ┌────╖
+    │アリサ ║
+    │ミャウ ║
+    │タイロン║
+    │ルツ  ║
+
+- name: ToolShopMenu
+  ja-1987: |
+    ┌────╖
+    │カイタイ║
+    │ウリタイ║
+    ╘════╝
+
+- name: ItemActionMenu
+  ja-1987: |
+    ┌───╖
+    │ツカウ║
+    │ソウビ║
+    │ステル║
+    ╘═══╝
+
+- name: AlisaActiveBox
+  ja-1987: |
+    ┌────╖
+    │アリサ ║
+    ╘════╝
+# Next three must follow (and be the same size)
+
+- name: MyauActiveBox
+  ja-1987: |
+    ┌────╖
+    │ミャウ ║
+    ╘════╝
+
+- name: TaironActiveBox
+  ja-1987: |
+    ┌────╖
+    │タイロン║
+    ╘════╝
+
+- name: LutzActiveBox
+  ja-1987: |
+    ┌────╖
+    │ ルツ ║
+    ╘════╝
+
+- name: BattleSpellsAlisa
+  ja-1987: |
+    ┌────╖
+    │ヒール ║
+    │ラクスタ║
+    │ペヤラク║
+    │フレエリ║
+    │ビンドワ║
+
+# Next five must follow...
+
+- name: BattleSpellsMyau
+  ja-1987: |
+    ┌────╖
+    │ドヒール║
+    │テルル ║
+    │ワーラ ║
+    │パウマ ║
+
+- name: BattleSpellsLutz
+  ja-1987: |
+    ┌────╖
+    │フレエリ║
+    │テレパス║
+    │ヒューン║
+    │ムワーラ║
+    │タンドレ║
+
+- name: OverworldSpellsAlisa
+  ja-1987: |
+    ┌────╖
+    │ヒール ║
+    │トルーパ║
+
+- name: OverworldSpellsMyau
+  ja-1987: |
+    ┌────╖
+    │ヒール ║
+    │トルーパ║
+
+- name: OverworldSpellsLutz
+  ja-1987: |
+    ┌────╖
+    │ドヒール║
+    │スルト ║
+    │テレパス║
+    │ムオーデ║
+    │リーバス║
+
+- name: SpellMenuBottom
+  ja-1987: ╘════╝
+
+- name: StatsMenuDimensions
+  ja-1987: |
+    ┌───────────╖
+    │LV       99║
+    │EP    65535║
+    │コウグキリョク 255║
+    │シュビリョク  255║
+    │サイダイHP  255║
+    │サイダイMP  255║
+    │メセタ   65535║
+    ╘═══════════╝
+
+- name: EquimentMenuDimensions
+  ja-1987: |
+    ┌──────────────────╖
+    │                  ║
+    │                  ║
+    │                  ║
+    ╘══════════════════╝
+
+- name: InventoryMenuDimensions
+  ja-1987: |
+    ┌────────╖
+    │メセタ65535║
+    │ホカノ モチモノ║
+    │Item 1  ║
+    │Item 2  ║
+    │Item 3  ║
+    │Item 4  ║
+    │Item 5  ║
+    │Item 6  ║
+    │Item 7  ║
+    │Item 8  ║
+    ╘════════╝
+
+- name: TopBorder10
+  ja-1987: ┌────────╖
+
+- name: BottomBorder10
+  ja-1987: ╘════════╝
+
+- name: InventoryNextMenu
+  ja-1987: │ホカノ モチモノ║
+
+- name: HapsbyTravelMenu
+  ja-1987: |
+    ┌───╖
+    │ガシコ║
+    │ウーゾ║
+    │スクレ║
+    ╘═══╝
+
+- name: SoundTestMenuTop
+  ja-1987: ┌─────────────╖
+
+- name: SoundTestMenuChipPSG
+  ja-1987: │Chip  SN76489║
+
+- name: SoundTestMenuChipYM2413
+  ja-1987: │Chip   YM2413║
+
+- name: SoundTestMenu
+  ja-1987: |
+    │-------------║
+    │Title Screen ║
+    │Intro        ║
+    │Town         ║
+    │Dungeon      ║
+    │Shop         ║
+    │Church       ║
+    │Palma        ║
+    │Battle       ║
+    │Story        ║
+    │Village      ║
+    │Vehicle      ║
+    │Motavia      ║
+    │Dezoris      ║
+    │Tower        ║
+    │Final Dungeon║
+    │LaShiec      ║
+    │Dark Force   ║
+    │Ending       ║
+    │Game Over    ║
+    ╘═════════════╝
+
+- name: OptionsMenu
+  # Width should be such that the closest left-right items have a 2 space gap.
+  # Sometimes the "Alisa's hair" item is the closest, check text lengths elsewhere.  
+  ja-1987: |
+    ┌───────────────────╖
+    │Walk speed       x ║
+    │Experience       x ║
+    │Meseta           x ║
+    │Battles            ║
+    │Alisa's hair       ║
+    │Font               ║
+    │Fades              ║
+    │Text speed       x ║
+    ╘═══════════════════╝
+
+- name: ContinueMenu
+  ja-1987: |
+    ┌───────────╖
+    │ゲームノツヅキヲ　ヤル║
+    │ゲームヲ　ケス    ║
+    ╘═══════════╝

@@ -16,6 +16,8 @@ def generate_words(tbl_file, asm_file, script_file, language_script_file, langua
 
     # dict of word to count
     words = {}
+    chars = set()
+
     for entry in script:
         # Discard unused entries
         if "offsets" not in entry or entry["offsets"] == "":
@@ -40,8 +42,11 @@ def generate_words(tbl_file, asm_file, script_file, language_script_file, langua
                 words[word] += 1
             else:
                 words[word] = 1
+        chars.update(line)
 
     print(f"Script has {len(words)} unique words")
+    
+    print(f"Script has {len(chars)} unique characters: {"".join(sorted(chars))}")
 
     # Then convert to weighted counts...
     # The benefit of substituting a word is a bit complicated. The word's letters will take a certain number of bits
@@ -325,7 +330,7 @@ class ScriptEntry:
                         raise Exception("Text after end tag")
                     break
         if not self.script_end:
-            raise Exception("Missing end tag")
+            raise Exception(f"Missing end tag after {self.text}")
 
     def parse_tag(self, match, s):
         # parses the match as a tag into self.buffer

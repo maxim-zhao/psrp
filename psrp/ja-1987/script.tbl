@@ -1,0 +1,123 @@
+﻿; Space
+00= 
+; Fullwidth space
+00=　
+
+; Numbers
+01=0
+02=1
+03=2
+04=3
+05=4
+06=5
+07=6
+08=7
+09=8
+0A=9
+
+; Katakana
+0B=ァ
+0C=ア
+; Unused? ィ
+0D=イ
+; Unused? ゥ
+0E=ウ
+; Unused? ェ
+0F=エ
+; Unused? ォ
+10=オ
+11=カ
+12=ガ
+13=キ
+14=ギ
+15=ク
+16=グ
+17=ケ
+18=ゲ
+19=コ
+1A=ゴ
+1B=サ
+1C=ザ
+1D=シ
+1E=ジ
+1F=ス
+20=ズ
+21=セ
+22=ゼ
+23=ソ
+24=ゾ
+25=タ
+26=ダ
+27=チ
+; Unused? ヂ
+28=ッ
+29=ツ
+2A=ヅ
+2B=テ
+2C=デ
+2D=ト
+2E=ド
+2F=ナ
+30=ニ
+31=ヌ
+32=ネ
+33=ノ
+34=ハ
+35=バ
+36=パ
+37=ヒ
+38=ビ
+39=ピ
+3A=フ
+3B=ブ
+3C=プ
+3D=ヘ
+3E=ベ
+3F=ペ
+40=ホ
+41=ボ
+42=ポ
+43=マ
+44=ミ
+45=ム
+46=メ
+47=モ
+48=ャ
+49=ヤ
+4A=ュ
+4B=ユ
+4C=ョ
+4D=ヨ
+4E=ラ
+4F=リ
+50=ル
+51=レ
+52=ロ
+; Unused? ヮ
+53=ワ
+; Unused? ヰ
+; Unused? ヱ
+54=ヲ
+55=ン
+; Unused? ヴ
+; Unused? ヵ
+; Unused? ヶ
+; Unused? ヷ
+; Unused? ヸ
+; Unused? ヹ
+; Unused? ヺ
+
+56=。
+57=ー
+
+; These control codes only apply to items/names...
+
+; Text between [] is skipped in menus but not in body text
+6201=[
+63=]
+; Articles. Note these have trailing spaces.
+64=<A> 
+65=<An> 
+66=<The> 
+
+; Words go below...

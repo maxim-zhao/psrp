@@ -1,0 +1,2930 @@
+- offsets: 45ef
+  # Game intro
+  # Nero on ground, robot police
+  ja-1987: |
+    ラシークサマノ　コトヲ　コソコソト カギマワリヤガッテ。<line>
+    コレカラハ　セイゼイ　オトナシク シテイルコトダナ。<wait more>
+    ニイサン。<line>
+    ナニガ　アッタノ。<line>
+    シッカリシテ。<wait>
+
+- offsets: 45fa
+  # Game intro
+  # Nero, dying
+  ja-1987: |
+    アリサ。キイテクレ。<line>
+    ラシークハ　コノホシニ　キョダイナ ワザワイヲ　マネイテシマッタ。<line>
+    セカイハ　ハメツニ　ムカッテイル。<wait more>
+    オレハ　ラシークガ　ナニヲ　タクランデ イルノカ　サグッテイタンダ。<line>
+    ケド　オレヒトリデハ　ドウスルコトモ デキナカッタ。<wait more>
+    タビノ　トチュウ　タイロン　トイウ ツヨイ　オトコノ　ウワサヲ　キイタ。<line>
+    カレト　イッショナラ　ラシークヲ　タオシ ヘイワヲ　トリモドスコトガデキルダロウ。<wait more>
+    アリサ。<line>
+    オレハ　モウ　ダメダ。<line>
+    オマエ　ヒトリヲ　ノコシテイク　オレヲ ユルシテクレ。<wait>
+
+- offsets: 4605
+  # Game intro
+  # Alisa
+  ja-1987: |
+    アリサハ　ニイサンノ　イノチヲ　ムダニ シナイタメニ　タタカイニ　イキマス。<line>
+    キット　ミマモッテイテネ。<line>
+    ニイサン。<wait>
+
+# *************************************
+# *** Camineet Residential District ***
+# *************************************
+
+- offsets: 58fc
+  # Camineet
+  # Alisa's house
+  ja-1987: |
+    ココハ　アリサノ　ウチデス。<line>
+    ダレモ　イマセン。<wait>
+
+- offsets: 4b48
+  # Camineet
+  # Suelo (first visit)
+  # Note that Alisa may be dead - but it's pretty unlikely 
+  # and the original script assumes she is alive
+  ja-1987: |
+    ワタシハ　スエロ。アリサノ　キモチハ ヨクワカルワ。モウダレモ　アナタヲ<wait more>
+    トメルコトハ　デキナイ。　デモ　モシ タタカイデ　キズツイタトキハ<wait>
+
+- offsets: 4b4e
+  # Camineet
+  # Suelo (subsequent visits and also immediately after the preceding text)
+  # Note: Alisa may not be alive later, so make sure the text here doesn't talk to her directly.
+  ja-1987: |
+    ココデ　ユックリ　ヤスンデ　オユキ。<wait more>
+    ムリヲ　シナイヨウニネ。<line>
+    マタ　イツデモ　イラッシャイ。<wait>
+
+- offsets: 4b62
+  # Camineet
+  # Nekiseh (first visit)
+  # Alisa is not guaranteed to be alive...
+  # Following script entry is shown immediately afterwards.
+  ja-1987: |
+    ボクハ　ネキセ。<line>
+    キクトコロニ　ヨルト<wait more>
+    ユウシャ　タイロンハ　シオントイウ<line>
+    マチニ　イルラシイ。<wait more>
+    アッ。ソレト　ネロカラ<line>
+    ラコニアンポット　トイウ　ツボヲ<wait more>
+    アズカッテタンダ。アトデ　ヤクニ<line>
+    タツダロウカラ　モッテイクトイイヨ。<wait>
+
+- offsets: 4b7c
+  # Camineet
+  # Nekiseh (additional text on first visit; only text on subsequent visits)
+  ja-1987: |
+    チカラニナレナクテ　ゴメン。<line>
+    ブジヲ　イノッテルヨ。<wait>
+
+- offsets: 4b82
+  # Camineet resident - man
+  ja-1987: |
+    コノ　カミニート　キョジュウクハ<line>
+    カイゲンレイガ　シカレテイルンダ。<wait>
+
+- offsets: 4b88
+  # Camineet resident - man
+  ja-1987: |
+    カギノ　カカッタ　ドアヲ　アケルニハ
+    ダンジョンキーガ　ヒツヨウデス。<wait>
+
+- offsets: 4b8e
+  # Camineet resident - man
+  ja-1987: |
+    アカリガナイト　ススメナイ<line>
+    ダンジョンモ　アルヨ。<wait>
+
+- offsets: 4b94
+  # Camineet resident - man
+  ja-1987: |
+    カミニートノ　ニシハ　スペースポート
+    デス。<wait>
+
+- offsets: 4b9a
+  # Camineet resident - man
+  ja-1987: |
+    ミナトマチデハ　イロイロナ　トリヒキ
+    ガ　デキル　トイウ　ハナシダ。<wait>
+
+- offsets: 4bba
+  # Camineet police
+  ja-1987: |
+    キョジュウクノ　ソトニハ　デナイホウ
+    ガ　ミノタメダ。<wait>
+
+- offsets: 4bc0
+  # Camineet police
+  ja-1987: シニタクナカッタラ　ココニイルンダ。<wait>
+
+- offsets: 4bcd,4c26,4cc2,4d0e
+  # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
+  # Spaceport guard (say "no" to question about passport) - Camineet (4c26) and Parolit (4cc2)
+  ja-1987: ココヲ　トオスワケニハ　イカナイ。<wait>
+
+- offsets: 4bda,4d23
+  # Road guard (without a Roadpass) - Camineet (4bd3) and Parolit (4d23)
+  ja-1987: |
+    ロードパスノ　ナイモノハ　ココヲ<line>
+    トオレナイ。<wait>
+
+- offsets: 4be0,4c3a,4cd5,4d18,4d2d,5497
+  # Road guard (with a Roadpass) - Camineet (4be0) and Parolit (4d18, 4d2d)
+  # Spaceport guard (say "yes" with a Passport) - Camineet (4cd5) and Parolit (4c3a)
+  # Triada prison guard (say "yes" with a Roadpass) (5497)
+  ja-1987: トオッテ　ヨシ。<wait>
+
+- offsets: 4ba0
+  # Camineet resident - man
+  ja-1987: |
+    アルゴル　タイヨウケイノ　ワクセイヲ
+    シッテイルカナ。<end>
+
+- offsets: 4bb4
+  # Camineet resident - man - "no" to question about Algol
+  ja-1987: |
+    パルマ　モタビア　デゾリス　ノ　<number>ツ
+    ノ　ワクセイガアル。<wait more>
+    パルマハ　ミドリノホシ。モタビアハ<line>
+    スナノホシ。デゾリスハ　コオリノ<wait more>
+    ホシジャ。アルゴル　タイヨウケイニハ
+    キキガ　セマッテイルノジャ。<wait>
+  # <number> is always 3.
+
+- offsets: 4ba9,4e06,4e26
+  # Camineet resident - man - "yes" to question about Algol
+  # Eppi resident - "yes" to question about strongest material
+  # Eppi resident - "no" to question about Dungeon Key
+  ja-1987: ナラバ　ヨイ。<wait>
+
+# ************************************
+# *** Parolit Residential District ***
+# ************************************
+
+- offsets: 4bf1
+  # Woman
+  ja-1987: ココハ　パロリト　キョジュウクヨ。<wait>
+
+- offsets: 4bf7
+  # Man
+  ja-1987: |
+    モリノナカハ　トクニ<line>
+    キヲツケタホウガイイヨ。<wait>
+
+- offsets: 4bfd
+  # Man
+  ja-1987: |
+    キョジュウクノ　ミナミノ　ドウクツニ
+    メデューサ　トイウ　マモノガ<wait more>
+    ヨミガエッタトイウ。スガタヲ<line>
+    ミタモノハ　イシニ　サレルソウダ。<wait>
+
+- offsets: 4c03
+  # Man
+  ja-1987: |
+    ヒガシヘ　イクト　シオン　トイウ<line>
+    ミナトマチガ　アルラシイ。<wait>
+
+- offsets: 4c09
+  # Man
+  ja-1987: |
+    スペースポートカラ　モタビアセイノ<line>
+    パセオ　マデ　イケルヨ。<wait>
+
+- offsets: 4c0f
+  # Man
+  ja-1987: |
+    パロリトノ　ニシニアル　ガシコノモリ
+    ヘハ　チカツウロガ　アルラシイ。<wait>
+
+
+# ***********************
+# *** Port town Shion ***
+# ***********************
+
+- offsets: 4c40
+  # Man
+  ja-1987: |
+    モタビアセイニハ　モタビアン<line>
+    デゾリスセイニハ　デゾリアン　トイウ<wait more>
+    セイジンガ　スンデイルソウダヨ。<line>
+    イチド　アッテ　ハナシテミタイナ。<wait>
+
+- offsets: 4da7
+  # Man (if you haven't bought Myau yet)
+  ja-1987: |
+    タイロンナラ　メデューサヲ　タオシニ
+    イッタヨ。　ヤツハ　コトバヲ　ハナス<wait more>
+    ドウブツヲ　ツレテ　イタナア。<line>
+    ソノ　ドウブツハ　クビニ<wait more>
+    クスリビンヲ　ブラサゲテイタガ<line>
+    ナニカノ　ヤクニ　タツノカネエ。<wait>
+  # If you want to mention a cardinal direction, Medusa's Cave is south-west of Shion.
+
+- offsets: 4dac
+  # Same man (after you get Myau)
+  ja-1987: |
+    ラシーク　ヲ　タオシニイクンダッテ<line>
+    ナ。　ガンバレヨ。<wait>
+
+- offsets: 4db6
+  # If you haven't bought Myau yet
+  ja-1987: |
+    コノマエ　メデューサノ　ドウクツデ<line>
+    シャベル　ドウブツヲ　ヒロッタンダ。<wait more>
+    パセオノ　ショウニンニ　タカク　ウリ
+    ツケテヤッタヨ。ヘッヘッヘ。<wait>
+
+- offsets: 4dbb
+  # Same person as above (if you have bought Myau)
+  ja-1987: |
+    サイキンハ　フケイキダネ。ドコカニ<line>
+    イイ　モウケバナシハ　ナイモノカネ。<wait>
+  # He'd just sold Myau for a huge sum of money earlier, so he's probably more greedy than destitute.
+
+- offsets: 4dc1
+  ja-1987: |
+    シオンノ　ミナミノ　ハントウニハ<line>
+    イアラト　ヨバレル　ドウクツガアル。<wait>
+  # The peninsula is more south-east than south.
+
+- offsets: 4dc7
+  ja-1987: |
+    ココハ　ミナトマチ　シオン。ムカシハ
+    ボウエキデ　ニギワッタモノダ。<wait>
+
+- offsets: 4dcd
+  ja-1987: |
+    エピトイウ　マヨイノモリハ<line>
+    コンパスガナイト　トオレナイヨ。<wait>
+
+- offsets: 4dd3
+  ja-1987: |
+    マホウノ　カカッタドアハ　マジックヲ
+    ツカワナイト　ヒラキマセン。<wait>
+
+- offsets: 4dd9
+  ja-1987: |
+    コノマチカラ　キタヘイクト　バヤ<line>
+    マーレ　トイウ　オカガ　アリマス。<wait more>
+    デモワレワレハ　ソノオカヘ<line>
+    チカヅクコトガ　デキマセン。<wait>
+
+- offsets: 4ddf
+  # Woman next to dock
+  ja-1987: |
+    バヤマーレノ　キタノ　カイガンニ<line>
+    ナウラトイウ　ドウクツガ　アリマス。<wait>
+
+- offsets: 2dab
+  # Trader (first time you buy the Secret Thing)
+  ja-1987: |
+    ダレニ　キイタカ　シラナイガ<line>
+    アキラメタホウガ　ミノタメダ。<wait>
+
+- offsets: 2db0
+  # Trader (second time you buy the Secret Thing)
+  ja-1987: |
+    ダメナモノハ　ダメダ。<line>
+    サー　カエッタ。カエッタ。<wait>
+
+- offsets: 2ddc
+  # Trader (third time you buy the Secret Thing)
+  ja-1987: |
+    シツコイヤツダ。ソンナニ　イウノナラ
+    シカタガナイ。ダレニモ　イウナヨ。<wait>
+
+# ******************
+# *** Eppi woods ***
+# ******************
+
+- offsets: 578f
+  ja-1987: |
+    モリノナカデ　ミチニ　マヨッテ<line>
+    シマッタ。<wait>
+
+# ***********************
+# *** Palma Spaceport ***
+# ***********************
+
+- offsets: 4c9e
+  # Luggage handler
+  ja-1987: |
+    ココハ　パルマノ　スペースポートダ。
+    モタビアセイノ　パセオマデ　イケル。<wait>
+
+- offsets: 4ca4
+  # Luggage handler
+  ja-1987: |
+    パセオニハ　ソウトクガ　イル。モタビ
+    アセイ　ゼンブヲ　オサメテイルンダ。<wait>
+
+- offsets: 4caa
+  # Luggage handler
+  ja-1987: |
+    ガシコノ　ケンキュウジョデハ　ムカシ
+    スペースシップヲ　ツクッテタソウダ。<wait>
+
+- offsets: 4c1d,4cb7
+  # Airstrip guards
+  ja-1987: パスポートヲ　モッテイルカ。<end>
+  
+- offsets: 4c30,4ccf
+  # 4c30, 4ccf = Airstrip guards (answering yes to "Do you have a passport" if you don't have one)
+  ja-1987: フザケルナ。<wait>
+
+- offsets: 4d33
+  # Passport office
+  ja-1987: |
+    ココデ　パスポートノ　シンセイガ<line>
+    デキマス。シンセイヲシマスカ。<end>
+
+- offsets: 4d44
+  # Passport office
+  ja-1987: |
+    イママデニ　ワルイコトヲ　シタコトガ
+    アリマスカ。<end>
+
+- offsets: 4d55
+  # Passport office
+  ja-1987: |
+    イマ　アナタハ　ナニカ　ワルイ<line>
+    ビョウキニ　カカッテイマスカ。<end>
+
+- offsets: 4d6c
+  # Passport office
+  ja-1987: |
+    テスウリョウ　<number>メセタデス。<line>
+    ヨロシイデスカ。<end>
+  # <number> is always 100.
+
+- offsets: 4d91
+  # Passport office
+  ja-1987: |
+    デハ　パスポートヲ　ハッコウシマス。
+    オウケトリクダサイ。<wait>
+
+- offsets: 4d3e,4d77,4eca
+  # Passport office (say "no" to question about applying)
+  # Passport office (say "no" to question about paying)
+  # Paseo trader (say "no" to offer to trade the Laconian Pot for Myau)
+  ja-1987: ソウデスカ。デハ　オキヲツケテ。<wait>
+
+- offsets: 4d4f,4d60
+  # Passport office (say "yes" to question about doing bad things)
+  # Passport office (say "yes" to question about having an illness)
+  ja-1987: |
+    ソレハ　ヨクナイデスネ。<line>
+    マタ　オコシクダサイ。<wait>
+
+- offsets: 5939
+  ja-1987: モタビア　ユキデス。ノリマスカ。<end>
+
+
+# ***********************
+# *** Paseo Spaceport ***
+# ***********************
+
+- offsets: 4e31
+  # Luggage handler
+  ja-1987: |
+    ココハ　モタビアノ<line>
+    パセオ　スペースポート　ダヨ。<wait>
+
+- offsets: 4e37
+  # Luggage handler
+  ja-1987: |
+    サバクノ　ナカデハ　アリジゴクガ<line>
+    アバレテ　イルトイウ　ウワサダヨ。<wait>
+
+- offsets: 4e3d
+  ja-1987: |
+    パルマセイノ<line>
+    ナウラ　トイウ　ドウクツニハ<wait more>
+    ケーキヤガ　アルンダッテネ。<wait>
+
+- offsets: 5949
+  ja-1987: パルマ　ユキデス。ノリマスカ。<end>
+  
+
+# *************
+# *** Paseo ***
+# *************
+
+- offsets: 4e43
+  ja-1987: |
+    モタビアノ　ソウトクハ　ジツハ<line>
+    ラシークト　ナカガ　ワルイラシイヨ。<wait>
+
+- offsets: 4e49
+  ja-1987: |
+    ソウトクニ　アウニハ　オクリモノガ<line>
+    イルソウヨ。<wait>
+
+- offsets: 4e4f
+  ja-1987: ソウトクハ　アマイモノガ　ダイスキ。<wait>
+
+- offsets: 4e55
+  ja-1987: |
+    マハル　トイウ　ドウクツガ　パセオ
+    ノキタノ　ヤマノ　ナカニ　アリマス。<wait>
+
+- offsets: 4e5b
+  ja-1987: |
+    ココハ　モタビアノ　シュト<line>
+    パセオ　デス。<wait>
+
+- offsets: 4e61
+  ja-1987: |
+    アリジゴクハ　ヒトノ　アシデハ<line>
+    トテモ　トオレナイダロウ。<wait>
+
+- offsets: 4e67
+  ja-1987: |
+    カシコイ　モンスターニハ<line>
+    モンスターコトバガ　アルソウダ。<wait>
+
+- offsets: 4e7f
+  # Trader (before getting Myau)
+  ja-1987: |
+    メズラシイ　ドウブツガ　イルンダケド
+    <number>オク　メセタデ　カワナイカ。<end>
+  # <number> is always 10.
+  # Note that the number is 1,000,000,000, which could be either "a billion" or "a milliard", depending on your language.
+
+- offsets: 4e8a
+  # Trader (say yes to previous question)
+  ja-1987: アンタ　ウソツキダネ。<wait>
+
+- offsets: 4e98
+  # Trader (say no to previous question, and have a Laconian pot)
+  ja-1987: |
+    オヤ　アンタ　メズラシイ　ツボヲ<line>
+    モッテイルネ。<wait more>
+    ソノ　ラコニアンポット　トナラ<line>
+    コウカンシテモ　イイヨ。　ドウカネ。<end>
+
+- offsets: 4ea9
+  # Trader (say yes to previous question)
+  ja-1987: |
+    ソレジャ　ツレテイキナ。<line>
+    カワイガッテ　ヤッテクレ。<wait>
+
+- offsets: 4e73
+  # Trader (after getting Myau)
+  ja-1987: |
+    ラコニアンポットハ　トテモ　タカク<line>
+    ウレタヨ。　アリガトサン。<wait>
+
+# ******************************
+# *** Character Intro - Myau ***
+# ******************************
+
+- offsets: 4643
+  # Alisa
+  ja-1987: |
+    キョウカラ　ナカマネ。<line>
+    ワタシハ　アリサ。<line>
+    アナタノ　ナマエヲ　オシエテ。<wait>
+
+- offsets: 464e
+  # Myau
+  ja-1987: ミャウ。<wait>
+
+- offsets: 4659
+  # Alisa
+  ja-1987: |
+    ネエ　ミャウ。<line>
+    タイロンノ　コト　ナンダケド　ナニカ<line>
+    シッテイタラ　オシエテ。<wait>
+
+- offsets: 4664
+  # Myau
+  ja-1987: |
+    タイロン　イシニ　ナッチャッタノ。<line>
+    コノ　クスリ　カケレバ　ナオルンダ。<line>
+    ケド　ミャウ　ビンノ　フタ<line>
+    アケラレナイノ。<wait>
+
+- offsets: 466f
+  # Alisa
+  ja-1987: |
+    ソッカ。<line>
+    ジャ　イッショニ　タイロンヲ<line>
+    タスケニ　イキマショウ。<wait>
+
+
+# ******************************
+# *** Cave South of Camineet ***
+# ******************************
+
+- offsets: 57ec
+  ja-1987: |
+    イシニ　サレテシマッタ　ヒトラシイ。
+    モトニ　モドレルノダロウカ。<wait>
+
+- offsets: 25bd,2636
+  # Using "Alsuline" or "Polymeteral"
+  # This comes immediately after the "Alisa took out the item" message.
+  # Since it's used for the Polymeteral, too, it may not be Alisa.
+  ja-1987: |
+    ソシテ　ビンノ　フタヲ　アケテ<line>
+    シズカニ　タラシタ。<delay>
+
+- offsets: 25af,260c,262d
+  # Using "Alsuline" or "Polymeteral" but only Myau is alive
+  ja-1987: |
+    シカシ　ミャウハ　ビンノ　フタヲ<line>
+    アケルコトガ　デキナカッタ。<wait>
+  # As this follows "Myau took out the <item>." you can assume that context and use a pronoun instead of Myau's name.
+
+
+# ********************************
+# *** Character Intro - Tylon ***
+# ********************************
+
+- offsets: 4688
+  # Tylon
+  # Note that Myau may be dead here, but Alisa is definitely alive (to open the bottle).
+  # So Tylon can't talk to Myau directly.
+  ja-1987: |
+    アリガトウ。タスカッタヨ。<line>
+    シカシ　メデューサニ<line>
+    シテヤラレルヨウデハ　ラシークハ<line>
+    タオセソウニ　ナイナ。<wait>
+
+- offsets: 4693
+  # Alisa
+  ja-1987: |
+    ワタシノ　ニイサンモ　ラシークヲ<line>
+    タオソウトシテ　シンデシマッタワ。<line>
+    シヌマエニ　アナタノ　ナマエヲ<line>
+    イイノコシテ。<wait>
+
+- offsets: 469e
+  # Tylon
+  ja-1987: |
+    ソウダッタノカ。<line>
+    ヨシ　キミノ　ニイサンノ　タメニモ<line>
+    チカラヲ　アワセテ　ラシークヲ<line>
+    タオソウ。<wait>
+
+- offsets: 46a9
+  # Alisa
+  ja-1987: |
+    ソレヨリ　ナゼ　メデューサヲ<line>
+    タオソウト　シタノ。<wait>
+
+- offsets: 46b4
+  # Tylon
+  ja-1987: |
+    メデューサガ　モッテイル　デンセツノ<line>
+    オノガ　ホシカッタンダケド<line>
+    ニゲラレチマッタ。<line>
+    クヤシイナア。<wait more>
+    ソウイエバ　オレ　コノ　ドウクツノ<line>
+    イキドマリニ　コンパスヲ<line>
+    カクシテオイタンダッケ。<line>
+    トリニ　イコウゼ。<wait>
+
+
+# ************
+# *** Eppi ***
+# ************
+
+- offsets: 4de5
+  # Villager
+  ja-1987: |
+    モタビアノ　ソウトクハ　モシカシタラ
+    ミカタニ　ナッテクレルカモシレナイ。<wait>
+
+- offsets: 4deb
+  # Villager
+  ja-1987: |
+    モタビアニハ　スゴイ　エスパーガ<line>
+    イルラシイヨ。<wait>
+
+- offsets: 4df1
+  # Villager
+  ja-1987: |
+    ガシコノモリニハ　ソノムカシ　ルベノ
+    ハカセノ　ケンキュウジョガ　アッタ。<wait>
+
+- offsets: 4df7
+  # Villager
+  ja-1987: エピノムラヘ　ヨウコソ。<wait>
+
+- offsets: 4dfd
+  # Villager
+  ja-1987: |
+    ソナタハ　ダンジョンキーノ　アリカヲ
+    サガシテ　イルノカナ。<end>
+
+- offsets: 4e17
+  # Villager (yes to previous question)
+  ja-1987: |
+    ダンジョンキーハ　カミニート<line>
+    キョジュウクノ　ハズレニアル<wait more>
+    ソウコノナカニ　ワシガ　コッソリ<line>
+    カクシテオイタゾヨ。<wait>
+
+- offsets: 4e1d
+  # Villager
+  ja-1987: |
+    セカイデ　イチバン　カタクテ　ツヨ
+    イブッシツヲ　シッテイルカ。<end>
+
+- offsets: 4e2b
+  # Villager (no to previous question)
+  ja-1987: |
+    ソレハ　ラコニア　ジャ。　ソレデ<line>
+    デキタ　ブキハ　サイキョウナンジャ。<wait>
+
+# ******************
+# *** Naula Cave ***
+# ******************
+
+- offsets: 5373
+  # Shortcake Salesman
+  ja-1987: |
+    コンナトコロニ　オミセガ　アッテ<line>
+    ゴメンナサイ。<wait more>
+    ショートケーキヲ　<number>メセタデ<line>
+    イカガデスカ。<end>
+  # <number> is always 280.
+- offsets: 5355,53a5
+  # Shortcake salesman (after purchase)
+  # Also Sopia villager if you give him a PelorieMate.
+  # Note the similarity to index 198.
+  ja-1987: |
+    アリガトウ。<wait more>
+    マタキテネ。<wait>
+
+# *********************
+# *** Paseo (again) ***
+# *********************
+
+- offsets: 4fd4
+  # Guards outside Underground Passage to Governor's Mansion
+  ja-1987: グウグウ。<wait>
+
+- offsets: 5627
+  # Guard inside Underground Passage to Governor's Mansion
+  ja-1987: |
+    ソウトクヘノ　オクリモノヲ<line>
+    モッテキタカ。<end>
+
+- offsets: 564b
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, have shortcake)
+  ja-1987: |
+    デハ　ソノ　ショートケーキヲ<line>
+    アズカッテ　オコウ。<wait>
+
+- offsets: 5651
+  # Guard inside Underground Passage to Governor's Mansion (yes to previous question, no shortcake)
+  ja-1987: |
+    オクリモノニ　ナルヨウナ　モノヲ<line>
+    モッテナイジャナイカ。<wait>
+
+- offsets: 5632
+  # Guard inside Underground Passage to Governor's Mansion (no to previous question)
+  ja-1987: サッサト　カエレ。<wait>
+
+- offsets: 4f19
+  # Governor-General (first visit)
+  # Last part falls through to the following entry, we do not do that here.
+  ja-1987: |
+    ワタシガ　コノホシノ　ソウトクダ。<line>
+    ラシークヲ　タオシニ　イクソウダナ。<wait more>
+    ソノ　ユウキヲ　ホメテヤル。マハルノ
+    ドウクツニ　ルツ　トイウ　エスパーガ<wait more>
+    イル。　ワタシノ　テガミヲ　モッテ<line>
+    アイニ　ユクガヨイ。<wait more>
+    ラシークヲ　タオシテ　キット　ココヘ
+    モドッテクルコトヲ　シンジテイルゾ。<wait>
+
+- offsets: 4f13,4fc6
+  # Governor-General (subsequent visits)
+  ja-1987: |
+    ラシークヲ　タオシテ　キット　ココヘ
+    モドッテクルコトヲ　シンジテイルゾ。<wait>
+
+- offsets: 4f2f
+  # Governor-General (before nightmare)
+  ja-1987: |
+    ナガイタビデ　ツカレタダロウ。<line>
+    ココデ　ユックリ　ヤスムガイイ。<wait>
+
+- offsets: 4fda
+  # Lady in Guest House
+  ja-1987: ドウゾ　ヤスンデ　イッテネ。<wait>
+  
+- offsets: 4ff9
+  # Lady in Guest House (after resting)
+  ja-1987: |
+    ドウカ　ブジニ　モドッテキテネ。<line>
+    イノッテルワ。<wait>
+
+- offsets: 4f5b
+  ja-1987: フカイ　ネムリニ　ツイタ。<delay>
+
+- offsets: 4fa2
+  ja-1987: オソロシイ　ユメダッタ。<wait>
+
+- offsets: 4f0d
+  # Governor-General (return after dream):
+  ja-1987: |
+    モウ　イッコクノ　ユウヨモ<line>
+    ユルサレナイ。<wait more>
+    ココロシテ　カカルガヨイ。<line>
+    ブジヲ　イノッテイル。<wait>
+
+- offsets: 4ed6
+  # (after defeating LaShiec)
+  ja-1987: |
+    オヤ。ヨウスガ　ヘンダ。<wait more>
+    ソウトクハ　ドコヘ　イッタンダロウ。<wait>
+
+# ******************
+# *** Mahal cave ***
+# ******************
+
+- offsets: 53c4
+  # If you haven't found Lutz yet (unused/impossible?)
+  ja-1987: |
+    ルツハ　パセオノ　ソウトクノ<line>
+    メイレイナラバ　キクカモシレナイ。<wait>
+
+- offsets: 53c9
+  # If you have found Lutz (unused?)
+  ja-1987: ヤッホー。<wait>
+
+- offsets: 53df
+  # Lutz
+  ja-1987: |
+    アナタガタハ　ダレデスカ。　ワタシハ
+    イマ　シュギョウチュウデス。<wait more>
+    ジャマヲ　シナイデ　クダサイ。<wait>
+
+
+# ******************************
+# *** Character Intro - Lutz ***
+# ******************************
+
+- offsets: 46e7
+  # Will show a picture of whichever of the party is alive at this point,
+  # prefering Alis, then Myau, finally Tylon. Make sure you don't assume
+  # which character it is during this conversation.
+  ja-1987: |
+    ソウトクカラノ　テガミヲ　アズカッテ<line>
+    キマシタ。<line>
+    ヨンデイタダケマセンカ。<wait>
+
+- offsets: 46f2
+  ja-1987: |
+    ワカリマシタ。<line>
+    ミンナデ　コノ　アルゴルタイヨウケイヲ<line>
+    アクノ　テカラ　マモリマショウ。<wait more>
+    ソノタメニハ　マズガシコノ　モリヘ<line>
+    イッテ　ルベノハカセニ　アイタイ。<line>
+    タシカ　マンホールヲ　トオッテ<line>
+    イケタハズデス。<wait>
+
+
+# ********************
+# *** Gothic Woods ***
+# ********************
+
+- offsets: 500b,5034,533a,54a9
+  # Villager x2
+  # Sopia villager
+  # Triada prisoner
+  ja-1987: |
+    アンタ　オレニ　ペロリーメイトヲ<line>
+    ヒトツ　メグンデ　クレナイカ。<end>
+
+- offsets: 5028
+  # Villager (yes to previous question, and you have a PelorieMate)
+  ja-1987: |
+    アリガトウ。ココハ　ムカシ　ルベノ<line>
+    トイウ　カガクシャノ　ケンキュウジョ<wait more>
+    ダッタ。ダケド　ルベノハ　クルッテ<line>
+    イルトイウ　リユウデ　コノムラノ<wait more>
+    ミナミニアル　トリアダ　トイウ<line>
+    ロウゴクニ　トジコメラレタンダ。<wait><end>
+
+- offsets: 502e,5055,535b
+  # Sopia villager (yes to previous question, and you don't have a PelorieMate)
+  # Gothic Woods villager (yes to previous question, and you don't have a PelorieMate) x2
+  ja-1987: バカニスンデネエ。<wait>
+
+- offsets: 5016,503f,54b4
+  # Villager x2 (no to previous question)
+  # Triada prisoner
+  ja-1987: |
+    アンタニ　ハナスコトハ　ナイ。<line>
+    ドコカヘ　キエナ。<end>
+
+- offsets: 504f
+  # Another villager (yes to previous question, and you have a PelorieMate)
+  ja-1987: |
+    ガシコノモリカラ　ヤマヘ　ツウジル<line>
+    イッポンミチノ　オクニアル　トウニハ<wait more>
+    チカヅクナ。ソコニハ　スガタヲ　ミタ
+    ダケデ　カラダガ　イシニナッテシマウ<wait more>
+    トイウ　オソロシイ　マモノガ　スン
+    デイルラシイ。<wait>
+
+- offsets: 5856
+  # Villager guarding open field (no Luveno/Hapsby)
+  # Also pointed to by indices 27c, 27e, 280 but these aren't used.
+  ja-1987: |
+    ココカラ　サキハ　ボクノ<line>
+    ナワバリダカラ　トオセナイヨーダ。<wait>
+
+- offsets: 585c
+  # Villager guarding open field (have Luveno/Hapsby)
+  ja-1987: |
+    ルベノハカセガ　イウノダッタラ<line>
+    ショウガナイ。　トオッテモイイヨ。<wait>
+
+# *********************
+# *** Triada Prison ***
+# *********************
+
+- offsets: 5485,55b3
+  # Guard Near Entrance
+  # Also index 21c: robot police in Baya Marlay Prison
+  ja-1987: ロードパスヲ　モッテイルカ。<end>
+
+- offsets: 549d,55e0
+  # Guard Near Entrance (no to previous question)
+  # Same sequence in Baya Marlay Prison
+  ja-1987: |
+    タイシタ　ドキョウダ。<line>
+    シンデモラウゾ。<wait>
+
+- offsets: 54ca
+  # 54ca = Triada prisoner if you say yes but don't have a PelorieMate
+  # Split up from 4c30,4ccf to allow different translations from the usage by airstrip guards
+  # TODO: consider rewriting this and the split version accordingly
+  ja-1987: フザケルナ。<wait>
+
+- offsets: 54c4
+  # Prisoner (if you give PelorieMate)
+  ja-1987: |
+    クモノ　カイブツハ　ホントウハ<line>
+    カシコインダヨ。<wait>
+
+- offsets: 54ea
+  # Prisoner
+  ja-1987: |
+    ガシコノ　ヤマオクニアル　トウハ<line>
+    メデューサノトウト　ヨバレテイル。<wait>
+
+- offsets: 550c
+  # Spider
+  ja-1987: |
+    ポリメテラール　トイウ　クスリハ<wait more>
+    ラコニア　イガイノ　ブッシツハ<line>
+    スベテ　トカスソウダヨ。<wait>
+
+- offsets: 54f0
+  # Prisoner
+  ja-1987: |
+    ヤア。ヒトニ　アウノハ<line>
+    ヒサシブリダ。オハナシシヨウヨ。<end>
+
+- offsets: 54f9
+  # Prisoner (yes to previous question)
+  ja-1987: |
+    バルテボニハ　ボクノ　トモダチガ<line>
+    イルンダ。<wait more>
+    イマハ　ヨウガンイケノ　セイデ<line>
+    タイヘンダロウナア。<wait more>
+    アッタラ　ヨロシク　イットイテネ。<end>
+
+- offsets: 54d0
+  # Prisoner
+  ja-1987: |
+    ハプスビー　トイウ<line>
+    ロボットヲ　シッテルカイ。<end>
+
+- offsets: 54de
+  # Prisoner (no to previous question)
+  ja-1987: |
+    ラコニアデ　デキタ　ロボットダヨ。<wait more>
+    デモ　スクラップニ　サレテ<line>
+    ステラレチマッタラシイヨ。<wait>
+
+- offsets: 54e4
+  # Prisoner
+  ja-1987: |
+    ヤマノ　ムコウハ　カザンノ　フンカデ
+    ヨウガンイケガ　デキテイルソウダヨ。<wait>
+
+- offsets: 5453
+  # Dr Luveno (first time)
+  ja-1987: |
+    ワシハ　ルベノジャ。タスケニ<line>
+    キタノナラ　ヨケイナコトジャ。<wait more>
+    カエルガイイ。<wait>
+
+- offsets: 545e
+  # Dr Luveno (second time)
+  ja-1987: |
+    ナニ。ウチュウセンヲ　ツクレジャト。
+    バカモ　ヤスミ　ヤスミ　イエ。<wait more>
+    ワシガ　ソンナコトヲ　ヒキウケルト<line>
+    オモウノカ。<end>
+
+- offsets: 5464
+  # Dr Luveno (third time)
+  ja-1987: |
+    ウーム。コリナイヤツジャ。<line>
+    シカタガナイ。<wait more>
+    ワシノ　イウトオリニ　シテモラウガ<line>
+    ソレデモヨイカ。<wait>
+
+- offsets: 546d
+  # Dr Luveno (no to previous question)
+  ja-1987: |
+    イウトオリニ　シナイナラ<line>
+    ヒキウケルワケニハ　イカナイ。<wait>
+
+- offsets: 5477
+  # Dr Luveno (yes to previous question)
+  ja-1987: |
+    ヨシ。ソレデハ　ヒトアシ　サキニ<line>
+    ガシコノ　ムラヘ　イッテ<wait more>
+    ジュンビスルカラ　アトカラ　コイ。<line>
+    ワシノコトナラ　シンパイムヨウジャ。<end>
+
+- offsets: 510d,5428
+  # Man in underground tunnel
+  ja-1987: |
+    イマ　イソガシインダ。<line>
+    ジャマシナイデクレ。<wait>
+
+- offsets: 542f
+  # Man in underground tunnel
+  ja-1987: |
+    エーッ。　ルベノハカセガ　カエッテ<line>
+    キタノカイ。<wait more>
+    マタ　ウチュウセンヲ　ツクルノカ。<line>
+    ショウガネエヤ。スグイクヨ。<wait>
+
+# *****************
+# *** Iala Cave ***
+# *****************
+
+- offsets: 5436
+  ja-1987: |
+    オクノ　ヘヤヘ　ハイッテ　イキテ<line>
+    カエッタモノハ　イナイ。ヒッヒッヒ。<wait>
+
+# **********************
+# *** Medusa's Tower ***
+# **********************
+
+- offsets: 5512
+  ja-1987: |
+    モハヤ　カクゴハ　デキテオル<line>
+    ジャロウナ。　フッフッフ。<wait>
+
+- offsets: 5518
+  # Old man in an actual dead end
+  ja-1987: |
+    イキドマリジャ。　モドリナサイ。<line>
+    カエルナラ　イマノウチダ。<wait>
+
+- offsets: 551e
+  ja-1987: |
+    オオ。ナント　ユウカンナ<line>
+    ワカモノヨ。　ワナニ　キヲツケテナ。<wait>
+
+- offsets: 16a8
+  # Being attacked by Medusa without the Shield of Perseus equipped
+  ja-1987: <player>ハ　イシニ　ナッテシマッタ。<wait>
+
+
+# *******************************
+# *** Dr. Luveno’s Laboratory ***
+# *******************************
+
+- offsets: 507b
+  # Dr Luveno (if you didn't talk to his assistant yet)
+  ja-1987: |
+    オオ。オソカッタノウ。<line>
+    サッソクジャガ　ワシノ　ジョシュヲ<wait more>
+    ツレテキテクレ。チカツウロノ　ナカニ
+    カクレテオルハズジャ。<wait more>
+    ホントニ　アイツハ　ハズカシガリヤ
+    デコマッタモノジャ。<wait>
+
+- offsets: 508b
+  # Dr Luveno
+  ja-1987: |
+    ヨシ　コレデ　スタッフハ<line>
+    ソロッタヨウダ。　ソコデ<wait more>
+    セイサクヒガ　<number>メセタ<line>
+    カカルンジャガ　ワシニ　クレンカ。<end>
+  # <number> is always 1200.
+
+- offsets: 50b5
+  # Dr Luveno (yes to the previous question)
+  ja-1987: |
+    アリガトウ。デハ　セイサクヲ<line>
+    ハジメヨウ。スコシマッテクレ。<wait>
+
+- offsets: 50a7
+  # Dr Luveno (if you don't have enough money)
+  ja-1987: |
+    タリナイノウ。　ワルイガ　オカネヲ<line>
+    アツメテキテクレンカ。<wait>
+
+- offsets: 5096
+  # Dr Luveno (no to the previous question)
+  ja-1987: |
+    ソレハ　ザンネンジャ。<line>
+    オマエノ　タビモ　ココマデカノウ。<wait>
+
+- offsets: 50c3
+  # Dr Luveno (first two times you talk to him)
+  ja-1987: |
+    アワテテモ　イイモノハ　デキンゾヨ。
+    モウ　スコシノシンボウジャ。<wait>
+
+- offsets: 50d1
+  # Dr Luveno (third time)
+  ja-1987: |
+    ヨロコベ　ツイニ　ウチュウセン<line>
+    ルベノゴウガ　デキアガッタゾ。<wait>
+
+- offsets: 50de
+  # If you don't have Hapsby already
+  ja-1987: |
+    シカシ　オマエニハ　ルベノゴウハ<line>
+    ソウジュウデキン。<wait>
+
+- offsets: 50eb
+  # If you don't have Hapsby already
+  ja-1987: |
+    ハプスビー　トイウ　ロボットヲ<line>
+    サガシテクルンジャ。<wait more>
+    アノ　ロボットナラ　ウチュウセンヲ<line>
+    ソウジュウ　デキルハズジャ。<wait>
+
+- offsets: 50f6
+  # Luveno (if you have Hapsby)
+  ja-1987: |
+    ヨシ。コレデ　ルベノゴウニ　ノッテ<line>
+    ウチュウヘ　トビダセル。<wait more>
+    ムラノ　ソトヘ　デテミルガイイ。<line>
+    ナカナカノ　デキダヨ。<wait>
+
+- offsets: 5071
+  # Luveno (subsequent visits)
+  ja-1987: |
+    ルベノゴウノ　チョウシハ　ドウジャ。
+    ダイジニ　ツカッテ　オクレ。<wait>
+
+# Spaceports now closed...
+- offsets: 4cec
+  ja-1987: スペースポートハ　ヘイサスル。<wait>
+
+- offsets: 4cfd
+  ja-1987: パスポートヲ　ボッシュウスルゾ。<wait>
+
+
+# ***************
+# *** Bartevo ***
+# ***************
+
+- offsets: 4fff
+  # Villager
+  ja-1987: |
+    バルテボハ　オレノ　ナワバリダ。<line>
+    アラスンジャナイゾ。<wait>
+
+- offsets: 5005
+  # Villager
+  ja-1987: |
+    コノ　スクラップノナカニ　セイノウノイ
+    イ　ロボットガ　ステラレテイル<wait more>
+    トイウハナシダケド　ホントウカネー。<wait>
+
+- offsets: 5524
+  # Villager (in the cave next to Bartevo)
+  ja-1987: |
+    アビオンノ　ムラニ　ポリメテラール<line>
+    トイウ　クスリガ　ウッテイルラシイ。<wait>
+
+- offsets: 57bd
+  # Hapsby
+  ja-1987: |
+    ボクハ　ハプスビー。<wait more>
+    ミツケテクレテ　アリガトウ。　ルベノ
+    ゴウノ　ソウジュウハ　マカセテネ。<wait>
+
+- offsets: 57e0
+  ja-1987: |
+    フロームーバーヲ　ミツケタ。<wait more>
+    ハプスビーガ<line>
+    コワレタトコロヲ　ナオシタノデ<wait more>
+    ツカエルヨウニ　ナッタゾ。<wait>
+
+
+# ************
+# *** Lore ***
+# ************
+
+- offsets: 5139
+  # Villager
+  ja-1987: |
+    ココハ　ロアー　トイウ　ムラデス。<line>
+    ラシークノセイデ　サビレテシマッタ。<wait>
+
+
+- offsets: 5119
+  # Villager
+  ja-1987: |
+    カーバンクルアイ　トイウ　ホウセキヲ
+    シッテイマスカ。<wait more>
+    カスバノ　ドラゴンガ　モッテイル<line>
+    トイウ　ウワサデス。<wait>
+
+
+- offsets: 511f
+  # Villager
+  ja-1987: |
+    コノシマノ　ニシノ　ハズレニハ<line>
+    アビオン　トイウ　ムラガ　アリマス。<wait>
+
+- offsets: 5125
+  # Villager
+  ja-1987: |
+    ラエルマツリー　トイウ　キヲ<line>
+    シッテイルカ。<end>
+
+- offsets: 512e
+  # Villager (no to previous question)
+  ja-1987: |
+    デゾリスセイノ　アルチプラノ<line>
+    トヨバレル　コウゲンニ<wait more>
+    オイシゲッテイルトカ。<wait>
+
+- offsets: 5113
+  # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
+  ja-1987: |
+    エッ　ラシークヲ　タオシニ　イクノ。
+    スゴイネエ。<wait more>
+    ウワサダケド　アル　クリスタルハ<line>
+    アシキ　マホウヲ　フウジルトカ。<wait>
+
+# *************
+# *** Abion ***
+# *************
+
+- offsets: 513f
+  # Villager
+  ja-1987: コノムラハ　アビオン　トイウノヨ。<wait>
+
+- offsets: 5145
+  # Villager
+  ja-1987: |
+    ラシークノ　マノテハ　コノムラニモ<line>
+    ノビテキタ。　タスケテクレ。<wait>
+
+- offsets: 514b
+  # Villager
+  ja-1987: |
+    コノムラニ　カワッタ　オトコガ<line>
+    ヒッコシテキタヨ。ドウブツジッケンヲ<wait more>
+    ヤッテルラシイガ　キミガワルイナア。
+    ツボ　ミタイナモノヲ　モッテタヨ。<wait>
+
+- offsets: 5151
+  # Villager
+  ja-1987: |
+    ワタシ　ウチュウノ　タビガ<line>
+    シテミタイワ。<wait>
+
+- offsets: 5157
+  # Villager
+  ja-1987: |
+    ジャコウネコ　トイウ　ドウブツハ<line>
+    アル　キノミヲ　タベルト<wait more>
+    オオキクナッテ　ソラヲ　トベルヨウニ
+    ナルソウダヨ。　フシギダネ。<wait>
+
+- offsets: 4c54
+  # Mad Doctor
+  ja-1987: |
+    オイ　ソコノ　ネコ。<line>
+    コッチヘ　コイ。<end>
+
+- offsets: 4c75
+  # Mad Doctor (yes to previous question)
+  ja-1987: ケッケッケ。オマエラモ　シニタイカ。<wait>
+
+- offsets: 4c7a
+  # Mad Doctor (no to previous question or if Myau is already dead)
+  ja-1987: |
+    ワシノ　ジャマヲ　スルヤツハ<line>
+    コロシテヤル。<wait>
+
+# *************
+# *** Skray ***
+# *************
+
+- offsets: 5238
+  # Townsperson
+  ja-1987: |
+    ココハ　デゾリスセイノ　スクレ。<line>
+    ソトハ　サムカッタデショウ。<wait>
+
+- offsets: 523e
+  # Townsperson
+  ja-1987: |
+    パルマセイカラノ　イミンハ　ホトンド
+    コノマチニ　スンデイマス。<wait>
+
+- offsets: 5244
+  # Townsperson
+  ja-1987: |
+    ワタシ　コノホシノコトハ<line>
+    ヨクシラナイケド　キタノ　ヤマオクニ<wait more>
+    コノホシノ　ジュウミン　デゾリアンノ
+    ムラガ　アルソウヨ。<wait>
+
+- offsets: 524a
+  # Townsperson
+  ja-1987: |
+    ナニ　ラシークヲ　タオスンダト。<line>
+    ソレナラバ　ラコニアデ　デキタ<wait more>
+    ソード　アクス　シールド　アーマー<line>
+    ヲ　ソロエナサレ。<wait more>
+    コレラノ　ブキハ　サイキョウノ<line>
+    チカラヲ　ハッキスルダロウ。<wait more>
+    ブジヲ　イノッテイル。<wait>
+
+- offsets: 5250
+  # Townsperson
+  ja-1987: |
+    ラコニアデ　デキタ　ブキハ　セイナル
+    チカラヲ　ヒメテイルンダ。<wait more>
+    ラシークハ　ソレヲ　キラッテ<line>
+    アルゴル　タイヨウケイノ　ワクセイノ<wait more>
+    アチコチニ　カクシテシマッタトイウ。<wait>
+
+
+- offsets: 5256
+  # Townsperson
+  ja-1987: デゾリスセイハ　コオリノホシデス。<wait>
+
+- offsets: 525c
+  # Townsperson
+  ja-1987: |
+    コオリノ　ヤマノナカニハ<line>
+    クズレヤスイトコロモ　アルヨウデス。<wait>
+
+- offsets: 5262
+  # Townsperson
+  ja-1987: |
+    アルチプラノコウゲンハ　マワリヲ<line>
+    コオリノ　ヤマニ　カコマレテイマス。<wait>
+
+- offsets: 5268
+  # Townsperson
+  ja-1987: |
+    コノホシハ　ヒャクネンニ　イチド<line>
+    ニッショクガ　アリマス。<wait more>
+    ソノトキニ　トモサレタ　ホノオハ<line>
+    イクリプストーチト　ヨバレ<wait more>
+    シンセイナル　ホノオトシテ<line>
+    デゾリアンニ　マツラレテイルノデス。<wait>
+
+- offsets: 526e
+  # Townsperson
+  ja-1987: |
+    グアランノ　シタイオキバノ<line>
+    シニンガ　ヨミガエッタソウダ。<wait more>
+    オソロシヤ。<wait>
+
+
+# ***********
+# *** Uzo ***
+# ***********
+
+- offsets: 515d
+  # Villager
+  ja-1987: |
+    ココハ　モタビアセイノ　ウーゾ<line>
+    トイウ　ムラデス。<wait>
+
+- offsets: 5163
+  # Villager
+  ja-1987: |
+    アリジゴクハ　ランドマスター　トイウ
+    ノリモノヲ　ツカエバ　トオレマスヨ。<wait>
+
+- offsets: 5169
+  # Villager
+  ja-1987: |
+    ウーゾノ　ミナミニ　カスバ　トイウ<line>
+    ムラガ　アリマス。<wait>
+
+- offsets: 516f
+  # Villager
+  ja-1987: |
+    カスバノ　ドウクツニハ　ドラゴンガ<line>
+    スミツイタラシイデスヨ。<wait more>
+    ソノ　ドラゴンノ　アタマニハ<line>
+    ホウセキガ　ハイッテイルトカ。<wait>
+
+- offsets: 5194
+  # Villager
+  ja-1987: |
+    フラードマント　トイウ　マントヲ<line>
+    シッテルカイ。　カルイケド<wait more>
+    スゴイ　ボウギョリョクガ<line>
+    アルソウダヨ。<wait>
+
+- offsets: 5175
+  # Villager
+  ja-1987: |
+    スーズフルート　トイウ　フエノコトヲ
+    シッテルカイ。<end>
+
+- offsets: 5133,517e,54d9,54fe
+  # Villager (yes to previous question)
+  # Lore villager (yes to question about Laerma Tree)
+  # Triada prisoner (yes to question about Hapsby)
+  # Triada prisoner (no to request to talk)
+  ja-1987: ソウカイ。ツマンネエノ。<wait>
+
+- offsets: 518e
+  # Villager (no to previous question)
+  ja-1987: |
+    ナイショダケドサ　ボクガ　パルマセイ
+    ヘ　イッタトキニ　ガシコノムラノ<wait more>
+    ハズレニ　ウメテキタンダ。ダレニモ<line>
+    イッチャダメダヨ。<wait>
+
+
+# Soothe Flute stuff
+- offsets: 24d6
+  # Use Soothe Flute outside a battle
+  ja-1987: |
+    ココロガ　ナゴムヨウナ<line>
+    ウツクシイ　ネイロダ。<wait>
+
+- offsets: 24eb
+  ja-1987: |
+    <monster>ハ　フエノネヲ<line>
+    キイテ　オトナシクナッタ。<delay>
+
+
+# *************
+# *** Casba ***
+# *************
+
+- offsets: 519a
+  # Villager
+  ja-1987: ココハ　カスバ　トイウ　ムラデス。<wait>
+
+- offsets: 51a0
+  # Villager
+  ja-1987: |
+    コノムラノ　ドウクツニ　ドラゴンガ<line>
+    スミツイタノ。ワタシ　コワーイ。<wait>
+
+- offsets: 51ac
+  # Villager
+  ja-1987: |
+    マワリヲ　キリニ　カコマレタ　ムラ<line>
+    ニハ　デンセツノ　タテノ　イイツタエ<wait more>
+    ガアル。ソノムカシ　ペルセウスガ<line>
+    マモノタイジニ　ツカッタトイウ。<wait>
+
+- offsets: 51b2
+  # Villager
+  ja-1987: |
+    ボクガ　ミズウミノ　ニシヘ　イクト<wait more>
+    キリノヨウナ　オソロシイ　ドクガスガ
+    ヒロガッテイタンダ。<wait more>
+    ナントカ　シナイト<line>
+    トテモ　チカヨレナイヨ。<wait>
+
+- offsets: 51b8
+  # Villager
+  ja-1987: |
+    フロームーバー　トイウ　ノリモノヲ<line>
+    シッテイルカイ。<end>
+
+- offsets: 51cb
+  # Villager (yes to previous question)
+  ja-1987: |
+    パルマセイノ　シオンノマチデ　カッタ
+    ンダケド　コワレチマッタミタイデ<wait more>
+    バルテボニ　ステチマッタヨ。<line>
+    モッタイナイコト　シチマッタ。<wait>
+
+- offsets: 51c1
+  # Villager (no to previous question)
+  ja-1987: |
+    アレハ　ベンリダヨ。　ミズノウエヲ<line>
+    スイスイ　イケルンダ。<wait>
+
+
+# **************
+# *** Drasgo ***
+# **************
+
+- offsets: 51d1
+  # Townsperson
+  ja-1987: |
+    ココハ　ドラスゴー。　ウミノウエノ<line>
+    チイサナ　マチデス。<wait>
+
+- offsets: 51d7
+  # Townsperson
+  ja-1987: |
+    イマ　ウミノ　ミチハ　トザサレテ<line>
+    フネサエ　ツカエナイノニ<wait more>
+    ヨクモマア　コノマチヘ<line>
+    タドリツキマシタネ。<wait>
+
+- offsets: 51dd
+  # Townsperson
+  ja-1987: |
+    アビオンノ　トウニハ　マリョクヲ<line>
+    フウジル　ケンガ　アルソウデス。<wait>
+
+- offsets: 51e3
+  # Townsperson
+  ja-1987: |
+    ワタシハ　ムカシ　ソラニ　ウカブ<line>
+    オオキナ　イワヲ　ミタコトガアル。<wait>
+
+- offsets: 51e9
+  # ????
+  ja-1987: |
+    チョウコオネーサンデース。<wait more>
+    ガンバッテ　ボウケンヲ　ツヅケテネ。<wait>
+
+- offsets: 51ef
+  # Person inside cave
+  ja-1987: |
+    ワタシハ　ドクガスカラ　ミヲ　マモル
+    ガスクリアー　トイウ　ソウチガ<wait more>
+    ココニ　ウッテイルト　キイタノダガ<line>
+    ミセガ　ドコニアルノカ　ワカラナイ。<wait more>
+    コマッタ。コマッタ。<wait>
+
+- offsets: 51f5
+  # Person inside cave
+  ja-1987: |
+    ココハ　アイテムショップデス。<line>
+    ドンナ　ゴヨウデショウ。<wait more>
+    ナーンチャッテ。カラカッテゴメン。<line>
+    カンベンシテチョ。<wait>
+
+- offsets: 5201
+  # GasClear salesman
+  ja-1987: |
+    コンナトコニ　オミセガ　アッテ<line>
+    ビックリ　シタデショ。<wait more>
+    ガスクリアー　<number>メセタデス。<line>
+    ヤスイデショ。　カイマスカ。<end>
+  # <number> is always 1000.
+
+- offsets: 5226
+  # GasClear salesman (yes to previous question)
+  ja-1987: アリガトウ。マタキテネ。<wait>
+
+- offsets: 521d
+  # GasClear salesman (yes to previous question, but don't have enough money)
+  ja-1987: オカネガナイノー。　シケテンナー。<wait>
+  # Note: In the Japanese version, this one runs into the line below. It was corrected in the Mega Drive version.
+
+- offsets: 520c
+  ja-1987: |
+    オヤ　モッタイナイ。<line>
+    モウ　ウッテアゲナイヨ。<wait>
+
+# *************
+# *** Sopia ***
+# *************
+
+- offsets: 52ca
+  # Villager
+  ja-1987: |
+    コノムラハ　ソピアト　イイマス。<wait more>
+    ドクガスノ　ナカヲ<line>
+    ヨウコソ　コラレマシタ。<wait>
+
+- offsets: 52d6
+  # The Village Chief
+  ja-1987: |
+    ワタシハ　コノムラノ　ソンチョウ<line>
+    デス。コノ　キリノセイデ　ホカノ<wait more>
+    マチヤ　ムラカラ　トザサレタ　ソピア
+    ハ　トテモ　マズシイノデス。<wait more>
+    ドウカ　<number>メセタ　キフシテ<line>
+    クダサイ。<end>
+  # <number> is always 400.
+
+- offsets: 52e1
+  # The Village Chief (no to previous question)
+  ja-1987: ソウデスカ。ザンネンデス。ウウッ。<wait>
+
+- offsets: 52f2
+  # The Village Chief (yes to previous question, but not enough money)
+  ja-1987: |
+    オタガイニ　マズシイノデスネ。<line>
+    サビシイ　ヨノナカデス。<wait>
+
+- offsets: 5300
+  # The Village Chief (yes to previous question)
+  ja-1987: |
+    アリガトウ。<line>
+    ワレワレノ　イイツタエニヨレバ<wait more>
+    ペルセウスガ　メデューサヲ<line>
+    タオストキニ　ツカッタ　タテガ<wait more>
+    ミズウミニアル　シマノ　サボテンノ<line>
+    シタニ　ウメテアルソウデス。<wait>
+
+- offsets: 5306
+  # Gamer Miki
+  ja-1987: |
+    アタシ　ゲーマーノ　ミキチャンヨ。<line>
+    アナタ　マスターシステム　カッタ。<end>
+
+- offsets: 530f
+  # Gamer Miki (yes to previous question)
+  ja-1987: |
+    マア　アタシトオンナジ　ゲーマーネ。
+    ヤッパ　エフエムオンゲンハ　グーネ。<wait>
+
+- offsets: 5314
+  # Gamer Miki (no to previous question)
+  ja-1987: |
+    ヤッダー　アナタ　ハヤク　カッテ<line>
+    ラッシャイヨー　モー　プン　プン。<wait>
+
+- offsets: 531a
+  # Villager
+  ja-1987: |
+    ラシークガ　ケンリョクヲ　ニギル<line>
+    マエハ　コノムラモ　ユタカダッタ。<wait>
+
+- offsets: 5320
+  # Villager
+  ja-1987: |
+    ミズウミノ　ミナミノ　ヤマノ　ナカニ
+    タジム　トイウ　ドウシガ　イマス。<wait>
+  # Maybe add this hint to other languages. It helps explain a possible 
+  # scenario later where Tajim sees Lutz when he is dead.
+
+- offsets: 5326
+  # Villager
+  ja-1987: |
+    パルマセイハ　キレイナ　ホシダト<line>
+    キキマシタガ　ホントウデスカ。<end>
+
+- offsets: 532f
+  # Villager (yes to previous question)
+  ja-1987: イッテミタイナー。<wait>
+
+- offsets: 5334
+  # Villager (no to previous question)
+  ja-1987: |
+    ソウデスカ。ワタシハ　モット<line>
+    クウキノ　キレイナトコロヘイキタイ。<wait>
+
+- offsets: 5345
+  # Villager (no to request for PelorieMate)
+  ja-1987: ケチ。<wait>
+
+
+# *********************
+# *** Tajim’s Cave ***
+# *********************
+
+- offsets: 56b3
+  # Tajim (if you don't have Lutz - which is not possible)
+  # You need either the hovercraft or the land rover to even reach the cave. You can't get either without being able to reach Casba, and the only way to reach Casba on foot is from Uzo, which you can't get to without your own spaceship, which you can't get without being able to reach Gothic, which you can't because the spaceport manhole is inaccessible without Lutz in your party.
+  ja-1987: |
+    オマエサンガタハ　ドナタカナ。<line>
+    ルツガ　オル。シッテオルカ。<end>
+
+- offsets: 56bc
+  # Tajim (yes to previous question)
+  ja-1987: |
+    ルツニ　ツタエネバ　ナラヌコトガ<line>
+    アル。　ツレテキテハ　クレマイカ。<wait>
+
+- offsets: 56c1
+  # Tajim (no to previous question)
+  ja-1987: |
+    ソウカ。　ナラバ　イッテモ<line>
+    シカタノナイコトジャノウ。<wait>
+
+- offsets: 56c7
+  # Tajim (if you have Lutz)
+  ja-1987: |
+    オオ　ワガデシ　ルツヨ。　ツイニ<line>
+    ラシークヲ　タオス　タビニデルカ。<wait>
+
+- offsets: 56d3
+  # Tajim (if Lutz is dead)
+  ja-1987: |
+    オヤ。シンデオルノカ。ナサケナイ。<line>
+    イキカエッテ　デナオスガイイ。<wait>
+
+- offsets: 56d9
+  # Tajim (talking to Lutz)
+  ja-1987: |
+    デハ　ソツギョウノ　シケンヲ　シテ<line>
+    ヤロウ。ワシト　タタカウガヨイ。<wait>
+
+- offsets: 5722
+  # Tajim (if you win) (talking to Lutz)
+  ja-1987: |
+    ツヨクナッタノウ。ルツヨ。<wait more>
+    ソレダケノチカラガ　アレバヨイ。<wait more>
+    ワシカラノ　オクリモノトシテ<line>
+    オマエノ　カラダヲ　マモッテクレル<line>
+    ジャロウ。　デハ　ユクガヨイ。<wait>
+
+- offsets: 571c
+  # Tajim (if you lose) (talking to Lutz)
+  ja-1987: |
+    マダマダ　シュギョウガ　タリンノウ。
+    デナオシテクルガヨイ。<wait>
+
+- offsets: 56a6
+  # Tajim (subsequent visits)
+  ja-1987: モウ　ワシガ　オシエルコトハ　ナイ。<wait>
+
+
+# ****************************
+# *** Native Dezorian Town ***
+# ****************************
+
+# Notes: The truth-telling Dezorians and the lying Dezorians speak different dialects of Japanese. The truth-tellers end their sentences with ZURA, and the liars end theirs with DASU. In this English version, the truth-tellers say verb-affirmative things like ’it does’ and ’you will’ at the ends of sentences, and the liars say truth-affirming things like ’no joke’, ’seriously’, etc. in their sentences.
+# French and Brazilian Portuguese use similar patterns to English.
+# In Catalan, Honest Dezorians speak western dialect, and the liars Majorcan
+# In Spanish, Honest Dezorian speaks like galician, and the liars like people from Murcia
+# In German, honest Dezorians use VOS sentence structure while liars use OVS.
+- offsets: 5274
+  # Honest Dezorian
+  ja-1987: |
+    トナリノ　ブラクハ<line>
+    ウソツキバカリダ。キヲツケナヨ。<wait>
+
+- offsets: 527a
+  # Honest Dezorian
+  ja-1987: |
+    コノムラノ　キタノ　ヤマノムコウニ<line>
+    コロナノトウガ　アルズラ。<wait>
+
+- offsets: 5280
+  # Honest Dezorian
+  ja-1987: |
+    コロナノトウノ　ニシニハ　デゾリスノ
+    ドウクツガ　アルズラ。<wait more>
+    ワシラノ　ナカマガ　イルズラ。<line>
+    ヨロシクズラ。<wait>
+
+- offsets: 5286
+  # Honest Dezorian
+  ja-1987: |
+    ラエルマツリーニハ　ラエルマベリー<line>
+    トイウ　キノミガ　ナルズラヨ。<wait more>
+    アノ　キノミハ　オイシイカラ<line>
+    ワシラノ　ショクリョウニ　シタイケド<wait more>
+    ラコニアノ　ツボニ　イレナイト<line>
+    ヒカラビテシマウズラヨ。<wait>
+
+- offsets: 528c
+  # Honest Dezorian
+  ja-1987: |
+    エアロプリズム　トイウノヲ<line>
+    シッテルズラカ。<end>
+
+- offsets: 529a
+  # Honest Dezorian (no to previous question)
+  ja-1987: |
+    コノヨト　チガウ　セカイガ<line>
+    ミエルソウズラヨ。<wait>
+
+- offsets: 5295
+  # Honest Dezorian (yes to previous question)
+  ja-1987: イチド　ミテミタイモノズラヨ。<wait>
+
+- offsets: 52a0
+  # Honest Dezorian
+  ja-1987: |
+    コノブラクノ　ミンナハ　パルマノ<line>
+    ヒトビトヲ　キラッテルズラ。<wait>
+
+- offsets: 52a6
+  # Dishonest Dezorian
+  ja-1987: |
+    コロナノトウニハ　イノチノイズミガ<line>
+    アルンダス。<wait>
+
+- offsets: 52b2
+  # Dishonest Dezorian
+  ja-1987: |
+    デゾリスノ　ドウクツノ　チカ<line>
+    <number>カイデ　ワープデキルンダスヨ。<wait>
+  # <number> is always 10.
+
+- offsets: 52b8
+  # Dishonest Dezorian
+  ja-1987: |
+    ラエルマベリーハ　アオイイロヲシタ<line>
+    キノミデ　センリョウニ　ツカウダス。<wait>
+
+- offsets: 52be
+  # Dishonest Dezorian
+  ja-1987: |
+    ラエルマツリーノ　マエデ　クリスタル
+    ヲ　ツカウト　ミガ　ナルンダス。<wait>
+
+- offsets: 52c4
+  # Dishonest Dezorian
+  ja-1987: |
+    コノブラクハ　パルマノ　ヒトビトヲ<line>
+    カンゲイシマス。<wait>
+
+- offsets: DishonestDezorianFix
+  # Dishonest Dezorian
+  # We add a script entry here. The original game accidentally uses an entry from Sopia.
+  ja-1987: トナリノムラハウソツキダラケダ。<wait>
+
+# ********************
+# *** Dezoris Cave ***
+# ********************
+
+- offsets: 5815
+  # Dungeon Southwest of Corona Tower
+  # Dishonest Dezorian
+  ja-1987: |
+    コレカラ　サキハ　キヲツケテ。<line>
+    ワカレミチヲ　ヒダリヘ　イキナサイ。<wait>
+
+# ********************
+# *** Corona Tower ***
+# ********************
+
+- offsets: 57fd,5803
+  # Dezorian
+  # (Also in Guaran Morgue)
+  ja-1987: |
+    ナニシニキタダ。　オメエタチ<line>
+    ワルサ　スンデネエゾ。<wait>
+
+- offsets: # Unused
+  ja-1987: イヤナ　ヨカンガスル。<wait>
+
+- offsets: 592d
+  # Dezorian
+  ja-1987: |
+    ココダケノ　ハナシダガ　ダモア<line>
+    トイウ　ウラナイシノ　モッテイル<wait more>
+    クリスタルヲ　ラシークサマハ<line>
+    キラッテオラレル。<wait more>
+    ナニカ　ヒミツガ　アルニチガイナイ。<wait>
+
+- offsets: 5661
+  # Torchbearer
+  ja-1987: |
+    コノ　ヒハ　ヒャクネンニ　イチド<line>
+    ノ　ニッショクノ　トキニ　ツケタ<wait more>
+    モノダ。　ドラゴンノ　モッテイル<line>
+    ホウセキヲ　クレルナラバ　スコシ<wait more>
+    ワケテ　アゲテモ　ヨイガ　ドウダ。<end>
+
+- offsets: 5684
+  # Torchbearer (yes to previous question, if you have the Carbuncle Eye)
+  ja-1987: |
+    デハ　イクリプストーチヲ<line>
+    ウケトルガイイ。<wait>
+
+- offsets: 566c
+  # Torchbearer (no to previous question)
+  ja-1987: |
+    イラナイノカ。ソレジャア　オメエハ<line>
+    ナニシニ　キタンダ。<wait>
+
+- offsets: 568a
+  # Torchbearer (yes to previous question but no Carbuncle Eye)
+  ja-1987: |
+    ホウセキヲ　モッテナイデハナイカ。<line>
+    ナメルナヨ。<wait>
+
+# *************************
+# *** Aeroprism Dungeon ***
+# *************************
+
+- offsets: 5933
+  # Otegami Chie-chan
+  ja-1987: |
+    ワタシ　オテガミ　チエチャンヨ。<line>
+    イツモ　オタヨリ　アリガトウ。<wait more>
+    コノゲームノ　カンソウヲ<line>
+    キカセテネ。　マッテルワ。<wait>
+
+
+# *************************
+# *** Altiplano Plateau ***
+# *************************
+
+- offsets: 2693,26e5
+  # Also used for the Aeroprism later...
+  ja-1987: |
+    <player>ハ　<item>ヲ<line>
+    テンニ　カザシタ。<delay>
+
+- offsets: 26d0
+  # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
+  ja-1987: |
+    <player>ハ　ラエルマベリーヲ　トッテ<line>
+    ラコニアンポットニ　イレタ。<wait>
+
+- offsets: 26c4
+  # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
+  ja-1987: |
+    ラエルマベリーヲ　トッテミタガ<line>
+    シバラクスルト　ヒカラビテシマッタ。<wait>
+
+
+# *******************
+# *** Avion Tower ***
+# *******************
+- offsets: 552a
+  ja-1987: ヒキカエスナラ　イマノウチジャゾ。<wait>
+
+# **************************
+# *** Baya Marlay Prison ***
+# **************************
+
+- offsets: 55f5
+  # Prisoner
+  ja-1987: |
+    オレヲ　ココカラ　ダシテクレルノカ。
+    デモ　ムダダヨ。<wait>
+
+- offsets: 55fb
+  # Prisoner
+  ja-1987: |
+    ラシークヲ　タオソウナンテ<line>
+    ムボウダヨ。<wait>
+
+- offsets: 5601
+  # Prisoner
+  ja-1987: |
+    ワタシタチハ　ラシークノ　イケニエニ
+    サレテシマウノヨ。　ウッウウ。<wait>
+
+- offsets: 582d
+  # Prisoner (Dezorian)
+  ja-1987: |
+    グアランニアル　ヨロイヲ<line>
+    テニイレタカイ。<end>
+
+- offsets: 583b
+  # Prisoner (no to previous question)
+  ja-1987: |
+    ソレハ　オトシアナノ　ムコウガワニ<line>
+    アルンダヨ。<wait>
+
+- offsets: 5836
+  # Prisoner (yes to previous question)
+  ja-1987: キミッテ　スゴイネ。<wait>
+
+- offsets: 5607
+  # Prisoner
+  ja-1987: |
+    ラシークニ　デアッタモノハ　ミナ<line>
+    ソノ　マリョクデ<wait more>
+    タマシイヲ　ウバワレルソウダヨ。<wait>
+
+- offsets: 560d
+  # Prisoner
+  ja-1987: |
+    バヤマーレノ　オカノウエニハ<line>
+    トウガアル。<wait more>
+    アノトウニ　ヒミツガ　カクサレテ<line>
+    イルニチガイナイ。<wait>
+
+- offsets: 5613
+  # Prisoner
+  ja-1987: |
+    コノサキヘハ　イカナイホウガ<line>
+    イイヨ。　ケイビヘイガ　イルンダ。<wait>
+
+- offsets: 55c5
+  # Robot Police (yes to previous question, have one)
+  ja-1987: |
+    ドレドレ<line>
+    ロボットダト　オモッテ　ナメルナヨ。
+    ロウニ　ブチコンデヤル。<wait>
+
+- offsets: 5619
+  # Prisoner
+  ja-1987: |
+    オオ　アンタモ　トジコメラレタノカ<line>
+    カワイソウニ。<wait more>
+    ソトニデル　ホウホウハ　アルンジャガ
+    ワシハ　ココニ　イルホウガ<wait more>
+    キラクデ　イイワイ。<wait>
+
+
+# *************************
+# *** Baya Marlay Tower ***
+# *************************
+
+- offsets: 5597
+  ja-1987: |
+    ココヲ　バヤマーレノ　トウト<line>
+    シリナガラ　キタノカ。<end>
+
+- offsets: 55a0
+  # (yes to previous question)
+  ja-1987: |
+    カナラズヤ　テンノ　イカリニ<line>
+    フレヨウゾ。<wait>
+
+- offsets: 55a5
+  # (no to previous question)
+  ja-1987: ナラバ　ヒキカエスガヨイ。<wait>
+
+# Damoa the Fortuneteller
+
+- offsets: 5530
+  ja-1987: |
+    ワシハ　セカイイチノ　ウラナイシ<line>
+    ワシノ　ウラナイヲ　シンジルカ。<end>
+
+- offsets: 5541,5552,5563
+  # (yes to previous question)
+  ja-1987: ヨシ。ヨシ。<wait>
+
+- offsets: 553b
+  # (no to previous questions or most of the following)
+  ja-1987: |
+    ナンジャト。　　オマエハ<line>
+    スナオデナイ。　カエルガイイ。<wait>
+
+- offsets: 5547
+  ja-1987: |
+    オマエハ　サガシモノヲ　シテオル<line>
+    ジャロウ。<end>
+
+- offsets: 5558
+  ja-1987: |
+    オマエハ　アレックス　オサールヲ<line>
+    サガシテオルジャロウ。<end>
+
+- offsets: 5569
+  ja-1987: |
+    ワシノ　イウコトハ　スベテ　タダシイ
+    ノジャ。　ワカッタカ。<end>
+
+- offsets: 5574
+  # (yes to last question)
+  ja-1987: デハ　マタクルガイイ。<wait>
+
+- offsets: 557a
+  ja-1987: ワシニ　サカラウノカ。<end>
+
+- offsets: 5585
+  # (no to final question)
+  ja-1987: |
+    ソウダロウ。オマエハ　ナカナカ<line>
+    ミドコロガアル。<wait more>
+    ホウビニ　クリスタルヲ　ヤロウ。<wait>
+
+- offsets: 2711
+  # (Use Aeroprism)
+  ja-1987: |
+    マボロシノ　エアロキャッスルガ<line>
+    オオゾラニ　スガタヲ　アラワシタ。<wait>
+
+- offsets: 2752
+  # (Use Laerma Berries)
+  ja-1987: |
+    ミャウハ　ラエルマベリーヲ<line>
+    カジッタ。<wait>
+
+# ******************************
+# *** Myau’s Transformation ***
+# ******************************
+
+- offsets: 471b
+  ja-1987: |
+    ラエルマベリーヲ　カジルト<line>
+    ミャウノ　カラダハ　ネツヲ　オビ<line>
+    マバユイ　ヒカリニ　ツツマレタ。<wait>
+
+- offsets: 4726
+  ja-1987: |
+    ソシテ　ミルミル　ウチニ　ミャウハ<line>
+    オオキナ　ツバサヲ　モッタ　ウツクシイ<line>
+    ケモノヘト　カワッタ。<wait more>
+    ミャウハ　トクイソウニ　ヒトツ<line>
+    ハバテイテ　ミセタ。<wait>
+  # This line has a typo: it should be ハバタイテ, not ハバテイテ.
+  # Please note that the kanji rendition below fixes this mistake.
+
+
+- offsets: 14cc
+  # (If Myau dies in the Gold Dragon battle and other characters are still alive)
+  # Note: Alisa may not be alive, and there may be only one other left alive.
+  # Previous line will have been "Myau died." so you can assume that context.
+  ja-1987: |
+    ミャウニ　ノッテイタ　アリサタチハ<line>
+    ソラニ　ホウリダサレテシマッタ。<wait>
+
+
+# **********************************
+# *** The Illusionary Aerocastle ***
+# **********************************
+
+- offsets: ScriptAerocastleDots # was $5361
+  # Old Man
+  ja-1987: 。。。。。。。。。<wait>
+
+- offsets: ScriptAerocastleFreeTranCarpet
+  # This is used in place of the above in a rare situation where you can't get off the Aerocastle otherwise
+  ja-1987: |
+    フム。。。シタニイクミチハナイノカ。<line>
+    ナラ ココニイル<item>ヲヤロウ。<wait>
+
+- offsets: 51a6
+  # Old Man (also said by an old man in Casba)
+  ja-1987: |
+    ダンジョンノ　ナカデハ　オノレノ<line>
+    メヲ　シンジルデナイゾ。<wait>
+
+- offsets: 5367
+  # Old Man
+  ja-1987: ラシークサマニ　サカラウナ。<wait>
+
+- offsets: 5738
+  # Shadow Warrior
+  ja-1987: |
+    オマエタチノ　コウドウハ<line>
+    スベテオミトオシダ。<wait more>
+    カカッテクルガ　イイ。<wait>
+
+- offsets: 5749
+  # Shadow Warrior
+  ja-1987: |
+    オレハ　ラシークサマノ<line>
+    カゲムシャダ。<wait more>
+    オレヲタオシタトコロデ<line>
+    ドウニモナラナイノサ。　ヒッヒッ。<wait>
+
+- offsets: 576a
+  # LaShiec
+  # The party may only be Tylon who can't do magic, but it's unlikely.
+  ja-1987: |
+    トウトウ　ココマデ　キタカ。<line>
+    ウンノ　イイヤツラメ。<wait more>
+    ソンナニ　ワシヲ　タオシタイノカ。<end>
+
+- offsets: 5773
+  # LaShiec (yes to previous question)
+  ja-1987: |
+    ソウカ。ソレナラバ<wait more>
+    ソノ　カンガエガ　マチガッテイタ<line>
+    コトヲ　オモイシルガイイ。<wait>
+    
+- offsets: 5778
+  # LaShiec (no to previous question)
+  ja-1987: |
+    コノゴニ　オヨンデ<line>
+    フザケタヤツラダ。<wait more>
+    コウカイサセテヤル。<wait>
+
+- offsets: 5789
+  # (Defeat LaShiec)
+  ja-1987: |
+    ラシークハ　タオレタ。<wait more>
+    アリサノ　ネガイハ　カナエラレタ。<wait more>
+    テンゴクノ　ネロモ　キット<line>
+    ヨロコンデイルコトダロウ。<wait more>
+    サア　パセオノ　ソウトクノ　モトヘ<line>
+    イソゴウ。<wait>
+
+
+# **************
+# *** Ending ***
+# **************
+
+- offsets: 58bd
+  # If Alisa died during the final boss fight
+  ja-1987: |
+    ソノトキ　アリサノ　タマシイハ<line>
+    ネロノコエヲ　キイタ。<wait more>
+    オマエハ　フタタビ　イキテ<line>
+    ヘイワノタメニ　ツクスガイイ。<wait more>
+    アリサノ　タマシイハ　ヨミガエッタ。<wait>
+
+- offsets: 58e1
+  # Governor-General (to Alisa)
+  ja-1987: |
+    オオ。ミンナ　スマナカッタ。<wait more>
+    ワタシノ　ココロト　カラダハ<wait more>
+    ドウヤラ　アシキ　マリョクニ<line>
+    オカサレテイタラシイ。<wait more>
+    ヨクゾ　コノヨヲ　スクッテクレタ。<line>
+    モウスコシ　オソカッタラ<wait more>
+    タイヘンナコトニ　ナッテイタダロウ。
+    ココロカラ　レイヲ　イウゾ。<wait more>
+    アリサヨ。<line>
+    オマエニ　ハナシタイコトガアル。<wait more>
+    ジツハ　オマエノ　チチハ<line>
+    アルゴルノ　オウダッタ。<wait more>
+    アクマノ　シロハ　クズレサリ<line>
+    ラシーク　ナキ　イマ　オマエハ<wait more>
+    チチノ　アトヲ　ツギ　アルゴルノ<line>
+    ジョウオウト　ナルカ。<end>
+
+- offsets: 5849,58ea
+  # Governor-General (yes to previous question)
+  ja-1987: |
+    ソウカ。ソレデコソ　アルゴルオウノ<line>
+    ムスメダ。<wait more>
+    ワタシモ　テツダワセテモラウヨ。<wait>
+
+- offsets: 58ef
+  # Governor-General (no to previous question)
+  ja-1987: |
+    ソウカ。ソレモ　ヨカロウ。<line>
+    マタ　イツデモ　モドッテクルガイイ。<wait>
+
+# ********************
+# *** Ending Scene ***
+# ********************
+
+- offsets: 47da
+  ja-1987: |
+    シダイニ　ソラガ　アカルクナッテイキ
+    ヒトビトモ　ヘイワヲ　トリモドシタ。<end>
+
+- offsets: 47e3
+  ja-1987: |
+    イマ　バヤマーレハ　サワヤカナ<line>
+    ソヨカゼニ　ツツマレテイル。<end>
+
+- offsets: 47ec
+  ja-1987: |
+    カレラノ　ナガク　クルシカッタタビヲ
+    ソヨカゼハ　シッテイルノダロウカ。<end>
+
+
+# This text tries to be centred so it needs quotes around the spaces.
+# Width = 29 so leading space = (29 - length) / 2
+
+- offsets: 4800
+  ja-1987: |
+    アリサ<delay>
+    <line>
+
+- offsets: 480b
+  ja-1987: |
+    タイロン<delay>
+    <line>
+
+- offsets: 4816
+  ja-1987: |
+    ルツ<delay>
+    <line>
+
+- offsets: 4821
+  ja-1987: |
+    ソシテ　ミャウ<delay>
+    <line>
+
+- offsets: 482c
+  ja-1987: |
+    ヤミノ　キオクガ　キエテモ<line>
+    カレラノ　ナマエハ<line>
+    ヒトビトノ　ココロニ<line>
+    ノコリツヅケルダロウ。<delay>
+
+
+# ****************************
+# *** Battle/menu dialogue ***
+# ****************************
+
+- offsets: 13a4
+  # In battle, enemy dodges attack
+  ja-1987: |
+    <monster>ハ　<player>ノ<line>
+    コウゲキヲ　カワシタ。<delay>
+
+- offsets: 1497
+  # In battle, player dodges attack
+  ja-1987: |
+    <player>ハ　<monster>ノ<line>
+    コウゲキヲ　カワシタ。<delay>
+
+- offsets: 1a96
+  # In battle, chose "talk"
+  ja-1987: <player>ハ　ハナシカケタ。<end>
+
+- offsets: 1ac0,1ca4
+  ja-1987: <monster>ハ　コタエタ。<delay>
+
+- offsets: 1ab7
+  ja-1987: ツウジナカッタ。<delay>
+
+- offsets: 1b27
+  ja-1987: |
+    <monster>ハ　ニゲミチニ<line>
+    タチフサガッタ。<delay>
+
+- offsets: 20cd,20fa,2168,21cb,21fd,22ac
+  # Used in a bunch of places...
+  ja-1987: |
+    <player>ノ　マジックハ<line>
+    コウカガ　ナカッタ。<delay>
+
+- offsets: # unused
+  ja-1987: |
+    <monster>ノ　マジックハ<line>
+    コウカガ　ナカッタ。<delay>
+
+- offsets: 1ffa
+  ja-1987: |
+    メノマエニ　ミエナイ　マホウノ<line>
+    カベガ　デキタ。<delay>
+
+- offsets: 1492
+  ja-1987: |
+    <monster>ノ　コウゲキハ<line>
+    マホウノ　カベニ　ハネカエサレタ。<delay>
+
+- offsets: 14f9,15d3,1637
+  ja-1987: |
+    <monster>ノ　マジックハ<line>
+    マホウノ　カベニ　ハネカエサレタ。<delay>
+
+- offsets: 1458
+  ja-1987: |
+    ミエナイ　カベノ　コウカガ<line>
+    ナクナッタ。<delay>
+
+- offsets: 1fbc
+  ja-1987: |
+    <player>ノ　タイリョクガ<line>
+    カイフクシタ。<delay>
+
+- offsets: 1552
+  ja-1987: |
+    <monster>ノ　タイリョクガ<line>
+    カイフクシタ。<delay>
+
+- offsets: 20d3
+  ja-1987: |
+    <monster>ヲ<line>
+    カナシバリニシタ。<delay>
+
+- offsets: 151f
+  ja-1987: <player>ハ　カナシバリニ　アッタ。<delay>
+
+- offsets: 12db
+  ja-1987: <player>ハ　ウゴケナイ。<delay>
+
+- offsets: 140c
+  ja-1987: <monster>ハ　ウゴケナイ。<delay>
+
+- offsets: 12d6
+  ja-1987: <player>ハ　カナシバリガ　トケタ。<delay>
+
+- offsets: 1407
+  ja-1987: |
+    <monster>ハ<line>
+    カナシバリガ　トケタ。<delay>
+
+- offsets: 2132
+  ja-1987: |
+    <player>ハ　カラダニ　チカラガ<line>
+    ミナギルノヲ　カンジタ。<delay>
+
+- offsets: 1574
+  ja-1987: |
+    <monster>ハ　カラダニ<line>
+    チカラガ　ミナギルノヲカンジタ。<delay>
+
+- offsets: 216f
+  ja-1987: |
+    <monster>ハ　コワクナッテ<line>
+    シリゴミシタ。<delay>
+
+- offsets: 210d
+  ja-1987: |
+    <monster>ハ　ニゲアシノ<line>
+    ハヤサニ　オドロイタ。<delay>
+
+- offsets: 21ad
+  ja-1987: ワナジャナカッタ。<wait>
+
+- offsets: 219f,21b2
+  ja-1987: |
+    アブナイ　トコロダッタ。<player>ハ<line>
+    ワナヲ　ミヤブッテ　ハズシタ。<wait>
+
+- offsets: 23e6,23f5,240b,2441,2476,24b0,24c5,2529,2548,2575,265a,2683,2775,27b1,27df,280c
+  # Used in a lot of places!
+  ja-1987: |
+    <player>ハ　<item>ヲ<line>
+    ツカッタ。<delay>
+
+- offsets: 136e
+  ja-1987: |
+    <item>ハ　イマ　ダレカガ<line>
+    ツカッテシマッタ。<wait>
+
+- offsets: 2883, ScriptPlayerEquippedItem
+  ja-1987: |
+    <player>ハ　<item>ヲ<line>
+    ソウビシタ。<end>
+
+- offsets: 28cc
+  ja-1987: |
+    <player>ハ　<item>ヲ<line>
+    ステテシマッタ。<wait>
+
+- offsets: 20ff,23ec,2554,2582,2677,2803
+  ja-1987: シカシ　コウカハ　ナカッタ。<delay>
+
+- offsets: 2418,242a,244c,245e,2486
+  ja-1987: |
+    シカシ　ココデ　<item>ハ<line>
+    ヤクニ　タタナイ。<wait>
+
+- offsets: 2304
+  ja-1987: ココデ　オリルワケニハ　イカナイ。<wait>
+
+- offsets: 2438,246d
+  ja-1987: <item>ニ　ノリコンダ。<delay>
+
+- offsets: 2311
+  ja-1987: <item>カラ　トビオリタ。<delay>
+
+- offsets: 2402,2569,26af,2701,2816
+  ja-1987: シカシ　ナニモ　オキナカッタ。<delay>
+
+- offsets: # unused
+  ja-1987: <monster>ハ　メガ　ウツロダ。<delay>
+
+- offsets: 2505,2597,25f9,26f1,2742,27a2
+  ja-1987: |
+    シカシ　イマハ　ソンナコトヲ<line>
+    シテイルバアイジャ　ナイヨウダ。<delay>
+
+- offsets: 24ff,2514,258b,25ed,264b,2733,2793
+  ja-1987: |
+    <player>ハ　<item>ヲ<line>
+    トリダシタ。<delay>
+
+- offsets: 251a,279d,25aa,2651
+  # 251a = use SearchLight when not in a dungeon (or a battle)
+  # 279d = use Compass when not in a dungeon (or a battle)
+  # We add 25aa, 2651 here:
+  # 25aa = use Alsuline in the wrong place, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  # 2651 = use Dungeon Key, Miracle Key outside a dungeon, original shows af1e = "There doesn’t seem to be anything particularly unusual here."
+  ja-1987: ベツニ　コワレテナイヨウダ。<wait>
+  # Note: this was originally ‘It doesn’t look particularly broken.’
+  # This translation takes the verb KOWARERU to mean ‘to be begged’
+
+- offsets: 112c
+  ja-1987: マックラデ　ススムコトガ　デキナイ。<wait>
+
+- offsets: 27c3
+  ja-1987: イマ　ヒガシヲムイテイル。<wait>
+
+- offsets: 27cf
+  ja-1987: イマ　ニシヲ　ムイテイル。<wait>
+
+- offsets: 27bc
+  ja-1987: イマ　キタヲ　ムイテイル。<wait>
+
+- offsets: 27ca
+  ja-1987: イマ　ミナミヲ　ムイテイル。<wait>
+
+- offsets: 2611
+  # Using Polymeteral in the wrong place
+  ja-1987: |
+    イツ　カイデミテモ　イヤナ<line>
+    ニオイガ　スル。<wait>
+
+- offsets: 2276,228e
+  # Using the Telepathy Ball or Lutz's Telepathy spell in front of a pitfall
+  ja-1987: |
+    <player>ハ　トテモ<line>
+    イヤナ　ヨカンガシタ。<wait>
+
+- offsets: 2269,2271,2289
+  # Using either of the above if not in front of a pit
+  ja-1987: <player>ハ　ナニモ　カンジナカッタ。<wait>
+
+- offsets: 269f
+  # Use Eclipse Torch on a monster
+  ja-1987: |
+    <monster>ハ　アカイ　ホナオヲ<line>
+    ミテ　オジケズイタ。<delay>
+
+- offsets: 273d
+  # Use Laerma Berries in the wrong place
+  # Comes immediately after "<player> took out the <item>."
+  # May not be Alisa.
+  ja-1987: |
+    オナカガ　スイテナカッタノデ<line>
+    モトニ　モドシタ。<wait>
+
+- offsets: 277b
+  # Trying to use Hapsby in battle
+  ja-1987: ハプスビーハ　イヤイヤヲシタ。<wait>
+
+- offsets: 2784
+  # Trying to use Hapsby outside of battle
+  ja-1987: ハプスビーノ　アタマハ　カタイ。<wait>
+
+- offsets: 281b
+  ja-1987: |
+    ソレハ　ツカワナクテモ<line>
+    キキメガ　アル。<wait>
+
+- offsets: 218d,2195,299f,2a2e,579d
+  # 218d = untrap not in dungeon
+  # 2195 = untrap with no chest
+  # 25aa = use Alsuline in the wrong place, changed to adad
+  # 2651 = use Dungeon/Mracle Key outside dungeon, also changed to adad
+  # 299f = search (from menu)
+  # 2a2e = search (?)
+  # 579d = search in "rooms" when you can't get the hidden item (already have it, or need to unlock it)
+  ja-1987: |
+    トクニ　カワッタトコロハ<line>
+    ナイヨウダ。<wait>
+
+- offsets: 2a15,2a9b
+  ja-1987: <item>ヲ　ミツケタ。<wait>
+
+- offsets: 21d9,22b5
+  ja-1987: ナンダカ　カラダガ　カルクナッタ。<delay>
+
+- offsets: 2248
+  ja-1987: |
+    <player>ノ　タマシイハ<line>
+    ヨミガエッタ。<wait>
+
+- offsets: 1b45,1f21
+  ja-1987: タイロンハ　マジックヲ　ツカエナイ。<delay>
+
+- offsets: 1b9e,1f1c
+  ja-1987: |
+    <player>ハ　マダ　マジックヲ<line>
+    オボエテイナイ。<delay>
+
+- offsets: 28a3, ScriptPlayerCantEquipItem
+  ja-1987: |
+    <player>ハ　<item>ヲ<line>
+    ソウビ　デキナイ。<wait>
+
+- offsets: 283e
+  ja-1987: ソレハ　ソウビシナクテモイイ。<wait>
+
+- offsets: 1872
+  ja-1987: |
+    ケイケンチガ　<number>ポイント<line>
+    アガッタ。<wait>
+  # <number> is always >1
+
+- offsets: 18f3
+  ja-1987: <player>ハ　レベルアップシタ。<wait>
+
+- offsets: 1910
+  ja-1987: |
+    <player>ハ　マジックヲ<line>
+    ヒトツ　ミニツケタ。<wait>
+
+- offsets: 17ff
+  ja-1987: |
+    <monster>ハ　タカラバコヲ<line>
+    モッテイタ。<end>
+
+- offsets: 6c6e
+  ja-1987: タカラバコヲ　ミツケタ。<end>
+
+- offsets: 2a37
+  ja-1987: アケテミルカ。<end>
+
+- offsets: ChestMesetasPlural # Was 2a8c
+  ja-1987: <number>メセタ　ハイッテイタ。<wait>
+
+- offsets: ChestMesetasSingular # New addition
+  ja-1987: <number>メセタ　ハイッテイタ。<wait>
+
+- offsets: 2a73
+  ja-1987: カラッポダッタ。<wait>
+
+- offsets: 2918
+  ja-1987: |
+    コレイジョウ　モノヲ　モテナイ<line>
+    ナニカヲ　ステルカ。<end>
+
+- offsets: 2938
+  ja-1987: ドレヲ　ステルカ。<end>
+
+- offsets: 296a
+  # this runs into the next one...
+  ja-1987: <item>ヲ　ステテ<wait>
+
+- offsets: 297d
+  ja-1987: <item>ヲ　テニイレタ。<wait>
+
+- offsets: 2923
+  ja-1987: <item>ハ　イラナイノカ。<end>
+
+- offsets: 292e
+  ja-1987: <item>ヲ　アキラメタ。<wait>
+
+- offsets: 28c3,295d
+  ja-1987: |
+    <item>ヲ<line>
+    ステルワケニハ　イカナイ。<wait>
+
+- offsets: 1ba7,1f2d
+  ja-1987: マジックポイントガ　タリナイ。<delay>
+
+- offsets: 2236
+  ja-1987: <player>ハ　マダ　イキテイル。<delay>
+
+- offsets: 17ea
+  ja-1987: <monster>ヲ　ヤッツケタ。<wait>
+  #<wait> because else you can't read it when you defeat Dark Force...
+
+- offsets: 14a6,15e4,1648,4c69,590f
+  ja-1987: <player>ハ　シンデシマッタ。<delay>
+
+- offsets: 19f7,2b0f
+  # Selecting a player from the menu when they are dead, to do something like heal them.
+  ja-1987: <player>ハ　モウ　シンデイル。<delay>
+
+- offsets: 1786
+  ja-1987: アリサタチハ　ゼンメツシタ。<wait>
+
+- offsets: 178c
+  ja-1987: |
+    アリサノ　ネガイハ　ラシークノ<line>
+    ヤボウノ　マエニ<wait more>
+    ムナシク　キエサッタ。<line>
+    ココデ　ボウケンハ　オワリデス。<wait>
+
+# **************
+# *** Hapsby ***
+# **************
+
+- offsets: 5959
+  ja-1987: ドコヘ　イキマスカ。<end>
+
+- offsets: 5995
+  ja-1987: |
+    デゾリスセイノ　スクレノマチヘ<line>
+    イキマス。イイデスカ。<end>
+
+- offsets: 5990
+  ja-1987: |
+    モタビアセイノ　ウーゾノムラヘ<line>
+    イキマス。イイデスカ。<end>
+
+- offsets: 598a
+  ja-1987: |
+    パルマセイノ　ガシコノムラヘ<line>
+    イキマス。イイデスカ。<end>
+
+- offsets: 5980
+  ja-1987: ココハ　スクレ　デス。<end>
+
+- offsets: 597b
+  ja-1987: ココハ　ウーゾ　デス。<end>
+
+- offsets: 5975
+  ja-1987: ココハ　ガシコ　デス。<end>
+
+- offsets: # Unused...
+  ja-1987: シュッパーツ。<delay>
+
+# *************
+# *** Shops ***
+# *************
+
+- offsets: 2d1c
+  ja-1987: |
+    ココハ　アーマーショップデス。<line>
+    ナニカ　カイマスカ。<end>
+
+- offsets: 2d27,2d89,2e46,537e
+  ja-1987: ソウデスカ。マタキテクダサイ。<wait>
+
+- offsets: 2d38
+  ja-1987: ドレヲ　カイマスカ。<end>
+
+- offsets: 2d7e
+  ja-1987: アリガトウ。モット　カイマスカ。<end>
+
+- offsets: 2d98,539c
+  ja-1987: |
+    ソレイジョウ　モテナイヨウデスネ。<line>
+    マタキテクダサイ。<wait>
+
+- offsets: 2deb
+  ja-1987: |
+    ココハ　ドラッグストアデス。<line>
+    ナニカ　カイマスカ。<end>
+
+- offsets: 2df4
+  ja-1987: |
+    ココハ　ツールショップデス。<line>
+    ドンナ　ゴヨウデスカ。<end>
+
+- offsets: 2e0d
+  ja-1987: ドレヲ　ウリマスカ。<end>
+
+- offsets: 2e4f
+  ja-1987: |
+    <item>デスネ。<line>
+    <number>メセタデ　イイデスカ。<end>
+  # No item in the game sells for exactly 1 Meseta.
+
+- offsets: 2e66
+  ja-1987: アリガトウ　モットウリマスカ。<end>
+  
+- offsets: 2e3d
+  # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
+  ja-1987: ソレハ　アトデ　ヤクニタチマスヨ。<wait>
+  
+- offsets: 2bc0,2d9d,4d88,538f
+  ja-1987: |
+    オカネガ　タリナイヨウデスネ。<line>
+    マタキテクダサイ。<wait>
+
+
+# ****************
+# *** Hospital ***
+# ****************
+
+- offsets: 2ae9
+  ja-1987: |
+    ココハ　ホスピタルデス。<line>
+    チリョウヲ　ウケマスカ。<end>
+
+- offsets: 2b54
+  ja-1987: |
+    シンサツト　チリョウヒ<line>
+    <number>メセタデス。ヨロシイデスカ。<end>
+
+- offsets: 2b99
+  ja-1987: |
+    ホカニ　チリョウヲ　ウケタイカタハ<line>
+    イマスカ。<end>
+
+- offsets: 2af9
+  ja-1987: ドナタガ　チリョウヲ　ウケマスカ。<end>
+
+- offsets: 2b8a
+  ja-1987: |
+    オマチドウサマ。<line>
+    ドウゾ　オダイジニ。<wait>
+
+- offsets: 2bb1
+  ja-1987: |
+    ソウデスカ　オテツダイデキナクテ<line>
+    ザンネンデス。デハ　オキヲツケテ。<wait>
+
+- offsets: 2b37
+  ja-1987: デハ　オキヲツケテ。<wait>
+
+- offsets: 2b2b
+  ja-1987: |
+    <player>サンハ　イジヨウ<line>
+    アリマセンネ。<wait>
+
+
+# **************
+# *** Church ***
+# **************
+
+- offsets: 2be7
+  ja-1987: |
+    ココハ　キョウカイデス。　ダレカノ<line>
+    タマシイヲ　ヨビモドサレマスカ。<end>
+
+- offsets: # Unused
+  ja-1987: |
+    デハ　アナタノタメニ<line>
+    オイノリヲ　ササゲマス。<wait>
+
+- offsets: 2bfb
+  ja-1987: ドナタノ　タマシイデショウ。<end>
+
+- offsets: 2c24
+  ja-1987: |
+    <number>メセタ　カカリマスガ<line>
+    ヨロシイデスカ。<end>
+  # Resurrection cost is Level * 20 so is definitely plural.
+
+- offsets: 2c37
+  ja-1987: ソレデハ　ジュモンヲ　トナエマス。<delay>
+
+- offsets: 2c60
+  # If you have enough money
+  ja-1987: |
+    アルテムハムラム　アルテムハムハム<line>
+    ストラトポン。<delay>
+
+- offsets: 2c82
+  # If you don't have enough money
+  ja-1987: |
+    アルテムハムラム　ア　ウッ。<line>
+    ゴホッ。ゴホッ。<wait more>
+    ゴメンナサイ。<line>
+    ドウヤラ　シッパイシタヨウデス。<wait>
+
+- offsets: 2c71
+  ja-1987: ホカノカタハ　イカガデスカ。<end>
+
+- offsets: 2ca8
+  ja-1987: コレカラ　レベルアップスルタメニハ<wait>
+
+- offsets: 2d16
+  ja-1987: |
+    <player>ハ　<number>ポイント<line>
+    ヒツヨウデス。<wait>
+  
+- offsets: 2cef
+  # If a party member is already at max level...
+  ja-1987: |
+    <player>ハ　モウ<line>
+    チカライッパイデス。<wait>
+
+- offsets: 2ca2
+  ja-1987: |
+    アナタガタノ　ユクスエニ<line>
+    カミノ　メグミガ　アリマスヨウニ。<wait>
+
+- offsets: 2c90
+  ja-1987: <player>ハ　イキテイマスヨ。<end>
+
+
+# ************************
+# *** Monster Dialogue ***
+# ************************
+
+# First 9 are in response to the "speak" battle menu
+
+- offsets: 1ae5
+  ja-1987: |
+    ワタシタチハ　パルマノ　ヒトタチト<line>
+    ナカヨク　シタイ。<wait>
+
+- offsets: 1ae7
+  ja-1987: ラエルマベリーガ　タベタイナア。<wait>
+
+- offsets: 1ae9
+  ja-1987: |
+    ラシークサマニハ<line>
+    サカラワナイホウガ　イイヨ。<wait>
+
+- offsets: 1aeb
+  ja-1987: |
+    オッ。ワタシタチノ　コトバガ<line>
+    ワカルンダネ。<wait>
+
+- offsets: 1aed
+  ja-1987: ヤッホー。<wait>
+
+- offsets: 1aef
+  ja-1987: |
+    ダンジョンデハ　オトシアナニ<line>
+    キヲツケナヨ。<wait>
+
+- offsets: 1af1
+  ja-1987: |
+    タカラバコハ　ムヤミニ<line>
+    アケルト　ケガヲスルヨ。<wait>
+
+- offsets: 1af3
+  ja-1987: コノ　オイハギヤロウ。<wait>
+
+- offsets: 1af5
+  ja-1987: |
+    ワタシタチハ　ドウセ<line>
+    ニクマレモノダヨ。<wait>
+
+# The next 10 are from enemies that you can only talk to with magic.
+
+- offsets: 1cce
+  ja-1987: |
+    スーズフルートノ　ネイロハ<line>
+    イイナア。<wait>
+
+- offsets: 1cd0
+  ja-1987: |
+    アイスデッカー　トイウ　ノリモノハ<line>
+    コオリモ　ケズレルンダッテ。<wait>
+
+- offsets: 1cd2
+  ja-1987: |
+    ラシークサマハ　ソラノウエニ<line>
+    イラッシャルンダ。<wait>
+
+- offsets: 1cd4
+  ja-1987: |
+    アビオンノ　マッドドクターガ<line>
+    ラスコニアンポットヲ　モッテタゼ。<wait>
+  # This line has a typo: ラスコニアンポット should be ラコニアンポット.
+  # Please note that the kanji rendition below fixes this mistake.
+
+- offsets: 1cd6
+  ja-1987: |
+    ソラノ　ウエニハ　ウチュウセンデモ<line>
+    イケナイトコロガアルゼ。<wait>
+
+- offsets: 1cd8
+  ja-1987: |
+    ラエルマベリーヲ　ミノラセルタメニハ
+    アルモノガ　ヒツヨウダ。<wait>
+
+- offsets: 1cda
+  ja-1987: |
+    ダンジョンノ　メイロニハ<line>
+    カクシトビラガ　アルンダゼ。<wait>
+
+- offsets: 1cdc
+  ja-1987: |
+    ミラクルキーハ　マホウノドアデモ<line>
+    アケルコトガ　デキルゾ。<wait>
+
+- offsets: 1cde
+  ja-1987: |
+    デゾリアンニハ　ウソツキモ　イルカラ
+    キヲツケナヨ。<wait>
+
+- offsets: 1ce0
+  ja-1987: |
+    ワタシニ　ハナシカケルトハ<line>
+    ユウキガ　アルネエ。　ガンバレヨ。<wait>
+
+
+# **************
+# *** Saving ***
+# **************
+
+- offsets: 1e3b
+  ja-1987: |
+    セーブヲ　オコナイマス。<line>
+    バンゴウヲ　エランデクダサイ。<end>
+
+- offsets: ScriptConfirmSlot
+  ja-1987: <number>バンデ　イイデスカ。<end>
+
+- offsets: 1e55
+  ja-1987: デハ　<number>バンニ　セーブシマス。<delay>
+
+- offsets: ScriptDone,1e91
+  ja-1987: オワリマシタ。<wait>
+
+
+# ************************
+# *** Loading/Deleting ***
+# ************************
+
+- offsets: ScriptDeletingFromSlotN
+  ja-1987: <number>バンノ　ゲームヲ　ケシマシタ。<delay>
+  # <delay> is nicer than<wait> here - Maxim
+
+- offsets: ScriptNoSavedGames
+  # This is not in the original game.
+  ja-1987: セーブデータガアリマセン。<wait>
+
+- offsets: ScriptDoYouWantToEquip
+  # This is not in the original game, see https://github.com/maxim-zhao/psrp/issues/50
+  # It is only used for weapons, shields and armour - the first 32 items in the items list.
+  ja-1987: <item>ヲソウビシマスカ。<wait>
