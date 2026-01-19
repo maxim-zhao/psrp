@@ -1860,7 +1860,7 @@
   indices: 2A0
   ja: フカイ　ネムリニ　ツイタ。<delay>
   kanji: 深い眠りについた。
-  literal: You fell into a deep sleep...<wait>
+  literal: You fell into a deep sleep...<delay>
   us: |
     YOU FELL INTO A<line>
     DEEP SLEEP.<delay>
@@ -2057,6 +2057,7 @@
     イルトイウ　リユウデ　コノムラノ<wait more>
     ミナミニアル　トリアダ　トイウ<line>
     ロウゴクニ　トジコメラレタンダ。<wait><end>
+  # Extra <end> tag is ignored
   kanji: |
     ありがとう。
     ここは昔ルベノという科学者の研究所だった。
@@ -2064,7 +2065,7 @@
     南にあるトリアダという牢獄に閉じ込められたんだ。
   literal: |
     Thanks. Long ago, this place used to be Doctor Luveno's research institute.<wait more>
-    But then they locked him up in Triada, the prison south of here, claiming he went crazy.<end>
+    But then they locked him up in Triada, the prison south of here, claiming he went crazy.<wait>
   us: |
     THANKS! THIS WAS<line>
     ONCE THE LAB. OF<wait more>
@@ -2091,7 +2092,7 @@
     アンタニ　ハナスコトハ　ナイ。<line>
     ドコカヘ　キエナ。<end>
   kanji: あんたに話す事はない。どこかへ消えな。
-  literal: Then I got nothing to say to you. Get lost.<wait>
+  literal: Then I got nothing to say to you. Get lost.<end>
   us: |
     I GOT NOTHIN' TO<line>
     SAY T'YA!GET LOST!<end>
@@ -2261,7 +2262,7 @@
     会ったらよろしく言っていてね。
   literal: |
     I've got a friend living in Bartevo. He's probably having a hard time right now because of the lava pool.<wait more>
-    If you see him, tell him I said hi, okay?<wait>
+    If you see him, tell him I said hi, okay?<end>
   us: |
     I'VE GOT A FRIEND<line>
     IN BORTEVO. HE'S<wait more>
@@ -4925,7 +4926,7 @@
 - offsets: ScriptAerocastleDots # was $5361
   # Old Man
   indices: 210
-  jp: 。。。。。。。。。<wait>
+  ja: 。。。。。。。。。<wait>
   literal: .........<wait>
   us: ..........<wait>
 
@@ -6536,7 +6537,7 @@
   indices: b2f2
   ja: ソレデハ　ジュモンヲ　トナエマス。<delay>
   kanji: それでは呪文を唱えます。
-  literal: I will now recite an incantation.<wait>
+  literal: I will now recite an incantation.<delay>
   us: |
     I WILL NOW CAST<line>
     A SPELL.<wait>
@@ -6891,7 +6892,7 @@
   indices: b3c8
   ja: デハ　<number>バンニ　セーブシマス。<delay>
   kanji: では、<number>番にセーブします。
-  literal: Okay, saving in number <number>...<wait>
+  literal: Okay, saving in number <number>...<delay>
   us: WELL, SAVING <number>.<wait>
 
 - offsets: ScriptDone,1e91
