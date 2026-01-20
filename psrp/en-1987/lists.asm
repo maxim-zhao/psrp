@@ -32,7 +32,7 @@ Items:
   String "<A> Zirconia Mail"                ; ZIR.ARMR  Zirconian Armour    jirukoniameiru      ジルコニアメイル
   String "<A> Diamond Armor"                ; DMD.ARMR  Diamond Armor       daiyanoyoroi        ダイヤノヨロイ        ダイヤの鎧
   String "<A> Laconian Armor"               ; LAC.ARMR  Laconian Armor      rakoniāama          ラコニアアーマ
-  String "<The> Frad Mantle"                ; FRD.MANT  Frad Mantle         furādomanto         フラードマント
+  String "<A> Frad Mantle"                ; FRD.MANT  Frad Mantle         furādomanto         フラードマント US manual says FRD MANTLE but the script says "Frad". The US script suggests "Frad" is a type of material, but the Japanese script acts more like it's a unique item.
 ; shields: 19-20
   String "<A> Leather Shield"               ; LTH. SLD  Leather Shield      rezāshīrudo         レザーシールド
   String "<An> Bronze Shield"               ; BRNZ.SLD  Bronze Shield       aianshīrudo         アイアンシールド  <-- Note, order reversed in Sega translation
