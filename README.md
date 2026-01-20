@@ -5,6 +5,7 @@ This project is an unofficial retranslation/re-localisation based on that first 
 Currently we have translations for:
 - English
 - English (literal translation)
+- English (original Sega script plus retranslation enhancements)
 - French
 - French (with additional lore)
 - German
