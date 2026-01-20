@@ -20,7 +20,7 @@
     Os rumores que ouvimos são verdadeiros. LaShiec... mudou.<line>
     E isso vai além dos seus militares tomarem conta de nossas ruas.<wait more>
     Todas essas criaturas horríveis lá fora, todas essas trevas em nosso meio...<line><line>
-    De alguma forma, todas evidências apontam para ele.<wait more>
+    De alguma forma, todas as evidências apontam para ele.<wait more>
     Eu tentei descobrir, mas acho que cheguei bem perto da verdade.<line><line>
     Só resta uma opção agora, para todos nós.<wait more>
     Lorde LaShiec deve ser parado.<line><line>
@@ -65,7 +65,7 @@
   pt-br: |
     Alisa... enfrentar LaShiec é loucura. Mas eu sei o quão teimosa e determinada você pode ser.<wait more>
     Eu não vou perder meu fôlego tentando te convencer disso, mas... por favor, tome cuidado.<wait more>
-    Se por acaso se machucar, volte aqui para se curar.<wait more>
+    Se por acaso você se machucar, volte aqui para se curar.<wait more>
     Somos vizinhas há muito tempo, sabe que a casa da Suelo estará sempre aberta para você.<wait>
 
 - offsets: 4b4e
@@ -288,7 +288,7 @@
 
 - offsets: 4c9e
   # Luggage handler
-  pt-br: Esté é o Espaçoporto de Palma. Todas as espaçonaves viajam direto para Paseo, a capital de Motávia.<wait>
+  pt-br: Este é o Espaçoporto de Palma. Todas as espaçonaves viajam direto para Paseo, a capital de Motávia.<wait>
 
 - offsets: 4ca4
   # Luggage handler
@@ -314,7 +314,7 @@
   # Passport office
   pt-br: |
     Sou obrigada por lei a fazer uma série de perguntas.<wait more>
-    Já foi condenado por um crime?<end>
+    Você já foi condenado por um crime?<end>
 
 - offsets: 4d55
   # Passport office
@@ -511,7 +511,7 @@
   # Tylon
   pt-br: |
     Ah, é porque ela tem um machado mágico, e eu o quero.<line><line>
-    Talvez podemos pegar ele no caminho que nos levará até LaShiec?<wait more>
+    Talvez possamos pegá-lo no caminho que nos levará até LaShiec?<wait more>
     Enfim, escondi uma Bússola em um beco sem saída nesta caverna.<line><line>
     Venha, vamos lá pegar. Tenho certeza de que pode ser útil.<wait>
 
@@ -776,7 +776,7 @@
   pt-br: |
     Eu tenho um amigo em Bartevo.<wait more>
     Por causa de todas aquelas poças de lava, acho que as coisas estão bem feias por lá.<wait more>
-    Se caso o vir, poderia cumprimentá-lo por mim?<wait>
+    Se o vir, poderia cumprimentá-lo por mim?<wait>
 
 - offsets: 54d0
   # Prisoner
@@ -787,7 +787,7 @@
   pt-br: |
     Ele é um robô feito de Lacônia!<wait more>
     Luveno criou Hapsby como um protótipo de piloto de nave espacial.<wait more>
-    Ele foi abandonado em um ferro velho e deixado para enferrujar. Que desperdício...<wait>
+    Ele foi abandonado em um ferro-velho e deixado para enferrujar. Que desperdício...<wait>
 
 - offsets: 54e4
   # Prisoner
@@ -889,14 +889,14 @@
 
 - offsets: 5096
   # Dr Luveno (no to the previous question)
-  pt-br: Ah, então você fez eu perder meu tempo? Maravilha.<wait>
+  pt-br: Ah, então você me fez perder tempo? Maravilha.<wait>
 
 - offsets: 50c3
   # Dr Luveno (first two times you talk to him)
   pt-br: |
     Por favor, não apresse a perfeição.<wait more>
-    A menos que queira acabar encalhado no espaço, nos dê um tempo.<wait more>
-    Não quer ir passear em uma caverna ou algo assim? Estamos muito ocupados.<wait>
+    A menos que queira acabar encalhado no espaço, dê-nos um tempo.<wait more>
+    Não quer ir passear numa caverna ou algo assim? Estamos muito ocupados.<wait>
 
 - offsets: 50d1
   # Dr Luveno (third time)
@@ -911,9 +911,9 @@
 - offsets: 50eb
   # If you don't have Hapsby already
   pt-br: |
-    Eu construí um robô chamado Hapsby anos atrás, apenas para esta finalidade.<wait more>
+    Construí um robô chamado Hapsby anos atrás, apenas para esta finalidade.<wait more>
     Ele provavelmente ainda está naquela pilha de sucata em Bartevo.<wait more>
-    Vá buscá-lo, sim? Mas cuidado aonde pisa. Bartevo está cercada por lava.<wait more>
+    Vá buscá-lo, sim? Mas cuidado por onde pisa. Bartevo está cercada por lava.<wait more>
     Não me olhe assim! Você concordou em seguir as minhas instruções.<wait more>
     Eu tenho mantido a minha parte do acordo, agora vá cumprir a sua.<wait>
 
@@ -921,9 +921,9 @@
   # Luveno (if you have Hapsby)
   pt-br: |
     Ah, meu pequeno Hapsby, que bom que chegou em casa!<wait more>
-    Excelente. Com Hapsby você pode pilotar a Luveno através do espaço!<wait more>
+    Excelente. Com Hapsby, você pode pilotar a Luveno através do espaço!<wait more>
     E bem na hora, também. A segurança do Espaçoporto ficou mais rígida.<wait more>
-    Vá em frente e faça um teste! A Luveno está ancorada fora da vila!<wait>
+    Vá em frente, faça um teste! A Luveno está ancorada fora da vila!<wait>
 
 - offsets: 5071
   # Luveno (subsequent visits)
@@ -934,7 +934,7 @@
   pt-br: No momento, a segurança de Algol está em alerta vermelho. As viagens espaciais estão totalmente proibidas para todos os cidadãos.<wait>
 
 - offsets: 4cfd
-  pt-br: A partir de agora, todos Passaportes são inválidos e devem ser destruídos. Confiscaremos o seu.<wait>
+  pt-br: A partir de agora, todos os Passaportes são inválidos e devem ser destruídos. Confiscaremos o seu.<wait>
 
 
 # ***************
@@ -953,7 +953,7 @@
 
 - offsets: 5524
   # Villager (in the cave next to Bartevo)
-  pt-br: A farmácia na Vila Avion vende o Polimaterial.<wait>
+  pt-br: A farmácia da Vila Avion vende Polimaterial.<wait>
 
 - offsets: 57bd
   # Hapsby
@@ -983,14 +983,14 @@
   pt-br: |
     Já ouviu falar de uma joia chamada Olho de Carbúnculo?<wait more>
     Há rumores de que ela é guardada por um dragão em Casba.<wait more>
-    De qualquer maneira, o que faria um dragão precisar de uma joia?<wait>
+    De qualquer forma, o que faria um dragão precisar de uma joia?<wait>
 
 
 - offsets: 511f
   # Villager
   pt-br: |
     Ei, já que está aqui, você deveria visitar Avion.<wait more>
-    Lá é um povoado pequeno como este, na ponta ocidental da ilha.<wait>
+    Lá é um povoado pequeno como este aqui, na ponta oeste da ilha.<wait>
 
 - offsets: 5125
   # Villager
@@ -1004,9 +1004,9 @@
   # Villager. In the Japanese version, the second half is cut off; this was fixed in the US version.
   pt-br: |
     Você vai derrotar LaShiec? Já era hora de alguém fazer isso!<wait more>
-    Mas ele não é um novato. Sua magia negra poderia te destruir.<wait more>
+    Mas ele não é um novato. Sua magia negra pode te destruir.<wait more>
     Já ouvi dizer que alguns cristais podem te proteger contra tal magia.<wait more>
-    Apesar de tudo, isso é apenas um rumor. Não comente que falei sobre isso.<wait>
+    Apesar de tudo, isso é apenas um rumor. Não diga a ninguém que falei sobre isso.<wait>
 
 # *************
 # *** Abion ***
@@ -1048,7 +1048,7 @@
 
 - offsets: 4c7a
   # Mad Doctor (no to previous question or if Myau is already dead)
-  pt-br: Eu mato qualquer um que ficar em meu caminho!<wait>
+  pt-br: Eu mato qualquer um que fique em meu caminho!<wait>
 
 # *************
 # *** Skray ***
@@ -1092,7 +1092,7 @@
 
 - offsets: 5262
   # Townsperson
-  pt-br: A área ao redor do Planalto Altiplano é rodeado por montanhas de gelo.<wait>
+  pt-br: A área ao redor do Planalto Altiplano é rodeada por montanhas de gelo.<wait>
 
 - offsets: 5268
   # Townsperson
@@ -1489,8 +1489,8 @@
   # Torchbearer
   pt-br: |
     Você vê esta chama em minha mão? Esta é a Tocha Eclipse.<wait more>
-    Este é o fogo sagrado do eclipse centenário.<wait more>
-    Ele é lindo, santo, e, de fato, muito valioso.<wait more>
+    Trata-se do fogo sagrado do eclipse centenário.<wait more>
+    Ele é lindo, sagrado, e, de fato, muito valioso.<wait more>
     Eu poderia estar disposto a compartilhar um pouco dela, por, digamos...<wait more>
     ...uma joia de um dragão. O que acha?<end>
 
@@ -1500,7 +1500,7 @@
 
 - offsets: 566c
   # Torchbearer (no to previous question)
-  pt-br: Você não a quer? Então, por que veio até aqui?<wait>
+  pt-br: Você não a quer? Então, por que veio até aqui, afinal?<wait>
 
 - offsets: 568a
   # Torchbearer (yes to previous question but no Carbuncle Eye)
@@ -1514,8 +1514,8 @@
   # Otegami Chie-chan
   pt-br: |
     Eu sou Otegami Chie-chan, da Sega! Obrigado por todas as suas cartas.<wait more>
-    Por favor, nos diga o que você acha deste jogo. Estamos ansiosos em saber.<wait more>
-    Aqui vai uma dica - Vá até o ponto mais alto de Palma e levante o Aeroprisma ao céu!<wait>
+    Diga o que acha deste jogo. Estamos ansiosos para saber.<wait more>
+    Aqui vai uma dica - vá até o ponto mais alto de Palma e levante o Aeroprisma ao céu!<wait>
 
 
 # *************************
@@ -1532,14 +1532,14 @@
 
 - offsets: 26c4
   # After using the Eclipse Torch on the Laerma tree, if you don't have a Laconian Pot
-  pt-br: <player> pegou algumas Frutas de Laerma, mas elas murcharam logo após serem colhidas!<wait>
+  pt-br: <player> pegou algumas Frutas de Laerma, mas murcharam logo após serem colhidas!<wait>
 
 
 # *******************
 # *** Avion Tower ***
 # *******************
 - offsets: 552a
-  pt-br: Agora seria uma boa hora para dar a volta e ir para casa.<wait>
+  pt-br: Agora é uma boa hora para dar a volta e ir para casa.<wait>
 
 # **************************
 # *** Baya Marlay Prison ***
@@ -1547,7 +1547,7 @@
 
 - offsets: 55f5
   # Prisoner
-  pt-br: Você veio me ajudar a escapar? Para que?<wait>
+  pt-br: Veio me ajudar a escapar? Para que?<wait>
 
 - offsets: 55fb
   # Prisoner
@@ -1559,7 +1559,7 @@
 
 - offsets: 582d
   # Prisoner (Dezorian)
-  pt-br: Você conseguiu a armadura em Guaran?<end>
+  pt-br: Conseguiu a armadura em Guaran?<end>
 
 - offsets: 583b
   # Prisoner (no to previous question)
@@ -1573,11 +1573,11 @@
   # Prisoner
   pt-br: |
     LaShiec é mais perigoso do que a maioria das pessoas imagina.<wait more>
-    Seus poderes mágicos podem destruir até sua alma!<wait>
+    Seus poderes mágicos podem até destruir sua alma!<wait>
 
 - offsets: 560d
   # Prisoner
-  pt-br: Há uma torre no topo da colina de Baya Marlay. Quais serão os segredos que se encontram lá dentro?<wait>
+  pt-br: Há uma torre no topo da colina de Baya Marlay. Que segredos ela guarda?<wait>
 
 - offsets: 5613
   # Prisoner
@@ -1649,7 +1649,7 @@
 
 - offsets: 2711
   # (Use Aeroprism)
-  pt-br: O ilusório Castelo Aéreo foi revelado no céu.<wait>
+  pt-br: O ilusório Castelo Aéreo apareceu no céu.<wait>
 
 - offsets: 2752
   # (Use Laerma Berries)
@@ -1660,21 +1660,21 @@
 # ******************************
 
 - offsets: 471b
-  pt-br: Quando Myau come as Frutas de Laerma, uma febre o domina e uma luz reluzente envolve seu corpo.<wait>
+  pt-br: Quando Myau come as Frutas de Laerma, uma febre o domina e uma luz intensa envolve seu corpo.<wait>
 
 - offsets: 4726
   # This line has a typo: it should be ハバタイテ, not ハバテイテ.
   # Please note that the kanji rendition below fixes this mistake.
   pt-br: |
     Rapidamente, ele se transforma em um belo animal com asas enormes!<line><line>
-    Myau orgulhosamente bate suas asas para todos verem.<wait>
+    Myau bate suas asas orgulhosamente para todos verem.<wait>
 
 
 - offsets: 14cc
   # (If Myau dies in the Gold Dragon battle and other characters are still alive)
   # Note: Alisa may not be alive, and there may be only one other left alive.
   # Previous line will have been "Myau died." so you can assume that context.
-  pt-br: Seus companheiros foram arremessados de suas costas, caindo do céu em direção para a sua própria morte.<wait>
+  pt-br: Seus companheiros foram arremessados de suas costas, caindo do céu em direção a sua própria morte.<wait>
 
 
 # **********************************
@@ -1711,7 +1711,7 @@
   # LaShiec
   # The party may only be Tylon who can't do magic, but it's unlikely.
   pt-br: |
-    Ah, é você. Finalmente você chegou, deve estar se sentindo realizada.<wait more>
+    Ah, é você. Finalmente chegou. Deve estar se sentindo realizada.<wait more>
     Aqueles a quem sirvo me concederam a imortalidade. Meu poder é sem limites. Eu sou um deus.<wait more>
     E você tem o quê? Armas? Magia? Você realmente esperava me derrotar?<end>
 
@@ -1726,9 +1726,9 @@
 - offsets: 5789
   # (Defeat LaShiec)
   pt-br: |
-    Você pode ter destruído este corpo, mas eu nunca morrerei! Eu retornarei novamente!<line><line><line><line><wait more>
+    Você pode ter destruído este corpo, mas eu nunca morrerei! Eu retornarei!<line><line><line><line><wait more>
     Lorde LaShiec caiu. O último desejo de Nero foi atendido. Uma nova era começou em Algol.<wait more>
-    A única coisa que resta a fazer, é encontrar o Governador-Geral em Paseo!<wait>
+    A única coisa que resta a fazer é encontrar o Governador-Geral em Paseo!<wait>
 
 
 # **************
@@ -1766,7 +1766,7 @@
 # ********************
 
 - offsets: 47da
-  pt-br: Com o tempo, o céu ficou mais brilhante. Os monstros diminuiram. A paz voltou.<end>
+  pt-br: Com o tempo, o céu ficou mais brilhante. Os monstros diminuíram. A paz voltou.<end>
 
 - offsets: 47e3
   pt-br: Baya Marlay é envolvida por uma brisa fresca e suave agora.<end>
@@ -2026,14 +2026,14 @@
   pt-br: Você encontrou um baú do tesouro.<end>
 
 - offsets: 2a37
-  pt-br: Você quer abrir?<end>
+  pt-br: Quer abrir?<end>
 
 - offsets: ChestMesetasPlural # Was 2a8c
-  pt-br: Você encontrou <number> Mesetas dentro.<wait>
+  pt-br: Encontrou <number> Mesetas dentro.<wait>
 
 - offsets: ChestMesetasSingular
   # Not in the original
-  pt-br: Você encontrou <number> Meseta dentro.<wait>
+  pt-br: Encontrou <number> Meseta dentro.<wait>
 
 - offsets: 2a73
   pt-br: Está vazio.<wait>
@@ -2042,7 +2042,7 @@
   pt-br: Você não pode carregar mais. Quer descartar alguma coisa?<end>
 
 - offsets: 2938
-  pt-br: Qual item você quer descartar?<end>
+  pt-br: Qual item deseja descartar?<end>
 
 - offsets: 296a
   # this runs into the next one...
@@ -2052,7 +2052,7 @@
   pt-br: ...e obteve <article><item>.<wait>
 
 - offsets: 2923
-  pt-br: Você quer abandonar <article><item>?<end>
+  pt-br: Quer abandonar <article><item>?<end>
 
 - offsets: 292e
   pt-br: Você abandonou <article><item>.<wait>
@@ -2124,16 +2124,16 @@
   pt-br: Cuide-se, e volte sempre.<wait>
 
 - offsets: 2d38
-  pt-br: O que posso fazer por você hoje?<end>
+  pt-br: Em que posso ajudar você hoje?<end>
 
 - offsets: 2d7e
-  pt-br: Aproveite. Posso te ajudar em algo mais?<end>
+  pt-br: Aproveite! Precisa de mais alguma coisa?<end>
 
 - offsets: 2d98,539c
   pt-br: Você não pode carregar mais nada. Volte quando puder.<wait>
 
 - offsets: 2deb
-  pt-br: Esta é uma farmácia. Posso ajudar?<end>
+  pt-br: Esta é uma farmácia. Precisa de algo?<end>
 
 - offsets: 2df4
   pt-br: Esta é uma loja de ferramentas. Posso ajudar?<end>
@@ -2146,7 +2146,7 @@
   pt-br: Humm, <article><item>? Que tal <number> Mesetas?<end>
 
 - offsets: 2e66
-  pt-br: Maravilha! Tem mais alguma coisa para mim?<end>
+  pt-br: Maravilha! Tem mais alguma coisa?<end>
   
 - offsets: 2e3d
   # Trying to sell an important item (with 0 selling price in tabel at $B82F)s
@@ -2163,17 +2163,17 @@
 # ****************
 
 - offsets: 2ae9
-  pt-br: Este é um hospital. Você precisa de cuidados médicos?<end>
+  pt-br: Este é um hospital. Precisa de cuidados médicos?<end>
 
 - offsets: 2b54
   pt-br: |
-    Hmm. Posso te deixar como novo por <number> Mesetas. Devo proceder?<end>
+    Hmm. Posso te deixar como novo por <number> Mesetas. Devo prosseguir?<end>
 
 - offsets: 2b99
-  pt-br: Alguém mais precisa de tratamento?<end>
+  pt-br: Mais alguém precisa de tratamento?<end>
 
 - offsets: 2af9
-  pt-br: Quem requer a nossa atenção?<end>
+  pt-br: Quem precisa da nossa atenção?<end>
 
 - offsets: 2b8a
   pt-br: |
@@ -2181,13 +2181,13 @@
     Agora, tome cuidado!<wait>
 
 - offsets: 2bb1
-  pt-br: Sinto muito não ter podido ajudar. Tome cuidado lá fora.<wait>
+  pt-br: Sinto muito por não ter podido ajudar. Tome cuidado lá fora.<wait>
 
 - offsets: 2b37
   pt-br: Tome cuidado lá fora.<wait>
 
 - offsets: 2b2b
-  pt-br: Você parece perfeitamente saudável para mim...<wait>
+  pt-br: Você parece estar perfeitamente saudável para mim...<wait>
 
 
 # **************
@@ -2195,20 +2195,20 @@
 # **************
 
 - offsets: 2be7
-  pt-br: Esta é uma igreja. Você precisa reviver uma alma que partiu?<end>
+  pt-br: Esta é uma igreja. Precisa reviver uma alma que partiu?<end>
 
 - offsets: # Unused
-  pt-br: Então vou orar por você.<wait>
+  pt-br: Então, vou orar por você.<wait>
 
 - offsets: 2bfb
-  pt-br: Quem deve ser revivido?<end>
+  pt-br: Quem precisa ser revivido?<end>
 
 - offsets: 2c24
   # Resurrection cost is Level * 20 so is definitely plural.
   pt-br: Nossa doação sugerida é de <number> Mesetas.<end>
 
 - offsets: 2c37
-  pt-br: Então vamos lá. Se concentre nos que partiram.<delay>
+  pt-br: Então, vamos lá. Concentre-se nos que partiram.<delay>
 
 - offsets: 2c60
   # If you have enough money
@@ -2220,7 +2220,7 @@
     ArutemuhamuRAmu A--rgh!<line>
     Cof! Cof!<wait more>
     Mil desculpas.<line>
-    Por alguma razão, eu falhei.<wait>
+    Por alguma razão, falhei.<wait>
 
 - offsets: 2c71
   pt-br: Há mais alguém?<end>
@@ -2236,12 +2236,12 @@
   pt-br: <player> já está no nível máximo.<wait>
 
 - offsets: 2ca2
-  pt-br: Que o seu futuro seja cheio das bençãos de Deus.<wait>
+  pt-br: Que seu futuro seja cheio das bênçãos de Deus.<wait>
 
 - offsets: 2c90
   pt-br: |
-    <player>? Você parece estar muito bem para mim.<wait more>
-    Se precisar de atendimento médico, aconselho a buscar o hospital mais próximo.<end>
+    <player>? Você parece muito bem para mim.<wait more>
+    Se precisar de atendimento médico, aconselho ir ao hospital mais próximo.<end>
 
 
 # ************************
@@ -2254,13 +2254,13 @@
   pt-br: ‘Queremos ser amigos dos Palmanos.’<wait>
 
 - offsets: 1ae7
-  pt-br: ‘Eu poderia realmente comer algumas Frutas de Laerma agora!’<wait>
+  pt-br: ‘Eu realmente poderia comer algumas Frutas de Laerma agora!’<wait>
 
 - offsets: 1ae9
   pt-br: ‘Não desafie Lorde LaShiec.’<wait>
 
 - offsets: 1aeb
-  pt-br: ‘Ah! Então você entende a nossa língua, não é?’<wait>
+  pt-br: ‘Ah! Então você entende nossa língua, não é?’<wait>
 
 - offsets: 1aed
   pt-br: ‘Iarrú!’<wait>
@@ -2269,7 +2269,7 @@
   pt-br: ‘Quando estiver nos calabouços, cuidado com as armadilhas.’<wait>
 
 - offsets: 1af1
-  pt-br: ‘Você vai se machucar se abrir baús do tesouro sem cuidado.’<wait>
+  pt-br: ‘Você vai se machucar se abrir os baús do tesouro sem cuidado.’<wait>
 
 - offsets: 1af3
   pt-br: ‘Seus malditos ladrões!’<wait>
@@ -2286,24 +2286,24 @@
   pt-br: ‘Cavadores de Gelo podem até perfurar o gelo!’<wait>
 
 - offsets: 1cd2
-  pt-br: ‘Lorde LaShiec vive lá em cima, no céu.’<wait>
+  pt-br: ‘Lorde LaShiec vive lá em cima, nos céus.’<wait>
 
 - offsets: 1cd4
   # This line has a typo: ラスコニアンポット should be ラコニアンポット.
   # Please note that the kanji rendition below fixes this mistake.
-  pt-br: ‘O Doutor Maluco em Avion tem um Pote de Lacônia.’<wait>
+  pt-br: ‘O Doutor Maluco em Avion possui um Pote de Lacônia.’<wait>
 
 - offsets: 1cd6
-  pt-br: ‘Há lugares no céu que nem uma nave espacial pode alcançar.’<wait>
+  pt-br: ‘Existem lugares no céu que nem uma nave espacial pode alcançar.’<wait>
 
 - offsets: 1cd8
-  pt-br: ‘Você precisa ter um certo item para fazer as Frutas de Laerma crescerem.’<wait>
+  pt-br: ‘Você precisa de um item específico para fazer as Frutas de Laerma crescerem.’<wait>
 
 - offsets: 1cda
-  pt-br: ‘Alguns labirintos nos calabouços tem portas escondidas.’<wait>
+  pt-br: ‘Alguns labirintos nos calabouços têm portas escondidas.’<wait>
 
 - offsets: 1cdc
-  pt-br: ‘A Chave Milagrosa pode abrir portas mágicas!’<wait>
+  pt-br: ‘A Chave Milagrosa abre portas mágicas!’<wait>
 
 - offsets: 1cde
   pt-br: ‘Alguns Dezorianos são mentirosos, então tome cuidado.’<wait>
@@ -2311,7 +2311,7 @@
 - offsets: 1ce0
   pt-br: |
     ‘Você é muito corajoso para conversar comigo. Vou te contar um segredo em troca...<wait more>
-    A mesma telepatia que você está usando agora, também pode ser usada para detectar armadilhas.’<wait>
+    A mesma telepatia que você está usando agora também pode detectar armadilhas.’<wait>
 
 
 # **************
