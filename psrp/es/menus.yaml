@@ -49,6 +49,7 @@
     │Usar     ║
     │Equipar  ║
     │Descartar║
+    │Mover    ║
     ╘═════════╝
 
 - name: BattleSpellsAlisa

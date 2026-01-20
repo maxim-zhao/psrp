@@ -667,7 +667,7 @@ _RAM_DB74_ db
 .ende
 
 .enum $DC04 export
-_RAM_DC04_ db
+OldTilemap_Inventory db
 .ende
 
 .enum $DDA8 export
@@ -675,7 +675,7 @@ _RAM_DDA8_ db
 .ende
 
 .enum $DE14 export
-_RAM_DE14_ db
+OldTilemap_UseEquipDrop db
 .ende
 
 .enum $DE64 export
@@ -5613,8 +5613,7 @@ _LABEL_22C4_Items:
     or a
     jp nz,+
     call _LABEL_35EF_SelectItemFromInventory
-    jp _LABEL_3773_HideInventoryWindow
-    ; and fall through to do it again?!?
+    jp _LABEL_3773_HideInventoryWindow ; and return
 
 +:  call _LABEL_35EF_SelectItemFromInventory
     bit 4,c
@@ -5666,7 +5665,7 @@ _LABEL_22C4_Items:
     jp _LABEL_2351_
 
 +:  ld (TextCharacterNumber),a
-    call _LABEL_3876_
+    call _LABEL_3876_ShowUseEquipDrop
     ld hl,$7A72
     ld (CursorTileMapAddress),hl
     ld a,$02
@@ -5676,7 +5675,7 @@ _LABEL_22C4_Items:
     jp nz,+
     ld hl,UseEquipDropHandlers
     call FunctionLookup
-+:  call _LABEL_3888_
++:  call _LABEL_3888_HideUseEquipDrop
 _LABEL_2351_:
     call _LABEL_3773_HideInventoryWindow
     jp _LABEL_30A4_
@@ -7300,7 +7299,7 @@ _LABEL_2F12_:
 ++++:
     xor a
     ld (CursorEnabled),a
-    call _LABEL_3647_
+    call _LABEL_3647_RedrawInventory
     ld a,(_RAM_C299_)
     ld l,a
     ld a,(InventoryCount)
@@ -8317,7 +8316,7 @@ _LABEL_35EF_SelectItemFromInventory:
     ld h,a
     ld l,$00
     ld (_RAM_C299_),hl
-    call _LABEL_363B_
+    call _LABEL_363B_ShowInventory
     ld a,(InventoryCount)
     or a
     jp z,MenuWaitForButton
@@ -8348,20 +8347,20 @@ _LABEL_35EF_SelectItemFromInventory:
     ld (ItemTableIndex),a
     ret
 
-_LABEL_363B_:
-    ld hl,_RAM_DC04_
+_LABEL_363B_ShowInventory:
+    ld hl,OldTilemap_Inventory
     ld de,$78AC
     ld bc,$1514
     call InputTilemapRect
-_LABEL_3647_:
+_LABEL_3647_RedrawInventory:
     ld hl,Menu10Top
     ld de,$78AC
     ld bc,$0114
     call OutputTilemapBoxWipePaging
-    call _LABEL_36E1_
+    call _LABEL_36E1_DrawMeseta
     ld a,(InventoryCount)
     cp $09
-    ld hl,_DATA_6FAF7_
+    ld hl,_DATA_6FAF7_Tilemap_InventoryNext
     ld bc,$0214
     call nc,OutputTilemapBoxWipePaging
     ld hl,Frame2Paging
@@ -8447,7 +8446,7 @@ _LABEL_36D9_:
       ld b,$0C
       jp +
 
-_LABEL_36E1_:
+_LABEL_36E1_DrawMeseta:
     di
     push de
       rst SetVRAMAddressToDE
@@ -8540,7 +8539,7 @@ OutputDigit:           ; $3762
 
 _LABEL_3773_HideInventoryWindow:
     push bc
-      ld hl,_RAM_DC04_
+      ld hl,OldTilemap_Inventory
       ld de,$78AC
       ld bc,$1514
       call OutputTilemapBoxWipePaging
@@ -8564,7 +8563,7 @@ _LABEL_379F_PlayerSelect2:
     ld a,(PartySize)
     or a
     ret z
-    ld hl,_RAM_DE14_
+    ld hl,OldTilemap_UseEquipDrop
     ld de,$7A54
     ld bc,$090C
     call InputTilemapRect
@@ -8600,7 +8599,7 @@ _LABEL_37E9_HidePlayerSelect2Window:
     ld a,(PartySize)
     or a
     ret z
-    ld hl,_RAM_DE14_
+    ld hl,OldTilemap_UseEquipDrop
     ld de,$7A54
     ld bc,$090C
     jp OutputTilemapBoxWipePaging
@@ -8668,22 +8667,22 @@ _LABEL_386A_HideEquippedItems:
     ld bc,$0814
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3876_:
-    ld hl,_RAM_DE14_
-    ld de,$7A32
-    ld bc,$070A
+_LABEL_3876_ShowUseEquipDrop:
+    ld hl,OldTilemap_UseEquipDrop
+    ld de,$7A32 ; Source location
+    ld bc,$070A ; Dimensions
     call InputTilemapRect
-    ld hl,_DATA_6FC0F_
+    ld hl,_DATA_6FC0F_Tilemap_UseEquipDrop
     jp OutputTilemapBoxWipePaging
 
-_LABEL_3888_:
-    ld hl,_RAM_DE14_
+_LABEL_3888_HideUseEquipDrop:
+    ld hl,OldTilemap_UseEquipDrop
     ld de,$7A32
     ld bc,$070A
     jp OutputTilemapBoxWipePaging
 
 _LABEL_3894_BuySellMenu:
-    ld hl,_RAM_DE14_
+    ld hl,OldTilemap_UseEquipDrop
     ld de,$7B48
     ld bc,$050C
     call InputTilemapRect
@@ -8696,7 +8695,7 @@ _LABEL_3894_BuySellMenu:
     jp WaitForMenuSelection
 
 _LABEL_38B4_BuySellMenuClose:
-    ld hl,_RAM_DE14_
+    ld hl,OldTilemap_UseEquipDrop
     ld de,$7B48
     ld bc,$050C
     jp OutputTilemapBoxWipePaging
@@ -8742,7 +8741,7 @@ _LABEL_38EC_ShowCharacterStats:
     ld h,a
     push hl
     pop ix
-    ld hl,_RAM_DC04_
+    ld hl,OldTilemap_Inventory
     ld de,$7920
     ld bc,$0E18
     call InputTilemapRect
@@ -8813,7 +8812,7 @@ _DATA_39CE_:
 .db $F3 $11 $D5 $10 $CC $10 $DA $10 $CC $10 $F6 $11 $F5 $11 $C0 $10
 
 _LABEL_39DE_HideCharacterStats:
-    ld hl,_RAM_DC04_
+    ld hl,OldTilemap_Inventory
     ld de,$7920
     ld bc,$0E18
     jp OutputTilemapBoxWipePaging
@@ -9027,7 +9026,7 @@ _LABEL_3B21_:
       ld de,$782C
       ld bc,$0114
       call OutputTilemapBoxWipePaging
-      call _LABEL_36E1_
+      call _LABEL_36E1_DrawMeseta
       ld hl,Menu10Bottom
       ld bc,$0114
       call OutputTilemapBoxWipePaging
@@ -9044,7 +9043,7 @@ _LABEL_3B3C_:
     ret
 
 _LABEL_3B4B_:
-    ld hl,_RAM_DE14_
+    ld hl,OldTilemap_UseEquipDrop
     ld de,$7AAA
     ld bc,$080A
     call InputTilemapRect
@@ -9059,7 +9058,7 @@ _LABEL_3B4B_:
     call WaitForMenuSelection
     push af
     push bc
-      ld hl,_RAM_DE14_
+      ld hl,OldTilemap_UseEquipDrop
       ld de,$7AAA
       ld bc,$080A
       call OutputTilemapBoxWipePaging

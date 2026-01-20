@@ -44,11 +44,12 @@
 
 - name: ItemActionMenu
   de: |
-    ┌─────────╖
-    │Benutzen ║
-    │Ausrüsten║
-    │Wegwerfen║
-    ╘═════════╝
+    ┌───────────╖
+    │Benutzen   ║
+    │Ausrüsten  ║
+    │Wegwerfen  ║
+    │Verschieben║
+    ╘═══════════╝
 
 - name: BattleSpellsAlisa
   de: |

@@ -1,4 +1,4 @@
-# Phantasy Star Retranslation v2.6.1
+# Phantasy Star Retranslation v2.7 beta
 
 Phantasy Star is a landmark game for the Sega Master System, first released in Japan on 20th December 1987. 
 This project is an unofficial retranslation/re-localisation based on that first Japanese version, with some enhancements.
@@ -21,6 +21,11 @@ More languages are welcome! See translating.md and/or contact me if you would li
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
+- v2.7 to be released 2026/12/20
+  - Added feature to allow reordering the inventory (#98)
+
+<details>
+<summary>Click for more history</summary>
 - v2.6.1 released 2025/12/22
   - Improved layouts of title screen credits text
   - Some languages' title screens were not updated for 2.6
@@ -35,8 +40,6 @@ Changelog (in reverse chronological order):
   - German: Straßenpass -> Passierschein
   - French: MAGASIN sign improved
 
-<details>
-<summary>Click for more history</summary>
 - v2.5.1 released 2024/12/23
   - Fixed Catalan retranslation credits
   - Fixed Catalan pluralised Mesetas

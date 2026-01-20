@@ -681,6 +681,7 @@ AlsulinePaletteEffect:
 .include "item-drawing.asm"
 .include "window-ram-management.asm"
 .include "save-game-handling.asm"
+.include "inventory-menu.asm"
 
 .smsheader
    productcode 00, $95, 0 ; 9500

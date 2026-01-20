@@ -45,11 +45,12 @@
 
 - name: ItemActionMenu
   la: |
-    ┌───────╖
-    │Ūsāre  ║
-    │Armāre ║
-    │Iacere ║
-    ╘═══════╝
+    ┌──────╖
+    │Ūsāre ║
+    │Armāre║
+    │Iacere║
+    │Movere║
+    ╘══════╝
 
 - name: BattleSpellsAlisa
   la: |
