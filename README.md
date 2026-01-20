@@ -24,6 +24,7 @@ Changelog (in reverse chronological order):
 - v2.7 to be released 2026/12/20
   - Added feature to allow reordering the inventory (#98)
   - Brazilian Portuguese: further revised and improved script
+  - Added new "English 1987" variant: the original script, now with lowercase and unsquashed menus and item names. Cola and burger fans rejoice! Odin and Noah are back! (#133)
 
 <details>
 <summary>Click for more history</summary>

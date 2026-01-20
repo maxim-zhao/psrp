@@ -33,6 +33,38 @@
     │Run   ║
     ╘══════╝
 
+- name: AlisaBox
+  en-1987: |
+    ┌──────╖
+    │ Alis ║
+    │------║
+
+- name: MyauBox
+  en-1987: |
+    ┌──────╖
+    │ Myau ║
+    │------║
+
+- name: TaironBox
+  en-1987: |
+    ┌──────╖
+    │ Odin ║
+    │------║
+
+- name: LutzBox
+  en-1987: |
+    ┌──────╖
+    │ Noah ║
+    │------║
+
+- name: ChoosePlayerMenu
+  en-1987: |
+    ┌────╖
+    │Alis║
+    │Myau║
+    │Odin║
+    │Noah║
+
 - name: ToolShopMenu
   en-1987: |
     ┌────╖
@@ -46,7 +78,33 @@
     │Use  ║
     │Equip║
     │Drop ║
+    │Move ║
     ╘═════╝
+
+- name: AlisaActiveBox
+  en-1987: |
+    ┌────╖
+    │Alis║
+    ╘════╝
+# Next three must follow (and be the same size)
+
+- name: MyauActiveBox
+  en-1987: |
+    ┌────╖
+    │Myau║
+    ╘════╝
+
+- name: TaironActiveBox
+  en-1987: |
+    ┌────╖
+    │Odin║
+    ╘════╝
+
+- name: LutzActiveBox
+  en-1987: |
+    ┌────╖
+    │Noah║
+    ╘════╝
 
 - name: BattleSpellsAlisa
   en-1987: |
