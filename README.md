@@ -29,6 +29,7 @@ Changelog (in reverse chronological order):
 
 <details>
 <summary>Click for more history</summary>
+
 - v2.6.1 released 2025/12/22
   - Improved layouts of title screen credits text
   - Some languages' title screens were not updated for 2.6
