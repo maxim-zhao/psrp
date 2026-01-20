@@ -50,9 +50,9 @@ Items:
   String "<A> Cola"                         ; COLA      Cola                perorīmeito         ペロリーメイト
   String "<A> Burger"                       ; BURGER    Burger              ruoginin            ルオギニン
   String "<A> Flute"                        ; FLUTE     Flute               sūzufurūto          スーズフルート
-  String "<A> Flash"                        ; FLASH     Flash               sāchiraito          サーチライト
+  String "<A> Flashlight"                   ; FLASH     Flashlight          sāchiraito          サーチライト ; It's FLASH(LIGHT) in the US manual
   String "<An> Escaper"                     ; ESCAPER   Escaper             esukēpukurosu       エスケープクロス
-  String "<A> Transer"                      ; TRANSER   Transer             torankāpetto        トランカーペット
+  String "<A> Transfer"                     ; TRANSER   Transfer            torankāpetto        トランカーペット ; It's "TRANSFER" in the US manual
   String "<A> Magic Hat"                    ; MAGC HAT  Magic Hat           majikkuhatto        マジックハット
   String "<An> Alsulin"                     ; ALSULIN   Alsulin             arushurin           アルシュリン
   String "<A> Polymeteral"                  ; POLYMTRL  Polymeteral         porimeterāru        ポリメテラール

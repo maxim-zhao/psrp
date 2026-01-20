@@ -26,6 +26,10 @@ Changelog (in reverse chronological order):
   - Added feature to allow reordering the inventory (#98)
   - Brazilian Portuguese: further revised and improved script
   - Added new "English 1987" variant: the original script, now with lowercase and unsquashed menus and item names. Cola and burger fans rejoice! Odin and Noah are back! (#133)
+    - Some particularly egregious spelling and grammar is fixed, notably including the "first food shop"
+    - Mixed up items are still mixed up
+    - Party names are the short versions
+    - Item and monster names are the long versions, from the US manual where possible
 
 <details>
 <summary>Click for more history</summary>

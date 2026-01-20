@@ -6,27 +6,27 @@
   # Game intro
   # Nero on ground, robot police
   en-1987: |
-    Scum!<line>
-    Do not sniff around in Lassic's affairs!<line>
+    Scum!<line><line>
+    Do not sniff around in Lassic's affairs!<line><line>
     Learn this lesson well!<wait more>
-    Nero!<line>
-    What happened!<line>
+    Nero!<line><line>
+    What happened!<line><line>
     Don't die!<wait>
 
 - offsets: 45fa
   # Game intro
   # Nero, dying
   en-1987: |
-    Alis, listen!<line>
+    Alis, listen!<line><line>
     Lassic is leading our world to destruction. I tried to discover his plans, but I could not do much by myself.<wait more>
-    I have heard of a man with great strength named ‘Odin.’ Maybe the two of you can stop Lassic.<wait more>
+    I have heard of a man with great strength named ‘Odin.’<line><line>Maybe the two of you can stop Lassic.<wait more>
     Alis, it's too late for me. Be strong.<wait>
 
 - offsets: 4605
   # Game intro
   # Alisa
   en-1987: |
-    I will make sure that my brother died not in vain!<line>
+    I will make sure that my brother died not in vain!<line><line>
     Watch over and protect me, Nero!<wait>
 
 # *************************************
@@ -511,7 +511,7 @@
 
 - offsets: 4fd4
   # Guards outside Underground Passage to Governor's Mansion
-  en-1987: ZZZ... ZZZ...<wait>
+  en-1987: Zzz... Zzz...<wait>
 
 - offsets: 5627
   # Guard inside Underground Passage to Governor's Mansion
@@ -983,7 +983,7 @@
 - offsets: 5194
   # Villager
   en-1987: |
-    Have you heard about mantles made of Frad fibers? THEY ARE LIGHT, BUT PROVIDE GREAT PROTECTION.<wait>
+    Have you heard about mantles made of Frad fibers? They are light, but provide great protection.<wait>
 
 - offsets: 5175
   # Villager
@@ -1338,7 +1338,7 @@
 
 - offsets: 2693,26e5
   # Also used for the Aeroprism later...
-  en-1987: <player> RAISES <article><item> TOWARDS THE SKY.<delay>
+  en-1987: <player> raises <article><item> towards the sky.<delay>
 
 - offsets: 26d0
   # After using the Eclipse Torch on the Laerma tree, if you have a Laconian Pot
@@ -1824,7 +1824,7 @@
   en-1987: <Article><monster> had a treasure chest.<end>
 
 - offsets: 6c6e
-  en-1987: There is a treasure chest.<line><end>
+  en-1987: There is a treasure chest.<end>
 
 - offsets: 2a37
   en-1987: Do you want to open it?<end>
@@ -2035,11 +2035,10 @@
   en-1987: <player> is strong enough already.<wait>
 
 - offsets: 2ca2
-  en-1987: May the gods watch over you!<wait>
+  en-1987: May the gods watch over you!<end>
 
 - offsets: 2c90
-  en-1987: |
-    <player> is alive.<end>
+  en-1987: <player> is alive.<end>
 
 
 # ************************
@@ -2081,7 +2080,7 @@
   en-1987: ‘The sound of the Soothing Flute is a joy to both the ear and the heart.’<wait>
 
 - offsets: 1cd0
-  en-1987: ‘THE VEHICLE KNOWN AS ‘ICE DIGGER’ LIVES UP TO ITS NAME.’<wait>
+  en-1987: ‘The vehicle known as ‘Ice Digger’ lives up to its name.’<wait>
 
 - offsets: 1cd2
   en-1987: ‘Lassic lives above the sky.’<wait>
