@@ -19,6 +19,8 @@ UseEquipDropUseHandlers:
 .define InventorySelectedItemValue $C2C4
 .define HideInventory $3773
 .define ShowInventoryAndPickItem $35ef
+.define ShowInventoryMenu $22c4
+.define HideUseEquipDropMenu $3888
 .bank 0 slot 0
 .section "Inventory move handler" free
 MoveHandler:
@@ -31,14 +33,11 @@ MoveHandler:
     call HideInventory
     call ShowInventoryAndPickItem
     push bc
-      call $3888 ; hide use/equip/drop/move menu
+      call HideUseEquipDropMenu
     pop bc
     bit 4,c
-    jr z,+
   pop bc
-  jr _done ; User cancelled
-  
-+:pop bc ; Previous item is now in b
+  jr nz, _done ; User cancelled
   
   ; Get selected item
   ld a, (InventorySelectedItemPointer)
@@ -63,16 +62,15 @@ _higher:
     ld e, b
     ; Count = a - b
     sub b
-    ld c, a
     ld b, 0
+    ld c, a
     ; And go
     ldir
   pop bc
   ; Now put c at the end
   ; hl is left pointing one past the right spot
   dec hl
-  ld (hl),c
-  jr _done
+  jr _reAddMovedItem
 
 _lower:
   ; Inventory is at $c4xx
@@ -99,12 +97,12 @@ _lower:
   pop bc
   ; Now put c at the start, which is now at hl+1
   inc hl
+_reAddMovedItem:
   ld (hl), c
   ; fall through
   
 _done:
   call HideInventory
-  call $22c4 ;_LABEL_22C4_Items
-  ret
+  jp ShowInventoryMenu ; Back to the start, rather than just hiding the inventory
   
 .ends
