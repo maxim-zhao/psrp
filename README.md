@@ -23,6 +23,7 @@ For more information and screenshots see https://www.smspower.org/Translations/P
 Changelog (in reverse chronological order):
 - v2.7 to be released 2026/12/20
   - Added feature to allow reordering the inventory (#98)
+  - Brazilian Portuguese: further revised and improved script
 
 <details>
 <summary>Click for more history</summary>
