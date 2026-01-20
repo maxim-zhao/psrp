@@ -317,6 +317,7 @@
     YOURSELF.<wait more>
     YOU ARE WELCOME <line>
     HERE AT ANYTIME.<wait>
+
 - offsets: 4b62
   # Camineet
   # Nekiseh (first visit)
@@ -1688,6 +1689,7 @@
     PLACE. SHORTCAKE<line>
     FOR 1000 MESETAS!<wait more>
     WILL YOU BUY ONE?<end>
+
 - offsets: 5355,53a5
   # Shortcake salesman (after purchase)
   # Also Sopia villager if you give him a PelorieMate.
@@ -2828,7 +2830,6 @@
     THE WORK OF<line>
     LASSIC.<wait>
 
-
 - offsets: 5119
   # Villager
   indices: 10E,110
@@ -2849,7 +2850,6 @@
     AMBER EYE"?<line>
     SOME SAY THE CASBA<wait more>
     DRAGON HAS ONE.<wait>
-
 
 - offsets: 511f
   # Villager
@@ -3145,7 +3145,6 @@
     PLANETS OF THE <line>
     ALGOL SYSTEM.<wait>
 
-
 - offsets: 5256
   # Townsperson
   indices: 1B8
@@ -3367,7 +3366,6 @@
     THE TOWN OF GOTHIC<wait more>
     ON PALMA. DON'T<line>
     TELL ANYONE.<wait>
-
 
 # Soothe Flute stuff
 - offsets: 24d6
@@ -3883,8 +3881,6 @@
     NAMED TAJIM IN THE<wait more>
     MOUNTAINS TO THE <line>
     SOUTH OF THE LAKE.<wait>
-  # Maybe add this hint to other languages. It helps explain a possible 
-  # scenario later where Tajim sees Lutz when he is dead.
 
 - offsets: 5326
   # Villager
@@ -4015,7 +4011,8 @@
     デハ　ソツギョウノ　シケンヲ　シテ<line>
     ヤロウ。ワシト　タタカウガヨイ。<wait>
   kanji: では、卒業の試験をしてやろう。わしと戦うが良い。
-  literal: "In that case, I'll give you your final test: we will duel!<wait>"
+  literal: |
+    In that case, I'll give you your final test: we will duel!<wait>
   us: |
     COME,YOU MUST PASS<line>
     YOUR FINAL TEST---<wait more>
@@ -6036,9 +6033,6 @@
 - offsets: ChestMesetasSingular
   # Not in the original
   literal: There was 1 Meseta inside.<wait>
-  us: |
-    THERE ARE <number><line>
-    MESETAS INSIDE.<wait>
 
 - offsets: 2a73
   indices: afef
@@ -7004,7 +6998,7 @@
   indices: 27C
   us: |
     ALRIGHT! YOU SAVED
-    ALL OF Algol!<end>
+    ALL OF ALGOL!<end>
 
 - offsets: # Unused
   indices: 27E
