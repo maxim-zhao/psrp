@@ -530,6 +530,7 @@
   # Tylon
   fr-extended: |
     Je vois...<wait more>
+    Ainsi tu as 15 ans... Tu es bien jeune! Moi j'ai 28 ans.<wait more>
     Au nom de ton frère, unissons nos forces et anéantissons LaShiec.<wait>
 
 - offsets: 46a9
@@ -740,7 +741,7 @@
     Ah_! Je vois... Donc, c'en est arrivé là.<wait more>
     Pardonnez mon accueil de tout à l'heure.<wait more>
     LaShiec est dangereux, il faut l'arrêter.<wait more>
-    Je pense pouvoir vous venir en aide.<wait more>
+    Du haut de mes 27 ans, je pense avoir acquis assez d'expérience pour vous venir en aide.<wait more>
     Ensemble, nous devons empêcher que le système solaire d'Algol tombe en de mauvaises mains.<wait more>
     LaShiec fermera le spatioport s'il apprend notre existence. Nous serions bloqués.<wait more>
     Nous avons besoin d'un vaisseau spatial qui échappe à son influence.<wait more>
