@@ -132,7 +132,7 @@ CreditsScreen17:
 .db 3
   CreditsEntry 6,6, "FRANCAIS"
   CreditsEntry 10,7,    "'"
-  CreditsEntry 17,6, "CLEEEM"
+  CreditsEntry 17,6, "CLEM"
 
 CreditsScreen18:
 .db 3
@@ -148,4 +148,4 @@ CreditsScreen19:
   CreditsEntry 18,16, "SMS Power! (bottom)"
 
 .define SDSCTitle "Phantasy Star: Retraduction Étendue"
-.define SDSCAuthors "SMS Power!, Maxim, Z80 Gaiden, Paul Jensen, Satsu, Popfan, cleeem, ichigobankai, wil75, elz, Vingazole"
+.define SDSCAuthors "SMS Power!, Maxim, Z80 Gaiden, Paul Jensen, Satsu, Popfan, Clem, ichigobankai, wil75, elz, Vingazole"
