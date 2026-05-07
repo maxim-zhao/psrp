@@ -325,7 +325,9 @@ PartySize db                  ; 0-3 based on how many player characters have bee
 .ende
 
 .enum $C500 export
-; Dialogue flags x25; some are more than 1 bit
+; Dialogue flags x25; some are more than 1 bit.
+; Most are set so the dialogue only happens once, $ff = it has happened
+; so next time skip it
 _RAM_C500_ db
 HaveVisitedSuelo db           ; 1 if you have been there
 HaveGotPotfromNekise db       ; 1 if you have
@@ -336,28 +338,28 @@ HaveLutz db                   ; 0 -> not joined yet,1 -> has joined party (but m
 SootheFluteIsUnhidden db      ; 0 -> hidden,1 -> can find it
 FlowMoverIsUnhidden db        ; 0 -> hidden,1 -> can find it
 PerseusShieldIsUnhidden db    ; 0 -> hidden,1 -> can find it
-Flag_DungeonDialogue00_E3_StoneTairon db ; $C50A
-Flag_DungeonDialogue01_E9 db ; $C50B
-Flag_DungeonDialogue01_B2 db ; $C50C
-Flag_DungeonDialogue14_41 db ; $C50D
-Flag_DungeonDialogue15_55 db ; $C50E
-Flag_DungeonDialogue15_A1 db ; $C50F
+TaironHasBeenFreed db ; $C50A ; 0 -> he is still stone, $ff -> he was freed using Alsuline
+Flag_DungeonDialogue01_E9 db ; $C50B Triada spider telling you about Polymeteral
+Flag_DungeonDialogue01_B2 db ; $C50C ; Triada prison guard checking your Roadpass (and letting you pass)
+Flag_DungeonDialogue14_41 db ; $C50D ; Triada prison guard checking your Roadpass (and then fighting you)
+Flag_DungeonDialogue15_55 db ; $C50E ; Drasgow fake item shop
+Flag_DungeonDialogue15_A1 db ; $C50F ; Drasgow person telling you about GasClear
 unused_c510 db
-Flag_DungeonDialogue21_94 db ; $C511
-Flag_DungeonDialogue22_24 db ; $C512
-Flag_DungeonDialogue2A_DB db ; $C513
-Flag_DungeonDialogue34_C3 db ; $C514
+Flag_DungeonDialogue21_94 db ; $C511 ; Check for shortcake gift, $ff when done -> no more dialogue
+Flag_DungeonDialogue22_24 db ; $C512 ; Meet Tajim
+Flag_DungeonDialogue2A_DB db ; $C513 ; Dezorian Head in Corona Tower 
+Flag_DungeonDialogue34_C3 db ; $C514 ; Dishonest Dezorian in Corona Dungeon
 unused_c515 db
 HaveBeatenLaShiec db          ; $c516 1 if yes
 Flag_DungeonDialogue35_C2_ShadowWarrior db ; $c517 $ff if he is beaten
-Flag_DungeonDialogue15_C8 db ; $C518
+Flag_DungeonDialogue15_C8 db ; $C518 ; Mad Doctor encounter
 .ende
 
 ; Unused RAM from c519 to c5ff?
 
 .enum $C600 export
 ; Dungeon chest flags x149
-Flag_DungeonChest00_36_Compass db ; $c600
+Flag_DungeonChest00_36_Compass db ; $c600 ; $ff at start of game, $00 when told about it, $ff when collected
 Flag_DungeonChest00_E0 db ; $c601
 Flag_DungeonChest00_7C db ; $c602
 Flag_DungeonChest01_17 db ; $c603
@@ -6010,7 +6012,7 @@ UseItem_Alsuline:
     ld (PartySize),a
     ld hl,Flag_DungeonChest00_36_Compass
     ld (hl),$00
-    ld hl,Flag_DungeonDialogue00_E3_StoneTairon
+    ld hl,TaironHasBeenFreed
     ld (hl),$FF
     ld a,$05
     ld (_RAM_C2D8_MenuSpecialEffect),a
@@ -10898,7 +10900,7 @@ _RoomScriptTable:
 .dw _room_85_TriadaPrisoner3
 .dw _room_86_TriadaPrisoner4
 .dw _room_87_TriadaPrisoner5
-.dw _room_88_TriadaPrisoner6
+.dw _room_88_TriadaPrisoner6_Spider
 .dw _room_89_MedusasTower1
 .dw _room_8a_MedusasTower2
 .dw _room_8b_MedusasTower3
@@ -12473,7 +12475,7 @@ _room_87_TriadaPrisoner5: ; $54F0:
     ; Really? What a bore!
 +:  jp DrawText20x6 ; and ret
 
-_room_88_TriadaPrisoner6: ; $5504:
+_room_88_TriadaPrisoner6_Spider: ; $5504:
     ld a,Enemy_Tarantula
     ld (EnemyNumber),a
     call LoadEnemy
@@ -15899,7 +15901,7 @@ DungeonLoadScreen:
       ld l,a
       call DecompressToTileMapData
     pop bc
-    call _LABEL_6EE9_
+    call _LABEL_6EE9_ApplyDungeonTilemapPatches
     ret
 
 _LABEL_6DDD_:
@@ -15915,7 +15917,7 @@ _LABEL_6DDD_:
     add a,e
     ld e,a
     ld d,$00
-    ld hl,_DATA_7305_
+    ld hl,DungeonTilesTable + 3 ; _DATA_7305_
     add hl,de
     push bc
       ld a,(hl)
@@ -15927,7 +15929,7 @@ _LABEL_6DDD_:
       ld l,a
       call DecompressToTileMapData
     pop bc
-    jp _LABEL_6EE9_
+    jp _LABEL_6EE9_ApplyDungeonTilemapPatches
 
 
 .orga $6e05
@@ -15971,7 +15973,7 @@ _raw:                  ;                                     | |
     jp _b              ; repeat -------------------------------+
 .ends
 .orga $6e31
-
+.section "Dungeon tile decoder" force
 DungeonTilesDecode:
     ld c,VDPData
 --: ; Read byte
@@ -15988,23 +15990,23 @@ _rle:
     ld b,a
     inc hl
 -:  ; Accumulate the first three bytes as we go
-    ld a,(hl)
+    ld a,(hl)   ; 7
     ; Emit to VRAM
-    outi
+    outi        ; 16 -> 33ish
     ; Undo decrement from outi
-    inc b
-    or (hl)
-    outi
-    inc b
-    or (hl)
-    outi
+    inc b       ; 4
+    or (hl)     ; 7
+    outi        ; 16 -> 27
+    inc b       ; 4
+    or (hl)     ; 7
+    outi        ; 16 -> 27
     ; Repeat
-    dec hl
-    dec hl
-    dec hl
+    dec hl      ; 6
+    dec hl      ; 6
+    dec hl      ; 6
     ; and emit ORed value as the fourth
-    out (VDPData),a
-    jp nz,-
+    out (VDPData),a ; 11 -> 29ish
+    jp nz,-     ; 10
     inc hl
     inc hl
     inc hl
@@ -16019,20 +16021,21 @@ _raw:
     and $7F
     ld b,a
     inc hl
--:  ld a,(hl)
-    outi
-    inc b
-    or (hl)
-    outi
-    inc b
-    or (hl)
-    outi
+-:  ld a,(hl)   ; 7
+    outi        ; 16 -> 33ish
+    inc b       ; 4
+    or (hl)     ; 7
+    outi        ; 16 -> 27
+    inc b       ; 4
+    or (hl)     ; 7
+    outi        ; 16 -> 27
     ; delay
-    push af
-    pop af
-    out (VDPData),a
-    jp nz,-
+    push af     ; 11
+    pop af      ; 10
+    out (VDPData),a ; 11 -> 32ish
+    jp nz,-     ; 10
     jp --
+.ends
 
 DungeonGetRelativeSquare_Type:
     push hl
@@ -16115,7 +16118,7 @@ _RelativeSquareOffsets:
   ; ...
 .ende
 
-_LABEL_6EE9_:
+_LABEL_6EE9_ApplyDungeonTilemapPatches:
     ld a,c
     cp $06
     jp z,_LABEL_70DB_
@@ -16516,32 +16519,51 @@ _DATA_712E_:
 .db $5C $D2 $05 $08 $E0 $AA $06 $04 $18 $D2 $20 $A6 $50 $A6 $24 $D2
 .db $38 $A6 $68 $A6
 
-; Data from 7302 to 7304 (3 bytes)
-DungeonTilesTable:
-.db $07 $00 $80
-
-; Data from 7305 to 7305 (1 bytes)
-_DATA_7305_:
-.db $04
-
-; Pointer Table from 7306 to 7307 (1 entries,indexed by unknown)
-.dw _DATA_10B0F_
-
-; Data from 7308 to 73E5 (222 bytes)
-.db $07 $4B $8A $04 $D4 $8E $07 $1E $95 $04 $A4 $92 $07 $6B $9F $04
-.db $73 $96 $07 $13 $AA $04 $34 $9A $08 $00 $80 $04 $02 $9E $08 $ED
-.db $89 $04 $06 $89 $08 $23 $A4 $04 $D3 $A1 $09 $D1 $83 $04 $35 $A5
-.db $07 $22 $B4 $04 $80 $A8 $05 $AF $B1 $04 $A6 $AB $07 $22 $B4 $04
-.db $5B $AF $09 $D1 $83 $04 $3D $B3 $08 $23 $A4 $04 $6C $B7 $08 $ED
-.db $89 $04 $06 $89 $08 $3F $96 $1C $C0 $A6 $08 $06 $9D $1C $35 $A9
-.db $05 $27 $AA $1C $D0 $AB $09 $00 $80 $1C $C9 $AE $05 $27 $AA $1C
-.db $0C $B2 $08 $06 $9D $1C $C2 $B5 $08 $3F $96 $1C $5A $B9 $08 $ED
-.db $89 $04 $06 $89 $09 $4A $8F $05 $00 $80 $09 $BD $9A $05 $67 $83
-.db $09 $0D $A6 $05 $95 $86 $08 $75 $AF $05 $7A $89 $04 $00 $80 $05
-.db $62 $8C $05 $30 $B8 $05 $18 $8F $08 $26 $B9 $05 $8F $91 $08 $ED
-.db $89 $04 $06 $89 $08 $26 $B9 $05 $C6 $93 $05 $30 $B8 $05 $2E $97
-.db $04 $00 $80 $05 $AD $9A $08 $75 $AF $05 $7E $9E $09 $0D $A6 $05
-.db $48 $A2 $09 $BD $9A $05 $12 $A6 $09 $4A $8F $04 $BE $BB
+DungeonTilesTable: ; 38 entries at $7302
+.macro DungeonTilesTableEntry args tiles, tilemap
+.db :tiles
+.dw tiles
+.db :tilemap
+.dw tilemap
+.endm
+  DungeonTilesTableEntry dungeon_tiles_1C000.bin dungeon_tilemap_10B0F.bin
+  DungeonTilesTableEntry dungeon_tiles_1CA4B.bin dungeon_tilemap_10ED4.bin
+  DungeonTilesTableEntry dungeon_tiles_1D51E.bin dungeon_tilemap_112A4.bin
+  DungeonTilesTableEntry dungeon_tiles_1DF6B.bin dungeon_tilemap_11673.bin
+  DungeonTilesTableEntry dungeon_tiles_1EA13.bin dungeon_tilemap_11A34.bin
+  DungeonTilesTableEntry dungeon_tiles_20000.bin dungeon_tilemap_11E02.bin
+  DungeonTilesTableEntry dungeon_tiles_209ED.bin dungeon_tilemap_10906.bin
+  DungeonTilesTableEntry dungeon_tiles_22423.bin dungeon_tilemap_121D3.bin
+  DungeonTilesTableEntry dungeon_tiles_243D1.bin dungeon_tilemap_12535.bin
+  DungeonTilesTableEntry dungeon_tiles_1F422.bin dungeon_tilemap_12880.bin
+  DungeonTilesTableEntry dungeon_tiles_171AF.bin dungeon_tilemap_12BA6.bin
+  DungeonTilesTableEntry dungeon_tiles_1F422.bin dungeon_tilemap_12F5B.bin
+  DungeonTilesTableEntry dungeon_tiles_243D1.bin dungeon_tilemap_1333D.bin
+  DungeonTilesTableEntry dungeon_tiles_22423.bin dungeon_tilemap_1376C.bin
+  DungeonTilesTableEntry dungeon_tiles_209ED.bin dungeon_tilemap_10906.bin
+  DungeonTilesTableEntry dungeon_tiles_2163F.bin dungeon_tilemap_726C0.bin
+  DungeonTilesTableEntry dungeon_tiles_21D06.bin dungeon_tilemap_72935.bin
+  DungeonTilesTableEntry dungeon_tiles_16A27.bin dungeon_tilemap_72BD0.bin
+  DungeonTilesTableEntry dungeon_tiles_24000.bin dungeon_tilemap_72EC9.bin
+  DungeonTilesTableEntry dungeon_tiles_16A27.bin dungeon_tilemap_7320C.bin
+  DungeonTilesTableEntry dungeon_tiles_21D06.bin dungeon_tilemap_735C2.bin
+  DungeonTilesTableEntry dungeon_tiles_2163F.bin dungeon_tilemap_7395A.bin
+  DungeonTilesTableEntry dungeon_tiles_209ED.bin dungeon_tilemap_10906.bin
+  DungeonTilesTableEntry dungeon_tiles_24F4A.bin dungeon_tilemap_14000.bin
+  DungeonTilesTableEntry dungeon_tiles_25ABD.bin dungeon_tilemap_14367.bin
+  DungeonTilesTableEntry dungeon_tiles_2660D.bin dungeon_tilemap_14695.bin
+  DungeonTilesTableEntry dungeon_tiles_22F75.bin dungeon_tilemap_1497A.bin
+  DungeonTilesTableEntry dungeon_tiles_10000.bin dungeon_tilemap_14C62.bin
+  DungeonTilesTableEntry dungeon_tiles_17830.bin dungeon_tilemap_14F18.bin
+  DungeonTilesTableEntry dungeon_tiles_23926.bin dungeon_tilemap_1518F.bin
+  DungeonTilesTableEntry dungeon_tiles_209ED.bin dungeon_tilemap_10906.bin
+  DungeonTilesTableEntry dungeon_tiles_23926.bin dungeon_tilemap_153C6.bin
+  DungeonTilesTableEntry dungeon_tiles_17830.bin dungeon_tilemap_1572E.bin
+  DungeonTilesTableEntry dungeon_tiles_10000.bin dungeon_tilemap_15AAD.bin
+  DungeonTilesTableEntry dungeon_tiles_22F75.bin dungeon_tilemap_15E7E.bin
+  DungeonTilesTableEntry dungeon_tiles_2660D.bin dungeon_tilemap_16248.bin
+  DungeonTilesTableEntry dungeon_tiles_25ABD.bin dungeon_tilemap_16612.bin
+  DungeonTilesTableEntry dungeon_tiles_24F4A.bin dungeon_tilemap_13BBE.bin
 
 _LABEL_73E6_:
     push bc
@@ -20860,12 +20882,12 @@ DungeonObjects:
   AddDungeonObject_Item     $00, $36, Flag_DungeonChest00_36_Compass, Item_Compass, 0
   AddDungeonObject_Meseta   $00, $E0, Flag_DungeonChest00_E0, 20
   AddDungeonObject_Battle   $00, $53, Flag_DungeonBattle00_53, Enemy_MadDoctor, Item_Empty
-  AddDungeonObject_Dialogue $00, $E3, Flag_DungeonDialogue00_E3_StoneTairon, $A3, $3A ; _room_a3_TaironStone ???
+  AddDungeonObject_Dialogue $00, $E3, TaironHasBeenFreed, $A3, $3A ; _room_a3_TaironStone ???
   AddDungeonObject_Meseta   $00, $7C, Flag_DungeonChest00_7C, 10
   AddDungeonObject_Item     $01, $17, Flag_DungeonChest01_17, Item_Empty, $FC
   AddDungeonObject_Battle   $01, $5D, Flag_DungeonBattle01_5D, Enemy_Skeleton, Item_Empty
   AddDungeonObject_Dialogue $01, $B2, Flag_DungeonDialogue01_B2, $82, $00 ; _room_82_TriadaPrisonGuard1
-  AddDungeonObject_Dialogue $01, $E9, Flag_DungeonDialogue01_E9, $88, $00 ; _room_88_TriadaPrisoner6
+  AddDungeonObject_Dialogue $01, $E9, Flag_DungeonDialogue01_E9, $88, $00 ; _room_88_TriadaPrisoner6_Spider
   AddDungeonObject_Item     $02, $17, Flag_DungeonChest02_17_DungeonKey, Item_DungeonKey, $00
   AddDungeonObject_Meseta   $02, $67, Flag_DungeonChest02_67, 50
   AddDungeonObject_Meseta   $02, $3A, Flag_DungeonChest02_3A, 30
@@ -21643,171 +21665,27 @@ _DATA_FF98_EndingMovementData:
 ;=======================================================================================================
 .bank 4 slot 2
 .ORG $0000
-
-.db $0E $00 $00 $00 $81 $13 $00 $00 $04 $00 $00 $00 $81 $01 $00 $00
-.db $02 $00 $00 $00 $81 $FF $00 $00 $04 $00 $00 $00 $81 $6F $00 $00
-.db $02 $00 $00 $00 $81 $FF $00 $00 $04 $00 $00 $00 $81 $FF $00 $00
-.db $02 $00 $00 $00 $81 $FF $00 $00 $04 $00 $00 $00 $81 $FF $00 $00
-.db $02 $00 $00 $00 $83 $FF $00 $00 $BF $00 $00 $00 $03 $00 $02 $00
-.db $00 $00 $81 $FF $00 $00 $02 $00 $00 $00 $02 $FF $00 $00 $85 $69
-.db $96 $7F $1F $60 $1F $03 $1C $03 $FC $03 $00 $00 $00 $00 $03 $FF
-.db $00 $00 $81 $00 $FF $FF $02 $FF $00 $FF $86 $00 $FF $FF $1F $E0
-.db $1F $E0 $1F $03 $FC $03 $00 $FF $00 $00 $00 $FF $FF $02 $FF $00
-.db $FF $82 $00 $FF $FF $FF $00 $FF $02 $00 $FF $FF $82 $00 $FF $1F
-.db $00 $FF $FF $02 $FF $00 $FF $82 $00 $FF $FF $FF $00 $FF $03 $00
-.db $FF $FF $06 $00 $00 $00 $82 $C0 $00 $00 $3E $C0 $00 $06 $00 $00
-.db $00 $82 $01 $00 $00 $07 $00 $00 $02 $00 $00 $00 $8A $17 $00 $00
-.db $00 $00 $00 $BF $00 $00 $17 $00 $00 $FF $00 $00 $BF $00 $00 $2F
-.db $00 $00 $00 $00 $00 $FF $00 $00 $0B $00 $00 $05 $FF $00 $00 $81
-.db $01 $00 $00 $07 $FF $00 $00 $81 $2F $00 $00 $0E $FF $00 $00 $82
-.db $E0 $1F $03 $FC $03 $00 $06 $FE $01 $00 $02 $00 $FF $FF $83 $00
-.db $FF $1F $60 $1F $87 $78 $07 $80 $03 $7F $00 $80 $05 $00 $FF $FF
-.db $85 $00 $FF $1F $E0 $1F $07 $F8 $07 $00 $01 $3E $00 $00 $01 $00
-.db $06 $00 $00 $00 $84 $E0 $00 $00 $1E $E0 $00 $01 $1E $00 $00 $01
-.db $00 $02 $00 $00 $00 $89 $01 $00 $00 $05 $00 $00 $17 $00 $00 $37
-.db $00 $00 $4F $00 $B0 $08 $F0 $07 $B0 $0F $00 $FF $00 $00 $BF $00
-.db $00 $05 $FF $00 $00 $83 $0F $00 $F0 $00 $F0 $0F $F0 $0F $00 $06
-.db $FF $00 $00 $83 $7F $00 $80 $07 $80 $78 $80 $78 $07 $07 $FF $00
-.db $00 $81 $7F $00 $80 $08 $FE $01 $00 $08 $7F $00 $80 $81 $01 $00
-.db $00 $03 $05 $00 $00 $82 $15 $00 $00 $07 $00 $00 $02 $17 $00 $00
-.db $81 $F8 $07 $00 $07 $FF $00 $00 $83 $03 $80 $7C $80 $7C $03 $9C
-.db $43 $20 $05 $9F $40 $20 $85 $FF $00 $00 $3F $00 $C0 $01 $C0 $3E
-.db $C0 $3E $01 $FE $01 $00 $06 $FF $00 $00 $84 $1F $00 $E0 $01 $E0
-.db $1E $E0 $1E $01 $FE $01 $00 $06 $FF $00 $00 $83 $0F $00 $F0 $00
-.db $F0 $0F $F0 $0F $00 $07 $FF $00 $00 $81 $0F $00 $F0 $02 $17 $00
-.db $00 $83 $57 $00 $00 $1F $00 $00 $57 $00 $00 $03 $5F $00 $00 $08
-.db $9F $40 $20 $82 $00 $F0 $0F $F0 $0F $00 $06 $FF $00 $00 $84 $7F
-.db $00 $80 $07 $80 $78 $80 $78 $07 $F8 $07 $00 $06 $FF $00 $00 $84
-.db $7F $00 $80 $03 $80 $7C $80 $7C $03 $FC $03 $00 $06 $FF $00 $00
-.db $84 $3F $00 $C0 $03 $C0 $3C $C0 $3C $03 $FC $03 $00 $06 $FE $01
-.db $00 $85 $1E $01 $E0 $00 $E1 $1E $00 $00 $00 $01 $00 $00 $00 $00
-.db $00 $05 $01 $00 $00 $07 $5F $00 $00 $83 $7F $00 $00 $E0 $1F $00
-.db $FE $01 $00 $06 $FF $00 $00 $83 $1F $00 $E0 $00 $E0 $1F $E0 $1F
-.db $00 $07 $FF $00 $00 $83 $0F $00 $F0 $00 $F0 $0F $F0 $0F $00 $03
-.db $FF $00 $00 $82 $05 $00 $00 $01 $00 $00 $06 $05 $00 $00 $81 $5F
-.db $00 $00 $06 $7F $00 $00 $81 $FF $00 $00 $06 $05 $00 $00 $83 $F9
-.db $00 $04 $02 $FC $01 $7F $00 $00 $06 $FF $00 $00 $81 $00 $00 $FF
-.db $07 $FF $00 $00 $82 $1F $00 $E0 $04 $03 $00 $07 $05 $00 $00 $81
-.db $00 $FF $00 $07 $FF $00 $00 $82 $00 $E0 $1F $E0 $1F $00 $06 $FF
-.db $00 $00 $83 $01 $00 $FE $00 $FE $01 $FE $01 $00 $06 $FF $00 $00
-.db $82 $00 $00 $FF $00 $FF $00 $05 $FF $00 $00 $84 $9F $40 $20 $0F
-.db $40 $B0 $00 $F0 $0F $F0 $0F $00 $06 $FF $00 $00 $82 $00 $00 $FF
-.db $00 $FF $00 $06 $FF $00 $00 $83 $7F $00 $80 $00 $80 $7F $80 $7F
-.db $00 $06 $FF $00 $00 $83 $03 $00 $FC $00 $FC $03 $FC $03 $00 $06
-.db $FF $00 $00 $82 $00 $00 $FF $00 $FF $00 $06 $FF $00 $00 $83 $3F
-.db $00 $C0 $00 $C0 $3F $C0 $3F $00 $06 $FF $00 $00 $83 $01 $00 $FE
-.db $00 $FE $01 $FE $01 $00 $06 $FF $00 $00 $82 $00 $00 $FF $00 $FF
-.db $00 $06 $FF $00 $00 $82 $0F $00 $F0 $00 $F0 $0F $07 $FF $00 $00
-.db $84 $00 $00 $FF $05 $00 $00 $07 $00 $00 $05 $00 $00 $04 $07 $00
-.db $00 $82 $27 $00 $00 $F0 $0F $00 $07 $FE $01 $00 $81 $00 $FF $00
-.db $07 $7F $00 $80 $82 $00 $80 $7F $80 $7F $00 $06 $FF $00 $00 $08
-.db $27 $00 $00 $81 $97 $68 $FF $02 $FF $00 $FF $82 $00 $FF $FF $FF
-.db $00 $FF $03 $00 $FF $FF $03 $FF $00 $FF $81 $00 $FF $FF $02 $FF
-.db $00 $FF $02 $00 $FF $FF $03 $FF $00 $FF $81 $00 $FF $FF $02 $FF
-.db $00 $FF $82 $00 $FF $FF $02 $FD $FE $03 $FF $00 $FF $89 $00 $FF
-.db $FC $F0 $0F $F3 $E3 $1C $EF $10 $FF $9F $1F $E0 $7F $E3 $1C $E7
-.db $C7 $38 $DF $1F $E0 $3F $C9 $F6 $FF $02 $FF $00 $FF $81 $00 $FF
-.db $FF $04 $FF $00 $FF $81 $7F $80 $FF $02 $FF $00 $FF $81 $00 $FF
-.db $FF $07 $FF $00 $FF $81 $37 $C8 $FF $09 $FF $00 $FF $0C $00 $FF
-.db $FF $89 $00 $FF $FC $03 $FF $FB $04 $FF $E7 $18 $FF $9F $01 $FF
-.db $F9 $06 $FF $F7 $08 $FF $CF $30 $FF $3F $C0 $FF $FF $04 $00 $FF
-.db $FF $81 $0B $F4 $FF $07 $00 $FF $FF $81 $7F $80 $FF $06 $00 $FF
-.db $FF $84 $0B $F4 $FF $FF $00 $FF $00 $FF $FF $2F $D0 $FF $04 $00
-.db $FF $FF $02 $FF $00 $FF $86 $17 $E8 $FF $FF $00 $FF $02 $FD $FF
-.db $17 $E8 $FF $00 $FF $FF $02 $FD $FF $06 $FF $00 $FF $85 $7F $80
-.db $FF $9F $60 $FF $00 $FF $3F $C0 $3F $07 $F8 $07 $00 $05 $FF $00
-.db $00 $03 $00 $FF $FF $85 $00 $FF $3F $C0 $3F $07 $F8 $07 $01 $FE
-.db $01 $00 $FF $00 $00 $06 $00 $FF $FF $82 $00 $FF $3F $C0 $3F $07
-.db $05 $00 $FF $FF $89 $00 $FF $FE $01 $FF $F9 $06 $FF $E7 $00 $FF
-.db $FE $01 $FF $FD $02 $FF $F3 $0C $FF $CF $30 $FF $3F $C0 $FF $FF
-.db $02 $00 $FF $FF $82 $60 $FF $7F $80 $FF $FF $06 $00 $FF $FF $88
-.db $17 $E8 $FF $13 $EC $FF $02 $FD $FF $13 $EC $FF $02 $FD $FF $00
-.db $FF $FF $02 $FD $FF $00 $FF $FF $06 $FF $00 $FF $84 $7F $80 $FF
-.db $5F $A0 $FF $F8 $07 $01 $FE $01 $00 $06 $FF $00 $00 $85 $18 $FF
-.db $9F $20 $FF $3F $C0 $3F $0F $F0 $0F $01 $FE $01 $00 $03 $FF $00
-.db $00 $04 $00 $FF $FF $84 $00 $FF $3F $C0 $3F $0F $F0 $0F $01 $FE
-.db $01 $00 $07 $00 $FF $FF $82 $00 $FF $3F $7F $80 $FF $03 $5F $A0
-.db $FF $82 $57 $A8 $FF $1F $E0 $FF $02 $17 $E8 $FF $83 $C0 $3F $0F
-.db $F0 $0F $01 $FE $01 $00 $05 $FF $00 $00 $02 $00 $FF $FF $84 $00
-.db $FF $3F $C0 $3F $0F $F0 $0F $01 $F2 $09 $04 $02 $F3 $08 $04 $05
-.db $00 $FF $FF $83 $00 $FF $3F $C0 $3F $0F $F0 $0F $01 $04 $17 $E8
-.db $FF $81 $15 $EA $FF $02 $05 $FA $FF $81 $01 $FE $FF $03 $FF $00
-.db $00 $84 $7F $00 $80 $07 $80 $78 $80 $78 $07 $F8 $07 $00 $06 $FF
-.db $00 $00 $83 $7F $00 $80 $03 $80 $7C $80 $7C $03 $07 $FF $00 $00
-.db $81 $3F $00 $C0 $08 $F3 $08 $04 $81 $FE $01 $00 $07 $FF $00 $00
-.db $84 $00 $FF $3F $C0 $3F $0F $F0 $0F $01 $FE $01 $00 $04 $FF $00
-.db $00 $03 $00 $FF $FF $85 $00 $FF $3F $C0 $3F $0F $F0 $0F $01 $FE
-.db $01 $00 $FF $00 $00 $06 $00 $FF $FF $82 $00 $FF $3F $C0 $3F $0F
-.db $07 $05 $FA $FF $84 $01 $FE $FF $FF $00 $FF $7F $80 $FF $FF $00
-.db $FF $03 $7F $80 $FF $83 $70 $8F $F0 $00 $FF $0F $FC $03 $00 $07
-.db $FF $00 $00 $83 $03 $C0 $3C $C0 $3C $03 $FC $03 $00 $06 $FF $00
-.db $00 $84 $1F $00 $E0 $01 $E0 $1E $20 $9E $41 $3E $81 $40 $03 $3F
-.db $80 $40 $03 $FF $00 $00 $83 $1F $00 $E0 $00 $E0 $1F $E0 $1F $00
-.db $02 $FF $00 $00 $06 $F3 $08 $04 $84 $73 $08 $84 $03 $88 $74 $F0
-.db $0F $01 $FC $03 $00 $06 $FC $02 $01 $85 $00 $FF $FF $00 $FF $3F
-.db $C0 $3F $0F $F0 $0F $01 $FE $01 $00 $03 $FF $00 $00 $04 $00 $FF
-.db $FF $84 $00 $FF $3C $C3 $3F $03 $F0 $0F $01 $FE $01 $00 $02 $00
-.db $FF $FF $8A $00 $FF $F8 $07 $FF $C7 $38 $FF $3F $C0 $FF $FF $00
-.db $FF $FF $00 $FF $7F $00 $FF $F8 $06 $FF $87 $79 $FE $7F $81 $FE
-.db $FF $03 $01 $FE $FF $83 $00 $FF $FF $AF $F0 $FF $7F $80 $FF $06
-.db $5F $A0 $FF $08 $3F $80 $40 $82 $80 $78 $07 $F8 $07 $00 $06 $FF
-.db $00 $00 $84 $7F $00 $80 $03 $80 $7C $80 $7C $03 $FC $03 $00 $06
-.db $FF $00 $00 $83 $3F $00 $C0 $01 $C0 $3E $C0 $3E $01 $03 $FE $01
-.db $00 $04 $FF $00 $00 $84 $1F $00 $E0 $01 $E0 $1E $60 $1E $81 $7E
-.db $01 $80 $06 $FC $02 $01 $85 $0C $02 $F1 $00 $F2 $0D $80 $7F $0F
-.db $E0 $1F $01 $E6 $11 $08 $05 $E7 $10 $08 $86 $01 $FE $FF $00 $FF
-.db $FF $00 $FF $7F $80 $7F $0F $F0 $0F $01 $FE $01 $00 $02 $FF $00
-.db $00 $05 $5F $A0 $FF $84 $5B $A4 $7F $8F $70 $0F $A1 $4E $01 $F0
-.db $0F $00 $07 $FF $00 $00 $83 $07 $00 $F8 $00 $F8 $07 $F8 $07 $00
-.db $06 $FF $00 $00 $84 $7F $00 $80 $07 $80 $78 $80 $78 $07 $C8 $27
-.db $10 $03 $CF $20 $10 $03 $E7 $10 $08 $84 $27 $10 $C8 $03 $D0 $2C
-.db $C0 $3C $03 $FC $03 $00 $06 $FF $00 $00 $84 $1F $00 $E0 $01 $E0
-.db $1E $E0 $1E $01 $A0 $41 $00 $06 $A4 $40 $00 $85 $24 $40 $80 $FF
-.db $00 $00 $3F $00 $C0 $00 $C0 $3F $C0 $3F $00 $04 $FF $00 $00 $02
-.db $3F $80 $40 $83 $01 $80 $7E $00 $FE $01 $FE $01 $00 $06 $FF $00
-.db $00 $82 $00 $00 $FF $00 $FF $00 $06 $FF $00 $00 $83 $0F $00 $F0
-.db $00 $F0 $0F $F0 $0F $00 $06 $FF $00 $00 $82 $00 $00 $FF $00 $FF
-.db $00 $02 $F3 $08 $04 $04 $FF $00 $00 $84 $7F $00 $80 $00 $80 $7F
-.db $80 $7F $00 $FF $00 $00 $05 $FE $01 $00 $83 $06 $01 $F8 $00 $F9
-.db $06 $F8 $07 $00 $06 $7F $00 $80 $82 $00 $00 $FF $00 $FF $00 $06
-.db $FF $00 $00 $82 $3F $00 $C0 $00 $C0 $3F $07 $FF $00 $00 $81 $01
-.db $00 $FE $08 $CF $20 $10 $81 $E6 $11 $08 $07 $E7 $10 $08 $83 $04
-.db $E0 $00 $E0 $1F $00 $A4 $01 $00 $05 $E4 $01 $00 $81 $C0 $3F $00
-.db $07 $FC $02 $01 $82 $00 $FE $01 $FE $01 $00 $06 $FF $00 $00 $82
-.db $00 $20 $DF $00 $FF $00 $06 $FF $00 $00 $83 $0F $00 $F0 $00 $F0
-.db $0F $E0 $1F $00 $06 $E7 $10 $08 $82 $01 $10 $EE $00 $FF $00 $05
-.db $FF $00 $00 $02 $E4 $01 $00 $82 $64 $81 $00 $80 $7F $00 $04 $A4
-.db $40 $00 $05 $00 $00 $00 $83 $00 $03 $00 $03 $0C $03 $0F $70 $0F
-.db $02 $00 $00 $00 $84 $00 $03 $00 $03 $1C $03 $1F $60 $1F $7F $80
-.db $7F $02 $FF $00 $FF $83 $03 $1C $03 $1F $60 $1F $7F $80 $7F $05
-.db $FF $00 $FF $06 $00 $00 $00 $82 $00 $01 $00 $01 $0E $01 $03 $00
-.db $00 $00 $89 $00 $03 $00 $03 $0C $03 $0F $70 $0F $7F $80 $7F $FF
-.db $00 $FF $00 $03 $00 $03 $0C $03 $0F $70 $0F $7F $80 $7F $04 $FF
-.db $00 $FF $81 $7F $80 $7F $07 $FF $00 $FF $82 $F8 $07 $F9 $FE $01
-.db $FE $06 $FF $00 $FF $86 $7F $80 $FF $3F $C0 $7F $8F $70 $BF $C3
-.db $3C $CF $F0 $0F $F3 $FC $03 $FC $07 $FF $00 $FF $86 $7F $80 $FF
-.db $1F $E0 $7F $87 $78 $9F $E1 $1E $E7 $F8 $07 $F9 $FE $01 $FE $07
-.db $FF $00 $FF $86 $3F $C0 $FF $0F $F0 $3F $C7 $38 $CF $F1 $0E $F7
-.db $F8 $07 $F9 $FE $01 $FE
+.section "Dungeon tiles 1" overwrite
+dungeon_tiles_10000: .incbin "dungeon_tiles_10000.bin"
+.ends
 
 .org $10906-$10000
 .section "Tilemap data 1 - dungeon" overwrite
-.incbin "Tilemaps\10906tilemap.dat"
-_DATA_10B0F_:
-.incbin "Tilemaps\10B0Ftilemap.dat"
-.incbin "Tilemaps\10ED4tilemap.dat"
-.incbin "Tilemaps\112A4tilemap.dat"
-.incbin "Tilemaps\11673tilemap.dat"
-.incbin "Tilemaps\11A34tilemap.dat"
-.incbin "Tilemaps\11E02tilemap.dat"
-.incbin "Tilemaps\121D3tilemap.dat"
-.incbin "Tilemaps\12535tilemap.dat"
-.incbin "Tilemaps\12880tilemap.dat"
-.incbin "Tilemaps\12BA6tilemap.dat"
-.incbin "Tilemaps\12F5Btilemap.dat"
-.incbin "Tilemaps\1333Dtilemap.dat"
-.incbin "Tilemaps\1376Ctilemap.dat"
-.incbin "Tilemaps\13BBEtilemap.dat"
+dungeon_tilemap_10906: .incbin "dungeon_tilemap_10906.bin"
+dungeon_tilemap_10B0F: .incbin "dungeon_tilemap_10B0F.bin"
+dungeon_tilemap_10ED4: .incbin "dungeon_tilemap_10ED4.bin"
+dungeon_tilemap_112A4: .incbin "dungeon_tilemap_112A4.bin"
+dungeon_tilemap_11673: .incbin "dungeon_tilemap_11673.bin"
+dungeon_tilemap_11A34: .incbin "dungeon_tilemap_11A34.bin"
+dungeon_tilemap_11E02: .incbin "dungeon_tilemap_11E02.bin"
+dungeon_tilemap_121D3: .incbin "dungeon_tilemap_121D3.bin"
+dungeon_tilemap_12535: .incbin "dungeon_tilemap_12535.bin"
+dungeon_tilemap_12880: .incbin "dungeon_tilemap_12880.bin"
+dungeon_tilemap_12BA6: .incbin "dungeon_tilemap_12BA6.bin"
+dungeon_tilemap_12F5B: .incbin "dungeon_tilemap_12F5B.bin"
+dungeon_tilemap_1333D: .incbin "dungeon_tilemap_1333D.bin"
+dungeon_tilemap_1376C: .incbin "dungeon_tilemap_1376C.bin"
+dungeon_tilemap_13BBE: .incbin "dungeon_tilemap_13BBE.bin"
 .ends
 ; Fits exactly
 
@@ -21818,370 +21696,25 @@ _DATA_10B0F_:
 .ORG $0000
 
 .section "Tilemap data 1 - dungeon - continued" overwrite
-.incbin "Tilemaps\14000tilemap.dat"
-.incbin "Tilemaps\14367tilemap.dat"
-.incbin "Tilemaps\14695tilemap.dat"
-.incbin "Tilemaps\1497Atilemap.dat"
-.incbin "Tilemaps\14C62tilemap.dat"
-.incbin "Tilemaps\14F18tilemap.dat"
-.incbin "Tilemaps\1518Ftilemap.dat"
-.incbin "Tilemaps\153C6tilemap.dat"
-.incbin "Tilemaps\1572Etilemap.dat"
-.incbin "Tilemaps\15AADtilemap.dat"
-.incbin "Tilemaps\15E7Etilemap.dat"
-.incbin "Tilemaps\16248tilemap.dat"
-.incbin "Tilemaps\16612tilemap.dat"
+dungeon_tilemap_14000: .incbin "dungeon_tilemap_14000.bin"
+dungeon_tilemap_14367: .incbin "dungeon_tilemap_14367.bin"
+dungeon_tilemap_14695: .incbin "dungeon_tilemap_14695.bin"
+dungeon_tilemap_1497A: .incbin "dungeon_tilemap_1497A.bin"
+dungeon_tilemap_14C62: .incbin "dungeon_tilemap_14C62.bin"
+dungeon_tilemap_14F18: .incbin "dungeon_tilemap_14F18.bin"
+dungeon_tilemap_1518F: .incbin "dungeon_tilemap_1518F.bin"
+dungeon_tilemap_153C6: .incbin "dungeon_tilemap_153C6.bin"
+dungeon_tilemap_1572E: .incbin "dungeon_tilemap_1572E.bin"
+dungeon_tilemap_15AAD: .incbin "dungeon_tilemap_15AAD.bin"
+dungeon_tilemap_15E7E: .incbin "dungeon_tilemap_15E7E.bin"
+dungeon_tilemap_16248: .incbin "dungeon_tilemap_16248.bin"
+dungeon_tilemap_16612: .incbin "dungeon_tilemap_16612.bin"
 .ends
 
 .org $16a27-$14000
-.db $0E $00 $00 $00 $82 $13 $00 $00 $00 $00 $00 $06 $00 $01 $00 $86
-.db $FE $01 $00 $00 $01 $00 $8F $10 $0F $83 $0C $03 $80 $03 $00 $EF
-.db $00 $00 $02 $80 $00 $00 $82 $7F $00 $80 $80 $00 $00 $03 $FF $00
-.db $FF $85 $00 $FF $3F $1F $20 $1F $07 $18 $07 $F8 $07 $01 $00 $01
-.db $00 $03 $FF $00 $FF $81 $00 $FF $FF $02 $FF $00 $FF $82 $00 $FF
-.db $FF $40 $BF $7F $03 $FF $00 $FF $81 $00 $FF $FF $02 $FF $00 $FF
-.db $02 $00 $FF $FF $81 $E9 $16 $FF $02 $FF $00 $FF $82 $00 $FF $FF
-.db $FF $00 $FF $04 $00 $FF $FF $02 $FF $00 $FF $82 $00 $FF $FF $FF
-.db $00 $FF $03 $00 $FF $FF $06 $00 $00 $00 $82 $C0 $00 $00 $38 $C0
-.db $00 $06 $00 $00 $00 $82 $01 $00 $00 $07 $00 $00 $02 $00 $00 $00
-.db $8A $17 $00 $00 $00 $00 $00 $BF $00 $00 $17 $00 $00 $FF $00 $00
-.db $BF $00 $00 $2F $00 $00 $00 $00 $00 $FF $00 $00 $0B $00 $00 $05
-.db $FF $00 $00 $81 $01 $00 $00 $06 $FF $00 $00 $82 $FE $01 $00 $2E
-.db $01 $00 $06 $FE $01 $00 $08 $7F $00 $80 $08 $FF $00 $00 $84 $80
-.db $7F $3F $C0 $3F $0F $F0 $0F $03 $FC $03 $00 $04 $FF $00 $00 $04
-.db $00 $FF $FF $84 $00 $FF $3F $C0 $3F $1F $E0 $1F $07 $F8 $07 $01
-.db $08 $00 $FF $FF $82 $07 $38 $00 $00 $07 $00 $07 $00 $00 $00 $8F
-.db $E0 $00 $00 $1C $E0 $00 $03 $1C $00 $00 $03 $00 $00 $00 $00 $01
-.db $00 $00 $05 $00 $00 $17 $00 $00 $37 $00 $00 $BF $00 $00 $B7 $00
-.db $00 $4F $80 $30 $81 $70 $0E $B0 $0E $01 $FE $01 $00 $06 $FF $00
-.db $00 $82 $3F $00 $C0 $07 $C0 $38 $09 $FE $01 $00 $07 $FF $00 $00
-.db $85 $00 $FF $7F $80 $7F $3F $C0 $3F $0F $F0 $0F $03 $FC $03 $00
-.db $03 $FF $00 $00 $05 $00 $FF $FF $83 $00 $FF $7F $80 $7F $1F $E0
-.db $1F $07 $06 $00 $FF $FF $82 $00 $FF $FC $03 $FC $E0 $03 $00 $FF
-.db $FF $88 $00 $FF $FC $03 $FC $E0 $1F $E0 $80 $7F $80 $00 $FF $00
-.db $00 $00 $FF $FC $03 $FC $E0 $1F $E0 $00 $05 $FF $00 $00 $81 $01
-.db $00 $00 $03 $05 $00 $00 $82 $15 $00 $00 $07 $00 $00 $02 $17 $00
-.db $00 $82 $C0 $38 $07 $F8 $07 $00 $07 $FF $00 $00 $84 $1F $00 $E0
-.db $03 $E0 $1C $E0 $1C $03 $FC $03 $00 $06 $FF $00 $00 $85 $7F $00
-.db $80 $1F $80 $60 $83 $60 $1C $E0 $1C $03 $FC $03 $00 $06 $FE $01
-.db $00 $83 $7E $01 $80 $0E $81 $70 $F8 $07 $01 $07 $FE $01 $00 $82
-.db $1F $E0 $80 $7F $80 $00 $06 $FF $00 $00 $02 $17 $00 $00 $83 $57
-.db $00 $00 $1F $00 $00 $57 $00 $00 $03 $5F $00 $00 $83 $80 $71 $0E
-.db $F0 $0F $00 $FE $01 $00 $05 $FF $00 $00 $85 $7F $00 $80 $3F $00
-.db $C0 $07 $C0 $38 $C0 $38 $07 $F8 $07 $00 $07 $FF $00 $00 $84 $1F
-.db $00 $E0 $03 $E0 $1C $E0 $1C $03 $FC $03 $00 $06 $FF $00 $00 $85
-.db $7F $00 $80 $0F $80 $70 $00 $00 $00 $01 $00 $00 $00 $00 $00 $05
-.db $01 $00 $00 $07 $5F $00 $00 $84 $7F $00 $00 $81 $70 $0E $F0 $0E
-.db $01 $FE $01 $00 $06 $FF $00 $00 $85 $3F $00 $C0 $0F $C0 $30 $C1
-.db $30 $0E $F0 $0E $01 $FE $01 $00 $06 $FF $00 $00 $84 $3F $00 $C0
-.db $07 $C0 $38 $C0 $38 $07 $F8 $07 $00 $07 $FE $01 $00 $81 $1E $01
-.db $E0 $07 $FF $00 $00 $81 $FC $00 $03 $05 $FF $00 $00 $83 $FE $00
-.db $01 $C0 $01 $3E $01 $3E $C0 $03 $FF $00 $00 $87 $FE $00 $01 $E0
-.db $01 $1E $01 $1E $E0 $1F $E0 $00 $FF $00 $00 $05 $00 $00 $01 $00
-.db $00 $06 $05 $00 $00 $81 $5F $00 $00 $06 $7F $00 $00 $84 $FF $00
-.db $00 $02 $E1 $1C $E0 $1D $02 $FC $03 $00 $05 $FE $01 $00 $83 $C0
-.db $03 $3C $03 $3C $C0 $3F $C0 $00 $05 $FF $00 $00 $81 $3F $C0 $00
-.db $07 $FF $00 $00 $06 $05 $00 $00 $83 $C5 $00 $00 $3A $C0 $05 $7F
-.db $00 $00 $06 $FF $00 $00 $82 $1F $00 $E0 $00 $3F $00 $07 $05 $00
-.db $00 $82 $00 $E0 $1F $E0 $1F $00 $06 $FF $00 $00 $83 $0F $00 $F0
-.db $00 $F0 $0F $F0 $0F $00 $06 $FF $00 $00 $83 $07 $00 $F8 $00 $F8
-.db $07 $F8 $07 $00 $06 $FF $00 $00 $83 $03 $00 $FC $00 $FC $03 $FC
-.db $03 $00 $06 $FF $00 $00 $83 $03 $00 $FC $00 $FC $03 $FC $03 $00
-.db $06 $FF $00 $00 $82 $00 $00 $FF $00 $FF $00 $02 $FE $01 $00 $05
-.db $FF $00 $00 $83 $00 $00 $FF $00 $FF $00 $7F $00 $80 $06 $FF $00
-.db $00 $82 $00 $00 $FF $00 $FF $00 $06 $FF $00 $00 $85 $7F $00 $80
-.db $00 $80 $7F $05 $00 $00 $07 $00 $00 $05 $00 $00 $04 $07 $00 $00
-.db $82 $27 $00 $00 $80 $7F $00 $07 $FF $00 $00 $82 $00 $C0 $3F $C0
-.db $3F $00 $06 $FF $00 $00 $83 $3F $00 $C0 $00 $C0 $3F $C0 $3F $00
-.db $05 $FF $00 $00 $84 $FE $01 $00 $1E $01 $E0 $00 $E1 $1E $E0 $1F
-.db $00 $04 $FE $01 $00 $84 $FF $00 $00 $FC $00 $03 $00 $03 $FC $03
-.db $FC $00 $05 $FF $00 $00 $82 $00 $00 $FF $00 $FF $00 $05 $FF $00
-.db $00 $83 $E0 $00 $1F $00 $1F $E0 $1F $E0 $00 $05 $FF $00 $00 $08
-.db $27 $00 $00 $81 $00 $FF $FF $02 $FF $00 $FF $82 $00 $FF $FF $FF
-.db $00 $FF $02 $00 $FF $FF $82 $00 $FF $F8 $00 $FF $FF $02 $FF $00
-.db $FF $8A $00 $FF $FF $F8 $07 $F8 $07 $F8 $C0 $3F $C0 $00 $FF $00
-.db $00 $96 $69 $FE $F8 $06 $F8 $C0 $38 $C0 $3F $C0 $00 $00 $00 $00
-.db $03 $FF $00 $00 $81 $00 $C0 $00 $02 $00 $00 $00 $81 $FF $00 $00
-.db $02 $00 $00 $00 $02 $FF $00 $00 $03 $00 $00 $00 $81 $FF $00 $00
-.db $02 $00 $00 $00 $82 $FF $00 $00 $FD $00 $00 $03 $00 $00 $00 $81
-.db $FF $00 $00 $02 $00 $00 $00 $81 $FF $00 $00 $04 $00 $00 $00 $81
-.db $F6 $00 $00 $02 $00 $00 $00 $81 $FF $00 $00 $04 $00 $00 $00 $81
-.db $80 $00 $00 $02 $00 $00 $00 $82 $FF $00 $00 $00 $00 $00 $05 $00
-.db $FF $FF $83 $00 $FF $F8 $07 $F8 $E0 $1F $E0 $00 $02 $00 $FF $FF
-.db $83 $00 $FF $F8 $06 $F8 $E1 $1E $E0 $01 $03 $FE $00 $01 $82 $07
-.db $F8 $C0 $3F $C0 $00 $06 $7F $80 $00 $82 $FF $00 $00 $F4 $00 $00
-.db $06 $FF $00 $00 $06 $00 $00 $00 $82 $03 $00 $00 $7C $03 $00 $07
-.db $FF $00 $00 $81 $FE $00 $01 $05 $FF $00 $00 $83 $FE $00 $01 $E0
-.db $01 $1E $01 $1E $E0 $04 $FF $00 $00 $90 $F0 $00 $0F $00 $0F $F0
-.db $0F $F0 $00 $FF $00 $00 $E8 $00 $00 $EC $00 $00 $F2 $00 $0D $10
-.db $0F $E0 $0D $F0 $00 $FF $00 $00 $FD $00 $00 $FF $00 $00 $07 $00
-.db $00 $78 $07 $00 $80 $78 $00 $00 $80 $00 $02 $00 $00 $00 $84 $80
-.db $00 $00 $A0 $00 $00 $80 $7C $00 $00 $80 $00 $06 $00 $00 $00 $07
-.db $FF $00 $00 $81 $F0 $00 $0F $05 $FF $00 $00 $83 $F0 $00 $0F $00
-.db $0F $F0 $0F $F0 $00 $03 $FF $00 $00 $84 $F8 $00 $07 $80 $07 $78
-.db $07 $78 $80 $7F $80 $00 $02 $FF $00 $00 $84 $FC $00 $03 $80 $03
-.db $7C $03 $7C $80 $7F $80 $00 $03 $FF $00 $00 $83 $C0 $01 $3E $01
-.db $3E $C0 $39 $C2 $04 $05 $F9 $02 $04 $81 $1F $E0 $00 $07 $FF $00
-.db $00 $06 $7F $80 $00 $82 $78 $80 $07 $00 $87 $78 $04 $FF $00 $00
-.db $84 $FC $00 $03 $C0 $03 $3C $03 $3C $C0 $3F $C0 $00 $02 $FF $00
-.db $00 $84 $FE $00 $01 $C0 $01 $3E $01 $3E $C0 $3F $C0 $00 $02 $FF
-.db $00 $00 $84 $FE $00 $01 $E0 $01 $1E $01 $1E $E0 $1F $E0 $00 $04
-.db $FF $00 $00 $82 $00 $0F $F0 $0F $F0 $00 $06 $FF $00 $00 $08 $F9
-.db $02 $04 $02 $FF $00 $00 $83 $F0 $00 $0F $00 $0F $F0 $0F $F0 $00
-.db $03 $FF $00 $00 $83 $F8 $00 $07 $00 $07 $F8 $07 $F8 $00 $05 $FF
-.db $00 $00 $82 $07 $F8 $00 $7F $80 $00 $0D $FF $00 $00 $82 $F8 $00
-.db $07 $FE $00 $00 $06 $FF $00 $00 $81 $00 $00 $FF $06 $A0 $00 $00
-.db $82 $9F $00 $20 $40 $3F $80 $07 $FF $00 $00 $81 $00 $00 $FF $06
-.db $FF $00 $00 $82 $F0 $00 $0F $00 $0F $F0 $05 $FF $00 $00 $83 $80
-.db $00 $7F $00 $7F $80 $7F $80 $00 $04 $FF $00 $00 $83 $FC $00 $03
-.db $00 $03 $FC $03 $FC $00 $05 $FF $00 $00 $82 $00 $00 $FF $00 $FF
-.db $00 $04 $FF $00 $00 $83 $FE $00 $01 $00 $01 $FE $01 $FE $00 $05
-.db $FF $00 $00 $82 $00 $00 $FF $00 $FF $00 $04 $FF $00 $00 $84 $F9
-.db $02 $04 $F0 $02 $0D $00 $0F $F0 $0F $F0 $00 $04 $FF $00 $00 $83
-.db $80 $00 $7F $00 $7F $80 $7F $80 $00 $05 $FF $00 $00 $81 $00 $FF
-.db $00 $07 $FF $00 $00 $81 $20 $C0 $00 $07 $A0 $00 $00 $82 $00 $01
-.db $FE $01 $FE $00 $06 $FF $00 $00 $81 $00 $FF $00 $07 $FE $00 $01
-.db $81 $0F $F0 $00 $07 $7F $80 $00 $06 $00 $00 $00 $82 $00 $03 $00
-.db $03 $04 $03 $02 $00 $01 $00 $84 $01 $06 $01 $07 $08 $07 $0F $30
-.db $0F $3F $C0 $3F $02 $FF $00 $FF $82 $1F $60 $1F $7F $80 $7F $0E
-.db $FF $00 $FF $07 $00 $00 $00 $81 $00 $01 $00 $02 $00 $00 $00 $89
-.db $00 $01 $00 $01 $02 $01 $03 $0C $03 $0F $30 $0F $3F $C0 $3F $FF
-.db $00 $FF $07 $18 $07 $1F $60 $1F $7F $80 $7F $05 $FF $00 $FF $83
-.db $C0 $38 $C0 $F8 $06 $F8 $FE $01 $FE $05 $FF $00 $FF $02 $00 $00
-.db $00 $84 $00 $C0 $00 $C0 $38 $C0 $F8 $06 $F8 $FE $01 $FE $02 $FF
-.db $00 $FF $05 $00 $00 $00 $84 $00 $C0 $00 $C0 $30 $C0 $F0 $0E $F0
-.db $FE $01 $FE $07 $FF $00 $FF $84 $00 $C0 $00 $C0 $30 $C0 $F0 $0E
-.db $F0 $FE $01 $FE $04 $FF $00 $FF $03 $00 $00 $00 $85 $00 $C0 $00
-.db $C0 $30 $C0 $F0 $0E $F0 $FE $01 $FE $FF $00 $FF $06 $00 $00 $00
-.db $82 $00 $80 $00 $80 $70 $80 $7F $00 $00 $00 $7F $00 $00 $00 $7F
-.db $00 $00 $00 $0B $00 $00 $00 $00 $08 $00 $00 $00 $0E $FF $00 $FF
-.db $81 $EC $13 $FF $04 $FF $00 $FF $81 $FE $01 $FF $02 $FF $00 $FF
-.db $8A $00 $FF $FF $FF $00 $FF $F9 $06 $FB $F3 $0C $F7 $E7 $18 $EF
-.db $88 $7F $EF $CF $30 $DF $9F $60 $BF $20 $FF $BF $3F $C0 $7F $03
-.db $FF $00 $FF $81 $00 $FF $FF $02 $FF $00 $FF $86 $00 $FF $FF $FF
-.db $00 $FF $1F $E0 $9F $87 $78 $E7 $E1 $1E $F9 $06 $FF $FE $02 $FF
-.db $00 $FF $82 $00 $FF $FF $40 $BF $FF $03 $FF $00 $FF $85 $00 $FF
-.db $7F $1F $E0 $9F $87 $78 $E7 $18 $FF $F9 $06 $FF $FE $03 $FF $00
-.db $FF $82 $00 $FF $FF $FF $00 $FF $02 $00 $FF $FF $81 $00 $FF $7F
-.db $03 $FF $00 $FF $82 $00 $FF $FF $FF $00 $FF $03 $00 $FF $FF $06
-.db $FF $00 $FF $82 $FE $01 $FF $F9 $06 $FF $02 $FF $00 $FF $8A $E8
-.db $17 $FF $FF $00 $FF $40 $BF $FF $E8 $17 $FF $00 $FF $FF $40 $BF
-.db $FF $D0 $2F $FF $FF $00 $FF $00 $FF $FF $F4 $0B $FF $05 $00 $FF
-.db $FF $81 $FE $01 $FF $06 $00 $FF $FF $83 $00 $FF $FE $D0 $2F $FE
-.db $01 $FF $FD $02 $02 $FF $FB $81 $04 $FF $F7 $02 $08 $FF $EF $02
-.db $80 $FF $FF $0E $00 $FF $FF $81 $01 $FF $FF $07 $00 $FF $FF $84
-.db $80 $FF $9F $60 $FF $E7 $18 $FF $F8 $07 $FF $FF $07 $00 $FF $FF
-.db $85 $00 $FF $3F $C0 $FF $CF $30 $FF $F3 $0C $FF $FC $03 $FF $FF
-.db $07 $00 $FF $FF $81 $00 $FF $3F $06 $FF $00 $FF $89 $FE $01 $FF
-.db $FA $05 $FF $E8 $17 $FF $C8 $37 $FF $40 $BF $FF $C8 $37 $FF $40
-.db $BF $FF $00 $FF $FF $40 $BF $FF $05 $00 $FF $FF $02 $00 $FF $FE
-.db $83 $01 $FF $FD $02 $FF $FB $10 $FF $DF $02 $20 $FF $BF $81 $40
-.db $FF $7F $02 $80 $FF $FF $02 $00 $FF $FF $84 $C0 $FF $CF $30 $FF
-.db $F3 $0C $FF $FC $03 $FF $FF $04 $00 $FF $FF $85 $FF $00 $FF $3F
-.db $C0 $3F $03 $FC $C3 $C0 $3F $FC $FC $03 $FF $03 $FF $00 $FF $81
-.db $FE $01 $FF $02 $FA $05 $FF $85 $3A $C5 $3F $02 $FD $C3 $C4 $3F
-.db $FC $EB $17 $FF $E8 $17 $FF $05 $00 $FF $FF $85 $00 $FF $3F $C0
-.db $FF $C3 $3C $FF $FC $02 $FF $FB $04 $FF $F7 $02 $08 $FF $EF $81
-.db $10 $FF $DF $02 $20 $FF $BF $81 $40 $FF $7F $06 $00 $FF $FF $8A
-.db $00 $FF $FE $01 $FE $F8 $C0 $FF $CF $30 $FF $F1 $0E $FF $FE $00
-.db $FF $F8 $04 $F9 $E2 $1C $E1 $82 $7C $81 $02 $FC $01 $02 $04 $E8
-.db $17 $FF $81 $A8 $57 $FF $02 $A0 $5F $FF $82 $80 $7F $FF $03 $FF
-.db $FF $07 $00 $FF $FF $83 $C0 $FF $C3 $3C $FF $FC $03 $FF $FF $05
-.db $00 $FF $FF $86 $00 $FF $FE $00 $FF $3E $C1 $FF $C1 $3A $FF $FB
-.db $02 $FF $FB $04 $FF $F7 $02 $08 $FF $EF $06 $00 $FF $FF $82 $00
-.db $FF $FE $00 $FF $F8 $02 $00 $FF $FF $89 $00 $FF $FE $01 $FE $F8
-.db $07 $F8 $E0 $1F $E0 $80 $7F $80 $00 $FF $00 $00 $07 $F8 $E0 $1F
-.db $E0 $80 $7F $80 $00 $05 $FF $00 $00 $08 $FC $01 $02 $83 $FF $00
-.db $FF $FE $01 $FF $FF $00 $FF $05 $FE $01 $FF $07 $A0 $5F $FF $81
-.db $80 $7F $FF $06 $00 $FF $FF $82 $00 $FF $FC $03 $FC $F0 $02 $00
-.db $FF $FF $84 $00 $FF $FC $03 $FC $F0 $0F $F0 $C0 $3F $C0 $00 $02
-.db $FF $00 $00 $82 $04 $F9 $E2 $1C $E1 $02 $06 $FC $01 $02 $08 $FF
-.db $00 $00 $82 $FA $05 $FF $FE $01 $FF $06 $FA $05 $FF $81 $A0 $5F
-.db $FF $06 $80 $7F $FF $83 $00 $FF $FF $02 $FF $FB $04 $FF $F7 $02
-.db $08 $FF $EF $84 $00 $FF $C0 $3F $FF $BF $00 $FF $BF $00 $FF $7F
-.db $05 $00 $FF $FF $82 $00 $FF $00 $FF $FF $FF $07 $00 $FF $FF $82
-.db $00 $FF $00 $FF $FF $FF $07 $00 $FF $FF $81 $00 $FF $00 $06 $00
-.db $FF $FF $82 $00 $FF $FC $03 $FC $E0 $02 $00 $FF $FF $84 $00 $FF
-.db $FC $03 $FC $F0 $0F $F0 $C0 $1F $E0 $00 $02 $9F $20 $40 $82 $0F
-.db $F0 $C0 $3F $C0 $00 $0D $FF $00 $00 $81 $FC $00 $03 $05 $FF $00
-.db $00 $83 $F8 $00 $07 $80 $07 $78 $07 $78 $80 $03 $FC $01 $02 $83
-.db $E0 $01 $1E $00 $1F $E0 $1C $E1 $02 $02 $FC $01 $02 $82 $00 $FF
-.db $01 $FE $01 $FE $06 $FF $00 $FF $83 $80 $7F $FF $00 $FF $03 $FC
-.db $03 $FC $05 $FF $00 $FF $86 $00 $FF $FE $AA $55 $FE $05 $FA $0D
-.db $F1 $0E $F1 $FB $04 $FB $F7 $08 $F7 $02 $EF $10 $EF $02 $00 $FF
-.db $FF $81 $55 $AA $FF $05 $FF $00 $FF $02 $00 $FF $FF $82 $40 $BF
-.db $FF $AA $55 $FF $04 $FF $00 $FF $02 $00 $FF $FF $82 $01 $FE $FF
-.db $AA $55 $FF $04 $FF $00 $FF $92 $FF $FF $FF $02 $FD $FF $55 $AA
-.db $FF $AA $55 $FF $FF $00 $FF $FE $01 $FE $F8 $06 $F8 $E0 $18 $E0
-.db $00 $FF $00 $FE $FF $FE $51 $AE $F8 $A7 $58 $E0 $8B $60 $80 $17
-.db $C0 $00 $2B $40 $00 $17 $40 $00 $1F $E0 $00 $7F $80 $00 $06 $FF
-.db $00 $00 $08 $9F $20 $40 $06 $FF $00 $00 $82 $FC $00 $03 $C0 $03
-.db $3C $04 $FF $00 $00 $84 $F8 $00 $07 $80 $07 $78 $07 $78 $80 $7F
-.db $80 $00 $02 $FC $01 $02 $83 $E0 $01 $1E $01 $1E $E0 $1F $E0 $00
-.db $03 $FF $00 $00 $83 $C0 $03 $3C $03 $3C $C0 $3F $C0 $00 $05 $FF
-.db $00 $00 $81 $7F $80 $00 $07 $FF $00 $00 $94 $FF $00 $FF $FF $20
-.db $DF $FF $25 $DA $03 $FD $02 $FC $27 $D8 $FF $25 $DA $55 $AF $50
-.db $00 $FF $00 $FF $00 $FF $FF $AA $55 $FF $FD $02 $FF $FF $00 $02
-.db $FF $00 $FC $FF $00 $55 $FF $00 $00 $FF $00 $DF $20 $DF $83 $7C
-.db $83 $BC $57 $A8 $7F $FA $05 $03 $FF $FF $00 $81 $AA $FF $00 $02
-.db $FF $00 $FF $82 $00 $FF $00 $FF $AA $55 $03 $FF $FF $00 $81 $AA
-.db $FF $00 $02 $FF $00 $FF $90 $7F $80 $7F $80 $FF $00 $FF $55 $AA
-.db $FE $FF $00 $F1 $FF $00 $8F $FF $00 $FF $00 $FF $FE $01 $FE $F8
-.db $07 $F8 $04 $FD $00 $8A $6B $80 $54 $D5 $00 $68 $E9 $00 $50 $D1
-.db $00 $80 $60 $80 $00 $80 $00 $06 $00 $00 $00 $88 $2F $40 $00 $17
-.db $40 $00 $2F $40 $00 $1F $40 $00 $2F $40 $00 $1C $40 $03 $00 $43
-.db $3C $02 $7C $01 $03 $FF $00 $00 $83 $F8 $00 $07 $80 $07 $78 $07
-.db $78 $80 $02 $7F $80 $00 $84 $9E $20 $41 $80 $21 $5E $01 $3E $C0
-.db $1F $E0 $00 $04 $FF $00 $00 $82 $03 $3C $C0 $33 $C4 $08 $06 $F3
-.db $04 $08 $08 $00 $FF $00 $02 $1F $FF $00 $91 $5F $FF $00 $1F $FF
-.db $00 $5F $FF $00 $18 $FF $00 $43 $FF $00 $3B $FF $00 $68 $E9 $00
-.db $50 $D1 $00 $68 $E9 $00 $50 $D7 $00 $00 $F8 $00 $40 $D0 $00 $E0
-.db $F0 $00 $C0 $D0 $00 $00 $01 $00 $00 $1E $00 $00 $F0 $00 $05 $00
-.db $10 $00 $88 $3E $C0 $01 $5E $00 $01 $BE $00 $01 $7E $00 $01 $BE
-.db $00 $01 $7E $00 $01 $BE $00 $01 $7E $00 $01 $08 $7F $80 $00 $07
-.db $FF $00 $00 $81 $C0 $00 $3F $06 $F3 $04 $08 $82 $F0 $04 $0B $00
-.db $0F $F0 $05 $FF $00 $00 $83 $FC $00 $03 $00 $03 $FC $03 $FC $00
-.db $05 $FF $00 $00 $83 $00 $00 $FF $00 $FF $00 $FC $01 $02 $04 $FF
-.db $00 $00 $82 $00 $00 $FF $00 $FF $00 $05 $FF $00 $00 $83 $C0 $00
-.db $3F $00 $3F $C0 $3F $C0 $00 $02 $FF $00 $00 $02 $FC $01 $02 $83
-.db $F0 $01 $0E $00 $0F $F0 $0C $F1 $02 $03 $FC $01 $02 $90 $7B $FF
-.db $00 $3B $FF $00 $7B $FF $00 $3B $FF $00 $40 $FF $00 $1F $FF $00
-.db $5F $FF $00 $1F $FF $00 $E0 $F0 $00 $C0 $D0 $00 $E0 $F0 $00 $C0
-.db $DF $00 $00 $F1 $00 $40 $C1 $00 $60 $E1 $00 $40 $C1 $00 $02 $00
-.db $10 $00 $82 $00 $13 $00 $00 $FC $00 $04 $00 $00 $00 $8B $BE $00
-.db $01 $7E $00 $01 $00 $FF $00 $3F $40 $00 $BF $40 $00 $3F $40 $00
-.db $BF $40 $00 $3F $40 $00 $00 $80 $7F $00 $FF $00 $7F $80 $00 $05
-.db $FF $00 $00 $82 $00 $3F $C0 $1F $E0 $00 $06 $9F $20 $40 $81 $0F
-.db $F0 $00 $07 $FF $00 $00 $82 $F9 $06 $FB $FC $03 $FD $02 $FE $01
-.db $FE $04 $FF $00 $FF $85 $F8 $07 $FE $E1 $1E $F9 $07 $F8 $E7 $1F
-.db $E0 $9F $3F $C0 $7F $02 $9F $60 $BF $82 $CF $30 $DF $7F $80 $7F
-.db $07 $FF $00 $FF $02 $E7 $18 $EF $81 $F3 $0C $F7 $02 $F9 $06 $FB
-.db $81 $FC $03 $FD $02 $FE $01 $FE $06 $FF $00 $FF $02 $7F $80 $FF
-.db $7F $00 $00 $00 $7F $00 $00 $00 $7F $00 $00 $00 $7F $00 $00 $00
-.db $7F $00 $00 $00 $1D $00 $00 $00 $00 $0E $00 $00 $00 $81 $13 $00
-.db $00 $04 $00 $00 $00 $81 $01 $00 $00 $02 $00 $00 $00 $81 $FF $00
-.db $00 $04 $00 $00 $00 $81 $6F $00 $00 $02 $00 $00 $00 $81 $FF $00
-.db $00 $04 $00 $00 $00 $81 $FF $00 $00 $02 $00 $00 $00 $81 $FF $00
-.db $00 $04 $00 $00 $00 $81 $FF $00 $00 $02 $00 $00 $00 $82 $FF $00
-.db $00 $BF $00 $00 $03 $00 $00 $00 $81 $FF $00 $00 $02 $00 $00 $00
-.db $02 $FF $00 $00 $81 $16 $00 $00 $02 $00 $00 $00 $82 $FF $00 $00
-.db $00 $00 $00 $03 $FF $00 $00 $85 $E0 $1F $01 $00 $01 $00 $00 $00
-.db $00 $FF $00 $00 $00 $00 $00 $03 $FF $00 $00 $85 $00 $FF $FF $1F
-.db $E0 $1F $01 $1E $01 $FE $01 $00 $00 $00 $00 $03 $FF $00 $00 $81
-.db $00 $FF $FF $02 $FF $00 $FF $83 $00 $FF $1F $03 $1C $03 $FC $03
-.db $00 $02 $FF $00 $00 $81 $00 $FF $FF $02 $FF $00 $FF $85 $00 $FF
-.db $FF $FF $00 $FF $00 $FF $3F $C0 $3F $03 $FC $03 $00 $06 $00 $00
-.db $00 $82 $01 $00 $00 $07 $00 $00 $02 $00 $00 $00 $8A $17 $00 $00
-.db $00 $00 $00 $BF $00 $00 $17 $00 $00 $FF $00 $00 $BF $00 $00 $2F
-.db $00 $00 $00 $00 $00 $FF $00 $00 $0B $00 $00 $05 $FF $00 $00 $81
-.db $01 $00 $00 $07 $FF $00 $00 $81 $2F $00 $00 $0E $FF $00 $00 $02
-.db $00 $00 $00 $83 $FC $00 $00 $03 $FC $00 $00 $03 $00 $06 $00 $00
-.db $00 $8C $F0 $00 $00 $0F $F0 $00 $00 $0F $00 $01 $00 $00 $05 $00
-.db $00 $17 $00 $00 $37 $00 $00 $BF $00 $00 $37 $00 $00 $5F $00 $A0
-.db $00 $E0 $1F $A0 $1F $00 $06 $FF $00 $00 $83 $7F $00 $80 $01 $80
-.db $7E $80 $7E $01 $07 $FF $00 $00 $82 $03 $00 $FC $01 $00 $00 $03
-.db $05 $00 $00 $82 $15 $00 $00 $07 $00 $00 $02 $17 $00 $00 $81 $FE
-.db $01 $00 $07 $FF $00 $00 $82 $00 $FC $03 $FC $03 $00 $06 $FF $00
-.db $00 $83 $0F $00 $F0 $00 $F0 $0F $F0 $0F $00 $06 $FF $00 $00 $83
-.db $3F $00 $C0 $00 $C0 $3F $C0 $3F $00 $06 $FF $00 $00 $84 $7F $00
-.db $80 $01 $80 $7E $80 $7E $01 $FE $01 $00 $06 $FF $00 $00 $83 $07
-.db $00 $F8 $00 $F8 $07 $F8 $07 $00 $06 $FF $00 $00 $83 $0F $00 $F0
-.db $00 $F0 $0F $C0 $2F $10 $06 $FF $00 $00 $82 $3F $00 $C0 $00 $C0
-.db $3F $02 $17 $00 $00 $83 $57 $00 $00 $1F $00 $00 $57 $00 $00 $03
-.db $5F $00 $00 $08 $CF $20 $10 $81 $C0 $3F $00 $07 $FF $00 $00 $83
-.db $01 $00 $FE $00 $FE $01 $FE $01 $00 $06 $FF $00 $00 $83 $07 $00
-.db $F8 $00 $F8 $07 $F8 $07 $00 $06 $FF $00 $00 $83 $1F $00 $E0 $00
-.db $E0 $1F $E0 $1F $00 $06 $FF $00 $00 $83 $3F $00 $C0 $00 $C0 $3F
-.db $C0 $3F $00 $07 $FF $00 $00 $86 $01 $00 $FE $00 $FE $01 $FE $01
-.db $00 $00 $00 $00 $01 $00 $00 $00 $00 $00 $05 $01 $00 $00 $07 $5F
-.db $00 $00 $83 $7F $00 $00 $05 $00 $00 $01 $00 $00 $06 $05 $00 $00
-.db $81 $5F $00 $00 $06 $7F $00 $00 $81 $FF $00 $00 $08 $05 $00 $00
-.db $81 $7F $00 $00 $07 $FF $00 $00 $82 $FA $00 $05 $00 $FF $00 $06
-.db $05 $00 $00 $82 $00 $00 $FF $00 $FF $00 $06 $FF $00 $00 $83 $1F
-.db $00 $E0 $00 $E0 $1F $E0 $1F $00 $06 $FF $00 $00 $82 $00 $00 $FF
-.db $00 $FF $00 $06 $FF $00 $00 $83 $03 $00 $FC $00 $FC $03 $FC $03
-.db $00 $06 $FF $00 $00 $82 $00 $00 $FF $00 $FF $00 $06 $FF $00 $00
-.db $83 $7F $00 $80 $00 $80 $7F $80 $7F $00 $06 $FF $00 $00 $82 $00
-.db $00 $FF $00 $FF $00 $03 $FF $00 $00 $03 $CF $20 $10 $83 $0F $20
-.db $D0 $00 $F0 $0F $F0 $0F $00 $06 $FF $00 $00 $82 $00 $00 $FF $00
-.db $FF $00 $06 $FF $00 $00 $83 $01 $00 $FE $00 $FE $01 $FE $01 $00
-.db $06 $FF $00 $00 $82 $00 $00 $FF $00 $FF $00 $06 $FF $00 $00 $83
-.db $3F $00 $C0 $00 $C0 $3F $C0 $3F $00 $06 $FF $00 $00 $85 $00 $00
-.db $FF $00 $FF $00 $05 $00 $00 $07 $00 $00 $05 $00 $00 $04 $07 $00
-.db $00 $09 $27 $00 $00 $81 $00 $FF $FF $02 $FF $00 $FF $82 $00 $FF
-.db $FF $FF $00 $FF $02 $00 $FF $FF $82 $00 $FF $3F $00 $FF $FF $02
-.db $FF $00 $FF $82 $00 $FF $FF $FF $00 $FF $03 $00 $FF $FF $81 $97
-.db $68 $FF $02 $FF $00 $FF $82 $00 $FF $FF $FF $00 $FF $03 $00 $FF
-.db $FF $03 $FF $00 $FF $81 $00 $FF $FF $02 $FF $00 $FF $02 $00 $FF
-.db $FF $03 $FF $00 $FF $81 $00 $FF $FF $02 $FF $00 $FF $82 $00 $FF
-.db $FF $02 $FD $FF $03 $FF $00 $FF $81 $00 $FF $FF $02 $FF $00 $FF
-.db $81 $00 $FF $FF $04 $FF $00 $FF $81 $09 $F6 $FF $02 $FF $00 $FF
-.db $81 $00 $FF $FF $04 $FF $00 $FF $89 $7E $81 $FE $F8 $07 $F9 $F1
-.db $0E $F7 $08 $FF $CF $8F $70 $BF $E3 $1C $E7 $C7 $38 $DF $1F $E0
-.db $3F $3F $C0 $FF $02 $FF $00 $FF $81 $37 $C8 $FF $09 $FF $00 $FF
-.db $82 $C0 $3F $07 $F8 $07 $00 $06 $FF $00 $00 $84 $00 $FF $FF $00
-.db $FF $7F $00 $FF $07 $38 $87 $40 $04 $3F $80 $40 $03 $00 $FF $FF
-.db $83 $00 $FF $7F $80 $7F $0F $F0 $0F $00 $02 $FF $00 $00 $06 $00
-.db $FF $FF $82 $00 $FF $0F $F0 $0F $00 $0E $00 $FF $FF $8C $00 $FF
-.db $FC $03 $FF $FB $00 $FF $FE $01 $FF $FD $02 $FF $F3 $0C $FF $EF
-.db $10 $FF $9F $60 $FF $7F $80 $FF $FF $00 $FF $FF $40 $FF $7F $8B
-.db $F4 $FF $07 $00 $FF $FF $81 $7F $80 $FF $06 $00 $FF $FF $84 $0B
-.db $F4 $FF $FF $00 $FF $00 $FF $FF $2F $D0 $FF $04 $00 $FF $FF $02
-.db $FF $00 $FF $86 $17 $E8 $FF $FF $00 $FF $02 $FD $FF $17 $E8 $FF
-.db $00 $FF $FF $02 $FD $FF $06 $FF $00 $FF $82 $7F $80 $FF $9F $60
-.db $FF $08 $3F $80 $40 $83 $00 $FF $0F $F0 $0F $01 $FE $01 $00 $05
-.db $FF $00 $00 $02 $00 $FF $FF $83 $00 $FF $1F $E0 $1F $01 $FE $01
-.db $00 $03 $FF $00 $00 $03 $00 $FF $FF $89 $00 $FF $FE $01 $FF $19
-.db $E2 $1F $03 $FC $03 $00 $FF $00 $00 $04 $FF $E7 $18 $FF $DF $20
-.db $FF $3F $C0 $FF $FF $02 $00 $FF $FF $8A $00 $FF $3F $C0 $3F $03
-.db $17 $E8 $FF $13 $EC $FF $02 $FD $FF $13 $EC $FF $02 $FD $FF $00
-.db $FF $FF $02 $FD $FF $00 $FF $FF $06 $FF $00 $FF $83 $7F $80 $FF
-.db $5F $A0 $FF $FC $03 $00 $07 $FF $00 $00 $83 $00 $FF $3F $C0 $3F
-.db $03 $FC $03 $00 $05 $FF $00 $00 $02 $00 $FF $FF $83 $00 $FF $3F
-.db $C0 $3F $03 $FC $03 $00 $03 $FF $00 $00 $04 $00 $FF $FF $84 $00
-.db $FF $7F $80 $7F $07 $F0 $0F $00 $F3 $08 $04 $06 $00 $FF $FF $83
-.db $00 $FF $7F $80 $7F $07 $7F $80 $FF $03 $5F $A0 $FF $82 $57 $A8
-.db $FF $1F $E0 $FF $02 $17 $E8 $FF $06 $FF $00 $00 $82 $07 $00 $F8
-.db $00 $F8 $07 $07 $3F $80 $40 $81 $1F $80 $60 $08 $F3 $08 $04 $81
-.db $F8 $07 $00 $07 $FF $00 $00 $83 $00 $FF $7F $80 $7F $07 $F8 $07
-.db $00 $05 $FF $00 $00 $03 $00 $FF $FF $82 $00 $FF $0F $F0 $0F $00
-.db $03 $FF $00 $00 $04 $17 $E8 $FF $84 $15 $EA $FF $05 $FA $0F $F0
-.db $0F $00 $FE $00 $00 $07 $FF $00 $FF $83 $0F $F0 $0F $00 $E0 $1F
-.db $E0 $1F $00 $06 $FF $00 $00 $83 $3F $00 $C0 $00 $C0 $3F $C0 $3F
-.db $00 $07 $FF $00 $00 $83 $03 $00 $FC $00 $FC $03 $FC $03 $00 $06
-.db $FF $00 $00 $83 $07 $00 $F8 $00 $F8 $07 $F8 $07 $00 $06 $FF $00
-.db $00 $83 $1F $00 $E0 $00 $E0 $1F $E0 $1F $00 $06 $FF $00 $00 $86
-.db $7F $00 $80 $08 $80 $77 $80 $7F $00 $00 $0F $00 $80 $00 $00 $00
-.db $00 $00 $05 $80 $00 $00 $02 $F3 $08 $04 $84 $73 $08 $84 $01 $88
-.db $76 $80 $7E $01 $FE $01 $00 $07 $FF $00 $00 $84 $1F $00 $E0 $00
-.db $E0 $1F $E0 $1F $00 $C0 $3F $00 $07 $FE $01 $00 $83 $02 $00 $FC
-.db $00 $FC $03 $7C $03 $80 $05 $7F $00 $80 $88 $A0 $00 $00 $50 $00
-.db $A0 $0F $F0 $00 $A0 $0F $00 $A0 $00 $00 $A4 $00 $00 $A0 $00 $00
-.db $A4 $00 $00 $07 $FF $00 $00 $81 $00 $00 $FF $08 $FE $01 $00 $08
-.db $7F $00 $80 $81 $A0 $00 $00 $06 $A4 $00 $00 $82 $E4 $00 $00 $00
-.db $FF $00 $07 $3F $80 $40 $81 $00 $FF $00 $07 $FF $00 $00 $83 $F3
-.db $08 $04 $00 $08 $F7 $00 $FF $00 $07 $FF $00 $00 $83 $01 $00 $FE
-.db $00 $FE $01 $FE $01 $00 $06 $FF $00 $00 $82 $00 $00 $FF $00 $FF
-.db $00 $03 $F3 $08 $04 $03 $FF $00 $00 $83 $7F $00 $80 $00 $80 $7F
-.db $80 $7F $00 $02 $FF $00 $00 $04 $FE $01 $00 $82 $00 $01 $FE $00
-.db $FF $00 $02 $FF $00 $00 $04 $7F $00 $80 $87 $1F $00 $E0 $00 $E0
-.db $1F $E0 $1F $00 $FF $00 $00 $A4 $00 $00 $E4 $00 $00 $A4 $00 $00
-.db $02 $E4 $00 $00 $83 $1B $00 $E4 $00 $FF $00 $E4 $00 $00 $07 $00
-.db $00 $00 $81 $00 $07 $00 $05 $00 $00 $00 $83 $00 $07 $00 $07 $78
-.db $07 $7F $80 $7F $03 $00 $00 $00 $83 $00 $0F $00 $0F $70 $0F $7F
-.db $80 $7F $02 $FF $00 $FF $83 $00 $00 $00 $00 $0F $00 $0F $F0 $0F
-.db $05 $FF $00 $FF $81 $1F $E0 $1F $07 $FF $00 $FF $07 $00 $00 $00
-.db $81 $00 $01 $00 $05 $00 $00 $00 $83 $00 $01 $00 $01 $1E $01 $1F
-.db $E0 $1F $03 $00 $00 $00 $83 $00 $03 $00 $03 $3C $03 $3F $C0 $3F
-.db $02 $FF $00 $FF $84 $00 $00 $00 $00 $03 $00 $03 $3C $03 $3F $C0
-.db $3F $04 $FF $00 $FF $82 $07 $78 $07 $7F $80 $7F $06 $FF $00 $FF
-.db $83 $80 $7F $00 $00 $80 $7F $7F $00 $80 $05 $FF $00 $00 $82 $F8
-.db $07 $FB $FC $03 $FC $07 $FF $00 $FF $87 $7F $80 $FF $1F $E0 $7F
-.db $8F $70 $9F $E3 $1C $EF $F1 $0E $F3 $FC $03 $FD $FE $01 $FE $06
-.db $FF $00 $FF $87 $7F $80 $FF $3F $C0 $7F $8F $70 $BF $C7 $38 $CF
-.db $F1 $0E $F7 $F8 $07 $F9 $FE $01 $FE $07 $FF $00 $FF $84 $3F $C0
-.db $FF $1F $E0 $3F $C7 $38 $DF $E3 $1C $E7 $7F $00 $00 $00 $7F $00
-.db $00 $00 $72 $00 $00 $00 $00
+dungeon_tiles_16A27: .incbin "dungeon_tiles_16A27.bin"
+dungeon_tiles_171AF: .incbin "dungeon_tiles_171AF.bin"
+dungeon_tiles_17830: .incbin "dungeon_tiles_17830.bin"
 
 ;=======================================================================================================
 ; Bank 6: $18000 - $1bfff
@@ -22457,9 +21990,15 @@ _DATA_1B9D0_:
 ;=======================================================================================================
 .bank 7 slot 2
 .ORG $0000
+dungeon_tiles_1C000: .incbin "dungeon_tiles_1C000.bin"
+dungeon_tiles_1CA4B: .incbin "dungeon_tiles_1CA4B.bin"
+dungeon_tiles_1D51E: .incbin "dungeon_tiles_1D51E.bin"
+dungeon_tiles_1DF6B: .incbin "dungeon_tiles_1DF6B.bin"
+dungeon_tiles_1EA13: .incbin "dungeon_tiles_1EA13.bin"
+dungeon_tiles_1F422: .incbin "dungeon_tiles_1F422.bin"
 
-; Data from 1C000 to 1FFFF (16384 bytes)
-.incbin "Phantasy Star (Japan)_DATA_1C000_.inc"
+;_tiles_dungeon_1c1b8: .incbin "_tiles_dungeon_1c1b8.bin"
+
 
 ;=======================================================================================================
 ; Bank 8: $20000 - $23fff
@@ -22467,8 +22006,13 @@ _DATA_1B9D0_:
 .bank 8 slot 2
 .ORG $0000
 
-; Data from 20000 to 23FFF (16384 bytes)
-.incbin "Phantasy Star (Japan)_DATA_20000_.inc"
+dungeon_tiles_20000: .incbin "dungeon_tiles_20000.bin"
+dungeon_tiles_209ED: .incbin "dungeon_tiles_209ED.bin"
+dungeon_tiles_2163F: .incbin "dungeon_tiles_2163F.bin"
+dungeon_tiles_21D06: .incbin "dungeon_tiles_21D06.bin"
+dungeon_tiles_22423: .incbin "dungeon_tiles_22423.bin"
+dungeon_tiles_22F75: .incbin "dungeon_tiles_22F75.bin"
+dungeon_tiles_23926: .incbin "dungeon_tiles_23926.bin"
 
 ;=======================================================================================================
 ; Bank 9: $24000 - $27fff
@@ -22476,8 +22020,11 @@ _DATA_1B9D0_:
 .bank 9 slot 2
 .ORG $0000
 
-; Data from 24000 to 2712F (12592 bytes)
-.incbin "Phantasy Star (Japan)_DATA_24000_.inc"
+dungeon_tiles_24000: .incbin "dungeon_tiles_24000.bin"
+dungeon_tiles_243D1: .incbin "dungeon_tiles_243D1.bin"
+dungeon_tiles_24F4A: .incbin "dungeon_tiles_24F4A.bin"
+dungeon_tiles_25ABD: .incbin "dungeon_tiles_25ABD.bin"
+dungeon_tiles_2660D: .incbin "dungeon_tiles_2660D.bin"
 
 .org $27130-$24000
 .section "Dungeon room" overwrite
@@ -28934,14 +28481,14 @@ MyauSprites:
 .ends
 ; followed by
 .org $726c0-$70000
-.section "Tilemap data 7" overwrite
-.incbin "Tilemaps\726C0tilemap.dat" ; Dungeon...
-.incbin "Tilemaps\72935tilemap.dat"
-.incbin "Tilemaps\72BD0tilemap.dat"
-.incbin "Tilemaps\72EC9tilemap.dat"
-.incbin "Tilemaps\7320Ctilemap.dat"
-.incbin "Tilemaps\735C2tilemap.dat"
-.incbin "Tilemaps\7395Atilemap.dat"
+.section "Tilemap data 7 - dungeons last aprt" overwrite
+dungeon_tilemap_726C0: .incbin "dungeon_tilemap_726C0.bin" ; Dungeon...
+dungeon_tilemap_72935: .incbin "dungeon_tilemap_72935.bin"
+dungeon_tilemap_72BD0: .incbin "dungeon_tilemap_72BD0.bin"
+dungeon_tilemap_72EC9: .incbin "dungeon_tilemap_72EC9.bin"
+dungeon_tilemap_7320C: .incbin "dungeon_tilemap_7320C.bin"
+dungeon_tilemap_735C2: .incbin "dungeon_tilemap_735C2.bin"
+dungeon_tilemap_7395A: .incbin "dungeon_tilemap_7395A.bin"
 .ends
 ; followed by
 .orga $bd00
