@@ -110,7 +110,7 @@ Enemies:
   String "<The> Marshes"                     ; マーシーズ
   String "<The> Dezorian"                    ; デゾリアン
   String "<The> Desert Leech"                ; デザートリーチ
-  String "<The> Cryon"                       ; クライオン
+  String "<The> Cryion"                      ; クライオン
   String "<The> Big Nose"                    ; ビッグノーズ
   String "<The> Ghoul"                       ; グール
   String "<The> Ammonite"                    ; アンモナイト

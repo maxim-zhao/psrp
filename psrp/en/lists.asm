@@ -113,7 +113,7 @@ Enemies:
   String "<The> Marshes"                    ; MARMAN    Marshman            māshīzu             マーシーズ
   String "<The> Dezorian"                   ; DEZORIAN  Dezorian            dezorian            デゾリアン
   String "<The> Desert Leech"               ; LEECH     Leech               dezātorīchi         デザートリーチ
-  String "<The> Cryon"                      ; VAMPIRE   Vampire             kuraion             クライオン
+  String "<The> Cryion"                     ; VAMPIRE   Vampire             kuraion             クライオン
   String "<The> Big Nose"                   ; ELEPHANT  Elephant            biggunōzu           ビッグノーズ
   String "<The> Ghoul"                      ; GHOUL     Ghoul               gūru                グール
   String "<The> Ammonite" ; $20             ; SHELFISH  Shellfish           anmonaito           アンモナイト
