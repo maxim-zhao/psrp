@@ -195,7 +195,7 @@ Japanese|Romaji|Sega original translation (in-game)|Sega original translation (i
 マーシーズ|maashiizu|MARMAN|Marshman|Marshes|Transliteration
 デゾリアン|dezorian|DEZORIAN|Dezorian|Dezorian|Transliteration
 デザートリーチ|dezaatoriichi|LEECH|Leech|Desert Leech|Transliteration
-クライオン|kuraion|VAMPIRE|Vampire|Cryon|Transliteration
+クライオン|kuraion|VAMPIRE|Vampire|Cryion|Transliteration, see [D&D Creature Catalogue, page 34](https://anyflip.com/myubd/xdak/basic)
 ビッグノーズ|biggunoozu|ELEPHANT|Elephant|Big Nose|Transliteration
 グール|guuru|GHOUL|Ghoul|Ghoul|Transliteration
 アンモナイト|anmonaito|SHELFISH|Shellfish|Ammonite|Transliteration
