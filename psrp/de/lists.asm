@@ -117,7 +117,7 @@ Enemies:
   String "<Der> Morastmann{s}"
   String "<Der> Dezorianer{s}"
   String "<Der> Wüstenegel{s}"
-  String "<Der> Vampir{s}"
+  String "<Der> Vampir{s}"                          ; TBD: German equivalent of Cryion?
   String "<Der> Riesenrüssel{s}"
   String "<Der> Ghul{s}"
   String "<Der> Ammonit{s}"
@@ -128,7 +128,7 @@ Enemies:
   String "<Der> Mantikort{s}"
   String "<Die> Riesenschlange"
   String "<Der> Leviathan{s}"
-  String "<Der> Königslich{s}"
+  String "<Die> Drudsch"
   String "<Der> Krake{n}(n)"
   String "<Der> Wilde[r]{n}(n) Jäger{s}"
   String "<Der> Dezorianer-Häuptling{s}"
