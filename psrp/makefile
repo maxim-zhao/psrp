@@ -20,7 +20,6 @@ WORD_COUNT_pt-br = 58
 WORD_COUNT_ca = 51
 WORD_COUNT_es = 66
 WORD_COUNT_de = 85
-WORD_COUNT_la = 29
 WORD_COUNT_pt-pt = 50
 WORD_COUNT_literal = 69
 

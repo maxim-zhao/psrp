@@ -12,12 +12,15 @@ Currently we have translations for:
 - Brazilian Portuguese
 - Spanish
 - Catalan
-- Latin
 
 The Japanese game manual has also been translated: 
 - [English](https://github.com/maxim-zhao/psrp/blob/master/Box%20and%20manual/Manual.pdf)
 
-More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language. 
+More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language.
+
+[![NO AI](https://no-ai-badge.nuxy.dev/badge.svg)](https://github.com/nuxy/no-ai-badge#no-ai-badge)
+
+We only accept translations from people who can speak the language and we trust them not to use LLM-generated translations without thought!
 
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
@@ -31,6 +34,7 @@ Changelog (in reverse chronological order):
     - Mixed up items are still mixed up
     - Party names are the short versions
     - Item and monster names are the long versions, from the US manual where possible
+  - Latin: removed due to issues with the translation.
 
 <details>
 <summary>Click for more history</summary>
@@ -42,7 +46,7 @@ Changelog (in reverse chronological order):
   - Fixed some errors in the French extended script
 
 - v2.6 released 2025/12/20
-  - Added Latin translation, thanks to Metallic Orwell
+  - Added Latin translation
   - Enlarged shop and exit signs for languages needing more space
   - Catalan: Dezorian liars are no longer Majorcan
   - Brazilian Portuguese: revised and improved script
