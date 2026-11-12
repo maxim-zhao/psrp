@@ -18,22 +18,23 @@ The Japanese game manual has also been translated:
 
 More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language.
 
-[![NO AI](https://no-ai-badge.nuxy.dev/badge.svg)](https://github.com/nuxy/no-ai-badge#no-ai-badge)
+[![NO AI](https://www.aihonestybadge.com/badges/no-ai-small.svg)]
 
-We only accept translations from people who can speak the language and we trust them not to use LLM-generated translations without thought!
+We only accept translations from people who can speak the language natively and we trust them not to use LLM-generated translations without thought! All the code was written by humans.
 
 For more information and screenshots see https://www.smspower.org/Translations/PhantasyStar-SMS-EN
 
 Changelog (in reverse chronological order):
 - v2.7 yet to be released
   - Added feature to allow reordering the inventory (#98)
-  - Brazilian Portuguese: further revised and improved script
-  - French extended: some script tweaks
+  - Added Portuguese (Portugal) translation
   - Added new "English 1987" variant: the original script, now with lowercase and unsquashed menus and item names. Cola and burger fans rejoice! Odin and Noah are back! (#133)
     - Some particularly egregious spelling and grammar is fixed, notably including the "first food shop"
     - Mixed up items are still mixed up
     - Party names are the short versions
     - Item and monster names are the long versions, from the US manual where possible
+  - Brazilian Portuguese: further revised and improved script
+  - French extended: some script tweaks
   - Latin: removed due to issues with the translation.
 
 <details>
