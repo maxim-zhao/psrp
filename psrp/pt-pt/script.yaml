@@ -16,7 +16,7 @@
   # Nero, dying
   pt-pt: |
     Alisa, minha irmã.<line><line>
-    Ouça com atenção, não tenho muito tempo.<wait more>
+    Ouve com atenção, não tenho muito tempo.<wait more>
     Os rumores que ouvimos são verdadeiros. LaShiec... mudou.<line>
     E isso vai além de os seus militares tomarem conta das nossas ruas.<wait more>
     Todas essas criaturas horríveis lá fora, todas essas trevas entre nós...<line><line>
@@ -64,7 +64,7 @@
   # and the original script assumes she is alive
   pt-pt: |
     Alisa... enfrentar LaShiec é loucura. Mas sei o quão teimosa e determinada podes ser.<wait more>
-    Não vou gastar o meu fôlego a tentar convencer-te do contrário, mas... por favor, tem cuidado.<wait more>
+    Não vale a pena tentar convencer-te do contrário, mas... por favor, tem cuidado.<wait more>
     Se por acaso te magoares, volta aqui para te curares.<wait more>
     Somos vizinhas há muito tempo, sabes que a casa da Suelo estará sempre aberta para ti.<wait>
 
@@ -123,7 +123,7 @@
 
 - offsets: 4bc0
   # Camineet police
-  pt-pt: Não o podemos proteger lá fora. Fiquem dentro das vossas casas até o perigo passar.<wait>
+  pt-pt: Não podemos proteger-vos lá fora. Fiquem dentro de casa até o perigo passar.<wait>
 
 - offsets: 4bcd,4c26,4cc2,4d0e
   # Road guard (without a Roadpass) - Camineet (4bcd) and Parolit (4d0e)
@@ -230,7 +230,7 @@
   # Same person as above (if you have bought Myau)
   # He'd just sold Myau for a huge sum of money earlier, so he's probably more greedy than destitute.
   pt-pt: |
-    A economia está em queda desde que LaShiec chegou ao poder.<wait more>
+    A economia está a piorar desde que LaShiec chegou ao poder.<wait more>
     Estou sem dinheiro, não sei o que fazer...<wait>
 
 - offsets: 4dc1
@@ -240,7 +240,7 @@
 - offsets: 4dc7
   pt-pt: |
     Este é Shion, o porto mais movimentado de Palma... ou pelo menos era.<wait more>
-    Com o mundo do jeito que está, não há tanta negociação acontecendo ultimamente.<wait>
+    Com o mundo no estado em que está, já não há tanto comércio como antigamente.<wait>
 
 - offsets: 4dcd
   pt-pt: A Floresta de Eppi é muito confusa para te orientares, vais precisar de uma Bússola para a atravessar.<wait>
@@ -288,7 +288,7 @@
 
 - offsets: 4c9e
   # Luggage handler
-  pt-pt: Este é o Espaçoporto de Palma. Todas as espaçonaves viajam diretamente para Paseo, a capital de Motávia.<wait>
+  pt-pt: Este é o Espaçoporto de Palma. Todas as naves espaciais viajam diretamente para Paseo, a capital de Motávia.<wait>
 
 - offsets: 4ca4
   # Luggage handler
@@ -296,7 +296,7 @@
 
 - offsets: 4caa
   # Luggage handler
-  pt-pt: Já estiveste em Gótica? Antigamente, espaçonaves como estas eram construídas no teu laboratório.<wait>
+  pt-pt: Já estiveste em Gótica? Antigamente, naves espaciais como estas eram construídas no teu laboratório.<wait>
 
 - offsets: 4c1d,4cb7
   # Airstrip guards
@@ -656,7 +656,7 @@
 
 - offsets: 53c4
   # If you haven't found Lutz yet (unused/impossible?)
-  pt-pt: Uma vez que as ordens vêm do Governador-Geral, o Lutz provavelmente vai ouvir.<wait>
+  pt-pt: Como as ordens vêm do Governador-Geral, o Lutz provavelmente vai ouvir.<wait>
 
 - offsets: 53c9
   # If you have found Lutz (unused?)
@@ -769,7 +769,7 @@
 
 - offsets: 54f0
   # Prisoner
-  pt-pt: Ah, olá! Faz muito tempo que não vejo outra pessoa! Gostarias de ficar e conversar um pouco?<end>
+  pt-pt: Ah, olá! Há muito tempo que não vejo outra pessoa! Queres ficar a conversar um pouco?<end>
 
 - offsets: 54f9
   # Prisoner (yes to previous question)
@@ -814,12 +814,12 @@
 - offsets: 5477
   # Dr Luveno (yes to previous question)
   pt-pt: |
-    Excelente. Bem, então, estou a ir para a Vila Gótica para começar. Encontramo-nos lá.<wait more>
+    Excelente. Bem, então, vou para a Vila Gótica para começar. Encontramo-nos lá.<wait more>
     Ah, e não te preocupes comigo, sou mais forte do que pareço. Posso ir sozinho.<wait>
 
 - offsets: 510d,5428
   # Man in underground tunnel
-  pt-pt: Não me distraías! Estou muito ocupado.<wait>
+  pt-pt: Não me distraias! Estou muito ocupado.<wait>
 
 - offsets: 542f
   # Man in underground tunnel
@@ -959,7 +959,7 @@
   # Hapsby
   pt-pt: |
     Saudações. Sou o robô-piloto Hapsby. Obrigado por me resgatares.<wait more>
-    Vou ajudar-te na operação de qualquer espaçonave da marca Luveno.<wait>
+    Vou ajudar-te na operação de qualquer nave espacial da marca Luveno.<wait>
 
 - offsets: 57e0
   pt-pt: |
@@ -1234,7 +1234,7 @@
   # Person inside cave
   pt-pt: |
     Vim a esta cidade para comprar uma Máscara de Gás. Preciso dela para me proteger dos gases venenosos.<wait more>
-    Deve haver uma loja por aqui que as venda, mas não consigo encontrar de jeito nenhum!<wait>
+    Deve haver uma loja por aqui que as venda, mas não consigo encontrar de maneira nenhuma!<wait>
 
 - offsets: 51f5
   # Person inside cave
@@ -1291,12 +1291,12 @@
   # The Village Chief (yes to previous question)
   pt-pt: |
     Obrigado. Talvez eu possa ajudar-te em troca.<wait more>
-    Imagino que estejas a procurar do Escudo de Perseu, não é? O que ele usou para matar a Medusa?<wait more>
+    Imagino que estejas a procurar o Escudo de Perseu, não é? O que ele usou para matar a Medusa?<wait more>
     A lenda local diz que ele está numa ilha no lago, enterrado sob um cacto.<wait>
 
 - offsets: 5306
   # Gamer Miki
-  pt-pt: Oi, sou a Jogadora Miki-chan! Tens um Master System?<end>
+  pt-pt: Olá, sou a Jogadora Miki-chan! Tens um Master System?<end>
 
 - offsets: 530f
   # Gamer Miki (yes to previous question)
@@ -1674,7 +1674,7 @@
   # (If Myau dies in the Gold Dragon battle and other characters are still alive)
   # Note: Alisa may not be alive, and there may be only one other left alive.
   # Previous line will have been "Myau died." so you can assume that context.
-  pt-pt: Os seus companheiros foram arremessados das suas costas, caindo do céu em direção da morte deles.<wait>
+  pt-pt: Os seus companheiros foram arremessados das suas costas, caindo do céu para a morte.<wait>
 
 
 # **********************************
@@ -2311,7 +2311,7 @@
 - offsets: 1ce0
   pt-pt: |
     ‘Tu és muito corajoso para conversar comigo. Vou contar-te um segredo em troca...<wait more>
-    A mesma telepatia que estás a usar agora, também pode ser usada para detetar armadilhas.’<wait>
+    A telepatia que estás a usar agora também pode ser usada para detetar armadilhas.’<wait>
 
 
 # **************
@@ -2320,7 +2320,7 @@
 
 - offsets: 1e3b
   pt-pt: |
-    Salvar o jogo?<line>
+    Guardar o jogo?<line>
     Escolhe uma posição.<end>
 
 - offsets: ScriptConfirmSlot
