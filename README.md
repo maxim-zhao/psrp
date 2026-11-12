@@ -10,6 +10,7 @@ Currently we have translations for:
 - French (with additional lore)
 - German
 - Brazilian Portuguese
+- Portuguese
 - Spanish
 - Catalan
 
@@ -18,7 +19,7 @@ The Japanese game manual has also been translated:
 
 More languages are welcome! See translating.md and/or contact me if you would like to get involved to add your language.
 
-[![NO AI](https://www.aihonestybadge.com/badges/no-ai-small.svg)]
+![NO AI](https://www.aihonestybadge.com/badges/no-ai-small.svg)
 
 We only accept translations from people who can speak the language natively and we trust them not to use LLM-generated translations without thought! All the code was written by humans.
 
