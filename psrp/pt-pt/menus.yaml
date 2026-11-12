@@ -58,7 +58,7 @@
     │Fuga Rápida     ║
     │Traduzir        ║
     │Fogo            ║
-    │Amarrar         ║
+    │Imobilizar      ║
 # Next five must follow...
 
 - name: BattleSpellsMyau
@@ -170,7 +170,7 @@
 - name: SoundTestMenu
   pt-pt: |
     │---------------║
-    │Tela de Título ║
+    │Ecrã de Título ║
     │Introdução     ║
     │Cidade         ║
     │Calabouço      ║
