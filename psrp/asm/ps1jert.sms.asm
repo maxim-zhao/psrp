@@ -703,4 +703,4 @@ SDSCAuthorsData: .db SDSCAuthors, 0
 .ends
 
 ; I can't find a nice way to feed the version number in from the makefile
-.sdsctag 2.61, SDSCTitleData, SDSCUrl, SDSCAuthorsData
+.sdsctag 2.7, SDSCTitleData, SDSCUrl, SDSCAuthorsData
